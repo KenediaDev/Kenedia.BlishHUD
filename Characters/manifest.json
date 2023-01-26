@@ -1,0 +1,18 @@
+{
+  "name": "Characters",
+  "version": "0.1.0",
+  "namespace": "Characters",
+  "package": "Characters.dll",
+  "manifest_version": 1,
+
+  "description": "Description of your module. Visit https://github.com/blish-hud/manifest.json/blob/master/manifest-v1.md for details about the manifest format.",
+  "dependencies": {
+    "bh.blishhud": ">=0.5.2"
+  },
+  "url": "https://github.com/lasse/Characters",
+  "contributors": [
+    {
+      "name": "lasse"
+    }
+  ]
+}

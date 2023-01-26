@@ -1,0 +1,18 @@
+{
+  "name": "Core",
+  "version": "0.1.0",
+  "namespace": "Core",
+  "package": "Core.dll",
+  "manifest_version": 1,
+
+  "description": "Description of your module. Visit https://github.com/blish-hud/manifest.json/blob/master/manifest-v1.md for details about the manifest format.",
+  "dependencies": {
+    "bh.blishhud": ">=0.5.2"
+  },
+  "url": "https://github.com/lasse/Core",
+  "contributors": [
+    {
+      "name": "lasse"
+    }
+  ]
+}
