@@ -1,0 +1,112 @@
+[
+  {
+    "Names": {
+      "de": "Unbekannt",
+      "en": "Unknown",
+      "es": "Desconocido",
+      "fr": "Inconnu"
+    },
+    "Id": 0,
+    "API_Id": "Unknown",
+    "Name": "Unknown"
+  },
+  {
+    "Names": {
+      "de": "Konstrukteur",
+      "en": "Artificer",
+      "es": "Artificiero",
+      "fr": "Artificier"
+    },
+    "Id": 1,
+    "API_Id": "Artificer",
+    "Name": "Artificer"
+  },
+  {
+    "Names": {
+      "de": "Rüstungsschmied",
+      "en": "Armorsmith",
+      "es": "Forjador de armaduras",
+      "fr": "Forgeron d'armures"
+    },
+    "Id": 2,
+    "API_Id": "Armorsmith",
+    "Name": "Armorsmith"
+  },
+  {
+    "Names": {
+      "de": "Chefkoch",
+      "en": "Chef",
+      "es": "Cocinero",
+      "fr": "Maître-queux"
+    },
+    "Id": 3,
+    "API_Id": "Chef",
+    "Name": "Chef"
+  },
+  {
+    "Names": {
+      "de": "Juwelier",
+      "en": "Jeweler",
+      "es": "Joyero",
+      "fr": "Bijoutier"
+    },
+    "Id": 4,
+    "API_Id": "Jeweler",
+    "Name": "Jeweler"
+  },
+  {
+    "Names": {
+      "de": "Waidmann",
+      "en": "Huntsman",
+      "es": "Cazador",
+      "fr": "Chasseur"
+    },
+    "Id": 5,
+    "API_Id": "Huntsman",
+    "Name": "Huntsman"
+  },
+  {
+    "Names": {
+      "de": "Lederer",
+      "en": "Leatherworker",
+      "es": "Peletero",
+      "fr": "Travailleur du cuir"
+    },
+    "Id": 6,
+    "API_Id": "Leatherworker",
+    "Name": "Leatherworker"
+  },
+  {
+    "Names": {
+      "de": "Schreiber",
+      "en": "Scribe",
+      "es": "Escriba",
+      "fr": "Illustrateur"
+    },
+    "Id": 7,
+    "API_Id": "Scribe",
+    "Name": "Scribe"
+  },
+  {
+    "Names": {
+      "de": "Schneider",
+      "en": "Tailor",
+      "es": "Sastre",
+      "fr": "Tailleur"
+    },
+    "Id": 8,
+    "API_Id": "Tailor",
+    "Name": "Tailor"
+  },
+  {
+    "Names": {
+      "de": "Waffenschmied",
+      "en": "Weaponsmith",
+      "es": "Armero",
+      "fr": "Forgeron d'armes"
+    },
+    "Id": 9,
+    "API_Id": "Weaponsmith",
+    "Name": "Weaponsmith"
+  }
+]

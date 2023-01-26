@@ -8,8 +8,9 @@
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Characters</RootNamespace>
-    <AssemblyName>Characters</AssemblyName>
+    <AssemblyName>Kenedia.Modules.Characters</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <LangVersion>latest</LangVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
     <NuGetPackageImportStamp>
@@ -47,7 +48,6 @@
     </Reference>
     <Reference Include="Microsoft.Bcl.AsyncInterfaces, Version=5.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Bcl.AsyncInterfaces.5.0.0\lib\net461\Microsoft.Bcl.AsyncInterfaces.dll</HintPath>
-      <Private>False</Private>
     </Reference>
     <Reference Include="Microsoft.Win32.Primitives" />
     <Reference Include="MonoGame.Extended, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
@@ -69,6 +69,12 @@
     <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.13.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>False</Private>
+    </Reference>
+    <Reference Include="Patagames.Ocr, Version=4.5.2.472, Culture=neutral, PublicKeyToken=be14d8e1fe46e570, processorArchitecture=MSIL">
+      <HintPath>..\packages\Tesseract.Net.SDK.4.5.411\lib\net472\Patagames.Ocr.dll</HintPath>
+    </Reference>
+    <Reference Include="SemVer, Version=1.2.2.0, Culture=neutral, PublicKeyToken=a89bb7dc6f7a145c, processorArchitecture=MSIL">
+      <HintPath>..\packages\SemanticVersioning.1.2.2\lib\net45\SemVer.dll</HintPath>
     </Reference>
     <Reference Include="SharpDX, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b4dcf0f35e5521f1, processorArchitecture=MSIL">
       <HintPath>..\packages\SharpDX.4.0.1\lib\net45\SharpDX.dll</HintPath>
@@ -117,6 +123,10 @@
     <Reference Include="System.Console" />
     <Reference Include="System.Core" />
     <Reference Include="System.Diagnostics.Tracing" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Drawing.Common, Version=7.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Drawing.Common.7.0.0\lib\net462\System.Drawing.Common.dll</HintPath>
+    </Reference>
     <Reference Include="System.Globalization.Calendars" />
     <Reference Include="System.IdentityModel" />
     <Reference Include="System.IO" />
@@ -149,6 +159,7 @@
     <Reference Include="System.Runtime.Extensions" />
     <Reference Include="System.Runtime.InteropServices" />
     <Reference Include="System.Runtime.InteropServices.RuntimeInformation" />
+    <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Security.Cryptography.Algorithms" />
     <Reference Include="System.Security.Cryptography.Encoding" />
     <Reference Include="System.Security.Cryptography.Primitives" />
@@ -156,15 +167,12 @@
     <Reference Include="System.ServiceModel" />
     <Reference Include="System.ServiceModel.Primitives, Version=4.9.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\System.ServiceModel.Primitives.4.9.0\lib\net461\System.ServiceModel.Primitives.dll</HintPath>
-      <Private>False</Private>
     </Reference>
     <Reference Include="System.Text.Encodings.Web, Version=5.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Text.Encodings.Web.5.0.0\lib\net461\System.Text.Encodings.Web.dll</HintPath>
-      <Private>False</Private>
     </Reference>
     <Reference Include="System.Text.Json, Version=5.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Text.Json.5.0.0\lib\net461\System.Text.Json.dll</HintPath>
-      <Private>False</Private>
     </Reference>
     <Reference Include="System.Text.RegularExpressions" />
     <Reference Include="System.Threading.Tasks.Extensions, Version=4.2.0.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
@@ -184,112 +192,188 @@
     <Reference Include="System.Xml.ReaderWriter" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Class1.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Characters.cs" />
+    <Compile Include="Controls\BasicFrameContainer.cs" />
+    <Compile Include="Controls\BasicTooltip.cs" />
+    <Compile Include="Controls\CharacterEdit.cs" />
+    <Compile Include="Controls\CharacterPotraitCapture.cs" />
+    <Compile Include="Controls\Character\CharacterControl.cs" />
+    <Compile Include="Controls\Character\CharacterTooltip.cs" />
+    <Compile Include="Controls\Character\CraftingControl.cs" />
+    <Compile Include="Controls\DraggingControl.cs" />
+    <Compile Include="Controls\Dummy.cs" />
+    <Compile Include="Controls\FilterEntry.cs" />
+    <Compile Include="Controls\FilterTag.cs" />
+    <Compile Include="Controls\Filter_SideMenu\FilterCategory.cs" />
+    <Compile Include="Controls\FontFlowPanel.cs" />
+    <Compile Include="Controls\HeadedPanel.cs" />
+    <Compile Include="Controls\IconLabel.cs" />
+    <Compile Include="Controls\ImageSelector.cs" />
+    <Compile Include="Controls\ImageToggle.cs" />
+    <Compile Include="Controls\ImageToggle\ImageButton.cs" />
+    <Compile Include="Controls\ImageToggle\ImageColorToggle.cs" />
+    <Compile Include="Controls\ImageToggle\ImageGrayScaled.cs" />
+    <Compile Include="Controls\ImageToggle\ImageTextureToggle.cs" />
+    <Compile Include="Controls\ImageToggle\ImageToggleButton.cs" />
+    <Compile Include="Controls\ImageToggle\ImageToggleEx.cs" />
+    <Compile Include="Controls\RunIndicator.cs" />
+    <Compile Include="Controls\Settings SideMenu\TabButton.cs" />
+    <Compile Include="Controls\SideMenu\DisplayCheckToggle.cs" />
+    <Compile Include="Controls\SideMenu\SideMenu.cs" />
+    <Compile Include="Controls\SideMenu\SideMenuBehaviours.cs" />
+    <Compile Include="Controls\SideMenu\SideMenuToggles.cs" />
+    <Compile Include="Controls\SizeablePanel.cs" />
+    <Compile Include="Controls\Tabbed_Panel\FlowTab.cs" />
+    <Compile Include="Controls\Tabbed_Panel\PanelTab.cs" />
+    <Compile Include="Controls\Tabbed_Panel\TabbedPanel.cs" />
+    <Compile Include="Controls\Tag.cs" />
+    <Compile Include="Enums\SpecializationType.cs" />
+    <Compile Include="Extensions\BitMapExtension.cs" />
+    <Compile Include="Extensions\ContainerExtensions.cs" />
+    <Compile Include="Extensions\ControlExtensions.cs" />
+    <Compile Include="Extensions\DisposableExtensions.cs" />
+    <Compile Include="Extensions\FilterTagListExtension.cs" />
+    <Compile Include="Extensions\Gw2SharpExtension.cs" />
+    <Compile Include="Extensions\ListExtension.cs" />
+    <Compile Include="Extensions\NumericExtension.cs" />
+    <Compile Include="Extensions\PointExtensions.cs" />
+    <Compile Include="Extensions\SortTypeExtension.cs" />
+    <Compile Include="Extensions\StringExtension.cs" />
+    <Compile Include="Extensions\Texture2DExtension.cs" />
+    <Compile Include="Interfaces\IFontControl.cs" />
+    <Compile Include="Interfaces\ILocalizable.cs" />
+    <Compile Include="Models\AccountSummary.cs" />
+    <Compile Include="Models\Character_Model.cs" />
+    <Compile Include="Models\Crafting_Model.cs" />
+    <Compile Include="Models\GameStateChangedEventArgs.cs" />
+    <Compile Include="Models\Map.cs" />
+    <Compile Include="Models\Names.cs" />
+    <Compile Include="Models\RectangleOffset.cs" />
+    <Compile Include="Models\ShowCheckPair.cs" />
+    <Compile Include="Models\TagList.cs" />
+    <Compile Include="OCR\OCR.cs" />
+    <Compile Include="OCR\OCR_TrainDisplay.cs" />
+    <Compile Include="Res\strings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>strings.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Services\CharacterSorting.cs" />
+    <Compile Include="Services\CharacterSwapping.cs" />
+    <Compile Include="Services\Data.cs" />
+    <Compile Include="Services\GameState.cs" />
+    <Compile Include="Services\GW2API_Handler.cs" />
+    <Compile Include="Services\InputService.cs" />
+    <Compile Include="Services\RandomService.cs" />
+    <Compile Include="Services\SettingsModel.cs" />
+    <Compile Include="Services\TextureManager.cs" />
+    <Compile Include="Services\Ticks.cs" />
+    <Compile Include="Utility\WindowsUtil.cs" />
+    <Compile Include="Views\MainWindow.cs" />
+    <Compile Include="Views\SettingsView.cs" />
+    <Compile Include="Views\SettingsWindow.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
-    <None Include="Content\bin\Windows\Content\atlas\ui-atlas.xnb" />
-    <None Include="Content\bin\Windows\Content\atlas\ui.xnb" />
-    <None Include="Content\bin\Windows\Content\common\button-states.xnb" />
-    <None Include="Content\bin\Windows\Content\common\error.xnb" />
-    <None Include="Content\bin\Windows\Content\common\menomonia.ttf" />
-    <None Include="Content\bin\Windows\Content\common\menomonia.xnb" />
-    <None Include="Content\bin\Windows\Content\effects\alphamask.xnb" />
-    <None Include="Content\bin\Windows\Content\effects\distancedissolve.xnb" />
-    <None Include="Content\bin\Windows\Content\effects\glow.xnb" />
-    <None Include="Content\bin\Windows\Content\effects\gw2master.xnb" />
-    <None Include="Content\bin\Windows\Content\effects\marker.xnb" />
-    <None Include="Content\bin\Windows\Content\effects\menuitem.xnb" />
-    <None Include="Content\bin\Windows\Content\effects\menuitem2.xnb" />
-    <None Include="Content\bin\Windows\Content\effects\silhouette.xnb" />
-    <None Include="Content\bin\Windows\Content\effects\trail.xnb" />
-    <None Include="Content\bin\Windows\Content\fonts\consolas-10-bold.xnb" />
-    <None Include="Content\bin\Windows\Content\fonts\consolas-10.xnb" />
-    <None Include="Content\bin\Windows\Content\fonts\consolas-12-bold.xnb" />
-    <None Include="Content\bin\Windows\Content\fonts\consolas-12.xnb" />
-    <None Include="Content\bin\Windows\Content\fonts\consolas-8-bold.xnb" />
-    <None Include="Content\bin\Windows\Content\fonts\consolas-8.xnb" />
-    <None Include="Content\bin\Windows\Content\fonts\menomonia-8-regular_0.xnb" />
-    <None Include="Content\bin\Windows\Content\fonts\menomonia\menomonia-11-bold.xnb" />
-    <None Include="Content\bin\Windows\Content\fonts\menomonia\menomonia-11-bold_0.xnb" />
-    <None Include="Content\bin\Windows\Content\fonts\menomonia\menomonia-11-italic.xnb" />
-    <None Include="Content\bin\Windows\Content\fonts\menomonia\menomonia-11-italic_0.xnb" />
-    <None Include="Content\bin\Windows\Content\fonts\menomonia\menomonia-11-regular.xnb" />
-    <None Include="Content\bin\Windows\Content\fonts\menomonia\menomonia-11-regular_0.xnb" />
-    <None Include="Content\bin\Windows\Content\fonts\menomonia\menomonia-12-bold.xnb" />
-    <None Include="Content\bin\Windows\Content\fonts\menomonia\menomonia-12-bold_0.xnb" />
-    <None Include="Content\bin\Windows\Content\fonts\menomonia\menomonia-12-italic.xnb" />
-    <None Include="Content\bin\Windows\Content\fonts\menomonia\menomonia-12-italic_0.xnb" />
-    <None Include="Content\bin\Windows\Content\fonts\menomonia\menomonia-12-regular.xnb" />
-    <None Include="Content\bin\Windows\Content\fonts\menomonia\menomonia-12-regular_0.xnb" />
-    <None Include="Content\bin\Windows\Content\fonts\menomonia\menomonia-14-bold.xnb" />
-    <None Include="Content\bin\Windows\Content\fonts\menomonia\menomonia-14-bold_0.xnb" />
-    <None Include="Content\bin\Windows\Content\fonts\menomonia\menomonia-14-italic.xnb" />
-    <None Include="Content\bin\Windows\Content\fonts\menomonia\menomonia-14-italic_0.xnb" />
-    <None Include="Content\bin\Windows\Content\fonts\menomonia\menomonia-14-regular.xnb" />
-    <None Include="Content\bin\Windows\Content\fonts\menomonia\menomonia-14-regular_0.xnb" />
-    <None Include="Content\bin\Windows\Content\fonts\menomonia\menomonia-16-bold.xnb" />
-    <None Include="Content\bin\Windows\Content\fonts\menomonia\menomonia-16-bold_0.xnb" />
-    <None Include="Content\bin\Windows\Content\fonts\menomonia\menomonia-16-italic.xnb" />
-    <None Include="Content\bin\Windows\Content\fonts\menomonia\menomonia-16-italic_0.xnb" />
-    <None Include="Content\bin\Windows\Content\fonts\menomonia\menomonia-16-regular.xnb" />
-    <None Include="Content\bin\Windows\Content\fonts\menomonia\menomonia-16-regular_0.xnb" />
-    <None Include="Content\bin\Windows\Content\fonts\menomonia\menomonia-18-bold.xnb" />
-    <None Include="Content\bin\Windows\Content\fonts\menomonia\menomonia-18-bold_0.xnb" />
-    <None Include="Content\bin\Windows\Content\fonts\menomonia\menomonia-18-italic.xnb" />
-    <None Include="Content\bin\Windows\Content\fonts\menomonia\menomonia-18-italic_0.xnb" />
-    <None Include="Content\bin\Windows\Content\fonts\menomonia\menomonia-18-regular.xnb" />
-    <None Include="Content\bin\Windows\Content\fonts\menomonia\menomonia-18-regular_0.xnb" />
-    <None Include="Content\bin\Windows\Content\fonts\menomonia\menomonia-20-bold.xnb" />
-    <None Include="Content\bin\Windows\Content\fonts\menomonia\menomonia-20-bold_0.xnb" />
-    <None Include="Content\bin\Windows\Content\fonts\menomonia\menomonia-20-regular.xnb" />
-    <None Include="Content\bin\Windows\Content\fonts\menomonia\menomonia-20-regular_0.xnb" />
-    <None Include="Content\bin\Windows\Content\fonts\menomonia\menomonia-22-bold.xnb" />
-    <None Include="Content\bin\Windows\Content\fonts\menomonia\menomonia-22-bold_0.xnb" />
-    <None Include="Content\bin\Windows\Content\fonts\menomonia\menomonia-22-regular.xnb" />
-    <None Include="Content\bin\Windows\Content\fonts\menomonia\menomonia-22-regular_0.xnb" />
-    <None Include="Content\bin\Windows\Content\fonts\menomonia\menomonia-24-bold.xnb" />
-    <None Include="Content\bin\Windows\Content\fonts\menomonia\menomonia-24-bold_0.xnb" />
-    <None Include="Content\bin\Windows\Content\fonts\menomonia\menomonia-24-bold_1.xnb" />
-    <None Include="Content\bin\Windows\Content\fonts\menomonia\menomonia-24-regular.xnb" />
-    <None Include="Content\bin\Windows\Content\fonts\menomonia\menomonia-24-regular_0.xnb" />
-    <None Include="Content\bin\Windows\Content\fonts\menomonia\menomonia-32-regular.xnb" />
-    <None Include="Content\bin\Windows\Content\fonts\menomonia\menomonia-32-regular_0.xnb" />
-    <None Include="Content\bin\Windows\Content\fonts\menomonia\menomonia-32-regular_1.xnb" />
-    <None Include="Content\bin\Windows\Content\fonts\menomonia\menomonia-34-regular.xnb" />
-    <None Include="Content\bin\Windows\Content\fonts\menomonia\menomonia-34-regular_0.xnb" />
-    <None Include="Content\bin\Windows\Content\fonts\menomonia\menomonia-34-regular_1.xnb" />
-    <None Include="Content\bin\Windows\Content\fonts\menomonia\menomonia-36-bold.xnb" />
-    <None Include="Content\bin\Windows\Content\fonts\menomonia\menomonia-36-bold_0.xnb" />
-    <None Include="Content\bin\Windows\Content\fonts\menomonia\menomonia-36-bold_1.xnb" />
-    <None Include="Content\bin\Windows\Content\fonts\menomonia\menomonia-36-regular.xnb" />
-    <None Include="Content\bin\Windows\Content\fonts\menomonia\menomonia-36-regular_0.xnb" />
-    <None Include="Content\bin\Windows\Content\fonts\menomonia\menomonia-36-regular_1.xnb" />
-    <None Include="Content\bin\Windows\Content\fonts\menomonia\menomonia-8-bold.xnb" />
-    <None Include="Content\bin\Windows\Content\fonts\menomonia\menomonia-8-bold_0.xnb" />
-    <None Include="Content\bin\Windows\Content\fonts\menomonia\menomonia-8-italic.xnb" />
-    <None Include="Content\bin\Windows\Content\fonts\menomonia\menomonia-8-italic_0.xnb" />
-    <None Include="Content\bin\Windows\Content\fonts\menomonia\menomonia-8-regular.xnb" />
-    <None Include="Content\bin\Windows\Content\fonts\menomonia\menomonia-8-regular_0.xnb" />
-    <None Include="Content\bin\Windows\Content\fonts\newkrytan\newkrytan-12-regular.xnb" />
-    <None Include="Content\bin\Windows\Content\fonts\newkrytan\newkrytan-12-regular_0.xnb" />
-    <None Include="Content\bin\Windows\Content\fonts\newkrytan\newkrytan-12-regular_1.xnb" />
-    <None Include="mgfxc.deps.json" />
-    <None Include="mgfxc.runtimeconfig.dev.json" />
-    <None Include="mgfxc.runtimeconfig.json" />
+    <None Include="manifest.json" />
     <None Include="packages.config" />
+    <None Include="ref\data\crafting_professions.json" />
+    <None Include="ref\data\gw2.traineddata" />
+    <None Include="ref\data\maps.json" />
+    <None Include="ref\data\professions.json" />
+    <None Include="ref\data\races.json" />
+    <None Include="ref\data\specialization.json" />
+    <None Include="ref\data\xxgw2.traineddata" />
+    <None Include="tessdata\configs\config.cfg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="tessdata\eng.traineddata">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="tessdata\equ.traineddata">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="tessdata\osd.traineddata">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="tessdata\pdf.ttf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="tessdata\pdf.ttx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="CppNet.dll" />
-    <Content Include="libmojoshader_64.dll" />
-    <Content Include="mgfxc.dll" />
-    <Content Include="mgfxc.exe" />
-    <Content Include="mgfxc.pdb" />
-    <Content Include="SharpDX.D3DCompiler.dll" />
-    <Content Include="SharpDX.D3DCompiler.xml" />
-    <Content Include="SharpDX.dll" />
-    <Content Include="SharpDX.xml" />
+    <Content Include="ref\data\tesseract.dll" />
+    <Content Include="ref\textures\backgrounds\0.png" />
+    <Content Include="ref\textures\controls\0.png" />
+    <Content Include="ref\textures\controls\1.png" />
+    <Content Include="ref\textures\controls\10.png" />
+    <Content Include="ref\textures\controls\11.png" />
+    <Content Include="ref\textures\controls\12.png" />
+    <Content Include="ref\textures\controls\13.png" />
+    <Content Include="ref\textures\controls\14.png" />
+    <Content Include="ref\textures\controls\15.png" />
+    <Content Include="ref\textures\controls\16.png" />
+    <Content Include="ref\textures\controls\17.png" />
+    <Content Include="ref\textures\controls\18.png" />
+    <Content Include="ref\textures\controls\19.png" />
+    <Content Include="ref\textures\controls\2.png" />
+    <Content Include="ref\textures\controls\20.png" />
+    <Content Include="ref\textures\controls\3.png" />
+    <Content Include="ref\textures\controls\4.png" />
+    <Content Include="ref\textures\controls\5.png" />
+    <Content Include="ref\textures\controls\6.png" />
+    <Content Include="ref\textures\controls\7.png" />
+    <Content Include="ref\textures\controls\8.png" />
+    <Content Include="ref\textures\controls\9.png" />
+    <Content Include="ref\textures\icons\0.png" />
+    <Content Include="ref\textures\icons\1.png" />
+    <Content Include="ref\textures\icons\10.png" />
+    <Content Include="ref\textures\icons\11.png" />
+    <Content Include="ref\textures\icons\12.png" />
+    <Content Include="ref\textures\icons\13.png" />
+    <Content Include="ref\textures\icons\14.png" />
+    <Content Include="ref\textures\icons\15.png" />
+    <Content Include="ref\textures\icons\16.png" />
+    <Content Include="ref\textures\icons\17.png" />
+    <Content Include="ref\textures\icons\18.png" />
+    <Content Include="ref\textures\icons\2.png" />
+    <Content Include="ref\textures\icons\3.png" />
+    <Content Include="ref\textures\icons\4.png" />
+    <Content Include="ref\textures\icons\5.png" />
+    <Content Include="ref\textures\icons\6.png" />
+    <Content Include="ref\textures\icons\7.png" />
+    <Content Include="ref\textures\icons\8.png" />
+    <Content Include="ref\textures\icons\9.png" />
+    <Content Include="ref\textures\races\asura.png" />
+    <Content Include="ref\textures\races\asura_hovered.png" />
+    <Content Include="ref\textures\races\charr.png" />
+    <Content Include="ref\textures\races\charr_hovered.png" />
+    <Content Include="ref\textures\races\human.png" />
+    <Content Include="ref\textures\races\human_hovered.png" />
+    <Content Include="ref\textures\races\norn.png" />
+    <Content Include="ref\textures\races\norn_hovered.png" />
+    <Content Include="ref\textures\races\sylvari.png" />
+    <Content Include="ref\textures\races\sylvari_hovered.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Res\strings.de.resx" />
+    <EmbeddedResource Include="Res\strings.es.resx" />
+    <EmbeddedResource Include="Res\strings.fr.resx" />
+    <EmbeddedResource Include="Res\strings.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>strings.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Properties\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Core\Core.csproj">
+      <Project>{1bbe6541-b4ab-4fb2-a74d-76af89383478}</Project>
+      <Name>Core</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\MonoGame.Framework.WindowsDX.3.8.0.1641\build\MonoGame.Framework.WindowsDX.targets" Condition="Exists('..\packages\MonoGame.Framework.WindowsDX.3.8.0.1641\build\MonoGame.Framework.WindowsDX.targets')" />
@@ -299,6 +383,8 @@
     </PropertyGroup>
     <Error Condition="!Exists('..\packages\MonoGame.Framework.WindowsDX.3.8.0.1641\build\MonoGame.Framework.WindowsDX.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\MonoGame.Framework.WindowsDX.3.8.0.1641\build\MonoGame.Framework.WindowsDX.targets'))" />
     <Error Condition="!Exists('..\packages\BlishHUD.1.0.0\build\BlishHUD.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\BlishHUD.1.0.0\build\BlishHUD.targets'))" />
+    <Error Condition="!Exists('..\packages\Tesseract.Net.SDK.4.5.411\build\Tesseract.Net.SDK.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Tesseract.Net.SDK.4.5.411\build\Tesseract.Net.SDK.targets'))" />
   </Target>
   <Import Project="..\packages\BlishHUD.1.0.0\build\BlishHUD.targets" Condition="Exists('..\packages\BlishHUD.1.0.0\build\BlishHUD.targets')" />
+  <Import Project="..\packages\Tesseract.Net.SDK.4.5.411\build\Tesseract.Net.SDK.targets" Condition="Exists('..\packages\Tesseract.Net.SDK.4.5.411\build\Tesseract.Net.SDK.targets')" />
 </Project>

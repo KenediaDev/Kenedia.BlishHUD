@@ -1,0 +1,101 @@
+[
+  {
+    "Names": {
+      "de": "Wächter",
+      "en": "Guardian",
+      "es": "Guardián",
+      "fr": "Gardien"
+    },
+    "Id": 1,
+    "API_Id": "Guardian",
+    "Name": "Gardien"
+  },
+  {
+    "Names": {
+      "de": "Krieger",
+      "en": "Warrior",
+      "es": "Guerrero",
+      "fr": "Guerrier"
+    },
+    "Id": 2,
+    "API_Id": "Warrior",
+    "Name": "Guerrier"
+  },
+  {
+    "Names": {
+      "de": "Ingenieur",
+      "en": "Engineer",
+      "es": "Ingeniero",
+      "fr": "Ingénieur"
+    },
+    "Id": 3,
+    "API_Id": "Engineer",
+    "Name": "Ingénieur"
+  },
+  {
+    "Names": {
+      "de": "Waldläufer",
+      "en": "Ranger",
+      "es": "Guardabosques",
+      "fr": "Rôdeur"
+    },
+    "Id": 4,
+    "API_Id": "Ranger",
+    "Name": "Rôdeur"
+  },
+  {
+    "Names": {
+      "de": "Dieb",
+      "en": "Thief",
+      "es": "Ladrón",
+      "fr": "Voleur"
+    },
+    "Id": 5,
+    "API_Id": "Thief",
+    "Name": "Voleur"
+  },
+  {
+    "Names": {
+      "de": "Elementarmagier",
+      "en": "Elementalist",
+      "es": "Elementalista",
+      "fr": "Élémentaliste"
+    },
+    "Id": 6,
+    "API_Id": "Elementalist",
+    "Name": "Élémentaliste"
+  },
+  {
+    "Names": {
+      "de": "Mesmer",
+      "en": "Mesmer",
+      "es": "Hipnotizador",
+      "fr": "Envoûteur"
+    },
+    "Id": 7,
+    "API_Id": "Mesmer",
+    "Name": "Envoûteur"
+  },
+  {
+    "Names": {
+      "de": "Nekromant",
+      "en": "Necromancer",
+      "es": "Nigromante",
+      "fr": "Nécromant"
+    },
+    "Id": 8,
+    "API_Id": "Necromancer",
+    "Name": "Nécromant"
+  },
+  {
+    "Names": {
+      "de": "Widergänger",
+      "en": "Revenant",
+      "es": "Retornado",
+      "fr": "Revenant"
+    },
+    "Id": 9,
+    "API_Id": "Revenant",
+    "Name": "Revenant"
+  }
+]
