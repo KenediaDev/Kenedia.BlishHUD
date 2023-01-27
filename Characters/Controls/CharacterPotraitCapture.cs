@@ -4,6 +4,7 @@ using Blish_HUD.Controls;
 using Blish_HUD.Input;
 using Characters.Res;
 using Kenedia.Modules.Characters.Extensions;
+using Kenedia.Modules.Core.Controls;
 using Microsoft.Xna.Framework;
 using System;
 using System.IO;
@@ -11,7 +12,9 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using static Kenedia.Modules.Characters.Services.TextureManager;
 using static Kenedia.Modules.Characters.Utility.WindowsUtil.WindowsUtil;
+using Checkbox = Kenedia.Modules.Core.Controls.Checkbox;
 using Color = Microsoft.Xna.Framework.Color;
+using Label = Kenedia.Modules.Core.Controls.Label;
 using Point = Microsoft.Xna.Framework.Point;
 using Rectangle = Microsoft.Xna.Framework.Rectangle;
 
@@ -24,7 +27,7 @@ namespace Kenedia.Modules.Characters.Controls
         private readonly ImageButton _addButton;
         private readonly ImageButton _removeButton;
         private readonly Label _disclaimer;
-        private readonly BasicFrameContainer _disclaimerBackground;
+        private readonly FramedContainer _disclaimerBackground;
         private readonly ImageButton _dragButton;
         private readonly TextBox _sizeBox;
         private readonly TextBox _gapBox;
@@ -91,12 +94,12 @@ namespace Kenedia.Modules.Characters.Controls
             };
             _captureButton.Click += CaptureButton_Click;
 
-            _disclaimerBackground = new BasicFrameContainer()
+            _disclaimerBackground = new FramedContainer()
             {
                 Parent = this,
                 Location = new Point((32 + 5) * 4, 0),
-                FrameColor = Color.Black, // new Color(32, 32 , 32),
-                Background = AsyncTexture2D.FromAssetId(156003),
+                BorderColor = Color.Black, // new Color(32, 32 , 32),
+                BackgroundImage = AsyncTexture2D.FromAssetId(156003),
                 TextureRectangle = new Rectangle(50, 50, 500, 500),
                 WidthSizingMode = SizingMode.AutoSize,
                 AutoSizePadding = new Point(15, 0),
@@ -258,7 +261,7 @@ namespace Kenedia.Modules.Characters.Controls
 
         private void AddPotrait()
         {
-            _ = new BasicFrameContainer()
+            _ = new FramedContainer()
             {
                 Parent = _portraitsPanel,
                 Size = new Point(_characterPotraitSize, _characterPotraitSize),

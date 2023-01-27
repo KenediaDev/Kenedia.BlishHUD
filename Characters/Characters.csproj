@@ -200,7 +200,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Characters.cs" />
-    <Compile Include="Controls\BasicFrameContainer.cs" />
     <Compile Include="Controls\BasicTooltip.cs" />
     <Compile Include="Controls\CharacterEdit.cs" />
     <Compile Include="Controls\CharacterPotraitCapture.cs" />
@@ -228,7 +227,6 @@
     <Compile Include="Controls\SideMenu\SideMenu.cs" />
     <Compile Include="Controls\SideMenu\SideMenuBehaviours.cs" />
     <Compile Include="Controls\SideMenu\SideMenuToggles.cs" />
-    <Compile Include="Controls\SizeablePanel.cs" />
     <Compile Include="Controls\Tabbed_Panel\FlowTab.cs" />
     <Compile Include="Controls\Tabbed_Panel\PanelTab.cs" />
     <Compile Include="Controls\Tabbed_Panel\TabbedPanel.cs" />

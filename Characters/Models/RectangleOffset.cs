@@ -17,5 +17,9 @@
         public int Right { get; set; }
 
         public int Bottom { get; set; }
+
+        public int Vertical => Top + Bottom;
+
+        public int Horizontal => Left + Right;
     }
 }

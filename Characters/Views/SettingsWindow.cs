@@ -40,14 +40,19 @@ namespace Kenedia.Modules.Characters.Views
         private Label _customNameFontSizeLabel;
         private Dropdown _customNameFontSize;
 
+        private NumberBox _topOffsetBox;
         private NumberBox _leftOffsetBox;
         private NumberBox _bottomOffsetBox;
         private NumberBox _rightOffsetBox;
 
+        private Image _topLeftImage;
+        private Image _topRightImage;
         private Image _bottomLeftImage;
         private Image _bottomRightImage;
 
         private readonly FlowPanel _contentPanel;
+
+        private double _tick;
 
         public SettingsWindow(AsyncTexture2D background, Rectangle windowRegion, Rectangle contentRegion) : base(background, windowRegion, contentRegion)
         {
@@ -69,9 +74,6 @@ namespace Kenedia.Modules.Characters.Views
 
             Characters.ModuleInstance.LanguageChanged += OnLanguageChanged;
             OnLanguageChanged();
-
-            SetLeftImage();
-            SetRightImage();
         }
 
         private SettingsModel Settings => Characters.ModuleInstance.Settings;
@@ -674,6 +676,31 @@ namespace Kenedia.Modules.Characters.Views
                 Width = 150,
                 Location = new(35, 0),
                 Height = 20,
+                SetLocalizedText = () => "Top Offset",
+            };
+            _topOffsetBox = new()
+            {
+                Parent = pp,
+                MinValue = -50,
+                MaxValue = 50,
+                Value = Settings.WindowOffset.Value.Top,
+                SetLocalizedTooltip = () => "Top",
+                ValueChangedAction = (num) => UpdateOffset(null, num),
+            };
+
+            pp = new FlowPanel()
+            {
+                Parent = cP,
+                WidthSizingMode = SizingMode.Fill,
+                HeightSizingMode = SizingMode.AutoSize,
+                FlowDirection = ControlFlowDirection.SingleLeftToRight,
+            };
+            _ = new Label()
+            {
+                Parent = pp,
+                Width = 150,
+                Location = new(35, 0),
+                Height = 20,
                 SetLocalizedText = () => "Left Offset",
             };
             _leftOffsetBox = new()
@@ -756,8 +783,22 @@ namespace Kenedia.Modules.Characters.Views
             _ = new Label()
             {
                 Parent = cP,
+                SetLocalizedText = () => "Left Top",
+                AutoSizeWidth = true,
+                Visible = false,
+            };
+            _topLeftImage = new()
+            {
+                Parent = cP,
+                BackgroundColor = Color.White,
+                Size = new(100, _rightOffsetBox.Height * 2),
+            };
+            _ = new Label()
+            {
+                Parent = cP,
                 SetLocalizedText = () => "Left Bottom",
                 AutoSizeWidth = true,
+                Visible = false,
             };
             _bottomLeftImage = new()
             {
@@ -777,8 +818,22 @@ namespace Kenedia.Modules.Characters.Views
             _ = new Label()
             {
                 Parent = cP,
+                SetLocalizedText = () => "Right Top",
+                AutoSizeWidth = true,
+                Visible = false,
+            };
+            _topRightImage = new()
+            {
+                Parent = cP,
+                BackgroundColor = Color.White,
+                Size = new(100, _rightOffsetBox.Height * 2),
+            };
+            _ = new Label()
+            {
+                Parent = cP,
                 SetLocalizedText = () => "Right Bottom",
                 AutoSizeWidth = true,
+                Visible = false,
             };
             _bottomRightImage = new()
             {
@@ -849,13 +904,31 @@ namespace Kenedia.Modules.Characters.Views
 
         private void UpdateOffset(object sender, int e)
         {
-            Settings.WindowOffset.Value = new(_leftOffsetBox.Value, 0, _rightOffsetBox.Value, _bottomOffsetBox.Value);
+            Settings.WindowOffset.Value = new(_leftOffsetBox.Value, _topOffsetBox.Value, _rightOffsetBox.Value, _bottomOffsetBox.Value);
 
-            SetLeftImage();
-            SetRightImage();
+            SetTopLeftImage();
+            SetTopRightImage();
+
+            SetBottomLeftImage();
+            SetBottomRightImage();
         }
 
-        private void SetLeftImage()
+        private void SetTopLeftImage()
+        {
+            RECT wndBounds = Characters.ModuleInstance.WindowRectangle;
+
+            bool windowed = GameService.GameIntegration.GfxSettings.ScreenMode == Blish_HUD.GameIntegration.GfxSettings.ScreenModeSetting.Windowed;
+            Point p = windowed ? new(Settings.WindowOffset.Value.Left, Settings.WindowOffset.Value.Top) : Point.Zero;
+
+            using Bitmap bitmap = new(_topLeftImage.Width, _topLeftImage.Height);
+            using var g = System.Drawing.Graphics.FromImage(bitmap);
+            using MemoryStream s = new();
+            g.CopyFromScreen(new System.Drawing.Point(wndBounds.Left + p.X, wndBounds.Top + p.Y), System.Drawing.Point.Empty, new(_topLeftImage.Width, _topLeftImage.Height));
+            bitmap.Save(s, System.Drawing.Imaging.ImageFormat.Bmp);
+            _topLeftImage.Texture = s.CreateTexture2D();
+        }
+
+        private void SetBottomLeftImage()
         {
             RECT wndBounds = Characters.ModuleInstance.WindowRectangle;
 
@@ -870,7 +943,23 @@ namespace Kenedia.Modules.Characters.Views
             _bottomLeftImage.Texture = s.CreateTexture2D();
         }
 
-        private void SetRightImage()
+        private void SetTopRightImage()
+        {
+            RECT wndBounds = Characters.ModuleInstance.WindowRectangle;
+
+            bool windowed = GameService.GameIntegration.GfxSettings.ScreenMode == Blish_HUD.GameIntegration.GfxSettings.ScreenModeSetting.Windowed;
+            Point p = windowed ? new(Settings.WindowOffset.Value.Right, Settings.WindowOffset.Value.Top) : Point.Zero;
+
+            using Bitmap bitmap = new(_topRightImage.Width, _topRightImage.Height);
+            using var g = System.Drawing.Graphics.FromImage(bitmap);
+            using MemoryStream s = new();
+            g.CopyFromScreen(new System.Drawing.Point(wndBounds.Right - _topRightImage.Width + p.X, wndBounds.Top + p.Y), System.Drawing.Point.Empty, new(_topRightImage.Width, _topRightImage.Height));
+            bitmap.Save(s, System.Drawing.Imaging.ImageFormat.Bmp);
+            _topRightImage.Texture = s.CreateTexture2D();
+
+        }
+
+        private void SetBottomRightImage()
         {
             RECT wndBounds = Characters.ModuleInstance.WindowRectangle;
 
@@ -956,6 +1045,25 @@ namespace Kenedia.Modules.Characters.Views
 
             _subWindowEmblem.Dispose();
             _mainWindowEmblem.Dispose();
+        }
+
+        public override void UpdateContainer(GameTime gameTime)
+        {
+            base.UpdateContainer(gameTime);
+
+            if(gameTime.TotalGameTime.TotalMilliseconds - _tick >= 1000)
+            {
+                _tick = gameTime.TotalGameTime.TotalMilliseconds;
+
+                if (GameService.GameIntegration.Gw2Instance.Gw2HasFocus)
+                {
+                    SetTopLeftImage();
+                    SetTopRightImage();
+
+                    SetBottomLeftImage();
+                    SetBottomRightImage();
+                }
+            }
         }
     }
 }

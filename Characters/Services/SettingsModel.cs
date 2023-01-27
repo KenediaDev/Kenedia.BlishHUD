@@ -41,7 +41,7 @@ namespace Kenedia.Modules.Characters.Services
             KeyDelay = internalSettings.DefineSetting(nameof(KeyDelay), 0);
             FilterDelay = internalSettings.DefineSetting(nameof(FilterDelay), 0);
             WindowSize = internalSettings.DefineSetting(nameof(CurrentWindowSize), new Point(385, 920));
-            WindowOffset = internalSettings.DefineSetting(nameof(WindowOffset), new RectangleOffset(8, 0, -8, -8));
+            WindowOffset = internalSettings.DefineSetting(nameof(WindowOffset), new RectangleOffset(8, 31, -8, -8));
             DisplayToggles = internalSettings.DefineSetting(nameof(DisplayToggles), new Dictionary<string, ShowCheckPair>());
 
             Point res = GameService.Graphics.Resolution;

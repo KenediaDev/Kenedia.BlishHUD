@@ -2,14 +2,13 @@
 using Characters.Res;
 using Kenedia.Modules.Characters.Extensions;
 using Kenedia.Modules.Characters.Models;
-using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Kenedia.Modules.Characters.Services
 {
@@ -31,6 +30,7 @@ namespace Kenedia.Modules.Characters.Services
         private static string s_lastName;
         private static int s_noNameChange = 0;
 
+        [SuppressMessage("CodeQuality", "IDE0052:Remove unread private members", Justification = "<Pending>")]
         private static int NoNameChange
         {
             get => s_noNameChange;
@@ -87,6 +87,7 @@ namespace Kenedia.Modules.Characters.Services
             s_models = models.OrderByDescending(e => e.LastLogin).ToList();
             s_lastName = string.Empty;
             s_state = SortingState.None;
+            NoNameChange = 0;
 
             Started?.Invoke(null, null);
             Status = strings.FixCharacter_Start;

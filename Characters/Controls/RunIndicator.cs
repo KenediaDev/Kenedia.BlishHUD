@@ -2,12 +2,14 @@
 using Blish_HUD.Content;
 using Blish_HUD.Controls;
 using Kenedia.Modules.Characters.Services;
+using Kenedia.Modules.Core.Controls;
 using Microsoft.Xna.Framework;
 using System;
+using Label = Kenedia.Modules.Core.Controls.Label;
 
 namespace Kenedia.Modules.Characters.Controls
 {
-    public class RunIndicator : BasicFrameContainer
+    public class RunIndicator : FramedContainer
     {
         private readonly LoadingSpinner _loadingSpinner;
         private readonly Label _titleText;
@@ -25,8 +27,8 @@ namespace Kenedia.Modules.Characters.Controls
             Parent = GameService.Graphics.SpriteScreen;
             Size = _screenPartionSize;
             Location = new Point(x, y);
-            FrameColor = Color.Black;
-            Background = AsyncTexture2D.FromAssetId(156003);
+            BorderColor = Color.Black;
+            BackgroundImage = AsyncTexture2D.FromAssetId(156003);
             BackgroundImageColor = new Color(43, 43, 43) * 0.9f;
             TextureRectangle = new Rectangle(30, 30, 500, 500);
             Visible = false;

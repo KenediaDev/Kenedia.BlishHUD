@@ -315,7 +315,6 @@ namespace Kenedia.Modules.Characters
                 CancelEverything();
             }
 
-
             if (_ticks.OCR >= 50)
             {
                 RECT newRect = new();

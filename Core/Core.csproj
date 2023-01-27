@@ -193,15 +193,19 @@
     <Reference Include="System.Xml.ReaderWriter" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controls\FramedContainer.cs" />
     <Compile Include="Controls\KeybindingAssigner.cs" />
     <Compile Include="Controls\Checkbox.cs" />
     <Compile Include="Controls\ImageToggle.cs" />
     <Compile Include="Controls\Dropdown.cs" />
+    <Compile Include="Controls\ResizeableContainer.cs" />
     <Compile Include="Controls\TrackBar.cs" />
     <Compile Include="Controls\Label.cs" />
     <Compile Include="Controls\NumberBox.cs" />
+    <Compile Include="Extensions\PointExtensions.cs" />
     <Compile Include="Interfaces\ILocalizable.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Structs\RectangleDimensions.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
