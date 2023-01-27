@@ -12,9 +12,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Kenedia.Modules.Characters.Controls
+namespace Kenedia.Modules.Core.Controls
 {
-    public class ImageToggleEx : Control
+    public class ImageToggle : Control
     {
         private readonly AsyncTexture2D _exTexture = AsyncTexture2D.FromAssetId(784262);
 
@@ -24,19 +24,30 @@ namespace Kenedia.Modules.Characters.Controls
         private Rectangle _xTextureRectangle;
         private Rectangle _xDrawRectangle;
         private bool _checked;
+        private Func<string> _setLocalizedTooltip;
 
-        public ImageToggleEx()
+        public ImageToggle()
         {
 
         }
 
-        public ImageToggleEx(Action<bool> onChanged)
+        public ImageToggle(Action<bool> onChanged)
             : this()
         {
             _onChanged = onChanged;
         }
 
         public event EventHandler<CheckChangedEvent> CheckedChanged;
+
+        public Func<string> SetLocalizedTooltip
+        {
+            get => _setLocalizedTooltip;
+            set
+            {
+                _setLocalizedTooltip = value;
+                BasicTooltipText = value?.Invoke();
+            }
+        }
 
         public AsyncTexture2D Texture { get; set; }
 

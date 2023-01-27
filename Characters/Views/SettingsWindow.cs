@@ -2,24 +2,25 @@
 using Blish_HUD.Content;
 using Blish_HUD.Controls;
 using Blish_HUD.Settings;
+using Characters.Res;
 using Kenedia.Modules.Characters.Extensions;
 using Kenedia.Modules.Characters.Interfaces;
 using Kenedia.Modules.Characters.Services;
+using Kenedia.Modules.Core.Controls;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using MonoGame.Extended.BitmapFonts;
 using System;
-using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 using static Blish_HUD.ContentService;
 using static Kenedia.Modules.Characters.Utility.WindowsUtil.WindowsUtil;
-using static System.Net.Mime.MediaTypeNames;
-using Image = Blish_HUD.Controls.Image;
 using Bitmap = System.Drawing.Bitmap;
-using Graphics = System.Drawing.Graphics;
-using Characters.Res;
+using Checkbox = Kenedia.Modules.Core.Controls.Checkbox;
+using Dropdown = Kenedia.Modules.Core.Controls.Dropdown;
+using Image = Blish_HUD.Controls.Image;
+using KeybindingAssigner = Kenedia.Modules.Core.Controls.KeybindingAssigner;
+using Label = Kenedia.Modules.Core.Controls.Label;
+using TrackBar = Kenedia.Modules.Core.Controls.TrackBar;
 
 namespace Kenedia.Modules.Characters.Views
 {
@@ -33,78 +34,56 @@ namespace Kenedia.Modules.Characters.Views
         private Rectangle _subEmblemRectangle;
         private Rectangle _titleRectangle;
 
-        private readonly KeybindingAssigner _logoutButton;
-        private readonly KeybindingAssigner _toggleWindowButton;
-        private readonly Checkbox _showCornerIcon;
-        private readonly Checkbox _closeOnSwap;
-        private readonly Checkbox _ignoreDiacritics;
-        private readonly Checkbox _filterAsOne;
-        private readonly Checkbox _openSidemenuOnSearch;
-        private readonly Checkbox _loadCachedAccounts;
-        private readonly Checkbox _showStatusPopup;
-        private readonly Checkbox _loginAfterSelect;
-        private readonly Checkbox _doubleClickLogin;
-        private readonly Checkbox _enterLogin;
-        private readonly Checkbox _autoFix;
-        private readonly Checkbox _useOCR;
-        private readonly Checkbox _showRandomButton;
-        private readonly Checkbox _showTooltip;
-        private readonly Checkbox _useBetaGamestate;
+        private Label _customFontSizeLabel;
+        private Dropdown _customFontSize;
 
-        private readonly Dropdown _panelSize;
-        private readonly Dropdown _panelAppearance;
+        private Label _customNameFontSizeLabel;
+        private Dropdown _customNameFontSize;
 
-        private readonly Checkbox _characterPanelFixedWidth;
-        private readonly TrackBar _characterPanelWidth;
+        private NumberBox _leftOffsetBox;
+        private NumberBox _bottomOffsetBox;
+        private NumberBox _rightOffsetBox;
 
-        private readonly Label _customIconSizeLabel;
-        private readonly TrackBar _customIconSize;
+        private Image _bottomLeftImage;
+        private Image _bottomRightImage;
 
-        private readonly Label _customFontSizeLabel;
-        private readonly Dropdown _customFontSize;
-
-        private readonly Label _customNameFontSizeLabel;
-        private readonly Dropdown _customNameFontSize;
-
-        private readonly Label _keyDelayLabel;
-        private readonly TrackBar _keyDelay;
-        private readonly Label _filterDelayLabel;
-        private readonly TrackBar _filterDelay;
-        private readonly Label _loadingDelayLabel;
-        private readonly TrackBar _loadingDelay;
-
-        private readonly CounterBox _leftOffsetBox;
-        private readonly CounterBox _topOffsetBox;
-        private readonly CounterBox _bottomOffsetBox;
-        private readonly CounterBox _rightOffsetBox;
-        private readonly StandardButton _saveOffsetButton;
-
-        private readonly Image _bottomLeftImage;
-        private readonly Image _bottomRightImage;
-
-        private readonly Panel _contentPanel;
-        private readonly List<Action> _languageActions = new();
+        private readonly FlowPanel _contentPanel;
 
         public SettingsWindow(AsyncTexture2D background, Rectangle windowRegion, Rectangle contentRegion) : base(background, windowRegion, contentRegion)
         {
-            Label label;
-            Panel p;
-            Panel subP;
-
             _contentPanel = new()
             {
                 Parent = this,
                 Width = ContentRegion.Width,
                 Height = ContentRegion.Height,
+                ControlPadding = new(0, 10),
                 CanScroll = true,
             };
 
+            CreateKeybinds();
+            CreateBehavior();
+            CreateAppearance();
+            CreateDelays();
+            CreateLayout();
+            CreateGeneral();
+
+            Characters.ModuleInstance.LanguageChanged += OnLanguageChanged;
+            OnLanguageChanged();
+
+            SetLeftImage();
+            SetRightImage();
+        }
+
+        private SettingsModel Settings => Characters.ModuleInstance.Settings;
+
+        private void CreateKeybinds()
+        {
             #region Keybinds
-            p = new Panel()
+            var p = new Panel()
             {
                 Parent = _contentPanel,
                 Width = ContentRegion.Width - 20,
-                Height = 100,
+                HeightSizingMode = SizingMode.AutoSize,
                 ShowBorder = true,
             };
 
@@ -115,59 +94,55 @@ namespace Kenedia.Modules.Characters.Views
                 Size = new(30, 30),
             };
 
-            var label1 = new Label()
+            _ = new Label()
             {
                 Parent = p,
                 AutoSizeWidth = true,
                 Location = new(35, 0),
                 Height = 30,
+                SetLocalizedText = () => strings.Keybinds,
             };
-            _languageActions.Add(() => label1.Text = strings.Keybinds);
 
             var cP = new FlowPanel()
             {
                 Parent = p,
                 Location = new(5, 35),
-                HeightSizingMode = SizingMode.Fill,
+                HeightSizingMode = SizingMode.AutoSize,
                 WidthSizingMode = SizingMode.Fill,
                 FlowDirection = ControlFlowDirection.SingleTopToBottom,
                 ControlPadding = new(3, 3),
             };
 
-            _logoutButton = new()
+            _ = new KeybindingAssigner()
             {
                 Parent = cP,
                 Width = ContentRegion.Width - 35,
                 KeyBinding = Settings.LogoutKey.Value,
+                KeybindChangedAction = (kb) => Settings.LogoutKey.Value = kb,
+                SetLocalizedKeyBindingName = () => strings.Logout,
+                SetLocalizedTooltip = () => strings.LogoutDescription,
             };
-            _logoutButton.BindingChanged += LogoutButton_BindingChanged;
-            _languageActions.Add(() =>
-            {
-                _logoutButton.KeyBindingName = strings.Logout;
-                _logoutButton.BasicTooltipText = strings.LogoutDescription;
-            });
 
-            _toggleWindowButton = new()
+            _ = new KeybindingAssigner()
             {
                 Parent = cP,
                 Width = ContentRegion.Width - 35,
                 KeyBinding = Settings.ShortcutKey.Value,
+                KeybindChangedAction = (kb) => Settings.ShortcutKey.Value = kb,
+                SetLocalizedKeyBindingName = () => strings.ShortcutToggle_DisplayName,
+                SetLocalizedTooltip = () => strings.ShortcutToggle_Description,
             };
-            _toggleWindowButton.BindingChanged += ToggleWindowButton_BindingChanged;
-            _languageActions.Add(() =>
-            {
-                _toggleWindowButton.KeyBindingName = strings.ShortcutToggle_DisplayName;
-                _toggleWindowButton.BasicTooltipText = strings.ShortcutToggle_Description;
-            });
             #endregion Keybinds
+        }
 
-            #region Behaviour
-            p = new Panel()
+        private void CreateBehavior()
+        {
+            #region Behavior
+            var p = new Panel()
             {
                 Parent = _contentPanel,
-                Location = new(0, p.LocalBounds.Bottom + 5),
                 Width = ContentRegion.Width - 20,
-                Height = 225,
+                HeightSizingMode = SizingMode.AutoSize,
                 ShowBorder = true,
             };
 
@@ -178,141 +153,116 @@ namespace Kenedia.Modules.Characters.Views
                 Size = new(30, 30),
             };
 
-            var label2 = new Label()
+            _ = new Label()
             {
                 Parent = p,
                 AutoSizeWidth = true,
                 Location = new(35, 0),
                 Height = 30,
+                SetLocalizedText = () => strings.SwapBehavior,
             };
-            _languageActions.Add(() => label2.Text = strings.SwapBehaviour);
 
-            cP = new FlowPanel()
+            var cP = new FlowPanel()
             {
                 Parent = p,
                 Location = new(5, 35),
-                HeightSizingMode = SizingMode.Fill,
+                HeightSizingMode = SizingMode.AutoSize,
                 WidthSizingMode = SizingMode.Fill,
                 FlowDirection = ControlFlowDirection.SingleTopToBottom,
                 ControlPadding = new(3, 3),
             };
 
-            _closeOnSwap = new()
+            _ = new Checkbox()
             {
                 Parent = cP,
                 Checked = Settings.CloseWindowOnSwap.Value,
+                SetLocalizedText = () => strings.CloseWindowOnSwap_DisplayName,
+                SetLocalizedTooltip = () => strings.CloseWindowOnSwap_Description,
+                CheckedChangedAction = (b) => Settings.CloseWindowOnSwap.Value = b,
             };
-            _closeOnSwap.CheckedChanged += CloseOnSwap_CheckedChanged;
-            _languageActions.Add(() =>
-            {
-                _closeOnSwap.Text = strings.CloseWindowOnSwap_DisplayName;
-                _closeOnSwap.BasicTooltipText = strings.CloseWindowOnSwap_Description;
-            });
 
-            _loginAfterSelect = new()
+            _ = new Checkbox()
             {
                 Parent = cP,
                 Checked = Settings.EnterOnSwap.Value,
+                SetLocalizedText = () => strings.EnterOnSwap_DisplayName,
+                SetLocalizedTooltip = () => strings.EnterOnSwap_Description,
+                CheckedChangedAction = (b) => Settings.EnterOnSwap.Value = b,
             };
-            _loginAfterSelect.CheckedChanged += LoginAfterSelect_CheckedChanged;
-            _languageActions.Add(() =>
-            {
-                _loginAfterSelect.Text = strings.EnterOnSwap_DisplayName;
-                _loginAfterSelect.BasicTooltipText = strings.EnterOnSwap_Description;
-            });
-
-            _doubleClickLogin = new()
+            
+            _ = new Checkbox()
             {
                 Parent = cP,
                 Checked = Settings.DoubleClickToEnter.Value,
+                SetLocalizedText = () => strings.DoubleClickToEnter_DisplayName,
+                SetLocalizedTooltip = () => strings.DoubleClickToEnter_Description,
+                CheckedChangedAction = (b) => Settings.DoubleClickToEnter.Value = b,
             };
-            _doubleClickLogin.CheckedChanged += DoubleClickLogin_CheckedChanged;
-            _languageActions.Add(() =>
-            {
-                _doubleClickLogin.Text = strings.DoubleClickToEnter_DisplayName;
-                _doubleClickLogin.BasicTooltipText = strings.DoubleClickToEnter_Description;
-            });
 
-            _enterLogin = new()
+            _ = new Checkbox()
             {
                 Parent = cP,
                 Checked = Settings.EnterToLogin.Value,
+                SetLocalizedText = () => strings.EnterToLogin_DisplayName,
+                SetLocalizedTooltip = () => strings.EnterToLogin_Description,
+                CheckedChangedAction = (b) => Settings.EnterToLogin.Value = b,
             };
-            _enterLogin.CheckedChanged += EnterLogin_CheckedChanged;
-            _languageActions.Add(() =>
-            {
-                _enterLogin.Text = strings.EnterToLogin_DisplayName;
-                _enterLogin.BasicTooltipText = strings.EnterToLogin_Description;
-            });
 
-            _useOCR = new()
+            _ = new Checkbox()
             {
                 Parent = cP,
-                Checked = Settings.UseOCR.Value
+                Checked = Settings.UseOCR.Value,
+                SetLocalizedText = () => strings.UseOCR,
+                SetLocalizedTooltip = () => strings.UseOCR_Tooltip,
+                CheckedChangedAction = (b) => Settings.UseOCR.Value = b,
             };
-            _useOCR.CheckedChanged += UseOCR_CheckedChanged;
-            _languageActions.Add(() =>
-            {
-                _useOCR.Text = strings.UseOCR;
-                _useOCR.BasicTooltipText = strings.UseOCR_Tooltip;
-            });
 
-            _autoFix = new()
+            _ = new Checkbox()
             {
                 Parent = cP,
-                Checked = Settings.AutoSortCharacters.Value
+                Checked = Settings.AutoSortCharacters.Value,
+                SetLocalizedText = () => strings.AutoFix,
+                SetLocalizedTooltip = () => strings.AutoFix_Tooltip,
+                CheckedChangedAction = (b) => Settings.AutoSortCharacters.Value = b,
             };
-            _autoFix.CheckedChanged += AutoFix_CheckedChanged;
-            _languageActions.Add(() =>
-            {
-                _autoFix.Text = strings.AutoFix;
-                _autoFix.BasicTooltipText = strings.AutoFix_Tooltip;
-            });
 
-            _ignoreDiacritics = new()
+            _ = new Checkbox()
             {
                 Parent = cP,
-                Checked = Settings.FilterDiacriticsInsensitive.Value
+                Checked = Settings.FilterDiacriticsInsensitive.Value,
+                SetLocalizedText = () => strings.FilterDiacriticsInsensitive_DisplayName,
+                SetLocalizedTooltip = () => strings.FilterDiacriticsInsensitive_Description,
+                CheckedChangedAction = (b) => Settings.FilterDiacriticsInsensitive.Value = b,
             };
-            _ignoreDiacritics.CheckedChanged += IgnoreDiacritics_CheckedChanged;
-            _languageActions.Add(() =>
-            {
-                _ignoreDiacritics.Text = strings.FilterDiacriticsInsensitive_DisplayName;
-                _ignoreDiacritics.BasicTooltipText = strings.FilterDiacriticsInsensitive_Description;
-            });
 
-            _filterAsOne = new()
+            _ = new Checkbox()
             {
                 Parent = cP,
-                Checked = Settings.FilterAsOne.Value
+                Checked = Settings.FilterAsOne.Value,
+                SetLocalizedText = () => strings.FilterAsOne_DisplayName,
+                SetLocalizedTooltip = () => strings.FilterAsOne_Description,
+                CheckedChangedAction = (b) => Settings.FilterAsOne.Value = b,
             };
-            _filterAsOne.CheckedChanged += FilterAsOne_CheckedChanged;
-            _languageActions.Add(() =>
-            {
-                _filterAsOne.Text = strings.FilterAsOne_DisplayName;
-                _filterAsOne.BasicTooltipText = strings.FilterAsOne_Description;
-            });
 
-            _useBetaGamestate = new()
+            _ = new Checkbox()
             {
                 Parent = cP,
-                Checked = Settings.UseBetaGamestate.Value
+                Checked = Settings.UseBetaGamestate.Value,
+                SetLocalizedText = () => strings.UseBetaGameState_DisplayName,
+                SetLocalizedTooltip = () => strings.UseBetaGameState_Description,
+                CheckedChangedAction = (b) => Settings.UseBetaGamestate.Value = b,
             };
-            _useBetaGamestate.CheckedChanged += UseBetaGamestate_CheckedChanged;
-            _languageActions.Add(() =>
-            {
-                _useBetaGamestate.Text = strings.UseBetaGameState_DisplayName;
-                _useBetaGamestate.BasicTooltipText = strings.UseBetaGameState_Description;
-            });
-            #endregion Behaviour
+            #endregion Behavior
+        }
 
+        private void CreateAppearance()
+        {
             #region Appearance
-            p = new Panel()
+            var p = new Panel()
             {
                 Parent = _contentPanel,
-                Location = new(0, p.LocalBounds.Bottom + 5),
                 Width = ContentRegion.Width - 20,
-                Height = 355,
+                HeightSizingMode = SizingMode.AutoSize,
                 ShowBorder = true,
             };
 
@@ -323,103 +273,93 @@ namespace Kenedia.Modules.Characters.Views
                 Size = new(30, 30),
             };
 
-            var label3 = new Label()
+            _ = new Label()
             {
                 Parent = p,
                 AutoSizeWidth = true,
                 Location = new(35, 0),
                 Height = 30,
+                SetLocalizedText = () => strings.Appearance,
             };
-            _languageActions.Add(() => label3.Text = strings.Appearance);
 
-            cP = new FlowPanel()
+            var cP = new FlowPanel()
             {
                 Parent = p,
                 Location = new(5, 35),
-                HeightSizingMode = SizingMode.Fill,
+                HeightSizingMode = SizingMode.AutoSize,
                 WidthSizingMode = SizingMode.Fill,
                 FlowDirection = ControlFlowDirection.SingleTopToBottom,
                 ControlPadding = new(3, 3),
             };
 
-            _showCornerIcon = new()
+            _ = new Checkbox()
             {
                 Parent = cP,
                 Checked = Settings.ShowCornerIcon.Value,
+                SetLocalizedText = () => strings.ShowCorner_Name,
+                SetLocalizedTooltip = () => string.Format(strings.ShowCorner_Tooltip, Characters.ModuleInstance.Name),
+                CheckedChangedAction = (b) => Settings.ShowCornerIcon.Value = b,
             };
-            _showCornerIcon.CheckedChanged += ShowCornerIcon_CheckedChanged;
-            _languageActions.Add(() =>
-            {
-                _showCornerIcon.Text = strings.ShowCorner_Name;
-                _showCornerIcon.BasicTooltipText = string.Format(strings.ShowCorner_Tooltip, Characters.ModuleInstance.Name);
-            });
 
-            _showRandomButton = new()
+            _ = new Checkbox()
             {
                 Parent = cP,
                 Checked = Settings.ShowRandomButton.Value,
+                SetLocalizedText = () => strings.ShowRandomButton_Name,
+                SetLocalizedTooltip = () => strings.ShowRandomButton_Description,
+                CheckedChangedAction = (b) => Settings.ShowRandomButton.Value = b,
             };
-            _showRandomButton.CheckedChanged += ShowRandomButton_CheckedChanged;
-            _languageActions.Add(() =>
-            {
-                _showRandomButton.Text = strings.ShowRandomButton_Name;
-                _showRandomButton.BasicTooltipText = strings.ShowRandomButton_Description;
-            });
 
-            _showStatusPopup = new()
+            _ = new Checkbox()
             {
                 Parent = cP,
-                Checked = Settings.ShowStatusWindow.Value
+                Checked = Settings.ShowStatusWindow.Value,
+                SetLocalizedText = () => strings.ShowStatusWindow_Name,
+                SetLocalizedTooltip = () => strings.ShowStatusWindow_Description,
+                CheckedChangedAction = (b) => Settings.ShowStatusWindow.Value = b,
             };
-            _showStatusPopup.CheckedChanged += ShowStatusPopup_CheckedChanged;
-            _languageActions.Add(() =>
-            {
-                _showStatusPopup.Text = strings.ShowStatusWindow_Name;
-                _showStatusPopup.BasicTooltipText = strings.ShowStatusWindow_Description;
-            });
 
-            _showTooltip = new()
+            _ = new Checkbox()
             {
                 Parent = cP,
-                Checked = Settings.ShowStatusWindow.Value
+                Checked = Settings.ShowDetailedTooltip.Value,
+                SetLocalizedText = () => string.Format(strings.ShowItem, strings.DetailedTooltip),
+                SetLocalizedTooltip = () => strings.DetailedTooltip_Description,
+                CheckedChangedAction = (b) => Settings.ShowDetailedTooltip.Value = b,
             };
-            _showTooltip.CheckedChanged += ShowTooltip_CheckedChanged;
-            _languageActions.Add(() =>
-            {
-                _showTooltip.Text = string.Format(strings.ShowItem, strings.DetailedTooltip);
-                _showTooltip.BasicTooltipText = strings.DetailedTooltip_Description;
-            });
 
-            subP = new Panel()
+            var subP = new Panel()
             {
                 Parent = cP,
                 WidthSizingMode = SizingMode.Fill,
                 Height = 30,
             };
 
-            var label4 = new Label()
+            _ = new Label()
             {
                 Parent = subP,
                 AutoSizeWidth = true,
-                Height = 30
+                Height = 30,
+                SetLocalizedText = () => strings.CharacterDisplaySize,
             };
-            _languageActions.Add(() => label4.Text = strings.CharacterDisplaySize);
 
-            _panelSize = new()
+            _ = new Dropdown()
             {
                 Location = new(250, 0),
                 Parent = subP,
+                SetLocalizedItems = () =>
+                {
+                    return new()
+                    {
+                        strings.Small,
+                        strings.Normal,
+                        strings.Large,
+                        strings.Custom,
+                    };
+                },
+                SelectedItem = Settings.PanelSize.Value.GetPanelSize(),
+                ValueChangedAction = (b) => Settings.PanelSize.Value = b.GetPanelSize(),
             };
-            _panelSize.ValueChanged += PanelSize_ValueChanged;
-            _languageActions.Add(() =>
-            {
-                _panelSize.Items.Clear();
-                _panelSize.SelectedItem = Settings.PanelSize.Value.GetPanelSize();
-                _panelSize.Items.Add(strings.Small);
-                _panelSize.Items.Add(strings.Normal);
-                _panelSize.Items.Add(strings.Large);
-                _panelSize.Items.Add(strings.Custom);
-            });
 
             subP = new Panel()
             {
@@ -428,28 +368,30 @@ namespace Kenedia.Modules.Characters.Views
                 Height = 30,
             };
 
-            var label5 = new Label()
+            _ = new Label()
             {
                 Parent = subP,
                 AutoSizeWidth = true,
-                Height = 30
+                Height = 30,
+                SetLocalizedText = () => strings.CharacterDisplayOption,
             };
-            _languageActions.Add(() => label5.Text = strings.CharacterDisplayOption);
 
-            _panelAppearance = new()
+            _ = new Dropdown()
             {
                 Parent = subP,
                 Location = new(250, 0),
+                SetLocalizedItems = () =>
+                {
+                    return new()
+                    {
+                        strings.OnlyText,
+                        strings.OnlyIcons,
+                        strings.TextAndIcon,
+                    };
+                },
+                SelectedItem = Settings.PanelLayout.Value.GetPanelLayout(),
+                ValueChangedAction = (b) => Settings.PanelLayout.Value = b.GetPanelLayout(),
             };
-            _panelAppearance.ValueChanged += PanelAppearance_ValueChanged;
-            _languageActions.Add(() =>
-            {
-                _panelAppearance.Items.Clear();
-                _panelAppearance.SelectedItem = Settings.PanelLayout.Value.GetPanelLayout();
-                _panelAppearance.Items.Add(strings.OnlyText);
-                _panelAppearance.Items.Add(strings.OnlyIcons);
-                _panelAppearance.Items.Add(strings.TextAndIcon);
-            });
 
             subP = new Panel()
             {
@@ -457,20 +399,20 @@ namespace Kenedia.Modules.Characters.Views
                 WidthSizingMode = SizingMode.Fill,
                 Height = 30,
             };
-            _customFontSizeLabel = new()
+            _customFontSizeLabel = new Label()
             {
                 Parent = subP,
                 AutoSizeWidth = true,
+                SetLocalizedText = () => string.Format("Font Size: {0}", Settings.CustomCharacterFontSize.Value),
             };
-            _languageActions.Add(() => _customFontSizeLabel.Text = string.Format("Font Size: {0}", Settings.CustomCharacterFontSize.Value));
 
-            _customFontSize = new()
+            _customFontSize = new Dropdown()
             {
                 Parent = subP,
                 Location = new(250, 0),
                 SelectedItem = Settings.CustomCharacterFontSize.Value.ToString(),
+                ValueChangedAction = (str) => { GetFontSize(Settings.CustomCharacterFontSize, str); _customFontSizeLabel.UserLocale_SettingChanged(null, null); },
             };
-            _customFontSize.ValueChanged += CustomFontSize_ValueChanged;
 
             subP = new Panel()
             {
@@ -478,20 +420,20 @@ namespace Kenedia.Modules.Characters.Views
                 WidthSizingMode = SizingMode.Fill,
                 Height = 30,
             };
-            _customNameFontSizeLabel = new()
+            _customNameFontSizeLabel = new Label()
             {
                 Parent = subP,
                 AutoSizeWidth = true,
+                SetLocalizedText = () => string.Format("Name Font Size: {0}", Settings.CustomCharacterNameFontSize.Value),
             };
-            _languageActions.Add(() => _customNameFontSizeLabel.Text = string.Format("Name Font Size: {0}", Settings.CustomCharacterNameFontSize.Value));
 
             _customNameFontSize = new()
             {
                 Parent = subP,
-                SelectedItem = Settings.CustomCharacterNameFontSize.Value.ToString(),
                 Location = new(250, 0),
+                SelectedItem = Settings.CustomCharacterNameFontSize.Value.ToString(),
+                ValueChangedAction = (str) => { GetFontSize(Settings.CustomCharacterNameFontSize, str); _customNameFontSizeLabel.UserLocale_SettingChanged(null, null); },
             };
-            _customNameFontSize.ValueChanged += CustomNameFontSize_ValueChanged;
 
             foreach (object i in Enum.GetValues(typeof(FontSize)))
             {
@@ -505,12 +447,13 @@ namespace Kenedia.Modules.Characters.Views
                 WidthSizingMode = SizingMode.Fill,
                 Height = 30,
             };
-            _customIconSizeLabel = new()
+            _ = new Label()
             {
                 Parent = subP,
                 AutoSizeWidth = true,
+                SetLocalizedText = () => string.Format("Icon Size {0}x{0} px", Settings.CustomCharacterIconSize.Value),
             };
-            _customIconSize = new()
+            _ = new TrackBar()
             {
                 Parent = subP,
                 Location = new(250, 0),
@@ -518,9 +461,8 @@ namespace Kenedia.Modules.Characters.Views
                 MaxValue = 256,
                 Width = ContentRegion.Width - 35 - 250,
                 Value = Settings.CustomCharacterIconSize.Value,
+                ValueChangedAction = (num) => Settings.CustomCharacterIconSize = null,
             };
-            _languageActions.Add(() => _customIconSizeLabel.Text = string.Format("Icon Size {0}x{0} px", Settings.CustomCharacterIconSize.Value));
-            _customIconSize.ValueChanged += CustomIconSize_ValueChanged;
 
             subP = new Panel()
             {
@@ -529,19 +471,16 @@ namespace Kenedia.Modules.Characters.Views
                 Height = 30,
             };
 
-            _characterPanelFixedWidth = new()
+            _ = new Checkbox()
             {
                 Parent = subP,
                 Checked = Settings.CharacterPanelFixedWidth.Value,
+                CheckedChangedAction = (b) => Settings.CharacterPanelFixedWidth.Value = b,
+                SetLocalizedText = () => string.Format("Card Width {0} px", Settings.CharacterPanelWidth.Value),
+                SetLocalizedTooltip = () => string.Format("Sets the character card width to {0} px", Settings.CharacterPanelWidth.Value),
             };
-            _characterPanelFixedWidth.CheckedChanged += CharacterPanelFixedWidth_CheckedChanged;
-            _languageActions.Add(() =>
-            {
-                _characterPanelFixedWidth.Text = string.Format("Card Width {0} px", Settings.CharacterPanelWidth.Value);
-                _characterPanelFixedWidth.BasicTooltipText = string.Format("Sets the character card width to {0} px", Settings.CharacterPanelWidth.Value);
-            });
 
-            _characterPanelWidth = new()
+            _ = new TrackBar()
             {
                 Parent = subP,
                 Location = new(250, 0),
@@ -549,18 +488,20 @@ namespace Kenedia.Modules.Characters.Views
                 MaxValue = 750,
                 Width = ContentRegion.Width - 35 - 250,
                 Value = Settings.CharacterPanelWidth.Value,
+                ValueChangedAction = (num) => Settings.CharacterPanelWidth.Value = num,
             };
-            _characterPanelWidth.ValueChanged += CharacterPanelWidth_ValueChanged;
 
             #endregion Appearance
+        }
 
+        private void CreateDelays()
+        {
             #region Delays
-            p = new Panel()
+            var p = new Panel()
             {
                 Parent = _contentPanel,
-                Location = new(0, p.LocalBounds.Bottom + 5),
                 Width = ContentRegion.Width - 20,
-                Height = 125,
+                HeightSizingMode = SizingMode.AutoSize,
                 ShowBorder = true,
             };
 
@@ -571,44 +512,42 @@ namespace Kenedia.Modules.Characters.Views
                 Size = new(30, 30),
             };
 
-            var label6 = new Label()
+            _ = new Label()
             {
                 Parent = p,
                 AutoSizeWidth = true,
                 Location = new(35, 0),
                 Height = 30,
+                SetLocalizedText = () => strings.Delays,
             };
-            _languageActions.Add(() => label6.Text = strings.Delays);
 
-            cP = new FlowPanel()
+            var cP = new FlowPanel()
             {
                 Parent = p,
                 Location = new(5, 35),
-                HeightSizingMode = SizingMode.Fill,
+                HeightSizingMode = SizingMode.AutoSize,
                 WidthSizingMode = SizingMode.Fill,
                 FlowDirection = ControlFlowDirection.SingleTopToBottom,
                 ControlPadding = new(3, 3),
             };
 
-            subP = new Panel()
+            var subP = new Panel()
             {
                 Parent = cP,
                 WidthSizingMode = SizingMode.Fill,
                 HeightSizingMode = SizingMode.AutoSize,
             };
 
-            _keyDelayLabel = new Label()
+            _ = new Label()
             {
                 Parent = subP,
                 AutoSizeWidth = true,
                 Height = 20,
+                SetLocalizedText = () => string.Format(strings.KeyDelay_DisplayName, Settings.KeyDelay.Value),
+                SetLocalizedTooltip = () => strings.KeyDelay_Description,
             };
-            _languageActions.Add(() =>
-            {
-                _keyDelayLabel.Text = string.Format(strings.KeyDelay_DisplayName, Settings.KeyDelay.Value);
-                _keyDelayLabel.BasicTooltipText = strings.KeyDelay_Description;
-            });
-            _keyDelay = new()
+
+            _ = new TrackBar()
             {
                 Location = new(225, 2),
                 Parent = subP,
@@ -616,8 +555,8 @@ namespace Kenedia.Modules.Characters.Views
                 MaxValue = 500,
                 Value = Settings.KeyDelay.Value,
                 Width = ContentRegion.Width - 35 - 225,
+                ValueChangedAction = (num) => Settings.KeyDelay.Value = num,
             };
-            _keyDelay.ValueChanged += KeyDelay_ValueChanged;
 
             subP = new Panel()
             {
@@ -626,18 +565,16 @@ namespace Kenedia.Modules.Characters.Views
                 HeightSizingMode = SizingMode.AutoSize,
             };
 
-            _filterDelayLabel = new Label()
+            _ = new Label()
             {
                 Parent = subP,
                 AutoSizeWidth = true,
                 Height = 20,
+                SetLocalizedText = () => string.Format(strings.FilterDelay_DisplayName, Settings.FilterDelay.Value),
+                SetLocalizedTooltip = () => strings.FilterDelay_Description,
             };
-            _languageActions.Add(() =>
-            {
-                _filterDelayLabel.Text = string.Format(strings.FilterDelay_DisplayName, Settings.FilterDelay.Value);
-                _filterDelayLabel.BasicTooltipText = strings.FilterDelay_Description;
-            });
-            _filterDelay = new()
+
+            _ = new TrackBar()
             {
                 Location = new(225, 2),
                 Parent = subP,
@@ -645,8 +582,8 @@ namespace Kenedia.Modules.Characters.Views
                 MaxValue = 500,
                 Value = Settings.FilterDelay.Value,
                 Width = ContentRegion.Width - 35 - 225,
+                ValueChangedAction = (num) => Settings.FilterDelay.Value = num,
             };
-            _filterDelay.ValueChanged += FilterDelay_ValueChanged;
 
             subP = new Panel()
             {
@@ -655,18 +592,16 @@ namespace Kenedia.Modules.Characters.Views
                 HeightSizingMode = SizingMode.AutoSize,
             };
 
-            _loadingDelayLabel = new Label()
+            _ = new Label()
             {
                 Parent = subP,
                 AutoSizeWidth = true,
                 Height = 20,
+                SetLocalizedText = () => string.Format(strings.SwapDelay_DisplayName, Settings.SwapDelay.Value),
+                SetLocalizedTooltip = () => strings.SwapDelay_Description,
             };
-            _languageActions.Add(() =>
-            {
-                _loadingDelayLabel.Text = string.Format(strings.SwapDelay_DisplayName, Settings.SwapDelay.Value);
-                _loadingDelayLabel.BasicTooltipText = strings.SwapDelay_Description;
-            });
-            _loadingDelay = new()
+
+            _ = new TrackBar()
             {
                 Location = new(225, 2),
                 Parent = subP,
@@ -674,17 +609,19 @@ namespace Kenedia.Modules.Characters.Views
                 MaxValue = 60000,
                 Value = Settings.SwapDelay.Value,
                 Width = ContentRegion.Width - 35 - 225,
+                ValueChangedAction = (num) => Settings.SwapDelay.Value = num,
             };
-            _loadingDelay.ValueChanged += LoadingDelay_ValueChanged;
             #endregion Delays
+        }
 
+        private void CreateLayout()
+        {
             #region Layout
-            p = new Panel()
+            var p = new Panel()
             {
                 Parent = _contentPanel,
-                Location = new(0, p.LocalBounds.Bottom + 5),
                 Width = ContentRegion.Width - 20,
-                Height = 150,
+                HeightSizingMode = SizingMode.AutoSize,
                 ShowBorder = true,
             };
 
@@ -695,29 +632,29 @@ namespace Kenedia.Modules.Characters.Views
                 Size = new(30, 30),
             };
 
-            var label8 = new Label()
+            _ = new Label()
             {
                 Parent = p,
                 AutoSizeWidth = true,
                 Location = new(35, 0),
                 Height = 30,
+                SetLocalizedText = () => string.Format(strings.ItemSettings, "Layout"),
             };
-            _languageActions.Add(() => label8.Text = string.Format(strings.ItemSettings, "Layout"));
 
             var cFP = new FlowPanel()
             {
                 Parent = p,
                 Location = new(5, 35),
-                HeightSizingMode = SizingMode.Fill,
+                HeightSizingMode = SizingMode.AutoSize,
                 WidthSizingMode = SizingMode.Fill,
                 FlowDirection = ControlFlowDirection.SingleLeftToRight,
                 ControlPadding = new(3, 3),
             };
 
-            cP = new FlowPanel()
+            var cP = new FlowPanel()
             {
                 Parent = cFP,
-                HeightSizingMode = SizingMode.Fill,
+                HeightSizingMode = SizingMode.AutoSize,
                 Width = (ContentRegion.Width - 20) / 3,
                 FlowDirection = ControlFlowDirection.SingleTopToBottom,
                 ControlPadding = new(3, 3),
@@ -729,9 +666,9 @@ namespace Kenedia.Modules.Characters.Views
                 MinValue = -50,
                 MaxValue = 50,
                 Value = Settings.WindowOffset.Value.Left,
-                BasicTooltipText = "Left",
+                SetLocalizedTooltip = () => "Left",
+                ValueChangedAction = (num) => UpdateOffset(null, num),
             };
-            _leftOffsetBox.PropertyChanged += OffsetChanged;
 
             _bottomOffsetBox = new()
             {
@@ -739,9 +676,9 @@ namespace Kenedia.Modules.Characters.Views
                 MinValue = -50,
                 MaxValue = 50,
                 Value = Settings.WindowOffset.Value.Bottom,
-                BasicTooltipText = "Bottom",
+                SetLocalizedTooltip = () => "Bottom",
+                ValueChangedAction = (num) => UpdateOffset(null, num),
             };
-            _bottomOffsetBox.PropertyChanged += OffsetChanged;
 
             _rightOffsetBox = new()
             {
@@ -749,26 +686,33 @@ namespace Kenedia.Modules.Characters.Views
                 MinValue = -50,
                 MaxValue = 50,
                 Value = Settings.WindowOffset.Value.Right,
-                BasicTooltipText = "Right",
+                SetLocalizedTooltip = () => "Right",
+                ValueChangedAction = (num) => UpdateOffset(null, num),
             };
-            _rightOffsetBox.PropertyChanged += OffsetChanged;
-            _saveOffsetButton = new()
-            {
-                Parent = cP,
-                Text = "Save",
-                Width = _rightOffsetBox.Width
-            };
-            _saveOffsetButton.Click += OffsetChanged;
 
-            cP = new FlowPanel()
+            var subCP = new FlowPanel()
             {
                 Parent = cFP,
-                HeightSizingMode = SizingMode.Fill,
+                HeightSizingMode = SizingMode.AutoSize,
                 Width = (ContentRegion.Width - 20) / 3 * 2,
-                FlowDirection = ControlFlowDirection.SingleTopToBottom,
+                FlowDirection = ControlFlowDirection.SingleLeftToRight,
                 ControlPadding = new(5, 5),
             };
 
+            cP = new FlowPanel()
+            {
+                Parent = subCP,
+                HeightSizingMode = SizingMode.AutoSize,
+                Width = (ContentRegion.Width - 20) / 3,
+                FlowDirection = ControlFlowDirection.SingleTopToBottom,
+                ControlPadding = new(5, 5),
+            };
+            _ = new Label()
+            {
+                Parent = cP,
+                SetLocalizedText = () => "Left Bottom Corner",
+                AutoSizeWidth = true,
+            };
             _bottomLeftImage = new()
             {
                 Parent = cP,
@@ -776,6 +720,20 @@ namespace Kenedia.Modules.Characters.Views
                 Size = new(100, _rightOffsetBox.Height * 2),
             };
 
+            cP = new FlowPanel()
+            {
+                Parent = subCP,
+                HeightSizingMode = SizingMode.AutoSize,
+                Width = (ContentRegion.Width - 20) / 3,
+                FlowDirection = ControlFlowDirection.SingleTopToBottom,
+                ControlPadding = new(5, 5),
+            };
+            _ = new Label()
+            {
+                Parent = cP,
+                SetLocalizedText = () => "Right Bottom Corner",
+                AutoSizeWidth = true,
+            };
             _bottomRightImage = new()
             {
                 Parent = cP,
@@ -784,14 +742,16 @@ namespace Kenedia.Modules.Characters.Views
             };
 
             #endregion
+        }
 
+        private void CreateGeneral()
+        {
             #region General
-            p = new Panel()
+            var p = new Panel()
             {
                 Parent = _contentPanel,
-                Location = new(0, p.LocalBounds.Bottom + 5),
                 Width = ContentRegion.Width - 20,
-                Height = 105,
+                HeightSizingMode = SizingMode.AutoSize,
                 ShowBorder = true,
             };
 
@@ -802,55 +762,46 @@ namespace Kenedia.Modules.Characters.Views
                 Size = new(30, 30),
             };
 
-            var label7 = new Label()
+            _ = new Label()
             {
                 Parent = p,
                 AutoSizeWidth = true,
                 Location = new(35, 0),
                 Height = 30,
+                SetLocalizedText = () => string.Format(strings.ItemSettings, strings.GeneralAndWindows),
             };
-            _languageActions.Add(() => label7.Text = string.Format(strings.ItemSettings, strings.GeneralAndWindows));
 
-            cP = new FlowPanel()
+            var cP = new FlowPanel()
             {
                 Parent = p,
                 Location = new(5, 35),
-                HeightSizingMode = SizingMode.Fill,
+                HeightSizingMode = SizingMode.AutoSize,
                 WidthSizingMode = SizingMode.Fill,
                 FlowDirection = ControlFlowDirection.SingleTopToBottom,
                 ControlPadding = new(3, 3),
             };
 
-            _loadCachedAccounts = new()
+            _ = new Checkbox()
             {
                 Parent = cP,
-                Checked = Settings.LoadCachedAccounts.Value
+                Checked = Settings.LoadCachedAccounts.Value,
+                CheckedChangedAction = (b) => Settings.LoadCachedAccounts.Value = b,
+                SetLocalizedText = () => strings.LoadCachedAccounts_DisplayName,
+                SetLocalizedTooltip = () => strings.LoadCachedAccounts_Description,
             };
-            _loadCachedAccounts.CheckedChanged += LoadCachedAccounts_CheckedChanged;
-            _languageActions.Add(() =>
-            {
-                _loadCachedAccounts.Text = strings.LoadCachedAccounts_DisplayName;
-                _loadCachedAccounts.BasicTooltipText = strings.LoadCachedAccounts_Description;
-            });
 
-            _openSidemenuOnSearch = new()
+            _ = new Checkbox()
             {
                 Parent = cP,
-                Checked = Settings.OpenSidemenuOnSearch.Value
+                Checked = Settings.OpenSidemenuOnSearch.Value,
+                CheckedChangedAction = (b) => Settings.OpenSidemenuOnSearch.Value = b,
+                SetLocalizedText = () => strings.OpenSidemenuOnSearch_DisplayName,
+                SetLocalizedTooltip = () => strings.OpenSidemenuOnSearch_Description,
             };
-            _openSidemenuOnSearch.CheckedChanged += OpenSidemenuOnSearch_CheckedChanged;
-            _languageActions.Add(() =>
-            {
-                _openSidemenuOnSearch.Text = strings.OpenSidemenuOnSearch_DisplayName;
-                _openSidemenuOnSearch.BasicTooltipText = strings.OpenSidemenuOnSearch_Description;
-            });
             #endregion
-
-            Characters.ModuleInstance.LanguageChanged += OnLanguageChanged;
-            OnLanguageChanged();
         }
 
-        private void OffsetChanged(object sender, EventArgs e)
+        private void UpdateOffset(object sender, int e)
         {
             Settings.WindowOffset.Value = new(_leftOffsetBox.Value, 0, _rightOffsetBox.Value, _bottomOffsetBox.Value);
 
@@ -889,178 +840,16 @@ namespace Kenedia.Modules.Characters.Views
 
         }
 
-        private void UseBetaGamestate_CheckedChanged(object sender, CheckChangedEvent e)
+        private void GetFontSize(SettingEntry<int> setting, string item)
         {
-            Settings.UseBetaGamestate.Value = e.Checked;
-        }
-
-        private void FilterAsOne_CheckedChanged(object sender, CheckChangedEvent e)
-        {
-            Settings.FilterAsOne.Value = e.Checked;
-        }
-
-        private SettingsModel Settings => Characters.ModuleInstance.Settings;
-
-        private void CharacterPanelWidth_ValueChanged(object sender, ValueEventArgs<float> e)
-        {
-            int? size = Convert.ToInt32(_characterPanelWidth.Value);
-
-            if (size is not null and > 0)
+            if (int.TryParse(item, out int fontSize))
             {
-                Settings.CharacterPanelWidth.Value = (int)size;
-                _characterPanelFixedWidth.Text = string.Format("Card Width {0} px", Settings.CharacterPanelWidth.Value);
-                _characterPanelFixedWidth.BasicTooltipText = string.Format("Sets the character card width to {0} px", Settings.CharacterPanelWidth.Value);
+                setting.Value = fontSize;
             }
-        }
-
-        private void CharacterPanelFixedWidth_CheckedChanged(object sender, CheckChangedEvent e)
-        {
-            Settings.CharacterPanelFixedWidth.Value = e.Checked;
-        }
-
-        private void CustomNameFontSize_ValueChanged(object sender, ValueChangedEventArgs e)
-        {
-            if (int.TryParse(_customNameFontSize.SelectedItem, out int fontSize))
-            {
-                _customNameFontSizeLabel.Text = string.Format("Name Font Size: {0}", fontSize);
-                Settings.CustomCharacterNameFontSize.Value = fontSize;
-            }
-        }
-
-        private void CustomIconSize_ValueChanged(object sender, ValueEventArgs<float> e)
-        {
-            int? size = Convert.ToInt32(_customIconSize.Value);
-
-            if (size is not null and > 0)
-            {
-                Settings.CustomCharacterIconSize.Value = (int)size;
-                _customIconSizeLabel.Text = string.Format("Icon Size {0}x{0} px", Settings.CustomCharacterIconSize.Value);
-            }
-        }
-
-        private void CustomFontSize_ValueChanged(object sender, EventArgs e)
-        {
-            if (int.TryParse(_customFontSize.SelectedItem, out int fontSize))
-            {
-                _customFontSizeLabel.Text = string.Format("Font Size: {0}", fontSize);
-                Settings.CustomCharacterFontSize.Value = fontSize;
-            }
-        }
-
-        private void ShowTooltip_CheckedChanged(object sender, CheckChangedEvent e)
-        {
-            Settings.ShowDetailedTooltip.Value = e.Checked;
-        }
-
-        private void WindowMode_CheckedChanged(object sender, CheckChangedEvent e)
-        {
-            //Settings.WindowedMode.Value = e.Checked;
-            //OffsetChanged(null, null);
-        }
-
-        private void LoadingDelay_ValueChanged(object sender, ValueEventArgs<float> e)
-        {
-            Settings.SwapDelay.Value = (int)_loadingDelay.Value;
-            _loadingDelayLabel.Text = string.Format(strings.SwapDelay_DisplayName, Settings.SwapDelay.Value);
-        }
-
-        private void FilterDelay_ValueChanged(object sender, ValueEventArgs<float> e)
-        {
-            Settings.FilterDelay.Value = (int)_filterDelay.Value;
-            _filterDelayLabel.Text = string.Format(strings.FilterDelay_DisplayName, Settings.FilterDelay.Value);
-        }
-
-        private void KeyDelay_ValueChanged(object sender, ValueEventArgs<float> e)
-        {
-            Settings.KeyDelay.Value = (int)_keyDelay.Value;
-            _keyDelayLabel.Text = string.Format(strings.KeyDelay_DisplayName, Settings.KeyDelay.Value);
-        }
-
-        private void PanelAppearance_ValueChanged(object sender, ValueChangedEventArgs e)
-        {
-            Settings.PanelLayout.Value = _panelAppearance.SelectedItem.GetPanelLayout();
-        }
-
-        private void PanelSize_ValueChanged(object sender, ValueChangedEventArgs e)
-        {
-            Settings.PanelSize.Value = _panelSize.SelectedItem.GetPanelSize();
-        }
-
-        private void ShowStatusPopup_CheckedChanged(object sender, CheckChangedEvent e)
-        {
-            Settings.ShowStatusWindow.Value = e.Checked;
-        }
-
-        private void ShowRandomButton_CheckedChanged(object sender, CheckChangedEvent e)
-        {
-            Settings.ShowRandomButton.Value = e.Checked;
-        }
-
-        private void ShowCornerIcon_CheckedChanged(object sender, CheckChangedEvent e)
-        {
-            Settings.ShowCornerIcon.Value = e.Checked;
-        }
-
-        private void IgnoreDiacritics_CheckedChanged(object sender, CheckChangedEvent e)
-        {
-            Settings.FilterDiacriticsInsensitive.Value = e.Checked;
-        }
-
-        private void OpenSidemenuOnSearch_CheckedChanged(object sender, CheckChangedEvent e)
-        {
-            Settings.OpenSidemenuOnSearch.Value = e.Checked;
-        }
-        private void LoadCachedAccounts_CheckedChanged(object sender, CheckChangedEvent e)
-        {
-            Settings.LoadCachedAccounts.Value = e.Checked;
-        }
-
-        private void AutoFix_CheckedChanged(object sender, CheckChangedEvent e)
-        {
-            Settings.AutoSortCharacters.Value = e.Checked;
-        }
-
-        private void UseOCR_CheckedChanged(object sender, CheckChangedEvent e)
-        {
-            Settings.UseOCR.Value = e.Checked;
-        }
-
-        private void EnterLogin_CheckedChanged(object sender, CheckChangedEvent e)
-        {
-            Settings.EnterToLogin.Value = e.Checked;
-        }
-
-        private void DoubleClickLogin_CheckedChanged(object sender, CheckChangedEvent e)
-        {
-            Settings.DoubleClickToEnter.Value = e.Checked;
-        }
-
-        private void LoginAfterSelect_CheckedChanged(object sender, CheckChangedEvent e)
-        {
-            Settings.EnterOnSwap.Value = e.Checked;
-        }
-
-        private void CloseOnSwap_CheckedChanged(object sender, CheckChangedEvent e)
-        {
-            Settings.CloseWindowOnSwap.Value = e.Checked;
-        }
-
-        private void LogoutButton_BindingChanged(object sender, EventArgs e)
-        {
-            Settings.LogoutKey.Value = _logoutButton.KeyBinding;
-        }
-
-        private void ToggleWindowButton_BindingChanged(object sender, EventArgs e)
-        {
-            Settings.ShortcutKey.Value = _toggleWindowButton.KeyBinding;
         }
 
         public void OnLanguageChanged(object s = null, EventArgs e = null)
         {
-            foreach (Action action in _languageActions)
-            {
-                action.Invoke();
-            }
         }
 
         public override void RecalculateLayout()
@@ -1072,12 +861,6 @@ namespace Kenedia.Modules.Characters.Views
 
             MonoGame.Extended.RectangleF titleBounds = _titleFont.GetStringRectangle(string.Format(strings.ItemSettings, $"{Characters.ModuleInstance.Name}"));
             _titleRectangle = new(80, 5, (int)titleBounds.Width, Math.Max(30, (int)titleBounds.Height));
-        }
-
-        public override void PaintBeforeChildren(SpriteBatch spriteBatch, Rectangle bounds)
-        {
-            base.PaintBeforeChildren(spriteBatch, bounds);
-
         }
 
         public override void PaintAfterChildren(SpriteBatch spriteBatch, Rectangle bounds)
@@ -1120,35 +903,8 @@ namespace Kenedia.Modules.Characters.Views
         {
             base.DisposeControl();
 
-            _logoutButton.BindingChanged -= LogoutButton_BindingChanged;
-            _toggleWindowButton.BindingChanged -= ToggleWindowButton_BindingChanged;
-            _closeOnSwap.CheckedChanged -= CloseOnSwap_CheckedChanged;
-            _loginAfterSelect.CheckedChanged -= LoginAfterSelect_CheckedChanged;
-            _doubleClickLogin.CheckedChanged -= DoubleClickLogin_CheckedChanged;
-            _enterLogin.CheckedChanged -= EnterLogin_CheckedChanged;
-            _useOCR.CheckedChanged -= UseOCR_CheckedChanged;
-            _autoFix.CheckedChanged -= AutoFix_CheckedChanged;
-            _ignoreDiacritics.CheckedChanged -= IgnoreDiacritics_CheckedChanged;
-            _showCornerIcon.CheckedChanged -= ShowCornerIcon_CheckedChanged;
-            _showRandomButton.CheckedChanged -= ShowRandomButton_CheckedChanged;
-            _showStatusPopup.CheckedChanged -= ShowStatusPopup_CheckedChanged;
-            _showTooltip.CheckedChanged -= ShowTooltip_CheckedChanged;
-            _panelSize.ValueChanged -= PanelSize_ValueChanged;
-            _panelAppearance.ValueChanged -= PanelAppearance_ValueChanged;
-            _customFontSize.ValueChanged -= CustomFontSize_ValueChanged;
-            _customNameFontSize.ValueChanged -= CustomNameFontSize_ValueChanged;
-            _customIconSize.ValueChanged -= CustomIconSize_ValueChanged;
-            _characterPanelFixedWidth.CheckedChanged -= CharacterPanelFixedWidth_CheckedChanged;
-            _characterPanelWidth.ValueChanged -= CharacterPanelWidth_ValueChanged;
-            _keyDelay.ValueChanged -= KeyDelay_ValueChanged;
-            _filterDelay.ValueChanged -= FilterDelay_ValueChanged;
-            _loadingDelay.ValueChanged -= LoadingDelay_ValueChanged;
-            _loadCachedAccounts.CheckedChanged -= LoadCachedAccounts_CheckedChanged;
-            _openSidemenuOnSearch.CheckedChanged -= OpenSidemenuOnSearch_CheckedChanged;
-            _filterAsOne.CheckedChanged -= FilterAsOne_CheckedChanged;
             Characters.ModuleInstance.LanguageChanged -= OnLanguageChanged;
 
-            _languageActions.Clear();
             Children.DisposeAll();
             _contentPanel.Children.DisposeAll();
 

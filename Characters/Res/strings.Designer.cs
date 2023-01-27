@@ -97,7 +97,7 @@ namespace Characters.Res {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Armorsmith.
+        ///   Looks up a localized string similar to Appearance.
         /// </summary>
         internal static string Appearance {
             get {
@@ -106,11 +106,11 @@ namespace Characters.Res {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Appearance &amp; Behaviour.
+        ///   Looks up a localized string similar to Appearance &amp; Behavior.
         /// </summary>
-        internal static string AppearanceAndBehaviour {
+        internal static string AppearanceAndBehavior {
             get {
-                return ResourceManager.GetString("AppearanceAndBehaviour", resourceCulture);
+                return ResourceManager.GetString("AppearanceAndBehavior", resourceCulture);
             }
         }
         
@@ -1726,11 +1726,11 @@ namespace Characters.Res {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Swap Behaviour.
+        ///   Looks up a localized string similar to Swap Behavior.
         /// </summary>
-        internal static string SwapBehaviour {
+        internal static string SwapBehavior {
             get {
-                return ResourceManager.GetString("SwapBehaviour", resourceCulture);
+                return ResourceManager.GetString("SwapBehavior", resourceCulture);
             }
         }
         

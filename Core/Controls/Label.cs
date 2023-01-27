@@ -1,0 +1,56 @@
+﻿using Blish_HUD;
+using Gw2Sharp.WebApi;
+using Kenedia.Modules.Core.Interfaces;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Kenedia.Modules.Core.Controls
+{
+    public class Label : Blish_HUD.Controls.Label, ILocalizable
+    {
+        private Func<string> _setLocalizedText;
+        private Func<string> _setLocalizedTooltip;
+
+        public Label()
+        {
+            GameService.Overlay.UserLocale.SettingChanged += UserLocale_SettingChanged;
+            UserLocale_SettingChanged(null, null);
+        }
+
+        public Func<string> SetLocalizedText 
+        {
+            get => _setLocalizedText;
+            set
+            {
+                _setLocalizedText = value;
+                Text = value?.Invoke();
+            } 
+        }
+
+        public Func<string> SetLocalizedTooltip
+        {
+            get => _setLocalizedTooltip;
+            set
+            {
+                _setLocalizedTooltip = value;
+                BasicTooltipText = value?.Invoke();
+            }
+        }
+
+        public void UserLocale_SettingChanged(object sender, ValueChangedEventArgs<Locale> e)
+        {
+            if (SetLocalizedText != null) Text = SetLocalizedText?.Invoke();
+            if (SetLocalizedTooltip != null) BasicTooltipText = SetLocalizedTooltip?.Invoke();
+        }
+
+        protected override void DisposeControl()
+        {
+            base.DisposeControl();
+
+            GameService.Overlay.UserLocale.SettingChanged -= UserLocale_SettingChanged;
+        }
+    }
+}

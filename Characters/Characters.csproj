@@ -215,7 +215,6 @@
     <Compile Include="Controls\ImageToggle\ImageGrayScaled.cs" />
     <Compile Include="Controls\ImageToggle\ImageTextureToggle.cs" />
     <Compile Include="Controls\ImageToggle\ImageToggleButton.cs" />
-    <Compile Include="Controls\ImageToggle\ImageToggleEx.cs" />
     <Compile Include="Controls\RunIndicator.cs" />
     <Compile Include="Controls\Settings SideMenu\TabButton.cs" />
     <Compile Include="Controls\SideMenu\DisplayCheckToggle.cs" />
@@ -283,7 +282,6 @@
     <None Include="ref\data\professions.json" />
     <None Include="ref\data\races.json" />
     <None Include="ref\data\specialization.json" />
-    <None Include="ref\data\xxgw2.traineddata" />
     <None Include="tessdata\configs\config.cfg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

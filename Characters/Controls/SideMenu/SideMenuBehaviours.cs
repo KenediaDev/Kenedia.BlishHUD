@@ -11,7 +11,7 @@ using System.Resources;
 
 namespace Kenedia.Modules.Characters.Controls.SideMenu
 {
-    public class SideMenuBehaviours : FlowTab, ILocalizable
+    public class SideMenuBehaviors : FlowTab, ILocalizable
     {
         private List<KeyValuePair<string, DisplayCheckToggle>> _toggles = new()
         {
@@ -34,7 +34,7 @@ namespace Kenedia.Modules.Characters.Controls.SideMenu
         private readonly DisplayCheckToggle _toggleAll;
         private Rectangle _contentRectangle;
 
-        public SideMenuBehaviours()
+        public SideMenuBehaviors()
         {
             FlowDirection = ControlFlowDirection.SingleTopToBottom;
             WidthSizingMode = SizingMode.Fill;

@@ -27,7 +27,7 @@ namespace Kenedia.Modules.Characters.Controls.SideMenu
         private ImageButton _refreshButton;
 
         private readonly SideMenuToggles _toggles;
-        private readonly SideMenuBehaviours _behaviours;
+        private readonly SideMenuBehaviors _Behaviors;
         private double _opacityTick;
         private DateTime _lastMouseOver;
 
@@ -63,7 +63,7 @@ namespace Kenedia.Modules.Characters.Controls.SideMenu
                 Width = Width,
             });
 
-            AddTab(_behaviours = new SideMenuBehaviours()
+            AddTab(_Behaviors = new SideMenuBehaviors()
             {
                 Icon = AsyncTexture2D.FromAssetId(156909),
             });
@@ -207,7 +207,7 @@ namespace Kenedia.Modules.Characters.Controls.SideMenu
         public void OnLanguageChanged(object s = null, EventArgs e = null)
         {
             _toggles.Name = strings.FilterToggles;
-            _behaviours.Name = strings.AppearanceAndBehaviour;
+            _Behaviors.Name = strings.AppearanceAndBehavior;
             _closeButton.BasicTooltipText = strings.Close;
             _pinButton.BasicTooltipText = strings.PinSideMenus_Description;
             _refreshButton.BasicTooltipText = strings.RefreshAPI;

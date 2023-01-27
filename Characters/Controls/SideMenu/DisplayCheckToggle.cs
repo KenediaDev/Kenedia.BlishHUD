@@ -1,10 +1,12 @@
 ﻿using Blish_HUD.Content;
 using Blish_HUD.Controls;
 using Kenedia.Modules.Characters.Services;
+using Kenedia.Modules.Core.Controls;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using static Kenedia.Modules.Characters.Services.TextureManager;
+using Label = Kenedia.Modules.Core.Controls.Label;
 
 namespace Kenedia.Modules.Characters.Controls.SideMenu
 {
@@ -15,8 +17,8 @@ namespace Kenedia.Modules.Characters.Controls.SideMenu
         private readonly AsyncTexture2D _telescope = Characters.ModuleInstance.TextureManager.GetControlTexture(ControlTextures.Telescope_Button);
         private readonly AsyncTexture2D _telescopeHovered = Characters.ModuleInstance.TextureManager.GetControlTexture(ControlTextures.Telescope_Button_Hovered);
 
-        private readonly ImageToggleEx _showButton;
-        private readonly ImageToggleEx _checkButton;
+        private readonly Core.Controls.ImageToggle _showButton;
+        private readonly Core.Controls.ImageToggle _checkButton;
         private readonly Label _textLabel;
 
         private readonly string _key;

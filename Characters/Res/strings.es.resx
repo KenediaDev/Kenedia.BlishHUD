@@ -130,9 +130,9 @@
     <value>Cualquier {0}</value>
   </data>
   <data name="Appearance" xml:space="preserve">
-    <value>Armero</value>
+    <value>Aspecto</value>
   </data>
-  <data name="AppearanceAndBehaviour" xml:space="preserve">
+  <data name="AppearanceAndBehavior" xml:space="preserve">
     <value>Aspecto y comportamiento</value>
   </data>
   <data name="Armorsmith" xml:space="preserve">
@@ -648,7 +648,7 @@ Para obtener el valor actual tendrás que cambiar las pestañas del módulo una 
   <data name="Status_Done" xml:space="preserve">
     <value>Listo!</value>
   </data>
-  <data name="SwapBehaviour" xml:space="preserve">
+  <data name="SwapBehavior" xml:space="preserve">
     <value>Comportamiento de intercambio</value>
   </data>
   <data name="SwapDelay_Description" xml:space="preserve">
