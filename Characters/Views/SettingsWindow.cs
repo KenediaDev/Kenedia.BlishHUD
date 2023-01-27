@@ -655,14 +655,30 @@ namespace Kenedia.Modules.Characters.Views
             {
                 Parent = cFP,
                 HeightSizingMode = SizingMode.AutoSize,
-                Width = (ContentRegion.Width - 20) / 3,
+                Width = (ContentRegion.Width - 20) / 2,
                 FlowDirection = ControlFlowDirection.SingleTopToBottom,
                 ControlPadding = new(3, 3),
             };
 
-            _leftOffsetBox = new()
+            var pp = new FlowPanel()
             {
                 Parent = cP,
+                WidthSizingMode = SizingMode.Fill,
+                HeightSizingMode = SizingMode.AutoSize,
+                FlowDirection = ControlFlowDirection.SingleLeftToRight,
+            };
+
+            _ = new Label()
+            {
+                Parent = pp,
+                Width = 150,
+                Location = new(35, 0),
+                Height = 20,
+                SetLocalizedText = () => "Left Offset",
+            };
+            _leftOffsetBox = new()
+            {
+                Parent = pp,
                 MinValue = -50,
                 MaxValue = 50,
                 Value = Settings.WindowOffset.Value.Left,
@@ -670,9 +686,24 @@ namespace Kenedia.Modules.Characters.Views
                 ValueChangedAction = (num) => UpdateOffset(null, num),
             };
 
-            _bottomOffsetBox = new()
+            pp = new FlowPanel()
             {
                 Parent = cP,
+                WidthSizingMode = SizingMode.Fill,
+                HeightSizingMode = SizingMode.AutoSize,
+                FlowDirection = ControlFlowDirection.SingleLeftToRight,
+            };
+            _ = new Label()
+            {
+                Parent = pp,
+                Width = 150,
+                Location = new(35, 0),
+                Height = 20,
+                SetLocalizedText = () => "Bottom Offset",
+            };
+            _bottomOffsetBox = new()
+            {
+                Parent = pp,
                 MinValue = -50,
                 MaxValue = 50,
                 Value = Settings.WindowOffset.Value.Bottom,
@@ -680,9 +711,24 @@ namespace Kenedia.Modules.Characters.Views
                 ValueChangedAction = (num) => UpdateOffset(null, num),
             };
 
-            _rightOffsetBox = new()
+            pp = new FlowPanel()
             {
                 Parent = cP,
+                WidthSizingMode = SizingMode.Fill,
+                HeightSizingMode = SizingMode.AutoSize,
+                FlowDirection = ControlFlowDirection.SingleLeftToRight,
+            };
+            _ = new Label()
+            {
+                Parent = pp,
+                Width = 150,
+                Location = new(35, 0),
+                Height = 20,
+                SetLocalizedText = () => "Right Offset",
+            };
+            _rightOffsetBox = new()
+            {
+                Parent = pp,
                 MinValue = -50,
                 MaxValue = 50,
                 Value = Settings.WindowOffset.Value.Right,
@@ -694,7 +740,7 @@ namespace Kenedia.Modules.Characters.Views
             {
                 Parent = cFP,
                 HeightSizingMode = SizingMode.AutoSize,
-                Width = (ContentRegion.Width - 20) / 3 * 2,
+                WidthSizingMode = SizingMode.Fill,
                 FlowDirection = ControlFlowDirection.SingleLeftToRight,
                 ControlPadding = new(5, 5),
             };
@@ -703,14 +749,14 @@ namespace Kenedia.Modules.Characters.Views
             {
                 Parent = subCP,
                 HeightSizingMode = SizingMode.AutoSize,
-                Width = (ContentRegion.Width - 20) / 3,
+                Width = 125,
                 FlowDirection = ControlFlowDirection.SingleTopToBottom,
                 ControlPadding = new(5, 5),
             };
             _ = new Label()
             {
                 Parent = cP,
-                SetLocalizedText = () => "Left Bottom Corner",
+                SetLocalizedText = () => "Left Bottom",
                 AutoSizeWidth = true,
             };
             _bottomLeftImage = new()
@@ -724,14 +770,14 @@ namespace Kenedia.Modules.Characters.Views
             {
                 Parent = subCP,
                 HeightSizingMode = SizingMode.AutoSize,
-                Width = (ContentRegion.Width - 20) / 3,
+                Width = 125,
                 FlowDirection = ControlFlowDirection.SingleTopToBottom,
                 ControlPadding = new(5, 5),
             };
             _ = new Label()
             {
                 Parent = cP,
-                SetLocalizedText = () => "Right Bottom Corner",
+                SetLocalizedText = () => "Right Bottom",
                 AutoSizeWidth = true,
             };
             _bottomRightImage = new()

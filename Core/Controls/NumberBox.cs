@@ -34,6 +34,7 @@ namespace Kenedia.Modules.Core.Controls
             _inputField.HorizontalAlignment = HorizontalAlignment.Center;
 
             Width = 100;
+            Height = 20;
 
             GameService.Overlay.UserLocale.SettingChanged += UserLocale_SettingChanged;
             UserLocale_SettingChanged(null, null);
