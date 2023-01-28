@@ -1,9 +1,7 @@
 ﻿using Blish_HUD.Content;
 using Blish_HUD.Controls;
 using Kenedia.Modules.Characters.Services;
-using Kenedia.Modules.Core.Controls;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using System;
 using static Kenedia.Modules.Characters.Services.TextureManager;
 using Label = Kenedia.Modules.Core.Controls.Label;

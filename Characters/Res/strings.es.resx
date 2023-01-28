@@ -368,9 +368,6 @@ Para obtener el valor actual tendrás que cambiar las pestañas del módulo una 
   <data name="FilterDelay_DisplayName" xml:space="preserve">
     <value>Retraso del filtro ({0} ms)</value>
   </data>
-  <data name="FilterDiacriticsInsensitive_Description" xml:space="preserve">
-    <value>Ignora cualquier tipo de diacríticos</value>
-  </data>
   <data name="FilterDiacriticsInsensitive_DisplayName" xml:space="preserve">
     <value>Ignorar diacríticos</value>
   </data>

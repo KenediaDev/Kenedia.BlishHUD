@@ -837,7 +837,16 @@ namespace Characters.Res {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Ignore any type of diacritics.
+        ///   Looks up a localized string similar to Ignore any type of diacritics this treats the following  letters as their &apos;parent letter&apos;
+        ///[Ææ] become [Aeae]
+        ///[Œœ] become [Oeoe]
+        ///[Áá Ââ Ää Àà] become [Aa]
+        ///[Çç] become [Cc]
+        ///[Êê Éé Ëë Èè] become [Ee]
+        ///[ Ïï Íí Îî] become [Ii]
+        ///[Ññ] become [Nn]
+        ///[Ôô Öö Óó] become [Oo]
+        ///[Úú Üü Ûû Ùù] become [Uu].
         /// </summary>
         internal static string FilterDiacriticsInsensitive_Description {
             get {
@@ -1239,6 +1248,31 @@ namespace Characters.Res {
         internal static string Normal {
             get {
                 return ResourceManager.GetString("Normal", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Use normalized character names when searching so special letters will be treated as their &apos;parent letter&apos;
+        ///Aa : Áá Ââ Ää Àà Ææ 
+        ///Cc : Çç 
+        ///Ee : Êê Éé Ëë Èè 
+        ///Ii : Ïï Íí Îî 
+        ///Nn : Ññ 
+        ///Oo : Œœ Ôô Öö Óó Úú 
+        ///Uu : Üü Ûû Ùù.
+        /// </summary>
+        internal static string NormalizedNames_Description {
+            get {
+                return ResourceManager.GetString("NormalizedNames_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Use normalized character names.
+        /// </summary>
+        internal static string NormalizedNames_DisplayName {
+            get {
+                return ResourceManager.GetString("NormalizedNames_DisplayName", resourceCulture);
             }
         }
         

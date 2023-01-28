@@ -1,6 +1,5 @@
 ﻿using Blish_HUD;
 using Blish_HUD.Content;
-using Blish_HUD.Controls;
 using Gw2Sharp.WebApi.V2.Models;
 using Kenedia.Modules.Characters.Enums;
 using Kenedia.Modules.Characters.Extensions;
@@ -10,7 +9,6 @@ using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Runtime.Serialization;
-using System.Text.RegularExpressions;
 using static Kenedia.Modules.Characters.Services.Data;
 using File = System.IO.File;
 

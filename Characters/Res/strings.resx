@@ -378,7 +378,16 @@ To get the current value you will have to swap module tabs once to update the se
     <value>Filter Delay ({0} ms)</value>
   </data>
   <data name="FilterDiacriticsInsensitive_Description" xml:space="preserve">
-    <value>Ignore any type of diacritics</value>
+    <value>Ignore any type of diacritics this treats the following  letters as their 'parent letter'
+[Ææ] become [Aeae]
+[Œœ] become [Oeoe]
+[Áá Ââ Ää Àà] become [Aa]
+[Çç] become [Cc]
+[Êê Éé Ëë Èè] become [Ee]
+[ Ïï Íí Îî] become [Ii]
+[Ññ] become [Nn]
+[Ôô Öö Óó] become [Oo]
+[Úú Üü Ûû Ùù] become [Uu]</value>
   </data>
   <data name="FilterDiacriticsInsensitive_DisplayName" xml:space="preserve">
     <value>Ignore diacritics</value>
@@ -780,5 +789,18 @@ To get the current value you will have to swap module tabs once to update the se
   </data>
   <data name="Years" xml:space="preserve">
     <value>Years</value>
+  </data>
+  <data name="NormalizedNames_DisplayName" xml:space="preserve">
+    <value>Use normalized character names</value>
+  </data>
+  <data name="NormalizedNames_Description" xml:space="preserve">
+    <value>Use normalized character names when searching so special letters will be treated as their 'parent letter'
+Aa : Áá Ââ Ää Àà Ææ 
+Cc : Çç 
+Ee : Êê Éé Ëë Èè 
+Ii : Ïï Íí Îî 
+Nn : Ññ 
+Oo : Œœ Ôô Öö Óó Úú 
+Uu : Üü Ûû Ùù</value>
   </data>
 </root>

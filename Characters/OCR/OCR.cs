@@ -3,8 +3,6 @@ using Blish_HUD.Content;
 using Blish_HUD.Controls;
 using Blish_HUD.Input;
 using Characters.Res;
-using Gw2Sharp.WebApi.V2.Models;
-using Kenedia.Modules.Characters.Controls;
 using Kenedia.Modules.Characters.Extensions;
 using Kenedia.Modules.Characters.Models;
 using Kenedia.Modules.Core.Controls;
@@ -12,16 +10,16 @@ using Microsoft.Xna.Framework;
 using Patagames.Ocr;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Globalization;
 using System.IO;
 using System.Linq;
-using System.Runtime;
 using System.Threading.Tasks;
 using static Kenedia.Modules.Characters.Utility.WindowsUtil.WindowsUtil;
-using Checkbox = Kenedia.Modules.Core.Controls.Checkbox;
 using Color = Microsoft.Xna.Framework.Color;
+using FlowPanel = Kenedia.Modules.Core.Controls.FlowPanel;
+using ImageButton = Kenedia.Modules.Core.Controls.ImageButton;
 using Label = Kenedia.Modules.Core.Controls.Label;
+using Panel = Kenedia.Modules.Core.Controls.Panel;
 using Point = Microsoft.Xna.Framework.Point;
 using Rectangle = Microsoft.Xna.Framework.Rectangle;
 
@@ -29,16 +27,13 @@ namespace Kenedia.Modules.Characters
 {
     public class OCR : IDisposable
     {
-        private readonly FramedContainer _contentContainer;
         private readonly System.Drawing.Color _spacingColor = System.Drawing.Color.FromArgb(255, 200, 200, 200);
         private readonly System.Drawing.Color _ignoredColor = System.Drawing.Color.FromArgb(255, 100, 100, 100);
-        private readonly TextBox _leftBox;
-        private readonly TextBox _topBox;
-        private readonly TextBox _rightBox;
-        private readonly TextBox _bottomBox;
-        private readonly TextBox _columnBox;
-        private readonly TextBox _thresholdBox;
-        private readonly Checkbox _windowedCheckBox;
+
+        private readonly FramedContainer _contentContainer;
+
+        private readonly NumberBox _columnBox;
+        private readonly NumberBox _thresholdBox;
         private readonly Label _instructions;
         private readonly Label _closestMatch;
         private readonly Label _result;
@@ -48,8 +43,8 @@ namespace Kenedia.Modules.Characters
         private readonly ResizeableContainer _container;
         private readonly OcrApi _ocrApi;
         private readonly OCR_TrainDisplay _ocr_TrainDisplay;
+
         private bool _disposed = false;
-        private readonly bool _initialized = false;
 
         public OCR()
         {
@@ -94,12 +89,12 @@ namespace Kenedia.Modules.Characters
 
             _instructions = new Label()
             {
-                Text = strings.OCR_Instructions,
                 Parent = headerPanel,
                 AutoSizeHeight = true,
                 Width = _contentContainer.Width - 35,
                 WrapText = true,
                 TextColor = ContentService.Colors.ColonialWhite,
+                SetLocalizedText = () => strings.OCR_Instructions,
             };
 
             _closeButton = new()
@@ -110,7 +105,7 @@ namespace Kenedia.Modules.Characters
                 Size = new Point(25, 25),
                 TextureRectangle = new Rectangle(7, 7, 20, 20),
             };
-            _closeButton.Click += _closeButton_Click;
+            _closeButton.Click += CloseButton_Click;
 
             var fp = new FlowPanel()
             {
@@ -147,7 +142,7 @@ namespace Kenedia.Modules.Characters
                 TextColor = Color.White,
                 Font = GameService.Content.DefaultFont16,
                 WrapText = true,
-                Text = "Best Match"
+                SetLocalizedText = () => "Best Match",
             };
 
             fp = new FlowPanel()
@@ -185,7 +180,7 @@ namespace Kenedia.Modules.Characters
                 TextColor = Color.White,
                 Font = GameService.Content.DefaultFont16,
                 WrapText = true,
-                Text = "OCR Result"
+                SetLocalizedText = () => "OCR Result",
             };
 
             fp = new FlowPanel()
@@ -219,7 +214,7 @@ namespace Kenedia.Modules.Characters
                 TextColor = Color.White,
                 Font = GameService.Content.DefaultFont16,
                 WrapText = true,
-                Text = "Cleaned",
+                SetLocalizedText = () => "Cleaned",
                 VerticalAlignment = VerticalAlignment.Middle,
             };
             fp = new FlowPanel()
@@ -253,7 +248,7 @@ namespace Kenedia.Modules.Characters
                 TextColor = Color.White,
                 Font = GameService.Content.DefaultFont16,
                 WrapText = true,
-                Text = "Source",
+                SetLocalizedText = () => "Source",
                 VerticalAlignment = VerticalAlignment.Middle,
             };
 
@@ -271,20 +266,22 @@ namespace Kenedia.Modules.Characters
             _ = new Label()
             {
                 Parent = thresholdPanel,
-                Text = strings.EmptyColumns,
                 Height = 25,
                 AutoSizeWidth = true,
                 TextColor = ContentService.Colors.ColonialWhite,
-                BasicTooltipText = strings.EmptyColumns_Tooltip,
+                SetLocalizedText = () => strings.EmptyColumns,
+                SetLocalizedTooltip = () => strings.EmptyColumns_Tooltip,
             };
-            _columnBox = new TextBox()
+            _columnBox = new NumberBox()
             {
                 Parent = thresholdPanel,
-                Size = new Point(50, 25),
-                Text = CustomThreshold.ToString(),
-                BasicTooltipText = strings.EmptyColumnsThreshold_Tooltip,
+                Size = new Point(100, 25),
+                MinValue = 0,
+                MaxValue = 100,
+                Value = Characters.ModuleInstance.Settings.OCRNoPixelColumns.Value,
+                SetLocalizedTooltip = () => strings.EmptyColumnsThreshold_Tooltip,
+                ValueChangedAction = (num) => Characters.ModuleInstance.Settings.OCRNoPixelColumns.Value = num,
             };
-            _columnBox.TextChanged += ColumnThresholdChanged;
 
             _ = new Panel()
             {
@@ -295,11 +292,11 @@ namespace Kenedia.Modules.Characters
             _ = new Label()
             {
                 Parent = thresholdPanel,
-                Text = strings.EmptyColumn,
                 Height = 25,
                 AutoSizeWidth = true,
                 TextColor = ContentService.Colors.ColonialWhite,
-                BasicTooltipText = strings.EmptyColumn_Tooltip,
+                SetLocalizedText = () => strings.EmptyColumn,
+                SetLocalizedTooltip = () => strings.EmptyColumn_Tooltip,
             };
             _ = new Panel()
             {
@@ -310,22 +307,24 @@ namespace Kenedia.Modules.Characters
             _ = new Label()
             {
                 Parent = thresholdPanel,
-                Text = strings.IgnoredPart,
                 Height = 25,
                 AutoSizeWidth = true,
                 TextColor = ContentService.Colors.ColonialWhite,
-                BasicTooltipText = strings.IgnoredPart_Tooltip,
+                SetLocalizedText = () => strings.IgnoredPart,
+                SetLocalizedTooltip = () => strings.IgnoredPart_Tooltip,
             };
 
-            _thresholdBox = new TextBox()
+            _thresholdBox = new NumberBox()
             {
                 Parent = thresholdPanel,
-                Text = $"{Characters.ModuleInstance.Settings.OCR_ColorThreshold.Value}",
                 Height = 25,
-                Width = 50,
-                BasicTooltipText = "Threshold of 'white' a pixel has to be to be converted to black to be read (RGB Value: 0 - 255)",
+                Width = 100,
+                MinValue = 0,
+                MaxValue = 255,
+                Value = Characters.ModuleInstance.Settings.OCR_ColorThreshold.Value,
+                SetLocalizedTooltip = () => "Threshold of 'white' a pixel has to be to be converted to black to be read (RGB Value: 0 - 255)",
+                ValueChangedAction = (num) => Characters.ModuleInstance.Settings.OCR_ColorThreshold.Value = num
             };
-            _thresholdBox.TextChanged += ThresholdBox_TextChanged;
 
             _container = new ResizeableContainer()
             {
@@ -334,6 +333,7 @@ namespace Kenedia.Modules.Characters
                 Visible = false,
                 Location = Characters.ModuleInstance.Settings.ActiveOCRRegion.Location,
                 Size = Characters.ModuleInstance.Settings.ActiveOCRRegion.Size,
+                BorderColor = ContentService.Colors.ColonialWhite,
                 ShowResizeOnlyOnMouseOver = true,
                 MaxSize = new(500, 50),
                 BorderWidth = new(1, 1, 1, 1),
@@ -345,24 +345,9 @@ namespace Kenedia.Modules.Characters
 
             int height = Characters.ModuleInstance.Settings.ActiveOCRRegion.Size.Y;
             _contentContainer.Location = new Point(_container.Left, _container.Top - _contentContainer.Height - 5);
-            _initialized = true;
-
-            ToggleContainer();
         }
 
-        private void ThresholdBox_TextChanged(object sender, EventArgs e)
-        {
-            if (int.TryParse(_thresholdBox.Text, out int threshold))
-            {
-                Characters.ModuleInstance.Settings.OCR_ColorThreshold.Value = threshold;
-            }
-            else
-            {
-                _thresholdBox.Text = $"{Characters.ModuleInstance.Settings.OCR_ColorThreshold.Value}";
-            }
-        }
-
-        private void _closeButton_Click(object sender, MouseEventArgs e)
+        private void CloseButton_Click(object sender, MouseEventArgs e)
         {
             ToggleContainer();
         }
@@ -398,6 +383,8 @@ namespace Kenedia.Modules.Characters
             {
                 _ocr_TrainDisplay?.Dispose();
                 _disposed = true;
+                _columnBox?.Dispose();
+                _thresholdBox?.Dispose();
                 _container?.Dispose();
                 _instructions?.Dispose();
                 _ocrResultImage?.Dispose();
@@ -701,14 +688,6 @@ namespace Kenedia.Modules.Characters
         }
 #nullable disable
 
-        private void ColumnThresholdChanged(object sender, EventArgs e)
-        {
-            if (int.TryParse(_columnBox.Text, out int threshold))
-            {
-                CustomThreshold = threshold;
-            }
-        }
-
         private async void Container_LeftMouseButtonReleased(object sender, MouseEventArgs e)
         {
             if (!_container.MouseOver)
@@ -721,23 +700,6 @@ namespace Kenedia.Modules.Characters
         {
             await Task.Delay(5);
             _ = Read(true);
-        }
-
-        private void OffsetChanged(object sender, EventArgs e)
-        {
-            if (_initialized)
-            {
-                int left = int.TryParse(_leftBox.Text, out int leftParse) ? leftParse : CustomOffset.Left;
-                int top = int.TryParse(_topBox.Text, out int topParse) ? topParse : CustomOffset.Top;
-                int right = int.TryParse(_rightBox.Text, out int rightParse) ? rightParse : CustomOffset.Right;
-                int bottom = int.TryParse(_bottomBox.Text, out int bottomParse) ? bottomParse : CustomOffset.Bottom;
-
-                CustomOffset = new RectangleOffset(left, top, right, bottom);
-                if (_container.Visible)
-                {
-                    _ = Read(true);
-                }
-            }
         }
 
         private void Container_Changed(object sender, EventArgs e)
@@ -757,11 +719,6 @@ namespace Kenedia.Modules.Characters
             }
 
             _contentContainer.Location = new Point(_container.Left, _container.Top - _contentContainer.Height - 5);
-        }
-
-        private void WindowedCheckBox_Click(object sender, MouseEventArgs e)
-        {
-            //Characters.ModuleInstance.Settings.WindowedMode.Value = _windowedCheckBox.Checked;
         }
     }
 }

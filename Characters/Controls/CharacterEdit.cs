@@ -3,57 +3,81 @@ using Blish_HUD.Content;
 using Blish_HUD.Controls;
 using Blish_HUD.Input;
 using Characters.Res;
+using Gw2Sharp.WebApi.V2.Models;
+using Kenedia.Modules.Characters.Extensions;
 using Kenedia.Modules.Characters.Models;
+using Kenedia.Modules.Characters.Services;
+using Kenedia.Modules.Core.Controls;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Runtime;
+using System.Threading.Tasks;
+using static Kenedia.Modules.Characters.Services.SettingsModel;
 using static Kenedia.Modules.Characters.Services.TextureManager;
+using Checkbox = Kenedia.Modules.Core.Controls.Checkbox;
 using Color = Microsoft.Xna.Framework.Color;
+using FlowPanel = Kenedia.Modules.Core.Controls.FlowPanel;
+using Label = Kenedia.Modules.Core.Controls.Label;
+using Panel = Kenedia.Modules.Core.Controls.Panel;
 using Point = Microsoft.Xna.Framework.Point;
 using Rectangle = Microsoft.Xna.Framework.Rectangle;
+using TextBox = Kenedia.Modules.Core.Controls.TextBox;
 
 namespace Kenedia.Modules.Characters.Controls
 {
-    public class CharacterEdit : Container
+    public class CharacterEdit : AnchoredContainer
     {
-        private readonly Checkbox _show;
-        private readonly ImageButton _image;
-        private readonly ImageButton _delete;
-        private readonly ImageButton _closeButton;
-        private readonly Label _name;
-        private readonly ImageSelector _imagePanel;
-        private readonly FlowPanel _tagPanel;
-        private readonly TextBox _tagBox;
-        private readonly ImageButton _addTag;
-        private readonly StandardButton _captureImages;
-        private readonly StandardButton _openFolder;
-
-        private readonly int _width = 350;
-        private readonly int _expandedWidth = 725;
-        private readonly bool _initialized;
-
         private readonly List<Tag> _tags = new();
 
-        private double _opacityTick = 0;
-        private DateTime _lastMouseOver = DateTime.Now;
-
+        private readonly ImageButton _closeButton;
+        private readonly Button _openFolder;
+        private readonly Panel _tagContainer;
+        private readonly TextBox _tagBox;
+        private readonly ImageButton _addTag;
+        private readonly TagFlowPanel _tagPanel;
+        private readonly ImageButton _image;
+        private readonly Label _name;
+        private readonly Checkbox _show;
+        private readonly Button _captureImages;
+        private readonly Panel _imagePanelParent;
+        private readonly FlowPanel _imagePanel;
         private Character_Model _character;
+        private DateTime _lastInteraction;
 
         public CharacterEdit()
         {
-            Width = _width;
-            Parent = GameService.Graphics.SpriteScreen;
+            TextureManager tM = Characters.ModuleInstance.TextureManager;
+
             HeightSizingMode = SizingMode.AutoSize;
-            AutoSizePadding = new Point(5, 5);
-            ZIndex = 999;
+            WidthSizingMode = SizingMode.AutoSize;
+            AutoSizePadding = new(5);
 
-            Background = AsyncTexture2D.FromAssetId(156003); // 155985
+            BackgroundImage = AsyncTexture2D.FromAssetId(156003);
+            TextureRectangle = new Rectangle(26, 26, Math.Min(BackgroundImage.Width - 100, Width), Math.Min(BackgroundImage.Height - 100, Height));
+            BorderColor = Color.Black;
 
-            Services.TextureManager tM = Characters.ModuleInstance.TextureManager;
+            _ = new Dummy()
+            {
+                Parent = this,
+                Width = 350,
+            };
+
+            _closeButton = new()
+            {
+                Parent = this,
+                Size = new(20, 20),
+                Location = new(335, 5),
+                Texture = AsyncTexture2D.FromAssetId(156012),
+                HoveredTexture = AsyncTexture2D.FromAssetId(156011),
+                TextureRectangle = new Rectangle(7, 7, 20, 20),
+                SetLocalizedTooltip = () => strings.Close,
+                ClickAction = (m) => Hide(),
+                ZIndex = 11,
+            };
 
             _image = new ImageButton()
             {
@@ -61,37 +85,16 @@ namespace Kenedia.Modules.Characters.Controls
                 Texture = AsyncTexture2D.FromAssetId(358353),
                 HoveredTexture = AsyncTexture2D.FromAssetId(358353),
                 Location = new Point(5 + 2, 5 + 2),
-                Size = new Point(64, 64),
+                BackgroundColor = Color.Black * 0.4f,
+                Size = new Point(70, 70),
+                ClickAction = (m) => ShowImages(),
             };
-            _image.Click += Image_Click;
-
-            _closeButton = new()
-            {
-                Parent = this,
-                Texture = AsyncTexture2D.FromAssetId(156012),
-                HoveredTexture = AsyncTexture2D.FromAssetId(156011),
-                Size = new Point(20, 20),
-                TextureRectangle = new Rectangle(7, 7, 20, 20),
-            };
-            _closeButton.Click += CloseButton_Click; ;
-
-            _delete = new ImageButton()
-            {
-                Parent = this,
-                Texture = tM.GetControlTexture(ControlTextures.Delete_Button),
-                HoveredTexture = tM.GetControlTexture(ControlTextures.Delete_Button_Hovered),
-                Location = new Point(Right - 24 - 5, 5),
-                Size = new Point(24, 24),
-                BasicTooltipText = string.Format(strings.DeleteItem, strings.Character),
-                Visible = false,
-            };
-            _delete.Click += Delete_Click;
 
             _name = new Label()
             {
                 Text = strings.CharacterName,
                 Parent = this,
-                TextColor = new Color(168 + 15 + 25, 143 + 20 + 25, 102 + 15 + 25, 255),
+                TextColor = ContentService.Colors.ColonialWhite,
                 Font = GameService.Content.DefaultFont16,
                 AutoSizeWidth = true,
                 Location = new Point(_image.Right + 5 + 2, 5),
@@ -103,251 +106,134 @@ namespace Kenedia.Modules.Characters.Controls
                 Location = new Point(_image.Right + 5 + 2, _name.Bottom + 5 + 2),
                 Size = new Point(100, 21),
                 Text = strings.ShowInList,
+                CheckedChangedAction = (b) =>
+                {
+                    if (Character != null) Character.Show = !Character.Show;
+                },
             };
-            _show.Click += Show_Click;
 
-            _captureImages = new StandardButton()
+            _captureImages = new Button()
             {
                 Parent = this,
-                Location = new Point(_image.Right + 4, _image.Bottom - 28),
-                Size = new Point(130, 30),
+                Location = new Point(_image.Right + 4, _show.Bottom + 2),
+                Size = new Point(136, 25),
                 Text = strings.CaptureImages,
                 BasicTooltipText = strings.TogglePortraitCapture_Tooltip,
                 Icon = tM.GetIcon(Icons.Camera),
                 ResizeIcon = true,
+                ClickAction = () => Characters.ModuleInstance.PotraitCapture.Visible = !Characters.ModuleInstance.PotraitCapture.Visible
             };
-            _captureImages.Click += CaptureImages_Click;
 
-            _openFolder = new StandardButton()
+            _openFolder = new Button()
             {
                 Parent = this,
-                Location = new Point(_captureImages.Right + 4, _image.Bottom - 28),
-                Size = new Point(125, 30),
+                Location = new Point(_captureImages.Right + 4, _show.Bottom + 2),
+                Size = new Point(136, 25),
                 Text = string.Format(strings.OpenItem, strings.Folder),
                 BasicTooltipText = strings.OpenPortraitFolder,
                 Icon = tM.GetIcon(Icons.Folder),
                 ResizeIcon = true,
+                ClickAction = () =>
+                {
+                    _ = Process.Start(new ProcessStartInfo()
+                    {
+                        Arguments = Characters.ModuleInstance.AccountImagesPath,
+                        FileName = "explorer.exe",
+                    });
+                },
             };
-            _openFolder.Click += OpenFolder_Click;
 
-            _addTag = new ImageButton()
-            {
-                Parent = this,
-                Texture = tM.GetControlTexture(ControlTextures.Plus_Button),
-                HoveredTexture = tM.GetControlTexture(ControlTextures.Plus_Button_Hovered),
-                Location = new Point(Right - 24 - 5, _image.Bottom + 5 + 2),
-                Size = new Point(24, 24),
-                BasicTooltipText = string.Format(strings.AddItem, strings.Tag),
-            };
-            _addTag.Click += AddTag_Click;
-
-            _tagBox = new TextBox()
+            _tagContainer = new Panel()
             {
                 Parent = this,
                 Location = new Point(5, _image.Bottom + 5 + 2),
-                Size = new Point(Width - 10 - 24 - 2, 24),
-                PlaceholderText = strings.Tag_Placeholder,
+                Width = 350,
+                HeightSizingMode = SizingMode.AutoSize,
             };
-            _tagBox.EnterPressed += AddTag_Click;
-            _tagBox.TextChanged += SetInteracted;
 
-            _tagPanel = new FlowPanel()
+            _tagBox = new TextBox()
             {
-                Parent = this,
+                Parent = _tagContainer,
+                Size = new Point(350 - 24, 24),
+                PlaceholderText = strings.Tag_Placeholder,
+                EnterPressedAction = (t) =>
+                {
+                    if (t != null && t.Length > 0 && !Characters.ModuleInstance.Tags.Contains(t))
+                    {
+                        Characters.ModuleInstance.MainWindow.RequestUniform();
+                        Characters.ModuleInstance.Tags.Add(t);
+                        Character.AddTag(t);
+                        _tags.Add(AddTag(t, true));
+
+                        _tagBox.Text = null;
+                    }
+                }
+            };
+
+            _addTag = new ImageButton()
+            {
+                Parent = _tagContainer,
+                Texture = tM.GetControlTexture(ControlTextures.Plus_Button),
+                HoveredTexture = tM.GetControlTexture(ControlTextures.Plus_Button_Hovered),
+                Location = new Point(_tagBox.Right + 2, _tagBox.Top),
+                Size = new Point(24, 24),
+                BasicTooltipText = string.Format(strings.AddItem, strings.Tag),
+                ClickAction = (m) =>
+                {
+                    if (_tagBox.Text != null && _tagBox.Text.Length > 0 && !Characters.ModuleInstance.Tags.Contains(_tagBox.Text))
+                    {
+                        Characters.ModuleInstance.MainWindow.RequestUniform();
+                        Characters.ModuleInstance.Tags.Add(_tagBox.Text);
+                        Character.AddTag(_tagBox.Text);
+                        _tags.Add(AddTag(_tagBox.Text, true));
+
+                        _tagBox.Text = null;
+                    }
+                }
+            };
+
+            _tagPanel = new TagFlowPanel()
+            {
+                Parent = _tagContainer,
                 Location = new Point(5, _tagBox.Bottom + 5),
-                WidthSizingMode = SizingMode.Fill,
+                Width = 350,
                 HeightSizingMode = SizingMode.AutoSize,
                 ControlPadding = new Vector2(3, 2),
             };
 
-            _imagePanel = new ImageSelector()
+            _imagePanelParent = new Panel()
             {
                 Parent = this,
-                Location = new Point(5, _image.Bottom + 5),
-                ControlPadding = new Vector2(3, 2),
+                BorderColor = Color.Black,
+                BackgroundColor = Color.Black * 0.4f,
+                Location = new(5, _image.Bottom + 5),
                 Visible = false,
-                Width = _expandedWidth - 10,
             };
-            _imagePanel.Shown += LoadImages;
-
-            _ = new Dummy()
+            _imagePanel = new()
             {
-                Parent = _imagePanel,
-                Size = new Point(0, 64),
+                Location = new(0, 5),
+                Parent = _imagePanelParent,
+                AutoSizePadding = new Point(5, 5),
+                OuterControlPadding = new Vector2(5, 0),
+                ControlPadding = new(5),
+                CanScroll = true,
+                ZIndex = 11,
             };
-
-            _initialized = true;
-        }
-
-        private void CloseButton_Click(object sender, MouseEventArgs e)
-        {
-            Hide();
         }
 
         public Character_Model Character
         {
-            get => _character;
-            set
+            get => _character; set
             {
                 _character = value;
-                if (value != null)
-                {
-                    _character.Updated += ApplyCharacter;
-                    ApplyCharacter(null, null);
-                }
+                ApplyCharacter();
             }
-        }
-
-        public Rectangle TextureRectangle { get; set; }
-
-        public Point TextureOffset { get; set; }
-
-        public AsyncTexture2D Background { get; set; }
-
-        public Color BackgroundTint { get; set; } = Color.Honeydew * 0.95f;
-
-        public override void PaintBeforeChildren(SpriteBatch spriteBatch, Rectangle bounds)
-        {
-            base.PaintBeforeChildren(spriteBatch, bounds);
-
-            if (Background != null)
-            {
-                // var rect = TextureRectangle != Rectangle.Empty ? TextureRectangle : new Rectangle(TextureOffset.X, TextureOffset.Y, Background.Bounds.Width, Background.Bounds.Height);
-                // var rect = new Rectangle(TextureOffset.X, TextureOffset.Y, Background.Bounds.Width - (TextureOffset.X * 3), Background.Bounds.Height - (TextureOffset.Y * 3 ));
-                Rectangle rect = new(TextureOffset.X, TextureOffset.Y, bounds.Width, bounds.Height);
-
-                spriteBatch.DrawOnCtrl(
-                    this,
-                    Background,
-                    bounds,
-                    rect,
-                    BackgroundTint,
-                    0f,
-                    default);
-            }
-
-            Color color = Color.Black;
-
-            Rectangle b = _image.LocalBounds.Add(new Rectangle(-2, -2, 4, 4));
-
-            spriteBatch.DrawOnCtrl(
-                this,
-                ContentService.Textures.Pixel,
-                b,
-                Rectangle.Empty,
-                Color.Black * 0.5f,
-                0f,
-                default);
-
-            // Top
-            spriteBatch.DrawOnCtrl(this, ContentService.Textures.Pixel, new Rectangle(b.Left, b.Top, b.Width, 2), Rectangle.Empty, color * 0.5f);
-            spriteBatch.DrawOnCtrl(this, ContentService.Textures.Pixel, new Rectangle(b.Left, b.Top, b.Width, 1), Rectangle.Empty, color * 0.6f);
-
-            // Bottom
-            spriteBatch.DrawOnCtrl(this, ContentService.Textures.Pixel, new Rectangle(b.Left, b.Bottom - 2, b.Width, 2), Rectangle.Empty, color * 0.5f);
-            spriteBatch.DrawOnCtrl(this, ContentService.Textures.Pixel, new Rectangle(b.Left, b.Bottom - 1, b.Width, 1), Rectangle.Empty, color * 0.6f);
-
-            // Left
-            spriteBatch.DrawOnCtrl(this, ContentService.Textures.Pixel, new Rectangle(b.Left, b.Top, 2, b.Height), Rectangle.Empty, color * 0.5f);
-            spriteBatch.DrawOnCtrl(this, ContentService.Textures.Pixel, new Rectangle(b.Left, b.Top, 1, b.Height), Rectangle.Empty, color * 0.6f);
-
-            // Right
-            spriteBatch.DrawOnCtrl(this, ContentService.Textures.Pixel, new Rectangle(b.Right - 2, b.Top, 2, b.Height), Rectangle.Empty, color * 0.5f);
-            spriteBatch.DrawOnCtrl(this, ContentService.Textures.Pixel, new Rectangle(b.Right - 1, b.Top, 1, b.Height), Rectangle.Empty, color * 0.6f);
-
-            // Top
-            spriteBatch.DrawOnCtrl(this, ContentService.Textures.Pixel, new Rectangle(bounds.Left, bounds.Top, bounds.Width, 2), Rectangle.Empty, color * 0.5f);
-            spriteBatch.DrawOnCtrl(this, ContentService.Textures.Pixel, new Rectangle(bounds.Left, bounds.Top, bounds.Width, 1), Rectangle.Empty, color * 0.6f);
-
-            // Bottom
-            spriteBatch.DrawOnCtrl(this, ContentService.Textures.Pixel, new Rectangle(bounds.Left, bounds.Bottom - 2, bounds.Width, 2), Rectangle.Empty, color * 0.5f);
-            spriteBatch.DrawOnCtrl(this, ContentService.Textures.Pixel, new Rectangle(bounds.Left, bounds.Bottom - 1, bounds.Width, 1), Rectangle.Empty, color * 0.6f);
-
-            // Left
-            spriteBatch.DrawOnCtrl(this, ContentService.Textures.Pixel, new Rectangle(bounds.Left, bounds.Top, 2, bounds.Height), Rectangle.Empty, color * 0.5f);
-            spriteBatch.DrawOnCtrl(this, ContentService.Textures.Pixel, new Rectangle(bounds.Left, bounds.Top, 1, bounds.Height), Rectangle.Empty, color * 0.6f);
-
-            // Right
-            spriteBatch.DrawOnCtrl(this, ContentService.Textures.Pixel, new Rectangle(bounds.Right - 2, bounds.Top, 2, bounds.Height), Rectangle.Empty, color * 0.5f);
-            spriteBatch.DrawOnCtrl(this, ContentService.Textures.Pixel, new Rectangle(bounds.Right - 1, bounds.Top, 1, bounds.Height), Rectangle.Empty, color * 0.6f);
-        }
-
-        public override void UpdateContainer(GameTime gameTime)
-        {
-            base.UpdateContainer(gameTime);
-
-            if (gameTime.TotalGameTime.TotalMilliseconds - _opacityTick > 50)
-            {
-                _opacityTick = gameTime.TotalGameTime.TotalMilliseconds;
-
-                if (!MouseOver && !Characters.ModuleInstance.Settings.PinSideMenus.Value && DateTime.Now.Subtract(_lastMouseOver).TotalMilliseconds >= 5000 && !Characters.ModuleInstance.PotraitCapture.Visible)
-                {
-                    Opacity -= 0.05F;
-                    if (Opacity <= 0F)
-                    {
-                        Hide();
-                    }
-                }
-            }
-        }
-
-        public void LoadImages(object sender, EventArgs eArgs)
-        {
-            string path = Characters.ModuleInstance.AccountImagesPath;
-            string[] images = Directory.GetFiles(path, "*.png", SearchOption.AllDirectories);
-
-            int mHeight = Characters.ModuleInstance.MainWindow.ContentRegion.Height - 65;
-            _imagePanel.Height = Math.Min(((int)Math.Ceiling(images.Count() / 7.0) * (96 + (int)_imagePanel.ControlPadding.Y)) + (int)_imagePanel.OuterControlPadding.Y, mHeight) + 5;
-
-            GameService.Graphics.QueueMainThreadRender((graphicsDevice) =>
-            {
-                _imagePanel.ClearChildren();
-
-                AsyncTexture2D noImgTexture = null;
-
-                if (Visible && Character != null)
-                {
-                    noImgTexture = Character.SpecializationIcon;
-
-                    Image noImg = new()
-                    {
-                        Size = new Point(96, 96),
-                        Parent = _imagePanel,
-                        Texture = noImgTexture,
-                    };
-
-                    noImg.Click += (s, e) =>
-                    {
-                        _character.IconPath = null;
-                        _character.Icon = null;
-                        ApplyCharacter(null, null);
-                    };
-                }
-
-                foreach (string p in images)
-                {
-                    Texture2D texture = TextureUtil.FromStreamPremultiplied(graphicsDevice, new FileStream(p, FileMode.Open, FileAccess.Read, FileShare.ReadWrite));
-
-                    Image img = new()
-                    {
-                        Size = new Point(96, 96),
-                        Parent = _imagePanel,
-                        Texture = texture,
-                    };
-                    img.Click += (s, e) =>
-                    {
-                        _character.IconPath = p.Replace(Characters.ModuleInstance.BasePath, string.Empty);
-                        _character.Icon = texture;
-                        ApplyCharacter(null, null);
-                    };
-                }
-            });
         }
 
         protected override void OnShown(EventArgs e)
         {
             base.OnShown(e);
-            Width = _width;
+            ShowImages(false);
 
             foreach (string t in Characters.ModuleInstance.Tags)
             {
@@ -357,6 +243,90 @@ namespace Kenedia.Modules.Characters.Controls
             SetInteracted(null, null);
         }
 
+        protected override void OnResized(ResizedEventArgs e)
+        {
+            base.OnResized(e);
+
+            if (BackgroundImage != null) TextureRectangle = new Rectangle(30, 30, Math.Min(BackgroundImage.Width - 100, Width), Math.Min(BackgroundImage.Height - 100, Height));
+            if (_tagPanel != null) _tagPanel.Width = ContentRegion.Width;
+            //if (_closeButton != null) _closeButton.Location = new(AbsoluteBounds.Right - _closeButton.Size.X - AutoSizePadding.X, AbsoluteBounds.Top + AutoSizePadding.Y);
+        }
+
+        public void LoadImages(object sender, EventArgs e)
+        {
+            string path = Characters.ModuleInstance.AccountImagesPath;
+            List<string> images = new(Directory.GetFiles(path, "*.png", SearchOption.AllDirectories));
+
+            var settings = Characters.ModuleInstance.Settings;
+            PanelSizes pSize = settings.PanelSize.Value;
+            int imageSize = 80;
+
+            int maxHeight = GameService.Graphics.SpriteScreen.Height / 2;
+            int width = (int)Math.Min(710, Math.Min(GameService.Graphics.SpriteScreen.Height / 2, (_imagePanel.OuterControlPadding.Y * 2) + ((images.Count + 1) * (imageSize + _imagePanel.ControlPadding.X))));
+            int height = (int)Math.Min(maxHeight, (_imagePanel.OuterControlPadding.Y * 2) + ((images.Count + 1) / Math.Floor((double)width / imageSize) * (imageSize + _imagePanel.ControlPadding.Y)));
+
+            _imagePanel.Children.Clear();
+
+            GameService.Graphics.QueueMainThreadRender((graphicsDevice) =>
+            {
+                AsyncTexture2D noImgTexture = null;
+
+                if (Visible && Character != null)
+                {
+                    noImgTexture = Character.SpecializationIcon;
+
+                    _ = new ImageButton()
+                    {
+                        Parent = _imagePanel,
+                        Size = new(imageSize),
+                        Texture = noImgTexture,
+                        ClickAction = (m) =>
+                        {
+                            Character.IconPath = null;
+                            Character.Icon = null;
+                            ApplyCharacter();
+                        },
+                    };
+
+                    foreach (string p in images)
+                    {
+                        AsyncTexture2D texture = TextureUtil.FromStreamPremultiplied(graphicsDevice, new FileStream(p, FileMode.Open, FileAccess.Read, FileShare.ReadWrite));
+
+                        ImageButton img = new()
+                        {
+                            Parent = _imagePanel,
+                            Size = new(imageSize),
+                            Texture = texture,
+                            ClickAction = (m) =>
+                            {
+                                Character.IconPath = p.Replace(Characters.ModuleInstance.BasePath, string.Empty);
+                                Character.Icon = texture;
+                                ApplyCharacter();
+                            }
+                        };
+                    }
+
+                    _imagePanel.Width = width;
+                    _imagePanel.Height = height;
+                    _imagePanel.Invalidate();
+
+                    _imagePanelParent.Width = width;
+                    _imagePanelParent.Height = height + 10;
+
+                    _closeButton.Location = new(_imagePanelParent.Right - _closeButton.Size.X - AutoSizePadding.X + 5, AutoSizePadding.Y);
+                }
+            });
+        }
+
+        protected override void DisposeControl()
+        {
+            base.DisposeControl();
+
+            _closeButton?.Dispose();
+            _imagePanel?.Dispose();
+            _imagePanelParent?.Dispose();
+        }
+
         protected override void OnMouseMoved(MouseEventArgs e)
         {
             base.OnMouseMoved(e);
@@ -364,110 +334,34 @@ namespace Kenedia.Modules.Characters.Controls
             SetInteracted(null, null);
         }
 
-        protected override void OnResized(ResizedEventArgs e)
+        private void ShowImages(bool toggle = true)
         {
-            base.OnResized(e);
-
-            if (_initialized)
+            if (_imagePanelParent.Visible || !toggle)
             {
-                _delete.Location = new Point(e.CurrentSize.X - 24 - 5, 5);
-                _closeButton.Location = new Point(e.CurrentSize.X - _closeButton.Width - 2, 3);
-
-                _show.Visible = Width == _width;
-                _tagBox.Visible = Width == _width;
-                _tagPanel.Visible = Width == _width;
-                _addTag.Visible = Width == _width;
-                _imagePanel.Visible = Width == _expandedWidth;
-                _captureImages.Visible = Width == _expandedWidth;
-                _openFolder.Visible = Width == _expandedWidth;
-            }
-        }
-
-        protected override void DisposeControl()
-        {
-            base.DisposeControl();
-
-            _closeButton.Click -= CloseButton_Click; ;
-        }
-
-        private void Tag_Deleted(object sender, EventArgs e)
-        {
-            var tag = (Tag)sender;
-            _ = _tags.Remove(tag);
-            _ = Characters.ModuleInstance.Tags.Remove(tag.Text);
-
-            tag.Deleted -= Tag_Deleted;
-        }
-
-        private void ApplyCharacter(object sender, EventArgs e)
-        {
-            foreach (Tag t in _tags)
-            {
-                t.SetActive(_character.Tags.Contains(t.Text));
+                _closeButton.Location = new(355 - _closeButton.Size.X, AutoSizePadding.Y);
+                _tagContainer.Show();
+                _imagePanelParent.Hide();
+                _imagePanelParent.Width = 0;
+                _imagePanelParent.Height = 0;
+                return;
             }
 
-            _name.Text = _character.Name;
-            _image.Texture = _character.Icon;
-            _show.Checked = _character.Show;
+            _tagContainer.Hide();
+            _imagePanelParent.Show();
+            LoadImages(null, null);
+        }
 
-            if (_imagePanel.Visible)
+        private void ApplyCharacter()
+        {
+            if (Character != null)
             {
-                AsyncTexture2D noImgTexture = Character.SpecializationIcon;
+                _image.Texture = Character.Icon;
+                _name.Text = Character.Name;
 
-                var noImg = (Image)_imagePanel.Children[0];
-                noImg.Texture = noImgTexture;
-            }
-        }
-
-        private void Show_Click(object sender, MouseEventArgs e)
-        {
-            _character.Show = _show.Checked;
-        }
-
-        private void SetInteracted(object sender, EventArgs e)
-        {
-            _lastMouseOver = DateTime.Now;
-            Opacity = 1f;
-        }
-
-        private void OpenFolder_Click(object sender, MouseEventArgs e)
-        {
-            ProcessStartInfo startInfo = new()
-            {
-                Arguments = Characters.ModuleInstance.AccountImagesPath,
-                FileName = "explorer.exe",
-            };
-
-            _ = Process.Start(startInfo);
-        }
-
-        private void Delete_Click(object sender, MouseEventArgs e)
-        {
-            Character.Delete();
-            Character = null;
-            Hide();
-        }
-
-        private void CaptureImages_Click(object sender, MouseEventArgs e)
-        {
-            Characters.ModuleInstance.PotraitCapture.Visible = !Characters.ModuleInstance.PotraitCapture.Visible;
-        }
-
-        private void Image_Click(object sender, MouseEventArgs e)
-        {
-            Width = Width == _width ? _expandedWidth : _width;
-        }
-
-        private void AddTag_Click(object sender, EventArgs e)
-        {
-            if (_tagBox.Text != null && _tagBox.Text.Length > 0 && !Characters.ModuleInstance.Tags.Contains(_tagBox.Text))
-            {
-                Characters.ModuleInstance.MainWindow.RequestUniform();
-                Characters.ModuleInstance.Tags.Add(_tagBox.Text);
-                Character.AddTag(_tagBox.Text);
-                _tags.Add(AddTag(_tagBox.Text, true));
-
-                _tagBox.Text = null;
+                foreach (Tag t in _tags)
+                {
+                    t.SetActive(_character.Tags.Contains(t.Text));
+                }
             }
         }
 
@@ -499,6 +393,21 @@ namespace Kenedia.Modules.Characters.Controls
             {
                 _character.RemoveTag(tag.Text);
             }
+        }
+
+        private void Tag_Deleted(object sender, EventArgs e)
+        {
+            var tag = (Tag)sender;
+            _ = _tags.Remove(tag);
+            _ = Characters.ModuleInstance.Tags.Remove(tag.Text);
+
+            tag.Deleted -= Tag_Deleted;
+        }
+
+        private void SetInteracted(object sender, EventArgs e)
+        {
+            _lastInteraction = DateTime.Now;
+            Opacity = 1f;
         }
     }
 }

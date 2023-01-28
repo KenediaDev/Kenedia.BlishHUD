@@ -11,7 +11,7 @@ namespace Kenedia.Modules.Characters.Extensions
         public static string RemoveDiacritics(this string s)
         {
             string result = s.Normalize(NormalizationForm.FormD);
-            return s_diacritics.Replace(result, string.Empty);
+            return s_diacritics.Replace(result, string.Empty).ToString().Replace("Æ", "Ae").Replace("æ", "ae").Replace("œ", "oe").Replace("Œ", "Oe");
         }
 
         /// <summary>

@@ -5,17 +5,19 @@ using Blish_HUD.Input;
 using Characters.Res;
 using Kenedia.Modules.Characters.Extensions;
 using Kenedia.Modules.Characters.Interfaces;
+using Kenedia.Modules.Core.Controls;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MonoGame.Extended.BitmapFonts;
 using System;
 using Color = Microsoft.Xna.Framework.Color;
+using Label = Kenedia.Modules.Core.Controls.Label;
 using Point = Microsoft.Xna.Framework.Point;
 using Rectangle = Microsoft.Xna.Framework.Rectangle;
 
 namespace Kenedia.Modules.Characters.Controls
 {
-    public class Tag : FlowPanel, IFontControl
+    public class Tag : Blish_HUD.Controls.FlowPanel, IFontControl
     {
         private readonly Label _text;
         private readonly ImageButton _delete;

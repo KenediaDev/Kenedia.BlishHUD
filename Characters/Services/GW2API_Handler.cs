@@ -1,21 +1,14 @@
-﻿using Blish_HUD;
-using Blish_HUD.Controls;
+﻿using Blish_HUD.Controls;
 using Blish_HUD.Modules.Managers;
 using Characters.Res;
 using Gw2Sharp.Models;
 using Gw2Sharp.WebApi.V2.Models;
 using Kenedia.Modules.Characters.Enums;
 using Kenedia.Modules.Characters.Models;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using Newtonsoft.Json;
-using SharpDX.MediaFoundation;
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.IO;
 using System.Linq;
-using System.Runtime;
 using File = System.IO.File;
 
 namespace Kenedia.Modules.Characters.Services

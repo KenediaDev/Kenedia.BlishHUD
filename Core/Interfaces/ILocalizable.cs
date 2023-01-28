@@ -1,5 +1,4 @@
 ﻿using Blish_HUD;
-using System;
 
 namespace Kenedia.Modules.Core.Interfaces
 {

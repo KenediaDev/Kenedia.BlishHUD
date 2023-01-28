@@ -7,11 +7,13 @@ using Kenedia.Modules.Characters.Interfaces;
 using Kenedia.Modules.Characters.Models;
 using Kenedia.Modules.Characters.Services;
 using Kenedia.Modules.Characters.Views;
+using Kenedia.Modules.Core.Controls;
 using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using FlowPanel = Kenedia.Modules.Core.Controls.FlowPanel;
 
 namespace Kenedia.Modules.Characters.Controls.SideMenu
 {

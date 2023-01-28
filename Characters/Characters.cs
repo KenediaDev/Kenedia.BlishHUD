@@ -21,11 +21,9 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel.Composition;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Resources;
-using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using static Kenedia.Modules.Characters.Services.TextureManager;
 using static Kenedia.Modules.Characters.Utility.WindowsUtil.WindowsUtil;
@@ -707,7 +705,7 @@ namespace Kenedia.Modules.Characters
             if (PotraitCapture == null || force)
             {
                 PotraitCapture?.Dispose();
-                PotraitCapture = new CharacterPotraitCapture() { Parent = GameService.Graphics.SpriteScreen, Visible = false, ZIndex = 999 };
+                PotraitCapture = new CharacterPotraitCapture() { Parent = GameService.Graphics.SpriteScreen, Visible = false, ZIndex = 10 };
             }
 
             if (OCR == null || force)

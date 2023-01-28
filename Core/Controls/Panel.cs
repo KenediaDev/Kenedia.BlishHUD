@@ -1,21 +1,20 @@
-﻿using Blish_HUD;
-using Blish_HUD.Content;
-using Blish_HUD.Controls;
+﻿using Blish_HUD.Content;
+using Blish_HUD;
 using Gw2Sharp.WebApi;
 using Kenedia.Modules.Core.Interfaces;
 using Kenedia.Modules.Core.Structs;
-using Microsoft.Xna.Framework.Graphics;
 using System;
-using Color = Microsoft.Xna.Framework.Color;
-using Rectangle = Microsoft.Xna.Framework.Rectangle;
+using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework;
 
 namespace Kenedia.Modules.Core.Controls
 {
-    public class FramedContainer : Container, ILocalizable
+
+    public class Panel : Blish_HUD.Controls.Panel, ILocalizable
     {
         private Func<string> _setLocalizedTooltip;
 
-        public FramedContainer()
+        public Panel()
         {
             GameService.Overlay.UserLocale.SettingChanged += UserLocale_SettingChanged;
             UserLocale_SettingChanged(null, null);
@@ -53,7 +52,7 @@ namespace Kenedia.Modules.Core.Controls
         {
             base.PaintBeforeChildren(spriteBatch, bounds);
 
-            var backgroundImageColor =BackgroundImageHoveredColor != null && MouseOver ? BackgroundImageHoveredColor : BackgroundImageColor;
+            var backgroundImageColor = BackgroundImageHoveredColor != null && MouseOver ? BackgroundImageHoveredColor : BackgroundImageColor;
 
             if (BackgroundImage != null && backgroundImageColor != null)
             {

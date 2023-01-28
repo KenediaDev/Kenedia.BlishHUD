@@ -7,10 +7,13 @@ using Kenedia.Modules.Characters.Extensions;
 using Kenedia.Modules.Characters.Interfaces;
 using Kenedia.Modules.Characters.Services;
 using Kenedia.Modules.Characters.Views;
+using Kenedia.Modules.Core.Controls;
 using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using Panel = Kenedia.Modules.Core.Controls.Panel;
+using TabbedPanel = Kenedia.Modules.Core.Controls.TabbedPanel;
 
 namespace Kenedia.Modules.Characters.Controls.SideMenu
 {
@@ -36,7 +39,7 @@ namespace Kenedia.Modules.Characters.Controls.SideMenu
             WidthSizingMode = SizingMode.Standard;
             HeightSizingMode = SizingMode.Standard;
             BackgroundColor = Color.Black * 0.4f;
-            Background = AsyncTexture2D.FromAssetId(156003);
+            BackgroundImage = AsyncTexture2D.FromAssetId(156003);
             Parent = GameService.Graphics.SpriteScreen;
             ZIndex = 100;
 
@@ -48,14 +51,14 @@ namespace Kenedia.Modules.Characters.Controls.SideMenu
                 Height = 25,
             };
 
-            _tabsButtonPanel.Location = new Point(0, _headerPanel.Bottom);
+            TabsButtonPanel.Location = new Point(0, _headerPanel.Bottom);
             CreateHeaderButtons();
 
             Width = 250;
             //Height = 415;
             HeightSizingMode = SizingMode.AutoSize;
 
-            TextureRectangle = new Rectangle(30, 30, Background.Width - 60, Background.Height - 60);
+            TextureRectangle = new Rectangle(30, 30, BackgroundImage.Width - 60, BackgroundImage.Height - 60);
 
             AddTab(_toggles = new SideMenuToggles()
             {
@@ -265,7 +268,7 @@ namespace Kenedia.Modules.Characters.Controls.SideMenu
         {
             base.OnResized(e);
 
-            TextureRectangle = new Rectangle(30, 30, Math.Min(Background.Width - 100, Width), Math.Min(Background.Height - 100, Height));
+            TextureRectangle = new Rectangle(30, 30, Math.Min(BackgroundImage.Width - 100, Width), Math.Min(BackgroundImage.Height - 100, Height));
 
             int gap = (Width - 6 - (_buttons.Count * 20)) / (_buttons.Count - 1);
             for (int i = 0; i < _buttons.Count; i++)

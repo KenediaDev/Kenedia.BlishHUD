@@ -368,9 +368,6 @@ Um den aktuellen Wert zu erhalten, müssen Sie die Modul-Tabs einmal wechseln, u
   <data name="FilterDelay_DisplayName" xml:space="preserve">
     <value>Filterverzögerung ({0} ms)</value>
   </data>
-  <data name="FilterDiacriticsInsensitive_Description" xml:space="preserve">
-    <value>Ignoriert alle Arten von diakritischen Zeichen</value>
-  </data>
   <data name="FilterDiacriticsInsensitive_DisplayName" xml:space="preserve">
     <value>Diakritische Zeichen ignorieren</value>
   </data>

@@ -4,10 +4,13 @@ using Kenedia.Modules.Characters.Extensions;
 using Kenedia.Modules.Characters.Interfaces;
 using Kenedia.Modules.Characters.Services;
 using Kenedia.Modules.Characters.Views;
+using Kenedia.Modules.Core.Controls;
 using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
 using System.Resources;
+using Dropdown = Kenedia.Modules.Core.Controls.Dropdown;
+using Panel = Kenedia.Modules.Core.Controls.Panel;
 
 namespace Kenedia.Modules.Characters.Controls.SideMenu
 {

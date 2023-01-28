@@ -11,9 +11,6 @@ using Point = System.Drawing.Point;
 using Size = System.Drawing.Size;
 using static Kenedia.Modules.Characters.Utility.WindowsUtil.WindowsUtil;
 using Kenedia.Modules.Characters.Models;
-using Blish_HUD.Controls;
-using System.Diagnostics;
-using System.Runtime;
 
 namespace Kenedia.Modules.Characters.Services
 {

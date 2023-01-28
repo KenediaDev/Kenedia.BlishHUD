@@ -12,9 +12,8 @@ namespace Kenedia.Modules.Characters.Controls
     {
         public ImageSelector()
         {
-            Parent = GameService.Graphics.SpriteScreen;
             AutoSizePadding = new Point(5, 5);
-            ZIndex = 999;
+            ZIndex = 10;
             OuterControlPadding = new Vector2(5, 5);
             Padding = new Thickness(5, 5);
             CanScroll = true;

@@ -7,19 +7,22 @@ using Kenedia.Modules.Characters.Controls.SideMenu;
 using Kenedia.Modules.Characters.Extensions;
 using Kenedia.Modules.Characters.Models;
 using Kenedia.Modules.Characters.Services;
+using Kenedia.Modules.Core.Controls;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MonoGame.Extended.BitmapFonts;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using static Kenedia.Modules.Characters.Services.SettingsModel;
+using static Kenedia.Modules.Core.Controls.AnchoredContainer;
 using Color = Microsoft.Xna.Framework.Color;
+using FlowPanel = Kenedia.Modules.Core.Controls.FlowPanel;
 using Point = Microsoft.Xna.Framework.Point;
 using Rectangle = Microsoft.Xna.Framework.Rectangle;
+using TextBox = Kenedia.Modules.Core.Controls.TextBox;
 
 namespace Kenedia.Modules.Characters.Views
 {
@@ -145,7 +148,7 @@ namespace Kenedia.Modules.Characters.Views
                 Parent = _buttonPanel,
                 Texture = AsyncTexture2D.FromAssetId(605018),
                 Size = new Point(25, 25),
-                ColorDefault = ContentService.Colors.ColonialWhite,
+                Color = ContentService.Colors.ColonialWhite,
                 ColorHovered = Color.White,
                 BasicTooltipText = string.Format(strings.Toggle, "Side Menu"),
             };
@@ -155,11 +158,19 @@ namespace Kenedia.Modules.Characters.Views
 
             CharacterEdit = new CharacterEdit()
             {
-                TextureOffset = new Point(25, 25),
+                Parent = GameService.Graphics.SpriteScreen,
+                Anchor = this,
+                AnchorPosition = AnchorPos.AutoHorizontal,
+                RelativePosition = new(0,45,0,0),
                 Visible = false,
             };
 
-            _sideMenu = new() { Visible = false, };
+            _sideMenu = new() { 
+                Visible = false, 
+                Anchor = this,
+                AnchorPosition = AnchorPos.AutoHorizontal,
+                RelativePosition = new(0, 45, 0, 0),
+            };
 
             _attachedWindows.Add(CharacterEdit);
             _attachedWindows.Add(_sideMenu);
@@ -343,17 +354,15 @@ namespace Kenedia.Modules.Characters.Views
                 return matchAll && results.Count(e => e == true) >= strings.Count;
             }
 
-            foreach (CharacterControl ctrl in CharactersPanel.Children)
+            foreach (var (ctrl, toggleResult, stringsResult, tagsResult) in from CharacterControl ctrl in CharactersPanel.Children
+                                                                            let c = ctrl.Character
+                                                                            where c != null
+                                                                            let toggleResult = toggleFilters.Count == 0 || (include == FilterResult(c))
+                                                                            let stringsResult = stringFilters.Count == 0 || (include == StringFilterResult(c))
+                                                                            let tagsResult = tagFilters.Count == 0 || (include == TagResult(c))
+                                                                            select (ctrl, toggleResult, stringsResult, tagsResult))
             {
-                Character_Model c = ctrl.Character;
-
-                if (c != null)
-                {
-                    bool toggleResult = toggleFilters.Count == 0 || (include == FilterResult(c));
-                    bool stringsResult = stringFilters.Count == 0 || (include == StringFilterResult(c));
-                    bool tagsResult = tagFilters.Count == 0 || (include == TagResult(c));
-                    ctrl.Visible = toggleResult && stringsResult && tagsResult;
-                }
+                ctrl.Visible = toggleResult && stringsResult && tagsResult;
             }
 
             SortCharacters();
@@ -468,7 +477,7 @@ namespace Kenedia.Modules.Characters.Views
                         CharactersPanel.SortChildren<CharacterControl>((a, b) => a.Index.CompareTo(b.Index));
 
                         int i = 0;
-                        foreach (CharacterControl c in CharactersPanel.Children)
+                        foreach (var c in CharactersPanel.Children.Cast<CharacterControl>())
                         {
                             c.Index = i;
                             i++;
@@ -631,7 +640,7 @@ namespace Kenedia.Modules.Characters.Views
 
             foreach (Control c in _attachedWindows)
             {
-                c.Location = left ? new(mainBounds.Left - c.Width - 5, mainBounds.Top + 45) : new(mainBounds.Right, mainBounds.Top + 45);
+         //       c.Location = left ? new(mainBounds.Left - c.Width - 5, mainBounds.Top + 45) : new(mainBounds.Right, mainBounds.Top + 45);
             }
         }
 
@@ -698,13 +707,13 @@ namespace Kenedia.Modules.Characters.Views
             CharacterControl lastControl = characterControl;
 
             int i = 0;
-            foreach (CharacterControl c in CharactersPanel.Children)
+            foreach (var c in CharactersPanel.Children.Cast<CharacterControl>())
             {
                 c.Index = i;
                 i++;
             }
 
-            foreach (CharacterControl c in CharactersPanel.Children)
+            foreach (var c in CharactersPanel.Children.Cast<CharacterControl>())
             {
                 if (c.AbsoluteBounds.Contains(m.Position))
                 {

@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Point = Microsoft.Xna.Framework.Point;
 
-namespace Kenedia.Modules.Characters.Controls
+namespace Kenedia.Modules.Core.Controls
 {
     public class FlowTab : PanelTab
     {

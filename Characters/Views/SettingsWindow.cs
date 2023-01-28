@@ -17,9 +17,11 @@ using static Kenedia.Modules.Characters.Utility.WindowsUtil.WindowsUtil;
 using Bitmap = System.Drawing.Bitmap;
 using Checkbox = Kenedia.Modules.Core.Controls.Checkbox;
 using Dropdown = Kenedia.Modules.Core.Controls.Dropdown;
+using FlowPanel = Kenedia.Modules.Core.Controls.FlowPanel;
 using Image = Blish_HUD.Controls.Image;
 using KeybindingAssigner = Kenedia.Modules.Core.Controls.KeybindingAssigner;
 using Label = Kenedia.Modules.Core.Controls.Label;
+using Panel = Kenedia.Modules.Core.Controls.Panel;
 using TrackBar = Kenedia.Modules.Core.Controls.TrackBar;
 
 namespace Kenedia.Modules.Characters.Views
@@ -65,12 +67,12 @@ namespace Kenedia.Modules.Characters.Views
                 CanScroll = true,
             };
 
-            CreateKeybinds();
-            CreateBehavior();
             CreateAppearance();
+            CreateBehavior();
             CreateDelays();
-            CreateLayout();
             CreateGeneral();
+            CreateLayout();
+            CreateKeybinds();
 
             Characters.ModuleInstance.LanguageChanged += OnLanguageChanged;
             OnLanguageChanged();
@@ -191,7 +193,7 @@ namespace Kenedia.Modules.Characters.Views
                 SetLocalizedTooltip = () => strings.EnterOnSwap_Description,
                 CheckedChangedAction = (b) => Settings.EnterOnSwap.Value = b,
             };
-            
+
             _ = new Checkbox()
             {
                 Parent = cP,
@@ -449,7 +451,7 @@ namespace Kenedia.Modules.Characters.Views
                 WidthSizingMode = SizingMode.Fill,
                 Height = 30,
             };
-            _ = new Label()
+            var iconSizeLabel = new Label()
             {
                 Parent = subP,
                 AutoSizeWidth = true,
@@ -463,7 +465,11 @@ namespace Kenedia.Modules.Characters.Views
                 MaxValue = 256,
                 Width = ContentRegion.Width - 35 - 250,
                 Value = Settings.CustomCharacterIconSize.Value,
-                ValueChangedAction = (num) => Settings.CustomCharacterIconSize = null,
+                ValueChangedAction = (num) =>
+                {
+                    Settings.CustomCharacterIconSize.Value = num;
+                    iconSizeLabel.UserLocale_SettingChanged(num, null);
+                },
             };
 
             subP = new Panel()
@@ -473,7 +479,7 @@ namespace Kenedia.Modules.Characters.Views
                 Height = 30,
             };
 
-            _ = new Checkbox()
+            var cardWidthCheckbox = new Checkbox()
             {
                 Parent = subP,
                 Checked = Settings.CharacterPanelFixedWidth.Value,
@@ -490,7 +496,11 @@ namespace Kenedia.Modules.Characters.Views
                 MaxValue = 750,
                 Width = ContentRegion.Width - 35 - 250,
                 Value = Settings.CharacterPanelWidth.Value,
-                ValueChangedAction = (num) => Settings.CharacterPanelWidth.Value = num,
+                ValueChangedAction = (num) =>
+                {
+                    Settings.CharacterPanelWidth.Value = num;
+                    cardWidthCheckbox.UserLocale_SettingChanged(null, null);
+                },
             };
 
             #endregion Appearance
@@ -540,7 +550,7 @@ namespace Kenedia.Modules.Characters.Views
                 HeightSizingMode = SizingMode.AutoSize,
             };
 
-            _ = new Label()
+            var keyDelayLabel = new Label()
             {
                 Parent = subP,
                 AutoSizeWidth = true,
@@ -557,7 +567,11 @@ namespace Kenedia.Modules.Characters.Views
                 MaxValue = 500,
                 Value = Settings.KeyDelay.Value,
                 Width = ContentRegion.Width - 35 - 225,
-                ValueChangedAction = (num) => Settings.KeyDelay.Value = num,
+                ValueChangedAction = (num) =>
+                {
+                    Settings.KeyDelay.Value = num;
+                    keyDelayLabel.UserLocale_SettingChanged(null, null);
+                },
             };
 
             subP = new Panel()
@@ -567,7 +581,7 @@ namespace Kenedia.Modules.Characters.Views
                 HeightSizingMode = SizingMode.AutoSize,
             };
 
-            _ = new Label()
+            var filterDelayLabel = new Label()
             {
                 Parent = subP,
                 AutoSizeWidth = true,
@@ -584,7 +598,11 @@ namespace Kenedia.Modules.Characters.Views
                 MaxValue = 500,
                 Value = Settings.FilterDelay.Value,
                 Width = ContentRegion.Width - 35 - 225,
-                ValueChangedAction = (num) => Settings.FilterDelay.Value = num,
+                ValueChangedAction = (num) =>
+                {
+                    Settings.FilterDelay.Value = num;
+                    filterDelayLabel.UserLocale_SettingChanged(num, null);
+                },
             };
 
             subP = new Panel()
@@ -594,7 +612,7 @@ namespace Kenedia.Modules.Characters.Views
                 HeightSizingMode = SizingMode.AutoSize,
             };
 
-            _ = new Label()
+            var swapDelayLabel = new Label()
             {
                 Parent = subP,
                 AutoSizeWidth = true,
@@ -611,7 +629,11 @@ namespace Kenedia.Modules.Characters.Views
                 MaxValue = 60000,
                 Value = Settings.SwapDelay.Value,
                 Width = ContentRegion.Width - 35 - 225,
-                ValueChangedAction = (num) => Settings.SwapDelay.Value = num,
+                ValueChangedAction = (num) =>
+                {
+                    Settings.SwapDelay.Value = num;
+                    swapDelayLabel.UserLocale_SettingChanged(null, null);
+                },
             };
             #endregion Delays
         }
@@ -1051,7 +1073,7 @@ namespace Kenedia.Modules.Characters.Views
         {
             base.UpdateContainer(gameTime);
 
-            if(gameTime.TotalGameTime.TotalMilliseconds - _tick >= 1000)
+            if (gameTime.TotalGameTime.TotalMilliseconds - _tick >= 1000)
             {
                 _tick = gameTime.TotalGameTime.TotalMilliseconds;
 

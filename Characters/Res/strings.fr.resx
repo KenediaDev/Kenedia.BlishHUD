@@ -368,9 +368,6 @@ Pour obtenir la valeur actuelle, vous devrez changer d'onglet de module une fois
   <data name="FilterDelay_DisplayName" xml:space="preserve">
     <value>Retard du filtre ({0} ms)</value>
   </data>
-  <data name="FilterDiacriticsInsensitive_Description" xml:space="preserve">
-    <value>Ignore les accents lors de la recherche</value>
-  </data>
   <data name="FilterDiacriticsInsensitive_DisplayName" xml:space="preserve">
     <value>Ignorer les diacritiques</value>
   </data>

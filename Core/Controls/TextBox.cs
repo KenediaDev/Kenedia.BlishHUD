@@ -5,14 +5,15 @@ using System;
 
 namespace Kenedia.Modules.Core.Controls
 {
-    public class Label : Blish_HUD.Controls.Label, ILocalizable
+    public class TextBox : Blish_HUD.Controls.TextBox, ILocalizable
     {
         private Func<string> _setLocalizedText;
         private Func<string> _setLocalizedTooltip;
 
-        public Label()
+        public TextBox()
         {
             GameService.Overlay.UserLocale.SettingChanged += UserLocale_SettingChanged;
+            TextChanged += OnTextChanged;
             UserLocale_SettingChanged(null, null);
         }
 
@@ -36,6 +37,17 @@ namespace Kenedia.Modules.Core.Controls
             }
         }
 
+        public Action<string> EnterPressedAction { get; set; }
+
+        public Action<string> TextChangedAction { get; set; }
+
+        protected override void OnEnterPressed(EventArgs e)
+        {
+            base.OnEnterPressed(e);
+
+            EnterPressedAction?.Invoke(Text);
+        }
+
         public void UserLocale_SettingChanged(object sender, ValueChangedEventArgs<Locale> e)
         {
             if (SetLocalizedText != null) Text = SetLocalizedText?.Invoke();
@@ -46,7 +58,13 @@ namespace Kenedia.Modules.Core.Controls
         {
             base.DisposeControl();
 
+            TextChanged -= OnTextChanged;
             GameService.Overlay.UserLocale.SettingChanged -= UserLocale_SettingChanged;
+        }
+
+        private void OnTextChanged(object sender, EventArgs e)
+        {
+            TextChangedAction?.Invoke(Text);
         }
     }
 }

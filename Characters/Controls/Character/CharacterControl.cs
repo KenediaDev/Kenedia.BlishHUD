@@ -13,8 +13,6 @@ using Microsoft.Xna.Framework.Input;
 using MonoGame.Extended.BitmapFonts;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.Drawing.Printing;
 using System.Linq;
 using static Blish_HUD.ContentService;
 using static Kenedia.Modules.Characters.Services.SettingsModel;
