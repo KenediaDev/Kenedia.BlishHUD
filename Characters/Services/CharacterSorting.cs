@@ -1,6 +1,5 @@
 ﻿using Blish_HUD.Controls.Extern;
 using Characters.Res;
-using Kenedia.Modules.Characters.Extensions;
 using Kenedia.Modules.Characters.Models;
 using System;
 using System.Collections.Generic;
@@ -9,6 +8,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Diagnostics.CodeAnalysis;
+using Kenedia.Modules.Core.Extensions;
 
 namespace Kenedia.Modules.Characters.Services
 {

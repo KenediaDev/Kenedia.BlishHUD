@@ -4,7 +4,7 @@ using Point = Microsoft.Xna.Framework.Point;
 
 namespace Kenedia.Modules.Core.Extensions
 {
-    internal static class PointExtensions
+    public static class PointExtensions
     {
         public static int Distance2D(this Point p1, Point p2)
         {

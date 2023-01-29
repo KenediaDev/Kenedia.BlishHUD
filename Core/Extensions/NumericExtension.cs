@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Kenedia.Modules.Characters.Extensions
+namespace Kenedia.Modules.Core.Extensions
 {
     public static class NumericExtension
     {

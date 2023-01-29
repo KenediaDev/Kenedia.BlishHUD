@@ -4,9 +4,9 @@ using Blish_HUD.Controls;
 using Blish_HUD.Settings;
 using Characters.Res;
 using Kenedia.Modules.Characters.Extensions;
-using Kenedia.Modules.Characters.Interfaces;
 using Kenedia.Modules.Characters.Services;
 using Kenedia.Modules.Core.Controls;
+using Kenedia.Modules.Core.Extensions;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MonoGame.Extended.BitmapFonts;
@@ -26,7 +26,7 @@ using TrackBar = Kenedia.Modules.Core.Controls.TrackBar;
 
 namespace Kenedia.Modules.Characters.Views
 {
-    public class SettingsWindow : StandardWindow, ILocalizable
+    public class SettingsWindow : StandardWindow
     {
         private readonly AsyncTexture2D _subWindowEmblem = AsyncTexture2D.FromAssetId(156027);
         private readonly AsyncTexture2D _mainWindowEmblem = AsyncTexture2D.FromAssetId(156015);

@@ -2,7 +2,7 @@
 using Microsoft.Xna.Framework.Graphics;
 using Rectangle = Microsoft.Xna.Framework.Rectangle;
 
-namespace Kenedia.Modules.Characters.Controls
+namespace Kenedia.Modules.Core.Controls
 {
     public class Dummy : Control
     {

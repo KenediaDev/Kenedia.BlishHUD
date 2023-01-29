@@ -2,7 +2,7 @@
 using Blish_HUD.Content;
 using Gw2Sharp.WebApi.V2.Models;
 using Kenedia.Modules.Characters.Enums;
-using Kenedia.Modules.Characters.Extensions;
+using Kenedia.Modules.Core.Extensions;
 using System;
 using System.Collections.Generic;
 using System.IO;

@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Kenedia.Modules.Characters.Extensions
+namespace Kenedia.Modules.Core.Extensions
 {
-    internal static class ListExtension
+    public static class ListExtension
     {
         public static bool ContainsAny<T>(this IEnumerable<T> sequence, params T[] matches)
         {

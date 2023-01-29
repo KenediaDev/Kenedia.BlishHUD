@@ -332,8 +332,6 @@ namespace Kenedia.Modules.Characters
                 CreateUI();
             }
 
-            GameState.Run(gameTime);
-
             if (_ticks.Global > 15000)
             {
                 _ticks.Global = 0; 

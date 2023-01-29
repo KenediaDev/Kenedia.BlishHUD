@@ -2,8 +2,8 @@
 using Blish_HUD.Content;
 using Blish_HUD.Controls;
 using Characters.Res;
-using Kenedia.Modules.Characters.Interfaces;
 using Kenedia.Modules.Characters.Models;
+using Kenedia.Modules.Core.Interfaces;
 using Microsoft.Xna.Framework.Graphics;
 using MonoGame.Extended.BitmapFonts;
 using static Kenedia.Modules.Characters.Services.Data;

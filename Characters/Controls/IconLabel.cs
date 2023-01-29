@@ -1,7 +1,7 @@
 ﻿using Blish_HUD;
 using Blish_HUD.Content;
 using Blish_HUD.Controls;
-using Kenedia.Modules.Characters.Interfaces;
+using Kenedia.Modules.Core.Interfaces;
 using Microsoft.Xna.Framework.Graphics;
 using MonoGame.Extended.BitmapFonts;
 using System;

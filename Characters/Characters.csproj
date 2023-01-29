@@ -204,52 +204,34 @@
     <Compile Include="Controls\CharacterEditBU.cs" />
     <Compile Include="Controls\CharacterEdit.cs" />
     <Compile Include="Controls\CharacterPotraitCapture.cs" />
-    <Compile Include="Controls\Character\CharacterControl.cs" />
-    <Compile Include="Controls\Character\CharacterTooltip.cs" />
-    <Compile Include="Controls\Character\CraftingControl.cs" />
+    <Compile Include="Controls\CharacterControl.cs" />
+    <Compile Include="Controls\CharacterTooltip.cs" />
+    <Compile Include="Controls\CraftingControl.cs" />
     <Compile Include="Controls\DraggingControl.cs" />
-    <Compile Include="Controls\Dummy.cs" />
-    <Compile Include="Controls\FilterEntry.cs" />
+    <Compile Include="Models\FilterEntry.cs" />
     <Compile Include="Controls\FilterTag.cs" />
-    <Compile Include="Controls\Filter_SideMenu\FilterCategory.cs" />
     <Compile Include="Controls\FontFlowPanel.cs" />
-    <Compile Include="Controls\HeadedPanel.cs" />
     <Compile Include="Controls\IconLabel.cs" />
     <Compile Include="Controls\ImageSelector.cs" />
-    <Compile Include="Controls\ImageToggle.cs" />
     <Compile Include="Controls\ImageToggle\ImageColorToggle.cs" />
     <Compile Include="Controls\ImageToggle\ImageGrayScaled.cs" />
     <Compile Include="Controls\ImageToggle\ImageTextureToggle.cs" />
     <Compile Include="Controls\ImageToggle\ImageToggleButton.cs" />
     <Compile Include="Controls\RunIndicator.cs" />
-    <Compile Include="Controls\Settings SideMenu\TabButton.cs" />
     <Compile Include="Controls\SideMenu\DisplayCheckToggle.cs" />
     <Compile Include="Controls\SideMenu\SideMenu.cs" />
     <Compile Include="Controls\SideMenu\SideMenuBehaviours.cs" />
     <Compile Include="Controls\SideMenu\SideMenuToggles.cs" />
     <Compile Include="Controls\Tag.cs" />
     <Compile Include="Enums\SpecializationType.cs" />
-    <Compile Include="Extensions\BitMapExtension.cs" />
-    <Compile Include="Extensions\ContainerExtensions.cs" />
-    <Compile Include="Extensions\ControlExtensions.cs" />
-    <Compile Include="Extensions\DisposableExtensions.cs" />
     <Compile Include="Extensions\FilterTagListExtension.cs" />
     <Compile Include="Extensions\Gw2SharpExtension.cs" />
-    <Compile Include="Extensions\ListExtension.cs" />
-    <Compile Include="Extensions\NumericExtension.cs" />
-    <Compile Include="Extensions\PointExtensions.cs" />
-    <Compile Include="Extensions\SortTypeExtension.cs" />
-    <Compile Include="Extensions\StringExtension.cs" />
-    <Compile Include="Extensions\Texture2DExtension.cs" />
-    <Compile Include="Interfaces\IFontControl.cs" />
-    <Compile Include="Interfaces\ILocalizable.cs" />
+    <Compile Include="Extensions\CustomEnumExtension.cs" />
     <Compile Include="Models\AccountSummary.cs" />
     <Compile Include="Models\Character_Model.cs" />
     <Compile Include="Models\Crafting_Model.cs" />
-    <Compile Include="Models\GameStateChangedEventArgs.cs" />
     <Compile Include="Models\Map.cs" />
-    <Compile Include="Models\Names.cs" />
-    <Compile Include="Models\RectangleOffset.cs" />
+    <Compile Include="Models\LocalizedString.cs" />
     <Compile Include="Models\ShowCheckPair.cs" />
     <Compile Include="Models\TagList.cs" />
     <Compile Include="OCR\OCR.cs" />
@@ -262,7 +244,6 @@
     <Compile Include="Services\CharacterSorting.cs" />
     <Compile Include="Services\CharacterSwapping.cs" />
     <Compile Include="Services\Data.cs" />
-    <Compile Include="Services\GameState.cs" />
     <Compile Include="Services\GW2API_Handler.cs" />
     <Compile Include="Services\InputService.cs" />
     <Compile Include="Services\RandomService.cs" />
@@ -367,7 +348,7 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Controls\Tabbed_Panel\" />
+    <Folder Include="Interfaces\" />
     <Folder Include="Properties\" />
   </ItemGroup>
   <ItemGroup>

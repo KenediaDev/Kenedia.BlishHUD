@@ -1,6 +1,6 @@
 ﻿namespace Kenedia.Modules.Characters.Models
 {
-    public class Names
+    public class LocalizedString
     {
         public string De { get; set; }
 

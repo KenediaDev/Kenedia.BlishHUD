@@ -1,20 +1,19 @@
 {
-  "name": "Tyrian QoL",
-  "version": "0.0.9",
-  "namespace": "Kenedia.Modules.QoL",
-  "package": "QoL.dll",
-  "manifest_version": 1,
-
-  "description": "A collection of smaller Quality of Life features!\n\nAll UI Controls can be moved with 'ALT + Left Click & Drag'.'",
-  "dependencies": {
-    "bh.blishhud": ">=0.11.7"
-  },
-  "url": "https://github.com/KenediaDev/Kenedia.BlishHUD",
   "contributors": [
     {
       "url": "https://github.com/KenediaDev",
       "name": "Kenedia"
     }
   ],
-  "enabled_without_gw2": false
+  "dependencies": {
+    "bh.blishhud": ">=1.0.0"
+  },
+  "description": "A collection of smaller Quality of Life features!\n\nAll UI Controls can be moved with 'ALT + Left Click & Drag'.'",
+  "enabled_without_gw2": false,
+  "manifest_version": 1,
+  "name": "Tyrian QoL",
+  "namespace": "Kenedia.Modules.QoL",
+  "package": "Kenedia.Modules.QoL.dll",
+  "url": "https://github.com/KenediaDev/Kenedia.BlishHUD",
+  "version": "0.0.9"
 }

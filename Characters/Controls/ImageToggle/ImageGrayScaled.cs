@@ -1,6 +1,7 @@
 ﻿using Blish_HUD;
 using Blish_HUD.Content;
 using Blish_HUD.Controls;
+using Kenedia.Modules.Core.Extensions;
 using Microsoft.Xna.Framework.Graphics;
 using Color = Microsoft.Xna.Framework.Color;
 using Rectangle = Microsoft.Xna.Framework.Rectangle;
@@ -27,7 +28,7 @@ namespace Kenedia.Modules.Characters.Controls
                 _texture.TextureSwapped += Texture_TextureSwapped;
                 if (value != null)
                 {
-                    _grayScaleTexture = ToGrayScaledPalettable(value.Texture);
+                    _grayScaleTexture = value.Texture.ToGrayScaledPalettable();
                 }
             }
         }
@@ -108,7 +109,7 @@ namespace Kenedia.Modules.Characters.Controls
 
         private void Texture_TextureSwapped(object sender, ValueChangedEventArgs<Texture2D> e)
         {
-            _grayScaleTexture = ToGrayScaledPalettable(_texture);
+            _grayScaleTexture = _texture.Texture.ToGrayScaledPalettable();
             _texture.TextureSwapped -= Texture_TextureSwapped;
         }
     }

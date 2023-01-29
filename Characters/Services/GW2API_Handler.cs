@@ -94,6 +94,8 @@ namespace Kenedia.Modules.Characters.Services
                     Gw2Sharp.WebApi.V2.IApiV2ObjectList<Character> characters = await gw2ApiManager.Gw2ApiClient.V2.Characters.AllAsync();
                     UpdateAccountsList(account, characters);
 
+                    Characters.Logger.Info($"Fetching new API Data. Adjusting characters informatin to fresh data from the api.");
+
                     var character_Models = Characters.ModuleInstance.CharacterModels.ToList();
                     int pos = 0;
 
@@ -124,7 +126,7 @@ namespace Kenedia.Modules.Characters.Services
                         character_Model.Gender = c.Gender;
                         character_Model.Created = c.Created;
                         character_Model.LastModified = c.LastModified.UtcDateTime;
-                        character_Model.LastLogin = c.LastModified.UtcDateTime;
+                        character_Model.LastLogin = c.LastModified.UtcDateTime > character_Model.LastLogin ? c.LastModified.UtcDateTime : character_Model.LastLogin;
                         character_Model.Position = pos;
                         character_Model.Level = c.Level;
 

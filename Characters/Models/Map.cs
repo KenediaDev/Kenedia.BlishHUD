@@ -40,7 +40,7 @@ namespace Kenedia.Modules.Characters.Models
         }
 
         [DataMember]
-        public Names Names { get; set; } = new Names();
+        public LocalizedString Names { get; set; } = new LocalizedString();
 
         [DataMember]
         public int Id { get; set; }

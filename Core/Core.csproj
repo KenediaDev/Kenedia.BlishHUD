@@ -268,7 +268,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Core.cs" />
     <Compile Include="Controls\AnchoredControl.cs" />
+    <Compile Include="Controls\Dummy.cs" />
     <Compile Include="Controls\FlowPanel.cs" />
     <Compile Include="Controls\FlowTab.cs" />
     <Compile Include="Controls\FramedContainer.cs" />
@@ -288,12 +290,23 @@
     <Compile Include="Controls\Label.cs" />
     <Compile Include="Controls\NumberBox.cs" />
     <Compile Include="Extensions\BitMapExtension.cs" />
+    <Compile Include="Extensions\ContainerExtensions.cs" />
+    <Compile Include="Extensions\ControlExtensions.cs" />
     <Compile Include="Extensions\DisposableExtensions.cs" />
+    <Compile Include="Extensions\ListExtension.cs" />
+    <Compile Include="Extensions\NumericExtension.cs" />
     <Compile Include="Extensions\PointExtensions.cs" />
+    <Compile Include="Extensions\StringExtension.cs" />
     <Compile Include="Extensions\Texture2DExtension.cs" />
+    <Compile Include="GlobalSuppressions.cs" />
+    <Compile Include="Interfaces\IFontControl.cs" />
     <Compile Include="Interfaces\ILocalizable.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\ClientWindowService.cs" />
+    <Compile Include="Services\GameState.cs" />
+    <Compile Include="Models\GameStateChangedEventArgs.cs" />
     <Compile Include="Structs\RectangleDimensions.cs" />
+    <Compile Include="Utility\User32Dll.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

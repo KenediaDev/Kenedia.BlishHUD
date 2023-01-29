@@ -2,7 +2,7 @@
 
 namespace Kenedia.Modules.Core.Interfaces
 {
-    interface ILocalizable
+    public interface ILocalizable
     {
        void UserLocale_SettingChanged(object sender, ValueChangedEventArgs<Gw2Sharp.WebApi.Locale> e);
     }

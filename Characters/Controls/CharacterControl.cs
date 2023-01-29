@@ -3,10 +3,11 @@ using Blish_HUD.Content;
 using Blish_HUD.Controls;
 using Blish_HUD.Input;
 using Characters.Res;
-using Kenedia.Modules.Characters.Extensions;
-using Kenedia.Modules.Characters.Interfaces;
 using Kenedia.Modules.Characters.Models;
 using Kenedia.Modules.Characters.Services;
+using Kenedia.Modules.Core.Controls;
+using Kenedia.Modules.Core.Extensions;
+using Kenedia.Modules.Core.Interfaces;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -17,25 +18,13 @@ using System.Linq;
 using static Blish_HUD.ContentService;
 using static Kenedia.Modules.Characters.Services.SettingsModel;
 using Color = Microsoft.Xna.Framework.Color;
+using FlowPanel = Kenedia.Modules.Core.Controls.FlowPanel;
+using Panel = Kenedia.Modules.Core.Controls.Panel;
 using Point = Microsoft.Xna.Framework.Point;
 using Rectangle = Microsoft.Xna.Framework.Rectangle;
 
 namespace Kenedia.Modules.Characters.Controls
 {
-    public class Test : Control
-    {
-        protected override void Paint(SpriteBatch spriteBatch, Rectangle bounds)
-        {
-
-        }
-
-        public override void RecalculateLayout()
-        {
-            base.RecalculateLayout();
-
-        }
-    }
-
     public class CharacterControl : Panel
     {
         private readonly List<Control> _dataControls = new();

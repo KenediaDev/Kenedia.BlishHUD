@@ -4,6 +4,7 @@ using Blish_HUD.Controls;
 using Characters.Res;
 using Kenedia.Modules.Characters.Models;
 using Kenedia.Modules.Characters.Services;
+using Kenedia.Modules.Core.Controls;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MonoGame.Extended.BitmapFonts;
@@ -11,6 +12,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Color = Microsoft.Xna.Framework.Color;
+using FlowPanel = Kenedia.Modules.Core.Controls.FlowPanel;
 using Point = Microsoft.Xna.Framework.Point;
 using Rectangle = Microsoft.Xna.Framework.Rectangle;
 
@@ -297,7 +299,7 @@ namespace Kenedia.Modules.Characters.Controls
             _craftingControl.Font = Font;
 
             _tagPanel.Visible = Character.Tags.Count > 0;
-            foreach (Tag tag in _tagPanel.Children)
+            foreach (var tag in _tagPanel.Children.Cast<Tag>())
             {
                 tag.Font = Font;
             }

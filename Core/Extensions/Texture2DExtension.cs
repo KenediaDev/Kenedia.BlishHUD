@@ -4,7 +4,7 @@ using Color = Microsoft.Xna.Framework.Color;
 
 namespace Kenedia.Modules.Core.Extensions
 {
-    internal static class Texture2DExtension
+    public static class Texture2DExtension
     {
         public static Texture2D CreateTexture2D(this MemoryStream s)
         {

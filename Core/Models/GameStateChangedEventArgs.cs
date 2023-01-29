@@ -1,7 +1,7 @@
-﻿using Kenedia.Modules.Characters.Services;
+﻿using Kenedia.Modules.Core.Services;
 using System;
 
-namespace Kenedia.Modules.Characters.Models
+namespace Kenedia.Modules.Core.Models
 {
     public class GameStateChangedEventArgs : EventArgs
     {

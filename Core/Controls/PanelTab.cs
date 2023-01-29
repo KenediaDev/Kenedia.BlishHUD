@@ -1,5 +1,4 @@
 ﻿using Blish_HUD.Content;
-using Blish_HUD.Controls;
 using System;
 using Rectangle = Microsoft.Xna.Framework.Rectangle;
 

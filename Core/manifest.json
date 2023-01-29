@@ -1,19 +1,18 @@
 {
-  "name": "Core",
-  "version": "0.0.1",
-  "namespace": "Kenedia.Modules.Core",
-  "package": "Kenedia.Modules.Core.dll",
-  "manifest_version": 1,
-
-  "description": "Shared core module for all modules.",
-  "dependencies": {
-    "bh.blishhud": ">=1.0.0"
-  },
-  "url": "https://github.com/lasse/Core",
   "contributors": [
     {
       "name": "Kenedia",
       "url": "https://github.com/KenediaDev"
     }
-  ]
+  ],
+  "dependencies": {
+    "bh.blishhud": ">=1.0.0"
+  },
+  "description": "Shared core module for all modules.",
+  "manifest_version": 1,
+  "name": "Kenedia.Modules.Core",
+  "namespace": "Kenedia.Modules.Core",
+  "package": "Kenedia.Modules.Core.dll",
+  "url": "https://github.com/KenediaDev/Kenedia.BlishHUD",
+  "version": "0.0.1"
 }

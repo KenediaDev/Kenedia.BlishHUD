@@ -1,10 +1,10 @@
 ﻿using Blish_HUD.Controls;
 using Characters.Res;
 using Kenedia.Modules.Characters.Extensions;
-using Kenedia.Modules.Characters.Interfaces;
 using Kenedia.Modules.Characters.Services;
 using Kenedia.Modules.Characters.Views;
 using Kenedia.Modules.Core.Controls;
+using Kenedia.Modules.Core.Interfaces;
 using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;

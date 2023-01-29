@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Kenedia.Modules.Characters.Controls
+namespace Kenedia.Modules.Characters.Models
 {
     public class SearchFilter<T>
     {

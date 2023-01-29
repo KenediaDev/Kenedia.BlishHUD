@@ -1,8 +1,8 @@
 ﻿using Blish_HUD;
 using Blish_HUD.Controls;
-using Kenedia.Modules.Core.Controls;
 using Kenedia.Modules.Core.Structs;
 using Microsoft.Xna.Framework;
+using System;
 
 namespace Kenedia.Modules.Core.Controls
 {
@@ -29,15 +29,20 @@ namespace Kenedia.Modules.Core.Controls
 
                 if (_anchor != value)
                 {
-                    if (_anchor != null) _anchor.Moved -= Anchor_Moved;
+                    if (_anchor != null)
+                    {
+                        _anchor.Moved -= Anchor_Moved;
+                        _anchor.Resized -= Anchor_Moved;
+                    }
 
                     _anchor = value;
+                    _anchor.Resized += Anchor_Moved;
                     _anchor.Moved += Anchor_Moved;
                 }                
             }
         }
 
-        private void Anchor_Moved(object sender, MovedEventArgs e)
+        private void Anchor_Moved(object sender, EventArgs e)
         {
             Location = GetPosition();
         }

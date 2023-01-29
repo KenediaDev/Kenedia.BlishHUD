@@ -1,6 +1,6 @@
 ﻿using MonoGame.Extended.BitmapFonts;
 
-namespace Kenedia.Modules.Characters.Interfaces
+namespace Kenedia.Modules.Core.Interfaces
 {
     public interface IFontControl
     {

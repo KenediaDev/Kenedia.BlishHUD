@@ -1,5 +1,5 @@
 ﻿using Blish_HUD.Controls;
-using Kenedia.Modules.Characters.Interfaces;
+using Kenedia.Modules.Core.Interfaces;
 using Microsoft.Xna.Framework;
 using MonoGame.Extended.BitmapFonts;
 using System;
@@ -112,7 +112,7 @@ namespace Kenedia.Modules.Characters.Controls
 
         protected virtual void OnFontChanged(object sender = null, EventArgs e = null)
         {
-            foreach (IFontControl ctrl in Children)
+            foreach (var ctrl in Children.Cast<IFontControl>())
             {
                 ctrl.Font = Font;
             }

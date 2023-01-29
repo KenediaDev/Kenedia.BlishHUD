@@ -1,4 +1,4 @@
-﻿using Kenedia.Modules.Characters.Extensions;
+﻿using Kenedia.Modules.Core.Extensions;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;

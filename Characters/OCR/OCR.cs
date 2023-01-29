@@ -3,9 +3,9 @@ using Blish_HUD.Content;
 using Blish_HUD.Controls;
 using Blish_HUD.Input;
 using Characters.Res;
-using Kenedia.Modules.Characters.Extensions;
 using Kenedia.Modules.Characters.Models;
 using Kenedia.Modules.Core.Controls;
+using Kenedia.Modules.Core.Extensions;
 using Microsoft.Xna.Framework;
 using Patagames.Ocr;
 using System;
@@ -42,7 +42,7 @@ namespace Kenedia.Modules.Characters
         private readonly ImageButton _closeButton;
         private readonly ResizeableContainer _container;
         private readonly OcrApi _ocrApi;
-        private readonly OCR_TrainDisplay _ocr_TrainDisplay;
+        private readonly OCR_TrainDisplay _ocrTrainDisplay;
 
         private bool _disposed = false;
 
@@ -352,12 +352,6 @@ namespace Kenedia.Modules.Characters
             ToggleContainer();
         }
 
-        private RectangleOffset CustomOffset
-        {
-            get => Characters.ModuleInstance.Settings.OCRCustomOffset.Value;
-            set => Characters.ModuleInstance.Settings.OCRCustomOffset.Value = value;
-        }
-
         private int CustomThreshold
         {
             get => Characters.ModuleInstance.Settings.OCRNoPixelColumns.Value;
@@ -381,7 +375,7 @@ namespace Kenedia.Modules.Characters
         {
             if (!_disposed)
             {
-                _ocr_TrainDisplay?.Dispose();
+                _ocrTrainDisplay?.Dispose();
                 _disposed = true;
                 _columnBox?.Dispose();
                 _thresholdBox?.Dispose();
@@ -547,144 +541,6 @@ namespace Kenedia.Modules.Characters
             (string, int, int, int, bool)? bestMatch = distances?.FirstOrDefault();
 
             return ((string, int, int, int, bool))(bestMatch != null ? bestMatch : new(string.Empty, 0, 0, 0, false));
-        }
-
-        public string? ReadOG(bool show = false)
-        {
-            string? finalText = null;
-
-            if (_container.Visible && !show)
-            {
-                ToggleContainer();
-                return null;
-            }
-
-            bool windowed = GameService.GameIntegration.GfxSettings.ScreenMode == Blish_HUD.GameIntegration.GfxSettings.ScreenModeSetting.Windowed;
-
-            Utility.WindowsUtil.WindowsUtil.RECT wndBounds = Characters.ModuleInstance.WindowRectangle;
-            int titleBarHeight = !windowed ? 0 : Characters.ModuleInstance.TitleBarHeight;
-            int sideBarWidth = !windowed ? 0 : Characters.ModuleInstance.SideBarWidth;
-
-            double factor = GameService.Graphics.UIScaleMultiplier;
-            Point size = new(Math.Min((int)((_container.Width + 5) * factor), 499), Math.Min((int)((_container.Height + 5) * factor), 499));
-
-            using (System.Drawing.Bitmap bitmap = new(size.X, size.Y))
-            {
-                System.Drawing.Bitmap spacingVisibleBitmap = new(size.X, size.Y);
-
-                using (var g = System.Drawing.Graphics.FromImage(bitmap))
-                {
-                    int left = (int)(wndBounds.Left + sideBarWidth);
-                    int top = (int)(wndBounds.Top + titleBarHeight);
-
-                    int x = (int)Math.Ceiling((_container.Left - 10 + CustomOffset.Left) * factor);
-                    int y = (int)Math.Ceiling((_container.Top - 10 + CustomOffset.Top) * factor);
-
-                    g.CopyFromScreen(new System.Drawing.Point(left + x, top + y), System.Drawing.Point.Empty, new System.Drawing.Size(size.X - CustomOffset.Right, size.Y - CustomOffset.Bottom));
-
-                    if (show)
-                    {
-                        using MemoryStream s = new();
-                        bitmap.Save(s, System.Drawing.Imaging.ImageFormat.Bmp);
-
-                        _ocrResultImage.Size = new Point(bitmap.Size.Width, bitmap.Size.Height);
-                        _ocrResultImage.Texture = s.CreateTexture2D();
-                    }
-
-                    var black = System.Drawing.Color.FromArgb(255, 0, 0, 0);
-                    var white = System.Drawing.Color.FromArgb(255, 255, 255, 255);
-
-                    int emptyPixelRow = 0;
-                    for (int i = 0; i < bitmap.Width; i++)
-                    {
-                        bool containsPixel = false;
-
-                        for (int j = 0; j < bitmap.Height; j++)
-                        {
-                            System.Drawing.Color oc = bitmap.GetPixel(i, j);
-                            int threshold = Characters.ModuleInstance.Settings.OCR_ColorThreshold.Value;
-
-                            if (oc.R >= threshold && oc.G >= threshold && oc.B >= threshold && emptyPixelRow < CustomThreshold)
-                            //if (oc.GetBrightness() > 0.5f && emptyPixelRow < CustomThreshold)
-                            {
-                                bitmap.SetPixel(i, j, black);
-                                if (show)
-                                {
-                                    spacingVisibleBitmap.SetPixel(i, j, black);
-                                }
-
-                                containsPixel = true;
-                            }
-                            else if (emptyPixelRow >= CustomThreshold)
-                            {
-                                if (show)
-                                {
-                                    spacingVisibleBitmap.SetPixel(i, j, _ignoredColor);
-                                }
-
-                                bitmap.SetPixel(i, j, white);
-                            }
-                            else
-                            {
-                                if (show)
-                                {
-                                    spacingVisibleBitmap.SetPixel(i, j, white);
-                                }
-
-                                bitmap.SetPixel(i, j, white);
-                            }
-                        }
-
-                        if (emptyPixelRow < CustomThreshold && show)
-                        {
-                            if (!containsPixel)
-                            {
-                                for (int j = 0; j < bitmap.Height; j++)
-                                {
-                                    spacingVisibleBitmap.SetPixel(i, j, _spacingColor);
-                                }
-
-                                emptyPixelRow++;
-                            }
-                            else
-                            {
-                                emptyPixelRow = 0;
-                            }
-                        }
-                    }
-
-                    using (MemoryStream s = new())
-                    {
-                        spacingVisibleBitmap.Save(s, System.Drawing.Imaging.ImageFormat.Bmp);
-
-                        if (show)
-                        {
-                            _ocrResultImageBlackWhite.Size = new Point(bitmap.Size.Width, bitmap.Size.Height);
-                            _ocrResultImageBlackWhite.Texture = s.CreateTexture2D();
-                        }
-                    }
-                }
-
-                string? plainText = _ocrApi.GetTextFromImage(bitmap);
-
-                foreach (string word in plainText.Split(' '))
-                {
-                    string wordText = word.Trim();
-
-                    if (wordText.StartsWith("l"))
-                    {
-                        wordText = 'I' + wordText.Remove(0, 1);
-                    }
-
-                    finalText = finalText == null ? wordText : finalText + " " + wordText;
-                }
-
-                finalText = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(finalText?.ToLower());
-
-                _result.Text = finalText;
-            }
-
-            return finalText;
         }
 #nullable disable
 

@@ -3,11 +3,11 @@ using Blish_HUD.Content;
 using Blish_HUD.Controls;
 using Blish_HUD.Input;
 using Characters.Res;
-using Kenedia.Modules.Characters.Extensions;
-using Kenedia.Modules.Characters.Interfaces;
 using Kenedia.Modules.Characters.Services;
 using Kenedia.Modules.Characters.Views;
 using Kenedia.Modules.Core.Controls;
+using Kenedia.Modules.Core.Extensions;
+using Kenedia.Modules.Core.Interfaces;
 using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
@@ -40,8 +40,7 @@ namespace Kenedia.Modules.Characters.Controls.SideMenu
             HeightSizingMode = SizingMode.Standard;
             BackgroundColor = Color.Black * 0.4f;
             BackgroundImage = AsyncTexture2D.FromAssetId(156003);
-            Parent = GameService.Graphics.SpriteScreen;
-            ZIndex = 100;
+            ZIndex = 11;
 
             _headerPanel = new()
             {

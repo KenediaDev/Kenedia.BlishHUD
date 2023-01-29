@@ -2,7 +2,7 @@
 using System.Text;
 using System.Text.RegularExpressions;
 
-namespace Kenedia.Modules.Characters.Extensions
+namespace Kenedia.Modules.Core.Extensions
 {
     public static class StringExtension
     {

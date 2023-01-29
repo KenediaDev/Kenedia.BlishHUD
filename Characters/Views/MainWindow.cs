@@ -4,10 +4,10 @@ using Blish_HUD.Controls;
 using Characters.Res;
 using Kenedia.Modules.Characters.Controls;
 using Kenedia.Modules.Characters.Controls.SideMenu;
-using Kenedia.Modules.Characters.Extensions;
 using Kenedia.Modules.Characters.Models;
 using Kenedia.Modules.Characters.Services;
 using Kenedia.Modules.Core.Controls;
+using Kenedia.Modules.Core.Extensions;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MonoGame.Extended.BitmapFonts;
@@ -161,15 +161,17 @@ namespace Kenedia.Modules.Characters.Views
                 Parent = GameService.Graphics.SpriteScreen,
                 Anchor = this,
                 AnchorPosition = AnchorPos.AutoHorizontal,
-                RelativePosition = new(0,45,0,0),
+                RelativePosition = new(0, 45, 0, 0),
                 Visible = false,
             };
 
-            _sideMenu = new() { 
-                Visible = false, 
+            _sideMenu = new()
+            {
+                Parent = GameService.Graphics.SpriteScreen,
                 Anchor = this,
                 AnchorPosition = AnchorPos.AutoHorizontal,
                 RelativePosition = new(0, 45, 0, 0),
+                Visible = false,
             };
 
             _attachedWindows.Add(CharacterEdit);
@@ -238,9 +240,9 @@ namespace Kenedia.Modules.Characters.Views
 
         public void PerformFiltering()
         {
-            Regex regex = Settings.FilterAsOne.Value ?  new("^(?!\\s*$).+") : new(@"\w+|""[\w\s]*""");
+            Regex regex = Settings.FilterAsOne.Value ? new("^(?!\\s*$).+") : new(@"\w+|""[\w\s]*""");
             var strings = regex.Matches(_filterBox.Text.Trim().ToLower()).Cast<Match>().ToList();
-            
+
 
             List<string> textStrings = new();
 
@@ -640,7 +642,7 @@ namespace Kenedia.Modules.Characters.Views
 
             foreach (Control c in _attachedWindows)
             {
-         //       c.Location = left ? new(mainBounds.Left - c.Width - 5, mainBounds.Top + 45) : new(mainBounds.Right, mainBounds.Top + 45);
+                //       c.Location = left ? new(mainBounds.Left - c.Width - 5, mainBounds.Top + 45) : new(mainBounds.Right, mainBounds.Top + 45);
             }
         }
 
@@ -667,7 +669,7 @@ namespace Kenedia.Modules.Characters.Views
 
         private void FilterBox_Click(object sender, Blish_HUD.Input.MouseEventArgs e)
         {
-            if(Settings.OpenSidemenuOnSearch.Value) ShowAttachedWindow(_sideMenu);
+            if (Settings.OpenSidemenuOnSearch.Value) ShowAttachedWindow(_sideMenu);
         }
 
         private void DisplaySettingsButton_Click(object sender, Blish_HUD.Input.MouseEventArgs e)

@@ -2,12 +2,12 @@
 using Blish_HUD.Controls;
 using Characters.Res;
 using Kenedia.Modules.Characters.Enums;
-using Kenedia.Modules.Characters.Extensions;
-using Kenedia.Modules.Characters.Interfaces;
 using Kenedia.Modules.Characters.Models;
 using Kenedia.Modules.Characters.Services;
 using Kenedia.Modules.Characters.Views;
 using Kenedia.Modules.Core.Controls;
+using Kenedia.Modules.Core.Extensions;
+using Kenedia.Modules.Core.Interfaces;
 using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
@@ -292,11 +292,7 @@ namespace Kenedia.Modules.Characters.Controls.SideMenu
             }
         }
 
-        private SettingsModel Settings => Characters.ModuleInstance.Settings;
-
         private MainWindow MainWindow => Characters.ModuleInstance.MainWindow;
-
-        private Characters ModuleInstance => Characters.ModuleInstance;
 
         public void OnLanguageChanged(object s = null, EventArgs e = null)
         {

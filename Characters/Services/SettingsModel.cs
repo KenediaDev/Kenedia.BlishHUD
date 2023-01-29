@@ -1,6 +1,7 @@
 ﻿using Blish_HUD;
 using Blish_HUD.Settings;
 using Kenedia.Modules.Characters.Models;
+using Kenedia.Modules.Core.Structs;
 using Microsoft.Xna.Framework.Input;
 using MonoGame.Extended.Collections;
 using System;
@@ -40,7 +41,7 @@ namespace Kenedia.Modules.Characters.Services
             KeyDelay = internalSettings.DefineSetting(nameof(KeyDelay), 0);
             FilterDelay = internalSettings.DefineSetting(nameof(FilterDelay), 0);
             WindowSize = internalSettings.DefineSetting(nameof(CurrentWindowSize), new Point(385, 920));
-            WindowOffset = internalSettings.DefineSetting(nameof(WindowOffset), new RectangleOffset(8, 31, -8, -8));
+            WindowOffset = internalSettings.DefineSetting(nameof(WindowOffset), new RectangleDimensions(8, 31, -8, -8));
             DisplayToggles = internalSettings.DefineSetting(nameof(DisplayToggles), new Dictionary<string, ShowCheckPair>());
 
             Point res = GameService.Graphics.Resolution;
@@ -50,7 +51,7 @@ namespace Kenedia.Modules.Characters.Services
             AutoSortCharacters = internalSettings.DefineSetting(nameof(AutoSortCharacters), false);
             OCRRegion = internalSettings.DefineSetting(nameof(OCRRegion), new Rectangle(50, 550, 530, 50));
             OCRRegions = internalSettings.DefineSetting(nameof(OCRRegions), new Dictionary<string, Rectangle>());
-            OCRCustomOffset = internalSettings.DefineSetting(nameof(OCRCustomOffset), new RectangleOffset(3, 3, 5, 5));
+            OCRCustomOffset = internalSettings.DefineSetting(nameof(OCRCustomOffset), new RectangleDimensions(3, 3, 5, 5));
             OCRNoPixelColumns = internalSettings.DefineSetting(nameof(OCRNoPixelColumns), 20);
             OCR_ColorThreshold = internalSettings.DefineSetting(nameof(OCR_ColorThreshold), 181);
 
@@ -149,7 +150,7 @@ namespace Kenedia.Modules.Characters.Services
 
         public SettingEntry<Point> WindowSize { get; set; }
 
-        public SettingEntry<RectangleOffset> WindowOffset { get; set; }
+        public SettingEntry<RectangleDimensions> WindowOffset { get; set; }
 
         public SettingEntry<bool> ShowStatusWindow { get; set; }
 
@@ -184,7 +185,7 @@ namespace Kenedia.Modules.Characters.Services
 
         public SettingEntry<Dictionary<string, Rectangle>> OCRRegions { get; set; }
 
-        public SettingEntry<RectangleOffset> OCRCustomOffset { get; set; }
+        public SettingEntry<RectangleDimensions> OCRCustomOffset { get; set; }
 
         public SettingEntry<bool> UseBetaGamestate { get; set; }
 

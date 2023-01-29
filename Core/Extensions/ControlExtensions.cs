@@ -1,8 +1,8 @@
 ﻿using Blish_HUD.Controls;
 
-namespace Kenedia.Modules.Characters.Extensions
+namespace Kenedia.Modules.Core.Extensions
 {
-    internal static class ControlExtensions
+    public static class ControlExtensions
     {
         public static void ToggleVisibility(this Control c)
         {
