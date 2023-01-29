@@ -1,27 +1,23 @@
 ﻿using Blish_HUD;
 using Microsoft.Xna.Framework;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using static Kenedia.Modules.Core.Utility.WindowsUtil.User32Dll;
 
-namespace Core.Services
+namespace Kenedia.Modules.Core.Services
 {
-    public class ClientWindowService
+    public static class ClientWindowService
     {
-        private double _resolutionTick;
+        private static double _resolutionTick;
 
-        public int TitleBarHeight { get; set; }
+        public static int TitleBarHeight { get; set; }
 
-        public int SideBarWidth { get; set; }
+        public static int SideBarWidth { get; set; }
 
-        public RECT ClientBounds { get; set; }
+        public static RECT ClientBounds { get; set; }
 
-        public RECT WindowBounds { get; set; }
+        public static RECT WindowBounds { get; set; }
 
-        public void Run(GameTime gameTime)
+        public static void Run(GameTime gameTime)
         {
             if (gameTime.TotalGameTime.TotalMilliseconds - _resolutionTick >= 50)
             {

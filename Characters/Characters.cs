@@ -14,6 +14,7 @@ using Kenedia.Modules.Characters.Enums;
 using Kenedia.Modules.Characters.Models;
 using Kenedia.Modules.Characters.Services;
 using Kenedia.Modules.Characters.Views;
+using Kenedia.Modules.Core.Models;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using Newtonsoft.Json;
@@ -21,6 +22,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel.Composition;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Resources;
@@ -35,7 +37,7 @@ using Version = SemVer.Version;
 namespace Kenedia.Modules.Characters
 {
     [Export(typeof(Module))]
-    public class Characters : Module
+    public class Characters : BaseModule
     {
         public const uint WMCOMMAND = 0x0111;
         public const uint WMPASTE = 0x0302;
@@ -142,14 +144,6 @@ namespace Kenedia.Modules.Characters
 
         internal static Characters ModuleInstance { get; private set; }
 
-        internal SettingsManager SettingsManager => ModuleParameters.SettingsManager;
-
-        internal ContentsManager ContentsManager => ModuleParameters.ContentsManager;
-
-        internal DirectoriesManager DirectoriesManager => ModuleParameters.DirectoriesManager;
-
-        internal Gw2ApiManager Gw2ApiManager => ModuleParameters.Gw2ApiManager;
-
         public void UpdateFolderPaths(string accountName, bool api_handled = true)
         {
             Characters mIns = ModuleInstance;
@@ -198,7 +192,7 @@ namespace Kenedia.Modules.Characters
 
         public void SwapTo(Character_Model character)
         {
-            Blish_HUD.Gw2Mumble.PlayerCharacter player = GameService.Gw2Mumble.PlayerCharacter;
+            PlayerCharacter player = GameService.Gw2Mumble.PlayerCharacter;
 
             if (character.Name != player.Name || !GameService.GameIntegration.Gw2Instance.IsInGame)
             {
@@ -299,8 +293,78 @@ namespace Kenedia.Modules.Characters
             File.WriteAllText(CharactersPath, json);
         }
 
+        protected override void Initialize()
+        {
+            base.Initialize();
+
+            Logger.Info($"Starting  {Name} v." + BaseVersion);
+
+            ModKeyMapping = new VirtualKeyShort[5];
+            ModKeyMapping[(int)ModifierKeys.Ctrl] = VirtualKeyShort.CONTROL;
+            ModKeyMapping[(int)ModifierKeys.Alt] = VirtualKeyShort.MENU;
+            ModKeyMapping[(int)ModifierKeys.Shift] = VirtualKeyShort.LSHIFT;
+
+            JsonConvert.DefaultSettings = () => new JsonSerializerSettings
+            {
+                Formatting = Formatting.Indented,
+                NullValueHandling = NullValueHandling.Ignore,
+            };
+
+            // string path = DirectoriesManager.GetFullDirectoryPath("characters") + @"\" + API_Account.Name;
+            BasePath = DirectoriesManager.GetFullDirectoryPath("characters");
+            GlobalAccountsPath = BasePath + @"\accounts.json";
+
+            if (!File.Exists(BasePath + @"\gw2.traineddata") || Settings.Version.Value != BaseVersion)
+            {
+                using Stream target = File.Create(BasePath + @"\gw2.traineddata");
+                Stream source = ContentsManager.GetFileStream(@"data\gw2.traineddata");
+                _ = source.Seek(0, SeekOrigin.Begin);
+                source.CopyTo(target);
+            }
+
+            if (!File.Exists(BasePath + @"\tesseract.dll") || Settings.Version.Value != BaseVersion)
+            {
+                using Stream target = File.Create(BasePath + @"\tesseract.dll");
+                Stream source = ContentsManager.GetFileStream(@"data\tesseract.dll");
+                _ = source.Seek(0, SeekOrigin.Begin);
+                source.CopyTo(target);
+            }
+
+            Data = new Data();
+            CreateToggleCategories();
+
+            Gw2ApiManager.SubtokenUpdated += Gw2ApiManager_SubtokenUpdated;
+
+            Settings.ShortcutKey.Value.Enabled = true;
+            Settings.ShortcutKey.Value.Activated += ShortcutWindowToggle;
+            Tags.CollectionChanged += Tags_CollectionChanged;
+
+            Settings.Version.Value = BaseVersion;
+
+            Debug.WriteLine(GameState.GameStatus);
+        }
+
+        protected override void DefineSettings(SettingCollection settings)
+        {
+            base.DefineSettings(settings);
+
+            Settings = new SettingsModel(settings);
+            Settings.ShowCornerIcon.SettingChanged += ShowCornerIcon_SettingChanged;
+
+#if DEBUG
+            ReloadKey = settings.DefineSetting(
+                nameof(ReloadKey),
+                new Blish_HUD.Input.KeyBinding(ModifierKeys.Alt, Keys.R));
+
+            ReloadKey.Value.Enabled = true;
+            ReloadKey.Value.Activated += ReloadKey_Activated;
+#endif
+        }
+
         protected override void Update(GameTime gameTime)
         {
+            base.Update(gameTime);
+
             _ticks.Global += gameTime.ElapsedGameTime.TotalMilliseconds;
             _ticks.APIUpdate += gameTime.ElapsedGameTime.TotalSeconds;
             _ticks.Save += gameTime.ElapsedGameTime.TotalMilliseconds;
@@ -369,68 +433,6 @@ namespace Kenedia.Modules.Characters
             }
         }
 
-        protected override void DefineSettings(SettingCollection settings)
-        {
-            Settings = new SettingsModel(settings);
-            Settings.ShowCornerIcon.SettingChanged += ShowCornerIcon_SettingChanged;
-
-#if DEBUG
-            ReloadKey = settings.DefineSetting(
-                nameof(ReloadKey),
-                new Blish_HUD.Input.KeyBinding(ModifierKeys.Alt, Keys.R));
-
-            ReloadKey.Value.Enabled = true;
-            ReloadKey.Value.Activated += ReloadKey_Activated;
-#endif
-        }
-
-        protected override void Initialize()
-        {
-            Logger.Info($"Starting  {Name} v." + BaseVersion);
-
-            ModKeyMapping = new VirtualKeyShort[5];
-            ModKeyMapping[(int)ModifierKeys.Ctrl] = VirtualKeyShort.CONTROL;
-            ModKeyMapping[(int)ModifierKeys.Alt] = VirtualKeyShort.MENU;
-            ModKeyMapping[(int)ModifierKeys.Shift] = VirtualKeyShort.LSHIFT;
-
-            JsonConvert.DefaultSettings = () => new JsonSerializerSettings
-            {
-                Formatting = Formatting.Indented,
-                NullValueHandling = NullValueHandling.Ignore,
-            };
-
-            // string path = DirectoriesManager.GetFullDirectoryPath("characters") + @"\" + API_Account.Name;
-            BasePath = DirectoriesManager.GetFullDirectoryPath("characters");
-            GlobalAccountsPath = BasePath + @"\accounts.json";
-
-            if (!File.Exists(BasePath + @"\gw2.traineddata") || Settings.Version.Value != BaseVersion)
-            {
-                using Stream target = File.Create(BasePath + @"\gw2.traineddata");
-                Stream source = ContentsManager.GetFileStream(@"data\gw2.traineddata");
-                _ = source.Seek(0, SeekOrigin.Begin);
-                source.CopyTo(target);
-            }
-
-            if (!File.Exists(BasePath + @"\tesseract.dll") || Settings.Version.Value != BaseVersion)
-            {
-                using Stream target = File.Create(BasePath + @"\tesseract.dll");
-                Stream source = ContentsManager.GetFileStream(@"data\tesseract.dll");
-                _ = source.Seek(0, SeekOrigin.Begin);
-                source.CopyTo(target);
-            }
-
-            Data = new Data();
-            CreateToggleCategories();
-
-            Gw2ApiManager.SubtokenUpdated += Gw2ApiManager_SubtokenUpdated;
-
-            Settings.ShortcutKey.Value.Enabled = true;
-            Settings.ShortcutKey.Value.Activated += ShortcutWindowToggle;
-            Tags.CollectionChanged += Tags_CollectionChanged;
-
-            Settings.Version.Value = BaseVersion;
-        }
-
         private void CancelEverything()
         {
             CharacterSwapping.Cancel();
@@ -439,7 +441,7 @@ namespace Kenedia.Modules.Characters
 
         protected override async Task LoadAsync()
         {
-            await Task.Delay(0);
+            await base.LoadAsync();
         }
 
         protected override void OnModuleLoaded(EventArgs e)
@@ -501,6 +503,8 @@ namespace Kenedia.Modules.Characters
             Tags.CollectionChanged -= Tags_CollectionChanged;
 
             ModuleInstance = null;
+
+            base.Unload();
         }
 
         private void OnCharacterCollectionChanged(object sender, EventArgs e)

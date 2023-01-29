@@ -1,0 +1,19 @@
+{
+  "contributors": [
+    {
+      "name": "Kenedia",
+      "url": "https://github.com/KenediaDev"
+    }
+  ],
+  "dependencies": {
+    "bh.blishhud": ">=0.0.1"
+  },
+  "description": "Shared AModule module for all modules.",
+  "manifest_version": 1,
+  "name": "AModule",
+  "namespace": "Kenedia.Modules.AModule",
+  "package": "Kenedia.Modules.AModule.dll",
+  "url": "https://github.com/KenediaDev/Kenedia.BlishHUD",
+  "version": "0.0.1",
+  "directories": [ "kenedia_modules" ]
+}

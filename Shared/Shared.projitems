@@ -1,0 +1,57 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <MSBuildAllProjects Condition="'$(MSBuildVersion)' == '' Or '$(MSBuildVersion)' &lt; '16.0'">$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <SharedGUID>116c7f9d-b0b1-454e-9dfb-edfaf35d9299</SharedGUID>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration">
+    <Import_RootNamespace>Shared</Import_RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\AnchoredControl.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\Button.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\Checkbox.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\Dropdown.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\Dummy.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\FlowPanel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\FlowTab.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\FramedContainer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\ImageButton.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\ImageToggle.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\KeybindingAssigner.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\Label.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\NumberBox.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\Panel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\PanelTab.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\ResizeableContainer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\TabbedPanel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\TabButton.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\TextBox.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\TrackBar.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Extensions\BitMapExtension.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Extensions\ContainerExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Extensions\ControlExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Extensions\DisposableExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Extensions\ListExtension.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Extensions\NumericExtension.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Extensions\PointExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Extensions\StringExtension.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Extensions\Texture2DExtension.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Interfaces\IFontControl.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Interfaces\ILocalizable.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\BaseModule.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\GameStateChangedEventArgs.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\SharedSettingsModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Services\ClientWindowService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Services\GameState.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Services\SharedSettings.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Structs\RectangleDimensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Utility\User32Dll.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Views\BaseSettingsTab.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Views\BaseSettingsView.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Views\BaseTabbedWindow.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Views\SettingsWindow.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Views\SharedSettingsView.cs" />
+  </ItemGroup>
+</Project>

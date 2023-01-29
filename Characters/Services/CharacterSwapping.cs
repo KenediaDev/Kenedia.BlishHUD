@@ -293,10 +293,10 @@ namespace Kenedia.Modules.Characters.Services
 
                 if (Characters.ModuleInstance.Settings.UseBetaGamestate.Value)
                 {
-                    while(Core.Core.GameState.GameStatus != GameStatus.CharacterSelection && !cancellationToken.IsCancellationRequested)
+                    while(Core.Services.GameState.GameStatus != GameStatus.CharacterSelection && !cancellationToken.IsCancellationRequested)
                     {
                         await Delay(cancellationToken, 250);
-                        if(cancellationToken.IsCancellationRequested) return Core.Core.GameState.GameStatus == GameStatus.CharacterSelection;
+                        if(cancellationToken.IsCancellationRequested) return Core.Services.GameState.GameStatus == GameStatus.CharacterSelection;
                     }
                 }
                 else

@@ -17,5 +17,5 @@
     }
   ],
   "enabled_without_gw2": false,
-  "directories": [ "builds-manager" ]
+  "directories": [ "builds-manager", "kenedia_modules" ]
 }

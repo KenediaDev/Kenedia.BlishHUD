@@ -11,6 +11,8 @@ using Size = System.Drawing.Size;
 using Kenedia.Modules.Core.Extensions;
 using Kenedia.Modules.Core.Models;
 using static Kenedia.Modules.Core.Utility.WindowsUtil.User32Dll;
+using System.Diagnostics;
+using Kenedia.Modules.Core.Structs;
 
 namespace Kenedia.Modules.Core.Services
 {
@@ -23,89 +25,65 @@ namespace Kenedia.Modules.Core.Services
         Cutscene
     }
 
-    public class GameState
+    public static class GameState
     {
-        private double _lastTick = 0;
-        private double? _cutsceneStart;
-        private double _cutsceneDuration = 0;
+        private static double s_lastTick = 0;
+        private static double? s_cutsceneStart;
+        private static double s_cutsceneDuration = 0;
 
-        private readonly List<double> _spinnerResults = new();
+        private static readonly List<double> s_spinnerResults = new();
 
-        private readonly List<GameStatus> _gameStatuses = new();
-        private GameStatus _gameStatus = GameStatus.Unknown;
-        public event EventHandler<GameStateChangedEventArgs> GameStateChanged;
-        public event EventHandler<GameStateChangedEventArgs> ChangedToIngame;
-        public event EventHandler<GameStateChangedEventArgs> ChangedToCharacterSelection;
-        public event EventHandler<GameStateChangedEventArgs> ChangedToLoadingScreen;
-        public event EventHandler<GameStateChangedEventArgs> ChangedToCutscene;
+        private static readonly List<GameStatus> s_gameStatuses = new();
+        private static GameStatus s_gameStatus = GameStatus.Unknown;
+        public static event EventHandler<GameStateChangedEventArgs> GameStateChanged;
+        public static event EventHandler<GameStateChangedEventArgs> ChangedToIngame;
+        public static event EventHandler<GameStateChangedEventArgs> ChangedToCharacterSelection;
+        public static event EventHandler<GameStateChangedEventArgs> ChangedToLoadingScreen;
+        public static event EventHandler<GameStateChangedEventArgs> ChangedToCutscene;
 
-        public GameState()
+        public static int Count { get; set; } = 0;
+
+        public static Stopwatch GameTime { get; set; }
+
+        private static GameStatus NewStatus { get; set; }
+
+        public static GameStatus OldStatus { get; private set; }
+
+        public static GameStatus GameStatus
         {
-            //_panel = new()
-            //{
-            //    Parent = GameService.Graphics.SpriteScreen,
-            //    Location = new Microsoft.Xna.Framework.Point(50, 100),
-            //    Height = 250,
-            //    WidthSizingMode = SizingMode.AutoSize,
-            //    FlowDirection = ControlFlowDirection.SingleTopToBottom,
-            //};
-
-            //_logoutButton = new()
-            //{
-            //    Parent = _panel,
-            //    Height = 50,
-            //    BackgroundColor = Color.Red,
-            //    Width = 100,
-            //};
-
-            //_spinner = new()
-            //{
-            //    Parent = _panel,
-            //    Height = 50,
-            //    BackgroundColor = Color.Red,
-            //    Width = 100,
-            //};
-        }
-
-        private GameStatus NewStatus { get; set; }
-
-        public GameStatus OldStatus { get; private set; }
-
-        public GameStatus GameStatus
-        {
-            get => _gameStatus;
+            get => s_gameStatus;
             private set
             {
-                if (_gameStatus != value)
+                if (s_gameStatus != value)
                 {
-                    OldStatus = _gameStatus;
-                    _gameStatus = value;
+                    OldStatus = s_gameStatus;
+                    s_gameStatus = value;
 
                     var eventArgs = new GameStateChangedEventArgs()
                     {
                         OldStatus = OldStatus,
-                        Status = _gameStatus,
+                        Status = s_gameStatus,
                     };
 
-                    switch (_gameStatus)
+                    switch (s_gameStatus)
                     {
                         case GameStatus.Ingame:
-                            _spinnerResults.Clear();
-                            _cutsceneDuration = 0;
-                            _cutsceneStart = null;
+                            s_spinnerResults.Clear();
+                            s_cutsceneDuration = 0;
+                            s_cutsceneStart = null;
                             ChangedToIngame?.Invoke(GameStatus, eventArgs);
                             break;
 
                         case GameStatus.CharacterSelection:
-                            _spinnerResults.Clear();
-                            _cutsceneDuration = 0;
-                            _cutsceneStart = null;
+                            s_spinnerResults.Clear();
+                            s_cutsceneDuration = 0;
+                            s_cutsceneStart = null;
                             ChangedToCharacterSelection?.Invoke(GameStatus, eventArgs);
                             break;
 
                         case GameStatus.LoadingScreen:
-                            _cutsceneDuration = 0;
-                            _cutsceneStart = null;
+                            s_cutsceneDuration = 0;
+                            s_cutsceneStart = null;
                             ChangedToLoadingScreen?.Invoke(GameStatus, eventArgs);
                             break;
 
@@ -119,9 +97,9 @@ namespace Kenedia.Modules.Core.Services
             }
         }
 
-        public bool IsIngame => GameStatus == GameStatus.Ingame;
+        public static bool IsIngame => GameStatus == GameStatus.Ingame;
 
-        public void Run(GameTime gameTime)
+        public static void Run(GameTime gameTime)
         {
             NewStatus = GameStatus.Unknown;
 
@@ -132,11 +110,10 @@ namespace Kenedia.Modules.Core.Services
             else if (GameService.GameIntegration.Gw2Instance.Gw2HasFocus)
             {
                 // Throttle the check so we don't stress the CPU to badly with the checks
-                if (gameTime.TotalGameTime.TotalMilliseconds - _lastTick > 250)
+                if (gameTime.TotalGameTime.TotalMilliseconds - s_lastTick > 250)
                 {
-                    _lastTick = gameTime.TotalGameTime.TotalMilliseconds;
+                    s_lastTick = gameTime.TotalGameTime.TotalMilliseconds;
 
-                    //bool isCogVisible = IsCogVisible();
                     bool isButtonVisible = IsButtonVisible();
 
                     // there IS the cog wheel present in the top left. --> Ingame
@@ -157,8 +134,8 @@ namespace Kenedia.Modules.Core.Services
                         {
                             if (!isLoadingSpinnerVisible)
                             {
-                                _cutsceneStart ??= gameTime.TotalGameTime.TotalMilliseconds;
-                                _cutsceneDuration += gameTime.TotalGameTime.TotalMilliseconds - (double)_cutsceneStart;
+                                s_cutsceneStart ??= gameTime.TotalGameTime.TotalMilliseconds;
+                                s_cutsceneDuration += gameTime.TotalGameTime.TotalMilliseconds - (double)s_cutsceneStart;
                             }
 
                             if (GameStatus is GameStatus.Cutscene)
@@ -170,13 +147,13 @@ namespace Kenedia.Modules.Core.Services
                                 // After a loading screen we can only get into a cutscene or ingame, ingame is checked already, so if we are here its a cutscene if the cutscene duration is longer than x ms
                                 if (!isLoadingSpinnerVisible)
                                 {
-                                    NewStatus = _cutsceneDuration > 1000 ? GameStatus.Cutscene : NewStatus;
+                                    NewStatus = s_cutsceneDuration > 1000 ? GameStatus.Cutscene : NewStatus;
                                 }
                             }
                             else if (GameStatus is GameStatus.Ingame)
                             {
                                 // From ingame we can go to all game states, character selection is reliable from ingame and checked already, so we now test only Loading screen and Cutscene
-                                NewStatus = isLoadingSpinnerVisible ? GameStatus.LoadingScreen : _cutsceneDuration > 1000 ? GameStatus.Cutscene : GameStatus.Unknown;
+                                NewStatus = isLoadingSpinnerVisible ? GameStatus.LoadingScreen : s_cutsceneDuration > 1000 ? GameStatus.Cutscene : GameStatus.Unknown;
                             }
                         }
                     }
@@ -185,23 +162,23 @@ namespace Kenedia.Modules.Core.Services
 
             if (NewStatus != GameStatus.Unknown)
             {
-                if (StatusConfirmed(NewStatus, _gameStatuses, NewStatus == GameStatus.LoadingScreen ? 6 : 3))
+                if (StatusConfirmed(NewStatus, s_gameStatuses, NewStatus == GameStatus.LoadingScreen ? 6 : 3))
                 {
                     if (GameStatus != NewStatus)
                     {
+                        Core.Logger.Info($"Game status changed from '{GameStatus}' to '{NewStatus}'");
                         GameStatus = NewStatus;
-                        Core.Logger.Info($"Game status changed from '{NewStatus}' to '{GameStatus}'");
-                        _gameStatuses.Clear();
+                        s_gameStatuses.Clear();
                     }
                 }
             }
         }
 
-        public bool IsButtonVisible()
+        public static bool IsButtonVisible()
         {
-            RECT wndBounds = Core.ClientWindowService.WindowBounds;
+            RECT wndBounds = ClientWindowService.WindowBounds;
             bool windowed = GameService.GameIntegration.GfxSettings.ScreenMode == Blish_HUD.GameIntegration.GfxSettings.ScreenModeSetting.Windowed;
-            var offset = windowed ? Core.ModuleInstance.WindowOffset.Value : new(0, 0, 0, 0);
+            RectangleDimensions offset = windowed ? SharedSettings.WindowOffset : new(0);
 
             var uiSize = GameService.Gw2Mumble.UI.UISize;
             Size size = new(50 + ((int)uiSize * 3), 40 + ((int)uiSize * 3));
@@ -219,11 +196,11 @@ namespace Kenedia.Modules.Core.Services
             return cutFilled.Item3 is > 0.35;
         }
 
-        public bool IsLoadingSpinnerVisible()
+        public static bool IsLoadingSpinnerVisible()
         {
-            RECT wndBounds = Core.ClientWindowService.WindowBounds;
+            RECT wndBounds = ClientWindowService.WindowBounds;
             bool windowed = GameService.GameIntegration.GfxSettings.ScreenMode == Blish_HUD.GameIntegration.GfxSettings.ScreenModeSetting.Windowed;
-            var offset = windowed ? Core.ModuleInstance.WindowOffset.Value : new(0, 0, 0, 0);
+            RectangleDimensions offset = windowed ? SharedSettings.WindowOffset : new(0);
 
             var uiSize = GameService.Gw2Mumble.UI.UISize;
             Size size = new(64 + ((int)uiSize * 2), 64 + ((int)uiSize * 2));
@@ -237,19 +214,19 @@ namespace Kenedia.Modules.Core.Services
             g.CopyFromScreen(new(wndBounds.Right + offset.Right + pos.X, wndBounds.Bottom + offset.Bottom + pos.Y - 30), Point.Empty, size);
             var isFilled = bitmap.IsNotBlackAndCheckFilled(0.4, 0.3f);
 
-            if (isFilled.Item2) SaveResult(isFilled.Item3, _spinnerResults);
+            if (isFilled.Item2) SaveResult(isFilled.Item3, s_spinnerResults);
 
-            var uniques = _spinnerResults.Distinct();
+            var uniques = s_spinnerResults.Distinct();
             return uniques?.Count() >= 3;
         }
 
-        private void SaveResult(double result, List<double> list)
+        private static void SaveResult(double result, List<double> list)
         {
             list.Add(result);
             if (list.Count > 4) list.RemoveAt(0);
         }
 
-        private bool StatusConfirmed(GameStatus newStatus, List<GameStatus> resultList, int threshold = 3)
+        private static bool StatusConfirmed(GameStatus newStatus, List<GameStatus> resultList, int threshold = 3)
         {
             resultList.Add(newStatus);
 

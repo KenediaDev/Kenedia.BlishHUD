@@ -14,5 +14,6 @@
   "namespace": "Kenedia.Modules.Core",
   "package": "Kenedia.Modules.Core.dll",
   "url": "https://github.com/KenediaDev/Kenedia.BlishHUD",
+  "directories": [ "kenedia_modules" ],
   "version": "0.0.1"
 }
