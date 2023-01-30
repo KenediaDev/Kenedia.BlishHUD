@@ -57,15 +57,10 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		RESX_Rules = {"EnabledRules":["StringFormat","WhiteSpaceLead","WhiteSpaceTail"]}
 		SolutionGuid = {94085438-920A-4295-B0FF-07143DAE4052}
+		RESX_Rules = {"EnabledRules":["StringFormat","WhiteSpaceLead","WhiteSpaceTail"]}
 	EndGlobalSection
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
-		Shared\Shared.projitems*{116c7f9d-b0b1-454e-9dfb-edfaf35d9299}*SharedItemsImports = 13
-		Shared\Shared.projitems*{1470ba39-b2f7-496f-8a51-b2084ed58ce8}*SharedItemsImports = 4
-		Shared\Shared.projitems*{267a281d-9b69-4ebd-a1ee-3ffee9cb4dac}*SharedItemsImports = 4
-		Shared\Shared.projitems*{8e72f6c4-cf5f-4493-85e1-c37f2021caa5}*SharedItemsImports = 4
-		Shared\Shared.projitems*{97baa4dc-b0b1-46ea-b076-1b036dcf71f3}*SharedItemsImports = 4
-		Shared\Shared.projitems*{f4f19db2-f367-435c-afb6-1f363827c134}*SharedItemsImports = 4
+		Core\Shared.projitems*{116c7f9d-b0b1-454e-9dfb-edfaf35d9299}*SharedItemsImports = 13
 	EndGlobalSection
 EndGlobal

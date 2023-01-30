@@ -45,13 +45,10 @@ namespace Kenedia.Modules.Core.Services
         {
             string json = JsonConvert.SerializeObject(this, Formatting.Indented);
 
-            if (File.Exists(_path))
+            if (await FileExtension.WaitForFileUnlock(_path, 2500))
             {
-                if (await FileExtension.WaitForFileUnlock(_path, 2500))
-                {
-                    using var writer = new StreamWriter(_path);
-                    await writer.WriteAsync(json);
-                }
+                using var writer = new StreamWriter(_path);
+                await writer.WriteAsync(json);
             }
         }
 

@@ -14,9 +14,11 @@ using Patagames.Ocr;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Runtime;
 using System.Threading.Tasks;
 using static Kenedia.Modules.Characters.Utility.WindowsUtil.WindowsUtil;
 using Color = Microsoft.Xna.Framework.Color;
@@ -53,6 +55,7 @@ namespace Kenedia.Modules.Characters
         //private readonly OCR_TrainDisplay _ocrTrainDisplay;
 
         private bool _disposed = false;
+        private bool _sizeSet = false;
 
         public OCR(ClientWindowService clientWindowService, SharedSettings sharedSettings, SettingsModel settings, string basePath, ObservableCollection<Character_Model>  characterModels)
         {
@@ -347,7 +350,7 @@ namespace Kenedia.Modules.Characters
                 BorderColor = ContentService.Colors.ColonialWhite,
                 ShowResizeOnlyOnMouseOver = true,
                 MaxSize = new(500, 50),
-                BorderWidth = new(1, 1, 1, 1),
+                BorderWidth = new(2),
             };
             _container.Resized += Container_Changed;
             _container.Moved += Container_Changed;
@@ -376,6 +379,10 @@ namespace Kenedia.Modules.Characters
 
             if (_container.Visible)
             {
+                _sizeSet = true;
+
+                _container.Location = _settings.ActiveOCRRegion.Location.Add(new(-_container.BorderWidth.Left, -_container.BorderWidth.Top));
+                _container.Size = _settings.ActiveOCRRegion.Size.Add(new(_container.BorderWidth.Horizontal, _container.BorderWidth.Vertical));
                 _ = Read(true);
             }
         }
@@ -413,7 +420,7 @@ namespace Kenedia.Modules.Characters
             Point p = windowed ? new(_sharedSettings.WindowOffset.Left, _sharedSettings.WindowOffset.Top) : Point.Zero;
 
             double factor = GameService.Graphics.UIScaleMultiplier;
-            Point size = new((int)((_container.Width - _container.BorderWidth.Vertical) * factor), (int)((_container.Height - _container.BorderWidth.Horizontal) * factor));
+            Point size = new((int)(_settings.ActiveOCRRegion.Width * factor), (int)(_settings.ActiveOCRRegion.Height * factor));
 
             using (System.Drawing.Bitmap bitmap = new(size.X, size.Y))
             {
@@ -421,11 +428,11 @@ namespace Kenedia.Modules.Characters
 
                 using (var g = System.Drawing.Graphics.FromImage(bitmap))
                 {
-                    int left = wndBounds.Left + p.X + _container.BorderWidth.Left;
-                    int top = wndBounds.Top + p.Y + _container.BorderWidth.Top;
+                    int left = wndBounds.Left + p.X;
+                    int top = wndBounds.Top + p.Y;
 
-                    int x = (int)Math.Ceiling(_container.Left * factor);
-                    int y = (int)Math.Ceiling(_container.Top * factor);
+                    int x = (int)Math.Ceiling(_settings.ActiveOCRRegion.Left * factor);
+                    int y = (int)Math.Ceiling(_settings.ActiveOCRRegion.Top * factor);
 
                     g.CopyFromScreen(new System.Drawing.Point(left + x, top + y), System.Drawing.Point.Empty, new System.Drawing.Size(size.X, size.Y));
 
@@ -568,21 +575,25 @@ namespace Kenedia.Modules.Characters
 
         private void Container_Changed(object sender, EventArgs e)
         {
-            string key = _settings.OCRKey;
-            Dictionary<string, Rectangle> regions = _settings.OCRRegions.Value;
-
-            _ = Read(true);
-
-            if (!regions.ContainsKey(key))
+            if (!_sizeSet)
             {
-                regions.Add(key, _container.LocalBounds);
-            }
-            else
-            {
-                regions[key] = _container.LocalBounds;
+                string key = _settings.OCRKey;
+                Dictionary<string, Rectangle> regions = _settings.OCRRegions.Value;
+                var bounds = new Rectangle(_container.Left + _container.BorderWidth.Left, _container.Top + _container.BorderWidth.Top, _container.Width - _container.BorderWidth.Horizontal, _container.Height - _container.BorderWidth.Vertical);
+
+                if (!regions.ContainsKey(key))
+                {
+                    regions.Add(key, bounds);
+                }
+                else
+                {
+                    regions[key] = bounds;
+                }
             }
 
+            _sizeSet = false;
             _contentContainer.Location = new Point(_container.Left, _container.Top - _contentContainer.Height - 5);
+            _ = Read(true);
         }
     }
 }

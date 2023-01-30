@@ -23,6 +23,8 @@ namespace Kenedia.Modules.Core.Extensions
 
         public static bool IsFileLocked(FileInfo file)
         {
+            if(!File.Exists(file.FullName)) return false;
+
             try
             {
                 using FileStream stream = file.Open(FileMode.Open, FileAccess.Read, FileShare.None);
