@@ -1,91 +1,66 @@
-﻿using Kenedia.Modules.Core.Models;
+﻿using Kenedia.Modules.Core.Extensions;
 using Kenedia.Modules.Core.Structs;
 using Newtonsoft.Json;
-using System;
+using System.Diagnostics;
 using System.IO;
-using System.Linq;
-using System.Reflection;
+using System.Runtime.Serialization;
 using System.Threading.Tasks;
 
 namespace Kenedia.Modules.Core.Services
 {
-    public static class SharedSettings
+    [DataContract]
+    public class SharedSettings
     {
-        private static bool s_loaded = false;
-        private static string s_path;
-        private static RectangleDimensions s_windowOffset = new(31, 8, -8, -8);
+        private bool _loaded = false;
+        private string _path;
+        private RectangleDimensions _windowOffset = new(8, 31, -8, -8);
 
-        public static RectangleDimensions WindowOffset { get => s_windowOffset; set => SetValue(ref s_windowOffset, value); }
+        [DataMember]
+        public RectangleDimensions WindowOffset { get => _windowOffset; set => SetValue(ref _windowOffset, value); }
 
-        public static bool Check { get; set; } = false;
+        public bool Check { get; set; } = false;
 
-        public static async Task Load(string p, bool force = false)
+        public async Task Load(string p, bool force = false)
         {
-            if (!s_loaded || force)
+            if (!_loaded || force)
             {
-                s_path = $@"{p}\shared_settings.json";
+                _path = p;
 
-                if (Directory.Exists(p) && File.Exists(s_path))
+                if (File.Exists(_path))
                 {
-                    using var reader = File.OpenText(s_path);
-                    string content = await reader.ReadToEndAsync();
+                    if (await FileExtension.WaitForFileUnlock(_path, 2500))
+                    {
+                        using StreamReader reader = File.OpenText(_path);
+                        string content = await reader.ReadToEndAsync();
 
-                    var source = JsonConvert.DeserializeObject<SharedSettingsModel>(content);
-                    MapToStatic(source);
+                        SharedSettings source = JsonConvert.DeserializeObject<SharedSettings>(content);
+                    }
                 }
 
-                s_loaded = true;
+                _loaded = true;
             }
         }
 
-        public static T ObjectFromStaticClass<T>()
+        private async void Save()
         {
-            var o = (T)Activator.CreateInstance(typeof(T));
+            string json = JsonConvert.SerializeObject(this, Formatting.Indented);
 
-            var destinationProperties = o.GetType().GetProperties();
-            var sourceProperties = typeof(SharedSettings).GetProperties();
-
-            foreach (PropertyInfo prop in sourceProperties)
+            if (File.Exists(_path))
             {
-                var destinationProp = destinationProperties.SingleOrDefault(p => p.Name.Equals(prop.Name, StringComparison.OrdinalIgnoreCase));
-                destinationProp?.SetValue(o, prop.GetValue(null));
-            }
-
-            return o;
-        }
-
-        private static void MapToStatic<sT>(sT source)
-        {
-            var sourceProperties = source.GetType().GetProperties();
-
-            //Key thing here is to specify we want the static properties only
-            var destinationProperties = typeof(SharedSettings).GetProperties(BindingFlags.Public | BindingFlags.Static);
-
-            foreach (var prop in sourceProperties)
-            {
-                //Find matching property by name
-                var destinationProp = destinationProperties.Single(p => p.Name == prop.Name);
-
-                //Set the static property value
-                destinationProp?.SetValue(null, prop.GetValue(source));
+                if (await FileExtension.WaitForFileUnlock(_path, 2500))
+                {
+                    using var writer = new StreamWriter(_path);
+                    await writer.WriteAsync(json);
+                }
             }
         }
 
-        private static async void Save()
-        {
-            var sm = ObjectFromStaticClass<SharedSettingsModel>();
-            string json = JsonConvert.SerializeObject(sm, Formatting.Indented);
-
-            using var writer = new StreamWriter(s_path);
-            await writer.WriteAsync(json);
-        }
-
-        private static void SetValue<T>(ref T prop, T value)
+        private void SetValue<T>(ref T prop, T value)
         {
             if (Equals(prop, value)) return;
             prop = value;
 
-            if(s_loaded) Save();
+            if (_loaded) Save();
         }
     }
 }

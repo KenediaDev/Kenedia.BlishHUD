@@ -10,9 +10,9 @@ using Point = System.Drawing.Point;
 using Size = System.Drawing.Size;
 using Kenedia.Modules.Core.Extensions;
 using Kenedia.Modules.Core.Models;
-using static Kenedia.Modules.Core.Utility.WindowsUtil.User32Dll;
 using System.Diagnostics;
 using Kenedia.Modules.Core.Structs;
+using static Kenedia.Modules.Core.Utility.WindowsUtil.User32Dll;
 
 namespace Kenedia.Modules.Core.Services
 {
@@ -25,31 +25,41 @@ namespace Kenedia.Modules.Core.Services
         Cutscene
     }
 
-    public static class GameState
+    public class GameState
     {
-        private static double s_lastTick = 0;
-        private static double? s_cutsceneStart;
-        private static double s_cutsceneDuration = 0;
+        private double s_lastTick = 0;
+        private double? s_cutsceneStart;
+        private double s_cutsceneDuration = 0;
 
-        private static readonly List<double> s_spinnerResults = new();
+        private readonly List<double> s_spinnerResults = new();
 
-        private static readonly List<GameStatus> s_gameStatuses = new();
-        private static GameStatus s_gameStatus = GameStatus.Unknown;
-        public static event EventHandler<GameStateChangedEventArgs> GameStateChanged;
-        public static event EventHandler<GameStateChangedEventArgs> ChangedToIngame;
-        public static event EventHandler<GameStateChangedEventArgs> ChangedToCharacterSelection;
-        public static event EventHandler<GameStateChangedEventArgs> ChangedToLoadingScreen;
-        public static event EventHandler<GameStateChangedEventArgs> ChangedToCutscene;
+        private readonly List<GameStatus> s_gameStatuses = new();
+        private GameStatus s_gameStatus = GameStatus.Unknown;
+        public event EventHandler<GameStateChangedEventArgs> GameStateChanged;
+        public event EventHandler<GameStateChangedEventArgs> ChangedToIngame;
+        public event EventHandler<GameStateChangedEventArgs> ChangedToCharacterSelection;
+        public event EventHandler<GameStateChangedEventArgs> ChangedToLoadingScreen;
+        public event EventHandler<GameStateChangedEventArgs> ChangedToCutscene;
 
-        public static int Count { get; set; } = 0;
+        public ClientWindowService ClientWindowService { get; set; }
 
-        public static Stopwatch GameTime { get; set; }
+        public SharedSettings SharedSettings { get; set; }
 
-        private static GameStatus NewStatus { get; set; }
+        public GameState(ClientWindowService clientWindowService, SharedSettings sharedSettings)
+        {
+            ClientWindowService = clientWindowService;
+            SharedSettings = sharedSettings;
+        }
 
-        public static GameStatus OldStatus { get; private set; }
+        public int Count { get; set; } = 0;
 
-        public static GameStatus GameStatus
+        public Stopwatch GameTime { get; set; }
+
+        private GameStatus NewStatus { get; set; }
+
+        public GameStatus OldStatus { get; private set; }
+
+        public GameStatus GameStatus
         {
             get => s_gameStatus;
             private set
@@ -97,9 +107,9 @@ namespace Kenedia.Modules.Core.Services
             }
         }
 
-        public static bool IsIngame => GameStatus == GameStatus.Ingame;
+        public bool IsIngame => GameStatus == GameStatus.Ingame;
 
-        public static void Run(GameTime gameTime)
+        public void Run(GameTime gameTime)
         {
             NewStatus = GameStatus.Unknown;
 
@@ -166,7 +176,6 @@ namespace Kenedia.Modules.Core.Services
                 {
                     if (GameStatus != NewStatus)
                     {
-                        Core.Logger.Info($"Game status changed from '{GameStatus}' to '{NewStatus}'");
                         GameStatus = NewStatus;
                         s_gameStatuses.Clear();
                     }
@@ -174,13 +183,13 @@ namespace Kenedia.Modules.Core.Services
             }
         }
 
-        public static bool IsButtonVisible()
+        public bool IsButtonVisible()
         {
             RECT wndBounds = ClientWindowService.WindowBounds;
             bool windowed = GameService.GameIntegration.GfxSettings.ScreenMode == Blish_HUD.GameIntegration.GfxSettings.ScreenModeSetting.Windowed;
             RectangleDimensions offset = windowed ? SharedSettings.WindowOffset : new(0);
 
-            var uiSize = GameService.Gw2Mumble.UI.UISize;
+            Gw2Sharp.Mumble.Models.UiSize uiSize = GameService.Gw2Mumble.UI.UISize;
             Size size = new(50 + ((int)uiSize * 3), 40 + ((int)uiSize * 3));
 
             var pos = new Point(0, -size.Height);
@@ -191,18 +200,18 @@ namespace Kenedia.Modules.Core.Services
 
             g.CopyFromScreen(new(wndBounds.Left + offset.Left, wndBounds.Bottom + offset.Bottom + pos.Y), Point.Empty, size);
 
-            var cutFilled = bitmap.IsCutAndCheckFilled(0.4, 0.7f);
+            (Bitmap, bool, double) cutFilled = bitmap.IsCutAndCheckFilled(0.4, 0.7f);
 
             return cutFilled.Item3 is > 0.35;
         }
 
-        public static bool IsLoadingSpinnerVisible()
+        public bool IsLoadingSpinnerVisible()
         {
             RECT wndBounds = ClientWindowService.WindowBounds;
             bool windowed = GameService.GameIntegration.GfxSettings.ScreenMode == Blish_HUD.GameIntegration.GfxSettings.ScreenModeSetting.Windowed;
             RectangleDimensions offset = windowed ? SharedSettings.WindowOffset : new(0);
 
-            var uiSize = GameService.Gw2Mumble.UI.UISize;
+            Gw2Sharp.Mumble.Models.UiSize uiSize = GameService.Gw2Mumble.UI.UISize;
             Size size = new(64 + ((int)uiSize * 2), 64 + ((int)uiSize * 2));
 
             var pos = new Point(-size.Width, -size.Height);
@@ -212,21 +221,21 @@ namespace Kenedia.Modules.Core.Services
             using MemoryStream s = new();
 
             g.CopyFromScreen(new(wndBounds.Right + offset.Right + pos.X, wndBounds.Bottom + offset.Bottom + pos.Y - 30), Point.Empty, size);
-            var isFilled = bitmap.IsNotBlackAndCheckFilled(0.4, 0.3f);
+            (Bitmap, bool, double) isFilled = bitmap.IsNotBlackAndCheckFilled(0.4);
 
             if (isFilled.Item2) SaveResult(isFilled.Item3, s_spinnerResults);
 
-            var uniques = s_spinnerResults.Distinct();
+            IEnumerable<double> uniques = s_spinnerResults.Distinct();
             return uniques?.Count() >= 3;
         }
 
-        private static void SaveResult(double result, List<double> list)
+        private void SaveResult(double result, List<double> list)
         {
             list.Add(result);
             if (list.Count > 4) list.RemoveAt(0);
         }
 
-        private static bool StatusConfirmed(GameStatus newStatus, List<GameStatus> resultList, int threshold = 3)
+        private bool StatusConfirmed(GameStatus newStatus, List<GameStatus> resultList, int threshold = 3)
         {
             resultList.Add(newStatus);
 

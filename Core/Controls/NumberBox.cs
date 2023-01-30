@@ -44,7 +44,7 @@ namespace Kenedia.Modules.Core.Controls
 
         public Action<int> ValueChangedAction { get; set; }
 
-        public Func<string> SetLocalizedTooltip
+        public new Func<string> SetLocalizedTooltip
         {
             get => _setLocalizedTooltip;
             set
@@ -163,7 +163,7 @@ namespace Kenedia.Modules.Core.Controls
             }
         }
 
-        public void UserLocale_SettingChanged(object sender, ValueChangedEventArgs<Locale> e)
+        new public void UserLocale_SettingChanged(object sender, ValueChangedEventArgs<Locale> e)
         {
             if (SetLocalizedTooltip != null) BasicTooltipText = SetLocalizedTooltip?.Invoke();
         }

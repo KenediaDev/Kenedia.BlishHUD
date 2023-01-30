@@ -18,7 +18,7 @@ namespace Kenedia.Modules.Core.Extensions
             {
                 for (int j = 0; j < b.Height; j++)
                 {
-                    System.Drawing.Color oc = b.GetPixel(i, j);
+                    Color oc = b.GetPixel(i, j);
                     b.SetPixel(i, j, oc.GetBrightness() > colorThreshold ? black : white);
                 }
             }
@@ -83,12 +83,12 @@ namespace Kenedia.Modules.Core.Extensions
 
             if (imageMap.Count > 0 && maxHeight != null && maxHeight > 0)
             {
-                foreach (var column in imageMap)
+                foreach (List<Point> column in imageMap)
                 {
-                    foreach (var p in column)
+                    foreach (Point p in column)
                     {
-                        var x = p.X - first.X;
-                        var y = p.Y - first.Y;
+                        int x = p.X - first.X;
+                        int y = p.Y - first.Y;
                         bitmap.SetPixel(x, y, black);
                     }
                 }
@@ -97,12 +97,9 @@ namespace Kenedia.Modules.Core.Extensions
             return (bitmap, filled / total >= threshold, filled / total);
         }
 
-        public static (Bitmap, bool, double) IsNotBlackAndCheckFilled(this Bitmap b, double threshold, float colorThreshold = 0.5f)
+        public static (Bitmap, bool, double) IsNotBlackAndCheckFilled(this Bitmap b, double threshold)
         {
-            var black = Color.FromArgb(255, 0, 0, 0);
             var white = Color.FromArgb(255, 255, 255, 255);
-
-            double filled = 0;
 
             Point first = new(-1, -1);
             Point last = new(-1, -1);
@@ -159,7 +156,7 @@ namespace Kenedia.Modules.Core.Extensions
 
             if (imageMap.Count > 0)
             {
-                foreach (var t in imageMap)
+                foreach ((Point, Color) t in imageMap)
                 {
                     int x = t.Item1.X - first.X;
                     int y = t.Item1.Y - first.Y;
@@ -172,10 +169,7 @@ namespace Kenedia.Modules.Core.Extensions
 
         public static (Bitmap, bool, double) IsCutAndCheckFilled(this Bitmap b, double threshold, float colorThreshold = 0.5f)
         {
-            var black = Color.FromArgb(255, 0, 0, 0);
             var white = Color.FromArgb(255, 255, 255, 255);
-
-            double filled = 0;
 
             Point first = new(-1, -1);
             Point last = new(-1, -1);
@@ -232,7 +226,7 @@ namespace Kenedia.Modules.Core.Extensions
 
             if (imageMap.Count > 0)
             {
-                foreach (var t in imageMap)
+                foreach ((Point, Color) t in imageMap)
                 {
                     int x = t.Item1.X - first.X;
                     int y = t.Item1.Y - first.Y;
@@ -255,7 +249,7 @@ namespace Kenedia.Modules.Core.Extensions
             {
                 for (int j = 0; j < b.Height; j++)
                 {
-                    System.Drawing.Color oc = b.GetPixel(i, j);
+                    Color oc = b.GetPixel(i, j);
                     bool isFilled = oc.GetBrightness() > colorThreshold;
 
                     filled += isFilled ? 1 : 0;

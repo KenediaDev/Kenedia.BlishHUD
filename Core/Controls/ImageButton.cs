@@ -74,7 +74,7 @@ namespace Kenedia.Modules.Core.Controls
         protected override void Paint(SpriteBatch spriteBatch, Rectangle bounds)
         {
             AsyncTexture2D texture = GetTexture();
-            var color = ColorHovered != null && MouseOver ? ColorHovered : ColorClicked != null && Clicked ? ColorClicked : Color;
+            Color? color = ColorHovered != null && MouseOver ? ColorHovered : ColorClicked != null && Clicked ? ColorClicked : Color;
 
             if (texture != null && color != null)
             {              

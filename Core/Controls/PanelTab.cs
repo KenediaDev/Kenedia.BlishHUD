@@ -40,7 +40,7 @@ namespace Kenedia.Modules.Core.Controls
             }
         }
 
-        public Rectangle TextureRectangle
+        public new Rectangle TextureRectangle
         {
             get => _textureRectangle;
             set

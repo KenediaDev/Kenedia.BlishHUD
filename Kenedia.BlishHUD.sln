@@ -12,15 +12,13 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{295DDC53-E1B0-4ADA-9F05-1AE4F0915299}"
 	ProjectSection(SolutionItems) = preProject
 		.editorconfig = .editorconfig
-		BlishSharedResx.snippet = BlishSharedResx.snippet
-		DebugWriteLine.snippet = DebugWriteLine.snippet
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AModule", "AModule\AModule.csproj", "{8E72F6C4-CF5F-4493-85E1-C37F2021CAA5}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AnotherModule", "AnotherModule\AnotherModule.csproj", "{267A281D-9B69-4EBD-A1EE-3FFEE9CB4DAC}"
 EndProject
-Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Shared", "Shared\Shared.shproj", "{116C7F9D-B0B1-454E-9DFB-EDFAF35D9299}"
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Core", "Core\Core.shproj", "{116C7F9D-B0B1-454E-9DFB-EDFAF35D9299}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CommonStrings", "CommonStrings\CommonStrings.csproj", "{BF6809CB-25D6-472B-966D-7A3EBB1470F9}"
 EndProject

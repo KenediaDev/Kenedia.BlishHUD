@@ -5,19 +5,19 @@ using static Kenedia.Modules.Core.Utility.WindowsUtil.User32Dll;
 
 namespace Kenedia.Modules.Core.Services
 {
-    public static class ClientWindowService
+    public class ClientWindowService
     {
-        private static double _resolutionTick;
+        private double _resolutionTick;
 
-        public static int TitleBarHeight { get; set; }
+        public int TitleBarHeight { get; set; }
 
-        public static int SideBarWidth { get; set; }
+        public int SideBarWidth { get; set; }
 
-        public static RECT ClientBounds { get; set; }
+        public RECT ClientBounds { get; set; }
 
-        public static RECT WindowBounds { get; set; }
+        public RECT WindowBounds { get; set; }
 
-        public static void Run(GameTime gameTime)
+        public void Run(GameTime gameTime)
         {
             if (gameTime.TotalGameTime.TotalMilliseconds - _resolutionTick >= 50)
             {

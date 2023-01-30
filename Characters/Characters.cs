@@ -70,7 +70,7 @@ namespace Kenedia.Modules.Characters
 
         public Dictionary<string, SearchFilter<Character_Model>> SearchFilters { get; private set; }
 
-        public TagList Tags { get; set; } = new TagList();
+        public TagList Tags { get; } = new TagList();
 
         public CharacterSwapping CharacterSwapping { get; } = new();
 
