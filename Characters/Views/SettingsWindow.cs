@@ -7,6 +7,7 @@ using Kenedia.Modules.Characters.Extensions;
 using Kenedia.Modules.Characters.Services;
 using Kenedia.Modules.Core.Controls;
 using Kenedia.Modules.Core.Extensions;
+using Kenedia.Modules.Core.Views;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MonoGame.Extended.BitmapFonts;
@@ -53,10 +54,11 @@ namespace Kenedia.Modules.Characters.Views
         private Image _bottomRightImage;
 
         private readonly FlowPanel _contentPanel;
+        private readonly SharedSettingsView _sharedSettingsView;
 
         private double _tick;
 
-        public SettingsWindow(AsyncTexture2D background, Rectangle windowRegion, Rectangle contentRegion) : base(background, windowRegion, contentRegion)
+        public SettingsWindow(AsyncTexture2D background, Rectangle windowRegion, Rectangle contentRegion, SharedSettingsView sharedSettingsView) : base(background, windowRegion, contentRegion)
         {
             _contentPanel = new()
             {
@@ -71,10 +73,14 @@ namespace Kenedia.Modules.Characters.Views
             CreateBehavior();
             CreateDelays();
             CreateGeneral();
-            CreateLayout();
+            //CreateLayout();
+
+            _sharedSettingsView = sharedSettingsView;
+            _sharedSettingsView.CreateLayout(_contentPanel, ContentRegion.Width - 20);
+
             CreateKeybinds();
 
-            Characters.ModuleInstance.LanguageChanged += OnLanguageChanged;
+            GameService.Overlay.UserLocale.SettingChanged += OnLanguageChanged;
             OnLanguageChanged();
         }
 
@@ -638,235 +644,6 @@ namespace Kenedia.Modules.Characters.Views
             #endregion Delays
         }
 
-        private void CreateLayout()
-        {
-            #region Layout
-            var p = new Panel()
-            {
-                Parent = _contentPanel,
-                Width = ContentRegion.Width - 20,
-                HeightSizingMode = SizingMode.AutoSize,
-                ShowBorder = true,
-            };
-
-            _ = new Image()
-            {
-                Texture = AsyncTexture2D.FromAssetId(156736),
-                Parent = p,
-                Size = new(30, 30),
-            };
-
-            _ = new Label()
-            {
-                Parent = p,
-                AutoSizeWidth = true,
-                Location = new(35, 0),
-                Height = 30,
-                SetLocalizedText = () => string.Format(strings.ItemSettings, "Layout"),
-            };
-
-            var cFP = new FlowPanel()
-            {
-                Parent = p,
-                Location = new(5, 35),
-                HeightSizingMode = SizingMode.AutoSize,
-                WidthSizingMode = SizingMode.Fill,
-                FlowDirection = ControlFlowDirection.SingleLeftToRight,
-                ControlPadding = new(3, 3),
-            };
-
-            var cP = new FlowPanel()
-            {
-                Parent = cFP,
-                HeightSizingMode = SizingMode.AutoSize,
-                Width = (ContentRegion.Width - 20) / 2,
-                FlowDirection = ControlFlowDirection.SingleTopToBottom,
-                ControlPadding = new(3, 3),
-            };
-
-            var pp = new FlowPanel()
-            {
-                Parent = cP,
-                WidthSizingMode = SizingMode.Fill,
-                HeightSizingMode = SizingMode.AutoSize,
-                FlowDirection = ControlFlowDirection.SingleLeftToRight,
-            };
-
-            _ = new Label()
-            {
-                Parent = pp,
-                Width = 150,
-                Location = new(35, 0),
-                Height = 20,
-                SetLocalizedText = () => "Top Offset",
-            };
-            _topOffsetBox = new()
-            {
-                Parent = pp,
-                MinValue = -50,
-                MaxValue = 50,
-                Value = Settings.WindowOffset.Value.Top,
-                SetLocalizedTooltip = () => "Top",
-                ValueChangedAction = (num) => UpdateOffset(null, num),
-            };
-
-            pp = new FlowPanel()
-            {
-                Parent = cP,
-                WidthSizingMode = SizingMode.Fill,
-                HeightSizingMode = SizingMode.AutoSize,
-                FlowDirection = ControlFlowDirection.SingleLeftToRight,
-            };
-            _ = new Label()
-            {
-                Parent = pp,
-                Width = 150,
-                Location = new(35, 0),
-                Height = 20,
-                SetLocalizedText = () => "Left Offset",
-            };
-            _leftOffsetBox = new()
-            {
-                Parent = pp,
-                MinValue = -50,
-                MaxValue = 50,
-                Value = Settings.WindowOffset.Value.Left,
-                SetLocalizedTooltip = () => "Left",
-                ValueChangedAction = (num) => UpdateOffset(null, num),
-            };
-
-            pp = new FlowPanel()
-            {
-                Parent = cP,
-                WidthSizingMode = SizingMode.Fill,
-                HeightSizingMode = SizingMode.AutoSize,
-                FlowDirection = ControlFlowDirection.SingleLeftToRight,
-            };
-            _ = new Label()
-            {
-                Parent = pp,
-                Width = 150,
-                Location = new(35, 0),
-                Height = 20,
-                SetLocalizedText = () => "Bottom Offset",
-            };
-            _bottomOffsetBox = new()
-            {
-                Parent = pp,
-                MinValue = -50,
-                MaxValue = 50,
-                Value = Settings.WindowOffset.Value.Bottom,
-                SetLocalizedTooltip = () => "Bottom",
-                ValueChangedAction = (num) => UpdateOffset(null, num),
-            };
-
-            pp = new FlowPanel()
-            {
-                Parent = cP,
-                WidthSizingMode = SizingMode.Fill,
-                HeightSizingMode = SizingMode.AutoSize,
-                FlowDirection = ControlFlowDirection.SingleLeftToRight,
-            };
-            _ = new Label()
-            {
-                Parent = pp,
-                Width = 150,
-                Location = new(35, 0),
-                Height = 20,
-                SetLocalizedText = () => "Right Offset",
-            };
-            _rightOffsetBox = new()
-            {
-                Parent = pp,
-                MinValue = -50,
-                MaxValue = 50,
-                Value = Settings.WindowOffset.Value.Right,
-                SetLocalizedTooltip = () => "Right",
-                ValueChangedAction = (num) => UpdateOffset(null, num),
-            };
-
-            var subCP = new FlowPanel()
-            {
-                Parent = cFP,
-                HeightSizingMode = SizingMode.AutoSize,
-                WidthSizingMode = SizingMode.Fill,
-                FlowDirection = ControlFlowDirection.SingleLeftToRight,
-                ControlPadding = new(5, 5),
-            };
-
-            cP = new FlowPanel()
-            {
-                Parent = subCP,
-                HeightSizingMode = SizingMode.AutoSize,
-                Width = 125,
-                FlowDirection = ControlFlowDirection.SingleTopToBottom,
-                ControlPadding = new(5, 5),
-            };
-            _ = new Label()
-            {
-                Parent = cP,
-                SetLocalizedText = () => "Left Top",
-                AutoSizeWidth = true,
-                Visible = false,
-            };
-            _topLeftImage = new()
-            {
-                Parent = cP,
-                BackgroundColor = Color.White,
-                Size = new(100, _rightOffsetBox.Height * 2),
-            };
-            _ = new Label()
-            {
-                Parent = cP,
-                SetLocalizedText = () => "Left Bottom",
-                AutoSizeWidth = true,
-                Visible = false,
-            };
-            _bottomLeftImage = new()
-            {
-                Parent = cP,
-                BackgroundColor = Color.White,
-                Size = new(100, _rightOffsetBox.Height * 2),
-            };
-
-            cP = new FlowPanel()
-            {
-                Parent = subCP,
-                HeightSizingMode = SizingMode.AutoSize,
-                Width = 125,
-                FlowDirection = ControlFlowDirection.SingleTopToBottom,
-                ControlPadding = new(5, 5),
-            };
-            _ = new Label()
-            {
-                Parent = cP,
-                SetLocalizedText = () => "Right Top",
-                AutoSizeWidth = true,
-                Visible = false,
-            };
-            _topRightImage = new()
-            {
-                Parent = cP,
-                BackgroundColor = Color.White,
-                Size = new(100, _rightOffsetBox.Height * 2),
-            };
-            _ = new Label()
-            {
-                Parent = cP,
-                SetLocalizedText = () => "Right Bottom",
-                AutoSizeWidth = true,
-                Visible = false,
-            };
-            _bottomRightImage = new()
-            {
-                Parent = cP,
-                BackgroundColor = Color.White,
-                Size = new(100, _rightOffsetBox.Height * 2),
-            };
-
-            #endregion
-        }
-
         private void CreateGeneral()
         {
             #region General
@@ -922,79 +699,6 @@ namespace Kenedia.Modules.Characters.Views
                 SetLocalizedTooltip = () => strings.OpenSidemenuOnSearch_Description,
             };
             #endregion
-        }
-
-        private void UpdateOffset(object sender, int e)
-        {
-            Settings.WindowOffset.Value = new(_leftOffsetBox.Value, _topOffsetBox.Value, _rightOffsetBox.Value, _bottomOffsetBox.Value);
-
-            SetTopLeftImage();
-            SetTopRightImage();
-
-            SetBottomLeftImage();
-            SetBottomRightImage();
-        }
-
-        private void SetTopLeftImage()
-        {
-            RECT wndBounds = Characters.ModuleInstance.WindowRectangle;
-
-            bool windowed = GameService.GameIntegration.GfxSettings.ScreenMode == Blish_HUD.GameIntegration.GfxSettings.ScreenModeSetting.Windowed;
-            Point p = windowed ? new(Settings.WindowOffset.Value.Left, Settings.WindowOffset.Value.Top) : Point.Zero;
-
-            using Bitmap bitmap = new(_topLeftImage.Width, _topLeftImage.Height);
-            using var g = System.Drawing.Graphics.FromImage(bitmap);
-            using MemoryStream s = new();
-            g.CopyFromScreen(new System.Drawing.Point(wndBounds.Left + p.X, wndBounds.Top + p.Y), System.Drawing.Point.Empty, new(_topLeftImage.Width, _topLeftImage.Height));
-            bitmap.Save(s, System.Drawing.Imaging.ImageFormat.Bmp);
-            _topLeftImage.Texture = s.CreateTexture2D();
-        }
-
-        private void SetBottomLeftImage()
-        {
-            RECT wndBounds = Characters.ModuleInstance.WindowRectangle;
-
-            bool windowed = GameService.GameIntegration.GfxSettings.ScreenMode == Blish_HUD.GameIntegration.GfxSettings.ScreenModeSetting.Windowed;
-            Point p = windowed ? new(Settings.WindowOffset.Value.Left, Settings.WindowOffset.Value.Bottom) : Point.Zero;
-
-            using Bitmap bitmap = new(_bottomLeftImage.Width, _bottomLeftImage.Height);
-            using var g = System.Drawing.Graphics.FromImage(bitmap);
-            using MemoryStream s = new();
-            g.CopyFromScreen(new System.Drawing.Point(wndBounds.Left + p.X, wndBounds.Bottom - _bottomLeftImage.Height + p.Y), System.Drawing.Point.Empty, new(_bottomLeftImage.Width, _bottomLeftImage.Height));
-            bitmap.Save(s, System.Drawing.Imaging.ImageFormat.Bmp);
-            _bottomLeftImage.Texture = s.CreateTexture2D();
-        }
-
-        private void SetTopRightImage()
-        {
-            RECT wndBounds = Characters.ModuleInstance.WindowRectangle;
-
-            bool windowed = GameService.GameIntegration.GfxSettings.ScreenMode == Blish_HUD.GameIntegration.GfxSettings.ScreenModeSetting.Windowed;
-            Point p = windowed ? new(Settings.WindowOffset.Value.Right, Settings.WindowOffset.Value.Top) : Point.Zero;
-
-            using Bitmap bitmap = new(_topRightImage.Width, _topRightImage.Height);
-            using var g = System.Drawing.Graphics.FromImage(bitmap);
-            using MemoryStream s = new();
-            g.CopyFromScreen(new System.Drawing.Point(wndBounds.Right - _topRightImage.Width + p.X, wndBounds.Top + p.Y), System.Drawing.Point.Empty, new(_topRightImage.Width, _topRightImage.Height));
-            bitmap.Save(s, System.Drawing.Imaging.ImageFormat.Bmp);
-            _topRightImage.Texture = s.CreateTexture2D();
-
-        }
-
-        private void SetBottomRightImage()
-        {
-            RECT wndBounds = Characters.ModuleInstance.WindowRectangle;
-
-            bool windowed = GameService.GameIntegration.GfxSettings.ScreenMode == Blish_HUD.GameIntegration.GfxSettings.ScreenModeSetting.Windowed;
-            Point p = windowed ? new(Settings.WindowOffset.Value.Right, Settings.WindowOffset.Value.Bottom) : Point.Zero;
-
-            using Bitmap bitmap = new(_bottomLeftImage.Width, _bottomLeftImage.Height);
-            using var g = System.Drawing.Graphics.FromImage(bitmap);
-            using MemoryStream s = new();
-            g.CopyFromScreen(new System.Drawing.Point(wndBounds.Right - _bottomRightImage.Width + p.X, wndBounds.Bottom - _bottomRightImage.Height + p.Y), System.Drawing.Point.Empty, new(_bottomRightImage.Width, _bottomRightImage.Height));
-            bitmap.Save(s, System.Drawing.Imaging.ImageFormat.Bmp);
-            _bottomRightImage.Texture = s.CreateTexture2D();
-
         }
 
         private void GetFontSize(SettingEntry<int> setting, string item)
@@ -1060,7 +764,7 @@ namespace Kenedia.Modules.Characters.Views
         {
             base.DisposeControl();
 
-            Characters.ModuleInstance.LanguageChanged -= OnLanguageChanged;
+            GameService.Overlay.UserLocale.SettingChanged -= OnLanguageChanged;
 
             Children.DisposeAll();
             _contentPanel.Children.DisposeAll();
@@ -1079,11 +783,7 @@ namespace Kenedia.Modules.Characters.Views
 
                 if (GameService.GameIntegration.Gw2Instance.Gw2HasFocus)
                 {
-                    SetTopLeftImage();
-                    SetTopRightImage();
-
-                    SetBottomLeftImage();
-                    SetBottomRightImage();
+                    _sharedSettingsView?.UpdateOffset();
                 }
             }
         }

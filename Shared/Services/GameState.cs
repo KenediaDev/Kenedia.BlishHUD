@@ -43,9 +43,12 @@ namespace Kenedia.Modules.Core.Services
 
         public ClientWindowService ClientWindowService { get; set; }
 
-        public GameState(ClientWindowService clientWindowService)
+        public SharedSettings SharedSettings { get; set; }
+
+        public GameState(ClientWindowService clientWindowService, SharedSettings sharedSettings)
         {
             ClientWindowService = clientWindowService;
+            SharedSettings = sharedSettings;
         }
 
         public int Count { get; set; } = 0;
@@ -186,7 +189,7 @@ namespace Kenedia.Modules.Core.Services
             bool windowed = GameService.GameIntegration.GfxSettings.ScreenMode == Blish_HUD.GameIntegration.GfxSettings.ScreenModeSetting.Windowed;
             RectangleDimensions offset = windowed ? SharedSettings.WindowOffset : new(0);
 
-            var uiSize = GameService.Gw2Mumble.UI.UISize;
+            Gw2Sharp.Mumble.Models.UiSize uiSize = GameService.Gw2Mumble.UI.UISize;
             Size size = new(50 + ((int)uiSize * 3), 40 + ((int)uiSize * 3));
 
             var pos = new Point(0, -size.Height);
@@ -197,7 +200,7 @@ namespace Kenedia.Modules.Core.Services
 
             g.CopyFromScreen(new(wndBounds.Left + offset.Left, wndBounds.Bottom + offset.Bottom + pos.Y), Point.Empty, size);
 
-            var cutFilled = bitmap.IsCutAndCheckFilled(0.4, 0.7f);
+            (Bitmap, bool, double) cutFilled = bitmap.IsCutAndCheckFilled(0.4, 0.7f);
 
             return cutFilled.Item3 is > 0.35;
         }
@@ -208,7 +211,7 @@ namespace Kenedia.Modules.Core.Services
             bool windowed = GameService.GameIntegration.GfxSettings.ScreenMode == Blish_HUD.GameIntegration.GfxSettings.ScreenModeSetting.Windowed;
             RectangleDimensions offset = windowed ? SharedSettings.WindowOffset : new(0);
 
-            var uiSize = GameService.Gw2Mumble.UI.UISize;
+            Gw2Sharp.Mumble.Models.UiSize uiSize = GameService.Gw2Mumble.UI.UISize;
             Size size = new(64 + ((int)uiSize * 2), 64 + ((int)uiSize * 2));
 
             var pos = new Point(-size.Width, -size.Height);
@@ -218,11 +221,11 @@ namespace Kenedia.Modules.Core.Services
             using MemoryStream s = new();
 
             g.CopyFromScreen(new(wndBounds.Right + offset.Right + pos.X, wndBounds.Bottom + offset.Bottom + pos.Y - 30), Point.Empty, size);
-            var isFilled = bitmap.IsNotBlackAndCheckFilled(0.4, 0.3f);
+            (Bitmap, bool, double) isFilled = bitmap.IsNotBlackAndCheckFilled(0.4);
 
             if (isFilled.Item2) SaveResult(isFilled.Item3, s_spinnerResults);
 
-            var uniques = s_spinnerResults.Distinct();
+            IEnumerable<double> uniques = s_spinnerResults.Distinct();
             return uniques?.Count() >= 3;
         }
 

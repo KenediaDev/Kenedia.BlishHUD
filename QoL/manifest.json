@@ -14,7 +14,7 @@
   "name": "Tyrian QoL",
   "namespace": "Kenedia.Modules.QoL",
   "package": "Kenedia.Modules.QoL.dll",
-  "directories": [ "kenedia_modules" ],
+  "directories": [ "kenedia" ],
   "url": "https://github.com/KenediaDev/Kenedia.BlishHUD",
   "version": "0.0.9"
 }

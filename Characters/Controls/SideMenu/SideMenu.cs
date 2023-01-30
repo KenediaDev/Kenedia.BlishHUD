@@ -34,8 +34,12 @@ namespace Kenedia.Modules.Characters.Controls.SideMenu
         private double _opacityTick;
         private DateTime _lastMouseOver;
 
-        public SideMenu()
+        private CharacterSorting _characterSorting;
+
+        public SideMenu(CharacterSorting characterSorting)
         {
+            _characterSorting = characterSorting;
+
             WidthSizingMode = SizingMode.Standard;
             HeightSizingMode = SizingMode.Standard;
             BackgroundColor = Color.Black * 0.4f;
@@ -71,7 +75,7 @@ namespace Kenedia.Modules.Characters.Controls.SideMenu
             });
             _ = SwitchTab(_toggles);
 
-            Characters.ModuleInstance.LanguageChanged += OnLanguageChanged;
+            GameService.Overlay.UserLocale.SettingChanged += OnLanguageChanged;
             OnLanguageChanged();
         }
 
@@ -170,7 +174,7 @@ namespace Kenedia.Modules.Characters.Controls.SideMenu
         {
             if (!GameService.GameIntegration.Gw2Instance.IsInGame)
             {
-                CharacterSorting.Start(ModuleInstance.CharacterModels);
+                _characterSorting.Start(ModuleInstance.CharacterModels);
             }
         }
 
@@ -254,7 +258,7 @@ namespace Kenedia.Modules.Characters.Controls.SideMenu
         {
             base.DisposeControl();
 
-            ModuleInstance.LanguageChanged -= OnLanguageChanged;
+            GameService.Overlay.UserLocale.SettingChanged -= OnLanguageChanged;
             _closeButton.Click -= CloseButton_Click;
             _refreshButton.Click -= RefreshButton_Click;
             _fixButton.Click -= FixButton_Click;

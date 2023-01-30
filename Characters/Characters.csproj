@@ -200,7 +200,6 @@
   <ItemGroup>
     <Compile Include="Characters.cs" />
     <Compile Include="Controls\BasicTooltip.cs" />
-    <Compile Include="Controls\CharacterEditBU.cs" />
     <Compile Include="Controls\CharacterEdit.cs" />
     <Compile Include="Controls\CharacterPotraitCapture.cs" />
     <Compile Include="Controls\CharacterControl.cs" />
@@ -338,6 +337,10 @@
     <Content Include="ref\textures\races\sylvari_hovered.png" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Interfaces\" />
+    <Folder Include="Properties\" />
+  </ItemGroup>
+  <ItemGroup>
     <EmbeddedResource Include="Res\strings.de.resx" />
     <EmbeddedResource Include="Res\strings.es.resx" />
     <EmbeddedResource Include="Res\strings.fr.resx" />
@@ -345,10 +348,6 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>strings.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Interfaces\" />
-    <Folder Include="Properties\" />
   </ItemGroup>
   <Import Project="..\Shared\Shared.projitems" Label="Shared" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

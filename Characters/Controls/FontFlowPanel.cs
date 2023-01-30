@@ -112,7 +112,7 @@ namespace Kenedia.Modules.Characters.Controls
 
         protected virtual void OnFontChanged(object sender = null, EventArgs e = null)
         {
-            foreach (var ctrl in Children.Cast<IFontControl>())
+            foreach (IFontControl ctrl in Children.Cast<IFontControl>())
             {
                 ctrl.Font = Font;
             }

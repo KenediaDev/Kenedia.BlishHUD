@@ -49,7 +49,7 @@ namespace Kenedia.Modules.Core.Controls
 
                 Items.Clear();
 
-                var items = SetLocalizedItems?.Invoke();
+                List<string> items = SetLocalizedItems?.Invoke();
                 string selected = string.Empty;
                 for (int i = 0; i < items.Count; i++)
                 {

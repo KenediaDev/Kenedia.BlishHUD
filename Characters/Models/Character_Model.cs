@@ -2,6 +2,7 @@
 using Blish_HUD.Content;
 using Gw2Sharp.WebApi.V2.Models;
 using Kenedia.Modules.Characters.Enums;
+using Kenedia.Modules.Characters.Services;
 using Kenedia.Modules.Core.Extensions;
 using System;
 using System.Collections.Generic;
@@ -34,6 +35,7 @@ namespace Kenedia.Modules.Characters.Models
         private int _index;
         private bool _initialized;
         private bool _pathChecked;
+        private  CharacterSwapping _characterSwapping;
 
         public Character_Model()
         {
@@ -145,7 +147,7 @@ namespace Kenedia.Modules.Characters.Models
             }
         }
 
-        public string MapName => (Map != null && Characters.ModuleInstance.Data.Maps[Map] != null) ? Characters.ModuleInstance.Data.Maps[Map].Name : string.Empty;
+        public string MapName => (Characters.ModuleInstance.Data.Maps[Map] != null) ? Characters.ModuleInstance.Data.Maps[Map].Name : string.Empty;
 
         public string RaceName => Characters.ModuleInstance.Data.Races[Race].Name;
 
@@ -167,11 +169,11 @@ namespace Kenedia.Modules.Characters.Models
             {
                 if (!_pathChecked)
                 {
-                    string path = Characters.ModuleInstance.BasePath + (IconPath ?? string.Empty);
+                    string path = ModulePath + (IconPath ?? string.Empty);
 
                     if (IconPath != null && File.Exists(path))
                     {
-                        GameService.Graphics.QueueMainThreadRender((graphicsDevice) => _icon = TextureUtil.FromStreamPremultiplied(graphicsDevice, new FileStream(Characters.ModuleInstance.BasePath + IconPath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite)));
+                        GameService.Graphics.QueueMainThreadRender((graphicsDevice) => _icon = TextureUtil.FromStreamPremultiplied(graphicsDevice, new FileStream(ModulePath + IconPath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite)));
                     }
 
                     _pathChecked = true;
@@ -277,6 +279,8 @@ namespace Kenedia.Modules.Characters.Models
             }
         }
 
+        public string ModulePath { get; private set; }
+
         public void Delete()
         {
             Deleted?.Invoke(null, null);
@@ -284,9 +288,11 @@ namespace Kenedia.Modules.Characters.Models
             Save();
         }
 
-        public void Initialize()
+        public void Initialize(CharacterSwapping characterSwapping, string modulePath)
         {
             _initialized = true;
+            _characterSwapping = characterSwapping;
+            ModulePath = modulePath;
         }
 
         protected bool SetProperty<T>(ref T property, T newValue, [CallerMemberName] string caller = "")
@@ -367,6 +373,11 @@ namespace Kenedia.Modules.Characters.Models
         private void Save()
         {
             Characters.ModuleInstance.SaveCharacters = true;
+        }
+
+        public void Swap()
+        {
+            _characterSwapping?.Start(this);
         }
     }
 }

@@ -22,29 +22,31 @@ namespace Kenedia.Modules.Characters.Services
         Canceled,
     }
 
-    public static class CharacterSorting
+    public class CharacterSorting
     {
-        private static CancellationTokenSource s_cancellationTokenSource;
-        private static List<Character_Model> s_models;
-        private static SortingState s_state;
-        private static string s_lastName;
-        private static int s_noNameChange = 0;
+        public CharacterSwapping CharacterSwapping { get; set; }
+
+        private CancellationTokenSource _cancellationTokenSource;
+        private List<Character_Model> _models;
+        private SortingState _state;
+        private string _lastName;
+        private int _noNameChange = 0;
 
         [SuppressMessage("CodeQuality", "IDE0052:Remove unread private members", Justification = "<Pending>")]
-        private static int NoNameChange
+        private int NoNameChange
         {
-            get => s_noNameChange;
+            get => _noNameChange;
             set
             {
-                s_noNameChange = value;
-                if (s_noNameChange > 0)
+                _noNameChange = value;
+                if (_noNameChange > 0)
                 {
-                    Status = string.Format(strings.FixCharacter_NoChange, s_noNameChange);
+                    Status = string.Format(strings.FixCharacter_NoChange, _noNameChange);
                 }
 
-                if (s_noNameChange >= 2)
+                if (_noNameChange >= 2)
                 {
-                    s_state = SortingState.Done;
+                    _state = SortingState.Done;
                     Status = strings.Status_Done;
                     AdjustCharacterLogins();
                     Completed?.Invoke(null, null);
@@ -52,53 +54,53 @@ namespace Kenedia.Modules.Characters.Services
             }
         }
 
-        private static int s_currentIndex = 0;
+        private int _currentIndex = 0;
 
-        public static event EventHandler Started;
-        public static event EventHandler Completed;
-        public static event EventHandler Finished;
-        public static event EventHandler StatusChanged;
+        public event EventHandler Started;
+        public event EventHandler Completed;
+        public event EventHandler Finished;
+        public event EventHandler StatusChanged;
 
-        private static string s_status;
-        public static string Status
+        private string _status;
+        public string Status
         {
             set
             {
-                s_status = value;
+                _status = value;
                 StatusChanged?.Invoke(null, EventArgs.Empty);
             }
-            get => s_status;
+            get => _status;
         }
 
-        public static void Cancel()
+        public void Cancel()
         {
-            s_state = SortingState.Canceled;
-            s_cancellationTokenSource?.Cancel();
+            _state = SortingState.Canceled;
+            _cancellationTokenSource?.Cancel();
             //s_cancellationTokenSource = null;
         }
 
-        public static async void Start(IEnumerable<Character_Model> models)
+        public async void Start(IEnumerable<Character_Model> models)
         {
-            s_state = SortingState.Canceled;
-            s_cancellationTokenSource?.Cancel();
-            s_cancellationTokenSource = new();
-            s_cancellationTokenSource.CancelAfter(180000);
+            _state = SortingState.Canceled;
+            _cancellationTokenSource?.Cancel();
+            _cancellationTokenSource = new();
+            _cancellationTokenSource.CancelAfter(180000);
 
-            s_models = models.OrderByDescending(e => e.LastLogin).ToList();
-            s_lastName = string.Empty;
-            s_state = SortingState.None;
+            _models = models.OrderByDescending(e => e.LastLogin).ToList();
+            _lastName = string.Empty;
+            _state = SortingState.None;
             NoNameChange = 0;
 
             Started?.Invoke(null, null);
             Status = strings.FixCharacter_Start;
             int i = 0;
-            while (s_state is not SortingState.Done and not SortingState.Canceled && !s_cancellationTokenSource.Token.IsCancellationRequested)
+            while (_state is not SortingState.Done and not SortingState.Canceled && !_cancellationTokenSource.Token.IsCancellationRequested)
             {
                 i++;
 
                 try
                 {
-                    await Run(s_cancellationTokenSource.Token);
+                    await Run(_cancellationTokenSource.Token);
                 }
                 catch (TaskCanceledException)
                 {
@@ -109,7 +111,7 @@ namespace Kenedia.Modules.Characters.Services
             Finished?.Invoke(null, null);
         }
 
-        private static async Task Delay(CancellationToken cancellationToken, int? delay = null, double? partial = null)
+        private async Task Delay(CancellationToken cancellationToken, int? delay = null, double? partial = null)
         {
             delay ??= Characters.ModuleInstance.Settings.KeyDelay.Value;
 
@@ -124,13 +126,13 @@ namespace Kenedia.Modules.Characters.Services
             }
         }
 
-        public static async Task Run(CancellationToken cancellationToken)
+        public async Task Run(CancellationToken cancellationToken)
         {
             string name;
 
             if (cancellationToken.IsCancellationRequested) return;
 
-            switch (s_state)
+            switch (_state)
             {
                 case SortingState.None:
                     await MoveFirst(cancellationToken);
@@ -139,7 +141,7 @@ namespace Kenedia.Modules.Characters.Services
 
                 case SortingState.MovedToFirst:
                     name = await FetchName(cancellationToken);
-                    if (name == s_lastName)
+                    if (name == _lastName)
                     {
                         NoNameChange++;
                     }
@@ -148,14 +150,14 @@ namespace Kenedia.Modules.Characters.Services
                         NoNameChange = 0;
                     }
 
-                    s_lastName = name;
+                    _lastName = name;
                     break;
 
                 case SortingState.FirstNameFetched:
                     await MoveNext(cancellationToken);
 
                     name = await FetchName(cancellationToken);
-                    if (name == s_lastName)
+                    if (name == _lastName)
                     {
                         NoNameChange++;
                     }
@@ -164,20 +166,20 @@ namespace Kenedia.Modules.Characters.Services
                         NoNameChange = 0;
                     }
 
-                    s_lastName = name;
+                    _lastName = name;
 
                     await Delay(cancellationToken, 250);
                     break;
             }
         }
 
-        private static async Task MoveFirst(CancellationToken cancellationToken)
+        private async Task MoveFirst(CancellationToken cancellationToken)
         {
             Status = strings.CharacterSwap_MoveFirst;
             if (IsTaskCanceled(cancellationToken)) { return; }
 
             var stopwatch = Stopwatch.StartNew();
-            for (int i = 0; i < s_models.Count; i++)
+            for (int i = 0; i < _models.Count; i++)
             {
                 Blish_HUD.Controls.Intern.Keyboard.Stroke(VirtualKeyShort.LEFT, false);
                 await Delay(cancellationToken, null, 0.05);
@@ -191,30 +193,30 @@ namespace Kenedia.Modules.Characters.Services
                 }
             }
 
-            s_state = SortingState.MovedToFirst;
-            s_currentIndex = 0;
+            _state = SortingState.MovedToFirst;
+            _currentIndex = 0;
         }
 
-        private static async Task MoveNext(CancellationToken cancellationToken)
+        private async Task MoveNext(CancellationToken cancellationToken)
         {
             Status = strings.FixCharacter_MoveNext;
             InputService.MouseWiggle();
             Blish_HUD.Controls.Intern.Keyboard.Stroke(VirtualKeyShort.RIGHT, false);
             await Delay(cancellationToken);
-            s_currentIndex++;
+            _currentIndex++;
         }
 
-        private static (string, int, int, int, bool) GetBestMatch(string name)
+        private (string, int, int, int, bool) GetBestMatch(string name)
         {
             var distances = new List<(string, int, int, int, bool)>();
 
-            Character_Model expectedCharacter = s_models.Find(e => e.OrderIndex == s_currentIndex);
+            Character_Model expectedCharacter = _models.Find(e => e.OrderIndex == _currentIndex);
             string expectedCharacterName = expectedCharacter == null ? name : expectedCharacter.Name;
 
-            foreach (Character_Model c in s_models)
+            foreach (Character_Model c in _models)
             {
                 int distance = name.LevenshteinDistance(c.Name);
-                int listDistance = c.Position.Difference(s_currentIndex);
+                int listDistance = c.Position.Difference(_currentIndex);
 
                 distances.Add((c.Name, distance, listDistance, listDistance + distance, expectedCharacter != null && c.Name == expectedCharacter?.Name));
             }
@@ -236,7 +238,7 @@ namespace Kenedia.Modules.Characters.Services
             return ((string, int, int, int, bool))bestMatch;
         }
 
-        private static async Task<string> FetchName(CancellationToken cancellationToken)
+        private async Task<string> FetchName(CancellationToken cancellationToken)
         {
             string name = Characters.ModuleInstance.OCR.Read();
 
@@ -245,14 +247,14 @@ namespace Kenedia.Modules.Characters.Services
             if(name != null)
             {
                 (string, int, int, int, bool) match = GetBestMatch(name);
-                Debug.WriteLine($"Best Match for {s_currentIndex} is {match.Item1} with {match.Item2} string edits and {match.Item3} list index distance for a total of {match.Item4} differences.");
+                Debug.WriteLine($"Best Match for {_currentIndex} is {match.Item1} with {match.Item2} string edits and {match.Item3} list index distance for a total of {match.Item4} differences.");
 
                 //Character_Model c = s_models.Find(e => e.Name == name);
-                Character_Model c = s_models.Find(e => e.Name == match.Item1);
+                Character_Model c = _models.Find(e => e.Name == match.Item1);
 
                 if (c != null)
                 {
-                    c.OrderIndex = s_currentIndex;
+                    c.OrderIndex = _currentIndex;
                 }
                 else
                 {
@@ -262,28 +264,28 @@ namespace Kenedia.Modules.Characters.Services
                 await Delay(cancellationToken);
             }
 
-            if (s_state == SortingState.MovedToFirst)
+            if (_state == SortingState.MovedToFirst)
             {
-                s_state = SortingState.FirstNameFetched;
+                _state = SortingState.FirstNameFetched;
             }
 
             return name;
         }
 
-        private static bool IsTaskCanceled(CancellationToken cancellationToken)
+        private bool IsTaskCanceled(CancellationToken cancellationToken)
         {
             if (cancellationToken.IsCancellationRequested)
             {
-                s_state = SortingState.Canceled;
+                _state = SortingState.Canceled;
                 return true;
             }
 
             return false;
         }
 
-        private static void AdjustCharacterLogins()
+        private void AdjustCharacterLogins()
         {
-            s_models = s_models.OrderBy(e => e.OrderIndex).ToList();
+            _models = _models.OrderBy(e => e.OrderIndex).ToList();
 
             bool messedUp = true;
 
@@ -291,10 +293,10 @@ namespace Kenedia.Modules.Characters.Services
             {
                 messedUp = false;
 
-                for (int i = 0; i < s_models.Count; i++)
+                for (int i = 0; i < _models.Count; i++)
                 {
-                    Character_Model next = s_models.Count > i + 1 ? s_models[i + 1] : null;
-                    Character_Model current = s_models[i];
+                    Character_Model next = _models.Count > i + 1 ? _models[i + 1] : null;
+                    Character_Model current = _models[i];
 
                     // var nCurr = string.Format("Current: {0} | LastLogin: {1} | More Recent: {2}", current.Name, current.LastLogin, next != null && current.LastLogin <= next.LastLogin);
                     // var nNext = string.Format("Next: {0} | LastLogin: {1} | More Recent: {2}", next != null ? next.Name : "No Next", next != null ? next.LastLogin : "No Next", next != null && current.LastLogin <= next.LastLogin);

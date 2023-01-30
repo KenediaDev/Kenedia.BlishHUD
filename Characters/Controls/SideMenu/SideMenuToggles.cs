@@ -1,4 +1,5 @@
-﻿using Blish_HUD.Content;
+﻿using Blish_HUD;
+using Blish_HUD.Content;
 using Blish_HUD.Controls;
 using Characters.Res;
 using Kenedia.Modules.Characters.Enums;
@@ -57,7 +58,7 @@ namespace Kenedia.Modules.Characters.Controls.SideMenu
             CreateTags();
 
             _ = Task.Run(async () => { await Task.Delay(250); CalculateTagPanelSize(); });
-            Characters.ModuleInstance.LanguageChanged += OnLanguageChanged;
+            GameService.Overlay.UserLocale.SettingChanged += OnLanguageChanged;
             Characters.ModuleInstance.Tags.CollectionChanged += Tags_CollectionChanged;
             OnLanguageChanged();
         }
@@ -307,7 +308,7 @@ namespace Kenedia.Modules.Characters.Controls.SideMenu
         protected override void DisposeControl()
         {
             base.DisposeControl();
-            Characters.ModuleInstance.LanguageChanged -= OnLanguageChanged;
+            GameService.Overlay.UserLocale.SettingChanged -= OnLanguageChanged;
             Characters.ModuleInstance.Tags.CollectionChanged -= Tags_CollectionChanged;
         }
 

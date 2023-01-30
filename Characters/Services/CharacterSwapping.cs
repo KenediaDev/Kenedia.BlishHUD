@@ -31,25 +31,27 @@ namespace Kenedia.Modules.Characters.Services
         Canceled,
     }
 
-    public static class CharacterSwapping
+    public class CharacterSwapping
     {
-        private static CancellationTokenSource s_cancellationTokenSource;
+        public CharacterSorting CharacterSorting { get; set; }
 
-        private static int s_movedLeft;
+        private CancellationTokenSource s_cancellationTokenSource;
 
-        public static event EventHandler Succeeded;
-        public static event EventHandler Failed;
+        private int s_movedLeft;
 
-        public static event EventHandler Started;
-        public static event EventHandler Finished;
+        public event EventHandler Succeeded;
+        public event EventHandler Failed;
 
-        public static event EventHandler StatusChanged;
+        public event EventHandler Started;
+        public event EventHandler Finished;
 
-        private static string s_status;
+        public event EventHandler StatusChanged;
 
-        private static SwappingState s_state = SwappingState.None;
+        private string s_status;
 
-        public static string Status
+        private SwappingState s_state = SwappingState.None;
+
+        public string Status
         {
             set
             {
@@ -59,9 +61,9 @@ namespace Kenedia.Modules.Characters.Services
             get => s_status;
         }
 
-        public static Character_Model Character { get; set; }
+        public Character_Model Character { get; set; }
 
-        private static bool IsTaskCanceled(CancellationToken cancellationToken)
+        private bool IsTaskCanceled(CancellationToken cancellationToken)
         {
             if (cancellationToken.IsCancellationRequested)
             {
@@ -75,7 +77,7 @@ namespace Kenedia.Modules.Characters.Services
             return false;
         }
 
-        public static async Task MoveRight(CancellationToken cancellationToken)
+        public async Task MoveRight(CancellationToken cancellationToken)
         {
             Status = strings.CharacterSwap_Right;
             Blish_HUD.Controls.Intern.Keyboard.Stroke(VirtualKeyShort.RIGHT, false);
@@ -84,14 +86,14 @@ namespace Kenedia.Modules.Characters.Services
             await Delay(cancellationToken);
         }
 
-        public static async Task MoveLeft(CancellationToken cancellationToken)
+        public async Task MoveLeft(CancellationToken cancellationToken)
         {
             Status = strings.CharacterSwap_Left;
             Blish_HUD.Controls.Intern.Keyboard.Stroke(VirtualKeyShort.LEFT, false);
             await Delay(cancellationToken);
         }
 
-        public static async Task Run(CancellationToken cancellationToken)
+        public async Task Run(CancellationToken cancellationToken)
         {
             if (IsTaskCanceled(cancellationToken)) { return; }
 
@@ -173,19 +175,19 @@ namespace Kenedia.Modules.Characters.Services
             }
         }
 
-        public static void Reset()
+        public void Reset()
         {
             s_state = SwappingState.None;
         }
 
-        public static void Cancel()
+        public void Cancel()
         {
             s_state = SwappingState.Canceled;
             s_cancellationTokenSource?.Cancel();
             //s_cancellationTokenSource = null;
         }
 
-        public static async void Start(Character_Model character)
+        public async void Start(Character_Model character)
         {
             s_cancellationTokenSource?.Cancel();
             s_cancellationTokenSource = new();
@@ -239,7 +241,7 @@ namespace Kenedia.Modules.Characters.Services
             Finished?.Invoke(null, null);
         }
 
-        private static async Task Delay(CancellationToken cancellationToken, int? delay = null, double? partial = null)
+        private async Task Delay(CancellationToken cancellationToken, int? delay = null, double? partial = null)
         {
             delay ??= Characters.ModuleInstance.Settings.KeyDelay.Value;
 
@@ -254,7 +256,7 @@ namespace Kenedia.Modules.Characters.Services
             }
         }
 
-        private static async Task<bool> LoggingOut(CancellationToken cancellationToken)
+        private async Task<bool> LoggingOut(CancellationToken cancellationToken)
         {
             if (IsTaskCanceled(cancellationToken)) { return false; }
 
@@ -293,10 +295,10 @@ namespace Kenedia.Modules.Characters.Services
 
                 if (Characters.ModuleInstance.Settings.UseBetaGamestate.Value)
                 {
-                    while(Core.Services.GameState.GameStatus != GameStatus.CharacterSelection && !cancellationToken.IsCancellationRequested)
+                    while(Characters.ModuleInstance.Services.GameState.GameStatus != GameStatus.CharacterSelection && !cancellationToken.IsCancellationRequested)
                     {
                         await Delay(cancellationToken, 250);
-                        if(cancellationToken.IsCancellationRequested) return Core.Services.GameState.GameStatus == GameStatus.CharacterSelection;
+                        if(cancellationToken.IsCancellationRequested) return Characters.ModuleInstance.Services.GameState.GameStatus == GameStatus.CharacterSelection;
                     }
                 }
                 else
@@ -308,7 +310,7 @@ namespace Kenedia.Modules.Characters.Services
             return !GameService.GameIntegration.Gw2Instance.IsInGame;
         }
 
-        private static async Task MoveToFirstCharacter(CancellationToken cancellationToken)
+        private async Task MoveToFirstCharacter(CancellationToken cancellationToken)
         {
             Status = strings.CharacterSwap_MoveFirst;
             if (IsTaskCanceled(cancellationToken)) { return; }
@@ -332,7 +334,7 @@ namespace Kenedia.Modules.Characters.Services
             return;
         }
 
-        private static async Task MoveToCharacter(CancellationToken cancellationToken)
+        private async Task MoveToCharacter(CancellationToken cancellationToken)
         {
             Status = string.Format(strings.CharacterSwap_MoveTo, Character.Name);
             if (IsTaskCanceled(cancellationToken)) { return; }
@@ -361,7 +363,7 @@ namespace Kenedia.Modules.Characters.Services
             return;
         }
 
-        private static bool ConfirmName()
+        private bool ConfirmName()
         {
             if (!Characters.ModuleInstance.Settings.UseOCR.Value) return true;
             if (Character == null || string.IsNullOrEmpty(Character.Name)) return false;
@@ -382,7 +384,7 @@ namespace Kenedia.Modules.Characters.Services
             return isBestMatch.Item5;
         }
 
-        private static async Task Login(CancellationToken cancellationToken)
+        private async Task Login(CancellationToken cancellationToken)
         {
             if (IsTaskCanceled(cancellationToken)) { return; }
 
@@ -397,7 +399,7 @@ namespace Kenedia.Modules.Characters.Services
             return;
         }
 
-        private static bool IsLoaded()
+        private bool IsLoaded()
         {
             return !Characters.ModuleInstance.Settings.EnterOnSwap.Value || GameService.GameIntegration.Gw2Instance.IsInGame;
         }

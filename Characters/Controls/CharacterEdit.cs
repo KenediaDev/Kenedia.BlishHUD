@@ -252,7 +252,7 @@ namespace Kenedia.Modules.Characters.Controls
             string path = Characters.ModuleInstance.AccountImagesPath;
             List<string> images = new(Directory.GetFiles(path, "*.png", SearchOption.AllDirectories));
 
-            var settings = Characters.ModuleInstance.Settings;
+            SettingsModel settings = Characters.ModuleInstance.Settings;
             PanelSizes pSize = settings.PanelSize.Value;
             int imageSize = 80;
 
@@ -294,7 +294,7 @@ namespace Kenedia.Modules.Characters.Controls
                             Texture = texture,
                             ClickAction = (m) =>
                             {
-                                Character.IconPath = p.Replace(Characters.ModuleInstance.BasePath, string.Empty);
+                                Character.IconPath = p.Replace(Character.ModulePath, string.Empty);
                                 Character.Icon = texture;
                                 ApplyCharacter();
                             }

@@ -158,6 +158,7 @@
     <Reference Include="System.Runtime.Extensions" />
     <Reference Include="System.Runtime.InteropServices" />
     <Reference Include="System.Runtime.InteropServices.RuntimeInformation" />
+    <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Security.Cryptography.Algorithms" />
     <Reference Include="System.Security.Cryptography.Encoding" />
     <Reference Include="System.Security.Cryptography.Primitives" />
@@ -300,6 +301,10 @@
     <Content Include="SharpDX.D3DCompiler.xml" />
     <Content Include="SharpDX.dll" />
     <Content Include="SharpDX.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="ref\" />
+    <Folder Include="Res\" />
   </ItemGroup>
   <Import Project="..\Shared\Shared.projitems" Label="Shared" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

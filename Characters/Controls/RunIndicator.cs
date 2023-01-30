@@ -6,6 +6,7 @@ using Kenedia.Modules.Core.Controls;
 using Microsoft.Xna.Framework;
 using System;
 using Label = Kenedia.Modules.Core.Controls.Label;
+using LoadingSpinner = Kenedia.Modules.Core.Controls.LoadingSpinner;
 
 namespace Kenedia.Modules.Characters.Controls
 {
@@ -18,8 +19,14 @@ namespace Kenedia.Modules.Characters.Controls
 
         private Point _screenPartionSize;
 
-        public RunIndicator()
+        private readonly CharacterSorting _characterSorting;
+        private readonly CharacterSwapping _characterSwapping;
+
+        public RunIndicator(CharacterSorting characterSorting, CharacterSwapping characterSwapping)
         {
+            _characterSorting = characterSorting;
+            _characterSwapping = characterSwapping;
+
             _screenPartionSize = new(Math.Min(640, GameService.Graphics.SpriteScreen.Size.X / 6), Math.Min(360, GameService.Graphics.SpriteScreen.Size.Y / 6));
             int x = (GameService.Graphics.SpriteScreen.Size.X - _screenPartionSize.X) / 2;
             int y = (GameService.Graphics.SpriteScreen.Size.Y - _screenPartionSize.Y) / 2;
@@ -73,14 +80,14 @@ namespace Kenedia.Modules.Characters.Controls
                 Width = Width,
                 Location = new(0, Height - 50)
             };
-            CharacterSwapping.StatusChanged += CharacterSwapping_StatusChanged;
-            CharacterSorting.StatusChanged += CharacterSorting_StatusChanged;
+            _characterSwapping.StatusChanged += CharacterSwapping_StatusChanged;
+            _characterSorting.StatusChanged += CharacterSorting_StatusChanged;
 
-            CharacterSwapping.Started += ShowIndicator;
-            CharacterSorting.Started += ShowIndicator;
+            _characterSwapping.Started += ShowIndicator;
+            _characterSorting.Started += ShowIndicator;
 
-            CharacterSwapping.Finished += HideIndicator;
-            CharacterSorting.Finished += HideIndicator;
+            _characterSwapping.Finished += HideIndicator;
+            _characterSorting.Finished += HideIndicator;
         }
 
         private void HideIndicator(object sender, EventArgs e)
@@ -120,24 +127,24 @@ namespace Kenedia.Modules.Characters.Controls
         {
             base.DisposeControl();
 
-            CharacterSwapping.StatusChanged -= CharacterSwapping_StatusChanged;
-            CharacterSorting.StatusChanged -= CharacterSorting_StatusChanged;
+            _characterSwapping.StatusChanged -= CharacterSwapping_StatusChanged;
+            _characterSorting.StatusChanged -= CharacterSorting_StatusChanged;
 
-            CharacterSwapping.Started -= ShowIndicator;
-            CharacterSorting.Started -= ShowIndicator;
+            _characterSwapping.Started -= ShowIndicator;
+            _characterSorting.Started -= ShowIndicator;
 
-            CharacterSwapping.Finished -= HideIndicator;
-            CharacterSorting.Finished -= HideIndicator;
+            _characterSwapping.Finished -= HideIndicator;
+            _characterSorting.Finished -= HideIndicator;
         }
 
         private void CharacterSorting_StatusChanged(object sender, EventArgs e)
         {
-            _statusText.Text = CharacterSorting.Status;
+            _statusText.Text = _characterSorting.Status;
         }
 
         private void CharacterSwapping_StatusChanged(object sender, EventArgs e)
         {
-            _statusText.Text = CharacterSwapping.Status;
+            _statusText.Text = _characterSwapping.Status;
         }
     }
 }

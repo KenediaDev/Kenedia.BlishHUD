@@ -1,0 +1,745 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="Activated" xml:space="preserve">
+    <value>aktiviert</value>
+  </data>
+  <data name="AddItem" xml:space="preserve">
+    <value>{0} hinzufügen</value>
+  </data>
+  <data name="AdjustSettings" xml:space="preserve">
+    <value>Passen Sie {0} Einstellungen und Tags an!</value>
+  </data>
+  <data name="AnyProfession" xml:space="preserve">
+    <value>Beliebige {0}</value>
+  </data>
+  <data name="Appearance" xml:space="preserve">
+    <value>Erscheinungsbild</value>
+  </data>
+  <data name="AppearanceAndBehavior" xml:space="preserve">
+    <value>Erscheinungsbild und Verhalten</value>
+  </data>
+  <data name="Armorsmith" xml:space="preserve">
+    <value>Rüstungsschmied</value>
+  </data>
+  <data name="Artificer" xml:space="preserve">
+    <value>Konstrukteur</value>
+  </data>
+  <data name="Ascending" xml:space="preserve">
+    <value>Aufsteigend</value>
+  </data>
+  <data name="AutoFix" xml:space="preserve">
+    <value>Auto-Fix</value>
+  </data>
+  <data name="AutoFix_Tooltip" xml:space="preserve">
+    <value>Wenn Sie nicht zu einem Zeichen wechseln können, gehen Sie automatisch die Zeichen durch, um ihre Reihenfolge festzulegen.</value>
+  </data>
+  <data name="AutoLogin_Description" xml:space="preserve">
+    <value>Wenn es beim ersten Laden von Blish aktiviert ist und sich in der Charakterauswahl befindet, betritt das Modul das Spiel. Nach dem Betreten des Spiels wartet es, bis der MumbleLink und das API-Token vollständig geladen sind.
+Sobald es vollständig geladen ist, wechselt es zu dem Charakter, der als "Login-Charakter" eingestellt ist.</value>
+  </data>
+  <data name="AutoLogin_DisplayName" xml:space="preserve">
+    <value>Automatisches Einloggen des ausgewähltem Charakters</value>
+  </data>
+  <data name="BestResultLargerDisclaimer" xml:space="preserve">
+    <value>Die besten Ergebnisse werden erzielt, wenn die Benutzeroberflächengröße auf 'Größer' eingestellt ist!</value>
+  </data>
+  <data name="Birthday" xml:space="preserve">
+    <value>Geburtstag</value>
+  </data>
+  <data name="Birthday_Text" xml:space="preserve">
+    <value>Es war {0}s Geburtstag! Sie sind jetzt {1} Jahre alt!</value>
+  </data>
+  <data name="BottomOffset" xml:space="preserve">
+    <value>Unterer Versatz</value>
+  </data>
+  <data name="Cancel" xml:space="preserve">
+    <value>Abbrechen</value>
+  </data>
+  <data name="Capture" xml:space="preserve">
+    <value>Erfassen</value>
+  </data>
+  <data name="CaptureAll" xml:space="preserve">
+    <value>Alle Erfassen</value>
+  </data>
+  <data name="CaptureImages" xml:space="preserve">
+    <value>Bilder aufnehmen</value>
+  </data>
+  <data name="CaptureNotification" xml:space="preserve">
+    <value>Gespeichert als {0}!</value>
+  </data>
+  <data name="CapturePotraits" xml:space="preserve">
+    <value>Porträts aufnehmen</value>
+  </data>
+  <data name="Character" xml:space="preserve">
+    <value>Charakter</value>
+  </data>
+  <data name="CharacterDisplayOption" xml:space="preserve">
+    <value>Charakteranzeige Option</value>
+  </data>
+  <data name="CharacterDisplaySize" xml:space="preserve">
+    <value>Größe der Charakteranzeige</value>
+  </data>
+  <data name="CharacterName" xml:space="preserve">
+    <value>Charakter Name</value>
+  </data>
+  <data name="Characters" xml:space="preserve">
+    <value>Charaktere</value>
+  </data>
+  <data name="CharactersFixed" xml:space="preserve">
+    <value>Charaktere korrigiert!</value>
+  </data>
+  <data name="CharacterSwap_FailedSwap" xml:space="preserve">
+    <value>Wechsel zu {0} fehlgeschlagen</value>
+  </data>
+  <data name="CharacterSwap_Left" xml:space="preserve">
+    <value>Links prüfen ...</value>
+  </data>
+  <data name="CharacterSwap_LoginTo" xml:space="preserve">
+    <value>Anmeldung bei {0}</value>
+  </data>
+  <data name="CharacterSwap_Logout" xml:space="preserve">
+    <value>Abmelden ...</value>
+  </data>
+  <data name="CharacterSwap_MoveFirst" xml:space="preserve">
+    <value>Wechseln zum ersten Charakter ...</value>
+  </data>
+  <data name="CharacterSwap_MoveTo" xml:space="preserve">
+    <value>Versuch, nach {0} zu wechseln</value>
+  </data>
+  <data name="CharacterSwap_Right" xml:space="preserve">
+    <value>Nach rechts schauen ...</value>
+  </data>
+  <data name="CharacterSwap_SwitchTo" xml:space="preserve">
+    <value>Wechseln zu {0}</value>
+  </data>
+  <data name="CheckItem" xml:space="preserve">
+    <value>{0} prüfen</value>
+  </data>
+  <data name="CheckOnlyMaxCrafting" xml:space="preserve">
+    <value>Nur Max Handwerk prüfen</value>
+  </data>
+  <data name="Chef" xml:space="preserve">
+    <value>Chefkoch</value>
+  </data>
+  <data name="Clear" xml:space="preserve">
+    <value>Löschen</value>
+  </data>
+  <data name="ClearFilters" xml:space="preserve">
+    <value>Filter löschen</value>
+  </data>
+  <data name="Close" xml:space="preserve">
+    <value>Schließen</value>
+  </data>
+  <data name="CloseWindowOnSwap_Description" xml:space="preserve">
+    <value>Schließt das Modulfenster, wenn man sich bei einem Zeichen einloggt.</value>
+  </data>
+  <data name="CloseWindowOnSwap_DisplayName" xml:space="preserve">
+    <value>Fenster bei Charakterwechsel schließen</value>
+  </data>
+  <data name="CoreProfession" xml:space="preserve">
+    <value>Kern {0}</value>
+  </data>
+  <data name="CouldNotFindNamedItem" xml:space="preserve">
+    <value>Konnte keine {0} mit Namen {1} finden</value>
+  </data>
+  <data name="CraftingProfession" xml:space="preserve">
+    <value>Handwerksberuf</value>
+  </data>
+  <data name="CreateImages" xml:space="preserve">
+    <value>Bilder erstellen</value>
+  </data>
+  <data name="Custom" xml:space="preserve">
+    <value>Benutzerdefiniert</value>
+  </data>
+  <data name="CustomTags" xml:space="preserve">
+    <value>Benutzerdefinierte Tags</value>
+  </data>
+  <data name="Days" xml:space="preserve">
+    <value>Tage</value>
+  </data>
+  <data name="Deactivated" xml:space="preserve">
+    <value>deaktiviert</value>
+  </data>
+  <data name="Delays" xml:space="preserve">
+    <value>Verzögerungen</value>
+  </data>
+  <data name="DeleteItem" xml:space="preserve">
+    <value>{0} löschen</value>
+  </data>
+  <data name="Descending" xml:space="preserve">
+    <value>Absteigend</value>
+  </data>
+  <data name="DetailedTooltip" xml:space="preserve">
+    <value>Detaillierter Tooltip</value>
+  </data>
+  <data name="DetailedTooltip_Description" xml:space="preserve">
+    <value>Zeigt einen detaillierten Tooltip an, wenn der Mauszeiger über einen Charakter in der Charakterliste bewegt wird. Der Tooltip zeigt alle für diesen Charakter verfügbaren Informationen an.</value>
+  </data>
+  <data name="Display" xml:space="preserve">
+    <value>Anzeige</value>
+  </data>
+  <data name="DoubleClickToEnter_Description" xml:space="preserve">
+    <value>Ermöglicht einen Doppelklick auf den Charakter in der Charakterliste, um sich bei diesem Charakter anzumelden</value>
+  </data>
+  <data name="DoubleClickToEnter_DisplayName" xml:space="preserve">
+    <value>Doppelklick zum Wechseln</value>
+  </data>
+  <data name="DoubleClickToSwap" xml:space="preserve">
+    <value>Doppelklicken um zu {0} zu wechseln!</value>
+  </data>
+  <data name="DragOverCharacter_Instructions" xml:space="preserve">
+    <value>Ziehen Sie dieses Steuerelement so, dass die gelben Rahmen Ihre Zeichenporträts enthalten</value>
+  </data>
+  <data name="EditOCR" xml:space="preserve">
+    <value>OCR-Bereich bearbeiten</value>
+  </data>
+  <data name="EditOCR_Tooltip" xml:space="preserve">
+    <value>Schalten Sie das Steuerelement OCR Region editieren um</value>
+  </data>
+  <data name="EmptyColumn" xml:space="preserve">
+    <value>Leere Spalte</value>
+  </data>
+  <data name="EmptyColumns" xml:space="preserve">
+    <value>Leere Spalten</value>
+  </data>
+  <data name="EmptyColumnsThreshold_Tooltip" xml:space="preserve">
+    <value>Anzahl der Spalten</value>
+  </data>
+  <data name="EmptyColumns_Tooltip" xml:space="preserve">
+    <value>Schwellenwert für die Anzahl der Pixelspalten, die keinen Inhalt enthalten dürfen</value>
+  </data>
+  <data name="EmptyColumn_Tooltip" xml:space="preserve">
+    <value>Pixelspalte, die keine 'weißen' Pixel enthält</value>
+  </data>
+  <data name="EnterOnSwap_Description" xml:space="preserve">
+    <value>Automatischer Spieleinstieg nach Auswahl des Charakters in der Charakterauswahl</value>
+  </data>
+  <data name="EnterOnSwap_DisplayName" xml:space="preserve">
+    <value>Anmeldung nach Auswahl des Charakters</value>
+  </data>
+  <data name="EnterToLogin_Description" xml:space="preserve">
+    <value>Wenn das Suchfeld fokusiert ist und 'RETURN' gedrückt wird, wechsel zu dem ersten Charakter in der Liste.</value>
+  </data>
+  <data name="EnterToLogin_DisplayName" xml:space="preserve">
+    <value>Drücke Enter zum Wechseln</value>
+  </data>
+  <data name="Error_Competivive" xml:space="preserve">
+    <value>Das Wechseln der Charaktere ist im Wettkampfmodus deaktiviert!</value>
+  </data>
+  <data name="Error_FailedAPIFetch" xml:space="preserve">
+    <value>Es konnten keine Charaktere von der API abgerufen werden.</value>
+  </data>
+  <data name="Error_InvalidPermissions" xml:space="preserve">
+    <value>Dieser API-Schlüssel hat nicht die erforderlichen Berechtigungen.</value>
+  </data>
+  <data name="ExcludeMatches" xml:space="preserve">
+    <value>Treffer ausschließen</value>
+  </data>
+  <data name="FadeOut_Description" xml:space="preserve">
+    <value>Filter und Charakterfenster automatisch nach 2500 ms ausblenden</value>
+  </data>
+  <data name="FadeOut_DisplayName" xml:space="preserve">
+    <value>Seitenmenü einblenden</value>
+  </data>
+  <data name="Filter" xml:space="preserve">
+    <value>Filter</value>
+  </data>
+  <data name="FilterDelay_Description" xml:space="preserve">
+    <value>Durchschnittliche Zeit in Millisekunden, die zwischen dem Filtern des Panels Ihrer Charaktere gewartet wird.
+Um den aktuellen Wert zu erhalten, müssen Sie die Modul-Tabs einmal wechseln, um die Einstellungsseite zu aktualisieren!</value>
+  </data>
+  <data name="FilterDelay_DisplayName" xml:space="preserve">
+    <value>Filterverzögerung ({0} ms)</value>
+  </data>
+  <data name="FilterDiacriticsInsensitive_DisplayName" xml:space="preserve">
+    <value>Diakritische Zeichen ignorieren</value>
+  </data>
+  <data name="FilterToggles" xml:space="preserve">
+    <value>Filter Umschaltknöpfe</value>
+  </data>
+  <data name="FixCharacters" xml:space="preserve">
+    <value>Fixe Charaktere</value>
+  </data>
+  <data name="FixCharacters_Tooltip" xml:space="preserve">
+    <value>Führt eine OCR durch alle eure Charaktere durch, um ihre aktuelle Reihenfolge zu aktualisieren, damit sie mit der Charakterauswahl übereinstimmt</value>
+  </data>
+  <data name="FixCharacter_FetchName" xml:space="preserve">
+    <value>Holen Sie den Charakternamen ...{0}{1}</value>
+  </data>
+  <data name="FixCharacter_MoveNext" xml:space="preserve">
+    <value>Gehe zum nächsten Charakter ...</value>
+  </data>
+  <data name="FixCharacter_NoChange" xml:space="preserve">
+    <value>Charaktername hat sich nicht geändert {0}/2 ...</value>
+  </data>
+  <data name="FixCharacter_Start" xml:space="preserve">
+    <value>Charaktere fixen ...</value>
+  </data>
+  <data name="FocusFilter_Description" xml:space="preserve">
+    <value>Wenn das Hauptmenü angezeigt wird, wird das Suchfeld automatisch fokussiert</value>
+  </data>
+  <data name="FocusFilter_DisplayName" xml:space="preserve">
+    <value>Fokusiere Suchfeld</value>
+  </data>
+  <data name="Folder" xml:space="preserve">
+    <value>Ordner</value>
+  </data>
+  <data name="GeneralAndWindows" xml:space="preserve">
+    <value>Allgemeine Einstellungen &amp; Fenster</value>
+  </data>
+  <data name="Hidden" xml:space="preserve">
+    <value>Versteckt</value>
+  </data>
+  <data name="Huntsman" xml:space="preserve">
+    <value>Waidmann</value>
+  </data>
+  <data name="IgnoredPart" xml:space="preserve">
+    <value>Ignorierter Teil</value>
+  </data>
+  <data name="IgnoredPart_Tooltip" xml:space="preserve">
+    <value>Ein Teil des Bildes wurde aufgrund des Schwellenwertes für leere Spalten ignoriert</value>
+  </data>
+  <data name="IncludeMatches" xml:space="preserve">
+    <value>Treffer einbeziehen</value>
+  </data>
+  <data name="ItemSettings" xml:space="preserve">
+    <value>{0} Einstellungen</value>
+  </data>
+  <data name="Jeweler" xml:space="preserve">
+    <value>Juwelier</value>
+  </data>
+  <data name="Keybinds" xml:space="preserve">
+    <value>Tastaturkürzel</value>
+  </data>
+  <data name="KeyDelay_Description" xml:space="preserve">
+    <value>Fügt eine Verzögerung zwischen den Tastendrucken hinzu. Dies verlangsamt den Charakterwechsel und sollte nur verwendet werden, wenn Ihr PC so stark belastet ist, dass er nicht ohne Verzögerung umschalten kann!</value>
+  </data>
+  <data name="KeyDelay_DisplayName" xml:space="preserve">
+    <value>Tastenverzögerung {0} ms</value>
+  </data>
+  <data name="Large" xml:space="preserve">
+    <value>Groß</value>
+  </data>
+  <data name="LastLogin" xml:space="preserve">
+    <value>Letzte Anmeldung</value>
+  </data>
+  <data name="Leatherworker" xml:space="preserve">
+    <value>Lederer</value>
+  </data>
+  <data name="LeftOffset" xml:space="preserve">
+    <value>Linker Versatz</value>
+  </data>
+  <data name="Level" xml:space="preserve">
+    <value>Level</value>
+  </data>
+  <data name="LevelAmount" xml:space="preserve">
+    <value>Level {0}</value>
+  </data>
+  <data name="LoginCharacter" xml:space="preserve">
+    <value>login Character</value>
+  </data>
+  <data name="LoginWith" xml:space="preserve">
+    <value>Anmelden mit '{0}'!</value>
+  </data>
+  <data name="Logout" xml:space="preserve">
+    <value>Ausloggen</value>
+  </data>
+  <data name="LogoutDescription" xml:space="preserve">
+    <value>Zu drückende Taste, um das Logout-Menü zu öffnen. Muss mit der Tastenkombination für "Ausloggen" übereinstimmen!</value>
+  </data>
+  <data name="Map" xml:space="preserve">
+    <value>Karte</value>
+  </data>
+  <data name="MatchAllFilter" xml:space="preserve">
+    <value>Mit allen Filtern übereinstimmen</value>
+  </data>
+  <data name="MatchAnyFilter" xml:space="preserve">
+    <value>Entspricht einem beliebigen Filter</value>
+  </data>
+  <data name="ModuleDescription" xml:space="preserve">
+    <value>Ein Werkzeug zum einfachen Wechseln von Zeichen, auch wenn es viele davon gibt!
+Dies erfordert einen API-Schlüssel mit Berechtigungen zumindest für den Endpunkt 'characters'!</value>
+  </data>
+  <data name="Name" xml:space="preserve">
+    <value>Name</value>
+  </data>
+  <data name="NoCraftingProfession" xml:space="preserve">
+    <value>Kein Handwerksberuf</value>
+  </data>
+  <data name="Normal" xml:space="preserve">
+    <value>Normal</value>
+  </data>
+  <data name="OCR_Instructions" xml:space="preserve">
+    <value>Verschiebe und vergrößere den gelben Rahmen so, dass er nur die Zeile mit dem Zeichennamen in der Zeichenauswahl enthält!</value>
+  </data>
+  <data name="Offset" xml:space="preserve">
+    <value>Versatz</value>
+  </data>
+  <data name="Offset_Tooltip" xml:space="preserve">
+    <value>Die Offset-Zahlen entsprechen dem Bereich des unteren Kastens, der für die OCR erfasst wird. In dieser Reihenfolge: Links, Oben, Rechts, Unten. Durch Erhöhen der Zahlen wird der Erfassungsbereich kleiner. Idealerweise stellen Sie die Werte so ein, dass Sie in der Vorschau oben keinen gelben Kasten sehen.</value>
+  </data>
+  <data name="OnlyIcons" xml:space="preserve">
+    <value>Nur Icons</value>
+  </data>
+  <data name="OnlyMaxCrafting" xml:space="preserve">
+    <value>Nur max. Handwerksberufe</value>
+  </data>
+  <data name="OnlyMaxCrafting_Description" xml:space="preserve">
+    <value>Zeige nur Handwerksberufe, welche auf einem 500 Rang sind (Juwelier &amp; Schreiber auf 400).</value>
+  </data>
+  <data name="OnlyMaxCrafting_DisplayName" xml:space="preserve">
+    <value>Zeige nur maximale Handwerksberufe</value>
+  </data>
+  <data name="OnlyText" xml:space="preserve">
+    <value>Nur Text</value>
+  </data>
+  <data name="OpenItem" xml:space="preserve">
+    <value>{0} öffnen</value>
+  </data>
+  <data name="OpenPortraitFolder" xml:space="preserve">
+    <value>Potrait-Ordner öffnen</value>
+  </data>
+  <data name="Order" xml:space="preserve">
+    <value>Reihenfolge</value>
+  </data>
+  <data name="PinSideMenus_Description" xml:space="preserve">
+    <value>Verhindern, dass die Seitenmenüs ausgeblendet werden</value>
+  </data>
+  <data name="PinSideMenus_DisplayName" xml:space="preserve">
+    <value>Seitenmenüs anheften</value>
+  </data>
+  <data name="PotraitFrame" xml:space="preserve">
+    <value>Potrait-Rahmen</value>
+  </data>
+  <data name="PotraitGap" xml:space="preserve">
+    <value>Potrait Lücke</value>
+  </data>
+  <data name="PotraitSize" xml:space="preserve">
+    <value>Potrait Größe</value>
+  </data>
+  <data name="Profession" xml:space="preserve">
+    <value>Klasse</value>
+  </data>
+  <data name="Race" xml:space="preserve">
+    <value>Rasse</value>
+  </data>
+  <data name="RandomButton_Tooltip" xml:space="preserve">
+    <value>Wechseln zu einem zufälligen Charakter in Ihrer aktuellen Liste</value>
+  </data>
+  <data name="RefreshAPI" xml:space="preserve">
+    <value>API aktualisieren</value>
+  </data>
+  <data name="RefreshImages" xml:space="preserve">
+    <value>Bilder aktualisieren</value>
+  </data>
+  <data name="RemoveItem" xml:space="preserve">
+    <value>Lösche {0}</value>
+  </data>
+  <data name="RightOffset" xml:space="preserve">
+    <value>Rechtsversatz</value>
+  </data>
+  <data name="RunStateChange" xml:space="preserve">
+    <value>{0} {1} !</value>
+  </data>
+  <data name="Save" xml:space="preserve">
+    <value>Speichern</value>
+  </data>
+  <data name="Scribe" xml:space="preserve">
+    <value>Schreiber</value>
+  </data>
+  <data name="Search" xml:space="preserve">
+    <value>Suchen ...</value>
+  </data>
+  <data name="SearchGuide" xml:space="preserve">
+    <value>-c Handwerklicher Beruf
+-p Beruf/Spezialisierung
+-r Rasse
+-b Geburtstag
+-m Kartenname
+-t BenutzerdefinierterTag
+-c Koch; -p Krieger zeigt alle Krieger und alle Köche</value>
+  </data>
+  <data name="SelectImage" xml:space="preserve">
+    <value>Wähle ein Bild aus</value>
+  </data>
+  <data name="Settings" xml:space="preserve">
+    <value>Einstellungen</value>
+  </data>
+  <data name="ShortcutToggle_Description" xml:space="preserve">
+    <value>Taste zum Drücken, um das Charaktermenü aufzurufen.</value>
+  </data>
+  <data name="ShortcutToggle_DisplayName" xml:space="preserve">
+    <value>Menü umschalten</value>
+  </data>
+  <data name="ShowCornerIcon_Description" xml:space="preserve">
+    <value>Eckensymbol ein-/ausblenden</value>
+  </data>
+  <data name="ShowCornerIcon_DisplayName" xml:space="preserve">
+    <value>Eckensymbol einblenden</value>
+  </data>
+  <data name="ShowCorner_Name" xml:space="preserve">
+    <value>Eckensymbol anzeigen</value>
+  </data>
+  <data name="ShowCorner_Tooltip" xml:space="preserve">
+    <value>Das Ecksymbol von {0} ein-/ausblenden.</value>
+  </data>
+  <data name="ShowHidden_Tooltip" xml:space="preserve">
+    <value>Versteckte Charaktere anzeigen</value>
+  </data>
+  <data name="ShowHide_Tooltip" xml:space="preserve">
+    <value>Zeigt/verbirgt {0} in der Charakterliste.</value>
+  </data>
+  <data name="ShowInList" xml:space="preserve">
+    <value>In Liste anzeigen</value>
+  </data>
+  <data name="ShowItem" xml:space="preserve">
+    <value>Zeige {0}</value>
+  </data>
+  <data name="ShowOnlyMaxCrafting" xml:space="preserve">
+    <value>Nur Max Crafting anzeigen</value>
+  </data>
+  <data name="ShowRandomButton_Description" xml:space="preserve">
+    <value>Zeigt eine Schaltfläche neben dem Suchfeld an, um zu einem zufälligen Charakter in Ihrer Liste zu wechseln</value>
+  </data>
+  <data name="ShowRandomButton_Name" xml:space="preserve">
+    <value>Schaltfläche "Zufällig" anzeigen</value>
+  </data>
+  <data name="ShowStatusWindow_Description" xml:space="preserve">
+    <value>Zeigt ein Popup-Fenster an, während automatisierte Aktionen ausgeführt werden</value>
+  </data>
+  <data name="ShowStatusWindow_Name" xml:space="preserve">
+    <value>Status-Popup anzeigen</value>
+  </data>
+  <data name="Show_Birthday_Tooltip" xml:space="preserve">
+    <value>Charaktere mit Geburtstagsgeschenken anzeigen</value>
+  </data>
+  <data name="Small" xml:space="preserve">
+    <value>Klein</value>
+  </data>
+  <data name="SortBy" xml:space="preserve">
+    <value>Sortieren nach {0}</value>
+  </data>
+  <data name="SortItem" xml:space="preserve">
+    <value>Sortieren {0}</value>
+  </data>
+  <data name="Specialization" xml:space="preserve">
+    <value>Spezialisierung</value>
+  </data>
+  <data name="Status_Done" xml:space="preserve">
+    <value>Erledigt!</value>
+  </data>
+  <data name="SwapBehavior" xml:space="preserve">
+    <value>Wechselverhalten</value>
+  </data>
+  <data name="SwapDelay_Description" xml:space="preserve">
+    <value>Durchschnittliche Ladezeit von Ingame bis zur Charakterauswahl.
+Um den aktuellen Wert zu erhalten, müssen Sie die Modul-Tabs einmal wechseln, um die Einstellungsseite zu aktualisieren!</value>
+  </data>
+  <data name="SwapDelay_DisplayName" xml:space="preserve">
+    <value>Ladeverzögerung ({0} ms)</value>
+  </data>
+  <data name="SwapModifier_Description" xml:space="preserve">
+    <value>Nur wenn der Modifikator gedrückt wird, wird das Wechseln des Charakters ausgelöst. Damit wird ein versehentliches Vertauschen verhindert!</value>
+  </data>
+  <data name="SwapModifier_DisplayName" xml:space="preserve">
+    <value>Erforderlicher Modifikator zum Wechseln</value>
+  </data>
+  <data name="Switch" xml:space="preserve">
+    <value>Wechsel zu {0}</value>
+  </data>
+  <data name="Tag" xml:space="preserve">
+    <value>Tag</value>
+  </data>
+  <data name="Tags" xml:space="preserve">
+    <value>Markierungen</value>
+  </data>
+  <data name="Tag_Placeholder" xml:space="preserve">
+    <value>PvE, WvW, Hauptcharacter, ERP ...</value>
+  </data>
+  <data name="Tailor" xml:space="preserve">
+    <value>Schneider</value>
+  </data>
+  <data name="TextAndIcon" xml:space="preserve">
+    <value>Text und Icons</value>
+  </data>
+  <data name="Toggle" xml:space="preserve">
+    <value>{0} umschalten</value>
+  </data>
+  <data name="ToggleAll" xml:space="preserve">
+    <value>Alle umschalten</value>
+  </data>
+  <data name="ToggleAllItem" xml:space="preserve">
+    <value>Alle {0} umschalten</value>
+  </data>
+  <data name="TogglePortraitCapture" xml:space="preserve">
+    <value>Potrait Capture umschalten</value>
+  </data>
+  <data name="TogglePortraitCapture_Tooltip" xml:space="preserve">
+    <value>Schalten Sie das Steuerelement "Potrait Capture" um</value>
+  </data>
+  <data name="ToggleVisible" xml:space="preserve">
+    <value>Ausgeblendete Charaktere anzeigen/ausblenden</value>
+  </data>
+  <data name="TopOffset" xml:space="preserve">
+    <value>Oberer Versatz</value>
+  </data>
+  <data name="UIScale_Error" xml:space="preserve">
+    <value>Bitte stellen Sie das Spiel auf 'WINDOWED' {0} und die UI Scale auf 'Larger'!</value>
+  </data>
+  <data name="UISizeDisclaimer" xml:space="preserve">
+    <value>Sie müssen die Größe der Benutzeroberfläche auf 'Größer' einstellen, um die richtigen Ausschnitte zu erhalten!</value>
+  </data>
+  <data name="Unkown" xml:space="preserve">
+    <value>Unbekannte</value>
+  </data>
+  <data name="UntilBirthday" xml:space="preserve">
+    <value>bis Geburtstag</value>
+  </data>
+  <data name="Update" xml:space="preserve">
+    <value>Aktualisierung {0}</value>
+  </data>
+  <data name="Updated" xml:space="preserve">
+    <value>Aktualisiert {0}</value>
+  </data>
+  <data name="Updating" xml:space="preserve">
+    <value>Aktualisierung von {0}</value>
+  </data>
+  <data name="UseOCR" xml:space="preserve">
+    <value>OCR verwenden</value>
+  </data>
+  <data name="UseOCR_Tooltip" xml:space="preserve">
+    <value>Verwenden Sie die "Optische Zeichenerkennung" (OCR), um den Zeichennamen zu bestätigen.</value>
+  </data>
+  <data name="Utility" xml:space="preserve">
+    <value>Nützliches</value>
+  </data>
+  <data name="Weaponsmith" xml:space="preserve">
+    <value>Waffenschmied</value>
+  </data>
+  <data name="WindowedMode" xml:space="preserve">
+    <value>Fenstermodus</value>
+  </data>
+  <data name="WindowedMode_Tooltip" xml:space="preserve">
+    <value>Ist das Spiel auf Fenstermodus eingestellt?</value>
+  </data>
+  <data name="Years" xml:space="preserve">
+    <value>Jahre</value>
+  </data>
+</root>

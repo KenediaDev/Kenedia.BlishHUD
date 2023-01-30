@@ -2,71 +2,67 @@
 using Blish_HUD.Modules.Managers;
 using Blish_HUD.Settings;
 using Kenedia.Modules.Core.Services;
-using Kenedia.Modules.Core.Structs;
 using Microsoft.Xna.Framework;
 using System;
 using System.ComponentModel.Composition;
-using System.IO;
 using System.Threading.Tasks;
-using System.Diagnostics;
-using Kenedia.Modules.Core.Views;
-using Blish_HUD.Controls;
-using Blish_HUD.Content;
-using static Kenedia.Modules.Core.Views.SettingsWindow;
 using Blish_HUD;
+using Kenedia.Modules.Core.Res;
+using Kenedia.Modules.Core.Views;
+using System.Data.SqlTypes;
+using Blish_HUD.Controls.Extern;
+using Microsoft.Xna.Framework.Input;
 
 namespace Kenedia.Modules.Core.Models
 {
-    public abstract class BaseModule : Module
+    public abstract class BaseModule<T> : Module 
+        where T : class
     {
-        private double _tick = 0;
-        private static readonly Logger Logger = Logger.GetLogger<BaseModule>();
-
-        protected BaseSettingsTab SettingsTab;
-
-        protected AsyncTexture2D Emblem = AsyncTexture2D.FromAssetId(156026);
-
-        protected int Index = 1;
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE1006:Naming Styles", Justification = "<Pending>")]
+        private static readonly Logger Logger = Logger.GetLogger<T>();
 
         protected BaseModule([Import("ModuleParameters")] ModuleParameters moduleParameters) : base(moduleParameters)
         {
-            ClientWindowService = new();
-            GameState = new(ClientWindowService = new());
+            var clientWindowService = new ClientWindowService();
+            var sharedSettings = new SharedSettings();
+            var gameState = new GameState(clientWindowService, sharedSettings);
+
+            Services = new(gameState, clientWindowService, sharedSettings);
+            SharedSettingsView = new SharedSettingsView(sharedSettings, clientWindowService);          
         }
 
-        public ClientWindowService ClientWindowService;
+        public static T ModuleInstance { get; protected set; }
 
-        public GameState GameState;
+        public static VirtualKeyShort[] ModKeyMapping { get; private set; }
 
-        public SettingsManager SettingsManager => this.ModuleParameters.SettingsManager;
+        public SemVer.Version ModuleVersion { get; private set; }
 
-        public ContentsManager ContentsManager => this.ModuleParameters.ContentsManager;
+        public PathCollection Paths { get; set; }
 
-        public DirectoriesManager DirectoriesManager => this.ModuleParameters.DirectoriesManager;
+        public ServiceCollection Services { get; set; }
 
-        public Gw2ApiManager Gw2ApiManager => this.ModuleParameters.Gw2ApiManager;
+        public SharedSettingsView SharedSettingsView;
 
-        public SettingsWindow SettingsWindow => SettingsWindow.Instance;
+        public SettingsManager SettingsManager => ModuleParameters.SettingsManager;
 
-        public static SettingEntry<RectangleDimensions> WindowOffset { get; set; }
+        public ContentsManager ContentsManager => ModuleParameters.ContentsManager;
 
-        protected string MainFolderPath { get; set; }
+        public DirectoriesManager DirectoriesManager => ModuleParameters.DirectoriesManager;
 
-        protected string ModuleFolderPath { get; set; }
+        public Gw2ApiManager Gw2ApiManager => ModuleParameters.Gw2ApiManager;
 
         protected override void Initialize()
         {
             base.Initialize();
+            ModuleVersion = Version.BaseVersion();
 
-            Debug.WriteLine($"[{Name}]: {nameof(Initialize)}");
+            Logger.Debug($"Initializing {Name} {ModuleVersion}");
+            Paths = new(DirectoriesManager, Name);
 
-            MainFolderPath = DirectoriesManager.GetFullDirectoryPath("kenedia_modules");
-            ModuleFolderPath = $@"{MainFolderPath}\{Name.Replace(' ', '_').ToLower()}";
-
-            if (!Directory.Exists(ModuleFolderPath))
-            {
-                _ = Directory.CreateDirectory(ModuleFolderPath);
-            }
+            ModKeyMapping = new VirtualKeyShort[5];
+            ModKeyMapping[(int)ModifierKeys.Ctrl] = VirtualKeyShort.CONTROL;
+            ModKeyMapping[(int)ModifierKeys.Alt] = VirtualKeyShort.MENU;
+            ModKeyMapping[(int)ModifierKeys.Shift] = VirtualKeyShort.LSHIFT;
         }
 
         protected override async Task LoadAsync()
@@ -74,7 +70,7 @@ namespace Kenedia.Modules.Core.Models
             await base.LoadAsync();
 
             // Load Global Settings
-            await SharedSettings.Load(MainFolderPath);
+            await Services.SharedSettings.Load(Paths.SharedSettingsPath);
         }
 
         protected override void OnModuleLoaded(EventArgs e)
@@ -85,24 +81,23 @@ namespace Kenedia.Modules.Core.Models
 
         protected override void DefineSettings(SettingCollection settings)
         {
-            Debug.WriteLine($"[{Name}]: {nameof(DefineSettings)}");
             base.DefineSettings(settings);
-
-            WindowOffset = settings.DefineSetting<RectangleDimensions>(nameof(WindowOffset), new(31, 8, -8, -8));
         }
 
         protected override void Update(GameTime gameTime)
         {
-            base.Update(gameTime);
-            
-            if(gameTime.TotalGameTime.TotalMilliseconds - _tick > 500)
-            {
-                _tick = gameTime.TotalGameTime.TotalMilliseconds;
-                Logger.Debug("Doing the better stuff");
-            }
+            base.Update(gameTime);         
 
-            GameState.Run(gameTime);
-            ClientWindowService.Run(gameTime);
+            Services.GameState.Run(gameTime);
+            Services.ClientWindowService.Run(gameTime);
+
+        }
+
+        protected override void Unload()
+        {
+            base.Unload();
+
+            ModuleInstance = null;
         }
     }
 }

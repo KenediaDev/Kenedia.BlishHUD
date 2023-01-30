@@ -5,6 +5,7 @@ using Gw2Sharp.Models;
 using Gw2Sharp.WebApi.V2.Models;
 using Kenedia.Modules.Characters.Enums;
 using Kenedia.Modules.Characters.Models;
+using Kenedia.Modules.Core.Models;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -15,6 +16,15 @@ namespace Kenedia.Modules.Characters.Services
 {
     public class GW2API_Handler
     {
+        private CharacterSwapping _characterSwapping;
+        private string _modulePath;
+
+        public GW2API_Handler(CharacterSwapping characterSwapping, string modulePath)
+        {
+            _characterSwapping = characterSwapping;
+            _modulePath = modulePath;
+        }
+
         private Account _account;
 
         public Account Account
@@ -148,7 +158,7 @@ namespace Kenedia.Modules.Characters.Services
 
                         if (!found)
                         {
-                            character_Model.Initialize();
+                            character_Model.Initialize(_characterSwapping, _modulePath);
                             Characters.ModuleInstance.CharacterModels.Add(character_Model);
                         }
 

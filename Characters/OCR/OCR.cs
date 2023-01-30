@@ -2,14 +2,18 @@
 using Blish_HUD.Content;
 using Blish_HUD.Controls;
 using Blish_HUD.Input;
+using Blish_HUD.Settings;
 using Characters.Res;
 using Kenedia.Modules.Characters.Models;
+using Kenedia.Modules.Characters.Services;
 using Kenedia.Modules.Core.Controls;
 using Kenedia.Modules.Core.Extensions;
+using Kenedia.Modules.Core.Services;
 using Microsoft.Xna.Framework;
 using Patagames.Ocr;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Globalization;
 using System.IO;
 using System.Linq;
@@ -31,6 +35,10 @@ namespace Kenedia.Modules.Characters
         private readonly System.Drawing.Color _ignoredColor = System.Drawing.Color.FromArgb(255, 100, 100, 100);
 
         private readonly FramedContainer _contentContainer;
+        private readonly ClientWindowService _clientWindowService;
+        private readonly SharedSettings _sharedSettings;
+        private readonly SettingsModel  _settings;
+        private readonly ObservableCollection<Character_Model> _characterModels;
 
         private readonly NumberBox _columnBox;
         private readonly NumberBox _thresholdBox;
@@ -42,18 +50,21 @@ namespace Kenedia.Modules.Characters
         private readonly ImageButton _closeButton;
         private readonly ResizeableContainer _container;
         private readonly OcrApi _ocrApi;
-        private readonly OCR_TrainDisplay _ocrTrainDisplay;
+        //private readonly OCR_TrainDisplay _ocrTrainDisplay;
 
         private bool _disposed = false;
 
-        public OCR()
+        public OCR(ClientWindowService clientWindowService, SharedSettings sharedSettings, SettingsModel settings, string basePath, ObservableCollection<Character_Model>  characterModels)
         {
-            OcrApi.PathToEngine = BasePath + @"\tesseract.dll";
+            _clientWindowService = clientWindowService;
+            _sharedSettings = sharedSettings;
+            _settings = settings;
+            _characterModels = characterModels;
+
+            OcrApi.PathToEngine = basePath + @"\tesseract.dll";
 
             _ocrApi = OcrApi.Create();
-            _ocrApi.Init(BasePath + @"\", "gw2");
-            //_ocrApi.SetVariable("tessedit_char_whitelist", "AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZzÁáÂâÄäÀàÆæÇçÊêÉéËëÈèÏïÍíÎîÑñŒœÔôÖöÓóÚúÜüÛûÙù");
-            Services.TextureManager tM = Characters.ModuleInstance.TextureManager;
+            _ocrApi.Init(basePath + @"\", "gw2");
 
             _contentContainer = new FramedContainer()
             {
@@ -278,9 +289,9 @@ namespace Kenedia.Modules.Characters
                 Size = new Point(100, 25),
                 MinValue = 0,
                 MaxValue = 100,
-                Value = Characters.ModuleInstance.Settings.OCRNoPixelColumns.Value,
+                Value = _settings.OCRNoPixelColumns.Value,
                 SetLocalizedTooltip = () => strings.EmptyColumnsThreshold_Tooltip,
-                ValueChangedAction = (num) => Characters.ModuleInstance.Settings.OCRNoPixelColumns.Value = num,
+                ValueChangedAction = (num) => _settings.OCRNoPixelColumns.Value = num,
             };
 
             _ = new Panel()
@@ -321,9 +332,9 @@ namespace Kenedia.Modules.Characters
                 Width = 100,
                 MinValue = 0,
                 MaxValue = 255,
-                Value = Characters.ModuleInstance.Settings.OCR_ColorThreshold.Value,
+                Value = _settings.OCR_ColorThreshold.Value,
                 SetLocalizedTooltip = () => "Threshold of 'white' a pixel has to be to be converted to black to be read (RGB Value: 0 - 255)",
-                ValueChangedAction = (num) => Characters.ModuleInstance.Settings.OCR_ColorThreshold.Value = num
+                ValueChangedAction = (num) => _settings.OCR_ColorThreshold.Value = num
             };
 
             _container = new ResizeableContainer()
@@ -331,8 +342,8 @@ namespace Kenedia.Modules.Characters
                 Parent = GameService.Graphics.SpriteScreen,
                 ZIndex = 999,
                 Visible = false,
-                Location = Characters.ModuleInstance.Settings.ActiveOCRRegion.Location,
-                Size = Characters.ModuleInstance.Settings.ActiveOCRRegion.Size,
+                Location = _settings.ActiveOCRRegion.Location,
+                Size = _settings.ActiveOCRRegion.Size,
                 BorderColor = ContentService.Colors.ColonialWhite,
                 ShowResizeOnlyOnMouseOver = true,
                 MaxSize = new(500, 50),
@@ -343,7 +354,7 @@ namespace Kenedia.Modules.Characters
             _container.LeftMouseButtonReleased += Container_LeftMouseButtonReleased;
             _container.MouseLeft += Container_LeftMouseButtonReleased;
 
-            int height = Characters.ModuleInstance.Settings.ActiveOCRRegion.Size.Y;
+            int height = _settings.ActiveOCRRegion.Size.Y;
             _contentContainer.Location = new Point(_container.Left, _container.Top - _contentContainer.Height - 5);
         }
 
@@ -354,11 +365,9 @@ namespace Kenedia.Modules.Characters
 
         private int CustomThreshold
         {
-            get => Characters.ModuleInstance.Settings.OCRNoPixelColumns.Value;
-            set => Characters.ModuleInstance.Settings.OCRNoPixelColumns.Value = value;
+            get => _settings.OCRNoPixelColumns.Value;
+            set => _settings.OCRNoPixelColumns.Value = value;
         }
-
-        private string BasePath => Characters.ModuleInstance.BasePath;
 
         public void ToggleContainer()
         {
@@ -375,7 +384,6 @@ namespace Kenedia.Modules.Characters
         {
             if (!_disposed)
             {
-                _ocrTrainDisplay?.Dispose();
                 _disposed = true;
                 _columnBox?.Dispose();
                 _thresholdBox?.Dispose();
@@ -399,10 +407,10 @@ namespace Kenedia.Modules.Characters
                 return null;
             }
 
-            RECT wndBounds = Characters.ModuleInstance.WindowRectangle;
+            var wndBounds = _clientWindowService.WindowBounds;
 
             bool windowed = GameService.GameIntegration.GfxSettings.ScreenMode == Blish_HUD.GameIntegration.GfxSettings.ScreenModeSetting.Windowed;
-            Point p = windowed ? new(Characters.ModuleInstance.Settings.WindowOffset.Value.Left, Characters.ModuleInstance.Settings.WindowOffset.Value.Top) : Point.Zero;
+            Point p = windowed ? new(_sharedSettings.WindowOffset.Left, _sharedSettings.WindowOffset.Top) : Point.Zero;
 
             double factor = GameService.Graphics.UIScaleMultiplier;
             Point size = new((int)((_container.Width - _container.BorderWidth.Vertical) * factor), (int)((_container.Height - _container.BorderWidth.Horizontal) * factor));
@@ -441,7 +449,7 @@ namespace Kenedia.Modules.Characters
                         for (int j = 0; j < bitmap.Height; j++)
                         {
                             System.Drawing.Color oc = bitmap.GetPixel(i, j);
-                            int threshold = Characters.ModuleInstance.Settings.OCR_ColorThreshold.Value;
+                            int threshold = _settings.OCR_ColorThreshold.Value;
 
                             if (oc.R >= threshold && oc.G >= threshold && oc.B >= threshold && emptyPixelRow < CustomThreshold)
                             //if (oc.GetBrightness() > 0.5f && emptyPixelRow < CustomThreshold)
@@ -560,8 +568,8 @@ namespace Kenedia.Modules.Characters
 
         private void Container_Changed(object sender, EventArgs e)
         {
-            string key = Characters.ModuleInstance.Settings.OCRKey;
-            System.Collections.Generic.Dictionary<string, Rectangle> regions = Characters.ModuleInstance.Settings.OCRRegions.Value;
+            string key = _settings.OCRKey;
+            Dictionary<string, Rectangle> regions = _settings.OCRRegions.Value;
 
             _ = Read(true);
 

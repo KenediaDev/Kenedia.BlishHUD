@@ -22,7 +22,7 @@ namespace Kenedia.Modules.Core.Extensions
         {
             // make an empty bitmap the same size as original
             var colors = new Color[original.Width * original.Height];
-            original.GetData<Color>(colors);
+            original.GetData(colors);
             var destColors = new Color[original.Width * original.Height];
             Texture2D newTexture;
 
@@ -48,7 +48,7 @@ namespace Kenedia.Modules.Core.Extensions
                 }
             }
 
-            newTexture.SetData<Color>(destColors);
+            newTexture.SetData(destColors);
             return newTexture;
         }
     }

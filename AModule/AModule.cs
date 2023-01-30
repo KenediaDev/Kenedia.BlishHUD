@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 namespace Kenedia.Modules.AModule
 {
     [Export(typeof(Module))]
-    public class AModule : BaseModule
+    public class AModule : BaseModule<AModule>
     {
         internal static AModule ModuleInstance;
         private double _tick;

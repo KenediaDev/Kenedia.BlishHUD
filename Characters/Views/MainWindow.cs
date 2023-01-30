@@ -50,9 +50,13 @@ namespace Kenedia.Modules.Characters.Views
         private Rectangle _titleRectangle;
         private BitmapFont _titleFont;
 
-        public MainWindow(Texture2D background, Rectangle windowRegion, Rectangle contentRegion)
+        private CharacterSorting _characterSorting;
+
+        public MainWindow(Texture2D background, Rectangle windowRegion, Rectangle contentRegion, CharacterSorting characterSorting)
             : base(background, windowRegion, contentRegion)
         {
+            _characterSorting = characterSorting;
+
             ContentPanel = new FlowPanel()
             {
                 Parent = this,
@@ -165,7 +169,7 @@ namespace Kenedia.Modules.Characters.Views
                 Visible = false,
             };
 
-            _sideMenu = new()
+            _sideMenu = new(_characterSorting)
             {
                 Parent = GameService.Graphics.SpriteScreen,
                 Anchor = this,
@@ -201,10 +205,7 @@ namespace Kenedia.Modules.Characters.Views
             int r = RandomService.Rnd.Next(selection.Count);
             var entry = (CharacterControl)selection[r];
 
-            if (entry != null)
-            {
-                CharacterSwapping.Start(entry.Character);
-            }
+            entry?.Character.Swap();
         }
 
         private void ButtonPanel_Resized(object sender, ResizedEventArgs e)
@@ -356,13 +357,13 @@ namespace Kenedia.Modules.Characters.Views
                 return matchAll && results.Count(e => e == true) >= strings.Count;
             }
 
-            foreach (var (ctrl, toggleResult, stringsResult, tagsResult) in from CharacterControl ctrl in CharactersPanel.Children
-                                                                            let c = ctrl.Character
-                                                                            where c != null
-                                                                            let toggleResult = toggleFilters.Count == 0 || (include == FilterResult(c))
-                                                                            let stringsResult = stringFilters.Count == 0 || (include == StringFilterResult(c))
-                                                                            let tagsResult = tagFilters.Count == 0 || (include == TagResult(c))
-                                                                            select (ctrl, toggleResult, stringsResult, tagsResult))
+            foreach ((CharacterControl ctrl, bool toggleResult, bool stringsResult, bool tagsResult) in from CharacterControl ctrl in CharactersPanel.Children
+                                                                                                        let c = ctrl.Character
+                                                                                                        where c != null
+                                                                                                        let toggleResult = toggleFilters.Count == 0 || (include == FilterResult(c))
+                                                                                                        let stringsResult = stringFilters.Count == 0 || (include == StringFilterResult(c))
+                                                                                                        let tagsResult = tagFilters.Count == 0 || (include == TagResult(c))
+                                                                                                        select (ctrl, toggleResult, stringsResult, tagsResult))
             {
                 ctrl.Visible = toggleResult && stringsResult && tagsResult;
             }
@@ -479,7 +480,7 @@ namespace Kenedia.Modules.Characters.Views
                         CharactersPanel.SortChildren<CharacterControl>((a, b) => a.Index.CompareTo(b.Index));
 
                         int i = 0;
-                        foreach (var c in CharactersPanel.Children.Cast<CharacterControl>())
+                        foreach (CharacterControl c in CharactersPanel.Children.Cast<CharacterControl>())
                         {
                             c.Index = i;
                             i++;
@@ -709,13 +710,13 @@ namespace Kenedia.Modules.Characters.Views
             CharacterControl lastControl = characterControl;
 
             int i = 0;
-            foreach (var c in CharactersPanel.Children.Cast<CharacterControl>())
+            foreach (CharacterControl c in CharactersPanel.Children.Cast<CharacterControl>())
             {
                 c.Index = i;
                 i++;
             }
 
-            foreach (var c in CharactersPanel.Children.Cast<CharacterControl>())
+            foreach (CharacterControl c in CharactersPanel.Children.Cast<CharacterControl>())
             {
                 if (c.AbsoluteBounds.Contains(m.Position))
                 {

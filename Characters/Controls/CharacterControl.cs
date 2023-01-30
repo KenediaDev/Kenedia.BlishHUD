@@ -182,7 +182,7 @@ namespace Kenedia.Modules.Characters.Controls
                 Visible = false,
             };
 
-            Characters.ModuleInstance.LanguageChanged += ApplyCharacter;
+            GameService.Overlay.UserLocale.SettingChanged += ApplyCharacter;
 
             _created = true;
         }
@@ -621,7 +621,7 @@ namespace Kenedia.Modules.Characters.Controls
         {
             base.DisposeControl();
 
-            Characters.ModuleInstance.LanguageChanged -= ApplyCharacter;
+            GameService.Overlay.UserLocale.SettingChanged -= ApplyCharacter;
 
             _textTooltip.Shown -= TextTooltip_Shown;
             if (_character != null)

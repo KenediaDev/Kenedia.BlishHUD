@@ -53,7 +53,7 @@ namespace Kenedia.Modules.Core.Controls
         {
             base.PaintBeforeChildren(spriteBatch, bounds);
 
-            var backgroundImageColor =BackgroundImageHoveredColor != null && MouseOver ? BackgroundImageHoveredColor : BackgroundImageColor;
+            Color? backgroundImageColor =BackgroundImageHoveredColor != null && MouseOver ? BackgroundImageHoveredColor : BackgroundImageColor;
 
             if (BackgroundImage != null && backgroundImageColor != null)
             {
@@ -67,7 +67,7 @@ namespace Kenedia.Modules.Core.Controls
                     default);
             }
 
-            var backgroundColor = BackgroundHoveredColor != null && MouseOver ? BackgroundHoveredColor : BackgroundColor;
+            Color? backgroundColor = BackgroundHoveredColor != null && MouseOver ? BackgroundHoveredColor : BackgroundColor;
             if (backgroundColor != null)
             {
                 spriteBatch.DrawOnCtrl(
@@ -78,7 +78,7 @@ namespace Kenedia.Modules.Core.Controls
                     (Color)backgroundColor);
             }
 
-            var borderColor = HoveredBorderColor != null && MouseOver ? HoveredBorderColor : BorderColor;
+            Color? borderColor = HoveredBorderColor != null && MouseOver ? HoveredBorderColor : BorderColor;
             if (borderColor != null)
             {
                 // Top

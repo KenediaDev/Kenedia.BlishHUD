@@ -1,4 +1,5 @@
-﻿using Blish_HUD.Controls;
+﻿using Blish_HUD;
+using Blish_HUD.Controls;
 using Characters.Res;
 using Kenedia.Modules.Characters.Extensions;
 using Kenedia.Modules.Characters.Services;
@@ -85,7 +86,7 @@ namespace Kenedia.Modules.Characters.Controls.SideMenu
                 _toggles[i] = new(t.Key, ctrl);
             }
 
-            Characters.ModuleInstance.LanguageChanged += OnLanguageChanged;
+            GameService.Overlay.UserLocale.SettingChanged += OnLanguageChanged;
             OnLanguageChanged();
         }
 
@@ -180,7 +181,7 @@ namespace Kenedia.Modules.Characters.Controls.SideMenu
         {
             base.DisposeControl();
 
-            ModuleInstance.LanguageChanged -= OnLanguageChanged;
+            GameService.Overlay.UserLocale.SettingChanged -= OnLanguageChanged;
 
             _orderDropdown.ValueChanged -= OrderDropdown_ValueChanged;
             _flowDropdown.ValueChanged -= FlowDropdown_ValueChanged;

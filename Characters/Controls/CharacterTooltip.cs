@@ -299,7 +299,7 @@ namespace Kenedia.Modules.Characters.Controls
             _craftingControl.Font = Font;
 
             _tagPanel.Visible = Character.Tags.Count > 0;
-            foreach (var tag in _tagPanel.Children.Cast<Tag>())
+            foreach (Tag tag in _tagPanel.Children.Cast<Tag>())
             {
                 tag.Font = Font;
             }
@@ -334,7 +334,7 @@ namespace Kenedia.Modules.Characters.Controls
         private void ApplyCharacter(object sender, EventArgs e)
         {
             _nameLabel.Text = Character.Name;
-            _nameLabel.TextColor = new Microsoft.Xna.Framework.Color(168 + 15 + 25, 143 + 20 + 25, 102 + 15 + 25, 255);
+            _nameLabel.TextColor = new Color(168 + 15 + 25, 143 + 20 + 25, 102 + 15 + 25, 255);
 
             _levelLabel.Text = string.Format(strings.LevelAmount, Character.Level);
             _levelLabel.TextureRectangle = new Rectangle(2, 2, 28, 28);

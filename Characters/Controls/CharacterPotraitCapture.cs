@@ -2,9 +2,12 @@
 using Blish_HUD.Content;
 using Blish_HUD.Controls;
 using Blish_HUD.Input;
+using Blish_HUD.Settings;
 using Characters.Res;
 using Kenedia.Modules.Core.Controls;
 using Kenedia.Modules.Core.Extensions;
+using Kenedia.Modules.Core.Services;
+using Kenedia.Modules.Core.Structs;
 using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
@@ -25,6 +28,9 @@ namespace Kenedia.Modules.Characters.Controls
 {
     public class CharacterPotraitCapture : Container
     {
+        private readonly ClientWindowService _clientWindowService;
+        private readonly SharedSettings _sharedSettings;
+
         private readonly ImageButton _captureButton;
         private readonly ImageButton _addButton;
         private readonly ImageButton _removeButton;
@@ -41,8 +47,11 @@ namespace Kenedia.Modules.Characters.Controls
         private int _characterPotraitSize = 130;
         private int _gap = 13;
 
-        public CharacterPotraitCapture()
+        public CharacterPotraitCapture(ClientWindowService clientWindowService, SharedSettings sharedSettings)
         {
+            _clientWindowService = clientWindowService;
+            _sharedSettings = sharedSettings;
+
             Point res = GameService.Graphics.Resolution;
             Size = new Point(100, 100);
             WidthSizingMode = SizingMode.AutoSize;
@@ -257,14 +266,14 @@ namespace Kenedia.Modules.Characters.Controls
             Regex regex = new("Image.*[0-9].png");
             var images = Directory.GetFiles(path, "*.png", SearchOption.AllDirectories).Where(path => regex.IsMatch(path)).ToList();
 
-            RECT wndBounds = Characters.ModuleInstance.WindowRectangle;
+            var wndBounds = _clientWindowService.WindowBounds;
 
             bool windowed = GameService.GameIntegration.GfxSettings.ScreenMode == Blish_HUD.GameIntegration.GfxSettings.ScreenModeSetting.Windowed;
-            Point p = windowed ? new(Characters.ModuleInstance.Settings.WindowOffset.Value.Left, Characters.ModuleInstance.Settings.WindowOffset.Value.Top) : Point.Zero;
+            Point p = windowed ? new(_sharedSettings.WindowOffset.Left, _sharedSettings.WindowOffset.Top) : Point.Zero;
 
             double factor = GameService.Graphics.UIScaleMultiplier;
 
-            foreach (var c in _portraitsPanel.Children.Cast<FramedContainer>())
+            foreach (FramedContainer c in _portraitsPanel.Children.Cast<FramedContainer>())
             {
                 c.Hide();
             }
@@ -273,9 +282,9 @@ namespace Kenedia.Modules.Characters.Controls
 
             var size = new Size(_characterPotraitSize, _characterPotraitSize);
 
-            foreach (var c in _portraitsPanel.Children.Cast<FramedContainer>())
+            foreach (FramedContainer c in _portraitsPanel.Children.Cast<FramedContainer>())
             {
-                var bounds = c.AbsoluteBounds;
+                Rectangle bounds = c.AbsoluteBounds;
                 using Bitmap bitmap = new((int)((_characterPotraitSize - 2) * factor), (int)((_characterPotraitSize - 2) * factor));
 
                 using (var g = System.Drawing.Graphics.FromImage(bitmap))

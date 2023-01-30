@@ -2,9 +2,7 @@
 using Blish_HUD.Modules;
 using Blish_HUD.Settings;
 using Kenedia.Modules.Core.Models;
-using Kenedia.Modules.Core.Services;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Input;
 using System;
 using System.ComponentModel.Composition;
 using System.Threading.Tasks;
@@ -12,7 +10,7 @@ using System.Threading.Tasks;
 namespace Kenedia.Modules.AnotherModule
 {
     [Export(typeof(Module))]
-    public class AnotherModule : BaseModule
+    public class AnotherModule : BaseModule<AnotherModule>
     {
         private double _tick;
         internal static AnotherModule ModuleInstance;
@@ -32,27 +30,12 @@ namespace Kenedia.Modules.AnotherModule
         {
             base.DefineSettings(settings);
 
-            GameStateAdjustKey = settings.DefineSetting(
-                nameof(GameStateAdjustKey),
-                new Blish_HUD.Input.KeyBinding(ModifierKeys.Alt, Keys.I));
-
-            GameStateAdjustKey.Value.Enabled = true;
-            GameStateAdjustKey.Value.Activated += ChangeGameStateCounter;
-
-        }
-
-        private void ChangeGameStateCounter(object sender, EventArgs e)
-        {
-            GameState.Count++;
         }
 
         protected override void Initialize()
         {
             base.Initialize();
 
-            Logger.Info($"Starting  {Name} v. {0}");
-            //Logger.Info($"Starting  {Name} v." + Version.BaseVersion());
-            //
         }
 
         protected override async Task LoadAsync()
@@ -66,8 +49,6 @@ namespace Kenedia.Modules.AnotherModule
         {
             // Base handler must be called
             base.OnModuleLoaded(e);
-
-            SettingsWindow?.Show();
         }
 
         protected override void Update(GameTime gameTime)
