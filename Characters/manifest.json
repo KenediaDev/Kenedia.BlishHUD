@@ -18,7 +18,7 @@
   "dependencies": {
     "bh.blishhud": ">=1.0.0"
   },
-  "description": "A tool to easily switch characters even with a lot of them!\nDISCLAIMER: Guild Wars 2 has randomly issues with sorting your characters if you log into them only for a short time. This will mess with this module, there is nothing that can be done about it sadly. Once the API updates the character list they will get sorted again!",
+  "description": "Make character swapping great again! Swapping characters with a lot of characters can become quite a torture.\nWhere was that Asuran Guardian I've parked at Draconis Mons in my 70 characters?\nFear no more, this module will change your life. Search for the right character based on dozens of filter options and automatically swap to it!'",
   "directories": [ "characters", "kenedia" ],
   "enabled_without_gw2": false,
   "manifest_version": 1,
@@ -26,5 +26,5 @@
   "namespace": "Kenedia.Modules.Characters",
   "package": "Kenedia.Modules.Characters.dll",
   "url": "https://github.com/KenediaDev/Kenedia.BlishHUD",
-  "version": "0.4.5"
+  "version": "0.4.6"
 }
