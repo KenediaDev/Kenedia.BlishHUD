@@ -240,7 +240,7 @@ namespace Kenedia.Modules.Characters.Services
 
         private async Task<string> FetchName(CancellationToken cancellationToken)
         {
-            string name = Characters.ModuleInstance.OCR.Read();
+            string name = await Characters.ModuleInstance.OCR.Read();
 
             Status = string.Format(strings.FixCharacter_FetchName, Environment.NewLine, name);
 

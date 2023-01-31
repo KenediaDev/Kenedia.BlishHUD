@@ -552,7 +552,7 @@ namespace Kenedia.Modules.Characters.Controls
             base.OnRightMouseButtonPressed(e);
 
             Views.MainWindow mainWindow = Characters.ModuleInstance.MainWindow;
-            mainWindow.ShowAttachedWindow(mainWindow.CharacterEdit.Character != Character || !mainWindow.CharacterEdit.Visible ? mainWindow.CharacterEdit : null);
+            mainWindow.ShowAttached(mainWindow.CharacterEdit.Character != Character || !mainWindow.CharacterEdit.Visible ? mainWindow.CharacterEdit : null);
             Characters.ModuleInstance.MainWindow.CharacterEdit.Character = Character;
         }
 

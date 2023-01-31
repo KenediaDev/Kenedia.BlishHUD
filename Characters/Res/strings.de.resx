@@ -742,4 +742,65 @@ Um den aktuellen Wert zu erhalten, müssen Sie die Modul-Tabs einmal wechseln, u
   <data name="Years" xml:space="preserve">
     <value>Jahre</value>
   </data>
+  <data name="Female" xml:space="preserve">
+    <value>Weiblich</value>
+  </data>
+  <data name="FilterAsOne_Description" xml:space="preserve">
+    <value>Den gesamten Text der Filterbox als einen einzigen Filterbegriff verwenden</value>
+  </data>
+  <data name="FilterAsOne_DisplayName" xml:space="preserve">
+    <value>Einzelner Filterstring</value>
+  </data>
+  <data name="FilterDiacriticsInsensitive_Description" xml:space="preserve">
+    <value>Alle diakritischen Zeichen werden ignoriert, so dass die folgenden Buchstaben als "Mutterbuchstaben" behandelt werden
+[Ææ] wird zu [Aeae]
+[Œœ] wird zu [Oeoe]
+[Áá Ââ Ää Àà] werden zu [Aa]
+[Çç] wird [Cc]
+[Êê Éé Ëë Èè] werden [Ee]
+[Ïï Íí Îî] werden [Ii]
+[Ññ] werden [Nn]
+[Ôô Öö Óó] werden [Oo]
+[Úú Üü Ûû Ùù] werden [Uu]</value>
+  </data>
+  <data name="Gender" xml:space="preserve">
+    <value>Geschlecht</value>
+  </data>
+  <data name="GW2API" xml:space="preserve">
+    <value>GW2-API</value>
+  </data>
+  <data name="LoadCachedAccounts_Description" xml:space="preserve">
+    <value>Versuchen Sie, den Kontonamen aus zwischengespeicherten Dateien abzurufen.</value>
+  </data>
+  <data name="LoadCachedAccounts_DisplayName" xml:space="preserve">
+    <value>Laden aus dem Cache</value>
+  </data>
+  <data name="Male" xml:space="preserve">
+    <value>Männlich</value>
+  </data>
+  <data name="OpenSidemenuOnSearch_Description" xml:space="preserve">
+    <value>Öffnen Sie das Seitenmenü, wenn Sie das Suchfeld anklicken</value>
+  </data>
+  <data name="OpenSidemenuOnSearch_DisplayName" xml:space="preserve">
+    <value>Seitenmenü bei der Suche öffnen</value>
+  </data>
+  <data name="UseBetaGameState_Description" xml:space="preserve">
+    <value>Verwenden Sie eine Beta-Funktion, um festzustellen, ob Sie im Spiel sind, eine Cutscene sehen oder sich in einem Ladebildschirm befinden. Diese Funktion funktioniert bei allen gängigen Bildschirmverhältnissen gut. Nur im Hochformat ist sie problematisch.</value>
+  </data>
+  <data name="UseBetaGameState_DisplayName" xml:space="preserve">
+    <value>Beta-Gamestate verwenden</value>
+  </data>
+  <data name="NormalizedNames_DisplayName" xml:space="preserve">
+    <value>Normalisierte Zeichennamen verwenden</value>
+  </data>
+  <data name="NormalizedNames_Description" xml:space="preserve">
+    <value>Verwenden Sie bei der Suche normalisierte Zeichennamen, so dass Sonderbuchstaben wie ihre 'Mutterbuchstaben' behandelt werden
+Aa : Áá Ââ Ää Àà Ææ
+Cc : Çç
+Ee : Êê Éé Ëë Èè
+Ii : Ïï Íí Îî
+Nn : Ññ
+Oo : Œœ Ôô Öö Óó Úú
+Uu : Üü Ûû Ùù</value>
+  </data>
 </root>

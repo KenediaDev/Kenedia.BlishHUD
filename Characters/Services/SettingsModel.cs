@@ -1,6 +1,7 @@
 ﻿using Blish_HUD;
 using Blish_HUD.Settings;
 using Kenedia.Modules.Characters.Models;
+using Kenedia.Modules.Core.Models;
 using Kenedia.Modules.Core.Structs;
 using Microsoft.Xna.Framework.Input;
 using MonoGame.Extended.Collections;
@@ -11,9 +12,8 @@ using Rectangle = Microsoft.Xna.Framework.Rectangle;
 
 namespace Kenedia.Modules.Characters.Services
 {
-    public class SettingsModel : IDisposable
+    public class SettingsModel : BaseSettingsModel
     {
-        private bool _disposed;
         private readonly ObservableCollection<SettingEntry> _appearanceSettings = new();
 
         public SettingsModel(SettingCollection settings)
@@ -241,20 +241,17 @@ namespace Kenedia.Modules.Characters.Services
 
         public SettingEntry<SemVer.Version> Version { get; set; }
 
-        public void Dispose()
+        protected override void OnDispose()
         {
-            if (!_disposed)
+            base.OnDispose();
+
+            foreach (SettingEntry setting in _appearanceSettings)
             {
-                _disposed = true;
-
-                foreach (SettingEntry setting in _appearanceSettings)
-                {
-                    setting.PropertyChanged -= OnAppearanceSettingChanged;
-                }
-
-                _appearanceSettings.ItemAdded -= AppearanceSettings_ItemAdded;
-                _appearanceSettings.ItemRemoved -= AppearanceSettings_ItemRemoved;
+                setting.PropertyChanged -= OnAppearanceSettingChanged;
             }
+
+            _appearanceSettings.ItemAdded -= AppearanceSettings_ItemAdded;
+            _appearanceSettings.ItemRemoved -= AppearanceSettings_ItemRemoved;
         }
 
         private void AppearanceSettings_ItemRemoved(object sender, ItemEventArgs<SettingEntry> e)

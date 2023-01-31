@@ -1,6 +1,5 @@
 ﻿using Blish_HUD;
 using Blish_HUD.Content;
-using Blish_HUD.Controls.Extern;
 using Blish_HUD.Graphics.UI;
 using Blish_HUD.Gw2Mumble;
 using Blish_HUD.Modules;
@@ -8,7 +7,6 @@ using Blish_HUD.Modules.Managers;
 using Blish_HUD.Settings;
 using Characters.Res;
 using Gw2Sharp.WebApi.V2.Models;
-using Kenedia.Modules.Core.Controls;
 using Kenedia.Modules.Characters.Controls;
 using Kenedia.Modules.Characters.Enums;
 using Kenedia.Modules.Characters.Models;
@@ -22,7 +20,6 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel.Composition;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Resources;
@@ -36,18 +33,13 @@ using CornerIcon = Kenedia.Modules.Core.Controls.CornerIcon;
 using LoadingSpinner = Kenedia.Modules.Core.Controls.LoadingSpinner;
 using Blish_HUD.Controls;
 using Kenedia.Modules.Core.Res;
-using Kenedia.Modules.Core.Services;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace Kenedia.Modules.Characters
 {
     [Export(typeof(Module))]
-    public class Characters : BaseModule<Characters>
+    public class Characters : BaseModule<Characters, MainWindow, SettingsModel>
     {
-        public const uint WMCOMMAND = 0x0111;
-        public const uint WMPASTE = 0x0302;
-
-        public static readonly Logger Logger = Logger.GetLogger<Characters>();
         public readonly Version BaseVersion;
         public readonly ResourceManager RM = new("Characters.Res.strings", System.Reflection.Assembly.GetExecutingAssembly());
 
@@ -55,18 +47,15 @@ namespace Kenedia.Modules.Characters
         private readonly Ticks _ticks = new();
 
         private CornerIcon _cornerIcon;
-        private bool _dataLoaded;
 
         [ImportingConstructor]
         public Characters([Import("ModuleParameters")] ModuleParameters moduleParameters)
             : base(moduleParameters)
         {
             ModuleInstance = this;
-
+            HasGUI = true;
             BaseVersion = Version.BaseVersion();
         }
-
-        public event EventHandler DataLoaded_Event;
 
         public Dictionary<string, SearchFilter<Character_Model>> SearchFilters { get; private set; }
 
@@ -78,19 +67,13 @@ namespace Kenedia.Modules.Characters
 
         public RunIndicator RunIndicator { get; private set; }
 
-        public MainWindow MainWindow { get; private set; }
-
         public SettingsWindow SettingsWindow { get; private set; }
 
         public CharacterPotraitCapture PotraitCapture { get; private set; }
 
         public LoadingSpinner APISpinner { get; private set; }
 
-        public SettingsModel Settings { get; private set; }
-
         public TextureManager TextureManager { get; private set; }
-
-        public SettingEntry<Blish_HUD.Input.KeyBinding> ReloadKey { get; set; }
 
         public ObservableCollection<Character_Model> CharacterModels { get; } = new();
 
@@ -110,22 +93,7 @@ namespace Kenedia.Modules.Characters
 
         public bool SaveCharacters { get; set; }
 
-        public bool FetchingAPI { get; set; }
-
         public GW2API_Handler GW2APIHandler { get; private set; }
-
-        public bool DataLoaded
-        {
-            get => _dataLoaded;
-            set
-            {
-                _dataLoaded = value;
-                if (value)
-                {
-                    ModuleInstance.OnDataLoaded();
-                }
-            }
-        }
 
         public void UpdateFolderPaths(string accountName, bool api_handled = true)
         {
@@ -223,7 +191,7 @@ namespace Kenedia.Modules.Characters
                                 {
                                     if (!Tags.Contains(t))
                                     {
-                                        Tags.Add(t);
+                                        Tags.AddTag(t, false);
                                     }
                                 }
 
@@ -232,19 +200,16 @@ namespace Kenedia.Modules.Characters
                             }
                         });
 
-                        DataLoaded = true;
                         return true;
                     }
                 }
 
-                DataLoaded = true;
                 return false;
             }
             catch (Exception ex)
             {
                 Logger.Warn(ex, "Failed to load the local characters from file '" + CharactersPath + "'.");
                 File.Copy(CharactersPath, CharactersPath.Replace(".json", " [" + DateTimeOffset.Now.ToUnixTimeSeconds().ToString() + "].corruped.json"));
-                DataLoaded = true;
                 return false;
             }
         }
@@ -310,15 +275,6 @@ namespace Kenedia.Modules.Characters
 
             Settings = new SettingsModel(settings);
             Settings.ShowCornerIcon.SettingChanged += ShowCornerIcon_SettingChanged;
-
-#if DEBUG
-            ReloadKey = settings.DefineSetting(
-                nameof(ReloadKey),
-                new Blish_HUD.Input.KeyBinding(ModifierKeys.Alt, Keys.R));
-
-            ReloadKey.Value.Enabled = true;
-            ReloadKey.Value.Activated += ReloadKey_Activated;
-#endif
         }
 
         protected override void Update(GameTime gameTime)
@@ -338,11 +294,6 @@ namespace Kenedia.Modules.Characters
             }
 
             PlayerCharacter player = GameService.Gw2Mumble.PlayerCharacter;
-
-            if (MainWindow == null && player != null && !string.IsNullOrEmpty(player.Name))
-            {
-                CreateUI();
-            }
 
             if (_ticks.Global > 15000)
             {
@@ -445,23 +396,22 @@ namespace Kenedia.Modules.Characters
             base.Unload();
         }
 
+        protected override void ReloadKey_Activated(object sender, EventArgs e)
+        {
+            base.ReloadKey_Activated(sender, e);
+            GameService.Graphics.SpriteScreen.Visible = true;
+            MainWindow?.ToggleWindow();
+            SettingsWindow?.ToggleWindow();
+        }
+
         private void OnCharacterCollectionChanged(object sender, EventArgs e)
         {
             MainWindow?.CreateCharacterControls(CharacterModels);
         }
 
-        private void OnDataLoaded()
-        {
-            DataLoaded_Event?.Invoke(this, EventArgs.Empty);
-            if (MainWindow == null)
-            {
-                CreateUI();
-            }
-        }
-
         private void ShortcutWindowToggle(object sender, EventArgs e)
         {
-            if (Control.ActiveControl is not Blish_HUD.Controls.TextBox)
+            if (Control.ActiveControl is not TextBox)
             {
                 MainWindow?.ToggleWindow();
             }
@@ -472,19 +422,9 @@ namespace Kenedia.Modules.Characters
             GW2APIHandler.CheckAPI();
         }
 
-        private void ReloadKey_Activated(object sender, EventArgs e)
-        {
-            RebuildUI();
-            MainWindow?.ToggleWindow();
-            SettingsWindow?.ToggleWindow();
-        }
-
         private void Tags_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
         {
-            if (DataLoaded)
-            {
-                UpdateTagsCollection();
-            }
+            UpdateTagsCollection();
         }
 
         private void UpdateTagsCollection()
@@ -559,84 +499,60 @@ namespace Kenedia.Modules.Characters
             }
         }
 
-        private void RebuildUI()
+        protected override void LoadGUI()
         {
+            base.LoadGUI();
 
-            bool shown = MainWindow != null && MainWindow.Visible;
-            bool settingsShown = SettingsWindow != null && SettingsWindow.Visible;
+            var settingsBg = AsyncTexture2D.FromAssetId(155997);
+            Texture2D cutSettingsBg = settingsBg.Texture.GetRegion(0, 0, settingsBg.Width - 482, settingsBg.Height - 390);
+            SettingsWindow = new(
+                settingsBg,
+                new Rectangle(30, 30, cutSettingsBg.Width + 10, cutSettingsBg.Height),
+                new Rectangle(30, 35, cutSettingsBg.Width - 5, cutSettingsBg.Height - 15),
+                SharedSettingsView)
+            {
+                Parent = GameService.Graphics.SpriteScreen,
+                Title = "❤",
+                Subtitle = "❤",
+                SavesPosition = true,
+                Id = $"CharactersSettingsWindow",
+            };
+
+            Texture2D bg = TextureManager.GetBackground(Backgrounds.MainWindow);
+            Texture2D cutBg = bg.GetRegion(25, 25, bg.Width - 100, bg.Height - 325);
+
+            MainWindow = new(
+            bg,
+            new Rectangle(25, 25, cutBg.Width + 10, cutBg.Height),
+            new Rectangle(35, 14, cutBg.Width - 10, cutBg.Height - 10),
+            CharacterSorting,
+            Settings)
+            {
+                Parent = GameService.Graphics.SpriteScreen,
+                Title = "❤",
+                Subtitle = "❤",
+                SavesPosition = true,
+                Id = $"CharactersWindow",
+                CanResize = true,
+                Size = Settings.WindowSize.Value,
+            };
+
+            PotraitCapture = new CharacterPotraitCapture(Services.ClientWindowService, Services.SharedSettings) { Parent = GameService.Graphics.SpriteScreen, Visible = false, ZIndex = int.MaxValue - 1 };
+
+            OCR = new(Services.ClientWindowService, Services.SharedSettings, Settings, Paths.ModulePath, CharacterModels);
+
+            RunIndicator = new(CharacterSorting, CharacterSwapping);
+        }
+
+        protected override void UnloadGUI()
+        {
+            base.UnloadGUI();
 
             SettingsWindow?.Dispose();
             MainWindow?.Dispose();
             PotraitCapture?.Dispose();
             OCR?.Dispose();
             RunIndicator?.Dispose();
-
-            CreateUI(true);
-
-            if (shown) MainWindow?.Show();
-            if (settingsShown) SettingsWindow?.Show();
-        }
-
-        private void CreateUI(bool force = false)
-        {
-            if (SettingsWindow == null || force)
-            {
-                SettingsWindow?.Dispose();
-                var settingsBg = AsyncTexture2D.FromAssetId(155997);
-                Texture2D cutSettingsBg = settingsBg.Texture.GetRegion(0, 0, settingsBg.Width - 482, settingsBg.Height - 390);
-                SettingsWindow = new(
-                    settingsBg,
-                    new Rectangle(30, 30, cutSettingsBg.Width + 10, cutSettingsBg.Height),
-                    new Rectangle(30, 35, cutSettingsBg.Width - 5, cutSettingsBg.Height - 15),
-                    SharedSettingsView)
-                {
-                    Parent = GameService.Graphics.SpriteScreen,
-                    Title = "❤",
-                    Subtitle = "❤",
-                    SavesPosition = true,
-                    Id = $"CharactersSettingsWindow",
-                };
-            }
-
-            if (MainWindow == null || force)
-            {
-                MainWindow?.Dispose();
-                Texture2D bg = TextureManager.GetBackground(Backgrounds.MainWindow);
-                Texture2D cutBg = bg.GetRegion(25, 25, bg.Width - 100, bg.Height - 325);
-
-                MainWindow = new(
-                bg,
-                new Rectangle(25, 25, cutBg.Width + 10, cutBg.Height),
-                new Rectangle(35, 14, cutBg.Width - 10, cutBg.Height - 10),
-                CharacterSorting)
-                {
-                    Parent = GameService.Graphics.SpriteScreen,
-                    Title = "❤",
-                    Subtitle = "❤",
-                    SavesPosition = true,
-                    Id = $"CharactersWindow",
-                    CanResize = true,
-                    Size = Settings.WindowSize.Value,
-                };
-            }
-
-            if (PotraitCapture == null || force)
-            {
-                PotraitCapture?.Dispose();
-                PotraitCapture = new CharacterPotraitCapture(Services.ClientWindowService, Services.SharedSettings) { Parent = GameService.Graphics.SpriteScreen, Visible = false, ZIndex = 10 };
-            }
-
-            if (OCR == null || force)
-            {
-                OCR?.Dispose();
-                OCR = new(Services.ClientWindowService, Services.SharedSettings, Settings, Paths.ModulePath, CharacterModels);
-            }
-
-            if (RunIndicator == null || force)
-            {
-                RunIndicator?.Dispose();
-                RunIndicator = new(CharacterSorting, CharacterSwapping);
-            }
         }
 
         public override IView GetSettingsView()

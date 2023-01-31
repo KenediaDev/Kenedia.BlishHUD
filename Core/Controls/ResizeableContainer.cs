@@ -37,11 +37,6 @@ namespace Kenedia.Modules.Core.Controls
 
         private Rectangle ResizeCorner => new(LocalBounds.Right - 15, LocalBounds.Bottom - 15, 15, 15);
 
-        public void ToggleVisibility()
-        {
-            Visible = !Visible;
-        }
-
         public override void UpdateContainer(GameTime gameTime)
         {
             base.UpdateContainer(gameTime);

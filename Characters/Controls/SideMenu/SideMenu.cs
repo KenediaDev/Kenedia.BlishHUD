@@ -30,11 +30,8 @@ namespace Kenedia.Modules.Characters.Controls.SideMenu
         private ImageButton _refreshButton;
 
         private readonly SideMenuToggles _toggles;
-        private readonly SideMenuBehaviors _Behaviors;
-        private double _opacityTick;
-        private DateTime _lastMouseOver;
-
-        private CharacterSorting _characterSorting;
+        private readonly SideMenuBehaviors _behaviors;
+        private readonly CharacterSorting _characterSorting;
 
         public SideMenu(CharacterSorting characterSorting)
         {
@@ -69,7 +66,7 @@ namespace Kenedia.Modules.Characters.Controls.SideMenu
                 Width = Width,
             });
 
-            AddTab(_Behaviors = new SideMenuBehaviors()
+            AddTab(_behaviors = new SideMenuBehaviors()
             {
                 Icon = AsyncTexture2D.FromAssetId(156909),
             });
@@ -201,8 +198,6 @@ namespace Kenedia.Modules.Characters.Controls.SideMenu
 
         private SettingsModel Settings => Characters.ModuleInstance.Settings;
 
-        private MainWindow MainWindow => Characters.ModuleInstance.MainWindow;
-
         private Characters ModuleInstance => Characters.ModuleInstance;
 
         public void ResetToggles()
@@ -213,7 +208,7 @@ namespace Kenedia.Modules.Characters.Controls.SideMenu
         public void OnLanguageChanged(object s = null, EventArgs e = null)
         {
             _toggles.Name = strings.FilterToggles;
-            _Behaviors.Name = strings.AppearanceAndBehavior;
+            _behaviors.Name = strings.AppearanceAndBehavior;
             _closeButton.BasicTooltipText = strings.Close;
             _pinButton.BasicTooltipText = strings.PinSideMenus_Description;
             _refreshButton.BasicTooltipText = strings.RefreshAPI;
@@ -226,20 +221,6 @@ namespace Kenedia.Modules.Characters.Controls.SideMenu
         public override void UpdateContainer(GameTime gameTime)
         {
             base.UpdateContainer(gameTime);
-
-            if (gameTime.TotalGameTime.TotalMilliseconds - _opacityTick > 50)
-            {
-                _opacityTick = gameTime.TotalGameTime.TotalMilliseconds;
-
-                if (!MouseOver && !Characters.ModuleInstance.Settings.PinSideMenus.Value && DateTime.Now.Subtract(_lastMouseOver).TotalMilliseconds >= 2500)
-                {
-                    Opacity -= 0.05F;
-                    if (Opacity <= 0F)
-                    {
-                        Hide();
-                    }
-                }
-            }
         }
 
         protected override bool SwitchTab(PanelTab tab = null)
@@ -279,20 +260,6 @@ namespace Kenedia.Modules.Characters.Controls.SideMenu
                 Control b = _buttons[i];
                 b.Location = new(6 + (i * gap) + (i * b.Width), 3);
             }
-        }
-
-        protected override void OnShown(EventArgs e)
-        {
-            base.OnShown(e);
-            _lastMouseOver = DateTime.Now;
-            Opacity = 1f;
-        }
-
-        protected override void OnMouseMoved(MouseEventArgs e)
-        {
-            base.OnMouseMoved(e);
-            _lastMouseOver = DateTime.Now;
-            Opacity = 1f;
         }
     }
 }

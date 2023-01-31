@@ -1,4 +1,5 @@
 ﻿using Blish_HUD;
+using Blish_HUD.Controls;
 using Blish_HUD.Modules;
 using Blish_HUD.Settings;
 using Kenedia.Modules.Core.Models;
@@ -10,14 +11,12 @@ using System.Threading.Tasks;
 namespace Kenedia.Modules.AModule
 {
     [Export(typeof(Module))]
-    public class AModule : BaseModule<AModule>
+    public class TestModule : BaseModule<TestModule, StandardWindow, BaseSettingsModel>
     {
-        internal static AModule ModuleInstance;
         private double _tick;
-        public static readonly Logger Logger = Logger.GetLogger<AModule>();
 
         [ImportingConstructor]
-        public AModule([Import("ModuleParameters")] ModuleParameters moduleParameters) : base(moduleParameters)
+        public TestModule([Import("ModuleParameters")] ModuleParameters moduleParameters) : base(moduleParameters)
         {
             ModuleInstance = this;
         }
@@ -32,8 +31,7 @@ namespace Kenedia.Modules.AModule
         {
             base.Initialize();
 
-            Logger.Info($"Starting  {Name} v. {0}");
-            //Logger.Info($"Starting  {Name} v." + Version.BaseVersion());            
+            Logger.Info($"Starting {Name} v." + Version.BaseVersion());            
         }
 
         protected override async Task LoadAsync()
@@ -43,7 +41,6 @@ namespace Kenedia.Modules.AModule
 
         protected override void OnModuleLoaded(EventArgs e)
         {
-            // Base handler must be called
             base.OnModuleLoaded(e);
         }
 
@@ -55,15 +52,12 @@ namespace Kenedia.Modules.AModule
             {
                 _tick = gameTime.TotalGameTime.TotalMilliseconds;
 
-                //Logger.Debug($"[{Name}] GameStatus: {GameState.GameStatus} [{GameState.Count}]");
             }
         }
 
         protected override void Unload()
         {
             base.Unload();
-
-            ModuleInstance = null;
         }
     }
 }

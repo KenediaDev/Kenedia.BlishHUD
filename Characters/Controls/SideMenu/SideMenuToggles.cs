@@ -114,7 +114,7 @@ namespace Kenedia.Modules.Characters.Controls.SideMenu
 
         private void CreateTags()
         {
-            _tags.ForEach(t => t.ActiveChanged -= Tag_ActiveChanged);
+            _tags.ForEach(t => { t.ActiveChanged -= Tag_ActiveChanged; t.Deleted-= Tag_Deleted; });
             _tags.DisposeAll();
             _tags.Clear();
 
@@ -130,15 +130,23 @@ namespace Kenedia.Modules.Characters.Controls.SideMenu
                     {
                         Parent = _tagFlowPanel,
                         Text = tag,
-                        ShowDelete = false,
+                        CanInteract = true,
+                        ShowDelete = true,
                     });
 
                     TagFilters.Add(tag, new((c) => c.Tags.Contains(tag), false));
 
                     t.SetActive(false);
                     t.ActiveChanged += Tag_ActiveChanged;
+                    t.Deleted += Tag_Deleted;
                 }
             }
+        }
+
+        private void Tag_Deleted(object sender, EventArgs e)
+        {
+            _ = _tags.Remove(sender as Tag);
+            _ = Characters.ModuleInstance.Tags.Remove((sender as Tag).Text);
         }
 
         private void Tag_ActiveChanged(object sender, EventArgs e)

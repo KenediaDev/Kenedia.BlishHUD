@@ -742,4 +742,65 @@ Pour obtenir la valeur actuelle, vous devrez changer d'onglet de module une fois
   <data name="Years" xml:space="preserve">
     <value>Années</value>
   </data>
+  <data name="Female" xml:space="preserve">
+    <value>Femme</value>
+  </data>
+  <data name="FilterAsOne_Description" xml:space="preserve">
+    <value>Utiliser tout le texte de la boîte de filtre comme un seul terme de filtre</value>
+  </data>
+  <data name="FilterAsOne_DisplayName" xml:space="preserve">
+    <value>Filtre unique</value>
+  </data>
+  <data name="FilterDiacriticsInsensitive_Description" xml:space="preserve">
+    <value>Ignorez tout type de diacritique : les lettres suivantes sont traitées comme leur "lettre mère".
+[Ææ] devient [Aeae]
+[Œœ] devient [Oeoe]
+[Áá Ââ Ää Àà] devient [Aa].
+[Çç] devient [Cc]
+[Êê Éé Ëë Èè] devient [Ee]
+[ Ïï Íí Îî] deviennent [Ii]
+[Ññ] devient [Nn]
+[Ôô Öö Óó] devient [Oo]
+[Úú Üü Ûû Ùù] devient [Uu]</value>
+  </data>
+  <data name="Gender" xml:space="preserve">
+    <value>Genre</value>
+  </data>
+  <data name="GW2API" xml:space="preserve">
+    <value>API GW2</value>
+  </data>
+  <data name="LoadCachedAccounts_Description" xml:space="preserve">
+    <value>Essayez de récupérer le nom du compte à partir des fichiers en cache.</value>
+  </data>
+  <data name="LoadCachedAccounts_DisplayName" xml:space="preserve">
+    <value>Chargement à partir du cache</value>
+  </data>
+  <data name="Male" xml:space="preserve">
+    <value>Homme</value>
+  </data>
+  <data name="OpenSidemenuOnSearch_Description" xml:space="preserve">
+    <value>Ouvrir le menu latéral en cliquant sur le champ de recherche</value>
+  </data>
+  <data name="OpenSidemenuOnSearch_DisplayName" xml:space="preserve">
+    <value>Ouvrir le menu latéral lors de la recherche</value>
+  </data>
+  <data name="UseBetaGameState_Description" xml:space="preserve">
+    <value>Utilisez une fonction bêta pour déterminer si vous êtes en jeu, si vous regardez une scène ou si vous vous trouvez dans un écran de chargement. Cette fonction fonctionne bien pour tous les rapports d'écran courants. Elle ne fonctionne qu'en mode portrait.</value>
+  </data>
+  <data name="UseBetaGameState_DisplayName" xml:space="preserve">
+    <value>Utiliser l'état de jeu bêta</value>
+  </data>
+  <data name="NormalizedNames_DisplayName" xml:space="preserve">
+    <value>Utiliser des noms de caractères normalisés</value>
+  </data>
+  <data name="NormalizedNames_Description" xml:space="preserve">
+    <value>Utilisez des noms de caractères normalisés lors de la recherche afin que les lettres spéciales soient traitées comme leur "lettre mère".
+Aa : Áá Ââ Ää Àà Ææ
+Cc : Çç
+Ee : Êê Éé Ëë Èè
+Ii : Ïï Íí Îî
+Nn : Ññ
+Oo : Œœ Ôô Öö Óó Úú
+Uu : Üü Ûû Ùù</value>
+  </data>
 </root>

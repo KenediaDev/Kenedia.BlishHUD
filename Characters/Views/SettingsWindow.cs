@@ -12,10 +12,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MonoGame.Extended.BitmapFonts;
 using System;
-using System.IO;
 using static Blish_HUD.ContentService;
-using static Kenedia.Modules.Characters.Utility.WindowsUtil.WindowsUtil;
-using Bitmap = System.Drawing.Bitmap;
 using Checkbox = Kenedia.Modules.Core.Controls.Checkbox;
 using Dropdown = Kenedia.Modules.Core.Controls.Dropdown;
 using FlowPanel = Kenedia.Modules.Core.Controls.FlowPanel;
@@ -23,6 +20,7 @@ using Image = Blish_HUD.Controls.Image;
 using KeybindingAssigner = Kenedia.Modules.Core.Controls.KeybindingAssigner;
 using Label = Kenedia.Modules.Core.Controls.Label;
 using Panel = Kenedia.Modules.Core.Controls.Panel;
+using StandardWindow = Kenedia.Modules.Core.Views.StandardWindow;
 using TrackBar = Kenedia.Modules.Core.Controls.TrackBar;
 
 namespace Kenedia.Modules.Characters.Views
@@ -42,16 +40,6 @@ namespace Kenedia.Modules.Characters.Views
 
         private Label _customNameFontSizeLabel;
         private Dropdown _customNameFontSize;
-
-        private NumberBox _topOffsetBox;
-        private NumberBox _leftOffsetBox;
-        private NumberBox _bottomOffsetBox;
-        private NumberBox _rightOffsetBox;
-
-        private Image _topLeftImage;
-        private Image _topRightImage;
-        private Image _bottomLeftImage;
-        private Image _bottomRightImage;
 
         private readonly FlowPanel _contentPanel;
         private readonly SharedSettingsView _sharedSettingsView;

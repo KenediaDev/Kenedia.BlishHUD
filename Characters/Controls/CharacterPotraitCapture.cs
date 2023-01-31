@@ -2,12 +2,11 @@
 using Blish_HUD.Content;
 using Blish_HUD.Controls;
 using Blish_HUD.Input;
-using Blish_HUD.Settings;
+using Characters.Controls;
 using Characters.Res;
 using Kenedia.Modules.Core.Controls;
 using Kenedia.Modules.Core.Extensions;
 using Kenedia.Modules.Core.Services;
-using Kenedia.Modules.Core.Structs;
 using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
@@ -17,7 +16,6 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using static Kenedia.Modules.Characters.Services.TextureManager;
-using static Kenedia.Modules.Characters.Utility.WindowsUtil.WindowsUtil;
 using Color = Microsoft.Xna.Framework.Color;
 using FlowPanel = Kenedia.Modules.Core.Controls.FlowPanel;
 using Label = Kenedia.Modules.Core.Controls.Label;
@@ -28,18 +26,19 @@ namespace Kenedia.Modules.Characters.Controls
 {
     public class CharacterPotraitCapture : Container
     {
+        private readonly List<CharacterPotraitFrame> _characterPotraitFrames = new();
         private readonly ClientWindowService _clientWindowService;
         private readonly SharedSettings _sharedSettings;
 
         private readonly ImageButton _captureButton;
         private readonly ImageButton _addButton;
         private readonly ImageButton _removeButton;
+        private readonly Dummy _characterPotraitsBackground;
         private readonly Label _disclaimer;
         private readonly FramedContainer _disclaimerBackground;
         private readonly ImageButton _dragButton;
         private readonly NumberBox _sizeBox;
         private readonly NumberBox _gapBox;
-        private readonly FlowPanel _portraitsPanel;
 
         private bool _dragging;
         private Point _draggingStart;
@@ -105,11 +104,7 @@ namespace Kenedia.Modules.Characters.Controls
                 ValueChangedAction = (num) =>
                 {
                     _characterPotraitSize = num;
-                    Point p = new(num, num);
-                    foreach (Control c in _portraitsPanel.Children)
-                    {
-                        c.Size = p;
-                    }
+                    RepositionPotraitFrames();
                 },
             };
 
@@ -123,7 +118,7 @@ namespace Kenedia.Modules.Characters.Controls
                 ValueChangedAction = (value) =>
                 {
                     _gap = value;
-                    _portraitsPanel.ControlPadding = new Vector2(value, 0);
+                    RepositionPotraitFrames();
                 },
             };
 
@@ -158,24 +153,14 @@ namespace Kenedia.Modules.Characters.Controls
                 Size = new Point(32, 32),
                 Location = new Point(0, 70),
                 SetLocalizedTooltip = () => string.Format(strings.RemoveItem, strings.PotraitFrame),
-                ClickAction = (m) =>
-                {
-                    if (_portraitsPanel.Children.Count > 1)
-                    {
-                        _portraitsPanel.Children.RemoveAt(_portraitsPanel.Children.Count - 1);
-                    }
-                }
+                ClickAction = (m) => RemovePortrait(),
             };
 
-            _portraitsPanel = new FlowPanel()
+            _characterPotraitsBackground = new Dummy()
             {
-                Parent = this,
-                Location = new Point(_captureButton.Left, 35),
-                Size = new Point(110, 110),
-                FlowDirection = ControlFlowDirection.SingleLeftToRight,
-                WidthSizingMode = SizingMode.AutoSize,
-                HeightSizingMode = SizingMode.AutoSize,
-                ControlPadding = new Vector2(_gap, 0),
+                BackgroundColor = Color.Black * 0.8f,
+                Parent = Graphics.SpriteScreen,
+                ZIndex = int.MaxValue - 1,
             };
 
             AddPotrait();
@@ -206,30 +191,56 @@ namespace Kenedia.Modules.Characters.Controls
             _dragButton?.Dispose();
             _sizeBox?.Dispose();
             _gapBox?.Dispose();
-            _portraitsPanel?.Dispose();
-        }
+            _characterPotraitsBackground?.Dispose();
 
-        private void RemoveButton_Click(object sender, MouseEventArgs e)
-        {
-            if (_portraitsPanel.Children.Count > 1)
+            foreach (var frame in _characterPotraitFrames)
             {
-                _portraitsPanel.Children.RemoveAt(_portraitsPanel.Children.Count - 1);
+                frame.Dispose();
             }
         }
 
-        private void AddButton_Click(object sender, MouseEventArgs e)
+        private void RemovePortrait()
         {
-            AddPotrait();
+            if (_characterPotraitFrames.Count > 1)
+            {
+                var frame = _characterPotraitFrames.Last();
+                frame.Dispose();
+                _ = _characterPotraitFrames.Remove(frame);
+                RepositionPotraitFrames();
+            }
         }
 
         private void AddPotrait()
         {
-            _ = new FramedContainer()
+            _characterPotraitFrames.Add(new CharacterPotraitFrame()
             {
-                Parent = _portraitsPanel,
-                Size = new Point(_characterPotraitSize, _characterPotraitSize),
-                BorderColor = ContentService.Colors.ColonialWhite,
-            };
+                Parent = Graphics.SpriteScreen,
+                ZIndex = int.MaxValue,
+                Visible = Visible,
+            });
+
+            RepositionPotraitFrames();
+        }
+
+        private void RepositionPotraitFrames()
+        {
+            int index = 0;
+            Point pos = new(_captureButton.AbsoluteBounds.X + 5, _captureButton.AbsoluteBounds.Y + 40);
+            
+            _characterPotraitsBackground.Location = pos.Add(new(-5, -5));
+
+            foreach (var frame in _characterPotraitFrames)
+            {
+                frame.Width = _characterPotraitSize;
+                frame.Height = _characterPotraitSize;
+                frame.Location = pos;
+
+                pos.X += _characterPotraitSize + _gap;
+                index++;
+            }
+
+            _characterPotraitsBackground.Width = pos.X - _characterPotraitsBackground.Location.X - _gap + 5;
+            _characterPotraitsBackground.Height = _characterPotraitSize + 10;
         }
 
         private void DragButton_LeftMouseButtonReleased(object sender, MouseEventArgs e)
@@ -244,7 +255,7 @@ namespace Kenedia.Modules.Characters.Controls
         }
 
         private async Task CapturePotraits()
-        {            
+        {
             string path = Characters.ModuleInstance.AccountImagesPath;
 
             string GetImagePath(List<string> imagePaths)
@@ -273,19 +284,14 @@ namespace Kenedia.Modules.Characters.Controls
 
             double factor = GameService.Graphics.UIScaleMultiplier;
 
-            foreach (FramedContainer c in _portraitsPanel.Children.Cast<FramedContainer>())
-            {
-                c.Hide();
-            }
-
             await Task.Delay(1);
 
             var size = new Size(_characterPotraitSize, _characterPotraitSize);
 
-            foreach (FramedContainer c in _portraitsPanel.Children.Cast<FramedContainer>())
+            foreach (CharacterPotraitFrame c in _characterPotraitFrames)
             {
-                Rectangle bounds = c.AbsoluteBounds;
-                using Bitmap bitmap = new((int)((_characterPotraitSize - 2) * factor), (int)((_characterPotraitSize - 2) * factor));
+                Rectangle bounds = c.PotraitRegion;
+                using Bitmap bitmap = new((int)(bounds.Width * factor), (int)(bounds.Height * factor));
 
                 using (var g = System.Drawing.Graphics.FromImage(bitmap))
                 {
@@ -296,11 +302,36 @@ namespace Kenedia.Modules.Characters.Controls
                 }
 
                 bitmap.Save(GetImagePath(images), System.Drawing.Imaging.ImageFormat.Png);
-
-                c.Show();
             }
 
             Characters.ModuleInstance.MainWindow.CharacterEdit.LoadImages(null, null);
+        }
+
+        protected override void OnMoved(MovedEventArgs e)
+        {
+            base.OnMoved(e);
+            if (_characterPotraitFrames.Count > 0) RepositionPotraitFrames();
+        }
+
+        protected override void OnShown(EventArgs e)
+        {
+            base.OnShown(e);
+            _characterPotraitsBackground.Show();
+            foreach (var frame in _characterPotraitFrames)
+            {
+                frame.Show();
+            }
+        }
+
+        protected override void OnHidden(EventArgs e)
+        {
+            base.OnHidden(e);
+
+            _characterPotraitsBackground.Hide();
+            foreach (var frame in _characterPotraitFrames)
+            {
+                frame.Hide();
+            }
         }
     }
 }

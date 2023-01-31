@@ -1,11 +1,14 @@
 ﻿using Blish_HUD;
 using Blish_HUD.Content;
 using Blish_HUD.Controls;
+using Blish_HUD.Input;
 using Gw2Sharp.WebApi;
 using Kenedia.Modules.Core.Interfaces;
 using Kenedia.Modules.Core.Structs;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
+using System.Diagnostics;
 using Color = Microsoft.Xna.Framework.Color;
 using Rectangle = Microsoft.Xna.Framework.Rectangle;
 
@@ -14,11 +17,60 @@ namespace Kenedia.Modules.Core.Controls
     public class FramedContainer : Container, ILocalizable
     {
         private Func<string> _setLocalizedTooltip;
+        protected DateTime LastInteraction;
+        private bool _fadeOut = false;
+        private double _fadeTickDuration = 0;
+        private double _fadeTick = 0;
+        private double _fadeDelay = 2500;
+        private double _fadeDuration = 500;
+        private double _fadePerMs = 0;
+        private int _fadeSteps = 200;
 
         public FramedContainer()
         {
             GameService.Overlay.UserLocale.SettingChanged += UserLocale_SettingChanged;
             UserLocale_SettingChanged(null, null);
+            RecalculateFading();
+        }
+
+        public bool FadeOut
+        {
+            get => _fadeOut;
+            set
+            {
+                _fadeOut = value;
+                Opacity = 1F;
+            }
+        }
+
+        public double FadeDelay
+        {
+            get => _fadeDelay;
+            set
+            {
+                _fadeDelay = value;
+                RecalculateFading();
+            }
+        }
+
+        public double FadeDuration
+        {
+            get => _fadeDuration;
+            set
+            {
+                _fadeDuration = value;
+                RecalculateFading();
+            }
+        }
+
+        public int FadeSteps
+        {
+            get => _fadeSteps;
+            set
+            {
+                _fadeSteps = value;
+                RecalculateFading();
+            }
         }
 
         public RectangleDimensions BorderWidth { get; set; } = new(2);
@@ -49,11 +101,34 @@ namespace Kenedia.Modules.Core.Controls
             }
         }
 
+        public override void UpdateContainer(GameTime gameTime)
+        {
+            base.UpdateContainer(gameTime);
+
+            if (FadeOut && Visible && DateTime.Now.Subtract(LastInteraction).TotalMilliseconds >= FadeDelay)
+            {
+                double timeSinceTick = gameTime.TotalGameTime.TotalMilliseconds - _fadeTick;
+
+                if (timeSinceTick >= _fadeTickDuration)
+                {
+                    Opacity -= (float)(_fadePerMs * (_fadeTick == 0 ? _fadeTickDuration : timeSinceTick));
+
+                    _fadeTick = gameTime.TotalGameTime.TotalMilliseconds;
+
+                    if (Opacity <= 0F)
+                    {
+                        Hide();
+                        _fadeTick = 0;
+                    }
+                }
+            }
+        }
+
         public override void PaintBeforeChildren(SpriteBatch spriteBatch, Rectangle bounds)
         {
             base.PaintBeforeChildren(spriteBatch, bounds);
 
-            Color? backgroundImageColor =BackgroundImageHoveredColor != null && MouseOver ? BackgroundImageHoveredColor : BackgroundImageColor;
+            Color? backgroundImageColor = BackgroundImageHoveredColor != null && MouseOver ? BackgroundImageHoveredColor : BackgroundImageColor;
 
             if (BackgroundImage != null && backgroundImageColor != null)
             {
@@ -104,11 +179,41 @@ namespace Kenedia.Modules.Core.Controls
             if (SetLocalizedTooltip != null) BasicTooltipText = SetLocalizedTooltip?.Invoke();
         }
 
+        protected override void OnMouseMoved(MouseEventArgs e)
+        {
+            base.OnMouseMoved(e);
+            SetInteracted();
+        }
+
+        protected override void OnShown(EventArgs e)
+        {
+            base.OnShown(e);
+            SetInteracted();
+        }
+
+        protected override void OnHidden(EventArgs e)
+        {
+            base.OnHidden(e);
+           if(FadeOut) Opacity = 1F;
+        }
+
+        protected void SetInteracted()
+        {
+            LastInteraction = DateTime.Now;
+            Opacity = 1f;
+        }
+
         protected override void DisposeControl()
         {
             base.DisposeControl();
 
             GameService.Overlay.UserLocale.SettingChanged -= UserLocale_SettingChanged;
+        }
+
+        private void RecalculateFading()
+        {
+            _fadeTickDuration = FadeDuration / FadeSteps;
+            _fadePerMs = (double)1 / FadeSteps / _fadeTickDuration;
         }
     }
 }

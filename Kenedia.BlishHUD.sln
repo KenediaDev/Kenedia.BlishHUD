@@ -14,13 +14,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		.editorconfig = .editorconfig
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AModule", "AModule\AModule.csproj", "{8E72F6C4-CF5F-4493-85E1-C37F2021CAA5}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AnotherModule", "AnotherModule\AnotherModule.csproj", "{267A281D-9B69-4EBD-A1EE-3FFEE9CB4DAC}"
-EndProject
-Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Core", "Core\Core.shproj", "{116C7F9D-B0B1-454E-9DFB-EDFAF35D9299}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestModule", "AModule\TestModule.csproj", "{8E72F6C4-CF5F-4493-85E1-C37F2021CAA5}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CommonStrings", "CommonStrings\CommonStrings.csproj", "{BF6809CB-25D6-472B-966D-7A3EBB1470F9}"
+EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Core", "Core\Core.shproj", "{4E17EB40-EA81-4C14-B6EA-1EF815E53BCD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -44,10 +42,6 @@ Global
 		{8E72F6C4-CF5F-4493-85E1-C37F2021CAA5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8E72F6C4-CF5F-4493-85E1-C37F2021CAA5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8E72F6C4-CF5F-4493-85E1-C37F2021CAA5}.Release|Any CPU.Build.0 = Release|Any CPU
-		{267A281D-9B69-4EBD-A1EE-3FFEE9CB4DAC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{267A281D-9B69-4EBD-A1EE-3FFEE9CB4DAC}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{267A281D-9B69-4EBD-A1EE-3FFEE9CB4DAC}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{267A281D-9B69-4EBD-A1EE-3FFEE9CB4DAC}.Release|Any CPU.Build.0 = Release|Any CPU
 		{BF6809CB-25D6-472B-966D-7A3EBB1470F9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{BF6809CB-25D6-472B-966D-7A3EBB1470F9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BF6809CB-25D6-472B-966D-7A3EBB1470F9}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -61,6 +55,10 @@ Global
 		RESX_Rules = {"EnabledRules":["StringFormat","WhiteSpaceLead","WhiteSpaceTail"]}
 	EndGlobalSection
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
-		Core\Shared.projitems*{116c7f9d-b0b1-454e-9dfb-edfaf35d9299}*SharedItemsImports = 13
+		Core\Core.projitems*{1470ba39-b2f7-496f-8a51-b2084ed58ce8}*SharedItemsImports = 4
+		Core\Core.projitems*{4e17eb40-ea81-4c14-b6ea-1ef815e53bcd}*SharedItemsImports = 13
+		Core\Core.projitems*{8e72f6c4-cf5f-4493-85e1-c37f2021caa5}*SharedItemsImports = 4
+		Core\Core.projitems*{97baa4dc-b0b1-46ea-b076-1b036dcf71f3}*SharedItemsImports = 4
+		Core\Core.projitems*{f4f19db2-f367-435c-afb6-1f363827c134}*SharedItemsImports = 4
 	EndGlobalSection
 EndGlobal

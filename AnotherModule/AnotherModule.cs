@@ -1,4 +1,5 @@
 ﻿using Blish_HUD;
+using Blish_HUD.Controls;
 using Blish_HUD.Modules;
 using Blish_HUD.Settings;
 using Kenedia.Modules.Core.Models;
@@ -10,7 +11,7 @@ using System.Threading.Tasks;
 namespace Kenedia.Modules.AnotherModule
 {
     [Export(typeof(Module))]
-    public class AnotherModule : BaseModule<AnotherModule>
+    public class AnotherModule : BaseModule<AnotherModule, StandardWindow>
     {
         private double _tick;
         internal static AnotherModule ModuleInstance;

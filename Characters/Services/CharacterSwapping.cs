@@ -35,9 +35,9 @@ namespace Kenedia.Modules.Characters.Services
     {
         public CharacterSorting CharacterSorting { get; set; }
 
-        private CancellationTokenSource s_cancellationTokenSource;
+        private CancellationTokenSource _cancellationTokenSource;
 
-        private int s_movedLeft;
+        private int _movedLeft;
 
         public event EventHandler Succeeded;
         public event EventHandler Failed;
@@ -47,18 +47,18 @@ namespace Kenedia.Modules.Characters.Services
 
         public event EventHandler StatusChanged;
 
-        private string s_status;
+        private string _status;
 
-        private SwappingState s_state = SwappingState.None;
+        private SwappingState _state = SwappingState.None;
 
         public string Status
         {
             set
             {
-                s_status = value;
+                _status = value;
                 StatusChanged?.Invoke(null, EventArgs.Empty);
             }
-            get => s_status;
+            get => _status;
         }
 
         public Character_Model Character { get; set; }
@@ -67,10 +67,10 @@ namespace Kenedia.Modules.Characters.Services
         {
             if (cancellationToken.IsCancellationRequested)
             {
-                if (s_state is not SwappingState.LoggedOut) { s_movedLeft = 0; };
-                if (s_state is SwappingState.MovedToStart) { s_movedLeft = Characters.ModuleInstance.CharacterModels.Count; };
+                if (_state is not SwappingState.LoggedOut) { _movedLeft = 0; };
+                if (_state is SwappingState.MovedToStart) { _movedLeft = Characters.ModuleInstance.CharacterModels.Count; };
 
-                s_state = SwappingState.Canceled;
+                _state = SwappingState.Canceled;
                 return true;
             }
 
@@ -97,12 +97,12 @@ namespace Kenedia.Modules.Characters.Services
         {
             if (IsTaskCanceled(cancellationToken)) { return; }
 
-            switch (s_state)
+            switch (_state)
             {
                 case SwappingState.None:
                     if (await LoggingOut(cancellationToken))
                     {
-                        s_state = SwappingState.LoggedOut;
+                        _state = SwappingState.LoggedOut;
                     }
 
                     await Delay(cancellationToken);
@@ -110,57 +110,57 @@ namespace Kenedia.Modules.Characters.Services
 
                 case SwappingState.LoggedOut:
                     await MoveToFirstCharacter(cancellationToken);
-                    s_state = SwappingState.MovedToStart;
-                    s_movedLeft = 0;
+                    _state = SwappingState.MovedToStart;
+                    _movedLeft = 0;
                     await Delay(cancellationToken, 250);
                     break;
 
                 case SwappingState.MovedToStart:
                     await MoveToCharacter(cancellationToken);
-                    s_state = SwappingState.MovedToCharacter;
+                    _state = SwappingState.MovedToCharacter;
                     await Delay(cancellationToken, 250);
 
                     break;
 
                 case SwappingState.MovedToCharacter:
-                    if (ConfirmName())
+                    if (await ConfirmName())
                     {
-                        s_state = SwappingState.CharacterFound;
+                        _state = SwappingState.CharacterFound;
                     }
                     else
                     {
-                        s_state = SwappingState.CharacterLost;
+                        _state = SwappingState.CharacterLost;
 
                         await MoveLeft(cancellationToken);
                         await Delay(cancellationToken, 250);
-                        if (ConfirmName())
+                        if (await ConfirmName())
                         {
-                            s_state = SwappingState.CharacterFound;
+                            _state = SwappingState.CharacterFound;
                             return;
                         }
 
                         await MoveRight(cancellationToken);
                         await Delay(cancellationToken, 250);
-                        if (ConfirmName())
+                        if (await ConfirmName())
                         {
-                            s_state = SwappingState.CharacterFound;
+                            _state = SwappingState.CharacterFound;
                             return;
                         }
 
-                        s_state = SwappingState.CharacterFullyLost;
+                        _state = SwappingState.CharacterFullyLost;
                     }
 
                     break;
 
                 case SwappingState.CharacterFound:
                     await Login(cancellationToken);
-                    s_state = SwappingState.LoggingIn;
+                    _state = SwappingState.LoggingIn;
                     break;
 
                 case SwappingState.LoggingIn:
                     if (IsLoaded())
                     {
-                        s_state = SwappingState.Done;
+                        _state = SwappingState.Done;
                         return;
                     }
 
@@ -177,34 +177,34 @@ namespace Kenedia.Modules.Characters.Services
 
         public void Reset()
         {
-            s_state = SwappingState.None;
+            _state = SwappingState.None;
         }
 
         public void Cancel()
         {
-            s_state = SwappingState.Canceled;
-            s_cancellationTokenSource?.Cancel();
+            _state = SwappingState.Canceled;
+            _cancellationTokenSource?.Cancel();
             //s_cancellationTokenSource = null;
         }
 
         public async void Start(Character_Model character)
         {
-            s_cancellationTokenSource?.Cancel();
-            s_cancellationTokenSource = new();
-            s_cancellationTokenSource.CancelAfter(90000);
+            _cancellationTokenSource?.Cancel();
+            _cancellationTokenSource = new();
+            _cancellationTokenSource.CancelAfter(90000);
 
             Character = character;
-            s_state = GameService.GameIntegration.Gw2Instance.IsInGame ? SwappingState.None : SwappingState.LoggedOut;
+            _state = GameService.GameIntegration.Gw2Instance.IsInGame ? SwappingState.None : SwappingState.LoggedOut;
 
             Started?.Invoke(null, null);
             Status = string.Format(strings.CharacterSwap_SwitchTo, Character.Name);
-            while (s_state is not SwappingState.Done and not SwappingState.CharacterFullyLost and not SwappingState.Canceled && !s_cancellationTokenSource.Token.IsCancellationRequested)
+            while (_state is not SwappingState.Done and not SwappingState.CharacterFullyLost and not SwappingState.Canceled && !_cancellationTokenSource.Token.IsCancellationRequested)
             {
                 try
                 {
-                    await Run(s_cancellationTokenSource.Token);
+                    await Run(_cancellationTokenSource.Token);
 
-                    switch (s_state)
+                    switch (_state)
                     {
                         case SwappingState.Done:
                             Status = strings.Status_Done;
@@ -215,6 +215,7 @@ namespace Kenedia.Modules.Characters.Services
                                 {
                                     Characters.ModuleInstance.MainWindow.Hide();
                                 }
+
                                 Character.LastLogin = DateTime.UtcNow;
                             }
 
@@ -316,7 +317,7 @@ namespace Kenedia.Modules.Characters.Services
             if (IsTaskCanceled(cancellationToken)) { return; }
 
             var stopwatch = Stopwatch.StartNew();
-            int moves = Characters.ModuleInstance.CharacterModels.Count - s_movedLeft;
+            int moves = Characters.ModuleInstance.CharacterModels.Count - _movedLeft;
             for (int i = 0; i < moves; i++)
             {
                 if (stopwatch.ElapsedMilliseconds > 5000)
@@ -326,7 +327,7 @@ namespace Kenedia.Modules.Characters.Services
                 }
 
                 Blish_HUD.Controls.Intern.Keyboard.Stroke(VirtualKeyShort.LEFT, false);
-                s_movedLeft++;
+                _movedLeft++;
                 await Delay(cancellationToken, null, 0.05);
                 if (IsTaskCanceled(cancellationToken)) { return; }
             }
@@ -363,12 +364,12 @@ namespace Kenedia.Modules.Characters.Services
             return;
         }
 
-        private bool ConfirmName()
+        private async Task <bool> ConfirmName()
         {
             if (!Characters.ModuleInstance.Settings.UseOCR.Value) return true;
             if (Character == null || string.IsNullOrEmpty(Character.Name)) return false;
 
-            string ocr_result = Characters.ModuleInstance.Settings.UseOCR.Value ? Characters.ModuleInstance.OCR.Read() : "No OCR";
+            string ocr_result = Characters.ModuleInstance.Settings.UseOCR.Value ? await Characters.ModuleInstance.OCR.Read() : "No OCR";
             (string, int, int, int, bool) isBestMatch = ("No OCR enabled.", 0, 0, 0, false);
 
             if (Characters.ModuleInstance.Settings.UseOCR.Value)

@@ -29,10 +29,8 @@ namespace Kenedia.Modules.Characters.Controls
         private readonly List<Tag> _tags = new();
 
         private readonly ImageButton _closeButton;
-        private readonly Button _openFolder;
         private readonly Panel _tagContainer;
         private readonly TextBox _tagBox;
-        private readonly ImageButton _addTag;
         private readonly TagFlowPanel _tagPanel;
         private readonly ImageButton _image;
         private readonly Label _name;
@@ -41,7 +39,6 @@ namespace Kenedia.Modules.Characters.Controls
         private readonly Panel _imagePanelParent;
         private readonly FlowPanel _imagePanel;
         private Character_Model _character;
-        private DateTime _lastInteraction;
 
         public CharacterEdit()
         {
@@ -119,7 +116,7 @@ namespace Kenedia.Modules.Characters.Controls
                 ClickAction = () => Characters.ModuleInstance.PotraitCapture.Visible = !Characters.ModuleInstance.PotraitCapture.Visible
             };
 
-            _openFolder = new Button()
+            var _openFolder = new Button()
             {
                 Parent = this,
                 Location = new Point(_captureImages.Right + 4, _show.Bottom + 2),
@@ -165,7 +162,7 @@ namespace Kenedia.Modules.Characters.Controls
                 }
             };
 
-            _addTag = new ImageButton()
+            var _addTag = new ImageButton()
             {
                 Parent = _tagContainer,
                 Texture = tM.GetControlTexture(ControlTextures.Plus_Button),
@@ -234,8 +231,6 @@ namespace Kenedia.Modules.Characters.Controls
             {
                 if (_tags.Find(e => e.Text == t) == null) _tags.Add(AddTag(t, true));
             }
-
-            SetInteracted(null, null);
         }
 
         protected override void OnResized(ResizedEventArgs e)
@@ -322,13 +317,6 @@ namespace Kenedia.Modules.Characters.Controls
             _imagePanelParent?.Dispose();
         }
 
-        protected override void OnMouseMoved(MouseEventArgs e)
-        {
-            base.OnMouseMoved(e);
-
-            SetInteracted(null, null);
-        }
-
         private void ShowImages(bool toggle = true)
         {
             if (_imagePanelParent.Visible || !toggle)
@@ -368,9 +356,9 @@ namespace Kenedia.Modules.Characters.Controls
                 Parent = _tagPanel,
                 Active = active,
                 CanInteract = true,
+                ShowDelete = false,
             };
 
-            tag.Deleted += Tag_Deleted;
             tag.ActiveChanged += Tag_ActiveChanged; ;
 
             return tag;
@@ -388,21 +376,6 @@ namespace Kenedia.Modules.Characters.Controls
             {
                 _character.RemoveTag(tag.Text);
             }
-        }
-
-        private void Tag_Deleted(object sender, EventArgs e)
-        {
-            var tag = (Tag)sender;
-            _ = _tags.Remove(tag);
-            _ = Characters.ModuleInstance.Tags.Remove(tag.Text);
-
-            tag.Deleted -= Tag_Deleted;
-        }
-
-        private void SetInteracted(object sender, EventArgs e)
-        {
-            _lastInteraction = DateTime.Now;
-            Opacity = 1f;
         }
     }
 }

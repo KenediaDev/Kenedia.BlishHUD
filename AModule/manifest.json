@@ -8,11 +8,11 @@
   "dependencies": {
     "bh.blishhud": ">=0.0.1"
   },
-  "description": "Shared AModule module for all modules.",
+  "description": "A test module.",
   "manifest_version": 1,
-  "name": "AModule",
-  "namespace": "Kenedia.Modules.AModule",
-  "package": "Kenedia.Modules.AModule.dll",
+  "name": "TestModule",
+  "namespace": "Kenedia.Modules.TestModule",
+  "package": "Kenedia.Modules.TestModule.dll",
   "url": "https://github.com/KenediaDev/Kenedia.BlishHUD",
   "version": "0.0.1",
   "directories": [ "kenedia" ]

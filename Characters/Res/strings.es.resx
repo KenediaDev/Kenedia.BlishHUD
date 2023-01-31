@@ -742,4 +742,65 @@ Para obtener el valor actual tendrás que cambiar las pestañas del módulo una 
   <data name="Years" xml:space="preserve">
     <value>Años</value>
   </data>
+  <data name="Female" xml:space="preserve">
+    <value>Mujer</value>
+  </data>
+  <data name="FilterAsOne_Description" xml:space="preserve">
+    <value>Utilizar todo el texto del cuadro de filtro como un único término de filtro</value>
+  </data>
+  <data name="FilterAsOne_DisplayName" xml:space="preserve">
+    <value>Cadena de filtros única</value>
+  </data>
+  <data name="FilterDiacriticsInsensitive_Description" xml:space="preserve">
+    <value>Ignora cualquier tipo de diacrítico esto trata las siguientes letras como su 'letra madre'
+[Ææ] se convierte en [Aeae]
+[Œœ] se convierte en [Oeoe]
+[Áá Ââ Ää Àà] se convierte en [Aa]
+[Çç] se convierte en [Cc]
+[Êê Éé Ëë Èè] se convierte en [Ee]
+[ Ïï Íí Îî] se convierte en [Ii]
+[Ññ] se convierte en [Nn]
+[Ôô Öö Óó] se convierte en [Oo]
+[Úú Üü Ûû Ùù] se convierte en [Uu]</value>
+  </data>
+  <data name="Gender" xml:space="preserve">
+    <value>Género</value>
+  </data>
+  <data name="GW2API" xml:space="preserve">
+    <value>API DE GW2</value>
+  </data>
+  <data name="LoadCachedAccounts_Description" xml:space="preserve">
+    <value>Intenta obtener el nombre de la cuenta de los archivos en caché.</value>
+  </data>
+  <data name="LoadCachedAccounts_DisplayName" xml:space="preserve">
+    <value>Cargar desde caché</value>
+  </data>
+  <data name="Male" xml:space="preserve">
+    <value>Hombre</value>
+  </data>
+  <data name="OpenSidemenuOnSearch_Description" xml:space="preserve">
+    <value>Abrir el menú lateral al hacer clic en el campo de búsqueda</value>
+  </data>
+  <data name="OpenSidemenuOnSearch_DisplayName" xml:space="preserve">
+    <value>Abrir menú lateral en la búsqueda</value>
+  </data>
+  <data name="UseBetaGameState_Description" xml:space="preserve">
+    <value>Utiliza una función beta para determinar si estás dentro del juego, viendo una escena o en una pantalla de carga. Esta característica funciona bien para todas las proporciones de pantalla comunes. Sólo tiene problemas en modo vertical.</value>
+  </data>
+  <data name="UseBetaGameState_DisplayName" xml:space="preserve">
+    <value>Utilizar Beta Gamestate</value>
+  </data>
+  <data name="NormalizedNames_DisplayName" xml:space="preserve">
+    <value>Utilizar nombres de caracteres normalizados</value>
+  </data>
+  <data name="NormalizedNames_Description" xml:space="preserve">
+    <value>Utilice nombres de caracteres normalizados en la búsqueda para que las letras especiales sean tratadas como su "letra madre".
+Aa : Áá Ââ Ää Àà Ææ
+Cc : Çç
+Ee : Êê Éé Ëë Èè
+Ii : Ïï Íí Îî
+Nn : Ññ
+Oo : Œœ Ôô Öö Óó Úú
+Uu : Üü Ûû Ùù</value>
+  </data>
 </root>

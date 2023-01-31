@@ -3,7 +3,7 @@
   <PropertyGroup>
     <MSBuildAllProjects Condition="'$(MSBuildVersion)' == '' Or '$(MSBuildVersion)' &lt; '16.0'">$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
     <HasSharedItems>true</HasSharedItems>
-    <SharedGUID>116c7f9d-b0b1-454e-9dfb-edfaf35d9299</SharedGUID>
+    <SharedGUID>4e17eb40-ea81-4c14-b6ea-1ef815e53bcd</SharedGUID>
   </PropertyGroup>
   <PropertyGroup Label="Configuration">
     <Import_RootNamespace>Kenedia.Modules.Core</Import_RootNamespace>
@@ -12,6 +12,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Controls\AnchoredControl.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controls\Button.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controls\Checkbox.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\CornerIcon.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controls\Dropdown.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controls\Dummy.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controls\FlowPanel.cs" />
@@ -20,9 +21,9 @@
     <Compile Include="$(MSBuildThisFileDirectory)Controls\ImageButton.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controls\ImageToggle.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controls\KeybindingAssigner.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Controls\CornerIcon.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Controls\LoadingSpinner.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controls\Label.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\LoadingSpinner.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\MaskedRegion.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controls\NumberBox.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controls\Panel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controls\PanelTab.cs" />
@@ -44,14 +45,12 @@
     <Compile Include="$(MSBuildThisFileDirectory)Interfaces\IFontControl.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Interfaces\ILocalizable.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\BaseModule.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\BaseSettingsModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\GameStateChangedEventArgs.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\PathCollection.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\ServiceCollection.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\SharedSettingsModel.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Res\strings_common.Designer.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Res\strings_common.Designer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\ClientWindowService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\GameState.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\SharedSettings.cs" />
@@ -60,14 +59,12 @@
     <Compile Include="$(MSBuildThisFileDirectory)Views\BaseTab.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Views\BaseTabbedWindow.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Views\SharedSettingsView.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Views\StandardWindow.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="$(MSBuildThisFileDirectory)Res\strings_common.de.resx" />
     <EmbeddedResource Include="$(MSBuildThisFileDirectory)Res\strings_common.es.resx" />
     <EmbeddedResource Include="$(MSBuildThisFileDirectory)Res\strings_common.fr.resx" />
-    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Res\strings_common.resx">
-      <LastGenOutput>strings_common.Designer.cs</LastGenOutput>
-      <Generator>ResXFileCodeGenerator</Generator>
-    </EmbeddedResource>
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Res\strings_common.resx" />
   </ItemGroup>
 </Project>
