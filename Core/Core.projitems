@@ -10,6 +10,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)Controls\AnchoredControl.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\BasicTooltip.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controls\Button.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controls\FramedMaskedRegion.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controls\Checkbox.cs" />
@@ -22,6 +23,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Controls\ImageButton.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controls\ImageToggle.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controls\KeybindingAssigner.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\Image.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controls\Label.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controls\LoadingSpinner.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controls\MaskedRegion.cs" />
@@ -32,6 +34,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Controls\TabbedPanel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controls\TabButton.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controls\TextBox.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\TitleHeader.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controls\TrackBar.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\BitMapExtension.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\ContainerExtensions.cs" />
@@ -56,6 +59,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Services\GameState.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\SharedSettings.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Structs\RectangleDimensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Utility\Common.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Utility\User32Dll.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Views\BaseTab.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Views\BaseTabbedWindow.cs" />

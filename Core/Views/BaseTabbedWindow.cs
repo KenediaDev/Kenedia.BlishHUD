@@ -189,22 +189,26 @@ namespace Kenedia.Modules.Core.Views
 
         public void AddTab(BaseTab tab)
         {
-
-            BaseTab prevTab = _tabs.Count > 0 ? _tabs[SelectedTabIndex] : tab;
-            tab.ContentContainer.Parent = this;
-            tab.ContentContainer.Visible = false;
-
-            _tabs.Add(tab);
-            _tabRegions.Add(tab, TabBoundsFromIndex(_tabRegions.Count));
-            _tabs = _tabs.OrderBy(t => t.Priority).ToList();
-
-            for (int i = 0; i < _tabs.Count; i++)
+            if (tab != null)
             {
-                _tabRegions[_tabs[i]] = TabBoundsFromIndex(i);
-            }
+                BaseTab prevTab = _tabs.Count > 0 ? _tabs[SelectedTabIndex] : tab;
 
-            SwitchTab(prevTab);
-            Invalidate();
+                tab.CreateLayout(this, _windowContentWidth - 20);
+                //tab.ContentContainer.Parent = this;
+                //tab.ContentContainer.Visible = false;
+
+                _tabs.Add(tab);
+                _tabRegions.Add(tab, TabBoundsFromIndex(_tabRegions.Count));
+                _tabs = _tabs.OrderBy(t => t.Priority).ToList();
+
+                for (int i = 0; i < _tabs.Count; i++)
+                {
+                    _tabRegions[_tabs[i]] = TabBoundsFromIndex(i);
+                }
+
+                SwitchTab(prevTab);
+                Invalidate();
+            }
         }
 
         public void RemoveTab(BaseTab tab)
@@ -216,8 +220,9 @@ namespace Kenedia.Modules.Core.Views
         {
             _selectedTabIndex = _tabs.IndexOf(tab);
             _subtitle = tab.Name;
-            _tabs.ForEach(t => t.ContentContainer.Visible = t == tab);
+            //_tabs.ForEach(t => t.ContentContainer.Visible = false);
             RecalculateLayout();
+            Show();
         }
 
         protected override void PaintWindowBackground(SpriteBatch spriteBatch, Rectangle bounds)

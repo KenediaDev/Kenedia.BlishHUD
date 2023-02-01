@@ -2,21 +2,26 @@
 using Blish_HUD.Content;
 using Blish_HUD.Controls;
 using Blish_HUD.Input;
+using Gw2Sharp.WebApi;
+using Kenedia.Modules.Core.Interfaces;
 using Microsoft.Xna.Framework.Graphics;
 using System;
+using static System.Net.Mime.MediaTypeNames;
 using Color = Microsoft.Xna.Framework.Color;
 using Rectangle = Microsoft.Xna.Framework.Rectangle;
 
 namespace Kenedia.Modules.Characters.Controls
 {
-    public class ImageToggleButton : Control
+    public class ImageToggleButton : Control, ILocalizable
     {
         private readonly Action<bool> _onChanged;
         private bool _clicked;
+        private Func<string> _setLocalizedTooltip;
 
         public ImageToggleButton()
         {
-
+            GameService.Overlay.UserLocale.SettingChanged += UserLocale_SettingChanged;
+            UserLocale_SettingChanged(null, null);
         }
 
         public ImageToggleButton(Action<bool> onChanged)
@@ -47,11 +52,24 @@ namespace Kenedia.Modules.Characters.Controls
 
         public Rectangle TextureRectangle { get; set; }
 
+        public Action ClickAction { get; set; }
+
+        public Func<string> SetLocalizedTooltip
+        {
+            get => _setLocalizedTooltip;
+            set
+            {
+                _setLocalizedTooltip = value;
+                BasicTooltipText = value?.Invoke();
+            }
+        }
+
         protected override void OnClick(MouseEventArgs e)
         {
             base.OnClick(e);
             Active = !Active;
             _onChanged?.Invoke(Active);
+            ClickAction?.Invoke();
         }
 
         protected override void Paint(SpriteBatch spriteBatch, Rectangle bounds)
@@ -82,6 +100,18 @@ namespace Kenedia.Modules.Characters.Controls
         {
             base.OnLeftMouseButtonReleased(e);
             _clicked = false;
+        }
+
+        public void UserLocale_SettingChanged(object sender, ValueChangedEventArgs<Locale> e)
+        {
+            if (SetLocalizedTooltip != null) BasicTooltipText = SetLocalizedTooltip?.Invoke();
+        }
+
+        protected override void DisposeControl()
+        {
+            base.DisposeControl();
+
+            GameService.Overlay.UserLocale.SettingChanged -= UserLocale_SettingChanged;
         }
     }
 }

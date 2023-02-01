@@ -143,7 +143,6 @@ namespace Kenedia.Modules.Characters.Models
                 _iconPath = value;
                 _icon = null;
                 _pathChecked = false;
-                OnUpdated();
             }
         }
 
@@ -185,7 +184,7 @@ namespace Kenedia.Modules.Characters.Models
             set
             {
                 _icon = value;
-                Updated?.Invoke(this, null);
+                OnUpdated(false);
             }
         }
 
@@ -364,10 +363,10 @@ namespace Kenedia.Modules.Characters.Models
             return ((string, int, int, int, bool))bestMatch;
         }
 
-        private void OnUpdated()
+        private void OnUpdated(bool save = true)
         {
             Updated?.Invoke(this, EventArgs.Empty);
-            Save();
+            if(save) Save();
         }
 
         private void Save()

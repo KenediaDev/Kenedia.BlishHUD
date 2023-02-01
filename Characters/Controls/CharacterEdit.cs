@@ -152,7 +152,6 @@ namespace Kenedia.Modules.Characters.Controls
                 {
                     if (t != null && t.Length > 0 && !Characters.ModuleInstance.Tags.Contains(t))
                     {
-                        Characters.ModuleInstance.MainWindow.RequestUniform();
                         Characters.ModuleInstance.Tags.Add(t);
                         Character.AddTag(t);
                         _tags.Add(AddTag(t, true));
@@ -174,7 +173,6 @@ namespace Kenedia.Modules.Characters.Controls
                 {
                     if (_tagBox.Text != null && _tagBox.Text.Length > 0 && !Characters.ModuleInstance.Tags.Contains(_tagBox.Text))
                     {
-                        Characters.ModuleInstance.MainWindow.RequestUniform();
                         Characters.ModuleInstance.Tags.Add(_tagBox.Text);
                         Character.AddTag(_tagBox.Text);
                         _tags.Add(AddTag(_tagBox.Text, true));
@@ -292,7 +290,6 @@ namespace Kenedia.Modules.Characters.Controls
                                 Character.IconPath = p.Replace(Character.ModulePath, string.Empty);
                                 Character.Icon = texture;
                                 ApplyCharacter();
-                                Characters.ModuleInstance.MainWindow.RequestUniform();
                             }
                         };
                     }

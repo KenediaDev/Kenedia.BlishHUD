@@ -1,4 +1,5 @@
 ﻿using Blish_HUD;
+using Blish_HUD.Input;
 using Blish_HUD.Settings;
 using Kenedia.Modules.Characters.Models;
 using Kenedia.Modules.Core.Models;
@@ -20,14 +21,16 @@ namespace Kenedia.Modules.Characters.Services
         {
             SettingCollection internalSettings = settings.AddSubCollection("Internal", false, false);
             Version = internalSettings.DefineSetting(nameof(Version), new SemVer.Version("0.0.0"));
-            LogoutKey = internalSettings.DefineSetting(nameof(LogoutKey), new Blish_HUD.Input.KeyBinding(Keys.F12));
-            ShortcutKey = internalSettings.DefineSetting(nameof(ShortcutKey), new Blish_HUD.Input.KeyBinding(ModifierKeys.Shift, Keys.C));
+            LogoutKey = internalSettings.DefineSetting(nameof(LogoutKey), new KeyBinding(Keys.F12));
+            ShortcutKey = internalSettings.DefineSetting(nameof(ShortcutKey), new KeyBinding(ModifierKeys.Shift, Keys.C));
+            RadialKey = internalSettings.DefineSetting(nameof(RadialKey), new KeyBinding(Keys.None));
             ShowCornerIcon = internalSettings.DefineSetting(nameof(ShowCornerIcon), true);
             CloseWindowOnSwap = internalSettings.DefineSetting(nameof(CloseWindowOnSwap), false);
             FilterDiacriticsInsensitive = internalSettings.DefineSetting(nameof(FilterDiacriticsInsensitive), false);
 
             FilterAsOne = internalSettings.DefineSetting(nameof(FilterAsOne), false);
             UseBetaGamestate = internalSettings.DefineSetting(nameof(UseBetaGamestate), true);
+            EnableRadialMenu = internalSettings.DefineSetting(nameof(EnableRadialMenu), false);
 
             LoadCachedAccounts = internalSettings.DefineSetting(nameof(LoadCachedAccounts), true);
             OpenSidemenuOnSearch = internalSettings.DefineSetting(nameof(OpenSidemenuOnSearch), true);
@@ -187,6 +190,8 @@ namespace Kenedia.Modules.Characters.Services
 
         public SettingEntry<RectangleDimensions> OCRCustomOffset { get; set; }
 
+        public SettingEntry<bool> EnableRadialMenu { get; set; }
+        
         public SettingEntry<bool> UseBetaGamestate { get; set; }
 
         public SettingEntry<bool> CharacterPanelFixedWidth { get; set; }
@@ -215,10 +220,10 @@ namespace Kenedia.Modules.Characters.Services
 
         public SettingEntry<ESortOrder> SortOrder { get; set; }
 
-        public SettingEntry<Blish_HUD.Input.KeyBinding> LogoutKey { get; set; }
+        public SettingEntry<KeyBinding> LogoutKey { get; set; }
 
-        public SettingEntry<Blish_HUD.Input.KeyBinding> ShortcutKey { get; set; }
-
+        public SettingEntry<KeyBinding> ShortcutKey { get; set; }
+        public SettingEntry<KeyBinding> RadialKey { get; }
         public SettingEntry<bool> EnterOnSwap { get; set; }
 
         public SettingEntry<bool> DoubleClickToEnter { get; set; }

@@ -503,13 +503,18 @@ namespace Kenedia.Modules.Characters
         {
             base.LoadGUI();
 
+            PotraitCapture = new PotraitCapture(Services.ClientWindowService, Services.SharedSettings) { Parent = GameService.Graphics.SpriteScreen, Visible = false, ZIndex = int.MaxValue - 1 };
+            OCR = new(Services.ClientWindowService, Services.SharedSettings, Settings, Paths.ModulePath, CharacterModels);
+            RunIndicator = new(CharacterSorting, CharacterSwapping);
+
             var settingsBg = AsyncTexture2D.FromAssetId(155997);
             Texture2D cutSettingsBg = settingsBg.Texture.GetRegion(0, 0, settingsBg.Width - 482, settingsBg.Height - 390);
             SettingsWindow = new(
                 settingsBg,
                 new Rectangle(30, 30, cutSettingsBg.Width + 10, cutSettingsBg.Height),
                 new Rectangle(30, 35, cutSettingsBg.Width - 5, cutSettingsBg.Height - 15),
-                SharedSettingsView)
+                SharedSettingsView,
+                OCR)
             {
                 Parent = GameService.Graphics.SpriteScreen,
                 Title = "❤",
@@ -536,12 +541,6 @@ namespace Kenedia.Modules.Characters
                 CanResize = true,
                 Size = Settings.WindowSize.Value,
             };
-
-            PotraitCapture = new PotraitCapture(Services.ClientWindowService, Services.SharedSettings) { Parent = GameService.Graphics.SpriteScreen, Visible = false, ZIndex = int.MaxValue - 1 };
-
-            OCR = new(Services.ClientWindowService, Services.SharedSettings, Settings, Paths.ModulePath, CharacterModels);
-
-            RunIndicator = new(CharacterSorting, CharacterSwapping);
         }
 
         protected override void UnloadGUI()

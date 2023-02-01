@@ -24,7 +24,8 @@ namespace Kenedia.Modules.Core.Models
         protected bool HasGUI = false;
         protected bool IsGUICreated = false;
 
-        protected BaseModule([Import("ModuleParameters")] ModuleParameters moduleParameters) : base(moduleParameters)
+        protected BaseModule([Import("ModuleParameters")] ModuleParameters moduleParameters) 
+            : base(moduleParameters)
         {
             var clientWindowService = new ClientWindowService();
             var sharedSettings = new SharedSettings();

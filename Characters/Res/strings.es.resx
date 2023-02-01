@@ -144,9 +144,6 @@
   <data name="Ascending" xml:space="preserve">
     <value>Ascendente</value>
   </data>
-  <data name="AutoFix" xml:space="preserve">
-    <value>Auto Fix</value>
-  </data>
   <data name="AutoFix_Tooltip" xml:space="preserve">
     <value>Cuando no consiga cambiar a un personaje, repase automáticamente los personajes para fijar su orden.</value>
   </data>
@@ -784,12 +781,6 @@ Para obtener el valor actual tendrás que cambiar las pestañas del módulo una 
   <data name="OpenSidemenuOnSearch_DisplayName" xml:space="preserve">
     <value>Abrir menú lateral en la búsqueda</value>
   </data>
-  <data name="UseBetaGameState_Description" xml:space="preserve">
-    <value>Utiliza una función beta para determinar si estás dentro del juego, viendo una escena o en una pantalla de carga. Esta característica funciona bien para todas las proporciones de pantalla comunes. Sólo tiene problemas en modo vertical.</value>
-  </data>
-  <data name="UseBetaGameState_DisplayName" xml:space="preserve">
-    <value>Utilizar Beta Gamestate</value>
-  </data>
   <data name="NormalizedNames_DisplayName" xml:space="preserve">
     <value>Utilizar nombres de caracteres normalizados</value>
   </data>
@@ -802,5 +793,65 @@ Ii : Ïï Íí Îî
 Nn : Ññ
 Oo : Œœ Ôô Öö Óó Úú
 Uu : Üü Ûû Ùù</value>
+  </data>
+  <data name="AutoFix" xml:space="preserve">
+    <value>Corrección automática (requiere OCR)</value>
+  </data>
+  <data name="UseBetaGameState_Description" xml:space="preserve">
+    <value>Utiliza Image Recoginition para detectar si estás dentro del juego, viendo una escena o en una pantalla de carga. Esta función funciona bien en todas las proporciones de pantalla habituales, excepto en los juegos en modo vertical.</value>
+  </data>
+  <data name="UseBetaGameState_DisplayName" xml:space="preserve">
+    <value>Utilizar la detección del estado del juego</value>
+  </data>
+  <data name="OCRAndImageRecognition" xml:space="preserve">
+    <value>OCR y reconocimiento de imágenes</value>
+  </data>
+  <data name="OCRAndImageRecognition_Tooltip" xml:space="preserve">
+    <value>Reconocimiento óptico de caracteres (OCR) y reconocimiento de imágenes</value>
+  </data>
+  <data name="ModuleBehavior" xml:space="preserve">
+    <value>Comportamiento del módulo</value>
+  </data>
+  <data name="ModuleBehavior_Tooltip" xml:space="preserve">
+    <value>Ajustes en torno al comportamiento del módulo.
+¿Cómo debe tratar el filtro los diacríticos?
+¿Iniciar sesión automáticamente?
+...</value>
+  </data>
+  <data name="NameFontSize" xml:space="preserve">
+    <value>Nombre Tamaño de fuente: {0}</value>
+  </data>
+  <data name="FontSize" xml:space="preserve">
+    <value>Tamaño de fuente: {0}</value>
+  </data>
+  <data name="IconSize" xml:space="preserve">
+    <value>Tamaño del icono: {0}x{0} px</value>
+  </data>
+  <data name="CardWith" xml:space="preserve">
+    <value>Ancho de tarjeta {0} px</value>
+  </data>
+  <data name="CardWidth_Tooltip" xml:space="preserve">
+    <value>Establece el ancho de la tarjeta de caracteres siempre en {0} px</value>
+  </data>
+  <data name="RadialMenuSettings" xml:space="preserve">
+    <value>Configuración del menú radial</value>
+  </data>
+  <data name="Add" xml:space="preserve">
+    <value>Añadir</value>
+  </data>
+  <data name="RadialMenuSettings_Tooltip" xml:space="preserve">
+    <value>Configuración del menú radial</value>
+  </data>
+  <data name="EnableRadialMenu" xml:space="preserve">
+    <value>Activar menú radial</value>
+  </data>
+  <data name="EnableRadialMenu_Tooltip" xml:space="preserve">
+    <value>Activar el menú radial para cambiar rápidamente entre una colección de caracteres</value>
+  </data>
+  <data name="RadialMenuKey" xml:space="preserve">
+    <value>Tecla de menú radial</value>
+  </data>
+  <data name="RadialMenuKey_Tooltip" xml:space="preserve">
+    <value>Tecla que mostrará el menú radial mientras esté pulsada</value>
   </data>
 </root>

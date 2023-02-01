@@ -70,6 +70,15 @@ namespace Characters.Res {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Add.
+        /// </summary>
+        internal static string Add {
+            get {
+                return ResourceManager.GetString("Add", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Add {0}.
         /// </summary>
         internal static string AddItem {
@@ -142,7 +151,7 @@ namespace Characters.Res {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Auto Fix.
+        ///   Looks up a localized string similar to Auto Fix (requires OCR).
         /// </summary>
         internal static string AutoFix {
             get {
@@ -265,6 +274,24 @@ namespace Characters.Res {
         internal static string CapturePotraits {
             get {
                 return ResourceManager.GetString("CapturePotraits", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Sets the character card width always to {0} px.
+        /// </summary>
+        internal static string CardWidth_Tooltip {
+            get {
+                return ResourceManager.GetString("CardWidth_Tooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Card Width {0} px.
+        /// </summary>
+        internal static string CardWith {
+            get {
+                return ResourceManager.GetString("CardWith", resourceCulture);
             }
         }
         
@@ -692,6 +719,24 @@ namespace Characters.Res {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Enable Radial Menu.
+        /// </summary>
+        internal static string EnableRadialMenu {
+            get {
+                return ResourceManager.GetString("EnableRadialMenu", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Enable radial menu to swap quickly between a collection of characters.
+        /// </summary>
+        internal static string EnableRadialMenu_Tooltip {
+            get {
+                return ResourceManager.GetString("EnableRadialMenu_Tooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Enter the game automatically after selecting the character in the character selection.
         /// </summary>
         internal static string EnterOnSwap_Description {
@@ -954,6 +999,15 @@ namespace Characters.Res {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Font Size: {0}.
+        /// </summary>
+        internal static string FontSize {
+            get {
+                return ResourceManager.GetString("FontSize", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Gender.
         /// </summary>
         internal static string Gender {
@@ -995,6 +1049,15 @@ namespace Characters.Res {
         internal static string Huntsman {
             get {
                 return ResourceManager.GetString("Huntsman", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Icon Size: {0}x{0} px.
+        /// </summary>
+        internal static string IconSize {
+            get {
+                return ResourceManager.GetString("IconSize", resourceCulture);
             }
         }
         
@@ -1215,6 +1278,27 @@ namespace Characters.Res {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Module Behavior.
+        /// </summary>
+        internal static string ModuleBehavior {
+            get {
+                return ResourceManager.GetString("ModuleBehavior", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Settings all around the behavior of the module.
+        ///How should the filter treat diacritics?
+        ///Log in automatically?
+        ///....
+        /// </summary>
+        internal static string ModuleBehavior_Tooltip {
+            get {
+                return ResourceManager.GetString("ModuleBehavior_Tooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to A tool to easily switch characters even with a lot of them!
         ///This will require an API-Key with permissions at least for the &apos;characters&apos; endpoint!.
         /// </summary>
@@ -1230,6 +1314,15 @@ namespace Characters.Res {
         internal static string Name {
             get {
                 return ResourceManager.GetString("Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Name Font Size: {0}.
+        /// </summary>
+        internal static string NameFontSize {
+            get {
+                return ResourceManager.GetString("NameFontSize", resourceCulture);
             }
         }
         
@@ -1282,6 +1375,24 @@ namespace Characters.Res {
         internal static string OCR_Instructions {
             get {
                 return ResourceManager.GetString("OCR_Instructions", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to OCR and Image Recoginition.
+        /// </summary>
+        internal static string OCRAndImageRecognition {
+            get {
+                return ResourceManager.GetString("OCRAndImageRecognition", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Optical Character Recoginition (OCR) and Image Recoginition.
+        /// </summary>
+        internal static string OCRAndImageRecognition_Tooltip {
+            get {
+                return ResourceManager.GetString("OCRAndImageRecognition_Tooltip", resourceCulture);
             }
         }
         
@@ -1453,6 +1564,42 @@ namespace Characters.Res {
         internal static string Race {
             get {
                 return ResourceManager.GetString("Race", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Radial Menu Key.
+        /// </summary>
+        internal static string RadialMenuKey {
+            get {
+                return ResourceManager.GetString("RadialMenuKey", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Key which will show the radial menu while beeing pressed.
+        /// </summary>
+        internal static string RadialMenuKey_Tooltip {
+            get {
+                return ResourceManager.GetString("RadialMenuKey_Tooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Radial Menu Settings.
+        /// </summary>
+        internal static string RadialMenuSettings {
+            get {
+                return ResourceManager.GetString("RadialMenuSettings", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Radial Menu Settings.
+        /// </summary>
+        internal static string RadialMenuSettings_Tooltip {
+            get {
+                return ResourceManager.GetString("RadialMenuSettings_Tooltip", resourceCulture);
             }
         }
         
@@ -1697,7 +1844,7 @@ namespace Characters.Res {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Displays a popup while any automated actions are performed.
+        ///   Looks up a localized string similar to Displays a popup while any automated action is performed.
         /// </summary>
         internal static string ShowStatusWindow_Description {
             get {
@@ -1986,7 +2133,7 @@ namespace Characters.Res {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Use a beta feature to determine if you are ingame, watching a cutscene or sit in a loading screen. This feature works well for all common screen ratios. Only struggles in portrait mode..
+        ///   Looks up a localized string similar to Use Image Recoginition to detect if you are ingame, watching a cutscene or sit in a loading screen. This feature works well for all common screen ratios with the exception of games in portrait mode..
         /// </summary>
         internal static string UseBetaGameState_Description {
             get {
@@ -1995,7 +2142,7 @@ namespace Characters.Res {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Use Beta Gamestate.
+        ///   Looks up a localized string similar to Use Gamestate Detection.
         /// </summary>
         internal static string UseBetaGameState_DisplayName {
             get {

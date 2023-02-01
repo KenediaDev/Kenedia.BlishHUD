@@ -46,7 +46,6 @@ namespace Kenedia.Modules.Characters.Views
         private readonly TextBox _filterBox;
 
         private readonly bool _created;
-        private bool _uniformCharacters;
         private bool _filterCharacters;
         private double _filterTick = 0;
 
@@ -186,7 +185,6 @@ namespace Kenedia.Modules.Characters.Views
             AttachContainer(CharacterEdit);
             AttachContainer(_sideMenu);
 
-            _settings.AppearanceSettingChanged += UniformCharacterCards;
             _settings.PinSideMenus.SettingChanged += PinSideMenus_SettingChanged;
             CreateCharacterControls(Characters.ModuleInstance.CharacterModels);
             _created = true;
@@ -228,7 +226,7 @@ namespace Kenedia.Modules.Characters.Views
 
         private Dictionary<string, SearchFilter<Character_Model>> SearchFilters => Characters.ModuleInstance.SearchFilters;
 
-        public List<CharacterCard> CharacterCards { get; set; } = new List<CharacterCard>();
+        public List<CharacterCard> CharacterCards { get; } = new List<CharacterCard>();
 
         public CharacterEdit CharacterEdit { get; set; }
 
@@ -399,13 +397,7 @@ namespace Kenedia.Modules.Characters.Views
             }
 
             FilterCharacters();
-            UniformCharacterCards();
-            _uniformCharacters = true;
-        }
-
-        public void RequestUniform()
-        {
-            _uniformCharacters = true;
+            CharacterCards.FirstOrDefault()?.UniformWithAttached();
         }
 
         public void SortCharacters()
@@ -513,12 +505,6 @@ namespace Kenedia.Modules.Characters.Views
                 PerformFiltering();
                 _filterCharacters = false;
             }
-
-            if (_uniformCharacters)
-            {
-                _ = Task.Run(async () => { await Task.Delay(50); UniformCharacterCards(); });
-                _uniformCharacters = false;
-            }
         }
 
         public override void RecalculateLayout()
@@ -614,7 +600,6 @@ namespace Kenedia.Modules.Characters.Views
             _displaySettingsButton.Click -= DisplaySettingsButton_Click;
 
             _settings.ShowRandomButton.SettingChanged -= ShowRandomButton_SettingChanged;
-            _settings.AppearanceSettingChanged -= UniformCharacterCards;
 
             if (CharacterCards.Count > 0) CharacterCards?.DisposeAll();
             ContentPanel?.DisposeAll();
@@ -663,19 +648,6 @@ namespace Kenedia.Modules.Characters.Views
         {
             SetNewIndex(DraggingControl.CharacterControl);
             DraggingControl.CharacterControl = null;
-        }
-
-        private void UniformCharacterCards(object sender = null, EventArgs e = null)
-        {
-            if (CharacterCards.Count > 0)
-            {
-                int maxWidth = CharacterCards.Max(e => e.CalculateLayout().Width);
-
-                foreach (CharacterCard c in CharactersPanel.Children.Cast<CharacterCard>())
-                {
-                    c.ControlContentBounds = new(c.ControlContentBounds.Location, new(maxWidth, c.ControlContentBounds.Height));
-                }
-            }
         }
 
         private void SetNewIndex(CharacterCard characterControl)

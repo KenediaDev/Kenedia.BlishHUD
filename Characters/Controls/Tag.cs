@@ -187,8 +187,6 @@ namespace Kenedia.Modules.Characters.Controls
 
         private void Delete_Click(object sender, MouseEventArgs e)
         {
-            Characters.ModuleInstance.MainWindow.RequestUniform();
-
             Deleted?.Invoke(this, EventArgs.Empty);
             Dispose();
         }

@@ -19,12 +19,12 @@
     "bh.blishhud": ">=1.0.0"
   },
   "description": "Make character swapping great again! Swapping characters with a lot of characters can become quite a torture.\nWhere was that Asuran Guardian I've parked at Draconis Mons in my 70 characters?\nFear no more, this module will change your life. Search for the right character based on dozens of filter options and automatically swap to it!'",
-  "directories": [ "characters", "kenedia" ],
+  "directories": [ "kenedia" ],
   "enabled_without_gw2": false,
   "manifest_version": 1,
   "name": "Characters",
   "namespace": "Kenedia.Modules.Characters",
   "package": "Kenedia.Modules.Characters.dll",
   "url": "https://github.com/KenediaDev/Kenedia.BlishHUD",
-  "version": "0.4.6"
+  "version": "0.4.7"
 }

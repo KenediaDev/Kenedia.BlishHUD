@@ -144,9 +144,6 @@
   <data name="Ascending" xml:space="preserve">
     <value>Aufsteigend</value>
   </data>
-  <data name="AutoFix" xml:space="preserve">
-    <value>Auto-Fix</value>
-  </data>
   <data name="AutoFix_Tooltip" xml:space="preserve">
     <value>Wenn Sie nicht zu einem Zeichen wechseln können, gehen Sie automatisch die Zeichen durch, um ihre Reihenfolge festzulegen.</value>
   </data>
@@ -784,12 +781,6 @@ Um den aktuellen Wert zu erhalten, müssen Sie die Modul-Tabs einmal wechseln, u
   <data name="OpenSidemenuOnSearch_DisplayName" xml:space="preserve">
     <value>Seitenmenü bei der Suche öffnen</value>
   </data>
-  <data name="UseBetaGameState_Description" xml:space="preserve">
-    <value>Verwenden Sie eine Beta-Funktion, um festzustellen, ob Sie im Spiel sind, eine Cutscene sehen oder sich in einem Ladebildschirm befinden. Diese Funktion funktioniert bei allen gängigen Bildschirmverhältnissen gut. Nur im Hochformat ist sie problematisch.</value>
-  </data>
-  <data name="UseBetaGameState_DisplayName" xml:space="preserve">
-    <value>Beta-Gamestate verwenden</value>
-  </data>
   <data name="NormalizedNames_DisplayName" xml:space="preserve">
     <value>Normalisierte Zeichennamen verwenden</value>
   </data>
@@ -802,5 +793,65 @@ Ii : Ïï Íí Îî
 Nn : Ññ
 Oo : Œœ Ôô Öö Óó Úú
 Uu : Üü Ûû Ùù</value>
+  </data>
+  <data name="AutoFix" xml:space="preserve">
+    <value>Automatische Korrektur (erfordert OCR)</value>
+  </data>
+  <data name="UseBetaGameState_Description" xml:space="preserve">
+    <value>Verwenden Sie Image Recoginition, um zu erkennen, ob Sie im Spiel sind, eine Zwischensequenz sehen oder sich in einem Ladebildschirm befinden. Diese Funktion funktioniert bei allen gängigen Bildschirmverhältnissen, außer bei Spielen im Hochformat.</value>
+  </data>
+  <data name="UseBetaGameState_DisplayName" xml:space="preserve">
+    <value>Gamestate-Erkennung verwenden</value>
+  </data>
+  <data name="OCRAndImageRecognition" xml:space="preserve">
+    <value>OCR und Bilderkennung</value>
+  </data>
+  <data name="OCRAndImageRecognition_Tooltip" xml:space="preserve">
+    <value>Optische Zeichenerkennung (OCR) und Bilderkennung (Image Recoginition)</value>
+  </data>
+  <data name="ModuleBehavior" xml:space="preserve">
+    <value>Modul-Verhalten</value>
+  </data>
+  <data name="ModuleBehavior_Tooltip" xml:space="preserve">
+    <value>Einstellungen rund um das Verhalten des Moduls.
+Wie soll der Filter diakritische Zeichen behandeln?
+Sich automatisch anmelden?
+...</value>
+  </data>
+  <data name="NameFontSize" xml:space="preserve">
+    <value>Name Schriftgröße: {0}</value>
+  </data>
+  <data name="FontSize" xml:space="preserve">
+    <value>Schriftgröße: {0}</value>
+  </data>
+  <data name="IconSize" xml:space="preserve">
+    <value>Icon Größe: {0}x{0} px</value>
+  </data>
+  <data name="CardWith" xml:space="preserve">
+    <value>Kartenbreite {0} px</value>
+  </data>
+  <data name="CardWidth_Tooltip" xml:space="preserve">
+    <value>Setzt die Breite der Zeichenkarte immer auf {0} px</value>
+  </data>
+  <data name="RadialMenuSettings" xml:space="preserve">
+    <value>Einstellungen des Radialmenüs</value>
+  </data>
+  <data name="Add" xml:space="preserve">
+    <value>hinzufügen</value>
+  </data>
+  <data name="RadialMenuSettings_Tooltip" xml:space="preserve">
+    <value>Einstellungen des Radialmenüs</value>
+  </data>
+  <data name="EnableRadialMenu" xml:space="preserve">
+    <value>Radiales Menü einschalten</value>
+  </data>
+  <data name="EnableRadialMenu_Tooltip" xml:space="preserve">
+    <value>Aktivieren Sie das Radialmenü, um schnell zwischen einer Sammlung von Zeichen zu wechseln</value>
+  </data>
+  <data name="RadialMenuKey" xml:space="preserve">
+    <value>Radial-Menü-Taste</value>
+  </data>
+  <data name="RadialMenuKey_Tooltip" xml:space="preserve">
+    <value>Taste, die das Radialmenü anzeigt, wenn sie gedrückt wird</value>
   </data>
 </root>

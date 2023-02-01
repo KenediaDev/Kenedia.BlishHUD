@@ -21,6 +21,7 @@ using Blish_HUD.Input;
 using Microsoft.Xna.Framework;
 using Kenedia.Modules.Characters;
 using Kenedia.Modules.Core.Extensions;
+using Image = Kenedia.Modules.Core.Controls.Image;
 
 namespace Characters.Views
 {

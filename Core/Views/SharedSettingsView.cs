@@ -11,9 +11,9 @@ using static Kenedia.Modules.Core.Utility.WindowsUtil.User32Dll;
 using Bitmap = System.Drawing.Bitmap;
 using Color = Microsoft.Xna.Framework.Color;
 using FlowPanel = Kenedia.Modules.Core.Controls.FlowPanel;
-using Image = Blish_HUD.Controls.Image;
 using Label = Kenedia.Modules.Core.Controls.Label;
 using Panel = Kenedia.Modules.Core.Controls.Panel;
+using Image = Kenedia.Modules.Core.Controls.Image;
 
 namespace Kenedia.Modules.Core.Views
 {
@@ -43,51 +43,53 @@ namespace Kenedia.Modules.Core.Views
 
         public ClientWindowService ClientWindowService { get; }
 
-        public void CreateLayout(Container parent, int? width = null)
+        public override void CreateLayout(Container p, int? width = null)
         {
-            ContentContainer = parent;
+            ContentContainer = p;
+            //ContentContainer = parent;
 
             #region Layout
-            Panel p;
-            p = new Panel()
+            //Panel p;
+            //p = new Panel()
+            //{
+            //    Parent = parent,
+            //    Width = width ?? parent.Width,
+            //    HeightSizingMode = SizingMode.AutoSize,
+            //    ShowBorder = true,
+            //};
+
+            var mcFP = new FlowPanel()
             {
-                Parent = parent,
-                Width = width ?? parent.Width,
+                Parent = p,
                 HeightSizingMode = SizingMode.AutoSize,
-                ShowBorder = true,
+                WidthSizingMode = SizingMode.Fill,
+                FlowDirection = ControlFlowDirection.SingleTopToBottom,
             };
 
-            _ = new Image()
+            _ = new TitleHeader()
             {
-                Texture = AsyncTexture2D.FromAssetId(156736),
-                Parent = p,
-                Size = new(30, 30),
-            };
-
-            _ = new Label()
-            {
-                Parent = p,
-                AutoSizeWidth = true,
-                Location = new(35, 0),
-                Height = 30,
-                SetLocalizedText = () => strings_common.WindowBorders,
+                SetLocalizedTitle = () => strings_common.WindowBorders,
+                SetLocalizedTooltip = () => strings_common.WindowBorder_Description,
+                Height = 25,
+                Width = (width ?? p.Width) - 0,
+                Parent = mcFP,
             };
 
             var cFP = new FlowPanel()
             {
-                Parent = p,
-                Location = new(5, 35),
+                Parent = mcFP,
                 HeightSizingMode = SizingMode.AutoSize,
                 WidthSizingMode = SizingMode.Fill,
                 FlowDirection = ControlFlowDirection.SingleLeftToRight,
                 ControlPadding = new(3, 3),
+                OuterControlPadding = new(5),
             };
 
             var cP = new FlowPanel()
             {
                 Parent = cFP,
                 HeightSizingMode = SizingMode.AutoSize,
-                Width = ((width ?? parent.Width) - 20) - 225,
+                Width = (width ?? p.Width) - 20 - 225,
                 FlowDirection = ControlFlowDirection.SingleTopToBottom,
                 ControlPadding = new(3, 3),
             };
@@ -222,6 +224,7 @@ namespace Kenedia.Modules.Core.Views
                 Parent = cP,
                 BackgroundColor = Color.White,
                 Size = new(100, _rightOffsetBox.Height * 2),
+                SetLocalizedTooltip = () => strings_common.TopLeftCorner,
             };
             _ = new Label()
             {
@@ -235,6 +238,7 @@ namespace Kenedia.Modules.Core.Views
                 Parent = cP,
                 BackgroundColor = Color.White,
                 Size = new(100, _rightOffsetBox.Height * 2),
+                SetLocalizedTooltip = () => strings_common.BottomLeftCorner,
             };
 
             cP = new FlowPanel()
@@ -257,6 +261,7 @@ namespace Kenedia.Modules.Core.Views
                 Parent = cP,
                 BackgroundColor = Color.White,
                 Size = new(100, _rightOffsetBox.Height * 2),
+                SetLocalizedTooltip = () => strings_common.TopRightCorner,
             };
             _ = new Label()
             {
@@ -270,6 +275,7 @@ namespace Kenedia.Modules.Core.Views
                 Parent = cP,
                 BackgroundColor = Color.White,
                 Size = new(100, _rightOffsetBox.Height * 2),
+                SetLocalizedTooltip = () => strings_common.BottomRightCorner,
             };
 
             #endregion
@@ -277,13 +283,16 @@ namespace Kenedia.Modules.Core.Views
 
         public void UpdateOffset()
         {
-            SharedSettings.WindowOffset = new(_leftOffsetBox.Value, _topOffsetBox.Value, _rightOffsetBox.Value, _bottomOffsetBox.Value);
+            if (_leftOffsetBox != null)
+            {
+                SharedSettings.WindowOffset = new(_leftOffsetBox.Value, _topOffsetBox.Value, _rightOffsetBox.Value, _bottomOffsetBox.Value);
 
-            SetTopLeftImage();
-            SetTopRightImage();
+                SetTopLeftImage();
+                SetTopRightImage();
 
-            SetBottomLeftImage();
-            SetBottomRightImage();
+                SetBottomLeftImage();
+                SetBottomRightImage();
+            }
         }
 
         private void SetTopLeftImage()

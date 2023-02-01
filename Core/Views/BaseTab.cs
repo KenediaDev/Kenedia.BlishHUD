@@ -12,5 +12,7 @@ namespace Kenedia.Modules.Core.Views
         public int Priority { get; set; }
 
         public Container ContentContainer { get; set; } = null;
+
+        public virtual void CreateLayout(Container parent, int? width = null) { }
     }
 }

@@ -8,12 +8,14 @@ using Kenedia.Modules.Characters.Services;
 using Kenedia.Modules.Core.Controls;
 using Kenedia.Modules.Core.Extensions;
 using Kenedia.Modules.Core.Interfaces;
+using Kenedia.Modules.Core.Utility;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using MonoGame.Extended.BitmapFonts;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using static Blish_HUD.ContentService;
 using static Kenedia.Modules.Characters.Services.SettingsModel;
@@ -66,6 +68,8 @@ namespace Kenedia.Modules.Characters.Controls
 
         private Character_Model _character;
         private readonly List<Tag> _tags = new();
+
+        private double _lastUniform;
 
         public CharacterCard()
         {
@@ -183,18 +187,24 @@ namespace Kenedia.Modules.Characters.Controls
             };
 
             GameService.Overlay.UserLocale.SettingChanged += ApplyCharacter;
+            Settings.AppearanceSettingChanged += Settings_AppearanceSettingChanged;
 
             _created = true;
         }
 
-        public List<CharacterCard> AttachedCards = new();
+        private void Settings_AppearanceSettingChanged(object sender, EventArgs e)
+        {
+            ApplyCharacter(null, null);
+        }
+
+        public List<CharacterCard> AttachedCards { get; set; } = new();
 
         private SettingsModel Settings => Characters.ModuleInstance.Settings;
 
         public BitmapFont NameFont { get; set; } = GameService.Content.DefaultFont14;
 
         public BitmapFont Font { get; set; } = GameService.Content.DefaultFont14;
-
+         
         public double Index
         {
             get => Character != null ? Character.Index : 0;
@@ -240,6 +250,27 @@ namespace Kenedia.Modules.Characters.Controls
                 if (_controlBounds != null)
                 {
                     AdaptNewBounds();
+                }
+            }
+        }
+
+        public void UniformWithAttached()
+        {
+            double now = Common.Now();
+
+            if (_lastUniform != now)
+            {
+                if (AttachedCards?.Count() > 0)
+                {
+                    Debug.WriteLine($"{nameof(UniformWithAttached)}");
+                    int maxWidth = AttachedCards.Max(e => e.CalculateLayout().Width);
+                    AttachedCards.ForEach(e => e.ControlContentBounds = new(e.ControlContentBounds.Location, new(maxWidth, e.ControlContentBounds.Height)));
+                    AttachedCards.ForEach(e => e._lastUniform = now);
+                    ControlContentBounds = new(ControlContentBounds.Location, new(maxWidth, ControlContentBounds.Height));
+                }
+                else
+                {
+                    ControlContentBounds = CalculateLayout();
                 }
             }
         }
@@ -746,8 +777,7 @@ namespace Kenedia.Modules.Characters.Controls
 
             _craftingControl.Character = Character;
 
-            _controlBounds = CalculateLayout();
-            AdaptNewBounds();
+            UniformWithAttached();
         }
 
         public void HideTooltips()

@@ -145,7 +145,7 @@
     <value>Ascending</value>
   </data>
   <data name="AutoFix" xml:space="preserve">
-    <value>Auto Fix</value>
+    <value>Auto Fix (requires OCR)</value>
   </data>
   <data name="AutoFix_Tooltip" xml:space="preserve">
     <value>When failing to swap to a character automatically go through the characters to fix their order.</value>
@@ -664,7 +664,7 @@ This will require an API-Key with permissions at least for the 'characters' endp
     <value>Show Random Button</value>
   </data>
   <data name="ShowStatusWindow_Description" xml:space="preserve">
-    <value>Displays a popup while any automated actions are performed</value>
+    <value>Displays a popup while any automated action is performed</value>
   </data>
   <data name="ShowStatusWindow_Name" xml:space="preserve">
     <value>Show Status Popup</value>
@@ -764,10 +764,10 @@ To get the current value you will have to swap module tabs once to update the se
     <value>Updating {0}</value>
   </data>
   <data name="UseBetaGameState_Description" xml:space="preserve">
-    <value>Use a beta feature to determine if you are ingame, watching a cutscene or sit in a loading screen. This feature works well for all common screen ratios. Only struggles in portrait mode.</value>
+    <value>Use Image Recoginition to detect if you are ingame, watching a cutscene or sit in a loading screen. This feature works well for all common screen ratios with the exception of games in portrait mode.</value>
   </data>
   <data name="UseBetaGameState_DisplayName" xml:space="preserve">
-    <value>Use Beta Gamestate</value>
+    <value>Use Gamestate Detection</value>
   </data>
   <data name="UseOCR" xml:space="preserve">
     <value>Use OCR</value>
@@ -802,5 +802,56 @@ Ii : Ïï Íí Îî
 Nn : Ññ 
 Oo : Œœ Ôô Öö Óó Úú 
 Uu : Üü Ûû Ùù</value>
+  </data>
+  <data name="OCRAndImageRecognition" xml:space="preserve">
+    <value>OCR and Image Recoginition</value>
+  </data>
+  <data name="OCRAndImageRecognition_Tooltip" xml:space="preserve">
+    <value>Optical Character Recoginition (OCR) and Image Recoginition</value>
+  </data>
+  <data name="ModuleBehavior" xml:space="preserve">
+    <value>Module Behavior</value>
+  </data>
+  <data name="ModuleBehavior_Tooltip" xml:space="preserve">
+    <value>Settings all around the behavior of the module.
+How should the filter treat diacritics?
+Log in automatically?
+...</value>
+  </data>
+  <data name="NameFontSize" xml:space="preserve">
+    <value>Name Font Size: {0}</value>
+  </data>
+  <data name="FontSize" xml:space="preserve">
+    <value>Font Size: {0}</value>
+  </data>
+  <data name="IconSize" xml:space="preserve">
+    <value>Icon Size: {0}x{0} px</value>
+  </data>
+  <data name="CardWith" xml:space="preserve">
+    <value>Card Width {0} px</value>
+  </data>
+  <data name="CardWidth_Tooltip" xml:space="preserve">
+    <value>Sets the character card width always to {0} px</value>
+  </data>
+  <data name="RadialMenuSettings" xml:space="preserve">
+    <value>Radial Menu Settings</value>
+  </data>
+  <data name="Add" xml:space="preserve">
+    <value>Add</value>
+  </data>
+  <data name="RadialMenuSettings_Tooltip" xml:space="preserve">
+    <value>Radial Menu Settings</value>
+  </data>
+  <data name="EnableRadialMenu" xml:space="preserve">
+    <value>Enable Radial Menu</value>
+  </data>
+  <data name="EnableRadialMenu_Tooltip" xml:space="preserve">
+    <value>Enable radial menu to swap quickly between a collection of characters</value>
+  </data>
+  <data name="RadialMenuKey" xml:space="preserve">
+    <value>Radial Menu Key</value>
+  </data>
+  <data name="RadialMenuKey_Tooltip" xml:space="preserve">
+    <value>Key which will show the radial menu while beeing pressed</value>
   </data>
 </root>

@@ -25,7 +25,6 @@ namespace Kenedia.Modules.Characters.Controls.SideMenu
         private ImageToggleButton _pinButton;
         private ImageButton _ocrButton;
         private ImageButton _potraitButton;
-        private ImageButton _folderButton;
         private ImageButton _fixButton;
         private ImageButton _refreshButton;
 
@@ -71,9 +70,6 @@ namespace Kenedia.Modules.Characters.Controls.SideMenu
                 Icon = AsyncTexture2D.FromAssetId(156909),
             });
             _ = SwitchTab(_toggles);
-
-            GameService.Overlay.UserLocale.SettingChanged += OnLanguageChanged;
-            OnLanguageChanged();
         }
 
         private void CloseButton_Click(object sender, MouseEventArgs e)
@@ -91,8 +87,9 @@ namespace Kenedia.Modules.Characters.Controls.SideMenu
                 Texture = tm.GetIcon(TextureManager.Icons.Camera),
                 HoveredTexture = tm.GetIcon(TextureManager.Icons.Camera_Hovered),
                 Size = new Point(20, 20),
+                ClickAction = (m) => ModuleInstance.OCR?.ToggleContainer(),
+                SetLocalizedTooltip = () => strings.EditOCR_Tooltip,
             };
-            _ocrButton.Click += OCRButton_Click;
             _buttons.Add(_ocrButton);
 
             _potraitButton = new()
@@ -102,19 +99,10 @@ namespace Kenedia.Modules.Characters.Controls.SideMenu
                 HoveredTexture = tm.GetIcon(TextureManager.Icons.Portrait_Hovered),
                 Size = new Point(20, 20),
                 ColorHovered = Color.White,
+                SetLocalizedTooltip = () => strings.TogglePortraitCapture_Tooltip,
+                ClickAction = (m) => ModuleInstance.PotraitCapture.ToggleVisibility(),
             };
-            _potraitButton.Click += PotraitButton_Click;
             _buttons.Add(_potraitButton);
-
-            _folderButton = new()
-            {
-                Parent = _headerPanel,
-                Texture = tm.GetIcon(TextureManager.Icons.Folder),
-                HoveredTexture = tm.GetIcon(TextureManager.Icons.Folder_Hovered),
-                Size = new Point(20, 20),
-            };
-            _folderButton.Click += FolderButton_Click;
-            _buttons.Add(_folderButton);
 
             _fixButton = new()
             {
@@ -122,8 +110,15 @@ namespace Kenedia.Modules.Characters.Controls.SideMenu
                 Texture = AsyncTexture2D.FromAssetId(156760),
                 HoveredTexture = AsyncTexture2D.FromAssetId(156759),
                 Size = new Point(20, 20),
+                SetLocalizedTooltip = () => strings.FixCharacters_Tooltip,
+                ClickAction = (m) =>
+                {
+                    if (!GameService.GameIntegration.Gw2Instance.IsInGame)
+                    {
+                        _characterSorting.Start(ModuleInstance.CharacterModels);
+                    }
+                }
             };
-            _fixButton.Click += FixButton_Click;
             _buttons.Add(_fixButton);
 
             _refreshButton = new()
@@ -132,8 +127,9 @@ namespace Kenedia.Modules.Characters.Controls.SideMenu
                 Texture = AsyncTexture2D.FromAssetId(156749),
                 HoveredTexture = AsyncTexture2D.FromAssetId(156750),
                 Size = new Point(20, 20),
+                ClickAction = (m) => ModuleInstance.GW2APIHandler.CheckAPI(),
+                SetLocalizedTooltip = () => strings.RefreshAPI,
             };
-            _refreshButton.Click += RefreshButton_Click;
             _buttons.Add(_refreshButton);
 
             _pinButton = new ImageToggleButton((b) => Settings.PinSideMenus.Value = b)
@@ -146,7 +142,7 @@ namespace Kenedia.Modules.Characters.Controls.SideMenu
                 ColorActive = ContentService.Colors.ColonialWhite,
                 Size = new(20, 20),
                 Active = Settings.PinSideMenus.Value,
-                BasicTooltipText = strings.PinSideMenus_Description,
+                SetLocalizedTooltip= () => strings.PinSideMenus_Description,
             };
             _buttons.Add(_pinButton);
 
@@ -157,43 +153,10 @@ namespace Kenedia.Modules.Characters.Controls.SideMenu
                 HoveredTexture = AsyncTexture2D.FromAssetId(156011),
                 Size = new Point(20, 20),
                 TextureRectangle = new Rectangle(7, 7, 20, 20),
+                ClickAction = (m) => Hide(),
+                SetLocalizedTooltip = () => strings.Close,
             };
-            _closeButton.Click += CloseButton_Click;
             _buttons.Add(_closeButton);
-        }
-
-        private void RefreshButton_Click(object sender, MouseEventArgs e)
-        {
-            ModuleInstance.GW2APIHandler.CheckAPI();
-        }
-
-        private void FixButton_Click(object sender, MouseEventArgs e)
-        {
-            if (!GameService.GameIntegration.Gw2Instance.IsInGame)
-            {
-                _characterSorting.Start(ModuleInstance.CharacterModels);
-            }
-        }
-
-        private void FolderButton_Click(object sender, MouseEventArgs e)
-        {
-            ProcessStartInfo startInfo = new()
-            {
-                Arguments = ModuleInstance.AccountImagesPath,
-                FileName = "explorer.exe",
-            };
-
-            _ = Process.Start(startInfo);
-        }
-
-        private void PotraitButton_Click(object sender, MouseEventArgs e)
-        {
-            ModuleInstance.PotraitCapture.ToggleVisibility();
-        }
-
-        private void OCRButton_Click(object sender, MouseEventArgs e)
-        {
-            ModuleInstance.OCR?.ToggleContainer();
         }
 
         private SettingsModel Settings => Characters.ModuleInstance.Settings;
@@ -203,19 +166,6 @@ namespace Kenedia.Modules.Characters.Controls.SideMenu
         public void ResetToggles()
         {
             _toggles.ResetToggles();
-        }
-
-        public void OnLanguageChanged(object s = null, EventArgs e = null)
-        {
-            _toggles.Name = strings.FilterToggles;
-            _behaviors.Name = strings.AppearanceAndBehavior;
-            _closeButton.BasicTooltipText = strings.Close;
-            _pinButton.BasicTooltipText = strings.PinSideMenus_Description;
-            _refreshButton.BasicTooltipText = strings.RefreshAPI;
-            _fixButton.BasicTooltipText = strings.FixCharacters_Tooltip;
-            _folderButton.BasicTooltipText = strings.OpenPortraitFolder;
-            _potraitButton.BasicTooltipText = strings.TogglePortraitCapture_Tooltip;
-            _ocrButton.BasicTooltipText = strings.EditOCR_Tooltip;
         }
 
         public override void UpdateContainer(GameTime gameTime)
@@ -229,7 +179,7 @@ namespace Kenedia.Modules.Characters.Controls.SideMenu
 
             foreach (PanelTab t in Tabs)
             {
-               if(t != tab) t.Height = 5;
+                if (t != tab) t.Height = 5;
             }
 
             return result;
@@ -238,14 +188,6 @@ namespace Kenedia.Modules.Characters.Controls.SideMenu
         protected override void DisposeControl()
         {
             base.DisposeControl();
-
-            GameService.Overlay.UserLocale.SettingChanged -= OnLanguageChanged;
-            _closeButton.Click -= CloseButton_Click;
-            _refreshButton.Click -= RefreshButton_Click;
-            _fixButton.Click -= FixButton_Click;
-            _folderButton.Click -= FolderButton_Click;
-            _potraitButton.Click -= PotraitButton_Click;
-            _ocrButton.Click -= OCRButton_Click;
         }
 
         protected override void OnResized(ResizedEventArgs e)

@@ -144,9 +144,6 @@
   <data name="Ascending" xml:space="preserve">
     <value>Croissant</value>
   </data>
-  <data name="AutoFix" xml:space="preserve">
-    <value>Correction automatique</value>
-  </data>
   <data name="AutoFix_Tooltip" xml:space="preserve">
     <value>Lorsque vous ne parvenez pas à passer à un personnage, passez automatiquement en revue les personnages pour corriger leur ordre.</value>
   </data>
@@ -784,12 +781,6 @@ Pour obtenir la valeur actuelle, vous devrez changer d'onglet de module une fois
   <data name="OpenSidemenuOnSearch_DisplayName" xml:space="preserve">
     <value>Ouvrir le menu latéral lors de la recherche</value>
   </data>
-  <data name="UseBetaGameState_Description" xml:space="preserve">
-    <value>Utilisez une fonction bêta pour déterminer si vous êtes en jeu, si vous regardez une scène ou si vous vous trouvez dans un écran de chargement. Cette fonction fonctionne bien pour tous les rapports d'écran courants. Elle ne fonctionne qu'en mode portrait.</value>
-  </data>
-  <data name="UseBetaGameState_DisplayName" xml:space="preserve">
-    <value>Utiliser l'état de jeu bêta</value>
-  </data>
   <data name="NormalizedNames_DisplayName" xml:space="preserve">
     <value>Utiliser des noms de caractères normalisés</value>
   </data>
@@ -802,5 +793,65 @@ Ii : Ïï Íí Îî
 Nn : Ññ
 Oo : Œœ Ôô Öö Óó Úú
 Uu : Üü Ûû Ùù</value>
+  </data>
+  <data name="AutoFix" xml:space="preserve">
+    <value>Correction automatique (nécessite l'OCR)</value>
+  </data>
+  <data name="UseBetaGameState_Description" xml:space="preserve">
+    <value>Utilisez la reconnaissance d'image pour détecter si vous êtes en jeu, si vous regardez une scène ou si vous vous trouvez dans un écran de chargement. Cette fonction fonctionne bien pour tous les rapports d'écran courants, à l'exception des jeux en mode portrait.</value>
+  </data>
+  <data name="UseBetaGameState_DisplayName" xml:space="preserve">
+    <value>Utiliser la détection de l'état de jeu</value>
+  </data>
+  <data name="OCRAndImageRecognition" xml:space="preserve">
+    <value>OCR et reconnaissance d'images</value>
+  </data>
+  <data name="OCRAndImageRecognition_Tooltip" xml:space="preserve">
+    <value>Reconnaissance optique de caractères (OCR) et reconnaissance d'images</value>
+  </data>
+  <data name="ModuleBehavior" xml:space="preserve">
+    <value>Comportement du module</value>
+  </data>
+  <data name="ModuleBehavior_Tooltip" xml:space="preserve">
+    <value>Paramètres tout autour du comportement du module.
+Comment le filtre doit-il traiter les diacritiques ?
+Se connecter automatiquement ?
+...</value>
+  </data>
+  <data name="NameFontSize" xml:space="preserve">
+    <value>Taille de la police du nom : {0}</value>
+  </data>
+  <data name="FontSize" xml:space="preserve">
+    <value>Taille de la police : {0}</value>
+  </data>
+  <data name="IconSize" xml:space="preserve">
+    <value>Taille de l'icône : {0}x{0} px</value>
+  </data>
+  <data name="CardWith" xml:space="preserve">
+    <value>Largeur de la carte {0} px</value>
+  </data>
+  <data name="CardWidth_Tooltip" xml:space="preserve">
+    <value>Définit la largeur de la carte de caractères toujours à {0} px</value>
+  </data>
+  <data name="RadialMenuSettings" xml:space="preserve">
+    <value>Paramètres du menu radial</value>
+  </data>
+  <data name="Add" xml:space="preserve">
+    <value>Ajouter</value>
+  </data>
+  <data name="RadialMenuSettings_Tooltip" xml:space="preserve">
+    <value>Paramètres du menu radial</value>
+  </data>
+  <data name="EnableRadialMenu" xml:space="preserve">
+    <value>Activer le menu radial</value>
+  </data>
+  <data name="EnableRadialMenu_Tooltip" xml:space="preserve">
+    <value>Activez le menu radial pour passer rapidement d'une collection de caractères à l'autre.</value>
+  </data>
+  <data name="RadialMenuKey" xml:space="preserve">
+    <value>Touche de menu radial</value>
+  </data>
+  <data name="RadialMenuKey_Tooltip" xml:space="preserve">
+    <value>Touche qui permet d'afficher le menu radial lorsqu'elle est enfoncée.</value>
   </data>
 </root>
