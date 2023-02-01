@@ -2,7 +2,6 @@
 using Blish_HUD.Content;
 using Blish_HUD.Controls;
 using Blish_HUD.Input;
-using Characters.Controls;
 using Characters.Res;
 using Kenedia.Modules.Core.Controls;
 using Kenedia.Modules.Core.Extensions;
@@ -24,9 +23,9 @@ using Rectangle = Microsoft.Xna.Framework.Rectangle;
 
 namespace Kenedia.Modules.Characters.Controls
 {
-    public class CharacterPotraitCapture : Container
+    public class PotraitCapture : Container
     {
-        private readonly List<CharacterPotraitFrame> _characterPotraitFrames = new();
+        private readonly List<FramedMaskedRegion> _characterPotraitFrames = new();
         private readonly ClientWindowService _clientWindowService;
         private readonly SharedSettings _sharedSettings;
 
@@ -46,7 +45,7 @@ namespace Kenedia.Modules.Characters.Controls
         private int _characterPotraitSize = 130;
         private int _gap = 13;
 
-        public CharacterPotraitCapture(ClientWindowService clientWindowService, SharedSettings sharedSettings)
+        public PotraitCapture(ClientWindowService clientWindowService, SharedSettings sharedSettings)
         {
             _clientWindowService = clientWindowService;
             _sharedSettings = sharedSettings;
@@ -212,7 +211,7 @@ namespace Kenedia.Modules.Characters.Controls
 
         private void AddPotrait()
         {
-            _characterPotraitFrames.Add(new CharacterPotraitFrame()
+            _characterPotraitFrames.Add(new FramedMaskedRegion()
             {
                 Parent = Graphics.SpriteScreen,
                 ZIndex = int.MaxValue,
@@ -288,9 +287,9 @@ namespace Kenedia.Modules.Characters.Controls
 
             var size = new Size(_characterPotraitSize, _characterPotraitSize);
 
-            foreach (CharacterPotraitFrame c in _characterPotraitFrames)
+            foreach (FramedMaskedRegion c in _characterPotraitFrames)
             {
-                Rectangle bounds = c.PotraitRegion;
+                Rectangle bounds = c.MaskedRegion;
                 using Bitmap bitmap = new((int)(bounds.Width * factor), (int)(bounds.Height * factor));
 
                 using (var g = System.Drawing.Graphics.FromImage(bitmap))

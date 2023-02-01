@@ -213,7 +213,7 @@ namespace Kenedia.Modules.Characters.Views
         {
             var selection = CharactersPanel.Children.Where(e => e.Visible).ToList();
             int r = RandomService.Rnd.Next(selection.Count);
-            var entry = (CharacterControl)selection[r];
+            var entry = (CharacterCard)selection[r];
 
             entry?.Character.Swap();
         }
@@ -228,7 +228,7 @@ namespace Kenedia.Modules.Characters.Views
 
         private Dictionary<string, SearchFilter<Character_Model>> SearchFilters => Characters.ModuleInstance.SearchFilters;
 
-        public List<CharacterControl> CharacterControls { get; set; } = new List<CharacterControl>();
+        public List<CharacterCard> CharacterCards { get; set; } = new List<CharacterCard>();
 
         public CharacterEdit CharacterEdit { get; set; }
 
@@ -236,7 +236,7 @@ namespace Kenedia.Modules.Characters.Views
         {
             Parent = GameService.Graphics.SpriteScreen,
             Visible = false,
-            ZIndex = 999,
+            ZIndex = int.MaxValue - 1,
             Enabled = false,
         };
 
@@ -366,7 +366,7 @@ namespace Kenedia.Modules.Characters.Views
                 return matchAll && results.Count(e => e == true) >= strings.Count;
             }
 
-            foreach ((CharacterControl ctrl, bool toggleResult, bool stringsResult, bool tagsResult) in from CharacterControl ctrl in CharactersPanel.Children
+            foreach ((CharacterCard ctrl, bool toggleResult, bool stringsResult, bool tagsResult) in from CharacterCard ctrl in CharactersPanel.Children
                                                                                                         let c = ctrl.Character
                                                                                                         where c != null
                                                                                                         let toggleResult = toggleFilters.Count == 0 || (include == FilterResult(c))
@@ -387,12 +387,13 @@ namespace Kenedia.Modules.Characters.Views
         {
             foreach (Character_Model c in models)
             {
-                if (CharacterControls.Find(e => e.Character.Name == c.Name) == null)
+                if (CharacterCards.Find(e => e.Character.Name == c.Name) == null)
                 {
-                    CharacterControls.Add(new CharacterControl()
+                    CharacterCards.Add(new CharacterCard()
                     {
                         Character = c,
                         Parent = CharactersPanel,
+                        AttachedCards = CharacterCards,
                     });
                 }
             }
@@ -419,11 +420,11 @@ namespace Kenedia.Modules.Characters.Views
                         switch (order)
                         {
                             case ESortOrder.Ascending:
-                                CharactersPanel.SortChildren<CharacterControl>((a, b) => a.Character.Name.CompareTo(b.Character.Name));
+                                CharactersPanel.SortChildren<CharacterCard>((a, b) => a.Character.Name.CompareTo(b.Character.Name));
                                 break;
 
                             case ESortOrder.Descending:
-                                CharactersPanel.SortChildren<CharacterControl>((a, b) => b.Character.Name.CompareTo(a.Character.Name));
+                                CharactersPanel.SortChildren<CharacterCard>((a, b) => b.Character.Name.CompareTo(a.Character.Name));
                                 break;
                         }
 
@@ -435,11 +436,11 @@ namespace Kenedia.Modules.Characters.Views
                         switch (order)
                         {
                             case ESortOrder.Ascending:
-                                CharactersPanel.SortChildren<CharacterControl>((a, b) => b.Character.LastLogin.CompareTo(a.Character.LastLogin));
+                                CharactersPanel.SortChildren<CharacterCard>((a, b) => b.Character.LastLogin.CompareTo(a.Character.LastLogin));
                                 break;
 
                             case ESortOrder.Descending:
-                                CharactersPanel.SortChildren<CharacterControl>((a, b) => a.Character.LastLogin.CompareTo(b.Character.LastLogin));
+                                CharactersPanel.SortChildren<CharacterCard>((a, b) => a.Character.LastLogin.CompareTo(b.Character.LastLogin));
                                 break;
                         }
 
@@ -451,11 +452,11 @@ namespace Kenedia.Modules.Characters.Views
                         switch (order)
                         {
                             case ESortOrder.Ascending:
-                                CharactersPanel.SortChildren<CharacterControl>((a, b) => a.Character.Map.CompareTo(b.Character.Map));
+                                CharactersPanel.SortChildren<CharacterCard>((a, b) => a.Character.Map.CompareTo(b.Character.Map));
                                 break;
 
                             case ESortOrder.Descending:
-                                CharactersPanel.SortChildren<CharacterControl>((a, b) => b.Character.Map.CompareTo(a.Character.Map));
+                                CharactersPanel.SortChildren<CharacterCard>((a, b) => b.Character.Map.CompareTo(a.Character.Map));
                                 break;
                         }
 
@@ -467,11 +468,11 @@ namespace Kenedia.Modules.Characters.Views
                         switch (order)
                         {
                             case ESortOrder.Ascending:
-                                CharactersPanel.SortChildren<CharacterControl>((a, b) => a.Character.Profession.CompareTo(b.Character.Profession));
+                                CharactersPanel.SortChildren<CharacterCard>((a, b) => a.Character.Profession.CompareTo(b.Character.Profession));
                                 break;
 
                             case ESortOrder.Descending:
-                                CharactersPanel.SortChildren<CharacterControl>((a, b) => b.Character.Profession.CompareTo(a.Character.Profession));
+                                CharactersPanel.SortChildren<CharacterCard>((a, b) => b.Character.Profession.CompareTo(a.Character.Profession));
                                 break;
                         }
 
@@ -485,10 +486,10 @@ namespace Kenedia.Modules.Characters.Views
 
                 case ESortType.Custom:
                     {
-                        CharactersPanel.SortChildren<CharacterControl>((a, b) => a.Index.CompareTo(b.Index));
+                        CharactersPanel.SortChildren<CharacterCard>((a, b) => a.Index.CompareTo(b.Index));
 
                         int i = 0;
-                        foreach (CharacterControl c in CharactersPanel.Children.Cast<CharacterControl>())
+                        foreach (CharacterCard c in CharactersPanel.Children.Cast<CharacterCard>())
                         {
                             c.Index = i;
                             i++;
@@ -569,7 +570,7 @@ namespace Kenedia.Modules.Characters.Views
         {
             base.OnHidden(e);
 
-            CharacterControls?.ForEach(c => c.HideTooltips());
+            CharacterCards?.ForEach(c => c.HideTooltips());
         }
 
         protected override void OnResized(ResizedEventArgs e)
@@ -615,7 +616,7 @@ namespace Kenedia.Modules.Characters.Views
             _settings.ShowRandomButton.SettingChanged -= ShowRandomButton_SettingChanged;
             _settings.AppearanceSettingChanged -= UniformCharacterCards;
 
-            if (CharacterControls.Count > 0) CharacterControls?.DisposeAll();
+            if (CharacterCards.Count > 0) CharacterCards?.DisposeAll();
             ContentPanel?.DisposeAll();
             CharactersPanel?.Dispose();
             DraggingControl?.Dispose();
@@ -632,7 +633,7 @@ namespace Kenedia.Modules.Characters.Views
             if (_settings.EnterToLogin.Value)
             {
                 PerformFiltering();
-                var c = (CharacterControl)CharactersPanel.Children.Where(e => e.Visible).FirstOrDefault();
+                var c = (CharacterCard)CharactersPanel.Children.Where(e => e.Visible).FirstOrDefault();
 
                 if (c != null)
                 {
@@ -666,37 +667,37 @@ namespace Kenedia.Modules.Characters.Views
 
         private void UniformCharacterCards(object sender = null, EventArgs e = null)
         {
-            if (CharacterControls.Count > 0)
+            if (CharacterCards.Count > 0)
             {
-                int maxWidth = CharacterControls.Max(e => e.CalculateLayout().Width);
+                int maxWidth = CharacterCards.Max(e => e.CalculateLayout().Width);
 
-                foreach (CharacterControl c in CharactersPanel.Children.Cast<CharacterControl>())
+                foreach (CharacterCard c in CharactersPanel.Children.Cast<CharacterCard>())
                 {
                     c.ControlContentBounds = new(c.ControlContentBounds.Location, new(maxWidth, c.ControlContentBounds.Height));
                 }
             }
         }
 
-        private void SetNewIndex(CharacterControl characterControl)
+        private void SetNewIndex(CharacterCard characterControl)
         {
             characterControl.Index = GetHoveredIndex(characterControl);
 
             SortCharacters();
         }
 
-        private double GetHoveredIndex(CharacterControl characterControl)
+        private double GetHoveredIndex(CharacterCard characterControl)
         {
             Blish_HUD.Input.MouseHandler m = Input.Mouse;
-            CharacterControl lastControl = characterControl;
+            CharacterCard lastControl = characterControl;
 
             int i = 0;
-            foreach (CharacterControl c in CharactersPanel.Children.Cast<CharacterControl>())
+            foreach (CharacterCard c in CharactersPanel.Children.Cast<CharacterCard>())
             {
                 c.Index = i;
                 i++;
             }
 
-            foreach (CharacterControl c in CharactersPanel.Children.Cast<CharacterControl>())
+            foreach (CharacterCard c in CharactersPanel.Children.Cast<CharacterCard>())
             {
                 if (c.AbsoluteBounds.Contains(m.Position))
                 {
@@ -707,7 +708,7 @@ namespace Kenedia.Modules.Characters.Views
             }
 
             return lastControl.AbsoluteBounds.Bottom < m.Position.Y || (lastControl.AbsoluteBounds.Top < m.Position.Y && lastControl.AbsoluteBounds.Right < m.Position.X)
-                ? CharacterControls.Count + 1
+                ? CharacterCards.Count + 1
                 : characterControl.Index;
         }
     }

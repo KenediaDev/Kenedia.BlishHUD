@@ -15,7 +15,7 @@ using Blish_HUD.Gw2Mumble;
 
 namespace Kenedia.Modules.Core.Models
 {
-    public abstract class BaseModule<ModuleType, ModuleWindow, ModuleSettings> : Module 
+    public abstract class BaseModule<ModuleType, ModuleWindow, ModuleSettings> : Module
         where ModuleType : Module
         where ModuleWindow : Container
         where ModuleSettings : BaseSettingsModel
@@ -31,7 +31,7 @@ namespace Kenedia.Modules.Core.Models
             var gameState = new GameState(clientWindowService, sharedSettings);
 
             Services = new(gameState, clientWindowService, sharedSettings);
-            SharedSettingsView = new SharedSettingsView(sharedSettings, clientWindowService);          
+            SharedSettingsView = new SharedSettingsView(sharedSettings, clientWindowService);
         }
 
         public static ModuleType ModuleInstance { get; protected set; }
@@ -57,7 +57,7 @@ namespace Kenedia.Modules.Core.Models
         public ModuleWindow MainWindow { get; protected set; }
 
         public ModuleSettings Settings { get; protected set; }
-        
+
         protected SettingEntry<Blish_HUD.Input.KeyBinding> ReloadKey { get; set; }
 
         protected override void Initialize()
@@ -111,10 +111,10 @@ namespace Kenedia.Modules.Core.Models
 
         protected override void Update(GameTime gameTime)
         {
-            base.Update(gameTime);         
+            base.Update(gameTime);
 
-            Services.GameState.Run(gameTime);
-            Services.ClientWindowService.Run(gameTime);
+            if (Services.States[typeof(GameState)]) Services.GameState.Run(gameTime);
+            if (Services.States[typeof(ClientWindowService)]) Services.ClientWindowService.Run(gameTime);
 
             if (HasGUI && !IsGUICreated)
             {
@@ -130,6 +130,8 @@ namespace Kenedia.Modules.Core.Models
         protected override void Unload()
         {
             base.Unload();
+
+            Services.GameState?.Dispose();
 
 #if DEBUG
             ReloadKey.Value.Activated += ReloadKey_Activated;

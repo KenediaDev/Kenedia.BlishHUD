@@ -10,9 +10,9 @@ namespace Kenedia.Modules.Characters.Controls
 {
     public class DraggingControl : Control
     {
-        private CharacterControl _characterControl;
+        private CharacterCard _characterControl;
 
-        public CharacterControl CharacterControl
+        public CharacterCard CharacterControl
         {
             get => _characterControl;
             set

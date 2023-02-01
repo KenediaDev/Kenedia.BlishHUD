@@ -69,7 +69,7 @@ namespace Kenedia.Modules.Characters
 
         public SettingsWindow SettingsWindow { get; private set; }
 
-        public CharacterPotraitCapture PotraitCapture { get; private set; }
+        public PotraitCapture PotraitCapture { get; private set; }
 
         public LoadingSpinner APISpinner { get; private set; }
 
@@ -537,7 +537,7 @@ namespace Kenedia.Modules.Characters
                 Size = Settings.WindowSize.Value,
             };
 
-            PotraitCapture = new CharacterPotraitCapture(Services.ClientWindowService, Services.SharedSettings) { Parent = GameService.Graphics.SpriteScreen, Visible = false, ZIndex = int.MaxValue - 1 };
+            PotraitCapture = new PotraitCapture(Services.ClientWindowService, Services.SharedSettings) { Parent = GameService.Graphics.SpriteScreen, Visible = false, ZIndex = int.MaxValue - 1 };
 
             OCR = new(Services.ClientWindowService, Services.SharedSettings, Settings, Paths.ModulePath, CharacterModels);
 

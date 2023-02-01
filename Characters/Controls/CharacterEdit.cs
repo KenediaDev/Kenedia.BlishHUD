@@ -292,6 +292,7 @@ namespace Kenedia.Modules.Characters.Controls
                                 Character.IconPath = p.Replace(Character.ModulePath, string.Empty);
                                 Character.Icon = texture;
                                 ApplyCharacter();
+                                Characters.ModuleInstance.MainWindow.RequestUniform();
                             }
                         };
                     }

@@ -1,4 +1,6 @@
 ﻿using Kenedia.Modules.Core.Services;
+using System;
+using System.Collections.Generic;
 
 namespace Kenedia.Modules.Core.Models
 {
@@ -9,7 +11,13 @@ namespace Kenedia.Modules.Core.Models
             GameState = gameState;
             ClientWindowService = clientWindowService;
             SharedSettings = sharedSettings;
+
+            States[typeof(GameState)] = true;
+            States[typeof(ClientWindowService)] = true;
+            States[typeof(SharedSettings)] = true;
         }
+
+        public Dictionary<Type, bool> States { get; } = new();
 
         public GameState GameState { get; }
 

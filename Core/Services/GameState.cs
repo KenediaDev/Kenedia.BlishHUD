@@ -13,6 +13,8 @@ using Kenedia.Modules.Core.Models;
 using System.Diagnostics;
 using Kenedia.Modules.Core.Structs;
 using static Kenedia.Modules.Core.Utility.WindowsUtil.User32Dll;
+using System.Threading.Tasks;
+using Kenedia.Modules.Core.Controls;
 
 namespace Kenedia.Modules.Core.Services
 {
@@ -25,16 +27,33 @@ namespace Kenedia.Modules.Core.Services
         Cutscene
     }
 
-    public class GameState
+    public class GameState : IDisposable
     {
-        private double s_lastTick = 0;
-        private double? s_cutsceneStart;
-        private double s_cutsceneDuration = 0;
+        private bool _disposed;
+        private double _lastTick = 0;
+        private double? _cutsceneStart;
+        private double _cutsceneDuration = 0;
 
-        private readonly List<double> s_spinnerResults = new();
+        private readonly MaskedRegion _spinnerMask = new FramedMaskedRegion()
+        {
+            Visible = false,
+            Parent = GameService.Graphics.SpriteScreen,
+            ZIndex = int.MaxValue,
+            BorderColor = Color.Transparent,
+        };
 
-        private readonly List<GameStatus> s_gameStatuses = new();
-        private GameStatus s_gameStatus = GameStatus.Unknown;
+        private readonly MaskedRegion _logoutMask = new FramedMaskedRegion()
+        {
+            Visible = false,
+            Parent = GameService.Graphics.SpriteScreen,
+            ZIndex = int.MaxValue,
+            BorderColor = Color.Transparent,
+        };
+
+        private readonly List<double> _spinnerResults = new();
+
+        private readonly List<GameStatus> _gameStatuses = new();
+        private GameStatus _gameStatus = GameStatus.Unknown;
         public event EventHandler<GameStateChangedEventArgs> GameStateChanged;
         public event EventHandler<GameStateChangedEventArgs> ChangedToIngame;
         public event EventHandler<GameStateChangedEventArgs> ChangedToCharacterSelection;
@@ -61,39 +80,39 @@ namespace Kenedia.Modules.Core.Services
 
         public GameStatus GameStatus
         {
-            get => s_gameStatus;
+            get => _gameStatus;
             private set
             {
-                if (s_gameStatus != value)
+                if (_gameStatus != value)
                 {
-                    OldStatus = s_gameStatus;
-                    s_gameStatus = value;
+                    OldStatus = _gameStatus;
+                    _gameStatus = value;
 
                     var eventArgs = new GameStateChangedEventArgs()
                     {
                         OldStatus = OldStatus,
-                        Status = s_gameStatus,
+                        Status = _gameStatus,
                     };
 
-                    switch (s_gameStatus)
+                    switch (_gameStatus)
                     {
                         case GameStatus.Ingame:
-                            s_spinnerResults.Clear();
-                            s_cutsceneDuration = 0;
-                            s_cutsceneStart = null;
+                            _spinnerResults.Clear();
+                            _cutsceneDuration = 0;
+                            _cutsceneStart = null;
                             ChangedToIngame?.Invoke(GameStatus, eventArgs);
                             break;
 
                         case GameStatus.CharacterSelection:
-                            s_spinnerResults.Clear();
-                            s_cutsceneDuration = 0;
-                            s_cutsceneStart = null;
+                            _spinnerResults.Clear();
+                            _cutsceneDuration = 0;
+                            _cutsceneStart = null;
                             ChangedToCharacterSelection?.Invoke(GameStatus, eventArgs);
                             break;
 
                         case GameStatus.LoadingScreen:
-                            s_cutsceneDuration = 0;
-                            s_cutsceneStart = null;
+                            _cutsceneDuration = 0;
+                            _cutsceneStart = null;
                             ChangedToLoadingScreen?.Invoke(GameStatus, eventArgs);
                             break;
 
@@ -116,13 +135,17 @@ namespace Kenedia.Modules.Core.Services
             if (GameService.Gw2Mumble.TimeSinceTick.TotalMilliseconds <= 500)
             {
                 NewStatus = GameStatus.Ingame;
+                _logoutMask.Hide();
+                _spinnerMask.Hide();
             }
             else if (GameService.GameIntegration.Gw2Instance.Gw2HasFocus)
             {
+                _spinnerMask.Show();
+                _logoutMask.Show();
                 // Throttle the check so we don't stress the CPU to badly with the checks
-                if (gameTime.TotalGameTime.TotalMilliseconds - s_lastTick > 250)
+                if (gameTime.TotalGameTime.TotalMilliseconds - _lastTick > 250)
                 {
-                    s_lastTick = gameTime.TotalGameTime.TotalMilliseconds;
+                    _lastTick = gameTime.TotalGameTime.TotalMilliseconds;
 
                     bool isButtonVisible = IsButtonVisible();
 
@@ -144,8 +167,8 @@ namespace Kenedia.Modules.Core.Services
                         {
                             if (!isLoadingSpinnerVisible)
                             {
-                                s_cutsceneStart ??= gameTime.TotalGameTime.TotalMilliseconds;
-                                s_cutsceneDuration += gameTime.TotalGameTime.TotalMilliseconds - (double)s_cutsceneStart;
+                                _cutsceneStart ??= gameTime.TotalGameTime.TotalMilliseconds;
+                                _cutsceneDuration += gameTime.TotalGameTime.TotalMilliseconds - (double)_cutsceneStart;
                             }
 
                             if (GameStatus is GameStatus.Cutscene)
@@ -157,13 +180,13 @@ namespace Kenedia.Modules.Core.Services
                                 // After a loading screen we can only get into a cutscene or ingame, ingame is checked already, so if we are here its a cutscene if the cutscene duration is longer than x ms
                                 if (!isLoadingSpinnerVisible)
                                 {
-                                    NewStatus = s_cutsceneDuration > 1000 ? GameStatus.Cutscene : NewStatus;
+                                    NewStatus = _cutsceneDuration > 1000 ? GameStatus.Cutscene : NewStatus;
                                 }
                             }
                             else if (GameStatus is GameStatus.Ingame)
                             {
                                 // From ingame we can go to all game states, character selection is reliable from ingame and checked already, so we now test only Loading screen and Cutscene
-                                NewStatus = isLoadingSpinnerVisible ? GameStatus.LoadingScreen : s_cutsceneDuration > 1000 ? GameStatus.Cutscene : GameStatus.Unknown;
+                                NewStatus = isLoadingSpinnerVisible ? GameStatus.LoadingScreen : _cutsceneDuration > 1000 ? GameStatus.Cutscene : GameStatus.Unknown;
                             }
                         }
                     }
@@ -172,12 +195,12 @@ namespace Kenedia.Modules.Core.Services
 
             if (NewStatus != GameStatus.Unknown)
             {
-                if (StatusConfirmed(NewStatus, s_gameStatuses, NewStatus == GameStatus.LoadingScreen ? 6 : 3))
+                if (StatusConfirmed(NewStatus, _gameStatuses, NewStatus == GameStatus.LoadingScreen ? 6 : 3))
                 {
                     if (GameStatus != NewStatus)
                     {
                         GameStatus = NewStatus;
-                        s_gameStatuses.Clear();
+                        _gameStatuses.Clear();
                     }
                 }
             }
@@ -193,6 +216,12 @@ namespace Kenedia.Modules.Core.Services
             Size size = new(50 + ((int)uiSize * 3), 40 + ((int)uiSize * 3));
 
             var pos = new Point(0, -size.Height);
+
+            double factor = GameService.Graphics.UIScaleMultiplier;
+
+            _logoutMask.Size = new((int)(size.Width * 2 * factor), (int)(size.Height * 2 * factor));
+            _logoutMask.Location = new(GameService.Graphics.SpriteScreen.Left, GameService.Graphics.SpriteScreen.Bottom + (-_logoutMask.Size.Y));
+
 
             using Bitmap bitmap = new(size.Width, size.Height);
             using var g = Graphics.FromImage(bitmap);
@@ -216,6 +245,11 @@ namespace Kenedia.Modules.Core.Services
 
             var pos = new Point(-size.Width, -size.Height);
 
+            double factor = GameService.Graphics.UIScaleMultiplier;
+
+            _spinnerMask.Size = new((int)(size.Width * 2 * factor), (int)(size.Height * 2 * factor));
+            _spinnerMask.Location = new(GameService.Graphics.SpriteScreen.Right + (-_spinnerMask.Size.X), GameService.Graphics.SpriteScreen.Bottom + (-_spinnerMask.Size.Y));
+
             using Bitmap bitmap = new(size.Width, size.Height);
             using var g = Graphics.FromImage(bitmap);
             using MemoryStream s = new();
@@ -223,9 +257,10 @@ namespace Kenedia.Modules.Core.Services
             g.CopyFromScreen(new(wndBounds.Right + offset.Right + pos.X, wndBounds.Bottom + offset.Bottom + pos.Y - 30), Point.Empty, size);
             (Bitmap, bool, double) isFilled = bitmap.IsNotBlackAndCheckFilled(0.4);
 
-            if (isFilled.Item2) SaveResult(isFilled.Item3, s_spinnerResults);
+            if (isFilled.Item2) SaveResult(isFilled.Item3, _spinnerResults);
 
-            IEnumerable<double> uniques = s_spinnerResults.Distinct();
+            IEnumerable<double> uniques = _spinnerResults.Distinct();
+
             return uniques?.Count() >= 3;
         }
 
@@ -249,6 +284,16 @@ namespace Kenedia.Modules.Core.Services
             }
 
             return partial.Count >= threshold && partial.Distinct().Count() == 1;
+        }
+
+        public void Dispose()
+        {
+            if (!_disposed)
+            {
+                _disposed = true;
+                _spinnerMask?.Dispose();
+                _logoutMask?.Dispose();
+            }
         }
     }
 }

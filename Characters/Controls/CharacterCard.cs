@@ -25,7 +25,7 @@ using Rectangle = Microsoft.Xna.Framework.Rectangle;
 
 namespace Kenedia.Modules.Characters.Controls
 {
-    public class CharacterControl : Panel
+    public class CharacterCard : Panel
     {
         private readonly List<Control> _dataControls = new();
 
@@ -67,7 +67,7 @@ namespace Kenedia.Modules.Characters.Controls
         private Character_Model _character;
         private readonly List<Tag> _tags = new();
 
-        public CharacterControl()
+        public CharacterCard()
         {
             HeightSizingMode = SizingMode.AutoSize;
             //WidthSizingMode = SizingMode.AutoSize;
@@ -186,6 +186,8 @@ namespace Kenedia.Modules.Characters.Controls
 
             _created = true;
         }
+
+        public List<CharacterCard> AttachedCards = new();
 
         private SettingsModel Settings => Characters.ModuleInstance.Settings;
 
@@ -646,7 +648,7 @@ namespace Kenedia.Modules.Characters.Controls
             _tagPanel.DisposeAll();
 
             Children.DisposeAll();
-            _ = Characters.ModuleInstance.MainWindow.CharacterControls.Remove(this);
+            _ = Characters.ModuleInstance.MainWindow.CharacterCards.Remove(this);
         }
 
         private BitmapFont GetFont(bool nameFont = false)

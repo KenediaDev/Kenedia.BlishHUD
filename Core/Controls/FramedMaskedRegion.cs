@@ -6,11 +6,11 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 
-namespace Characters.Controls
+namespace Kenedia.Modules.Core.Controls
 {
-    internal class CharacterPotraitFrame : MaskedRegion
+    internal class FramedMaskedRegion : MaskedRegion
     {
-        public CharacterPotraitFrame()
+        public FramedMaskedRegion()
         {
             Parent = Graphics.SpriteScreen;
             ZIndex = int.MaxValue;
@@ -20,13 +20,13 @@ namespace Characters.Controls
 
         public RectangleDimensions BorderWidth { get; set; } = new(2);
 
-        public Rectangle PotraitRegion;
+        public Rectangle MaskedRegion;
 
         public override void RecalculateLayout()
         {
             base.RecalculateLayout();
 
-            PotraitRegion = new Rectangle(Location.X + BorderWidth.Left, Location.Y + BorderWidth.Top, Size.X - BorderWidth.Horizontal, Size.Y - BorderWidth.Vertical);
+            MaskedRegion = new Rectangle(Location.X + BorderWidth.Left, Location.Y + BorderWidth.Top, Size.X - BorderWidth.Horizontal, Size.Y - BorderWidth.Vertical);
         }
 
         protected override void OnMoved(MovedEventArgs e)
@@ -57,7 +57,7 @@ namespace Characters.Controls
                 spriteBatch.DrawOnCtrl(this, ContentService.Textures.Pixel, new Rectangle(bounds.Right - 1, bounds.Top, BorderWidth.Right / 2, bounds.Height), Rectangle.Empty, (Color)borderColor * 0.6f);
             }
 
-            base.Paint(spriteBatch, PotraitRegion);
+            base.Paint(spriteBatch, MaskedRegion);
         }
     }
 }

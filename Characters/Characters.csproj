@@ -201,12 +201,12 @@
     <Compile Include="Characters.cs" />
     <Compile Include="Controls\BasicTooltip.cs" />
     <Compile Include="Controls\CharacterEdit.cs" />
-    <Compile Include="Controls\CharacterPotraitCapture.cs" />
-    <Compile Include="Controls\CharacterControl.cs" />
-    <Compile Include="Controls\CharacterPotraitPanel.cs" />
+    <Compile Include="Controls\PotraitCapture.cs" />
+    <Compile Include="Controls\CharacterCard.cs" />
     <Compile Include="Controls\CharacterTooltip.cs" />
     <Compile Include="Controls\CraftingControl.cs" />
     <Compile Include="Controls\DraggingControl.cs" />
+    <Compile Include="Controls\TagFlowPanel.cs" />
     <Compile Include="Models\FilterEntry.cs" />
     <Compile Include="Controls\FilterTag.cs" />
     <Compile Include="Controls\FontFlowPanel.cs" />

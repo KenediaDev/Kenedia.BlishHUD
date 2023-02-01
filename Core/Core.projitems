@@ -11,6 +11,7 @@
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)Controls\AnchoredControl.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controls\Button.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\FramedMaskedRegion.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controls\Checkbox.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controls\CornerIcon.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controls\Dropdown.cs" />
