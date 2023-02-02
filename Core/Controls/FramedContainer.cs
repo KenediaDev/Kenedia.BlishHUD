@@ -8,6 +8,7 @@ using Kenedia.Modules.Core.Structs;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using Color = Microsoft.Xna.Framework.Color;
 using Rectangle = Microsoft.Xna.Framework.Rectangle;
@@ -16,6 +17,11 @@ namespace Kenedia.Modules.Core.Controls
 {
     public class FramedContainer : Container, ILocalizable
     {
+        private readonly List<(Rectangle, float)> _leftBorders = new();
+        private readonly List<(Rectangle, float)> _topBorders = new();
+        private readonly List<(Rectangle, float)> _rightBorders = new();
+        private readonly List<(Rectangle, float)> _bottomBorders = new();
+
         private Func<string> _setLocalizedTooltip;
         protected DateTime LastInteraction;
         private bool _fadeOut = false;
@@ -26,11 +32,25 @@ namespace Kenedia.Modules.Core.Controls
         private double _fadePerMs = 0;
         private int _fadeSteps = 200;
 
+        private Rectangle _backgroundBounds = Rectangle.Empty;
+
         public FramedContainer()
         {
             GameService.Overlay.UserLocale.SettingChanged += UserLocale_SettingChanged;
             UserLocale_SettingChanged(null, null);
             RecalculateFading();
+        }
+
+        private RectangleDimensions _contentPadding = new(0);
+
+        public RectangleDimensions ContentPadding
+        {
+            get => _contentPadding;
+            set
+            {
+                _contentPadding = value;
+                _contentRegion = new(_contentPadding.Left, _contentPadding.Top, Width - _contentPadding.Horizontal, Height - _contentPadding.Vertical);
+            }
         }
 
         public bool FadeOut
@@ -73,7 +93,7 @@ namespace Kenedia.Modules.Core.Controls
             }
         }
 
-        public RectangleDimensions BorderWidth { get; set; } = new(2);
+        public RectangleDimensions BorderWidth { get; set; } = new(0);
 
         public Color? BorderColor { get; set; }
 
@@ -99,6 +119,54 @@ namespace Kenedia.Modules.Core.Controls
                 _setLocalizedTooltip = value;
                 BasicTooltipText = value?.Invoke();
             }
+        }
+
+        public override void RecalculateLayout()
+        {
+            base.RecalculateLayout();
+            _contentRegion = new(_contentPadding.Left + BorderWidth.Left, _contentPadding.Top + BorderWidth.Top, Width - _contentPadding.Horizontal - BorderWidth.Horizontal, Height - _contentPadding.Vertical - BorderWidth.Vertical);
+            _backgroundBounds = new(Math.Max(BorderWidth.Left - 1, 0), Math.Max(BorderWidth.Top - 1, 0), Width - BorderWidth.Horizontal + 5, Height - BorderWidth.Vertical + 1);
+
+            _topBorders.Clear();
+            _leftBorders.Clear();
+            _bottomBorders.Clear();
+            _rightBorders.Clear();
+
+            var r = new Rectangle(-1, 0, Width + 2, 0);
+            int strength = BorderWidth.Top;
+            int fadeLines = Math.Max(0, Math.Min(strength - 1, 4));
+            if (fadeLines >= 1) _topBorders.Add(new(r = new(0, 0, Width, 1), 0.5f));
+            if (fadeLines >= 3) _topBorders.Add(new(r = new(r.Left + 1, r.Bottom, r.Width - 2, 1), 0.7f));
+            _topBorders.Add(new(r = new(r.Left + 1, r.Bottom, r.Width - 1, strength - fadeLines), 1f));
+            if (fadeLines >= 4) _topBorders.Add(new(r = new(r.Left + 1, r.Bottom, r.Width - 2, 1), 0.7f));
+            if (fadeLines >= 2) _topBorders.Add(new(r = new(r.Left + 1, r.Bottom, r.Width - 2, 1), 0.5f));
+
+            r = new Rectangle(-1, -1, 0, Height + 2);
+            strength = BorderWidth.Left;
+            fadeLines = Math.Max(0, Math.Min(strength - 1, 4));
+            if (fadeLines >= 1) _leftBorders.Add(new(r = new(0, 0, 1, Height), 0.5f));
+            if (fadeLines >= 3) _leftBorders.Add(new(r = new(r.Right, r.Top + 1, 1, r.Height - 2), 0.7f));
+            _leftBorders.Add(new(r = new(r.Right, r.Top + 1, strength - fadeLines, r.Height - 2), 1f));
+            if (fadeLines >= 4) _leftBorders.Add(new(r = new(r.Right, r.Top + 1, 1, r.Height - 2), 0.7f));
+            if (fadeLines >= 2) _leftBorders.Add(new(r = new(r.Right, r.Top + 1, 1, r.Height - 2), 0.5f));
+
+            r = new Rectangle(Width, -1, 0, Height + 2);
+            strength = BorderWidth.Right;
+            fadeLines = Math.Max(0, Math.Min(strength - 1, 4));
+            if (fadeLines >= 1) _rightBorders.Add(new(r = new(Width, 0, 1, Height), 0.5f));
+            if (fadeLines >= 3) _rightBorders.Add(new(r = new(r.Left - 1, r.Top + 1, 1, r.Height - 2), 0.7f));
+            _rightBorders.Add(new(r = new(r.Left - (strength - fadeLines), r.Top + 1, strength - fadeLines, r.Height - 2), 1f));
+            if (fadeLines >= 4) _rightBorders.Add(new(r = new(r.Left - 1, r.Top + 1, 1, r.Height - 2), 0.7f));
+            if (fadeLines >= 2) _rightBorders.Add(new(r = new(r.Left - 1, r.Top + 1, 1, r.Height - 2), 0.5f));
+
+            r = new Rectangle(-1, Height, Width + 2, 2);
+            strength = BorderWidth.Bottom;
+            fadeLines = Math.Max(0, Math.Min(strength - 1, 4));
+            if (fadeLines >= 1) _bottomBorders.Add(new(r = new(0, Height - 1, Width, 1), 0.5f));
+            if (fadeLines >= 3) _bottomBorders.Add(new(r = new(r.Left + 1, r.Top - 1, r.Width - 2, 1), 0.7f));
+            _bottomBorders.Add(new(r = new(r.Left + 1, r.Top - (strength - fadeLines), r.Width - 2, strength - fadeLines), 1f));
+            if (fadeLines >= 4) _bottomBorders.Add(new(r = new(r.Left + 1, r.Top - 1, r.Width - 2, 1), 0.7f));
+            if (fadeLines >= 2) _bottomBorders.Add(new(r = new(r.Left + 1, r.Top - 1, r.Width - 2, 1), 0.5f));
         }
 
         public override void UpdateContainer(GameTime gameTime)
@@ -135,11 +203,9 @@ namespace Kenedia.Modules.Core.Controls
                 spriteBatch.DrawOnCtrl(
                     this,
                     BackgroundImage,
-                    bounds,
+                    _backgroundBounds,
                     TextureRectangle ?? BackgroundImage.Bounds,
-                    (Color)backgroundImageColor,
-                    0f,
-                    default);
+                    (Color)backgroundImageColor);
             }
 
             Color? backgroundColor = BackgroundHoveredColor != null && MouseOver ? BackgroundHoveredColor : BackgroundColor;
@@ -156,21 +222,25 @@ namespace Kenedia.Modules.Core.Controls
             Color? borderColor = HoveredBorderColor != null && MouseOver ? HoveredBorderColor : BorderColor;
             if (borderColor != null)
             {
-                // Top
-                spriteBatch.DrawOnCtrl(this, ContentService.Textures.Pixel, new Rectangle(bounds.Left, bounds.Top, bounds.Width, BorderWidth.Top), Rectangle.Empty, (Color)borderColor * 0.5f);
-                spriteBatch.DrawOnCtrl(this, ContentService.Textures.Pixel, new Rectangle(bounds.Left, bounds.Top, bounds.Width, BorderWidth.Top / 2), Rectangle.Empty, (Color)borderColor * 0.6f);
+                foreach (var r in _topBorders)
+                {
+                    spriteBatch.DrawOnCtrl(this, ContentService.Textures.Pixel, r.Item1, Rectangle.Empty, (Color)borderColor * r.Item2);
+                }
 
-                // Bottom
-                spriteBatch.DrawOnCtrl(this, ContentService.Textures.Pixel, new Rectangle(bounds.Left, bounds.Bottom - 2, bounds.Width, BorderWidth.Bottom), Rectangle.Empty, (Color)borderColor * 0.5f);
-                spriteBatch.DrawOnCtrl(this, ContentService.Textures.Pixel, new Rectangle(bounds.Left, bounds.Bottom - 1, bounds.Width, BorderWidth.Bottom / 2), Rectangle.Empty, (Color)borderColor * 0.6f);
+                foreach (var r in _leftBorders)
+                {
+                    spriteBatch.DrawOnCtrl(this, ContentService.Textures.Pixel, r.Item1, Rectangle.Empty, (Color)borderColor * r.Item2);
+                }
 
-                // Left
-                spriteBatch.DrawOnCtrl(this, ContentService.Textures.Pixel, new Rectangle(bounds.Left, bounds.Top, BorderWidth.Left, bounds.Height), Rectangle.Empty, (Color)borderColor * 0.5f);
-                spriteBatch.DrawOnCtrl(this, ContentService.Textures.Pixel, new Rectangle(bounds.Left, bounds.Top, BorderWidth.Left / 2, bounds.Height), Rectangle.Empty, (Color)borderColor * 0.6f);
+                foreach (var r in _bottomBorders)
+                {
+                    spriteBatch.DrawOnCtrl(this, ContentService.Textures.Pixel, r.Item1, Rectangle.Empty, (Color)borderColor * r.Item2);
+                }
 
-                // Right
-                spriteBatch.DrawOnCtrl(this, ContentService.Textures.Pixel, new Rectangle(bounds.Right - 2, bounds.Top, BorderWidth.Right, bounds.Height), Rectangle.Empty, (Color)borderColor * 0.5f);
-                spriteBatch.DrawOnCtrl(this, ContentService.Textures.Pixel, new Rectangle(bounds.Right - 1, bounds.Top, BorderWidth.Right / 2, bounds.Height), Rectangle.Empty, (Color)borderColor * 0.6f);
+                foreach (var r in _rightBorders)
+                {
+                    spriteBatch.DrawOnCtrl(this, ContentService.Textures.Pixel, r.Item1, Rectangle.Empty, (Color)borderColor * r.Item2);
+                }
             }
         }
 
@@ -194,7 +264,7 @@ namespace Kenedia.Modules.Core.Controls
         protected override void OnHidden(EventArgs e)
         {
             base.OnHidden(e);
-           if(FadeOut) Opacity = 1F;
+            if (FadeOut) Opacity = 1F;
         }
 
         protected void SetInteracted()

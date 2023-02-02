@@ -34,6 +34,7 @@ using LoadingSpinner = Kenedia.Modules.Core.Controls.LoadingSpinner;
 using Blish_HUD.Controls;
 using Kenedia.Modules.Core.Res;
 using Microsoft.Xna.Framework.Graphics;
+using Kenedia.Modules.Core.Controls;
 
 namespace Kenedia.Modules.Characters
 {
@@ -411,7 +412,7 @@ namespace Kenedia.Modules.Characters
 
         private void ShortcutWindowToggle(object sender, EventArgs e)
         {
-            if (Control.ActiveControl is not TextBox)
+            if (Control.ActiveControl is not Blish_HUD.Controls.TextBox)
             {
                 MainWindow?.ToggleWindow();
             }

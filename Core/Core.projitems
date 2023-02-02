@@ -10,6 +10,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)Controls\AnchoredControl.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\BaseDialog.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controls\BasicTooltip.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controls\Button.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controls\FramedMaskedRegion.cs" />
@@ -46,6 +47,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\PointExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\StringExtension.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\Texture2DExtension.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Extensions\WaitHandleExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Interfaces\IFontControl.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Interfaces\ILocalizable.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\BaseModule.cs" />
