@@ -53,6 +53,7 @@ namespace Kenedia.Modules.Core.Controls
 
         private RectangleDimensions _contentPadding = new(0);
         private RectangleDimensions _borderWidth = new(0);
+        private Rectangle _backgroundBounds;
 
         public string BasicTitleTooltipText { get; set; }
 
@@ -140,7 +141,17 @@ namespace Kenedia.Modules.Core.Controls
         {
             base.RecalculateLayout();
 
-            _contentRegion = new(_contentPadding.Left + BorderWidth.Left, _contentPadding.Top + BorderWidth.Top, Width - _contentPadding.Horizontal - BorderWidth.Horizontal, Height - _contentPadding.Vertical - BorderWidth.Vertical);
+            _contentRegion = new(
+                _contentPadding.Left + BorderWidth.Left,
+                _contentPadding.Top + BorderWidth.Top,
+                Width - _contentPadding.Horizontal - BorderWidth.Horizontal - (WidthSizingMode == SizingMode.AutoSize ? AutoSizePadding.X : 0),
+                Height - _contentPadding.Vertical - BorderWidth.Vertical - (HeightSizingMode == SizingMode.AutoSize ? AutoSizePadding.Y : 0));
+
+            _backgroundBounds = new(
+                Math.Max(BorderWidth.Left - 2, 0),
+                Math.Max(BorderWidth.Top - 2, 0),
+                Width - Math.Max(BorderWidth.Horizontal - 4, 0),
+                Height - Math.Max(BorderWidth.Vertical - 4, 0));
 
             int num = (!string.IsNullOrEmpty(_title)) ? 36 : 0;
             int num2 = 0;
@@ -212,29 +223,28 @@ namespace Kenedia.Modules.Core.Controls
                 spriteBatch.DrawOnCtrl(this, _textureLeftSideAccent, _layoutLeftAccentBounds, _layoutLeftAccentSrc, Color.Black * AccentOpacity, 0f, Vector2.Zero, SpriteEffects.FlipVertically);
             }
 
-            Color? backgroundImageColor = BackgroundImageHoveredColor != null && MouseOver ? BackgroundImageHoveredColor : BackgroundImageColor;
-
-            if (BackgroundImage != null && backgroundImageColor != null)
-            {
-                spriteBatch.DrawOnCtrl(
-                    this,
-                    BackgroundImage,
-                    bounds,
-                    TextureRectangle ?? BackgroundImage.Bounds,
-                    (Color)backgroundImageColor,
-                    0f,
-                    default);
-            }
-
             Color? backgroundColor = BackgroundHoveredColor != null && MouseOver ? BackgroundHoveredColor : BackgroundColor;
             if (backgroundColor != null)
             {
                 spriteBatch.DrawOnCtrl(
                     this,
                     ContentService.Textures.Pixel,
-                    bounds,
+                    _backgroundBounds,
                     Rectangle.Empty,
                     (Color)backgroundColor);
+            }
+
+            Color? backgroundImageColor = BackgroundImageHoveredColor != null && MouseOver ? BackgroundImageHoveredColor : BackgroundImageColor;
+            if (BackgroundImage != null && backgroundImageColor != null)
+            {
+                spriteBatch.DrawOnCtrl(
+                    this,
+                    BackgroundImage,
+                    _backgroundBounds,
+                    TextureRectangle ?? BackgroundImage.Bounds,
+                    (Color)backgroundImageColor,
+                    0f,
+                    default);
             }
 
             Color? borderColor = HoveredBorderColor != null && MouseOver ? HoveredBorderColor : BorderColor;
@@ -287,7 +297,7 @@ namespace Kenedia.Modules.Core.Controls
             r = new Rectangle(Width, -1, 0, Height + 2);
             strength = BorderWidth.Right;
             fadeLines = Math.Max(0, Math.Min(strength - 1, 4));
-            if (fadeLines >= 1) _rightBorders.Add(new(r = new(Width, 0, 1, Height), 0.5f));
+            if (fadeLines >= 1) _rightBorders.Add(new(r = new(Width - 1, 0, 1, Height), 0.5f));
             if (fadeLines >= 3) _rightBorders.Add(new(r = new(r.Left - 1, r.Top + 1, 1, r.Height - 2), 0.7f));
             _rightBorders.Add(new(r = new(r.Left - (strength - fadeLines), r.Top + 1, strength - fadeLines, r.Height - 2), 1f));
             if (fadeLines >= 4) _rightBorders.Add(new(r = new(r.Left - 1, r.Top + 1, 1, r.Height - 2), 0.7f));

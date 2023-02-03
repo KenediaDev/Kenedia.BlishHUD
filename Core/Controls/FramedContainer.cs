@@ -131,8 +131,19 @@ namespace Kenedia.Modules.Core.Controls
         public override void RecalculateLayout()
         {
             base.RecalculateLayout();
-            _contentRegion = new(_contentPadding.Left + BorderWidth.Left, _contentPadding.Top + BorderWidth.Top, Width - _contentPadding.Horizontal - BorderWidth.Horizontal, Height - _contentPadding.Vertical - BorderWidth.Vertical);
-            _backgroundBounds = new(Math.Max(BorderWidth.Left - 1, 0), Math.Max(BorderWidth.Top - 1, 0), Width - BorderWidth.Horizontal + 5, Height - BorderWidth.Vertical + 1);
+
+            _contentRegion = new(
+                _contentPadding.Left + BorderWidth.Left,
+                _contentPadding.Top + BorderWidth.Top,
+                Width - _contentPadding.Horizontal - BorderWidth.Horizontal - (WidthSizingMode == SizingMode.AutoSize ? AutoSizePadding.X : 0),
+                Height - _contentPadding.Vertical - BorderWidth.Vertical - (HeightSizingMode == SizingMode.AutoSize ? AutoSizePadding.Y : 0));
+
+            _backgroundBounds = new(
+                Math.Max(BorderWidth.Left - 2, 0),
+                Math.Max(BorderWidth.Top - 2, 0),
+                Width - Math.Max(BorderWidth.Horizontal - 4, 0),
+                Height - Math.Max(BorderWidth.Vertical - 4, 0));
+
             CalculateBorders();
         }
 
@@ -164,7 +175,7 @@ namespace Kenedia.Modules.Core.Controls
             r = new Rectangle(Width, -1, 0, Height + 2);
             strength = BorderWidth.Right;
             fadeLines = Math.Max(0, Math.Min(strength - 1, 4));
-            if (fadeLines >= 1) _rightBorders.Add(new(r = new(Width, 0, 1, Height), 0.5f));
+            if (fadeLines >= 1) _rightBorders.Add(new(r = new(Width - 1, 0, 1, Height), 0.5f));
             if (fadeLines >= 3) _rightBorders.Add(new(r = new(r.Left - 1, r.Top + 1, 1, r.Height - 2), 0.7f));
             _rightBorders.Add(new(r = new(r.Left - (strength - fadeLines), r.Top + 1, strength - fadeLines, r.Height - 2), 1f));
             if (fadeLines >= 4) _rightBorders.Add(new(r = new(r.Left - 1, r.Top + 1, 1, r.Height - 2), 0.7f));
@@ -234,8 +245,18 @@ namespace Kenedia.Modules.Core.Controls
         {
             base.PaintBeforeChildren(spriteBatch, bounds);
 
-            Color? backgroundImageColor = BackgroundImageHoveredColor != null && MouseOver ? BackgroundImageHoveredColor : BackgroundImageColor;
+            Color? backgroundColor = BackgroundHoveredColor != null && MouseOver ? BackgroundHoveredColor : BackgroundColor;
+            if (backgroundColor != null)
+            {
+                spriteBatch.DrawOnCtrl(
+                    this,
+                    ContentService.Textures.Pixel,
+                    _backgroundBounds,
+                    Rectangle.Empty,
+                    (Color)backgroundColor);
+            }
 
+            Color? backgroundImageColor = BackgroundImageHoveredColor != null && MouseOver ? BackgroundImageHoveredColor : BackgroundImageColor;
             if (BackgroundImage != null && backgroundImageColor != null)
             {
                 spriteBatch.DrawOnCtrl(
@@ -244,17 +265,6 @@ namespace Kenedia.Modules.Core.Controls
                     _backgroundBounds,
                     TextureRectangle ?? BackgroundImage.Bounds,
                     (Color)backgroundImageColor);
-            }
-
-            Color? backgroundColor = BackgroundHoveredColor != null && MouseOver ? BackgroundHoveredColor : BackgroundColor;
-            if (backgroundColor != null)
-            {
-                spriteBatch.DrawOnCtrl(
-                    this,
-                    ContentService.Textures.Pixel,
-                    bounds,
-                    Rectangle.Empty,
-                    (Color)backgroundColor);
             }
 
             DrawBorders(spriteBatch);

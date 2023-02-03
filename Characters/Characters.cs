@@ -35,6 +35,7 @@ using Blish_HUD.Controls;
 using Kenedia.Modules.Core.Res;
 using Microsoft.Xna.Framework.Graphics;
 using Kenedia.Modules.Core.Controls;
+using Color = Microsoft.Xna.Framework.Color;
 
 namespace Kenedia.Modules.Characters
 {
@@ -69,6 +70,8 @@ namespace Kenedia.Modules.Characters
         public RunIndicator RunIndicator { get; private set; }
 
         public SettingsWindow SettingsWindow { get; private set; }
+
+        private FramedContainer _framedContainer;
 
         public PotraitCapture PotraitCapture { get; private set; }
 
@@ -502,7 +505,7 @@ namespace Kenedia.Modules.Characters
 
         protected override void LoadGUI()
         {
-            base.LoadGUI();
+            base.LoadGUI();       
 
             PotraitCapture = new PotraitCapture(Services.ClientWindowService, Services.SharedSettings) { Parent = GameService.Graphics.SpriteScreen, Visible = false, ZIndex = int.MaxValue - 1 };
             OCR = new(Services.ClientWindowService, Services.SharedSettings, Settings, Paths.ModulePath, CharacterModels);

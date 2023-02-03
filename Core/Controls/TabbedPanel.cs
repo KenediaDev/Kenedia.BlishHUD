@@ -29,9 +29,6 @@ namespace Kenedia.Modules.Core.Controls
 
             HeightSizingMode = SizingMode.AutoSize;
 
-            Parent = GameService.Graphics.SpriteScreen;
-            Visible = true;
-
             BackgroundImageColor = Color.Honeydew * 0.95f;
         }
 
