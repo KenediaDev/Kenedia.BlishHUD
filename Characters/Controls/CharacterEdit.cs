@@ -51,6 +51,7 @@ namespace Kenedia.Modules.Characters.Controls
             BackgroundImage = AsyncTexture2D.FromAssetId(156003);
             TextureRectangle = new Rectangle(26, 26, Math.Min(BackgroundImage.Width - 100, Width), Math.Min(BackgroundImage.Height - 100, Height));
             BorderColor = Color.Black;
+            BorderWidth = new(2);
 
             _ = new Dummy()
             {

@@ -208,16 +208,16 @@ namespace Kenedia.Modules.Core.Controls
         {
             Show();
 
-            bool waitResult = await this._waitHandle.WaitOneAsync(timeout, cancellationToken);
+            bool waitResult = await _waitHandle.WaitOneAsync(timeout, cancellationToken);
 
             if (!waitResult)
             {
-                this._dialogResult = DialogResult.None;
+                _dialogResult = DialogResult.None;
             }
 
             Hide();
 
-            return this._dialogResult;
+            return _dialogResult;
         }
 
         public override void RecalculateLayout()

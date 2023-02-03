@@ -66,6 +66,8 @@ namespace Characters.Views
                 OuterControlPadding = new(3, 3),
                 ControlPadding = new(3, 3),
                 FlowDirection = ControlFlowDirection.SingleTopToBottom,
+                BorderColor = Color.Black,
+                BorderWidth = new(2),
             };
 
             var headerPanel = new FlowPanel()
@@ -81,7 +83,7 @@ namespace Characters.Views
             {
                 Parent = headerPanel,
                 AutoSizeHeight = true,
-                Width = Width - 35,
+                Width = contentFlowPanel.ContentRegion.Width - 35,
                 WrapText = true,
                 TextColor = ContentService.Colors.ColonialWhite,
                 SetLocalizedText = () => strings.OCR_Instructions,
@@ -112,6 +114,7 @@ namespace Characters.Views
                 Height = GameService.Content.DefaultFont32.LineHeight + 8,
                 BorderColor = Color.Black * 0.7f,
                 BackgroundColor = Color.Black * 0.4f,
+                BorderWidth = new(2),
             };
             _bestMatchLabel = new Label()
             {
@@ -150,6 +153,7 @@ namespace Characters.Views
                 Height = GameService.Content.DefaultFont32.LineHeight + 8,
                 BorderColor = Color.Black * 0.7f,
                 BackgroundColor = Color.Black * 0.4f,
+                BorderWidth = new(2),
             };
             _resultLabel = new Label()
             {
@@ -189,6 +193,7 @@ namespace Characters.Views
                 Height = 55,
                 BorderColor = Color.Black * 0.7f,
                 BackgroundColor = Color.Black * 0.4f,
+                BorderWidth = new(2),
             };
 
             _cleanedImage = new Image()
@@ -223,6 +228,7 @@ namespace Characters.Views
                 Height = 55,
                 BorderColor = Color.Black * 0.7f,
                 BackgroundColor = Color.Black * 0.4f,
+                BorderWidth = new(2),
             };
 
             _sourceImage = new Image()
@@ -247,7 +253,7 @@ namespace Characters.Views
                 Parent = contentFlowPanel,
                 WidthSizingMode = SizingMode.AutoSize,
                 HeightSizingMode = SizingMode.AutoSize,
-                AutoSizePadding = new Point(5, 5),
+                //AutoSizePadding = new Point(5, 5),
                 OuterControlPadding = new Vector2(0, 5),
                 ControlPadding = new Vector2(5, 5),
                 FlowDirection = ControlFlowDirection.SingleLeftToRight,

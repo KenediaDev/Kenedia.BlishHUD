@@ -57,6 +57,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Models\ServiceCollection.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\SharedSettingsModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Res\strings_common.Designer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Scrollbar.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\ClientWindowService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\GameState.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\SharedSettings.cs" />

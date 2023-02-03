@@ -119,6 +119,7 @@ namespace Kenedia.Modules.Characters
                     }
 
                     int emptyPixelRow = 0;
+                    bool stringStarted = false;
                     for (int i = 0; i < bitmap.Width; i++)
                     {
                         bool containsPixel = false;
@@ -137,6 +138,7 @@ namespace Kenedia.Modules.Characters
                                 }
 
                                 containsPixel = true;
+                                stringStarted = true;
                             }
                             else if (emptyPixelRow >= CustomThreshold)
                             {
@@ -158,16 +160,19 @@ namespace Kenedia.Modules.Characters
                             }
                         }
 
-                        if (emptyPixelRow < CustomThreshold && show)
+                        if (emptyPixelRow < CustomThreshold)
                         {
                             if (!containsPixel)
                             {
-                                for (int j = 0; j < bitmap.Height; j++)
+                                if (show)
                                 {
-                                    spacingVisibleBitmap.SetPixel(i, j, _spacingColor);
+                                    for (int j = 0; j < bitmap.Height; j++)
+                                    {
+                                        spacingVisibleBitmap.SetPixel(i, j, _spacingColor);
+                                    }
                                 }
 
-                                emptyPixelRow++;
+                                if(stringStarted) emptyPixelRow++;
                             }
                             else
                             {

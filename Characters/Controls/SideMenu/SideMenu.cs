@@ -39,6 +39,7 @@ namespace Kenedia.Modules.Characters.Controls.SideMenu
             WidthSizingMode = SizingMode.Standard;
             HeightSizingMode = SizingMode.Standard;
             BackgroundColor = Color.Black * 0.4f;
+            BorderWidth = new(2);
             BackgroundImage = AsyncTexture2D.FromAssetId(156003);
             ZIndex = 11;
 
