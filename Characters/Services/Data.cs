@@ -48,14 +48,14 @@ namespace Kenedia.Modules.Characters.Services
 
         public Dictionary<int, CrafingProfession> CrafingProfessions { get; set; } = new Dictionary<int, CrafingProfession>()
         {
-            // Unkown
+            // Unknown
             {
                 0,
                 new CrafingProfession()
                 {
                     Icon = AsyncTexture2D.FromAssetId(154983),
                     Id = 0,
-                    APIId = "Unkown",
+                    APIId = "Unknown",
                     MaxRating = 0,
                     Names = new Dictionary<Locale, string>()
                     {
@@ -1042,7 +1042,7 @@ namespace Kenedia.Modules.Characters.Services
 
         public Map GetMapById(int id)
         {
-            return Maps.Length > id && Maps[id] != null ? Maps[id] : new Map() { Name = "Unkown Map", Id = 0 };
+            return Maps.Length > id && Maps[id] != null ? Maps[id] : new Map() { Name = "Unknown Map", Id = 0 };
         }
 
         public class CrafingProfession

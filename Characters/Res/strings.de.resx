@@ -703,7 +703,7 @@ Um den aktuellen Wert zu erhalten, müssen Sie die Modul-Tabs einmal wechseln, u
   <data name="UISizeDisclaimer" xml:space="preserve">
     <value>Sie müssen die Größe der Benutzeroberfläche auf 'Größer' einstellen, um die richtigen Ausschnitte zu erhalten!</value>
   </data>
-  <data name="Unkown" xml:space="preserve">
+  <data name="Unknown" xml:space="preserve">
     <value>Unbekannte</value>
   </data>
   <data name="UntilBirthday" xml:space="preserve">

@@ -703,7 +703,7 @@ Pour obtenir la valeur actuelle, vous devrez changer d'onglet de module une fois
   <data name="UISizeDisclaimer" xml:space="preserve">
     <value>Vous devez régler la taille de l'interface de jeu sur 'Plus grande' pour obtenir les bonnes découpes !</value>
   </data>
-  <data name="Unkown" xml:space="preserve">
+  <data name="Unknown" xml:space="preserve">
     <value>Inconnu</value>
   </data>
   <data name="UntilBirthday" xml:space="preserve">

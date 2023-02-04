@@ -1,14 +1,19 @@
 ﻿using Blish_HUD;
 using Blish_HUD.Controls;
+using Blish_HUD.Controls.Extern;
+using Blish_HUD.Input;
 using Kenedia.Modules.Characters.Models;
 using Kenedia.Modules.Characters.Services;
+using Kenedia.Modules.Core.Extensions;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Characters.Controls
@@ -18,16 +23,17 @@ namespace Characters.Controls
         private readonly SettingsModel _settings;
         private readonly ObservableCollection<Character_Model> _characters;
         private List<Character_Model> _displayedCharacters;
-        private Point _iconSize;
-        private  readonly List<Point> _points = new();
-        private  readonly List<Rectangle> _recs = new();
+        private int _iconSize;
+        private readonly List<Point> _points = new();
+        private readonly List<(Rectangle, Character_Model)> _recs = new();
+        private (Rectangle, Character_Model)? _nearest = null;
 
         public RadialMenu(SettingsModel settings, ObservableCollection<Character_Model> characters, Container parent)
         {
             _settings = settings;
             _characters = characters;
             Parent = parent;
-            BackgroundColor = Color.Orange * 0.2f;
+            BackgroundColor = Color.Black * 0.7f;
 
             foreach (Character_Model c in _characters)
             {
@@ -35,6 +41,15 @@ namespace Characters.Controls
             }
 
             Parent.Resized += Parent_Resized;
+            Input.Keyboard.KeyPressed += Keyboard_KeyPressed;
+        }
+
+        private void Keyboard_KeyPressed(object sender, KeyboardEventArgs e)
+        {
+            if (e.Key == Microsoft.Xna.Framework.Input.Keys.Escape)
+            {
+                Hide();
+            }
         }
 
         private void Parent_Resized(object sender, ResizedEventArgs e)
@@ -60,58 +75,119 @@ namespace Characters.Controls
                 Size = new(Parent.Width, Parent.Height);
                 //Location = new((Parent.Width - size) / 2, (Parent.Height - size) / 2);
 
-                _iconSize = new Point(size, size);
-
-                var center = new Point(Parent.Width / 2, Parent.Height / 2);
-                int amount = 72;
-                double adiv = Math.PI * 2 / amount;
                 _points.Clear();
                 _recs.Clear();
 
-                int imgSize = (int) (size * 0.175 / amount);
+                var center = new Point(Size.X / 2, Size.Y / 2);
+                int amount = _displayedCharacters.Count;
+                double adiv = Math.PI * 2 / amount;
+
+                int radius = size / 2;
+
+                _iconSize = Math.Min(128, ((int)(radius * (Math.Sqrt(2) / amount))) * 3);
+
                 Point p;
                 for (int i = 0; i < amount; i++)
                 {
-                    _points.Add(p = new(
-                       (int)(center.X + (size / 2 * Math.Sin(i * adiv))),
-                       (int)(center.Y + (size / 2 * Math.Cos(i * adiv)))));
+                    p = new(
+                       (int)(center.X + ((size - _iconSize - 2) / 2 * Math.Sin(i * adiv))),
+                       (int)(center.Y + ((size - _iconSize - 2) / 2 * Math.Cos(i * adiv))));
 
-                    _recs.Add(new(
-                        p.X - (imgSize / 2),
-                        p.Y - (imgSize / 2),
-                        imgSize,
-                        imgSize
-                        ));
+                    _recs.Add(new(new(
+                        p.X - (_iconSize / 2),
+                        p.Y - (_iconSize / 2),
+                        _iconSize,
+                        _iconSize
+                        ), _displayedCharacters[i]));
                 }
+            }
+        }
+
+        protected override void OnMouseMoved(MouseEventArgs e)
+        {
+            base.OnMouseMoved(e);
+
+            var copy = new List<(Rectangle, Character_Model)>(_recs);
+            _nearest = copy.OrderBy(e => e.Item1.Center.Distance2D(RelativeMousePosition)).FirstOrDefault();
+        }
+
+        public async Task<bool> IsNoKeyPressed()
+        {
+            while (GameService.Input.Keyboard.KeysDown.Count > 0)
+            {
+
+                Debug.WriteLine($"There are still {GameService.Input.Keyboard.KeysDown.Count} keys pressed.");
+                await Task.Delay(250);
+            }
+
+            Debug.WriteLine($"There are no more keys pressed. {GameService.Input.Keyboard.KeysDown.Count} keys pressed.");
+            await Task.Delay(250);
+            return true;
+        }
+
+        public override void DoUpdate(GameTime gameTime)
+        {
+            base.DoUpdate(gameTime);
+
+            if (!Input.Keyboard.KeysDown.Contains(_settings.RadialKey.Value.PrimaryKey))
+            {
+                Hide();
             }
         }
 
         protected override void Paint(SpriteBatch spriteBatch, Rectangle bounds)
         {
-            foreach (var p in _points)
-            {
-                spriteBatch.DrawOnCtrl(
-                    this,
-                    ContentService.Textures.Pixel,
-                    new(p.X - 5, p.Y - 5, 10, 10),
-                    Rectangle.Empty,
-                    Color.Red);
-            }
-
+            string txt = string.Empty;
             foreach (var r in _recs)
             {
-                spriteBatch.DrawOnCtrl(
-                    this,
-                    ContentService.Textures.Pixel,
-                    r,
-                    Rectangle.Empty,
-                    Color.Green);
+                if (r.Item2.Icon != null)
+                {
+                    bool mouseOver = r == _nearest;
+
+                    if (mouseOver)
+                    {
+                        txt = r.Item2.Name;
+                        spriteBatch.DrawOnCtrl(
+                        this,
+                        ContentService.Textures.Pixel,
+                        r.Item1.Add(-2, -2, 4, 4),
+                        Rectangle.Empty,
+                        mouseOver ? ContentService.Colors.ColonialWhite : Color.White);
+                    }
+
+                    spriteBatch.DrawOnCtrl(
+                        this,
+                        r.Item2.Icon,
+                        r.Item1,
+                        r.Item2.Icon.Bounds,
+                        Color.White);
+                }
             }
+
+            BasicTooltipText = txt;
+        }
+
+        protected override async void OnClick(MouseEventArgs e)
+        {
+            base.OnClick(e);
+
+            if (_nearest != null)
+            {
+                Hide();
+                _ = await IsNoKeyPressed();
+                _nearest?.Item2.Swap();
+            }
+        }
+
+        protected override void OnShown(EventArgs e)
+        {
+            base.OnShown(e);
+            _nearest = null;
         }
 
         protected override void DisposeControl()
         {
-            if(Parent != null ) Parent.Resized -= Parent_Resized;
+            if (Parent != null) Parent.Resized -= Parent_Resized;
 
             foreach (Character_Model c in _characters)
             {

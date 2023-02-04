@@ -2106,11 +2106,11 @@ namespace Characters.Res {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Unkown.
+        ///   Looks up a localized string similar to Unknown.
         /// </summary>
-        internal static string Unkown {
+        internal static string Unknown {
             get {
-                return ResourceManager.GetString("Unkown", resourceCulture);
+                return ResourceManager.GetString("Unknown", resourceCulture);
             }
         }
         

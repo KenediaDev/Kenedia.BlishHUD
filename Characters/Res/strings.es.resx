@@ -703,7 +703,7 @@ Para obtener el valor actual tendrás que cambiar las pestañas del módulo una 
   <data name="UISizeDisclaimer" xml:space="preserve">
     <value>Tienes que ajustar el tamaño de la superficie de juego a "Más grande" para obtener los recortes correctos!</value>
   </data>
-  <data name="Unkown" xml:space="preserve">
+  <data name="Unknown" xml:space="preserve">
     <value>Desconocido</value>
   </data>
   <data name="UntilBirthday" xml:space="preserve">

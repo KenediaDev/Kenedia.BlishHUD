@@ -65,7 +65,7 @@ namespace Kenedia.Modules.Characters.Services
 
         private bool IsTaskCanceled(CancellationToken cancellationToken)
         {
-            if (cancellationToken.IsCancellationRequested)
+            if (cancellationToken != null && cancellationToken.IsCancellationRequested)
             {
                 if (_state is not SwappingState.LoggedOut) { _movedLeft = 0; };
                 if (_state is SwappingState.MovedToStart) { _movedLeft = Characters.ModuleInstance.CharacterModels.Count; };
@@ -91,6 +91,18 @@ namespace Kenedia.Modules.Characters.Services
             Status = strings.CharacterSwap_Left;
             Blish_HUD.Controls.Intern.Keyboard.Stroke(VirtualKeyShort.LEFT, false);
             await Delay(cancellationToken);
+        }
+
+        public async Task<bool> IsNoKeyPressed(CancellationToken cancellationToken)
+        {
+            while (GameService.Input.Keyboard.KeysDown.Count > 0)
+            {
+                if (IsTaskCanceled(cancellationToken)) { return false; }
+
+                await Delay(cancellationToken, 250);
+            }
+
+            return true;
         }
 
         public async Task Run(CancellationToken cancellationToken)

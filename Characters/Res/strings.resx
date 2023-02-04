@@ -748,8 +748,8 @@ To get the current value you will have to swap module tabs once to update the se
   <data name="UISizeDisclaimer" xml:space="preserve">
     <value>You will have to set the games Interface Size to 'Larger' to get the correct cut outs!</value>
   </data>
-  <data name="Unkown" xml:space="preserve">
-    <value>Unkown</value>
+  <data name="Unknown" xml:space="preserve">
+    <value>Unknown</value>
   </data>
   <data name="UntilBirthday" xml:space="preserve">
     <value>until Birthday</value>

@@ -37,6 +37,8 @@ using Microsoft.Xna.Framework.Graphics;
 using Kenedia.Modules.Core.Controls;
 using Color = Microsoft.Xna.Framework.Color;
 using Characters.Controls;
+using Kenedia.Modules.Core.Extensions;
+using System.Runtime;
 
 namespace Kenedia.Modules.Characters
 {
@@ -265,6 +267,10 @@ namespace Kenedia.Modules.Characters
 
             Settings.ShortcutKey.Value.Enabled = true;
             Settings.ShortcutKey.Value.Activated += ShortcutWindowToggle;
+            
+            Settings.RadialKey.Value.Enabled = true;
+            Settings.RadialKey.Value.Activated += RadialMenuToggle;
+
             Tags.CollectionChanged += Tags_CollectionChanged;
 
             Settings.Version.Value = BaseVersion;
@@ -273,6 +279,11 @@ namespace Kenedia.Modules.Characters
             CharacterSorting.CharacterSwapping = CharacterSwapping;
 
             GW2APIHandler = new GW2API_Handler(CharacterSwapping, Paths.ModulePath);
+        }
+
+        private void RadialMenuToggle(object sender, EventArgs e)
+        {
+            if(Settings.EnableRadialMenu.Value) _ = (RadialMenu?.ToggleVisibility());
         }
 
         protected override void DefineSettings(SettingCollection settings)
@@ -510,8 +521,8 @@ namespace Kenedia.Modules.Characters
             base.LoadGUI();
             RadialMenu = new RadialMenu(Settings, CharacterModels, GameService.Graphics.SpriteScreen)
             {
-                Visible = true,
-                ZIndex = int.MaxValue - 1
+                Visible = false,
+                ZIndex = int.MaxValue  / 2
             };
 
             PotraitCapture = new PotraitCapture(Services.ClientWindowService, Services.SharedSettings) { Parent = GameService.Graphics.SpriteScreen, Visible = false, ZIndex = int.MaxValue - 1 };
