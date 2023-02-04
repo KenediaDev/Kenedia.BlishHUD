@@ -262,7 +262,6 @@ namespace Kenedia.Modules.Characters.Controls
             {
                 if (AttachedCards?.Count() > 0)
                 {
-                    Debug.WriteLine($"{nameof(UniformWithAttached)}");
                     int maxWidth = AttachedCards.Max(e => e.CalculateLayout().Width);
                     AttachedCards.ForEach(e => e.ControlContentBounds = new(e.ControlContentBounds.Location, new(maxWidth, e.ControlContentBounds.Height)));
                     AttachedCards.ForEach(e => e._lastUniform = now);

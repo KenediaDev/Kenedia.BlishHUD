@@ -35,7 +35,8 @@ namespace Kenedia.Modules.Characters.Models
         private int _index;
         private bool _initialized;
         private bool _pathChecked;
-        private  CharacterSwapping _characterSwapping;
+        private CharacterSwapping _characterSwapping;
+        private bool _showOnRadial = false;
 
         public Character_Model()
         {
@@ -280,6 +281,13 @@ namespace Kenedia.Modules.Characters.Models
 
         public string ModulePath { get; private set; }
 
+        [DataMember]
+        public bool ShowOnRadial
+        {
+            get => _showOnRadial;
+            set => SetProperty(ref _showOnRadial, value);
+        }
+
         public void Delete()
         {
             Deleted?.Invoke(null, null);
@@ -349,11 +357,11 @@ namespace Kenedia.Modules.Characters.Models
             distances.Sort((a, b) => a.Item4.CompareTo(b.Item4));
             (string, int, int, int, bool)? bestMatch = distances?.FirstOrDefault();
 
-            if(bestMatch != null && bestMatch.HasValue)
+            if (bestMatch != null && bestMatch.HasValue)
             {
                 foreach ((string, int, int, int, bool) match in distances.Where(e => e.Item4 == bestMatch.Value.Item4))
                 {
-                    if(match.Item1 == Name)
+                    if (match.Item1 == Name)
                     {
                         return match;
                     }
@@ -366,7 +374,7 @@ namespace Kenedia.Modules.Characters.Models
         private void OnUpdated(bool save = true)
         {
             Updated?.Invoke(this, EventArgs.Empty);
-            if(save) Save();
+            if (save) Save();
         }
 
         private void Save()

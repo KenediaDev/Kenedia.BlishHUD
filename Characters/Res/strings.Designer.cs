@@ -1826,6 +1826,24 @@ namespace Characters.Res {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Show On Radial.
+        /// </summary>
+        internal static string ShowOnRadial {
+            get {
+                return ResourceManager.GetString("ShowOnRadial", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Show Character on the radial menu. Requires activating the &quot;Use Radial Menu&quot; setting..
+        /// </summary>
+        internal static string ShowOnRadial_Tooltip {
+            get {
+                return ResourceManager.GetString("ShowOnRadial_Tooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Shows a button next to the search field to switch to a random character of your list.
         /// </summary>
         internal static string ShowRandomButton_Description {

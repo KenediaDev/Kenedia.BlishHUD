@@ -854,4 +854,10 @@ Se connecter automatiquement ?
   <data name="RadialMenuKey_Tooltip" xml:space="preserve">
     <value>Touche qui permet d'afficher le menu radial lorsqu'elle est enfoncée.</value>
   </data>
+  <data name="ShowOnRadial" xml:space="preserve">
+    <value>Afficher sur le radial</value>
+  </data>
+  <data name="ShowOnRadial_Tooltip" xml:space="preserve">
+    <value>Afficher le caractère dans le menu radial. Nécessite l'activation du paramètre "Utiliser le menu radial".</value>
+  </data>
 </root>

@@ -854,4 +854,10 @@ Log in automatically?
   <data name="RadialMenuKey_Tooltip" xml:space="preserve">
     <value>Key which will show the radial menu while beeing pressed</value>
   </data>
+  <data name="ShowOnRadial" xml:space="preserve">
+    <value>Show On Radial</value>
+  </data>
+  <data name="ShowOnRadial_Tooltip" xml:space="preserve">
+    <value>Show Character on the radial menu. Requires activating the "Use Radial Menu" setting.</value>
+  </data>
 </root>

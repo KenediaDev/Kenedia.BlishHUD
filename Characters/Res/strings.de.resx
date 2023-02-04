@@ -854,4 +854,10 @@ Sich automatisch anmelden?
   <data name="RadialMenuKey_Tooltip" xml:space="preserve">
     <value>Taste, die das Radialmenü anzeigt, wenn sie gedrückt wird</value>
   </data>
+  <data name="ShowOnRadial" xml:space="preserve">
+    <value>Auf Radial anzeigen</value>
+  </data>
+  <data name="ShowOnRadial_Tooltip" xml:space="preserve">
+    <value>Zeichen im Radialmenü anzeigen. Erfordert die Aktivierung der Einstellung "Radialmenü verwenden".</value>
+  </data>
 </root>

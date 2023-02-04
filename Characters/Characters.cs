@@ -36,6 +36,7 @@ using Kenedia.Modules.Core.Res;
 using Microsoft.Xna.Framework.Graphics;
 using Kenedia.Modules.Core.Controls;
 using Color = Microsoft.Xna.Framework.Color;
+using Characters.Controls;
 
 namespace Kenedia.Modules.Characters
 {
@@ -73,6 +74,7 @@ namespace Kenedia.Modules.Characters
 
         private FramedContainer _framedContainer;
 
+        public RadialMenu RadialMenu { get; private set; }
         public PotraitCapture PotraitCapture { get; private set; }
 
         public LoadingSpinner APISpinner { get; private set; }
@@ -106,9 +108,9 @@ namespace Kenedia.Modules.Characters
             Characters mIns = ModuleInstance;
             string b = mIns.Paths.ModulePath;
 
-            mIns.AccountPath = b + @"\" + accountName;
-            mIns.CharactersPath = b + @"\" + accountName + @"\characters.json";
-            mIns.AccountImagesPath = b + @"\" + accountName + @"\images\";
+            mIns.AccountPath = b + accountName;
+            mIns.CharactersPath = b + accountName + @"\characters.json";
+            mIns.AccountImagesPath = b + accountName + @"\images\";
 
             if (!Directory.Exists(mIns.AccountPath))
             {
@@ -505,7 +507,12 @@ namespace Kenedia.Modules.Characters
 
         protected override void LoadGUI()
         {
-            base.LoadGUI();       
+            base.LoadGUI();
+            RadialMenu = new RadialMenu(Settings, CharacterModels, GameService.Graphics.SpriteScreen)
+            {
+                Visible = true,
+                ZIndex = int.MaxValue - 1
+            };
 
             PotraitCapture = new PotraitCapture(Services.ClientWindowService, Services.SharedSettings) { Parent = GameService.Graphics.SpriteScreen, Visible = false, ZIndex = int.MaxValue - 1 };
             OCR = new(Services.ClientWindowService, Services.SharedSettings, Settings, Paths.ModulePath, CharacterModels);
@@ -551,6 +558,7 @@ namespace Kenedia.Modules.Characters
         {
             base.UnloadGUI();
 
+            RadialMenu?.Dispose();
             SettingsWindow?.Dispose();
             MainWindow?.Dispose();
             PotraitCapture?.Dispose();

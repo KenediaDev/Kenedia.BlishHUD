@@ -31,11 +31,15 @@ namespace Kenedia.Modules.Characters.Controls
         private readonly ImageButton _closeButton;
         private readonly Panel _tagContainer;
         private readonly TextBox _tagBox;
+        private readonly ImageButton _addTag;
         private readonly TagFlowPanel _tagPanel;
         private readonly ImageButton _image;
         private readonly Label _name;
         private readonly Checkbox _show;
+        private readonly Checkbox _radial;
+        private readonly Panel _buttonContainer;
         private readonly Button _captureImages;
+        private readonly Button _openFolder;
         private readonly Panel _imagePanelParent;
         private readonly FlowPanel _imagePanel;
         private Character_Model _character;
@@ -46,7 +50,7 @@ namespace Kenedia.Modules.Characters.Controls
 
             HeightSizingMode = SizingMode.AutoSize;
             WidthSizingMode = SizingMode.AutoSize;
-            AutoSizePadding = new(5);
+            ContentPadding = new(5, 5, 5, 5);
 
             BackgroundImage = AsyncTexture2D.FromAssetId(156003);
             TextureRectangle = new Rectangle(26, 26, Math.Min(BackgroundImage.Width - 100, Width), Math.Min(BackgroundImage.Height - 100, Height));
@@ -56,7 +60,7 @@ namespace Kenedia.Modules.Characters.Controls
             _ = new Dummy()
             {
                 Parent = this,
-                Width = 350,
+                Width = 355,
             };
 
             _closeButton = new()
@@ -77,7 +81,6 @@ namespace Kenedia.Modules.Characters.Controls
                 Parent = this,
                 Texture = AsyncTexture2D.FromAssetId(358353),
                 HoveredTexture = AsyncTexture2D.FromAssetId(358353),
-                Location = new Point(5 + 2, 5 + 2),
                 BackgroundColor = Color.Black * 0.4f,
                 Size = new Point(70, 70),
                 ClickAction = (m) => ShowImages(),
@@ -90,7 +93,7 @@ namespace Kenedia.Modules.Characters.Controls
                 TextColor = ContentService.Colors.ColonialWhite,
                 Font = GameService.Content.DefaultFont16,
                 AutoSizeWidth = true,
-                Location = new Point(_image.Right + 5 + 2, 5),
+                Location = new Point(_image.Right + 5 + 2, 0),
             };
 
             _show = new Checkbox()
@@ -98,32 +101,53 @@ namespace Kenedia.Modules.Characters.Controls
                 Parent = this,
                 Location = new Point(_image.Right + 5 + 2, _name.Bottom + 5 + 2),
                 Size = new Point(100, 21),
-                Text = strings.ShowInList,
+                SetLocalizedText = () => strings.ShowInList,
                 CheckedChangedAction = (b) =>
                 {
-                    if (Character != null) Character.Show = !Character.Show;
+                    if (Character != null) Character.Show = b;
                 },
+            };
+
+            _radial = new Checkbox()
+            {
+                Parent = this,
+                Location = new Point(_image.Right + 5 + 2, _show.Bottom),
+                Size = new Point(100, 21),
+                SetLocalizedText = () => strings.ShowOnRadial,
+                SetLocalizedTooltip = () => strings.ShowOnRadial_Tooltip,
+                CheckedChangedAction = (b) =>
+                {
+                    if (Character != null) Character.ShowOnRadial = b;
+                },
+            };
+
+            _buttonContainer = new Panel()
+            {
+                Parent = this,
+                Location = new Point(0, _image.Bottom + 5 + 2),
+                Width = 355,
+                HeightSizingMode = SizingMode.AutoSize,
             };
 
             _captureImages = new Button()
             {
-                Parent = this,
-                Location = new Point(_image.Right + 4, _show.Bottom + 2),
+                Parent = _buttonContainer,
                 Size = new Point(136, 25),
-                Text = strings.CaptureImages,
-                BasicTooltipText = strings.TogglePortraitCapture_Tooltip,
+                Location = new(0),
+                SetLocalizedText = () => strings.CaptureImages,
+                SetLocalizedTooltip = () => strings.TogglePortraitCapture_Tooltip,
                 Icon = tM.GetIcon(Icons.Camera),
                 ResizeIcon = true,
                 ClickAction = () => Characters.ModuleInstance.PotraitCapture.Visible = !Characters.ModuleInstance.PotraitCapture.Visible
             };
 
-            var _openFolder = new Button()
+            _openFolder = new Button()
             {
-                Parent = this,
-                Location = new Point(_captureImages.Right + 4, _show.Bottom + 2),
+                Parent = _buttonContainer,
+                Location = new Point(_captureImages.Right + 4, 0),
                 Size = new Point(136, 25),
-                Text = string.Format(strings.OpenItem, strings.Folder),
-                BasicTooltipText = strings.OpenPortraitFolder,
+                SetLocalizedText = () => string.Format(strings.OpenItem, strings.Folder),
+                SetLocalizedTooltip = () => strings.OpenPortraitFolder,
                 Icon = tM.GetIcon(Icons.Folder),
                 ResizeIcon = true,
                 ClickAction = () =>
@@ -139,15 +163,15 @@ namespace Kenedia.Modules.Characters.Controls
             _tagContainer = new Panel()
             {
                 Parent = this,
-                Location = new Point(5, _image.Bottom + 5 + 2),
-                Width = 350,
+                Location = new Point(0, _image.Bottom + 5 + 2),
+                Width = 355,
                 HeightSizingMode = SizingMode.AutoSize,
             };
 
             _tagBox = new TextBox()
             {
                 Parent = _tagContainer,
-                Size = new Point(350 - 24, 24),
+                Size = new Point(355 - 26, 24),
                 PlaceholderText = strings.Tag_Placeholder,
                 EnterPressedAction = (t) =>
                 {
@@ -162,7 +186,7 @@ namespace Kenedia.Modules.Characters.Controls
                 }
             };
 
-            var _addTag = new ImageButton()
+            _addTag = new ImageButton()
             {
                 Parent = _tagContainer,
                 Texture = tM.GetControlTexture(ControlTextures.Plus_Button),
@@ -187,7 +211,7 @@ namespace Kenedia.Modules.Characters.Controls
             {
                 Parent = _tagContainer,
                 Location = new Point(5, _tagBox.Bottom + 5),
-                Width = 350,
+                Width = 355,
                 HeightSizingMode = SizingMode.AutoSize,
                 ControlPadding = new Vector2(3, 2),
             };
@@ -197,16 +221,16 @@ namespace Kenedia.Modules.Characters.Controls
                 Parent = this,
                 BorderColor = Color.Black,
                 BackgroundColor = Color.Black * 0.4f,
-                Location = new(5, _image.Bottom + 5),
+                Location = new(0, _buttonContainer.Bottom + 10),
+                BorderWidth = new(2),
                 Visible = false,
             };
             _imagePanel = new()
             {
-                Location = new(0, 5),
                 Parent = _imagePanelParent,
-                AutoSizePadding = new Point(5, 5),
-                OuterControlPadding = new Vector2(5, 0),
                 ControlPadding = new(5),
+                ContentPadding = new(5),
+                OuterControlPadding = new(0),
                 CanScroll = true,
                 ZIndex = 11,
             };
@@ -300,7 +324,7 @@ namespace Kenedia.Modules.Characters.Controls
                     _imagePanel.Invalidate();
 
                     _imagePanelParent.Width = width;
-                    _imagePanelParent.Height = height + 10;
+                    _imagePanelParent.Height = height;
 
                     _closeButton.Location = new(_imagePanelParent.Right - _closeButton.Size.X - AutoSizePadding.X + 5, AutoSizePadding.Y);
                 }
@@ -322,6 +346,7 @@ namespace Kenedia.Modules.Characters.Controls
             {
                 _closeButton.Location = new(355 - _closeButton.Size.X, AutoSizePadding.Y);
                 _tagContainer.Show();
+                _buttonContainer.Hide();
                 _imagePanelParent.Hide();
                 _imagePanelParent.Width = 0;
                 _imagePanelParent.Height = 0;
@@ -329,6 +354,7 @@ namespace Kenedia.Modules.Characters.Controls
             }
 
             _tagContainer.Hide();
+            _buttonContainer.Show();
             _imagePanelParent.Show();
             LoadImages(null, null);
         }
@@ -339,6 +365,8 @@ namespace Kenedia.Modules.Characters.Controls
             {
                 _image.Texture = Character.Icon;
                 _name.Text = Character.Name;
+                _show.Checked = Character.Show;
+                _radial.Checked = Character.ShowOnRadial;
 
                 foreach (Tag t in _tags)
                 {
