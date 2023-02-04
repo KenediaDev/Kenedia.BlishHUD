@@ -3,6 +3,7 @@ using Blish_HUD.Input;
 using Gw2Sharp.WebApi;
 using Kenedia.Modules.Core.Interfaces;
 using System;
+using System.Diagnostics;
 
 namespace Kenedia.Modules.Core.Controls
 {

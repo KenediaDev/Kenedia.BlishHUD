@@ -13,6 +13,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MonoGame.Extended.BitmapFonts;
 using System;
+using System.Diagnostics;
 using static Blish_HUD.ContentService;
 using Checkbox = Kenedia.Modules.Core.Controls.Checkbox;
 using Dropdown = Kenedia.Modules.Core.Controls.Dropdown;
@@ -180,7 +181,16 @@ namespace Kenedia.Modules.Characters.Views
                 Parent = cP,
                 Width = ContentRegion.Width - 35,
                 KeyBinding = Settings.LogoutKey.Value,
-                KeybindChangedAction = (kb) => Settings.LogoutKey.Value = kb,
+                KeybindChangedAction = (kb) =>
+                {
+                    Settings.LogoutKey.Value = new()
+                    {
+                        ModifierKeys = kb.ModifierKeys,
+                        PrimaryKey = kb.PrimaryKey,
+                        Enabled = kb.Enabled,
+                        IgnoreWhenInTextField = true,
+                    };
+                },
                 SetLocalizedKeyBindingName = () => strings.Logout,
                 SetLocalizedTooltip = () => strings.LogoutDescription,
             };
@@ -190,7 +200,16 @@ namespace Kenedia.Modules.Characters.Views
                 Parent = cP,
                 Width = ContentRegion.Width - 35,
                 KeyBinding = Settings.ShortcutKey.Value,
-                KeybindChangedAction = (kb) => Settings.ShortcutKey.Value = kb,
+                KeybindChangedAction = (kb) =>
+                {
+                    Settings.ShortcutKey.Value = new()
+                    {
+                        ModifierKeys = kb.ModifierKeys,
+                        PrimaryKey = kb.PrimaryKey,
+                        Enabled = kb.Enabled,
+                        IgnoreWhenInTextField = true,
+                    };
+                },
                 SetLocalizedKeyBindingName = () => strings.ShortcutToggle_DisplayName,
                 SetLocalizedTooltip = () => strings.ShortcutToggle_Description,
             };
@@ -200,7 +219,16 @@ namespace Kenedia.Modules.Characters.Views
                 Parent = cP,
                 Width = ContentRegion.Width - 35,
                 KeyBinding = Settings.RadialKey.Value,
-                KeybindChangedAction = (kb) => Settings.RadialKey.Value = kb,
+                KeybindChangedAction = (kb) =>
+                {
+                    Settings.RadialKey.Value = new()
+                    {
+                        ModifierKeys = kb.ModifierKeys,
+                        PrimaryKey = kb.PrimaryKey,
+                        Enabled= kb.Enabled,
+                        IgnoreWhenInTextField= true,         
+                    };
+                },
                 SetLocalizedKeyBindingName = () => strings.RadialMenuKey,
                 SetLocalizedTooltip = () => strings.RadialMenuKey_Tooltip,
             };
