@@ -9,19 +9,24 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 using File = System.IO.File;
 
 namespace Kenedia.Modules.Characters.Services
 {
     public class GW2API_Handler
     {
-        private CharacterSwapping _characterSwapping;
-        private string _modulePath;
+        private Action _save;
+        private CancellationTokenSource _cancellationTokenSource;
+        private readonly CharacterSwapping _characterSwapping;
+        private readonly string _modulePath;
 
-        public GW2API_Handler(CharacterSwapping characterSwapping, string modulePath)
+        public GW2API_Handler(CharacterSwapping characterSwapping, string modulePath, Action save)
         {
             _characterSwapping = characterSwapping;
             _modulePath = modulePath;
+            _save = save;
         }
 
         private Account _account;
@@ -87,26 +92,47 @@ namespace Kenedia.Modules.Characters.Services
             catch { }
         }
 
-        public async void CheckAPI()
+        private bool Reset(CancellationToken cancellationToken, bool hideSpinner = false)
         {
+            if(hideSpinner) Characters.ModuleInstance.APISpinner?.Hide();
+            if(cancellationToken != null && cancellationToken.IsCancellationRequested)
+            {
+                Characters.Logger.Info($"Canceled API Data fetch!");
+            }
+
+            _cancellationTokenSource = null;
+            return false;
+        }
+
+        public async Task<bool> CheckAPI()
+        {
+            _cancellationTokenSource?.Cancel();
+            
+            _cancellationTokenSource = new();
+            var cancellationToken = _cancellationTokenSource.Token;
             Characters.ModuleInstance.APISpinner?.Show();
 
             try
             {
                 Gw2ApiManager gw2ApiManager = Characters.ModuleInstance.Gw2ApiManager;
+                Characters.Logger.Info($"Fetching new API Data ...");
 
                 if (gw2ApiManager.HasPermissions(new[] { TokenPermission.Account, TokenPermission.Characters }))
                 {
-                    Account account = await gw2ApiManager.Gw2ApiClient.V2.Account.GetAsync();
+                    Account account = await gw2ApiManager.Gw2ApiClient.V2.Account.GetAsync(cancellationToken);
+                    if (cancellationToken.IsCancellationRequested) return Reset(cancellationToken, !cancellationToken.IsCancellationRequested);
                     Account = account;
 
-                    Gw2Sharp.WebApi.V2.IApiV2ObjectList<Character> characters = await gw2ApiManager.Gw2ApiClient.V2.Characters.AllAsync();
+                    Gw2Sharp.WebApi.V2.IApiV2ObjectList<Character> characters = await gw2ApiManager.Gw2ApiClient.V2.Characters.AllAsync(cancellationToken);
+                    if (cancellationToken.IsCancellationRequested) return Reset(cancellationToken, !cancellationToken.IsCancellationRequested);
                     UpdateAccountsList(account, characters);
 
-                    Characters.Logger.Info($"Fetching new API Data. Adjusting characters informatin to fresh data from the api.");
+                    Characters.Logger.Info($"Adjusting characters informatin to fresh data from the api.");
 
                     var character_Models = Characters.ModuleInstance.CharacterModels.ToList();
                     int pos = 0;
+
+                    var name = new List<string>();
 
                     // Cleanup
                     for (int i = character_Models.Count - 1; i >= 0; i--)
@@ -121,63 +147,77 @@ namespace Kenedia.Modules.Characters.Services
 
                     foreach (Character c in characters)
                     {
-                        Character_Model character_Model = character_Models.Find(e => e.Name == c.Name);
-                        bool found = character_Model != null;
-
-                        character_Model ??= new();
-
-                        // Update everything values
-                        character_Model.Name = c.Name;
-                        character_Model.Level = c.Level;
-                        character_Model.Race = (RaceType)Enum.Parse(typeof(RaceType), c.Race);
-                        character_Model.Profession = (ProfessionType)Enum.Parse(typeof(ProfessionType), c.Profession);
-                        character_Model.Specialization = SpecializationType.None;
-                        character_Model.Gender = c.Gender;
-                        character_Model.Created = c.Created;
-                        character_Model.LastModified = c.LastModified.UtcDateTime;
-                        character_Model.LastLogin = c.LastModified.UtcDateTime > character_Model.LastLogin ? c.LastModified.UtcDateTime : character_Model.LastLogin;
-                        character_Model.Position = pos;
-                        character_Model.Level = c.Level;
-
-                        foreach (CharacterCraftingDiscipline disc in c.Crafting.ToList())
+                        if (!name.Contains(c.Name))
                         {
-                            CharacterCrafting craft = character_Model.Crafting.Find(e => e.Id == (int)disc.Discipline.Value);
-                            bool craftFound = craft != null;
+                            Character_Model character_Model = character_Models.Find(e => e.Name == c.Name);
+                            bool found = character_Model != null;
 
-                            craft ??= new();
-                            craft.Id = (int)disc.Discipline.Value;
-                            craft.Rating = disc.Rating;
-                            craft.Active = disc.Active;
+                            character_Model ??= new();
 
-                            if(!craftFound)
+                            // Update everything values
+                            character_Model.Name = c.Name;
+                            character_Model.Level = c.Level;
+                            character_Model.Race = (RaceType)Enum.Parse(typeof(RaceType), c.Race);
+                            character_Model.Profession = (ProfessionType)Enum.Parse(typeof(ProfessionType), c.Profession);
+                            character_Model.Specialization = SpecializationType.None;
+                            character_Model.Gender = c.Gender;
+                            character_Model.Created = c.Created;
+                            character_Model.LastModified = c.LastModified.UtcDateTime;
+                            character_Model.LastLogin = c.LastModified.UtcDateTime > character_Model.LastLogin ? c.LastModified.UtcDateTime : character_Model.LastLogin;
+                            character_Model.Position = pos;
+                            character_Model.Level = c.Level;
+
+                            foreach (CharacterCraftingDiscipline disc in c.Crafting.ToList())
                             {
-                                character_Model.Crafting.Add(craft);
+                                CharacterCrafting craft = character_Model.Crafting.Find(e => e.Id == (int)disc.Discipline.Value);
+                                bool craftFound = craft != null;
+
+                                craft ??= new();
+                                craft.Id = (int)disc.Discipline.Value;
+                                craft.Rating = disc.Rating;
+                                craft.Active = disc.Active;
+
+                                if (!craftFound)
+                                {
+                                    character_Model.Crafting.Add(craft);
+                                }
                             }
-                        }
 
-                        if (!found)
-                        {
-                            character_Model.Initialize(_characterSwapping, _modulePath);
-                            Characters.ModuleInstance.CharacterModels.Add(character_Model);
-                        }
+                            if (!found)
+                            {
+                                Characters.ModuleInstance.CharacterModels.Add(character_Model);
+                                character_Model.Initialize(_characterSwapping, _modulePath);
+                            }
 
-                        pos++;
+                            name.Add(c.Name);
+                            pos++;
+                        }
                     }
+
+                    _save?.Invoke();
+                    _ = Reset(cancellationToken, !cancellationToken.IsCancellationRequested);
+                    return true;
                 }
                 else
                 {
-                    ScreenNotification.ShowNotification(strings.Error_InvalidPermissions, ScreenNotification.NotificationType.Error);
-                    Characters.Logger.Error(strings.Error_InvalidPermissions);
-                    Characters.ModuleInstance.APISpinner?.Hide();
+                    if (!cancellationToken.IsCancellationRequested)
+                    {
+                        ScreenNotification.ShowNotification(strings.Error_InvalidPermissions, ScreenNotification.NotificationType.Error);
+                        Characters.Logger.Error(strings.Error_InvalidPermissions);
+                    }
+
+                    return Reset(cancellationToken, !cancellationToken.IsCancellationRequested);
                 }
             }
             catch (Exception ex)
             {
-                Characters.Logger.Warn(ex, strings.Error_FailedAPIFetch);
-                Characters.ModuleInstance.APISpinner?.Hide();
-            }
+                if (!cancellationToken.IsCancellationRequested)
+                {
+                    Characters.Logger.Warn(ex, strings.Error_FailedAPIFetch);
+                }
 
-            Characters.ModuleInstance.APISpinner?.Hide();
+                return Reset(cancellationToken, !cancellationToken.IsCancellationRequested);
+            }
         }
     }
 }

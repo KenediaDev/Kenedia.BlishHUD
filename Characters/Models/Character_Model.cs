@@ -379,7 +379,7 @@ namespace Kenedia.Modules.Characters.Models
 
         private void Save()
         {
-            Characters.ModuleInstance.SaveCharacters = true;
+            if(_initialized) Characters.ModuleInstance.SaveCharacters = true;
         }
 
         public void Swap()

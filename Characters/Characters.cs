@@ -74,9 +74,8 @@ namespace Kenedia.Modules.Characters
 
         public SettingsWindow SettingsWindow { get; private set; }
 
-        private FramedContainer _framedContainer;
-
         public RadialMenu RadialMenu { get; private set; }
+
         public PotraitCapture PotraitCapture { get; private set; }
 
         public LoadingSpinner APISpinner { get; private set; }
@@ -188,12 +187,13 @@ namespace Kenedia.Modules.Characters
                     string content = File.ReadAllText(CharactersPath);
                     PlayerCharacter player = GameService.Gw2Mumble.PlayerCharacter;
                     List<Character_Model> characters = JsonConvert.DeserializeObject<List<Character_Model>>(content);
+                    List<string> names = new();
 
                     if (characters != null)
                     {
                         characters.ForEach(c =>
                         {
-                            if (!CharacterModels.Contains(c))
+                            if (!CharacterModels.Contains(c) && !names.Contains(c.Name))
                             {
                                 foreach (string t in c.Tags)
                                 {
@@ -205,6 +205,7 @@ namespace Kenedia.Modules.Characters
 
                                 CharacterModels.Add(c);
                                 c.Initialize(CharacterSwapping, Paths.ModulePath);
+                                names.Add(c.Name);
                             }
                         });
 
@@ -278,7 +279,7 @@ namespace Kenedia.Modules.Characters
             CharacterSwapping.CharacterSorting = CharacterSorting;
             CharacterSorting.CharacterSwapping = CharacterSwapping;
 
-            GW2APIHandler = new GW2API_Handler(CharacterSwapping, Paths.ModulePath);
+            GW2APIHandler = new GW2API_Handler(CharacterSwapping, Paths.ModulePath, SaveCharacterList);
         }
 
         private void RadialMenuToggle(object sender, EventArgs e)
@@ -337,7 +338,7 @@ namespace Kenedia.Modules.Characters
             {
                 _ticks.APIUpdate = 0;
 
-                GW2APIHandler.CheckAPI();
+                _ = GW2APIHandler.CheckAPI();
             }
 
             if (_ticks.Save > 25 && SaveCharacters)
@@ -436,7 +437,7 @@ namespace Kenedia.Modules.Characters
 
         private void Gw2ApiManager_SubtokenUpdated(object sender, ValueEventArgs<IEnumerable<TokenPermission>> e)
         {
-            GW2APIHandler.CheckAPI();
+            _ = GW2APIHandler.CheckAPI();
         }
 
         private void Tags_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)

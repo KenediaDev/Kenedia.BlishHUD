@@ -57,7 +57,7 @@ namespace Kenedia.Modules.Characters.Views
             : base(background, windowRegion, contentRegion)
         {
             _characterSorting = characterSorting;
-            _settings= settings;
+            _settings = settings;
 
             ContentPanel = new FlowPanel()
             {
@@ -365,12 +365,12 @@ namespace Kenedia.Modules.Characters.Views
             }
 
             foreach ((CharacterCard ctrl, bool toggleResult, bool stringsResult, bool tagsResult) in from CharacterCard ctrl in CharactersPanel.Children
-                                                                                                        let c = ctrl.Character
-                                                                                                        where c != null
-                                                                                                        let toggleResult = toggleFilters.Count == 0 || (include == FilterResult(c))
-                                                                                                        let stringsResult = stringFilters.Count == 0 || (include == StringFilterResult(c))
-                                                                                                        let tagsResult = tagFilters.Count == 0 || (include == TagResult(c))
-                                                                                                        select (ctrl, toggleResult, stringsResult, tagsResult))
+                                                                                                     let c = ctrl.Character
+                                                                                                     where c != null
+                                                                                                     let toggleResult = toggleFilters.Count == 0 || (include == FilterResult(c))
+                                                                                                     let stringsResult = stringFilters.Count == 0 || (include == StringFilterResult(c))
+                                                                                                     let tagsResult = tagFilters.Count == 0 || (include == TagResult(c))
+                                                                                                     select (ctrl, toggleResult, stringsResult, tagsResult))
             {
                 ctrl.Visible = toggleResult && stringsResult && tagsResult;
             }
@@ -491,7 +491,7 @@ namespace Kenedia.Modules.Characters.Views
                     }
             }
         }
-                
+
         public override void UpdateContainer(GameTime gameTime)
         {
             base.UpdateContainer(gameTime);
@@ -524,7 +524,7 @@ namespace Kenedia.Modules.Characters.Views
 
             _titleRectangle = new(65, 5, (int)titleBounds.Width, Math.Max(30, (int)titleBounds.Height));
         }
-        
+
         public override void PaintAfterChildren(SpriteBatch spriteBatch, Rectangle bounds)
         {
             base.PaintAfterChildren(spriteBatch, bounds);
@@ -550,6 +550,12 @@ namespace Kenedia.Modules.Characters.Views
                     HorizontalAlignment.Left,
                     VerticalAlignment.Bottom);
             }
+        }
+
+        protected override void OnShown(EventArgs e)
+        {
+            base.OnShown(e);
+            if (_settings.FocusSearchOnShow.Value) _filterBox.Focused = true;
         }
 
         protected override void OnHidden(EventArgs e)
