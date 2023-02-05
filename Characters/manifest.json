@@ -18,7 +18,7 @@
   "dependencies": {
     "bh.blishhud": ">=1.0.0"
   },
-  "description": "Make character swapping great again! Swapping characters with a lot of characters can become quite a torture.\nWhere was that Asuran Guardian I've parked at Draconis Mons in my 70 characters?\nFear no more, this module will change your life. Search for the right character based on dozens of filter options and automatically swap to it!'",
+  "description": "I have a dream that swapping characters is quick and easy even with 72 of them! Unfortunately, swapping characters can quickly become quite a pain with many characters.\nWhere was the Asuran Guardian I parked in Draconis Mons among my 70 characters?\nI have great news! This module will change your life, that's how close it comes to the dream. Search for the right characters using dozens of filter options and switch to them with just one click!",
   "directories": [ "kenedia" ],
   "enabled_without_gw2": false,
   "manifest_version": 1,

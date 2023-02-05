@@ -1,9 +1,8 @@
 ﻿using Blish_HUD.Controls;
 using Blish_HUD.Modules.Managers;
 using Characters.Res;
-using Gw2Sharp.Models;
+using Gw2Sharp.WebApi.V2;
 using Gw2Sharp.WebApi.V2.Models;
-using Kenedia.Modules.Characters.Enums;
 using Kenedia.Modules.Characters.Models;
 using Newtonsoft.Json;
 using System;
@@ -17,16 +16,21 @@ namespace Kenedia.Modules.Characters.Services
 {
     public class GW2API_Handler
     {
-        private Action _save;
-        private CancellationTokenSource _cancellationTokenSource;
-        private readonly CharacterSwapping _characterSwapping;
-        private readonly string _modulePath;
+        private readonly Gw2ApiManager _gw2ApiManager;
+        private readonly Action<IApiV2ObjectList<Character>> _callBack;
+        private readonly Action<string, bool> _updateFolderPaths;
+        private readonly Func<LoadingSpinner> _getSpinner;
+        private readonly string _accountFilePath;
 
-        public GW2API_Handler(CharacterSwapping characterSwapping, string modulePath, Action save)
+        private CancellationTokenSource _cancellationTokenSource;
+
+        public GW2API_Handler(Gw2ApiManager gw2ApiManager, Action<IApiV2ObjectList<Character>> callBack, Func<LoadingSpinner> getSpinner, string accountFilePath, Action<string, bool> updateFolderPaths)
         {
-            _characterSwapping = characterSwapping;
-            _modulePath = modulePath;
-            _save = save;
+            _gw2ApiManager = gw2ApiManager;
+            _callBack = callBack;
+            _getSpinner = getSpinner;
+            _accountFilePath = accountFilePath;
+            _updateFolderPaths = updateFolderPaths;
         }
 
         private Account _account;
@@ -38,25 +42,23 @@ namespace Kenedia.Modules.Characters.Services
             {
                 if (value != null && (_account == null || _account.Name != value.Name))
                 {
-                    Characters.ModuleInstance.UpdateFolderPaths(value.Name);
+                    _updateFolderPaths?.Invoke(value.Name, true);
                 }
 
                 _account = value;
             }
         }
 
-        private void UpdateAccountsList(Account account, Gw2Sharp.WebApi.V2.IApiV2ObjectList<Character> characters)
+        private void UpdateAccountsList(Account account, IApiV2ObjectList<Character> characters)
         {
-            Gw2ApiManager gw2ApiManager = Characters.ModuleInstance.Gw2ApiManager;
             try
             {
-                string path = Characters.ModuleInstance.GlobalAccountsPath;
                 List<AccountSummary> accounts = new();
                 AccountSummary accountEntry;
 
-                if (File.Exists(path))
+                if (File.Exists(_accountFilePath))
                 {
-                    string content = File.ReadAllText(path);
+                    string content = File.ReadAllText(_accountFilePath);
                     accounts = JsonConvert.DeserializeObject<List<AccountSummary>>(content);
                     accountEntry = accounts.Find(e => e.AccountName == account.Name);
 
@@ -87,115 +89,56 @@ namespace Kenedia.Modules.Characters.Services
                 }
 
                 string json = JsonConvert.SerializeObject(accounts, Formatting.Indented);
-                File.WriteAllText(path, json);
+                File.WriteAllText(_accountFilePath, json);
             }
             catch { }
         }
 
-        private bool Reset(CancellationToken cancellationToken, bool hideSpinner = false)
+        private void Reset(CancellationToken cancellationToken, bool hideSpinner = false)
         {
-            if(hideSpinner) Characters.ModuleInstance.APISpinner?.Hide();
-            if(cancellationToken != null && cancellationToken.IsCancellationRequested)
+            if (hideSpinner) _getSpinner?.Invoke()?.Hide();
+            if (cancellationToken != null && cancellationToken.IsCancellationRequested)
             {
                 Characters.Logger.Info($"Canceled API Data fetch!");
             }
 
             _cancellationTokenSource = null;
-            return false;
         }
 
         public async Task<bool> CheckAPI()
         {
             _cancellationTokenSource?.Cancel();
-            
+
             _cancellationTokenSource = new();
             var cancellationToken = _cancellationTokenSource.Token;
-            Characters.ModuleInstance.APISpinner?.Show();
+            _getSpinner?.Invoke()?.Show();
 
             try
             {
-                Gw2ApiManager gw2ApiManager = Characters.ModuleInstance.Gw2ApiManager;
                 Characters.Logger.Info($"Fetching new API Data ...");
 
-                if (gw2ApiManager.HasPermissions(new[] { TokenPermission.Account, TokenPermission.Characters }))
+                if (_gw2ApiManager.HasPermissions(new[] { TokenPermission.Account, TokenPermission.Characters }))
                 {
-                    Account account = await gw2ApiManager.Gw2ApiClient.V2.Account.GetAsync(cancellationToken);
-                    if (cancellationToken.IsCancellationRequested) return Reset(cancellationToken, !cancellationToken.IsCancellationRequested);
+                    Account account = await _gw2ApiManager.Gw2ApiClient.V2.Account.GetAsync(cancellationToken);
+                    if (cancellationToken.IsCancellationRequested)
+                    {
+                        Reset(cancellationToken, !cancellationToken.IsCancellationRequested);
+                        return false;
+                    }
+
                     Account = account;
 
-                    Gw2Sharp.WebApi.V2.IApiV2ObjectList<Character> characters = await gw2ApiManager.Gw2ApiClient.V2.Characters.AllAsync(cancellationToken);
-                    if (cancellationToken.IsCancellationRequested) return Reset(cancellationToken, !cancellationToken.IsCancellationRequested);
+                    IApiV2ObjectList<Character> characters = await _gw2ApiManager.Gw2ApiClient.V2.Characters.AllAsync(cancellationToken);
+                    if (cancellationToken.IsCancellationRequested)
+                    {
+                        Reset(cancellationToken, !cancellationToken.IsCancellationRequested);
+                        return false;
+                    }
+
                     UpdateAccountsList(account, characters);
 
-                    Characters.Logger.Info($"Adjusting characters informatin to fresh data from the api.");
-
-                    var character_Models = Characters.ModuleInstance.CharacterModels.ToList();
-                    int pos = 0;
-
-                    var name = new List<string>();
-
-                    // Cleanup
-                    for (int i = character_Models.Count - 1; i >= 0; i--)
-                    {
-                        Character_Model c = character_Models[i];
-                        Character character = characters.ToList().Find(e => e.Name == c.Name);
-                        if (character == null || character.Created != c.Created)
-                        {
-                            character_Models[i].Delete();
-                        }
-                    }
-
-                    foreach (Character c in characters)
-                    {
-                        if (!name.Contains(c.Name))
-                        {
-                            Character_Model character_Model = character_Models.Find(e => e.Name == c.Name);
-                            bool found = character_Model != null;
-
-                            character_Model ??= new();
-
-                            // Update everything values
-                            character_Model.Name = c.Name;
-                            character_Model.Level = c.Level;
-                            character_Model.Race = (RaceType)Enum.Parse(typeof(RaceType), c.Race);
-                            character_Model.Profession = (ProfessionType)Enum.Parse(typeof(ProfessionType), c.Profession);
-                            character_Model.Specialization = SpecializationType.None;
-                            character_Model.Gender = c.Gender;
-                            character_Model.Created = c.Created;
-                            character_Model.LastModified = c.LastModified.UtcDateTime;
-                            character_Model.LastLogin = c.LastModified.UtcDateTime > character_Model.LastLogin ? c.LastModified.UtcDateTime : character_Model.LastLogin;
-                            character_Model.Position = pos;
-                            character_Model.Level = c.Level;
-
-                            foreach (CharacterCraftingDiscipline disc in c.Crafting.ToList())
-                            {
-                                CharacterCrafting craft = character_Model.Crafting.Find(e => e.Id == (int)disc.Discipline.Value);
-                                bool craftFound = craft != null;
-
-                                craft ??= new();
-                                craft.Id = (int)disc.Discipline.Value;
-                                craft.Rating = disc.Rating;
-                                craft.Active = disc.Active;
-
-                                if (!craftFound)
-                                {
-                                    character_Model.Crafting.Add(craft);
-                                }
-                            }
-
-                            if (!found)
-                            {
-                                Characters.ModuleInstance.CharacterModels.Add(character_Model);
-                                character_Model.Initialize(_characterSwapping, _modulePath);
-                            }
-
-                            name.Add(c.Name);
-                            pos++;
-                        }
-                    }
-
-                    _save?.Invoke();
-                    _ = Reset(cancellationToken, !cancellationToken.IsCancellationRequested);
+                    _callBack?.Invoke(characters);
+                    Reset(cancellationToken, !cancellationToken.IsCancellationRequested);
                     return true;
                 }
                 else
@@ -206,7 +149,8 @@ namespace Kenedia.Modules.Characters.Services
                         Characters.Logger.Error(strings.Error_InvalidPermissions);
                     }
 
-                    return Reset(cancellationToken, !cancellationToken.IsCancellationRequested);
+                    Reset(cancellationToken, !cancellationToken.IsCancellationRequested);
+                    return false;
                 }
             }
             catch (Exception ex)
@@ -216,7 +160,8 @@ namespace Kenedia.Modules.Characters.Services
                     Characters.Logger.Warn(ex, strings.Error_FailedAPIFetch);
                 }
 
-                return Reset(cancellationToken, !cancellationToken.IsCancellationRequested);
+                Reset(cancellationToken, !cancellationToken.IsCancellationRequested);
+                return false;
             }
         }
     }

@@ -34,11 +34,11 @@ using LoadingSpinner = Kenedia.Modules.Core.Controls.LoadingSpinner;
 using Blish_HUD.Controls;
 using Kenedia.Modules.Core.Res;
 using Microsoft.Xna.Framework.Graphics;
-using Kenedia.Modules.Core.Controls;
-using Color = Microsoft.Xna.Framework.Color;
 using Characters.Controls;
 using Kenedia.Modules.Core.Extensions;
-using System.Runtime;
+using Gw2Sharp.Models;
+using Gw2Sharp.WebApi.V2;
+using Kenedia.Modules.Characters.Controls.SideMenu;
 
 namespace Kenedia.Modules.Characters
 {
@@ -48,9 +48,9 @@ namespace Kenedia.Modules.Characters
         public readonly Version BaseVersion;
         public readonly ResourceManager RM = new("Characters.Res.strings", System.Reflection.Assembly.GetExecutingAssembly());
 
-        public readonly Dictionary<string, SearchFilter<Character_Model>> TagFilters = new();
         private readonly Ticks _ticks = new();
 
+        private bool _saveCharacters;
         private CornerIcon _cornerIcon;
 
         [ImportingConstructor]
@@ -60,15 +60,19 @@ namespace Kenedia.Modules.Characters
             ModuleInstance = this;
             HasGUI = true;
             BaseVersion = Version.BaseVersion();
+
+            Data = new Data(ContentsManager);
         }
 
-        public Dictionary<string, SearchFilter<Character_Model>> SearchFilters { get; private set; }
+        public SearchFilterCollection SearchFilters { get; } = new();
+
+        public SearchFilterCollection TagFilters { get; } = new();
 
         public TagList Tags { get; } = new TagList();
 
-        public CharacterSwapping CharacterSwapping { get; } = new();
+        public CharacterSwapping CharacterSwapping { get; private set; }
 
-        public CharacterSorting CharacterSorting { get; } = new();
+        public CharacterSorting CharacterSorting { get; private set; }
 
         public RunIndicator RunIndicator { get; private set; }
 
@@ -98,29 +102,26 @@ namespace Kenedia.Modules.Characters
 
         public string AccountPath { get; set; }
 
-        public bool SaveCharacters { get; set; }
-
         public GW2API_Handler GW2APIHandler { get; private set; }
 
         public void UpdateFolderPaths(string accountName, bool api_handled = true)
         {
             Paths.AccountName = accountName;
 
-            Characters mIns = ModuleInstance;
-            string b = mIns.Paths.ModulePath;
+            string b = Paths.ModulePath;
 
-            mIns.AccountPath = b + accountName;
-            mIns.CharactersPath = b + accountName + @"\characters.json";
-            mIns.AccountImagesPath = b + accountName + @"\images\";
+            AccountPath = b + accountName;
+            CharactersPath = b + accountName + @"\characters.json";
+            AccountImagesPath = b + accountName + @"\images\";
 
-            if (!Directory.Exists(mIns.AccountPath))
+            if (!Directory.Exists(AccountPath))
             {
-                _ = Directory.CreateDirectory(mIns.AccountPath);
+                _ = Directory.CreateDirectory(AccountPath);
             }
 
-            if (!Directory.Exists(mIns.AccountImagesPath))
+            if (!Directory.Exists(AccountImagesPath))
             {
-                _ = Directory.CreateDirectory(mIns.AccountImagesPath);
+                _ = Directory.CreateDirectory(AccountImagesPath);
             }
 
             if (api_handled && CharacterModels.Count == 0)
@@ -203,8 +204,7 @@ namespace Kenedia.Modules.Characters
                                     }
                                 }
 
-                                CharacterModels.Add(c);
-                                c.Initialize(CharacterSwapping, Paths.ModulePath);
+                                CharacterModels.Add(new(c, CharacterSwapping, Paths.ModulePath, RequestCharacterSave, CharacterModels, Data));
                                 names.Add(c.Name);
                             }
                         });
@@ -229,6 +229,41 @@ namespace Kenedia.Modules.Characters
 
             // write string to file
             File.WriteAllText(CharactersPath, json);
+        }
+
+        public void AddOrUpdateCharacters(IApiV2ObjectList<Character> characters)
+        {
+            Logger.Info($"Update characters based on fresh data from the api.");
+
+            var freshList = characters.Select(c => new { c.Name, c.Created }).ToList();
+            var oldList = CharacterModels.Select(c => new { c.Name, c.Created }).ToList();
+
+            for (int i = 0; i < CharacterModels.Count; i++)
+            {
+                Character_Model c = CharacterModels[i];
+                if (!freshList.Contains(new { c.Name, c.Created }))
+                {
+                    Logger.Info($"{c.Name} created on {c.Created} no longer exists. Delete it!");
+                    c.Delete();
+                }
+            }
+
+            foreach (var c in characters)
+            {
+                if (!oldList.Contains(new { c.Name, c.Created }))
+                {
+                    Logger.Info($"{c.Name} created on {c.Created} does not exist yet. Create it!");
+                    CharacterModels.Add(new(c, CharacterSwapping, Paths.ModulePath, RequestCharacterSave, CharacterModels, Data));
+                }
+                else
+                {
+                    Logger.Info($"{c.Name} created on {c.Created} does exist already. Update it!");
+                    var character = CharacterModels.FirstOrDefault(e => e.Name == c.Name);
+                    character?.UpdateCharacter(c);
+                }
+            }
+
+            SaveCharacterList();
         }
 
         protected override void Initialize()
@@ -261,14 +296,13 @@ namespace Kenedia.Modules.Characters
                 source.CopyTo(target);
             }
 
-            Data = new Data();
             CreateToggleCategories();
 
             Gw2ApiManager.SubtokenUpdated += Gw2ApiManager_SubtokenUpdated;
 
             Settings.ShortcutKey.Value.Enabled = true;
             Settings.ShortcutKey.Value.Activated += ShortcutWindowToggle;
-            
+
             Settings.RadialKey.Value.Enabled = true;
             Settings.RadialKey.Value.Activated += RadialMenuToggle;
 
@@ -276,15 +310,12 @@ namespace Kenedia.Modules.Characters
 
             Settings.Version.Value = BaseVersion;
 
-            CharacterSwapping.CharacterSorting = CharacterSorting;
-            CharacterSorting.CharacterSwapping = CharacterSwapping;
-
-            GW2APIHandler = new GW2API_Handler(CharacterSwapping, Paths.ModulePath, SaveCharacterList);
+            GW2APIHandler = new GW2API_Handler(Gw2ApiManager, AddOrUpdateCharacters, () => APISpinner, GlobalAccountsPath, UpdateFolderPaths);
         }
 
         private void RadialMenuToggle(object sender, EventArgs e)
         {
-            if(Settings.EnableRadialMenu.Value) _ = (RadialMenu?.ToggleVisibility());
+            if (Settings.EnableRadialMenu.Value && RadialMenu?.HasDisplayedCharacters() == true) _ = (RadialMenu?.ToggleVisibility());
         }
 
         protected override void DefineSettings(SettingCollection settings)
@@ -321,16 +352,10 @@ namespace Kenedia.Modules.Characters
                 if (GameService.GameIntegration.Gw2Instance.IsInGame)
                 {
                     player = GameService.Gw2Mumble.PlayerCharacter;
-                    CurrentCharacterModel = CharacterModels.ToList().Find(e => e.Name == player.Name);
+                    CurrentCharacterModel = CharacterModels.FirstOrDefault(e => e.Name == player.Name);
+                    CurrentCharacterModel?.UpdateCharacter(player);
 
-                    if (CurrentCharacterModel != null)
-                    {
-                        CurrentCharacterModel.Specialization = (SpecializationType)player.Specialization;
-                        CurrentCharacterModel.Map = GameService.Gw2Mumble.CurrentMap.Id;
-                        CurrentCharacterModel.LastLogin = DateTime.UtcNow;
-
-                        MainWindow?.SortCharacters();
-                    }
+                    if (CurrentCharacterModel != null) MainWindow?.SortCharacters();
                 }
             }
 
@@ -341,13 +366,18 @@ namespace Kenedia.Modules.Characters
                 _ = GW2APIHandler.CheckAPI();
             }
 
-            if (_ticks.Save > 25 && SaveCharacters)
+            if (_ticks.Save > 25 && _saveCharacters)
             {
                 _ticks.Save = 0;
 
                 SaveCharacterList();
-                SaveCharacters = false;
+                _saveCharacters = false;
             }
+        }
+
+        public void RequestCharacterSave()
+        {
+            _saveCharacters = true;
         }
 
         private void CancelEverything()
@@ -365,8 +395,13 @@ namespace Kenedia.Modules.Characters
         {
             // Base handler must be called
             base.OnModuleLoaded(e);
+            CharacterSwapping = new(Settings, Services.GameState, CharacterModels);
+            CharacterSorting = new(Settings, Services.GameState, CharacterModels);
 
-            TextureManager = new TextureManager();
+            CharacterSwapping.CharacterSorting = CharacterSorting;
+            CharacterSorting.CharacterSwapping = CharacterSwapping;
+
+            TextureManager = new TextureManager(ContentsManager);
 
             if (Settings.ShowCornerIcon.Value)
             {
@@ -523,12 +558,19 @@ namespace Kenedia.Modules.Characters
             RadialMenu = new RadialMenu(Settings, CharacterModels, GameService.Graphics.SpriteScreen)
             {
                 Visible = false,
-                ZIndex = int.MaxValue  / 2
+                ZIndex = int.MaxValue / 2
             };
 
-            PotraitCapture = new PotraitCapture(Services.ClientWindowService, Services.SharedSettings) { Parent = GameService.Graphics.SpriteScreen, Visible = false, ZIndex = int.MaxValue - 1 };
+            PotraitCapture = new PotraitCapture(Services.ClientWindowService, Services.SharedSettings, TextureManager)
+            {
+                Parent = GameService.Graphics.SpriteScreen,
+                Visible = false,
+                ZIndex = int.MaxValue - 1,
+                AccountImagePath = () => AccountImagesPath,
+            };
+
             OCR = new(Services.ClientWindowService, Services.SharedSettings, Settings, Paths.ModulePath, CharacterModels);
-            RunIndicator = new(CharacterSorting, CharacterSwapping);
+            RunIndicator = new(CharacterSorting, CharacterSwapping, Settings.ShowStatusWindow);
 
             var settingsBg = AsyncTexture2D.FromAssetId(155997);
             Texture2D cutSettingsBg = settingsBg.Texture.GetRegion(0, 0, settingsBg.Width - 482, settingsBg.Height - 390);
@@ -537,7 +579,8 @@ namespace Kenedia.Modules.Characters
                 new Rectangle(30, 30, cutSettingsBg.Width + 10, cutSettingsBg.Height),
                 new Rectangle(30, 35, cutSettingsBg.Width - 5, cutSettingsBg.Height - 15),
                 SharedSettingsView,
-                OCR)
+                OCR,
+                Settings)
             {
                 Parent = GameService.Graphics.SpriteScreen,
                 Title = "❤",
@@ -553,8 +596,17 @@ namespace Kenedia.Modules.Characters
             bg,
             new Rectangle(25, 25, cutBg.Width + 10, cutBg.Height),
             new Rectangle(35, 14, cutBg.Width - 10, cutBg.Height - 10),
-            CharacterSorting,
-            Settings)
+            Settings,
+            TextureManager,
+            CharacterModels,
+            SearchFilters,
+            OCR.ToggleContainer,
+            () => PotraitCapture.ToggleVisibility(),
+            async () => await GW2APIHandler.CheckAPI(),
+            AccountImagesPath,
+            Tags,
+            () => CurrentCharacterModel,
+            Data)
             {
                 Parent = GameService.Graphics.SpriteScreen,
                 Title = "❤",
@@ -564,6 +616,24 @@ namespace Kenedia.Modules.Characters
                 CanResize = true,
                 Size = Settings.WindowSize.Value,
             };
+
+            SideMenuToggles _toggles;
+            MainWindow.SideMenu.AddTab(_toggles = new SideMenuToggles(TextureManager, TagFilters, SearchFilters, () => MainWindow?.FilterCharacters(), Tags, Data)
+            {
+                Icon = AsyncTexture2D.FromAssetId(440021),
+            });
+
+            MainWindow.SideMenu.AddTab(new SideMenuBehaviors(RM, TextureManager, Settings, () => MainWindow?.SortCharacters())
+            {
+                Icon = AsyncTexture2D.FromAssetId(156909),
+            });
+            _ = MainWindow.SideMenu.SwitchTab(_toggles);
+
+            PotraitCapture.OnImageCaptured = () => MainWindow.CharacterEdit.LoadImages(null, null);
+
+            CharacterSwapping.HideMainWindow = MainWindow.Hide;
+            CharacterSwapping.OCR = OCR;
+            CharacterSorting.OCR = OCR;
         }
 
         protected override void UnloadGUI()
@@ -580,16 +650,14 @@ namespace Kenedia.Modules.Characters
 
         public override IView GetSettingsView()
         {
-            return new SettingsView();
+            return new SettingsView(() => SettingsWindow?.ToggleWindow());
         }
 
         private void CreateToggleCategories()
         {
             var filters = new List<SearchFilter<Character_Model>>();
 
-            SearchFilters = new Dictionary<string, SearchFilter<Character_Model>>();
-
-            foreach (KeyValuePair<Gw2Sharp.Models.ProfessionType, Data.Profession> e in Data.Professions)
+            foreach (KeyValuePair<ProfessionType, Data.Profession> e in Data.Professions)
             {
                 SearchFilters.Add(e.Value.Name, new((c) => Settings.DisplayToggles.Value["Profession"].Check && c.Profession == e.Key));
                 SearchFilters.Add($"Core {e.Value.Name}", new((c) => Settings.DisplayToggles.Value["Profession"].Check && c.Profession == e.Key));
@@ -600,12 +668,12 @@ namespace Kenedia.Modules.Characters
                 SearchFilters.Add(e.Value.Name, new((c) => Settings.DisplayToggles.Value["Profession"].Check && c.Specialization == e.Key));
             }
 
-            foreach (KeyValuePair<int, Data.CrafingProfession> e in Data.CrafingProfessions)
+            foreach (KeyValuePair<int, Data.CraftingProfession> e in Data.CrafingProfessions)
             {
                 SearchFilters.Add(e.Value.Name, new((c) => c.Crafting.Find(p => Settings.DisplayToggles.Value["CraftingProfession"].Check && p.Id == e.Value.Id && (!Settings.DisplayToggles.Value["OnlyMaxCrafting"].Check || p.Rating >= e.Value.MaxRating)) != null));
             }
 
-            foreach (KeyValuePair<Gw2Sharp.Models.RaceType, Data.Race> e in Data.Races)
+            foreach (KeyValuePair<RaceType, Data.Race> e in Data.Races)
             {
                 SearchFilters.Add(e.Value.Name, new((c) => Settings.DisplayToggles.Value["Race"].Check && c.Race == e.Key));
             }

@@ -470,10 +470,6 @@ Para obtener el valor actual tendrás que cambiar las pestañas del módulo una 
   <data name="MatchAnyFilter" xml:space="preserve">
     <value>Coincidir con cualquier filtro</value>
   </data>
-  <data name="ModuleDescription" xml:space="preserve">
-    <value>¡Una herramienta para cambiar fácilmente los personajes, incluso con un montón de ellos!
-¡Esto requerirá una API-Key con permisos al menos para el endpoint 'characters'!</value>
-  </data>
   <data name="Name" xml:space="preserve">
     <value>Nombre</value>
   </data>
@@ -501,7 +497,7 @@ Para obtener el valor actual tendrás que cambiar las pestañas del módulo una 
   <data name="OnlyMaxCrafting_Tooltip" xml:space="preserve">
     <value>Mostrar sólo las disciplinas que están en un rango de 500 (joyero y escriba en 400).</value>
   </data>
-  <data name="OnlyMaxCrafting" xml:space="preserve">
+  <data name="OnlyMaxCrafting_Duplicate[1]" xml:space="preserve">
     <value>Mostrar sólo las disciplinas de artesanía maximizadas</value>
   </data>
   <data name="OnlyText" xml:space="preserve">
@@ -865,5 +861,8 @@ Uu : Üü Ûû Ùù</value>
   </data>
   <data name="FocusSearchOnShow_Tooltip" xml:space="preserve">
     <value>Al cambiar la ventana de caracteres se enfoca la barra de búsqueda para empezar a escribir directamente</value>
+  </data>
+  <data name="ModuleDescription" xml:space="preserve">
+    <value>Sueño con que intercambiar personajes sea rápido y fácil, ¡incluso con 72 de ellos! Por desgracia, intercambiar personajes puede convertirse rápidamente en un suplicio con muchos personajes.\N¿Dónde estaba el Guardián Asuran que aparqué en Draconis Mons entre mis 70 personajes?\N¡Tengo grandes noticias! Este módulo te cambiará la vida, así de cerca está del sueño. Busca los personajes adecuados utilizando docenas de opciones de filtro y cambia a ellos con un solo clic".</value>
   </data>
 </root>

@@ -7,8 +7,6 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MonoGame.Extended.BitmapFonts;
 using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Kenedia.Modules.Core.Controls
 {
@@ -19,7 +17,7 @@ namespace Kenedia.Modules.Core.Controls
         private Func<string> _setLocalizedTitle;
         private Func<string> _setLocalizedTooltip;
 
-        public BitmapFont Font { get; set; } = Control.Content.DefaultFont16;
+        public BitmapFont Font { get; set; } = Content.DefaultFont16;
 
         public string Title { get; set; }
 

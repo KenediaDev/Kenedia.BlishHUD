@@ -1,7 +1,6 @@
 ﻿using Blish_HUD;
 using Blish_HUD.Content;
 using Blish_HUD.Controls;
-using Blish_HUD.Input;
 using Characters.Res;
 using Kenedia.Modules.Characters.Models;
 using Kenedia.Modules.Characters.Services;
@@ -42,12 +41,16 @@ namespace Kenedia.Modules.Characters.Controls
         private readonly Button _openFolder;
         private readonly Panel _imagePanelParent;
         private readonly FlowPanel _imagePanel;
+        private readonly string _accountPath;
+        private readonly TagList _allTags;
+        private readonly SettingsModel _settings;
         private Character_Model _character;
 
-        public CharacterEdit()
+        public CharacterEdit(TextureManager tM, Action togglePotrait, string accountPath, TagList allTags, SettingsModel settings)
         {
-            TextureManager tM = Characters.ModuleInstance.TextureManager;
-
+            _accountPath = accountPath;
+            _allTags = allTags;
+            _settings = settings;
             HeightSizingMode = SizingMode.AutoSize;
             WidthSizingMode = SizingMode.AutoSize;
             ContentPadding = new(5, 5, 5, 5);
@@ -138,7 +141,7 @@ namespace Kenedia.Modules.Characters.Controls
                 SetLocalizedTooltip = () => strings.TogglePortraitCapture_Tooltip,
                 Icon = tM.GetIcon(Icons.Camera),
                 ResizeIcon = true,
-                ClickAction = () => Characters.ModuleInstance.PotraitCapture.Visible = !Characters.ModuleInstance.PotraitCapture.Visible
+                ClickAction = togglePotrait,
             };
 
             _openFolder = new Button()
@@ -154,7 +157,7 @@ namespace Kenedia.Modules.Characters.Controls
                 {
                     _ = Process.Start(new ProcessStartInfo()
                     {
-                        Arguments = Characters.ModuleInstance.AccountImagesPath,
+                        Arguments = _accountPath,
                         FileName = "explorer.exe",
                     });
                 },
@@ -175,9 +178,9 @@ namespace Kenedia.Modules.Characters.Controls
                 PlaceholderText = strings.Tag_Placeholder,
                 EnterPressedAction = (t) =>
                 {
-                    if (t != null && t.Length > 0 && !Characters.ModuleInstance.Tags.Contains(t))
+                    if (t != null && t.Length > 0 && !_allTags.Contains(t))
                     {
-                        Characters.ModuleInstance.Tags.Add(t);
+                        _allTags.Add(t);
                         Character.AddTag(t);
                         _tags.Add(AddTag(t, true));
 
@@ -196,9 +199,9 @@ namespace Kenedia.Modules.Characters.Controls
                 BasicTooltipText = string.Format(strings.AddItem, strings.Tag),
                 ClickAction = (m) =>
                 {
-                    if (_tagBox.Text != null && _tagBox.Text.Length > 0 && !Characters.ModuleInstance.Tags.Contains(_tagBox.Text))
+                    if (_tagBox.Text != null && _tagBox.Text.Length > 0 && !_allTags.Contains(_tagBox.Text))
                     {
-                        Characters.ModuleInstance.Tags.Add(_tagBox.Text);
+                        _allTags.Add(_tagBox.Text);
                         Character.AddTag(_tagBox.Text);
                         _tags.Add(AddTag(_tagBox.Text, true));
 
@@ -250,7 +253,7 @@ namespace Kenedia.Modules.Characters.Controls
             base.OnShown(e);
             ShowImages(false);
 
-            foreach (string t in Characters.ModuleInstance.Tags)
+            foreach (string t in _allTags)
             {
                 if (_tags.Find(e => e.Text == t) == null) _tags.Add(AddTag(t, true));
             }
@@ -267,11 +270,10 @@ namespace Kenedia.Modules.Characters.Controls
 
         public void LoadImages(object sender, EventArgs e)
         {
-            string path = Characters.ModuleInstance.AccountImagesPath;
+            string path = _accountPath;
             List<string> images = new(Directory.GetFiles(path, "*.png", SearchOption.AllDirectories));
 
-            SettingsModel settings = Characters.ModuleInstance.Settings;
-            PanelSizes pSize = settings.PanelSize.Value;
+            PanelSizes pSize = _settings.PanelSize.Value;
             int imageSize = 80;
 
             int maxHeight = GameService.Graphics.SpriteScreen.Height / 2;

@@ -1,34 +1,35 @@
-﻿using Kenedia.Modules.Characters.Enums;
+﻿using Gw2Sharp.Models;
+using Kenedia.Modules.Characters.Enums;
+using System.Collections.Generic;
 using static Kenedia.Modules.Characters.Services.Data;
 
 namespace Kenedia.Modules.Characters.Extensions
 {
     public static class Gw2SharpExtension
     {
-        public static CrafingProfession GetData(this int key)
+        public static CraftingProfession GetData(this int key, Dictionary<int, CraftingProfession> data)
         {
-            _ = Characters.ModuleInstance.Data.CrafingProfessions.TryGetValue(key, out CrafingProfession value);
+            _ = data.TryGetValue(key, out CraftingProfession value);
 
             return value;
         }
 
-        public static Profession GetData(this Gw2Sharp.Models.ProfessionType key)
+        public static Profession GetData(this ProfessionType key, Dictionary<ProfessionType, Profession> data)
         {
-            _ = Characters.ModuleInstance.Data.Professions.TryGetValue(key, out Profession value);
+            _ = data.TryGetValue(key, out Profession value);
+            return value;
+        }
+
+        public static Specialization GetData(this SpecializationType key, Dictionary<SpecializationType, Specialization> data)
+        {
+            _ = data.TryGetValue(key, out Specialization value);
 
             return value;
         }
 
-        public static Specialization GetData(this SpecializationType key)
+        public static Race GetData(this RaceType key, Dictionary<RaceType, Race> data)
         {
-            _ = Characters.ModuleInstance.Data.Specializations.TryGetValue(key, out Specialization value);
-
-            return value;
-        }
-
-        public static Race GetData(this Gw2Sharp.Models.RaceType key)
-        {
-            _ = Characters.ModuleInstance.Data.Races.TryGetValue(key, out Race value);
+            _ = data.TryGetValue(key, out Race value);
 
             return value;
         }

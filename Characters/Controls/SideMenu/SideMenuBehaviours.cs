@@ -3,7 +3,6 @@ using Blish_HUD.Controls;
 using Characters.Res;
 using Kenedia.Modules.Characters.Extensions;
 using Kenedia.Modules.Characters.Services;
-using Kenedia.Modules.Characters.Views;
 using Kenedia.Modules.Core.Controls;
 using Kenedia.Modules.Core.Interfaces;
 using Microsoft.Xna.Framework;
@@ -36,10 +35,17 @@ namespace Kenedia.Modules.Characters.Controls.SideMenu
         private readonly Dropdown _filterBehaviorDropdown;
         private readonly Dropdown _matchingDropdown;
         private readonly DisplayCheckToggle _toggleAll;
+        private readonly ResourceManager _resourceManager;
+        private readonly SettingsModel _settings;
+        private readonly Action _onSortChanged;
         private Rectangle _contentRectangle;
 
-        public SideMenuBehaviors()
+        public SideMenuBehaviors(ResourceManager resourceManager, TextureManager textureManager, SettingsModel settings, Action onSortChanged)
         {
+            _resourceManager = resourceManager;
+            _settings = settings;
+            _onSortChanged = onSortChanged;
+
             FlowDirection = ControlFlowDirection.SingleTopToBottom;
             WidthSizingMode = SizingMode.Fill;
             AutoSizePadding = new Point(5, 5);
@@ -60,7 +66,7 @@ namespace Kenedia.Modules.Characters.Controls.SideMenu
             _matchingDropdown = new() { Parent = this, };
             _matchingDropdown.ValueChanged += MatchingDropdown_ValueChanged;
 
-            _toggleAll = new()
+            _toggleAll = new(textureManager)
             {
                 Parent = this,                
             };
@@ -77,7 +83,7 @@ namespace Kenedia.Modules.Characters.Controls.SideMenu
             for (int i = 0; i < _toggles.Count; i++)
             {
                 KeyValuePair<string, DisplayCheckToggle> t = _toggles[i];
-                DisplayCheckToggle ctrl = new(Settings, t.Key)
+                DisplayCheckToggle ctrl = new(textureManager, _settings, t.Key)
                 {
                     Parent = this,
                 };
@@ -113,37 +119,29 @@ namespace Kenedia.Modules.Characters.Controls.SideMenu
 
         private void MatchingDropdown_ValueChanged(object sender, ValueChangedEventArgs e)
         {
-            Settings.ResultMatchingBehavior.Value = e.CurrentValue.GetMatchingBehavior();
+            _settings.ResultMatchingBehavior.Value = e.CurrentValue.GetMatchingBehavior();
         }
 
         private void FilterBehaviorDropdown_ValueChanged(object sender, ValueChangedEventArgs e)
         {
-            Settings.ResultFilterBehavior.Value = e.CurrentValue.GetFilterBehavior();
+            _settings.ResultFilterBehavior.Value = e.CurrentValue.GetFilterBehavior();
         }
-
-        private ResourceManager RM => Characters.ModuleInstance.RM;
-
-        private SettingsModel Settings => Characters.ModuleInstance.Settings;
-
-        private MainWindow MainWindow => Characters.ModuleInstance.MainWindow;
-
-        private Characters ModuleInstance => Characters.ModuleInstance;
 
         private void FlowDropdown_ValueChanged(object sender, ValueChangedEventArgs e)
         {
-            Settings.SortOrder.Value = e.CurrentValue.GetSortOrder();
-            MainWindow?.SortCharacters();
+            _settings.SortOrder.Value = e.CurrentValue.GetSortOrder();
+            _onSortChanged?.Invoke();
         }
 
         private void OrderDropdown_ValueChanged(object sender, ValueChangedEventArgs e)
         {
-            Settings.SortType.Value = e.CurrentValue.GetSortType();
-            MainWindow?.SortCharacters();
+            _settings.SortType.Value = e.CurrentValue.GetSortType();
+            _onSortChanged?.Invoke();
         }
 
         public void OnLanguageChanged(object s = null, EventArgs e = null)
         {
-            _orderDropdown.SelectedItem = Settings.SortType.Value.GetSortType();
+            _orderDropdown.SelectedItem = _settings.SortType.Value.GetSortType();
             _orderDropdown.Items.Clear();
             _orderDropdown.Items.Add(string.Format(strings.SortBy, strings.Name));
             _orderDropdown.Items.Add(string.Format(strings.SortBy, strings.Tags));
@@ -152,17 +150,17 @@ namespace Kenedia.Modules.Characters.Controls.SideMenu
             _orderDropdown.Items.Add(string.Format(strings.SortBy, strings.Map));
             _orderDropdown.Items.Add(strings.Custom);
 
-            _flowDropdown.SelectedItem = Settings.SortOrder.Value.GetSortOrder();
+            _flowDropdown.SelectedItem = _settings.SortOrder.Value.GetSortOrder();
             _flowDropdown.Items.Clear();
             _flowDropdown.Items.Add(strings.Ascending);
             _flowDropdown.Items.Add(strings.Descending);
 
-            _matchingDropdown.SelectedItem = Settings.ResultMatchingBehavior.Value.GetMatchingBehavior();
+            _matchingDropdown.SelectedItem = _settings.ResultMatchingBehavior.Value.GetMatchingBehavior();
             _matchingDropdown.Items.Clear();
             _matchingDropdown.Items.Add(strings.MatchAnyFilter);
             _matchingDropdown.Items.Add(strings.MatchAllFilter);
 
-            _filterBehaviorDropdown.SelectedItem = Settings.ResultFilterBehavior.Value.GetFilterBehavior();
+            _filterBehaviorDropdown.SelectedItem = _settings.ResultFilterBehavior.Value.GetFilterBehavior();
             _filterBehaviorDropdown.Items.Clear();
             _filterBehaviorDropdown.Items.Add(strings.IncludeMatches);
             _filterBehaviorDropdown.Items.Add(strings.ExcludeMatches);
@@ -171,9 +169,9 @@ namespace Kenedia.Modules.Characters.Controls.SideMenu
 
             foreach (KeyValuePair<string, DisplayCheckToggle> t in _toggles)
             {
-                t.Value.Text = RM.GetString(t.Key);
-                t.Value.DisplayTooltip = string.Format(RM.GetString("ShowItem"), RM.GetString(t.Key));
-                t.Value.CheckTooltip = string.Format(RM.GetString("CheckItem"), RM.GetString(t.Key));
+                t.Value.Text = _resourceManager.GetString(t.Key);
+                t.Value.DisplayTooltip = string.Format(_resourceManager.GetString("ShowItem"), _resourceManager.GetString(t.Key));
+                t.Value.CheckTooltip = string.Format(_resourceManager.GetString("CheckItem"), _resourceManager.GetString(t.Key));
             }
         }
 

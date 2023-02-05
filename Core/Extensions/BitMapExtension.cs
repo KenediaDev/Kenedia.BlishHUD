@@ -11,8 +11,8 @@ namespace Kenedia.Modules.Core.Extensions
     {
         public static Bitmap ToBlackWhite(this Bitmap b, float colorThreshold = 0.5f)
         {
-            var black = System.Drawing.Color.FromArgb(255, 0, 0, 0);
-            var white = System.Drawing.Color.FromArgb(255, 255, 255, 255);
+            var black = Color.FromArgb(255, 0, 0, 0);
+            var white = Color.FromArgb(255, 255, 255, 255);
 
             for (int i = 0; i < b.Width; i++)
             {
@@ -239,8 +239,8 @@ namespace Kenedia.Modules.Core.Extensions
 
         public static (Bitmap, bool, double) IsFilled(this Bitmap b, double threshold, float colorThreshold = 0.5f)
         {
-            var black = System.Drawing.Color.FromArgb(255, 0, 0, 0);
-            var white = System.Drawing.Color.FromArgb(255, 255, 255, 255);
+            var black = Color.FromArgb(255, 0, 0, 0);
+            var white = Color.FromArgb(255, 255, 255, 255);
 
             double total = b.Width * b.Height;
             double filled = 0;

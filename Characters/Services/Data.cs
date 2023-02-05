@@ -1,5 +1,7 @@
 ﻿using Blish_HUD;
 using Blish_HUD.Content;
+using Blish_HUD.Modules.Managers;
+using Gw2Sharp.Models;
 using Kenedia.Modules.Characters.Enums;
 using Kenedia.Modules.Characters.Models;
 using Microsoft.Xna.Framework.Graphics;
@@ -22,12 +24,15 @@ namespace Kenedia.Modules.Characters.Services
 
     public class Data
     {
-        public Data()
+        private readonly ContentsManager _contentsManager;
+        public Data(ContentsManager contentsManager)
         {
+            _contentsManager = contentsManager;
+
             string path = @"data\maps.json";
             var maps = new Map[1];
 
-            string jsonString = new StreamReader(Characters.ModuleInstance.ContentsManager.GetFileStream(path)).ReadToEnd();
+            string jsonString = new StreamReader(_contentsManager.GetFileStream(path)).ReadToEnd();
 
             if (jsonString != null && jsonString != string.Empty)
             {
@@ -42,16 +47,22 @@ namespace Kenedia.Modules.Characters.Services
             }
 
             Maps = maps;
+
+            Races[RaceType.Asura].Icon = _contentsManager.GetTexture(@"textures\races\" + "asura" + ".png");
+            Races[RaceType.Charr].Icon = _contentsManager.GetTexture(@"textures\races\" + "charr" + ".png");
+            Races[RaceType.Human].Icon = _contentsManager.GetTexture(@"textures\races\" + "human" + ".png");
+            Races[RaceType.Norn].Icon = _contentsManager.GetTexture(@"textures\races\" + "norn" + ".png");
+            Races[RaceType.Sylvari].Icon = _contentsManager.GetTexture(@"textures\races\" + "sylvari" + ".png");
         }
 
         public Map[] Maps { get; set; }
 
-        public Dictionary<int, CrafingProfession> CrafingProfessions { get; set; } = new Dictionary<int, CrafingProfession>()
+        public Dictionary<int, CraftingProfession> CrafingProfessions { get; set; } = new Dictionary<int, CraftingProfession>()
         {
             // Unknown
             {
                 0,
-                new CrafingProfession()
+                new CraftingProfession()
                 {
                     Icon = AsyncTexture2D.FromAssetId(154983),
                     Id = 0,
@@ -70,7 +81,7 @@ namespace Kenedia.Modules.Characters.Services
             // Artificier
             {
                 1,
-                new CrafingProfession()
+                new CraftingProfession()
                 {
                     Icon = AsyncTexture2D.FromAssetId(102463),
                     Id = 1,
@@ -89,7 +100,7 @@ namespace Kenedia.Modules.Characters.Services
             // Armorsmith
             {
                 2,
-                new CrafingProfession()
+                new CraftingProfession()
                 {
                     Icon = AsyncTexture2D.FromAssetId(102461),
                     Id = 2,
@@ -108,7 +119,7 @@ namespace Kenedia.Modules.Characters.Services
             // Chef
             {
                 3,
-                new CrafingProfession()
+                new CraftingProfession()
                 {
                     Icon = AsyncTexture2D.FromAssetId(102465),
                     Id = 3,
@@ -127,7 +138,7 @@ namespace Kenedia.Modules.Characters.Services
             // Jeweler
             {
                 4,
-                new CrafingProfession()
+                new CraftingProfession()
                 {
                     Icon = AsyncTexture2D.FromAssetId(102458),
                     Id = 4,
@@ -146,7 +157,7 @@ namespace Kenedia.Modules.Characters.Services
             // Huntsman
             {
                 5,
-                new CrafingProfession()
+                new CraftingProfession()
                 {
                     Icon = AsyncTexture2D.FromAssetId(102462),
                     Id = 5,
@@ -165,7 +176,7 @@ namespace Kenedia.Modules.Characters.Services
             // Leatherworker
             {
                 6,
-                new CrafingProfession()
+                new CraftingProfession()
                 {
                     Icon = AsyncTexture2D.FromAssetId(102464),
                     Id = 6,
@@ -184,7 +195,7 @@ namespace Kenedia.Modules.Characters.Services
             // Scribe
             {
                 7,
-                new CrafingProfession()
+                new CraftingProfession()
                 {
                     Icon = AsyncTexture2D.FromAssetId(1293677),
                     Id = 7,
@@ -203,7 +214,7 @@ namespace Kenedia.Modules.Characters.Services
             // Tailor
             {
                 8,
-                new CrafingProfession()
+                new CraftingProfession()
                 {
                     Icon = AsyncTexture2D.FromAssetId(102459),
                     Id = 8,
@@ -222,7 +233,7 @@ namespace Kenedia.Modules.Characters.Services
             // Weaponsmith
             {
                 9,
-                new CrafingProfession()
+                new CraftingProfession()
                 {
                     Icon = AsyncTexture2D.FromAssetId(102460),
                     Id = 9,
@@ -239,11 +250,11 @@ namespace Kenedia.Modules.Characters.Services
             },
         };
 
-        public Dictionary<Gw2Sharp.Models.ProfessionType, Profession> Professions { get; set; } = new Dictionary<Gw2Sharp.Models.ProfessionType, Profession>()
+        public Dictionary<ProfessionType, Profession> Professions { get; set; } = new Dictionary<ProfessionType, Profession>()
         {
             // Guardian
             {
-                Gw2Sharp.Models.ProfessionType.Guardian,
+                ProfessionType.Guardian,
                 new Profession()
                 {
                     Icon = AsyncTexture2D.FromAssetId(156634),
@@ -264,7 +275,7 @@ namespace Kenedia.Modules.Characters.Services
 
             // Warrior
             {
-                Gw2Sharp.Models.ProfessionType.Warrior,
+                ProfessionType.Warrior,
                 new Profession()
                 {
                     Icon = AsyncTexture2D.FromAssetId(156643),
@@ -285,7 +296,7 @@ namespace Kenedia.Modules.Characters.Services
 
             // Engineer
             {
-                Gw2Sharp.Models.ProfessionType.Engineer,
+                ProfessionType.Engineer,
                 new Profession()
                 {
                     Icon = AsyncTexture2D.FromAssetId(156632),
@@ -306,7 +317,7 @@ namespace Kenedia.Modules.Characters.Services
 
             // Ranger
             {
-                Gw2Sharp.Models.ProfessionType.Ranger,
+                ProfessionType.Ranger,
                 new Profession()
                 {
                     Icon = AsyncTexture2D.FromAssetId(156640),
@@ -327,7 +338,7 @@ namespace Kenedia.Modules.Characters.Services
 
             // Thief
             {
-                Gw2Sharp.Models.ProfessionType.Thief,
+                ProfessionType.Thief,
                 new Profession()
                 {
                     Icon = AsyncTexture2D.FromAssetId(156641),
@@ -348,7 +359,7 @@ namespace Kenedia.Modules.Characters.Services
 
             // Elementalist
             {
-                Gw2Sharp.Models.ProfessionType.Elementalist,
+                ProfessionType.Elementalist,
                 new Profession()
                 {
                     Icon = AsyncTexture2D.FromAssetId(156630),
@@ -369,7 +380,7 @@ namespace Kenedia.Modules.Characters.Services
 
             // Mesmer
             {
-                Gw2Sharp.Models.ProfessionType.Mesmer,
+                ProfessionType.Mesmer,
                 new Profession()
                 {
                     Icon = AsyncTexture2D.FromAssetId(156636),
@@ -390,7 +401,7 @@ namespace Kenedia.Modules.Characters.Services
 
             // Necromancer
             {
-                Gw2Sharp.Models.ProfessionType.Necromancer,
+                ProfessionType.Necromancer,
                 new Profession()
                 {
                     Icon = AsyncTexture2D.FromAssetId(156638),
@@ -411,7 +422,7 @@ namespace Kenedia.Modules.Characters.Services
 
             // Revenant
             {
-                Gw2Sharp.Models.ProfessionType.Revenant,
+                ProfessionType.Revenant,
                 new Profession()
                 {
                     Icon = AsyncTexture2D.FromAssetId(961390),
@@ -441,7 +452,7 @@ namespace Kenedia.Modules.Characters.Services
                     IconBig = AsyncTexture2D.FromAssetId(1128574),
                     Icon = AsyncTexture2D.FromAssetId(1128575),
                     Id = 5,
-                    Profession = Gw2Sharp.Models.ProfessionType.Ranger,
+                    Profession = ProfessionType.Ranger,
                     Names = new Dictionary<Locale, string>()
                     {
                         { Locale.German, "Druide" },
@@ -460,7 +471,7 @@ namespace Kenedia.Modules.Characters.Services
                     IconBig = AsyncTexture2D.FromAssetId(1128570),
                     Icon = AsyncTexture2D.FromAssetId(1128571),
                     Id = 7,
-                    Profession = Gw2Sharp.Models.ProfessionType.Thief,
+                    Profession = ProfessionType.Thief,
                     Names = new Dictionary<Locale, string>()
                     {
                         { Locale.German, "Draufgänger" },
@@ -479,7 +490,7 @@ namespace Kenedia.Modules.Characters.Services
                     IconBig = AsyncTexture2D.FromAssetId(1128566),
                     Icon = AsyncTexture2D.FromAssetId(1128567),
                     Id = 18,
-                    Profession = Gw2Sharp.Models.ProfessionType.Warrior,
+                    Profession = ProfessionType.Warrior,
                     Names = new Dictionary<Locale, string>()
                     {
                         { Locale.German, "Berserker" },
@@ -498,7 +509,7 @@ namespace Kenedia.Modules.Characters.Services
                     IconBig = AsyncTexture2D.FromAssetId(1128572),
                     Icon = AsyncTexture2D.FromAssetId(1128573),
                     Id = 27,
-                    Profession = Gw2Sharp.Models.ProfessionType.Guardian,
+                    Profession = ProfessionType.Guardian,
                     Names = new Dictionary<Locale, string>()
                     {
                         { Locale.German, "Drachenjäger" },
@@ -517,7 +528,7 @@ namespace Kenedia.Modules.Characters.Services
                     IconBig = AsyncTexture2D.FromAssetId(1128578),
                     Icon = AsyncTexture2D.FromAssetId(1128579),
                     Id = 34,
-                    Profession = Gw2Sharp.Models.ProfessionType.Necromancer,
+                    Profession = ProfessionType.Necromancer,
                     Names = new Dictionary<Locale, string>()
                     {
                         { Locale.German, "Schnitter" },
@@ -536,7 +547,7 @@ namespace Kenedia.Modules.Characters.Services
                     IconBig = AsyncTexture2D.FromAssetId(1128568),
                     Icon = AsyncTexture2D.FromAssetId(1128569),
                     Id = 40,
-                    Profession = Gw2Sharp.Models.ProfessionType.Mesmer,
+                    Profession = ProfessionType.Mesmer,
                     Names = new Dictionary<Locale, string>()
                     {
                         { Locale.German, "Chronomant" },
@@ -555,7 +566,7 @@ namespace Kenedia.Modules.Characters.Services
                     IconBig = AsyncTexture2D.FromAssetId(1128580),
                     Icon = AsyncTexture2D.FromAssetId(1128581),
                     Id = 43,
-                    Profession = Gw2Sharp.Models.ProfessionType.Engineer,
+                    Profession = ProfessionType.Engineer,
                     Names = new Dictionary<Locale, string>()
                     {
                         { Locale.German, "Schrotter" },
@@ -574,7 +585,7 @@ namespace Kenedia.Modules.Characters.Services
                     IconBig = AsyncTexture2D.FromAssetId(1128582),
                     Icon = AsyncTexture2D.FromAssetId(1128583),
                     Id = 48,
-                    Profession = Gw2Sharp.Models.ProfessionType.Elementalist,
+                    Profession = ProfessionType.Elementalist,
                     Names = new Dictionary<Locale, string>()
                     {
                         { Locale.German, "Sturmbote" },
@@ -593,7 +604,7 @@ namespace Kenedia.Modules.Characters.Services
                     IconBig = AsyncTexture2D.FromAssetId(1128576),
                     Icon = AsyncTexture2D.FromAssetId(1128577),
                     Id = 52,
-                    Profession = Gw2Sharp.Models.ProfessionType.Revenant,
+                    Profession = ProfessionType.Revenant,
                     Names = new Dictionary<Locale, string>()
                     {
                         { Locale.German, "Herold" },
@@ -612,7 +623,7 @@ namespace Kenedia.Modules.Characters.Services
                     IconBig = AsyncTexture2D.FromAssetId(1770214),
                     Icon = AsyncTexture2D.FromAssetId(1770215),
                     Id = 55,
-                    Profession = Gw2Sharp.Models.ProfessionType.Ranger,
+                    Profession = ProfessionType.Ranger,
                     Names = new Dictionary<Locale, string>()
                     {
                         { Locale.German, "Seelenwandler" },
@@ -631,7 +642,7 @@ namespace Kenedia.Modules.Characters.Services
                     IconBig = AsyncTexture2D.FromAssetId(1670505),
                     Icon = AsyncTexture2D.FromAssetId(1670506),
                     Id = 56,
-                    Profession = Gw2Sharp.Models.ProfessionType.Elementalist,
+                    Profession = ProfessionType.Elementalist,
                     Names = new Dictionary<Locale, string>()
                     {
                         { Locale.German, "Weber" },
@@ -650,7 +661,7 @@ namespace Kenedia.Modules.Characters.Services
                     IconBig = AsyncTexture2D.FromAssetId(1770224),
                     Icon = AsyncTexture2D.FromAssetId(1770225),
                     Id = 57,
-                    Profession = Gw2Sharp.Models.ProfessionType.Engineer,
+                    Profession = ProfessionType.Engineer,
                     Names = new Dictionary<Locale, string>()
                     {
                         { Locale.German, "Holoschmied" },
@@ -669,7 +680,7 @@ namespace Kenedia.Modules.Characters.Services
                     IconBig = AsyncTexture2D.FromAssetId(1770212),
                     Icon = AsyncTexture2D.FromAssetId(1770213),
                     Id = 58,
-                    Profession = Gw2Sharp.Models.ProfessionType.Thief,
+                    Profession = ProfessionType.Thief,
                     Names = new Dictionary<Locale, string>()
                     {
                         { Locale.German, "Scharfschütze" },
@@ -688,7 +699,7 @@ namespace Kenedia.Modules.Characters.Services
                     IconBig = AsyncTexture2D.FromAssetId(1770216),
                     Icon = AsyncTexture2D.FromAssetId(1770217),
                     Id = 59,
-                    Profession = Gw2Sharp.Models.ProfessionType.Mesmer,
+                    Profession = ProfessionType.Mesmer,
                     Names = new Dictionary<Locale, string>()
                     {
                         { Locale.German, "Illusionist" },
@@ -707,7 +718,7 @@ namespace Kenedia.Modules.Characters.Services
                     IconBig = AsyncTexture2D.FromAssetId(1770220),
                     Icon = AsyncTexture2D.FromAssetId(1770221),
                     Id = 60,
-                    Profession = Gw2Sharp.Models.ProfessionType.Necromancer,
+                    Profession = ProfessionType.Necromancer,
                     Names = new Dictionary<Locale, string>()
                     {
                         { Locale.German, "Pestbringer" },
@@ -726,7 +737,7 @@ namespace Kenedia.Modules.Characters.Services
                     IconBig = AsyncTexture2D.FromAssetId(1770222),
                     Icon = AsyncTexture2D.FromAssetId(1770223),
                     Id = 61,
-                    Profession = Gw2Sharp.Models.ProfessionType.Warrior,
+                    Profession = ProfessionType.Warrior,
                     Names = new Dictionary<Locale, string>()
                     {
                         { Locale.German, "Bannbrecher" },
@@ -745,7 +756,7 @@ namespace Kenedia.Modules.Characters.Services
                     IconBig = AsyncTexture2D.FromAssetId(1770210),
                     Icon = AsyncTexture2D.FromAssetId(1770211),
                     Id = 62,
-                    Profession = Gw2Sharp.Models.ProfessionType.Guardian,
+                    Profession = ProfessionType.Guardian,
                     Names = new Dictionary<Locale, string>()
                     {
                         { Locale.German, "Aufwiegler" },
@@ -764,7 +775,7 @@ namespace Kenedia.Modules.Characters.Services
                     IconBig = AsyncTexture2D.FromAssetId(1770218),
                     Icon = AsyncTexture2D.FromAssetId(1770219),
                     Id = 63,
-                    Profession = Gw2Sharp.Models.ProfessionType.Revenant,
+                    Profession = ProfessionType.Revenant,
                     Names = new Dictionary<Locale, string>()
                     {
                         { Locale.German, "Abtrünniger" },
@@ -783,7 +794,7 @@ namespace Kenedia.Modules.Characters.Services
                     IconBig = AsyncTexture2D.FromAssetId(2479359),
                     Icon = AsyncTexture2D.FromAssetId(2479361),
                     Id = 64,
-                    Profession = Gw2Sharp.Models.ProfessionType.Necromancer,
+                    Profession = ProfessionType.Necromancer,
                     Names = new Dictionary<Locale, string>()
                     {
                         { Locale.German, "Vorbote" },
@@ -802,7 +813,7 @@ namespace Kenedia.Modules.Characters.Services
                     IconBig = AsyncTexture2D.FromAssetId(2479351),
                     Icon = AsyncTexture2D.FromAssetId(2479353),
                     Id = 65,
-                    Profession = Gw2Sharp.Models.ProfessionType.Guardian,
+                    Profession = ProfessionType.Guardian,
                     Names = new Dictionary<Locale, string>()
                     {
                         { Locale.German, "Willensverdreher" },
@@ -821,7 +832,7 @@ namespace Kenedia.Modules.Characters.Services
                     IconBig = AsyncTexture2D.FromAssetId(2479355),
                     Icon = AsyncTexture2D.FromAssetId(2479357),
                     Id = 66,
-                    Profession = Gw2Sharp.Models.ProfessionType.Mesmer,
+                    Profession = ProfessionType.Mesmer,
                     Names = new Dictionary<Locale, string>()
                     {
                         { Locale.German, "Virtuose" },
@@ -840,7 +851,7 @@ namespace Kenedia.Modules.Characters.Services
                     IconBig = AsyncTexture2D.FromAssetId(2491555),
                     Icon = AsyncTexture2D.FromAssetId(2491557),
                     Id = 67,
-                    Profession = Gw2Sharp.Models.ProfessionType.Elementalist,
+                    Profession = ProfessionType.Elementalist,
                     Names = new Dictionary<Locale, string>()
                     {
                         { Locale.German, "Katalysierer" },
@@ -859,7 +870,7 @@ namespace Kenedia.Modules.Characters.Services
                     IconBig = AsyncTexture2D.FromAssetId(2491563),
                     Icon = AsyncTexture2D.FromAssetId(2491565),
                     Id = 68,
-                    Profession = Gw2Sharp.Models.ProfessionType.Warrior,
+                    Profession = ProfessionType.Warrior,
                     Names = new Dictionary<Locale, string>()
                     {
                         { Locale.German, "Klingengeschworener" },
@@ -878,7 +889,7 @@ namespace Kenedia.Modules.Characters.Services
                     IconBig = AsyncTexture2D.FromAssetId(2491559),
                     Icon = AsyncTexture2D.FromAssetId(2491561),
                     Id = 69,
-                    Profession = Gw2Sharp.Models.ProfessionType.Revenant,
+                    Profession = ProfessionType.Revenant,
                     Names = new Dictionary<Locale, string>()
                     {
                         { Locale.German, "Rechtssuchender" },
@@ -897,7 +908,7 @@ namespace Kenedia.Modules.Characters.Services
                     IconBig = AsyncTexture2D.FromAssetId(2503656),
                     Icon = AsyncTexture2D.FromAssetId(2503658),
                     Id = 70,
-                    Profession = Gw2Sharp.Models.ProfessionType.Engineer,
+                    Profession = ProfessionType.Engineer,
                     Names = new Dictionary<Locale, string>()
                     {
                         { Locale.German, "Mech-Lenker" },
@@ -916,7 +927,7 @@ namespace Kenedia.Modules.Characters.Services
                     IconBig = AsyncTexture2D.FromAssetId(2503664),
                     Icon = AsyncTexture2D.FromAssetId(2503666),
                     Id = 71,
-                    Profession = Gw2Sharp.Models.ProfessionType.Thief,
+                    Profession = ProfessionType.Thief,
                     Names = new Dictionary<Locale, string>()
                     {
                         { Locale.German, "Phantom" },
@@ -935,7 +946,7 @@ namespace Kenedia.Modules.Characters.Services
                     IconBig = AsyncTexture2D.FromAssetId(2503660),
                     Icon = AsyncTexture2D.FromAssetId(2503662),
                     Id = 72,
-                    Profession = Gw2Sharp.Models.ProfessionType.Ranger,
+                    Profession = ProfessionType.Ranger,
                     Names = new Dictionary<Locale, string>()
                     {
                         { Locale.German, "Ungezähmter" },
@@ -947,14 +958,13 @@ namespace Kenedia.Modules.Characters.Services
             },
         };
 
-        public Dictionary<Gw2Sharp.Models.RaceType, Race> Races { get; set; } = new Dictionary<Gw2Sharp.Models.RaceType, Race>()
+        public Dictionary<RaceType, Race> Races { get; set; } = new Dictionary<RaceType, Race>()
         {
             // Asura
             {
-                Gw2Sharp.Models.RaceType.Asura,
+                RaceType.Asura,
                 new Race()
                 {
-                    Icon = Characters.ModuleInstance.ContentsManager.GetTexture(@"textures\races\" + "asura" + ".png"),
                     Id = 0,
                     APIId = "Asura",
                     Names = new Dictionary<Locale, string>()
@@ -969,10 +979,9 @@ namespace Kenedia.Modules.Characters.Services
 
             // Charr
             {
-                Gw2Sharp.Models.RaceType.Charr,
+                RaceType.Charr,
                 new Race()
                 {
-                    Icon = Characters.ModuleInstance.ContentsManager.GetTexture(@"textures\races\" + "charr" + ".png"),
                     Id = 1,
                     APIId = "Charr",
                     Names = new Dictionary<Locale, string>()
@@ -987,10 +996,9 @@ namespace Kenedia.Modules.Characters.Services
 
             // Human
             {
-                Gw2Sharp.Models.RaceType.Human,
+                RaceType.Human,
                 new Race()
                 {
-                    Icon = Characters.ModuleInstance.ContentsManager.GetTexture(@"textures\races\" + "human" + ".png"),
                     Id = 2,
                     APIId = "Human",
                     Names = new Dictionary<Locale, string>()
@@ -1005,10 +1013,9 @@ namespace Kenedia.Modules.Characters.Services
 
             // Norn
             {
-                Gw2Sharp.Models.RaceType.Norn,
+                RaceType.Norn,
                 new Race()
                 {
-                    Icon = Characters.ModuleInstance.ContentsManager.GetTexture(@"textures\races\" + "norn" + ".png"),
                     Id = 3,
                     APIId = "Norn",
                     Names = new Dictionary<Locale, string>()
@@ -1023,10 +1030,9 @@ namespace Kenedia.Modules.Characters.Services
 
             // Sylvari
             {
-                Gw2Sharp.Models.RaceType.Sylvari,
+                RaceType.Sylvari,
                 new Race()
                 {
-                    Icon = Characters.ModuleInstance.ContentsManager.GetTexture(@"textures\races\" + "sylvari" + ".png"),
                     Id = 4,
                     APIId = "Sylvari",
                     Names = new Dictionary<Locale, string>()
@@ -1045,7 +1051,7 @@ namespace Kenedia.Modules.Characters.Services
             return Maps.Length > id && Maps[id] != null ? Maps[id] : new Map() { Name = "Unknown Map", Id = 0 };
         }
 
-        public class CrafingProfession
+        public class CraftingProfession
         {
             public AsyncTexture2D Icon { get; set; }
 
@@ -1149,7 +1155,7 @@ namespace Kenedia.Modules.Characters.Services
 
             public int APIId { get; set; }
 
-            public Gw2Sharp.Models.ProfessionType Profession { get; set; }
+            public ProfessionType Profession { get; set; }
 
             public AsyncTexture2D Icon { get; set; }
 

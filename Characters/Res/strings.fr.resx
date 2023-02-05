@@ -470,10 +470,6 @@ Pour obtenir la valeur actuelle, vous devrez changer d'onglet de module une fois
   <data name="MatchAnyFilter" xml:space="preserve">
     <value>Correspond à n'importe quel filtre</value>
   </data>
-  <data name="ModuleDescription" xml:space="preserve">
-    <value>Un outil pour changer facilement de personnage même s'il y en a beaucoup !
-Cela nécessitera une clé API avec des permissions, au moins pour le point de terminaison 'characters' !</value>
-  </data>
   <data name="Name" xml:space="preserve">
     <value>Nom</value>
   </data>
@@ -500,6 +496,9 @@ Cela nécessitera une clé API avec des permissions, au moins pour le point de t
   </data>
   <data name="OnlyMaxCrafting_Tooltip" xml:space="preserve">
     <value>N'affiche que les métiers qui sont de rang 500 (bijoutier &amp; scribe à 400).</value>
+  </data>
+  <data name="OnlyMaxCrafting_Duplicate[1]" xml:space="preserve">
+    <value>Afficher uniquement les métiers maximum</value>
   </data>
   <data name="OnlyText" xml:space="preserve">
     <value>Seulement le texte</value>
@@ -862,5 +861,8 @@ Se connecter automatiquement ?
   </data>
   <data name="FocusSearchOnShow" xml:space="preserve">
     <value>Focaliser le champ de recherche à l'affichage</value>
+  </data>
+  <data name="ModuleDescription" xml:space="preserve">
+    <value>Je rêve que l'échange de personnages soit rapide et facile même avec 72 personnages ! Malheureusement, l'échange de personnages peut rapidement devenir un véritable calvaire avec un grand nombre de personnages. Où était le Gardien Asuran que j'avais parqué sur Draconis Mons parmi mes 70 personnages ? J'ai une grande nouvelle ! Ce module va changer votre vie, c'est dire à quel point il se rapproche du rêve. Recherchez les bons personnages à l'aide de dizaines d'options de filtrage et passez à eux en un seul clic!''</value>
   </data>
 </root>

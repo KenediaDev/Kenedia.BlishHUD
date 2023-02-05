@@ -1,10 +1,8 @@
 ﻿using Blish_HUD;
 using Blish_HUD.Controls;
-using Kenedia.Modules.Core.Controls;
 using Kenedia.Modules.Core.Structs;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System;
 
 namespace Kenedia.Modules.Core.Controls
 {

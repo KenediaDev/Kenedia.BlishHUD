@@ -1,4 +1,5 @@
-﻿using Kenedia.Modules.Core.Extensions;
+﻿using Blish_HUD.Modules.Managers;
+using Kenedia.Modules.Core.Extensions;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
@@ -8,15 +9,17 @@ namespace Kenedia.Modules.Characters.Services
 {
     public class TextureManager : IDisposable
     {
+        private readonly ContentsManager _contentsManager;
+
         private readonly List<Texture2D> backgrounds = new();
         private readonly List<Texture2D> icons = new();
         private readonly List<Texture2D> controls = new();
 
-        private bool disposed = false;
+        private bool _disposed = false;
 
-        public TextureManager()
+        public TextureManager(ContentsManager contentsManager)
         {
-            Blish_HUD.Modules.Managers.ContentsManager contentsManager = Characters.ModuleInstance.ContentsManager;
+            _contentsManager = contentsManager;
 
             Array values = Enum.GetValues(typeof(Backgrounds));
             if (values.Length > 0)
@@ -24,7 +27,7 @@ namespace Kenedia.Modules.Characters.Services
                 backgrounds = new List<Texture2D>(new Texture2D[values.Cast<int>().Max() + 1]);
                 foreach (Backgrounds num in values)
                 {
-                    Texture2D texture = contentsManager.GetTexture(@"textures\backgrounds\" + (int)num + ".png");
+                    Texture2D texture = _contentsManager.GetTexture(@"textures\backgrounds\" + (int)num + ".png");
                     if (texture != null)
                     {
                         backgrounds.Insert((int)num, texture);
@@ -38,7 +41,7 @@ namespace Kenedia.Modules.Characters.Services
                 icons = new List<Texture2D>(new Texture2D[values.Cast<int>().Max() + 1]);
                 foreach (Icons num in values)
                 {
-                    Texture2D texture = contentsManager.GetTexture(@"textures\icons\" + (int)num + ".png");
+                    Texture2D texture = _contentsManager.GetTexture(@"textures\icons\" + (int)num + ".png");
                     if (texture != null)
                     {
                         icons.Insert((int)num, texture);
@@ -52,7 +55,7 @@ namespace Kenedia.Modules.Characters.Services
                 controls = new List<Texture2D>(new Texture2D[values.Cast<int>().Max() + 1]);
                 foreach (ControlTextures num in values)
                 {
-                    Texture2D texture = contentsManager.GetTexture(@"textures\controls\" + (int)num + ".png");
+                    Texture2D texture = _contentsManager.GetTexture(@"textures\controls\" + (int)num + ".png");
                     if (texture != null)
                     {
                         controls.Insert((int)num, texture);
@@ -116,9 +119,9 @@ namespace Kenedia.Modules.Characters.Services
 
         public void Dispose()
         {
-            if (!disposed)
+            if (!_disposed)
             {
-                disposed = true;
+                _disposed = true;
 
                 backgrounds?.DisposeAll();
                 icons?.DisposeAll();

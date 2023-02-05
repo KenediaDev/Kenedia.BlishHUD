@@ -7,13 +7,7 @@ using System;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
 using Blish_HUD.Controls;
-using Blish_HUD.Input;
 using System.Collections.Generic;
-using MonoGame.Extended.Sprites;
-using System.ComponentModel;
-using System.Text.Json.Serialization;
-using Glide;
-using System.Reflection;
 
 namespace Kenedia.Modules.Core.Controls
 {
@@ -171,8 +165,8 @@ namespace Kenedia.Modules.Core.Controls
                 _layoutLeftAccentSrc = new Rectangle(0, 0, _textureLeftSideAccent.Width, _layoutLeftAccentBounds.Height);
             }
 
-            base.ContentRegion = new Rectangle(num4, num, _size.X - num4 - num2, _size.Y - num - num3);
-            _layoutHeaderBounds = new Rectangle(base.ContentRegion.Left, 0, base.ContentRegion.Width, 36);
+            ContentRegion = new Rectangle(num4, num, _size.X - num4 - num2, _size.Y - num - num3);
+            _layoutHeaderBounds = new Rectangle(ContentRegion.Left, 0, ContentRegion.Width, 36);
             _layoutHeaderTextBounds = new Rectangle(_layoutHeaderBounds.Left + 10 + (TitleIcon == null ? 0 : 36), 0, _layoutHeaderBounds.Width - 10, 36);
             _layoutHeaderIconBounds = new Rectangle(_layoutHeaderBounds.Left + 5, 0, 36, 36);
             _layoutAccordionArrowOrigin = new Vector2(16f, 16f);
@@ -191,13 +185,13 @@ namespace Kenedia.Modules.Core.Controls
 
             if (_showTint)
             {
-                spriteBatch.DrawOnCtrl(this, ContentService.Textures.Pixel, base.ContentRegion, Color.Black * 0.4f);
+                spriteBatch.DrawOnCtrl(this, ContentService.Textures.Pixel, ContentRegion, Color.Black * 0.4f);
             }
 
             if (!string.IsNullOrEmpty(_title))
             {
                 spriteBatch.DrawOnCtrl(this, _texturePanelHeader, _layoutHeaderBounds);
-                if (_canCollapse && _mouseOver && base.RelativeMousePosition.Y <= 36)
+                if (_canCollapse && _mouseOver && RelativeMousePosition.Y <= 36)
                 {
                     _tooltip.Visible = true;
                     spriteBatch.DrawOnCtrl(this, _texturePanelHeaderActive, _layoutHeaderBounds);
@@ -207,7 +201,7 @@ namespace Kenedia.Modules.Core.Controls
                     spriteBatch.DrawOnCtrl(this, _texturePanelHeader, _layoutHeaderBounds);
                 }
 
-                spriteBatch.DrawStringOnCtrl(this, _title, Control.Content.DefaultFont16, _layoutHeaderTextBounds, Color.White);
+                spriteBatch.DrawStringOnCtrl(this, _title, Content.DefaultFont16, _layoutHeaderTextBounds, Color.White);
                 if(TitleIcon != null) spriteBatch.DrawOnCtrl(this, TitleIcon, _layoutHeaderIconBounds, TitleIcon.Bounds, Color.White);
                 if (_canCollapse)
                 {
@@ -217,7 +211,7 @@ namespace Kenedia.Modules.Core.Controls
 
             if (ShowBorder)
             {
-                spriteBatch.DrawOnCtrl(this, ContentService.Textures.Pixel, base.ContentRegion, Color.Black * (0.1f * AccentOpacity));
+                spriteBatch.DrawOnCtrl(this, ContentService.Textures.Pixel, ContentRegion, Color.Black * (0.1f * AccentOpacity));
                 spriteBatch.DrawOnCtrl(this, _textureCornerAccent, _layoutTopLeftAccentBounds, _layoutCornerAccentSrc, Color.White * AccentOpacity, 0f, Vector2.Zero, SpriteEffects.FlipHorizontally);
                 spriteBatch.DrawOnCtrl(this, _textureCornerAccent, _layoutBottomRightAccentBounds, _layoutCornerAccentSrc, Color.White * AccentOpacity, 0f, Vector2.Zero, SpriteEffects.FlipVertically);
                 spriteBatch.DrawOnCtrl(this, _textureLeftSideAccent, _layoutLeftAccentBounds, _layoutLeftAccentSrc, Color.Black * AccentOpacity, 0f, Vector2.Zero, SpriteEffects.FlipVertically);

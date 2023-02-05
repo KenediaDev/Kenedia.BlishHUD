@@ -13,7 +13,6 @@ using Kenedia.Modules.Core.Models;
 using System.Diagnostics;
 using Kenedia.Modules.Core.Structs;
 using static Kenedia.Modules.Core.Utility.WindowsUtil.User32Dll;
-using System.Threading.Tasks;
 using Kenedia.Modules.Core.Controls;
 
 namespace Kenedia.Modules.Core.Services
@@ -127,6 +126,8 @@ namespace Kenedia.Modules.Core.Services
         }
 
         public bool IsIngame => GameStatus == GameStatus.Ingame;
+
+        public bool IsCharacterSelection => GameStatus == GameStatus.CharacterSelection;
 
         public void Run(GameTime gameTime)
         {

@@ -471,8 +471,9 @@ Um den aktuellen Wert zu erhalten, müssen Sie die Modul-Tabs einmal wechseln, u
     <value>Entspricht einem beliebigen Filter</value>
   </data>
   <data name="ModuleDescription" xml:space="preserve">
-    <value>Ein Werkzeug zum einfachen Wechseln von Zeichen, auch wenn es viele davon gibt!
-Dies erfordert einen API-Schlüssel mit Berechtigungen zumindest für den Endpunkt 'characters'!</value>
+    <value>Ich habe einen Traum, dass das Tauschen von Charakteren selbst mit 72 von ihnen schnell und einfach ist! Leider kann das Tauschen von Charakteren mit vielen Charakteren schnell zu einer ziemlichen Qual werden.
+\nWo war der asuranische Wächter, welchen ich in Draconis Mons geparkt habe, unter meinen 70 Charakteren?
+\nIch habe großartige Neuigkeiten! Dieses Modul wird dein Leben verändern, so nah kommt es an den Traum heran. Suche anhand von Dutzenden von Filteroptionen nach den richtigen Charakteren und wechsle mit nur einem Click zu ihnen!'</value>
   </data>
   <data name="Name" xml:space="preserve">
     <value>Name</value>
@@ -501,7 +502,7 @@ Dies erfordert einen API-Schlüssel mit Berechtigungen zumindest für den Endpun
   <data name="OnlyMaxCrafting_Tooltip" xml:space="preserve">
     <value>Zeige nur Handwerksberufe, welche auf einem 500 Rang sind (Juwelier &amp; Schreiber auf 400).</value>
   </data>
-  <data name="OnlyMaxCrafting" xml:space="preserve">
+  <data name="OnlyMaxCrafting_Duplicate[1]" xml:space="preserve">
     <value>Zeige nur maximale Handwerksberufe</value>
   </data>
   <data name="OnlyText" xml:space="preserve">

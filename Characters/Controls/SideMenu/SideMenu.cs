@@ -4,14 +4,11 @@ using Blish_HUD.Controls;
 using Blish_HUD.Input;
 using Characters.Res;
 using Kenedia.Modules.Characters.Services;
-using Kenedia.Modules.Characters.Views;
 using Kenedia.Modules.Core.Controls;
-using Kenedia.Modules.Core.Extensions;
 using Kenedia.Modules.Core.Interfaces;
 using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using Panel = Kenedia.Modules.Core.Controls.Panel;
 using TabbedPanel = Kenedia.Modules.Core.Controls.TabbedPanel;
 
@@ -29,12 +26,19 @@ namespace Kenedia.Modules.Characters.Controls.SideMenu
         private ImageButton _refreshButton;
 
         private readonly SideMenuToggles _toggles;
-        private readonly SideMenuBehaviors _behaviors;
-        private readonly CharacterSorting _characterSorting;
 
-        public SideMenu(CharacterSorting characterSorting)
+        private readonly SettingsModel _settings;
+        private readonly TextureManager _textureManager;
+        private readonly CharacterSorting _characterSorting;
+        private readonly Action _toggleOCR;
+        private readonly Action _togglePotrait;
+        private readonly Action _refreshAPI;
+
+        public SideMenu(Action toggleOCR, Action togglePotrait, Action refreshAPI, TextureManager textureManager)
         {
-            _characterSorting = characterSorting;
+            _toggleOCR = toggleOCR;
+            _togglePotrait = togglePotrait;
+            _refreshAPI = refreshAPI;
 
             Parent = GameService.Graphics.SpriteScreen;
             BorderWidth = new(2);
@@ -60,17 +64,7 @@ namespace Kenedia.Modules.Characters.Controls.SideMenu
 
             if (BackgroundImage != null) TextureRectangle = new Rectangle(30, 30, BackgroundImage.Width - 60, BackgroundImage.Height - 60);
 
-            AddTab(_toggles = new SideMenuToggles()
-            {
-                Icon = AsyncTexture2D.FromAssetId(440021),
-                Width = Width,
-            });
-
-            AddTab(_behaviors = new SideMenuBehaviors()
-            {
-                Icon = AsyncTexture2D.FromAssetId(156909),
-            });
-            _ = SwitchTab(_toggles);
+            _textureManager = textureManager;
         }
 
         private void CloseButton_Click(object sender, MouseEventArgs e)
@@ -80,15 +74,13 @@ namespace Kenedia.Modules.Characters.Controls.SideMenu
 
         private void CreateHeaderButtons()
         {
-            TextureManager tm = Characters.ModuleInstance.TextureManager;
-
             _ocrButton = new()
             {
                 Parent = _headerPanel,
-                Texture = tm.GetIcon(TextureManager.Icons.Camera),
-                HoveredTexture = tm.GetIcon(TextureManager.Icons.Camera_Hovered),
+                Texture = _textureManager.GetIcon(TextureManager.Icons.Camera),
+                HoveredTexture = _textureManager.GetIcon(TextureManager.Icons.Camera_Hovered),
                 Size = new Point(20, 20),
-                ClickAction = (m) => ModuleInstance.OCR?.ToggleContainer(),
+                ClickAction = (m) => _toggleOCR?.Invoke(),
                 SetLocalizedTooltip = () => strings.EditOCR_Tooltip,
             };
             _buttons.Add(_ocrButton);
@@ -97,11 +89,11 @@ namespace Kenedia.Modules.Characters.Controls.SideMenu
             {
                 Parent = _headerPanel,
                 Texture = AsyncTexture2D.FromAssetId(358353),
-                HoveredTexture = tm.GetIcon(TextureManager.Icons.Portrait_Hovered),
+                HoveredTexture = _textureManager.GetIcon(TextureManager.Icons.Portrait_Hovered),
                 Size = new Point(20, 20),
                 ColorHovered = Color.White,
                 SetLocalizedTooltip = () => strings.TogglePortraitCapture_Tooltip,
-                ClickAction = (m) => ModuleInstance.PotraitCapture.ToggleVisibility(),
+                ClickAction = (m) => _togglePotrait?.Invoke(),
             };
             _buttons.Add(_potraitButton);
 
@@ -116,7 +108,7 @@ namespace Kenedia.Modules.Characters.Controls.SideMenu
                 {
                     if (!GameService.GameIntegration.Gw2Instance.IsInGame)
                     {
-                        _characterSorting.Start(ModuleInstance.CharacterModels);
+                        _characterSorting.Start();
                     }
                 }
             };
@@ -128,22 +120,22 @@ namespace Kenedia.Modules.Characters.Controls.SideMenu
                 Texture = AsyncTexture2D.FromAssetId(156749),
                 HoveredTexture = AsyncTexture2D.FromAssetId(156750),
                 Size = new Point(20, 20),
-                ClickAction = (m) => ModuleInstance.GW2APIHandler.CheckAPI(),
+                ClickAction = (m) => _refreshAPI?.Invoke(),
                 SetLocalizedTooltip = () => strings.RefreshAPI,
             };
             _buttons.Add(_refreshButton);
 
-            _pinButton = new ImageToggleButton((b) => Settings.PinSideMenus.Value = b)
+            _pinButton = new ImageToggleButton((b) => _settings.PinSideMenus.Value = b)
             {
                 Parent = _headerPanel,
-                Texture = Characters.ModuleInstance.TextureManager.GetIcon(TextureManager.Icons.Pin),
-                HoveredTexture = Characters.ModuleInstance.TextureManager.GetIcon(TextureManager.Icons.Pin_Hovered),
-                ActiveTexture = Characters.ModuleInstance.TextureManager.GetIcon(TextureManager.Icons.Pin_Hovered),
+                Texture = _textureManager.GetIcon(TextureManager.Icons.Pin),
+                HoveredTexture = _textureManager.GetIcon(TextureManager.Icons.Pin_Hovered),
+                ActiveTexture = _textureManager.GetIcon(TextureManager.Icons.Pin_Hovered),
                 ColorDefault = new Color(175, 175, 175),
                 ColorActive = ContentService.Colors.ColonialWhite,
                 Size = new(20, 20),
-                Active = Settings.PinSideMenus.Value,
-                SetLocalizedTooltip= () => strings.PinSideMenus_Tooltip,
+                Active = _settings.PinSideMenus.Value,
+                SetLocalizedTooltip = () => strings.PinSideMenus_Tooltip,
             };
             _buttons.Add(_pinButton);
 
@@ -160,10 +152,6 @@ namespace Kenedia.Modules.Characters.Controls.SideMenu
             _buttons.Add(_closeButton);
         }
 
-        private SettingsModel Settings => Characters.ModuleInstance.Settings;
-
-        private Characters ModuleInstance => Characters.ModuleInstance;
-
         public void ResetToggles()
         {
             _toggles.ResetToggles();
@@ -178,10 +166,10 @@ namespace Kenedia.Modules.Characters.Controls.SideMenu
         {
             base.RecalculateLayout();
 
-            if(_headerPanel != null) _headerPanel.Width = ContentRegion.Width;
+            if (_headerPanel != null) _headerPanel.Width = ContentRegion.Width;
         }
 
-        protected override bool SwitchTab(PanelTab tab = null)
+        public override bool SwitchTab(PanelTab tab = null)
         {
             bool result = base.SwitchTab(tab);
 
@@ -202,7 +190,7 @@ namespace Kenedia.Modules.Characters.Controls.SideMenu
         {
             base.OnResized(e);
 
-            if(BackgroundImage != null) TextureRectangle = new Rectangle(30, 30, Math.Min(BackgroundImage.Width - 100, Width), Math.Min(BackgroundImage.Height - 100, Height));
+            if (BackgroundImage != null) TextureRectangle = new Rectangle(30, 30, Math.Min(BackgroundImage.Width - 100, Width), Math.Min(BackgroundImage.Height - 100, Height));
 
             int gap = (_headerPanel.Width - 7 - (_buttons.Count * 20)) / (_buttons.Count - 1);
             for (int i = 0; i < _buttons.Count; i++)

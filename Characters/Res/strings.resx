@@ -510,8 +510,7 @@ To get the current value you will have to swap module tabs once to update the se
     <value>Match any filter</value>
   </data>
   <data name="ModuleDescription" xml:space="preserve">
-    <value>A tool to easily switch characters even with a lot of them!
-This will require an API-Key with permissions at least for the 'characters' endpoint!</value>
+    <value>I have a dream that swapping characters is quick and easy even with 72 of them! Unfortunately, swapping characters can quickly become quite a pain with many characters.\nWhere was the Asuran Guardian I parked in Draconis Mons among my 70 characters?\nI have great news! This module will change your life, that's how close it comes to the dream. Search for the right characters using dozens of filter options and switch to them with just one click!'</value>
   </data>
   <data name="Name" xml:space="preserve">
     <value>Name</value>
@@ -540,7 +539,7 @@ This will require an API-Key with permissions at least for the 'characters' endp
   <data name="OnlyMaxCrafting_Tooltip" xml:space="preserve">
     <value>Show only crafts that are at a 500 rank (Jeweler &amp; Scribe at 400).</value>
   </data>
-  <data name="OnlyMaxCrafting" xml:space="preserve">
+  <data name="OnlyMaxCrafting_Duplicate[1]" xml:space="preserve">
     <value>Show only maxed out crafting Professions</value>
   </data>
   <data name="OnlyText" xml:space="preserve">

@@ -1,5 +1,4 @@
-﻿using Blish_HUD;
-using Blish_HUD.Controls;
+﻿using Blish_HUD.Controls;
 using Kenedia.Modules.Core.Extensions;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -91,7 +90,7 @@ namespace Kenedia.Modules.Core.Controls
             base.OnResized(e);
         }
 
-        protected virtual bool SwitchTab(PanelTab tab = null)
+        public virtual bool SwitchTab(PanelTab tab = null)
         {
             foreach (PanelTab t in Tabs)
             {
