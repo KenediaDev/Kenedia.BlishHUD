@@ -328,7 +328,7 @@ namespace Kenedia.Modules.Characters.Controls
                     _imagePanelParent.Width = width;
                     _imagePanelParent.Height = height;
 
-                    _closeButton.Location = new(_imagePanelParent.Right - _closeButton.Size.X - AutoSizePadding.X + 5, AutoSizePadding.Y);
+                    _closeButton.Location = _imagePanelParent.Right > 355 ? new(_imagePanelParent.Right - _closeButton.Size.X, AutoSizePadding.Y) : new(355 - _closeButton.Size.X, AutoSizePadding.Y);
                 }
             });
         }
