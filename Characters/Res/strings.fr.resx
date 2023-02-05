@@ -161,7 +161,7 @@ Une fois le chargement terminé, il basculera vers le personnage qui est défini
     <value>Anniversaire</value>
   </data>
   <data name="Birthday_Text" xml:space="preserve">
-    <value>C'était l'anniversaire de {0} ! Il a maintenant {1} ans !</value>
+    <value>C'était l'anniversaire de {0} ! Il a maintenant {1} an(s) !</value>
   </data>
   <data name="BottomOffset" xml:space="preserve">
     <value>Décalage en bas</value>
@@ -179,7 +179,7 @@ Une fois le chargement terminé, il basculera vers le personnage qui est défini
     <value>Capture d'images</value>
   </data>
   <data name="CaptureNotification" xml:space="preserve">
-    <value>Enregistré sous {0}!</value>
+    <value>Enregistré sous {0} !</value>
   </data>
   <data name="CapturePotraits" xml:space="preserve">
     <value>Capturer des portraits</value>
@@ -188,10 +188,10 @@ Une fois le chargement terminé, il basculera vers le personnage qui est défini
     <value>Personnage</value>
   </data>
   <data name="CharacterDisplayOption" xml:space="preserve">
-    <value>Option d'affichage des caractères</value>
+    <value>Option d'affichage des personnages</value>
   </data>
   <data name="CharacterDisplaySize" xml:space="preserve">
-    <value>Taille de l'affichage des caractères</value>
+    <value>Taille de l'affichage des personnages</value>
   </data>
   <data name="CharacterName" xml:space="preserve">
     <value>Nom du personnage</value>
@@ -266,7 +266,7 @@ Une fois le chargement terminé, il basculera vers le personnage qui est défini
     <value>Personnalisé</value>
   </data>
   <data name="CustomTags" xml:space="preserve">
-    <value>Étiquettes personnalisées</value>
+    <value>Balises personnalisées</value>
   </data>
   <data name="Days" xml:space="preserve">
     <value>Jours</value>
@@ -359,7 +359,7 @@ Une fois le chargement terminé, il basculera vers le personnage qui est défini
     <value>Filtrer</value>
   </data>
   <data name="FilterDelay_Tooltip" xml:space="preserve">
-    <value>Temps moyen, en millisecondes, d'attente entre le filtrage du panneau de vos personnages.
+    <value>Temps moyen, en millisecondes, d'attente entre le filtrage de vos personnages.
 Pour obtenir la valeur actuelle, vous devrez changer d'onglet de module une fois pour mettre à jour la page de paramètres !</value>
   </data>
   <data name="FilterDelay" xml:space="preserve">
@@ -378,7 +378,7 @@ Pour obtenir la valeur actuelle, vous devrez changer d'onglet de module une fois
     <value>Effectuez une reconnaissance optique de vos personnages afin de mettre à jour leur ordre actuel pour qu'il corresponde à la sélection de personnages</value>
   </data>
   <data name="FixCharacter_FetchName" xml:space="preserve">
-    <value>Récupérer le nom du personnage ...{0}{1}</value>
+    <value>Récupérer le nom du personnage ... {0}{1}</value>
   </data>
   <data name="FixCharacter_MoveNext" xml:space="preserve">
     <value>Aller au personnage suivant ...</value>
@@ -423,7 +423,7 @@ Pour obtenir la valeur actuelle, vous devrez changer d'onglet de module une fois
     <value>Bijoutier</value>
   </data>
   <data name="Keybinds" xml:space="preserve">
-    <value>Liens entre les touches</value>
+    <value>Touches</value>
   </data>
   <data name="KeyDelay_Tooltip" xml:space="preserve">
     <value>Ajoute un délai entre les pressions de touches. Cela ralentit le changement de personnage et ne devrait être utilisé que si votre PC est ralenti au point de ne pas pouvoir changer sans délai !</value>
@@ -496,13 +496,10 @@ Cela nécessitera une clé API avec des permissions, au moins pour le point de t
     <value>Icône uniquement</value>
   </data>
   <data name="OnlyMaxCrafting" xml:space="preserve">
-    <value>Uniquement les métiers maxés</value>
+    <value>Afficher uniquement les métiers maximum</value>
   </data>
   <data name="OnlyMaxCrafting_Tooltip" xml:space="preserve">
     <value>N'affiche que les métiers qui sont de rang 500 (bijoutier &amp; scribe à 400).</value>
-  </data>
-  <data name="OnlyMaxCrafting" xml:space="preserve">
-    <value>Afficher uniquement les métiers maximum</value>
   </data>
   <data name="OnlyText" xml:space="preserve">
     <value>Seulement le texte</value>
@@ -570,7 +567,7 @@ Cela nécessitera une clé API avec des permissions, au moins pour le point de t
 -r Race
 -b Anniversaire
 -m Carte
--t CustomTag
+-t BalisePersonnalisée
 -c Chef ; -p Warrior affiche tous les guerriers et tous les cuisiniers</value>
   </data>
   <data name="SelectImage" xml:space="preserve">
@@ -752,13 +749,13 @@ Pour obtenir la valeur actuelle, vous devrez changer d'onglet de module une fois
     <value>Ignorez tout type de diacritique : les lettres suivantes sont traitées comme leur "lettre mère".
 [Ææ] devient [Aeae]
 [Œœ] devient [Oeoe]
-[Áá Ââ Ää Àà] devient [Aa].
+[Áá Ââ Ää Àà] deviennent [Aa].
 [Çç] devient [Cc]
 [Êê Éé Ëë Èè] devient [Ee]
 [ Ïï Íí Îî] deviennent [Ii]
 [Ññ] devient [Nn]
-[Ôô Öö Óó] devient [Oo]
-[Úú Üü Ûû Ùù] devient [Uu]</value>
+[Ôô Öö Óó] deviennent [Oo]
+[Úú Üü Ûû Ùù] deviennent [Uu]</value>
   </data>
   <data name="Gender" xml:space="preserve">
     <value>Genre</value>
@@ -782,10 +779,10 @@ Pour obtenir la valeur actuelle, vous devrez changer d'onglet de module une fois
     <value>Ouvrir le menu latéral lors de la recherche</value>
   </data>
   <data name="NormalizedNames" xml:space="preserve">
-    <value>Utiliser des noms de caractères normalisés</value>
+    <value>Utiliser des noms de personnages normalisés</value>
   </data>
   <data name="NormalizedNames_Tooltip" xml:space="preserve">
-    <value>Utilisez des noms de caractères normalisés lors de la recherche afin que les lettres spéciales soient traitées comme leur "lettre mère".
+    <value>Utilisez des noms de personnages normalisés lors de la recherche afin que les lettres spéciales soient traitées comme leur "lettre mère".
 Aa : Áá Ââ Ää Àà Ææ
 Cc : Çç
 Ee : Êê Éé Ëë Èè
@@ -798,7 +795,7 @@ Uu : Üü Ûû Ùù</value>
     <value>Correction automatique (nécessite l'OCR)</value>
   </data>
   <data name="UseBetaGameState_Tooltip" xml:space="preserve">
-    <value>Utilisez la reconnaissance d'image pour détecter si vous êtes en jeu, si vous regardez une scène ou si vous vous trouvez dans un écran de chargement. Cette fonction fonctionne bien pour tous les rapports d'écran courants, à l'exception des jeux en mode portrait.</value>
+    <value>Utilisez la reconnaissance d'image pour détecter si vous êtes en jeu, si vous regardez une cinématique ou si vous vous trouvez dans un écran de chargement. Cette option fonctionne bien pour tous les rapports d'écran courants, à l'exception des jeux en mode portrait.</value>
   </data>
   <data name="UseBetaGameState" xml:space="preserve">
     <value>Utiliser la détection de l'état de jeu</value>
@@ -813,7 +810,7 @@ Uu : Üü Ûû Ùù</value>
     <value>Comportement du module</value>
   </data>
   <data name="ModuleBehavior_Tooltip" xml:space="preserve">
-    <value>Paramètres tout autour du comportement du module.
+    <value>Paramètres relatifs au comportement du module.
 Comment le filtre doit-il traiter les diacritiques ?
 Se connecter automatiquement ?
 ...</value>
@@ -831,7 +828,7 @@ Se connecter automatiquement ?
     <value>Largeur de la carte {0} px</value>
   </data>
   <data name="CardWidth_Tooltip" xml:space="preserve">
-    <value>Définit la largeur de la carte de caractères toujours à {0} px</value>
+    <value>Définit la largeur de la carte de personnage toujours à {0} px</value>
   </data>
   <data name="RadialMenuSettings" xml:space="preserve">
     <value>Paramètres du menu radial</value>
@@ -846,7 +843,7 @@ Se connecter automatiquement ?
     <value>Activer le menu radial</value>
   </data>
   <data name="EnableRadialMenu_Tooltip" xml:space="preserve">
-    <value>Activez le menu radial pour passer rapidement d'une collection de caractères à l'autre.</value>
+    <value>Activez le menu radial pour passer rapidement d'un personnage à l'autre parmi un ensemble.</value>
   </data>
   <data name="RadialMenuKey" xml:space="preserve">
     <value>Touche de menu radial</value>
@@ -855,15 +852,15 @@ Se connecter automatiquement ?
     <value>Touche qui permet d'afficher le menu radial lorsqu'elle est enfoncée.</value>
   </data>
   <data name="ShowOnRadial" xml:space="preserve">
-    <value>Afficher sur le radial</value>
+    <value>Afficher sur le menu radial</value>
   </data>
   <data name="ShowOnRadial_Tooltip" xml:space="preserve">
-    <value>Afficher le caractère dans le menu radial. Nécessite l'activation du paramètre "Utiliser le menu radial".</value>
-  </data>
-  <data name="FocusSearchOnShow" xml:space="preserve">
-    <value>Concentrer la recherche sur le spectacle</value>
+    <value>Afficher le personnage dans le menu radial. Nécessite l'activation du paramètre "Utiliser le menu radial".</value>
   </data>
   <data name="FocusSearchOnShow_Tooltip" xml:space="preserve">
-    <value>Lorsque vous basculez dans la fenêtre de caractères, mettez l'accent sur la barre de recherche pour commencer directement à taper.</value>
+    <value>Lorsque vous ouvrez la fenêtre des personnages, sélectionne la barre de recherche pour commencer directement à taper.</value>
+  </data>
+  <data name="FocusSearchOnShow" xml:space="preserve">
+    <value>Focaliser le champ de recherche à l'affichage</value>
   </data>
 </root>
