@@ -3,6 +3,7 @@ using Blish_HUD.Content;
 using Blish_HUD.Controls;
 using Blish_HUD.Input;
 using Characters.Res;
+using Kenedia.Modules.Characters.Services;
 using Kenedia.Modules.Core.Controls;
 using Kenedia.Modules.Core.Extensions;
 using Kenedia.Modules.Core.Services;
@@ -13,10 +14,8 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using static Kenedia.Modules.Characters.Services.TextureManager;
 using Color = Microsoft.Xna.Framework.Color;
-using FlowPanel = Kenedia.Modules.Core.Controls.FlowPanel;
 using Label = Kenedia.Modules.Core.Controls.Label;
 using Point = Microsoft.Xna.Framework.Point;
 using Rectangle = Microsoft.Xna.Framework.Rectangle;
@@ -45,7 +44,7 @@ namespace Kenedia.Modules.Characters.Controls
         private int _characterPotraitSize = 130;
         private int _gap = 13;
 
-        public PotraitCapture(ClientWindowService clientWindowService, SharedSettings sharedSettings)
+        public PotraitCapture(ClientWindowService clientWindowService, SharedSettings sharedSettings, TextureManager tM)
         {
             _clientWindowService = clientWindowService;
             _sharedSettings = sharedSettings;
@@ -56,7 +55,6 @@ namespace Kenedia.Modules.Characters.Controls
             HeightSizingMode = SizingMode.AutoSize;
 
             Location = new Point((res.X - Size.X) / 2, res.Y - 125 - Size.Y);
-            Services.TextureManager tM = Characters.ModuleInstance.TextureManager;
 
             _dragButton = new ImageButton()
             {
@@ -78,7 +76,7 @@ namespace Kenedia.Modules.Characters.Controls
                 Size = new Point(32, 32),
                 Location = new Point(_dragButton.Right + 5, 0),
                 SetLocalizedTooltip = () => strings.CapturePotraits,
-                ClickAction = async (m) => await CapturePotraits(),
+                ClickAction = (m) => CapturePotraits(),
             };
 
             _disclaimerBackground = new FramedContainer()
@@ -165,6 +163,10 @@ namespace Kenedia.Modules.Characters.Controls
             AddPotrait();
             AddPotrait();
         }
+
+        public Action OnImageCaptured { get; set; }
+
+        public Func<string> AccountImagePath { get; set; }
 
         public override void UpdateContainer(GameTime gameTime)
         {
@@ -253,57 +255,58 @@ namespace Kenedia.Modules.Characters.Controls
             _draggingStart = _dragging ? RelativeMousePosition : Point.Zero;
         }
 
-        private async Task CapturePotraits()
+        private void CapturePotraits()
         {
-            string path = Characters.ModuleInstance.AccountImagesPath;
+            string path = AccountImagePath?.Invoke();
 
-            string GetImagePath(List<string> imagePaths)
+            if (!string.IsNullOrEmpty(path))
             {
-                for (int i = 0; i < int.MaxValue; i++)
+                string GetImagePath(List<string> imagePaths)
                 {
-                    string imagePath = $"{path}Image {i}.png";
-
-                    if (!imagePaths.Contains(imagePath))
+                    for (int i = 0; i < int.MaxValue; i++)
                     {
-                        imagePaths.Add(imagePath);
-                        return imagePath;
+                        string imagePath = $"{path}Image {i}.png";
+
+                        if (!imagePaths.Contains(imagePath))
+                        {
+                            imagePaths.Add(imagePath);
+                            return imagePath;
+                        }
                     }
+
+                    return $"{path}Last Image.png";
                 }
 
-                return $"{path}Last Image.png";
-            }
+                Regex regex = new("Image.*[0-9].png");
+                var images = Directory.GetFiles(path, "*.png", SearchOption.AllDirectories).Where(path => regex.IsMatch(path)).ToList();
 
-            Regex regex = new("Image.*[0-9].png");
-            var images = Directory.GetFiles(path, "*.png", SearchOption.AllDirectories).Where(path => regex.IsMatch(path)).ToList();
+                var wndBounds = _clientWindowService.WindowBounds;
 
-            var wndBounds = _clientWindowService.WindowBounds;
+                bool windowed = GameService.GameIntegration.GfxSettings.ScreenMode == Blish_HUD.GameIntegration.GfxSettings.ScreenModeSetting.Windowed;
+                Point p = windowed ? new(_sharedSettings.WindowOffset.Left, _sharedSettings.WindowOffset.Top) : Point.Zero;
 
-            bool windowed = GameService.GameIntegration.GfxSettings.ScreenMode == Blish_HUD.GameIntegration.GfxSettings.ScreenModeSetting.Windowed;
-            Point p = windowed ? new(_sharedSettings.WindowOffset.Left, _sharedSettings.WindowOffset.Top) : Point.Zero;
+                double factor = GameService.Graphics.UIScaleMultiplier;
 
-            double factor = GameService.Graphics.UIScaleMultiplier;
+                var size = new Size(_characterPotraitSize, _characterPotraitSize);
 
-            await Task.Delay(1);
-
-            var size = new Size(_characterPotraitSize, _characterPotraitSize);
-
-            foreach (FramedMaskedRegion c in _characterPotraitFrames)
-            {
-                Rectangle bounds = c.MaskedRegion;
-                using Bitmap bitmap = new((int)(bounds.Width * factor), (int)(bounds.Height * factor));
-
-                using (var g = System.Drawing.Graphics.FromImage(bitmap))
+                foreach (FramedMaskedRegion c in _characterPotraitFrames)
                 {
-                    int x = (int)(bounds.X * factor);
-                    int y = (int)(bounds.Y * factor);
+                    Rectangle bounds = c.MaskedRegion;
+                    using Bitmap bitmap = new((int)(bounds.Width * factor), (int)(bounds.Height * factor));
 
-                    g.CopyFromScreen(new System.Drawing.Point(wndBounds.Left + p.X + x, wndBounds.Top + p.Y + y), System.Drawing.Point.Empty, size);
+                    using (var g = System.Drawing.Graphics.FromImage(bitmap))
+                    {
+                        int x = (int)(bounds.X * factor);
+                        int y = (int)(bounds.Y * factor);
+
+                        g.CopyFromScreen(new System.Drawing.Point(wndBounds.Left + p.X + x, wndBounds.Top + p.Y + y), System.Drawing.Point.Empty, size);
+                    }
+
+                    bitmap.Save(GetImagePath(images), System.Drawing.Imaging.ImageFormat.Png);
                 }
 
-                bitmap.Save(GetImagePath(images), System.Drawing.Imaging.ImageFormat.Png);
+                OnImageCaptured?.Invoke();
             }
-
-            Characters.ModuleInstance.MainWindow.CharacterEdit.LoadImages(null, null);
         }
 
         protected override void OnMoved(MovedEventArgs e)

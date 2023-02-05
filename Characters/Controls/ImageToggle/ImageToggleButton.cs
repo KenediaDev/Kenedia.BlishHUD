@@ -6,7 +6,6 @@ using Gw2Sharp.WebApi;
 using Kenedia.Modules.Core.Interfaces;
 using Microsoft.Xna.Framework.Graphics;
 using System;
-using static System.Net.Mime.MediaTypeNames;
 using Color = Microsoft.Xna.Framework.Color;
 using Rectangle = Microsoft.Xna.Framework.Rectangle;
 

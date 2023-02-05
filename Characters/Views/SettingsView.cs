@@ -9,10 +9,14 @@ namespace Kenedia.Modules.Characters.Views
     public class SettingsView : View
     {
         private StandardButton _openSettingsButton;
+        private readonly Action _toggleWindow;
 
-        public SettingsView() 
-        { 
+#nullable enable
+        public SettingsView(Action? toggleWindow)
+        {
+            _toggleWindow = toggleWindow;
         }
+#nullable disable
 
         protected override void Build(Container buildPanel)
         {
@@ -30,7 +34,7 @@ namespace Kenedia.Modules.Characters.Views
 
         private void OpenSettingsButton_Click(object sender, Blish_HUD.Input.MouseEventArgs e)
         {
-            Characters.ModuleInstance.SettingsWindow?.ToggleWindow();
+            _toggleWindow?.Invoke();
         }
 
         protected override void Unload()

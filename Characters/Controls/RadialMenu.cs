@@ -1,6 +1,5 @@
 ﻿using Blish_HUD;
 using Blish_HUD.Controls;
-using Blish_HUD.Controls.Extern;
 using Blish_HUD.Input;
 using Kenedia.Modules.Characters.Models;
 using Kenedia.Modules.Characters.Services;
@@ -10,10 +9,7 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Diagnostics;
 using System.Linq;
-using System.Text;
-using System.Threading;
 using System.Threading.Tasks;
 
 namespace Characters.Controls
@@ -42,6 +38,11 @@ namespace Characters.Controls
 
             Parent.Resized += Parent_Resized;
             Input.Keyboard.KeyPressed += Keyboard_KeyPressed;
+        }
+
+        public bool HasDisplayedCharacters()
+        {
+            return _characters != null && _characters.Where(e => e.ShowOnRadial).Count() > 0;
         }
 
         private void Keyboard_KeyPressed(object sender, KeyboardEventArgs e)
@@ -115,13 +116,10 @@ namespace Characters.Controls
         {
             while (GameService.Input.Keyboard.KeysDown.Count > 0)
             {
-
-                Debug.WriteLine($"There are still {GameService.Input.Keyboard.KeysDown.Count} keys pressed.");
                 await Task.Delay(250);
             }
 
-            Debug.WriteLine($"There are no more keys pressed. {GameService.Input.Keyboard.KeysDown.Count} keys pressed.");
-            await Task.Delay(250);
+            await Task.Delay(25);
             return true;
         }
 

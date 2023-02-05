@@ -3,6 +3,7 @@ using Blish_HUD.Content;
 using Blish_HUD.Controls;
 using Characters.Res;
 using Kenedia.Modules.Characters.Models;
+using Kenedia.Modules.Characters.Services;
 using Kenedia.Modules.Core.Interfaces;
 using Microsoft.Xna.Framework.Graphics;
 using MonoGame.Extended.BitmapFonts;
@@ -14,14 +15,18 @@ namespace Kenedia.Modules.Characters.Controls
 {
     public class CraftingControl : Control, IFontControl
     {
-        private string _text;
         private readonly AsyncTexture2D _craftingIcon = AsyncTexture2D.FromAssetId(156711);
+        private readonly Data _data;
+        private readonly SettingsModel _settings;
+
         //private readonly AsyncTexture2D _craftingIcon = AsyncTexture2D.FromAssetId(866130);
 
         private BitmapFont _font = GameService.Content.DefaultFont14;
 
-        public CraftingControl()
+        public CraftingControl(Data data, SettingsModel settings)
         {
+            _data = data;
+            _settings = settings;
         }
 
         public Character_Model Character { get; set; }
@@ -39,7 +44,7 @@ namespace Kenedia.Modules.Characters.Controls
             }
         }
 
-        public string Text { get => _text; set => _text = value; }
+        public string Text { get; set; }
 
         protected override void Paint(SpriteBatch spriteBatch, Rectangle bounds)
         {
@@ -57,17 +62,17 @@ namespace Kenedia.Modules.Characters.Controls
             bool craftingDisplayed = false;
             if (Character != null && Character.Crafting.Count > 0)
             {
-                System.Collections.Generic.Dictionary<int, CrafingProfession> craftingDictionary = Characters.ModuleInstance.Data.CrafingProfessions;
+                System.Collections.Generic.Dictionary<int, CraftingProfession> craftingDictionary = _data.CrafingProfessions;
 
                 int i = 0;
                 foreach (CharacterCrafting crafting in Character.Crafting)
                 {
-                    _ = craftingDictionary.TryGetValue(crafting.Id, out CrafingProfession craftingProfession);
+                    _ = craftingDictionary.TryGetValue(crafting.Id, out CraftingProfession craftingProfession);
                     if (craftingProfession != null)
                     {
-                        _text = "NA";
+                        Text = "NA";
 
-                        bool onlyMax = Characters.ModuleInstance.Settings.DisplayToggles.Value["OnlyMaxCrafting"].Show;
+                        bool onlyMax = _settings.DisplayToggles.Value["OnlyMaxCrafting"].Show;
 
                         if (craftingProfession.Icon != null && (!onlyMax || crafting.Rating == craftingProfession.MaxRating))
                         {
@@ -98,7 +103,7 @@ namespace Kenedia.Modules.Characters.Controls
             {
                 spriteBatch.DrawStringOnCtrl(
                     this,
-                    _text = strings.NoCraftingProfession,
+                    Text = strings.NoCraftingProfession,
                     Font,
                     new Rectangle(bounds.Height + 4, 0, bounds.Width - (bounds.Height + 4), bounds.Height),
                     Color.Gray,

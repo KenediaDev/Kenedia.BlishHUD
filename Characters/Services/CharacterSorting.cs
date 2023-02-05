@@ -9,6 +9,8 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Diagnostics.CodeAnalysis;
 using Kenedia.Modules.Core.Extensions;
+using Kenedia.Modules.Core.Services;
+using System.Collections.ObjectModel;
 
 namespace Kenedia.Modules.Characters.Services
 {
@@ -24,8 +26,10 @@ namespace Kenedia.Modules.Characters.Services
 
     public class CharacterSorting
     {
-        public CharacterSwapping CharacterSwapping { get; set; }
-
+        private string _status;
+        private readonly SettingsModel _settings;
+        private readonly GameState _gameState;
+        private readonly ObservableCollection<Character_Model> _characters;
         private CancellationTokenSource _cancellationTokenSource;
         private List<Character_Model> _models;
         private SortingState _state;
@@ -56,12 +60,22 @@ namespace Kenedia.Modules.Characters.Services
 
         private int _currentIndex = 0;
 
+        public CharacterSorting(SettingsModel settings, GameState gameState, ObservableCollection<Character_Model> characters)
+        {
+            _settings = settings;
+            _gameState = gameState;
+            _characters = characters;
+        }
+
         public event EventHandler Started;
         public event EventHandler Completed;
         public event EventHandler Finished;
         public event EventHandler StatusChanged;
+        
+        public OCR OCR { get; set; }
 
-        private string _status;
+        public CharacterSwapping CharacterSwapping { get; set; }
+
         public string Status
         {
             set
@@ -79,14 +93,14 @@ namespace Kenedia.Modules.Characters.Services
             //s_cancellationTokenSource = null;
         }
 
-        public async void Start(IEnumerable<Character_Model> models)
+        public async void Start()
         {
             _state = SortingState.Canceled;
             _cancellationTokenSource?.Cancel();
             _cancellationTokenSource = new();
             _cancellationTokenSource.CancelAfter(180000);
 
-            _models = models.OrderByDescending(e => e.LastLogin).ToList();
+            _models = _characters.OrderByDescending(e => e.LastLogin).ToList();
             _lastName = string.Empty;
             _state = SortingState.None;
             NoNameChange = 0;
@@ -113,7 +127,7 @@ namespace Kenedia.Modules.Characters.Services
 
         private async Task Delay(CancellationToken cancellationToken, int? delay = null, double? partial = null)
         {
-            delay ??= Characters.ModuleInstance.Settings.KeyDelay.Value;
+            delay ??= _settings.KeyDelay.Value;
 
             if (delay > 0)
             {
@@ -240,7 +254,7 @@ namespace Kenedia.Modules.Characters.Services
 
         private async Task<string> FetchName(CancellationToken cancellationToken)
         {
-            string name = await Characters.ModuleInstance.OCR.Read();
+            string name = await OCR?.Read();
 
             Status = string.Format(strings.FixCharacter_FetchName, Environment.NewLine, name);
 

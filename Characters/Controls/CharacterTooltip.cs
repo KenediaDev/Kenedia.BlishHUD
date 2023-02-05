@@ -35,15 +35,21 @@ namespace Kenedia.Modules.Characters.Controls
 
         private readonly CraftingControl _craftingControl;
         private readonly List<Control> _dataControls;
-
+        private readonly Func<Character_Model> _currentCharacter;
+        private readonly TextureManager _textureManager;
+        private readonly Data _data;
         private Rectangle _iconRectangle;
         private Rectangle _contentRectangle;
 
         private Point _textureOffset = new(25, 25);
         private Character_Model _character;
 
-        public CharacterTooltip()
+        public CharacterTooltip(Func<Character_Model> currentCharacter, TextureManager textureManager, Data data, SettingsModel settings)
         {
+            _currentCharacter = currentCharacter;
+            _textureManager = textureManager;
+            _data = data;
+
             HeightSizingMode = SizingMode.AutoSize;
 
             BackgroundColor = new Color(0, 0, 0, 75);
@@ -100,7 +106,7 @@ namespace Kenedia.Modules.Characters.Controls
                 AutoSizeHeight = true,
             };
 
-            _craftingControl = new CraftingControl()
+            _craftingControl = new CraftingControl(data, settings)
             {
                 Parent = _contentPanel,
                 Width = _contentPanel.Width,
@@ -164,7 +170,7 @@ namespace Kenedia.Modules.Characters.Controls
             base.UpdateContainer(gameTime);
             Location = new Point(Input.Mouse.Position.X, Input.Mouse.Position.Y + 35);
 
-            if (Character != null && _lastLoginLabel.Visible && Characters.ModuleInstance.CurrentCharacterModel != Character)
+            if (Character != null && _lastLoginLabel.Visible && _currentCharacter?.Invoke() != Character)
             {
                 TimeSpan ts = DateTimeOffset.UtcNow.Subtract(Character.LastLogin);
                 _lastLoginLabel.Text = string.Format("{1} {0} {2:00}:{3:00}:{4:00}", strings.Days, Math.Floor(ts.TotalDays), ts.Hours, ts.Minutes, ts.Seconds);
@@ -349,12 +355,12 @@ namespace Kenedia.Modules.Characters.Controls
             }
 
             _genderLabel.Text = Character.Gender.ToString();
-            _genderLabel.Icon = Characters.ModuleInstance.TextureManager.GetIcon(TextureManager.Icons.Gender);
+            _genderLabel.Icon = _textureManager.GetIcon(TextureManager.Icons.Gender);
 
-            _raceLabel.Text = Characters.ModuleInstance.Data.Races[Character.Race].Name;
-            _raceLabel.Icon = Characters.ModuleInstance.Data.Races[Character.Race].Icon;
+            _raceLabel.Text = _data.Races[Character.Race].Name;
+            _raceLabel.Icon = _data.Races[Character.Race].Icon;
 
-            _mapLabel.Text = Characters.ModuleInstance.Data.GetMapById(Character.Map).Name;
+            _mapLabel.Text = _data.GetMapById(Character.Map).Name;
             _mapLabel.TextureRectangle = new Rectangle(2, 2, 28, 28);
             _mapLabel.Icon = AsyncTexture2D.FromAssetId(358406); // 358406 //517180 //157122;
 

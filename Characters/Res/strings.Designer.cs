@@ -1317,8 +1317,7 @@ namespace Characters.Res {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to A tool to easily switch characters even with a lot of them!
-        ///This will require an API-Key with permissions at least for the &apos;characters&apos; endpoint!.
+        ///   Looks up a localized string similar to I have a dream that swapping characters is quick and easy even with 72 of them! Unfortunately, swapping characters can quickly become quite a pain with many characters.\nWhere was the Asuran Guardian I parked in Draconis Mons among my 70 characters?\nI have great news! This module will change your life, that&apos;s how close it comes to the dream. Search for the right characters using dozens of filter options and switch to them with just one click!&apos;.
         /// </summary>
         internal static string ModuleDescription {
             get {
@@ -1442,11 +1441,20 @@ namespace Characters.Res {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Show only maxed out crafting Professions.
+        ///   Looks up a localized string similar to Only max. Crafting.
         /// </summary>
         internal static string OnlyMaxCrafting {
             get {
                 return ResourceManager.GetString("OnlyMaxCrafting", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Show only maxed out crafting Professions.
+        /// </summary>
+        internal static string OnlyMaxCrafting_Duplicate_1_ {
+            get {
+                return ResourceManager.GetString("OnlyMaxCrafting_Duplicate[1]", resourceCulture);
             }
         }
         

@@ -1,11 +1,14 @@
 ﻿using Blish_HUD;
 using Blish_HUD.Content;
+using Blish_HUD.Gw2Mumble;
+using Gw2Sharp.Models;
 using Gw2Sharp.WebApi.V2.Models;
 using Kenedia.Modules.Characters.Enums;
 using Kenedia.Modules.Characters.Services;
 using Kenedia.Modules.Core.Extensions;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
@@ -18,28 +21,92 @@ namespace Kenedia.Modules.Characters.Models
     [DataContract]
     public class Character_Model
     {
+        private readonly Action _requestSave;
+        private readonly ObservableCollection<Character_Model> _characterModels;
+        private readonly Data _data;
+        private readonly CharacterSwapping _characterSwapping;
+
+        private AsyncTexture2D _icon;
+        private bool _initialized;
+        private bool _pathChecked;
+
         private string _name;
         private int _level;
         private int _map = 0;
+
         private Gender _gender;
-        private Gw2Sharp.Models.RaceType _race;
-        private Gw2Sharp.Models.ProfessionType _profession;
+        private RaceType _race;
+        private ProfessionType _profession;
         private SpecializationType _specialization;
         private DateTimeOffset _created;
         private DateTime _lastModified;
         private DateTime _lastLogin;
         private string _iconPath;
-        private AsyncTexture2D _icon;
         private bool _show = true;
         private int _position;
         private int _index;
-        private bool _initialized;
-        private bool _pathChecked;
-        private CharacterSwapping _characterSwapping;
         private bool _showOnRadial = false;
 
         public Character_Model()
         {
+        }
+
+        public Character_Model(Character character, CharacterSwapping characterSwapping, string modulePath, Action requestSave, ObservableCollection<Character_Model> characterModels, Data data)
+        {
+            _characterSwapping = characterSwapping;
+            ModulePath = modulePath;
+            _requestSave = requestSave;
+            _characterModels = characterModels;
+            _data = data;
+
+            _name = character.Name;
+            _level = character.Level;
+
+            _race = (RaceType)Enum.Parse(typeof(RaceType), character.Race);
+            _profession = (ProfessionType)Enum.Parse(typeof(ProfessionType), character.Profession);
+            _specialization = SpecializationType.None;
+
+            _created = character.Created;
+            _lastModified = character.LastModified.UtcDateTime;
+            _lastLogin = character.LastModified.UtcDateTime;
+            _gender = character.Gender;
+
+            foreach (CharacterCraftingDiscipline disc in character.Crafting.ToList())
+            {
+                Crafting.Add(new()
+                {
+                    Id = (int)disc.Discipline.Value,
+                    Rating = disc.Rating,
+                    Active = disc.Active,
+                });
+            }
+        }
+
+        public Character_Model(Character_Model character, CharacterSwapping characterSwapping, string modulePath, Action requestSave, ObservableCollection<Character_Model> characterModels, Data data)
+        {
+            _characterSwapping = characterSwapping;
+            ModulePath = modulePath;
+            _requestSave = requestSave;
+            _characterModels = characterModels;
+            _data = data;
+
+            _name = character.Name;
+            _level = character.Level;
+            _map = character.Map;
+            Crafting = character.Crafting;
+            _race = character.Race;
+            _profession = character.Profession;
+            _specialization = character.Specialization;
+            _created = character.Created;
+            _lastModified = character.LastModified;
+            _lastLogin = character.LastLogin;
+            _iconPath = character.IconPath;
+            _show = character.Show;
+            Tags = character.Tags;
+            _position = character.Position;
+            _index = character.Index;
+            _gender = character.Gender;
+            _showOnRadial = character.ShowOnRadial;
         }
 
         public event EventHandler Updated;
@@ -68,20 +135,23 @@ namespace Kenedia.Modules.Characters.Models
         }
 
         [DataMember]
-        public List<CharacterCrafting> Crafting { get; set; } = new List<CharacterCrafting>();
+        public List<CharacterCrafting> Crafting { get; } = new List<CharacterCrafting>();
 
-        public List<KeyValuePair<int, CrafingProfession>> CraftingDisciplines
+        public List<KeyValuePair<int, CraftingProfession>> CraftingDisciplines
         {
             get
             {
-                var list = new List<KeyValuePair<int, CrafingProfession>>();
-                foreach (CharacterCrafting crafting in Crafting)
+                var list = new List<KeyValuePair<int, CraftingProfession>>();
+                if (_data != null)
                 {
-                    CrafingProfession craftingProf = Characters.ModuleInstance.Data.CrafingProfessions.Where(e => e.Value.Id == crafting.Id)?.FirstOrDefault().Value;
-
-                    if (craftingProf != null)
+                    foreach (CharacterCrafting crafting in Crafting)
                     {
-                        list.Add(new(crafting.Rating, craftingProf));
+                        CraftingProfession craftingProf = _data.CrafingProfessions.Where(e => e.Value.Id == crafting.Id)?.FirstOrDefault().Value;
+
+                        if (craftingProf != null)
+                        {
+                            list.Add(new(crafting.Rating, craftingProf));
+                        }
                     }
                 }
 
@@ -90,14 +160,14 @@ namespace Kenedia.Modules.Characters.Models
         }
 
         [DataMember]
-        public Gw2Sharp.Models.RaceType Race
+        public RaceType Race
         {
             get => _race;
             set => SetProperty(ref _race, value);
         }
 
         [DataMember]
-        public Gw2Sharp.Models.ProfessionType Profession
+        public ProfessionType Profession
         {
             get => _profession;
             set => SetProperty(ref _profession, value);
@@ -147,20 +217,20 @@ namespace Kenedia.Modules.Characters.Models
             }
         }
 
-        public string MapName => (Characters.ModuleInstance.Data.Maps[Map] != null) ? Characters.ModuleInstance.Data.Maps[Map].Name : string.Empty;
+        public string MapName => (_data != null && _data.Maps[Map] != null) ? _data.Maps[Map].Name : string.Empty;
 
-        public string RaceName => Characters.ModuleInstance.Data.Races[Race].Name;
+        public string RaceName => _data != null ? _data.Races[Race].Name : "Data not loaded.";
 
-        public string ProfessionName => Characters.ModuleInstance.Data.Professions[Profession].Name;
+        public string ProfessionName => _data != null ? _data.Professions[Profession].Name : "Data not loaded.";
 
-        public string SpecializationName => Specialization != SpecializationType.None && Enum.IsDefined(typeof(SpecializationType), Specialization)
-                    ? Characters.ModuleInstance.Data.Specializations[Specialization].Name
+        public string SpecializationName => _data != null && Specialization != SpecializationType.None && Enum.IsDefined(typeof(SpecializationType), Specialization)
+                    ? _data.Specializations[Specialization].Name
                     : ProfessionName;
 
-        public AsyncTexture2D ProfessionIcon => Characters.ModuleInstance.Data.Professions[Profession].IconBig;
+        public AsyncTexture2D ProfessionIcon => _data?.Professions[Profession].IconBig;
 
-        public AsyncTexture2D SpecializationIcon => Specialization != SpecializationType.None && Enum.IsDefined(typeof(SpecializationType), Specialization)
-                    ? Characters.ModuleInstance.Data.Specializations[Specialization].IconBig
+        public AsyncTexture2D SpecializationIcon => _data != null && Specialization != SpecializationType.None && Enum.IsDefined(typeof(SpecializationType), Specialization)
+                    ? _data.Specializations[Specialization].IconBig
                     : ProfessionIcon;
 
         public AsyncTexture2D Icon
@@ -291,14 +361,13 @@ namespace Kenedia.Modules.Characters.Models
         public void Delete()
         {
             Deleted?.Invoke(null, null);
-            _ = Characters.ModuleInstance.CharacterModels.Remove(this);
+            _ = _characterModels.Remove(this);
             Save();
         }
 
-        public void Initialize(CharacterSwapping characterSwapping, string modulePath)
+        public void Initialize(CharacterSwapping characterSwapping, string modulePath, Action requestSave, ObservableCollection<Character_Model> character_Models, Data data)
         {
             _initialized = true;
-            _characterSwapping = characterSwapping;
             ModulePath = modulePath;
         }
 
@@ -346,7 +415,7 @@ namespace Kenedia.Modules.Characters.Models
         {
             var distances = new List<(string, int, int, int, bool)>();
 
-            foreach (Character_Model c in Characters.ModuleInstance.CharacterModels)
+            foreach (Character_Model c in _characterModels)
             {
                 int distance = name.LevenshteinDistance(c.Name);
                 int listDistance = c.Position.Difference(Position);
@@ -371,20 +440,57 @@ namespace Kenedia.Modules.Characters.Models
             return ((string, int, int, int, bool))bestMatch;
         }
 
-        private void OnUpdated(bool save = true)
+        public void Save()
         {
-            Updated?.Invoke(this, EventArgs.Empty);
-            if (save) Save();
-        }
-
-        private void Save()
-        {
-            if(_initialized) Characters.ModuleInstance.SaveCharacters = true;
+            if (_initialized) _requestSave?.Invoke();
         }
 
         public void Swap()
         {
             _characterSwapping?.Start(this);
+        }
+
+        public void UpdateCharacter(PlayerCharacter character)
+        {
+            Specialization = (SpecializationType)character.Specialization;
+            Map = GameService.Gw2Mumble.CurrentMap.Id;
+            LastLogin = DateTime.UtcNow;
+        }
+
+        public void UpdateCharacter(Character character)
+        {
+            _name = character.Name;
+            _level = character.Level;
+
+            _race = (RaceType)Enum.Parse(typeof(RaceType), character.Race);
+            _profession = (ProfessionType)Enum.Parse(typeof(ProfessionType), character.Profession);
+            _specialization = SpecializationType.None;
+
+            _created = character.Created;
+            _lastModified = character.LastModified.UtcDateTime;
+            _lastLogin = character.LastModified.UtcDateTime;
+            _gender = character.Gender;
+
+            foreach (CharacterCraftingDiscipline disc in character.Crafting.ToList())
+            {
+                CharacterCrafting craft = Crafting.Find(e => e.Id == (int)disc.Discipline.Value);
+                bool craftFound = craft != null;
+                craft ??= new();
+                craft.Id = (int)disc.Discipline.Value;
+                craft.Rating = disc.Rating;
+                craft.Active = disc.Active;
+
+                if (!craftFound)
+                {
+                    Crafting.Add(craft);
+                }
+            }
+        }
+
+        private void OnUpdated(bool save = true)
+        {
+            Updated?.Invoke(this, EventArgs.Empty);
+            if (save) Save();
         }
     }
 }

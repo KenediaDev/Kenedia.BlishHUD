@@ -5,6 +5,7 @@ using Blish_HUD.Input;
 using Characters.Res;
 using Kenedia.Modules.Characters.Models;
 using Kenedia.Modules.Characters.Services;
+using Kenedia.Modules.Characters.Views;
 using Kenedia.Modules.Core.Controls;
 using Kenedia.Modules.Core.Extensions;
 using Kenedia.Modules.Core.Interfaces;
@@ -15,7 +16,6 @@ using Microsoft.Xna.Framework.Input;
 using MonoGame.Extended.BitmapFonts;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using static Blish_HUD.ContentService;
 using static Kenedia.Modules.Characters.Services.SettingsModel;
@@ -68,11 +68,21 @@ namespace Kenedia.Modules.Characters.Controls
 
         private Character_Model _character;
         private readonly List<Tag> _tags = new();
-
+        private readonly Func<Character_Model> _currentCharacter;
+        private readonly TextureManager _textureManager;
+        private readonly Data _data;
+        private readonly MainWindow _mainWindow;
+        private readonly SettingsModel _settings;
         private double _lastUniform;
 
-        public CharacterCard()
+        public CharacterCard(Func<Character_Model> currentCharacter, TextureManager textureManager, Data data, MainWindow mainWindow, SettingsModel settings)
         {
+            _currentCharacter = currentCharacter;
+            _textureManager = textureManager;
+            _data = data;
+            _mainWindow = mainWindow;
+            _settings = settings;
+
             HeightSizingMode = SizingMode.AutoSize;
             //WidthSizingMode = SizingMode.AutoSize;
 
@@ -130,7 +140,7 @@ namespace Kenedia.Modules.Characters.Controls
                 AutoSizeHeight = true,
             };
 
-            _craftingControl = new CraftingControl()
+            _craftingControl = new CraftingControl(data, _settings)
             {
                 Parent = _contentPanel,
                 Width = _contentPanel.Width,
@@ -177,7 +187,7 @@ namespace Kenedia.Modules.Characters.Controls
             };
             _textTooltip.Shown += TextTooltip_Shown;
 
-            _characterTooltip = new CharacterTooltip()
+            _characterTooltip = new CharacterTooltip(currentCharacter, textureManager, data, _settings)
             {
                 Parent = GameService.Graphics.SpriteScreen,
                 ZIndex = 1001,
@@ -187,19 +197,14 @@ namespace Kenedia.Modules.Characters.Controls
             };
 
             GameService.Overlay.UserLocale.SettingChanged += ApplyCharacter;
-            Settings.AppearanceSettingChanged += Settings_AppearanceSettingChanged;
+            _settings.AppearanceSettingChanged += Settings_AppearanceSettingChanged;
 
             _created = true;
         }
 
-        private void Settings_AppearanceSettingChanged(object sender, EventArgs e)
-        {
-            ApplyCharacter(null, null);
-        }
+        private Character_Model CurrentCharacter => _currentCharacter?.Invoke();
 
         public List<CharacterCard> AttachedCards { get; set; } = new();
-
-        private SettingsModel Settings => Characters.ModuleInstance.Settings;
 
         public BitmapFont NameFont { get; set; } = GameService.Content.DefaultFont14;
 
@@ -279,7 +284,7 @@ namespace Kenedia.Modules.Characters.Controls
             if (_created && Visible)
             {
                 UpdateDataControlsVisibility();
-                _contentPanel.Visible = Settings.PanelLayout.Value != CharacterPanelLayout.OnlyIcons;
+                _contentPanel.Visible = _settings.PanelLayout.Value != CharacterPanelLayout.OnlyIcons;
                 _tagPanel.FitWidestTag(_dataControls.Max(e => e.Visible && e != _tagPanel ? e.Width : 0));
 
                 IEnumerable<Control> controls = _dataControls.Where(e => e.Visible);
@@ -288,12 +293,12 @@ namespace Kenedia.Modules.Characters.Controls
                 int width = anyVisible ? controls.Max(e => e.Width) + (int)(_contentPanel.OuterControlPadding.X * 2) : 0;
                 int height = anyVisible ? controls.Aggregate((int)(_contentPanel.OuterControlPadding.Y * 2), (result, e) => result + e.Height + (int)_contentPanel.ControlPadding.Y) : 0;
 
-                PanelSizes pSize = Settings.PanelSize.Value;
-                _iconSize = (Settings.PanelLayout.Value == CharacterPanelLayout.OnlyText) ? 0 : pSize == PanelSizes.Small ? 64 : pSize == PanelSizes.Normal ? 80 : pSize == PanelSizes.Large ? 112 : Settings.CustomCharacterIconSize.Value;
+                PanelSizes pSize = _settings.PanelSize.Value;
+                _iconSize = (_settings.PanelLayout.Value == CharacterPanelLayout.OnlyText) ? 0 : pSize == PanelSizes.Small ? 64 : pSize == PanelSizes.Normal ? 80 : pSize == PanelSizes.Large ? 112 : _settings.CustomCharacterIconSize.Value;
 
-                if (Settings.CharacterPanelFixedWidth.Value)
+                if (_settings.CharacterPanelFixedWidth.Value)
                 {
-                    width = Settings.CharacterPanelWidth.Value - _iconSize;
+                    width = _settings.CharacterPanelWidth.Value - _iconSize;
                 }
 
                 _iconRectangle = new Rectangle(0, 0, _iconSize, _iconSize);
@@ -351,7 +356,7 @@ namespace Kenedia.Modules.Characters.Controls
 
             if (Character != null)
             {
-                if (Characters.ModuleInstance.Settings.PanelLayout.Value != CharacterPanelLayout.OnlyText)
+                if (_settings.PanelLayout.Value != CharacterPanelLayout.OnlyText)
                 {
                     if (!Character.HasDefaultIcon && Character.Icon != null)
                     {
@@ -421,7 +426,7 @@ namespace Kenedia.Modules.Characters.Controls
             {
                 _textTooltip.Visible = false;
 
-                if (Characters.ModuleInstance.Settings.PanelLayout.Value != CharacterPanelLayout.OnlyText)
+                if (_settings.PanelLayout.Value != CharacterPanelLayout.OnlyText)
                 {
                     spriteBatch.DrawOnCtrl(
                         this,
@@ -503,7 +508,7 @@ namespace Kenedia.Modules.Characters.Controls
 
             if (!MouseOver && Character != null && Character.HasBirthdayPresent)
             {
-                if (Characters.ModuleInstance.Settings.PanelLayout.Value != CharacterPanelLayout.OnlyText)
+                if (_settings.PanelLayout.Value != CharacterPanelLayout.OnlyText)
                 {
                     spriteBatch.DrawOnCtrl(
                         this,
@@ -552,7 +557,7 @@ namespace Kenedia.Modules.Characters.Controls
 
             if (Character != null && _lastLoginLabel.Visible)
             {
-                if (Characters.ModuleInstance.CurrentCharacterModel != Character)
+                if (CurrentCharacter != Character)
                 {
                     TimeSpan ts = DateTimeOffset.UtcNow.Subtract(Character.LastLogin);
                     _lastLoginLabel.Text = string.Format("{1} {0} {2:00}:{3:00}:{4:00}", strings.Days, Math.Floor(ts.TotalDays), ts.Hours, ts.Minutes, ts.Seconds);
@@ -583,32 +588,31 @@ namespace Kenedia.Modules.Characters.Controls
         {
             base.OnRightMouseButtonPressed(e);
 
-            Views.MainWindow mainWindow = Characters.ModuleInstance.MainWindow;
-            mainWindow.ShowAttached(mainWindow.CharacterEdit.Character != Character || !mainWindow.CharacterEdit.Visible ? mainWindow.CharacterEdit : null);
-            Characters.ModuleInstance.MainWindow.CharacterEdit.Character = Character;
+            _mainWindow.ShowAttached(_mainWindow.CharacterEdit.Character != Character || !_mainWindow.CharacterEdit.Visible ? _mainWindow.CharacterEdit : null);
+            _mainWindow.CharacterEdit.Character = Character;
         }
 
         protected override void OnClick(MouseEventArgs e)
         {
             base.OnClick(e);
 
-            if (e.IsDoubleClick && Characters.ModuleInstance.Settings.DoubleClickToEnter.Value)
+            if (e.IsDoubleClick && _settings.DoubleClickToEnter.Value)
             {
-                Characters.ModuleInstance.SwapTo(Character);
+                Character.Swap();
                 return;
             }
 
             // Logout Icon Clicked!
             if (_loginRect.Contains(RelativeMousePosition))
             {
-                Characters.ModuleInstance.SwapTo(Character);
+                Character.Swap();
             }
 
             // Cog Icon Clicked!
             if (_cogRect.Contains(RelativeMousePosition))
             {
-                Characters.ModuleInstance.MainWindow.CharacterEdit.Visible = !Characters.ModuleInstance.MainWindow.CharacterEdit.Visible || Characters.ModuleInstance.MainWindow.CharacterEdit.Character != Character;
-                Characters.ModuleInstance.MainWindow.CharacterEdit.Character = Character;
+                _mainWindow.CharacterEdit.Visible = !_mainWindow.CharacterEdit.Visible || _mainWindow.CharacterEdit.Character != Character;
+                _mainWindow.CharacterEdit.Character = Character;
             }
         }
 
@@ -617,7 +621,7 @@ namespace Kenedia.Modules.Characters.Controls
             base.OnLeftMouseButtonPressed(e);
             if (Keyboard.GetState().IsKeyDown(Keys.LeftControl))
             {
-                Characters.ModuleInstance.MainWindow.DraggingControl.CharacterControl = this;
+                _mainWindow.DraggingControl.CharacterControl = this;
                 _dragging = true;
             }
         }
@@ -627,14 +631,14 @@ namespace Kenedia.Modules.Characters.Controls
             base.OnLeftMouseButtonReleased(e);
             if (_dragging)
             {
-                Characters.ModuleInstance.MainWindow.DraggingControl.CharacterControl = null;
+                _mainWindow.DraggingControl.CharacterControl = null;
             }
         }
 
         protected override void OnMouseMoved(MouseEventArgs e)
         {
             base.OnMouseMoved(e);
-            if (_textTooltip == null || (!_textTooltip.Visible && Characters.ModuleInstance.Settings.ShowDetailedTooltip.Value))
+            if (_textTooltip == null || (!_textTooltip.Visible && _settings.ShowDetailedTooltip.Value))
             {
                 _characterTooltip.Show();
             }
@@ -643,7 +647,7 @@ namespace Kenedia.Modules.Characters.Controls
         protected override void OnMouseEntered(MouseEventArgs e)
         {
             base.OnMouseEntered(e);
-            if (_textTooltip == null || (!_textTooltip.Visible && Characters.ModuleInstance.Settings.ShowDetailedTooltip.Value))
+            if (_textTooltip == null || (!_textTooltip.Visible && _settings.ShowDetailedTooltip.Value))
             {
                 _characterTooltip.Show();
             }
@@ -678,14 +682,14 @@ namespace Kenedia.Modules.Characters.Controls
             _tagPanel.DisposeAll();
 
             Children.DisposeAll();
-            _ = Characters.ModuleInstance.MainWindow.CharacterCards.Remove(this);
+            _ = _mainWindow.CharacterCards.Remove(this);
         }
 
         private BitmapFont GetFont(bool nameFont = false)
         {
             FontSize fontSize = FontSize.Size8;
 
-            switch (Settings.PanelSize.Value)
+            switch (_settings.PanelSize.Value)
             {
                 case PanelSizes.Small:
                     fontSize = nameFont ? FontSize.Size16 : FontSize.Size12;
@@ -700,7 +704,7 @@ namespace Kenedia.Modules.Characters.Controls
                     break;
 
                 case PanelSizes.Custom:
-                    fontSize = nameFont ? (FontSize)Settings.CustomCharacterNameFontSize.Value : (FontSize)Settings.CustomCharacterFontSize.Value;
+                    fontSize = nameFont ? (FontSize)_settings.CustomCharacterNameFontSize.Value : (FontSize)_settings.CustomCharacterFontSize.Value;
                     break;
             }
 
@@ -735,12 +739,12 @@ namespace Kenedia.Modules.Characters.Controls
             }
 
             _genderLabel.Text = Character.Gender.ToString();
-            _genderLabel.Icon = Characters.ModuleInstance.TextureManager.GetIcon(TextureManager.Icons.Gender);
+            _genderLabel.Icon = _textureManager.GetIcon(TextureManager.Icons.Gender);
 
-            _raceLabel.Text = Characters.ModuleInstance.Data.Races[Character.Race].Name;
-            _raceLabel.Icon = Characters.ModuleInstance.Data.Races[Character.Race].Icon;
+            _raceLabel.Text = _data.Races[Character.Race].Name;
+            _raceLabel.Icon = _data.Races[Character.Race].Icon;
 
-            _mapLabel.Text = Characters.ModuleInstance.Data.GetMapById(Character.Map).Name;
+            _mapLabel.Text = _data.GetMapById(Character.Map).Name;
             _mapLabel.TextureRectangle = new Rectangle(2, 2, 28, 28);
             _mapLabel.Icon = AsyncTexture2D.FromAssetId(358406); // 358406 //517180 //157122;
 
@@ -792,31 +796,31 @@ namespace Kenedia.Modules.Characters.Controls
 
             _contentPanel.ControlPadding = new(Font.LineHeight / 10, Font.LineHeight / 10);
 
-            _nameLabel.Visible = Settings.DisplayToggles.Value["Name"].Show;
+            _nameLabel.Visible = _settings.DisplayToggles.Value["Name"].Show;
             _nameLabel.Font = NameFont;
 
-            _levelLabel.Visible = Settings.DisplayToggles.Value["Level"].Show;
+            _levelLabel.Visible = _settings.DisplayToggles.Value["Level"].Show;
             _levelLabel.Font = Font;
 
-            _genderLabel.Visible = Settings.DisplayToggles.Value["Gender"].Show;
+            _genderLabel.Visible = _settings.DisplayToggles.Value["Gender"].Show;
             _genderLabel.Font = Font;
 
-            _raceLabel.Visible = Settings.DisplayToggles.Value["Race"].Show;
+            _raceLabel.Visible = _settings.DisplayToggles.Value["Race"].Show;
             _raceLabel.Font = Font;
 
-            _professionLabel.Visible = Settings.DisplayToggles.Value["Profession"].Show;
+            _professionLabel.Visible = _settings.DisplayToggles.Value["Profession"].Show;
             _professionLabel.Font = Font;
 
-            _lastLoginLabel.Visible = Settings.DisplayToggles.Value["LastLogin"].Show;
+            _lastLoginLabel.Visible = _settings.DisplayToggles.Value["LastLogin"].Show;
             _lastLoginLabel.Font = Font;
 
-            _mapLabel.Visible = Settings.DisplayToggles.Value["Map"].Show;
+            _mapLabel.Visible = _settings.DisplayToggles.Value["Map"].Show;
             _mapLabel.Font = Font;
 
-            _craftingControl.Visible = Settings.DisplayToggles.Value["CraftingProfession"].Show;
+            _craftingControl.Visible = _settings.DisplayToggles.Value["CraftingProfession"].Show;
             _craftingControl.Font = Font;
 
-            _tagPanel.Visible = Settings.DisplayToggles.Value["Tags"].Show && Character.Tags.Count > 0;
+            _tagPanel.Visible = _settings.DisplayToggles.Value["Tags"].Show && Character.Tags.Count > 0;
             _tagPanel.Font = Font;
 
             _craftingControl.Height = Font.LineHeight + 2;
@@ -845,6 +849,11 @@ namespace Kenedia.Modules.Characters.Controls
                 _iconSize > 0 ? new Rectangle((_iconRectangle.Width - size) / 2, (_iconRectangle.Height - size) / 2, size, size) :
                 new Rectangle((_textBounds.Width - size) / 2, (_textBounds.Height - size) / 2, size, size) :
                 new Rectangle(pad, pad, size, size);
+        }
+
+        private void Settings_AppearanceSettingChanged(object sender, EventArgs e)
+        {
+            ApplyCharacter(null, null);
         }
     }
 }

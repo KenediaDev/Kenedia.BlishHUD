@@ -1,6 +1,7 @@
 ﻿using Blish_HUD;
 using Blish_HUD.Content;
 using Blish_HUD.Controls;
+using Blish_HUD.Settings;
 using Kenedia.Modules.Characters.Services;
 using Kenedia.Modules.Core.Controls;
 using Microsoft.Xna.Framework;
@@ -21,12 +22,13 @@ namespace Kenedia.Modules.Characters.Controls
 
         private readonly CharacterSorting _characterSorting;
         private readonly CharacterSwapping _characterSwapping;
+        private readonly SettingEntry<bool> _isEnabled;
 
-        public RunIndicator(CharacterSorting characterSorting, CharacterSwapping characterSwapping)
+        public RunIndicator(CharacterSorting characterSorting, CharacterSwapping characterSwapping, SettingEntry<bool> isEnabled)
         {
             _characterSorting = characterSorting;
             _characterSwapping = characterSwapping;
-
+            _isEnabled = isEnabled;
             _screenPartionSize = new(Math.Min(640, GameService.Graphics.SpriteScreen.Size.X / 6), Math.Min(360, GameService.Graphics.SpriteScreen.Size.Y / 6));
             int x = (GameService.Graphics.SpriteScreen.Size.X - _screenPartionSize.X) / 2;
             int y = (GameService.Graphics.SpriteScreen.Size.Y - _screenPartionSize.Y) / 2;
@@ -43,7 +45,7 @@ namespace Kenedia.Modules.Characters.Controls
             _titleText = new()
             {
                 Parent = this,
-                Text = Characters.ModuleInstance.Name,
+                Text = Characters.ModuleName,
                 AutoSizeHeight = true,
                 HorizontalAlignment = HorizontalAlignment.Center,
                 BackgroundColor = Color.Black * 0.5f,
@@ -97,7 +99,7 @@ namespace Kenedia.Modules.Characters.Controls
 
         private void ShowIndicator(object sender, EventArgs e)
         {
-            if(Characters.ModuleInstance.Settings.ShowStatusWindow.Value)
+            if(_isEnabled.Value)
             {
                 _screenPartionSize = new(Math.Min(640, GameService.Graphics.SpriteScreen.Size.X / 6), Math.Min(360, GameService.Graphics.SpriteScreen.Size.Y / 6));
                 int x = (GameService.Graphics.SpriteScreen.Size.X - _screenPartionSize.X) / 2;

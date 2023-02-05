@@ -5,13 +5,9 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MonoGame.Extended.BitmapFonts;
 using System;
-using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Threading;
-using static System.Net.Mime.MediaTypeNames;
 using Kenedia.Modules.Core.Extensions;
 
 namespace Kenedia.Modules.Core.Controls

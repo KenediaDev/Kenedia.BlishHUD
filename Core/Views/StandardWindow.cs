@@ -3,7 +3,6 @@ using Kenedia.Modules.Core.Controls;
 using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace Kenedia.Modules.Core.Views
 {

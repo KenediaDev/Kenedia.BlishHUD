@@ -10,10 +10,10 @@ namespace Kenedia.Modules.Characters.Controls.SideMenu
 {
     public class DisplayCheckToggle : FlowPanel
     {
-        private readonly AsyncTexture2D _eye = Characters.ModuleInstance.TextureManager.GetControlTexture(ControlTextures.Eye_Button);
-        private readonly AsyncTexture2D _eyeHovered = Characters.ModuleInstance.TextureManager.GetControlTexture(ControlTextures.Eye_Button_Hovered);
-        private readonly AsyncTexture2D _telescope = Characters.ModuleInstance.TextureManager.GetControlTexture(ControlTextures.Telescope_Button);
-        private readonly AsyncTexture2D _telescopeHovered = Characters.ModuleInstance.TextureManager.GetControlTexture(ControlTextures.Telescope_Button_Hovered);
+        private readonly AsyncTexture2D _eye;
+        private readonly AsyncTexture2D _eyeHovered;
+        private readonly AsyncTexture2D _telescope;
+        private readonly AsyncTexture2D _telescopeHovered;
 
         private readonly Core.Controls.ImageToggle _showButton;
         private readonly Core.Controls.ImageToggle _checkButton;
@@ -29,7 +29,15 @@ namespace Kenedia.Modules.Characters.Controls.SideMenu
         public event EventHandler<bool> ShowChanged;
         public event EventHandler<bool> CheckChanged;
 
-        public DisplayCheckToggle(bool displayButton_Checked = true, bool checkbox_Checked = true)
+        public DisplayCheckToggle(TextureManager textureManager)
+        {
+            _eye = textureManager.GetControlTexture(ControlTextures.Eye_Button);
+            _eyeHovered = textureManager.GetControlTexture(ControlTextures.Eye_Button_Hovered);
+            _telescope = textureManager.GetControlTexture(ControlTextures.Telescope_Button);
+            _telescopeHovered = textureManager.GetControlTexture(ControlTextures.Telescope_Button_Hovered);
+        }
+
+        public DisplayCheckToggle(TextureManager textureManager, bool displayButton_Checked = true, bool checkbox_Checked = true) : this(textureManager)
         {
             WidthSizingMode = SizingMode.Fill;
             HeightSizingMode = SizingMode.AutoSize;
@@ -70,7 +78,7 @@ namespace Kenedia.Modules.Characters.Controls.SideMenu
             };
         }
 
-        public DisplayCheckToggle(SettingsModel settings, string key) : this()
+        public DisplayCheckToggle(TextureManager textureManager, SettingsModel settings, string key) : this(textureManager)
         {
             _key = key;
 

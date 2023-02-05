@@ -5,7 +5,6 @@ using Characters.Res;
 using Kenedia.Modules.Characters.Enums;
 using Kenedia.Modules.Characters.Models;
 using Kenedia.Modules.Characters.Services;
-using Kenedia.Modules.Characters.Views;
 using Kenedia.Modules.Core.Controls;
 using Kenedia.Modules.Core.Extensions;
 using Kenedia.Modules.Core.Interfaces;
@@ -24,12 +23,24 @@ namespace Kenedia.Modules.Characters.Controls.SideMenu
         private readonly FlowPanel _toggleFlowPanel;
         private readonly FlowPanel _tagFlowPanel;
         private readonly List<KeyValuePair<ImageColorToggle, Action>> _toggles = new();
+        private readonly TextureManager _textureManager;
+        private readonly SearchFilterCollection _tagFilters;
+        private readonly SearchFilterCollection _searchFilters;
+        private readonly Action _onFilterChanged;
+        private readonly TagList _allTags;
+        private readonly Data _data;
         private Rectangle _contentRectangle;
 
         public event EventHandler TogglesChanged;
 
-        public SideMenuToggles()
+        public SideMenuToggles(TextureManager textureManager, SearchFilterCollection tagFilters, SearchFilterCollection searchFilters, Action onFilterChanged, TagList allTags, Data data)
         {
+            _textureManager = textureManager;
+            _tagFilters = tagFilters;
+            _searchFilters = searchFilters;
+            _onFilterChanged = onFilterChanged;
+            _allTags = allTags;
+            _data = data;
             FlowDirection = ControlFlowDirection.SingleTopToBottom;
             AutoSizePadding = new Point(5, 5);
             HeightSizingMode = SizingMode.AutoSize;
@@ -59,7 +70,7 @@ namespace Kenedia.Modules.Characters.Controls.SideMenu
 
             _ = Task.Run(async () => { await Task.Delay(250); CalculateTagPanelSize(); });
             GameService.Overlay.UserLocale.SettingChanged += OnLanguageChanged;
-            Characters.ModuleInstance.Tags.CollectionChanged += Tags_CollectionChanged;
+            _allTags.CollectionChanged += Tags_CollectionChanged;
             OnLanguageChanged();
         }
 
@@ -68,12 +79,12 @@ namespace Kenedia.Modules.Characters.Controls.SideMenu
             _tags.ForEach(t => t.SetActive(false));
             _toggles.ForEach(t => t.Key.Active = false);
 
-            foreach (KeyValuePair<string, SearchFilter<Character_Model>> t in SearchFilters)
+            foreach (KeyValuePair<string, SearchFilter<Character_Model>> t in _searchFilters)
             {
                 t.Value.IsEnabled = false;
             }
 
-            foreach (KeyValuePair<string, SearchFilter<Character_Model>> t in TagFilters)
+            foreach (KeyValuePair<string, SearchFilter<Character_Model>> t in _tagFilters)
             {
                 t.Value.IsEnabled = false;
             }
@@ -119,11 +130,11 @@ namespace Kenedia.Modules.Characters.Controls.SideMenu
             _tags.Clear();
 
             _tagFlowPanel.Children.Clear();
-            TagFilters.Clear();
+            _tagFilters.Clear();
 
-            foreach (string tag in Characters.ModuleInstance.Tags)
+            foreach (string tag in _allTags)
             {
-                if (!TagFilters.ContainsKey(tag))
+                if (!_tagFilters.ContainsKey(tag))
                 {
                     Tag t;
                     _tags.Add(t = new Tag()
@@ -134,7 +145,7 @@ namespace Kenedia.Modules.Characters.Controls.SideMenu
                         ShowDelete = true,
                     });
 
-                    TagFilters.Add(tag, new((c) => c.Tags.Contains(tag), false));
+                    _tagFilters.Add(tag, new((c) => c.Tags.Contains(tag), false));
 
                     t.SetActive(false);
                     t.ActiveChanged += Tag_ActiveChanged;
@@ -146,31 +157,25 @@ namespace Kenedia.Modules.Characters.Controls.SideMenu
         private void Tag_Deleted(object sender, EventArgs e)
         {
             _ = _tags.Remove(sender as Tag);
-            _ = Characters.ModuleInstance.Tags.Remove((sender as Tag).Text);
+            _ = _allTags.Remove((sender as Tag).Text);
         }
 
         private void Tag_ActiveChanged(object sender, EventArgs e)
         {
             var t = (Tag)sender;
-            TagFilters[t.Text].IsEnabled = t.Active;
-            MainWindow?.PerformFiltering();
+            _tagFilters[t.Text].IsEnabled = t.Active;
+            _onFilterChanged?.Invoke();
         }
-
-        private Dictionary<string, SearchFilter<Character_Model>> TagFilters => Characters.ModuleInstance.TagFilters;
-
-        private TextureManager TM => Characters.ModuleInstance.TextureManager;
-
-        private Dictionary<string, SearchFilter<Character_Model>> SearchFilters => Characters.ModuleInstance.SearchFilters;
 
         private void CreateToggles()
         {
             void action(bool active, string entry)
             {
-                SearchFilters[entry].IsEnabled = active;
-                MainWindow?.PerformFiltering();
+                _searchFilters[entry].IsEnabled = active;
+                _onFilterChanged?.Invoke();
             }
 
-            var profs = Characters.ModuleInstance.Data.Professions.ToDictionary(entry => entry.Key, entry => entry.Value);
+            var profs = _data.Professions.ToDictionary(entry => entry.Key, entry => entry.Value);
             profs = profs.OrderBy(e => e.Value.WeightClass).ThenBy(e => e.Value.APIId).ToDictionary(e => e.Key, e => e.Value);
 
             // Profession All Specs
@@ -183,7 +188,7 @@ namespace Kenedia.Modules.Characters.Controls.SideMenu
                     ColorActive = profession.Value.Color,
                     ColorHovered = profession.Value.Color,
                     ColorInActive = profession.Value.Color * 0.5f,
-                    Active = SearchFilters[$"Core {profession.Value.Name}"].IsEnabled,
+                    Active = _searchFilters[$"Core {profession.Value.Name}"].IsEnabled,
                     BasicTooltipText = $"Core {profession.Value.Name}",
                     Alpha = 0.7f,
                 };
@@ -196,20 +201,20 @@ namespace Kenedia.Modules.Characters.Controls.SideMenu
                 var t = new ImageColorToggle((b) => action(b, profession.Value.Name))
                 {
                     Texture = profession.Value.IconBig,
-                    Active = SearchFilters[profession.Value.Name].IsEnabled,
+                    Active = _searchFilters[profession.Value.Name].IsEnabled,
                     BasicTooltipText = profession.Value.Name,
                 };
                 _toggles.Add(new(t, () => t.BasicTooltipText = profession.Value.Name));
             }
 
             List<KeyValuePair<ImageColorToggle, Action>> specToggles = new();
-            foreach (KeyValuePair<SpecializationType, Data.Specialization> specialization in Characters.ModuleInstance.Data.Specializations)
+            foreach (KeyValuePair<SpecializationType, Data.Specialization> specialization in _data.Specializations)
             {
                 var t = new ImageColorToggle((b) => action(b, specialization.Value.Name))
                 {
                     Texture = specialization.Value.IconBig,
                     Profession = specialization.Value.Profession,
-                    Active = SearchFilters[specialization.Value.Name].IsEnabled,
+                    Active = _searchFilters[specialization.Value.Name].IsEnabled,
                     BasicTooltipText = specialization.Value.Name,
                 };
                 specToggles.Add(new(t, () => t.BasicTooltipText = specialization.Value.Name));
@@ -228,7 +233,7 @@ namespace Kenedia.Modules.Characters.Controls.SideMenu
             }
 
             // Crafting Professions
-            foreach (KeyValuePair<int, Data.CrafingProfession> crafting in Characters.ModuleInstance.Data.CrafingProfessions)
+            foreach (KeyValuePair<int, Data.CraftingProfession> crafting in _data.CrafingProfessions)
             {
 
                 if (crafting.Key > 0)
@@ -239,7 +244,7 @@ namespace Kenedia.Modules.Characters.Controls.SideMenu
                         UseGrayScale = false,
                         TextureRectangle = crafting.Key > 0 ? new Rectangle(8, 7, 17, 19) : new Rectangle(4, 4, 24, 24),
                         SizeRectangle = new Rectangle(4, 4, 20, 20),
-                        Active = SearchFilters[crafting.Value.Name].IsEnabled,
+                        Active = _searchFilters[crafting.Value.Name].IsEnabled,
                         BasicTooltipText = crafting.Value.Name,
                     };
                     _toggles.Add(new(img, () => img.BasicTooltipText = crafting.Value.Name));
@@ -264,7 +269,7 @@ namespace Kenedia.Modules.Characters.Controls.SideMenu
             };
             _toggles.Add(new(birthday, () => birthday.BasicTooltipText = strings.Show_Birthday_Tooltip));
 
-            foreach (KeyValuePair<Gw2Sharp.Models.RaceType, Data.Race> race in Characters.ModuleInstance.Data.Races)
+            foreach (KeyValuePair<Gw2Sharp.Models.RaceType, Data.Race> race in _data.Races)
             {
                 var t = new ImageColorToggle((b) => action(b, race.Value.Name))
                 {
@@ -278,7 +283,7 @@ namespace Kenedia.Modules.Characters.Controls.SideMenu
 
             var male = new ImageColorToggle((b) => action(b, "Male"))
             {
-                Texture = TM.GetIcon(TextureManager.Icons.Male),
+                Texture = _textureManager.GetIcon(TextureManager.Icons.Male),
                 UseGrayScale = true,
                 TextureRectangle = new Rectangle(1, 0, 30, 32),
                 BasicTooltipText = strings.Show_Birthday_Tooltip,
@@ -287,7 +292,7 @@ namespace Kenedia.Modules.Characters.Controls.SideMenu
 
             var female = new ImageColorToggle((b) => action(b, "Female"))
             {
-                Texture = TM.GetIcon(TextureManager.Icons.Female),
+                Texture = _textureManager.GetIcon(TextureManager.Icons.Female),
                 UseGrayScale = true,
                 TextureRectangle = new Rectangle(1, 0, 30, 32),
                 BasicTooltipText = strings.Show_Birthday_Tooltip,
@@ -300,8 +305,6 @@ namespace Kenedia.Modules.Characters.Controls.SideMenu
                 t.Key.Size = new Point(29, 29);
             }
         }
-
-        private MainWindow MainWindow => Characters.ModuleInstance.MainWindow;
 
         public void OnLanguageChanged(object s = null, EventArgs e = null)
         {
@@ -317,7 +320,7 @@ namespace Kenedia.Modules.Characters.Controls.SideMenu
         {
             base.DisposeControl();
             GameService.Overlay.UserLocale.SettingChanged -= OnLanguageChanged;
-            Characters.ModuleInstance.Tags.CollectionChanged -= Tags_CollectionChanged;
+            _allTags.CollectionChanged -= Tags_CollectionChanged;
         }
 
         protected override void OnResized(ResizedEventArgs e)

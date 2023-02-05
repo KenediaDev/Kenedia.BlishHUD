@@ -12,7 +12,6 @@ using Bitmap = System.Drawing.Bitmap;
 using Color = Microsoft.Xna.Framework.Color;
 using FlowPanel = Kenedia.Modules.Core.Controls.FlowPanel;
 using Label = Kenedia.Modules.Core.Controls.Label;
-using Panel = Kenedia.Modules.Core.Controls.Panel;
 using Image = Kenedia.Modules.Core.Controls.Image;
 
 namespace Kenedia.Modules.Core.Views

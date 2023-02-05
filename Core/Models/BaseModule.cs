@@ -35,6 +35,8 @@ namespace Kenedia.Modules.Core.Models
             SharedSettingsView = new SharedSettingsView(sharedSettings, clientWindowService);
         }
 
+        public static string ModuleName => ModuleInstance.Name;
+
         public static ModuleType ModuleInstance { get; protected set; }
 
         public static VirtualKeyShort[] ModKeyMapping { get; private set; }
