@@ -156,7 +156,7 @@ namespace Kenedia.Modules.Characters.Controls.SideMenu
 
         public void ResetToggles()
         {
-            TogglesTab.ResetToggles();
+            TogglesTab?.ResetToggles();
         }
 
         public override void UpdateContainer(GameTime gameTime)

@@ -555,7 +555,7 @@ namespace Kenedia.Modules.Characters
         protected override void LoadGUI()
         {
             base.LoadGUI();
-            RadialMenu = new RadialMenu(Settings, CharacterModels, GameService.Graphics.SpriteScreen)
+            RadialMenu = new RadialMenu(Settings, CharacterModels, GameService.Graphics.SpriteScreen, () => CurrentCharacterModel, Data)
             {
                 Visible = false,
                 ZIndex = int.MaxValue / 2
@@ -587,6 +587,7 @@ namespace Kenedia.Modules.Characters
                 Subtitle = "❤",
                 SavesPosition = true,
                 Id = $"CharactersSettingsWindow",
+                Version = ModuleVersion,
             };
 
             Texture2D bg = TextureManager.GetBackground(Backgrounds.MainWindow);
@@ -616,6 +617,8 @@ namespace Kenedia.Modules.Characters
                 Id = $"CharactersWindow",
                 CanResize = true,
                 Size = Settings.WindowSize.Value,
+                SettingsWindow = SettingsWindow,
+                Version = ModuleVersion,
             };
 
             SideMenuToggles _toggles;
@@ -629,6 +632,7 @@ namespace Kenedia.Modules.Characters
             {
                 Icon = AsyncTexture2D.FromAssetId(156909),
             });
+            MainWindow.SideMenu.TogglesTab = _toggles;
             _ = MainWindow.SideMenu.SwitchTab(_toggles);
 
             PotraitCapture.OnImageCaptured = () => MainWindow.CharacterEdit.LoadImages(null, null);

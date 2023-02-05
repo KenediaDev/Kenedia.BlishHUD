@@ -1,6 +1,7 @@
 ﻿using Blish_HUD;
 using Blish_HUD.Controls;
 using Blish_HUD.Input;
+using Kenedia.Modules.Characters.Extensions;
 using Kenedia.Modules.Characters.Models;
 using Kenedia.Modules.Characters.Services;
 using Kenedia.Modules.Core.Extensions;
@@ -18,16 +19,20 @@ namespace Characters.Controls
     {
         private readonly SettingsModel _settings;
         private readonly ObservableCollection<Character_Model> _characters;
+        private readonly Func<Character_Model> _currentCharacter;
+        private readonly Data _data;
         private List<Character_Model> _displayedCharacters;
         private int _iconSize;
         private readonly List<Point> _points = new();
         private readonly List<(Rectangle, Character_Model)> _recs = new();
         private (Rectangle, Character_Model)? _nearest = null;
 
-        public RadialMenu(SettingsModel settings, ObservableCollection<Character_Model> characters, Container parent)
+        public RadialMenu(SettingsModel settings, ObservableCollection<Character_Model> characters, Container parent, Func<Character_Model> currentCharacter, Data data)
         {
             _settings = settings;
             _characters = characters;
+            _currentCharacter = currentCharacter;
+            _data = data;
             Parent = parent;
             BackgroundColor = Color.Black * 0.7f;
 
@@ -40,9 +45,12 @@ namespace Characters.Controls
             Input.Keyboard.KeyPressed += Keyboard_KeyPressed;
         }
 
+        private Character_Model CurrentCharacter => _currentCharacter?.Invoke();
+
         public bool HasDisplayedCharacters()
         {
-            return _characters != null && _characters.Where(e => e.ShowOnRadial).Count() > 0;
+            if (_characters != null) _displayedCharacters = _characters.Count > 0 ? _characters.Where(e => e.ShowOnRadial).ToList() : new();
+            return _displayedCharacters.Count() > 0;
         }
 
         private void Keyboard_KeyPressed(object sender, KeyboardEventArgs e)
@@ -72,7 +80,7 @@ namespace Characters.Controls
                 _displayedCharacters = _characters.Count > 0 ? _characters.Where(e => e.ShowOnRadial).ToList() : new();
 
                 int size = (int)(Math.Min(Parent.Width, Parent.Height) * 0.66);
-                Size = new(size, size);
+                //Size = new(size, size);
                 Size = new(Parent.Width, Parent.Height);
                 //Location = new((Parent.Width - size) / 2, (Parent.Height - size) / 2);
 
@@ -142,7 +150,7 @@ namespace Characters.Controls
                 {
                     bool mouseOver = r == _nearest;
 
-                    if (mouseOver)
+                    if (mouseOver && !r.Item2.HasDefaultIcon)
                     {
                         txt = r.Item2.Name;
                         spriteBatch.DrawOnCtrl(
@@ -158,7 +166,7 @@ namespace Characters.Controls
                         r.Item2.Icon,
                         r.Item1,
                         r.Item2.Icon.Bounds,
-                        Color.White);
+                        mouseOver && r.Item2.HasDefaultIcon ? r.Item2.Profession.GetData(_data.Professions).Color : Color.White);
                 }
             }
 
@@ -181,6 +189,7 @@ namespace Characters.Controls
         {
             base.OnShown(e);
             _nearest = null;
+            RecalculateLayout();
         }
 
         protected override void DisposeControl()

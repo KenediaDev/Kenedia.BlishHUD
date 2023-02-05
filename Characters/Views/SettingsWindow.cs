@@ -72,6 +72,8 @@ namespace Kenedia.Modules.Characters.Views
             OnLanguageChanged();
         }
 
+        public SemVer.Version Version { get; set; }
+
         private void CreateOCR()
         {
             var headerPanel = new Panel()
@@ -820,6 +822,13 @@ namespace Kenedia.Modules.Characters.Views
                     _sharedSettingsView?.UpdateOffset();
                 }
             }
+        }
+
+        public override void PaintBeforeChildren(SpriteBatch spriteBatch, Rectangle bounds)
+        {
+            base.PaintBeforeChildren(spriteBatch, bounds);
+
+            if(Version != null) spriteBatch.DrawStringOnCtrl(this, $"v. {Version}", Content.DefaultFont16, new(bounds.Right - 150, bounds.Top + 10, 100, 30), Color.White, false, true, 1, HorizontalAlignment.Right, VerticalAlignment.Top);
         }
     }
 }
