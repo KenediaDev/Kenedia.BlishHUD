@@ -11,6 +11,7 @@ using Kenedia.Modules.Core.Interfaces;
 using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using FlowPanel = Kenedia.Modules.Core.Controls.FlowPanel;
@@ -193,7 +194,8 @@ namespace Kenedia.Modules.Characters.Controls.SideMenu
                     Alpha = 0.7f,
                 };
 
-                _toggles.Add(new(t, () => t.BasicTooltipText = $"Core {profession.Value.Name}"));
+                KeyValuePair<ImageColorToggle, Action> tt = new (t, () => t.BasicTooltipText = $"Core {profession.Value.Name}");
+                _toggles.Add(tt);
             }
 
             foreach (KeyValuePair<Gw2Sharp.Models.ProfessionType, Data.Profession> profession in profs)
@@ -202,7 +204,7 @@ namespace Kenedia.Modules.Characters.Controls.SideMenu
                 {
                     Texture = profession.Value.IconBig,
                     Active = _searchFilters[profession.Value.Name].IsEnabled,
-                    BasicTooltipText = profession.Value.Name,
+                    BasicTooltipText = profession.Value.Name,                    
                 };
                 _toggles.Add(new(t, () => t.BasicTooltipText = profession.Value.Name));
             }
@@ -299,8 +301,10 @@ namespace Kenedia.Modules.Characters.Controls.SideMenu
             };
             _toggles.Add(new(female, () => female.BasicTooltipText = strings.Female));
 
+            var j = 0;
             foreach (KeyValuePair<ImageColorToggle, Action> t in _toggles)
             {
+                j++;
                 t.Key.Parent = _toggleFlowPanel;
                 t.Key.Size = new Point(29, 29);
             }

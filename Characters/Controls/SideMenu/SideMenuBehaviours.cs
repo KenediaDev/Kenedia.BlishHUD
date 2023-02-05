@@ -16,7 +16,7 @@ namespace Kenedia.Modules.Characters.Controls.SideMenu
 {
     public class SideMenuBehaviors : FlowTab, ILocalizable
     {
-        private List<KeyValuePair<string, DisplayCheckToggle>> _toggles = new()
+        private readonly List<KeyValuePair<string, DisplayCheckToggle>> _toggles = new()
         {
             new( "Name", null),
             new( "Level", null),

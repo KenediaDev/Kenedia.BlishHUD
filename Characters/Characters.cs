@@ -606,7 +606,8 @@ namespace Kenedia.Modules.Characters
             AccountImagesPath,
             Tags,
             () => CurrentCharacterModel,
-            Data)
+            Data,
+            CharacterSorting)
             {
                 Parent = GameService.Graphics.SpriteScreen,
                 Title = "❤",
@@ -620,6 +621,7 @@ namespace Kenedia.Modules.Characters
             SideMenuToggles _toggles;
             MainWindow.SideMenu.AddTab(_toggles = new SideMenuToggles(TextureManager, TagFilters, SearchFilters, () => MainWindow?.FilterCharacters(), Tags, Data)
             {
+                Width = MainWindow.SideMenu.Width,
                 Icon = AsyncTexture2D.FromAssetId(440021),
             });
 

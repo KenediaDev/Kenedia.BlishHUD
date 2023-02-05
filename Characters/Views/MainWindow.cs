@@ -53,7 +53,7 @@ namespace Kenedia.Modules.Characters.Views
         private Rectangle _titleRectangle;
         private BitmapFont _titleFont;
 
-        public MainWindow(Texture2D background, Rectangle windowRegion, Rectangle contentRegion, SettingsModel settings, TextureManager textureManager, ObservableCollection<Character_Model> characterModels, SearchFilterCollection searchFilters, Action toggleOCR, Action togglePotrait, Action refreshAPI, string accountImagePath, TagList tags, Func<Character_Model> currentCharacter, Data data)
+        public MainWindow(Texture2D background, Rectangle windowRegion, Rectangle contentRegion, SettingsModel settings, TextureManager textureManager, ObservableCollection<Character_Model> characterModels, SearchFilterCollection searchFilters, Action toggleOCR, Action togglePotrait, Action refreshAPI, string accountImagePath, TagList tags, Func<Character_Model> currentCharacter, Data data, CharacterSorting characterSorting)
             : base(background, windowRegion, contentRegion)
         {
             _settings = settings;
@@ -175,7 +175,7 @@ namespace Kenedia.Modules.Characters.Views
                 FadeOut = !_settings.PinSideMenus.Value,
             };
 
-            SideMenu = new(toggleOCR, togglePotrait, refreshAPI, textureManager)
+            SideMenu = new(toggleOCR, togglePotrait, refreshAPI, textureManager, settings, characterSorting)
             {
                 Parent = GameService.Graphics.SpriteScreen,
                 Anchor = this,

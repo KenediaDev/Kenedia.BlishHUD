@@ -9,6 +9,7 @@ using Kenedia.Modules.Core.Interfaces;
 using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
+using System.Runtime;
 using Panel = Kenedia.Modules.Core.Controls.Panel;
 using TabbedPanel = Kenedia.Modules.Core.Controls.TabbedPanel;
 
@@ -25,8 +26,6 @@ namespace Kenedia.Modules.Characters.Controls.SideMenu
         private ImageButton _fixButton;
         private ImageButton _refreshButton;
 
-        private readonly SideMenuToggles _toggles;
-
         private readonly SettingsModel _settings;
         private readonly TextureManager _textureManager;
         private readonly CharacterSorting _characterSorting;
@@ -34,11 +33,14 @@ namespace Kenedia.Modules.Characters.Controls.SideMenu
         private readonly Action _togglePotrait;
         private readonly Action _refreshAPI;
 
-        public SideMenu(Action toggleOCR, Action togglePotrait, Action refreshAPI, TextureManager textureManager)
+        public SideMenu(Action toggleOCR, Action togglePotrait, Action refreshAPI, TextureManager textureManager, SettingsModel settings, CharacterSorting characterSorting)
         {
+            _textureManager = textureManager;
             _toggleOCR = toggleOCR;
             _togglePotrait = togglePotrait;
             _refreshAPI = refreshAPI;
+            _settings = settings;
+            _characterSorting = characterSorting;
 
             Parent = GameService.Graphics.SpriteScreen;
             BorderWidth = new(2);
@@ -63,9 +65,9 @@ namespace Kenedia.Modules.Characters.Controls.SideMenu
             HeightSizingMode = SizingMode.AutoSize;
 
             if (BackgroundImage != null) TextureRectangle = new Rectangle(30, 30, BackgroundImage.Width - 60, BackgroundImage.Height - 60);
-
-            _textureManager = textureManager;
         }
+
+        public SideMenuToggles TogglesTab { get; set; }
 
         private void CloseButton_Click(object sender, MouseEventArgs e)
         {
@@ -154,7 +156,7 @@ namespace Kenedia.Modules.Characters.Controls.SideMenu
 
         public void ResetToggles()
         {
-            _toggles.ResetToggles();
+            TogglesTab.ResetToggles();
         }
 
         public override void UpdateContainer(GameTime gameTime)

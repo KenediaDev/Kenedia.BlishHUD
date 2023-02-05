@@ -1,9 +1,11 @@
 ﻿using Blish_HUD.Content;
 using Blish_HUD.Controls;
 using Kenedia.Modules.Characters.Services;
+using Kenedia.Modules.Core.Controls;
 using Microsoft.Xna.Framework;
 using System;
 using static Kenedia.Modules.Characters.Services.TextureManager;
+using FlowPanel = Kenedia.Modules.Core.Controls.FlowPanel;
 using Label = Kenedia.Modules.Core.Controls.Label;
 
 namespace Kenedia.Modules.Characters.Controls.SideMenu
@@ -15,8 +17,8 @@ namespace Kenedia.Modules.Characters.Controls.SideMenu
         private readonly AsyncTexture2D _telescope;
         private readonly AsyncTexture2D _telescopeHovered;
 
-        private readonly Core.Controls.ImageToggle _showButton;
-        private readonly Core.Controls.ImageToggle _checkButton;
+        private readonly ImageToggle _showButton;
+        private readonly ImageToggle _checkButton;
         private readonly Label _textLabel;
 
         private readonly string _key;
@@ -29,16 +31,13 @@ namespace Kenedia.Modules.Characters.Controls.SideMenu
         public event EventHandler<bool> ShowChanged;
         public event EventHandler<bool> CheckChanged;
 
-        public DisplayCheckToggle(TextureManager textureManager)
+        public DisplayCheckToggle(TextureManager textureManager, bool displayButton_Checked = true, bool checkbox_Checked = true)
         {
             _eye = textureManager.GetControlTexture(ControlTextures.Eye_Button);
             _eyeHovered = textureManager.GetControlTexture(ControlTextures.Eye_Button_Hovered);
             _telescope = textureManager.GetControlTexture(ControlTextures.Telescope_Button);
             _telescopeHovered = textureManager.GetControlTexture(ControlTextures.Telescope_Button_Hovered);
-        }
 
-        public DisplayCheckToggle(TextureManager textureManager, bool displayButton_Checked = true, bool checkbox_Checked = true) : this(textureManager)
-        {
             WidthSizingMode = SizingMode.Fill;
             HeightSizingMode = SizingMode.AutoSize;
 
@@ -78,8 +77,9 @@ namespace Kenedia.Modules.Characters.Controls.SideMenu
             };
         }
 
-        public DisplayCheckToggle(TextureManager textureManager, SettingsModel settings, string key) : this(textureManager)
+        public DisplayCheckToggle(TextureManager textureManager, SettingsModel settings, string key) : this(textureManager, true, true)
         {
+            _settings = settings;
             _key = key;
 
             if (!settings.DisplayToggles.Value.ContainsKey(_key))
@@ -92,8 +92,6 @@ namespace Kenedia.Modules.Characters.Controls.SideMenu
 
             _checkButton.Checked = settings.DisplayToggles.Value[_key].Check;
             CheckChecked = _checkButton.Checked;
-
-            _settings = settings;
         }
 
         public string Text
