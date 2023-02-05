@@ -860,4 +860,10 @@ Se connecter automatiquement ?
   <data name="ShowOnRadial_Tooltip" xml:space="preserve">
     <value>Afficher le caractère dans le menu radial. Nécessite l'activation du paramètre "Utiliser le menu radial".</value>
   </data>
+  <data name="FocusSearchOnShow" xml:space="preserve">
+    <value>Concentrer la recherche sur le spectacle</value>
+  </data>
+  <data name="FocusSearchOnShow_Tooltip" xml:space="preserve">
+    <value>Lorsque vous basculez dans la fenêtre de caractères, mettez l'accent sur la barre de recherche pour commencer directement à taper.</value>
+  </data>
 </root>

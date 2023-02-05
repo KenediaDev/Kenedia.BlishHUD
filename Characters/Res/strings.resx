@@ -860,4 +860,10 @@ Log in automatically?
   <data name="ShowOnRadial_Tooltip" xml:space="preserve">
     <value>Show Character on the radial menu. Requires activating the "Use Radial Menu" setting.</value>
   </data>
+  <data name="FocusSearchOnShow" xml:space="preserve">
+    <value>Focus search on show</value>
+  </data>
+  <data name="FocusSearchOnShow_Tooltip" xml:space="preserve">
+    <value>When toggling the character window focus the searchbar to directly start typing</value>
+  </data>
 </root>

@@ -728,6 +728,15 @@ namespace Kenedia.Modules.Characters.Views
                 SetLocalizedText = () => strings.OpenSidemenuOnSearch_DisplayName,
                 SetLocalizedTooltip = () => strings.OpenSidemenuOnSearch_Description,
             };
+
+            _ = new Checkbox()
+            {
+                Parent = cP,
+                Checked = Settings.FocusSearchOnShow.Value,
+                CheckedChangedAction = (b) => Settings.FocusSearchOnShow.Value = b,
+                SetLocalizedText = () => strings.FocusSearchOnShow,
+                SetLocalizedTooltip = () => strings.FocusSearchOnShow_Tooltip,
+            };
             #endregion
         }
 

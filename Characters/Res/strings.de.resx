@@ -860,4 +860,10 @@ Sich automatisch anmelden?
   <data name="ShowOnRadial_Tooltip" xml:space="preserve">
     <value>Zeichen im Radialmenü anzeigen. Erfordert die Aktivierung der Einstellung "Radialmenü verwenden".</value>
   </data>
+  <data name="FocusSearchOnShow" xml:space="preserve">
+    <value>Suche auf Ausstellung konzentrieren</value>
+  </data>
+  <data name="FocusSearchOnShow_Tooltip" xml:space="preserve">
+    <value>Beim Umschalten des Zeichenfensters wird die Suchleiste fokussiert, um direkt mit der Eingabe zu beginnen</value>
+  </data>
 </root>

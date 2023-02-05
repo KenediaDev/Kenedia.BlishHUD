@@ -860,4 +860,10 @@ Uu : Üü Ûû Ùù</value>
   <data name="ShowOnRadial_Tooltip" xml:space="preserve">
     <value>Mostrar carácter en el menú radial. Requiere activar el ajuste "Usar menú radial".</value>
   </data>
+  <data name="FocusSearchOnShow" xml:space="preserve">
+    <value>Centrar la búsqueda en el espectáculo</value>
+  </data>
+  <data name="FocusSearchOnShow_Tooltip" xml:space="preserve">
+    <value>Al cambiar la ventana de caracteres se enfoca la barra de búsqueda para empezar a escribir directamente</value>
+  </data>
 </root>

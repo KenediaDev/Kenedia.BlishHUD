@@ -990,6 +990,24 @@ namespace Characters.Res {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Focus search on show.
+        /// </summary>
+        internal static string FocusSearchOnShow {
+            get {
+                return ResourceManager.GetString("FocusSearchOnShow", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to When toggling the character window focus the searchbar to directly start typing.
+        /// </summary>
+        internal static string FocusSearchOnShow_Tooltip {
+            get {
+                return ResourceManager.GetString("FocusSearchOnShow_Tooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Folder.
         /// </summary>
         internal static string Folder {

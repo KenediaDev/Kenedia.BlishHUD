@@ -34,6 +34,7 @@ namespace Kenedia.Modules.Characters.Services
 
             LoadCachedAccounts = internalSettings.DefineSetting(nameof(LoadCachedAccounts), true);
             OpenSidemenuOnSearch = internalSettings.DefineSetting(nameof(OpenSidemenuOnSearch), true);
+            FocusSearchOnShow = internalSettings.DefineSetting(nameof(FocusSearchOnShow), true);
 
             ShowRandomButton = internalSettings.DefineSetting(nameof(ShowRandomButton), false);
             ShowStatusWindow = internalSettings.DefineSetting(nameof(ShowStatusWindow), true);
@@ -245,6 +246,8 @@ namespace Kenedia.Modules.Characters.Services
         public SettingEntry<bool> OpenSidemenuOnSearch { get; set; }
 
         public SettingEntry<SemVer.Version> Version { get; set; }
+
+        public SettingEntry<bool> FocusSearchOnShow { get; private set; }
 
         protected override void OnDispose()
         {
