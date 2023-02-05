@@ -169,21 +169,21 @@ namespace Characters.Res {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to If enabled on the first load of Blish and beeing in character selection the module enters the game. After entering the game it will wait until the MumbleLink and API Token is fully loaded.
-        ///Once fully loaded it will switch to the character which is set to be the &quot;Login Character&quot;..
+        ///   Looks up a localized string similar to Auto Login to selected Character.
         /// </summary>
-        internal static string AutoLogin_Description {
+        internal static string AutoLogin {
             get {
-                return ResourceManager.GetString("AutoLogin_Description", resourceCulture);
+                return ResourceManager.GetString("AutoLogin", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Auto Login to selected Character.
+        ///   Looks up a localized string similar to If enabled on the first load of Blish and beeing in character selection the module enters the game. After entering the game it will wait until the MumbleLink and API Token is fully loaded.
+        ///Once fully loaded it will switch to the character which is set to be the &quot;Login Character&quot;..
         /// </summary>
-        internal static string AutoLogin_DisplayName {
+        internal static string AutoLogin_Tooltip {
             get {
-                return ResourceManager.GetString("AutoLogin_DisplayName", resourceCulture);
+                return ResourceManager.GetString("AutoLogin_Tooltip", resourceCulture);
             }
         }
         
@@ -476,20 +476,20 @@ namespace Characters.Res {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Closes the module window when logging in to a character..
+        ///   Looks up a localized string similar to Close Window on Character Swap.
         /// </summary>
-        internal static string CloseWindowOnSwap_Description {
+        internal static string CloseWindowOnSwap {
             get {
-                return ResourceManager.GetString("CloseWindowOnSwap_Description", resourceCulture);
+                return ResourceManager.GetString("CloseWindowOnSwap", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Close Window on Character Swap.
+        ///   Looks up a localized string similar to Closes the module window when logging in to a character..
         /// </summary>
-        internal static string CloseWindowOnSwap_DisplayName {
+        internal static string CloseWindowOnSwap_Tooltip {
             get {
-                return ResourceManager.GetString("CloseWindowOnSwap_DisplayName", resourceCulture);
+                return ResourceManager.GetString("CloseWindowOnSwap_Tooltip", resourceCulture);
             }
         }
         
@@ -604,9 +604,9 @@ namespace Characters.Res {
         /// <summary>
         ///   Looks up a localized string similar to Show a detailed tooltip when hovering a character in the character list. The tooltip will expose all informations available for that character..
         /// </summary>
-        internal static string DetailedTooltip_Description {
+        internal static string DetailedTooltip_Tooltip {
             get {
-                return ResourceManager.GetString("DetailedTooltip_Description", resourceCulture);
+                return ResourceManager.GetString("DetailedTooltip_Tooltip", resourceCulture);
             }
         }
         
@@ -620,20 +620,20 @@ namespace Characters.Res {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Enables double clicking the character in the character list to login to that character.
+        ///   Looks up a localized string similar to Double Click to Swap.
         /// </summary>
-        internal static string DoubleClickToEnter_Description {
+        internal static string DoubleClickToEnter {
             get {
-                return ResourceManager.GetString("DoubleClickToEnter_Description", resourceCulture);
+                return ResourceManager.GetString("DoubleClickToEnter", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Double Click to Swap.
+        ///   Looks up a localized string similar to Enables double clicking the character in the character list to login to that character.
         /// </summary>
-        internal static string DoubleClickToEnter_DisplayName {
+        internal static string DoubleClickToEnter_Tooltip {
             get {
-                return ResourceManager.GetString("DoubleClickToEnter_DisplayName", resourceCulture);
+                return ResourceManager.GetString("DoubleClickToEnter_Tooltip", resourceCulture);
             }
         }
         
@@ -737,38 +737,38 @@ namespace Characters.Res {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Enter the game automatically after selecting the character in the character selection.
-        /// </summary>
-        internal static string EnterOnSwap_Description {
-            get {
-                return ResourceManager.GetString("EnterOnSwap_Description", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Login after selecting the character.
         /// </summary>
-        internal static string EnterOnSwap_DisplayName {
+        internal static string EnterOnSwap {
             get {
-                return ResourceManager.GetString("EnterOnSwap_DisplayName", resourceCulture);
+                return ResourceManager.GetString("EnterOnSwap", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to If the searchbox is focused pressing &apos;RETURN&apos; will log to the first character in the list..
+        ///   Looks up a localized string similar to Enter the game automatically after selecting the character in the character selection.
         /// </summary>
-        internal static string EnterToLogin_Description {
+        internal static string EnterOnSwap_Tooltip {
             get {
-                return ResourceManager.GetString("EnterToLogin_Description", resourceCulture);
+                return ResourceManager.GetString("EnterOnSwap_Tooltip", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Press Enter to swap.
         /// </summary>
-        internal static string EnterToLogin_DisplayName {
+        internal static string EnterToLogin {
             get {
-                return ResourceManager.GetString("EnterToLogin_DisplayName", resourceCulture);
+                return ResourceManager.GetString("EnterToLogin", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to If the searchbox is focused pressing &apos;RETURN&apos; will log to the first character in the list..
+        /// </summary>
+        internal static string EnterToLogin_Tooltip {
+            get {
+                return ResourceManager.GetString("EnterToLogin_Tooltip", resourceCulture);
             }
         }
         
@@ -809,20 +809,20 @@ namespace Characters.Res {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Fade the side menus automatically after 2.5 seconds.
+        ///   Looks up a localized string similar to Fade side menu.
         /// </summary>
-        internal static string FadeOut_Description {
+        internal static string FadeOut {
             get {
-                return ResourceManager.GetString("FadeOut_Description", resourceCulture);
+                return ResourceManager.GetString("FadeOut", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Fade side menu.
+        ///   Looks up a localized string similar to Fade the side menus automatically after 2.5 seconds.
         /// </summary>
-        internal static string FadeOut_DisplayName {
+        internal static string FadeOut_Tooltip {
             get {
-                return ResourceManager.GetString("FadeOut_DisplayName", resourceCulture);
+                return ResourceManager.GetString("FadeOut_Tooltip", resourceCulture);
             }
         }
         
@@ -845,20 +845,29 @@ namespace Characters.Res {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Use all text of the filterbox as one single filter term.
+        ///   Looks up a localized string similar to Single filter string.
         /// </summary>
-        internal static string FilterAsOne_Description {
+        internal static string FilterAsOne {
             get {
-                return ResourceManager.GetString("FilterAsOne_Description", resourceCulture);
+                return ResourceManager.GetString("FilterAsOne", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Single filter string.
+        ///   Looks up a localized string similar to Use all text of the filterbox as one single filter term.
         /// </summary>
-        internal static string FilterAsOne_DisplayName {
+        internal static string FilterAsOne_Tooltip {
             get {
-                return ResourceManager.GetString("FilterAsOne_DisplayName", resourceCulture);
+                return ResourceManager.GetString("FilterAsOne_Tooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Filter Delay ({0} ms).
+        /// </summary>
+        internal static string FilterDelay {
+            get {
+                return ResourceManager.GetString("FilterDelay", resourceCulture);
             }
         }
         
@@ -866,18 +875,18 @@ namespace Characters.Res {
         ///   Looks up a localized string similar to Average time in milliseconds waited between filtering your characters&apos; panel.
         ///To get the current value you will have to swap module tabs once to update the settings page!.
         /// </summary>
-        internal static string FilterDelay_Description {
+        internal static string FilterDelay_Tooltip {
             get {
-                return ResourceManager.GetString("FilterDelay_Description", resourceCulture);
+                return ResourceManager.GetString("FilterDelay_Tooltip", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Filter Delay ({0} ms).
+        ///   Looks up a localized string similar to Ignore diacritics.
         /// </summary>
-        internal static string FilterDelay_DisplayName {
+        internal static string FilterDiacriticsInsensitive {
             get {
-                return ResourceManager.GetString("FilterDelay_DisplayName", resourceCulture);
+                return ResourceManager.GetString("FilterDiacriticsInsensitive", resourceCulture);
             }
         }
         
@@ -893,18 +902,9 @@ namespace Characters.Res {
         ///[Ôô Öö Óó] become [Oo]
         ///[Úú Üü Ûû Ùù] become [Uu].
         /// </summary>
-        internal static string FilterDiacriticsInsensitive_Description {
+        internal static string FilterDiacriticsInsensitive_Tooltip {
             get {
-                return ResourceManager.GetString("FilterDiacriticsInsensitive_Description", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Ignore diacritics.
-        /// </summary>
-        internal static string FilterDiacriticsInsensitive_DisplayName {
-            get {
-                return ResourceManager.GetString("FilterDiacriticsInsensitive_DisplayName", resourceCulture);
+                return ResourceManager.GetString("FilterDiacriticsInsensitive_Tooltip", resourceCulture);
             }
         }
         
@@ -972,20 +972,20 @@ namespace Characters.Res {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to When toggling the main menu to show, automatically focus the search field.
+        ///   Looks up a localized string similar to Focus search field.
         /// </summary>
-        internal static string FocusFilter_Description {
+        internal static string FocusFilter {
             get {
-                return ResourceManager.GetString("FocusFilter_Description", resourceCulture);
+                return ResourceManager.GetString("FocusFilter", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Focus search field.
+        ///   Looks up a localized string similar to When toggling the main menu to show, automatically focus the search field.
         /// </summary>
-        internal static string FocusFilter_DisplayName {
+        internal static string FocusFilter_Tooltip {
             get {
-                return ResourceManager.GetString("FocusFilter_DisplayName", resourceCulture);
+                return ResourceManager.GetString("FocusFilter_Tooltip", resourceCulture);
             }
         }
         
@@ -1134,20 +1134,20 @@ namespace Characters.Res {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Adds a delay between key presses. This slows down the character swapping and should only be used if your PC is stressed that much so it isn&apos;t able to switch without a delay!.
+        ///   Looks up a localized string similar to Key Delay {0} ms.
         /// </summary>
-        internal static string KeyDelay_Description {
+        internal static string KeyDelay {
             get {
-                return ResourceManager.GetString("KeyDelay_Description", resourceCulture);
+                return ResourceManager.GetString("KeyDelay", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Key Delay {0} ms.
+        ///   Looks up a localized string similar to Adds a delay between key presses. This slows down the character swapping and should only be used if your PC is stressed that much so it isn&apos;t able to switch without a delay!.
         /// </summary>
-        internal static string KeyDelay_DisplayName {
+        internal static string KeyDelay_Tooltip {
             get {
-                return ResourceManager.GetString("KeyDelay_DisplayName", resourceCulture);
+                return ResourceManager.GetString("KeyDelay_Tooltip", resourceCulture);
             }
         }
         
@@ -1206,20 +1206,20 @@ namespace Characters.Res {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Try to get the account name from cached files..
+        ///   Looks up a localized string similar to Load from cache.
         /// </summary>
-        internal static string LoadCachedAccounts_Description {
+        internal static string LoadCachedAccounts {
             get {
-                return ResourceManager.GetString("LoadCachedAccounts_Description", resourceCulture);
+                return ResourceManager.GetString("LoadCachedAccounts", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Load from cache.
+        ///   Looks up a localized string similar to Try to get the account name from cached files..
         /// </summary>
-        internal static string LoadCachedAccounts_DisplayName {
+        internal static string LoadCachedAccounts_Tooltip {
             get {
-                return ResourceManager.GetString("LoadCachedAccounts_DisplayName", resourceCulture);
+                return ResourceManager.GetString("LoadCachedAccounts_Tooltip", resourceCulture);
             }
         }
         
@@ -1363,6 +1363,15 @@ namespace Characters.Res {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Use normalized character names.
+        /// </summary>
+        internal static string NormalizedNames {
+            get {
+                return ResourceManager.GetString("NormalizedNames", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Use normalized character names when searching so special letters will be treated as their &apos;parent letter&apos;
         ///Aa : Áá Ââ Ää Àà Ææ 
         ///Cc : Çç 
@@ -1372,18 +1381,9 @@ namespace Characters.Res {
         ///Oo : Œœ Ôô Öö Óó Úú 
         ///Uu : Üü Ûû Ùù.
         /// </summary>
-        internal static string NormalizedNames_Description {
+        internal static string NormalizedNames_Tooltip {
             get {
-                return ResourceManager.GetString("NormalizedNames_Description", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Use normalized character names.
-        /// </summary>
-        internal static string NormalizedNames_DisplayName {
-            get {
-                return ResourceManager.GetString("NormalizedNames_DisplayName", resourceCulture);
+                return ResourceManager.GetString("NormalizedNames_Tooltip", resourceCulture);
             }
         }
         
@@ -1442,7 +1442,7 @@ namespace Characters.Res {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Only max. Crafting.
+        ///   Looks up a localized string similar to Show only maxed out crafting Professions.
         /// </summary>
         internal static string OnlyMaxCrafting {
             get {
@@ -1453,18 +1453,9 @@ namespace Characters.Res {
         /// <summary>
         ///   Looks up a localized string similar to Show only crafts that are at a 500 rank (Jeweler &amp; Scribe at 400)..
         /// </summary>
-        internal static string OnlyMaxCrafting_Description {
+        internal static string OnlyMaxCrafting_Tooltip {
             get {
-                return ResourceManager.GetString("OnlyMaxCrafting_Description", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Show only maxed out crafting Professions.
-        /// </summary>
-        internal static string OnlyMaxCrafting_DisplayName {
-            get {
-                return ResourceManager.GetString("OnlyMaxCrafting_DisplayName", resourceCulture);
+                return ResourceManager.GetString("OnlyMaxCrafting_Tooltip", resourceCulture);
             }
         }
         
@@ -1496,20 +1487,20 @@ namespace Characters.Res {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Open the side menu when clicking the search field.
+        ///   Looks up a localized string similar to Open side menu on search.
         /// </summary>
-        internal static string OpenSidemenuOnSearch_Description {
+        internal static string OpenSidemenuOnSearch {
             get {
-                return ResourceManager.GetString("OpenSidemenuOnSearch_Description", resourceCulture);
+                return ResourceManager.GetString("OpenSidemenuOnSearch", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Open side menu on search.
+        ///   Looks up a localized string similar to Open the side menu when clicking the search field.
         /// </summary>
-        internal static string OpenSidemenuOnSearch_DisplayName {
+        internal static string OpenSidemenuOnSearch_Tooltip {
             get {
-                return ResourceManager.GetString("OpenSidemenuOnSearch_DisplayName", resourceCulture);
+                return ResourceManager.GetString("OpenSidemenuOnSearch_Tooltip", resourceCulture);
             }
         }
         
@@ -1523,20 +1514,20 @@ namespace Characters.Res {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Prevent the side menus from fading out.
+        ///   Looks up a localized string similar to Pin side menus.
         /// </summary>
-        internal static string PinSideMenus_Description {
+        internal static string PinSideMenus {
             get {
-                return ResourceManager.GetString("PinSideMenus_Description", resourceCulture);
+                return ResourceManager.GetString("PinSideMenus", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Pin side menus.
+        ///   Looks up a localized string similar to Prevent the side menus from fading out.
         /// </summary>
-        internal static string PinSideMenus_DisplayName {
+        internal static string PinSideMenus_Tooltip {
             get {
-                return ResourceManager.GetString("PinSideMenus_DisplayName", resourceCulture);
+                return ResourceManager.GetString("PinSideMenus_Tooltip", resourceCulture);
             }
         }
         
@@ -1736,20 +1727,20 @@ namespace Characters.Res {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Key to Press to toggle the characters menu..
+        ///   Looks up a localized string similar to Toggle Menu.
         /// </summary>
-        internal static string ShortcutToggle_Description {
+        internal static string ShortcutToggle {
             get {
-                return ResourceManager.GetString("ShortcutToggle_Description", resourceCulture);
+                return ResourceManager.GetString("ShortcutToggle", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Toggle Menu.
+        ///   Looks up a localized string similar to Key to Press to toggle the characters menu..
         /// </summary>
-        internal static string ShortcutToggle_DisplayName {
+        internal static string ShortcutToggle_Tooltip {
             get {
-                return ResourceManager.GetString("ShortcutToggle_DisplayName", resourceCulture);
+                return ResourceManager.GetString("ShortcutToggle_Tooltip", resourceCulture);
             }
         }
         
@@ -1781,20 +1772,20 @@ namespace Characters.Res {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Show/Hide Corner Icon.
+        ///   Looks up a localized string similar to Show Corner Icon.
         /// </summary>
-        internal static string ShowCornerIcon_Description {
+        internal static string ShowCornerIcon {
             get {
-                return ResourceManager.GetString("ShowCornerIcon_Description", resourceCulture);
+                return ResourceManager.GetString("ShowCornerIcon", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Show Corner Icon.
+        ///   Looks up a localized string similar to Show/Hide Corner Icon.
         /// </summary>
-        internal static string ShowCornerIcon_DisplayName {
+        internal static string ShowCornerIcon_Tooltip {
             get {
-                return ResourceManager.GetString("ShowCornerIcon_DisplayName", resourceCulture);
+                return ResourceManager.GetString("ShowCornerIcon_Tooltip", resourceCulture);
             }
         }
         
@@ -1862,15 +1853,6 @@ namespace Characters.Res {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Shows a button next to the search field to switch to a random character of your list.
-        /// </summary>
-        internal static string ShowRandomButton_Description {
-            get {
-                return ResourceManager.GetString("ShowRandomButton_Description", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Show Random Button.
         /// </summary>
         internal static string ShowRandomButton_Name {
@@ -1880,11 +1862,11 @@ namespace Characters.Res {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Displays a popup while any automated action is performed.
+        ///   Looks up a localized string similar to Shows a button next to the search field to switch to a random character of your list.
         /// </summary>
-        internal static string ShowStatusWindow_Description {
+        internal static string ShowRandomButton_Tooltip {
             get {
-                return ResourceManager.GetString("ShowStatusWindow_Description", resourceCulture);
+                return ResourceManager.GetString("ShowRandomButton_Tooltip", resourceCulture);
             }
         }
         
@@ -1894,6 +1876,15 @@ namespace Characters.Res {
         internal static string ShowStatusWindow_Name {
             get {
                 return ResourceManager.GetString("ShowStatusWindow_Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Displays a popup while any automated action is performed.
+        /// </summary>
+        internal static string ShowStatusWindow_Tooltip {
+            get {
+                return ResourceManager.GetString("ShowStatusWindow_Tooltip", resourceCulture);
             }
         }
         
@@ -1952,39 +1943,39 @@ namespace Characters.Res {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Loading Delay ({0} ms).
+        /// </summary>
+        internal static string SwapDelay {
+            get {
+                return ResourceManager.GetString("SwapDelay", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Avg. loading time from ingame to character selection.
         ///To get the current value you will have to swap module tabs once to update the settings page!.
         /// </summary>
-        internal static string SwapDelay_Description {
+        internal static string SwapDelay_Tooltip {
             get {
-                return ResourceManager.GetString("SwapDelay_Description", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Loading Delay ({0} ms).
-        /// </summary>
-        internal static string SwapDelay_DisplayName {
-            get {
-                return ResourceManager.GetString("SwapDelay_DisplayName", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Only if the Modifier is pressed trigger character swapping. This will prevent accidientally swapping!.
-        /// </summary>
-        internal static string SwapModifier_Description {
-            get {
-                return ResourceManager.GetString("SwapModifier_Description", resourceCulture);
+                return ResourceManager.GetString("SwapDelay_Tooltip", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Require Modifier to swap.
         /// </summary>
-        internal static string SwapModifier_DisplayName {
+        internal static string SwapModifier {
             get {
-                return ResourceManager.GetString("SwapModifier_DisplayName", resourceCulture);
+                return ResourceManager.GetString("SwapModifier", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Only if the Modifier is pressed trigger character swapping. This will prevent accidientally swapping!.
+        /// </summary>
+        internal static string SwapModifier_Tooltip {
+            get {
+                return ResourceManager.GetString("SwapModifier_Tooltip", resourceCulture);
             }
         }
         
@@ -2169,20 +2160,20 @@ namespace Characters.Res {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Use Image Recoginition to detect if you are ingame, watching a cutscene or sit in a loading screen. This feature works well for all common screen ratios with the exception of games in portrait mode..
+        ///   Looks up a localized string similar to Use Gamestate Detection.
         /// </summary>
-        internal static string UseBetaGameState_Description {
+        internal static string UseBetaGameState {
             get {
-                return ResourceManager.GetString("UseBetaGameState_Description", resourceCulture);
+                return ResourceManager.GetString("UseBetaGameState", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Use Gamestate Detection.
+        ///   Looks up a localized string similar to Use Image Recoginition to detect if you are ingame, watching a cutscene or sit in a loading screen. This feature works well for all common screen ratios with the exception of games in portrait mode..
         /// </summary>
-        internal static string UseBetaGameState_DisplayName {
+        internal static string UseBetaGameState_Tooltip {
             get {
-                return ResourceManager.GetString("UseBetaGameState_DisplayName", resourceCulture);
+                return ResourceManager.GetString("UseBetaGameState_Tooltip", resourceCulture);
             }
         }
         

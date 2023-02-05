@@ -69,7 +69,7 @@ namespace Kenedia.Modules.Core.Views
             _ = new TitleHeader()
             {
                 SetLocalizedTitle = () => strings_common.WindowBorders,
-                SetLocalizedTooltip = () => strings_common.WindowBorder_Description,
+                SetLocalizedTooltip = () => strings_common.WindowBorder_Tooltip,
                 Height = 25,
                 Width = (width ?? p.Width) - 0,
                 Parent = mcFP,

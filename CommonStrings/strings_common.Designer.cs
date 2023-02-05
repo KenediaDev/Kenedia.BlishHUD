@@ -171,9 +171,9 @@ namespace Kenedia.Modules.Core.Res {
         /// <summary>
         ///   Looks up a localized string similar to These values represent the offset the actual game screen has in relation to the whole client window. Set the values so you don&apos;t see any window frame in the images of the game corners..
         /// </summary>
-        internal static string WindowBorder_Description {
+        internal static string WindowBorder_Tooltip {
             get {
-                return ResourceManager.GetString("WindowBorder_Description", resourceCulture);
+                return ResourceManager.GetString("WindowBorder_Tooltip", resourceCulture);
             }
         }
         

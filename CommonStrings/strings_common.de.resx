@@ -141,7 +141,7 @@
   <data name="RightOffset" xml:space="preserve">
     <value>Rechter Versatz</value>
   </data>
-  <data name="WindowBorder_Description" xml:space="preserve">
+  <data name="WindowBorder_Tooltip" xml:space="preserve">
     <value>Diese Werte stellen den Versatz dar, den der eigentliche Spielbildschirm im Verhältnis zum gesamten Clientfenster hat. Stellen Sie die Werte so ein, dass Sie keinen Fensterrahmen in den Bildern der Spielecken sehen.</value>
   </data>
   <data name="TopLeftCorner" xml:space="preserve">

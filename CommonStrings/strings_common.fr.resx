@@ -141,7 +141,7 @@
   <data name="RightOffset" xml:space="preserve">
     <value>Décalage à droite</value>
   </data>
-  <data name="WindowBorder_Description" xml:space="preserve">
+  <data name="WindowBorder_Tooltip" xml:space="preserve">
     <value>Ces valeurs représentent le décalage de l'écran de jeu réel par rapport à l'ensemble de la fenêtre du client. Définissez les valeurs de manière à ne pas voir de cadre de fenêtre dans les images des coins du jeu.</value>
   </data>
   <data name="TopLeftCorner" xml:space="preserve">

@@ -147,11 +147,11 @@
   <data name="AutoFix_Tooltip" xml:space="preserve">
     <value>Cuando no consiga cambiar a un personaje, repase automáticamente los personajes para fijar su orden.</value>
   </data>
-  <data name="AutoLogin_Description" xml:space="preserve">
+  <data name="AutoLogin_Tooltip" xml:space="preserve">
     <value>Si se activa en la primera carga de Blish y estando en la selección de personaje el módulo entra en el juego. Después de entrar en el juego esperará hasta que el MumbleLink y el API Token estén completamente cargados.
 Una vez cargado por completo, cambiará al personaje que está configurado como "Personaje de inicio de sesión".</value>
   </data>
-  <data name="AutoLogin_DisplayName" xml:space="preserve">
+  <data name="AutoLogin" xml:space="preserve">
     <value>Inicio de sesión automático del personaje seleccionado</value>
   </data>
   <data name="BestResultLargerDisclaimer" xml:space="preserve">
@@ -244,10 +244,10 @@ Una vez cargado por completo, cambiará al personaje que está configurado como 
   <data name="Close" xml:space="preserve">
     <value>Cerrar</value>
   </data>
-  <data name="CloseWindowOnSwap_Description" xml:space="preserve">
+  <data name="CloseWindowOnSwap_Tooltip" xml:space="preserve">
     <value>Cierra la ventana del módulo al entrar en un personaje.</value>
   </data>
-  <data name="CloseWindowOnSwap_DisplayName" xml:space="preserve">
+  <data name="CloseWindowOnSwap" xml:space="preserve">
     <value>Cerrar ventana al cambiar de personaje</value>
   </data>
   <data name="CoreProfession" xml:space="preserve">
@@ -286,16 +286,16 @@ Una vez cargado por completo, cambiará al personaje que está configurado como 
   <data name="DetailedTooltip" xml:space="preserve">
     <value>Información detallada</value>
   </data>
-  <data name="DetailedTooltip_Description" xml:space="preserve">
+  <data name="DetailedTooltip_Tooltip" xml:space="preserve">
     <value>Muestra un tooltip detallado al pasar el ratón sobre un personaje de la lista de personajes. El tooltip mostrará toda la información disponible para ese personaje.</value>
   </data>
   <data name="Display" xml:space="preserve">
     <value>Mostrar</value>
   </data>
-  <data name="DoubleClickToEnter_Description" xml:space="preserve">
+  <data name="DoubleClickToEnter_Tooltip" xml:space="preserve">
     <value>Permite hacer doble clic en el personaje de la lista de personajes para acceder a ese personaje</value>
   </data>
-  <data name="DoubleClickToEnter_DisplayName" xml:space="preserve">
+  <data name="DoubleClickToEnter" xml:space="preserve">
     <value>Doble clic para intercambiar</value>
   </data>
   <data name="DoubleClickToSwap" xml:space="preserve">
@@ -325,16 +325,16 @@ Una vez cargado por completo, cambiará al personaje que está configurado como 
   <data name="EmptyColumn_Tooltip" xml:space="preserve">
     <value>Columna de píxeles que no contiene ningún píxel 'blanco'</value>
   </data>
-  <data name="EnterOnSwap_Description" xml:space="preserve">
+  <data name="EnterOnSwap_Tooltip" xml:space="preserve">
     <value>Entrar en el juego automáticamente después de seleccionar el personaje en la selección de personajes</value>
   </data>
-  <data name="EnterOnSwap_DisplayName" xml:space="preserve">
+  <data name="EnterOnSwap" xml:space="preserve">
     <value>Registro tras la selección del personaje</value>
   </data>
-  <data name="EnterToLogin_Description" xml:space="preserve">
+  <data name="EnterToLogin_Tooltip" xml:space="preserve">
     <value>Cuando el cuadro de búsqueda está enfocado y se pulsa 'RETURN', se desplaza al primer carácter de la lista.</value>
   </data>
-  <data name="EnterToLogin_DisplayName" xml:space="preserve">
+  <data name="EnterToLogin" xml:space="preserve">
     <value>Pulse Enter para cambiar</value>
   </data>
   <data name="Error_Competivive" xml:space="preserve">
@@ -349,23 +349,23 @@ Una vez cargado por completo, cambiará al personaje que está configurado como 
   <data name="ExcludeMatches" xml:space="preserve">
     <value>Excluir coincidencias</value>
   </data>
-  <data name="FadeOut_Description" xml:space="preserve">
+  <data name="FadeOut_Tooltip" xml:space="preserve">
     <value>Desvanecer el filtro y la ventana de personajes automáticamente después de 2500 ms</value>
   </data>
-  <data name="FadeOut_DisplayName" xml:space="preserve">
+  <data name="FadeOut" xml:space="preserve">
     <value>Desvanecer menú lateral</value>
   </data>
   <data name="Filter" xml:space="preserve">
     <value>Filtrar</value>
   </data>
-  <data name="FilterDelay_Description" xml:space="preserve">
+  <data name="FilterDelay_Tooltip" xml:space="preserve">
     <value>Tiempo medio en milisegundos de espera entre el filtrado del panel de tus personajes.
 Para obtener el valor actual tendrás que cambiar las pestañas del módulo una vez para actualizar la página de configuración!</value>
   </data>
-  <data name="FilterDelay_DisplayName" xml:space="preserve">
+  <data name="FilterDelay" xml:space="preserve">
     <value>Retraso del filtro ({0} ms)</value>
   </data>
-  <data name="FilterDiacriticsInsensitive_DisplayName" xml:space="preserve">
+  <data name="FilterDiacriticsInsensitive" xml:space="preserve">
     <value>Ignorar diacríticos</value>
   </data>
   <data name="FilterToggles" xml:space="preserve">
@@ -389,10 +389,10 @@ Para obtener el valor actual tendrás que cambiar las pestañas del módulo una 
   <data name="FixCharacter_Start" xml:space="preserve">
     <value>Fijar personaje ...</value>
   </data>
-  <data name="FocusFilter_Description" xml:space="preserve">
+  <data name="FocusFilter_Tooltip" xml:space="preserve">
     <value>Al mostrar el menú principal, enfocar automáticamente el campo de búsqueda</value>
   </data>
-  <data name="FocusFilter_DisplayName" xml:space="preserve">
+  <data name="FocusFilter" xml:space="preserve">
     <value>Campo de búsqueda de enfoque</value>
   </data>
   <data name="Folder" xml:space="preserve">
@@ -425,10 +425,10 @@ Para obtener el valor actual tendrás que cambiar las pestañas del módulo una 
   <data name="Keybinds" xml:space="preserve">
     <value>Combinaciones de teclas</value>
   </data>
-  <data name="KeyDelay_Description" xml:space="preserve">
+  <data name="KeyDelay_Tooltip" xml:space="preserve">
     <value>Añade un retardo entre las pulsaciones de las teclas. Esto ralentiza el intercambio de personajes y sólo se debe utilizar si su PC está tan estresado que no es capaz de cambiar sin un retraso!</value>
   </data>
-  <data name="KeyDelay_DisplayName" xml:space="preserve">
+  <data name="KeyDelay" xml:space="preserve">
     <value>Retardo de tecla {0} ms</value>
   </data>
   <data name="Large" xml:space="preserve">
@@ -498,10 +498,10 @@ Para obtener el valor actual tendrás que cambiar las pestañas del módulo una 
   <data name="OnlyMaxCrafting" xml:space="preserve">
     <value>Sólo artesanía máx</value>
   </data>
-  <data name="OnlyMaxCrafting_Description" xml:space="preserve">
+  <data name="OnlyMaxCrafting_Tooltip" xml:space="preserve">
     <value>Mostrar sólo las disciplinas que están en un rango de 500 (joyero y escriba en 400).</value>
   </data>
-  <data name="OnlyMaxCrafting_DisplayName" xml:space="preserve">
+  <data name="OnlyMaxCrafting" xml:space="preserve">
     <value>Mostrar sólo las disciplinas de artesanía maximizadas</value>
   </data>
   <data name="OnlyText" xml:space="preserve">
@@ -516,10 +516,10 @@ Para obtener el valor actual tendrás que cambiar las pestañas del módulo una 
   <data name="Order" xml:space="preserve">
     <value>Ordenar</value>
   </data>
-  <data name="PinSideMenus_Description" xml:space="preserve">
+  <data name="PinSideMenus_Tooltip" xml:space="preserve">
     <value>Evitar que los menús laterales se desvanezcan</value>
   </data>
-  <data name="PinSideMenus_DisplayName" xml:space="preserve">
+  <data name="PinSideMenus" xml:space="preserve">
     <value>Fijar menús laterales</value>
   </data>
   <data name="PotraitFrame" xml:space="preserve">
@@ -579,16 +579,16 @@ Para obtener el valor actual tendrás que cambiar las pestañas del módulo una 
   <data name="Settings" xml:space="preserve">
     <value>Configuraciones</value>
   </data>
-  <data name="ShortcutToggle_Description" xml:space="preserve">
+  <data name="ShortcutToggle_Tooltip" xml:space="preserve">
     <value>para acceder al menú de personajes.</value>
   </data>
-  <data name="ShortcutToggle_DisplayName" xml:space="preserve">
+  <data name="ShortcutToggle" xml:space="preserve">
     <value>Menú alternativo</value>
   </data>
-  <data name="ShowCornerIcon_Description" xml:space="preserve">
+  <data name="ShowCornerIcon_Tooltip" xml:space="preserve">
     <value>Mostrar/Ocultar el icono de la esquina</value>
   </data>
-  <data name="ShowCornerIcon_DisplayName" xml:space="preserve">
+  <data name="ShowCornerIcon" xml:space="preserve">
     <value>Mostrar el icono de la esquina</value>
   </data>
   <data name="ShowCorner_Name" xml:space="preserve">
@@ -612,13 +612,13 @@ Para obtener el valor actual tendrás que cambiar las pestañas del módulo una 
   <data name="ShowOnlyMaxCrafting" xml:space="preserve">
     <value>Mostrar sólo Max Crafting</value>
   </data>
-  <data name="ShowRandomButton_Description" xml:space="preserve">
+  <data name="ShowRandomButton_Tooltip" xml:space="preserve">
     <value>Muestra un botón junto al campo de búsqueda para cambiar a un personaje aleatorio de su lista</value>
   </data>
   <data name="ShowRandomButton_Name" xml:space="preserve">
     <value>Mostrar botón aleatorio</value>
   </data>
-  <data name="ShowStatusWindow_Description" xml:space="preserve">
+  <data name="ShowStatusWindow_Tooltip" xml:space="preserve">
     <value>Muestra una ventana emergente mientras se realiza cualquier acción automatizada</value>
   </data>
   <data name="ShowStatusWindow_Name" xml:space="preserve">
@@ -645,17 +645,17 @@ Para obtener el valor actual tendrás que cambiar las pestañas del módulo una 
   <data name="SwapBehavior" xml:space="preserve">
     <value>Comportamiento de intercambio</value>
   </data>
-  <data name="SwapDelay_Description" xml:space="preserve">
+  <data name="SwapDelay_Tooltip" xml:space="preserve">
     <value>Tiempo medio de carga desde el inicio del juego hasta la selección del personaje.
 Para obtener el valor actual tendrás que cambiar las pestañas del módulo una vez para actualizar la página de configuración!</value>
   </data>
-  <data name="SwapDelay_DisplayName" xml:space="preserve">
+  <data name="SwapDelay" xml:space="preserve">
     <value>Demora de carga ({0} ms)</value>
   </data>
-  <data name="SwapModifier_Description" xml:space="preserve">
+  <data name="SwapModifier_Tooltip" xml:space="preserve">
     <value>Sólo cuando se pulsa el modificador se desencadena el cambio de personaje. Así se evita el intercambio accidental!</value>
   </data>
-  <data name="SwapModifier_DisplayName" xml:space="preserve">
+  <data name="SwapModifier" xml:space="preserve">
     <value>Modificador necesario para cambiar</value>
   </data>
   <data name="Switch" xml:space="preserve">
@@ -742,13 +742,13 @@ Para obtener el valor actual tendrás que cambiar las pestañas del módulo una 
   <data name="Female" xml:space="preserve">
     <value>Mujer</value>
   </data>
-  <data name="FilterAsOne_Description" xml:space="preserve">
+  <data name="FilterAsOne_Tooltip" xml:space="preserve">
     <value>Utilizar todo el texto del cuadro de filtro como un único término de filtro</value>
   </data>
-  <data name="FilterAsOne_DisplayName" xml:space="preserve">
+  <data name="FilterAsOne" xml:space="preserve">
     <value>Cadena de filtros única</value>
   </data>
-  <data name="FilterDiacriticsInsensitive_Description" xml:space="preserve">
+  <data name="FilterDiacriticsInsensitive_Tooltip" xml:space="preserve">
     <value>Ignora cualquier tipo de diacrítico esto trata las siguientes letras como su 'letra madre'
 [Ææ] se convierte en [Aeae]
 [Œœ] se convierte en [Oeoe]
@@ -766,25 +766,25 @@ Para obtener el valor actual tendrás que cambiar las pestañas del módulo una 
   <data name="GW2API" xml:space="preserve">
     <value>API DE GW2</value>
   </data>
-  <data name="LoadCachedAccounts_Description" xml:space="preserve">
+  <data name="LoadCachedAccounts_Tooltip" xml:space="preserve">
     <value>Intenta obtener el nombre de la cuenta de los archivos en caché.</value>
   </data>
-  <data name="LoadCachedAccounts_DisplayName" xml:space="preserve">
+  <data name="LoadCachedAccounts" xml:space="preserve">
     <value>Cargar desde caché</value>
   </data>
   <data name="Male" xml:space="preserve">
     <value>Hombre</value>
   </data>
-  <data name="OpenSidemenuOnSearch_Description" xml:space="preserve">
+  <data name="OpenSidemenuOnSearch_Tooltip" xml:space="preserve">
     <value>Abrir el menú lateral al hacer clic en el campo de búsqueda</value>
   </data>
-  <data name="OpenSidemenuOnSearch_DisplayName" xml:space="preserve">
+  <data name="OpenSidemenuOnSearch" xml:space="preserve">
     <value>Abrir menú lateral en la búsqueda</value>
   </data>
-  <data name="NormalizedNames_DisplayName" xml:space="preserve">
+  <data name="NormalizedNames" xml:space="preserve">
     <value>Utilizar nombres de caracteres normalizados</value>
   </data>
-  <data name="NormalizedNames_Description" xml:space="preserve">
+  <data name="NormalizedNames_Tooltip" xml:space="preserve">
     <value>Utilice nombres de caracteres normalizados en la búsqueda para que las letras especiales sean tratadas como su "letra madre".
 Aa : Áá Ââ Ää Àà Ææ
 Cc : Çç
@@ -797,10 +797,10 @@ Uu : Üü Ûû Ùù</value>
   <data name="AutoFix" xml:space="preserve">
     <value>Corrección automática (requiere OCR)</value>
   </data>
-  <data name="UseBetaGameState_Description" xml:space="preserve">
+  <data name="UseBetaGameState_Tooltip" xml:space="preserve">
     <value>Utiliza Image Recoginition para detectar si estás dentro del juego, viendo una escena o en una pantalla de carga. Esta función funciona bien en todas las proporciones de pantalla habituales, excepto en los juegos en modo vertical.</value>
   </data>
-  <data name="UseBetaGameState_DisplayName" xml:space="preserve">
+  <data name="UseBetaGameState" xml:space="preserve">
     <value>Utilizar la detección del estado del juego</value>
   </data>
   <data name="OCRAndImageRecognition" xml:space="preserve">

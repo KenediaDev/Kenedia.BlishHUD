@@ -121,7 +121,7 @@
   <data name="RightOffset" xml:space="preserve">
     <value>Right Offset</value>
   </data>
-  <data name="WindowBorder_Description" xml:space="preserve">
+  <data name="WindowBorder_Tooltip" xml:space="preserve">
     <value>These values represent the offset the actual game screen has in relation to the whole client window. Set the values so you don't see any window frame in the images of the game corners.</value>
   </data>
   <data name="TopLeftCorner" xml:space="preserve">

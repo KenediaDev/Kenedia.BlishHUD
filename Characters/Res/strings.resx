@@ -150,11 +150,11 @@
   <data name="AutoFix_Tooltip" xml:space="preserve">
     <value>When failing to swap to a character automatically go through the characters to fix their order.</value>
   </data>
-  <data name="AutoLogin_Description" xml:space="preserve">
+  <data name="AutoLogin_Tooltip" xml:space="preserve">
     <value>If enabled on the first load of Blish and beeing in character selection the module enters the game. After entering the game it will wait until the MumbleLink and API Token is fully loaded.
 Once fully loaded it will switch to the character which is set to be the "Login Character".</value>
   </data>
-  <data name="AutoLogin_DisplayName" xml:space="preserve">
+  <data name="AutoLogin" xml:space="preserve">
     <value>Auto Login to selected Character</value>
   </data>
   <data name="BestResultLargerDisclaimer" xml:space="preserve">
@@ -247,10 +247,10 @@ Once fully loaded it will switch to the character which is set to be the "Login 
   <data name="Close" xml:space="preserve">
     <value>Close</value>
   </data>
-  <data name="CloseWindowOnSwap_Description" xml:space="preserve">
+  <data name="CloseWindowOnSwap_Tooltip" xml:space="preserve">
     <value>Closes the module window when logging in to a character.</value>
   </data>
-  <data name="CloseWindowOnSwap_DisplayName" xml:space="preserve">
+  <data name="CloseWindowOnSwap" xml:space="preserve">
     <value>Close Window on Character Swap</value>
   </data>
   <data name="CoreProfession" xml:space="preserve">
@@ -289,16 +289,16 @@ Once fully loaded it will switch to the character which is set to be the "Login 
   <data name="DetailedTooltip" xml:space="preserve">
     <value>Detailed Tooltip</value>
   </data>
-  <data name="DetailedTooltip_Description" xml:space="preserve">
+  <data name="DetailedTooltip_Tooltip" xml:space="preserve">
     <value>Show a detailed tooltip when hovering a character in the character list. The tooltip will expose all informations available for that character.</value>
   </data>
   <data name="Display" xml:space="preserve">
     <value>Display</value>
   </data>
-  <data name="DoubleClickToEnter_Description" xml:space="preserve">
+  <data name="DoubleClickToEnter_Tooltip" xml:space="preserve">
     <value>Enables double clicking the character in the character list to login to that character</value>
   </data>
-  <data name="DoubleClickToEnter_DisplayName" xml:space="preserve">
+  <data name="DoubleClickToEnter" xml:space="preserve">
     <value>Double Click to Swap</value>
   </data>
   <data name="DoubleClickToSwap" xml:space="preserve">
@@ -328,16 +328,16 @@ Once fully loaded it will switch to the character which is set to be the "Login 
   <data name="EmptyColumn_Tooltip" xml:space="preserve">
     <value>Pixel Column which does not contain any 'white'ish' pixels</value>
   </data>
-  <data name="EnterOnSwap_Description" xml:space="preserve">
+  <data name="EnterOnSwap_Tooltip" xml:space="preserve">
     <value>Enter the game automatically after selecting the character in the character selection</value>
   </data>
-  <data name="EnterOnSwap_DisplayName" xml:space="preserve">
+  <data name="EnterOnSwap" xml:space="preserve">
     <value>Login after selecting the character</value>
   </data>
-  <data name="EnterToLogin_Description" xml:space="preserve">
+  <data name="EnterToLogin_Tooltip" xml:space="preserve">
     <value>If the searchbox is focused pressing 'RETURN' will log to the first character in the list.</value>
   </data>
-  <data name="EnterToLogin_DisplayName" xml:space="preserve">
+  <data name="EnterToLogin" xml:space="preserve">
     <value>Press Enter to swap</value>
   </data>
   <data name="Error_Competivive" xml:space="preserve">
@@ -352,10 +352,10 @@ Once fully loaded it will switch to the character which is set to be the "Login 
   <data name="ExcludeMatches" xml:space="preserve">
     <value>Exclude matches</value>
   </data>
-  <data name="FadeOut_Description" xml:space="preserve">
+  <data name="FadeOut_Tooltip" xml:space="preserve">
     <value>Fade the side menus automatically after 2.5 seconds</value>
   </data>
-  <data name="FadeOut_DisplayName" xml:space="preserve">
+  <data name="FadeOut" xml:space="preserve">
     <value>Fade side menu</value>
   </data>
   <data name="Female" xml:space="preserve">
@@ -364,20 +364,20 @@ Once fully loaded it will switch to the character which is set to be the "Login 
   <data name="Filter" xml:space="preserve">
     <value>Filter</value>
   </data>
-  <data name="FilterAsOne_Description" xml:space="preserve">
+  <data name="FilterAsOne_Tooltip" xml:space="preserve">
     <value>Use all text of the filterbox as one single filter term</value>
   </data>
-  <data name="FilterAsOne_DisplayName" xml:space="preserve">
+  <data name="FilterAsOne" xml:space="preserve">
     <value>Single filter string</value>
   </data>
-  <data name="FilterDelay_Description" xml:space="preserve">
+  <data name="FilterDelay_Tooltip" xml:space="preserve">
     <value>Average time in milliseconds waited between filtering your characters' panel.
 To get the current value you will have to swap module tabs once to update the settings page!</value>
   </data>
-  <data name="FilterDelay_DisplayName" xml:space="preserve">
+  <data name="FilterDelay" xml:space="preserve">
     <value>Filter Delay ({0} ms)</value>
   </data>
-  <data name="FilterDiacriticsInsensitive_Description" xml:space="preserve">
+  <data name="FilterDiacriticsInsensitive_Tooltip" xml:space="preserve">
     <value>Ignore any type of diacritics this treats the following  letters as their 'parent letter'
 [Ææ] become [Aeae]
 [Œœ] become [Oeoe]
@@ -389,7 +389,7 @@ To get the current value you will have to swap module tabs once to update the se
 [Ôô Öö Óó] become [Oo]
 [Úú Üü Ûû Ùù] become [Uu]</value>
   </data>
-  <data name="FilterDiacriticsInsensitive_DisplayName" xml:space="preserve">
+  <data name="FilterDiacriticsInsensitive" xml:space="preserve">
     <value>Ignore diacritics</value>
   </data>
   <data name="FilterToggles" xml:space="preserve">
@@ -413,10 +413,10 @@ To get the current value you will have to swap module tabs once to update the se
   <data name="FixCharacter_Start" xml:space="preserve">
     <value>Fixing characters ...</value>
   </data>
-  <data name="FocusFilter_Description" xml:space="preserve">
+  <data name="FocusFilter_Tooltip" xml:space="preserve">
     <value>When toggling the main menu to show, automatically focus the search field</value>
   </data>
-  <data name="FocusFilter_DisplayName" xml:space="preserve">
+  <data name="FocusFilter" xml:space="preserve">
     <value>Focus search field</value>
   </data>
   <data name="Folder" xml:space="preserve">
@@ -455,10 +455,10 @@ To get the current value you will have to swap module tabs once to update the se
   <data name="Keybinds" xml:space="preserve">
     <value>Keybinds</value>
   </data>
-  <data name="KeyDelay_Description" xml:space="preserve">
+  <data name="KeyDelay_Tooltip" xml:space="preserve">
     <value>Adds a delay between key presses. This slows down the character swapping and should only be used if your PC is stressed that much so it isn't able to switch without a delay!</value>
   </data>
-  <data name="KeyDelay_DisplayName" xml:space="preserve">
+  <data name="KeyDelay" xml:space="preserve">
     <value>Key Delay {0} ms</value>
   </data>
   <data name="Large" xml:space="preserve">
@@ -479,10 +479,10 @@ To get the current value you will have to swap module tabs once to update the se
   <data name="LevelAmount" xml:space="preserve">
     <value>Level {0}</value>
   </data>
-  <data name="LoadCachedAccounts_Description" xml:space="preserve">
+  <data name="LoadCachedAccounts_Tooltip" xml:space="preserve">
     <value>Try to get the account name from cached files.</value>
   </data>
-  <data name="LoadCachedAccounts_DisplayName" xml:space="preserve">
+  <data name="LoadCachedAccounts" xml:space="preserve">
     <value>Load from cache</value>
   </data>
   <data name="LoginCharacter" xml:space="preserve">
@@ -537,10 +537,10 @@ This will require an API-Key with permissions at least for the 'characters' endp
   <data name="OnlyMaxCrafting" xml:space="preserve">
     <value>Only max. Crafting</value>
   </data>
-  <data name="OnlyMaxCrafting_Description" xml:space="preserve">
+  <data name="OnlyMaxCrafting_Tooltip" xml:space="preserve">
     <value>Show only crafts that are at a 500 rank (Jeweler &amp; Scribe at 400).</value>
   </data>
-  <data name="OnlyMaxCrafting_DisplayName" xml:space="preserve">
+  <data name="OnlyMaxCrafting" xml:space="preserve">
     <value>Show only maxed out crafting Professions</value>
   </data>
   <data name="OnlyText" xml:space="preserve">
@@ -552,19 +552,19 @@ This will require an API-Key with permissions at least for the 'characters' endp
   <data name="OpenPortraitFolder" xml:space="preserve">
     <value>Open Potrait Folder</value>
   </data>
-  <data name="OpenSidemenuOnSearch_Description" xml:space="preserve">
+  <data name="OpenSidemenuOnSearch_Tooltip" xml:space="preserve">
     <value>Open the side menu when clicking the search field</value>
   </data>
-  <data name="OpenSidemenuOnSearch_DisplayName" xml:space="preserve">
+  <data name="OpenSidemenuOnSearch" xml:space="preserve">
     <value>Open side menu on search</value>
   </data>
   <data name="Order" xml:space="preserve">
     <value>Order</value>
   </data>
-  <data name="PinSideMenus_Description" xml:space="preserve">
+  <data name="PinSideMenus_Tooltip" xml:space="preserve">
     <value>Prevent the side menus from fading out</value>
   </data>
-  <data name="PinSideMenus_DisplayName" xml:space="preserve">
+  <data name="PinSideMenus" xml:space="preserve">
     <value>Pin side menus</value>
   </data>
   <data name="PotraitFrame" xml:space="preserve">
@@ -624,16 +624,16 @@ This will require an API-Key with permissions at least for the 'characters' endp
   <data name="Settings" xml:space="preserve">
     <value>Settings</value>
   </data>
-  <data name="ShortcutToggle_Description" xml:space="preserve">
+  <data name="ShortcutToggle_Tooltip" xml:space="preserve">
     <value>Key to Press to toggle the characters menu.</value>
   </data>
-  <data name="ShortcutToggle_DisplayName" xml:space="preserve">
+  <data name="ShortcutToggle" xml:space="preserve">
     <value>Toggle Menu</value>
   </data>
-  <data name="ShowCornerIcon_Description" xml:space="preserve">
+  <data name="ShowCornerIcon_Tooltip" xml:space="preserve">
     <value>Show/Hide Corner Icon</value>
   </data>
-  <data name="ShowCornerIcon_DisplayName" xml:space="preserve">
+  <data name="ShowCornerIcon" xml:space="preserve">
     <value>Show Corner Icon</value>
   </data>
   <data name="ShowCorner_Name" xml:space="preserve">
@@ -657,13 +657,13 @@ This will require an API-Key with permissions at least for the 'characters' endp
   <data name="ShowOnlyMaxCrafting" xml:space="preserve">
     <value>Show Only Max Crafting</value>
   </data>
-  <data name="ShowRandomButton_Description" xml:space="preserve">
+  <data name="ShowRandomButton_Tooltip" xml:space="preserve">
     <value>Shows a button next to the search field to switch to a random character of your list</value>
   </data>
   <data name="ShowRandomButton_Name" xml:space="preserve">
     <value>Show Random Button</value>
   </data>
-  <data name="ShowStatusWindow_Description" xml:space="preserve">
+  <data name="ShowStatusWindow_Tooltip" xml:space="preserve">
     <value>Displays a popup while any automated action is performed</value>
   </data>
   <data name="ShowStatusWindow_Name" xml:space="preserve">
@@ -690,17 +690,17 @@ This will require an API-Key with permissions at least for the 'characters' endp
   <data name="SwapBehavior" xml:space="preserve">
     <value>Swap Behavior</value>
   </data>
-  <data name="SwapDelay_Description" xml:space="preserve">
+  <data name="SwapDelay_Tooltip" xml:space="preserve">
     <value>Avg. loading time from ingame to character selection.
 To get the current value you will have to swap module tabs once to update the settings page!</value>
   </data>
-  <data name="SwapDelay_DisplayName" xml:space="preserve">
+  <data name="SwapDelay" xml:space="preserve">
     <value>Loading Delay ({0} ms)</value>
   </data>
-  <data name="SwapModifier_Description" xml:space="preserve">
+  <data name="SwapModifier_Tooltip" xml:space="preserve">
     <value>Only if the Modifier is pressed trigger character swapping. This will prevent accidientally swapping!</value>
   </data>
-  <data name="SwapModifier_DisplayName" xml:space="preserve">
+  <data name="SwapModifier" xml:space="preserve">
     <value>Require Modifier to swap</value>
   </data>
   <data name="Switch" xml:space="preserve">
@@ -763,10 +763,10 @@ To get the current value you will have to swap module tabs once to update the se
   <data name="Updating" xml:space="preserve">
     <value>Updating {0}</value>
   </data>
-  <data name="UseBetaGameState_Description" xml:space="preserve">
+  <data name="UseBetaGameState_Tooltip" xml:space="preserve">
     <value>Use Image Recoginition to detect if you are ingame, watching a cutscene or sit in a loading screen. This feature works well for all common screen ratios with the exception of games in portrait mode.</value>
   </data>
-  <data name="UseBetaGameState_DisplayName" xml:space="preserve">
+  <data name="UseBetaGameState" xml:space="preserve">
     <value>Use Gamestate Detection</value>
   </data>
   <data name="UseOCR" xml:space="preserve">
@@ -790,10 +790,10 @@ To get the current value you will have to swap module tabs once to update the se
   <data name="Years" xml:space="preserve">
     <value>Years</value>
   </data>
-  <data name="NormalizedNames_DisplayName" xml:space="preserve">
+  <data name="NormalizedNames" xml:space="preserve">
     <value>Use normalized character names</value>
   </data>
-  <data name="NormalizedNames_Description" xml:space="preserve">
+  <data name="NormalizedNames_Tooltip" xml:space="preserve">
     <value>Use normalized character names when searching so special letters will be treated as their 'parent letter'
 Aa : Áá Ââ Ää Àà Ææ 
 Cc : Çç 

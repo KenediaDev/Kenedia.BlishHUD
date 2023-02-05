@@ -143,7 +143,7 @@ namespace Kenedia.Modules.Characters.Controls.SideMenu
                 ColorActive = ContentService.Colors.ColonialWhite,
                 Size = new(20, 20),
                 Active = Settings.PinSideMenus.Value,
-                SetLocalizedTooltip= () => strings.PinSideMenus_Description,
+                SetLocalizedTooltip= () => strings.PinSideMenus_Tooltip,
             };
             _buttons.Add(_pinButton);
 

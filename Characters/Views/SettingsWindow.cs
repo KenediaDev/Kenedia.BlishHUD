@@ -123,8 +123,8 @@ namespace Kenedia.Modules.Characters.Views
             {
                 Parent = settingsFlowPanel,
                 Checked = Settings.UseBetaGamestate.Value,
-                SetLocalizedText = () => strings.UseBetaGameState_DisplayName,
-                SetLocalizedTooltip = () => strings.UseBetaGameState_Description,
+                SetLocalizedText = () => strings.UseBetaGameState,
+                SetLocalizedTooltip = () => strings.UseBetaGameState_Tooltip,
                 CheckedChangedAction = (b) => Settings.UseBetaGamestate.Value = b,
             };
 
@@ -210,8 +210,8 @@ namespace Kenedia.Modules.Characters.Views
                         IgnoreWhenInTextField = true,
                     };
                 },
-                SetLocalizedKeyBindingName = () => strings.ShortcutToggle_DisplayName,
-                SetLocalizedTooltip = () => strings.ShortcutToggle_Description,
+                SetLocalizedKeyBindingName = () => strings.ShortcutToggle,
+                SetLocalizedTooltip = () => strings.ShortcutToggle_Tooltip,
             };
 
             _ = new KeybindingAssigner()
@@ -264,8 +264,8 @@ namespace Kenedia.Modules.Characters.Views
             {
                 Parent = cP,
                 Checked = Settings.EnterOnSwap.Value,
-                SetLocalizedText = () => strings.EnterOnSwap_DisplayName,
-                SetLocalizedTooltip = () => strings.EnterOnSwap_Description,
+                SetLocalizedText = () => strings.EnterOnSwap,
+                SetLocalizedTooltip = () => strings.EnterOnSwap_Tooltip,
                 CheckedChangedAction = (b) => Settings.EnterOnSwap.Value = b,
             };
 
@@ -273,8 +273,8 @@ namespace Kenedia.Modules.Characters.Views
             {
                 Parent = cP,
                 Checked = Settings.CloseWindowOnSwap.Value,
-                SetLocalizedText = () => strings.CloseWindowOnSwap_DisplayName,
-                SetLocalizedTooltip = () => strings.CloseWindowOnSwap_Description,
+                SetLocalizedText = () => strings.CloseWindowOnSwap,
+                SetLocalizedTooltip = () => strings.CloseWindowOnSwap_Tooltip,
                 CheckedChangedAction = (b) => Settings.CloseWindowOnSwap.Value = b,
             };
 
@@ -282,8 +282,8 @@ namespace Kenedia.Modules.Characters.Views
             {
                 Parent = cP,
                 Checked = Settings.DoubleClickToEnter.Value,
-                SetLocalizedText = () => strings.DoubleClickToEnter_DisplayName,
-                SetLocalizedTooltip = () => strings.DoubleClickToEnter_Description,
+                SetLocalizedText = () => strings.DoubleClickToEnter,
+                SetLocalizedTooltip = () => strings.DoubleClickToEnter_Tooltip,
                 CheckedChangedAction = (b) => Settings.DoubleClickToEnter.Value = b,
             };
 
@@ -291,8 +291,8 @@ namespace Kenedia.Modules.Characters.Views
             {
                 Parent = cP,
                 Checked = Settings.EnterToLogin.Value,
-                SetLocalizedText = () => strings.EnterToLogin_DisplayName,
-                SetLocalizedTooltip = () => strings.EnterToLogin_Description,
+                SetLocalizedText = () => strings.EnterToLogin,
+                SetLocalizedTooltip = () => strings.EnterToLogin_Tooltip,
                 CheckedChangedAction = (b) => Settings.EnterToLogin.Value = b,
             };
 
@@ -309,8 +309,8 @@ namespace Kenedia.Modules.Characters.Views
             {
                 Parent = cP,
                 Checked = Settings.FilterDiacriticsInsensitive.Value,
-                SetLocalizedText = () => strings.FilterDiacriticsInsensitive_DisplayName,
-                SetLocalizedTooltip = () => strings.FilterDiacriticsInsensitive_Description,
+                SetLocalizedText = () => strings.FilterDiacriticsInsensitive,
+                SetLocalizedTooltip = () => strings.FilterDiacriticsInsensitive_Tooltip,
                 CheckedChangedAction = (b) => Settings.FilterDiacriticsInsensitive.Value = b,
             };
 
@@ -318,8 +318,8 @@ namespace Kenedia.Modules.Characters.Views
             {
                 Parent = cP,
                 Checked = Settings.FilterAsOne.Value,
-                SetLocalizedText = () => strings.FilterAsOne_DisplayName,
-                SetLocalizedTooltip = () => strings.FilterAsOne_Description,
+                SetLocalizedText = () => strings.FilterAsOne,
+                SetLocalizedTooltip = () => strings.FilterAsOne_Tooltip,
                 CheckedChangedAction = (b) => Settings.FilterAsOne.Value = b,
             };
             #endregion Behavior
@@ -363,7 +363,7 @@ namespace Kenedia.Modules.Characters.Views
                 Parent = cP,
                 Checked = Settings.ShowRandomButton.Value,
                 SetLocalizedText = () => strings.ShowRandomButton_Name,
-                SetLocalizedTooltip = () => strings.ShowRandomButton_Description,
+                SetLocalizedTooltip = () => strings.ShowRandomButton_Tooltip,
                 CheckedChangedAction = (b) => Settings.ShowRandomButton.Value = b,
             };
 
@@ -372,7 +372,7 @@ namespace Kenedia.Modules.Characters.Views
                 Parent = cP,
                 Checked = Settings.ShowDetailedTooltip.Value,
                 SetLocalizedText = () => string.Format(strings.ShowItem, strings.DetailedTooltip),
-                SetLocalizedTooltip = () => strings.DetailedTooltip_Description,
+                SetLocalizedTooltip = () => strings.DetailedTooltip_Tooltip,
                 CheckedChangedAction = (b) => Settings.ShowDetailedTooltip.Value = b,
             };
 
@@ -586,8 +586,8 @@ namespace Kenedia.Modules.Characters.Views
                 Parent = subP,
                 AutoSizeWidth = true,
                 Height = 20,
-                SetLocalizedText = () => string.Format(strings.KeyDelay_DisplayName, Settings.KeyDelay.Value),
-                SetLocalizedTooltip = () => strings.KeyDelay_Description,
+                SetLocalizedText = () => string.Format(strings.KeyDelay, Settings.KeyDelay.Value),
+                SetLocalizedTooltip = () => strings.KeyDelay_Tooltip,
             };
 
             _ = new TrackBar()
@@ -617,8 +617,8 @@ namespace Kenedia.Modules.Characters.Views
                 Parent = subP,
                 AutoSizeWidth = true,
                 Height = 20,
-                SetLocalizedText = () => string.Format(strings.FilterDelay_DisplayName, Settings.FilterDelay.Value),
-                SetLocalizedTooltip = () => strings.FilterDelay_Description,
+                SetLocalizedText = () => string.Format(strings.FilterDelay, Settings.FilterDelay.Value),
+                SetLocalizedTooltip = () => strings.FilterDelay_Tooltip,
             };
 
             _ = new TrackBar()
@@ -648,8 +648,8 @@ namespace Kenedia.Modules.Characters.Views
                 Parent = subP,
                 AutoSizeWidth = true,
                 Height = 20,
-                SetLocalizedText = () => string.Format(strings.SwapDelay_DisplayName, Settings.SwapDelay.Value),
-                SetLocalizedTooltip = () => strings.SwapDelay_Description,
+                SetLocalizedText = () => string.Format(strings.SwapDelay, Settings.SwapDelay.Value),
+                SetLocalizedTooltip = () => strings.SwapDelay_Tooltip,
             };
 
             _ = new TrackBar()
@@ -698,8 +698,8 @@ namespace Kenedia.Modules.Characters.Views
                 Parent = cP,
                 Checked = Settings.LoadCachedAccounts.Value,
                 CheckedChangedAction = (b) => Settings.LoadCachedAccounts.Value = b,
-                SetLocalizedText = () => strings.LoadCachedAccounts_DisplayName,
-                SetLocalizedTooltip = () => strings.LoadCachedAccounts_Description,
+                SetLocalizedText = () => strings.LoadCachedAccounts,
+                SetLocalizedTooltip = () => strings.LoadCachedAccounts_Tooltip,
             };
 
             _ = new Checkbox()
@@ -707,7 +707,7 @@ namespace Kenedia.Modules.Characters.Views
                 Parent = cP,
                 Checked = Settings.ShowStatusWindow.Value,
                 SetLocalizedText = () => strings.ShowStatusWindow_Name,
-                SetLocalizedTooltip = () => strings.ShowStatusWindow_Description,
+                SetLocalizedTooltip = () => strings.ShowStatusWindow_Tooltip,
                 CheckedChangedAction = (b) => Settings.ShowStatusWindow.Value = b,
             };
 
@@ -725,8 +725,8 @@ namespace Kenedia.Modules.Characters.Views
                 Parent = cP,
                 Checked = Settings.OpenSidemenuOnSearch.Value,
                 CheckedChangedAction = (b) => Settings.OpenSidemenuOnSearch.Value = b,
-                SetLocalizedText = () => strings.OpenSidemenuOnSearch_DisplayName,
-                SetLocalizedTooltip = () => strings.OpenSidemenuOnSearch_Description,
+                SetLocalizedText = () => strings.OpenSidemenuOnSearch,
+                SetLocalizedTooltip = () => strings.OpenSidemenuOnSearch_Tooltip,
             };
 
             _ = new Checkbox()
