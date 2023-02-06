@@ -34,7 +34,7 @@ namespace Kenedia.Modules.Characters.Services
             FilterAsOne = internalSettings.DefineSetting(nameof(FilterAsOne), false);
             UseBetaGamestate = internalSettings.DefineSetting(nameof(UseBetaGamestate), true);
 
-            EnableRadialMenu = internalSettings.DefineSetting(nameof(EnableRadialMenu), false);
+            EnableRadialMenu = internalSettings.DefineSetting(nameof(EnableRadialMenu), true);
             Radial_Scale = internalSettings.DefineSetting(nameof(Radial_Scale), 0.66F);
             Radial_HoveredBorderColor = internalSettings.DefineSetting(nameof(Radial_HoveredBorderColor), ContentService.Colors.ColonialWhite);
             Radial_HoveredColor = internalSettings.DefineSetting(nameof(Radial_HoveredBorderColor), ContentService.Colors.ColonialWhite * 0.8F);
@@ -60,22 +60,20 @@ namespace Kenedia.Modules.Characters.Services
             EnterToLogin = internalSettings.DefineSetting(nameof(EnterToLogin), false);
             CheckDistance = internalSettings.DefineSetting(nameof(CheckDistance), 5);
             SwapDelay = internalSettings.DefineSetting(nameof(SwapDelay), 250);
-            KeyDelay = internalSettings.DefineSetting(nameof(KeyDelay), 0);
+            KeyDelay = internalSettings.DefineSetting(nameof(KeyDelay), 10);
             FilterDelay = internalSettings.DefineSetting(nameof(FilterDelay), 0);
             WindowSize = internalSettings.DefineSetting(nameof(CurrentWindowSize), new Point(385, 920));
             WindowOffset = internalSettings.DefineSetting(nameof(WindowOffset), new RectangleDimensions(8, 31, -8, -8));
             DisplayToggles = internalSettings.DefineSetting(nameof(DisplayToggles), new Dictionary<string, ShowCheckPair>());
 
             Point res = GameService.Graphics.Resolution;
-            //WindowedMode = internalSettings.DefineSetting(nameof(WindowedMode), false);
-            PinSideMenus = internalSettings.DefineSetting(nameof(PinSideMenus), true);
-            UseOCR = internalSettings.DefineSetting(nameof(UseOCR), false);
+            PinSideMenus = internalSettings.DefineSetting(nameof(PinSideMenus), false);
+            UseOCR = internalSettings.DefineSetting(nameof(UseOCR), true);
             AutoSortCharacters = internalSettings.DefineSetting(nameof(AutoSortCharacters), false);
             OCRRegion = internalSettings.DefineSetting(nameof(OCRRegion), new Rectangle(50, 550, 530, 50));
             OCRRegions = internalSettings.DefineSetting(nameof(OCRRegions), new Dictionary<string, Rectangle>());
-            OCRCustomOffset = internalSettings.DefineSetting(nameof(OCRCustomOffset), new RectangleDimensions(3, 3, 5, 5));
             OCRNoPixelColumns = internalSettings.DefineSetting(nameof(OCRNoPixelColumns), 20);
-            OCR_ColorThreshold = internalSettings.DefineSetting(nameof(OCR_ColorThreshold), 181);
+            OCR_ColorThreshold = internalSettings.DefineSetting(nameof(OCR_ColorThreshold), 180);
 
             PanelSize = internalSettings.DefineSetting(nameof(PanelSize), PanelSizes.Normal);
             CustomCharacterIconSize = internalSettings.DefineSetting(nameof(CustomCharacterIconSize), 128);
@@ -210,8 +208,6 @@ namespace Kenedia.Modules.Characters.Services
         public SettingEntry<Rectangle> OCRRegion { get; set; }
 
         public SettingEntry<Dictionary<string, Rectangle>> OCRRegions { get; set; }
-
-        public SettingEntry<RectangleDimensions> OCRCustomOffset { get; set; }
 
         public SettingEntry<bool> EnableRadialMenu { get; set; }
 
