@@ -603,6 +603,7 @@ namespace Kenedia.Modules.Characters
             TextureManager,
             CharacterModels,
             SearchFilters,
+            TagFilters,
             OCR.ToggleContainer,
             () => PotraitCapture.ToggleVisibility(),
             async () => await GW2APIHandler.CheckAPI(),

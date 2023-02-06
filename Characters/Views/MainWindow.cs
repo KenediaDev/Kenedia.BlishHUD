@@ -34,6 +34,7 @@ namespace Kenedia.Modules.Characters.Views
         private readonly TextureManager _textureManager;
         private readonly ObservableCollection<Character_Model> _characterModels;
         private readonly SearchFilterCollection _searchFilters;
+        private readonly SearchFilterCollection _tagFilters;
         private readonly Func<Character_Model> _currentCharacter;
         private readonly Data _data;
         private readonly AsyncTexture2D _windowEmblem = AsyncTexture2D.FromAssetId(156015);
@@ -55,13 +56,14 @@ namespace Kenedia.Modules.Characters.Views
         private Rectangle _titleRectangle;
         private BitmapFont _titleFont;
 
-        public MainWindow(Texture2D background, Rectangle windowRegion, Rectangle contentRegion, SettingsModel settings, TextureManager textureManager, ObservableCollection<Character_Model> characterModels, SearchFilterCollection searchFilters, Action toggleOCR, Action togglePotrait, Action refreshAPI, string accountImagePath, TagList tags, Func<Character_Model> currentCharacter, Data data, CharacterSorting characterSorting)
+        public MainWindow(Texture2D background, Rectangle windowRegion, Rectangle contentRegion, SettingsModel settings, TextureManager textureManager, ObservableCollection<Character_Model> characterModels, SearchFilterCollection searchFilters, SearchFilterCollection tagFilters, Action toggleOCR, Action togglePotrait, Action refreshAPI, string accountImagePath, TagList tags, Func<Character_Model> currentCharacter, Data data, CharacterSorting characterSorting)
             : base(background, windowRegion, contentRegion)
         {
             _settings = settings;
             _textureManager = textureManager;
             _characterModels = characterModels;
             _searchFilters = searchFilters;
+            _tagFilters = tagFilters;
             _currentCharacter = currentCharacter;
             _data = data;
             ContentPanel = new FlowPanel()
@@ -344,6 +346,27 @@ namespace Kenedia.Modules.Characters.Views
             bool include = _settings.ResultFilterBehavior.Value == FilterBehavior.Include;
 
             var toggleFilters = _searchFilters.Where(e => e.Value.IsEnabled).ToList();
+            var tagFilters = _tagFilters.Where(e => e.Value.IsEnabled).ToList();
+
+            bool TagResult(Character_Model c)
+            {
+                var results = new List<bool>();
+                foreach (KeyValuePair<string, SearchFilter<Character_Model>> filter in tagFilters)
+                {
+                    bool result = filter.Value.CheckForMatch(c);
+                    results.Add(result);
+
+                    if (result)
+                    {
+                        if (matchAny)
+                        {
+                            return true;
+                        }
+                    }
+                }
+
+                return matchAll && results.Count(e => e == true) == tagFilters.Count;
+            }
 
             bool FilterResult(Character_Model c)
             {
@@ -387,20 +410,21 @@ namespace Kenedia.Modules.Characters.Views
                 return matchAll && results.Count(e => e == true) >= strings.Count;
             }
 
-            foreach ((CharacterCard ctrl, bool toggleResult, bool stringsResult) in from CharacterCard ctrl in CharactersPanel.Children
+            foreach ((CharacterCard ctrl, bool toggleResult, bool stringsResult, bool tagsResult) in from CharacterCard ctrl in CharactersPanel.Children
                                                                                     let c = ctrl.Character
                                                                                     where c != null
                                                                                     let toggleResult = toggleFilters.Count == 0 || (include == FilterResult(c))
                                                                                     let stringsResult = stringFilters.Count == 0 || (include == StringFilterResult(c))
-                                                                                    select (ctrl, toggleResult, stringsResult))
+                                                                                    let tagsResult = tagFilters.Count == 0 || (include == TagResult(c))
+                                                                                    select (ctrl, toggleResult, stringsResult, tagsResult))
             {
-                ctrl.Visible = toggleResult && stringsResult;
+                ctrl.Visible = toggleResult && stringsResult && tagsResult;
             }
 
             SortCharacters();
             CharactersPanel.Invalidate();
 
-            _clearButton.Visible = stringFilters.Count > 0 || toggleFilters.Count > 0;
+            _clearButton.Visible = stringFilters.Count > 0 || toggleFilters.Count > 0 || tagFilters.Count > 0;
         }
 
         public void CreateCharacterControls(IEnumerable<Character_Model> models)

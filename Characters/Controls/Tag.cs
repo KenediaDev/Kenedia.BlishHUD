@@ -32,10 +32,11 @@ namespace Kenedia.Modules.Characters.Controls
             Background = AsyncTexture2D.FromAssetId(1620622);
             FlowDirection = ControlFlowDirection.SingleLeftToRight;
             OuterControlPadding = new Vector2(3, 3);
-            ControlPadding = new Vector2(2, 0);
-            AutoSizePadding = new Point(5, 3);
+            ControlPadding = new Vector2(4, 0);
+            AutoSizePadding = new Point(5, 0);
             WidthSizingMode = SizingMode.AutoSize;
-            HeightSizingMode = SizingMode.AutoSize;
+
+            Height = Math.Max(20, Control.Content.DefaultFont14.LineHeight + 4) + 5;
 
             _delete = new ImageButton()
             {
@@ -61,7 +62,8 @@ namespace Kenedia.Modules.Characters.Controls
             {
                 Parent = this,
                 AutoSizeWidth = true,
-                AutoSizeHeight = true,
+                Height = Math.Max(20, Control.Content.DefaultFont14.LineHeight + 4),
+                VerticalAlignment = VerticalAlignment.Middle,
             };
         }
 
