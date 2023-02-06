@@ -1,6 +1,6 @@
 ﻿using Blish_HUD.Controls;
 using Blish_HUD.Modules.Managers;
-using Characters.Res;
+using Kenedia.Modules.Characters.Res;
 using Gw2Sharp.WebApi.V2;
 using Gw2Sharp.WebApi.V2.Models;
 using Kenedia.Modules.Characters.Models;

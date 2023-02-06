@@ -1,6 +1,6 @@
 ﻿using Blish_HUD;
 using Blish_HUD.Controls;
-using Characters.Res;
+using Kenedia.Modules.Characters.Res;
 using Kenedia.Modules.Characters.Extensions;
 using Kenedia.Modules.Characters.Services;
 using Kenedia.Modules.Core.Controls;

@@ -5,7 +5,7 @@ using Blish_HUD.Gw2Mumble;
 using Blish_HUD.Modules;
 using Blish_HUD.Modules.Managers;
 using Blish_HUD.Settings;
-using Characters.Res;
+using Blish_HUD.Controls;
 using Gw2Sharp.WebApi.V2.Models;
 using Kenedia.Modules.Characters.Controls;
 using Kenedia.Modules.Characters.Enums;
@@ -13,6 +13,7 @@ using Kenedia.Modules.Characters.Models;
 using Kenedia.Modules.Characters.Services;
 using Kenedia.Modules.Characters.Views;
 using Kenedia.Modules.Core.Models;
+using Kenedia.Modules.Core.Res;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using Newtonsoft.Json;
@@ -31,16 +32,12 @@ using Rectangle = Microsoft.Xna.Framework.Rectangle;
 using Version = SemVer.Version;
 using CornerIcon = Kenedia.Modules.Core.Controls.CornerIcon;
 using LoadingSpinner = Kenedia.Modules.Core.Controls.LoadingSpinner;
-using Blish_HUD.Controls;
-using Kenedia.Modules.Core.Res;
 using Microsoft.Xna.Framework.Graphics;
-using Characters.Controls;
 using Kenedia.Modules.Core.Extensions;
 using Gw2Sharp.Models;
 using Gw2Sharp.WebApi.V2;
 using Kenedia.Modules.Characters.Controls.SideMenu;
-using System.Drawing;
-using Kenedia.Modules.Core.Utility.WindowsUtil;
+using Kenedia.Modules.Characters.Res;
 
 namespace Kenedia.Modules.Characters
 {

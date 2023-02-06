@@ -1,16 +1,14 @@
 ﻿using Blish_HUD;
 using Blish_HUD.Controls.Extern;
 using Blish_HUD.Gw2Mumble;
-using Characters.Res;
+using Kenedia.Modules.Characters.Res;
 using Kenedia.Modules.Characters.Models;
 using Kenedia.Modules.Core.Extensions;
 using Kenedia.Modules.Core.Services;
-using Microsoft.Xna.Framework.Input;
 using System;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
-using System.Runtime;
 using System.Threading;
 using System.Threading.Tasks;
 

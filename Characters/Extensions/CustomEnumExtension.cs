@@ -1,4 +1,4 @@
-﻿using Characters.Res;
+﻿using Kenedia.Modules.Characters.Res;
 using static Kenedia.Modules.Characters.Services.SettingsModel;
 
 namespace Kenedia.Modules.Characters.Extensions

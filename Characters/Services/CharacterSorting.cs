@@ -1,5 +1,5 @@
 ﻿using Blish_HUD.Controls.Extern;
-using Characters.Res;
+using Kenedia.Modules.Characters.Res;
 using Kenedia.Modules.Characters.Models;
 using System;
 using System.Collections.Generic;

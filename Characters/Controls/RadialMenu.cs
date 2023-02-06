@@ -20,7 +20,7 @@ using Color = Microsoft.Xna.Framework.Color;
 using Point = Microsoft.Xna.Framework.Point;
 using Rectangle = Microsoft.Xna.Framework.Rectangle;
 
-namespace Characters.Controls
+namespace Kenedia.Modules.Characters.Controls
 {
     public struct Triangle
     {

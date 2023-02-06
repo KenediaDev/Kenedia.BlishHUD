@@ -2,14 +2,13 @@
 using Blish_HUD.Content;
 using Blish_HUD.Controls;
 using Blish_HUD.Input;
-using Characters.Res;
+using Kenedia.Modules.Characters.Res;
 using Kenedia.Modules.Characters.Services;
 using Kenedia.Modules.Core.Controls;
 using Kenedia.Modules.Core.Interfaces;
 using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
-using System.Runtime;
 using Panel = Kenedia.Modules.Core.Controls.Panel;
 using TabbedPanel = Kenedia.Modules.Core.Controls.TabbedPanel;
 

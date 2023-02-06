@@ -2,12 +2,10 @@
 using Blish_HUD.Content;
 using Blish_HUD.Controls;
 using Blish_HUD.Settings;
-using Characters.Controls;
 using Kenedia.Modules.Characters.Services;
 using Kenedia.Modules.Core.Controls;
 using Microsoft.Xna.Framework;
 using System;
-using static Blish_HUD.ContentService;
 using Label = Kenedia.Modules.Core.Controls.Label;
 using LoadingSpinner = Kenedia.Modules.Core.Controls.LoadingSpinner;
 

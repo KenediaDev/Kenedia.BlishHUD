@@ -5,12 +5,8 @@ using Kenedia.Modules.Characters.Services;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace Characters.Controls
+namespace Kenedia.Modules.Characters.Controls
 {
     public class ChoyaSpinner : Control
     {

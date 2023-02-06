@@ -1,8 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
 using System;
-using System.Collections.Generic;
-using System.Runtime;
-using System.Text;
 
 namespace Kenedia.Modules.Core.Extensions
 {

@@ -1,7 +1,7 @@
 ﻿using Blish_HUD;
 using Blish_HUD.Content;
 using Blish_HUD.Controls;
-using Characters.Res;
+using Kenedia.Modules.Characters.Res;
 using Kenedia.Modules.Characters.Controls;
 using Kenedia.Modules.Characters.Controls.SideMenu;
 using Kenedia.Modules.Characters.Models;
@@ -24,7 +24,6 @@ using Rectangle = Microsoft.Xna.Framework.Rectangle;
 using TextBox = Kenedia.Modules.Core.Controls.TextBox;
 using StandardWindow = Kenedia.Modules.Core.Views.StandardWindow;
 using System.Collections.ObjectModel;
-using System.Diagnostics;
 
 namespace Kenedia.Modules.Characters.Views
 {
