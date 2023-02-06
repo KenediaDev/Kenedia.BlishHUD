@@ -555,7 +555,7 @@ namespace Kenedia.Modules.Characters
         protected override void LoadGUI()
         {
             base.LoadGUI();
-            RadialMenu = new RadialMenu(Settings, CharacterModels, GameService.Graphics.SpriteScreen, () => CurrentCharacterModel, Data)
+            RadialMenu = new RadialMenu(Settings, CharacterModels, GameService.Graphics.SpriteScreen, () => CurrentCharacterModel, Data, TextureManager)
             {
                 Visible = false,
                 ZIndex = int.MaxValue / 2

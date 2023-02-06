@@ -1450,7 +1450,7 @@ namespace Characters.Res {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Show only maxed out crafting Professions.
+        ///   Looks up a localized string similar to .
         /// </summary>
         internal static string OnlyMaxCrafting_Duplicate_1_ {
             get {
@@ -1581,6 +1581,114 @@ namespace Characters.Res {
         internal static string Race {
             get {
                 return ResourceManager.GetString("Race", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Active Section Color.
+        /// </summary>
+        internal static string Radial_HoveredBackgroundColor {
+            get {
+                return ResourceManager.GetString("Radial_HoveredBackgroundColor", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Active Border Color.
+        /// </summary>
+        internal static string Radial_HoveredBorderColor {
+            get {
+                return ResourceManager.GetString("Radial_HoveredBorderColor", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Section Color.
+        /// </summary>
+        internal static string Radial_IdleBackgroundColor {
+            get {
+                return ResourceManager.GetString("Radial_IdleBackgroundColor", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Border Color.
+        /// </summary>
+        internal static string Radial_IdleBorderColor {
+            get {
+                return ResourceManager.GetString("Radial_IdleBorderColor", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Radial Size Scale.
+        /// </summary>
+        internal static string Radial_Scale {
+            get {
+                return ResourceManager.GetString("Radial_Scale", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Percentage of the screen size the radial menu will be sized to.
+        /// </summary>
+        internal static string Radial_Scale_Tooltip {
+            get {
+                return ResourceManager.GetString("Radial_Scale_Tooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Show Advanced Tooltip.
+        /// </summary>
+        internal static string Radial_ShowAdvancedTooltip {
+            get {
+                return ResourceManager.GetString("Radial_ShowAdvancedTooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Show an advanced character tooltip to provide additional information..
+        /// </summary>
+        internal static string Radial_ShowAdvancedTooltip_Tooltip {
+            get {
+                return ResourceManager.GetString("Radial_ShowAdvancedTooltip_Tooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Use Profession Color Background.
+        /// </summary>
+        internal static string Radial_UseProfessionColor {
+            get {
+                return ResourceManager.GetString("Radial_UseProfessionColor", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Use the profession color as the background for the character section in the radial menu.
+        /// </summary>
+        internal static string Radial_UseProfessionColor_Tooltip {
+            get {
+                return ResourceManager.GetString("Radial_UseProfessionColor_Tooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Use Profession Icons.
+        /// </summary>
+        internal static string Radial_UseProfessionIcons {
+            get {
+                return ResourceManager.GetString("Radial_UseProfessionIcons", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Use Profession Icons instead of the character icon you have set in your list..
+        /// </summary>
+        internal static string Radial_UseProfessionIcons_Tooltip {
+            get {
+                return ResourceManager.GetString("Radial_UseProfessionIcons_Tooltip", resourceCulture);
             }
         }
         

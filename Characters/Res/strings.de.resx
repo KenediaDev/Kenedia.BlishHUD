@@ -502,9 +502,6 @@ Um den aktuellen Wert zu erhalten, müssen Sie die Modul-Tabs einmal wechseln, u
   <data name="OnlyMaxCrafting_Tooltip" xml:space="preserve">
     <value>Zeige nur Handwerksberufe, welche auf einem 500 Rang sind (Juwelier &amp; Schreiber auf 400).</value>
   </data>
-  <data name="OnlyMaxCrafting_Duplicate[1]" xml:space="preserve">
-    <value>Zeige nur maximale Handwerksberufe</value>
-  </data>
   <data name="OnlyText" xml:space="preserve">
     <value>Nur Text</value>
   </data>
@@ -866,5 +863,41 @@ Sich automatisch anmelden?
   </data>
   <data name="FocusSearchOnShow_Tooltip" xml:space="preserve">
     <value>Beim Umschalten des Zeichenfensters wird die Suchleiste fokussiert, um direkt mit der Eingabe zu beginnen</value>
+  </data>
+  <data name="Radial_ShowAdvancedTooltip" xml:space="preserve">
+    <value>Erweiterten Tooltip anzeigen</value>
+  </data>
+  <data name="Radial_ShowAdvancedTooltip_Tooltip" xml:space="preserve">
+    <value>Zeigen Sie einen erweiterten Zeichen-Tooltip an, um zusätzliche Informationen bereitzustellen.</value>
+  </data>
+  <data name="Radial_UseProfessionColor" xml:space="preserve">
+    <value>Beruf Farbe Hintergrund verwenden</value>
+  </data>
+  <data name="Radial_UseProfessionColor_Tooltip" xml:space="preserve">
+    <value>Verwenden Sie die Berufsfarbe als Hintergrund für den Zeichenbereich im Radialmenü</value>
+  </data>
+  <data name="Radial_UseProfessionIcons" xml:space="preserve">
+    <value>Berufssymbole verwenden</value>
+  </data>
+  <data name="Radial_UseProfessionIcons_Tooltip" xml:space="preserve">
+    <value>Verwenden Sie Berufssymbole anstelle des Zeichensymbols, das Sie in Ihrer Liste eingestellt haben.</value>
+  </data>
+  <data name="Radial_Scale" xml:space="preserve">
+    <value>Radiale Größenskala</value>
+  </data>
+  <data name="Radial_Scale_Tooltip" xml:space="preserve">
+    <value>Prozentuale Größe des Bildschirms, auf die das Radialmenü vergrößert wird</value>
+  </data>
+  <data name="Radial_IdleBackgroundColor" xml:space="preserve">
+    <value>Abschnitt Farbe</value>
+  </data>
+  <data name="Radial_HoveredBackgroundColor" xml:space="preserve">
+    <value>Farbe des aktiven Abschnitts</value>
+  </data>
+  <data name="Radial_HoveredBorderColor" xml:space="preserve">
+    <value>Farbe der aktiven Umrandung</value>
+  </data>
+  <data name="Radial_IdleBorderColor" xml:space="preserve">
+    <value>Farbe der Umrandung</value>
   </data>
 </root>

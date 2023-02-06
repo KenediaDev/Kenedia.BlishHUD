@@ -18,7 +18,7 @@ using Rectangle = Microsoft.Xna.Framework.Rectangle;
 
 namespace Kenedia.Modules.Characters.Controls
 {
-    public class CharacterTooltip : Container
+    public class CharacterTooltip : FramedContainer
     {
         private readonly AsyncTexture2D _iconFrame = AsyncTexture2D.FromAssetId(1414041);
         private readonly FlowPanel _contentPanel;
@@ -49,10 +49,14 @@ namespace Kenedia.Modules.Characters.Controls
             _currentCharacter = currentCharacter;
             _textureManager = textureManager;
             _data = data;
+            TextureRectangle = new Rectangle(60, 25, 250, 250);
+            BackgroundImage = AsyncTexture2D.FromAssetId(156003);
+            BorderColor= Color.Black;
+            BorderWidth = new(2);
+            BackgroundColor= Color.Black * 0.6f;
 
             HeightSizingMode = SizingMode.AutoSize;
 
-            BackgroundColor = new Color(0, 0, 0, 75);
             AutoSizePadding = new Point(5, 5);
 
             _contentPanel = new FlowPanel()
@@ -146,10 +150,6 @@ namespace Kenedia.Modules.Characters.Controls
             };
         }
 
-        public Rectangle TextureRectangle { get; set; } = new Rectangle(40, 25, 250, 250);
-
-        public AsyncTexture2D Background { get; set; } = AsyncTexture2D.FromAssetId(156003);
-
         public Color BackgroundTint { get; set; } = Color.Honeydew * 0.95f;
 
         public BitmapFont Font { get; set; } = GameService.Content.DefaultFont14;
@@ -160,8 +160,11 @@ namespace Kenedia.Modules.Characters.Controls
         {
             get => _character; set
             {
-                _character = value;
-                ApplyCharacter(null, null);
+                if (_character != value)
+                {
+                    _character = value;
+                    if(_character != null) ApplyCharacter(null, null);
+                }
             }
         }
 
@@ -194,38 +197,6 @@ namespace Kenedia.Modules.Characters.Controls
         public override void PaintBeforeChildren(SpriteBatch spriteBatch, Rectangle bounds)
         {
             base.PaintBeforeChildren(spriteBatch, bounds);
-
-            if (Background != null)
-            {
-                Rectangle rect = new(_textureOffset.X, _textureOffset.Y, bounds.Width, bounds.Height);
-
-                spriteBatch.DrawOnCtrl(
-                    this,
-                    Background,
-                    bounds,
-                    rect,
-                    BackgroundTint,
-                    0f,
-                    default);
-            }
-
-            Color color = Color.Black;
-
-            // Top
-            spriteBatch.DrawOnCtrl(this, ContentService.Textures.Pixel, new Rectangle(bounds.Left, bounds.Top, bounds.Width, 2), Rectangle.Empty, color * 0.5f);
-            spriteBatch.DrawOnCtrl(this, ContentService.Textures.Pixel, new Rectangle(bounds.Left, bounds.Top, bounds.Width, 1), Rectangle.Empty, color * 0.6f);
-
-            // Bottom
-            spriteBatch.DrawOnCtrl(this, ContentService.Textures.Pixel, new Rectangle(bounds.Left, bounds.Bottom - 2, bounds.Width, 2), Rectangle.Empty, color * 0.5f);
-            spriteBatch.DrawOnCtrl(this, ContentService.Textures.Pixel, new Rectangle(bounds.Left, bounds.Bottom - 1, bounds.Width, 1), Rectangle.Empty, color * 0.6f);
-
-            // Left
-            spriteBatch.DrawOnCtrl(this, ContentService.Textures.Pixel, new Rectangle(bounds.Left, bounds.Top, 2, bounds.Height), Rectangle.Empty, color * 0.5f);
-            spriteBatch.DrawOnCtrl(this, ContentService.Textures.Pixel, new Rectangle(bounds.Left, bounds.Top, 1, bounds.Height), Rectangle.Empty, color * 0.6f);
-
-            // Right
-            spriteBatch.DrawOnCtrl(this, ContentService.Textures.Pixel, new Rectangle(bounds.Right - 2, bounds.Top, 2, bounds.Height), Rectangle.Empty, color * 0.5f);
-            spriteBatch.DrawOnCtrl(this, ContentService.Textures.Pixel, new Rectangle(bounds.Right - 1, bounds.Top, 1, bounds.Height), Rectangle.Empty, color * 0.6f);
 
             if (!Character.HasDefaultIcon && Character.Icon != null)
             {

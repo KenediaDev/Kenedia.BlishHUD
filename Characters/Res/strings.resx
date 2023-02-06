@@ -540,7 +540,7 @@ To get the current value you will have to swap module tabs once to update the se
     <value>Show only crafts that are at a 500 rank (Jeweler &amp; Scribe at 400).</value>
   </data>
   <data name="OnlyMaxCrafting_Duplicate[1]" xml:space="preserve">
-    <value>Show only maxed out crafting Professions</value>
+    <value></value>
   </data>
   <data name="OnlyText" xml:space="preserve">
     <value>Only Text</value>
@@ -864,5 +864,41 @@ Log in automatically?
   </data>
   <data name="FocusSearchOnShow_Tooltip" xml:space="preserve">
     <value>When toggling the character window focus the searchbar to directly start typing</value>
+  </data>
+  <data name="Radial_ShowAdvancedTooltip" xml:space="preserve">
+    <value>Show Advanced Tooltip</value>
+  </data>
+  <data name="Radial_ShowAdvancedTooltip_Tooltip" xml:space="preserve">
+    <value>Show an advanced character tooltip to provide additional information.</value>
+  </data>
+  <data name="Radial_UseProfessionColor" xml:space="preserve">
+    <value>Use Profession Color Background</value>
+  </data>
+  <data name="Radial_UseProfessionColor_Tooltip" xml:space="preserve">
+    <value>Use the profession color as the background for the character section in the radial menu</value>
+  </data>
+  <data name="Radial_UseProfessionIcons" xml:space="preserve">
+    <value>Use Profession Icons</value>
+  </data>
+  <data name="Radial_UseProfessionIcons_Tooltip" xml:space="preserve">
+    <value>Use Profession Icons instead of the character icon you have set in your list.</value>
+  </data>
+  <data name="Radial_Scale" xml:space="preserve">
+    <value>Radial Size Scale</value>
+  </data>
+  <data name="Radial_Scale_Tooltip" xml:space="preserve">
+    <value>Percentage of the screen size the radial menu will be sized to</value>
+  </data>
+  <data name="Radial_IdleBackgroundColor" xml:space="preserve">
+    <value>Section Color</value>
+  </data>
+  <data name="Radial_HoveredBackgroundColor" xml:space="preserve">
+    <value>Active Section Color</value>
+  </data>
+  <data name="Radial_HoveredBorderColor" xml:space="preserve">
+    <value>Active Border Color</value>
+  </data>
+  <data name="Radial_IdleBorderColor" xml:space="preserve">
+    <value>Border Color</value>
   </data>
 </root>

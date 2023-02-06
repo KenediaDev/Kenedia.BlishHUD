@@ -497,9 +497,6 @@ Pour obtenir la valeur actuelle, vous devrez changer d'onglet de module une fois
   <data name="OnlyMaxCrafting_Tooltip" xml:space="preserve">
     <value>N'affiche que les métiers qui sont de rang 500 (bijoutier &amp; scribe à 400).</value>
   </data>
-  <data name="OnlyMaxCrafting_Duplicate[1]" xml:space="preserve">
-    <value>Afficher uniquement les métiers maximum</value>
-  </data>
   <data name="OnlyText" xml:space="preserve">
     <value>Seulement le texte</value>
   </data>
@@ -864,5 +861,41 @@ Se connecter automatiquement ?
   </data>
   <data name="ModuleDescription" xml:space="preserve">
     <value>Je rêve que l'échange de personnages soit rapide et facile même avec 72 personnages ! Malheureusement, l'échange de personnages peut rapidement devenir un véritable calvaire avec un grand nombre de personnages. Où était le Gardien Asuran que j'avais parqué sur Draconis Mons parmi mes 70 personnages ? J'ai une grande nouvelle ! Ce module va changer votre vie, c'est dire à quel point il se rapproche du rêve. Recherchez les bons personnages à l'aide de dizaines d'options de filtrage et passez à eux en un seul clic!''</value>
+  </data>
+  <data name="Radial_ShowAdvancedTooltip" xml:space="preserve">
+    <value>Afficher l'info-bulle avancée</value>
+  </data>
+  <data name="Radial_ShowAdvancedTooltip_Tooltip" xml:space="preserve">
+    <value>Affiche une infobulle de caractère avancé pour fournir des informations supplémentaires.</value>
+  </data>
+  <data name="Radial_UseProfessionColor" xml:space="preserve">
+    <value>Utiliser un fond de couleur professionnelle</value>
+  </data>
+  <data name="Radial_UseProfessionColor_Tooltip" xml:space="preserve">
+    <value>Utiliser la couleur de la profession comme arrière-plan pour la section du personnage dans le menu radial.</value>
+  </data>
+  <data name="Radial_UseProfessionIcons" xml:space="preserve">
+    <value>Utiliser les icônes de la profession</value>
+  </data>
+  <data name="Radial_UseProfessionIcons_Tooltip" xml:space="preserve">
+    <value>Utilisez les icônes de profession au lieu de l'icône de personnage que vous avez défini dans votre liste.</value>
+  </data>
+  <data name="Radial_Scale" xml:space="preserve">
+    <value>Échelle de taille radiale</value>
+  </data>
+  <data name="Radial_Scale_Tooltip" xml:space="preserve">
+    <value>Pourcentage de la taille de l'écran auquel le menu radial sera adapté.</value>
+  </data>
+  <data name="Radial_IdleBackgroundColor" xml:space="preserve">
+    <value>Couleur de la section</value>
+  </data>
+  <data name="Radial_HoveredBackgroundColor" xml:space="preserve">
+    <value>Couleur de la section active</value>
+  </data>
+  <data name="Radial_HoveredBorderColor" xml:space="preserve">
+    <value>Couleur de la bordure active</value>
+  </data>
+  <data name="Radial_IdleBorderColor" xml:space="preserve">
+    <value>Couleur de la bordure</value>
   </data>
 </root>

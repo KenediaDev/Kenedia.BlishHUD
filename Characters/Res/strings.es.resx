@@ -497,9 +497,6 @@ Para obtener el valor actual tendrás que cambiar las pestañas del módulo una 
   <data name="OnlyMaxCrafting_Tooltip" xml:space="preserve">
     <value>Mostrar sólo las disciplinas que están en un rango de 500 (joyero y escriba en 400).</value>
   </data>
-  <data name="OnlyMaxCrafting_Duplicate[1]" xml:space="preserve">
-    <value>Mostrar sólo las disciplinas de artesanía maximizadas</value>
-  </data>
   <data name="OnlyText" xml:space="preserve">
     <value>Sólo texto</value>
   </data>
@@ -864,5 +861,41 @@ Uu : Üü Ûû Ùù</value>
   </data>
   <data name="ModuleDescription" xml:space="preserve">
     <value>Sueño con que intercambiar personajes sea rápido y fácil, ¡incluso con 72 de ellos! Por desgracia, intercambiar personajes puede convertirse rápidamente en un suplicio con muchos personajes.\N¿Dónde estaba el Guardián Asuran que aparqué en Draconis Mons entre mis 70 personajes?\N¡Tengo grandes noticias! Este módulo te cambiará la vida, así de cerca está del sueño. Busca los personajes adecuados utilizando docenas de opciones de filtro y cambia a ellos con un solo clic".</value>
+  </data>
+  <data name="Radial_ShowAdvancedTooltip" xml:space="preserve">
+    <value>Mostrar información avanzada</value>
+  </data>
+  <data name="Radial_ShowAdvancedTooltip_Tooltip" xml:space="preserve">
+    <value>Mostrar un tooltip de carácter avanzado para proporcionar información adicional.</value>
+  </data>
+  <data name="Radial_UseProfessionColor" xml:space="preserve">
+    <value>Usar fondo de color de profesión</value>
+  </data>
+  <data name="Radial_UseProfessionColor_Tooltip" xml:space="preserve">
+    <value>Utilizar el color de la profesión como fondo para la sección de caracteres en el menú radial.</value>
+  </data>
+  <data name="Radial_UseProfessionIcons" xml:space="preserve">
+    <value>Utilizar iconos profesionales</value>
+  </data>
+  <data name="Radial_UseProfessionIcons_Tooltip" xml:space="preserve">
+    <value>Utilice los iconos de profesión en lugar del icono de carácter que haya establecido en su lista.</value>
+  </data>
+  <data name="Radial_Scale" xml:space="preserve">
+    <value>Escala de tamaño radial</value>
+  </data>
+  <data name="Radial_Scale_Tooltip" xml:space="preserve">
+    <value>Porcentaje del tamaño de la pantalla al que se ajustará el menú radial</value>
+  </data>
+  <data name="Radial_IdleBackgroundColor" xml:space="preserve">
+    <value>Sección Color</value>
+  </data>
+  <data name="Radial_HoveredBackgroundColor" xml:space="preserve">
+    <value>Color de la sección activa</value>
+  </data>
+  <data name="Radial_HoveredBorderColor" xml:space="preserve">
+    <value>Color del borde activo</value>
+  </data>
+  <data name="Radial_IdleBorderColor" xml:space="preserve">
+    <value>Color del borde</value>
   </data>
 </root>

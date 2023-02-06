@@ -12,6 +12,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MonoGame.Extended.BitmapFonts;
 using System;
+using System.Diagnostics;
 using static Blish_HUD.ContentService;
 using Checkbox = Kenedia.Modules.Core.Controls.Checkbox;
 using Dropdown = Kenedia.Modules.Core.Controls.Dropdown;
@@ -20,6 +21,7 @@ using KeybindingAssigner = Kenedia.Modules.Core.Controls.KeybindingAssigner;
 using Label = Kenedia.Modules.Core.Controls.Label;
 using Panel = Kenedia.Modules.Core.Controls.Panel;
 using StandardWindow = Kenedia.Modules.Core.Views.StandardWindow;
+using TextBox = Kenedia.Modules.Core.Controls.TextBox;
 using TrackBar = Kenedia.Modules.Core.Controls.TrackBar;
 
 namespace Kenedia.Modules.Characters.Views
@@ -63,6 +65,7 @@ namespace Kenedia.Modules.Characters.Views
             CreateOCR();
             CreateAppearance();
             CreateBehavior();
+            CreateRadial();
             CreateDelays();
             CreateGeneral();
 
@@ -70,6 +73,253 @@ namespace Kenedia.Modules.Characters.Views
 
             GameService.Overlay.UserLocale.SettingChanged += OnLanguageChanged;
             OnLanguageChanged();
+        }
+
+        private void CreateRadial()
+        {
+            var headerPanel = new Panel()
+            {
+                Parent = _contentPanel,
+                Width = ContentRegion.Width - 20,
+                HeightSizingMode = SizingMode.AutoSize,
+                ShowBorder = true,
+                CanCollapse = true,
+                TitleIcon = AsyncTexture2D.FromAssetId(157122),
+                SetLocalizedTitle = () => strings.RadialMenuSettings,
+                SetLocalizedTitleTooltip = () => strings.RadialMenuSettings_Tooltip,
+            };
+
+            var contentFlowPanel = new FlowPanel()
+            {
+                Parent = headerPanel,
+                HeightSizingMode = SizingMode.AutoSize,
+                WidthSizingMode = SizingMode.Fill,
+                FlowDirection = ControlFlowDirection.SingleTopToBottom,
+                ControlPadding = new(10),
+            };
+
+            var settingsFlowPanel = new FlowPanel()
+            {
+                Parent = contentFlowPanel,
+                HeightSizingMode = SizingMode.AutoSize,
+                Width = ContentRegion.Width - 20,
+                FlowDirection = ControlFlowDirection.SingleTopToBottom,
+                ControlPadding = new(3, 3),
+                OuterControlPadding = new(5),
+            };
+
+            _ = new Checkbox()
+            {
+                Parent = settingsFlowPanel,
+                Checked = _settings.EnableRadialMenu.Value,
+                SetLocalizedText = () => strings.EnableRadialMenu,
+                SetLocalizedTooltip = () => strings.EnableRadialMenu_Tooltip,
+                CheckedChangedAction = (b) => _settings.EnableRadialMenu.Value = b,
+            };
+
+            _ = new Checkbox()
+            {
+                Parent = settingsFlowPanel,
+                SetLocalizedText = () => strings.Radial_ShowAdvancedTooltip,
+                SetLocalizedTooltip = () => strings.Radial_ShowAdvancedTooltip_Tooltip,
+                Checked = _settings.Radial_ShowAdvancedTooltip.Value,
+                CheckedChangedAction = (b) => _settings.Radial_ShowAdvancedTooltip.Value = b,
+            };
+
+            _ = new Checkbox()
+            {
+                Parent = settingsFlowPanel,
+                SetLocalizedText = () => strings.Radial_UseProfessionColor,
+                SetLocalizedTooltip = () => strings.Radial_UseProfessionColor_Tooltip,
+                Checked = _settings.Radial_UseProfessionColor.Value,
+                CheckedChangedAction = (b) => _settings.Radial_UseProfessionColor.Value = b,
+            };
+
+            _ = new Checkbox()
+            {
+                Parent = settingsFlowPanel,
+                SetLocalizedText = () => strings.Radial_UseProfessionIcons,
+                SetLocalizedTooltip = () => strings.Radial_UseProfessionIcons_Tooltip,
+                Checked = _settings.Radial_UseProfessionIcons.Value,
+                CheckedChangedAction = (b) => _settings.Radial_UseProfessionIcons.Value = b,
+            };
+
+            var subP = new Panel()
+            {
+                Parent = settingsFlowPanel,
+                Width = ContentRegion.Width - 20,
+                HeightSizingMode = SizingMode.AutoSize,
+            };
+
+            var scaleLabel = new Label()
+            {
+                Parent = subP,
+                AutoSizeWidth = true,
+                SetLocalizedText = () => string.Format(strings.Radial_Scale + " {0}%", _settings.Radial_Scale.Value * 100),
+                SetLocalizedTooltip = () => strings.Radial_Scale_Tooltip,
+            };
+            _ = new TrackBar()
+            {
+                Parent = subP,
+                SetLocalizedTooltip = () => strings.Radial_Scale_Tooltip,
+                Value = _settings.Radial_Scale.Value * 100,
+                ValueChangedAction = (v) =>
+                {
+                    _settings.Radial_Scale.Value = (float)v / (float)100;
+                    scaleLabel.UserLocale_SettingChanged(_settings.Radial_Scale.Value, null);
+                },
+                MinValue = 0,
+                MaxValue = 100,
+                Location = new Point(250, 0),
+            };
+
+            subP = new Panel()
+            {
+                Parent = settingsFlowPanel,
+                Width = ContentRegion.Width - 20,
+                HeightSizingMode = SizingMode.AutoSize,
+            };
+
+            var idleBackgroundLabel = new Label()
+            {
+                Parent = subP,
+                AutoSizeWidth = true,
+                Location = new(30, 0),
+                SetLocalizedText = () => strings.Radial_IdleBackgroundColor,
+            };
+            var idleBackgroundPreview = new Panel()
+            {
+                Parent = subP,
+                Location = new(0, 0),
+                Size = new(20),
+                BackgroundColor = _settings.Radial_IdleColor.Value,
+            };
+            _ = new TextBox()
+            {
+                Parent = subP,
+                Location = new(250, 0),
+                Text = _settings.Radial_IdleColor.Value.ToHex(),
+                Width = ContentRegion.Width - 20 - 250,
+                TextChangedAction = (t) =>
+                {
+                    if (t.ColorFromHex(out Color c))
+                    {
+                        _settings.Radial_IdleColor.Value = c;
+                        idleBackgroundPreview.BackgroundColor = c;
+                    }
+                }
+            };
+
+            subP = new Panel()
+            {
+                Parent = settingsFlowPanel,
+                Width = ContentRegion.Width - 20,
+                HeightSizingMode = SizingMode.AutoSize,
+            };
+
+            var idleBorderLabel = new Label()
+            {
+                Parent = subP,
+                AutoSizeWidth = true,
+                Location = new(30, 0),
+                SetLocalizedText = () => strings.Radial_IdleBorderColor,
+            };
+            var idleBorderPreview = new Panel()
+            {
+                Parent = subP,
+                Location = new(0, 0),
+                Size = new(20),
+                BackgroundColor = _settings.Radial_IdleBorderColor.Value,
+            };
+            _ = new TextBox()
+            {
+                Parent = subP,
+                Location = new(250, 0),
+                Text = _settings.Radial_IdleBorderColor.Value.ToHex(),
+                Width = ContentRegion.Width - 20 - 250,
+                TextChangedAction = (t) =>
+                {
+                    if (t.ColorFromHex(out Color c))
+                    {
+                        _settings.Radial_IdleBorderColor.Value = c;
+                        idleBorderPreview.BackgroundColor = c;
+                    }
+                }
+            };
+
+            subP = new Panel()
+            {
+                Parent = settingsFlowPanel,
+                Width = ContentRegion.Width - 20,
+                HeightSizingMode = SizingMode.AutoSize,
+            };
+
+            var activeBackgroundLabel = new Label()
+            {
+                Parent = subP,
+                AutoSizeWidth = true,
+                Location = new(30, 0),
+                SetLocalizedText = () => strings.Radial_HoveredBackgroundColor,
+            };
+            var activeBackgroundPreview = new Panel()
+            {
+                Parent = subP,
+                Location = new(0, 0),
+                Size = new(20),
+                BackgroundColor = _settings.Radial_HoveredColor.Value,
+            };
+            _ = new TextBox()
+            {
+                Parent = subP,
+                Location = new(250, 0),
+                Text = _settings.Radial_HoveredColor.Value.ToHex(),
+                Width = ContentRegion.Width - 20 - 250,
+                TextChangedAction = (t) =>
+                {
+                    if (t.ColorFromHex(out Color c))
+                    {
+                        _settings.Radial_HoveredColor.Value = c;
+                        activeBackgroundPreview.BackgroundColor = c;
+                    }
+                }
+            };
+
+            subP = new Panel()
+            {
+                Parent = settingsFlowPanel,
+                Width = ContentRegion.Width - 20,
+                HeightSizingMode = SizingMode.AutoSize,
+            };
+
+            var activeBorderLabel = new Label()
+            {
+                Parent = subP,
+                AutoSizeWidth = true,
+                Location = new(30, 0),
+                SetLocalizedText = () => strings.Radial_HoveredBorderColor,
+            };
+            var activeBorderPreview = new Panel()
+            {
+                Parent = subP,
+                Location = new(0, 0),
+                Size = new(20),
+                BackgroundColor = _settings.Radial_HoveredBorderColor.Value,
+            };
+            _ = new TextBox()
+            {
+                Parent = subP,
+                Location = new(250, 0),
+                Text = _settings.Radial_HoveredBorderColor.Value.ToHex(),
+                Width = ContentRegion.Width - 20 - 250,
+                TextChangedAction = (t) =>
+                {
+                    if (t.ColorFromHex(out Color c))
+                    {
+                        _settings.Radial_HoveredBorderColor.Value = c;
+                        activeBorderPreview.BackgroundColor = c;
+                    }
+                }
+            };
         }
 
         public SemVer.Version Version { get; set; }
@@ -222,8 +472,8 @@ namespace Kenedia.Modules.Characters.Views
                     {
                         ModifierKeys = kb.ModifierKeys,
                         PrimaryKey = kb.PrimaryKey,
-                        Enabled= kb.Enabled,
-                        IgnoreWhenInTextField= true,         
+                        Enabled = kb.Enabled,
+                        IgnoreWhenInTextField = true,
                     };
                 },
                 SetLocalizedKeyBindingName = () => strings.RadialMenuKey,
@@ -711,15 +961,6 @@ namespace Kenedia.Modules.Characters.Views
             _ = new Checkbox()
             {
                 Parent = cP,
-                Checked = _settings.EnableRadialMenu.Value,
-                SetLocalizedText = () => strings.EnableRadialMenu,
-                SetLocalizedTooltip = () => strings.EnableRadialMenu_Tooltip,
-                CheckedChangedAction = (b) => _settings.EnableRadialMenu.Value = b,
-            };
-
-            _ = new Checkbox()
-            {
-                Parent = cP,
                 Checked = _settings.OpenSidemenuOnSearch.Value,
                 CheckedChangedAction = (b) => _settings.OpenSidemenuOnSearch.Value = b,
                 SetLocalizedText = () => strings.OpenSidemenuOnSearch,
@@ -828,7 +1069,7 @@ namespace Kenedia.Modules.Characters.Views
         {
             base.PaintBeforeChildren(spriteBatch, bounds);
 
-            if(Version != null) spriteBatch.DrawStringOnCtrl(this, $"v. {Version}", Content.DefaultFont16, new(bounds.Right - 150, bounds.Top + 10, 100, 30), Color.White, false, true, 1, HorizontalAlignment.Right, VerticalAlignment.Top);
+            if (Version != null) spriteBatch.DrawStringOnCtrl(this, $"v. {Version}", Content.DefaultFont16, new(bounds.Right - 150, bounds.Top + 10, 100, 30), Color.White, false, true, 1, HorizontalAlignment.Right, VerticalAlignment.Top);
         }
     }
 }

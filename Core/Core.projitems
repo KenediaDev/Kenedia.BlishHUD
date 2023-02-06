@@ -38,6 +38,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Controls\TitleHeader.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controls\TrackBar.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\BitMapExtension.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Extensions\ColorExtension.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\ContainerExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\ControlExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\DisposableExtensions.cs" />

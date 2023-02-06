@@ -4,6 +4,7 @@ using Blish_HUD.Settings;
 using Kenedia.Modules.Characters.Models;
 using Kenedia.Modules.Core.Models;
 using Kenedia.Modules.Core.Structs;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using MonoGame.Extended.Collections;
 using System;
@@ -30,7 +31,16 @@ namespace Kenedia.Modules.Characters.Services
 
             FilterAsOne = internalSettings.DefineSetting(nameof(FilterAsOne), false);
             UseBetaGamestate = internalSettings.DefineSetting(nameof(UseBetaGamestate), true);
+
             EnableRadialMenu = internalSettings.DefineSetting(nameof(EnableRadialMenu), false);
+            Radial_Scale = internalSettings.DefineSetting(nameof(Radial_Scale), 0.66F);
+            Radial_HoveredBorderColor = internalSettings.DefineSetting(nameof(Radial_HoveredBorderColor), ContentService.Colors.ColonialWhite);
+            Radial_HoveredColor = internalSettings.DefineSetting(nameof(Radial_HoveredBorderColor), ContentService.Colors.ColonialWhite * 0.8F);
+            Radial_IdleColor = internalSettings.DefineSetting(nameof(Radial_IdleColor), Color.Black * 0.8F);
+            Radial_IdleBorderColor = internalSettings.DefineSetting(nameof(Radial_IdleBorderColor), ContentService.Colors.ColonialWhite);
+            Radial_UseProfessionColor = internalSettings.DefineSetting(nameof(Radial_UseProfessionColor), false);
+            Radial_UseProfessionIcons = internalSettings.DefineSetting(nameof(Radial_UseProfessionIcons), false);
+            Radial_ShowAdvancedTooltip = internalSettings.DefineSetting(nameof(Radial_ShowAdvancedTooltip), true);
 
             LoadCachedAccounts = internalSettings.DefineSetting(nameof(LoadCachedAccounts), true);
             OpenSidemenuOnSearch = internalSettings.DefineSetting(nameof(OpenSidemenuOnSearch), true);
@@ -192,7 +202,25 @@ namespace Kenedia.Modules.Characters.Services
         public SettingEntry<RectangleDimensions> OCRCustomOffset { get; set; }
 
         public SettingEntry<bool> EnableRadialMenu { get; set; }
+
+        public SettingEntry<bool> Radial_UseProfessionIcons{ get; set; }
+
+        public SettingEntry<bool> Radial_ShowAdvancedTooltip { get; set; }
+
+        public SettingEntry<bool> Radial_UseProfessionColor { get; set; }
         
+        public SettingEntry<bool> UseCharacterIconsOnRadial{ get; set; }
+
+        public SettingEntry<float> Radial_Scale{ get; set; }
+
+        public SettingEntry<Color> Radial_IdleColor{ get; set; }
+
+        public SettingEntry<Color> Radial_IdleBorderColor{ get; set; }
+
+        public SettingEntry<Color> Radial_HoveredBorderColor{ get; set; }
+
+        public SettingEntry<Color> Radial_HoveredColor{ get; set; }
+
         public SettingEntry<bool> UseBetaGamestate { get; set; }
 
         public SettingEntry<bool> CharacterPanelFixedWidth { get; set; }
