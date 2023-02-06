@@ -40,6 +40,7 @@ namespace Kenedia.Modules.Characters.Services
             Radial_IdleBorderColor = internalSettings.DefineSetting(nameof(Radial_IdleBorderColor), ContentService.Colors.ColonialWhite);
             Radial_UseProfessionColor = internalSettings.DefineSetting(nameof(Radial_UseProfessionColor), false);
             Radial_UseProfessionIcons = internalSettings.DefineSetting(nameof(Radial_UseProfessionIcons), false);
+            Radial_UseProfessionIconsColor = internalSettings.DefineSetting(nameof(Radial_UseProfessionIconsColor), false);
             Radial_ShowAdvancedTooltip = internalSettings.DefineSetting(nameof(Radial_ShowAdvancedTooltip), true);
 
             LoadCachedAccounts = internalSettings.DefineSetting(nameof(LoadCachedAccounts), true);
@@ -202,6 +203,8 @@ namespace Kenedia.Modules.Characters.Services
         public SettingEntry<RectangleDimensions> OCRCustomOffset { get; set; }
 
         public SettingEntry<bool> EnableRadialMenu { get; set; }
+
+        public SettingEntry<bool> Radial_UseProfessionIconsColor { get; set; }
 
         public SettingEntry<bool> Radial_UseProfessionIcons{ get; set; }
 

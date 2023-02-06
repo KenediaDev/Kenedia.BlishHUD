@@ -201,6 +201,7 @@ namespace Characters.Controls
             if (Parent != null)
             {
                 _displayedCharacters = _characters.Count > 0 ? _characters.Where(e => e.ShowOnRadial).ToList() : new();
+                _displayedCharacters.Sort((a, b) => a.Name.CompareTo(b.Name));
 
                 int size = (int)(Math.Min(Parent.Width, Parent.Height) * _settings.Radial_Scale.Value);
                 Size = new(Parent.Width, Parent.Height);
@@ -266,7 +267,9 @@ namespace Characters.Controls
                         var v = new Vector2((a.X + b.X + c.X) / 3, (a.Y + b.Y + c.Y) / 3);
                         var p = v.ToPoint();
 
-                        _iconSize = (int) Math.Min(c.ToPoint().Distance2D(v.ToPoint()) * 0.65, 128);
+                        var dis = Math.Min(a.ToPoint().Distance2D(v.ToPoint()),
+                            Math.Min(b.ToPoint().Distance2D(v.ToPoint()),
+                            c.ToPoint().Distance2D(v.ToPoint())));
 
                         _sections.Add(new()
                         {
@@ -328,7 +331,7 @@ namespace Characters.Controls
 
                         spriteBatch.DrawPolygon(Vector2.Zero, section.Triangle.ToVectorList(), _settings.Radial_IdleBorderColor.Value, 1);
                     }
-                    else if(section.Rectangle != null)
+                    else if (section.Rectangle != null)
                     {
 
                         spriteBatch.DrawOnCtrl(
@@ -346,7 +349,7 @@ namespace Characters.Controls
                         _settings.Radial_UseProfessionIcons.Value ? section.Character.ProfessionIcon : section.Character.Icon,
                         section.IconRectangle,
                         _settings.Radial_UseProfessionIcons.Value ? section.Character.ProfessionIcon.Bounds : section.Character.Icon.Bounds,
-                        _settings.Radial_UseProfessionIcons.Value ? section.Character.Profession.GetData(_data.Professions).Color : Color.White,
+                        _settings.Radial_UseProfessionIconsColor.Value ? section.Character.Profession.GetData(_data.Professions).Color : Color.White,
                         0f,
                         default);
                 }
@@ -391,7 +394,7 @@ namespace Characters.Controls
                     _settings.Radial_UseProfessionIcons.Value ? _selected.Character.ProfessionIcon : _selected.Character.Icon,
                     _selected.IconRectangle,
                     _settings.Radial_UseProfessionIcons.Value ? _selected.Character.ProfessionIcon.Bounds : _selected.Character.Icon.Bounds,
-                    _settings.Radial_UseProfessionIcons.Value ? _selected.Character.Profession.GetData(_data.Professions).Color : Color.White,
+                    _settings.Radial_UseProfessionIconsColor.Value ? _selected.Character.Profession.GetData(_data.Professions).Color : Color.White,
                     0f,
                     default);
             }

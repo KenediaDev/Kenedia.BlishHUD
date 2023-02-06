@@ -144,6 +144,15 @@ namespace Kenedia.Modules.Characters.Views
                 CheckedChangedAction = (b) => _settings.Radial_UseProfessionIcons.Value = b,
             };
 
+            _ = new Checkbox()
+            {
+                Parent = settingsFlowPanel,
+                SetLocalizedText = () => strings.Radial_UseProfessionIconsColor,
+                SetLocalizedTooltip = () => strings.Radial_UseProfessionIconsColor_Tooltip,
+                Checked = _settings.Radial_UseProfessionIconsColor.Value,
+                CheckedChangedAction = (b) => _settings.Radial_UseProfessionIconsColor.Value = b,
+            };
+
             var subP = new Panel()
             {
                 Parent = settingsFlowPanel,

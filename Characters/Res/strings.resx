@@ -539,9 +539,6 @@ To get the current value you will have to swap module tabs once to update the se
   <data name="OnlyMaxCrafting_Tooltip" xml:space="preserve">
     <value>Show only crafts that are at a 500 rank (Jeweler &amp; Scribe at 400).</value>
   </data>
-  <data name="OnlyMaxCrafting_Duplicate[1]" xml:space="preserve">
-    <value></value>
-  </data>
   <data name="OnlyText" xml:space="preserve">
     <value>Only Text</value>
   </data>
@@ -900,5 +897,11 @@ Log in automatically?
   </data>
   <data name="Radial_IdleBorderColor" xml:space="preserve">
     <value>Border Color</value>
+  </data>
+  <data name="Radial_UseProfessionIconsColor" xml:space="preserve">
+    <value>Use Colored Profession Icons</value>
+  </data>
+  <data name="Radial_UseProfessionIconsColor_Tooltip" xml:space="preserve">
+    <value>Color the profession icons in the profession color</value>
   </data>
 </root>

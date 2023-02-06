@@ -1450,15 +1450,6 @@ namespace Characters.Res {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to .
-        /// </summary>
-        internal static string OnlyMaxCrafting_Duplicate_1_ {
-            get {
-                return ResourceManager.GetString("OnlyMaxCrafting_Duplicate[1]", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Show only crafts that are at a 500 rank (Jeweler &amp; Scribe at 400)..
         /// </summary>
         internal static string OnlyMaxCrafting_Tooltip {
@@ -1689,6 +1680,24 @@ namespace Characters.Res {
         internal static string Radial_UseProfessionIcons_Tooltip {
             get {
                 return ResourceManager.GetString("Radial_UseProfessionIcons_Tooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Use Colored Profession Icons.
+        /// </summary>
+        internal static string Radial_UseProfessionIconsColor {
+            get {
+                return ResourceManager.GetString("Radial_UseProfessionIconsColor", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Color the profession icons in the profession color.
+        /// </summary>
+        internal static string Radial_UseProfessionIconsColor_Tooltip {
+            get {
+                return ResourceManager.GetString("Radial_UseProfessionIconsColor_Tooltip", resourceCulture);
             }
         }
         

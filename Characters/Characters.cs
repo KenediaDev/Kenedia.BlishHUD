@@ -252,12 +252,12 @@ namespace Kenedia.Modules.Characters
             {
                 if (!oldList.Contains(new { c.Name, c.Created }))
                 {
-                    Logger.Info($"{c.Name} created on {c.Created} does not exist yet. Create it!");
+                    //Logger.Info($"{c.Name} created on {c.Created} does not exist yet. Create it!");
                     CharacterModels.Add(new(c, CharacterSwapping, Paths.ModulePath, RequestCharacterSave, CharacterModels, Data));
                 }
                 else
                 {
-                    Logger.Info($"{c.Name} created on {c.Created} does exist already. Update it!");
+                    //Logger.Info($"{c.Name} created on {c.Created} does exist already. Update it!");
                     var character = CharacterModels.FirstOrDefault(e => e.Name == c.Name);
                     character?.UpdateCharacter(c);
                 }

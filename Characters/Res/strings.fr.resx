@@ -898,4 +898,10 @@ Se connecter automatiquement ?
   <data name="Radial_IdleBorderColor" xml:space="preserve">
     <value>Couleur de la bordure</value>
   </data>
+  <data name="Radial_UseProfessionIconsColor" xml:space="preserve">
+    <value>Utilisez des icônes professionnelles colorées</value>
+  </data>
+  <data name="Radial_UseProfessionIconsColor_Tooltip" xml:space="preserve">
+    <value>Colorier les icônes de la profession dans la couleur de la profession</value>
+  </data>
 </root>

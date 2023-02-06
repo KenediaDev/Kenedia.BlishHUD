@@ -898,4 +898,10 @@ Uu : Üü Ûû Ùù</value>
   <data name="Radial_IdleBorderColor" xml:space="preserve">
     <value>Color del borde</value>
   </data>
+  <data name="Radial_UseProfessionIconsColor" xml:space="preserve">
+    <value>Utilizar iconos profesionales de colores</value>
+  </data>
+  <data name="Radial_UseProfessionIconsColor_Tooltip" xml:space="preserve">
+    <value>Colorea los iconos de la profesión con el color de la profesión</value>
+  </data>
 </root>

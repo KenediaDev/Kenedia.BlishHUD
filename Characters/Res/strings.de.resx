@@ -900,4 +900,10 @@ Sich automatisch anmelden?
   <data name="Radial_IdleBorderColor" xml:space="preserve">
     <value>Farbe der Umrandung</value>
   </data>
+  <data name="Radial_UseProfessionIconsColor" xml:space="preserve">
+    <value>Farbige Berufssymbole verwenden</value>
+  </data>
+  <data name="Radial_UseProfessionIconsColor_Tooltip" xml:space="preserve">
+    <value>Färben Sie die Berufssymbole in der Berufsfarbe</value>
+  </data>
 </root>
