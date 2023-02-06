@@ -52,6 +52,7 @@ namespace Kenedia.Modules.Characters.Services
             ShowRandomButton = internalSettings.DefineSetting(nameof(ShowRandomButton), false);
             ShowLastButton = internalSettings.DefineSetting(nameof(ShowLastButton), false);
             ShowStatusWindow = internalSettings.DefineSetting(nameof(ShowStatusWindow), true);
+            ShowChoyaSpinner = internalSettings.DefineSetting(nameof(ShowChoyaSpinner), true);
             EnterOnSwap = internalSettings.DefineSetting(nameof(EnterOnSwap), true);
             OnlyEnterOnExact = internalSettings.DefineSetting(nameof(OnlyEnterOnExact), true);
             OpenInventoryOnEnter = internalSettings.DefineSetting(nameof(OpenInventoryOnEnter), false);
@@ -176,6 +177,8 @@ namespace Kenedia.Modules.Characters.Services
         public SettingEntry<RectangleDimensions> WindowOffset { get; set; }
 
         public SettingEntry<bool> ShowStatusWindow { get; set; }
+
+        public SettingEntry<bool> ShowChoyaSpinner { get; set; }
 
         public SettingEntry<bool> AutoSortCharacters { get; set; }
 

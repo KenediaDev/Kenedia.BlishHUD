@@ -39,6 +39,8 @@ using Kenedia.Modules.Core.Extensions;
 using Gw2Sharp.Models;
 using Gw2Sharp.WebApi.V2;
 using Kenedia.Modules.Characters.Controls.SideMenu;
+using System.Drawing;
+using Kenedia.Modules.Core.Utility.WindowsUtil;
 
 namespace Kenedia.Modules.Characters
 {
@@ -52,6 +54,7 @@ namespace Kenedia.Modules.Characters
 
         private bool _saveCharacters;
         private CornerIcon _cornerIcon;
+        private ChoyaSpinner _choyaSpinner;
 
         [ImportingConstructor]
         public Characters([Import("ModuleParameters")] ModuleParameters moduleParameters)
@@ -336,7 +339,7 @@ namespace Kenedia.Modules.Characters
             _ticks.OCR += gameTime.ElapsedGameTime.TotalMilliseconds;
 
             MouseState mouse = GameService.Input.Mouse.State;
-            if (mouse.LeftButton == ButtonState.Pressed || mouse.RightButton == ButtonState.Pressed || GameService.Input.Keyboard.KeysDown.Count > 0)
+            if (GameService.GameIntegration.Gw2Instance.Gw2HasFocus&& (mouse.LeftButton == ButtonState.Pressed || mouse.RightButton == ButtonState.Pressed || GameService.Input.Keyboard.KeysDown.Count > 0))
             {
                 CancelEverything();
             }
@@ -569,7 +572,7 @@ namespace Kenedia.Modules.Characters
             };
 
             OCR = new(Services.ClientWindowService, Services.SharedSettings, Settings, Paths.ModulePath, CharacterModels);
-            RunIndicator = new(CharacterSorting, CharacterSwapping, Settings.ShowStatusWindow);
+            RunIndicator = new(CharacterSorting, CharacterSwapping, Settings.ShowStatusWindow, TextureManager, Settings.ShowChoyaSpinner);
 
             var settingsBg = AsyncTexture2D.FromAssetId(155997);
             Texture2D cutSettingsBg = settingsBg.Texture.GetRegion(0, 0, settingsBg.Width - 482, settingsBg.Height - 390);

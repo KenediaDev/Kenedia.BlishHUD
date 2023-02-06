@@ -1067,6 +1067,14 @@ namespace Kenedia.Modules.Characters.Views
             _ = new Checkbox()
             {
                 Parent = cP,
+                Checked = _settings.ShowChoyaSpinner.Value,
+                SetLocalizedText = () => strings.ShowChoyaSpinner,
+                CheckedChangedAction = (b) => _settings.ShowChoyaSpinner.Value = b,
+            };
+
+            _ = new Checkbox()
+            {
+                Parent = cP,
                 Checked = _settings.OpenSidemenuOnSearch.Value,
                 CheckedChangedAction = (b) => _settings.OpenSidemenuOnSearch.Value = b,
                 SetLocalizedText = () => strings.OpenSidemenuOnSearch,

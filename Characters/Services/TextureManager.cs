@@ -87,6 +87,7 @@ namespace Kenedia.Modules.Characters.Services
             Eye_Button_Hovered,
             Telescope_Button,
             Telescope_Button_Hovered,
+            Choya,
         }
 
         public enum Icons

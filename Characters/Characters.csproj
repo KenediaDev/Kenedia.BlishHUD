@@ -205,6 +205,7 @@
     <Compile Include="Characters.cs" />
     <Compile Include="Controls\BasicTooltip.cs" />
     <Compile Include="Controls\CharacterEdit.cs" />
+    <Compile Include="Controls\ChoyaSpinner.cs" />
     <Compile Include="Controls\RadialMenu.cs" />
     <Compile Include="Controls\PotraitCapture.cs" />
     <Compile Include="Controls\CharacterCard.cs" />

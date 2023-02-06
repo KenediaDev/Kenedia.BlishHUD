@@ -1987,6 +1987,15 @@ namespace Characters.Res {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Show Choya as loading spinner.
+        /// </summary>
+        internal static string ShowChoyaSpinner {
+            get {
+                return ResourceManager.GetString("ShowChoyaSpinner", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Show Corner Icon.
         /// </summary>
         internal static string ShowCorner_Name {

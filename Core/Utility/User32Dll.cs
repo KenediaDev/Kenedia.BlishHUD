@@ -37,5 +37,9 @@ namespace Kenedia.Modules.Core.Utility.WindowsUtil
                 return rect.Left == Left && rect.Top == Top && rect.Right == Right && rect.Bottom == Bottom;
             }
         }
+
+        [DllImport("user32.dll", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool PrintWindow(IntPtr hwnd, IntPtr hDC, uint nFlags);
     }
 }

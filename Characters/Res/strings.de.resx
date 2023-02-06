@@ -948,4 +948,7 @@ Sich automatisch anmelden?
   <data name="CheckDistance_Tooltip" xml:space="preserve">
     <value>Anzahl der zu prüfenden Positionen links und rechts von der erwarteten Position eines Zeichens, wenn dieses Zeichen nicht an der erwarteten Position steht</value>
   </data>
+  <data name="ShowChoyaSpinner" xml:space="preserve">
+    <value>Choya als Ladespinner anzeigen</value>
+  </data>
 </root>
