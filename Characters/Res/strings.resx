@@ -940,4 +940,10 @@ Log in automatically?
   <data name="OnlyEnterOnExact_Tooltip" xml:space="preserve">
     <value>Only login if the OCR result matches perfectly with the desired character name</value>
   </data>
+  <data name="CheckDistance" xml:space="preserve">
+    <value>Check Distance {0}</value>
+  </data>
+  <data name="CheckDistance_Tooltip" xml:space="preserve">
+    <value>Amount of positions to check left and right from the expected position of a character if that character is not at the expected position</value>
+  </data>
 </root>

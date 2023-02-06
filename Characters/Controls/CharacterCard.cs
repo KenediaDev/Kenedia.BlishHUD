@@ -666,6 +666,14 @@ namespace Kenedia.Modules.Characters.Controls
             }
         }
 
+        protected override void OnHidden(EventArgs e)
+        {
+            base.OnHidden(e);
+
+            _textTooltip?.Hide();
+            _characterTooltip?.Hide();
+        }
+
         protected override void DisposeControl()
         {
             base.DisposeControl();

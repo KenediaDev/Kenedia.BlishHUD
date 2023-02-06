@@ -98,20 +98,24 @@ namespace Kenedia.Modules.Characters.Services
             return false;
         }
 
-        public async Task MoveRight(CancellationToken cancellationToken)
+        public async Task MoveRight(CancellationToken cancellationToken, int amount = 1)
         {
             Status = strings.CharacterSwap_Right;
-            Blish_HUD.Controls.Intern.Keyboard.Stroke(VirtualKeyShort.RIGHT, false);
-            await Delay(cancellationToken);
-            Blish_HUD.Controls.Intern.Keyboard.Stroke(VirtualKeyShort.RIGHT, false);
-            await Delay(cancellationToken);
+            for (int i = 0; i < amount; i++)
+            {
+                Blish_HUD.Controls.Intern.Keyboard.Stroke(VirtualKeyShort.RIGHT, false);
+                await Delay(cancellationToken);
+            }
         }
 
-        public async Task MoveLeft(CancellationToken cancellationToken)
+        public async Task MoveLeft(CancellationToken cancellationToken, int amount = 1)
         {
             Status = strings.CharacterSwap_Left;
-            Blish_HUD.Controls.Intern.Keyboard.Stroke(VirtualKeyShort.LEFT, false);
-            await Delay(cancellationToken);
+            for (int i = 0; i < amount; i++)
+            {
+                Blish_HUD.Controls.Intern.Keyboard.Stroke(VirtualKeyShort.LEFT, false);
+                await Delay(cancellationToken);
+            }
         }
 
         public async Task<bool> IsNoKeyPressed(CancellationToken cancellationToken)
@@ -164,20 +168,23 @@ namespace Kenedia.Modules.Characters.Services
                     {
                         _state = SwappingState.CharacterLost;
 
-                        await MoveLeft(cancellationToken);
-                        await Delay(cancellationToken, 250);
-                        if (await ConfirmName())
+                        for (int i = 1; i < Math.Min(_characterModels.Count, _settings.CheckDistance.Value); i++)
                         {
-                            _state = SwappingState.CharacterFound;
-                            return;
-                        }
+                            await MoveLeft(cancellationToken, (i * 2) - 1);
+                            await Delay(cancellationToken, 250);
+                            if (await ConfirmName())
+                            {
+                                _state = SwappingState.CharacterFound;
+                                return;
+                            }
 
-                        await MoveRight(cancellationToken);
-                        await Delay(cancellationToken, 250);
-                        if (await ConfirmName())
-                        {
-                            _state = SwappingState.CharacterFound;
-                            return;
+                            await MoveRight(cancellationToken, i * 2);
+                            await Delay(cancellationToken, 250);
+                            if (await ConfirmName())
+                            {
+                                _state = SwappingState.CharacterFound;
+                                return;
+                            }
                         }
 
                         _state = SwappingState.CharacterFullyLost;
@@ -299,7 +306,7 @@ namespace Kenedia.Modules.Characters.Services
                 Status = strings.CharacterSwap_Logout;
 
                 _ = await _settings.LogoutKey.Value.PerformPress(_settings.KeyDelay.Value, true, cancellationToken);
-  
+
                 Blish_HUD.Controls.Intern.Keyboard.Stroke(VirtualKeyShort.RETURN, false);
                 await Delay(cancellationToken);
 
@@ -386,7 +393,7 @@ namespace Kenedia.Modules.Characters.Services
                 Status = $"Confirm name ..." + Environment.NewLine + $"{ocr_result}";
                 Characters.Logger.Info($"OCR Result: {ocr_result}.");
 
-                if(_settings.OnlyEnterOnExact.Value)
+                if (_settings.OnlyEnterOnExact.Value)
                 {
                     return Character.Name == ocr_result;
                 }
@@ -434,7 +441,7 @@ namespace Kenedia.Modules.Characters.Services
                 Succeeded?.Invoke(null, null);
             }
 
-            if(_settings.OpenInventoryOnEnter.Value)
+            if (_settings.OpenInventoryOnEnter.Value)
             {
                 _ = await _settings.InventoryKey.Value.PerformPress(_settings.KeyDelay.Value, false);
             }

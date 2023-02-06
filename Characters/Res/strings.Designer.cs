@@ -422,6 +422,24 @@ namespace Characters.Res {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Check Distance {0}.
+        /// </summary>
+        internal static string CheckDistance {
+            get {
+                return ResourceManager.GetString("CheckDistance", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Amount of positions to check left and right from the expected position of a character if that character is not at the expected position.
+        /// </summary>
+        internal static string CheckDistance_Tooltip {
+            get {
+                return ResourceManager.GetString("CheckDistance_Tooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Check {0}.
         /// </summary>
         internal static string CheckItem {

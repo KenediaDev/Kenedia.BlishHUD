@@ -940,4 +940,10 @@ Se connecter automatiquement ?
   <data name="OnlyEnterOnExact_Tooltip" xml:space="preserve">
     <value>Se connecter uniquement si le résultat de l'OCR correspond parfaitement au nom du caractère souhaité</value>
   </data>
+  <data name="CheckDistance" xml:space="preserve">
+    <value>Distance de contrôle {0}</value>
+  </data>
+  <data name="CheckDistance_Tooltip" xml:space="preserve">
+    <value>Nombre de positions à vérifier à gauche et à droite de la position attendue d'un caractère si ce caractère n'est pas à la position attendue.</value>
+  </data>
 </root>

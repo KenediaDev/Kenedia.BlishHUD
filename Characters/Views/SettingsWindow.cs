@@ -634,6 +634,38 @@ namespace Kenedia.Modules.Characters.Views
                 SetLocalizedTooltip = () => strings.FilterAsOne_Tooltip,
                 CheckedChangedAction = (b) => _settings.FilterAsOne.Value = b,
             };
+
+            var subP = new Panel()
+            {
+                Parent = cP,
+                WidthSizingMode = SizingMode.Fill,
+                HeightSizingMode = SizingMode.AutoSize,
+            };
+
+            var checkDistanceLabel = new Label()
+            {
+                Parent = subP,
+                AutoSizeWidth = true,
+                Height = 20,
+                SetLocalizedText = () => string.Format(strings.CheckDistance, _settings.CheckDistance.Value),
+                SetLocalizedTooltip = () => strings.CheckDistance_Tooltip,
+            };
+
+            _ = new TrackBar()
+            {
+                Location = new(225, 2),
+                Parent = subP,
+                MinValue = 0,
+                MaxValue = 72,
+                Value = _settings.CheckDistance.Value,
+                Width = ContentRegion.Width - 35 - 225,
+                SetLocalizedTooltip = () => strings.CheckDistance_Tooltip,
+                ValueChangedAction = (num) =>
+                {
+                    _settings.CheckDistance.Value = num;
+                    checkDistanceLabel.UserLocale_SettingChanged(null, null);
+                },
+            };
             #endregion Behavior
         }
 

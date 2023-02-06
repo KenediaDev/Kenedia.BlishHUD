@@ -942,4 +942,10 @@ Sich automatisch anmelden?
   <data name="OnlyEnterOnExact_Tooltip" xml:space="preserve">
     <value>Nur anmelden, wenn das OCR-Ergebnis perfekt mit dem gewünschten Zeichennamen übereinstimmt</value>
   </data>
+  <data name="CheckDistance" xml:space="preserve">
+    <value>Abstand prüfen {0}</value>
+  </data>
+  <data name="CheckDistance_Tooltip" xml:space="preserve">
+    <value>Anzahl der zu prüfenden Positionen links und rechts von der erwarteten Position eines Zeichens, wenn dieses Zeichen nicht an der erwarteten Position steht</value>
+  </data>
 </root>

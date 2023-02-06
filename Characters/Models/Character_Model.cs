@@ -456,8 +456,6 @@ namespace Kenedia.Modules.Characters.Models
         public void Save()
         {
             if (_initialized) _requestSave?.Invoke();
-
-            Debug.WriteLine($"{Name} requests a save!");
         }
 
         public void Swap(bool ignoreOCR = false)

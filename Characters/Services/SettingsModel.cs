@@ -57,6 +57,7 @@ namespace Kenedia.Modules.Characters.Services
             OpenInventoryOnEnter = internalSettings.DefineSetting(nameof(OpenInventoryOnEnter), false);
             DoubleClickToEnter = internalSettings.DefineSetting(nameof(DoubleClickToEnter), false);
             EnterToLogin = internalSettings.DefineSetting(nameof(EnterToLogin), false);
+            CheckDistance = internalSettings.DefineSetting(nameof(CheckDistance), 5);
             SwapDelay = internalSettings.DefineSetting(nameof(SwapDelay), 250);
             KeyDelay = internalSettings.DefineSetting(nameof(KeyDelay), 0);
             FilterDelay = internalSettings.DefineSetting(nameof(FilterDelay), 0);
@@ -278,6 +279,8 @@ namespace Kenedia.Modules.Characters.Services
         public SettingEntry<bool> DoubleClickToEnter { get; set; }
 
         public SettingEntry<bool> EnterToLogin { get; set; }
+
+        public SettingEntry<int> CheckDistance { get; set; }
 
         public SettingEntry<int> SwapDelay { get; set; }
 

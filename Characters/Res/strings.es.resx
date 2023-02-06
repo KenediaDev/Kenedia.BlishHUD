@@ -940,4 +940,10 @@ Uu : Üü Ûû Ùù</value>
   <data name="OnlyEnterOnExact_Tooltip" xml:space="preserve">
     <value>Inicie sesión sólo si el resultado del OCR coincide perfectamente con el nombre del carácter deseado</value>
   </data>
+  <data name="CheckDistance" xml:space="preserve">
+    <value>Comprobar distancia {0}</value>
+  </data>
+  <data name="CheckDistance_Tooltip" xml:space="preserve">
+    <value>Cantidad de posiciones a comprobar a izquierda y derecha de la posición esperada de un carácter si dicho carácter no se encuentra en la posición esperada.</value>
+  </data>
 </root>
