@@ -19,12 +19,13 @@ namespace Kenedia.Modules.Core.Controls
 
         protected override void Paint(SpriteBatch spriteBatch, Rectangle bounds)
         {
-            var b = new Rectangle(bounds.Location, bounds.Size);
+            var b = new Rectangle(Location, Size);
 
             spriteBatch.Draw(ContentService.Textures.TransparentPixel, b, Color.Transparent);
             spriteBatch.End();
 
             spriteBatch.Begin(_batchParameters);
+            //spriteBatch.Draw(ContentService.Textures.Pixel, bounds, Color.Blue);
         }
     }
 }

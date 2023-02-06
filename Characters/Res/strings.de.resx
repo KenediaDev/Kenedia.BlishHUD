@@ -906,4 +906,40 @@ Sich automatisch anmelden?
   <data name="Radial_UseProfessionIconsColor_Tooltip" xml:space="preserve">
     <value>Färben Sie die Berufssymbole in der Berufsfarbe</value>
   </data>
+  <data name="ShowLastButton" xml:space="preserve">
+    <value>Letzte Schaltfläche anzeigen</value>
+  </data>
+  <data name="ShowLastButton_Tooltip" xml:space="preserve">
+    <value>Zeigen Sie eine Schaltfläche an, die OCR ignoriert und das allerletzte Zeichen in Ihrem Zeichenbildschirm aufzeichnet</value>
+  </data>
+  <data name="LastButton_Tooltip" xml:space="preserve">
+    <value>Ignorieren Sie OCR und protokollieren Sie das allerletzte Zeichen Ihres Zeichenbildschirms in</value>
+  </data>
+  <data name="InventoryKey" xml:space="preserve">
+    <value>Bestandsaufnahme</value>
+  </data>
+  <data name="InventoryKey_Tooltip" xml:space="preserve">
+    <value>Binden von Tasten zum Öffnen/Schließen des Inventars</value>
+  </data>
+  <data name="OpenInventoryOnEnter" xml:space="preserve">
+    <value>Offenes Inventar</value>
+  </data>
+  <data name="OpenInventoryOnEnter_Tooltip" xml:space="preserve">
+    <value>Öffnen Sie Ihr Inventar automatisch nach dem Einloggen</value>
+  </data>
+  <data name="MailKey" xml:space="preserve">
+    <value>Mail-Dialog</value>
+  </data>
+  <data name="MailKey_Tooltip" xml:space="preserve">
+    <value>Öffnen oder Schließen des Mail-Dialogs</value>
+  </data>
+  <data name="ClickBirthdayToMarkAsOpen" xml:space="preserve">
+    <value>Wenn Sie auf diese Schaltfläche klicken, werden die Geburtstagsgeschenke als abgeholt markiert!</value>
+  </data>
+  <data name="OnlyEnterOnExact" xml:space="preserve">
+    <value>Anmeldung nur bei exakter OCR-Übereinstimmung</value>
+  </data>
+  <data name="OnlyEnterOnExact_Tooltip" xml:space="preserve">
+    <value>Nur anmelden, wenn das OCR-Ergebnis perfekt mit dem gewünschten Zeichennamen übereinstimmt</value>
+  </data>
 </root>

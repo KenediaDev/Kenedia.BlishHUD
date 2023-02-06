@@ -9,6 +9,7 @@ using Kenedia.Modules.Core.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
@@ -46,6 +47,7 @@ namespace Kenedia.Modules.Characters.Models
         private int _position;
         private int _index;
         private bool _showOnRadial = false;
+        private bool _hadBirthday;
 
         public Character_Model()
         {
@@ -80,6 +82,8 @@ namespace Kenedia.Modules.Characters.Models
                     Active = disc.Active,
                 });
             }
+
+            _initialized = true;
         }
 
         public Character_Model(Character_Model character, CharacterSwapping characterSwapping, string modulePath, Action requestSave, ObservableCollection<Character_Model> characterModels, Data data)
@@ -107,6 +111,9 @@ namespace Kenedia.Modules.Characters.Models
             _index = character.Index;
             _gender = character.Gender;
             _showOnRadial = character.ShowOnRadial;
+            _hadBirthday = character.HadBirthday;
+
+            _initialized = true;
         }
 
         public event EventHandler Updated;
@@ -324,10 +331,19 @@ namespace Kenedia.Modules.Characters.Models
             }
         }
 
+        [DataMember]
+        public bool HadBirthday
+        {
+            get => _hadBirthday;
+            set => SetProperty(ref _hadBirthday, value);
+        }
+
         public bool HasBirthdayPresent
         {
             get
             {
+                if (HadBirthday) return true;
+
                 for (int i = 1; i < 100; i++)
                 {
                     DateTime birthDay = Created.AddYears(i).DateTime;
@@ -336,6 +352,7 @@ namespace Kenedia.Modules.Characters.Models
                     {
                         if (birthDay > LastLogin)
                         {
+                            HadBirthday = true;
                             return true;
                         }
                     }
@@ -363,12 +380,6 @@ namespace Kenedia.Modules.Characters.Models
             Deleted?.Invoke(null, null);
             _ = _characterModels.Remove(this);
             Save();
-        }
-
-        public void Initialize(CharacterSwapping characterSwapping, string modulePath, Action requestSave, ObservableCollection<Character_Model> character_Models, Data data)
-        {
-            _initialized = true;
-            ModulePath = modulePath;
         }
 
         protected bool SetProperty<T>(ref T property, T newValue, [CallerMemberName] string caller = "")
@@ -419,8 +430,10 @@ namespace Kenedia.Modules.Characters.Models
             {
                 int distance = name.LevenshteinDistance(c.Name);
                 int listDistance = c.Position.Difference(Position);
-
-                distances.Add((c.Name, distance, listDistance, listDistance + distance, c.Name == Name));
+                if (listDistance < 5)
+                {
+                    distances.Add((c.Name, distance, listDistance, listDistance + distance, c.Name == Name));
+                }
             }
 
             distances.Sort((a, b) => a.Item4.CompareTo(b.Item4));
@@ -443,18 +456,25 @@ namespace Kenedia.Modules.Characters.Models
         public void Save()
         {
             if (_initialized) _requestSave?.Invoke();
+
+            Debug.WriteLine($"{Name} requests a save!");
         }
 
-        public void Swap()
+        public void Swap(bool ignoreOCR = false)
         {
-            _characterSwapping?.Start(this);
+            _characterSwapping?.Start(this, ignoreOCR);
         }
 
-        public void UpdateCharacter(PlayerCharacter character)
+        public void UpdateCharacter(PlayerCharacter character = null)
         {
-            Specialization = (SpecializationType)character.Specialization;
-            Map = GameService.Gw2Mumble.CurrentMap.Id;
-            LastLogin = DateTime.UtcNow;
+            character ??= GameService.Gw2Mumble.PlayerCharacter;
+
+            if (character != null && character.Name == Name)
+            {
+                Specialization = (SpecializationType)character.Specialization;
+                Map = GameService.Gw2Mumble.CurrentMap.Id;
+                LastLogin = DateTime.UtcNow;
+            }
         }
 
         public void UpdateCharacter(Character character)

@@ -136,7 +136,6 @@ namespace Kenedia.Modules.Characters
 
             if (character.Name != player.Name || !GameService.GameIntegration.Gw2Instance.IsInGame)
             {
-
                 CharacterSwapping.Start(character);
             }
         }
@@ -342,20 +341,20 @@ namespace Kenedia.Modules.Characters
                 CancelEverything();
             }
 
-            PlayerCharacter player = GameService.Gw2Mumble.PlayerCharacter;
-
             if (_ticks.Global > 15000)
             {
                 _ticks.Global = 0;
-                CurrentCharacterModel = null;
+                PlayerCharacter player = GameService.Gw2Mumble.PlayerCharacter;
 
-                if (GameService.GameIntegration.Gw2Instance.IsInGame)
+                string name = player != null ? player.Name : string.Empty;
+                bool charSelection = Settings.UseBetaGamestate.Value ? Services.GameState.IsCharacterSelection : !GameService.GameIntegration.Gw2Instance.IsInGame;
+
+                CurrentCharacterModel = !charSelection ? CharacterModels.FirstOrDefault(e => e.Name == name) : null;
+
+                if (CurrentCharacterModel != null)
                 {
-                    player = GameService.Gw2Mumble.PlayerCharacter;
-                    CurrentCharacterModel = CharacterModels.FirstOrDefault(e => e.Name == player.Name);
                     CurrentCharacterModel?.UpdateCharacter(player);
-
-                    if (CurrentCharacterModel != null) MainWindow?.SortCharacters();
+                    MainWindow?.SortCharacters();
                 }
             }
 
@@ -640,6 +639,7 @@ namespace Kenedia.Modules.Characters
             CharacterSwapping.HideMainWindow = MainWindow.Hide;
             CharacterSwapping.OCR = OCR;
             CharacterSorting.OCR = OCR;
+            CharacterSorting.UpdateCharacterList = MainWindow.PerformFiltering;
         }
 
         protected override void UnloadGUI()

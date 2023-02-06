@@ -24,6 +24,7 @@ using Rectangle = Microsoft.Xna.Framework.Rectangle;
 using TextBox = Kenedia.Modules.Core.Controls.TextBox;
 using StandardWindow = Kenedia.Modules.Core.Views.StandardWindow;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 
 namespace Kenedia.Modules.Characters.Views
 {
@@ -40,6 +41,7 @@ namespace Kenedia.Modules.Characters.Views
         private readonly ImageButton _toggleSideMenuButton;
         private readonly ImageButton _displaySettingsButton;
         private readonly ImageButton _randomButton;
+        private readonly ImageButton _lastButton;
         private readonly ImageButton _clearButton;
         private readonly FlowPanel _dropdownPanel;
         private readonly FlowPanel _buttonPanel;
@@ -117,10 +119,15 @@ namespace Kenedia.Modules.Characters.Views
                 HoveredTexture = AsyncTexture2D.FromAssetId(2175782),
                 ClickedTexture = AsyncTexture2D.FromAssetId(2175784),
                 Size = new Point(20, 20),
-                BasicTooltipText = strings.ClearFilters,
+                SetLocalizedTooltip = () => strings.ClearFilters,
                 Visible = false,
+                ClickAction = (m) =>
+                {
+                    _filterBox.Text = null;
+                    _filterCharacters = true;
+                    SideMenu.ResetToggles();
+                }
             };
-            _clearButton.Click += ClearButton_Click;
 
             _buttonPanel = new FlowPanel()
             {
@@ -131,17 +138,41 @@ namespace Kenedia.Modules.Characters.Views
                 Padding = new(15),
             };
             _buttonPanel.Resized += ButtonPanel_Resized;
+
+            _lastButton = new()
+            {
+                Parent = _buttonPanel,
+                Texture = AsyncTexture2D.FromAssetId(1078535),
+                Size = new Point(25, 25),
+                Color = ContentService.Colors.ColonialWhite,
+                ColorHovered = Color.White,
+                SetLocalizedTooltip = () => strings.LastButton_Tooltip,
+                Visible = _settings.ShowLastButton.Value,
+                ClickAction = (m) =>
+                {
+                    var character = characterModels.Aggregate((a, b) => b.LastLogin > a.LastLogin ? a : b);
+                    character?.Swap(true);
+                }
+            };
+            _lastButton.Texture.TextureSwapped += Texture_TextureSwapped;
+
             _randomButton = new()
             {
                 Parent = _buttonPanel,
                 Size = new Point(25, 25),
-                BasicTooltipText = strings.RandomButton_Tooltip,
+                SetLocalizedTooltip = () => strings.RandomButton_Tooltip,
                 Texture = _textureManager.GetIcon(TextureManager.Icons.Dice),
                 HoveredTexture = _textureManager.GetIcon(TextureManager.Icons.Dice_Hovered),
                 Visible = _settings.ShowRandomButton.Value,
+                ClickAction = (m) =>
+                {
+                    var selection = CharactersPanel.Children.Where(e => e.Visible).ToList();
+                    int r = RandomService.Rnd.Next(selection.Count);
+                    var entry = (CharacterCard)selection[r];
+
+                    entry?.Character.Swap();
+                }
             };
-            _randomButton.Click += RandomButton_Click;
-            _settings.ShowRandomButton.SettingChanged += ShowRandomButton_SettingChanged;
 
             _displaySettingsButton = new()
             {
@@ -149,7 +180,8 @@ namespace Kenedia.Modules.Characters.Views
                 Texture = AsyncTexture2D.FromAssetId(155052),
                 HoveredTexture = AsyncTexture2D.FromAssetId(157110),
                 Size = new Point(25, 25),
-                BasicTooltipText = string.Format(strings.ShowItem, string.Format(strings.ItemSettings, strings.Display)),
+                SetLocalizedTooltip = () => string.Format(strings.ShowItem, string.Format(strings.ItemSettings, strings.Display)),
+                ClickAction = (m) => SettingsWindow?.ToggleWindow(),
             };
 
             _toggleSideMenuButton = new()
@@ -159,13 +191,11 @@ namespace Kenedia.Modules.Characters.Views
                 Size = new Point(25, 25),
                 Color = ContentService.Colors.ColonialWhite,
                 ColorHovered = Color.White,
-                BasicTooltipText = string.Format(strings.Toggle, "Side Menu"),
+                SetLocalizedTooltip = () => string.Format(strings.Toggle, "Side Menu"),
+                ClickAction = (m) => ShowAttached(SideMenu.Visible ? null : SideMenu),
             };
-            _toggleSideMenuButton.Click += ToggleSideMenuButton_Click;
 
-            _displaySettingsButton.Click += DisplaySettingsButton_Click;
-
-            CharacterEdit = new CharacterEdit(textureManager, togglePotrait, accountImagePath, tags, settings)
+            CharacterEdit = new CharacterEdit(textureManager, togglePotrait, accountImagePath, tags, settings, PerformFiltering)
             {
                 Parent = GameService.Graphics.SpriteScreen,
                 Anchor = this,
@@ -188,9 +218,32 @@ namespace Kenedia.Modules.Characters.Views
             AttachContainer(CharacterEdit);
             AttachContainer(SideMenu);
 
-            _settings.PinSideMenus.SettingChanged += PinSideMenus_SettingChanged;
             CreateCharacterControls(_characterModels);
             _created = true;
+
+            _settings.PinSideMenus.SettingChanged += PinSideMenus_SettingChanged;
+            _settings.ShowRandomButton.SettingChanged += ShowRandomButton_SettingChanged;
+            _settings.ShowLastButton.SettingChanged += ShowLastButton_SettingChanged;
+
+            GameService.Gw2Mumble.CurrentMap.MapChanged += CurrentMap_MapChanged;
+        }
+
+        private void CurrentMap_MapChanged(object sender, ValueEventArgs<int> e)
+        {
+            _currentCharacter?.Invoke()?.UpdateCharacter();
+            PerformFiltering();
+        }
+
+        private void Texture_TextureSwapped(object sender, ValueChangedEventArgs<Texture2D> e)
+        {
+            _lastButton.Texture.TextureSwapped -= Texture_TextureSwapped;
+            _lastButton.Texture = e.NewValue.ToGrayScaledPalettable();
+        }
+
+        private void ShowLastButton_SettingChanged(object sender, ValueChangedEventArgs<bool> e)
+        {
+            _lastButton.Visible = e.NewValue;
+            _buttonPanel.Invalidate();
         }
 
         public SettingsWindow SettingsWindow { get; set; }
@@ -205,24 +258,10 @@ namespace Kenedia.Modules.Characters.Views
             SideMenu.FadeOut = !e.NewValue;
         }
 
-        private void ToggleSideMenuButton_Click(object sender, Blish_HUD.Input.MouseEventArgs e)
-        {
-            ShowAttached(SideMenu.Visible ? null : SideMenu);
-        }
-
         private void ShowRandomButton_SettingChanged(object sender, ValueChangedEventArgs<bool> e)
         {
-            _randomButton.Visible = _settings.ShowRandomButton.Value;
+            _randomButton.Visible = e.NewValue;
             _buttonPanel.Invalidate();
-        }
-
-        private void RandomButton_Click(object sender, Blish_HUD.Input.MouseEventArgs e)
-        {
-            var selection = CharactersPanel.Children.Where(e => e.Visible).ToList();
-            int r = RandomService.Rnd.Next(selection.Count);
-            var entry = (CharacterCard)selection[r];
-
-            entry?.Character.Swap();
         }
 
         private void ButtonPanel_Resized(object sender, ResizedEventArgs e)
@@ -395,11 +434,21 @@ namespace Kenedia.Modules.Characters.Views
                         switch (order)
                         {
                             case ESortOrder.Ascending:
-                                CharactersPanel.SortChildren<CharacterCard>((a, b) => a.Character.Name.CompareTo(b.Character.Name));
+                                CharactersPanel.SortChildren<CharacterCard>((a, b) =>
+                                {
+                                    int r1 = b.Character.Name.CompareTo(a.Character.Name);
+                                    int r2 = b.Character.Position.CompareTo(a.Character.Position);
+                                    return r1 == 0 ? r1 - r2 : r1;
+                                });
                                 break;
 
                             case ESortOrder.Descending:
-                                CharactersPanel.SortChildren<CharacterCard>((a, b) => b.Character.Name.CompareTo(a.Character.Name));
+                                CharactersPanel.SortChildren<CharacterCard>((a, b) =>
+                                {
+                                    int r1 = a.Character.Name.CompareTo(b.Character.Name);
+                                    int r2 = a.Character.Position.CompareTo(b.Character.Position);
+                                    return r1 == 0 ? r1 - r2 : r1;
+                                });
                                 break;
                         }
 
@@ -437,11 +486,21 @@ namespace Kenedia.Modules.Characters.Views
                         switch (order)
                         {
                             case ESortOrder.Ascending:
-                                CharactersPanel.SortChildren<CharacterCard>((a, b) => a.Character.Map.CompareTo(b.Character.Map));
+                                CharactersPanel.SortChildren<CharacterCard>((a, b) =>
+                                {
+                                    int r1 = b.Character.Map.CompareTo(a.Character.Map);
+                                    int r2 = b.Character.Position.CompareTo(a.Character.Position);
+                                    return r1 == 0 ? r1 - r2 : r1;
+                                });
                                 break;
 
                             case ESortOrder.Descending:
-                                CharactersPanel.SortChildren<CharacterCard>((a, b) => b.Character.Map.CompareTo(a.Character.Map));
+                                CharactersPanel.SortChildren<CharacterCard>((a, b) =>
+                                {
+                                    int r1 = a.Character.Map.CompareTo(b.Character.Map);
+                                    int r2 = a.Character.Position.CompareTo(b.Character.Position);
+                                    return r1 == 0 ? r1 - r2 : r1;
+                                });
                                 break;
                         }
 
@@ -453,11 +512,21 @@ namespace Kenedia.Modules.Characters.Views
                         switch (order)
                         {
                             case ESortOrder.Ascending:
-                                CharactersPanel.SortChildren<CharacterCard>((a, b) => a.Character.Profession.CompareTo(b.Character.Profession));
+                                CharactersPanel.SortChildren<CharacterCard>((a, b) =>
+                                {
+                                    int r1 = b.Character.Profession.CompareTo(a.Character.Profession);
+                                    int r2 = b.Character.Position.CompareTo(a.Character.Position);
+                                    return r1 == 0 ? r1 - r2 : r1;
+                                });
                                 break;
 
                             case ESortOrder.Descending:
-                                CharactersPanel.SortChildren<CharacterCard>((a, b) => b.Character.Profession.CompareTo(a.Character.Profession));
+                                CharactersPanel.SortChildren<CharacterCard>((a, b) =>
+                                {
+                                    int r1 = a.Character.Profession.CompareTo(b.Character.Profession);
+                                    int r2 = a.Character.Position.CompareTo(b.Character.Position);
+                                    return r1 == 0 ? r1 - r2 : r1;
+                                });
                                 break;
                         }
 
@@ -588,16 +657,17 @@ namespace Kenedia.Modules.Characters.Views
         {
             base.DisposeControl();
 
+            _settings.PinSideMenus.SettingChanged -= PinSideMenus_SettingChanged;
+            _settings.ShowRandomButton.SettingChanged -= ShowRandomButton_SettingChanged;
+            _settings.ShowLastButton.SettingChanged -= ShowLastButton_SettingChanged;
+
+            GameService.Gw2Mumble.CurrentMap.MapChanged -= CurrentMap_MapChanged;
+
             DraggingControl.LeftMouseButtonReleased -= DraggingControl_LeftMouseButtonReleased;
             _filterBox.TextChanged -= FilterCharacters;
             _filterBox.Click -= FilterBox_Click;
             _filterBox.EnterPressed -= FilterBox_EnterPressed;
-            _clearButton.Click -= ClearButton_Click;
             _buttonPanel.Resized -= ButtonPanel_Resized;
-            _randomButton.Click -= RandomButton_Click;
-            _displaySettingsButton.Click -= DisplaySettingsButton_Click;
-
-            _settings.ShowRandomButton.SettingChanged -= ShowRandomButton_SettingChanged;
 
             if (CharacterCards.Count > 0) CharacterCards?.DisposeAll();
             ContentPanel?.DisposeAll();
@@ -621,21 +691,9 @@ namespace Kenedia.Modules.Characters.Views
             }
         }
 
-        private void ClearButton_Click(object sender, Blish_HUD.Input.MouseEventArgs e)
-        {
-            _filterBox.Text = null;
-            _filterCharacters = true;
-            SideMenu.ResetToggles();
-        }
-
         private void FilterBox_Click(object sender, Blish_HUD.Input.MouseEventArgs e)
         {
             if (_settings.OpenSidemenuOnSearch.Value) ShowAttached(SideMenu);
-        }
-
-        private void DisplaySettingsButton_Click(object sender, Blish_HUD.Input.MouseEventArgs e)
-        {
-            SettingsWindow?.ToggleWindow();
         }
 
         private void DraggingControl_LeftMouseButtonReleased(object sender, Blish_HUD.Input.MouseEventArgs e)

@@ -150,8 +150,9 @@ namespace Kenedia.Modules.Core.Services
 
                     bool isButtonVisible = IsButtonVisible();
 
-                    // there IS the cog wheel present in the top left. --> Ingame
-                    if (isButtonVisible && GameStatus is GameStatus.Unknown or GameStatus.Ingame)
+                    // there IS the logout button in the bottom left. --> Character Selection
+                    //if (isButtonVisible && GameStatus is GameStatus.Unknown or GameStatus.Ingame)
+                    if (isButtonVisible)
                     {
                         NewStatus = GameStatus.CharacterSelection;
                     }

@@ -904,4 +904,40 @@ Uu : Üü Ûû Ùù</value>
   <data name="Radial_UseProfessionIconsColor_Tooltip" xml:space="preserve">
     <value>Colorea los iconos de la profesión con el color de la profesión</value>
   </data>
+  <data name="ShowLastButton" xml:space="preserve">
+    <value>Mostrar último botón</value>
+  </data>
+  <data name="ShowLastButton_Tooltip" xml:space="preserve">
+    <value>Muestra un botón que ignorará el OCR y registrará el último carácter de tu pantalla de caracteres en</value>
+  </data>
+  <data name="LastButton_Tooltip" xml:space="preserve">
+    <value>Ignore el OCR y registre el último carácter de su pantalla de caracteres en</value>
+  </data>
+  <data name="InventoryKey" xml:space="preserve">
+    <value>Inventario</value>
+  </data>
+  <data name="InventoryKey_Tooltip" xml:space="preserve">
+    <value>Teclas para abrir y cerrar el inventario</value>
+  </data>
+  <data name="OpenInventoryOnEnter" xml:space="preserve">
+    <value>Abrir inventario</value>
+  </data>
+  <data name="OpenInventoryOnEnter_Tooltip" xml:space="preserve">
+    <value>Abrir el inventario automáticamente tras iniciar sesión</value>
+  </data>
+  <data name="MailKey" xml:space="preserve">
+    <value>Diálogo de correo</value>
+  </data>
+  <data name="MailKey_Tooltip" xml:space="preserve">
+    <value>Abrir o cerrar el cuadro de diálogo Correo</value>
+  </data>
+  <data name="ClickBirthdayToMarkAsOpen" xml:space="preserve">
+    <value>Al hacer clic en este botón, los regalos de cumpleaños se marcarán como recogidos.</value>
+  </data>
+  <data name="OnlyEnterOnExact" xml:space="preserve">
+    <value>Inicio de sesión sólo con coincidencia exacta de OCR</value>
+  </data>
+  <data name="OnlyEnterOnExact_Tooltip" xml:space="preserve">
+    <value>Inicie sesión sólo si el resultado del OCR coincide perfectamente con el nombre del carácter deseado</value>
+  </data>
 </root>

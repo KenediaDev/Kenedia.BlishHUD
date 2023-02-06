@@ -1,6 +1,7 @@
 ﻿using Blish_HUD;
 using Blish_HUD.Content;
 using Blish_HUD.Controls;
+using Blish_HUD.Gw2Mumble;
 using Blish_HUD.Input;
 using Characters.Res;
 using Kenedia.Modules.Characters.Models;
@@ -592,7 +593,7 @@ namespace Kenedia.Modules.Characters.Controls
             _mainWindow.CharacterEdit.Character = Character;
         }
 
-        protected override void OnClick(MouseEventArgs e)
+        protected override async void OnClick(MouseEventArgs e)
         {
             base.OnClick(e);
 
@@ -605,7 +606,19 @@ namespace Kenedia.Modules.Characters.Controls
             // Logout Icon Clicked!
             if (_loginRect.Contains(RelativeMousePosition))
             {
-                Character.Swap();
+                PlayerCharacter player = GameService.Gw2Mumble.PlayerCharacter;
+
+                if (player != null && player.Name == Character.Name && Character.HasBirthdayPresent)
+                {
+                    _ = await _settings.MailKey.Value.PerformPress(50, false);
+                    _mainWindow.CharacterEdit.Character = Character;
+                    _mainWindow.ShowAttached(_mainWindow.CharacterEdit);
+                }
+                else
+                {
+                    Character.Swap();
+                    _mainWindow.ShowAttached();
+                }
             }
 
             // Cog Icon Clicked!

@@ -76,6 +76,8 @@ namespace Kenedia.Modules.Characters.Services
 
         public CharacterSwapping CharacterSwapping { get; set; }
 
+        public Action UpdateCharacterList { get; set; }
+
         public string Status
         {
             set
@@ -230,7 +232,7 @@ namespace Kenedia.Modules.Characters.Services
             foreach (Character_Model c in _models)
             {
                 int distance = name.LevenshteinDistance(c.Name);
-                int listDistance = c.Position.Difference(_currentIndex);
+                int listDistance = 0; //c.Position.Difference(_currentIndex);
 
                 distances.Add((c.Name, distance, listDistance, listDistance + distance, expectedCharacter != null && c.Name == expectedCharacter?.Name));
             }
@@ -324,6 +326,8 @@ namespace Kenedia.Modules.Characters.Services
                     }
                 }
             }
+
+            UpdateCharacterList?.Invoke();
         }
     }
 }

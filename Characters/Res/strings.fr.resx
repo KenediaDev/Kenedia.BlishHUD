@@ -904,4 +904,40 @@ Se connecter automatiquement ?
   <data name="Radial_UseProfessionIconsColor_Tooltip" xml:space="preserve">
     <value>Colorier les icônes de la profession dans la couleur de la profession</value>
   </data>
+  <data name="ShowLastButton" xml:space="preserve">
+    <value>Afficher le dernier bouton</value>
+  </data>
+  <data name="ShowLastButton_Tooltip" xml:space="preserve">
+    <value>Affichez un bouton qui ignorera l'OCR et enregistrera le tout dernier caractère de votre écran de caractères en</value>
+  </data>
+  <data name="LastButton_Tooltip" xml:space="preserve">
+    <value>Ignorez l'OCR et enregistrez le tout dernier caractère de votre écran de caractère dans</value>
+  </data>
+  <data name="InventoryKey" xml:space="preserve">
+    <value>Inventaire</value>
+  </data>
+  <data name="InventoryKey_Tooltip" xml:space="preserve">
+    <value>Lier les touches pour ouvrir/fermer votre inventaire</value>
+  </data>
+  <data name="OpenInventoryOnEnter" xml:space="preserve">
+    <value>Inventaire ouvert</value>
+  </data>
+  <data name="OpenInventoryOnEnter_Tooltip" xml:space="preserve">
+    <value>Ouvrez votre inventaire automatiquement après vous être connecté</value>
+  </data>
+  <data name="MailKey" xml:space="preserve">
+    <value>Dialogue du courrier</value>
+  </data>
+  <data name="MailKey_Tooltip" xml:space="preserve">
+    <value>Ouvrir ou fermer la boîte de dialogue Courrier</value>
+  </data>
+  <data name="ClickBirthdayToMarkAsOpen" xml:space="preserve">
+    <value>En cliquant sur ce bouton, les cadeaux d'anniversaire seront marqués comme collectés !</value>
+  </data>
+  <data name="OnlyEnterOnExact" xml:space="preserve">
+    <value>Connexion uniquement en cas de correspondance exacte de l'OCR</value>
+  </data>
+  <data name="OnlyEnterOnExact_Tooltip" xml:space="preserve">
+    <value>Se connecter uniquement si le résultat de l'OCR correspond parfaitement au nom du caractère souhaité</value>
+  </data>
 </root>

@@ -467,6 +467,15 @@ namespace Characters.Res {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Clicking this button will mark the birthday gifts as collected!.
+        /// </summary>
+        internal static string ClickBirthdayToMarkAsOpen {
+            get {
+                return ResourceManager.GetString("ClickBirthdayToMarkAsOpen", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Close.
         /// </summary>
         internal static string Close {
@@ -1107,6 +1116,24 @@ namespace Characters.Res {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Inventory Dialog.
+        /// </summary>
+        internal static string InventoryKey {
+            get {
+                return ResourceManager.GetString("InventoryKey", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Open or close the Inventory dialog.
+        /// </summary>
+        internal static string InventoryKey_Tooltip {
+            get {
+                return ResourceManager.GetString("InventoryKey_Tooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to {0} Settings.
         /// </summary>
         internal static string ItemSettings {
@@ -1157,6 +1184,15 @@ namespace Characters.Res {
         internal static string Large {
             get {
                 return ResourceManager.GetString("Large", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Ignore OCR and log the very last character of your character screen in.
+        /// </summary>
+        internal static string LastButton_Tooltip {
+            get {
+                return ResourceManager.GetString("LastButton_Tooltip", resourceCulture);
             }
         }
         
@@ -1256,6 +1292,24 @@ namespace Characters.Res {
         internal static string LogoutDescription {
             get {
                 return ResourceManager.GetString("LogoutDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Mail Dialog.
+        /// </summary>
+        internal static string MailKey {
+            get {
+                return ResourceManager.GetString("MailKey", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Open or close the Mail dialog.
+        /// </summary>
+        internal static string MailKey_Tooltip {
+            get {
+                return ResourceManager.GetString("MailKey_Tooltip", resourceCulture);
             }
         }
         
@@ -1432,6 +1486,24 @@ namespace Characters.Res {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Only login on exact OCR match.
+        /// </summary>
+        internal static string OnlyEnterOnExact {
+            get {
+                return ResourceManager.GetString("OnlyEnterOnExact", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Only login if the OCR result matches perfectly with the desired character name.
+        /// </summary>
+        internal static string OnlyEnterOnExact_Tooltip {
+            get {
+                return ResourceManager.GetString("OnlyEnterOnExact_Tooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Only Icons.
         /// </summary>
         internal static string OnlyIcons {
@@ -1464,6 +1536,24 @@ namespace Characters.Res {
         internal static string OnlyText {
             get {
                 return ResourceManager.GetString("OnlyText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Open Inventory.
+        /// </summary>
+        internal static string OpenInventoryOnEnter {
+            get {
+                return ResourceManager.GetString("OpenInventoryOnEnter", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Open your inventory automatically after logging in.
+        /// </summary>
+        internal static string OpenInventoryOnEnter_Tooltip {
+            get {
+                return ResourceManager.GetString("OpenInventoryOnEnter_Tooltip", resourceCulture);
             }
         }
         
@@ -1947,6 +2037,24 @@ namespace Characters.Res {
         internal static string ShowItem {
             get {
                 return ResourceManager.GetString("ShowItem", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Show Last Button.
+        /// </summary>
+        internal static string ShowLastButton {
+            get {
+                return ResourceManager.GetString("ShowLastButton", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Show a button which will ignore OCR and log the very last character in your character screen in.
+        /// </summary>
+        internal static string ShowLastButton_Tooltip {
+            get {
+                return ResourceManager.GetString("ShowLastButton_Tooltip", resourceCulture);
             }
         }
         

@@ -488,6 +488,44 @@ namespace Kenedia.Modules.Characters.Views
                 SetLocalizedKeyBindingName = () => strings.RadialMenuKey,
                 SetLocalizedTooltip = () => strings.RadialMenuKey_Tooltip,
             };
+
+            _ = new KeybindingAssigner()
+            {
+                Parent = cP,
+                Width = ContentRegion.Width - 35,
+                KeyBinding = _settings.InventoryKey.Value,
+                KeybindChangedAction = (kb) =>
+                {
+                    _settings.InventoryKey.Value = new()
+                    {
+                        ModifierKeys = kb.ModifierKeys,
+                        PrimaryKey = kb.PrimaryKey,
+                        Enabled = kb.Enabled,
+                        IgnoreWhenInTextField = true,
+                    };
+                },
+                SetLocalizedKeyBindingName = () => strings.InventoryKey,
+                SetLocalizedTooltip = () => strings.InventoryKey_Tooltip,
+            };
+
+            _ = new KeybindingAssigner()
+            {
+                Parent = cP,
+                Width = ContentRegion.Width - 35,
+                KeyBinding = _settings.MailKey.Value,
+                KeybindChangedAction = (kb) =>
+                {
+                    _settings.MailKey.Value = new()
+                    {
+                        ModifierKeys = kb.ModifierKeys,
+                        PrimaryKey = kb.PrimaryKey,
+                        Enabled = kb.Enabled,
+                        IgnoreWhenInTextField = true,
+                    };
+                },
+                SetLocalizedKeyBindingName = () => strings.MailKey,
+                SetLocalizedTooltip = () => strings.MailKey_Tooltip,
+            };
             #endregion Keybinds
         }
 
@@ -519,10 +557,28 @@ namespace Kenedia.Modules.Characters.Views
             _ = new Checkbox()
             {
                 Parent = cP,
+                Checked = _settings.OnlyEnterOnExact.Value,
+                SetLocalizedText = () => strings.OnlyEnterOnExact,
+                SetLocalizedTooltip = () => strings.OnlyEnterOnExact_Tooltip,
+                CheckedChangedAction = (b) => _settings.OnlyEnterOnExact.Value = b,
+            };
+
+            _ = new Checkbox()
+            {
+                Parent = cP,
                 Checked = _settings.EnterOnSwap.Value,
                 SetLocalizedText = () => strings.EnterOnSwap,
                 SetLocalizedTooltip = () => strings.EnterOnSwap_Tooltip,
                 CheckedChangedAction = (b) => _settings.EnterOnSwap.Value = b,
+            };
+
+            _ = new Checkbox()
+            {
+                Parent = cP,
+                Checked = _settings.OpenInventoryOnEnter.Value,
+                SetLocalizedText = () => strings.OpenInventoryOnEnter,
+                SetLocalizedTooltip = () => strings.OpenInventoryOnEnter_Tooltip,
+                CheckedChangedAction = (b) => _settings.OpenInventoryOnEnter.Value = b,
             };
 
             _ = new Checkbox()
@@ -621,6 +677,15 @@ namespace Kenedia.Modules.Characters.Views
                 SetLocalizedText = () => strings.ShowRandomButton_Name,
                 SetLocalizedTooltip = () => strings.ShowRandomButton_Tooltip,
                 CheckedChangedAction = (b) => _settings.ShowRandomButton.Value = b,
+            };            
+
+            _ = new Checkbox()
+            {
+                Parent = cP,
+                Checked = _settings.ShowLastButton.Value,
+                SetLocalizedText = () => strings.ShowLastButton,
+                SetLocalizedTooltip = () => strings.ShowLastButton_Tooltip,
+                CheckedChangedAction = (b) => _settings.ShowLastButton.Value = b,
             };
 
             _ = new Checkbox()

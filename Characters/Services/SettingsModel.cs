@@ -25,6 +25,8 @@ namespace Kenedia.Modules.Characters.Services
             LogoutKey = internalSettings.DefineSetting(nameof(LogoutKey), new KeyBinding(Keys.F12));
             ShortcutKey = internalSettings.DefineSetting(nameof(ShortcutKey), new KeyBinding(ModifierKeys.Shift, Keys.C));
             RadialKey = internalSettings.DefineSetting(nameof(RadialKey), new KeyBinding(Keys.None));
+            InventoryKey = internalSettings.DefineSetting(nameof(InventoryKey), new KeyBinding(Keys.I));
+            MailKey = internalSettings.DefineSetting(nameof(MailKey), new KeyBinding(Keys.None));
             ShowCornerIcon = internalSettings.DefineSetting(nameof(ShowCornerIcon), true);
             CloseWindowOnSwap = internalSettings.DefineSetting(nameof(CloseWindowOnSwap), false);
             FilterDiacriticsInsensitive = internalSettings.DefineSetting(nameof(FilterDiacriticsInsensitive), false);
@@ -48,8 +50,11 @@ namespace Kenedia.Modules.Characters.Services
             FocusSearchOnShow = internalSettings.DefineSetting(nameof(FocusSearchOnShow), true);
 
             ShowRandomButton = internalSettings.DefineSetting(nameof(ShowRandomButton), false);
+            ShowLastButton = internalSettings.DefineSetting(nameof(ShowLastButton), false);
             ShowStatusWindow = internalSettings.DefineSetting(nameof(ShowStatusWindow), true);
             EnterOnSwap = internalSettings.DefineSetting(nameof(EnterOnSwap), true);
+            OnlyEnterOnExact = internalSettings.DefineSetting(nameof(OnlyEnterOnExact), true);
+            OpenInventoryOnEnter = internalSettings.DefineSetting(nameof(OpenInventoryOnEnter), false);
             DoubleClickToEnter = internalSettings.DefineSetting(nameof(DoubleClickToEnter), false);
             EnterToLogin = internalSettings.DefineSetting(nameof(EnterToLogin), false);
             SwapDelay = internalSettings.DefineSetting(nameof(SwapDelay), 250);
@@ -159,6 +164,8 @@ namespace Kenedia.Modules.Characters.Services
 
         public SettingEntry<bool> ShowRandomButton { get; set; }
 
+        public SettingEntry<bool> ShowLastButton { get; set; }
+
         public SettingEntry<bool> ShowCornerIcon { get; set; }
 
         public Point CurrentWindowSize => WindowSize.Value;
@@ -255,8 +262,18 @@ namespace Kenedia.Modules.Characters.Services
         public SettingEntry<KeyBinding> LogoutKey { get; set; }
 
         public SettingEntry<KeyBinding> ShortcutKey { get; set; }
+
         public SettingEntry<KeyBinding> RadialKey { get; }
+
+        public SettingEntry<KeyBinding> InventoryKey { get; }
+
+        public SettingEntry<KeyBinding> MailKey { get; }
+
+        public SettingEntry<bool> OnlyEnterOnExact { get; set; }
+
         public SettingEntry<bool> EnterOnSwap { get; set; }
+
+        public SettingEntry<bool> OpenInventoryOnEnter { get; set; }
 
         public SettingEntry<bool> DoubleClickToEnter { get; set; }
 

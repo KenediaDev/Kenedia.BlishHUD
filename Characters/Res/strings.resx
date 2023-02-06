@@ -904,4 +904,40 @@ Log in automatically?
   <data name="Radial_UseProfessionIconsColor_Tooltip" xml:space="preserve">
     <value>Color the profession icons in the profession color</value>
   </data>
+  <data name="ShowLastButton" xml:space="preserve">
+    <value>Show Last Button</value>
+  </data>
+  <data name="ShowLastButton_Tooltip" xml:space="preserve">
+    <value>Show a button which will ignore OCR and log the very last character in your character screen in</value>
+  </data>
+  <data name="LastButton_Tooltip" xml:space="preserve">
+    <value>Ignore OCR and log the very last character of your character screen in</value>
+  </data>
+  <data name="InventoryKey" xml:space="preserve">
+    <value>Inventory Dialog</value>
+  </data>
+  <data name="InventoryKey_Tooltip" xml:space="preserve">
+    <value>Open or close the Inventory dialog</value>
+  </data>
+  <data name="OpenInventoryOnEnter" xml:space="preserve">
+    <value>Open Inventory</value>
+  </data>
+  <data name="OpenInventoryOnEnter_Tooltip" xml:space="preserve">
+    <value>Open your inventory automatically after logging in</value>
+  </data>
+  <data name="MailKey" xml:space="preserve">
+    <value>Mail Dialog</value>
+  </data>
+  <data name="MailKey_Tooltip" xml:space="preserve">
+    <value>Open or close the Mail dialog</value>
+  </data>
+  <data name="ClickBirthdayToMarkAsOpen" xml:space="preserve">
+    <value>Clicking this button will mark the birthday gifts as collected!</value>
+  </data>
+  <data name="OnlyEnterOnExact" xml:space="preserve">
+    <value>Only login on exact OCR match</value>
+  </data>
+  <data name="OnlyEnterOnExact_Tooltip" xml:space="preserve">
+    <value>Only login if the OCR result matches perfectly with the desired character name</value>
+  </data>
 </root>

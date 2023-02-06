@@ -20,6 +20,8 @@ namespace Kenedia.Modules.Core.Extensions
 
         public static Texture2D ToGrayScaledPalettable(this Texture2D original)
         {
+            if(original == null || original.IsDisposed) return null;
+
             // make an empty bitmap the same size as original
             var colors = new Color[original.Width * original.Height];
             original.GetData(colors);

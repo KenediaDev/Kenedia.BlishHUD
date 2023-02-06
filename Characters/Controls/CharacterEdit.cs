@@ -25,6 +25,9 @@ namespace Kenedia.Modules.Characters.Controls
 {
     public class CharacterEdit : AnchoredContainer
     {
+        private readonly AsyncTexture2D _presentTexture = AsyncTexture2D.FromAssetId(593864);
+        private readonly AsyncTexture2D _presentTextureOpen = AsyncTexture2D.FromAssetId(593865);
+
         private readonly List<Tag> _tags = new();
 
         private readonly ImageButton _closeButton;
@@ -36,6 +39,7 @@ namespace Kenedia.Modules.Characters.Controls
         private readonly Label _name;
         private readonly Checkbox _show;
         private readonly Checkbox _radial;
+        private readonly ImageButton _birthdayButton;
         private readonly Panel _buttonContainer;
         private readonly Button _captureImages;
         private readonly Button _openFolder;
@@ -44,13 +48,16 @@ namespace Kenedia.Modules.Characters.Controls
         private readonly string _accountPath;
         private readonly TagList _allTags;
         private readonly SettingsModel _settings;
+        private readonly Action _refreshCharacters;
         private Character_Model _character;
 
-        public CharacterEdit(TextureManager tM, Action togglePotrait, string accountPath, TagList allTags, SettingsModel settings)
+        public CharacterEdit(TextureManager tM, Action togglePotrait, string accountPath, TagList allTags, SettingsModel settings, Action refreshCharacters)
         {
             _accountPath = accountPath;
             _allTags = allTags;
             _settings = settings;
+            _refreshCharacters = refreshCharacters;
+
             HeightSizingMode = SizingMode.AutoSize;
             WidthSizingMode = SizingMode.AutoSize;
             ContentPadding = new(5, 5, 5, 5);
@@ -108,6 +115,7 @@ namespace Kenedia.Modules.Characters.Controls
                 CheckedChangedAction = (b) =>
                 {
                     if (Character != null) Character.Show = b;
+                    _refreshCharacters?.Invoke();
                 },
             };
 
@@ -121,7 +129,27 @@ namespace Kenedia.Modules.Characters.Controls
                 CheckedChangedAction = (b) =>
                 {
                     if (Character != null) Character.ShowOnRadial = b;
+                    _refreshCharacters?.Invoke();
                 },
+            };
+
+            int x = (355 - (_radial.Right + 5 + 2) - 48) / 2;
+
+            _birthdayButton = new ImageButton()
+            {
+                Parent = this,
+                Location = new Point(_radial.Right + 5 + 2 + x, _name.Bottom),
+                Size = new Point(48, 48),
+                Texture = _presentTexture,
+                HoveredTexture = _presentTextureOpen,
+                ClickAction = (m) =>
+                {
+                    Character.HadBirthday = false;
+                    _refreshCharacters?.Invoke();
+                    _birthdayButton.Hide();
+                },
+                SetLocalizedTooltip = () => Character != null ? string.Format(strings.Birthday_Text, Character.Name, Character.Age) + "\n" + strings.ClickBirthdayToMarkAsOpen : string.Empty,
+                Visible = false,
             };
 
             _buttonContainer = new Panel()
@@ -183,6 +211,7 @@ namespace Kenedia.Modules.Characters.Controls
                         _allTags.Add(t);
                         Character.AddTag(t);
                         _tags.Add(AddTag(t, true));
+                        _refreshCharacters?.Invoke();
 
                         _tagBox.Text = null;
                     }
@@ -204,6 +233,7 @@ namespace Kenedia.Modules.Characters.Controls
                         _allTags.Add(_tagBox.Text);
                         Character.AddTag(_tagBox.Text);
                         _tags.Add(AddTag(_tagBox.Text, true));
+                        _refreshCharacters?.Invoke();
 
                         _tagBox.Text = null;
                     }
@@ -369,6 +399,8 @@ namespace Kenedia.Modules.Characters.Controls
                 _name.Text = Character.Name;
                 _show.Checked = Character.Show;
                 _radial.Checked = Character.ShowOnRadial;
+                _birthdayButton.BasicTooltipText = _birthdayButton.SetLocalizedTooltip?.Invoke();
+                _birthdayButton.Visible = Character.HadBirthday;
 
                 foreach (Tag t in _tags)
                 {

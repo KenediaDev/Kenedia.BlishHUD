@@ -18,6 +18,7 @@ using Microsoft.Xna.Framework;
 using Kenedia.Modules.Characters;
 using Kenedia.Modules.Core.Extensions;
 using Image = Kenedia.Modules.Core.Controls.Image;
+using System.Diagnostics;
 
 namespace Characters.Views
 {
@@ -322,9 +323,7 @@ namespace Characters.Views
             {
                 Parent = GameService.Graphics.SpriteScreen,
                 ZIndex = int.MaxValue,
-                Location = Point.Zero,
-                Size = Point.Zero,
-                Visible = false,
+                Visible = true,
             };
 
             _ocrRegionContainer = new ResizeableContainer()
@@ -349,9 +348,9 @@ namespace Characters.Views
         public void EnableMaskedRegion()
         {
             var b = _settings.ActiveOCRRegion;
+
             _maskedRegion.Size = b.Size;
             _maskedRegion.Location = b.Location;
-
             _maskedRegion?.Show();
         }
 
@@ -381,6 +380,7 @@ namespace Characters.Views
             _sizeSet = false;
             Location = new Point(_ocrRegionContainer.Left, _ocrRegionContainer.Top - Height - 5);
 
+            Debug.WriteLine($"CONTAINER CHANGED");
             var b = _settings.ActiveOCRRegion;
             _maskedRegion.Size = b.Size;
             _maskedRegion.Location = b.Location;

@@ -20,7 +20,7 @@ namespace Kenedia.Modules.Core.Controls
             UserLocale_SettingChanged(null, null);
         }
 
-        private bool Clicked => Input.Mouse.State.LeftButton is ButtonState.Pressed || Input.Mouse.State.RightButton is ButtonState.Pressed;
+        private bool Clicked => MouseOver && (Input.Mouse.State.LeftButton is ButtonState.Pressed || Input.Mouse.State.RightButton is ButtonState.Pressed);
 
         public Action<MouseEventArgs> ClickAction { get; set; }
 

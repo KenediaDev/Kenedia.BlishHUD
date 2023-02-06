@@ -43,6 +43,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\ControlExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\DisposableExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\FileExtension.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Extensions\KeybindExtension.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\ListExtension.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\MathExtension.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\NumericExtension.cs" />
