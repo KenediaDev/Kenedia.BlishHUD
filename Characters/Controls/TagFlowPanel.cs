@@ -36,13 +36,15 @@ namespace Kenedia.Modules.Characters.Controls
             var last = tags.LastOrDefault();
             foreach (var t in tags)
             {
-                height = height == 0 ? t.Height : height;
+                //height = height == 0 ? t.Height : height;
 
                 if (!added.Contains(t))
                 {
                     t.TagPanelIndex = index;
+                    height += t.Height + (int)ControlPadding.Y;
+                    curWidth = t.Width + (int)ControlPadding.X; ;
 
-                    curWidth += t.Width + (int)ControlPadding.X;
+                    //curWidth += t.Width + (int)ControlPadding.X;
 
                     if (curWidth + 25 < width)
                     {
@@ -58,15 +60,15 @@ namespace Kenedia.Modules.Characters.Controls
                                 if (curWidth + 25 >= width)
                                 {
                                     curWidth = 0;
-                                    height += t.Height + (int)ControlPadding.Y;
+                                    //height += t.Height + (int)ControlPadding.Y;
                                     break;
                                 }
                             }
                         }
                     }
-                    else if(t != last)
+                    else if(added.Count + 1 == tags.Count)
                     {
-                        height += t.Height + (int)ControlPadding.Y;
+                        //height += t.Height + (int)ControlPadding.Y;
                         curWidth = 0;
                     }
 

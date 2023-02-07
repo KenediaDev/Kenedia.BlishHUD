@@ -254,7 +254,7 @@ namespace Kenedia.Modules.Characters.Controls
             _contentPanel.Height = height;
             _contentPanel.Width = Width;
 
-            _tagPanel.FitWidestTag(Width);
+            _tagPanel.FitWidestTag(Width - 10);
         }
 
         protected override void OnShown(EventArgs e)

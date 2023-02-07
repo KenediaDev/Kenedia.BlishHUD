@@ -14,6 +14,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using FlowPanel = Kenedia.Modules.Core.Controls.FlowPanel;
+using System.Diagnostics;
 
 namespace Kenedia.Modules.Characters.Controls.SideMenu
 {
@@ -91,13 +92,12 @@ namespace Kenedia.Modules.Characters.Controls.SideMenu
 
         private void Tags_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
         {
-            _tagFlowPanel.FitWidestTag(ContentRegion.Width);
             CreateTags();
+            Invalidate();
         }
 
         private void CreateTags()
         {
-
             var tagLlist = _tags.Select(e => e.Text);
 
             var deleteTags = tagLlist.Except(_allTags);
@@ -147,6 +147,8 @@ namespace Kenedia.Modules.Characters.Controls.SideMenu
                     _tagFilters.Add(tag, new((c) => c.Tags.Contains(tag), false));
                     t.SetActive(false);
                 }
+
+                _tagFlowPanel.FitWidestTag(ContentRegion.Width);
             }
         }
 
@@ -319,6 +321,15 @@ namespace Kenedia.Modules.Characters.Controls.SideMenu
             _toggleFlowPanel.Width = _contentRectangle.Width;
 
             _tagFlowPanel.FitWidestTag(_contentRectangle.Width);
+        }
+
+        protected override void OnShown(EventArgs e)
+        {
+            base.OnShown(e);
+
+            Debug.WriteLine($"FitWidestTag for {ContentRegion.Width}");
+            _tagFlowPanel.FitWidestTag(ContentRegion.Width);
+            Invalidate();
         }
     }
 }

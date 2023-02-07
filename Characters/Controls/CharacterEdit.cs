@@ -20,6 +20,7 @@ using Panel = Kenedia.Modules.Core.Controls.Panel;
 using Point = Microsoft.Xna.Framework.Point;
 using Rectangle = Microsoft.Xna.Framework.Rectangle;
 using TextBox = Kenedia.Modules.Core.Controls.TextBox;
+using System.Linq;
 
 namespace Kenedia.Modules.Characters.Controls
 {
@@ -282,10 +283,43 @@ namespace Kenedia.Modules.Characters.Controls
             base.OnShown(e);
             ShowImages(false);
 
-            foreach (string t in _allTags)
+            var tagList = _tags.Select(e => e.Text);
+            var allTags = _allTags;
+
+            var deleteTags = tagList.Except(allTags);
+            var addTags = allTags.Except(tagList);
+
+            bool tagChanged = deleteTags.Any() || addTags.Any();
+
+            if (tagChanged)
             {
-                if (_tags.Find(e => e.Text == t) == null) _tags.Add(AddTag(t, true));
+                var deleteList = new List<Tag>();
+                foreach (string tag in deleteTags)
+                {
+                    var t = _tags.FirstOrDefault(e => e.Text == tag);
+                    if (t != null) deleteList.Add(t);
+                }
+
+                foreach (var t in deleteList)
+                {
+                    t.Dispose();
+                    _ = _tags.Remove(t);
+                }
+
+                foreach (string tag in addTags)
+                {
+                    _tags.Add(new Tag()
+                    {
+                        Parent = _tagPanel,
+                        Text = tag,
+                        Active = true,
+                        ShowDelete = false,
+                        CanInteract = false,
+                    });
+                }
             }
+
+            _tagPanel.FitWidestTag(355);
         }
 
         protected override void OnResized(ResizedEventArgs e)
@@ -420,6 +454,7 @@ namespace Kenedia.Modules.Characters.Controls
             };
 
             tag.ActiveChanged += Tag_ActiveChanged; ;
+            _tagPanel.FitWidestTag(355);
 
             return tag;
         }
