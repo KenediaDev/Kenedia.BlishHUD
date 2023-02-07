@@ -657,6 +657,7 @@ namespace Kenedia.Modules.Characters.Views
             base.OnHidden(e);
 
             CharacterCards?.ForEach(c => c.HideTooltips());
+            _filterBox?.ResetText();
         }
 
         protected override void OnResized(ResizedEventArgs e)

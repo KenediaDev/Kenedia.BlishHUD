@@ -455,11 +455,15 @@ namespace Kenedia.Modules.Characters.Models
 
         public void Save()
         {
-            if (_initialized) _requestSave?.Invoke();
+            if (_initialized)
+            {
+                _requestSave?.Invoke();
+            }
         }
 
         public void Swap(bool ignoreOCR = false)
         {
+            Save();
             _characterSwapping?.Start(this, ignoreOCR);
         }
 

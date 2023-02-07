@@ -14,7 +14,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		.editorconfig = .editorconfig
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestModule", "AModule\TestModule.csproj", "{8E72F6C4-CF5F-4493-85E1-C37F2021CAA5}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestModule", "TestModule\TestModule.csproj", "{8E72F6C4-CF5F-4493-85E1-C37F2021CAA5}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CommonStrings", "CommonStrings\CommonStrings.csproj", "{BF6809CB-25D6-472B-966D-7A3EBB1470F9}"
 EndProject

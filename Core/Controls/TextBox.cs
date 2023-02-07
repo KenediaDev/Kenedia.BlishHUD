@@ -43,6 +43,11 @@ namespace Kenedia.Modules.Core.Controls
 
         public Action<string> TextChangedAction { get; set; }
 
+        public void ResetText()
+        {
+            Text = null;
+        }
+
         protected override void OnEnterPressed(EventArgs e)
         {
             base.OnEnterPressed(e);

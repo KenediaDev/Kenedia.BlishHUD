@@ -8,7 +8,7 @@ using System;
 using System.ComponentModel.Composition;
 using System.Threading.Tasks;
 
-namespace Kenedia.Modules.AModule
+namespace Kenedia.Modules.TestModule
 {
     [Export(typeof(Module))]
     public class TestModule : BaseModule<TestModule, StandardWindow, BaseSettingsModel>

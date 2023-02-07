@@ -84,7 +84,7 @@ namespace Kenedia.Modules.Characters
             string? finalText = null;
 
             if(!show) _view.EnableMaskedRegion();
-            await Task.Delay(50);
+            await Task.Delay(5);
 
             CleanedTexture?.Dispose();
             SourceTexture?.Dispose();

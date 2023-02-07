@@ -133,7 +133,7 @@ namespace Kenedia.Modules.Characters.Controls
         {
             if (_isEnabled.Value)
             {
-                _screenPartionSize = new(Math.Min(640, GameService.Graphics.SpriteScreen.Size.X / 6), Math.Min(360, GameService.Graphics.SpriteScreen.Size.Y / 6));
+                _screenPartionSize = new(Math.Min(640, GameService.Graphics.SpriteScreen.Size.X / 5), Math.Min(360, GameService.Graphics.SpriteScreen.Size.Y / 5));
                 int x = (GameService.Graphics.SpriteScreen.Size.X - _screenPartionSize.X) / 2;
                 int y = (GameService.Graphics.SpriteScreen.Size.Y - _screenPartionSize.Y) / 2;
                 Location = new Point(x, y);

@@ -39,6 +39,7 @@ using Gw2Sharp.WebApi.V2;
 using Kenedia.Modules.Characters.Controls.SideMenu;
 using Kenedia.Modules.Characters.Res;
 using Kenedia.Modules.Core.Services;
+using System.Diagnostics;
 
 namespace Kenedia.Modules.Characters
 {
@@ -228,6 +229,7 @@ namespace Kenedia.Modules.Characters
         {
             string json = JsonConvert.SerializeObject(CharacterModels, Formatting.Indented);
 
+            Debug.WriteLine($"Saving Character List!");
             // write string to file
             File.WriteAllText(CharactersPath, json);
         }
@@ -343,7 +345,7 @@ namespace Kenedia.Modules.Characters
                 CancelEverything();
             }
 
-            if (_ticks.Global > 15000)
+            if (_ticks.Global > 500)
             {
                 _ticks.Global = 0;
                 PlayerCharacter player = GameService.Gw2Mumble.PlayerCharacter;

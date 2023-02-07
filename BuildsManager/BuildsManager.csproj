@@ -198,8 +198,8 @@
     <Reference Include="System.Xml.ReaderWriter" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Class1.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="BuildsManager.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
