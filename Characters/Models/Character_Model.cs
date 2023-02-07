@@ -490,7 +490,7 @@ namespace Kenedia.Modules.Characters.Models
 
             _created = character.Created;
             _lastModified = character.LastModified.UtcDateTime;
-            _lastLogin = character.LastModified.UtcDateTime;
+            _lastLogin = _lastLogin > character.LastModified.UtcDateTime ? _lastLogin : character.LastModified.UtcDateTime;
             _gender = character.Gender;
 
             foreach (CharacterCraftingDiscipline disc in character.Crafting.ToList())
