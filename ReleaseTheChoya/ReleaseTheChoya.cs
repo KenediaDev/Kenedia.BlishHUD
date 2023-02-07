@@ -9,6 +9,7 @@ using Kenedia.Modules.Core.Controls;
 using Kenedia.Modules.Core.Extensions;
 using Kenedia.Modules.Core.Models;
 using Kenedia.Modules.Core.Res;
+using Kenedia.Modules.Core.Services;
 using Kenedia.Modules.Core.Utility;
 using Kenedia.Modules.ReleaseTheChoya.Models;
 using Kenedia.Modules.ReleaseTheChoya.Views;
@@ -38,6 +39,10 @@ namespace Kenedia.Modules.ReleaseTheChoya
         {
             ModuleInstance = this;
             HasGUI = true;
+
+            Services.States[typeof(SharedSettings)] = false;
+            Services.States[typeof(ClientWindowService)] = false;
+            Services.States[typeof(GameState)] = false;
         }
 
         protected override void DefineSettings(SettingCollection settings)
