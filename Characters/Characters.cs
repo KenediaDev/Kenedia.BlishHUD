@@ -38,6 +38,7 @@ using Gw2Sharp.Models;
 using Gw2Sharp.WebApi.V2;
 using Kenedia.Modules.Characters.Controls.SideMenu;
 using Kenedia.Modules.Characters.Res;
+using Kenedia.Modules.Core.Services;
 
 namespace Kenedia.Modules.Characters
 {
@@ -51,7 +52,6 @@ namespace Kenedia.Modules.Characters
 
         private bool _saveCharacters;
         private CornerIcon _cornerIcon;
-        private ChoyaSpinner _choyaSpinner;
 
         [ImportingConstructor]
         public Characters([Import("ModuleParameters")] ModuleParameters moduleParameters)
@@ -62,6 +62,8 @@ namespace Kenedia.Modules.Characters
             BaseVersion = Version.BaseVersion();
 
             Data = new Data(ContentsManager);
+
+            Services.States[typeof(InputDetectionService)] = false;
         }
 
         public SearchFilterCollection SearchFilters { get; } = new();
@@ -400,7 +402,7 @@ namespace Kenedia.Modules.Characters
             CharacterSwapping.CharacterSorting = CharacterSorting;
             CharacterSorting.CharacterSwapping = CharacterSwapping;
 
-            TextureManager = new TextureManager(ContentsManager);
+            TextureManager = new TextureManager(Services.TexturesService);
 
             if (Settings.ShowCornerIcon.Value)
             {
@@ -427,8 +429,6 @@ namespace Kenedia.Modules.Characters
             SettingsWindow?.Dispose();
             MainWindow?.Dispose();
             _cornerIcon?.Dispose();
-
-            TextureManager?.Dispose();
             TextureManager = null;
 
             DeleteCornerIcons();

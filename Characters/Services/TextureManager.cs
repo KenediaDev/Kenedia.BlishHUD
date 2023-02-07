@@ -1,67 +1,15 @@
-﻿using Blish_HUD.Modules.Managers;
-using Kenedia.Modules.Core.Extensions;
+﻿using Kenedia.Modules.Core.Services;
 using Microsoft.Xna.Framework.Graphics;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace Kenedia.Modules.Characters.Services
 {
-    public class TextureManager : IDisposable
+    public class TextureManager
     {
-        private readonly ContentsManager _contentsManager;
+        private readonly TexturesService _texturesService;
 
-        private readonly List<Texture2D> backgrounds = new();
-        private readonly List<Texture2D> icons = new();
-        private readonly List<Texture2D> controls = new();
-
-        private bool _disposed = false;
-
-        public TextureManager(ContentsManager contentsManager)
+        public TextureManager(TexturesService texturesService)
         {
-            _contentsManager = contentsManager;
-
-            Array values = Enum.GetValues(typeof(Backgrounds));
-            if (values.Length > 0)
-            {
-                backgrounds = new List<Texture2D>(new Texture2D[values.Cast<int>().Max() + 1]);
-                foreach (Backgrounds num in values)
-                {
-                    Texture2D texture = _contentsManager.GetTexture(@"textures\backgrounds\" + (int)num + ".png");
-                    if (texture != null)
-                    {
-                        backgrounds.Insert((int)num, texture);
-                    }
-                }
-            }
-
-            values = Enum.GetValues(typeof(Icons));
-            if (values.Length > 0)
-            {
-                icons = new List<Texture2D>(new Texture2D[values.Cast<int>().Max() + 1]);
-                foreach (Icons num in values)
-                {
-                    Texture2D texture = _contentsManager.GetTexture(@"textures\icons\" + (int)num + ".png");
-                    if (texture != null)
-                    {
-                        icons.Insert((int)num, texture);
-                    }
-                }
-            }
-
-            values = Enum.GetValues(typeof(ControlTextures));
-            if (values.Length > 0)
-            {
-                controls = new List<Texture2D>(new Texture2D[values.Cast<int>().Max() + 1]);
-                foreach (ControlTextures num in values)
-                {
-                    Texture2D texture = _contentsManager.GetTexture(@"textures\controls\" + (int)num + ".png");
-                    if (texture != null)
-                    {
-                        controls.Insert((int)num, texture);
-                    }
-                }
-            }
+            _texturesService = texturesService;
         }
 
         public enum ControlTextures
@@ -118,36 +66,19 @@ namespace Kenedia.Modules.Characters.Services
             MainWindow,
         }
 
-        public void Dispose()
-        {
-            if (!_disposed)
-            {
-                _disposed = true;
-
-                backgrounds?.DisposeAll();
-                icons?.DisposeAll();
-                controls?.DisposeAll();
-            }
-        }
-
         public Texture2D GetBackground(Backgrounds background)
         {
-            int index = (int)background;
-
-            return index < backgrounds.Count && backgrounds[index] != null ? backgrounds[index] : icons[0];
+            return _texturesService.GetTexture(@"textures\backgrounds\" + (int)background + ".png", $"Background {background}");
         }
 
         public Texture2D GetIcon(Icons icon)
         {
-            int index = (int)icon;
-
-            return index < icons.Count && icons[index] != null ? icons[index] : icons[0];
+            return _texturesService.GetTexture(@"textures\icons\" + (int)icon + ".png", $"Icon {icon}");
         }
 
         public Texture2D GetControlTexture(ControlTextures control)
         {
-            int index = (int)control;
-            return index < controls.Count && controls[index] != null ? controls[index] : icons[0];
+            return _texturesService.GetTexture(@"textures\controls\" + (int)control + ".png", $"Control {control}");
         }
     }
 }
