@@ -11,11 +11,6 @@ namespace Kenedia.Modules.Characters.Controls
     {
         public static Triangle Empty = new(new(0), new(0), new(0));
 
-        public Triangle()
-        {
-
-        }
-
         public Triangle(Vector2 point1, Vector2 point2, Vector2 point3)
         {
             Point1 = point1;
@@ -54,9 +49,9 @@ namespace Kenedia.Modules.Characters.Controls
             float d1, d2, d3;
             bool has_neg, has_pos;
 
-            d1 = sign(pt, Point1, Point2);
-            d2 = sign(pt, Point2, Point3);
-            d3 = sign(pt, Point3, Point1);
+            d1 = Sign(pt, Point1, Point2);
+            d2 = Sign(pt, Point2, Point3);
+            d3 = Sign(pt, Point3, Point1);
 
             has_neg = (d1 < 0) || (d2 < 0) || (d3 < 0);
             has_pos = (d1 > 0) || (d2 > 0) || (d3 > 0);
@@ -64,14 +59,13 @@ namespace Kenedia.Modules.Characters.Controls
             return !(has_neg && has_pos);
         }
 
-        float sign(Vector2 p1, Vector2 p2, Vector2 p3)
+        float Sign(Vector2 p1, Vector2 p2, Vector2 p3)
         {
-            return (p1.X - p3.X) * (p2.Y - p3.Y) - (p2.X - p3.X) * (p1.Y - p3.Y);
+            return ((p1.X - p3.X) * (p2.Y - p3.Y)) - ((p2.X - p3.X) * (p1.Y - p3.Y));
         }
 
         public Point LowestRectPoint()
         {
-            var max = new Vector2(Math.Max(Point1.X, Math.Max(Point2.X, Point3.X)), Math.Max(Point1.Y, Math.Max(Point2.Y, Point3.Y)));
             var min = new Vector2(Math.Min(Point1.X, Math.Min(Point2.X, Point3.X)), Math.Min(Point1.Y, Math.Min(Point2.Y, Point3.Y)));
 
             return new((int)min.X, (int)min.Y);
