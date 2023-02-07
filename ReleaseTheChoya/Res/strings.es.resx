@@ -117,49 +117,79 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="ItemSettings" xml:space="preserve">
-    <value>Paramètres {0}</value>
+  <data name="ChoyaSpeed_ttp" xml:space="preserve">
+    <value>Velocidad de rotación mín./máx. de la choya</value>
   </data>
-  <data name="WindowBorders" xml:space="preserve">
-    <value>Bordures de fenêtre</value>
+  <data name="ChoyaTravelDistance_ttp" xml:space="preserve">
+    <value>Velocidad mínima/máxima a la que puede rodar la choya</value>
   </data>
-  <data name="Settings" xml:space="preserve">
-    <value>Paramètres</value>
+  <data name="ChoyaSize_ttp" xml:space="preserve">
+    <value>Tamaño mínimo/máximo de la choya</value>
   </data>
-  <data name="GeneralSettings" xml:space="preserve">
-    <value>Paramètres généraux</value>
+  <data name="IdleDelay" xml:space="preserve">
+    <value>Retardo al reposo {0}s</value>
   </data>
-  <data name="TopOffset" xml:space="preserve">
-    <value>Décalage en haut</value>
+  <data name="IdleDelay_ttp" xml:space="preserve">
+    <value>Duración en segundos entre la última entrada del juego y la primera aparición de una choya inactiva.</value>
   </data>
-  <data name="LeftOffset" xml:space="preserve">
-    <value>Décalage gauche</value>
+  <data name="NoMoveDelay" xml:space="preserve">
+    <value>Sin Retraso de Movimiento {0}s</value>
   </data>
-  <data name="BottomOffset" xml:space="preserve">
-    <value>Décalage en bas</value>
+  <data name="NoMoveDelay_ttp" xml:space="preserve">
+    <value>Duración en segundos entre el último movimiento del jugador y la primera aparición de una choya inactiva.</value>
   </data>
-  <data name="RightOffset" xml:space="preserve">
-    <value>Décalage à droite</value>
+  <data name="ShowWhenStandingStill" xml:space="preserve">
+    <value>Mostrar en no Move</value>
   </data>
-  <data name="WindowBorder_Tooltip" xml:space="preserve">
-    <value>Ces valeurs représentent le décalage de l'écran de jeu réel par rapport à l'ensemble de la fenêtre du client. Définissez les valeurs de manière à ne pas voir de cadre de fenêtre dans les images des coins du jeu.</value>
+  <data name="ShowWhenStandingStill_ttp" xml:space="preserve">
+    <value>Mostrar choya inactiva si no se detecta movimiento del jugador durante {0} segundos</value>
   </data>
-  <data name="TopLeftCorner" xml:space="preserve">
-    <value>Coin supérieur gauche</value>
+  <data name="ShowRandomly" xml:space="preserve">
+    <value>Mostrar aleatoriamente</value>
   </data>
-  <data name="TopRightCorner" xml:space="preserve">
-    <value>Coin supérieur droit</value>
+  <data name="ShowRandomly_ttp" xml:space="preserve">
+    <value>Mostrar choya al azar</value>
   </data>
-  <data name="BottomLeftCorner" xml:space="preserve">
-    <value>Coin inférieur gauche</value>
+  <data name="ShowWhenIdle" xml:space="preserve">
+    <value>Mostrar en reposo</value>
   </data>
-  <data name="BottomRightCorner" xml:space="preserve">
-    <value>Coin inférieur droit</value>
+  <data name="ShowWhenIdle_ttp" xml:space="preserve">
+    <value>Mostrar choya inactiva si no se detecta ninguna entrada de juego durante {0} segundos.</value>
   </data>
-  <data name="FetchingApiData" xml:space="preserve">
-    <value>Récupération des données de l'API ...</value>
+  <data name="AvoidCombat" xml:space="preserve">
+    <value>Evitar el combate</value>
   </data>
-  <data name="OpenSettings" xml:space="preserve">
-    <value>Ouvrir les paramètres</value>
+  <data name="AvoidCombat_ttp" xml:space="preserve">
+    <value>No muestres Choya mientras estés en combate</value>
+  </data>
+  <data name="Behavior" xml:space="preserve">
+    <value>Comportamiento</value>
+  </data>
+  <data name="Appearance" xml:space="preserve">
+    <value>Apariencia</value>
+  </data>
+  <data name="Delays" xml:space="preserve">
+    <value>Retrasos</value>
+  </data>
+  <data name="ChoyaDelay" xml:space="preserve">
+    <value>Retardo Choya Aleatorio ({0}s - {1}s)</value>
+  </data>
+  <data name="ChoyaDelay_ttp" xml:space="preserve">
+    <value>Retraso mínimo/máximo en segundos entre choyas aleatorias</value>
+  </data>
+  <data name="ChoyaIdleDelay" xml:space="preserve">
+    <value>Retardo de Choya en reposo ({0}ms - {1}ms)</value>
+  </data>
+  <data name="ChoyaIdleDelay_ttp" xml:space="preserve">
+    <value>Retardo mínimo/máximo en milisegundos entre choya inactiva</value>
+  </data>
+  <data name="ChoyaSpeed" xml:space="preserve">
+    <value>Velocidad Choya ({0} - {1})</value>
+  </data>
+  <data name="ChoyaTravelDistance" xml:space="preserve">
+    <value>Choya Distancia de viaje ({0}px - {1}px)</value>
+  </data>
+  <data name="ChoyaSize" xml:space="preserve">
+    <value>Tamaño de la choya ({0}px - {1}px)</value>
   </data>
 </root>

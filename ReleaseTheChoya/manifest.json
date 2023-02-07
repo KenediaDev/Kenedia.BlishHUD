@@ -1,0 +1,19 @@
+{
+  "contributors": [
+    {
+      "name": "Kenedia",
+      "url": "https://github.com/KenediaDev"
+    }
+  ],
+  "dependencies": {
+    "bh.blishhud": ">=0.0.1"
+  },
+  "description": "MORE CHOYA!",
+  "manifest_version": 1,
+  "name": "RELEASE TEH CHOYA!",
+  "namespace": "Kenedia.Modules.ReleaseTheChoya",
+  "package": "Kenedia.Modules.ReleaseTheChoya.dll",
+  "url": "https://github.com/KenediaDev/Kenedia.BlishHUD",
+  "version": "0.0.1",
+  "directories": [ "kenedia" ]
+}

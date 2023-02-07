@@ -33,6 +33,7 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -47,6 +48,11 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>strings_common.resx</DependentUpon>
     </Compile>
+    <Compile Include="textures_common.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>textures_common.resx</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="strings_common.de.resx" />
@@ -55,7 +61,18 @@
     <EmbeddedResource Include="strings_common.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>strings_common.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
+    <EmbeddedResource Include="textures_common.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>textures_common.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Textures\RollingChoya.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Resources\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -1,21 +1,29 @@
 ﻿using Blish_HUD.Controls;
 using Blish_HUD.Graphics.UI;
-using Kenedia.Modules.Characters.Res;
+using Kenedia.Modules.Core.Controls;
 using Kenedia.Modules.Core.Res;
+using Kenedia.Modules.Core.Services;
 using Microsoft.Xna.Framework;
 using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace Kenedia.Modules.Characters.Views
+namespace Kenedia.Modules.ReleaseTheChoya.Views
 {
     public class SettingsView : View
     {
         private StandardButton _openSettingsButton;
         private readonly Action _toggleWindow;
+        private readonly TexturesService _texturesService;
+        private RollingChoya _choya;
 
 #nullable enable
-        public SettingsView(Action? toggleWindow)
+        public SettingsView(Action? toggleWindow, TexturesService texturesService)
         {
             _toggleWindow = toggleWindow;
+            _texturesService = texturesService;
         }
 #nullable disable
 
@@ -28,7 +36,15 @@ namespace Kenedia.Modules.Characters.Views
                 Parent = buildPanel,
             };
 
-            _openSettingsButton.Location = new Point(Math.Max((buildPanel.Width / 2) - (_openSettingsButton.Width / 2), 20), Math.Max((buildPanel.Height / 2) - _openSettingsButton.Height, 20) - _openSettingsButton.Height - 10);
+            _choya = new(_texturesService)
+            {
+                Location = new(0, 50),
+                Width = buildPanel.Width,
+                Height = buildPanel.Height - 50,
+                Parent = buildPanel,
+            };
+
+            _openSettingsButton.Location = new Point(Math.Max((buildPanel.Width / 2) - (_openSettingsButton.Width / 2), 20), (50 - _openSettingsButton.Height) / 2);
 
             _openSettingsButton.Click += OpenSettingsButton_Click;
         }
@@ -41,6 +57,9 @@ namespace Kenedia.Modules.Characters.Views
         protected override void Unload()
         {
             if (_openSettingsButton != null) _openSettingsButton.Click -= OpenSettingsButton_Click;
+
+            _choya?.Dispose();
+            _openSettingsButton?.Dispose();
         }
     }
 }

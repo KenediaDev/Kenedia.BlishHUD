@@ -6,15 +6,19 @@ namespace Kenedia.Modules.Core.Models
 {
     public class ServiceCollection
     {
-        public ServiceCollection(GameState gameState, ClientWindowService clientWindowService, SharedSettings sharedSettings)
+        public ServiceCollection(GameState gameState, ClientWindowService clientWindowService, SharedSettings sharedSettings, TexturesService texturesService, InputDetectionService inputDetectionService)
         {
             GameState = gameState;
             ClientWindowService = clientWindowService;
             SharedSettings = sharedSettings;
+            TexturesService = texturesService;
+            InputDetectionService = inputDetectionService;
 
             States[typeof(GameState)] = true;
             States[typeof(ClientWindowService)] = true;
             States[typeof(SharedSettings)] = true;
+            States[typeof(TexturesService)] = true;
+            States[typeof(InputDetectionService)] = true;
         }
 
         public Dictionary<Type, bool> States { get; } = new();
@@ -24,5 +28,9 @@ namespace Kenedia.Modules.Core.Models
         public ClientWindowService ClientWindowService { get; }
 
         public SharedSettings SharedSettings { get; }
+
+        public TexturesService TexturesService { get; }
+
+        public InputDetectionService InputDetectionService { get; }
     }
 }

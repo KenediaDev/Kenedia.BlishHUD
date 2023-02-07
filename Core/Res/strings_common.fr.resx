@@ -121,7 +121,7 @@
     <value>Paramètres {0}</value>
   </data>
   <data name="WindowBorders" xml:space="preserve">
-    <value>Bordures de fenêtres</value>
+    <value>Bordures de fenêtre</value>
   </data>
   <data name="Settings" xml:space="preserve">
     <value>Paramètres</value>
@@ -130,13 +130,13 @@
     <value>Paramètres généraux</value>
   </data>
   <data name="TopOffset" xml:space="preserve">
-    <value>Décalage supérieur</value>
+    <value>Décalage en haut</value>
   </data>
   <data name="LeftOffset" xml:space="preserve">
     <value>Décalage gauche</value>
   </data>
   <data name="BottomOffset" xml:space="preserve">
-    <value>Décalage du fond</value>
+    <value>Décalage en bas</value>
   </data>
   <data name="RightOffset" xml:space="preserve">
     <value>Décalage à droite</value>
@@ -158,5 +158,8 @@
   </data>
   <data name="FetchingApiData" xml:space="preserve">
     <value>Récupération des données de l'API ...</value>
+  </data>
+  <data name="OpenSettings" xml:space="preserve">
+    <value>Ouvrir les paramètres</value>
   </data>
 </root>

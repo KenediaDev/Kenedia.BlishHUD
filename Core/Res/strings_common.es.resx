@@ -159,4 +159,7 @@
   <data name="FetchingApiData" xml:space="preserve">
     <value>Obtención de datos de la API ...</value>
   </data>
+  <data name="OpenSettings" xml:space="preserve">
+    <value>Abrir la configuración</value>
+  </data>
 </root>

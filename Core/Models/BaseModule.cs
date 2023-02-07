@@ -29,9 +29,11 @@ namespace Kenedia.Modules.Core.Models
         {
             var clientWindowService = new ClientWindowService();
             var sharedSettings = new SharedSettings();
+            var texturesService = new TexturesService(ContentsManager);
+            var inputDetectionService = new InputDetectionService();
             var gameState = new GameState(clientWindowService, sharedSettings);
 
-            Services = new(gameState, clientWindowService, sharedSettings);
+            Services = new(gameState, clientWindowService, sharedSettings, texturesService, inputDetectionService);
             SharedSettingsView = new SharedSettingsView(sharedSettings, clientWindowService);
         }
 
@@ -58,6 +60,8 @@ namespace Kenedia.Modules.Core.Models
         public Gw2ApiManager Gw2ApiManager => ModuleParameters.Gw2ApiManager;
 
         public ModuleWindow MainWindow { get; protected set; }
+
+        public BaseSettingsWindow SettingsWindow { get; protected set; }
 
         public ModuleSettings Settings { get; protected set; }
 
@@ -118,6 +122,7 @@ namespace Kenedia.Modules.Core.Models
 
             if (Services.States[typeof(GameState)]) Services.GameState.Run(gameTime);
             if (Services.States[typeof(ClientWindowService)]) Services.ClientWindowService.Run(gameTime);
+            if (Services.States[typeof(InputDetectionService)]) Services.InputDetectionService.Run(gameTime);
 
             if (HasGUI && !IsGUICreated)
             {

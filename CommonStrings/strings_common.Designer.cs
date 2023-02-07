@@ -124,11 +124,30 @@ namespace Kenedia.Modules.Core.Res {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Open Settings.
+        /// </summary>
+        internal static string OpenSettings {
+            get {
+                return ResourceManager.GetString("OpenSettings", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Right Offset.
         /// </summary>
         internal static string RightOffset {
             get {
                 return ResourceManager.GetString("RightOffset", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap RollingChoya {
+            get {
+                object obj = ResourceManager.GetObject("RollingChoya", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
             }
         }
         
