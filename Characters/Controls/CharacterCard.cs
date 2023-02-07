@@ -248,7 +248,7 @@ namespace Kenedia.Modules.Characters.Controls
                     {
                         _character.Updated += ApplyCharacter;
                         _character.Deleted += CharacterDeleted;
-                        ApplyCharacter(null, null);
+                        UpdateCharacterInfo();
                     }
                 }
             }
@@ -592,7 +592,7 @@ namespace Kenedia.Modules.Characters.Controls
                 _characterTooltip.Visible = MouseOver;
             }
 
-            if (_updateCharacter)
+            if (_updateCharacter && _created && Visible)
             {
                 UpdateCharacterInfo();
             }
@@ -717,6 +717,7 @@ namespace Kenedia.Modules.Characters.Controls
 
             Children.DisposeAll();
             _ = _mainWindow.CharacterCards.Remove(this);
+            _updateCharacter = true;
         }
 
         private BitmapFont GetFont(bool nameFont = false)
@@ -762,8 +763,6 @@ namespace Kenedia.Modules.Characters.Controls
 
         private void UpdateCharacterInfo()
         {
-            _updateCharacter = false;
-
             _nameLabel.Text = Character.Name;
             _nameLabel.TextColor = new Color(168 + 15 + 25, 143 + 20 + 25, 102 + 15 + 25, 255);
 
@@ -830,11 +829,11 @@ namespace Kenedia.Modules.Characters.Controls
                 }
 
                 _tagPanel.FitWidestTag(_dataControls.Max(e => e.Visible && e != _tagPanel ? e.Width : 0));
-                _tagPanel.SortChildren<Tag>((a, b) => a.TagPanelIndex.CompareTo(b.TagPanelIndex));
             }
 
             _craftingControl.Character = Character;
 
+            _updateCharacter = false;
             UniformWithAttached();
         }
 

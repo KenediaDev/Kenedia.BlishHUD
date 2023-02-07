@@ -31,7 +31,7 @@ namespace Kenedia.Modules.Characters.Controls
         private readonly IconLabel _raceLabel;
         private readonly IconLabel _mapLabel;
         private readonly IconLabel _lastLoginLabel;
-        private readonly FlowPanel _tagPanel;
+        private readonly TagFlowPanel _tagPanel;
 
         private readonly CraftingControl _craftingControl;
         private readonly List<Control> _dataControls;
@@ -43,6 +43,8 @@ namespace Kenedia.Modules.Characters.Controls
 
         private Point _textureOffset = new(25, 25);
         private Character_Model _character;
+        private readonly List<Tag> _tags = new();
+        private bool _updateCharacter;
 
         public CharacterTooltip(Func<Character_Model> currentCharacter, TextureManager textureManager, Data data, SettingsModel settings)
         {
@@ -51,9 +53,9 @@ namespace Kenedia.Modules.Characters.Controls
             _data = data;
             TextureRectangle = new Rectangle(60, 25, 250, 250);
             BackgroundImage = AsyncTexture2D.FromAssetId(156003);
-            BorderColor= Color.Black;
+            BorderColor = Color.Black;
             BorderWidth = new(2);
-            BackgroundColor= Color.Black * 0.6f;
+            BackgroundColor = Color.Black * 0.6f;
 
             HeightSizingMode = SizingMode.AutoSize;
 
@@ -125,16 +127,15 @@ namespace Kenedia.Modules.Characters.Controls
                 AutoSizeHeight = true,
             };
 
-            _tagPanel = new FlowPanel()
+            _tagPanel = new()
             {
                 Parent = _contentPanel,
-                WidthSizingMode = SizingMode.Fill,
-                HeightSizingMode = SizingMode.AutoSize,
+                Font = _lastLoginLabel.Font,
+                FlowDirection = ControlFlowDirection.LeftToRight,
                 ControlPadding = new Vector2(3, 2),
-                Height = Font.LineHeight + 5,
+                HeightSizingMode = SizingMode.AutoSize,
                 Visible = false,
             };
-            _tagPanel.Resized += Tag_Panel_Resized;
 
             _dataControls = new List<Control>()
             {
@@ -158,12 +159,23 @@ namespace Kenedia.Modules.Characters.Controls
 
         public Character_Model Character
         {
-            get => _character; set
+            get => _character;
+            set
             {
                 if (_character != value)
                 {
+                    if (_character != null)
+                    {
+                        _character.Updated -= ApplyCharacter;
+                    }
+
                     _character = value;
-                    if(_character != null) ApplyCharacter(null, null);
+
+                    if (value != null)
+                    {
+                        _character.Updated += ApplyCharacter;
+                        UpdateCharacterInfo();
+                    }
                 }
             }
         }
@@ -178,79 +190,29 @@ namespace Kenedia.Modules.Characters.Controls
                 TimeSpan ts = DateTimeOffset.UtcNow.Subtract(Character.LastLogin);
                 _lastLoginLabel.Text = string.Format("{1} {0} {2:00}:{3:00}:{4:00}", strings.Days, Math.Floor(ts.TotalDays), ts.Hours, ts.Minutes, ts.Seconds);
             }
+            UpdateLayout();
+            if (_updateCharacter && Visible)
+            {
+                UpdateCharacterInfo();
+            }
         }
 
         public void UpdateLayout()
         {
-            if (_iconRectangle.IsEmpty)
-            {
-                _iconRectangle = new Rectangle(Point.Zero, new Point(Math.Min(Width, Height), Math.Min(Width, Height)));
-            }
-
             UpdateLabelLayout();
             UpdateSize();
 
-            _contentRectangle = new Rectangle(new Point(_iconRectangle.Right, 0), _contentPanel.Size);
+            _contentRectangle = new Rectangle(Point.Zero, _contentPanel.Size);
             _contentPanel.Location = _contentRectangle.Location;
         }
 
         public override void PaintBeforeChildren(SpriteBatch spriteBatch, Rectangle bounds)
         {
             base.PaintBeforeChildren(spriteBatch, bounds);
-
-            if (!Character.HasDefaultIcon && Character.Icon != null)
-            {
-                spriteBatch.DrawOnCtrl(
-                    this,
-                    Character.Icon,
-                    _iconRectangle,
-                    Character.Icon.Bounds,
-                    Color.White,
-                    0f,
-                    default);
-            }
-            else
-            {
-                AsyncTexture2D texture = Character.SpecializationIcon;
-
-                if (texture != null)
-                {
-                    spriteBatch.DrawOnCtrl(
-                        this,
-                        _iconFrame,
-                        new Rectangle(_iconRectangle.X, _iconRectangle.Y, _iconRectangle.Width, _iconRectangle.Height),
-                        _iconFrame.Bounds,
-                        Color.White,
-                        0f,
-                        default);
-
-                    spriteBatch.DrawOnCtrl(
-                        this,
-                        _iconFrame,
-                        new Rectangle(_iconRectangle.Width, _iconRectangle.Height, _iconRectangle.Width, _iconRectangle.Height),
-                        _iconFrame.Bounds,
-                        Color.White,
-                        6.28f / 2,
-                        default);
-
-                    spriteBatch.DrawOnCtrl(
-                        this,
-                        texture,
-                        new Rectangle(8, 8, _iconRectangle.Width - 16, _iconRectangle.Height - 16),
-                        texture.Bounds,
-                        Color.White,
-                        0f,
-                        default);
-                }
-            }
         }
 
         public void UpdateLabelLayout()
         {
-            _iconDummy.Visible = _iconRectangle != Rectangle.Empty;
-            _iconDummy.Size = _iconRectangle.Size;
-            _iconDummy.Location = _iconRectangle.Location;
-
             _nameLabel.Visible = true;
             _nameLabel.Font = NameFont;
 
@@ -276,10 +238,7 @@ namespace Kenedia.Modules.Characters.Controls
             _craftingControl.Font = Font;
 
             _tagPanel.Visible = Character.Tags.Count > 0;
-            foreach (Tag tag in _tagPanel.Children.Cast<Tag>())
-            {
-                tag.Font = Font;
-            }
+            _tagPanel.Font = Font;
 
             _craftingControl.Height = Font.LineHeight + 2;
         }
@@ -290,11 +249,12 @@ namespace Kenedia.Modules.Characters.Controls
             int amount = visibleControls.Count();
 
             int height = visibleControls.Count() > 0 ? visibleControls.Aggregate(0, (result, ctrl) => result + ctrl.Height + (int)_contentPanel.ControlPadding.Y) : 0;
-            int width = visibleControls.Count() > 0 ? visibleControls.Max(ctrl => ctrl.Width) : 0;
+            int width = visibleControls.Count() > 0 ? visibleControls.Max(ctrl => ctrl != _tagPanel ?  ctrl.Width : 0) : 0;
 
             _contentPanel.Height = height;
-            _contentPanel.Width = width + (int)_contentPanel.ControlPadding.X;
-            _tagPanel.Width = width;
+            _contentPanel.Width = Width;
+
+            _tagPanel.FitWidestTag(Width);
         }
 
         protected override void OnShown(EventArgs e)
@@ -304,12 +264,15 @@ namespace Kenedia.Modules.Characters.Controls
             Location = new Point(Input.Mouse.Position.X, Input.Mouse.Position.Y + 35);
         }
 
-        private void Tag_Panel_Resized(object sender, ResizedEventArgs e)
-        {
-        }
-
         private void ApplyCharacter(object sender, EventArgs e)
         {
+            _updateCharacter = true;
+        }
+
+        private void UpdateCharacterInfo()
+        {
+            _updateCharacter = false;
+
             _nameLabel.Text = Character.Name;
             _nameLabel.TextColor = new Color(168 + 15 + 25, 143 + 20 + 25, 102 + 15 + 25, 255);
 
@@ -339,16 +302,40 @@ namespace Kenedia.Modules.Characters.Controls
             _lastLoginLabel.Text = string.Format("{1} {0} {2:00}:{3:00}:{4:00}", strings.Days, 0, 0, 0, 0);
             _lastLoginLabel.TextureRectangle = Rectangle.Empty;
 
-            _tagPanel.ClearChildren();
-            foreach (string tagText in Character.Tags)
+            var tagLlist = _tags.Select(e => e.Text);
+            var characterTags = Character.Tags.ToList();
+
+            var deleteTags = tagLlist.Except(characterTags);
+            var addTags = characterTags.Except(tagLlist);
+
+            bool tagChanged = deleteTags.Any() || addTags.Any();
+
+            if (tagChanged)
             {
-                _ = new Tag()
+                var deleteList = new List<Tag>();
+                foreach (string tag in deleteTags)
                 {
-                    Parent = _tagPanel,
-                    Text = tagText,
-                    Active = true,
-                    ShowDelete = false,
-                };
+                    var t = _tags.FirstOrDefault(e => e.Text == tag);
+                    if (t != null) deleteList.Add(t);
+                }
+
+                foreach (var t in deleteList)
+                {
+                    t.Dispose();
+                    _ = _tags.Remove(t);
+                }
+
+                foreach (string tag in addTags)
+                {
+                    _tags.Add(new Tag()
+                    {
+                        Parent = _tagPanel,
+                        Text = tag,
+                        Active = true,
+                        ShowDelete = false,
+                        CanInteract = false,
+                    });
+                }
             }
 
             _craftingControl.Character = Character;

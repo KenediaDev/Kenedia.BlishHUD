@@ -77,14 +77,14 @@ namespace Kenedia.Modules.Characters.Controls.SideMenu
             };
         }
 
-        public DisplayCheckToggle(TextureManager textureManager, SettingsModel settings, string key) : this(textureManager, true, true)
+        public DisplayCheckToggle(TextureManager textureManager, SettingsModel settings, string key, bool show = true, bool check = true) : this(textureManager, true, true)
         {
             _settings = settings;
             _key = key;
 
             if (!settings.DisplayToggles.Value.ContainsKey(_key))
             {
-                settings.DisplayToggles.Value.Add(_key, new(true, true));
+                settings.DisplayToggles.Value.Add(_key, new(show, check));
             }
 
             _showButton.Checked = settings.DisplayToggles.Value[_key].Show;

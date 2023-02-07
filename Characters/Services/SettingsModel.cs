@@ -49,7 +49,7 @@ namespace Kenedia.Modules.Characters.Services
             OpenSidemenuOnSearch = internalSettings.DefineSetting(nameof(OpenSidemenuOnSearch), true);
             FocusSearchOnShow = internalSettings.DefineSetting(nameof(FocusSearchOnShow), true);
 
-            ShowRandomButton = internalSettings.DefineSetting(nameof(ShowRandomButton), false);
+            ShowRandomButton = internalSettings.DefineSetting(nameof(ShowRandomButton), true);
             ShowLastButton = internalSettings.DefineSetting(nameof(ShowLastButton), false);
             ShowStatusWindow = internalSettings.DefineSetting(nameof(ShowStatusWindow), true);
             ShowChoyaSpinner = internalSettings.DefineSetting(nameof(ShowChoyaSpinner), true);

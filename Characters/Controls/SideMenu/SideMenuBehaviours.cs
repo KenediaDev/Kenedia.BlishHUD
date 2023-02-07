@@ -83,7 +83,7 @@ namespace Kenedia.Modules.Characters.Controls.SideMenu
             for (int i = 0; i < _toggles.Count; i++)
             {
                 KeyValuePair<string, DisplayCheckToggle> t = _toggles[i];
-                DisplayCheckToggle ctrl = new(textureManager, _settings, t.Key)
+                DisplayCheckToggle ctrl = new(textureManager, _settings, t.Key, t.Key is "Name" or "Profession" or "LastLogin")
                 {
                     Parent = this,
                 };

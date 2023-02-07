@@ -244,8 +244,7 @@ namespace Kenedia.Modules.Characters.Controls
             {
                 Parent = _tagContainer,
                 Location = new Point(5, _tagBox.Bottom + 5),
-                Width = 355,
-                HeightSizingMode = SizingMode.AutoSize,
+                //HeightSizingMode = SizingMode.AutoSize,
                 ControlPadding = new Vector2(3, 2),
             };
 
@@ -294,7 +293,7 @@ namespace Kenedia.Modules.Characters.Controls
             base.OnResized(e);
 
             if (BackgroundImage != null) TextureRectangle = new Rectangle(30, 30, Math.Min(BackgroundImage.Width - 100, Width), Math.Min(BackgroundImage.Height - 100, Height));
-            if (_tagPanel != null) _tagPanel.Width = ContentRegion.Width;
+            if (_tagPanel != null) _tagPanel.FitWidestTag(355);
             //if (_closeButton != null) _closeButton.Location = new(AbsoluteBounds.Right - _closeButton.Size.X - AutoSizePadding.X, AbsoluteBounds.Top + AutoSizePadding.Y);
         }
 

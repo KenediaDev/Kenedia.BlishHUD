@@ -15,42 +15,74 @@ namespace Kenedia.Modules.Characters.Controls
 
         private List<Tag> Tags => Children.Cast<Tag>().ToList();
 
-        private Rectangle CalculateTagPanelSize(int? width = null)
+        private Rectangle CalculateTagPanelSize(int? width = null, bool fitLargest = false)
         {
             var tags = Tags;
             if (tags.Count == 0) return Rectangle.Empty;
 
+            tags = tags.OrderByDescending(e => e.Width).ThenBy(e => e.Text).ToList();
+            var added = new List<Tag>();
+
             int widest = Tags.Count > 0 ? Tags.Max(e => e.Width) : 0;
-            widest += (int)OuterControlPadding.X * 2;
+            widest += (int)OuterControlPadding.X + AutoSizePadding.X;
 
             width ??= widest;
-            width = Math.Max(widest, (int) width);
+            width = Math.Max(widest, (int)width);
 
             int height = 0;
-
             int curWidth = 0;
-            foreach (Tag tag in Tags)
-            {
-                if (tag.Visible)
-                {
-                    int newWidth = curWidth + tag.Width + (int)ControlPadding.X;
 
-                    if (newWidth > width || height == 0)
+            int index = 0;
+            var last = tags.LastOrDefault();
+            foreach (var t in tags)
+            {
+                height = height == 0 ? t.Height : height;
+
+                if (!added.Contains(t))
+                {
+                    t.TagPanelIndex = index;
+
+                    curWidth += t.Width + (int)ControlPadding.X;
+
+                    if (curWidth + 25 < width)
                     {
-                        height += tag.Height + (int)ControlPadding.Y;
-                        curWidth = 0;                        
+                        foreach (var e in tags)
+                        {
+                            if (e != t && !added.Contains(e) && e.Width + (int)ControlPadding.X + curWidth <= width)
+                            {
+                                curWidth += e.Width + (int)ControlPadding.X;
+                                index++;
+                                e.TagPanelIndex = index;
+                                added.Add(e);
+
+                                if (curWidth + 25 >= width)
+                                {
+                                    curWidth = 0;
+                                    height += t.Height + (int)ControlPadding.Y;
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                    else if(t != last)
+                    {
+                        height += t.Height + (int)ControlPadding.Y;
+                        curWidth = 0;
                     }
 
-                    curWidth += tag.Width + (int)ControlPadding.X;
+                    added.Add(t);
+                    index++;
                 }
             }
 
-            return new Rectangle(Location, new((int) width, height + (int)(OuterControlPadding.Y * 2)));
+            return new Rectangle(Location, new((int)width, height + (int)(OuterControlPadding.Y + AutoSizePadding.Y)));
         }
 
         public void FitWidestTag(int? width = null)
         {
             Rectangle bounds = CalculateTagPanelSize(width);
+            SortChildren<Tag>((a, b) => a.TagPanelIndex.CompareTo(b.TagPanelIndex));
+
             Height = bounds.Height;
             Width = bounds.Width;
         }

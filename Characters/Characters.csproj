@@ -354,7 +354,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Res\strings.de.resx" />
     <EmbeddedResource Include="Res\strings.es.resx" />
-    <EmbeddedResource Include="Res\strings.fr.resx" />
+    <EmbeddedResource Include="Res\strings.fr.resx">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
     <EmbeddedResource Include="Res\strings.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>strings.Designer.cs</LastGenOutput>

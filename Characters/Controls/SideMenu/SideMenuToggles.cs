@@ -21,7 +21,7 @@ namespace Kenedia.Modules.Characters.Controls.SideMenu
     {
         private readonly List<Tag> _tags = new();
         private readonly FlowPanel _toggleFlowPanel;
-        private readonly FlowPanel _tagFlowPanel;
+        private readonly TagFlowPanel _tagFlowPanel;
         private readonly List<KeyValuePair<ImageColorToggle, Action>> _toggles = new();
         private readonly TextureManager _textureManager;
         private readonly SearchFilterCollection _tagFilters;
@@ -68,7 +68,6 @@ namespace Kenedia.Modules.Characters.Controls.SideMenu
             CreateToggles();
             CreateTags();
 
-            _ = Task.Run(async () => { await Task.Delay(250); CalculateTagPanelSize(); });
             GameService.Overlay.UserLocale.SettingChanged += OnLanguageChanged;
             _allTags.CollectionChanged += Tags_CollectionChanged;
             OnLanguageChanged();
@@ -92,58 +91,44 @@ namespace Kenedia.Modules.Characters.Controls.SideMenu
 
         private void Tags_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
         {
+            _tagFlowPanel.FitWidestTag(ContentRegion.Width);
             CreateTags();
-            CalculateTagPanelSize();
-        }
-
-        private void CalculateTagPanelSize()
-        {
-            if (Visible)
-            {
-                int width = _tagFlowPanel.Width - (int)(_tagFlowPanel.OuterControlPadding.X * 2);
-                int? height = null;
-
-                int curWidth = 0;
-                foreach (Tag tag in _tags)
-                {
-                    height ??= tag.Height + (int)_tagFlowPanel.ControlPadding.Y + (int)(_tagFlowPanel.OuterControlPadding.Y * 2);
-
-                    int newWidth = curWidth + tag.Width + (int)_tagFlowPanel.ControlPadding.X;
-
-                    if (newWidth >= width)
-                    {
-                        height += tag.Height + (int)_tagFlowPanel.ControlPadding.Y;
-                        curWidth = 0;
-                    }
-
-                    curWidth += tag.Width + (int)_tagFlowPanel.ControlPadding.X;
-                }
-
-                _tagFlowPanel.Height = (height ?? 0) + (int)(_tagFlowPanel.OuterControlPadding.Y * 2);
-            }
         }
 
         private void CreateTags()
         {
-            _tags.DisposeAll();
-            _tags.Clear();
 
-            _tagFlowPanel.Children.Clear();
-            _tagFilters.Clear();
+            var tagLlist = _tags.Select(e => e.Text);
 
-            _tags.Sort();
+            var deleteTags = tagLlist.Except(_allTags);
+            var addTags = _allTags.Except(tagLlist);
 
-            foreach (string tag in _allTags)
+            bool tagChanged = deleteTags.Any() || addTags.Any();
+
+            if (tagChanged)
             {
-                if (!_tagFilters.ContainsKey(tag))
+                var deleteList = new List<Tag>();
+                foreach (string tag in deleteTags)
+                {
+                    var t = _tags.FirstOrDefault(e => e.Text == tag);
+                    if (t != null) deleteList.Add(t);
+                }
+
+                foreach (var t in deleteList)
+                {
+                    t.Dispose();
+                    _ = _tags.Remove(t);
+                }
+
+                foreach (string tag in addTags)
                 {
                     Tag t;
                     _tags.Add(t = new Tag()
                     {
                         Parent = _tagFlowPanel,
                         Text = tag,
-                        CanInteract = true,
                         ShowDelete = true,
+                        CanInteract = true,
                     });
 
                     t.OnDeleteAction = () =>
@@ -298,7 +283,7 @@ namespace Kenedia.Modules.Characters.Controls.SideMenu
             };
             _toggles.Add(new(female, () => female.BasicTooltipText = strings.Female));
 
-            var j = 0;
+            int j = 0;
             foreach (KeyValuePair<ImageColorToggle, Action> t in _toggles)
             {
                 j++;
@@ -322,6 +307,8 @@ namespace Kenedia.Modules.Characters.Controls.SideMenu
             base.DisposeControl();
             GameService.Overlay.UserLocale.SettingChanged -= OnLanguageChanged;
             _allTags.CollectionChanged -= Tags_CollectionChanged;
+
+            _tagFilters.Clear();
         }
 
         protected override void OnResized(ResizedEventArgs e)
@@ -331,8 +318,7 @@ namespace Kenedia.Modules.Characters.Controls.SideMenu
             _contentRectangle = new Rectangle((int)OuterControlPadding.X, (int)OuterControlPadding.Y, Width - ((int)OuterControlPadding.X * 2), Height - ((int)OuterControlPadding.Y * 2));
             _toggleFlowPanel.Width = _contentRectangle.Width;
 
-            _tagFlowPanel.Width = _contentRectangle.Width;
-            CalculateTagPanelSize();
+            _tagFlowPanel.FitWidestTag(_contentRectangle.Width);
         }
     }
 }
