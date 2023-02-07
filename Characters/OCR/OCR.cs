@@ -9,6 +9,7 @@ using Patagames.Ocr;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Globalization;
 using System.IO;
 using System.Linq;
@@ -25,23 +26,23 @@ namespace Kenedia.Modules.Characters
 
         private readonly ClientWindowService _clientWindowService;
         private readonly SharedSettings _sharedSettings;
-        private readonly SettingsModel  _settings;
+        private readonly SettingsModel _settings;
         private readonly ObservableCollection<Character_Model> _characterModels;
 
         private readonly Color _spacingColor = Color.FromArgb(255, 200, 200, 200);
         private readonly Color _ignoredColor = Color.FromArgb(255, 100, 100, 100);
 
-        public Texture2D SourceTexture{ get; private set; }
+        public Texture2D SourceTexture { get; private set; }
 
         public Texture2D CleanedTexture { get; private set; }
 
-        public string ReadResult{ get; private set; }
+        public string ReadResult { get; private set; }
 
         public string BestMatchResult { get; private set; }
 
         private bool _disposed = false;
 
-        public OCR(ClientWindowService clientWindowService, SharedSettings sharedSettings, SettingsModel settings, string basePath, ObservableCollection<Character_Model>  characterModels)
+        public OCR(ClientWindowService clientWindowService, SharedSettings sharedSettings, SettingsModel settings, string basePath, ObservableCollection<Character_Model> characterModels)
         {
             _clientWindowService = clientWindowService;
             _sharedSettings = sharedSettings;
@@ -69,13 +70,12 @@ namespace Kenedia.Modules.Characters
 
         public void Dispose()
         {
-            if (!_disposed)
-            {
-                _disposed = true;
-                _view?.Dispose();
-                CleanedTexture?.Dispose();
-                SourceTexture?.Dispose();
-            }
+            if(_disposed ) return;
+
+            _disposed = true;
+            _view?.Dispose();
+            CleanedTexture?.Dispose();
+            SourceTexture?.Dispose();
         }
 
 #nullable enable
@@ -83,7 +83,7 @@ namespace Kenedia.Modules.Characters
         {
             string? finalText = null;
 
-            if(!show) _view.EnableMaskedRegion();
+            if (!show) _view.EnableMaskedRegion();
             await Task.Delay(5);
 
             CleanedTexture?.Dispose();
@@ -172,7 +172,7 @@ namespace Kenedia.Modules.Characters
                                     }
                                 }
 
-                                if(stringStarted) emptyPixelRow++;
+                                if (stringStarted) emptyPixelRow++;
                             }
                             else
                             {

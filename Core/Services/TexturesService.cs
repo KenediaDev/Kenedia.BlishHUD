@@ -10,18 +10,29 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
 using System.IO;
+using System.Linq;
 using System.Text;
 
 namespace Kenedia.Modules.Core.Services
 {
-    public class TexturesService
+    public class TexturesService : IDisposable
     {
         private readonly Dictionary<string, Texture2D> _loadedTextures = new();
         private readonly ContentsManager _contentsManager;
+        private bool _disposed;
 
         public TexturesService(ContentsManager contentsManager)
         {
             _contentsManager = contentsManager;
+        }
+
+        public void Dispose()
+        {
+            if (_disposed) return;
+            _disposed = true;
+
+            if(_loadedTextures.Count > 0) _loadedTextures.Select(e => e.Value).DisposeAll();
+            _loadedTextures.Clear();
         }
 
         public Texture2D GetTexture(string path, string key)

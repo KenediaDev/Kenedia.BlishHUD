@@ -191,6 +191,12 @@ namespace Kenedia.Modules.ReleaseTheChoya
         {
             base.UnloadGUI();
             SettingsWindow?.Dispose();
+
+            _randomChoyas?.DisposeAll();
+            _randomChoyas?.Clear();
+
+            _idleChoyas?.DisposeAll();
+            _idleChoyas?.Clear();
         }
 
         protected override void ReloadKey_Activated(object sender, EventArgs e)
@@ -206,14 +212,7 @@ namespace Kenedia.Modules.ReleaseTheChoya
             Settings.ChoyaDelay.SettingChanged -= ChoyaDelay_SettingChanged;
             Settings.ChoyaIdleDelay.SettingChanged -= ChoyaDelay_SettingChanged;
 
-            Services.InputDetectionService.Interacted -= InputDetectionService_Interacted;
-            SettingsWindow?.Dispose();
-
-            _randomChoyas?.DisposeAll();
-            _randomChoyas?.Clear();
-
-            _idleChoyas?.DisposeAll();
-            _idleChoyas?.Clear();
+            Services.InputDetectionService.Interacted -= InputDetectionService_Interacted;            
         }
     }
 }

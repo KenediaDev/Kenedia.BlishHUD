@@ -327,7 +327,6 @@ namespace Kenedia.Modules.Characters.Controls.SideMenu
         {
             base.OnShown(e);
 
-            Debug.WriteLine($"FitWidestTag for {ContentRegion.Width}");
             _tagFlowPanel.FitWidestTag(ContentRegion.Width);
             Invalidate();
         }

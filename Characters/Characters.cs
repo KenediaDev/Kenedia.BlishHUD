@@ -229,7 +229,6 @@ namespace Kenedia.Modules.Characters
         {
             string json = JsonConvert.SerializeObject(CharacterModels, Formatting.Indented);
 
-            Debug.WriteLine($"Saving Character List!");
             // write string to file
             File.WriteAllText(CharactersPath, json);
         }
@@ -427,12 +426,7 @@ namespace Kenedia.Modules.Characters
 
         protected override void Unload()
         {
-            Settings?.Dispose();
-            SettingsWindow?.Dispose();
-            MainWindow?.Dispose();
-            _cornerIcon?.Dispose();
             TextureManager = null;
-
             DeleteCornerIcons();
 
             CharacterModels.CollectionChanged -= OnCharacterCollectionChanged;

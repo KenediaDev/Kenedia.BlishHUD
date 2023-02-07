@@ -138,8 +138,9 @@ namespace Kenedia.Modules.Core.Models
         protected override void Unload()
         {
             base.Unload();
+            UnloadGUI();
 
-            Services.GameState?.Dispose();
+            Services?.Dispose();
 
 #if DEBUG
             ReloadKey.Value.Activated += ReloadKey_Activated;

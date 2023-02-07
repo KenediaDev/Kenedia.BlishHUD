@@ -323,7 +323,7 @@ namespace Characters.Views
             {
                 Parent = GameService.Graphics.SpriteScreen,
                 ZIndex = int.MaxValue,
-                Visible = true,
+                Visible = false,
             };
 
             _ocrRegionContainer = new ResizeableContainer()
@@ -380,7 +380,6 @@ namespace Characters.Views
             _sizeSet = false;
             Location = new Point(_ocrRegionContainer.Left, _ocrRegionContainer.Top - Height - 5);
 
-            Debug.WriteLine($"CONTAINER CHANGED");
             var b = _settings.ActiveOCRRegion;
             _maskedRegion.Size = b.Size;
             _maskedRegion.Location = b.Location;
