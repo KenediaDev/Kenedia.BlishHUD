@@ -25,12 +25,16 @@ using FlowPanel = Kenedia.Modules.Core.Controls.FlowPanel;
 using Panel = Kenedia.Modules.Core.Controls.Panel;
 using Point = Microsoft.Xna.Framework.Point;
 using Rectangle = Microsoft.Xna.Framework.Rectangle;
+using System.Diagnostics;
+using System.Xml.Linq;
+using System.Collections;
 
 namespace Kenedia.Modules.Characters.Controls
 {
     public class CharacterCard : Panel
     {
         private readonly List<Control> _dataControls = new();
+        private bool _updateCharacter = false;
 
         private readonly AsyncTexture2D _iconFrame = AsyncTexture2D.FromAssetId(1414041);
         private readonly AsyncTexture2D _loginTexture = AsyncTexture2D.FromAssetId(157092);
@@ -162,6 +166,7 @@ namespace Kenedia.Modules.Characters.Controls
                 Font = _lastLoginLabel.Font,
                 FlowDirection = ControlFlowDirection.LeftToRight,
                 ControlPadding = new Vector2(3, 2),
+                HeightSizingMode = SizingMode.AutoSize,
                 Visible = false,
             };
 
@@ -210,7 +215,7 @@ namespace Kenedia.Modules.Characters.Controls
         public BitmapFont NameFont { get; set; } = GameService.Content.DefaultFont14;
 
         public BitmapFont Font { get; set; } = GameService.Content.DefaultFont14;
-         
+
         public double Index
         {
             get => Character != null ? Character.Index : 0;
@@ -228,20 +233,23 @@ namespace Kenedia.Modules.Characters.Controls
             get => _character;
             set
             {
-                if (_character != null)
+                if (_character != value)
                 {
-                    _character.Updated -= ApplyCharacter;
-                    _character.Deleted -= CharacterDeleted;
-                }
+                    if (_character != null)
+                    {
+                        _character.Updated -= ApplyCharacter;
+                        _character.Deleted -= CharacterDeleted;
+                    }
 
-                _character = value;
-                _characterTooltip.Character = value;
+                    _character = value;
+                    _characterTooltip.Character = value;
 
-                if (value != null)
-                {
-                    _character.Updated += ApplyCharacter;
-                    _character.Deleted += CharacterDeleted;
-                    ApplyCharacter(null, null);
+                    if (value != null)
+                    {
+                        _character.Updated += ApplyCharacter;
+                        _character.Deleted += CharacterDeleted;
+                        ApplyCharacter(null, null);
+                    }
                 }
             }
         }
@@ -583,6 +591,11 @@ namespace Kenedia.Modules.Characters.Controls
             {
                 _characterTooltip.Visible = MouseOver;
             }
+
+            if (_updateCharacter)
+            {
+                UpdateCharacterInfo();
+            }
         }
 
         protected override void OnRightMouseButtonPressed(MouseEventArgs e)
@@ -744,6 +757,13 @@ namespace Kenedia.Modules.Characters.Controls
 
         private void ApplyCharacter(object sender, EventArgs e)
         {
+            _updateCharacter = true;
+        }
+
+        private void UpdateCharacterInfo()
+        {
+            _updateCharacter = false;
+
             _nameLabel.Text = Character.Name;
             _nameLabel.TextColor = new Color(168 + 15 + 25, 143 + 20 + 25, 102 + 15 + 25, 255);
 
@@ -774,29 +794,43 @@ namespace Kenedia.Modules.Characters.Controls
             _lastLoginLabel.TextureRectangle = new Rectangle(10, 10, 44, 44);
             _lastLoginLabel.Text = string.Format("{1} {0} {2:00}:{3:00}:{4:00}", strings.Days, 0, 0, 0, 0);
 
-            foreach (string tagText in Character.Tags)
+            var tagLlist = _tags.Select(e => e.Text);
+            var characterTags = Character.Tags.ToList();
+
+            var deleteTags = tagLlist.Except(characterTags);
+            var addTags = characterTags.Except(tagLlist);
+
+            bool tagChanged = deleteTags.Any() || addTags.Any();
+
+            if (tagChanged)
             {
-                if (_tags.Find(e => e.Text == tagText) == null)
+                var deleteList = new List<Tag>();
+                foreach (string tag in deleteTags)
+                {
+                    var t = _tags.FirstOrDefault(e => e.Text == tag);
+                    if (t != null) deleteList.Add(t);
+                }
+
+                foreach (var t in deleteList)
+                {
+                    t.Dispose();
+                    _ = _tags.Remove(t);
+                }
+
+                foreach (string tag in addTags)
                 {
                     _tags.Add(new Tag()
                     {
                         Parent = _tagPanel,
-                        Text = tagText,
+                        Text = tag,
                         Active = true,
                         ShowDelete = false,
                         CanInteract = false,
                     });
                 }
-            }
 
-            for (int i = _tags.Count - 1; i >= 0; i--)
-            {
-                Tag tag = _tags[i];
-                if (!Character.Tags.Contains(tag.Text))
-                {
-                    tag.Dispose();
-                    _tags.RemoveAt(i);
-                }
+                _tagPanel.FitWidestTag(_dataControls.Max(e => e.Visible && e != _tagPanel ? e.Width : 0));
+                _tagPanel.SortChildren<Tag>((a, b) => a.TagPanelIndex.CompareTo(b.TagPanelIndex));
             }
 
             _craftingControl.Character = Character;

@@ -95,7 +95,7 @@ namespace Kenedia.Modules.Characters.Services
 
             return false;
         }
-
+        
         public async Task MoveRight(CancellationToken cancellationToken, int amount = 1)
         {
             Status = strings.CharacterSwap_Right;
@@ -238,6 +238,7 @@ namespace Kenedia.Modules.Characters.Services
 
             Started?.Invoke(null, null);
             Status = string.Format(strings.CharacterSwap_SwitchTo, Character.Name);
+
             while (_state is not SwappingState.Done and not SwappingState.CharacterFullyLost and not SwappingState.Canceled && !_cancellationTokenSource.Token.IsCancellationRequested)
             {
                 try
@@ -336,7 +337,7 @@ namespace Kenedia.Modules.Characters.Services
             {
                 if (stopwatch.ElapsedMilliseconds > 5000)
                 {
-                    InputService.MouseWiggle();
+                    ExtendedInputService.MouseWiggle();
                     stopwatch.Restart();
                 }
 
@@ -366,7 +367,7 @@ namespace Kenedia.Modules.Characters.Services
 
                 if (stopwatch.ElapsedMilliseconds > 5000)
                 {
-                    InputService.MouseWiggle();
+                    ExtendedInputService.MouseWiggle();
                     stopwatch.Restart();
                 }
 

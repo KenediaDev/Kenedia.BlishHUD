@@ -45,7 +45,7 @@ namespace Kenedia.Modules.Characters
     public class Characters : BaseModule<Characters, MainWindow, SettingsModel>
     {
         public readonly Version BaseVersion;
-        public readonly ResourceManager RM = new("Characters.Res.strings", System.Reflection.Assembly.GetExecutingAssembly());
+        public readonly ResourceManager RM = new("Kenedia.Modules.Characters.Res.strings", System.Reflection.Assembly.GetExecutingAssembly());
 
         private readonly Ticks _ticks = new();
 
@@ -640,7 +640,7 @@ namespace Kenedia.Modules.Characters
             CharacterSwapping.HideMainWindow = MainWindow.Hide;
             CharacterSwapping.OCR = OCR;
             CharacterSorting.OCR = OCR;
-            CharacterSorting.UpdateCharacterList = MainWindow.PerformFiltering;
+            CharacterSorting.UpdateCharacterList = () => MainWindow.PerformFiltering(null);
         }
 
         protected override void UnloadGUI()

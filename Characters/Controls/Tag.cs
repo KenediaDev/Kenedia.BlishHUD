@@ -34,9 +34,6 @@ namespace Kenedia.Modules.Characters.Controls
             OuterControlPadding = new Vector2(3, 3);
             ControlPadding = new Vector2(4, 0);
             AutoSizePadding = new Point(5, 0);
-            WidthSizingMode = SizingMode.AutoSize;
-
-            Height = Math.Max(20, Control.Content.DefaultFont14.LineHeight + 4) + 5;
 
             _delete = new ImageButton()
             {
@@ -61,11 +58,23 @@ namespace Kenedia.Modules.Characters.Controls
             _text = new Label()
             {
                 Parent = this,
-                AutoSizeWidth = true,
-                Height = Math.Max(20, Control.Content.DefaultFont14.LineHeight + 4),
+                Height = Math.Max(20, Content.DefaultFont14.LineHeight + 4),
                 VerticalAlignment = VerticalAlignment.Middle,
+                Text = "Tag",
             };
+
+            Height = Math.Max(20, Font.LineHeight + 4) + 5;
+            Width = (int)Font.MeasureString("Tag").Width + _delete.Width + (int) OuterControlPadding.X + (int)AutoSizePadding.X + (int)ControlPadding.X;
+            _text.Width = (int)Font.MeasureString("Tag").Width + 4;
         }
+
+        public int TagPanelIndex { get; set; }
+
+        public Point DesiredSize => new((int)Font.MeasureString(Text).Width + 30, Math.Max(20, Font.LineHeight + 4) + 5);
+
+        public Action OnDeleteAction { get; set; }
+
+        public Action OnClickAction { get; set; }
 
         public event EventHandler Deleted;
 
@@ -76,12 +85,13 @@ namespace Kenedia.Modules.Characters.Controls
             get => _text.Font;
             set
             {
-                _text.Font = value;
-
-                if (value != null)
+                if (value != null && _text.Font != value)
                 {
                     _dummy.Size = new Point(value.LineHeight, value.LineHeight);
                     _delete.Size = new Point(value.LineHeight, value.LineHeight);
+                    _text.Font = value;
+                    _text.Height = Math.Max(20, value.LineHeight + 4);
+                    Height = Math.Max(20, value.LineHeight + 4) + 5;
                 }
             }
         }
@@ -144,7 +154,8 @@ namespace Kenedia.Modules.Characters.Controls
                 if (_text != null)
                 {
                     _text.Text = value;
-                    Width = (int)_text.Font.MeasureString(value).Width + 30;
+                    _text.Width = (int)Font.MeasureString(value).Width + 4;
+                    Width = (int)Font.MeasureString(value).Width + _delete.Width + (int)OuterControlPadding.X + (int)AutoSizePadding.X + (int)ControlPadding.X;
                 }
             }
         }
@@ -179,17 +190,23 @@ namespace Kenedia.Modules.Characters.Controls
 
         protected override void OnClick(MouseEventArgs e)
         {
-            base.OnClick(e);
-
-            if (CanInteract)
+            if (!_delete.MouseOver)
             {
-                Active = !Active;
+                base.OnClick(e);
+
+                if (CanInteract)
+                {
+                    Active = !Active;
+                }
+
+                OnClickAction?.Invoke();
             }
         }
 
         private void Delete_Click(object sender, MouseEventArgs e)
         {
             Deleted?.Invoke(this, EventArgs.Empty);
+            OnDeleteAction?.Invoke();
             Dispose();
         }
 

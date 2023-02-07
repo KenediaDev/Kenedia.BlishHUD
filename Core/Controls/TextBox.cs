@@ -37,6 +37,8 @@ namespace Kenedia.Modules.Core.Controls
             }
         }
 
+        public Action ClickAction { get; set; }
+
         public Action<string> EnterPressedAction { get; set; }
 
         public Action<string> TextChangedAction { get; set; }

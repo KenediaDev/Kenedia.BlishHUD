@@ -1,5 +1,7 @@
-﻿using System.Collections.ObjectModel;
+﻿using Kenedia.Modules.Characters.Controls;
+using System.Collections.ObjectModel;
 using System.Collections.Specialized;
+using System.Diagnostics;
 
 namespace Kenedia.Modules.Characters.Models
 {
@@ -19,7 +21,7 @@ namespace Kenedia.Modules.Characters.Models
         {
             _fireEvent = fireEvent;
             Add(tag);
-            _fireEvent = false;
+            _fireEvent = true;
         }
     }
 }

@@ -41,7 +41,7 @@ namespace Kenedia.Modules.Core.Res {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
 
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager(Assembly.GetExecutingAssembly().FullName.Split(',')[0].Substring(Assembly.GetExecutingAssembly().FullName.Split(',')[0].LastIndexOf('.') + 1) + ".Res.strings_common", typeof(strings_common).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Kenedia.Modules." + Assembly.GetExecutingAssembly().FullName.Split(',')[0].Substring(Assembly.GetExecutingAssembly().FullName.Split(',')[0].LastIndexOf('.') + 1) + ".Res.strings_common", typeof(strings_common).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;

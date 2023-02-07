@@ -8,7 +8,7 @@
 		</Header>
 		<Snippet>
 			<Code Language="CSharp">
-				<![CDATA[global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager(Assembly.GetExecutingAssembly().FullName.Split(',')[0].Substring(Assembly.GetExecutingAssembly().FullName.Split(',')[0].LastIndexOf('.') + 1) + ".Res.strings_common", typeof(strings_common).Assembly);]]>
+				<![CDATA[global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Kenedia.Modules." + Assembly.GetExecutingAssembly().FullName.Split(',')[0].Substring(Assembly.GetExecutingAssembly().FullName.Split(',')[0].LastIndexOf('.') + 1) + ".Res.strings_common", typeof(strings_common).Assembly);]]>
 			</Code>
 			
 			<Imports>

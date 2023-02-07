@@ -7,8 +7,8 @@
     <ProjectGuid>{1470BA39-B2F7-496F-8A51-B2084ED58CE8}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>QoL</RootNamespace>
-    <AssemblyName>QoL</AssemblyName>
+    <RootNamespace>Kenedia.Modules.QoL</RootNamespace>
+    <AssemblyName>Kenedia.Modules.QoL</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <LangVersion>latest</LangVersion>
     <FileAlignment>512</FileAlignment>

@@ -7,8 +7,8 @@
     <ProjectGuid>{97BAA4DC-B0B1-46EA-B076-1B036DCF71F3}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>BuildsManager</RootNamespace>
-    <AssemblyName>BuildsManager</AssemblyName>
+    <RootNamespace>Kenedia.Modules.BuildsManager</RootNamespace>
+    <AssemblyName>Kenedia.Modules.BuildsManager</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <LangVersion>latest</LangVersion>
     <FileAlignment>512</FileAlignment>

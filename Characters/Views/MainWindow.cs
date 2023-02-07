@@ -24,6 +24,8 @@ using Rectangle = Microsoft.Xna.Framework.Rectangle;
 using TextBox = Kenedia.Modules.Core.Controls.TextBox;
 using StandardWindow = Kenedia.Modules.Core.Views.StandardWindow;
 using System.Collections.ObjectModel;
+using System.Threading.Tasks;
+using System.Runtime;
 
 namespace Kenedia.Modules.Characters.Views
 {
@@ -45,7 +47,7 @@ namespace Kenedia.Modules.Characters.Views
         private readonly ImageButton _clearButton;
         private readonly FlowPanel _dropdownPanel;
         private readonly FlowPanel _buttonPanel;
-        private readonly TextBox _filterBox;
+        private readonly FilterBox _filterBox;
 
         private readonly bool _created;
         private bool _filterCharacters;
@@ -103,15 +105,18 @@ namespace Kenedia.Modules.Characters.Views
                 ControlPadding = new Vector2(5, 0),
             };
 
-            _filterBox = new TextBox()
+            _filterBox = new FilterBox()
             {
                 Parent = _dropdownPanel,
                 PlaceholderText = strings.Search,
                 Width = 100,
+                FilteringDelay = _settings.FilterDelay.Value,
+                EnterPressedAction = FilterBox_EnterPressed,
+                ClickAction = FilterBox_Click,
+                PerformFiltering = PerformFiltering,
+                FilteringOnTextChange = true,                
             };
-            _filterBox.TextChanged += FilterCharacters;
-            _filterBox.Click += FilterBox_Click;
-            _filterBox.EnterPressed += FilterBox_EnterPressed;
+            _settings.FilterDelay.SettingChanged += FilterDelay_SettingChanged;
 
             _clearButton = new ImageButton()
             {
@@ -196,7 +201,7 @@ namespace Kenedia.Modules.Characters.Views
                 ClickAction = (m) => ShowAttached(SideMenu.Visible ? null : SideMenu),
             };
 
-            CharacterEdit = new CharacterEdit(textureManager, togglePotrait, accountImagePath, tags, settings, PerformFiltering)
+            CharacterEdit = new CharacterEdit(textureManager, togglePotrait, accountImagePath, tags, settings, () => PerformFiltering(null))
             {
                 Parent = GameService.Graphics.SpriteScreen,
                 Anchor = this,
@@ -229,10 +234,15 @@ namespace Kenedia.Modules.Characters.Views
             GameService.Gw2Mumble.CurrentMap.MapChanged += CurrentMap_MapChanged;
         }
 
+        private void FilterDelay_SettingChanged(object sender, ValueChangedEventArgs<int> e)
+        {
+            _filterBox.FilteringDelay = e.NewValue;
+        }
+
         private void CurrentMap_MapChanged(object sender, ValueEventArgs<int> e)
         {
             _currentCharacter?.Invoke()?.UpdateCharacter();
-            PerformFiltering();
+            PerformFiltering(null);
         }
 
         private void Texture_TextureSwapped(object sender, ValueChangedEventArgs<Texture2D> e)
@@ -292,7 +302,7 @@ namespace Kenedia.Modules.Characters.Views
             _filterCharacters = true;
         }
 
-        public void PerformFiltering()
+        public void PerformFiltering(string t)
         {
             Regex regex = _settings.FilterAsOne.Value ? new("^(?!\\s*$).+") : new(@"\w+|""[\w\s]*""");
             var strings = regex.Matches(_filterBox.Text.Trim().ToLower()).Cast<Match>().ToList();
@@ -586,7 +596,7 @@ namespace Kenedia.Modules.Characters.Views
             if (_filterCharacters && gameTime.TotalGameTime.TotalMilliseconds - _filterTick > _settings.FilterDelay.Value)
             {
                 _filterTick = gameTime.TotalGameTime.TotalMilliseconds;
-                PerformFiltering();
+                PerformFiltering(null);
                 _filterCharacters = false;
             }
         }
@@ -683,13 +693,11 @@ namespace Kenedia.Modules.Characters.Views
             _settings.PinSideMenus.SettingChanged -= PinSideMenus_SettingChanged;
             _settings.ShowRandomButton.SettingChanged -= ShowRandomButton_SettingChanged;
             _settings.ShowLastButton.SettingChanged -= ShowLastButton_SettingChanged;
+            _settings.FilterDelay.SettingChanged -= FilterDelay_SettingChanged;
 
             GameService.Gw2Mumble.CurrentMap.MapChanged -= CurrentMap_MapChanged;
 
             DraggingControl.LeftMouseButtonReleased -= DraggingControl_LeftMouseButtonReleased;
-            _filterBox.TextChanged -= FilterCharacters;
-            _filterBox.Click -= FilterBox_Click;
-            _filterBox.EnterPressed -= FilterBox_EnterPressed;
             _buttonPanel.Resized -= ButtonPanel_Resized;
 
             if (CharacterCards.Count > 0) CharacterCards?.DisposeAll();
@@ -704,17 +712,24 @@ namespace Kenedia.Modules.Characters.Views
             SideMenu?.Dispose();
         }
 
-        private void FilterBox_EnterPressed(object sender, EventArgs e)
+        private async void FilterBox_EnterPressed(string t)
         {
             if (_settings.EnterToLogin.Value)
             {
-                PerformFiltering();
+                _filterBox.ForceFilter();
+
                 var c = (CharacterCard)CharactersPanel.Children.Where(e => e.Visible).FirstOrDefault();
-                c?.Character.Swap();
+                _filterBox.UnsetFocus();
+                await Task.Delay(5);
+
+                if(await ExtendedInputService.WaitForNoKeyPressed())
+                {
+                    c?.Character.Swap();
+                }
             }
         }
 
-        private void FilterBox_Click(object sender, Blish_HUD.Input.MouseEventArgs e)
+        private void FilterBox_Click()
         {
             if (_settings.OpenSidemenuOnSearch.Value) ShowAttached(SideMenu);
         }

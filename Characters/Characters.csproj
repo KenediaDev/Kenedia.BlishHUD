@@ -212,7 +212,9 @@
     <Compile Include="Controls\CharacterTooltip.cs" />
     <Compile Include="Controls\CraftingControl.cs" />
     <Compile Include="Controls\DraggingControl.cs" />
+    <Compile Include="Controls\RadialMenuSection.cs" />
     <Compile Include="Controls\TagFlowPanel.cs" />
+    <Compile Include="Controls\Triangle.cs" />
     <Compile Include="Models\FilterEntry.cs" />
     <Compile Include="Controls\FilterTag.cs" />
     <Compile Include="Controls\FontFlowPanel.cs" />

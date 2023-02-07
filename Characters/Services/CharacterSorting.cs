@@ -204,7 +204,7 @@ namespace Kenedia.Modules.Characters.Services
 
                 if (stopwatch.ElapsedMilliseconds > 5000)
                 {
-                    InputService.MouseWiggle();
+                    ExtendedInputService.MouseWiggle();
                     stopwatch.Restart();
                 }
             }
@@ -216,7 +216,7 @@ namespace Kenedia.Modules.Characters.Services
         private async Task MoveNext(CancellationToken cancellationToken)
         {
             Status = strings.FixCharacter_MoveNext;
-            InputService.MouseWiggle();
+            ExtendedInputService.MouseWiggle();
             Blish_HUD.Controls.Intern.Keyboard.Stroke(VirtualKeyShort.RIGHT, false);
             await Delay(cancellationToken);
             _currentIndex++;

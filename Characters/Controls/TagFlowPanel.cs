@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 
 namespace Kenedia.Modules.Characters.Controls
@@ -16,6 +17,9 @@ namespace Kenedia.Modules.Characters.Controls
 
         private Rectangle CalculateTagPanelSize(int? width = null)
         {
+            var tags = Tags;
+            if (tags.Count == 0) return Rectangle.Empty;
+
             int widest = Tags.Count > 0 ? Tags.Max(e => e.Width) : 0;
             widest += (int)OuterControlPadding.X * 2;
 
@@ -49,6 +53,11 @@ namespace Kenedia.Modules.Characters.Controls
             Rectangle bounds = CalculateTagPanelSize(width);
             Height = bounds.Height;
             Width = bounds.Width;
+        }
+
+        public override void Invalidate()
+        {
+            base.Invalidate();
         }
 
         protected override void OnChildAdded(ChildChangedEventArgs e)

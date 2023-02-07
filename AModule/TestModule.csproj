@@ -7,7 +7,7 @@
     <ProjectGuid>{8E72F6C4-CF5F-4493-85E1-C37F2021CAA5}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>AModule</RootNamespace>
+    <RootNamespace>Kenedia.Modules.AModule</RootNamespace>
     <AssemblyName>Kenedia.Modules.AModule</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <LangVersion>latest</LangVersion>

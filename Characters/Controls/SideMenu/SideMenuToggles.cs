@@ -19,7 +19,7 @@ namespace Kenedia.Modules.Characters.Controls.SideMenu
 {
     public class SideMenuToggles : FlowTab, ILocalizable
     {
-        private List<Tag> _tags = new();
+        private readonly List<Tag> _tags = new();
         private readonly FlowPanel _toggleFlowPanel;
         private readonly FlowPanel _tagFlowPanel;
         private readonly List<KeyValuePair<ImageColorToggle, Action>> _toggles = new();
@@ -125,12 +125,13 @@ namespace Kenedia.Modules.Characters.Controls.SideMenu
 
         private void CreateTags()
         {
-            _tags.ForEach(t => { t.ActiveChanged -= Tag_ActiveChanged; t.Deleted-= Tag_Deleted; });
             _tags.DisposeAll();
             _tags.Clear();
 
             _tagFlowPanel.Children.Clear();
             _tagFilters.Clear();
+
+            _tags.Sort();
 
             foreach (string tag in _allTags)
             {
@@ -145,26 +146,23 @@ namespace Kenedia.Modules.Characters.Controls.SideMenu
                         ShowDelete = true,
                     });
 
-                    _tagFilters.Add(tag, new((c) => c.Tags.Contains(tag), false));
+                    t.OnDeleteAction = () =>
+                    {
+                        _ = _tags.Remove(t);
+                        _ = _allTags.Remove(t.Text);
+                        _tagFlowPanel.Invalidate();
+                    };
 
+                    t.OnClickAction = () =>
+                    {
+                        _tagFilters[t.Text].IsEnabled = t.Active;
+                        _onFilterChanged?.Invoke();
+                    };
+
+                    _tagFilters.Add(tag, new((c) => c.Tags.Contains(tag), false));
                     t.SetActive(false);
-                    t.ActiveChanged += Tag_ActiveChanged;
-                    t.Deleted += Tag_Deleted;
                 }
             }
-        }
-
-        private void Tag_Deleted(object sender, EventArgs e)
-        {
-            _ = _tags.Remove(sender as Tag);
-            _ = _allTags.Remove((sender as Tag).Text);
-        }
-
-        private void Tag_ActiveChanged(object sender, EventArgs e)
-        {
-            var t = (Tag)sender;
-            _tagFilters[t.Text].IsEnabled = t.Active;
-            _onFilterChanged?.Invoke();
         }
 
         private void CreateToggles()

@@ -13,6 +13,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Controls\BaseDialog.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controls\BasicTooltip.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controls\Button.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\FilterBox.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controls\FramedMaskedRegion.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controls\Checkbox.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controls\CornerIcon.cs" />
