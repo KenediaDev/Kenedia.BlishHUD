@@ -1,5 +1,6 @@
 ﻿using Blish_HUD;
 using Blish_HUD.Content;
+using Blish_HUD.Controls;
 using Blish_HUD.Input;
 using Kenedia.Modules.Core.Extensions;
 using Microsoft.Xna.Framework;
@@ -37,6 +38,10 @@ namespace Kenedia.Modules.Core.Controls
 
         private Rectangle ResizeCorner => new(LocalBounds.Right - 15, LocalBounds.Bottom - 15, 15, 15);
 
+        public bool CaptureInput { get; set; } = true;
+
+        public bool CanChange { get; set; } = true;
+
         public override void UpdateContainer(GameTime gameTime)
         {
             base.UpdateContainer(gameTime);
@@ -69,11 +74,16 @@ namespace Kenedia.Modules.Core.Controls
                 _resizeTexture.Height);
         }
 
+        protected override CaptureType CapturesInput()
+        {
+            return CaptureInput ? base.CapturesInput() : CaptureType.None;
+        }
+
         public override void PaintBeforeChildren(SpriteBatch spriteBatch, Rectangle bounds)
         {
             base.PaintBeforeChildren(spriteBatch, bounds);
 
-            if (_resizeTexture != null && (!ShowResizeOnlyOnMouseOver || MouseOver))
+            if (_resizeTexture != null && CanChange && (!ShowResizeOnlyOnMouseOver || MouseOver))
             {
                 spriteBatch.DrawOnCtrl(
                     this,
@@ -89,20 +99,26 @@ namespace Kenedia.Modules.Core.Controls
         protected override void OnLeftMouseButtonReleased(MouseEventArgs e)
         {
             base.OnLeftMouseButtonReleased(e);
-            _dragging = false;
-            _resizing = false;
+            if (CanChange)
+            {
+                _dragging = false;
+                _resizing = false;
+            }
         }
 
         protected override void OnLeftMouseButtonPressed(MouseEventArgs e)
         {
             base.OnLeftMouseButtonPressed(e);
 
-            _resizing = ResizeCorner.Contains(e.MousePosition);
-            _resizeStart = Size;
-            _dragStart = Input.Mouse.Position;
+            if (CanChange)
+            {
+                _resizing = ResizeCorner.Contains(e.MousePosition);
+                _resizeStart = Size;
+                _dragStart = Input.Mouse.Position;
 
-            _dragging = !_resizing;
-            _draggingStart = _dragging ? RelativeMousePosition : Point.Zero;
+                _dragging = !_resizing;
+                _draggingStart = _dragging ? RelativeMousePosition : Point.Zero;
+            }
         }
 
         protected virtual Point HandleWindowResize(Point newSize)
@@ -114,13 +130,16 @@ namespace Kenedia.Modules.Core.Controls
 
         protected override void OnMouseMoved(MouseEventArgs e)
         {
-            ResetMouseRegionStates();
-
-            if (_resizeHandleBounds.Contains(RelativeMousePosition)
-                  && RelativeMousePosition.X > _resizeHandleBounds.Right - s_resizeHandleSize
-                  && RelativeMousePosition.Y > _resizeHandleBounds.Bottom - s_resizeHandleSize)
+            if (CanChange)
             {
-                _mouseOverResizeHandle = true;
+                ResetMouseRegionStates();
+
+                if (_resizeHandleBounds.Contains(RelativeMousePosition)
+                      && RelativeMousePosition.X > _resizeHandleBounds.Right - s_resizeHandleSize
+                      && RelativeMousePosition.Y > _resizeHandleBounds.Bottom - s_resizeHandleSize)
+                {
+                    _mouseOverResizeHandle = true;
+                }
             }
 
             base.OnMouseMoved(e);

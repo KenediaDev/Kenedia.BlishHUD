@@ -5,18 +5,12 @@ using Kenedia.Modules.ReleaseTheChoya.Models;
 using Kenedia.Modules.ReleaseTheChoya.Res;
 using Microsoft.Xna.Framework;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using SizingMode = Blish_HUD.Controls.SizingMode;
 using ControlFlowDirection = Blish_HUD.Controls.ControlFlowDirection;
 using Container = Blish_HUD.Controls.Container;
 using Kenedia.Modules.Core.Res;
 using Blish_HUD.Settings;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement.Window;
 using Kenedia.Modules.Core.Services;
-using static Blish_HUD.GameIntegration.AudioIntegration;
 
 namespace Kenedia.Modules.ReleaseTheChoya.Views
 {

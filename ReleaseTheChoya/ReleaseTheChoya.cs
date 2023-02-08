@@ -33,12 +33,15 @@ namespace Kenedia.Modules.ReleaseTheChoya
         private double _lastMoveTick;
         private double _randomTick;
         private double _idletick;
+        private double _choyaHuntTick;
         private Vector3 _lastPlayerPos;
         private CornerIcon _cornerIcon;
         private readonly List<Control> _idleChoya = new();
         private readonly List<Control> _randomChoya = new();
         private readonly List<Control> _persistentChoya = new();
         private readonly List<Control> _staticChoya = new();
+        private readonly List<Control> _huntingChoya = new();
+        private bool _choyaHuntActive = false;
 
         [ImportingConstructor]
         public TestModule([Import("ModuleParameters")] ModuleParameters moduleParameters) : base(moduleParameters)
@@ -59,7 +62,30 @@ namespace Kenedia.Modules.ReleaseTheChoya
             Settings.ChoyaDelay.SettingChanged += ChoyaDelay_SettingChanged;
             Settings.ChoyaIdleDelay.SettingChanged += ChoyaDelay_SettingChanged;
             Settings.ShowCornerIcon.SettingChanged += ShowCornerIcon_SettingChanged;
+
+            Settings.SpawnChoyaKey.Value.Enabled = true;
             Settings.SpawnChoyaKey.Value.Activated += SpawnManualChoya;
+
+            Settings.ToggleChoyaHunt.Value.Enabled = true;
+            Settings.ToggleChoyaHunt.Value.Activated += ToggleChoyaHunt; ;
+        }
+
+        private void ToggleChoyaHunt(object sender, EventArgs e)
+        {
+            _choyaHuntActive = !_choyaHuntActive;
+            if (_choyaHuntActive)
+            {
+                _randomChoya.DisposeAll();
+                _randomChoya.Clear();
+
+                _idleChoya.DisposeAll();
+                _idleChoya.Clear();
+            }
+            else
+            {
+                _huntingChoya.DisposeAll();
+                _huntingChoya.Clear();
+            }
         }
 
         private void SpawnManualChoya(object sender, EventArgs e)
@@ -129,54 +155,105 @@ namespace Kenedia.Modules.ReleaseTheChoya
             base.Update(gameTime);
 
             double now = gameTime.TotalGameTime.TotalMilliseconds;
-            if (_lastPlayerPos != GameService.Gw2Mumble.PlayerCharacter.Position)
+
+            if (!_choyaHuntActive)
             {
-                _lastPlayerPos = GameService.Gw2Mumble.PlayerCharacter.Position;
-                _lastMoveTick = now;
+                if (_lastPlayerPos != GameService.Gw2Mumble.PlayerCharacter.Position)
+                {
+                    _lastPlayerPos = GameService.Gw2Mumble.PlayerCharacter.Position;
+                    _lastMoveTick = now;
+                }
+
+                bool idle = Settings.ShowWhenIdle.Value && now - Services.InputDetectionService.LastInteraction >= (Settings.IdleDelay.Value * 1000);
+                bool noMove = Settings.ShowWhenStandingStill.Value && now - _lastMoveTick >= (Settings.NoMoveDelay.Value * 1000);
+                bool canReleaseChoyas = (Settings.ShowRandomly.Value || idle || noMove) && (!Settings.AvoidCombat.Value || !GameService.Gw2Mumble.PlayerCharacter.IsInCombat);
+
+                if (canReleaseChoyas)
+                {
+                    if ((idle || noMove) && now - _idletick > 0)
+                    {
+                        _idletick = now + RandomUtil.GetRandom(
+                            Settings.ChoyaIdleDelay.Value.Start,
+                            Settings.ChoyaIdleDelay.Value.End);
+
+                        ReleaseAChoya(_idleChoya);
+                    }
+                    else if (Settings.ShowRandomly.Value && now - _randomTick > 0)
+                    {
+                        _randomTick = now + RandomUtil.GetRandom(
+                            Settings.ChoyaDelay.Value.Start * 1000,
+                            Settings.ChoyaDelay.Value.End * 1000);
+
+                        ReleaseAChoya(_randomChoya);
+                    }
+                }
             }
 
-            bool idle = Settings.ShowWhenIdle.Value && now - Services.InputDetectionService.LastInteraction >= (Settings.IdleDelay.Value * 1000);
-            bool noMove = Settings.ShowWhenStandingStill.Value && now - _lastMoveTick >= (Settings.NoMoveDelay.Value * 1000);
-            bool canReleaseChoyas = (Settings.ShowRandomly.Value || idle || noMove) && (!Settings.AvoidCombat.Value || !GameService.Gw2Mumble.PlayerCharacter.IsInCombat);
-
-            if (canReleaseChoyas)
+            if (_choyaHuntActive)
             {
-                if ((idle || noMove) && now - _idletick > 0)
+                if(now - _choyaHuntTick > 0)
                 {
-                    _idletick = now + RandomUtil.GetRandom(
-                        Settings.ChoyaIdleDelay.Value.Start,
-                        Settings.ChoyaIdleDelay.Value.End);
+                    _choyaHuntTick = now + RandomUtil.GetRandom(
+                        250,
+                        1000);
 
-                    ReleaseAChoya(_idleChoya);
-                }
-                else if (Settings.ShowRandomly.Value && now - _randomTick > 0)
-                {
-                    _randomTick = now + RandomUtil.GetRandom(
-                        Settings.ChoyaDelay.Value.Start * 1000,
-                        Settings.ChoyaDelay.Value.End * 1000);
-
-                    ReleaseAChoya(_randomChoya);
+                    ReleaseAChoya(_huntingChoya, true);
                 }
             }
         }
 
-        private void ReleaseAChoya(List<Control> choyas)
+        private void ReleaseAChoya(List<Control> choyas, bool choyaHunt = false)
         {
-            var rollingChoya = new RollingChoya()
+            Vector2 travelDistance()
+            {
+                var td = !choyaHunt ? new Vector2(RandomUtil.GetRandom(-Settings.ChoyaTravelDistance.Value.Start, Settings.ChoyaTravelDistance.Value.End), RandomUtil.GetRandom(-Settings.ChoyaTravelDistance.Value.Start, Settings.ChoyaTravelDistance.Value.End)) : new(RandomUtil.GetRandom(-5, 5));
+                return td;
+            }
+
+            var t = travelDistance();
+
+            while (t == Vector2.Zero)
+            {
+                t = travelDistance();
+            }
+
+            var rollingChoya = new RollingChoya(Services.InputDetectionService)
             {
                 ChoyaTexture = Services.TexturesService.GetTexture(textures_common.RollingChoya, nameof(textures_common.RollingChoya)),
                 Parent = GameService.Graphics.SpriteScreen,
-                Width = GameService.Graphics.SpriteScreen.Width,
-                Location = new(0, RandomUtil.GetRandom(0, GameService.Graphics.SpriteScreen.Height - 64)),
-                Height = RandomUtil.GetRandom(Settings.ChoyaSize.Value.Start, Settings.ChoyaSize.Value.End),
+                Size = new(RandomUtil.GetRandom(Settings.ChoyaSize.Value.Start, Settings.ChoyaSize.Value.End)),
                 Steps = RandomUtil.GetRandom(Settings.ChoyaSpeed.Value.Start, Settings.ChoyaSpeed.Value.End),
-                TravelDistance = RandomUtil.GetRandom(Settings.ChoyaTravelDistance.Value.Start, Settings.ChoyaTravelDistance.Value.End),
+                TravelDistance = t,
                 ZIndex = int.MaxValue - 10,
+                ChoyaHunt = choyaHunt,
                 CaptureInput = false,
                 Enabled = false,
             };
+
+            int y = RandomUtil.GetRandom(1 - rollingChoya.Size.Y, GameService.Graphics.SpriteScreen.Height - (rollingChoya.Size.Y / 4));
+
+            int x = y < 0 || y > GameService.Graphics.SpriteScreen.Height - rollingChoya.Size.Y ?
+                RandomUtil.GetRandom(1 - rollingChoya.Size.X, GameService.Graphics.SpriteScreen.Width - (rollingChoya.Size.X / 4)) :
+                RandomUtil.GetRandom(0, 1) == 1 ? GameService.Graphics.SpriteScreen.Width - (rollingChoya.Size.X / 4) : 1 - rollingChoya.Size.X;
+
+            rollingChoya.StartPoint = new(x, y);
+
             rollingChoya.ChoyaLeftBounds += RollingChoya_ChoyaLeftBounds;
             choyas.Add(rollingChoya);
+
+            if (choyaHunt)
+            {
+                rollingChoya.Click += RollingChoya_Click;
+            }
+        }
+
+        private void RollingChoya_Click(object sender, MouseEventArgs e)
+        {
+            ScreenNotification.ShowNotification("Right in the face!", ScreenNotification.NotificationType.Error);
+            var choya = sender as RollingChoya;
+            choya.Dispose();
+
+            _ = _huntingChoya?.Remove(choya);
         }
 
         private void RollingChoya_ChoyaLeftBounds(object sender, EventArgs e)
