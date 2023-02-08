@@ -200,7 +200,7 @@ namespace Kenedia.Modules.Characters
                     var ocr_bitmap = bitmap;
                     double scale = 1;
                     // Patagames free license
-                    if (bitmap.Width > 500 || bitmap.Height > 500)
+                    if (bitmap.Width >= 500 || bitmap.Height >= 500)
                     {
                         scale = 499 / (double)Math.Max(bitmap.Width, bitmap.Height);
 

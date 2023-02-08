@@ -411,10 +411,10 @@ namespace Kenedia.Modules.Characters.Models
             OnUpdated();
         }
 
-        public void AddTag(string tag)
+        public void AddTag(string tag, bool update = true)
         {
             Tags.Add(tag);
-            OnUpdated();
+            if(update) OnUpdated();
         }
 
         public void RemoveTag(string tag)

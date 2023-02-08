@@ -22,6 +22,7 @@ namespace Kenedia.Modules.Characters.Services
         {
             SettingCollection internalSettings = settings.AddSubCollection("Internal", false, false);
             Version = internalSettings.DefineSetting(nameof(Version), new SemVer.Version("0.0.0"));
+            ImportVersion = internalSettings.DefineSetting(nameof(ImportVersion), new SemVer.Version("0.0.0"));
             LogoutKey = internalSettings.DefineSetting(nameof(LogoutKey), new KeyBinding(Keys.F12));
             ShortcutKey = internalSettings.DefineSetting(nameof(ShortcutKey), new KeyBinding(ModifierKeys.Shift, Keys.C));
             RadialKey = internalSettings.DefineSetting(nameof(RadialKey), new KeyBinding(Keys.None));
@@ -296,6 +297,8 @@ namespace Kenedia.Modules.Characters.Services
         public SettingEntry<bool> OpenSidemenuOnSearch { get; set; }
 
         public SettingEntry<SemVer.Version> Version { get; set; }
+
+        public SettingEntry<SemVer.Version> ImportVersion { get; set; }
 
         public SettingEntry<bool> FocusSearchOnShow { get; private set; }
 

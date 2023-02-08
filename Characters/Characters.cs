@@ -46,7 +46,6 @@ namespace Kenedia.Modules.Characters
     [Export(typeof(Module))]
     public class Characters : BaseModule<Characters, MainWindow, SettingsModel>
     {
-        public readonly Version BaseVersion;
         public readonly ResourceManager RM = new("Kenedia.Modules.Characters.Res.strings", System.Reflection.Assembly.GetExecutingAssembly());
 
         private readonly Ticks _ticks = new();
@@ -60,7 +59,6 @@ namespace Kenedia.Modules.Characters
         {
             ModuleInstance = this;
             HasGUI = true;
-            BaseVersion = Version.BaseVersion();
 
             Data = new Data(ContentsManager);
 
@@ -265,6 +263,19 @@ namespace Kenedia.Modules.Characters
                 }
             }
 
+            if (!File.Exists(CharactersPath) || Settings.ImportVersion.Value < OldCharacterModel.ImportVersion)
+            {
+                string p = CharactersPath.Replace(@"kenedia\", "");
+
+                if (File.Exists(p))
+                {
+                    Logger.Info($"This is the first start of {Name} since import version {OldCharacterModel.ImportVersion}. Importing old data from {p}!");
+                    OldCharacterModel.Import(p, CharacterModels, AccountImagesPath, Paths.AccountName, Logger);
+                }
+
+                Settings.ImportVersion.Value = OldCharacterModel.ImportVersion;
+            }
+
             SaveCharacterList();
         }
 
@@ -272,7 +283,7 @@ namespace Kenedia.Modules.Characters
         {
             base.Initialize();
 
-            Logger.Info($"Starting  {Name} v." + BaseVersion);
+            Logger.Info($"Starting {Name} v." + ModuleVersion);
 
             JsonConvert.DefaultSettings = () => new JsonSerializerSettings
             {
@@ -282,7 +293,7 @@ namespace Kenedia.Modules.Characters
 
             GlobalAccountsPath = Paths.ModulePath + @"\accounts.json";
 
-            if (!File.Exists(Paths.ModulePath + @"\gw2.traineddata") || Settings.Version.Value != BaseVersion)
+            if (!File.Exists(Paths.ModulePath + @"\gw2.traineddata") || Settings.Version.Value != ModuleVersion)
             {
                 using Stream target = File.Create(Paths.ModulePath + @"\gw2.traineddata");
                 Stream source = ContentsManager.GetFileStream(@"data\gw2.traineddata");
@@ -290,7 +301,7 @@ namespace Kenedia.Modules.Characters
                 source.CopyTo(target);
             }
 
-            if (!File.Exists(Paths.ModulePath + @"\tesseract.dll") || Settings.Version.Value != BaseVersion)
+            if (!File.Exists(Paths.ModulePath + @"\tesseract.dll") || Settings.Version.Value != ModuleVersion)
             {
                 using Stream target = File.Create(Paths.ModulePath + @"\tesseract.dll");
                 Stream source = ContentsManager.GetFileStream(@"data\tesseract.dll");
@@ -310,7 +321,7 @@ namespace Kenedia.Modules.Characters
 
             Tags.CollectionChanged += Tags_CollectionChanged;
 
-            Settings.Version.Value = BaseVersion;
+            Settings.Version.Value = ModuleVersion;
 
             GW2APIHandler = new GW2API_Handler(Gw2ApiManager, AddOrUpdateCharacters, () => APISpinner, GlobalAccountsPath, UpdateFolderPaths);
         }
@@ -339,7 +350,7 @@ namespace Kenedia.Modules.Characters
             _ticks.OCR += gameTime.ElapsedGameTime.TotalMilliseconds;
 
             MouseState mouse = GameService.Input.Mouse.State;
-            if (GameService.GameIntegration.Gw2Instance.Gw2HasFocus&& (mouse.LeftButton == ButtonState.Pressed || mouse.RightButton == ButtonState.Pressed || GameService.Input.Keyboard.KeysDown.Count > 0))
+            if (GameService.GameIntegration.Gw2Instance.Gw2HasFocus && (mouse.LeftButton == ButtonState.Pressed || mouse.RightButton == ButtonState.Pressed || GameService.Input.Keyboard.KeysDown.Count > 0))
             {
                 CancelEverything();
             }
