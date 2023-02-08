@@ -69,12 +69,12 @@ namespace Kenedia.Modules.Characters.Services
 
             Point res = GameService.Graphics.Resolution;
             PinSideMenus = internalSettings.DefineSetting(nameof(PinSideMenus), false);
-            UseOCR = internalSettings.DefineSetting(nameof(UseOCR), true);
+            UseOCR = internalSettings.DefineSetting(nameof(UseOCR), false);
             AutoSortCharacters = internalSettings.DefineSetting(nameof(AutoSortCharacters), false);
             OCRRegion = internalSettings.DefineSetting(nameof(OCRRegion), new Rectangle(50, 550, 530, 50));
             OCRRegions = internalSettings.DefineSetting(nameof(OCRRegions), new Dictionary<string, Rectangle>());
             OCRNoPixelColumns = internalSettings.DefineSetting(nameof(OCRNoPixelColumns), 20);
-            OCR_ColorThreshold = internalSettings.DefineSetting(nameof(OCR_ColorThreshold), 180);
+            OCR_ColorThreshold = internalSettings.DefineSetting(nameof(OCR_ColorThreshold), 181);
 
             PanelSize = internalSettings.DefineSetting(nameof(PanelSize), PanelSizes.Normal);
             CustomCharacterIconSize = internalSettings.DefineSetting(nameof(CustomCharacterIconSize), 128);

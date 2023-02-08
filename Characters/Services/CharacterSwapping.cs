@@ -95,7 +95,7 @@ namespace Kenedia.Modules.Characters.Services
 
             return false;
         }
-        
+
         public async Task MoveRight(CancellationToken cancellationToken, int amount = 1)
         {
             Status = strings.CharacterSwap_Right;
@@ -211,14 +211,17 @@ namespace Kenedia.Modules.Characters.Services
             _state = SwappingState.None;
         }
 
-        public void Cancel()
+        public bool Cancel()
         {
+            bool canceled = _cancellationTokenSource != null && !_cancellationTokenSource.IsCancellationRequested;
+
             _state = SwappingState.Canceled;
             _cancellationTokenSource?.Cancel();
-            //s_cancellationTokenSource = null;
+
+            return canceled;
         }
 
-        public async void Start(Character_Model character, bool ignoreOCR = false)
+        public async void Start(Character_Model character, bool ignoreOCR = false, Logger logger = null)
         {
             PlayerCharacter player = GameService.Gw2Mumble.PlayerCharacter;
             bool inCharSelection = _settings.UseBetaGamestate.Value ? _gameState.IsCharacterSelection : !GameService.GameIntegration.Gw2Instance.IsInGame;

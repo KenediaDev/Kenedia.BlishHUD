@@ -12,6 +12,7 @@ using Kenedia.Modules.Core.Res;
 using Kenedia.Modules.Core.Services;
 using Kenedia.Modules.Core.Utility;
 using Kenedia.Modules.ReleaseTheChoya.Models;
+using Kenedia.Modules.ReleaseTheChoya.Res;
 using Kenedia.Modules.ReleaseTheChoya.Views;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -20,7 +21,9 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Diagnostics;
+using System.Runtime;
 using System.Threading.Tasks;
+using CornerIcon = Kenedia.Modules.Core.Controls.CornerIcon;
 
 namespace Kenedia.Modules.ReleaseTheChoya
 {
@@ -31,8 +34,11 @@ namespace Kenedia.Modules.ReleaseTheChoya
         private double _randomTick;
         private double _idletick;
         private Vector3 _lastPlayerPos;
-        private readonly List<Control> _idleChoyas = new();
-        private readonly List<Control> _randomChoyas = new();
+        private CornerIcon _cornerIcon;
+        private readonly List<Control> _idleChoya = new();
+        private readonly List<Control> _randomChoya = new();
+        private readonly List<Control> _persistentChoya = new();
+        private readonly List<Control> _staticChoya = new();
 
         [ImportingConstructor]
         public TestModule([Import("ModuleParameters")] ModuleParameters moduleParameters) : base(moduleParameters)
@@ -52,6 +58,31 @@ namespace Kenedia.Modules.ReleaseTheChoya
             Settings = new Settings(settings);
             Settings.ChoyaDelay.SettingChanged += ChoyaDelay_SettingChanged;
             Settings.ChoyaIdleDelay.SettingChanged += ChoyaDelay_SettingChanged;
+            Settings.ShowCornerIcon.SettingChanged += ShowCornerIcon_SettingChanged;
+            Settings.SpawnChoyaKey.Value.Activated += SpawnManualChoya;
+        }
+
+        private void SpawnManualChoya(object sender, EventArgs e)
+        {
+            ReleaseAChoya(_persistentChoya);
+        }
+
+        private void ShowCornerIcon_SettingChanged(object sender, ValueChangedEventArgs<bool> e)
+        {
+            _cornerIcon?.Dispose();
+
+            if (e.NewValue)
+            {
+                _cornerIcon = new CornerIcon()
+                {
+                    Icon = Services.TexturesService.GetTexture(@"textures\choya_corner_bg.png", "choya_corner_bg"),
+                    HoverIcon = Services.TexturesService.GetTexture(@"textures\choya_corner_bg_big.png", "choya_corner_bg_big"),
+                    SetLocalizedTooltip = () => string.Format(strings_common.ToggleItem, $"{Name}"),
+                    Parent = GameService.Graphics.SpriteScreen,
+                    Visible = Settings.ShowCornerIcon.Value,
+                    ClickAction = () => SettingsWindow?.ToggleWindow(),
+                };
+            }
         }
 
         private void ChoyaDelay_SettingChanged(object sender, ValueChangedEventArgs<Core.Structs.Range> e)
@@ -88,8 +119,8 @@ namespace Kenedia.Modules.ReleaseTheChoya
 
             if (!idle && !noMove)
             {
-                _idleChoyas?.DisposeAll();
-                _idleChoyas?.Clear();
+                _idleChoya?.DisposeAll();
+                _idleChoya?.Clear();
             }
         }
 
@@ -116,23 +147,24 @@ namespace Kenedia.Modules.ReleaseTheChoya
                         Settings.ChoyaIdleDelay.Value.Start,
                         Settings.ChoyaIdleDelay.Value.End);
 
-                    ReleaseAChoya(_idleChoyas);
+                    ReleaseAChoya(_idleChoya);
                 }
                 else if (Settings.ShowRandomly.Value && now - _randomTick > 0)
                 {
                     _randomTick = now + RandomUtil.GetRandom(
-                        Settings.ChoyaDelay.Value.Start * 1000, 
+                        Settings.ChoyaDelay.Value.Start * 1000,
                         Settings.ChoyaDelay.Value.End * 1000);
 
-                    ReleaseAChoya(_randomChoyas);
+                    ReleaseAChoya(_randomChoya);
                 }
             }
         }
 
         private void ReleaseAChoya(List<Control> choyas)
         {
-            var rollingChoya = new RollingChoya(Services.TexturesService)
+            var rollingChoya = new RollingChoya()
             {
+                ChoyaTexture = Services.TexturesService.GetTexture(textures_common.RollingChoya, nameof(textures_common.RollingChoya)),
                 Parent = GameService.Graphics.SpriteScreen,
                 Width = GameService.Graphics.SpriteScreen.Width,
                 Location = new(0, RandomUtil.GetRandom(0, GameService.Graphics.SpriteScreen.Height - 64)),
@@ -154,8 +186,8 @@ namespace Kenedia.Modules.ReleaseTheChoya
             choya.ChoyaLeftBounds -= RollingChoya_ChoyaLeftBounds;
             choya.Dispose();
 
-            _ = _randomChoyas?.Remove(choya);
-            _ = _idleChoyas?.Remove(choya);
+            _ = _randomChoya?.Remove(choya);
+            _ = _idleChoya?.Remove(choya);
         }
 
         public override IView GetSettingsView()
@@ -174,7 +206,8 @@ namespace Kenedia.Modules.ReleaseTheChoya
                 settingsBg,
                 new Rectangle(30, 30, cutSettingsBg.Width + 10, cutSettingsBg.Height),
                 new Rectangle(30, 35, cutSettingsBg.Width - 5, cutSettingsBg.Height - 15),
-                Settings)
+                Settings,
+                Services.TexturesService)
             {
                 MainWindowEmblem = Services.TexturesService.GetTexture(@"textures\choya_emblem.png", "choya_emblem"),
                 Parent = GameService.Graphics.SpriteScreen,
@@ -185,18 +218,39 @@ namespace Kenedia.Modules.ReleaseTheChoya
                 Version = ModuleVersion,
                 Name = Name,
             };
+
+            if (Settings.ShowCornerIcon.Value)
+            {
+                _cornerIcon = new CornerIcon()
+                {
+                    Icon = Services.TexturesService.GetTexture(@"textures\choya_corner_bg.png", "choya_corner_bg"),
+                    HoverIcon = Services.TexturesService.GetTexture(@"textures\choya_corner_bg_big.png", "choya_corner_bg_big"),
+                    SetLocalizedTooltip = () => string.Format(strings_common.ToggleItem, $"{Name}"),
+                    Parent = GameService.Graphics.SpriteScreen,
+                    Visible = Settings.ShowCornerIcon.Value,
+                    ClickAction = () => SettingsWindow?.ToggleWindow(),
+                };
+            }
         }
 
         protected override void UnloadGUI()
         {
             base.UnloadGUI();
+
             SettingsWindow?.Dispose();
+            _cornerIcon?.Dispose();
 
-            _randomChoyas?.DisposeAll();
-            _randomChoyas?.Clear();
+            _staticChoya?.DisposeAll();
+            _staticChoya?.Clear();
 
-            _idleChoyas?.DisposeAll();
-            _idleChoyas?.Clear();
+            _persistentChoya?.DisposeAll();
+            _persistentChoya?.Clear();
+
+            _randomChoya?.DisposeAll();
+            _randomChoya?.Clear();
+
+            _idleChoya?.DisposeAll();
+            _idleChoya?.Clear();
         }
 
         protected override void ReloadKey_Activated(object sender, EventArgs e)
@@ -209,10 +263,15 @@ namespace Kenedia.Modules.ReleaseTheChoya
         {
             base.Unload();
 
+            foreach (SettingEntry<Choya> choya in Settings.StaticChoya)
+            {
+                choya.Value.Dispose();
+            }
+
             Settings.ChoyaDelay.SettingChanged -= ChoyaDelay_SettingChanged;
             Settings.ChoyaIdleDelay.SettingChanged -= ChoyaDelay_SettingChanged;
 
-            Services.InputDetectionService.Interacted -= InputDetectionService_Interacted;            
+            Services.InputDetectionService.Interacted -= InputDetectionService_Interacted;
         }
     }
 }

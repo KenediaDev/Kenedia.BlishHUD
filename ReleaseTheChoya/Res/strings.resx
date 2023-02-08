@@ -192,4 +192,22 @@
   <data name="Delays" xml:space="preserve">
     <value>Delays</value>
   </data>
+  <data name="SpawnChoyaKey" xml:space="preserve">
+    <value>Spawn Choya</value>
+  </data>
+  <data name="SpawnChoyaKey_ttp" xml:space="preserve">
+    <value>Keybind to spawn a choya</value>
+  </data>
+  <data name="ToggleChoyaHunt" xml:space="preserve">
+    <value>Toggle Choya Hunt</value>
+  </data>
+  <data name="ToggleChoyaHunt_ttp" xml:space="preserve">
+    <value>Toggle the choya hunting minigame</value>
+  </data>
+  <data name="CreateStaticChoya" xml:space="preserve">
+    <value>Create Choya</value>
+  </data>
+  <data name="CreateStaticChoya_ttp" xml:space="preserve">
+    <value>Create a persistent freely placeable choya</value>
+  </data>
 </root>

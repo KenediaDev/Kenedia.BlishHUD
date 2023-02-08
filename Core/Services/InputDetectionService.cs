@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace Kenedia.Modules.Core.Services
@@ -14,6 +15,12 @@ namespace Kenedia.Modules.Core.Services
         double _lastMouseInteraction;
         double _lastMouseMove;
         double _lastMouseClick;
+        double _lastClickOrKey;
+        private List<Keys> _ignoredKeys = new()
+        {
+            Keys.None,
+        };
+        private List<Keys> _noKeys = new();
 
         private Point _lastMousePosition;
 
@@ -27,6 +34,7 @@ namespace Kenedia.Modules.Core.Services
         public event EventHandler<double> MouseInteracted;
         public event EventHandler<double> MouseMoved;
         public event EventHandler<double> MouseClicked;
+        public event EventHandler<double> ClickedOrKey;
 
         public double LastInteraction
         {
@@ -93,16 +101,32 @@ namespace Kenedia.Modules.Core.Services
             }
         }
 
+        public double LastClickOrKey 
+        {
+            get => _lastClickOrKey;
+            set
+            {
+                if(_lastClickOrKey != value)
+                {
+                    _lastClickOrKey = value;
+                    ClickedOrKey?.Invoke(this, value);
+                }
+            }
+        }
+
         public void Run(GameTime gameTime)
         {
             double now = gameTime.TotalGameTime.TotalMilliseconds;
 
-            LastKeyInteraction = GameService.Input.Keyboard.KeysDown.Count > 0 ? now : LastKeyInteraction;
+            var keys = GameService.Input.Keyboard.KeysDown.Count > 0 ? GameService.Input.Keyboard.KeysDown.Except(_ignoredKeys).Distinct() : _noKeys;
+            LastKeyInteraction = keys.Count() > 0 ? now : LastKeyInteraction;
 
             MouseState mouse = GameService.Input.Mouse.State;
-            LastMouseClick = (mouse.LeftButton == ButtonState.Pressed || mouse.RightButton == ButtonState.Pressed) ? now : LastMouseClick;
+            LastMouseClick = (mouse.LeftButton == ButtonState.Pressed || mouse.RightButton == ButtonState.Pressed || mouse.MiddleButton == ButtonState.Pressed || mouse.XButton1 == ButtonState.Pressed || mouse.XButton2 == ButtonState.Pressed) ? now : LastMouseClick;
             LastMouseMove = mouse.Position != _lastMousePosition ? now : LastMouseMove;
             LastMouseInteraction = Math.Max(LastMouseMove, LastMouseClick);
+
+            LastClickOrKey = Math.Max(LastKeyInteraction, LastMouseClick);
             LastInteraction = Math.Max(LastMouseInteraction, LastKeyInteraction);
 
             _lastMousePosition = mouse.Position;

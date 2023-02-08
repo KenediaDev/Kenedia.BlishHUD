@@ -166,4 +166,19 @@
   <data name="OpenSettings" xml:space="preserve">
     <value>Open Settings</value>
   </data>
+  <data name="ToggleItem" xml:space="preserve">
+    <value>Toggle {0}</value>
+  </data>
+  <data name="ShowCornerIcon" xml:space="preserve">
+    <value>Show Corner Icon for {0}</value>
+  </data>
+  <data name="ShowCornerIcon_ttp" xml:space="preserve">
+    <value>Shows a icon button in the top left of the screen.</value>
+  </data>
+  <data name="Edit" xml:space="preserve">
+    <value>Edit</value>
+  </data>
+  <data name="EditItem" xml:space="preserve">
+    <value>Edit {0}</value>
+  </data>
 </root>

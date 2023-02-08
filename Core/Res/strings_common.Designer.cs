@@ -90,6 +90,24 @@ namespace Kenedia.Modules.Core.Res {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Edit.
+        /// </summary>
+        internal static string Edit {
+            get {
+                return ResourceManager.GetString("Edit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Edit {0}.
+        /// </summary>
+        internal static string EditItem {
+            get {
+                return ResourceManager.GetString("EditItem", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Fetching API data ....
         /// </summary>
         internal static string FetchingApiData {
@@ -159,6 +177,33 @@ namespace Kenedia.Modules.Core.Res {
         internal static string Settings {
             get {
                 return ResourceManager.GetString("Settings", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Show Corner Icon for {0}.
+        /// </summary>
+        internal static string ShowCornerIcon {
+            get {
+                return ResourceManager.GetString("ShowCornerIcon", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Shows a icon button in the top left of the screen..
+        /// </summary>
+        internal static string ShowCornerIcon_ttp {
+            get {
+                return ResourceManager.GetString("ShowCornerIcon_ttp", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Toggle {0}.
+        /// </summary>
+        internal static string ToggleItem {
+            get {
+                return ResourceManager.GetString("ToggleItem", resourceCulture);
             }
         }
         

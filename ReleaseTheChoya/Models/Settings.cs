@@ -1,6 +1,10 @@
-﻿using Blish_HUD.Settings;
+﻿using Blish_HUD.Input;
+using Blish_HUD.Settings;
+using Kenedia.Modules.Core.Controls;
 using Kenedia.Modules.Core.Models;
 using Kenedia.Modules.Core.Structs;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Input;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,7 +20,6 @@ namespace Kenedia.Modules.ReleaseTheChoya.Models
         public Settings(SettingCollection s)
         {
             _settings = s;
-
             ChoyaDelay = s.DefineSetting(nameof(ChoyaDelay), new Range(30, 90));
             ChoyaIdleDelay = s.DefineSetting(nameof(ChoyaIdleDelay), new Range(125, 1500));
             ChoyaSpeed = s.DefineSetting(nameof(ChoyaSpeed), new Range(64, 720));
@@ -30,7 +33,15 @@ namespace Kenedia.Modules.ReleaseTheChoya.Models
             ShowRandomly = s.DefineSetting(nameof(ShowRandomly), true);
             ShowWhenIdle = s.DefineSetting(nameof(ShowWhenIdle), true);
             AvoidCombat = s.DefineSetting(nameof(AvoidCombat), true);
+            ShowCornerIcon = s.DefineSetting(nameof(ShowCornerIcon), true);
+
+            SpawnChoyaKey = s.DefineSetting(nameof(SpawnChoyaKey), new KeyBinding(Keys.None));
+            ToggleChoyaHunt = s.DefineSetting(nameof(ToggleChoyaHunt), new KeyBinding(Keys.None));
+
+            StaticChoya = s.AddSubCollection(nameof(StaticChoya));
         }
+
+        public SettingCollection StaticChoya;
 
         public SettingEntry<Range> ChoyaIdleDelay;
 
@@ -53,5 +64,11 @@ namespace Kenedia.Modules.ReleaseTheChoya.Models
         public SettingEntry<bool> ShowWhenIdle;
 
         public SettingEntry<bool> AvoidCombat;
+
+        public SettingEntry<bool> ShowCornerIcon;
+
+        public SettingEntry<KeyBinding> SpawnChoyaKey;
+
+        public SettingEntry<KeyBinding> ToggleChoyaHunt;
     }
 }

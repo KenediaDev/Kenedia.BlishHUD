@@ -187,6 +187,24 @@ namespace Kenedia.Modules.ReleaseTheChoya.Res {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Create Choya.
+        /// </summary>
+        internal static string CreateStaticChoya {
+            get {
+                return ResourceManager.GetString("CreateStaticChoya", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Create a persistent freely placeable choya.
+        /// </summary>
+        internal static string CreateStaticChoya_ttp {
+            get {
+                return ResourceManager.GetString("CreateStaticChoya_ttp", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Delays.
         /// </summary>
         internal static string Delays {
@@ -282,6 +300,42 @@ namespace Kenedia.Modules.ReleaseTheChoya.Res {
         internal static string ShowWhenStandingStill_ttp {
             get {
                 return ResourceManager.GetString("ShowWhenStandingStill_ttp", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Spawn Choya.
+        /// </summary>
+        internal static string SpawnChoyaKey {
+            get {
+                return ResourceManager.GetString("SpawnChoyaKey", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Keybind to spawn a choya.
+        /// </summary>
+        internal static string SpawnChoyaKey_ttp {
+            get {
+                return ResourceManager.GetString("SpawnChoyaKey_ttp", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Toggle Choya Hunt.
+        /// </summary>
+        internal static string ToggleChoyaHunt {
+            get {
+                return ResourceManager.GetString("ToggleChoyaHunt", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Toggle the choya hunting minigame.
+        /// </summary>
+        internal static string ToggleChoyaHunt_ttp {
+            get {
+                return ResourceManager.GetString("ToggleChoyaHunt_ttp", resourceCulture);
             }
         }
     }

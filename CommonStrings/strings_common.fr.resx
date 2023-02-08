@@ -162,4 +162,19 @@
   <data name="OpenSettings" xml:space="preserve">
     <value>Ouvrir les paramètres</value>
   </data>
+  <data name="ToggleItem" xml:space="preserve">
+    <value>Toggle {0}</value>
+  </data>
+  <data name="ShowCornerIcon" xml:space="preserve">
+    <value>Afficher l'icône de coin pour {0}</value>
+  </data>
+  <data name="ShowCornerIcon_ttp" xml:space="preserve">
+    <value>Affiche un bouton d'icône en haut à gauche de l'écran.</value>
+  </data>
+  <data name="Edit" xml:space="preserve">
+    <value>Modifier</value>
+  </data>
+  <data name="EditItem" xml:space="preserve">
+    <value>Editer {0}</value>
+  </data>
 </root>

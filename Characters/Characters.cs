@@ -40,6 +40,7 @@ using Kenedia.Modules.Characters.Controls.SideMenu;
 using Kenedia.Modules.Characters.Res;
 using Kenedia.Modules.Core.Services;
 using System.Diagnostics;
+using Blish_HUD.Controls.Intern;
 
 namespace Kenedia.Modules.Characters
 {
@@ -61,8 +62,6 @@ namespace Kenedia.Modules.Characters
             HasGUI = true;
 
             Data = new Data(ContentsManager);
-
-            Services.States[typeof(InputDetectionService)] = false;
         }
 
         public SearchFilterCollection SearchFilters { get; } = new();
@@ -349,12 +348,6 @@ namespace Kenedia.Modules.Characters
             _ticks.Tags += gameTime.ElapsedGameTime.TotalMilliseconds;
             _ticks.OCR += gameTime.ElapsedGameTime.TotalMilliseconds;
 
-            MouseState mouse = GameService.Input.Mouse.State;
-            if (GameService.GameIntegration.Gw2Instance.Gw2HasFocus && (mouse.LeftButton == ButtonState.Pressed || mouse.RightButton == ButtonState.Pressed || GameService.Input.Keyboard.KeysDown.Count > 0))
-            {
-                CancelEverything();
-            }
-
             if (_ticks.Global > 500)
             {
                 _ticks.Global = 0;
@@ -395,10 +388,11 @@ namespace Kenedia.Modules.Characters
 
         private void CancelEverything()
         {
-            CharacterSwapping.Cancel();
-            CharacterSorting.Cancel();
-        }
+            MouseState mouse = GameService.Input.Mouse.State;
 
+            if (CharacterSwapping.Cancel()) Logger.Info($"Cancel any automated action. Left Mouse Down: {mouse.LeftButton == ButtonState.Pressed} | Right Mouse Down: {mouse.RightButton == ButtonState.Pressed} | Keyboard Keys pressed {string.Join("|", GameService.Input.Keyboard.KeysDown.Select(k => k.ToString()).ToArray())}");
+            if (CharacterSorting.Cancel()) Logger.Info($"Cancel any automated action. Left Mouse Down: {mouse.LeftButton == ButtonState.Pressed} | Right Mouse Down: {mouse.RightButton == ButtonState.Pressed} | Keyboard Keys pressed {string.Join("|", GameService.Input.Keyboard.KeysDown.Select(k => k.ToString()).ToArray())}");
+        }
         protected override async Task LoadAsync()
         {
             await base.LoadAsync();
@@ -433,6 +427,16 @@ namespace Kenedia.Modules.Characters
             CharacterModels.CollectionChanged += OnCharacterCollectionChanged;
 
             if (Settings.LoadCachedAccounts.Value) _ = LoadCharacters();
+
+            Services.InputDetectionService.ClickedOrKey += InputDetectionService_ClickedOrKey;
+        }
+
+        private void InputDetectionService_ClickedOrKey(object sender, double e)
+        {
+            if (GameService.GameIntegration.Gw2Instance.Gw2HasFocus)
+            {
+                CancelEverything();
+            }
         }
 
         protected override void Unload()

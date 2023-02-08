@@ -36,12 +36,13 @@ namespace Kenedia.Modules.ReleaseTheChoya.Views
                 Parent = buildPanel,
             };
 
-            _choya = new(_texturesService)
+            _choya = new()
             {
                 Location = new(0, 50),
                 Width = buildPanel.Width,
                 Height = buildPanel.Height - 50,
                 Parent = buildPanel,
+                ChoyaTexture = _texturesService.GetTexture(textures_common.RollingChoya, nameof(textures_common.RollingChoya)),
             };
 
             _openSettingsButton.Location = new Point(Math.Max((buildPanel.Width / 2) - (_openSettingsButton.Width / 2), 20), (50 - _openSettingsButton.Height) / 2);

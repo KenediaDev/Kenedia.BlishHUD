@@ -162,4 +162,19 @@
   <data name="OpenSettings" xml:space="preserve">
     <value>Einstellungen öffnen</value>
   </data>
+  <data name="ToggleItem" xml:space="preserve">
+    <value>Umschalten {0}</value>
+  </data>
+  <data name="ShowCornerIcon" xml:space="preserve">
+    <value>Eckensymbol für {0} anzeigen</value>
+  </data>
+  <data name="ShowCornerIcon_ttp" xml:space="preserve">
+    <value>Zeigt eine Symbolschaltfläche oben links auf dem Bildschirm an.</value>
+  </data>
+  <data name="Edit" xml:space="preserve">
+    <value>bearbeiten</value>
+  </data>
+  <data name="EditItem" xml:space="preserve">
+    <value>Bearbeiten {0}</value>
+  </data>
 </root>

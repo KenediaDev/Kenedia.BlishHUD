@@ -192,4 +192,22 @@
   <data name="ChoyaSize" xml:space="preserve">
     <value>Taille du Choya ({0}px - {1}px)</value>
   </data>
+  <data name="SpawnChoyaKey" xml:space="preserve">
+    <value>Spawn Choya</value>
+  </data>
+  <data name="SpawnChoyaKey_ttp" xml:space="preserve">
+    <value>Lier les touches pour faire apparaître un choya.</value>
+  </data>
+  <data name="ToggleChoyaHunt" xml:space="preserve">
+    <value>Basculer Choya Hunt</value>
+  </data>
+  <data name="ToggleChoyaHunt_ttp" xml:space="preserve">
+    <value>Basculer le mini-jeu de chasse au choya</value>
+  </data>
+  <data name="CreateStaticChoya" xml:space="preserve">
+    <value>Créer Choya</value>
+  </data>
+  <data name="CreateStaticChoya_ttp" xml:space="preserve">
+    <value>Créer un choya persistant et librement plaçable</value>
+  </data>
 </root>
