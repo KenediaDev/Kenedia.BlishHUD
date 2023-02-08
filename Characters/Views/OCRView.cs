@@ -36,6 +36,7 @@ namespace Characters.Views
         private readonly Label _resultLabel;
         private readonly Image _sourceImage;
         private readonly Image _cleanedImage;
+        private readonly Image _scaledImage;
         private readonly ImageButton _closeButton;
         private readonly ResizeableContainer _ocrRegionContainer;
         private readonly MaskedRegion _maskedRegion;
@@ -172,6 +173,42 @@ namespace Characters.Views
                 Font = GameService.Content.DefaultFont16,
                 WrapText = true,
                 SetLocalizedText = () => "OCR Result",
+            };
+
+            fp = new FlowPanel()
+            {
+                Parent = contentFlowPanel,
+                WidthSizingMode = SizingMode.Fill,
+                HeightSizingMode = SizingMode.AutoSize,
+                ControlPadding = new(10, 0),
+                FlowDirection = ControlFlowDirection.SingleLeftToRight,
+            };
+
+            p = new FramedContainer()
+            {
+                Parent = fp,
+                Width = 500,
+                Height = 55,
+                BorderColor = Color.Black * 0.7f,
+                BackgroundColor = Color.Black * 0.4f,
+                BorderWidth = new(2),
+            };
+
+            _scaledImage = new Image()
+            {
+                Location = new(5, 5),
+                Parent = p,
+            };
+            _ = new Label()
+            {
+                Parent = fp,
+                Height = p.Height,
+                Width = 100,
+                TextColor = Color.White,
+                Font = GameService.Content.DefaultFont16,
+                WrapText = true,
+                SetLocalizedText = () => "Scaled",
+                VerticalAlignment = VerticalAlignment.Middle,
             };
 
             fp = new FlowPanel()
@@ -334,7 +371,7 @@ namespace Characters.Views
                 Size = _settings.ActiveOCRRegion.Size,
                 BorderColor = ContentService.Colors.ColonialWhite,
                 ShowResizeOnlyOnMouseOver = true,
-                MaxSize = new(500, 50),
+                MaxSize = new(1000, 50),
                 BorderWidth = new(2),
                 ZIndex = int.MaxValue - 1,
             };
@@ -426,6 +463,8 @@ namespace Characters.Views
                         _sourceImage.Size = _ocr.SourceTexture.Bounds.Size;
                         _cleanedImage.Texture = _ocr.CleanedTexture;
                         _cleanedImage.Size = _ocr.CleanedTexture.Bounds.Size;
+                        _scaledImage.Texture = _ocr.ScaledTexture;
+                        _scaledImage.Size = _ocr.ScaledTexture.Bounds.Size;
                     }
                 }
             }
@@ -441,6 +480,7 @@ namespace Characters.Views
             _instructions?.Dispose();
             _sourceImage?.Dispose();
             _cleanedImage?.Dispose();
+            _scaledImage?.Dispose();
             _resultLabel?.Dispose();
             _bestMatchLabel?.Dispose();
             _maskedRegion?.Dispose();

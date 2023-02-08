@@ -6,6 +6,7 @@ using Kenedia.Modules.Core.Extensions;
 using Kenedia.Modules.Core.Services;
 using Microsoft.Xna.Framework.Graphics;
 using Patagames.Ocr;
+using SharpDX.Direct2D1.Effects;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -35,6 +36,8 @@ namespace Kenedia.Modules.Characters
         public Texture2D SourceTexture { get; private set; }
 
         public Texture2D CleanedTexture { get; private set; }
+
+        public Texture2D ScaledTexture { get; private set; }
 
         public string ReadResult { get; private set; }
 
@@ -70,7 +73,7 @@ namespace Kenedia.Modules.Characters
 
         public void Dispose()
         {
-            if(_disposed ) return;
+            if (_disposed) return;
 
             _disposed = true;
             _view?.Dispose();
@@ -83,136 +86,161 @@ namespace Kenedia.Modules.Characters
         {
             string? finalText = null;
 
-            if (!show) _view.EnableMaskedRegion();
-            await Task.Delay(5);
-
-            CleanedTexture?.Dispose();
-            SourceTexture?.Dispose();
-            var wndBounds = _clientWindowService.WindowBounds;
-
-            bool windowed = GameService.GameIntegration.GfxSettings.ScreenMode == Blish_HUD.GameIntegration.GfxSettings.ScreenModeSetting.Windowed;
-            Point p = windowed ? new(_sharedSettings.WindowOffset.Left, _sharedSettings.WindowOffset.Top) : Point.Zero;
-
-            double factor = GameService.Graphics.UIScaleMultiplier;
-            Point size = new((int)(_settings.ActiveOCRRegion.Width * factor), (int)(_settings.ActiveOCRRegion.Height * factor));
-
-            using (System.Drawing.Bitmap bitmap = new(size.X, size.Y))
+            try
             {
-                System.Drawing.Bitmap spacingVisibleBitmap = new(size.X, size.Y);
+                if (!show) _view.EnableMaskedRegion();
+                await Task.Delay(5);
 
-                using (var g = System.Drawing.Graphics.FromImage(bitmap))
+                CleanedTexture?.Dispose();
+                SourceTexture?.Dispose();
+                var wndBounds = _clientWindowService.WindowBounds;
+
+                bool windowed = GameService.GameIntegration.GfxSettings.ScreenMode == Blish_HUD.GameIntegration.GfxSettings.ScreenModeSetting.Windowed;
+                Point p = windowed ? new(_sharedSettings.WindowOffset.Left, _sharedSettings.WindowOffset.Top) : Point.Zero;
+
+                double factor = GameService.Graphics.UIScaleMultiplier;
+                Point size = new((int)(_settings.ActiveOCRRegion.Width * factor), (int)(_settings.ActiveOCRRegion.Height * factor));
+
+                using (System.Drawing.Bitmap bitmap = new(size.X, size.Y))
                 {
-                    int left = wndBounds.Left + p.X;
-                    int top = wndBounds.Top + p.Y;
+                    System.Drawing.Bitmap spacingVisibleBitmap = new(size.X, size.Y);
 
-                    int x = (int)Math.Ceiling(_settings.ActiveOCRRegion.Left * factor);
-                    int y = (int)Math.Ceiling(_settings.ActiveOCRRegion.Top * factor);
-
-                    g.CopyFromScreen(new System.Drawing.Point(left + x, top + y), System.Drawing.Point.Empty, new System.Drawing.Size(size.X, size.Y));
-
-                    if (show)
+                    using (var g = System.Drawing.Graphics.FromImage(bitmap))
                     {
-                        using MemoryStream s = new();
-                        bitmap.Save(s, System.Drawing.Imaging.ImageFormat.Bmp);
+                        int left = wndBounds.Left + p.X;
+                        int top = wndBounds.Top + p.Y;
 
-                        SourceTexture = s.CreateTexture2D();
-                    }
+                        int x = (int)Math.Ceiling(_settings.ActiveOCRRegion.Left * factor);
+                        int y = (int)Math.Ceiling(_settings.ActiveOCRRegion.Top * factor);
 
-                    int emptyPixelRow = 0;
-                    bool stringStarted = false;
-                    for (int i = 0; i < bitmap.Width; i++)
-                    {
-                        bool containsPixel = false;
-
-                        for (int j = 0; j < bitmap.Height; j++)
-                        {
-                            Color oc = bitmap.GetPixel(i, j);
-                            int threshold = _settings.OCR_ColorThreshold.Value;
-
-                            if (oc.R >= threshold && oc.G >= threshold && oc.B >= threshold && emptyPixelRow < CustomThreshold)
-                            {
-                                bitmap.SetPixel(i, j, Color.Black);
-                                if (show)
-                                {
-                                    spacingVisibleBitmap.SetPixel(i, j, Color.Black);
-                                }
-
-                                containsPixel = true;
-                                stringStarted = true;
-                            }
-                            else if (emptyPixelRow >= CustomThreshold)
-                            {
-                                if (show)
-                                {
-                                    spacingVisibleBitmap.SetPixel(i, j, _ignoredColor);
-                                }
-
-                                bitmap.SetPixel(i, j, Color.White);
-                            }
-                            else
-                            {
-                                if (show)
-                                {
-                                    spacingVisibleBitmap.SetPixel(i, j, Color.White);
-                                }
-
-                                bitmap.SetPixel(i, j, Color.White);
-                            }
-                        }
-
-                        if (emptyPixelRow < CustomThreshold)
-                        {
-                            if (!containsPixel)
-                            {
-                                if (show)
-                                {
-                                    for (int j = 0; j < bitmap.Height; j++)
-                                    {
-                                        spacingVisibleBitmap.SetPixel(i, j, _spacingColor);
-                                    }
-                                }
-
-                                if (stringStarted) emptyPixelRow++;
-                            }
-                            else
-                            {
-                                emptyPixelRow = 0;
-                            }
-                        }
-                    }
-
-                    using (MemoryStream s = new())
-                    {
-                        spacingVisibleBitmap.Save(s, System.Drawing.Imaging.ImageFormat.Bmp);
+                        g.CopyFromScreen(new System.Drawing.Point(left + x, top + y), System.Drawing.Point.Empty, new System.Drawing.Size(size.X, size.Y));
 
                         if (show)
                         {
-                            CleanedTexture = s.CreateTexture2D();
+                            using MemoryStream s = new();
+                            bitmap.Save(s, System.Drawing.Imaging.ImageFormat.Bmp);
+
+                            SourceTexture = s.CreateTexture2D();
+                        }
+
+                        int emptyPixelRow = 0;
+                        bool stringStarted = false;
+                        for (int i = 0; i < bitmap.Width; i++)
+                        {
+                            bool containsPixel = false;
+
+                            for (int j = 0; j < bitmap.Height; j++)
+                            {
+                                Color oc = bitmap.GetPixel(i, j);
+                                int threshold = _settings.OCR_ColorThreshold.Value;
+
+                                if (oc.R >= threshold && oc.G >= threshold && oc.B >= threshold && emptyPixelRow < CustomThreshold)
+                                {
+                                    bitmap.SetPixel(i, j, Color.Black);
+                                    if (show)
+                                    {
+                                        spacingVisibleBitmap.SetPixel(i, j, Color.Black);
+                                    }
+
+                                    containsPixel = true;
+                                    stringStarted = true;
+                                }
+                                else if (emptyPixelRow >= CustomThreshold)
+                                {
+                                    if (show)
+                                    {
+                                        spacingVisibleBitmap.SetPixel(i, j, _ignoredColor);
+                                    }
+
+                                    bitmap.SetPixel(i, j, Color.White);
+                                }
+                                else
+                                {
+                                    if (show)
+                                    {
+                                        spacingVisibleBitmap.SetPixel(i, j, Color.White);
+                                    }
+
+                                    bitmap.SetPixel(i, j, Color.White);
+                                }
+                            }
+
+                            if (emptyPixelRow < CustomThreshold)
+                            {
+                                if (!containsPixel)
+                                {
+                                    if (show)
+                                    {
+                                        for (int j = 0; j < bitmap.Height; j++)
+                                        {
+                                            spacingVisibleBitmap.SetPixel(i, j, _spacingColor);
+                                        }
+                                    }
+
+                                    if (stringStarted) emptyPixelRow++;
+                                }
+                                else
+                                {
+                                    emptyPixelRow = 0;
+                                }
+                            }
+                        }
+
+                        using (MemoryStream s = new())
+                        {
+                            spacingVisibleBitmap.Save(s, System.Drawing.Imaging.ImageFormat.Bmp);
+
+                            if (show)
+                            {
+                                CleanedTexture = s.CreateTexture2D();
+                            }
                         }
                     }
-                }
 
-                string? plainText = _ocrApi.GetTextFromImage(bitmap);
-
-                foreach (string word in plainText.Split(' '))
-                {
-                    string wordText = word.Trim();
-
-                    if (wordText.StartsWith("l"))
+                    var ocr_bitmap = bitmap;
+                    double scale = 1;
+                    // Patagames free license
+                    if (bitmap.Width > 500 || bitmap.Height > 500)
                     {
-                        wordText = 'I' + wordText.Remove(0, 1);
+                        scale = 499 / (double)Math.Max(bitmap.Width, bitmap.Height);
+
+                        ocr_bitmap = new(bitmap, (int)(bitmap.Width * scale), (int)(bitmap.Height * scale));
+                    }
+                    if (show)
+                    {
+                        using MemoryStream s = new();
+                        ocr_bitmap.Save(s, System.Drawing.Imaging.ImageFormat.Bmp);
+                        ScaledTexture = s.CreateTexture2D();
                     }
 
-                    finalText = finalText == null ? wordText : finalText + " " + wordText;
+                    string? plainText = _ocrApi.GetTextFromImage(ocr_bitmap);
+
+                    foreach (string word in plainText.Split(' '))
+                    {
+                        string wordText = word.Trim();
+
+                        if (wordText.StartsWith("l"))
+                        {
+                            wordText = 'I' + wordText.Remove(0, 1);
+                        }
+
+                        finalText = finalText == null ? wordText : finalText + " " + wordText;
+                    }
+
+                    finalText = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(finalText?.ToLower());
+
+                    BestMatchResult = GetBestMatch(finalText).Item1;
+                    ReadResult = finalText;
                 }
 
-                finalText = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(finalText?.ToLower());
+                if (!show) _view.DisableMaskedRegion();
 
-                BestMatchResult = GetBestMatch(finalText).Item1;
-                ReadResult = finalText;
+                return finalText;
             }
+            catch
+            {
 
-            if (!show) _view.DisableMaskedRegion();
+            }
 
             return finalText;
         }
