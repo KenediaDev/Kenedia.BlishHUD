@@ -52,7 +52,7 @@ namespace Characters.Views
             BorderColor = Color.Black;
             BackgroundImage = AsyncTexture2D.FromAssetId(156003);
             TextureRectangle = new Rectangle(50, 50, 500, 500);
-            Height = 290;
+            Height = 350;
             Width = 620;
 
             FlowPanel contentFlowPanel = new()
@@ -371,7 +371,7 @@ namespace Characters.Views
                 Size = _settings.ActiveOCRRegion.Size,
                 BorderColor = ContentService.Colors.ColonialWhite,
                 ShowResizeOnlyOnMouseOver = true,
-                MaxSize = new(1000, 50),
+                MaxSize = new(500, 50),
                 BorderWidth = new(2),
                 ZIndex = int.MaxValue - 1,
             };

@@ -242,7 +242,7 @@ namespace Kenedia.Modules.Characters
 
             }
 
-            return finalText;
+            return "No OCR Result!";
         }
 
         private (string, int, int, int, bool) GetBestMatch(string name)
