@@ -2158,7 +2158,7 @@ namespace Kenedia.Modules.Characters.Res {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Sort By {0}.
+        ///   Looks up a localized string similar to Sort by {0}.
         /// </summary>
         internal static string SortBy {
             get {
@@ -2290,6 +2290,15 @@ namespace Kenedia.Modules.Characters.Res {
         internal static string TextAndIcon {
             get {
                 return ResourceManager.GetString("TextAndIcon", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Time since login.
+        /// </summary>
+        internal static string TimeSinceLogin {
+            get {
+                return ResourceManager.GetString("TimeSinceLogin", resourceCulture);
             }
         }
         

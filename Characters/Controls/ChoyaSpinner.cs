@@ -12,33 +12,41 @@ namespace Kenedia.Modules.Characters.Controls
     {
         private readonly TextureManager _textureManager;
         private readonly AsyncTexture2D _choyaTexture;
+        private readonly int _choyaSize;
         private double _start;
-        private int xOffset;
+        private double _lastTick;
+        private int _xOffset;
+        private float _rotation;
 
         public ChoyaSpinner(TextureManager textureManager)
         {
             _textureManager = textureManager;
 
             _choyaTexture = _textureManager.GetControlTexture(TextureManager.ControlTextures.Choya);
+            _choyaSize = Math.Min(_choyaTexture.Bounds.Width, _choyaTexture.Bounds.Height);
         }
 
         protected override void Paint(SpriteBatch spriteBatch, Rectangle bounds)
         {
-            double ms = GameService.Overlay.CurrentGameTime.TotalGameTime.TotalMilliseconds;
-            double duration = ms - _start;
+            double now = GameService.Overlay.CurrentGameTime.TotalGameTime.TotalMilliseconds;
+            double duration = now - _start;
+            _rotation = (float)(duration / 0.75 / 360);
 
-            float rotation =(float) (duration / 0.75 / 360);
-
-            int size = Math.Min(Width, Height);
-            int choyaSize = Math.Min(_choyaTexture.Bounds.Width, _choyaTexture.Bounds.Height);
-            xOffset += 4;
-            
-            if(xOffset >= Width + (choyaSize / 4))
+            if (now - _lastTick > 18)
             {
-                xOffset = -choyaSize / 5;
+                _lastTick = now;
+
+                _xOffset += 5;
+
+                if (_xOffset >= Width + (_choyaSize / 4))
+                {
+                    _xOffset = -_choyaSize / 5;
+                }
             }
 
-            if (_choyaTexture != null) spriteBatch.DrawOnCtrl(this, _choyaTexture, new(new(xOffset, Height / 2), new(size)), _choyaTexture.Bounds, Color.White, rotation, new(choyaSize / 2));
+            int size = Math.Min(Width, Height);
+
+            if (_choyaTexture != null) spriteBatch.DrawOnCtrl(this, _choyaTexture, new(new(_xOffset, Height / 2), new(size)), _choyaTexture.Bounds, Color.White, _rotation, new(_choyaSize / 2));
         }
 
         protected override void OnShown(EventArgs e)

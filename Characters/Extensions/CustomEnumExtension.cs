@@ -5,57 +5,77 @@ namespace Kenedia.Modules.Characters.Extensions
 {
     public static class CustomEnumExtension
     {
-        public static ESortType GetSortType(this string s)
+        public static SortBy GetSortType(this string s)
         {
             if(s == string.Format(strings.SortBy, strings.Name))
             {
-                return ESortType.SortByName;
+                return SortBy.Name;
             }
-            else if (s == string.Format(strings.SortBy, strings.Tag))
+            else if (s == string.Format(strings.SortBy, strings.Level))
             {
-                return ESortType.SortByTag;
+                return SortBy.Level;
+            }
+            else if (s == string.Format(strings.SortBy, strings.Race))
+            {
+                return SortBy.Race;
+            }
+            else if (s == string.Format(strings.SortBy, strings.Gender))
+            {
+                return SortBy.Gender;
             }
             else if (s == string.Format(strings.SortBy, strings.Profession))
             {
-                return ESortType.SortByProfession;
+                return SortBy.Profession;
             }
-            else if (s == string.Format(strings.SortBy, strings.LastLogin))
+            else if (s == string.Format(strings.SortBy, strings.Specialization))
             {
-                return ESortType.SortByLastLogin;
+                return SortBy.Specialization;
+            }
+            else if (s == string.Format(strings.SortBy, strings.TimeSinceLogin))
+            {
+                return SortBy.TimeSinceLogin;
             }
             else if (s == string.Format(strings.SortBy, strings.Map))
             {
-                return ESortType.SortByMap;
+                return SortBy.Map;
+            }
+            else if (s == string.Format(strings.SortBy, strings.Tag))
+            {
+                return SortBy.Tag;
             }
 
-            return ESortType.Custom;
+            return SortBy.Custom;
         }
 
-        public static string GetSortType(this ESortType st)
+        public static string GetSortType(this SortBy st)
         {
             return st switch
             {
-                ESortType.SortByName => string.Format(strings.SortBy, strings.Name),
-                ESortType.SortByTag => string.Format(strings.SortBy, strings.Tag),
-                ESortType.SortByProfession => string.Format(strings.SortBy, strings.Profession),
-                ESortType.SortByLastLogin => string.Format(strings.SortBy, strings.LastLogin),
-                ESortType.SortByMap => string.Format(strings.SortBy, strings.Map),
-                ESortType.Custom => strings.Custom,
+                SortBy.Name => string.Format(strings.SortBy, strings.Name),
+                SortBy.Level => string.Format(strings.SortBy, strings.Level),
+                SortBy.Race => string.Format(strings.SortBy, strings.Race),
+                SortBy.Gender => string.Format(strings.SortBy, strings.Gender),
+                SortBy.Profession => string.Format(strings.SortBy, strings.Profession),
+                SortBy.Specialization => string.Format(strings.SortBy, strings.Specialization),
+                SortBy.TimeSinceLogin => string.Format(strings.SortBy, strings.TimeSinceLogin),
+                SortBy.Map => string.Format(strings.SortBy, strings.Map),
+                SortBy.Tag => string.Format(strings.SortBy, strings.Tag),
+                SortBy.Custom => strings.Custom,
                 _ => strings.Custom,
             };
         }
 
-        public static ESortOrder GetSortOrder(this string s)
+        public static SortDirection GetSortOrder(this string s)
         {
-            return s == strings.Descending ? ESortOrder.Descending : ESortOrder.Ascending;
+            return s == strings.Descending ? SortDirection.Descending : SortDirection.Ascending;
         }
 
-        public static string GetSortOrder(this ESortOrder so)
+        public static string GetSortOrder(this SortDirection so)
         {
             return so switch
             {
-                ESortOrder.Ascending => strings.Ascending,
-                ESortOrder.Descending => strings.Descending,
+                SortDirection.Ascending => strings.Ascending,
+                SortDirection.Descending => strings.Descending,
                 _ => strings.Ascending,
             };
         }

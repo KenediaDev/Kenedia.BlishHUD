@@ -910,7 +910,7 @@ Se connecter automatiquement ?
   <data name="ShowLastButton_Tooltip" xml:space="preserve">
     <value>Affichez un bouton qui ignorera l'OCR et connectera le tout dernier personnage de votre écran de sélection</value>
   </data>
-	<data name="LastButton_Tooltip" xml:space="preserve">
+  <data name="LastButton_Tooltip" xml:space="preserve">
     <value>Ignorez l'OCR et connectez le tout dernier personnage de votre écran de personnages</value>
   </data>
   <data name="InventoryKey" xml:space="preserve">
@@ -948,5 +948,8 @@ Se connecter automatiquement ?
   </data>
   <data name="ShowChoyaSpinner" xml:space="preserve">
     <value>Montrer Choya comme spinner de chargement</value>
+  </data>
+  <data name="TimeSinceLogin" xml:space="preserve">
+    <value>Temps depuis la connexion</value>
   </data>
 </root>

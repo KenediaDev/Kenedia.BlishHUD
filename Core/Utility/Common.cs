@@ -19,9 +19,52 @@ namespace Kenedia.Modules.Core.Utility
             }
 
             property = newValue;
-            if(triggerOnUpdate) OnUpdated?.Invoke();
+            if (triggerOnUpdate) OnUpdated?.Invoke();
 
             return true;
+        }
+
+        public static T GetPropertyValue<T>(object obj, string propName)
+        {
+            var p = obj.GetType().GetProperty(propName);
+
+            if (p == null)
+            {
+                return default;
+            };
+
+            object o = p.GetValue(obj, null);
+
+            if (o == null)
+            {
+                return default;
+            };
+
+            if (o.GetType() == typeof(T))
+            {
+                return (T)o;
+            }
+
+            return default;
+        }
+
+        public static string GetPropertyValueAsString(object obj, string propName)
+        {
+            var p = obj.GetType().GetProperty(propName);
+
+            if (p == null)
+            {
+                return default;
+            };
+
+            object o = p.GetValue(obj, null);
+
+            if (o == null)
+            {
+                return default;
+            };
+
+            return o.ToString();
         }
     }
 }

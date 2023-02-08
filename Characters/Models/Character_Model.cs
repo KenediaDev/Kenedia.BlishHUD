@@ -1,9 +1,11 @@
 ﻿using Blish_HUD;
 using Blish_HUD.Content;
+using Blish_HUD.Controls;
 using Blish_HUD.Gw2Mumble;
 using Gw2Sharp.Models;
 using Gw2Sharp.WebApi.V2.Models;
 using Kenedia.Modules.Characters.Enums;
+using Kenedia.Modules.Characters.Res;
 using Kenedia.Modules.Characters.Services;
 using Kenedia.Modules.Core.Extensions;
 using System;
@@ -48,6 +50,7 @@ namespace Kenedia.Modules.Characters.Models
         private int _index;
         private bool _showOnRadial = false;
         private bool _hadBirthday;
+        private bool _isCurrentCharacter;
 
         public Character_Model()
         {
@@ -119,6 +122,8 @@ namespace Kenedia.Modules.Characters.Models
         public event EventHandler Updated;
 
         public event EventHandler Deleted;
+
+        public bool IsCurrentCharacter { get => _isCurrentCharacter; set => SetProperty(ref _isCurrentCharacter, value); }
 
         [DataMember]
         public string Name
@@ -224,20 +229,20 @@ namespace Kenedia.Modules.Characters.Models
             }
         }
 
-        public string MapName => (_data != null && _data.Maps[Map] != null) ? _data.Maps[Map].Name : string.Empty;
+        public string MapName => _data != null && _data.Maps.TryGetValue(Map, out Map map) ? map.Name : string.Empty;
 
-        public string RaceName => _data != null ? _data.Races[Race].Name : "Data not loaded.";
+        public string RaceName => _data != null && _data.Races.TryGetValue(Race, out Data.Race race) ? race.Name : "Unkown Race";
 
-        public string ProfessionName => _data != null ? _data.Professions[Profession].Name : "Data not loaded.";
+        public string ProfessionName => _data != null && _data.Professions.TryGetValue(Profession, out Data.Profession profession) ? profession.Name : "Data not loaded.";
 
-        public string SpecializationName => _data != null && Specialization != SpecializationType.None && Enum.IsDefined(typeof(SpecializationType), Specialization)
-                    ? _data.Specializations[Specialization].Name
+        public string SpecializationName => _data != null && Specialization != SpecializationType.None && Enum.IsDefined(typeof(SpecializationType), Specialization) && _data.Specializations.TryGetValue(Specialization, out Data.Specialization specialization)
+                    ? specialization.Name
                     : ProfessionName;
 
-        public AsyncTexture2D ProfessionIcon => _data?.Professions[Profession].IconBig;
+        public AsyncTexture2D ProfessionIcon => _data != null && _data.Professions.TryGetValue(Profession, out Data.Profession profession) ? profession.IconBig : null;
 
-        public AsyncTexture2D SpecializationIcon => _data != null && Specialization != SpecializationType.None && Enum.IsDefined(typeof(SpecializationType), Specialization)
-                    ? _data.Specializations[Specialization].IconBig
+        public AsyncTexture2D SpecializationIcon => _data != null && Specialization != SpecializationType.None && Enum.IsDefined(typeof(SpecializationType), Specialization) && _data.Specializations.TryGetValue(Specialization, out Data.Specialization specialization)
+                    ? specialization.IconBig
                     : ProfessionIcon;
 
         public AsyncTexture2D Icon
@@ -375,6 +380,8 @@ namespace Kenedia.Modules.Characters.Models
             set => SetProperty(ref _showOnRadial, value);
         }
 
+        public int TimeSinceLogin => (int)DateTimeOffset.UtcNow.Subtract(LastLogin).TotalSeconds;
+
         public void Delete()
         {
             Deleted?.Invoke(null, null);
@@ -413,8 +420,11 @@ namespace Kenedia.Modules.Characters.Models
 
         public void AddTag(string tag, bool update = true)
         {
-            Tags.Add(tag);
-            if(update) OnUpdated();
+            if (!Tags.Contains(tag))
+            {
+                if (update) OnUpdated();
+                Tags.Add(tag);
+            }
         }
 
         public void RemoveTag(string tag)
@@ -463,8 +473,15 @@ namespace Kenedia.Modules.Characters.Models
 
         public void Swap(bool ignoreOCR = false)
         {
-            Save();
-            _characterSwapping?.Start(this, ignoreOCR);
+            if (!GameService.Gw2Mumble.CurrentMap.IsPvpMap())
+            {
+                Save();
+                _characterSwapping?.Start(this, ignoreOCR);
+            }
+            else
+            {
+                ScreenNotification.ShowNotification(strings.Error_Competivive, ScreenNotification.NotificationType.Error);
+            }
         }
 
         public void UpdateCharacter(PlayerCharacter character = null)
@@ -486,7 +503,6 @@ namespace Kenedia.Modules.Characters.Models
 
             _race = (RaceType)Enum.Parse(typeof(RaceType), character.Race);
             _profession = (ProfessionType)Enum.Parse(typeof(ProfessionType), character.Profession);
-            _specialization = SpecializationType.None;
 
             _created = character.Created;
             _lastModified = character.LastModified.UtcDateTime;

@@ -26,6 +26,8 @@ using StandardWindow = Kenedia.Modules.Core.Views.StandardWindow;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using System.Runtime;
+using Kenedia.Modules.Core.Utility;
+using System.Diagnostics;
 
 namespace Kenedia.Modules.Characters.Views
 {
@@ -57,7 +59,10 @@ namespace Kenedia.Modules.Characters.Views
         private Rectangle _titleRectangle;
         private BitmapFont _titleFont;
 
-        public MainWindow(Texture2D background, Rectangle windowRegion, Rectangle contentRegion, SettingsModel settings, TextureManager textureManager, ObservableCollection<Character_Model> characterModels, SearchFilterCollection searchFilters, SearchFilterCollection tagFilters, Action toggleOCR, Action togglePotrait, Action refreshAPI, string accountImagePath, TagList tags, Func<Character_Model> currentCharacter, Data data, CharacterSorting characterSorting)
+        public MainWindow(Texture2D background, Rectangle windowRegion, Rectangle contentRegion,
+            SettingsModel settings, TextureManager textureManager, ObservableCollection<Character_Model> characterModels,
+            SearchFilterCollection searchFilters, SearchFilterCollection tagFilters, Action toggleOCR, Action togglePotrait,
+            Action refreshAPI, string accountImagePath, TagList tags, Func<Character_Model> currentCharacter, Data data, CharacterSorting characterSorting)
             : base(background, windowRegion, contentRegion)
         {
             _settings = settings;
@@ -113,8 +118,8 @@ namespace Kenedia.Modules.Characters.Views
                 FilteringDelay = _settings.FilterDelay.Value,
                 EnterPressedAction = FilterBox_EnterPressed,
                 ClickAction = FilterBox_Click,
-                PerformFiltering = PerformFiltering,
-                FilteringOnTextChange = true,                
+                PerformFiltering = (t) => PerformFiltering(),
+                FilteringOnTextChange = true,
             };
             _settings.FilterDelay.SettingChanged += FilterDelay_SettingChanged;
 
@@ -201,7 +206,7 @@ namespace Kenedia.Modules.Characters.Views
                 ClickAction = (m) => ShowAttached(SideMenu.Visible ? null : SideMenu),
             };
 
-            CharacterEdit = new CharacterEdit(textureManager, togglePotrait, accountImagePath, tags, settings, () => PerformFiltering(null))
+            CharacterEdit = new CharacterEdit(textureManager, togglePotrait, accountImagePath, tags, settings, () => PerformFiltering())
             {
                 Parent = GameService.Graphics.SpriteScreen,
                 Anchor = this,
@@ -242,7 +247,7 @@ namespace Kenedia.Modules.Characters.Views
         private void CurrentMap_MapChanged(object sender, ValueEventArgs<int> e)
         {
             _currentCharacter?.Invoke()?.UpdateCharacter();
-            PerformFiltering(null);
+            PerformFiltering();
         }
 
         private void Texture_TextureSwapped(object sender, ValueChangedEventArgs<Texture2D> e)
@@ -302,7 +307,7 @@ namespace Kenedia.Modules.Characters.Views
             _filterCharacters = true;
         }
 
-        public void PerformFiltering(string t)
+        public void PerformFiltering()
         {
             Regex regex = _settings.FilterAsOne.Value ? new("^(?!\\s*$).+") : new(@"\w+|""[\w\s]*""");
             var strings = regex.Matches(_filterBox.Text.Trim().ToLower()).Cast<Match>().ToList();
@@ -420,12 +425,12 @@ namespace Kenedia.Modules.Characters.Views
             }
 
             foreach ((CharacterCard ctrl, bool toggleResult, bool stringsResult, bool tagsResult) in from CharacterCard ctrl in CharactersPanel.Children
-                                                                                    let c = ctrl.Character
-                                                                                    where c != null
-                                                                                    let toggleResult = toggleFilters.Count == 0 || (include == FilterResult(c))
-                                                                                    let stringsResult = stringFilters.Count == 0 || (include == StringFilterResult(c))
-                                                                                    let tagsResult = tagFilters.Count == 0 || (include == TagResult(c))
-                                                                                    select (ctrl, toggleResult, stringsResult, tagsResult))
+                                                                                                     let c = ctrl.Character
+                                                                                                     where c != null
+                                                                                                     let toggleResult = toggleFilters.Count == 0 || (include == FilterResult(c))
+                                                                                                     let stringsResult = stringFilters.Count == 0 || (include == StringFilterResult(c))
+                                                                                                     let tagsResult = tagFilters.Count == 0 || (include == TagResult(c))
+                                                                                                     select (ctrl, toggleResult, stringsResult, tagsResult))
             {
                 ctrl.Visible = toggleResult && stringsResult && tagsResult;
             }
@@ -457,133 +462,49 @@ namespace Kenedia.Modules.Characters.Views
 
         public void SortCharacters()
         {
-            ESortOrder order = _settings.SortOrder.Value;
-            ESortType sort = _settings.SortType.Value;
+            var sortby = _settings.SortType.Value;
+            bool asc = _settings.SortOrder.Value == SortDirection.Ascending;
+            bool isNum = sortby is SortBy.Level or SortBy.TimeSinceLogin or SortBy.Map;
 
-            switch (sort)
+            if (_settings.SortType.Value != SortBy.Custom)
             {
-                case ESortType.SortByName:
+                int getValue(Character_Model c)
+                {
+                    return Common.GetPropertyValue<int>(c, $"{_settings.SortType.Value}");
+                }
+
+                string getString(Character_Model c)
+                {
+                    string s = Common.GetPropertyValueAsString(c, $"{_settings.SortType.Value}");
+                    return s;
+                }
+
+                CharactersPanel.SortChildren<CharacterCard>((a, b) =>
+                {
+                    if (isNum)
                     {
-                        switch (order)
-                        {
-                            case ESortOrder.Ascending:
-                                CharactersPanel.SortChildren<CharacterCard>((a, b) =>
-                                {
-                                    int r1 = b.Character.Name.CompareTo(a.Character.Name);
-                                    int r2 = b.Character.Position.CompareTo(a.Character.Position);
-                                    return r1 == 0 ? r1 - r2 : r1;
-                                });
-                                break;
-
-                            case ESortOrder.Descending:
-                                CharactersPanel.SortChildren<CharacterCard>((a, b) =>
-                                {
-                                    int r1 = a.Character.Name.CompareTo(b.Character.Name);
-                                    int r2 = a.Character.Position.CompareTo(b.Character.Position);
-                                    return r1 == 0 ? r1 - r2 : r1;
-                                });
-                                break;
-                        }
-
-                        break;
+                        int r1 = asc ? getValue(a.Character).CompareTo(getValue(b.Character)) : getValue(b.Character).CompareTo(getValue(a.Character));
+                        int r2 = asc ? a.Character.Position.CompareTo(b.Character.Position) : b.Character.Position.CompareTo(a.Character.Position);
+                        return r1 == 0 ? r1 - r2 : r1;
                     }
-
-                case ESortType.SortByLastLogin:
+                    else
                     {
-                        switch (order)
-                        {
-                            case ESortOrder.Ascending:
-                                CharactersPanel.SortChildren<CharacterCard>((a, b) =>
-                                {
-                                    int r1 = b.Character.LastLogin.CompareTo(a.Character.LastLogin);
-                                    int r2 = b.Character.Position.CompareTo(a.Character.Position);
-                                    return r1 == 0 ? r1 - r2 : r1;
-                                });
-                                break;
-
-                            case ESortOrder.Descending:
-                                CharactersPanel.SortChildren<CharacterCard>((a, b) =>
-                                {
-                                    int r1 = a.Character.LastLogin.CompareTo(b.Character.LastLogin);
-                                    int r2 = a.Character.Position.CompareTo(b.Character.Position);
-                                    return r1 == 0 ? r1 - r2 : r1;
-                                });
-                                break;
-                        }
-
-                        break;
+                        int r1 = asc ? getString(a.Character).CompareTo(getString(b.Character)) : getString(b.Character).CompareTo(getString(a.Character));
+                        int r2 = asc ? a.Character.Position.CompareTo(b.Character.Position) : b.Character.Position.CompareTo(a.Character.Position);
+                        return r1 == 0 ? r1 - r2 : r1;
                     }
+                });
+            }
+            else
+            {
+                CharactersPanel.SortChildren<CharacterCard>((a, b) => a.Index.CompareTo(b.Index));
 
-                case ESortType.SortByMap:
-                    {
-                        switch (order)
-                        {
-                            case ESortOrder.Ascending:
-                                CharactersPanel.SortChildren<CharacterCard>((a, b) =>
-                                {
-                                    int r1 = b.Character.Map.CompareTo(a.Character.Map);
-                                    int r2 = b.Character.Position.CompareTo(a.Character.Position);
-                                    return r1 == 0 ? r1 - r2 : r1;
-                                });
-                                break;
-
-                            case ESortOrder.Descending:
-                                CharactersPanel.SortChildren<CharacterCard>((a, b) =>
-                                {
-                                    int r1 = a.Character.Map.CompareTo(b.Character.Map);
-                                    int r2 = a.Character.Position.CompareTo(b.Character.Position);
-                                    return r1 == 0 ? r1 - r2 : r1;
-                                });
-                                break;
-                        }
-
-                        break;
-                    }
-
-                case ESortType.SortByProfession:
-                    {
-                        switch (order)
-                        {
-                            case ESortOrder.Ascending:
-                                CharactersPanel.SortChildren<CharacterCard>((a, b) =>
-                                {
-                                    int r1 = b.Character.Profession.CompareTo(a.Character.Profession);
-                                    int r2 = b.Character.Position.CompareTo(a.Character.Position);
-                                    return r1 == 0 ? r1 - r2 : r1;
-                                });
-                                break;
-
-                            case ESortOrder.Descending:
-                                CharactersPanel.SortChildren<CharacterCard>((a, b) =>
-                                {
-                                    int r1 = a.Character.Profession.CompareTo(b.Character.Profession);
-                                    int r2 = a.Character.Position.CompareTo(b.Character.Position);
-                                    return r1 == 0 ? r1 - r2 : r1;
-                                });
-                                break;
-                        }
-
-                        break;
-                    }
-
-                case ESortType.SortByTag:
-                    {
-                        break;
-                    }
-
-                case ESortType.Custom:
-                    {
-                        CharactersPanel.SortChildren<CharacterCard>((a, b) => a.Index.CompareTo(b.Index));
-
-                        int i = 0;
-                        foreach (CharacterCard c in CharactersPanel.Children.Cast<CharacterCard>())
-                        {
-                            c.Index = i;
-                            i++;
-                        }
-
-                        break;
-                    }
+                int i = 0;
+                foreach (CharacterCard c in CharactersPanel.Children.Cast<CharacterCard>())
+                {
+                    c.Index = i;
+                    i++;
+                }
             }
         }
 
@@ -596,8 +517,8 @@ namespace Kenedia.Modules.Characters.Views
             if (_filterCharacters && gameTime.TotalGameTime.TotalMilliseconds - _filterTick > _settings.FilterDelay.Value)
             {
                 _filterTick = gameTime.TotalGameTime.TotalMilliseconds;
-                PerformFiltering(null);
                 _filterCharacters = false;
+                PerformFiltering();
             }
         }
 
@@ -723,7 +644,7 @@ namespace Kenedia.Modules.Characters.Views
                 _filterBox.UnsetFocus();
                 await Task.Delay(5);
 
-                if(await ExtendedInputService.WaitForNoKeyPressed())
+                if (await ExtendedInputService.WaitForNoKeyPressed())
                 {
                     c?.Character.Swap();
                 }
@@ -745,6 +666,7 @@ namespace Kenedia.Modules.Characters.Views
         {
             characterControl.Index = GetHoveredIndex(characterControl);
 
+            Debug.WriteLine($"NEW INDEX");
             SortCharacters();
         }
 

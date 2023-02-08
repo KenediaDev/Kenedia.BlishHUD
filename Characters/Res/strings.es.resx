@@ -624,7 +624,7 @@ Para obtener el valor actual tendrás que cambiar las pestañas del módulo una 
     <value>Pequeño</value>
   </data>
   <data name="SortBy" xml:space="preserve">
-    <value>Ordenar Por {0}</value>
+    <value>Ordenar por {0}</value>
   </data>
   <data name="SortItem" xml:space="preserve">
     <value>Ordenar {0}</value>
@@ -948,5 +948,8 @@ Uu : Üü Ûû Ùù</value>
   </data>
   <data name="ShowChoyaSpinner" xml:space="preserve">
     <value>Mostrar Choya como spinner de carga</value>
+  </data>
+  <data name="TimeSinceLogin" xml:space="preserve">
+    <value>Tiempo transcurrido desde el inicio de sesión</value>
   </data>
 </root>

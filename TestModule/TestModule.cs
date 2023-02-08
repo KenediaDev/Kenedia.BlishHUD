@@ -34,6 +34,18 @@ namespace Kenedia.Modules.TestModule
             Logger.Info($"Starting {Name} v." + Version.BaseVersion());            
         }
 
+        protected override void ReloadKey_Activated(object sender, EventArgs e)
+        {
+            base.ReloadKey_Activated(sender, e);
+
+        }
+
+        private void FetchAPI()
+        {
+
+
+        }
+
         protected override async Task LoadAsync()
         {
             await base.LoadAsync();

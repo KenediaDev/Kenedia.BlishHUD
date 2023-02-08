@@ -48,6 +48,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\KeybindExtension.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\ListExtension.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\MathExtension.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Extensions\MumbleExtension.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\NumericExtension.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\PointExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\StringExtension.cs" />

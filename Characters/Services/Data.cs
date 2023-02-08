@@ -25,28 +25,24 @@ namespace Kenedia.Modules.Characters.Services
     public class Data
     {
         private readonly ContentsManager _contentsManager;
+
         public Data(ContentsManager contentsManager)
         {
             _contentsManager = contentsManager;
 
             string path = @"data\maps.json";
-            var maps = new Map[1];
-
             string jsonString = new StreamReader(_contentsManager.GetFileStream(path)).ReadToEnd();
 
             if (jsonString != null && jsonString != string.Empty)
             {
                 List<Map> localData = JsonConvert.DeserializeObject<List<Map>>(jsonString);
-                Map biggest = localData.Aggregate((i1, i2) => i1.Id > i2.Id ? i1 : i2);
-                maps = new Map[biggest.Id + 1];
 
-                foreach (Map entry in localData)
+                localData.ForEach(e =>
                 {
-                    maps[entry.Id] = new Map() { Names = entry.Names, APIId = entry.Id, Id = entry.Id };
-                }
+                    if (!Maps.ContainsKey(e.Id))
+                        Maps.Add(e.Id, e);
+                });
             }
-
-            Maps = maps;
 
             Races[RaceType.Asura].Icon = _contentsManager.GetTexture(@"textures\races\" + "asura" + ".png");
             Races[RaceType.Charr].Icon = _contentsManager.GetTexture(@"textures\races\" + "charr" + ".png");
@@ -55,9 +51,9 @@ namespace Kenedia.Modules.Characters.Services
             Races[RaceType.Sylvari].Icon = _contentsManager.GetTexture(@"textures\races\" + "sylvari" + ".png");
         }
 
-        public Map[] Maps { get; set; }
+        public Dictionary<int, Map> Maps { get; } = new();
 
-        public Dictionary<int, CraftingProfession> CrafingProfessions { get; set; } = new Dictionary<int, CraftingProfession>()
+        public Dictionary<int, CraftingProfession> CrafingProfessions { get; } = new()
         {
             // Unknown
             {
@@ -250,7 +246,7 @@ namespace Kenedia.Modules.Characters.Services
             },
         };
 
-        public Dictionary<ProfessionType, Profession> Professions { get; set; } = new Dictionary<ProfessionType, Profession>()
+        public Dictionary<ProfessionType, Profession> Professions { get; } = new()
         {
             // Guardian
             {
@@ -442,7 +438,7 @@ namespace Kenedia.Modules.Characters.Services
             },
         };
 
-        public Dictionary<SpecializationType, Specialization> Specializations { get; set; } = new Dictionary<SpecializationType, Specialization>()
+        public Dictionary<SpecializationType, Specialization> Specializations { get; } = new()
         {
             // Druid
             {
@@ -958,7 +954,7 @@ namespace Kenedia.Modules.Characters.Services
             },
         };
 
-        public Dictionary<RaceType, Race> Races { get; set; } = new Dictionary<RaceType, Race>()
+        public Dictionary<RaceType, Race> Races { get; } = new()
         {
             // Asura
             {
@@ -1048,7 +1044,7 @@ namespace Kenedia.Modules.Characters.Services
 
         public Map GetMapById(int id)
         {
-            return Maps.Length > id && Maps[id] != null ? Maps[id] : new Map() { Name = "Unknown Map", Id = 0 };
+            return Maps.ContainsKey(id) ? Maps[id] : new Map() { Name = "Unknown Map", Id = 0 };
         }
 
         public class CraftingProfession

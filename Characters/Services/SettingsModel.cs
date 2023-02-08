@@ -98,8 +98,8 @@ namespace Kenedia.Modules.Characters.Services
             ResultMatchingBehavior = internalSettings.DefineSetting(nameof(ResultMatchingBehavior), MatchingBehavior.MatchAny);
             ResultFilterBehavior = internalSettings.DefineSetting(nameof(ResultFilterBehavior), FilterBehavior.Include);
 
-            SortType = internalSettings.DefineSetting(nameof(SortType), ESortType.SortByLastLogin);
-            SortOrder = internalSettings.DefineSetting(nameof(SortOrder), ESortOrder.Ascending);
+            SortType = internalSettings.DefineSetting(nameof(SortType), SortBy.TimeSinceLogin);
+            SortOrder = internalSettings.DefineSetting(nameof(SortOrder), SortDirection.Ascending);
 
             foreach (SettingEntry setting in _appearanceSettings)
             {
@@ -112,19 +112,23 @@ namespace Kenedia.Modules.Characters.Services
 
         public event EventHandler AppearanceSettingChanged;
 
-        public enum ESortOrder
+        public enum SortDirection
         {
             Ascending,
             Descending,
         }
 
-        public enum ESortType
+        public enum SortBy
         {
-            SortByName,
-            SortByTag,
-            SortByProfession,
-            SortByLastLogin,
-            SortByMap,
+            Name,
+            Level,
+            Tag,
+            Profession,
+            TimeSinceLogin,
+            Map,
+            Race,
+            Gender,
+            Specialization,
             Custom,
         }
 
@@ -256,9 +260,9 @@ namespace Kenedia.Modules.Characters.Services
 
         public SettingEntry<FilterBehavior> ResultFilterBehavior { get; set; }
 
-        public SettingEntry<ESortType> SortType { get; set; }
+        public SettingEntry<SortBy> SortType { get; set; }
 
-        public SettingEntry<ESortOrder> SortOrder { get; set; }
+        public SettingEntry<SortDirection> SortOrder { get; set; }
 
         public SettingEntry<KeyBinding> LogoutKey { get; set; }
 

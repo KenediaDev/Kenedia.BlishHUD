@@ -144,10 +144,14 @@ namespace Kenedia.Modules.Characters.Controls.SideMenu
             _orderDropdown.SelectedItem = _settings.SortType.Value.GetSortType();
             _orderDropdown.Items.Clear();
             _orderDropdown.Items.Add(string.Format(strings.SortBy, strings.Name));
-            _orderDropdown.Items.Add(string.Format(strings.SortBy, strings.Tags));
+            _orderDropdown.Items.Add(string.Format(strings.SortBy, strings.Level));
+            _orderDropdown.Items.Add(string.Format(strings.SortBy, strings.Race));
+            _orderDropdown.Items.Add(string.Format(strings.SortBy, strings.Gender));
             _orderDropdown.Items.Add(string.Format(strings.SortBy, strings.Profession));
-            _orderDropdown.Items.Add(string.Format(strings.SortBy, strings.LastLogin));
+            _orderDropdown.Items.Add(string.Format(strings.SortBy, strings.Specialization));
+            _orderDropdown.Items.Add(string.Format(strings.SortBy, strings.TimeSinceLogin));
             _orderDropdown.Items.Add(string.Format(strings.SortBy, strings.Map));
+            //_orderDropdown.Items.Add(string.Format(strings.SortBy, strings.Tags));
             _orderDropdown.Items.Add(strings.Custom);
 
             _flowDropdown.SelectedItem = _settings.SortOrder.Value.GetSortOrder();

@@ -672,7 +672,7 @@ To get the current value you will have to swap module tabs once to update the se
     <value>Small</value>
   </data>
   <data name="SortBy" xml:space="preserve">
-    <value>Sort By {0}</value>
+    <value>Sort by {0}</value>
   </data>
   <data name="SortItem" xml:space="preserve">
     <value>Sort {0}</value>
@@ -948,5 +948,8 @@ Log in automatically?
   </data>
   <data name="ShowChoyaSpinner" xml:space="preserve">
     <value>Show Choya as loading spinner</value>
+  </data>
+  <data name="TimeSinceLogin" xml:space="preserve">
+    <value>Time since login</value>
   </data>
 </root>

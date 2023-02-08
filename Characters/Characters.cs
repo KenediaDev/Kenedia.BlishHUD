@@ -88,7 +88,40 @@ namespace Kenedia.Modules.Characters
 
         public ObservableCollection<Character_Model> CharacterModels { get; } = new();
 
-        public Character_Model CurrentCharacterModel { get; set; }
+        private Character_Model _currentCharacterModel;
+
+        public Character_Model CurrentCharacterModel
+        {
+            get => _currentCharacterModel;
+            private set
+            {
+                if (_currentCharacterModel != value)
+                {
+                    if(_currentCharacterModel != null)
+                    {
+                        _currentCharacterModel.Updated -= CurrentCharacterModel_Updated;
+                        _currentCharacterModel.IsCurrentCharacter = false;
+                    }
+
+                    _currentCharacterModel = value;
+
+                    if (_currentCharacterModel != null)
+                    {
+                        _currentCharacterModel.Updated += CurrentCharacterModel_Updated;
+                        _currentCharacterModel.UpdateCharacter();
+                        _currentCharacterModel.IsCurrentCharacter = true;
+
+                        MainWindow?.SortCharacters();
+                    }
+                }
+            }
+        }
+
+        private void CurrentCharacterModel_Updated(object sender, EventArgs e)
+        {
+            Debug.WriteLine($"CurrentCharacterModel_Updated");
+            MainWindow?.SortCharacters();
+        }
 
         public Data Data { get; private set; }
 
@@ -127,16 +160,6 @@ namespace Kenedia.Modules.Characters
             if (api_handled && CharacterModels.Count == 0)
             {
                 _ = LoadCharacters();
-            }
-        }
-
-        public void SwapTo(Character_Model character)
-        {
-            PlayerCharacter player = GameService.Gw2Mumble.PlayerCharacter;
-
-            if (character.Name != player.Name || !GameService.GameIntegration.Gw2Instance.IsInGame)
-            {
-                CharacterSwapping.Start(character);
             }
         }
 
@@ -247,19 +270,26 @@ namespace Kenedia.Modules.Characters
                 }
             }
 
+            int pos = 0;
             foreach (var c in characters)
             {
                 if (!oldList.Contains(new { c.Name, c.Created }))
                 {
-                    //Logger.Info($"{c.Name} created on {c.Created} does not exist yet. Create it!");
-                    CharacterModels.Add(new(c, CharacterSwapping, Paths.ModulePath, RequestCharacterSave, CharacterModels, Data));
+                    Logger.Info($"{c.Name} created on {c.Created} does not exist yet. Create it!");
+                    CharacterModels.Add(new(c, CharacterSwapping, Paths.ModulePath, RequestCharacterSave, CharacterModels, Data) { Position = pos });
                 }
                 else
                 {
                     //Logger.Info($"{c.Name} created on {c.Created} does exist already. Update it!");
                     var character = CharacterModels.FirstOrDefault(e => e.Name == c.Name);
                     character?.UpdateCharacter(c);
+                    if (character != null)
+                    {
+                        character.Position = pos;
+                    }
                 }
+
+                pos++;
             }
 
             if (!File.Exists(CharactersPath) || Settings.ImportVersion.Value < OldCharacterModel.ImportVersion)
@@ -276,6 +306,7 @@ namespace Kenedia.Modules.Characters
             }
 
             SaveCharacterList();
+            MainWindow?.PerformFiltering();
         }
 
         protected override void Initialize()
@@ -361,7 +392,6 @@ namespace Kenedia.Modules.Characters
                 if (CurrentCharacterModel != null)
                 {
                     CurrentCharacterModel?.UpdateCharacter(player);
-                    MainWindow?.SortCharacters();
                 }
             }
 
@@ -651,7 +681,7 @@ namespace Kenedia.Modules.Characters
             CharacterSwapping.HideMainWindow = MainWindow.Hide;
             CharacterSwapping.OCR = OCR;
             CharacterSorting.OCR = OCR;
-            CharacterSorting.UpdateCharacterList = () => MainWindow.PerformFiltering(null);
+            CharacterSorting.UpdateCharacterList = MainWindow.PerformFiltering;
         }
 
         protected override void UnloadGUI()
