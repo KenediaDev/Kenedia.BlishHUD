@@ -70,7 +70,7 @@ namespace Kenedia.Modules.Core.Models
         protected override void Initialize()
         {
             base.Initialize();
-            ModuleVersion = Version.BaseVersion();
+            ModuleVersion = Version;
 
             Logger.Debug($"Initializing {Name} {ModuleVersion}");
             Paths = new(DirectoriesManager, Name);

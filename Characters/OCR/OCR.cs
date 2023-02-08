@@ -91,8 +91,6 @@ namespace Kenedia.Modules.Characters
                 if (!show) _view.EnableMaskedRegion();
                 await Task.Delay(5);
 
-                CleanedTexture?.Dispose();
-                SourceTexture?.Dispose();
                 var wndBounds = _clientWindowService.WindowBounds;
 
                 bool windowed = GameService.GameIntegration.GfxSettings.ScreenMode == Blish_HUD.GameIntegration.GfxSettings.ScreenModeSetting.Windowed;
@@ -120,6 +118,7 @@ namespace Kenedia.Modules.Characters
                             using MemoryStream s = new();
                             bitmap.Save(s, System.Drawing.Imaging.ImageFormat.Bmp);
 
+                            SourceTexture?.Dispose();
                             SourceTexture = s.CreateTexture2D();
                         }
 
@@ -192,6 +191,7 @@ namespace Kenedia.Modules.Characters
 
                             if (show)
                             {
+                                CleanedTexture?.Dispose();
                                 CleanedTexture = s.CreateTexture2D();
                             }
                         }
@@ -206,10 +206,12 @@ namespace Kenedia.Modules.Characters
 
                         ocr_bitmap = new(bitmap, (int)(bitmap.Width * scale), (int)(bitmap.Height * scale));
                     }
+
                     if (show)
                     {
                         using MemoryStream s = new();
                         ocr_bitmap.Save(s, System.Drawing.Imaging.ImageFormat.Bmp);
+                        ScaledTexture?.Dispose();
                         ScaledTexture = s.CreateTexture2D();
                     }
 
