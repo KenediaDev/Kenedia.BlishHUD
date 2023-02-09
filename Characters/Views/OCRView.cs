@@ -371,7 +371,7 @@ namespace Characters.Views
                 Size = _settings.ActiveOCRRegion.Size,
                 BorderColor = ContentService.Colors.ColonialWhite,
                 ShowResizeOnlyOnMouseOver = true,
-                MaxSize = new(500, 50),
+                MaxSize = new(Width, 100),
                 BorderWidth = new(2),
                 ZIndex = int.MaxValue - 1,
             };
@@ -380,6 +380,8 @@ namespace Characters.Views
 
             int height = _settings.ActiveOCRRegion.Size.Y;
             Location = new Point(_ocrRegionContainer.Left, _ocrRegionContainer.Top - Height - 5);
+
+            ForceOnScreen();
         }
 
         public void EnableMaskedRegion()
@@ -430,6 +432,7 @@ namespace Characters.Views
         public void ToggleContainer()
         {
             bool visible = this.ToggleVisibility();
+            ForceOnScreen();
 
             _ = (_ocrRegionContainer?.ToggleVisibility(visible));
             _ = (_maskedRegion?.ToggleVisibility(visible));
@@ -448,6 +451,8 @@ namespace Characters.Views
             base.UpdateContainer(gameTime);
             if (Visible)
             {
+                ForceOnScreen();
+
                 _maskedRegion.Visible = !_ocrRegionContainer.AbsoluteBounds.Contains(Input.Mouse.Position);
 
                 if (gameTime.TotalGameTime.TotalMilliseconds - _readTick > 250 && _maskedRegion.Visible)
@@ -484,6 +489,30 @@ namespace Characters.Views
             _resultLabel?.Dispose();
             _bestMatchLabel?.Dispose();
             _maskedRegion?.Dispose();
+        }
+
+        private void ForceOnScreen()
+        {
+            var screen = Graphics.SpriteScreen;
+            if (_ocrRegionContainer.Bottom > screen.Bottom)
+            {
+                _ocrRegionContainer.Bottom = screen.Bottom;
+            }
+
+            if (_ocrRegionContainer.Top < screen.Top + Height)
+            {
+                _ocrRegionContainer.Top = screen.Top + Height;
+            }
+
+            if (_ocrRegionContainer.Left < screen.Left)
+            {
+                _ocrRegionContainer.Left = screen.Left;
+            }
+
+            if (Right > screen.Right)
+            {
+                _ocrRegionContainer.Left = screen.Right - Width;
+            }
         }
     }
 }

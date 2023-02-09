@@ -206,7 +206,7 @@ namespace Kenedia.Modules.Characters.Services
                 Point res = GameService.Graphics.Resolution;
                 Dictionary<string, Rectangle> regions = OCRRegions.Value;
 
-                return regions.ContainsKey(OCRKey) ? regions[OCRKey] : new Rectangle(50, (int)(res.Y * 0.8413), 530, 50);
+                return regions.ContainsKey(OCRKey) ? regions[OCRKey] : new Rectangle(50, (int)((res.Y - 350) / 2), 530, 50);
             }
         }
 
@@ -218,23 +218,23 @@ namespace Kenedia.Modules.Characters.Services
 
         public SettingEntry<bool> Radial_UseProfessionIconsColor { get; set; }
 
-        public SettingEntry<bool> Radial_UseProfessionIcons{ get; set; }
+        public SettingEntry<bool> Radial_UseProfessionIcons { get; set; }
 
         public SettingEntry<bool> Radial_ShowAdvancedTooltip { get; set; }
 
         public SettingEntry<bool> Radial_UseProfessionColor { get; set; }
-        
-        public SettingEntry<bool> UseCharacterIconsOnRadial{ get; set; }
 
-        public SettingEntry<float> Radial_Scale{ get; set; }
+        public SettingEntry<bool> UseCharacterIconsOnRadial { get; set; }
 
-        public SettingEntry<Color> Radial_IdleColor{ get; set; }
+        public SettingEntry<float> Radial_Scale { get; set; }
 
-        public SettingEntry<Color> Radial_IdleBorderColor{ get; set; }
+        public SettingEntry<Color> Radial_IdleColor { get; set; }
 
-        public SettingEntry<Color> Radial_HoveredBorderColor{ get; set; }
+        public SettingEntry<Color> Radial_IdleBorderColor { get; set; }
 
-        public SettingEntry<Color> Radial_HoveredColor{ get; set; }
+        public SettingEntry<Color> Radial_HoveredBorderColor { get; set; }
+
+        public SettingEntry<Color> Radial_HoveredColor { get; set; }
 
         public SettingEntry<bool> UseBetaGamestate { get; set; }
 
