@@ -667,30 +667,33 @@ namespace Kenedia.Modules.Characters.Views
             int newIndex = -1;
             foreach (CharacterCard c in cards)
             {
-                if (c.AbsoluteBounds.Contains(m.Position))
+                if (c != characterControl && c.AbsoluteBounds.Contains(m.Position))
                 {
                     newIndex = c.Index;
                     break;
                 }
             }
 
-            int index = 0;
-            foreach (CharacterCard c in cards)
-            {
-                if (index == newIndex) index++;
-
-                if (c != characterControl)
-                {
-                    c.Character.SetIndex(index);
-                    c.Index = index;
-                }
-
-                index++;
-            }
-
             if (newIndex > -1)
             {
+                int index = 0;
+                foreach (CharacterCard c in cards)
+                {
+                    if (newIndex == index)
+                    {
+                        index++;
+                    }
+
+                    if (c != characterControl)
+                    {
+                        c.Character.SetIndex(index);
+                        c.Index = index;
+                        index++;
+                    }
+                }
+
                 characterControl.Index = newIndex;
+                characterControl.Character.Index = newIndex;
                 SortCharacters();
             }
         }

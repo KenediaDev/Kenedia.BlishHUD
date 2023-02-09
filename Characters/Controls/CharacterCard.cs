@@ -117,15 +117,6 @@ namespace Kenedia.Modules.Characters.Controls
                 TextColor = Colors.ColonialWhite,
             };
 
-            _customIndex = new IconLabel()
-            {
-                Parent = _contentPanel,
-                AutoSizeWidth = true,
-                AutoSizeHeight = true,
-                TextureRectangle = new Rectangle(2, 2, 28, 28),
-                Icon = AsyncTexture2D.FromAssetId(156909),
-            };
-
             _levelLabel = new IconLabel()
             {
                 Parent = _contentPanel,
@@ -179,6 +170,15 @@ namespace Kenedia.Modules.Characters.Controls
                 AutoSizeHeight = true,
                 Icon = AsyncTexture2D.FromAssetId(155035),
                 TextureRectangle = new Rectangle(10, 10, 44, 44),
+            };
+
+            _customIndex = new IconLabel()
+            {
+                Parent = _contentPanel,
+                AutoSizeWidth = true,
+                AutoSizeHeight = true,
+                TextureRectangle = new Rectangle(2, 2, 28, 28),
+                Icon = AsyncTexture2D.FromAssetId(156909),
             };
 
             _tagPanel = new()
@@ -245,7 +245,7 @@ namespace Kenedia.Modules.Characters.Controls
             {
                 if (Character != null)
                 {
-                    Character.Index = value;
+                    UpdateCharacterInfo();
                 }
             }
         }
