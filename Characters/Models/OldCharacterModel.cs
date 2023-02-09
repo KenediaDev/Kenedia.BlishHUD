@@ -17,7 +17,7 @@ namespace Kenedia.Modules.Characters.Models
         public string Icon;
         public int Map;
 
-        public static void Import(string path, ObservableCollection<Character_Model> characters, string imagePath, string accountName, Logger logger)
+        public static void Import(string path, ObservableCollection<Character_Model> characters, string imagePath, string accountName, Logger logger, TagList tags)
         {
             if (File.Exists(path))
             {
@@ -41,7 +41,11 @@ namespace Kenedia.Modules.Characters.Models
                         {
                             if (!string.IsNullOrEmpty(t))
                             {
-                                character.AddTag(t, false);
+                                character.AddTag(t);
+                                if(!tags.Contains(t)) 
+                                { 
+                                    tags.Add(t); 
+                                }
                             }
                         });
                         character.Map = old?.Map != null ? old.Map : 0;

@@ -17,12 +17,12 @@ namespace Kenedia.Modules.Characters.Services
     public class SettingsModel : BaseSettingsModel
     {
         private readonly ObservableCollection<SettingEntry> _appearanceSettings = new();
+        private readonly SettingCollection _settings;
 
         public SettingsModel(SettingCollection settings)
         {
             SettingCollection internalSettings = settings.AddSubCollection("Internal", false, false);
             Version = internalSettings.DefineSetting(nameof(Version), new SemVer.Version("0.0.0"));
-            ImportVersion = internalSettings.DefineSetting(nameof(ImportVersion), new SemVer.Version("0.0.0"));
             LogoutKey = internalSettings.DefineSetting(nameof(LogoutKey), new KeyBinding(Keys.F12));
             ShortcutKey = internalSettings.DefineSetting(nameof(ShortcutKey), new KeyBinding(ModifierKeys.Shift, Keys.C));
             RadialKey = internalSettings.DefineSetting(nameof(RadialKey), new KeyBinding(Keys.None));
@@ -108,7 +108,9 @@ namespace Kenedia.Modules.Characters.Services
 
             _appearanceSettings.ItemAdded += AppearanceSettings_ItemAdded;
             _appearanceSettings.ItemRemoved += AppearanceSettings_ItemRemoved;
+            _settings = settings;
         }
+
 
         public event EventHandler AppearanceSettingChanged;
 
@@ -158,6 +160,8 @@ namespace Kenedia.Modules.Characters.Services
             Large,
             Custom,
         }
+
+        public SettingCollection AccountSettings { get; private set; }
 
         public SettingEntry<Dictionary<string, ShowCheckPair>> DisplayToggles { get; set; }
 
@@ -332,6 +336,12 @@ namespace Kenedia.Modules.Characters.Services
         private void OnAppearanceSettingChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
             AppearanceSettingChanged?.Invoke(sender, e);
+        }
+
+        public void LoadAccountSettings(string accountName)
+        {
+            AccountSettings = _settings.AddSubCollection(accountName, false, false);
+            ImportVersion = AccountSettings.DefineSetting(nameof(ImportVersion), new SemVer.Version("0.0.0"));
         }
     }
 }

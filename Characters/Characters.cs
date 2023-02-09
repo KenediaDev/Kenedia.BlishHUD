@@ -119,7 +119,6 @@ namespace Kenedia.Modules.Characters
 
         private void CurrentCharacterModel_Updated(object sender, EventArgs e)
         {
-            Debug.WriteLine($"CurrentCharacterModel_Updated");
             MainWindow?.SortCharacters();
         }
 
@@ -140,6 +139,7 @@ namespace Kenedia.Modules.Characters
         public void UpdateFolderPaths(string accountName, bool api_handled = true)
         {
             Paths.AccountName = accountName;
+            Settings.LoadAccountSettings(accountName);
 
             string b = Paths.ModulePath;
 
@@ -299,7 +299,7 @@ namespace Kenedia.Modules.Characters
                 if (File.Exists(p))
                 {
                     Logger.Info($"This is the first start of {Name} since import version {OldCharacterModel.ImportVersion}. Importing old data from {p}!");
-                    OldCharacterModel.Import(p, CharacterModels, AccountImagesPath, Paths.AccountName, Logger);
+                    OldCharacterModel.Import(p, CharacterModels, AccountImagesPath, Paths.AccountName, Logger, Tags);
                 }
 
                 Settings.ImportVersion.Value = OldCharacterModel.ImportVersion;

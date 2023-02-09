@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using SemVer;
+using System.Collections.Generic;
 using System.Runtime.Serialization;
 
 namespace Kenedia.Modules.Characters.Models
