@@ -82,18 +82,10 @@ namespace Kenedia.Modules.Characters.Controls
         private readonly SettingsModel _settings;
         private double _lastUniform;
 
-        public CharacterCard(Func<Character_Model> currentCharacter, TextureManager textureManager, Data data, MainWindow mainWindow, SettingsModel settings)
+        public CharacterCard()
         {
-            _currentCharacter = currentCharacter;
-            _textureManager = textureManager;
-            _data = data;
-            _mainWindow = mainWindow;
-            _settings = settings;
-
             HeightSizingMode = SizingMode.AutoSize;
-            //WidthSizingMode = SizingMode.AutoSize;
-
-            BackgroundColor = new Color(0, 0, 0, 75);
+            BackgroundColor = Color.Black * 0.5f;
             AutoSizePadding = new Point(0, 2);
 
             _contentPanel = new FlowPanel()
@@ -131,7 +123,6 @@ namespace Kenedia.Modules.Characters.Controls
                 Parent = _contentPanel,
                 AutoSizeWidth = true,
                 AutoSizeHeight = true,
-                Icon = _textureManager.GetIcon(TextureManager.Icons.Gender),
             };
 
             _raceLabel = new IconLabel()
@@ -155,7 +146,7 @@ namespace Kenedia.Modules.Characters.Controls
                 TextureRectangle = new Rectangle(2, 2, 28, 28),
             };
 
-            _craftingControl = new CraftingControl(data, _settings)
+            _craftingControl = new CraftingControl()
             {
                 Parent = _contentPanel,
                 Width = _contentPanel.Width,
@@ -214,6 +205,51 @@ namespace Kenedia.Modules.Characters.Controls
                 Visible = false,
             };
             _textTooltip.Shown += TextTooltip_Shown;
+            _created = true;
+        }
+
+        public CharacterCard(CharacterCard card) : this()
+        {
+            _currentCharacter = card._currentCharacter;
+            _textureManager = card._textureManager;
+            _data = card._data;
+            _mainWindow = card._mainWindow;
+            _settings = card._settings;
+
+            _craftingControl.Settings = _settings;
+            _craftingControl.Data = _data;
+
+            _genderLabel.Icon = _textureManager.GetIcon(TextureManager.Icons.Gender);
+
+            Size = card.Size;
+
+            Character = card._character;
+            UpdateDataControlsVisibility();
+            _updateCharacter = true;
+            //UpdateCharacterInfo();
+        }
+
+        public CharacterCard(Func<Character_Model> currentCharacter, TextureManager textureManager, Data data, MainWindow mainWindow, SettingsModel settings) : this()
+        {
+            _currentCharacter = currentCharacter;
+            _textureManager = textureManager;
+            _data = data;
+            _mainWindow = mainWindow;
+            _settings = settings;
+
+            HeightSizingMode = SizingMode.AutoSize;
+            //WidthSizingMode = SizingMode.AutoSize;
+
+            BackgroundColor = new Color(0, 0, 0, 75);
+            AutoSizePadding = new Point(0, 2);
+
+            GameService.Overlay.UserLocale.SettingChanged += ApplyCharacter;
+            _settings.AppearanceSettingChanged += Settings_AppearanceSettingChanged;
+
+            _craftingControl.Settings = _settings;
+            _craftingControl.Data = _data;
+
+            _genderLabel.Icon = _textureManager.GetIcon(TextureManager.Icons.Gender);
 
             _characterTooltip = new CharacterTooltip(currentCharacter, textureManager, data, _settings)
             {
@@ -223,12 +259,9 @@ namespace Kenedia.Modules.Characters.Controls
                 Size = new Point(300, 50),
                 Visible = false,
             };
-
-            GameService.Overlay.UserLocale.SettingChanged += ApplyCharacter;
-            _settings.AppearanceSettingChanged += Settings_AppearanceSettingChanged;
-
-            _created = true;
         }
+
+        public bool IsDraggingTarget { get; set; } = false;
 
         private Character_Model CurrentCharacter => _currentCharacter?.Invoke();
 
@@ -264,7 +297,7 @@ namespace Kenedia.Modules.Characters.Controls
                     }
 
                     _character = value;
-                    _characterTooltip.Character = value;
+                    if (_characterTooltip != null) _characterTooltip.Character = value;
 
                     if (value != null)
                     {
@@ -290,11 +323,11 @@ namespace Kenedia.Modules.Characters.Controls
             }
         }
 
-        public void UniformWithAttached()
+        public void UniformWithAttached(bool force = false)
         {
             double now = Common.Now();
 
-            if (_lastUniform != now)
+            if (_lastUniform != now || force)
             {
                 if (AttachedCards?.Count() > 0)
                 {
@@ -305,7 +338,9 @@ namespace Kenedia.Modules.Characters.Controls
                 }
                 else
                 {
+                    _lastUniform = now;
                     ControlContentBounds = CalculateLayout();
+                    AdaptNewBounds();
                 }
             }
         }
@@ -456,7 +491,7 @@ namespace Kenedia.Modules.Characters.Controls
             if (MouseOver)
             {
                 _textTooltip.Visible = false;
-                bool loginHovered = _loginRect.Contains(RelativeMousePosition);
+                bool loginHovered = !IsDraggingTarget && _loginRect.Contains(RelativeMousePosition);
 
                 if (_settings.PanelLayout.Value != CharacterPanelLayout.OnlyText)
                 {
@@ -465,21 +500,24 @@ namespace Kenedia.Modules.Characters.Controls
                         Textures.Pixel,
                         _iconRectangle,
                         Rectangle.Empty,
-                        Color.Black * 0.5f,
+                        IsDraggingTarget ? Color.Transparent : Color.Black * 0.5f,
                         0f,
                         default);
 
-                    _textTooltip.Text = Character.HasBirthdayPresent ? string.Format(strings.Birthday_Text, Character.Name, Character.Age) : string.Format(strings.LoginWith, Character.Name);
-                    _textTooltip.Visible = loginHovered;
+                    if (!IsDraggingTarget)
+                    {
+                        _textTooltip.Text = Character.HasBirthdayPresent ? string.Format(strings.Birthday_Text, Character.Name, Character.Age) : string.Format(strings.LoginWith, Character.Name);
+                        _textTooltip.Visible = loginHovered;
 
-                    spriteBatch.DrawOnCtrl(
-                        this,
-                        Character.HasBirthdayPresent ? loginHovered ? _presentTextureOpen : _presentTexture : loginHovered ? _loginTextureHovered : _loginTexture,
-                        _loginRect,
-                        _loginTexture.Bounds,
-                        loginHovered ? Color.White : new Color(215, 215, 215),
-                        0f,
-                        default);
+                        spriteBatch.DrawOnCtrl(
+                            this,
+                            Character.HasBirthdayPresent ? loginHovered ? _presentTextureOpen : _presentTexture : loginHovered ? _loginTextureHovered : _loginTexture,
+                            _loginRect,
+                            _loginTexture.Bounds,
+                            loginHovered ? Color.White : new Color(215, 215, 215),
+                            0f,
+                            default);
+                    }
                 }
                 else
                 {
@@ -505,7 +543,9 @@ namespace Kenedia.Modules.Characters.Controls
                         default);
                 }
 
-                spriteBatch.DrawOnCtrl(
+                if (!IsDraggingTarget)
+                {
+                    spriteBatch.DrawOnCtrl(
                     this,
                     _cogRect.Contains(RelativeMousePosition) ? _cogTextureHovered : _cogTexture,
                     _cogRect,
@@ -513,10 +553,12 @@ namespace Kenedia.Modules.Characters.Controls
                     Color.White,
                     0f,
                     default);
-                if (_cogRect.Contains(RelativeMousePosition))
-                {
-                    _textTooltip.Text = string.Format(strings.AdjustSettings, Character.Name);
-                    _textTooltip.Visible = true;
+
+                    if (_cogRect.Contains(RelativeMousePosition))
+                    {
+                        _textTooltip.Text = string.Format(strings.AdjustSettings, Character.Name);
+                        _textTooltip.Visible = true;
+                    }
                 }
             }
 
@@ -564,7 +606,7 @@ namespace Kenedia.Modules.Characters.Controls
                 }
             }
 
-            if ((_mainWindow != null && bounds.Contains(RelativeMousePosition) && _mainWindow.DraggingControl.CharacterControl != null) || MouseOver)
+            if (IsDraggingTarget || (_mainWindow != null && bounds.Contains(RelativeMousePosition) && _mainWindow.IsActive) || MouseOver)
             {
                 Color color = Colors.ColonialWhite;
 
@@ -596,11 +638,6 @@ namespace Kenedia.Modules.Characters.Controls
                 {
                     TimeSpan ts = DateTimeOffset.UtcNow.Subtract(Character.LastLogin);
                     _lastLoginLabel.Text = string.Format("{1} {0} {2:00}:{3:00}:{4:00}", strings.Days, Math.Floor(ts.TotalDays), ts.Hours, ts.Minutes, ts.Seconds);
-
-                    if (Character.HasBirthdayPresent)
-                    {
-                        // ScreenNotification.ShowNotification(String.Format("It is {0}'s birthday! They are now {1} years old!", Character.Name, Character.Age));
-                    }
                 }
                 else
                 {
@@ -608,14 +645,17 @@ namespace Kenedia.Modules.Characters.Controls
                 }
             }
 
-            if (!MouseOver && _textTooltip.Visible)
+            if (!IsDraggingTarget)
             {
-                _textTooltip.Visible = MouseOver;
-            }
+                if (!MouseOver && _textTooltip.Visible)
+                {
+                    _textTooltip.Visible = MouseOver;
+                }
 
-            if (!MouseOver && _characterTooltip.Visible)
-            {
-                _characterTooltip.Visible = MouseOver;
+                if (!MouseOver && _characterTooltip.Visible)
+                {
+                    _characterTooltip.Visible = MouseOver;
+                }
             }
 
             if (_updateCharacter && _created && Visible)
@@ -628,43 +668,49 @@ namespace Kenedia.Modules.Characters.Controls
         {
             base.OnRightMouseButtonPressed(e);
 
-            _mainWindow.ShowAttached(_mainWindow.CharacterEdit.Character != Character || !_mainWindow.CharacterEdit.Visible ? _mainWindow.CharacterEdit : null);
-            _mainWindow.CharacterEdit.Character = Character;
+            if (!IsDraggingTarget)
+            {
+                _mainWindow.ShowAttached(_mainWindow.CharacterEdit.Character != Character || !_mainWindow.CharacterEdit.Visible ? _mainWindow.CharacterEdit : null);
+                _mainWindow.CharacterEdit.Character = Character;
+            }
         }
 
         protected override async void OnClick(MouseEventArgs e)
         {
-            base.OnClick(e);
-
-            if (e.IsDoubleClick && _settings.DoubleClickToEnter.Value)
+            if (!IsDraggingTarget)
             {
-                Character.Swap();
-                return;
-            }
+                base.OnClick(e);
 
-            // Logout Icon Clicked!
-            if (_loginRect.Contains(RelativeMousePosition))
-            {
-                PlayerCharacter player = GameService.Gw2Mumble.PlayerCharacter;
-
-                if (player != null && player.Name == Character.Name && Character.HasBirthdayPresent)
-                {
-                    _ = await _settings.MailKey.Value.PerformPress(50, false);
-                    _mainWindow.CharacterEdit.Character = Character;
-                    _mainWindow.ShowAttached(_mainWindow.CharacterEdit);
-                }
-                else
+                if (e.IsDoubleClick && _settings.DoubleClickToEnter.Value)
                 {
                     Character.Swap();
-                    _mainWindow.ShowAttached();
+                    return;
                 }
-            }
 
-            // Cog Icon Clicked!
-            if (_cogRect.Contains(RelativeMousePosition))
-            {
-                _mainWindow.CharacterEdit.Visible = !_mainWindow.CharacterEdit.Visible || _mainWindow.CharacterEdit.Character != Character;
-                _mainWindow.CharacterEdit.Character = Character;
+                // Logout Icon Clicked!
+                if (_loginRect.Contains(RelativeMousePosition))
+                {
+                    PlayerCharacter player = GameService.Gw2Mumble.PlayerCharacter;
+
+                    if (player != null && player.Name == Character.Name && Character.HasBirthdayPresent)
+                    {
+                        _ = await _settings.MailKey.Value.PerformPress(50, false);
+                        _mainWindow.CharacterEdit.Character = Character;
+                        _mainWindow.ShowAttached(_mainWindow.CharacterEdit);
+                    }
+                    else
+                    {
+                        Character.Swap();
+                        _mainWindow.ShowAttached();
+                    }
+                }
+
+                // Cog Icon Clicked!
+                if (_cogRect.Contains(RelativeMousePosition))
+                {
+                    _mainWindow.CharacterEdit.Visible = !_mainWindow.CharacterEdit.Visible || _mainWindow.CharacterEdit.Character != Character;
+                    _mainWindow.CharacterEdit.Character = Character;
+                }
             }
         }
 
@@ -672,37 +718,49 @@ namespace Kenedia.Modules.Characters.Controls
         {
             base.OnLeftMouseButtonPressed(e);
 
-            if (Keyboard.GetState().IsKeyDown(Keys.LeftControl))
+            if (!IsDraggingTarget && Keyboard.GetState().IsKeyDown(Keys.LeftControl) && _settings.SortType.Value == SortBy.Custom)
             {
-                _mainWindow.DraggingControl.CharacterControl = this;
+                _mainWindow.DraggingControl.StartDragging(this);
+
                 _dragging = true;
+                _characterTooltip?.Hide();
+                _textTooltip?.Hide();
             }
         }
 
         protected override void OnLeftMouseButtonReleased(MouseEventArgs e)
         {
             base.OnLeftMouseButtonReleased(e);
-            if (_dragging)
+            if (!IsDraggingTarget && _dragging)
             {
-                _mainWindow.DraggingControl.CharacterControl = null;
+                _mainWindow.DraggingControl.EndDragging();
+                _dragging = false;
             }
         }
 
         protected override void OnMouseMoved(MouseEventArgs e)
         {
             base.OnMouseMoved(e);
-            if (_textTooltip == null || (!_textTooltip.Visible && _settings.ShowDetailedTooltip.Value))
+
+            if (!IsDraggingTarget && !_mainWindow.DraggingControl.IsActive)
             {
-                _characterTooltip.Show();
+                if (_textTooltip == null || (!_textTooltip.Visible && _settings.ShowDetailedTooltip.Value))
+                {
+                    _characterTooltip?.Show();
+                }
             }
         }
 
         protected override void OnMouseEntered(MouseEventArgs e)
         {
             base.OnMouseEntered(e);
-            if (_textTooltip == null || (!_textTooltip.Visible && _settings.ShowDetailedTooltip.Value))
+
+            if (!IsDraggingTarget && !_mainWindow.DraggingControl.IsActive)
             {
-                _characterTooltip.Show();
+                if (_textTooltip == null || (!_textTooltip.Visible && _settings.ShowDetailedTooltip.Value))
+                {
+                    _characterTooltip?.Show();
+                }
             }
         }
 
@@ -732,13 +790,6 @@ namespace Kenedia.Modules.Characters.Controls
             _textTooltip?.Dispose();
             _characterTooltip?.Dispose();
 
-            _iconFrame.Dispose();
-            _loginTexture.Dispose();
-            _loginTextureHovered.Dispose();
-            _cogTexture.Dispose();
-            _cogTextureHovered.Dispose();
-            _presentTexture.Dispose();
-            _presentTextureOpen.Dispose();
             _tagPanel.Children.DisposeAll();
             _tagPanel.DisposeAll();
 

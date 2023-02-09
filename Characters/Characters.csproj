@@ -237,8 +237,6 @@
     <Compile Include="Models\AccountSummary.cs" />
     <Compile Include="Models\Character_Model.cs" />
     <Compile Include="Models\Crafting_Model.cs" />
-    <Compile Include="Models\Map.cs" />
-    <Compile Include="Models\LocalizedString.cs" />
     <Compile Include="Models\OldCharacterModel.cs" />
     <Compile Include="Models\ShowCheckPair.cs" />
     <Compile Include="Models\TagList.cs" />

@@ -15,6 +15,7 @@ using Color = Microsoft.Xna.Framework.Color;
 using FlowPanel = Kenedia.Modules.Core.Controls.FlowPanel;
 using Point = Microsoft.Xna.Framework.Point;
 using Rectangle = Microsoft.Xna.Framework.Rectangle;
+using Label = Kenedia.Modules.Core.Controls.Label;
 
 namespace Kenedia.Modules.Characters.Controls
 {
@@ -31,6 +32,7 @@ namespace Kenedia.Modules.Characters.Controls
         private readonly IconLabel _raceLabel;
         private readonly IconLabel _mapLabel;
         private readonly IconLabel _lastLoginLabel;
+        private readonly Label _disclaimerLabel;
         private readonly TagFlowPanel _tagPanel;
 
         private readonly CraftingControl _craftingControl;
@@ -249,7 +251,7 @@ namespace Kenedia.Modules.Characters.Controls
             int amount = visibleControls.Count();
 
             int height = visibleControls.Count() > 0 ? visibleControls.Aggregate(0, (result, ctrl) => result + ctrl.Height + (int)_contentPanel.ControlPadding.Y) : 0;
-            int width = visibleControls.Count() > 0 ? visibleControls.Max(ctrl => ctrl != _tagPanel ?  ctrl.Width : 0) : 0;
+            int width = visibleControls.Count() > 0 ? visibleControls.Max(ctrl => ctrl != _tagPanel ? ctrl.Width : 0) : 0;
 
             _contentPanel.Height = height;
             _contentPanel.Width = Width;

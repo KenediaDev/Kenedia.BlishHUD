@@ -960,4 +960,7 @@ Sich automatisch anmelden?
   <data name="CustomIndex" xml:space="preserve">
     <value>Benutzerdefinierter Index</value>
   </data>
+  <data name="CustomOrderDisclaimer" xml:space="preserve">
+    <value>Um eine Figur zu verschieben, um eine benutzerdefinierte Reihenfolge festzulegen, müssen Sie sie mit CTRL + Drag and Drop an ihre neue Position ziehen</value>
+  </data>
 </root>

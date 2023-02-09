@@ -29,6 +29,7 @@ using System.Runtime;
 using Kenedia.Modules.Core.Utility;
 using System.Diagnostics;
 using System.Collections;
+using System.Reflection;
 
 namespace Kenedia.Modules.Characters.Views
 {
@@ -291,13 +292,7 @@ namespace Kenedia.Modules.Characters.Views
 
         public CharacterEdit CharacterEdit { get; set; }
 
-        public DraggingControl DraggingControl { get; set; } = new DraggingControl()
-        {
-            Parent = GameService.Graphics.SpriteScreen,
-            Visible = false,
-            ZIndex = int.MaxValue - 1,
-            Enabled = false,
-        };
+        public DraggingControl DraggingControl { get; set; } = new DraggingControl();
 
         public FlowPanel CharactersPanel { get; private set; }
 
@@ -656,7 +651,7 @@ namespace Kenedia.Modules.Characters.Views
         private void DraggingControl_LeftMouseButtonReleased(object sender, Blish_HUD.Input.MouseEventArgs e)
         {
             SetNewIndex(DraggingControl.CharacterControl);
-            DraggingControl.CharacterControl = null;
+            DraggingControl.EndDragging();
         }
 
         private void SetNewIndex(CharacterCard characterControl)
@@ -665,37 +660,30 @@ namespace Kenedia.Modules.Characters.Views
             var cards = CharactersPanel.Children.Cast<CharacterCard>();
 
             int newIndex = -1;
+            int index = 0;
             foreach (CharacterCard c in cards)
             {
-                if (c != characterControl && c.AbsoluteBounds.Contains(m.Position))
+                if (c.AbsoluteBounds.Contains(m.Position) && newIndex == -1)
                 {
+                    characterControl.Index = c.Index;
+                    characterControl.Character.Index = c.Index;
                     newIndex = c.Index;
-                    break;
                 }
-            }
 
-            if (newIndex > -1)
-            {
-                int index = 0;
-                foreach (CharacterCard c in cards)
+                if (newIndex == index)
                 {
-                    if (newIndex == index)
-                    {
-                        index++;
-                    }
-
-                    if (c != characterControl)
-                    {
-                        c.Character.SetIndex(index);
-                        c.Index = index;
-                        index++;
-                    }
+                    index++;
                 }
 
-                characterControl.Index = newIndex;
-                characterControl.Character.Index = newIndex;
-                SortCharacters();
+                if (c != characterControl)
+                {
+                    c.Character.SetIndex(index);
+                    c.Index = index;
+                    index++;
+                }
             }
+
+            SortCharacters();
         }
     }
 }

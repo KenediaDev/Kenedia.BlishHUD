@@ -18,6 +18,8 @@ namespace Kenedia.Modules.Characters.Controls
         private Rectangle _iconRectangle = Rectangle.Empty;
         private Rectangle _textRectangle = Rectangle.Empty;
 
+        public bool CaptureInput { get; set; } = false;
+
         public string Text
         {
             get => _text;
@@ -86,6 +88,11 @@ namespace Kenedia.Modules.Characters.Controls
                     false,
                     HorizontalAlignment.Left,
                     VerticalAlignment.Middle);
+        }
+
+        protected override CaptureType CapturesInput()
+        {
+            return CaptureInput ? base.CapturesInput() : CaptureType.None;
         }
 
         private void UpdateLayout()

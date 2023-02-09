@@ -17,6 +17,13 @@ namespace Kenedia.Modules.Core.Controls
             SpriteBatchParameters = new SpriteBatchParameters(SpriteSortMode.Deferred, BlendState.Opaque);
         }
 
+        public bool CaptureInput { get; set; } = false;
+
+        protected override CaptureType CapturesInput()
+        {
+            return CaptureInput ? base.CapturesInput() : CaptureType.None;
+        }
+
         protected override void Paint(SpriteBatch spriteBatch, Rectangle bounds)
         {
             var b = new Rectangle(Location, Size);

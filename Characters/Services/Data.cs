@@ -4,6 +4,7 @@ using Blish_HUD.Modules.Managers;
 using Gw2Sharp.Models;
 using Kenedia.Modules.Characters.Enums;
 using Kenedia.Modules.Characters.Models;
+using Kenedia.Modules.Core.DataModels;
 using Microsoft.Xna.Framework.Graphics;
 using Newtonsoft.Json;
 using System.Collections.Generic;
@@ -35,13 +36,7 @@ namespace Kenedia.Modules.Characters.Services
 
             if (jsonString != null && jsonString != string.Empty)
             {
-                List<Map> localData = JsonConvert.DeserializeObject<List<Map>>(jsonString);
-
-                localData.ForEach(e =>
-                {
-                    if (!Maps.ContainsKey(e.Id))
-                        Maps.Add(e.Id, e);
-                });
+                Maps = JsonConvert.DeserializeObject<Dictionary<int, Map>>(jsonString);
             }
 
             Races[RaceType.Asura].Icon = _contentsManager.GetTexture(@"textures\races\" + "asura" + ".png");

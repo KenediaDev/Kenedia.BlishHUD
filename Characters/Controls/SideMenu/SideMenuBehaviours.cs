@@ -56,7 +56,7 @@ namespace Kenedia.Modules.Characters.Controls.SideMenu
             ControlPadding = new Vector2(5, 5);
             Location = new Point(0, 25);
 
-            _orderDropdown = new() { Parent = this, };
+            _orderDropdown = new() { Parent = this, SetLocalizedTooltip =  () => strings.CustomOrderDisclaimer };
             _orderDropdown.ValueChanged += OrderDropdown_ValueChanged;
 
             _flowDropdown = new() { Parent = this, };
@@ -175,7 +175,6 @@ namespace Kenedia.Modules.Characters.Controls.SideMenu
 
             foreach (KeyValuePair<string, DisplayCheckToggle> t in _toggles)
             {
-                Debug.WriteLine($"ADDING {_resourceManager.GetString(t.Key)}");
                 t.Value.Text = _resourceManager.GetString(t.Key);
                 t.Value.DisplayTooltip = string.Format(_resourceManager.GetString("ShowItem"), _resourceManager.GetString(t.Key));
                 t.Value.CheckTooltip = string.Format(_resourceManager.GetString("CheckItem"), _resourceManager.GetString(t.Key));

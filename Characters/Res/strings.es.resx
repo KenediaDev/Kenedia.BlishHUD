@@ -958,4 +958,7 @@ Uu : Üü Ûû Ùù</value>
   <data name="CustomIndex" xml:space="preserve">
     <value>Índice personalizado</value>
   </data>
+  <data name="CustomOrderDisclaimer" xml:space="preserve">
+    <value>Para mover un personaje para establecer un orden personalizado tienes que CTRL + Arrastrar y Soltar en su nueva posición</value>
+  </data>
 </root>

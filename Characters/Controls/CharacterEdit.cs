@@ -314,14 +314,7 @@ namespace Kenedia.Modules.Characters.Controls
 
                 foreach (string tag in addTags)
                 {
-                    _tags.Add(new Tag()
-                    {
-                        Parent = _tagPanel,
-                        Text = tag,
-                        Active = true,
-                        ShowDelete = false,
-                        CanInteract = false,
-                    });
+                    _ = AddTag(tag, Character != null && Character.Tags.Contains(tag));
                 }
             }
 
@@ -465,12 +458,13 @@ namespace Kenedia.Modules.Characters.Controls
                 Text = txt,
                 Parent = _tagPanel,
                 Active = active,
-                CanInteract = true,
+                CanInteract = true,                
                 ShowDelete = false,
             };
 
-            tag.ActiveChanged += Tag_ActiveChanged; ;
+            tag.ActiveChanged += Tag_ActiveChanged;
             _tagPanel.FitWidestTag(355);
+            _tags.Add(tag);
 
             return tag;
         }

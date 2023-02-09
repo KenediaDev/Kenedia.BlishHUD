@@ -17,6 +17,7 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Runtime.Serialization;
 using static Kenedia.Modules.Characters.Services.Data;
+using Map = Kenedia.Modules.Core.DataModels.Map;
 using File = System.IO.File;
 
 namespace Kenedia.Modules.Characters.Models

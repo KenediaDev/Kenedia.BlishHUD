@@ -958,4 +958,7 @@ Log in automatically?
   <data name="CustomIndex" xml:space="preserve">
     <value>Custom Index</value>
   </data>
+  <data name="CustomOrderDisclaimer" xml:space="preserve">
+    <value>To move a character to set a custom order you have to CTRL + Drag and Drop them on their new position</value>
+  </data>
 </root>

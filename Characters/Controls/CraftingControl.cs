@@ -16,18 +16,24 @@ namespace Kenedia.Modules.Characters.Controls
     public class CraftingControl : Control, IFontControl
     {
         private readonly AsyncTexture2D _craftingIcon = AsyncTexture2D.FromAssetId(156711);
-        private readonly Data _data;
-        private readonly SettingsModel _settings;
 
         //private readonly AsyncTexture2D _craftingIcon = AsyncTexture2D.FromAssetId(866130);
 
         private BitmapFont _font = GameService.Content.DefaultFont14;
 
+        public CraftingControl()
+        {
+        }
+
         public CraftingControl(Data data, SettingsModel settings)
         {
-            _data = data;
-            _settings = settings;
+            Data = data;
+            Settings = settings;
         }
+
+        public Data Data { get; set; }
+
+        public SettingsModel Settings { get; set; }
 
         public Character_Model Character { get; set; }
 
@@ -60,9 +66,9 @@ namespace Kenedia.Modules.Characters.Controls
                 default);
 
             bool craftingDisplayed = false;
-            if (Character != null && Character.Crafting.Count > 0)
+            if (Character != null && Character.Crafting.Count > 0 && Settings != null && Data != null)
             {
-                System.Collections.Generic.Dictionary<int, CraftingProfession> craftingDictionary = _data.CrafingProfessions;
+                System.Collections.Generic.Dictionary<int, CraftingProfession> craftingDictionary = Data.CrafingProfessions;
 
                 int i = 0;
                 foreach (CharacterCrafting crafting in Character.Crafting)
@@ -72,7 +78,7 @@ namespace Kenedia.Modules.Characters.Controls
                     {
                         Text = "NA";
 
-                        bool onlyMax = _settings.DisplayToggles.Value["OnlyMaxCrafting"].Show;
+                        bool onlyMax = Settings.DisplayToggles.Value["OnlyMaxCrafting"].Show;
 
                         if (craftingProfession.Icon != null && (!onlyMax || crafting.Rating == craftingProfession.MaxRating))
                         {

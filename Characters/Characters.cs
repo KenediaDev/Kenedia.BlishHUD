@@ -423,6 +423,7 @@ namespace Kenedia.Modules.Characters
             if (CharacterSwapping.Cancel()) Logger.Info($"Cancel any automated action. Left Mouse Down: {mouse.LeftButton == ButtonState.Pressed} | Right Mouse Down: {mouse.RightButton == ButtonState.Pressed} | Keyboard Keys pressed {string.Join("|", GameService.Input.Keyboard.KeysDown.Select(k => k.ToString()).ToArray())}");
             if (CharacterSorting.Cancel()) Logger.Info($"Cancel any automated action. Left Mouse Down: {mouse.LeftButton == ButtonState.Pressed} | Right Mouse Down: {mouse.RightButton == ButtonState.Pressed} | Keyboard Keys pressed {string.Join("|", GameService.Input.Keyboard.KeysDown.Select(k => k.ToString()).ToArray())}");
         }
+
         protected override async Task LoadAsync()
         {
             await base.LoadAsync();

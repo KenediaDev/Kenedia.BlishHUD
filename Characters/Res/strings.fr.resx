@@ -958,4 +958,7 @@ Se connecter automatiquement ?
   <data name="CustomIndex" xml:space="preserve">
     <value>Index personnalisé</value>
   </data>
+  <data name="CustomOrderDisclaimer" xml:space="preserve">
+    <value>Pour déplacer un personnage afin de définir un ordre personnalisé, vous devez faire CTRL + Glisser et Déposer le personnage sur sa nouvelle position.</value>
+  </data>
 </root>

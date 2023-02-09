@@ -575,6 +575,15 @@ namespace Kenedia.Modules.Characters.Res {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to To move a character to set a custom order you have to CTRL + Drag and Drop them on their new position.
+        /// </summary>
+        internal static string CustomOrderDisclaimer {
+            get {
+                return ResourceManager.GetString("CustomOrderDisclaimer", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Custom Tags.
         /// </summary>
         internal static string CustomTags {

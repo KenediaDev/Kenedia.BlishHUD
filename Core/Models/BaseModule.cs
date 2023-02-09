@@ -143,7 +143,7 @@ namespace Kenedia.Modules.Core.Models
             Services?.Dispose();
 
 #if DEBUG
-            ReloadKey.Value.Activated += ReloadKey_Activated;
+            ReloadKey.Value.Activated -= ReloadKey_Activated;
 #endif
             ModuleInstance = null;
         }

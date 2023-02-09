@@ -8,11 +8,11 @@
   "dependencies": {
     "bh.blishhud": ">=0.0.1"
   },
-  "description": "A test module.",
+  "description": "A development module.",
   "manifest_version": 1,
-  "name": "TestModule",
-  "namespace": "Kenedia.Modules.TestModule",
-  "package": "Kenedia.Modules.TestModule.dll",
+  "name": "Dev",
+  "namespace": "Kenedia.Modules.Dev",
+  "package": "Kenedia.Modules.Dev.dll",
   "url": "https://github.com/KenediaDev/Kenedia.BlishHUD",
   "version": "0.0.1",
   "directories": [ "kenedia" ]
