@@ -29,7 +29,6 @@ using static Kenedia.Modules.Characters.Services.TextureManager;
 using File = System.IO.File;
 using Point = Microsoft.Xna.Framework.Point;
 using Rectangle = Microsoft.Xna.Framework.Rectangle;
-using Version = SemVer.Version;
 using CornerIcon = Kenedia.Modules.Core.Controls.CornerIcon;
 using LoadingSpinner = Kenedia.Modules.Core.Controls.LoadingSpinner;
 using Microsoft.Xna.Framework.Graphics;
@@ -38,9 +37,6 @@ using Gw2Sharp.Models;
 using Gw2Sharp.WebApi.V2;
 using Kenedia.Modules.Characters.Controls.SideMenu;
 using Kenedia.Modules.Characters.Res;
-using Kenedia.Modules.Core.Services;
-using System.Diagnostics;
-using Blish_HUD.Controls.Intern;
 
 namespace Kenedia.Modules.Characters
 {
@@ -656,7 +652,7 @@ namespace Kenedia.Modules.Characters
                 Title = "❤",
                 Subtitle = "❤",
                 SavesPosition = true,
-                Id = $"CharactersWindow",
+                Id = $"{Name} MainWindow",
                 CanResize = true,
                 Size = Settings.WindowSize.Value,
                 SettingsWindow = SettingsWindow,

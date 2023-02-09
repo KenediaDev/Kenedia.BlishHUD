@@ -13,6 +13,7 @@ using Kenedia.Modules.Core.Services;
 using Kenedia.Modules.Core.Utility;
 using Kenedia.Modules.ReleaseTheChoya.Models;
 using Kenedia.Modules.ReleaseTheChoya.Res;
+using Kenedia.Modules.ReleaseTheChoya.Services;
 using Kenedia.Modules.ReleaseTheChoya.Views;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -28,7 +29,7 @@ using CornerIcon = Kenedia.Modules.Core.Controls.CornerIcon;
 namespace Kenedia.Modules.ReleaseTheChoya
 {
     [Export(typeof(Module))]
-    public class TestModule : BaseModule<TestModule, StandardWindow, Settings>
+    public class ReleaseTheChoya : BaseModule<ReleaseTheChoya, StandardWindow, Settings>
     {
         private double _lastMoveTick;
         private double _randomTick;
@@ -44,7 +45,7 @@ namespace Kenedia.Modules.ReleaseTheChoya
         private bool _choyaHuntActive = false;
 
         [ImportingConstructor]
-        public TestModule([Import("ModuleParameters")] ModuleParameters moduleParameters) : base(moduleParameters)
+        public ReleaseTheChoya([Import("ModuleParameters")] ModuleParameters moduleParameters) : base(moduleParameters)
         {
             ModuleInstance = this;
             HasGUI = true;

@@ -125,7 +125,7 @@ namespace Kenedia.Modules.Characters.Controls
         }
 
         private void HideIndicator(object sender, EventArgs e)
-        {
+        {            
             Hide();
         }
 

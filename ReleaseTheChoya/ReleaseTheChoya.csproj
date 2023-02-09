@@ -201,7 +201,7 @@
     <Compile Include="Models\Choya.cs" />
     <Compile Include="ReleaseTheChoya.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Models\Settings.cs" />
+    <Compile Include="Services\Settings.cs" />
     <Compile Include="Res\strings.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -303,7 +303,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Controls\" />
-    <Folder Include="Services\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="ref\textures\1.png" />

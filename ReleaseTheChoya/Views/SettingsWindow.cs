@@ -11,6 +11,7 @@ using Container = Blish_HUD.Controls.Container;
 using Kenedia.Modules.Core.Res;
 using Blish_HUD.Settings;
 using Kenedia.Modules.Core.Services;
+using Kenedia.Modules.ReleaseTheChoya.Services;
 
 namespace Kenedia.Modules.ReleaseTheChoya.Views
 {

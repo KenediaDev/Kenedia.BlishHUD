@@ -11,7 +11,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Kenedia.Modules.ReleaseTheChoya.Models
+namespace Kenedia.Modules.ReleaseTheChoya.Services
 {
     public class Settings : BaseSettingsModel
     {

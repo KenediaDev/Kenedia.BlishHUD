@@ -11,6 +11,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.Xna.Framework.Input;
 
 namespace Kenedia.Modules.Characters.Services
 {
@@ -166,18 +167,12 @@ namespace Kenedia.Modules.Characters.Services
                     {
                         _state = SwappingState.CharacterLost;
 
-                        for (int i = 1; i < Math.Min(_characterModels.Count, _settings.CheckDistance.Value); i++)
-                        {
-                            await MoveLeft(cancellationToken, (i * 2) - 1);
-                            await Delay(cancellationToken, 250);
-                            if (await ConfirmName())
-                            {
-                                _state = SwappingState.CharacterFound;
-                                return;
-                            }
+                        await MoveLeft(cancellationToken, Math.Min(_characterModels.Count, _settings.CheckDistance.Value));
 
-                            await MoveRight(cancellationToken, i * 2);
-                            await Delay(cancellationToken, 250);
+                        for (int i = 1; i < Math.Min(_characterModels.Count, _settings.CheckDistance.Value * 2); i++)
+                        {
+                            await MoveRight(cancellationToken, 1);
+                            await Delay(cancellationToken, 75);
                             if (await ConfirmName())
                             {
                                 _state = SwappingState.CharacterFound;
@@ -436,16 +431,16 @@ namespace Kenedia.Modules.Characters.Services
                 }
             }
 
+            if (_settings.OpenInventoryOnEnter.Value)
+            {
+                _ = await _settings.InventoryKey.Value.PerformPress(_settings.KeyDelay.Value, false);
+            }
+
             PlayerCharacter player = GameService.Gw2Mumble.PlayerCharacter;
             if (player != null && player.Name == Character.Name)
             {
                 Character.UpdateCharacter(player);
                 Succeeded?.Invoke(null, null);
-            }
-
-            if (_settings.OpenInventoryOnEnter.Value)
-            {
-                _ = await _settings.InventoryKey.Value.PerformPress(_settings.KeyDelay.Value, false);
             }
 
             return true;

@@ -476,7 +476,7 @@ namespace Kenedia.Modules.Characters.Models
         {
             if (!GameService.Gw2Mumble.CurrentMap.IsPvpMap())
             {
-                Save();
+                Save();                
                 _characterSwapping?.Start(this, ignoreOCR);
             }
             else

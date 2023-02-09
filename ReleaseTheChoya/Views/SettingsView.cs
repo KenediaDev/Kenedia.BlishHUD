@@ -7,8 +7,10 @@ using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.ServiceModel;
 using System.Text;
 using System.Threading.Tasks;
+using Panel = Kenedia.Modules.Core.Controls.Panel;
 
 namespace Kenedia.Modules.ReleaseTheChoya.Views
 {
@@ -36,13 +38,22 @@ namespace Kenedia.Modules.ReleaseTheChoya.Views
                 Parent = buildPanel,
             };
 
+            var p = new Panel()
+            {
+                Parent = buildPanel,
+                Location = new(0, 50),
+                Height = buildPanel.Height - 50,
+                WidthSizingMode = SizingMode.Fill,
+            };
+
             _choya = new()
             {
-                Location = new(0, 50),
-                Width = buildPanel.Width,
-                Height = buildPanel.Height - 50,
-                Parent = buildPanel,
+                Size = new(buildPanel.Height - 75),
+                Parent = p,
                 ChoyaTexture = _texturesService.GetTexture(textures_common.RollingChoya, nameof(textures_common.RollingChoya)),
+                CanMove= true,
+                TravelDistance = new(5, 0),
+                Steps = 360,
             };
 
             _openSettingsButton.Location = new Point(Math.Max((buildPanel.Width / 2) - (_openSettingsButton.Width / 2), 20), (50 - _openSettingsButton.Height) / 2);

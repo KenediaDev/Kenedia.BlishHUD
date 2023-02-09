@@ -1,10 +1,12 @@
 ﻿using Blish_HUD;
+using Gw2Sharp.WebApi;
 using System;
+using System.Diagnostics;
 using System.Runtime.CompilerServices;
 
 namespace Kenedia.Modules.Core.Utility
 {
-    public class Common
+    public static class Common
     {
         public static double Now()
         {
@@ -65,6 +67,21 @@ namespace Kenedia.Modules.Core.Utility
             };
 
             return o.ToString();
+        }
+
+        public static int GetAssetIdFromRenderUrl(this RenderUrl url)
+        {
+            string s = url.ToString();
+            int pos = s.LastIndexOf("/") + 1;
+
+            return int.TryParse(s.Substring(pos, s.Length - pos - 4), out int id) ? id : 0;
+        }
+
+        public static int GetAssetIdFromRenderUrl(string s)
+        {
+            int pos = s.ToString().LastIndexOf("/") + 1;
+
+            return int.TryParse(s.Substring(pos, s.Length - pos - 4), out int id) ? id : 0;
         }
     }
 }
