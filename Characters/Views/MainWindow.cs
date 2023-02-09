@@ -28,6 +28,7 @@ using System.Threading.Tasks;
 using System.Runtime;
 using Kenedia.Modules.Core.Utility;
 using System.Diagnostics;
+using System.Collections;
 
 namespace Kenedia.Modules.Characters.Views
 {
@@ -58,11 +59,12 @@ namespace Kenedia.Modules.Characters.Views
         private Rectangle _emblemRectangle;
         private Rectangle _titleRectangle;
         private BitmapFont _titleFont;
+        private List<Character_Model> loadedModels = new();
 
         public MainWindow(Texture2D background, Rectangle windowRegion, Rectangle contentRegion,
             SettingsModel settings, TextureManager textureManager, ObservableCollection<Character_Model> characterModels,
             SearchFilterCollection searchFilters, SearchFilterCollection tagFilters, Action toggleOCR, Action togglePotrait,
-            Action refreshAPI, string accountImagePath, TagList tags, Func<Character_Model> currentCharacter, Data data, CharacterSorting characterSorting)
+            Action refreshAPI, Func<string> accountImagePath, TagList tags, Func<Character_Model> currentCharacter, Data data, CharacterSorting characterSorting)
             : base(background, windowRegion, contentRegion)
         {
             _settings = settings;
@@ -229,7 +231,6 @@ namespace Kenedia.Modules.Characters.Views
             AttachContainer(CharacterEdit);
             AttachContainer(SideMenu);
 
-            CreateCharacterControls(_characterModels);
             _created = true;
 
             _settings.PinSideMenus.SettingChanged += PinSideMenus_SettingChanged;
@@ -443,9 +444,11 @@ namespace Kenedia.Modules.Characters.Views
 
         public void CreateCharacterControls(IEnumerable<Character_Model> models)
         {
-            foreach (Character_Model c in models)
+            if (SideMenu.Tabs.Count > 1)
             {
-                if (CharacterCards.Find(e => e.Character.Name == c.Name) == null)
+                var newCharacters = models.Except(loadedModels);
+
+                foreach (Character_Model c in newCharacters)
                 {
                     CharacterCards.Add(new CharacterCard(_currentCharacter, _textureManager, _data, this, _settings)
                     {
@@ -454,10 +457,11 @@ namespace Kenedia.Modules.Characters.Views
                         AttachedCards = CharacterCards,
                     });
                 }
-            }
 
-            FilterCharacters();
-            CharacterCards.FirstOrDefault()?.UniformWithAttached();
+                loadedModels = new List<Character_Model>(models);
+                FilterCharacters();
+                CharacterCards.FirstOrDefault()?.UniformWithAttached();
+            }
         }
 
         public void SortCharacters()
@@ -498,13 +502,6 @@ namespace Kenedia.Modules.Characters.Views
             else
             {
                 CharactersPanel.SortChildren<CharacterCard>((a, b) => a.Index.CompareTo(b.Index));
-
-                int i = 0;
-                foreach (CharacterCard c in CharactersPanel.Children.Cast<CharacterCard>())
-                {
-                    c.Index = i;
-                    i++;
-                }
             }
         }
 
@@ -664,37 +661,38 @@ namespace Kenedia.Modules.Characters.Views
 
         private void SetNewIndex(CharacterCard characterControl)
         {
-            characterControl.Index = GetHoveredIndex(characterControl);
-
-            Debug.WriteLine($"NEW INDEX");
-            SortCharacters();
-        }
-
-        private double GetHoveredIndex(CharacterCard characterControl)
-        {
             Blish_HUD.Input.MouseHandler m = Input.Mouse;
-            CharacterCard lastControl = characterControl;
+            var cards = CharactersPanel.Children.Cast<CharacterCard>();
 
-            int i = 0;
-            foreach (CharacterCard c in CharactersPanel.Children.Cast<CharacterCard>())
-            {
-                c.Index = i;
-                i++;
-            }
-
-            foreach (CharacterCard c in CharactersPanel.Children.Cast<CharacterCard>())
+            int newIndex = -1;
+            foreach (CharacterCard c in cards)
             {
                 if (c.AbsoluteBounds.Contains(m.Position))
                 {
-                    return characterControl.Index > c.Index ? c.Index - 0.1 : c.Index + 0.1;
+                    newIndex = c.Index;
+                    break;
                 }
-
-                lastControl = c;
             }
 
-            return lastControl.AbsoluteBounds.Bottom < m.Position.Y || (lastControl.AbsoluteBounds.Top < m.Position.Y && lastControl.AbsoluteBounds.Right < m.Position.X)
-                ? CharacterCards.Count + 1
-                : characterControl.Index;
+            int index = 0;
+            foreach (CharacterCard c in cards)
+            {
+                if (index == newIndex) index++;
+
+                if (c != characterControl)
+                {
+                    c.Character.SetIndex(index);
+                    c.Index = index;
+                }
+
+                index++;
+            }
+
+            if (newIndex > -1)
+            {
+                characterControl.Index = newIndex;
+                SortCharacters();
+            }
         }
     }
 }

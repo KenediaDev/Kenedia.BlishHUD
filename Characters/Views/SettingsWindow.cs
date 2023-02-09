@@ -540,7 +540,7 @@ namespace Kenedia.Modules.Characters.Views
                 CanCollapse = true,
                 SetLocalizedTitle = () => strings.ModuleBehavior,
                 SetLocalizedTitleTooltip = () => strings.ModuleBehavior_Tooltip,
-                TitleIcon = AsyncTexture2D.FromAssetId(157094),
+                TitleIcon = AsyncTexture2D.FromAssetId(60968),
             };
 
             var cP = new FlowPanel()

@@ -952,4 +952,10 @@ Log in automatically?
   <data name="TimeSinceLogin" xml:space="preserve">
     <value>Time since login</value>
   </data>
+  <data name="SetSpecializationIcon" xml:space="preserve">
+    <value>Use the specialization/profession icon as icon (default)</value>
+  </data>
+  <data name="CustomIndex" xml:space="preserve">
+    <value>Custom Index</value>
+  </data>
 </root>

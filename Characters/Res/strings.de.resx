@@ -954,4 +954,10 @@ Sich automatisch anmelden?
   <data name="TimeSinceLogin" xml:space="preserve">
     <value>Zeit seit Anmeldung</value>
   </data>
+  <data name="SetSpecializationIcon" xml:space="preserve">
+    <value>Das Spezialisierungs-/Berufssymbol als Symbol verwenden (Standard)</value>
+  </data>
+  <data name="CustomIndex" xml:space="preserve">
+    <value>Benutzerdefinierter Index</value>
+  </data>
 </root>

@@ -14,6 +14,8 @@ namespace Kenedia.Modules.Core.Views
         {
         }
 
+        public bool IsActive => ActiveWindow == this;
+
         public override void UpdateContainer(GameTime gameTime)
         {
             base.UpdateContainer(gameTime);

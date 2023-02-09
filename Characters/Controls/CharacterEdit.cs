@@ -46,15 +46,15 @@ namespace Kenedia.Modules.Characters.Controls
         private readonly Button _openFolder;
         private readonly Panel _imagePanelParent;
         private readonly FlowPanel _imagePanel;
-        private readonly string _accountPath;
         private readonly TagList _allTags;
         private readonly SettingsModel _settings;
         private readonly Action _refreshCharacters;
         private Character_Model _character;
+        private ImageButton _noImgButton;
 
-        public CharacterEdit(TextureManager tM, Action togglePotrait, string accountPath, TagList allTags, SettingsModel settings, Action refreshCharacters)
+        public CharacterEdit(TextureManager tM, Action togglePotrait, Func<string> accountPath, TagList allTags, SettingsModel settings, Action refreshCharacters)
         {
-            _accountPath = accountPath;
+            AccountImagePath = accountPath;
             _allTags = allTags;
             _settings = settings;
             _refreshCharacters = refreshCharacters;
@@ -184,11 +184,15 @@ namespace Kenedia.Modules.Characters.Controls
                 ResizeIcon = true,
                 ClickAction = () =>
                 {
-                    _ = Process.Start(new ProcessStartInfo()
+                    string p = AccountImagePath?.Invoke();
+                    if (!string.IsNullOrEmpty(p))
                     {
-                        Arguments = _accountPath,
-                        FileName = "explorer.exe",
-                    });
+                        _ = Process.Start(new ProcessStartInfo()
+                        {
+                            Arguments = p,
+                            FileName = "explorer.exe",
+                        });
+                    }
                 },
             };
 
@@ -269,6 +273,8 @@ namespace Kenedia.Modules.Characters.Controls
             };
         }
 
+        public Func<string> AccountImagePath { get; set; }
+
         public Character_Model Character
         {
             get => _character; set
@@ -333,67 +339,72 @@ namespace Kenedia.Modules.Characters.Controls
 
         public void LoadImages(object sender, EventArgs e)
         {
-            string path = _accountPath;
-            List<string> images = new(Directory.GetFiles(path, "*.png", SearchOption.AllDirectories));
+            string path = AccountImagePath?.Invoke();
 
-            PanelSizes pSize = _settings.PanelSize.Value;
-            int imageSize = 80;
-
-            int maxHeight = GameService.Graphics.SpriteScreen.Height / 2;
-            int width = (int)Math.Min(710, Math.Min(GameService.Graphics.SpriteScreen.Height / 2, (_imagePanel.OuterControlPadding.Y * 2) + ((images.Count + 1) * (imageSize + _imagePanel.ControlPadding.X))));
-            int height = (int)Math.Min(maxHeight, (_imagePanel.OuterControlPadding.Y * 2) + ((images.Count + 1) / Math.Floor((double)width / imageSize) * (imageSize + _imagePanel.ControlPadding.Y)));
-
-            _imagePanel.Children.Clear();
-
-            GameService.Graphics.QueueMainThreadRender((graphicsDevice) =>
+            if (!string.IsNullOrEmpty(path))
             {
-                AsyncTexture2D noImgTexture = null;
+                List<string> images = new(Directory.GetFiles(path, "*.png", SearchOption.AllDirectories));
 
-                if (Visible && Character != null)
+                PanelSizes pSize = _settings.PanelSize.Value;
+                int imageSize = 80;
+
+                int maxHeight = GameService.Graphics.SpriteScreen.Height / 2;
+                int width = (int)Math.Min(710, Math.Min(GameService.Graphics.SpriteScreen.Height / 2, (_imagePanel.OuterControlPadding.Y * 2) + ((images.Count + 1) * (imageSize + _imagePanel.ControlPadding.X))));
+                int height = (int)Math.Min(maxHeight, (_imagePanel.OuterControlPadding.Y * 2) + ((images.Count + 1) / Math.Floor((double)width / imageSize) * (imageSize + _imagePanel.ControlPadding.Y)));
+
+                _imagePanel.Children.Clear();
+
+                GameService.Graphics.QueueMainThreadRender((graphicsDevice) =>
                 {
-                    noImgTexture = Character.SpecializationIcon;
+                    AsyncTexture2D noImgTexture = null;
 
-                    _ = new ImageButton()
+                    if (Visible && Character != null)
                     {
-                        Parent = _imagePanel,
-                        Size = new(imageSize),
-                        Texture = noImgTexture,
-                        ClickAction = (m) =>
-                        {
-                            Character.IconPath = null;
-                            Character.Icon = null;
-                            ApplyCharacter();
-                        },
-                    };
+                        noImgTexture = Character.SpecializationIcon;
 
-                    foreach (string p in images)
-                    {
-                        AsyncTexture2D texture = TextureUtil.FromStreamPremultiplied(graphicsDevice, new FileStream(p, FileMode.Open, FileAccess.Read, FileShare.ReadWrite));
-
-                        ImageButton img = new()
+                        _noImgButton = new ImageButton()
                         {
                             Parent = _imagePanel,
                             Size = new(imageSize),
-                            Texture = texture,
+                            Texture = noImgTexture,
+                            SetLocalizedTooltip = () => strings.SetSpecializationIcon,
                             ClickAction = (m) =>
                             {
-                                Character.IconPath = p.Replace(Character.ModulePath, string.Empty);
-                                Character.Icon = texture;
+                                Character.IconPath = null;
+                                Character.Icon = null;
                                 ApplyCharacter();
-                            }
+                            },
                         };
+
+                        foreach (string p in images)
+                        {
+                            AsyncTexture2D texture = TextureUtil.FromStreamPremultiplied(graphicsDevice, new FileStream(p, FileMode.Open, FileAccess.Read, FileShare.ReadWrite));
+
+                            ImageButton img = new()
+                            {
+                                Parent = _imagePanel,
+                                Size = new(imageSize),
+                                Texture = texture,
+                                ClickAction = (m) =>
+                                {
+                                    Character.IconPath = p.Replace(Character.ModulePath, string.Empty);
+                                    Character.Icon = texture;
+                                    ApplyCharacter();
+                                }
+                            };
+                        }
+
+                        _imagePanel.Width = width;
+                        _imagePanel.Height = height;
+                        _imagePanel.Invalidate();
+
+                        _imagePanelParent.Width = width;
+                        _imagePanelParent.Height = height;
+
+                        _closeButton.Location = _imagePanelParent.Right > 355 ? new(_imagePanelParent.Right - _closeButton.Size.X, AutoSizePadding.Y) : new(355 - _closeButton.Size.X, AutoSizePadding.Y);
                     }
-
-                    _imagePanel.Width = width;
-                    _imagePanel.Height = height;
-                    _imagePanel.Invalidate();
-
-                    _imagePanelParent.Width = width;
-                    _imagePanelParent.Height = height;
-
-                    _closeButton.Location = _imagePanelParent.Right > 355 ? new(_imagePanelParent.Right - _closeButton.Size.X, AutoSizePadding.Y) : new(355 - _closeButton.Size.X, AutoSizePadding.Y);
-                }
-            });
+                });
+            }
         }
 
         protected override void DisposeControl()
@@ -438,6 +449,11 @@ namespace Kenedia.Modules.Characters.Controls
                 foreach (Tag t in _tags)
                 {
                     t.SetActive(_character.Tags.Contains(t.Text));
+                }
+
+                if (_noImgButton != null)
+                {
+                    _noImgButton.Texture = Character.SpecializationIcon;
                 }
             }
         }

@@ -28,6 +28,7 @@ using Rectangle = Microsoft.Xna.Framework.Rectangle;
 using System.Diagnostics;
 using System.Xml.Linq;
 using System.Collections;
+using System.Drawing;
 
 namespace Kenedia.Modules.Characters.Controls
 {
@@ -37,8 +38,8 @@ namespace Kenedia.Modules.Characters.Controls
         private bool _updateCharacter = false;
 
         private readonly AsyncTexture2D _iconFrame = AsyncTexture2D.FromAssetId(1414041);
-        private readonly AsyncTexture2D _loginTexture = AsyncTexture2D.FromAssetId(157092);
-        private readonly AsyncTexture2D _loginTextureHovered = AsyncTexture2D.FromAssetId(157094);
+        private readonly AsyncTexture2D _loginTexture = AsyncTexture2D.FromAssetId(60968); //157092
+        private readonly AsyncTexture2D _loginTextureHovered = AsyncTexture2D.FromAssetId(60968); //157094
         private readonly AsyncTexture2D _cogTexture = AsyncTexture2D.FromAssetId(157109);
         private readonly AsyncTexture2D _cogTextureHovered = AsyncTexture2D.FromAssetId(157111);
         private readonly AsyncTexture2D _presentTexture = AsyncTexture2D.FromAssetId(593864);
@@ -51,6 +52,7 @@ namespace Kenedia.Modules.Characters.Controls
         private readonly IconLabel _genderLabel;
         private readonly IconLabel _mapLabel;
         private readonly IconLabel _lastLoginLabel;
+        private readonly IconLabel _customIndex;
         private readonly TagFlowPanel _tagPanel;
 
         private readonly CraftingControl _craftingControl;
@@ -112,6 +114,16 @@ namespace Kenedia.Modules.Characters.Controls
                 Parent = _contentPanel,
                 AutoSizeWidth = true,
                 AutoSizeHeight = true,
+                TextColor = Colors.ColonialWhite,
+            };
+
+            _customIndex = new IconLabel()
+            {
+                Parent = _contentPanel,
+                AutoSizeWidth = true,
+                AutoSizeHeight = true,
+                TextureRectangle = new Rectangle(2, 2, 28, 28),
+                Icon = AsyncTexture2D.FromAssetId(156909),
             };
 
             _levelLabel = new IconLabel()
@@ -119,13 +131,18 @@ namespace Kenedia.Modules.Characters.Controls
                 Parent = _contentPanel,
                 AutoSizeWidth = true,
                 AutoSizeHeight = true,
+                Icon = AsyncTexture2D.FromAssetId(157085),
+                TextureRectangle = new Rectangle(2, 2, 28, 28),
             };
+
             _genderLabel = new IconLabel()
             {
                 Parent = _contentPanel,
                 AutoSizeWidth = true,
                 AutoSizeHeight = true,
+                Icon = _textureManager.GetIcon(TextureManager.Icons.Gender),
             };
+
             _raceLabel = new IconLabel()
             {
                 Parent = _contentPanel,
@@ -143,6 +160,8 @@ namespace Kenedia.Modules.Characters.Controls
                 Parent = _contentPanel,
                 AutoSizeWidth = true,
                 AutoSizeHeight = true,
+                Icon = AsyncTexture2D.FromAssetId(358406),
+                TextureRectangle = new Rectangle(2, 2, 28, 28),
             };
 
             _craftingControl = new CraftingControl(data, _settings)
@@ -158,6 +177,8 @@ namespace Kenedia.Modules.Characters.Controls
                 Parent = _contentPanel,
                 AutoSizeWidth = true,
                 AutoSizeHeight = true,
+                Icon = AsyncTexture2D.FromAssetId(155035),
+                TextureRectangle = new Rectangle(10, 10, 44, 44),
             };
 
             _tagPanel = new()
@@ -173,6 +194,7 @@ namespace Kenedia.Modules.Characters.Controls
             _dataControls = new()
             {
                 _nameLabel,
+                _customIndex,
                 _levelLabel,
                 _genderLabel,
                 _raceLabel,
@@ -216,14 +238,14 @@ namespace Kenedia.Modules.Characters.Controls
 
         public BitmapFont Font { get; set; } = GameService.Content.DefaultFont14;
 
-        public double Index
+        public int Index
         {
             get => Character != null ? Character.Index : 0;
             set
             {
                 if (Character != null)
                 {
-                    Character.Index = (int)value;
+                    Character.Index = value;
                 }
             }
         }
@@ -434,6 +456,7 @@ namespace Kenedia.Modules.Characters.Controls
             if (MouseOver)
             {
                 _textTooltip.Visible = false;
+                bool loginHovered = _loginRect.Contains(RelativeMousePosition);
 
                 if (_settings.PanelLayout.Value != CharacterPanelLayout.OnlyText)
                 {
@@ -447,14 +470,14 @@ namespace Kenedia.Modules.Characters.Controls
                         default);
 
                     _textTooltip.Text = Character.HasBirthdayPresent ? string.Format(strings.Birthday_Text, Character.Name, Character.Age) : string.Format(strings.LoginWith, Character.Name);
-                    _textTooltip.Visible = _loginRect.Contains(RelativeMousePosition);
+                    _textTooltip.Visible = loginHovered;
 
                     spriteBatch.DrawOnCtrl(
                         this,
-                        Character.HasBirthdayPresent ? _loginRect.Contains(RelativeMousePosition) ? _presentTextureOpen : _presentTexture : _loginRect.Contains(RelativeMousePosition) ? _loginTextureHovered : _loginTexture,
+                        Character.HasBirthdayPresent ? loginHovered ? _presentTextureOpen : _presentTexture : loginHovered ? _loginTextureHovered : _loginTexture,
                         _loginRect,
                         _loginTexture.Bounds,
-                        Color.White,
+                        loginHovered ? Color.White : new Color(215, 215, 215),
                         0f,
                         default);
                 }
@@ -470,14 +493,14 @@ namespace Kenedia.Modules.Characters.Controls
                         default);
 
                     _textTooltip.Text = Character.HasBirthdayPresent ? string.Format(strings.Birthday_Text, Character.Name, Character.Age) : string.Format(strings.LoginWith, Character.Name);
-                    _textTooltip.Visible = _loginRect.Contains(RelativeMousePosition);
+                    _textTooltip.Visible = loginHovered;
 
                     spriteBatch.DrawOnCtrl(
                         this,
-                        Character.HasBirthdayPresent ? _loginRect.Contains(RelativeMousePosition) ? _presentTextureOpen : _presentTexture : _loginRect.Contains(RelativeMousePosition) ? _loginTextureHovered : _loginTexture,
+                        Character.HasBirthdayPresent ? loginHovered ? _presentTextureOpen : _presentTexture : loginHovered ? _loginTextureHovered : _loginTexture,
                         _loginRect,
                         _loginTexture.Bounds,
-                        Color.White,
+                        loginHovered ? Color.White : new Color(200, 200, 200),
                         0f,
                         default);
                 }
@@ -495,24 +518,6 @@ namespace Kenedia.Modules.Characters.Controls
                     _textTooltip.Text = string.Format(strings.AdjustSettings, Character.Name);
                     _textTooltip.Visible = true;
                 }
-
-                Color color = Colors.ColonialWhite;
-
-                // Top
-                spriteBatch.DrawOnCtrl(this, Textures.Pixel, new Rectangle(bounds.Left, bounds.Top, bounds.Width, 2), Rectangle.Empty, color * 0.5f);
-                spriteBatch.DrawOnCtrl(this, Textures.Pixel, new Rectangle(bounds.Left, bounds.Top, bounds.Width, 1), Rectangle.Empty, color * 0.6f);
-
-                // Bottom
-                spriteBatch.DrawOnCtrl(this, Textures.Pixel, new Rectangle(bounds.Left, bounds.Bottom - 2, bounds.Width, 2), Rectangle.Empty, color * 0.5f);
-                spriteBatch.DrawOnCtrl(this, Textures.Pixel, new Rectangle(bounds.Left, bounds.Bottom - 1, bounds.Width, 1), Rectangle.Empty, color * 0.6f);
-
-                // Left
-                spriteBatch.DrawOnCtrl(this, Textures.Pixel, new Rectangle(bounds.Left, bounds.Top, 2, bounds.Height), Rectangle.Empty, color * 0.5f);
-                spriteBatch.DrawOnCtrl(this, Textures.Pixel, new Rectangle(bounds.Left, bounds.Top, 1, bounds.Height), Rectangle.Empty, color * 0.6f);
-
-                // Right
-                spriteBatch.DrawOnCtrl(this, Textures.Pixel, new Rectangle(bounds.Right - 2, bounds.Top, 2, bounds.Height), Rectangle.Empty, color * 0.5f);
-                spriteBatch.DrawOnCtrl(this, Textures.Pixel, new Rectangle(bounds.Right - 1, bounds.Top, 1, bounds.Height), Rectangle.Empty, color * 0.6f);
             }
 
             if (!MouseOver && Character != null && Character.HasBirthdayPresent)
@@ -557,6 +562,27 @@ namespace Kenedia.Modules.Characters.Controls
                         0f,
                         default);
                 }
+            }
+
+            if ((_mainWindow != null && bounds.Contains(RelativeMousePosition) && _mainWindow.DraggingControl.CharacterControl != null) || MouseOver)
+            {
+                Color color = Colors.ColonialWhite;
+
+                // Top
+                spriteBatch.DrawOnCtrl(this, Textures.Pixel, new Rectangle(bounds.Left, bounds.Top, bounds.Width, 2), Rectangle.Empty, color * 0.5f);
+                spriteBatch.DrawOnCtrl(this, Textures.Pixel, new Rectangle(bounds.Left, bounds.Top, bounds.Width, 1), Rectangle.Empty, color * 0.6f);
+
+                // Bottom
+                spriteBatch.DrawOnCtrl(this, Textures.Pixel, new Rectangle(bounds.Left, bounds.Bottom - 2, bounds.Width, 2), Rectangle.Empty, color * 0.5f);
+                spriteBatch.DrawOnCtrl(this, Textures.Pixel, new Rectangle(bounds.Left, bounds.Bottom - 1, bounds.Width, 1), Rectangle.Empty, color * 0.6f);
+
+                // Left
+                spriteBatch.DrawOnCtrl(this, Textures.Pixel, new Rectangle(bounds.Left, bounds.Top, 2, bounds.Height), Rectangle.Empty, color * 0.5f);
+                spriteBatch.DrawOnCtrl(this, Textures.Pixel, new Rectangle(bounds.Left, bounds.Top, 1, bounds.Height), Rectangle.Empty, color * 0.6f);
+
+                // Right
+                spriteBatch.DrawOnCtrl(this, Textures.Pixel, new Rectangle(bounds.Right - 2, bounds.Top, 2, bounds.Height), Rectangle.Empty, color * 0.5f);
+                spriteBatch.DrawOnCtrl(this, Textures.Pixel, new Rectangle(bounds.Right - 1, bounds.Top, 1, bounds.Height), Rectangle.Empty, color * 0.6f);
             }
         }
 
@@ -645,6 +671,7 @@ namespace Kenedia.Modules.Characters.Controls
         protected override void OnLeftMouseButtonPressed(MouseEventArgs e)
         {
             base.OnLeftMouseButtonPressed(e);
+
             if (Keyboard.GetState().IsKeyDown(Keys.LeftControl))
             {
                 _mainWindow.DraggingControl.CharacterControl = this;
@@ -743,7 +770,7 @@ namespace Kenedia.Modules.Characters.Controls
                     break;
             }
 
-            return GameService.Content.GetFont(FontFace.Menomonia, fontSize, FontStyle.Regular);
+            return GameService.Content.GetFont(FontFace.Menomonia, fontSize, ContentService.FontStyle.Regular);
         }
 
         private void TextTooltip_Shown(object sender, EventArgs e)
@@ -764,11 +791,8 @@ namespace Kenedia.Modules.Characters.Controls
         private void UpdateCharacterInfo()
         {
             _nameLabel.Text = Character.Name;
-            _nameLabel.TextColor = new Color(168 + 15 + 25, 143 + 20 + 25, 102 + 15 + 25, 255);
 
             _levelLabel.Text = string.Format(strings.LevelAmount, Character.Level);
-            _levelLabel.TextureRectangle = new Rectangle(2, 2, 28, 28);
-            _levelLabel.Icon = AsyncTexture2D.FromAssetId(157085);
 
             _professionLabel.Icon = Character.SpecializationIcon;
             _professionLabel.Text = Character.SpecializationName;
@@ -779,19 +803,16 @@ namespace Kenedia.Modules.Characters.Controls
             }
 
             _genderLabel.Text = Character.Gender.ToString();
-            _genderLabel.Icon = _textureManager.GetIcon(TextureManager.Icons.Gender);
 
             _raceLabel.Text = _data.Races[Character.Race].Name;
             _raceLabel.Icon = _data.Races[Character.Race].Icon;
 
             _mapLabel.Text = _data.GetMapById(Character.Map).Name;
-            _mapLabel.TextureRectangle = new Rectangle(2, 2, 28, 28);
-            _mapLabel.Icon = AsyncTexture2D.FromAssetId(358406); // 358406 //517180 //157122;
 
             //_lastLoginLabel.Icon = AsyncTexture2D.FromAssetId(841721);
-            _lastLoginLabel.Icon = AsyncTexture2D.FromAssetId(155035);
-            _lastLoginLabel.TextureRectangle = new Rectangle(10, 10, 44, 44);
             _lastLoginLabel.Text = string.Format("{1} {0} {2:00}:{3:00}:{4:00}", strings.Days, 0, 0, 0, 0);
+
+            _customIndex.Text = string.Format(strings.CustomIndex + " {0}", Character.Index);
 
             var tagLlist = _tags.Select(e => e.Text);
             var characterTags = Character.Tags.ToList();
@@ -873,6 +894,9 @@ namespace Kenedia.Modules.Characters.Controls
 
             _craftingControl.Visible = _settings.DisplayToggles.Value["CraftingProfession"].Show;
             _craftingControl.Font = Font;
+
+            _customIndex.Visible = _settings.DisplayToggles.Value["CustomIndex"].Show;
+            _customIndex.Font = Font;
 
             _tagPanel.Visible = _settings.DisplayToggles.Value["Tags"].Show && Character.Tags.Count > 0;
             _tagPanel.Font = Font;

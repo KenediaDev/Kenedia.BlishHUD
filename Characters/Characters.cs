@@ -645,7 +645,7 @@ namespace Kenedia.Modules.Characters
             OCR.ToggleContainer,
             () => PotraitCapture.ToggleVisibility(),
             async () => await GW2APIHandler.CheckAPI(),
-            AccountImagesPath,
+            () => AccountImagesPath,
             Tags,
             () => CurrentCharacterModel,
             Data,
@@ -675,6 +675,7 @@ namespace Kenedia.Modules.Characters
             });
             MainWindow.SideMenu.TogglesTab = _toggles;
             _ = MainWindow.SideMenu.SwitchTab(_toggles);
+            MainWindow?.CreateCharacterControls(CharacterModels);
 
             PotraitCapture.OnImageCaptured = () => MainWindow.CharacterEdit.LoadImages(null, null);
 

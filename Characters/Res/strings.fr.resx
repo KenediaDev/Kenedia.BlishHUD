@@ -952,4 +952,10 @@ Se connecter automatiquement ?
   <data name="TimeSinceLogin" xml:space="preserve">
     <value>Temps depuis la connexion</value>
   </data>
+  <data name="SetSpecializationIcon" xml:space="preserve">
+    <value>Utiliser l'icône de la spécialisation/profession comme icône (par défaut)</value>
+  </data>
+  <data name="CustomIndex" xml:space="preserve">
+    <value>Index personnalisé</value>
+  </data>
 </root>

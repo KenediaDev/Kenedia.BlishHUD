@@ -301,7 +301,7 @@ namespace Kenedia.Modules.Characters.Models
             set
             {
                 _index = value;
-                Save();
+                OnUpdated();
             }
         }
 
@@ -523,6 +523,11 @@ namespace Kenedia.Modules.Characters.Models
                     Crafting.Add(craft);
                 }
             }
+        }
+
+        public void SetIndex(int index)
+        {
+            _index = index;
         }
 
         private void OnUpdated(bool save = true)

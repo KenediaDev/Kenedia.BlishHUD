@@ -952,4 +952,10 @@ Uu : Üü Ûû Ùù</value>
   <data name="TimeSinceLogin" xml:space="preserve">
     <value>Tiempo transcurrido desde el inicio de sesión</value>
   </data>
+  <data name="SetSpecializationIcon" xml:space="preserve">
+    <value>Utilizar el icono de especialización/profesión como icono (por defecto)</value>
+  </data>
+  <data name="CustomIndex" xml:space="preserve">
+    <value>Índice personalizado</value>
+  </data>
 </root>

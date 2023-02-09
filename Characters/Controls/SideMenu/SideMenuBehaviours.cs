@@ -11,6 +11,7 @@ using System.Collections.Generic;
 using System.Resources;
 using Dropdown = Kenedia.Modules.Core.Controls.Dropdown;
 using Panel = Kenedia.Modules.Core.Controls.Panel;
+using System.Diagnostics;
 
 namespace Kenedia.Modules.Characters.Controls.SideMenu
 {
@@ -27,6 +28,7 @@ namespace Kenedia.Modules.Characters.Controls.SideMenu
             new( "Map", null),
             new( "CraftingProfession", null),
             new( "OnlyMaxCrafting", null),
+            new( "CustomIndex", null),
             new( "Tags", null),
         };
         private readonly Panel _separator;
@@ -173,6 +175,7 @@ namespace Kenedia.Modules.Characters.Controls.SideMenu
 
             foreach (KeyValuePair<string, DisplayCheckToggle> t in _toggles)
             {
+                Debug.WriteLine($"ADDING {_resourceManager.GetString(t.Key)}");
                 t.Value.Text = _resourceManager.GetString(t.Key);
                 t.Value.DisplayTooltip = string.Format(_resourceManager.GetString("ShowItem"), _resourceManager.GetString(t.Key));
                 t.Value.CheckTooltip = string.Format(_resourceManager.GetString("CheckItem"), _resourceManager.GetString(t.Key));

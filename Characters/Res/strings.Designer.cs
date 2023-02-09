@@ -566,6 +566,15 @@ namespace Kenedia.Modules.Characters.Res {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Custom Index.
+        /// </summary>
+        internal static string CustomIndex {
+            get {
+                return ResourceManager.GetString("CustomIndex", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Custom Tags.
         /// </summary>
         internal static string CustomTags {
@@ -1947,6 +1956,15 @@ namespace Kenedia.Modules.Characters.Res {
         internal static string SelectImage {
             get {
                 return ResourceManager.GetString("SelectImage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Use the specialization/profession icon as icon (default).
+        /// </summary>
+        internal static string SetSpecializationIcon {
+            get {
+                return ResourceManager.GetString("SetSpecializationIcon", resourceCulture);
             }
         }
         
