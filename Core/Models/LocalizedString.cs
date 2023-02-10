@@ -11,7 +11,10 @@ namespace Kenedia.Modules.Core.Models
         {
             foreach(Locale locale in Enum.GetValues(typeof(Locale)))
             {
-                Add(locale, null);
+                if (locale is not Locale.Korean and not Locale.Chinese)
+                {
+                    Add(locale, null);
+                }
             }
         }
 

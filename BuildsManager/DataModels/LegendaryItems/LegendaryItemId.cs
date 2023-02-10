@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Kenedia.Modules.BuildsManager.DataModels
+namespace Kenedia.Modules.BuildsManager.DataModels.LegendaryItems
 {
     public enum LegendaryItemId
     {

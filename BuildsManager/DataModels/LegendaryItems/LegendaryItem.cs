@@ -9,7 +9,7 @@ using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Kenedia.Modules.BuildsManager.DataModels
+namespace Kenedia.Modules.BuildsManager.DataModels.LegendaryItems
 {
     [DataContract]
     public class LegendaryUpgrade : LegendaryItem
@@ -50,13 +50,13 @@ namespace Kenedia.Modules.BuildsManager.DataModels
         [DataMember]
         public int AssetId { get; protected set; }
 
-        [DataMember]
         public string Name
         {
             get => Names.Text;
             set => Names.Text = value;
         }
 
+        [DataMember]
         public LocalizedString Names { get; protected set; } = new();
 
         [DataMember]

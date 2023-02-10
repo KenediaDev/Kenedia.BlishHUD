@@ -178,6 +178,8 @@ namespace Kenedia.Modules.Characters.Controls
             {
                 Location = Input.Mouse.Position.Add(new Point(-_draggingStart.X, -_draggingStart.Y));
             }
+
+            ForceOnScreen();
         }
 
         protected override void DisposeControl()
@@ -323,6 +325,8 @@ namespace Kenedia.Modules.Characters.Controls
             {
                 frame.Show();
             }
+
+            ForceOnScreen();
         }
 
         protected override void OnHidden(EventArgs e)
@@ -333,6 +337,30 @@ namespace Kenedia.Modules.Characters.Controls
             foreach (var frame in _characterPotraitFrames)
             {
                 frame.Hide();
+            }
+        }
+
+        private void ForceOnScreen()
+        {
+            var screen = Graphics.SpriteScreen;
+            if (Bottom > screen.Bottom)
+            {
+                Bottom = screen.Bottom;
+            }
+
+            if (Top < screen.Top + Height)
+            {
+                Top = screen.Top + Height;
+            }
+
+            if (Left < screen.Left)
+            {
+                Left = screen.Left;
+            }
+
+            if (Right > screen.Right)
+            {
+                Left = screen.Right - Width;
             }
         }
     }

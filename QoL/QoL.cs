@@ -15,12 +15,8 @@ namespace Kenedia.Modules.QoL
     {
         private double _tick;
 
-        /// <summary>
-        /// ToDo
-        /// - aerodome waypoint paste
-        /// - bigger Crosshair
-        /// </summary>
-        /// <param name="moduleParameters"></param>
+        // TODO add aerodome waypoint paste
+        // TODO bigger Crosshair
 
         [ImportingConstructor]
         public QoL([Import("ModuleParameters")] ModuleParameters moduleParameters) : base(moduleParameters)

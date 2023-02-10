@@ -1,6 +1,6 @@
 ﻿using Blish_HUD;
 using Blish_HUD.Modules.Managers;
-using Kenedia.Modules.BuildsManager.DataModels;
+using Kenedia.Modules.BuildsManager.DataModels.LegendaryItems;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;

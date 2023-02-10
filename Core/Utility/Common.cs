@@ -69,6 +69,16 @@ namespace Kenedia.Modules.Core.Utility
             return o.ToString();
         }
 
+        public static int GetAssetIdFromRenderUrl(this RenderUrl? url)
+        {
+            if (url == null) return 0;
+
+            string s = url.ToString();
+            int pos = s.LastIndexOf("/") + 1;
+
+            return int.TryParse(s.Substring(pos, s.Length - pos - 4), out int id) ? id : 0;
+        }
+
         public static int GetAssetIdFromRenderUrl(this RenderUrl url)
         {
             string s = url.ToString();

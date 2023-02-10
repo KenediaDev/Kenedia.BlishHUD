@@ -1,4 +1,4 @@
-﻿namespace Kenedia.Modules.BuildsManager.DataModels
+﻿namespace Kenedia.Modules.BuildsManager.DataModels.LegendaryItems
 {
     public enum LegendaryItemType
     {

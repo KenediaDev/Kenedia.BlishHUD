@@ -76,6 +76,7 @@ namespace Kenedia.Modules.BuildsManager
         protected override void ReloadKey_Activated(object sender, EventArgs e)
         {
             base.ReloadKey_Activated(sender, e);
+            GW2API.GetAllDataAllLocales();
         }
 
         protected override void LoadGUI()

@@ -2,7 +2,7 @@
 using Kenedia.Modules.Core.Utility;
 using System.Runtime.Serialization;
 
-namespace Kenedia.Modules.BuildsManager.DataModels
+namespace Kenedia.Modules.BuildsManager.DataModels.LegendaryItems
 {
     [DataContract]
     public class LegendaryTrinket : LegendaryItem
