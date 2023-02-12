@@ -73,8 +73,6 @@ namespace Kenedia.Modules.Characters
 
         public RunIndicator RunIndicator { get; private set; }
 
-        public SettingsWindow SettingsWindow { get; private set; }
-
         public RadialMenu RadialMenu { get; private set; }
 
         public PotraitCapture PotraitCapture { get; private set; }
@@ -308,7 +306,7 @@ namespace Kenedia.Modules.Characters
 
             var settingsBg = AsyncTexture2D.FromAssetId(155997);
             Texture2D cutSettingsBg = settingsBg.Texture.GetRegion(0, 0, settingsBg.Width - 482, settingsBg.Height - 390);
-            SettingsWindow = new(
+            SettingsWindow = new SettingsWindow(
                 settingsBg,
                 new Rectangle(30, 30, cutSettingsBg.Width + 10, cutSettingsBg.Height),
                 new Rectangle(30, 35, cutSettingsBg.Width - 5, cutSettingsBg.Height - 15),
@@ -320,7 +318,7 @@ namespace Kenedia.Modules.Characters
                 Title = "❤",
                 Subtitle = "❤",
                 SavesPosition = true,
-                Id = $"CharactersSettingsWindow",
+                Id = $"{Name} SettingsWindow",
                 Version = ModuleVersion,
             };
 
@@ -352,7 +350,7 @@ namespace Kenedia.Modules.Characters
                 Id = $"{Name} MainWindow",
                 CanResize = true,
                 Size = Settings.WindowSize.Value,
-                SettingsWindow = SettingsWindow,
+                SettingsWindow = (SettingsWindow)SettingsWindow,
                 Version = ModuleVersion,
             };
 

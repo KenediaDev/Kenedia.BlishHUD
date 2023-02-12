@@ -19,22 +19,13 @@ using FlowPanel = Kenedia.Modules.Core.Controls.FlowPanel;
 using KeybindingAssigner = Kenedia.Modules.Core.Controls.KeybindingAssigner;
 using Label = Kenedia.Modules.Core.Controls.Label;
 using Panel = Kenedia.Modules.Core.Controls.Panel;
-using StandardWindow = Kenedia.Modules.Core.Views.StandardWindow;
 using TextBox = Kenedia.Modules.Core.Controls.TextBox;
 using TrackBar = Kenedia.Modules.Core.Controls.TrackBar;
 
 namespace Kenedia.Modules.Characters.Views
 {
-    public class SettingsWindow : StandardWindow
+    public class SettingsWindow : BaseSettingsWindow
     {
-        private readonly AsyncTexture2D _subWindowEmblem = AsyncTexture2D.FromAssetId(156027);
-        private readonly AsyncTexture2D _mainWindowEmblem = AsyncTexture2D.FromAssetId(156015);
-        private readonly BitmapFont _titleFont = GameService.Content.DefaultFont32;
-
-        private Rectangle _mainEmblemRectangle;
-        private Rectangle _subEmblemRectangle;
-        private Rectangle _titleRectangle;
-
         private Label _customFontSizeLabel;
         private Dropdown _customFontSize;
 
@@ -60,6 +51,10 @@ namespace Kenedia.Modules.Characters.Views
                 ControlPadding = new(0, 10),
                 CanScroll = true,
             };
+
+            SubWindowEmblem = AsyncTexture2D.FromAssetId(156027);
+            MainWindowEmblem = AsyncTexture2D.FromAssetId(156015);
+            Name = string.Format(strings.ItemSettings, $"{Characters.ModuleName}");
 
             CreateOCR();
             CreateAppearance();
@@ -329,8 +324,6 @@ namespace Kenedia.Modules.Characters.Views
                 }
             };
         }
-
-        public SemVer.Version Version { get; set; }
 
         private void CreateOCR()
         {
@@ -708,7 +701,7 @@ namespace Kenedia.Modules.Characters.Views
                 SetLocalizedText = () => strings.ShowRandomButton_Name,
                 SetLocalizedTooltip = () => strings.ShowRandomButton_Tooltip,
                 CheckedChangedAction = (b) => _settings.ShowRandomButton.Value = b,
-            };            
+            };
 
             _ = new Checkbox()
             {
@@ -1101,66 +1094,7 @@ namespace Kenedia.Modules.Characters.Views
 
         public void OnLanguageChanged(object s = null, EventArgs e = null)
         {
-        }
-
-        public override void RecalculateLayout()
-        {
-            base.RecalculateLayout();
-
-            _subEmblemRectangle = new(-43 + 64, -58 + 64, 64, 64);
-            _mainEmblemRectangle = new(-43, -58, 128, 128);
-
-            MonoGame.Extended.RectangleF titleBounds = _titleFont.GetStringRectangle(string.Format(strings.ItemSettings, $"{Characters.ModuleName}"));
-            _titleRectangle = new(80, 5, (int)titleBounds.Width, Math.Max(30, (int)titleBounds.Height));
-        }
-
-        public override void PaintAfterChildren(SpriteBatch spriteBatch, Rectangle bounds)
-        {
-            base.PaintAfterChildren(spriteBatch, bounds);
-
-            spriteBatch.DrawOnCtrl(
-                this,
-                _mainWindowEmblem,
-                _mainEmblemRectangle,
-                _mainWindowEmblem.Bounds,
-                Color.White,
-                0f,
-                default);
-
-            spriteBatch.DrawOnCtrl(
-                this,
-                _subWindowEmblem,
-                _subEmblemRectangle,
-                _subWindowEmblem.Bounds,
-                Color.White,
-                0f,
-                default);
-
-            if (_titleRectangle.Width < bounds.Width - (_subEmblemRectangle.Width - 20))
-            {
-                spriteBatch.DrawStringOnCtrl(
-                    this,
-                    string.Format(strings.ItemSettings, $"{Characters.ModuleName}"),
-                    _titleFont,
-                    _titleRectangle,
-                    Colors.ColonialWhite, // new Color(247, 231, 182, 97),
-                    false,
-                    HorizontalAlignment.Left,
-                    VerticalAlignment.Bottom);
-            }
-        }
-
-        protected override void DisposeControl()
-        {
-            base.DisposeControl();
-
-            GameService.Overlay.UserLocale.SettingChanged -= OnLanguageChanged;
-
-            Children.DisposeAll();
-            _contentPanel.Children.DisposeAll();
-
-            _subWindowEmblem.Dispose();
-            _mainWindowEmblem.Dispose();
+            Name = string.Format(strings.ItemSettings, $"{Characters.ModuleName}");
         }
 
         public override void UpdateContainer(GameTime gameTime)
@@ -1176,13 +1110,6 @@ namespace Kenedia.Modules.Characters.Views
                     _sharedSettingsView?.UpdateOffset();
                 }
             }
-        }
-
-        public override void PaintBeforeChildren(SpriteBatch spriteBatch, Rectangle bounds)
-        {
-            base.PaintBeforeChildren(spriteBatch, bounds);
-
-            if (Version != null) spriteBatch.DrawStringOnCtrl(this, $"v. {Version}", Content.DefaultFont16, new(bounds.Right - 150, bounds.Top + 10, 100, 30), Color.White, false, true, 1, HorizontalAlignment.Right, VerticalAlignment.Top);
         }
     }
 }
