@@ -49,8 +49,8 @@ namespace Kenedia.Modules.Characters
 
         private readonly Ticks _ticks = new();
 
-        private bool _saveCharacters;
         private CornerIcon _cornerIcon;
+        private bool _saveCharacters;
         private bool _mapsUpdated;
 
         [ImportingConstructor]
