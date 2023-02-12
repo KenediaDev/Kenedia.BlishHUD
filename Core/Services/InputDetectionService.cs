@@ -36,6 +36,8 @@ namespace Kenedia.Modules.Core.Services
         public event EventHandler<double> MouseClicked;
         public event EventHandler<double> ClickedOrKey;
 
+        public bool Enabled { get; set; } = true;
+
         public double LastInteraction
         {
             get => _lastInteraction;
@@ -116,6 +118,8 @@ namespace Kenedia.Modules.Core.Services
 
         public void Run(GameTime gameTime)
         {
+            if(!Enabled) return;
+
             double now = gameTime.TotalGameTime.TotalMilliseconds;
 
             var keys = GameService.Input.Keyboard.KeysDown.Count > 0 ? GameService.Input.Keyboard.KeysDown.Except(_ignoredKeys).Distinct() : _noKeys;

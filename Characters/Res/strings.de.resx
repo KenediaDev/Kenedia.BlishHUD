@@ -643,10 +643,6 @@ Um den aktuellen Wert zu erhalten, müssen Sie die Modul-Tabs einmal wechseln, u
   <data name="SwapBehavior" xml:space="preserve">
     <value>Wechselverhalten</value>
   </data>
-  <data name="SwapDelay_Tooltip" xml:space="preserve">
-    <value>Durchschnittliche Ladezeit von Ingame bis zur Charakterauswahl.
-Um den aktuellen Wert zu erhalten, müssen Sie die Modul-Tabs einmal wechseln, um die Einstellungsseite zu aktualisieren!</value>
-  </data>
   <data name="SwapDelay" xml:space="preserve">
     <value>Ladeverzögerung ({0} ms)</value>
   </data>
@@ -962,5 +958,11 @@ Sich automatisch anmelden?
   </data>
   <data name="CustomOrderDisclaimer" xml:space="preserve">
     <value>Um eine Figur zu verschieben, um eine benutzerdefinierte Reihenfolge festzulegen, müssen Sie sie mit CTRL + Drag and Drop an ihre neue Position ziehen</value>
+  </data>
+  <data name="CapturedXPotraits" xml:space="preserve">
+    <value>{0} Porträts wurden aufgenommen!</value>
+  </data>
+  <data name="SwapDelay_Tooltip" xml:space="preserve">
+    <value>Durchschnittliche Ladezeit vom Spielstart bis zur Charakterauswahl.</value>
   </data>
 </root>

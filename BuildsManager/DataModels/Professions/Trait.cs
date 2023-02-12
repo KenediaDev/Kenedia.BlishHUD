@@ -1,5 +1,6 @@
 ﻿using Blish_HUD.Content;
 using Gw2Sharp.WebApi.V2.Models;
+using Kenedia.Modules.BuildsManager.Extensions;
 using Kenedia.Modules.Core.Models;
 using Kenedia.Modules.Core.Utility;
 using System.Collections.Generic;
@@ -27,6 +28,7 @@ namespace Kenedia.Modules.BuildsManager.DataModels.Professions
             Tier = trait.Tier;
             Order = trait.Order;
             Type = trait.Slot.Value;
+            ChatLink = trait.CreateChatLink();
         }
 
         public Trait(APITrait trait, Dictionary<int, Skill> skills) : this(trait)
@@ -67,6 +69,9 @@ namespace Kenedia.Modules.BuildsManager.DataModels.Professions
             get => Descriptions.Text;
             set => Descriptions.Text = value;
         }
+
+        [DataMember]
+        public string ChatLink { get; set; }
 
         [DataMember]
         public int IconAssetId { get; set; }

@@ -23,22 +23,24 @@ namespace Kenedia.Modules.BuildsManager.DataModels.LegendaryItems
         {
             Id = back.Id;
             AttributeAdjustment = back.Details.AttributeAdjustment;
-            Description.Text = back.Description;
-            Names.Text = back.Name;
+            Description = back.Description;
+            Name = back.Name;
             StatChoices = back.Details.StatChoices;
             InfusionSlots = new int[back.Details.InfusionSlots.Count];
             AssetId = Common.GetAssetIdFromRenderUrl(back.Icon);
+            Chatlink = back.ChatLink;
         }
 
         public void Apply(ItemTrinket trinket)
         {
             Id = trinket.Id;
             AttributeAdjustment = trinket.Details.AttributeAdjustment;
-            Description.Text = trinket.Description;
-            Names.Text = trinket.Name;
+            Description = trinket.Description;
+            Name = trinket.Name;
             StatChoices = trinket.Details.StatChoices;
             InfusionSlots = new int[trinket.Details.InfusionSlots.Count];
             AssetId = Common.GetAssetIdFromRenderUrl(trinket.Icon);
+            Chatlink = trinket.ChatLink;
         }
 
         [DataMember]

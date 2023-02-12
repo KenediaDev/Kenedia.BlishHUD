@@ -8,6 +8,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System.Collections.Generic;
 using Blish_HUD.Controls;
+using Kenedia.Modules.Core.Services;
 
 namespace Kenedia.Modules.Core.Controls
 {
@@ -26,7 +27,7 @@ namespace Kenedia.Modules.Core.Controls
 
         public FlowPanel()
         {
-            GameService.Overlay.UserLocale.SettingChanged += UserLocale_SettingChanged;
+            LocalizingService.LocaleChanged  += UserLocale_SettingChanged;
             UserLocale_SettingChanged(null, null);
         }
 

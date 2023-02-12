@@ -48,14 +48,14 @@ namespace Kenedia.Modules.Characters.Services
 
             LoadCachedAccounts = internalSettings.DefineSetting(nameof(LoadCachedAccounts), true);
             OpenSidemenuOnSearch = internalSettings.DefineSetting(nameof(OpenSidemenuOnSearch), true);
-            FocusSearchOnShow = internalSettings.DefineSetting(nameof(FocusSearchOnShow), true);
+            FocusSearchOnShow = internalSettings.DefineSetting(nameof(FocusSearchOnShow), false);
 
             ShowRandomButton = internalSettings.DefineSetting(nameof(ShowRandomButton), true);
             ShowLastButton = internalSettings.DefineSetting(nameof(ShowLastButton), false);
             ShowStatusWindow = internalSettings.DefineSetting(nameof(ShowStatusWindow), true);
             ShowChoyaSpinner = internalSettings.DefineSetting(nameof(ShowChoyaSpinner), true);
             EnterOnSwap = internalSettings.DefineSetting(nameof(EnterOnSwap), true);
-            OnlyEnterOnExact = internalSettings.DefineSetting(nameof(OnlyEnterOnExact), true);
+            OnlyEnterOnExact = internalSettings.DefineSetting(nameof(OnlyEnterOnExact), false);
             OpenInventoryOnEnter = internalSettings.DefineSetting(nameof(OpenInventoryOnEnter), false);
             DoubleClickToEnter = internalSettings.DefineSetting(nameof(DoubleClickToEnter), false);
             EnterToLogin = internalSettings.DefineSetting(nameof(EnterToLogin), false);

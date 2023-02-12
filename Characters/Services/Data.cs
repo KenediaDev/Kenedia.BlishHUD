@@ -5,11 +5,15 @@ using Gw2Sharp.Models;
 using Kenedia.Modules.Characters.Enums;
 using Kenedia.Modules.Characters.Models;
 using Kenedia.Modules.Core.DataModels;
+using Kenedia.Modules.Core.Models;
+using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using Color = Microsoft.Xna.Framework.Color;
 using Locale = Gw2Sharp.WebApi.Locale;
 using Rectangle = Microsoft.Xna.Framework.Rectangle;
@@ -26,27 +30,15 @@ namespace Kenedia.Modules.Characters.Services
     public class Data
     {
         private readonly ContentsManager _contentsManager;
+        private readonly PathCollection _paths;
 
-        public Data(ContentsManager contentsManager)
+        public Data(ContentsManager contentsManager, PathCollection paths)
         {
             _contentsManager = contentsManager;
-
-            string path = @"data\maps.json";
-            string jsonString = new StreamReader(_contentsManager.GetFileStream(path)).ReadToEnd();
-
-            if (jsonString != null && jsonString != string.Empty)
-            {
-                Maps = JsonConvert.DeserializeObject<Dictionary<int, Map>>(jsonString);
-            }
-
-            Races[RaceType.Asura].Icon = _contentsManager.GetTexture(@"textures\races\" + "asura" + ".png");
-            Races[RaceType.Charr].Icon = _contentsManager.GetTexture(@"textures\races\" + "charr" + ".png");
-            Races[RaceType.Human].Icon = _contentsManager.GetTexture(@"textures\races\" + "human" + ".png");
-            Races[RaceType.Norn].Icon = _contentsManager.GetTexture(@"textures\races\" + "norn" + ".png");
-            Races[RaceType.Sylvari].Icon = _contentsManager.GetTexture(@"textures\races\" + "sylvari" + ".png");
+            _paths = paths;
         }
 
-        public Dictionary<int, Map> Maps { get; } = new();
+        public Dictionary<int, Map> Maps { get; private set; } = new();
 
         public Dictionary<int, CraftingProfession> CrafingProfessions { get; } = new()
         {
@@ -1184,6 +1176,37 @@ namespace Kenedia.Modules.Characters.Services
             }
 
             public AsyncTexture2D Icon { get; set; }
+        }
+
+        public async Task Load()
+        {
+            string path = _paths.ModuleDataPath + $@"Maps.json";
+
+            Characters.Logger.Debug($"Trying to load Maps from {path}");
+            try
+            {
+                if (File.Exists(path))
+                {
+                    string jsonString = await new StreamReader(path).ReadToEndAsync();
+
+                    if (jsonString != null && jsonString != string.Empty)
+                    {
+                        Maps = JsonConvert.DeserializeObject<Dictionary<int, Map>>(jsonString);
+                        
+                        Characters.Logger.Debug($"Loaded Maps from {path}");
+                    }
+                }
+            }
+            catch (Exception ex) 
+            {
+                Characters.Logger.Warn($"{ex}");
+            }
+
+            Races[RaceType.Asura].Icon = _contentsManager.GetTexture(@"textures\races\" + "asura" + ".png");
+            Races[RaceType.Charr].Icon = _contentsManager.GetTexture(@"textures\races\" + "charr" + ".png");
+            Races[RaceType.Human].Icon = _contentsManager.GetTexture(@"textures\races\" + "human" + ".png");
+            Races[RaceType.Norn].Icon = _contentsManager.GetTexture(@"textures\races\" + "norn" + ".png");
+            Races[RaceType.Sylvari].Icon = _contentsManager.GetTexture(@"textures\races\" + "sylvari" + ".png");
         }
     }
 }

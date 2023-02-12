@@ -269,7 +269,6 @@
     <None Include="packages.config" />
     <None Include="ref\data\crafting_professions.json" />
     <None Include="ref\data\gw2.traineddata" />
-    <None Include="ref\data\maps.json" />
     <None Include="ref\data\professions.json" />
     <None Include="ref\data\races.json" />
     <None Include="ref\data\specialization.json" />

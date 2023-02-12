@@ -59,6 +59,8 @@ namespace Kenedia.Modules.Core.Services
         public event EventHandler<GameStateChangedEventArgs> ChangedToLoadingScreen;
         public event EventHandler<GameStateChangedEventArgs> ChangedToCutscene;
 
+        public bool Enabled { get; set; } = true;
+
         public ClientWindowService ClientWindowService { get; set; }
 
         public SharedSettings SharedSettings { get; set; }
@@ -131,6 +133,8 @@ namespace Kenedia.Modules.Core.Services
 
         public void Run(GameTime gameTime)
         {
+            if (!Enabled) return;
+
             NewStatus = GameStatus.Unknown;
 
             if (GameService.Gw2Mumble.TimeSinceTick.TotalMilliseconds <= 500)

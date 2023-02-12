@@ -11,26 +11,38 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using File = System.IO.File;
+using Gw2Sharp.WebApi;
+using Map = Kenedia.Modules.Core.DataModels.Map;
+using Blish_HUD;
+using System.Diagnostics;
+using System.IO;
+using Kenedia.Modules.Core.Models;
+using Gw2Sharp.Models;
 
 namespace Kenedia.Modules.Characters.Services
 {
     public class GW2API_Handler
     {
+        private readonly Logger _logger = Logger.GetLogger(typeof(GW2API_Handler));
         private readonly Gw2ApiManager _gw2ApiManager;
         private readonly Action<IApiV2ObjectList<Character>> _callBack;
         private readonly Action<string, bool> _updateFolderPaths;
+        private readonly Data _data;
         private readonly Func<LoadingSpinner> _getSpinner;
+        private readonly PathCollection _paths;
         private readonly string _accountFilePath;
 
         private CancellationTokenSource _cancellationTokenSource;
 
-        public GW2API_Handler(Gw2ApiManager gw2ApiManager, Action<IApiV2ObjectList<Character>> callBack, Func<LoadingSpinner> getSpinner, string accountFilePath, Action<string, bool> updateFolderPaths)
+        public GW2API_Handler(Gw2ApiManager gw2ApiManager, Action<IApiV2ObjectList<Character>> callBack, Func<LoadingSpinner> getSpinner, PathCollection paths, Action<string, bool> updateFolderPaths, Data data)
         {
             _gw2ApiManager = gw2ApiManager;
             _callBack = callBack;
             _getSpinner = getSpinner;
-            _accountFilePath = accountFilePath;
+            _paths = paths;
+            _accountFilePath = paths.ModulePath + @"\accounts.json";
             _updateFolderPaths = updateFolderPaths;
+            _data = data;
         }
 
         private Account _account;
@@ -145,7 +157,7 @@ namespace Kenedia.Modules.Characters.Services
                 {
                     if (!cancellationToken.IsCancellationRequested)
                     {
-                        ScreenNotification.ShowNotification(strings.Error_InvalidPermissions, ScreenNotification.NotificationType.Error);
+                        ScreenNotification.ShowNotification("[Characters]: " + strings.Error_InvalidPermissions, ScreenNotification.NotificationType.Error);
                         Characters.Logger.Error(strings.Error_InvalidPermissions);
                     }
 
@@ -163,6 +175,36 @@ namespace Kenedia.Modules.Characters.Services
                 Reset(cancellationToken, !cancellationToken.IsCancellationRequested);
                 return false;
             }
+        }
+
+        public async Task FetchLocale(Locale? locale = null, bool force = false)
+        {
+            locale ??= GameService.Overlay.UserLocale.Value;
+
+            if (force || _data.Maps.Count == 0 || !_data.Maps.FirstOrDefault().Value.Names.TryGetValue((Locale) locale, out string name) || string.IsNullOrEmpty(name))
+            {
+                Characters.Logger.Info($"No data for {(Locale)locale} loaded yet. Fetching new data from the API.");
+                await GetMaps();
+            }
+        }
+
+        public async Task GetMaps()
+        {
+            var _maps = _data.Maps;
+            var maps = await _gw2ApiManager.Gw2ApiClient.V2.Maps.AllAsync();
+
+            foreach (var m in maps)
+            {
+                bool exists = _maps.TryGetValue(m.Id, out Map map);
+
+                map ??= new Map(m);
+                map.Name = m.Name;
+
+                if (!exists) _maps.Add(m.Id, map);
+            }
+
+            string json = JsonConvert.SerializeObject(_maps, Formatting.Indented);
+            File.WriteAllText($@"{_paths.ModuleDataPath}\Maps.json", json);
         }
     }
 }

@@ -562,7 +562,16 @@ namespace Kenedia.Modules.Characters.Views
         protected override void OnShown(EventArgs e)
         {
             base.OnShown(e);
-            if (_settings.FocusSearchOnShow.Value) _filterBox.Focused = true;
+            if (_settings.FocusSearchOnShow.Value)
+            {
+                foreach(var k in GameService.Input.Keyboard.KeysDown)
+                {
+                    Blish_HUD.Controls.Intern.Keyboard.Release((Blish_HUD.Controls.Extern.VirtualKeyShort) k, false);
+                    Blish_HUD.Controls.Intern.Keyboard.Release((Blish_HUD.Controls.Extern.VirtualKeyShort) k, true);
+                }
+
+                _filterBox.Focused = true;
+            }
         }
 
         protected override void OnHidden(EventArgs e)
@@ -614,8 +623,7 @@ namespace Kenedia.Modules.Characters.Views
             DraggingControl.LeftMouseButtonReleased -= DraggingControl_LeftMouseButtonReleased;
             _buttonPanel.Resized -= ButtonPanel_Resized;
 
-            if (CharacterCards.Count > 0) CharacterCards?.DisposeAll();
-            ContentPanel?.DisposeAll();
+            ContentPanel?.Dispose();
             CharactersPanel?.Dispose();
             DraggingControl?.Dispose();
             CharacterEdit?.Dispose();

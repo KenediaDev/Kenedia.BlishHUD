@@ -306,19 +306,48 @@ namespace Kenedia.Modules.Characters.Services
 
                 Blish_HUD.Controls.Intern.Keyboard.Stroke(VirtualKeyShort.RETURN, false);
                 await Delay(cancellationToken);
+                var stopwatch = new Stopwatch();
 
                 if (_settings.UseBetaGamestate.Value)
                 {
                     while (!_gameState.IsCharacterSelection && !cancellationToken.IsCancellationRequested)
                     {
-                        await Delay(cancellationToken, 250);
+                        await Delay(cancellationToken, 50);
                         if (cancellationToken.IsCancellationRequested) return _gameState.IsCharacterSelection;
+                    }
+
+                    if (_settings.UseOCR.Value)
+                    {
+                        stopwatch.Start();
+                        string txt = await OCR.Read();
+                        while (stopwatch.ElapsedMilliseconds < 5000 && txt.Length <= 2 && !cancellationToken.IsCancellationRequested)
+                        {
+                            Characters.Logger.Debug($"We are in the character selection but the OCR did only read '{txt}'. Waiting a bit longer!");
+                            await Delay(cancellationToken, 250);
+                            txt = await OCR.Read();
+                            if (cancellationToken.IsCancellationRequested) return _gameState.IsCharacterSelection;
+                        }
                     }
                 }
                 else
                 {
                     await Delay(cancellationToken, _settings.SwapDelay.Value);
+
+                    if (_settings.UseOCR.Value)
+                    {
+                        stopwatch.Start();
+                        string txt = await OCR.Read();
+                        while (stopwatch.ElapsedMilliseconds < 5000 && txt.Length <= 2 && !cancellationToken.IsCancellationRequested)
+                        {
+                            Characters.Logger.Debug($"We should be in the character selection but the OCR did only read '{txt}'. Waiting a bit longer!");
+                            await Delay(cancellationToken, 250);
+                            txt = await OCR.Read();
+                            if (cancellationToken.IsCancellationRequested) return _gameState.IsCharacterSelection;
+                        }
+                    }
                 }
+
+                stopwatch.Stop();
             }
 
             return !GameService.GameIntegration.Gw2Instance.IsInGame;

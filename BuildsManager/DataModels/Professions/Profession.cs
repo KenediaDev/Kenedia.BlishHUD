@@ -2,8 +2,11 @@
 using Gw2Sharp.Models;
 using Kenedia.Modules.Core.Models;
 using Kenedia.Modules.Core.Utility;
+using SharpDX;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Linq;
 using System.Runtime.Serialization;
 using static Kenedia.Modules.BuildsManager.DataModels.Professions.Weapon;
 using APIProfession = Gw2Sharp.WebApi.V2.Models.Profession;
@@ -66,15 +69,9 @@ namespace Kenedia.Modules.BuildsManager.DataModels.Professions
         public Dictionary<int, Skill> Skills { get; set; } = new();
 
         [DataMember]
-        public Dictionary<int, Legend> Legends { get; set; } = new();
+        public Dictionary<int, Legend> Legends { get; set; }
 
-        /// <summary>
-        /// [SkillId | PaletteId]
-        /// </summary>
-        [DataMember]
-        public Dictionary<int, int> SkillsByPalette { get; set; } = new();
-
-        internal void Apply(APIProfession prof, Dictionary<int, Specialization> specializations, Dictionary<int, Trait> traits, Dictionary<int, Skill> skills)
+        internal void Apply(APIProfession prof, Dictionary<int, Specialization> specializations, Dictionary<int, Trait> traits, Dictionary<int, Skill> skills, Dictionary<int, Legend> legends)
         {
             if (Enum.TryParse(prof.Id, out ProfessionType professionType))
             {
@@ -82,15 +79,6 @@ namespace Kenedia.Modules.BuildsManager.DataModels.Professions
                 Name = prof.Name;
                 IconAssetId = prof.Icon.GetAssetIdFromRenderUrl();
                 IconBigAssetId = prof.IconBig.GetAssetIdFromRenderUrl();
-
-                foreach (var skill in prof.SkillsByPalette)
-                {
-                    if (!SkillsByPalette.ContainsKey(skill.Value))
-                    {
-                        // TODO Test if palette id is unique
-                        SkillsByPalette.Add(skill.Value, skill.Key);
-                    }
-                }
 
                 foreach (var apiWeapon in prof.Weapons)
                 {
@@ -110,27 +98,125 @@ namespace Kenedia.Modules.BuildsManager.DataModels.Professions
                     }
                 }
 
-                foreach (var s in prof.Skills)
-                {
-                    if (s != null && skills.TryGetValue(s.Id, out Skill skill))
-                    {
-                        bool exists = Skills.TryGetValue(skill.Id, out var existingSkill);
-                        if (SkillsByPalette.TryGetValue(s.Id, out int paletteId))
-                        {
-                            skill.PaletteId = paletteId;
-                        }
+                // Add Flip & Bundle Skills
+                var profSkillIds = prof.Skills.Select(e => e.Id).ToList();
 
-                        if (!exists)
+                var weaponIds = (from pp in prof.Weapons
+                                 from pskills in pp.Value.Skills
+                                 select pskills.Id).ToList();
+
+                var ids = new List<int>();
+
+                Skill getSkillById(int id, Dictionary<int, Skill> skills)
+                {
+                    return skills.TryGetValue(id, out var skill) ? skill : null;
+                }
+
+                List<int> getIds(Skill weaponSkill, List<int> result = null)
+                {
+                    result ??= new List<int>();
+
+                    if (weaponSkill == null) return result;
+
+                    result.Add(weaponSkill.Id);
+
+                    if (weaponSkill.BundleSkills != null)
+                    {
+                        result.AddRange(weaponSkill.BundleSkills);
+                        foreach (int bundleskill in weaponSkill.BundleSkills)
                         {
-                            Skills.Add(skill.Id, skill);
+                            result.AddRange(getIds(getSkillById(bundleskill, skills)));
                         }
-                        else
+                    }
+
+                    if (weaponSkill.FlipSkill != null)
+                    {
+                        result.Add((int)weaponSkill.FlipSkill);
+                        result.AddRange(getIds(getSkillById((int)weaponSkill.FlipSkill, skills)));
+                    }
+
+                    if (weaponSkill.NextChain != null)
+                    {
+                        result.Add((int)weaponSkill.NextChain);
+                    }
+
+                    if (weaponSkill.PrevChain != null)
+                    {
+                        result.Add((int)weaponSkill.PrevChain);
+                    }
+
+                    if (weaponSkill.ToolbeltSkill != null)
+                    {
+                        result.Add((int)weaponSkill.ToolbeltSkill);
+                    }
+
+                    return result;
+                }
+
+                void AddOrUpdateLocale(int id)
+                {
+                    var skill = getSkillById(id, skills);
+                    var existingSkill = getSkillById(id, Skills);
+
+                    if (skill != null)
+                    {
+                        // Update
+                        if (existingSkill != null)
                         {
                             existingSkill.Name = skill.Name;
                             existingSkill.Description = skill.Description;
                         }
+                        // Add
+                        else
+                        {
+                            Skills.Add(id, skill);
+                        }
                     }
                 }
+
+                foreach (int id in weaponIds)
+                {
+                    if (skills.TryGetValue(id, out Skill weaponSkill))
+                    {
+                        ids.AddRange(getIds(getSkillById(id, skills)));
+                    }
+                }
+
+                foreach (int id in profSkillIds)
+                {
+                    if (skills.TryGetValue(id, out Skill weaponSkill))
+                    {
+                        ids.AddRange(getIds(getSkillById(id, skills)));
+                    }
+                }
+
+                foreach (int id in ids)
+                {
+                    AddOrUpdateLocale(id);
+                }
+
+                //foreach (var s in prof.Skills)
+                //{
+                //    if (s != null && skills.TryGetValue(s.Id, out Skill skill))
+                //    {
+                //        bool exists = Skills.TryGetValue(skill.Id, out var existingSkill);
+
+                //        if (SkillsByPalette.TryGetValue(s.Id, out int paletteId))
+                //        {
+                //            skill.PaletteId = paletteId;
+                //        }
+
+                //        if (!exists)
+                //        {
+                //            Skills.Add(skill.Id, skill);
+                //        }
+                //        else
+                //        {
+                //            existingSkill.Name = skill.Name;
+                //            existingSkill.Description = skill.Description;
+                //        }
+                //    }
+                //}
 
                 foreach (int s in prof.Specializations)
                 {
@@ -162,6 +248,25 @@ namespace Kenedia.Modules.BuildsManager.DataModels.Professions
                                     t.Value.Description = trait.Description;
                                 }
                             }
+                        }
+                    }
+                }
+
+                if (professionType == ProfessionType.Revenant)
+                {
+                    Legends ??= new();
+
+                    foreach (var leg in legends)
+                    {
+                        bool exists = Legends.TryGetValue(leg.Key, out Legend legend);
+
+                        if (!exists)
+                        {
+                            Legends.Add(leg.Key, leg.Value);
+                        }
+                        else
+                        {
+                            legend.ApplyLanguage(leg);
                         }
                     }
                 }

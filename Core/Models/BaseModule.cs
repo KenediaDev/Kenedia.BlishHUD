@@ -22,6 +22,7 @@ namespace Kenedia.Modules.Core.Models
     {
         public static readonly Logger Logger = Logger.GetLogger<ModuleType>();
         protected bool HasGUI = false;
+        protected bool AutoLoadGUI = true;
         protected bool IsGUICreated = false;
 
         protected BaseModule([Import("ModuleParameters")] ModuleParameters moduleParameters) 
@@ -35,6 +36,8 @@ namespace Kenedia.Modules.Core.Models
 
             Services = new(gameState, clientWindowService, sharedSettings, texturesService, inputDetectionService);
             SharedSettingsView = new SharedSettingsView(sharedSettings, clientWindowService);
+                        
+            GameService.Overlay.UserLocale.SettingChanged += OnLocaleChanged;
         }
 
         public static string ModuleName => ModuleInstance.Name;
@@ -89,6 +92,11 @@ namespace Kenedia.Modules.Core.Models
             await Services.SharedSettings.Load(Paths.SharedSettingsPath);
         }
 
+        protected virtual void OnLocaleChanged(object sender, ValueChangedEventArgs<Gw2Sharp.WebApi.Locale> eventArgs)
+        {
+            LocalizingService.OnLocaleChanged(sender, eventArgs);
+        }
+
         protected override void OnModuleLoaded(EventArgs e)
         {
             base.OnModuleLoaded(e);
@@ -120,11 +128,11 @@ namespace Kenedia.Modules.Core.Models
         {
             base.Update(gameTime);
 
-            if (Services.States[typeof(GameState)]) Services.GameState.Run(gameTime);
-            if (Services.States[typeof(ClientWindowService)]) Services.ClientWindowService.Run(gameTime);
-            if (Services.States[typeof(InputDetectionService)]) Services.InputDetectionService.Run(gameTime);
+            Services.GameState.Run(gameTime);
+            Services.ClientWindowService.Run(gameTime);
+            Services.InputDetectionService.Run(gameTime);
 
-            if (HasGUI && !IsGUICreated)
+            if (HasGUI && !IsGUICreated && AutoLoadGUI)
             {
                 PlayerCharacter player = GameService.Gw2Mumble.PlayerCharacter;
 
@@ -141,6 +149,7 @@ namespace Kenedia.Modules.Core.Models
             UnloadGUI();
 
             Services?.Dispose();
+            GameService.Overlay.UserLocale.SettingChanged -= OnLocaleChanged;
 
 #if DEBUG
             ReloadKey.Value.Activated -= ReloadKey_Activated;

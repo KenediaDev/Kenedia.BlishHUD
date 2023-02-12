@@ -3,6 +3,7 @@ using Blish_HUD.Content;
 using Blish_HUD.Controls;
 using Kenedia.Modules.Core.Controls;
 using Kenedia.Modules.Core.Extensions;
+using Kenedia.Modules.Core.Utility;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MonoGame.Extended.BitmapFonts;
@@ -27,7 +28,7 @@ namespace Kenedia.Modules.Core.Views
         private Rectangle _subEmblemRectangle;
         private Rectangle _mainEmblemRectangle;
         private Rectangle _titleRectangle;
-
+        private string _name;
         private readonly List<AnchoredContainer> _attachedContainers = new();
 
         public StandardWindow(AsyncTexture2D background, Rectangle windowRegion, Rectangle contentRegion) : base(background, windowRegion, contentRegion)
@@ -38,7 +39,7 @@ namespace Kenedia.Modules.Core.Views
 
         public SemVer.Version Version { get; set; }
 
-        public string Name { get; set; }
+        public string Name { get => _name; set => Common.SetProperty(ref _name, value, RecalculateLayout); }
 
         public AsyncTexture2D MainWindowEmblem { get; set; }
 

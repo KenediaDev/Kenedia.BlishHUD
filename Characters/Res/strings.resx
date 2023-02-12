@@ -687,8 +687,7 @@ To get the current value you will have to swap module tabs once to update the se
     <value>Swap Behavior</value>
   </data>
   <data name="SwapDelay_Tooltip" xml:space="preserve">
-    <value>Avg. loading time from ingame to character selection.
-To get the current value you will have to swap module tabs once to update the settings page!</value>
+    <value>Avg. loading time from ingame to character selection.</value>
   </data>
   <data name="SwapDelay" xml:space="preserve">
     <value>Loading Delay ({0} ms)</value>
@@ -960,5 +959,8 @@ Log in automatically?
   </data>
   <data name="CustomOrderDisclaimer" xml:space="preserve">
     <value>To move a character to set a custom order you have to CTRL + Drag and Drop them on their new position</value>
+  </data>
+  <data name="CapturedXPotraits" xml:space="preserve">
+    <value>Captured {0} portraits!</value>
   </data>
 </root>

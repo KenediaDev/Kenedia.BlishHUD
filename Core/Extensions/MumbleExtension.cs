@@ -1,4 +1,6 @@
-﻿using Blish_HUD.Gw2Mumble;
+﻿using Blish_HUD;
+using Blish_HUD.Gw2Mumble;
+using Gw2Sharp.Models;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -7,6 +9,12 @@ namespace Kenedia.Modules.Core.Extensions
 {
     public static class MumbleExtension
     {
+
+        public static bool IsCommonMap(this CurrentMap map)
+        {
+            return map.Type is MapType.Public or MapType.PublicMini or MapType.Tutorial;
+        }
+
         public static bool IsPvpMap(this CurrentMap map)
         {
             List<int> pvpMaps = new()

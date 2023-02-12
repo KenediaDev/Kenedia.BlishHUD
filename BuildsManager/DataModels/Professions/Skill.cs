@@ -5,6 +5,7 @@ using Kenedia.Modules.Core.Models;
 using Kenedia.Modules.Core.Utility;
 using Newtonsoft.Json.Linq;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Runtime.Serialization;
 using APISkill = Gw2Sharp.WebApi.V2.Models.Skill;
@@ -16,32 +17,29 @@ namespace Kenedia.Modules.BuildsManager.DataModels.Professions
     {
         private AsyncTexture2D _icon;
 
-        public Skill(APISkill skill)
+        public Skill() { }
+
+        public Skill(APISkill skill, Dictionary<int, int> paletteBySkills)
         {
             Id = skill.Id;
             IconAssetId = skill.Icon.GetAssetIdFromRenderUrl();
             Name = skill.Name;
             Description = skill.Description;
-            Specialization = skill.Specialization != null ? (int) skill.Specialization : 0;
+            Specialization = skill.Specialization != null ? (int)skill.Specialization : 0;
             ChatLink = skill.ChatLink;
-            Flags = skill.Flags.Count() > 0 ? skill.Flags.Aggregate((x, y) => x |= y.Value) : SkillFlag.Unknown;
-        }
+            Flags = skill.Flags.Count() > 0 ? skill.Flags.Aggregate((x, y) => x |= y.ToEnum()) : SkillFlag.Unknown;
+            Slot = skill.Slot?.ToEnum();
 
-        public enum SkillSlot
-        {
-            Weapon_1 = 1,
-            Weapon_2 = 2,
-            Weapon_3 = 3,
-            Weapon_4 = 4,
-            Weapon_5 = 5,
-            Profession_1 = 6,
-            Profession_2 = 7,
-            Profession_3 = 8,
-            Profession_4 = 9,
-            Profession_5 = 10,
-            Heal = 11,
-            Utility = 12,
-            Elite = 13,
+            BundleSkills = skill.BundleSkills != null && skill.BundleSkills.Count > 0 ? skill.BundleSkills.ToList() : null;
+            FlipSkill = skill.FlipSkill != null ? skill.FlipSkill : null;
+            ToolbeltSkill = skill.ToolbeltSkill != null ? skill.ToolbeltSkill : null;
+            PrevChain = skill.PrevChain != null ? skill.PrevChain : null;
+            NextChain = skill.NextChain != null ? skill.NextChain : null;
+
+            if (paletteBySkills.TryGetValue(skill.Id, out int paletteId))
+            {
+                PaletteId = paletteId;
+            }
         }
 
         [DataMember]
@@ -87,8 +85,28 @@ namespace Kenedia.Modules.BuildsManager.DataModels.Professions
             set => Descriptions.Text = value;
         }
 
-        public SkillSlot Slot;
-        public SkillFlag Flags;
-        public List<string> Categories;
+        [DataMember]
+        public SkillSlot? Slot { get; set; }
+
+        [DataMember]
+        public SkillFlag Flags { get; set; }
+
+        [DataMember]
+        public List<string> Categories { get; set; }
+
+        [DataMember]
+        public int? FlipSkill { get; set; }
+
+        [DataMember]
+        public int? NextChain { get; set; }
+
+        [DataMember]
+        public int? PrevChain { get; set; }
+
+        [DataMember]
+        public int? ToolbeltSkill { get; set; }
+
+        [DataMember]
+        public List<int> BundleSkills { get; set; }
     }
 }

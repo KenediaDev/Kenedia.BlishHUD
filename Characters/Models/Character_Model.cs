@@ -478,21 +478,22 @@ namespace Kenedia.Modules.Characters.Models
             {
                 Save();                
                 _characterSwapping?.Start(this, ignoreOCR);
+                Characters.Logger.Info(string.Format(strings.CharacterSwap_SwitchTo, Name));
             }
             else
             {
-                ScreenNotification.ShowNotification(strings.Error_Competivive, ScreenNotification.NotificationType.Error);
+                ScreenNotification.ShowNotification("[Characters]: " + strings.Error_Competivive, ScreenNotification.NotificationType.Error);
             }
         }
 
         public void UpdateCharacter(PlayerCharacter character = null)
         {
             character ??= GameService.Gw2Mumble.PlayerCharacter;
-
+            
             if (character != null && character.Name == Name)
             {
                 Specialization = (SpecializationType)character.Specialization;
-                Map = GameService.Gw2Mumble.CurrentMap.Id;
+                Map = GameService.Gw2Mumble.CurrentMap.IsCommonMap() ? GameService.Gw2Mumble.CurrentMap.Id : Map;
                 LastLogin = DateTime.UtcNow;
             }
         }

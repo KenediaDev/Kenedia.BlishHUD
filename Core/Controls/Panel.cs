@@ -8,6 +8,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
 using Blish_HUD.Controls;
 using System.Collections.Generic;
+using Kenedia.Modules.Core.Services;
 
 namespace Kenedia.Modules.Core.Controls
 {
@@ -53,7 +54,7 @@ namespace Kenedia.Modules.Core.Controls
 
         public Panel()
         {
-            GameService.Overlay.UserLocale.SettingChanged += UserLocale_SettingChanged;
+            LocalizingService.LocaleChanged  += UserLocale_SettingChanged;
             UserLocale_SettingChanged(null, null);
         }
         

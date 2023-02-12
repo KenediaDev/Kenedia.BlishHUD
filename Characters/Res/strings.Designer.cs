@@ -251,6 +251,15 @@ namespace Kenedia.Modules.Characters.Res {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Captured {0} portraits!.
+        /// </summary>
+        internal static string CapturedXPotraits {
+            get {
+                return ResourceManager.GetString("CapturedXPotraits", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Capture Images.
         /// </summary>
         internal static string CaptureImages {
@@ -2239,8 +2248,7 @@ namespace Kenedia.Modules.Characters.Res {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Avg. loading time from ingame to character selection.
-        ///To get the current value you will have to swap module tabs once to update the settings page!.
+        ///   Looks up a localized string similar to Avg. loading time from ingame to character selection..
         /// </summary>
         internal static string SwapDelay_Tooltip {
             get {

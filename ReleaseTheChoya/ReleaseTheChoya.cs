@@ -49,10 +49,6 @@ namespace Kenedia.Modules.ReleaseTheChoya
         {
             ModuleInstance = this;
             HasGUI = true;
-
-            Services.States[typeof(SharedSettings)] = false;
-            Services.States[typeof(ClientWindowService)] = false;
-            Services.States[typeof(GameState)] = false;
         }
 
         protected override void DefineSettings(SettingCollection settings)

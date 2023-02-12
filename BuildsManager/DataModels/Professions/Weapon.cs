@@ -22,7 +22,7 @@ namespace Kenedia.Modules.BuildsManager.DataModels.Professions
             if (Enum.TryParse(weapon.Key, out WeaponType weaponType))
             {
                 Type = weaponType;
-                Wielded = weapon.Value.Flags.Count() > 0 ? weapon.Value.Flags.Aggregate((x, y) => x |= y.Value) : ProfessionWeaponFlag.Unknown;
+                Wielded = weapon.Value.Flags.Count() > 0 ? weapon.Value.Flags.Aggregate((x, y) => x |= y.ToEnum()) : ProfessionWeaponFlag.Unknown;
                 Specialization = weapon.Value.Specialization;
             }
         }
@@ -35,7 +35,7 @@ namespace Kenedia.Modules.BuildsManager.DataModels.Professions
                 {
                     if (skills.TryGetValue(s.Id, out Skill skill))
                     {
-                        Skills.Add(s.Id, skill);
+                        Skills.Add(skill.Id);
                     }
                 }
             }
@@ -79,18 +79,10 @@ namespace Kenedia.Modules.BuildsManager.DataModels.Professions
         public int Specialization { get; set; }
 
         [DataMember]
-        public Dictionary<int, Skill> Skills { get; set; } = new();
+        public List<int> Skills { get; set; } = new();
 
         public void ApplyLanguage(Dictionary<int, Skill> skills)
         {
-            foreach (var s in Skills)
-            {
-                if (skills.TryGetValue(s.Key, out Skill skill))
-                {
-                    s.Value.Name = skill.Name; 
-                    s.Value.Description = skill.Description; 
-                }
-            }
         }
     }
 }

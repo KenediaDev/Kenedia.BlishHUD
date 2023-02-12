@@ -2,6 +2,7 @@
 using Blish_HUD.Controls;
 using Gw2Sharp.WebApi;
 using Kenedia.Modules.Core.Interfaces;
+using Kenedia.Modules.Core.Services;
 using System;
 
 namespace Kenedia.Modules.Core.Controls
@@ -13,7 +14,7 @@ namespace Kenedia.Modules.Core.Controls
 
         public Checkbox()
         {
-            GameService.Overlay.UserLocale.SettingChanged += UserLocale_SettingChanged;
+            LocalizingService.LocaleChanged  += UserLocale_SettingChanged;
             UserLocale_SettingChanged(null, null);
         }
 

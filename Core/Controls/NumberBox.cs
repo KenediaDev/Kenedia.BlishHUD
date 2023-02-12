@@ -4,6 +4,7 @@ using Blish_HUD.Controls;
 using Blish_HUD.Input;
 using Gw2Sharp.WebApi;
 using Kenedia.Modules.Core.Interfaces;
+using Kenedia.Modules.Core.Services;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -36,7 +37,7 @@ namespace Kenedia.Modules.Core.Controls
             Width = 100;
             Height = 20;
 
-            GameService.Overlay.UserLocale.SettingChanged += UserLocale_SettingChanged;
+            LocalizingService.LocaleChanged  += UserLocale_SettingChanged;
             UserLocale_SettingChanged(null, null);
         }
 

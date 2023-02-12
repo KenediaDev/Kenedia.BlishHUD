@@ -31,11 +31,18 @@ namespace Kenedia.Modules.Core.Models
             {
                 _ = Directory.CreateDirectory(ModulePath);
             }
+
+            if (!Directory.Exists(ModuleDataPath))
+            {
+                _ = Directory.CreateDirectory(ModuleDataPath);
+            }
         }
 
         public string BasePath { get; }
 
         public string ModulePath => $@"{BasePath}\{_moduleName}\";
+
+        public string ModuleDataPath => $@"{BasePath}\{_moduleName}\data\";
 
         public string SharedSettingsPath => $@"{BasePath}\shared_settings.json";
 

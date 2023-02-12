@@ -638,10 +638,6 @@ Pour obtenir la valeur actuelle, vous devrez changer d'onglet de module une fois
   <data name="SwapBehavior" xml:space="preserve">
     <value>Comportement de permutation</value>
   </data>
-  <data name="SwapDelay_Tooltip" xml:space="preserve">
-    <value>Temps de chargement moyen entre le début du jeu et la sélection du personnage.
-Pour obtenir la valeur actuelle, vous devrez changer d'onglet de module une fois pour mettre à jour la page de paramètres !</value>
-  </data>
   <data name="SwapDelay" xml:space="preserve">
     <value>Délai de chargement ({0} ms)</value>
   </data>
@@ -960,5 +956,11 @@ Se connecter automatiquement ?
   </data>
   <data name="CustomOrderDisclaimer" xml:space="preserve">
     <value>Pour déplacer un personnage afin de définir un ordre personnalisé, vous devez faire CTRL + Glisser et Déposer le personnage sur sa nouvelle position.</value>
+  </data>
+  <data name="CapturedXPotraits" xml:space="preserve">
+    <value>Capturé {0} portraits !</value>
+  </data>
+  <data name="SwapDelay_Tooltip" xml:space="preserve">
+    <value>Temps de chargement moyen entre le début du jeu et la sélection du personnage.</value>
   </data>
 </root>

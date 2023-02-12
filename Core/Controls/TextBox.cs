@@ -1,6 +1,7 @@
 ﻿using Blish_HUD;
 using Gw2Sharp.WebApi;
 using Kenedia.Modules.Core.Interfaces;
+using Kenedia.Modules.Core.Services;
 using System;
 
 namespace Kenedia.Modules.Core.Controls
@@ -12,7 +13,7 @@ namespace Kenedia.Modules.Core.Controls
 
         public TextBox()
         {
-            GameService.Overlay.UserLocale.SettingChanged += UserLocale_SettingChanged;
+            LocalizingService.LocaleChanged  += UserLocale_SettingChanged;
             TextChanged += OnTextChanged;
             UserLocale_SettingChanged(null, null);
         }

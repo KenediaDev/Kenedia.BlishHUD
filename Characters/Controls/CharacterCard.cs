@@ -29,6 +29,7 @@ using System.Diagnostics;
 using System.Xml.Linq;
 using System.Collections;
 using System.Drawing;
+using Kenedia.Modules.Core.Services;
 
 namespace Kenedia.Modules.Characters.Controls
 {
@@ -243,7 +244,7 @@ namespace Kenedia.Modules.Characters.Controls
             BackgroundColor = new Color(0, 0, 0, 75);
             AutoSizePadding = new Point(0, 2);
 
-            GameService.Overlay.UserLocale.SettingChanged += ApplyCharacter;
+            LocalizingService.LocaleChanged += ApplyCharacter;
             _settings.AppearanceSettingChanged += Settings_AppearanceSettingChanged;
 
             _craftingControl.Settings = _settings;
@@ -506,8 +507,10 @@ namespace Kenedia.Modules.Characters.Controls
 
                     if (!IsDraggingTarget)
                     {
+                        bool anyVisible = _contentPanel.Visible && _dataControls.Where(e => e.Visible)?.Count() > 0;
+
                         _textTooltip.Text = Character.HasBirthdayPresent ? string.Format(strings.Birthday_Text, Character.Name, Character.Age) : string.Format(strings.LoginWith, Character.Name);
-                        _textTooltip.Visible = loginHovered;
+                        _textTooltip.Visible = loginHovered && anyVisible;
 
                         spriteBatch.DrawOnCtrl(
                             this,
@@ -530,8 +533,8 @@ namespace Kenedia.Modules.Characters.Controls
                         0f,
                         default);
 
-                    _textTooltip.Text = Character.HasBirthdayPresent ? string.Format(strings.Birthday_Text, Character.Name, Character.Age) : string.Format(strings.LoginWith, Character.Name);
-                    _textTooltip.Visible = loginHovered;
+                    _textTooltip.Text = Character.HasBirthdayPresent ? string.Format(strings.Birthday_Text, Character.Name, Character.Age) : string.Empty;
+                    _textTooltip.Visible = !string.IsNullOrEmpty(_textTooltip.Text);
 
                     spriteBatch.DrawOnCtrl(
                         this,
@@ -776,7 +779,7 @@ namespace Kenedia.Modules.Characters.Controls
         {
             base.DisposeControl();
 
-            GameService.Overlay.UserLocale.SettingChanged -= ApplyCharacter;
+            LocalizingService.LocaleChanged -= ApplyCharacter;
 
             _textTooltip.Shown -= TextTooltip_Shown;
             if (_character != null)

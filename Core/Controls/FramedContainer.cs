@@ -4,6 +4,7 @@ using Blish_HUD.Controls;
 using Blish_HUD.Input;
 using Gw2Sharp.WebApi;
 using Kenedia.Modules.Core.Interfaces;
+using Kenedia.Modules.Core.Services;
 using Kenedia.Modules.Core.Structs;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -35,7 +36,7 @@ namespace Kenedia.Modules.Core.Controls
 
         public FramedContainer()
         {
-            GameService.Overlay.UserLocale.SettingChanged += UserLocale_SettingChanged;
+            LocalizingService.LocaleChanged  += UserLocale_SettingChanged;
             UserLocale_SettingChanged(null, null);
             RecalculateFading();
         }
@@ -270,7 +271,7 @@ namespace Kenedia.Modules.Core.Controls
             DrawBorders(spriteBatch);
         }
 
-        public void UserLocale_SettingChanged(object sender, ValueChangedEventArgs<Locale> e)
+        public virtual void UserLocale_SettingChanged(object sender, ValueChangedEventArgs<Locale> e)
         {
             if (SetLocalizedTooltip != null) BasicTooltipText = SetLocalizedTooltip?.Invoke();
         }
@@ -303,7 +304,7 @@ namespace Kenedia.Modules.Core.Controls
         {
             base.DisposeControl();
 
-            GameService.Overlay.UserLocale.SettingChanged -= UserLocale_SettingChanged;
+            LocalizingService.LocaleChanged -= UserLocale_SettingChanged;
         }
 
         private void RecalculateFading()

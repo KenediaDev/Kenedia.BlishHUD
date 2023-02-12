@@ -14,16 +14,8 @@ namespace Kenedia.Modules.Core.Models
             ClientWindowService = clientWindowService;
             SharedSettings = sharedSettings;
             TexturesService = texturesService;
-            InputDetectionService = inputDetectionService;
-
-            States[typeof(GameState)] = true;
-            States[typeof(ClientWindowService)] = true;
-            States[typeof(SharedSettings)] = true;
-            States[typeof(TexturesService)] = true;
-            States[typeof(InputDetectionService)] = true;
+            InputDetectionService = inputDetectionService;            
         }
-
-        public Dictionary<Type, bool> States { get; } = new();
 
         public GameState GameState { get; }
 

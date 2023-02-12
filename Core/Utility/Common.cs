@@ -13,7 +13,7 @@ namespace Kenedia.Modules.Core.Utility
             return GameService.Overlay.CurrentGameTime.TotalGameTime.TotalMilliseconds;
         }
 
-        public static bool SetProperty<T>(ref T property, T newValue, bool triggerOnUpdate = true, Action OnUpdated = null)
+        public static bool SetProperty<T>(ref T property, T newValue, Action OnUpdated = null, bool triggerOnUpdate = true)
         {
             if (Equals(property, newValue))
             {

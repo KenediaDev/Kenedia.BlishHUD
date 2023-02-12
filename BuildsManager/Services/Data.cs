@@ -1,7 +1,13 @@
 ﻿using Blish_HUD;
 using Blish_HUD.Modules.Managers;
+using Gw2Sharp.Models;
+using Kenedia.Modules.BuildsManager.DataModels.ItemUpgrades;
 using Kenedia.Modules.BuildsManager.DataModels.LegendaryItems;
+using Kenedia.Modules.BuildsManager.DataModels.Professions;
+using Kenedia.Modules.BuildsManager.DataModels.Stats;
+using Kenedia.Modules.Core.Models;
 using Newtonsoft.Json;
+using SharpDX.Direct2D1.Effects;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -16,39 +22,76 @@ namespace Kenedia.Modules.BuildsManager.Services
     {
         private readonly Logger _logger = Logger.GetLogger(typeof(Data));
         private readonly ContentsManager _contentsManager;
+        private readonly PathCollection _paths;
 
-        public Data(ContentsManager contentsManager)
+        public Data(ContentsManager contentsManager, PathCollection paths)
         {
             _contentsManager = contentsManager;
+            _paths = paths;
         }
 
-        public Dictionary<int, LegendaryArmor> Armors{ get; set; } = new();
+        public List<int> RuneIds { get; set; } = new();
 
-        public Dictionary<int, LegendaryTrinket> Trinkets{ get; set; } = new();
+        public List<int> SigilIds { get; set; } = new();
 
-        public Dictionary<int, LegendaryWeapon> Weapons { get; set; } = new();
+        public Dictionary<int, LegendaryArmor> Armors { get; private set; } = new();
 
-        public Dictionary<int, LegendaryUpgrade> Upgrades{ get; set; } = new();
+        public Dictionary<int, LegendaryTrinket> Trinkets { get; private set; } = new();
 
-        public async Task Load() 
+        public Dictionary<int, LegendaryWeapon> Weapons { get; private set; } = new();
+
+        public Dictionary<int, LegendaryUpgrade> Upgrades { get; private set; } = new();
+
+        public Dictionary<ProfessionType, Profession> Professions { get; private set; } = new();
+
+        public Dictionary<int, Stat> Stats { get; private set; } = new();
+
+        public Dictionary<int, Sigil> Sigils { get; private set; } = new();
+
+        public Dictionary<int, Rune> Runes { get; private set; } = new();
+
+        public Dictionary<int, Pet> Pets { get; private set; } = new();
+
+        public Dictionary<int, int> PaletteBySkills { get; private set; } = new();
+
+        public async Task Load()
         {
             try
             {
-                Armors = JsonConvert.DeserializeObject<Dictionary<int, LegendaryArmor>>(await new StreamReader(_contentsManager.GetFileStream($@"data\{"armors"}.json")).ReadToEndAsync());
-                _logger.Info("Armors loaded!");
-                Trinkets = JsonConvert.DeserializeObject<Dictionary<int, LegendaryTrinket>>(await new StreamReader(_contentsManager.GetFileStream($@"data\{"trinkets"}.json")).ReadToEndAsync());
-                _logger.Info("Trinkets loaded!");
-                Weapons = JsonConvert.DeserializeObject<Dictionary<int, LegendaryWeapon>>(await new StreamReader(_contentsManager.GetFileStream($@"data\{"weapons"}.json")).ReadToEndAsync());
-                _logger.Info("Weapons loaded!");
-                Upgrades = JsonConvert.DeserializeObject<Dictionary<int, LegendaryUpgrade>>(await new StreamReader(_contentsManager.GetFileStream($@"data\{"upgrades"}.json")).ReadToEndAsync());
-                _logger.Info("Upgrades loaded!");
+                _logger.Debug("Loading local data...");
 
-                _logger.Info("All data loaded!");
+                RuneIds = JsonConvert.DeserializeObject<List<int>>(await new StreamReader(_contentsManager.GetFileStream(@"data\rune_ids.json")).ReadToEndAsync());
+                _logger.Debug("RuneIds loaded!");
+
+                SigilIds = JsonConvert.DeserializeObject<List<int>>(await new StreamReader(_contentsManager.GetFileStream(@"data\sigil_ids.json")).ReadToEndAsync());
+                _logger.Debug("SigilIds loaded!");
+
+                foreach (var prop in GetType().GetProperties())
+                {
+                    if (prop.Name is not nameof(RuneIds) and not nameof(SigilIds))
+                    {
+                        string path = $@"{_paths.ModulePath}\data\{prop.Name}.json";
+
+                        if (File.Exists(path))
+                        {
+                            _logger.Debug($"Loading data for property {prop.Name} from '{$@"{_paths.ModulePath}\data\{prop.Name}.json"}'");
+                            string json = await new StreamReader($@"{_paths.ModulePath}\data\{prop.Name}.json").ReadToEndAsync();
+                            object data = JsonConvert.DeserializeObject(json, prop.PropertyType);
+                            prop.SetValue(this, data);
+                        }
+                        else
+                        {
+                            _logger.Debug($"File for property {prop.Name} does not exist at '{$@"{_paths.ModulePath}\data\{prop.Name}.json"}'!");
+                        }
+                    }
+                }
+
+                _logger.Debug("All data loaded!");
             }
             catch (Exception ex)
             {
-                _logger.Info("Failed to load data!");
-                Debug.WriteLine($"{ex}");
+                _logger.Debug("Failed to load data!");
+                _logger.Debug($"{ex}");
             }
         }
     }

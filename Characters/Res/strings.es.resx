@@ -638,10 +638,6 @@ Para obtener el valor actual tendrás que cambiar las pestañas del módulo una 
   <data name="SwapBehavior" xml:space="preserve">
     <value>Comportamiento de intercambio</value>
   </data>
-  <data name="SwapDelay_Tooltip" xml:space="preserve">
-    <value>Tiempo medio de carga desde el inicio del juego hasta la selección del personaje.
-Para obtener el valor actual tendrás que cambiar las pestañas del módulo una vez para actualizar la página de configuración!</value>
-  </data>
   <data name="SwapDelay" xml:space="preserve">
     <value>Demora de carga ({0} ms)</value>
   </data>
@@ -960,5 +956,11 @@ Uu : Üü Ûû Ùù</value>
   </data>
   <data name="CustomOrderDisclaimer" xml:space="preserve">
     <value>Para mover un personaje para establecer un orden personalizado tienes que CTRL + Arrastrar y Soltar en su nueva posición</value>
+  </data>
+  <data name="CapturedXPotraits" xml:space="preserve">
+    <value>¡Capturé {0} retratos!</value>
+  </data>
+  <data name="SwapDelay_Tooltip" xml:space="preserve">
+    <value>Tiempo medio de carga desde el inicio del juego hasta la selección del personaje.</value>
   </data>
 </root>

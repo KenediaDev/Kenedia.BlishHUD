@@ -42,35 +42,35 @@ namespace Kenedia.Modules.ReleaseTheChoya.Models
         public string Name
         {
             get => _name;
-            set => Common.SetProperty(ref _name, value, true, UpdateSetting);
+            set => Common.SetProperty(ref _name, value, UpdateSetting);
         }
 
         [DataMember]
         public int Steps
         {
             get => _steps;
-            set => Common.SetProperty(ref _steps, value, true, UpdateSetting);
+            set => Common.SetProperty(ref _steps, value, UpdateSetting);
         }
 
         [DataMember]
         public Vector2 TravelDistance
         {
             get => _travelDistance;
-            set => Common.SetProperty(ref _travelDistance, value, true, UpdateSetting);
+            set => Common.SetProperty(ref _travelDistance, value, UpdateSetting);
         }
 
         [DataMember]
         public Rectangle Bounds
         {
             get => _bounds;
-            set => Common.SetProperty(ref _bounds, value, true, UpdateSetting);
+            set => Common.SetProperty(ref _bounds, value, UpdateSetting);
         }
 
         [DataMember]
         public bool CanMove
         {
             get => _canMove;
-            set => Common.SetProperty(ref _canMove, value, true, UpdateSetting);
+            set => Common.SetProperty(ref _canMove, value, UpdateSetting);
         }
 
         public SettingCollection StaticChoya { get; private set; }

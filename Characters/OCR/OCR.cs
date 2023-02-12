@@ -60,7 +60,7 @@ namespace Kenedia.Modules.Characters
             _view = new(_settings, this)
             {
                 Parent = GameService.Graphics.SpriteScreen,
-                ZIndex = int.MaxValue - 1,
+                ZIndex = (int.MaxValue / 2) - 1,
                 Visible = false,
             };
         }

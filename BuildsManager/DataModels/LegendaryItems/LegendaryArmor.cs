@@ -18,12 +18,13 @@ namespace Kenedia.Modules.BuildsManager.DataModels.LegendaryItems
         {
             Id = armor.Id;
             AttributeAdjustment = armor.Details.AttributeAdjustment;
-            Description.Text = armor.Description;
-            Names.Text = armor.Name;
+            Description = armor.Description;
+            Name = armor.Name;
             Weight = armor.Details.WeightClass;
             StatChoices = armor.Details.StatChoices;
             InfusionSlots = new int[armor.Details.InfusionSlots.Count];
             AssetId = Common.GetAssetIdFromRenderUrl(armor.Icon);
+            Chatlink = armor.ChatLink;
         }
 
         [DataMember]

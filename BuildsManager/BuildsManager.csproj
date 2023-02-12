@@ -198,18 +198,26 @@
     <Reference Include="System.Xml.ReaderWriter" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DataModels\ItemUpgrades\Rune.cs" />
+    <Compile Include="DataModels\ItemUpgrades\Sigil.cs" />
+    <Compile Include="DataModels\ItemUpgrades\Upgrade.cs" />
     <Compile Include="DataModels\LegendaryItems\LegendaryArmor.cs" />
     <Compile Include="DataModels\LegendaryItems\LegendaryItem.cs" />
     <Compile Include="DataModels\LegendaryItems\LegendaryItemId.cs" />
     <Compile Include="DataModels\LegendaryItems\LegendaryItemType.cs" />
     <Compile Include="DataModels\LegendaryItems\LegendaryTrinket.cs" />
+    <Compile Include="DataModels\LegendaryItems\LegendaryUpgrade.cs" />
     <Compile Include="DataModels\LegendaryItems\LegendaryWeapon.cs" />
     <Compile Include="DataModels\Professions\Legend.cs" />
+    <Compile Include="DataModels\Professions\Pet.cs" />
     <Compile Include="DataModels\Professions\Profession.cs" />
     <Compile Include="DataModels\Professions\Skill.cs" />
     <Compile Include="DataModels\Professions\Specialization.cs" />
     <Compile Include="DataModels\Professions\Trait.cs" />
     <Compile Include="DataModels\Professions\Weapon.cs" />
+    <Compile Include="DataModels\Stats\EquipmentStat.cs" />
+    <Compile Include="DataModels\Stats\Stat.cs" />
+    <Compile Include="Extensions\ChatLinkExtension.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="BuildsManager.cs" />
     <Compile Include="Services\Data.cs" />
@@ -308,14 +316,11 @@
     <None Include="Content\bin\Windows\Content\fonts\newkrytan\newkrytan-12-regular_1.xnb" />
     <None Include="manifest.json" />
     <None Include="packages.config" />
-    <None Include="ref\data\armors.json" />
-    <None Include="ref\data\trinkets.json" />
-    <None Include="ref\data\upgrades.json" />
-    <None Include="ref\data\weapons.json" />
+    <None Include="ref\data\rune_ids.json" />
+    <None Include="ref\data\sigil_ids.json" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Controls\" />
-    <Folder Include="Extensions\" />
     <Folder Include="Models\" />
     <Folder Include="Res\" />
   </ItemGroup>

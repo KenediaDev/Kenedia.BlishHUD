@@ -267,7 +267,7 @@ namespace Kenedia.Modules.Characters.Controls
                 {
                     for (int i = 0; i < int.MaxValue; i++)
                     {
-                        string imagePath = $"{path}Image {i}.png";
+                        string imagePath = $"{path}Image {string.Format("{0:00}", i)}.png";
 
                         if (!imagePaths.Contains(imagePath))
                         {
@@ -308,6 +308,7 @@ namespace Kenedia.Modules.Characters.Controls
                 }
 
                 OnImageCaptured?.Invoke();
+                ScreenNotification.ShowNotification("[Characters]: " + strings.CapturedXPotraits);
             }
         }
 
