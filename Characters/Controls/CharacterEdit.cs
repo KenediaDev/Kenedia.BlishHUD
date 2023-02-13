@@ -21,6 +21,8 @@ using Point = Microsoft.Xna.Framework.Point;
 using Rectangle = Microsoft.Xna.Framework.Rectangle;
 using TextBox = Kenedia.Modules.Core.Controls.TextBox;
 using System.Linq;
+using Kenedia.Modules.Characters.Views;
+using SharpDX.Direct3D9;
 
 namespace Kenedia.Modules.Characters.Controls
 {
@@ -94,7 +96,7 @@ namespace Kenedia.Modules.Characters.Controls
                 HoveredTexture = AsyncTexture2D.FromAssetId(358353),
                 BackgroundColor = Color.Black * 0.4f,
                 Size = new Point(70, 70),
-                ClickAction = (m) => ShowImages(),
+                ClickAction = (m) => ShowImages(!_imagePanelParent.Visible),
             };
 
             _name = new Label()
@@ -288,6 +290,7 @@ namespace Kenedia.Modules.Characters.Controls
         {
             base.OnShown(e);
             ShowImages(false);
+            //LoadImages(null, null);
 
             var tagList = _tags.Select(e => e.Text);
             var allTags = _allTags;
@@ -339,21 +342,23 @@ namespace Kenedia.Modules.Characters.Controls
                 List<string> images = new(Directory.GetFiles(path, "*.png", SearchOption.AllDirectories));
 
                 PanelSizes pSize = _settings.PanelSize.Value;
+
                 int imageSize = 80;
-
-                int maxHeight = GameService.Graphics.SpriteScreen.Height / 2;
-                int width = (int)Math.Min(710, Math.Min(GameService.Graphics.SpriteScreen.Height / 2, (_imagePanel.OuterControlPadding.Y * 2) + ((images.Count + 1) * (imageSize + _imagePanel.ControlPadding.X))));
-                int height = (int)Math.Min(maxHeight, (_imagePanel.OuterControlPadding.Y * 2) + ((images.Count + 1) / Math.Floor((double)width / imageSize) * (imageSize + _imagePanel.ControlPadding.Y)));
-
-                _imagePanel.Children.Clear();
 
                 GameService.Graphics.QueueMainThreadRender((graphicsDevice) =>
                 {
                     AsyncTexture2D noImgTexture = null;
+                    Character ??= (Anchor as MainWindow)?.CharacterCards.FirstOrDefault()?.Character;
 
-                    if (Visible && Character != null)
+                    if (Character != null)
                     {
+                        _imagePanel.Children.Clear();
                         noImgTexture = Character.SpecializationIcon;
+                        if (Anchor != null && Anchor.Visible)
+                        {
+                            (Anchor as MainWindow)?.ShowAttached(this);
+                            ShowImages(true, false);
+                        }
 
                         _noImgButton = new ImageButton()
                         {
@@ -387,17 +392,30 @@ namespace Kenedia.Modules.Characters.Controls
                             };
                         }
 
-                        _imagePanel.Width = width;
-                        _imagePanel.Height = height;
-                        _imagePanel.Invalidate();
-
-                        _imagePanelParent.Width = width;
-                        _imagePanelParent.Height = height;
-
+                        AdjustImagePanelHeight(images);
                         _closeButton.Location = _imagePanelParent.Right > 355 ? new(_imagePanelParent.Right - _closeButton.Size.X, AutoSizePadding.Y) : new(355 - _closeButton.Size.X, AutoSizePadding.Y);
                     }
                 });
             }
+        }
+
+        private void AdjustImagePanelHeight(List<string> images)
+        {
+            int imageSize = 80;
+            int maxHeight = GameService.Graphics.SpriteScreen.Height / 3;
+
+            int cols = Math.Min(images.Count + 1, Math.Min(640, GameService.Graphics.SpriteScreen.Height / 3) / 80);
+            int rows = (int)Math.Ceiling((double)((images.Count + 1) / (double) cols));
+
+            int width = (cols * imageSize) + ((cols - 1) * (int)_imagePanel.ControlPadding.X) + (int)_imagePanel.OuterControlPadding.X + 30;
+            int height = (rows * imageSize) + ((rows - 1) * (int)_imagePanel.ControlPadding.Y) + (int)_imagePanel.OuterControlPadding.Y + 10;
+
+            _imagePanelParent.Width = width + 10;
+            _imagePanelParent.Height = Math.Min(maxHeight, height);
+            _imagePanel.Width = width;
+            _imagePanel.Height = Math.Min(maxHeight, height);
+            _imagePanel.Invalidate();
+            _imagePanelParent.Invalidate();
         }
 
         protected override void DisposeControl()
@@ -409,9 +427,11 @@ namespace Kenedia.Modules.Characters.Controls
             _imagePanelParent?.Dispose();
         }
 
-        private void ShowImages(bool toggle = true)
+        public void ShowImages(bool toggle = true, bool loadImages = true)
         {
-            if (_imagePanelParent.Visible || !toggle)
+            if (loadImages && toggle) LoadImages(null, null);
+
+            if (!toggle)
             {
                 _closeButton.Location = new(355 - _closeButton.Size.X, AutoSizePadding.Y);
                 _tagContainer.Show();
@@ -425,7 +445,7 @@ namespace Kenedia.Modules.Characters.Controls
             _tagContainer.Hide();
             _buttonContainer.Show();
             _imagePanelParent.Show();
-            LoadImages(null, null);
+            _imagePanelParent.Invalidate();
         }
 
         private void ApplyCharacter()
@@ -458,7 +478,7 @@ namespace Kenedia.Modules.Characters.Controls
                 Text = txt,
                 Parent = _tagPanel,
                 Active = active,
-                CanInteract = true,                
+                CanInteract = true,
                 ShowDelete = false,
             };
 

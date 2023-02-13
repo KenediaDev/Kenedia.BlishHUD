@@ -227,6 +227,7 @@ namespace Kenedia.Modules.Characters.Models
                 _iconPath = value;
                 _icon = null;
                 _pathChecked = false;
+                OnUpdated(true);
             }
         }
 

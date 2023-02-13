@@ -39,6 +39,7 @@ using Kenedia.Modules.Characters.Controls.SideMenu;
 using Kenedia.Modules.Characters.Res;
 using Gw2Sharp.WebApi;
 using System.Collections.Specialized;
+using System.Diagnostics;
 
 namespace Kenedia.Modules.Characters
 {
@@ -50,6 +51,7 @@ namespace Kenedia.Modules.Characters
         private readonly Ticks _ticks = new();
 
         private CornerIcon _cornerIcon;
+        private AccountData _activeAccount;
         private bool _saveCharacters;
         private bool _mapsUpdated;
 
@@ -61,11 +63,49 @@ namespace Kenedia.Modules.Characters
             HasGUI = true;
         }
 
+        public string ActiveAccountName { get; set; } = string.Empty;
+
+        public Dictionary<string, AccountData> Accounts { get; } = new();
+
+        public AccountData ActiveAccount
+        {
+            get
+            {
+                bool exists = Accounts.TryGetValue(ActiveAccountName, out AccountData data);
+                if (exists) return data;
+
+                Accounts.Add(ActiveAccountName, data = new AccountData() { AccountName = ActiveAccountName });
+                ApplyAccount(data);
+
+                return Accounts[ActiveAccountName];
+            }
+        }
+
+        private void ApplyAccount(AccountData value)
+        {
+            Logger.Info($"Apply Account '{value.AccountName}'!");
+            CurrentCharacterModel = null;
+            Paths.AccountName = value.AccountName;
+
+            Tags?.Clear();
+            CharacterModels?.Clear();
+            MainWindow?.CharacterCards?.Clear();
+
+            foreach (var m in value.CharacterModels)
+            {
+                CharacterModels?.Add(m);
+                Tags?.AddTags(m.Tags);
+            }
+
+            MainWindow?.CharacterCards?.AddRange(value.CharacterCards);
+            MainWindow?.CreateCharacterControls(CharacterModels);
+        }
+
         public SearchFilterCollection SearchFilters { get; } = new();
 
         public SearchFilterCollection TagFilters { get; } = new();
 
-        public TagList Tags { get; } = new TagList();
+        public TagList Tags => ActiveAccount.Tags;
 
         public CharacterSwapping CharacterSwapping { get; private set; }
 
@@ -81,7 +121,7 @@ namespace Kenedia.Modules.Characters
 
         public TextureManager TextureManager { get; private set; }
 
-        public ObservableCollection<Character_Model> CharacterModels { get; } = new();
+        public ObservableCollection<Character_Model> CharacterModels => ActiveAccount.CharacterModels;
 
         private Character_Model _currentCharacterModel;
 
@@ -118,11 +158,9 @@ namespace Kenedia.Modules.Characters
 
         public string GlobalAccountsPath { get; set; }
 
-        public string CharactersPath { get; set; }
+        public string CharactersPath => $@"{Paths.AccountPath}\characters.json";
 
-        public string AccountImagesPath { get; set; }
-
-        public string AccountPath { get; set; }
+        public string AccountImagesPath => $@"{Paths.AccountPath}\images\";
 
         public GW2API_Handler GW2APIHandler { get; private set; }
 
@@ -331,7 +369,7 @@ namespace Kenedia.Modules.Characters
             new Rectangle(35, 14, cutBg.Width - 10, cutBg.Height - 10),
             Settings,
             TextureManager,
-            CharacterModels,
+            () => ActiveAccount,
             SearchFilters,
             TagFilters,
             OCR.ToggleContainer,
@@ -369,7 +407,11 @@ namespace Kenedia.Modules.Characters
             _ = MainWindow.SideMenu.SwitchTab(_toggles);
             MainWindow?.CreateCharacterControls(CharacterModels);
 
-            PotraitCapture.OnImageCaptured = () => MainWindow.CharacterEdit.LoadImages(null, null);
+            PotraitCapture.OnImageCaptured = () =>
+            {
+                MainWindow.CharacterEdit.LoadImages(null, null);
+                MainWindow.CharacterEdit.ShowImages(true);
+            };
 
             CharacterSwapping.HideMainWindow = MainWindow.Hide;
             CharacterSwapping.OCR = OCR;
@@ -430,10 +472,18 @@ namespace Kenedia.Modules.Characters
 
         protected override void ReloadKey_Activated(object sender, EventArgs e)
         {
-            base.ReloadKey_Activated(sender, e);
-            GameService.Graphics.SpriteScreen.Visible = true;
-            MainWindow?.ToggleWindow();
-            SettingsWindow?.ToggleWindow();
+            //base.ReloadKey_Activated(sender, e);
+            //GameService.Graphics.SpriteScreen.Visible = true;
+            //MainWindow?.ToggleWindow();
+            //SettingsWindow?.ToggleWindow();
+            //_ = LoadCharacterFile();
+            //MainWindow?.CreateCharacterControls(CharacterModels);
+
+            foreach(var c in CharacterModels)
+            {
+
+                Debug.WriteLine($"Contains: {c.Name}");
+            }
         }
 
         private void OnCharacterCollectionChanged(object sender, EventArgs e)
@@ -540,18 +590,21 @@ namespace Kenedia.Modules.Characters
 
         private void AddOrUpdateCharacters(IApiV2ObjectList<Character> characters)
         {
+            ActiveAccountName = GW2APIHandler.Account.Name;
+
             Logger.Info($"Update characters based on fresh data from the api.");
 
             var freshList = characters.Select(c => new { c.Name, c.Created }).ToList();
             var oldList = CharacterModels.Select(c => new { c.Name, c.Created }).ToList();
 
-            for (int i = 0; i < CharacterModels.Count; i++)
+            for (int i = CharacterModels.Count - 1; i >= 0; i--)
             {
                 Character_Model c = CharacterModels[i];
                 if (!freshList.Contains(new { c.Name, c.Created }))
                 {
-                    Logger.Info($"{c.Name} created on {c.Created} no longer exists. Delete it!");
+                    Logger.Info($"{c.Name} created on {c.Created} no longer exists. Delete them!");
                     c.Delete();
+                    //CharacterModels.RemoveAt(i);
                 }
             }
 
@@ -560,7 +613,7 @@ namespace Kenedia.Modules.Characters
             {
                 if (!oldList.Contains(new { c.Name, c.Created }))
                 {
-                    Logger.Info($"{c.Name} created on {c.Created} does not exist yet. Create it!");
+                    Logger.Info($"{c.Name} created on {c.Created} does not exist yet. Create them!");
                     CharacterModels.Add(new(c, CharacterSwapping, Paths.ModulePath, RequestCharacterSave, CharacterModels, Data) { Position = pos });
                 }
                 else
@@ -591,6 +644,7 @@ namespace Kenedia.Modules.Characters
             }
 
             SaveCharacterList();
+            MainWindow?.CreateCharacterControls(CharacterModels); 
             MainWindow?.PerformFiltering();
         }
 
@@ -598,17 +652,6 @@ namespace Kenedia.Modules.Characters
         {
             Paths.AccountName = accountName;
             Settings.LoadAccountSettings(accountName);
-
-            string b = Paths.ModulePath;
-
-            AccountPath = b + accountName;
-            CharactersPath = b + accountName + @"\characters.json";
-            AccountImagesPath = b + accountName + @"\images\";
-
-            if (!Directory.Exists(AccountPath))
-            {
-                _ = Directory.CreateDirectory(AccountPath);
-            }
 
             if (!Directory.Exists(AccountImagesPath))
             {
@@ -650,6 +693,7 @@ namespace Kenedia.Modules.Characters
             AccountSummary account = getAccount();
             if (account != null)
             {
+                ActiveAccountName = account.AccountName;
                 Logger.Debug($"Found '{player.Name}' in a stored character list for '{account.AccountName}'. Loading characters of '{account.AccountName}'");
                 UpdateFolderPaths(account.AccountName, false);
                 return LoadCharacterFile();
@@ -668,27 +712,22 @@ namespace Kenedia.Modules.Characters
                     string content = File.ReadAllText(CharactersPath);
                     PlayerCharacter player = GameService.Gw2Mumble.PlayerCharacter;
                     List<Character_Model> characters = JsonConvert.DeserializeObject<List<Character_Model>>(content);
-                    List<string> names = new();
+                    var names = CharacterModels.Select(c => c.Name).ToList();
 
                     if (characters != null)
                     {
                         characters.ForEach(c =>
                         {
-                            if (!CharacterModels.Contains(c) && !names.Contains(c.Name))
+                            if (!names.Contains(c.Name))
                             {
-                                foreach (string t in c.Tags)
-                                {
-                                    if (!Tags.Contains(t))
-                                    {
-                                        Tags.AddTag(t, false);
-                                    }
-                                }
+                                Tags.AddTags(c.Tags);
 
                                 CharacterModels.Add(new(c, CharacterSwapping, Paths.ModulePath, RequestCharacterSave, CharacterModels, Data));
                                 names.Add(c.Name);
                             }
                         });
 
+                        Logger.Info("Loaded local characters from file '" + CharactersPath + "'.");
                         return true;
                     }
                 }
@@ -698,7 +737,7 @@ namespace Kenedia.Modules.Characters
             catch (Exception ex)
             {
                 Logger.Warn(ex, "Failed to load the local characters from file '" + CharactersPath + "'.");
-                File.Copy(CharactersPath, CharactersPath.Replace(".json", " [" + DateTimeOffset.Now.ToUnixTimeSeconds().ToString() + "].corruped.json"));
+                File.Copy(CharactersPath, CharactersPath.Replace(".json", " [" + DateTimeOffset.Now.ToUnixTimeSeconds().ToString() + "].corrupted.json"));
                 return false;
             }
         }

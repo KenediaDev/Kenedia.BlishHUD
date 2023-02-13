@@ -265,7 +265,7 @@ namespace Kenedia.Modules.Characters.Controls
             {
                 string GetImagePath(List<string> imagePaths)
                 {
-                    for (int i = 0; i < int.MaxValue; i++)
+                    for (int i = 1; i < int.MaxValue; i++)
                     {
                         string imagePath = $"{path}Image {string.Format("{0:00}", i)}.png";
 
@@ -308,7 +308,7 @@ namespace Kenedia.Modules.Characters.Controls
                 }
 
                 OnImageCaptured?.Invoke();
-                ScreenNotification.ShowNotification("[Characters]: " + strings.CapturedXPotraits);
+                ScreenNotification.ShowNotification(string.Format("[Characters]: " + strings.CapturedXPotraits, _characterPotraitFrames.Count));
             }
         }
 

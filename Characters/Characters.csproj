@@ -215,6 +215,7 @@
     <Compile Include="Controls\RadialMenuSection.cs" />
     <Compile Include="Controls\TagFlowPanel.cs" />
     <Compile Include="Controls\Triangle.cs" />
+    <Compile Include="Models\AccountData.cs" />
     <Compile Include="Models\FilterEntry.cs" />
     <Compile Include="Controls\FilterTag.cs" />
     <Compile Include="Controls\FontFlowPanel.cs" />

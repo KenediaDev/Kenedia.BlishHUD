@@ -37,7 +37,7 @@ namespace Kenedia.Modules.Characters.Views
     {
         private readonly SettingsModel _settings;
         private readonly TextureManager _textureManager;
-        private readonly ObservableCollection<Character_Model> _characterModels;
+        private readonly Func<AccountData> _getAccountData;
         private readonly SearchFilterCollection _searchFilters;
         private readonly SearchFilterCollection _tagFilters;
         private readonly Func<Character_Model> _currentCharacter;
@@ -60,17 +60,16 @@ namespace Kenedia.Modules.Characters.Views
         private Rectangle _emblemRectangle;
         private Rectangle _titleRectangle;
         private BitmapFont _titleFont;
-        private List<Character_Model> loadedModels = new();
 
         public MainWindow(Texture2D background, Rectangle windowRegion, Rectangle contentRegion,
-            SettingsModel settings, TextureManager textureManager, ObservableCollection<Character_Model> characterModels,
+            SettingsModel settings, TextureManager textureManager, Func<AccountData> getAccountData,
             SearchFilterCollection searchFilters, SearchFilterCollection tagFilters, Action toggleOCR, Action togglePotrait,
             Action refreshAPI, Func<string> accountImagePath, TagList tags, Func<Character_Model> currentCharacter, Data data, CharacterSorting characterSorting)
             : base(background, windowRegion, contentRegion)
         {
             _settings = settings;
             _textureManager = textureManager;
-            _characterModels = characterModels;
+            _getAccountData = getAccountData;
             _searchFilters = searchFilters;
             _tagFilters = tagFilters;
             _currentCharacter = currentCharacter;
@@ -164,7 +163,7 @@ namespace Kenedia.Modules.Characters.Views
                 Visible = _settings.ShowLastButton.Value,
                 ClickAction = (m) =>
                 {
-                    var character = characterModels.Aggregate((a, b) => b.LastLogin > a.LastLogin ? a : b);
+                    var character = _getAccountData?.Invoke()?.CharacterModels.Aggregate((a, b) => b.LastLogin > a.LastLogin ? a : b);
                     character?.Swap(true);
                 }
             };
@@ -209,7 +208,7 @@ namespace Kenedia.Modules.Characters.Views
                 ClickAction = (m) => ShowAttached(SideMenu.Visible ? null : SideMenu),
             };
 
-            CharacterEdit = new CharacterEdit(textureManager, togglePotrait, accountImagePath, tags, settings, () => PerformFiltering())
+            CharacterEdit = new CharacterEdit(textureManager, togglePotrait, accountImagePath, tags, settings, PerformFiltering)
             {
                 Parent = GameService.Graphics.SpriteScreen,
                 Anchor = this,
@@ -241,6 +240,8 @@ namespace Kenedia.Modules.Characters.Views
             GameService.Gw2Mumble.CurrentMap.MapChanged += CurrentMap_MapChanged;
         }
 
+        private List<Character_Model> LoadedModels => _getAccountData?.Invoke()?.LoadedModels;
+
         private void FilterDelay_SettingChanged(object sender, ValueChangedEventArgs<int> e)
         {
             _filterBox.FilteringDelay = e.NewValue;
@@ -268,8 +269,6 @@ namespace Kenedia.Modules.Characters.Views
 
         public SideMenu SideMenu { get; }
 
-        public SemVer.Version Version { get; set; }
-
         private void PinSideMenus_SettingChanged(object sender, ValueChangedEventArgs<bool> e)
         {
             CharacterEdit.FadeOut = !e.NewValue;
@@ -288,7 +287,7 @@ namespace Kenedia.Modules.Characters.Views
             _clearButton.Location = new Point(_filterBox.LocalBounds.Right - 25, _filterBox.LocalBounds.Top + 5);
         }
 
-        public List<CharacterCard> CharacterCards { get; } = new List<CharacterCard>();
+        public List<CharacterCard> CharacterCards => _getAccountData?.Invoke()?.CharacterCards;
 
         public CharacterEdit CharacterEdit { get; set; }
 
@@ -439,12 +438,13 @@ namespace Kenedia.Modules.Characters.Views
 
         public void CreateCharacterControls(IEnumerable<Character_Model> models)
         {
-            if (SideMenu.Tabs.Count > 1)
+            if (SideMenu.Tabs.Count > 1 && CharacterCards != null)
             {
-                var newCharacters = models.Except(loadedModels);
+                var newCharacters = _getAccountData?.Invoke()?.CharacterModels.Except(LoadedModels);
 
                 foreach (Character_Model c in newCharacters)
                 {
+                    LoadedModels.Add(c);
                     CharacterCards.Add(new CharacterCard(_currentCharacter, _textureManager, _data, this, _settings)
                     {
                         Character = c,
@@ -453,7 +453,6 @@ namespace Kenedia.Modules.Characters.Views
                     });
                 }
 
-                loadedModels = new List<Character_Model>(models);
                 FilterCharacters();
                 CharacterCards.FirstOrDefault()?.UniformWithAttached();
             }
