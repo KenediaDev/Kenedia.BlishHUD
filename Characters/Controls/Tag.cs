@@ -10,7 +10,6 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MonoGame.Extended.BitmapFonts;
 using System;
-using System.Diagnostics;
 using Color = Microsoft.Xna.Framework.Color;
 using Label = Kenedia.Modules.Core.Controls.Label;
 using Point = Microsoft.Xna.Framework.Point;

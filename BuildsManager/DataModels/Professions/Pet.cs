@@ -2,13 +2,8 @@
 using Gw2Sharp.WebApi.V2.Models;
 using Kenedia.Modules.Core.Models;
 using Kenedia.Modules.Core.Utility;
-using System;
 using System.Collections.Generic;
-using System.Drawing;
-using System.Linq;
 using System.Runtime.Serialization;
-using System.Text;
-using System.Threading.Tasks;
 using APIPet = Gw2Sharp.WebApi.V2.Models.Pet;
 
 namespace Kenedia.Modules.BuildsManager.DataModels.Professions
@@ -82,6 +77,11 @@ namespace Kenedia.Modules.BuildsManager.DataModels.Professions
 
         [DataMember]
         public Dictionary<int, Skill> Skills { get; set; } = new();
+
+        public static Pet FromByte(byte id)
+        {
+            return BuildsManager.Data.Pets?.TryGetValue((int)id, out Pet pet) == true ? pet : null;
+        }
 
         public void ApplyLanguage(APIPet pet)
         {

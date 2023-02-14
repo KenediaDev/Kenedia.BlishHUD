@@ -1,10 +1,8 @@
 ﻿using Gw2Sharp;
-using Gw2Sharp.WebApi.V2.Models;
 using System;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
 using APIWeapon = Gw2Sharp.WebApi.V2.Models.ProfessionWeapon;
-using APISkill = Gw2Sharp.WebApi.V2.Models.Skill;
 using System.Linq;
 
 namespace Kenedia.Modules.BuildsManager.DataModels.Professions
@@ -43,7 +41,8 @@ namespace Kenedia.Modules.BuildsManager.DataModels.Professions
 
         public enum WeaponType
         {
-            Unkown = -1,
+            Unknown,
+            None,
             Axe,
             Dagger,
             Mace,

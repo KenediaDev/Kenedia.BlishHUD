@@ -12,9 +12,7 @@ using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Diagnostics;
 using System.IO;
-using System.Threading;
 using System.Threading.Tasks;
-using APIMap = Gw2Sharp.WebApi.V2.Models.Map;
 using Map = Kenedia.Modules.Core.DataModels.Map;
 
 namespace Kenedia.Modules.Dev

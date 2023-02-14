@@ -4,8 +4,6 @@ using Gw2Sharp;
 using Gw2Sharp.WebApi;
 using Gw2Sharp.WebApi.Caching;
 using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Kenedia.Modules.Core.Models
 {

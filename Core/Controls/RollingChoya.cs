@@ -2,12 +2,10 @@
 using Blish_HUD.Content;
 using Blish_HUD.Controls;
 using Blish_HUD.Input;
-using Kenedia.Modules.Core.Res;
 using Kenedia.Modules.Core.Services;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
-using System.Diagnostics;
 
 namespace Kenedia.Modules.Core.Controls
 {

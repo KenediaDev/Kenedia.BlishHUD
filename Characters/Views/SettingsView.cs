@@ -1,6 +1,5 @@
 ﻿using Blish_HUD.Controls;
 using Blish_HUD.Graphics.UI;
-using Kenedia.Modules.Characters.Res;
 using Kenedia.Modules.Core.Res;
 using Microsoft.Xna.Framework;
 using System;

@@ -1,7 +1,6 @@
 ﻿using Gw2Sharp.WebApi;
 using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace Kenedia.Modules.Core.Models
 {

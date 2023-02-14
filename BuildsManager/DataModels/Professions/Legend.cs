@@ -1,5 +1,4 @@
 ﻿using Kenedia.Modules.Core.Models;
-using System;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
 using APILegend = Gw2Sharp.WebApi.V2.Models.Legend;
@@ -93,6 +92,11 @@ namespace Kenedia.Modules.BuildsManager.DataModels.Professions
                     utility.Description = ut.Description;
                 }
             }
+        }
+
+        public static Legend FromByte(byte id)
+        {
+            return BuildsManager.Data.Professions?[Gw2Sharp.Models.ProfessionType.Revenant]?.Legends.TryGetValue((int) id, out Legend legend) == true ? legend : null;
         }
     }
 }

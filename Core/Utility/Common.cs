@@ -1,8 +1,6 @@
 ﻿using Blish_HUD;
 using Gw2Sharp.WebApi;
 using System;
-using System.Diagnostics;
-using System.Runtime.CompilerServices;
 
 namespace Kenedia.Modules.Core.Utility
 {

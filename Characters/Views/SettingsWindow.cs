@@ -9,8 +9,6 @@ using Kenedia.Modules.Core.Controls;
 using Kenedia.Modules.Core.Extensions;
 using Kenedia.Modules.Core.Views;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using MonoGame.Extended.BitmapFonts;
 using System;
 using static Blish_HUD.ContentService;
 using Checkbox = Kenedia.Modules.Core.Controls.Checkbox;

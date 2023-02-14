@@ -7,13 +7,10 @@ using Kenedia.Modules.BuildsManager.DataModels.Professions;
 using Kenedia.Modules.BuildsManager.DataModels.Stats;
 using Kenedia.Modules.Core.Models;
 using Newtonsoft.Json;
-using SharpDX.Direct2D1.Effects;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Kenedia.Modules.BuildsManager.Services
@@ -54,6 +51,8 @@ namespace Kenedia.Modules.BuildsManager.Services
 
         public Dictionary<int, int> PaletteBySkills { get; private set; } = new();
 
+        public List<KeyValuePair<int, int>> SkillsByPalette { get; private set; } = new();
+
         public async Task Load()
         {
             try
@@ -68,7 +67,7 @@ namespace Kenedia.Modules.BuildsManager.Services
 
                 foreach (var prop in GetType().GetProperties())
                 {
-                    if (prop.Name is not nameof(RuneIds) and not nameof(SigilIds))
+                    if (prop.Name is not nameof(RuneIds) and not nameof(SigilIds) and not nameof(SkillsByPalette))
                     {
                         string path = $@"{_paths.ModulePath}\data\{prop.Name}.json";
 
@@ -85,6 +84,8 @@ namespace Kenedia.Modules.BuildsManager.Services
                         }
                     }
                 }
+
+                SkillsByPalette = PaletteBySkills.ToList();
 
                 _logger.Debug("All data loaded!");
             }

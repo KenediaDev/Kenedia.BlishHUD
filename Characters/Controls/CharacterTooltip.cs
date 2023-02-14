@@ -16,7 +16,6 @@ using FlowPanel = Kenedia.Modules.Core.Controls.FlowPanel;
 using Point = Microsoft.Xna.Framework.Point;
 using Rectangle = Microsoft.Xna.Framework.Rectangle;
 using Label = Kenedia.Modules.Core.Controls.Label;
-using Kenedia.Modules.Core.Services;
 using Gw2Sharp.WebApi;
 
 namespace Kenedia.Modules.Characters.Controls

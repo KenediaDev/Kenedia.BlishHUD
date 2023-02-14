@@ -10,15 +10,6 @@ using MonoGame.Extended.BitmapFonts;
 using System;
 using System.Collections.Generic;
 using static Blish_HUD.ContentService;
-using Checkbox = Kenedia.Modules.Core.Controls.Checkbox;
-using Dropdown = Kenedia.Modules.Core.Controls.Dropdown;
-using FlowPanel = Kenedia.Modules.Core.Controls.FlowPanel;
-using KeybindingAssigner = Kenedia.Modules.Core.Controls.KeybindingAssigner;
-using Label = Kenedia.Modules.Core.Controls.Label;
-using Panel = Kenedia.Modules.Core.Controls.Panel;
-using StandardWindow = Kenedia.Modules.Core.Views.StandardWindow;
-using TextBox = Kenedia.Modules.Core.Controls.TextBox;
-using TrackBar = Kenedia.Modules.Core.Controls.TrackBar;
 
 namespace Kenedia.Modules.Core.Views
 {

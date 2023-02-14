@@ -3,14 +3,10 @@ using Blish_HUD.Content;
 using Blish_HUD.Settings;
 using Kenedia.Modules.Core.Controls;
 using Microsoft.Xna.Framework;
-using SharpDX.Direct2D1;
 using System;
 using System.Runtime.Serialization;
 using Kenedia.Modules.Core.Utility;
-using System.Diagnostics;
 using Kenedia.Modules.Core.Res;
-using System.Runtime;
-using Kenedia.Modules.ReleaseTheChoya.Res;
 
 namespace Kenedia.Modules.ReleaseTheChoya.Models
 {

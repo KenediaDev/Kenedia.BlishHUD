@@ -1,13 +1,13 @@
 ﻿using Blish_HUD.Content;
 using Gw2Sharp;
+using Gw2Sharp.Models;
 using Gw2Sharp.WebApi.V2.Models;
 using Kenedia.Modules.Core.Models;
 using Kenedia.Modules.Core.Utility;
-using Newtonsoft.Json.Linq;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Runtime.Serialization;
+using static Kenedia.Modules.BuildsManager.DataModels.Professions.Weapon;
 using APISkill = Gw2Sharp.WebApi.V2.Models.Skill;
 
 namespace Kenedia.Modules.BuildsManager.DataModels.Professions
@@ -29,6 +29,7 @@ namespace Kenedia.Modules.BuildsManager.DataModels.Professions
             ChatLink = skill.ChatLink;
             Flags = skill.Flags.Count() > 0 ? skill.Flags.Aggregate((x, y) => x |= y.ToEnum()) : SkillFlag.Unknown;
             Slot = skill.Slot?.ToEnum();
+            WeaponType = skill.WeaponType != null ? (WeaponType) skill.WeaponType?.ToEnum() : null;
 
             BundleSkills = skill.BundleSkills != null && skill.BundleSkills.Count > 0 ? skill.BundleSkills.ToList() : null;
             FlipSkill = skill.FlipSkill != null ? skill.FlipSkill : null;
@@ -89,6 +90,9 @@ namespace Kenedia.Modules.BuildsManager.DataModels.Professions
         public SkillSlot? Slot { get; set; }
 
         [DataMember]
+        public WeaponType? WeaponType { get; set; }
+
+        [DataMember]
         public SkillFlag Flags { get; set; }
 
         [DataMember]
@@ -108,5 +112,12 @@ namespace Kenedia.Modules.BuildsManager.DataModels.Professions
 
         [DataMember]
         public List<int> BundleSkills { get; set; }
+
+        internal static Skill FromUShort(ushort id, ProfessionType profession)
+        {
+            return BuildsManager.Data.Professions?[profession]?.SkillsByPalette.TryGetValue((int)id, out int skillid) == true
+                ? (BuildsManager.Data.Professions?[profession]?.Skills[skillid])
+                : null;
+        }
     }
 }

@@ -3,24 +3,15 @@ using Blish_HUD.Modules.Managers;
 using Gw2Sharp.Models;
 using Gw2Sharp.WebApi;
 using Gw2Sharp.WebApi.V2.Models;
-using Kenedia.Modules.BuildsManager.DataModels;
 using Kenedia.Modules.BuildsManager.DataModels.LegendaryItems;
-using Kenedia.Modules.BuildsManager.DataModels.Professions;
 using Kenedia.Modules.Core.Models;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.IO;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using File = System.IO.File;
 using Profession = Kenedia.Modules.BuildsManager.DataModels.Professions.Profession;
-using APIProfession = Gw2Sharp.WebApi.V2.Models.Profession;
-using APISpecialization = Gw2Sharp.WebApi.V2.Models.Specialization;
-using APITrait = Gw2Sharp.WebApi.V2.Models.Trait;
-using APISkill = Gw2Sharp.WebApi.V2.Models.Skill;
 using Skill = Kenedia.Modules.BuildsManager.DataModels.Professions.Skill;
 using Trait = Kenedia.Modules.BuildsManager.DataModels.Professions.Trait;
 using Specialization = Kenedia.Modules.BuildsManager.DataModels.Professions.Specialization;
@@ -320,9 +311,12 @@ namespace Kenedia.Modules.BuildsManager.Services
                 if (cancellation.IsCancellationRequested) return;
 
                 var paletteBySkills = new Dictionary<int, int>();
-                foreach (var pair in apiProfessions.First()?.SkillsByPalette)
+                foreach (var prof in apiProfessions)
                 {
-                    if (!paletteBySkills.ContainsKey(pair.Value)) paletteBySkills.Add(pair.Value, pair.Key);
+                    foreach (var pair in prof.SkillsByPalette)
+                    {
+                        if (!paletteBySkills.ContainsKey(pair.Value)) paletteBySkills.Add(pair.Value, pair.Key);
+                    }
                 }
 
                 var skills = new Dictionary<int, Skill>();

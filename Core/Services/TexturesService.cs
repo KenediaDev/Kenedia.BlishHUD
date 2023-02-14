@@ -1,17 +1,13 @@
 ﻿using Blish_HUD;
-using Blish_HUD.Content;
 using Blish_HUD.Graphics;
 using Blish_HUD.Modules.Managers;
 using Kenedia.Modules.Core.Extensions;
-using Kenedia.Modules.Core.Res;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
-using System.Text;
 
 namespace Kenedia.Modules.Core.Services
 {

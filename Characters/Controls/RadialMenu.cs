@@ -2,7 +2,6 @@
 using Blish_HUD.Content;
 using Blish_HUD.Controls;
 using Blish_HUD.Input;
-using Kenedia.Modules.Characters.Controls;
 using Kenedia.Modules.Characters.Extensions;
 using Kenedia.Modules.Characters.Models;
 using Kenedia.Modules.Characters.Services;
@@ -14,7 +13,6 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Threading.Tasks;
 using Color = Microsoft.Xna.Framework.Color;
 using Point = Microsoft.Xna.Framework.Point;
 using Rectangle = Microsoft.Xna.Framework.Rectangle;

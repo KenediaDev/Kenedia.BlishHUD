@@ -2,12 +2,9 @@
 using Blish_HUD.Controls;
 using Kenedia.Modules.Core.Utility;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using System;
-using System.Diagnostics;
 using Color = Microsoft.Xna.Framework.Color;
 using Point = Microsoft.Xna.Framework.Point;
-using Rectangle = Microsoft.Xna.Framework.Rectangle;
 
 namespace Kenedia.Modules.Characters.Controls
 {

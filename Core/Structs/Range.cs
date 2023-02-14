@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Kenedia.Modules.Core.Structs
+﻿namespace Kenedia.Modules.Core.Structs
 {
     public struct Range
     {

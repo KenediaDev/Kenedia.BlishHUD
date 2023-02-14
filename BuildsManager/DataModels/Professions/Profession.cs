@@ -2,10 +2,8 @@
 using Gw2Sharp.Models;
 using Kenedia.Modules.Core.Models;
 using Kenedia.Modules.Core.Utility;
-using SharpDX;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Runtime.Serialization;
 using static Kenedia.Modules.BuildsManager.DataModels.Professions.Weapon;
@@ -71,6 +69,9 @@ namespace Kenedia.Modules.BuildsManager.DataModels.Professions
         [DataMember]
         public Dictionary<int, Legend> Legends { get; set; }
 
+        [DataMember]
+        public Dictionary<int, int> SkillsByPalette { get; set; }
+
         internal void Apply(APIProfession prof, Dictionary<int, Specialization> specializations, Dictionary<int, Trait> traits, Dictionary<int, Skill> skills, Dictionary<int, Legend> legends)
         {
             if (Enum.TryParse(prof.Id, out ProfessionType professionType))
@@ -79,6 +80,7 @@ namespace Kenedia.Modules.BuildsManager.DataModels.Professions
                 Name = prof.Name;
                 IconAssetId = prof.Icon.GetAssetIdFromRenderUrl();
                 IconBigAssetId = prof.IconBig.GetAssetIdFromRenderUrl();
+                SkillsByPalette = prof.SkillsByPalette.ToDictionary(e => e.Key, e => e.Value);
 
                 foreach (var apiWeapon in prof.Weapons)
                 {

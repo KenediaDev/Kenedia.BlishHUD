@@ -4,6 +4,7 @@ using Kenedia.Modules.BuildsManager.Extensions;
 using Kenedia.Modules.Core.Models;
 using Kenedia.Modules.Core.Utility;
 using System.Collections.Generic;
+using System.Linq;
 using System.Runtime.Serialization;
 using APITrait = Gw2Sharp.WebApi.V2.Models.Trait;
 
@@ -25,7 +26,7 @@ namespace Kenedia.Modules.BuildsManager.DataModels.Professions
             Description = trait.Description;
             Specialization = trait.Specialization;
             IconAssetId = trait.Icon.GetAssetIdFromRenderUrl();
-            Tier = trait.Tier;
+            Tier = (Models.Templates.TraitTier)trait.Tier;
             Order = trait.Order;
             Type = trait.Slot.Value;
             ChatLink = trait.CreateChatLink();
@@ -48,6 +49,9 @@ namespace Kenedia.Modules.BuildsManager.DataModels.Professions
 
         [DataMember]
         public int Id { get; set; }
+
+        [DataMember]
+        public int Index { get; set; }
 
         [DataMember]
         public int Specialization { get; set; }
@@ -90,12 +94,18 @@ namespace Kenedia.Modules.BuildsManager.DataModels.Professions
         public TraitSlot Type { get; set; }
 
         [DataMember]
-        public int Tier;
+        public Models.Templates.TraitTier Tier { get; set; }
 
         [DataMember]
-        public int Order;
+        public int Order { get; set; }
 
         [DataMember]
         public List<int> Skills = new();
+
+        internal static Trait FromByte(byte order, Specialization specialization, Models.Templates.TraitTier tier)
+        {
+            return order == 0 ? null :
+                specialization?.MajorTraits.Where(e => e.Value.Tier == tier)?.ToList()?.Find(e => e.Value.Order == (int)order - 1).Value;
+        }
     }
 }

@@ -1,12 +1,8 @@
 ﻿using Blish_HUD.Content;
 using Gw2Sharp.WebApi.V2.Models;
 using Kenedia.Modules.Core.Models;
-using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Runtime.Serialization;
-using System.Text;
-using System.Threading.Tasks;
 using APIStat = Gw2Sharp.WebApi.V2.Models.Itemstat;
 
 namespace Kenedia.Modules.BuildsManager.DataModels.Stats

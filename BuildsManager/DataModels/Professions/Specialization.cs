@@ -37,20 +37,32 @@ namespace Kenedia.Modules.BuildsManager.DataModels.Professions
         {
             if (Enum.TryParse(specialization.Profession, out ProfessionType _))
             {
+                int index = 0;
                 foreach (int t in specialization.MajorTraits)
                 {
                     if (traits.TryGetValue(t, out Trait trait))
                     {
+                        trait.Index = index;
                         MajorTraits.Add(t, trait);
                     }
+
+                    index++;
                 }
 
+                index = 0;
                 foreach (int t in specialization.MinorTraits)
                 {
                     if (traits.TryGetValue(t, out Trait trait))
                     {
+                        trait.Index = index;
                         MinorTraits.Add(t, trait);
                     }
+                    index++;
+                }
+
+                if (specialization.WeaponTrait != null && traits.TryGetValue((int)specialization.WeaponTrait, out Trait weaponTrait))
+                {
+                    WeaponTrait = weaponTrait;
                 }
             }
         }
@@ -100,9 +112,12 @@ namespace Kenedia.Modules.BuildsManager.DataModels.Professions
         }
 
         [DataMember]
-        public Dictionary<int, Trait> MinorTraits = new();
+        public Dictionary<int, Trait> MinorTraits { get; } = new();
 
         [DataMember]
-        public Dictionary<int, Trait> MajorTraits = new();
+        public Dictionary<int, Trait> MajorTraits { get; } = new();
+
+        [DataMember]
+        public Trait WeaponTrait { get; set; }
     }
 }

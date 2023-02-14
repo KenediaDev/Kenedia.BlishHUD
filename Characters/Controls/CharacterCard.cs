@@ -25,10 +25,6 @@ using FlowPanel = Kenedia.Modules.Core.Controls.FlowPanel;
 using Panel = Kenedia.Modules.Core.Controls.Panel;
 using Point = Microsoft.Xna.Framework.Point;
 using Rectangle = Microsoft.Xna.Framework.Rectangle;
-using System.Diagnostics;
-using System.Xml.Linq;
-using System.Collections;
-using System.Drawing;
 using Kenedia.Modules.Core.Services;
 
 namespace Kenedia.Modules.Characters.Controls

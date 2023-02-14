@@ -1,24 +1,15 @@
 ﻿using Blish_HUD;
 using Blish_HUD.Content;
 using Blish_HUD.Controls;
-using Blish_HUD.Settings;
-using Kenedia.Modules.Core.Controls;
 using Kenedia.Modules.Core.Extensions;
-using Kenedia.Modules.Core.Res;
-using Kenedia.Modules.Core.Views;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MonoGame.Extended.BitmapFonts;
 using System;
 using static Blish_HUD.ContentService;
-using Checkbox = Kenedia.Modules.Core.Controls.Checkbox;
-using Dropdown = Kenedia.Modules.Core.Controls.Dropdown;
 using FlowPanel = Kenedia.Modules.Core.Controls.FlowPanel;
-using KeybindingAssigner = Kenedia.Modules.Core.Controls.KeybindingAssigner;
 using Label = Kenedia.Modules.Core.Controls.Label;
 using Panel = Kenedia.Modules.Core.Controls.Panel;
-using StandardWindow = Kenedia.Modules.Core.Views.StandardWindow;
-using TextBox = Kenedia.Modules.Core.Controls.TextBox;
 using TrackBar = Kenedia.Modules.Core.Controls.TrackBar;
 
 namespace Kenedia.Modules.Core.Views

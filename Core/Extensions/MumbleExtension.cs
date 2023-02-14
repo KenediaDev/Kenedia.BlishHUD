@@ -1,9 +1,6 @@
-﻿using Blish_HUD;
-using Blish_HUD.Gw2Mumble;
+﻿using Blish_HUD.Gw2Mumble;
 using Gw2Sharp.Models;
-using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace Kenedia.Modules.Core.Extensions
 {

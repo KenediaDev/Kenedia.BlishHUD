@@ -21,15 +21,10 @@ using Color = Microsoft.Xna.Framework.Color;
 using FlowPanel = Kenedia.Modules.Core.Controls.FlowPanel;
 using Point = Microsoft.Xna.Framework.Point;
 using Rectangle = Microsoft.Xna.Framework.Rectangle;
-using TextBox = Kenedia.Modules.Core.Controls.TextBox;
 using StandardWindow = Kenedia.Modules.Core.Views.StandardWindow;
-using System.Collections.ObjectModel;
 using System.Threading.Tasks;
-using System.Runtime;
 using Kenedia.Modules.Core.Utility;
-using System.Diagnostics;
-using System.Collections;
-using System.Reflection;
+using System.Collections.ObjectModel;
 
 namespace Kenedia.Modules.Characters.Views
 {
@@ -37,7 +32,7 @@ namespace Kenedia.Modules.Characters.Views
     {
         private readonly SettingsModel _settings;
         private readonly TextureManager _textureManager;
-        private readonly Func<AccountData> _getAccountData;
+        private readonly ObservableCollection<Character_Model> _characterModels;
         private readonly SearchFilterCollection _searchFilters;
         private readonly SearchFilterCollection _tagFilters;
         private readonly Func<Character_Model> _currentCharacter;
@@ -62,14 +57,14 @@ namespace Kenedia.Modules.Characters.Views
         private BitmapFont _titleFont;
 
         public MainWindow(Texture2D background, Rectangle windowRegion, Rectangle contentRegion,
-            SettingsModel settings, TextureManager textureManager, Func<AccountData> getAccountData,
+            SettingsModel settings, TextureManager textureManager, ObservableCollection<Character_Model> characterModels,
             SearchFilterCollection searchFilters, SearchFilterCollection tagFilters, Action toggleOCR, Action togglePotrait,
             Action refreshAPI, Func<string> accountImagePath, TagList tags, Func<Character_Model> currentCharacter, Data data, CharacterSorting characterSorting)
             : base(background, windowRegion, contentRegion)
         {
             _settings = settings;
             _textureManager = textureManager;
-            _getAccountData = getAccountData;
+            _characterModels = characterModels;
             _searchFilters = searchFilters;
             _tagFilters = tagFilters;
             _currentCharacter = currentCharacter;
@@ -163,7 +158,7 @@ namespace Kenedia.Modules.Characters.Views
                 Visible = _settings.ShowLastButton.Value,
                 ClickAction = (m) =>
                 {
-                    var character = _getAccountData?.Invoke()?.CharacterModels.Aggregate((a, b) => b.LastLogin > a.LastLogin ? a : b);
+                    var character = _characterModels.Aggregate((a, b) => b.LastLogin > a.LastLogin ? a : b);
                     character?.Swap(true);
                 }
             };
@@ -240,7 +235,7 @@ namespace Kenedia.Modules.Characters.Views
             GameService.Gw2Mumble.CurrentMap.MapChanged += CurrentMap_MapChanged;
         }
 
-        private List<Character_Model> LoadedModels => _getAccountData?.Invoke()?.LoadedModels;
+        private List<Character_Model> LoadedModels { get; } = new();
 
         private void FilterDelay_SettingChanged(object sender, ValueChangedEventArgs<int> e)
         {
@@ -287,7 +282,7 @@ namespace Kenedia.Modules.Characters.Views
             _clearButton.Location = new Point(_filterBox.LocalBounds.Right - 25, _filterBox.LocalBounds.Top + 5);
         }
 
-        public List<CharacterCard> CharacterCards => _getAccountData?.Invoke()?.CharacterCards;
+        public List<CharacterCard> CharacterCards { get; } = new();
 
         public CharacterEdit CharacterEdit { get; set; }
 
@@ -436,11 +431,11 @@ namespace Kenedia.Modules.Characters.Views
             _clearButton.Visible = stringFilters.Count > 0 || toggleFilters.Count > 0 || tagFilters.Count > 0;
         }
 
-        public void CreateCharacterControls(IEnumerable<Character_Model> models)
+        public void CreateCharacterControls()
         {
             if (SideMenu.Tabs.Count > 1 && CharacterCards != null)
             {
-                var newCharacters = _getAccountData?.Invoke()?.CharacterModels.Except(LoadedModels);
+                var newCharacters = _characterModels.Except(LoadedModels);
 
                 foreach (Character_Model c in newCharacters)
                 {

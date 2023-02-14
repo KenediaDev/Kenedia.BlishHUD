@@ -11,7 +11,6 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Microsoft.Xna.Framework.Input;
 
 namespace Kenedia.Modules.Characters.Services
 {
@@ -172,7 +171,7 @@ namespace Kenedia.Modules.Characters.Services
                         for (int i = 1; i < Math.Min(_characterModels.Count, _settings.CheckDistance.Value * 2); i++)
                         {
                             await MoveRight(cancellationToken, 1);
-                            await Delay(cancellationToken, 75);
+                            await Delay(cancellationToken, 150);
                             if (await ConfirmName())
                             {
                                 _state = SwappingState.CharacterFound;

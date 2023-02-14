@@ -14,10 +14,7 @@ using File = System.IO.File;
 using Gw2Sharp.WebApi;
 using Map = Kenedia.Modules.Core.DataModels.Map;
 using Blish_HUD;
-using System.Diagnostics;
-using System.IO;
 using Kenedia.Modules.Core.Models;
-using Gw2Sharp.Models;
 
 namespace Kenedia.Modules.Characters.Services
 {
@@ -54,6 +51,7 @@ namespace Kenedia.Modules.Characters.Services
             {
                 if (value != null && (_account == null || _account.Name != value.Name))
                 {
+                    _paths.AccountName = value.Name;
                     _updateFolderPaths?.Invoke(value.Name, true);
                 }
 

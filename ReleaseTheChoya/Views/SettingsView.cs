@@ -5,11 +5,6 @@ using Kenedia.Modules.Core.Res;
 using Kenedia.Modules.Core.Services;
 using Microsoft.Xna.Framework;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.ServiceModel;
-using System.Text;
-using System.Threading.Tasks;
 using Panel = Kenedia.Modules.Core.Controls.Panel;
 
 namespace Kenedia.Modules.ReleaseTheChoya.Views

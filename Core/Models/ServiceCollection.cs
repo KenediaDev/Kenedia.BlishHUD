@@ -1,6 +1,5 @@
 ﻿using Kenedia.Modules.Core.Services;
 using System;
-using System.Collections.Generic;
 
 namespace Kenedia.Modules.Core.Models
 {

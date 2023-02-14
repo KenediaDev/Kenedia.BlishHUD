@@ -6,15 +6,12 @@ using Kenedia.Modules.Characters.Enums;
 using Kenedia.Modules.Characters.Models;
 using Kenedia.Modules.Characters.Services;
 using Kenedia.Modules.Core.Controls;
-using Kenedia.Modules.Core.Extensions;
 using Kenedia.Modules.Core.Interfaces;
 using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using FlowPanel = Kenedia.Modules.Core.Controls.FlowPanel;
-using System.Diagnostics;
 
 namespace Kenedia.Modules.Characters.Controls.SideMenu
 {

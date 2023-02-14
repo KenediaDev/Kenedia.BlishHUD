@@ -11,7 +11,6 @@ using System.Collections.Generic;
 using System.Resources;
 using Dropdown = Kenedia.Modules.Core.Controls.Dropdown;
 using Panel = Kenedia.Modules.Core.Controls.Panel;
-using System.Diagnostics;
 
 namespace Kenedia.Modules.Characters.Controls.SideMenu
 {

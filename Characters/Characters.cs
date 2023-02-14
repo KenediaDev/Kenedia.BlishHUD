@@ -51,7 +51,6 @@ namespace Kenedia.Modules.Characters
         private readonly Ticks _ticks = new();
 
         private CornerIcon _cornerIcon;
-        private AccountData _activeAccount;
         private bool _saveCharacters;
         private bool _mapsUpdated;
 
@@ -65,47 +64,11 @@ namespace Kenedia.Modules.Characters
 
         public string ActiveAccountName { get; set; } = string.Empty;
 
-        public Dictionary<string, AccountData> Accounts { get; } = new();
-
-        public AccountData ActiveAccount
-        {
-            get
-            {
-                bool exists = Accounts.TryGetValue(ActiveAccountName, out AccountData data);
-                if (exists) return data;
-
-                Accounts.Add(ActiveAccountName, data = new AccountData() { AccountName = ActiveAccountName });
-                ApplyAccount(data);
-
-                return Accounts[ActiveAccountName];
-            }
-        }
-
-        private void ApplyAccount(AccountData value)
-        {
-            Logger.Info($"Apply Account '{value.AccountName}'!");
-            CurrentCharacterModel = null;
-            Paths.AccountName = value.AccountName;
-
-            Tags?.Clear();
-            CharacterModels?.Clear();
-            MainWindow?.CharacterCards?.Clear();
-
-            foreach (var m in value.CharacterModels)
-            {
-                CharacterModels?.Add(m);
-                Tags?.AddTags(m.Tags);
-            }
-
-            MainWindow?.CharacterCards?.AddRange(value.CharacterCards);
-            MainWindow?.CreateCharacterControls(CharacterModels);
-        }
-
         public SearchFilterCollection SearchFilters { get; } = new();
 
         public SearchFilterCollection TagFilters { get; } = new();
 
-        public TagList Tags => ActiveAccount.Tags;
+        public TagList Tags { get; } = new();
 
         public CharacterSwapping CharacterSwapping { get; private set; }
 
@@ -121,7 +84,7 @@ namespace Kenedia.Modules.Characters
 
         public TextureManager TextureManager { get; private set; }
 
-        public ObservableCollection<Character_Model> CharacterModels => ActiveAccount.CharacterModels;
+        public ObservableCollection<Character_Model> CharacterModels { get; } = new();
 
         private Character_Model _currentCharacterModel;
 
@@ -369,7 +332,7 @@ namespace Kenedia.Modules.Characters
             new Rectangle(35, 14, cutBg.Width - 10, cutBg.Height - 10),
             Settings,
             TextureManager,
-            () => ActiveAccount,
+            CharacterModels,
             SearchFilters,
             TagFilters,
             OCR.ToggleContainer,
@@ -405,7 +368,7 @@ namespace Kenedia.Modules.Characters
             });
             MainWindow.SideMenu.TogglesTab = _toggles;
             _ = MainWindow.SideMenu.SwitchTab(_toggles);
-            MainWindow?.CreateCharacterControls(CharacterModels);
+            MainWindow?.CreateCharacterControls();
 
             PotraitCapture.OnImageCaptured = () =>
             {
@@ -472,23 +435,15 @@ namespace Kenedia.Modules.Characters
 
         protected override void ReloadKey_Activated(object sender, EventArgs e)
         {
-            //base.ReloadKey_Activated(sender, e);
-            //GameService.Graphics.SpriteScreen.Visible = true;
-            //MainWindow?.ToggleWindow();
-            //SettingsWindow?.ToggleWindow();
-            //_ = LoadCharacterFile();
-            //MainWindow?.CreateCharacterControls(CharacterModels);
-
-            foreach(var c in CharacterModels)
-            {
-
-                Debug.WriteLine($"Contains: {c.Name}");
-            }
+            base.ReloadKey_Activated(sender, e);
+            GameService.Graphics.SpriteScreen.Visible = true;
+            MainWindow?.ToggleWindow();
+            SettingsWindow?.ToggleWindow();
         }
 
         private void OnCharacterCollectionChanged(object sender, EventArgs e)
         {
-            MainWindow?.CreateCharacterControls(CharacterModels);
+            MainWindow?.CreateCharacterControls();
         }
 
         private void Tags_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
@@ -644,7 +599,7 @@ namespace Kenedia.Modules.Characters
             }
 
             SaveCharacterList();
-            MainWindow?.CreateCharacterControls(CharacterModels); 
+            MainWindow?.CreateCharacterControls(); 
             MainWindow?.PerformFiltering();
         }
 

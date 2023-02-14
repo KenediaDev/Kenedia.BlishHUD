@@ -1,8 +1,6 @@
-﻿using Kenedia.Modules.Characters.Controls;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
-using System.Diagnostics;
 using System.Linq;
 
 namespace Kenedia.Modules.Characters.Models

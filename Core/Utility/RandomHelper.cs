@@ -1,8 +1,6 @@
 ﻿using Kenedia.Modules.Core.Structs;
 using Microsoft.Xna.Framework;
 using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Kenedia.Modules.Core.Utility
 {

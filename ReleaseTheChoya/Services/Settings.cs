@@ -1,15 +1,8 @@
 ﻿using Blish_HUD.Input;
 using Blish_HUD.Settings;
-using Kenedia.Modules.Core.Controls;
 using Kenedia.Modules.Core.Models;
 using Kenedia.Modules.Core.Structs;
-using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Kenedia.Modules.ReleaseTheChoya.Services
 {

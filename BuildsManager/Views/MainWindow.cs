@@ -1,169 +1,93 @@
 ﻿using Blish_HUD.Content;
+using Kenedia.Modules.BuildsManager.Controls.BuildPage;
+using Kenedia.Modules.BuildsManager.Models.Templates;
 using Kenedia.Modules.BuildsManager.Services;
 using Kenedia.Modules.Core.Controls;
+using Kenedia.Modules.Core.Utility;
 using Kenedia.Modules.Core.Views;
 using Microsoft.Xna.Framework;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Kenedia.Modules.BuildsManager.Views
 {
     public class MainWindow : StandardWindow
     {
         private readonly Data _data;
-        private readonly FlowPanel _contentPanel;
+        private readonly Panel _buildSection;
+        private readonly Panel _selectionSection;
+        private readonly BuildPage _build;
+        private readonly TextBox _buildCodeBox;
+
+        private Template _template;
 
         public MainWindow(AsyncTexture2D background, Rectangle windowRegion, Rectangle contentRegion, Data data) : base(background, windowRegion, contentRegion)
         {
             _data = data;
 
-            _contentPanel = new FlowPanel()
+            _selectionSection = new()
             {
                 Parent = this,
-                WidthSizingMode = Blish_HUD.Controls.SizingMode.Fill,
+                Location = new(0, 0),
                 HeightSizingMode = Blish_HUD.Controls.SizingMode.Fill,
-                CanScroll= true,
+                Width = 330,
+                //BackgroundColor = Color.Yellow * 0.2F,
             };
 
-            foreach (var item in _data.Weapons)
+            _buildSection = new()
             {
-                _ = new Image()
-                {
-                    Parent = _contentPanel,
-                    Texture = item.Value.Icon,
-                    SetLocalizedTooltip = () => item.Value.Name,
-                    Size = new(32),
-                };
-            }
+                Parent = this,
+                Location = new(_selectionSection.Right + 15, 0),
+                HeightSizingMode = Blish_HUD.Controls.SizingMode.Fill,
+                Width = ContentRegion.Width - 144,
+                //BackgroundColor = Color.Green * 0.2F,
+            };
 
-            foreach (var item in _data.Armors)
+            _buildCodeBox = new()
             {
-                _ = new Image()
+                Parent = _buildSection,
+                EnterPressedAction = (code) =>
                 {
-                    Parent = _contentPanel,
-                    Texture = item.Value.Icon,
-                    SetLocalizedTooltip = () => item.Value.Name,
-                    Size = new(32),
-                };
-            }
-
-            foreach (var item in _data.Trinkets)
-            {
-                _ = new Image()
-                {
-                    Parent = _contentPanel,
-                    Texture = item.Value.Icon,
-                    SetLocalizedTooltip = () => item.Value.Name,
-                    Size = new(32),
-                };
-            }
-
-            foreach (var item in _data.Upgrades)
-            {
-                _ = new Image()
-                {
-                    Parent = _contentPanel,
-                    Texture = item.Value.Icon,
-                    SetLocalizedTooltip = () => item.Value.Name,
-                    Size = new(32),
-                };
-            }
-
-            foreach (var profession in _data.Professions)
-            {
-                _ = new Image()
-                {
-                    Parent = _contentPanel,
-                    Texture = profession.Value.Icon,
-                    SetLocalizedTooltip = () => profession.Value.Name,
-                    Size = new(32),
-                };
-
-                _ = new Image()
-                {
-                    Parent = _contentPanel,
-                    Texture = profession.Value.IconBig,
-                    SetLocalizedTooltip = () => profession.Value.Name,
-                    Size = new(32),
-                };
-
-                foreach (var e in profession.Value.Specializations)
-                {
-                    _ = new Image()
-                    {
-                        Parent = _contentPanel,
-                        Texture = e.Value.Icon,
-                        SetLocalizedTooltip = () => e.Value.Name,
-                        Size = new(32),
-                    };
-
-                    _ = new Image()
-                    {
-                        Parent = _contentPanel,
-                        Texture = e.Value.Background,
-                        SetLocalizedTooltip = () => e.Value.Name,
-                        Size = new(32),
-                    };
-
-                    foreach (var t in e.Value.MajorTraits)
-                    {
-                        _ = new Image()
-                        {
-                            Parent = _contentPanel,
-                            Texture = t.Value.Icon,
-                            SetLocalizedTooltip = () => t.Value.Name,
-                            Size = new(32),
-                        };
-                    }
-
-                    foreach (var t in e.Value.MinorTraits)
-                    {
-                        _ = new Image()
-                        {
-                            Parent = _contentPanel,
-                            Texture = t.Value.Icon,
-                            SetLocalizedTooltip = () => t.Value.Name,
-                            Size = new(32),
-                        };
-                    }
+                    Template.BuildTemplate.LoadFromCode(code);
+                    ApplyTemplate();
                 }
+            };
 
-                foreach (var t in profession.Value.Skills)
-                {
-                    _ = new Image()
-                    {
-                        Parent = _contentPanel,
-                        Texture = t.Value.Icon,
-                        SetLocalizedTooltip = () => t.Value.Name,
-                        Size = new(32),
-                    };
-                }
-            }
-
-            foreach (var pet in _data.Pets)
+            _build = new BuildPage()
             {
-                _ = new Image()
-                {
-                    Parent = _contentPanel,
-                    Texture = pet.Value.Icon,
-                    SetLocalizedTooltip = () => pet.Value.Name,
-                    Size = new(32),
-                };
+                Parent = _buildSection,
+                Location = new(0, _buildCodeBox.Bottom),
+            };
+            _build.BuildAdjusted += BuildAdjusted;
+        }
 
-                foreach (var skill in pet.Value.Skills)
-                {
-                    _ = new Image()
-                    {
-                        Parent = _contentPanel,
-                        Texture = skill.Value.Icon,
-                        SetLocalizedTooltip = () => skill.Value.Name,
-                        Size = new(32),
-                    };
-                }
-            }
+        private void BuildAdjusted(object sender, EventArgs e)
+        {
+            _buildCodeBox.Text = Template?.BuildTemplate.ParseBuildCode();
+        }
+
+        public Template Template { get => _template; set => Common.SetProperty(ref _template, value, ApplyTemplate); }
+
+        public override void RecalculateLayout()
+        {
+            base.RecalculateLayout();
+            if(_buildCodeBox != null) _buildCodeBox.Width = _buildSection.Width;
+        }
+
+        private void ApplyTemplate()
+        {
+            _build.Template = _template;
+            _buildCodeBox.Text = Template?.BuildTemplate.ParseBuildCode();
+            _build.ApplyTemplate();
+        }
+
+        protected override void DisposeControl()
+        {
+            base.DisposeControl();
+            _build?.Dispose();
+            _buildSection?.Dispose();
+            _selectionSection?.Dispose();
+            _buildCodeBox?.Dispose();
         }
     }
 }
