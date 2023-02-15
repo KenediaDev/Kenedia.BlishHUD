@@ -23,7 +23,6 @@ namespace Kenedia.Modules.Core.Utility
 
             property = newValue;
 
-            Debug.WriteLine($"propName {propName}");
             if (triggerOnUpdate) OnUpdated?.Invoke(property, new(propName));
 
             return true;

@@ -4,10 +4,6 @@ using Blish_HUD.Controls;
 using Kenedia.Modules.Core.Utility;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System;
-using System.Collections.Generic;
-using System.Text;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement.TextBox;
 
 namespace Kenedia.Modules.Core.Models
 {
@@ -49,12 +45,14 @@ namespace Kenedia.Modules.Core.Models
 
         public Rectangle Bounds { get; set; }
 
-        public virtual void Draw(Control ctrl, SpriteBatch spriteBatch, Point? mousePos = null, Color? color = null, Color? bgColor = null, bool? forceHover = null, float rotation = 0f, Vector2? origin = null)
+        public virtual void Draw(Control ctrl, SpriteBatch spriteBatch, Point? mousePos = null, Color? color = null, Color? bgColor = null, bool? forceHover = null, float? rotation = null, Vector2? origin = null)
         {
             if (FallBackTexture != null || Texture != null)
             {
                 origin ??= Vector2.Zero;
                 color ??= Color.White;
+                rotation ??= 0F;
+
                 Hovered = forceHover == true || (forceHover == null && mousePos != null && Bounds.Contains((Point)mousePos));
 
                 spriteBatch.DrawOnCtrl(
@@ -63,7 +61,7 @@ namespace Kenedia.Modules.Core.Models
                     Bounds,
                     TextureRegion,
                     (Color)color,
-                    rotation,
+                    (float)rotation,
                     (Vector2)origin);
 
                 if (bgColor != null)
@@ -74,7 +72,7 @@ namespace Kenedia.Modules.Core.Models
                     Bounds,
                     Rectangle.Empty,
                     (Color)bgColor,
-                    rotation,
+                    (float)rotation,
                     (Vector2)origin);
                 }
             }

@@ -34,6 +34,8 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
 
     public class SkillIcon : DetailedTexture
     {
+        private readonly AsyncTexture2D _noAquaticFlagTexture = AsyncTexture2D.FromAssetId(157145);
+        private Rectangle _noAquaticFlagTextureRegion;
         private Skill _skill;
 
         public SkillIcon()
@@ -45,6 +47,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
             HoveredFrameTextureRegion = new(8, 8, 112, 112);
 
             AutoCastTextureRegion = new Rectangle(6, 6, 52, 52);
+            _noAquaticFlagTextureRegion = new(16, 16, 96, 96);
         }
 
         public Skill Skill { get => _skill; set => Common.SetProperty(ref _skill, value, ApplyTrait); }
@@ -57,18 +60,70 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
 
         public Rectangle AutoCastTextureRegion { get; }
 
+        public BuildSkillSlot Slot { get; set; }
+
         private void ApplyTrait()
         {
             Texture = Skill?.Icon;
 
         }
 
-        public override void Draw(Control ctrl, SpriteBatch spriteBatch, Point? mousePos = null, Color? color = null, Color? bgColor = null, bool? forceHover = null, float rotation = 0, Vector2? origin = null)
+        public void Draw(Control ctrl, SpriteBatch spriteBatch, bool terrestrial = true, Point? mousePos = null, Color? color = null, Color? bgColor = null, bool? forceHover = null, float? rotation = null, Vector2? origin = null)
         {
             base.Draw(ctrl, spriteBatch, mousePos, color, bgColor, forceHover, rotation, origin);
 
             color ??= Color.White;
             origin ??= Vector2.Zero;
+            rotation ??= 0F;
+            Color borderColor = Color.Black;
+
+            // Top
+            spriteBatch.DrawOnCtrl(ctrl, Textures.Pixel, new Rectangle(Bounds.Left, Bounds.Top, Bounds.Width, 1), Rectangle.Empty, borderColor * 0.6f);
+
+            // Bottom
+            spriteBatch.DrawOnCtrl(ctrl, Textures.Pixel, new Rectangle(Bounds.Left, Bounds.Bottom - 1, Bounds.Width, 1), Rectangle.Empty, borderColor * 0.6f);
+
+            // Left
+            spriteBatch.DrawOnCtrl(ctrl, Textures.Pixel, new Rectangle(Bounds.Left, Bounds.Top, 1, Bounds.Height), Rectangle.Empty, borderColor * 0.6f);
+
+            // Right
+            spriteBatch.DrawOnCtrl(ctrl, Textures.Pixel, new Rectangle(Bounds.Right - 1, Bounds.Top, 1, Bounds.Height), Rectangle.Empty, borderColor * 0.6f);
+
+            color ??= Color.White;
+            origin ??= Vector2.Zero;
+            rotation ??= 0F;
+
+            if (!terrestrial && Skill.Flags.HasFlag(Gw2Sharp.SkillFlag.NoUnderwater))
+            {
+                spriteBatch.DrawOnCtrl(
+                    ctrl,
+                    _noAquaticFlagTexture,
+                    Bounds,
+                    _noAquaticFlagTextureRegion,
+                    (Color)color,
+                    (float)rotation,
+                    (Vector2)origin);
+            }
+            else if (Hovered)
+            {
+                spriteBatch.DrawOnCtrl(
+                    ctrl,
+                    HoveredFrameTexture,
+                    Bounds,
+                    HoveredFrameTextureRegion,
+                    (Color)color,
+                    (float)rotation,
+                    (Vector2)origin);
+            }
+        }
+
+        public override void Draw(Control ctrl, SpriteBatch spriteBatch, Point? mousePos = null, Color? color = null, Color? bgColor = null, bool? forceHover = null, float? rotation = null, Vector2? origin = null)
+        {
+            base.Draw(ctrl, spriteBatch, mousePos, color, bgColor, forceHover, rotation, origin);
+
+            color ??= Color.White;
+            origin ??= Vector2.Zero;
+            rotation ??= 0F;
             Color borderColor = Color.Black;
 
             // Top
@@ -91,7 +146,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
                     Bounds.Add(-4, -4, 8, 8),
                     AutoCastTextureRegion,
                     (Color)color,
-                    rotation,
+                    (float)rotation,
                     (Vector2)origin);
             }
 
@@ -103,7 +158,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
                     Bounds,
                     HoveredFrameTextureRegion,
                     (Color)color,
-                    rotation,
+                    (float)rotation,
                     (Vector2)origin);
             }
         }
@@ -145,7 +200,6 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
     {
         private readonly DetailedTexture _aquaticTexture = new(1988170);
         private readonly DetailedTexture _terrestrialTexture = new(1988171);
-        private readonly DetailedTexture _noAquaticFlagTexture = new(157145);
 
         private readonly List<DetailedTexture> _selectors = new()
         {
@@ -211,23 +265,26 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
             }
         }
 
-        private void Mouse_LeftMouseButtonPressed(object sender, MouseEventArgs e)
+        public Template Template
         {
-            if (SeletorOpen)
+            get => _template; set
             {
-                foreach (var s in _selectableSkills[_selectedSkillSlot])
+                var temp = _template;
+                if (Common.SetProperty(ref _template, value, ApplyTemplate, value != null))
                 {
-                    if (s.Hovered)
-                    {
-                        _selectorAnchor.Skill = s.Skill;
-                    }
+                    if(temp != null) temp.BuildTemplate.AquaticSkills.CollectionChanged -= TemplateChanged;
+                    if(temp != null) temp.BuildTemplate.TerrestrialSkills.CollectionChanged -= TemplateChanged;
+
+                    if(_template != null) _template.BuildTemplate.AquaticSkills.CollectionChanged += TemplateChanged;
+                    if(_template != null) _template.BuildTemplate.TerrestrialSkills.CollectionChanged += TemplateChanged;
                 }
             }
-
-            SeletorOpen = false;
         }
 
-        public Template Template { get => _template; set => Common.SetProperty(ref _template, value, ApplyTemplate, value != null); }
+        private void TemplateChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            ApplyTemplate();
+        }
 
         private bool SeletorOpen
         {
@@ -240,6 +297,104 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
                 }
 
                 _seletorOpen = value;
+            }
+        }
+
+        public void ApplyTemplate()
+        {
+            for (int i = 0; i < _terrestrialWeaponSkills.Count; i++)
+            {
+                _terrestrialWeaponSkills[(WeaponSkillSlot)i].Skill = null;
+                _terrestrialInactiveWeaponSkills[(WeaponSkillSlot)i].Skill = null;
+                _aquaticWeaponSkills[(WeaponSkillSlot)i].Skill = null;
+                _aquaticInactiveWeaponSkills[(WeaponSkillSlot)i].Skill = null;
+            }
+
+            for (int i = 0; i < _aquaticSkills.Count; i++)
+            {
+                _aquaticSkills[(BuildSkillSlot)i].Skill = null;
+                _inactiveAquaticSkills[(BuildSkillSlot)i].Skill = null;
+                _terrestrialSkills[(BuildSkillSlot)i].Skill = null;
+                _inactiveTerrestrialSkills[(BuildSkillSlot)i].Skill = null;
+            }
+
+            if (Template.GearTemplate.Gear[GearSlot.MainHand] != null)
+            {
+                var weapon = Template.GearTemplate.Gear[GearSlot.MainHand].WeaponType;
+
+                foreach (var s in BuildsManager.Data.Professions[Template.BuildTemplate.Profession].Skills.Where(e => e.Value.WeaponType == weapon && e.Value.Slot != null && (int)e.Value.Slot <= 3 && e.Value.PrevChain == null))
+                {
+                    _terrestrialWeaponSkills[s.Value.Slot.GetSkillSlot()].Skill = s.Value;
+                }
+            }
+
+            if (Template.GearTemplate.Gear[GearSlot.OffHand] != null)
+            {
+                var weapon = Template.GearTemplate.Gear[GearSlot.OffHand].WeaponType;
+                foreach (var s in BuildsManager.Data.Professions[Template.BuildTemplate.Profession].Skills.Where(e => e.Value.WeaponType == weapon && (int)e.Value.Slot > 3 && (int)e.Value.Slot <= 5 && e.Value.PrevChain == null))
+                {
+                    _terrestrialWeaponSkills[s.Value.Slot.GetSkillSlot()].Skill = s.Value;
+                }
+            }
+
+            if (Template.GearTemplate.Gear[GearSlot.AltMainHand] != null)
+            {
+                var weapon = Template.GearTemplate.Gear[GearSlot.AltMainHand].WeaponType;
+                foreach (var s in BuildsManager.Data.Professions[Template.BuildTemplate.Profession].Skills.Where(e => e.Value.WeaponType == weapon && (int)e.Value.Slot <= 3))
+                {
+                    _terrestrialInactiveWeaponSkills[s.Value.Slot.GetSkillSlot()].Skill = s.Value;
+                }
+            }
+
+            if (Template.GearTemplate.Gear[GearSlot.AltOffHand] != null)
+            {
+                var weapon = Template.GearTemplate.Gear[GearSlot.AltOffHand].WeaponType;
+                foreach (var s in BuildsManager.Data.Professions[Template.BuildTemplate.Profession].Skills.Where(e => e.Value.WeaponType == weapon && (int)e.Value.Slot > 3))
+                {
+                    _terrestrialInactiveWeaponSkills[s.Value.Slot.GetSkillSlot()].Skill = s.Value;
+                }
+            }
+
+            if (Template.GearTemplate.Gear[GearSlot.Aquatic] != null)
+            {
+                var weapon = Template.GearTemplate.Gear[GearSlot.Aquatic].WeaponType;
+                foreach (var s in BuildsManager.Data.Professions[Template.BuildTemplate.Profession].Skills.Where(e => e.Value.WeaponType == weapon))
+                {
+                    _aquaticWeaponSkills[s.Value.Slot.GetSkillSlot()].Skill = s.Value;
+                }
+            }
+
+            if (Template.GearTemplate.Gear[GearSlot.AltAquatic] != null)
+            {
+                var weapon = Template.GearTemplate.Gear[GearSlot.AltAquatic].WeaponType;
+                foreach (var s in BuildsManager.Data.Professions[Template.BuildTemplate.Profession].Skills.Where(e => e.Value.WeaponType == weapon))
+                {
+                    _aquaticInactiveWeaponSkills[s.Value.Slot.GetSkillSlot()].Skill = s.Value;
+                }
+            }
+
+            foreach (var spair in Template.BuildTemplate.AquaticSkills)
+            {
+                _aquaticSkills[spair.Key].Skill = spair.Value;
+                _aquaticSkills[spair.Key].Slot = spair.Key;
+            }
+
+            foreach (var spair in Template.BuildTemplate.InactiveAquaticSkills)
+            {
+                _inactiveAquaticSkills[spair.Key].Skill = spair.Value;
+                _inactiveAquaticSkills[spair.Key].Slot = spair.Key;
+            }
+
+            foreach (var spair in Template.BuildTemplate.TerrestrialSkills)
+            {
+                _terrestrialSkills[spair.Key].Skill = spair.Value;
+                _terrestrialSkills[spair.Key].Slot = spair.Key;
+            }
+
+            foreach (var spair in Template.BuildTemplate.InactiveTerrestrialSkills)
+            {
+                _inactiveTerrestrialSkills[spair.Key].Skill = spair.Value;
+                _inactiveTerrestrialSkills[spair.Key].Slot = spair.Key;
             }
         }
 
@@ -387,98 +542,33 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
             }
         }
 
-        public void ApplyTemplate()
+        private void Mouse_LeftMouseButtonPressed(object sender, MouseEventArgs e)
         {
-            for (int i = 0; i < _terrestrialWeaponSkills.Count; i++)
+            if (SeletorOpen)
             {
-                _terrestrialWeaponSkills[(WeaponSkillSlot)i].Skill = null;
-                _terrestrialInactiveWeaponSkills[(WeaponSkillSlot)i].Skill = null;
-                _aquaticWeaponSkills[(WeaponSkillSlot)i].Skill = null;
-                _aquaticInactiveWeaponSkills[(WeaponSkillSlot)i].Skill = null;
-            }
-
-            for (int i = 0; i < _aquaticSkills.Count; i++)
-            {
-                _aquaticSkills[(BuildSkillSlot)i].Skill = null;
-                _inactiveAquaticSkills[(BuildSkillSlot)i].Skill = null;
-                _terrestrialSkills[(BuildSkillSlot)i].Skill = null;
-                _inactiveTerrestrialSkills[(BuildSkillSlot)i].Skill = null;
-            }
-
-            if (Template.GearTemplate.Gear[GearSlot.MainHand] != null)
-            {
-                var weapon = Template.GearTemplate.Gear[GearSlot.MainHand].WeaponType;
-
-                foreach (var s in BuildsManager.Data.Professions[Template.BuildTemplate.Profession].Skills.Where(e => e.Value.WeaponType == weapon && e.Value.Slot != null && (int)e.Value.Slot <= 3 && e.Value.PrevChain == null))
+                foreach (var s in _selectableSkills[_selectedSkillSlot])
                 {
-                    _terrestrialWeaponSkills[s.Value.Slot.GetSkillSlot()].Skill = s.Value;
+                    if (s.Hovered)
+                    {
+                        if (_terrestrial || !s.Skill.Flags.HasFlag(Gw2Sharp.SkillFlag.NoUnderwater))
+                        {
+                            var skills = _terrestrial ? Template.BuildTemplate.TerrestrialSkills : Template.BuildTemplate.AquaticSkills;
+
+                            if (skills.HasSkill(s.Skill))
+                            {
+                                var slot = skills.GetSkillSlot(s.Skill);
+                                skills[slot] = _selectorAnchor.Skill;
+                                (_terrestrial ? _terrestrialSkills : _aquaticSkills)[slot].Skill = _selectorAnchor.Skill;
+                            }
+
+                            _selectorAnchor.Skill = s.Skill;
+                            (_terrestrial ? Template.BuildTemplate.TerrestrialSkills : Template.BuildTemplate.AquaticSkills)[_selectorAnchor.Slot] = s.Skill;
+                        }
+                    }
                 }
             }
 
-            if (Template.GearTemplate.Gear[GearSlot.OffHand] != null)
-            {
-                var weapon = Template.GearTemplate.Gear[GearSlot.OffHand].WeaponType;
-                foreach (var s in BuildsManager.Data.Professions[Template.BuildTemplate.Profession].Skills.Where(e => e.Value.WeaponType == weapon && (int)e.Value.Slot > 3 && (int)e.Value.Slot <= 5 && e.Value.PrevChain == null))
-                {
-                    _terrestrialWeaponSkills[s.Value.Slot.GetSkillSlot()].Skill = s.Value;
-                }
-            }
-
-            if (Template.GearTemplate.Gear[GearSlot.AltMainHand] != null)
-            {
-                var weapon = Template.GearTemplate.Gear[GearSlot.AltMainHand].WeaponType;
-                foreach (var s in BuildsManager.Data.Professions[Template.BuildTemplate.Profession].Skills.Where(e => e.Value.WeaponType == weapon && (int)e.Value.Slot <= 3))
-                {
-                    _terrestrialInactiveWeaponSkills[s.Value.Slot.GetSkillSlot()].Skill = s.Value;
-                }
-            }
-
-            if (Template.GearTemplate.Gear[GearSlot.AltOffHand] != null)
-            {
-                var weapon = Template.GearTemplate.Gear[GearSlot.AltOffHand].WeaponType;
-                foreach (var s in BuildsManager.Data.Professions[Template.BuildTemplate.Profession].Skills.Where(e => e.Value.WeaponType == weapon && (int)e.Value.Slot > 3))
-                {
-                    _terrestrialInactiveWeaponSkills[s.Value.Slot.GetSkillSlot()].Skill = s.Value;
-                }
-            }
-
-            if (Template.GearTemplate.Gear[GearSlot.Aquatic] != null)
-            {
-                var weapon = Template.GearTemplate.Gear[GearSlot.Aquatic].WeaponType;
-                foreach (var s in BuildsManager.Data.Professions[Template.BuildTemplate.Profession].Skills.Where(e => e.Value.WeaponType == weapon))
-                {
-                    _aquaticWeaponSkills[s.Value.Slot.GetSkillSlot()].Skill = s.Value;
-                }
-            }
-
-            if (Template.GearTemplate.Gear[GearSlot.AltAquatic] != null)
-            {
-                var weapon = Template.GearTemplate.Gear[GearSlot.AltAquatic].WeaponType;
-                foreach (var s in BuildsManager.Data.Professions[Template.BuildTemplate.Profession].Skills.Where(e => e.Value.WeaponType == weapon))
-                {
-                    _aquaticInactiveWeaponSkills[s.Value.Slot.GetSkillSlot()].Skill = s.Value;
-                }
-            }
-
-            foreach (var spair in Template.BuildTemplate.AquaticSkills)
-            {
-                _aquaticSkills[spair.Key].Skill = spair.Value;
-            }
-
-            foreach (var spair in Template.BuildTemplate.InactiveAquaticSkills)
-            {
-                _inactiveAquaticSkills[spair.Key].Skill = spair.Value;
-            }
-
-            foreach (var spair in Template.BuildTemplate.TerrestrialSkills)
-            {
-                _terrestrialSkills[spair.Key].Skill = spair.Value;
-            }
-
-            foreach (var spair in Template.BuildTemplate.InactiveTerrestrialSkills)
-            {
-                _inactiveTerrestrialSkills[spair.Key].Skill = spair.Value;
-            }
+            SeletorOpen = false;
         }
 
         private void GetSelectableSkills(SkillSlot skillType)
@@ -530,7 +620,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
 
             foreach (var s in _selectableSkills[_selectedSkillSlot])
             {
-                s.Draw(this, spriteBatch, RelativeMousePosition);
+                s.Draw(this, spriteBatch, _terrestrial, RelativeMousePosition);
             }
 
             spriteBatch.DrawStringOnCtrl(this, string.Format("{0} Skills", _selectedSkillSlot), Content.DefaultFont18, new Rectangle(_selectorBounds.Left, _selectorBounds.Bottom - 12 - Content.DefaultFont18.LineHeight, _selectorBounds.Width, Content.DefaultFont18.LineHeight), Color.White, false, HorizontalAlignment.Center);
@@ -598,29 +688,17 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
                 WidthSizingMode = SizingMode.Fill,
                 HeightSizingMode = SizingMode.AutoSize,
                 ControlPadding = new(1),
-                BackgroundColor= Color.Black * 0.8F,
+                BackgroundColor = Color.Black * 0.8F,
                 AutoSizePadding = new(1),
             };
 
             _specializations.ToList().ForEach(l =>
             {
                 l.Value.Parent = _specializationsPanel;
-                l.Value.TraitsChanged += OnBuildAdjusted;
-                l.Value.SpeclineSwapped += SpeclineSwapped;
+                //l.Value.TraitsChanged += OnBuildAdjusted;
+                //l.Value.SpeclineSwapped += SpeclineSwapped;
                 l.Value.CanInteract = () => !_skillbar.IsSelecting;
             });
-        }
-
-        private void SpeclineSwapped(object sender, EventArgs e)
-        {
-            ApplyTemplate();
-        }
-
-        public event EventHandler BuildAdjusted;
-
-        private void OnBuildAdjusted(object sender = null, EventArgs e = null)
-        {
-            BuildAdjusted?.Invoke(sender ?? this, e);
         }
 
         public Template Template { get => _template; set => Common.SetProperty(ref _template, value, ApplyTemplate, value != null); }
@@ -629,17 +707,17 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
         {
             _specializations[SpecializationSlot.Line_1].BuildSpecialization = Template.BuildTemplate.Specializations[SpecializationSlot.Line_1];
             _specializations[SpecializationSlot.Line_1].Profession = BuildsManager.Data.Professions[Template.BuildTemplate.Profession];
-            _specializations[SpecializationSlot.Line_1].Template = Template.BuildTemplate;
+            _specializations[SpecializationSlot.Line_1].Template = Template;
             _specializations[SpecializationSlot.Line_1].ApplyTemplate();
 
             _specializations[SpecializationSlot.Line_2].BuildSpecialization = Template.BuildTemplate.Specializations[SpecializationSlot.Line_2];
             _specializations[SpecializationSlot.Line_2].Profession = BuildsManager.Data.Professions[Template.BuildTemplate.Profession];
-            _specializations[SpecializationSlot.Line_2].Template = Template.BuildTemplate;
+            _specializations[SpecializationSlot.Line_2].Template = Template;
             _specializations[SpecializationSlot.Line_2].ApplyTemplate();
 
             _specializations[SpecializationSlot.Line_3].BuildSpecialization = Template.BuildTemplate.Specializations[SpecializationSlot.Line_3];
             _specializations[SpecializationSlot.Line_3].Profession = BuildsManager.Data.Professions[Template.BuildTemplate.Profession];
-            _specializations[SpecializationSlot.Line_3].Template = Template.BuildTemplate;
+            _specializations[SpecializationSlot.Line_3].Template = Template;
             _specializations[SpecializationSlot.Line_3].ApplyTemplate();
 
             _skillbar.Template = Template;
@@ -683,12 +761,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
         {
             base.DisposeControl();
 
-            _specializations.ToList().ForEach(l =>
-            {
-                l.Value.TraitsChanged -= OnBuildAdjusted;
-                l.Value.SpeclineSwapped -= SpeclineSwapped;
-                l.Value.Dispose();
-            });
+            _specializations.ToList().ForEach(l => l.Value.Dispose());
         }
     }
 }

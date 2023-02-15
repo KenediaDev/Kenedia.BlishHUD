@@ -70,7 +70,7 @@ namespace Kenedia.Modules.Dev
             if (!o.ContainsKey(4))
             {
                 o.ItemChanged += O_ItemChanged;
-                o.CollectionChanged += O_CollectionChanged; ;
+                o.CollectionChanged += O_ItemChanged; ;
                 o[4] = new() { Text = "Salad", };
             }
             else
@@ -79,14 +79,9 @@ namespace Kenedia.Modules.Dev
             }
         }
 
-        private void O_CollectionChanged(object sender, ValueChangedEventArgs<CustomClass> e)
-        {
-            Debug.WriteLine($"Changed '[{sender}]' changed [{e.PreviousValue}] to [{e.NewValue}]");
-        }
-
         private void O_ItemChanged(object sender, PropertyChangedEventArgs e)
         {
-            Debug.WriteLine($"Changed '[{sender}]' changed [{e.PropertyName}]");
+            Debug.WriteLine($"Sender '[{sender}]' changed [{e.PropertyName}]");
         }
 
         public class CustomClass : INotifyPropertyChanged

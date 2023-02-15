@@ -1,10 +1,11 @@
 ﻿using Kenedia.Modules.BuildsManager.DataModels.Professions;
+using Kenedia.Modules.Core.Models;
 using System;
 using System.Collections.Generic;
 
 namespace Kenedia.Modules.BuildsManager.Models.Templates
 {
-    public class PetCollection : Dictionary<PetSlot, Pet>
+    public class PetCollection : ObservableDictionary<PetSlot, Pet>
     {
         public PetCollection()
         {

@@ -1,4 +1,6 @@
-﻿namespace Kenedia.Modules.BuildsManager.Models.Templates
+﻿using System.ComponentModel;
+
+namespace Kenedia.Modules.BuildsManager.Models.Templates
 {
     public class GearTemplate
     {
@@ -10,6 +12,8 @@
         {
             LoadFromCode(code);
         }
+
+        public event PropertyChangedEventHandler Changed;
 
         public GearCollection Gear { get; } = new();
 

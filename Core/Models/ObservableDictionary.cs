@@ -1,4 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using Blish_HUD;
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
 
 namespace Kenedia.Modules.Core.Models
 {
@@ -15,10 +19,14 @@ namespace Kenedia.Modules.Core.Models
 
         }
 
-        private void OnValueChanged(TKey key, TValue v, TValue value)
+        public event PropertyChangedEventHandler CollectionChanged;
+
+        private void OnValueChanged(TKey key, TValue v, TValue value, [CallerMemberName] string propName = null)
         {
             if (value?.Equals(v) is true) return;
+
             base[key] = value;
+            CollectionChanged?.Invoke(this, new(propName));
         }
     }
 }

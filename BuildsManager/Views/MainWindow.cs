@@ -1,4 +1,5 @@
 ﻿using Blish_HUD.Content;
+using ScreenNotification = Blish_HUD.Controls.ScreenNotification;
 using Kenedia.Modules.BuildsManager.Controls.BuildPage;
 using Kenedia.Modules.BuildsManager.Models.Templates;
 using Kenedia.Modules.BuildsManager.Services;
@@ -58,20 +59,35 @@ namespace Kenedia.Modules.BuildsManager.Views
                 Parent = _buildSection,
                 Location = new(0, _buildCodeBox.Bottom),
             };
-            _build.BuildAdjusted += BuildAdjusted;
         }
 
-        private void BuildAdjusted(object sender, EventArgs e)
+        public Template Template
+        {
+            get => _template; set
+            {
+                var prev = _template;
+
+                if (Common.SetProperty(ref _template, value, ApplyTemplate))
+                {
+                    if(prev != null)
+                    {
+                        prev.Changed -= BuildChanged;
+                    }
+
+                    _template.Changed += BuildChanged;
+                }
+            }
+        }
+
+        private void BuildChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
             _buildCodeBox.Text = Template?.BuildTemplate.ParseBuildCode();
         }
 
-        public Template Template { get => _template; set => Common.SetProperty(ref _template, value, ApplyTemplate); }
-
         public override void RecalculateLayout()
         {
             base.RecalculateLayout();
-            if(_buildCodeBox != null) _buildCodeBox.Width = _buildSection.Width;
+            if (_buildCodeBox != null) _buildCodeBox.Width = _buildSection.Width;
         }
 
         private void ApplyTemplate()

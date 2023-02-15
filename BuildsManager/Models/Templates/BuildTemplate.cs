@@ -5,15 +5,32 @@ using Gw2Sharp.Models;
 using Kenedia.Modules.BuildsManager.DataModels.Professions;
 using System.Diagnostics;
 using System.Linq;
+using System;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
+using Kenedia.Modules.Core.Utility;
 
 namespace Kenedia.Modules.BuildsManager.Models.Templates
 {
-    public class BuildTemplate
+    public class BuildTemplate : IDisposable
     {
+        private bool _disposed = false;
+        private ProfessionType _profession;
+
         public BuildTemplate()
         {
             PlayerCharacter player = GameService.Gw2Mumble.PlayerCharacter;
             Profession = player != null ? player.Profession : ProfessionType.Guardian;
+
+            TerrestrialSkills.CollectionChanged += CollectionChanged;
+            InactiveTerrestrialSkills.CollectionChanged += CollectionChanged;
+            AquaticSkills.CollectionChanged += CollectionChanged;
+            InactiveAquaticSkills.CollectionChanged += CollectionChanged;
+            TerrestrialLegends.CollectionChanged += CollectionChanged;
+            AquaticLegends.CollectionChanged += CollectionChanged;
+            Pets.CollectionChanged += CollectionChanged;
+            Specializations.CollectionChanged += CollectionChanged;
+            Specializations.ItemChanged += CollectionChanged;
         }
 
         public BuildTemplate(string buildCode) : this()
@@ -21,7 +38,9 @@ namespace Kenedia.Modules.BuildsManager.Models.Templates
             LoadFromCode(buildCode);
         }
 
-        public ProfessionType Profession { get; set; }
+        public event PropertyChangedEventHandler Changed;
+
+        public ProfessionType Profession { get => _profession; set => Common.SetProperty(ref _profession, value, Changed); }
 
         public SkillCollection TerrestrialSkills { get; } = new();
 
@@ -212,7 +231,7 @@ namespace Kenedia.Modules.BuildsManager.Models.Templates
 
             return false;
         }
-
+                
         public bool HasSpecialization(Specialization specialization)
         {
             foreach (var spec in Specializations)
@@ -231,6 +250,26 @@ namespace Kenedia.Modules.BuildsManager.Models.Templates
             }
 
             return null;
+        }
+
+        private void CollectionChanged(object sender, PropertyChangedEventArgs e)
+        {
+            Changed?.Invoke(sender, e);
+        }
+
+        public void Dispose()
+        {
+            if (_disposed) return;
+            _disposed = true;
+
+            TerrestrialSkills.CollectionChanged -= CollectionChanged;
+            InactiveTerrestrialSkills.CollectionChanged -= CollectionChanged;
+            AquaticSkills.CollectionChanged -= CollectionChanged;
+            InactiveAquaticSkills.CollectionChanged -= CollectionChanged;
+            TerrestrialLegends.CollectionChanged -= CollectionChanged;
+            AquaticLegends.CollectionChanged -= CollectionChanged;
+            Pets.CollectionChanged -= CollectionChanged;
+            Specializations.ItemChanged -= CollectionChanged;
         }
     }
 }

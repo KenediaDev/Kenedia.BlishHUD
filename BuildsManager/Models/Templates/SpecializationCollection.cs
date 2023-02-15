@@ -1,10 +1,11 @@
-﻿using System;
+﻿using Kenedia.Modules.Core.Models;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 
 namespace Kenedia.Modules.BuildsManager.Models.Templates
 {
-    public class SpecializationCollection : Dictionary<SpecializationSlot, BuildSpecialization>
+    public class SpecializationCollection : DeepObservableDictionary<SpecializationSlot, BuildSpecialization>
     {
         public SpecializationCollection()
         {
