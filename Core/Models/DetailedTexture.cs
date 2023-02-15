@@ -15,6 +15,7 @@ namespace Kenedia.Modules.Core.Models
     {
         private AsyncTexture2D _texture;
         private AsyncTexture2D _hoveredTexture;
+        private AsyncTexture2D _fallbackTexture;
 
         public DetailedTexture()
         {
@@ -42,13 +43,15 @@ namespace Kenedia.Modules.Core.Models
 
         public AsyncTexture2D HoveredTexture { get => _hoveredTexture; set => Common.SetProperty(ref _hoveredTexture, value, () => ApplyBounds(), value != null); }
 
+        public AsyncTexture2D FallBackTexture { get => _fallbackTexture; set => Common.SetProperty(ref _fallbackTexture, value, () => ApplyBounds(), value != null); }
+
         public Rectangle TextureRegion { get; set; }
 
         public Rectangle Bounds { get; set; }
 
-        public void Draw(Control ctrl, SpriteBatch spriteBatch, Point? mousePos = null, Color? color = null, Color? bgColor = null, bool? forceHover = null, float rotation = 0f, Vector2? origin = null)
+        public virtual void Draw(Control ctrl, SpriteBatch spriteBatch, Point? mousePos = null, Color? color = null, Color? bgColor = null, bool? forceHover = null, float rotation = 0f, Vector2? origin = null)
         {
-            if (Texture != null)
+            if (FallBackTexture != null || Texture != null)
             {
                 origin ??= Vector2.Zero;
                 color ??= Color.White;
@@ -57,7 +60,7 @@ namespace Kenedia.Modules.Core.Models
 
                 spriteBatch.DrawOnCtrl(
                     ctrl,
-                    Hovered && HoveredTexture != null ? HoveredTexture : Texture,
+                    Hovered && HoveredTexture != null ? HoveredTexture : Texture ?? FallBackTexture,
                     Bounds,
                     TextureRegion,
                     (Color)color,
@@ -80,8 +83,8 @@ namespace Kenedia.Modules.Core.Models
 
         private void ApplyBounds(bool force = false)
         {
-            if (TextureRegion == Rectangle.Empty || force) TextureRegion = Texture.Bounds;
-            if (Bounds == Rectangle.Empty || force) Bounds = Texture.Bounds;
+            if (TextureRegion == Rectangle.Empty || force) TextureRegion = (Texture ?? FallBackTexture).Bounds;
+            if (Bounds == Rectangle.Empty || force) Bounds = (Texture ?? FallBackTexture).Bounds;
         }
     }
 }

@@ -150,7 +150,7 @@ namespace Kenedia.Modules.BuildsManager
                 Version = ModuleVersion,
                 Template = SelectedTemplate,
                 Width = 1120,
-                Height = 800,
+                Height = 900,
             };
 
             MainWindow.Show();
@@ -242,7 +242,7 @@ namespace Kenedia.Modules.BuildsManager
             gear.Gear[GearSlot.Accessory_2].Stat = DataModels.Stats.EquipmentStat.Berserkers;
             gear.Gear[GearSlot.Accessory_2].Upgrades[UpgradeSlot.Infusion_1] = 37131;
 
-            string code = "[&DQkPPw4qPz/cEdwR1BEAAAYSAAArEgAAyhEAAAQFAwTUEQYSKxIAAAAAAAA=]";
+            string code = "[&DQQePSA/Nzp5AHgANBaaAPoWpQGsAawBLhbtABE7BwEAAAAAAAAAAAAAAAA=]";
             var build = new BuildTemplate(code);
 
             SelectedTemplate = new Template()
