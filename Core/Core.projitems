@@ -60,9 +60,11 @@
     <Compile Include="$(MSBuildThisFileDirectory)Models\BaseModule.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\BaseSettingsModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\CustomApiManager.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\DeepObservableDictionary.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\DetailedTexture.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\GameStateChangedEventArgs.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\LocalizedString.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\ObservableDictionary.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\PathCollection.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\ServiceCollection.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\SharedSettingsModel.cs" />

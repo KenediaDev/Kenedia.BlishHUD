@@ -5,10 +5,13 @@ using Blish_HUD.Modules.Managers;
 using Blish_HUD.Settings;
 using Gw2Sharp.WebApi;
 using Kenedia.Modules.Core.Models;
+using Kenedia.Modules.Core.Utility;
+using Kenedia.Modules.Dev.Models;
 using Microsoft.Xna.Framework;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.Composition;
 using System.Diagnostics;
 using System.IO;
@@ -24,6 +27,7 @@ namespace Kenedia.Modules.Dev
         private double _tick;
         private IGw2WebApiClient _apiClient;
         private Dictionary<int, Map> _maps = new();
+        private DeepObservableDictionary<int, CustomClass> o;
 
         [ImportingConstructor]
         public Dev([Import("ModuleParameters")] ModuleParameters moduleParameters) : base(moduleParameters)
@@ -53,7 +57,45 @@ namespace Kenedia.Modules.Dev
         protected override void ReloadKey_Activated(object sender, EventArgs e)
         {
             base.ReloadKey_Activated(sender, e);
-            FetchSkillCategories();
+            //FetchSkillCategories();
+        }
+
+        private void ObservableDictionaryTest()
+        {
+            o ??= new DeepObservableDictionary<int, CustomClass>
+            {
+                {1, new CustomClass() { Text = "Apple" } },
+            };
+
+            if (!o.ContainsKey(4))
+            {
+                o.ItemChanged += O_ItemChanged;
+                o.CollectionChanged += O_CollectionChanged; ;
+                o[4] = new() { Text = "Salad", };
+            }
+            else
+            {
+                o[4].Text = "Juice";
+            }
+        }
+
+        private void O_CollectionChanged(object sender, ValueChangedEventArgs<CustomClass> e)
+        {
+            Debug.WriteLine($"Changed '[{sender}]' changed [{e.PreviousValue}] to [{e.NewValue}]");
+        }
+
+        private void O_ItemChanged(object sender, PropertyChangedEventArgs e)
+        {
+            Debug.WriteLine($"Changed '[{sender}]' changed [{e.PropertyName}]");
+        }
+
+        public class CustomClass : INotifyPropertyChanged
+        {
+            public event PropertyChangedEventHandler PropertyChanged;
+
+            private string _text;
+
+            public string Text { get => _text; set => Common.SetProperty(ref _text, value, PropertyChanged); }
         }
 
         private async void FetchSkillCategories()
@@ -62,7 +104,7 @@ namespace Kenedia.Modules.Dev
             var categories = new List<string>();
             foreach (var skill in skills)
             {
-                if(skill.Categories != null && skill.Categories.Count > 0) categories.AddRange(skill.Categories);
+                if (skill.Categories != null && skill.Categories.Count > 0) categories.AddRange(skill.Categories);
             }
 
             string json = JsonConvert.SerializeObject(categories.Distinct(), Formatting.Indented);

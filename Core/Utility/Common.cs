@@ -1,6 +1,9 @@
 ﻿using Blish_HUD;
 using Gw2Sharp.WebApi;
 using System;
+using System.ComponentModel;
+using System.Diagnostics;
+using System.Runtime.CompilerServices;
 
 namespace Kenedia.Modules.Core.Utility
 {
@@ -9,6 +12,21 @@ namespace Kenedia.Modules.Core.Utility
         public static double Now()
         {
             return GameService.Overlay.CurrentGameTime.TotalGameTime.TotalMilliseconds;
+        }
+
+        public static bool SetProperty<T>(ref T property, T newValue, PropertyChangedEventHandler OnUpdated = null, bool triggerOnUpdate = true, [CallerMemberName] string propName = null)
+        {
+            if (Equals(property, newValue))
+            {
+                return false;
+            }
+
+            property = newValue;
+
+            Debug.WriteLine($"propName {propName}");
+            if (triggerOnUpdate) OnUpdated?.Invoke(property, new(propName));
+
+            return true;
         }
 
         public static bool SetProperty<T>(ref T property, T newValue, Action OnUpdated = null, bool triggerOnUpdate = true)
