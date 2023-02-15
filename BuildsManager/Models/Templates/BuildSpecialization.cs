@@ -22,10 +22,6 @@ namespace Kenedia.Modules.BuildsManager.Models.Templates
 
         public TraitCollection Traits { get; } = new();
 
-        public TraitCollection MinorTraits { get; } = new();
-
-        public MajorTraitCollection MajorTraits { get; } = new();
-
         private void OnChanged()
         {
             Changed?.Invoke(this, EventArgs.Empty);

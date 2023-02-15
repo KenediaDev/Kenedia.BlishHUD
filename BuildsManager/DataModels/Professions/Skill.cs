@@ -4,6 +4,7 @@ using Gw2Sharp.Models;
 using Gw2Sharp.WebApi.V2.Models;
 using Kenedia.Modules.Core.Models;
 using Kenedia.Modules.Core.Utility;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization;
@@ -30,6 +31,22 @@ namespace Kenedia.Modules.BuildsManager.DataModels.Professions
             Flags = skill.Flags.Count() > 0 ? skill.Flags.Aggregate((x, y) => x |= y.ToEnum()) : SkillFlag.Unknown;
             Slot = skill.Slot?.ToEnum();
             WeaponType = skill.WeaponType != null ? (WeaponType) skill.WeaponType?.ToEnum() : null;
+
+            if((skill.Categories != null && skill.Categories.Count > 0) || skill.Name.Contains('\"'))
+            {
+                Categories = new();
+                if (skill.Name.Contains('\"')) Categories.Add(SkillCategory.Shout);
+
+                if (skill.Categories != null)
+                {
+                    foreach (string s in skill.Categories)
+                    {
+                        if (Enum.TryParse(s, out SkillCategory category)) Categories.Add(category);
+                    }
+                }
+
+                Categories = Categories.Count> 0 ? Categories : null;
+            }
 
             BundleSkills = skill.BundleSkills != null && skill.BundleSkills.Count > 0 ? skill.BundleSkills.ToList() : null;
             FlipSkill = skill.FlipSkill != null ? skill.FlipSkill : null;
@@ -96,7 +113,7 @@ namespace Kenedia.Modules.BuildsManager.DataModels.Professions
         public SkillFlag Flags { get; set; }
 
         [DataMember]
-        public List<string> Categories { get; set; }
+        public List<SkillCategory> Categories { get; set; }
 
         [DataMember]
         public int? FlipSkill { get; set; }

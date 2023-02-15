@@ -12,6 +12,7 @@ using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 using Map = Kenedia.Modules.Core.DataModels.Map;
 
@@ -52,6 +53,20 @@ namespace Kenedia.Modules.Dev
         protected override void ReloadKey_Activated(object sender, EventArgs e)
         {
             base.ReloadKey_Activated(sender, e);
+            FetchSkillCategories();
+        }
+
+        private async void FetchSkillCategories()
+        {
+            var skills = await Gw2ApiManager.Gw2ApiClient.V2.Skills.AllAsync();
+            var categories = new List<string>();
+            foreach (var skill in skills)
+            {
+                if(skill.Categories != null && skill.Categories.Count > 0) categories.AddRange(skill.Categories);
+            }
+
+            string json = JsonConvert.SerializeObject(categories.Distinct(), Formatting.Indented);
+            File.WriteAllText($@"{Paths.ModulePath}\skillcategories.json", json);
         }
 
         private async void FetchAPI()

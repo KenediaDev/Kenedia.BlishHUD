@@ -55,8 +55,7 @@ namespace Kenedia.Modules.Core.Models
             {
                 origin ??= Vector2.Zero;
                 color ??= Color.White;
-                mousePos ??= Point.Zero;
-                Hovered = forceHover == true || (forceHover == null && Bounds.Contains((Point)mousePos));
+                Hovered = forceHover == true || (forceHover == null && mousePos != null && Bounds.Contains((Point)mousePos));
 
                 spriteBatch.DrawOnCtrl(
                     ctrl,

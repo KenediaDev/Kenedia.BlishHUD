@@ -1,5 +1,6 @@
 ﻿using Blish_HUD;
 using Blish_HUD.Controls;
+using Blish_HUD.Gw2Mumble;
 using Blish_HUD.Input;
 using Kenedia.Modules.BuildsManager.DataModels.Professions;
 using Kenedia.Modules.BuildsManager.Models.Templates;
@@ -36,10 +37,9 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
             TextureRegion = new(0, 120, 647, 135),
         };
         private readonly DetailedTexture _selector = new(993583, 993584);
-        private readonly DetailedTexture _hexagon = new(993598)
-        {
-            //TextureRegion = new(12, 5, 103, 116),
-        };
+        private readonly DetailedTexture _hexagon = new(993598);
+        private readonly DetailedTexture _noSpecHexagon = new(993597);
+
         private readonly DetailedTexture _weaponTrait = new()
         {
             //TextureRegion = new(12, 5, 103, 116),
@@ -78,17 +78,44 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
         {
             Height = 158;
 
-            BackgroundColor = Color.Black * 0.4f;
+            BackgroundColor = new Color(48, 48, 48);
+            Input.Mouse.LeftMouseButtonPressed += MouseMouseButtonPressed;
+            Input.Mouse.RightMouseButtonPressed += MouseMouseButtonPressed;
+        }
+
+        private void MouseMouseButtonPressed(object sender, MouseEventArgs e)
+        {
+            if (!MouseOver)
+            {
+                _selectorOpen = false;
+            }
         }
 
         public event EventHandler TraitsChanged;
         public event EventHandler SpeclineSwapped;
 
+        public Func<bool> CanInteract { get; set; } = () => true;
+
         public BuildTemplate Template { get => _template; set => Common.SetProperty(ref _template, value, ApplyTemplate, value != null); }
 
         public BuildSpecialization BuildSpecialization { get => _buildSpecialization; set => Common.SetProperty(ref _buildSpecialization, value, ApplySpecialization); }
 
-        public Profession Profession { get => _profession; set => Common.SetProperty(ref _profession, value, ApplyProfession); }
+        public Profession Profession { 
+            get 
+            {
+                if (_profession == null)
+                {
+                    PlayerCharacter player = GameService.Gw2Mumble.PlayerCharacter;
+                    if(player != null && BuildsManager.Data.Professions[player.Profession] != null)
+                    {
+                        _profession = BuildsManager.Data.Professions[player.Profession];
+                        ApplyProfession();
+                    }
+                }
+
+                return _profession;
+            } 
+            set => Common.SetProperty(ref _profession, value, ApplyProfession); }
 
         public SpecializationSlot Line { get; internal set; }
 
@@ -115,6 +142,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
             _background.Bounds = new(0, 0, Width, Height);
             _specializationBackground.Bounds = new(0, 0, Width, Height);
             _hexagon.Bounds = new(Scale(64), Scale(4), Height - Scale(8), Height - Scale(8));
+            _noSpecHexagon.Bounds = new(Scale(64), Scale(4), Height - Scale(8), Height - Scale(8));
             _weaponTrait.Bounds = new(_hexagon.Bounds.Right - Scale(46) - Scale(20), _hexagon.Bounds.Bottom - Scale(46) - Scale(8), Scale(46), Scale(46));
             _selector.Bounds = new(0, 0, Scale(18), Height);
 
@@ -131,145 +159,6 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
             _specSelectorBounds = new(_selector.Bounds.Right, 0, Width - _selector.Bounds.Right, Height);
 
             ApplyProfession();
-        }
-
-        protected override void Paint(SpriteBatch spriteBatch, Rectangle bounds)
-        {
-            string txt = string.Empty;
-            if (_buildSpecialization != null && _buildSpecialization.Specialization != null)
-            {
-                _background.Draw(this, spriteBatch);
-                _specializationBackground.Draw(this, spriteBatch);
-
-                var minor = _minors[0].Bounds;
-                spriteBatch.DrawLine(new(_hexagon.Bounds.Right - Scale(18) + AbsoluteBounds.X, _hexagon.Bounds.Center.Y + AbsoluteBounds.Y), new(minor.Left + Scale(3) + AbsoluteBounds.X, minor.Center.Y + AbsoluteBounds.Y), Colors.ColonialWhite * 0.8f, Scale(3));
-
-                for (int i = 0; i < _majors.Count; i++)
-                {
-                    var major = _majors[i].Bounds;
-                    minor = _minors[(int)_majors[i].Trait.Tier - 1].Bounds;
-                    if (_majors[i].Selected)
-                    {
-                        Rectangle? minorNext = _minors.ContainsKey((int)_majors[i].Trait.Tier) ? _minors[(int)_majors[i].Trait.Tier].Bounds : null;
-
-                        spriteBatch.DrawLine(new(minor.Right - Scale(2) + AbsoluteBounds.X, minor.Center.Y + AbsoluteBounds.Y), new(major.Left + Scale(2) + AbsoluteBounds.X, major.Center.Y + AbsoluteBounds.Y), Colors.ColonialWhite * 0.8f, Scale(2));
-                        if (minorNext != null) spriteBatch.DrawLine(new(major.Right - Scale(2) + AbsoluteBounds.X, major.Center.Y + AbsoluteBounds.Y), new(minorNext.Value.Left + Scale(2) + AbsoluteBounds.X, minorNext.Value.Center.Y + AbsoluteBounds.Y), Colors.ColonialWhite * 0.8f, Scale(2));
-                    }
-                }
-
-                for (int i = 0; i < _minors.Count; i++)
-                {
-                    _minors[i].Draw(this, spriteBatch, RelativeMousePosition, null, null, _selectorOpen ? false : null);
-                    if (_minors[i].Hovered) txt = _minors[i].Trait.Description;
-                }
-
-                for (int i = 0; i < _majors.Count; i++)
-                {
-                    _majors[i].Draw(this, spriteBatch, RelativeMousePosition, _majors[i].Selected ? Color.White : _majors[i].Hovered ? Color.DarkGray : Color.White * 0.6f, _majors[i].Selected ? null : _majors[i].Hovered ? Color.Gray * 0.1f : Color.Black * 0.5f, _selectorOpen ? false : null);
-                    if (_majors[i].Hovered) txt = _majors[i].Trait.Description;
-                }
-
-                _baseFrame.Draw(this, spriteBatch);
-                _hexagon.Draw(this, spriteBatch);
-                _weaponTrait.Draw(this, spriteBatch, RelativeMousePosition, null, null, _selectorOpen ? false : null);
-                if (_weaponTrait.Hovered) txt = BuildSpecialization.Specialization.WeaponTrait?.Description;
-                _selector.Draw(this, spriteBatch, RelativeMousePosition, null, null, _selectorOpen ? true : null);
-                if (_selector.Hovered) txt = "Change Specialization";
-                if (_buildSpecialization.Specialization.Elite) _eliteFrame.Draw(this, spriteBatch);
-
-                if (_selectorOpen && Profession != null)
-                {
-                    txt = DrawSelector(spriteBatch, bounds);
-                }
-            }
-
-            BasicTooltipText = txt;
-        }
-
-        protected override void OnClick(MouseEventArgs e)
-        {
-            base.OnClick(e);
-            if (!_selectorOpen)
-            {
-                TraitIcon trait = _majors.FirstOrDefault(e => e.Value.Hovered).Value;
-
-                for (int i = 0; i < _majors.Count; i++)
-                {
-                    if (trait != null && _majors[i].Trait.Tier == trait.Trait.Tier)
-                    {
-                        _majors[i].Selected = trait == _majors[i] && !_majors[i].Selected;
-                    }
-                }
-
-                if (trait != null)
-                {
-                    BuildSpecialization.Traits[trait.Trait.Tier] = trait.Selected ? trait.Trait : null;
-                    TraitsChanged?.Invoke(this, EventArgs.Empty);
-
-                    return;
-                }
-            }
-            else
-            {
-
-                SpecializationSlot slot = SpecializationSlot.Line_1;
-                BuildSpecialization temp = null;
-
-                foreach (var spec in _specBounds)
-                {
-                    if (spec.Value.Contains(RelativeMousePosition))
-                    {
-                        if (BuildSpecialization.Specialization != spec.Key)
-                        {
-                            bool hasSpec = Template?.HasSpecialization(spec.Key) == true;
-                            slot = (SpecializationSlot)(hasSpec ? Template?.GetSpecializationSlot(spec.Key) : SpecializationSlot.Line_1);
-
-                            if(hasSpec)
-                            {
-                                temp = new()
-                                {
-                                    Specialization = BuildSpecialization.Specialization
-                                };
-                                temp.Traits[TraitTier.Adept] = BuildSpecialization.Traits[TraitTier.Adept];
-                                temp.Traits[TraitTier.Master] = BuildSpecialization.Traits[TraitTier.Master];
-                                temp.Traits[TraitTier.GrandMaster] = BuildSpecialization.Traits[TraitTier.GrandMaster];
-
-                                BuildSpecialization.Specialization = Template.Specializations[slot].Specialization;
-                                BuildSpecialization.Traits[TraitTier.Adept] = Template.Specializations[slot].Traits[TraitTier.Adept];
-                                BuildSpecialization.Traits[TraitTier.Master] = Template.Specializations[slot].Traits[TraitTier.Master];
-                                BuildSpecialization.Traits[TraitTier.GrandMaster] = Template.Specializations[slot].Traits[TraitTier.GrandMaster];
-
-                                Template.Specializations[slot].Specialization = temp.Specialization;
-                                Template.Specializations[slot].Traits[TraitTier.Adept] = temp.Traits[TraitTier.Adept];
-                                Template.Specializations[slot].Traits[TraitTier.Master] = temp.Traits[TraitTier.Master];
-                                Template.Specializations[slot].Traits[TraitTier.GrandMaster] = temp.Traits[TraitTier.GrandMaster];
-
-                                ApplySpecialization();
-                                _selectorOpen = !_selectorOpen;
-                                OnSpecLineSwapped();
-                                return;
-                            }
-                            else
-                            {
-                                BuildSpecialization.Specialization = spec.Key;
-                                BuildSpecialization.Traits[TraitTier.Adept] = null;
-                                BuildSpecialization.Traits[TraitTier.Master] = null;
-                                BuildSpecialization.Traits[TraitTier.GrandMaster] = null;
-                            }
-
-                            ApplySpecialization();
-                        }
-                    }
-                }
-            }
-
-            _selectorOpen = !_selectorOpen;
-        }
-
-        private void OnSpecLineSwapped()
-        {
-            SpeclineSwapped?.Invoke(this, null);
-            TraitsChanged?.Invoke(this, null);
         }
 
         public void ApplyProfession()
@@ -294,7 +183,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
 
         public void ApplySpecialization()
         {
-            if (_buildSpecialization != null)
+            if (_buildSpecialization != null && _buildSpecialization.Specialization != null)
             {
                 _specializationBackground.Texture = _buildSpecialization.Specialization.Background;
                 _weaponTrait.Texture = _buildSpecialization.Specialization.WeaponTrait?.Icon;
@@ -321,6 +210,165 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
         {
             ApplyProfession();
             ApplySpecialization();
+        }
+
+        protected override void Paint(SpriteBatch spriteBatch, Rectangle bounds)
+        {
+            string txt = string.Empty;
+            bool canInteract = CanInteract?.Invoke() is true or null;
+            bool hasSpec = _buildSpecialization != null && _buildSpecialization.Specialization != null;
+            bool hasProf = Template != null;
+            Point? hoverPos = canInteract ? RelativeMousePosition : null;
+
+            //_background.Draw(this, spriteBatch);
+
+            if (_buildSpecialization != null && _buildSpecialization.Specialization != null)
+            {
+                _specializationBackground.Draw(this, spriteBatch);
+
+                var minor = _minors[0].Bounds;
+                spriteBatch.DrawLine(new(_hexagon.Bounds.Right - Scale(18) + AbsoluteBounds.X, _hexagon.Bounds.Center.Y + AbsoluteBounds.Y), new(minor.Left + Scale(3) + AbsoluteBounds.X, minor.Center.Y + AbsoluteBounds.Y), Colors.ColonialWhite * 0.8f, Scale(3));
+
+                for (int i = 0; i < _majors.Count; i++)
+                {
+                    var major = _majors[i].Bounds;
+                    minor = _minors[(int)_majors[i].Trait.Tier - 1].Bounds;
+                    if (_majors[i].Selected)
+                    {
+                        Rectangle? minorNext = _minors.ContainsKey((int)_majors[i].Trait.Tier) ? _minors[(int)_majors[i].Trait.Tier].Bounds : null;
+
+                        spriteBatch.DrawLine(new(minor.Right - Scale(2) + AbsoluteBounds.X, minor.Center.Y + AbsoluteBounds.Y), new(major.Left + Scale(2) + AbsoluteBounds.X, major.Center.Y + AbsoluteBounds.Y), Colors.ColonialWhite * 0.8f, Scale(2));
+                        if (minorNext != null) spriteBatch.DrawLine(new(major.Right - Scale(2) + AbsoluteBounds.X, major.Center.Y + AbsoluteBounds.Y), new(minorNext.Value.Left + Scale(2) + AbsoluteBounds.X, minorNext.Value.Center.Y + AbsoluteBounds.Y), Colors.ColonialWhite * 0.8f, Scale(2));
+                    }
+                }
+
+                for (int i = 0; i < _minors.Count; i++)
+                {
+                    _minors[i].Draw(this, spriteBatch, hoverPos, null, null, _selectorOpen ? false : null);
+                    if (_minors[i].Hovered) txt = _minors[i].Trait.Description;
+                }
+
+                for (int i = 0; i < _majors.Count; i++)
+                {
+                    _majors[i].Draw(this, spriteBatch, hoverPos, _majors[i].Selected ? Color.White : _majors[i].Hovered ? Color.DarkGray : Color.White * 0.6f, _majors[i].Selected ? null : _majors[i].Hovered ? Color.Gray * 0.1f : Color.Black * 0.5f, _selectorOpen ? false : null);
+                    if (_majors[i].Hovered) txt = _majors[i].Trait.Description;
+                }
+
+                _weaponTrait.Draw(this, spriteBatch, hoverPos, null, null, _selectorOpen ? false : null);
+                if (_weaponTrait.Hovered) txt = BuildSpecialization.Specialization.WeaponTrait?.Description;
+
+            }
+
+            _baseFrame.Draw(this, spriteBatch);
+            _selector.Draw(this, spriteBatch, hoverPos, null, null, _selectorOpen ? true : null);
+            if (_selector.Hovered) txt = "Change Specialization";
+            (hasSpec ? _hexagon : _noSpecHexagon).Draw(this, spriteBatch);
+            if(Line == SpecializationSlot.Line_3) _eliteFrame.Draw(this, spriteBatch);
+
+            if (_selectorOpen && Profession != null)
+            {
+                txt = DrawSelector(spriteBatch, bounds);
+            }
+
+            BasicTooltipText = txt;
+        }
+
+        protected override void OnClick(MouseEventArgs e)
+        {
+            base.OnClick(e);
+
+            if (CanInteract?.Invoke() == true)
+            {
+                if (!_selectorOpen)
+                {
+                    TraitIcon trait = _majors.FirstOrDefault(e => e.Value.Hovered).Value;
+
+                    for (int i = 0; i < _majors.Count; i++)
+                    {
+                        if (trait != null && _majors[i].Trait.Tier == trait.Trait.Tier)
+                        {
+                            _majors[i].Selected = trait == _majors[i] && !_majors[i].Selected;
+                        }
+                    }
+
+                    if (trait != null)
+                    {
+                        BuildSpecialization.Traits[trait.Trait.Tier] = trait.Selected ? trait.Trait : null;
+                        TraitsChanged?.Invoke(this, EventArgs.Empty);
+
+                        return;
+                    }
+                }
+                else
+                {
+
+                    SpecializationSlot slot = SpecializationSlot.Line_1;
+                    BuildSpecialization temp = null;
+
+                    foreach (var spec in _specBounds)
+                    {
+                        if (spec.Value.Contains(RelativeMousePosition))
+                        {
+                            if (BuildSpecialization.Specialization != spec.Key)
+                            {
+                                bool hasSpec = Template?.HasSpecialization(spec.Key) == true;
+                                slot = (SpecializationSlot)(hasSpec ? Template?.GetSpecializationSlot(spec.Key) : SpecializationSlot.Line_1);
+
+                                if (hasSpec)
+                                {
+                                    temp = new()
+                                    {
+                                        Specialization = BuildSpecialization.Specialization
+                                    };
+                                    temp.Traits[TraitTier.Adept] = BuildSpecialization.Traits[TraitTier.Adept];
+                                    temp.Traits[TraitTier.Master] = BuildSpecialization.Traits[TraitTier.Master];
+                                    temp.Traits[TraitTier.GrandMaster] = BuildSpecialization.Traits[TraitTier.GrandMaster];
+
+                                    BuildSpecialization.Specialization = Template.Specializations[slot].Specialization;
+                                    BuildSpecialization.Traits[TraitTier.Adept] = Template.Specializations[slot].Traits[TraitTier.Adept];
+                                    BuildSpecialization.Traits[TraitTier.Master] = Template.Specializations[slot].Traits[TraitTier.Master];
+                                    BuildSpecialization.Traits[TraitTier.GrandMaster] = Template.Specializations[slot].Traits[TraitTier.GrandMaster];
+
+                                    Template.Specializations[slot].Specialization = temp.Specialization;
+                                    Template.Specializations[slot].Traits[TraitTier.Adept] = temp.Traits[TraitTier.Adept];
+                                    Template.Specializations[slot].Traits[TraitTier.Master] = temp.Traits[TraitTier.Master];
+                                    Template.Specializations[slot].Traits[TraitTier.GrandMaster] = temp.Traits[TraitTier.GrandMaster];
+
+                                    ApplySpecialization();
+                                    _selectorOpen = !_selectorOpen;
+                                    OnSpecLineSwapped();
+                                    return;
+                                }
+                                else
+                                {
+                                    BuildSpecialization.Specialization = spec.Key;
+                                    BuildSpecialization.Traits[TraitTier.Adept] = null;
+                                    BuildSpecialization.Traits[TraitTier.Master] = null;
+                                    BuildSpecialization.Traits[TraitTier.GrandMaster] = null;
+                                }
+
+                                ApplySpecialization();
+                            }
+                        }
+                    }
+                }
+
+                _selectorOpen = !_selectorOpen;
+            }
+        }
+
+        protected override void DisposeControl()
+        {
+            base.DisposeControl();
+
+            Input.Mouse.LeftMouseButtonPressed -= MouseMouseButtonPressed;
+            Input.Mouse.RightMouseButtonPressed -= MouseMouseButtonPressed;
+        }
+
+        private void OnSpecLineSwapped()
+        {
+            SpeclineSwapped?.Invoke(this, null);
+            TraitsChanged?.Invoke(this, null);
         }
 
         private int Scale(int input)

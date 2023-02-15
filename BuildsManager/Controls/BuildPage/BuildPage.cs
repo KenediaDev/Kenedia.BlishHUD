@@ -2,6 +2,7 @@
 using Blish_HUD.Content;
 using Blish_HUD.Controls;
 using Blish_HUD.Input;
+using SkillSlot = Gw2Sharp.WebApi.V2.Models.SkillSlot;
 using Kenedia.Modules.BuildsManager.DataModels.Professions;
 using Kenedia.Modules.BuildsManager.Models.Templates;
 using Kenedia.Modules.BuildsManager.Utility;
@@ -10,19 +11,22 @@ using Kenedia.Modules.Core.Models;
 using Kenedia.Modules.Core.Utility;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using SharpDX.MediaFoundation;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using static Blish_HUD.ContentService;
 using FlowPanel = Kenedia.Modules.Core.Controls.FlowPanel;
+using System.Diagnostics;
+using SharpDX.MediaFoundation;
 
 namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
 {
 
     public class ProfessionSpecifics : Control
     {
+        private readonly AsyncTexture2D _pet = AsyncTexture2D.FromAssetId(156797);
+        private readonly AsyncTexture2D _petClicked = AsyncTexture2D.FromAssetId(156796);
+
         protected override void Paint(SpriteBatch spriteBatch, Rectangle bounds)
         {
         }
@@ -35,9 +39,23 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
         public SkillIcon()
         {
             FallBackTexture = AsyncTexture2D.FromAssetId(157154);
+            HoveredFrameTexture = AsyncTexture2D.FromAssetId(157143);
+
+            TextureRegion = new(14, 14, 100, 100);
+            HoveredFrameTextureRegion = new(8, 8, 112, 112);
+
+            AutoCastTextureRegion = new Rectangle(6, 6, 52, 52);
         }
 
         public Skill Skill { get => _skill; set => Common.SetProperty(ref _skill, value, ApplyTrait); }
+
+        public AsyncTexture2D HoveredFrameTexture { get; private set; }
+
+        public AsyncTexture2D AutoCastTexture { get; set; }
+
+        public Rectangle HoveredFrameTextureRegion { get; }
+
+        public Rectangle AutoCastTextureRegion { get; }
 
         private void ApplyTrait()
         {
@@ -49,6 +67,8 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
         {
             base.Draw(ctrl, spriteBatch, mousePos, color, bgColor, forceHover, rotation, origin);
 
+            color ??= Color.White;
+            origin ??= Vector2.Zero;
             Color borderColor = Color.Black;
 
             // Top
@@ -62,6 +82,30 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
 
             // Right
             spriteBatch.DrawOnCtrl(ctrl, Textures.Pixel, new Rectangle(Bounds.Right - 1, Bounds.Top, 1, Bounds.Height), Rectangle.Empty, borderColor * 0.6f);
+
+            if (AutoCastTexture != null)
+            {
+                spriteBatch.DrawOnCtrl(
+                    ctrl,
+                    AutoCastTexture,
+                    Bounds.Add(-4, -4, 8, 8),
+                    AutoCastTextureRegion,
+                    (Color)color,
+                    rotation,
+                    (Vector2)origin);
+            }
+
+            if (Hovered)
+            {
+                spriteBatch.DrawOnCtrl(
+                    ctrl,
+                    HoveredFrameTexture,
+                    Bounds,
+                    HoveredFrameTextureRegion,
+                    (Color)color,
+                    rotation,
+                    (Vector2)origin);
+            }
         }
     }
 
@@ -87,6 +131,16 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
         }
     }
 
+    public class SelectableSkillIconCollection : Dictionary<SkillSlot, List<SkillIcon>>
+    {
+        public SelectableSkillIconCollection()
+        {
+            Add(SkillSlot.Heal, new());
+            Add(SkillSlot.Utility, new());
+            Add(SkillSlot.Elite, new());
+        }
+    }
+
     public class SkillsBar : Control
     {
         private readonly DetailedTexture _aquaticTexture = new(1988170);
@@ -101,21 +155,6 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
             new(157138, 157140),
             new(157138, 157140),
         };
-        private readonly AsyncTexture2D _selector = AsyncTexture2D.FromAssetId(157138);
-        private readonly AsyncTexture2D _selectorHovered = AsyncTexture2D.FromAssetId(157140);
-
-        private readonly AsyncTexture2D _weaponSwapDisabled = AsyncTexture2D.FromAssetId(156580);
-        private readonly AsyncTexture2D _weaponSwap = AsyncTexture2D.FromAssetId(156583);
-        private readonly AsyncTexture2D _weaponSwapHovered = AsyncTexture2D.FromAssetId(156584);
-        private readonly AsyncTexture2D _pet = AsyncTexture2D.FromAssetId(156797);
-        private readonly AsyncTexture2D _petClicked = AsyncTexture2D.FromAssetId(156796);
-
-        private readonly DetailedTexture _terrestrialAutoCast = new(157150);
-        private readonly DetailedTexture _terrestrialAltAutoCast = new(157150);
-        private readonly DetailedTexture _aquaticAutoCast = new(157150);
-        private readonly DetailedTexture _aquaticAltAutoCast = new(157150);
-
-        private readonly AsyncTexture2D _dropBundle = AsyncTexture2D.FromAssetId(156581);
 
         private Template _template;
         private readonly WeaponSkillIconCollection _terrestrialWeaponSkills = new();
@@ -128,15 +167,81 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
         private readonly SkillIconCollection _terrestrialSkills = new();
         private readonly SkillIconCollection _inactiveTerrestrialSkills = new();
 
+        private readonly SelectableSkillIconCollection _selectableSkills = new();
+        private SkillSlot _selectedSkillSlot;
+        private Rectangle _selectorBounds;
+        private SkillIcon _selectorAnchor;
+
         private bool _terrestrial = true;
+        private bool _seletorOpen = false;
+        private double _lastOpen;
+        private int _skillSize;
 
         public SkillsBar()
         {
-            //BackgroundColor = Color.White * 0.2F;
             Height = 150;
+            ClipsBounds = false;
+            ZIndex = int.MaxValue / 2;
+
+            _terrestrialWeaponSkills[WeaponSkillSlot.Weapon_1].AutoCastTexture = AsyncTexture2D.FromAssetId(157150);
+            _aquaticWeaponSkills[WeaponSkillSlot.Weapon_1].AutoCastTexture = AsyncTexture2D.FromAssetId(157150);
+            _aquaticInactiveWeaponSkills[WeaponSkillSlot.Weapon_1].AutoCastTexture = AsyncTexture2D.FromAssetId(157150);
+            _terrestrialInactiveWeaponSkills[WeaponSkillSlot.Weapon_1].AutoCastTexture = AsyncTexture2D.FromAssetId(157150);
+
+            Input.Mouse.LeftMouseButtonPressed += Mouse_LeftMouseButtonPressed;
+        }
+
+        private bool AnyHovered
+        {
+            get
+            {
+                bool hovered = _seletorOpen && _selectorBounds.Contains(RelativeMousePosition);
+                hovered = hovered || AbsoluteBounds.Contains(Input.Mouse.Position);
+
+                return hovered;
+            }
+        }
+
+        public bool IsSelecting
+        {
+            get
+            {
+                double timeSince = Common.Now() - _lastOpen;
+                return _seletorOpen || timeSince <= 200;
+            }
+        }
+
+        private void Mouse_LeftMouseButtonPressed(object sender, MouseEventArgs e)
+        {
+            if (SeletorOpen)
+            {
+                foreach (var s in _selectableSkills[_selectedSkillSlot])
+                {
+                    if (s.Hovered)
+                    {
+                        _selectorAnchor.Skill = s.Skill;
+                    }
+                }
+            }
+
+            SeletorOpen = false;
         }
 
         public Template Template { get => _template; set => Common.SetProperty(ref _template, value, ApplyTemplate, value != null); }
+
+        private bool SeletorOpen
+        {
+            get => _seletorOpen;
+            set
+            {
+                if (AnyHovered || _seletorOpen)
+                {
+                    _lastOpen = Common.Now();
+                }
+
+                _seletorOpen = value;
+            }
+        }
 
         public override void RecalculateLayout()
         {
@@ -145,9 +250,8 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
             int offsetX = 90;
             int offsetY = 26;
             int secondRowY = 64;
-            int size = 64;
+            _skillSize = 64;
             int weponSize = 52;
-            var skillBounds = new Rectangle(14, 14, 100, 100);
 
             _terrestrialTexture.Bounds = new Rectangle(4, 18, 48, 48);
             _aquaticTexture.Bounds = new Rectangle(4, 70, 48, 48);
@@ -156,35 +260,15 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
             {
                 var terrestrial = _terrestrialWeaponSkills[(WeaponSkillSlot)i];
                 terrestrial.Bounds = new Rectangle(offsetX, offsetY, weponSize, weponSize);
-                terrestrial.TextureRegion = skillBounds;
-
-                if (i == 0)
-                {
-                    var textBounds = new Rectangle(6, 6, 52, 52);
-                    _terrestrialAutoCast.Bounds = new Rectangle(offsetX, offsetY - 4, weponSize + 8, weponSize + 8);
-                    _terrestrialAutoCast.TextureRegion = textBounds;
-
-                    _terrestrialAltAutoCast.Bounds = new Rectangle(offsetX, secondRowY + offsetY - 4, weponSize + 8, weponSize + 8);
-                    _terrestrialAltAutoCast.TextureRegion = textBounds;
-
-                    _aquaticAutoCast.Bounds = new Rectangle(offsetX, offsetY - 4, weponSize + 8, weponSize + 8);
-                    _aquaticAutoCast.TextureRegion = textBounds;
-
-                    _aquaticAltAutoCast.Bounds = new Rectangle(offsetX, secondRowY + offsetY - 4, weponSize + 8, weponSize + 8);
-                    _aquaticAltAutoCast.TextureRegion = textBounds;
-                }
 
                 var terrestrialAlt = _terrestrialInactiveWeaponSkills[(WeaponSkillSlot)i];
                 terrestrialAlt.Bounds = new Rectangle(offsetX, offsetY + secondRowY, weponSize, weponSize);
-                terrestrialAlt.TextureRegion = skillBounds;
 
                 var aquatic = _aquaticWeaponSkills[(WeaponSkillSlot)i];
                 aquatic.Bounds = new Rectangle(offsetX, offsetY, weponSize, weponSize);
-                aquatic.TextureRegion = skillBounds;
 
                 var aquaticAlt = _aquaticInactiveWeaponSkills[(WeaponSkillSlot)i];
                 aquaticAlt.Bounds = new Rectangle(offsetX, offsetY + secondRowY, weponSize, weponSize);
-                aquaticAlt.TextureRegion = skillBounds;
 
                 offsetX += weponSize;
             }
@@ -194,16 +278,14 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
             for (int i = 0; i < _terrestrialSkills.Count; i++)
             {
                 var terrestrial = _terrestrialSkills[(BuildSkillSlot)i];
-                terrestrial.Bounds = new Rectangle(offsetX, (Height - size - 14) / 2 + offsetY, size, size);
-                terrestrial.TextureRegion = skillBounds;
+                terrestrial.Bounds = new Rectangle(offsetX, ((Height - _skillSize - 14) / 2) + offsetY, _skillSize, _skillSize);
 
                 var aquatic = _aquaticSkills[(BuildSkillSlot)i];
-                aquatic.Bounds = new Rectangle(offsetX, (Height - size - 14) / 2 + offsetY, size, size);
-                aquatic.TextureRegion = skillBounds;
+                aquatic.Bounds = new Rectangle(offsetX, ((Height - _skillSize - 14) / 2) + offsetY, _skillSize, _skillSize);
 
-                _selectors[i].Bounds = new Rectangle(offsetX, (Height - size - 14) / 2 - 14 + offsetY, size, 15);
+                _selectors[i].Bounds = new Rectangle(offsetX, ((Height - _skillSize - 14) / 2) - 14 + offsetY, _skillSize, 15);
 
-                offsetX += size;
+                offsetX += _skillSize;
             }
 
             _terrestrialTexture.Bounds = new Rectangle(4, _terrestrialWeaponSkills[WeaponSkillSlot.Weapon_1].Bounds.Bottom - 42, 42, 42);
@@ -218,7 +300,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
             foreach (var s in _terrestrial ? _terrestrialWeaponSkills : _aquaticWeaponSkills)
             {
                 s.Value.Draw(this, spriteBatch, RelativeMousePosition);
-                if (s.Value.Hovered && s.Value.Skill != null)
+                if (!SeletorOpen && s.Value.Hovered && s.Value.Skill != null)
                 {
                     BasicTooltipText = s.Value.Skill.Name;
                 }
@@ -227,7 +309,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
             foreach (var s in _terrestrial ? _terrestrialSkills : _aquaticSkills)
             {
                 s.Value.Draw(this, spriteBatch, RelativeMousePosition);
-                if (s.Value.Hovered && s.Value.Skill != null)
+                if (!SeletorOpen && s.Value.Hovered && s.Value.Skill != null)
                 {
                     BasicTooltipText = s.Value.Skill.Name;
                 }
@@ -240,14 +322,36 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
             foreach (var s in _terrestrial ? _terrestrialInactiveWeaponSkills : _aquaticInactiveWeaponSkills)
             {
                 s.Value.Draw(this, spriteBatch, RelativeMousePosition);
-                if (s.Value.Hovered && s.Value.Skill != null)
+                if (!SeletorOpen && s.Value.Hovered && s.Value.Skill != null)
                 {
                     BasicTooltipText = s.Value.Skill.Name;
                 }
             }
 
-            (_terrestrial ? _terrestrialAutoCast : _aquaticAutoCast).Draw(this, spriteBatch);
-            (_terrestrial ? _terrestrialAltAutoCast : _aquaticAltAutoCast).Draw(this, spriteBatch);
+            if (SeletorOpen)
+            {
+                DrawSelector(spriteBatch, bounds);
+            }
+        }
+
+        protected override void OnRightMouseButtonPressed(MouseEventArgs e)
+        {
+            base.OnRightMouseButtonPressed(e);
+
+            for (int i = 0; i < _terrestrialSkills.Count; i++)
+            {
+                var skill = _terrestrial ? _terrestrialSkills[(BuildSkillSlot)i] : _aquaticSkills[(BuildSkillSlot)i];
+
+                if (skill != null && skill.Hovered)
+                {
+                    var skillSlot = i == 0 ? SkillSlot.Heal : i == 4 ? SkillSlot.Elite : SkillSlot.Utility;
+                    _selectedSkillSlot = skillSlot;
+                    SeletorOpen = _selectorAnchor != skill || !SeletorOpen;
+                    _selectorAnchor = skill;
+                    GetSelectableSkills(skillSlot);
+                    return;
+                }
+            }
         }
 
         protected override void OnClick(MouseEventArgs e)
@@ -264,6 +368,22 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
             {
                 _terrestrial = false;
                 return;
+            }
+
+            for (int i = 0; i < _terrestrialSkills.Count; i++)
+            {
+                var skill = _terrestrial ? _terrestrialSkills[(BuildSkillSlot)i] : _aquaticSkills[(BuildSkillSlot)i];
+                var selector = _selectors[i];
+
+                if (skill != null && ((skill.Hovered && GameService.Input.Mouse.State.RightButton == Microsoft.Xna.Framework.Input.ButtonState.Pressed) || selector.Hovered))
+                {
+                    var skillSlot = i == 0 ? SkillSlot.Heal : i == 4 ? SkillSlot.Elite : SkillSlot.Utility;
+                    _selectedSkillSlot = skillSlot;
+                    SeletorOpen = _selectorAnchor != skill || !SeletorOpen;
+                    _selectorAnchor = skill;
+                    GetSelectableSkills(skillSlot);
+                    return;
+                }
             }
         }
 
@@ -360,6 +480,61 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
                 _inactiveTerrestrialSkills[spair.Key].Skill = spair.Value;
             }
         }
+
+        private void GetSelectableSkills(SkillSlot skillType)
+        {
+            if (Template != null)
+            {
+                _selectableSkills[skillType].Clear();
+
+                var skills = BuildsManager.Data.Professions[Template.BuildTemplate.Profession].Skills;
+                var filteredSkills = skills.Where(e => e.Value.Slot != null && e.Value.Slot == skillType && e.Value.Categories != null && (e.Value.Specialization == 0 || Template.BuildTemplate.HasSpecialization(e.Value.Specialization))).OrderBy(e => e.Value.Categories != null ? e.Value.Categories[0] : SkillCategory.None);
+
+                int columns = Math.Min(filteredSkills.Count(), 4);
+                int rows = (int)Math.Ceiling(filteredSkills.Count() / (double)4);
+                _selectorBounds = new(_selectorAnchor.Bounds.X - (((_skillSize * columns) + 8) / 2 - (_skillSize / 2)), _selectorAnchor.Bounds.Bottom, (_skillSize * columns) + 4, (_skillSize * rows) + 40);
+
+                int column = 0;
+                int row = 0;
+                foreach (var skill in filteredSkills)
+                {
+                    _selectableSkills[skillType].Add(new() { Skill = skill.Value, Bounds = new(_selectorBounds.Left + 4 + (column * _skillSize), _selectorBounds.Top + 4 + (row * _skillSize), _skillSize - 4, _skillSize - 4) });
+                    column++;
+
+                    if (column > 3)
+                    {
+                        column = 0;
+                        row++;
+                    }
+                }
+            }
+        }
+
+        private void DrawSelector(SpriteBatch spriteBatch, Rectangle bounds)
+        {
+            spriteBatch.DrawOnCtrl(this, Textures.Pixel, _selectorBounds, Rectangle.Empty, Color.Black * 0.7f);
+
+            Color borderColor = Color.Black;
+
+            // Top
+            spriteBatch.DrawOnCtrl(this, Textures.Pixel, new Rectangle(_selectorBounds.Left, _selectorBounds.Top, _selectorBounds.Width, 2), Rectangle.Empty, borderColor * 0.8f);
+
+            // Bottom
+            spriteBatch.DrawOnCtrl(this, Textures.Pixel, new Rectangle(_selectorBounds.Left, _selectorBounds.Bottom - 2, _selectorBounds.Width, 2), Rectangle.Empty, borderColor * 0.8f);
+
+            // Left
+            spriteBatch.DrawOnCtrl(this, Textures.Pixel, new Rectangle(_selectorBounds.Left, _selectorBounds.Top, 2, _selectorBounds.Height), Rectangle.Empty, borderColor * 0.8f);
+
+            // Right
+            spriteBatch.DrawOnCtrl(this, Textures.Pixel, new Rectangle(_selectorBounds.Right - 2, _selectorBounds.Top, 2, _selectorBounds.Height), Rectangle.Empty, borderColor * 0.8f);
+
+            foreach (var s in _selectableSkills[_selectedSkillSlot])
+            {
+                s.Draw(this, spriteBatch, RelativeMousePosition);
+            }
+
+            spriteBatch.DrawStringOnCtrl(this, string.Format("{0} Skills", _selectedSkillSlot), Content.DefaultFont18, new Rectangle(_selectorBounds.Left, _selectorBounds.Bottom - 12 - Content.DefaultFont18.LineHeight, _selectorBounds.Width, Content.DefaultFont18.LineHeight), Color.White, false, HorizontalAlignment.Center);
+        }
     }
 
     public class BuildPage : Container
@@ -422,11 +597,18 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
                 Location = new(0, _dummy.Bottom),
                 WidthSizingMode = SizingMode.Fill,
                 HeightSizingMode = SizingMode.AutoSize,
+                ControlPadding = new(1),
+                BackgroundColor= Color.Black * 0.8F,
+                AutoSizePadding = new(1),
             };
 
-            _specializations.ToList().ForEach(l => l.Value.Parent = _specializationsPanel);
-            _specializations.ToList().ForEach(l => l.Value.TraitsChanged += OnBuildAdjusted);
-            _specializations.ToList().ForEach(l => l.Value.SpeclineSwapped += SpeclineSwapped);
+            _specializations.ToList().ForEach(l =>
+            {
+                l.Value.Parent = _specializationsPanel;
+                l.Value.TraitsChanged += OnBuildAdjusted;
+                l.Value.SpeclineSwapped += SpeclineSwapped;
+                l.Value.CanInteract = () => !_skillbar.IsSelecting;
+            });
         }
 
         private void SpeclineSwapped(object sender, EventArgs e)

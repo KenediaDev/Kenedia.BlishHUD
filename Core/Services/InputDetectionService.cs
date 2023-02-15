@@ -125,7 +125,7 @@ namespace Kenedia.Modules.Core.Services
             LastKeyInteraction = keys.Count() > 0 ? now : LastKeyInteraction;
 
             MouseState mouse = GameService.Input.Mouse.State;
-            LastMouseClick = (mouse.LeftButton == ButtonState.Pressed || mouse.RightButton == ButtonState.Pressed || mouse.MiddleButton == ButtonState.Pressed || mouse.XButton1 == ButtonState.Pressed || mouse.XButton2 == ButtonState.Pressed) ? now : LastMouseClick;
+            LastMouseClick = (mouse.LeftButton == ButtonState.Pressed || mouse.RightButton == ButtonState.Pressed || mouse.MiddleButton == ButtonState.Pressed) ? now : LastMouseClick;
             LastMouseMove = mouse.Position != _lastMousePosition ? now : LastMouseMove;
             LastMouseInteraction = Math.Max(LastMouseMove, LastMouseClick);
 

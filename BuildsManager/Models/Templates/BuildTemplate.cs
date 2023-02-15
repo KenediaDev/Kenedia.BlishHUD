@@ -1,4 +1,6 @@
-﻿using Gw2Sharp.ChatLinks;
+﻿using Blish_HUD.Gw2Mumble;
+using Blish_HUD;
+using Gw2Sharp.ChatLinks;
 using Gw2Sharp.Models;
 using Kenedia.Modules.BuildsManager.DataModels.Professions;
 using System.Diagnostics;
@@ -10,7 +12,8 @@ namespace Kenedia.Modules.BuildsManager.Models.Templates
     {
         public BuildTemplate()
         {
-
+            PlayerCharacter player = GameService.Gw2Mumble.PlayerCharacter;
+            Profession = player != null ? player.Profession : ProfessionType.Guardian;
         }
 
         public BuildTemplate(string buildCode) : this()
@@ -200,11 +203,21 @@ namespace Kenedia.Modules.BuildsManager.Models.Templates
             }
         }
 
+        public bool HasSpecialization(int specializationId)
+        {
+            foreach (var spec in Specializations)
+            {
+                if (spec.Value.Specialization != null && spec.Value.Specialization.Id == specializationId) return true;
+            }
+
+            return false;
+        }
+
         public bool HasSpecialization(Specialization specialization)
         {
-            foreach(var spec in Specializations)
+            foreach (var spec in Specializations)
             {
-                if(spec.Value.Specialization == specialization) return true;
+                if (spec.Value != null && spec.Value.Specialization == specialization) return true;
             }
 
             return false;
@@ -212,9 +225,9 @@ namespace Kenedia.Modules.BuildsManager.Models.Templates
 
         public SpecializationSlot? GetSpecializationSlot(Specialization specialization)
         {
-            foreach(var spec in Specializations)
+            foreach (var spec in Specializations)
             {
-                if(spec.Value.Specialization == specialization) return spec.Key;
+                if (spec.Value.Specialization == specialization) return spec.Key;
             }
 
             return null;

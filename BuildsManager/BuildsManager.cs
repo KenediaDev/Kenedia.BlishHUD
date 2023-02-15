@@ -33,7 +33,7 @@ namespace Kenedia.Modules.BuildsManager
 
         private GW2API GW2API { get; set; }
 
-        private Template SelectedTemplate { get; set; }
+        private Template SelectedTemplate { get; set; } = new();
 
         public static Data Data { get; set; }
 
