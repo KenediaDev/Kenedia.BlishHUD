@@ -1,5 +1,8 @@
-﻿using Kenedia.Modules.Core.Models;
+﻿using Gw2Sharp.Models;
+using Kenedia.Modules.Core.Models;
+using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Runtime.Serialization;
 using APILegend = Gw2Sharp.WebApi.V2.Models.Legend;
 
@@ -26,11 +29,13 @@ namespace Kenedia.Modules.BuildsManager.DataModels.Professions
 
                     if (skills.TryGetValue(legend.Heal, out Skill heal))
                     {
+                        heal.PaletteId = Skill.GetRevPaletteId(heal);
                         Heal = heal;
                     }
 
                     if (skills.TryGetValue(legend.Elite, out Skill elite))
                     {
+                        elite.PaletteId = Skill.GetRevPaletteId(elite);
                         Elite = elite;
                     }
 
@@ -38,6 +43,7 @@ namespace Kenedia.Modules.BuildsManager.DataModels.Professions
                     {
                         if (skills.TryGetValue(util, out Skill utility))
                         {
+                            utility.PaletteId = Skill.GetRevPaletteId(utility);
                             Utilities.Add(utility.Id, utility);
                         }
                     }
@@ -45,14 +51,7 @@ namespace Kenedia.Modules.BuildsManager.DataModels.Professions
             }
         }
 
-        [DataMember]
-        public LocalizedString Names { get; protected set; } = new();
-
-        public string Name
-        {
-            get => Names.Text;
-            set => Names.Text = value;
-        }
+        public string Name => Swap.Name;
 
         [DataMember]
         public int Id { get; set; }
@@ -74,7 +73,6 @@ namespace Kenedia.Modules.BuildsManager.DataModels.Professions
 
         internal void ApplyLanguage(KeyValuePair<int, Legend> leg)
         {
-            Name = leg.Value.Name;
             Heal.Name = leg.Value.Heal.Name;
             Heal.Description = leg.Value.Heal.Description;
 
@@ -96,7 +94,24 @@ namespace Kenedia.Modules.BuildsManager.DataModels.Professions
 
         public static Legend FromByte(byte id)
         {
-            return BuildsManager.Data.Professions?[Gw2Sharp.Models.ProfessionType.Revenant]?.Legends.TryGetValue((int) id, out Legend legend) == true ? legend : null;
+            bool? exists = BuildsManager.Data.Professions[Gw2Sharp.Models.ProfessionType.Revenant].Legends.TryGetValue((int)id, out Legend legend);
+            return exists == true ? legend : null;
+        }
+
+        internal static Skill SkillFromUShort(ushort paletteId, Legend legend)
+        {
+            if (legend != null)
+            {
+                if (legend.Elite.PaletteId == paletteId) return legend.Elite;
+                if (legend.Heal.PaletteId == paletteId) return legend.Heal;
+
+                foreach (var s in legend.Utilities)
+                {
+                    if (paletteId == s.Value.PaletteId) return s.Value;
+                }
+            }
+
+            return null;
         }
     }
 }

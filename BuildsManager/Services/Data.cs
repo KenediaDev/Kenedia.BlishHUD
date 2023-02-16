@@ -53,6 +53,8 @@ namespace Kenedia.Modules.BuildsManager.Services
 
         public List<KeyValuePair<int, int>> SkillsByPalette { get; private set; } = new();
 
+        public bool IsLoaded => Armors.Count > 0 && Professions.Count > 0 && Stats.Count > 0 && Sigils.Count > 0 && Runes.Count > 0 && Pets.Count > 0 && PaletteBySkills.Count > 0;
+
         public async Task Load()
         {
             try
@@ -67,7 +69,7 @@ namespace Kenedia.Modules.BuildsManager.Services
 
                 foreach (var prop in GetType().GetProperties())
                 {
-                    if (prop.Name is not nameof(RuneIds) and not nameof(SigilIds) and not nameof(SkillsByPalette))
+                    if (prop.Name is not nameof(RuneIds) and not nameof(SigilIds) and not nameof(SkillsByPalette) and not nameof(IsLoaded))
                     {
                         string path = $@"{_paths.ModulePath}\data\{prop.Name}.json";
 

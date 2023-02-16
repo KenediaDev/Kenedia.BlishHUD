@@ -199,8 +199,23 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controls\BuildPage\BuildPage.cs" />
+    <Compile Include="Controls\BuildPage\ProfessionSpecific\ElementalistSpecifics.cs" />
+    <Compile Include="Controls\BuildPage\ProfessionSpecific\EngineerSpecifics.cs" />
+    <Compile Include="Controls\BuildPage\ProfessionSpecific\GuardianSpecifics.cs" />
+    <Compile Include="Controls\BuildPage\ProfessionSpecific\MesmerSpecifics.cs" />
+    <Compile Include="Controls\BuildPage\ProfessionSpecific\NecromancerSpecifics.cs" />
+    <Compile Include="Controls\BuildPage\ProfessionSpecific\PetIcon.cs" />
+    <Compile Include="Controls\BuildPage\ProfessionSpecific\RangerSpecifics.cs" />
+    <Compile Include="Controls\BuildPage\ProfessionSpecific\RevenantSpecifics.cs" />
+    <Compile Include="Controls\BuildPage\SelectableSkillIconCollection.cs" />
+    <Compile Include="Controls\BuildPage\SkillIcon.cs" />
+    <Compile Include="Controls\BuildPage\SkillIconCollection.cs" />
+    <Compile Include="Controls\BuildPage\SkillsBar.cs" />
     <Compile Include="Controls\BuildPage\SpecLine.cs" />
+    <Compile Include="Controls\BuildPage\ProfessionSpecific\ThiefSpecifics.cs" />
     <Compile Include="Controls\BuildPage\TraitIcon.cs" />
+    <Compile Include="Controls\BuildPage\ProfessionSpecific\WarriorSpecifics.cs" />
+    <Compile Include="Controls\BuildPage\WeaponSkillIconCollection.cs" />
     <Compile Include="DataModels\ItemUpgrades\Rune.cs" />
     <Compile Include="DataModels\ItemUpgrades\Sigil.cs" />
     <Compile Include="DataModels\ItemUpgrades\Upgrade.cs" />

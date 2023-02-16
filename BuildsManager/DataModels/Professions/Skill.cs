@@ -6,6 +6,7 @@ using Kenedia.Modules.Core.Models;
 using Kenedia.Modules.Core.Utility;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Runtime.Serialization;
 using static Kenedia.Modules.BuildsManager.DataModels.Professions.Weapon;
@@ -30,9 +31,9 @@ namespace Kenedia.Modules.BuildsManager.DataModels.Professions
             ChatLink = skill.ChatLink;
             Flags = skill.Flags.Count() > 0 ? skill.Flags.Aggregate((x, y) => x |= y.ToEnum()) : SkillFlag.Unknown;
             Slot = skill.Slot?.ToEnum();
-            WeaponType = skill.WeaponType != null ? (WeaponType) skill.WeaponType?.ToEnum() : null;
+            WeaponType = skill.WeaponType != null ? (WeaponType)skill.WeaponType?.ToEnum() : null;
 
-            if((skill.Categories != null && skill.Categories.Count > 0) || skill.Name.Contains('\"'))
+            if ((skill.Categories != null && skill.Categories.Count > 0) || skill.Name.Contains('\"'))
             {
                 Categories = new();
                 if (skill.Name.Contains('\"')) Categories.Add(SkillCategory.Shout);
@@ -45,7 +46,7 @@ namespace Kenedia.Modules.BuildsManager.DataModels.Professions
                     }
                 }
 
-                Categories = Categories.Count> 0 ? Categories : null;
+                Categories = Categories.Count > 0 ? Categories : null;
             }
 
             BundleSkills = skill.BundleSkills != null && skill.BundleSkills.Count > 0 ? skill.BundleSkills.ToList() : null;
@@ -135,6 +136,35 @@ namespace Kenedia.Modules.BuildsManager.DataModels.Professions
             return BuildsManager.Data.Professions?[profession]?.SkillsByPalette.TryGetValue((int)id, out int skillid) == true
                 ? (BuildsManager.Data.Professions?[profession]?.Skills[skillid])
                 : null;
+        }
+
+        public static int GetRevPaletteId(int id)
+        {
+            Dictionary<int, List<int>> palletteDic = new()
+            {
+                //Heal
+                {4572, new(){ 26937, 27220, 27372, 28219, 28427, 29148, 45686}},
+                //Util1
+                {4614, new(){ 26821, 27322, 28379, 28516, 29209, 29310, 42949}},
+                //Util2
+                {4651, new(){ 26679, 27014, 27025, 27505, 28231, 29082, 40485}},
+                //Util3
+                {4564, new(){26557, 26644, 27107, 27715, 27917, 29197, 41220 }},
+                //Elite
+                {4554, new(){27356, 27760, 27975, 28287, 28406, 29114, 45773 }},
+            };
+
+            foreach (var pair in palletteDic)
+            {
+                if (pair.Value.Contains(id)) return pair.Key;
+            }
+
+            return 0;
+        }
+
+        public static int GetRevPaletteId(Skill skill)
+        {
+            return GetRevPaletteId(skill.Id);
         }
     }
 }

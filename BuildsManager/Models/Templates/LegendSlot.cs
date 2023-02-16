@@ -2,7 +2,9 @@
 {
     public enum LegendSlot
     {
-        Active,
-        Inactive,
+        AquaticActive,
+        AquaticInactive,
+        TerrestrialActive,
+        TerrestrialInactive,
     }
 }

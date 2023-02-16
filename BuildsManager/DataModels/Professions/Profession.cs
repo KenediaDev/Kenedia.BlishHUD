@@ -197,29 +197,6 @@ namespace Kenedia.Modules.BuildsManager.DataModels.Professions
                     AddOrUpdateLocale(id);
                 }
 
-                //foreach (var s in prof.Skills)
-                //{
-                //    if (s != null && skills.TryGetValue(s.Id, out Skill skill))
-                //    {
-                //        bool exists = Skills.TryGetValue(skill.Id, out var existingSkill);
-
-                //        if (SkillsByPalette.TryGetValue(s.Id, out int paletteId))
-                //        {
-                //            skill.PaletteId = paletteId;
-                //        }
-
-                //        if (!exists)
-                //        {
-                //            Skills.Add(skill.Id, skill);
-                //        }
-                //        else
-                //        {
-                //            existingSkill.Name = skill.Name;
-                //            existingSkill.Description = skill.Description;
-                //        }
-                //    }
-                //}
-
                 foreach (int s in prof.Specializations)
                 {
                     if (specializations.TryGetValue(s, out Specialization spec))

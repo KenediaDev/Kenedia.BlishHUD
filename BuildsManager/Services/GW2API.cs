@@ -75,11 +75,11 @@ namespace Kenedia.Modules.BuildsManager.Services
             var pets = _data.Pets;
 
             Locale locale = GameService.Overlay.UserLocale.Value;
-            await GetLegendaryItems(_cancellationTokenSource.Token, armors, upgrades, trinkets, weapons);
-            await GetUpgrades(_cancellationTokenSource.Token, sigils, runes);
+            //await GetLegendaryItems(_cancellationTokenSource.Token, armors, upgrades, trinkets, weapons);
+            //await GetUpgrades(_cancellationTokenSource.Token, sigils, runes);
             await GetProfessions(_cancellationTokenSource.Token, professions);
-            await GetStats(_cancellationTokenSource.Token, stats);
-            await GetPets(_cancellationTokenSource.Token, pets);
+            //await GetStats(_cancellationTokenSource.Token, stats);
+            //await GetPets(_cancellationTokenSource.Token, pets);
         }
 
         public async Task GetLegendaryItems(CancellationToken cancellation, Dictionary<int, LegendaryArmor> armors, Dictionary<int, LegendaryUpgrade> upgrades, Dictionary<int, LegendaryTrinket> trinkets, Dictionary<int, LegendaryWeapon> weapons)

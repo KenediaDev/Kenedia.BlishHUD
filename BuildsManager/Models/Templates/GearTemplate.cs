@@ -1,11 +1,19 @@
-﻿using System.ComponentModel;
+﻿using Blish_HUD.Gw2Mumble;
+using Blish_HUD;
+using Gw2Sharp.Models;
+using System.ComponentModel;
+using Kenedia.Modules.Core.Utility;
 
 namespace Kenedia.Modules.BuildsManager.Models.Templates
 {
     public class GearTemplate
     {
+        private ProfessionType _profession;
+
         public GearTemplate()
         {
+            PlayerCharacter player = GameService.Gw2Mumble.PlayerCharacter;
+            Profession = player != null ? player.Profession : ProfessionType.Guardian;
         }
 
         public GearTemplate(string code) : this()
@@ -14,6 +22,8 @@ namespace Kenedia.Modules.BuildsManager.Models.Templates
         }
 
         public event PropertyChangedEventHandler Changed;
+
+        public ProfessionType Profession { get => _profession; set => Common.SetProperty(ref _profession, value, Changed); }
 
         public GearCollection Gear { get; } = new();
 

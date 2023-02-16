@@ -33,7 +33,7 @@ namespace Kenedia.Modules.Core.Models
             Texture = texture;
         }
 
-        public bool Hovered { get; private set; }
+        public bool Hovered { get; protected set; }
 
         public AsyncTexture2D Texture { get => _texture; set => Common.SetProperty(ref _texture, value, () => ApplyBounds(), value != null); }
 
@@ -43,7 +43,11 @@ namespace Kenedia.Modules.Core.Models
 
         public Rectangle TextureRegion { get; set; }
 
+        public Rectangle FallbackRegion { get; set; }
+
         public Rectangle Bounds { get; set; }
+
+        public Rectangle FallbackBounds { get; set; }
 
         public virtual void Draw(Control ctrl, SpriteBatch spriteBatch, Point? mousePos = null, Color? color = null, Color? bgColor = null, bool? forceHover = null, float? rotation = null, Vector2? origin = null)
         {
@@ -55,14 +59,28 @@ namespace Kenedia.Modules.Core.Models
 
                 Hovered = forceHover == true || (forceHover == null && mousePos != null && Bounds.Contains((Point)mousePos));
 
-                spriteBatch.DrawOnCtrl(
-                    ctrl,
-                    Hovered && HoveredTexture != null ? HoveredTexture : Texture ?? FallBackTexture,
-                    Bounds,
-                    TextureRegion,
-                    (Color)color,
-                    (float)rotation,
-                    (Vector2)origin);
+                if (Texture != null)
+                {
+                    spriteBatch.DrawOnCtrl(
+                        ctrl,
+                        Hovered && HoveredTexture != null ? HoveredTexture : Texture ?? FallBackTexture,
+                        Bounds,
+                        TextureRegion,
+                        (Color)color,
+                        (float)rotation,
+                        (Vector2)origin);
+                }
+                else
+                {
+                    spriteBatch.DrawOnCtrl(
+                        ctrl,
+                        FallBackTexture,
+                        FallbackBounds == Rectangle.Empty ? Bounds : FallbackBounds,
+                        FallbackRegion,
+                        (Color)color,
+                        (float)rotation,
+                        (Vector2)origin);
+                }
 
                 if (bgColor != null)
                 {
@@ -78,9 +96,61 @@ namespace Kenedia.Modules.Core.Models
             }
         }
 
+        public virtual void Draw(Control ctrl, SpriteBatch spriteBatch, SpriteEffects? effect, Point? mousePos = null, Color? color = null, Color? bgColor = null, bool? forceHover = null, float? rotation = null, Vector2? origin = null)
+        {
+            if (FallBackTexture != null || Texture != null)
+            {
+                effect ??= SpriteEffects.FlipHorizontally;
+                origin ??= Vector2.Zero;
+                color ??= Color.White;
+                rotation ??= 0F;
+
+                Hovered = forceHover == true || (forceHover == null && mousePos != null && Bounds.Contains((Point)mousePos));
+
+                if (Texture != null)
+                {
+                    spriteBatch.DrawOnCtrl(
+                        ctrl,
+                        Hovered && HoveredTexture != null ? HoveredTexture : Texture ?? FallBackTexture,
+                        Bounds,
+                        TextureRegion,
+                        (Color)color,
+                        (float)rotation,
+                        (Vector2)origin,
+                        (SpriteEffects)effect);
+                }
+                else
+                {
+                    spriteBatch.DrawOnCtrl(
+                        ctrl,
+                        FallBackTexture,
+                        FallbackBounds == Rectangle.Empty ? Bounds : FallbackBounds,
+                        FallbackRegion,
+                        (Color)color,
+                        (float)rotation,
+                        (Vector2)origin,
+                        (SpriteEffects)effect);
+                }
+
+                if (bgColor != null)
+                {
+                    spriteBatch.DrawOnCtrl(
+                    ctrl,
+                    ContentService.Textures.Pixel,
+                    Bounds,
+                    Rectangle.Empty,
+                    (Color)bgColor,
+                    (float)rotation,
+                    (Vector2)origin,
+                    (SpriteEffects)effect);
+                }
+            }
+        }
+
         private void ApplyBounds(bool force = false)
         {
             if (TextureRegion == Rectangle.Empty || force) TextureRegion = (Texture ?? FallBackTexture).Bounds;
+            if (FallbackRegion == Rectangle.Empty || force) FallbackRegion = (Texture ?? FallBackTexture).Bounds;
             if (Bounds == Rectangle.Empty || force) Bounds = (Texture ?? FallBackTexture).Bounds;
         }
     }
