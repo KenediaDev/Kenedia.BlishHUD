@@ -1,6 +1,7 @@
 ﻿using Blish_HUD;
 using Blish_HUD.Content;
 using Blish_HUD.Controls;
+using Blish_HUD.Input;
 using Blish_HUD.Modules.Managers;
 using Kenedia.Modules.BuildsManager.DataModels.Professions;
 using Kenedia.Modules.BuildsManager.Models.Templates;
@@ -12,6 +13,7 @@ using Microsoft.Xna.Framework.Graphics;
 using SharpDX.MediaFoundation;
 using System;
 using System.ComponentModel;
+using System.Diagnostics;
 using static Blish_HUD.ContentService;
 
 namespace Kenedia.Modules.BuildsManager.Controls.BuildPage.ProfessionSpecific
@@ -133,10 +135,9 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage.ProfessionSpecific
 
         private readonly LegendIcon _legend1 = new() { LegendSlot = LegendSlot.TerrestrialActive };
         private readonly LegendIcon _legend2 = new() { LegendSlot = LegendSlot.TerrestrialInactive };
-        private Rectangle _energyDisplayValue = Rectangle.Empty;
-        private int _legendSize = 48;
+        private readonly int _legendSize = 48;
 
-        private LegendSlot _activeLegendSlot = LegendSlot.TerrestrialActive;
+        private Rectangle _energyDisplayValue = Rectangle.Empty;
 
         public RevenantSpecifics()
         {
@@ -172,12 +173,34 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage.ProfessionSpecific
             _professionSkill2.TextureRegion = new(6, 6, 52, 52);
         }
 
+        protected override void OnClick(MouseEventArgs e)
+        {
+            base.OnClick(e);
+
+            if (_swap.Hovered)
+            {
+                Template.BuildTemplate.LegendSlot = GetOtherSlot();
+                var slot = Template.BuildTemplate.LegendSlot;
+
+                _legend1.Legend = Template.BuildTemplate.Legends[slot];
+                _legend1.LegendSlot = slot;
+
+                _legend2.Legend = Template.BuildTemplate.Legends[GetOtherSlot()];
+                _legend2.LegendSlot = GetOtherSlot();
+            }
+        }
+
         protected override void ApplyTemplate()
         {
             base.ApplyTemplate();
 
-            _legend1.Legend = Template.BuildTemplate.Legends[_legend1.LegendSlot];
-            _legend2.Legend = Template.BuildTemplate.Legends[_legend2.LegendSlot];
+            var slot = Template.BuildTemplate.LegendSlot;
+
+            _legend1.Legend = Template.BuildTemplate.Legends[slot];
+            _legend1.LegendSlot = slot;
+
+            _legend2.Legend = Template.BuildTemplate.Legends[GetOtherSlot()];
+            _legend2.LegendSlot = GetOtherSlot();
 
             if (Template.EliteSpecialization != null && Template.EliteSpecialization.Id == (int)Specializations.Renegade)
             {
@@ -204,7 +227,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage.ProfessionSpecific
             RecalculateLayout();
 
             _selector1.Draw(this, spriteBatch, RelativeMousePosition);
-            _legend1.Draw(this, spriteBatch, Template.BuildTemplate.Terrestrial, RelativeMousePosition, null, null, _legend1.LegendSlot == _activeLegendSlot);
+            _legend1.Draw(this, spriteBatch, Template.BuildTemplate.Terrestrial, RelativeMousePosition, null, null, _legend1.LegendSlot == Template.BuildTemplate.LegendSlot);
 
             _selector2.Draw(this, spriteBatch, RelativeMousePosition, Color.White * 0.5F);
             _legend2.Draw(this, spriteBatch, Template.BuildTemplate.Terrestrial, null, Color.White * 0.5F);
@@ -226,6 +249,15 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage.ProfessionSpecific
 
             spriteBatch.DrawStringOnCtrl(this, "50%", Content.DefaultFont12, _energyDisplayValue, Color.White, false, HorizontalAlignment.Center, VerticalAlignment.Middle);
 
+        }
+
+        private LegendSlot GetOtherSlot()
+        {
+            var slot = Template.BuildTemplate.LegendSlot;
+
+            return Template.BuildTemplate.Terrestrial
+                ? slot is LegendSlot.TerrestrialActive ? LegendSlot.TerrestrialInactive : LegendSlot.TerrestrialActive
+                : slot is LegendSlot.AquaticActive ? LegendSlot.AquaticInactive : LegendSlot.AquaticActive;
         }
     }
 }

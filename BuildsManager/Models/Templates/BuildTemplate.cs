@@ -152,18 +152,18 @@ namespace Kenedia.Modules.BuildsManager.Models.Templates
                 if (Profession == ProfessionType.Revenant)
                 {
                     Legends[LegendSlot.TerrestrialInactive] = Legend.FromByte(build.RevenantInactiveTerrestrialLegend);
-                    InactiveTerrestrialSkills[BuildSkillSlot.Heal] = Legend.FromByte(build.RevenantActiveTerrestrialLegend)?.Heal;
+                    InactiveTerrestrialSkills[BuildSkillSlot.Heal] = Legend.FromByte(build.RevenantInactiveTerrestrialLegend)?.Heal;
                     InactiveTerrestrialSkills[BuildSkillSlot.Utility_1] = Legend.SkillFromUShort(build.RevenantInactiveTerrestrialUtility1SkillPaletteId, Legends[LegendSlot.TerrestrialInactive]);
                     InactiveTerrestrialSkills[BuildSkillSlot.Utility_2] = Legend.SkillFromUShort(build.RevenantInactiveTerrestrialUtility2SkillPaletteId, Legends[LegendSlot.TerrestrialInactive]);
                     InactiveTerrestrialSkills[BuildSkillSlot.Utility_3] = Legend.SkillFromUShort(build.RevenantInactiveTerrestrialUtility3SkillPaletteId, Legends[LegendSlot.TerrestrialInactive]);
-                    InactiveTerrestrialSkills[BuildSkillSlot.Elite] = Legend.FromByte(build.RevenantActiveTerrestrialLegend)?.Elite;
+                    InactiveTerrestrialSkills[BuildSkillSlot.Elite] = Legend.FromByte(build.RevenantInactiveTerrestrialLegend)?.Elite;
 
                     Legends[LegendSlot.AquaticInactive] = Legend.FromByte(build.RevenantInactiveAquaticLegend);
-                    InactiveAquaticSkills[BuildSkillSlot.Heal] = Legend.FromByte(build.RevenantActiveAquaticLegend)?.Heal;
+                    InactiveAquaticSkills[BuildSkillSlot.Heal] = Legend.FromByte(build.RevenantInactiveAquaticLegend)?.Heal;
                     InactiveAquaticSkills[BuildSkillSlot.Utility_1] = Legend.SkillFromUShort(build.RevenantInactiveAquaticUtility1SkillPaletteId, Legends[LegendSlot.AquaticInactive]);
                     InactiveAquaticSkills[BuildSkillSlot.Utility_2] = Legend.SkillFromUShort(build.RevenantInactiveAquaticUtility2SkillPaletteId, Legends[LegendSlot.AquaticInactive]);
                     InactiveAquaticSkills[BuildSkillSlot.Utility_3] = Legend.SkillFromUShort(build.RevenantInactiveAquaticUtility3SkillPaletteId, Legends[LegendSlot.AquaticInactive]);
-                    InactiveAquaticSkills[BuildSkillSlot.Elite] = Legend.FromByte(build.RevenantActiveAquaticLegend)?.Elite;
+                    InactiveAquaticSkills[BuildSkillSlot.Elite] = Legend.FromByte(build.RevenantInactiveAquaticLegend)?.Elite;
 
                     Legends[LegendSlot.TerrestrialActive] = Legend.FromByte(build.RevenantActiveTerrestrialLegend);
                     TerrestrialSkills[BuildSkillSlot.Heal] = Legend.SkillFromUShort(build.TerrestrialHealingSkillPaletteId, Legends[LegendSlot.TerrestrialActive]);
