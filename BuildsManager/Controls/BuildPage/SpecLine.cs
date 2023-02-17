@@ -40,10 +40,9 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
         private readonly DetailedTexture _hexagon = new(993598);
         private readonly DetailedTexture _noSpecHexagon = new(993597);
 
-        private readonly DetailedTexture _weaponTrait = new()
-        {
-            //TextureRegion = new(12, 5, 103, 116),
-        };
+        private readonly DetailedTexture _weaponTrait = new();
+
+        //To Do - Implement Masks for minor traits 
         private readonly Dictionary<int, TraitIcon> _minors = new()
         {
             { 0, new()},

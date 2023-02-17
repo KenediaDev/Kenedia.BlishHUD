@@ -51,7 +51,7 @@ namespace Kenedia.Modules.BuildsManager.Models.Templates
             }
         }
 
-        public Specialization EliteSpecialization => BuildTemplate?.Specializations[SpecializationSlot.Line_3]?.Specialization.Elite == true ? BuildTemplate.Specializations[SpecializationSlot.Line_3].Specialization : null;
+        public Specialization EliteSpecialization => BuildTemplate?.Specializations[SpecializationSlot.Line_3]?.Specialization?.Elite == true ? BuildTemplate.Specializations[SpecializationSlot.Line_3].Specialization : null;
 
         public BuildTemplate BuildTemplate
         {

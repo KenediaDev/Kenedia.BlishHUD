@@ -10,8 +10,7 @@ namespace Kenedia.Modules.BuildsManager.DataModels.Professions
 {
     [DataContract]
     public class Legend
-    {
-
+    {      
         public Legend()
         {
 
@@ -50,6 +49,10 @@ namespace Kenedia.Modules.BuildsManager.DataModels.Professions
                 }
             }
         }
+
+        public static (int, int, int, int, int, int) LegendaryAllianceLuxonIds{ get; } = new(62891, 62719, 62832, 62962, 62878, 62942);
+
+        public static (int, int, int, int, int, int) LegendaryAllianceKurzickIds{ get; } = new(62749, 62680, 62702, 62941, 62796, 62687);
 
         public string Name => Swap.Name;
 

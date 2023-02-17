@@ -42,7 +42,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage.ProfessionSpecific
         private Point _petSize = new(120);
         private PetIcon _selectorAnchor;
         private Rectangle _selectorBounds;
-        private bool _seletorOpen = false;
+        private bool _selectorOpen = false;
 
         public RangerSpecifics()
         {
@@ -122,7 +122,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage.ProfessionSpecific
 
                 spriteBatch.DrawStringOnCtrl(this, "100%", GameService.Content.DefaultFont14, _healthRectangle, Color.White, false, HorizontalAlignment.Center, VerticalAlignment.Middle);
 
-                if (_seletorOpen)
+                if (_selectorOpen)
                 {
                     DrawSelector(spriteBatch, bounds);
                 }
@@ -131,7 +131,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage.ProfessionSpecific
 
         private void Mouse_LeftMouseButtonPressed(object sender, MouseEventArgs e)
         {
-            if (_seletorOpen)
+            if (_selectorOpen)
             {
                 foreach (var s in _selectablePets)
                 {
@@ -148,7 +148,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage.ProfessionSpecific
                     }
                 }
 
-                _seletorOpen = !_seletorOpen;
+                _selectorOpen = !_selectorOpen;
             }
         }
 
@@ -172,24 +172,24 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage.ProfessionSpecific
 
             if (_pet.Hovered)
             {
-                if (!_seletorOpen)
+                if (!_selectorOpen)
                 {
                     _selectorAnchor = _pet;
                     GetSelectablePets();
                 }
 
-                _seletorOpen = !_seletorOpen;
+                _selectorOpen = !_selectorOpen;
             }
 
             if (_altPet.Hovered)
             {
-                if (!_seletorOpen)
+                if (!_selectorOpen)
                 {
                     _selectorAnchor = _altPet;
                     GetSelectablePets();
                 }
 
-                _seletorOpen = !_seletorOpen;
+                _selectorOpen = !_selectorOpen;
             }
         }
 

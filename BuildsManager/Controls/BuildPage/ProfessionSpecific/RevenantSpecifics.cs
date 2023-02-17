@@ -2,7 +2,7 @@
 using Blish_HUD.Content;
 using Blish_HUD.Controls;
 using Blish_HUD.Input;
-using Blish_HUD.Modules.Managers;
+using Gw2Sharp;
 using Kenedia.Modules.BuildsManager.DataModels.Professions;
 using Kenedia.Modules.BuildsManager.Models.Templates;
 using Kenedia.Modules.Core.DataModels;
@@ -10,10 +10,9 @@ using Kenedia.Modules.Core.Models;
 using Kenedia.Modules.Core.Utility;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using SharpDX.MediaFoundation;
 using System;
-using System.ComponentModel;
-using System.Diagnostics;
+using System.Collections.Generic;
+using System.Linq;
 using static Blish_HUD.ContentService;
 
 namespace Kenedia.Modules.BuildsManager.Controls.BuildPage.ProfessionSpecific
@@ -98,19 +97,19 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage.ProfessionSpecific
         private readonly DetailedTexture _swap = new(784346);
         private readonly DetailedTexture[] _pipsFull = new DetailedTexture[5]
         {
-             new(965680),
-             new(965680),
-             new(965680),
-             new(965680),
-             new(965682),
+             new(965680), // Normal
+             new(965680), // Normal
+             new(965680), // Normal
+             new(965680), // Normal
+             new(965682), // Full
         };
         private readonly DetailedTexture[] _pipsEmpty = new DetailedTexture[5]
         {
-             new(965681),
-             new(965681),
-             new(965681),
-             new(965681),
-             new(965681),
+             new(965681), // Empty
+             new(965681), // Empty
+             new(965681), // Empty
+             new(965681), // Empty
+             new(965681), // Empty
         };
         private readonly DetailedTexture[] _underlines =
         {
@@ -118,16 +117,14 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage.ProfessionSpecific
             new(965679),
         };
 
-        private readonly DetailedTexture _pipNormal = new(965680);
-        private readonly DetailedTexture _pipEmpty = new(965681);
-        private readonly DetailedTexture _pipFull = new(965682);
         private readonly DetailedTexture _selector1 = new(157138, 157140);
         private readonly DetailedTexture _selector2 = new(157138, 157140);
-        private readonly DetailedTexture _energy = new(156464); //156414
         private readonly DetailedTexture _energyBar = new(965677); // 156414 // 965677
-        private readonly DetailedTexture _energyBarMask = new(965678);
         private readonly DetailedTexture _energyDisplay = new(965695);
-        private readonly DetailedTexture _underline = new(965679);
+
+        //To Do - Implement Masks for Energy 
+        private readonly DetailedTexture _energyBarMask = new(965678);
+        private readonly DetailedTexture _energy = new(156464); //156414
 
         private readonly SkillIcon _professionSkill2 = new();
         private readonly SkillIcon _professionSkill3 = new();
@@ -136,12 +133,18 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage.ProfessionSpecific
         private readonly LegendIcon _legend1 = new() { LegendSlot = LegendSlot.TerrestrialActive };
         private readonly LegendIcon _legend2 = new() { LegendSlot = LegendSlot.TerrestrialInactive };
         private readonly int _legendSize = 48;
+        private List<LegendIcon> _selectableLegends = new();
+
+        private LegendSlot _selectedLegendSlot;
+        private Rectangle _selectorBounds;
+        private LegendIcon _selectorAnchor;
+        private bool _selectorOpen = false;
 
         private Rectangle _energyDisplayValue = Rectangle.Empty;
 
         public RevenantSpecifics()
         {
-
+            Input.Mouse.LeftMouseButtonPressed += Mouse_LeftMouseButtonPressed;
         }
 
         public override void RecalculateLayout()
@@ -169,8 +172,49 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage.ProfessionSpecific
                 _pipsEmpty[i].Bounds = new(xOffset + 103 + (i * 10), 59, 16, 16);
             }
 
-            _professionSkill2.Bounds = new(xOffset + 2 + (_legendSize * 2) + 49 + 32 - 18, 15, 36, 36);
-            _professionSkill2.TextureRegion = new(6, 6, 52, 52);
+            // To Do implement Renegade and Vindicator
+            switch (Template.EliteSpecialization?.Id)
+            {
+                case (int)Specializations.Renegade:
+                    break;
+
+                case (int)Specializations.Vindicator:
+
+                    break;
+
+                case (int)Specializations.Herald:
+                case null:
+                    _professionSkill2.Bounds = new(xOffset + 2 + (_legendSize * 2) + 49 + 32 - 18, 15, 36, 36);
+                    _professionSkill2.TextureRegion = new(6, 6, 52, 52);
+                    break;
+            }
+        }
+
+        protected override void OnRightMouseButtonPressed(MouseEventArgs e)
+        {
+            base.OnRightMouseButtonPressed(e);
+
+            if (_legend1.Hovered)
+            {
+                _selectedLegendSlot = _legend1.LegendSlot;
+                _selectorAnchor = _legend1;
+                _selectorOpen = !_selectorOpen;
+                if (_selectorOpen)
+                {
+                    GetSelectableLegends(_selectedLegendSlot);
+                }
+            }
+
+            if (_legend2.Hovered)
+            {
+                _selectedLegendSlot = _legend2.LegendSlot;
+                _selectorAnchor = _legend2;
+                _selectorOpen = !_selectorOpen;
+                if (_selectorOpen)
+                {
+                    GetSelectableLegends(_selectedLegendSlot);
+                }
+            }
         }
 
         protected override void OnClick(MouseEventArgs e)
@@ -187,6 +231,28 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage.ProfessionSpecific
 
                 _legend2.Legend = Template.BuildTemplate.Legends[GetOtherSlot()];
                 _legend2.LegendSlot = GetOtherSlot();
+            }
+
+            if (_selector1.Hovered)
+            {
+                _selectedLegendSlot = _legend1.LegendSlot;
+                _selectorAnchor = _legend1;
+                _selectorOpen = !_selectorOpen;
+                if (_selectorOpen)
+                {
+                    GetSelectableLegends(_selectedLegendSlot);
+                }
+            }
+
+            if (_selector2.Hovered)
+            {
+                _selectedLegendSlot = _legend2.LegendSlot;
+                _selectorAnchor = _legend2;
+                _selectorOpen = !_selectorOpen;
+                if (_selectorOpen)
+                {
+                    GetSelectableLegends(_selectedLegendSlot);
+                }
             }
         }
 
@@ -245,10 +311,37 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage.ProfessionSpecific
                 _pipsEmpty[i].Draw(this, spriteBatch, SpriteEffects.FlipHorizontally);
             }
 
+            switch (Template.EliteSpecialization?.Id)
+            {
+                case (int)Specializations.Renegade:
+                    _professionSkill3.Draw(this, spriteBatch, RelativeMousePosition);
+                    _professionSkill4.Draw(this, spriteBatch, RelativeMousePosition);
+                    break;
+
+                case (int)Specializations.Vindicator:
+                    _professionSkill3.Draw(this, spriteBatch, RelativeMousePosition);
+                    break;
+
+                case (int)Specializations.Herald:
+                case null:
+                    break;
+            }
+
             _professionSkill2.Draw(this, spriteBatch, RelativeMousePosition);
 
             spriteBatch.DrawStringOnCtrl(this, "50%", Content.DefaultFont12, _energyDisplayValue, Color.White, false, HorizontalAlignment.Center, VerticalAlignment.Middle);
 
+            if (_selectorOpen)
+            {
+                DrawSelector(spriteBatch, bounds);
+            }
+        }
+
+        protected override void DisposeControl()
+        {
+            base.DisposeControl();
+
+            Input.Mouse.LeftMouseButtonPressed -= Mouse_LeftMouseButtonPressed;
         }
 
         private LegendSlot GetOtherSlot()
@@ -258,6 +351,69 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage.ProfessionSpecific
             return Template.BuildTemplate.Terrestrial
                 ? slot is LegendSlot.TerrestrialActive ? LegendSlot.TerrestrialInactive : LegendSlot.TerrestrialActive
                 : slot is LegendSlot.AquaticActive ? LegendSlot.AquaticInactive : LegendSlot.AquaticActive;
+        }
+
+        private void Mouse_LeftMouseButtonPressed(object sender, MouseEventArgs e)
+        {
+            if (_selectorOpen)
+            {
+                foreach (var s in _selectableLegends)
+                {
+                    //To Do Select new Legend
+                }
+
+                _selectorOpen = false;
+            }
+        }
+
+        private void GetSelectableLegends(LegendSlot legendSlot)
+        {
+            _selectableLegends.Clear();
+
+            var legends = BuildsManager.Data.Professions[Gw2Sharp.Models.ProfessionType.Revenant].Legends.Where(e => e.Value.Specialization == 0 || e.Value.Specialization == Template.EliteSpecialization?.Id);
+
+            int columns = Math.Min(legends.Count(), 4);
+            int rows = (int)Math.Ceiling(legends.Count() / (double)columns);
+            _selectorBounds = new(_selectorAnchor.Bounds.X - ((((_legendSize * columns) + 8) / 2) - (_legendSize / 2)), _selectorAnchor.Bounds.Bottom, (_legendSize * columns) + 4, (_legendSize * rows) + 40);
+
+            int column = 0;
+            int row = 0;
+            foreach (var legend in legends)
+            {
+                _selectableLegends.Add(new() { Legend = legend.Value, Bounds = new(_selectorBounds.Left + 4 + (column * _legendSize), _selectorBounds.Top + 4 + (row * _legendSize), _legendSize - 4, _legendSize - 4) });
+                column++;
+
+                if (column > 3)
+                {
+                    column = 0;
+                    row++;
+                }
+            }
+        }
+
+        private void DrawSelector(SpriteBatch spriteBatch, Rectangle bounds)
+        {
+            spriteBatch.DrawOnCtrl(this, Textures.Pixel, _selectorBounds, Rectangle.Empty, Color.Black * 0.7f);
+            Color borderColor = Color.Black;
+
+            // Top
+            spriteBatch.DrawOnCtrl(this, Textures.Pixel, new Rectangle(_selectorBounds.Left, _selectorBounds.Top, _selectorBounds.Width, 2), Rectangle.Empty, borderColor * 0.8f);
+
+            // Bottom
+            spriteBatch.DrawOnCtrl(this, Textures.Pixel, new Rectangle(_selectorBounds.Left, _selectorBounds.Bottom - 2, _selectorBounds.Width, 2), Rectangle.Empty, borderColor * 0.8f);
+
+            // Left
+            spriteBatch.DrawOnCtrl(this, Textures.Pixel, new Rectangle(_selectorBounds.Left, _selectorBounds.Top, 2, _selectorBounds.Height), Rectangle.Empty, borderColor * 0.8f);
+
+            // Right
+            spriteBatch.DrawOnCtrl(this, Textures.Pixel, new Rectangle(_selectorBounds.Right - 2, _selectorBounds.Top, 2, _selectorBounds.Height), Rectangle.Empty, borderColor * 0.8f);
+
+            foreach (var s in _selectableLegends)
+            {
+                s.Draw(this, spriteBatch, Template.BuildTemplate.Terrestrial, RelativeMousePosition);
+            }
+
+            spriteBatch.DrawStringOnCtrl(this, "Legends", Content.DefaultFont18, new Rectangle(_selectorBounds.Left, _selectorBounds.Bottom - 12 - Content.DefaultFont18.LineHeight, _selectorBounds.Width, Content.DefaultFont18.LineHeight), Color.White, false, HorizontalAlignment.Center);
         }
     }
 }

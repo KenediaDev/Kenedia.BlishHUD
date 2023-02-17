@@ -48,7 +48,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
         private Rectangle _selectorBounds;
         private SkillIcon _selectorAnchor;
 
-        private bool _seletorOpen = false;
+        private bool _selectorOpen = false;
         private double _lastOpen;
         private int _skillSize;
 
@@ -72,7 +72,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
         {
             get
             {
-                bool hovered = _seletorOpen && _selectorBounds.Contains(RelativeMousePosition);
+                bool hovered = _selectorOpen && _selectorBounds.Contains(RelativeMousePosition);
                 hovered = hovered || AbsoluteBounds.Contains(Input.Mouse.Position);
 
                 return hovered;
@@ -84,7 +84,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
             get
             {
                 double timeSince = Common.Now() - _lastOpen;
-                return _seletorOpen || timeSince <= 200;
+                return _selectorOpen || timeSince <= 200;
             }
         }
 
@@ -111,15 +111,15 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
 
         private bool SeletorOpen
         {
-            get => _seletorOpen;
+            get => _selectorOpen;
             set
             {
-                if (AnyHovered || _seletorOpen)
+                if (AnyHovered || _selectorOpen)
                 {
                     _lastOpen = Common.Now();
                 }
 
-                _seletorOpen = value;
+                _selectorOpen = value;
             }
         }
 
@@ -423,7 +423,6 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
                     {
                         if (Terrestrial || !s.Skill.Flags.HasFlag(Gw2Sharp.SkillFlag.NoUnderwater))
                         {
-
                             var targetSkills = Template.BuildTemplate.TerrestrialSkills;
                             var skillIcons = _terrestrialSkills;
 
