@@ -7,10 +7,8 @@ using System.Collections.Generic;
 
 namespace Kenedia.Modules.BuildsManager.Controls.BuildPage.ProfessionSpecific
 {
-    public class GuardianSpecifics
+    public class GuardianSpecifics : ProfessionSpecifics
     {
-        private Template _template;
-
         private Dictionary<int, DetailedTexture> _fivePages = new()
         {
             { 0, new (1636723)},
@@ -38,19 +36,17 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage.ProfessionSpecific
 
         }
 
-        public Template Template { get => _template; set => Common.SetProperty(ref _template, value, ApplyTemplate, value != null); }
+        public override void RecalculateLayout()
+        {
+            base.RecalculateLayout();
+        }
 
-        public void Paint(Blish_HUD.Controls.Control control, SpriteBatch spriteBatch, Rectangle bounds)
+        protected override void Paint(SpriteBatch spriteBatch, Rectangle bounds)
         {
 
         }
 
-        public void RecalculateLayout()
-        {
-
-        }
-
-        private void ApplyTemplate()
+        protected override void ApplyTemplate()
         {
             RecalculateLayout();
         }

@@ -277,8 +277,6 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage.ProfessionSpecific
 
         protected override void ApplyTemplate()
         {
-            base.ApplyTemplate();
-
             var slot = Template.BuildTemplate.LegendSlot;
 
             _legend1.Legend = Template.BuildTemplate.Legends[slot];
@@ -308,7 +306,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage.ProfessionSpecific
                 _professionSkill2.Skill = BuildsManager.Data.Professions[Gw2Sharp.Models.ProfessionType.Revenant].Skills[55029];
             }
 
-            RecalculateLayout();
+            base.ApplyTemplate();
         }
 
         protected override void Paint(SpriteBatch spriteBatch, Rectangle bounds)

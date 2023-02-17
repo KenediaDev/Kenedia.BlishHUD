@@ -7,32 +7,28 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Kenedia.Modules.BuildsManager.Controls.BuildPage.ProfessionSpecific
 {
-    public class ThiefSpecifics
+    public class ThiefSpecifics : ProfessionSpecifics
     {
         private readonly DetailedTexture _noInitiative = new(156439);
         private readonly DetailedTexture _initiative = new(156440);
         private readonly DetailedTexture _specterBar = new(2468316);
-
-        private Template _template;
 
         public ThiefSpecifics()
         {
 
         }
 
-        public Template Template { get => _template; set => Common.SetProperty(ref _template, value, ApplyTemplate, value != null); }
+        public override void RecalculateLayout()
+        {
+            base.RecalculateLayout();
+        }
 
-        public void Paint(Control ctrl, SpriteBatch spriteBatch, Rectangle bounds)
+        protected override void Paint(SpriteBatch spriteBatch, Rectangle bounds)
         {
 
         }
 
-        public void RecalculateLayout()
-        {
-
-        }
-
-        private void ApplyTemplate()
+        protected override void ApplyTemplate()
         {
             RecalculateLayout();
         }

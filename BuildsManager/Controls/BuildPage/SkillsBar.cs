@@ -143,7 +143,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
             {
                 var weapon = Template.GearTemplate.Gear[GearSlot.MainHand].WeaponType;
 
-                foreach (var s in BuildsManager.Data.Professions[Template.BuildTemplate.Profession].Skills.Where(e => e.Value.WeaponType == weapon && e.Value.Slot != null && (int)e.Value.Slot <= 3 && e.Value.PrevChain == null))
+                foreach (var s in BuildsManager.Data.Professions[Template.BuildTemplate.Profession].Skills.Where(e => e.Value.WeaponType == weapon && e.Value.Slot != null && (int)e.Value.Slot <= 3 && e.Value.PrevChain == null && e.Value.Specialization == 0))
                 {
                     _terrestrialWeaponSkills[s.Value.Slot.GetSkillSlot()].Skill = s.Value;
                 }
@@ -152,7 +152,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
             if (Template.GearTemplate.Gear[GearSlot.OffHand] != null)
             {
                 var weapon = Template.GearTemplate.Gear[GearSlot.OffHand].WeaponType;
-                foreach (var s in BuildsManager.Data.Professions[Template.BuildTemplate.Profession].Skills.Where(e => e.Value.WeaponType == weapon && (int)e.Value.Slot > 3 && (int)e.Value.Slot <= 5 && e.Value.PrevChain == null))
+                foreach (var s in BuildsManager.Data.Professions[Template.BuildTemplate.Profession].Skills.Where(e => e.Value.WeaponType == weapon && (int)e.Value.Slot > 3 && (int)e.Value.Slot <= 5 && e.Value.PrevChain == null && e.Value.Specialization == 0))
                 {
                     _terrestrialWeaponSkills[s.Value.Slot.GetSkillSlot()].Skill = s.Value;
                 }
@@ -161,7 +161,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
             if (Template.GearTemplate.Gear[GearSlot.AltMainHand] != null)
             {
                 var weapon = Template.GearTemplate.Gear[GearSlot.AltMainHand].WeaponType;
-                foreach (var s in BuildsManager.Data.Professions[Template.BuildTemplate.Profession].Skills.Where(e => e.Value.WeaponType == weapon && (int)e.Value.Slot <= 3))
+                foreach (var s in BuildsManager.Data.Professions[Template.BuildTemplate.Profession].Skills.Where(e => e.Value.WeaponType == weapon && (int)e.Value.Slot <= 3 && e.Value.Specialization == 0))
                 {
                     _terrestrialInactiveWeaponSkills[s.Value.Slot.GetSkillSlot()].Skill = s.Value;
                 }
@@ -170,7 +170,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
             if (Template.GearTemplate.Gear[GearSlot.AltOffHand] != null)
             {
                 var weapon = Template.GearTemplate.Gear[GearSlot.AltOffHand].WeaponType;
-                foreach (var s in BuildsManager.Data.Professions[Template.BuildTemplate.Profession].Skills.Where(e => e.Value.WeaponType == weapon && (int)e.Value.Slot > 3))
+                foreach (var s in BuildsManager.Data.Professions[Template.BuildTemplate.Profession].Skills.Where(e => e.Value.WeaponType == weapon && (int)e.Value.Slot > 3 && e.Value.Specialization == 0))
                 {
                     _terrestrialInactiveWeaponSkills[s.Value.Slot.GetSkillSlot()].Skill = s.Value;
                 }
@@ -179,7 +179,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
             if (Template.GearTemplate.Gear[GearSlot.Aquatic] != null)
             {
                 var weapon = Template.GearTemplate.Gear[GearSlot.Aquatic].WeaponType;
-                foreach (var s in BuildsManager.Data.Professions[Template.BuildTemplate.Profession].Skills.Where(e => e.Value.WeaponType == weapon))
+                foreach (var s in BuildsManager.Data.Professions[Template.BuildTemplate.Profession].Skills.Where(e => e.Value.WeaponType == weapon && e.Value.Specialization == 0))
                 {
                     _aquaticWeaponSkills[s.Value.Slot.GetSkillSlot()].Skill = s.Value;
                 }
@@ -188,7 +188,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
             if (Template.GearTemplate.Gear[GearSlot.AltAquatic] != null)
             {
                 var weapon = Template.GearTemplate.Gear[GearSlot.AltAquatic].WeaponType;
-                foreach (var s in BuildsManager.Data.Professions[Template.BuildTemplate.Profession].Skills.Where(e => e.Value.WeaponType == weapon))
+                foreach (var s in BuildsManager.Data.Professions[Template.BuildTemplate.Profession].Skills.Where(e => e.Value.WeaponType == weapon && e.Value.Specialization == 0))
                 {
                     _aquaticInactiveWeaponSkills[s.Value.Slot.GetSkillSlot()].Skill = s.Value;
                 }

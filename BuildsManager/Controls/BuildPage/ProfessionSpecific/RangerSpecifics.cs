@@ -195,9 +195,6 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage.ProfessionSpecific
 
         protected override void ApplyTemplate()
         {
-            base.ApplyTemplate();
-
-            RecalculateLayout();
             _specialization = null;
 
             if (Template != null)
@@ -235,6 +232,8 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage.ProfessionSpecific
                     //_skill3.Skill = BuildsManager.Data.Professions[Gw2Sharp.Models.ProfessionType.Ranger].Skills.Where(e => e.Value.Slot == Gw2Sharp.WebApi.V2.Models.SkillSlot.Profession3 && e.Value.Specialization == (int)Specializations.Soulbeast)?.FirstOrDefault().Value;
                 }
             }
+
+            base.ApplyTemplate();
         }
 
         private void PaintCore(SpriteBatch spriteBatch, Rectangle bounds, Point mousePos)

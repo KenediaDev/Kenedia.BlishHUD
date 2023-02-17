@@ -212,11 +212,11 @@ namespace Kenedia.Modules.BuildsManager
             gear.Gear[GearSlot.Aquatic].Upgrades[UpgradeSlot.Infusion_1] = 37131;
             gear.Gear[GearSlot.Aquatic].Upgrades[UpgradeSlot.Infusion_2] = 37131;
 
-            gear.Gear[GearSlot.AltMainHand].WeaponType = WeaponType.Mace;
+            gear.Gear[GearSlot.AltMainHand].WeaponType = WeaponType.Greatsword;
             gear.Gear[GearSlot.AltMainHand].Stat = DataModels.Stats.EquipmentStat.Berserkers;
             gear.Gear[GearSlot.AltMainHand].Upgrades[UpgradeSlot.Sigil_1] = 24615;
             gear.Gear[GearSlot.AltMainHand].Upgrades[UpgradeSlot.Infusion_1] = 37131;
-            gear.Gear[GearSlot.AltOffHand].WeaponType = WeaponType.Axe;
+            gear.Gear[GearSlot.AltOffHand].WeaponType = WeaponType.Greatsword;
             gear.Gear[GearSlot.AltOffHand].Stat = DataModels.Stats.EquipmentStat.Berserkers;
             gear.Gear[GearSlot.AltOffHand].Upgrades[UpgradeSlot.Sigil_1] = 24615;
             gear.Gear[GearSlot.AltOffHand].Upgrades[UpgradeSlot.Infusion_1] = 37131;
@@ -245,7 +245,7 @@ namespace Kenedia.Modules.BuildsManager
             gear.Gear[GearSlot.Accessory_2].Upgrades[UpgradeSlot.Infusion_1] = 37131;
 
             string codi = "[&DQkPJww2Ax7cEdwRKxIGEgYS1BHUESsSyhHKEQAAAADUEQYSKxIrEtQRBhI=]";
-            string code = "[&DQkPJww2Ax7cEdwRBhIGEisS1BHUESsSyhHKEQMEBALUEQYSKxIrEtQRBhI=]";
+            string code = "[&DQcYOQEdChkjDw8BgQGDAY8BggFpAYABmgGaAQAAAAAAAAAAAAAAAAAAAAA=]";
             var build = new BuildTemplate(code);
 
             SelectedTemplate = new Template()

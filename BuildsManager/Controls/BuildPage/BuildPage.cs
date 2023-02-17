@@ -56,7 +56,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
 
         protected virtual void ApplyTemplate()
         {
-
+            RecalculateLayout();
         }
     }
 
@@ -221,7 +221,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
 
                 _specIcon.Location = new(_specializationsPanel.Width - _specIcon.Width - 8, 16);
 
-                _skillsBackground.Bounds = new(_specializationsPanel.Left, _specializationsPanel.Top, _specializationsPanel.Width, _specializationsPanel.Height + _skillbar.Height + 10);
+                _skillsBackground.Bounds = new(_specializationsPanel.Left, _specializationsPanel.Top, _specializationsPanel.Width, _professionSpecificsContainer.Height + _skillbar.Height + 10);
                 _skillsBackground.TextureRegion = new(20, 20, _specializationsPanel.Width, _specializationsPanel.Height + _skillbar.Height);
 
                 _skillsBackgroundTopBorder.Bounds = new(_professionSpecificsContainer.Left - 5, _professionSpecificsContainer.Top - 8, _professionSpecificsContainer.Width / 2, _professionSpecificsContainer.Height + _skillbar.Height + 8 + 10);
@@ -273,8 +273,10 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
                 case ProfessionType.Thief:
                     break;
                 case ProfessionType.Elementalist:
+                    _professionSpecifics = new ElementalistSpecifics();
                     break;
                 case ProfessionType.Mesmer:
+                    _professionSpecifics = new MesmerSpecifics();
                     break;
                 case ProfessionType.Necromancer:
                     break;

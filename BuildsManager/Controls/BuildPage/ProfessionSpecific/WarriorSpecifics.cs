@@ -6,7 +6,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Kenedia.Modules.BuildsManager.Controls.BuildPage.ProfessionSpecific
 {
-    public class WarriorSpecifics
+    public class WarriorSpecifics : ProfessionSpecifics
     {
         //F:\Guild Wars 2 Assets\Textures\UI Textures\256x64
         private readonly DetailedTexture _emptyAdrenalin = new(156441);
@@ -16,26 +16,22 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage.ProfessionSpecific
 
         private readonly DetailedTexture _bladeswornCharges= new(2492047, 2492048);
 
-        private Template _template;
-
         public WarriorSpecifics()
         {
 
         }
 
-        public Template Template { get => _template; set => Common.SetProperty(ref _template, value, ApplyTemplate, value != null); }
+        public override void RecalculateLayout()
+        {
+            base.RecalculateLayout();
+        }
 
-        public void Paint(Blish_HUD.Controls.Control control, SpriteBatch spriteBatch, Rectangle bounds)
+        protected override void Paint(SpriteBatch spriteBatch, Rectangle bounds)
         {
 
         }
 
-        public void RecalculateLayout()
-        {
-
-        }
-
-        private void ApplyTemplate()
+        protected override void ApplyTemplate()
         {
             RecalculateLayout();
         }

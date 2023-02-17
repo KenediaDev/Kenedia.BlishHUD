@@ -6,7 +6,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Kenedia.Modules.BuildsManager.Controls.BuildPage.ProfessionSpecific
 {
-    public class NecromancerSpecifics
+    public class NecromancerSpecifics : ProfessionSpecifics
     {
         private readonly DetailedTexture _lifeForceBarBackground = new(1636710); // black background?
         private readonly DetailedTexture _lifeForceBar = new(2479935); // needs black background
@@ -19,26 +19,22 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage.ProfessionSpecific
         private readonly DetailedTexture _oneSingleShade = new(1636742);
         private readonly DetailedTexture _noSingleShade = new(1636740);
 
-        private Template _template;
-
         public NecromancerSpecifics()
         {
 
         }
 
-        public Template Template { get => _template; set => Common.SetProperty(ref _template, value, ApplyTemplate, value != null); }
+        public override void RecalculateLayout()
+        {
+            base.RecalculateLayout();
+        }
 
-        public void Paint(Blish_HUD.Controls.Control control, SpriteBatch spriteBatch, Rectangle bounds)
+        protected override void Paint(SpriteBatch spriteBatch, Rectangle bounds)
         {
 
         }
 
-        public void RecalculateLayout()
-        {
-
-        }
-
-        private void ApplyTemplate()
+        protected override void ApplyTemplate()
         {
             RecalculateLayout();
         }
