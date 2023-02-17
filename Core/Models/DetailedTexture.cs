@@ -57,13 +57,13 @@ namespace Kenedia.Modules.Core.Models
                 color ??= Color.White;
                 rotation ??= 0F;
 
-                Hovered = forceHover == true || (forceHover == null && mousePos != null && Bounds.Contains((Point)mousePos));
+                Hovered = mousePos != null && Bounds.Contains((Point)mousePos);
 
                 if (Texture != null)
                 {
                     spriteBatch.DrawOnCtrl(
                         ctrl,
-                        Hovered && HoveredTexture != null ? HoveredTexture : Texture ?? FallBackTexture,
+                        (forceHover == true || Hovered) && HoveredTexture != null ? HoveredTexture : Texture ?? FallBackTexture,
                         Bounds,
                         TextureRegion,
                         (Color)color,
@@ -105,13 +105,13 @@ namespace Kenedia.Modules.Core.Models
                 color ??= Color.White;
                 rotation ??= 0F;
 
-                Hovered = forceHover == true || (forceHover == null && mousePos != null && Bounds.Contains((Point)mousePos));
+                Hovered = mousePos != null && Bounds.Contains((Point)mousePos);
 
                 if (Texture != null)
                 {
                     spriteBatch.DrawOnCtrl(
                         ctrl,
-                        Hovered && HoveredTexture != null ? HoveredTexture : Texture ?? FallBackTexture,
+                        (forceHover == true || Hovered) && HoveredTexture != null ? HoveredTexture : Texture ?? FallBackTexture,
                         Bounds,
                         TextureRegion,
                         (Color)color,

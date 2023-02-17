@@ -95,11 +95,9 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
                 var temp = _template;
                 if (Common.SetProperty(ref _template, value, ApplyTemplate, value != null))
                 {
-                    if (temp != null) temp.BuildTemplate.AquaticSkills.CollectionChanged -= TemplateChanged;
-                    if (temp != null) temp.BuildTemplate.TerrestrialSkills.CollectionChanged -= TemplateChanged;
+                    if (temp != null) temp.Changed -= TemplateChanged;
 
-                    if (_template != null) _template.BuildTemplate.AquaticSkills.CollectionChanged += TemplateChanged;
-                    if (_template != null) _template.BuildTemplate.TerrestrialSkills.CollectionChanged += TemplateChanged;
+                    if (_template != null) _template.Changed += TemplateChanged;
                 }
             }
         }
@@ -311,7 +309,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
 
             foreach (var s in skills)
             {
-                s.Value.Draw(this, spriteBatch, RelativeMousePosition);
+                s.Value.Draw(this, spriteBatch, Template.BuildTemplate.Terrestrial, RelativeMousePosition);
                 if (!SeletorOpen && s.Value.Hovered && s.Value.Skill != null)
                 {
                     BasicTooltipText = s.Value.Skill.Name;
@@ -421,7 +419,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
                 {
                     if (s.Hovered)
                     {
-                        if (Terrestrial || !s.Skill.Flags.HasFlag(Gw2Sharp.SkillFlag.NoUnderwater))
+                        if (Terrestrial || Template.Profession == Gw2Sharp.Models.ProfessionType.Revenant || !s.Skill.Flags.HasFlag(Gw2Sharp.SkillFlag.NoUnderwater))
                         {
                             var targetSkills = Template.BuildTemplate.TerrestrialSkills;
                             var skillIcons = _terrestrialSkills;

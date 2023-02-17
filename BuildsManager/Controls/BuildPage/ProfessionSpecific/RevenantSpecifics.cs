@@ -67,7 +67,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage.ProfessionSpecific
             origin ??= Vector2.Zero;
             rotation ??= 0F;
 
-            if (!terrestrial && Legend.Swap.Flags.HasFlag(Gw2Sharp.SkillFlag.NoUnderwater))
+            if (!terrestrial &&  Legend?.Swap.Flags.HasFlag(SkillFlag.NoUnderwater) == true)
             {
                 spriteBatch.DrawOnCtrl(
                     ctrl,
@@ -78,7 +78,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage.ProfessionSpecific
                     (float)rotation,
                     (Vector2)origin);
             }
-            else if (Hovered)
+            else if (Hovered || forceHover == true)
             {
                 spriteBatch.DrawOnCtrl(
                     ctrl,
@@ -122,7 +122,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage.ProfessionSpecific
         private readonly DetailedTexture _energyBar = new(965677); // 156414 // 965677
         private readonly DetailedTexture _energyDisplay = new(965695);
 
-        //To Do - Implement Masks for Energy 
+        //TODO: Implement Masks for Energy 
         private readonly DetailedTexture _energyBarMask = new(965678);
         private readonly DetailedTexture _energy = new(156464); //156414
 
@@ -151,7 +151,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage.ProfessionSpecific
         {
             base.RecalculateLayout();
 
-            var xOffset = 90;
+            int xOffset = 90;
             _legend1.Bounds = new(xOffset + 2 + _legendSize, 45, _legendSize, _legendSize);
             _selector1.Bounds = new(xOffset + 2 + _legendSize, 35, _legendSize, 10);
 
@@ -172,17 +172,32 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage.ProfessionSpecific
                 _pipsEmpty[i].Bounds = new(xOffset + 103 + (i * 10), 59, 16, 16);
             }
 
-            // To Do implement Renegade and Vindicator
             switch (Template.EliteSpecialization?.Id)
             {
                 case (int)Specializations.Renegade:
+                    _professionSkill2.Bounds = new(xOffset + 2 + (_legendSize * 1) + 60 + 32 - 18, 15, 36, 36);
+                    _professionSkill2.TextureRegion = new(6, 6, 52, 52);
+
+                    _professionSkill3.Bounds = new(xOffset + 2 + (_legendSize * 2) + 49 + 32 - 18, 15, 36, 36);
+                    _professionSkill3.TextureRegion = new(6, 6, 52, 52);
+
+                    _professionSkill4.Bounds = new(xOffset + 2 + (_legendSize * 3) + 37 + 32 - 18, 15, 36, 36);
+                    _professionSkill4.TextureRegion = new(6, 6, 52, 52);
                     break;
 
                 case (int)Specializations.Vindicator:
+                    _professionSkill2.Bounds = new(xOffset + 2 + (_legendSize * 2) + 49 + 32 - 18-18, 15, 36, 36);
+                    _professionSkill2.TextureRegion = new(14, 14, 100, 100);
 
+                    _professionSkill3.Bounds = new(xOffset + 2 + (_legendSize * 2) + 49 + 32 - 18+18, 15, 36, 36);
+                    _professionSkill3.TextureRegion = new(14, 14, 100, 100);
                     break;
 
                 case (int)Specializations.Herald:
+                    _professionSkill2.Bounds = new(xOffset + 2 + (_legendSize * 2) + 49 + 32 - 18, 15, 36, 36);
+                    _professionSkill2.TextureRegion = new(14, 14, 100, 100);
+                    break;
+
                 case null:
                     _professionSkill2.Bounds = new(xOffset + 2 + (_legendSize * 2) + 49 + 32 - 18, 15, 36, 36);
                     _professionSkill2.TextureRegion = new(6, 6, 52, 52);
@@ -203,6 +218,8 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage.ProfessionSpecific
                 {
                     GetSelectableLegends(_selectedLegendSlot);
                 }
+
+                return;
             }
 
             if (_legend2.Hovered)
@@ -214,6 +231,8 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage.ProfessionSpecific
                 {
                     GetSelectableLegends(_selectedLegendSlot);
                 }
+
+                return;
             }
         }
 
@@ -270,15 +289,19 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage.ProfessionSpecific
 
             if (Template.EliteSpecialization != null && Template.EliteSpecialization.Id == (int)Specializations.Renegade)
             {
-
+                _professionSkill2.Skill = BuildsManager.Data.Professions[Gw2Sharp.Models.ProfessionType.Revenant]?.Skills.Where(e => e.Value.Specialization == (int)Specializations.Renegade && e.Value.Slot == Gw2Sharp.WebApi.V2.Models.SkillSlot.Profession2)?.FirstOrDefault().Value;
+                _professionSkill3.Skill = BuildsManager.Data.Professions[Gw2Sharp.Models.ProfessionType.Revenant]?.Skills.Where(e => e.Value.Specialization == (int)Specializations.Renegade && e.Value.Slot == Gw2Sharp.WebApi.V2.Models.SkillSlot.Profession3)?.FirstOrDefault().Value;
+                _professionSkill4.Skill = BuildsManager.Data.Professions[Gw2Sharp.Models.ProfessionType.Revenant]?.Skills.Where(e => e.Value.Specialization == (int)Specializations.Renegade && e.Value.Slot == Gw2Sharp.WebApi.V2.Models.SkillSlot.Profession4)?.FirstOrDefault().Value;
             }
             else if (Template.EliteSpecialization != null && Template.EliteSpecialization.Id == (int)Specializations.Herald)
             {
-
+                _professionSkill2.Skill = BuildsManager.Data.Professions[Gw2Sharp.Models.ProfessionType.Revenant]?.Skills.Where(e => e.Value.Specialization == (int) Specializations.Herald && e.Value.Slot == Gw2Sharp.WebApi.V2.Models.SkillSlot.Profession2)?.FirstOrDefault().Value;
             }
             else if (Template.EliteSpecialization != null && Template.EliteSpecialization.Id == (int)Specializations.Vindicator)
             {
-
+                var skills = BuildsManager.Data.Professions[Gw2Sharp.Models.ProfessionType.Revenant]?.Skills.Where(e => e.Value.Specialization == (int)Specializations.Vindicator && e.Value.Slot == Gw2Sharp.WebApi.V2.Models.SkillSlot.Profession2);
+                _professionSkill2.Skill = skills?.ElementAt(0).Value;
+                _professionSkill3.Skill = skills?.ElementAt(1).Value;
             }
             else
             {
@@ -296,7 +319,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage.ProfessionSpecific
             _legend1.Draw(this, spriteBatch, Template.BuildTemplate.Terrestrial, RelativeMousePosition, null, null, _legend1.LegendSlot == Template.BuildTemplate.LegendSlot);
 
             _selector2.Draw(this, spriteBatch, RelativeMousePosition, Color.White * 0.5F);
-            _legend2.Draw(this, spriteBatch, Template.BuildTemplate.Terrestrial, null, Color.White * 0.5F);
+            _legend2.Draw(this, spriteBatch, Template.BuildTemplate.Terrestrial, RelativeMousePosition, Color.White * 0.5F, null, false);
 
             _swap.Draw(this, spriteBatch, RelativeMousePosition, _swap.Hovered ? Color.White : Color.White * 0.75F);
             _energyBar.Draw(this, spriteBatch);
@@ -310,6 +333,8 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage.ProfessionSpecific
                 _pipsFull[i].Draw(this, spriteBatch);
                 _pipsEmpty[i].Draw(this, spriteBatch, SpriteEffects.FlipHorizontally);
             }
+                        
+            _professionSkill2.Draw(this, spriteBatch, RelativeMousePosition);
 
             switch (Template.EliteSpecialization?.Id)
             {
@@ -327,8 +352,6 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage.ProfessionSpecific
                     break;
             }
 
-            _professionSkill2.Draw(this, spriteBatch, RelativeMousePosition);
-
             spriteBatch.DrawStringOnCtrl(this, "50%", Content.DefaultFont12, _energyDisplayValue, Color.White, false, HorizontalAlignment.Center, VerticalAlignment.Middle);
 
             if (_selectorOpen)
@@ -344,9 +367,9 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage.ProfessionSpecific
             Input.Mouse.LeftMouseButtonPressed -= Mouse_LeftMouseButtonPressed;
         }
 
-        private LegendSlot GetOtherSlot()
+        private LegendSlot GetOtherSlot(LegendSlot? slot = null)
         {
-            var slot = Template.BuildTemplate.LegendSlot;
+            slot ??= Template.BuildTemplate.LegendSlot;
 
             return Template.BuildTemplate.Terrestrial
                 ? slot is LegendSlot.TerrestrialActive ? LegendSlot.TerrestrialInactive : LegendSlot.TerrestrialActive
@@ -359,7 +382,21 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage.ProfessionSpecific
             {
                 foreach (var s in _selectableLegends)
                 {
-                    //To Do Select new Legend
+                    if (s.Hovered)
+                    {
+                        if (Template.BuildTemplate.Terrestrial || !s.Legend.Swap.Flags.HasFlag(SkillFlag.NoUnderwater))
+                        {
+                            var otherLegend = Template.BuildTemplate.Legends[GetOtherSlot(_selectorAnchor.LegendSlot)];
+
+                            if (otherLegend != null && otherLegend == s.Legend)
+                            {
+                                Template.BuildTemplate.SetLegend(_selectorAnchor.Legend, GetOtherSlot(_selectorAnchor.LegendSlot));
+                            }
+
+                            Template.BuildTemplate.SetLegend(s.Legend, _selectorAnchor.LegendSlot);
+                            _selectorAnchor.Legend = s.Legend;
+                        }
+                    }
                 }
 
                 _selectorOpen = false;

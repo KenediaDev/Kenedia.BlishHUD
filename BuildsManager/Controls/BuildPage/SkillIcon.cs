@@ -73,7 +73,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
             origin ??= Vector2.Zero;
             rotation ??= 0F;
 
-            if (!terrestrial && Skill.Flags.HasFlag(Gw2Sharp.SkillFlag.NoUnderwater))
+            if (!terrestrial && Skill?.Flags.HasFlag(Gw2Sharp.SkillFlag.NoUnderwater) == true)
             {
                 spriteBatch.DrawOnCtrl(
                     ctrl,

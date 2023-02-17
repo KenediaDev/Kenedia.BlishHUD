@@ -95,7 +95,26 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
 
         private BuildTemplate Build => Template?.BuildTemplate;
 
-        public Template Template { get => _template; set => Common.SetProperty(ref _template, value, ApplyTemplate, value != null); }
+        public Template Template
+        {
+            get => _template; set
+            {
+                var temp = _template;
+                if (Common.SetProperty(ref _template, value, ApplyTemplate, value != null))
+                {
+                    if (temp != null) temp.BuildTemplate.AquaticSkills.CollectionChanged -= TemplateChanged;
+                    if (temp != null) temp.BuildTemplate.TerrestrialSkills.CollectionChanged -= TemplateChanged;
+
+                    if (_template != null) _template.BuildTemplate.AquaticSkills.CollectionChanged += TemplateChanged;
+                    if (_template != null) _template.BuildTemplate.TerrestrialSkills.CollectionChanged += TemplateChanged;
+                }
+            }
+        }
+
+        private void TemplateChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            ApplyTemplate();
+        }
 
         public BuildSpecialization BuildSpecialization
         {

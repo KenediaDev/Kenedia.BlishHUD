@@ -17,6 +17,10 @@ using Kenedia.Modules.BuildsManager.Controls.BuildPage.ProfessionSpecific;
 using Panel = Kenedia.Modules.Core.Controls.Panel;
 using System.Security.Cryptography.X509Certificates;
 using Kenedia.Modules.BuildsManager.DataModels.Professions;
+using Image = Kenedia.Modules.Core.Controls.Image;
+using Blish_HUD;
+using static Blish_HUD.ContentService;
+using System.Diagnostics.Contracts;
 
 namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
 {
@@ -81,6 +85,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
             {SpecializationSlot.Line_2,  new SpecLine() {Line = SpecializationSlot.Line_2, } },
             {SpecializationSlot.Line_3,  new SpecLine() {Line = SpecializationSlot.Line_3, } },
         };
+        private readonly FramedImage _specIcon;
 
         public BuildPage()
         {
@@ -93,7 +98,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
                 Parent = this,
                 Location = new(0, 5),
                 //BackgroundColor= Color.White * 0.2F,
-                WidthSizingMode = SizingMode.Fill,
+                Width = 500,
                 Height = 100,
                 ZIndex = 13,
             };
@@ -104,6 +109,14 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
                 Location = new(5, _professionSpecificsContainer.Bottom),
                 Width = Width,
                 ZIndex = 12,
+            };
+
+            _specIcon = new FramedImage()
+            {
+                Parent = this,
+                Width = Width,
+                Size = new(80),
+                ZIndex = 15,
             };
 
             _dummy = new Dummy()
@@ -136,39 +149,60 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
             });
         }
 
-        public Template Template { get => _template; set => Common.SetProperty(ref _template, value, ApplyTemplate, value != null); }
+        public Template Template
+        {
+            get => _template; set
+            {
+                var temp = _template;
+                if (Common.SetProperty(ref _template, value, ApplyTemplate, value != null))
+                {
+                    if (temp != null) temp.Changed -= TemplateChanged;
+                    if (temp != null) temp.Changed -= TemplateChanged;
+
+                    if (_template != null) _template.Changed += TemplateChanged;
+                    if (_template != null) _template.Changed += TemplateChanged;
+                }
+            }
+        }
+
+        private void TemplateChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            ApplyTemplate();
+        }
 
         public void ApplyTemplate()
         {
-            _specializations[SpecializationSlot.Line_1].BuildSpecialization = Template.BuildTemplate.Specializations[SpecializationSlot.Line_1];
-            _specializations[SpecializationSlot.Line_1].Profession = BuildsManager.Data.Professions[Template.BuildTemplate.Profession];
-            _specializations[SpecializationSlot.Line_1].Template = Template;
-            _specializations[SpecializationSlot.Line_1].ApplyTemplate();
-
-            _specializations[SpecializationSlot.Line_2].BuildSpecialization = Template.BuildTemplate.Specializations[SpecializationSlot.Line_2];
-            _specializations[SpecializationSlot.Line_2].Profession = BuildsManager.Data.Professions[Template.BuildTemplate.Profession];
-            _specializations[SpecializationSlot.Line_2].Template = Template;
-            _specializations[SpecializationSlot.Line_2].ApplyTemplate();
-
-            _specializations[SpecializationSlot.Line_3].BuildSpecialization = Template.BuildTemplate.Specializations[SpecializationSlot.Line_3];
-            _specializations[SpecializationSlot.Line_3].Profession = BuildsManager.Data.Professions[Template.BuildTemplate.Profession];
-            _specializations[SpecializationSlot.Line_3].Template = Template;
-            _specializations[SpecializationSlot.Line_3].ApplyTemplate();
-
-            _skillbar.Template = Template;
-            _skillbar.ApplyTemplate();
-
-            if (_professionSpecifics == null || _professionSpecifics.Profession != Template.Profession)
+            if (Template != null && (int)Template.BuildTemplate.Profession > 0)
             {
-                CreateSpecifics();
-            }
+                _specializations[SpecializationSlot.Line_1].BuildSpecialization = Template.BuildTemplate.Specializations[SpecializationSlot.Line_1];
+                _specializations[SpecializationSlot.Line_1].Profession = BuildsManager.Data.Professions[Template.BuildTemplate.Profession];
+                _specializations[SpecializationSlot.Line_1].Template = Template;
 
-            if (_professionSpecifics != null)
-            {
-                _professionSpecifics.Parent = _professionSpecificsContainer;
-                _professionSpecifics.Template = Template;
-                _professionSpecifics.Width = _professionSpecificsContainer.Width;
-                _professionSpecifics.Height = _professionSpecificsContainer.Height;
+                _specializations[SpecializationSlot.Line_2].BuildSpecialization = Template.BuildTemplate.Specializations[SpecializationSlot.Line_2];
+                _specializations[SpecializationSlot.Line_2].Profession = BuildsManager.Data.Professions[Template.BuildTemplate.Profession];
+                _specializations[SpecializationSlot.Line_2].Template = Template;
+
+                _specializations[SpecializationSlot.Line_3].BuildSpecialization = Template.BuildTemplate.Specializations[SpecializationSlot.Line_3];
+                _specializations[SpecializationSlot.Line_3].Profession = BuildsManager.Data.Professions[Template.BuildTemplate.Profession];
+                _specializations[SpecializationSlot.Line_3].Template = Template;
+
+                _specIcon.Texture = Template.EliteSpecialization != null ? Template.EliteSpecialization.ProfessionIconBig : BuildsManager.Data.Professions?[Template.Profession]?.IconBig;
+                _specIcon.BasicTooltipText = Template.EliteSpecialization != null ? Template.EliteSpecialization.Name : BuildsManager.Data.Professions?[Template.Profession]?.Name;
+
+                _skillbar.Template = Template;
+
+                if (_professionSpecifics == null || _professionSpecifics.Profession != Template.Profession)
+                {
+                    CreateSpecifics();
+                }
+
+                if (_professionSpecifics != null)
+                {
+                    _professionSpecifics.Parent = _professionSpecificsContainer;
+                    _professionSpecifics.Template = Template;
+                    _professionSpecifics.Width = _professionSpecificsContainer.Width;
+                    _professionSpecifics.Height = _professionSpecificsContainer.Height;
+                }
             }
         }
 
@@ -178,13 +212,17 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
 
             if (_specializationsPanel != null)
             {
-                _skillbar.Width = _specializationsPanel.Width - 10;
+                _professionSpecificsContainer.Width = _specializationsPanel.Width;
+
+                _skillbar.Width = _specializationsPanel.Width -10;
                 _dummy.Width = _specializationsPanel.Width;
                 _specsBackground.Bounds = new(0, _dummy.Bottom - 55, Width + 15, _dummy.Height + _specializationsPanel.Height + 34);
                 _specsBackground.TextureRegion = new(0, 0, 650, 450);
 
-                _skillsBackground.Bounds = new(_professionSpecificsContainer.Left, _professionSpecificsContainer.Top, _professionSpecificsContainer.Width, _professionSpecificsContainer.Height + _skillbar.Height + 10);
-                _skillsBackground.TextureRegion = new(20, 20, _professionSpecificsContainer.Width, _professionSpecificsContainer.Height + _skillbar.Height);
+                _specIcon.Location = new(_specializationsPanel.Width - _specIcon.Width - 8, 16);
+
+                _skillsBackground.Bounds = new(_specializationsPanel.Left, _specializationsPanel.Top, _specializationsPanel.Width, _specializationsPanel.Height + _skillbar.Height + 10);
+                _skillsBackground.TextureRegion = new(20, 20, _specializationsPanel.Width, _specializationsPanel.Height + _skillbar.Height);
 
                 _skillsBackgroundTopBorder.Bounds = new(_professionSpecificsContainer.Left - 5, _professionSpecificsContainer.Top - 8, _professionSpecificsContainer.Width / 2, _professionSpecificsContainer.Height + _skillbar.Height + 8 + 10);
                 _skillsBackgroundTopBorder.TextureRegion = new(35, 15, _professionSpecificsContainer.Width / 2, _professionSpecificsContainer.Height + _skillbar.Height);

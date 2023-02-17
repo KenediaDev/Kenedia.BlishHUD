@@ -9,6 +9,7 @@ using System;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using Kenedia.Modules.Core.Utility;
+using System.Collections.Generic;
 
 namespace Kenedia.Modules.BuildsManager.Models.Templates
 {
@@ -195,19 +196,28 @@ namespace Kenedia.Modules.BuildsManager.Models.Templates
                 }
 
                 Specializations[SpecializationSlot.Line_1] = BuildSpecialization.FromByte(build.Specialization1Id, build.Profession);
-                Specializations[SpecializationSlot.Line_1].Traits[TraitTier.Adept] = Trait.FromByte(build.Specialization1Trait1Index, Specializations[SpecializationSlot.Line_1]?.Specialization, TraitTier.Adept);
-                Specializations[SpecializationSlot.Line_1].Traits[TraitTier.Master] = Trait.FromByte(build.Specialization1Trait2Index, Specializations[SpecializationSlot.Line_1]?.Specialization, TraitTier.Master);
-                Specializations[SpecializationSlot.Line_1].Traits[TraitTier.GrandMaster] = Trait.FromByte(build.Specialization1Trait3Index, Specializations[SpecializationSlot.Line_1]?.Specialization, TraitTier.GrandMaster);
+                if (Specializations[SpecializationSlot.Line_1] != null)
+                {
+                    Specializations[SpecializationSlot.Line_1].Traits[TraitTier.Adept] = Trait.FromByte(build.Specialization1Trait1Index, Specializations[SpecializationSlot.Line_1]?.Specialization, TraitTier.Adept);
+                    Specializations[SpecializationSlot.Line_1].Traits[TraitTier.Master] = Trait.FromByte(build.Specialization1Trait2Index, Specializations[SpecializationSlot.Line_1]?.Specialization, TraitTier.Master);
+                    Specializations[SpecializationSlot.Line_1].Traits[TraitTier.GrandMaster] = Trait.FromByte(build.Specialization1Trait3Index, Specializations[SpecializationSlot.Line_1]?.Specialization, TraitTier.GrandMaster);
+                }
 
                 Specializations[SpecializationSlot.Line_2] = BuildSpecialization.FromByte(build.Specialization2Id, build.Profession);
-                Specializations[SpecializationSlot.Line_2].Traits[TraitTier.Adept] = Trait.FromByte(build.Specialization2Trait1Index, Specializations[SpecializationSlot.Line_2]?.Specialization, TraitTier.Adept);
-                Specializations[SpecializationSlot.Line_2].Traits[TraitTier.Master] = Trait.FromByte(build.Specialization2Trait2Index, Specializations[SpecializationSlot.Line_2]?.Specialization, TraitTier.Master);
-                Specializations[SpecializationSlot.Line_2].Traits[TraitTier.GrandMaster] = Trait.FromByte(build.Specialization2Trait3Index, Specializations[SpecializationSlot.Line_2]?.Specialization, TraitTier.GrandMaster);
+                if (Specializations[SpecializationSlot.Line_2] != null)
+                {
+                    Specializations[SpecializationSlot.Line_2].Traits[TraitTier.Adept] = Trait.FromByte(build.Specialization2Trait1Index, Specializations[SpecializationSlot.Line_2]?.Specialization, TraitTier.Adept);
+                    Specializations[SpecializationSlot.Line_2].Traits[TraitTier.Master] = Trait.FromByte(build.Specialization2Trait2Index, Specializations[SpecializationSlot.Line_2]?.Specialization, TraitTier.Master);
+                    Specializations[SpecializationSlot.Line_2].Traits[TraitTier.GrandMaster] = Trait.FromByte(build.Specialization2Trait3Index, Specializations[SpecializationSlot.Line_2]?.Specialization, TraitTier.GrandMaster);
+                }
 
                 Specializations[SpecializationSlot.Line_3] = BuildSpecialization.FromByte(build.Specialization3Id, build.Profession);
-                Specializations[SpecializationSlot.Line_3].Traits[TraitTier.Adept] = Trait.FromByte(build.Specialization3Trait1Index, Specializations[SpecializationSlot.Line_3]?.Specialization, TraitTier.Adept);
-                Specializations[SpecializationSlot.Line_3].Traits[TraitTier.Master] = Trait.FromByte(build.Specialization3Trait2Index, Specializations[SpecializationSlot.Line_3]?.Specialization, TraitTier.Master);
-                Specializations[SpecializationSlot.Line_3].Traits[TraitTier.GrandMaster] = Trait.FromByte(build.Specialization3Trait3Index, Specializations[SpecializationSlot.Line_3]?.Specialization, TraitTier.GrandMaster);
+                if (Specializations[SpecializationSlot.Line_3] != null)
+                {
+                    Specializations[SpecializationSlot.Line_3].Traits[TraitTier.Adept] = Trait.FromByte(build.Specialization3Trait1Index, Specializations[SpecializationSlot.Line_3]?.Specialization, TraitTier.Adept);
+                    Specializations[SpecializationSlot.Line_3].Traits[TraitTier.Master] = Trait.FromByte(build.Specialization3Trait2Index, Specializations[SpecializationSlot.Line_3]?.Specialization, TraitTier.Master);
+                    Specializations[SpecializationSlot.Line_3].Traits[TraitTier.GrandMaster] = Trait.FromByte(build.Specialization3Trait3Index, Specializations[SpecializationSlot.Line_3]?.Specialization, TraitTier.GrandMaster);
+                }
 
                 if (Profession == ProfessionType.Ranger)
                 {
@@ -258,6 +268,56 @@ namespace Kenedia.Modules.BuildsManager.Models.Templates
                 AquaticSkills[BuildSkillSlot.Utility_2] = newActiveAquaticSkills[BuildSkillSlot.Utility_2];
                 AquaticSkills[BuildSkillSlot.Utility_3] = newActiveAquaticSkills[BuildSkillSlot.Utility_3];
                 AquaticSkills[BuildSkillSlot.Elite] = newActiveAquaticSkills[BuildSkillSlot.Elite];
+            }
+        }
+
+        public void SetLegend(Legend legend, LegendSlot slot)
+        {
+            Legends[slot] = legend;
+            var skills = TerrestrialSkills;
+
+            switch (slot)
+            {
+                case LegendSlot.AquaticActive:
+                    skills = AquaticSkills;
+                    break;
+                case LegendSlot.TerrestrialActive:
+                    skills = TerrestrialSkills;
+                    break;
+                case LegendSlot.TerrestrialInactive:
+                    skills = InactiveTerrestrialSkills;
+                    break;
+                case LegendSlot.AquaticInactive:
+                    skills = InactiveAquaticSkills;
+                    break;
+            };
+
+            skills[BuildSkillSlot.Heal] = legend?.Heal;
+            skills[BuildSkillSlot.Elite] = legend?.Elite;
+
+            List<int?> paletteIds = new()
+            {
+                 skills[BuildSkillSlot.Utility_1]?.PaletteId,
+                 skills[BuildSkillSlot.Utility_2]?.PaletteId,
+                 skills[BuildSkillSlot.Utility_3]?.PaletteId,
+            };
+
+            List<int?> ids = new() { 4614, 4651, 4564 };
+
+            for (int i = 1; i < 3 + 1; i++)
+            {
+                int? paletteId = paletteIds[i - 1];
+                skills[(BuildSkillSlot)i] = paletteId != null ? Legend.SkillFromUShort((ushort)paletteId.Value, legend) : null;
+            }
+
+            var missingIds = ids.Except(paletteIds);
+            for (int i = 1; i < 3 + 1; i++)
+            {
+                if (missingIds.Count() > i - 1)
+                {
+                    int? paletteId = missingIds.ElementAt(i - 1);
+                    skills[(BuildSkillSlot)i] = paletteId != null ? Legend.SkillFromUShort((ushort)paletteId.Value, legend) : null;
+                }
             }
         }
 

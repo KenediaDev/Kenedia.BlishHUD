@@ -14,6 +14,8 @@ namespace Kenedia.Modules.BuildsManager.DataModels.Professions
     {
         private AsyncTexture2D _icon;
         private AsyncTexture2D _background;
+        private AsyncTexture2D _profession_icon;
+        private AsyncTexture2D _profession_icon_big;
 
         public Specialization()
         {
@@ -30,6 +32,8 @@ namespace Kenedia.Modules.BuildsManager.DataModels.Professions
                 Name = specialization.Name;
                 IconAssetId = specialization.Icon.GetAssetIdFromRenderUrl();
                 BackgroundAssetId = specialization.Background.GetAssetIdFromRenderUrl();
+                ProfessionIconAssetId = specialization.ProfessionIcon?.GetAssetIdFromRenderUrl();
+                ProfessionIconBigAssetId = specialization.ProfessionIconBig?.GetAssetIdFromRenderUrl();
             }
         }
 
@@ -108,6 +112,37 @@ namespace Kenedia.Modules.BuildsManager.DataModels.Professions
 
                 _background = AsyncTexture2D.FromAssetId(BackgroundAssetId);
                 return _background;
+            }
+        }
+
+        [DataMember]
+        public int? ProfessionIconAssetId { get; set; }
+        public AsyncTexture2D ProfessionIcon
+        {
+            get
+            {
+                if (_profession_icon != null) return _profession_icon;
+
+                if (ProfessionIconAssetId != null)
+                {
+                    _profession_icon = AsyncTexture2D.FromAssetId((int)ProfessionIconAssetId);
+                }
+                return _profession_icon;
+            }
+        }
+
+        [DataMember]
+        public int? ProfessionIconBigAssetId { get; set; }
+        public AsyncTexture2D ProfessionIconBig
+        {
+            get
+            {
+                if (_profession_icon_big != null) return _profession_icon_big;
+                if(ProfessionIconBigAssetId != null)
+                {
+                    _profession_icon_big = AsyncTexture2D.FromAssetId((int)ProfessionIconBigAssetId);
+                }
+                return _profession_icon_big;
             }
         }
 
