@@ -234,6 +234,7 @@
     <Compile Include="DataModels\Professions\Specialization.cs" />
     <Compile Include="DataModels\Professions\Trait.cs" />
     <Compile Include="DataModels\Professions\Weapon.cs" />
+    <Compile Include="DataModels\Races\Race.cs" />
     <Compile Include="DataModels\Stats\EquipmentStat.cs" />
     <Compile Include="DataModels\Stats\Stat.cs" />
     <Compile Include="Extensions\ChatLinkExtension.cs" />
@@ -409,6 +410,18 @@
     <Content Include="ref\textures\equipment_stats\Wanderers.png" />
     <Content Include="ref\textures\equipment_stats\Zealots.png" />
     <Content Include="ref\textures\mainwindow_background.png" />
+    <Content Include="ref\textures\races\asura.png" />
+    <Content Include="ref\textures\races\asura_hovered.png" />
+    <Content Include="ref\textures\races\charr.png" />
+    <Content Include="ref\textures\races\charr_hovered.png" />
+    <Content Include="ref\textures\races\human.png" />
+    <Content Include="ref\textures\races\human_hovered.png" />
+    <Content Include="ref\textures\races\norn.png" />
+    <Content Include="ref\textures\races\norn_hovered.png" />
+    <Content Include="ref\textures\races\pact.png" />
+    <Content Include="ref\textures\races\pact_hovered.png" />
+    <Content Include="ref\textures\races\sylvari.png" />
+    <Content Include="ref\textures\races\sylvari_hovered.png" />
   </ItemGroup>
   <Import Project="..\Core\Core.projitems" Label="Shared" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

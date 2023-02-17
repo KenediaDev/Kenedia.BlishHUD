@@ -72,7 +72,7 @@ namespace Kenedia.Modules.BuildsManager.DataModels.Professions
         [DataMember]
         public Dictionary<int, int> SkillsByPalette { get; set; }
 
-        internal void Apply(APIProfession prof, Dictionary<int, Specialization> specializations, Dictionary<int, Trait> traits, Dictionary<int, Skill> skills, Dictionary<int, Legend> legends)
+        internal void Apply(APIProfession prof, Dictionary<int, Specialization> specializations, Dictionary<int, Trait> traits, Dictionary<int, Skill> skills, Dictionary<int, Legend> legends, Dictionary<Core.DataModels.Races, Race> races)
         {
             if (Enum.TryParse(prof.Id, out ProfessionType professionType))
             {
@@ -102,6 +102,11 @@ namespace Kenedia.Modules.BuildsManager.DataModels.Professions
 
                 // Add Flip & Bundle Skills
                 var profSkillIds = prof.Skills.Select(e => e.Id).ToList();
+                var tSkillids = skills.Where(e => e.Value.Professions.Count <= 2 && e.Value.Professions.Contains(professionType)).Select(e => e.Value.Id).Except(profSkillIds).ToList();
+                var raceSkills = races.SelectMany(e => e.Value.Skills).Select(e => e.Value.Id).ToList();
+
+                profSkillIds.AddRange(tSkillids);
+                _ = profSkillIds.RemoveAll(e => raceSkills.Contains(e));
 
                 var weaponIds = (from pp in prof.Weapons
                                  from pskills in pp.Value.Skills
@@ -192,11 +197,6 @@ namespace Kenedia.Modules.BuildsManager.DataModels.Professions
                     }
                 }
 
-                foreach (int id in ids)
-                {
-                    AddOrUpdateLocale(id);
-                }
-
                 foreach (int s in prof.Specializations)
                 {
                     if (specializations.TryGetValue(s, out Specialization spec))
@@ -216,6 +216,14 @@ namespace Kenedia.Modules.BuildsManager.DataModels.Professions
                                 {
                                     t.Value.Name = trait.Name;
                                     t.Value.Description = trait.Description;
+
+                                    foreach (int id in trait.Skills)
+                                    {
+                                        if (skills.TryGetValue(id, out _))
+                                        {
+                                            ids.AddRange(getIds(getSkillById(id, skills)));
+                                        }
+                                    }
                                 }
                             }
 
@@ -225,10 +233,23 @@ namespace Kenedia.Modules.BuildsManager.DataModels.Professions
                                 {
                                     t.Value.Name = trait.Name;
                                     t.Value.Description = trait.Description;
+
+                                    foreach (int id in trait.Skills)
+                                    {
+                                        if (skills.TryGetValue(id, out _))
+                                        {
+                                            ids.AddRange(getIds(getSkillById(id, skills)));
+                                        }
+                                    }
                                 }
                             }
                         }
                     }
+                }
+
+                foreach (int id in ids)
+                {
+                    AddOrUpdateLocale(id);
                 }
 
                 if (professionType == ProfessionType.Revenant)

@@ -242,8 +242,8 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage.ProfessionSpecific
 
             if (_swap.Hovered)
             {
-                Template.BuildTemplate.LegendSlot = GetOtherSlot();
-                var slot = Template.BuildTemplate.LegendSlot;
+                Template.LegendSlot = GetOtherSlot();
+                var slot = Template.LegendSlot;
 
                 _legend1.Legend = Template.BuildTemplate.Legends[slot];
                 _legend1.LegendSlot = slot;
@@ -277,7 +277,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage.ProfessionSpecific
 
         protected override void ApplyTemplate()
         {
-            var slot = Template.BuildTemplate.LegendSlot;
+            var slot = Template.LegendSlot;
 
             _legend1.Legend = Template.BuildTemplate.Legends[slot];
             _legend1.LegendSlot = slot;
@@ -314,10 +314,10 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage.ProfessionSpecific
             RecalculateLayout();
 
             _selector1.Draw(this, spriteBatch, RelativeMousePosition);
-            _legend1.Draw(this, spriteBatch, Template.BuildTemplate.Terrestrial, RelativeMousePosition, null, null, _legend1.LegendSlot == Template.BuildTemplate.LegendSlot);
+            _legend1.Draw(this, spriteBatch, Template.Terrestrial, RelativeMousePosition, null, null, _legend1.LegendSlot == Template.LegendSlot);
 
             _selector2.Draw(this, spriteBatch, RelativeMousePosition, Color.White * 0.5F);
-            _legend2.Draw(this, spriteBatch, Template.BuildTemplate.Terrestrial, RelativeMousePosition, Color.White * 0.5F, null, false);
+            _legend2.Draw(this, spriteBatch, Template.Terrestrial, RelativeMousePosition, Color.White * 0.5F, null, false);
 
             _swap.Draw(this, spriteBatch, RelativeMousePosition, _swap.Hovered ? Color.White : Color.White * 0.75F);
             _energyBar.Draw(this, spriteBatch);
@@ -367,9 +367,9 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage.ProfessionSpecific
 
         private LegendSlot GetOtherSlot(LegendSlot? slot = null)
         {
-            slot ??= Template.BuildTemplate.LegendSlot;
+            slot ??= Template.LegendSlot;
 
-            return Template.BuildTemplate.Terrestrial
+            return Template.Terrestrial
                 ? slot is LegendSlot.TerrestrialActive ? LegendSlot.TerrestrialInactive : LegendSlot.TerrestrialActive
                 : slot is LegendSlot.AquaticActive ? LegendSlot.AquaticInactive : LegendSlot.AquaticActive;
         }
@@ -382,7 +382,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage.ProfessionSpecific
                 {
                     if (s.Hovered)
                     {
-                        if (Template.BuildTemplate.Terrestrial || !s.Legend.Swap.Flags.HasFlag(SkillFlag.NoUnderwater))
+                        if (Template.Terrestrial || !s.Legend.Swap.Flags.HasFlag(SkillFlag.NoUnderwater))
                         {
                             var otherLegend = Template.BuildTemplate.Legends[GetOtherSlot(_selectorAnchor.LegendSlot)];
 
@@ -445,7 +445,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage.ProfessionSpecific
 
             foreach (var s in _selectableLegends)
             {
-                s.Draw(this, spriteBatch, Template.BuildTemplate.Terrestrial, RelativeMousePosition);
+                s.Draw(this, spriteBatch, Template.Terrestrial, RelativeMousePosition);
             }
 
             spriteBatch.DrawStringOnCtrl(this, "Legends", Content.DefaultFont18, new Rectangle(_selectorBounds.Left, _selectorBounds.Bottom - 12 - Content.DefaultFont18.LineHeight, _selectorBounds.Width, Content.DefaultFont18.LineHeight), Color.White, false, HorizontalAlignment.Center);

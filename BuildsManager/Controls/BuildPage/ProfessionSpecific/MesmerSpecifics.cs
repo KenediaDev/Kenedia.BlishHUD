@@ -12,19 +12,21 @@ using System.Windows.Forms;
 
 namespace Kenedia.Modules.BuildsManager.Controls.BuildPage.ProfessionSpecific
 {
+    //TODO Memser Utility Skills are wonky af
     public class MesmerSpecifics : ProfessionSpecifics
     {
-        private readonly DetailedTexture _noClone = new(156429);
-        private readonly DetailedTexture _oneClone = new(156430);
-
+        //156430 One Clone
+        //156429 No Clone
         private readonly DetailedTexture[] _clones =
         {
-            new(156429),
-            new(156429),
-            new(156429),
+            new(156430),
+            new(156430),
+            new(156430),
             new(156429),
             new(156429),
         };
+
+        // TODO find and add black separator line
 
         private readonly SkillIcon[] _skills =
         {
@@ -75,8 +77,6 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage.ProfessionSpecific
 
         protected override void Paint(SpriteBatch spriteBatch, Rectangle bounds)
         {
-            RecalculateLayout();
-
             switch (Template.EliteSpecialization?.Id)
             {
                 case (int)Specializations.Virtuoso:

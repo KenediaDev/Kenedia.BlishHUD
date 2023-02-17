@@ -10,6 +10,7 @@ using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using Kenedia.Modules.Core.Utility;
 using System.Collections.Generic;
+using Attunement = Gw2Sharp.WebApi.V2.Models.Attunement;
 
 namespace Kenedia.Modules.BuildsManager.Models.Templates
 {
@@ -17,7 +18,6 @@ namespace Kenedia.Modules.BuildsManager.Models.Templates
     {
         private bool _disposed = false;
         private ProfessionType _profession;
-        private bool _terrestrial = true;
 
         public BuildTemplate()
         {
@@ -42,16 +42,6 @@ namespace Kenedia.Modules.BuildsManager.Models.Templates
         public event PropertyChangedEventHandler Changed;
 
         public ProfessionType Profession { get => _profession; set => Common.SetProperty(ref _profession, value, Changed); }
-
-        public bool Terrestrial { get => _terrestrial; set => Common.SetProperty(ref _terrestrial, value, Changed); }
-
-        private LegendSlot _legendSlot = LegendSlot.TerrestrialActive;
-
-        public LegendSlot LegendSlot
-        {
-            get => _legendSlot;
-            set => Common.SetProperty(ref _legendSlot, value, Changed);
-        }
 
         public SkillCollection TerrestrialSkills { get; } = new();
 

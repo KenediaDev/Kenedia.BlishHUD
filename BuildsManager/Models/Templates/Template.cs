@@ -1,9 +1,10 @@
 ﻿using Gw2Sharp.Models;
 using Kenedia.Modules.BuildsManager.DataModels.Professions;
-using Kenedia.Modules.BuildsManager.Services;
+using Kenedia.Modules.Core.DataModels;
 using Kenedia.Modules.Core.Utility;
 using System.ComponentModel;
 using System.Runtime.Serialization;
+using Attunement = Gw2Sharp.WebApi.V2.Models.Attunement;
 
 namespace Kenedia.Modules.BuildsManager.Models.Templates
 {
@@ -16,6 +17,10 @@ namespace Kenedia.Modules.BuildsManager.Models.Templates
         private string _description;
         private string _name;
         private string _id;
+        private bool _terrestrial = true;
+        private Attunement _mainAttunement = Attunement.Fire;
+        private Attunement _altAttunement = Attunement.Fire;
+        private LegendSlot _legendSlot = LegendSlot.TerrestrialActive;
 
         public Template()
         {
@@ -51,7 +56,42 @@ namespace Kenedia.Modules.BuildsManager.Models.Templates
             }
         }
 
+        [DataMember]
+        public Races Race = Races.None;
+
         public Specialization EliteSpecialization => BuildTemplate?.Specializations[SpecializationSlot.Line_3]?.Specialization?.Elite == true ? BuildTemplate.Specializations[SpecializationSlot.Line_3].Specialization : null;
+
+        public Attunement MainAttunement { get => _mainAttunement; set => Common.SetProperty(ref _mainAttunement, value, Changed); }
+
+        public Attunement AltAttunement { get => _altAttunement; set => Common.SetProperty(ref _altAttunement, value, Changed); }
+
+        public bool Terrestrial { 
+            get => LegendSlot is LegendSlot.TerrestrialActive or LegendSlot.TerrestrialInactive; 
+            set 
+            {
+                switch (LegendSlot)
+                {
+                    case LegendSlot.AquaticActive:
+                    case LegendSlot.AquaticInactive:
+                        LegendSlot newTerrestialSlot = LegendSlot is LegendSlot.AquaticActive ? LegendSlot.TerrestrialActive : LegendSlot.TerrestrialInactive;
+                        _ = Common.SetProperty(ref _legendSlot, newTerrestialSlot, Changed);
+
+                        break;
+
+                    case LegendSlot.TerrestrialActive:
+                    case LegendSlot.TerrestrialInactive:
+                        LegendSlot newAquaticSlot = LegendSlot is LegendSlot.TerrestrialActive ? LegendSlot.AquaticActive : LegendSlot.AquaticInactive;
+                        _ = Common.SetProperty(ref _legendSlot, newAquaticSlot, Changed);
+                        break;
+                }
+            }
+        }
+
+        public LegendSlot LegendSlot
+        {
+            get => _legendSlot;
+            set => Common.SetProperty(ref _legendSlot, value, Changed);
+        }
 
         public BuildTemplate BuildTemplate
         {
@@ -84,7 +124,19 @@ namespace Kenedia.Modules.BuildsManager.Models.Templates
             }
         }
 
-        private void TemplateChanged(object sender, PropertyChangedEventArgs e)
+        public SkillCollection GetActiveSkills()
+        {
+            return LegendSlot switch
+            {
+                LegendSlot.AquaticInactive => BuildTemplate.InactiveAquaticSkills,
+                LegendSlot.TerrestrialInactive => BuildTemplate.InactiveTerrestrialSkills,
+                LegendSlot.AquaticActive => BuildTemplate.AquaticSkills,
+                LegendSlot.TerrestrialActive => BuildTemplate.TerrestrialSkills,
+                _ => null,
+            };
+        }
+
+            private void TemplateChanged(object sender, PropertyChangedEventArgs e)
         {
             Changed?.Invoke(sender, e);
         }

@@ -140,7 +140,8 @@ namespace Kenedia.Modules.BuildsManager
                 Services.TexturesService.GetTexture(@"textures\mainwindow_background.png", "mainwindow_background"),
                 new Rectangle(30, 30, Width, Height + 30),
                 new Rectangle(30, 20, Width - 3, Height + 25),
-                Data)
+                Data,
+                Services.TexturesService)
             {
                 Parent = GameService.Graphics.SpriteScreen,
                 Title = "❤",
@@ -197,26 +198,26 @@ namespace Kenedia.Modules.BuildsManager
             gear.Gear[GearSlot.Foot].Upgrades[UpgradeSlot.Rune] = 24836;
             gear.Gear[GearSlot.Foot].Upgrades[UpgradeSlot.Infusion_1] = 37131;
 
-            gear.Gear[GearSlot.MainHand].WeaponType = WeaponType.Sword;
+            gear.Gear[GearSlot.MainHand].WeaponType = WeaponType.Staff;
             gear.Gear[GearSlot.MainHand].Stat = DataModels.Stats.EquipmentStat.Berserkers;
             gear.Gear[GearSlot.MainHand].Upgrades[UpgradeSlot.Sigil_1] = 24615;
             gear.Gear[GearSlot.MainHand].Upgrades[UpgradeSlot.Infusion_1] = 37131;
-            gear.Gear[GearSlot.OffHand].WeaponType = WeaponType.Sword;
+            gear.Gear[GearSlot.OffHand].WeaponType = WeaponType.Staff;
             gear.Gear[GearSlot.OffHand].Stat = DataModels.Stats.EquipmentStat.Berserkers;
             gear.Gear[GearSlot.OffHand].Upgrades[UpgradeSlot.Sigil_1] = 24615;
             gear.Gear[GearSlot.OffHand].Upgrades[UpgradeSlot.Infusion_1] = 37131;
-            gear.Gear[GearSlot.Aquatic].WeaponType = WeaponType.Harpoon;
+            gear.Gear[GearSlot.Aquatic].WeaponType = WeaponType.Trident;
             gear.Gear[GearSlot.Aquatic].Stat = DataModels.Stats.EquipmentStat.Berserkers;
             gear.Gear[GearSlot.Aquatic].Upgrades[UpgradeSlot.Sigil_1] = 24615;
             gear.Gear[GearSlot.Aquatic].Upgrades[UpgradeSlot.Sigil_2] = 24618;
             gear.Gear[GearSlot.Aquatic].Upgrades[UpgradeSlot.Infusion_1] = 37131;
             gear.Gear[GearSlot.Aquatic].Upgrades[UpgradeSlot.Infusion_2] = 37131;
 
-            gear.Gear[GearSlot.AltMainHand].WeaponType = WeaponType.Greatsword;
+            gear.Gear[GearSlot.AltMainHand].WeaponType = WeaponType.Sword;
             gear.Gear[GearSlot.AltMainHand].Stat = DataModels.Stats.EquipmentStat.Berserkers;
             gear.Gear[GearSlot.AltMainHand].Upgrades[UpgradeSlot.Sigil_1] = 24615;
             gear.Gear[GearSlot.AltMainHand].Upgrades[UpgradeSlot.Infusion_1] = 37131;
-            gear.Gear[GearSlot.AltOffHand].WeaponType = WeaponType.Greatsword;
+            gear.Gear[GearSlot.AltOffHand].WeaponType = WeaponType.Focus;
             gear.Gear[GearSlot.AltOffHand].Stat = DataModels.Stats.EquipmentStat.Berserkers;
             gear.Gear[GearSlot.AltOffHand].Upgrades[UpgradeSlot.Sigil_1] = 24615;
             gear.Gear[GearSlot.AltOffHand].Upgrades[UpgradeSlot.Infusion_1] = 37131;
@@ -244,14 +245,15 @@ namespace Kenedia.Modules.BuildsManager
             gear.Gear[GearSlot.Accessory_2].Stat = DataModels.Stats.EquipmentStat.Berserkers;
             gear.Gear[GearSlot.Accessory_2].Upgrades[UpgradeSlot.Infusion_1] = 37131;
 
-            string codi = "[&DQkPJww2Ax7cEdwRKxIGEgYS1BHUESsSyhHKEQAAAADUEQYSKxIrEtQRBhI=]";
-            string code = "[&DQcYOQEdChkjDw8BgQGDAY8BggFpAYABmgGaAQAAAAAAAAAAAAAAAAAAAAA=]";
+            string codi = "[&DQMGOyYvOTsqDwAABwEAAIYAAABXFgAA8BUAAAAAAAAAAAAAAAAAAAAAAAA=]";
+            string code = "[&DQYfHSkbMBl0ABcBywDLAHIAwxLDEnMAJgCZEgAAAAAAAAAAAAAAAAAAAAA=]";
             var build = new BuildTemplate(code);
 
             SelectedTemplate = new Template()
             {
                 BuildTemplate = build,
                 GearTemplate = gear,
+                Race = Core.DataModels.Races.Human,
             };
 
             MainWindow.Template = SelectedTemplate;

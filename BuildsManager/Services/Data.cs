@@ -1,10 +1,12 @@
 ﻿using Blish_HUD;
 using Blish_HUD.Modules.Managers;
 using Gw2Sharp.Models;
+using Kenedia.Modules.BuildsManager.DataModels;
 using Kenedia.Modules.BuildsManager.DataModels.ItemUpgrades;
 using Kenedia.Modules.BuildsManager.DataModels.LegendaryItems;
 using Kenedia.Modules.BuildsManager.DataModels.Professions;
 using Kenedia.Modules.BuildsManager.DataModels.Stats;
+using Kenedia.Modules.Core.DataModels;
 using Kenedia.Modules.Core.Models;
 using Newtonsoft.Json;
 using System;
@@ -41,6 +43,8 @@ namespace Kenedia.Modules.BuildsManager.Services
 
         public Dictionary<ProfessionType, Profession> Professions { get; private set; } = new();
 
+        public Dictionary<Races, Race> Races { get; private set; } = new();
+
         public Dictionary<int, Stat> Stats { get; private set; } = new();
 
         public Dictionary<int, Sigil> Sigils { get; private set; } = new();
@@ -53,7 +57,7 @@ namespace Kenedia.Modules.BuildsManager.Services
 
         public List<KeyValuePair<int, int>> SkillsByPalette { get; private set; } = new();
 
-        public bool IsLoaded => Armors.Count > 0 && Professions.Count > 0 && Stats.Count > 0 && Sigils.Count > 0 && Runes.Count > 0 && Pets.Count > 0 && PaletteBySkills.Count > 0;
+        public bool IsLoaded => Armors.Count > 0 && Professions.Count > 0 && Stats.Count > 0 && Sigils.Count > 0 && Runes.Count > 0 && Pets.Count > 0 && PaletteBySkills.Count > 0 && Races.Count > 0;
 
         public async Task Load()
         {

@@ -9,12 +9,14 @@ using Kenedia.Modules.Core.Views;
 using Microsoft.Xna.Framework;
 using System;
 using System.Linq;
+using Kenedia.Modules.Core.Services;
 
 namespace Kenedia.Modules.BuildsManager.Views
 {
     public class MainWindow : StandardWindow
     {
         private readonly Data _data;
+        private readonly TexturesService _texturesService;
         private readonly Panel _buildSection;
         private readonly Panel _selectionSection;
         private readonly BuildPage _build;
@@ -22,10 +24,10 @@ namespace Kenedia.Modules.BuildsManager.Views
 
         private Template _template;
 
-        public MainWindow(AsyncTexture2D background, Rectangle windowRegion, Rectangle contentRegion, Data data) : base(background, windowRegion, contentRegion)
+        public MainWindow(AsyncTexture2D background, Rectangle windowRegion, Rectangle contentRegion, Data data, TexturesService texturesService) : base(background, windowRegion, contentRegion)
         {
             _data = data;
-
+            _texturesService = texturesService;
             _selectionSection = new()
             {
                 Parent = this,
@@ -54,7 +56,7 @@ namespace Kenedia.Modules.BuildsManager.Views
                 }
             };
 
-            _build = new BuildPage()
+            _build = new BuildPage(_texturesService)
             {
                 Parent = _buildSection,
                 Location = new(0, _buildCodeBox.Bottom),

@@ -21,6 +21,8 @@ using Image = Kenedia.Modules.Core.Controls.Image;
 using Blish_HUD;
 using static Blish_HUD.ContentService;
 using System.Diagnostics.Contracts;
+using Kenedia.Modules.Core.Services;
+using Kenedia.Modules.Core.DataModels;
 
 namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
 {
@@ -86,9 +88,13 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
             {SpecializationSlot.Line_3,  new SpecLine() {Line = SpecializationSlot.Line_3, } },
         };
         private readonly FramedImage _specIcon;
+        private readonly FramedImage _raceIcon;
+        private readonly TexturesService _texturesService;
 
-        public BuildPage()
+        public BuildPage(TexturesService texturesService)
         {
+            _texturesService = texturesService;
+
             ClipsBounds = false;
             WidthSizingMode = SizingMode.Fill;
             HeightSizingMode = SizingMode.AutoSize;
@@ -117,6 +123,16 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
                 Width = Width,
                 Size = new(80),
                 ZIndex = 15,
+            };
+
+            _raceIcon = new FramedImage()
+            {
+                Parent = this,
+                Width = Width,
+                TextureSize = new Point(64),
+                ZIndex = 15,
+                Texture = _texturesService.GetTexture(@"textures\races\pact.png", "pact"),
+                Size = new(80),
             };
 
             _dummy = new Dummy()
@@ -186,6 +202,9 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
                 _specializations[SpecializationSlot.Line_3].Profession = BuildsManager.Data.Professions[Template.BuildTemplate.Profession];
                 _specializations[SpecializationSlot.Line_3].Template = Template;
 
+                _raceIcon.Texture = GetRaceTexture(Template.Race);
+                _raceIcon.BasicTooltipText = Template.Race.ToString();
+                                
                 _specIcon.Texture = Template.EliteSpecialization != null ? Template.EliteSpecialization.ProfessionIconBig : BuildsManager.Data.Professions?[Template.Profession]?.IconBig;
                 _specIcon.BasicTooltipText = Template.EliteSpecialization != null ? Template.EliteSpecialization.Name : BuildsManager.Data.Professions?[Template.Profession]?.Name;
 
@@ -214,12 +233,14 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
             {
                 _professionSpecificsContainer.Width = _specializationsPanel.Width;
 
-                _skillbar.Width = _specializationsPanel.Width -10;
+                _skillbar.Width = _specializationsPanel.Width - 10;
                 _dummy.Width = _specializationsPanel.Width;
                 _specsBackground.Bounds = new(0, _dummy.Bottom - 55, Width + 15, _dummy.Height + _specializationsPanel.Height + 34);
                 _specsBackground.TextureRegion = new(0, 0, 650, 450);
 
                 _specIcon.Location = new(_specializationsPanel.Width - _specIcon.Width - 8, 16);
+
+                _raceIcon.Location = new(_specializationsPanel.Width - _raceIcon.Width - _specIcon.Width - 8 - 10, 16);
 
                 _skillsBackground.Bounds = new(_specializationsPanel.Left, _specializationsPanel.Top, _specializationsPanel.Width, _professionSpecificsContainer.Height + _skillbar.Height + 10);
                 _skillsBackground.TextureRegion = new(20, 20, _specializationsPanel.Width, _specializationsPanel.Height + _skillbar.Height);
@@ -262,15 +283,19 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
             switch (Template.Profession)
             {
                 case ProfessionType.Guardian:
+                    _professionSpecifics = new GuardianSpecifics();
                     break;
                 case ProfessionType.Warrior:
+                    _professionSpecifics = new WarriorSpecifics();
                     break;
                 case ProfessionType.Engineer:
+                    _professionSpecifics = new EngineerSpecifics();
                     break;
                 case ProfessionType.Ranger:
                     _professionSpecifics = new RangerSpecifics();
                     break;
                 case ProfessionType.Thief:
+                    _professionSpecifics = new ThiefSpecifics();
                     break;
                 case ProfessionType.Elementalist:
                     _professionSpecifics = new ElementalistSpecifics();
@@ -279,11 +304,26 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
                     _professionSpecifics = new MesmerSpecifics();
                     break;
                 case ProfessionType.Necromancer:
+                    _professionSpecifics = new NecromancerSpecifics();
                     break;
                 case ProfessionType.Revenant:
                     _professionSpecifics = new RevenantSpecifics();
                     break;
             }
+        }
+
+        private Texture2D GetRaceTexture(Races race)
+        {
+            return race switch
+            {
+                Races.None => _texturesService.GetTexture(@"textures\races\pact.png", "pact"),
+                Races.Asura => _texturesService.GetTexture(@"textures\races\asura.png", "asura"),
+                Races.Charr => _texturesService.GetTexture(@"textures\races\charr.png", "charr"),
+                Races.Human => _texturesService.GetTexture(@"textures\races\human.png", "human"),
+                Races.Norn => _texturesService.GetTexture(@"textures\races\norn.png", "norn"),
+                Races.Sylvari => _texturesService.GetTexture(@"textures\races\sylvari.png", "sylvari"),
+                _ => _texturesService.GetTexture(@"textures\races\pact.png", "pact"),
+            };
         }
     }
 }

@@ -12,6 +12,7 @@ using Microsoft.Xna.Framework.Graphics;
 using MonoGame.Extended;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using static Blish_HUD.ContentService;
 
@@ -381,60 +382,69 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
                     SpecializationSlot slot = SpecializationSlot.Line_1;
                     BuildSpecialization temp = null;
 
-                    foreach (var spec in _specBounds)
+                    // TODO Figure out why it modifies the collection
+                    // tied to removing skills
+                    try
                     {
-                        if (spec.Value.Contains(RelativeMousePosition))
+                        foreach (var spec in _specBounds)
                         {
-                            if (BuildSpecialization.Specialization != spec.Key)
+                            if (spec.Value.Contains(RelativeMousePosition))
                             {
-                                bool hasSpec = Build?.HasSpecialization(spec.Key) == true;
-                                slot = (SpecializationSlot)(hasSpec ? Build?.GetSpecializationSlot(spec.Key) : SpecializationSlot.Line_1);
-
-                                if (hasSpec)
+                                if (BuildSpecialization.Specialization != spec.Key)
                                 {
-                                    temp = new()
-                                    {
-                                        Specialization = BuildSpecialization.Specialization
-                                    };
-                                    temp.Traits[TraitTier.Adept] = BuildSpecialization.Traits[TraitTier.Adept];
-                                    temp.Traits[TraitTier.Master] = BuildSpecialization.Traits[TraitTier.Master];
-                                    temp.Traits[TraitTier.GrandMaster] = BuildSpecialization.Traits[TraitTier.GrandMaster];
+                                    bool hasSpec = Build?.HasSpecialization(spec.Key) == true;
+                                    slot = (SpecializationSlot)(hasSpec ? Build?.GetSpecializationSlot(spec.Key) : SpecializationSlot.Line_1);
 
-                                    BuildSpecialization.Specialization = Build.Specializations[slot].Specialization;
-                                    BuildSpecialization.Traits[TraitTier.Adept] = Build.Specializations[slot].Traits[TraitTier.Adept];
-                                    BuildSpecialization.Traits[TraitTier.Master] = Build.Specializations[slot].Traits[TraitTier.Master];
-                                    BuildSpecialization.Traits[TraitTier.GrandMaster] = Build.Specializations[slot].Traits[TraitTier.GrandMaster];
-
-                                    if (temp.Specialization == null || !temp.Specialization.Elite)
+                                    if (hasSpec)
                                     {
-                                        Build.Specializations[slot].Specialization = temp.Specialization;
-                                        Build.Specializations[slot].Traits[TraitTier.Adept] = temp.Traits[TraitTier.Adept];
-                                        Build.Specializations[slot].Traits[TraitTier.Master] = temp.Traits[TraitTier.Master];
-                                        Build.Specializations[slot].Traits[TraitTier.GrandMaster] = temp.Traits[TraitTier.GrandMaster];
+                                        temp = new()
+                                        {
+                                            Specialization = BuildSpecialization.Specialization
+                                        };
+                                        temp.Traits[TraitTier.Adept] = BuildSpecialization.Traits[TraitTier.Adept];
+                                        temp.Traits[TraitTier.Master] = BuildSpecialization.Traits[TraitTier.Master];
+                                        temp.Traits[TraitTier.GrandMaster] = BuildSpecialization.Traits[TraitTier.GrandMaster];
+
+                                        BuildSpecialization.Specialization = Build.Specializations[slot].Specialization;
+                                        BuildSpecialization.Traits[TraitTier.Adept] = Build.Specializations[slot].Traits[TraitTier.Adept];
+                                        BuildSpecialization.Traits[TraitTier.Master] = Build.Specializations[slot].Traits[TraitTier.Master];
+                                        BuildSpecialization.Traits[TraitTier.GrandMaster] = Build.Specializations[slot].Traits[TraitTier.GrandMaster];
+
+                                        if (temp.Specialization == null || !temp.Specialization.Elite)
+                                        {
+                                            Build.Specializations[slot].Specialization = temp.Specialization;
+                                            Build.Specializations[slot].Traits[TraitTier.Adept] = temp.Traits[TraitTier.Adept];
+                                            Build.Specializations[slot].Traits[TraitTier.Master] = temp.Traits[TraitTier.Master];
+                                            Build.Specializations[slot].Traits[TraitTier.GrandMaster] = temp.Traits[TraitTier.GrandMaster];
+                                        }
+                                        else
+                                        {
+                                            Build.Specializations[slot].Specialization = null;
+                                            Build.Specializations[slot].Traits[TraitTier.Adept] = null;
+                                            Build.Specializations[slot].Traits[TraitTier.Master] = null;
+                                            Build.Specializations[slot].Traits[TraitTier.GrandMaster] = null;
+                                        }
+
+                                        ApplySpecialization();
+                                        _selectorOpen = !_selectorOpen;
+                                        return;
                                     }
                                     else
                                     {
-                                        Build.Specializations[slot].Specialization = null;
-                                        Build.Specializations[slot].Traits[TraitTier.Adept] = null;
-                                        Build.Specializations[slot].Traits[TraitTier.Master] = null;
-                                        Build.Specializations[slot].Traits[TraitTier.GrandMaster] = null;
+                                        BuildSpecialization.Specialization = spec.Key;
+                                        BuildSpecialization.Traits[TraitTier.Adept] = null;
+                                        BuildSpecialization.Traits[TraitTier.Master] = null;
+                                        BuildSpecialization.Traits[TraitTier.GrandMaster] = null;
                                     }
 
                                     ApplySpecialization();
-                                    _selectorOpen = !_selectorOpen;
-                                    return;
                                 }
-                                else
-                                {
-                                    BuildSpecialization.Specialization = spec.Key;
-                                    BuildSpecialization.Traits[TraitTier.Adept] = null;
-                                    BuildSpecialization.Traits[TraitTier.Master] = null;
-                                    BuildSpecialization.Traits[TraitTier.GrandMaster] = null;
-                                }
-
-                                ApplySpecialization();
                             }
                         }
+                    }
+                    catch (Exception ex)
+                    {
+                        Debug.WriteLine($"{ex}");
                     }
                 }
 

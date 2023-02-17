@@ -32,6 +32,7 @@ namespace Kenedia.Modules.BuildsManager.DataModels.Professions
             Flags = skill.Flags.Count() > 0 ? skill.Flags.Aggregate((x, y) => x |= y.ToEnum()) : SkillFlag.Unknown;
             Slot = skill.Slot?.ToEnum();
             WeaponType = skill.WeaponType != null ? (WeaponType)skill.WeaponType?.ToEnum() : null;
+            Attunement = skill.Attunement?.ToEnum();
 
             if ((skill.Categories != null && skill.Categories.Count > 0) || skill.Name.Contains('\"'))
             {
@@ -59,6 +60,14 @@ namespace Kenedia.Modules.BuildsManager.DataModels.Professions
             {
                 PaletteId = paletteId;
             }
+
+            foreach (string profName in skill.Professions)
+            {
+                if (Enum.TryParse(profName, out ProfessionType profession))
+                {
+                    Professions.Add(profession);
+                }
+            }
         }
 
         [DataMember]
@@ -74,7 +83,16 @@ namespace Kenedia.Modules.BuildsManager.DataModels.Professions
         public int Id { get; set; }
 
         [DataMember]
+        public int? Parent { get; set; }
+
+        [DataMember]
+        public Attunement? Attunement { get; set; }
+
+        [DataMember]
         public int Specialization { get; set; }
+
+        [DataMember]
+        public List<ProfessionType> Professions { get; set; } = new();
 
         [DataMember]
         public int PaletteId { get; set; }
@@ -133,6 +151,12 @@ namespace Kenedia.Modules.BuildsManager.DataModels.Professions
 
         internal static Skill FromUShort(ushort id, ProfessionType profession)
         {
+            foreach(var race in BuildsManager.Data.Races)
+            {
+                var skill = race.Value.Skills.Where(e => e.Value.PaletteId == id).FirstOrDefault();
+                if (skill.Value != null) return skill.Value;
+            }
+
             return BuildsManager.Data.Professions?[profession]?.SkillsByPalette.TryGetValue((int)id, out int skillid) == true
                 ? (BuildsManager.Data.Professions?[profession]?.Skills[skillid])
                 : null;

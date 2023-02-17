@@ -11,6 +11,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using File = System.IO.File;
+using Race = Kenedia.Modules.BuildsManager.DataModels.Race;
 using Profession = Kenedia.Modules.BuildsManager.DataModels.Professions.Profession;
 using Skill = Kenedia.Modules.BuildsManager.DataModels.Professions.Skill;
 using Trait = Kenedia.Modules.BuildsManager.DataModels.Professions.Trait;
@@ -20,6 +21,8 @@ using Kenedia.Modules.BuildsManager.DataModels.Stats;
 using Kenedia.Modules.BuildsManager.DataModels.ItemUpgrades;
 using Pet = Kenedia.Modules.BuildsManager.DataModels.Professions.Pet;
 using System.Threading;
+using Kenedia.Modules.Core.DataModels;
+using Kenedia.Modules.BuildsManager.DataModels.Professions;
 
 namespace Kenedia.Modules.BuildsManager.Services
 {
@@ -69,6 +72,7 @@ namespace Kenedia.Modules.BuildsManager.Services
             var weapons = _data.Weapons;
 
             var professions = _data.Professions;
+            var races = _data.Races;
             var stats = _data.Stats;
             var sigils = _data.Sigils;
             var runes = _data.Runes;
@@ -77,7 +81,7 @@ namespace Kenedia.Modules.BuildsManager.Services
             Locale locale = GameService.Overlay.UserLocale.Value;
             //await GetLegendaryItems(_cancellationTokenSource.Token, armors, upgrades, trinkets, weapons);
             //await GetUpgrades(_cancellationTokenSource.Token, sigils, runes);
-            await GetProfessions(_cancellationTokenSource.Token, professions);
+            await GetProfessions(_cancellationTokenSource.Token, professions, races);
             //await GetStats(_cancellationTokenSource.Token, stats);
             //await GetPets(_cancellationTokenSource.Token, pets);
         }
@@ -298,7 +302,7 @@ namespace Kenedia.Modules.BuildsManager.Services
             }
         }
 
-        public async Task GetProfessions(CancellationToken cancellation, Dictionary<ProfessionType, Profession> professions)
+        public async Task GetProfessions(CancellationToken cancellation, Dictionary<ProfessionType, Profession> professions, Dictionary<Races, Race> races)
         {
             try
             {
@@ -307,6 +311,7 @@ namespace Kenedia.Modules.BuildsManager.Services
                 var apiSpecializations = await _gw2ApiManager.Gw2ApiClient.V2.Specializations.AllAsync(cancellation);
                 var apiProfessions = await _gw2ApiManager.Gw2ApiClient.V2.Professions.AllAsync(cancellation);
                 var apiLegends = await _gw2ApiManager.Gw2ApiClient.V2.Legends.AllAsync(cancellation);
+                var apiRaces = await _gw2ApiManager.Gw2ApiClient.V2.Races.AllAsync(cancellation);
 
                 if (cancellation.IsCancellationRequested) return;
 
@@ -323,6 +328,25 @@ namespace Kenedia.Modules.BuildsManager.Services
                 foreach (var skill in apiSkills)
                 {
                     skills.Add(skill.Id, new(skill, paletteBySkills));
+                }
+
+                foreach (var apiRace in apiRaces)
+                {
+                    if (Enum.TryParse(apiRace.Id, out Races raceType))
+                    {
+                       bool exists = races.TryGetValue(raceType, out Race race);
+
+                        race ??= new Race(apiRace, skills);
+
+                        if (!exists)
+                        {
+                            races.Add(race.Id, race);
+                        }
+                        else
+                        {
+                            race.UpdateLanguage(apiRace, skills);
+                        }
+                    }
                 }
 
                 var traits = new Dictionary<int, Trait>();
@@ -350,7 +374,7 @@ namespace Kenedia.Modules.BuildsManager.Services
                     {
                         bool exists = professions.TryGetValue(professionType, out var profession);
                         profession ??= new();
-                        profession.Apply(e, specializations, traits, skills, legends);
+                        profession.Apply(e, specializations, traits, skills, legends, races);
                         if (!exists) professions.Add(professionType, profession);
                     }
                 }
@@ -360,6 +384,9 @@ namespace Kenedia.Modules.BuildsManager.Services
 
                 json = JsonConvert.SerializeObject(paletteBySkills, Formatting.Indented);
                 File.WriteAllText($@"{Paths.ModulePath}\data\PaletteBySkills.json", json);
+
+                json = JsonConvert.SerializeObject(races, Formatting.Indented);
+                File.WriteAllText($@"{Paths.ModulePath}\data\Races.json", json);
             }
             catch (Exception ex)
             {

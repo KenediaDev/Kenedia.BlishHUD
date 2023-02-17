@@ -14,6 +14,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using static Blish_HUD.ContentService;
+using System.Diagnostics;
 
 namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
 {
@@ -66,7 +67,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
             Input.Mouse.LeftMouseButtonPressed += Mouse_LeftMouseButtonPressed;
         }
 
-        private bool Terrestrial => Template != null && Template.BuildTemplate != null && Template.BuildTemplate.Terrestrial;
+        private bool Terrestrial => Template != null && Template.BuildTemplate != null && Template.Terrestrial;
 
         private bool AnyHovered
         {
@@ -139,11 +140,13 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
                 _inactiveTerrestrialSkills[(BuildSkillSlot)i].Skill = null;
             }
 
+            bool ele = Template.Profession == Gw2Sharp.Models.ProfessionType.Elementalist;
+            //TODO Ignore Ambush / Stealth skills
             if (Template.GearTemplate.Gear[GearSlot.MainHand] != null)
             {
                 var weapon = Template.GearTemplate.Gear[GearSlot.MainHand].WeaponType;
 
-                foreach (var s in BuildsManager.Data.Professions[Template.BuildTemplate.Profession].Skills.Where(e => e.Value.WeaponType == weapon && e.Value.Slot != null && (int)e.Value.Slot <= 3 && e.Value.PrevChain == null && e.Value.Specialization == 0))
+                foreach (var s in BuildsManager.Data.Professions[Template.BuildTemplate.Profession].Skills.Where(e => e.Value.WeaponType == weapon && e.Value.Slot != null && (int)e.Value.Slot <= 3 && e.Value.PrevChain == null && (!ele || (e.Value.Attunement != null && e.Value.Attunement == Template.MainAttunement))))
                 {
                     _terrestrialWeaponSkills[s.Value.Slot.GetSkillSlot()].Skill = s.Value;
                 }
@@ -152,7 +155,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
             if (Template.GearTemplate.Gear[GearSlot.OffHand] != null)
             {
                 var weapon = Template.GearTemplate.Gear[GearSlot.OffHand].WeaponType;
-                foreach (var s in BuildsManager.Data.Professions[Template.BuildTemplate.Profession].Skills.Where(e => e.Value.WeaponType == weapon && (int)e.Value.Slot > 3 && (int)e.Value.Slot <= 5 && e.Value.PrevChain == null && e.Value.Specialization == 0))
+                foreach (var s in BuildsManager.Data.Professions[Template.BuildTemplate.Profession].Skills.Where(e => e.Value.WeaponType == weapon && (int)e.Value.Slot > 3 && (int)e.Value.Slot <= 5 && e.Value.PrevChain == null ))
                 {
                     _terrestrialWeaponSkills[s.Value.Slot.GetSkillSlot()].Skill = s.Value;
                 }
@@ -161,7 +164,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
             if (Template.GearTemplate.Gear[GearSlot.AltMainHand] != null)
             {
                 var weapon = Template.GearTemplate.Gear[GearSlot.AltMainHand].WeaponType;
-                foreach (var s in BuildsManager.Data.Professions[Template.BuildTemplate.Profession].Skills.Where(e => e.Value.WeaponType == weapon && (int)e.Value.Slot <= 3 && e.Value.Specialization == 0))
+                foreach (var s in BuildsManager.Data.Professions[Template.BuildTemplate.Profession].Skills.Where(e => e.Value.WeaponType == weapon && (int)e.Value.Slot <= 3 && e.Value.PrevChain == null && (!ele || (e.Value.Attunement != null && e.Value.Attunement == Template.MainAttunement))))
                 {
                     _terrestrialInactiveWeaponSkills[s.Value.Slot.GetSkillSlot()].Skill = s.Value;
                 }
@@ -170,7 +173,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
             if (Template.GearTemplate.Gear[GearSlot.AltOffHand] != null)
             {
                 var weapon = Template.GearTemplate.Gear[GearSlot.AltOffHand].WeaponType;
-                foreach (var s in BuildsManager.Data.Professions[Template.BuildTemplate.Profession].Skills.Where(e => e.Value.WeaponType == weapon && (int)e.Value.Slot > 3 && e.Value.Specialization == 0))
+                foreach (var s in BuildsManager.Data.Professions[Template.BuildTemplate.Profession].Skills.Where(e => e.Value.WeaponType == weapon && (int)e.Value.Slot > 3 && e.Value.PrevChain == null ))
                 {
                     _terrestrialInactiveWeaponSkills[s.Value.Slot.GetSkillSlot()].Skill = s.Value;
                 }
@@ -179,7 +182,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
             if (Template.GearTemplate.Gear[GearSlot.Aquatic] != null)
             {
                 var weapon = Template.GearTemplate.Gear[GearSlot.Aquatic].WeaponType;
-                foreach (var s in BuildsManager.Data.Professions[Template.BuildTemplate.Profession].Skills.Where(e => e.Value.WeaponType == weapon && e.Value.Specialization == 0))
+                foreach (var s in BuildsManager.Data.Professions[Template.BuildTemplate.Profession].Skills.Where(e => e.Value.WeaponType == weapon && e.Value.PrevChain == null && (!ele || (e.Value.Attunement != null && e.Value.Attunement == Template.MainAttunement))))
                 {
                     _aquaticWeaponSkills[s.Value.Slot.GetSkillSlot()].Skill = s.Value;
                 }
@@ -188,7 +191,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
             if (Template.GearTemplate.Gear[GearSlot.AltAquatic] != null)
             {
                 var weapon = Template.GearTemplate.Gear[GearSlot.AltAquatic].WeaponType;
-                foreach (var s in BuildsManager.Data.Professions[Template.BuildTemplate.Profession].Skills.Where(e => e.Value.WeaponType == weapon && e.Value.Specialization == 0))
+                foreach (var s in BuildsManager.Data.Professions[Template.BuildTemplate.Profession].Skills.Where(e => e.Value.WeaponType == weapon && e.Value.PrevChain == null && (!ele || (e.Value.Attunement != null && e.Value.Attunement == Template.MainAttunement))))
                 {
                     _aquaticInactiveWeaponSkills[s.Value.Slot.GetSkillSlot()].Skill = s.Value;
                 }
@@ -288,7 +291,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
                 }
             }
 
-            var slot = Template.BuildTemplate.LegendSlot;
+            var slot = Template.LegendSlot;
             var skills = _terrestrialSkills;
 
             switch (slot)
@@ -309,7 +312,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
 
             foreach (var s in skills)
             {
-                s.Value.Draw(this, spriteBatch, Template.BuildTemplate.Terrestrial, RelativeMousePosition);
+                s.Value.Draw(this, spriteBatch, Template.Terrestrial, RelativeMousePosition);
                 if (!SeletorOpen && s.Value.Hovered && s.Value.Skill != null)
                 {
                     BasicTooltipText = s.Value.Skill.Name;
@@ -344,7 +347,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
             {
                 SkillIcon skill = null;
 
-                switch (Template.BuildTemplate.LegendSlot)
+                switch (Template.LegendSlot)
                 {
                     case LegendSlot.TerrestrialActive:
                         skill = _terrestrialSkills[(BuildSkillSlot)i];
@@ -378,18 +381,18 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
 
             if (Template != null && Template.BuildTemplate != null)
             {
-                var slot = Template.BuildTemplate.LegendSlot;
+                var slot = Template.LegendSlot;
                 if (_terrestrialTexture.Hovered)
                 {
-                    Template.BuildTemplate.Terrestrial = true;
-                    Template.BuildTemplate.LegendSlot = slot is LegendSlot.AquaticActive ? LegendSlot.TerrestrialActive : LegendSlot.TerrestrialInactive;
+                    Template.Terrestrial = true;
+                    Template.LegendSlot = slot is LegendSlot.AquaticActive ? LegendSlot.TerrestrialActive : LegendSlot.TerrestrialInactive;
                     return;
                 }
 
                 if (_aquaticTexture.Hovered)
                 {
-                    Template.BuildTemplate.Terrestrial = false;
-                    Template.BuildTemplate.LegendSlot = slot is LegendSlot.TerrestrialActive ? LegendSlot.AquaticActive : LegendSlot.AquaticInactive;
+                    Template.Terrestrial = false;
+                    Template.LegendSlot = slot is LegendSlot.TerrestrialActive ? LegendSlot.AquaticActive : LegendSlot.AquaticInactive;
                     return;
                 }
             }
@@ -424,7 +427,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
                             var targetSkills = Template.BuildTemplate.TerrestrialSkills;
                             var skillIcons = _terrestrialSkills;
 
-                            switch (Template.BuildTemplate.LegendSlot)
+                            switch (Template.LegendSlot)
                             {
                                 case LegendSlot.AquaticActive:
                                     targetSkills = Template.BuildTemplate.AquaticSkills;
@@ -470,7 +473,11 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
                 if (Template.Profession != Gw2Sharp.Models.ProfessionType.Revenant)
                 {
                     var skills = BuildsManager.Data.Professions[Template.BuildTemplate.Profession].Skills;
-                    var filteredSkills = skills.Where(e => e.Value.Slot != null && e.Value.Slot == skillType && e.Value.Categories != null && (e.Value.Specialization == 0 || Template.BuildTemplate.HasSpecialization(e.Value.Specialization))).OrderBy(e => e.Value.Categories != null ? e.Value.Categories[0] : SkillCategory.None);
+                    
+                    //var filteredSkills = skills.Where(e => e.Value.PaletteId > 0 && e.Value.Slot != null && e.Value.Slot == skillType && e.Value.Categories != null && (e.Value.Specialization == 0 || Template.BuildTemplate.HasSpecialization(e.Value.Specialization))).OrderBy(e => e.Value.Categories != null ? e.Value.Categories[0] : SkillCategory.None).ToList();
+                    var filteredSkills = skills.Where(e => e.Value.PaletteId > 0 && e.Value.Slot != null && e.Value.Slot == skillType && (e.Value.Specialization == 0 || Template.BuildTemplate.HasSpecialization(e.Value.Specialization))).OrderBy(e => e.Value.Categories != null ? e.Value.Categories[0] : SkillCategory.None).ToList();
+                    var racialSkills = Template.Race != Core.DataModels.Races.None ? BuildsManager.Data.Races[Template.Race]?.Skills.Where(e => e.Value.PaletteId > 0 && e.Value.Slot != null && e.Value.Slot == skillType).ToList() : new();
+                    if(racialSkills != null) filteredSkills.AddRange(racialSkills);
 
                     int columns = Math.Min(filteredSkills.Count(), 4);
                     int rows = (int)Math.Ceiling(filteredSkills.Count() / (double)columns);
@@ -492,18 +499,18 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
                 }
                 else
                 {
-                    var skills = Template.BuildTemplate.Legends[Template.BuildTemplate.LegendSlot];
+                    var skills = Template.BuildTemplate.Legends[Template.LegendSlot];
                     List<Skill> filteredSkills = new();
                     switch (skillType)
                     {
                         case SkillSlot.Heal:
-                            filteredSkills.Add(Template.BuildTemplate.Legends[Template.BuildTemplate.LegendSlot].Heal);
+                            filteredSkills.Add(Template.BuildTemplate.Legends[Template.LegendSlot].Heal);
                             break;
                         case SkillSlot.Elite:
-                            filteredSkills.Add(Template.BuildTemplate.Legends[Template.BuildTemplate.LegendSlot].Elite);
+                            filteredSkills.Add(Template.BuildTemplate.Legends[Template.LegendSlot].Elite);
                             break;
                         case SkillSlot.Utility:
-                            filteredSkills.AddRange(Template.BuildTemplate.Legends[Template.BuildTemplate.LegendSlot].Utilities.Select(e => e.Value));
+                            filteredSkills.AddRange(Template.BuildTemplate.Legends[Template.LegendSlot].Utilities.Select(e => e.Value));
                             break;
                     }
 

@@ -30,12 +30,14 @@ namespace Kenedia.Modules.Core.Controls
 
         public override void RecalculateLayout()
         {
-            base.RecalculateLayout();   
+            base.RecalculateLayout();
             int xOffset = (int)(Width * 0.15);
             int yOffset = (int)(Height * 0.15);
 
-            _textureBounds = new(xOffset / 2, yOffset /2, Width - (xOffset * 1), Height - (yOffset * 1));
+            Point size = TextureSize ?? Size;
+            Point padding = new((Width - size.X) / 2,( Height - size.Y) / 2);
 
+            _textureBounds = new((xOffset / 2) + padding.X, (yOffset / 2) + padding.Y, size.X - (xOffset * 1), size.Y - (yOffset * 1));
             _iconFrameBounds = new(0, yOffset, Width - xOffset, Height - yOffset);
             _rightIconFrameBounds = new(xOffset, 0, Width - xOffset, Height - yOffset);
         }
@@ -48,10 +50,12 @@ namespace Kenedia.Modules.Core.Controls
 
         public Rectangle FrameTextureRegion { get; set; }
 
+        public Point? TextureSize { get; set; } = null;
+
         protected override void Paint(SpriteBatch spriteBatch, Rectangle bounds)
         {
             spriteBatch.DrawOnCtrl(this, IconFrame, _iconFrameBounds, FrameTextureRegion == Rectangle.Empty ? IconFrame.Bounds : FrameTextureRegion, Color.White);
-            spriteBatch.DrawOnCtrl(this, IconFrame, _rightIconFrameBounds, FrameTextureRegion  == Rectangle.Empty ? IconFrame.Bounds : FrameTextureRegion, Color.White, 0F, Vector2.Zero, SpriteEffects.FlipHorizontally | SpriteEffects.FlipVertically);
+            spriteBatch.DrawOnCtrl(this, IconFrame, _rightIconFrameBounds, FrameTextureRegion == Rectangle.Empty ? IconFrame.Bounds : FrameTextureRegion, Color.White, 0F, Vector2.Zero, SpriteEffects.FlipHorizontally | SpriteEffects.FlipVertically);
             if (Texture != null) spriteBatch.DrawOnCtrl(this, Texture, _textureBounds, TextureRegion == Rectangle.Empty ? Texture.Bounds : TextureRegion, Color.White);
         }
     }
