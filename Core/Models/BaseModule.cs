@@ -12,6 +12,7 @@ using Blish_HUD.Controls.Extern;
 using Microsoft.Xna.Framework.Input;
 using Blish_HUD.Controls;
 using Blish_HUD.Gw2Mumble;
+using Newtonsoft.Json;
 
 namespace Kenedia.Modules.Core.Models
 {
@@ -82,6 +83,12 @@ namespace Kenedia.Modules.Core.Models
             ModKeyMapping[(int)ModifierKeys.Ctrl] = VirtualKeyShort.CONTROL;
             ModKeyMapping[(int)ModifierKeys.Alt] = VirtualKeyShort.MENU;
             ModKeyMapping[(int)ModifierKeys.Shift] = VirtualKeyShort.LSHIFT;
+
+            JsonConvert.DefaultSettings = () => new JsonSerializerSettings
+            {
+                Formatting = Formatting.Indented,
+                NullValueHandling = NullValueHandling.Ignore,
+            };
         }
 
         protected override async Task LoadAsync()

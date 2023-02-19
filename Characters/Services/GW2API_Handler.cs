@@ -23,7 +23,6 @@ namespace Kenedia.Modules.Characters.Services
         private readonly Logger _logger = Logger.GetLogger(typeof(GW2API_Handler));
         private readonly Gw2ApiManager _gw2ApiManager;
         private readonly Action<IApiV2ObjectList<Character>> _callBack;
-        private readonly Action<string, bool> _updateFolderPaths;
         private readonly Data _data;
         private readonly Func<LoadingSpinner> _getSpinner;
         private readonly PathCollection _paths;
@@ -31,14 +30,13 @@ namespace Kenedia.Modules.Characters.Services
 
         private CancellationTokenSource _cancellationTokenSource;
 
-        public GW2API_Handler(Gw2ApiManager gw2ApiManager, Action<IApiV2ObjectList<Character>> callBack, Func<LoadingSpinner> getSpinner, PathCollection paths, Action<string, bool> updateFolderPaths, Data data)
+        public GW2API_Handler(Gw2ApiManager gw2ApiManager, Action<IApiV2ObjectList<Character>> callBack, Func<LoadingSpinner> getSpinner, PathCollection paths, Data data)
         {
             _gw2ApiManager = gw2ApiManager;
             _callBack = callBack;
             _getSpinner = getSpinner;
             _paths = paths;
             _accountFilePath = paths.ModulePath + @"\accounts.json";
-            _updateFolderPaths = updateFolderPaths;
             _data = data;
         }
 
@@ -49,12 +47,7 @@ namespace Kenedia.Modules.Characters.Services
             get => _account;
             set
             {
-                if (value != null && (_account == null || _account.Name != value.Name))
-                {
-                    _paths.AccountName = value.Name;
-                    _updateFolderPaths?.Invoke(value.Name, true);
-                }
-
+                _paths.AccountName = value.Name;
                 _account = value;
             }
         }

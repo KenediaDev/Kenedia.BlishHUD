@@ -1,4 +1,5 @@
 ﻿using Blish_HUD.Modules.Managers;
+using Kenedia.Modules.Core.Utility;
 using System.IO;
 
 namespace Kenedia.Modules.Core.Models
@@ -13,11 +14,7 @@ namespace Kenedia.Modules.Core.Models
         public string? AccountName
         {
             get => _accountName;
-            set
-            {
-                _accountName = value;
-                if (!string.IsNullOrEmpty(value)) AddAccountFolder();
-            }
+            set => Common.SetProperty(ref _accountName, value, AddAccountFolder, !string.IsNullOrEmpty(value));
         }
 
         public PathCollection(DirectoriesManager directoriesManager, string moduleName)
@@ -46,7 +43,7 @@ namespace Kenedia.Modules.Core.Models
 
         public string SharedSettingsPath => $@"{BasePath}\shared_settings.json";
 
-        public string? AccountPath => _accountName != null ? $@"{ModulePath}\{AccountName}\" : null;
+        public string? AccountPath => _accountName != null ? $@"{ModulePath}{AccountName}\" : null;
 
         private void AddAccountFolder()
         {

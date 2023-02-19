@@ -1,4 +1,5 @@
 ﻿using Blish_HUD;
+using Blish_HUD.Content;
 using Gw2Sharp.WebApi;
 using System;
 using System.ComponentModel;
@@ -107,6 +108,21 @@ namespace Kenedia.Modules.Core.Utility
             int pos = s.ToString().LastIndexOf("/") + 1;
 
             return int.TryParse(s.Substring(pos, s.Length - pos - 4), out int id) ? id : 0;
+        }
+
+        public static AsyncTexture2D GetAssetFromRenderUrl(this RenderUrl? url)
+        {
+            if (url == null) return null;
+
+            string s = url.ToString();
+            int pos = url.ToString().LastIndexOf("/") + 1;
+
+            if(int.TryParse(s.Substring(pos, s.Length - pos - 4), out int id))
+            {
+                return AsyncTexture2D.FromAssetId(id);
+            }
+
+            return null;
         }
     }
 }

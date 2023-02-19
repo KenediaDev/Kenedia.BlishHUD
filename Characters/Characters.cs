@@ -52,6 +52,7 @@ namespace Kenedia.Modules.Characters
 
         private CornerIcon _cornerIcon;
         private bool _saveCharacters;
+        private bool _loadedCharacters;
         private bool _mapsUpdated;
 
         [ImportingConstructor]
@@ -61,8 +62,6 @@ namespace Kenedia.Modules.Characters
             ModuleInstance = this;
             HasGUI = true;
         }
-
-        public string ActiveAccountName { get; set; } = string.Empty;
 
         public SearchFilterCollection SearchFilters { get; } = new();
 
@@ -121,9 +120,9 @@ namespace Kenedia.Modules.Characters
 
         public string GlobalAccountsPath { get; set; }
 
-        public string CharactersPath => $@"{Paths.AccountPath}\characters.json";
+        public string CharactersPath => $@"{Paths.AccountPath}characters.json";
 
-        public string AccountImagesPath => $@"{Paths.AccountPath}\images\";
+        public string AccountImagesPath => $@"{Paths.AccountPath}images";
 
         public GW2API_Handler GW2APIHandler { get; private set; }
 
@@ -185,7 +184,7 @@ namespace Kenedia.Modules.Characters
 
             Settings.Version.Value = ModuleVersion;
 
-            GW2APIHandler = new GW2API_Handler(Gw2ApiManager, AddOrUpdateCharacters, () => APISpinner, Paths, UpdateFolderPaths, Data);
+            GW2APIHandler = new GW2API_Handler(Gw2ApiManager, AddOrUpdateCharacters, () => APISpinner, Paths, Data);
         }
 
         protected override void DefineSettings(SettingCollection settings)
@@ -223,7 +222,7 @@ namespace Kenedia.Modules.Characters
 
             if (Settings.LoadCachedAccounts.Value) _ = LoadCharacters();
 
-            Services.InputDetectionService.ClickedOrKey += InputDetectionService_ClickedOrKey;
+            Services.InputDetectionService.ClickedOrKey += InputDetectionService_ClickedOrKey; 
         }
 
         protected override void Update(GameTime gameTime)
@@ -545,7 +544,11 @@ namespace Kenedia.Modules.Characters
 
         private void AddOrUpdateCharacters(IApiV2ObjectList<Character> characters)
         {
-            ActiveAccountName = GW2APIHandler.Account.Name;
+            if (!_loadedCharacters)
+            {
+                Logger.Info($"This is our first API data fetched for this character/session. Trying to load local data first.");
+                _ = LoadCharacters();
+            }
 
             Logger.Info($"Update characters based on fresh data from the api.");
 
@@ -603,22 +606,6 @@ namespace Kenedia.Modules.Characters
             MainWindow?.PerformFiltering();
         }
 
-        private void UpdateFolderPaths(string accountName, bool api_handled = true)
-        {
-            Paths.AccountName = accountName;
-            Settings.LoadAccountSettings(accountName);
-
-            if (!Directory.Exists(AccountImagesPath))
-            {
-                _ = Directory.CreateDirectory(AccountImagesPath);
-            }
-
-            if (api_handled && CharacterModels.Count == 0)
-            {
-                _ = LoadCharacters();
-            }
-        }
-
         private bool LoadCharacters()
         {
             PlayerCharacter player = GameService.Gw2Mumble.PlayerCharacter;
@@ -646,11 +633,21 @@ namespace Kenedia.Modules.Characters
             }
 
             AccountSummary account = getAccount();
+
+            if (Paths.AccountName != null)
+            {
+                _loadedCharacters = true;
+                Settings.LoadAccountSettings(Paths.AccountName);
+
+                if (!Directory.Exists(AccountImagesPath))
+                {
+                    _ = Directory.CreateDirectory(AccountImagesPath);
+                }
+            }
+
             if (account != null)
             {
-                ActiveAccountName = account.AccountName;
                 Logger.Debug($"Found '{player.Name}' in a stored character list for '{account.AccountName}'. Loading characters of '{account.AccountName}'");
-                UpdateFolderPaths(account.AccountName, false);
                 return LoadCharacterFile();
             }
 
