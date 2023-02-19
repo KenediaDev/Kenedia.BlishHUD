@@ -37,6 +37,8 @@ namespace Kenedia.Modules.BuildsManager
 
         public static Data Data { get; set; }
 
+        public SkillConnectionEditor SkillConnectionEditor { get; set; }
+
         protected override void DefineSettings(SettingCollection settings)
         {
             base.DefineSettings(settings);
@@ -87,10 +89,12 @@ namespace Kenedia.Modules.BuildsManager
             await base.LoadAsync();
 
             await Data.Load();
-            GW2API = new(Gw2ApiManager, Data)
+            GW2API = new(Gw2ApiManager, Data, Paths)
             {
                 Paths = Paths,
             };
+
+            Data.ApiData.Skills = await GW2API.LoadSkills();
 
             if (GameService.Overlay.UserLocale.Value is not Locale.Korean and not Locale.Chinese)
             {
@@ -123,6 +127,7 @@ namespace Kenedia.Modules.BuildsManager
             base.ReloadKey_Activated(sender, e);
             //await GW2API.UpdateData();
 
+            //await GW2API.GetSkillConnections();
             SetDummyTemplate();
         }
 
@@ -136,27 +141,49 @@ namespace Kenedia.Modules.BuildsManager
 
             Logger.Info($"Building UI for {Name}");
 
-            MainWindow = new MainWindow(
+            if (false)
+            {
+                MainWindow = new MainWindow(
+                    Services.TexturesService.GetTexture(@"textures\mainwindow_background.png", "mainwindow_background"),
+                    new Rectangle(30, 30, Width, Height + 30),
+                    new Rectangle(30, 20, Width - 3, Height + 25),
+                    Data,
+                    Services.TexturesService)
+                {
+                    Parent = GameService.Graphics.SpriteScreen,
+                    Title = "❤",
+                    Subtitle = "❤",
+                    SavesPosition = true,
+                    Id = $"{Name} MainWindow",
+                    MainWindowEmblem = AsyncTexture2D.FromAssetId(156020),
+                    Name = Name,
+                    Version = ModuleVersion,
+                    Template = SelectedTemplate,
+                    Width = 1120,
+                    Height = 900,
+                };
+            }
+
+            SkillConnectionEditor?.Dispose();
+            SkillConnectionEditor = new(
                 Services.TexturesService.GetTexture(@"textures\mainwindow_background.png", "mainwindow_background"),
                 new Rectangle(30, 30, Width, Height + 30),
-                new Rectangle(30, 20, Width - 3, Height + 25),
-                Data,
-                Services.TexturesService)
+                new Rectangle(30, 20, Width - 3, Height + 25))
             {
                 Parent = GameService.Graphics.SpriteScreen,
                 Title = "❤",
                 Subtitle = "❤",
                 SavesPosition = true,
-                Id = $"{Name} MainWindow",
+                Id = $"{Name} SkillConnectionEditor",
                 MainWindowEmblem = AsyncTexture2D.FromAssetId(156020),
-                Name = Name,
+                Name = "Skill Connection Editor",
                 Version = ModuleVersion,
-                Template = SelectedTemplate,
                 Width = 1120,
                 Height = 900,
             };
-
-            MainWindow.Show();
+            SkillConnectionEditor.Connections = Data.SkillConnections;
+            SkillConnectionEditor.Show();
+            //MainWindow.Show();
         }
 
         protected override void UnloadGUI()
@@ -256,7 +283,7 @@ namespace Kenedia.Modules.BuildsManager
                 Race = Core.DataModels.Races.Human,
             };
 
-            MainWindow.Template = SelectedTemplate;
+            if(MainWindow != null) MainWindow.Template = SelectedTemplate;
         }
     }
 }

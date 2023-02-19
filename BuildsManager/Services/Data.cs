@@ -14,20 +14,35 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using ApiSkill = Gw2Sharp.WebApi.V2.Models.Skill;
+using ApiTraits  = Gw2Sharp.WebApi.V2.Models.Trait;
+using ApiPet = Gw2Sharp.WebApi.V2.Models.Pet;
+using System.Diagnostics;
+using System.Threading;
 
 namespace Kenedia.Modules.BuildsManager.Services
 {
+    public class ApiData
+    {
+        public List<ApiSkill> Skills { get; set; }
+    }
+
     public class Data
     {
         private readonly Logger _logger = Logger.GetLogger(typeof(Data));
         private readonly ContentsManager _contentsManager;
         private readonly PathCollection _paths;
+        private CancellationTokenSource _cancellationTokenSource;
 
         public Data(ContentsManager contentsManager, PathCollection paths)
         {
             _contentsManager = contentsManager;
             _paths = paths;
         }
+
+        public ApiData ApiData { get; set; } = new();
+
+        public Dictionary<int, SkillConnection> SkillConnections { get; set; } = new();
 
         public List<int> RuneIds { get; set; } = new();
 
@@ -57,7 +72,7 @@ namespace Kenedia.Modules.BuildsManager.Services
 
         public List<KeyValuePair<int, int>> SkillsByPalette { get; private set; } = new();
 
-        public bool IsLoaded => Armors.Count > 0 && Professions.Count > 0 && Stats.Count > 0 && Sigils.Count > 0 && Runes.Count > 0 && Pets.Count > 0 && PaletteBySkills.Count > 0 && Races.Count > 0;
+        public bool IsLoaded => Armors.Count > 0 && Professions.Count > 0 && Stats.Count > 0 && Sigils.Count > 0 && Runes.Count > 0 && Pets.Count > 0 && PaletteBySkills.Count > 0 && Races.Count > 0 && SkillConnections.Count > 0;
 
         public async Task Load()
         {
@@ -73,20 +88,20 @@ namespace Kenedia.Modules.BuildsManager.Services
 
                 foreach (var prop in GetType().GetProperties())
                 {
-                    if (prop.Name is not nameof(RuneIds) and not nameof(SigilIds) and not nameof(SkillsByPalette) and not nameof(IsLoaded))
+                    if (prop.Name is not nameof(RuneIds) and not nameof(SigilIds) and not nameof(SkillsByPalette) and not nameof(ApiData) and not nameof(IsLoaded))
                     {
-                        string path = $@"{_paths.ModulePath}\data\{prop.Name}.json";
+                        string path = $@"{_paths.ModuleDataPath}{prop.Name}.json";
 
                         if (File.Exists(path))
                         {
-                            _logger.Debug($"Loading data for property {prop.Name} from '{$@"{_paths.ModulePath}\data\{prop.Name}.json"}'");
-                            string json = await new StreamReader($@"{_paths.ModulePath}\data\{prop.Name}.json").ReadToEndAsync();
+                            _logger.Debug($"Loading data for property {prop.Name} from '{$@"{_paths.ModuleDataPath}{prop.Name}.json"}'");
+                            string json = await new StreamReader($@"{_paths.ModuleDataPath}{prop.Name}.json").ReadToEndAsync();
                             object data = JsonConvert.DeserializeObject(json, prop.PropertyType);
                             prop.SetValue(this, data);
                         }
                         else
                         {
-                            _logger.Debug($"File for property {prop.Name} does not exist at '{$@"{_paths.ModulePath}\data\{prop.Name}.json"}'!");
+                            _logger.Debug($"File for property {prop.Name} does not exist at '{$@"{_paths.ModuleDataPath}{prop.Name}.json"}'!");
                         }
                     }
                 }
@@ -100,6 +115,18 @@ namespace Kenedia.Modules.BuildsManager.Services
                 _logger.Debug("Failed to load data!");
                 _logger.Debug($"{ex}");
             }
+        }
+
+        public async Task Save()
+        {
+            _cancellationTokenSource?.Cancel();
+            _cancellationTokenSource = new CancellationTokenSource();
+
+            await Task.Delay(1000, _cancellationTokenSource.Token);
+            if (_cancellationTokenSource.IsCancellationRequested) return;
+
+            string json = JsonConvert.SerializeObject(SkillConnections, Formatting.Indented);
+            File.WriteAllText($@"{_paths.ModuleDataPath}\SkillConnections.json", json);
         }
     }
 }

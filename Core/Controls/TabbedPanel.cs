@@ -124,7 +124,7 @@ namespace Kenedia.Modules.Core.Controls
 
         private void TabButton_Click(PanelTab t)
         {
-            SwitchTab(t);
+            _ = SwitchTab(t);
         }
 
         private void OnTabDisposed(object sender, EventArgs e)

@@ -123,10 +123,10 @@ namespace Kenedia.Modules.Dev
 
         private async void GetSkillConnections()
         {
-            //var apiSkills = await Gw2ApiManager.Gw2ApiClient.V2.Skills.AllAsync();
+            var apiSkills = await Gw2ApiManager.Gw2ApiClient.V2.Skills.AllAsync();
             var apiTraits = await Gw2ApiManager.Gw2ApiClient.V2.Traits.AllAsync();
             var traits = apiTraits.ToList();
-            //Skills = apiSkills.ToList();
+            Skills = apiSkills.ToList();
 
             List<int> getChain(Skill targetSkill, List<int> chain = null)
             {
@@ -140,7 +140,7 @@ namespace Kenedia.Modules.Dev
                     var s = Skills.Find(e => e != targetSkill && e.Id == targetSkill.NextChain);
                     if (s != null && !(chain?.Contains(s.Id) == true))
                     {
-                        getChain(s, chain);
+                        _ = getChain(s, chain);
                     }
                 }
 
@@ -159,7 +159,7 @@ namespace Kenedia.Modules.Dev
                     var s = Skills.Find(e => e != targetSkill && e.Id == targetSkill.NextChain);
                     if (s != null && !(flips?.Contains(s.Id) == true))
                     {
-                        getFlips(s, flips);
+                        _ = getFlips(s, flips);
                     }
                 }
 

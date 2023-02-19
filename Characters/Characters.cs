@@ -122,7 +122,7 @@ namespace Kenedia.Modules.Characters
 
         public string CharactersPath => $@"{Paths.AccountPath}characters.json";
 
-        public string AccountImagesPath => $@"{Paths.AccountPath}images";
+        public string AccountImagesPath => $@"{Paths.AccountPath}images\";
 
         public GW2API_Handler GW2APIHandler { get; private set; }
 

@@ -10,6 +10,7 @@ using Kenedia.Modules.Core.Services;
 using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
@@ -322,6 +323,7 @@ namespace Kenedia.Modules.Characters.Controls
         {
             base.OnShown(e);
             _characterPotraitsBackground.Show();
+
             foreach (var frame in _characterPotraitFrames)
             {
                 frame.Show();

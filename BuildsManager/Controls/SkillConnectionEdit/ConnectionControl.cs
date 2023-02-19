@@ -1,25 +1,27 @@
-﻿using Blish_HUD;
-using Blish_HUD.Content;
-using Blish_HUD.Input;
-using Gw2Sharp.Models;
-using Gw2Sharp.WebApi.V2.Models;
-using Kenedia.Modules.Core.Controls;
-using Kenedia.Modules.Core.DataModels;
-using Kenedia.Modules.Core.Extensions;
-using Kenedia.Modules.Core.Models;
-using Kenedia.Modules.Core.Utility;
-using Kenedia.Modules.Core.Views;
-using Microsoft.Xna.Framework;
+﻿using Blish_HUD.Content;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using static Blish_HUD.ContentService;
-using Color = Microsoft.Xna.Framework.Color;
-using Rectangle = Microsoft.Xna.Framework.Rectangle;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.TextBox;
+using Kenedia.Modules.Core.Controls;
+using Kenedia.Modules.Core.Utility;
+using Kenedia.Modules.Core.DataModels;
+using Skill = Gw2Sharp.WebApi.V2.Models.Skill;
+using SkillWeaponType = Gw2Sharp.WebApi.V2.Models.SkillWeaponType;
+using Attunement = Gw2Sharp.WebApi.V2.Models.Attunement;
+using Blish_HUD.Input;
+using Kenedia.Modules.Core.Models;
+using Blish_HUD;
+using Kenedia.Modules.Core.Extensions;
+using Kenedia.Modules.BuildsManager.DataModels.Professions;
+using System.Collections;
 
-namespace Kenedia.Modules.Dev.Views
+namespace Kenedia.Modules.BuildsManager.Controls.SkillConnectionEdit
 {
     public class SkillListItem : Blish_HUD.Controls.Control
     {
@@ -107,7 +109,7 @@ namespace Kenedia.Modules.Dev.Views
 
         public SkillChild(int skillid) : this()
         {
-            Skill = Dev.Skills.Find(e => e.Id == skillid);
+            Skill = BuildsManager.Data.ApiData.Skills.Find(e => e.Id == skillid);
         }
 
         public Skill Skill { get => _skill; set => Common.SetProperty(ref _skill, value, ApplySkill); }
@@ -140,7 +142,7 @@ namespace Kenedia.Modules.Dev.Views
         private void ApplySkill()
         {
             _skillIcon.Texture = Skill?.Icon.GetAssetFromRenderUrl();
-            _ = Dev.ModuleInstance.Save();
+            _ = BuildsManager.Data.Save();
         }
 
         private void MoveUp()
@@ -196,14 +198,15 @@ namespace Kenedia.Modules.Dev.Views
         }
     }
 
-    public class SkillSelector : Panel
+    public class Selectors<CtrlT, T> : Panel
+        where CtrlT : Blish_HUD.Controls.Control
     {
-        private readonly FilterBox _filter;
-        private readonly FlowPanel _selectionPanel;
-        private Dictionary<int, SkillConnection> _connections = new();
-        private readonly List<SkillListItem> _connectionItems = new();
+        protected readonly FilterBox _filter;
+        protected readonly FlowPanel _selectionPanel;
+        protected Dictionary<int, CtrlT> _connections = new();
+        protected readonly List<CtrlT> _items = new();
 
-        public SkillSelector()
+        public Selector()
         {
             _filter = new()
             {
@@ -231,12 +234,7 @@ namespace Kenedia.Modules.Dev.Views
             Input.Mouse.LeftMouseButtonPressed += Mouse_LeftMouseButtonPressed;
         }
 
-        protected override Blish_HUD.Controls.CaptureType CapturesInput()
-        {
-            return Blish_HUD.Controls.CaptureType.Mouse;
-        }
-
-        private async void Mouse_LeftMouseButtonPressed(object sender, MouseEventArgs e)
+        protected async virtual void Mouse_LeftMouseButtonPressed(object sender, MouseEventArgs e)
         {
             if (Parent == Graphics.SpriteScreen && Visible && !MouseOver)
             {
@@ -244,9 +242,9 @@ namespace Kenedia.Modules.Dev.Views
             }
         }
 
-        public event EventHandler<Skill> SkillClicked;
+        public event EventHandler<CtrlT> ItemClicked;
 
-        public Dictionary<int, SkillConnection> Connections { get => _connections; set => Common.SetProperty(ref _connections, value, CreateUI); }
+        public Dictionary<int, CtrlT> Connections { get => _connections; set => Common.SetProperty(ref _connections, value, CreateUI); }
 
         public override void RecalculateLayout()
         {
@@ -255,38 +253,88 @@ namespace Kenedia.Modules.Dev.Views
             if (_filter != null) _filter.Width = Width;
             if (_selectionPanel != null) _selectionPanel.Width = Width;
 
-            foreach (var item in _connectionItems)
+            foreach (var item in _items)
             {
                 item.Width = _selectionPanel.ContentRegion.Width - 20;
             }
         }
 
-        private void FilterConnections(string obj)
+        protected virtual void FilterConnections(string obj)
         {
-            foreach (var connection in _connectionItems)
-            {
-                connection.Visible = connection.Skill?.Professions.Count == 1 && (connection.Skill?.Professions.Contains(Dev.ModuleInstance.MainWindow.Profession.ToString()) == true) && (connection.Skill?.Name.ToLower().Contains(obj.ToLower()) == true || connection.Skill?.Id.ToString().ToLower().Contains(obj.ToLower()) == true);
-            }
 
-            _selectionPanel?.Invalidate();
         }
 
-        private async Task DelayedHide()
+        protected async Task DelayedHide()
         {
             Hide();
             await Task.Delay(125);
         }
 
-        public void CreateUI()
+        public virtual void CreateUI()
+        {
+            RecalculateLayout();
+        }
+
+        protected async virtual void Clicked(object sender, MouseEventArgs e)
+        {
+            ItemClicked?.Invoke(sender, (CtrlT) sender);
+
+            if (Parent == Graphics.SpriteScreen)
+            {
+                await DelayedHide();
+            }
+        }
+
+        protected override void OnShown(EventArgs e)
+        {
+            base.OnShown(e);
+            if (_items.Count == 0)
+            {
+                CreateUI();
+            }
+
+            RecalculateLayout();
+
+            _filter.Focused = true;
+        }
+    }
+
+    public class SkillSelector : Selector<SkillListItem, SkillConnection>
+    {
+        public SkillSelector()
+        {
+        }
+
+        protected override Blish_HUD.Controls.CaptureType CapturesInput()
+        {
+            return Blish_HUD.Controls.CaptureType.Mouse;
+        }
+
+        public override void RecalculateLayout()
+        {
+            base.RecalculateLayout();
+        }
+
+        protected override void FilterConnections(string obj)
+        {
+            foreach (var connection in _items)
+            {
+                connection.Visible = connection.Skill?.Professions.Count == 1 && (connection.Skill?.Professions.Contains(BuildsManager.ModuleInstance.SkillConnectionEditor.Profession.ToString()) == true) && (connection.Skill?.Name.ToLower().Contains(obj.ToLower()) == true || connection.Skill?.Id.ToString().ToLower().Contains(obj.ToLower()) == true);
+            }
+
+            _selectionPanel?.Invalidate();
+        }
+
+        public override void CreateUI()
         {
             foreach (var connection in Connections.OrderBy(e => e.Value.Specialization).ToList())
             {
                 SkillListItem cn;
-                _connectionItems.Add(cn = new()
+                _items.Add(cn = new()
                 {
                     Parent = _selectionPanel,
                     Height = 32,
-                    Skill = Dev.Skills.Find(e => e.Id == connection.Value.Id),
+                    Skill = BuildsManager.Data.ApiData.Skills.Find(e => e.Id == connection.Value.Id),
                     Connection = connection,
                 });
 
@@ -300,42 +348,259 @@ namespace Kenedia.Modules.Dev.Views
                 return r1 == 0 ? r2 - r1 : r1;
             });
 
-            RecalculateLayout();
-        }
-
-        private async void Clicked(object sender, MouseEventArgs e)
-        {
-            SkillClicked?.Invoke(sender, (sender as SkillListItem).Skill);
-            if (Parent == Graphics.SpriteScreen)
-            {
-                await DelayedHide();
-            }
-        }
-
-        protected override void OnShown(EventArgs e)
-        {
-            base.OnShown(e);
-            if (_connectionItems.Count == 0)
-            {
-                CreateUI();
-            }
-
-            RecalculateLayout();
-
-            _filter.Focused = true;
+            base.CreateUI();
         }
     }
 
-    public class SkillChildsPanel : Panel
+    public class Selector<Type>
+    {
+
+    }
+
+    public class InfoPanel<Type> : Panel
+    {
+        private readonly Selector<Type> _selector;
+
+    }
+
+    public class ItemsInfoPanel<Enumerable, T> : InfoPanel
+    where Enumerable : IEnumerable<T>
+    {
+        public ItemsInfoPanel(string title) : base(title)
+        {
+        }
+    }
+
+    public class ItemInfoPanel<T, CtrlT> : InfoPanel
+    where T : class
+    {
+        private readonly Selector<T, CtrlT> _skillSelector;
+
+        public ItemInfoPanel(string title) : base(title)
+        {
+        }
+    }
+
+    public class SkillInfoChildsPanel<T> : Panel
     {
         private readonly SkillSelector _skillSelector;
         private readonly ImageButton _add;
         private readonly FlowPanel _skillsPanel;
-        private List<int> _skills = new();
+        private T _entries;
         private Dictionary<int, SkillConnection> _connections;
         private readonly string _clearTitle;
 
-        public SkillChildsPanel(string title)
+        public SkillInfoChildsPanel(string title)
+        {
+            HeightSizingMode = Blish_HUD.Controls.SizingMode.AutoSize;
+            CanCollapse = true;
+            Title = title;
+            _clearTitle = title;
+
+            _add = new()
+            {
+                Parent = this,
+                Texture = AsyncTexture2D.FromAssetId(155902),
+                HoveredTexture = AsyncTexture2D.FromAssetId(155904),
+                ClickAction = (m) =>
+                {
+                    _skillSelector.Location = new(_add.AbsoluteBounds.Center.X, _add.AbsoluteBounds.Bottom + 3);
+                    _ = _skillSelector.ToggleVisibility();
+                },
+                BasicTooltipText = "Add",
+                Size = new(48),
+            };
+
+            _skillSelector = new()
+            {
+                Parent = Graphics.SpriteScreen,
+                BackgroundColor = Color.Black * 0.8F,
+                BorderWidth = new(2),
+                BorderColor = Color.Black,
+                ZIndex = int.MaxValue / 2,
+                Visible = false,
+                ContentPadding = new(10, 5),
+                Width = 300,
+                Height = 600,
+            };
+
+            _skillSelector.ItemClicked += SkillSelected;
+
+            _skillsPanel = new()
+            {
+                Parent = this,
+                Location = new(_add.Right + 5, 0),
+                WidthSizingMode = Blish_HUD.Controls.SizingMode.Fill,
+                HeightSizingMode = Blish_HUD.Controls.SizingMode.AutoSize,
+                ContentPadding = new(10, 5),
+            };
+        }
+
+        public Action<int> OnSkillAction { get; set; }
+
+        public Action<int> OnDeleteAction { get; set; }
+
+        public Action<int> OnUpAction { get; set; }
+
+        public Action<int> OnDownAction { get; set; }
+
+        public Action<int> OnAddAction { get; set; }
+
+        public Action<int> OnChangedAction { get; set; }
+
+        public Dictionary<int, SkillConnection> Connections { get => _connections; set => Common.SetProperty(ref _connections, value, CreateUI); }
+
+        public T Entries
+        {
+            get => _entries;
+            set => Common.SetProperty(ref _entries, value, ApplySkills);
+        }
+
+        public override void RecalculateLayout()
+        {
+            base.RecalculateLayout();
+
+        }
+
+        private void ApplySkills()
+        {
+            _skillsPanel.Children.Clear();
+
+            foreach (int skill in Entries)
+            {
+                var ctrl = new SkillChild(skill)
+                {
+                    Parent = _skillsPanel,
+                    Height = 32,
+                    Width = Width - 20,
+                    OnDownAction = OnDown,
+                    OnUpAction = OnUp,
+                    OnDeleteAction = OnDelete,
+                    OnSkillAction = OnSkill,
+                };
+            }
+
+            Title = $"{_clearTitle} [{Entries.Count()}]";
+        }
+
+        private void CreateUI()
+        {
+            _skillSelector.Connections = Connections;
+        }
+
+        private void SkillSelected(object sender, SkillListItem e)
+        {
+            AddSkill(e.Skill.Id);
+        }
+
+        private void OnSkill(int id)
+        {
+
+        }
+
+        private void OnDelete(int id)
+        {
+            RemoveSkill(id);
+            _ = (BuildsManager.Data?.Save());
+        }
+
+        private void OnUp(int id)
+        {
+            if (Entries.Count > 0 && id != Entries.First())
+            {
+                int index = Entries.FindIndex(e => e == id);
+
+                if (index > 0)
+                {
+                    _ = Entries.Remove(id);
+                    Entries.Insert(index - 1, id);
+                    ApplySkills();
+                    OnUpAction?.Invoke(id);
+                    OnChangedAction?.Invoke(id);
+                    _ = (BuildsManager.Data?.Save());
+                }
+            }
+        }
+
+        private void OnDown(int id)
+        {
+            if (Entries.Count > 0 && id != Entries.Last())
+            {
+                int index = Entries.FindIndex(e => e == id);
+
+                if (index < Entries.Count - 1)
+                {
+                    _ = Entries.Remove(id);
+                    Entries.Insert(index + 1, id);
+                    ApplySkills();
+
+                    OnDownAction?.Invoke(id);
+                    OnChangedAction?.Invoke(id);
+                    _ = (BuildsManager.Data?.Save());
+                }
+            }
+        }
+
+        public void AddSkill(int id)
+        {
+            if (!Entries.Contains(id))
+            {
+                Entries.Add(id);
+                ApplySkills();
+
+                OnAddAction?.Invoke(id);
+                OnChangedAction?.Invoke(id);
+                _ = (BuildsManager.Data?.Save());
+            }
+        }
+
+        public void AddSkills(List<int> ids)
+        {
+            Entries.AddRange(ids.Except(Entries));
+            ApplySkills();
+
+            OnAddAction?.Invoke(0);
+            OnChangedAction?.Invoke(0);
+            _ = (BuildsManager.Data?.Save());
+        }
+
+        public void RemoveSkill(int id)
+        {
+            if (Entries.Contains(id))
+            {
+                _ = Entries.Remove(id);
+                ApplySkills();
+                OnDeleteAction?.Invoke(id);
+                OnChangedAction?.Invoke(id);
+                _ = (BuildsManager.Data?.Save());
+            }
+        }
+
+        public void RemoveSkills(List<int> ids)
+        {
+            _ = Entries.RemoveAll(ids.Contains);
+            ApplySkills();
+            OnDeleteAction?.Invoke(0);
+            OnChangedAction?.Invoke(0);
+            _ = (BuildsManager.Data?.Save());
+        }
+
+        protected override void DisposeControl()
+        {
+            base.DisposeControl();
+            _skillSelector?.Dispose();
+        }
+    }
+
+    public class SkillChildsPanel<T> : SkillInfoChildsPanel<T>
+    {
+        private readonly SkillSelector _skillSelector;
+        private readonly ImageButton _add;
+        private readonly FlowPanel _skillsPanel;
+        private Dictionary<int, SkillConnection> _connections;
+        private readonly string _clearTitle;
+
+        public SkillChildsPanel(string title) : base(title)
         {
             HeightSizingMode = Blish_HUD.Controls.SizingMode.AutoSize;
             CanCollapse = true;
@@ -381,7 +646,6 @@ namespace Kenedia.Modules.Dev.Views
             };
         }
 
-
         public Action<int> OnSkillAction { get; set; }
 
         public Action<int> OnDeleteAction { get; set; }
@@ -396,17 +660,6 @@ namespace Kenedia.Modules.Dev.Views
 
         public Dictionary<int, SkillConnection> Connections { get => _connections; set => Common.SetProperty(ref _connections, value, CreateUI); }
 
-        public List<int> Skills
-        {
-            get => _skills;
-            set
-            {
-                var newValue = value ?? new();
-                _skills = newValue;
-                ApplySkills();
-            }
-        }
-
         public override void RecalculateLayout()
         {
             base.RecalculateLayout();
@@ -417,7 +670,7 @@ namespace Kenedia.Modules.Dev.Views
         {
             _skillsPanel.Children.Clear();
 
-            foreach (int skill in Skills)
+            foreach (int skill in Entries)
             {
                 var ctrl = new SkillChild(skill)
                 {
@@ -431,7 +684,7 @@ namespace Kenedia.Modules.Dev.Views
                 };
             }
 
-            Title = $"{_clearTitle} [{Skills.Count}]";
+            Title = $"{_clearTitle} [{Entries.Count}]";
         }
 
         private void CreateUI()
@@ -452,82 +705,88 @@ namespace Kenedia.Modules.Dev.Views
         private void OnDelete(int id)
         {
             RemoveSkill(id);
-            _ = Dev.ModuleInstance.Save();
+            _ = (BuildsManager.Data?.Save());
         }
 
         private void OnUp(int id)
         {
-            int index = Skills.FindIndex(e => e == id);
-
-            if (index > 0)
+            if (Entries.Count > 0 && id != Entries.First())
             {
-                _ = Skills.Remove(id);
-                Skills.Insert(index - 1, id);
-                ApplySkills();
-                OnUpAction?.Invoke(id);
-                OnChangedAction?.Invoke(id);
-                _ = Dev.ModuleInstance.Save();
+                int index = Entries.FindIndex(e => e == id);
+
+                if (index > 0)
+                {
+                    _ = Entries.Remove(id);
+                    Entries.Insert(index - 1, id);
+                    ApplySkills();
+                    OnUpAction?.Invoke(id);
+                    OnChangedAction?.Invoke(id);
+                    _ = (BuildsManager.Data?.Save());
+                }
             }
         }
 
         private void OnDown(int id)
         {
-            int index = Skills.FindIndex(e => e == id);
-
-            if (id != Skills.Last())
+            if (Entries.Count > 0 && id != Entries.Last())
             {
-                _ = Skills.Remove(id);
-                Skills.Insert(index + 1, id);
-                ApplySkills();
+                int index = Entries.FindIndex(e => e == id);
 
-                OnDownAction?.Invoke(id);
-                OnChangedAction?.Invoke(id);
-                _ = Dev.ModuleInstance.Save();
+                if (index < Entries.Count - 1)
+                {
+                    _ = Entries.Remove(id);
+                    Entries.Insert(index + 1, id);
+                    ApplySkills();
+
+                    OnDownAction?.Invoke(id);
+                    OnChangedAction?.Invoke(id);
+                    _ = (BuildsManager.Data?.Save());
+                }
             }
         }
 
         public void AddSkill(int id)
         {
-            if (!Skills.Contains(id))
+            if (!Entries.Contains(id))
             {
-                Skills.Add(id);
+                Entries.Add(id);
                 ApplySkills();
 
                 OnAddAction?.Invoke(id);
                 OnChangedAction?.Invoke(id);
-                _ = Dev.ModuleInstance.Save();
+                _ = (BuildsManager.Data?.Save());
             }
         }
 
         public void AddSkills(List<int> ids)
         {
-            Skills.AddRange(ids.Except(Skills));
+            Entries.AddRange(ids.Except(Entries));
             ApplySkills();
 
             OnAddAction?.Invoke(0);
             OnChangedAction?.Invoke(0);
-            _ = Dev.ModuleInstance.Save();
+            _ = (BuildsManager.Data?.Save());
         }
 
         public void RemoveSkill(int id)
         {
-            if (Skills.Contains(id))
+            if (Entries.Contains(id))
             {
-                _ = Skills.Remove(id);
+                _ = Entries.Remove(id);
                 ApplySkills();
                 OnDeleteAction?.Invoke(id);
                 OnChangedAction?.Invoke(id);
-                _ = Dev.ModuleInstance.Save();
+                _ = (BuildsManager.Data?.Save());
             }
         }
 
         public void RemoveSkills(List<int> ids)
         {
-            _ = Skills.RemoveAll(ids.Contains);
+            _ = Entries.RemoveAll(ids.Contains);
             ApplySkills();
             OnDeleteAction?.Invoke(0);
             OnChangedAction?.Invoke(0);
-            _ = Dev.ModuleInstance.Save();
+            _ = (BuildsManager.Data?.Save());
         }
 
         protected override void DisposeControl()
@@ -546,17 +805,16 @@ namespace Kenedia.Modules.Dev.Views
         private readonly Label _label;
         private readonly FlowPanel _infosPanel;
         private readonly FlowPanel _skillsPanel;
-        private readonly SkillChildsPanel _parent;
-        private readonly SkillChildsPanel _enviromental;
-        private readonly SkillChildsPanel _chain;
-        private readonly SkillChildsPanel _bundle;
-        private readonly SkillChildsPanel _transform;
-        private readonly SkillChildsPanel _flipskills;
-        private readonly SkillChildsPanel _traited;
-        private readonly SkillChildsPanel _ambush;
-        private readonly SkillChildsPanel _stealth;
-        private readonly SkillChildsPanel _toolbelt;
-        private readonly SkillChildsPanel _adrenalin;
+        private readonly SkillChildsPanel<int?> _parent;
+        private readonly SkillChildsPanel<int?> _enviromental;
+        private readonly SkillChildsPanel<int?> _pets;
+        private readonly SkillChildsPanel<Chain> _chain;
+        private readonly SkillChildsPanel<BundleSkill> _bundle;
+        private readonly SkillChildsPanel<Transform> _transform;
+        private readonly SkillChildsPanel<FlipSkill> _flipskills;
+        private readonly SkillChildsPanel<Dictionary<int, int>> _traited;
+        private readonly SkillChildsPanel<int?> _toolbelt;
+        private readonly SkillChildsPanel<Burst> _burst;
 
         private readonly (Label, NumberBox) _weapon;
         private readonly (Label, NumberBox) _dualWeapon;
@@ -567,7 +825,6 @@ namespace Kenedia.Modules.Dev.Views
         private readonly (Label, NumberBox) _enviroment;
 
         private double _created = 0;
-        private (Label, NumberBox) _pet;
 
         public ConnectionControl()
         {
@@ -592,7 +849,7 @@ namespace Kenedia.Modules.Dev.Views
             {
                 _specialization.Item1.Text = string.Format("Specialization: {0}", ((Specializations)num).ToString());
                 Connection.Value.Specialization = (Specializations)num;
-                _ = Dev.ModuleInstance.Save();
+                _ = BuildsManager.Data.Save();
             };
 
             _enviroment = CreateLabeledNumber(_infosPanel, () => "Enviroment");
@@ -602,7 +859,7 @@ namespace Kenedia.Modules.Dev.Views
             {
                 _enviroment.Item1.Text = $"Enviroment: {(Enviroment)num}";
                 Connection.Value.Enviroment = (Enviroment)num;
-                _ = Dev.ModuleInstance.Save();
+                _ = BuildsManager.Data.Save();
             };
 
             _weapon = CreateLabeledNumber(_infosPanel, () => "Weapon");
@@ -612,7 +869,7 @@ namespace Kenedia.Modules.Dev.Views
             {
                 _weapon.Item1.Text = string.Format("Weapon: {0}", (SkillWeaponType)num);
                 Connection.Value.Weapon = (SkillWeaponType)num;
-                _ = Dev.ModuleInstance.Save();
+                _ = BuildsManager.Data.Save();
             };
 
             _dualWeapon = CreateLabeledNumber(_infosPanel, () => "Dual Weapon");
@@ -622,7 +879,7 @@ namespace Kenedia.Modules.Dev.Views
             {
                 _dualWeapon.Item1.Text = string.Format("Dual Weapon: {0}", ((SkillWeaponType)num).ToString());
                 Connection.Value.DualWeapon = (SkillWeaponType)num;
-                _ = Dev.ModuleInstance.Save();
+                _ = (BuildsManager.Data?.Save());
             };
 
             _attunement = CreateLabeledNumber(_infosPanel, () => "Attunement");
@@ -632,7 +889,7 @@ namespace Kenedia.Modules.Dev.Views
             {
                 _attunement.Item1.Text = string.Format("Attunement: {0}", ((Attunement)num).ToString());
                 Connection.Value.Attunement = (Attunement)num;
-                _ = Dev.ModuleInstance.Save();
+                _ = (BuildsManager.Data?.Save());
             };
 
             _dualAttunement = CreateLabeledNumber(_infosPanel, () => "Dual Attunement");
@@ -642,7 +899,7 @@ namespace Kenedia.Modules.Dev.Views
             {
                 _dualAttunement.Item1.Text = string.Format("Dual Attunement: {0}", ((Attunement)num).ToString());
                 Connection.Value.DualAttunement = (Attunement)num;
-                _ = Dev.ModuleInstance.Save();
+                _ = (BuildsManager.Data?.Save());
             };
 
             _adrenalinCharges = CreateLabeledNumber(_infosPanel, () => "AdrenalinCharges");
@@ -652,17 +909,7 @@ namespace Kenedia.Modules.Dev.Views
             {
                 _adrenalinCharges.Item1.Text = $"AdrenalinCharges: {num}";
                 Connection.Value.AdrenalinCharges = num;
-                _ = Dev.ModuleInstance.Save();
-            };
-
-            _pet = CreateLabeledNumber(_infosPanel, () => "Pet");
-            _pet.Item2.MinValue = 0;
-            _pet.Item2.MaxValue = 3;
-            _pet.Item2.ValueChangedAction = (num) =>
-            {
-                _pet.Item1.Text = $"Pet: {num}";
-                Connection.Value.Pet = num;
-                _ = Dev.ModuleInstance.Save();
+                _ = (BuildsManager.Data?.Save());
             };
 
             _skillsPanel = new()
@@ -683,6 +930,12 @@ namespace Kenedia.Modules.Dev.Views
             {
                 Width = 350,
                 Parent = _skillsPanel,
+            };
+            _pets = new("Pets")
+            {
+                Width = 350,
+                Parent = _skillsPanel,
+                Collapsed = true,
             };
             _chain = new("Chain")
             {
@@ -732,7 +985,7 @@ namespace Kenedia.Modules.Dev.Views
                 Parent = _skillsPanel,
                 Collapsed = true,
             };
-            _adrenalin = new("Adrenalin")
+            _burst = new("Adrenalin")
             {
                 Width = 350,
                 Parent = _skillsPanel,
@@ -755,6 +1008,7 @@ namespace Kenedia.Modules.Dev.Views
             _parent.Connections = Connections;
             _enviromental.Connections = Connections;
             _chain.Connections = Connections;
+            _pets.Connections = Connections;
             _bundle.Connections = Connections;
             _transform.Connections = Connections;
             _flipskills.Connections = Connections;
@@ -762,39 +1016,49 @@ namespace Kenedia.Modules.Dev.Views
             _ambush.Connections = Connections;
             _stealth.Connections = Connections;
             _toolbelt.Connections = Connections;
-            _adrenalin.Connections = Connections;
+            _burst.Connections = Connections;
 
             void _parentAction(int id)
             {
-                Connection.Value.Parent = _parent.Skills.FirstOrDefault();
-                Connection.Value.Parent = Connection.Value.Parent == 0 ? null : Connection.Value.Parent;
+                Connection.Value.Default = _parent.Entries.FirstOrDefault();
+                Connection.Value.Default = Connection.Value.Default == 0 ? null : Connection.Value.Default;
             }
             _parent.OnChangedAction = _parentAction;
 
             void _enviromentalAction(int id)
             {
-                Connection.Value.EnviromentalCounterskill = _enviromental.Skills.FirstOrDefault();
+                Connection.Value.EnviromentalCounterskill = _enviromental.Entries.FirstOrDefault();
                 Connection.Value.EnviromentalCounterskill = Connection.Value.EnviromentalCounterskill == 0 ? null : Connection.Value.EnviromentalCounterskill;
             }
             _enviromental.OnChangedAction = _enviromentalAction;
 
             void _adrenalinAction(int id)
             {
-                Connection.Value.AdrenalinStages = Connection.Value.AdrenalinStages ?? new();
+                Connection.Value.Burst = Connection.Value.Burst ?? new();
 
-                Connection.Value.AdrenalinStages.Clear();
-                Connection.Value.AdrenalinStages.AddRange(_adrenalin.Skills);
+                Connection.Value.Burst = _burst.Burst;
 
                 if (Connection.Value.AdrenalinStages.Count == 0) Connection.Value.AdrenalinStages = null;
             }
-            _adrenalin.OnChangedAction = _adrenalinAction;
+            _burst.OnChangedAction = _adrenalinAction;
+
+            void _petsAction(int id)
+            {
+                Connection.Value.Pets = Connection.Value.Pets ?? new();
+
+                Connection.Value.Pets.Clear();
+                Connection.Value.Pets.AddRange(_pets.Entries);
+
+                if (Connection.Value.Pets.Count == 0) Connection.Value.Pets = null;
+            }
+            _pets.OnChangedAction = _petsAction;
 
             void _chainAction(int id)
             {
                 Connection.Value.Chain = Connection.Value.Chain ?? new();
 
                 Connection.Value.Chain.Clear();
-                Connection.Value.Chain.AddRange(_chain.Skills);
+                Connection.Value.Chain.AddRange(_chain.Entries);
 
                 if (Connection.Value.Chain.Count == 0) Connection.Value.Chain = null;
             }
@@ -805,7 +1069,7 @@ namespace Kenedia.Modules.Dev.Views
                 Connection.Value.Bundle = Connection.Value.Bundle ?? new();
 
                 Connection.Value.Bundle.Clear();
-                Connection.Value.Bundle.AddRange(_bundle.Skills);
+                Connection.Value.Bundle.AddRange(_bundle.Entries);
 
                 if (Connection.Value.Bundle.Count == 0) Connection.Value.Bundle = null;
             }
@@ -816,7 +1080,7 @@ namespace Kenedia.Modules.Dev.Views
                 Connection.Value.Transform = Connection.Value.Transform ?? new();
 
                 Connection.Value.Transform.Clear();
-                Connection.Value.Transform.AddRange(_transform.Skills);
+                Connection.Value.Transform.AddRange(_transform.Entries);
 
                 if (Connection.Value.Transform.Count == 0) Connection.Value.Transform = null;
             }
@@ -827,7 +1091,7 @@ namespace Kenedia.Modules.Dev.Views
                 Connection.Value.FlipSkills = Connection.Value.FlipSkills ?? new();
 
                 Connection.Value.FlipSkills.Clear();
-                Connection.Value.FlipSkills.AddRange(_flipskills.Skills);
+                Connection.Value.FlipSkills.AddRange(_flipskills.Entries);
 
                 if (Connection.Value.FlipSkills.Count == 0) Connection.Value.FlipSkills = null;
             }
@@ -843,21 +1107,21 @@ namespace Kenedia.Modules.Dev.Views
 
             void _ambushAction(int id)
             {
-                Connection.Value.Ambush = _parent.Skills.FirstOrDefault();
+                Connection.Value.Ambush = _parent.Entries.FirstOrDefault();
                 Connection.Value.Ambush = Connection.Value.Ambush == 0 ? null : Connection.Value.Ambush;
             }
             _ambush.OnChangedAction = _ambushAction;
 
             void _stealthAction(int id)
             {
-                Connection.Value.Stealth = _parent.Skills.FirstOrDefault();
+                Connection.Value.Stealth = _parent.Entries.FirstOrDefault();
                 Connection.Value.Stealth = Connection.Value.Stealth == 0 ? null : Connection.Value.Stealth;
             }
             _stealth.OnChangedAction = _stealthAction;
 
             void _toolbeltAction(int id)
             {
-                Connection.Value.Toolbelt = _parent.Skills.FirstOrDefault();
+                Connection.Value.Toolbelt = _parent.Entries.FirstOrDefault();
                 Connection.Value.Toolbelt = Connection.Value.Toolbelt == 0 ? null : Connection.Value.Toolbelt;
             }
             _toolbelt.OnChangedAction = _toolbeltAction;
@@ -871,7 +1135,7 @@ namespace Kenedia.Modules.Dev.Views
 
         private void ApplyConnection()
         {
-            Skill = Dev.Skills.Find(e => e.Id == Connection.Value?.Id);
+            Skill = BuildsManager.Data.ApiData.Skills.Find(e => e.Id == Connection.Value?.Id);
 
             if (Skill != null)
             {
@@ -883,20 +1147,23 @@ namespace Kenedia.Modules.Dev.Views
                 _dualAttunement.Item2.Value = Connection.Value.DualAttunement == null ? 0 : (int)Connection.Value.DualAttunement;
                 _adrenalinCharges.Item2.Value = Connection.Value.AdrenalinCharges == null ? 0 : (int)Connection.Value.AdrenalinCharges;
 
-                _parent.Skills = Connection.Value.Parent != null ? new List<int>() { (int)Connection.Value.Parent, } : null;
-                _parent.Collapsed = _parent.Skills.Count == 0;
+                _parent.Entries = Connection.Value.Parent != null ? new List<int>() { (int)Connection.Value.Parent, } : null;
+                _parent.Collapsed = _parent.Entries.Count == 0;
 
-                _enviromental.Skills = Connection.Value.EnviromentalCounterskill != null ? new List<int>() { (int)Connection.Value.EnviromentalCounterskill, } : null;
-                _enviromental.Collapsed = _enviromental.Skills.Count == 0;
+                _enviromental.Entries = Connection.Value.EnviromentalCounterskill != null ? new List<int>() { (int)Connection.Value.EnviromentalCounterskill, } : null;
+                _enviromental.Collapsed = _enviromental.Entries.Count == 0;
 
-                _chain.Skills = Connection.Value.Chain ?? null;
-                _chain.Collapsed = _chain.Skills.Count == 0;
+                _pets.Entries = Connection.Value.Pets ?? null;
+                _pets.Collapsed = _pets.Entries.Count == 0;
 
-                _bundle.Skills = Connection.Value.Bundle ?? null;
-                _bundle.Collapsed = _bundle.Skills.Count == 0;
+                _chain.Entries = Connection.Value.Chain ?? null;
+                _chain.Collapsed = _chain.Entries.Count == 0;
 
-                _flipskills.Skills = Connection.Value.FlipSkills ?? null;
-                _flipskills.Collapsed = _flipskills.Skills.Count == 0;
+                _bundle.Entries = Connection.Value.Bundle ?? null;
+                _bundle.Collapsed = _bundle.Entries.Count == 0;
+
+                _flipskills.Entries = Connection.Value.FlipSkills ?? null;
+                _flipskills.Collapsed = _flipskills.Entries.Count == 0;
 
                 //_traited.Skills = Connection.Value.Chain ?? null;
                 _ambush.Skills = Connection.Value.Ambush != null ? new List<int>() { (int)Connection.Value.Ambush, } : null;
@@ -905,8 +1172,8 @@ namespace Kenedia.Modules.Dev.Views
                 _stealth.Skills = Connection.Value.Ambush != null ? new List<int>() { (int)Connection.Value.Stealth, } : null;
                 _stealth.Collapsed = _stealth.Skills.Count == 0;
 
-                _toolbelt.Skills = Connection.Value.Ambush != null ? new List<int>() { (int)Connection.Value.Toolbelt, } : null;
-                _toolbelt.Collapsed = _toolbelt.Skills.Count == 0;
+                _toolbelt.Entries = Connection.Value.Ambush != null ? new List<int>() { (int)Connection.Value.Toolbelt, } : null;
+                _toolbelt.Collapsed = _toolbelt.Entries.Count == 0;
                 //_adrenalin.Skills = Connection.Value.Chain ?? null;
             }
         }
@@ -972,72 +1239,6 @@ namespace Kenedia.Modules.Dev.Views
             };
 
             return (label, num);
-        }
-    }
-
-    public class MainWindow : StandardWindow
-    {
-        private Dictionary<int, SkillConnection> _connections = new();
-        private readonly ConnectionControl _connectionEdit;
-        private readonly SkillSelector _selector;
-        private readonly Dropdown _specialization;
-
-
-        public Dictionary<int, SkillConnection> Connections { get => _connections; set => Common.SetProperty(ref _connections, value, CreateUI); }
-
-        public MainWindow(AsyncTexture2D background, Rectangle windowRegion, Rectangle contentRegion) : base(background, windowRegion, contentRegion)
-        {
-
-            _specialization = new()
-            {
-                Parent = this,
-                Width = 300,
-                ValueChangedAction = (v) => Profession = (ProfessionType)Enum.Parse(typeof(ProfessionType), v)
-            };
-
-            foreach (ProfessionType p in Enum.GetValues(typeof(ProfessionType)))
-            {
-                _specialization.Items.Add(p.ToString());
-            }
-
-            _selector = new()
-            {
-                Parent = this,
-                Location = new(0, _specialization.Bottom + 10),
-                HeightSizingMode = Blish_HUD.Controls.SizingMode.Fill,
-                Width = 300,
-            };
-            _selector.SkillClicked += Selector_SkillClicked;
-
-            _connectionEdit = new()
-            {
-                Parent = this,
-                Location = new(_selector.Right + 10, 0),
-                BorderColor = Color.Black,
-                BorderWidth = new(2),
-                ContentPadding = new(2),
-                WidthSizingMode = Blish_HUD.Controls.SizingMode.Fill,
-            };
-        }
-
-        public ProfessionType Profession { get; private set; }
-
-        private void Selector_SkillClicked(object sender, Skill e)
-        {
-            _connectionEdit.Connection = (sender as SkillListItem).Connection;
-        }
-
-        private void CreateUI()
-        {
-            _connectionEdit.Connections = Connections;
-            _selector.Connections = Connections;
-            RecalculateLayout();
-        }
-
-        public override void RecalculateLayout()
-        {
-            base.RecalculateLayout();
-
         }
     }
 }

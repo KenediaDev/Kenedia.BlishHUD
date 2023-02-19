@@ -216,6 +216,7 @@
     <Compile Include="Controls\BuildPage\TraitIcon.cs" />
     <Compile Include="Controls\BuildPage\ProfessionSpecific\WarriorSpecifics.cs" />
     <Compile Include="Controls\BuildPage\WeaponSkillIconCollection.cs" />
+    <Compile Include="Controls\SkillConnectionEdit\ConnectionControl.cs" />
     <Compile Include="DataModels\ItemUpgrades\Rune.cs" />
     <Compile Include="DataModels\ItemUpgrades\Sigil.cs" />
     <Compile Include="DataModels\ItemUpgrades\Upgrade.cs" />
@@ -265,6 +266,7 @@
     <Compile Include="Services\Settings.cs" />
     <Compile Include="Utility\StatUtility.cs" />
     <Compile Include="Views\MainWindow.cs" />
+    <Compile Include="Views\SkillConnectionEditor.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

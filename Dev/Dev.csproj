@@ -200,7 +200,6 @@
   <ItemGroup>
     <Compile Include="Dev.cs" />
     <Compile Include="Models\ObservableDictionary.cs" />
-    <Compile Include="Models\SkillConnection.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Views\MainWindow.cs" />
   </ItemGroup>
