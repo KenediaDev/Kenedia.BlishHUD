@@ -17,6 +17,11 @@ namespace Kenedia.Modules.Characters.Models
             }
         }
 
+        public void ForceCollectionChanged()
+        {
+            base.OnCollectionChanged(null);
+        }
+
         public void AddTag(string tag, bool fireEvent = true)
         {
             if (!Contains(tag))
@@ -34,12 +39,12 @@ namespace Kenedia.Modules.Characters.Models
 
             foreach (string tag in tags)
             {
+                if (fireEvent) _fireEvent = last == tag;
+
                 if (!Contains(tag))
                 {
                     Add(tag);
                 }
-
-                if(fireEvent) _fireEvent = last == tag;
             }
 
             _fireEvent = true;

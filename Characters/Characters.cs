@@ -203,7 +203,6 @@ namespace Kenedia.Modules.Characters
 
         protected override void OnModuleLoaded(EventArgs e)
         {
-            // Base handler must be called
             base.OnModuleLoaded(e);
             CharacterSwapping = new(Settings, Services.GameState, CharacterModels);
             CharacterSorting = new(Settings, Services.GameState, CharacterModels);
@@ -673,7 +672,6 @@ namespace Kenedia.Modules.Characters
                             if (!names.Contains(c.Name))
                             {
                                 Tags.AddTags(c.Tags);
-
                                 CharacterModels.Add(new(c, CharacterSwapping, Paths.ModulePath, RequestCharacterSave, CharacterModels, Data));
                                 names.Add(c.Name);
                             }

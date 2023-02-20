@@ -124,6 +124,12 @@ namespace Kenedia.Modules.Core.Models
         {
             base.DefineSettings(settings);
 
+#if DEBUG
+            Logger.Info($"{Name} is started in Debug mode. Enabling Reload Key.");
+            ReloadKey = settings.DefineSetting(nameof(ReloadKey), new Blish_HUD.Input.KeyBinding(ModifierKeys.Alt, Keys.R));
+            ReloadKey.Value.Enabled = true;
+            ReloadKey.Value.Activated += ReloadKey_Activated;
+#endif
         }
 
         protected override void Update(GameTime gameTime)
