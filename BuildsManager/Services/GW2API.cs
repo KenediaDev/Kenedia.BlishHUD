@@ -342,7 +342,7 @@ namespace Kenedia.Modules.BuildsManager.Services
                 {
                     if (Enum.TryParse(apiRace.Id, out Races raceType))
                     {
-                       bool exists = races.TryGetValue(raceType, out Race race);
+                        bool exists = races.TryGetValue(raceType, out Race race);
 
                         race ??= new Race(apiRace, skills);
 
@@ -459,48 +459,62 @@ namespace Kenedia.Modules.BuildsManager.Services
             var apiSkills = await _gw2ApiManager.Gw2ApiClient.V2.Skills.AllAsync();
             var apiTraits = await _gw2ApiManager.Gw2ApiClient.V2.Traits.AllAsync();
             var traits = apiTraits.ToList();
-            BuildsManager.Data.ApiData.Skills = apiSkills.ToList();
+            var skills = apiSkills.ToList();
 
-            List<int> getChain(ApiSkill targetSkill, List<int> chain = null)
+            Chain getChain(ApiSkill targetSkill, List<int> ids = null)
             {
                 if (targetSkill == null) return null;
 
-                chain ??= new List<int>();
-                chain.Add(targetSkill.Id);
+                ids ??= new();
+                ids.Add(targetSkill.Id);
 
                 if (targetSkill.NextChain != null)
                 {
-                    var s = BuildsManager.Data.ApiData.Skills.Find(e => e != targetSkill && e.Id == targetSkill.NextChain);
-                    if (s != null && !(chain?.Contains(s.Id) == true))
+                    var s = skills.Find(e => e != targetSkill && e.Id == targetSkill.NextChain);
+                    if (s != null && !(ids?.Contains(s.Id) == true))
                     {
-                        _ = getChain(s, chain);
+                        _ = getChain(s, ids);
                     }
                 }
 
-                return chain;
+                return new()
+                {
+                    First = ids.Count > 0 ? ids[0] : null,
+                    Second = ids.Count > 1 ? ids[1] : null,
+                    Third = ids.Count > 2 ? ids[2] : null,
+                    Fourth = ids.Count > 3 ? ids[3] : null,
+                    Fifth = ids.Count > 4 ? ids[4] : null,
+                };
             }
 
-            List<int> getFlips(ApiSkill targetSkill, List<int> flips = null)
+            FlipSkills getFlips(ApiSkill targetSkill, List<int> ids = null)
             {
                 if (targetSkill == null) return null;
 
-                flips ??= new List<int>();
-                flips.Add(targetSkill.Id);
+                ids ??= new List<int>();
+                ids.Add(targetSkill.Id);
 
                 if (targetSkill.NextChain != null)
                 {
-                    var s = BuildsManager.Data.ApiData.Skills.Find(e => e != targetSkill && e.Id == targetSkill.NextChain);
-                    if (s != null && !(flips?.Contains(s.Id) == true))
+                    var s = skills.Find(e => e != targetSkill && e.Id == targetSkill.NextChain);
+                    if (s != null && !(ids?.Contains(s.Id) == true))
                     {
-                        _ = getFlips(s, flips);
+                        _ = getFlips(s, ids);
                     }
                 }
 
-                return flips;
+                return new()
+                {
+                    Default = ids.Count > 0 ? ids[0] : null,
+                    State1 = ids.Count > 1 ? ids[1] : null,
+                    State2 = ids.Count > 2 ? ids[2] : null,
+                    State3 = ids.Count > 3 ? ids[3] : null,
+                    State4 = ids.Count > 4 ? ids[4] : null,
+                };
             }
 
             BuildsManager.Data.SkillConnections = new Dictionary<int, SkillConnection>();
-            foreach (var skill in BuildsManager.Data.ApiData.Skills)
+            foreach (var skill in skills)
             {
                 if (skill.Type != SkillType.Monster && skill.Professions.Count > 0)
                 {
@@ -508,11 +522,8 @@ namespace Kenedia.Modules.BuildsManager.Services
                     {
                         Id = skill.Id,
                         Weapon = skill.WeaponType?.ToEnum() ?? null,
-                        DualWeapon = skill.DualWield != null && Enum.TryParse(skill.DualWield, out SkillWeaponType weapon) ? weapon : null,
                         Specialization = skill.Specialization != null ? (Specializations)skill.Specialization : null,
-                        Attunement = skill.Attunement != null ? skill.Attunement?.ToEnum() : null,
-                        DualAttunement = skill.DualAttunement != null ? skill.DualAttunement?.ToEnum() : null,
-                        Enviroment = skill.Flags.Count() > 0 && skill.Flags.Aggregate((x, y) => x |= y.ToEnum()).Value.HasFlag(SkillFlag.NoUnderwater) ? Enviroment.Terrestrial : Enviroment.Any,
+                        Enviroment = skill.Flags.Count() > 0 && skill.Flags.Aggregate((x, y) => x |= y.ToEnum()).Value.HasFlag(SkillFlag.NoUnderwater) ? Enviroment.Terrestrial : Enviroment.Terrestrial | Enviroment.Aquatic,
                     };
 
                     if (skill.ToolbeltSkill != null)
@@ -527,12 +538,26 @@ namespace Kenedia.Modules.BuildsManager.Services
 
                     if (skill.BundleSkills != null)
                     {
-                        connection.Bundle = skill.BundleSkills.ToList();
+                        connection.Bundle = new()
+                        {
+                            Weapon1 = skill.BundleSkills.Count() > 0 ? skill.BundleSkills[0] : null,
+                            Weapon2 = skill.BundleSkills.Count() > 1 ? skill.BundleSkills[1] : null,
+                            Weapon3 = skill.BundleSkills.Count() > 2 ? skill.BundleSkills[2] : null,
+                            Weapon4 = skill.BundleSkills.Count() > 3 ? skill.BundleSkills[3] : null,
+                            Weapon5 = skill.BundleSkills.Count() > 4 ? skill.BundleSkills[4] : null,
+                        };
                     }
 
                     if (skill.TransformSkills != null)
                     {
-                        connection.Transform = skill.TransformSkills.ToList();
+                        connection.Transform = new()
+                        {
+                            Weapon1 = skill.TransformSkills.Count() > 0 ? skill.TransformSkills[0] : null,
+                            Weapon2 = skill.TransformSkills.Count() > 1 ? skill.TransformSkills[1] : null,
+                            Weapon3 = skill.TransformSkills.Count() > 2 ? skill.TransformSkills[2] : null,
+                            Weapon4 = skill.TransformSkills.Count() > 3 ? skill.TransformSkills[3] : null,
+                            Weapon5 = skill.TransformSkills.Count() > 4 ? skill.TransformSkills[4] : null,
+                        };
                     }
 
                     if (skill.FlipSkill != null)
@@ -558,12 +583,12 @@ namespace Kenedia.Modules.BuildsManager.Services
 
                     if (skill.Slot == SkillSlot.Weapon1 && skill.Professions.Contains("Thief"))
                     {
-                        connection.Stealth = BuildsManager.Data.ApiData.Skills.Find(e => e.Slot == skill.Slot && e.WeaponType == skill.WeaponType && e.Categories?.Contains("StealthAttack") == true)?.Id;
+                        connection.Chain.Stealth = skills.Find(e => e.Slot == skill.Slot && e.WeaponType == skill.WeaponType && e.Categories?.Contains("StealthAttack") == true)?.Id;
                     }
 
                     if (skill.Slot == SkillSlot.Weapon1 && skill.Professions.Contains("Mesmer"))
                     {
-                        connection.Ambush = BuildsManager.Data.ApiData.Skills.Find(e => e.Slot == skill.Slot && e.WeaponType == skill.WeaponType && e.Description?.Contains("Ambush") == true)?.Id;
+                        connection.Chain.Ambush = skills.Find(e => e.Slot == skill.Slot && e.WeaponType == skill.WeaponType && e.Description?.Contains("Ambush") == true)?.Id;
                     }
 
                     BuildsManager.Data.SkillConnections.Add(skill.Id, connection);
@@ -573,7 +598,7 @@ namespace Kenedia.Modules.BuildsManager.Services
             var cnts = BuildsManager.Data.SkillConnections.Values.ToList();
             foreach (var connection in BuildsManager.Data.SkillConnections)
             {
-                connection.Value.Parent = cnts.Find(e =>
+                connection.Value.Default = cnts.Find(e =>
                 e.Chain?.Contains(connection.Value.Id) == true ||
                 e.Bundle?.Contains(connection.Value.Id) == true ||
                 e.Transform?.Contains(connection.Value.Id) == true ||
@@ -581,7 +606,7 @@ namespace Kenedia.Modules.BuildsManager.Services
                 (e.Toolbelt != null && e.Toolbelt == connection.Value.Id)
                 )?.Id;
 
-                if (connection.Value.Parent == null)
+                if (connection.Value.Default == null)
                 {
                     foreach (var s in cnts)
                     {
@@ -591,7 +616,7 @@ namespace Kenedia.Modules.BuildsManager.Services
                             {
                                 if (t.Value.Contains(connection.Value.Id))
                                 {
-                                    connection.Value.Parent = s.Id;
+                                    connection.Value.Default = s.Id;
                                     break;
                                 }
                             }
@@ -605,10 +630,15 @@ namespace Kenedia.Modules.BuildsManager.Services
             File.WriteAllText($@"{_paths.ModuleDataPath}\SkillConnections.json", json);
         }
 
-        internal async Task<List<ApiSkill>> LoadSkills()
+        internal async Task FetchBaseSkills()
         {
             var skills = await _gw2ApiManager.Gw2ApiClient.V2.Skills.AllAsync();
-            return skills.ToList();
+            var baseSkills = skills.ToList().ToDictionary(skill => skill.Id, skill => new BaseSkill(skill));
+
+            string json = JsonConvert.SerializeObject(baseSkills, Formatting.Indented);
+            File.WriteAllText($@"{Paths.ModulePath}\data\BaseSkills.json", json);
+
+            await _data.LoadBaseSkills();
         }
     }
 }

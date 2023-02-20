@@ -15,21 +15,31 @@ namespace Kenedia.Modules.Core.Utility
             return GameService.Overlay.CurrentGameTime.TotalGameTime.TotalMilliseconds;
         }
 
-        public static bool SetProperty<T>(ref T property, T newValue, PropertyChangedEventHandler OnUpdated = null, bool triggerOnUpdate = true, [CallerMemberName] string propName = null)
+        public static bool SetProperty<T>(ref T property, T newValue, PropertyChangedEventHandler OnUpdated, bool triggerOnUpdate = true, [CallerMemberName] string propName = null)
         {
-            if (Equals(property, newValue))
+            if (SetProperty<T>(ref property, newValue))
             {
-                return false;
+                if (triggerOnUpdate) OnUpdated?.Invoke(property, new(propName));
+
+                return true;
             }
 
-            property = newValue;
-
-            if (triggerOnUpdate) OnUpdated?.Invoke(property, new(propName));
-
-            return true;
+            return false;
         }
 
-        public static bool SetProperty<T>(ref T property, T newValue, Action OnUpdated = null, bool triggerOnUpdate = true)
+        public static bool SetProperty<T>(ref T property, T newValue, Action OnUpdated, bool triggerOnUpdate = true)
+        {
+            if(SetProperty<T>(ref property, newValue))
+            {
+                if (triggerOnUpdate) OnUpdated?.Invoke();
+
+                return true;
+            }
+
+            return false;
+        }
+
+        public static bool SetProperty<T>(ref T property, T newValue)
         {
             if (Equals(property, newValue))
             {
@@ -37,7 +47,6 @@ namespace Kenedia.Modules.Core.Utility
             }
 
             property = newValue;
-            if (triggerOnUpdate) OnUpdated?.Invoke();
 
             return true;
         }

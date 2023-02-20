@@ -222,7 +222,7 @@ namespace Kenedia.Modules.Characters
 
             if (Settings.LoadCachedAccounts.Value) _ = LoadCharacters();
 
-            Services.InputDetectionService.ClickedOrKey += InputDetectionService_ClickedOrKey; 
+            Services.InputDetectionService.ClickedOrKey += InputDetectionService_ClickedOrKey;             
         }
 
         protected override void Update(GameTime gameTime)

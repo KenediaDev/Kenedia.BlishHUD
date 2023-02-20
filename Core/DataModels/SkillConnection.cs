@@ -1,198 +1,155 @@
 ﻿using Gw2Sharp.WebApi.V2.Models;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using SharpDX.Direct3D9;
+using SharpDX.Multimedia;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Linq;
+using System.Runtime.Serialization;
 
 namespace Kenedia.Modules.Core.DataModels
 {
+    public class BaseConnectionProperty
+    {
+        [JsonIgnore]
+        public List<int?> Values
+        {
+            get
+            {
+                var list = new List<int?>();
+                foreach (var propInfo in GetType().GetProperties())
+                {
+                    if (propInfo.PropertyType == typeof(int?) && propInfo.GetIndexParameters().Length == 0)
+                    {
+                        list.Add((int?)propInfo.GetValue(this));
+                    }
+                }
+
+                return list;
+            }
+        }
+
+        [JsonIgnore]
+        public int? this[string key]
+        {
+            get => this[key];
+            set => this[key] = value;
+        }
+
+        public void Clear()
+        {
+            foreach (var propInfo in GetType().GetProperties())
+            {
+                if (propInfo.PropertyType == typeof(int?) && propInfo.GetIndexParameters().Length == 0)
+                {
+                    propInfo.SetValue(this, null);
+                }
+            }
+        }
+
+        public bool Contains(int? id)
+        {
+            return Values.Contains(id);
+        }
+
+        public bool HasValues()
+        {
+            return Values.Any(e => e != null);
+        }
+    }
+
     [Flags]
     public enum Enviroment
     {
-        Terrestrial,
-        Aquatic,
+        Terrestrial = 1,
+        Aquatic = 2,
     }
 
-    public enum AdrenalinStage
+    public class Bundle : BaseConnectionProperty
     {
-        None,
-        Stage1,
-        Stage2,
-        Stage3,
+        public int? Equip { get; set; }
+        public int? Stow { get; set; }
+        public int? Weapon1 { get; set; }
+        public int? Weapon2 { get; set; }
+        public int? Weapon3 { get; set; }
+        public int? Weapon4 { get; set; }
+        public int? Weapon5 { get; set; }
     }
 
-    public class BundleSkill
+    public class Transform : BaseConnectionProperty
     {
-        public int? Equip;
-        public int? Stow;
-        public int? Weapon1;
-        public int? Weapon2;
-        public int? Weapon3;
-        public int? Weapon4;
-        public int? Weapon5;
-
-        public int?[] Values => new[] { Equip, Stow, Weapon1, Weapon2, Weapon3, Weapon4, Weapon5, };
-
-        public void Clear()
-        {
-            Equip = null;
-            Stow = null;
-            Weapon1 = null;
-            Weapon2 = null;
-            Weapon3 = null;
-            Weapon4 = null;
-            Weapon5 = null;
-        }
+        public int? Enter { get; set; }
+        public int? Exit { get; set; }
+        public int? Weapon1 { get; set; }
+        public int? Weapon2 { get; set; }
+        public int? Weapon3 { get; set; }
+        public int? Weapon4 { get; set; }
+        public int? Weapon5 { get; set; }
     }
 
-    public class Transform
+    public class Burst : BaseConnectionProperty
     {
-        public int? Enter;
-        public int? Exit;
-        public int? Weapon1;
-        public int? Weapon2;
-        public int? Weapon3;
-        public int? Weapon4;
-        public int? Weapon5;
-
-        public int?[] Values => new[] { Enter, Exit, Weapon1, Weapon2, Weapon3, Weapon4, Weapon5, };
-
-        public void Clear()
-        {
-            Enter = null;
-            Exit = null;
-            Weapon1 = null;
-            Weapon2 = null;
-            Weapon3 = null;
-            Weapon4 = null;
-            Weapon5 = null;
-        }
+        public int? Spellbreaker { get; set; }
+        public int? Berserker { get; set; }
+        public int? Stage0 { get; set; }
+        public int? Stage1 { get; set; }
+        public int? Stage2 { get; set; }
+        public int? Stage3 { get; set; }
     }
 
-    public class Burst
+    public class Stealth : BaseConnectionProperty
     {
-        public int? Spellbreaker;
-        public int? Berserker;
-        public int? Stage0;
-        public int? Stage1;
-        public int? Stage2;
-        public int? Stage3;
-
-        public int?[] Values => new[] { Spellbreaker, Berserker, Stage0, Stage1, Stage2, Stage3, };
-
-        public void Clear()
-        {
-            Spellbreaker = null;
-            Berserker = null;
-            Stage0 = null;
-            Stage1 = null;
-            Stage2 = null;
-            Stage3 = null;
-        }
+        public int? Default { get; set; }
+        public int? Malicious { get; set; }
     }
 
-    public class Stealth
+    public class FlipSkills : BaseConnectionProperty
     {
-        public int? Default;
-        public int? Deadeye;
-
-        public int?[] Values => new[] { Default, Deadeye, };
-
-        public void Clear()
-        {
-            Default = null;
-            Deadeye = null;
-        }
+        public int? Default { get; set; }
+        public int? State1 { get; set; }
+        public int? State2 { get; set; }
+        public int? State3 { get; set; }
+        public int? State4 { get; set; }
     }
 
-    public class FlipSkill
+    public class DualSkill : BaseConnectionProperty
     {
-        public int? Default;
-        public int? Activated;
-
-        public int?[] Values => new[] { Default, Activated, };
-
-        public void Clear()
-        {
-            Default = null;
-            Activated = null;
-        }
+        public int? Axe { get; set; }
+        public int? Dagger { get; set; }
+        public int? Mace { get; set; }
+        public int? Pistol { get; set; }
+        public int? Scepter { get; set; }
+        public int? Sword { get; set; }
+        public int? Focus { get; set; }
+        public int? Shield { get; set; }
+        public int? Torch { get; set; }
+        public int? Warhorn { get; set; }
     }
 
-    public class DualSkill
-    {
-        public int? Axe;
-        public int? Dagger;
-        public int? Mace;
-        public int? Pistol;
-        public int? Scepter;
-        public int? Sword;
-        public int? Focus;
-        public int? Shield;
-        public int? Torch;
-        public int? Warhorn;
-
-        public int?[] Values => new[] { Axe, Dagger, Mace, Pistol, Scepter, Sword, Focus, Shield, Torch, Warhorn };
-
-        public void Clear()
-        {
-            Axe = null;
-            Dagger = null;
-            Mace = null;
-            Pistol = null;
-            Scepter = null;
-            Sword = null;
-            Focus = null;
-            Shield = null;
-            Torch = null;
-            Warhorn = null;
-        }
-    }
-
-    public class AttunementSkill
+    public class AttunementSkill : BaseConnectionProperty
     {
         public Attunement? Attunement { get; set; }
-        public int? Fire;
-        public int? Water;
-        public int? Earth;
-        public int? Air;
-
-        public int?[] Values => new[] { Fire, Water, Earth, Air, };
-
-        public void Clear()
-        {
-            Fire = null;
-            Water = null;
-            Earth = null;
-            Air = null;
-            Attunement = null;
-        }
+        public int? Fire { get; set; }
+        public int? Water { get; set; }
+        public int? Earth { get; set; }
+        public int? Air { get; set; }
     }
 
-    public class Chain
+    public class Chain : BaseConnectionProperty
     {
-        public int? First;
-        public int? Second;
-        public int? Third;
-        public int? Fourth;
-        public int? Fifth;
+        public int? First { get; set; }
+        public int? Second { get; set; }
+        public int? Third { get; set; }
+        public int? Fourth { get; set; }
+        public int? Fifth { get; set; }
 
-        public int? Stealth;
-        public int? StealthDeadeye;
+        public int? Stealth { get; set; }
+        public int? Malicious { get; set; }
 
-        public int? Ambush;
-        public int? Unleashed;
-
-        public void Clear()
-        {
-            First = null;
-            Second = null;
-            Third = null;
-            Fourth = null;
-            Fifth = null;
-            Stealth = null;
-            StealthDeadeye = null;
-            Ambush = null;
-            Unleashed = null;
-        }
+        public int? Ambush { get; set; }
+        public int? Unleashed { get; set; }
     }
 
     public class SkillConnection
@@ -206,6 +163,8 @@ namespace Kenedia.Modules.Core.DataModels
         /// The skills default form
         /// </summary>
         public int? Default { get; set; }
+
+        public int? AssetId { get; set; }
 
         /// <summary>
         /// Id of the skill which replaces the current skill in Water/Land
@@ -238,7 +197,7 @@ namespace Kenedia.Modules.Core.DataModels
         /// -> AttunementSkill.Fire => Weaver Fire Fire
         /// -> AttunementSkill.Air => Weaver Fire Air
         /// </summary>
-        public AttunementSkill Attunement { get; set; }
+        public AttunementSkill AttunementSkill { get; set; }
 
         public Burst Burst { get; set; }
 
@@ -246,7 +205,7 @@ namespace Kenedia.Modules.Core.DataModels
 
         public Transform Transform { get; set; }
 
-        public BundleSkill Bundle { get; set; }
+        public Bundle Bundle { get; set; }
 
         public int? Unleashed { get; set; }
 
@@ -262,7 +221,7 @@ namespace Kenedia.Modules.Core.DataModels
         /// </summary>
         public Chain Chain { get; set; }
 
-        public FlipSkill FlipSkills { get; set; }
+        public FlipSkills FlipSkills { get; set; }
 
         public Dictionary<int, List<int>> Traited { get; set; }
 
@@ -274,10 +233,10 @@ namespace Kenedia.Modules.Core.DataModels
             Weapon = null;
             Specialization = null;
             DualSkill = null;
-            Attunement = null;
+            AttunementSkill = null;
             Burst = null;
             Stealth = null;
-            Transform= null;
+            Transform = null;
             Bundle = null;
             Unleashed = null;
             Toolbelt = null;

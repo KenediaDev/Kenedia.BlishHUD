@@ -16,6 +16,7 @@ using System.ComponentModel.Composition;
 using System.Diagnostics;
 using System.Threading.Tasks;
 using static Kenedia.Modules.BuildsManager.DataModels.Professions.Weapon;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace Kenedia.Modules.BuildsManager
 {
@@ -94,7 +95,10 @@ namespace Kenedia.Modules.BuildsManager
                 Paths = Paths,
             };
 
-            Data.ApiData.Skills = await GW2API.LoadSkills();
+            if(Data.BaseSkills.Count == 0)
+            {
+                await GW2API.FetchBaseSkills();
+            }
 
             if (GameService.Overlay.UserLocale.Value is not Locale.Korean and not Locale.Chinese)
             {
@@ -124,7 +128,11 @@ namespace Kenedia.Modules.BuildsManager
 
         protected override async void ReloadKey_Activated(object sender, EventArgs e)
         {
+            await Data.LoadBaseSkills();
+            await Data.LoadConnections();
+
             base.ReloadKey_Activated(sender, e);
+
             //await GW2API.UpdateData();
 
             //await GW2API.GetSkillConnections();
@@ -165,23 +173,24 @@ namespace Kenedia.Modules.BuildsManager
             }
 
             SkillConnectionEditor?.Dispose();
+
+            var settingsBg = AsyncTexture2D.FromAssetId(155997);
+            Texture2D cutSettingsBg = settingsBg.Texture.GetRegion(0, 0, settingsBg.Width - 482, settingsBg.Height - 390);
+
             SkillConnectionEditor = new(
-                Services.TexturesService.GetTexture(@"textures\mainwindow_background.png", "mainwindow_background"),
-                new Rectangle(30, 30, Width, Height + 30),
-                new Rectangle(30, 20, Width - 3, Height + 25))
+            settingsBg,
+                new Rectangle(30, 30, cutSettingsBg.Width + 10, cutSettingsBg.Height),
+                new Rectangle(30, 35, cutSettingsBg.Width - 5, cutSettingsBg.Height - 15))
             {
                 Parent = GameService.Graphics.SpriteScreen,
                 Title = "❤",
                 Subtitle = "❤",
                 SavesPosition = true,
-                Id = $"{Name} SkillConnectionEditor",
-                MainWindowEmblem = AsyncTexture2D.FromAssetId(156020),
-                Name = "Skill Connection Editor",
-                Version = ModuleVersion,
-                Width = 1120,
-                Height = 900,
+                Id = $"{Name} MainWindow",
+                CanResize = true,
+                Size = new(1024, 800),
+                Connections = Data.SkillConnections,
             };
-            SkillConnectionEditor.Connections = Data.SkillConnections;
             SkillConnectionEditor.Show();
             //MainWindow.Show();
         }
@@ -283,7 +292,7 @@ namespace Kenedia.Modules.BuildsManager
                 Race = Core.DataModels.Races.Human,
             };
 
-            if(MainWindow != null) MainWindow.Template = SelectedTemplate;
+            if (MainWindow != null) MainWindow.Template = SelectedTemplate;
         }
     }
 }

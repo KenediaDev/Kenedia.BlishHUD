@@ -216,7 +216,15 @@
     <Compile Include="Controls\BuildPage\TraitIcon.cs" />
     <Compile Include="Controls\BuildPage\ProfessionSpecific\WarriorSpecifics.cs" />
     <Compile Include="Controls\BuildPage\WeaponSkillIconCollection.cs" />
-    <Compile Include="Controls\SkillConnectionEdit\ConnectionControl.cs" />
+    <Compile Include="Controls\SkillConnectionEdit\EditingControl.cs" />
+    <Compile Include="Controls\SkillConnectionEdit\PetControl.cs" />
+    <Compile Include="Controls\SkillConnectionEdit\PetSelector.cs" />
+    <Compile Include="Controls\SkillConnectionEdit\ReflectedSkillControl.cs" />
+    <Compile Include="Controls\SkillConnectionEdit\Selector.cs" />
+    <Compile Include="Controls\SkillConnectionEdit\SingleSkillChild.cs" />
+    <Compile Include="Controls\SkillConnectionEdit\SkillConnectionControl.cs" />
+    <Compile Include="Controls\SkillConnectionEdit\SkillConnectionEntryControl.cs" />
+    <Compile Include="Controls\SkillConnectionEdit\SkillConnectionSelector.cs" />
     <Compile Include="DataModels\ItemUpgrades\Rune.cs" />
     <Compile Include="DataModels\ItemUpgrades\Sigil.cs" />
     <Compile Include="DataModels\ItemUpgrades\Upgrade.cs" />
@@ -358,6 +366,7 @@
     <None Include="Content\bin\Windows\Content\fonts\newkrytan\newkrytan-12-regular_1.xnb" />
     <None Include="manifest.json" />
     <None Include="packages.config" />
+    <None Include="ref\data\missing_skills.json" />
     <None Include="ref\data\rune_ids.json" />
     <None Include="ref\data\sigil_ids.json" />
   </ItemGroup>

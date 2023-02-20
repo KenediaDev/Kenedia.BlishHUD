@@ -15,18 +15,15 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using ApiSkill = Gw2Sharp.WebApi.V2.Models.Skill;
-using ApiTraits  = Gw2Sharp.WebApi.V2.Models.Trait;
+using ApiTraits = Gw2Sharp.WebApi.V2.Models.Trait;
 using ApiPet = Gw2Sharp.WebApi.V2.Models.Pet;
 using System.Diagnostics;
 using System.Threading;
+using SharpDX.Direct2D1.Effects;
+using Microsoft.Xna.Framework.Content;
 
 namespace Kenedia.Modules.BuildsManager.Services
 {
-    public class ApiData
-    {
-        public List<ApiSkill> Skills { get; set; }
-    }
-
     public class Data
     {
         private readonly Logger _logger = Logger.GetLogger(typeof(Data));
@@ -40,9 +37,9 @@ namespace Kenedia.Modules.BuildsManager.Services
             _paths = paths;
         }
 
-        public ApiData ApiData { get; set; } = new();
-
         public Dictionary<int, SkillConnection> SkillConnections { get; set; } = new();
+
+        public Dictionary<int, BaseSkill> BaseSkills { get; set; } = new();
 
         public List<int> RuneIds { get; set; } = new();
 
@@ -86,9 +83,12 @@ namespace Kenedia.Modules.BuildsManager.Services
                 SigilIds = JsonConvert.DeserializeObject<List<int>>(await new StreamReader(_contentsManager.GetFileStream(@"data\sigil_ids.json")).ReadToEndAsync());
                 _logger.Debug("SigilIds loaded!");
 
+                await LoadBaseSkills();
+                await LoadConnections();
+
                 foreach (var prop in GetType().GetProperties())
                 {
-                    if (prop.Name is not nameof(RuneIds) and not nameof(SigilIds) and not nameof(SkillsByPalette) and not nameof(ApiData) and not nameof(IsLoaded))
+                    if (prop.Name is not nameof(RuneIds) and not nameof(SigilIds) and not nameof(SkillsByPalette) and not nameof(BaseSkills) and not nameof(SkillConnections) and not nameof(IsLoaded))
                     {
                         string path = $@"{_paths.ModuleDataPath}{prop.Name}.json";
 
@@ -114,6 +114,56 @@ namespace Kenedia.Modules.BuildsManager.Services
             {
                 _logger.Debug("Failed to load data!");
                 _logger.Debug($"{ex}");
+            }
+        }
+
+        public async Task LoadBaseSkills()
+        {
+            string path = $@"{_paths.ModuleDataPath}{nameof(BaseSkills)}.json";
+
+            if (File.Exists(path))
+            {
+                _logger.Debug($"Loading data for property {nameof(BaseSkills)} from '{$@"{_paths.ModuleDataPath}{nameof(BaseSkills)}.json"}'");
+                string json = await new StreamReader($@"{_paths.ModuleDataPath}{nameof(BaseSkills)}.json").ReadToEndAsync();
+                object data = JsonConvert.DeserializeObject(json, typeof(Dictionary<int, BaseSkill>));
+
+                BaseSkills = JsonConvert.DeserializeObject<Dictionary<int, BaseSkill>>(await new StreamReader(_contentsManager.GetFileStream(@"data\missing_skills.json")).ReadToEndAsync());
+                foreach (var item in (Dictionary<int, BaseSkill>)data)
+                {
+                    if(!BaseSkills.ContainsKey(item.Key))
+                    {
+                        BaseSkills.Add(item.Key, item.Value);
+                    }
+                }
+            }
+            else
+            {
+                _logger.Debug($"File for property {nameof(BaseSkills)} does not exist at '{$@"{_paths.ModuleDataPath}{nameof(BaseSkills)}.json"}'!");
+            }
+        }
+
+        public async Task LoadConnections()
+        {
+            string path = $@"{_paths.ModuleDataPath}{nameof(SkillConnections)}.json";
+
+            if (File.Exists(path))
+            {
+                _logger.Debug($"Loading data for property {nameof(SkillConnections)} from '{$@"{_paths.ModuleDataPath}{nameof(SkillConnections)}.json"}'");
+                string json = await new StreamReader($@"{_paths.ModuleDataPath}{nameof(SkillConnections)}.json").ReadToEndAsync();
+                object data = JsonConvert.DeserializeObject(json, typeof(Dictionary<int, SkillConnection>));
+                SkillConnections = (Dictionary<int, SkillConnection>)data;
+
+                foreach(var item in BaseSkills)
+                {
+                    if (!SkillConnections.ContainsKey(item.Key))
+                    {
+                        SkillConnections.Add(item.Key, new SkillConnection() { Id = item.Value.Id, AssetId = item.Value.AssetId });
+                    }
+                }
+            }
+            else
+            {
+                _logger.Debug($"File for property {nameof(SkillConnections)} does not exist at '{$@"{_paths.ModuleDataPath}{nameof(SkillConnections)}.json"}'!");
             }
         }
 
