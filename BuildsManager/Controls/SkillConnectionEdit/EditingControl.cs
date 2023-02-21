@@ -4,31 +4,24 @@ using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using static Blish_HUD.ContentService;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement.TextBox;
 using Kenedia.Modules.Core.Controls;
 using Kenedia.Modules.Core.Utility;
 using Kenedia.Modules.Core.DataModels;
 using SkillWeaponType = Gw2Sharp.WebApi.V2.Models.SkillWeaponType;
-using Attunement = Gw2Sharp.WebApi.V2.Models.Attunement;
 using Blish_HUD;
 using Kenedia.Modules.Core.Extensions;
-using System.Diagnostics;
-using Gw2Sharp;
-using System.ComponentModel;
 using Kenedia.Modules.BuildsManager.Views;
 using MonoGame.Extended.Collections;
-using Newtonsoft.Json.Serialization;
-using SharpDX.Direct2D1.Effects;
-using Newtonsoft.Json.Linq;
+using Kenedia.Modules.BuildsManager.DataModels.Professions;
 
 namespace Kenedia.Modules.BuildsManager.Controls.SkillConnectionEdit
 {
     public class EditingControl : Panel
     {
-        private readonly SkillConnectionSelector _skillSelector;
+        private readonly SkillSelector _skillSelector;
         private readonly PetSelector _petSelector;
+        private readonly TraitSelector _traitSelector;
 
         private Dictionary<int, SkillConnection> _connections;
         private readonly FlowPanel _contentPanel;
@@ -42,10 +35,10 @@ namespace Kenedia.Modules.BuildsManager.Controls.SkillConnectionEdit
         private (Label, Checkbox) _aquaticFlag;
         private (Label, Dropdown) _weapon;
         private (Label, Dropdown) _specialization;
-        private (Label, SingleSkillChild) _default;
-        private (Label, SingleSkillChild) _enviromentalCounterskill;
-        private (Label, SingleSkillChild) _unleashed;
-        private (Label, SingleSkillChild) _toolbelt;
+        private (Label, SkillControl) _default;
+        private (Label, SkillControl) _enviromentalCounterskill;
+        private (Label, SkillControl) _unleashed;
+        private (Label, SkillControl) _toolbelt;
         private ReflectedSkillControl<Chain> _chain;
         private ReflectedSkillControl<Burst> _burst;
         private ReflectedSkillControl<Stealth> _stealth;
@@ -54,8 +47,8 @@ namespace Kenedia.Modules.BuildsManager.Controls.SkillConnectionEdit
         private ReflectedSkillControl<AttunementSkill> _attunement;
         private ReflectedSkillControl<FlipSkills> _flipSkills;
         private ReflectedSkillControl<DualSkill> _dualSkill;
-        private FlowPanel _pets;
-        private FlowPanel _traited;
+        private ReflectedPetControl _pets;
+        private ReflectedTraitControl _traited;
         private bool canSave;
 
         public EditingControl(SkillConnectionEditor editor)
@@ -88,6 +81,36 @@ namespace Kenedia.Modules.BuildsManager.Controls.SkillConnectionEdit
                 OnClickAction = SkillSelected,
             };
 
+            _traitSelector = new(editor)
+            {
+                Parent = Graphics.SpriteScreen,
+                BackgroundColor = Color.Black * 0.8F,
+                BorderWidth = new(2),
+                BorderColor = Color.Black,
+                ZIndex = int.MaxValue / 2,
+                Visible = false,
+                ContentPadding = new(10, 5),
+                Width = 300,
+                Height = 600,
+                OnClickAction = TraitSelected,
+                Items = GetTraits(),
+            };
+
+            _petSelector = new(editor)
+            {
+                Parent = Graphics.SpriteScreen,
+                BackgroundColor = Color.Black * 0.8F,
+                BorderWidth = new(2),
+                BorderColor = Color.Black,
+                ZIndex = int.MaxValue / 2,
+                Visible = false,
+                ContentPadding = new(10, 5),
+                Width = 300,
+                Height = 600,
+                OnClickAction = PetSelected,
+                Items = BuildsManager.Data.Pets,
+            };
+
             _infosPanel = new FlowPanel()
             {
                 Parent = _contentPanel,
@@ -111,7 +134,17 @@ namespace Kenedia.Modules.BuildsManager.Controls.SkillConnectionEdit
             _created = Common.Now();
         }
 
-        private void SkillSelected(SkillConnectionEntryControl obj, SingleSkillChild anchor)
+        private void TraitSelected(TraitEntryControl obj, TraitControl anchor)
+        {
+            anchor.Trait = obj.Trait;
+        }
+
+        private void PetSelected(PetEntryControl obj, PetControl anchor)
+        {
+            anchor.Pet = obj.Pet;
+        }
+
+        private void SkillSelected(SkillEntryControl obj, SkillControl anchor)
         {
             anchor.Skill = obj.Skill;
         }
@@ -135,6 +168,29 @@ namespace Kenedia.Modules.BuildsManager.Controls.SkillConnectionEdit
             {
                 _ = BuildsManager.Data.Save();
             }
+        }
+
+        private Dictionary<int, Trait> GetTraits()
+        {
+            var dic = new Dictionary<int, Trait>();
+
+            foreach (var p in BuildsManager.Data.Professions)
+            {
+                foreach (var s in p.Value.Specializations)
+                {
+                    foreach (var t in s.Value.MinorTraits)
+                    {
+                        dic.Add(t.Value.Id, t.Value);
+                    }
+
+                    foreach (var t in s.Value.MajorTraits)
+                    {
+                        dic.Add(t.Value.Id, t.Value);
+                    }
+                }
+            }
+
+            return dic;
         }
 
         private void CreateUI()
@@ -214,52 +270,52 @@ namespace Kenedia.Modules.BuildsManager.Controls.SkillConnectionEdit
                 Save();
             };
 
-            _default = UI.CreateLabeledControl<SingleSkillChild>(_singleSkillsPanel, "Default", 100, 400, 32);
-            _default.Item2.OnChangedAction = (id) =>
+            _default = UI.CreateLabeledControl<SkillControl>(_singleSkillsPanel, "Default", 100, 400, 32);
+            _default.Item2.OnChangedAction = (prevId, newId) =>
             {
-                SkillConnection.Default = id;
+                SkillConnection.Default = newId;
                 Save();
             };
-            _default.Item2.OnSkillAction = (skill) =>
+            _default.Item2.OnIconAction = (skill) =>
             {
                 _skillSelector.Location = _default.Item2.AbsoluteBounds.Add(64, 32, 0, 0).Location;
                 _skillSelector.Anchor = _default.Item2;
                 _skillSelector.Show();
             };
 
-            _enviromentalCounterskill = UI.CreateLabeledControl<SingleSkillChild>(_singleSkillsPanel, "Env. Counter", 100, 400, 32);
-            _enviromentalCounterskill.Item2.OnChangedAction = (id) =>
+            _enviromentalCounterskill = UI.CreateLabeledControl<SkillControl>(_singleSkillsPanel, "Env. Counter", 100, 400, 32);
+            _enviromentalCounterskill.Item2.OnChangedAction = (prevId, newId) =>
             {
-                SkillConnection.EnviromentalCounterskill = id;
+                SkillConnection.EnviromentalCounterskill = newId;
                 Save();
             };
-            _enviromentalCounterskill.Item2.OnSkillAction = (skill) =>
+            _enviromentalCounterskill.Item2.OnIconAction = (skill) =>
             {
                 _skillSelector.Location = _enviromentalCounterskill.Item2.AbsoluteBounds.Add(64, 32, 0, 0).Location;
                 _skillSelector.Anchor = _enviromentalCounterskill.Item2;
                 _skillSelector.Show();
             };
 
-            _unleashed = UI.CreateLabeledControl<SingleSkillChild>(_singleSkillsPanel, "Unleashed", 100, 400, 32);
-            _unleashed.Item2.OnChangedAction = (id) =>
+            _unleashed = UI.CreateLabeledControl<SkillControl>(_singleSkillsPanel, "Unleashed", 100, 400, 32);
+            _unleashed.Item2.OnChangedAction = (prevId, newId) =>
             {
-                SkillConnection.Unleashed = id;
+                SkillConnection.Unleashed = newId;
                 Save();
             };
-            _unleashed.Item2.OnSkillAction = (skill) =>
+            _unleashed.Item2.OnIconAction = (skill) =>
             {
                 _skillSelector.Location = _unleashed.Item2.AbsoluteBounds.Add(64, 32, 0, 0).Location;
                 _skillSelector.Anchor = _unleashed.Item2;
                 _skillSelector.Show();
             };
 
-            _toolbelt = UI.CreateLabeledControl<SingleSkillChild>(_singleSkillsPanel, "Toolbelt", 100, 400, 32);
-            _toolbelt.Item2.OnChangedAction = (id) =>
+            _toolbelt = UI.CreateLabeledControl<SkillControl>(_singleSkillsPanel, "Toolbelt", 100, 400, 32);
+            _toolbelt.Item2.OnChangedAction = (prevId, newId) =>
             {
-                SkillConnection.Toolbelt = id;
+                SkillConnection.Toolbelt = newId;
                 Save();
             };
-            _toolbelt.Item2.OnSkillAction = (skill) =>
+            _toolbelt.Item2.OnIconAction = (skill) =>
             {
                 _skillSelector.Location = _toolbelt.Item2.AbsoluteBounds.Add(64, 32, 0, 0).Location;
                 _skillSelector.Anchor = _toolbelt.Item2;
@@ -275,8 +331,8 @@ namespace Kenedia.Modules.BuildsManager.Controls.SkillConnectionEdit
             _flipSkills = new("FlipSkills", _skillSelector) { Parent = _contentPanel };
             _dualSkill = new("DualSkill", _skillSelector) { Parent = _contentPanel };
 
-            _pets = CreateFlowPanel("Pets");
-            _traited = CreateFlowPanel("Traited");
+            _pets = new("Pets", _petSelector) { Parent = _contentPanel };
+            _traited = new("Traited", _traitSelector, _skillSelector) { Parent = _contentPanel };
 
             canSave = true;
         }
@@ -336,8 +392,14 @@ namespace Kenedia.Modules.BuildsManager.Controls.SkillConnectionEdit
             _dualSkill.Item = SkillConnection.DualSkill;
             _dualSkill.Collapsed = !(SkillConnection.DualSkill?.HasValues() == true);
 
-            _pets.Collapsed = true;
+            _pets.SkillConnection = SkillConnection;
+            _pets.Item = SkillConnection.Pets;
+            _pets.Collapsed = !(SkillConnection.Pets?.HasValues() == true);
+
             _traited.Collapsed = true;
+            _traited.SkillConnection = SkillConnection;
+            _traited.Item = SkillConnection.Traited;
+            _traited.Collapsed = !(SkillConnection.Traited?.HasValues() == true);
 
             canSave = true;
         }

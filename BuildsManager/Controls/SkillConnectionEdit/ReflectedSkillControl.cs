@@ -14,12 +14,12 @@ namespace Kenedia.Modules.BuildsManager.Controls.SkillConnectionEdit
     {
         private T _item;
         private bool _canSave = true;
-        private readonly Dictionary<string, (Label, SingleSkillChild)> _controls = new();
-        private readonly SkillConnectionSelector _selector;
+        private readonly Dictionary<string, (Label, SkillControl)> _controls = new();
+        private readonly SkillSelector _selector;
 
         private SkillConnection _skillConnection;
 
-        public ReflectedSkillControl(string title, SkillConnectionSelector selector)
+        public ReflectedSkillControl(string title, SkillSelector selector)
         {
             HeightSizingMode = Blish_HUD.Controls.SizingMode.AutoSize;
             FlowDirection = Blish_HUD.Controls.ControlFlowDirection.SingleTopToBottom;
@@ -33,11 +33,11 @@ namespace Kenedia.Modules.BuildsManager.Controls.SkillConnectionEdit
             {
                 if (pinfo.Name is not "Values" && pinfo.GetIndexParameters().Length == 0)
                 {
-                    var temp = UI.CreateLabeledControl<SingleSkillChild>(this, pinfo.Name, 100, 400, 32);
-                    temp.Item2.OnChangedAction = (id) =>
+                    var temp = UI.CreateLabeledControl<SkillControl>(this, pinfo.Name, 100, 400, 32);
+                    temp.Item2.OnChangedAction = (prevId, newId) =>
                     {
                         Item ??= new();
-                        pinfo.SetValue(Item, id);
+                        pinfo.SetValue(Item, newId);
 
                         var prop = SkillConnection.GetType().GetProperty(typeof(T).Name);
                         if (prop != null)
@@ -58,7 +58,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.SkillConnectionEdit
                         Save();
                     };
 
-                    temp.Item2.OnSkillAction = (id) =>
+                    temp.Item2.OnIconAction = (id) =>
                     {
                         _selector.Location = temp.Item2.AbsoluteBounds.Add(64, 32, 0, 0).Location;
                         _selector.Anchor = temp.Item2;
@@ -84,7 +84,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.SkillConnectionEdit
 
             foreach (var pinfo in typeof(T).GetProperties())
             {
-                if (pinfo.Name is not "Values" && pinfo.GetIndexParameters().Length == 0 && _controls.TryGetValue(pinfo.Name, out (Label, SingleSkillChild) ctrl))
+                if (pinfo.Name is not "Values" && pinfo.GetIndexParameters().Length == 0 && _controls.TryGetValue(pinfo.Name, out (Label, SkillControl) ctrl))
                 {
                     BaseSkill skill = null;
 

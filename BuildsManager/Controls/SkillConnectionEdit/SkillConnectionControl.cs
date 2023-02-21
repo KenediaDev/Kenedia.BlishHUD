@@ -8,16 +8,18 @@ using Blish_HUD;
 
 namespace Kenedia.Modules.BuildsManager.Controls.SkillConnectionEdit
 {
-    public class SkillConnectionControl : Blish_HUD.Controls.Control
+    public class BaseConnectionControl : Blish_HUD.Controls.Control
     {
         private Rectangle _iconBounds;
+        protected Rectangle? TextureRegion;
         private Rectangle _idBounds;
         private Rectangle _nameBounds;
         private SkillConnection _skillConnection;
+        private object _entry;
 
         public SkillConnection SkillConnection { get => _skillConnection; set => Common.SetProperty(ref _skillConnection, value, ApplyConnection); }
 
-        public object Entry { get; set; }
+        public object Entry { get => _entry; set => Common.SetProperty(ref _entry, value, ApplyItem); }
 
         public string Name { get; set; }
 
@@ -57,7 +59,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.SkillConnectionEdit
                 spriteBatch.DrawOnCtrl(this, Textures.Pixel, new Rectangle(bounds.Right - 2, bounds.Top, 2, bounds.Height), Rectangle.Empty, borderColor * 0.8f);
             }
 
-            if (Icon != null) spriteBatch.DrawOnCtrl(this, Icon, _iconBounds, Color.White);
+            if (Icon != null) spriteBatch.DrawOnCtrl(this, Icon, _iconBounds, TextureRegion ?? Icon.Bounds, Color.White);
             if (Id != null) spriteBatch.DrawStringOnCtrl(this, $"{Id}", Content.DefaultFont16, _idBounds, color);
             if (Name != null) spriteBatch.DrawStringOnCtrl(this, Name, Content.DefaultFont16, _nameBounds, color);
         }

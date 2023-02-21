@@ -21,7 +21,7 @@ namespace Kenedia.Modules.BuildsManager.Views
         private Dictionary<int, SkillConnection> _connections = new();
         private ProfessionType _profession = ProfessionType.Guardian;
         private readonly EditingControl _connectionEdit;
-        private readonly SkillConnectionSelector _selector;
+        private readonly SkillSelector _selector;
         private readonly Dropdown _specialization;
 
         public Dictionary<int, SkillConnection> Connections { get => _connections; set => Common.SetProperty(ref _connections, value, CreateUI); }

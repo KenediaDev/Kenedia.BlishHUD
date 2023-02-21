@@ -4,51 +4,62 @@ using Microsoft.Xna.Framework;
 using System;
 using static Blish_HUD.ContentService;
 using Kenedia.Modules.Core.Utility;
-using Blish_HUD;
-using Kenedia.Modules.BuildsManager.DataModels.Professions;
-using Kenedia.Modules.Core.Models;
+using Kenedia.Modules.Core.DataModels;
+using Skill = Gw2Sharp.WebApi.V2.Models.Skill;
 using Blish_HUD.Input;
+using Kenedia.Modules.Core.Models;
+using Blish_HUD;
 
 namespace Kenedia.Modules.BuildsManager.Controls.SkillConnectionEdit
 {
-    public class PetControl : Blish_HUD.Controls.Control
+    public class SkillControl : Blish_HUD.Controls.Control
     {
         private readonly DetailedTexture _skillIcon = new()
         {
             FallBackTexture = AsyncTexture2D.FromAssetId(157154),
-            TextureRegion = new(16, 16, 200, 200),
+            TextureRegion = new(14, 14, 100, 100),
         };
 
         private readonly DetailedTexture _delete = new(2175783, 2175784);
 
-        private Pet _pet;
+        private BaseSkill _skill;
 
         private Rectangle _nameBounds;
         private Rectangle _idBounds;
 
-        public PetControl()
+        public SkillControl()
         {
             Height = 32;
             Width = 400;
         }
 
-        public PetControl(int petid) : this()
+        public SkillControl(int skillid) : this()
         {
-            if (BuildsManager.Data.Pets.TryGetValue(petid, out Pet pet))
+            if (BuildsManager.Data.BaseSkills.TryGetValue(skillid, out BaseSkill skill))
             {
-                Pet = pet;
+                Skill = skill;
             }
         }
 
-        public Pet Pet { get => _pet; set => Common.SetProperty(ref _pet, value, ApplyPet); }
+        public BaseSkill Skill { get => _skill; 
+            set 
+            {
+                int? prev = _skill?.Id;
 
-        public Action<PetEntryControl> OnClickAction { get; set; }
+                if(Common.SetProperty(ref _skill, value, ApplySkill))
+                {
+                    OnChangedAction?.Invoke(prev, Skill?.Id);
+                }
+            } 
+        }
+
+        public SkillConnection SkillConnection { get; set; }
 
         public Action<int?> OnIconAction { get; set; }
 
         public Action<int?> OnDeleteAction { get; set; }
 
-        public Action<int?> OnChangedAction { get; set; }
+        public Action<int?, int?> OnChangedAction { get; set; }
 
         public override void RecalculateLayout()
         {
@@ -63,17 +74,23 @@ namespace Kenedia.Modules.BuildsManager.Controls.SkillConnectionEdit
             _nameBounds = new(_idBounds.Right + 5, 0, Math.Max(0, Width - _idBounds.Right), Height - sizePadding);
         }
 
+        private void ApplySkill()
+        {
+            _skillIcon.Texture = Skill?.Icon;
+            BasicTooltipText = Skill?.Name;
+        }
+
         protected override void OnClick(MouseEventArgs e)
         {
             base.OnClick(e);
 
             if (_delete.Hovered)
             {
-                OnDeleteAction?.Invoke(Pet.Id);
-                Pet = null;
+                OnDeleteAction?.Invoke(Skill?.Id);
+                Skill = null;
             }
 
-            if (_skillIcon.Hovered) OnIconAction?.Invoke(Pet?.Id);
+            if (_skillIcon.Hovered) OnIconAction?.Invoke(Skill?.Id);
         }
 
         protected override void Paint(SpriteBatch spriteBatch, Rectangle bounds)
@@ -84,12 +101,12 @@ namespace Kenedia.Modules.BuildsManager.Controls.SkillConnectionEdit
 
             _skillIcon.Draw(this, spriteBatch, RelativeMousePosition);
 
-            if (Pet != null)
+            if (Skill != null)
             {
-                spriteBatch.DrawStringOnCtrl(this, $"{Pet.Id}", Content.DefaultFont16, _idBounds, Color.White);
-                spriteBatch.DrawStringOnCtrl(this, Pet.Name, Content.DefaultFont16, _nameBounds, Color.White);
+                spriteBatch.DrawStringOnCtrl(this, $"{Skill.Id}", Content.DefaultFont16, _idBounds, Color.White);
+                spriteBatch.DrawStringOnCtrl(this, Skill.Name, Content.DefaultFont16, _nameBounds, Color.White);
 
-                txt = txt == string.Empty ? Pet.Name : txt;
+                txt = txt == string.Empty ? Skill.Name : txt;
             }
 
             Color borderColor = _skillIcon.Hovered ? Colors.ColonialWhite : Color.Black;
@@ -109,14 +126,6 @@ namespace Kenedia.Modules.BuildsManager.Controls.SkillConnectionEdit
             spriteBatch.DrawOnCtrl(ctrl, Textures.Pixel, new Rectangle(Bounds.Right - 1, Bounds.Top, 1, Bounds.Height), Rectangle.Empty, borderColor * 0.6f);
 
             BasicTooltipText = txt;
-        }
-
-        protected void ApplyPet()
-        {
-            _skillIcon.Texture = Pet?.Icon;
-            BasicTooltipText = Pet?.Name;
-
-            OnChangedAction?.Invoke(Pet?.Id);
         }
     }
 }

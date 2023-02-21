@@ -15,7 +15,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.SkillConnectionEdit
     /// <typeparam name="CtrlType"></typeparam>
     /// <typeparam name="EntryType"></typeparam>
     public abstract class Selector<CtrlType, EntryType> : Panel
-        where CtrlType : SkillConnectionControl, new()
+        where CtrlType : BaseConnectionControl, new()
     {
         protected readonly FilterBox Filter;
         protected readonly FlowPanel SelectionPanel;

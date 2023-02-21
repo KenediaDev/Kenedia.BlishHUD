@@ -152,6 +152,28 @@ namespace Kenedia.Modules.Core.DataModels
         public int? Unleashed { get; set; }
     }
 
+    /// <summary>
+    /// Key = Skill | Value = Trait
+    /// </summary>
+    public class Traited : Dictionary<int, int>
+    {
+        public bool HasValues()
+        {
+            return Count > 0;
+        }
+    }
+
+    public class Pets : List<int?>
+    {
+        [JsonIgnore]
+        public List<int?> Values => this;
+
+        public bool HasValues()
+        {
+            return this.Any(e => e != null);
+        }
+    }
+
     public class SkillConnection
     {
         /// <summary>
@@ -214,7 +236,7 @@ namespace Kenedia.Modules.Core.DataModels
         /// <summary>
         /// <see cref="Pet"/> which you can access this skill through as a <see cref="Specializations.Soulbeast"/> or <see cref="Specializations.Untamed"/>
         /// </summary>
-        public List<int> Pets { get; set; }
+        public Pets Pets { get; set; }
 
         /// <summary>
         /// Chained skills
@@ -223,7 +245,7 @@ namespace Kenedia.Modules.Core.DataModels
 
         public FlipSkills FlipSkills { get; set; }
 
-        public Dictionary<int, List<int>> Traited { get; set; }
+        public Traited Traited { get; set; }
 
         public void Clear()
         {

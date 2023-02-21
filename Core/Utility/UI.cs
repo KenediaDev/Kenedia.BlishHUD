@@ -33,6 +33,19 @@ namespace Kenedia.Modules.Core.Utility
                 Parent = p,
             };
 
+            void Disposed(object s, EventArgs e)
+            {
+                num.Disposed -= Disposed;
+                label.Disposed -= Disposed;
+
+                num.Dispose();
+                label.Dispose();
+                p.Dispose();
+            }
+
+            num.Disposed += Disposed;
+            label.Disposed += Disposed;
+
             return (label, num);
         }
 

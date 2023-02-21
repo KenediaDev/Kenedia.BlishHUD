@@ -5,22 +5,17 @@ using Kenedia.Modules.BuildsManager.Views;
 
 namespace Kenedia.Modules.BuildsManager.Controls.SkillConnectionEdit
 {
-    public class SkillConnectionSelector : Selector<SkillConnectionEntryControl, SkillConnection>
+    public class SkillSelector : Selector<SkillEntryControl, SkillConnection>
     {
-        public SkillConnectionSelector(SkillConnectionEditor editor)
+        public SkillSelector(SkillConnectionEditor editor)
         {
             Editor = editor;
             Editor.ProfessionChanged += SkillConnectionEditor_ProfessionChanged;
         }
 
-        private void SkillConnectionEditor_ProfessionChanged(object sender, Gw2Sharp.Models.ProfessionType e)
-        {
-            _ = FilterItems(string.Empty);
-        }
+        public Action<SkillEntryControl, SkillControl> OnClickAction { get; set; }
 
-        public Action<SkillConnectionEntryControl, SingleSkillChild> OnClickAction { get; set; }
-
-        public SingleSkillChild Anchor { get; set; }
+        public SkillControl Anchor { get; set; }
 
         public SkillConnectionEditor Editor { get; }
 
@@ -30,7 +25,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.SkillConnectionEdit
 
             foreach (var item in Items)
             {
-                _ = new SkillConnectionEntryControl()
+                _ = new SkillEntryControl()
                 {
                     Entry = item,
                     Parent = SelectionPanel,
@@ -52,12 +47,12 @@ namespace Kenedia.Modules.BuildsManager.Controls.SkillConnectionEdit
         {
             if (!await WaitAndCatch()) return;
 
-            foreach (SkillConnectionEntryControl item in SelectionPanel.Children)
+            foreach (SkillEntryControl item in SelectionPanel.Children)
             {
                 item.Visible = item.Skill?.Professions.Count == 1 && (item.Skill?.Professions.Contains(Editor?.Profession.ToString()) == true) && (obj == string.Empty || item.Skill?.Name.ToLower().Contains(obj.ToLower()) == true || item.Skill?.Id.ToString().ToLower().Contains(obj.ToLower()) == true);
             }
 
-            SelectionPanel.SortChildren((SkillConnectionEntryControl a, SkillConnectionEntryControl b) =>
+            SelectionPanel.SortChildren((SkillEntryControl a, SkillEntryControl b) =>
             {
                 string name1 = a.Skill?.Name == null ? string.Empty : a.Skill.Name;
                 string name2 = b.Skill?.Name == null ? string.Empty : b.Skill.Name;
@@ -69,6 +64,11 @@ namespace Kenedia.Modules.BuildsManager.Controls.SkillConnectionEdit
                 return r1 == 0 ? r2 - r1 : r1;
             });
             SelectionPanel.Invalidate();
+        }
+
+        private void SkillConnectionEditor_ProfessionChanged(object sender, Gw2Sharp.Models.ProfessionType e)
+        {
+            _ = FilterItems(string.Empty);
         }
     }
 }

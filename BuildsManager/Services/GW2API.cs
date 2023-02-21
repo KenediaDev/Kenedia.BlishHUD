@@ -575,7 +575,10 @@ namespace Kenedia.Modules.BuildsManager.Services
                                 if (trait != null && trait.Skills != null)
                                 {
                                     connection.Traited ??= new();
-                                    connection.Traited[trait.Id] = trait.Skills.Select(e => e.Id).ToList();
+                                    foreach (int s in trait.Skills.Select(e => e.Id).ToList())
+                                    {
+                                        connection.Traited[s] = trait.Id;
+                                    }
                                 }
                             }
                         }
@@ -603,27 +606,9 @@ namespace Kenedia.Modules.BuildsManager.Services
                 e.Bundle?.Contains(connection.Value.Id) == true ||
                 e.Transform?.Contains(connection.Value.Id) == true ||
                 e.FlipSkills?.Contains(connection.Value.Id) == true ||
+                e.Traited?.ContainsKey(connection.Value.Id) == true ||
                 (e.Toolbelt != null && e.Toolbelt == connection.Value.Id)
                 )?.Id;
-
-                if (connection.Value.Default == null)
-                {
-                    foreach (var s in cnts)
-                    {
-                        if (s.Traited != null)
-                        {
-                            foreach (var t in s.Traited)
-                            {
-                                if (t.Value.Contains(connection.Value.Id))
-                                {
-                                    connection.Value.Default = s.Id;
-                                    break;
-                                }
-                            }
-                        }
-                        break;
-                    }
-                }
             }
 
             string json = JsonConvert.SerializeObject(BuildsManager.Data.SkillConnections, Formatting.Indented);

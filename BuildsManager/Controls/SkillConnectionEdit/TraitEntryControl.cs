@@ -1,17 +1,20 @@
-﻿using Microsoft.Xna.Framework.Graphics;
+﻿using Blish_HUD.Input;
+using Kenedia.Modules.BuildsManager.DataModels.Professions;
+using Kenedia.Modules.Core.Utility;
 using Microsoft.Xna.Framework;
-using System;
-using Kenedia.Modules.Core.DataModels;
-using Blish_HUD.Input;
+using Microsoft.Xna.Framework.Graphics;
 using MonoGame.Extended.Collections;
+using System;
 
 namespace Kenedia.Modules.BuildsManager.Controls.SkillConnectionEdit
 {
-    public class SkillConnectionEntryControl : SkillConnectionControl
+    public class TraitEntryControl : BaseConnectionControl
     {
-        public BaseSkill Skill { get; private set; } = null;
+        private Trait _trait;
 
-        public Action<SkillConnectionEntryControl> OnClickAction { get; set; }
+        public Trait Trait { get => _trait; set => Common.SetProperty(ref _trait, value, ApplyItem); }
+
+        public Action<TraitEntryControl> OnClickAction { get; set; }
 
         protected override void Paint(SpriteBatch spriteBatch, Rectangle bounds)
         {
@@ -22,15 +25,14 @@ namespace Kenedia.Modules.BuildsManager.Controls.SkillConnectionEdit
         {
             base.ApplyItem();
 
+            Name = Trait?.Name;
+            Id = Trait?.Id;
+            Icon = Trait?.Icon;
+            BasicTooltipText = Name;
         }
 
         protected override void ApplyConnection()
         {
-            Skill = BuildsManager.Data.BaseSkills.GetValueOrDefault(SkillConnection.Id);
-            Name = Skill?.Name;
-            Id = Skill?.Id;
-            Icon = Skill?.Icon;
-            BasicTooltipText = Name;
         }
 
         protected override void OnClick(MouseEventArgs e)
