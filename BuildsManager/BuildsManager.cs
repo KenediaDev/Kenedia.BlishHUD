@@ -128,6 +128,8 @@ namespace Kenedia.Modules.BuildsManager
 
         protected override async void ReloadKey_Activated(object sender, EventArgs e)
         {
+            //await GW2API.FetchBaseSkills();
+
             await Data.LoadBaseSkills();
             await Data.LoadConnections();
 

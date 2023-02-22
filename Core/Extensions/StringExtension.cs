@@ -56,5 +56,27 @@ namespace Kenedia.Modules.Core.Extensions
 
             return distance[currentRow, m];
         }
+
+        public static bool ContainsAny(this string haystack, params string[] needles)
+        {
+            foreach (string needle in needles)
+            {
+                if (haystack.Contains(needle))
+                    return true;
+            }
+
+            return false;
+        }
+
+        public static bool ContainsAnyTrimmed(this string haystack, params string[] needles)
+        {
+            foreach (string needle in needles)
+            {
+                if (haystack.Contains(needle.Trim()))
+                    return true;
+            }
+
+            return false;
+        }
     }
 }

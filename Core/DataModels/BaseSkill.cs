@@ -1,5 +1,6 @@
 ﻿using Blish_HUD.Content;
 using Gw2Sharp.Models;
+using Gw2Sharp.WebApi.V2.Models;
 using Kenedia.Modules.Core.Models;
 using Kenedia.Modules.Core.Utility;
 using System;
@@ -27,6 +28,8 @@ namespace Kenedia.Modules.Core.DataModels
             Name = skill.Name;
             AssetId = skill.Icon?.GetAssetIdFromRenderUrl();
             Professions = skill.Professions.ToList();
+
+            //if (skill.Slot == SkillSlot.Pet && Professions.Count == 0) Professions.Add("Ranger"); 
         }
 
         [DataMember]

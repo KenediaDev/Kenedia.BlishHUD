@@ -10,6 +10,8 @@ using Kenedia.Modules.BuildsManager.DataModels.Professions;
 using Blish_HUD.Content;
 using Gw2Sharp.WebApi.V2.Models;
 using System.Drawing;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace Kenedia.Modules.BuildsManager.Controls.SkillConnectionEdit
 {
@@ -41,7 +43,14 @@ namespace Kenedia.Modules.BuildsManager.Controls.SkillConnectionEdit
                 Size = new(32),
                 ClickAction = (m) =>
                 {
-                    if (SkillConnection != null) CreatePetControls(SkillConnection.Pets == null ? 0 : SkillConnection.Pets.Count, null);
+                    if (SkillConnection != null)
+                    {
+                        CreatePetControls(SkillConnection.Pets == null ? 0 : SkillConnection.Pets.Count, null);
+                        var ctrls = _controls.LastOrDefault();
+                        _selector.Location = _addButton.AbsoluteBounds.Add(64, 32, 0, 0).Location;
+                        _selector.Anchor = ctrls.Value.Item2;
+                        _selector.Show();
+                    }
                 }
             };
         }

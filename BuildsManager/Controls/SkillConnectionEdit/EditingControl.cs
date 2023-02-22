@@ -36,6 +36,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.SkillConnectionEdit
         private (Label, Dropdown) _weapon;
         private (Label, Dropdown) _specialization;
         private (Label, SkillControl) _default;
+        private (Label, SkillControl) _pvp;
         private (Label, SkillControl) _enviromentalCounterskill;
         private (Label, SkillControl) _unleashed;
         private (Label, SkillControl) _toolbelt;
@@ -283,6 +284,19 @@ namespace Kenedia.Modules.BuildsManager.Controls.SkillConnectionEdit
                 _skillSelector.Show();
             };
 
+            _pvp = UI.CreateLabeledControl<SkillControl>(_singleSkillsPanel, "Pvp", 100, 400, 32);
+            _pvp.Item2.OnChangedAction = (prevId, newId) =>
+            {
+                SkillConnection.Default = newId;
+                Save();
+            };
+            _pvp.Item2.OnIconAction = (skill) =>
+            {
+                _skillSelector.Location = _pvp.Item2.AbsoluteBounds.Add(64, 32, 0, 0).Location;
+                _skillSelector.Anchor = _pvp.Item2;
+                _skillSelector.Show();
+            };
+
             _enviromentalCounterskill = UI.CreateLabeledControl<SkillControl>(_singleSkillsPanel, "Env. Counter", 100, 400, 32);
             _enviromentalCounterskill.Item2.OnChangedAction = (prevId, newId) =>
             {
@@ -354,11 +368,12 @@ namespace Kenedia.Modules.BuildsManager.Controls.SkillConnectionEdit
             _specialization.Item2.SelectedItem = SkillConnection.Specialization == null ? Specializations.None.ToString() : SkillConnection.Specialization.ToString();
 
             _default.Item2.Skill = SkillConnection.Default != null ? BuildsManager.Data.BaseSkills.GetValueOrDefault((int)SkillConnection.Default) : null;
+            _pvp.Item2.Skill = SkillConnection.Pvp != null ? BuildsManager.Data.BaseSkills.GetValueOrDefault((int)SkillConnection.Pvp) : null;
             _enviromentalCounterskill.Item2.Skill = SkillConnection.EnviromentalCounterskill != null ? BuildsManager.Data.BaseSkills.GetValueOrDefault((int)SkillConnection.EnviromentalCounterskill) : null;
             _unleashed.Item2.Skill = SkillConnection.Unleashed != null ? BuildsManager.Data.BaseSkills.GetValueOrDefault((int)SkillConnection.Unleashed) : null;
             _toolbelt.Item2.Skill = SkillConnection.Toolbelt != null ? BuildsManager.Data.BaseSkills.GetValueOrDefault((int)SkillConnection.Toolbelt) : null;
 
-            _singleSkillsPanel.Collapsed = false;
+            //_singleSkillsPanel.Collapsed = false;
 
             _chain.SkillConnection = SkillConnection;
             _chain.Item = SkillConnection.Chain;

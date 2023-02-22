@@ -69,7 +69,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.SkillConnectionEdit
 
             if (_delete.Hovered)
             {
-                OnDeleteAction?.Invoke(Pet.Id);
+                OnDeleteAction?.Invoke(Pet?.Id);
                 Pet = null;
             }
 

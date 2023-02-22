@@ -1,4 +1,26 @@
 {
+  "10700": {
+    "Id": 10700,
+    "Names": {
+      "English": "Leave Transform",
+      "Spanish": null,
+      "German": null,
+      "French": null
+    },
+    "Professions": [ "Warrior", "Engineer" ],
+    "AssetId": 2271035
+  },
+  "15796": {
+    "Id": 15796,
+    "Names": {
+      "English": "Plague",
+      "Spanish": null,
+      "German": null,
+      "French": null
+    },
+    "Professions": [ "Engineer" ],
+    "AssetId": 103312
+  },
   "41258": {
     "Id": 41258,
     "Names": {
@@ -32,6 +54,17 @@
     "Professions": [ "Guardian" ],
     "AssetId": 1770475
   },
+  "41169": {
+    "Id": 41169,
+    "Names": {
+      "English": "Chapter 3: Heated Rebuke",
+      "Spanish": null,
+      "German": null,
+      "French": null
+    },
+    "Professions": [ "Guardian" ],
+    "AssetId": 1770475
+  },
   "40015": {
     "Id": 40015,
     "Names": {
@@ -53,6 +86,17 @@
     },
     "Professions": [ "Guardian" ],
     "AssetId": 1770477
+  },
+  "45022": {
+    "Id": 45022,
+    "Names": {
+      "English": "Chapter 1: Desert Bloom",
+      "Spanish": null,
+      "German": null,
+      "French": null
+    },
+    "Professions": [ "Guardian" ],
+    "AssetId": 1770479
   },
   "40787": {
     "Id": 40787,
@@ -76,6 +120,17 @@
     "Professions": [ "Guardian" ],
     "AssetId": 1770480
   },
+  "43329": {
+    "Id": 43329,
+    "Names": {
+      "English": "Chapter 3: Azure Sun",
+      "Spanish": null,
+      "German": null,
+      "French": null
+    },
+    "Professions": [ "Guardian" ],
+    "AssetId": 1770481
+  },
   "45128": {
     "Id": 45128,
     "Names": {
@@ -97,6 +152,17 @@
     },
     "Professions": [ "Guardian" ],
     "AssetId": 1770482
+  },
+  "42925": {
+    "Id": 42925,
+    "Names": {
+      "English": "Epilogue: Eternal Oasis",
+      "Spanish": null,
+      "German": null,
+      "French": null
+    },
+    "Professions": [ "Guardian" ],
+    "AssetId": 1770483
   },
   "44871": {
     "Id": 44871,
@@ -144,6 +210,19 @@
     ],
     "AssetId": 1770469
   },
+  "44924": {
+    "Id": 44924,
+    "Names": {
+      "English": "Chapter 3: Valiant Bulwark",
+      "Spanish": null,
+      "German": null,
+      "French": null
+    },
+    "Professions": [
+      "Guardian"
+    ],
+    "AssetId": 1770469
+  },
   "40988": {
     "Id": 40988,
     "Names": {
@@ -156,6 +235,19 @@
       "Guardian"
     ],
     "AssetId": 1770470
+  },
+  "44455": {
+    "Id": 44455,
+    "Names": {
+      "English": "Epilogue: Unbroken Lines",
+      "Spanish": null,
+      "German": null,
+      "French": null
+    },
+    "Professions": [
+      "Guardian"
+    ],
+    "AssetId": 1770471
   },
   "43194": {
     "Id": 43194,

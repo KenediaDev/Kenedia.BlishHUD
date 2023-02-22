@@ -375,6 +375,7 @@
     <None Include="ref\data\missing_skills.json" />
     <None Include="ref\data\rune_ids.json" />
     <None Include="ref\data\sigil_ids.json" />
+    <None Include="ref\data\SkillConnections.json" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Res\" />

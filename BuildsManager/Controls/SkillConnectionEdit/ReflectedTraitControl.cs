@@ -64,7 +64,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.SkillConnectionEdit
         {
             if (_canSave)
             {
-                if (Item.HasValues())
+                if (Item?.HasValues() == true)
                 {
                     SkillConnection.Traited ??= Item;
                 }
@@ -138,11 +138,11 @@ namespace Kenedia.Modules.BuildsManager.Controls.SkillConnectionEdit
 
                 if (id != null)
                 {
-                    _ = Item.Remove((int)id);
+                    _ = Item?.Remove((int)id);
                     temp.Item1.Dispose();
                 }
 
-                if (Item.HasValues())
+                if (Item?.HasValues() == true)
                 {
                     SkillConnection.Traited ??= Item;
                 }
@@ -159,9 +159,13 @@ namespace Kenedia.Modules.BuildsManager.Controls.SkillConnectionEdit
 
         private void OnConnectionChanged()
         {
-            foreach (var item in _controls)
+            for (int i = Children.Count - 1; i >= 0; i--)
             {
-                item.Value.Item1.Dispose();
+                Blish_HUD.Controls.Control item = Children[i];
+                if (item != null && item != _addButton)
+                {
+                    item?.Dispose();
+                }
             }
 
             if (SkillConnection != null)

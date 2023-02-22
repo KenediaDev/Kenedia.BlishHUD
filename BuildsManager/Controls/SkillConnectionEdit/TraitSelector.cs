@@ -1,6 +1,7 @@
 ﻿using Kenedia.Modules.BuildsManager.DataModels.Professions;
 using Kenedia.Modules.BuildsManager.Views;
 using Kenedia.Modules.Core.DataModels;
+using Kenedia.Modules.Core.Extensions;
 using Microsoft.Xna.Framework;
 using System;
 using System.Diagnostics;
@@ -50,9 +51,14 @@ namespace Kenedia.Modules.BuildsManager.Controls.SkillConnectionEdit
         {
             if (!await WaitAndCatch()) return;
 
+            string[] strings = obj.Split(',');
+
             foreach (TraitEntryControl item in SelectionPanel.Children)
             {
-                item.Visible = item.Trait?.Name.ToLower().Contains(obj.ToLower()) == true || item.Trait?.Id.ToString().ToLower().Contains(obj.ToLower()) == true;
+                item.Visible = 
+                    obj == string.Empty ||
+                    item.Trait?.Name.ToLower().ContainsAnyTrimmed(strings) == true ||
+                    item.Trait?.Id.ToString().ToLower().ContainsAnyTrimmed(strings) == true;
             }
 
             SelectionPanel.SortChildren((TraitEntryControl a, TraitEntryControl b) =>

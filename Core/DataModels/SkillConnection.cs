@@ -187,6 +187,10 @@ namespace Kenedia.Modules.Core.DataModels
         public int? Default { get; set; }
 
         public int? AssetId { get; set; }
+        /// <summary>
+        /// The corresponding Pvp variant of the skill
+        /// </summary>
+        public int? Pvp { get; set; }
 
         /// <summary>
         /// Id of the skill which replaces the current skill in Water/Land
