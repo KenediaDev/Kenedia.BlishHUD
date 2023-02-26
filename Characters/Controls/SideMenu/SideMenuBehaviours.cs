@@ -37,11 +37,11 @@ namespace Kenedia.Modules.Characters.Controls.SideMenu
         private readonly Dropdown _matchingDropdown;
         private readonly DisplayCheckToggle _toggleAll;
         private readonly ResourceManager _resourceManager;
-        private readonly SettingsModel _settings;
+        private readonly Settings _settings;
         private readonly Action _onSortChanged;
         private Rectangle _contentRectangle;
 
-        public SideMenuBehaviors(ResourceManager resourceManager, TextureManager textureManager, SettingsModel settings, Action onSortChanged)
+        public SideMenuBehaviors(ResourceManager resourceManager, TextureManager textureManager, Settings settings, Action onSortChanged)
         {
             _resourceManager = resourceManager;
             _settings = settings;

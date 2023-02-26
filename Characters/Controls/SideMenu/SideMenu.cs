@@ -25,14 +25,14 @@ namespace Kenedia.Modules.Characters.Controls.SideMenu
         private ImageButton _fixButton;
         private ImageButton _refreshButton;
 
-        private readonly SettingsModel _settings;
+        private readonly Settings _settings;
         private readonly TextureManager _textureManager;
         private readonly CharacterSorting _characterSorting;
         private readonly Action _toggleOCR;
         private readonly Action _togglePotrait;
         private readonly Action _refreshAPI;
 
-        public SideMenu(Action toggleOCR, Action togglePotrait, Action refreshAPI, TextureManager textureManager, SettingsModel settings, CharacterSorting characterSorting)
+        public SideMenu(Action toggleOCR, Action togglePotrait, Action refreshAPI, TextureManager textureManager, Settings settings, CharacterSorting characterSorting)
         {
             _textureManager = textureManager;
             _toggleOCR = toggleOCR;

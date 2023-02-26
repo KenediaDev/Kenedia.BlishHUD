@@ -9,6 +9,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Threading;
 using Kenedia.Modules.Core.Extensions;
+using System.Diagnostics;
 
 namespace Kenedia.Modules.Core.Controls
 {
@@ -49,8 +50,8 @@ namespace Kenedia.Modules.Core.Controls
 
         private readonly (Button Button, DialogResult Result)[] _buttons = new[]
         {
-            (new Button() {Text = "OK"}, DialogResult.OK),
-            (new Button() {Text = "Cancel"}, DialogResult.Cancel)
+            (new Button() {Text = "OK", SelectedTint = true, }, DialogResult.OK),
+            (new Button() {Text = "Cancel", SelectedTint = true, }, DialogResult.Cancel)
         };
 
         private readonly FlowPanel _buttonPanel = new()
@@ -68,6 +69,7 @@ namespace Kenedia.Modules.Core.Controls
         private Rectangle _titleTextBounds;
         private Rectangle _messageTextBounds;
         private string _message;
+        private CancellationTokenSource _cancellationTokenSource;
 
         public ButtonDefinition[] Buttons { get; }
 
@@ -178,11 +180,13 @@ namespace Kenedia.Modules.Core.Controls
             {
                 case Microsoft.Xna.Framework.Input.Keys.Escape:
                     _dialogResult = DialogResult.None;
+                    _ = _waitHandle.Set();
                     break;
 
                 case Microsoft.Xna.Framework.Input.Keys.Enter:
                 case Microsoft.Xna.Framework.Input.Keys.Space:
                     _dialogResult = _buttons[SelectedButtonIndex].Result;
+                    _ = _waitHandle.Set();
                     break;
 
                 case Microsoft.Xna.Framework.Input.Keys.Left:

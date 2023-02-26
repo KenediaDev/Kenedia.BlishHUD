@@ -19,7 +19,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using static Blish_HUD.ContentService;
-using static Kenedia.Modules.Characters.Services.SettingsModel;
+using static Kenedia.Modules.Characters.Services.Settings;
 using Color = Microsoft.Xna.Framework.Color;
 using FlowPanel = Kenedia.Modules.Core.Controls.FlowPanel;
 using Panel = Kenedia.Modules.Core.Controls.Panel;
@@ -76,7 +76,7 @@ namespace Kenedia.Modules.Characters.Controls
         private readonly TextureManager _textureManager;
         private readonly Data _data;
         private readonly MainWindow _mainWindow;
-        private readonly SettingsModel _settings;
+        private readonly Settings _settings;
         private double _lastUniform;
 
         public CharacterCard()
@@ -226,7 +226,7 @@ namespace Kenedia.Modules.Characters.Controls
             //UpdateCharacterInfo();
         }
 
-        public CharacterCard(Func<Character_Model> currentCharacter, TextureManager textureManager, Data data, MainWindow mainWindow, SettingsModel settings) : this()
+        public CharacterCard(Func<Character_Model> currentCharacter, TextureManager textureManager, Data data, MainWindow mainWindow, Settings settings) : this()
         {
             _currentCharacter = currentCharacter;
             _textureManager = textureManager;

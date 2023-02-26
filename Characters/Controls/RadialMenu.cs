@@ -25,7 +25,7 @@ namespace Kenedia.Modules.Characters.Controls
         private readonly AsyncTexture2D _dummy = AsyncTexture2D.FromAssetId(1128572);
         private readonly CharacterTooltip _tooltip;
 
-        private readonly SettingsModel _settings;
+        private readonly Settings _settings;
         private readonly ObservableCollection<Character_Model> _characters;
         private readonly Func<Character_Model> _currentCharacter;
         private List<Character_Model> _displayedCharacters;
@@ -36,7 +36,7 @@ namespace Kenedia.Modules.Characters.Controls
 
         private Point _center;
 
-        public RadialMenu(SettingsModel settings, ObservableCollection<Character_Model> characters, Container parent, Func<Character_Model> currentCharacter, Data data, TextureManager textureManager)
+        public RadialMenu(Settings settings, ObservableCollection<Character_Model> characters, Container parent, Func<Character_Model> currentCharacter, Data data, TextureManager textureManager)
         {
             _settings = settings;
             _characters = characters;

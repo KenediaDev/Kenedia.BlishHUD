@@ -28,13 +28,14 @@ namespace Kenedia.Modules.Core.Controls
         private readonly BasicTooltip _tooltip = new()
         {
             Parent = Graphics.SpriteScreen,
-            ZIndex = int.MaxValue - 1,
+            ZIndex = int.MaxValue / 2,
             Visible = false,
         };
 
         private Func<string> _setLocalizedTitleTooltip;
         private Func<string> _setLocalizedTooltip;
         private Func<string> _setLocalizedTitle;
+        private Vector2 _layoutAccordionArrowOrigin;
         private Rectangle _layoutTopLeftAccentBounds;
         private Rectangle _layoutBottomRightAccentBounds;
         private Rectangle _layoutCornerAccentSrc;
@@ -43,21 +44,22 @@ namespace Kenedia.Modules.Core.Controls
         private Rectangle _layoutHeaderBounds;
         private Rectangle _layoutHeaderTextBounds;
         private Rectangle _layoutHeaderIconBounds;
-        private Vector2 _layoutAccordionArrowOrigin;
         private Rectangle _layoutAccordionArrowBounds;
 
         private RectangleDimensions _contentPadding = new(0);
         private RectangleDimensions _borderWidth = new(0);
         private Rectangle _backgroundBounds;
+        private RectangleDimensions _titleIconPadding = new(3, 3, 5, 3);
+        private int _titleBarHeight = 36;
 
         public string BasicTitleTooltipText { get; set; }
 
         public Panel()
         {
-            LocalizingService.LocaleChanged  += UserLocale_SettingChanged;
+            LocalizingService.LocaleChanged += UserLocale_SettingChanged;
             UserLocale_SettingChanged(null, null);
         }
-        
+
         public RectangleDimensions BorderWidth
         {
             get => _borderWidth;
@@ -95,6 +97,26 @@ namespace Kenedia.Modules.Core.Controls
         public Color? BackgroundHoveredColor { get; set; }
 
         public Rectangle? TextureRectangle { get; set; }
+
+        public RectangleDimensions TitleIconPadding
+        {
+            get => _titleIconPadding;
+            set
+            {
+                _titleIconPadding = value;
+                RecalculateLayout();
+            }
+        }
+
+        public int TitleBarHeight
+        {
+            get => _titleBarHeight;
+            set
+            {
+                _titleBarHeight = value;
+                RecalculateLayout();
+            }
+        }
 
         public string TitleTooltipText
         {
@@ -148,7 +170,8 @@ namespace Kenedia.Modules.Core.Controls
                 Width - Math.Max(BorderWidth.Horizontal - 4, 0),
                 Height - Math.Max(BorderWidth.Vertical - 4, 0));
 
-            int num = (!string.IsNullOrEmpty(_title)) ? 36 : 0;
+
+            int num = (!string.IsNullOrEmpty(_title)) ? _titleBarHeight : 0;
             int num2 = 0;
             int num3 = 0;
             int num4 = 0;
@@ -167,11 +190,14 @@ namespace Kenedia.Modules.Core.Controls
             }
 
             ContentRegion = new Rectangle(num4, num, _size.X - num4 - num2, _size.Y - num - num3);
-            _layoutHeaderBounds = new Rectangle(ContentRegion.Left, 0, ContentRegion.Width, 36);
-            _layoutHeaderTextBounds = new Rectangle(_layoutHeaderBounds.Left + 10 + (TitleIcon == null ? 0 : 36), 0, _layoutHeaderBounds.Width - 10, 36);
-            _layoutHeaderIconBounds = new Rectangle(_layoutHeaderBounds.Left + 5, 0, 36, 36);
+            _layoutHeaderBounds = new Rectangle(ContentRegion.Left, 0, ContentRegion.Width, num);
+            _layoutHeaderIconBounds = TitleIcon != null ? new Rectangle(_layoutHeaderBounds.Left + _titleIconPadding.Left, _titleIconPadding.Top, num - _titleIconPadding.Vertical, num - _titleIconPadding.Vertical) : Rectangle.Empty;
+
+            _layoutHeaderTextBounds = new Rectangle(_layoutHeaderIconBounds.Right + _titleIconPadding.Right, 0, _layoutHeaderBounds.Width - _layoutHeaderIconBounds.Width, num);
+
+            int arrowSize = num - 4;    
             _layoutAccordionArrowOrigin = new Vector2(16f, 16f);
-            _layoutAccordionArrowBounds = new Rectangle(_layoutHeaderBounds.Right - 32, (num - 32) / 2, 32, 32).OffsetBy(_layoutAccordionArrowOrigin.ToPoint());
+            _layoutAccordionArrowBounds = new Rectangle(_layoutHeaderBounds.Right - arrowSize, (num - arrowSize) / 2, arrowSize, arrowSize).OffsetBy(new(arrowSize / 2, arrowSize / 2));
 
             CalculateBorders();
         }
@@ -203,7 +229,7 @@ namespace Kenedia.Modules.Core.Controls
                 }
 
                 spriteBatch.DrawStringOnCtrl(this, _title, Content.DefaultFont16, _layoutHeaderTextBounds, Color.White);
-                if(TitleIcon != null) spriteBatch.DrawOnCtrl(this, TitleIcon, _layoutHeaderIconBounds, TitleIcon.Bounds, Color.White);
+                if (TitleIcon != null) spriteBatch.DrawOnCtrl(this, TitleIcon, _layoutHeaderIconBounds, TitleIcon.Bounds, Color.White);
                 if (_canCollapse)
                 {
                     spriteBatch.DrawOnCtrl(this, _textureAccordionArrow, _layoutAccordionArrowBounds, null, Color.White, ArrowRotation, _layoutAccordionArrowOrigin);

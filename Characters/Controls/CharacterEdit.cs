@@ -10,7 +10,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
-using static Kenedia.Modules.Characters.Services.SettingsModel;
+using static Kenedia.Modules.Characters.Services.Settings;
 using static Kenedia.Modules.Characters.Services.TextureManager;
 using Checkbox = Kenedia.Modules.Core.Controls.Checkbox;
 using Color = Microsoft.Xna.Framework.Color;
@@ -22,6 +22,8 @@ using Rectangle = Microsoft.Xna.Framework.Rectangle;
 using TextBox = Kenedia.Modules.Core.Controls.TextBox;
 using System.Linq;
 using Kenedia.Modules.Characters.Views;
+using Kenedia.Modules.Core.Models;
+using Blish_HUD.Input;
 
 namespace Kenedia.Modules.Characters.Controls
 {
@@ -29,6 +31,7 @@ namespace Kenedia.Modules.Characters.Controls
     {
         private readonly AsyncTexture2D _presentTexture = AsyncTexture2D.FromAssetId(593864);
         private readonly AsyncTexture2D _presentTextureOpen = AsyncTexture2D.FromAssetId(593865);
+        private readonly ImageButton _delete;
 
         private readonly List<Tag> _tags = new();
 
@@ -48,12 +51,12 @@ namespace Kenedia.Modules.Characters.Controls
         private readonly Panel _imagePanelParent;
         private readonly FlowPanel _imagePanel;
         private readonly TagList _allTags;
-        private readonly SettingsModel _settings;
+        private readonly Settings _settings;
         private readonly Action _refreshCharacters;
         private Character_Model _character;
         private ImageButton _noImgButton;
 
-        public CharacterEdit(TextureManager tM, Action togglePotrait, Func<string> accountPath, TagList allTags, SettingsModel settings, Action refreshCharacters)
+        public CharacterEdit(TextureManager tM, Action togglePotrait, Func<string> accountPath, TagList allTags, Settings settings, Action refreshCharacters)
         {
             AccountImagePath = accountPath;
             _allTags = allTags;
@@ -133,6 +136,18 @@ namespace Kenedia.Modules.Characters.Controls
                     if (Character != null) Character.ShowOnRadial = b;
                     _refreshCharacters?.Invoke();
                 },
+            };
+
+            _delete = new()
+            {
+                Parent = this,
+                Size = new(40, 40),
+                Location = new(355 - 40, 30),
+                Texture = tM.GetControlTexture(ControlTextures.Delete_Button),
+                HoveredTexture = tM.GetControlTexture(ControlTextures.Delete_Button_Hovered),
+                SetLocalizedTooltip = () => string.Format(strings.DeleteItem, Character != null ? Character.Name : "Character"),
+                ClickAction = ConfirmDelete,
+                ZIndex = 11,
             };
 
             int x = (355 - (_radial.Right + 5 + 2) - 48) / 2;
@@ -393,6 +408,7 @@ namespace Kenedia.Modules.Characters.Controls
 
                         AdjustImagePanelHeight(images);
                         _closeButton.Location = _imagePanelParent.Right > 355 ? new(_imagePanelParent.Right - _closeButton.Size.X, AutoSizePadding.Y) : new(355 - _closeButton.Size.X, AutoSizePadding.Y);
+                        _delete.Location = _imagePanelParent.Right > 355 ? new(_imagePanelParent.Right - _delete.Size.X, _delete.Top) : new(355 - _delete.Size.X, _delete.Top);
                     }
                 });
             }
@@ -404,7 +420,7 @@ namespace Kenedia.Modules.Characters.Controls
             int maxHeight = GameService.Graphics.SpriteScreen.Height / 3;
 
             int cols = Math.Min(images.Count + 1, Math.Min(640, GameService.Graphics.SpriteScreen.Height / 3) / 80);
-            int rows = (int)Math.Ceiling((double)((images.Count + 1) / (double) cols));
+            int rows = (int)Math.Ceiling((double)((images.Count + 1) / (double)cols));
 
             int width = (cols * imageSize) + ((cols - 1) * (int)_imagePanel.ControlPadding.X) + (int)_imagePanel.OuterControlPadding.X + 30;
             int height = (rows * imageSize) + ((rows - 1) * (int)_imagePanel.ControlPadding.Y) + (int)_imagePanel.OuterControlPadding.Y + 10;
@@ -433,6 +449,7 @@ namespace Kenedia.Modules.Characters.Controls
             if (!toggle)
             {
                 _closeButton.Location = new(355 - _closeButton.Size.X, AutoSizePadding.Y);
+                _delete.Location = new(355 - _delete.Size.X, _delete.Top);
                 _tagContainer.Show();
                 _buttonContainer.Hide();
                 _imagePanelParent.Hide();
@@ -457,6 +474,7 @@ namespace Kenedia.Modules.Characters.Controls
                 _radial.Checked = Character.ShowOnRadial;
                 _birthdayButton.BasicTooltipText = _birthdayButton.SetLocalizedTooltip?.Invoke();
                 _birthdayButton.Visible = Character.HadBirthday;
+                _delete.UserLocale_SettingChanged(null, null);
 
                 foreach (Tag t in _tags)
                 {
@@ -499,6 +517,18 @@ namespace Kenedia.Modules.Characters.Controls
             else
             {
                 _character.RemoveTag(tag.Text);
+            }
+        }
+
+        private async void ConfirmDelete(MouseEventArgs m)
+        {
+            var result = await new BaseDialog("Delete Character", $"Are you sure to delete {Character?.Name}?").ShowDialog();
+
+            Debug.WriteLine($"CONFIRM DELETE: {result}");
+            if(result == DialogResult.OK)
+            {
+                Character?.Delete(); 
+                Hide();
             }
         }
     }

@@ -51,6 +51,7 @@ namespace Kenedia.Modules.Characters.Models
         private bool _showOnRadial = false;
         private bool _hadBirthday;
         private bool _isCurrentCharacter;
+        private bool _markedAsDeleted;
 
         public Character_Model()
         {
@@ -279,6 +280,13 @@ namespace Kenedia.Modules.Characters.Models
         {
             get => _show;
             set => SetProperty(ref _show, value);
+        }
+
+        [DataMember]
+        public bool MarkedAsDeleted
+        {
+            get => _markedAsDeleted;
+            set => SetProperty(ref _markedAsDeleted, value);
         }
 
         [DataMember]

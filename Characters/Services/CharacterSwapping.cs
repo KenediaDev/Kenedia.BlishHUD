@@ -35,13 +35,13 @@ namespace Kenedia.Modules.Characters.Services
 
     public class CharacterSwapping
     {
-        private readonly SettingsModel _settings;
+        private readonly Settings _settings;
         private readonly GameState _gameState;
         private readonly ObservableCollection<Character_Model> _characterModels;
 
         private bool _ignoreOCR;
 
-        public CharacterSwapping(SettingsModel settings, GameState gameState, ObservableCollection<Character_Model> characterModels)
+        public CharacterSwapping(Settings settings, GameState gameState, ObservableCollection<Character_Model> characterModels)
         {
             _settings = settings;
             _gameState = gameState;

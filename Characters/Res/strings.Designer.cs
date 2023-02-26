@@ -188,6 +188,24 @@ namespace Kenedia.Modules.Characters.Res {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Automatically delete Characters.
+        /// </summary>
+        internal static string AutomaticCharacterDelete {
+            get {
+                return ResourceManager.GetString("AutomaticCharacterDelete", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Automatically delete characters missing in the api data.
+        /// </summary>
+        internal static string AutomaticCharacterDelete_Tooltip {
+            get {
+                return ResourceManager.GetString("AutomaticCharacterDelete_Tooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Best results with Interface set to &apos;Larger&apos;!.
         /// </summary>
         internal static string BestResultLargerDisclaimer {
@@ -229,6 +247,24 @@ namespace Kenedia.Modules.Characters.Res {
         internal static string Cancel {
             get {
                 return ResourceManager.GetString("Cancel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Cancel only on ESC.
+        /// </summary>
+        internal static string CancelOnlyOnESC {
+            get {
+                return ResourceManager.GetString("CancelOnlyOnESC", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Cancel character swapping and sorting only if the ESC key is pressed.
+        /// </summary>
+        internal static string CancelOnlyOnESC_Tooltip {
+            get {
+                return ResourceManager.GetString("CancelOnlyOnESC_Tooltip", resourceCulture);
             }
         }
         
@@ -629,6 +665,33 @@ namespace Kenedia.Modules.Characters.Res {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to {0} created {1} is missing in the latest api data. Delete it?.
+        /// </summary>
+        internal static string DeletedCharacterNotification {
+            get {
+                return ResourceManager.GetString("DeletedCharacterNotification", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Delete &apos;{0}&apos; permanently..
+        /// </summary>
+        internal static string DeletedCharacterNotification_DeleteTooltip {
+            get {
+                return ResourceManager.GetString("DeletedCharacterNotification_DeleteTooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Ignore missing data for &apos;{0}&apos; during this session..
+        /// </summary>
+        internal static string DeletedCharacterNotification_DismissTooltip {
+            get {
+                return ResourceManager.GetString("DeletedCharacterNotification_DismissTooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Delete {0}.
         /// </summary>
         internal static string DeleteItem {
@@ -661,6 +724,15 @@ namespace Kenedia.Modules.Characters.Res {
         internal static string DetailedTooltip_Tooltip {
             get {
                 return ResourceManager.GetString("DetailedTooltip_Tooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Dismiss.
+        /// </summary>
+        internal static string Dismiss {
+            get {
+                return ResourceManager.GetString("Dismiss", resourceCulture);
             }
         }
         
@@ -1486,6 +1558,15 @@ namespace Kenedia.Modules.Characters.Res {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Notifications.
+        /// </summary>
+        internal static string Notifications {
+            get {
+                return ResourceManager.GetString("Notifications", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Move and Size the yellow frame to contain only the character name row in the character selection!.
         /// </summary>
         internal static string OCR_Instructions {
@@ -1509,6 +1590,15 @@ namespace Kenedia.Modules.Characters.Res {
         internal static string OCRAndImageRecognition_Tooltip {
             get {
                 return ResourceManager.GetString("OCRAndImageRecognition_Tooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to OCR is not yet setup for {0}.
+        /// </summary>
+        internal static string OCRNotification {
+            get {
+                return ResourceManager.GetString("OCRNotification", resourceCulture);
             }
         }
         
@@ -2118,6 +2208,28 @@ namespace Kenedia.Modules.Characters.Res {
         internal static string ShowLastButton_Tooltip {
             get {
                 return ResourceManager.GetString("ShowLastButton_Tooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Show Notifications.
+        /// </summary>
+        internal static string ShowNotifications {
+            get {
+                return ResourceManager.GetString("ShowNotifications", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Show Notifications on the top of the main window. 
+        ///Notifications in case of:
+        ///- missing api permissions
+        ///- missing/deleted characters in the api data
+        ///- missing ocr configuration.
+        /// </summary>
+        internal static string ShowNotifications_Tooltip {
+            get {
+                return ResourceManager.GetString("ShowNotifications_Tooltip", resourceCulture);
             }
         }
         

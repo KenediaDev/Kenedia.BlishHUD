@@ -33,10 +33,10 @@ namespace Kenedia.Modules.Characters.Views
         private readonly FlowPanel _contentPanel;
         private readonly SharedSettingsView _sharedSettingsView;
         private readonly OCR _ocr;
-        private readonly SettingsModel _settings;
+        private readonly Settings _settings;
         private double _tick;
 
-        public SettingsWindow(AsyncTexture2D background, Rectangle windowRegion, Rectangle contentRegion, SharedSettingsView sharedSettingsView, OCR ocr, SettingsModel settings) : base(background, windowRegion, contentRegion)
+        public SettingsWindow(AsyncTexture2D background, Rectangle windowRegion, Rectangle contentRegion, SharedSettingsView sharedSettingsView, OCR ocr, Settings settings) : base(background, windowRegion, contentRegion)
         {
             _sharedSettingsView = sharedSettingsView;
             _ocr = ocr;
@@ -619,6 +619,24 @@ namespace Kenedia.Modules.Characters.Views
             _ = new Checkbox()
             {
                 Parent = cP,
+                Checked = _settings.AutomaticCharacterDelete.Value,
+                SetLocalizedText = () => strings.AutomaticCharacterDelete,
+                SetLocalizedTooltip = () => strings.AutomaticCharacterDelete_Tooltip,
+                CheckedChangedAction = (b) => _settings.AutomaticCharacterDelete.Value = b,
+            };
+
+            _ = new Checkbox()
+            {
+                Parent = cP,
+                Checked = _settings.CancelOnlyOnESC.Value,
+                SetLocalizedText = () => strings.CancelOnlyOnESC,
+                SetLocalizedTooltip = () => strings.CancelOnlyOnESC_Tooltip,
+                CheckedChangedAction = (b) => _settings.CancelOnlyOnESC.Value = b,
+            };
+
+            _ = new Checkbox()
+            {
+                Parent = cP,
                 Checked = _settings.FilterAsOne.Value,
                 SetLocalizedText = () => strings.FilterAsOne,
                 SetLocalizedTooltip = () => strings.FilterAsOne_Tooltip,
@@ -1078,6 +1096,15 @@ namespace Kenedia.Modules.Characters.Views
                 CheckedChangedAction = (b) => _settings.FocusSearchOnShow.Value = b,
                 SetLocalizedText = () => strings.FocusSearchOnShow,
                 SetLocalizedTooltip = () => strings.FocusSearchOnShow_Tooltip,
+            };
+
+            _ = new Checkbox()
+            {
+                Parent = cP,
+                Checked = _settings.ShowNotifications.Value,
+                CheckedChangedAction = (b) => _settings.ShowNotifications.Value = b,
+                SetLocalizedText = () => strings.ShowNotifications,
+                SetLocalizedTooltip = () => strings.ShowNotifications_Tooltip,
             };
             #endregion
         }

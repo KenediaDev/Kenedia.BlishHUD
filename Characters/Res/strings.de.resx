@@ -965,4 +965,44 @@ Sich automatisch anmelden?
   <data name="SwapDelay_Tooltip" xml:space="preserve">
     <value>Durchschnittliche Ladezeit vom Spielstart bis zur Charakterauswahl.</value>
   </data>
+  <data name="Notifications" xml:space="preserve">
+    <value>Benachrichtigungen</value>
+  </data>
+  <data name="ShowNotifications" xml:space="preserve">
+    <value>Benachrichtigungen anzeigen</value>
+  </data>
+  <data name="ShowNotifications_Tooltip" xml:space="preserve">
+    <value>Benachrichtigungen am oberen Rand des Hauptfensters anzeigen.
+Benachrichtigungen im Falle von:
+- fehlenden Api-Berechtigungen
+- fehlende/gelöschte Zeichen in den Api-Daten
+- fehlende OCR-Konfiguration</value>
+  </data>
+  <data name="OCRNotification" xml:space="preserve">
+    <value>OCR ist für {0} noch nicht eingerichtet</value>
+  </data>
+  <data name="DeletedCharacterNotification" xml:space="preserve">
+    <value>{0} erstellt {1} fehlt in den aktuellen Api-Daten. Löschen Sie es?</value>
+  </data>
+  <data name="DeletedCharacterNotification_DeleteTooltip" xml:space="preserve">
+    <value>Löschen Sie '{0}' endgültig.</value>
+  </data>
+  <data name="DeletedCharacterNotification_DismissTooltip" xml:space="preserve">
+    <value>Fehlende Daten für '{0}' während dieser Sitzung ignorieren.</value>
+  </data>
+  <data name="Dismiss" xml:space="preserve">
+    <value>Ablehnen</value>
+  </data>
+  <data name="AutomaticCharacterDelete" xml:space="preserve">
+    <value>Automatisches Löschen von Zeichen</value>
+  </data>
+  <data name="AutomaticCharacterDelete_Tooltip" xml:space="preserve">
+    <value>Automatisches Löschen von Zeichen, die in den Api-Daten fehlen</value>
+  </data>
+  <data name="CancelOnlyOnESC" xml:space="preserve">
+    <value>Abbrechen nur bei ESC</value>
+  </data>
+  <data name="CancelOnlyOnESC_Tooltip" xml:space="preserve">
+    <value>Zeichenvertauschung und Sortierung nur abbrechen, wenn die ESC-Taste gedrückt wird</value>
+  </data>
 </root>

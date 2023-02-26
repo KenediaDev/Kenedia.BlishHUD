@@ -15,9 +15,13 @@ namespace Kenedia.Modules.Core.Services
 
         public int SideBarWidth { get; set; }
 
+        public Point Resolution { get; private set; }
+
         public RECT ClientBounds { get; set; }
 
         public RECT WindowBounds { get; set; }
+
+        public event EventHandler<ValueChangedEventArgs<Point>> ResolutionChanged;
 
         public void Run(GameTime gameTime)
         {
@@ -26,6 +30,14 @@ namespace Kenedia.Modules.Core.Services
             if (gameTime.TotalGameTime.TotalMilliseconds - _resolutionTick >= 50)
             {
                 _resolutionTick = gameTime.TotalGameTime.TotalMilliseconds;
+
+                if (GameService.Input.Mouse.State.LeftButton != Microsoft.Xna.Framework.Input.ButtonState.Pressed && !Resolution.Equals(GameService.Graphics.Resolution))
+                {
+                    var prev = Resolution;
+                    Resolution = GameService.Graphics.Resolution;
+
+                    ResolutionChanged?.Invoke(this, new(prev, Resolution));
+                }
 
                 IntPtr hWnd = GameService.GameIntegration.Gw2Instance.Gw2WindowHandle;
 

@@ -1,5 +1,5 @@
 ﻿using Kenedia.Modules.Characters.Res;
-using static Kenedia.Modules.Characters.Services.SettingsModel;
+using static Kenedia.Modules.Characters.Services.Settings;
 
 namespace Kenedia.Modules.Characters.Extensions
 {

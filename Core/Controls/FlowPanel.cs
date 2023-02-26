@@ -10,6 +10,7 @@ using System.Collections.Generic;
 using Blish_HUD.Controls;
 using Kenedia.Modules.Core.Services;
 using Kenedia.Modules.Core.DataModels;
+using System.Threading.Tasks;
 
 namespace Kenedia.Modules.Core.Controls
 {
@@ -20,15 +21,43 @@ namespace Kenedia.Modules.Core.Controls
         private readonly List<(Rectangle, float)> _topBorders = new();
         private readonly List<(Rectangle, float)> _rightBorders = new();
         private readonly List<(Rectangle, float)> _bottomBorders = new();
-        private Func<string> _setLocalizedTooltip;
 
+        private readonly AsyncTexture2D _texturePanelHeader = AsyncTexture2D.FromAssetId(1032325);
+        private readonly AsyncTexture2D _texturePanelHeaderActive = AsyncTexture2D.FromAssetId(1032324);
+        private readonly AsyncTexture2D _textureCornerAccent = AsyncTexture2D.FromAssetId(1002144);
+        private readonly AsyncTexture2D _textureLeftSideAccent = AsyncTexture2D.FromAssetId(605025);
+        private readonly AsyncTexture2D _textureAccordionArrow = AsyncTexture2D.FromAssetId(155953);
+
+        private readonly BasicTooltip _tooltip = new()
+        {
+            Parent = Graphics.SpriteScreen,
+            ZIndex = int.MaxValue / 2,
+            Visible = false,
+        };
+
+        private Func<string> _setLocalizedTitleTooltip;
+        private Func<string> _setLocalizedTooltip;
+        private Func<string> _setLocalizedTitle;
+        private Vector2 _layoutAccordionArrowOrigin;
+        private Rectangle _layoutTopLeftAccentBounds;
+        private Rectangle _layoutBottomRightAccentBounds;
+        private Rectangle _layoutCornerAccentSrc;
+        private Rectangle _layoutLeftAccentBounds;
+        private Rectangle _layoutLeftAccentSrc;
+        private Rectangle _layoutHeaderBounds;
+        private Rectangle _layoutHeaderTextBounds;
+        private Rectangle _layoutHeaderIconBounds;
+        private Rectangle _layoutAccordionArrowBounds;
         private RectangleDimensions _contentPadding = new(0);
         private RectangleDimensions _borderWidth = new(0);
         private Rectangle _backgroundBounds;
+        private RectangleDimensions _titleIconPadding = new(3, 3, 5, 3);
+        private int _titleBarHeight = 36;
+        private bool _resized = false;
 
         public FlowPanel()
         {
-            LocalizingService.LocaleChanged  += UserLocale_SettingChanged;
+            LocalizingService.LocaleChanged += UserLocale_SettingChanged;
             UserLocale_SettingChanged(null, null);
         }
 
@@ -52,11 +81,33 @@ namespace Kenedia.Modules.Core.Controls
             }
         }
 
+        public RectangleDimensions TitleIconPadding
+        {
+            get => _titleIconPadding;
+            set
+            {
+                _titleIconPadding = value;
+                RecalculateLayout();
+            }
+        }
+
+        public int TitleBarHeight
+        {
+            get => _titleBarHeight;
+            set
+            {
+                _titleBarHeight = value;
+                RecalculateLayout();
+            }
+        }
+
         public Color? BorderColor { get; set; }
 
         public Color? HoveredBorderColor { get; set; }
 
         public AsyncTexture2D BackgroundImage { get; set; }
+
+        public AsyncTexture2D TitleIcon { get; set; }
 
         public Color? BackgroundImageColor { get; set; } = Color.White;
 
@@ -68,6 +119,12 @@ namespace Kenedia.Modules.Core.Controls
 
         public Rectangle? TextureRectangle { get; set; }
 
+        public string TitleTooltipText
+        {
+            get => _tooltip.Text;
+            set => _tooltip.Text = value;
+        }
+
         public Func<string> SetLocalizedTooltip
         {
             get => _setLocalizedTooltip;
@@ -78,15 +135,35 @@ namespace Kenedia.Modules.Core.Controls
             }
         }
 
+        public Func<string> SetLocalizedTitleTooltip
+        {
+            get => _setLocalizedTitleTooltip;
+            set
+            {
+                _setLocalizedTitleTooltip = value;
+                TitleTooltipText = value?.Invoke();
+            }
+        }
+
+        public Func<string> SetLocalizedTitle
+        {
+            get => _setLocalizedTitle;
+            set
+            {
+                _setLocalizedTitle = value;
+                Title = value?.Invoke();
+            }
+        }
+
         public override void RecalculateLayout()
         {
             base.RecalculateLayout();
 
-            _contentRegion = new(
-                _contentPadding.Left + BorderWidth.Left,
-                _contentPadding.Top + BorderWidth.Top,
-                Width - _contentPadding.Horizontal - BorderWidth.Horizontal - (WidthSizingMode == SizingMode.AutoSize ? AutoSizePadding.X : 0),
-                Height - _contentPadding.Vertical - BorderWidth.Vertical - (HeightSizingMode == SizingMode.AutoSize ? AutoSizePadding.Y : 0));
+            //_contentRegion = new(
+            //    _contentPadding.Left + BorderWidth.Left,
+            //    _contentPadding.Top + BorderWidth.Top,
+            //    Width - _contentPadding.Horizontal - BorderWidth.Horizontal - (WidthSizingMode == SizingMode.AutoSize ? AutoSizePadding.X : 0),
+            //    Height - _contentPadding.Vertical - BorderWidth.Vertical - (HeightSizingMode == SizingMode.AutoSize ? AutoSizePadding.Y : 0));
 
             _backgroundBounds = new(
                 Math.Max(BorderWidth.Left - 2, 0),
@@ -94,12 +171,98 @@ namespace Kenedia.Modules.Core.Controls
                 Width - Math.Max(BorderWidth.Horizontal - 4, 0),
                 Height - Math.Max(BorderWidth.Vertical - 4, 0));
 
+            int num = (!string.IsNullOrEmpty(_title)) ? _titleBarHeight : 0;
+            int num2 = 0;
+            int num3 = 0;
+            int num4 = 0;
+            if (ShowBorder)
+            {
+                num = Math.Max(7, num);
+                num2 = 4;
+                num3 = 7;
+                num4 = 4;
+                int num5 = Math.Min(_size.X, 256);
+                _layoutTopLeftAccentBounds = new Rectangle(-2, num - 12, num5, _textureCornerAccent.Height);
+                _layoutBottomRightAccentBounds = new Rectangle(_size.X - num5 + 2, _size.Y - 59, num5, _textureCornerAccent.Height);
+                _layoutCornerAccentSrc = new Rectangle(256 - num5, 0, num5, _textureCornerAccent.Height);
+                _layoutLeftAccentBounds = new Rectangle(num4 - 7, num, _textureLeftSideAccent.Width, Math.Min(_size.Y - num - num3, _textureLeftSideAccent.Height));
+                _layoutLeftAccentSrc = new Rectangle(0, 0, _textureLeftSideAccent.Width, _layoutLeftAccentBounds.Height);
+            }
+
+            ContentRegion = new Rectangle(num4, num, _size.X - num4 - num2, _size.Y - num - num3);
+            _layoutHeaderBounds = new Rectangle(ContentRegion.Left, 0, ContentRegion.Width, num);
+            _layoutHeaderIconBounds = TitleIcon != null ? new Rectangle(_layoutHeaderBounds.Left + _titleIconPadding.Left, _titleIconPadding.Top, num - _titleIconPadding.Vertical, num - _titleIconPadding.Vertical) : Rectangle.Empty;
+
+            _layoutHeaderTextBounds = new Rectangle(_layoutHeaderIconBounds.Right + _titleIconPadding.Right, 0, _layoutHeaderBounds.Width - _layoutHeaderIconBounds.Width, num);
+
+            int arrowSize = num - 4;
+
+            _layoutAccordionArrowOrigin = new Vector2(16F, 16F);
+            _layoutAccordionArrowBounds = new Rectangle(_layoutHeaderBounds.Right - arrowSize, (num - arrowSize) / 2, arrowSize, arrowSize).OffsetBy(new(arrowSize / 2, arrowSize / 2));
+
+            if (Collapsed && _size.Y > _layoutHeaderBounds.Height && !_resized)
+            {
+                _resized = true;
+
+                _ = Task.Run(async () =>
+                {
+                    await Task.Delay(125);
+                    if (!Collapsed)
+                    {
+                        _resized = false;
+                        return;
+                    }
+
+                    Size = new(Width, _layoutHeaderBounds.Height);
+                    _resized = false;
+                });
+            }
+
             CalculateBorders();
         }
 
         public override void PaintBeforeChildren(SpriteBatch spriteBatch, Rectangle bounds)
         {
-            base.PaintBeforeChildren(spriteBatch, bounds);
+            _tooltip.Visible = false;
+            if (_backgroundTexture != null)
+            {
+                spriteBatch.DrawOnCtrl(this, _backgroundTexture, bounds);
+            }
+
+            if (_showTint)
+            {
+                spriteBatch.DrawOnCtrl(this, ContentService.Textures.Pixel, ContentRegion, Color.Black * 0.4f);
+            }
+
+            if (!string.IsNullOrEmpty(_title))
+            {
+                spriteBatch.DrawOnCtrl(this, _texturePanelHeader, _layoutHeaderBounds);
+                if (_canCollapse && _mouseOver && RelativeMousePosition.Y <= 36)
+                {
+                    _tooltip.Visible = true;
+                    spriteBatch.DrawOnCtrl(this, _texturePanelHeaderActive, _layoutHeaderBounds);
+                }
+                else
+                {
+                    spriteBatch.DrawOnCtrl(this, _texturePanelHeader, _layoutHeaderBounds);
+                }
+
+                spriteBatch.DrawStringOnCtrl(this, _title, Content.DefaultFont16, _layoutHeaderTextBounds, Color.White);
+                if (TitleIcon != null) spriteBatch.DrawOnCtrl(this, TitleIcon, _layoutHeaderIconBounds, TitleIcon.Bounds, Color.White);
+                if (_canCollapse)
+                {
+                    spriteBatch.DrawOnCtrl(this, _textureAccordionArrow, _layoutAccordionArrowBounds, null, Color.White, ArrowRotation, _layoutAccordionArrowOrigin);
+                    //spriteBatch.DrawOnCtrl(this, _textureAccordionArrow, _layoutAccordionArrowBounds, null, Color.White, ArrowRotation, new(16F, 16F));
+                }
+            }
+
+            if (ShowBorder)
+            {
+                spriteBatch.DrawOnCtrl(this, ContentService.Textures.Pixel, ContentRegion, Color.Black * (0.1f * AccentOpacity));
+                spriteBatch.DrawOnCtrl(this, _textureCornerAccent, _layoutTopLeftAccentBounds, _layoutCornerAccentSrc, Color.White * AccentOpacity, 0f, Vector2.Zero, SpriteEffects.FlipHorizontally);
+                spriteBatch.DrawOnCtrl(this, _textureCornerAccent, _layoutBottomRightAccentBounds, _layoutCornerAccentSrc, Color.White * AccentOpacity, 0f, Vector2.Zero, SpriteEffects.FlipVertically);
+                spriteBatch.DrawOnCtrl(this, _textureLeftSideAccent, _layoutLeftAccentBounds, _layoutLeftAccentSrc, Color.Black * AccentOpacity, 0f, Vector2.Zero, SpriteEffects.FlipVertically);
+            }
 
             Color? backgroundColor = BackgroundHoveredColor != null && MouseOver ? BackgroundHoveredColor : BackgroundColor;
             if (backgroundColor != null)

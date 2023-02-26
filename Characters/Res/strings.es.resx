@@ -963,4 +963,44 @@ Uu : Üü Ûû Ùù</value>
   <data name="SwapDelay_Tooltip" xml:space="preserve">
     <value>Tiempo medio de carga desde el inicio del juego hasta la selección del personaje.</value>
   </data>
+  <data name="Notifications" xml:space="preserve">
+    <value>Notificaciones</value>
+  </data>
+  <data name="ShowNotifications" xml:space="preserve">
+    <value>Mostrar notificaciones</value>
+  </data>
+  <data name="ShowNotifications_Tooltip" xml:space="preserve">
+    <value>Mostrar Notificaciones en la parte superior de la ventana principal.
+Notificaciones en caso de:
+- falta de permisos api
+- caracteres omitidos/borrados en los datos de la API
+- falta la configuración ocr</value>
+  </data>
+  <data name="OCRNotification" xml:space="preserve">
+    <value>El OCR aún no está configurado para {0}</value>
+  </data>
+  <data name="DeletedCharacterNotification" xml:space="preserve">
+    <value>{0} creado {1} falta en los últimos datos api. ¿Borrarlo?</value>
+  </data>
+  <data name="DeletedCharacterNotification_DeleteTooltip" xml:space="preserve">
+    <value>Borrar '{0}' permanentemente.</value>
+  </data>
+  <data name="DeletedCharacterNotification_DismissTooltip" xml:space="preserve">
+    <value>Ignorar los datos que faltan para '{0}' durante esta sesión.</value>
+  </data>
+  <data name="Dismiss" xml:space="preserve">
+    <value>Desestimar</value>
+  </data>
+  <data name="AutomaticCharacterDelete" xml:space="preserve">
+    <value>Borrar caracteres automáticamente</value>
+  </data>
+  <data name="AutomaticCharacterDelete_Tooltip" xml:space="preserve">
+    <value>Borrar automáticamente los caracteres que faltan en los datos de la api</value>
+  </data>
+  <data name="CancelOnlyOnESC" xml:space="preserve">
+    <value>Cancelar sólo con ESC</value>
+  </data>
+  <data name="CancelOnlyOnESC_Tooltip" xml:space="preserve">
+    <value>Cancelar el intercambio de caracteres y la clasificación sólo si se pulsa la tecla ESC</value>
+  </data>
 </root>

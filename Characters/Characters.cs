@@ -44,7 +44,7 @@ using System.Diagnostics;
 namespace Kenedia.Modules.Characters
 {
     [Export(typeof(Module))]
-    public class Characters : BaseModule<Characters, MainWindow, SettingsModel>
+    public class Characters : BaseModule<Characters, MainWindow, Settings>
     {
         public readonly ResourceManager RM = new("Kenedia.Modules.Characters.Res.strings", System.Reflection.Assembly.GetExecutingAssembly());
 
@@ -185,13 +185,15 @@ namespace Kenedia.Modules.Characters
             Settings.Version.Value = ModuleVersion;
 
             GW2APIHandler = new GW2API_Handler(Gw2ApiManager, AddOrUpdateCharacters, () => APISpinner, Paths, Data);
+
+            
         }
 
         protected override void DefineSettings(SettingCollection settings)
         {
             base.DefineSettings(settings);
 
-            Settings = new SettingsModel(settings);
+            Settings = new Settings(settings);
             Settings.ShowCornerIcon.SettingChanged += ShowCornerIcon_SettingChanged;
         }
 
@@ -221,7 +223,7 @@ namespace Kenedia.Modules.Characters
 
             if (Settings.LoadCachedAccounts.Value) _ = LoadCharacters();
 
-            Services.InputDetectionService.ClickedOrKey += InputDetectionService_ClickedOrKey;             
+            Services.InputDetectionService.ClickedOrKey += InputDetectionService_ClickedOrKey;
         }
 
         protected override void Update(GameTime gameTime)
@@ -279,6 +281,7 @@ namespace Kenedia.Modules.Characters
 
             CharacterModels.CollectionChanged -= OnCharacterCollectionChanged;
             Tags.CollectionChanged -= Tags_CollectionChanged;
+            Services.ClientWindowService.ResolutionChanged -= ClientWindowService_ResolutionChanged;
 
             base.Unload();
         }
@@ -378,6 +381,13 @@ namespace Kenedia.Modules.Characters
             CharacterSwapping.OCR = OCR;
             CharacterSorting.OCR = OCR;
             CharacterSorting.UpdateCharacterList = MainWindow.PerformFiltering;
+
+            Services.ClientWindowService.ResolutionChanged += ClientWindowService_ResolutionChanged;
+        }
+
+        private void ClientWindowService_ResolutionChanged(object sender, ValueChangedEventArgs<Point> e)
+        {
+            MainWindow?.CheckOCRRegion();
         }
 
         protected override void UnloadGUI()
@@ -417,7 +427,7 @@ namespace Kenedia.Modules.Characters
 
         private void InputDetectionService_ClickedOrKey(object sender, double e)
         {
-            if (GameService.GameIntegration.Gw2Instance.Gw2HasFocus)
+            if (GameService.GameIntegration.Gw2Instance.Gw2HasFocus && (!Settings.CancelOnlyOnESC.Value || GameService.Input.Keyboard.KeysDown.Contains(Keys.Escape)))
             {
                 CancelEverything();
             }
@@ -554,16 +564,29 @@ namespace Kenedia.Modules.Characters
             var freshList = characters.Select(c => new { c.Name, c.Created }).ToList();
             var oldList = CharacterModels.Select(c => new { c.Name, c.Created }).ToList();
 
+            bool updateMarkedCharacters = false;
             for (int i = CharacterModels.Count - 1; i >= 0; i--)
             {
                 Character_Model c = CharacterModels[i];
                 if (!freshList.Contains(new { c.Name, c.Created }))
                 {
-                    Logger.Info($"{c.Name} created on {c.Created} no longer exists. Delete them!");
-                    c.Delete();
-                    //CharacterModels.RemoveAt(i);
+
+                    if (Settings.AutomaticCharacterDelete.Value)
+                    {
+                        Logger.Info($"{c.Name} created on {c.Created} no longer exists. Delete them!");
+                        c.Delete();
+                        //CharacterModels.RemoveAt(i);
+                    }
+                    else if (!c.MarkedAsDeleted)
+                    {
+                        Logger.Info($"{c.Name} created on {c.Created} does not exist in the api data. Mark them as potentially deleted!");
+                        c.MarkedAsDeleted = true;
+                        updateMarkedCharacters = true;
+                    }
                 }
             }
+
+            if (updateMarkedCharacters) MainWindow.UpdateMissingNotification();
 
             int pos = 0;
             foreach (var c in characters)
@@ -601,7 +624,7 @@ namespace Kenedia.Modules.Characters
             }
 
             SaveCharacterList();
-            MainWindow?.CreateCharacterControls(); 
+            MainWindow?.CreateCharacterControls();
             MainWindow?.PerformFiltering();
         }
 

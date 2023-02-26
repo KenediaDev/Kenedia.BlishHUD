@@ -963,4 +963,44 @@ Se connecter automatiquement ?
   <data name="SwapDelay_Tooltip" xml:space="preserve">
     <value>Temps de chargement moyen entre le début du jeu et la sélection du personnage.</value>
   </data>
+  <data name="Notifications" xml:space="preserve">
+    <value>Notifications</value>
+  </data>
+  <data name="ShowNotifications" xml:space="preserve">
+    <value>Afficher les notifications</value>
+  </data>
+  <data name="ShowNotifications_Tooltip" xml:space="preserve">
+    <value>Afficher les notifications en haut de la fenêtre principale.
+Notifications en cas de :
+- autorisations d'api manquantes
+- caractères manquants/supprimés dans les données d'api
+- configuration ocr manquante</value>
+  </data>
+  <data name="OCRNotification" xml:space="preserve">
+    <value>L'OCR n'est pas encore configuré pour {0}.</value>
+  </data>
+  <data name="DeletedCharacterNotification" xml:space="preserve">
+    <value>{0} created {1} is missing in the latest api data. Le supprimer ?</value>
+  </data>
+  <data name="DeletedCharacterNotification_DeleteTooltip" xml:space="preserve">
+    <value>Supprimer '{0}' de façon permanente.</value>
+  </data>
+  <data name="DeletedCharacterNotification_DismissTooltip" xml:space="preserve">
+    <value>Ignorer les données manquantes pour '{0}' pendant cette session.</value>
+  </data>
+  <data name="Dismiss" xml:space="preserve">
+    <value>Rejeter</value>
+  </data>
+  <data name="AutomaticCharacterDelete" xml:space="preserve">
+    <value>Suppression automatique des caractères</value>
+  </data>
+  <data name="AutomaticCharacterDelete_Tooltip" xml:space="preserve">
+    <value>Suppression automatique des caractères manquants dans les données de l'api</value>
+  </data>
+  <data name="CancelOnlyOnESC" xml:space="preserve">
+    <value>Annuler uniquement sur ESC</value>
+  </data>
+  <data name="CancelOnlyOnESC_Tooltip" xml:space="preserve">
+    <value>Annuler la permutation et le tri des caractères uniquement si la touche ESC est enfoncée</value>
+  </data>
 </root>

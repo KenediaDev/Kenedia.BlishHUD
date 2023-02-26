@@ -14,12 +14,12 @@ using Rectangle = Microsoft.Xna.Framework.Rectangle;
 
 namespace Kenedia.Modules.Characters.Services
 {
-    public class SettingsModel : BaseSettingsModel
+    public class Settings : BaseSettingsModel
     {
         private readonly ObservableCollection<SettingEntry> _appearanceSettings = new();
         private readonly SettingCollection _settings;
 
-        public SettingsModel(SettingCollection settings)
+        public Settings(SettingCollection settings)
         {
             SettingCollection internalSettings = settings.AddSubCollection("Internal", false, false);
             Version = internalSettings.DefineSetting(nameof(Version), new SemVer.Version("0.0.0"));
@@ -31,6 +31,9 @@ namespace Kenedia.Modules.Characters.Services
             ShowCornerIcon = internalSettings.DefineSetting(nameof(ShowCornerIcon), true);
             CloseWindowOnSwap = internalSettings.DefineSetting(nameof(CloseWindowOnSwap), false);
             FilterDiacriticsInsensitive = internalSettings.DefineSetting(nameof(FilterDiacriticsInsensitive), false);
+            CancelOnlyOnESC = internalSettings.DefineSetting(nameof(CancelOnlyOnESC), false);
+            AutomaticCharacterDelete = internalSettings.DefineSetting(nameof(AutomaticCharacterDelete), false);
+            ShowNotifications = internalSettings.DefineSetting(nameof(ShowNotifications), true);
 
             FilterAsOne = internalSettings.DefineSetting(nameof(FilterAsOne), false);
             UseBetaGamestate = internalSettings.DefineSetting(nameof(UseBetaGamestate), true);
@@ -188,6 +191,12 @@ namespace Kenedia.Modules.Characters.Services
         public SettingEntry<bool> ShowChoyaSpinner { get; set; }
 
         public SettingEntry<bool> AutoSortCharacters { get; set; }
+
+        public SettingEntry<bool> CancelOnlyOnESC { get; set; }
+
+        public SettingEntry<bool> AutomaticCharacterDelete { get; }
+
+        public SettingEntry<bool> ShowNotifications { get; }
 
         public SettingEntry<bool> UseOCR { get; set; }
 

@@ -13,6 +13,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Controls\BaseDialog.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controls\BasicTooltip.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controls\Button.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\CollapseContainer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controls\FramedImage.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controls\RollingChoya.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controls\FilterBox.cs" />
@@ -57,6 +58,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\MumbleExtension.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\NumericExtension.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\PointExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Extensions\RectangleExtension.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\SpriteBatchExtension.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\StringExtension.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\Texture2DExtension.cs" />
@@ -121,6 +123,7 @@
     <None Include="$(MSBuildThisFileDirectory)Textures\RollingChoya.png" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="$(MSBuildThisFileDirectory)Events\" />
     <Folder Include="$(MSBuildThisFileDirectory)Textures\" />
   </ItemGroup>
 </Project>

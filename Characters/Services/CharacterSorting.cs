@@ -27,7 +27,7 @@ namespace Kenedia.Modules.Characters.Services
     public class CharacterSorting
     {
         private string _status;
-        private readonly SettingsModel _settings;
+        private readonly Settings _settings;
         private readonly GameState _gameState;
         private readonly ObservableCollection<Character_Model> _characters;
         private CancellationTokenSource _cancellationTokenSource;
@@ -60,7 +60,7 @@ namespace Kenedia.Modules.Characters.Services
 
         private int _currentIndex = 0;
 
-        public CharacterSorting(SettingsModel settings, GameState gameState, ObservableCollection<Character_Model> characters)
+        public CharacterSorting(Settings settings, GameState gameState, ObservableCollection<Character_Model> characters)
         {
             _settings = settings;
             _gameState = gameState;

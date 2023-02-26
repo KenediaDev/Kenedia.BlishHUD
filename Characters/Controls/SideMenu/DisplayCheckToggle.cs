@@ -22,7 +22,7 @@ namespace Kenedia.Modules.Characters.Controls.SideMenu
         private readonly Label _textLabel;
 
         private readonly string _key;
-        private readonly SettingsModel _settings;
+        private readonly Settings _settings;
 
         private bool _checkChecked;
         private bool _showChecked;
@@ -77,7 +77,7 @@ namespace Kenedia.Modules.Characters.Controls.SideMenu
             };
         }
 
-        public DisplayCheckToggle(TextureManager textureManager, SettingsModel settings, string key, bool show = true, bool check = true) : this(textureManager, true, true)
+        public DisplayCheckToggle(TextureManager textureManager, Settings settings, string key, bool show = true, bool check = true) : this(textureManager, true, true)
         {
             _settings = settings;
             _key = key;

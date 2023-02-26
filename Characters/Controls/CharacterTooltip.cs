@@ -49,7 +49,7 @@ namespace Kenedia.Modules.Characters.Controls
         private readonly List<Tag> _tags = new();
         private bool _updateCharacter;
 
-        public CharacterTooltip(Func<Character_Model> currentCharacter, TextureManager textureManager, Data data, SettingsModel settings)
+        public CharacterTooltip(Func<Character_Model> currentCharacter, TextureManager textureManager, Data data, Settings settings)
         {
             _currentCharacter = currentCharacter;
             _textureManager = textureManager;

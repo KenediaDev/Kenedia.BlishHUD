@@ -1,4 +1,5 @@
 ﻿using Blish_HUD;
+using Blish_HUD.Controls;
 using Blish_HUD.Input;
 using Gw2Sharp.WebApi;
 using Kenedia.Modules.Core.Interfaces;
@@ -10,8 +11,11 @@ using System;
 
 namespace Kenedia.Modules.Core.Controls
 {
-    public class Button : Blish_HUD.Controls.StandardButton, ILocalizable
+    public class Button : StandardButton, ILocalizable
     {
+        private readonly Texture2D _textureButtonIdle = Content.GetTexture("common/button-states");
+        private readonly Texture2D _textureButtonBorder = Content.GetTexture("button-border");
+
         private Func<string> _setLocalizedText;
         private Func<string> _setLocalizedTooltip;
 
@@ -43,16 +47,13 @@ namespace Kenedia.Modules.Core.Controls
             }
         }
 
-        private bool _selected;
         private Rectangle _layoutIconBounds;
         private Rectangle _layoutTextBounds;
+        private Rectangle _underlineBounds;
 
-        public bool Selected
-        {
-            get { return _selected; }
-            set { _selected = value; }
-        }
+        public bool Selected { get; set; }
 
+        public bool SelectedTint { get; set; } = false;
 
         public void UserLocale_SettingChanged(object sender, ValueChangedEventArgs<Locale> e)
         {
@@ -87,16 +88,38 @@ namespace Kenedia.Modules.Core.Controls
                 _layoutIconBounds = new Rectangle(num - point.X - 4, (_size.Y / 2) - (point.Y / 2), point.X, point.Y);
             }
 
-            _layoutTextBounds = new Rectangle(num, (int)textDimensions.Height + 2, (int)textDimensions.Width, 2);
+            _layoutTextBounds = new Rectangle(num, (Height  - (int)textDimensions.Height) / 2, (int)textDimensions.Width, (int)textDimensions.Height);
+            _underlineBounds = new Rectangle(num, _layoutTextBounds.Bottom - 3, (int)textDimensions.Width, 2);
         }
 
         protected override void Paint(SpriteBatch spriteBatch, Rectangle bounds)
         {
-            base.Paint(spriteBatch, bounds);
+            RecalculateLayout();
 
-            if (_selected)
+            if (_enabled)
             {
-                spriteBatch.DrawOnCtrl(this, ContentService.Textures.Pixel, _layoutTextBounds, Color.Black * 0.6f);
+                spriteBatch.DrawOnCtrl(this, _textureButtonIdle, new Rectangle(3, 3, _size.X - 6, _size.Y - 5), new Rectangle(AnimationState * 350, 0, 350, 20), !SelectedTint || Selected ? Color.White : new Color(175, 175, 175));
+            }
+            else
+            {
+                spriteBatch.DrawOnCtrl(this, ContentService.Textures.Pixel, new Rectangle(3, 3, _size.X - 6, _size.Y - 5), Color.FromNonPremultiplied(121, 121, 121, 255));
+            }
+
+            spriteBatch.DrawOnCtrl(this, _textureButtonBorder, new Rectangle(2, 0, base.Width - 5, 4), new Rectangle(0, 0, 1, 4));
+            spriteBatch.DrawOnCtrl(this, _textureButtonBorder, new Rectangle(base.Width - 4, 2, 4, base.Height - 3), new Rectangle(0, 1, 4, 1));
+            spriteBatch.DrawOnCtrl(this, _textureButtonBorder, new Rectangle(3, base.Height - 4, base.Width - 6, 4), new Rectangle(1, 0, 1, 4));
+            spriteBatch.DrawOnCtrl(this, _textureButtonBorder, new Rectangle(0, 2, 4, base.Height - 3), new Rectangle(0, 3, 4, 1));
+            if (Icon != null)
+            {
+                spriteBatch.DrawOnCtrl(this, Icon, _layoutIconBounds);
+            }
+
+            _textColor = _enabled ? Color.Black : Color.FromNonPremultiplied(51, 51, 51, 255);
+            DrawText(spriteBatch, _layoutTextBounds);
+
+            if (Selected)
+            {
+                spriteBatch.DrawOnCtrl(this, ContentService.Textures.Pixel, _underlineBounds, Color.Black * 0.6f);
             }
         }
     }

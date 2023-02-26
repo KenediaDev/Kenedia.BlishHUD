@@ -25,7 +25,7 @@ namespace Kenedia.Modules.Characters
 
         private readonly ClientWindowService _clientWindowService;
         private readonly SharedSettings _sharedSettings;
-        private readonly SettingsModel _settings;
+        private readonly Settings _settings;
         private readonly ObservableCollection<Character_Model> _characterModels;
 
         private readonly Color _spacingColor = Color.FromArgb(255, 200, 200, 200);
@@ -43,7 +43,7 @@ namespace Kenedia.Modules.Characters
 
         private bool _disposed = false;
 
-        public OCR(ClientWindowService clientWindowService, SharedSettings sharedSettings, SettingsModel settings, string basePath, ObservableCollection<Character_Model> characterModels)
+        public OCR(ClientWindowService clientWindowService, SharedSettings sharedSettings, Settings settings, string basePath, ObservableCollection<Character_Model> characterModels)
         {
             _clientWindowService = clientWindowService;
             _sharedSettings = sharedSettings;

@@ -24,7 +24,7 @@ namespace Characters.Views
     public class OCRView : FramedContainer
     {
         private readonly OCR _ocr;
-        private readonly SettingsModel _settings;
+        private readonly Settings _settings;
 
         private readonly System.Drawing.Color _spacingColor = System.Drawing.Color.FromArgb(255, 200, 200, 200);
         private readonly System.Drawing.Color _ignoredColor = System.Drawing.Color.FromArgb(255, 100, 100, 100);
@@ -43,7 +43,7 @@ namespace Characters.Views
         private bool _sizeSet = false;
         private double _readTick;
 
-        public OCRView(SettingsModel settings, OCR ocr)
+        public OCRView(Settings settings, OCR ocr)
         {
             _settings = settings;
             _ocr = ocr;

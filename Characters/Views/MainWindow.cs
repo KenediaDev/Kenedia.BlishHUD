@@ -15,7 +15,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
-using static Kenedia.Modules.Characters.Services.SettingsModel;
+using static Kenedia.Modules.Characters.Services.Settings;
 using static Kenedia.Modules.Core.Controls.AnchoredContainer;
 using Color = Microsoft.Xna.Framework.Color;
 using FlowPanel = Kenedia.Modules.Core.Controls.FlowPanel;
@@ -30,20 +30,23 @@ namespace Kenedia.Modules.Characters.Views
 {
     public class MainWindow : StandardWindow
     {
-        private readonly SettingsModel _settings;
+        private readonly Settings _settings;
         private readonly TextureManager _textureManager;
         private readonly ObservableCollection<Character_Model> _characterModels;
         private readonly SearchFilterCollection _searchFilters;
         private readonly SearchFilterCollection _tagFilters;
+        private readonly Action _toggleOCR;
         private readonly Func<Character_Model> _currentCharacter;
         private readonly Data _data;
         private readonly AsyncTexture2D _windowEmblem = AsyncTexture2D.FromAssetId(156015);
 
         private readonly ImageButton _toggleSideMenuButton;
+        private readonly CollapseContainer _collapseWrapper;
         private readonly ImageButton _displaySettingsButton;
         private readonly ImageButton _randomButton;
         private readonly ImageButton _lastButton;
         private readonly ImageButton _clearButton;
+        private NotificationPanel _notifications;
         private readonly FlowPanel _dropdownPanel;
         private readonly FlowPanel _buttonPanel;
         private readonly FilterBox _filterBox;
@@ -57,7 +60,7 @@ namespace Kenedia.Modules.Characters.Views
         private BitmapFont _titleFont;
 
         public MainWindow(Texture2D background, Rectangle windowRegion, Rectangle contentRegion,
-            SettingsModel settings, TextureManager textureManager, ObservableCollection<Character_Model> characterModels,
+            Settings settings, TextureManager textureManager, ObservableCollection<Character_Model> characterModels,
             SearchFilterCollection searchFilters, SearchFilterCollection tagFilters, Action toggleOCR, Action togglePotrait,
             Action refreshAPI, Func<string> accountImagePath, TagList tags, Func<Character_Model> currentCharacter, Data data, CharacterSorting characterSorting)
             : base(background, windowRegion, contentRegion)
@@ -67,39 +70,47 @@ namespace Kenedia.Modules.Characters.Views
             _characterModels = characterModels;
             _searchFilters = searchFilters;
             _tagFilters = tagFilters;
+            _toggleOCR = toggleOCR;
             _currentCharacter = currentCharacter;
             _data = data;
             ContentPanel = new FlowPanel()
             {
                 Parent = this,
-                Location = new Point(0, 35),
+                Location = new Point(0, 0),
                 WidthSizingMode = SizingMode.Fill,
                 HeightSizingMode = SizingMode.Fill,
                 AutoSizePadding = new(5, 5),
-            };
-
-            _ = new Dummy()
-            {
-                Parent = ContentPanel,
-                Width = ContentPanel.Width,
-                Height = 3,
-            };
-
-            CharactersPanel = new FlowPanel()
-            {
-                Parent = ContentPanel,
-                Size = Size,
-                ControlPadding = new Vector2(2, 4),
-                WidthSizingMode = SizingMode.Fill,
-                HeightSizingMode = SizingMode.Fill,
-                CanScroll = true,
+                ControlPadding = new(0, 5),
             };
 
             DraggingControl.LeftMouseButtonReleased += DraggingControl_LeftMouseButtonReleased;
 
+            _collapseWrapper = new CollapseContainer()
+            {
+                Parent = ContentPanel,
+                WidthSizingMode = SizingMode.Fill,
+                SetLocalizedTitle = () => strings.Notifications,
+                TitleIcon = AsyncTexture2D.FromAssetId(222246),
+                TitleBarHeight = 24,
+                Height = 24,
+                ContentPadding = new(5),
+                MaxSize = new(-1, 350),
+                Collapsed = true,
+                Visible = false,
+            };
+            _collapseWrapper.Hidden += CollapseWrapper_Hidden;
+
+            _notifications = new NotificationPanel(_characterModels)
+            {
+                Parent = _collapseWrapper,
+                WidthSizingMode = SizingMode.Fill,
+                MaxSize = new(-1, 310),
+            };
+            _collapseWrapper.SizeDeterminingChild = _notifications;
+
             _dropdownPanel = new FlowPanel()
             {
-                Parent = this,
+                Parent = ContentPanel,
                 Location = new Point(0, 2),
                 FlowDirection = ControlFlowDirection.SingleLeftToRight,
                 WidthSizingMode = SizingMode.Fill,
@@ -203,6 +214,16 @@ namespace Kenedia.Modules.Characters.Views
                 ClickAction = (m) => ShowAttached(SideMenu.Visible ? null : SideMenu),
             };
 
+            CharactersPanel = new FlowPanel()
+            {
+                Parent = ContentPanel,
+                Size = Size,
+                ControlPadding = new Vector2(2, 4),
+                WidthSizingMode = SizingMode.Fill,
+                HeightSizingMode = SizingMode.Fill,
+                CanScroll = true,
+            };
+
             CharacterEdit = new CharacterEdit(textureManager, togglePotrait, accountImagePath, tags, settings, PerformFiltering)
             {
                 Parent = GameService.Graphics.SpriteScreen,
@@ -225,6 +246,8 @@ namespace Kenedia.Modules.Characters.Views
 
             AttachContainer(CharacterEdit);
             AttachContainer(SideMenu);
+            UpdateMissingNotification();
+            CheckOCRRegion();
 
             _created = true;
 
@@ -233,6 +256,11 @@ namespace Kenedia.Modules.Characters.Views
             _settings.ShowLastButton.SettingChanged += ShowLastButton_SettingChanged;
 
             GameService.Gw2Mumble.CurrentMap.MapChanged += CurrentMap_MapChanged;
+        }
+
+        private void CollapseWrapper_Hidden(object sender, EventArgs e)
+        {
+            ContentPanel.Invalidate();
         }
 
         private List<Character_Model> LoadedModels { get; } = new();
@@ -279,7 +307,7 @@ namespace Kenedia.Modules.Characters.Views
         private void ButtonPanel_Resized(object sender, ResizedEventArgs e)
         {
             _filterBox.Width = _dropdownPanel.Width - _buttonPanel.Width - 2;
-            _clearButton.Location = new Point(_filterBox.LocalBounds.Right - 25, _filterBox.LocalBounds.Top + 5);
+            _clearButton.Location = new Point(_filterBox.LocalBounds.Right - 25, _filterBox.LocalBounds.Top + 8);
         }
 
         public List<CharacterCard> CharacterCards { get; } = new();
@@ -558,10 +586,10 @@ namespace Kenedia.Modules.Characters.Views
             base.OnShown(e);
             if (_settings.FocusSearchOnShow.Value)
             {
-                foreach(var k in GameService.Input.Keyboard.KeysDown)
+                foreach (var k in GameService.Input.Keyboard.KeysDown)
                 {
-                    Blish_HUD.Controls.Intern.Keyboard.Release((Blish_HUD.Controls.Extern.VirtualKeyShort) k, false);
-                    Blish_HUD.Controls.Intern.Keyboard.Release((Blish_HUD.Controls.Extern.VirtualKeyShort) k, true);
+                    Blish_HUD.Controls.Intern.Keyboard.Release((Blish_HUD.Controls.Extern.VirtualKeyShort)k, false);
+                    Blish_HUD.Controls.Intern.Keyboard.Release((Blish_HUD.Controls.Extern.VirtualKeyShort)k, true);
                 }
 
                 _filterBox.Focused = true;
@@ -591,7 +619,7 @@ namespace Kenedia.Modules.Characters.Views
                 {
                     //_dropdownPanel.Size = new Point(ContentRegion.Size.X, 31);
                     _filterBox.Width = _dropdownPanel.Width - _buttonPanel.Width - 2;
-                    _clearButton.Location = new Point(_filterBox.LocalBounds.Right - 23, _filterBox.LocalBounds.Top + 6);
+                    _clearButton.Location = new Point(_filterBox.LocalBounds.Right - 23, _filterBox.LocalBounds.Top + 8);
                 }
 
                 if (e.CurrentSize.Y < 135)
@@ -617,6 +645,9 @@ namespace Kenedia.Modules.Characters.Views
             DraggingControl.LeftMouseButtonReleased -= DraggingControl_LeftMouseButtonReleased;
             _buttonPanel.Resized -= ButtonPanel_Resized;
 
+            _collapseWrapper.Hidden -= CollapseWrapper_Hidden;
+
+            _collapseWrapper?.Dispose();
             ContentPanel?.Dispose();
             CharactersPanel?.Dispose();
             DraggingControl?.Dispose();
@@ -686,6 +717,52 @@ namespace Kenedia.Modules.Characters.Views
             }
 
             SortCharacters();
+        }
+
+        public void CheckOCRRegion()
+        {
+            var defaultRect = new Rectangle(50, (int)((GameService.Graphics.Resolution.Y - 350) / 2), 530, 50);
+            if (_settings.UseOCR.Value && _settings.ActiveOCRRegion.Equals(defaultRect))
+            {
+                _ = new OCRSetupNotification()
+                {
+                    Resolution = _settings.OCRKey,
+                    Parent = _notifications,
+                    Height = 25,
+                    ClickAction = () =>
+                    {
+                        _toggleOCR?.Invoke();
+                        SettingsWindow?.Show();
+                    }
+                };
+            }
+
+            if (_settings.ShowNotifications.Value && _notifications.Children.Count > 0 && _notifications.Children.Any(e => e.Visible))
+            {
+                _collapseWrapper.Show();                
+                ContentPanel.Invalidate();
+            }
+
+            if (_collapseWrapper.Collapsed)
+            {
+                _collapseWrapper.Height = _collapseWrapper.TitleBarHeight;
+            }
+        }
+
+        public void UpdateMissingNotification()
+        {
+            _notifications.UpdateCharacters();
+
+            if (_settings.ShowNotifications.Value && _notifications.Children.Count > 0 && _notifications.Children.Any(e => e.Visible))
+            {
+                _collapseWrapper.Show();
+                ContentPanel.Invalidate();
+            }
+
+            if (_collapseWrapper.Collapsed)
+            {
+                _collapseWrapper.Height = _collapseWrapper.TitleBarHeight;
+            }
         }
     }
 }
