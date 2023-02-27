@@ -174,7 +174,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage.ProfessionSpecific
 
             switch (Template.EliteSpecialization?.Id)
             {
-                case (int)Specializations.Renegade:
+                case (int)SpecializationType.Renegade:
                     _professionSkill2.Bounds = new(xOffset + 2 + (_legendSize * 1) + 60 + 32 - 18, 15, 36, 36);
                     _professionSkill2.TextureRegion = new(6, 6, 52, 52);
 
@@ -185,7 +185,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage.ProfessionSpecific
                     _professionSkill4.TextureRegion = new(6, 6, 52, 52);
                     break;
 
-                case (int)Specializations.Vindicator:
+                case (int)SpecializationType.Vindicator:
                     _professionSkill2.Bounds = new(xOffset + 2 + (_legendSize * 2) + 49 + 32 - 18-18, 15, 36, 36);
                     _professionSkill2.TextureRegion = new(14, 14, 100, 100);
 
@@ -193,7 +193,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage.ProfessionSpecific
                     _professionSkill3.TextureRegion = new(14, 14, 100, 100);
                     break;
 
-                case (int)Specializations.Herald:
+                case (int)SpecializationType.Herald:
                     _professionSkill2.Bounds = new(xOffset + 2 + (_legendSize * 2) + 49 + 32 - 18, 15, 36, 36);
                     _professionSkill2.TextureRegion = new(14, 14, 100, 100);
                     break;
@@ -285,19 +285,19 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage.ProfessionSpecific
             _legend2.Legend = Template.BuildTemplate.Legends[GetOtherSlot()];
             _legend2.LegendSlot = GetOtherSlot();
 
-            if (Template.EliteSpecialization != null && Template.EliteSpecialization.Id == (int)Specializations.Renegade)
+            if (Template.EliteSpecialization != null && Template.EliteSpecialization.Id == (int)SpecializationType.Renegade)
             {
-                _professionSkill2.Skill = BuildsManager.Data.Professions[Gw2Sharp.Models.ProfessionType.Revenant]?.Skills.Where(e => e.Value.Specialization == (int)Specializations.Renegade && e.Value.Slot == Gw2Sharp.WebApi.V2.Models.SkillSlot.Profession2)?.FirstOrDefault().Value;
-                _professionSkill3.Skill = BuildsManager.Data.Professions[Gw2Sharp.Models.ProfessionType.Revenant]?.Skills.Where(e => e.Value.Specialization == (int)Specializations.Renegade && e.Value.Slot == Gw2Sharp.WebApi.V2.Models.SkillSlot.Profession3)?.FirstOrDefault().Value;
-                _professionSkill4.Skill = BuildsManager.Data.Professions[Gw2Sharp.Models.ProfessionType.Revenant]?.Skills.Where(e => e.Value.Specialization == (int)Specializations.Renegade && e.Value.Slot == Gw2Sharp.WebApi.V2.Models.SkillSlot.Profession4)?.FirstOrDefault().Value;
+                _professionSkill2.Skill = BuildsManager.Data.Professions[Gw2Sharp.Models.ProfessionType.Revenant]?.Skills.Where(e => e.Value.Specialization == (int)SpecializationType.Renegade && e.Value.Slot == Gw2Sharp.WebApi.V2.Models.SkillSlot.Profession2)?.FirstOrDefault().Value;
+                _professionSkill3.Skill = BuildsManager.Data.Professions[Gw2Sharp.Models.ProfessionType.Revenant]?.Skills.Where(e => e.Value.Specialization == (int)SpecializationType.Renegade && e.Value.Slot == Gw2Sharp.WebApi.V2.Models.SkillSlot.Profession3)?.FirstOrDefault().Value;
+                _professionSkill4.Skill = BuildsManager.Data.Professions[Gw2Sharp.Models.ProfessionType.Revenant]?.Skills.Where(e => e.Value.Specialization == (int)SpecializationType.Renegade && e.Value.Slot == Gw2Sharp.WebApi.V2.Models.SkillSlot.Profession4)?.FirstOrDefault().Value;
             }
-            else if (Template.EliteSpecialization != null && Template.EliteSpecialization.Id == (int)Specializations.Herald)
+            else if (Template.EliteSpecialization != null && Template.EliteSpecialization.Id == (int)SpecializationType.Herald)
             {
-                _professionSkill2.Skill = BuildsManager.Data.Professions[Gw2Sharp.Models.ProfessionType.Revenant]?.Skills.Where(e => e.Value.Specialization == (int) Specializations.Herald && e.Value.Slot == Gw2Sharp.WebApi.V2.Models.SkillSlot.Profession2)?.FirstOrDefault().Value;
+                _professionSkill2.Skill = BuildsManager.Data.Professions[Gw2Sharp.Models.ProfessionType.Revenant]?.Skills.Where(e => e.Value.Specialization == (int) SpecializationType.Herald && e.Value.Slot == Gw2Sharp.WebApi.V2.Models.SkillSlot.Profession2)?.FirstOrDefault().Value;
             }
-            else if (Template.EliteSpecialization != null && Template.EliteSpecialization.Id == (int)Specializations.Vindicator)
+            else if (Template.EliteSpecialization != null && Template.EliteSpecialization.Id == (int)SpecializationType.Vindicator)
             {
-                var skills = BuildsManager.Data.Professions[Gw2Sharp.Models.ProfessionType.Revenant]?.Skills.Where(e => e.Value.Specialization == (int)Specializations.Vindicator && e.Value.Slot == Gw2Sharp.WebApi.V2.Models.SkillSlot.Profession2);
+                var skills = BuildsManager.Data.Professions[Gw2Sharp.Models.ProfessionType.Revenant]?.Skills.Where(e => e.Value.Specialization == (int)SpecializationType.Vindicator && e.Value.Slot == Gw2Sharp.WebApi.V2.Models.SkillSlot.Profession2);
                 _professionSkill2.Skill = skills?.ElementAt(0).Value;
                 _professionSkill3.Skill = skills?.ElementAt(1).Value;
             }
@@ -336,16 +336,16 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage.ProfessionSpecific
 
             switch (Template.EliteSpecialization?.Id)
             {
-                case (int)Specializations.Renegade:
+                case (int)SpecializationType.Renegade:
                     _professionSkill3.Draw(this, spriteBatch, RelativeMousePosition);
                     _professionSkill4.Draw(this, spriteBatch, RelativeMousePosition);
                     break;
 
-                case (int)Specializations.Vindicator:
+                case (int)SpecializationType.Vindicator:
                     _professionSkill3.Draw(this, spriteBatch, RelativeMousePosition);
                     break;
 
-                case (int)Specializations.Herald:
+                case (int)SpecializationType.Herald:
                 case null:
                     break;
             }

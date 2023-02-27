@@ -2,6 +2,7 @@
 using Gw2Sharp;
 using Gw2Sharp.Models;
 using Gw2Sharp.WebApi.V2.Models;
+using Kenedia.Modules.Core.DataModels;
 using Kenedia.Modules.Core.Models;
 using Kenedia.Modules.Core.Utility;
 using System;
@@ -33,6 +34,9 @@ namespace Kenedia.Modules.BuildsManager.DataModels.Professions
             Slot = skill.Slot?.ToEnum();
             WeaponType = skill.WeaponType != null ? (WeaponType)skill.WeaponType?.ToEnum() : null;
             Attunement = skill.Attunement?.ToEnum();
+
+            _ = BuildsManager.Data.SkillConnections.TryGetValue(skill.Id, out var connection);
+            SkillConnection = connection ?? null;
 
             if ((skill.Categories != null && skill.Categories.Count > 0) || skill.Name.Contains('\"'))
             {
@@ -69,6 +73,9 @@ namespace Kenedia.Modules.BuildsManager.DataModels.Professions
                 }
             }
         }
+
+        [DataMember]
+        public SkillConnection SkillConnection { get; protected set; }
 
         [DataMember]
         public LocalizedString Names { get; protected set; } = new();

@@ -52,7 +52,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage.ProfessionSpecific
 
             switch (Template.EliteSpecialization?.Id)
             {
-                case (int)Specializations.Bladesworn:
+                case (int)SpecializationType.Bladesworn:
                     for (int i = 0; i < _charges.Length; i++)
                     {
                         _charges[i].Bounds = new(xOffset + 90 + 1 + (i * 17), 57, 12, 24);
@@ -63,7 +63,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage.ProfessionSpecific
 
                     break;
 
-                case (int)Specializations.Berserker:
+                case (int)SpecializationType.Berserker:
                     _emptyAdrenalin.Bounds = new(xOffset + 3, 80, 163, 14);
                     _emptyAdrenalin.TextureRegion = new(0, 25, 217, 14);
 
@@ -80,7 +80,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage.ProfessionSpecific
                     _skills[1].Bounds = new(xOffset + 211 - 45, 56, 42, 42);
                     break;
 
-                case (int)Specializations.Spellbreaker:
+                case (int)SpecializationType.Spellbreaker:
                     _emptyAdrenalin.Bounds = new(xOffset + 3, 80, 163, 14);
                     _emptyAdrenalin.TextureRegion = new(0, 25, 145, 14);
 
@@ -116,7 +116,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage.ProfessionSpecific
         {
             switch (Template.EliteSpecialization?.Id)
             {
-                case (int)Specializations.Bladesworn:
+                case (int)SpecializationType.Bladesworn:
                     _barBackground.Draw(this, spriteBatch);
                     _skills[0].Draw(this, spriteBatch, RelativeMousePosition);
                     _skills[1].Draw(this, spriteBatch, RelativeMousePosition);
@@ -128,7 +128,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage.ProfessionSpecific
 
                     break;
 
-                case (int)Specializations.Spellbreaker:
+                case (int)SpecializationType.Spellbreaker:
                     _skills[0].Draw(this, spriteBatch, RelativeMousePosition);
                     if (_skills[1].Hovered)
                     {
@@ -140,7 +140,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage.ProfessionSpecific
                     _adrenalin2.Draw(this, spriteBatch);
                     break;
 
-                case (int)Specializations.Berserker:
+                case (int)SpecializationType.Berserker:
                     _skills[0].Draw(this, spriteBatch, RelativeMousePosition);
                     _skills[1].Draw(this, spriteBatch, RelativeMousePosition);
                     _emptyAdrenalin.Draw(this, spriteBatch);
@@ -166,8 +166,8 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage.ProfessionSpecific
             Skill GetSkill(SkillSlot slot)
             {
                 Skill skill = null;
-                bool spellbreaker = Template.EliteSpecialization?.Id == (int)Specializations.Spellbreaker;
-                bool berserker = Template.EliteSpecialization?.Id == (int)Specializations.Berserker;
+                bool spellbreaker = Template.EliteSpecialization?.Id == (int)SpecializationType.Spellbreaker;
+                bool berserker = Template.EliteSpecialization?.Id == (int)SpecializationType.Berserker;
                 if (spellbreaker && slot == SkillSlot.Profession2)
                 {
                     return skills[44165];
@@ -187,7 +187,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage.ProfessionSpecific
                 return skill;
             }
 
-            if (Template.EliteSpecialization?.Id is (int) Specializations.Spellbreaker or (int) Specializations.Berserker)
+            if (Template.EliteSpecialization?.Id is (int) SpecializationType.Spellbreaker or (int) SpecializationType.Berserker)
             {
                 _skills[0].Skill = GetSkill(SkillSlot.Profession2);
                 _skills[1].Skill = GetSkill(SkillSlot.Profession1);

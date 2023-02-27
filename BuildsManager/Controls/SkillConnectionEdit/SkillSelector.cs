@@ -6,7 +6,7 @@ using Kenedia.Modules.Core.Extensions;
 
 namespace Kenedia.Modules.BuildsManager.Controls.SkillConnectionEdit
 {
-    public class SkillSelector : Selector<SkillEntryControl, SkillConnection>
+    public class SkillSelector : Selector<SkillEntryControl, OldSkillConnection>
     {
         public SkillSelector(SkillConnectionEditor editor)
         {

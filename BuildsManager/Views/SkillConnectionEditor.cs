@@ -18,13 +18,13 @@ namespace Kenedia.Modules.BuildsManager.Views
 {
     public class SkillConnectionEditor : StandardWindow
     {
-        private Dictionary<int, SkillConnection> _connections = new();
+        private Dictionary<int, OldSkillConnection> _connections = new();
         private ProfessionType _profession = ProfessionType.Guardian;
         private readonly EditingControl _connectionEdit;
         private readonly SkillSelector _selector;
         private readonly Dropdown _specialization;
 
-        public Dictionary<int, SkillConnection> Connections { get => _connections; set => Common.SetProperty(ref _connections, value, CreateUI); }
+        public Dictionary<int, OldSkillConnection> Connections { get => _connections; set => Common.SetProperty(ref _connections, value, CreateUI); }
 
         public SkillConnectionEditor(AsyncTexture2D background, Rectangle windowRegion, Rectangle contentRegion) : base(background, windowRegion, contentRegion)
         {

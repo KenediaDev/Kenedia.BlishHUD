@@ -37,6 +37,8 @@ namespace Kenedia.Modules.BuildsManager.Services
             _paths = paths;
         }
 
+        public Dictionary<int, OldSkillConnection> OldConnections { get; set; } = new();
+
         public Dictionary<int, SkillConnection> SkillConnections { get; set; } = new();
 
         public Dictionary<int, BaseSkill> BaseSkills { get; set; } = new();
@@ -88,7 +90,7 @@ namespace Kenedia.Modules.BuildsManager.Services
 
                 foreach (var prop in GetType().GetProperties())
                 {
-                    if (prop.Name is not nameof(RuneIds) and not nameof(SigilIds) and not nameof(SkillsByPalette) and not nameof(BaseSkills) and not nameof(SkillConnections) and not nameof(IsLoaded))
+                    if (prop.Name is not nameof(RuneIds) and not nameof(SigilIds) and not nameof(SkillsByPalette) and not nameof(BaseSkills) and not nameof(SkillConnections) and not nameof(OldConnections) and not nameof(IsLoaded))
                     {
                         string path = $@"{_paths.ModuleDataPath}{prop.Name}.json";
 
@@ -142,7 +144,7 @@ namespace Kenedia.Modules.BuildsManager.Services
             }
         }
 
-        public async Task LoadConnections()
+        public async Task ImportOldConnections()
         {
             string path = $@"{_paths.ModuleDataPath}{nameof(SkillConnections)}.json";
 
@@ -150,14 +152,80 @@ namespace Kenedia.Modules.BuildsManager.Services
             {
                 _logger.Debug($"Loading data for property {nameof(SkillConnections)} from '{$@"{_paths.ModuleDataPath}{nameof(SkillConnections)}.json"}'");
                 string json = await new StreamReader($@"{_paths.ModuleDataPath}{nameof(SkillConnections)}.json").ReadToEndAsync();
-                object data = JsonConvert.DeserializeObject(json, typeof(Dictionary<int, SkillConnection>));
+                object data = JsonConvert.DeserializeObject(json, typeof(Dictionary<int, OldSkillConnection>));
+                OldConnections = (Dictionary<int, OldSkillConnection>)data;
+
+                foreach (var skillConnection in OldConnections)
+                {
+                    if (!SkillConnections.ContainsKey(skillConnection.Key))
+                    {
+                        SkillConnections.Add(skillConnection.Key, new SkillConnection(skillConnection.Value));
+                    }
+                }
+
+                foreach (var item in BaseSkills)
+                {
+                    if (!SkillConnections.TryGetValue(item.Key, out SkillConnection connection))
+                    {
+                        SkillConnections.Add(item.Key, new SkillConnection() { Id = item.Value.Id, AssetId = item.Value.AssetId });
+                    }
+                    else if (connection.Professions.Count <= 0)
+                    {
+                        foreach (string p in item.Value.Professions)
+                        {
+                            if (Enum.TryParse(p, out ProfessionType pt))
+                            {
+                                connection.Professions.Add(pt);
+                            }
+                        }
+                    }
+                }
+
+                await Save();
+            }
+            else
+            {
+                _logger.Debug($"File for property {nameof(SkillConnections)} does not exist at '{$@"{_paths.ModuleDataPath}{nameof(SkillConnections)}.json"}'!");
+            }
+        }
+
+        public async Task LoadConnections()
+        {
+            string path = $@"{_paths.ModuleDataPath}{nameof(SkillConnections)}.json";
+            string oldpath = $@"{_paths.ModuleDataPath}{nameof(SkillConnections)}.json";
+
+            if (File.Exists(path))
+            {
+                string json;
+                object data;
+
+                if (File.Exists(oldpath))
+                {
+                    _logger.Debug($"Loading data for property {nameof(OldConnections)} from '{$@"{_paths.ModuleDataPath}{nameof(OldConnections)}.json"}'");
+                    json = await new StreamReader($@"{_paths.ModuleDataPath}{nameof(OldConnections)}.json").ReadToEndAsync();
+                    data = JsonConvert.DeserializeObject(json, typeof(Dictionary<int, OldSkillConnection>));
+                    OldConnections = (Dictionary<int, OldSkillConnection>)data;
+                }
+
+                _logger.Debug($"Loading data for property {nameof(SkillConnections)} from '{$@"{_paths.ModuleDataPath}{nameof(SkillConnections)}.json"}'");
+                json = await new StreamReader($@"{_paths.ModuleDataPath}{nameof(SkillConnections)}.json").ReadToEndAsync();
+                data = JsonConvert.DeserializeObject(json, typeof(Dictionary<int, SkillConnection>));
                 SkillConnections = (Dictionary<int, SkillConnection>)data;
 
                 foreach(var item in BaseSkills)
                 {
-                    if (!SkillConnections.ContainsKey(item.Key))
+                    if (!SkillConnections.TryGetValue(item.Key, out SkillConnection connection))
                     {
-                        SkillConnections.Add(item.Key, new SkillConnection() { Id = item.Value.Id, AssetId = item.Value.AssetId });
+                        SkillConnection cn;
+                        SkillConnections.Add(item.Key, cn = new SkillConnection() { Id = item.Value.Id, AssetId = item.Value.AssetId });
+
+                        foreach (string p in item.Value.Professions)
+                        {
+                            if (Enum.TryParse(p, out ProfessionType pt) && !cn.Professions.Contains(pt))
+                            {
+                                cn.Professions.Add(pt);
+                            }
+                        }
                     }
                 }
             }

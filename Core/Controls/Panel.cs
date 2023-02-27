@@ -170,7 +170,6 @@ namespace Kenedia.Modules.Core.Controls
                 Width - Math.Max(BorderWidth.Horizontal - 4, 0),
                 Height - Math.Max(BorderWidth.Vertical - 4, 0));
 
-
             int num = (!string.IsNullOrEmpty(_title)) ? _titleBarHeight : 0;
             int num2 = 0;
             int num3 = 0;
@@ -189,8 +188,8 @@ namespace Kenedia.Modules.Core.Controls
                 _layoutLeftAccentSrc = new Rectangle(0, 0, _textureLeftSideAccent.Width, _layoutLeftAccentBounds.Height);
             }
 
-            ContentRegion = new Rectangle(num4, num, _size.X - num4 - num2, _size.Y - num - num3);
-            _layoutHeaderBounds = new Rectangle(ContentRegion.Left, 0, ContentRegion.Width, num);
+            ContentRegion = new Rectangle(_contentPadding.Left + num4, _contentPadding.Top + num, _size.X - num4 - num2 - _contentPadding.Horizontal, _size.Y - num - num3 - _contentPadding.Vertical);
+            _layoutHeaderBounds = new Rectangle(num4, 0, Width, num);
             _layoutHeaderIconBounds = TitleIcon != null ? new Rectangle(_layoutHeaderBounds.Left + _titleIconPadding.Left, _titleIconPadding.Top, num - _titleIconPadding.Vertical, num - _titleIconPadding.Vertical) : Rectangle.Empty;
 
             _layoutHeaderTextBounds = new Rectangle(_layoutHeaderIconBounds.Right + _titleIconPadding.Right, 0, _layoutHeaderBounds.Width - _layoutHeaderIconBounds.Width, num);

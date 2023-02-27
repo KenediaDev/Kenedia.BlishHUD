@@ -17,13 +17,13 @@ namespace Kenedia.Modules.BuildsManager.Controls.SkillConnectionEdit
         private readonly Dictionary<string, (Label, SkillControl)> _controls = new();
         private readonly SkillSelector _selector;
 
-        private SkillConnection _skillConnection;
+        private OldSkillConnection _skillConnection;
 
         public ReflectedSkillControl(string title, SkillSelector selector)
         {
             HeightSizingMode = Blish_HUD.Controls.SizingMode.AutoSize;
             FlowDirection = Blish_HUD.Controls.ControlFlowDirection.SingleTopToBottom;
-            ContentPadding = new(10, 40, 10, 5);
+            ContentPadding = new(10, 5, 10, 5);
             Title = title;
             CanCollapse = true;
 
@@ -70,7 +70,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.SkillConnectionEdit
             }
         }
 
-        public SkillConnection SkillConnection
+        public OldSkillConnection SkillConnection
         {
             get => _skillConnection;
             set => Common.SetProperty(ref _skillConnection, value, OnConnectionChanged);

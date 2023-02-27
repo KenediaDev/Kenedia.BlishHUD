@@ -48,7 +48,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage.ProfessionSpecific
 
             switch (Template.EliteSpecialization?.Id)
             {
-                case (int)Specializations.Scourge:
+                case (int)SpecializationType.Scourge:
                     _shades.Bounds = new(xOffset + 10 + 46, 28, 36, 36);
                     _shades.TextureRegion = new(0, 2, _shades.Texture.Width, _shades.Texture.Height - 4);
 
@@ -66,7 +66,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage.ProfessionSpecific
 
                     break;
 
-                case (int)Specializations.Harbinger:
+                case (int)SpecializationType.Harbinger:
                     _lifeForceBarBackground.Bounds = new(xOffset + 10, 70, 205, 20);
                     _lifeForceBar.Bounds = new(xOffset + 11, 71, 203, 18);
                     _skills[0].Bounds = new(xOffset + 215, 55, 42, 42);
@@ -85,7 +85,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage.ProfessionSpecific
         {
             switch (Template.EliteSpecialization?.Id)
             {
-                case (int)Specializations.Scourge:
+                case (int)SpecializationType.Scourge:
                     _shades.Draw(this, spriteBatch);
                     _lifeForceBarBackground.Draw(this, spriteBatch);
                     _lifeForceScourge.Draw(this, spriteBatch, null, Color.LightGray * 0.7F);
@@ -98,7 +98,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage.ProfessionSpecific
                     spriteBatch.DrawStringOnCtrl(this, "100%", Content.DefaultFont12, _lifeForceScourge.Bounds, Color.White, false, HorizontalAlignment.Center, VerticalAlignment.Middle);
                     break;
 
-                case (int)Specializations.Harbinger:
+                case (int)SpecializationType.Harbinger:
                     _lifeForceBarBackground.Draw(this, spriteBatch);
                     _lifeForceBar.Draw(this, spriteBatch, null, Color.LightGray * 0.7F);
                     _skills[0].Draw(this, spriteBatch, RelativeMousePosition);
@@ -138,7 +138,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage.ProfessionSpecific
 
             switch (Template.EliteSpecialization?.Id)
             {
-                case (int)Specializations.Scourge:
+                case (int)SpecializationType.Scourge:
                     _skills[0].Skill = GetSkill(SkillSlot.Profession1);
                     _skills[1].Skill = GetSkill(SkillSlot.Profession2);
                     _skills[2].Skill = GetSkill(SkillSlot.Profession3);
@@ -146,11 +146,11 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage.ProfessionSpecific
                     _skills[4].Skill = GetSkill(SkillSlot.Profession5);
                     break;
 
-                case (int)Specializations.Harbinger:
+                case (int)SpecializationType.Harbinger:
                     _skills[0].Skill = skills[62567];
                     break;
 
-                case (int)Specializations.Reaper:
+                case (int)SpecializationType.Reaper:
                     _skills[0].Skill = skills[30792];
                     break;
 

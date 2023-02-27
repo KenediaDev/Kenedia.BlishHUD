@@ -6,16 +6,19 @@
   },
   "5487": {
     "Id": 5487,
+    "Default": 5644,
     "Enviroment": 1,
     "Weapon": 3
   },
   "5489": {
     "Id": 5489,
+    "Default": 15718,
     "Enviroment": 1,
     "Weapon": 3
   },
   "5490": {
     "Id": 5490,
+    "Default": 5678,
     "Enviroment": 1,
     "Weapon": 8,
     "Specialization": 56
@@ -24,58 +27,77 @@
     "Id": 5491,
     "Enviroment": 1,
     "Weapon": 17,
-    "Specialization": 0
+    "Specialization": 0,
+    "AttunementSkill": {
+      "Fire": 5491,
+      "Water": 5549,
+      "Earth": 5519,
+      "Air": 5518
+    }
   },
   "5492": {
     "Id": 5492,
-    "Default": 5492,
     "Enviroment": 3,
     "Weapon": 1,
     "Specialization": 0,
     "FlipSkills": {
-      "Default": 5492
+      "Default": 5492,
+      "State1": 29706
     }
   },
   "5493": {
     "Id": 5493,
-    "Default": 5493,
     "Enviroment": 3,
     "Weapon": 1,
     "FlipSkills": {
-      "Default": 5493
+      "Default": 5493,
+      "State1": 29415
     }
   },
   "5494": {
     "Id": 5494,
-    "Default": 5494,
     "Enviroment": 3,
     "Weapon": 1,
     "FlipSkills": {
-      "Default": 5494
+      "Default": 5494,
+      "State1": 29719
     }
   },
   "5495": {
     "Id": 5495,
-    "Default": 5495,
     "Enviroment": 3,
     "Weapon": 1,
     "FlipSkills": {
-      "Default": 5495
+      "Default": 5495,
+      "State1": 29618
     }
   },
   "5496": {
     "Id": 5496,
     "Enviroment": 1,
-    "Weapon": 3
+    "Weapon": 3,
+    "AttunementSkill": {
+      "Fire": 5496,
+      "Water": 5537,
+      "Earth": 5525,
+      "Air": 5646
+    }
   },
   "5497": {
     "Id": 5497,
     "Enviroment": 1,
     "Weapon": 8,
-    "Specialization": 56
+    "Specialization": 56,
+    "AttunementSkill": {
+      "Fire": 5497,
+      "Water": 5556,
+      "Earth": 5555,
+      "Air": 5530
+    }
   },
   "5500": {
     "Id": 5500,
+    "Default": 5508,
     "Enviroment": 1,
     "Weapon": 6,
     "Specialization": 0
@@ -84,13 +106,25 @@
     "Id": 5501,
     "Enviroment": 1,
     "Weapon": 17,
-    "Specialization": 0
+    "Specialization": 0,
+    "AttunementSkill": {
+      "Fire": 5501,
+      "Water": 5551,
+      "Earth": 5686,
+      "Air": 5671
+    }
   },
   "5502": {
     "Id": 5502,
     "Enviroment": 1,
     "Weapon": 1,
-    "Specialization": 0
+    "Specialization": 0,
+    "AttunementSkill": {
+      "Fire": 25486,
+      "Water": 25487,
+      "Earth": 25497,
+      "Air": 25495
+    }
   },
   "5503": {
     "Id": 5503,
@@ -99,18 +133,26 @@
   },
   "5504": {
     "Id": 5504,
+    "EnviromentalCounterskill": 5608,
     "Enviroment": 1,
     "Weapon": 1
   },
   "5505": {
     "Id": 5505,
+    "EnviromentalCounterskill": 5610,
     "Enviroment": 1,
     "Weapon": 1
   },
   "5506": {
     "Id": 5506,
     "Enviroment": 3,
-    "Weapon": 1
+    "Weapon": 1,
+    "AttunementSkill": {
+      "Fire": 34736,
+      "Water": 34772,
+      "Earth": 34714,
+      "Air": 34637
+    }
   },
   "5507": {
     "Id": 5507,
@@ -120,7 +162,13 @@
   "5508": {
     "Id": 5508,
     "Enviroment": 1,
-    "Weapon": 6
+    "Weapon": 6,
+    "AttunementSkill": {
+      "Fire": 5508,
+      "Water": 5693,
+      "Earth": 5500,
+      "Air": 5526
+    }
   },
   "5510": {
     "Id": 5510,
@@ -129,6 +177,7 @@
   },
   "5515": {
     "Id": 5515,
+    "Default": 5680,
     "Enviroment": 1,
     "Weapon": 17,
     "Specialization": 56
@@ -137,7 +186,9 @@
     "Id": 5516,
     "Enviroment": 1,
     "Weapon": 1,
+    "Specialization": 0,
     "Bundle": {
+      "Equip": 5516,
       "Weapon1": 5532,
       "Weapon2": 5533,
       "Weapon3": 5697,
@@ -153,68 +204,79 @@
   },
   "5518": {
     "Id": 5518,
+    "Default": 5491,
     "Enviroment": 1,
     "Weapon": 17
   },
   "5519": {
     "Id": 5519,
+    "Default": 5491,
     "Enviroment": 1,
     "Weapon": 17
   },
   "5520": {
     "Id": 5520,
-    "Default": 5520,
+    "Default": 5691,
     "Enviroment": 1,
     "Weapon": 3,
     "Specialization": 56,
     "FlipSkills": {
-      "Default": 5520
+      "Default": 5520,
+      "State1": 51646
     }
   },
   "5521": {
     "Id": 5521,
+    "Default": 5678,
     "Enviroment": 1,
     "Weapon": 8,
     "Specialization": 56
   },
   "5522": {
     "Id": 5522,
+    "Default": 5557,
     "Enviroment": 1,
     "Weapon": 3,
     "Specialization": 56
   },
   "5525": {
     "Id": 5525,
+    "Default": 5496,
     "Enviroment": 1,
     "Weapon": 3
   },
   "5526": {
     "Id": 5526,
+    "Default": 5508,
     "Enviroment": 1,
     "Weapon": 6
   },
   "5527": {
     "Id": 5527,
-    "Default": 5527,
+    "Default": 5644,
     "Enviroment": 1,
     "Weapon": 3,
     "FlipSkills": {
-      "Default": 5527
+      "Default": 5527,
+      "State1": 51662
     }
   },
   "5528": {
     "Id": 5528,
+    "Default": 5548,
     "Enviroment": 1,
     "Weapon": 17
   },
   "5529": {
     "Id": 5529,
+    "Default": 5691,
     "Enviroment": 1,
     "Weapon": 3,
     "Specialization": 56
   },
   "5530": {
     "Id": 5530,
+    "Default": 5497,
     "Enviroment": 1,
     "Weapon": 8,
     "Specialization": 56
@@ -242,6 +304,7 @@
     "Enviroment": 3,
     "Weapon": 1,
     "Transform": {
+      "Enter": 5534,
       "Weapon1": 5752,
       "Weapon2": 5753,
       "Weapon3": 5754,
@@ -261,11 +324,13 @@
   },
   "5537": {
     "Id": 5537,
+    "Default": 5496,
     "Enviroment": 1,
     "Weapon": 3
   },
   "5538": {
     "Id": 5538,
+    "Default": 5692,
     "Enviroment": 1,
     "Weapon": 6
   },
@@ -279,6 +344,7 @@
     "Enviroment": 1,
     "Weapon": 1,
     "Bundle": {
+      "Equip": 5540,
       "Weapon1": 5541,
       "Weapon2": 5593,
       "Weapon3": 5717,
@@ -305,6 +371,7 @@
     "Enviroment": 1,
     "Weapon": 1,
     "Bundle": {
+      "Equip": 5546,
       "Weapon1": 5621,
       "Weapon2": 21647,
       "Weapon3": 5547,
@@ -316,31 +383,42 @@
     "Id": 5548,
     "Enviroment": 1,
     "Weapon": 17,
-    "Specialization": 0
+    "Specialization": 0,
+    "AttunementSkill": {
+      "Fire": 5548,
+      "Water": 5550,
+      "Earth": 5528,
+      "Air": 5552
+    }
   },
   "5549": {
     "Id": 5549,
+    "Default": 5491,
     "Enviroment": 1,
     "Weapon": 17
   },
   "5550": {
     "Id": 5550,
+    "Default": 5548,
     "Enviroment": 1,
     "Weapon": 17
   },
   "5551": {
     "Id": 5551,
+    "Default": 5501,
     "Enviroment": 1,
     "Weapon": 17,
     "Specialization": 56
   },
   "5552": {
     "Id": 5552,
+    "Default": 5548,
     "Enviroment": 1,
     "Weapon": 17
   },
   "5553": {
     "Id": 5553,
+    "Default": 5679,
     "Enviroment": 1,
     "Weapon": 17,
     "Specialization": 0
@@ -352,12 +430,14 @@
   },
   "5555": {
     "Id": 5555,
+    "Default": 5497,
     "Enviroment": 1,
     "Weapon": 8,
     "Specialization": 56
   },
   "5556": {
     "Id": 5556,
+    "Default": 5497,
     "Enviroment": 1,
     "Weapon": 8,
     "Specialization": 56
@@ -366,32 +446,43 @@
     "Id": 5557,
     "Enviroment": 1,
     "Weapon": 3,
-    "Specialization": 56
+    "Specialization": 56,
+    "AttunementSkill": {
+      "Fire": 5557,
+      "Water": 5558,
+      "Earth": 5522,
+      "Air": 5687
+    }
   },
   "5558": {
     "Id": 5558,
+    "Default": 5557,
     "Enviroment": 1,
     "Weapon": 3,
     "Specialization": 56
   },
   "5559": {
     "Id": 5559,
+    "Default": 5644,
     "Enviroment": 1,
     "Weapon": 3
   },
   "5561": {
     "Id": 5561,
+    "Default": 5692,
     "Enviroment": 1,
     "Weapon": 6
   },
   "5562": {
     "Id": 5562,
+    "Default": 5678,
     "Enviroment": 1,
     "Weapon": 8,
     "Specialization": 56
   },
   "5564": {
     "Id": 5564,
+    "EnviromentalCounterskill": 5609,
     "Enviroment": 1,
     "Weapon": 1,
     "Specialization": 0
@@ -399,13 +490,27 @@
   "5566": {
     "Id": 5566,
     "Enviroment": 3,
-    "Weapon": 20
+    "Weapon": 20,
+    "Specialization": 0,
+    "AttunementSkill": {
+      "Fire": 5566,
+      "Water": 5606,
+      "Earth": 5662,
+      "Air": 5652,
+      "FireWater": 40378,
+      "FireAir": 41712,
+      "FireEarth": 46185,
+      "WaterAir": 46360,
+      "WaterEarth": 41001,
+      "AirEarth": 39981
+    }
   },
   "5567": {
     "Id": 5567,
     "Enviroment": 1,
     "Weapon": 1,
     "Bundle": {
+      "Equip": 5567,
       "Weapon1": 5595,
       "Weapon2": 5720,
       "Weapon3": 5568,
@@ -422,7 +527,13 @@
   "5569": {
     "Id": 5569,
     "Enviroment": 3,
-    "Weapon": 1
+    "Weapon": 1,
+    "AttunementSkill": {
+      "Fire": 34743,
+      "Water": 34651,
+      "Earth": 34609,
+      "Air": 34724
+    }
   },
   "5570": {
     "Id": 5570,
@@ -442,7 +553,13 @@
   "5573": {
     "Id": 5573,
     "Enviroment": 3,
-    "Weapon": 1
+    "Weapon": 1,
+    "AttunementSkill": {
+      "Fire": 5762,
+      "Water": 5763,
+      "Earth": 5761,
+      "Air": 5760
+    }
   },
   "5593": {
     "Id": 5593,
@@ -459,24 +576,48 @@
   "5597": {
     "Id": 5597,
     "Enviroment": 3,
-    "Weapon": 20
+    "Weapon": 20,
+    "AttunementSkill": {
+      "Fire": 5597,
+      "Water": 5605,
+      "Earth": 5658,
+      "Air": 5655
+    }
   },
   "5598": {
     "Id": 5598,
     "Enviroment": 3,
-    "Weapon": 20
+    "Weapon": 20,
+    "AttunementSkill": {
+      "Fire": 5598,
+      "Water": 5604,
+      "Earth": 5657,
+      "Air": 5656
+    }
   },
   "5599": {
     "Id": 5599,
     "Enviroment": 3,
     "Weapon": 20,
-    "Specialization": 56
+    "Specialization": 56,
+    "AttunementSkill": {
+      "Fire": 5599,
+      "Water": 5748,
+      "Earth": 5659,
+      "Air": 5648
+    }
   },
   "5600": {
     "Id": 5600,
     "Enviroment": 3,
     "Weapon": 20,
-    "Specialization": 56
+    "Specialization": 56,
+    "AttunementSkill": {
+      "Fire": 5600,
+      "Water": 5607,
+      "Earth": 5661,
+      "Air": 5650
+    }
   },
   "5602": {
     "Id": 5602,
@@ -499,38 +640,45 @@
   },
   "5604": {
     "Id": 5604,
+    "Default": 5598,
     "Enviroment": 3,
     "Weapon": 20
   },
   "5605": {
     "Id": 5605,
+    "Default": 5597,
     "Enviroment": 3,
     "Weapon": 20
   },
   "5606": {
     "Id": 5606,
+    "Default": 5566,
     "Enviroment": 3,
     "Weapon": 20
   },
   "5607": {
     "Id": 5607,
+    "Default": 5600,
     "Enviroment": 3,
     "Weapon": 20,
     "Specialization": 56
   },
   "5608": {
     "Id": 5608,
-    "Enviroment": 3,
+    "EnviromentalCounterskill": 5504,
+    "Enviroment": 2,
     "Weapon": 1
   },
   "5609": {
     "Id": 5609,
-    "Enviroment": 3,
+    "EnviromentalCounterskill": 5564,
+    "Enviroment": 2,
     "Weapon": 1
   },
   "5610": {
     "Id": 5610,
-    "Enviroment": 3,
+    "EnviromentalCounterskill": 5505,
+    "Enviroment": 2,
     "Weapon": 1
   },
   "5624": {
@@ -538,6 +686,7 @@
     "Enviroment": 1,
     "Weapon": 1,
     "Bundle": {
+      "Equip": 5624,
       "Weapon1": 5726,
       "Weapon2": 5625,
       "Weapon3": 5733,
@@ -568,83 +717,117 @@
   "5644": {
     "Id": 5644,
     "Enviroment": 1,
-    "Weapon": 3
+    "Weapon": 3,
+    "Specialization": 0,
+    "AttunementSkill": {
+      "Fire": 5644,
+      "Water": 5487,
+      "Earth": 5559,
+      "Air": 5527,
+      "FireWater": 42330,
+      "FireAir": 44652,
+      "FireEarth": 42379,
+      "WaterAir": 46140,
+      "WaterEarth": 46018,
+      "AirEarth": 40963
+    }
   },
   "5646": {
     "Id": 5646,
+    "Default": 5496,
     "Enviroment": 1,
     "Weapon": 3
   },
   "5648": {
     "Id": 5648,
+    "Default": 5599,
     "Enviroment": 3,
     "Weapon": 20,
     "Specialization": 56
   },
   "5650": {
     "Id": 5650,
+    "Default": 5600,
     "Enviroment": 3,
     "Weapon": 20,
     "Specialization": 56
   },
   "5652": {
     "Id": 5652,
-    "Default": 5652,
+    "Default": 5566,
     "Enviroment": 3,
     "Weapon": 20,
     "FlipSkills": {
-      "Default": 5652
+      "Default": 5652,
+      "State1": 5653
     }
   },
   "5653": {
     "Id": 5653,
+    "Default": 5652,
     "Enviroment": 3,
     "Weapon": 20
   },
   "5655": {
     "Id": 5655,
+    "Default": 5597,
     "Enviroment": 3,
     "Weapon": 20
   },
   "5656": {
     "Id": 5656,
+    "Default": 5598,
     "Enviroment": 3,
-    "Weapon": 20
+    "Weapon": 20,
+    "Specialization": 0
   },
   "5657": {
     "Id": 5657,
+    "Default": 5598,
     "Enviroment": 3,
     "Weapon": 20
   },
   "5658": {
     "Id": 5658,
+    "Default": 5597,
     "Enviroment": 3,
     "Weapon": 20
   },
   "5659": {
     "Id": 5659,
+    "Default": 5599,
     "Enviroment": 3,
     "Weapon": 20,
     "Specialization": 56
   },
   "5661": {
     "Id": 5661,
+    "Default": 5600,
     "Enviroment": 3,
     "Weapon": 20,
     "Specialization": 56
   },
   "5662": {
     "Id": 5662,
+    "Default": 5566,
     "Enviroment": 3,
     "Weapon": 20
   },
   "5666": {
     "Id": 5666,
     "Enviroment": 1,
-    "Weapon": 1
+    "Weapon": 1,
+    "Specialization": 0,
+    "AttunementSkill": {
+      "Fire": 25488,
+      "Water": 25491,
+      "Earth": 25489,
+      "Air": 25490
+    }
   },
   "5671": {
     "Id": 5671,
+    "Default": 5501,
     "Enviroment": 1,
     "Weapon": 17,
     "Specialization": 56
@@ -652,72 +835,118 @@
   "5675": {
     "Id": 5675,
     "Enviroment": 1,
-    "Weapon": 6
+    "Weapon": 6,
+    "Specialization": 0,
+    "AttunementSkill": {
+      "Fire": 5675,
+      "Water": 5510,
+      "Earth": 5696,
+      "Air": 5694,
+      "FireWater": 42181,
+      "FireAir": 43576,
+      "FireEarth": 42954,
+      "WaterAir": 45742,
+      "WaterEarth": 46014,
+      "AirEarth": 40794
+    }
   },
   "5678": {
     "Id": 5678,
-    "Default": 5678,
     "Enviroment": 1,
     "Weapon": 8,
     "Specialization": 56,
+    "AttunementSkill": {
+      "Fire": 5678,
+      "Water": 5490,
+      "Earth": 5521,
+      "Air": 5562
+    },
     "FlipSkills": {
-      "Default": 5678
+      "Default": 5678,
+      "State1": 51711
     }
   },
   "5679": {
     "Id": 5679,
     "Enviroment": 1,
-    "Weapon": 17
+    "Weapon": 17,
+    "Specialization": 0,
+    "AttunementSkill": {
+      "Fire": 5679,
+      "Water": 5681,
+      "Earth": 5685,
+      "Air": 5553,
+      "FireWater": 40332,
+      "FireAir": 41125,
+      "FireEarth": 43762,
+      "WaterAir": 41184,
+      "WaterEarth": 44550,
+      "AirEarth": 42321
+    }
   },
   "5680": {
     "Id": 5680,
     "Enviroment": 1,
     "Weapon": 17,
-    "Specialization": 56
+    "Specialization": 56,
+    "AttunementSkill": {
+      "Fire": 5680,
+      "Water": 5515,
+      "Earth": 5683,
+      "Air": 5682
+    }
   },
   "5681": {
     "Id": 5681,
+    "Default": 5679,
     "Enviroment": 1,
     "Weapon": 17,
+    "Specialization": 0,
     "Traited": {
       "5782": 265
     }
   },
   "5682": {
     "Id": 5682,
+    "Default": 5680,
     "Enviroment": 1,
     "Weapon": 17,
     "Specialization": 56
   },
   "5683": {
     "Id": 5683,
+    "Default": 5680,
     "Enviroment": 1,
     "Weapon": 17,
     "Specialization": 56
   },
   "5685": {
     "Id": 5685,
-    "Default": 5685,
+    "Default": 5679,
     "Enviroment": 1,
     "Weapon": 17,
     "FlipSkills": {
-      "Default": 5685
+      "Default": 5685,
+      "State1": 51684
     }
   },
   "5686": {
     "Id": 5686,
+    "Default": 5501,
     "Enviroment": 1,
     "Weapon": 17,
     "Specialization": 56
   },
   "5687": {
     "Id": 5687,
+    "Default": 5557,
     "Enviroment": 1,
     "Weapon": 3,
     "Specialization": 56
   },
   "5690": {
     "Id": 5690,
+    "Default": 5691,
     "Enviroment": 1,
     "Weapon": 3,
     "Specialization": 56
@@ -726,15 +955,28 @@
     "Id": 5691,
     "Enviroment": 1,
     "Weapon": 3,
-    "Specialization": 56
+    "Specialization": 56,
+    "AttunementSkill": {
+      "Fire": 5691,
+      "Water": 5520,
+      "Earth": 5690,
+      "Air": 5529
+    }
   },
   "5692": {
     "Id": 5692,
     "Enviroment": 1,
-    "Weapon": 6
+    "Weapon": 6,
+    "AttunementSkill": {
+      "Fire": 5692,
+      "Water": 5538,
+      "Earth": 5695,
+      "Air": 5561
+    }
   },
   "5693": {
     "Id": 5693,
+    "Default": 5508,
     "Enviroment": 1,
     "Weapon": 6
   },
@@ -745,11 +987,12 @@
   },
   "5695": {
     "Id": 5695,
-    "Default": 5695,
+    "Default": 5692,
     "Enviroment": 1,
     "Weapon": 6,
     "FlipSkills": {
-      "Default": 5695
+      "Default": 5695,
+      "State1": 5780
     }
   },
   "5696": {
@@ -802,30 +1045,41 @@
   "5734": {
     "Id": 5734,
     "Enviroment": 1,
-    "Weapon": 1
+    "Weapon": 1,
+    "AttunementSkill": {
+      "Fire": 5736,
+      "Water": 5735,
+      "Earth": 5738,
+      "Air": 5737
+    }
   },
   "5735": {
     "Id": 5735,
+    "Default": 5734,
     "Enviroment": 1,
     "Weapon": 1
   },
   "5736": {
     "Id": 5736,
+    "Default": 5734,
     "Enviroment": 1,
     "Weapon": 1
   },
   "5737": {
     "Id": 5737,
+    "Default": 5734,
     "Enviroment": 1,
     "Weapon": 1
   },
   "5738": {
     "Id": 5738,
+    "Default": 5734,
     "Enviroment": 1,
     "Weapon": 1
   },
   "5748": {
     "Id": 5748,
+    "Default": 5599,
     "Enviroment": 3,
     "Weapon": 20,
     "Specialization": 56
@@ -850,65 +1104,75 @@
   },
   "5760": {
     "Id": 5760,
+    "Default": 5573,
+    "EnviromentalCounterskill": 24409,
     "Enviroment": 3,
     "Weapon": 1
   },
   "5761": {
     "Id": 5761,
+    "Default": 5573,
+    "EnviromentalCounterskill": 24411,
     "Enviroment": 3,
     "Weapon": 1
   },
   "5762": {
     "Id": 5762,
+    "Default": 5573,
+    "EnviromentalCounterskill": 24407,
     "Enviroment": 3,
     "Weapon": 1
   },
   "5763": {
     "Id": 5763,
+    "Default": 5573,
+    "EnviromentalCounterskill": 24410,
     "Enviroment": 3,
     "Weapon": 1
   },
   "5780": {
     "Id": 5780,
+    "Default": 5692,
     "Enviroment": 1,
     "Weapon": 6
   },
   "5802": {
     "Id": 5802,
-    "Default": 5802,
     "Enviroment": 3,
     "Weapon": 1,
     "Bundle": {
-      "Weapon1": 58090,
-      "Weapon2": 30521,
-      "Weapon3": 29547,
-      "Weapon4": 49045,
-      "Weapon5": 49082
+      "Equip": 5802,
+      "Stow": 6114,
+      "Weapon1": 30521,
+      "Weapon2": 29547,
+      "Weapon3": 49045,
+      "Weapon4": 49082,
+      "Weapon5": 50444
     },
-    "Toolbelt": 29772,
-    "FlipSkills": {
-      "Default": 5802
-    }
+    "Toolbelt": 29772
   },
   "5805": {
     "Id": 5805,
-    "Default": 5805,
     "Enviroment": 3,
     "Weapon": 1,
     "Bundle": {
-      "Weapon1": 6171,
-      "Weapon2": 5882,
-      "Weapon3": 6170,
-      "Weapon4": 5807,
-      "Weapon5": 6169
+      "Equip": 5805,
+      "Stow": 6110,
+      "Weapon1": 5882,
+      "Weapon2": 5807,
+      "Weapon3": 5808,
+      "Weapon4": 5809,
+      "Weapon5": 5806
     },
     "Toolbelt": 6172,
-    "FlipSkills": {
-      "Default": 5805
+    "Traited": {
+      "6020": 514
     }
   },
   "5806": {
     "Id": 5806,
+    "Default": 5805,
+    "EnviromentalCounterskill": 6167,
     "Enviroment": 1,
     "Weapon": 1,
     "Traited": {
@@ -918,6 +1182,7 @@
   "5807": {
     "Id": 5807,
     "Default": 5805,
+    "EnviromentalCounterskill": 6170,
     "Enviroment": 1,
     "Weapon": 1,
     "Traited": {
@@ -926,6 +1191,8 @@
   },
   "5808": {
     "Id": 5808,
+    "Default": 5805,
+    "EnviromentalCounterskill": 6169,
     "Enviroment": 1,
     "Weapon": 1,
     "Traited": {
@@ -934,6 +1201,8 @@
   },
   "5809": {
     "Id": 5809,
+    "Default": 5805,
+    "EnviromentalCounterskill": 6168,
     "Enviroment": 1,
     "Weapon": 1,
     "Traited": {
@@ -942,11 +1211,10 @@
   },
   "5810": {
     "Id": 5810,
+    "Default": 5805,
+    "EnviromentalCounterskill": 5810,
     "Enviroment": 1,
-    "Weapon": 1,
-    "Traited": {
-      "6050": 514
-    }
+    "Weapon": 1
   },
   "5811": {
     "Id": 5811,
@@ -954,49 +1222,55 @@
     "Enviroment": 3,
     "Weapon": 1,
     "Toolbelt": 5982,
-    "FlipSkills": {
-      "Default": 5811
+    "Traited": {
+      "29991": 1679
     }
   },
   "5812": {
     "Id": 5812,
-    "Default": 5812,
     "Enviroment": 3,
     "Weapon": 1,
     "Bundle": {
+      "Equip": 5812,
+      "Stow": 6111,
       "Weapon1": 5842,
       "Weapon2": 5823,
       "Weapon3": 5822,
       "Weapon4": 5824,
       "Weapon5": 5939
     },
-    "Toolbelt": 5813,
-    "FlipSkills": {
-      "Default": 5812
-    }
+    "Toolbelt": 5813
   },
   "5813": {
     "Id": 5813,
     "Default": 5812,
     "Enviroment": 3,
-    "Weapon": 1
+    "Weapon": 1,
+    "Specialization": 0
   },
   "5818": {
     "Id": 5818,
-    "Enviroment": 3,
+    "EnviromentalCounterskill": 6093,
+    "Enviroment": 1,
     "Weapon": 1,
-    "Toolbelt": 6178
+    "Toolbelt": 6178,
+    "FlipSkills": {
+      "Default": 5818,
+      "State1": 5957
+    }
   },
   "5820": {
     "Id": 5820,
+    "EnviromentalCounterskill": 5916,
     "Enviroment": 1,
-    "Weapon": 1
+    "Weapon": 1,
+    "Specialization": 0
   },
   "5821": {
     "Id": 5821,
     "Enviroment": 3,
     "Weapon": 1,
-    "Toolbelt": 6082
+    "Toolbelt": 5967
   },
   "5822": {
     "Id": 5822,
@@ -1018,9 +1292,13 @@
   },
   "5825": {
     "Id": 5825,
-    "Enviroment": 3,
+    "EnviromentalCounterskill": 50491,
+    "Enviroment": 1,
     "Weapon": 1,
-    "Toolbelt": 5973
+    "Toolbelt": 5973,
+    "Traited": {
+      "30828": 1679
+    }
   },
   "5827": {
     "Id": 5827,
@@ -1052,7 +1330,7 @@
     "EnviromentalCounterskill": 20451,
     "Enviroment": 1,
     "Weapon": 1,
-    "Toolbelt": 29722,
+    "Toolbelt": 30725,
     "FlipSkills": {
       "Default": 5832,
       "State1": 14483,
@@ -1063,7 +1341,7 @@
     "Id": 5834,
     "Enviroment": 3,
     "Weapon": 1,
-    "Toolbelt": 6119
+    "Toolbelt": 5978
   },
   "5836": {
     "Id": 5836,
@@ -1072,7 +1350,8 @@
     "Weapon": 1,
     "Toolbelt": 6181,
     "FlipSkills": {
-      "Default": 5836
+      "Default": 5836,
+      "State1": 5985
     }
   },
   "5837": {
@@ -1082,7 +1361,8 @@
     "Weapon": 1,
     "Toolbelt": 6179,
     "FlipSkills": {
-      "Default": 5837
+      "Default": 5837,
+      "State1": 5985
     }
   },
   "5838": {
@@ -1092,7 +1372,8 @@
     "Weapon": 1,
     "Toolbelt": 6180,
     "FlipSkills": {
-      "Default": 5838
+      "Default": 5838,
+      "State1": 5960
     }
   },
   "5842": {
@@ -1108,26 +1389,27 @@
     "Weapon": 1,
     "Toolbelt": 6176,
     "FlipSkills": {
-      "Default": 5857
+      "Default": 5857,
+      "State1": 5961
     }
   },
   "5860": {
     "Id": 5860,
     "Enviroment": 3,
     "Weapon": 1,
-    "Toolbelt": 6078
+    "Toolbelt": 5969
   },
   "5861": {
     "Id": 5861,
     "Enviroment": 3,
     "Weapon": 1,
-    "Toolbelt": 6084
+    "Toolbelt": 5972
   },
   "5862": {
     "Id": 5862,
     "Enviroment": 3,
     "Weapon": 1,
-    "Toolbelt": 6088
+    "Toolbelt": 5970
   },
   "5865": {
     "Id": 5865,
@@ -1135,20 +1417,26 @@
     "Enviroment": 3,
     "Weapon": 1,
     "Toolbelt": 30262,
-    "FlipSkills": {
-      "Default": 5865
+    "Traited": {
+      "29591": 1679
     }
   },
   "5867": {
     "Id": 5867,
+    "EnviromentalCounterskill": 6091,
     "Enviroment": 1,
     "Weapon": 1
   },
   "5868": {
     "Id": 5868,
+    "EnviromentalCounterskill": 6183,
     "Enviroment": 3,
     "Weapon": 1,
-    "Toolbelt": 29716
+    "Toolbelt": 29716,
+    "FlipSkills": {
+      "Default": 5868,
+      "State1": 29518
+    }
   },
   "5874": {
     "Id": 5874,
@@ -1158,6 +1446,7 @@
   "5882": {
     "Id": 5882,
     "Default": 5805,
+    "EnviromentalCounterskill": 6171,
     "Enviroment": 1,
     "Weapon": 1,
     "Traited": {
@@ -1181,20 +1470,18 @@
   },
   "5904": {
     "Id": 5904,
-    "Default": 5904,
     "Enviroment": 3,
     "Weapon": 1,
     "Bundle": {
+      "Equip": 5904,
+      "Stow": 6113,
       "Weapon1": 5992,
-      "Weapon2": 6175,
-      "Weapon3": 5995,
-      "Weapon4": 5905,
-      "Weapon5": 5998
+      "Weapon2": 5995,
+      "Weapon3": 5905,
+      "Weapon4": 5998,
+      "Weapon5": 5996
     },
-    "Toolbelt": 5999,
-    "FlipSkills": {
-      "Default": 5904
-    }
+    "Toolbelt": 5999
   },
   "5905": {
     "Id": 5905,
@@ -1204,18 +1491,23 @@
   },
   "5910": {
     "Id": 5910,
-    "Enviroment": 3,
+    "EnviromentalCounterskill": 50441,
+    "Enviroment": 1,
     "Weapon": 1,
-    "Toolbelt": 5983
+    "Toolbelt": 5983,
+    "Traited": {
+      "29522": 1679
+    }
   },
   "5912": {
     "Id": 5912,
-    "Default": 5912,
-    "Enviroment": 3,
+    "EnviromentalCounterskill": 22574,
+    "Enviroment": 1,
     "Weapon": 1,
     "Toolbelt": 6177,
     "FlipSkills": {
-      "Default": 5912
+      "Default": 5912,
+      "State1": 6134
     }
   },
   "5913": {
@@ -1225,17 +1517,20 @@
   },
   "5916": {
     "Id": 5916,
-    "Enviroment": 3,
+    "EnviromentalCounterskill": 5820,
+    "Enviroment": 2,
     "Weapon": 1
   },
   "5917": {
     "Id": 5917,
-    "Enviroment": 3,
+    "EnviromentalCounterskill": 5962,
+    "Enviroment": 2,
     "Weapon": 1
   },
   "5918": {
     "Id": 5918,
-    "Enviroment": 3,
+    "EnviromentalCounterskill": 5963,
+    "Enviroment": 2,
     "Weapon": 1
   },
   "5927": {
@@ -1243,6 +1538,8 @@
     "Enviroment": 1,
     "Weapon": 1,
     "Bundle": {
+      "Equip": 5927,
+      "Stow": 6114,
       "Weapon1": 5928,
       "Weapon2": 5931,
       "Weapon3": 5930,
@@ -1288,7 +1585,7 @@
       "Weapon2": 5935,
       "Weapon3": 5965,
       "Weapon4": 5936,
-      "Weapon5": 6102
+      "Weapon5": 5937
     },
     "Toolbelt": 5966,
     "FlipSkills": {
@@ -1315,6 +1612,7 @@
   },
   "5937": {
     "Id": 5937,
+    "EnviromentalCounterskill": 6102,
     "Enviroment": 1,
     "Weapon": 1
   },
@@ -1332,6 +1630,7 @@
   },
   "5960": {
     "Id": 5960,
+    "Default": 5838,
     "Enviroment": 1,
     "Weapon": 1,
     "Toolbelt": 6180
@@ -1344,11 +1643,13 @@
   },
   "5962": {
     "Id": 5962,
+    "EnviromentalCounterskill": 5917,
     "Enviroment": 1,
     "Weapon": 1
   },
   "5963": {
     "Id": 5963,
+    "EnviromentalCounterskill": 5918,
     "Enviroment": 1,
     "Weapon": 1
   },
@@ -1366,6 +1667,7 @@
   },
   "5967": {
     "Id": 5967,
+    "EnviromentalCounterskill": 6092,
     "Enviroment": 1,
     "Weapon": 1
   },
@@ -1373,20 +1675,23 @@
     "Id": 5968,
     "Enviroment": 3,
     "Weapon": 1,
-    "Toolbelt": 6086
+    "Toolbelt": 5867
   },
   "5969": {
     "Id": 5969,
+    "EnviromentalCounterskill": 6077,
     "Enviroment": 1,
     "Weapon": 1
   },
   "5970": {
     "Id": 5970,
+    "EnviromentalCounterskill": 6089,
     "Enviroment": 1,
     "Weapon": 1
   },
   "5972": {
     "Id": 5972,
+    "EnviromentalCounterskill": 6090,
     "Enviroment": 3,
     "Weapon": 1
   },
@@ -1404,6 +1709,7 @@
   },
   "5978": {
     "Id": 5978,
+    "EnviromentalCounterskill": 6118,
     "Enviroment": 1,
     "Weapon": 1
   },
@@ -1454,29 +1760,18 @@
   },
   "5989": {
     "Id": 5989,
-    "Default": 5989,
     "Enviroment": 1,
-    "Weapon": 1,
-    "Toolbelt": 6178,
-    "FlipSkills": {
-      "Default": 5989
-    }
+    "Weapon": 1
   },
   "5990": {
     "Id": 5990,
-    "Default": 5990,
     "Enviroment": 1,
-    "Weapon": 1,
-    "Toolbelt": 6180,
-    "FlipSkills": {
-      "Default": 5990
-    }
+    "Weapon": 1
   },
   "5991": {
     "Id": 5991,
     "Enviroment": 1,
-    "Weapon": 1,
-    "Toolbelt": 6177
+    "Weapon": 1
   },
   "5992": {
     "Id": 5992,
@@ -1487,26 +1782,13 @@
       "First": 5992,
       "Second": 5993,
       "Third": 5994
-    },
-    "FlipSkills": {
-      "Default": 5992,
-      "State1": 5993,
-      "State2": 5994
     }
   },
   "5993": {
     "Id": 5993,
     "Default": 5992,
     "Enviroment": 3,
-    "Weapon": 1,
-    "Chain": {
-      "First": 5993,
-      "Second": 5994
-    },
-    "FlipSkills": {
-      "Default": 5993,
-      "State1": 5994
-    }
+    "Weapon": 1
   },
   "5994": {
     "Id": 5994,
@@ -1517,7 +1799,8 @@
   "5995": {
     "Id": 5995,
     "Default": 5904,
-    "Enviroment": 3,
+    "EnviromentalCounterskill": 6175,
+    "Enviroment": 1,
     "Weapon": 1
   },
   "5996": {
@@ -1539,16 +1822,11 @@
   },
   "6003": {
     "Id": 6003,
-    "Default": 6003,
     "Enviroment": 1,
     "Weapon": 15,
     "Chain": {
       "First": 6003,
       "Second": 68079
-    },
-    "FlipSkills": {
-      "Default": 6003,
-      "State1": 68079
     }
   },
   "6004": {
@@ -1563,16 +1841,9 @@
   },
   "6020": {
     "Id": 6020,
+    "Default": 5805,
     "Enviroment": 1,
-    "Weapon": 1,
-    "Bundle": {
-      "Weapon1": 6171,
-      "Weapon2": 5882,
-      "Weapon3": 6170,
-      "Weapon4": 5807,
-      "Weapon5": 6169
-    },
-    "Toolbelt": 6172
+    "Weapon": 1
   },
   "6046": {
     "Id": 6046,
@@ -1591,26 +1862,20 @@
   },
   "6053": {
     "Id": 6053,
-    "Default": 6053,
     "Enviroment": 1,
     "Weapon": 9,
     "FlipSkills": {
-      "Default": 6053
-    },
-    "Traited": {
-      "13516": 394
+      "Default": 6053,
+      "State1": 6126
     }
   },
   "6054": {
     "Id": 6054,
-    "Default": 6054,
     "Enviroment": 1,
     "Weapon": 9,
     "FlipSkills": {
-      "Default": 6054
-    },
-    "Traited": {
-      "13516": 394
+      "Default": 6054,
+      "State1": 6057
     }
   },
   "6057": {
@@ -1620,8 +1885,13 @@
   },
   "6077": {
     "Id": 6077,
+    "EnviromentalCounterskill": 5969,
     "Enviroment": 3,
-    "Weapon": 1
+    "Weapon": 1,
+    "FlipSkills": {
+      "Default": 6077,
+      "State1": 6078
+    }
   },
   "6078": {
     "Id": 6078,
@@ -1655,32 +1925,54 @@
   },
   "6089": {
     "Id": 6089,
+    "EnviromentalCounterskill": 5970,
     "Enviroment": 3,
-    "Weapon": 1
+    "Weapon": 1,
+    "FlipSkills": {
+      "Default": 6089,
+      "State1": 6088
+    }
   },
   "6090": {
     "Id": 6090,
+    "EnviromentalCounterskill": 5972,
     "Enviroment": 3,
-    "Weapon": 1
+    "Weapon": 1,
+    "FlipSkills": {
+      "Default": 6090,
+      "State1": 6084
+    }
   },
   "6091": {
     "Id": 6091,
+    "EnviromentalCounterskill": 5867,
     "Enviroment": 3,
-    "Weapon": 1
+    "Weapon": 1,
+    "FlipSkills": {
+      "Default": 6091,
+      "State1": 6086
+    }
   },
   "6092": {
     "Id": 6092,
+    "EnviromentalCounterskill": 5967,
     "Enviroment": 3,
-    "Weapon": 1
+    "Weapon": 1,
+    "FlipSkills": {
+      "Default": 6092,
+      "State1": 6082
+    }
   },
   "6093": {
     "Id": 6093,
     "Default": 6093,
-    "Enviroment": 3,
+    "EnviromentalCounterskill": 5818,
+    "Enviroment": 2,
     "Weapon": 1,
     "Toolbelt": 6182,
     "FlipSkills": {
-      "Default": 6093
+      "Default": 6093,
+      "State1": 6097
     }
   },
   "6097": {
@@ -1697,10 +1989,12 @@
   "6102": {
     "Id": 6102,
     "Default": 5933,
-    "Enviroment": 3,
+    "EnviromentalCounterskill": 5937,
+    "Enviroment": 2,
     "Weapon": 1,
     "FlipSkills": {
-      "Default": 6102
+      "Default": 6102,
+      "State1": 6104
     }
   },
   "6104": {
@@ -1716,9 +2010,9 @@
   },
   "6110": {
     "Id": 6110,
+    "Default": 5805,
     "Enviroment": 3,
-    "Weapon": 1,
-    "Toolbelt": 6172
+    "Weapon": 1
   },
   "6111": {
     "Id": 6111,
@@ -1728,12 +2022,14 @@
   },
   "6113": {
     "Id": 6113,
+    "Default": 5904,
     "Enviroment": 3,
     "Weapon": 1,
     "Toolbelt": 5999
   },
   "6114": {
     "Id": 6114,
+    "Default": 5927,
     "Enviroment": 3,
     "Weapon": 1,
     "Toolbelt": 5977
@@ -1746,8 +2042,13 @@
   },
   "6118": {
     "Id": 6118,
+    "EnviromentalCounterskill": 5978,
     "Enviroment": 3,
-    "Weapon": 1
+    "Weapon": 1,
+    "FlipSkills": {
+      "Default": 6118,
+      "State1": 6119
+    }
   },
   "6119": {
     "Id": 6119,
@@ -1811,29 +2112,46 @@
   "6161": {
     "Id": 6161,
     "Default": 6161,
+    "EnviromentalCounterskill": 6163,
     "Enviroment": 3,
     "Weapon": 1,
-    "Toolbelt": 6166,
+    "Toolbelt": 6164,
     "FlipSkills": {
-      "Default": 6161
+      "Default": 6161,
+      "State1": 6162
+    },
+    "Traited": {
+      "30337": 1679
     }
   },
   "6162": {
     "Id": 6162,
+    "Default": 6161,
     "Enviroment": 3,
     "Weapon": 1,
-    "Toolbelt": 6166
+    "Traited": {
+      "29473": 1679
+    }
   },
   "6163": {
     "Id": 6163,
+    "Default": 6161,
+    "EnviromentalCounterskill": 6161,
     "Enviroment": 3,
     "Weapon": 1,
-    "Toolbelt": 6166
+    "Traited": {
+      "30893": 1679
+    }
   },
   "6164": {
     "Id": 6164,
+    "Default": 6161,
     "Enviroment": 3,
-    "Weapon": 1
+    "Weapon": 1,
+    "FlipSkills": {
+      "Default": 6164,
+      "State1": 6166
+    }
   },
   "6166": {
     "Id": 6166,
@@ -1843,7 +2161,9 @@
   },
   "6167": {
     "Id": 6167,
-    "Enviroment": 3,
+    "Default": 5805,
+    "EnviromentalCounterskill": 5806,
+    "Enviroment": 2,
     "Weapon": 1,
     "Traited": {
       "6050": 514
@@ -1851,7 +2171,9 @@
   },
   "6168": {
     "Id": 6168,
-    "Enviroment": 3,
+    "Default": 5805,
+    "EnviromentalCounterskill": 5809,
+    "Enviroment": 2,
     "Weapon": 1,
     "Traited": {
       "6050": 514
@@ -1860,7 +2182,8 @@
   "6169": {
     "Id": 6169,
     "Default": 5805,
-    "Enviroment": 3,
+    "EnviromentalCounterskill": 5808,
+    "Enviroment": 2,
     "Weapon": 1,
     "Traited": {
       "6050": 514
@@ -1869,7 +2192,8 @@
   "6170": {
     "Id": 6170,
     "Default": 5805,
-    "Enviroment": 3,
+    "EnviromentalCounterskill": 5807,
+    "Enviroment": 2,
     "Weapon": 1,
     "Traited": {
       "6050": 514
@@ -1878,7 +2202,8 @@
   "6171": {
     "Id": 6171,
     "Default": 5805,
-    "Enviroment": 3,
+    "EnviromentalCounterskill": 5882,
+    "Enviroment": 2,
     "Weapon": 1,
     "Traited": {
       "6050": 514
@@ -1887,13 +2212,15 @@
   "6172": {
     "Id": 6172,
     "Default": 5805,
-    "Enviroment": 3,
+    "EnviromentalCounterskill": 6172,
+    "Enviroment": 2,
     "Weapon": 1
   },
   "6175": {
     "Id": 6175,
     "Default": 5904,
-    "Enviroment": 3,
+    "EnviromentalCounterskill": 5995,
+    "Enviroment": 2,
     "Weapon": 1
   },
   "6176": {
@@ -1905,12 +2232,14 @@
   "6177": {
     "Id": 6177,
     "Default": 5912,
+    "EnviromentalCounterskill": 22573,
     "Enviroment": 3,
     "Weapon": 1
   },
   "6178": {
     "Id": 6178,
     "Default": 5818,
+    "EnviromentalCounterskill": 6182,
     "Enviroment": 3,
     "Weapon": 1
   },
@@ -1923,7 +2252,7 @@
   "6180": {
     "Id": 6180,
     "Default": 5838,
-    "Enviroment": 3,
+    "Enviroment": 1,
     "Weapon": 1
   },
   "6181": {
@@ -1935,14 +2264,20 @@
   "6182": {
     "Id": 6182,
     "Default": 6093,
+    "EnviromentalCounterskill": 6178,
     "Enviroment": 3,
     "Weapon": 1
   },
   "6183": {
     "Id": 6183,
+    "EnviromentalCounterskill": 5868,
     "Enviroment": 3,
     "Weapon": 1,
-    "Toolbelt": 30588
+    "Toolbelt": 30588,
+    "FlipSkills": {
+      "Default": 6183,
+      "State1": 38750
+    }
   },
   "9080": {
     "Id": 9080,
@@ -2533,29 +2868,21 @@
   },
   "10170": {
     "Id": 10170,
-    "Default": 10170,
     "Enviroment": 1,
     "Weapon": 7,
+    "Specialization": 0,
     "Chain": {
       "First": 10170,
       "Second": 10171,
-      "Third": 10172
-    },
-    "FlipSkills": {
-      "Default": 10170,
-      "State1": 10171,
-      "State2": 10172
+      "Third": 10172,
+      "Ambush": 45230
     }
   },
   "10171": {
     "Id": 10171,
     "Default": 10170,
     "Enviroment": 1,
-    "Weapon": 7,
-    "Chain": {
-      "First": 10171,
-      "Second": 10172
-    }
+    "Weapon": 7
   },
   "10172": {
     "Id": 10172,
@@ -2565,11 +2892,15 @@
   },
   "10173": {
     "Id": 10173,
-    "Default": 10173,
     "Enviroment": 1,
     "Weapon": 7,
+    "Specialization": 0,
     "FlipSkills": {
-      "Default": 10173
+      "Default": 10173,
+      "State1": 10337
+    },
+    "Traited": {
+      "62568": 2216
     }
   },
   "10174": {
@@ -2599,11 +2930,11 @@
   },
   "10186": {
     "Id": 10186,
-    "Default": 10186,
     "Enviroment": 1,
     "Weapon": 8,
     "FlipSkills": {
-      "Default": 10186
+      "Default": 10186,
+      "State1": 10363
     }
   },
   "10187": {
@@ -2619,21 +2950,31 @@
   "10190": {
     "Id": 10190,
     "Enviroment": 3,
-    "Weapon": 1
+    "Weapon": 1,
+    "Specialization": 0,
+    "Traited": {
+      "62616": 2216,
+      "56928": 2030
+    }
   },
   "10191": {
     "Id": 10191,
-    "Default": 10191,
     "Enviroment": 3,
     "Weapon": 1,
-    "FlipSkills": {
-      "Default": 10191
+    "Specialization": 0,
+    "Traited": {
+      "56930": 2030,
+      "62617": 2216
     }
   },
   "10192": {
     "Id": 10192,
     "Enviroment": 3,
-    "Weapon": 1
+    "Weapon": 1,
+    "Specialization": 0,
+    "Traited": {
+      "68273": 2216
+    }
   },
   "10196": {
     "Id": 10196,
@@ -2642,15 +2983,16 @@
   },
   "10197": {
     "Id": 10197,
-    "Default": 10197,
     "Enviroment": 3,
     "Weapon": 1,
     "FlipSkills": {
-      "Default": 10197
+      "Default": 10197,
+      "State1": 10199
     }
   },
   "10199": {
     "Id": 10199,
+    "Default": 10197,
     "Enviroment": 3,
     "Weapon": 1
   },
@@ -2676,57 +3018,61 @@
   },
   "10204": {
     "Id": 10204,
-    "Default": 10204,
     "Enviroment": 3,
     "Weapon": 1,
     "FlipSkills": {
-      "Default": 10204
+      "Default": 10204,
+      "State1": 10206
     }
   },
   "10206": {
     "Id": 10206,
+    "Default": 10204,
     "Enviroment": 3,
     "Weapon": 1
   },
   "10207": {
     "Id": 10207,
-    "Default": 10207,
     "Enviroment": 3,
     "Weapon": 1,
     "FlipSkills": {
-      "Default": 10207
+      "Default": 10207,
+      "State1": 10209
     }
   },
   "10209": {
     "Id": 10209,
+    "Default": 10207,
     "Enviroment": 3,
     "Weapon": 1
   },
   "10211": {
     "Id": 10211,
-    "Default": 10211,
     "Enviroment": 3,
     "Weapon": 1,
     "FlipSkills": {
-      "Default": 10211
+      "Default": 10211,
+      "State1": 10212
     }
   },
   "10212": {
     "Id": 10212,
+    "Default": 10211,
     "Enviroment": 3,
     "Weapon": 1
   },
   "10213": {
     "Id": 10213,
-    "Default": 10213,
     "Enviroment": 3,
     "Weapon": 1,
     "FlipSkills": {
-      "Default": 10213
+      "Default": 10213,
+      "State1": 10214
     }
   },
   "10214": {
     "Id": 10214,
+    "Default": 10213,
     "Enviroment": 3,
     "Weapon": 1
   },
@@ -2752,8 +3098,9 @@
     "Default": 10219,
     "Enviroment": 1,
     "Weapon": 12,
-    "FlipSkills": {
-      "Default": 10219
+    "Chain": {
+      "First": 10219,
+      "Ambush": 44241
     }
   },
   "10220": {
@@ -2800,15 +3147,16 @@
   },
   "10237": {
     "Id": 10237,
-    "Default": 10237,
     "Enviroment": 3,
     "Weapon": 1,
     "FlipSkills": {
-      "Default": 10237
+      "Default": 10237,
+      "State1": 10238
     }
   },
   "10238": {
     "Id": 10238,
+    "Default": 10237,
     "Enviroment": 3,
     "Weapon": 1
   },
@@ -2842,8 +3190,9 @@
     "Default": 10258,
     "Enviroment": 3,
     "Weapon": 20,
-    "FlipSkills": {
-      "Default": 10258
+    "Chain": {
+      "First": 10258,
+      "Ambush": 39959
     }
   },
   "10259": {
@@ -2866,17 +3215,18 @@
     "Default": 10273,
     "Enviroment": 1,
     "Weapon": 17,
-    "FlipSkills": {
-      "Default": 10273
+    "Chain": {
+      "First": 10273,
+      "Ambush": 40184
     }
   },
   "10276": {
     "Id": 10276,
-    "Default": 10276,
     "Enviroment": 1,
     "Weapon": 6,
     "FlipSkills": {
-      "Default": 10276
+      "Default": 10276,
+      "State1": 10314
     }
   },
   "10280": {
@@ -2885,7 +3235,8 @@
     "Enviroment": 1,
     "Weapon": 7,
     "FlipSkills": {
-      "Default": 10280
+      "Default": 10280,
+      "State1": 10358
     }
   },
   "10282": {
@@ -2901,28 +3252,36 @@
   "10287": {
     "Id": 10287,
     "Enviroment": 3,
-    "Weapon": 1
+    "Weapon": 1,
+    "Specialization": 0,
+    "Traited": {
+      "62602": 2216,
+      "56873": 2030
+    }
   },
   "10289": {
     "Id": 10289,
     "Default": 10289,
     "Enviroment": 1,
     "Weapon": 6,
-    "FlipSkills": {
-      "Default": 10289
+    "Specialization": 0,
+    "Chain": {
+      "First": 10289,
+      "Second": 10290,
+      "Third": 10291,
+      "Ambush": 42304
     }
   },
   "10290": {
     "Id": 10290,
-    "Default": 10290,
+    "Default": 10289,
     "Enviroment": 1,
     "Weapon": 6,
-    "FlipSkills": {
-      "Default": 10290
-    }
+    "Specialization": 0
   },
   "10291": {
     "Id": 10291,
+    "Default": 10289,
     "Enviroment": 1,
     "Weapon": 6
   },
@@ -2938,43 +3297,32 @@
   },
   "10311": {
     "Id": 10311,
-    "Enviroment": 3,
+    "EnviromentalCounterskill": 10377,
+    "Enviroment": 1,
     "Weapon": 1
   },
   "10314": {
     "Id": 10314,
+    "Default": 10276,
     "Enviroment": 1,
     "Weapon": 6
   },
   "10315": {
     "Id": 10315,
-    "Default": 10315,
     "Enviroment": 3,
     "Weapon": 18,
     "Chain": {
       "First": 10315,
       "Second": 10316,
-      "Third": 10317
-    },
-    "FlipSkills": {
-      "Default": 10315,
-      "State1": 10316,
-      "State2": 10317
+      "Third": 10317,
+      "Ambush": 44864
     }
   },
   "10316": {
     "Id": 10316,
     "Default": 10315,
     "Enviroment": 3,
-    "Weapon": 18,
-    "Chain": {
-      "First": 10316,
-      "Second": 10317
-    },
-    "FlipSkills": {
-      "Default": 10316,
-      "State1": 10317
-    }
+    "Weapon": 18
   },
   "10317": {
     "Id": 10317,
@@ -3026,6 +3374,7 @@
   },
   "10337": {
     "Id": 10337,
+    "Default": 10173,
     "Enviroment": 1,
     "Weapon": 7
   },
@@ -3036,27 +3385,32 @@
   },
   "10358": {
     "Id": 10358,
+    "Default": 10280,
     "Enviroment": 1,
     "Weapon": 7
   },
   "10363": {
     "Id": 10363,
+    "Default": 10186,
     "Enviroment": 1,
     "Weapon": 8
   },
   "10366": {
     "Id": 10366,
-    "Enviroment": 3,
+    "EnviromentalCounterskill": 62454,
+    "Enviroment": 1,
     "Weapon": 1
   },
   "10377": {
     "Id": 10377,
-    "Enviroment": 3,
+    "EnviromentalCounterskill": 10311,
+    "Enviroment": 2,
     "Weapon": 1
   },
   "10527": {
     "Id": 10527,
-    "Enviroment": 3,
+    "EnviromentalCounterskill": 10670,
+    "Enviroment": 1,
     "Weapon": 1
   },
   "10528": {
@@ -3079,31 +3433,36 @@
   },
   "10533": {
     "Id": 10533,
-    "Default": 10533,
     "Enviroment": 3,
     "Weapon": 1,
     "FlipSkills": {
-      "Default": 10533
+      "Default": 10533,
+      "State1": 10570
     }
   },
   "10540": {
     "Id": 10540,
+    "Default": 10541,
     "Enviroment": 3,
     "Weapon": 1
   },
   "10541": {
     "Id": 10541,
-    "Default": 10541,
     "Enviroment": 3,
     "Weapon": 1,
     "FlipSkills": {
-      "Default": 10541
+      "Default": 10541,
+      "State1": 10540
     }
   },
   "10543": {
     "Id": 10543,
     "Enviroment": 1,
-    "Weapon": 1
+    "Weapon": 1,
+    "FlipSkills": {
+      "Default": 10543,
+      "State1": 10600
+    }
   },
   "10544": {
     "Id": 10544,
@@ -3112,21 +3471,23 @@
   },
   "10545": {
     "Id": 10545,
-    "Enviroment": 3,
+    "EnviromentalCounterskill": 10671,
+    "Enviroment": 1,
     "Weapon": 1
   },
   "10546": {
     "Id": 10546,
-    "Enviroment": 3,
+    "EnviromentalCounterskill": 10674,
+    "Enviroment": 1,
     "Weapon": 1
   },
   "10547": {
     "Id": 10547,
-    "Default": 10547,
     "Enviroment": 3,
     "Weapon": 1,
     "FlipSkills": {
-      "Default": 10547
+      "Default": 10547,
+      "State1": 10577
     }
   },
   "10548": {
@@ -3151,6 +3512,7 @@
     "Enviroment": 1,
     "Weapon": 1,
     "Transform": {
+      "Enter": 10550,
       "Weapon1": 14350,
       "Weapon2": 10634,
       "Weapon3": 10635,
@@ -3169,12 +3531,10 @@
   },
   "10554": {
     "Id": 10554,
-    "Default": 10554,
+    "Default": 10574,
+    "EnviromentalCounterskill": 10690,
     "Enviroment": 1,
-    "Weapon": 1,
-    "FlipSkills": {
-      "Default": 10554
-    }
+    "Weapon": 1
   },
   "10555": {
     "Id": 10555,
@@ -3193,6 +3553,7 @@
   },
   "10559": {
     "Id": 10559,
+    "EnviromentalCounterskill": 10641,
     "Enviroment": 1,
     "Weapon": 1
   },
@@ -3218,6 +3579,7 @@
   },
   "10570": {
     "Id": 10570,
+    "Default": 10533,
     "Enviroment": 3,
     "Weapon": 1
   },
@@ -3227,18 +3589,18 @@
     "Enviroment": 3,
     "Weapon": 1,
     "Transform": {
-      "Weapon1": 19504,
-      "Weapon2": 62672,
-      "Weapon3": 40813,
-      "Weapon4": 10690,
-      "Weapon5": 44663
-    },
-    "FlipSkills": {
-      "Default": 10574
+      "Enter": 10574,
+      "Exit": 10585,
+      "Weapon1": 10554,
+      "Weapon2": 10604,
+      "Weapon3": 10588,
+      "Weapon4": 10594,
+      "Weapon5": 19504
     }
   },
   "10577": {
     "Id": 10577,
+    "Default": 10547,
     "Enviroment": 3,
     "Weapon": 1
   },
@@ -3260,25 +3622,28 @@
   },
   "10588": {
     "Id": 10588,
+    "EnviromentalCounterskill": 10645,
     "Enviroment": 1,
     "Weapon": 1
   },
   "10589": {
     "Id": 10589,
-    "Default": 10589,
     "Enviroment": 3,
     "Weapon": 1,
     "FlipSkills": {
-      "Default": 10589
+      "Default": 10589,
+      "State1": 10590
     }
   },
   "10590": {
     "Id": 10590,
+    "Default": 10589,
     "Enviroment": 3,
     "Weapon": 1
   },
   "10594": {
     "Id": 10594,
+    "EnviromentalCounterskill": 10643,
     "Enviroment": 1,
     "Weapon": 1
   },
@@ -3289,6 +3654,7 @@
   },
   "10600": {
     "Id": 10600,
+    "Default": 10543,
     "Enviroment": 3,
     "Weapon": 1
   },
@@ -3299,11 +3665,12 @@
   },
   "10604": {
     "Id": 10604,
-    "Default": 10604,
+    "EnviromentalCounterskill": 10644,
     "Enviroment": 1,
     "Weapon": 1,
     "FlipSkills": {
-      "Default": 10604
+      "Default": 10604,
+      "State1": 56916
     }
   },
   "10605": {
@@ -3318,7 +3685,8 @@
   },
   "10607": {
     "Id": 10607,
-    "Enviroment": 3,
+    "EnviromentalCounterskill": 10672,
+    "Enviroment": 1,
     "Weapon": 1
   },
   "10608": {
@@ -3328,7 +3696,8 @@
   },
   "10609": {
     "Id": 10609,
-    "Enviroment": 3,
+    "EnviromentalCounterskill": 10673,
+    "Enviroment": 1,
     "Weapon": 1
   },
   "10611": {
@@ -3409,45 +3778,52 @@
   },
   "10641": {
     "Id": 10641,
-    "Enviroment": 3,
+    "EnviromentalCounterskill": 10559,
+    "Enviroment": 2,
     "Weapon": 1
   },
   "10642": {
     "Id": 10642,
-    "Enviroment": 3,
+    "EnviromentalCounterskill": 10660,
+    "Enviroment": 2,
     "Weapon": 1
   },
   "10643": {
     "Id": 10643,
-    "Enviroment": 3,
+    "EnviromentalCounterskill": 10594,
+    "Enviroment": 2,
     "Weapon": 1
   },
   "10644": {
     "Id": 10644,
-    "Enviroment": 3,
+    "EnviromentalCounterskill": 10604,
+    "Enviroment": 2,
     "Weapon": 1
   },
   "10645": {
     "Id": 10645,
+    "EnviromentalCounterskill": 10588,
     "Enviroment": 3,
     "Weapon": 1
   },
   "10646": {
     "Id": 10646,
-    "Default": 10646,
     "Enviroment": 3,
     "Weapon": 1,
     "FlipSkills": {
-      "Default": 10646
+      "Default": 10646,
+      "State1": 10647
     }
   },
   "10647": {
     "Id": 10647,
+    "Default": 10646,
     "Enviroment": 3,
     "Weapon": 1
   },
   "10660": {
     "Id": 10660,
+    "EnviromentalCounterskill": 10642,
     "Enviroment": 1,
     "Weapon": 1
   },
@@ -3471,40 +3847,46 @@
   },
   "10670": {
     "Id": 10670,
-    "Enviroment": 3,
+    "EnviromentalCounterskill": 10527,
+    "Enviroment": 2,
     "Weapon": 1
   },
   "10671": {
     "Id": 10671,
-    "Enviroment": 3,
+    "EnviromentalCounterskill": 10545,
+    "Enviroment": 2,
     "Weapon": 1
   },
   "10672": {
     "Id": 10672,
-    "Enviroment": 3,
+    "EnviromentalCounterskill": 10607,
+    "Enviroment": 2,
     "Weapon": 1
   },
   "10673": {
     "Id": 10673,
-    "Enviroment": 3,
+    "EnviromentalCounterskill": 10609,
+    "Enviroment": 2,
     "Weapon": 1
   },
   "10674": {
     "Id": 10674,
-    "Enviroment": 3,
+    "EnviromentalCounterskill": 10546,
+    "Enviroment": 2,
     "Weapon": 1
   },
   "10685": {
     "Id": 10685,
-    "Default": 10685,
     "Enviroment": 3,
     "Weapon": 1,
     "FlipSkills": {
-      "Default": 10685
+      "Default": 10685,
+      "State1": 10687
     }
   },
   "10687": {
     "Id": 10687,
+    "Default": 10685,
     "Enviroment": 3,
     "Weapon": 1
   },
@@ -3516,41 +3898,25 @@
   "10690": {
     "Id": 10690,
     "Default": 10574,
-    "Enviroment": 3,
-    "Weapon": 1,
-    "FlipSkills": {
-      "Default": 10690
-    }
+    "EnviromentalCounterskill": 10554,
+    "Enviroment": 2,
+    "Weapon": 1
   },
   "10692": {
     "Id": 10692,
-    "Default": 10692,
     "Enviroment": 3,
     "Weapon": 18,
     "Chain": {
       "First": 10692,
       "Second": 10693,
       "Third": 10617
-    },
-    "FlipSkills": {
-      "Default": 10692,
-      "State1": 10693,
-      "State2": 10617
     }
   },
   "10693": {
     "Id": 10693,
     "Default": 10692,
     "Enviroment": 3,
-    "Weapon": 18,
-    "Chain": {
-      "First": 10693,
-      "Second": 10617
-    },
-    "FlipSkills": {
-      "Default": 10693,
-      "State1": 10617
-    }
+    "Weapon": 18
   },
   "10694": {
     "Id": 10694,
@@ -3564,21 +3930,13 @@
   },
   "10698": {
     "Id": 10698,
-    "Default": 10698,
     "Enviroment": 1,
     "Weapon": 6,
+    "Specialization": 0,
     "Chain": {
       "First": 10698,
       "Second": 10699,
       "Third": 10552
-    },
-    "FlipSkills": {
-      "Default": 10698,
-      "State1": 10699,
-      "State2": 10552
-    },
-    "Traited": {
-      "51647": 801
     }
   },
   "10699": {
@@ -3612,22 +3970,13 @@
       "First": 10702,
       "Second": 10703,
       "Third": 10704
-    },
-    "FlipSkills": {
-      "Default": 10702,
-      "State1": 10703,
-      "State2": 10704
     }
   },
   "10703": {
     "Id": 10703,
     "Default": 10702,
     "Enviroment": 1,
-    "Weapon": 3,
-    "Chain": {
-      "First": 10703,
-      "Second": 10704
-    }
+    "Weapon": 3
   },
   "10704": {
     "Id": 10704,
@@ -4640,15 +4989,19 @@
   "13002": {
     "Id": 13002,
     "Enviroment": 1,
-    "Weapon": 1
+    "Weapon": 1,
+    "FlipSkills": {
+      "Default": 13002,
+      "State1": 13106
+    }
   },
   "13003": {
     "Id": 13003,
-    "Default": 13003,
+    "EnviromentalCounterskill": 13079,
     "Enviroment": 1,
     "Weapon": 1,
-    "FlipSkills": {
-      "Default": 13003
+    "Stealth": {
+      "Default": 13138
     }
   },
   "13004": {
@@ -4659,16 +5012,14 @@
     "Chain": {
       "First": 13004,
       "Second": 13087,
-      "Third": 13108
-    },
-    "FlipSkills": {
-      "Default": 13004,
-      "State1": 13087,
-      "State2": 13108
+      "Third": 13108,
+      "Stealth": 13005,
+      "Malicious": 50481
     }
   },
   "13005": {
     "Id": 13005,
+    "Default": 13004,
     "Enviroment": 1,
     "Weapon": 3
   },
@@ -4680,6 +5031,7 @@
   },
   "13007": {
     "Id": 13007,
+    "Default": 13016,
     "Enviroment": 1,
     "Weapon": 7
   },
@@ -4690,31 +5042,31 @@
   },
   "13009": {
     "Id": 13009,
-    "Default": 13009,
     "Enviroment": 1,
     "Weapon": 7,
+    "Stealth": {
+      "Default": 13114,
+      "Malicious": 50484
+    },
     "Chain": {
       "First": 13009,
       "Second": 13088,
       "Third": 13116
-    },
-    "FlipSkills": {
-      "Default": 13009,
-      "State1": 13088,
-      "State2": 13116
     }
   },
   "13010": {
     "Id": 13010,
-    "Default": 13010,
+    "Default": 13111,
     "Enviroment": 1,
     "Weapon": 5,
     "FlipSkills": {
-      "Default": 13010
+      "Default": 13010,
+      "State1": 59526
     }
   },
   "13011": {
     "Id": 13011,
+    "Default": 13111,
     "Enviroment": 1,
     "Weapon": 5
   },
@@ -4728,22 +5080,28 @@
     "Default": 13014,
     "Enviroment": 3,
     "Weapon": 1,
-    "FlipSkills": {
-      "Default": 13014
+    "Specialization": 0,
+    "Traited": {
+      "43390": 2171,
+      "63067": 2184
     }
   },
   "13015": {
     "Id": 13015,
     "Enviroment": 1,
-    "Weapon": 7
+    "Weapon": 7,
+    "FlipSkills": {
+      "Default": 13015,
+      "State1": 13128
+    }
   },
   "13016": {
     "Id": 13016,
-    "Default": 13016,
     "Enviroment": 1,
     "Weapon": 7,
     "FlipSkills": {
-      "Default": 13016
+      "Default": 13016,
+      "State1": 13007
     }
   },
   "13019": {
@@ -4766,8 +5124,9 @@
     "Default": 13022,
     "Enviroment": 1,
     "Weapon": 16,
-    "FlipSkills": {
-      "Default": 13022
+    "Stealth": {
+      "Default": 13129,
+      "Malicious": 50451
     }
   },
   "13024": {
@@ -4782,11 +5141,11 @@
   },
   "13026": {
     "Id": 13026,
-    "Default": 13026,
     "Enviroment": 1,
     "Weapon": 1,
     "FlipSkills": {
-      "Default": 13026
+      "Default": 13026,
+      "State1": 56898
     }
   },
   "13027": {
@@ -4806,6 +5165,7 @@
   },
   "13033": {
     "Id": 13033,
+    "EnviromentalCounterskill": 13080,
     "Enviroment": 1,
     "Weapon": 1
   },
@@ -4821,11 +5181,11 @@
   },
   "13038": {
     "Id": 13038,
-    "Default": 13038,
     "Enviroment": 1,
     "Weapon": 1,
     "FlipSkills": {
-      "Default": 13038
+      "Default": 13038,
+      "State1": 16435
     }
   },
   "13040": {
@@ -4840,11 +5200,13 @@
     "Enviroment": 1,
     "Weapon": 16,
     "FlipSkills": {
-      "Default": 13041
+      "Default": 13041,
+      "State1": 13043
     }
   },
   "13043": {
     "Id": 13043,
+    "Default": 13041,
     "Enviroment": 1,
     "Weapon": 16
   },
@@ -4870,20 +5232,20 @@
   },
   "13056": {
     "Id": 13056,
-    "Default": 13056,
     "Enviroment": 1,
     "Weapon": 1,
     "FlipSkills": {
-      "Default": 13056
+      "Default": 13056,
+      "State1": 13099
     }
   },
   "13057": {
     "Id": 13057,
-    "Default": 13057,
     "Enviroment": 1,
     "Weapon": 1,
     "FlipSkills": {
-      "Default": 13057
+      "Default": 13057,
+      "State1": 56880
     }
   },
   "13060": {
@@ -4927,16 +5289,18 @@
     "Enviroment": 3,
     "Weapon": 18,
     "FlipSkills": {
-      "Default": 13070
+      "Default": 13070,
+      "State1": 50379
     }
   },
   "13072": {
     "Id": 13072,
-    "Default": 13072,
     "Enviroment": 3,
     "Weapon": 19,
-    "FlipSkills": {
-      "Default": 13072
+    "Specialization": 0,
+    "Stealth": {
+      "Default": 13126,
+      "Malicious": 50449
     }
   },
   "13073": {
@@ -4951,6 +5315,7 @@
   },
   "13075": {
     "Id": 13075,
+    "Default": 13116,
     "Enviroment": 3,
     "Weapon": 19
   },
@@ -4960,27 +5325,32 @@
     "Enviroment": 3,
     "Weapon": 19,
     "FlipSkills": {
-      "Default": 13076
+      "Default": 13076,
+      "State1": 13078
     }
   },
   "13078": {
     "Id": 13078,
+    "Default": 13076,
     "Enviroment": 3,
     "Weapon": 19
   },
   "13079": {
     "Id": 13079,
+    "EnviromentalCounterskill": 13003,
     "Enviroment": 3,
     "Weapon": 1
   },
   "13080": {
     "Id": 13080,
-    "Enviroment": 3,
+    "EnviromentalCounterskill": 13033,
+    "Enviroment": 2,
     "Weapon": 1
   },
   "13081": {
     "Id": 13081,
-    "Enviroment": 3,
+    "EnviromentalCounterskill": 13140,
+    "Enviroment": 2,
     "Weapon": 1
   },
   "13082": {
@@ -4998,8 +5368,9 @@
     "Default": 13084,
     "Enviroment": 1,
     "Weapon": 5,
-    "FlipSkills": {
-      "Default": 13084
+    "Stealth": {
+      "Default": 13115,
+      "Malicious": 50466
     }
   },
   "13085": {
@@ -5012,20 +5383,13 @@
     "Default": 13004,
     "Enviroment": 1,
     "Weapon": 3,
-    "Chain": {
-      "First": 13087,
-      "Second": 13108
-    }
+    "Specialization": 0
   },
   "13088": {
     "Id": 13088,
     "Default": 13009,
     "Enviroment": 1,
-    "Weapon": 7,
-    "Chain": {
-      "First": 13088,
-      "Second": 13116
-    }
+    "Weapon": 7
   },
   "13093": {
     "Id": 13093,
@@ -5044,11 +5408,13 @@
   },
   "13099": {
     "Id": 13099,
+    "Default": 13056,
     "Enviroment": 1,
     "Weapon": 1
   },
   "13106": {
     "Id": 13106,
+    "Default": 13002,
     "Enviroment": 3,
     "Weapon": 1
   },
@@ -5064,23 +5430,31 @@
     "Weapon": 3,
     "Specialization": 0,
     "DualSkill": {
+      "NoOffhand": 13110,
       "Dagger": 13006,
       "Pistol": 13040
     }
   },
   "13111": {
     "Id": 13111,
-    "Default": 13111,
     "Enviroment": 1,
     "Weapon": 5,
-    "FlipSkills": {
-      "Default": 13111
+    "DualSkill": {
+      "NoOffhand": 13111,
+      "Dagger": 13010,
+      "Pistol": 13011
     }
   },
   "13112": {
     "Id": 13112,
     "Enviroment": 1,
-    "Weapon": 7
+    "Weapon": 7,
+    "Specialization": 0,
+    "DualSkill": {
+      "NoOffhand": 13112,
+      "Dagger": 13016,
+      "Pistol": 13031
+    }
   },
   "13113": {
     "Id": 13113,
@@ -5094,8 +5468,10 @@
   },
   "13115": {
     "Id": 13115,
+    "Default": 13084,
     "Enviroment": 1,
-    "Weapon": 5
+    "Weapon": 5,
+    "Specialization": 0
   },
   "13116": {
     "Id": 13116,
@@ -5113,15 +5489,13 @@
     "Default": 13119,
     "Enviroment": 3,
     "Weapon": 18,
+    "Specialization": 0,
     "Chain": {
       "First": 13119,
       "Second": 13120,
-      "Third": 13121
-    },
-    "FlipSkills": {
-      "Default": 13119,
-      "State1": 13120,
-      "State2": 13121
+      "Third": 13121,
+      "Stealth": 13125,
+      "Malicious": 50417
     }
   },
   "13120": {
@@ -5150,21 +5524,27 @@
     "Enviroment": 3,
     "Weapon": 18,
     "FlipSkills": {
-      "Default": 13122
+      "Default": 13122,
+      "State1": 13130
     }
   },
   "13125": {
     "Id": 13125,
+    "Default": 13119,
     "Enviroment": 3,
-    "Weapon": 18
+    "Weapon": 18,
+    "Specialization": 0
   },
   "13126": {
     "Id": 13126,
+    "Default": 13072,
     "Enviroment": 3,
-    "Weapon": 19
+    "Weapon": 19,
+    "Specialization": 0
   },
   "13128": {
     "Id": 13128,
+    "Default": 13015,
     "Enviroment": 3,
     "Weapon": 7
   },
@@ -5190,6 +5570,7 @@
   },
   "13140": {
     "Id": 13140,
+    "EnviromentalCounterskill": 13081,
     "Enviroment": 1,
     "Weapon": 1
   },
@@ -6113,18 +6494,26 @@
   },
   "15716": {
     "Id": 15716,
+    "Default": 15718,
     "Enviroment": 1,
     "Weapon": 3
   },
   "15717": {
     "Id": 15717,
+    "Default": 15718,
     "Enviroment": 1,
     "Weapon": 3
   },
   "15718": {
     "Id": 15718,
     "Enviroment": 1,
-    "Weapon": 3
+    "Weapon": 3,
+    "AttunementSkill": {
+      "Fire": 15718,
+      "Water": 15716,
+      "Earth": 15717,
+      "Air": 5489
+    }
   },
   "15795": {
     "Id": 15795,
@@ -6144,6 +6533,7 @@
   },
   "16435": {
     "Id": 16435,
+    "Default": 13038,
     "Enviroment": 1,
     "Weapon": 1
   },
@@ -6188,7 +6578,7 @@
     "Default": 5832,
     "Enviroment": 2,
     "Weapon": 1,
-    "Toolbelt": 29722,
+    "Toolbelt": 29515,
     "FlipSkills": {
       "Default": 20451,
       "State1": 5602,
@@ -6205,9 +6595,10 @@
     "Default": 21659,
     "Enviroment": 3,
     "Weapon": 1,
+    "Specialization": 0,
     "Toolbelt": 21661,
-    "FlipSkills": {
-      "Default": 21659
+    "Traited": {
+      "30881": 1679
     }
   },
   "21661": {
@@ -6267,14 +6658,20 @@
   "22573": {
     "Id": 22573,
     "Default": 22574,
+    "EnviromentalCounterskill": 6177,
     "Enviroment": 3,
     "Weapon": 1
   },
   "22574": {
     "Id": 22574,
-    "Enviroment": 3,
+    "EnviromentalCounterskill": 5912,
+    "Enviroment": 2,
     "Weapon": 1,
-    "Toolbelt": 22573
+    "Toolbelt": 22573,
+    "FlipSkills": {
+      "Default": 22574,
+      "State1": 38748
+    }
   },
   "24287": {
     "Id": 24287,
@@ -6283,21 +6680,29 @@
   },
   "24407": {
     "Id": 24407,
+    "Default": 5573,
+    "EnviromentalCounterskill": 5762,
     "Enviroment": 3,
     "Weapon": 1
   },
   "24409": {
     "Id": 24409,
+    "Default": 5573,
+    "EnviromentalCounterskill": 5760,
     "Enviroment": 3,
     "Weapon": 1
   },
   "24410": {
     "Id": 24410,
+    "Default": 5573,
+    "EnviromentalCounterskill": 5763,
     "Enviroment": 3,
     "Weapon": 1
   },
   "24411": {
     "Id": 24411,
+    "Default": 5573,
+    "EnviromentalCounterskill": 5761,
     "Enviroment": 3,
     "Weapon": 1
   },
@@ -6325,49 +6730,39 @@
   },
   "25486": {
     "Id": 25486,
+    "Default": 5502,
     "Enviroment": 1,
     "Weapon": 1
   },
   "25487": {
     "Id": 25487,
+    "Default": 5502,
     "Enviroment": 1,
     "Weapon": 1
   },
   "25488": {
     "Id": 25488,
-    "Default": 25488,
+    "Default": 5666,
     "Enviroment": 1,
-    "Weapon": 1,
-    "FlipSkills": {
-      "Default": 25488
-    }
+    "Weapon": 1
   },
   "25489": {
     "Id": 25489,
-    "Default": 25489,
+    "Default": 5666,
     "Enviroment": 1,
-    "Weapon": 1,
-    "FlipSkills": {
-      "Default": 25489
-    }
+    "Weapon": 1
   },
   "25490": {
     "Id": 25490,
-    "Default": 25490,
+    "Default": 5666,
     "Enviroment": 1,
-    "Weapon": 1,
-    "FlipSkills": {
-      "Default": 25490
-    }
+    "Weapon": 1
   },
   "25491": {
     "Id": 25491,
-    "Default": 25491,
+    "Default": 5666,
     "Enviroment": 1,
-    "Weapon": 1,
-    "FlipSkills": {
-      "Default": 25491
-    }
+    "Weapon": 1
   },
   "25492": {
     "Id": 25492,
@@ -6376,11 +6771,13 @@
   },
   "25495": {
     "Id": 25495,
+    "Default": 5502,
     "Enviroment": 1,
     "Weapon": 1
   },
   "25497": {
     "Id": 25497,
+    "Default": 5502,
     "Enviroment": 1,
     "Weapon": 1
   },
@@ -6401,21 +6798,21 @@
   },
   "26557": {
     "Id": 26557,
-    "Default": 26557,
     "Enviroment": 3,
     "Weapon": 1,
     "FlipSkills": {
-      "Default": 26557
+      "Default": 26557,
+      "State1": 26956
     }
   },
   "26644": {
     "Id": 26644,
-    "Default": 26644,
     "Enviroment": 3,
     "Weapon": 1,
     "Specialization": 52,
     "FlipSkills": {
-      "Default": 26644
+      "Default": 26644,
+      "State1": 28113
     }
   },
   "26666": {
@@ -6431,6 +6828,7 @@
   },
   "26693": {
     "Id": 26693,
+    "Default": 28287,
     "Enviroment": 3,
     "Weapon": 1
   },
@@ -6443,23 +6841,15 @@
     "Id": 26730,
     "Default": 26730,
     "Enviroment": 1,
-    "Weapon": 4,
-    "Chain": {
-      "First": 26730,
-      "Second": 26666
-    },
-    "FlipSkills": {
-      "Default": 26730,
-      "State1": 26666
-    }
+    "Weapon": 4
   },
   "26821": {
     "Id": 26821,
-    "Default": 26821,
     "Enviroment": 1,
     "Weapon": 1,
     "FlipSkills": {
-      "Default": 26821
+      "Default": 26821,
+      "State1": 27628
     }
   },
   "26937": {
@@ -6469,6 +6859,7 @@
   },
   "26956": {
     "Id": 26956,
+    "Default": 26557,
     "Enviroment": 3,
     "Weapon": 1
   },
@@ -6476,7 +6867,11 @@
     "Id": 27014,
     "Enviroment": 3,
     "Weapon": 1,
-    "Specialization": 52
+    "Specialization": 52,
+    "FlipSkills": {
+      "Default": 27014,
+      "State1": 27162
+    }
   },
   "27025": {
     "Id": 27025,
@@ -6489,23 +6884,18 @@
   },
   "27063": {
     "Id": 27063,
+    "EnviromentalCounterskill": 31727,
     "Enviroment": 1,
     "Weapon": 1
   },
   "27066": {
     "Id": 27066,
-    "Default": 27066,
     "Enviroment": 1,
     "Weapon": 4,
     "Chain": {
       "First": 27066,
       "Second": 26730,
       "Third": 26666
-    },
-    "FlipSkills": {
-      "Default": 27066,
-      "State1": 26730,
-      "State2": 26666
     }
   },
   "27074": {
@@ -6519,21 +6909,24 @@
   },
   "27080": {
     "Id": 27080,
+    "Default": 28379,
     "Enviroment": 3,
     "Weapon": 1,
     "Specialization": 52
   },
   "27107": {
     "Id": 27107,
-    "Default": 27107,
     "Enviroment": 3,
     "Weapon": 1,
     "FlipSkills": {
-      "Default": 27107
+      "Default": 27107,
+      "State1": 28382
     }
   },
   "27162": {
     "Id": 27162,
+    "Default": 27014,
+    "EnviromentalCounterskill": 51698,
     "Enviroment": 1,
     "Weapon": 1,
     "Specialization": 52
@@ -6545,11 +6938,13 @@
     "Weapon": 1,
     "Specialization": 52,
     "FlipSkills": {
-      "Default": 27220
+      "Default": 27220,
+      "State1": 27228
     }
   },
   "27228": {
     "Id": 27228,
+    "Default": 27220,
     "Enviroment": 3,
     "Weapon": 1,
     "Specialization": 52
@@ -6564,6 +6959,7 @@
     "Default": 27356,
     "Enviroment": 1,
     "Weapon": 1,
+    "Specialization": 0,
     "FlipSkills": {
       "Default": 27356
     }
@@ -6576,10 +6972,12 @@
   "27505": {
     "Id": 27505,
     "Enviroment": 3,
-    "Weapon": 1
+    "Weapon": 1,
+    "Specialization": 0
   },
   "27628": {
     "Id": 27628,
+    "Default": 26821,
     "Enviroment": 1,
     "Weapon": 1
   },
@@ -6599,12 +6997,12 @@
   },
   "27760": {
     "Id": 27760,
-    "Default": 27760,
     "Enviroment": 3,
     "Weapon": 1,
     "Specialization": 52,
     "FlipSkills": {
-      "Default": 27760
+      "Default": 27760,
+      "State1": 28075
     }
   },
   "27792": {
@@ -6614,8 +7012,10 @@
   },
   "27917": {
     "Id": 27917,
-    "Enviroment": 3,
-    "Weapon": 1
+    "EnviromentalCounterskill": 31100,
+    "Enviroment": 1,
+    "Weapon": 1,
+    "Specialization": 0
   },
   "27964": {
     "Id": 27964,
@@ -6639,6 +7039,7 @@
   },
   "28075": {
     "Id": 28075,
+    "Default": 27760,
     "Enviroment": 3,
     "Weapon": 1,
     "Specialization": 52
@@ -6656,6 +7057,7 @@
   },
   "28113": {
     "Id": 28113,
+    "Default": 26644,
     "Enviroment": 3,
     "Weapon": 1,
     "Specialization": 52
@@ -6667,6 +7069,7 @@
   },
   "28180": {
     "Id": 28180,
+    "EnviromentalCounterskill": 31723,
     "Enviroment": 1,
     "Weapon": 1
   },
@@ -6698,11 +7101,11 @@
   },
   "28287": {
     "Id": 28287,
-    "Default": 28287,
     "Enviroment": 3,
     "Weapon": 1,
     "FlipSkills": {
-      "Default": 28287
+      "Default": 28287,
+      "State1": 26693
     }
   },
   "28357": {
@@ -6712,16 +7115,17 @@
   },
   "28379": {
     "Id": 28379,
-    "Default": 28379,
     "Enviroment": 3,
     "Weapon": 1,
     "Specialization": 52,
     "FlipSkills": {
-      "Default": 28379
+      "Default": 28379,
+      "State1": 27080
     }
   },
   "28382": {
     "Id": 28382,
+    "Default": 27107,
     "Enviroment": 3,
     "Weapon": 1
   },
@@ -6742,6 +7146,7 @@
   },
   "28427": {
     "Id": 28427,
+    "Default": 29148,
     "Enviroment": 1,
     "Weapon": 1
   },
@@ -6782,11 +7187,11 @@
   },
   "28692": {
     "Id": 28692,
-    "Default": 28692,
     "Enviroment": 3,
     "Weapon": 18,
     "FlipSkills": {
-      "Default": 28692
+      "Default": 28692,
+      "State1": 28815
     }
   },
   "28714": {
@@ -6796,21 +7201,23 @@
   },
   "28797": {
     "Id": 28797,
+    "Default": 28827,
     "Enviroment": 3,
     "Weapon": 18
   },
   "28815": {
     "Id": 28815,
+    "Default": 28692,
     "Enviroment": 3,
     "Weapon": 18
   },
   "28827": {
     "Id": 28827,
-    "Default": 28827,
     "Enviroment": 3,
     "Weapon": 18,
     "FlipSkills": {
-      "Default": 28827
+      "Default": 28827,
+      "State1": 28797
     }
   },
   "28915": {
@@ -6842,18 +7249,12 @@
   },
   "29057": {
     "Id": 29057,
-    "Default": 29057,
     "Enviroment": 1,
     "Weapon": 7,
     "Chain": {
       "First": 29057,
       "Second": 29256,
       "Third": 28964
-    },
-    "FlipSkills": {
-      "Default": 29057,
-      "State1": 29256,
-      "State2": 28964
     }
   },
   "29082": {
@@ -6873,11 +7274,11 @@
   },
   "29148": {
     "Id": 29148,
-    "Default": 29148,
     "Enviroment": 1,
     "Weapon": 1,
     "FlipSkills": {
-      "Default": 29148
+      "Default": 29148,
+      "State1": 28427
     }
   },
   "29180": {
@@ -6885,15 +7286,11 @@
     "Default": 29180,
     "Enviroment": 1,
     "Weapon": 17,
+    "Specialization": 0,
     "Chain": {
       "First": 29180,
       "Second": 29331,
       "Third": 29002
-    },
-    "FlipSkills": {
-      "Default": 29180,
-      "State1": 29331,
-      "State2": 29002
     }
   },
   "29197": {
@@ -6915,15 +7312,7 @@
     "Id": 29256,
     "Default": 29057,
     "Enviroment": 1,
-    "Weapon": 7,
-    "Chain": {
-      "First": 29256,
-      "Second": 28964
-    },
-    "FlipSkills": {
-      "Default": 29256,
-      "State1": 28964
-    }
+    "Weapon": 7
   },
   "29288": {
     "Id": 29288,
@@ -6944,21 +7333,21 @@
     "Id": 29331,
     "Default": 29180,
     "Enviroment": 1,
-    "Weapon": 17,
-    "Chain": {
-      "First": 29331,
-      "Second": 29002
-    },
-    "FlipSkills": {
-      "Default": 29331,
-      "State1": 29002
-    }
+    "Weapon": 17
   },
   "29371": {
     "Id": 29371,
     "Enviroment": 3,
     "Weapon": 1,
-    "Specialization": 52
+    "Specialization": 52,
+    "FlipSkills": {
+      "Default": 29371,
+      "State1": 51667,
+      "State2": 51675,
+      "State3": 51696,
+      "State4": 51713,
+      "State5": 51714
+    }
   },
   "29386": {
     "Id": 29386,
@@ -6974,27 +7363,24 @@
   },
   "29415": {
     "Id": 29415,
+    "Default": 5493,
     "Enviroment": 3,
     "Weapon": 1
   },
   "29442": {
     "Id": 29442,
-    "Default": 29442,
+    "Default": 30792,
     "Enviroment": 3,
     "Weapon": 1,
     "Chain": {
       "First": 29442,
       "Second": 29458,
       "Third": 30278
-    },
-    "FlipSkills": {
-      "Default": 29442,
-      "State1": 29458,
-      "State2": 30278
     }
   },
   "29453": {
     "Id": 29453,
+    "Default": 29548,
     "Enviroment": 1,
     "Weapon": 11,
     "Specialization": 48
@@ -7015,9 +7401,9 @@
   },
   "29473": {
     "Id": 29473,
+    "Default": 6161,
     "Enviroment": 3,
-    "Weapon": 1,
-    "Toolbelt": 6166
+    "Weapon": 1
   },
   "29505": {
     "Id": 29505,
@@ -7027,8 +7413,14 @@
   },
   "29515": {
     "Id": 29515,
-    "Enviroment": 3,
-    "Weapon": 1
+    "Default": 5832,
+    "EnviromentalCounterskill": 30725,
+    "Enviroment": 2,
+    "Weapon": 1,
+    "FlipSkills": {
+      "Default": 29515,
+      "State1": 29722
+    }
   },
   "29516": {
     "Id": 29516,
@@ -7040,11 +7432,6 @@
       "First": 29516,
       "Second": 30077,
       "Third": 29639
-    },
-    "FlipSkills": {
-      "Default": 29516,
-      "State1": 30077,
-      "State2": 29639
     }
   },
   "29518": {
@@ -7073,17 +7460,9 @@
   },
   "29522": {
     "Id": 29522,
+    "EnviromentalCounterskill": 50438,
     "Enviroment": 1,
-    "Weapon": 1,
-    "Toolbelt": 5983,
-    "Traited": {
-      "29522": 1679,
-      "30828": 1679,
-      "30337": 1679,
-      "29591": 1679,
-      "29991": 1679,
-      "30881": 1679
-    }
+    "Weapon": 1
   },
   "29526": {
     "Id": 29526,
@@ -7095,7 +7474,13 @@
     "Id": 29533,
     "Enviroment": 1,
     "Weapon": 11,
-    "Specialization": 48
+    "Specialization": 48,
+    "AttunementSkill": {
+      "Fire": 29533,
+      "Water": 30446,
+      "Earth": 30336,
+      "Air": 30795
+    }
   },
   "29535": {
     "Id": 29535,
@@ -7113,7 +7498,13 @@
     "Id": 29548,
     "Enviroment": 1,
     "Weapon": 11,
-    "Specialization": 48
+    "Specialization": 48,
+    "AttunementSkill": {
+      "Fire": 29548,
+      "Water": 30864,
+      "Earth": 29453,
+      "Air": 30008
+    }
   },
   "29558": {
     "Id": 29558,
@@ -7129,17 +7520,9 @@
   },
   "29591": {
     "Id": 29591,
+    "Default": 5865,
     "Enviroment": 3,
-    "Weapon": 1,
-    "Toolbelt": 30262,
-    "Traited": {
-      "29522": 1679,
-      "30828": 1679,
-      "30337": 1679,
-      "29591": 1679,
-      "29991": 1679,
-      "30881": 1679
-    }
+    "Weapon": 1
   },
   "29613": {
     "Id": 29613,
@@ -7149,6 +7532,7 @@
   },
   "29618": {
     "Id": 29618,
+    "Default": 5495,
     "Enviroment": 3,
     "Weapon": 1
   },
@@ -7174,6 +7558,7 @@
   },
   "29649": {
     "Id": 29649,
+    "Default": 30769,
     "Enviroment": 1,
     "Weapon": 9,
     "Specialization": 40
@@ -7199,7 +7584,6 @@
   },
   "29705": {
     "Id": 29705,
-    "Default": 29705,
     "Enviroment": 1,
     "Weapon": 12,
     "Specialization": 34,
@@ -7207,15 +7591,11 @@
       "First": 29705,
       "Second": 30799,
       "Third": 29867
-    },
-    "FlipSkills": {
-      "Default": 29705,
-      "State1": 30799,
-      "State2": 29867
     }
   },
   "29706": {
     "Id": 29706,
+    "Default": 5492,
     "Enviroment": 3,
     "Weapon": 1
   },
@@ -7227,11 +7607,13 @@
   "29716": {
     "Id": 29716,
     "Default": 5868,
-    "Enviroment": 3,
+    "EnviromentalCounterskill": 30588,
+    "Enviroment": 1,
     "Weapon": 1
   },
   "29719": {
     "Id": 29719,
+    "Default": 5494,
     "Enviroment": 3,
     "Weapon": 1
   },
@@ -7265,15 +7647,7 @@
     "Default": 29785,
     "Enviroment": 1,
     "Weapon": 13,
-    "Specialization": 43,
-    "Chain": {
-      "First": 29785,
-      "Second": 30489
-    },
-    "FlipSkills": {
-      "Default": 29785,
-      "State1": 30489
-    }
+    "Specialization": 43
   },
   "29786": {
     "Id": 29786,
@@ -7289,12 +7663,12 @@
   },
   "29830": {
     "Id": 29830,
-    "Default": 29830,
     "Enviroment": 3,
     "Weapon": 1,
     "Specialization": 40,
     "FlipSkills": {
-      "Default": 29830
+      "Default": 29830,
+      "State1": 30747
     }
   },
   "29840": {
@@ -7347,9 +7721,9 @@
   },
   "29905": {
     "Id": 29905,
-    "Enviroment": 3,
-    "Weapon": 1,
-    "Toolbelt": 30599
+    "Default": 30800,
+    "Enviroment": 1,
+    "Weapon": 1
   },
   "29911": {
     "Id": 29911,
@@ -7391,11 +7765,12 @@
   },
   "29958": {
     "Id": 29958,
-    "Default": 29958,
+    "Default": 30792,
     "Enviroment": 3,
     "Weapon": 1,
     "FlipSkills": {
-      "Default": 29958
+      "Default": 29958,
+      "State1": 29709
     }
   },
   "29965": {
@@ -7416,20 +7791,14 @@
   },
   "29991": {
     "Id": 29991,
+    "Default": 5811,
     "Enviroment": 3,
     "Weapon": 1,
-    "Toolbelt": 5982,
-    "Traited": {
-      "29522": 1679,
-      "30828": 1679,
-      "30337": 1679,
-      "29591": 1679,
-      "29991": 1679,
-      "30881": 1679
-    }
+    "Toolbelt": 5982
   },
   "30008": {
     "Id": 30008,
+    "Default": 29548,
     "Enviroment": 1,
     "Weapon": 11,
     "Specialization": 48
@@ -7486,15 +7855,7 @@
     "Default": 29516,
     "Enviroment": 1,
     "Weapon": 1,
-    "Specialization": 7,
-    "Chain": {
-      "First": 30077,
-      "Second": 29639
-    },
-    "FlipSkills": {
-      "Default": 30077,
-      "State1": 29639
-    }
+    "Specialization": 7
   },
   "30083": {
     "Id": 30083,
@@ -7564,6 +7925,7 @@
   },
   "30210": {
     "Id": 30210,
+    "Default": 30614,
     "Enviroment": 1,
     "Weapon": 17,
     "Specialization": 7
@@ -7655,18 +8017,20 @@
   },
   "30336": {
     "Id": 30336,
+    "Default": 29533,
     "Enviroment": 1,
     "Weapon": 11,
     "Specialization": 48
   },
   "30337": {
     "Id": 30337,
-    "Default": 30337,
+    "Default": 6161,
+    "EnviromentalCounterskill": 30893,
     "Enviroment": 3,
     "Weapon": 1,
-    "Toolbelt": 6166,
     "FlipSkills": {
-      "Default": 30337
+      "Default": 30337,
+      "State1": 29473
     }
   },
   "30343": {
@@ -7739,6 +8103,7 @@
   },
   "30446": {
     "Id": 30446,
+    "Default": 29533,
     "Enviroment": 1,
     "Weapon": 11,
     "Specialization": 48
@@ -7779,7 +8144,6 @@
   },
   "30501": {
     "Id": 30501,
-    "Default": 30501,
     "Enviroment": 1,
     "Weapon": 13,
     "Specialization": 43,
@@ -7787,20 +8151,17 @@
       "First": 30501,
       "Second": 29785,
       "Third": 30489
-    },
-    "FlipSkills": {
-      "Default": 30501,
-      "State1": 29785,
-      "State2": 30489
     }
   },
   "30504": {
     "Id": 30504,
+    "Default": 30792,
     "Enviroment": 3,
     "Weapon": 1
   },
   "30519": {
     "Id": 30519,
+    "Default": 30661,
     "Enviroment": 1,
     "Weapon": 1,
     "Specialization": 7
@@ -7814,7 +8175,8 @@
   "30521": {
     "Id": 30521,
     "Default": 5802,
-    "Enviroment": 3,
+    "EnviromentalCounterskill": 58090,
+    "Enviroment": 1,
     "Weapon": 1
   },
   "30525": {
@@ -7831,6 +8193,7 @@
   },
   "30557": {
     "Id": 30557,
+    "Default": 30792,
     "Enviroment": 3,
     "Weapon": 1
   },
@@ -7843,7 +8206,8 @@
   "30588": {
     "Id": 30588,
     "Default": 6183,
-    "Enviroment": 3,
+    "EnviromentalCounterskill": 29716,
+    "Enviroment": 2,
     "Weapon": 1
   },
   "30597": {
@@ -7860,19 +8224,14 @@
   },
   "30614": {
     "Id": 30614,
-    "Default": 30614,
     "Enviroment": 1,
     "Weapon": 17,
     "Specialization": 7,
     "Chain": {
       "First": 30614,
       "Second": 30135,
-      "Third": 30434
-    },
-    "FlipSkills": {
-      "Default": 30614,
-      "State1": 30135,
-      "State2": 30434
+      "Third": 30434,
+      "Stealth": 30210
     }
   },
   "30628": {
@@ -7889,12 +8248,12 @@
   },
   "30661": {
     "Id": 30661,
-    "Default": 30661,
     "Enviroment": 1,
     "Weapon": 1,
     "Specialization": 7,
     "FlipSkills": {
-      "Default": 30661
+      "Default": 30661,
+      "State1": 30519
     }
   },
   "30662": {
@@ -7924,6 +8283,7 @@
   },
   "30693": {
     "Id": 30693,
+    "Default": 30868,
     "Enviroment": 3,
     "Weapon": 1,
     "Specialization": 7
@@ -7936,11 +8296,14 @@
   },
   "30725": {
     "Id": 30725,
+    "Default": 5832,
+    "EnviromentalCounterskill": 29515,
     "Enviroment": 1,
     "Weapon": 1
   },
   "30747": {
     "Id": 30747,
+    "Default": 29830,
     "Enviroment": 3,
     "Weapon": 1,
     "Specialization": 40
@@ -7952,7 +8315,8 @@
     "Weapon": 9,
     "Specialization": 40,
     "FlipSkills": {
-      "Default": 30769
+      "Default": 30769,
+      "State1": 29649
     }
   },
   "30772": {
@@ -7979,15 +8343,21 @@
   },
   "30792": {
     "Id": 30792,
-    "Default": 30792,
     "Enviroment": 3,
     "Weapon": 1,
-    "FlipSkills": {
-      "Default": 30792
+    "Transform": {
+      "Enter": 30792,
+      "Exit": 30961,
+      "Weapon1": 29442,
+      "Weapon2": 30825,
+      "Weapon3": 29958,
+      "Weapon4": 30504,
+      "Weapon5": 30557
     }
   },
   "30795": {
     "Id": 30795,
+    "Default": 29533,
     "Enviroment": 1,
     "Weapon": 11,
     "Specialization": 48
@@ -7997,21 +8367,15 @@
     "Default": 29705,
     "Enviroment": 1,
     "Weapon": 12,
-    "Specialization": 34,
-    "Chain": {
-      "First": 30799,
-      "Second": 29867
-    },
-    "FlipSkills": {
-      "Default": 30799,
-      "State1": 29867
-    }
+    "Specialization": 34
   },
   "30800": {
     "Id": 30800,
     "Enviroment": 1,
     "Weapon": 1,
     "Bundle": {
+      "Equip": 30800,
+      "Stow": 29905,
       "Weapon1": 30371,
       "Weapon2": 30885,
       "Weapon3": 30307,
@@ -8035,22 +8399,15 @@
   },
   "30825": {
     "Id": 30825,
+    "Default": 30792,
     "Enviroment": 3,
     "Weapon": 1
   },
   "30828": {
     "Id": 30828,
+    "EnviromentalCounterskill": 50472,
     "Enviroment": 1,
-    "Weapon": 1,
-    "Toolbelt": 5973,
-    "Traited": {
-      "29522": 1679,
-      "30828": 1679,
-      "30337": 1679,
-      "29591": 1679,
-      "29991": 1679,
-      "30881": 1679
-    }
+    "Weapon": 1
   },
   "30851": {
     "Id": 30851,
@@ -8067,6 +8424,7 @@
   },
   "30864": {
     "Id": 30864,
+    "Default": 29548,
     "Enviroment": 1,
     "Weapon": 11,
     "Specialization": 48
@@ -8075,7 +8433,11 @@
     "Id": 30868,
     "Enviroment": 1,
     "Weapon": 1,
-    "Specialization": 7
+    "Specialization": 7,
+    "FlipSkills": {
+      "Default": 30868,
+      "State1": 30693
+    }
   },
   "30871": {
     "Id": 30871,
@@ -8092,17 +8454,9 @@
   },
   "30881": {
     "Id": 30881,
+    "Default": 21659,
     "Enviroment": 3,
-    "Weapon": 1,
-    "Toolbelt": 21661,
-    "Traited": {
-      "29522": 1679,
-      "30828": 1679,
-      "30337": 1679,
-      "29591": 1679,
-      "29991": 1679,
-      "30881": 1679
-    }
+    "Weapon": 1
   },
   "30885": {
     "Id": 30885,
@@ -8112,12 +8466,14 @@
   },
   "30893": {
     "Id": 30893,
+    "Default": 6161,
+    "EnviromentalCounterskill": 30337,
     "Enviroment": 3,
-    "Weapon": 1,
-    "Toolbelt": 6166
+    "Weapon": 1
   },
   "30961": {
     "Id": 30961,
+    "Default": 30792,
     "Enviroment": 3,
     "Weapon": 1
   },
@@ -8137,7 +8493,8 @@
   },
   "31100": {
     "Id": 31100,
-    "Enviroment": 3,
+    "EnviromentalCounterskill": 27917,
+    "Enviroment": 2,
     "Weapon": 1
   },
   "31159": {
@@ -8289,12 +8646,14 @@
   },
   "31723": {
     "Id": 31723,
-    "Enviroment": 3,
+    "EnviromentalCounterskill": 28180,
+    "Enviroment": 2,
     "Weapon": 1
   },
   "31727": {
     "Id": 31727,
-    "Enviroment": 3,
+    "EnviromentalCounterskill": 27063,
+    "Enviroment": 2,
     "Weapon": 1
   },
   "31740": {
@@ -8437,41 +8796,49 @@
   },
   "34609": {
     "Id": 34609,
+    "Default": 5569,
     "Enviroment": 3,
     "Weapon": 1
   },
   "34637": {
     "Id": 34637,
+    "Default": 5506,
     "Enviroment": 3,
     "Weapon": 1
   },
   "34651": {
     "Id": 34651,
+    "Default": 5569,
     "Enviroment": 3,
     "Weapon": 1
   },
   "34714": {
     "Id": 34714,
+    "Default": 5506,
     "Enviroment": 3,
     "Weapon": 1
   },
   "34724": {
     "Id": 34724,
+    "Default": 5569,
     "Enviroment": 3,
     "Weapon": 1
   },
   "34736": {
     "Id": 34736,
+    "Default": 5506,
     "Enviroment": 3,
     "Weapon": 1
   },
   "34743": {
     "Id": 34743,
+    "Default": 5569,
     "Enviroment": 3,
     "Weapon": 1
   },
   "34772": {
     "Id": 34772,
+    "Default": 5506,
     "Enviroment": 3,
     "Weapon": 1
   },
@@ -8529,19 +8896,19 @@
   },
   "39964": {
     "Id": 39964,
-    "Default": 39964,
     "Enviroment": 1,
     "Weapon": 7,
     "Specialization": 56,
+    "AttunementSkill": {
+      "Fire": 39964,
+      "Water": 41052,
+      "Earth": 43616,
+      "Air": 44681
+    },
     "Chain": {
       "First": 39964,
       "Second": 40326,
       "Third": 43657
-    },
-    "FlipSkills": {
-      "Default": 39964,
-      "State1": 40326,
-      "State2": 43657
     }
   },
   "39972": {
@@ -8593,6 +8960,7 @@
   },
   "40170": {
     "Id": 40170,
+    "Default": 44451,
     "Enviroment": 1,
     "Weapon": 7,
     "Specialization": 56
@@ -8660,18 +9028,11 @@
     "Default": 39964,
     "Enviroment": 1,
     "Weapon": 7,
-    "Specialization": 56,
-    "Chain": {
-      "First": 40326,
-      "Second": 43657
-    },
-    "FlipSkills": {
-      "Default": 40326,
-      "State1": 43657
-    }
+    "Specialization": 56
   },
   "40332": {
     "Id": 40332,
+    "Default": 5679,
     "Enviroment": 1,
     "Weapon": 17,
     "Specialization": 56
@@ -8684,6 +9045,7 @@
   },
   "40436": {
     "Id": 40436,
+    "Default": 41937,
     "Enviroment": 1,
     "Weapon": 15,
     "Specialization": 58
@@ -8758,7 +9120,11 @@
     "Id": 40600,
     "Enviroment": 1,
     "Weapon": 15,
-    "Specialization": 58
+    "Specialization": 58,
+    "FlipSkills": {
+      "Default": 40600,
+      "State1": 41068
+    }
   },
   "40601": {
     "Id": 40601,
@@ -8798,13 +9164,10 @@
   },
   "40710": {
     "Id": 40710,
-    "Default": 40710,
+    "Default": 41422,
     "Enviroment": 1,
     "Weapon": 15,
-    "Specialization": 58,
-    "FlipSkills": {
-      "Default": 40710
-    }
+    "Specialization": 58
   },
   "40729": {
     "Id": 40729,
@@ -8829,6 +9192,7 @@
   },
   "40794": {
     "Id": 40794,
+    "Default": 5675,
     "Enviroment": 1,
     "Weapon": 6,
     "Specialization": 56
@@ -8872,6 +9236,7 @@
   },
   "40963": {
     "Id": 40963,
+    "Default": 5644,
     "Enviroment": 1,
     "Weapon": 3,
     "Specialization": 56
@@ -8884,7 +9249,7 @@
   },
   "41052": {
     "Id": 41052,
-    "Default": 41052,
+    "Default": 39964,
     "Enviroment": 1,
     "Weapon": 7,
     "Specialization": 56,
@@ -8892,11 +9257,6 @@
       "First": 41052,
       "Second": 45983,
       "Third": 43199
-    },
-    "FlipSkills": {
-      "Default": 41052,
-      "State1": 45983,
-      "State2": 43199
     }
   },
   "41065": {
@@ -8907,6 +9267,7 @@
   },
   "41068": {
     "Id": 41068,
+    "Default": 40600,
     "Enviroment": 3,
     "Weapon": 15,
     "Specialization": 58
@@ -8926,24 +9287,26 @@
   },
   "41123": {
     "Id": 41123,
+    "Default": 42938,
     "Enviroment": 3,
     "Weapon": 1,
     "Specialization": 57
   },
   "41125": {
     "Id": 41125,
+    "Default": 5679,
     "Enviroment": 1,
     "Weapon": 17,
     "Specialization": 56
   },
   "41158": {
     "Id": 41158,
-    "Default": 41158,
     "Enviroment": 1,
     "Weapon": 1,
     "Specialization": 58,
     "FlipSkills": {
-      "Default": 41158
+      "Default": 41158,
+      "State1": 45672
     }
   },
   "41164": {
@@ -8961,6 +9324,7 @@
   },
   "41184": {
     "Id": 41184,
+    "Default": 5679,
     "Enviroment": 1,
     "Weapon": 17,
     "Specialization": 56
@@ -9002,7 +9366,8 @@
   },
   "41294": {
     "Id": 41294,
-    "Enviroment": 3,
+    "EnviromentalCounterskill": 42836,
+    "Enviroment": 2,
     "Weapon": 1,
     "Specialization": 63
   },
@@ -9047,12 +9412,12 @@
   },
   "41422": {
     "Id": 41422,
-    "Default": 41422,
     "Enviroment": 1,
     "Weapon": 15,
     "Specialization": 58,
-    "FlipSkills": {
-      "Default": 41422
+    "Stealth": {
+      "Default": 40710,
+      "Malicious": 44087
     }
   },
   "41461": {
@@ -9076,12 +9441,12 @@
   },
   "41494": {
     "Id": 41494,
-    "Default": 41494,
     "Enviroment": 1,
     "Weapon": 15,
     "Specialization": 58,
     "FlipSkills": {
-      "Default": 41494
+      "Default": 41494,
+      "State1": 44591
     }
   },
   "41524": {
@@ -9254,12 +9619,13 @@
   },
   "41937": {
     "Id": 41937,
-    "Default": 41937,
     "Enviroment": 1,
     "Weapon": 15,
     "Specialization": 58,
     "FlipSkills": {
-      "Default": 41937
+      "Default": 41937,
+      "State1": 68600,
+      "State2": 40436
     }
   },
   "41988": {
@@ -9303,6 +9669,7 @@
   },
   "42181": {
     "Id": 42181,
+    "Default": 5675,
     "Enviroment": 1,
     "Weapon": 6,
     "Specialization": 56
@@ -9328,30 +9695,35 @@
   },
   "42271": {
     "Id": 42271,
+    "Default": 44451,
     "Enviroment": 1,
     "Weapon": 7,
     "Specialization": 56
   },
   "42297": {
     "Id": 42297,
+    "EnviromentalCounterskill": 46473,
     "Enviroment": 1,
     "Weapon": 1,
     "Specialization": 60
   },
   "42304": {
     "Id": 42304,
+    "Default": 10289,
     "Enviroment": 1,
     "Weapon": 6,
     "Specialization": 59
   },
   "42321": {
     "Id": 42321,
+    "Default": 5679,
     "Enviroment": 1,
     "Weapon": 17,
     "Specialization": 56
   },
   "42330": {
     "Id": 42330,
+    "Default": 5644,
     "Enviroment": 1,
     "Weapon": 3,
     "Specialization": 56
@@ -9378,6 +9750,7 @@
   },
   "42379": {
     "Id": 42379,
+    "Default": 5644,
     "Enviroment": 1,
     "Weapon": 3,
     "Specialization": 56
@@ -9386,11 +9759,7 @@
     "Id": 42475,
     "Default": 42475,
     "Enviroment": 3,
-    "Weapon": 1,
-    "Chain": {
-      "First": 42475,
-      "Second": 41684
-    }
+    "Weapon": 1
   },
   "42494": {
     "Id": 42494,
@@ -9440,6 +9809,7 @@
   },
   "42752": {
     "Id": 42752,
+    "Default": 45773,
     "Enviroment": 3,
     "Weapon": 1,
     "Specialization": 63
@@ -9470,6 +9840,7 @@
   },
   "42836": {
     "Id": 42836,
+    "EnviromentalCounterskill": 41294,
     "Enviroment": 1,
     "Weapon": 1,
     "Specialization": 63
@@ -9483,12 +9854,13 @@
   },
   "42851": {
     "Id": 42851,
-    "Default": 42851,
-    "Enviroment": 3,
+    "EnviromentalCounterskill": 50419,
+    "Enviroment": 1,
     "Weapon": 1,
     "Specialization": 59,
     "FlipSkills": {
-      "Default": 42851
+      "Default": 42851,
+      "State1": 45666
     }
   },
   "42863": {
@@ -9506,6 +9878,7 @@
   },
   "42867": {
     "Id": 42867,
+    "Default": 44451,
     "Enviroment": 1,
     "Weapon": 7,
     "Specialization": 56
@@ -9554,12 +9927,17 @@
   },
   "42938": {
     "Id": 42938,
-    "Default": 42938,
     "Enviroment": 3,
     "Weapon": 1,
     "Specialization": 57,
-    "FlipSkills": {
-      "Default": 42938
+    "Transform": {
+      "Enter": 42938,
+      "Exit": 41123,
+      "Weapon1": 44588,
+      "Weapon2": 42965,
+      "Weapon3": 44530,
+      "Weapon4": 45783,
+      "Weapon5": 42521
     }
   },
   "42944": {
@@ -9581,6 +9959,7 @@
   },
   "42954": {
     "Id": 42954,
+    "Default": 5675,
     "Enviroment": 1,
     "Weapon": 6,
     "Specialization": 56
@@ -9645,6 +10024,7 @@
   },
   "43074": {
     "Id": 43074,
+    "Default": 44451,
     "Enviroment": 1,
     "Weapon": 7,
     "Specialization": 56
@@ -9654,15 +10034,7 @@
     "Default": 43080,
     "Enviroment": 1,
     "Weapon": 7,
-    "Specialization": 56,
-    "Chain": {
-      "First": 43080,
-      "Second": 46024
-    },
-    "FlipSkills": {
-      "Default": 43080,
-      "State1": 46024
-    }
+    "Specialization": 56
   },
   "43123": {
     "Id": 43123,
@@ -9764,6 +10136,7 @@
   },
   "43390": {
     "Id": 43390,
+    "Default": 13014,
     "Enviroment": 3,
     "Weapon": 1,
     "Specialization": 58
@@ -9776,7 +10149,6 @@
   },
   "43476": {
     "Id": 43476,
-    "Default": 43476,
     "Enviroment": 1,
     "Weapon": 7,
     "Specialization": 57,
@@ -9784,11 +10156,6 @@
       "First": 43476,
       "Second": 45581,
       "Third": 45979
-    },
-    "FlipSkills": {
-      "Default": 43476,
-      "State1": 45581,
-      "State2": 45979
     }
   },
   "43488": {
@@ -9833,13 +10200,14 @@
   },
   "43576": {
     "Id": 43576,
+    "Default": 5675,
     "Enviroment": 1,
     "Weapon": 6,
     "Specialization": 56
   },
   "43616": {
     "Id": 43616,
-    "Default": 43616,
+    "Default": 39964,
     "Enviroment": 1,
     "Weapon": 7,
     "Specialization": 56,
@@ -9847,21 +10215,16 @@
       "First": 43616,
       "Second": 43080,
       "Third": 46024
-    },
-    "FlipSkills": {
-      "Default": 43616,
-      "State1": 43080,
-      "State2": 46024
     }
   },
   "43638": {
     "Id": 43638,
-    "Default": 43638,
     "Enviroment": 3,
     "Weapon": 1,
     "Specialization": 56,
     "FlipSkills": {
-      "Default": 43638
+      "Default": 43638,
+      "State1": 44637
     }
   },
   "43657": {
@@ -9932,7 +10295,7 @@
   },
   "43762": {
     "Id": 43762,
-    "Default": 5548,
+    "Default": 5679,
     "Enviroment": 1,
     "Weapon": 17,
     "Specialization": 56
@@ -9979,7 +10342,8 @@
     "Weapon": 15,
     "Specialization": 58,
     "FlipSkills": {
-      "Default": 43916
+      "Default": 43916,
+      "State1": 44695
     }
   },
   "43993": {
@@ -10021,6 +10385,7 @@
   },
   "44087": {
     "Id": 44087,
+    "Default": 41422,
     "Enviroment": 1,
     "Weapon": 15,
     "Specialization": 58
@@ -10070,14 +10435,9 @@
   },
   "44260": {
     "Id": 44260,
-    "Default": 44260,
+    "Default": 44588,
     "Enviroment": 3,
-    "Weapon": 1,
-    "Chain": {
-      "First": 44260,
-      "Second": 42475,
-      "Third": 41684
-    }
+    "Weapon": 1
   },
   "44278": {
     "Id": 44278,
@@ -10161,7 +10521,16 @@
     "Id": 44451,
     "Enviroment": 1,
     "Weapon": 7,
-    "Specialization": 56
+    "Specialization": 56,
+    "AttunementSkill": {
+      "Fire": 44451,
+      "FireWater": 42271,
+      "FireAir": 43074,
+      "FireEarth": 46447,
+      "WaterAir": 42867,
+      "WaterEarth": 40170,
+      "AirEarth": 46295
+    }
   },
   "44514": {
     "Id": 44514,
@@ -10191,23 +10560,28 @@
   },
   "44550": {
     "Id": 44550,
+    "Default": 5679,
     "Enviroment": 1,
     "Weapon": 17,
     "Specialization": 56
   },
   "44588": {
     "Id": 44588,
-    "Default": 44588,
     "Enviroment": 3,
     "Weapon": 1,
+    "Specialization": 0,
     "Chain": {
       "First": 44588,
       "Second": 45756,
       "Third": 45890
+    },
+    "Traited": {
+      "44260": 2103
     }
   },
   "44591": {
     "Id": 44591,
+    "Default": 41494,
     "Enviroment": 1,
     "Weapon": 15,
     "Specialization": 58
@@ -10258,6 +10632,7 @@
   },
   "44637": {
     "Id": 44637,
+    "Default": 43638,
     "Enviroment": 3,
     "Weapon": 1,
     "Specialization": 56
@@ -10271,18 +10646,18 @@
   },
   "44652": {
     "Id": 44652,
+    "Default": 5644,
     "Enviroment": 1,
     "Weapon": 3,
     "Specialization": 56
   },
   "44663": {
     "Id": 44663,
-    "Default": 10574,
     "Enviroment": 3,
     "Weapon": 1,
     "Specialization": 60,
-    "FlipSkills": {
-      "Default": 44663
+    "Traited": {
+      "54870": 2123
     }
   },
   "44677": {
@@ -10293,7 +10668,7 @@
   },
   "44681": {
     "Id": 44681,
-    "Default": 44681,
+    "Default": 39964,
     "Enviroment": 1,
     "Weapon": 7,
     "Specialization": 56,
@@ -10301,34 +10676,25 @@
       "First": 44681,
       "Second": 45259,
       "Third": 45216
-    },
-    "FlipSkills": {
-      "Default": 44681,
-      "State1": 45259,
-      "State2": 45216
     }
   },
   "44695": {
     "Id": 44695,
+    "Default": 43916,
     "Enviroment": 1,
     "Weapon": 15,
     "Specialization": 58
   },
   "44791": {
     "Id": 44791,
-    "Default": 44791,
     "Enviroment": 1,
     "Weapon": 2,
     "Specialization": 59,
     "Chain": {
       "First": 44791,
       "Second": 44840,
-      "Third": 41164
-    },
-    "FlipSkills": {
-      "Default": 44791,
-      "State1": 44840,
-      "State2": 41164
+      "Third": 41164,
+      "Ambush": 44321
     }
   },
   "44840": {
@@ -10336,15 +10702,7 @@
     "Default": 44791,
     "Enviroment": 1,
     "Weapon": 2,
-    "Specialization": 59,
-    "Chain": {
-      "First": 44840,
-      "Second": 41164
-    },
-    "FlipSkills": {
-      "Default": 44840,
-      "State1": 41164
-    }
+    "Specialization": 59
   },
   "44846": {
     "Id": 44846,
@@ -10388,9 +10746,13 @@
   },
   "44946": {
     "Id": 44946,
+    "EnviromentalCounterskill": 46474,
     "Enviroment": 1,
     "Weapon": 1,
-    "Specialization": 60
+    "Specialization": 60,
+    "Traited": {
+      "42297": 2112
+    }
   },
   "44948": {
     "Id": 44948,
@@ -10477,6 +10839,7 @@
   },
   "45219": {
     "Id": 45219,
+    "Default": 42938,
     "Enviroment": 3,
     "Weapon": 1,
     "Specialization": 57
@@ -10508,21 +10871,19 @@
     "Default": 44681,
     "Enviroment": 1,
     "Weapon": 7,
-    "Specialization": 56,
-    "Chain": {
-      "First": 45259,
-      "Second": 45216
-    },
-    "FlipSkills": {
-      "Default": 45259,
-      "State1": 45216
-    }
+    "Specialization": 56
   },
   "45313": {
     "Id": 45313,
     "Enviroment": 1,
     "Weapon": 7,
-    "Specialization": 56
+    "Specialization": 56,
+    "AttunementSkill": {
+      "Fire": 45313,
+      "Water": 44405,
+      "Earth": 40709,
+      "Air": 44998
+    }
   },
   "45333": {
     "Id": 45333,
@@ -10606,11 +10967,7 @@
     "Default": 43476,
     "Enviroment": 1,
     "Weapon": 7,
-    "Specialization": 57,
-    "Chain": {
-      "First": 45581,
-      "Second": 45979
-    }
+    "Specialization": 57
   },
   "45666": {
     "Id": 45666,
@@ -10620,8 +10977,10 @@
   },
   "45672": {
     "Id": 45672,
+    "Default": 41158,
     "Enviroment": 1,
-    "Weapon": 1
+    "Weapon": 1,
+    "Specialization": 0
   },
   "45686": {
     "Id": 45686,
@@ -10643,6 +11002,7 @@
   },
   "45742": {
     "Id": 45742,
+    "Default": 5675,
     "Enviroment": 1,
     "Weapon": 6,
     "Specialization": 56
@@ -10668,16 +11028,19 @@
     "Default": 44588,
     "Enviroment": 3,
     "Weapon": 1,
-    "Chain": {
-      "First": 45756,
-      "Second": 45890
+    "Traited": {
+      "42475": 2103
     }
   },
   "45773": {
     "Id": 45773,
     "Enviroment": 1,
     "Weapon": 1,
-    "Specialization": 63
+    "Specialization": 63,
+    "FlipSkills": {
+      "Default": 45773,
+      "State1": 42752
+    }
   },
   "45783": {
     "Id": 45783,
@@ -10716,7 +11079,10 @@
     "Id": 45890,
     "Default": 44588,
     "Enviroment": 3,
-    "Weapon": 1
+    "Weapon": 1,
+    "Traited": {
+      "41684": 2103
+    }
   },
   "45970": {
     "Id": 45970,
@@ -10736,24 +11102,18 @@
     "Default": 41052,
     "Enviroment": 1,
     "Weapon": 7,
-    "Specialization": 56,
-    "Chain": {
-      "First": 45983,
-      "Second": 43199
-    },
-    "FlipSkills": {
-      "Default": 45983,
-      "State1": 43199
-    }
+    "Specialization": 56
   },
   "46014": {
     "Id": 46014,
+    "Default": 5675,
     "Enviroment": 1,
     "Weapon": 6,
     "Specialization": 56
   },
   "46018": {
     "Id": 46018,
+    "Default": 5644,
     "Enviroment": 1,
     "Weapon": 3,
     "Specialization": 56
@@ -10779,6 +11139,7 @@
   },
   "46140": {
     "Id": 46140,
+    "Default": 5644,
     "Enviroment": 1,
     "Weapon": 3,
     "Specialization": 56
@@ -10816,6 +11177,7 @@
   },
   "46295": {
     "Id": 46295,
+    "Default": 44451,
     "Enviroment": 1,
     "Weapon": 7,
     "Specialization": 56
@@ -10868,21 +11230,27 @@
   },
   "46447": {
     "Id": 46447,
+    "Default": 44451,
     "Enviroment": 1,
     "Weapon": 7,
     "Specialization": 56
   },
   "46473": {
     "Id": 46473,
-    "Enviroment": 3,
+    "EnviromentalCounterskill": 42297,
+    "Enviroment": 2,
     "Weapon": 1,
     "Specialization": 60
   },
   "46474": {
     "Id": 46474,
-    "Enviroment": 3,
+    "EnviromentalCounterskill": 44946,
+    "Enviroment": 2,
     "Weapon": 1,
-    "Specialization": 60
+    "Specialization": 60,
+    "Traited": {
+      "46473": 2112
+    }
   },
   "46600": {
     "Id": 46600,
@@ -10919,7 +11287,8 @@
   "49068": {
     "Id": 49068,
     "Enviroment": 3,
-    "Weapon": 1
+    "Weapon": 1,
+    "Specialization": 0
   },
   "49082": {
     "Id": 49082,
@@ -10977,29 +11346,27 @@
   },
   "50417": {
     "Id": 50417,
+    "Default": 13119,
     "Enviroment": 3,
     "Weapon": 18,
     "Specialization": 58
   },
   "50419": {
     "Id": 50419,
-    "Enviroment": 3,
+    "EnviromentalCounterskill": 42851,
+    "Enviroment": 2,
     "Weapon": 1,
-    "Specialization": 59
+    "Specialization": 59,
+    "FlipSkills": {
+      "Default": 50419,
+      "State1": 45666
+    }
   },
   "50438": {
     "Id": 50438,
-    "Enviroment": 3,
-    "Weapon": 1,
-    "Toolbelt": 5983,
-    "Traited": {
-      "29522": 1679,
-      "30828": 1679,
-      "30337": 1679,
-      "29591": 1679,
-      "29991": 1679,
-      "30881": 1679
-    }
+    "EnviromentalCounterskill": 29522,
+    "Enviroment": 2,
+    "Weapon": 1
   },
   "50440": {
     "Id": 50440,
@@ -11008,21 +11375,17 @@
   },
   "50441": {
     "Id": 50441,
-    "Enviroment": 3,
+    "EnviromentalCounterskill": 5910,
+    "Enviroment": 2,
     "Weapon": 1,
-    "Toolbelt": 5983,
     "Traited": {
-      "29522": 1679,
-      "30828": 1679,
-      "30337": 1679,
-      "29591": 1679,
-      "29991": 1679,
-      "30881": 1679
+      "50438": 1679
     }
   },
   "50444": {
     "Id": 50444,
-    "Enviroment": 3,
+    "EnviromentalCounterskill": 58104,
+    "Enviroment": 1,
     "Weapon": 1
   },
   "50447": {
@@ -11032,6 +11395,7 @@
   },
   "50449": {
     "Id": 50449,
+    "Default": 13072,
     "Enviroment": 3,
     "Weapon": 19,
     "Specialization": 58
@@ -11049,26 +11413,20 @@
   },
   "50466": {
     "Id": 50466,
+    "Default": 13084,
     "Enviroment": 1,
     "Weapon": 5,
     "Specialization": 58
   },
   "50472": {
     "Id": 50472,
-    "Enviroment": 3,
-    "Weapon": 1,
-    "Toolbelt": 5973,
-    "Traited": {
-      "29522": 1679,
-      "30828": 1679,
-      "30337": 1679,
-      "29591": 1679,
-      "29991": 1679,
-      "30881": 1679
-    }
+    "EnviromentalCounterskill": 30828,
+    "Enviroment": 2,
+    "Weapon": 1
   },
   "50481": {
     "Id": 50481,
+    "Default": 13004,
     "Enviroment": 1,
     "Weapon": 3,
     "Specialization": 58
@@ -11086,9 +11444,12 @@
   },
   "50491": {
     "Id": 50491,
-    "Enviroment": 3,
+    "EnviromentalCounterskill": 5825,
+    "Enviroment": 2,
     "Weapon": 1,
-    "Toolbelt": 5973
+    "Traited": {
+      "50472": 1679
+    }
   },
   "51395": {
     "Id": 51395,
@@ -11105,8 +11466,10 @@
   },
   "51646": {
     "Id": 51646,
+    "Default": 5520,
     "Enviroment": 1,
-    "Weapon": 3
+    "Weapon": 3,
+    "Specialization": 0
   },
   "51647": {
     "Id": 51647,
@@ -11149,12 +11512,14 @@
   },
   "51698": {
     "Id": 51698,
-    "Enviroment": 3,
+    "EnviromentalCounterskill": 27162,
+    "Enviroment": 2,
     "Weapon": 1,
     "Specialization": 52
   },
   "51711": {
     "Id": 51711,
+    "Default": 5678,
     "Enviroment": 1,
     "Weapon": 8,
     "Specialization": 56
@@ -11207,7 +11572,8 @@
   "55029": {
     "Id": 55029,
     "Enviroment": 3,
-    "Weapon": 1
+    "Weapon": 1,
+    "Specialization": 0
   },
   "55035": {
     "Id": 55035,
@@ -11254,17 +11620,20 @@
   },
   "56873": {
     "Id": 56873,
+    "Default": 10287,
     "Enviroment": 3,
     "Weapon": 1,
     "Specialization": 40
   },
   "56880": {
     "Id": 56880,
+    "Default": 13057,
     "Enviroment": 1,
     "Weapon": 1
   },
   "56898": {
     "Id": 56898,
+    "Default": 13026,
     "Enviroment": 1,
     "Weapon": 1
   },
@@ -11293,13 +11662,14 @@
   },
   "56928": {
     "Id": 56928,
+    "Default": 10190,
     "Enviroment": 3,
     "Weapon": 1,
     "Specialization": 40
   },
   "56930": {
     "Id": 56930,
-    "Default": 56930,
+    "Default": 10191,
     "Enviroment": 3,
     "Weapon": 1,
     "Specialization": 40,
@@ -11310,16 +11680,19 @@
   "58090": {
     "Id": 58090,
     "Default": 5802,
-    "Enviroment": 3,
+    "EnviromentalCounterskill": 30521,
+    "Enviroment": 2,
     "Weapon": 1
   },
   "58104": {
     "Id": 58104,
-    "Enviroment": 3,
+    "EnviromentalCounterskill": 50444,
+    "Enviroment": 2,
     "Weapon": 1
   },
   "59526": {
     "Id": 59526,
+    "Default": 13010,
     "Enviroment": 1,
     "Weapon": 5
   },
@@ -11334,7 +11707,8 @@
   },
   "62454": {
     "Id": 62454,
-    "Enviroment": 3,
+    "EnviromentalCounterskill": 10366,
+    "Enviroment": 2,
     "Weapon": 1
   },
   "62510": {
@@ -11410,6 +11784,7 @@
   },
   "62539": {
     "Id": 62539,
+    "EnviromentalCounterskill": 63448,
     "Enviroment": 1,
     "Weapon": 1
   },
@@ -11468,21 +11843,27 @@
   },
   "62567": {
     "Id": 62567,
-    "Default": 62567,
     "Enviroment": 3,
     "Weapon": 1,
-    "FlipSkills": {
-      "Default": 62567
+    "Specialization": 0,
+    "Transform": {
+      "Enter": 62567,
+      "Exit": 62540,
+      "Weapon1": 62611,
+      "Weapon2": 62621,
+      "Weapon3": 62672,
+      "Weapon4": 62539,
+      "Weapon5": 62563
     }
   },
   "62568": {
     "Id": 62568,
-    "Default": 62568,
     "Enviroment": 1,
     "Weapon": 7,
     "Specialization": 66,
     "FlipSkills": {
-      "Default": 62568
+      "Default": 62568,
+      "State1": 62675
     }
   },
   "62573": {
@@ -11512,6 +11893,7 @@
   },
   "62602": {
     "Id": 62602,
+    "Default": 10287,
     "Enviroment": 3,
     "Weapon": 1,
     "Specialization": 66
@@ -11547,13 +11929,14 @@
   },
   "62616": {
     "Id": 62616,
+    "Default": 10190,
     "Enviroment": 3,
     "Weapon": 1,
     "Specialization": 66
   },
   "62617": {
     "Id": 62617,
-    "Default": 62617,
+    "Default": 10191,
     "Enviroment": 3,
     "Weapon": 1,
     "Specialization": 66,
@@ -11652,6 +12035,7 @@
   },
   "62675": {
     "Id": 62675,
+    "Default": 62568,
     "Enviroment": 1,
     "Weapon": 7,
     "Specialization": 66
@@ -11664,24 +12048,27 @@
   },
   "62680": {
     "Id": 62680,
+    "Default": 62719,
     "Enviroment": 3,
     "Weapon": 1,
     "Specialization": 69
   },
   "62683": {
     "Id": 62683,
+    "Default": 62925,
     "Enviroment": 1,
     "Weapon": 13,
     "Specialization": 67
   },
   "62687": {
     "Id": 62687,
-    "Default": 62687,
+    "Default": 62942,
     "Enviroment": 3,
     "Weapon": 1,
     "Specialization": 69,
     "FlipSkills": {
-      "Default": 62687
+      "Default": 62687,
+      "State1": 62738
     }
   },
   "62688": {
@@ -11689,15 +12076,7 @@
     "Default": 62688,
     "Enviroment": 1,
     "Weapon": 12,
-    "Specialization": 69,
-    "Chain": {
-      "First": 62688,
-      "Second": 62752
-    },
-    "FlipSkills": {
-      "Default": 62688,
-      "State1": 62752
-    }
+    "Specialization": 69
   },
   "62692": {
     "Id": 62692,
@@ -11710,15 +12089,7 @@
     "Default": 62694,
     "Enviroment": 1,
     "Weapon": 13,
-    "Specialization": 67,
-    "Chain": {
-      "First": 62694,
-      "Second": 62862
-    },
-    "FlipSkills": {
-      "Default": 62694,
-      "State1": 62862
-    }
+    "Specialization": 67
   },
   "62697": {
     "Id": 62697,
@@ -11734,24 +12105,26 @@
   },
   "62702": {
     "Id": 62702,
+    "Default": 62832,
     "Enviroment": 3,
     "Weapon": 1,
     "Specialization": 69
   },
   "62716": {
     "Id": 62716,
+    "Default": 62910,
     "Enviroment": 1,
     "Weapon": 13,
     "Specialization": 67
   },
   "62719": {
     "Id": 62719,
-    "Default": 62719,
     "Enviroment": 3,
     "Weapon": 1,
     "Specialization": 69,
     "FlipSkills": {
-      "Default": 62719
+      "Default": 62719,
+      "State1": 62680
     }
   },
   "62723": {
@@ -11774,6 +12147,7 @@
   },
   "62738": {
     "Id": 62738,
+    "Default": 62687,
     "Enviroment": 3,
     "Weapon": 1,
     "Specialization": 69
@@ -11790,6 +12164,7 @@
   },
   "62747": {
     "Id": 62747,
+    "Default": 62925,
     "Enviroment": 1,
     "Weapon": 13,
     "Specialization": 67
@@ -11821,22 +12196,29 @@
     "Id": 62758,
     "Enviroment": 1,
     "Weapon": 13,
-    "Specialization": 67
+    "Specialization": 67,
+    "FlipSkills": {
+      "Default": 62758,
+      "State1": 62876
+    }
   },
   "62778": {
     "Id": 62778,
+    "Default": 62910,
     "Enviroment": 1,
     "Weapon": 13,
     "Specialization": 67
   },
   "62793": {
     "Id": 62793,
-    "Enviroment": 3,
+    "EnviromentalCounterskill": 62941,
+    "Enviroment": 2,
     "Weapon": 1,
     "Specialization": 69
   },
   "62796": {
     "Id": 62796,
+    "Default": 62878,
     "Enviroment": 3,
     "Weapon": 1,
     "Specialization": 69
@@ -11867,10 +12249,17 @@
     "Id": 62807,
     "Enviroment": 1,
     "Weapon": 13,
-    "Specialization": 67
+    "Specialization": 67,
+    "AttunementSkill": {
+      "Fire": 62807,
+      "Water": 62948,
+      "Earth": 62992,
+      "Air": 62947
+    }
   },
   "62812": {
     "Id": 62812,
+    "Default": 62884,
     "Enviroment": 1,
     "Weapon": 13,
     "Specialization": 67
@@ -11895,25 +12284,31 @@
   },
   "62828": {
     "Id": 62828,
+    "Default": 62921,
     "Enviroment": 1,
     "Weapon": 12,
     "Specialization": 69
   },
   "62832": {
     "Id": 62832,
-    "Default": 62832,
     "Enviroment": 3,
     "Weapon": 1,
     "Specialization": 69,
     "FlipSkills": {
-      "Default": 62832
+      "Default": 62832,
+      "State1": 62702
     }
   },
   "62834": {
     "Id": 62834,
+    "Default": 62758,
     "Enviroment": 1,
     "Weapon": 13,
-    "Specialization": 67
+    "Specialization": 67,
+    "FlipSkills": {
+      "Default": 62834,
+      "State1": 62876
+    }
   },
   "62837": {
     "Id": 62837,
@@ -11923,12 +12318,14 @@
   },
   "62841": {
     "Id": 62841,
-    "Enviroment": 3,
+    "EnviromentalCounterskill": 62962,
+    "Enviroment": 2,
     "Weapon": 1,
     "Specialization": 69
   },
   "62843": {
     "Id": 62843,
+    "Default": 62910,
     "Enviroment": 1,
     "Weapon": 13,
     "Specialization": 67
@@ -11954,7 +12351,7 @@
   },
   "62865": {
     "Id": 62865,
-    "Default": 62865,
+    "Default": 62925,
     "Enviroment": 1,
     "Weapon": 13,
     "Specialization": 67,
@@ -11962,39 +12359,46 @@
       "First": 62865,
       "Second": 62694,
       "Third": 62862
-    },
-    "FlipSkills": {
-      "Default": 62865,
-      "State1": 62694,
-      "State2": 62862
     }
   },
   "62876": {
     "Id": 62876,
     "Enviroment": 1,
-    "Weapon": 13
+    "Weapon": 13,
+    "Specialization": 0
   },
   "62878": {
     "Id": 62878,
-    "Default": 62878,
     "Enviroment": 3,
     "Weapon": 1,
     "Specialization": 69,
     "FlipSkills": {
-      "Default": 62878
+      "Default": 62878,
+      "State1": 62796
     }
   },
   "62884": {
     "Id": 62884,
     "Enviroment": 1,
     "Weapon": 13,
-    "Specialization": 67
+    "Specialization": 67,
+    "AttunementSkill": {
+      "Fire": 62884,
+      "Water": 62958,
+      "Earth": 62975,
+      "Air": 62812
+    }
   },
   "62887": {
     "Id": 62887,
+    "Default": 62758,
     "Enviroment": 1,
     "Weapon": 13,
-    "Specialization": 67
+    "Specialization": 67,
+    "FlipSkills": {
+      "Default": 62887,
+      "State1": 62876
+    }
   },
   "62891": {
     "Id": 62891,
@@ -12018,7 +12422,13 @@
     "Id": 62910,
     "Enviroment": 1,
     "Weapon": 13,
-    "Specialization": 67
+    "Specialization": 67,
+    "AttunementSkill": {
+      "Fire": 62910,
+      "Water": 62843,
+      "Earth": 62778,
+      "Air": 62716
+    }
   },
   "62913": {
     "Id": 62913,
@@ -12030,28 +12440,29 @@
       "First": 62913,
       "Second": 62688,
       "Third": 62752
-    },
-    "FlipSkills": {
-      "Default": 62913,
-      "State1": 62688,
-      "State2": 62752
     }
   },
   "62921": {
     "Id": 62921,
-    "Default": 62921,
     "Enviroment": 1,
     "Weapon": 12,
     "Specialization": 69,
     "FlipSkills": {
-      "Default": 62921
+      "Default": 62921,
+      "State1": 62828
     }
   },
   "62925": {
     "Id": 62925,
     "Enviroment": 1,
     "Weapon": 13,
-    "Specialization": 67
+    "Specialization": 67,
+    "AttunementSkill": {
+      "Fire": 62925,
+      "Water": 62865,
+      "Earth": 62683,
+      "Air": 62747
+    }
   },
   "62929": {
     "Id": 62929,
@@ -12067,18 +12478,19 @@
   },
   "62941": {
     "Id": 62941,
+    "EnviromentalCounterskill": 62793,
     "Enviroment": 1,
     "Weapon": 1,
     "Specialization": 69
   },
   "62942": {
     "Id": 62942,
-    "Default": 62942,
     "Enviroment": 3,
     "Weapon": 1,
     "Specialization": 69,
     "FlipSkills": {
-      "Default": 62942
+      "Default": 62942,
+      "State1": 62687
     }
   },
   "62947": {
@@ -12095,6 +12507,7 @@
   },
   "62958": {
     "Id": 62958,
+    "Default": 62884,
     "Enviroment": 1,
     "Weapon": 13,
     "Specialization": 67
@@ -12107,12 +12520,13 @@
   },
   "62962": {
     "Id": 62962,
-    "Default": 62962,
+    "EnviromentalCounterskill": 62841,
     "Enviroment": 1,
     "Weapon": 1,
     "Specialization": 69,
     "FlipSkills": {
-      "Default": 62962
+      "Default": 62962,
+      "State1": 62941
     }
   },
   "62965": {
@@ -12129,9 +12543,14 @@
   },
   "62975": {
     "Id": 62975,
+    "Default": 62758,
     "Enviroment": 1,
     "Weapon": 13,
-    "Specialization": 67
+    "Specialization": 67,
+    "FlipSkills": {
+      "Default": 62975,
+      "State1": 62876
+    }
   },
   "62976": {
     "Id": 62976,
@@ -12182,12 +12601,14 @@
   },
   "63066": {
     "Id": 63066,
-    "Default": 63066,
     "Enviroment": 1,
     "Weapon": 6,
     "Specialization": 71,
-    "FlipSkills": {
-      "Default": 63066
+    "Chain": {
+      "First": 63066,
+      "Second": 63182,
+      "Third": 63134,
+      "Stealth": 63314
     }
   },
   "63067": {
@@ -12212,18 +12633,10 @@
   },
   "63077": {
     "Id": 63077,
-    "Default": 63077,
+    "Default": 63186,
     "Enviroment": 1,
     "Weapon": 4,
-    "Specialization": 70,
-    "Chain": {
-      "First": 63077,
-      "Second": 63174
-    },
-    "FlipSkills": {
-      "Default": 63077,
-      "State1": 63174
-    }
+    "Specialization": 70
   },
   "63089": {
     "Id": 63089,
@@ -12295,6 +12708,7 @@
   },
   "63128": {
     "Id": 63128,
+    "Default": 63267,
     "Enviroment": 1,
     "Weapon": 6,
     "Specialization": 71
@@ -12320,6 +12734,7 @@
   },
   "63134": {
     "Id": 63134,
+    "Default": 63066,
     "Enviroment": 1,
     "Weapon": 6,
     "Specialization": 71
@@ -12337,12 +12752,13 @@
   },
   "63154": {
     "Id": 63154,
-    "Default": 63154,
     "Enviroment": 1,
     "Weapon": 6,
     "Specialization": 71,
-    "FlipSkills": {
-      "Default": 63154
+    "DualSkill": {
+      "NoOffhand": 63154,
+      "Dagger": 63254,
+      "Pistol": 63267
     }
   },
   "63155": {
@@ -12394,7 +12810,7 @@
   },
   "63174": {
     "Id": 63174,
-    "Default": 63077,
+    "Default": 63186,
     "Enviroment": 1,
     "Weapon": 4,
     "Specialization": 70
@@ -12404,14 +12820,10 @@
     "Default": 63182,
     "Enviroment": 1,
     "Weapon": 6,
-    "Specialization": 71,
-    "FlipSkills": {
-      "Default": 63182
-    }
+    "Specialization": 71
   },
   "63186": {
     "Id": 63186,
-    "Default": 63186,
     "Enviroment": 1,
     "Weapon": 4,
     "Specialization": 70,
@@ -12419,11 +12831,6 @@
       "First": 63186,
       "Second": 63077,
       "Third": 63174
-    },
-    "FlipSkills": {
-      "Default": 63186,
-      "State1": 63077,
-      "State2": 63174
     }
   },
   "63195": {
@@ -12518,6 +12925,7 @@
   },
   "63254": {
     "Id": 63254,
+    "Default": 63154,
     "Enviroment": 1,
     "Weapon": 6,
     "Specialization": 71
@@ -12546,12 +12954,13 @@
   },
   "63267": {
     "Id": 63267,
-    "Default": 63267,
+    "Default": 63154,
     "Enviroment": 1,
     "Weapon": 6,
     "Specialization": 71,
     "FlipSkills": {
-      "Default": 63267
+      "Default": 63267,
+      "State1": 63128
     }
   },
   "63275": {
@@ -12587,6 +12996,7 @@
   },
   "63314": {
     "Id": 63314,
+    "Default": 63182,
     "Enviroment": 1,
     "Weapon": 6,
     "Specialization": 71
@@ -12685,10 +13095,17 @@
     "Id": 63396,
     "Enviroment": 3,
     "Weapon": 1,
-    "Specialization": 67
+    "Specialization": 67,
+    "AttunementSkill": {
+      "Fire": 63396,
+      "Water": 63416,
+      "Earth": 63472,
+      "Air": 63459
+    }
   },
   "63416": {
     "Id": 63416,
+    "Default": 63396,
     "Enviroment": 3,
     "Weapon": 1,
     "Specialization": 67
@@ -12708,7 +13125,8 @@
   },
   "63448": {
     "Id": 63448,
-    "Enviroment": 3,
+    "EnviromentalCounterskill": 62539,
+    "Enviroment": 2,
     "Weapon": 1
   },
   "63454": {
@@ -12725,6 +13143,7 @@
   },
   "63459": {
     "Id": 63459,
+    "Default": 63396,
     "Enviroment": 3,
     "Weapon": 1,
     "Specialization": 67
@@ -12737,6 +13156,7 @@
   },
   "63472": {
     "Id": 63472,
+    "Default": 63396,
     "Enviroment": 3,
     "Weapon": 1,
     "Specialization": 67
@@ -12864,6 +13284,7 @@
   },
   "68273": {
     "Id": 68273,
+    "Default": 10192,
     "Enviroment": 3,
     "Weapon": 1,
     "Specialization": 66
@@ -12877,13 +13298,10 @@
   },
   "68600": {
     "Id": 68600,
-    "Default": 68600,
+    "Default": 41937,
     "Enviroment": 1,
     "Weapon": 15,
-    "Specialization": 58,
-    "FlipSkills": {
-      "Default": 68600
-    }
+    "Specialization": 58
   },
   "68646": {
     "Id": 68646,

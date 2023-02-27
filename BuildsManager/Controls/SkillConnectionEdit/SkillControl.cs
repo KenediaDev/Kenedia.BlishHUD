@@ -53,7 +53,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.SkillConnectionEdit
             } 
         }
 
-        public SkillConnection SkillConnection { get; set; }
+        public OldSkillConnection SkillConnection { get; set; }
 
         public Action<int?> OnIconAction { get; set; }
 

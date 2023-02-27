@@ -56,7 +56,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage.ProfessionSpecific
 
             switch (Template.EliteSpecialization?.Id)
             {
-                case (int)Specializations.Firebrand:
+                case (int)SpecializationType.Firebrand:
                     _pagesBackground.Bounds = new(xOffset + 10, 50, 256, 64);
                     _pages.Bounds = new(xOffset + 125, 50, 140, 44);
                     for (int i = 0; i < _skills.Length; i++)
@@ -80,7 +80,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage.ProfessionSpecific
         {
             switch (Template.EliteSpecialization?.Id)
             {
-                case (int)Specializations.Firebrand:
+                case (int)SpecializationType.Firebrand:
                     _pagesBackground.Draw(this, spriteBatch);
                     _pages.Draw(this, spriteBatch);
                     break;

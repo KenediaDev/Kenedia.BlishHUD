@@ -513,16 +513,16 @@ namespace Kenedia.Modules.BuildsManager.Services
                 };
             }
 
-            BuildsManager.Data.SkillConnections = new Dictionary<int, SkillConnection>();
+            BuildsManager.Data.OldConnections = new Dictionary<int, OldSkillConnection>();
             foreach (var skill in skills)
             {
                 if (skill.Type != SkillType.Monster && skill.Professions.Count > 0)
                 {
-                    var connection = new SkillConnection()
+                    var connection = new OldSkillConnection()
                     {
                         Id = skill.Id,
                         Weapon = skill.WeaponType?.ToEnum() ?? null,
-                        Specialization = skill.Specialization != null ? (Specializations)skill.Specialization : null,
+                        Specialization = skill.Specialization != null ? (SpecializationType)skill.Specialization : null,
                         Enviroment = skill.Flags.Count() > 0 && skill.Flags.Aggregate((x, y) => x |= y.ToEnum()).Value.HasFlag(SkillFlag.NoUnderwater) ? Enviroment.Terrestrial : Enviroment.Terrestrial | Enviroment.Aquatic,
                     };
 
@@ -540,11 +540,11 @@ namespace Kenedia.Modules.BuildsManager.Services
                     {
                         connection.Bundle = new()
                         {
-                            Weapon1 = skill.BundleSkills.Count() > 0 ? skill.BundleSkills[0] : null,
-                            Weapon2 = skill.BundleSkills.Count() > 1 ? skill.BundleSkills[1] : null,
-                            Weapon3 = skill.BundleSkills.Count() > 2 ? skill.BundleSkills[2] : null,
-                            Weapon4 = skill.BundleSkills.Count() > 3 ? skill.BundleSkills[3] : null,
-                            Weapon5 = skill.BundleSkills.Count() > 4 ? skill.BundleSkills[4] : null,
+                            Weapon_1 = skill.BundleSkills.Count() > 0 ? skill.BundleSkills[0] : null,
+                            Weapon_2 = skill.BundleSkills.Count() > 1 ? skill.BundleSkills[1] : null,
+                            Weapon_3 = skill.BundleSkills.Count() > 2 ? skill.BundleSkills[2] : null,
+                            Weapon_4 = skill.BundleSkills.Count() > 3 ? skill.BundleSkills[3] : null,
+                            Weapon_5 = skill.BundleSkills.Count() > 4 ? skill.BundleSkills[4] : null,
                         };
                     }
 
@@ -552,11 +552,11 @@ namespace Kenedia.Modules.BuildsManager.Services
                     {
                         connection.Transform = new()
                         {
-                            Weapon1 = skill.TransformSkills.Count() > 0 ? skill.TransformSkills[0] : null,
-                            Weapon2 = skill.TransformSkills.Count() > 1 ? skill.TransformSkills[1] : null,
-                            Weapon3 = skill.TransformSkills.Count() > 2 ? skill.TransformSkills[2] : null,
-                            Weapon4 = skill.TransformSkills.Count() > 3 ? skill.TransformSkills[3] : null,
-                            Weapon5 = skill.TransformSkills.Count() > 4 ? skill.TransformSkills[4] : null,
+                            Weapon_1 = skill.TransformSkills.Count() > 0 ? skill.TransformSkills[0] : null,
+                            Weapon_2 = skill.TransformSkills.Count() > 1 ? skill.TransformSkills[1] : null,
+                            Weapon_3 = skill.TransformSkills.Count() > 2 ? skill.TransformSkills[2] : null,
+                            Weapon_4 = skill.TransformSkills.Count() > 3 ? skill.TransformSkills[3] : null,
+                            Weapon_5 = skill.TransformSkills.Count() > 4 ? skill.TransformSkills[4] : null,
                         };
                     }
 
@@ -594,12 +594,12 @@ namespace Kenedia.Modules.BuildsManager.Services
                         connection.Chain.Ambush = skills.Find(e => e.Slot == skill.Slot && e.WeaponType == skill.WeaponType && e.Description?.Contains("Ambush") == true)?.Id;
                     }
 
-                    BuildsManager.Data.SkillConnections.Add(skill.Id, connection);
+                    BuildsManager.Data.OldConnections.Add(skill.Id, connection);
                 }
             }
 
-            var cnts = BuildsManager.Data.SkillConnections.Values.ToList();
-            foreach (var connection in BuildsManager.Data.SkillConnections)
+            var cnts = BuildsManager.Data.OldConnections.Values.ToList();
+            foreach (var connection in BuildsManager.Data.OldConnections)
             {
                 connection.Value.Default = cnts.Find(e =>
                 e.Chain?.Contains(connection.Value.Id) == true ||

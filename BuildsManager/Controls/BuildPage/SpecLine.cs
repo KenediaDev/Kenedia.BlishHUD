@@ -231,13 +231,11 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
                 for (int i = 0; i < _minors.Count; i++)
                 {
                     _minors[i].Trait = _minorsTraits.TryGetValue(i, out Trait trait) ? trait : null;
-                    _minors[i].TextureRegion = new(4, 4, 58, 58);
                 }
 
                 for (int i = 0; i < _majors.Count; i++)
                 {
                     _majors[i].Trait = _majorTraits.TryGetValue(i, out Trait trait) ? trait : null;
-                    _majors[i].TextureRegion = new(4, 4, 58, 58);
                     _majors[i].Selected = trait != null && BuildSpecialization.Traits[trait.Tier] == trait;
                 }
 
@@ -326,13 +324,13 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
                 for (int i = 0; i < _minors.Count; i++)
                 {
                     _minors[i].Draw(this, spriteBatch, hoverPos, null, null, _selectorOpen ? false : null);
-                    if (_minors[i].Hovered) txt = _minors[i].Trait.Description;
+                    if (_minors[i].Hovered) txt = _minors[i].Trait.Name + Environment.NewLine + _minors[i].Trait.Description;
                 }
 
                 for (int i = 0; i < _majors.Count; i++)
                 {
                     _majors[i].Draw(this, spriteBatch, hoverPos, _majors[i].Selected ? Color.White : _majors[i].Hovered ? Color.DarkGray : Color.White * 0.6f, _majors[i].Selected ? null : _majors[i].Hovered ? Color.Gray * 0.1f : Color.Black * 0.5f, _selectorOpen ? false : null);
-                    if (_majors[i].Hovered) txt = _majors[i].Trait.Description;
+                    if (_majors[i].Hovered) txt = _majors[i].Trait.Name + Environment.NewLine + _majors[i].Trait.Description;
                 }
             }
 

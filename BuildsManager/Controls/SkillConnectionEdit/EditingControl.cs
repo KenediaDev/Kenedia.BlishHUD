@@ -14,6 +14,7 @@ using Kenedia.Modules.Core.Extensions;
 using Kenedia.Modules.BuildsManager.Views;
 using MonoGame.Extended.Collections;
 using Kenedia.Modules.BuildsManager.DataModels.Professions;
+using Attunement = Gw2Sharp.WebApi.V2.Models.Attunement;
 
 namespace Kenedia.Modules.BuildsManager.Controls.SkillConnectionEdit
 {
@@ -23,13 +24,13 @@ namespace Kenedia.Modules.BuildsManager.Controls.SkillConnectionEdit
         private readonly PetSelector _petSelector;
         private readonly TraitSelector _traitSelector;
 
-        private Dictionary<int, SkillConnection> _connections;
+        private Dictionary<int, OldSkillConnection> _connections;
         private readonly FlowPanel _contentPanel;
         private readonly FlowPanel _infosPanel;
         private readonly FlowPanel _singleSkillsPanel;
 
         private double _created = 0;
-        private SkillConnection _skillConnection;
+        private OldSkillConnection _skillConnection;
         private FlowPanel _enviromentFlags;
         private (Label, Checkbox) _terrestrialFlag;
         private (Label, Checkbox) _aquaticFlag;
@@ -45,12 +46,13 @@ namespace Kenedia.Modules.BuildsManager.Controls.SkillConnectionEdit
         private ReflectedSkillControl<Stealth> _stealth;
         private ReflectedSkillControl<Transform> _transform;
         private ReflectedSkillControl<Bundle> _bundle;
-        private ReflectedSkillControl<AttunementSkill> _attunement;
+        private ReflectedSkillControl<AttunementSkill> _attunementskills;
         private ReflectedSkillControl<FlipSkills> _flipSkills;
         private ReflectedSkillControl<DualSkill> _dualSkill;
         private ReflectedPetControl _pets;
         private ReflectedTraitControl _traited;
         private bool canSave;
+        private (Label, Dropdown) _attunement;
 
         public EditingControl(SkillConnectionEditor editor)
         {
@@ -126,7 +128,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.SkillConnectionEdit
                 Parent = _contentPanel,
                 HeightSizingMode = Blish_HUD.Controls.SizingMode.AutoSize,
                 FlowDirection = Blish_HUD.Controls.ControlFlowDirection.SingleTopToBottom,
-                ContentPadding = new(10, 40, 10, 5),
+                ContentPadding = new(10, 5, 10, 5),
                 Title = "Single Skills",
                 CanCollapse = true,
             };
@@ -152,11 +154,11 @@ namespace Kenedia.Modules.BuildsManager.Controls.SkillConnectionEdit
 
         public BaseSkill Skill { get; set; }
 
-        public SkillConnection SkillConnection { get => _skillConnection; set => Common.SetProperty(ref _skillConnection, value, ApplySkill); }
+        public OldSkillConnection SkillConnection { get => _skillConnection; set => Common.SetProperty(ref _skillConnection, value, ApplySkill); }
 
         public Action OnChangedAction { get; set; }
 
-        public Dictionary<int, SkillConnection> Connections { get => _connections; set => Common.SetProperty(ref _connections, value, ApplyConnections); }
+        public Dictionary<int, OldSkillConnection> Connections { get => _connections; set => Common.SetProperty(ref _connections, value, ApplyConnections); }
 
         private void ApplyConnections()
         {
@@ -240,13 +242,6 @@ namespace Kenedia.Modules.BuildsManager.Controls.SkillConnectionEdit
                 }
             };
 
-            _ = new Label()
-            {
-                Text = "Requirements",
-                Parent = _infosPanel,
-                AutoSizeHeight = true,
-                AutoSizeWidth = true,
-            };
             _weapon = UI.CreateLabeledControl<Dropdown>(_infosPanel, "Weapon", 100, 175);
             Enum.GetValues(typeof(SkillWeaponType))
                 .Cast<SkillWeaponType>()
@@ -260,14 +255,26 @@ namespace Kenedia.Modules.BuildsManager.Controls.SkillConnectionEdit
             };
 
             _specialization = UI.CreateLabeledControl<Dropdown>(_infosPanel, "Specialization", 100, 175);
-            Enum.GetValues(typeof(Specializations))
-                .Cast<Specializations>()
+            Enum.GetValues(typeof(SpecializationType))
+                .Cast<SpecializationType>()
                 .ToList()
                 .ForEach(s => _specialization.Item2.Items.Add(s.ToString()));
 
             _specialization.Item2.ValueChangedAction = (num) =>
             {
-                SkillConnection.Specialization = (Specializations?)Enum.Parse(typeof(Specializations), num);
+                SkillConnection.Specialization = (SpecializationType?)Enum.Parse(typeof(SpecializationType), num);
+                Save();
+            };
+
+            _attunement= UI.CreateLabeledControl<Dropdown>(_infosPanel, "Attunement", 100, 175);
+            Enum.GetValues(typeof(Attunement))
+                .Cast<Attunement>()
+                .ToList()
+                .ForEach(s => _attunement.Item2.Items.Add(s.ToString()));
+
+            _attunement.Item2.ValueChangedAction = (num) =>
+            {
+                SkillConnection.Attunement = (Attunement?)Enum.Parse(typeof(Attunement), num);
                 Save();
             };
 
@@ -341,7 +348,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.SkillConnectionEdit
             _stealth = new("Stealth", _skillSelector) { Parent = _contentPanel };
             _transform = new("Transform", _skillSelector) { Parent = _contentPanel };
             _bundle = new("Bundle", _skillSelector) { Parent = _contentPanel };
-            _attunement = new("Attunement", _skillSelector) { Parent = _contentPanel };
+            _attunementskills = new("Attunement", _skillSelector) { Parent = _contentPanel };
             _flipSkills = new("FlipSkills", _skillSelector) { Parent = _contentPanel };
             _dualSkill = new("DualSkill", _skillSelector) { Parent = _contentPanel };
 
@@ -365,7 +372,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.SkillConnectionEdit
             _aquaticFlag.Item2.Checked = SkillConnection.Enviroment.HasFlag(Enviroment.Aquatic);
 
             _weapon.Item2.SelectedItem = SkillConnection.Weapon == null ? SkillWeaponType.None.ToString() : SkillConnection.Weapon.ToString();
-            _specialization.Item2.SelectedItem = SkillConnection.Specialization == null ? Specializations.None.ToString() : SkillConnection.Specialization.ToString();
+            _specialization.Item2.SelectedItem = SkillConnection.Specialization == null ? SpecializationType.None.ToString() : SkillConnection.Specialization.ToString();
 
             _default.Item2.Skill = SkillConnection.Default != null ? BuildsManager.Data.BaseSkills.GetValueOrDefault((int)SkillConnection.Default) : null;
             _pvp.Item2.Skill = SkillConnection.Pvp != null ? BuildsManager.Data.BaseSkills.GetValueOrDefault((int)SkillConnection.Pvp) : null;
@@ -399,9 +406,9 @@ namespace Kenedia.Modules.BuildsManager.Controls.SkillConnectionEdit
             _bundle.Item = SkillConnection.Bundle;
             _bundle.Collapsed = !(SkillConnection.Bundle?.HasValues() == true);
 
-            _attunement.SkillConnection = SkillConnection;
-            _attunement.Item = SkillConnection.AttunementSkill;
-            _attunement.Collapsed = !(SkillConnection.AttunementSkill?.HasValues() == true);
+            _attunementskills.SkillConnection = SkillConnection;
+            _attunementskills.Item = SkillConnection.AttunementSkill;
+            _attunementskills.Collapsed = !(SkillConnection.AttunementSkill?.HasValues() == true);
 
             _dualSkill.SkillConnection = SkillConnection;
             _dualSkill.Item = SkillConnection.DualSkill;

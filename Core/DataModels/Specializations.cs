@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Kenedia.Modules.Core.DataModels
 {
-    public enum Specializations
+    public enum SpecializationType
     {
         None = 0,
 

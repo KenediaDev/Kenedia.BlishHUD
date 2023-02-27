@@ -59,6 +59,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\NumericExtension.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\PointExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\RectangleExtension.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Extensions\SkillWeaponTypeExtension.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\SpriteBatchExtension.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\StringExtension.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\Texture2DExtension.cs" />

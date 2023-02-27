@@ -48,7 +48,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage.ProfessionSpecific
             _skills[0].TextureRegion = new(14, 14, 100, 100);
             switch (Template.EliteSpecialization?.Id)
             {
-                case (int)Specializations.Holosmith:
+                case (int)SpecializationType.Holosmith:
                     for (int i = 0; i < 5; i++)
                     {
                         _skills[i].Bounds = new(xOffset + 20 + (i * 44) + (i == 4 ? 10 : 0), 36, 42, 42);
@@ -61,7 +61,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage.ProfessionSpecific
                     _energy.TextureRegion = new(0, 0, _energy.Texture.Width / 3 * 2, _energy.Texture.Height);
                     break;
 
-                case (int)Specializations.Mechanist:
+                case (int)SpecializationType.Mechanist:
                     _skills[0].Bounds = new(xOffset + 175, 40, 56, 56);
                     _target.Bounds = new(xOffset + 5 + (0 * 34), 5, 32, 32);
                     _return.Bounds = new(xOffset + 5 + (1 * 34), 5, 32, 32);
@@ -83,7 +83,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage.ProfessionSpecific
                     break;
             }
 
-            if (Template.EliteSpecialization?.Id == (int)Specializations.Scrapper)
+            if (Template.EliteSpecialization?.Id == (int)SpecializationType.Scrapper)
             {
                 _skills[4].TextureRegion = new(6, 6, 51, 51);
             }
@@ -95,7 +95,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage.ProfessionSpecific
 
             switch (Template.EliteSpecialization?.Id)
             {
-                case (int)Specializations.Holosmith:
+                case (int)SpecializationType.Holosmith:
                     for (int i = 0; i < 5; i++)
                     {
                         _skills[i].Draw(this, spriteBatch, RelativeMousePosition);
@@ -107,7 +107,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage.ProfessionSpecific
 
                     break;
 
-                case (int)Specializations.Mechanist:
+                case (int)SpecializationType.Mechanist:
                     _target.Draw(this, spriteBatch);
                     _return.Draw(this, spriteBatch);
                     _combatState.Draw(this, spriteBatch);
@@ -214,7 +214,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage.ProfessionSpecific
 
             switch (Template.EliteSpecialization?.Id)
             {
-                case (int)Specializations.Mechanist:
+                case (int)SpecializationType.Mechanist:
                     _skills[0].Skill = skills[63089];
                     //TODO add Mech Skills
 
@@ -224,11 +224,11 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage.ProfessionSpecific
                     //_skills[4].Skill = GetSkill(SkillSlot.Profession5);
                     break;
 
-                case (int)Specializations.Scrapper:
+                case (int)SpecializationType.Scrapper:
                     _skills[4].Skill = skills[56920];
                     break;
 
-                case (int)Specializations.Holosmith:
+                case (int)SpecializationType.Holosmith:
                     _skills[4].Skill = skills[42938];
                     break;
 
@@ -237,7 +237,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage.ProfessionSpecific
                     break;
             }
 
-            if (Template.EliteSpecialization?.Id != (int)Specializations.Mechanist)
+            if (Template.EliteSpecialization?.Id != (int)SpecializationType.Mechanist)
             {
                 _skills[0].Skill = GetToolbeltSkill(SkillSlot.Profession1);
                 _skills[1].Skill = GetToolbeltSkill(SkillSlot.Profession2);

@@ -422,11 +422,11 @@ namespace Kenedia.Modules.Characters.Services
             },
         };
 
-        public Dictionary<SpecializationType, Specialization> Specializations { get; } = new()
+        public Dictionary<Enums.SpecializationType, Specialization> Specializations { get; } = new()
         {
             // Druid
             {
-                SpecializationType.Druid,
+                Enums.SpecializationType.Druid,
                 new Specialization()
                 {
                     IconBig = AsyncTexture2D.FromAssetId(1128574),
@@ -445,7 +445,7 @@ namespace Kenedia.Modules.Characters.Services
 
             // Daredevil
             {
-                SpecializationType.Daredevil,
+                Enums.SpecializationType.Daredevil,
                 new Specialization()
                 {
                     IconBig = AsyncTexture2D.FromAssetId(1128570),
@@ -464,7 +464,7 @@ namespace Kenedia.Modules.Characters.Services
 
             // Berserker
             {
-                SpecializationType.Berserker,
+                Enums.SpecializationType.Berserker,
                 new Specialization()
                 {
                     IconBig = AsyncTexture2D.FromAssetId(1128566),
@@ -483,7 +483,7 @@ namespace Kenedia.Modules.Characters.Services
 
             // Dragonhunter
             {
-                SpecializationType.Dragonhunter,
+                Enums.SpecializationType.Dragonhunter,
                 new Specialization()
                 {
                     IconBig = AsyncTexture2D.FromAssetId(1128572),
@@ -502,7 +502,7 @@ namespace Kenedia.Modules.Characters.Services
 
             // Reaper
             {
-                SpecializationType.Reaper,
+                Enums.SpecializationType.Reaper,
                 new Specialization()
                 {
                     IconBig = AsyncTexture2D.FromAssetId(1128578),
@@ -521,7 +521,7 @@ namespace Kenedia.Modules.Characters.Services
 
             // Chronomancer
             {
-                SpecializationType.Chronomancer,
+                Enums.SpecializationType.Chronomancer,
                 new Specialization()
                 {
                     IconBig = AsyncTexture2D.FromAssetId(1128568),
@@ -540,7 +540,7 @@ namespace Kenedia.Modules.Characters.Services
 
             // Scrapper
             {
-                SpecializationType.Scrapper,
+                Enums.SpecializationType.Scrapper,
                 new Specialization()
                 {
                     IconBig = AsyncTexture2D.FromAssetId(1128580),
@@ -559,7 +559,7 @@ namespace Kenedia.Modules.Characters.Services
 
             // Tempest
             {
-                SpecializationType.Tempest,
+                Enums.SpecializationType.Tempest,
                 new Specialization()
                 {
                     IconBig = AsyncTexture2D.FromAssetId(1128582),
@@ -578,7 +578,7 @@ namespace Kenedia.Modules.Characters.Services
 
             // Herald
             {
-                SpecializationType.Herald,
+                Enums.SpecializationType.Herald,
                 new Specialization()
                 {
                     IconBig = AsyncTexture2D.FromAssetId(1128576),
@@ -597,7 +597,7 @@ namespace Kenedia.Modules.Characters.Services
 
             // Soulbeast
             {
-                SpecializationType.Soulbeast,
+                Enums.SpecializationType.Soulbeast,
                 new Specialization()
                 {
                     IconBig = AsyncTexture2D.FromAssetId(1770214),
@@ -616,7 +616,7 @@ namespace Kenedia.Modules.Characters.Services
 
             // Weaver
             {
-                SpecializationType.Weaver,
+                Enums.SpecializationType.Weaver,
                 new Specialization()
                 {
                     IconBig = AsyncTexture2D.FromAssetId(1670505),
@@ -635,7 +635,7 @@ namespace Kenedia.Modules.Characters.Services
 
             // Holosmith
             {
-                SpecializationType.Holosmith,
+                Enums.SpecializationType.Holosmith,
                 new Specialization()
                 {
                     IconBig = AsyncTexture2D.FromAssetId(1770224),
@@ -654,7 +654,7 @@ namespace Kenedia.Modules.Characters.Services
 
             // Deadeye
             {
-                SpecializationType.Deadeye,
+                Enums.SpecializationType.Deadeye,
                 new Specialization()
                 {
                     IconBig = AsyncTexture2D.FromAssetId(1770212),
@@ -673,7 +673,7 @@ namespace Kenedia.Modules.Characters.Services
 
             // Mirage
             {
-                SpecializationType.Mirage,
+                Enums.SpecializationType.Mirage,
                 new Specialization()
                 {
                     IconBig = AsyncTexture2D.FromAssetId(1770216),
@@ -692,7 +692,7 @@ namespace Kenedia.Modules.Characters.Services
 
             // Scourge
             {
-                SpecializationType.Scourge,
+                Enums.SpecializationType.Scourge,
                 new Specialization()
                 {
                     IconBig = AsyncTexture2D.FromAssetId(1770220),
@@ -711,7 +711,7 @@ namespace Kenedia.Modules.Characters.Services
 
             // Spellbreaker
             {
-                SpecializationType.Spellbreaker,
+                Enums.SpecializationType.Spellbreaker,
                 new Specialization()
                 {
                     IconBig = AsyncTexture2D.FromAssetId(1770222),
@@ -730,7 +730,7 @@ namespace Kenedia.Modules.Characters.Services
 
             // Firebrand
             {
-                SpecializationType.Firebrand,
+                Enums.SpecializationType.Firebrand,
                 new Specialization()
                 {
                     IconBig = AsyncTexture2D.FromAssetId(1770210),
@@ -749,7 +749,7 @@ namespace Kenedia.Modules.Characters.Services
 
             // Renegade
             {
-                SpecializationType.Renegade,
+                Enums.SpecializationType.Renegade,
                 new Specialization()
                 {
                     IconBig = AsyncTexture2D.FromAssetId(1770218),
@@ -768,7 +768,7 @@ namespace Kenedia.Modules.Characters.Services
 
             // Harbinger
             {
-                SpecializationType.Harbinger,
+                Enums.SpecializationType.Harbinger,
                 new Specialization()
                 {
                     IconBig = AsyncTexture2D.FromAssetId(2479359),
@@ -787,7 +787,7 @@ namespace Kenedia.Modules.Characters.Services
 
             // Willbender
             {
-                SpecializationType.Willbender,
+                Enums.SpecializationType.Willbender,
                 new Specialization()
                 {
                     IconBig = AsyncTexture2D.FromAssetId(2479351),
@@ -806,7 +806,7 @@ namespace Kenedia.Modules.Characters.Services
 
             // Virtuoso
             {
-                SpecializationType.Virtuoso,
+                Enums.SpecializationType.Virtuoso,
                 new Specialization()
                 {
                     IconBig = AsyncTexture2D.FromAssetId(2479355),
@@ -825,7 +825,7 @@ namespace Kenedia.Modules.Characters.Services
 
             // Catalyst
             {
-                SpecializationType.Catalyst,
+                Enums.SpecializationType.Catalyst,
                 new Specialization()
                 {
                     IconBig = AsyncTexture2D.FromAssetId(2491555),
@@ -844,7 +844,7 @@ namespace Kenedia.Modules.Characters.Services
 
             // Bladesworn
             {
-                SpecializationType.Bladesworn,
+                Enums.SpecializationType.Bladesworn,
                 new Specialization()
                 {
                     IconBig = AsyncTexture2D.FromAssetId(2491563),
@@ -863,7 +863,7 @@ namespace Kenedia.Modules.Characters.Services
 
             // Vindicator
             {
-                SpecializationType.Vindicator,
+                Enums.SpecializationType.Vindicator,
                 new Specialization()
                 {
                     IconBig = AsyncTexture2D.FromAssetId(2491559),
@@ -882,7 +882,7 @@ namespace Kenedia.Modules.Characters.Services
 
             // Mechanist
             {
-                SpecializationType.Mechanist,
+                Enums.SpecializationType.Mechanist,
                 new Specialization()
                 {
                     IconBig = AsyncTexture2D.FromAssetId(2503656),
@@ -901,7 +901,7 @@ namespace Kenedia.Modules.Characters.Services
 
             // Specter
             {
-                SpecializationType.Specter,
+                Enums.SpecializationType.Specter,
                 new Specialization()
                 {
                     IconBig = AsyncTexture2D.FromAssetId(2503664),
@@ -920,7 +920,7 @@ namespace Kenedia.Modules.Characters.Services
 
             // Untamed
             {
-                SpecializationType.Untamed,
+                Enums.SpecializationType.Untamed,
                 new Specialization()
                 {
                     IconBig = AsyncTexture2D.FromAssetId(2503660),

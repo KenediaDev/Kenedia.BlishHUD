@@ -53,7 +53,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage.ProfessionSpecific
 
             switch (Template.EliteSpecialization?.Id)
             {
-                case (int)Specializations.Specter:
+                case (int)SpecializationType.Specter:
                     for (int i = 0; i < _initiative.Length; i++)
                     {
                         _initiative[i].Bounds = new(xOffset + 90 + (i * 18), 55 - (i % 2 * 13), 26, 26);
@@ -80,7 +80,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage.ProfessionSpecific
         {
             switch (Template.EliteSpecialization?.Id)
             {
-                case (int)Specializations.Specter:
+                case (int)SpecializationType.Specter:
                     _skills[1].Draw(this, spriteBatch, RelativeMousePosition);
                     _barBackground.Draw(this, spriteBatch);
                     _specterBar.Draw(this, spriteBatch);
@@ -126,7 +126,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage.ProfessionSpecific
 
             switch (Template.EliteSpecialization?.Id)
             {
-                case (int)Specializations.Specter:
+                case (int)SpecializationType.Specter:
 
                     break;
             }

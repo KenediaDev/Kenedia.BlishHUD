@@ -50,7 +50,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage.ProfessionSpecific
 
             switch (Template.EliteSpecialization?.Id)
             {
-                case (int)Specializations.Virtuoso:
+                case (int)SpecializationType.Virtuoso:
                     for (int i = 0; i < _clones.Length; i++)
                     {
                         var clone = _clones[i];
@@ -79,7 +79,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage.ProfessionSpecific
         {
             switch (Template.EliteSpecialization?.Id)
             {
-                case (int)Specializations.Virtuoso:
+                case (int)SpecializationType.Virtuoso:
                     for (int i = 0; i < _clones.Length; i++)
                     {
                         var clone = _clones[i];
@@ -94,7 +94,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage.ProfessionSpecific
 
                     break;
 
-                case (int)Specializations.Chronomancer:
+                case (int)SpecializationType.Chronomancer:
                     for (int i = 0; i < 3; i++)
                     {
                         var clone = _clones[i];

@@ -172,29 +172,33 @@ namespace Kenedia.Modules.BuildsManager
                     Width = 1120,
                     Height = 900,
                 };
+
+                MainWindow.Show();
             }
 
-            SkillConnectionEditor?.Dispose();
-
-            var settingsBg = AsyncTexture2D.FromAssetId(155997);
-            Texture2D cutSettingsBg = settingsBg.Texture.GetRegion(0, 0, settingsBg.Width - 482, settingsBg.Height - 390);
-
-            SkillConnectionEditor = new(
-            settingsBg,
-                new Rectangle(30, 30, cutSettingsBg.Width + 10, cutSettingsBg.Height),
-                new Rectangle(30, 35, cutSettingsBg.Width - 5, cutSettingsBg.Height - 15))
+            if (true)
             {
-                Parent = GameService.Graphics.SpriteScreen,
-                Title = "❤",
-                Subtitle = "❤",
-                SavesPosition = true,
-                Id = $"{Name} MainWindow",
-                CanResize = true,
-                Size = new(1024, 800),
-                Connections = Data.SkillConnections,
-            };
-            SkillConnectionEditor.Show();
-            //MainWindow.Show();
+                SkillConnectionEditor?.Dispose();
+
+                var settingsBg = AsyncTexture2D.FromAssetId(155997);
+                Texture2D cutSettingsBg = settingsBg.Texture.GetRegion(0, 0, settingsBg.Width - 482, settingsBg.Height - 390);
+
+                SkillConnectionEditor = new(
+                settingsBg,
+                    new Rectangle(30, 30, cutSettingsBg.Width + 10, cutSettingsBg.Height),
+                    new Rectangle(30, 35, cutSettingsBg.Width - 5, cutSettingsBg.Height - 15))
+                {
+                    Parent = GameService.Graphics.SpriteScreen,
+                    Title = "❤",
+                    Subtitle = "❤",
+                    SavesPosition = true,
+                    Id = $"{Name} MainWindow",
+                    CanResize = true,
+                    Size = new(1024, 800),
+                    Connections = Data.OldConnections,
+                };
+                SkillConnectionEditor.Show();
+            }
         }
 
         protected override void UnloadGUI()
