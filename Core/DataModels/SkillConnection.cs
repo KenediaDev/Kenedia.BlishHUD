@@ -12,15 +12,6 @@ using System.Runtime.Serialization;
 
 namespace Kenedia.Modules.Core.DataModels
 {
-    public class Flip : List<int?>
-    {
-
-    }
-    public class NewChain : List<int?>
-    {
-
-    }
-
     public class SkillConnection
     {
         public SkillConnection()
@@ -33,6 +24,7 @@ namespace Kenedia.Modules.Core.DataModels
             Id = c.Id;
             Default = c.Default != c.Id ? c.Default : null;
             Enviroment = c.Enviroment;
+            Attunement = c.Attunement;
             PvP = c.Pvp;
             AssetId = c.AssetId;
             Weapon = c.Weapon;
@@ -82,11 +74,13 @@ namespace Kenedia.Modules.Core.DataModels
 
         public Enviroment Enviroment { get; set; } = Enviroment.Terrestrial;
 
-        public Attunement? Attunement { get; set; }
+        public AttunementType? Attunement { get; set; }
 
         public SkillWeaponType? Weapon { get; set; }
 
         public SpecializationType? Specialization { get; set; }
+
+        public SkillSlot? Slot { get; set; }
 
         public int? AssetId { get; set; }
 
@@ -310,7 +304,7 @@ namespace Kenedia.Modules.Core.DataModels
         /// </summary>
         public Enviroment Enviroment { get; set; } = Enviroment.Terrestrial;
 
-        public Attunement? Attunement { get; set; }
+        public AttunementType Attunement { get; set; }
 
         /// <summary>
         /// Weapon the skill is used with
@@ -326,14 +320,6 @@ namespace Kenedia.Modules.Core.DataModels
         /// Dual Skill for Thiefs 3rd Slot 
         /// </summary>
         public DualSkill DualSkill { get; set; }
-
-        /// <summary>
-        /// Attunement Skills for Elementalists. 
-        /// AttunementSkill.Attunement = Fire 
-        /// -> AttunementSkill.Fire => Weaver Fire Fire
-        /// -> AttunementSkill.Air => Weaver Fire Air
-        /// </summary>
-        public AttunementSkill AttunementSkill { get; set; }
 
         public Burst Burst { get; set; }
 
@@ -369,7 +355,6 @@ namespace Kenedia.Modules.Core.DataModels
             Weapon = null;
             Specialization = null;
             DualSkill = null;
-            AttunementSkill = null;
             Burst = null;
             Stealth = null;
             Transform = null;

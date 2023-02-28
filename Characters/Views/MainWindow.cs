@@ -58,6 +58,8 @@ namespace Kenedia.Modules.Characters.Views
         private Rectangle _emblemRectangle;
         private Rectangle _titleRectangle;
         private BitmapFont _titleFont;
+        private APITimeoutNotification _apiTimeoutNotification;
+        private APIPermissionNotification _apiPermissionNotification;
 
         public MainWindow(Texture2D background, Rectangle windowRegion, Rectangle contentRegion,
             Settings settings, TextureManager textureManager, ObservableCollection<Character_Model> characterModels,
@@ -717,6 +719,38 @@ namespace Kenedia.Modules.Characters.Views
             }
 
             SortCharacters();
+        }
+
+        public void SendAPITimeoutNotification()
+        {
+
+            _apiTimeoutNotification ??= new APITimeoutNotification()
+            {
+                Parent = _notifications,
+                Height = 25,
+            };
+
+            if (_settings.ShowNotifications.Value && _notifications.Children.Count > 0 && _notifications.Children.Any(e => e.Visible))
+            {
+                _collapseWrapper.Show();
+                ContentPanel.Invalidate();
+            }
+        }
+
+        public void SendAPIPermissionNotification()
+        {
+
+            _apiPermissionNotification ??= new APIPermissionNotification()
+            {
+                Parent = _notifications,
+                Height = 25,
+            };
+
+            if (_settings.ShowNotifications.Value && _notifications.Children.Count > 0 && _notifications.Children.Any(e => e.Visible))
+            {
+                _collapseWrapper.Show();
+                ContentPanel.Invalidate();
+            }
         }
 
         public void CheckOCRRegion()

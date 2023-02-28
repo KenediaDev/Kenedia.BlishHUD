@@ -15,6 +15,7 @@ using Gw2Sharp.WebApi;
 using Map = Kenedia.Modules.Core.DataModels.Map;
 using Blish_HUD;
 using Kenedia.Modules.Core.Models;
+using Kenedia.Modules.Characters.Views;
 
 namespace Kenedia.Modules.Characters.Services
 {
@@ -39,6 +40,8 @@ namespace Kenedia.Modules.Characters.Services
             _accountFilePath = paths.ModulePath + @"\accounts.json";
             _data = data;
         }
+
+        public MainWindow MainWindow { get; set; }
 
         private Account _account;
 
@@ -149,12 +152,20 @@ namespace Kenedia.Modules.Characters.Services
                     if (!cancellationToken.IsCancellationRequested)
                     {
                         ScreenNotification.ShowNotification("[Characters]: " + strings.Error_InvalidPermissions, ScreenNotification.NotificationType.Error);
-                        Characters.Logger.Error(strings.Error_InvalidPermissions);
+                        Characters.Logger.Warn(strings.Error_InvalidPermissions);
+                        MainWindow?.SendAPIPermissionNotification();
                     }
 
                     Reset(cancellationToken, !cancellationToken.IsCancellationRequested);
                     return false;
                 }
+            }
+            catch (Gw2Sharp.WebApi.Exceptions.UnexpectedStatusException ex)
+            {
+                MainWindow?.SendAPITimeoutNotification();
+                Characters.Logger.Warn(ex, strings.APITimeoutNotification);
+                Reset(cancellationToken, !cancellationToken.IsCancellationRequested);
+                return false;
             }
             catch (Exception ex)
             {

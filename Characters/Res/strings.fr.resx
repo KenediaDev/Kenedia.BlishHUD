@@ -1003,4 +1003,10 @@ Notifications en cas de :
   <data name="CancelOnlyOnESC_Tooltip" xml:space="preserve">
     <value>Annuler la permutation et le tri des caractères uniquement si la touche ESC est enfoncée</value>
   </data>
+  <data name="APITimeoutNotification" xml:space="preserve">
+    <value>Nous avons des difficultés à atteindre l'API. Nous ne pouvons donc pas récupérer la liste des caractères et faire fonctionner ce module.</value>
+  </data>
+  <data name="APIPermissionNotification" xml:space="preserve">
+    <value>La clé API actuellement attribuée à ce personnage ne dispose pas des autorisations nécessaires. Nous ne pouvons donc pas récupérer la liste des personnages et mettre à jour les personnages.</value>
+  </data>
 </root>

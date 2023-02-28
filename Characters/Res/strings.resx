@@ -1003,4 +1003,10 @@ Notifications in case of:
   <data name="CancelOnlyOnESC_Tooltip" xml:space="preserve">
     <value>Cancel character swapping and sorting only if the ESC key is pressed</value>
   </data>
+  <data name="APITimeoutNotification" xml:space="preserve">
+    <value>We have troubles reaching the API. Thus we can not retrieve the characters list and make this module working.</value>
+  </data>
+  <data name="APIPermissionNotification" xml:space="preserve">
+    <value>The currently assigned API key to this character is missing permissions. Thus we can not retrieve the character list and update the characters.</value>
+  </data>
 </root>

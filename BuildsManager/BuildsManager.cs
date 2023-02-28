@@ -151,7 +151,7 @@ namespace Kenedia.Modules.BuildsManager
 
             Logger.Info($"Building UI for {Name}");
 
-            if (false)
+            if (true)
             {
                 MainWindow = new MainWindow(
                     Services.TexturesService.GetTexture(@"textures\mainwindow_background.png", "mainwindow_background"),
@@ -176,7 +176,7 @@ namespace Kenedia.Modules.BuildsManager
                 MainWindow.Show();
             }
 
-            if (true)
+            if (false)
             {
                 SkillConnectionEditor?.Dispose();
 
@@ -255,7 +255,7 @@ namespace Kenedia.Modules.BuildsManager
             gear.Gear[GearSlot.Aquatic].Upgrades[UpgradeSlot.Infusion_1] = 37131;
             gear.Gear[GearSlot.Aquatic].Upgrades[UpgradeSlot.Infusion_2] = 37131;
 
-            gear.Gear[GearSlot.AltMainHand].WeaponType = WeaponType.Sword;
+            gear.Gear[GearSlot.AltMainHand].WeaponType = WeaponType.Scepter;
             gear.Gear[GearSlot.AltMainHand].Stat = DataModels.Stats.EquipmentStat.Berserkers;
             gear.Gear[GearSlot.AltMainHand].Upgrades[UpgradeSlot.Sigil_1] = 24615;
             gear.Gear[GearSlot.AltMainHand].Upgrades[UpgradeSlot.Infusion_1] = 37131;
@@ -288,7 +288,7 @@ namespace Kenedia.Modules.BuildsManager
             gear.Gear[GearSlot.Accessory_2].Upgrades[UpgradeSlot.Infusion_1] = 37131;
 
             string codi = "[&DQMGOyYvOTsqDwAABwEAAIYAAABXFgAA8BUAAAAAAAAAAAAAAAAAAAAAAAA=]";
-            string code = "[&DQYfHSkbMBl0ABcBywDLAHIAwxLDEnMAJgCZEgAAAAAAAAAAAAAAAAAAAAA=]";
+            string code = "[&DQgnNhM1PCYSAJsAiwDkAJkBdgBvAXABkgCVAAAAAAAAAAAAAAAAAAAAAAA=]";
             var build = new BuildTemplate(code);
 
             SelectedTemplate = new Template()

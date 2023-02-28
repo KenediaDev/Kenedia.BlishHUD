@@ -1003,4 +1003,10 @@ Notificaciones en caso de:
   <data name="CancelOnlyOnESC_Tooltip" xml:space="preserve">
     <value>Cancelar el intercambio de caracteres y la clasificación sólo si se pulsa la tecla ESC</value>
   </data>
+  <data name="APITimeoutNotification" xml:space="preserve">
+    <value>Tenemos problemas para llegar a la API. Por lo tanto, no podemos recuperar la lista de caracteres y hacer que este módulo funcione.</value>
+  </data>
+  <data name="APIPermissionNotification" xml:space="preserve">
+    <value>La clave API asignada actualmente a este personaje carece de permisos. Por lo tanto, no podemos recuperar la lista de personajes ni actualizarlos.</value>
+  </data>
 </root>

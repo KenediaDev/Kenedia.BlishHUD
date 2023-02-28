@@ -1005,4 +1005,10 @@ Benachrichtigungen im Falle von:
   <data name="CancelOnlyOnESC_Tooltip" xml:space="preserve">
     <value>Zeichenvertauschung und Sortierung nur abbrechen, wenn die ESC-Taste gedrückt wird</value>
   </data>
+  <data name="APITimeoutNotification" xml:space="preserve">
+    <value>Wir haben Probleme, die API zu erreichen. Daher können wir die Zeichenliste nicht abrufen und das Modul zum Laufen bringen.</value>
+  </data>
+  <data name="APIPermissionNotification" xml:space="preserve">
+    <value>Dem aktuell zugewiesenen API-Schlüssel für dieses Zeichen fehlen die Berechtigungen. Daher können wir die Zeichenliste nicht abrufen und die Zeichen nicht aktualisieren.</value>
+  </data>
 </root>

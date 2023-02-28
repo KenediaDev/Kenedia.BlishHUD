@@ -28,9 +28,13 @@ namespace Kenedia.Modules.Core.DataModels
             Name = skill.Name;
             AssetId = skill.Icon?.GetAssetIdFromRenderUrl();
             Professions = skill.Professions.ToList();
+            Slot = skill.Slot?.ToEnum();
 
             //if (skill.Slot == SkillSlot.Pet && Professions.Count == 0) Professions.Add("Ranger"); 
         }
+
+        [DataMember]
+        public SkillSlot? Slot { get; set; }
 
         [DataMember]
         public int Id { get; set; }

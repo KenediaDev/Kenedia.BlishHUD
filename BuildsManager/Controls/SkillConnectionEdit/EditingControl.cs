@@ -46,13 +46,15 @@ namespace Kenedia.Modules.BuildsManager.Controls.SkillConnectionEdit
         private ReflectedSkillControl<Stealth> _stealth;
         private ReflectedSkillControl<Transform> _transform;
         private ReflectedSkillControl<Bundle> _bundle;
-        private ReflectedSkillControl<AttunementSkill> _attunementskills;
         private ReflectedSkillControl<FlipSkills> _flipSkills;
         private ReflectedSkillControl<DualSkill> _dualSkill;
         private ReflectedPetControl _pets;
         private ReflectedTraitControl _traited;
         private bool canSave;
-        private (Label, Dropdown) _attunement;
+        private (Label, Checkbox) _fireFlag;
+        private (Label, Checkbox) _waterFlag;
+        private (Label, Checkbox) _airFlag;
+        private (Label, Checkbox) _earthFlag;
 
         public EditingControl(SkillConnectionEditor editor)
         {
@@ -117,7 +119,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.SkillConnectionEdit
             _infosPanel = new FlowPanel()
             {
                 Parent = _contentPanel,
-                Height = 90,
+                Height = 150,
                 ContentPadding = new(10, 5),
                 ControlPadding = new(15, 5),
                 FlowDirection = Blish_HUD.Controls.ControlFlowDirection.TopToBottom,
@@ -266,16 +268,84 @@ namespace Kenedia.Modules.BuildsManager.Controls.SkillConnectionEdit
                 Save();
             };
 
-            _attunement= UI.CreateLabeledControl<Dropdown>(_infosPanel, "Attunement", 100, 175);
-            Enum.GetValues(typeof(Attunement))
-                .Cast<Attunement>()
-                .ToList()
-                .ForEach(s => _attunement.Item2.Items.Add(s.ToString()));
-
-            _attunement.Item2.ValueChangedAction = (num) =>
+            _ = new Label()
             {
-                SkillConnection.Attunement = (Attunement?)Enum.Parse(typeof(Attunement), num);
-                Save();
+                Text = "Attunements",
+                Parent = _infosPanel,
+                AutoSizeHeight = true,
+                AutoSizeWidth = true,
+            };
+
+            _fireFlag = UI.CreateLabeledControl<Checkbox>(_infosPanel, "Fire");
+            _fireFlag.Item2.CheckedChangedAction = (c) =>
+            {
+                if (SkillConnection != null)
+                {
+                    if (c)
+                    {
+                        SkillConnection.Attunement = SkillConnection.Attunement | AttunementType.Fire;
+                    }
+                    else
+                    {
+                        SkillConnection.Attunement &= ~AttunementType.Fire;
+                    }
+
+                    Save();
+                }
+            };
+
+            _waterFlag = UI.CreateLabeledControl<Checkbox>(_infosPanel, "Water");
+            _waterFlag.Item2.CheckedChangedAction = (c) =>
+            {
+                if (SkillConnection != null)
+                {
+                    if (c)
+                    {
+                        SkillConnection.Attunement = SkillConnection.Attunement | AttunementType.Water;
+                    }
+                    else
+                    {
+                        SkillConnection.Attunement &= ~AttunementType.Water;
+                    }
+
+                    Save();
+                }
+            };
+
+            _airFlag = UI.CreateLabeledControl<Checkbox>(_infosPanel, "Air");
+            _airFlag.Item2.CheckedChangedAction = (c) =>
+            {
+                if (SkillConnection != null)
+                {
+                    if (c)
+                    {
+                        SkillConnection.Attunement = SkillConnection.Attunement | AttunementType.Air;
+                    }
+                    else
+                    {
+                        SkillConnection.Attunement &= ~AttunementType.Air;
+                    }
+
+                    Save();
+                }
+            };
+
+            _earthFlag = UI.CreateLabeledControl<Checkbox>(_infosPanel, "Earth");
+            _earthFlag.Item2.CheckedChangedAction = (c) =>
+            {
+                if (SkillConnection != null)
+                {
+                    if (c)
+                    {
+                        SkillConnection.Attunement = SkillConnection.Attunement | AttunementType.Earth;
+                    }
+                    else
+                    {
+                        SkillConnection.Attunement &= ~AttunementType.Earth;
+                    }
+
+                    Save();
+                }
             };
 
             _default = UI.CreateLabeledControl<SkillControl>(_singleSkillsPanel, "Default", 100, 400, 32);
@@ -348,7 +418,6 @@ namespace Kenedia.Modules.BuildsManager.Controls.SkillConnectionEdit
             _stealth = new("Stealth", _skillSelector) { Parent = _contentPanel };
             _transform = new("Transform", _skillSelector) { Parent = _contentPanel };
             _bundle = new("Bundle", _skillSelector) { Parent = _contentPanel };
-            _attunementskills = new("Attunement", _skillSelector) { Parent = _contentPanel };
             _flipSkills = new("FlipSkills", _skillSelector) { Parent = _contentPanel };
             _dualSkill = new("DualSkill", _skillSelector) { Parent = _contentPanel };
 
@@ -370,6 +439,11 @@ namespace Kenedia.Modules.BuildsManager.Controls.SkillConnectionEdit
 
             _terrestrialFlag.Item2.Checked = SkillConnection.Enviroment.HasFlag(Enviroment.Terrestrial);
             _aquaticFlag.Item2.Checked = SkillConnection.Enviroment.HasFlag(Enviroment.Aquatic);
+
+            _fireFlag.Item2.Checked = SkillConnection.Attunement.HasFlag(AttunementType.Fire);
+            _waterFlag.Item2.Checked = SkillConnection.Attunement.HasFlag(AttunementType.Water);
+            _airFlag.Item2.Checked = SkillConnection.Attunement.HasFlag(AttunementType.Air);
+            _earthFlag.Item2.Checked = SkillConnection.Attunement.HasFlag(AttunementType.Earth);
 
             _weapon.Item2.SelectedItem = SkillConnection.Weapon == null ? SkillWeaponType.None.ToString() : SkillConnection.Weapon.ToString();
             _specialization.Item2.SelectedItem = SkillConnection.Specialization == null ? SpecializationType.None.ToString() : SkillConnection.Specialization.ToString();
@@ -405,10 +479,6 @@ namespace Kenedia.Modules.BuildsManager.Controls.SkillConnectionEdit
             _bundle.SkillConnection = SkillConnection;
             _bundle.Item = SkillConnection.Bundle;
             _bundle.Collapsed = !(SkillConnection.Bundle?.HasValues() == true);
-
-            _attunementskills.SkillConnection = SkillConnection;
-            _attunementskills.Item = SkillConnection.AttunementSkill;
-            _attunementskills.Collapsed = !(SkillConnection.AttunementSkill?.HasValues() == true);
 
             _dualSkill.SkillConnection = SkillConnection;
             _dualSkill.Item = SkillConnection.DualSkill;

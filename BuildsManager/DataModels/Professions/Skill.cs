@@ -2,6 +2,7 @@
 using Gw2Sharp;
 using Gw2Sharp.Models;
 using Gw2Sharp.WebApi.V2.Models;
+using Kenedia.Modules.BuildsManager.Models.Templates;
 using Kenedia.Modules.Core.DataModels;
 using Kenedia.Modules.Core.Models;
 using Kenedia.Modules.Core.Utility;
@@ -33,10 +34,10 @@ namespace Kenedia.Modules.BuildsManager.DataModels.Professions
             Flags = skill.Flags.Count() > 0 ? skill.Flags.Aggregate((x, y) => x |= y.ToEnum()) : SkillFlag.Unknown;
             Slot = skill.Slot?.ToEnum();
             WeaponType = skill.WeaponType != null ? (WeaponType)skill.WeaponType?.ToEnum() : null;
-            Attunement = skill.Attunement?.ToEnum();
 
             _ = BuildsManager.Data.SkillConnections.TryGetValue(skill.Id, out var connection);
             SkillConnection = connection ?? null;
+            Attunement = connection != null ? connection.Attunement : null;
 
             if ((skill.Categories != null && skill.Categories.Count > 0) || skill.Name.Contains('\"'))
             {
@@ -93,7 +94,7 @@ namespace Kenedia.Modules.BuildsManager.DataModels.Professions
         public int? Parent { get; set; }
 
         [DataMember]
-        public Attunement? Attunement { get; set; }
+        public AttunementType? Attunement { get; set; }
 
         [DataMember]
         public int Specialization { get; set; }
@@ -158,7 +159,7 @@ namespace Kenedia.Modules.BuildsManager.DataModels.Professions
 
         internal static Skill FromUShort(ushort id, ProfessionType profession)
         {
-            foreach(var race in BuildsManager.Data.Races)
+            foreach (var race in BuildsManager.Data.Races)
             {
                 var skill = race.Value.Skills.Where(e => e.Value.PaletteId == id).FirstOrDefault();
                 if (skill.Value != null) return skill.Value;
@@ -196,6 +197,51 @@ namespace Kenedia.Modules.BuildsManager.DataModels.Professions
         public static int GetRevPaletteId(Skill skill)
         {
             return GetRevPaletteId(skill.Id);
+        }
+
+        public Skill GetEffectiveSkill(Template template)
+        {
+            Skill skill = this;
+
+            if (template != null)
+            {
+                List<int> traitIds = new();
+
+                foreach (var spec in template.BuildTemplate.Specializations)
+                {
+                    if (spec.Value != null && spec.Value.Specialization != null)
+                    {
+                        traitIds.AddRange(spec.Value.Traits.Where(e => e.Value != null).Select(e => e.Value.Id));
+                        traitIds.AddRange(spec.Value.Specialization.MinorTraits.Where(e => e.Value != null).Select(e => e.Value.Id));
+                    }
+                }
+
+                if (SkillConnection != null)
+                {
+                    if (SkillConnection.Traited != null)
+                    {
+                        foreach (int traitid in traitIds)
+                        {
+                            if (SkillConnection.Traited.ContainsValue(traitid))
+                            {
+                                foreach (var tPair in SkillConnection.Traited)
+                                {
+                                    if (tPair.Value == traitid)
+                                        _ = BuildsManager.Data.Professions[template.Profession].Skills.TryGetValue(tPair.Key, out skill);
+                                }
+                            }
+                        }
+                    }
+
+                    if (skill.SkillConnection != null && skill.SkillConnection.EnvCounter != null)
+                    {
+                        bool useCounterSkill = (template.Terrestrial && !skill.SkillConnection.Enviroment.HasFlag(Enviroment.Terrestrial)) || (!template.Terrestrial && !skill.SkillConnection.Enviroment.HasFlag(Enviroment.Aquatic));
+                        if (useCounterSkill) _ = BuildsManager.Data.Professions[template.Profession].Skills.TryGetValue((int)skill.SkillConnection.EnvCounter, out skill);
+                    }
+                }
+            }
+
+            return skill;
         }
     }
 }

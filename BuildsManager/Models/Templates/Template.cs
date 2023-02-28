@@ -18,8 +18,8 @@ namespace Kenedia.Modules.BuildsManager.Models.Templates
         private string _name;
         private string _id;
         private bool _terrestrial = true;
-        private Attunement _mainAttunement = Attunement.Fire;
-        private Attunement _altAttunement = Attunement.Fire;
+        private AttunementType _mainAttunement = AttunementType.Fire;
+        private AttunementType _altAttunement = AttunementType.Earth;
         private LegendSlot _legendSlot = LegendSlot.TerrestrialActive;
 
         public Template()
@@ -61,13 +61,14 @@ namespace Kenedia.Modules.BuildsManager.Models.Templates
 
         public Specialization EliteSpecialization => BuildTemplate?.Specializations[SpecializationSlot.Line_3]?.Specialization?.Elite == true ? BuildTemplate.Specializations[SpecializationSlot.Line_3].Specialization : null;
 
-        public Attunement MainAttunement { get => _mainAttunement; set => Common.SetProperty(ref _mainAttunement, value, Changed); }
+        public AttunementType MainAttunement { get => _mainAttunement; set => Common.SetProperty(ref _mainAttunement, value, Changed); }
 
-        public Attunement AltAttunement { get => _altAttunement; set => Common.SetProperty(ref _altAttunement, value, Changed); }
+        public AttunementType AltAttunement { get => _altAttunement; set => Common.SetProperty(ref _altAttunement, value, Changed); }
 
-        public bool Terrestrial { 
-            get => LegendSlot is LegendSlot.TerrestrialActive or LegendSlot.TerrestrialInactive; 
-            set 
+        public bool Terrestrial
+        {
+            get => LegendSlot is LegendSlot.TerrestrialActive or LegendSlot.TerrestrialInactive;
+            set
             {
                 switch (LegendSlot)
                 {
@@ -92,6 +93,16 @@ namespace Kenedia.Modules.BuildsManager.Models.Templates
             get => _legendSlot;
             set => Common.SetProperty(ref _legendSlot, value, Changed);
         }
+
+        /// <summary>
+        /// Active Transform Skill which sets weapon skills to its childs and disables all others
+        /// </summary>
+        public Skill ActiveTransform { get; set; }
+
+        /// <summary>
+        /// Active Bundle Skill which sets weapon skills to its childs
+        /// </summary>
+        public Skill ActiveBundle { get; set; }
 
         public BuildTemplate BuildTemplate
         {
@@ -136,8 +147,13 @@ namespace Kenedia.Modules.BuildsManager.Models.Templates
             };
         }
 
-            private void TemplateChanged(object sender, PropertyChangedEventArgs e)
+        private void TemplateChanged(object sender, PropertyChangedEventArgs e)
         {
+            if(MainAttunement != AltAttunement && EliteSpecialization?.Id != (int) SpecializationType.Weaver)
+            {
+                AltAttunement = MainAttunement;
+            }
+
             Changed?.Invoke(sender, e);
         }
     }

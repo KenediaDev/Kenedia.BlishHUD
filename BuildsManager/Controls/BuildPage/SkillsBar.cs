@@ -141,83 +141,199 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
             }
 
             bool ele = Template.Profession == Gw2Sharp.Models.ProfessionType.Elementalist;
+
             //TODO Ignore Ambush / Stealth skills
             if (Template.GearTemplate.Gear[GearSlot.MainHand] != null)
             {
                 var weapon = Template.GearTemplate.Gear[GearSlot.MainHand].WeaponType;
 
-                foreach (var s in BuildsManager.Data.Professions[Template.BuildTemplate.Profession].Skills.Where(e => e.Value.WeaponType == weapon && e.Value.Slot != null && (int)e.Value.Slot <= 3 && e.Value.PrevChain == null && (!ele || (e.Value.Attunement != null && e.Value.Attunement == Template.MainAttunement))))
+                if (weapon != Weapon.WeaponType.Unknown && BuildsManager.Data.Professions[Template.Profession].Weapons.ContainsKey(weapon))
                 {
-                    _terrestrialWeaponSkills[s.Value.Slot.GetSkillSlot()].Skill = s.Value;
+                    var weaponSkillIds = BuildsManager.Data.Professions[Template.Profession].Weapons[weapon].Skills;
+                    var weaponSkills = BuildsManager.Data.Professions[Template.Profession].Skills.Where(e => weaponSkillIds.Contains(e.Value.Id) && e.Value.SkillConnection?.Default == null);
+
+                    if (Template.Profession == Gw2Sharp.Models.ProfessionType.Elementalist)
+                    {
+                        weaponSkills = weaponSkills.Where(e =>
+                        e.Value.Slot < SkillSlot.Weapon3 ?
+                        e.Value.Attunement.Value.HasFlag(Template.MainAttunement) :
+
+                        e.Value.Slot == SkillSlot.Weapon3 ?
+                        e.Value.Attunement.Value.HasFlag(Template.MainAttunement) && e.Value.Attunement.Value.HasFlag(Template.AltAttunement) :
+
+                        e.Value.Attunement.Value.HasFlag(Template.AltAttunement));
+                    }
+
+                    foreach (var s in weaponSkills)
+                    {
+                        _terrestrialWeaponSkills[s.Value.Slot.GetSkillSlot()].Skill = s.Value?.GetEffectiveSkill(Template);
+                    }
                 }
             }
 
             if (Template.GearTemplate.Gear[GearSlot.OffHand] != null)
             {
                 var weapon = Template.GearTemplate.Gear[GearSlot.OffHand].WeaponType;
-                foreach (var s in BuildsManager.Data.Professions[Template.BuildTemplate.Profession].Skills.Where(e => e.Value.WeaponType == weapon && (int)e.Value.Slot > 3 && (int)e.Value.Slot <= 5 && e.Value.PrevChain == null ))
+
+                if (weapon != Weapon.WeaponType.Unknown && BuildsManager.Data.Professions[Template.Profession].Weapons.ContainsKey(weapon))
                 {
-                    _terrestrialWeaponSkills[s.Value.Slot.GetSkillSlot()].Skill = s.Value;
+                    var weaponSkillIds = BuildsManager.Data.Professions[Template.Profession].Weapons[weapon].Skills;
+                    var weaponSkills = BuildsManager.Data.Professions[Template.Profession].Skills.Where(e => weaponSkillIds.Contains(e.Value.Id) && e.Value.SkillConnection?.Default == null);
+
+                    if (Template.Profession == Gw2Sharp.Models.ProfessionType.Elementalist)
+                    {
+                        weaponSkills = weaponSkills.Where(e =>
+                        e.Value.Slot < SkillSlot.Weapon3 ?
+                        e.Value.Attunement.Value.HasFlag(Template.MainAttunement) :
+
+                        e.Value.Slot == SkillSlot.Weapon3 ?
+                        e.Value.Attunement.Value.HasFlag(Template.MainAttunement) && e.Value.Attunement.Value.HasFlag(Template.AltAttunement) :
+
+                        e.Value.Attunement.Value.HasFlag(Template.AltAttunement));
+                    }
+
+                    foreach (var s in weaponSkills)
+                    {
+                        _terrestrialWeaponSkills[s.Value.Slot.GetSkillSlot()].Skill = s.Value?.GetEffectiveSkill(Template);
+                    }
                 }
             }
 
             if (Template.GearTemplate.Gear[GearSlot.AltMainHand] != null)
             {
                 var weapon = Template.GearTemplate.Gear[GearSlot.AltMainHand].WeaponType;
-                foreach (var s in BuildsManager.Data.Professions[Template.BuildTemplate.Profession].Skills.Where(e => e.Value.WeaponType == weapon && (int)e.Value.Slot <= 3 && e.Value.PrevChain == null && (!ele || (e.Value.Attunement != null && e.Value.Attunement == Template.MainAttunement))))
+
+                if (weapon != Weapon.WeaponType.Unknown && BuildsManager.Data.Professions[Template.Profession].Weapons.ContainsKey(weapon))
                 {
-                    _terrestrialInactiveWeaponSkills[s.Value.Slot.GetSkillSlot()].Skill = s.Value;
+                    var weaponSkillIds = BuildsManager.Data.Professions[Template.Profession].Weapons[weapon].Skills;
+                    var weaponSkills = BuildsManager.Data.Professions[Template.Profession].Skills.Where(e => weaponSkillIds.Contains(e.Value.Id) && e.Value.SkillConnection?.Default == null);
+
+                    if (Template.Profession == Gw2Sharp.Models.ProfessionType.Elementalist)
+                    {
+                        weaponSkills = weaponSkills.Where(e =>
+                        e.Value.Slot < SkillSlot.Weapon3 ?
+                        e.Value.Attunement.Value.HasFlag(Template.MainAttunement) :
+
+                        e.Value.Slot == SkillSlot.Weapon3 ?
+                        e.Value.Attunement.Value.HasFlag(Template.MainAttunement) && e.Value.Attunement.Value.HasFlag(Template.AltAttunement) :
+
+                        e.Value.Attunement.Value.HasFlag(Template.AltAttunement));
+                    }
+
+                    foreach (var s in weaponSkills)
+                    {
+                        _terrestrialInactiveWeaponSkills[s.Value.Slot.GetSkillSlot()].Skill = s.Value?.GetEffectiveSkill(Template);
+                    }
                 }
             }
 
             if (Template.GearTemplate.Gear[GearSlot.AltOffHand] != null)
             {
                 var weapon = Template.GearTemplate.Gear[GearSlot.AltOffHand].WeaponType;
-                foreach (var s in BuildsManager.Data.Professions[Template.BuildTemplate.Profession].Skills.Where(e => e.Value.WeaponType == weapon && (int)e.Value.Slot > 3 && e.Value.PrevChain == null ))
+
+                if (weapon != Weapon.WeaponType.Unknown && BuildsManager.Data.Professions[Template.Profession].Weapons.ContainsKey(weapon))
                 {
-                    _terrestrialInactiveWeaponSkills[s.Value.Slot.GetSkillSlot()].Skill = s.Value;
+                    var weaponSkillIds = BuildsManager.Data.Professions[Template.Profession].Weapons[weapon].Skills;
+                    var weaponSkills = BuildsManager.Data.Professions[Template.Profession].Skills.Where(e => weaponSkillIds.Contains(e.Value.Id) && e.Value.SkillConnection?.Default == null);
+
+                    if (Template.Profession == Gw2Sharp.Models.ProfessionType.Elementalist)
+                    {
+                        weaponSkills = weaponSkills.Where(e =>
+                        e.Value.Slot < SkillSlot.Weapon3 ?
+                        e.Value.Attunement.Value.HasFlag(Template.MainAttunement) :
+
+                        e.Value.Slot == SkillSlot.Weapon3 ?
+                        e.Value.Attunement.Value.HasFlag(Template.MainAttunement) && e.Value.Attunement.Value.HasFlag(Template.AltAttunement) :
+
+                        e.Value.Attunement.Value.HasFlag(Template.AltAttunement));
+                    }
+
+                    foreach (var s in weaponSkills)
+                    {
+                        _terrestrialInactiveWeaponSkills[s.Value.Slot.GetSkillSlot()].Skill = s.Value?.GetEffectiveSkill(Template);
+                    }
                 }
             }
 
             if (Template.GearTemplate.Gear[GearSlot.Aquatic] != null)
             {
+                //foreach (var s in BuildsManager.Data.Professions[Template.Profession].Skills.Where(e => e.Value.WeaponType == weapon && e.Value.PrevChain == null && (!ele || (e.Value.Attunement != null && e.Value.Attunement == Template.MainAttunement))))
+
                 var weapon = Template.GearTemplate.Gear[GearSlot.Aquatic].WeaponType;
-                foreach (var s in BuildsManager.Data.Professions[Template.BuildTemplate.Profession].Skills.Where(e => e.Value.WeaponType == weapon && e.Value.PrevChain == null && (!ele || (e.Value.Attunement != null && e.Value.Attunement == Template.MainAttunement))))
+
+                if (weapon != Weapon.WeaponType.Unknown && BuildsManager.Data.Professions[Template.Profession].Weapons.ContainsKey(weapon))
                 {
-                    _aquaticWeaponSkills[s.Value.Slot.GetSkillSlot()].Skill = s.Value;
+                    var weaponSkillIds = BuildsManager.Data.Professions[Template.Profession].Weapons[weapon].Skills;
+                    var weaponSkills = BuildsManager.Data.Professions[Template.Profession].Skills.Where(e => weaponSkillIds.Contains(e.Value.Id) && e.Value.SkillConnection?.Default == null);
+
+                    if (Template.Profession == Gw2Sharp.Models.ProfessionType.Elementalist)
+                    {
+                        weaponSkills = weaponSkills.Where(e =>
+                        e.Value.Slot < SkillSlot.Weapon3 ?
+                        e.Value.Attunement.Value.HasFlag(Template.MainAttunement) :
+
+                        e.Value.Slot == SkillSlot.Weapon3 ?
+                        e.Value.Attunement.Value.HasFlag(Template.MainAttunement) && e.Value.Attunement.Value.HasFlag(Template.AltAttunement) :
+
+                        e.Value.Attunement.Value.HasFlag(Template.AltAttunement));
+                    }
+
+                    foreach (var s in weaponSkills)
+                    {
+                        _aquaticWeaponSkills[s.Value.Slot.GetSkillSlot()].Skill = s.Value?.GetEffectiveSkill(Template);
+                    }
                 }
             }
 
             if (Template.GearTemplate.Gear[GearSlot.AltAquatic] != null)
             {
                 var weapon = Template.GearTemplate.Gear[GearSlot.AltAquatic].WeaponType;
-                foreach (var s in BuildsManager.Data.Professions[Template.BuildTemplate.Profession].Skills.Where(e => e.Value.WeaponType == weapon && e.Value.PrevChain == null && (!ele || (e.Value.Attunement != null && e.Value.Attunement == Template.MainAttunement))))
+
+                if (weapon != Weapon.WeaponType.Unknown && BuildsManager.Data.Professions[Template.Profession].Weapons.ContainsKey(weapon))
                 {
-                    _aquaticInactiveWeaponSkills[s.Value.Slot.GetSkillSlot()].Skill = s.Value;
+                    var weaponSkillIds = BuildsManager.Data.Professions[Template.Profession].Weapons[weapon].Skills;
+                    var weaponSkills = BuildsManager.Data.Professions[Template.Profession].Skills.Where(e => weaponSkillIds.Contains(e.Value.Id) && e.Value.SkillConnection?.Default == null);
+
+                    if (Template.Profession == Gw2Sharp.Models.ProfessionType.Elementalist)
+                    {
+                        weaponSkills = weaponSkills.Where(e =>
+                        e.Value.Slot < SkillSlot.Weapon3 ?
+                        e.Value.Attunement.Value.HasFlag(Template.MainAttunement) :
+
+                        e.Value.Slot == SkillSlot.Weapon3 ?
+                        e.Value.Attunement.Value.HasFlag(Template.MainAttunement) && e.Value.Attunement.Value.HasFlag(Template.AltAttunement) :
+
+                        e.Value.Attunement.Value.HasFlag(Template.AltAttunement));
+                    }
+
+                    foreach (var s in weaponSkills)
+                    {
+                        _aquaticInactiveWeaponSkills[s.Value.Slot.GetSkillSlot()].Skill = s.Value?.GetEffectiveSkill(Template);
+                    }
                 }
             }
 
             foreach (var spair in Template.BuildTemplate.AquaticSkills)
             {
-                _aquaticSkills[spair.Key].Skill = spair.Value;
+                _aquaticSkills[spair.Key].Skill = spair.Value?.GetEffectiveSkill(Template);
                 _aquaticSkills[spair.Key].Slot = spair.Key;
             }
 
             foreach (var spair in Template.BuildTemplate.InactiveAquaticSkills)
             {
-                _inactiveAquaticSkills[spair.Key].Skill = spair.Value;
+                _inactiveAquaticSkills[spair.Key].Skill = spair.Value?.GetEffectiveSkill(Template);
                 _inactiveAquaticSkills[spair.Key].Slot = spair.Key;
             }
 
             foreach (var spair in Template.BuildTemplate.TerrestrialSkills)
             {
-                _terrestrialSkills[spair.Key].Skill = spair.Value;
+                _terrestrialSkills[spair.Key].Skill = spair.Value?.GetEffectiveSkill(Template);
                 _terrestrialSkills[spair.Key].Slot = spair.Key;
             }
 
             foreach (var spair in Template.BuildTemplate.InactiveTerrestrialSkills)
             {
-                _inactiveTerrestrialSkills[spair.Key].Skill = spair.Value;
+                _inactiveTerrestrialSkills[spair.Key].Skill = spair.Value?.GetEffectiveSkill(Template);
                 _inactiveTerrestrialSkills[spair.Key].Slot = spair.Key;
             }
         }
@@ -472,12 +588,12 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
 
                 if (Template.Profession != Gw2Sharp.Models.ProfessionType.Revenant)
                 {
-                    var skills = BuildsManager.Data.Professions[Template.BuildTemplate.Profession].Skills;
-                    
+                    var skills = BuildsManager.Data.Professions[Template.Profession].Skills;
+
                     //var filteredSkills = skills.Where(e => e.Value.PaletteId > 0 && e.Value.Slot != null && e.Value.Slot == skillType && e.Value.Categories != null && (e.Value.Specialization == 0 || Template.BuildTemplate.HasSpecialization(e.Value.Specialization))).OrderBy(e => e.Value.Categories != null ? e.Value.Categories[0] : SkillCategory.None).ToList();
                     var filteredSkills = skills.Where(e => e.Value.PaletteId > 0 && e.Value.Slot != null && e.Value.Slot == skillType && (e.Value.Specialization == 0 || Template.BuildTemplate.HasSpecialization(e.Value.Specialization))).OrderBy(e => e.Value.Categories != null ? e.Value.Categories[0] : SkillCategory.None).ToList();
                     var racialSkills = Template.Race != Core.DataModels.Races.None ? BuildsManager.Data.Races[Template.Race]?.Skills.Where(e => e.Value.PaletteId > 0 && e.Value.Slot != null && e.Value.Slot == skillType).ToList() : new();
-                    if(racialSkills != null) filteredSkills.AddRange(racialSkills);
+                    if (racialSkills != null) filteredSkills.AddRange(racialSkills);
 
                     int columns = Math.Min(filteredSkills.Count(), 4);
                     int rows = (int)Math.Ceiling(filteredSkills.Count() / (double)columns);

@@ -119,42 +119,42 @@ namespace Kenedia.Modules.BuildsManager.DataModels.Professions
                     return skills.TryGetValue(id, out var skill) ? skill : null;
                 }
 
-                List<int> getIds(Skill weaponSkill, List<int> result = null)
+                List<int> getIds(Skill skill, List<int> result = null)
                 {
                     result ??= new List<int>();
 
-                    if (weaponSkill == null) return result;
+                    if (skill == null) return result;
 
-                    result.Add(weaponSkill.Id);
+                    result.Add(skill.Id);
 
-                    if (weaponSkill.BundleSkills != null)
+                    if (skill.BundleSkills != null)
                     {
-                        result.AddRange(weaponSkill.BundleSkills);
-                        foreach (int bundleskill in weaponSkill.BundleSkills)
+                        result.AddRange(skill.BundleSkills);
+                        foreach (int bundleskill in skill.BundleSkills)
                         {
                             result.AddRange(getIds(getSkillById(bundleskill, skills)));
                         }
                     }
 
-                    if (weaponSkill.FlipSkill != null)
+                    if (skill.FlipSkill != null)
                     {
-                        result.Add((int)weaponSkill.FlipSkill);
-                        result.AddRange(getIds(getSkillById((int)weaponSkill.FlipSkill, skills)));
+                        result.Add((int)skill.FlipSkill);
+                        result.AddRange(getIds(getSkillById((int)skill.FlipSkill, skills)));
                     }
 
-                    if (weaponSkill.NextChain != null)
+                    if (skill.NextChain != null)
                     {
-                        result.Add((int)weaponSkill.NextChain);
+                        result.Add((int)skill.NextChain);
                     }
 
-                    if (weaponSkill.PrevChain != null)
+                    if (skill.PrevChain != null)
                     {
-                        result.Add((int)weaponSkill.PrevChain);
+                        result.Add((int)skill.PrevChain);
                     }
 
-                    if (weaponSkill.ToolbeltSkill != null)
+                    if (skill.ToolbeltSkill != null)
                     {
-                        result.Add((int)weaponSkill.ToolbeltSkill);
+                        result.Add((int)skill.ToolbeltSkill);
                     }
 
                     return result;

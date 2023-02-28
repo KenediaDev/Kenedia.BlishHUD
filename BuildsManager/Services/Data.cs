@@ -150,8 +150,8 @@ namespace Kenedia.Modules.BuildsManager.Services
 
             if (File.Exists(path))
             {
-                _logger.Debug($"Loading data for property {nameof(SkillConnections)} from '{$@"{_paths.ModuleDataPath}{nameof(SkillConnections)}.json"}'");
-                string json = await new StreamReader($@"{_paths.ModuleDataPath}{nameof(SkillConnections)}.json").ReadToEndAsync();
+                _logger.Debug($"Loading data for property {nameof(OldConnections)} from '{$@"{_paths.ModuleDataPath}{nameof(OldConnections)}.json"}'");
+                string json = await new StreamReader($@"{_paths.ModuleDataPath}{nameof(OldConnections)}.json").ReadToEndAsync();
                 object data = JsonConvert.DeserializeObject(json, typeof(Dictionary<int, OldSkillConnection>));
                 OldConnections = (Dictionary<int, OldSkillConnection>)data;
 
@@ -169,7 +169,8 @@ namespace Kenedia.Modules.BuildsManager.Services
                     {
                         SkillConnections.Add(item.Key, new SkillConnection() { Id = item.Value.Id, AssetId = item.Value.AssetId });
                     }
-                    else if (connection.Professions.Count <= 0)
+                    
+                    if (connection != null && connection.Professions.Count <= 0)
                     {
                         foreach (string p in item.Value.Professions)
                         {
@@ -178,6 +179,11 @@ namespace Kenedia.Modules.BuildsManager.Services
                                 connection.Professions.Add(pt);
                             }
                         }
+                    }
+                    
+                    if (connection != null)
+                    {
+                        connection.Slot = item.Value.Slot;
                     }
                 }
 
@@ -217,7 +223,7 @@ namespace Kenedia.Modules.BuildsManager.Services
                     if (!SkillConnections.TryGetValue(item.Key, out SkillConnection connection))
                     {
                         SkillConnection cn;
-                        SkillConnections.Add(item.Key, cn = new SkillConnection() { Id = item.Value.Id, AssetId = item.Value.AssetId });
+                        SkillConnections.Add(item.Key, cn = new SkillConnection() { Id = item.Value.Id, AssetId = item.Value.AssetId, Slot = item.Value.Slot });
 
                         foreach (string p in item.Value.Professions)
                         {
@@ -245,6 +251,9 @@ namespace Kenedia.Modules.BuildsManager.Services
 
             string json = JsonConvert.SerializeObject(SkillConnections, Formatting.Indented);
             File.WriteAllText($@"{_paths.ModuleDataPath}\SkillConnections.json", json);
+
+            json = JsonConvert.SerializeObject(OldConnections, Formatting.Indented);
+            File.WriteAllText($@"{_paths.ModuleDataPath}\OldConnections.json", json);
         }
     }
 }

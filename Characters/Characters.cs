@@ -383,6 +383,8 @@ namespace Kenedia.Modules.Characters
             CharacterSorting.UpdateCharacterList = MainWindow.PerformFiltering;
 
             Services.ClientWindowService.ResolutionChanged += ClientWindowService_ResolutionChanged;
+
+            GW2APIHandler.MainWindow = MainWindow;
         }
 
         private void ClientWindowService_ResolutionChanged(object sender, ValueChangedEventArgs<Point> e)
@@ -656,8 +658,10 @@ namespace Kenedia.Modules.Characters
 
             AccountSummary account = getAccount();
 
-            if (Paths.AccountName != null)
+            if (account != null)
             {
+                Paths.AccountName = account.AccountName;
+
                 _loadedCharacters = true;
                 Settings.LoadAccountSettings(Paths.AccountName);
 

@@ -106,6 +106,24 @@ namespace Kenedia.Modules.Characters.Res {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The currently assigned API key to this character is missing permissions. Thus we can not retrieve the character list and update the characters..
+        /// </summary>
+        internal static string APIPermissionNotification {
+            get {
+                return ResourceManager.GetString("APIPermissionNotification", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to We have troubles reaching the API. Thus we can not retrieve the characters list and make this module working..
+        /// </summary>
+        internal static string APITimeoutNotification {
+            get {
+                return ResourceManager.GetString("APITimeoutNotification", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Appearance.
         /// </summary>
         internal static string Appearance {

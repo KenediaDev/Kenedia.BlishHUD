@@ -21,10 +21,11 @@ namespace Kenedia.Modules.Characters.Controls
     {
         Unkown,
         OCR,
+        APITimeout,
         InvalidAPI,
         CharacterDeleted = 10,
     }
-
+        
     public class BaseNotification : Control
     {
         private static int s_counter = 0;
@@ -41,6 +42,120 @@ namespace Kenedia.Modules.Characters.Controls
 
         protected override void Paint(SpriteBatch spriteBatch, Rectangle bounds)
         {
+        }
+    }
+
+    public class APIPermissionNotification : BaseNotification
+    {
+        private Rectangle _textRectangle;
+        private DetailedTexture _settingsCog = new(222246);
+        private DetailedTexture _dismiss = new(156012, 156011)
+        {
+            TextureRegion = new(4, 4, 24, 24)
+        };
+
+        public Action ClickAction { get; set; }
+
+        public APIPermissionNotification()
+        {
+            NotificationType = NotificationType.APITimeout;
+        }
+
+        public override void RecalculateLayout()
+        {
+            base.RecalculateLayout();
+
+            int height = GameService.Content.DefaultFont14.LineHeight + 4;
+            _dismiss.Bounds = new(0, 0, height, height);
+            _settingsCog.Bounds = new(_dismiss.Bounds.Right + 2, 0, height, height);
+
+            int width = Width - _settingsCog.Bounds.Right - 6;
+            string wrappedText = TextUtil.WrapText(GameService.Content.DefaultFont14, strings.APIPermissionNotification, width);
+            var rect = GameService.Content.DefaultFont14.GetStringRectangle(wrappedText);
+
+            _textRectangle = new(_settingsCog.Bounds.Right + 6, 0, width, (int)rect.Height);
+            Height = Math.Max(height, _textRectangle.Height);
+        }
+
+        protected override void Paint(SpriteBatch spriteBatch, Rectangle bounds)
+        {
+            string txt = string.Empty;
+
+            _dismiss.Draw(this, spriteBatch, RelativeMousePosition);
+            _settingsCog.Draw(this, spriteBatch, RelativeMousePosition);
+            spriteBatch.DrawStringOnCtrl(this, strings.APIPermissionNotification, GameService.Content.DefaultFont14, _textRectangle, Color.White, true, HorizontalAlignment.Left, VerticalAlignment.Middle);
+
+            BasicTooltipText = txt;
+        }
+
+        protected override void OnClick(MouseEventArgs e)
+        {
+            base.OnClick(e);
+
+            if (_dismiss.Hovered)
+            {
+                var p = Parent;
+
+                Dispose();
+                p?.Invalidate();
+            }
+        }
+    }
+    
+    public class APITimeoutNotification : BaseNotification
+    {
+        private Rectangle _textRectangle;
+        private DetailedTexture _settingsCog = new(222246);
+        private DetailedTexture _dismiss = new(156012, 156011)
+        {
+            TextureRegion = new(4, 4, 24, 24)
+        };
+
+        public Action ClickAction { get; set; }
+
+        public APITimeoutNotification()
+        {
+            NotificationType = NotificationType.APITimeout;
+        }
+
+        public override void RecalculateLayout()
+        {
+            base.RecalculateLayout();
+
+            int height = GameService.Content.DefaultFont14.LineHeight + 4;
+            _dismiss.Bounds = new(0, 0, height, height);
+            _settingsCog.Bounds = new(_dismiss.Bounds.Right + 2, 0, height, height);
+
+            int width = Width - _settingsCog.Bounds.Right - 6;
+            string wrappedText = TextUtil.WrapText(GameService.Content.DefaultFont14, strings.APITimeoutNotification, width);
+            var rect = GameService.Content.DefaultFont14.GetStringRectangle(wrappedText);
+
+            _textRectangle = new(_settingsCog.Bounds.Right + 6, 0, width, height > (int)rect.Height ? height : (int) rect.Height);
+            Height = Math.Max(height, _textRectangle.Height);
+        }
+
+        protected override void Paint(SpriteBatch spriteBatch, Rectangle bounds)
+        {
+            string txt = string.Empty;
+
+            _dismiss.Draw(this, spriteBatch, RelativeMousePosition);
+            _settingsCog.Draw(this, spriteBatch, RelativeMousePosition);
+            spriteBatch.DrawStringOnCtrl(this, strings.APITimeoutNotification, GameService.Content.DefaultFont14, _textRectangle, Color.White, true, HorizontalAlignment.Left, VerticalAlignment.Middle);
+
+            BasicTooltipText = txt;
+        }
+
+        protected override void OnClick(MouseEventArgs e)
+        {
+            base.OnClick(e);
+
+            if (_dismiss.Hovered)
+            {
+                var p = Parent;
+
+                Dispose();
+                p?.Invalidate();
+            }
         }
     }
 
@@ -66,9 +181,16 @@ namespace Kenedia.Modules.Characters.Controls
         {
             base.RecalculateLayout();
 
-            _dismiss.Bounds = new(0, 0, Height, Height);
-            _settingsCog.Bounds = new(_dismiss.Bounds.Right + 2, 0, Height, Height);
-            _textRectangle = new(_settingsCog.Bounds.Right + 6, 0, Height - _settingsCog.Bounds.Right - 6, Height);
+            int height = GameService.Content.DefaultFont14.LineHeight + 4;
+            _dismiss.Bounds = new(0, 0, height, height);
+            _settingsCog.Bounds = new(_dismiss.Bounds.Right + 2, 0, height, height);
+
+            int width = Width - _settingsCog.Bounds.Right - 6;
+            string wrappedText = TextUtil.WrapText(GameService.Content.DefaultFont14, string.Format(strings.OCRNotification, Resolution), width);
+            var rect = GameService.Content.DefaultFont14.GetStringRectangle(wrappedText);
+
+            _textRectangle = new(_settingsCog.Bounds.Right + 6, 0, width, (int)rect.Height);
+            Height = Math.Max(height, _textRectangle.Height);
         }
 
         protected override void Paint(SpriteBatch spriteBatch, Rectangle bounds)
@@ -77,7 +199,7 @@ namespace Kenedia.Modules.Characters.Controls
 
             _dismiss.Draw(this, spriteBatch, RelativeMousePosition);
             _settingsCog.Draw(this, spriteBatch, RelativeMousePosition);
-            spriteBatch.DrawStringOnCtrl(this, string.Format(strings.OCRNotification, Resolution), GameService.Content.DefaultFont14, _textRectangle, Color.White, false, HorizontalAlignment.Left, VerticalAlignment.Middle);
+            spriteBatch.DrawStringOnCtrl(this, string.Format(strings.OCRNotification, Resolution), GameService.Content.DefaultFont14, _textRectangle, Color.White, true, HorizontalAlignment.Left, VerticalAlignment.Middle);
 
             BasicTooltipText = txt;
         }
@@ -123,9 +245,19 @@ namespace Kenedia.Modules.Characters.Controls
         {
             base.RecalculateLayout();
 
-            _dismiss.Bounds = new(0, 0, Height, Height);
-            _delete.Bounds = new(_dismiss.Bounds.Right + 2, 0, Height, Height);
-            _textRectangle = new(_delete.Bounds.Right + 6, 0, Height - _delete.Bounds.Right - 6, Height);
+            int height = GameService.Content.DefaultFont14.LineHeight + 4;
+            _dismiss.Bounds = new(0, 0, height, height);
+            _delete.Bounds = new(_dismiss.Bounds.Right + 2, 0, height, height);
+
+            if (MarkedCharacter != null)
+            {
+                int width = Width - _delete.Bounds.Right - 6;
+                string wrappedText = TextUtil.WrapText(GameService.Content.DefaultFont14, string.Format(strings.DeletedCharacterNotification, MarkedCharacter.Name, MarkedCharacter.Created.ToString("d")), width);
+                var rect = GameService.Content.DefaultFont14.GetStringRectangle(wrappedText);
+
+                _textRectangle = new(_delete.Bounds.Right + 6, 0, width, height > (int)rect.Height ? height : (int)rect.Height);
+                Height = Math.Max(height, _textRectangle.Height);
+            }
         }
 
         protected override void Paint(SpriteBatch spriteBatch, Rectangle bounds)
@@ -146,7 +278,7 @@ namespace Kenedia.Modules.Characters.Controls
                     txt = string.Format(strings.DeletedCharacterNotification_DismissTooltip, MarkedCharacter.Name);
                 }
 
-                spriteBatch.DrawStringOnCtrl(this, string.Format(strings.DeletedCharacterNotification, MarkedCharacter.Name, MarkedCharacter.Created.ToString("d")), GameService.Content.DefaultFont14, _textRectangle, Color.White, false, HorizontalAlignment.Left, VerticalAlignment.Middle);
+                spriteBatch.DrawStringOnCtrl(this, string.Format(strings.DeletedCharacterNotification, MarkedCharacter.Name, MarkedCharacter.Created.ToString("d")), GameService.Content.DefaultFont14, _textRectangle, Color.White, true, HorizontalAlignment.Left, VerticalAlignment.Middle);
             }
 
             BasicTooltipText = txt;
