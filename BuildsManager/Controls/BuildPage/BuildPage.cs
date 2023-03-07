@@ -23,45 +23,10 @@ using static Blish_HUD.ContentService;
 using System.Diagnostics.Contracts;
 using Kenedia.Modules.Core.Services;
 using Kenedia.Modules.Core.DataModels;
+using TextBox = Kenedia.Modules.Core.Controls.TextBox;
 
 namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
 {
-    public abstract class ProfessionSpecifics : Control
-    {
-        protected Template InternTemplate;
-
-        public ProfessionSpecifics()
-        {
-            ClipsBounds = false;
-            ZIndex = int.MaxValue;
-        }
-
-        public Template Template
-        {
-            get => InternTemplate; set
-            {
-                var temp = InternTemplate;
-                if (Common.SetProperty(ref InternTemplate, value, ApplyTemplate, value != null))
-                {
-                    if (temp != null) temp.Changed -= Temp_Changed;
-                    if (InternTemplate != null) InternTemplate.Changed += Temp_Changed;
-                }
-            }
-        }
-
-        private void Temp_Changed(object sender, System.ComponentModel.PropertyChangedEventArgs e)
-        {
-            ApplyTemplate();
-        }
-
-        public ProfessionType Profession { get; protected set; }
-
-        protected virtual void ApplyTemplate()
-        {
-            RecalculateLayout();
-        }
-    }
-
     public class BuildPage : Container
     {
         private readonly DetailedTexture _specsBackground = new(993592);
@@ -90,6 +55,8 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
         private readonly FramedImage _specIcon;
         private readonly FramedImage _raceIcon;
         private readonly TexturesService _texturesService;
+        private readonly TextBox _buildCodeBox;
+        private readonly ImageButton _copyButton;
 
         public BuildPage(TexturesService texturesService)
         {
@@ -99,10 +66,43 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
             WidthSizingMode = SizingMode.Fill;
             HeightSizingMode = SizingMode.AutoSize;
 
+            _copyButton = new()
+            {
+                Parent = this,
+                Texture = AsyncTexture2D.FromAssetId(2208345),
+                HoveredTexture = AsyncTexture2D.FromAssetId(2208347),
+                Size = new(26),
+                ClickAction = (m) =>
+                {
+                    try
+                    {
+                        _ = ClipboardUtil.WindowsClipboardService.SetTextAsync(_buildCodeBox.Text);
+                    }
+                    catch (ArgumentException)
+                    {
+                        ScreenNotification.ShowNotification("Failed to set the clipboard text!", ScreenNotification.NotificationType.Error);
+                    }
+                    catch
+                    {
+                    }
+                }
+            };
+
+            _buildCodeBox = new()
+            {
+                Parent = this,
+                Location = new(_copyButton.Right + 2, 0),
+                EnterPressedAction = (code) =>
+                {
+                    Template.BuildTemplate.LoadFromCode(code);
+                    ApplyTemplate();
+                }
+            };
+
             _professionSpecificsContainer = new()
             {
                 Parent = this,
-                Location = new(0, 5),
+                Location = new(0, _buildCodeBox.Bottom + 7),
                 //BackgroundColor= Color.White * 0.2F,
                 Width = 500,
                 Height = 100,
@@ -190,6 +190,8 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
         {
             if (Template != null && (int)Template.BuildTemplate.Profession > 0)
             {
+                _buildCodeBox.Text = Template?.BuildTemplate.ParseBuildCode();
+
                 _specializations[SpecializationSlot.Line_1].BuildSpecialization = Template.BuildTemplate.Specializations[SpecializationSlot.Line_1];
                 _specializations[SpecializationSlot.Line_1].Profession = BuildsManager.Data.Professions[Template.BuildTemplate.Profession];
                 _specializations[SpecializationSlot.Line_1].Template = Template;
@@ -204,7 +206,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
 
                 _raceIcon.Texture = GetRaceTexture(Template.Race);
                 _raceIcon.BasicTooltipText = Template.Race.ToString();
-                                
+
                 _specIcon.Texture = Template.EliteSpecialization != null ? Template.EliteSpecialization.ProfessionIconBig : BuildsManager.Data.Professions?[Template.Profession]?.IconBig;
                 _specIcon.BasicTooltipText = Template.EliteSpecialization != null ? Template.EliteSpecialization.Name : BuildsManager.Data.Professions?[Template.Profession]?.Name;
 
@@ -229,6 +231,8 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
         {
             base.RecalculateLayout();
 
+            if (_buildCodeBox != null) _buildCodeBox.Width = Width - _buildCodeBox.Left;
+
             if (_specializationsPanel != null)
             {
                 _professionSpecificsContainer.Width = _specializationsPanel.Width;
@@ -238,9 +242,9 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
                 _specsBackground.Bounds = new(0, _dummy.Bottom - 55, Width + 15, _dummy.Height + _specializationsPanel.Height + 34);
                 _specsBackground.TextureRegion = new(0, 0, 650, 450);
 
-                _specIcon.Location = new(_specializationsPanel.Width - _specIcon.Width - 8, 16);
+                _specIcon.Location = new(_specializationsPanel.Width - _specIcon.Width - 8, _professionSpecificsContainer.Top + 11);
 
-                _raceIcon.Location = new(_specializationsPanel.Width - _raceIcon.Width - _specIcon.Width - 8 - 10, 16);
+                _raceIcon.Location = new(_specializationsPanel.Width - _raceIcon.Width - _specIcon.Width - 8 - 10, _professionSpecificsContainer.Top + 11);
 
                 _skillsBackground.Bounds = new(_specializationsPanel.Left, _specializationsPanel.Top, _specializationsPanel.Width, _professionSpecificsContainer.Height + _skillbar.Height + 10);
                 _skillsBackground.TextureRegion = new(20, 20, _specializationsPanel.Width, _specializationsPanel.Height + _skillbar.Height);

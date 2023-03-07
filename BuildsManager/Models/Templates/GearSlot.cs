@@ -2,6 +2,8 @@
 {
     public enum GearSlot
     {
+        None = -1,
+        AquaBreather,
         Head,
         Shoulder,
         Chest,
@@ -20,5 +22,6 @@
         Accessory_2,
         Ring_1,
         Ring_2,
+        PvpAmulet
     }
 }

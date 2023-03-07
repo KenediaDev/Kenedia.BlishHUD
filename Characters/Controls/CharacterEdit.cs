@@ -225,6 +225,10 @@ namespace Kenedia.Modules.Characters.Controls
                 Parent = _tagContainer,
                 Size = new Point(355 - 26, 24),
                 PlaceholderText = strings.Tag_Placeholder,
+                TextChangedAction = (t) =>
+                {
+                    LastInteraction = DateTime.Now;
+                },
                 EnterPressedAction = (t) =>
                 {
                     if (t != null && t.Length > 0 && !_allTags.Contains(t))
@@ -297,6 +301,16 @@ namespace Kenedia.Modules.Characters.Controls
             {
                 _character = value;
                 ApplyCharacter();
+            }
+        }
+
+        public override void UpdateContainer(GameTime gameTime)
+        {
+            base.UpdateContainer(gameTime);
+
+            if(_tagBox.Focused)
+            {
+                LastInteraction = DateTime.Now;
             }
         }
 
@@ -525,9 +539,9 @@ namespace Kenedia.Modules.Characters.Controls
             var result = await new BaseDialog("Delete Character", $"Are you sure to delete {Character?.Name}?").ShowDialog();
 
             Debug.WriteLine($"CONFIRM DELETE: {result}");
-            if(result == DialogResult.OK)
+            if (result == DialogResult.OK)
             {
-                Character?.Delete(); 
+                Character?.Delete();
                 Hide();
             }
         }

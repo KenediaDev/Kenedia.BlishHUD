@@ -58,6 +58,7 @@ namespace Kenedia.Modules.BuildsManager.Models.Templates
 
         [DataMember]
         public Races Race = Races.None;
+        private bool _pvE = true;
 
         public Specialization EliteSpecialization => BuildTemplate?.Specializations[SpecializationSlot.Line_3]?.Specialization?.Elite == true ? BuildTemplate.Specializations[SpecializationSlot.Line_3].Specialization : null;
 
@@ -135,6 +136,8 @@ namespace Kenedia.Modules.BuildsManager.Models.Templates
             }
         }
 
+        public bool PvE { get => _pvE; internal set => Common.SetProperty(ref _pvE, value, TemplateChanged); }
+
         public SkillCollection GetActiveSkills()
         {
             return LegendSlot switch
@@ -149,7 +152,7 @@ namespace Kenedia.Modules.BuildsManager.Models.Templates
 
         private void TemplateChanged(object sender, PropertyChangedEventArgs e)
         {
-            if(MainAttunement != AltAttunement && EliteSpecialization?.Id != (int) SpecializationType.Weaver)
+            if (MainAttunement != AltAttunement && EliteSpecialization?.Id != (int)SpecializationType.Weaver)
             {
                 AltAttunement = MainAttunement;
             }

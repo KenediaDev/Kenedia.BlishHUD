@@ -3,7 +3,6 @@ using Blish_HUD.Content;
 using Blish_HUD.Modules;
 using Blish_HUD.Settings;
 using Gw2Sharp.WebApi;
-using ItemWeaponType = Gw2Sharp.WebApi.V2.Models.ItemWeaponType;
 using Kenedia.Modules.BuildsManager.DataModels.Professions;
 using Kenedia.Modules.BuildsManager.Models.Templates;
 using Kenedia.Modules.BuildsManager.Services;
@@ -287,7 +286,6 @@ namespace Kenedia.Modules.BuildsManager
             gear.Gear[GearSlot.Accessory_2].Stat = DataModels.Stats.EquipmentStat.Berserkers;
             gear.Gear[GearSlot.Accessory_2].Upgrades[UpgradeSlot.Infusion_1] = 37131;
 
-            string codi = "[&DQMGOyYvOTsqDwAABwEAAIYAAABXFgAA8BUAAAAAAAAAAAAAAAAAAAAAAAA=]";
             string code = "[&DQgnNhM1PCYSAJsAiwDkAJkBdgBvAXABkgCVAAAAAAAAAAAAAAAAAAAAAAA=]";
             var build = new BuildTemplate(code);
 

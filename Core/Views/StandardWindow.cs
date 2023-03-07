@@ -13,6 +13,7 @@ using static Blish_HUD.ContentService;
 
 namespace Kenedia.Modules.Core.Views
 {
+    //TODO fix the version in title header
     public class StandardWindow : Blish_HUD.Controls.StandardWindow
     {
         private readonly BitmapFont _titleFont = GameService.Content.DefaultFont32;
