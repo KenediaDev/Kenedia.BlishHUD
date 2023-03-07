@@ -10,33 +10,101 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
+using static Blish_HUD.ContentService;
 
 namespace Kenedia.Modules.BuildsManager.Controls.GearPage
 {
-    public class InfusionControl : Blish_HUD.Controls.Control
+    public class InfusionControl : Blish_HUD.Controls.Container
     {
+        private readonly bool _created;
+
         private readonly DetailedTexture _infusion = new() { TextureRegion = new(36, 36, 56, 56) };
         private readonly DetailedTexture _identifier = new(517199) { TextureRegion = new(8, 8, 48, 48) };
+
+        private readonly (DetailedTexture, NumberBox) _power = new(new(66722) { TextureRegion = new(4, 4, 24, 24) }, null);
+        private readonly (DetailedTexture, NumberBox) _thoughness = new(new(156612) { TextureRegion = new(4, 4, 24, 24) }, null);
+        private readonly (DetailedTexture, NumberBox) _vitality = new(new(156613) { TextureRegion = new(4, 4, 24, 24) }, null);
+        private readonly (DetailedTexture, NumberBox) _precision = new(new(156609) { TextureRegion = new(4, 4, 24, 24) }, null);
+        private readonly (DetailedTexture, NumberBox) _ferocity = new(new(156602) { TextureRegion = new(4, 4, 24, 24) }, null);
+        private readonly (DetailedTexture, NumberBox) _condition = new(new(156600) { TextureRegion = new(4, 4, 24, 24) }, null);
+        private readonly (DetailedTexture, NumberBox) _expertise = new(new(156601) { TextureRegion = new(4, 4, 24, 24) }, null);
+        private readonly (DetailedTexture, NumberBox) _concentration = new(new(156599) { TextureRegion = new(4, 4, 24, 24) }, null);
+
+        private Rectangle _headerBounds;
 
         public InfusionControl()
         {
             _infusion.Texture = BuildsManager.ModuleInstance.ContentsManager.GetTexture(@"textures\infusionslot.png");
-            Size = new(96, 64);
+
+            _power.Item2 = new() { Parent = this, MinValue = 0, MaxValue = 16, Value = 0, };
+            _thoughness.Item2 = new() { Parent = this, MinValue = 0, MaxValue = 16, Value = 0, };
+            _vitality.Item2 = new() { Parent = this, MinValue = 0, MaxValue = 16, Value = 0, };
+            _precision.Item2 = new() { Parent = this, MinValue = 0, MaxValue = 16, Value = 0, };
+            _ferocity.Item2 = new() { Parent = this, MinValue = 0, MaxValue = 16, Value = 0, };
+            _condition.Item2 = new() { Parent = this, MinValue = 0, MaxValue = 16, Value = 0, };
+            _expertise.Item2 = new() { Parent = this, MinValue = 0, MaxValue = 16, Value = 0, };
+            _concentration.Item2 = new() { Parent = this, MinValue = 0, MaxValue = 16, Value = 0, };
+
+            _created = true;
+            Size = new(380, 300);
         }
 
-        protected override void Paint(SpriteBatch spriteBatch, Rectangle bounds)
+        public override void PaintBeforeChildren(SpriteBatch spriteBatch, Rectangle bounds)
         {
+            base.PaintBeforeChildren(spriteBatch, bounds);
+
             _identifier.Draw(this, spriteBatch, RelativeMousePosition);
-            _infusion.Draw(this, spriteBatch, RelativeMousePosition);
+            //_infusion.Draw(this, spriteBatch, RelativeMousePosition);
+            spriteBatch.DrawStringOnCtrl(this, "Infusions", Content.DefaultFont18, _headerBounds, Color.White);
+
+            _power.Item1.Draw(this, spriteBatch);
+            _precision.Item1.Draw(this, spriteBatch);
+            _ferocity.Item1.Draw(this, spriteBatch);
+            _thoughness.Item1.Draw(this, spriteBatch);
+
+            _vitality.Item1.Draw(this, spriteBatch);
+            _condition.Item1.Draw(this, spriteBatch);
+            _expertise.Item1.Draw(this, spriteBatch);
+            _concentration.Item1.Draw(this, spriteBatch);
         }
 
         public override void RecalculateLayout()
         {
             base.RecalculateLayout();
 
-            int size = Math.Min(Width, Height);
-            _identifier.Bounds = new(0, 0, size / 2, size / 2);
-            _infusion.Bounds = new(_identifier.Bounds.Right + 2, 0, size, size);
+            if (_created)
+            {
+                int size = 64;
+                int height = _power.Item2.Height;
+
+                _identifier.Bounds = new(0, 0, size / 2, size / 2);
+                //_infusion.Bounds = new(_identifier.Bounds.Right + 2, 0, size, size);
+                _headerBounds = new(_identifier.Bounds.Right + 5, 0, Width - (_identifier.Bounds.Right + 5), size / 2);
+
+                _power.Item1.Bounds = new(0, _headerBounds.Bottom + 5, height, height);
+                _power.Item2.Location = new(_power.Item1.Bounds.Right + 4, _power.Item1.Bounds.Top);
+
+                _precision.Item1.Bounds = new(0, _power.Item1.Bounds.Bottom + 5, height, height);
+                _precision.Item2.Location = new(_precision.Item1.Bounds.Right + 4, _precision.Item1.Bounds.Top);
+
+                _ferocity.Item1.Bounds = new(0, _precision.Item1.Bounds.Bottom + 5, height, height);
+                _ferocity.Item2.Location = new(_ferocity.Item1.Bounds.Right + 4, _ferocity.Item1.Bounds.Top);
+
+                _thoughness.Item1.Bounds = new(0, _ferocity.Item1.Bounds.Bottom + 5, height, height);
+                _thoughness.Item2.Location = new(_thoughness.Item1.Bounds.Right + 4, _thoughness.Item1.Bounds.Top);
+
+                _condition.Item1.Bounds = new(_power.Item2.Right + 25, _power.Item1.Bounds.Top, height, height);
+                _condition.Item2.Location = new(_condition.Item1.Bounds.Right + 4, _condition.Item1.Bounds.Top);
+
+                _expertise.Item1.Bounds = new(_condition.Item1.Bounds.Left, _condition.Item1.Bounds.Bottom + 5, height, height);
+                _expertise.Item2.Location = new(_expertise.Item1.Bounds.Right + 4, _expertise.Item1.Bounds.Top);
+
+                _concentration.Item1.Bounds = new(_expertise.Item1.Bounds.Left, _expertise.Item1.Bounds.Bottom + 5, height, height);
+                _concentration.Item2.Location = new(_concentration.Item1.Bounds.Right + 4, _concentration.Item1.Bounds.Top);
+
+                _vitality.Item1.Bounds = new(_concentration.Item1.Bounds.Left, _concentration.Item1.Bounds.Bottom + 5, height, height);
+                _vitality.Item2.Location = new(_vitality.Item1.Bounds.Right + 4, _vitality.Item1.Bounds.Top);
+            }
         }
     }
 
@@ -389,40 +457,44 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage
 
             if (_slots.Count > 0)
             {
-                int secondColumn = 10;
 
                 _pve.Bounds = new(0, _gearCodeBox.Bottom + 5, 42, 42);
                 _pvp.Bounds = new(0, _gearCodeBox.Bottom + 5, 42, 42);
                 _headerBounds = new(_pve.Bounds.Right + 15, _pve.Bounds.Top, 300, _pve.Bounds.Height);
 
-                _slots[GearSlot.Head].Location = new(0, _pve.Bounds.Bottom + 5);
+                _slots[GearSlot.AquaBreather].Location = new(_pve.Bounds.Left, _headerBounds.Bottom + 10);
+                _slots[GearSlot.PvpAmulet].Location = new(_pve.Bounds.Left, _headerBounds.Bottom + 10);
+
+                _slots[GearSlot.MainHand].Location = new(_slots[GearSlot.AquaBreather].Left, _slots[GearSlot.AquaBreather].Bottom + 15);
+                _slots[GearSlot.OffHand].Location = new(_slots[GearSlot.MainHand].Left, _slots[GearSlot.MainHand].Bottom + 5);
+
+                _slots[GearSlot.AltMainHand].Location = new(_slots[GearSlot.OffHand].Left, _slots[GearSlot.OffHand].Bottom + 15);
+                _slots[GearSlot.AltOffHand].Location = new(_slots[GearSlot.AltMainHand].Left, _slots[GearSlot.AltMainHand].Bottom + 5);
+
+                _slots[GearSlot.Aquatic].Location = new(_slots[GearSlot.AltOffHand].Left, _slots[GearSlot.AltOffHand].Bottom + 15);
+                _slots[GearSlot.AltAquatic].Location = new(_slots[GearSlot.AquaBreather].Left, _slots[GearSlot.Aquatic].Bottom + 5);
+
+                _nourishment.Location = new(_slots[GearSlot.AltAquatic].Left, _slots[GearSlot.AltAquatic].Bottom + 15);
+                _utility.Location = new(_nourishment.Left, _nourishment.Bottom + 5);
+
+                int secondColumn = _slots[GearSlot.AquaBreather].Right + 10;
+
+                _slots[GearSlot.Head].Location = new(secondColumn, _gearCodeBox.Bottom + 5);
                 _slots[GearSlot.Shoulder].Location = new(_slots[GearSlot.Head].Left, _slots[GearSlot.Head].Bottom + 5);
                 _slots[GearSlot.Chest].Location = new(_slots[GearSlot.Shoulder].Left, _slots[GearSlot.Shoulder].Bottom + 5);
                 _slots[GearSlot.Hand].Location = new(_slots[GearSlot.Chest].Left, _slots[GearSlot.Chest].Bottom + 5);
                 _slots[GearSlot.Leg].Location = new(_slots[GearSlot.Hand].Left, _slots[GearSlot.Hand].Bottom + 5);
                 _slots[GearSlot.Foot].Location = new(_slots[GearSlot.Leg].Left, _slots[GearSlot.Leg].Bottom + 5);
 
-                _slots[GearSlot.MainHand].Location = new(_slots[GearSlot.Head].Right + secondColumn, _slots[GearSlot.Head].Top);
-                _slots[GearSlot.OffHand].Location = new(_slots[GearSlot.MainHand].Left, _slots[GearSlot.MainHand].Bottom + 5);
-                _slots[GearSlot.AltMainHand].Location = new(_slots[GearSlot.OffHand].Left, _slots[GearSlot.OffHand].Bottom + 5);
-                _slots[GearSlot.AltOffHand].Location = new(_slots[GearSlot.AltMainHand].Left, _slots[GearSlot.AltMainHand].Bottom + 5);
+                _slots[GearSlot.Back].Location = new(_slots[GearSlot.Foot].Left, _slots[GearSlot.Foot].Bottom + 15);
+                _slots[GearSlot.Accessory_1].Location = new(_slots[GearSlot.Back].Right + 5, _slots[GearSlot.Back].Top);
+                _slots[GearSlot.Accessory_2].Location = new(_slots[GearSlot.Accessory_1].Right + 5, _slots[GearSlot.Back].Top);
 
-                _slots[GearSlot.Back].Location = new(_slots[GearSlot.Leg].Right + secondColumn, _slots[GearSlot.Leg].Top);
-                _slots[GearSlot.Accessory_1].Location = new(_slots[GearSlot.Back].Right + 5, _slots[GearSlot.Leg].Top);
-                _slots[GearSlot.Accessory_2].Location = new(_slots[GearSlot.Accessory_1].Right + 5, _slots[GearSlot.Leg].Top);
+                _slots[GearSlot.Amulet].Location = new(_slots[GearSlot.Back].Left, _slots[GearSlot.Back].Bottom + 5);
+                _slots[GearSlot.Ring_1].Location = new(_slots[GearSlot.Amulet].Right + 5, _slots[GearSlot.Amulet].Top);
+                _slots[GearSlot.Ring_2].Location = new(_slots[GearSlot.Ring_1].Right + 5, _slots[GearSlot.Amulet].Top);
 
-                _slots[GearSlot.PvpAmulet].Location = new(_slots[GearSlot.Foot].Right + secondColumn, _slots[GearSlot.Foot].Top);
-                _slots[GearSlot.Amulet].Location = new(_slots[GearSlot.Foot].Right + secondColumn, _slots[GearSlot.Foot].Top);
-                _slots[GearSlot.Ring_1].Location = new(_slots[GearSlot.Amulet].Right + 5, _slots[GearSlot.Foot].Top);
-                _slots[GearSlot.Ring_2].Location = new(_slots[GearSlot.Ring_1].Right + 5, _slots[GearSlot.Foot].Top);
-
-                _slots[GearSlot.AquaBreather].Location = new(_slots[GearSlot.Foot].Left, _slots[GearSlot.Foot].Bottom + 25);
-                _slots[GearSlot.Aquatic].Location = new(_slots[GearSlot.AquaBreather].Left, _slots[GearSlot.AquaBreather].Bottom + 5);
-                _slots[GearSlot.AltAquatic].Location = new(_slots[GearSlot.AquaBreather].Left, _slots[GearSlot.Aquatic].Bottom + 5);
-
-                _infusions.Location = new(_slots[GearSlot.AquaBreather].Right + secondColumn, _slots[GearSlot.AquaBreather].Top);
-                _nourishment.Location = new(_slots[GearSlot.Aquatic].Right + secondColumn, _slots[GearSlot.Aquatic].Top);
-                _utility.Location = new(_slots[GearSlot.AltAquatic].Right + secondColumn, _slots[GearSlot.AltAquatic].Top);
+                _infusions.Location = new(_slots[GearSlot.Amulet].Left, _slots[GearSlot.Ring_2].Bottom + 15);
             }
         }
 
@@ -434,7 +506,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage
             _nourishment.Visible = Template.PvE;
             _utility.Visible = Template.PvE;
 
-            foreach(var slot in _slots.Values)
+            foreach (var slot in _slots.Values)
             {
                 slot.Visible = !Template.PvE
                     ? slot.GearSlot is GearSlot.MainHand or GearSlot.AltMainHand or GearSlot.OffHand or GearSlot.AltOffHand or GearSlot.PvpAmulet
@@ -446,7 +518,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage
         {
             base.PaintBeforeChildren(spriteBatch, bounds);
 
-            if(Template != null)
+            if (Template != null)
             {
                 (Template.PvE ? _pve : _pvp).Draw(this, spriteBatch, RelativeMousePosition);
 
@@ -458,7 +530,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage
         {
             base.OnClick(e);
 
-            if((Template != null && Template.PvE ? _pve : _pvp).Hovered)
+            if ((Template != null && Template.PvE ? _pve : _pvp).Hovered)
             {
                 Template.PvE = !Template.PvE;
             }
