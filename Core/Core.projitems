@@ -99,6 +99,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Utility\Common.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Utility\RandomHelper.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Utility\TextUtil.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Utility\Tweening.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Utility\UI.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Utility\User32Dll.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Views\BaseSettingsWindow.cs" />

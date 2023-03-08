@@ -217,7 +217,19 @@
     <Compile Include="Controls\BuildPage\TraitIcon.cs" />
     <Compile Include="Controls\BuildPage\ProfessionSpecific\WarriorSpecifics.cs" />
     <Compile Include="Controls\BuildPage\WeaponSkillIconCollection.cs" />
+    <Compile Include="Controls\GearPage\AttributeTexture.cs" />
+    <Compile Include="Controls\Selection\BaseSelection.cs" />
+    <Compile Include="Controls\Selection\BuildSelection.cs" />
     <Compile Include="Controls\GearPage\GearPage.cs" />
+    <Compile Include="Controls\Selection\GearSelection.cs" />
+    <Compile Include="Controls\GearPage\GearSlotControl.cs" />
+    <Compile Include="Controls\GearPage\InfusionControl.cs" />
+    <Compile Include="Controls\Selection\ItemIdSelection.cs" />
+    <Compile Include="Controls\GearPage\NourishmentControl.cs" />
+    <Compile Include="Controls\Selection\Selectable.cs" />
+    <Compile Include="Controls\Selection\SelectionPanel.cs" />
+    <Compile Include="Controls\GearPage\StatSummary.cs" />
+    <Compile Include="Controls\GearPage\UtilityControl.cs" />
     <Compile Include="Controls\NotesPage\NotesPage.cs" />
     <Compile Include="Controls\SkillConnectionEdit\EditingControl.cs" />
     <Compile Include="Controls\SkillConnectionEdit\PetControl.cs" />
@@ -271,6 +283,7 @@
     <Compile Include="Models\Templates\SpecializationCollection.cs" />
     <Compile Include="Models\Templates\SpecializationSlot.cs" />
     <Compile Include="Models\Templates\Template.cs" />
+    <Compile Include="Models\Templates\TemplateAttributes.cs" />
     <Compile Include="Models\Templates\TemplateItem.cs" />
     <Compile Include="Models\Templates\TraitCollection.cs" />
     <Compile Include="Models\Templates\TraitSlot.cs" />

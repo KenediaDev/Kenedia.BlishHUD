@@ -13,6 +13,7 @@ using Kenedia.Modules.Core.Services;
 using Kenedia.Modules.BuildsManager.Controls;
 using Kenedia.Modules.BuildsManager.Controls.GearPage;
 using Kenedia.Modules.BuildsManager.Controls.NotesPage;
+using Kenedia.Modules.BuildsManager.Controls.Selection;
 
 namespace Kenedia.Modules.BuildsManager.Views
 {
@@ -20,20 +21,18 @@ namespace Kenedia.Modules.BuildsManager.Views
     {
         private readonly Data _data;
         private readonly TexturesService _texturesService;
-        private readonly Panel _gearSection;
-        private readonly Panel _selectionSection;
-        private readonly Panel _notesSection;
         private readonly BuildPage _build;
         private readonly TabbedRegion _tabbedRegion;
         private readonly GearPage _gear;
         private readonly NotesPage _notes;
+        private readonly SelectionPanel _selectionPanel;
         private Template _template;
 
         public MainWindow(AsyncTexture2D background, Rectangle windowRegion, Rectangle contentRegion, Data data, TexturesService texturesService) : base(background, windowRegion, contentRegion)
         {
             _data = data;
             _texturesService = texturesService;
-            _selectionSection = new()
+            _selectionPanel = new()
             {
                 Parent = this,
                 Location = new(0, 0),
@@ -45,9 +44,10 @@ namespace Kenedia.Modules.BuildsManager.Views
             _tabbedRegion = new()
             {
                 Parent = this,
-                Location = new(_selectionSection.Right + 15, 0),
+                Location = new(_selectionPanel.Right + 15, 0),
                 Width = ContentRegion.Width - 144,
                 HeightSizingMode = Blish_HUD.Controls.SizingMode.Fill,
+                OnTabSwitched = () => _selectionPanel.SetAnchor(null, Rectangle.Empty),
                 //BackgroundColor = Color.Green * 0.2F,
             };
 
@@ -60,7 +60,10 @@ namespace Kenedia.Modules.BuildsManager.Views
             });
 
             _tabbedRegion.AddTab(tab = new TabbedRegionTab(
-                _gear = new GearPage(_texturesService))
+                _gear = new GearPage(_texturesService)
+                {
+                    SelectionPanel = _selectionPanel,
+                })
             {
                 Header = "Gear & Consumables",
                 Icon = AsyncTexture2D.FromAssetId(156714),
@@ -69,7 +72,6 @@ namespace Kenedia.Modules.BuildsManager.Views
             _tabbedRegion.AddTab(new TabbedRegionTab(
                 _notes = new NotesPage(_texturesService)
                 {
-                    Parent = _notesSection,
                     HeightSizingMode = Blish_HUD.Controls.SizingMode.Fill,
                     WidthSizingMode = Blish_HUD.Controls.SizingMode.Fill,
                 })
@@ -102,6 +104,11 @@ namespace Kenedia.Modules.BuildsManager.Views
         public override void RecalculateLayout()
         {
             base.RecalculateLayout();
+
+            if(_tabbedRegion != null)
+            {
+                _selectionPanel.ZIndex = _tabbedRegion.ZIndex + 1;
+            }
         }
 
         private void ApplyTemplate()
@@ -117,7 +124,7 @@ namespace Kenedia.Modules.BuildsManager.Views
             _build?.Dispose();
             _gear?.Dispose();
             _notes?.Dispose();
-            _selectionSection?.Dispose();
+            _selectionPanel?.Dispose();
         }
     }
 }

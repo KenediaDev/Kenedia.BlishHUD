@@ -1,0 +1,206 @@
+﻿using Kenedia.Modules.BuildsManager.Models.Templates;
+using Kenedia.Modules.Core.Utility;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using Kenedia.Modules.Core.Structs;
+using MonoGame.Extended.BitmapFonts;
+
+namespace Kenedia.Modules.BuildsManager.Controls.GearPage
+{
+    public class StatSummary : Blish_HUD.Controls.Control
+    {
+        private Template _template;
+        private readonly bool _created;
+
+        private readonly AttributeTexture _power = new(66722) { TextureRegion = new(4, 4, 24, 24) };
+        private readonly AttributeTexture _thoughness = new(156612) { TextureRegion = new(4, 4, 24, 24) };
+        private readonly AttributeTexture _vitality = new(156613) { TextureRegion = new(4, 4, 24, 24) };
+        private readonly AttributeTexture _precision = new(156609) { TextureRegion = new(4, 4, 24, 24) };
+        private readonly AttributeTexture _ferocity = new(156602) { TextureRegion = new(4, 4, 24, 24) };
+        private readonly AttributeTexture _condition = new(156600) { TextureRegion = new(4, 4, 24, 24) };
+        private readonly AttributeTexture _expertise = new(156601) { TextureRegion = new(4, 4, 24, 24) };
+        private readonly AttributeTexture _concentration = new(156599) { TextureRegion = new(4, 4, 24, 24) };
+
+        private readonly AttributeTexture _agonyResistance = new(536049) { TextureRegion = new(4, 4, 24, 24) };
+        private readonly AttributeTexture _profession = new(536050) { TextureRegion = new(4, 4, 24, 24) };
+        private readonly AttributeTexture _armor = new(536048) { TextureRegion = new(4, 4, 24, 24) };
+        private readonly AttributeTexture _health = new(536052) { TextureRegion = new(4, 4, 24, 24) };
+        private readonly AttributeTexture _critChance = new(536051) { TextureRegion = new(4, 4, 24, 24) };
+        private readonly AttributeTexture _critDamage = new(784327) { TextureRegion = new(4, 4, 24, 24) };
+        private readonly AttributeTexture _healingPower = new(156606) { TextureRegion = new(4, 4, 24, 24) };
+        private readonly AttributeTexture _conditionDuration = new(156601) { TextureRegion = new(4, 4, 24, 24) };
+        private readonly AttributeTexture _boonDuration = new(156599) { TextureRegion = new(4, 4, 24, 24) };
+        private readonly AttributeTexture _magicFind = new(536054) { TextureRegion = new(4, 4, 24, 24) };
+
+        private Rectangle _headerBounds;
+
+        public StatSummary()
+        {
+            _created = true;
+            Size = new(380, 300);
+        }
+
+        public Template Template
+        {
+            get => _template; set
+            {
+                var temp = _template;
+                if (Common.SetProperty(ref _template, value, ApplyTemplate, value != null))
+                {
+                    if (temp != null) temp.Changed -= TemplateChanged;
+                    if (temp != null) temp.Changed -= TemplateChanged;
+
+                    if (_template != null) _template.Changed += TemplateChanged;
+                    if (_template != null) _template.Changed += TemplateChanged;
+                }
+            }
+        }
+
+        protected override void Paint(SpriteBatch spriteBatch, Rectangle bounds)
+        {
+            BitmapFont font = Content.DefaultFont14;
+
+            _power.Draw(this, spriteBatch);
+            _power.DrawAmount(this, spriteBatch, Template != null ? Template.Attributes.Power : 0, font);
+
+            _precision.Draw(this, spriteBatch);
+            _precision.DrawAmount(this, spriteBatch, Template != null ? Template.Attributes.Precision : 0, font);
+
+            _ferocity.Draw(this, spriteBatch);
+            _ferocity.DrawAmount(this, spriteBatch, Template != null ? Template.Attributes.Ferocity : 0, font);
+
+            _thoughness.Draw(this, spriteBatch);
+            _thoughness.DrawAmount(this, spriteBatch, Template != null ? Template.Attributes.Toughness : 0, font);
+
+            _vitality.Draw(this, spriteBatch);
+            _vitality.DrawAmount(this, spriteBatch, Template != null ? Template.Attributes.Vitality : 0, font);
+
+            _condition.Draw(this, spriteBatch);
+            _condition.DrawAmount(this, spriteBatch, Template != null ? Template.Attributes.ConditionDamage : 0, font);
+
+            _expertise.Draw(this, spriteBatch);
+            _expertise.DrawAmount(this, spriteBatch, Template != null ? Template.Attributes.Expertise : 0, font);
+
+            _concentration.Draw(this, spriteBatch);
+            _concentration.DrawAmount(this, spriteBatch, Template != null ? Template.Attributes.Concentration : 0, font);
+
+            _agonyResistance.Draw(this, spriteBatch);
+            _agonyResistance.DrawAmount(this, spriteBatch, Template != null ? Template.Attributes.AgonyResistance : 0, font);
+
+            _profession.Draw(this, spriteBatch);
+            _profession.DrawAmount(this, spriteBatch, Template != null ? Template.Attributes.ProfessionSpecific : 0, font);
+
+            _armor.Draw(this, spriteBatch);
+            _armor.DrawAmount(this, spriteBatch, Template != null ? Template.Attributes.Armor : 0, font);
+
+            _health.Draw(this, spriteBatch);
+            _health.DrawAmount(this, spriteBatch, Template != null ? Template.Attributes.Health : 0, font);
+
+            _critChance.Draw(this, spriteBatch);
+            _critChance.DrawAmount(this, spriteBatch, $"{(Template != null ? Template.Attributes.CritChance : 0)}%", font);
+
+            _critDamage.Draw(this, spriteBatch);
+            _critDamage.DrawAmount(this, spriteBatch, $"{(Template != null ? Template.Attributes.CritDamage : 0)}%", font);
+
+            _healingPower.Draw(this, spriteBatch);
+            _healingPower.DrawAmount(this, spriteBatch, Template != null ? Template.Attributes.HealingPower : 0, font);
+
+            _conditionDuration.Draw(this, spriteBatch);
+            _conditionDuration.DrawAmount(this, spriteBatch, $"{(Template != null ? Template.Attributes.ConditionDuration : 0)}%", font);
+
+            _boonDuration.Draw(this, spriteBatch);
+            _boonDuration.DrawAmount(this, spriteBatch, $"{(Template != null ? Template.Attributes.BoonDuration : 0)}%", font);
+
+            _magicFind.Draw(this, spriteBatch);
+            _magicFind.DrawAmount(this, spriteBatch, $"{(Template != null ? Template.Attributes.MagicFind : 0)}%", font);
+        }
+
+        public override void RecalculateLayout()
+        {
+            base.RecalculateLayout();
+
+            if (_created)
+            {
+                int size = 64;
+                int height = 28;
+                int textWidth = (Width / 2) - height;
+
+                RectangleDimensions padding = new(10, 5, 0, 8);
+
+                Rectangle getBounds(int pos, int col)
+                {
+                    return new(padding.Left + (col * Width / 2), padding.Top + (pos * (height + padding.Bottom)), height, height);
+                }
+
+                Rectangle getTextRegion(AttributeTexture texture)
+                {
+                    return new(texture.Bounds.Right + 5, texture.Bounds.Top, textWidth, height);
+                }
+
+                _power.Bounds = getBounds(0, 0);
+                _power.TextRegion = getTextRegion(_power);
+
+                _thoughness.Bounds = getBounds(1, 0);
+                _thoughness.TextRegion = getTextRegion(_thoughness);
+
+                _vitality.Bounds = getBounds(2, 0);
+                _vitality.TextRegion = getTextRegion(_vitality);
+
+                _precision.Bounds = getBounds(3, 0);
+                _precision.TextRegion = getTextRegion(_precision);
+
+                _ferocity.Bounds = getBounds(4, 0);
+                _ferocity.TextRegion = getTextRegion(_ferocity);
+
+                _condition.Bounds = getBounds(5, 0);
+                _condition.TextRegion = getTextRegion(_condition);
+
+                _expertise.Bounds = getBounds(6, 0);
+                _expertise.TextRegion = getTextRegion(_expertise);
+
+                _concentration.Bounds = getBounds(7, 0);
+                _concentration.TextRegion = getTextRegion(_concentration);
+
+                _agonyResistance.Bounds = getBounds(8, 0);
+                _agonyResistance.TextRegion = getTextRegion(_agonyResistance);
+
+                _profession.Bounds = getBounds(0, 1);
+                _profession.TextRegion = getTextRegion(_profession);
+
+                _armor.Bounds = getBounds(1, 1);
+                _armor.TextRegion = getTextRegion(_armor);
+
+                _health.Bounds = getBounds(2, 1);
+                _health.TextRegion = getTextRegion(_health);
+
+                _critChance.Bounds = getBounds(3, 1);
+                _critChance.TextRegion = getTextRegion(_critChance);
+
+                _critDamage.Bounds = getBounds(4, 1);
+                _critDamage.TextRegion = getTextRegion(_critDamage);
+
+                _healingPower.Bounds = getBounds(5, 1);
+                _healingPower.TextRegion = getTextRegion(_healingPower);
+
+                _conditionDuration.Bounds = getBounds(6, 1);
+                _conditionDuration.TextRegion = getTextRegion(_conditionDuration);
+
+                _boonDuration.Bounds = getBounds(7, 1);
+                _boonDuration.TextRegion = getTextRegion(_boonDuration);
+
+                _magicFind.Bounds = getBounds(8, 1);
+                _magicFind.TextRegion = getTextRegion(_magicFind);
+            }
+        }
+
+        public void ApplyTemplate()
+        {
+
+        }
+
+        private void TemplateChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            ApplyTemplate();
+        }
+    }
+}

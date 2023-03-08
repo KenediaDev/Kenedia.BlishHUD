@@ -49,15 +49,19 @@ namespace Kenedia.Modules.Core.Models
 
         public Rectangle FallbackBounds { get; set; }
 
+        public Color? DrawColor { get; set; }
+
+        public Color? HoverDrawColor { get; set; }
+
         public virtual void Draw(Control ctrl, SpriteBatch spriteBatch, Point? mousePos = null, Color? color = null, Color? bgColor = null, bool? forceHover = null, float? rotation = null, Vector2? origin = null)
         {
             if (FallBackTexture != null || Texture != null)
             {
                 origin ??= Vector2.Zero;
-                color ??= Color.White;
                 rotation ??= 0F;
 
                 Hovered = mousePos != null && Bounds.Contains((Point)mousePos);
+                color ??= (Hovered  && HoverDrawColor  != null ? HoverDrawColor : DrawColor) ?? Color.White;
 
                 if (Texture != null)
                 {
@@ -102,10 +106,10 @@ namespace Kenedia.Modules.Core.Models
             {
                 effect ??= SpriteEffects.FlipHorizontally;
                 origin ??= Vector2.Zero;
-                color ??= Color.White;
                 rotation ??= 0F;
 
                 Hovered = mousePos != null && Bounds.Contains((Point)mousePos);
+                color ??= (Hovered && HoverDrawColor != null ? HoverDrawColor : DrawColor) ?? Color.White;
 
                 if (Texture != null)
                 {

@@ -60,6 +60,8 @@ namespace Kenedia.Modules.BuildsManager.Models.Templates
         public Races Race = Races.None;
         private bool _pvE = true;
 
+        public TemplateAttributes Attributes { get; private set; } = new();
+
         public Specialization EliteSpecialization => BuildTemplate?.Specializations[SpecializationSlot.Line_3]?.Specialization?.Elite == true ? BuildTemplate.Specializations[SpecializationSlot.Line_3].Specialization : null;
 
         public AttunementType MainAttunement { get => _mainAttunement; set => Common.SetProperty(ref _mainAttunement, value, Changed); }

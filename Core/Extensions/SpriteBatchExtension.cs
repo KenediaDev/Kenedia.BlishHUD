@@ -1,8 +1,11 @@
-﻿using Microsoft.Xna.Framework;
+﻿using Blish_HUD;
+using Blish_HUD.Controls;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using static Blish_HUD.ContentService;
 
 namespace Kenedia.Modules.Core.Extensions
 {
@@ -23,6 +26,21 @@ namespace Kenedia.Modules.Core.Extensions
 
             // This is a full spriteBatch.Draw method it has lots of parameters to fully control the draw.
             spriteBatch.Draw(textureImage, destination, new Rectangle(0, 0, textureImage.Width, textureImage.Height), color, rotationInRadians, originOffset, seffects, 0);
+        }
+
+        public static void DrawFrame(this SpriteBatch spriteBatch, Control ctrl, Rectangle _selectorBounds, Color borderColor, int width = 1)
+        {
+            // Top
+            spriteBatch.DrawOnCtrl(ctrl, Textures.Pixel, new Rectangle(_selectorBounds.Left, _selectorBounds.Top, _selectorBounds.Width, width), Rectangle.Empty, borderColor * 0.8f);
+
+            // Bottom
+            spriteBatch.DrawOnCtrl(ctrl, Textures.Pixel, new Rectangle(_selectorBounds.Left, _selectorBounds.Bottom - width, _selectorBounds.Width, width), Rectangle.Empty, borderColor * 0.8f);
+
+            // Left
+            spriteBatch.DrawOnCtrl(ctrl, Textures.Pixel, new Rectangle(_selectorBounds.Left, _selectorBounds.Top, width, _selectorBounds.Height), Rectangle.Empty, borderColor * 0.8f);
+
+            // Right
+            spriteBatch.DrawOnCtrl(ctrl, Textures.Pixel, new Rectangle(_selectorBounds.Right - width, _selectorBounds.Top, width, _selectorBounds.Height), Rectangle.Empty, borderColor * 0.8f);
         }
     }
 }

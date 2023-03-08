@@ -143,6 +143,8 @@ namespace Kenedia.Modules.BuildsManager.Controls
 
         public RectangleDimensions ContentPadding { get => _contentPadding; set => _contentPadding = value; }
 
+        public Action OnTabSwitched { get; set; }
+
         public void AddTab(TabbedRegionTab tab)
         {
             tab.Container.Visible = false;
@@ -164,6 +166,8 @@ namespace Kenedia.Modules.BuildsManager.Controls
 
         public void SwitchTab(TabbedRegionTab tab)
         {
+            OnTabSwitched?.Invoke();
+
             if (tab != null)
             {
                 tab.Container.Visible = true;

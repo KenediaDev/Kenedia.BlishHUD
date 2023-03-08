@@ -1,4 +1,5 @@
 ﻿using Kenedia.Modules.BuildsManager.DataModels.Stats;
+using System.Diagnostics;
 using static Kenedia.Modules.BuildsManager.DataModels.Professions.Weapon;
 using ItemWeaponType = Gw2Sharp.WebApi.V2.Models.ItemWeaponType;
 
@@ -13,103 +14,60 @@ namespace Kenedia.Modules.BuildsManager.Models.Templates
 
         public EquipmentStat Stat { get; set; } = EquipmentStat.None;
 
-        public WeaponType WeaponType { get; set; } = WeaponType.Unknown;
+        public WeaponType? Weapon { get; set; }
 
         public UpgradeCollection Upgrades { get; set; } = new();
 
-        public string ToCode(GearSlot slot)
+        public string ToCode(GearTemplateSlot slot)
         {
-            string upgradesCode = "(0)";
-            switch (slot)
+            return slot switch
             {
-                case GearSlot.Head:
-                case GearSlot.Shoulder:
-                case GearSlot.Hand:
-                case GearSlot.Leg:
-                case GearSlot.Foot:
-                    upgradesCode = $"({Upgrades[UpgradeSlot.Rune]}-{Upgrades[UpgradeSlot.Infusion_1]})";
-                    break;
+                GearTemplateSlot.Head or GearTemplateSlot.Shoulder or GearTemplateSlot.Chest or GearTemplateSlot.Hand or GearTemplateSlot.Leg or GearTemplateSlot.Foot or GearTemplateSlot.PvpAmulet
+                    => $"[{(int)Stat}|({Upgrades[UpgradeSlot.Rune]})]",
 
-                case GearSlot.Amulet:
-                    upgradesCode = $"({Upgrades[UpgradeSlot.Enrichment]})";
-                    break;
+                GearTemplateSlot.MainHand or GearTemplateSlot.AltMainHand or GearTemplateSlot.OffHand or GearTemplateSlot.AltOffHand
+                    => $"[{(int)Stat}|{(int)(Weapon ?? WeaponType.Unknown)}|({Upgrades[UpgradeSlot.Sigil_1]}-{Upgrades[UpgradeSlot.PvpSigil_1]})]",
 
-                case GearSlot.Back:
-                    upgradesCode = $"({Upgrades[UpgradeSlot.Infusion_1]}-{Upgrades[UpgradeSlot.Infusion_2]})";
-                    break;
-
-                case GearSlot.Accessory_1:
-                case GearSlot.Accessory_2:
-                    upgradesCode = $"({Upgrades[UpgradeSlot.Infusion_1]})";
-                    break;
-
-                case GearSlot.Ring_1:
-                case GearSlot.Ring_2:
-                    upgradesCode = $"({Upgrades[UpgradeSlot.Infusion_1]}-{Upgrades[UpgradeSlot.Infusion_2]}-{Upgrades[UpgradeSlot.Infusion_3]})";
-                    break;
-
-                case GearSlot.MainHand:
-                case GearSlot.AltMainHand:
-                case GearSlot.OffHand:
-                case GearSlot.AltOffHand:
-                    upgradesCode = $"({Upgrades[UpgradeSlot.Sigil_1]}-{Upgrades[UpgradeSlot.Infusion_1]})";
-                    break;
-
-                case GearSlot.Aquatic:
-                case GearSlot.AltAquatic:
-                    upgradesCode = $"({Upgrades[UpgradeSlot.Sigil_1]}-{Upgrades[UpgradeSlot.Sigil_2]}-{Upgrades[UpgradeSlot.Infusion_1]}-{Upgrades[UpgradeSlot.Infusion_2]})";
-                    break;
-            }
-
-            return $"[{(int)Stat}|{(int)WeaponType}|{upgradesCode}]";
+                GearTemplateSlot.Aquatic or GearTemplateSlot.AltAquatic
+                    => $"[{(int)Stat}|{(int)(Weapon ?? WeaponType.Unknown)}|({Upgrades[UpgradeSlot.Sigil_1]}-{Upgrades[UpgradeSlot.Sigil_2]})]",
+                _
+                    => $"[{(int)Stat}]",
+            };
         }
 
-        public void FromCode(GearSlot slot, string code)
+        public void FromCode(GearTemplateSlot slot, string code)
         {
-            code = code.Substring(1, code.Length - 2);
-
-            string[] parts = code.Split('|');
-            string[] upgrades = parts[2].Replace("(", "").Split('-');
-
-            if (slot is GearSlot.Head or GearSlot.Shoulder or GearSlot.Hand or GearSlot.Leg or GearSlot.Foot)
+            if (slot is GearTemplateSlot.Head or GearTemplateSlot.Shoulder or GearTemplateSlot.Chest or GearTemplateSlot.Hand or GearTemplateSlot.Leg or GearTemplateSlot.Foot or GearTemplateSlot.PvpAmulet)
             {
+                code = code.Substring(1, code.Length - 2);
+                string[] parts = code.Split('|');
+                string[] upgrades = parts[1].Replace("(", "").Split('-');
                 Upgrades[UpgradeSlot.Rune] = int.TryParse(upgrades[0], out int rune) ? rune : 0;
-                Upgrades[UpgradeSlot.Infusion_1] = int.TryParse(upgrades[1], out int infusion1) ? infusion1 : 0;
+                return;
             }
-            else if (slot is GearSlot.Amulet)
+            else if (slot is GearTemplateSlot.MainHand or GearTemplateSlot.AltMainHand or GearTemplateSlot.OffHand or GearTemplateSlot.AltOffHand)
             {
-                Upgrades[UpgradeSlot.Enrichment] = int.TryParse(upgrades[0], out int enrichment) ? enrichment : 0;
-            }
-            else if (slot is GearSlot.Back)
-            {
-                Upgrades[UpgradeSlot.Infusion_1] = int.TryParse(upgrades[0], out int infusion1) ? infusion1 : 0;
-                Upgrades[UpgradeSlot.Infusion_2] = int.TryParse(upgrades[1], out int infusion2) ? infusion2 : 0;
-            }
-            else if (slot is GearSlot.Accessory_1 or GearSlot.Accessory_2)
-            {
-                Upgrades[UpgradeSlot.Infusion_1] = int.TryParse(upgrades[0], out int infusion1) ? infusion1 : 0;
-            }
-            else if (slot is GearSlot.Ring_1 or GearSlot.Ring_2)
-            {
-                Upgrades[UpgradeSlot.Infusion_1] = int.TryParse(upgrades[0], out int infusion1) ? infusion1 : 0;
-                Upgrades[UpgradeSlot.Infusion_2] = int.TryParse(upgrades[1], out int infusion2) ? infusion2 : 0;
-                Upgrades[UpgradeSlot.Infusion_3] = int.TryParse(upgrades[2], out int infusion3) ? infusion3 : 0;
-            }
-            else if (slot is GearSlot.MainHand or GearSlot.AltMainHand or GearSlot.OffHand or GearSlot.AltOffHand)
-            {
+                code = code.Substring(1, code.Length - 2);
+                string[] parts = code.Split('|');
+                string[] upgrades = parts[2].Replace("(", "").Split('-');
+                Weapon = (WeaponType)(int.TryParse(parts[1], out int weaponType) ? weaponType : 0);
                 Upgrades[UpgradeSlot.Sigil_1] = int.TryParse(upgrades[0], out int sigil) ? sigil : 0;
-                Upgrades[UpgradeSlot.Infusion_1] = int.TryParse(upgrades[1], out int infusion1) ? infusion1 : 0;
+                Upgrades[UpgradeSlot.PvpSigil_1] = int.TryParse(upgrades[1], out int pvpsigil) ? pvpsigil : 0;
+                return;
             }
-            else if (slot is GearSlot.Aquatic or GearSlot.AltAquatic)
+            else if (slot is GearTemplateSlot.Aquatic or GearTemplateSlot.AltAquatic)
             {
+                code = code.Substring(1, code.Length - 2);
+                string[] parts = code.Split('|');
+                string[] upgrades = parts[2].Replace("(", "").Split('-');
+                Weapon = (WeaponType)(int.TryParse(parts[1], out int weaponType) ? weaponType : 0);
                 Upgrades[UpgradeSlot.Sigil_1] = int.TryParse(upgrades[0], out int sigil) ? sigil : 0;
-                Upgrades[UpgradeSlot.Sigil_2] = int.TryParse(upgrades[0], out int sigil2) ? sigil2 : 0;
-                Upgrades[UpgradeSlot.Infusion_1] = int.TryParse(upgrades[1], out int infusion1) ? infusion1 : 0;
-                Upgrades[UpgradeSlot.Infusion_2] = int.TryParse(upgrades[2], out int infusion2) ? infusion2 : 0;
+                Upgrades[UpgradeSlot.Sigil_2] = int.TryParse(upgrades[1], out int sigil2) ? sigil2 : 0;
+                return;
             }
 
-            Stat = (EquipmentStat)(int.TryParse(parts[0], out int stat) ? stat : 0);
-            WeaponType = (WeaponType)(int.TryParse(parts[1], out int weaponType) ? weaponType : 0);
+            code = code.Substring(1, code.Length - 1);
+            Stat = (EquipmentStat)(int.TryParse(code, out int stat) ? stat : 0);
         }
     }
 }

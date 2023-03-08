@@ -175,7 +175,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage.ProfessionSpecific
 
                 foreach (var item in skills.Values.Where(
                     e => e.Slot == slot &&                     
-                    e.WeaponType != null && ((!spellbreaker && e.WeaponType == Weapon.WeaponType.None) || e.WeaponType == (Template.Terrestrial ? Template.GearTemplate.Gear[GearSlot.MainHand].WeaponType : Template.GearTemplate.Gear[GearSlot.Aquatic].WeaponType))))
+                    e.WeaponType != null && ((!spellbreaker && e.WeaponType == Weapon.WeaponType.None) || e.WeaponType == (Template.Terrestrial ? Template.GearTemplate.Gear[GearTemplateSlot.MainHand].Weapon : Template.GearTemplate.Gear[GearTemplateSlot.Aquatic].Weapon))))
                 {
                     skill ??= item.Specialization == Template.EliteSpecialization?.Id || item.Specialization == 0 ? item : skill;
                     if (!berserker && item.Specialization == Template.EliteSpecialization?.Id && skill.Specialization == 0)

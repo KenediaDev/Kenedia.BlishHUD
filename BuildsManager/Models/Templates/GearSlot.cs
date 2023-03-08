@@ -1,9 +1,8 @@
 ﻿namespace Kenedia.Modules.BuildsManager.Models.Templates
 {
-    public enum GearSlot
+    public enum GearTemplateSlot
     {
         None = -1,
-        AquaBreather,
         Head,
         Shoulder,
         Chest,
@@ -22,6 +21,10 @@
         Accessory_2,
         Ring_1,
         Ring_2,
-        PvpAmulet
+        AquaBreather,
+        PvpAmulet,
+        Infusions,
+        Nourishment,
+        Utility
     }
 }

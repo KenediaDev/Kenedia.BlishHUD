@@ -7,11 +7,20 @@ namespace Kenedia.Modules.Core.Extensions
     public static class StringExtension
     {
         private static readonly Regex s_diacritics = new(@"\p{M}");
+        private static readonly Regex s_namingConventionConvert = new(@"
+                (?<=[A-Z])(?=[A-Z][a-z]) |
+                 (?<=[^A-Z])(?=[A-Z]) |
+                 (?<=[A-Za-z])(?=[^A-Za-z])", RegexOptions.IgnorePatternWhitespace);
 
         public static string RemoveDiacritics(this string s)
         {
             string result = s.Normalize(NormalizationForm.FormD);
             return s_diacritics.Replace(result, string.Empty).ToString().Replace("Æ", "Ae").Replace("æ", "ae").Replace("œ", "oe").Replace("Œ", "Oe");
+        }
+
+        public static string ToLowercaseNamingConvention(this string s)
+        {
+            return s_namingConventionConvert.Replace(s.Replace("_", ""), " ");
         }
 
         /// <summary>
