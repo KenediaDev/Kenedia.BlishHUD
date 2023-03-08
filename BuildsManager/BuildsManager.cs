@@ -19,6 +19,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Gw2Sharp.WebApi.V2.Models;
 using BuildTemplate = Kenedia.Modules.BuildsManager.Models.Templates.BuildTemplate;
 using Rectangle = Microsoft.Xna.Framework.Rectangle;
+using System.Threading;
 
 namespace Kenedia.Modules.BuildsManager
 {
@@ -97,7 +98,7 @@ namespace Kenedia.Modules.BuildsManager
                 Paths = Paths,
             };
 
-            if(Data.BaseSkills.Count == 0)
+            if (Data.BaseSkills.Count == 0)
             {
                 await GW2API.FetchBaseSkills();
             }
@@ -131,6 +132,11 @@ namespace Kenedia.Modules.BuildsManager
         protected override async void ReloadKey_Activated(object sender, EventArgs e)
         {
             //await GW2API.FetchBaseSkills();
+
+            await GW2API.FetchItems();
+
+            //Data.Stats.Clear();
+            //await GW2API.GetStats(CancellationToken.None, Data.Stats);
 
             await Data.LoadBaseSkills();
             await Data.LoadConnections();

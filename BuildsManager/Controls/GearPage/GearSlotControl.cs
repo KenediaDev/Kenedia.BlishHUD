@@ -10,6 +10,7 @@ using System;
 using System.Collections.Generic;
 using static Blish_HUD.ContentService;
 using Kenedia.Modules.Core.Extensions;
+using Kenedia.Modules.BuildsManager.Controls.Selection;
 
 namespace Kenedia.Modules.BuildsManager.Controls.GearPage
 {
