@@ -40,6 +40,7 @@ namespace Kenedia.Modules.Core.Controls
         private Rectangle _layoutBottomRightAccentBounds;
         private Rectangle _layoutCornerAccentSrc;
         private Rectangle _layoutLeftAccentBounds;
+        private Rectangle _layoutRightAccentBounds;
         private Rectangle _layoutLeftAccentSrc;
         private Rectangle _layoutHeaderBounds;
         private Rectangle _layoutHeaderTextBounds;
@@ -87,6 +88,8 @@ namespace Kenedia.Modules.Core.Controls
         public AsyncTexture2D BackgroundImage { get; set; }
 
         public AsyncTexture2D TitleIcon { get; set; }
+
+        public bool ShowRightBorder { get; set; } = false;
 
         public Color? BackgroundImageColor { get; set; } = Color.White;
 
@@ -185,6 +188,7 @@ namespace Kenedia.Modules.Core.Controls
                 _layoutBottomRightAccentBounds = new Rectangle(_size.X - num5 + 2, _size.Y - 59, num5, _textureCornerAccent.Height);
                 _layoutCornerAccentSrc = new Rectangle(256 - num5, 0, num5, _textureCornerAccent.Height);
                 _layoutLeftAccentBounds = new Rectangle(num4 - 7, num, _textureLeftSideAccent.Width, Math.Min(_size.Y - num - num3, _textureLeftSideAccent.Height));
+                _layoutRightAccentBounds = new Rectangle(_size.X - 12, Math.Max (0, _size.Y - _layoutLeftAccentBounds.Height),_textureLeftSideAccent.Width, Math.Min(_size.Y - num - num3 - 10, _textureLeftSideAccent.Height - 10));
                 _layoutLeftAccentSrc = new Rectangle(0, 0, _textureLeftSideAccent.Width, _layoutLeftAccentBounds.Height);
             }
 
@@ -238,9 +242,11 @@ namespace Kenedia.Modules.Core.Controls
             if (ShowBorder)
             {
                 spriteBatch.DrawOnCtrl(this, ContentService.Textures.Pixel, ContentRegion, Color.Black * (0.1f * AccentOpacity));
+                spriteBatch.DrawOnCtrl(this, _textureLeftSideAccent, _layoutLeftAccentBounds, _layoutLeftAccentSrc, Color.Black * AccentOpacity, 0f, Vector2.Zero, SpriteEffects.FlipVertically);
+               if(ShowRightBorder)  spriteBatch.DrawOnCtrl(this, _textureLeftSideAccent, _layoutRightAccentBounds, _layoutLeftAccentSrc, Color.Black * AccentOpacity, 0f, Vector2.Zero);
+
                 spriteBatch.DrawOnCtrl(this, _textureCornerAccent, _layoutTopLeftAccentBounds, _layoutCornerAccentSrc, Color.White * AccentOpacity, 0f, Vector2.Zero, SpriteEffects.FlipHorizontally);
                 spriteBatch.DrawOnCtrl(this, _textureCornerAccent, _layoutBottomRightAccentBounds, _layoutCornerAccentSrc, Color.White * AccentOpacity, 0f, Vector2.Zero, SpriteEffects.FlipVertically);
-                spriteBatch.DrawOnCtrl(this, _textureLeftSideAccent, _layoutLeftAccentBounds, _layoutLeftAccentSrc, Color.Black * AccentOpacity, 0f, Vector2.Zero, SpriteEffects.FlipVertically);
             }
 
             Color? backgroundColor = BackgroundHoveredColor != null && MouseOver ? BackgroundHoveredColor : BackgroundColor;

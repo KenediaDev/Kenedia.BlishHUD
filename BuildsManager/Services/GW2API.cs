@@ -30,6 +30,7 @@ using ApiTraits = Gw2Sharp.WebApi.V2.Models.Trait;
 using ApiPet = Gw2Sharp.WebApi.V2.Models.Pet;
 using Kenedia.Modules.Core.Extensions;
 using System.Diagnostics;
+using Gw2Sharp.WebApi.Exceptions;
 
 namespace Kenedia.Modules.BuildsManager.Services
 {
@@ -287,7 +288,7 @@ namespace Kenedia.Modules.BuildsManager.Services
         {
             try
             {
-                var legy = (ItemTrinket) await _gw2ApiManager.Gw2ApiClient.V2.Items.GetAsync(81908, cancellation);
+                var legy = (ItemTrinket)await _gw2ApiManager.Gw2ApiClient.V2.Items.GetAsync(81908, cancellation);
 
                 var apiStats = await _gw2ApiManager.Gw2ApiClient.V2.Itemstats.AllAsync(cancellation);
                 if (cancellation.IsCancellationRequested) return;
@@ -465,10 +466,12 @@ namespace Kenedia.Modules.BuildsManager.Services
             }
         }
 
-        public async Task GetSkillConnections()
+        public async Task GetSkillConnections(CancellationToken cancellation)
         {
-            var apiSkills = await _gw2ApiManager.Gw2ApiClient.V2.Skills.AllAsync();
-            var apiTraits = await _gw2ApiManager.Gw2ApiClient.V2.Traits.AllAsync();
+            var apiSkills = await _gw2ApiManager.Gw2ApiClient.V2.Skills.AllAsync(cancellation);
+            var apiTraits = await _gw2ApiManager.Gw2ApiClient.V2.Traits.AllAsync(cancellation);
+            if (cancellation.IsCancellationRequested) return;
+
             var traits = apiTraits.ToList();
             var skills = apiSkills.ToList();
 
@@ -626,9 +629,10 @@ namespace Kenedia.Modules.BuildsManager.Services
             File.WriteAllText($@"{_paths.ModuleDataPath}\SkillConnections.json", json);
         }
 
-        internal async Task FetchBaseSkills()
+        internal async Task FetchBaseSkills(CancellationToken cancellation)
         {
-            var skills = await _gw2ApiManager.Gw2ApiClient.V2.Skills.AllAsync();
+            var skills = await _gw2ApiManager.Gw2ApiClient.V2.Skills.AllAsync(cancellation);
+            if (cancellation.IsCancellationRequested) return;
             var baseSkills = skills.ToList().ToDictionary(skill => skill.Id, skill => new BaseSkill(skill));
 
             string json = JsonConvert.SerializeObject(baseSkills, Formatting.Indented);
@@ -637,167 +641,369 @@ namespace Kenedia.Modules.BuildsManager.Services
             await _data.LoadBaseSkills();
         }
 
-        public async Task FetchItems()
+        public async Task FetchItems(CancellationToken cancellation)
         {
-            var raw_itemids = await _gw2ApiManager.Gw2ApiClient.V2.Items.IdsAsync();
-            var itemid_lists = raw_itemids.ToList().ChunkBy(200);
-
-            var itemMapping = new ItemMapping();
-            int count = 0;
-
-            Debug.WriteLine($"Fetching a total of {raw_itemids.Count} items.");
-            foreach (var ids in itemid_lists)
+            try
             {
-                count++;
+                if (cancellation.IsCancellationRequested) return;
+            }
+            catch (RequestException ex)
+            {
+                Debug.WriteLine($"RequestException {ex}");
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"Exception {ex}");
+            }
+        }
 
-                Debug.WriteLine($"Fetching chunk {count}/{itemid_lists.Count}");
-                var items = await _gw2ApiManager.Gw2ApiClient.V2.Items.ManyAsync(ids);
+        public async Task CreateItemMap(CancellationToken cancellation)
+        {
+            try
+            {
+                var invalid = new List<int>();
+                //var raw_itemids = new List<int>(){};
+                var raw_itemids = await _gw2ApiManager.Gw2ApiClient.V2.Items.IdsAsync(cancellation);
+                var itemids = raw_itemids.ToList();
 
-                foreach (var item in items)
+                if (cancellation.IsCancellationRequested) return;
+
+                //Remove JadeBot stuff
+                var invalidIds = new List<int>()
                 {
-                    if (item.Type == ItemType.Armor && item.Rarity == ItemRarity.Legendary)
+                    45016,
+                    45017,
+                    11126, // Corrupted
+                    93128, // Slumbering Conflux
+                    93140, // Slumbering Transcendence
+                };
+
+                var jadetechmodules = new List<int>() {
+                    95923,
+                    97553,
+                    96654,
+                    97572,
+                    96826,
+                    97410,
+                    96871,
+                    97775,
+                    97107,
+                    95904,
+                    96853,
+                    96919,
+                    96758,
+                    95893,
+                    95647,
+                    96477,
+                    95802,
+                    96360,
+                    97289,
+                    97656,
+                    96450,
+                    96992,
+                    96618,
+                    96590,
+                    95800,
+                    95801,
+                    97686,
+                    97535,
+                    95582,
+                    95948,
+                    97101,
+                    96474,
+                    95582,
+                    95647,
+                    95800,
+                    95801,
+                    95802,
+                    95864,
+                    95893,
+                    95904,
+                    95923,
+                    95948,
+                    96070,
+                    96299,
+                    96360,
+                    96450,
+                    96467,
+                    96474,
+                    96477,
+                    96590,
+                    96613,
+                    96618,
+                    96628,
+                    96654,
+                    96758,
+                    96826,
+                    96853,
+                    96871,
+                    96919,
+                    96992,
+                    97020,
+                    97041,
+                    97101,
+                    97107,
+                    97284,
+                    97289,
+                    97339,
+                    97410,
+                    97535,
+                    97553,
+                    97572,
+                    97656,
+                    97686,
+                    97775
+                };
+
+                _ = itemids.RemoveAll(invalidIds.Contains);
+                _ = itemids.RemoveAll(jadetechmodules.Contains);
+
+                var itemid_lists = itemids.ChunkBy(200);
+                var itemMapping = new ItemMapping();
+                int count = 0;
+
+                Debug.WriteLine($"Fetching a total of {raw_itemids.Count} items.");
+
+                foreach (var ids in itemid_lists)
+                {
+                    if (ids != null)
                     {
-                        var armor = (ItemArmor)item;
+                        count++;
+                        IReadOnlyList<Item> items = null;
 
-                        itemMapping.Armors.Add(new()
+                        Debug.WriteLine($"Fetching chunk {count}/{itemid_lists.Count}");
+                        //Debug.WriteLine($"ID: {ids.FirstOrDefault()}");
+
+                        try
                         {
-                            Id = armor.Id,
-                            MappedId = itemMapping.Armors.Count,
-                            Name = armor.Name,
-                        });
-                    }
-
-                    if (item.Type == ItemType.Weapon && item.Rarity == ItemRarity.Legendary)
-                    {
-                        var weapon = (ItemWeapon)item;
-
-                        itemMapping.Weapons.Add(new()
+                            items = await _gw2ApiManager.Gw2ApiClient.V2.Items.ManyAsync(ids);
+                        }
+                        catch (RequestException ex)
                         {
-                            Id = weapon.Id,
-                            MappedId = itemMapping.Weapons.Count,
-                            Name = weapon.Name,
-                        });
-                    }
+                            Debug.WriteLine($"Exception {ex}");
+                            invalid.AddRange(ids);
 
-                    if (item.Type == ItemType.Consumable)
-                    {
-                        var consumable = (ItemConsumable)item;
-
-                        // Nourishment
-                        if (consumable.Details.Type == ItemConsumableType.Food)
+                            string json = JsonConvert.SerializeObject(invalid, Formatting.Indented);
+                            File.WriteAllText($@"{Paths.ModulePath}\data\InvalidItemIds.json", json);
+                        }
+                        catch (Exception ex)
                         {
-                            if (consumable.Rarity == ItemRarity.Ascended || consumable.Level == 80)
-                            {
-                                itemMapping.Nourishments.Add(new()
-                                {
-                                    Id = consumable.Id,
-                                    MappedId = itemMapping.Nourishments.Count,
-                                    Name = consumable.Name,
-                                });
-                            }
+                            Debug.WriteLine($"Exception {ex}");
+                            invalid.AddRange(ids);
+
+                            string json = JsonConvert.SerializeObject(invalid, Formatting.Indented);
+                            File.WriteAllText($@"{Paths.ModulePath}\data\InvalidItemIds.json", json);
                         }
 
-                        // Utility
-                        if (consumable.Details.Type == ItemConsumableType.Utility)
+                        if (items != null)
                         {
-                            if (consumable.Level == 80)
+                            foreach (var item in items)
                             {
-                                itemMapping.Utilities.Add(new()
+                                if (item.Type == ItemType.PowerCore)
                                 {
-                                    Id = consumable.Id,
-                                    MappedId = itemMapping.Utilities.Count,
-                                    Name = consumable.Name,
-                                });
-                            }
-                        }
-                    }
+                                    itemMapping.PowerCore.Add(new()
+                                    {
+                                        Id = item.Id,
+                                        MappedId = itemMapping.PowerCore.Count,
+                                        Name = item.Name,
+                                    });
+                                }
 
-                    if (item.Type == ItemType.UpgradeComponent)
-                    {
-                        var upgrade = (ItemUpgradeComponent)item;
+                                if (item.Type == ItemType.Trinket && item.Rarity == ItemRarity.Legendary)
+                                {
+                                    var trinket = (ItemTrinket)item;
 
-                        bool isRune = upgrade.Details.Flags.ToList().Contains(ItemUpgradeComponentFlag.HeavyArmor) && !upgrade.Details.Flags.ToList().Contains(ItemUpgradeComponentFlag.Trinket) && !upgrade.Details.Flags.ToList().Contains(ItemUpgradeComponentFlag.Sword);
-                        bool isSigil = !upgrade.Details.Flags.ToList().Contains(ItemUpgradeComponentFlag.HeavyArmor) && !upgrade.Details.Flags.ToList().Contains(ItemUpgradeComponentFlag.Trinket) && upgrade.Details.Flags.ToList().Contains(ItemUpgradeComponentFlag.Sword);
+                                    itemMapping.Trinkets.Add(new()
+                                    {
+                                        Id = trinket.Id,
+                                        MappedId = itemMapping.Trinkets.Count,
+                                        Name = trinket.Name,
+                                    });
+                                }
 
-                        //Rune
-                        if (upgrade.Rarity == ItemRarity.Exotic && isRune)
-                        {
-                            if (upgrade.GameTypes.ToList().Contains(ItemGameType.Pvp))
-                            {
-                                itemMapping.PvpRunes.Add(new()
+                                if (item.Type == ItemType.Back && item.Rarity == ItemRarity.Legendary)
                                 {
-                                    Id = upgrade.Id,
-                                    MappedId = itemMapping.PvpRunes.Count,
-                                    Name = upgrade.Name,
-                                });
-                            }
-                            else if (upgrade.GameTypes.ToList().Contains(ItemGameType.Pve))
-                            {
-                                itemMapping.PveRunes.Add(new()
-                                {
-                                    Id = upgrade.Id,
-                                    MappedId = itemMapping.PveRunes.Count,
-                                    Name = upgrade.Name,
-                                });
-                            }
-                        }
+                                    var back = (ItemBack)item;
 
-                        //Sigil
-                        if (upgrade.Rarity == ItemRarity.Exotic && isSigil)
-                        {
-                            if (upgrade.GameTypes.ToList().Contains(ItemGameType.Pvp))
-                            {
-                                itemMapping.PvpSigils.Add(new()
-                                {
-                                    Id = upgrade.Id,
-                                    MappedId = itemMapping.PvpSigils.Count,
-                                    Name = upgrade.Name,
-                                });
-                            }
-                            else if (upgrade.GameTypes.ToList().Contains(ItemGameType.Pve))
-                            {
-                                itemMapping.PveSigils.Add(new()
-                                {
-                                    Id = upgrade.Id,
-                                    MappedId = itemMapping.PveSigils.Count,
-                                    Name = upgrade.Name,
-                                });
-                            }
-                        }
+                                    itemMapping.Backs.Add(new()
+                                    {
+                                        Id = back.Id,
+                                        MappedId = itemMapping.Backs.Count,
+                                        Name = back.Name,
+                                    });
+                                }
 
-                        //itemMapping.Infusions
-                        if (upgrade.Rarity == ItemRarity.Exotic && upgrade.Details.InfusionUpgradeFlags.ToList().Contains(ItemInfusionFlag.Infusion) && upgrade.Rarity > ItemRarity.Basic)
-                        {
-                            if (upgrade.GameTypes.ToList().Contains(ItemGameType.Pvp))
-                            {
-                                itemMapping.Infusions.Add(new()
+                                if (item.Type == ItemType.Armor && item.Rarity == ItemRarity.Legendary)
                                 {
-                                    Id = upgrade.Id,
-                                    MappedId = itemMapping.Infusions.Count,
-                                    Name = upgrade.Name,
-                                });
+                                    var armor = (ItemArmor)item;
+
+                                    itemMapping.Armors.Add(new()
+                                    {
+                                        Id = armor.Id,
+                                        MappedId = itemMapping.Armors.Count,
+                                        Name = armor.Name,
+                                    });
+                                }
+
+                                if (item.Type == ItemType.Weapon && item.Rarity == ItemRarity.Legendary)
+                                {
+                                    var weapon = (ItemWeapon)item;
+
+                                    itemMapping.Weapons.Add(new()
+                                    {
+                                        Id = weapon.Id,
+                                        MappedId = itemMapping.Weapons.Count,
+                                        Name = weapon.Name,
+                                    });
+                                }
+
+                                if (item.Type == ItemType.Consumable)
+                                {
+                                    var consumable = (ItemConsumable)item;
+
+                                    // Nourishment
+                                    if (consumable.Details.Type == ItemConsumableType.Food)
+                                    {
+                                        if (consumable.Rarity == ItemRarity.Ascended || consumable.Level == 80)
+                                        {
+                                            itemMapping.Nourishments.Add(new()
+                                            {
+                                                Id = consumable.Id,
+                                                MappedId = itemMapping.Nourishments.Count,
+                                                Name = consumable.Name,
+                                            });
+                                        }
+                                    }
+
+                                    // Utility
+                                    if (consumable.Details.Type == ItemConsumableType.Utility)
+                                    {
+                                        if (consumable.Level == 80)
+                                        {
+                                            itemMapping.Utilities.Add(new()
+                                            {
+                                                Id = consumable.Id,
+                                                MappedId = itemMapping.Utilities.Count,
+                                                Name = consumable.Name,
+                                            });
+                                        }
+                                    }
+                                }
+
+                                if (item.Type == ItemType.UpgradeComponent)
+                                {
+                                    var upgrade = (ItemUpgradeComponent)item;
+
+                                    bool isRune = upgrade.Details.Flags.ToList().Contains(ItemUpgradeComponentFlag.HeavyArmor) && !upgrade.Details.Flags.ToList().Contains(ItemUpgradeComponentFlag.Trinket) && !upgrade.Details.Flags.ToList().Contains(ItemUpgradeComponentFlag.Sword);
+                                    bool isSigil = !upgrade.Details.Flags.ToList().Contains(ItemUpgradeComponentFlag.HeavyArmor) && !upgrade.Details.Flags.ToList().Contains(ItemUpgradeComponentFlag.Trinket) && upgrade.Details.Flags.ToList().Contains(ItemUpgradeComponentFlag.Sword);
+
+                                    //Rune
+                                    if (upgrade.Rarity == ItemRarity.Exotic && isRune)
+                                    {
+                                        if (upgrade.GameTypes.ToList().Contains(ItemGameType.Pvp))
+                                        {
+                                            itemMapping.PvpRunes.Add(new()
+                                            {
+                                                Id = upgrade.Id,
+                                                MappedId = itemMapping.PvpRunes.Count,
+                                                Name = upgrade.Name,
+                                            });
+                                        }
+                                        else if (upgrade.GameTypes.ToList().Contains(ItemGameType.Pve))
+                                        {
+                                            itemMapping.PveRunes.Add(new()
+                                            {
+                                                Id = upgrade.Id,
+                                                MappedId = itemMapping.PveRunes.Count,
+                                                Name = upgrade.Name,
+                                            });
+                                        }
+                                    }
+
+                                    //Sigil
+                                    if (upgrade.Rarity == ItemRarity.Exotic && isSigil)
+                                    {
+                                        if (upgrade.GameTypes.ToList().Contains(ItemGameType.Pvp))
+                                        {
+                                            itemMapping.PvpSigils.Add(new()
+                                            {
+                                                Id = upgrade.Id,
+                                                MappedId = itemMapping.PvpSigils.Count,
+                                                Name = upgrade.Name,
+                                            });
+                                        }
+                                        else if (upgrade.GameTypes.ToList().Contains(ItemGameType.Pve))
+                                        {
+                                            itemMapping.PveSigils.Add(new()
+                                            {
+                                                Id = upgrade.Id,
+                                                MappedId = itemMapping.PveSigils.Count,
+                                                Name = upgrade.Name,
+                                            });
+                                        }
+                                    }
+
+                                    //Infusions
+                                    if (upgrade.Details.InfusionUpgradeFlags.ToList().Contains(ItemInfusionFlag.Infusion))
+                                    {
+                                        itemMapping.Infusions.Add(new()
+                                        {
+                                            Id = upgrade.Id,
+                                            MappedId = itemMapping.Infusions.Count,
+                                            Name = upgrade.Name,
+                                        });
+                                    }
+
+                                    //Enrichments
+                                    if (upgrade.Details.InfusionUpgradeFlags.ToList().Contains(ItemInfusionFlag.Enrichment))
+                                    {
+                                        itemMapping.Enrichments.Add(new()
+                                        {
+                                            Id = upgrade.Id,
+                                            MappedId = itemMapping.Enrichments.Count,
+                                            Name = upgrade.Name,
+                                        });
+                                    }
+                                }
                             }
+
+                            string json = JsonConvert.SerializeObject(itemMapping, Formatting.Indented);
+                            File.WriteAllText($@"{Paths.ModulePath}\data\ItemMapping.json", json);
                         }
                     }
                 }
-            }
 
-            string json = JsonConvert.SerializeObject(itemMapping, Formatting.Indented);
-            File.WriteAllText($@"{Paths.ModulePath}\data\ItemMapping.json", json);
+                Debug.WriteLine($"All {raw_itemids.Count} items fetched!");
+
+                string finaljson = JsonConvert.SerializeObject(itemMapping, Formatting.Indented);
+                File.WriteAllText($@"{Paths.ModulePath}\data\ItemMapping.json", finaljson);
+            }
+            catch (RequestException ex)
+            {
+
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"Exception {ex}");
+            }
         }
     }
 
     public class ItemMapping
     {
-        public List<ItemMap>  Nourishments = new();
-        public List<ItemMap>  Utilities = new();
-        public List<ItemMap>  PveRunes = new();
-        public List<ItemMap>  PvpRunes = new();
-        public List<ItemMap>  PveSigils = new();
-        public List<ItemMap>  PvpSigils = new();
-        public List<ItemMap>  Infusions = new();
-        public List<ItemMap>  Weapons = new();
-        public List<ItemMap>  Armors = new();
+        public List<ItemMap> Nourishments = new();
+        public List<ItemMap> Utilities = new();
+        public List<ItemMap> PveRunes = new();
+        public List<ItemMap> PvpRunes = new();
+        public List<ItemMap> PveSigils = new();
+        public List<ItemMap> PvpSigils = new();
+        public List<ItemMap> Infusions = new();
+        public List<ItemMap> Enrichments = new();
+        public List<ItemMap> Trinkets = new();
+        public List<ItemMap> Backs = new();
+        public List<ItemMap> Weapons = new();
+        public List<ItemMap> Armors = new();
+        public List<ItemMap> PowerCore = new();
     }
 
     public class ItemMap

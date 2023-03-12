@@ -8,6 +8,8 @@ using System;
 using static Blish_HUD.ContentService;
 using Kenedia.Modules.Core.Extensions;
 using Kenedia.Modules.Core.Utility;
+using Blish_HUD.Content;
+using MathUtil = SharpDX.MathUtil;
 
 namespace Kenedia.Modules.BuildsManager.Controls.Selection
 {
@@ -19,6 +21,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
         private readonly ItemIdSelection _itemIdSelection;
         private readonly GearSelection _gearSelection;
         private readonly BuildSelection _buildSelection;
+        private readonly AsyncTexture2D _separator = AsyncTexture2D.FromAssetId(156055);
 
         private DetailedTexture _backButton = new(784268);
         private DetailedTexture _pointerArrow = new(784266) { TextureRegion = new(16, 16, 32, 32) };
@@ -128,6 +131,9 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
             {
                 DrawBuildSelection(spriteBatch, bounds);
             }
+
+            var section = _buildSelection.SelectionBounds;
+            //spriteBatch.DrawCenteredRotationOnCtrl(this, _separator, new Rectangle(-28, section.Center.Y + _buildSelection.Top, section.Height, 16), _separator.Bounds, Color.Black, MathUtil.DegreesToRadians(90), false, false);
         }
 
         public override void UpdateContainer(GameTime gameTime)

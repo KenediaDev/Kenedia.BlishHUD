@@ -25,6 +25,7 @@
         PvpAmulet,
         Infusions,
         Nourishment,
-        Utility
+        Utility,
+        JadeBotCore,
     }
 }

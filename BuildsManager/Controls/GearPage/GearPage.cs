@@ -15,6 +15,8 @@ using MonoGame.Extended.Sprites;
 using MonoGame.Extended.Screens;
 using Kenedia.Modules.Core.Res;
 using Kenedia.Modules.BuildsManager.Controls.Selection;
+using static Blish_HUD.ContentService;
+using Kenedia.Modules.Core.Extensions;
 
 namespace Kenedia.Modules.BuildsManager.Controls.GearPage
 {
@@ -32,11 +34,12 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage
 
         private Dictionary<GearTemplateSlot, GearSlotControl> _slots = new();
 
+        private FramedImage _framedSpecIcon;
         private InfusionControl _infusions;
+        private JadeBotControl _jadeBotCore;
         private NourishmentControl _nourishment;
         private UtilityControl _utility;
         private SelectionPanel _selectionPanel;
-        private readonly DetailedTexture _specIcon = new(1770214);
         private readonly DetailedTexture _pve = new(2229699, 2229700);
         private readonly DetailedTexture _pvp = new(2229701, 2229702);
 
@@ -84,14 +87,16 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage
             {
                 Parent = this,
                 Title = "♥",
-                Height = 370,
+                Height = 365,
                 Width = 270,
                 ShowBorder = true,
+                ShowRightBorder = true,
+                Visible = false,
             };
 
             _stats = new()
             {
-                Parent = _statPanel,
+                Parent = this,
                 Height = _statPanel.Height,
                 Width = _statPanel.Width,
             };
@@ -100,7 +105,15 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage
             {
                 Parent = this,
             };
+            _framedSpecIcon = new()
+            {
+                Parent = this,
+            };
             _nourishment = new()
+            {
+                Parent = this,
+            };
+            _jadeBotCore = new()
             {
                 Parent = this,
             };
@@ -145,6 +158,14 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage
                     SelectionPanel?.SetGearAnchor(_nourishment, _nourishment.AbsoluteBounds, GearTemplateSlot.Nourishment, "Nourishments");
                 }
             };
+
+            _jadeBotCore.ClickAction = () =>
+            {
+                if (SelectionPanel != null)
+                {
+                    SelectionPanel?.SetGearAnchor(_jadeBotCore, _jadeBotCore.AbsoluteBounds, GearTemplateSlot.JadeBotCore, "JadeBotCore");
+                }
+            };
         }
 
         public Template Template
@@ -159,8 +180,15 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage
 
                     _infusions.Template = _template;
                     _nourishment.Template = _template;
+                    _jadeBotCore.Template = _template;
                     _utility.Template = _template;
                     _stats.Template = _template;
+
+                    if(_template != null && BuildsManager.Data.Professions.ContainsKey(_template.Profession))
+                    {
+                        _framedSpecIcon.Texture = _template.EliteSpecialization?.ProfessionIconBig ?? 
+                            BuildsManager.Data.Professions[_template.Profession].IconBig;
+                    }
 
                     foreach (var slot in _slots)
                     {
@@ -234,13 +262,17 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage
                 _pve.Bounds = new(secondColumn, _headerBounds.Bottom + 5, 45, 45);
                 _pvp.Bounds = new(secondColumn, _headerBounds.Bottom + 5, 45, 45);
 
-                _nourishment.Location = new(_pve.Bounds.Right + 3 + 35, _pve.Bounds.Top);
+                _stats.Location = new(secondColumn - 5, _pve.Bounds.Bottom + 5);
+                _framedSpecIcon.Location = new(_stats.Right - 45, _headerBounds.Bottom + 5);
+                _framedSpecIcon.Size = new(45, 45);
+
+                int pad = (_framedSpecIcon.Left - _pve.Bounds.Right - ((45 * 3) + (3 * 2))) / 2;
+                _nourishment.Location = new(_pve.Bounds.Right + pad, _pve.Bounds.Top);
                 _utility.Location = new(_nourishment.Right + 3, _nourishment.Top);
+                _jadeBotCore.Location = new(_utility.Right + 3, _utility.Top);
 
-                _statPanel.Location = new(secondColumn - 5, _pve.Bounds.Bottom + 5);
-                _statPanelHeaderBounds = new(_statPanel.Left + 15, _statPanel.Top, _statPanel.Width - 15, 32);
+                //_statPanelHeaderBounds = new(_statPanel.Left + 15, _statPanel.Top, _statPanel.Width - 15, 32);
 
-                _specIcon.Bounds = new(_statPanel.Right - 45, _headerBounds.Bottom + 5, 45, 45);
             }
         }
 
@@ -249,6 +281,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage
             _gearCodeBox.Text = Template?.GearTemplate?.ParseGearCode();
 
             _infusions.Visible = false;
+            _jadeBotCore.Visible = Template.PvE;
             _nourishment.Visible = Template.PvE;
             _utility.Visible = Template.PvE;
 
@@ -273,10 +306,9 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage
             if (Template != null)
             {
                 (Template.PvE ? _pve : _pvp).Draw(this, spriteBatch, RelativeMousePosition);
-                _specIcon.Draw(this, spriteBatch, RelativeMousePosition);
 
                 //spriteBatch.DrawStringOnCtrl(this, Template.PvE ? "PvE Build" : "PvP Build", Content.DefaultFont18, _headerBounds, Color.White);
-                spriteBatch.DrawStringOnCtrl(this, "Attributes", Content.DefaultFont18, _statPanelHeaderBounds, Color.White);
+                //spriteBatch.DrawStringOnCtrl(this, "Attributes", Content.DefaultFont18, _statPanelHeaderBounds, Color.White);
             }
         }
 

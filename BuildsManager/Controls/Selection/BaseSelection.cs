@@ -1,4 +1,5 @@
 ﻿using Kenedia.Modules.Core.Controls;
+using Microsoft.Xna.Framework;
 
 namespace Kenedia.Modules.BuildsManager.Controls.Selection
 {
@@ -27,8 +28,11 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
                 HeightSizingMode = Blish_HUD.Controls.SizingMode.Fill,
                 WidthSizingMode = Blish_HUD.Controls.SizingMode.Fill,
                 CanScroll = true,
+                ShowRightBorder = true,
             };
         }
+
+        public Rectangle SelectionBounds => new(SelectionContent.LocalBounds.Location, SelectionContent.ContentRegion.Size);
 
         public override void RecalculateLayout()
         {

@@ -4,6 +4,14 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Kenedia.Modules.Core.Structs;
 using MonoGame.Extended.BitmapFonts;
+using Kenedia.Modules.BuildsManager.Controls.Selection;
+using MathUtil = SharpDX.MathUtil;
+using static System.Collections.Specialized.BitVector32;
+using Blish_HUD.Content;
+using Kenedia.Modules.Core.Extensions;
+using Kenedia.Modules.Core.Models;
+using System;
+using Blish_HUD;
 
 namespace Kenedia.Modules.BuildsManager.Controls.GearPage
 {
@@ -11,6 +19,12 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage
     {
         private Template _template;
         private readonly bool _created;
+
+        private readonly DetailedTexture _texturePanelHeader = new(1032325);
+        private readonly DetailedTexture _textureRightCornerAccent = new(1002144);
+        private readonly DetailedTexture _textureLeftCornerAccent = new(1002144);
+        private readonly DetailedTexture _textureLeftSideAccent = new(605025);
+        private readonly DetailedTexture _textureRightSideAccent = new(605025);
 
         private readonly AttributeTexture _power = new(66722) { TextureRegion = new(4, 4, 24, 24) };
         private readonly AttributeTexture _thoughness = new(156612) { TextureRegion = new(4, 4, 24, 24) };
@@ -32,12 +46,11 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage
         private readonly AttributeTexture _boonDuration = new(156599) { TextureRegion = new(4, 4, 24, 24) };
         private readonly AttributeTexture _magicFind = new(536054) { TextureRegion = new(4, 4, 24, 24) };
 
-        private Rectangle _headerBounds;
-
         public StatSummary()
         {
             _created = true;
             Size = new(380, 300);
+            ClipsBounds = false;
         }
 
         public Template Template
@@ -58,7 +71,15 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage
 
         protected override void Paint(SpriteBatch spriteBatch, Rectangle bounds)
         {
+            RecalculateLayout();
+
             BitmapFont font = Content.DefaultFont14;
+            _texturePanelHeader.Draw(this, spriteBatch);
+            spriteBatch.DrawStringOnCtrl(this, "Attributes", Content.DefaultFont18, _texturePanelHeader.Bounds.Add(10, -2, 0, 0), Color.White);
+            _textureLeftCornerAccent.Draw(this, spriteBatch, SpriteEffects.FlipHorizontally, null, Color.Black);
+            _textureLeftSideAccent.Draw(this, spriteBatch, SpriteEffects.FlipHorizontally, null, Color.Black);
+            _textureRightCornerAccent.Draw(this, spriteBatch);
+            _textureRightSideAccent.Draw(this, spriteBatch, null, Color.Black);
 
             _power.Draw(this, spriteBatch);
             _power.DrawAmount(this, spriteBatch, Template != null ? Template.Attributes.Power : 0, font);
@@ -114,18 +135,25 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage
             _magicFind.Draw(this, spriteBatch);
             _magicFind.DrawAmount(this, spriteBatch, $"{(Template != null ? Template.Attributes.MagicFind : 0)}%", font);
         }
-
         public override void RecalculateLayout()
         {
             base.RecalculateLayout();
-
             if (_created)
             {
                 int size = 64;
                 int height = 28;
                 int textWidth = (Width / 2) - height;
+                BackgroundColor = Color.Black * 0.2F;
 
-                RectangleDimensions padding = new(10, 5, 0, 8);
+                int accentWidth = Math.Min(_size.X + 70, 256 + 70);
+
+                _texturePanelHeader.Bounds = new(0, 0, Width, 36);
+                _textureLeftCornerAccent.Bounds = new(-8, _texturePanelHeader.Bounds.Height - 10, accentWidth, _textureLeftCornerAccent.Texture.Height);
+                _textureLeftSideAccent.Bounds = new(-8, _texturePanelHeader.Bounds.Height, 16, Height - _texturePanelHeader.Bounds.Height + 16);
+                _textureRightCornerAccent.Bounds = new(Width - accentWidth + 8, Height - 10, accentWidth, _textureLeftCornerAccent.Texture.Height);
+                _textureRightSideAccent.Bounds = new(-8 + Width, 0, 16, Height);
+
+                RectangleDimensions padding = new(10, 5 + _texturePanelHeader.Bounds.Height, 0, 8);
 
                 Rectangle getBounds(int pos, int col)
                 {

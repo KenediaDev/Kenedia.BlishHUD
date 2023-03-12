@@ -92,6 +92,7 @@ namespace Kenedia.Modules.BuildsManager.Controls
     {
         private readonly AsyncTexture2D _inactiveHeader = AsyncTexture2D.FromAssetId(2200566);
         private readonly AsyncTexture2D _activeHeader = AsyncTexture2D.FromAssetId(2200567);
+        private readonly AsyncTexture2D _separator = AsyncTexture2D.FromAssetId(156055);
         private readonly Panel _contentPanel;
         private TabbedRegionTab _activeTab;
         private ObservableCollection<TabbedRegionTab> _tabs = new();
@@ -212,6 +213,7 @@ namespace Kenedia.Modules.BuildsManager.Controls
             {
                 _tabs[i].DrawHeader(this, spriteBatch, RelativeMousePosition);
             }
+            spriteBatch.DrawOnCtrl(this, _separator, new Rectangle(_headerRegion.Left, _headerRegion.Bottom - 9, _headerRegion.Width, 16), Color.Black);
         }
 
         protected override void OnClick(MouseEventArgs e)

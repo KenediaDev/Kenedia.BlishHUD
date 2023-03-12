@@ -39,6 +39,8 @@ namespace Kenedia.Modules.BuildsManager.Services
 
         public Dictionary<int, OldSkillConnection> OldConnections { get; set; } = new();
 
+        public ItemMapping ItemMap { get; set; } = new();
+
         public Dictionary<int, SkillConnection> SkillConnections { get; set; } = new();
 
         public Dictionary<int, BaseSkill> BaseSkills { get; set; } = new();
@@ -72,7 +74,7 @@ namespace Kenedia.Modules.BuildsManager.Services
         public List<KeyValuePair<int, int>> SkillsByPalette { get; private set; } = new();
 
         public bool IsLoaded => Armors.Count > 0 && Professions.Count > 0 && Stats.Count > 0 && Sigils.Count > 0 && Runes.Count > 0 && Pets.Count > 0 && PaletteBySkills.Count > 0 && Races.Count > 0 && SkillConnections.Count > 0;
-
+               
         public async Task Load()
         {
             try
@@ -82,6 +84,9 @@ namespace Kenedia.Modules.BuildsManager.Services
                 RuneIds = JsonConvert.DeserializeObject<List<int>>(await new StreamReader(_contentsManager.GetFileStream(@"data\rune_ids.json")).ReadToEndAsync());
                 _logger.Debug("RuneIds loaded!");
 
+                ItemMap = JsonConvert.DeserializeObject<ItemMapping>(await new StreamReader(_contentsManager.GetFileStream(@"data\ItemMapping.json")).ReadToEndAsync());
+                _logger.Debug("Item Map loaded!");
+
                 SigilIds = JsonConvert.DeserializeObject<List<int>>(await new StreamReader(_contentsManager.GetFileStream(@"data\sigil_ids.json")).ReadToEndAsync());
                 _logger.Debug("SigilIds loaded!");
 
@@ -90,7 +95,7 @@ namespace Kenedia.Modules.BuildsManager.Services
 
                 foreach (var prop in GetType().GetProperties())
                 {
-                    if (prop.Name is not nameof(RuneIds) and not nameof(SigilIds) and not nameof(SkillsByPalette) and not nameof(BaseSkills) and not nameof(SkillConnections) and not nameof(OldConnections) and not nameof(IsLoaded))
+                    if (prop.Name is not nameof(RuneIds) and not nameof(SigilIds) and not nameof(SkillsByPalette) and not nameof(BaseSkills) and not nameof(SkillConnections) and not nameof(OldConnections) and not nameof(ItemMap) and not nameof(IsLoaded))
                     {
                         string path = $@"{_paths.ModuleDataPath}{prop.Name}.json";
 

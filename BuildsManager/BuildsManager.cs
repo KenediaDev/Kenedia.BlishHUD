@@ -27,6 +27,7 @@ namespace Kenedia.Modules.BuildsManager
     public class BuildsManager : BaseModule<BuildsManager, MainWindow, Settings>
     {
         private double _tick;
+        private CancellationTokenSource _cancellationTokenSource;
 
         [ImportingConstructor]
         public BuildsManager([Import("ModuleParameters")] ModuleParameters moduleParameters) : base(moduleParameters)
@@ -100,7 +101,8 @@ namespace Kenedia.Modules.BuildsManager
 
             if (Data.BaseSkills.Count == 0)
             {
-                await GW2API.FetchBaseSkills();
+                _cancellationTokenSource ??= new();
+                await GW2API.FetchBaseSkills(_cancellationTokenSource.Token);
             }
 
             if (GameService.Overlay.UserLocale.Value is not Locale.Korean and not Locale.Chinese)
@@ -131,9 +133,12 @@ namespace Kenedia.Modules.BuildsManager
 
         protected override async void ReloadKey_Activated(object sender, EventArgs e)
         {
+            _cancellationTokenSource?.Cancel();
+            _cancellationTokenSource = new CancellationTokenSource();
+
             //await GW2API.FetchBaseSkills();
 
-            await GW2API.FetchItems();
+            //await GW2API.CreateItemMap(_cancellationTokenSource.Token);
 
             //Data.Stats.Clear();
             //await GW2API.GetStats(CancellationToken.None, Data.Stats);
