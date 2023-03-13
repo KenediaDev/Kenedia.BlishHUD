@@ -3,6 +3,7 @@ using Kenedia.Modules.BuildsManager.DataModels.Professions;
 using Kenedia.Modules.Core.DataModels;
 using Kenedia.Modules.Core.Utility;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Runtime.Serialization;
 using Attunement = Gw2Sharp.WebApi.V2.Models.Attunement;
 
@@ -50,7 +51,7 @@ namespace Kenedia.Modules.BuildsManager.Models.Templates
                     if (BuildTemplate != null)
                     {
                         BuildTemplate.Profession = value;
-                        GearTemplate.Profession = value;
+                        //GearTemplate.Profession = value;
                     }
                 }
             }
@@ -130,10 +131,10 @@ namespace Kenedia.Modules.BuildsManager.Models.Templates
                 var prev = _gearTemplate;
                 if (Common.SetProperty(ref _gearTemplate, value, Changed))
                 {
-                    if (prev != null) prev.Changed -= TemplateChanged;
+                    if (prev != null) prev.PropertyChanged -= TemplateChanged;
 
                     _gearTemplate ??= new();
-                    _gearTemplate.Changed += TemplateChanged;
+                    _gearTemplate.PropertyChanged += TemplateChanged;
                 }
             }
         }
@@ -158,6 +159,8 @@ namespace Kenedia.Modules.BuildsManager.Models.Templates
             {
                 AltAttunement = MainAttunement;
             }
+
+            Debug.WriteLine($"TEMPLATE CHANGED");
 
             Changed?.Invoke(sender, e);
         }

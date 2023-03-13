@@ -121,14 +121,14 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage
 
         public void ApplyTemplate()
         {
-            _power.Item2.Value = Template.GearTemplate.Infusions[AttributeType.Power];
-            _precision.Item2.Value = Template.GearTemplate.Infusions[AttributeType.Precision];
-            _ferocity.Item2.Value = Template.GearTemplate.Infusions[AttributeType.CritDamage];
-            _thoughness.Item2.Value = Template.GearTemplate.Infusions[AttributeType.Toughness];
-            _condition.Item2.Value = Template.GearTemplate.Infusions[AttributeType.ConditionDamage];
-            _expertise.Item2.Value = Template.GearTemplate.Infusions[AttributeType.ConditionDuration];
-            _concentration.Item2.Value = Template.GearTemplate.Infusions[AttributeType.BoonDuration];
-            _vitality.Item2.Value = Template.GearTemplate.Infusions[AttributeType.Vitality];
+            //_power.Item2.Value = Template.GearTemplate.Infusions[AttributeType.Power];
+            //_precision.Item2.Value = Template.GearTemplate.Infusions[AttributeType.Precision];
+            //_ferocity.Item2.Value = Template.GearTemplate.Infusions[AttributeType.CritDamage];
+            //_thoughness.Item2.Value = Template.GearTemplate.Infusions[AttributeType.Toughness];
+            //_condition.Item2.Value = Template.GearTemplate.Infusions[AttributeType.ConditionDamage];
+            //_expertise.Item2.Value = Template.GearTemplate.Infusions[AttributeType.ConditionDuration];
+            //_concentration.Item2.Value = Template.GearTemplate.Infusions[AttributeType.BoonDuration];
+            //_vitality.Item2.Value = Template.GearTemplate.Infusions[AttributeType.Vitality];
         }
 
         private void TemplateChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)

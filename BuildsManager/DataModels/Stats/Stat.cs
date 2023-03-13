@@ -81,7 +81,7 @@ namespace Kenedia.Modules.BuildsManager.DataModels.Stats
             {
                 if (_icon != null) return _icon;
 
-                _icon = AsyncTexture2D.FromAssetId(AssetId);
+                _icon = BuildsManager.ModuleInstance.ContentsManager.GetTexture($@"textures\equipment_stats\{Id}.png");
                 return _icon;
             }
         }

@@ -1,4 +1,5 @@
-﻿using Gw2Sharp.WebApi.V2.Models;
+﻿using Blish_HUD.Input;
+using Gw2Sharp.WebApi.V2.Models;
 using Kenedia.Modules.BuildsManager.DataModels.Items;
 using Kenedia.Modules.BuildsManager.Extensions;
 using Kenedia.Modules.BuildsManager.Models.Templates;
@@ -34,10 +35,10 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
             var trinketslots = new List<GearTemplateSlot>()
             {
                 GearTemplateSlot.Amulet,
-                GearTemplateSlot.Ring_1,
-                GearTemplateSlot.Ring_2,
                 GearTemplateSlot.Accessory_1,
                 GearTemplateSlot.Accessory_2,
+                GearTemplateSlot.Ring_1,
+                GearTemplateSlot.Ring_2,
             };
 
             var backslots = new List<GearTemplateSlot>()
@@ -75,6 +76,13 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
                         TemplateSlot = slot,
                         Item = item,
                         Visible = false,
+                        OnClickAction = () =>
+                        {
+                            if(Template != null)
+                            {
+                                Template.GearTemplate.Armors[slot].Item = item;
+                            }
+                        }
                     });
                 }
             };
@@ -83,14 +91,26 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
             {
                 _selectables[slot] = new();
 
-                foreach (var item in BuildsManager.Data.Trinkets.Values.Where(e => e.TemplateSlot == slot).OrderByDescending(e => e.Rarity).ThenBy(e => e.Id))
+                Debug.WriteLine($"Adding Items for Slot {slot}");
+                var effectiveSlot = slot is GearTemplateSlot.Ring_2 ? GearTemplateSlot.Ring_1 : slot is GearTemplateSlot.Accessory_2 ? GearTemplateSlot.Accessory_1 : slot;
+
+                foreach (var item in BuildsManager.Data.Trinkets.Values.Where(e => e.TemplateSlot == effectiveSlot).OrderByDescending(e => e.Rarity).ThenBy(e => e.Id))
                 {
+                    Debug.WriteLine($"Adding Items for Slot {slot} {_selectables[slot].Count}");
                     _selectables[slot].Add(new()
                     {
                         Parent = SelectionContent,
                         TemplateSlot = slot,
                         Item = item,
                         Visible = false,
+                        OnClickAction = () =>
+                        {
+                            if (Template != null)
+                            {
+                                Debug.WriteLine($"SLOT {slot}");
+                                Template.GearTemplate.Juwellery[slot].Item = item;
+                            }
+                        }
                     });
                 }
             };
@@ -107,6 +127,13 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
                         TemplateSlot = slot,
                         Item = item,
                         Visible = false,
+                        OnClickAction = () =>
+                        {
+                            if (Template != null)
+                            {
+                                Template.GearTemplate.Juwellery[slot].Item = item;
+                            }
+                        }
                     });
                 }
             };
@@ -125,6 +152,13 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
                             TemplateSlot = slot,
                             Item = item,
                             Visible = false,
+                            OnClickAction = () =>
+                            {
+                                if (Template != null)
+                                {
+                                    Template.GearTemplate.Weapons[slot].Item = item;
+                                }
+                            }
                         });
                     }
                 }
@@ -144,6 +178,13 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
                             TemplateSlot = slot,
                             Item = item,
                             Visible = false,
+                            OnClickAction = () =>
+                            {
+                                if (Template != null)
+                                {
+                                    Template.GearTemplate.Weapons[slot].Item = item;
+                                }
+                            }
                         });
                     }
                 }
@@ -163,6 +204,13 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
                             TemplateSlot = slot,
                             Item = item,
                             Visible = false,
+                            OnClickAction = () =>
+                            {
+                                if (Template != null)
+                                {
+                                    Template.GearTemplate.Weapons[slot].Item = item;
+                                }
+                            }
                         });
                     }
                 }
@@ -207,7 +255,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
             {
                 foreach (var item in selectables.Value)
                 {
-                    bool slotMatch = item.TemplateSlot == ActiveSlot || (ActiveSlot == GearTemplateSlot.Ring_2 && item.TemplateSlot == GearTemplateSlot.Ring_1) || (ActiveSlot == GearTemplateSlot.Accessory_2 && item.TemplateSlot == GearTemplateSlot.Accessory_1);
+                    bool slotMatch = item.TemplateSlot == ActiveSlot; // || (ActiveSlot == GearTemplateSlot.Ring_2 && item.TemplateSlot == GearTemplateSlot.Ring_1) || (ActiveSlot == GearTemplateSlot.Accessory_2 && item.TemplateSlot == GearTemplateSlot.Accessory_1);
 
                     bool weaponMatch = false;
 
@@ -230,7 +278,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
                                     }
 
                                     //Elite Spec Matched
-                                    if(weapon.Value.Specialization == Template.EliteSpecialization?.Id && wieldMatch)
+                                    if (weapon.Value.Specialization == Template.EliteSpecialization?.Id && wieldMatch)
                                     {
                                         weaponMatch = true;
                                         break;
@@ -238,7 +286,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
 
                                     if (weapon.Value.SpecializationWielded != null && wieldMatch)
                                     {
-                                        if((slotIsOffhand && !weapon.Value.SpecializationWielded.Value.HasFlag(Gw2Sharp.ProfessionWeaponFlag.Offhand)) || (!slotIsOffhand && weapon.Value.SpecializationWielded.Value.HasFlag(Gw2Sharp.ProfessionWeaponFlag.Offhand)))
+                                        if ((slotIsOffhand && !weapon.Value.SpecializationWielded.Value.HasFlag(Gw2Sharp.ProfessionWeaponFlag.Offhand)) || (!slotIsOffhand && weapon.Value.SpecializationWielded.Value.HasFlag(Gw2Sharp.ProfessionWeaponFlag.Offhand)))
                                         {
                                             weaponMatch = true;
                                             break;

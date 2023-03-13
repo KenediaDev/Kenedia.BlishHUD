@@ -233,88 +233,58 @@ namespace Kenedia.Modules.BuildsManager
 
         private void SetDummyTemplate()
         {
-            var gear = new GearTemplate();
-            gear.Gear[GearTemplateSlot.Head].Stat = DataModels.Stats.EquipmentStat.Berserkers;
-            gear.Gear[GearTemplateSlot.Head].Upgrades[UpgradeSlot.Rune] = 24836;
-            gear.Gear[GearTemplateSlot.Head].Upgrades[UpgradeSlot.Infusion_1] = 37131;
-
-            gear.Gear[GearTemplateSlot.Shoulder].Stat = DataModels.Stats.EquipmentStat.Berserkers;
-            gear.Gear[GearTemplateSlot.Shoulder].Upgrades[UpgradeSlot.Rune] = 24836;
-            gear.Gear[GearTemplateSlot.Shoulder].Upgrades[UpgradeSlot.Infusion_1] = 37131;
-
-            gear.Gear[GearTemplateSlot.Chest].Stat = DataModels.Stats.EquipmentStat.Berserkers;
-            gear.Gear[GearTemplateSlot.Chest].Upgrades[UpgradeSlot.Rune] = 24836;
-            gear.Gear[GearTemplateSlot.Chest].Upgrades[UpgradeSlot.Infusion_1] = 37131;
-
-            gear.Gear[GearTemplateSlot.Hand].Stat = DataModels.Stats.EquipmentStat.Berserkers;
-            gear.Gear[GearTemplateSlot.Hand].Upgrades[UpgradeSlot.Rune] = 24836;
-            gear.Gear[GearTemplateSlot.Hand].Upgrades[UpgradeSlot.Infusion_1] = 37131;
-
-            gear.Gear[GearTemplateSlot.Leg].Stat = DataModels.Stats.EquipmentStat.Berserkers;
-            gear.Gear[GearTemplateSlot.Leg].Upgrades[UpgradeSlot.Rune] = 24836;
-            gear.Gear[GearTemplateSlot.Leg].Upgrades[UpgradeSlot.Infusion_1] = 37131;
-
-            gear.Gear[GearTemplateSlot.Foot].Stat = DataModels.Stats.EquipmentStat.Berserkers;
-            gear.Gear[GearTemplateSlot.Foot].Upgrades[UpgradeSlot.Rune] = 24836;
-            gear.Gear[GearTemplateSlot.Foot].Upgrades[UpgradeSlot.Infusion_1] = 37131;
-
-            gear.Gear[GearTemplateSlot.MainHand].Weapon = WeaponType.Staff;
-            gear.Gear[GearTemplateSlot.MainHand].Stat = DataModels.Stats.EquipmentStat.Berserkers;
-            gear.Gear[GearTemplateSlot.MainHand].Upgrades[UpgradeSlot.Sigil_1] = 24615;
-            gear.Gear[GearTemplateSlot.MainHand].Upgrades[UpgradeSlot.Infusion_1] = 37131;
-            gear.Gear[GearTemplateSlot.OffHand].Weapon = WeaponType.Staff;
-            gear.Gear[GearTemplateSlot.OffHand].Stat = DataModels.Stats.EquipmentStat.Berserkers;
-            gear.Gear[GearTemplateSlot.OffHand].Upgrades[UpgradeSlot.Sigil_1] = 24615;
-            gear.Gear[GearTemplateSlot.OffHand].Upgrades[UpgradeSlot.Infusion_1] = 37131;
-            gear.Gear[GearTemplateSlot.Aquatic].Weapon = WeaponType.Trident;
-            gear.Gear[GearTemplateSlot.Aquatic].Stat = DataModels.Stats.EquipmentStat.Berserkers;
-            gear.Gear[GearTemplateSlot.Aquatic].Upgrades[UpgradeSlot.Sigil_1] = 24615;
-            gear.Gear[GearTemplateSlot.Aquatic].Upgrades[UpgradeSlot.Sigil_2] = 24618;
-            gear.Gear[GearTemplateSlot.Aquatic].Upgrades[UpgradeSlot.Infusion_1] = 37131;
-            gear.Gear[GearTemplateSlot.Aquatic].Upgrades[UpgradeSlot.Infusion_2] = 37131;
-
-            gear.Gear[GearTemplateSlot.AltMainHand].Weapon = WeaponType.Scepter;
-            gear.Gear[GearTemplateSlot.AltMainHand].Stat = DataModels.Stats.EquipmentStat.Berserkers;
-            gear.Gear[GearTemplateSlot.AltMainHand].Upgrades[UpgradeSlot.Sigil_1] = 24615;
-            gear.Gear[GearTemplateSlot.AltMainHand].Upgrades[UpgradeSlot.Infusion_1] = 37131;
-            gear.Gear[GearTemplateSlot.AltOffHand].Weapon = WeaponType.Focus;
-            gear.Gear[GearTemplateSlot.AltOffHand].Stat = DataModels.Stats.EquipmentStat.Berserkers;
-            gear.Gear[GearTemplateSlot.AltOffHand].Upgrades[UpgradeSlot.Sigil_1] = 24615;
-            gear.Gear[GearTemplateSlot.AltOffHand].Upgrades[UpgradeSlot.Infusion_1] = 37131;
-            gear.Gear[GearTemplateSlot.AltAquatic].Weapon = WeaponType.Trident;
-            gear.Gear[GearTemplateSlot.AltAquatic].Stat = DataModels.Stats.EquipmentStat.Berserkers;
-            gear.Gear[GearTemplateSlot.AltAquatic].Upgrades[UpgradeSlot.Sigil_1] = 24615;
-            gear.Gear[GearTemplateSlot.AltAquatic].Upgrades[UpgradeSlot.Sigil_2] = 24618;
-            gear.Gear[GearTemplateSlot.AltAquatic].Upgrades[UpgradeSlot.Infusion_1] = 37131;
-            gear.Gear[GearTemplateSlot.AltAquatic].Upgrades[UpgradeSlot.Infusion_2] = 37131;
-
-            gear.Gear[GearTemplateSlot.Back].Stat = DataModels.Stats.EquipmentStat.Berserkers;
-            gear.Gear[GearTemplateSlot.Back].Upgrades[UpgradeSlot.Infusion_1] = 37131;
-            gear.Gear[GearTemplateSlot.Back].Upgrades[UpgradeSlot.Infusion_2] = 37131;
-            gear.Gear[GearTemplateSlot.Amulet].Stat = DataModels.Stats.EquipmentStat.Berserkers;
-            gear.Gear[GearTemplateSlot.Ring_1].Stat = DataModels.Stats.EquipmentStat.Berserkers;
-            gear.Gear[GearTemplateSlot.Ring_1].Upgrades[UpgradeSlot.Infusion_1] = 37131;
-            gear.Gear[GearTemplateSlot.Ring_1].Upgrades[UpgradeSlot.Infusion_2] = 37131;
-            gear.Gear[GearTemplateSlot.Ring_1].Upgrades[UpgradeSlot.Infusion_3] = 37131;
-            gear.Gear[GearTemplateSlot.Ring_2].Stat = DataModels.Stats.EquipmentStat.Berserkers;
-            gear.Gear[GearTemplateSlot.Ring_2].Upgrades[UpgradeSlot.Infusion_1] = 37131;
-            gear.Gear[GearTemplateSlot.Ring_2].Upgrades[UpgradeSlot.Infusion_2] = 37131;
-            gear.Gear[GearTemplateSlot.Ring_2].Upgrades[UpgradeSlot.Infusion_3] = 37131;
-            gear.Gear[GearTemplateSlot.Accessory_1].Stat = DataModels.Stats.EquipmentStat.Berserkers;
-            gear.Gear[GearTemplateSlot.Accessory_1].Upgrades[UpgradeSlot.Infusion_1] = 37131;
-            gear.Gear[GearTemplateSlot.Accessory_2].Stat = DataModels.Stats.EquipmentStat.Berserkers;
-            gear.Gear[GearTemplateSlot.Accessory_2].Upgrades[UpgradeSlot.Infusion_1] = 37131;
-            gear.Infusions[AttributeType.Power] = 4;
-
+            string gearcode = "[9|584|-1|0][4|584|-1|0][7|584|-1|0][3|584|-1|0][15|584|-1|0][17|584|-1|0][1|584|-1|0][53|584|-1|-1|-1][50|584|-1|-1|-1][7|584|-1|-1|-1|-1][-1|584|-1|-1|-1][16|584|-1|-1|-1][17|584|-1|-1|-1|-1][0|584|-1|-1][8|584|-1][3|584|-1][4|584|-1][5|584|-1|-1|-1][7|584|-1|-1|-1][-1][-1][-1]";
             string code = "[&DQgnNhM1PCYSAJsAiwDkAJkBdgBvAXABkgCVAAAAAAAAAAAAAAAAAAAAAAA=]";
             var build = new BuildTemplate(code);
 
             SelectedTemplate = new Template()
             {
                 BuildTemplate = build,
-                GearTemplate = gear,
+                GearTemplate = new(gearcode),
                 Race = Core.DataModels.Races.Human,
             };
+
+            var template = SelectedTemplate.GearTemplate;
+
+            foreach (var armor in template.Armors)
+            {
+                armor.Value.Stat = DataModels.Stats.EquipmentStat.Assassins;
+
+                for (int i = 0; i < armor.Value.InfusionIds.Count; i++)
+                {
+                    armor.Value.InfusionIds[i] = 1;
+                }
+
+                for (int i = 0; i < armor.Value.RuneIds.Count; i++)
+                {
+                    armor.Value.RuneIds[i] = 1;
+                }
+            }
+
+            foreach (var weapon in template.Weapons)
+            {
+                weapon.Value.Stat = DataModels.Stats.EquipmentStat.Berserkers;
+
+                for (int i = 0; i < weapon.Value.InfusionIds.Count; i++)
+                {
+                    weapon.Value.InfusionIds[i] = 1;
+                }
+
+                for (int i = 0; i < weapon.Value.SigilIds.Count; i++)
+                {
+                    weapon.Value.SigilIds[i] = 1;
+                }
+            }
+
+            foreach (var juwellery in template.Juwellery)
+            {
+                juwellery.Value.Stat = DataModels.Stats.EquipmentStat.Berserkers;
+
+                for (int i = 0; i < juwellery.Value.InfusionIds.Count; i++)
+                {
+                    juwellery.Value.InfusionIds[i] = 1;
+                }
+            }
 
             if (MainWindow != null) MainWindow.Template = SelectedTemplate;
         }

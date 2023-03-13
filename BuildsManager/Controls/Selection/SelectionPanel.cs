@@ -205,7 +205,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
 
         private void DrawGearSelection(SpriteBatch spriteBatch, Rectangle bounds)
         {
-            spriteBatch.DrawFrame(this, _anchorAbsBounds, Colors.ColonialWhite);
+            //spriteBatch.DrawFrame(this, _anchorAbsBounds, Colors.ColonialWhite);
 
             _pointerArrow.Draw(this, spriteBatch, null, Color.White);
 

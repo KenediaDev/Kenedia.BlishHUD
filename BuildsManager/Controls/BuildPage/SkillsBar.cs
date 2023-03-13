@@ -143,13 +143,13 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
             bool ele = Template.Profession == Gw2Sharp.Models.ProfessionType.Elementalist;
 
             //TODO Ignore Ambush / Stealth skills
-            if (Template.GearTemplate.Gear[GearTemplateSlot.MainHand] != null)
+            if (Template.GearTemplate.Weapons[GearTemplateSlot.MainHand] != null)
             {
-                var weapon = Template.GearTemplate.Gear[GearTemplateSlot.MainHand].Weapon;
+                var weapon = Template.GearTemplate.Weapons[GearTemplateSlot.MainHand].Weapon;
 
-                if (weapon != null && BuildsManager.Data.Professions[Template.Profession].Weapons.ContainsKey(weapon.Value))
+                if (weapon != null && BuildsManager.Data.Professions[Template.Profession].Weapons.ContainsKey(weapon))
                 {
-                    var weaponSkillIds = BuildsManager.Data.Professions[Template.Profession].Weapons[weapon.Value].Skills;
+                    var weaponSkillIds = BuildsManager.Data.Professions[Template.Profession].Weapons[weapon].Skills;
                     var weaponSkills = BuildsManager.Data.Professions[Template.Profession].Skills.Where(e => weaponSkillIds.Contains(e.Value.Id) && e.Value.SkillConnection?.Default == null);
 
                     if (Template.Profession == Gw2Sharp.Models.ProfessionType.Elementalist)
@@ -171,13 +171,13 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
                 }
             }
 
-            if (Template.GearTemplate.Gear[GearTemplateSlot.OffHand] != null)
+            if (Template.GearTemplate.Weapons[GearTemplateSlot.OffHand] != null)
             {
-                var weapon = Template.GearTemplate.Gear[GearTemplateSlot.OffHand].Weapon;
+                var weapon = Template.GearTemplate.Weapons[GearTemplateSlot.OffHand].Weapon;
 
-                if (weapon != null && BuildsManager.Data.Professions[Template.Profession].Weapons.ContainsKey(weapon.Value))
+                if (weapon != null && BuildsManager.Data.Professions[Template.Profession].Weapons.ContainsKey(weapon))
                 {
-                    var weaponSkillIds = BuildsManager.Data.Professions[Template.Profession].Weapons[weapon.Value].Skills;
+                    var weaponSkillIds = BuildsManager.Data.Professions[Template.Profession].Weapons[weapon].Skills;
                     var weaponSkills = BuildsManager.Data.Professions[Template.Profession].Skills.Where(e => weaponSkillIds.Contains(e.Value.Id) && e.Value.SkillConnection?.Default == null);
 
                     if (Template.Profession == Gw2Sharp.Models.ProfessionType.Elementalist)
@@ -199,13 +199,13 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
                 }
             }
 
-            if (Template.GearTemplate.Gear[GearTemplateSlot.AltMainHand] != null)
+            if (Template.GearTemplate.Weapons[GearTemplateSlot.AltMainHand] != null)
             {
-                var weapon = Template.GearTemplate.Gear[GearTemplateSlot.AltMainHand].Weapon;
+                var weapon = Template.GearTemplate.Weapons[GearTemplateSlot.AltMainHand].Weapon;
 
-                if (weapon != null && BuildsManager.Data.Professions[Template.Profession].Weapons.ContainsKey(weapon.Value))
+                if (weapon != null && BuildsManager.Data.Professions[Template.Profession].Weapons.ContainsKey(weapon))
                 {
-                    var weaponSkillIds = BuildsManager.Data.Professions[Template.Profession].Weapons[weapon.Value].Skills;
+                    var weaponSkillIds = BuildsManager.Data.Professions[Template.Profession].Weapons[weapon].Skills;
                     var weaponSkills = BuildsManager.Data.Professions[Template.Profession].Skills.Where(e => weaponSkillIds.Contains(e.Value.Id) && e.Value.SkillConnection?.Default == null);
 
                     if (Template.Profession == Gw2Sharp.Models.ProfessionType.Elementalist)
@@ -227,13 +227,13 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
                 }
             }
 
-            if (Template.GearTemplate.Gear[GearTemplateSlot.AltOffHand] != null)
+            if (Template.GearTemplate.Weapons[GearTemplateSlot.AltOffHand] != null)
             {
-                var weapon = Template.GearTemplate.Gear[GearTemplateSlot.AltOffHand].Weapon;
+                var weapon = Template.GearTemplate.Weapons[GearTemplateSlot.AltOffHand].Weapon;
 
-                if (weapon != null && BuildsManager.Data.Professions[Template.Profession].Weapons.ContainsKey(weapon.Value))
+                if (weapon != null && BuildsManager.Data.Professions[Template.Profession].Weapons.ContainsKey(weapon))
                 {
-                    var weaponSkillIds = BuildsManager.Data.Professions[Template.Profession].Weapons[weapon.Value].Skills;
+                    var weaponSkillIds = BuildsManager.Data.Professions[Template.Profession].Weapons[weapon].Skills;
                     var weaponSkills = BuildsManager.Data.Professions[Template.Profession].Skills.Where(e => weaponSkillIds.Contains(e.Value.Id) && e.Value.SkillConnection?.Default == null);
 
                     if (Template.Profession == Gw2Sharp.Models.ProfessionType.Elementalist)
@@ -255,15 +255,15 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
                 }
             }
 
-            if (Template.GearTemplate.Gear[GearTemplateSlot.Aquatic] != null)
+            if (Template.GearTemplate.Weapons[GearTemplateSlot.Aquatic] != null)
             {
                 //foreach (var s in BuildsManager.Data.Professions[Template.Profession].Skills.Where(e => e.Value.WeaponType == weapon && e.Value.PrevChain == null && (!ele || (e.Value.Attunement != null && e.Value.Attunement == Template.MainAttunement))))
 
-                var weapon = Template.GearTemplate.Gear[GearTemplateSlot.Aquatic].Weapon;
+                var weapon = Template.GearTemplate.Weapons[GearTemplateSlot.Aquatic].Weapon;
 
-                if (weapon != null && BuildsManager.Data.Professions[Template.Profession].Weapons.ContainsKey(weapon.Value))
+                if (weapon != null && BuildsManager.Data.Professions[Template.Profession].Weapons.ContainsKey(weapon))
                 {
-                    var weaponSkillIds = BuildsManager.Data.Professions[Template.Profession].Weapons[weapon.Value].Skills;
+                    var weaponSkillIds = BuildsManager.Data.Professions[Template.Profession].Weapons[weapon].Skills;
                     var weaponSkills = BuildsManager.Data.Professions[Template.Profession].Skills.Where(e => weaponSkillIds.Contains(e.Value.Id) && e.Value.SkillConnection?.Default == null);
 
                     if (Template.Profession == Gw2Sharp.Models.ProfessionType.Elementalist)
@@ -285,13 +285,13 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
                 }
             }
 
-            if (Template.GearTemplate.Gear[GearTemplateSlot.AltAquatic] != null)
+            if (Template.GearTemplate.Weapons[GearTemplateSlot.AltAquatic] != null)
             {
-                var weapon = Template.GearTemplate.Gear[GearTemplateSlot.AltAquatic].Weapon;
+                var weapon = Template.GearTemplate.Weapons[GearTemplateSlot.AltAquatic].Weapon;
 
-                if (weapon != null && BuildsManager.Data.Professions[Template.Profession].Weapons.ContainsKey(weapon.Value))
+                if (weapon != Weapon.WeaponType.Unknown && BuildsManager.Data.Professions[Template.Profession].Weapons.ContainsKey(weapon))
                 {
-                    var weaponSkillIds = BuildsManager.Data.Professions[Template.Profession].Weapons[weapon.Value].Skills;
+                    var weaponSkillIds = BuildsManager.Data.Professions[Template.Profession].Weapons[weapon].Skills;
                     var weaponSkills = BuildsManager.Data.Professions[Template.Profession].Skills.Where(e => weaponSkillIds.Contains(e.Value.Id) && e.Value.SkillConnection?.Default == null);
 
                     if (Template.Profession == Gw2Sharp.Models.ProfessionType.Elementalist)
