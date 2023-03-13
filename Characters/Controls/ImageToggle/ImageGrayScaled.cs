@@ -2,6 +2,7 @@
 using Blish_HUD.Content;
 using Blish_HUD.Controls;
 using Kenedia.Modules.Core.Extensions;
+using Kenedia.Modules.Core.Utility;
 using Microsoft.Xna.Framework.Graphics;
 using Color = Microsoft.Xna.Framework.Color;
 using Rectangle = Microsoft.Xna.Framework.Rectangle;
@@ -24,11 +25,15 @@ namespace Kenedia.Modules.Characters.Controls
             get => _texture;
             set
             {
-                _texture = value;
-                _texture.TextureSwapped += Texture_TextureSwapped;
-                if (value != null)
+                var temp = _texture; 
+                if(Common.SetProperty(ref _texture, value))
                 {
-                    _grayScaleTexture = value.Texture.ToGrayScaledPalettable();
+                    if(temp != null) temp.TextureSwapped -= Texture_TextureSwapped;
+                    if(_texture != null) _texture.TextureSwapped += Texture_TextureSwapped;
+                    if (_texture != null)
+                    {
+                        _grayScaleTexture = _texture.Texture.ToGrayScaledPalettable();
+                    }
                 }
             }
         }
