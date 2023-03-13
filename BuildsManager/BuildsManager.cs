@@ -252,7 +252,7 @@ namespace Kenedia.Modules.BuildsManager
 
                 for (int i = 0; i < armor.Value.InfusionIds.Count; i++)
                 {
-                    armor.Value.InfusionIds[i] = 1;
+                    armor.Value.InfusionIds[i] = 340;
                 }
 
                 for (int i = 0; i < armor.Value.RuneIds.Count; i++)
@@ -267,7 +267,7 @@ namespace Kenedia.Modules.BuildsManager
 
                 for (int i = 0; i < weapon.Value.InfusionIds.Count; i++)
                 {
-                    weapon.Value.InfusionIds[i] = 1;
+                    weapon.Value.InfusionIds[i] = 340;
                 }
 
                 for (int i = 0; i < weapon.Value.SigilIds.Count; i++)
@@ -282,7 +282,7 @@ namespace Kenedia.Modules.BuildsManager
 
                 for (int i = 0; i < juwellery.Value.InfusionIds.Count; i++)
                 {
-                    juwellery.Value.InfusionIds[i] = 1;
+                    juwellery.Value.InfusionIds[i] = 340;
                 }
             }
 

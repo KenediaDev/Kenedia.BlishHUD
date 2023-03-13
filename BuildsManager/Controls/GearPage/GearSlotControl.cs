@@ -133,7 +133,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage
                 _item.Item = Template?.GearTemplate.Armors[GearSlot].Item;
                 Stat = Template?.GearTemplate.Armors[GearSlot].Stat != null && BuildsManager.Data.Stats.TryGetValue((int)Template?.GearTemplate.Armors[GearSlot].Stat, out Stat stat) ? stat : null;
                 if (Template != null) Infusion1.Item = BuildsManager.Data.Infusions.Where(e => e.Value.MappedId == Template.GearTemplate.Armors[GearSlot].InfusionIds[0]).FirstOrDefault().Value;
-                if (Template != null) Upgrade1.Item = BuildsManager.Data.PvpRunes.Where(e => e.Value.MappedId == Template.GearTemplate.Armors[GearSlot].RuneIds[0]).FirstOrDefault().Value;
+                if (Template != null) Upgrade1.Item = BuildsManager.Data.PveRunes.Where(e => e.Value.MappedId == Template.GearTemplate.Armors[GearSlot].RuneIds[0]).FirstOrDefault().Value;
             }
             else if (GearSlot.IsWeapon())
             {
@@ -355,6 +355,10 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage
                 {
                     _infusions[i].Bounds = new(_icon.Bounds.Right + 2, i * (infusionSize + 2), infusionSize, infusionSize);
                 }
+
+                Infusion1.Bounds = _infusions.Length > 0 ? _infusions[0].Bounds : Rectangle.Empty;
+                Infusion2.Bounds = _infusions.Length > 1 ? _infusions[1].Bounds : Rectangle.Empty;
+                Infusion3.Bounds = _infusions.Length > 2 ? _infusions[2].Bounds : Rectangle.Empty;
 
                 _statIconBounds = new(_item.Bounds.Center, new(_item.Bounds.Height / 2));
             }
