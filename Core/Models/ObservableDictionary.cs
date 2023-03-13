@@ -11,7 +11,7 @@ namespace Kenedia.Modules.Core.Models
         public new TValue this[TKey key]
         {
             get => base[key];
-            set => OnValueChanged(key, base.ContainsKey(key) ? base[key] : default, value);
+            set => OnValueChanged(key, ContainsKey(key) ? base[key] : default, value);
         }
 
         public ObservableDictionary()

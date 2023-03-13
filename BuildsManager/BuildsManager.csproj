@@ -40,7 +40,21 @@
     </Reference>
     <Reference Include="Blish HUD, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\BlishHUD.1.0.0\lib\net472\Blish HUD.exe</HintPath>
-      <Private>False</Private>
+    </Reference>
+    <Reference Include="Gapotchenko.FX, Version=2022.2.7.4096, Culture=neutral, PublicKeyToken=a750ee378eaf756f, processorArchitecture=MSIL">
+      <HintPath>..\packages\Gapotchenko.FX.2022.2.7\lib\net472\Gapotchenko.FX.dll</HintPath>
+    </Reference>
+    <Reference Include="Gapotchenko.FX.Diagnostics.CommandLine, Version=2022.2.7.4096, Culture=neutral, PublicKeyToken=a750ee378eaf756f, processorArchitecture=MSIL">
+      <HintPath>..\packages\Gapotchenko.FX.Diagnostics.CommandLine.2022.2.7\lib\net472\Gapotchenko.FX.Diagnostics.CommandLine.dll</HintPath>
+    </Reference>
+    <Reference Include="Gapotchenko.FX.Diagnostics.Process, Version=2022.2.7.4096, Culture=neutral, PublicKeyToken=a750ee378eaf756f, processorArchitecture=MSIL">
+      <HintPath>..\packages\Gapotchenko.FX.Diagnostics.Process.2022.2.7\lib\net472\Gapotchenko.FX.Diagnostics.Process.dll</HintPath>
+    </Reference>
+    <Reference Include="Gapotchenko.FX.Text, Version=2022.2.7.4096, Culture=neutral, PublicKeyToken=a750ee378eaf756f, processorArchitecture=MSIL">
+      <HintPath>..\packages\Gapotchenko.FX.Text.2022.2.7\lib\net472\Gapotchenko.FX.Text.dll</HintPath>
+    </Reference>
+    <Reference Include="Gapotchenko.FX.Threading, Version=2022.2.7.4096, Culture=neutral, PublicKeyToken=a750ee378eaf756f, processorArchitecture=MSIL">
+      <HintPath>..\packages\Gapotchenko.FX.Threading.2022.2.7\lib\net472\Gapotchenko.FX.Threading.dll</HintPath>
     </Reference>
     <Reference Include="Gw2Sharp, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Gw2Sharp.1.7.4\lib\netstandard2.0\Gw2Sharp.dll</HintPath>
@@ -48,6 +62,18 @@
     <Reference Include="Microsoft.Bcl.AsyncInterfaces, Version=7.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Bcl.AsyncInterfaces.7.0.0\lib\net462\Microsoft.Bcl.AsyncInterfaces.dll</HintPath>
       <Private>False</Private>
+    </Reference>
+    <Reference Include="Microsoft.IdentityModel.Abstractions, Version=6.27.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.IdentityModel.Abstractions.6.27.0\lib\net472\Microsoft.IdentityModel.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.IdentityModel.JsonWebTokens, Version=6.27.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.IdentityModel.JsonWebTokens.6.27.0\lib\net472\Microsoft.IdentityModel.JsonWebTokens.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.IdentityModel.Logging, Version=6.27.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.IdentityModel.Logging.6.27.0\lib\net472\Microsoft.IdentityModel.Logging.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.IdentityModel.Tokens, Version=6.27.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.IdentityModel.Tokens.6.27.0\lib\net472\Microsoft.IdentityModel.Tokens.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Win32.Primitives" />
     <Reference Include="MonoGame.Extended, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
@@ -69,6 +95,15 @@
     <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.13.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>False</Private>
+    </Reference>
+    <Reference Include="Ookii.Dialogs.WinForms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=66aa232afad40158, processorArchitecture=MSIL">
+      <HintPath>..\packages\Ookii.Dialogs.WinForms.4.0.0\lib\net462\Ookii.Dialogs.WinForms.dll</HintPath>
+    </Reference>
+    <Reference Include="protobuf-net, Version=3.0.0.0, Culture=neutral, PublicKeyToken=257b51d87d2e4d67, processorArchitecture=MSIL">
+      <HintPath>..\packages\protobuf-net.3.2.12\lib\net462\protobuf-net.dll</HintPath>
+    </Reference>
+    <Reference Include="protobuf-net.Core, Version=3.0.0.0, Culture=neutral, PublicKeyToken=257b51d87d2e4d67, processorArchitecture=MSIL">
+      <HintPath>..\packages\protobuf-net.Core.3.2.12\lib\net462\protobuf-net.Core.dll</HintPath>
     </Reference>
     <Reference Include="SemVer, Version=1.2.2.0, Culture=neutral, PublicKeyToken=a89bb7dc6f7a145c, processorArchitecture=MSIL">
       <HintPath>..\packages\SemanticVersioning.1.2.2\lib\net45\SemVer.dll</HintPath>
@@ -116,9 +151,13 @@
       <HintPath>..\packages\System.Buffers.4.5.1\lib\net461\System.Buffers.dll</HintPath>
       <Private>False</Private>
     </Reference>
+    <Reference Include="System.Collections.Immutable, Version=7.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Collections.Immutable.7.0.0\lib\net462\System.Collections.Immutable.dll</HintPath>
+    </Reference>
     <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.Console" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Design" />
     <Reference Include="System.Diagnostics.Tracing" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Drawing.Common, Version=7.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
@@ -127,6 +166,9 @@
     </Reference>
     <Reference Include="System.Globalization.Calendars" />
     <Reference Include="System.IdentityModel" />
+    <Reference Include="System.IdentityModel.Tokens.Jwt, Version=6.27.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.IdentityModel.Tokens.Jwt.6.27.0\lib\net472\System.IdentityModel.Tokens.Jwt.dll</HintPath>
+    </Reference>
     <Reference Include="System.IO" />
     <Reference Include="System.IO.Compression" />
     <Reference Include="System.IO.Compression.ZipFile" />
@@ -158,6 +200,7 @@
     <Reference Include="System.Runtime.InteropServices" />
     <Reference Include="System.Runtime.InteropServices.RuntimeInformation" />
     <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
     <Reference Include="System.Security.Cryptography.Algorithms" />
     <Reference Include="System.Security.Cryptography.Encoding" />
     <Reference Include="System.Security.Cryptography.Primitives" />
@@ -171,9 +214,8 @@
       <HintPath>..\packages\System.Text.Encodings.Web.7.0.0\lib\net462\System.Text.Encodings.Web.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="System.Text.Json, Version=7.0.0.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Text.Json.7.0.1\lib\net462\System.Text.Json.dll</HintPath>
-      <Private>False</Private>
+    <Reference Include="System.Text.Json, Version=7.0.0.2, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Text.Json.7.0.2\lib\net462\System.Text.Json.dll</HintPath>
     </Reference>
     <Reference Include="System.Text.RegularExpressions" />
     <Reference Include="System.Threading.Tasks.Extensions, Version=4.2.0.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
@@ -247,21 +289,26 @@
     <Compile Include="Controls\SkillConnectionEdit\TraitEntryControl.cs" />
     <Compile Include="Controls\SkillConnectionEdit\TraitSelector.cs" />
     <Compile Include="Controls\TabbedRegion.cs" />
-    <Compile Include="DataModels\ItemUpgrades\Rune.cs" />
-    <Compile Include="DataModels\ItemUpgrades\Sigil.cs" />
-    <Compile Include="DataModels\ItemUpgrades\Upgrade.cs" />
-    <Compile Include="DataModels\LegendaryItems\LegendaryArmor.cs" />
-    <Compile Include="DataModels\LegendaryItems\LegendaryItem.cs" />
-    <Compile Include="DataModels\LegendaryItems\LegendaryItemId.cs" />
-    <Compile Include="DataModels\LegendaryItems\LegendaryItemType.cs" />
-    <Compile Include="DataModels\LegendaryItems\LegendaryTrinket.cs" />
-    <Compile Include="DataModels\LegendaryItems\LegendaryUpgrade.cs" />
-    <Compile Include="DataModels\LegendaryItems\LegendaryWeapon.cs" />
+    <Compile Include="DataModels\Items\BaseItem.cs" />
+    <Compile Include="DataModels\Items\BonusStat.cs" />
+    <Compile Include="DataModels\Items\BonusType.cs" />
+    <Compile Include="DataModels\Items\ConsumableDetails.cs" />
+    <Compile Include="DataModels\Items\Nourishment.cs" />
+    <Compile Include="DataModels\Items\Rune.cs" />
+    <Compile Include="DataModels\Items\RuneBonuses.cs" />
+    <Compile Include="DataModels\Items\Sigil.cs" />
+    <Compile Include="DataModels\Items\StatConversion.cs" />
+    <Compile Include="DataModels\Items\Utility.cs" />
+    <Compile Include="DataModels\Items\Armor.cs" />
+    <Compile Include="DataModels\Items\EquipmentItem.cs" />
+    <Compile Include="DataModels\Items\Trinket.cs" />
+    <Compile Include="DataModels\Items\Weapon.cs" />
     <Compile Include="DataModels\Professions\Legend.cs" />
     <Compile Include="DataModels\Professions\Pet.cs" />
     <Compile Include="DataModels\Professions\Profession.cs" />
     <Compile Include="DataModels\Professions\Skill.cs" />
     <Compile Include="DataModels\Professions\SkillCategory.cs" />
+    <Compile Include="DataModels\Professions\Skillfacts\SkillFact.cs" />
     <Compile Include="DataModels\Professions\Specialization.cs" />
     <Compile Include="DataModels\Professions\Trait.cs" />
     <Compile Include="DataModels\Professions\Weapon.cs" />
@@ -269,6 +316,7 @@
     <Compile Include="DataModels\Stats\EquipmentStat.cs" />
     <Compile Include="DataModels\Stats\Stat.cs" />
     <Compile Include="Extensions\ChatLinkExtension.cs" />
+    <Compile Include="Models\ItemMap.cs" />
     <Compile Include="Models\Templates\BuildSkillSlot.cs" />
     <Compile Include="Models\Templates\BuildSpecialization.cs" />
     <Compile Include="Models\Templates\BuildTemplate.cs" />
@@ -294,6 +342,7 @@
     <Compile Include="BuildsManager.cs" />
     <Compile Include="Services\Data.cs" />
     <Compile Include="Services\GW2API.cs" />
+    <Compile Include="Models\ItemMapping.cs" />
     <Compile Include="Services\Settings.cs" />
     <Compile Include="Utility\StatUtility.cs" />
     <Compile Include="Views\MainWindow.cs" />
@@ -389,6 +438,7 @@
     <None Include="Content\bin\Windows\Content\fonts\newkrytan\newkrytan-12-regular_1.xnb" />
     <None Include="manifest.json" />
     <None Include="packages.config" />
+    <None Include="ref\data\ItemMapping.json" />
     <None Include="ref\data\missing_skills.json" />
     <None Include="ref\data\rune_ids.json" />
     <None Include="ref\data\sigil_ids.json" />

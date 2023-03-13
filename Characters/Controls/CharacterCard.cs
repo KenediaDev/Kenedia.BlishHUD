@@ -820,7 +820,7 @@ namespace Kenedia.Modules.Characters.Controls
                     break;
             }
 
-            return GameService.Content.GetFont(FontFace.Menomonia, fontSize, ContentService.FontStyle.Regular);
+            return GameService.Content.GetFont(FontFace.Menomonia, fontSize, FontStyle.Regular);
         }
 
         private void TextTooltip_Shown(object sender, EventArgs e)

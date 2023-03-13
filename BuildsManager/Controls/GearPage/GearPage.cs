@@ -184,12 +184,6 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage
                     _utility.Template = _template;
                     _stats.Template = _template;
 
-                    if(_template != null && BuildsManager.Data.Professions.ContainsKey(_template.Profession))
-                    {
-                        _framedSpecIcon.Texture = _template.EliteSpecialization?.ProfessionIconBig ?? 
-                            BuildsManager.Data.Professions[_template.Profession].IconBig;
-                    }
-
                     foreach (var slot in _slots)
                     {
                         slot.Value.Template = _template;
@@ -284,6 +278,12 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage
             _jadeBotCore.Visible = Template.PvE;
             _nourishment.Visible = Template.PvE;
             _utility.Visible = Template.PvE;
+
+            if (_template != null && BuildsManager.Data.Professions.ContainsKey(_template.Profession))
+            {
+                _framedSpecIcon.Texture = _template.EliteSpecialization?.ProfessionIconBig ??
+                    BuildsManager.Data.Professions[_template.Profession].IconBig;
+            }
 
             foreach (var slot in _slots.Values)
             {

@@ -2,8 +2,6 @@
 using Blish_HUD.Modules.Managers;
 using Gw2Sharp.Models;
 using Kenedia.Modules.BuildsManager.DataModels;
-using Kenedia.Modules.BuildsManager.DataModels.ItemUpgrades;
-using Kenedia.Modules.BuildsManager.DataModels.LegendaryItems;
 using Kenedia.Modules.BuildsManager.DataModels.Professions;
 using Kenedia.Modules.BuildsManager.DataModels.Stats;
 using Kenedia.Modules.Core.DataModels;
@@ -21,6 +19,8 @@ using System.Diagnostics;
 using System.Threading;
 using SharpDX.Direct2D1.Effects;
 using Microsoft.Xna.Framework.Content;
+using Kenedia.Modules.BuildsManager.Models;
+using Kenedia.Modules.BuildsManager.DataModels.Items;
 
 namespace Kenedia.Modules.BuildsManager.Services
 {
@@ -45,17 +45,13 @@ namespace Kenedia.Modules.BuildsManager.Services
 
         public Dictionary<int, BaseSkill> BaseSkills { get; set; } = new();
 
-        public List<int> RuneIds { get; set; } = new();
+        public Dictionary<int, Armor> Armors { get; private set; } = new();
 
-        public List<int> SigilIds { get; set; } = new();
+        public Dictionary<int, Trinket> Trinkets { get; private set; } = new();
 
-        public Dictionary<int, LegendaryArmor> Armors { get; private set; } = new();
+        public Dictionary<int, DataModels.Items.Weapon> Weapons { get; private set; } = new();
 
-        public Dictionary<int, LegendaryTrinket> Trinkets { get; private set; } = new();
-
-        public Dictionary<int, LegendaryWeapon> Weapons { get; private set; } = new();
-
-        public Dictionary<int, LegendaryUpgrade> Upgrades { get; private set; } = new();
+        public Dictionary<int, BaseItem> Upgrades { get; private set; } = new();
 
         public Dictionary<ProfessionType, Profession> Professions { get; private set; } = new();
 
@@ -74,28 +70,40 @@ namespace Kenedia.Modules.BuildsManager.Services
         public List<KeyValuePair<int, int>> SkillsByPalette { get; private set; } = new();
 
         public bool IsLoaded => Armors.Count > 0 && Professions.Count > 0 && Stats.Count > 0 && Sigils.Count > 0 && Runes.Count > 0 && Pets.Count > 0 && PaletteBySkills.Count > 0 && Races.Count > 0 && SkillConnections.Count > 0;
-               
+
+        public Dictionary<int, Trinket> Backs { get; private set; } = new();
+
+        public Dictionary<int, Sigil> PvpSigils { get; private set; } = new();
+
+        public Dictionary<int, Sigil> PveSigils { get; private set; } = new();
+
+        public Dictionary<int, Rune> PvpRunes { get; private set; } = new();
+
+        public Dictionary<int, Rune> PveRunes { get; private set; } = new();
+
+        public Dictionary<int, DataModels.Items.Utility> Utilities { get; private set; } = new();
+
+        public Dictionary<int, Nourishment> Nourishments { get; private set; } = new();
+
+        public Dictionary<int, Infusion> Infusions { get; private set; } = new();
+
+        public Dictionary<int, Enrichment> Enrichments { get; private set; } = new();
+
         public async Task Load()
         {
             try
             {
                 _logger.Debug("Loading local data...");
 
-                RuneIds = JsonConvert.DeserializeObject<List<int>>(await new StreamReader(_contentsManager.GetFileStream(@"data\rune_ids.json")).ReadToEndAsync());
-                _logger.Debug("RuneIds loaded!");
-
                 ItemMap = JsonConvert.DeserializeObject<ItemMapping>(await new StreamReader(_contentsManager.GetFileStream(@"data\ItemMapping.json")).ReadToEndAsync());
                 _logger.Debug("Item Map loaded!");
-
-                SigilIds = JsonConvert.DeserializeObject<List<int>>(await new StreamReader(_contentsManager.GetFileStream(@"data\sigil_ids.json")).ReadToEndAsync());
-                _logger.Debug("SigilIds loaded!");
 
                 await LoadBaseSkills();
                 await LoadConnections();
 
                 foreach (var prop in GetType().GetProperties())
                 {
-                    if (prop.Name is not nameof(RuneIds) and not nameof(SigilIds) and not nameof(SkillsByPalette) and not nameof(BaseSkills) and not nameof(SkillConnections) and not nameof(OldConnections) and not nameof(ItemMap) and not nameof(IsLoaded))
+                    if (prop.Name is not nameof(SkillsByPalette) and not nameof(BaseSkills) and not nameof(SkillConnections) and not nameof(OldConnections) and not nameof(ItemMap) and not nameof(IsLoaded))
                     {
                         string path = $@"{_paths.ModuleDataPath}{prop.Name}.json";
 
@@ -137,7 +145,7 @@ namespace Kenedia.Modules.BuildsManager.Services
                 BaseSkills = JsonConvert.DeserializeObject<Dictionary<int, BaseSkill>>(await new StreamReader(_contentsManager.GetFileStream(@"data\missing_skills.json")).ReadToEndAsync());
                 foreach (var item in (Dictionary<int, BaseSkill>)data)
                 {
-                    if(!BaseSkills.ContainsKey(item.Key))
+                    if (!BaseSkills.ContainsKey(item.Key))
                     {
                         BaseSkills.Add(item.Key, item.Value);
                     }
@@ -174,7 +182,7 @@ namespace Kenedia.Modules.BuildsManager.Services
                     {
                         SkillConnections.Add(item.Key, new SkillConnection() { Id = item.Value.Id, AssetId = item.Value.AssetId });
                     }
-                    
+
                     if (connection != null && connection.Professions.Count <= 0)
                     {
                         foreach (string p in item.Value.Professions)
@@ -185,7 +193,7 @@ namespace Kenedia.Modules.BuildsManager.Services
                             }
                         }
                     }
-                    
+
                     if (connection != null)
                     {
                         connection.Slot = item.Value.Slot;
@@ -223,7 +231,7 @@ namespace Kenedia.Modules.BuildsManager.Services
                 data = JsonConvert.DeserializeObject(json, typeof(Dictionary<int, SkillConnection>));
                 SkillConnections = (Dictionary<int, SkillConnection>)data;
 
-                foreach(var item in BaseSkills)
+                foreach (var item in BaseSkills)
                 {
                     if (!SkillConnections.TryGetValue(item.Key, out SkillConnection connection))
                     {

@@ -524,7 +524,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.SkillConnectionEdit
         {
             base.PaintBeforeChildren(spriteBatch, bounds);
 
-            spriteBatch.DrawOnCtrl(this, Textures.Pixel, ContentRegion, Microsoft.Xna.Framework.Color.Black * 0.3F);
+            spriteBatch.DrawOnCtrl(this, Textures.Pixel, ContentRegion, Color.Black * 0.3F);
         }
 
         private FlowPanel CreateFlowPanel(string? title)

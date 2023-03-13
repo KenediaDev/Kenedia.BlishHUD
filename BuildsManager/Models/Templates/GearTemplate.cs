@@ -52,7 +52,7 @@ namespace Kenedia.Modules.BuildsManager.Models.Templates
             code += Gear.ToCode(GearTemplateSlot.AltAquatic);
             code += Gear.ToCode(GearTemplateSlot.Back);
             code += Gear.ToCode(GearTemplateSlot.Amulet);
-            code += Gear.ToCode(GearTemplateSlot.Accessory_1);
+            code += Gear.ToCode(GearTemplateSlot.Ring_1);
             code += Gear.ToCode(GearTemplateSlot.Accessory_2);
             code += Gear.ToCode(GearTemplateSlot.Ring_1);
             code += Gear.ToCode(GearTemplateSlot.Ring_2);
@@ -71,11 +71,7 @@ namespace Kenedia.Modules.BuildsManager.Models.Templates
 
             for (int i = 0; i < parts.Length - 1; i++)
             {
-                if((GearTemplateSlot)i is GearTemplateSlot.Infusions)
-                {
-                    Infusions.FromCode(parts[i]);
-                }
-                else if((GearTemplateSlot)i is GearTemplateSlot.Nourishment)
+                if((GearTemplateSlot)i is GearTemplateSlot.Nourishment)
                 {
                     Nourishment = int.TryParse(parts[i], out int nourishment) ? nourishment : 0;
                 }

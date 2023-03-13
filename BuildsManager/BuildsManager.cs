@@ -20,6 +20,8 @@ using Gw2Sharp.WebApi.V2.Models;
 using BuildTemplate = Kenedia.Modules.BuildsManager.Models.Templates.BuildTemplate;
 using Rectangle = Microsoft.Xna.Framework.Rectangle;
 using System.Threading;
+using Gw2Sharp;
+using System.Linq;
 
 namespace Kenedia.Modules.BuildsManager
 {
@@ -128,6 +130,8 @@ namespace Kenedia.Modules.BuildsManager
             {
                 _tick = gameTime.TotalGameTime.TotalMilliseconds;
 
+                //var attribute = typeof(Gw2Client).Assembly.GetCustomAttributes(typeof(System.Reflection.AssemblyFileVersionAttribute), true).FirstOrDefault();
+                //Debug.WriteLine($"{((System.Reflection.AssemblyFileVersionAttribute)attribute).Version.ToString()}");
             }
         }
 
@@ -136,19 +140,20 @@ namespace Kenedia.Modules.BuildsManager
             _cancellationTokenSource?.Cancel();
             _cancellationTokenSource = new CancellationTokenSource();
 
-            //await GW2API.FetchBaseSkills();
-
             //await GW2API.CreateItemMap(_cancellationTokenSource.Token);
+            //await GW2API.GetItems(_cancellationTokenSource.Token);
+
+            //await GW2API.FetchBaseSkills();
 
             //Data.Stats.Clear();
             //await GW2API.GetStats(CancellationToken.None, Data.Stats);
+
+            //await GW2API.UpdateData();
 
             await Data.LoadBaseSkills();
             await Data.LoadConnections();
 
             base.ReloadKey_Activated(sender, e);
-
-            //await GW2API.UpdateData();
 
             //await GW2API.GetSkillConnections();
             SetDummyTemplate();

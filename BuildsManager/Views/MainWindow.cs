@@ -115,6 +115,7 @@ namespace Kenedia.Modules.BuildsManager.Views
         {
             _build.Template = _template;
             _gear.Template = _template;
+            _selectionPanel.Template = _template;
         }
 
         protected override void DisposeControl()

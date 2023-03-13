@@ -10,6 +10,7 @@ using Kenedia.Modules.Core.Models;
 using Kenedia.Modules.Core.Utility;
 using Kenedia.Modules.Core.Views;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Content;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -57,6 +58,7 @@ namespace Kenedia.Modules.Dev
         {
             base.ReloadKey_Activated(sender, e);
 
+            await TestAPI();
         }
 
         private async void FetchSkillCategories()
@@ -70,6 +72,30 @@ namespace Kenedia.Modules.Dev
 
             string json = JsonConvert.SerializeObject(categories.Distinct(), Formatting.Indented);
             System.IO.File.WriteAllText($@"{Paths.ModulePath}\skillcategories.json", json);
+        }
+
+        private async Task TestAPI()
+        {
+            var skills = await Gw2ApiManager.Gw2ApiClient.V2.Skills.ManyAsync(new List<int>() { 9168, 10701 });
+            foreach (var skill2 in skills)
+            {
+                skill2.HttpResponseInfo = null;
+            }
+            string json = JsonConvert.SerializeObject(skills, Formatting.Indented);
+            System.IO.File.WriteAllText($@"{Paths.ModulePath}\skills.json", json);
+
+            //var skills = JsonConvert.DeserializeObject<List<Skill>>(await new StreamReader($@"{Paths.ModulePath}\skills.json").ReadToEndAsync());
+
+            Debug.WriteLine($"{skills.Count}");
+            var skill = skills[0];
+
+            foreach (var item in skill.Facts)
+            {
+                Debug.WriteLine($"{item.Text}");
+                Debug.WriteLine($"{item.Type.IsUnknown}");
+                Debug.WriteLine($"{item.Type.RawValue}");
+                Debug.WriteLine($"{item.Type.RawValue}");
+            }
         }
 
         private async void FetchAPI()

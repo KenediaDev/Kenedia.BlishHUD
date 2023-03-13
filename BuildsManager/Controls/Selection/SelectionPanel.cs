@@ -10,6 +10,7 @@ using Kenedia.Modules.Core.Extensions;
 using Kenedia.Modules.Core.Utility;
 using Blish_HUD.Content;
 using MathUtil = SharpDX.MathUtil;
+using System.ComponentModel;
 
 namespace Kenedia.Modules.BuildsManager.Controls.Selection
 {
@@ -31,6 +32,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
         private Rectangle _anchorBounds;
         private Rectangle _backBounds;
         private Rectangle _backTextBounds;
+        private Template _template;
 
         float _animationStart = 0f;
 
@@ -60,6 +62,32 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
         public string Title { get; set; }
 
         public Rectangle AnchorBounds { get => _anchorBounds; set => _anchorBounds = value; }
+
+        public Template Template
+        {
+            get => _template; set
+            {
+                var temp = _template;
+                if (Common.SetProperty(ref _template, value, ApplyTemplate, value != null))
+                {
+                    if (temp != null) temp.Changed -= TemplateChanged;
+                    if (temp != null) temp.Changed -= TemplateChanged;
+
+                    if (_template != null) _template.Changed += TemplateChanged;
+                    if (_template != null) _template.Changed += TemplateChanged;
+                }
+            }
+        }
+
+        private void TemplateChanged(object sender, PropertyChangedEventArgs e)
+        {
+            ApplyTemplate();
+        }
+
+        private void ApplyTemplate()
+        {
+            _gearSelection.Template = Template;
+        }
 
         public void SetGearAnchor(Blish_HUD.Controls.Control anchor, Rectangle anchorBounds, GearTemplateSlot slot, string title = "Selection")
         {

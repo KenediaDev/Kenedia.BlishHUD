@@ -29,7 +29,21 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
                 WidthSizingMode = Blish_HUD.Controls.SizingMode.Fill,
                 CanScroll = true,
                 ShowRightBorder = true,
+                ControlPadding = new(5),
+                OuterControlPadding = new(5),
             };
+            SelectionContent.Resized += SelectionContent_Resized;
+        }
+
+        private void SelectionContent_Resized(object sender, Blish_HUD.Controls.ResizedEventArgs e)
+        {
+            if (SelectionContent != null)
+            {
+                foreach (var child in SelectionContent.Children)
+                {
+                    //child.Width = SelectionContent.Width - 30;
+                }
+            }
         }
 
         public Rectangle SelectionBounds => new(SelectionContent.LocalBounds.Location, SelectionContent.ContentRegion.Size);
@@ -44,6 +58,8 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
         protected override void DisposeControl()
         {
             base.DisposeControl();
+            SelectionContent.Resized -= SelectionContent_Resized;
+
             SelectionContent?.Dispose();
             Search?.Dispose();
         }

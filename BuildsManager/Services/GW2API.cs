@@ -3,7 +3,6 @@ using Blish_HUD.Modules.Managers;
 using Gw2Sharp.Models;
 using Gw2Sharp.WebApi;
 using Gw2Sharp.WebApi.V2.Models;
-using Kenedia.Modules.BuildsManager.DataModels.LegendaryItems;
 using Kenedia.Modules.Core.Models;
 using Newtonsoft.Json;
 using System;
@@ -18,7 +17,6 @@ using Trait = Kenedia.Modules.BuildsManager.DataModels.Professions.Trait;
 using Specialization = Kenedia.Modules.BuildsManager.DataModels.Professions.Specialization;
 using Legend = Kenedia.Modules.BuildsManager.DataModels.Professions.Legend;
 using Kenedia.Modules.BuildsManager.DataModels.Stats;
-using Kenedia.Modules.BuildsManager.DataModels.ItemUpgrades;
 using Pet = Kenedia.Modules.BuildsManager.DataModels.Professions.Pet;
 using System.Threading;
 using Kenedia.Modules.Core.DataModels;
@@ -31,6 +29,8 @@ using ApiPet = Gw2Sharp.WebApi.V2.Models.Pet;
 using Kenedia.Modules.Core.Extensions;
 using System.Diagnostics;
 using Gw2Sharp.WebApi.Exceptions;
+using Kenedia.Modules.BuildsManager.Models;
+using Kenedia.Modules.BuildsManager.DataModels.Items;
 
 namespace Kenedia.Modules.BuildsManager.Services
 {
@@ -76,11 +76,6 @@ namespace Kenedia.Modules.BuildsManager.Services
 
             LocalizedString state = new();
 
-            var armors = _data.Armors;
-            var upgrades = _data.Upgrades;
-            var trinkets = _data.Trinkets;
-            var weapons = _data.Weapons;
-
             var professions = _data.Professions;
             var races = _data.Races;
             var stats = _data.Stats;
@@ -89,196 +84,77 @@ namespace Kenedia.Modules.BuildsManager.Services
             var pets = _data.Pets;
 
             Locale locale = GameService.Overlay.UserLocale.Value;
-            //await GetLegendaryItems(_cancellationTokenSource.Token, armors, upgrades, trinkets, weapons);
+            //await GetItems(_cancellationTokenSource.Token);
             //await GetUpgrades(_cancellationTokenSource.Token, sigils, runes);
             await GetProfessions(_cancellationTokenSource.Token, professions, races);
             //await GetStats(_cancellationTokenSource.Token, stats);
             //await GetPets(_cancellationTokenSource.Token, pets);
         }
 
-        public async Task GetLegendaryItems(CancellationToken cancellation, Dictionary<int, LegendaryArmor> armors, Dictionary<int, LegendaryUpgrade> upgrades, Dictionary<int, LegendaryTrinket> trinkets, Dictionary<int, LegendaryWeapon> weapons)
+        public async Task GetItems(CancellationToken cancellation)
         {
             try
             {
                 string json;
 
-                var armor = new List<LegendaryItemId>() {
-                        LegendaryItemId.PerfectedEnvoyCowl,
-                        LegendaryItemId.PerfectedEnvoyMantle,
-                        LegendaryItemId.PerfectedEnvoyVestments,
-                        LegendaryItemId.PerfectedEnvoyGloves,
-                        LegendaryItemId.PerfectedEnvoyPants,
-                        LegendaryItemId.PerfectedEnvoyShoes,
-                        LegendaryItemId.PerfectedEnvoyMask,
-                        LegendaryItemId.PerfectedEnvoyShoulderpads,
-                        LegendaryItemId.PerfectedEnvoyJerkin,
-                        LegendaryItemId.PerfectedEnvoyVambraces,
-                        LegendaryItemId.PerfectedEnvoyLeggings,
-                        LegendaryItemId.PerfectedEnvoyBoots,
-                        LegendaryItemId.PerfectedEnvoyHelmet,
-                        LegendaryItemId.PerfectedEnvoyPauldrons,
-                        LegendaryItemId.PerfectedEnvoyBreastplate,
-                        LegendaryItemId.PerfectedEnvoyGauntlets,
-                        LegendaryItemId.PerfectedEnvoyTassets,
-                        LegendaryItemId.PerfectedEnvoyGreaves,
-                    };
+                var api_armors = await _gw2ApiManager.Gw2ApiClient.V2.Items.ManyAsync(_data.ItemMap.Armors.Select(e => e.Id), cancellation);
+                var api_weapons = await _gw2ApiManager.Gw2ApiClient.V2.Items.ManyAsync(_data.ItemMap.Weapons.Select(e => e.Id), cancellation);
+                var api_backs = await _gw2ApiManager.Gw2ApiClient.V2.Items.ManyAsync(_data.ItemMap.Backs.Select(e => e.Id), cancellation);
+                var api_trinkets = await _gw2ApiManager.Gw2ApiClient.V2.Items.ManyAsync(_data.ItemMap.Trinkets.Select(e => e.Id), cancellation);
 
-                var upgrade = new List<LegendaryItemId>()
-                    {
-                        LegendaryItemId.LegendarySigil,
-                        LegendaryItemId.LegendaryRune,
-                    };
+                var api_enrichments = await _gw2ApiManager.Gw2ApiClient.V2.Items.ManyAsync(_data.ItemMap.Enrichments.Select(e => e.Id), cancellation);
+                var api_infusions = await _gw2ApiManager.Gw2ApiClient.V2.Items.ManyAsync(_data.ItemMap.Infusions.Select(e => e.Id), cancellation);
 
-                var back = new List<LegendaryItemId>()
-                    {
-                        LegendaryItemId.LegendaryBackpackAdInfinitum,
-                    };
+                var api_nourishments = await _gw2ApiManager.Gw2ApiClient.V2.Items.ManyAsync(_data.ItemMap.Nourishments.Select(e => e.Id), cancellation);
+                var api_utility = await _gw2ApiManager.Gw2ApiClient.V2.Items.ManyAsync(_data.ItemMap.Utilities.Select(e => e.Id), cancellation);
 
-                var trinket = new List<LegendaryItemId>()
-                    {
-                        LegendaryItemId.Aurora,
-                        LegendaryItemId.Vision,
-                        LegendaryItemId.Coalescence,
-                        LegendaryItemId.Conflux,
-                        LegendaryItemId.PrismaticChampionsRegalia,
-                    };
+                var api_pveRunes = await _gw2ApiManager.Gw2ApiClient.V2.Items.ManyAsync(_data.ItemMap.PveRunes.Select(e => e.Id), cancellation);
+                var api_pvpRunes = await _gw2ApiManager.Gw2ApiClient.V2.Items.ManyAsync(_data.ItemMap.PvpRunes.Select(e => e.Id), cancellation);
+                var api_pveSigils = await _gw2ApiManager.Gw2ApiClient.V2.Items.ManyAsync(_data.ItemMap.PveSigils.Select(e => e.Id), cancellation);
+                var api_pvpSigils = await _gw2ApiManager.Gw2ApiClient.V2.Items.ManyAsync(_data.ItemMap.PvpSigils.Select(e => e.Id), cancellation);
 
-                var weapon = new List<LegendaryItemId>()
-                    {
-                        LegendaryItemId.TheBifrost,
-                        LegendaryItemId.Bolt,
-                        LegendaryItemId.TheDreamer,
-                        LegendaryItemId.TheFlameseekerProphecies,
-                        LegendaryItemId.Frenzy,
-                        LegendaryItemId.Meteorlogicus,
-                        LegendaryItemId.Frostfang,
-                        LegendaryItemId.Howler,
-                        LegendaryItemId.Incinerator,
-                        LegendaryItemId.TheJuggernaut,
-                        LegendaryItemId.Kudzu,
-                        LegendaryItemId.Kraitkin,
-                        LegendaryItemId.KamohoaliiKotaki,
-                        LegendaryItemId.TheMinstrel,
-                        LegendaryItemId.TheMoot,
-                        LegendaryItemId.ThePredator,
-                        LegendaryItemId.Quip,
-                        LegendaryItemId.Rodgort,
-                        LegendaryItemId.Eternity,
-                    };
-
-                var api_upgrades = await _gw2ApiManager.Gw2ApiClient.V2.Items.ManyAsync(upgrade.Cast<int>(), cancellation);
-                var api_backs = await _gw2ApiManager.Gw2ApiClient.V2.Items.ManyAsync(back.Cast<int>(), cancellation);
-                var api_weapons = await _gw2ApiManager.Gw2ApiClient.V2.Items.ManyAsync(weapon.Cast<int>(), cancellation);
-                var api_trinkets = await _gw2ApiManager.Gw2ApiClient.V2.Items.ManyAsync(trinket.Cast<int>(), cancellation);
-                var api_armors = await _gw2ApiManager.Gw2ApiClient.V2.Items.ManyAsync(armor.Cast<int>(), cancellation);
                 if (cancellation.IsCancellationRequested) return;
 
-                foreach (var i in api_armors)
+                void ApplyData<T, TT>(IReadOnlyList<Item> items, Dictionary<int, TT> targetlist, string file, List<ItemMap> map) where T : Item where TT : BaseItem, new()
                 {
-                    bool exists = armors.TryGetValue(i.Id, out var item);
-                    item ??= new();
-                    item.Apply((ItemArmor)i);
-                    if (!exists) armors.Add(i.Id, item);
-                }
-                json = JsonConvert.SerializeObject(armors, Formatting.Indented);
-                File.WriteAllText($@"{Paths.ModulePath}\data\Armors.json", json);
+                    foreach (var i in items)
+                    {
+                        bool exists = targetlist.TryGetValue(i.Id, out TT item);
+                        item ??= new();
+                        item.Apply((T)i);
 
-                foreach (var i in api_upgrades)
-                {
-                    bool exists = upgrades.TryGetValue(i.Id, out var item);
-                    item ??= new();
-                    item.Apply((ItemUpgradeComponent)i);
-                    if (!exists) upgrades.Add(i.Id, item);
-                }
-                json = JsonConvert.SerializeObject(upgrades, Formatting.Indented);
-                File.WriteAllText($@"{Paths.ModulePath}\data\Upgrades.json", json);
+                        var mappedItem = map.Find(e => e.Id == i.Id);
+                        if(mappedItem != null)
+                        {
+                            item.MappedId = mappedItem.MappedId;
+                        }
 
-                foreach (var i in api_backs)
-                {
-                    bool exists = trinkets.TryGetValue(i.Id, out var item);
-                    item ??= new();
-                    item.Apply((ItemBack)i);
-                    if (!exists) trinkets.Add(i.Id, item);
-                }
-                foreach (var i in api_trinkets)
-                {
-                    bool exists = trinkets.TryGetValue(i.Id, out var item);
-                    item ??= new();
-                    item.Apply((ItemTrinket)i);
-                    if (!exists) trinkets.Add(i.Id, item);
-                }
-                json = JsonConvert.SerializeObject(trinkets, Formatting.Indented);
-                File.WriteAllText($@"{Paths.ModulePath}\data\Trinkets.json", json);
+                        if (!exists) targetlist.Add(i.Id, (TT)item);
+                    }
 
-                foreach (var i in api_weapons)
-                {
-                    bool exists = weapons.TryGetValue(i.Id, out var item);
-                    item ??= new();
-                    item.Apply((ItemWeapon)i);
-                    if (!exists) weapons.Add(i.Id, item);
+                    string json = JsonConvert.SerializeObject(targetlist, Formatting.Indented);
+                    File.WriteAllText($@"{Paths.ModulePath}\data\{file}.json", json);
                 }
-                json = JsonConvert.SerializeObject(weapons, Formatting.Indented);
-                File.WriteAllText($@"{Paths.ModulePath}\data\Weapons.json", json);
+
+                ApplyData<ItemArmor, Armor>(api_armors, _data.Armors, "Armors", _data.ItemMap.Armors);
+                ApplyData<ItemWeapon, DataModels.Items.Weapon>(api_weapons, _data.Weapons, "Weapons", _data.ItemMap.Weapons);
+                ApplyData<ItemBack, Trinket>(api_backs, _data.Backs, "Backs", _data.ItemMap.Backs);
+                ApplyData<ItemTrinket, Trinket>(api_trinkets, _data.Trinkets, "Trinkets", _data.ItemMap.Trinkets);
+
+                ApplyData<ItemUpgradeComponent, Enrichment>(api_enrichments, _data.Enrichments, "Enrichment", _data.ItemMap.Enrichments);
+                ApplyData<ItemUpgradeComponent, Infusion>(api_infusions, _data.Infusions, "Infusions", _data.ItemMap.Infusions);
+                ApplyData<ItemConsumable, Nourishment>(api_nourishments, _data.Nourishments, "Nourishments", _data.ItemMap.Nourishments);
+                ApplyData<ItemConsumable, DataModels.Items.Utility>(api_utility, _data.Utilities, "Utilities", _data.ItemMap.Utilities);
+                ApplyData<ItemUpgradeComponent, Rune>(api_pveRunes, _data.PveRunes, "PveRunes", _data.ItemMap.PveRunes);
+                ApplyData<ItemUpgradeComponent, Rune>(api_pvpRunes, _data.PvpRunes, "PvpRunes", _data.ItemMap.PvpRunes);
+                ApplyData<ItemUpgradeComponent, Sigil>(api_pveSigils, _data.PveSigils, "PveSigils", _data.ItemMap.PveSigils );
+                ApplyData<ItemUpgradeComponent, Sigil>(api_pvpSigils, _data.PvpSigils, "PvpSigils", _data.ItemMap.PvpSigils);
             }
             catch (Exception ex)
             {
                 if (!cancellation.IsCancellationRequested)
                 {
                     _logger.Warn($"Failed to fetch armory items.");
-                    _logger.Warn($"{ex}");
-                }
-            }
-        }
-
-        public async Task GetUpgrades(CancellationToken cancellation, Dictionary<int, Sigil> sigils, Dictionary<int, Rune> runes)
-        {
-            try
-            {
-                var api_sigils = await _gw2ApiManager.Gw2ApiClient.V2.Items.ManyAsync(_data.SigilIds, cancellation);
-                var api_runes = await _gw2ApiManager.Gw2ApiClient.V2.Items.ManyAsync(_data.RuneIds, cancellation);
-                if (cancellation.IsCancellationRequested) return;
-
-                foreach (var s in api_sigils.Cast<ItemUpgradeComponent>())
-                {
-                    bool exists = sigils.TryGetValue(s.Id, out var sigil);
-                    sigil ??= new(s);
-
-                    if (!exists)
-                    {
-                        sigils.Add(s.Id, sigil);
-                    }
-                    else
-                    {
-                        sigil.ApplyLanguage(s);
-                    }
-                }
-
-                foreach (var r in api_runes.Cast<ItemUpgradeComponent>())
-                {
-                    bool exists = runes.TryGetValue(r.Id, out var rune);
-                    rune ??= new(r);
-
-                    if (!exists)
-                    {
-                        runes.Add(r.Id, rune);
-                    }
-                    else
-                    {
-                        rune.ApplyLanguage(r);
-                    }
-                }
-
-                string json = JsonConvert.SerializeObject(sigils, Formatting.Indented);
-                File.WriteAllText($@"{Paths.ModulePath}\data\Sigils.json", json);
-
-                json = JsonConvert.SerializeObject(runes, Formatting.Indented);
-                File.WriteAllText($@"{Paths.ModulePath}\data\Runes.json", json);
-            }
-            catch (Exception ex)
-            {
-                if (!cancellation.IsCancellationRequested)
-                {
-                    _logger.Warn($"Failed to fetch Upgrades.");
                     _logger.Warn($"{ex}");
                 }
             }
@@ -676,6 +552,10 @@ namespace Kenedia.Modules.BuildsManager.Services
                     11126, // Corrupted
                     93128, // Slumbering Conflux
                     93140, // Slumbering Transcendence
+                    88567, // Bifrost Axe
+
+                    30703, // Sunrise, else to many GS
+                    30704, // Twilight, else to many GS
                 };
 
                 var jadetechmodules = new List<int>() {
@@ -758,6 +638,67 @@ namespace Kenedia.Modules.BuildsManager.Services
                 _ = itemids.RemoveAll(invalidIds.Contains);
                 _ = itemids.RemoveAll(jadetechmodules.Contains);
 
+                var ascendedGear = new List<int>()
+                {
+                    //Aquabreather
+                    79873,
+                    79838,
+                    79895,
+                    
+                    //Light
+                    85128,
+                    84918,
+                    85333,
+                    85070,
+                    85362,
+                    80815,
+                    
+                    //Medium
+                    80701,
+                    80825,
+                    84977,
+                    85169,
+                    85264,
+                    80836,
+                    
+                    //Heavy
+                    85193,
+                    84875,
+                    85084,
+                    85140,
+                    84887,
+                    85055,
+
+                    //Weapons
+                    85105,
+                    85017,
+                    85251,
+                    85060,
+                    85267,
+                    85360,
+                    85250,
+                    84899,
+                    85052,
+                    84888,
+                    85010,
+                    85262,
+                    85307,
+                    85323,
+                    85341,
+                    84872,
+                    85117,
+                    85026,
+                    85265,
+
+                    //Back
+                    94947,
+
+                    //Trinkets
+                    79980,
+                    80002,
+                    80058,
+                };
+
                 var itemid_lists = itemids.ChunkBy(200);
                 var itemMapping = new ItemMapping();
                 int count = 0;
@@ -809,7 +750,7 @@ namespace Kenedia.Modules.BuildsManager.Services
                                     });
                                 }
 
-                                if (item.Type == ItemType.Trinket && item.Rarity == ItemRarity.Legendary)
+                                if (item.Type == ItemType.Trinket && (item.Rarity == ItemRarity.Legendary || (item.Rarity == ItemRarity.Ascended && ascendedGear.Contains(item.Id))))
                                 {
                                     var trinket = (ItemTrinket)item;
 
@@ -821,7 +762,7 @@ namespace Kenedia.Modules.BuildsManager.Services
                                     });
                                 }
 
-                                if (item.Type == ItemType.Back && item.Rarity == ItemRarity.Legendary)
+                                if (item.Type == ItemType.Back && (item.Rarity == ItemRarity.Legendary || (item.Rarity == ItemRarity.Ascended && ascendedGear.Contains(item.Id))))
                                 {
                                     var back = (ItemBack)item;
 
@@ -833,7 +774,7 @@ namespace Kenedia.Modules.BuildsManager.Services
                                     });
                                 }
 
-                                if (item.Type == ItemType.Armor && item.Rarity == ItemRarity.Legendary)
+                                if (item.Type == ItemType.Armor && (item.Rarity == ItemRarity.Legendary || (item.Rarity == ItemRarity.Ascended && ascendedGear.Contains(item.Id))))
                                 {
                                     var armor = (ItemArmor)item;
 
@@ -845,7 +786,7 @@ namespace Kenedia.Modules.BuildsManager.Services
                                     });
                                 }
 
-                                if (item.Type == ItemType.Weapon && item.Rarity == ItemRarity.Legendary)
+                                if (item.Type == ItemType.Weapon && (item.Rarity == ItemRarity.Legendary || (item.Rarity == ItemRarity.Ascended && ascendedGear.Contains(item.Id))))
                                 {
                                     var weapon = (ItemWeapon)item;
 
@@ -987,31 +928,5 @@ namespace Kenedia.Modules.BuildsManager.Services
                 Debug.WriteLine($"Exception {ex}");
             }
         }
-    }
-
-    public class ItemMapping
-    {
-        public List<ItemMap> Nourishments = new();
-        public List<ItemMap> Utilities = new();
-        public List<ItemMap> PveRunes = new();
-        public List<ItemMap> PvpRunes = new();
-        public List<ItemMap> PveSigils = new();
-        public List<ItemMap> PvpSigils = new();
-        public List<ItemMap> Infusions = new();
-        public List<ItemMap> Enrichments = new();
-        public List<ItemMap> Trinkets = new();
-        public List<ItemMap> Backs = new();
-        public List<ItemMap> Weapons = new();
-        public List<ItemMap> Armors = new();
-        public List<ItemMap> PowerCore = new();
-    }
-
-    public class ItemMap
-    {
-        public int Id { get; set; }
-
-        public int MappedId { get; set; }
-
-        public string Name { get; set; }
     }
 }

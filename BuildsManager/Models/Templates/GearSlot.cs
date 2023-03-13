@@ -23,7 +23,6 @@
         Ring_2,
         AquaBreather,
         PvpAmulet,
-        Infusions,
         Nourishment,
         Utility,
         JadeBotCore,

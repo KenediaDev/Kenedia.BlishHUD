@@ -105,10 +105,10 @@ namespace Kenedia.Modules.Core.Controls
                 spriteBatch.DrawOnCtrl(this, ContentService.Textures.Pixel, new Rectangle(3, 3, _size.X - 6, _size.Y - 5), Color.FromNonPremultiplied(121, 121, 121, 255));
             }
 
-            spriteBatch.DrawOnCtrl(this, _textureButtonBorder, new Rectangle(2, 0, base.Width - 5, 4), new Rectangle(0, 0, 1, 4));
-            spriteBatch.DrawOnCtrl(this, _textureButtonBorder, new Rectangle(base.Width - 4, 2, 4, base.Height - 3), new Rectangle(0, 1, 4, 1));
-            spriteBatch.DrawOnCtrl(this, _textureButtonBorder, new Rectangle(3, base.Height - 4, base.Width - 6, 4), new Rectangle(1, 0, 1, 4));
-            spriteBatch.DrawOnCtrl(this, _textureButtonBorder, new Rectangle(0, 2, 4, base.Height - 3), new Rectangle(0, 3, 4, 1));
+            spriteBatch.DrawOnCtrl(this, _textureButtonBorder, new Rectangle(2, 0, Width - 5, 4), new Rectangle(0, 0, 1, 4));
+            spriteBatch.DrawOnCtrl(this, _textureButtonBorder, new Rectangle(Width - 4, 2, 4, Height - 3), new Rectangle(0, 1, 4, 1));
+            spriteBatch.DrawOnCtrl(this, _textureButtonBorder, new Rectangle(3, Height - 4, Width - 6, 4), new Rectangle(1, 0, 1, 4));
+            spriteBatch.DrawOnCtrl(this, _textureButtonBorder, new Rectangle(0, 2, 4, Height - 3), new Rectangle(0, 3, 4, 1));
             if (Icon != null)
             {
                 spriteBatch.DrawOnCtrl(this, Icon, _layoutIconBounds);

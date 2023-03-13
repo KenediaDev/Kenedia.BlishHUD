@@ -16,6 +16,7 @@ using APISkill = Gw2Sharp.WebApi.V2.Models.Skill;
 
 namespace Kenedia.Modules.BuildsManager.DataModels.Professions
 {
+
     [DataContract]
     public class Skill
     {
@@ -37,7 +38,7 @@ namespace Kenedia.Modules.BuildsManager.DataModels.Professions
 
             _ = BuildsManager.Data.SkillConnections.TryGetValue(skill.Id, out var connection);
             SkillConnection = connection ?? null;
-            Attunement = connection != null ? connection.Attunement : null;
+            Attunement = connection?.Attunement;
 
             if ((skill.Categories != null && skill.Categories.Count > 0) || skill.Name.Contains('\"'))
             {
@@ -73,6 +74,9 @@ namespace Kenedia.Modules.BuildsManager.DataModels.Professions
                     Professions.Add(profession);
                 }
             }
+
+            Facts = skill.Facts?.ToList();
+            TraitedFacts = skill.TraitedFacts?.ToList();
         }
 
         [DataMember]
@@ -156,6 +160,16 @@ namespace Kenedia.Modules.BuildsManager.DataModels.Professions
 
         [DataMember]
         public List<int> BundleSkills { get; set; }
+
+        public List<Gw2Sharp.WebApi.V2.Models.SkillFact> Facts { get; set; }
+
+        public List<Gw2Sharp.WebApi.V2.Models.SkillFact> TraitedFacts { get; set; }
+
+        public void SetLiveAPI(APISkill skill)
+        {
+            Facts = skill.Facts?.ToList();
+            TraitedFacts = skill.TraitedFacts?.ToList();
+        }
 
         internal static Skill FromUShort(ushort id, ProfessionType profession)
         {

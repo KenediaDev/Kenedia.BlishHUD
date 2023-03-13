@@ -411,7 +411,7 @@ namespace Kenedia.Modules.Characters
 
         private void ShortcutWindowToggle(object sender, EventArgs e)
         {
-            if (Control.ActiveControl is not Blish_HUD.Controls.TextBox)
+            if (Control.ActiveControl is not TextBox)
             {
                 MainWindow?.ToggleWindow();
             }

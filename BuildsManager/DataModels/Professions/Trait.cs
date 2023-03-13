@@ -99,9 +99,18 @@ namespace Kenedia.Modules.BuildsManager.DataModels.Professions
         [DataMember]
         public int Order { get; set; }
 
+        public List<TraitFact> Facts { get; private set; }
+
+        public List<TraitFact> TraitedFacts { get; private set; }
+
         [DataMember]
         public List<int> Skills = new();
 
+        public void SetLiveAPI(APITrait trait)
+        {
+            Facts = trait.Facts?.ToList();
+            TraitedFacts = trait.TraitedFacts?.ToList();
+        }
         internal static Trait FromByte(byte order, Specialization specialization, Models.Templates.TraitTier tier)
         {
             return order == 0 ? null :

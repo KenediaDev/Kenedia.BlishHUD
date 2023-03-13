@@ -63,9 +63,9 @@ namespace Kenedia.Modules.BuildsManager.DataModels.Professions
             Speargun,
             Trident,
 
-            Spear = 16,
-            ShortBow = 14,
-            LongBow = 12,
+            LongBow = 14,
+            ShortBow = 16,
+            Spear = 18,
         }
 
         [DataMember]
@@ -76,6 +76,9 @@ namespace Kenedia.Modules.BuildsManager.DataModels.Professions
 
         [DataMember]
         public int Specialization { get; set; }
+
+        [DataMember]
+        public ProfessionWeaponFlag? SpecializationWielded { get; set; }
 
         [DataMember]
         public List<int> Skills { get; set; } = new();

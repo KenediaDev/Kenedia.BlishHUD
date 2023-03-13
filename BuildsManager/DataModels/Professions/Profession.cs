@@ -1,5 +1,7 @@
 ﻿using Blish_HUD.Content;
+using Gw2Sharp;
 using Gw2Sharp.Models;
+using Kenedia.Modules.Core.DataModels;
 using Kenedia.Modules.Core.Models;
 using Kenedia.Modules.Core.Utility;
 using System;
@@ -88,6 +90,17 @@ namespace Kenedia.Modules.BuildsManager.DataModels.Professions
                     {
                         bool exists = Weapons.TryGetValue(weaponType, out Weapon weapon);
                         weapon ??= new Weapon(apiWeapon, skills);
+
+                        if(professionType == ProfessionType.Guardian && weaponType == WeaponType.Sword)
+                        {
+                            weapon.Specialization = (int)SpecializationType.Willbender;
+                            weapon.SpecializationWielded = ProfessionWeaponFlag.Offhand;
+                        }
+                        else if (professionType == ProfessionType.Ranger && weaponType == WeaponType.Dagger)
+                        {
+                            weapon.Specialization = (int)SpecializationType.Soulbeast;
+                            weapon.SpecializationWielded = ProfessionWeaponFlag.Mainhand;
+                        }
 
                         if (!exists)
                         {
