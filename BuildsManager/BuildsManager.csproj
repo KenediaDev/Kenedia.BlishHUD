@@ -293,6 +293,8 @@
     <Compile Include="DataModels\Items\BonusStat.cs" />
     <Compile Include="DataModels\Items\BonusType.cs" />
     <Compile Include="DataModels\Items\ConsumableDetails.cs" />
+    <Compile Include="DataModels\Items\Enrichment.cs" />
+    <Compile Include="DataModels\Items\Infusion.cs" />
     <Compile Include="DataModels\Items\Nourishment.cs" />
     <Compile Include="DataModels\Items\Rune.cs" />
     <Compile Include="DataModels\Items\RuneBonuses.cs" />

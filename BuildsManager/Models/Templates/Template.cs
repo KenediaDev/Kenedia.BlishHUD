@@ -160,8 +160,6 @@ namespace Kenedia.Modules.BuildsManager.Models.Templates
                 AltAttunement = MainAttunement;
             }
 
-            Debug.WriteLine($"TEMPLATE CHANGED");
-
             Changed?.Invoke(sender, e);
         }
     }

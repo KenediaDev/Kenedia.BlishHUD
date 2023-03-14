@@ -252,7 +252,7 @@ namespace Kenedia.Modules.BuildsManager
 
                 for (int i = 0; i < armor.Value.InfusionIds.Count; i++)
                 {
-                    armor.Value.InfusionIds[i] = 340;
+                    armor.Value.InfusionIds[i] = 255;
                 }
 
                 for (int i = 0; i < armor.Value.RuneIds.Count; i++)
@@ -267,7 +267,7 @@ namespace Kenedia.Modules.BuildsManager
 
                 for (int i = 0; i < weapon.Value.InfusionIds.Count; i++)
                 {
-                    weapon.Value.InfusionIds[i] = 340;
+                    weapon.Value.InfusionIds[i] = 26;
                 }
 
                 for (int i = 0; i < weapon.Value.SigilIds.Count; i++)
@@ -280,9 +280,17 @@ namespace Kenedia.Modules.BuildsManager
             {
                 juwellery.Value.Stat = DataModels.Stats.EquipmentStat.Berserkers;
 
-                for (int i = 0; i < juwellery.Value.InfusionIds.Count; i++)
+                for (int i = 0; i <( juwellery.Value.InfusionIds?.Count ?? 0); i++)
                 {
                     juwellery.Value.InfusionIds[i] = 340;
+                }
+
+                if(juwellery.Value.EnrichmentIds != null)
+                {
+                    for (int i = 0; i < (juwellery.Value.EnrichmentIds?.Count ?? 0); i++)
+                    {
+                        juwellery.Value.EnrichmentIds[i] = 1;
+                    }
                 }
             }
 

@@ -1,4 +1,5 @@
-﻿using Gw2Sharp.WebApi.V2.Models;
+﻿using Gw2Sharp.WebApi;
+using Gw2Sharp.WebApi.V2.Models;
 using Kenedia.Modules.BuildsManager.Models.Templates;
 using Kenedia.Modules.Core.Models;
 using System.Runtime.Serialization;
@@ -33,6 +34,22 @@ namespace Kenedia.Modules.BuildsManager.DataModels.Items
                 {
                     Buff = upgrade.Details.InfixUpgrade.Buff.Description;
                 }
+
+                string[] sigil_strings = Blish_HUD.GameService.Overlay.UserLocale.Value switch
+                {
+                    Locale.German => new string[] { "Überlegenes Sigill des" , "Überlegenes Sigill der" },
+                    Locale.French => new string[] { "Cachet d'", "supérieur" },
+                    Locale.Spanish => new string[] { "Sello superior de" },
+                    _ => new string[] { "Superior Sigil of the", "Superior Sigil of" },
+                };
+
+                string displayText = item.Name;
+                foreach(string s in sigil_strings)
+                {
+                    displayText = displayText.Replace(s, string.Empty);
+                }
+
+                DisplayText = displayText.Trim();
             }
         }
     }

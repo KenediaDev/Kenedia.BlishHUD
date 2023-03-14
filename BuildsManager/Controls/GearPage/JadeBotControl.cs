@@ -8,13 +8,13 @@ using System;
 
 namespace Kenedia.Modules.BuildsManager.Controls.GearPage
 {
-    public class JadeBotControl : Blish_HUD.Controls.Control
+    public class OLDJadeBotControl : Blish_HUD.Controls.Control
     {
         private Template _template;
         private readonly DetailedTexture _jadebotcore = new(2630946) { TextureRegion = new(36, 36, 56, 56) };
         private readonly DetailedTexture _identifier = new(436368) { };
 
-        public JadeBotControl()
+        public OLDJadeBotControl()
         {
             Size = new(45, 45);
         }

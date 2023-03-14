@@ -14,7 +14,15 @@ namespace Kenedia.Modules.BuildsManager.DataModels.Items
         public string this[int key]
         {
             get => LocalizedBonuses[key].Text;
-            set => LocalizedBonuses[key].Text = value;
+            set 
+            {
+                if (!LocalizedBonuses.ContainsKey(key))
+                {
+                    LocalizedBonuses[key] = new();
+                }
+
+                LocalizedBonuses[key].Text = value;
+            }
         }
 
         public List<string> Bonuses => LocalizedBonuses.Select(e => e.Value.Text).ToList();
@@ -23,7 +31,7 @@ namespace Kenedia.Modules.BuildsManager.DataModels.Items
         {
             for (int i = 0; i < bonuses.Count; i++)
             {
-                //this[i] = bonuses[i];
+                this[i] = bonuses[i];
             }
         }
     }

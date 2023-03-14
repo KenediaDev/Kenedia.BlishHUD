@@ -91,12 +91,10 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
             {
                 _selectables[slot] = new();
 
-                Debug.WriteLine($"Adding Items for Slot {slot}");
                 var effectiveSlot = slot is GearTemplateSlot.Ring_2 ? GearTemplateSlot.Ring_1 : slot is GearTemplateSlot.Accessory_2 ? GearTemplateSlot.Accessory_1 : slot;
 
                 foreach (var item in BuildsManager.Data.Trinkets.Values.Where(e => e.TemplateSlot == effectiveSlot).OrderByDescending(e => e.Rarity).ThenBy(e => e.Id))
                 {
-                    Debug.WriteLine($"Adding Items for Slot {slot} {_selectables[slot].Count}");
                     _selectables[slot].Add(new()
                     {
                         Parent = SelectionContent,
@@ -107,7 +105,6 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
                         {
                             if (Template != null)
                             {
-                                Debug.WriteLine($"SLOT {slot}");
                                 Template.GearTemplate.Juwellery[slot].Item = item;
                             }
                         }

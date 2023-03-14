@@ -79,13 +79,10 @@ namespace Kenedia.Modules.BuildsManager.Services
             var professions = _data.Professions;
             var races = _data.Races;
             var stats = _data.Stats;
-            var sigils = _data.Sigils;
-            var runes = _data.Runes;
             var pets = _data.Pets;
 
             Locale locale = GameService.Overlay.UserLocale.Value;
             //await GetItems(_cancellationTokenSource.Token);
-            //await GetUpgrades(_cancellationTokenSource.Token, sigils, runes);
             await GetProfessions(_cancellationTokenSource.Token, professions, races);
             //await GetStats(_cancellationTokenSource.Token, stats);
             //await GetPets(_cancellationTokenSource.Token, pets);
@@ -141,7 +138,7 @@ namespace Kenedia.Modules.BuildsManager.Services
                 ApplyData<ItemBack, Trinket>(api_backs, _data.Backs, "Backs", _data.ItemMap.Backs);
                 ApplyData<ItemTrinket, Trinket>(api_trinkets, _data.Trinkets, "Trinkets", _data.ItemMap.Trinkets);
 
-                ApplyData<ItemUpgradeComponent, Enrichment>(api_enrichments, _data.Enrichments, "Enrichment", _data.ItemMap.Enrichments);
+                ApplyData<ItemUpgradeComponent, Enrichment>(api_enrichments, _data.Enrichments, "Enrichments", _data.ItemMap.Enrichments);
                 ApplyData<ItemUpgradeComponent, Infusion>(api_infusions, _data.Infusions, "Infusions", _data.ItemMap.Infusions);
                 ApplyData<ItemConsumable, Nourishment>(api_nourishments, _data.Nourishments, "Nourishments", _data.ItemMap.Nourishments);
                 ApplyData<ItemConsumable, DataModels.Items.Utility>(api_utility, _data.Utilities, "Utilities", _data.ItemMap.Utilities);

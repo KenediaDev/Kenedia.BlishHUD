@@ -8,13 +8,13 @@ using System;
 
 namespace Kenedia.Modules.BuildsManager.Controls.GearPage
 {
-    public class NourishmentControl : Blish_HUD.Controls.Control
+    public class OLDNourishmentControl : Blish_HUD.Controls.Control
     {
         private Template _template;
         private readonly DetailedTexture _nourishment = new() { TextureRegion = new(36, 36, 56, 56) };
         private readonly DetailedTexture _identifier = new(436367) { };
 
-        public NourishmentControl()
+        public OLDNourishmentControl()
         {
             _nourishment.Texture = BuildsManager.ModuleInstance.ContentsManager.GetTexture(@"textures\foodslot.png");
             Size = new(45, 45);

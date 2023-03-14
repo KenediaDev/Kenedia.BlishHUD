@@ -3,68 +3,10 @@ using Gw2Sharp.WebApi.V2.Models;
 using Kenedia.Modules.BuildsManager.Models.Templates;
 using Kenedia.Modules.Core.Models;
 using Kenedia.Modules.Core.Utility;
-using System;
-using System.Collections.Generic;
 using System.Runtime.Serialization;
 
 namespace Kenedia.Modules.BuildsManager.DataModels.Items
 {
-
-    [DataContract]
-    public class Infusion : BaseItem
-    {
-        [DataMember]
-        public LocalizedString Bonuses { get; set; } = new();
-        public string Bonus
-        {
-            get => Bonuses.Text;
-            set => Bonuses.Text = value;
-        }
-
-        public List<BonusStat> Attributes { get; set; }
-
-        public void Apply(ItemUpgradeComponent item)
-        {
-            base.Apply(item);
-            
-            if(item.Details.InfixUpgrade != null && item.Details.InfixUpgrade.Attributes != null)
-            {
-                Bonus = item.Details.InfixUpgrade.Buff.Description;
-
-                foreach (var b in item.Details.InfixUpgrade.Attributes)
-                {
-                    Attributes.Add(new()
-                    {
-                        Amount = b.Modifier,
-                        Type = Enum.TryParse(b.Attribute.ToString(), out BonusType type) ? type : BonusType.Unkown,
-                    });
-                }
-            }            
-        }
-    }
-
-    [DataContract]
-    public class Enrichment : BaseItem
-    {
-        [DataMember]
-        public LocalizedString Bonuses { get; set; } = new();
-        public string Bonus
-        {
-            get => Bonuses.Text;
-            set => Bonuses.Text = value;
-        }
-
-        public void Apply(ItemUpgradeComponent item)
-        {
-            base.Apply(item);
-
-            if (item.Details.InfixUpgrade != null && item.Details.InfixUpgrade.Attributes != null)
-            {
-                Bonus = item.Details.InfixUpgrade.Buff.Description;
-            }
-        }
-    }
-
     [DataContract]
     public class BaseItem
     {
@@ -131,6 +73,14 @@ namespace Kenedia.Modules.BuildsManager.DataModels.Items
         }
 
         [DataMember]
+        public LocalizedString DisplayTexts { get; protected set; } = new();
+        public string DisplayText
+        {
+            get => DisplayTexts.Text;
+            set => DisplayTexts.Text = value;
+        }
+
+        [DataMember]
         public LocalizedString Descriptions { get; protected set; } = new();
         public string Description
         {
@@ -148,6 +98,7 @@ namespace Kenedia.Modules.BuildsManager.DataModels.Items
             Rarity = item.Rarity;
             Chatlink = item.ChatLink;
             Type = item.Type;
+            DisplayText = item.Name;
         }
     }
 }

@@ -8,13 +8,13 @@ using System;
 
 namespace Kenedia.Modules.BuildsManager.Controls.GearPage
 {
-    public class UtilityControl : Blish_HUD.Controls.Control
+    public class OLDUtilityControl : Blish_HUD.Controls.Control
     {
         private Template _template;
         private readonly DetailedTexture _utility = new() { TextureRegion = new(36, 36, 56, 56) };
         private readonly DetailedTexture _identifier = new(436368) { };
 
-        public UtilityControl()
+        public OLDUtilityControl()
         {
             _utility.Texture = BuildsManager.ModuleInstance.ContentsManager.GetTexture(@"textures\utilityslot.png");
             Size = new(45, 45);
