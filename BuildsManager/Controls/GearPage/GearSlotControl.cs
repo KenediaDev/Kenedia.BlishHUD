@@ -102,10 +102,11 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage
             _pvpSigilTexture.Bounds = _pvpSigilSlotTexture.Bounds;
             _pvpSigilBounds = new(_pvpSigilSlotTexture.Bounds.Right + 10, _pvpSigilTexture.Bounds.Top, Width - (_pvpSigilTexture.Bounds.Right + 2), _pvpSigilTexture.Bounds.Height);
 
-            _statTexture.Bounds = new(_sigilTexture.Bounds.Right + textPadding, _sigilTexture.Bounds.Top, StatFont.LineHeight, StatFont.LineHeight);
-            _statBounds = new(_statTexture.Bounds.Right + 4, _sigilTexture.Bounds.Top, Width - (_statTexture.Bounds.Right + 4), StatFont.LineHeight);
-            _sigilBounds = new(_statTexture.Bounds.Right + 4, _statBounds.Bottom, Width - (_statTexture.Bounds.Right + 4), UpgradeFont.LineHeight);
-            _infusionBounds = new(_statTexture.Bounds.Right + 4, _sigilBounds.Bottom, Width - (_statTexture.Bounds.Right + 4), InfusionFont.LineHeight);
+            int x = _sigilSlotTexture.Bounds.Right + textPadding + 4;
+            _sigilBounds = new(x, _sigilSlotTexture.Bounds.Top - 1, Width - x, _sigilSlotTexture.Bounds.Height);
+            _infusionBounds = new(x, _infusionSlotTexture.Bounds.Top, Width - x, _infusionSlotTexture.Bounds.Height);
+
+            _statTexture.Bounds = new(Icon.Bounds.Center.Add(new(-2, -2)), new(Icon.Bounds.Height / 2));
         }
 
         protected override void Paint(SpriteBatch spriteBatch, Rectangle bounds)
@@ -116,19 +117,18 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage
             {
                 _pvpSigilSlotTexture.Draw(this, spriteBatch, RelativeMousePosition);
                 _pvpSigilTexture.Draw(this, spriteBatch, RelativeMousePosition);
-                spriteBatch.DrawStringOnCtrl(this, GetDisplayString(PvpSigil?.DisplayText ?? "No Sigil"), UpgradeFont, _pvpSigilBounds, UpgradeColor, false, HorizontalAlignment.Left, VerticalAlignment.Middle);
+                spriteBatch.DrawStringOnCtrl(this, GetDisplayString(PvpSigil?.DisplayText ?? string.Empty), UpgradeFont, _pvpSigilBounds, UpgradeColor, false, HorizontalAlignment.Left, VerticalAlignment.Middle);
             }
             else
             {
-                spriteBatch.DrawStringOnCtrl(this, Stat?.Name ?? "-", StatFont, _statBounds, StatColor);
                 _statTexture.Draw(this, spriteBatch);
                 _sigilSlotTexture.Draw(this, spriteBatch, RelativeMousePosition);
                 _sigilTexture.Draw(this, spriteBatch, RelativeMousePosition);
-                spriteBatch.DrawStringOnCtrl(this, GetDisplayString(Sigil?.DisplayText ?? "No Sigil"), UpgradeFont, _sigilBounds, UpgradeColor, false, HorizontalAlignment.Left, VerticalAlignment.Top);
+                spriteBatch.DrawStringOnCtrl(this, GetDisplayString(Sigil?.DisplayText ?? string.Empty), UpgradeFont, _sigilBounds, UpgradeColor, false, HorizontalAlignment.Left, VerticalAlignment.Middle);
 
                 _infusionSlotTexture.Draw(this, spriteBatch, RelativeMousePosition);
                 _infusionTexture.Draw(this, spriteBatch, RelativeMousePosition);
-                spriteBatch.DrawStringOnCtrl(this, GetDisplayString(Infusion?.DisplayText ?? "No Infusion"), InfusionFont, _infusionBounds, InfusionColor, true, HorizontalAlignment.Left, VerticalAlignment.Top);
+                spriteBatch.DrawStringOnCtrl(this, GetDisplayString(Infusion?.DisplayText ?? string.Empty), InfusionFont, _infusionBounds, InfusionColor, true, HorizontalAlignment.Left, VerticalAlignment.Middle);
             }
         }
 
@@ -203,9 +203,8 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage
             _infusionSlotTexture.Texture = BuildsManager.ModuleInstance.ContentsManager.GetTexture(@"textures\infusionslot.png");
             _infusion2SlotTexture.Texture = BuildsManager.ModuleInstance.ContentsManager.GetTexture(@"textures\infusionslot.png");
 
-            StatFont = Content.DefaultFont14;
+            UpgradeFont = Content.DefaultFont16;
             InfusionFont = Content.DefaultFont12;
-            UpgradeFont = Content.DefaultFont12;
 
             MaxTextLength = 28;
         }
@@ -231,7 +230,6 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage
 
             _sigil2SlotTexture.Bounds = new(Icon.Bounds.Right + 2 + iconPadding + upgradeSize + 2, 0, upgradeSize, upgradeSize);
             _sigil2Texture.Bounds = _sigil2SlotTexture.Bounds;
-            _sigil2Bounds = new(_sigilTexture.Bounds.Right + 2, _sigilTexture.Bounds.Top, Width - (_sigilTexture.Bounds.Right + 2), StatFont.LineHeight);
 
             _infusionSlotTexture.Bounds = new(Icon.Bounds.Right + 2 + iconPadding, _sigilSlotTexture.Bounds.Bottom + 4, upgradeSize, upgradeSize);
             _infusionTexture.Bounds = _infusionSlotTexture.Bounds;
@@ -240,14 +238,14 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage
             _infusion2Texture.Bounds = _infusion2SlotTexture.Bounds;
 
             int upgradeWidth = (Width - (_sigil2SlotTexture.Bounds.Right + 2)) / 2;
-            _statTexture.Bounds = new(_sigil2SlotTexture.Bounds.Right + textPadding, _sigil2SlotTexture.Bounds.Top, StatFont.LineHeight, StatFont.LineHeight);
-            _statBounds = new(_statTexture.Bounds.Right + 4, _sigil2SlotTexture.Bounds.Top, Width - (_sigil2SlotTexture.Bounds.Right + 2), StatFont.LineHeight);
+            int x = _sigil2SlotTexture.Bounds.Right + textPadding + 4;
+            _sigilBounds = new(x, _sigilSlotTexture.Bounds.Top , upgradeWidth, _sigilSlotTexture.Bounds.Height);
+            _sigil2Bounds = new(x + upgradeWidth, _sigilSlotTexture.Bounds.Top , upgradeWidth, _sigilSlotTexture.Bounds.Height);
 
-            _sigilBounds = new(_statTexture.Bounds.Right + 4, _statBounds.Bottom, upgradeWidth, UpgradeFont.LineHeight);
-            _sigil2Bounds = new(_statTexture.Bounds.Right + 4 + upgradeWidth, _statBounds.Bottom, upgradeWidth, UpgradeFont.LineHeight);
+            _infusionBounds = new(x, _infusionSlotTexture.Bounds.Top, upgradeWidth, _infusionSlotTexture.Bounds.Height);
+            _infusion2Bounds = new(x + upgradeWidth, _infusionSlotTexture.Bounds.Top, upgradeWidth, _infusionSlotTexture.Bounds.Height);
 
-            _infusionBounds = new(_statTexture.Bounds.Right + 4, _sigilBounds.Bottom, upgradeWidth, InfusionFont.LineHeight);
-            _infusion2Bounds = new(_statTexture.Bounds.Right + 4 + upgradeWidth, _sigilBounds.Bottom, upgradeWidth, InfusionFont.LineHeight);
+            _statTexture.Bounds = new(Icon.Bounds.Center.Add(new(-2, -2)), new(Icon.Bounds.Height / 2));
         }
 
         protected override void Paint(SpriteBatch spriteBatch, Rectangle bounds)
@@ -261,23 +259,22 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage
                 base.Paint(spriteBatch, bounds);
 
                 _statTexture.Draw(this, spriteBatch);
-                spriteBatch.DrawStringOnCtrl(this, Stat?.Name ?? "-", StatFont, _statBounds, StatColor);
 
                 _sigilSlotTexture.Draw(this, spriteBatch, RelativeMousePosition);
                 _sigilTexture.Draw(this, spriteBatch, RelativeMousePosition);
-                spriteBatch.DrawStringOnCtrl(this, GetDisplayString(Sigil?.DisplayText ?? "No Sigil"), UpgradeFont, _sigilBounds, UpgradeColor, false, HorizontalAlignment.Left, VerticalAlignment.Top);
+                spriteBatch.DrawStringOnCtrl(this, GetDisplayString(Sigil?.DisplayText ?? string.Empty), UpgradeFont, _sigilBounds, UpgradeColor, false, HorizontalAlignment.Left, VerticalAlignment.Middle);
 
                 _sigil2SlotTexture.Draw(this, spriteBatch, RelativeMousePosition);
                 _sigil2Texture.Draw(this, spriteBatch, RelativeMousePosition);
-                spriteBatch.DrawStringOnCtrl(this, GetDisplayString(Sigil2?.DisplayText ?? "No Sigil"), UpgradeFont, _sigil2Bounds, UpgradeColor, false, HorizontalAlignment.Left, VerticalAlignment.Top);
+                spriteBatch.DrawStringOnCtrl(this, GetDisplayString(Sigil2?.DisplayText ?? string.Empty), UpgradeFont, _sigil2Bounds, UpgradeColor, false, HorizontalAlignment.Left, VerticalAlignment.Middle);
 
                 _infusionSlotTexture.Draw(this, spriteBatch, RelativeMousePosition);
                 _infusionTexture.Draw(this, spriteBatch, RelativeMousePosition);
-                spriteBatch.DrawStringOnCtrl(this, GetDisplayString(Infusion?.DisplayText ?? "No Infusion"), InfusionFont, _infusionBounds, InfusionColor, true, HorizontalAlignment.Left, VerticalAlignment.Top);
+                spriteBatch.DrawStringOnCtrl(this, GetDisplayString(Infusion?.DisplayText ?? string.Empty), InfusionFont, _infusionBounds, InfusionColor, true, HorizontalAlignment.Left, VerticalAlignment.Middle);
 
                 _infusion2SlotTexture.Draw(this, spriteBatch, RelativeMousePosition);
                 _infusion2Texture.Draw(this, spriteBatch, RelativeMousePosition);
-                spriteBatch.DrawStringOnCtrl(this, GetDisplayString(Infusion2?.DisplayText ?? "No Infusion"), InfusionFont, _infusion2Bounds, InfusionColor, true, HorizontalAlignment.Left, VerticalAlignment.Top);
+                spriteBatch.DrawStringOnCtrl(this, GetDisplayString(Infusion2?.DisplayText ?? string.Empty), InfusionFont, _infusion2Bounds, InfusionColor, true, HorizontalAlignment.Left, VerticalAlignment.Middle);
             }
         }
 
@@ -370,10 +367,11 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage
             _infusionSlotTexture.Bounds = new(Icon.Bounds.Right + 2 + iconPadding, _runeSlotTexture.Bounds.Bottom + 4, upgradeSize, upgradeSize);
             _infusionTexture.Bounds = _infusionSlotTexture.Bounds;
 
-            _statTexture.Bounds = new(_runeTexture.Bounds.Right + textPadding, _runeTexture.Bounds.Top, StatFont.LineHeight, StatFont.LineHeight);
-            _statBounds = new(_statTexture.Bounds.Right + 4, _runeTexture.Bounds.Top, Width - (_runeTexture.Bounds.Right + 2), StatFont.LineHeight);
-            _runeBounds = new(_statTexture.Bounds.Right + 4, _statBounds.Bottom, Width - (_runeTexture.Bounds.Right + 2), UpgradeFont.LineHeight);
-            _infusionBounds = new(_statTexture.Bounds.Right + 4, _runeBounds.Bottom, Width - (_runeTexture.Bounds.Right + 2), InfusionFont.LineHeight);
+            int x = _runeSlotTexture.Bounds.Right + textPadding + 4;
+            _runeBounds = new(x, _runeSlotTexture.Bounds.Top - 1, Width - x, _runeSlotTexture.Bounds.Height);
+            _infusionBounds = new(x, _infusionSlotTexture.Bounds.Top, Width - x, _infusionSlotTexture.Bounds.Height);
+
+            _statTexture.Bounds = new(Icon.Bounds.Center.Add(new(-2, -2)), new(Icon.Bounds.Height / 2));
         }
 
         protected override void Paint(SpriteBatch spriteBatch, Rectangle bounds)
@@ -382,15 +380,14 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage
             {
                 base.Paint(spriteBatch, bounds);
 
-                spriteBatch.DrawStringOnCtrl(this, Stat?.Name ?? "-", StatFont, _statBounds, StatColor);
                 _statTexture.Draw(this, spriteBatch);
                 _runeSlotTexture.Draw(this, spriteBatch, RelativeMousePosition);
                 _runeTexture.Draw(this, spriteBatch, RelativeMousePosition);
-                spriteBatch.DrawStringOnCtrl(this, GetDisplayString(Rune?.DisplayText ?? "No Rune"), UpgradeFont, _runeBounds, UpgradeColor, false, HorizontalAlignment.Left, VerticalAlignment.Top);
+                spriteBatch.DrawStringOnCtrl(this, GetDisplayString(Rune?.DisplayText ?? string.Empty), UpgradeFont, _runeBounds, UpgradeColor, false, HorizontalAlignment.Left, VerticalAlignment.Middle);
 
                 _infusionSlotTexture.Draw(this, spriteBatch, RelativeMousePosition);
                 _infusionTexture.Draw(this, spriteBatch, RelativeMousePosition);
-                spriteBatch.DrawStringOnCtrl(this, GetDisplayString(Infusion?.DisplayText ?? "No Infusion"), InfusionFont, _infusionBounds, InfusionColor, true, HorizontalAlignment.Left, VerticalAlignment.Top);
+                spriteBatch.DrawStringOnCtrl(this, GetDisplayString(Infusion?.DisplayText ?? string.Empty), InfusionFont, _infusionBounds, InfusionColor, true, HorizontalAlignment.Left, VerticalAlignment.Middle);
             }
         }
 
@@ -468,7 +465,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage
             _infusion2SlotTexture.Bounds = new(Icon.Bounds.Right + 2, Icon.Bounds.Top + ((infusionSize + 2) * 1), infusionSize, infusionSize);
             _infusion2Texture.Bounds = _infusion2SlotTexture.Bounds;
 
-            _infusion3SlotTexture.Bounds = new(Icon.Bounds.Right + 2, Icon.Bounds.Top+ ((infusionSize + 2) * 2), infusionSize, infusionSize);
+            _infusion3SlotTexture.Bounds = new(Icon.Bounds.Right + 2, Icon.Bounds.Top + ((infusionSize + 2) * 2), infusionSize, infusionSize);
             _infusion3Texture.Bounds = _infusion3SlotTexture.Bounds;
 
             _statTexture.Bounds = new(Icon.Bounds.Center.Add(new(-2, -2)), new(Icon.Bounds.Height / 2));
@@ -620,6 +617,12 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage
         public PvpAmuletSlotControl(GearTemplateSlot gearSlot, Container parent) : base(gearSlot, parent)
         {
         }
+
+        protected override void Paint(SpriteBatch spriteBatch, Rectangle bounds)
+        {
+            base.Paint(spriteBatch, bounds);
+
+        }
     }
 
     public class JadeBotControl : GearSlotControl
@@ -662,42 +665,23 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage
         }
     }
 
-    public class GearSlotControl : Blish_HUD.Controls.Control
+    public class GearSlotControl : Control
     {
-        private readonly Texture2D _infusionSlotTexture;
-
         private GearTemplateSlot _gearSlot = GearTemplateSlot.None;
-        private readonly DetailedTexture _upgrade = new(784323) { TextureRegion = new(37, 37, 54, 54) };
-        private readonly DetailedTexture _upgrade2 = new(784323) { TextureRegion = new(37, 37, 54, 54) };
-        private DetailedTexture[] _infusions = new DetailedTexture[1]
-        {
-            new(517199) { TextureRegion = new(8, 8, 48, 48) },
-        };
-        private Rectangle _textBounds;
-        private Rectangle _secondUpgradeTextBounds;
-        private Rectangle _infusionBounds;
-        private Rectangle _infusion2Bounds;
-        private Rectangle _statBounds;
-        private Rectangle _statIconBounds;
         private Template _template;
 
         protected readonly DetailedTexture Icon = new() { TextureRegion = new(37, 37, 54, 54) };
         protected readonly ItemTexture Item = new() { };
-        private readonly ItemTexture Upgrade1 = new() { };
-        private readonly ItemTexture Upgrade2 = new() { };
-        private readonly ItemTexture Infusion1 = new() { };
-        private readonly ItemTexture Infusion2 = new() { };
-        private readonly ItemTexture Infusion3 = new() { };
 
         protected int MaxTextLength = 52;
 
         protected Color StatColor = Color.White;
         protected Color UpgradeColor = Color.Orange;
         protected Color InfusionColor = new(153, 238, 221);
-        protected Color ItemColor = Color.White;
+        protected Color ItemColor = Color.Gray;
 
         protected BitmapFont StatFont = Content.DefaultFont16;
-        protected BitmapFont UpgradeFont = Content.DefaultFont14;
+        protected BitmapFont UpgradeFont = Content.DefaultFont18;
         protected BitmapFont InfusionFont = Content.DefaultFont12;
 
         private GearTemplateEntry _templateSlot;
@@ -707,12 +691,11 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage
 
         public GearSlotControl()
         {
-            _infusionSlotTexture = BuildsManager.ModuleInstance.ContentsManager.GetTexture(@"textures\infusionslot.png");
             Size = new(380, 64);
             ClipsBounds = false;
         }
 
-        public GearSlotControl(GearTemplateSlot gearSlot, Blish_HUD.Controls.Container parent) : this()
+        public GearSlotControl(GearTemplateSlot gearSlot, Container parent) : this()
         {
             GearSlot = gearSlot;
             Parent = parent;
@@ -794,52 +777,16 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage
             {
                 Item.Item = Template?.GearTemplate.Armors[GearSlot].Item;
                 Stat = Template?.GearTemplate.Armors[GearSlot].Stat != null && BuildsManager.Data.Stats.TryGetValue((int)Template?.GearTemplate.Armors[GearSlot].Stat, out Stat stat) ? stat : null;
-                if (Template != null) Infusion1.Item = BuildsManager.Data.Infusions.Where(e => e.Value.MappedId == Template.GearTemplate.Armors[GearSlot].InfusionIds[0]).FirstOrDefault().Value;
-                if (Template != null) Upgrade1.Item = BuildsManager.Data.PveRunes.Where(e => e.Value.MappedId == Template.GearTemplate.Armors[GearSlot].RuneIds[0]).FirstOrDefault().Value;
             }
             else if (GearSlot.IsWeapon())
             {
                 Item.Item = Template?.GearTemplate.Weapons[GearSlot].Item;
                 Stat = Template?.GearTemplate.Weapons[GearSlot].Stat != null && BuildsManager.Data.Stats.TryGetValue((int)Template?.GearTemplate.Weapons[GearSlot].Stat, out Stat stat) ? stat : null;
-
-                if (GearSlot is GearTemplateSlot.Aquatic or GearTemplateSlot.AltAquatic)
-                {
-                    if (Template != null) Infusion1.Item = BuildsManager.Data.Infusions.Where(e => e.Value.MappedId == Template.GearTemplate.Weapons[GearSlot].InfusionIds[0]).FirstOrDefault().Value;
-                    if (Template != null) Infusion2.Item = BuildsManager.Data.Infusions.Where(e => e.Value.MappedId == Template.GearTemplate.Weapons[GearSlot].InfusionIds[1]).FirstOrDefault().Value;
-
-                    if (Template != null) Upgrade1.Item = BuildsManager.Data.PveSigils.Where(e => e.Value.MappedId == Template.GearTemplate.Weapons[GearSlot].SigilIds[0]).FirstOrDefault().Value;
-                    if (Template != null) Upgrade2.Item = BuildsManager.Data.PveSigils.Where(e => e.Value.MappedId == Template.GearTemplate.Weapons[GearSlot].SigilIds[0]).FirstOrDefault().Value;
-                }
-                else
-                {
-                    if (Template != null) Infusion1.Item = BuildsManager.Data.Infusions.Where(e => e.Value.MappedId == Template.GearTemplate.Weapons[GearSlot].InfusionIds[0]).FirstOrDefault().Value;
-                    if (Template != null) Upgrade1.Item = BuildsManager.Data.PveSigils.Where(e => e.Value.MappedId == Template.GearTemplate.Weapons[GearSlot].SigilIds[0]).FirstOrDefault().Value;
-                }
             }
             else if (GearSlot.IsJuwellery())
             {
                 Item.Item = Template?.GearTemplate.Juwellery[GearSlot].Item;
                 Stat = Template?.GearTemplate.Juwellery[GearSlot].Stat != null && BuildsManager.Data.Stats.TryGetValue((int)Template?.GearTemplate.Juwellery[GearSlot].Stat, out Stat stat) ? stat : null;
-
-                if (GearSlot is GearTemplateSlot.Ring_1 or GearTemplateSlot.Ring_2)
-                {
-                    if (Template != null) Infusion1.Item = BuildsManager.Data.Infusions.Where(e => e.Value.MappedId == Template.GearTemplate.Juwellery[GearSlot].InfusionIds[0]).FirstOrDefault().Value;
-                    if (Template != null) Infusion2.Item = BuildsManager.Data.Infusions.Where(e => e.Value.MappedId == Template.GearTemplate.Juwellery[GearSlot].InfusionIds[1]).FirstOrDefault().Value;
-                    if (Template != null) Infusion3.Item = BuildsManager.Data.Infusions.Where(e => e.Value.MappedId == Template.GearTemplate.Juwellery[GearSlot].InfusionIds[2]).FirstOrDefault().Value;
-                }
-                else if (GearSlot is GearTemplateSlot.Back)
-                {
-                    if (Template != null) Infusion1.Item = BuildsManager.Data.Infusions.Where(e => e.Value.MappedId == Template.GearTemplate.Juwellery[GearSlot].InfusionIds[0]).FirstOrDefault().Value;
-                    if (Template != null) Infusion2.Item = BuildsManager.Data.Infusions.Where(e => e.Value.MappedId == Template.GearTemplate.Juwellery[GearSlot].InfusionIds[1]).FirstOrDefault().Value;
-                }
-                else if(GearSlot is GearTemplateSlot.Amulet)
-                {
-                    //if (Template != null) Enrichment.Item = BuildsManager.Data.Enrichments.Where(e => e.Value.MappedId == Template.GearTemplate.Juwellery[GearSlot].EnrichmentIds[0]).FirstOrDefault().Value;
-                }
-                else
-                {
-                    if (Template != null) Infusion1.Item = BuildsManager.Data.Infusions.Where(e => e.Value.MappedId == Template.GearTemplate.Juwellery[GearSlot].InfusionIds[0]).FirstOrDefault().Value;
-                }
             }
             else if (GearSlot is GearTemplateSlot.PvpAmulet)
             {
@@ -891,35 +838,6 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage
                 Icon.Texture = AsyncTexture2D.FromAssetId(assetId);
             }
 
-            if (GearSlot is GearTemplateSlot.Aquatic or GearTemplateSlot.AltAquatic or GearTemplateSlot.MainHand or GearTemplateSlot.OffHand or GearTemplateSlot.AltMainHand or GearTemplateSlot.AltOffHand)
-            {
-                _upgrade.Texture = AsyncTexture2D.FromAssetId(784324);
-                _upgrade2.Texture = AsyncTexture2D.FromAssetId(784324);
-            }
-
-            _infusions = GearSlot switch
-            {
-                GearTemplateSlot.Back or GearTemplateSlot.Aquatic or GearTemplateSlot.AltAquatic => new DetailedTexture[2]
-                    {
-                        new() { Texture = _infusionSlotTexture, TextureRegion = new(36, 36, 56, 56) },
-                        new() { Texture = _infusionSlotTexture, TextureRegion = new(36, 36, 56, 56) },
-                    },
-                GearTemplateSlot.Ring_1 or GearTemplateSlot.Ring_2 => new DetailedTexture[3]
-                    {
-                        new() { Texture = _infusionSlotTexture, TextureRegion = new(36, 36, 56, 56) },
-                        new() { Texture = _infusionSlotTexture, TextureRegion = new(36, 36, 56, 56) },
-                        new() { Texture = _infusionSlotTexture, TextureRegion = new(36, 36, 56, 56) },
-                    },
-                GearTemplateSlot.Amulet => new DetailedTexture[1]
-                    {
-                        new() { Texture = _infusionSlotTexture, TextureRegion = new(36, 36, 56, 56) },
-                    },
-                _ => new DetailedTexture[1]
-                    {
-                        new() { Texture = _infusionSlotTexture, TextureRegion = new(36, 36, 56, 56) },
-                    },
-            };
-
             RecalculateLayout();
         }
 
@@ -947,15 +865,6 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage
 
             if (Icon.Hovered)
                 SelectionPanel?.SetGearAnchor(this, new Rectangle(a.Location, Point.Zero).Add(Icon.Bounds), GearSlot, GearSlot.ToString().ToLowercaseNamingConvention());
-
-            //if (_upgrade2.Hovered)
-            //    SelectionPanel?.SetItemIdAnchor(this, new Rectangle(a.Location, Point.Zero).Add(_upgrade2.Bounds), GearSlot.ToString().ToLowercaseNamingConvention());
-
-            //foreach (var infusion in _infusions)
-            //{
-            //    if (infusion.Hovered)
-            //        SelectionPanel?.SetItemIdAnchor(this, new Rectangle(a.Location, Point.Zero).Add(infusion.Bounds), GearSlot.ToString().ToLowercaseNamingConvention());
-            //}
         }
 
         protected string GetDisplayString(string s)

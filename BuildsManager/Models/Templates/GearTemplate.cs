@@ -519,10 +519,6 @@ namespace Kenedia.Modules.BuildsManager.Models.Templates
                 {
                     this[GearTemplateEntryType.Armor].Add(slot, new ArmorEntry() { Slot = slot });
                 }
-                else if (slot is not GearTemplateSlot.Amulet)
-                {
-                    this[GearTemplateEntryType.Equipment].Add(slot, new JuwelleryEntry() { Slot = slot });
-                }
                 else if (slot.IsJuwellery())
                 {
                     this[GearTemplateEntryType.Equipment].Add(slot, new JuwelleryEntry() { Slot = slot });
@@ -561,7 +557,7 @@ namespace Kenedia.Modules.BuildsManager.Models.Templates
 
         public Dictionary<GearTemplateSlot, JuwelleryEntry> Juwellery => this[GearTemplateEntryType.Equipment].ToDictionary(e => e.Key, e => (JuwelleryEntry)e.Value);
 
-        public Dictionary<GearTemplateSlot, GearTemplateEntry> PvpAmulet => this[GearTemplateEntryType.PvpAmulet];
+        public Dictionary<GearTemplateSlot, GearTemplateEntry> PvpAmulets => this[GearTemplateEntryType.PvpAmulet];
 
         public Dictionary<GearTemplateSlot, GearTemplateEntry> Common => this[GearTemplateEntryType.None];
 
@@ -584,6 +580,11 @@ namespace Kenedia.Modules.BuildsManager.Models.Templates
                 code += entry.ToCode();
             }
 
+            foreach (var entry in PvpAmulets.Values.OrderBy(e => e.Slot))
+            {
+                code += entry.ToCode();
+            }
+
             foreach (var entry in Common.Values.OrderBy(e => e.Slot))
             {
                 code += entry.ToCode();
@@ -596,7 +597,7 @@ namespace Kenedia.Modules.BuildsManager.Models.Templates
         {
             string[] parts = code.Split(']');
 
-            if (parts.Length == 23)
+            if (parts.Length == 24)
             {
                 for (int i = (int)GearTemplateSlot.Head; i <= (int)GearTemplateSlot.AquaBreather; i++)
                 {
@@ -613,10 +614,10 @@ namespace Kenedia.Modules.BuildsManager.Models.Templates
                     Juwellery[(GearTemplateSlot)i].FromCode(parts[i].Substring(1, parts[i].Length - 1));
                 }
 
-                //Common[GearTemplateSlot.Nourishment].FromCode(parts[(int)GearTemplateSlot.Nourishment].Substring(1, parts[(int)GearTemplateSlot.Nourishment].Length - 1));
-                //Common[GearTemplateSlot.Utility].FromCode(parts[(int)GearTemplateSlot.Utility].Substring(1, parts[(int)GearTemplateSlot.Utility].Length - 1));
-                //Common[GearTemplateSlot.JadeBotCore].FromCode(parts[(int)GearTemplateSlot.JadeBotCore].Substring(1, parts[(int)GearTemplateSlot.JadeBotCore].Length - 1));
-                //PvpAmulets[GearTemplateSlot.PvpAmulet].FromCode(parts[(int)GearTemplateSlot.PvpAmulet].Substring(1, parts[(int)GearTemplateSlot.PvpAmulet].Length - 1));
+                PvpAmulets[GearTemplateSlot.PvpAmulet].FromCode(parts[(int)GearTemplateSlot.PvpAmulet].Substring(1, parts[(int)GearTemplateSlot.PvpAmulet].Length - 1));
+                Common[GearTemplateSlot.Nourishment].FromCode(parts[(int)GearTemplateSlot.Nourishment].Substring(1, parts[(int)GearTemplateSlot.Nourishment].Length - 1));
+                Common[GearTemplateSlot.Utility].FromCode(parts[(int)GearTemplateSlot.Utility].Substring(1, parts[(int)GearTemplateSlot.Utility].Length - 1));
+                Common[GearTemplateSlot.JadeBotCore].FromCode(parts[(int)GearTemplateSlot.JadeBotCore].Substring(1, parts[(int)GearTemplateSlot.JadeBotCore].Length - 1));
             }
         }
     }

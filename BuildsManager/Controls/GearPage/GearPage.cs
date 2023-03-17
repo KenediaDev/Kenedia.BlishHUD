@@ -124,9 +124,9 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage
                 {GearTemplateSlot.Ring_2, new JuwellerySlotControl(GearTemplateSlot.Ring_2, this){ Width = 85 }},
                 {GearTemplateSlot.AquaBreather, new ArmorSlotControl(GearTemplateSlot.AquaBreather, this){ Height = 55 }},
                 {GearTemplateSlot.PvpAmulet, new PvpAmuletSlotControl (GearTemplateSlot.PvpAmulet, this)},
-                {GearTemplateSlot.Utility, new UtilityControl(GearTemplateSlot.PvpAmulet, this)},
-                {GearTemplateSlot.Nourishment, new NourishmentControl(GearTemplateSlot.PvpAmulet, this)},
-                {GearTemplateSlot.JadeBotCore, new JadeBotControl(GearTemplateSlot.PvpAmulet, this)},
+                {GearTemplateSlot.Utility, new UtilityControl(GearTemplateSlot.Utility, this)},
+                {GearTemplateSlot.Nourishment, new NourishmentControl(GearTemplateSlot.Nourishment, this)},
+                {GearTemplateSlot.JadeBotCore, new JadeBotControl(GearTemplateSlot.JadeBotCore, this)},
             };
 
             //_slots[GearTemplateSlot.Utility].ClickAction = () =>
@@ -209,6 +209,11 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage
                 _framedSpecIcon.Location = new(_stats.Right - 45, _headerBounds.Bottom + 5);
                 _framedSpecIcon.Size = new(45, 45);
 
+                int padding = (_framedSpecIcon.Left - _pve.Bounds.Right - (45 * 3)) / 4;
+                _slots[GearTemplateSlot.Nourishment].Location = new(_pve.Bounds.Right + padding + ((45 + padding) * 0), _pve.Bounds.Top);
+                _slots[GearTemplateSlot.Utility].Location = new(_pve.Bounds.Right + padding + ((45 + padding) * 1), _pve.Bounds.Top);
+                _slots[GearTemplateSlot.JadeBotCore].Location = new(_pve.Bounds.Right + padding + ((45 + padding) * 2), _pve.Bounds.Top);
+
                 _slots[GearTemplateSlot.Head].Location = new(0, _gearCodeBox.Bottom + 5);
                 _slots[GearTemplateSlot.Shoulder].Location = new(_slots[GearTemplateSlot.Head].Left, _slots[GearTemplateSlot.Head].Bottom + gearSpacing);
                 _slots[GearTemplateSlot.Chest].Location = new(_slots[GearTemplateSlot.Shoulder].Left, _slots[GearTemplateSlot.Shoulder].Bottom + gearSpacing);
@@ -235,13 +240,6 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage
                 _slots[GearTemplateSlot.AquaBreather].Location = new(_slots[GearTemplateSlot.Back].Left, _slots[GearTemplateSlot.Amulet].Bottom + 10);
                 _slots[GearTemplateSlot.Aquatic].Location = new(_slots[GearTemplateSlot.AquaBreather].Left, _slots[GearTemplateSlot.AquaBreather].Bottom + 15);
                 _slots[GearTemplateSlot.AltAquatic].Location = new(_slots[GearTemplateSlot.Aquatic].Left, _slots[GearTemplateSlot.Aquatic].Bottom + 8);
-
-                //_nourishment.Location = new(_slots[GearTemplateSlot.Back].Left, _slots[GearTemplateSlot.AquaBreather].Top);
-                //_utility.Location = new(_nourishment.Left, _nourishment.Bottom + 5);
-
-
-                //_statPanelHeaderBounds = new(_statPanel.Left + 15, _statPanel.Top, _statPanel.Width - 15, 32);
-
             }
         }
 

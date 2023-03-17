@@ -233,7 +233,9 @@ namespace Kenedia.Modules.BuildsManager
 
         private void SetDummyTemplate()
         {
-            string gearcode = "[9|584|-1|0][4|584|-1|0][7|584|-1|0][3|584|-1|0][15|584|-1|0][17|584|-1|0][1|584|-1|0][53|584|-1|-1|-1][50|584|-1|-1|-1][7|584|-1|-1|-1|-1][-1|584|-1|-1|-1][16|584|-1|-1|-1][17|584|-1|-1|-1|-1][0|584|-1|-1][8|584|-1][3|584|-1][4|584|-1][5|584|-1|-1|-1][7|584|-1|-1|-1][-1][-1][-1]";
+            string code2 = "[9|1128|255|1][4|1128|255|1][7|1128|255|1][3|1128|255|1][15|1128|255|1][17|1128|255|1][1|1128|255|1][53|584|26|1|1][50|584|26|1|1][7|584|26|26|1|1][-1|584|26|1|1][16|584|26|1|1][17|584|26|26|1|1][-1|584|340][0|584|340|340][8|584|1][3|584|340][4|584|340][5|584|340|340|340][7|584|340|340|340][-1|584|340][-1|584|340][-1|584|340][-1|584|340]";
+            string gearcode = "[9|584|-1|0][4|584|-1|0][7|584|-1|0][3|584|-1|0][15|584|-1|0][17|584|-1|0][1|584|-1|0][53|584|-1|-1|-1][50|584|-1|-1|-1][7|584|-1|-1|-1|-1][-1|584|-1|-1|-1][16|584|-1|-1|-1][17|584|-1|-1|-1|-1][0|584|-1|-1][8|584|-1][3|584|-1][4|584|-1][5|584|-1|-1|-1][7|584|-1|-1|-1][-1][-1][-1][-1]";
+
             string code = "[&DQgnNhM1PCYSAJsAiwDkAJkBdgBvAXABkgCVAAAAAAAAAAAAAAAAAAAAAAA=]";
             var build = new BuildTemplate(code);
 
@@ -246,50 +248,52 @@ namespace Kenedia.Modules.BuildsManager
 
             var template = SelectedTemplate.GearTemplate;
 
-            foreach (var armor in template.Armors)
-            {
-                armor.Value.Stat = DataModels.Stats.EquipmentStat.Assassins;
-
-                for (int i = 0; i < armor.Value.InfusionIds.Count; i++)
+            if (true) {
+                foreach (var armor in template.Armors)
                 {
-                    armor.Value.InfusionIds[i] = 255;
-                }
+                    armor.Value.Stat = DataModels.Stats.EquipmentStat.Assassins;
 
-                for (int i = 0; i < armor.Value.RuneIds.Count; i++)
-                {
-                    armor.Value.RuneIds[i] = 1;
-                }
-            }
-
-            foreach (var weapon in template.Weapons)
-            {
-                weapon.Value.Stat = DataModels.Stats.EquipmentStat.Berserkers;
-
-                for (int i = 0; i < weapon.Value.InfusionIds.Count; i++)
-                {
-                    weapon.Value.InfusionIds[i] = 26;
-                }
-
-                for (int i = 0; i < weapon.Value.SigilIds.Count; i++)
-                {
-                    weapon.Value.SigilIds[i] = 1;
-                }
-            }
-
-            foreach (var juwellery in template.Juwellery)
-            {
-                juwellery.Value.Stat = DataModels.Stats.EquipmentStat.Berserkers;
-
-                for (int i = 0; i <( juwellery.Value.InfusionIds?.Count ?? 0); i++)
-                {
-                    juwellery.Value.InfusionIds[i] = 340;
-                }
-
-                if(juwellery.Value.EnrichmentIds != null)
-                {
-                    for (int i = 0; i < (juwellery.Value.EnrichmentIds?.Count ?? 0); i++)
+                    for (int i = 0; i < armor.Value.InfusionIds.Count; i++)
                     {
-                        juwellery.Value.EnrichmentIds[i] = 1;
+                        armor.Value.InfusionIds[i] = 255;
+                    }
+
+                    for (int i = 0; i < armor.Value.RuneIds.Count; i++)
+                    {
+                        armor.Value.RuneIds[i] = 1;
+                    }
+                }
+
+                foreach (var weapon in template.Weapons)
+                {
+                    weapon.Value.Stat = DataModels.Stats.EquipmentStat.Berserkers;
+
+                    for (int i = 0; i < weapon.Value.InfusionIds.Count; i++)
+                    {
+                        weapon.Value.InfusionIds[i] = 26;
+                    }
+
+                    for (int i = 0; i < weapon.Value.SigilIds.Count; i++)
+                    {
+                        weapon.Value.SigilIds[i] = 1;
+                    }
+                }
+
+                foreach (var juwellery in template.Juwellery)
+                {
+                    juwellery.Value.Stat = DataModels.Stats.EquipmentStat.Berserkers;
+
+                    for (int i = 0; i < (juwellery.Value.InfusionIds?.Count ?? 0); i++)
+                    {
+                        juwellery.Value.InfusionIds[i] = 340;
+                    }
+
+                    if (juwellery.Value.EnrichmentIds != null)
+                    {
+                        for (int i = 0; i < (juwellery.Value.EnrichmentIds?.Count ?? 0); i++)
+                        {
+                            juwellery.Value.EnrichmentIds[i] = 1;
+                        }
                     }
                 }
             }
