@@ -321,7 +321,7 @@ namespace Kenedia.Modules.Characters.Services
                         string txt = await OCR.Read();
                         while (stopwatch.ElapsedMilliseconds < 5000 && txt.Length <= 2 && !cancellationToken.IsCancellationRequested)
                         {
-                            Characters.Logger.Debug($"We are in the character selection but the OCR did only read '{txt}'. Waiting a bit longer!");
+                            Characters.Logger.Info($"We are in the character selection but the OCR did only read '{txt}'. Waiting a bit longer!");
                             await Delay(cancellationToken, 250);
                             txt = await OCR.Read();
                             if (cancellationToken.IsCancellationRequested) return _gameState.IsCharacterSelection;
@@ -338,7 +338,7 @@ namespace Kenedia.Modules.Characters.Services
                         string txt = await OCR.Read();
                         while (stopwatch.ElapsedMilliseconds < 5000 && txt.Length <= 2 && !cancellationToken.IsCancellationRequested)
                         {
-                            Characters.Logger.Debug($"We should be in the character selection but the OCR did only read '{txt}'. Waiting a bit longer!");
+                            Characters.Logger.Info($"We should be in the character selection but the OCR did only read '{txt}'. Waiting a bit longer!");
                             await Delay(cancellationToken, 250);
                             txt = await OCR.Read();
                             if (cancellationToken.IsCancellationRequested) return _gameState.IsCharacterSelection;

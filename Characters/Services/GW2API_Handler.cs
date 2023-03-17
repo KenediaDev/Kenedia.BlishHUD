@@ -16,6 +16,8 @@ using Map = Kenedia.Modules.Core.DataModels.Map;
 using Blish_HUD;
 using Kenedia.Modules.Core.Models;
 using Kenedia.Modules.Characters.Views;
+using Kenedia.Modules.Core.Utility;
+using System.ComponentModel;
 
 namespace Kenedia.Modules.Characters.Services
 {
@@ -43,6 +45,8 @@ namespace Kenedia.Modules.Characters.Services
 
         public MainWindow MainWindow { get; set; }
 
+        public event PropertyChangedEventHandler AccountChanged;
+
         private Account _account;
 
         public Account Account
@@ -50,8 +54,11 @@ namespace Kenedia.Modules.Characters.Services
             get => _account;
             set
             {
-                _paths.AccountName = value.Name;
-                _account = value;
+                var temp = _account;
+                if(Common.SetProperty(ref _account, value, AccountChanged, value != null && _paths.AccountName != value?.Name))
+                {
+                    Characters.Logger.Info($"Account changed from {temp?.Name ?? "No Account"} to {value?.Name ?? "No Account"}!");
+                }
             }
         }
 
@@ -133,6 +140,7 @@ namespace Kenedia.Modules.Characters.Services
                     }
 
                     Account = account;
+                    Characters.Logger.Info($"Fetching characters for '{Account.Name}' ...");
 
                     IApiV2ObjectList<Character> characters = await _gw2ApiManager.Gw2ApiClient.V2.Characters.AllAsync(cancellationToken);
                     if (cancellationToken.IsCancellationRequested)

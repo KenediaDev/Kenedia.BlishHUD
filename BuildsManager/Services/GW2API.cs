@@ -31,6 +31,7 @@ using System.Diagnostics;
 using Gw2Sharp.WebApi.Exceptions;
 using Kenedia.Modules.BuildsManager.Models;
 using Kenedia.Modules.BuildsManager.DataModels.Items;
+using System.ServiceModel.Channels;
 
 namespace Kenedia.Modules.BuildsManager.Services
 {
@@ -631,8 +632,69 @@ namespace Kenedia.Modules.BuildsManager.Services
                     97686,
                     97775
                 };
-
+                var commonfeasts = new List<int>()
+                {
+                    82657,
+                    83171,
+                    75053,
+                    72761,
+                    71940,
+                    71176,
+                    70628,
+                    76944,
+                    76388,
+                    83545,
+                    83591,
+                    91943,
+                    98924,
+                    12585,
+                    12856,
+                    12587,
+                    12588,
+                    12589,
+                    12590,
+                    12591,
+                    12592,
+                    12593,
+                    12633,
+                    12634,
+                    12635,
+                    12636,
+                    12637,
+                    12638,
+                    12639,
+                    12640,
+                    12641,
+                    12642,
+                    12678,
+                    12679,
+                    12680,
+                    12681,
+                    12682,
+                    12683,
+                    12684,
+                    12685,
+                    12686,
+                    12720,
+                    12721,
+                    12722,
+                    12723,
+                    12724,
+                    12725,
+                    12726,
+                    12727,
+                    12728,
+                    66525,
+                    66532,
+                    66533,
+                    66534,
+                    66535,
+                    71797,
+                    71826,
+                    73221,
+                };
                 _ = itemids.RemoveAll(invalidIds.Contains);
+                _ = itemids.RemoveAll(commonfeasts.Contains);
                 _ = itemids.RemoveAll(jadetechmodules.Contains);
 
                 var ascendedGear = new List<int>()

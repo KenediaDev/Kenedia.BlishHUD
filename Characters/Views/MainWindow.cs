@@ -265,7 +265,7 @@ namespace Kenedia.Modules.Characters.Views
             ContentPanel.Invalidate();
         }
 
-        private List<Character_Model> LoadedModels { get; } = new();
+        public List<Character_Model> LoadedModels { get; } = new();
 
         private void FilterDelay_SettingChanged(object sender, ValueChangedEventArgs<int> e)
         {

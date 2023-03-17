@@ -75,7 +75,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
 
         private void SetItem()
         {
-            BasicTooltipText = Item == null ? null : Item.Name + (Item.Type == Gw2Sharp.WebApi.V2.Models.ItemType.Weapon ? Environment.NewLine + (Item as Weapon).WeaponType.ToSkillWeapon() : string.Empty);
+            BasicTooltipText = Item == null ? null : Item.Name + $" [{Item.Id}] "+ (Item.Type == Gw2Sharp.WebApi.V2.Models.ItemType.Weapon ? Environment.NewLine + (Item as Weapon).WeaponType.ToSkillWeapon() : string.Empty);
         }
     }
 }

@@ -321,8 +321,8 @@ namespace Kenedia.Modules.Characters.Services
                     // var nCurr = string.Format("Current: {0} | LastLogin: {1} | More Recent: {2}", current.Name, current.LastLogin, next != null && current.LastLogin <= next.LastLogin);
                     // var nNext = string.Format("Next: {0} | LastLogin: {1} | More Recent: {2}", next != null ? next.Name : "No Next", next != null ? next.LastLogin : "No Next", next != null && current.LastLogin <= next.LastLogin);
 
-                    // Characters.Logger.Debug(nCurr);
-                    // Characters.Logger.Debug(nNext + Environment.NewLine);
+                    // Characters.Logger.Info(nCurr);
+                    // Characters.Logger.Info(nNext + Environment.NewLine);
                     if (next != null && current.LastLogin <= next.LastLogin)
                     {
                         current.LastLogin = next.LastLogin.AddSeconds(1);

@@ -1179,7 +1179,7 @@ namespace Kenedia.Modules.Characters.Services
         {
             string path = _paths.ModuleDataPath + $@"Maps.json";
 
-            Characters.Logger.Debug($"Trying to load Maps from {path}");
+            Characters.Logger.Info($"Trying to load Maps from {path}");
             try
             {
                 if (File.Exists(path))
@@ -1190,7 +1190,7 @@ namespace Kenedia.Modules.Characters.Services
                     {
                         Maps = JsonConvert.DeserializeObject<Dictionary<int, Map>>(jsonString);
                         
-                        Characters.Logger.Debug($"Loaded Maps from {path}");
+                        Characters.Logger.Info($"Loaded Maps from {path}");
                     }
                 }
             }

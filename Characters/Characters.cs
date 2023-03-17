@@ -172,8 +172,6 @@ namespace Kenedia.Modules.Characters
 
             CreateToggleCategories();
 
-            Gw2ApiManager.SubtokenUpdated += Gw2ApiManager_SubtokenUpdated;
-
             Settings.ShortcutKey.Value.Enabled = true;
             Settings.ShortcutKey.Value.Activated += ShortcutWindowToggle;
 
@@ -183,10 +181,6 @@ namespace Kenedia.Modules.Characters
             Tags.CollectionChanged += Tags_CollectionChanged;
 
             Settings.Version.Value = ModuleVersion;
-
-            GW2APIHandler = new GW2API_Handler(Gw2ApiManager, AddOrUpdateCharacters, () => APISpinner, Paths, Data);
-
-            
         }
 
         protected override void DefineSettings(SettingCollection settings)
@@ -214,6 +208,10 @@ namespace Kenedia.Modules.Characters
 
             TextureManager = new TextureManager(Services.TexturesService);
 
+            GW2APIHandler = new GW2API_Handler(Gw2ApiManager, AddOrUpdateCharacters, () => APISpinner, Paths, Data);
+            GW2APIHandler.AccountChanged += GW2APIHandler_AccountChanged;
+            Gw2ApiManager.SubtokenUpdated += Gw2ApiManager_SubtokenUpdated;
+
             if (Settings.ShowCornerIcon.Value)
             {
                 CreateCornerIcons();
@@ -224,6 +222,19 @@ namespace Kenedia.Modules.Characters
             if (Settings.LoadCachedAccounts.Value) _ = LoadCharacters();
 
             Services.InputDetectionService.ClickedOrKey += InputDetectionService_ClickedOrKey;
+        }
+
+        private void GW2APIHandler_AccountChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            if (!string.IsNullOrEmpty(Paths.AccountName) && Paths.AccountName != GW2APIHandler.Account?.Name)
+            {
+                Paths.AccountName = GW2APIHandler.Account?.Name;
+                Logger.Info("Account changed. Wipe all account bound data of this session.");
+
+                CharacterModels.Clear();
+                MainWindow?.CharacterCards.Clear();
+                MainWindow?.LoadedModels.Clear();
+            }
         }
 
         protected override void Update(GameTime gameTime)
@@ -555,13 +566,16 @@ namespace Kenedia.Modules.Characters
 
         private void AddOrUpdateCharacters(IApiV2ObjectList<Character> characters)
         {
-            if (!_loadedCharacters)
+            if (!_loadedCharacters && Settings.LoadCachedAccounts.Value)
             {
                 Logger.Info($"This is our first API data fetched for this character/session. Trying to load local data first.");
-                _ = LoadCharacters();
+                if(LoadCharacters() == null)
+                {
+                    Logger.Info($"Checking the cache.");
+                }
             }
 
-            Logger.Info($"Update characters based on fresh data from the api.");
+            Logger.Info($"Update characters for '{Paths.AccountName}' based on fresh data from the api.");
 
             var freshList = characters.Select(c => new { c.Name, c.Created }).ToList();
             var oldList = CharacterModels.Select(c => new { c.Name, c.Created }).ToList();
@@ -612,31 +626,32 @@ namespace Kenedia.Modules.Characters
                 pos++;
             }
 
-            if (!File.Exists(CharactersPath) || Settings.ImportVersion.Value < OldCharacterModel.ImportVersion)
-            {
-                string p = CharactersPath.Replace(@"kenedia\", "");
+            //if (!File.Exists(CharactersPath) || Settings.ImportVersion.Value < OldCharacterModel.ImportVersion)
+            //{
+            //    string p = CharactersPath.Replace(@"kenedia\", "");
 
-                if (File.Exists(p))
-                {
-                    Logger.Info($"This is the first start of {Name} since import version {OldCharacterModel.ImportVersion}. Importing old data from {p}!");
-                    OldCharacterModel.Import(p, CharacterModels, AccountImagesPath, Paths.AccountName, Tags);
-                }
+            //    if (File.Exists(p))
+            //    {
+            //        Logger.Info($"This is the first start of {Name} since import version {OldCharacterModel.ImportVersion}. Importing old data from {p}!");
+            //        OldCharacterModel.Import(p, CharacterModels, AccountImagesPath, Paths.AccountName, Tags);
+            //    }
 
-                Settings.ImportVersion.Value = OldCharacterModel.ImportVersion;
-            }
+            //    Settings.ImportVersion.Value = OldCharacterModel.ImportVersion;
+            //}
 
             SaveCharacterList();
             MainWindow?.CreateCharacterControls();
             MainWindow?.PerformFiltering();
         }
 
-        private bool LoadCharacters()
+        private bool? LoadCharacters()
         {
             PlayerCharacter player = GameService.Gw2Mumble.PlayerCharacter;
 
-            if (player == null || string.IsNullOrEmpty(player.Name))
+            if ((player == null || string.IsNullOrEmpty(player.Name)) && string.IsNullOrEmpty(Paths.AccountName))
             {
-                return false;
+                Logger.Info($"Player name is currently null or empty. Can not check for the account.");
+                return null;
             }
 
             AccountSummary getAccount()
@@ -658,9 +673,9 @@ namespace Kenedia.Modules.Characters
 
             AccountSummary account = getAccount();
 
-            if (account != null)
+            if (account != null || !string.IsNullOrEmpty(Paths.AccountName))
             {
-                Paths.AccountName = account.AccountName;
+                Paths.AccountName ??= account.AccountName;
 
                 _loadedCharacters = true;
                 Settings.LoadAccountSettings(Paths.AccountName);
@@ -669,11 +684,8 @@ namespace Kenedia.Modules.Characters
                 {
                     _ = Directory.CreateDirectory(AccountImagesPath);
                 }
-            }
 
-            if (account != null)
-            {
-                Logger.Debug($"Found '{player.Name}' in a stored character list for '{account.AccountName}'. Loading characters of '{account.AccountName}'");
+                Logger.Info($"Found '{player.Name ?? "Unkown Player name."}' in a stored character list for '{Paths.AccountName}'. Loading characters of '{Paths.AccountName}'");                
                 return LoadCharacterFile();
             }
 
