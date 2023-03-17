@@ -189,9 +189,11 @@ namespace Kenedia.Modules.Characters.Views
                 {
                     var selection = CharactersPanel.Children.Where(e => e.Visible).ToList();
                     int r = RandomService.Rnd.Next(selection.Count);
-                    var entry = (CharacterCard)selection[r];
-
-                    entry?.Character.Swap();
+                    if (selection.Count > r)
+                    {
+                        var entry = (CharacterCard)selection[r];
+                        entry?.Character.Swap();
+                    }
                 }
             };
 
