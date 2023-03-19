@@ -5,13 +5,8 @@ using Kenedia.Modules.Core.Utility;
 using Kenedia.Modules.Core.DataModels;
 using Blish_HUD;
 using Kenedia.Modules.Core.Extensions;
-using MonoGame.Extended.Collections;
-using Kenedia.Modules.BuildsManager.DataModels.Professions;
 using Blish_HUD.Content;
-using Gw2Sharp.WebApi.V2.Models;
-using System.Drawing;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace Kenedia.Modules.BuildsManager.Controls.SkillConnectionEdit
 {

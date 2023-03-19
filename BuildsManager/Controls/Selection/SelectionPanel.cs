@@ -9,8 +9,9 @@ using static Blish_HUD.ContentService;
 using Kenedia.Modules.Core.Extensions;
 using Kenedia.Modules.Core.Utility;
 using Blish_HUD.Content;
-using MathUtil = SharpDX.MathUtil;
 using System.ComponentModel;
+using Kenedia.Modules.BuildsManager.DataModels.Items;
+using Kenedia.Modules.BuildsManager.Controls.GearPage;
 
 namespace Kenedia.Modules.BuildsManager.Controls.Selection
 {
@@ -19,7 +20,6 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
         //Pointer Arrow 784266
         //Back Button Arrow 784268
 
-        private readonly ItemIdSelection _itemIdSelection;
         private readonly GearSelection _gearSelection;
         private readonly BuildSelection _buildSelection;
         private readonly AsyncTexture2D _separator = AsyncTexture2D.FromAssetId(156055);
@@ -39,12 +39,6 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
         public SelectionPanel()
         {
             ClipsBounds = false;
-
-            _itemIdSelection = new()
-            {
-                Parent = this,
-                Visible = false,
-            };
 
             _gearSelection = new()
             {
@@ -89,17 +83,14 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
             _gearSelection.Template = Template;
         }
 
-        public void SetGearAnchor(Blish_HUD.Controls.Control anchor, Rectangle anchorBounds, GearTemplateSlot slot, string title = "Selection")
+        public void SetGearAnchor(Blish_HUD.Controls.Control anchor, Rectangle anchorBounds, GearTemplateSlot slot, GearSubSlotType subslot = GearSubSlotType.Item, string title = "Selection", Action<BaseItem> onItemSelected = null)
         {
             SetAnchor(anchor, anchorBounds, title);
             _gearSelection.ActiveSlot = slot;
+            _gearSelection.SubSlotType = subslot;
+            _gearSelection.TemplateSlot = (anchor as GearSlotControl)?.TemplateSlot;
+            _gearSelection.OnItemSelected = onItemSelected;
             _gearSelection.Show();
-        }
-
-        public void SetItemIdAnchor(Blish_HUD.Controls.Control anchor, Rectangle anchorBounds, string title = "Selection")
-        {
-            SetAnchor(anchor, anchorBounds, title);
-            _itemIdSelection.Show();
         }
 
         public void SetAnchor(Blish_HUD.Controls.Control anchor, Rectangle anchorBounds, string title = "Selection")
@@ -107,7 +98,6 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
             _anchor = anchor;
             Title = title;
 
-            _itemIdSelection.Hide();
             _gearSelection.Hide();
             _buildSelection.Hide();
 
@@ -136,7 +126,6 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
             _backButton.Bounds = new(_backBounds.Left + 10, _backBounds.Top + 10, _backBounds.Height - 20, _backBounds.Height - 20);
             _backTextBounds = new(_backButton.Bounds.Right + 10, _backBounds.Top + 10, _backBounds.Width - (_backButton.Bounds.Right + 10), _backBounds.Height - 20);
 
-            if (_itemIdSelection != null) _itemIdSelection.Location = new(10, _backBounds.Bottom + 10);
             if (_gearSelection != null) _gearSelection.Location = new(10, _backBounds.Bottom + 10);
             if (_buildSelection != null) _buildSelection.Location = new(10, 10);
         }
@@ -196,7 +185,6 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
                 {
                     _anchor = null;
 
-                    _itemIdSelection.Hide();
                     _gearSelection.Hide();
                     _buildSelection.Show();
                 }

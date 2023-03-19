@@ -22,7 +22,6 @@ using Rectangle = Microsoft.Xna.Framework.Rectangle;
 using TextBox = Kenedia.Modules.Core.Controls.TextBox;
 using System.Linq;
 using Kenedia.Modules.Characters.Views;
-using Kenedia.Modules.Core.Models;
 using Blish_HUD.Input;
 
 namespace Kenedia.Modules.Characters.Controls

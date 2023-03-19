@@ -2,10 +2,13 @@
 using Kenedia.Modules.BuildsManager.DataModels.Professions;
 using Kenedia.Modules.Core.DataModels;
 using Kenedia.Modules.Core.Utility;
+using Newtonsoft.Json;
+using System;
 using System.ComponentModel;
-using System.Diagnostics;
+using System.IO;
 using System.Runtime.Serialization;
-using Attunement = Gw2Sharp.WebApi.V2.Models.Attunement;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Kenedia.Modules.BuildsManager.Models.Templates
 {
@@ -16,7 +19,7 @@ namespace Kenedia.Modules.BuildsManager.Models.Templates
         private GearTemplate _gearTemplate;
         private ProfessionType _profession;
         private string _description;
-        private string _name;
+        private string _name = "New Build Template";
         private string _id;
         private bool _terrestrial = true;
         private AttunementType _mainAttunement = AttunementType.Fire;
@@ -31,8 +34,8 @@ namespace Kenedia.Modules.BuildsManager.Models.Templates
 
         public event PropertyChangedEventHandler Changed;
 
-        [DataMember]
-        public string Id { get => _id; set => Common.SetProperty(ref _id, value, Changed); }
+        //[DataMember]
+        //public string Id { get => _id; set => Common.SetProperty(ref _id, value, Changed); }
 
         [DataMember]
         public string Name { get => _name; set => Common.SetProperty(ref _name, value, Changed); }
@@ -41,6 +44,19 @@ namespace Kenedia.Modules.BuildsManager.Models.Templates
         public string Description { get => _description; set => Common.SetProperty(ref _description, value, Changed); }
 
         [DataMember]
+        public string GearCode
+        {
+            get => GearTemplate?.ParseGearCode();
+            set => Gearcode = value;
+        }
+
+        [DataMember]
+        public string BuildCode
+        {
+            get => BuildTemplate?.ParseBuildCode();
+            set => Buildcode = value;
+        }
+
         public ProfessionType Profession
         {
             get => BuildTemplate.Profession;
@@ -60,6 +76,17 @@ namespace Kenedia.Modules.BuildsManager.Models.Templates
         [DataMember]
         public Races Race = Races.None;
         private bool _pvE = true;
+        private CancellationTokenSource _cancellationTokenSource;
+
+        private string Gearcode
+        {
+            set => GearTemplate?.LoadFromCode(value);
+        }
+
+        private string Buildcode
+        {
+            set => BuildTemplate?.LoadFromCode(value);
+        }
 
         public TemplateAttributes Attributes { get; private set; } = new();
 
@@ -161,6 +188,28 @@ namespace Kenedia.Modules.BuildsManager.Models.Templates
             }
 
             Changed?.Invoke(sender, e);
+            _ = Save();
+        }
+
+        public async Task Save()
+        {
+            _cancellationTokenSource?.Cancel();
+            _cancellationTokenSource = new CancellationTokenSource();
+
+            await Task.Delay(1000, _cancellationTokenSource.Token);
+            if (!_cancellationTokenSource.Token.IsCancellationRequested)
+            {
+                string path = BuildsManager.ModuleInstance.Paths.ModulePath + @"builds\";
+                try
+                {
+                    if (!Directory.Exists(path)) _ = Directory.CreateDirectory(path);
+                    string json = JsonConvert.SerializeObject(this, Formatting.Indented);
+                    File.WriteAllText($@"{path}\{Common.MakeValidFileName(Name.Trim())}.json", json);
+                }
+                catch (Exception)
+                {
+                }
+            }
         }
     }
 }

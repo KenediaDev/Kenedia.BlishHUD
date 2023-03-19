@@ -2,7 +2,6 @@
 using Kenedia.Modules.Core.DataModels;
 using Kenedia.Modules.Core.Models;
 using SkillSlot = Gw2Sharp.WebApi.V2.Models.SkillSlot;
-using Kenedia.Modules.Core.Utility;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System.Collections.Generic;

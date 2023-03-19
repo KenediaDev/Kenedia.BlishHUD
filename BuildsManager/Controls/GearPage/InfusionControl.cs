@@ -1,5 +1,4 @@
 ﻿using Blish_HUD;
-using AttributeType = Gw2Sharp.WebApi.V2.Models.AttributeType;
 using Kenedia.Modules.BuildsManager.Models.Templates;
 using Kenedia.Modules.Core.Controls;
 using Kenedia.Modules.Core.Models;

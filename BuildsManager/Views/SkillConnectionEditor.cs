@@ -10,9 +10,6 @@ using Kenedia.Modules.Core.Views;
 using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Diagnostics;
-using Skill = Gw2Sharp.WebApi.V2.Models.Skill;
 
 namespace Kenedia.Modules.BuildsManager.Views
 {

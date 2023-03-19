@@ -7,9 +7,7 @@ using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System.Collections.Generic;
-using Blish_HUD.Controls;
 using Kenedia.Modules.Core.Services;
-using Kenedia.Modules.Core.DataModels;
 using System.Threading.Tasks;
 
 namespace Kenedia.Modules.Core.Controls

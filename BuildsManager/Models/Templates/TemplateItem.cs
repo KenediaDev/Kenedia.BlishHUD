@@ -1,8 +1,6 @@
 ﻿using Kenedia.Modules.BuildsManager.DataModels.Stats;
 using System;
-using System.Diagnostics;
 using static Kenedia.Modules.BuildsManager.DataModels.Professions.Weapon;
-using ItemWeaponType = Gw2Sharp.WebApi.V2.Models.ItemWeaponType;
 
 namespace Kenedia.Modules.BuildsManager.Models.Templates
 {

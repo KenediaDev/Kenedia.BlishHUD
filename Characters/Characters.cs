@@ -39,7 +39,6 @@ using Kenedia.Modules.Characters.Controls.SideMenu;
 using Kenedia.Modules.Characters.Res;
 using Gw2Sharp.WebApi;
 using System.Collections.Specialized;
-using System.Diagnostics;
 
 namespace Kenedia.Modules.Characters
 {
@@ -361,6 +360,8 @@ namespace Kenedia.Modules.Characters
                 Subtitle = "❤",
                 SavesPosition = true,
                 Id = $"{Name} MainWindow",
+                Name = Name,
+                MainWindowEmblem = AsyncTexture2D.FromAssetId(156015),
                 CanResize = true,
                 Size = Settings.WindowSize.Value,
                 SettingsWindow = (SettingsWindow)SettingsWindow,
@@ -569,7 +570,7 @@ namespace Kenedia.Modules.Characters
             if (!_loadedCharacters && Settings.LoadCachedAccounts.Value)
             {
                 Logger.Info($"This is our first API data fetched for this character/session. Trying to load local data first.");
-                if(LoadCharacters() == null)
+                if (LoadCharacters() == null)
                 {
                     Logger.Info($"Checking the cache.");
                 }
@@ -685,7 +686,7 @@ namespace Kenedia.Modules.Characters
                     _ = Directory.CreateDirectory(AccountImagesPath);
                 }
 
-                Logger.Info($"Found '{player.Name ?? "Unkown Player name."}' in a stored character list for '{Paths.AccountName}'. Loading characters of '{Paths.AccountName}'");                
+                Logger.Info($"Found '{player.Name ?? "Unkown Player name."}' in a stored character list for '{Paths.AccountName}'. Loading characters of '{Paths.AccountName}'");
                 return LoadCharacterFile();
             }
 

@@ -16,11 +16,15 @@ namespace Kenedia.Modules.Core.Views
     //TODO fix the version in title header
     public class StandardWindow : Blish_HUD.Controls.StandardWindow
     {
-        private readonly BitmapFont _titleFont = GameService.Content.DefaultFont32;
+        protected BitmapFont TitleFont = Content.DefaultFont32;
         private Rectangle _subEmblemRectangle;
         private Rectangle _mainEmblemRectangle;
+        private Rectangle _titleTextRegion;
         private Rectangle _titleRectangle;
+        private Rectangle _versionRectangle;
         private string _name;
+        protected BitmapFont VersionFont = Content.DefaultFont14;
+        private SemVer.Version _version;
         private readonly List<AnchoredContainer> _attachedContainers = new();
 
         public StandardWindow(AsyncTexture2D background, Rectangle windowRegion, Rectangle contentRegion) : base(background, windowRegion, contentRegion)
@@ -29,7 +33,7 @@ namespace Kenedia.Modules.Core.Views
 
         public bool IsActive => ActiveWindow == this;
 
-        public SemVer.Version Version { get; set; }
+        public SemVer.Version Version { get => _version; set => Common.SetProperty(ref _version, value, RecalculateLayout); }
 
         public string Name { get => _name; set => Common.SetProperty(ref _name, value, RecalculateLayout); }
 
@@ -44,10 +48,36 @@ namespace Kenedia.Modules.Core.Views
             _subEmblemRectangle = new(-43 + 64, -58 + 64, 64, 64);
             _mainEmblemRectangle = new(-43, -58, 128, 128);
 
+            _titleTextRegion = new(Math.Max(Math.Max(MainWindowEmblem == null ? 0 : _mainEmblemRectangle.Right, SubWindowEmblem == null ? 0 : _subEmblemRectangle.Right) - 16, 0), 5, Width - Math.Max(_mainEmblemRectangle.Right, _subEmblemRectangle.Right) - 30, 30);
+
+            _versionRectangle = Rectangle.Empty;
+            if (Version != null && !string.IsNullOrEmpty($"v. {Version}"))
+            {
+                MonoGame.Extended.RectangleF versionBounds = VersionFont.GetStringRectangle($"v. {Version}");
+                _versionRectangle = new(_titleTextRegion.Right - (int)versionBounds.Width, _titleTextRegion.Top, (int)versionBounds.Width, _titleTextRegion.Height - 3);
+            }
+
             if (!string.IsNullOrEmpty(Name))
             {
-                MonoGame.Extended.RectangleF titleBounds = _titleFont.GetStringRectangle(Name);
-                _titleRectangle = new(80, 2, (int)titleBounds.Width, Math.Max(30, (int)titleBounds.Height));
+                List<BitmapFont> fontList = new()
+                {
+                    Content.DefaultFont32,
+                    Content.DefaultFont18,
+                    Content.DefaultFont16,
+                };
+
+                foreach (BitmapFont font in fontList)
+                {
+                    var titleBounds = font.GetStringRectangle(Name);
+                    Rectangle titleRectangle = new(_titleTextRegion.Left, _titleTextRegion.Top, (int)titleBounds.Width, _titleTextRegion.Height);
+
+                    if (_titleTextRegion.Width >= titleBounds.Width + 10 + _versionRectangle.Width)
+                    {
+                        _titleRectangle = titleRectangle;
+                        TitleFont = font;
+                        break;
+                    }
+                }
             }
         }
 
@@ -102,20 +132,25 @@ namespace Kenedia.Modules.Core.Views
                     default);
             }
 
-            if (_titleRectangle.Width < bounds.Width - (_subEmblemRectangle.Width - 20) && !string.IsNullOrEmpty(Name))
+            if (_titleRectangle.Width <= _titleTextRegion.Width && !string.IsNullOrEmpty(Name))
             {
                 spriteBatch.DrawStringOnCtrl(
                     this,
                     Name,
-                    _titleFont,
+                    TitleFont,
                     _titleRectangle,
                     Colors.ColonialWhite,
                     false,
+                    true,
+                    1,
                     HorizontalAlignment.Left,
-                    VerticalAlignment.Bottom);
+                    VerticalAlignment.Middle);
             }
 
-            if (Version != null) spriteBatch.DrawStringOnCtrl(this, $"v. {Version}", Content.DefaultFont16, new(bounds.Right - 150, bounds.Top + 10, 100, 30), Color.White, false, true, 1, HorizontalAlignment.Right, VerticalAlignment.Top);
+            if (Version != null && (_titleTextRegion.Width >= _titleRectangle.Width + 10 + _versionRectangle.Width))
+            {
+                spriteBatch.DrawStringOnCtrl(this, $"v. {Version}", VersionFont, _versionRectangle, Color.White, false, true, 1, HorizontalAlignment.Right, VerticalAlignment.Bottom);
+            }
         }
 
         protected override void DisposeControl()

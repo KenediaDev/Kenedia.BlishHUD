@@ -3,8 +3,10 @@ using Blish_HUD.Content;
 using Gw2Sharp.WebApi;
 using System;
 using System.ComponentModel;
-using System.Diagnostics;
+using System.IO;
+using System.Linq;
 using System.Runtime.CompilerServices;
+using System.Text;
 
 namespace Kenedia.Modules.Core.Utility
 {
@@ -132,6 +134,44 @@ namespace Kenedia.Modules.Core.Utility
             }
 
             return null;
+        }
+
+        static char[] s_invalids;
+
+        /// <summary>Replaces characters in <c>text</c> that are not allowed in 
+        /// file names with the specified replacement character.</summary>
+        /// <param name="text">Text to make into a valid filename. The same string is returned if it is valid already.</param>
+        /// <param name="replacement">Replacement character, or null to simply remove bad characters.</param>
+        /// <param name="fancy">Whether to replace quotes and slashes with the non-ASCII characters ” and ⁄.</param>
+        /// <returns>A string that can be used as a filename. If the output string would otherwise be empty, returns "_".</returns>
+        public static string MakeValidFileName(string text, char? replacement = '_', bool fancy = true)
+        {
+            var sb = new StringBuilder(text.Length);
+            char[] invalids = s_invalids ??= Path.GetInvalidFileNameChars();
+            bool changed = false;
+            for (int i = 0; i < text.Length; i++)
+            {
+                char c = text[i];
+                if (invalids.Contains(c))
+                {
+                    changed = true;
+                    char repl = replacement ?? '\0';
+                    if (fancy)
+                    {
+                        if (c == '"') repl = '”'; // U+201D right double quotation mark
+                        else if (c == '\'') repl = '’'; // U+2019 right single quotation mark
+                        else if (c == '/') repl = '⁄'; // U+2044 fraction slash
+                    }
+                    if (repl != '\0')
+                        _ = sb.Append(repl);
+                }
+                else
+                {
+                    _ = sb.Append(c);
+                }
+            }
+
+            return sb.Length == 0 ? "_" : changed ? sb.ToString() : text;
         }
     }
 }

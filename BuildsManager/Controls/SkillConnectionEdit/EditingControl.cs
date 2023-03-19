@@ -14,7 +14,6 @@ using Kenedia.Modules.Core.Extensions;
 using Kenedia.Modules.BuildsManager.Views;
 using MonoGame.Extended.Collections;
 using Kenedia.Modules.BuildsManager.DataModels.Professions;
-using Attunement = Gw2Sharp.WebApi.V2.Models.Attunement;
 
 namespace Kenedia.Modules.BuildsManager.Controls.SkillConnectionEdit
 {

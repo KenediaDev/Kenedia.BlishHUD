@@ -6,7 +6,6 @@ using Kenedia.Modules.Core.DataModels;
 using Kenedia.Modules.Core.Utility;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace Kenedia.Modules.BuildsManager.Controls.SkillConnectionEdit
 {

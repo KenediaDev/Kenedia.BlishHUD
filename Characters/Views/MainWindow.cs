@@ -57,7 +57,6 @@ namespace Kenedia.Modules.Characters.Views
 
         private Rectangle _emblemRectangle;
         private Rectangle _titleRectangle;
-        private BitmapFont _titleFont;
         private APITimeoutNotification _apiTimeoutNotification;
         private APIPermissionNotification _apiPermissionNotification;
 
@@ -544,45 +543,33 @@ namespace Kenedia.Modules.Characters.Views
         {
             base.RecalculateLayout();
 
-            _emblemRectangle = new(-43, -58, 128, 128);
-
-            _titleFont = GameService.Content.DefaultFont32;
-            MonoGame.Extended.RectangleF titleBounds = _titleFont.GetStringRectangle(Characters.ModuleName);
-
-            if (titleBounds.Width > LocalBounds.Width - (_emblemRectangle.Width - 15))
-            {
-                _titleFont = GameService.Content.DefaultFont18;
-                titleBounds = _titleFont.GetStringRectangle(Characters.ModuleName);
-            }
-
-            _titleRectangle = new(65, 5, (int)titleBounds.Width, Math.Max(30, (int)titleBounds.Height));
         }
 
         public override void PaintAfterChildren(SpriteBatch spriteBatch, Rectangle bounds)
         {
             base.PaintAfterChildren(spriteBatch, bounds);
 
-            spriteBatch.DrawOnCtrl(
-                this,
-                _windowEmblem,
-                _emblemRectangle,
-                _windowEmblem.Bounds,
-                Color.White,
-                0f,
-                default);
+            //spriteBatch.DrawOnCtrl(
+            //    this,
+            //    _windowEmblem,
+            //    _emblemRectangle,
+            //    _windowEmblem.Bounds,
+            //    Color.White,
+            //    0f,
+            //    default);
 
-            if (_titleRectangle.Width < bounds.Width - (_emblemRectangle.Width - 20))
-            {
-                spriteBatch.DrawStringOnCtrl(
-                    this,
-                    $"{Characters.ModuleName}",
-                    _titleFont,
-                    _titleRectangle,
-                    ContentService.Colors.ColonialWhite, // new Color(247, 231, 182, 97),
-                    false,
-                    HorizontalAlignment.Left,
-                    VerticalAlignment.Bottom);
-            }
+            //if (_titleRectangle.Width < bounds.Width - (_emblemRectangle.Width - 20))
+            //{
+            //    spriteBatch.DrawStringOnCtrl(
+            //        this,
+            //        $"{Characters.ModuleName}",
+            //        _titleFont,
+            //        _titleRectangle,
+            //        ContentService.Colors.ColonialWhite, // new Color(247, 231, 182, 97),
+            //        false,
+            //        HorizontalAlignment.Left,
+            //        VerticalAlignment.Bottom);
+            //}
         }
 
         protected override void OnShown(EventArgs e)
@@ -676,6 +663,11 @@ namespace Kenedia.Modules.Characters.Views
                 if (await ExtendedInputService.WaitForNoKeyPressed())
                 {
                     c?.Character.Swap();
+
+                    if(c == null)
+                    {
+                        Characters.Logger.Debug("No character found to swap to.");
+                    }
                 }
             }
         }

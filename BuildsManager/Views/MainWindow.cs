@@ -1,14 +1,10 @@
 ﻿using Blish_HUD.Content;
-using ScreenNotification = Blish_HUD.Controls.ScreenNotification;
 using Kenedia.Modules.BuildsManager.Controls.BuildPage;
 using Kenedia.Modules.BuildsManager.Models.Templates;
 using Kenedia.Modules.BuildsManager.Services;
-using Kenedia.Modules.Core.Controls;
 using Kenedia.Modules.Core.Utility;
 using Kenedia.Modules.Core.Views;
 using Microsoft.Xna.Framework;
-using System;
-using System.Linq;
 using Kenedia.Modules.Core.Services;
 using Kenedia.Modules.BuildsManager.Controls;
 using Kenedia.Modules.BuildsManager.Controls.GearPage;

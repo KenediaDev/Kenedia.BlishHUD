@@ -3,16 +3,13 @@ using Blish_HUD.Controls;
 using Blish_HUD.Input;
 using Kenedia.Modules.Characters.Models;
 using Kenedia.Modules.Characters.Res;
-using Kenedia.Modules.Characters.Services;
 using Kenedia.Modules.Core.Models;
-using Kenedia.Modules.Core.Services;
 using Kenedia.Modules.Core.Utility;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Diagnostics;
 using System.Linq;
 
 namespace Kenedia.Modules.Characters.Controls

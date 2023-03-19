@@ -20,18 +20,13 @@ using Kenedia.Modules.BuildsManager.DataModels.Stats;
 using Pet = Kenedia.Modules.BuildsManager.DataModels.Professions.Pet;
 using System.Threading;
 using Kenedia.Modules.Core.DataModels;
-using Kenedia.Modules.BuildsManager.DataModels.Professions;
 using Gw2Sharp;
-using System.IO;
 using ApiSkill = Gw2Sharp.WebApi.V2.Models.Skill;
-using ApiTraits = Gw2Sharp.WebApi.V2.Models.Trait;
-using ApiPet = Gw2Sharp.WebApi.V2.Models.Pet;
 using Kenedia.Modules.Core.Extensions;
 using System.Diagnostics;
 using Gw2Sharp.WebApi.Exceptions;
 using Kenedia.Modules.BuildsManager.Models;
 using Kenedia.Modules.BuildsManager.DataModels.Items;
-using System.ServiceModel.Channels;
 
 namespace Kenedia.Modules.BuildsManager.Services
 {

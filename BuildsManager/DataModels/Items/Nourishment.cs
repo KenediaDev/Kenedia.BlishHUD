@@ -1,10 +1,7 @@
 ﻿using Gw2Sharp.WebApi.V2.Models;
 using Kenedia.Modules.BuildsManager.Models.Templates;
-using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Runtime.Serialization;
-using System.Text.RegularExpressions;
 
 namespace Kenedia.Modules.BuildsManager.DataModels.Items
 {

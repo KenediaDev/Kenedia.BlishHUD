@@ -1,10 +1,7 @@
 ﻿using Kenedia.Modules.BuildsManager.DataModels.Professions;
 using Kenedia.Modules.BuildsManager.Views;
-using Kenedia.Modules.Core.DataModels;
 using Kenedia.Modules.Core.Extensions;
-using Microsoft.Xna.Framework;
 using System;
-using System.Diagnostics;
 using System.Threading.Tasks;
 
 namespace Kenedia.Modules.BuildsManager.Controls.SkillConnectionEdit

@@ -1,13 +1,8 @@
 ﻿using Blish_HUD;
 using Blish_HUD.Content;
 using Blish_HUD.Controls;
-using Kenedia.Modules.Core.Extensions;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using MonoGame.Extended.TextureAtlases;
-using SharpDX.MediaFoundation;
-using System;
-using System.Diagnostics;
 
 namespace Kenedia.Modules.Core.Controls
 {

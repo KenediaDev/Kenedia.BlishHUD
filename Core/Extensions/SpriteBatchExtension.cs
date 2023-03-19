@@ -2,9 +2,6 @@
 using Blish_HUD.Controls;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using static Blish_HUD.ContentService;
 
 namespace Kenedia.Modules.Core.Extensions

@@ -1,4 +1,7 @@
 ﻿using Blish_HUD;
+using Microsoft.Xna.Framework.Input;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Kenedia.Modules.Characters.Services
@@ -16,10 +19,12 @@ namespace Kenedia.Modules.Characters.Services
         public static async Task<bool> WaitForNoKeyPressed(double maxDelay = 5000)
         {
             double start = GameService.Overlay.CurrentGameTime.TotalGameTime.TotalMilliseconds;
-
-            while (GameService.Input.Keyboard.KeysDown.Count > 0)
+            var keys = GameService.Input.Keyboard.KeysDown.Except(new List<Keys>() { Keys.None });
+            while (keys.Count() > 0)
             {
                 await Task.Delay(250);
+                Characters.Logger.Info($"There are currently {keys.Count()} keys pressed. These keys are:");
+                Characters.Logger.Info(string.Join(", ", keys));
                 if (GameService.Overlay.CurrentGameTime.TotalGameTime.TotalMilliseconds - start >= maxDelay) return false;
             }
 

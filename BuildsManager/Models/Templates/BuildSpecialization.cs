@@ -1,9 +1,7 @@
 ﻿using Gw2Sharp.Models;
 using Kenedia.Modules.BuildsManager.DataModels.Professions;
 using Kenedia.Modules.Core.Utility;
-using System;
 using System.ComponentModel;
-using System.Diagnostics;
 
 namespace Kenedia.Modules.BuildsManager.Models.Templates
 {

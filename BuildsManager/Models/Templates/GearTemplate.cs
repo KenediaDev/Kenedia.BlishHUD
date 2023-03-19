@@ -1,9 +1,5 @@
-﻿using Blish_HUD.Gw2Mumble;
-using Blish_HUD;
-using Gw2Sharp.Models;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using Kenedia.Modules.Core.Utility;
-using System.Diagnostics;
 using Kenedia.Modules.BuildsManager.DataModels.Items;
 using System.Collections.Generic;
 using System;
@@ -13,6 +9,8 @@ using System.Linq;
 using static Kenedia.Modules.BuildsManager.DataModels.Professions.Weapon;
 using Kenedia.Modules.Core.Models;
 using System.Data;
+using System.Diagnostics;
+using Kenedia.Modules.Core.Extensions;
 
 namespace Kenedia.Modules.BuildsManager.Models.Templates
 {
@@ -78,9 +76,9 @@ namespace Kenedia.Modules.BuildsManager.Models.Templates
 
         public virtual void OnItemChanged()
         {
-            _mappedId = Item?.MappedId ?? 0;
+            _mappedId = Item?.MappedId ?? -1;
 
-            OnPropertyChanged(this, new(nameof(Item)));
+            OnPropertyChanged(this, new(nameof(Item)));            
         }
 
         public virtual void OnPropertyChanged(object sender, PropertyChangedEventArgs e)
@@ -90,7 +88,7 @@ namespace Kenedia.Modules.BuildsManager.Models.Templates
 
         public virtual void FromCode(string code)
         {
-
+            MappedId = int.TryParse(code, out int mappedId) ? mappedId : -1;
         }
     }
 
@@ -363,6 +361,13 @@ namespace Kenedia.Modules.BuildsManager.Models.Templates
             }
         }
 
+        public override void OnItemChanged()
+        {
+            base.OnItemChanged();
+
+            Weapon = Enum.TryParse((Item as Weapon)?.WeaponType.ToString(), out WeaponType weaponType) ? weaponType : WeaponType.Unknown;
+        }
+
         public override void OnSlotApply()
         {
             base.OnSlotApply();
@@ -541,6 +546,18 @@ namespace Kenedia.Modules.BuildsManager.Models.Templates
 
         private void ItemChanged(object sender, PropertyChangedEventArgs e)
         {
+            if (Weapons[GearTemplateSlot.MainHand].Weapon is WeaponType.Staff or WeaponType.Rifle or WeaponType.Hammer or WeaponType.Greatsword or WeaponType.LongBow or WeaponType.ShortBow)
+            {
+                Weapons[GearTemplateSlot.OffHand].Item = null;
+                Weapons[GearTemplateSlot.OffHand].MappedId = -1;
+            }
+
+            if (Weapons[GearTemplateSlot.AltMainHand].Weapon is WeaponType.Staff or WeaponType.Rifle or WeaponType.Hammer or WeaponType.Greatsword or WeaponType.LongBow or WeaponType.ShortBow)
+            {
+                Weapons[GearTemplateSlot.AltOffHand].Item = null;
+                Weapons[GearTemplateSlot.AltOffHand].MappedId = -1;
+            }
+
             PropertyChanged?.Invoke(sender, e);
         }
 

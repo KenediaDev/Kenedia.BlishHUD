@@ -1,9 +1,6 @@
 ﻿using Kenedia.Modules.BuildsManager.DataModels.Professions;
 using Kenedia.Modules.Core.Models;
-using Newtonsoft.Json.Linq;
 using System;
-using System.Collections;
-using System.Collections.Generic;
 
 namespace Kenedia.Modules.BuildsManager.Models.Templates
 {

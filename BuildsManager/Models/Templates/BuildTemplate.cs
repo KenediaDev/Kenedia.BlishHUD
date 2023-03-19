@@ -3,14 +3,11 @@ using Blish_HUD;
 using Gw2Sharp.ChatLinks;
 using Gw2Sharp.Models;
 using Kenedia.Modules.BuildsManager.DataModels.Professions;
-using System.Diagnostics;
 using System.Linq;
 using System;
 using System.ComponentModel;
-using System.Runtime.CompilerServices;
 using Kenedia.Modules.Core.Utility;
 using System.Collections.Generic;
-using Attunement = Gw2Sharp.WebApi.V2.Models.Attunement;
 
 namespace Kenedia.Modules.BuildsManager.Models.Templates
 {

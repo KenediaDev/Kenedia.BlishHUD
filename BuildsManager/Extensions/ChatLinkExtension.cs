@@ -1,5 +1,4 @@
 ﻿using Gw2Sharp.ChatLinks;
-using Gw2Sharp.Models;
 using Gw2Sharp.WebApi.V2.Models;
 using Kenedia.Modules.BuildsManager.Models.Templates;
 using static Kenedia.Modules.BuildsManager.DataModels.Professions.Weapon;

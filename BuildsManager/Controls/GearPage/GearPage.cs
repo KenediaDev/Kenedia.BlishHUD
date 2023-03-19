@@ -10,13 +10,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
-using MonoGame.Extended.Sprites;
-using MonoGame.Extended.Screens;
-using Kenedia.Modules.Core.Res;
 using Kenedia.Modules.BuildsManager.Controls.Selection;
-using static Blish_HUD.ContentService;
-using Kenedia.Modules.Core.Extensions;
 
 namespace Kenedia.Modules.BuildsManager.Controls.GearPage
 {

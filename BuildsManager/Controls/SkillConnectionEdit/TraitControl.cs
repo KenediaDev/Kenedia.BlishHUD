@@ -8,7 +8,6 @@ using System;
 using Kenedia.Modules.Core.Models;
 using Kenedia.Modules.Core.Utility;
 using Blish_HUD.Input;
-using System.Diagnostics;
 
 namespace Kenedia.Modules.BuildsManager.Controls.SkillConnectionEdit
 {

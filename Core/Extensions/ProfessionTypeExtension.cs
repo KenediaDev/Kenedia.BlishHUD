@@ -1,8 +1,5 @@
 ﻿using Gw2Sharp.Models;
 using Gw2Sharp.WebApi.V2.Models;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Kenedia.Modules.Core.Extensions
 {
@@ -14,7 +11,7 @@ namespace Kenedia.Modules.Core.Extensions
             {
                 ProfessionType.Warrior or ProfessionType.Guardian or ProfessionType.Revenant => ItemWeightType.Heavy,
                 ProfessionType.Ranger or ProfessionType.Thief or ProfessionType.Engineer => ItemWeightType.Medium,
-                ProfessionType.Mesmer or ProfessionType.Elementalist or ProfessionType.Necromancer => ItemWeightType.Medium,
+                ProfessionType.Mesmer or ProfessionType.Elementalist or ProfessionType.Necromancer => ItemWeightType.Light,
                 _ => ItemWeightType.Unknown,
             };
         }

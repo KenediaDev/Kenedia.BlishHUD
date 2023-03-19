@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Kenedia.Modules.Core.DataModels
+﻿namespace Kenedia.Modules.Core.DataModels
 {
     public enum SpecializationType
     {

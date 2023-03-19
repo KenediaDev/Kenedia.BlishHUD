@@ -9,7 +9,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Threading;
 using Kenedia.Modules.Core.Extensions;
-using System.Diagnostics;
 
 namespace Kenedia.Modules.Core.Controls
 {

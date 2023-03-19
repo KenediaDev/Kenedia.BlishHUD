@@ -2,7 +2,6 @@
 using Blish_HUD.Content;
 using Blish_HUD.Modules.Managers;
 using Gw2Sharp.Models;
-using Kenedia.Modules.Characters.Enums;
 using Kenedia.Modules.Core.DataModels;
 using Kenedia.Modules.Core.Models;
 using Microsoft.Xna.Framework.Graphics;

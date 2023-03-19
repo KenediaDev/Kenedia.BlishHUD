@@ -1,8 +1,5 @@
 ﻿using Gw2Sharp.Models;
-using Kenedia.Modules.Core.Models;
-using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Runtime.Serialization;
 using APILegend = Gw2Sharp.WebApi.V2.Models.Legend;
 

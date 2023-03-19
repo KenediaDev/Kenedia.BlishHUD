@@ -28,16 +28,17 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
             SelectionContent.Location = new(0, Search.Bottom + 5);
 
             int i = 0;
-            int size = 30;
+            int size = 25;
             Point start = new(0, 0);
             foreach (var prof in BuildsManager.Data.Professions.Values)
             {
                 int j = 0;
                 _specIcons.Add(new DetailedTexture(prof.Icon)
                 {
-                    Bounds = new(start.X + (i * (size + 5)), start.Y + (j * size), size, size),
+                    Bounds = new(start.X + (i * (size + 10)), start.Y + (j * size), size, size),
                     DrawColor = Color.White * 0.7F,
-                    HoverDrawColor = ColorExtension.GetProfessionColor(prof.Id),
+                    //HoverDrawColor = ColorExtension.GetProfessionColor(prof.Id),
+                    HoverDrawColor = Color.White,
                 });
 
                 //foreach (var spec in prof.Specializations.Values)

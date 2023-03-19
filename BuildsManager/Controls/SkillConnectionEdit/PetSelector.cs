@@ -1,9 +1,7 @@
 ﻿using System;
-using System.Diagnostics;
 using System.Threading.Tasks;
 using Kenedia.Modules.BuildsManager.DataModels.Professions;
 using Kenedia.Modules.BuildsManager.Views;
-using Kenedia.Modules.Core.DataModels;
 using Kenedia.Modules.Core.Extensions;
 
 namespace Kenedia.Modules.BuildsManager.Controls.SkillConnectionEdit

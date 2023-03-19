@@ -6,7 +6,6 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System.Linq;
 using Kenedia.Modules.Core.DataModels;
-using SharpDX.MediaFoundation;
 using Blish_HUD;
 using static Blish_HUD.ContentService;
 using Blish_HUD.Input;

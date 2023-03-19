@@ -1,14 +1,8 @@
-﻿using Gw2Sharp.Models;
-using Gw2Sharp.WebApi.V2.Models;
-using Kenedia.Modules.Core.Models;
+﻿using Kenedia.Modules.Core.Models;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Runtime.Serialization;
-using System.Text;
-using System.Threading.Tasks;
 using Kenedia.Modules.Core.DataModels;
-using Kenedia.Modules.BuildsManager.DataModels.Professions;
 using Skill = Kenedia.Modules.BuildsManager.DataModels.Professions.Skill;
 
 namespace Kenedia.Modules.BuildsManager.DataModels

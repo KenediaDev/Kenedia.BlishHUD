@@ -3,7 +3,6 @@ using Blish_HUD.Content;
 using Blish_HUD.Modules;
 using Blish_HUD.Settings;
 using Gw2Sharp.WebApi;
-using Kenedia.Modules.BuildsManager.DataModels.Professions;
 using Kenedia.Modules.BuildsManager.Models.Templates;
 using Kenedia.Modules.BuildsManager.Services;
 using Kenedia.Modules.BuildsManager.Views;
@@ -12,16 +11,11 @@ using Microsoft.Xna.Framework;
 using Newtonsoft.Json;
 using System;
 using System.ComponentModel.Composition;
-using System.Diagnostics;
 using System.Threading.Tasks;
-using static Kenedia.Modules.BuildsManager.DataModels.Professions.Weapon;
 using Microsoft.Xna.Framework.Graphics;
-using Gw2Sharp.WebApi.V2.Models;
 using BuildTemplate = Kenedia.Modules.BuildsManager.Models.Templates.BuildTemplate;
 using Rectangle = Microsoft.Xna.Framework.Rectangle;
 using System.Threading;
-using Gw2Sharp;
-using System.Linq;
 
 namespace Kenedia.Modules.BuildsManager
 {
@@ -234,7 +228,8 @@ namespace Kenedia.Modules.BuildsManager
         private void SetDummyTemplate()
         {
             string code2 = "[9|1128|255|1][4|1128|255|1][7|1128|255|1][3|1128|255|1][15|1128|255|1][17|1128|255|1][1|1128|255|1][53|584|26|1|1][50|584|26|1|1][7|584|26|26|1|1][-1|584|26|1|1][16|584|26|1|1][17|584|26|26|1|1][-1|584|340][0|584|340|340][8|584|1][3|584|340][4|584|340][5|584|340|340|340][7|584|340|340|340][-1|584|340][-1|584|340][-1|584|340][-1|584|340]";
-            string gearcode = "[9|584|-1|0][4|584|-1|0][7|584|-1|0][3|584|-1|0][15|584|-1|0][17|584|-1|0][1|584|-1|0][53|584|-1|-1|-1][50|584|-1|-1|-1][7|584|-1|-1|-1|-1][-1|584|-1|-1|-1][16|584|-1|-1|-1][17|584|-1|-1|-1|-1][0|584|-1|-1][8|584|-1][3|584|-1][4|584|-1][5|584|-1|-1|-1][7|584|-1|-1|-1][-1][-1][-1][-1]";
+            //string gearcode = "[9|584|-1|0][4|584|-1|0][7|584|-1|0][3|584|-1|0][15|584|-1|0][17|584|-1|0][1|584|-1|0][53|584|-1|-1|-1][50|584|-1|-1|-1][7|584|-1|-1|-1|-1][-1|584|-1|-1|-1][16|584|-1|-1|-1][17|584|-1|-1|-1|-1][0|584|-1|-1][8|584|-1][3|584|-1][4|584|-1][5|584|-1|-1|-1][7|584|-1|-1|-1][-1][-1][-1][-1]";
+            string gearcode = "[9|1128|255|1][4|1128|255|1][7|1128|255|1][3|1128|255|1][15|1128|255|1][17|1128|255|1][1|1128|255|1][53|584|26|1|1][50|584|26|1|1][7|584|26|26|1|1][-1|584|26|1|1][16|584|26|1|1][17|584|26|26|1|1][3|584|340|340][0|584|1][1|584|340][1|584|340][2|584|340|340|340][2|584|340|340|340][-1|0|-1|-1][236][34][-1]";
 
             string code = "[&DQgnNhM1PCYSAJsAiwDkAJkBdgBvAXABkgCVAAAAAAAAAAAAAAAAAAAAAAA=]";
             var build = new BuildTemplate(code);

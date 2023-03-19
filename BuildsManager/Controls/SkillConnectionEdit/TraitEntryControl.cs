@@ -3,7 +3,6 @@ using Kenedia.Modules.BuildsManager.DataModels.Professions;
 using Kenedia.Modules.Core.Utility;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using MonoGame.Extended.Collections;
 using System;
 
 namespace Kenedia.Modules.BuildsManager.Controls.SkillConnectionEdit

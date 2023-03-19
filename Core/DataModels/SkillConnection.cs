@@ -1,14 +1,9 @@
 ﻿using Gw2Sharp.Models;
 using Gw2Sharp.WebApi.V2.Models;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
-using SharpDX.Direct3D9;
-using SharpDX.Multimedia;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
-using System.Runtime.Serialization;
 
 namespace Kenedia.Modules.Core.DataModels
 {

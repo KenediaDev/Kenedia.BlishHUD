@@ -1,8 +1,6 @@
-﻿using Blish_HUD;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Diagnostics;
 using System.Runtime.CompilerServices;
 
 namespace Kenedia.Modules.Core.Models
