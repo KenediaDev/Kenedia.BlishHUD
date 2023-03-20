@@ -40,7 +40,6 @@ namespace Kenedia.Modules.Core.Res {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-
                     global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Kenedia.Modules." + Assembly.GetExecutingAssembly().FullName.Split(',')[0].Substring(Assembly.GetExecutingAssembly().FullName.Split(',')[0].LastIndexOf('.') + 1) + ".Res.strings_common", typeof(strings_common).Assembly);
                     resourceMan = temp;
                 }
@@ -86,6 +85,15 @@ namespace Kenedia.Modules.Core.Res {
         internal static string BottomRightCorner {
             get {
                 return ResourceManager.GetString("BottomRightCorner", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Delete {0}.
+        /// </summary>
+        internal static string DeleteX {
+            get {
+                return ResourceManager.GetString("DeleteX", resourceCulture);
             }
         }
         
@@ -195,6 +203,15 @@ namespace Kenedia.Modules.Core.Res {
         internal static string ShowCornerIcon_ttp {
             get {
                 return ResourceManager.GetString("ShowCornerIcon_ttp", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Tag.
+        /// </summary>
+        internal static string Tag {
+            get {
+                return ResourceManager.GetString("Tag", resourceCulture);
             }
         }
         

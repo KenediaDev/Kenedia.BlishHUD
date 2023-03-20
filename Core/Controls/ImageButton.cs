@@ -37,6 +37,8 @@ namespace Kenedia.Modules.Core.Controls
 
         public AsyncTexture2D Texture { get; set; }
 
+        public AsyncTexture2D DisabledTexture { get; set; }
+
         public AsyncTexture2D HoveredTexture { get; set; }
 
         public AsyncTexture2D ClickedTexture { get; set; }
@@ -67,7 +69,8 @@ namespace Kenedia.Modules.Core.Controls
 
         private AsyncTexture2D GetTexture()
         {
-            return Clicked && ClickedTexture != null ? ClickedTexture
+            return !Enabled && DisabledTexture != null ? DisabledTexture :
+                Clicked && ClickedTexture != null ? ClickedTexture
                 : MouseOver && HoveredTexture != null ? HoveredTexture
                 : Texture;
         }
@@ -94,7 +97,7 @@ namespace Kenedia.Modules.Core.Controls
         {
             base.OnClick(e);
 
-            ClickAction?.Invoke(e);
+            if(Enabled) ClickAction?.Invoke(e);
         }
     }
 }

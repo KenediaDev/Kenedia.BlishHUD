@@ -807,8 +807,6 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage
 
         private void TemplateChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
-
-            Debug.WriteLine($"TEMPLATE CHANGED");
             ApplyTemplate();
         }
 

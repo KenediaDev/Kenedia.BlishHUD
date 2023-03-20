@@ -177,4 +177,10 @@
   <data name="EditItem" xml:space="preserve">
     <value>Editar {0}</value>
   </data>
+  <data name="DeleteX" xml:space="preserve">
+    <value>Borrar {0}</value>
+  </data>
+  <data name="Tag" xml:space="preserve">
+    <value>Etiqueta</value>
+  </data>
 </root>

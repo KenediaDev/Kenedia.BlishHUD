@@ -111,47 +111,6 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
 
         }
 
-        private void OnItemSelectedX(BaseItem item)
-        {
-            switch (SubSlotType)
-            {
-                case GearSubSlotType.Item:
-                    if (TemplateSlot != null) TemplateSlot.Item = item;
-                    break;
-
-                case GearSubSlotType.Rune:
-                    if (TemplateSlot != null) (TemplateSlot as ArmorEntry).Rune = (item as Rune);
-                    break;
-
-                case GearSubSlotType.Sigil:
-                    if (ActiveSlot is not GearTemplateSlot.Aquatic and not GearTemplateSlot.AltAquatic)
-                    {
-                        if (Template?.PvE == false)
-                        {
-                            if (TemplateSlot != null) (TemplateSlot as WeaponEntry).PvpSigil = (item as Sigil);
-                        }
-                        else
-                        {
-                            if (TemplateSlot != null) (TemplateSlot as WeaponEntry).Sigil = (item as Sigil);
-                        }
-                    }
-                    else
-                    {
-
-                    }
-
-                    break;
-
-                case GearSubSlotType.Infusion:
-
-                    break;
-
-                case GearSubSlotType.Enrichment:
-                    if (TemplateSlot != null) (TemplateSlot as JuwelleryEntry).Enrichment = item as Enrichment;
-                    break;
-            }
-        }
-
         private bool MatchingMethod(BaseItem item)
         {
             return item.Name == null || string.IsNullOrEmpty(_filterText) || item.Name.ToLower().Contains(_filterText);
@@ -220,6 +179,10 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
 
                             if (weapon.Value != null)
                             {
+                                bool terrainMatch =
+                                    (ActiveSlot is GearTemplateSlot.AltAquatic or GearTemplateSlot.Aquatic) ?
+                                    weapon.Value.Type.IsAquatic() :
+                                    !weapon.Value.Type.IsAquatic();
                                 bool wieldMatch = slotIsOffhand ? weapon.Value.Wielded.HasFlag(Gw2Sharp.ProfessionWeaponFlag.Offhand) : weapon.Value.Wielded.HasFlag(Gw2Sharp.ProfessionWeaponFlag.Mainhand) || weapon.Value.Wielded.HasFlag(Gw2Sharp.ProfessionWeaponFlag.TwoHand);
 
                                 // No Elite Spec
@@ -242,8 +205,8 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
 
                                 item.Visible =
                                     weaponMatch &&
-                                    MatchingMethod(item.Item) &&
-                                    item.Item?.TemplateSlot == effectiveSlot;
+                                    terrainMatch &&
+                                    MatchingMethod(item.Item);
                             }
                         }
                     }
@@ -364,6 +327,13 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
             }
 
             PerformFiltering();
+        }
+
+        public override void RecalculateLayout()
+        {
+            base.RecalculateLayout();
+
+            Search?.SetSize(Width - Search.Left);
         }
 
         protected override void DisposeControl()

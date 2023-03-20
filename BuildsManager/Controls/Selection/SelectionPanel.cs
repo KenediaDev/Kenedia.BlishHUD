@@ -26,13 +26,21 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
 
         private DetailedTexture _backButton = new(784268);
         private DetailedTexture _pointerArrow = new(784266) { TextureRegion = new(16, 16, 32, 32) };
-        private Blish_HUD.Controls.Control _anchor;
-        private Rectangle _anchorDrawBounds;
-        private Rectangle _anchorAbsBounds;
-        private Rectangle _anchorBounds;
+        private Blish_HUD.Controls.Control _gearAnchor;
+        private Blish_HUD.Controls.Control _templateAnchor;
+
+        private Rectangle _anchorDrawBounds => _gearAnchor != null ? _gearAnchorDrawBounds : _templateAnchorDrawBounds;
+        private Rectangle _templateAnchorDrawBounds;
+        private Rectangle _gearAnchorDrawBounds;
+
+        private Rectangle AnchorBounds => _gearAnchor != null ? _gearAnchorBounds : _templateAnchorBounds;
+        private Rectangle _templateAnchorBounds;
+        private Rectangle _gearAnchorBounds;
+
         private Rectangle _backBounds;
         private Rectangle _backTextBounds;
         private Template _template;
+        private SelectionTypes _selectionType = SelectionTypes.Templates;
 
         float _animationStart = 0f;
 
@@ -50,12 +58,18 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
             {
                 Parent = this,
                 Visible = true,
+                SelectionPanel = this
             };
         }
 
-        public string Title { get; set; }
+        public enum SelectionTypes
+        {
+            None = 0,
+            Templates,
+            Items,
+        }
 
-        public Rectangle AnchorBounds { get => _anchorBounds; set => _anchorBounds = value; }
+        public string Title { get; set; }
 
         public Template Template
         {
@@ -73,6 +87,20 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
             }
         }
 
+        public SelectionTypes SelectionType
+        {
+            get => _selectionType; set
+            {
+                if (Common.SetProperty(ref _selectionType, value))
+                {
+                    _gearSelection.Visible = _selectionType == SelectionTypes.Items;
+                    _buildSelection.Visible = _selectionType == SelectionTypes.Templates;
+                }
+            }
+        }
+
+        private Blish_HUD.Controls.Control Anchor => _gearAnchor ?? _templateAnchor;
+
         private void TemplateChanged(object sender, PropertyChangedEventArgs e)
         {
             ApplyTemplate();
@@ -83,39 +111,42 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
             _gearSelection.Template = Template;
         }
 
+        public void SetTemplateAnchor(Blish_HUD.Controls.Control anchor)
+        {
+            SelectionType = SelectionTypes.Templates;
+            _templateAnchor = anchor;
+
+            if (_templateAnchor != null)
+            {
+                int size = anchor.AbsoluteBounds.Height;
+                int y = anchor.AbsoluteBounds.Center.Y - (size / 2);
+                _templateAnchorBounds = new(Anchor.AbsoluteBounds.Left - AbsoluteBounds.Left - (size / 2), Anchor.AbsoluteBounds.Top - AbsoluteBounds.Top + (Anchor.AbsoluteBounds.Height / 2) - (size / 2), size, size);
+
+                size = Math.Min(size, 32);
+                _templateAnchorDrawBounds = new(Anchor.AbsoluteBounds.Left - AbsoluteBounds.Left - (size / 2), Anchor.AbsoluteBounds.Top - AbsoluteBounds.Top + (Anchor.AbsoluteBounds.Height / 2) - (size / 2), size, size);
+            }
+        }
+
         public void SetGearAnchor(Blish_HUD.Controls.Control anchor, Rectangle anchorBounds, GearTemplateSlot slot, GearSubSlotType subslot = GearSubSlotType.Item, string title = "Selection", Action<BaseItem> onItemSelected = null)
         {
-            SetAnchor(anchor, anchorBounds, title);
+            SelectionType = anchor != null ? SelectionTypes.Items : SelectionTypes.Templates;
+            _gearAnchor = anchor;
+            if (_gearAnchor == null) return;
+
+            Title = title;
+
+            int size = anchorBounds.Height;
+            int y = anchorBounds.Center.Y - (size / 2);
+            //_anchorBounds = new(anchorBounds.Left - AbsoluteBounds.Left - (size / 3), y - AbsoluteBounds.Top, size, size);
+            _gearAnchorBounds = new(anchorBounds.Left - AbsoluteBounds.Left - (size / 2), anchorBounds.Top - AbsoluteBounds.Top + (anchorBounds.Height / 2) - (size / 2), size, size);
+
+            size = Math.Min(size, 32);
+            _gearAnchorDrawBounds = new(anchorBounds.Left - AbsoluteBounds.Left - (size / 2), anchorBounds.Top - AbsoluteBounds.Top + (anchorBounds.Height / 2) - (size / 2), size, size);
+
             _gearSelection.ActiveSlot = slot;
             _gearSelection.SubSlotType = subslot;
             _gearSelection.TemplateSlot = (anchor as GearSlotControl)?.TemplateSlot;
             _gearSelection.OnItemSelected = onItemSelected;
-            _gearSelection.Show();
-        }
-
-        public void SetAnchor(Blish_HUD.Controls.Control anchor, Rectangle anchorBounds, string title = "Selection")
-        {
-            _anchor = anchor;
-            Title = title;
-
-            _gearSelection.Hide();
-            _buildSelection.Hide();
-
-            if (_anchor != null)
-            {
-                int size = anchorBounds.Height;
-                int y = anchorBounds.Center.Y - (size / 2);
-                //_anchorBounds = new(anchorBounds.Left - AbsoluteBounds.Left - (size / 3), y - AbsoluteBounds.Top, size, size);
-                _anchorAbsBounds = anchorBounds.Subtract(new(AbsoluteBounds.Location, Point.Zero));
-                _anchorBounds = new(anchorBounds.Left - AbsoluteBounds.Left - (size / 2), anchorBounds.Top - AbsoluteBounds.Top + (anchorBounds.Height / 2) - (size / 2), size, size);
-
-                size = Math.Min(size, 32);
-                _anchorDrawBounds = new(anchorBounds.Left - AbsoluteBounds.Left - (size / 2), anchorBounds.Top - AbsoluteBounds.Top + (anchorBounds.Height / 2) - (size / 2), size, size);
-            }
-            else
-            {
-                _buildSelection.Show();
-            }
         }
 
         public override void RecalculateLayout()
@@ -140,26 +171,33 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
             base.PaintAfterChildren(spriteBatch, bounds);
             //RecalculateLayout();
 
-            if (_anchor != null)
+            if (Anchor != null && Anchor.Parent.AbsoluteBounds.Contains(Anchor.AbsoluteBounds.Center))
             {
-                DrawGearSelection(spriteBatch, bounds);
+                if (SelectionType == SelectionTypes.Items)
+                {
+                    DrawGearSelection(spriteBatch, bounds);
+                }
+                else if (SelectionType == SelectionTypes.Templates)
+                {
+                    DrawBuildSelection(spriteBatch, bounds);
+                }
             }
-            else
-            {
-                DrawBuildSelection(spriteBatch, bounds);
-            }
-
-            var section = _buildSelection.SelectionBounds;
-            //spriteBatch.DrawCenteredRotationOnCtrl(this, _separator, new Rectangle(-28, section.Center.Y + _buildSelection.Top, section.Height, 16), _separator.Bounds, Color.Black, MathUtil.DegreesToRadians(90), false, false);
         }
 
         public override void UpdateContainer(GameTime gameTime)
         {
             base.UpdateContainer(gameTime);
 
-            if (_anchor != null)
+            if (Anchor != null && Anchor.Parent.AbsoluteBounds.Contains(Anchor.AbsoluteBounds.Center))
             {
                 _animationStart += (float)gameTime.ElapsedGameTime.TotalSeconds;
+
+                int size = Anchor.AbsoluteBounds.Height;
+                int y = Anchor.AbsoluteBounds.Center.Y - (size / 2);
+                _templateAnchorBounds = new(Anchor.AbsoluteBounds.Left - AbsoluteBounds.Left - (size / 2), Anchor.AbsoluteBounds.Top - AbsoluteBounds.Top + (Anchor.AbsoluteBounds.Height / 2) - (size / 2), size, size);
+
+                size = Math.Min(size, 32);
+                _templateAnchorDrawBounds = new(Anchor.AbsoluteBounds.Left - AbsoluteBounds.Left - (size / 2), Anchor.AbsoluteBounds.Top - AbsoluteBounds.Top + (Anchor.AbsoluteBounds.Height / 2) - (size / 2), size, size);
 
                 int easeDistance = _anchorDrawBounds.Width / 3;
                 int animationOffset;
@@ -179,22 +217,18 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
         {
             base.OnClick(e);
 
-            if (_anchor != null)
+            if (_gearAnchor != null)
             {
                 if (_backBounds.Contains(RelativeMousePosition))
                 {
-                    _anchor = null;
-
-                    _gearSelection.Hide();
-                    _buildSelection.Show();
+                    _gearAnchor = null;
+                    SelectionType = SelectionTypes.Templates;
                 }
             }
         }
 
         private void DrawGearSelection(SpriteBatch spriteBatch, Rectangle bounds)
         {
-            //spriteBatch.DrawFrame(this, _anchorAbsBounds, Colors.ColonialWhite);
-
             _pointerArrow.Draw(this, spriteBatch, null, Color.White);
 
             if (_backBounds.Contains(RelativeMousePosition))
@@ -208,6 +242,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
 
         private void DrawBuildSelection(SpriteBatch spriteBatch, Rectangle bounds)
         {
+            _pointerArrow.Draw(this, spriteBatch, null, Color.White);
 
         }
     }

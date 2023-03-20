@@ -16,14 +16,27 @@ using Microsoft.Xna.Framework.Graphics;
 using BuildTemplate = Kenedia.Modules.BuildsManager.Models.Templates.BuildTemplate;
 using Rectangle = Microsoft.Xna.Framework.Rectangle;
 using System.Threading;
+using System.Collections.Generic;
+using System.IO;
+using Kenedia.Modules.BuildsManager.Models;
+using System.Diagnostics;
+using System.Collections.ObjectModel;
+using Kenedia.Modules.Core.Utility;
+using Blish_HUD.Controls;
+using Kenedia.Modules.Core.Res;
+using CornerIcon = Kenedia.Modules.Core.Controls.CornerIcon;
+using LoadingSpinner = Kenedia.Modules.Core.Controls.LoadingSpinner;
 
 namespace Kenedia.Modules.BuildsManager
 {
     [Export(typeof(Module))]
-    public class BuildsManager : BaseModule<BuildsManager, MainWindow, Settings>
+    public class BuildsManager : BaseModule<BuildsManager, MainWindow, Settings, Paths>
     {
         private double _tick;
         private CancellationTokenSource _cancellationTokenSource;
+        private Template _selectedTemplate = new();
+        private CornerIcon _cornerIcon;
+        private LoadingSpinner _apiSpinner;
 
         [ImportingConstructor]
         public BuildsManager([Import("ModuleParameters")] ModuleParameters moduleParameters) : base(moduleParameters)
@@ -34,21 +47,41 @@ namespace Kenedia.Modules.BuildsManager
 
         private GW2API GW2API { get; set; }
 
-        private Template SelectedTemplate { get; set; } = new();
+        public Template SelectedTemplate { get => _selectedTemplate; set => Common.SetProperty(ref _selectedTemplate, value, SelectedTemplateSwitched); }
 
         public static Data Data { get; set; }
 
+        public ObservableCollection<Template> Templates { get; private set; } = new();
+
         public SkillConnectionEditor SkillConnectionEditor { get; set; }
+
+        public event EventHandler SelectedTemplateChanged;
 
         protected override void DefineSettings(SettingCollection settings)
         {
             base.DefineSettings(settings);
 
+            Settings = new Settings(settings);
+            Settings.ShowCornerIcon.SettingChanged += ShowCornerIcon_SettingChanged; ;
+        }
+
+        private void ShowCornerIcon_SettingChanged(object sender, ValueChangedEventArgs<bool> e)
+        {
+            if (e.NewValue)
+            {
+                CreateCornerIcons();
+            }
+            else
+            {
+                DeleteCornerIcons();
+            }
         }
 
         protected override void Initialize()
         {
             base.Initialize();
+
+            Paths = new(DirectoriesManager, Name);
 
             JsonConvert.DefaultSettings = () => new JsonSerializerSettings
             {
@@ -109,11 +142,46 @@ namespace Kenedia.Modules.BuildsManager
                     OnLocaleChanged(this, new(Locale.Chinese, GameService.Overlay.UserLocale.Value));
                 }
             }
+
+            await LoadTemplates();
+        }
+
+        private async Task LoadTemplates()
+        {
+            Logger.Info($"LoadTemplates");
+
+            try
+            {
+                string[] templates = Directory.GetFiles(Paths.TemplatesPath);
+
+                Logger.Info($"Loading {templates.Length} Templates ...");
+                foreach (string file in templates)
+                {
+                    using var reader = File.OpenText(file);
+                    string fileText = await reader.ReadToEndAsync();
+
+                    var template = JsonConvert.DeserializeObject<Template>(fileText);
+
+                    if (template != null)
+                    {
+                        Templates.Add(template);
+                    }
+                }
+            }
+            catch (Exception)
+            {
+                Logger.Warn($"Loading Templates failed!");
+            }
         }
 
         protected override void OnModuleLoaded(EventArgs e)
         {
             base.OnModuleLoaded(e);
+
+            if (Settings.ShowCornerIcon.Value)
+            {
+                CreateCornerIcons();
+            }
         }
 
         protected override void Update(GameTime gameTime)
@@ -225,6 +293,53 @@ namespace Kenedia.Modules.BuildsManager
             base.Unload();
         }
 
+        private void CreateCornerIcons()
+        {
+            DeleteCornerIcons();
+
+            _cornerIcon = new CornerIcon()
+            {
+                Icon = AsyncTexture2D.FromAssetId(156720),
+                HoverIcon = AsyncTexture2D.FromAssetId(156721),
+                SetLocalizedTooltip = () => string.Format("Toggle {0}", $"{Name}"),
+                Parent = GameService.Graphics.SpriteScreen,
+                Visible = Settings.ShowCornerIcon.Value,
+                ClickAction = () => MainWindow?.ToggleWindow(),
+            };
+
+            _apiSpinner = new LoadingSpinner()
+            {
+                Location = new Point(_cornerIcon.Left, _cornerIcon.Bottom + 3),
+                Parent = GameService.Graphics.SpriteScreen,
+                Size = new Point(_cornerIcon.Width, _cornerIcon.Height),
+                BasicTooltipText = strings_common.FetchingApiData,
+                Visible = false,
+            };
+
+            _cornerIcon.Moved += CornerIcon_Moved;
+        }
+
+        private void DeleteCornerIcons()
+        {
+            if (_cornerIcon != null) _cornerIcon.Moved -= CornerIcon_Moved;
+            _cornerIcon?.Dispose();
+            _cornerIcon = null;
+
+            _apiSpinner?.Dispose();
+            _apiSpinner = null;
+        }
+
+        private void CornerIcon_Moved(object sender, MovedEventArgs e)
+        {
+            if (_apiSpinner != null) _apiSpinner.Location = new Point(_cornerIcon.Left, _cornerIcon.Bottom + 3);
+        }
+
+        private void SelectedTemplateSwitched()
+        {
+            if (MainWindow != null) MainWindow.Template = SelectedTemplate;
+            SelectedTemplateChanged?.Invoke(this, null);
+        }
+
         private void SetDummyTemplate()
         {
             string code2 = "[9|1128|255|1][4|1128|255|1][7|1128|255|1][3|1128|255|1][15|1128|255|1][17|1128|255|1][1|1128|255|1][53|584|26|1|1][50|584|26|1|1][7|584|26|26|1|1][-1|584|26|1|1][16|584|26|1|1][17|584|26|26|1|1][-1|584|340][0|584|340|340][8|584|1][3|584|340][4|584|340][5|584|340|340|340][7|584|340|340|340][-1|584|340][-1|584|340][-1|584|340][-1|584|340]";
@@ -240,60 +355,6 @@ namespace Kenedia.Modules.BuildsManager
                 GearTemplate = new(gearcode),
                 Race = Core.DataModels.Races.Human,
             };
-
-            var template = SelectedTemplate.GearTemplate;
-
-            if (true) {
-                foreach (var armor in template.Armors)
-                {
-                    armor.Value.Stat = DataModels.Stats.EquipmentStat.Assassins;
-
-                    for (int i = 0; i < armor.Value.InfusionIds.Count; i++)
-                    {
-                        armor.Value.InfusionIds[i] = 255;
-                    }
-
-                    for (int i = 0; i < armor.Value.RuneIds.Count; i++)
-                    {
-                        armor.Value.RuneIds[i] = 1;
-                    }
-                }
-
-                foreach (var weapon in template.Weapons)
-                {
-                    weapon.Value.Stat = DataModels.Stats.EquipmentStat.Berserkers;
-
-                    for (int i = 0; i < weapon.Value.InfusionIds.Count; i++)
-                    {
-                        weapon.Value.InfusionIds[i] = 26;
-                    }
-
-                    for (int i = 0; i < weapon.Value.SigilIds.Count; i++)
-                    {
-                        weapon.Value.SigilIds[i] = 1;
-                    }
-                }
-
-                foreach (var juwellery in template.Juwellery)
-                {
-                    juwellery.Value.Stat = DataModels.Stats.EquipmentStat.Berserkers;
-
-                    for (int i = 0; i < (juwellery.Value.InfusionIds?.Count ?? 0); i++)
-                    {
-                        juwellery.Value.InfusionIds[i] = 340;
-                    }
-
-                    if (juwellery.Value.EnrichmentIds != null)
-                    {
-                        for (int i = 0; i < (juwellery.Value.EnrichmentIds?.Count ?? 0); i++)
-                        {
-                            juwellery.Value.EnrichmentIds[i] = 1;
-                        }
-                    }
-                }
-            }
-
-            if (MainWindow != null) MainWindow.Template = SelectedTemplate;
         }
     }
 }

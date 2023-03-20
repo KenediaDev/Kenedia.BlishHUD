@@ -7,9 +7,9 @@ namespace Kenedia.Modules.Core.Models
 #nullable enable
     public class PathCollection
     {
-        private readonly string? _moduleName = null;
+        protected readonly string? ModuleName = null;
+        protected readonly DirectoriesManager DirectoriesManager;
         private string? _accountName = null;
-        private readonly DirectoriesManager _directoriesManager;
 
         public string? AccountName
         {
@@ -17,12 +17,17 @@ namespace Kenedia.Modules.Core.Models
             set => Common.SetProperty(ref _accountName, value, AddAccountFolder, !string.IsNullOrEmpty(value));
         }
 
+        public PathCollection()
+        {
+
+        }
+
         public PathCollection(DirectoriesManager directoriesManager, string moduleName)
         {
-            _directoriesManager = directoriesManager;
-            _moduleName = moduleName.Replace(' ', '_').ToLower();
+            DirectoriesManager = directoriesManager;
+            ModuleName = moduleName.Replace(' ', '_').ToLower();
 
-            BasePath = _directoriesManager.GetFullDirectoryPath("kenedia");
+            BasePath = DirectoriesManager.GetFullDirectoryPath("kenedia");
 
             if (!Directory.Exists(ModulePath))
             {
@@ -37,9 +42,9 @@ namespace Kenedia.Modules.Core.Models
 
         public string BasePath { get; }
 
-        public string ModulePath => $@"{BasePath}\{_moduleName}\";
+        public string ModulePath => $@"{BasePath}\{ModuleName}\";
 
-        public string ModuleDataPath => $@"{BasePath}\{_moduleName}\data\";
+        public string ModuleDataPath => $@"{BasePath}\{ModuleName}\data\";
 
         public string SharedSettingsPath => $@"{BasePath}\shared_settings.json";
 

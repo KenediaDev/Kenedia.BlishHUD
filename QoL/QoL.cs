@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 namespace Kenedia.Modules.QoL
 {
     [Export(typeof(Module))]
-    public class QoL : BaseModule<QoL, StandardWindow, BaseSettingsModel>
+    public class QoL : BaseModule<QoL, StandardWindow, BaseSettingsModel, PathCollection>
     {
         private double _tick;
 
@@ -33,6 +33,7 @@ namespace Kenedia.Modules.QoL
         protected override void Initialize()
         {
             base.Initialize();
+            Paths = new PathCollection(DirectoriesManager, Name);
 
             Logger.Info($"Starting {Name} v." + Version.BaseVersion());            
         }

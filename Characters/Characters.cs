@@ -43,7 +43,7 @@ using System.Collections.Specialized;
 namespace Kenedia.Modules.Characters
 {
     [Export(typeof(Module))]
-    public class Characters : BaseModule<Characters, MainWindow, Settings>
+    public class Characters : BaseModule<Characters, MainWindow, Settings, PathCollection>
     {
         public readonly ResourceManager RM = new("Kenedia.Modules.Characters.Res.strings", System.Reflection.Assembly.GetExecutingAssembly());
 
@@ -140,6 +140,8 @@ namespace Kenedia.Modules.Characters
         protected override void Initialize()
         {
             base.Initialize();
+
+            Paths = new PathCollection(DirectoriesManager, Name);
 
             Logger.Info($"Starting {Name} v." + ModuleVersion);
 

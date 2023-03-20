@@ -19,7 +19,7 @@ using Map = Kenedia.Modules.Core.DataModels.Map;
 namespace Kenedia.Modules.Dev
 {
     [Export(typeof(Module))]
-    public class Dev : BaseModule<Dev, StandardWindow, BaseSettingsModel>
+    public class Dev : BaseModule<Dev, StandardWindow, BaseSettingsModel, PathCollection>
     {
         private double _tick;
         private readonly IGw2WebApiClient _apiClient;
@@ -42,6 +42,7 @@ namespace Kenedia.Modules.Dev
         protected override void Initialize()
         {
             base.Initialize();
+            Paths = new(DirectoriesManager, Name);
 
             HasGUI = false;
             Logger.Info($"Starting {Name} v." + Version.BaseVersion());

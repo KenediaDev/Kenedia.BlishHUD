@@ -319,6 +319,7 @@
     <Compile Include="DataModels\Stats\Stat.cs" />
     <Compile Include="Extensions\ChatLinkExtension.cs" />
     <Compile Include="Models\ItemMap.cs" />
+    <Compile Include="Models\Paths.cs" />
     <Compile Include="Models\Templates\BuildSkillSlot.cs" />
     <Compile Include="Models\Templates\BuildSpecialization.cs" />
     <Compile Include="Models\Templates\BuildTemplate.cs" />

@@ -59,6 +59,17 @@ namespace Kenedia.Modules.BuildsManager.Extensions
 
                 : weaponType.ToString() == type.ToString();
         }
+
+        public static bool IsAquatic(this WeaponType weaponType)
+        {
+            return weaponType switch
+            {
+                WeaponType.Spear => true,
+                WeaponType.Trident => true,
+                WeaponType.Speargun => true,
+                _ => false
+            };
+        }
     }
 
     public static class GearTemplateSlotExtension

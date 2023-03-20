@@ -14,27 +14,6 @@ using Kenedia.Modules.Core.Extensions;
 
 namespace Kenedia.Modules.BuildsManager.Models.Templates
 {
-    public class ObservableListInt : List<int>, INotifyPropertyChanged
-    {
-        public new int this[int i]
-        {
-            get => base[i];
-            set
-            {
-                if (base[i] == value) return;
-                base[i] = value;
-                OnPropertyChanged(this, new($"{i}"));
-            }
-        }
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        public virtual void OnPropertyChanged(object sender, PropertyChangedEventArgs e)
-        {
-            PropertyChanged?.Invoke(sender, e);
-        }
-    }
-
     public class GearTemplateEntry : INotifyPropertyChanged
     {
         private GearTemplateSlot _slot = (GearTemplateSlot)(-2);
@@ -99,7 +78,7 @@ namespace Kenedia.Modules.BuildsManager.Models.Templates
         private Infusion _infusion2;
         private Infusion _infusion3;
 
-        private ObservableListInt _infusionIds = new();
+        private ObservableList<int> _infusionIds = new();
 
         public JuwelleryEntry()
         {
@@ -108,7 +87,7 @@ namespace Kenedia.Modules.BuildsManager.Models.Templates
 
         public EquipmentStat Stat { get; set; }
 
-        public ObservableListInt InfusionIds
+        public ObservableList<int> InfusionIds
         {
             get => _infusionIds;
             set
@@ -173,9 +152,9 @@ namespace Kenedia.Modules.BuildsManager.Models.Templates
             }
         }
 
-        private ObservableListInt _enrichmentIds = new();
+        private ObservableList<int> _enrichmentIds = new();
 
-        public ObservableListInt EnrichmentIds
+        public ObservableList<int> EnrichmentIds
         {
             get => _enrichmentIds;
             set
@@ -293,7 +272,7 @@ namespace Kenedia.Modules.BuildsManager.Models.Templates
         private WeaponType _weapon = WeaponType.Unknown;
         private Sigil _sigil;
         private Sigil _pvpSigil;
-        private ObservableListInt _sigilIds = new();
+        private ObservableList<int> _sigilIds = new();
         private Sigil _sigil2;
 
         public WeaponEntry()
@@ -309,7 +288,7 @@ namespace Kenedia.Modules.BuildsManager.Models.Templates
             OnPropertyChanged(sender, e);
         }
 
-        public ObservableListInt SigilIds
+        public ObservableList<int> SigilIds
         {
             get => _sigilIds;
             set
@@ -422,14 +401,14 @@ namespace Kenedia.Modules.BuildsManager.Models.Templates
     public class ArmorEntry : JuwelleryEntry
     {
         private Rune _rune;
-        private ObservableListInt _runeIds = new() { -1 };
+        private ObservableList<int> _runeIds = new() { -1 };
 
         public ArmorEntry()
         {
             _runeIds.PropertyChanged += RuneIds_Changed;
         }
 
-        public ObservableListInt RuneIds
+        public ObservableList<int> RuneIds
         {
             get => _runeIds;
             set

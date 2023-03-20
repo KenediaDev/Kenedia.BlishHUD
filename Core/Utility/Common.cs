@@ -162,6 +162,7 @@ namespace Kenedia.Modules.Core.Utility
                         else if (c == '\'') repl = '’'; // U+2019 right single quotation mark
                         else if (c == '/') repl = '⁄'; // U+2044 fraction slash
                     }
+
                     if (repl != '\0')
                         _ = sb.Append(repl);
                 }

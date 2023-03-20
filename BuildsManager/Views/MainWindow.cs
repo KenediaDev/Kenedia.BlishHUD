@@ -43,7 +43,7 @@ namespace Kenedia.Modules.BuildsManager.Views
                 Location = new(_selectionPanel.Right + 15, 0),
                 Width = ContentRegion.Width - 144,
                 HeightSizingMode = Blish_HUD.Controls.SizingMode.Fill,
-                OnTabSwitched = () => _selectionPanel.SetAnchor(null, Rectangle.Empty),
+                OnTabSwitched = () => _selectionPanel.SetGearAnchor(null, Rectangle.Empty, GearTemplateSlot.None),
                 //BackgroundColor = Color.Green * 0.2F,
             };
 

@@ -88,6 +88,15 @@ namespace Kenedia.Modules.Core.Res {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Delete {0}.
+        /// </summary>
+        internal static string DeleteX {
+            get {
+                return ResourceManager.GetString("DeleteX", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Edit.
         /// </summary>
         internal static string Edit {
@@ -193,6 +202,15 @@ namespace Kenedia.Modules.Core.Res {
         internal static string ShowCornerIcon_ttp {
             get {
                 return ResourceManager.GetString("ShowCornerIcon_ttp", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Tag.
+        /// </summary>
+        internal static string Tag {
+            get {
+                return ResourceManager.GetString("Tag", resourceCulture);
             }
         }
         

@@ -24,7 +24,7 @@ using CornerIcon = Kenedia.Modules.Core.Controls.CornerIcon;
 namespace Kenedia.Modules.ReleaseTheChoya
 {
     [Export(typeof(Module))]
-    public class ReleaseTheChoya : BaseModule<ReleaseTheChoya, StandardWindow, Settings>
+    public class ReleaseTheChoya : BaseModule<ReleaseTheChoya, StandardWindow, Settings, PathCollection>
     {
         private double _lastMoveTick;
         private double _randomTick;
@@ -113,6 +113,7 @@ namespace Kenedia.Modules.ReleaseTheChoya
         {
             base.Initialize();
 
+            Paths = new PathCollection(DirectoriesManager, Name);
             Logger.Info($"Starting {Name} v." + Version.BaseVersion());
         }
 

@@ -16,10 +16,11 @@ using Newtonsoft.Json;
 
 namespace Kenedia.Modules.Core.Models
 {
-    public abstract class BaseModule<ModuleType, ModuleWindow, ModuleSettings> : Module
+    public abstract class BaseModule<ModuleType, ModuleWindow, ModuleSettings, ModulePaths> : Module
         where ModuleType : Module
         where ModuleWindow : Container
         where ModuleSettings : BaseSettingsModel
+        where ModulePaths : PathCollection, new()
     {
         public static readonly Logger Logger = Logger.GetLogger<ModuleType>();
         protected bool HasGUI = false;
@@ -49,7 +50,7 @@ namespace Kenedia.Modules.Core.Models
 
         public SemVer.Version ModuleVersion { get; private set; }
 
-        public PathCollection Paths { get; private set; }
+        public ModulePaths Paths { get; protected set; }
 
         public ServiceCollection Services { get; private set; }
 
@@ -77,7 +78,6 @@ namespace Kenedia.Modules.Core.Models
             ModuleVersion = Version;
 
             Logger.Info($"Initializing {Name} {ModuleVersion}");
-            Paths = new(DirectoriesManager, Name);
 
             ModKeyMapping = new VirtualKeyShort[5];
             ModKeyMapping[(int)ModifierKeys.Ctrl] = VirtualKeyShort.CONTROL;
