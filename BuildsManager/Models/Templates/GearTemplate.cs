@@ -486,6 +486,7 @@ namespace Kenedia.Modules.BuildsManager.Models.Templates
 
     public class GearTemplate : Dictionary<GearTemplateEntryType, DeepObservableDictionary<GearTemplateSlot, GearTemplateEntry>>, INotifyPropertyChanged
     {
+        private bool _loading = false;
         public GearTemplate()
         {
             foreach (GearTemplateEntryType type in Enum.GetValues(typeof(GearTemplateEntryType)))
@@ -525,6 +526,8 @@ namespace Kenedia.Modules.BuildsManager.Models.Templates
 
         private void ItemChanged(object sender, PropertyChangedEventArgs e)
         {
+            if(_loading) return;
+
             if (Weapons[GearTemplateSlot.MainHand].Weapon is WeaponType.Staff or WeaponType.Rifle or WeaponType.Hammer or WeaponType.Greatsword or WeaponType.LongBow or WeaponType.ShortBow)
             {
                 Weapons[GearTemplateSlot.OffHand].Item = null;
@@ -595,6 +598,8 @@ namespace Kenedia.Modules.BuildsManager.Models.Templates
 
             if (parts.Length == 24)
             {
+                _loading = true;
+
                 for (int i = (int)GearTemplateSlot.Head; i <= (int)GearTemplateSlot.AquaBreather; i++)
                 {
                     Armors[(GearTemplateSlot)i].FromCode(parts[i].Substring(1, parts[i].Length - 1));
@@ -614,6 +619,8 @@ namespace Kenedia.Modules.BuildsManager.Models.Templates
                 Common[GearTemplateSlot.Nourishment].FromCode(parts[(int)GearTemplateSlot.Nourishment].Substring(1, parts[(int)GearTemplateSlot.Nourishment].Length - 1));
                 Common[GearTemplateSlot.Utility].FromCode(parts[(int)GearTemplateSlot.Utility].Substring(1, parts[(int)GearTemplateSlot.Utility].Length - 1));
                 Common[GearTemplateSlot.JadeBotCore].FromCode(parts[(int)GearTemplateSlot.JadeBotCore].Substring(1, parts[(int)GearTemplateSlot.JadeBotCore].Length - 1));
+
+                _loading = false;
             }
         }
     }

@@ -8,13 +8,19 @@ using System;
 using System.ComponentModel;
 using Kenedia.Modules.Core.Utility;
 using System.Collections.Generic;
+using System.Diagnostics;
+using Kenedia.Modules.Core.Models;
+using System.Threading.Tasks;
+using System.Threading;
 
 namespace Kenedia.Modules.BuildsManager.Models.Templates
 {
     public class BuildTemplate : IDisposable
     {
         private bool _disposed = false;
+        private bool _loading = false;
         private ProfessionType _profession;
+        private CancellationTokenSource _eventCancellationTokenSource;
 
         public BuildTemplate()
         {
@@ -38,7 +44,13 @@ namespace Kenedia.Modules.BuildsManager.Models.Templates
 
         public event PropertyChangedEventHandler Changed;
 
-        public ProfessionType Profession { get => _profession; set => Common.SetProperty(ref _profession, value, Changed); }
+        public ProfessionType Profession { get => _profession; set => Common.SetProperty(ref _profession, value, OnChanged); }
+
+        public Dictionary<BuildSkillSlot, Skill> Test { get; } = new();
+
+        public ObservableDictionary<BuildSkillSlot, Skill> ObservableTest{ get; } = new();
+
+        public SkillCollection SkillCollectionTest { get; } = new();
 
         public SkillCollection TerrestrialSkills { get; } = new();
 
@@ -130,11 +142,11 @@ namespace Kenedia.Modules.BuildsManager.Models.Templates
         public void LoadFromCode(string code)
         {
             BuildChatLink build = new();
+            _loading = true;
 
             if (Gw2ChatLink.TryParse(code, out IGw2ChatLink chatlink))
             {
                 build.Parse(chatlink.ToArray());
-
                 Profession = build.Profession;
 
                 Specializations[SpecializationSlot.Line_1] = BuildSpecialization.FromByte(build.Specialization1Id, build.Profession);
@@ -214,6 +226,9 @@ namespace Kenedia.Modules.BuildsManager.Models.Templates
                     AquaticSkills[BuildSkillSlot.Elite] = Skill.FromUShort(build.AquaticEliteSkillPaletteId, build.Profession);
                 }
             }
+
+            _loading = false;
+            OnChanged(this, null);
         }
 
         public void SwapLegends()
@@ -332,15 +347,43 @@ namespace Kenedia.Modules.BuildsManager.Models.Templates
         {
             foreach (var spec in Specializations)
             {
-                if (spec.Value.Specialization == specialization) return spec.Key;
+                if (spec.Value != null && spec.Value.Specialization == specialization) return spec.Key;
             }
 
             return null;
         }
 
+        private async void OnChanged(object sender, PropertyChangedEventArgs e)
+        {
+            if (_loading) return;
+            Changed?.Invoke(sender, e);
+        }
+
         private void CollectionChanged(object sender, PropertyChangedEventArgs e)
         {
+            if (_loading) return;
+
             Changed?.Invoke(sender, e);
+        }
+
+        private async Task TriggerChanged(object sender, PropertyChangedEventArgs e)
+        {
+            _eventCancellationTokenSource?.Cancel();
+            _eventCancellationTokenSource = new();
+
+            try
+            {
+                await Task.Delay(1, _eventCancellationTokenSource.Token);
+                if (!_eventCancellationTokenSource.IsCancellationRequested)
+                {
+                    Debug.WriteLine($"{nameof(BuildTemplate)} Trigger Changed Event now.");
+                    Changed?.Invoke(sender, e);
+                }
+            }
+            catch (Exception)
+            {
+
+            }
         }
 
         public void Dispose()

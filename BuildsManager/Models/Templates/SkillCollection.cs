@@ -1,18 +1,24 @@
 ﻿using Kenedia.Modules.BuildsManager.DataModels.Professions;
 using Kenedia.Modules.Core.Models;
+using Newtonsoft.Json.Linq;
 using System;
 
 namespace Kenedia.Modules.BuildsManager.Models.Templates
 {
     public class SkillCollection : ObservableDictionary<BuildSkillSlot, Skill>
     {
+        //public new Skill this[BuildSkillSlot key]
+        //{
+        //    get => base[key];
+        //    //set => OnValueChanged(key, ContainsKey(key) ? base[key] : default, value);
+        //}
+
         public SkillCollection()
         {
             foreach (BuildSkillSlot e in Enum.GetValues(typeof(BuildSkillSlot)))
             {
                 Add(e, null);
             }
-
         }
 
         public ushort GetPaletteId(BuildSkillSlot slot)

@@ -150,9 +150,8 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage
             get => _template; set
             {
                 var temp = _template;
-                if (Common.SetProperty(ref _template, value, ApplyTemplate, value != null))
+                if (Common.SetProperty(ref _template, value, ApplyTemplate))
                 {
-                    if (temp != null) temp.Changed -= TemplateChanged;
                     if (temp != null) temp.Changed -= TemplateChanged;
 
                     _stats.Template = _template;
@@ -162,7 +161,6 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage
                         slot.Value.Template = _template;
                     }
 
-                    if (_template != null) _template.Changed += TemplateChanged;
                     if (_template != null) _template.Changed += TemplateChanged;
                 }
             }

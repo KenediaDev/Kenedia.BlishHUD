@@ -17,6 +17,7 @@ using Blish_HUD;
 using Kenedia.Modules.Core.Services;
 using Kenedia.Modules.Core.DataModels;
 using TextBox = Kenedia.Modules.Core.Controls.TextBox;
+using System.Diagnostics;
 
 namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
 {
@@ -88,7 +89,6 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
                 EnterPressedAction = (code) =>
                 {
                     Template.BuildTemplate.LoadFromCode(code);
-                    ApplyTemplate();
                 }
             };
 
@@ -163,12 +163,9 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
             get => _template; set
             {
                 var temp = _template;
-                if (Common.SetProperty(ref _template, value, ApplyTemplate, value != null))
+                if (Common.SetProperty(ref _template, value, ApplyTemplate))
                 {
                     if (temp != null) temp.Changed -= TemplateChanged;
-                    if (temp != null) temp.Changed -= TemplateChanged;
-
-                    if (_template != null) _template.Changed += TemplateChanged;
                     if (_template != null) _template.Changed += TemplateChanged;
                 }
             }
@@ -185,16 +182,8 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
             {
                 _buildCodeBox.Text = Template?.BuildTemplate.ParseBuildCode();
 
-                _specializations[SpecializationSlot.Line_1].BuildSpecialization = Template.BuildTemplate.Specializations[SpecializationSlot.Line_1];
-                _specializations[SpecializationSlot.Line_1].Profession = BuildsManager.Data.Professions[Template.BuildTemplate.Profession];
                 _specializations[SpecializationSlot.Line_1].Template = Template;
-
-                _specializations[SpecializationSlot.Line_2].BuildSpecialization = Template.BuildTemplate.Specializations[SpecializationSlot.Line_2];
-                _specializations[SpecializationSlot.Line_2].Profession = BuildsManager.Data.Professions[Template.BuildTemplate.Profession];
                 _specializations[SpecializationSlot.Line_2].Template = Template;
-
-                _specializations[SpecializationSlot.Line_3].BuildSpecialization = Template.BuildTemplate.Specializations[SpecializationSlot.Line_3];
-                _specializations[SpecializationSlot.Line_3].Profession = BuildsManager.Data.Professions[Template.BuildTemplate.Profession];
                 _specializations[SpecializationSlot.Line_3].Template = Template;
 
                 _raceIcon.Texture = GetRaceTexture(Template.Race);

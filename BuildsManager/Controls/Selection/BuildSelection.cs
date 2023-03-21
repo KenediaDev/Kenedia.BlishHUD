@@ -22,6 +22,8 @@ using Kenedia.Modules.Core.DataModels;
 using Kenedia.Modules.Core.Services;
 using System;
 using System.Diagnostics;
+using System.Threading.Tasks;
+using System.ComponentModel;
 
 namespace Kenedia.Modules.BuildsManager.Controls.Selection
 {
@@ -31,7 +33,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
         {
         }
 
-        public TemplateTag TemplateTag { get; set; }
+        public Enum TemplateTag { get; set; }
     }
 
     public class TemplateSelectable : Panel
@@ -61,6 +63,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
         private Template _template;
         private BitmapFont _nameFont = Content.DefaultFont14;
         private ImageButton _editButton;
+        private TextBox _nameEdit;
         private bool _created;
         private Label _name;
 
@@ -82,18 +85,38 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
                 VerticalAlignment = Blish_HUD.Controls.VerticalAlignment.Middle,
             };
 
-            _texturesService = BuildsManager.ModuleInstance.Services.TexturesService;
+            _nameEdit = new()
+            {
+                Parent = this,
+                Height = _nameFont.LineHeight,
+                Font = _nameFont,
+                Visible = false,
+                HideBackground= true,
+                EnterPressedAction = async (txt) =>
+                {
+                    string moddedtxt = txt.Trim().ToLower();
+                    var template = BuildsManager.ModuleInstance.Templates.Where(e => e.Name.ToLower() == moddedtxt).FirstOrDefault();
 
-            //_editButton = new()
-            //{
-            //    Parent = this,
-            //    Texture = AsyncTexture2D.FromAssetId(155941),
-            //    HoveredTexture = AsyncTexture2D.FromAssetId(155940),
-            //    DisabledTexture = AsyncTexture2D.FromAssetId(155939),
-            //    ClickedTexture = AsyncTexture2D.FromAssetId(155942),
-            //    TextureRectangle = new(16, 16, 32, 32),
-            //    Size = new(32),
-            //};
+                    if ((template == null || template == Template) && await Template?.ChangeName(txt))
+                    {
+                        Template.Name = txt;
+                        ToggleEditMode(false);
+                    }
+                    else
+                    {
+                        _nameEdit.Focused = true;
+                    }
+                },
+                TextChangedAction = (txt) =>
+                {
+                    txt = txt.Trim().ToLower();
+
+                    var template = BuildsManager.ModuleInstance.Templates.Where(e => e.Name.ToLower() == txt).FirstOrDefault();
+                    _nameEdit.ForeColor = template == null || template == Template ? Color.White : Color.Red;
+                },
+            };
+
+            _texturesService = BuildsManager.ModuleInstance.Services.TexturesService;
 
             _editButton = new()
             {
@@ -103,16 +126,38 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
 
                 TextureRectangle = new(2, 2, 28, 28),
                 Size = new(20),
+                ClickAction = (m) => ToggleEditMode(!_nameEdit.Visible),
             };
 
-            ClipsBounds = true;
+            Input.Mouse.LeftMouseButtonPressed += Mouse_LeftMouseButtonPressed;
             _created = true;
+        }
+
+        private void Mouse_LeftMouseButtonPressed(object sender, MouseEventArgs e)
+        {
+            if (!_editButton.MouseOver && !_nameEdit.MouseOver)
+            {
+                ToggleEditMode(false);
+            }
         }
 
         public Template Template
         {
             get => _template;
-            set => Common.SetProperty(ref _template, value, ApplyTemplate);
+            set
+            {
+                var temp = _template;
+                if (Common.SetProperty(ref _template, value, ApplyTemplate))
+                {
+                    if (temp != null) temp.Changed -= TemplateChanged;
+                    if (_template != null) _template.Changed += TemplateChanged;
+                }
+            }
+        }
+
+        private void TemplateChanged(object sender, PropertyChangedEventArgs e)
+        {
+            ApplyTemplate();
         }
 
         public Action OnClickAction { get; set; }
@@ -207,6 +252,10 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
             _vignetteBounds = new(contentBounds.Left, contentBounds.Top, 55, 55);
             _name?.SetLocation(new(_vignetteBounds.Right + 5, contentBounds.Top));
             _name?.SetSize(new(contentBounds.Width - _vignetteBounds.Width - 5, _vignetteBounds.Height));
+
+            _nameEdit?.SetLocation(new(_vignetteBounds.Right + 5, contentBounds.Top));
+            _nameEdit?.SetSize(new(contentBounds.Width - _vignetteBounds.Width - 5, _vignetteBounds.Height));
+
             //_separatorBounds = new(ContentRegion.Width / 2, _name.Bottom + 5, 16, ContentRegion.Width - 12);
             _separatorBounds = new(2, _name.Bottom - 4, contentBounds.Width, 8);
 
@@ -227,22 +276,50 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
 
             _tagBounds = new(_leftAccentBorderBounds.Right - 6, _bottomBounds.Top, _rightAccentBorderBounds.Left - (_leftAccentBorderBounds.Right - 10), _bottomBounds.Height);
 
-            DetailedTexture prev;
+            TagTexture prev;
             for (int i = 0; i < _tagTexturess.Count; i++)
             {
-                DetailedTexture tagTexture = _tagTexturess[i];
-                //tagTexture.Bounds = new((tagTexture?.Bounds.Right ?? _leftAccentBorderBounds.Right - 6) + 4, _bottomBounds.Top, _bottomBounds.Height, _bottomBounds.Height);
-                tagTexture.Bounds = new(_leftAccentBorderBounds.Right - 6 + (i * (_bottomBounds.Height + 3)), _bottomBounds.Top, _bottomBounds.Height, _bottomBounds.Height);
+                TagTexture tagTexture = _tagTexturess[i];
+                if(tagTexture.TemplateTag.GetType() == typeof(EncounterFlag) && tagTexture.TemplateTag is not EncounterFlag.NormalMode and not EncounterFlag.ChallengeMode)
+                {
+                    tagTexture.Bounds = new(_leftAccentBorderBounds.Right - 6 + (i * (_bottomBounds.Height + 3)), _bottomBounds.Top + 2, _bottomBounds.Height - 4, _bottomBounds.Height - 4);
+                }
+                else
+                {
+                    tagTexture.Bounds = new(_leftAccentBorderBounds.Right - 6 + (i * (_bottomBounds.Height + 3)), _bottomBounds.Top, _bottomBounds.Height, _bottomBounds.Height);
+                }
+
                 prev = tagTexture;
             }
         }
 
-        protected override void OnClick(MouseEventArgs e)
+        protected override async void OnClick(MouseEventArgs e)
         {
             base.OnClick(e);
 
+            if (Input.Keyboard.KeysDown.Contains(Microsoft.Xna.Framework.Input.Keys.LeftControl))
+            {
+                try
+                {
+                    _ = await ClipboardUtil.WindowsClipboardService.SetTextAsync(Template?.BuildCode);
+                    Blish_HUD.Controls.ScreenNotification.ShowNotification("[BuildsManager]: Build Code copied!");
+                }
+                catch (Exception)
+                {
+                }
+
+                return;
+            }
             BuildsManager.ModuleInstance.SelectedTemplate = _template;
             OnClickAction?.Invoke();
+        }
+
+        protected override void DisposeControl()
+        {
+            base.DisposeControl();
+
+            Input.Mouse.LeftMouseButtonPressed -= Mouse_LeftMouseButtonPressed;
+            if (_template != null) _template.Changed -= TemplateChanged;
         }
 
         private void ApplyTemplate()
@@ -254,11 +331,23 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
             {
                 foreach (var flag in _template.Tags.GetFlags())
                 {
-                    if ((TemplateTag)flag != TemplateTag.None)
+                    if ((TemplateFlag)flag != TemplateFlag.None)
                     {
                         TagTexture t;
                         //_tagTexturess.Add(t = new(((TemplateTag)flag).GetTexture()));
-                        _tagTexturess.Add(t = ((TemplateTag)flag).GetDetailedTexture());
+                        _tagTexturess.Add(t = ((TemplateFlag)flag).GetDetailedTexture());
+                    }
+                }
+
+                foreach (var flag in _template.Encounters.GetFlags())
+                {
+                    if ((EncounterFlag)flag != EncounterFlag.None)
+                    {
+                        TagTexture t;
+                        //_tagTexturess.Add(t = new(((TemplateTag)flag).GetTexture()));
+                        _tagTexturess.Add(t = ((EncounterFlag)flag).GetDetailedTexture());
+                        int pad = (t.Texture.Width / 16);
+                        t.TextureRegion = flag is EncounterFlag.NormalMode or EncounterFlag.ChallengeMode ? new(-pad, -pad, t.Texture.Width + (pad * 2), t.Texture.Height + (pad * 2)) : t.TextureRegion;
                     }
                 }
             }
@@ -276,6 +365,22 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
                 Races.Sylvari => _texturesService.GetTexture(@"textures\races\sylvari.png", "sylvari"),
                 _ => _texturesService.GetTexture(@"textures\races\pact.png", "pact"),
             };
+        }
+
+        public void ToggleEditMode(bool enable)
+        {
+            if (enable)
+            {
+                _nameEdit.Text = _name.Text;
+                _nameEdit.Focused = true;
+                _nameEdit.SelectionStart = 0;
+                _nameEdit.SelectionEnd = _nameEdit.Text.Length;
+            }
+
+            _name.Text = Template?.Name ?? "No Name";
+
+            _nameEdit.Visible = enable;
+            _name.Visible = !enable;
         }
     }
 
@@ -343,14 +448,27 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
                 TextureRectangle = new(2, 2, 28, 28),
                 ClickAction = (m) =>
                 {
-                    Template t;
-                    string name = string.IsNullOrEmpty(Search.Text) ? "New Template" : Search.Text;
-                    if (BuildsManager.ModuleInstance.Templates.Where(e => e.Name == name).Count() == 0)
+                    _ = Task.Run(async () =>
                     {
-                        BuildsManager.ModuleInstance.Templates.Add(t = new() { Name = name });
-                        BuildsManager.ModuleInstance.SelectedTemplate = t;
-                        Search.Text = null;
-                    }
+                        Template t;
+                        string name = string.IsNullOrEmpty(Search.Text) ? "New Template" : Search.Text;
+                        if (BuildsManager.ModuleInstance.Templates.Where(e => e.Name == name).Count() == 0)
+                        {
+                            BuildsManager.ModuleInstance.Templates.Add(t = new() { Name = name });
+                            BuildsManager.ModuleInstance.SelectedTemplate = t;
+                            Search.Text = null;
+
+                            try
+                            {
+                                var code = await ClipboardUtil.WindowsClipboardService.GetTextAsync();
+                                t.BuildTemplate.LoadFromCode(code);
+                            }
+                            catch (Exception)
+                            {
+
+                            }
+                        }
+                    });
                 },
             };
 
@@ -388,11 +506,9 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
                     Width = SelectionContent.Width - 35,
                 };
 
-                t.OnClickAction = () =>
-                {
-                    SelectionPanel?.SetTemplateAnchor(t);
-                };
-
+                t.OnClickAction = () => SelectionPanel?.SetTemplateAnchor(t);
+                t.ToggleEditMode(true);
+                
                 _templates.Add(t);
             }
 

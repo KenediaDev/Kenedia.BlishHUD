@@ -8,6 +8,7 @@ using Kenedia.Modules.Core.Models;
 using Kenedia.Modules.Core.Utility;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Runtime.Serialization;
 using static Kenedia.Modules.BuildsManager.DataModels.Professions.Weapon;
@@ -175,12 +176,16 @@ namespace Kenedia.Modules.BuildsManager.DataModels.Professions
             foreach (var race in BuildsManager.Data.Races)
             {
                 var skill = race.Value.Skills.Where(e => e.Value.PaletteId == id).FirstOrDefault();
-                if (skill.Value != null) return skill.Value;
+                if (skill.Value != null)
+                {
+                    return skill.Value;
+                }
             }
 
-            return BuildsManager.Data.Professions?[profession]?.SkillsByPalette.TryGetValue((int)id, out int skillid) == true
-                ? (BuildsManager.Data.Professions?[profession]?.Skills[skillid])
-                : null;
+            int skillid = 0;
+            bool hasSkill = BuildsManager.Data.Professions?[profession]?.SkillsByPalette.TryGetValue((int)id, out skillid) == true;
+
+            return hasSkill ? BuildsManager.Data.Professions?[profession]?.Skills[skillid] : null;
         }
 
         public static int GetRevPaletteId(int id)

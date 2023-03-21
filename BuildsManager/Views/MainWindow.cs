@@ -20,7 +20,8 @@ namespace Kenedia.Modules.BuildsManager.Views
         private readonly BuildPage _build;
         private readonly TabbedRegion _tabbedRegion;
         private readonly GearPage _gear;
-        private readonly NotesPage _notes;
+        private readonly AboutPage _notes;
+        private readonly RotationPage _rotation;
         private readonly SelectionPanel _selectionPanel;
         private Template _template;
 
@@ -48,6 +49,18 @@ namespace Kenedia.Modules.BuildsManager.Views
             };
 
             TabbedRegionTab tab;
+
+            _tabbedRegion.AddTab(new TabbedRegionTab(
+                _notes = new AboutPage(_texturesService)
+                {
+                    HeightSizingMode = Blish_HUD.Controls.SizingMode.Fill,
+                    WidthSizingMode = Blish_HUD.Controls.SizingMode.Fill,
+                })
+            {
+                Header = "About",
+                Icon = AsyncTexture2D.FromAssetId(440023),
+            });
+
             _tabbedRegion.AddTab(new TabbedRegionTab(
                 _build = new BuildPage(_texturesService))
             {
@@ -61,19 +74,19 @@ namespace Kenedia.Modules.BuildsManager.Views
                     SelectionPanel = _selectionPanel,
                 })
             {
-                Header = "Gear & Consumables",
+                Header = "Gear",
                 Icon = AsyncTexture2D.FromAssetId(156714),
             });
 
             _tabbedRegion.AddTab(new TabbedRegionTab(
-                _notes = new NotesPage(_texturesService)
+                _rotation = new RotationPage(_texturesService)
                 {
                     HeightSizingMode = Blish_HUD.Controls.SizingMode.Fill,
                     WidthSizingMode = Blish_HUD.Controls.SizingMode.Fill,
                 })
             {
-                Header = "Notes",
-                Icon = AsyncTexture2D.FromAssetId(440023),
+                Header = "Rotation",
+                Icon = AsyncTexture2D.FromAssetId(155054),
             });
 
             _tabbedRegion.SwitchTab(tab);
@@ -81,20 +94,7 @@ namespace Kenedia.Modules.BuildsManager.Views
 
         public Template Template
         {
-            get => _template; set
-            {
-                var prev = _template;
-
-                if (Common.SetProperty(ref _template, value, ApplyTemplate))
-                {
-                    if (prev != null)
-                    {
-                        //prev.Changed -= BuildChanged;
-                    }
-
-                    //_template.Changed += BuildChanged;
-                }
-            }
+            get => _template; set => Common.SetProperty(ref _template, value, ApplyTemplate);
         }
 
         public override void RecalculateLayout()
@@ -111,6 +111,8 @@ namespace Kenedia.Modules.BuildsManager.Views
         {
             _build.Template = _template;
             _gear.Template = _template;
+            _notes.Template = _template;
+            _rotation.Template = _template;
             _selectionPanel.Template = _template;
         }
 
@@ -121,6 +123,7 @@ namespace Kenedia.Modules.BuildsManager.Views
             _build?.Dispose();
             _gear?.Dispose();
             _notes?.Dispose();
+            _rotation?.Dispose();
             _selectionPanel?.Dispose();
         }
     }

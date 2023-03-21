@@ -14,6 +14,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using static Blish_HUD.ContentService;
+using System.Diagnostics;
 
 namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
 {
@@ -93,10 +94,9 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
             get => _template; set
             {
                 var temp = _template;
-                if (Common.SetProperty(ref _template, value, ApplyTemplate, value != null))
+                if (Common.SetProperty(ref _template, value, ApplyTemplate))
                 {
                     if (temp != null) temp.Changed -= TemplateChanged;
-
                     if (_template != null) _template.Changed += TemplateChanged;
                 }
             }
@@ -137,6 +137,11 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
                 _inactiveAquaticSkills[(BuildSkillSlot)i].Skill = null;
                 _terrestrialSkills[(BuildSkillSlot)i].Skill = null;
                 _inactiveTerrestrialSkills[(BuildSkillSlot)i].Skill = null;
+            }
+
+            if (Template == null)
+            {
+                return;
             }
 
             bool ele = Template.Profession == Gw2Sharp.Models.ProfessionType.Elementalist;

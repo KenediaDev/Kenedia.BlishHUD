@@ -128,10 +128,6 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage.ProfessionSpecific
 
                 case (int)SpecializationType.Spellbreaker:
                     _skills[0].Draw(this, spriteBatch, RelativeMousePosition);
-                    if (_skills[1].Hovered)
-                    {
-                        //Debug.WriteLine($"{_skills[1].Skill.Name}");
-                    }
                     _skills[1].Draw(this, spriteBatch, RelativeMousePosition);
                     _emptyAdrenalin.Draw(this, spriteBatch);
                     _adrenalin1.Draw(this, spriteBatch);

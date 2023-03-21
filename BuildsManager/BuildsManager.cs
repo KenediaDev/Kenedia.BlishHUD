@@ -347,14 +347,14 @@ namespace Kenedia.Modules.BuildsManager
             string gearcode = "[9|1128|255|1][4|1128|255|1][7|1128|255|1][3|1128|255|1][15|1128|255|1][17|1128|255|1][1|1128|255|1][53|584|26|1|1][50|584|26|1|1][7|584|26|26|1|1][-1|584|26|1|1][16|584|26|1|1][17|584|26|26|1|1][3|584|340|340][0|584|1][1|584|340][1|584|340][2|584|340|340|340][2|584|340|340|340][-1|0|-1|-1][236][34][-1]";
 
             string code = "[&DQgnNhM1PCYSAJsAiwDkAJkBdgBvAXABkgCVAAAAAAAAAAAAAAAAAAAAAAA=]";
-            var build = new BuildTemplate(code);
 
             SelectedTemplate = new Template()
             {
-                BuildTemplate = build,
-                GearTemplate = new(gearcode),
                 Race = Core.DataModels.Races.Human,
             };
+
+            SelectedTemplate.BuildTemplate.LoadFromCode(code);
+            SelectedTemplate.GearTemplate.LoadFromCode(gearcode);
         }
     }
 }

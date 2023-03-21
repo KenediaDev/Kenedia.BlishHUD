@@ -10,10 +10,12 @@ using Kenedia.Modules.Core.Utility;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MonoGame.Extended;
+using SharpDX.Direct3D9;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using static Blish_HUD.ArcDps.Common.CommonFields;
 using static Blish_HUD.ContentService;
 
 namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
@@ -65,7 +67,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
         private readonly Dictionary<Specialization, Rectangle> _specBounds = new();
 
         private double _scale = 647 / (double)135;
-        private BuildSpecialization _buildSpecialization;
+        private BuildSpecialization _buildSpecialization = new();
 
         private Dictionary<int, Trait> _minorsTraits = new();
         private Dictionary<int, Trait> _majorTraits = new();
@@ -101,13 +103,10 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
             get => _template; set
             {
                 var temp = _template;
-                if (Common.SetProperty(ref _template, value, ApplyTemplate, value != null))
+                if (Common.SetProperty(ref _template, value, ApplyTemplate))
                 {
-                    if (temp != null) temp.BuildTemplate.AquaticSkills.CollectionChanged -= TemplateChanged;
-                    if (temp != null) temp.BuildTemplate.TerrestrialSkills.CollectionChanged -= TemplateChanged;
-
-                    if (_template != null) _template.BuildTemplate.AquaticSkills.CollectionChanged += TemplateChanged;
-                    if (_template != null) _template.BuildTemplate.TerrestrialSkills.CollectionChanged += TemplateChanged;
+                    if (temp != null) temp.Changed -= TemplateChanged;
+                    if (_template != null) _template.Changed += TemplateChanged;
                 }
             }
         }
@@ -137,20 +136,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
 
         public Profession Profession
         {
-            get
-            {
-                if (_profession == null)
-                {
-                    PlayerCharacter player = GameService.Gw2Mumble.PlayerCharacter;
-                    if (player != null && BuildsManager.Data.Professions[player.Profession] != null)
-                    {
-                        _profession = BuildsManager.Data.Professions[player.Profession];
-                        ApplyProfession();
-                    }
-                }
-
-                return _profession;
-            }
+            get => _profession;
             set => Common.SetProperty(ref _profession, value, ApplyProfession);
         }
 
@@ -241,52 +227,52 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
 
                 if (Line == SpecializationSlot.Line_3 && Template != null && Template.BuildTemplate != null)
                 {
-                    var list = new List<BuildSkillSlot>();
-                    foreach (var s in Template.BuildTemplate.AquaticSkills)
+                    foreach (var s in Template.BuildTemplate.AquaticSkills.ToList())
                     {
                         if (s.Value != null && s.Value.Specialization != 0 && s.Value.Specialization != BuildSpecialization.Specialization.Id)
                         {
-                            list.Add(s.Key);
+                            Debug.WriteLine($"{_buildSpecialization.Specialization?.Name} does not have access to {s.Value?.Name}");
+                            Template.BuildTemplate.AquaticSkills[s.Key] = null;
                         }
                     }
-                    list.ForEach(k => Template.BuildTemplate.AquaticSkills[k] = null);
-                    list.Clear();
 
-                    foreach (var s in Template.BuildTemplate.InactiveAquaticSkills)
+                    foreach (var s in Template.BuildTemplate.InactiveAquaticSkills.ToList())
                     {
                         if (s.Value != null && s.Value.Specialization != 0 && s.Value.Specialization != BuildSpecialization.Specialization.Id)
                         {
-                            list.Add(s.Key);
+                            Debug.WriteLine($"{_buildSpecialization.Specialization?.Name} does not have access to {s.Value?.Name}");
+                            Template.BuildTemplate.InactiveAquaticSkills[s.Key] = null;
                         }
-                    }
-                    list.ForEach(k => Template.BuildTemplate.InactiveAquaticSkills[k] = null);
-                    list.Clear();
+                    };
 
-                    foreach (var s in Template.BuildTemplate.TerrestrialSkills)
+                    foreach (var s in Template.BuildTemplate.TerrestrialSkills.ToList())
                     {
                         if (s.Value != null && s.Value.Specialization != 0 && s.Value.Specialization != BuildSpecialization.Specialization.Id)
                         {
-                            list.Add(s.Key);
+                            Debug.WriteLine($"{_buildSpecialization.Specialization?.Name} does not have access to {s.Value?.Name}");
+                            Template.BuildTemplate.TerrestrialSkills[s.Key] = null;
                         }
                     }
-                    list.ForEach(k => Template.BuildTemplate.TerrestrialSkills[k] = null);
-                    list.Clear();
 
-                    foreach (var s in Template.BuildTemplate.InactiveTerrestrialSkills)
+                    foreach (var s in Template.BuildTemplate.InactiveTerrestrialSkills.ToList())
                     {
                         if (s.Value != null && s.Value.Specialization != 0 && s.Value.Specialization != BuildSpecialization.Specialization.Id)
                         {
-                            list.Add(s.Key);
+                            Debug.WriteLine($"{_buildSpecialization.Specialization?.Name} does not have access to {s.Value?.Name}");
+                            Template.BuildTemplate.InactiveTerrestrialSkills[s.Key] = null;
                         }
                     }
-                    list.ForEach(k => Template.BuildTemplate.InactiveTerrestrialSkills[k] = null);
-                    list.Clear();
                 }
             }
         }
 
         public void ApplyTemplate()
         {
+            _buildSpecialization = Template?.BuildTemplate.Specializations[Line];
+
+            PlayerCharacter player = GameService.Gw2Mumble.PlayerCharacter;
+            _profession = BuildsManager.Data.Professions[Template?.Profession ?? player?.Profession ?? Gw2Sharp.Models.ProfessionType.Guardian];
+
             ApplyProfession();
             ApplySpecialization();
         }
@@ -384,15 +370,28 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
                     // tied to removing skills
                     try
                     {
+                        BuildSpecialization ??= new();
                         foreach (var spec in _specBounds)
                         {
                             if (spec.Value.Contains(RelativeMousePosition))
                             {
-                                if (BuildSpecialization.Specialization != spec.Key)
-                                {
-                                    bool hasSpec = Build?.HasSpecialization(spec.Key) == true;
-                                    slot = (SpecializationSlot)(hasSpec ? Build?.GetSpecializationSlot(spec.Key) : SpecializationSlot.Line_1);
+                                Debug.WriteLine($"Selecting '{spec.Key.Name}' for {Line}");
+                                bool hasSpec = Build?.HasSpecialization(spec.Key) == true;
+                                slot = (SpecializationSlot)(hasSpec ? Build?.GetSpecializationSlot(spec.Key) : SpecializationSlot.Line_1);
 
+                                if (hasSpec)
+                                {
+                                    Debug.WriteLine($"'{spec.Key.Name}' is already equipped in {slot}");
+
+                                }
+                                else
+                                {
+                                    Debug.WriteLine($"'{spec.Key.Name}' is not equipped");
+
+                                }
+
+                                if (BuildSpecialization != null && (BuildSpecialization.Specialization == null || BuildSpecialization.Specialization != spec.Key))
+                                {
                                     if (hasSpec)
                                     {
                                         temp = new()

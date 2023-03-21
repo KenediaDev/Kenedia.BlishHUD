@@ -3,6 +3,8 @@ using Blish_HUD.Controls;
 using Gw2Sharp.WebApi;
 using Kenedia.Modules.Core.Interfaces;
 using Kenedia.Modules.Core.Services;
+using Kenedia.Modules.Core.Utility;
+using Microsoft.Xna.Framework;
 using System;
 
 namespace Kenedia.Modules.Core.Controls
@@ -14,6 +16,7 @@ namespace Kenedia.Modules.Core.Controls
 
         public Checkbox()
         {
+             
             LocalizingService.LocaleChanged  += UserLocale_SettingChanged;
             UserLocale_SettingChanged(null, null);
         }
@@ -39,6 +42,8 @@ namespace Kenedia.Modules.Core.Controls
         }
 
         public Action<bool> CheckedChangedAction { get; set; }
+
+        public Color TextColor{ get => _textColor; set => Common.SetProperty(ref _textColor, value); }
 
         public void UserLocale_SettingChanged(object sender, ValueChangedEventArgs<Locale> e)
         {
