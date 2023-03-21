@@ -7,386 +7,26 @@ using Kenedia.Modules.Core.Extensions;
 using Blish_HUD.Content;
 using Kenedia.Modules.BuildsManager.Models.Templates;
 using System.Linq;
-using Control = Blish_HUD.Controls.Control;
 using Blish_HUD.Input;
 using Blish_HUD;
 using Kenedia.Modules.Core.Utility;
-using MonoGame.Extended.BitmapFonts;
 using Dropdown = Kenedia.Modules.Core.Controls.Dropdown;
-using static Blish_HUD.ContentService;
-using Panel = Kenedia.Modules.Core.Controls.Panel;
-using Label = Kenedia.Modules.Core.Controls.Label;
-using MathUtil = SharpDX.MathUtil;
-using System.Xml.Linq;
-using Kenedia.Modules.Core.DataModels;
-using Kenedia.Modules.Core.Services;
 using System;
-using System.Diagnostics;
 using System.Threading.Tasks;
-using System.ComponentModel;
+using Blish_HUD.Gw2Mumble;
+using static System.Net.Mime.MediaTypeNames;
+using Gw2Sharp.Models;
 
 namespace Kenedia.Modules.BuildsManager.Controls.Selection
 {
-    public class TagTexture : DetailedTexture
+    public class ProfessionToggle : ImageToggle
     {
-        public TagTexture(AsyncTexture2D texture) : base(texture)
-        {
-        }
-
-        public Enum TemplateTag { get; set; }
-    }
-
-    public class TemplateSelectable : Panel
-    {
-        private readonly AsyncTexture2D _lineTexture = AsyncTexture2D.FromAssetId(605025);
-
-        private readonly AsyncTexture2D _textureFillCrest = AsyncTexture2D.FromAssetId(605004);
-        private readonly AsyncTexture2D _textureVignette = AsyncTexture2D.FromAssetId(605003);
-        private readonly AsyncTexture2D _textureCornerButton = AsyncTexture2D.FromAssetId(605011);
-        private readonly AsyncTexture2D _textureBottomSectionSeparator = AsyncTexture2D.FromAssetId(157218);
-
-        private readonly TexturesService _texturesService;
-        private readonly List<Tag> _tags = new();
-        private readonly List<TagTexture> _tagTexturess = new();
-
-        private Rectangle _separatorBounds;
-        private Rectangle _editBounds;
-        private Rectangle _specBounds;
-        private Rectangle _raceBounds;
-        private Rectangle _raceAndSpecBounds;
-        private Rectangle _leftAccentBorderBounds;
-        private Rectangle _rightAccentBorderBounds;
-        private Rectangle _bottomBounds;
-        private Rectangle _vignetteBounds;
-        private Rectangle _tagBounds;
-
-        private Template _template;
-        private BitmapFont _nameFont = Content.DefaultFont14;
-        private ImageButton _editButton;
-        private TextBox _nameEdit;
-        private bool _created;
-        private Label _name;
-
-        private Rectangle _nameBounds;
-
-        public TemplateSelectable()
-        {
-            Height = 85;
-
-            BorderWidth = new(3);
-            BorderColor = Color.Black;
-
-            _name = new()
-            {
-                Parent = this,
-                Height = _nameFont.LineHeight,
-                WrapText = true,
-                Font = _nameFont,
-                VerticalAlignment = Blish_HUD.Controls.VerticalAlignment.Middle,
-            };
-
-            _nameEdit = new()
-            {
-                Parent = this,
-                Height = _nameFont.LineHeight,
-                Font = _nameFont,
-                Visible = false,
-                HideBackground= true,
-                EnterPressedAction = async (txt) =>
-                {
-                    string moddedtxt = txt.Trim().ToLower();
-                    var template = BuildsManager.ModuleInstance.Templates.Where(e => e.Name.ToLower() == moddedtxt).FirstOrDefault();
-
-                    if ((template == null || template == Template) && await Template?.ChangeName(txt))
-                    {
-                        Template.Name = txt;
-                        ToggleEditMode(false);
-                    }
-                    else
-                    {
-                        _nameEdit.Focused = true;
-                    }
-                },
-                TextChangedAction = (txt) =>
-                {
-                    txt = txt.Trim().ToLower();
-
-                    var template = BuildsManager.ModuleInstance.Templates.Where(e => e.Name.ToLower() == txt).FirstOrDefault();
-                    _nameEdit.ForeColor = template == null || template == Template ? Color.White : Color.Red;
-                },
-            };
-
-            _texturesService = BuildsManager.ModuleInstance.Services.TexturesService;
-
-            _editButton = new()
-            {
-                Parent = this,
-                Texture = AsyncTexture2D.FromAssetId(2175779),
-                DisabledTexture = AsyncTexture2D.FromAssetId(2175780),
-
-                TextureRectangle = new(2, 2, 28, 28),
-                Size = new(20),
-                ClickAction = (m) => ToggleEditMode(!_nameEdit.Visible),
-            };
-
-            Input.Mouse.LeftMouseButtonPressed += Mouse_LeftMouseButtonPressed;
-            _created = true;
-        }
-
-        private void Mouse_LeftMouseButtonPressed(object sender, MouseEventArgs e)
-        {
-            if (!_editButton.MouseOver && !_nameEdit.MouseOver)
-            {
-                ToggleEditMode(false);
-            }
-        }
-
-        public Template Template
-        {
-            get => _template;
-            set
-            {
-                var temp = _template;
-                if (Common.SetProperty(ref _template, value, ApplyTemplate))
-                {
-                    if (temp != null) temp.Changed -= TemplateChanged;
-                    if (_template != null) _template.Changed += TemplateChanged;
-                }
-            }
-        }
-
-        private void TemplateChanged(object sender, PropertyChangedEventArgs e)
-        {
-            ApplyTemplate();
-        }
-
-        public Action OnClickAction { get; set; }
-
-        public override void PaintAfterChildren(SpriteBatch spriteBatch, Rectangle bounds)
-        {
-            base.PaintAfterChildren(spriteBatch, bounds);
-
-            RecalculateLayout();
-            string? txt = null;
-            spriteBatch.DrawOnCtrl(this, _textureVignette, _vignetteBounds, _textureVignette.Bounds, Color.Black, 0F, Vector2.Zero);
-            //spriteBatch.DrawOnCtrl(this, _textureFillCrest, _textureFillCrest.Bounds, _textureFillCrest.Bounds, Color.Black, 0F, Vector2.Zero);
-
-            if (Template?.Profession != null)
-            {
-                var prof =
-                    Template.EliteSpecialization != null ?
-                    Template.EliteSpecialization.ProfessionIconBig :
-                    BuildsManager.Data.Professions[Template.Profession].IconBig;
-                var race = GetRaceTexture(Template.Race);
-                spriteBatch.DrawOnCtrl(this, prof, _specBounds, prof.Bounds, Color.White, 0F, Vector2.Zero);
-                spriteBatch.DrawOnCtrl(this, race, _raceBounds, race.Bounds, Color.White, 0F, Vector2.Zero);
-            }
-
-            int amount = 0;
-            for (int i = 0; i < _tagTexturess.Count; i++)
-            {
-                TagTexture tagTexture = _tagTexturess[i];
-                if (_tagBounds.Contains(tagTexture.Bounds))
-                {
-                    if (_tagTexturess.Count - amount > 1 && !_tagBounds.Contains(_tagTexturess[i + 1].Bounds))
-                    {
-                        spriteBatch.DrawStringOnCtrl(this, $"+{_tagTexturess.Count - amount}", Content.DefaultFont14, tagTexture.Bounds, Colors.OldLace, false, Blish_HUD.Controls.HorizontalAlignment.Center);
-                        if (tagTexture.Bounds.Contains(RelativeMousePosition))
-                        {
-                            txt = string.Join(Environment.NewLine, _tagTexturess.Skip(amount).Take(_tagTexturess.Count - amount).Select(e => e.TemplateTag.ToString()));
-                        }
-                        break;
-                    }
-                    else
-                    {
-                        tagTexture.Draw(this, spriteBatch, RelativeMousePosition);
-                        if (tagTexture.Hovered)
-                        {
-                            txt = tagTexture.TemplateTag.ToString();
-                        }
-                    }
-
-                    amount++;
-                }
-                else
-                {
-                    //spriteBatch.DrawStringOnCtrl(this, $"+{_tagTexturess.Count - amount}", Content.DefaultFont14, tagTexture.Bounds, Colors.OldLace, false, Blish_HUD.Controls.HorizontalAlignment.Left);
-                    break;
-                }
-            }
-
-            BasicTooltipText = txt;
-            //spriteBatch.DrawCenteredRotationOnCtrl(this, _lineTexture, _separatorBounds, _lineTexture.Bounds, Color.White, MathUtil.DegreesToRadians(90), false, false);
-            //spriteBatch.DrawOnCtrl(this, _lineTexture, _separatorBounds, _lineTexture.Bounds, Color.Black, MathUtil.DegreesToRadians(90), new(_lineTexture.Bounds.Center.X, _lineTexture.Bounds.Center.Y));
-            //spriteBatch.DrawStringOnCtrl(this, Template?.Name ?? "Unkown Name", _nameFont, _nameBounds, Color.White, true, HorizontalAlignment.Left, VerticalAlignment.Top);
-        }
-
-        public override void PaintBeforeChildren(SpriteBatch spriteBatch, Rectangle bounds)
-        {
-            spriteBatch.DrawOnCtrl(this, Textures.Pixel, ContentRegion.Add(0, 0, 0, -28), Rectangle.Empty, Template?.Profession.GetWikiColor() * 0.3F ?? Color.Transparent);
-            spriteBatch.DrawOnCtrl(this, Textures.Pixel, _vignetteBounds, Rectangle.Empty, Color.Black * 0.15F);
-            spriteBatch.DrawOnCtrl(this, Textures.Pixel, new(ContentRegion.X, ContentRegion.Bottom - 28, ContentRegion.Width, 28), Rectangle.Empty, Color.Black * 0.3F);
-
-            base.PaintBeforeChildren(spriteBatch, bounds);
-            bool isActive = BuildsManager.ModuleInstance.SelectedTemplate == _template;
-            spriteBatch.DrawFrame(this, bounds, isActive ? Colors.ColonialWhite : Color.Transparent, 2);
-
-            spriteBatch.DrawOnCtrl(this, _textureBottomSectionSeparator, _separatorBounds, _textureBottomSectionSeparator.Bounds, Color.Black, 0F, Vector2.Zero);
-            spriteBatch.DrawOnCtrl(this, _lineTexture, _leftAccentBorderBounds, _lineTexture.Bounds, Color.Black * 0.6F, 0F, Vector2.Zero);
-            spriteBatch.DrawOnCtrl(this, _lineTexture, _rightAccentBorderBounds, _lineTexture.Bounds, Color.Black * 0.6F, 0F, Vector2.Zero, SpriteEffects.FlipVertically);
-            spriteBatch.DrawOnCtrl(this, _textureCornerButton, _raceAndSpecBounds, _textureCornerButton.Bounds, Color.Black, 0F, Vector2.Zero);
-
-            spriteBatch.DrawOnCtrl(this, _textureCornerButton, _editBounds, _textureCornerButton.Bounds, Color.Black, 0F, Vector2.Zero);
-
-            //spriteBatch.DrawOnCtrl(this, Textures.Pixel, _editBounds, Rectangle.Empty, Color.Red * 0.5F);
-        }
-
-        public override void RecalculateLayout()
-        {
-            base.RecalculateLayout();
-
-            if (!_created) return;
-
-            var contentBounds = new Rectangle(ContentRegion.Left + 2, ContentRegion.Top + 2, ContentRegion.Width - 4, ContentRegion.Height - 4);
-
-            _vignetteBounds = new(contentBounds.Left, contentBounds.Top, 55, 55);
-            _name?.SetLocation(new(_vignetteBounds.Right + 5, contentBounds.Top));
-            _name?.SetSize(new(contentBounds.Width - _vignetteBounds.Width - 5, _vignetteBounds.Height));
-
-            _nameEdit?.SetLocation(new(_vignetteBounds.Right + 5, contentBounds.Top));
-            _nameEdit?.SetSize(new(contentBounds.Width - _vignetteBounds.Width - 5, _vignetteBounds.Height));
-
-            //_separatorBounds = new(ContentRegion.Width / 2, _name.Bottom + 5, 16, ContentRegion.Width - 12);
-            _separatorBounds = new(2, _name.Bottom - 4, contentBounds.Width, 8);
-
-            _bottomBounds = new(_separatorBounds.Left, _name.Bottom + 1, _separatorBounds.Width, ContentRegion.Height - 4 - _name.Bottom);
-            _editBounds = new(_bottomBounds.Right - _bottomBounds.Height, _bottomBounds.Top, _bottomBounds.Height, _bottomBounds.Height);
-            _specBounds = _vignetteBounds.Add(2, 2, -4, -4);
-
-            //_specBounds = new(_bottomBounds.Location.Add(new(0, 2)), new(_bottomBounds.Height));
-            //_raceBounds = new(_specBounds.Location.Add(new(_specBounds.Width + 4, 0)), new Point(_bottomBounds.Height).Add(new(-2)));
-
-            _raceBounds = new(_bottomBounds.Location.Add(new(1)), new(_bottomBounds.Height - 2));
-            _raceAndSpecBounds = new(_bottomBounds.Left, _bottomBounds.Top, _raceBounds.Right - _specBounds.Left + 5, _bottomBounds.Height);
-            _leftAccentBorderBounds = new(_raceAndSpecBounds.Right - 8, _bottomBounds.Top, 16, _bottomBounds.Height + 3);
-            _rightAccentBorderBounds = new(_editBounds.Left - 8, _bottomBounds.Top, 16, _bottomBounds.Height + 3);
-
-            _editButton?.SetLocation(_editBounds.Location.Add(new(2)));
-            _editButton?.SetSize(_editBounds.Size.Add(new(-4)));
-
-            _tagBounds = new(_leftAccentBorderBounds.Right - 6, _bottomBounds.Top, _rightAccentBorderBounds.Left - (_leftAccentBorderBounds.Right - 10), _bottomBounds.Height);
-
-            TagTexture prev;
-            for (int i = 0; i < _tagTexturess.Count; i++)
-            {
-                TagTexture tagTexture = _tagTexturess[i];
-                if(tagTexture.TemplateTag.GetType() == typeof(EncounterFlag) && tagTexture.TemplateTag is not EncounterFlag.NormalMode and not EncounterFlag.ChallengeMode)
-                {
-                    tagTexture.Bounds = new(_leftAccentBorderBounds.Right - 6 + (i * (_bottomBounds.Height + 3)), _bottomBounds.Top + 2, _bottomBounds.Height - 4, _bottomBounds.Height - 4);
-                }
-                else
-                {
-                    tagTexture.Bounds = new(_leftAccentBorderBounds.Right - 6 + (i * (_bottomBounds.Height + 3)), _bottomBounds.Top, _bottomBounds.Height, _bottomBounds.Height);
-                }
-
-                prev = tagTexture;
-            }
-        }
-
-        protected override async void OnClick(MouseEventArgs e)
-        {
-            base.OnClick(e);
-
-            if (Input.Keyboard.KeysDown.Contains(Microsoft.Xna.Framework.Input.Keys.LeftControl))
-            {
-                try
-                {
-                    _ = await ClipboardUtil.WindowsClipboardService.SetTextAsync(Template?.BuildCode);
-                    Blish_HUD.Controls.ScreenNotification.ShowNotification("[BuildsManager]: Build Code copied!");
-                }
-                catch (Exception)
-                {
-                }
-
-                return;
-            }
-            BuildsManager.ModuleInstance.SelectedTemplate = _template;
-            OnClickAction?.Invoke();
-        }
-
-        protected override void DisposeControl()
-        {
-            base.DisposeControl();
-
-            Input.Mouse.LeftMouseButtonPressed -= Mouse_LeftMouseButtonPressed;
-            if (_template != null) _template.Changed -= TemplateChanged;
-        }
-
-        private void ApplyTemplate()
-        {
-            _name.Text = _template?.Name;
-            _tagTexturess.Clear();
-
-            if (_template != null)
-            {
-                foreach (var flag in _template.Tags.GetFlags())
-                {
-                    if ((TemplateFlag)flag != TemplateFlag.None)
-                    {
-                        TagTexture t;
-                        //_tagTexturess.Add(t = new(((TemplateTag)flag).GetTexture()));
-                        _tagTexturess.Add(t = ((TemplateFlag)flag).GetDetailedTexture());
-                    }
-                }
-
-                foreach (var flag in _template.Encounters.GetFlags())
-                {
-                    if ((EncounterFlag)flag != EncounterFlag.None)
-                    {
-                        TagTexture t;
-                        //_tagTexturess.Add(t = new(((TemplateTag)flag).GetTexture()));
-                        _tagTexturess.Add(t = ((EncounterFlag)flag).GetDetailedTexture());
-                        int pad = (t.Texture.Width / 16);
-                        t.TextureRegion = flag is EncounterFlag.NormalMode or EncounterFlag.ChallengeMode ? new(-pad, -pad, t.Texture.Width + (pad * 2), t.Texture.Height + (pad * 2)) : t.TextureRegion;
-                    }
-                }
-            }
-        }
-
-        private Texture2D GetRaceTexture(Races race)
-        {
-            return race switch
-            {
-                Races.None => _texturesService.GetTexture(@"textures\races\pact.png", "pact"),
-                Races.Asura => _texturesService.GetTexture(@"textures\races\asura.png", "asura"),
-                Races.Charr => _texturesService.GetTexture(@"textures\races\charr.png", "charr"),
-                Races.Human => _texturesService.GetTexture(@"textures\races\human.png", "human"),
-                Races.Norn => _texturesService.GetTexture(@"textures\races\norn.png", "norn"),
-                Races.Sylvari => _texturesService.GetTexture(@"textures\races\sylvari.png", "sylvari"),
-                _ => _texturesService.GetTexture(@"textures\races\pact.png", "pact"),
-            };
-        }
-
-        public void ToggleEditMode(bool enable)
-        {
-            if (enable)
-            {
-                _nameEdit.Text = _name.Text;
-                _nameEdit.Focused = true;
-                _nameEdit.SelectionStart = 0;
-                _nameEdit.SelectionEnd = _nameEdit.Text.Length;
-            }
-
-            _name.Text = Template?.Name ?? "No Name";
-
-            _nameEdit.Visible = enable;
-            _name.Visible = !enable;
-        }
+        public ProfessionType Profession { get; set; }
     }
 
     public class BuildSelection : BaseSelection
     {
-        private readonly List<DetailedTexture> _specIcons = new();
+        private readonly List<ProfessionToggle> _specIcons = new();
         private readonly ImageButton _addBuildsButton;
         private readonly List<TemplateSelectable> _templates = new();
 
@@ -402,23 +42,33 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
             };
             _sortBehavior.Items.Add("Sort by Profession");
             _sortBehavior.Items.Add("Sort by Name");
-            _sortBehavior.Items.Add("Sort by Game Mode");
 
             Search.Location = new(2, 60);
             SelectionContent.Location = new(0, Search.Bottom + 5);
 
+            Search.FilteringOnTextChange = true;
+            Search.PerformFiltering = (txt) => FilterTemplates();
+
             int i = 0;
             int size = 25;
             Point start = new(0, 0);
+
+            PlayerCharacter player = GameService.Gw2Mumble.PlayerCharacter;
+
             foreach (var prof in BuildsManager.Data.Professions.Values)
             {
                 int j = 0;
-                _specIcons.Add(new DetailedTexture(prof.Icon)
+                _specIcons.Add(new()
                 {
-                    Bounds = new(start.X + (i * (size + 10)), start.Y + (j * size), size, size),
-                    DrawColor = Color.White * 0.7F,
-                    //HoverDrawColor = ColorExtension.GetProfessionColor(prof.Id),
-                    HoverDrawColor = Color.White,
+                    Parent = this,
+                    Texture = prof.Icon,
+                    Location = new(start.X + (i * (size + 10)), start.Y + (j * size)),
+                    Size = new(size, size),               
+                    ImageColor = Color.Gray * 0.5F,
+                    ActiveColor = Color.White,
+                    Profession = prof.Id,
+                    OnCheckChanged = (isChecked) => FilterTemplates(),
+                    Checked = prof.Id == player?.Profession,
                 });
 
                 //foreach (var spec in prof.Specializations.Values)
@@ -483,6 +133,35 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
             Templates_CollectionChanged(this, null);
         }
 
+        private void FilterTemplates()
+        {
+            string lowerTxt = Search.Text?.Trim().ToLower();
+            bool anyName = string.IsNullOrEmpty(lowerTxt);
+            bool anyProfession = !_specIcons.Any(e => e.Checked);
+            var professions = _specIcons.Where(e => e.Checked).Select(e => e.Profession);
+
+            foreach (var template in _templates)
+            {
+                template.Visible = 
+                    (anyProfession || professions.Contains(template.Template.Profession)) &&
+                    (anyName || template.Template.Name.ToLower().Contains(lowerTxt));
+            }
+
+            if(_sortBehavior.SelectedItem == "Sort by Profession")
+            {
+                SelectionContent.SortChildren<TemplateSelectable>((a, b) =>
+                {
+                    int prof = a.Template.Profession.CompareTo(b.Template.Profession);
+                    int name = a.Template.Name.CompareTo(b.Template.Name);
+
+                    return prof == 0 ? prof + name : prof;
+                });
+            }
+            if(_sortBehavior.SelectedItem == "Sort by Name")  SelectionContent.SortChildren<TemplateSelectable>((a,b ) => a.Template.Name.CompareTo(b.Template.Name));
+
+            SelectionContent.Invalidate();
+        }
+
         private void ModuleInstance_SelectedTemplateChanged(object sender, EventArgs e)
         {
             var activeTemplate = _templates.Find(e => e.Template == BuildsManager.ModuleInstance.SelectedTemplate);
@@ -496,6 +175,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
             var templates = _templates.Select(e => e.Template);
             var removedTemplates = templates.Except(BuildsManager.ModuleInstance.Templates);
             var addedTemplates = BuildsManager.ModuleInstance.Templates.Except(templates);
+            bool firstLoad = _templates.Count == 0 && BuildsManager.ModuleInstance.Templates.Count != 0;
 
             foreach (var template in addedTemplates)
             {
@@ -504,20 +184,26 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
                     Parent = SelectionContent,
                     Template = template,
                     Width = SelectionContent.Width - 35,
+                    OnNameChangedAction = FilterTemplates,
                 };
 
                 t.OnClickAction = () => SelectionPanel?.SetTemplateAnchor(t);
-                t.ToggleEditMode(true);
+                if(!firstLoad) t.ToggleEditMode(true);
                 
                 _templates.Add(t);
             }
 
-            foreach (var template in removedTemplates)
+            for (int i = _templates.Count - 1; i >= 0; i--)
             {
-                _ = _templates.RemoveAll(e => e.Template == template);
+                var template = _templates[i];
+                if (removedTemplates.Contains(template.Template))
+                {
+                    _ = _templates.Remove(template);
+                    template.Dispose();
+                }
             }
 
-            SelectionContent?.Invalidate();
+            FilterTemplates();
         }
 
         public override void PaintAfterChildren(SpriteBatch spriteBatch, Rectangle bounds)
@@ -526,7 +212,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
 
             foreach (var specIcon in _specIcons)
             {
-                specIcon.Draw(this, spriteBatch, RelativeMousePosition);
+                //specIcon.Draw(this, spriteBatch, RelativeMousePosition);
             }
         }
 

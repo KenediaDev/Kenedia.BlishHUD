@@ -168,7 +168,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
             base.PaintAfterChildren(spriteBatch, bounds);
             //RecalculateLayout();
 
-            if (Anchor != null && Anchor.Parent.AbsoluteBounds.Contains(Anchor.AbsoluteBounds.Center))
+            if (Anchor != null && Anchor.Parent != null && Anchor.Parent.AbsoluteBounds.Contains(Anchor.AbsoluteBounds.Center))
             {
                 if (SelectionType == SelectionTypes.Items)
                 {
@@ -185,7 +185,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
         {
             base.UpdateContainer(gameTime);
 
-            if (Anchor != null && Anchor.Parent.AbsoluteBounds.Contains(Anchor.AbsoluteBounds.Center))
+            if (Anchor != null && Anchor.Parent != null && Anchor.Parent.AbsoluteBounds.Contains(Anchor.AbsoluteBounds.Center))
             {
                 _animationStart += (float)gameTime.ElapsedGameTime.TotalSeconds;
 

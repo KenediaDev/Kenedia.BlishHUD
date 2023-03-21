@@ -22,6 +22,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.NotesPage
         private readonly Label _tagsLabel;
         private readonly Button _clearAll;
         private readonly Button _setAll;
+        private readonly Button _deleteTemplate;
         private readonly List<(TemplateFlag tag, Image texture, Checkbox checkbox)> _tags = new();
         private readonly List<(EncounterFlag tag, Image texture, Checkbox checkbox)> _encounters = new();
         private readonly bool _created = false;
@@ -94,6 +95,20 @@ namespace Kenedia.Modules.BuildsManager.Controls.NotesPage
                 Font = Content.DefaultFont32,
                 AutoSizeWidth = true,
                 AutoSizeHeight = true,
+            };
+
+            _deleteTemplate = new()
+            {
+                Text = "Delete Template",
+                Parent = this,
+                Width = 150,
+                Location = new(ContentRegion.Right -  155, _tagsLabel.Bottom - 25),
+                ClickAction = () =>
+                {
+                    _ = BuildsManager.ModuleInstance.Templates.Remove(Template);
+                    _ = Template.Delete();
+                    BuildsManager.ModuleInstance.SelectedTemplate = null;
+                },
             };
 
             _noteField = new()
@@ -230,7 +245,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.NotesPage
                 tag.texture.Tint = tag.checkbox.Checked ? Color.White : Color.Gray * 0.5F;
             }
 
-            _noteField.Text = Template.Description;
+            _noteField.Text = Template?.Description;
             _changeBuild = true;
         }
 
@@ -250,6 +265,8 @@ namespace Kenedia.Modules.BuildsManager.Controls.NotesPage
                 _noteField.Location = new(_tagPanel.Right + 15, 50);
                 _noteField.Size = new(Width - _tagPanel.Right - 15, Height - 50);
             }
+
+            _deleteTemplate.Location = new(ContentRegion.Right - 150, _tagsLabel.Bottom - 25);
         }
 
         protected override void DisposeControl()

@@ -411,7 +411,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
                 }
             }
 
-            var slot = Template.LegendSlot;
+            var slot = Template?.LegendSlot;
             var skills = _terrestrialSkills;
 
             switch (slot)
@@ -432,7 +432,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
 
             foreach (var s in skills)
             {
-                s.Value.Draw(this, spriteBatch, Template.Terrestrial, RelativeMousePosition);
+                s.Value.Draw(this, spriteBatch, Template?.Terrestrial == true, RelativeMousePosition);
                 if (!SeletorOpen && s.Value.Hovered && s.Value.Skill != null)
                 {
                     BasicTooltipText = s.Value.Skill.Name;

@@ -178,34 +178,31 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
 
         public void ApplyTemplate()
         {
-            if (Template != null && (int)Template.BuildTemplate.Profession > 0)
+            _buildCodeBox.Text = Template?.BuildTemplate.ParseBuildCode();
+
+            _specializations[SpecializationSlot.Line_1].Template = Template;
+            _specializations[SpecializationSlot.Line_2].Template = Template;
+            _specializations[SpecializationSlot.Line_3].Template = Template;
+
+            _raceIcon.Texture = Template != null ? GetRaceTexture(Template.Race) : null;
+            _raceIcon.BasicTooltipText = Template?.Race.ToString();
+
+            _specIcon.Texture = Template?.EliteSpecialization != null ? Template.EliteSpecialization.ProfessionIconBig : BuildsManager.Data.Professions?[Template?.Profession ?? ProfessionType.Guardian]?.IconBig;
+            _specIcon.BasicTooltipText = Template?.EliteSpecialization != null ? Template.EliteSpecialization.Name : BuildsManager.Data.Professions?[Template?.Profession ?? ProfessionType.Guardian]?.Name;
+
+            _skillbar.Template = Template;
+
+            if (Template?.Profession != null && (_professionSpecifics == null || _professionSpecifics.Profession != Template?.Profession))
             {
-                _buildCodeBox.Text = Template?.BuildTemplate.ParseBuildCode();
+                CreateSpecifics();
+            }
 
-                _specializations[SpecializationSlot.Line_1].Template = Template;
-                _specializations[SpecializationSlot.Line_2].Template = Template;
-                _specializations[SpecializationSlot.Line_3].Template = Template;
-
-                _raceIcon.Texture = GetRaceTexture(Template.Race);
-                _raceIcon.BasicTooltipText = Template.Race.ToString();
-
-                _specIcon.Texture = Template.EliteSpecialization != null ? Template.EliteSpecialization.ProfessionIconBig : BuildsManager.Data.Professions?[Template.Profession]?.IconBig;
-                _specIcon.BasicTooltipText = Template.EliteSpecialization != null ? Template.EliteSpecialization.Name : BuildsManager.Data.Professions?[Template.Profession]?.Name;
-
-                _skillbar.Template = Template;
-
-                if (_professionSpecifics == null || _professionSpecifics.Profession != Template.Profession)
-                {
-                    CreateSpecifics();
-                }
-
-                if (_professionSpecifics != null)
-                {
-                    _professionSpecifics.Parent = _professionSpecificsContainer;
-                    _professionSpecifics.Template = Template;
-                    _professionSpecifics.Width = _professionSpecificsContainer.Width;
-                    _professionSpecifics.Height = _professionSpecificsContainer.Height;
-                }
+            if (_professionSpecifics != null)
+            {
+                _professionSpecifics.Parent = _professionSpecificsContainer;
+                _professionSpecifics.Template = Template;
+                _professionSpecifics.Width = _professionSpecificsContainer.Width;
+                _professionSpecifics.Height = _professionSpecificsContainer.Height;
             }
         }
 

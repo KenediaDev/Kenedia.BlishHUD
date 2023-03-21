@@ -242,10 +242,10 @@ namespace Kenedia.Modules.BuildsManager.Models.Templates
         public ObservableList<string> TextTags { get; private set; } = new();
 
         [DataMember]
-        public TemplateFlag Tags { get => _tags; set => Common.SetProperty(ref _tags , value, TemplateChanged); }
+        public TemplateFlag Tags { get => _tags; set => Common.SetProperty(ref _tags, value, TemplateChanged); }
 
         [DataMember]
-        public EncounterFlag Encounters { get => _encounters; set => Common.SetProperty(ref _encounters , value, TemplateChanged); }
+        public EncounterFlag Encounters { get => _encounters; set => Common.SetProperty(ref _encounters, value, TemplateChanged); }
 
         [DataMember]
         public string Name { get => _name; set => Common.SetProperty(ref _name, value, TemplateChanged); }
@@ -360,7 +360,7 @@ namespace Kenedia.Modules.BuildsManager.Models.Templates
 
         public BuildTemplate BuildTemplate
         {
-            get => _buildTemplate; 
+            get => _buildTemplate;
             //set
             //{
             //    var prev = _buildTemplate;
@@ -377,7 +377,7 @@ namespace Kenedia.Modules.BuildsManager.Models.Templates
 
         public GearTemplate GearTemplate
         {
-            get => _gearTemplate; 
+            get => _gearTemplate;
             //set
             //{
             //    var prev = _gearTemplate;
@@ -432,13 +432,38 @@ namespace Kenedia.Modules.BuildsManager.Models.Templates
                     Changed?.Invoke(sender, e);
                 }
             }
-            catch(Exception)
+            catch (Exception)
             {
 
             }
         }
 
         public async Task<bool> ChangeName(string name)
+        {
+            string path = FilePath;
+            bool unlocked = await FileExtension.WaitForFileUnlock(path);
+
+            if (!unlocked)
+            {
+                return false;
+            }
+
+            try
+            {
+                if (File.Exists(path)) File.Delete(path);
+            }
+            catch (Exception ex)
+            {
+                BuildsManager.Logger.Warn(ex.ToString());
+            }
+
+            Name = name;
+
+            await Save();
+            return true;
+        }
+
+        public async Task<bool> Delete()
         {
             bool unlocked = await FileExtension.WaitForFileUnlock(FilePath);
 
@@ -447,10 +472,15 @@ namespace Kenedia.Modules.BuildsManager.Models.Templates
                 return false;
             }
 
-            File.Delete(FilePath);
-            Name = name;
+            try
+            {
+                if (File.Exists(FilePath)) File.Delete(FilePath);
+            }
+            catch (Exception ex)
+            {
+                BuildsManager.Logger.Warn(ex.ToString());
+            }
 
-            await Save();
             return true;
         }
 
@@ -472,8 +502,9 @@ namespace Kenedia.Modules.BuildsManager.Models.Templates
                     File.WriteAllText($@"{path}\{Common.MakeValidFileName(Name.Trim())}.json", json);
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                BuildsManager.Logger.Warn(ex.ToString());
             }
         }
     }

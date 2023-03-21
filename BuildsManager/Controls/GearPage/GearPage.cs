@@ -247,7 +247,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage
 
             foreach (var slot in _slots.Values)
             {
-                slot.Visible = !Template.PvE
+                slot.Visible = Template?.PvE == false
                     ? slot.GearSlot is GearTemplateSlot.MainHand or GearTemplateSlot.AltMainHand or GearTemplateSlot.OffHand or GearTemplateSlot.AltOffHand or GearTemplateSlot.PvpAmulet
                     : slot.GearSlot is not GearTemplateSlot.PvpAmulet;
             }

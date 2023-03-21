@@ -45,7 +45,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage.ProfessionSpecific
             int xOffset = 90;
 
             _skills[0].TextureRegion = new(14, 14, 100, 100);
-            switch (Template.EliteSpecialization?.Id)
+            switch (Template?.EliteSpecialization?.Id)
             {
                 case (int)SpecializationType.Holosmith:
                     for (int i = 0; i < 5; i++)
@@ -82,7 +82,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage.ProfessionSpecific
                     break;
             }
 
-            if (Template.EliteSpecialization?.Id == (int)SpecializationType.Scrapper)
+            if (Template?.EliteSpecialization?.Id == (int)SpecializationType.Scrapper)
             {
                 _skills[4].TextureRegion = new(6, 6, 51, 51);
             }
@@ -92,7 +92,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage.ProfessionSpecific
         {
             RecalculateLayout();
 
-            switch (Template.EliteSpecialization?.Id)
+            switch (Template?.EliteSpecialization?.Id)
             {
                 case (int)SpecializationType.Holosmith:
                     for (int i = 0; i < 5; i++)

@@ -206,11 +206,11 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
 
         public void ApplySpecialization()
         {
+            _weaponTrait.Texture = _buildSpecialization?.Specialization?.WeaponTrait?.Icon;
+            _specializationBackground.Texture = _buildSpecialization?.Specialization?.Background;
+
             if (_buildSpecialization != null && _buildSpecialization.Specialization != null)
             {
-                _specializationBackground.Texture = _buildSpecialization.Specialization.Background;
-                _weaponTrait.Texture = _buildSpecialization.Specialization.WeaponTrait?.Icon;
-
                 _minorsTraits = _buildSpecialization.Specialization.MinorTraits.ToDictionary(e => e.Value.Index, e => e.Value);
                 _majorTraits = _buildSpecialization.Specialization.MajorTraits.ToDictionary(e => e.Value.Index, e => e.Value);
 

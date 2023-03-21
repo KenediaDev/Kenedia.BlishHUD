@@ -145,19 +145,19 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage
 
             var weapon = TemplateSlot as WeaponEntry;
 
-            Item.Item = weapon.Item;
+            Item.Item = weapon?.Item;
 
-            Sigil = weapon.Sigil;
-            _sigilTexture.Item = weapon.Sigil;
+            Sigil = weapon?.Sigil;
+            _sigilTexture.Item = weapon?.Sigil;
 
-            Sigil = weapon.Sigil;
-            _sigilTexture.Item = weapon.Sigil;
+            Sigil = weapon?.Sigil;
+            _sigilTexture.Item = weapon?.Sigil;
 
-            PvpSigil = weapon.PvpSigil;
-            _pvpSigilTexture.Item = weapon.PvpSigil;
+            PvpSigil = weapon?.PvpSigil;
+            _pvpSigilTexture.Item = weapon?.PvpSigil;
 
-            Infusion = weapon.Infusion;
-            _infusionTexture.Item = weapon.Infusion;
+            Infusion = weapon?.Infusion;
+            _infusionTexture.Item = weapon?.Infusion;
 
             _statTexture.Texture = Stat?.Icon;
         }
@@ -291,22 +291,22 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage
 
             var weapon = TemplateSlot as WeaponEntry;
 
-            Item.Item = weapon.Item;
+            Item.Item = weapon?.Item;
 
-            Sigil = weapon.Sigil;
-            _sigilTexture.Item = weapon.Sigil;
+            Sigil = weapon?.Sigil;
+            _sigilTexture.Item = weapon?.Sigil;
 
-            Sigil = weapon.Sigil;
-            _sigilTexture.Item = weapon.Sigil;
+            Sigil = weapon?.Sigil;
+            _sigilTexture.Item = weapon?.Sigil;
 
-            Sigil2 = weapon.Sigil2;
-            _sigil2Texture.Item = weapon.Sigil2;
+            Sigil2 = weapon?.Sigil2;
+            _sigil2Texture.Item = weapon?.Sigil2;
 
-            Infusion = weapon.Infusion;
-            _infusionTexture.Item = weapon.Infusion;
+            Infusion = weapon?.Infusion;
+            _infusionTexture.Item = weapon?.Infusion;
 
-            Infusion2 = weapon.Infusion2;
-            _infusion2Texture.Item = weapon.Infusion2;
+            Infusion2 = weapon?.Infusion2;
+            _infusion2Texture.Item = weapon?.Infusion2;
 
             _statTexture.Texture = Stat?.Icon;
         }
@@ -404,13 +404,13 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage
 
             var armor = TemplateSlot as ArmorEntry;
 
-            Item.Item = armor.Item;
+            Item.Item = armor?.Item;
 
-            Rune = armor.Rune;
-            _runeTexture.Item = armor.Rune;
+            Rune = armor?.Rune;
+            _runeTexture.Item = armor?.Rune;
 
-            Infusion = armor.Infusion;
-            _infusionTexture.Item = armor.Infusion;
+            Infusion = armor?.Infusion;
+            _infusionTexture.Item = armor?.Infusion;
         }
 
         protected override void OnClick(MouseEventArgs e)
@@ -509,16 +509,16 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage
 
             var item = TemplateSlot as JuwelleryEntry;
 
-            Item.Item = item.Item;
+            Item.Item = item?.Item;
 
-            Infusion1 = item.Infusion;
-            _infusion1Texture.Item = item.Infusion;
+            Infusion1 = item?.Infusion;
+            _infusion1Texture.Item = item?.Infusion;
 
-            Infusion2 = item.Infusion2;
-            _infusion2Texture.Item = item.Infusion2;
+            Infusion2 = item?.Infusion2;
+            _infusion2Texture.Item = item?.Infusion2;
 
-            Infusion3 = item.Infusion3;
-            _infusion3Texture.Item = item.Infusion3;
+            Infusion3 = item?.Infusion3;
+            _infusion3Texture.Item = item?.Infusion3;
 
             _statTexture.Texture = Stat?.Icon;
         }
@@ -593,10 +593,10 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage
 
             var item = TemplateSlot as JuwelleryEntry;
 
-            Item.Item = item.Item;
+            Item.Item = item?.Item;
 
-            Enrichment = item.Enrichment;
-            _enrichmentTexture.Item = item.Enrichment;
+            Enrichment = item?.Enrichment;
+            _enrichmentTexture.Item = item?.Enrichment;
 
             _statTexture.Texture = Stat?.Icon;
         }

@@ -2,6 +2,7 @@
 using Blish_HUD.Content;
 using Blish_HUD.Controls;
 using Blish_HUD.Input;
+using Kenedia.Modules.Core.Utility;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -13,7 +14,7 @@ namespace Kenedia.Modules.Core.Controls
         private readonly AsyncTexture2D _exTexture = AsyncTexture2D.FromAssetId(784262);
 
         private bool _clicked;
-        private readonly Action<bool> _onChanged;
+        private Action<bool> _onCheckChanged;
 
         private Rectangle _xTextureRectangle;
         private Rectangle _xDrawRectangle;
@@ -28,7 +29,7 @@ namespace Kenedia.Modules.Core.Controls
         public ImageToggle(Action<bool> onChanged)
             : this()
         {
-            _onChanged = onChanged;
+            OnCheckChanged = onChanged;
         }
 
         public event EventHandler<CheckChangedEvent> CheckedChanged;
@@ -55,16 +56,26 @@ namespace Kenedia.Modules.Core.Controls
 
         public Rectangle SizeRectangle { get; set; }
 
+        public Color ImageColor { get; set; } = Color.White;
+
+        public Color? ActiveColor { get; set; } = Color.White;
+
         public bool ShowX { get; set; }
 
-        public bool Checked 
-        { 
-            get => _checked; 
-            set 
+        public bool Checked
+        {
+            get => _checked;
+            set
             {
                 _checked = value;
                 OnCheckedChanged();
-            } 
+            }
+        }
+
+        public Action<bool> OnCheckChanged
+        {
+            get => _onCheckChanged;
+            set => Common.SetProperty(ref _onCheckChanged, value);
         }
 
         private void OnCheckedChanged()
@@ -93,7 +104,7 @@ namespace Kenedia.Modules.Core.Controls
                     texture,
                     SizeRectangle != Rectangle.Empty ? SizeRectangle : bounds,
                     TextureRectangle == Rectangle.Empty ? texture.Bounds : TextureRectangle,
-                    Color.White,
+                    Checked ? (ActiveColor ?? ImageColor) : ImageColor,
                     0f,
                     default);
             }
@@ -122,7 +133,7 @@ namespace Kenedia.Modules.Core.Controls
         {
             base.OnClick(e);
             Checked = !Checked;
-            _onChanged?.Invoke(Checked);
+            OnCheckChanged?.Invoke(Checked);
             CheckedChanged?.Invoke(this, new(Checked));
         }
 

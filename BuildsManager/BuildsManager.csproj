@@ -273,6 +273,8 @@
     <Compile Include="Controls\GearPage\StatSummary.cs" />
     <Compile Include="Controls\GearPage\UtilityControl.cs" />
     <Compile Include="Controls\NotesPage\NotesPage.cs" />
+    <Compile Include="Controls\Selection\TagTexture.cs" />
+    <Compile Include="Controls\Selection\TemplateSelectable.cs" />
     <Compile Include="Controls\SkillConnectionEdit\EditingControl.cs" />
     <Compile Include="Controls\SkillConnectionEdit\PetControl.cs" />
     <Compile Include="Controls\SkillConnectionEdit\PetEntryControl.cs" />

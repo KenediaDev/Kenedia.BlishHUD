@@ -1,10 +1,18 @@
-﻿using Kenedia.Modules.Core.Controls;
+﻿using Blish_HUD;
+using Kenedia.Modules.Core.Controls;
+using MonoGame.Extended.BitmapFonts;
 using System;
+using static Blish_HUD.ContentService;
 
 namespace Kenedia.Modules.Core.Utility
 {
     public static class UI
     {
+        public static BitmapFont GetFont(FontSize fontSize, FontStyle style)
+        {
+            return GameService.Content.GetFont(FontFace.Menomonia, fontSize, style);
+        }
+
         public static (Label, CtrlT) CreateLabeledControl<CtrlT>(Blish_HUD.Controls.Container parent, string text, int labelWidth = 175, int controlWidth = 100, int height = 25)
         where CtrlT : Blish_HUD.Controls.Control, new()
         {

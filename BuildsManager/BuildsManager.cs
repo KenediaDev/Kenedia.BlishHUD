@@ -47,7 +47,16 @@ namespace Kenedia.Modules.BuildsManager
 
         private GW2API GW2API { get; set; }
 
-        public Template SelectedTemplate { get => _selectedTemplate; set => Common.SetProperty(ref _selectedTemplate, value, SelectedTemplateSwitched); }
+        public Template SelectedTemplate
+        {
+            get => _selectedTemplate; set
+            {
+                if (Common.SetProperty(ref _selectedTemplate, value ?? new(), SelectedTemplateSwitched))
+                {
+
+                }
+            }
+        }
 
         public static Data Data { get; set; }
 
