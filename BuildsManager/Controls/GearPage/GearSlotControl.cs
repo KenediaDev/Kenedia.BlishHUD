@@ -19,43 +19,6 @@ using System.Diagnostics;
 
 namespace Kenedia.Modules.BuildsManager.Controls.GearPage
 {
-    public class ItemTexture : DetailedTexture
-    {
-        private BaseItem _item;
-        private Color _frameColor;
-
-        public BaseItem Item { get => _item; set => Common.SetProperty(ref _item, value, ApplyItem); }
-
-        private void ApplyItem()
-        {
-            _frameColor = Item != null ? (Color)Item?.Rarity.GetColor() : Color.White * 0.5F;
-            Texture = Item?.Icon;
-        }
-
-        public void Draw(Control ctrl, SpriteBatch spriteBatch, Point? mousePos = null, Color? color = null)
-        {
-            if (FallBackTexture != null || Texture != null)
-            {
-                Hovered = mousePos != null && Bounds.Contains((Point)mousePos);
-                color ??= (Hovered && HoverDrawColor != null ? HoverDrawColor : DrawColor) ?? Color.White;
-
-                if (Texture != null)
-                {
-                    spriteBatch.DrawOnCtrl(
-                        ctrl,
-                        Texture,
-                        Bounds.Add(2, 2, -4, -4),
-                        TextureRegion,
-                        (Color)color,
-                        0F,
-                        Vector2.Zero);
-                }
-
-                spriteBatch.DrawFrame(ctrl, Bounds, _frameColor, 2);
-            }
-        }
-    }
-
     public class WeaponSlotControl : GearSlotControl
     {
         private readonly DetailedTexture _sigilSlotTexture = new() { Texture = AsyncTexture2D.FromAssetId(784324), TextureRegion = new(37, 37, 54, 54), };
@@ -126,9 +89,18 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage
                 _sigilTexture.Draw(this, spriteBatch, RelativeMousePosition);
                 spriteBatch.DrawStringOnCtrl(this, GetDisplayString(Sigil?.DisplayText ?? string.Empty), UpgradeFont, _sigilBounds, UpgradeColor, false, HorizontalAlignment.Left, VerticalAlignment.Middle);
 
-                _infusionSlotTexture.Draw(this, spriteBatch, RelativeMousePosition);
-                _infusionTexture.Draw(this, spriteBatch, RelativeMousePosition);
-                spriteBatch.DrawStringOnCtrl(this, GetDisplayString(Infusion?.DisplayText ?? string.Empty), InfusionFont, _infusionBounds, InfusionColor, true, HorizontalAlignment.Left, VerticalAlignment.Middle);
+                var mainHandRarity = 
+                    (GearSlot is GearTemplateSlot.OffHand or GearTemplateSlot.AltOffHand) &&
+                    Template.GearTemplate.Weapons[GearSlot == GearTemplateSlot.OffHand ? GearTemplateSlot.MainHand : GearTemplateSlot.AltMainHand]?.Weapon.IsTwoHanded() == true ?
+                    Template.GearTemplate.Weapons[GearSlot == GearTemplateSlot.OffHand ? GearTemplateSlot.MainHand : GearTemplateSlot.AltMainHand]?.Item?.Rarity
+                    : Gw2Sharp.WebApi.V2.Models.ItemRarity.Legendary;
+
+                if (Item?.Item?.Rarity != Gw2Sharp.WebApi.V2.Models.ItemRarity.Exotic && mainHandRarity != Gw2Sharp.WebApi.V2.Models.ItemRarity.Exotic)
+                {
+                    _infusionSlotTexture.Draw(this, spriteBatch, RelativeMousePosition);
+                    _infusionTexture.Draw(this, spriteBatch, RelativeMousePosition);
+                    spriteBatch.DrawStringOnCtrl(this, GetDisplayString(Infusion?.DisplayText ?? string.Empty), InfusionFont, _infusionBounds, InfusionColor, true, HorizontalAlignment.Left, VerticalAlignment.Middle);
+                }
             }
         }
 
@@ -268,13 +240,16 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage
                 _sigil2Texture.Draw(this, spriteBatch, RelativeMousePosition);
                 spriteBatch.DrawStringOnCtrl(this, GetDisplayString(Sigil2?.DisplayText ?? string.Empty), UpgradeFont, _sigil2Bounds, UpgradeColor, false, HorizontalAlignment.Left, VerticalAlignment.Middle);
 
-                _infusionSlotTexture.Draw(this, spriteBatch, RelativeMousePosition);
-                _infusionTexture.Draw(this, spriteBatch, RelativeMousePosition);
-                spriteBatch.DrawStringOnCtrl(this, GetDisplayString(Infusion?.DisplayText ?? string.Empty), InfusionFont, _infusionBounds, InfusionColor, true, HorizontalAlignment.Left, VerticalAlignment.Middle);
+                if (Item?.Item?.Rarity != Gw2Sharp.WebApi.V2.Models.ItemRarity.Exotic)
+                {
+                    _infusionSlotTexture.Draw(this, spriteBatch, RelativeMousePosition);
+                    _infusionTexture.Draw(this, spriteBatch, RelativeMousePosition);
+                    spriteBatch.DrawStringOnCtrl(this, GetDisplayString(Infusion?.DisplayText ?? string.Empty), InfusionFont, _infusionBounds, InfusionColor, true, HorizontalAlignment.Left, VerticalAlignment.Middle);
 
-                _infusion2SlotTexture.Draw(this, spriteBatch, RelativeMousePosition);
-                _infusion2Texture.Draw(this, spriteBatch, RelativeMousePosition);
-                spriteBatch.DrawStringOnCtrl(this, GetDisplayString(Infusion2?.DisplayText ?? string.Empty), InfusionFont, _infusion2Bounds, InfusionColor, true, HorizontalAlignment.Left, VerticalAlignment.Middle);
+                    _infusion2SlotTexture.Draw(this, spriteBatch, RelativeMousePosition);
+                    _infusion2Texture.Draw(this, spriteBatch, RelativeMousePosition);
+                    spriteBatch.DrawStringOnCtrl(this, GetDisplayString(Infusion2?.DisplayText ?? string.Empty), InfusionFont, _infusion2Bounds, InfusionColor, true, HorizontalAlignment.Left, VerticalAlignment.Middle);
+                }
             }
         }
 
@@ -385,9 +360,12 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage
                 _runeTexture.Draw(this, spriteBatch, RelativeMousePosition);
                 spriteBatch.DrawStringOnCtrl(this, GetDisplayString(Rune?.DisplayText ?? string.Empty), UpgradeFont, _runeBounds, UpgradeColor, false, HorizontalAlignment.Left, VerticalAlignment.Middle);
 
-                _infusionSlotTexture.Draw(this, spriteBatch, RelativeMousePosition);
-                _infusionTexture.Draw(this, spriteBatch, RelativeMousePosition);
-                spriteBatch.DrawStringOnCtrl(this, GetDisplayString(Infusion?.DisplayText ?? string.Empty), InfusionFont, _infusionBounds, InfusionColor, true, HorizontalAlignment.Left, VerticalAlignment.Middle);
+                if (Item?.Item?.Rarity != Gw2Sharp.WebApi.V2.Models.ItemRarity.Exotic)
+                {
+                    _infusionSlotTexture.Draw(this, spriteBatch, RelativeMousePosition);
+                    _infusionTexture.Draw(this, spriteBatch, RelativeMousePosition);
+                    spriteBatch.DrawStringOnCtrl(this, GetDisplayString(Infusion?.DisplayText ?? string.Empty), InfusionFont, _infusionBounds, InfusionColor, true, HorizontalAlignment.Left, VerticalAlignment.Middle);
+                }
             }
         }
 
@@ -477,19 +455,22 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage
             {
                 base.Paint(spriteBatch, bounds);
 
-                _infusion1SlotTexture.Draw(this, spriteBatch, RelativeMousePosition);
-                _infusion1Texture.Draw(this, spriteBatch, RelativeMousePosition);
-
-                if (GearSlot is GearTemplateSlot.Ring_1 or GearTemplateSlot.Ring_2 or GearTemplateSlot.Back)
+                if (Item?.Item?.Rarity != Gw2Sharp.WebApi.V2.Models.ItemRarity.Exotic)
                 {
-                    _infusion2SlotTexture.Draw(this, spriteBatch, RelativeMousePosition);
-                    _infusion2Texture.Draw(this, spriteBatch, RelativeMousePosition);
-                }
+                    _infusion1SlotTexture.Draw(this, spriteBatch, RelativeMousePosition);
+                    _infusion1Texture.Draw(this, spriteBatch, RelativeMousePosition);
 
-                if (GearSlot is GearTemplateSlot.Ring_1 or GearTemplateSlot.Ring_2)
-                {
-                    _infusion3SlotTexture.Draw(this, spriteBatch, RelativeMousePosition);
-                    _infusion3Texture.Draw(this, spriteBatch, RelativeMousePosition);
+                    if (GearSlot is GearTemplateSlot.Ring_1 or GearTemplateSlot.Ring_2 or GearTemplateSlot.Back)
+                    {
+                        _infusion2SlotTexture.Draw(this, spriteBatch, RelativeMousePosition);
+                        _infusion2Texture.Draw(this, spriteBatch, RelativeMousePosition);
+                    }
+
+                    if (GearSlot is GearTemplateSlot.Ring_1 or GearTemplateSlot.Ring_2)
+                    {
+                        _infusion3SlotTexture.Draw(this, spriteBatch, RelativeMousePosition);
+                        _infusion3Texture.Draw(this, spriteBatch, RelativeMousePosition);
+                    }
                 }
 
                 _statTexture.Draw(this, spriteBatch, RelativeMousePosition);
@@ -573,8 +554,11 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage
             {
                 base.Paint(spriteBatch, bounds);
 
-                _enrichmentSlotTexture.Draw(this, spriteBatch, RelativeMousePosition);
-                _enrichmentTexture.Draw(this, spriteBatch, RelativeMousePosition);
+                if (Item?.Item?.Rarity != Gw2Sharp.WebApi.V2.Models.ItemRarity.Exotic)
+                {
+                    _enrichmentSlotTexture.Draw(this, spriteBatch, RelativeMousePosition);
+                    _enrichmentTexture.Draw(this, spriteBatch, RelativeMousePosition);
+                }
 
                 _statTexture.Draw(this, spriteBatch, RelativeMousePosition);
             }

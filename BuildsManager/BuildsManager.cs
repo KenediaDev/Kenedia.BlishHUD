@@ -152,7 +152,7 @@ namespace Kenedia.Modules.BuildsManager
                 }
             }
 
-            await LoadTemplates();
+            if(Data.IsLoaded) await LoadTemplates();
         }
 
         private async Task LoadTemplates()
@@ -219,7 +219,7 @@ namespace Kenedia.Modules.BuildsManager
             //Data.Stats.Clear();
             //await GW2API.GetStats(CancellationToken.None, Data.Stats);
 
-            //await GW2API.UpdateData();
+            await GW2API.UpdateData();
 
             await Data.LoadBaseSkills();
             await Data.LoadConnections();
@@ -227,7 +227,6 @@ namespace Kenedia.Modules.BuildsManager
             base.ReloadKey_Activated(sender, e);
 
             //await GW2API.GetSkillConnections();
-            SetDummyTemplate();
         }
 
         protected override void LoadGUI()
@@ -258,7 +257,7 @@ namespace Kenedia.Modules.BuildsManager
                     Name = Name,
                     Version = ModuleVersion,
                     Template = SelectedTemplate,
-                    Width = 1120,
+                    Width = 1200,
                     Height = 900,
                 };
 
@@ -347,23 +346,6 @@ namespace Kenedia.Modules.BuildsManager
         {
             if (MainWindow != null) MainWindow.Template = SelectedTemplate;
             SelectedTemplateChanged?.Invoke(this, null);
-        }
-
-        private void SetDummyTemplate()
-        {
-            string code2 = "[9|1128|255|1][4|1128|255|1][7|1128|255|1][3|1128|255|1][15|1128|255|1][17|1128|255|1][1|1128|255|1][53|584|26|1|1][50|584|26|1|1][7|584|26|26|1|1][-1|584|26|1|1][16|584|26|1|1][17|584|26|26|1|1][-1|584|340][0|584|340|340][8|584|1][3|584|340][4|584|340][5|584|340|340|340][7|584|340|340|340][-1|584|340][-1|584|340][-1|584|340][-1|584|340]";
-            //string gearcode = "[9|584|-1|0][4|584|-1|0][7|584|-1|0][3|584|-1|0][15|584|-1|0][17|584|-1|0][1|584|-1|0][53|584|-1|-1|-1][50|584|-1|-1|-1][7|584|-1|-1|-1|-1][-1|584|-1|-1|-1][16|584|-1|-1|-1][17|584|-1|-1|-1|-1][0|584|-1|-1][8|584|-1][3|584|-1][4|584|-1][5|584|-1|-1|-1][7|584|-1|-1|-1][-1][-1][-1][-1]";
-            string gearcode = "[9|1128|255|1][4|1128|255|1][7|1128|255|1][3|1128|255|1][15|1128|255|1][17|1128|255|1][1|1128|255|1][53|584|26|1|1][50|584|26|1|1][7|584|26|26|1|1][-1|584|26|1|1][16|584|26|1|1][17|584|26|26|1|1][3|584|340|340][0|584|1][1|584|340][1|584|340][2|584|340|340|340][2|584|340|340|340][-1|0|-1|-1][236][34][-1]";
-
-            string code = "[&DQgnNhM1PCYSAJsAiwDkAJkBdgBvAXABkgCVAAAAAAAAAAAAAAAAAAAAAAA=]";
-
-            SelectedTemplate = new Template()
-            {
-                Race = Core.DataModels.Races.Human,
-            };
-
-            SelectedTemplate.BuildTemplate.LoadFromCode(code);
-            SelectedTemplate.GearTemplate.LoadFromCode(gearcode);
         }
     }
 }

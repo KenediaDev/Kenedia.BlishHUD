@@ -130,7 +130,7 @@ namespace Kenedia.Modules.BuildsManager.Services
                 }
 
                 ApplyData<ItemArmor, Armor>(api_armors, _data.Armors, "Armors", _data.ItemMap.Armors);
-                ApplyData<ItemWeapon, DataModels.Items.Weapon>(api_weapons, _data.Weapons, "Weapons", _data.ItemMap.Weapons);
+                ApplyData<ItemWeapon, Weapon>(api_weapons, _data.Weapons, "Weapons", _data.ItemMap.Weapons);
                 ApplyData<ItemBack, Trinket>(api_backs, _data.Backs, "Backs", _data.ItemMap.Backs);
                 ApplyData<ItemTrinket, Trinket>(api_trinkets, _data.Trinkets, "Trinkets", _data.ItemMap.Trinkets);
 
@@ -692,13 +692,79 @@ namespace Kenedia.Modules.BuildsManager.Services
                 _ = itemids.RemoveAll(commonfeasts.Contains);
                 _ = itemids.RemoveAll(jadetechmodules.Contains);
 
-                var ascendedGear = new List<int>()
+                //Ascended and Exotic
+                var exotic = new List<int>()
+                {
+                    //Aquabreather                 
+                    68357,
+                    68356,
+                    68359,
+                    
+                    //Light
+                    75625,
+                    73202,
+                    71738,
+                    71149,
+                    70899,
+                    75646,
+                    
+                    //Medium
+                    75967,
+                    75368,
+                    76182,
+                    74543,
+                    71759,
+                    70719,
+
+                    //Heavy
+                    70597,
+                    75380,
+                    74957,
+                    74006,
+                    73850,
+                    71786,
+
+                    //Back
+                    74623,
+
+                    //Ring
+                    96699,
+
+                    //Accessory
+                    97239,
+
+                    //Amulet
+                    97687,
+
+                    //Weapons
+                    73380,
+                    75881,
+                    75835,
+                    74862,
+                    76598,
+                    76257,
+                    71232,
+                    72542,
+                    76974,
+                    70638,
+                    73091,
+                    71670,
+                    73269,
+                    71164,
+                    72165,
+                    70785,
+                    74760,
+                    75830,
+                    77196,
+                };
+
+                var ascended = new List<int>()
                 {
                     //Aquabreather
                     79873,
                     79838,
                     79895,
-                    
+
                     //Light
                     85128,
                     84918,
@@ -706,7 +772,7 @@ namespace Kenedia.Modules.BuildsManager.Services
                     85070,
                     85362,
                     80815,
-                    
+
                     //Medium
                     80701,
                     80825,
@@ -752,6 +818,10 @@ namespace Kenedia.Modules.BuildsManager.Services
                     80002,
                     80058,
                 };
+
+                var manualItems = new List<int>();
+                manualItems.AddRange(ascended);
+                manualItems.AddRange(exotic);
 
                 var itemid_lists = itemids.ChunkBy(200);
                 var itemMapping = new ItemMapping();
@@ -804,7 +874,7 @@ namespace Kenedia.Modules.BuildsManager.Services
                                     });
                                 }
 
-                                if (item.Type == ItemType.Trinket && (item.Rarity == ItemRarity.Legendary || (item.Rarity == ItemRarity.Ascended && ascendedGear.Contains(item.Id))))
+                                if (item.Type == ItemType.Trinket && (item.Rarity == ItemRarity.Legendary || (manualItems.Contains(item.Id))))
                                 {
                                     var trinket = (ItemTrinket)item;
 
@@ -816,7 +886,7 @@ namespace Kenedia.Modules.BuildsManager.Services
                                     });
                                 }
 
-                                if (item.Type == ItemType.Back && (item.Rarity == ItemRarity.Legendary || (item.Rarity == ItemRarity.Ascended && ascendedGear.Contains(item.Id))))
+                                if (item.Type == ItemType.Back && (item.Rarity == ItemRarity.Legendary || (manualItems.Contains(item.Id))))
                                 {
                                     var back = (ItemBack)item;
 
@@ -828,7 +898,7 @@ namespace Kenedia.Modules.BuildsManager.Services
                                     });
                                 }
 
-                                if (item.Type == ItemType.Armor && (item.Rarity == ItemRarity.Legendary || (item.Rarity == ItemRarity.Ascended && ascendedGear.Contains(item.Id))))
+                                if (item.Type == ItemType.Armor && (item.Rarity == ItemRarity.Legendary || (manualItems.Contains(item.Id))))
                                 {
                                     var armor = (ItemArmor)item;
 
@@ -840,7 +910,7 @@ namespace Kenedia.Modules.BuildsManager.Services
                                     });
                                 }
 
-                                if (item.Type == ItemType.Weapon && (item.Rarity == ItemRarity.Legendary || (item.Rarity == ItemRarity.Ascended && ascendedGear.Contains(item.Id))))
+                                if (item.Type == ItemType.Weapon && (item.Rarity == ItemRarity.Legendary || (manualItems.Contains(item.Id))))
                                 {
                                     var weapon = (ItemWeapon)item;
 

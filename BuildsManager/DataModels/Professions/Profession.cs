@@ -94,12 +94,12 @@ namespace Kenedia.Modules.BuildsManager.DataModels.Professions
                         if(professionType == ProfessionType.Guardian && weaponType == WeaponType.Sword)
                         {
                             weapon.Specialization = (int)SpecializationType.Willbender;
-                            weapon.SpecializationWielded = ProfessionWeaponFlag.Offhand;
+                            weapon.SpecializationWielded = WieldingFlag.Offhand;
                         }
                         else if (professionType == ProfessionType.Ranger && weaponType == WeaponType.Dagger)
                         {
                             weapon.Specialization = (int)SpecializationType.Soulbeast;
-                            weapon.SpecializationWielded = ProfessionWeaponFlag.Mainhand;
+                            weapon.SpecializationWielded = WieldingFlag.Mainhand;
                         }
 
                         if (!exists)

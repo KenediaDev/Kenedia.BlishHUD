@@ -259,13 +259,25 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
             base.OnHidden(e);
 
             _sortBehavior.Enabled = false;
+
+            foreach (var icon in _specIcons)
+            {
+                icon.Enabled = false;
+            }
         }
 
         public override void UpdateContainer(GameTime gameTime)
         {
             base.UpdateContainer(gameTime);
 
-            _sortBehavior.Enabled = _sortBehavior.Enabled || Common.Now() - _lastShown >= 5;
+            if (!_sortBehavior.Enabled)
+            {
+                _sortBehavior.Enabled = _sortBehavior.Enabled || Common.Now() - _lastShown >= 5;
+                foreach (var icon in _specIcons)
+                {
+                    icon.Enabled = _sortBehavior.Enabled || Common.Now() - _lastShown >= 5;
+                }
+            }
         }
 
         protected override void DisposeControl()

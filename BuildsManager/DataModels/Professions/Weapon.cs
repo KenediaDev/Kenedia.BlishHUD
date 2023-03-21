@@ -20,7 +20,15 @@ namespace Kenedia.Modules.BuildsManager.DataModels.Professions
             if (Enum.TryParse(weapon.Key, out WeaponType weaponType))
             {
                 Type = weaponType;
-                Wielded = weapon.Value.Flags.Count() > 0 ? weapon.Value.Flags.Aggregate((x, y) => x |= y.ToEnum()) : ProfessionWeaponFlag.Unknown;
+
+                foreach(var flag in weapon.Value.Flags)
+                {
+                    if(Enum.TryParse(flag.Value.ToString(), out WieldingFlag wielded))
+                    {
+                        Wielded |= wielded;
+                    }
+                }
+
                 Specialization = weapon.Value.Specialization;
             }
         }
@@ -37,6 +45,35 @@ namespace Kenedia.Modules.BuildsManager.DataModels.Professions
                     }
                 }
             }
+        }
+
+        [Flags]
+        public enum WieldingFlag
+        {
+            /// <summary>
+            /// Unknown.
+            /// </summary>
+            Unknown = 0,
+
+            /// <summary>
+            /// Weapon is used as main-hand weapon.
+            /// </summary>
+            Mainhand = 1,
+
+            /// <summary>
+            /// Weapon is used as two-handed weapon.
+            /// </summary>
+            TwoHand = 2,
+
+            /// <summary>
+            /// Weapon is used as off-hand weapon.
+            /// </summary>
+            Offhand = 4,
+
+            /// <summary>
+            /// Weapon is used as underwater weapon.
+            /// </summary>
+            Aquatic = 8,
         }
 
         public enum WeaponType
@@ -69,7 +106,7 @@ namespace Kenedia.Modules.BuildsManager.DataModels.Professions
         }
 
         [DataMember]
-        public ProfessionWeaponFlag Wielded { get; set; }
+        public WieldingFlag Wielded { get; set; }
 
         [DataMember]
         public WeaponType Type { get; set; }
@@ -78,7 +115,7 @@ namespace Kenedia.Modules.BuildsManager.DataModels.Professions
         public int Specialization { get; set; }
 
         [DataMember]
-        public ProfessionWeaponFlag? SpecializationWielded { get; set; }
+        public WieldingFlag? SpecializationWielded { get; set; }
 
         [DataMember]
         public List<int> Skills { get; set; } = new();

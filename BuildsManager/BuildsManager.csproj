@@ -259,6 +259,7 @@
     <Compile Include="Controls\BuildPage\ProfessionSpecific\WarriorSpecifics.cs" />
     <Compile Include="Controls\BuildPage\WeaponSkillIconCollection.cs" />
     <Compile Include="Controls\GearPage\AttributeTexture.cs" />
+    <Compile Include="Controls\GearPage\ItemTexture.cs" />
     <Compile Include="Controls\GearPage\JadeBotControl.cs" />
     <Compile Include="Controls\Selection\BaseSelection.cs" />
     <Compile Include="Controls\Selection\BuildSelection.cs" />

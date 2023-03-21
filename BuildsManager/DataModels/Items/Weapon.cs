@@ -20,7 +20,7 @@ namespace Kenedia.Modules.BuildsManager.DataModels.Items
                 AttributeAdjustment = weapon.Details.AttributeAdjustment;
                 WeaponType = weapon.Details.Type;
                 StatChoices = weapon.Details.StatChoices;
-                InfusionSlots = new int[weapon.Details.InfusionSlots.Count];
+                InfusionSlots = new int[weapon.Details.InfusionSlots.Count];                
 
                 TemplateSlot = weapon.Details.Type.Value switch
                 {

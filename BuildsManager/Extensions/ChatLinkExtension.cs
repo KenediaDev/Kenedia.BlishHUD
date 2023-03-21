@@ -70,6 +70,23 @@ namespace Kenedia.Modules.BuildsManager.Extensions
                 _ => false
             };
         }
+
+        public static bool IsTwoHanded(this WeaponType weaponType)
+        {
+            return weaponType switch
+            {
+                WeaponType.Greatsword => true,
+                WeaponType.Hammer => true,
+                WeaponType.Longbow => true,
+                WeaponType.Rifle => true,
+                WeaponType.Shortbow => true,
+                WeaponType.Staff => true,
+                WeaponType.Spear => true,
+                WeaponType.Trident => true,
+                WeaponType.Speargun => true,
+                _ => false
+            };
+        }
     }
 
     public static class GearTemplateSlotExtension

@@ -196,1099 +196,814 @@
       "Name": "Bowl of Orrian Truffle and Meat Stew"
     },
     {
-      "Id": 12585,
-      "MappedId": 39,
-      "Name": "Giant Chocolate Omnomberry Cake"
-    },
-    {
       "Id": 12586,
-      "MappedId": 40,
+      "MappedId": 39,
       "Name": "Tray of Chocolate Omnomberry Creams"
     },
     {
-      "Id": 12587,
-      "MappedId": 41,
-      "Name": "Tray of Mango Pies"
-    },
-    {
-      "Id": 12588,
-      "MappedId": 42,
-      "Name": "Tray of Omnomberry Bars"
-    },
-    {
-      "Id": 12589,
-      "MappedId": 43,
-      "Name": "Tray of Omnomberry Compote"
-    },
-    {
-      "Id": 12590,
-      "MappedId": 44,
-      "Name": "Tray of Omnomberry Cookies"
-    },
-    {
-      "Id": 12591,
-      "MappedId": 45,
-      "Name": "Tray of Omnomberry Pies"
-    },
-    {
-      "Id": 12592,
-      "MappedId": 46,
-      "Name": "Tray of Omnomberry Tarts"
-    },
-    {
-      "Id": 12593,
-      "MappedId": 47,
-      "Name": "Tray of Spicy Chocolate Cookies"
-    },
-    {
-      "Id": 12633,
-      "MappedId": 48,
-      "Name": "Feast of Fancy Truffle Burgers"
-    },
-    {
-      "Id": 12634,
-      "MappedId": 49,
-      "Name": "Feast of Fire Flank Steak"
-    },
-    {
-      "Id": 12635,
-      "MappedId": 50,
-      "Name": "Feast of Lemongrass Poultry"
-    },
-    {
-      "Id": 12636,
-      "MappedId": 51,
-      "Name": "Feast of Lotus Stirfry"
-    },
-    {
-      "Id": 12637,
-      "MappedId": 52,
-      "Name": "Feast of Orrian Steak Frittes"
-    },
-    {
-      "Id": 12638,
-      "MappedId": 53,
-      "Name": "Feast of Rare Veggie Pizzas"
-    },
-    {
-      "Id": 12639,
-      "MappedId": 54,
-      "Name": "Feast of Truffle Ravioli"
-    },
-    {
-      "Id": 12640,
-      "MappedId": 55,
-      "Name": "Pot of Truffle Risotto"
-    },
-    {
-      "Id": 12641,
-      "MappedId": 56,
-      "Name": "Feast of Truffle Steak Dinner"
-    },
-    {
-      "Id": 12642,
-      "MappedId": 57,
-      "Name": "Feast of Truffle Steak"
-    },
-    {
-      "Id": 12678,
-      "MappedId": 58,
-      "Name": "Feast of Fire Salsa"
-    },
-    {
-      "Id": 12679,
-      "MappedId": 59,
-      "Name": "Feast of Ghost Pepper Poppers"
-    },
-    {
-      "Id": 12680,
-      "MappedId": 60,
-      "Name": "Feast of Lotus Fries"
-    },
-    {
-      "Id": 12681,
-      "MappedId": 61,
-      "Name": "Tray of Omnomberry Bread"
-    },
-    {
-      "Id": 12682,
-      "MappedId": 62,
-      "Name": "Feast of Roasted Lotus Root"
-    },
-    {
-      "Id": 12683,
-      "MappedId": 63,
-      "Name": "Tray of Saffron Bread"
-    },
-    {
-      "Id": 12684,
-      "MappedId": 64,
-      "Name": "Feast of Saffron Stuffed Mushrooms"
-    },
-    {
-      "Id": 12685,
-      "MappedId": 65,
-      "Name": "Feast of Seaweed Salad"
-    },
-    {
-      "Id": 12686,
-      "MappedId": 66,
-      "Name": "Feast of Truffle Sautee"
-    },
-    {
-      "Id": 12720,
-      "MappedId": 67,
-      "Name": "Pot of Curry Butternut Squash Soup"
-    },
-    {
-      "Id": 12721,
-      "MappedId": 68,
-      "Name": "Pot of Curry Pumpkin Soup"
-    },
-    {
-      "Id": 12722,
-      "MappedId": 69,
-      "Name": "Pot of Fancy Potato and Leek Soup"
-    },
-    {
-      "Id": 12723,
-      "MappedId": 70,
-      "Name": "Pot of Fire Meat Chili"
-    },
-    {
-      "Id": 12724,
-      "MappedId": 71,
-      "Name": "Pot of Fire Veggie Chili"
-    },
-    {
-      "Id": 12725,
-      "MappedId": 72,
-      "Name": "Pot of Lemongrass Poultry Soup"
-    },
-    {
-      "Id": 12726,
-      "MappedId": 73,
-      "Name": "Pot of Orrian Truffle and Meat Stew"
-    },
-    {
-      "Id": 12727,
-      "MappedId": 74,
-      "Name": "Pot of Orrian Truffle Soup"
-    },
-    {
-      "Id": 12728,
-      "MappedId": 75,
-      "Name": "Pot of Saffron-scented Poultry Soup"
-    },
-    {
       "Id": 36083,
-      "MappedId": 76,
+      "MappedId": 40,
       "Name": "Omnomberry Ghost"
     },
     {
       "Id": 36084,
-      "MappedId": 77,
+      "MappedId": 41,
       "Name": "Spicy Pumpkin Cookie"
     },
     {
       "Id": 36793,
-      "MappedId": 78,
+      "MappedId": 42,
       "Name": "Bowl of Tropical Fruit Salad"
     },
     {
       "Id": 36841,
-      "MappedId": 79,
+      "MappedId": 43,
       "Name": "Bowl of Tropical Mousse"
     },
     {
       "Id": 38210,
-      "MappedId": 80,
+      "MappedId": 44,
       "Name": "Bowl of Saffron-Mango Ice Cream"
     },
     {
       "Id": 41561,
-      "MappedId": 81,
+      "MappedId": 45,
       "Name": "Carrot Soufflé"
     },
     {
       "Id": 41562,
-      "MappedId": 82,
+      "MappedId": 46,
       "Name": "Bowl of Refugee's Beet Soup"
     },
     {
       "Id": 41563,
-      "MappedId": 83,
+      "MappedId": 47,
       "Name": "Spicy Marinated Mushroom"
     },
     {
       "Id": 41564,
-      "MappedId": 84,
+      "MappedId": 48,
       "Name": "Plate of Frostgorge Clams"
     },
     {
       "Id": 41565,
-      "MappedId": 85,
+      "MappedId": 49,
       "Name": "Bowl of Garlic Kale Sautee"
     },
     {
       "Id": 41566,
-      "MappedId": 86,
+      "MappedId": 50,
       "Name": "Mushroom Loaf"
     },
     {
       "Id": 41567,
-      "MappedId": 87,
+      "MappedId": 51,
       "Name": "Plate of Spicy Herbed Chicken"
     },
     {
       "Id": 41568,
-      "MappedId": 88,
+      "MappedId": 52,
       "Name": "Bowl of Zesty Turnip Soup"
     },
     {
       "Id": 41569,
-      "MappedId": 89,
+      "MappedId": 53,
       "Name": "Bowl of Sweet and Spicy Butternut Squash Soup"
     },
     {
       "Id": 43358,
-      "MappedId": 90,
+      "MappedId": 54,
       "Name": "Kralkachocolate Bar"
     },
     {
       "Id": 43359,
-      "MappedId": 91,
+      "MappedId": 55,
       "Name": "Dragonfly Cupcake"
     },
     {
       "Id": 43360,
-      "MappedId": 92,
+      "MappedId": 56,
       "Name": "Dragon's Breath Bun"
     },
     {
       "Id": 43361,
-      "MappedId": 93,
+      "MappedId": 57,
       "Name": "Koi Cake"
     },
     {
       "Id": 43362,
-      "MappedId": 94,
+      "MappedId": 58,
       "Name": "Slice of Candied Dragon Roll"
     },
     {
       "Id": 43363,
-      "MappedId": 95,
+      "MappedId": 59,
       "Name": "Dragonfish Candy"
     },
     {
       "Id": 43550,
-      "MappedId": 96,
+      "MappedId": 60,
       "Name": "Dragon's Revelry Starcake"
     },
     {
       "Id": 48921,
-      "MappedId": 97,
+      "MappedId": 61,
       "Name": "Bowl of Marjory's Experimental Chili"
     },
     {
       "Id": 66523,
-      "MappedId": 98,
+      "MappedId": 62,
       "Name": "Bowl of Cactus Fruit Salad"
     },
     {
-      "Id": 66525,
-      "MappedId": 99,
-      "Name": "Pot of Sweet and Spicy Beans"
-    },
-    {
       "Id": 66526,
-      "MappedId": 100,
+      "MappedId": 63,
       "Name": "Prickly Pear Stuffed Nopal"
     },
     {
       "Id": 66527,
-      "MappedId": 101,
+      "MappedId": 64,
       "Name": "Loaf of Candy Cactus Cornbread"
     },
     {
       "Id": 66528,
-      "MappedId": 102,
+      "MappedId": 65,
       "Name": "Bowl of Sweet and Spicy Beans"
     },
     {
       "Id": 66529,
-      "MappedId": 103,
+      "MappedId": 66,
       "Name": "Bowl of Black Pepper Cactus Salad"
     },
     {
       "Id": 66530,
-      "MappedId": 104,
+      "MappedId": 67,
       "Name": "Bowl of Nopalitos Sauté"
     },
     {
       "Id": 66531,
-      "MappedId": 105,
+      "MappedId": 68,
       "Name": "Bowl of Cactus Soup"
     },
     {
-      "Id": 66532,
-      "MappedId": 106,
-      "Name": "Feast of Nopalitos Sauté"
-    },
-    {
-      "Id": 66533,
-      "MappedId": 107,
-      "Name": "Feast of Cactus Fruit Salad"
-    },
-    {
-      "Id": 66534,
-      "MappedId": 108,
-      "Name": "Feast of Black Pepper Cactus Salad"
-    },
-    {
-      "Id": 66535,
-      "MappedId": 109,
-      "Name": "Feast of Roasted Cactus"
-    },
-    {
       "Id": 66536,
-      "MappedId": 110,
+      "MappedId": 69,
       "Name": "Plate of Roasted Cactus"
     },
     {
       "Id": 66538,
-      "MappedId": 111,
+      "MappedId": 70,
       "Name": "Prickly Pear Pie"
     },
     {
       "Id": 66539,
-      "MappedId": 112,
+      "MappedId": 71,
       "Name": "Bowl of Prickly Pear Sorbet"
     },
     {
       "Id": 68632,
-      "MappedId": 113,
+      "MappedId": 72,
       "Name": "Spring Roll"
     },
     {
       "Id": 68633,
-      "MappedId": 114,
+      "MappedId": 73,
       "Name": "Fried Golden Dumpling"
     },
     {
       "Id": 68634,
-      "MappedId": 115,
+      "MappedId": 74,
       "Name": "Delicious Rice Ball"
     },
     {
       "Id": 68635,
-      "MappedId": 116,
+      "MappedId": 75,
       "Name": "Steamed Red Dumpling"
     },
     {
       "Id": 68636,
-      "MappedId": 117,
+      "MappedId": 76,
       "Name": "Sweet Bean Bun"
     },
     {
-      "Id": 70628,
-      "MappedId": 118,
-      "Name": "Pile of Golden Sand"
-    },
-    {
-      "Id": 71176,
-      "MappedId": 119,
-      "Name": "Pile of Pink Sand"
-    },
-    {
-      "Id": 71797,
-      "MappedId": 120,
-      "Name": "Plate of Jerk Poultry"
-    },
-    {
-      "Id": 71826,
-      "MappedId": 121,
-      "Name": "Bowl of Passion Fruit Tapioca Pudding"
-    },
-    {
-      "Id": 71940,
-      "MappedId": 122,
-      "Name": "Indigo Mushroom Milkshake"
-    },
-    {
       "Id": 72575,
-      "MappedId": 123,
+      "MappedId": 77,
       "Name": "Bowl of Curry Mussel Soup"
     },
     {
-      "Id": 72761,
-      "MappedId": 124,
-      "Name": "Mashed Purple Potatoes"
-    },
-    {
-      "Id": 73221,
-      "MappedId": 125,
-      "Name": "Bowl of Lemongrass Mussel Pasta"
-    },
-    {
       "Id": 73788,
-      "MappedId": 126,
+      "MappedId": 78,
       "Name": "Jerk Poultry and Nopal Flatbread Sandwich"
     },
     {
       "Id": 74621,
-      "MappedId": 127,
+      "MappedId": 79,
       "Name": "Cheesy Cassava Roll"
     },
     {
       "Id": 74777,
-      "MappedId": 128,
+      "MappedId": 80,
       "Name": "Bowl of Mussel Soup"
     },
     {
       "Id": 74969,
-      "MappedId": 129,
+      "MappedId": 81,
       "Name": "Plate of Mussels Gnashblade"
     },
     {
-      "Id": 75053,
-      "MappedId": 130,
-      "Name": "Swiftly Scrambled Eggs"
-    },
-    {
       "Id": 75126,
-      "MappedId": 131,
+      "MappedId": 82,
       "Name": "Slice of Allspice Cake"
     },
     {
       "Id": 76103,
-      "MappedId": 132,
+      "MappedId": 83,
       "Name": "Plate of Mushrooms Yakkington"
     },
     {
       "Id": 76135,
-      "MappedId": 133,
+      "MappedId": 84,
       "Name": "Bowl of Prickly Pear Tapioca Pudding"
     },
     {
       "Id": 76302,
-      "MappedId": 134,
+      "MappedId": 85,
       "Name": "Jerk Poultry Flatbread Sandwich"
     },
     {
       "Id": 76359,
-      "MappedId": 135,
+      "MappedId": 86,
       "Name": "Slice of Allspice Cake with Ice Cream"
     },
     {
-      "Id": 76388,
-      "MappedId": 136,
-      "Name": "Egg in a Cloud"
-    },
-    {
       "Id": 76415,
-      "MappedId": 137,
+      "MappedId": 87,
       "Name": "Bowl of Chocolate Tapioca Pudding"
     },
     {
       "Id": 76603,
-      "MappedId": 138,
+      "MappedId": 88,
       "Name": "Flatbread"
     },
     {
       "Id": 76840,
-      "MappedId": 139,
+      "MappedId": 89,
       "Name": "Bowl of Tapioca Pudding"
     },
     {
-      "Id": 76944,
-      "MappedId": 140,
-      "Name": "Quiche of Darkness"
-    },
-    {
       "Id": 77579,
-      "MappedId": 141,
+      "MappedId": 90,
       "Name": "Tropical Peppermint Cake"
     },
     {
       "Id": 77630,
-      "MappedId": 142,
+      "MappedId": 91,
       "Name": "Scoop of Mintberry Swirl Ice Cream"
     },
     {
       "Id": 77643,
-      "MappedId": 143,
+      "MappedId": 92,
       "Name": "Peppermint Omnomberry Bar"
     },
     {
       "Id": 78658,
-      "MappedId": 144,
+      "MappedId": 93,
       "Name": "Mango Pie"
     },
     {
       "Id": 79488,
-      "MappedId": 145,
+      "MappedId": 94,
       "Name": "Plate of Sweet Curried Mussels"
     },
     {
       "Id": 79541,
-      "MappedId": 146,
+      "MappedId": 95,
       "Name": "Plate of Island Pudding"
     },
     {
       "Id": 79748,
-      "MappedId": 147,
+      "MappedId": 96,
       "Name": "Winterberry Pie"
     },
     {
       "Id": 79776,
-      "MappedId": 148,
+      "MappedId": 97,
       "Name": "Winterberry Sorbet"
     },
     {
       "Id": 79786,
-      "MappedId": 149,
+      "MappedId": 98,
       "Name": "Steak with Winterberry Sauce"
     },
     {
       "Id": 79793,
-      "MappedId": 150,
+      "MappedId": 99,
       "Name": "Bowl of Winterberry Seaweed Salad"
     },
     {
       "Id": 79988,
-      "MappedId": 151,
+      "MappedId": 100,
       "Name": "Super-Hot Lemongrass Poultry Soup"
     },
     {
       "Id": 80056,
-      "MappedId": 152,
+      "MappedId": 101,
       "Name": "Super-Hot Saffron-Scented Poultry Soup"
     },
     {
       "Id": 80373,
-      "MappedId": 153,
+      "MappedId": 102,
       "Name": "Lake Doric Mussels"
     },
     {
       "Id": 80466,
-      "MappedId": 154,
+      "MappedId": 103,
       "Name": "Saffron Mussels"
     },
     {
       "Id": 81615,
-      "MappedId": 155,
+      "MappedId": 104,
       "Name": "Oysters with Cocktail Sauce"
     },
     {
       "Id": 81621,
-      "MappedId": 156,
+      "MappedId": 105,
       "Name": "Oysters with Pesto Sauce"
     },
     {
       "Id": 81660,
-      "MappedId": 157,
+      "MappedId": 106,
       "Name": "Fried Oyster Sandwich"
     },
     {
       "Id": 81786,
-      "MappedId": 158,
+      "MappedId": 107,
       "Name": "Oysters Gnashblade"
     },
     {
       "Id": 81799,
-      "MappedId": 159,
+      "MappedId": 108,
       "Name": "Oysters with Zesty Sauce"
     },
     {
       "Id": 81867,
-      "MappedId": 160,
+      "MappedId": 109,
       "Name": "Oysters with Spicy Sauce"
     },
     {
       "Id": 82030,
-      "MappedId": 161,
+      "MappedId": 110,
       "Name": "Fried Oysters"
     },
     {
       "Id": 82541,
-      "MappedId": 162,
+      "MappedId": 111,
       "Name": "Bowl of \"Elon Red\""
     },
     {
       "Id": 82642,
-      "MappedId": 163,
+      "MappedId": 112,
       "Name": "Cup of Light-Roasted Coffee"
     },
     {
-      "Id": 82657,
-      "MappedId": 164,
-      "Name": "Red Lentil and Flatbread Feast"
-    },
-    {
-      "Id": 83171,
-      "MappedId": 165,
-      "Name": "Threat Report: Missing Sacred Text"
-    },
-    {
       "Id": 83345,
-      "MappedId": 166,
+      "MappedId": 113,
       "Name": "Bowl of Spiced Red Lentil Stew"
     },
     {
-      "Id": 83545,
-      "MappedId": 167,
-      "Name": "Pitcher of Desert-Spiced Coffee"
-    },
-    {
-      "Id": 83591,
-      "MappedId": 168,
-      "Name": "Threat Report: Thermoptic Flux Readings"
-    },
-    {
       "Id": 83622,
-      "MappedId": 169,
+      "MappedId": 114,
       "Name": "Plate of Sugar Rib Roast"
     },
     {
       "Id": 83955,
-      "MappedId": 170,
+      "MappedId": 115,
       "Name": "Bowl of Red Lentil Soup"
     },
     {
       "Id": 84550,
-      "MappedId": 171,
+      "MappedId": 116,
       "Name": "Red-Lentil Saobosa"
     },
     {
       "Id": 86997,
-      "MappedId": 172,
+      "MappedId": 117,
       "Name": "Plate of Beef Rendang"
     },
     {
       "Id": 87076,
-      "MappedId": 173,
+      "MappedId": 118,
       "Name": "Bowl of Poultry Satay"
     },
     {
       "Id": 87367,
-      "MappedId": 174,
+      "MappedId": 119,
       "Name": "Holographic Super Cake"
     },
     {
       "Id": 89002,
-      "MappedId": 175,
+      "MappedId": 120,
       "Name": "Soul Pastry"
     },
     {
       "Id": 91690,
-      "MappedId": 176,
+      "MappedId": 121,
       "Name": "Bowl of Fruit Salad with Mint Garnish"
     },
     {
       "Id": 91698,
-      "MappedId": 177,
+      "MappedId": 122,
       "Name": "Clove and Veggie Flatbread"
     },
     {
       "Id": 91703,
-      "MappedId": 178,
+      "MappedId": 123,
       "Name": "Mint-Pear Cured Meat Flatbread"
     },
     {
       "Id": 91704,
-      "MappedId": 179,
+      "MappedId": 124,
       "Name": "Plate of Poultry Aspic with Salsa Garnish"
     },
     {
       "Id": 91705,
-      "MappedId": 180,
+      "MappedId": 125,
       "Name": "Clove-Spiced Eggs Benedict"
     },
     {
       "Id": 91709,
-      "MappedId": 181,
+      "MappedId": 126,
       "Name": "Plate of Coq Au Vin with Salsa"
     },
     {
       "Id": 91711,
-      "MappedId": 182,
+      "MappedId": 127,
       "Name": "Plate of Sesame-Crusted Coq Au Vin"
     },
     {
       "Id": 91713,
-      "MappedId": 183,
+      "MappedId": 128,
       "Name": "Spherified Peppercorn-Spiced Oyster Soup"
     },
     {
       "Id": 91718,
-      "MappedId": 184,
+      "MappedId": 129,
       "Name": "Plate of Sesame-Ginger Beef Carpaccio"
     },
     {
       "Id": 91723,
-      "MappedId": 185,
+      "MappedId": 130,
       "Name": "Plate of Clove-Spiced Clear Truffle Ravioli"
     },
     {
       "Id": 91727,
-      "MappedId": 186,
+      "MappedId": 131,
       "Name": "Mint and Veggie Flatbread"
     },
     {
       "Id": 91729,
-      "MappedId": 187,
+      "MappedId": 132,
       "Name": "Sesame Cheesecake"
     },
     {
       "Id": 91732,
-      "MappedId": 188,
+      "MappedId": 133,
       "Name": "Bowl of Sesame Fruit Salad"
     },
     {
       "Id": 91734,
-      "MappedId": 189,
+      "MappedId": 134,
       "Name": "Peppercorn-Crusted Sous-Vide Steak"
     },
     {
       "Id": 91735,
-      "MappedId": 190,
+      "MappedId": 135,
       "Name": "Plate of Clear Truffle and Cilantro Ravioli"
     },
     {
       "Id": 91736,
-      "MappedId": 191,
+      "MappedId": 136,
       "Name": "Soy-Sesame Sous-Vide Steak"
     },
     {
       "Id": 91737,
-      "MappedId": 192,
+      "MappedId": 137,
       "Name": "Bowl of Spiced Fruit Salad"
     },
     {
       "Id": 91742,
-      "MappedId": 193,
+      "MappedId": 138,
       "Name": "Spiced Pepper Creme Brulee"
     },
     {
       "Id": 91743,
-      "MappedId": 194,
+      "MappedId": 139,
       "Name": "Mint Creme Brulee"
     },
     {
       "Id": 91746,
-      "MappedId": 195,
+      "MappedId": 140,
       "Name": "Mango Cilantro Creme Brulee"
     },
     {
       "Id": 91748,
-      "MappedId": 196,
+      "MappedId": 141,
       "Name": "Spherified Oyster Soup with Mint Garnish"
     },
     {
       "Id": 91753,
-      "MappedId": 197,
+      "MappedId": 142,
       "Name": "Plate of Peppercorn-Spiced Coq Au Vin"
     },
     {
       "Id": 91754,
-      "MappedId": 198,
+      "MappedId": 143,
       "Name": "Spherified Clove-Spiced Oyster Soup"
     },
     {
       "Id": 91756,
-      "MappedId": 199,
+      "MappedId": 144,
       "Name": "Spherified Sesame Oyster Soup"
     },
     {
       "Id": 91758,
-      "MappedId": 200,
+      "MappedId": 145,
       "Name": "Eggs Benedict with Mint-Parsley Sauce"
     },
     {
       "Id": 91761,
-      "MappedId": 201,
+      "MappedId": 146,
       "Name": "Orange Clove Cheesecake"
     },
     {
       "Id": 91766,
-      "MappedId": 202,
+      "MappedId": 147,
       "Name": "Clove-Spiced Creme Brulee"
     },
     {
       "Id": 91769,
-      "MappedId": 203,
+      "MappedId": 148,
       "Name": "Bowl of Fruit Salad with Cilantro Garnish"
     },
     {
       "Id": 91770,
-      "MappedId": 204,
+      "MappedId": 149,
       "Name": "Plate of Peppered Clear Truffle Ravioli"
     },
     {
       "Id": 91771,
-      "MappedId": 205,
+      "MappedId": 150,
       "Name": "Peppercorn and Veggie Flatbread"
     },
     {
       "Id": 91775,
-      "MappedId": 206,
+      "MappedId": 151,
       "Name": "Plate of Sesame Poultry Aspic"
     },
     {
       "Id": 91780,
-      "MappedId": 207,
+      "MappedId": 152,
       "Name": "Plate of Clove-Spiced Coq Au Vin"
     },
     {
       "Id": 91784,
-      "MappedId": 208,
+      "MappedId": 153,
       "Name": "Clove-Spiced Pear and Cured Meat Flatbread"
     },
     {
       "Id": 91790,
-      "MappedId": 209,
+      "MappedId": 154,
       "Name": "Mushroom Clove Sous-Vide Steak"
     },
     {
       "Id": 91794,
-      "MappedId": 210,
+      "MappedId": 155,
       "Name": "Plate of Peppercorn-Spiced Poultry Aspic"
     },
     {
       "Id": 91797,
-      "MappedId": 211,
+      "MappedId": 156,
       "Name": "Plate of Clear Truffle and Mint Ravioli"
     },
     {
       "Id": 91798,
-      "MappedId": 212,
+      "MappedId": 157,
       "Name": "Plate of Clear Truffle and Sesame Ravioli"
     },
     {
       "Id": 91801,
-      "MappedId": 213,
+      "MappedId": 158,
       "Name": "Sous-Vide Steak with Mint-Parsley Sauce"
     },
     {
       "Id": 91804,
-      "MappedId": 214,
+      "MappedId": 159,
       "Name": "Spherified Cilantro Oyster Soup"
     },
     {
       "Id": 91805,
-      "MappedId": 215,
+      "MappedId": 160,
       "Name": "Cilantro Lime Sous-Vide Steak"
     },
     {
       "Id": 91806,
-      "MappedId": 216,
+      "MappedId": 161,
       "Name": "Plate of Clove-Spiced Beef Carpaccio"
     },
     {
       "Id": 91809,
-      "MappedId": 217,
+      "MappedId": 162,
       "Name": "Plate of Beef Carpaccio with Mint Garnish"
     },
     {
       "Id": 91822,
-      "MappedId": 218,
+      "MappedId": 163,
       "Name": "Plate of Coq Au Vin with Mint Garnish"
     },
     {
       "Id": 91823,
-      "MappedId": 219,
+      "MappedId": 164,
       "Name": "Sesame Veggie Flatbread"
     },
     {
       "Id": 91834,
-      "MappedId": 220,
+      "MappedId": 165,
       "Name": "Mint Strawberry Cheesecake"
     },
     {
       "Id": 91835,
-      "MappedId": 221,
+      "MappedId": 166,
       "Name": "Spiced Peppercorn Cheesecake"
     },
     {
       "Id": 91837,
-      "MappedId": 222,
+      "MappedId": 167,
       "Name": "Sesame Creme Brulee"
     },
     {
       "Id": 91839,
-      "MappedId": 223,
+      "MappedId": 168,
       "Name": "Plate of Clove-Spiced Poultry Aspic"
     },
     {
       "Id": 91841,
-      "MappedId": 224,
+      "MappedId": 169,
       "Name": "Bowl of Fruit Salad with Orange-Clove Syrup"
     },
     {
       "Id": 91842,
-      "MappedId": 225,
+      "MappedId": 170,
       "Name": "Plate of Eggs Benedict"
     },
     {
       "Id": 91847,
-      "MappedId": 226,
+      "MappedId": 171,
       "Name": "Salsa Eggs Benedict"
     },
     {
       "Id": 91848,
-      "MappedId": 227,
+      "MappedId": 172,
       "Name": "Peppered Cured Meat Flatbread"
     },
     {
       "Id": 91851,
-      "MappedId": 228,
+      "MappedId": 173,
       "Name": "Strawberry Cilantro Cheesecake"
     },
     {
       "Id": 91855,
-      "MappedId": 229,
+      "MappedId": 174,
       "Name": "Sesame Eggs Benedict"
     },
     {
       "Id": 91858,
-      "MappedId": 230,
+      "MappedId": 175,
       "Name": "Plate of Peppercorn-Spiced Beef Carpaccio"
     },
     {
       "Id": 91862,
-      "MappedId": 231,
+      "MappedId": 176,
       "Name": "Plate of Beef Carpaccio with Salsa Garnish"
     },
     {
       "Id": 91864,
-      "MappedId": 232,
+      "MappedId": 177,
       "Name": "Plate of Poultry Aspic with Mint Garnish"
     },
     {
       "Id": 91865,
-      "MappedId": 233,
+      "MappedId": 178,
       "Name": "Peppercorn-Spiced Eggs Benedict"
     },
     {
       "Id": 91867,
-      "MappedId": 234,
+      "MappedId": 179,
       "Name": "Sesame-Asparagus and Cured Meat Flatbread"
     },
     {
       "Id": 91876,
-      "MappedId": 235,
+      "MappedId": 180,
       "Name": "Salsa-Topped Veggie Flatbread"
     },
     {
       "Id": 91878,
-      "MappedId": 236,
+      "MappedId": 181,
       "Name": "Cilantro and Cured Meat Flatbread"
     },
     {
       "Id": 91917,
-      "MappedId": 237,
+      "MappedId": 182,
       "Name": "Plate of Spicy Moa Wings"
     },
     {
-      "Id": 91943,
-      "MappedId": 238,
-      "Name": "Feast of Carne Khan Chili"
-    },
-    {
       "Id": 91950,
-      "MappedId": 239,
+      "MappedId": 183,
       "Name": "Bowl of Firebreather Chili"
     },
     {
       "Id": 91954,
-      "MappedId": 240,
+      "MappedId": 184,
       "Name": "Bowl of Carne Khan Chili"
     },
     {
       "Id": 92078,
-      "MappedId": 241,
+      "MappedId": 185,
       "Name": "Bowl of Green Chile Ice Cream"
     },
     {
       "Id": 92138,
-      "MappedId": 242,
+      "MappedId": 186,
       "Name": "Saint Bones"
     },
     {
       "Id": 92196,
-      "MappedId": 243,
+      "MappedId": 187,
       "Name": "Soul Cake"
     },
     {
       "Id": 95942,
-      "MappedId": 244,
+      "MappedId": 188,
       "Name": "Meaty Asparagus Skewer"
     },
     {
       "Id": 96578,
-      "MappedId": 245,
+      "MappedId": 189,
       "Name": "Plate of Kimchi Pancakes"
     },
     {
       "Id": 96707,
-      "MappedId": 246,
+      "MappedId": 190,
       "Name": "Bowl of Fish Stew"
     },
     {
       "Id": 96793,
-      "MappedId": 247,
+      "MappedId": 191,
       "Name": "Block of Tofu"
     },
     {
       "Id": 96916,
-      "MappedId": 248,
+      "MappedId": 192,
       "Name": "Meaty Rice Bowl"
     },
     {
       "Id": 97200,
-      "MappedId": 249,
+      "MappedId": 193,
       "Name": "Flight of Sushi"
     },
     {
       "Id": 97282,
-      "MappedId": 250,
+      "MappedId": 194,
       "Name": "Bowl of Jade Sea Bounty"
     },
     {
       "Id": 97422,
-      "MappedId": 251,
+      "MappedId": 195,
       "Name": "Bowl of Kimchi Tofu Stew"
     },
     {
       "Id": 97472,
-      "MappedId": 252,
+      "MappedId": 196,
       "Name": "Plate of Imperial Palace Special"
     },
     {
       "Id": 97592,
-      "MappedId": 253,
+      "MappedId": 197,
       "Name": "Bowl of Echovald Hotpot"
     },
     {
       "Id": 97767,
-      "MappedId": 254,
+      "MappedId": 198,
       "Name": "Fishy Rice Bowl"
     },
     {
       "Id": 97771,
-      "MappedId": 255,
+      "MappedId": 199,
       "Name": "Redfish Sushi"
     },
     {
       "Id": 97826,
-      "MappedId": 256,
+      "MappedId": 200,
       "Name": "Plate of Crispy Fish Pancakes"
-    },
-    {
-      "Id": 98924,
-      "MappedId": 257,
-      "Name": "Tray of Decade Desserts"
     }
   ],
   "Utilities": [
@@ -5065,6 +4780,21 @@
       "Id": 95380,
       "MappedId": 8,
       "Name": "Prismatic Champion's Regalia"
+    },
+    {
+      "Id": 96699,
+      "MappedId": 9,
+      "Name": "Willbender's Ring"
+    },
+    {
+      "Id": 97239,
+      "MappedId": 10,
+      "Name": "Willbender's Trinket"
+    },
+    {
+      "Id": 97687,
+      "MappedId": 11,
+      "Name": "Badge of Compelling"
     }
   ],
   "Backs": [
@@ -5074,18 +4804,23 @@
       "Name": "Ad Infinitum"
     },
     {
-      "Id": 77474,
+      "Id": 74623,
       "MappedId": 1,
+      "Name": "Crusader's Pack"
+    },
+    {
+      "Id": 77474,
+      "MappedId": 2,
       "Name": "The Ascension"
     },
     {
       "Id": 81462,
-      "MappedId": 2,
+      "MappedId": 3,
       "Name": "Warbringer"
     },
     {
       "Id": 94947,
-      "MappedId": 3,
+      "MappedId": 4,
       "Name": "Dragonscale Cape"
     }
   ],
@@ -5186,905 +4921,1105 @@
       "Name": "Howler"
     },
     {
-      "Id": 71383,
+      "Id": 70638,
+      "MappedId": 19,
+      "Name": "Gold Fractal Warhorn"
+    },
+    {
+      "Id": 70785,
+      "MappedId": 20,
+      "Name": "Gold Fractal Staff"
+    },
+    {
+      "Id": 71164,
       "MappedId": 21,
+      "Name": "Gold Fractal Rifle"
+    },
+    {
+      "Id": 71232,
+      "MappedId": 22,
+      "Name": "Gold Fractal Focus"
+    },
+    {
+      "Id": 71383,
+      "MappedId": 23,
       "Name": "Nevermore"
     },
     {
+      "Id": 71670,
+      "MappedId": 24,
+      "Name": "Gold Fractal Hammer"
+    },
+    {
+      "Id": 72165,
+      "MappedId": 25,
+      "Name": "Gold Fractal Short Bow"
+    },
+    {
+      "Id": 72542,
+      "MappedId": 26,
+      "Name": "Gold Fractal Shield"
+    },
+    {
       "Id": 72713,
-      "MappedId": 22,
+      "MappedId": 27,
       "Name": "HOPE"
     },
     {
+      "Id": 73091,
+      "MappedId": 28,
+      "Name": "Gold Fractal Greatsword"
+    },
+    {
+      "Id": 73269,
+      "MappedId": 29,
+      "Name": "Gold Fractal Longbow"
+    },
+    {
+      "Id": 73380,
+      "MappedId": 30,
+      "Name": "Gold Fractal Axe"
+    },
+    {
+      "Id": 74760,
+      "MappedId": 31,
+      "Name": "Gold Fractal Speargun"
+    },
+    {
+      "Id": 74862,
+      "MappedId": 32,
+      "Name": "Gold Fractal Pistol"
+    },
+    {
+      "Id": 75830,
+      "MappedId": 33,
+      "Name": "Gold Fractal Harpoon"
+    },
+    {
+      "Id": 75835,
+      "MappedId": 34,
+      "Name": "Gold Fractal Mace"
+    },
+    {
+      "Id": 75881,
+      "MappedId": 35,
+      "Name": "Gold Fractal Dagger"
+    },
+    {
       "Id": 76158,
-      "MappedId": 23,
+      "MappedId": 36,
       "Name": "Astralaria"
     },
     {
+      "Id": 76257,
+      "MappedId": 37,
+      "Name": "Gold Fractal Sword"
+    },
+    {
+      "Id": 76598,
+      "MappedId": 38,
+      "Name": "Gold Fractal Scepter"
+    },
+    {
+      "Id": 76974,
+      "MappedId": 39,
+      "Name": "Gold Fractal Torch"
+    },
+    {
+      "Id": 77196,
+      "MappedId": 40,
+      "Name": "Gold Fractal Trident"
+    },
+    {
       "Id": 78556,
-      "MappedId": 24,
+      "MappedId": 41,
       "Name": "Chuka and Champawat"
     },
     {
       "Id": 79562,
-      "MappedId": 25,
+      "MappedId": 42,
       "Name": "Eureka"
     },
     {
       "Id": 79802,
-      "MappedId": 26,
+      "MappedId": 43,
       "Name": "Shooshadoo"
     },
     {
       "Id": 80488,
-      "MappedId": 27,
+      "MappedId": 44,
       "Name": "The HMS Divinity"
     },
     {
       "Id": 81206,
-      "MappedId": 28,
+      "MappedId": 45,
       "Name": "Flames of War"
     },
     {
       "Id": 81839,
-      "MappedId": 29,
+      "MappedId": 46,
       "Name": "Sharur"
     },
     {
       "Id": 81957,
-      "MappedId": 30,
+      "MappedId": 47,
       "Name": "The Shining Blade"
     },
     {
       "Id": 84872,
-      "MappedId": 31,
+      "MappedId": 48,
       "Name": "Cobalt Antique Artifact"
     },
     {
       "Id": 84888,
-      "MappedId": 32,
+      "MappedId": 49,
       "Name": "Cobalt Antique Greatbow"
     },
     {
       "Id": 84899,
-      "MappedId": 33,
+      "MappedId": 50,
       "Name": "Cobalt Antique Impaler"
     },
     {
       "Id": 85010,
-      "MappedId": 34,
+      "MappedId": 51,
       "Name": "Cobalt Antique Revolver"
     },
     {
       "Id": 85017,
-      "MappedId": 35,
+      "MappedId": 52,
       "Name": "Cobalt Antique Razor"
     },
     {
       "Id": 85026,
-      "MappedId": 36,
+      "MappedId": 53,
       "Name": "Cobalt Antique Spire"
     },
     {
       "Id": 85052,
-      "MappedId": 37,
+      "MappedId": 54,
       "Name": "Cobalt Antique Short Bow"
     },
     {
       "Id": 85060,
-      "MappedId": 38,
+      "MappedId": 55,
       "Name": "Cobalt Antique Warhammer"
     },
     {
       "Id": 85105,
-      "MappedId": 39,
+      "MappedId": 56,
       "Name": "Cobalt Antique Reaver"
     },
     {
       "Id": 85117,
-      "MappedId": 40,
+      "MappedId": 57,
       "Name": "Cobalt Antique Wand"
     },
     {
       "Id": 85250,
-      "MappedId": 41,
+      "MappedId": 58,
       "Name": "Cobalt Antique Blade"
     },
     {
       "Id": 85251,
-      "MappedId": 42,
+      "MappedId": 59,
       "Name": "Cobalt Antique Claymore"
     },
     {
       "Id": 85262,
-      "MappedId": 43,
+      "MappedId": 60,
       "Name": "Cobalt Antique Musket"
     },
     {
       "Id": 85265,
-      "MappedId": 44,
+      "MappedId": 61,
       "Name": "Cobalt Antique Trident"
     },
     {
       "Id": 85267,
-      "MappedId": 45,
+      "MappedId": 62,
       "Name": "Cobalt Antique Flanged Mace"
     },
     {
       "Id": 85307,
-      "MappedId": 46,
+      "MappedId": 63,
       "Name": "Cobalt Antique Herald"
     },
     {
       "Id": 85323,
-      "MappedId": 47,
+      "MappedId": 64,
       "Name": "Cobalt Antique Brazier"
     },
     {
       "Id": 85341,
-      "MappedId": 48,
+      "MappedId": 65,
       "Name": "Cobalt Antique Harpoon Gun"
     },
     {
       "Id": 85360,
-      "MappedId": 49,
+      "MappedId": 66,
       "Name": "Cobalt Antique Bastion"
     },
     {
       "Id": 86098,
-      "MappedId": 50,
+      "MappedId": 67,
       "Name": "The Binding of Ipos"
     },
     {
       "Id": 87109,
-      "MappedId": 51,
+      "MappedId": 68,
       "Name": "Claw of the Khan-Ur"
     },
     {
       "Id": 87687,
-      "MappedId": 52,
+      "MappedId": 69,
       "Name": "Verdarach"
     },
     {
       "Id": 88576,
-      "MappedId": 53,
+      "MappedId": 70,
       "Name": "Xiuquatl"
     },
     {
       "Id": 89854,
-      "MappedId": 54,
+      "MappedId": 71,
       "Name": "Pharus"
     },
     {
       "Id": 90551,
-      "MappedId": 55,
+      "MappedId": 72,
       "Name": "Exordium"
     },
     {
       "Id": 95612,
-      "MappedId": 56,
+      "MappedId": 73,
       "Name": "Aurene's Tail"
     },
     {
       "Id": 95675,
-      "MappedId": 57,
+      "MappedId": 74,
       "Name": "Aurene's Fang"
     },
     {
       "Id": 95684,
-      "MappedId": 58,
+      "MappedId": 75,
       "Name": "Aurene's Weight"
     },
     {
       "Id": 95808,
-      "MappedId": 59,
+      "MappedId": 76,
       "Name": "Aurene's Argument"
     },
     {
       "Id": 96028,
-      "MappedId": 60,
+      "MappedId": 77,
       "Name": "Aurene's Scale"
     },
     {
       "Id": 96203,
-      "MappedId": 61,
+      "MappedId": 78,
       "Name": "Aurene's Claw"
     },
     {
       "Id": 96221,
-      "MappedId": 62,
+      "MappedId": 79,
       "Name": "Aurene's Wisdom"
     },
     {
       "Id": 96356,
-      "MappedId": 63,
+      "MappedId": 80,
       "Name": "Aurene's Bite"
     },
     {
       "Id": 96652,
-      "MappedId": 64,
+      "MappedId": 81,
       "Name": "Aurene's Insight"
     },
     {
       "Id": 96937,
-      "MappedId": 65,
+      "MappedId": 82,
       "Name": "Aurene's Rending"
     },
     {
       "Id": 97077,
-      "MappedId": 66,
+      "MappedId": 83,
       "Name": "Aurene's Wing"
     },
     {
       "Id": 97099,
-      "MappedId": 67,
+      "MappedId": 84,
       "Name": "Aurene's Breath"
     },
     {
       "Id": 97165,
-      "MappedId": 68,
+      "MappedId": 85,
       "Name": "Aurene's Gaze"
     },
     {
       "Id": 97377,
-      "MappedId": 69,
+      "MappedId": 86,
       "Name": "Aurene's Persuasion"
     },
     {
       "Id": 97590,
-      "MappedId": 70,
+      "MappedId": 87,
       "Name": "Aurene's Flight"
     },
     {
       "Id": 97783,
-      "MappedId": 71,
+      "MappedId": 88,
       "Name": "Aurene's Voice"
     }
   ],
   "Armors": [
     {
-      "Id": 79838,
+      "Id": 68356,
       "MappedId": 0,
+      "Name": "Rime-Rimmed Mariner's Rebreather"
+    },
+    {
+      "Id": 68357,
+      "MappedId": 1,
+      "Name": "Rime-Rimmed Mariner's Rebreather"
+    },
+    {
+      "Id": 68359,
+      "MappedId": 2,
+      "Name": "Rime-Rimmed Mariner's Rebreather"
+    },
+    {
+      "Id": 70597,
+      "MappedId": 3,
+      "Name": "Bladed Helmet"
+    },
+    {
+      "Id": 70719,
+      "MappedId": 4,
+      "Name": "Bladed Boots"
+    },
+    {
+      "Id": 70899,
+      "MappedId": 5,
+      "Name": "Bladed Pants"
+    },
+    {
+      "Id": 71149,
+      "MappedId": 6,
+      "Name": "Bladed Gloves"
+    },
+    {
+      "Id": 71738,
+      "MappedId": 7,
+      "Name": "Bladed Vestments"
+    },
+    {
+      "Id": 71759,
+      "MappedId": 8,
+      "Name": "Bladed Shoulderpads"
+    },
+    {
+      "Id": 71786,
+      "MappedId": 9,
+      "Name": "Bladed Greaves"
+    },
+    {
+      "Id": 73202,
+      "MappedId": 10,
+      "Name": "Bladed Mantle"
+    },
+    {
+      "Id": 73850,
+      "MappedId": 11,
+      "Name": "Bladed Tassets"
+    },
+    {
+      "Id": 74006,
+      "MappedId": 12,
+      "Name": "Bladed Gauntlets"
+    },
+    {
+      "Id": 74543,
+      "MappedId": 13,
+      "Name": "Bladed Jerkin"
+    },
+    {
+      "Id": 74957,
+      "MappedId": 14,
+      "Name": "Bladed Breastplate"
+    },
+    {
+      "Id": 75368,
+      "MappedId": 15,
+      "Name": "Bladed Leggings"
+    },
+    {
+      "Id": 75380,
+      "MappedId": 16,
+      "Name": "Bladed Pauldrons"
+    },
+    {
+      "Id": 75625,
+      "MappedId": 17,
+      "Name": "Bladed Cowl"
+    },
+    {
+      "Id": 75646,
+      "MappedId": 18,
+      "Name": "Bladed Shoes"
+    },
+    {
+      "Id": 75967,
+      "MappedId": 19,
+      "Name": "Bladed Mask"
+    },
+    {
+      "Id": 76182,
+      "MappedId": 20,
+      "Name": "Bladed Vambraces"
+    },
+    {
+      "Id": 79838,
+      "MappedId": 21,
       "Name": "Wegloop's Air Mask"
     },
     {
       "Id": 79873,
-      "MappedId": 1,
+      "MappedId": 22,
       "Name": "Wegloop's Air Veil"
     },
     {
       "Id": 79895,
-      "MappedId": 2,
+      "MappedId": 23,
       "Name": "Wegloop's Air Helmet"
     },
     {
       "Id": 80111,
-      "MappedId": 3,
+      "MappedId": 24,
       "Name": "Perfected Envoy Gloves"
     },
     {
       "Id": 80131,
-      "MappedId": 4,
+      "MappedId": 25,
       "Name": "Perfected Envoy Mantle"
     },
     {
       "Id": 80145,
-      "MappedId": 5,
+      "MappedId": 26,
       "Name": "Perfected Envoy Shoulderpads"
     },
     {
       "Id": 80161,
-      "MappedId": 6,
+      "MappedId": 27,
       "Name": "Perfected Envoy Vambraces"
     },
     {
       "Id": 80190,
-      "MappedId": 7,
+      "MappedId": 28,
       "Name": "Perfected Envoy Vestments"
     },
     {
       "Id": 80205,
-      "MappedId": 8,
+      "MappedId": 29,
       "Name": "Perfected Envoy Gauntlets"
     },
     {
       "Id": 80248,
-      "MappedId": 9,
+      "MappedId": 30,
       "Name": "Perfected Envoy Cowl"
     },
     {
       "Id": 80252,
-      "MappedId": 10,
+      "MappedId": 31,
       "Name": "Perfected Envoy Leggings"
     },
     {
       "Id": 80254,
-      "MappedId": 11,
+      "MappedId": 32,
       "Name": "Perfected Envoy Breastplate"
     },
     {
       "Id": 80277,
-      "MappedId": 12,
+      "MappedId": 33,
       "Name": "Perfected Envoy Tassets"
     },
     {
       "Id": 80281,
-      "MappedId": 13,
+      "MappedId": 34,
       "Name": "Perfected Envoy Boots"
     },
     {
       "Id": 80296,
-      "MappedId": 14,
+      "MappedId": 35,
       "Name": "Perfected Envoy Mask"
     },
     {
       "Id": 80356,
-      "MappedId": 15,
+      "MappedId": 36,
       "Name": "Perfected Envoy Pants"
     },
     {
       "Id": 80384,
-      "MappedId": 16,
+      "MappedId": 37,
       "Name": "Perfected Envoy Helmet"
     },
     {
       "Id": 80399,
-      "MappedId": 17,
+      "MappedId": 38,
       "Name": "Perfected Envoy Shoes"
     },
     {
       "Id": 80435,
-      "MappedId": 18,
+      "MappedId": 39,
       "Name": "Perfected Envoy Pauldrons"
     },
     {
       "Id": 80557,
-      "MappedId": 19,
+      "MappedId": 40,
       "Name": "Perfected Envoy Greaves"
     },
     {
       "Id": 80578,
-      "MappedId": 20,
+      "MappedId": 41,
       "Name": "Perfected Envoy Jerkin"
     },
     {
       "Id": 80701,
-      "MappedId": 21,
+      "MappedId": 42,
       "Name": "Illustrious Visage"
     },
     {
       "Id": 80815,
-      "MappedId": 22,
+      "MappedId": 43,
       "Name": "Illustrious Footwear"
     },
     {
       "Id": 80825,
-      "MappedId": 23,
+      "MappedId": 44,
       "Name": "Illustrious Shoulderguard"
     },
     {
       "Id": 80836,
-      "MappedId": 24,
+      "MappedId": 45,
       "Name": "Illustrious Striders"
     },
     {
       "Id": 82093,
-      "MappedId": 25,
+      "MappedId": 46,
       "Name": "Triumphant Hero's Shinplates"
     },
     {
       "Id": 82098,
-      "MappedId": 26,
+      "MappedId": 47,
       "Name": "Glorious Hero's Brigandine"
     },
     {
       "Id": 82102,
-      "MappedId": 27,
+      "MappedId": 48,
       "Name": "Sublime Mistforged Triumphant Hero's Brigandine"
     },
     {
       "Id": 82109,
-      "MappedId": 28,
+      "MappedId": 49,
       "Name": "Mistforged Triumphant Hero's Armguards"
     },
     {
       "Id": 82173,
-      "MappedId": 29,
+      "MappedId": 50,
       "Name": "Triumphant Hero's Epaulets"
     },
     {
       "Id": 82180,
-      "MappedId": 30,
+      "MappedId": 51,
       "Name": "Mistforged Triumphant Hero's Faceguard"
     },
     {
       "Id": 82196,
-      "MappedId": 31,
+      "MappedId": 52,
       "Name": "Triumphant Hero's Legplates"
     },
     {
       "Id": 82214,
-      "MappedId": 32,
+      "MappedId": 53,
       "Name": "Ardent Glorious Shinplates"
     },
     {
       "Id": 82245,
-      "MappedId": 33,
+      "MappedId": 54,
       "Name": "Ardent Glorious Wristplates"
     },
     {
       "Id": 82268,
-      "MappedId": 34,
+      "MappedId": 55,
       "Name": "Glorious Hero's Shoulderguards"
     },
     {
       "Id": 82272,
-      "MappedId": 35,
+      "MappedId": 56,
       "Name": "Glorious Hero's Shinplates"
     },
     {
       "Id": 82334,
-      "MappedId": 36,
+      "MappedId": 57,
       "Name": "Glorious Hero's Breastplate"
     },
     {
       "Id": 82348,
-      "MappedId": 37,
+      "MappedId": 58,
       "Name": "Mistforged Triumphant Hero's Gauntlets"
     },
     {
       "Id": 82401,
-      "MappedId": 38,
+      "MappedId": 59,
       "Name": "Glorious Hero's Cap"
     },
     {
       "Id": 82410,
-      "MappedId": 39,
+      "MappedId": 60,
       "Name": "Glorious Hero's Gauntlets"
     },
     {
       "Id": 82423,
-      "MappedId": 40,
+      "MappedId": 61,
       "Name": "Glorious Hero's Crown"
     },
     {
       "Id": 82437,
-      "MappedId": 41,
+      "MappedId": 62,
       "Name": "Triumphant Hero's Faceguard"
     },
     {
       "Id": 82456,
-      "MappedId": 42,
+      "MappedId": 63,
       "Name": "Triumphant Hero's Gauntlets"
     },
     {
       "Id": 82465,
-      "MappedId": 43,
+      "MappedId": 64,
       "Name": "Ardent Glorious Gauntlets"
     },
     {
       "Id": 82502,
-      "MappedId": 44,
+      "MappedId": 65,
       "Name": "Mistforged Triumphant Hero's Leggings"
     },
     {
       "Id": 82512,
-      "MappedId": 45,
+      "MappedId": 66,
       "Name": "Ardent Glorious Legguards"
     },
     {
       "Id": 82519,
-      "MappedId": 46,
+      "MappedId": 67,
       "Name": "Ardent Glorious Footgear"
     },
     {
       "Id": 82552,
-      "MappedId": 47,
+      "MappedId": 68,
       "Name": "Mistforged Triumphant Hero's Wristplates"
     },
     {
       "Id": 82670,
-      "MappedId": 48,
+      "MappedId": 69,
       "Name": "Ardent Glorious Brigandine"
     },
     {
       "Id": 82698,
-      "MappedId": 49,
+      "MappedId": 70,
       "Name": "Glorious Hero's Plate Helm"
     },
     {
       "Id": 82801,
-      "MappedId": 50,
+      "MappedId": 71,
       "Name": "Triumphant Hero's Wargreaves"
     },
     {
       "Id": 82902,
-      "MappedId": 51,
+      "MappedId": 72,
       "Name": "Triumphant Hero's Masque"
     },
     {
       "Id": 82903,
-      "MappedId": 52,
+      "MappedId": 73,
       "Name": "Triumphant Hero's Legguards"
     },
     {
       "Id": 82925,
-      "MappedId": 53,
+      "MappedId": 74,
       "Name": "Mistforged Triumphant Hero's Masque"
     },
     {
       "Id": 82963,
-      "MappedId": 54,
+      "MappedId": 75,
       "Name": "Triumphant Hero's Pauldrons"
     },
     {
       "Id": 82994,
-      "MappedId": 55,
+      "MappedId": 76,
       "Name": "Triumphant Hero's Shoulderguards"
     },
     {
       "Id": 83036,
-      "MappedId": 56,
+      "MappedId": 77,
       "Name": "Triumphant Hero's Raiment"
     },
     {
       "Id": 83087,
-      "MappedId": 57,
+      "MappedId": 78,
       "Name": "Mistforged Triumphant Hero's Shoulderguards"
     },
     {
       "Id": 83094,
-      "MappedId": 58,
+      "MappedId": 79,
       "Name": "Mistforged Triumphant Hero's Wargreaves"
     },
     {
       "Id": 83113,
-      "MappedId": 59,
+      "MappedId": 80,
       "Name": "Ardent Glorious Raiment"
     },
     {
       "Id": 83127,
-      "MappedId": 60,
+      "MappedId": 81,
       "Name": "Ardent Glorious Pauldrons"
     },
     {
       "Id": 83162,
-      "MappedId": 61,
+      "MappedId": 82,
       "Name": "Ardent Glorious Armguards"
     },
     {
       "Id": 83240,
-      "MappedId": 62,
+      "MappedId": 83,
       "Name": "Glorious Hero's Legguards"
     },
     {
       "Id": 83289,
-      "MappedId": 63,
+      "MappedId": 84,
       "Name": "Triumphant Hero's Footgear"
     },
     {
       "Id": 83308,
-      "MappedId": 64,
+      "MappedId": 85,
       "Name": "Mistforged Triumphant Hero's Epaulets"
     },
     {
       "Id": 83323,
-      "MappedId": 65,
+      "MappedId": 86,
       "Name": "Ardent Glorious Legplates"
     },
     {
       "Id": 83348,
-      "MappedId": 66,
+      "MappedId": 87,
       "Name": "Ardent Glorious Breastplate"
     },
     {
       "Id": 83394,
-      "MappedId": 67,
+      "MappedId": 88,
       "Name": "Triumphant Hero's Breastplate"
     },
     {
       "Id": 83482,
-      "MappedId": 68,
+      "MappedId": 89,
       "Name": "Mistforged Triumphant Hero's Footgear"
     },
     {
       "Id": 83497,
-      "MappedId": 69,
+      "MappedId": 90,
       "Name": "Triumphant Hero's Leggings"
     },
     {
       "Id": 83595,
-      "MappedId": 70,
+      "MappedId": 91,
       "Name": "Ardent Glorious Epaulets"
     },
     {
       "Id": 83676,
-      "MappedId": 71,
+      "MappedId": 92,
       "Name": "Glorious Hero's Wristplates"
     },
     {
       "Id": 83699,
-      "MappedId": 72,
+      "MappedId": 93,
       "Name": "Mistforged Triumphant Hero's Shinplates"
     },
     {
       "Id": 83702,
-      "MappedId": 73,
+      "MappedId": 94,
       "Name": "Mistforged Triumphant Hero's Legplates"
     },
     {
       "Id": 83729,
-      "MappedId": 74,
+      "MappedId": 95,
       "Name": "Glorious Hero's Raiment"
     },
     {
       "Id": 83862,
-      "MappedId": 75,
+      "MappedId": 96,
       "Name": "Mistforged Triumphant Hero's Legguards"
     },
     {
       "Id": 83921,
-      "MappedId": 76,
+      "MappedId": 97,
       "Name": "Ardent Glorious Plate Helm"
     },
     {
       "Id": 83929,
-      "MappedId": 77,
+      "MappedId": 98,
       "Name": "Ardent Glorious Shoulderguards"
     },
     {
       "Id": 83957,
-      "MappedId": 78,
+      "MappedId": 99,
       "Name": "Glorious Hero's Wargreaves"
     },
     {
       "Id": 84110,
-      "MappedId": 79,
+      "MappedId": 100,
       "Name": "Triumphant Hero's Wristplates"
     },
     {
       "Id": 84176,
-      "MappedId": 80,
+      "MappedId": 101,
       "Name": "Triumphant Hero's Warhelm"
     },
     {
       "Id": 84181,
-      "MappedId": 81,
+      "MappedId": 102,
       "Name": "Mistforged Triumphant Hero's Pauldrons"
     },
     {
       "Id": 84301,
-      "MappedId": 82,
+      "MappedId": 103,
       "Name": "Mistforged Triumphant Hero's Warhelm"
     },
     {
       "Id": 84341,
-      "MappedId": 83,
+      "MappedId": 104,
       "Name": "Glorious Hero's Leggings"
     },
     {
       "Id": 84427,
-      "MappedId": 84,
+      "MappedId": 105,
       "Name": "Glorious Hero's Footgear"
     },
     {
       "Id": 84461,
-      "MappedId": 85,
+      "MappedId": 106,
       "Name": "Glorious Hero's Armguards"
     },
     {
       "Id": 84481,
-      "MappedId": 86,
+      "MappedId": 107,
       "Name": "Sublime Mistforged Triumphant Hero's Breastplate"
     },
     {
       "Id": 84508,
-      "MappedId": 87,
+      "MappedId": 108,
       "Name": "Sublime Mistforged Triumphant Hero's Raiment"
     },
     {
       "Id": 84546,
-      "MappedId": 88,
+      "MappedId": 109,
       "Name": "Ardent Glorious Leggings"
     },
     {
       "Id": 84561,
-      "MappedId": 89,
+      "MappedId": 110,
       "Name": "Glorious Hero's Pauldrons"
     },
     {
       "Id": 84578,
-      "MappedId": 90,
+      "MappedId": 111,
       "Name": "Triumphant Hero's Brigandine"
     },
     {
       "Id": 84629,
-      "MappedId": 91,
+      "MappedId": 112,
       "Name": "Triumphant Hero's Armguards"
     },
     {
       "Id": 84633,
-      "MappedId": 92,
+      "MappedId": 113,
       "Name": "Ardent Glorious Crown"
     },
     {
       "Id": 84643,
-      "MappedId": 93,
+      "MappedId": 114,
       "Name": "Ardent Glorious Cap"
     },
     {
       "Id": 84655,
-      "MappedId": 94,
+      "MappedId": 115,
       "Name": "Ardent Glorious Wargreaves"
     },
     {
       "Id": 84723,
-      "MappedId": 95,
+      "MappedId": 116,
       "Name": "Glorious Hero's Epaulets"
     },
     {
       "Id": 84748,
-      "MappedId": 96,
+      "MappedId": 117,
       "Name": "Glorious Hero's Legplates"
     },
     {
       "Id": 84875,
-      "MappedId": 97,
+      "MappedId": 118,
       "Name": "Illustrious Pauldrons"
     },
     {
       "Id": 84887,
-      "MappedId": 98,
+      "MappedId": 119,
       "Name": "Illustrious Tassets"
     },
     {
       "Id": 84918,
-      "MappedId": 99,
+      "MappedId": 120,
       "Name": "Illustrious Epaulets"
     },
     {
       "Id": 84977,
-      "MappedId": 100,
+      "MappedId": 121,
       "Name": "Illustrious Guise"
     },
     {
       "Id": 85055,
-      "MappedId": 101,
+      "MappedId": 122,
       "Name": "Illustrious Greaves"
     },
     {
       "Id": 85070,
-      "MappedId": 102,
+      "MappedId": 123,
       "Name": "Illustrious Wristguards"
     },
     {
       "Id": 85084,
-      "MappedId": 103,
+      "MappedId": 124,
       "Name": "Illustrious Breastplate"
     },
     {
       "Id": 85128,
-      "MappedId": 104,
+      "MappedId": 125,
       "Name": "Illustrious Masque"
     },
     {
       "Id": 85140,
-      "MappedId": 105,
+      "MappedId": 126,
       "Name": "Illustrious Warfists"
     },
     {
       "Id": 85169,
-      "MappedId": 106,
+      "MappedId": 127,
       "Name": "Illustrious Grips"
     },
     {
       "Id": 85193,
-      "MappedId": 107,
+      "MappedId": 128,
       "Name": "Illustrious Visor"
     },
     {
       "Id": 85264,
-      "MappedId": 108,
+      "MappedId": 129,
       "Name": "Illustrious Leggings"
     },
     {
       "Id": 85333,
-      "MappedId": 109,
+      "MappedId": 130,
       "Name": "Illustrious Doublet"
     },
     {
       "Id": 85362,
-      "MappedId": 110,
+      "MappedId": 131,
       "Name": "Illustrious Breeches"
     },
     {
       "Id": 89093,
-      "MappedId": 111,
+      "MappedId": 132,
       "Name": "Mistforged Glorious Hero's Gauntlets"
     },
     {
       "Id": 89094,
-      "MappedId": 112,
+      "MappedId": 133,
       "Name": "Mistforged Glorious Hero's Legguards"
     },
     {
       "Id": 89101,
-      "MappedId": 113,
+      "MappedId": 134,
       "Name": "Mistforged Glorious Hero's Leggings"
     },
     {
       "Id": 89117,
-      "MappedId": 114,
+      "MappedId": 135,
       "Name": "Mistforged Glorious Hero's Plate Helm"
     },
     {
       "Id": 89126,
-      "MappedId": 115,
+      "MappedId": 136,
       "Name": "Mistforged Glorious Hero's Cap"
     },
     {
       "Id": 89134,
-      "MappedId": 116,
+      "MappedId": 137,
       "Name": "Mistforged Glorious Hero's Wristplates"
     },
     {
       "Id": 89152,
-      "MappedId": 117,
+      "MappedId": 138,
       "Name": "Mistforged Glorious Hero's Breastplate"
     },
     {
       "Id": 89158,
-      "MappedId": 118,
+      "MappedId": 139,
       "Name": "Mistforged Glorious Hero's Epaulets"
     },
     {
       "Id": 89167,
-      "MappedId": 119,
+      "MappedId": 140,
       "Name": "Mistforged Glorious Hero's Armguards"
     },
     {
       "Id": 89174,
-      "MappedId": 120,
+      "MappedId": 141,
       "Name": "Mistforged Glorious Hero's Raiment"
     },
     {
       "Id": 89183,
-      "MappedId": 121,
+      "MappedId": 142,
       "Name": "Mistforged Glorious Hero's Brigandine"
     },
     {
       "Id": 89209,
-      "MappedId": 122,
+      "MappedId": 143,
       "Name": "Mistforged Glorious Hero's Pauldrons"
     },
     {
       "Id": 89234,
-      "MappedId": 123,
+      "MappedId": 144,
       "Name": "Mistforged Glorious Hero's Shoulderguards"
     },
     {
       "Id": 89235,
-      "MappedId": 124,
+      "MappedId": 145,
       "Name": "Mistforged Glorious Hero's Shinplates"
     },
     {
       "Id": 89245,
-      "MappedId": 125,
+      "MappedId": 146,
       "Name": "Mistforged Glorious Hero's Footgear"
     },
     {
       "Id": 89252,
-      "MappedId": 126,
+      "MappedId": 147,
       "Name": "Mistforged Glorious Hero's Wargreaves"
     },
     {
       "Id": 89260,
-      "MappedId": 127,
+      "MappedId": 148,
       "Name": "Mistforged Glorious Hero's Crown"
     },
     {
       "Id": 89266,
-      "MappedId": 128,
+      "MappedId": 149,
       "Name": "Mistforged Glorious Hero's Legplates"
     }
   ],

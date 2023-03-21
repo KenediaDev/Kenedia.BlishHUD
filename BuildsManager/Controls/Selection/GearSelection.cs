@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
+using static Kenedia.Modules.BuildsManager.DataModels.Professions.Weapon;
 
 namespace Kenedia.Modules.BuildsManager.Controls.Selection
 {
@@ -180,7 +181,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
                                     (ActiveSlot is GearTemplateSlot.AltAquatic or GearTemplateSlot.Aquatic) ?
                                     weapon.Value.Type.IsAquatic() :
                                     !weapon.Value.Type.IsAquatic();
-                                bool wieldMatch = slotIsOffhand ? weapon.Value.Wielded.HasFlag(Gw2Sharp.ProfessionWeaponFlag.Offhand) : weapon.Value.Wielded.HasFlag(Gw2Sharp.ProfessionWeaponFlag.Mainhand) || weapon.Value.Wielded.HasFlag(Gw2Sharp.ProfessionWeaponFlag.TwoHand);
+                                bool wieldMatch = slotIsOffhand ? weapon.Value.Wielded.HasFlag(WieldingFlag.Offhand) : weapon.Value.Wielded.HasFlag(WieldingFlag.Mainhand) || weapon.Value.Wielded.HasFlag(WieldingFlag.TwoHand);
 
                                 // No Elite Spec
                                 if (weapon.Value.Specialization == 0 && wieldMatch)
@@ -201,6 +202,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
                                     ActiveSlot;
 
                                 item.Visible =
+                                    wieldMatch &&
                                     weaponMatch &&
                                     terrainMatch &&
                                     MatchingMethod(item.Item);

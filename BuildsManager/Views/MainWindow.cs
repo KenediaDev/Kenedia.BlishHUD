@@ -34,7 +34,7 @@ namespace Kenedia.Modules.BuildsManager.Views
                 Parent = this,
                 Location = new(0, 0),
                 HeightSizingMode = Blish_HUD.Controls.SizingMode.Fill,
-                Width = 330,
+                Width = 375,
                 //BackgroundColor = Color.Yellow * 0.2F,
             };
 
