@@ -2,40 +2,40 @@
 {
     public class TemplateAttributes
     {
-        public int Power { get; set; } = 1000;
+        public double Power { get; set; } = 1000;
 
-        public int Toughness { get; set; } = 1000;
+        public double Toughness { get; set; } = 1000;
 
-        public int Vitality { get; set; } = 1000;
+        public double Vitality { get; set; } = 1000;
 
-        public int Precision { get; set; } = 1000;
+        public double Precision { get; set; } = 1000;
 
-        public int Ferocity { get; set; }
+        public double Ferocity { get; set; }
 
-        public int ConditionDamage { get; set; }
+        public double ConditionDamage { get; set; }
 
-        public int Expertise { get; set; }
+        public double Expertise { get; set; }
 
-        public int Concentration { get; set; }
+        public double Concentration { get; set; }
 
-        public int HealingPower { get; set; }
+        public double HealingPower { get; set; }
 
-        public int AgonyResistance { get; set; }
+        public double AgonyResistance { get; set; }
 
-        public int MagicFind { get; set; }
+        public double MagicFind { get; set; }
 
-        public int BoonDuration { get; set; }
+        public double BoonDuration { get; set; }
 
-        public int ConditionDuration { get; set; }
+        public double ConditionDuration { get; set; }
 
-        public int CritDamage { get; set; }
+        public double CritDamage { get; set; }
 
-        public int CritChance { get; set; }
+        public double CritChance { get; set; }
 
-        public int Health { get; set; }
+        public double Health { get; set; }
 
-        public int Armor { get; set; } = 1000;
+        public double Armor { get; set; } = 1000;
 
-        public int ProfessionSpecific { get; set; }
+        public double ProfessionSpecific { get; set; }
     }
 }

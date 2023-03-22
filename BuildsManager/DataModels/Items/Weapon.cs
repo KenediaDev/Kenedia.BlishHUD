@@ -21,6 +21,7 @@ namespace Kenedia.Modules.BuildsManager.DataModels.Items
                 WeaponType = weapon.Details.Type;
                 StatChoices = weapon.Details.StatChoices;
                 InfusionSlots = new int[weapon.Details.InfusionSlots.Count];                
+                Defense = weapon.Details.Defense;
 
                 TemplateSlot = weapon.Details.Type.Value switch
                 {
@@ -40,5 +41,8 @@ namespace Kenedia.Modules.BuildsManager.DataModels.Items
 
         [DataMember]
         public ItemWeaponType WeaponType { get; protected set; }
+
+        [DataMember]
+        public int Defense { get; protected set; }
     }
 }

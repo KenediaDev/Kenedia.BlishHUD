@@ -1,5 +1,6 @@
 ﻿using Blish_HUD;
 using Blish_HUD.Content;
+using Kenedia.Modules.BuildsManager.DataModels.Stats;
 using Kenedia.Modules.Core.Models;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -27,9 +28,10 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage
         {
 
         }
+
         public Rectangle TextRegion { get; set; }
 
-        public void DrawAmount(Blish_HUD.Controls.Control ctrl, SpriteBatch spriteBatch, int amount, BitmapFont font, Point? mousePos = null, Color? color = null, Color? bgColor = null, bool? forceHover = null, float? rotation = null, Vector2? origin = null)
+        public void DrawAmount(Blish_HUD.Controls.Control ctrl, SpriteBatch spriteBatch, double amount, BitmapFont font, Point? mousePos = null, Color? color = null, Color? bgColor = null, bool? forceHover = null, float? rotation = null, Vector2? origin = null)
         {
             color ??= Color.White;
             spriteBatch.DrawStringOnCtrl(ctrl, $"{amount.ToString("N0")}", font, TextRegion, (Color)color, false, Blish_HUD.Controls.HorizontalAlignment.Left, Blish_HUD.Controls.VerticalAlignment.Middle);

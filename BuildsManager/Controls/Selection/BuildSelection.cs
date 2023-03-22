@@ -15,15 +15,9 @@ using System;
 using System.Threading.Tasks;
 using Blish_HUD.Gw2Mumble;
 using static System.Net.Mime.MediaTypeNames;
-using Gw2Sharp.Models;
 
 namespace Kenedia.Modules.BuildsManager.Controls.Selection
 {
-    public class ProfessionToggle : ImageToggle
-    {
-        public ProfessionType Profession { get; set; }
-    }
-
     public class BuildSelection : BaseSelection
     {
         private readonly List<ProfessionToggle> _specIcons = new();
@@ -46,7 +40,6 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
             Search.Location = new(2, 60);
             SelectionContent.Location = new(0, Search.Bottom + 5);
 
-            Search.FilteringOnTextChange = true;
             Search.PerformFiltering = (txt) => FilterTemplates();
 
             int i = 0;
@@ -62,13 +55,14 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
                 {
                     Parent = this,
                     Texture = prof.Icon,
-                    Location = new(start.X + (i * (size + 10)), start.Y + (j * size)),
+                    Location = new(start.X + (i * (size + 16)), start.Y + (j * size)),
                     Size = new(size, size),               
                     ImageColor = Color.Gray * 0.5F,
                     ActiveColor = Color.White,
                     Profession = prof.Id,
                     OnCheckChanged = (isChecked) => FilterTemplates(),
                     Checked = prof.Id == player?.Profession,
+                    TextureRectangle = new(4, 4, 24, 24),
                 });
 
                 //foreach (var spec in prof.Specializations.Values)

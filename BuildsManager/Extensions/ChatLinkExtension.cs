@@ -6,6 +6,28 @@ using Color = Microsoft.Xna.Framework.Color;
 
 namespace Kenedia.Modules.BuildsManager.Extensions
 {
+    public static class AttributeTypeExtension
+    {
+        public static string GetDisplayName(this AttributeType attribute)
+        {
+            string concentration = "Concentration";
+            string expertise = "Expertise";
+            string ConditionDamage = "Condition Damage";
+            string Healing = "Healing Power";
+            string CritDamage = "Ferocity";
+
+            return attribute switch
+            {
+                AttributeType.BoonDuration => concentration,
+                AttributeType.ConditionDuration => expertise,
+                AttributeType.ConditionDamage => ConditionDamage,
+                AttributeType.Healing => Healing,
+                AttributeType.CritDamage => CritDamage,
+                _ => attribute.ToString(),
+            };
+        }
+    }
+
     public static class RarityExtension
     {
         public static Color GetColor(this ItemRarity rarity)

@@ -97,7 +97,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
             }
         }
 
-        public GearTemplateEntry TemplateSlot { get; set; }
+        public BaseTemplateEntry TemplateSlot { get; set; }
 
         private void TemplateChanged(object sender, PropertyChangedEventArgs e)
         {

@@ -50,6 +50,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)DataModels\SkillConnection.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)DataModels\Specializations.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\BitMapExtension.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Extensions\CollectionExtension.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\ColorExtension.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\ContainerExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\ControlExtensions.cs" />
@@ -128,6 +129,7 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <None Include="$(MSBuildThisFileDirectory)Extensions\Directory.Build.props" />
     <None Include="$(MSBuildThisFileDirectory)Res\Textures\RollingChoya.png" />
     <None Include="$(MSBuildThisFileDirectory)Textures\RollingChoya.png" />
   </ItemGroup>

@@ -20,6 +20,7 @@ namespace Kenedia.Modules.BuildsManager.DataModels.Items
                 Weight = armor.Details.WeightClass;
                 StatChoices = armor.Details.StatChoices;
                 InfusionSlots = new int[armor.Details.InfusionSlots.Count];
+                Defense = armor.Details.Defense;
 
                 TemplateSlot = armor.Details.Type.Value switch
                 {
@@ -37,5 +38,8 @@ namespace Kenedia.Modules.BuildsManager.DataModels.Items
 
         [DataMember]
         public ItemWeightType Weight { get; protected set; }
+
+        [DataMember]
+        public int Defense { get; protected set; }
     }
 }

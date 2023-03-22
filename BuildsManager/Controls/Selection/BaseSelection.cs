@@ -18,6 +18,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
                 Parent = this,
                 Location = new(2, 0),
                 PlaceholderText = "Search . . .",
+                FilteringOnTextChange = true,
             };
 
             SelectionContent = new()

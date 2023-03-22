@@ -269,11 +269,13 @@
     <Compile Include="Controls\GearPage\InfusionControl.cs" />
     <Compile Include="Controls\Selection\ItemIdSelection.cs" />
     <Compile Include="Controls\GearPage\NourishmentControl.cs" />
+    <Compile Include="Controls\Selection\ProfessionToggle.cs" />
     <Compile Include="Controls\Selection\Selectable.cs" />
     <Compile Include="Controls\Selection\SelectionPanel.cs" />
     <Compile Include="Controls\GearPage\StatSummary.cs" />
     <Compile Include="Controls\GearPage\UtilityControl.cs" />
     <Compile Include="Controls\NotesPage\NotesPage.cs" />
+    <Compile Include="Controls\Selection\StatSelection.cs" />
     <Compile Include="Controls\Selection\TagTexture.cs" />
     <Compile Include="Controls\Selection\TemplateSelectable.cs" />
     <Compile Include="Controls\SkillConnectionEdit\EditingControl.cs" />

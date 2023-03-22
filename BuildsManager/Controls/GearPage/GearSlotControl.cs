@@ -671,7 +671,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage
         protected BitmapFont UpgradeFont = Content.DefaultFont18;
         protected BitmapFont InfusionFont = Content.DefaultFont12;
 
-        private GearTemplateEntry _templateSlot;
+        private BaseTemplateEntry _templateSlot;
         private Stat _stat;
 
         public GearTemplateSlot GearSlot { get => _gearSlot; set => Common.SetProperty(ref _gearSlot, value, ApplySlot); }
@@ -703,7 +703,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage
             }
         }
 
-        public GearTemplateEntry TemplateSlot
+        public BaseTemplateEntry TemplateSlot
         {
             get => _templateSlot;
             set
@@ -763,17 +763,17 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage
             if (GearSlot.IsArmor())
             {
                 Item.Item = Template?.GearTemplate.Armors[GearSlot].Item;
-                Stat = Template?.GearTemplate.Armors[GearSlot].Stat != null && BuildsManager.Data.Stats.TryGetValue((int)Template?.GearTemplate.Armors[GearSlot].Stat, out Stat stat) ? stat : null;
+                Stat = Template?.GearTemplate.Armors[GearSlot].Stat;
             }
             else if (GearSlot.IsWeapon())
             {
                 Item.Item = Template?.GearTemplate.Weapons[GearSlot].Item;
-                Stat = Template?.GearTemplate.Weapons[GearSlot].Stat != null && BuildsManager.Data.Stats.TryGetValue((int)Template?.GearTemplate.Weapons[GearSlot].Stat, out Stat stat) ? stat : null;
+                Stat = Template?.GearTemplate.Weapons[GearSlot].Stat;
             }
             else if (GearSlot.IsJuwellery())
             {
                 Item.Item = Template?.GearTemplate.Juwellery[GearSlot].Item;
-                Stat = Template?.GearTemplate.Juwellery[GearSlot].Stat != null && BuildsManager.Data.Stats.TryGetValue((int)Template?.GearTemplate.Juwellery[GearSlot].Stat, out Stat stat) ? stat : null;
+                Stat = Template?.GearTemplate.Juwellery[GearSlot].Stat;
             }
             else if (GearSlot is GearTemplateSlot.PvpAmulet)
             {
@@ -854,9 +854,24 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage
                 SelectionPanel?.SetGearAnchor(this, new Rectangle(a.Location, Point.Zero).Add(Icon.Bounds), GearSlot, GearSubSlotType.Item, GearSlot.ToString().ToLowercaseNamingConvention(), (item) => TemplateSlot.Item = item);
         }
 
+        protected override void OnRightMouseButtonPressed(MouseEventArgs e)
+        {
+            base.OnRightMouseButtonPressed(e);
+
+            var a = AbsoluteBounds;
+
+            if (Icon.Hovered && (GearSlot.IsArmor() || GearSlot.IsWeapon() ||GearSlot.IsJuwellery()) && Item.Item != null)
+                SelectionPanel?.SetStatAnchor(this, new Rectangle(a.Location, Point.Zero).Add(Icon.Bounds), GearSlot, GearSubSlotType.Item, GearSlot.ToString().ToLowercaseNamingConvention(), (item) => TemplateSlot.Item = item);
+        }
+
         protected string GetDisplayString(string s)
         {
             return s.Length > MaxTextLength ? s.Substring(0, MaxTextLength) + "..." : s;
+        }
+
+        protected override void DisposeControl()
+        {
+            base.DisposeControl();
         }
     }
 }

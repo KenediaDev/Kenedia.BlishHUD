@@ -1,5 +1,6 @@
 ﻿using Blish_HUD.Content;
 using Gw2Sharp.Models;
+using AttributeType = Gw2Sharp.WebApi.V2.Models.AttributeType;
 using Kenedia.Modules.BuildsManager.Controls.Selection;
 using Kenedia.Modules.BuildsManager.DataModels.Professions;
 using Kenedia.Modules.Core.DataModels;
@@ -18,6 +19,8 @@ using System.Runtime.Serialization;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Xml.Linq;
+using Kenedia.Modules.BuildsManager.DataModels.Stats;
+using Kenedia.Modules.BuildsManager.DataModels.Items;
 
 namespace Kenedia.Modules.BuildsManager.Models.Templates
 {
@@ -414,8 +417,66 @@ namespace Kenedia.Modules.BuildsManager.Models.Templates
                 AltAttunement = MainAttunement;
             }
 
+            UpdateAttributes();
+
             Changed?.Invoke(sender, e);
             await Save();
+        }
+
+        private void UpdateAttributes()
+        {
+            double GetAmount<ItemType>(Dictionary<GearTemplateSlot, ItemType> items, AttributeType attribute) where ItemType : GearTemplateEntry
+            {
+                double amount = 0;
+
+                foreach (var item in items.Values)
+                {
+                    if (item.Stat != null && item.Item != null && item.Stat.Attributes.ContainsKey(attribute))
+                    {
+                        amount += Math.Round(item.Stat.Attributes[attribute].Value + (item.Stat.Attributes[attribute].Multiplier * (item.Item as EquipmentItem).AttributeAdjustment));
+                    }
+                }
+
+                return amount;
+            }
+
+            var mainSet = GearTemplate.Weapons.Where(e => e.Key is GearTemplateSlot.MainHand or GearTemplateSlot.OffHand).ToDictionary(e => e.Key, e => e.Value);
+            var armorNoAquatic = GearTemplate.Armors.Where(e => e.Key is not GearTemplateSlot.AquaBreather).ToDictionary(e => e.Key, e => e.Value);
+            foreach (AttributeType attribute in Enum.GetValues(typeof(AttributeType)))
+            {
+                if (attribute is AttributeType.Unknown or AttributeType.None) continue;
+
+                double amount = GetAmount(armorNoAquatic, attribute);
+                amount += GetAmount(mainSet, attribute);
+                amount += GetAmount(GearTemplate.Juwellery, attribute);
+
+                if (attribute is AttributeType.Power) Attributes.Power = 1000 + amount;
+                if (attribute is AttributeType.Vitality) Attributes.Vitality = 1000 + amount;
+                if (attribute is AttributeType.Toughness) Attributes.Toughness = 1000 + amount;
+                if (attribute is AttributeType.Precision) Attributes.Precision = 1000 + amount;
+                if (attribute is AttributeType.CritDamage) Attributes.Ferocity = amount;
+                if (attribute is AttributeType.ConditionDamage) Attributes.ConditionDamage = amount;
+                if (attribute is AttributeType.ConditionDuration) Attributes.Expertise = amount;
+                if (attribute is AttributeType.BoonDuration) Attributes.Concentration = amount;
+                if (attribute is AttributeType.Healing) Attributes.HealingPower = amount;
+                if (attribute is AttributeType.AgonyResistance) Attributes.AgonyResistance = amount;
+            }
+
+            Attributes.CritChance = 5 + ((Attributes.Precision - 1000) / 21);
+            Attributes.CritDamage = 150 + (Attributes.Ferocity / 15);
+            Attributes.ConditionDuration = Attributes.Expertise / 15;
+            Attributes.BoonDuration = Attributes.Concentration / 15;
+
+            int baseHealth = Profession switch
+            {
+                ProfessionType.Warrior or ProfessionType.Necromancer => 19212,
+                ProfessionType.Revenant or ProfessionType.Engineer or ProfessionType.Ranger or ProfessionType.Mesmer => 15922,
+                ProfessionType.Guardian or ProfessionType.Thief or ProfessionType.Elementalist => 11645,
+                _ => 10000,
+            };
+
+            Attributes.Health = baseHealth + ((Attributes.Vitality - 1000) * 10);
+            Attributes.Armor = 1000 + armorNoAquatic.Values.Where(e => e.Item != null).Sum(e => (e.Item as Armor).Defense) + mainSet.Values.Where(e => e.Item != null).Sum(e => (e.Item as DataModels.Items.Weapon).Defense);
         }
 
         private async Task TriggerChanged(object sender, PropertyChangedEventArgs e)
@@ -504,7 +565,7 @@ namespace Kenedia.Modules.BuildsManager.Models.Templates
             }
             catch (Exception ex)
             {
-                BuildsManager.Logger.Warn(ex.ToString());
+                if(!_cancellationTokenSource.Token.IsCancellationRequested) BuildsManager.Logger.Warn(ex.ToString());
             }
         }
     }

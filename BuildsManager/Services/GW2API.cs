@@ -78,9 +78,8 @@ namespace Kenedia.Modules.BuildsManager.Services
             var pets = _data.Pets;
 
             Locale locale = GameService.Overlay.UserLocale.Value;
-            //await GetItems(_cancellationTokenSource.Token);
-            await GetProfessions(_cancellationTokenSource.Token, professions, races);
-            //await GetStats(_cancellationTokenSource.Token, stats);
+            await GetItems(_cancellationTokenSource.Token);
+            //await GetProfessions(_cancellationTokenSource.Token, professions, races);
             //await GetPets(_cancellationTokenSource.Token, pets);
         }
 
@@ -105,11 +104,13 @@ namespace Kenedia.Modules.BuildsManager.Services
                 var api_pvpRunes = await _gw2ApiManager.Gw2ApiClient.V2.Items.ManyAsync(_data.ItemMap.PvpRunes.Select(e => e.Id), cancellation);
                 var api_pveSigils = await _gw2ApiManager.Gw2ApiClient.V2.Items.ManyAsync(_data.ItemMap.PveSigils.Select(e => e.Id), cancellation);
                 var api_pvpSigils = await _gw2ApiManager.Gw2ApiClient.V2.Items.ManyAsync(_data.ItemMap.PvpSigils.Select(e => e.Id), cancellation);
+                var statChoices = new List<int>();
 
                 if (cancellation.IsCancellationRequested) return;
 
-                void ApplyData<T, TT>(IReadOnlyList<Item> items, Dictionary<int, TT> targetlist, string file, List<ItemMap> map) where T : Item where TT : BaseItem, new()
+                void ApplyData<T, TT>(IReadOnlyList<Item> items, Dictionary<int, TT> targetlist, string file, List<ItemMap> map, bool hasStatChoices = false) where T : Item where TT : BaseItem, new()
                 {
+                    BuildsManager.Logger.Info($"Saving {file} ...");
                     foreach (var i in items)
                     {
                         bool exists = targetlist.TryGetValue(i.Id, out TT item);
@@ -117,22 +118,27 @@ namespace Kenedia.Modules.BuildsManager.Services
                         item.Apply((T)i);
 
                         var mappedItem = map.Find(e => e.Id == i.Id);
-                        if(mappedItem != null)
+                        if (mappedItem != null)
                         {
                             item.MappedId = mappedItem.MappedId;
                         }
 
                         if (!exists) targetlist.Add(i.Id, (TT)item);
+
+                        if (hasStatChoices)
+                        {
+                            statChoices.AddRange((item as EquipmentItem).StatChoices.Except(statChoices));
+                        }
                     }
 
                     string json = JsonConvert.SerializeObject(targetlist, Formatting.Indented);
                     File.WriteAllText($@"{Paths.ModulePath}\data\{file}.json", json);
                 }
 
-                ApplyData<ItemArmor, Armor>(api_armors, _data.Armors, "Armors", _data.ItemMap.Armors);
-                ApplyData<ItemWeapon, Weapon>(api_weapons, _data.Weapons, "Weapons", _data.ItemMap.Weapons);
-                ApplyData<ItemBack, Trinket>(api_backs, _data.Backs, "Backs", _data.ItemMap.Backs);
-                ApplyData<ItemTrinket, Trinket>(api_trinkets, _data.Trinkets, "Trinkets", _data.ItemMap.Trinkets);
+                ApplyData<ItemArmor, Armor>(api_armors, _data.Armors, "Armors", _data.ItemMap.Armors, true);
+                ApplyData<ItemWeapon, Weapon>(api_weapons, _data.Weapons, "Weapons", _data.ItemMap.Weapons, true);
+                ApplyData<ItemBack, Trinket>(api_backs, _data.Backs, "Backs", _data.ItemMap.Backs, true);
+                ApplyData<ItemTrinket, Trinket>(api_trinkets, _data.Trinkets, "Trinkets", _data.ItemMap.Trinkets, true);
 
                 ApplyData<ItemUpgradeComponent, Enrichment>(api_enrichments, _data.Enrichments, "Enrichments", _data.ItemMap.Enrichments);
                 ApplyData<ItemUpgradeComponent, Infusion>(api_infusions, _data.Infusions, "Infusions", _data.ItemMap.Infusions);
@@ -140,8 +146,11 @@ namespace Kenedia.Modules.BuildsManager.Services
                 ApplyData<ItemConsumable, DataModels.Items.Utility>(api_utility, _data.Utilities, "Utilities", _data.ItemMap.Utilities);
                 ApplyData<ItemUpgradeComponent, Rune>(api_pveRunes, _data.PveRunes, "PveRunes", _data.ItemMap.PveRunes);
                 ApplyData<ItemUpgradeComponent, Rune>(api_pvpRunes, _data.PvpRunes, "PvpRunes", _data.ItemMap.PvpRunes);
-                ApplyData<ItemUpgradeComponent, Sigil>(api_pveSigils, _data.PveSigils, "PveSigils", _data.ItemMap.PveSigils );
+                ApplyData<ItemUpgradeComponent, Sigil>(api_pveSigils, _data.PveSigils, "PveSigils", _data.ItemMap.PveSigils);
                 ApplyData<ItemUpgradeComponent, Sigil>(api_pvpSigils, _data.PvpSigils, "PvpSigils", _data.ItemMap.PvpSigils);
+
+                //Get Stats
+                await GetStats(cancellation, statChoices);
             }
             catch (Exception ex)
             {
@@ -153,32 +162,31 @@ namespace Kenedia.Modules.BuildsManager.Services
             }
         }
 
-        public async Task GetStats(CancellationToken cancellation, Dictionary<int, Stat> stats)
+        public async Task GetStats(CancellationToken cancellation, List<int> statIds)
         {
             try
             {
-                var legy = (ItemTrinket)await _gw2ApiManager.Gw2ApiClient.V2.Items.GetAsync(81908, cancellation);
-
                 var apiStats = await _gw2ApiManager.Gw2ApiClient.V2.Itemstats.AllAsync(cancellation);
                 if (cancellation.IsCancellationRequested) return;
 
                 foreach (var e in apiStats)
                 {
-                    if (legy.Details.StatChoices.Contains(e.Id))
+                    if (statIds.Contains(e.Id))
                     {
-                        bool exists = stats.TryGetValue(e.Id, out var stat);
+                        bool exists = _data.Stats.TryGetValue(e.Id, out var stat);
                         stat ??= new(e);
+                        stat.Apply(e);
 
-                        stat.ApplyLanguage(e);
                         if (!exists)
                         {
-                            stat.MappedId = stats.Count();
-                            stats.Add(e.Id, stat);
+                            stat.MappedId = _data.Stats.Count;
+                            _data.Stats.Add(e.Id, stat);
                         }
                     }
                 }
 
-                string json = JsonConvert.SerializeObject(stats, Formatting.Indented);
+                BuildsManager.Logger.Info($"Saving {"Stats"} ...");
+                string json = JsonConvert.SerializeObject(_data.Stats, Formatting.Indented);
                 File.WriteAllText($@"{Paths.ModulePath}\data\Stats.json", json);
             }
             catch (Exception ex)

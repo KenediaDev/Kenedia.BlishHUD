@@ -1,12 +1,27 @@
 ﻿using Blish_HUD.Content;
 using Gw2Sharp.WebApi.V2.Models;
+using Kenedia.Modules.BuildsManager.Services;
 using Kenedia.Modules.Core.Models;
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Runtime.Serialization;
 using APIStat = Gw2Sharp.WebApi.V2.Models.Itemstat;
 
 namespace Kenedia.Modules.BuildsManager.DataModels.Stats
 {
+    public class StatAttributes : Dictionary<AttributeType, StatAttribute>
+    {
+        public StatAttributes()
+        {
+            //foreach(AttributeType attribute in Enum.GetValues(typeof(AttributeType)))
+            //{
+            //    if (attribute is AttributeType.Unknown or AttributeType.None) continue;
+
+            //    this[attribute] = null;
+            //}
+        }
+    }
 
     public class Attribute
     {
@@ -46,17 +61,11 @@ namespace Kenedia.Modules.BuildsManager.DataModels.Stats
 
         public Stat(APIStat stat)
         {
-            Name = stat.Name;
-            Id = stat.Id;
-
-            foreach (var att in stat.Attributes)
-            {
-                Attributes.Add(att.Attribute.ToEnum(), new(att));
-            }
+            Apply(stat);
         }
 
         [DataMember]
-        public Dictionary<AttributeType, StatAttribute> Attributes { get; set; } = new();
+        public StatAttributes Attributes { get; set; } = new();
 
         [DataMember]
         public int Id { get; set; }
@@ -81,14 +90,33 @@ namespace Kenedia.Modules.BuildsManager.DataModels.Stats
             {
                 if (_icon != null) return _icon;
 
-                _icon = BuildsManager.ModuleInstance.ContentsManager.GetTexture($@"textures\equipment_stats\{Id}.png");
+                _icon = TryGetTextureId(out int? textureId) ? BuildsManager.ModuleInstance.ContentsManager.GetTexture($@"textures\equipment_stats\{textureId}.png") : AsyncTexture2D.FromAssetId(156021);
                 return _icon;
             }
         }
 
-        public void ApplyLanguage(APIStat stat)
+        [DataMember]
+        public EquipmentStat EquipmentStatType { get; set; }
+
+        private bool TryGetTextureId(out int? id)
+        {
+            var foundId = BuildsManager.Data.StatMap.Find(e => e.Ids.Contains(Id))?.Stat;
+            id = foundId != null ? (int) foundId : -1;
+
+            return id != -1;
+        }
+
+        public void Apply(APIStat stat)
         {
             Name = stat.Name;
+            Id = stat.Id;
+
+            foreach (var att in stat.Attributes)
+            {
+                Attributes[att.Attribute.ToEnum()] = new(att);
+            }
+
+            EquipmentStatType = BuildsManager.Data.StatMap.Find(e => e.Ids.Contains(stat.Id)).Stat;
         }
     }
 }

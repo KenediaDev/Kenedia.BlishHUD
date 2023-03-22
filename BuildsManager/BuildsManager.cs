@@ -217,9 +217,7 @@ namespace Kenedia.Modules.BuildsManager
             //await GW2API.FetchBaseSkills();
 
             //Data.Stats.Clear();
-            //await GW2API.GetStats(CancellationToken.None, Data.Stats);
-
-            await GW2API.UpdateData();
+            //await GW2API.UpdateData();
 
             await Data.LoadBaseSkills();
             await Data.LoadConnections();

@@ -111,19 +111,19 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage
             _health.DrawAmount(this, spriteBatch, Template != null ? Template.Attributes.Health : 0, font);
 
             _critChance.Draw(this, spriteBatch);
-            _critChance.DrawAmount(this, spriteBatch, $"{(Template != null ? Template.Attributes.CritChance : 0)}%", font);
+            _critChance.DrawAmount(this, spriteBatch, string.Format("{0:N2}%", Template != null ? Math.Truncate(Template.Attributes.CritChance * 100) / 100 : 0), font);
 
             _critDamage.Draw(this, spriteBatch);
-            _critDamage.DrawAmount(this, spriteBatch, $"{(Template != null ? Template.Attributes.CritDamage : 0)}%", font);
+            _critDamage.DrawAmount(this, spriteBatch, string.Format("{0:N1}%", Template != null ? Math.Truncate(Template.Attributes.CritDamage * 10) / 10 : 0), font);
 
             _healingPower.Draw(this, spriteBatch);
             _healingPower.DrawAmount(this, spriteBatch, Template != null ? Template.Attributes.HealingPower : 0, font);
 
             _conditionDuration.Draw(this, spriteBatch);
-            _conditionDuration.DrawAmount(this, spriteBatch, $"{(Template != null ? Template.Attributes.ConditionDuration : 0)}%", font);
+            _conditionDuration.DrawAmount(this, spriteBatch, string.Format("{0:N2}%", Template != null ? Math.Truncate(Template.Attributes.ConditionDuration * 100) / 100 : 0), font);
 
             _boonDuration.Draw(this, spriteBatch);
-            _boonDuration.DrawAmount(this, spriteBatch, $"{(Template != null ? Template.Attributes.BoonDuration : 0)}%", font);
+            _boonDuration.DrawAmount(this, spriteBatch, string.Format("{0:N2}%", Template != null ? Math.Truncate(Template.Attributes.BoonDuration * 100) / 100 : 0), font);
 
             _magicFind.Draw(this, spriteBatch);
             _magicFind.DrawAmount(this, spriteBatch, $"{(Template != null ? Template.Attributes.MagicFind : 0)}%", font);

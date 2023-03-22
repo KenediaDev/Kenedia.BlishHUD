@@ -11,10 +11,11 @@ using Kenedia.Modules.Core.Models;
 using System.Data;
 using System.Diagnostics;
 using Kenedia.Modules.Core.Extensions;
+using Gw2Sharp.WebApi.V2.Models;
 
 namespace Kenedia.Modules.BuildsManager.Models.Templates
 {
-    public class GearTemplateEntry : INotifyPropertyChanged
+    public class BaseTemplateEntry : INotifyPropertyChanged
     {
         private GearTemplateSlot _slot = (GearTemplateSlot)(-2);
         private int _mappedId = -1;
@@ -71,6 +72,49 @@ namespace Kenedia.Modules.BuildsManager.Models.Templates
         }
     }
 
+    public class GearTemplateEntry : BaseTemplateEntry
+    {
+        private Stat _stat;
+        private ItemRarity _itemRarity;
+
+        public Stat Stat { get => _stat; set => Common.SetProperty(ref _stat , value, OnPropertyChanged); }
+
+        public ItemRarity ItemRarity { get => _itemRarity; set => Common.SetProperty(ref _itemRarity , value, OnRarityChanged); }
+
+        private void OnRarityChanged(object sender, PropertyChangedEventArgs e)
+        {
+            int? currentStatId = Stat?.Id;
+
+            if (Stat != null && (Item == null || !(Item as EquipmentItem).StatChoices.Contains(Stat.Id)))
+            {
+                if (BuildsManager.Data.StatMap.TryFind(e => e.Stat == Stat.EquipmentStatType, out var statMap))
+                {                    
+                    var choices = (Item as EquipmentItem).StatChoices;
+
+                    if (choices.TryFind(statMap.Ids.Contains, out int newStatId))
+                    {
+                        Stat = BuildsManager.Data.Stats[newStatId];
+                        return;
+                    }
+                }
+
+                Stat = null;
+            }
+            else
+            {
+                OnPropertyChanged(sender, e);
+            }
+        }
+
+        public override void OnItemChanged()
+        {
+            base.OnItemChanged();
+
+            Debug.WriteLine($"ITEM Changed: {Item?.Name}");
+            ItemRarity = Item?.Rarity ?? ItemRarity.Unknown;
+        }
+    }
+
     public class JuwelleryEntry : GearTemplateEntry
     {
         private Enrichment _enrichment;
@@ -84,8 +128,6 @@ namespace Kenedia.Modules.BuildsManager.Models.Templates
         {
             _enrichmentIds.PropertyChanged += EnrichmentIds_Changed;
         }
-
-        public EquipmentStat Stat { get; set; }
 
         public ObservableList<int> InfusionIds
         {
@@ -214,7 +256,7 @@ namespace Kenedia.Modules.BuildsManager.Models.Templates
         public override string ToCode()
         {
             string enrichmentsOrInfusions = string.Join("|", EnrichmentIds ?? InfusionIds);
-            return $"[{MappedId}|{(int)Stat}|{enrichmentsOrInfusions}]";
+            return $"[{MappedId}|{Stat?.MappedId ?? -1}|{enrichmentsOrInfusions}]";
         }
 
         public override void FromCode(string code)
@@ -235,7 +277,7 @@ namespace Kenedia.Modules.BuildsManager.Models.Templates
             }
 
             MappedId = int.TryParse(parts[0], out int mappedId) ? mappedId : -1;
-            Stat = (EquipmentStat)(int.TryParse(parts[1], out int stat) ? stat : -1);
+            Stat = int.TryParse(parts[1], out int stat) ? BuildsManager.Data.Stats.Where(e => e.Value.MappedId == stat).FirstOrDefault().Value : null;
 
             if (Slot == GearTemplateSlot.Back)
             {
@@ -363,7 +405,7 @@ namespace Kenedia.Modules.BuildsManager.Models.Templates
             string infusions = string.Join("|", InfusionIds);
             string sigils = string.Join("|", SigilIds);
 
-            return $"[{MappedId}|{(int)Stat}|{infusions}|{sigils}]";
+            return $"[{MappedId}|{Stat?.MappedId ?? -1}|{infusions}|{sigils}]";
         }
 
         public override void FromCode(string code)
@@ -375,7 +417,7 @@ namespace Kenedia.Modules.BuildsManager.Models.Templates
                 if (parts.Length == 6)
                 {
                     MappedId = int.TryParse(parts[0], out int mappedId) ? mappedId : -1;
-                    Stat = (EquipmentStat)(int.TryParse(parts[1], out int stat) ? stat : -1);
+                    Stat = int.TryParse(parts[1], out int stat) ? BuildsManager.Data.Stats.Where(e => e.Value.MappedId == stat).FirstOrDefault().Value : null;
                     InfusionIds[0] = int.TryParse(parts[2], out int infusion1) ? infusion1 : -1;
                     InfusionIds[1] = int.TryParse(parts[3], out int infusion2) ? infusion2 : -1;
                     SigilIds[0] = int.TryParse(parts[4], out int sigil1) ? sigil1 : -1;
@@ -385,7 +427,7 @@ namespace Kenedia.Modules.BuildsManager.Models.Templates
             else if (parts.Length == 5)
             {
                 MappedId = int.TryParse(parts[0], out int mappedId) ? mappedId : -1;
-                Stat = (EquipmentStat)(int.TryParse(parts[1], out int stat) ? stat : -1);
+                Stat = int.TryParse(parts[1], out int stat) ? BuildsManager.Data.Stats.Where(e => e.Value.MappedId == stat).FirstOrDefault().Value : null;
                 InfusionIds[0] = int.TryParse(parts[2], out int infusionId) ? infusionId : -1;
                 SigilIds[0] = int.TryParse(parts[3], out int sigil) ? sigil : -1;
                 SigilIds[1] = int.TryParse(parts[4], out int pvpsigil) ? pvpsigil : -1;
@@ -453,7 +495,7 @@ namespace Kenedia.Modules.BuildsManager.Models.Templates
             string infusions = string.Join("|", InfusionIds);
             string runes = string.Join("|", RuneIds);
 
-            return $"[{MappedId}|{(int)Stat}|{infusions}|{runes}]";
+            return $"[{MappedId}|{Stat?.MappedId ?? -1}|{infusions}|{runes}]";
         }
 
         public override void FromCode(string code)
@@ -463,7 +505,7 @@ namespace Kenedia.Modules.BuildsManager.Models.Templates
             if (parts.Length == 4)
             {
                 MappedId = int.TryParse(parts[0], out int mappedId) ? mappedId : -1;
-                Stat = (EquipmentStat)(int.TryParse(parts[1], out int stat) ? stat : 0);
+                Stat = int.TryParse(parts[1], out int stat) ? BuildsManager.Data.Stats.Where(e => e.Value.MappedId == stat).FirstOrDefault().Value : null;
                 InfusionIds[0] = int.TryParse(parts[2], out int infusionId) ? infusionId : 0;
                 RuneIds[0] = int.TryParse(parts[3], out int runeId) ? runeId : 0;
 
@@ -484,7 +526,7 @@ namespace Kenedia.Modules.BuildsManager.Models.Templates
         PvpAmulet,
     }
 
-    public class GearTemplate : Dictionary<GearTemplateEntryType, DeepObservableDictionary<GearTemplateSlot, GearTemplateEntry>>, INotifyPropertyChanged
+    public class GearTemplate : Dictionary<GearTemplateEntryType, DeepObservableDictionary<GearTemplateSlot, BaseTemplateEntry>>, INotifyPropertyChanged
     {
         private bool _loading = false;
         public GearTemplate()
@@ -514,7 +556,7 @@ namespace Kenedia.Modules.BuildsManager.Models.Templates
                 }
                 else if (slot is not GearTemplateSlot.None)
                 {
-                    this[GearTemplateEntryType.None].Add(slot, new GearTemplateEntry() { Slot = slot });
+                    this[GearTemplateEntryType.None].Add(slot, new BaseTemplateEntry() { Slot = slot });
                 }
             }
 
@@ -556,9 +598,9 @@ namespace Kenedia.Modules.BuildsManager.Models.Templates
 
         public Dictionary<GearTemplateSlot, JuwelleryEntry> Juwellery => this[GearTemplateEntryType.Equipment].ToDictionary(e => e.Key, e => (JuwelleryEntry)e.Value);
 
-        public Dictionary<GearTemplateSlot, GearTemplateEntry> PvpAmulets => this[GearTemplateEntryType.PvpAmulet];
+        public Dictionary<GearTemplateSlot, BaseTemplateEntry> PvpAmulets => this[GearTemplateEntryType.PvpAmulet];
 
-        public Dictionary<GearTemplateSlot, GearTemplateEntry> Common => this[GearTemplateEntryType.None];
+        public Dictionary<GearTemplateSlot, BaseTemplateEntry> Common => this[GearTemplateEntryType.None];
 
         public string ParseGearCode()
         {

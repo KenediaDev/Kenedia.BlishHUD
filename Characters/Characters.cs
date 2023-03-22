@@ -40,6 +40,7 @@ using Kenedia.Modules.Characters.Res;
 using Gw2Sharp.WebApi;
 using System.Collections.Specialized;
 
+// TODO if character name is in multiple accounts -> don't load
 namespace Kenedia.Modules.Characters
 {
     [Export(typeof(Module))]

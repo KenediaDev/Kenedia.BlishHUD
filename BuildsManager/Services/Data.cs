@@ -19,6 +19,20 @@ using Kenedia.Modules.BuildsManager.Models.Templates;
 
 namespace Kenedia.Modules.BuildsManager.Services
 {
+    public class StatMap
+    {
+        public EquipmentStat Stat { get; set; }
+
+        public string Name { get; set; }
+
+        public List<int> Ids { get; set; }
+    }
+
+    public class StatMapping : List< StatMap>
+    {
+
+    }
+
     public class Data
     {
         private readonly Logger _logger = Logger.GetLogger(typeof(Data));
@@ -35,6 +49,8 @@ namespace Kenedia.Modules.BuildsManager.Services
         public Dictionary<int, OldSkillConnection> OldConnections { get; set; } = new();
 
         public ItemMapping ItemMap { get; set; } = new();
+
+        public StatMapping StatMap { get; set; } = new();
 
         public Dictionary<int, SkillConnection> SkillConnections { get; set; } = new();
 
@@ -142,6 +158,8 @@ namespace Kenedia.Modules.BuildsManager.Services
                 _logger.Debug("Loading local data...");
 
                 ItemMap = JsonConvert.DeserializeObject<ItemMapping>(await new StreamReader(_contentsManager.GetFileStream(@"data\ItemMapping.json")).ReadToEndAsync());
+                StatMap = JsonConvert.DeserializeObject<StatMapping>(await new StreamReader(_contentsManager.GetFileStream(@"data\stats_map.json")).ReadToEndAsync());
+
                 _logger.Debug("Item Map loaded!");
 
                 await LoadBaseSkills();
@@ -149,7 +167,7 @@ namespace Kenedia.Modules.BuildsManager.Services
 
                 foreach (var prop in GetType().GetProperties())
                 {
-                    if (prop.Name is not nameof(SkillsByPalette) and not nameof(BaseSkills) and not nameof(SkillConnections) and not nameof(OldConnections) and not nameof(ItemMap) and not nameof(IsLoaded))
+                    if (prop.Name is not nameof(SkillsByPalette) and not nameof(BaseSkills) and not nameof(SkillConnections) and not nameof(OldConnections) and not nameof(ItemMap) and not nameof(StatMap) and not nameof(IsLoaded))
                     {
                         string path = $@"{_paths.ModuleDataPath}{prop.Name}.json";
 
