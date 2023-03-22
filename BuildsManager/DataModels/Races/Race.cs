@@ -4,12 +4,16 @@ using System.Collections.Generic;
 using System.Runtime.Serialization;
 using Kenedia.Modules.Core.DataModels;
 using Skill = Kenedia.Modules.BuildsManager.DataModels.Professions.Skill;
+using Blish_HUD.Content;
 
 namespace Kenedia.Modules.BuildsManager.DataModels
 {
     [DataContract]
     public class Race
     {
+        private AsyncTexture2D _icon;
+        private AsyncTexture2D _hoveredIcon;
+
         public Race()
         {
 
@@ -52,6 +56,28 @@ namespace Kenedia.Modules.BuildsManager.DataModels
 
         [DataMember]
         public Dictionary<int, Skill> Skills { get; } = new();
+
+        public AsyncTexture2D Icon
+        {
+            get
+            {
+                if (_icon != null) return _icon;
+
+                _icon = BuildsManager.ModuleInstance.ContentsManager.GetTexture($@"textures\races\{Id.ToString().ToLower()}.png");
+                return _icon;
+            }
+        }
+
+        public AsyncTexture2D HoveredIcon
+        {
+            get
+            {
+                if (_hoveredIcon != null) return _hoveredIcon;
+
+                _hoveredIcon = BuildsManager.ModuleInstance.ContentsManager.GetTexture($@"textures\races\{Id.ToString().ToLower()}_hovered.png");
+                return _hoveredIcon;
+            }
+        }
 
         internal void UpdateLanguage(Gw2Sharp.WebApi.V2.Models.Race race, Dictionary<int, Skill> skills)
         {

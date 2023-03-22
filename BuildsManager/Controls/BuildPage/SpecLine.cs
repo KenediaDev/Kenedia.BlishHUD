@@ -121,7 +121,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
             get => _buildSpecialization; set
             {
                 var temp = _buildSpecialization;
-                if (Common.SetProperty(ref _buildSpecialization, value, ApplySpecialization))
+                if (value != null && Common.SetProperty(ref _buildSpecialization, value, ApplySpecialization))
                 {
                     if (temp != null) temp.PropertyChanged -= Temp_PropertyChanged;
                     if (_buildSpecialization != null) _buildSpecialization.PropertyChanged += Temp_PropertyChanged;

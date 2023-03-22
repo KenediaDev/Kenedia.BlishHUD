@@ -18,6 +18,8 @@ using Kenedia.Modules.Core.Services;
 using Kenedia.Modules.Core.DataModels;
 using TextBox = Kenedia.Modules.Core.Controls.TextBox;
 using System.Diagnostics;
+using Kenedia.Modules.BuildsManager.Controls.Selection;
+using Blish_HUD.Input;
 
 namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
 {
@@ -34,9 +36,8 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
         private readonly AsyncTexture2D _editFeather = AsyncTexture2D.FromAssetId(2175780);
         private readonly AsyncTexture2D _editFeatherHovered = AsyncTexture2D.FromAssetId(2175779);
 
-        private Template _template;
+        private readonly ProfessionRaceSelection _professionRaceSelection;
         private readonly FlowPanel _specializationsPanel;
-        private ProfessionSpecifics _professionSpecifics;
         private readonly Panel _professionSpecificsContainer;
         private readonly SkillsBar _skillbar;
         private readonly Dummy _dummy;
@@ -51,6 +52,9 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
         private readonly TexturesService _texturesService;
         private readonly TextBox _buildCodeBox;
         private readonly ImageButton _copyButton;
+
+        private Template _template;
+        private ProfessionSpecifics _professionSpecifics;
 
         public BuildPage(TexturesService texturesService)
         {
@@ -156,6 +160,14 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
                 //l.Value.SpeclineSwapped += SpeclineSwapped;
                 l.Value.CanInteract = () => !_skillbar.IsSelecting;
             });
+
+            _professionRaceSelection = new()
+            {
+                Parent = this,
+                Visible = false,
+                ClipsBounds = false,
+                ZIndex = 16,
+            };
         }
 
         public Template Template
@@ -184,8 +196,8 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
             _specializations[SpecializationSlot.Line_2].Template = Template;
             _specializations[SpecializationSlot.Line_3].Template = Template;
 
-            _raceIcon.Texture = Template != null ? GetRaceTexture(Template.Race) : null;
-            _raceIcon.BasicTooltipText = Template?.Race.ToString();
+            _raceIcon.Texture = BuildsManager.Data.Races[Template?.Race  ?? Races.None].Icon;
+            _raceIcon.BasicTooltipText = BuildsManager.Data.Races[Template?.Race ?? Races.None].Name;
 
             _specIcon.Texture = Template?.EliteSpecialization != null ? Template.EliteSpecialization.ProfessionIconBig : BuildsManager.Data.Professions?[Template?.Profession ?? ProfessionType.Guardian]?.IconBig;
             _specIcon.BasicTooltipText = Template?.EliteSpecialization != null ? Template.EliteSpecialization.Name : BuildsManager.Data.Professions?[Template?.Profession ?? ProfessionType.Guardian]?.Name;
@@ -209,7 +221,6 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
         public override void RecalculateLayout()
         {
             base.RecalculateLayout();
-
             if (_buildCodeBox != null) _buildCodeBox.Width = Width - _buildCodeBox.Left;
 
             if (_specializationsPanel != null)
@@ -259,6 +270,39 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
             _specializations.ToList().ForEach(l => l.Value.Dispose());
         }
 
+        protected override void OnClick(MouseEventArgs e)
+        {
+            base.OnClick(e);
+
+            if (_specIcon?.MouseOver == true)
+            {
+                _professionRaceSelection.Visible = true;
+                _professionRaceSelection.Type = ProfessionRaceSelection.SelectionType.Profession;
+                _professionRaceSelection.Location = RelativeMousePosition;
+                _professionRaceSelection.OnClickAction = (value) =>
+                {
+                    if(Template != null)
+                    {
+                        Template.Profession = (ProfessionType)value;
+                    }
+                };
+            }
+
+            if (_raceIcon?.MouseOver == true)
+            {
+                _professionRaceSelection.Visible = true;
+                _professionRaceSelection.Type = ProfessionRaceSelection.SelectionType.Race;
+                _professionRaceSelection.Location = RelativeMousePosition;
+                _professionRaceSelection.OnClickAction = (value) =>
+                {
+                    if (Template != null)
+                    {
+                        Template.Race = (Races)value;
+                    }
+                };
+            }
+        }
+
         private void CreateSpecifics()
         {
             _professionSpecifics?.Dispose();
@@ -293,20 +337,6 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
                     _professionSpecifics = new RevenantSpecifics();
                     break;
             }
-        }
-
-        private Texture2D GetRaceTexture(Races race)
-        {
-            return race switch
-            {
-                Races.None => _texturesService.GetTexture(@"textures\races\pact.png", "pact"),
-                Races.Asura => _texturesService.GetTexture(@"textures\races\asura.png", "asura"),
-                Races.Charr => _texturesService.GetTexture(@"textures\races\charr.png", "charr"),
-                Races.Human => _texturesService.GetTexture(@"textures\races\human.png", "human"),
-                Races.Norn => _texturesService.GetTexture(@"textures\races\norn.png", "norn"),
-                Races.Sylvari => _texturesService.GetTexture(@"textures\races\sylvari.png", "sylvari"),
-                _ => _texturesService.GetTexture(@"textures\races\pact.png", "pact"),
-            };
         }
     }
 }

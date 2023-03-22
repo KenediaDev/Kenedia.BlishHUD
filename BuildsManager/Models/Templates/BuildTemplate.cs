@@ -44,7 +44,26 @@ namespace Kenedia.Modules.BuildsManager.Models.Templates
 
         public event PropertyChangedEventHandler Changed;
 
-        public ProfessionType Profession { get => _profession; set => Common.SetProperty(ref _profession, value, OnChanged); }
+        public ProfessionType Profession { get => _profession; set => Common.SetProperty(ref _profession, value, OnProfessionChanged); }
+
+        private void OnProfessionChanged(object sender, PropertyChangedEventArgs e)
+        {
+
+            Debug.WriteLine($"PROFESSION CHANGED");
+
+            _loading = true;
+            
+            Specializations?.Wipe();
+            AquaticSkills?.Wipe();
+            TerrestrialSkills?.Wipe();
+            Legends?.Wipe();
+            InactiveAquaticSkills?.Wipe();
+            InactiveTerrestrialSkills?.Wipe();
+            Pets?.Wipe();
+            _loading = false;
+
+            OnChanged(sender, e);
+        }
 
         public Dictionary<BuildSkillSlot, Skill> Test { get; } = new();
 
@@ -327,7 +346,7 @@ namespace Kenedia.Modules.BuildsManager.Models.Templates
         {
             foreach (var spec in Specializations)
             {
-                if (spec.Value.Specialization != null && spec.Value.Specialization.Id == specializationId) return true;
+                if (spec.Value?.Specialization?.Id == specializationId) return true;
             }
 
             return false;
@@ -337,7 +356,7 @@ namespace Kenedia.Modules.BuildsManager.Models.Templates
         {
             foreach (var spec in Specializations)
             {
-                if (spec.Value != null && spec.Value.Specialization == specialization) return true;
+                if (spec.Value?.Specialization == specialization) return true;
             }
 
             return false;
@@ -347,13 +366,13 @@ namespace Kenedia.Modules.BuildsManager.Models.Templates
         {
             foreach (var spec in Specializations)
             {
-                if (spec.Value != null && spec.Value.Specialization == specialization) return spec.Key;
+                if (spec.Value?.Specialization == specialization) return spec.Key;
             }
 
             return null;
         }
 
-        private async void OnChanged(object sender, PropertyChangedEventArgs e)
+        private void OnChanged(object sender, PropertyChangedEventArgs e)
         {
             if (_loading) return;
             Changed?.Invoke(sender, e);

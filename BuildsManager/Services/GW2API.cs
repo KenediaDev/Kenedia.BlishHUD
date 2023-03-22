@@ -72,15 +72,10 @@ namespace Kenedia.Modules.BuildsManager.Services
 
             LocalizedString state = new();
 
-            var professions = _data.Professions;
-            var races = _data.Races;
-            var stats = _data.Stats;
-            var pets = _data.Pets;
-
             Locale locale = GameService.Overlay.UserLocale.Value;
-            await GetItems(_cancellationTokenSource.Token);
-            //await GetProfessions(_cancellationTokenSource.Token, professions, races);
-            //await GetPets(_cancellationTokenSource.Token, pets);
+            //await GetItems(_cancellationTokenSource.Token);
+            await GetProfessions(_cancellationTokenSource.Token);
+            //await GetPets(_cancellationTokenSource.Token);
         }
 
         public async Task GetItems(CancellationToken cancellation)
@@ -199,7 +194,7 @@ namespace Kenedia.Modules.BuildsManager.Services
             }
         }
 
-        public async Task GetProfessions(CancellationToken cancellation, Dictionary<ProfessionType, Profession> professions, Dictionary<Races, Race> races)
+        public async Task GetProfessions(CancellationToken cancellation)
         {
             try
             {
@@ -227,17 +222,22 @@ namespace Kenedia.Modules.BuildsManager.Services
                     skills.Add(skill.Id, new(skill, paletteBySkills));
                 }
 
+                if(!_data.Races.Any(e => e.Key == Races.None))
+                {
+                    _data.Races.Add(Races.None, new() { Name = "None", Id = Races.None});
+                }
+
                 foreach (var apiRace in apiRaces)
                 {
                     if (Enum.TryParse(apiRace.Id, out Races raceType))
                     {
-                        bool exists = races.TryGetValue(raceType, out Race race);
+                        bool exists = _data.Races.TryGetValue(raceType, out Race race);
 
                         race ??= new Race(apiRace, skills);
 
                         if (!exists)
                         {
-                            races.Add(race.Id, race);
+                            _data.Races.Add(race.Id, race);
                         }
                         else
                         {
@@ -269,20 +269,20 @@ namespace Kenedia.Modules.BuildsManager.Services
                 {
                     if (Enum.TryParse(e.Id, out ProfessionType professionType))
                     {
-                        bool exists = professions.TryGetValue(professionType, out var profession);
+                        bool exists = _data.Professions.TryGetValue(professionType, out var profession);
                         profession ??= new();
-                        profession.Apply(e, specializations, traits, skills, legends, races);
-                        if (!exists) professions.Add(professionType, profession);
+                        profession.Apply(e, specializations, traits, skills, legends, _data.Races);
+                        if (!exists) _data.Professions.Add(professionType, profession);
                     }
                 }
 
-                string json = JsonConvert.SerializeObject(professions, Formatting.Indented);
+                string json = JsonConvert.SerializeObject(_data.Professions, Formatting.Indented);
                 File.WriteAllText($@"{Paths.ModulePath}\data\Professions.json", json);
 
                 json = JsonConvert.SerializeObject(paletteBySkills, Formatting.Indented);
                 File.WriteAllText($@"{Paths.ModulePath}\data\PaletteBySkills.json", json);
 
-                json = JsonConvert.SerializeObject(races, Formatting.Indented);
+                json = JsonConvert.SerializeObject(_data.Races, Formatting.Indented);
                 File.WriteAllText($@"{Paths.ModulePath}\data\Races.json", json);
             }
             catch (Exception ex)
@@ -295,7 +295,7 @@ namespace Kenedia.Modules.BuildsManager.Services
             }
         }
 
-        public async Task GetPets(CancellationToken cancellation, Dictionary<int, Pet> pets)
+        public async Task GetPets(CancellationToken cancellation)
         {
             try
             {
@@ -324,13 +324,13 @@ namespace Kenedia.Modules.BuildsManager.Services
 
                 foreach (var e in apiPets)
                 {
-                    bool exists = pets.TryGetValue(e.Id, out var pet);
+                    bool exists = _data.Pets.TryGetValue(e.Id, out var pet);
                     pet ??= new(e, petSkills);
                     pet.ApplyLanguage(e, petSkills);
-                    if (!exists) pets.Add(e.Id, pet);
+                    if (!exists) _data.Pets.Add(e.Id, pet);
                 }
 
-                string json = JsonConvert.SerializeObject(pets, Formatting.Indented);
+                string json = JsonConvert.SerializeObject(_data.Pets, Formatting.Indented);
                 File.WriteAllText($@"{Paths.ModulePath}\data\Pets.json", json);
             }
             catch (Exception ex)

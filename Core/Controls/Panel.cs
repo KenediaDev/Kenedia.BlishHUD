@@ -9,6 +9,7 @@ using Microsoft.Xna.Framework;
 using Blish_HUD.Controls;
 using System.Collections.Generic;
 using Kenedia.Modules.Core.Services;
+using System.Diagnostics;
 
 namespace Kenedia.Modules.Core.Controls
 {
@@ -60,6 +61,10 @@ namespace Kenedia.Modules.Core.Controls
             LocalizingService.LocaleChanged += UserLocale_SettingChanged;
             UserLocale_SettingChanged(null, null);
         }
+
+        public bool Hovered => ClipInputToBounds ? MouseOver : AbsoluteBounds.Contains(Input.Mouse.Position);
+
+        public bool ClipInputToBounds { get; set; } = true;
 
         public RectangleDimensions BorderWidth
         {
@@ -249,7 +254,7 @@ namespace Kenedia.Modules.Core.Controls
                 spriteBatch.DrawOnCtrl(this, _textureCornerAccent, _layoutBottomRightAccentBounds, _layoutCornerAccentSrc, Color.White * AccentOpacity, 0f, Vector2.Zero, SpriteEffects.FlipVertically);
             }
 
-            Color? backgroundColor = BackgroundHoveredColor != null && MouseOver ? BackgroundHoveredColor : BackgroundColor;
+            Color? backgroundColor = BackgroundHoveredColor != null && Hovered ? BackgroundHoveredColor : BackgroundColor;
             if (backgroundColor != null)
             {
                 spriteBatch.DrawOnCtrl(
@@ -260,7 +265,7 @@ namespace Kenedia.Modules.Core.Controls
                     (Color)backgroundColor);
             }
 
-            Color? backgroundImageColor = BackgroundImageHoveredColor != null && MouseOver ? BackgroundImageHoveredColor : BackgroundImageColor;
+            Color? backgroundImageColor = BackgroundImageHoveredColor != null && Hovered ? BackgroundImageHoveredColor : BackgroundImageColor;
             if (BackgroundImage != null && backgroundImageColor != null)
             {
                 spriteBatch.DrawOnCtrl(
@@ -273,7 +278,7 @@ namespace Kenedia.Modules.Core.Controls
                     default);
             }
 
-            Color? borderColor = HoveredBorderColor != null && MouseOver ? HoveredBorderColor : BorderColor;
+            Color? borderColor = HoveredBorderColor != null && Hovered ? HoveredBorderColor : BorderColor;
             if (borderColor != null)
             {
                 DrawBorders(spriteBatch);
@@ -341,7 +346,7 @@ namespace Kenedia.Modules.Core.Controls
 
         private void DrawBorders(SpriteBatch spriteBatch)
         {
-            Color? borderColor = HoveredBorderColor != null && MouseOver ? HoveredBorderColor : BorderColor;
+            Color? borderColor = HoveredBorderColor != null && Hovered ? HoveredBorderColor : BorderColor;
             if (borderColor != null)
             {
                 foreach (var r in _topBorders)

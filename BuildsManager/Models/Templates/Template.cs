@@ -287,12 +287,14 @@ namespace Kenedia.Modules.BuildsManager.Models.Templates
         }
 
         [DataMember]
-        public Races Race = Races.None;
+        public Races Race { get => _race; set => Common.SetProperty(ref _race, value, TemplateChanged); }
+
         private bool _pvE = true;
         private CancellationTokenSource _cancellationTokenSource;
         private CancellationTokenSource _eventCancellationTokenSource;
         private TemplateFlag _tags;
         private EncounterFlag _encounters;
+        private Races _race = Races.None;
 
         private string Gearcode
         {
@@ -565,7 +567,7 @@ namespace Kenedia.Modules.BuildsManager.Models.Templates
             }
             catch (Exception ex)
             {
-                if(!_cancellationTokenSource.Token.IsCancellationRequested) BuildsManager.Logger.Warn(ex.ToString());
+                if (!_cancellationTokenSource.Token.IsCancellationRequested) BuildsManager.Logger.Warn(ex.ToString());
             }
         }
     }

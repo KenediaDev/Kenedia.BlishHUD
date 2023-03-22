@@ -59,6 +59,8 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
         private double _animationDuration = 1500;
         private float _animationOpacityStep = 1;
         private bool _animationRunning;
+        private AsyncTexture2D _raceTexture;
+        private AsyncTexture2D _specTexture;
 
         public TemplateSelectable()
         {
@@ -170,14 +172,9 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
 
             if (Template?.Profession != null)
             {
-                var prof =
-                    MouseOver ? _copyTexture :
-                    Template.EliteSpecialization != null ?
-                    Template.EliteSpecialization.ProfessionIconBig :
-                    BuildsManager.Data.Professions[Template.Profession].IconBig;
-                var race = GetRaceTexture(Template.Race);
-                spriteBatch.DrawOnCtrl(this, prof, _specBounds, prof.Bounds, Color.White, 0F, Vector2.Zero);
-                spriteBatch.DrawOnCtrl(this, race, _raceBounds, race.Bounds, Color.White, 0F, Vector2.Zero);
+                var prof = MouseOver ? _copyTexture : _specTexture;
+                if (prof != null) spriteBatch.DrawOnCtrl(this, prof, _specBounds, prof.Bounds, Color.White, 0F, Vector2.Zero);
+                if (_raceTexture != null) spriteBatch.DrawOnCtrl(this, _raceTexture, _raceBounds, _raceTexture.Bounds, Color.White, 0F, Vector2.Zero);
             }
 
             int amount = 0;
@@ -346,7 +343,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
         {
             _animationDuration = duration;
             _animationStart = Common.Now();
-            _animationOpacityStep = (float) (1F / (_animationDuration / 5));
+            _animationOpacityStep = (float)(1F / (_animationDuration / 5));
 
             _name.TextColor = color;
             _name.WrapText = false;
@@ -372,6 +369,8 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
         private void ApplyTemplate()
         {
             _name.Text = _template?.Name;
+            _raceTexture = BuildsManager.Data.Races.TryGetValue(_template?.Race ?? Races.None, out var race) ? race.Icon : null;
+            _specTexture = Template?.EliteSpecialization?.ProfessionIconBig ?? (BuildsManager.Data.Professions.TryGetValue((Gw2Sharp.Models.ProfessionType)Template?.Profession, out var profession) ? profession.IconBig : null);
 
             _tagTexturess.Clear();
 
@@ -399,20 +398,6 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
                     }
                 }
             }
-        }
-
-        private Texture2D GetRaceTexture(Races race)
-        {
-            return race switch
-            {
-                Races.None => _texturesService.GetTexture(@"textures\races\pact.png", "pact"),
-                Races.Asura => _texturesService.GetTexture(@"textures\races\asura.png", "asura"),
-                Races.Charr => _texturesService.GetTexture(@"textures\races\charr.png", "charr"),
-                Races.Human => _texturesService.GetTexture(@"textures\races\human.png", "human"),
-                Races.Norn => _texturesService.GetTexture(@"textures\races\norn.png", "norn"),
-                Races.Sylvari => _texturesService.GetTexture(@"textures\races\sylvari.png", "sylvari"),
-                _ => _texturesService.GetTexture(@"textures\races\pact.png", "pact"),
-            };
         }
 
         private void Mouse_LeftMouseButtonPressed(object sender, MouseEventArgs e)
