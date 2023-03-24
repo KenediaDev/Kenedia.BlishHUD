@@ -381,6 +381,10 @@ namespace Kenedia.Modules.Characters.Models
             }
         }
 
+        public TimeSpan UntilNextBirthday => NextBirthday.Subtract(DateTime.UtcNow);
+
+        public int SecondsUntilNextBirthday => (int)UntilNextBirthday.TotalSeconds;
+
         public DateTime NextBirthday
         {
             get

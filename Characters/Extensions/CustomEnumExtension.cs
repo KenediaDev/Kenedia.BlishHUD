@@ -19,6 +19,10 @@ namespace Kenedia.Modules.Characters.Extensions
             {
                 return SortBy.Race;
             }
+            else if (s == string.Format(strings.SortBy, strings.Age))
+            {
+                return SortBy.Age;
+            }
             else if (s == string.Format(strings.SortBy, strings.Gender))
             {
                 return SortBy.Gender;
@@ -58,6 +62,7 @@ namespace Kenedia.Modules.Characters.Extensions
                 SortBy.Name => string.Format(strings.SortBy, strings.Name),
                 SortBy.Level => string.Format(strings.SortBy, strings.Level),
                 SortBy.Race => string.Format(strings.SortBy, strings.Race),
+                SortBy.Age => string.Format(strings.SortBy, strings.Age),
                 SortBy.Gender => string.Format(strings.SortBy, strings.Gender),
                 SortBy.Profession => string.Format(strings.SortBy, strings.Profession),
                 SortBy.Specialization => string.Format(strings.SortBy, strings.Specialization),

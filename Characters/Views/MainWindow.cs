@@ -490,18 +490,21 @@ namespace Kenedia.Modules.Characters.Views
         {
             var sortby = _settings.SortType.Value;
             bool asc = _settings.SortOrder.Value == SortDirection.Ascending;
-            bool isNum = sortby is SortBy.Level or SortBy.TimeSinceLogin or SortBy.Map or SortBy.NextBirthday;
+            bool isNum = sortby is SortBy.Level or SortBy.TimeSinceLogin or SortBy.Map or SortBy.NextBirthday or SortBy.Age;
 
             if (_settings.SortType.Value != SortBy.Custom)
             {
                 int getValue(Character_Model c)
                 {
-                    return Common.GetPropertyValue<int>(c, $"{_settings.SortType.Value}");
+                    string sortType = _settings.SortType.Value is SortBy.NextBirthday ? "SecondsUntilNextBirthday" : _settings.SortType.Value.ToString();
+                    return Common.GetPropertyValue<int>(c, sortType);
                 }
 
                 string getString(Character_Model c)
                 {
-                    string s = Common.GetPropertyValueAsString(c, $"{_settings.SortType.Value}");
+                    string sortType = _settings.SortType.Value is SortBy.NextBirthday ? "SecondsUntilNextBirthday" : _settings.SortType.Value.ToString();
+
+                    string s = Common.GetPropertyValueAsString(c, sortType);
                     return s;
                 }
 

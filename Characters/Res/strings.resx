@@ -1016,4 +1016,10 @@ Path to the 'tesseract.dll': {0}</value>
   <data name="NextBirthday" xml:space="preserve">
     <value>Next Birthday</value>
   </data>
+  <data name="CreationDate" xml:space="preserve">
+    <value>Creation Date</value>
+  </data>
+  <data name="Age" xml:space="preserve">
+    <value>Age</value>
+  </data>
 </root>

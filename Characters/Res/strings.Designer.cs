@@ -97,6 +97,15 @@ namespace Kenedia.Modules.Characters.Res {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Age.
+        /// </summary>
+        internal static string Age {
+            get {
+                return ResourceManager.GetString("Age", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Any {0}.
         /// </summary>
         internal static string AnyProfession {
@@ -616,6 +625,15 @@ namespace Kenedia.Modules.Characters.Res {
         internal static string CreateImages {
             get {
                 return ResourceManager.GetString("CreateImages", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Creation Date.
+        /// </summary>
+        internal static string CreationDate {
+            get {
+                return ResourceManager.GetString("CreationDate", resourceCulture);
             }
         }
         
