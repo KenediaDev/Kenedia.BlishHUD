@@ -2450,6 +2450,16 @@ namespace Kenedia.Modules.Characters.Res {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Failed to load the &apos;tesseract.dll&apos; which is required for the Character Name reading.
+        ///Path to the &apos;tesseract.dll&apos;: {0}.
+        /// </summary>
+        internal static string TesseractFailedNotification {
+            get {
+                return ResourceManager.GetString("TesseractFailedNotification", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Text and Icons.
         /// </summary>
         internal static string TextAndIcon {

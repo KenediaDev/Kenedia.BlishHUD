@@ -268,7 +268,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
 
         public void ApplyTemplate()
         {
-            _buildSpecialization = Template?.BuildTemplate.Specializations[Line];
+            BuildSpecialization = Template?.BuildTemplate.Specializations[Line];
 
             PlayerCharacter player = GameService.Gw2Mumble.PlayerCharacter;
             _profession = BuildsManager.Data.Professions[Template?.Profession ?? player?.Profession ?? Gw2Sharp.Models.ProfessionType.Guardian];

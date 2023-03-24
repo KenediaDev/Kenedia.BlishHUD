@@ -101,6 +101,8 @@ namespace Kenedia.Modules.Characters.Services
 
         public async void Start()
         {
+            if (OCR?.IsLoaded != true) return;
+
             _state = SortingState.Canceled;
             _cancellationTokenSource?.Cancel();
             _cancellationTokenSource = new();
@@ -262,9 +264,9 @@ namespace Kenedia.Modules.Characters.Services
         {
             string name = await OCR?.Read();
 
-            Status = string.Format(strings.FixCharacter_FetchName, Environment.NewLine, name);
+            Status = string.Format(strings.FixCharacter_FetchName, Environment.NewLine, name ?? "Unkown Character Name");
 
-            if(name != null)
+            if(string.IsNullOrEmpty(name))
             {
                 (string, int, int, int, bool) match = GetBestMatch(name);
                 Debug.WriteLine($"Best Match for {_currentIndex} is {match.Item1} with {match.Item2} string edits and {match.Item3} list index distance for a total of {match.Item4} differences.");

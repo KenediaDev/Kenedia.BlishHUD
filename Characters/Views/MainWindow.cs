@@ -25,6 +25,7 @@ using StandardWindow = Kenedia.Modules.Core.Views.StandardWindow;
 using System.Threading.Tasks;
 using Kenedia.Modules.Core.Utility;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 
 namespace Kenedia.Modules.Characters.Views
 {
@@ -59,6 +60,7 @@ namespace Kenedia.Modules.Characters.Views
         private Rectangle _titleRectangle;
         private APITimeoutNotification _apiTimeoutNotification;
         private APIPermissionNotification _apiPermissionNotification;
+        private TesseractFailedNotification _tesseractFailedNotification;
 
         public MainWindow(Texture2D background, Rectangle windowRegion, Rectangle contentRegion,
             Settings settings, TextureManager textureManager, ObservableCollection<Character_Model> characterModels,
@@ -713,6 +715,23 @@ namespace Kenedia.Modules.Characters.Views
             }
 
             SortCharacters();
+        }
+
+        public void SendTesseractFailedNotification(string pathToEngine)
+        {
+            _tesseractFailedNotification ??= new TesseractFailedNotification()
+            {
+                Parent = _notifications,
+                Height = 25,
+                PathToEngine = pathToEngine,
+                ClickAction = _toggleOCR,
+            };
+
+            if (_settings.ShowNotifications.Value && _notifications.Children.Count > 0 && _notifications.Children.Any(e => e.Visible))
+            {
+                _collapseWrapper.Show();
+                ContentPanel.Invalidate();
+            }
         }
 
         public void SendAPITimeoutNotification()

@@ -1009,4 +1009,8 @@ Notifications en cas de :
   <data name="APIPermissionNotification" xml:space="preserve">
     <value>La clé API actuellement attribuée à ce personnage ne dispose pas des autorisations nécessaires. Nous ne pouvons donc pas récupérer la liste des personnages et mettre à jour les personnages.</value>
   </data>
+  <data name="TesseractFailedNotification" xml:space="preserve">
+    <value>Échec du chargement de 'tesseract.dll' qui est nécessaire pour la lecture des noms de caractères.
+Chemin d'accès au fichier 'tesseract.dll' : {0}</value>
+  </data>
 </root>

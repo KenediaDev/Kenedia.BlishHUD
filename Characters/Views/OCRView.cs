@@ -459,16 +459,25 @@ namespace Characters.Views
                     _readTick = gameTime.TotalGameTime.TotalMilliseconds;
 
                     string result = await _ocr.Read(true);
+                    _bestMatchLabel.Text = !string.IsNullOrEmpty(result) ? _ocr.ReadResult : $"Tesseract Engine Loaded: {_ocr.IsLoaded}";
+                    _resultLabel.Text = !string.IsNullOrEmpty(result) ? _ocr.BestMatchResult : $"{_ocr.PathToEngine}";
+
                     if (result != null)
                     {
-                        _bestMatchLabel.Text = _ocr.BestMatchResult;
-                        _resultLabel.Text = _ocr.ReadResult;
                         _sourceImage.Texture = _ocr.SourceTexture;
                         _sourceImage.Size = _ocr.SourceTexture.Bounds.Size;
                         _cleanedImage.Texture = _ocr.CleanedTexture;
                         _cleanedImage.Size = _ocr.CleanedTexture.Bounds.Size;
                         _scaledImage.Texture = _ocr.ScaledTexture;
                         _scaledImage.Size = _ocr.ScaledTexture.Bounds.Size;
+
+                        _resultLabel.Font = Content.DefaultFont32;
+                        _resultLabel.WrapText = false;
+                    }
+                    else
+                    {
+                        _resultLabel.Font = Content.DefaultFont14;
+                        _resultLabel.WrapText = true;
                     }
                 }
             }

@@ -1009,4 +1009,8 @@ Notifications in case of:
   <data name="APIPermissionNotification" xml:space="preserve">
     <value>The currently assigned API key to this character is missing permissions. Thus we can not retrieve the character list and update the characters.</value>
   </data>
+  <data name="TesseractFailedNotification" xml:space="preserve">
+    <value>Failed to load the 'tesseract.dll' which is required for the Character Name reading.
+Path to the 'tesseract.dll': {0}</value>
+  </data>
 </root>

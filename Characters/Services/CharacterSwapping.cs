@@ -11,6 +11,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace Kenedia.Modules.Characters.Services
 {
@@ -317,14 +318,21 @@ namespace Kenedia.Modules.Characters.Services
 
                     if (_settings.UseOCR.Value)
                     {
-                        stopwatch.Start();
-                        string txt = await OCR.Read();
-                        while (stopwatch.ElapsedMilliseconds < 5000 && txt.Length <= 2 && !cancellationToken.IsCancellationRequested)
+                        if (OCR.IsLoaded)
                         {
-                            Characters.Logger.Info($"We are in the character selection but the OCR did only read '{txt}'. Waiting a bit longer!");
-                            await Delay(cancellationToken, 250);
-                            txt = await OCR.Read();
-                            if (cancellationToken.IsCancellationRequested) return _gameState.IsCharacterSelection;
+                            stopwatch.Start();
+                            string txt = await OCR.Read();
+                            while (stopwatch.ElapsedMilliseconds < 5000 && txt.Length <= 2 && !cancellationToken.IsCancellationRequested)
+                            {
+                                Characters.Logger.Info($"We are in the character selection but the OCR did only read '{txt}'. Waiting a bit longer!");
+                                await Delay(cancellationToken, 250);
+                                txt = await OCR.Read();
+                                if (cancellationToken.IsCancellationRequested) return _gameState.IsCharacterSelection;
+                            }
+                        }
+                        else
+                        {
+                            Characters.Logger.Info($"OCR did not load the engine fully. {Character?.Name ?? "Character Name"} can not be confirmed!");
                         }
                     }
                 }
@@ -334,14 +342,21 @@ namespace Kenedia.Modules.Characters.Services
 
                     if (_settings.UseOCR.Value)
                     {
-                        stopwatch.Start();
-                        string txt = await OCR.Read();
-                        while (stopwatch.ElapsedMilliseconds < 5000 && txt.Length <= 2 && !cancellationToken.IsCancellationRequested)
+                        if (OCR.IsLoaded)
                         {
-                            Characters.Logger.Info($"We should be in the character selection but the OCR did only read '{txt}'. Waiting a bit longer!");
-                            await Delay(cancellationToken, 250);
-                            txt = await OCR.Read();
-                            if (cancellationToken.IsCancellationRequested) return _gameState.IsCharacterSelection;
+                            stopwatch.Start();
+                            string txt = await OCR.Read();
+                            while (stopwatch.ElapsedMilliseconds < 5000 && txt.Length <= 2 && !cancellationToken.IsCancellationRequested)
+                            {
+                                Characters.Logger.Info($"We should be in the character selection but the OCR did only read '{txt}'. Waiting a bit longer!");
+                                await Delay(cancellationToken, 250);
+                                txt = await OCR.Read();
+                                if (cancellationToken.IsCancellationRequested) return _gameState.IsCharacterSelection;
+                            }
+                        }
+                        else
+                        {
+                            Characters.Logger.Info($"OCR did not load the engine fully. {Character?.Name ?? "Character Name"} can not be confirmed!");
                         }
                     }
                 }
@@ -407,7 +422,7 @@ namespace Kenedia.Modules.Characters.Services
 
         private async Task<bool> ConfirmName()
         {
-            if (!_settings.UseOCR.Value || _ignoreOCR) return true;
+            if (!_settings.UseOCR.Value || _ignoreOCR || !OCR.IsLoaded) return true;
             if (Character == null || string.IsNullOrEmpty(Character.Name)) return false;
 
             string ocr_result = _settings.UseOCR.Value ? await OCR.Read() : "No OCR";

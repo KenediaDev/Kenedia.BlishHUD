@@ -1011,4 +1011,8 @@ Benachrichtigungen im Falle von:
   <data name="APIPermissionNotification" xml:space="preserve">
     <value>Dem aktuell zugewiesenen API-Schlüssel für dieses Zeichen fehlen die Berechtigungen. Daher können wir die Zeichenliste nicht abrufen und die Zeichen nicht aktualisieren.</value>
   </data>
+  <data name="TesseractFailedNotification" xml:space="preserve">
+    <value>Das Laden der 'tesseract.dll', die für das Lesen von Charakternamen erforderlich ist, ist fehlgeschlagen.
+Pfad zur 'tesseract.dll': {0}</value>
+  </data>
 </root>

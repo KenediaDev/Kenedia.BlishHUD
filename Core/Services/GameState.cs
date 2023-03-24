@@ -256,16 +256,23 @@ namespace Kenedia.Modules.Core.Services
             _spinnerMask.Size = new((int)(size.Width * 2 * factor), (int)(size.Height * 2 * factor));
             _spinnerMask.Location = new(GameService.Graphics.SpriteScreen.Right + (-_spinnerMask.Size.X), GameService.Graphics.SpriteScreen.Bottom + (-_spinnerMask.Size.Y));
 
-            using Bitmap bitmap = new(size.Width, size.Height);
-            using var g = Graphics.FromImage(bitmap);
-            using MemoryStream s = new();
+            try
+            {
+                using Bitmap bitmap = new(size.Width, size.Height);
+                using var g = Graphics.FromImage(bitmap);
+                using MemoryStream s = new();
 
-            g.CopyFromScreen(new(wndBounds.Right + offset.Right + pos.X, wndBounds.Bottom + offset.Bottom + pos.Y - 30), Point.Empty, size);
-            (Bitmap, bool, double) isFilled = bitmap.IsNotBlackAndCheckFilled(0.4);
+                g.CopyFromScreen(new(wndBounds.Right + offset.Right + pos.X, wndBounds.Bottom + offset.Bottom + pos.Y - 30), Point.Empty, size);
+                (Bitmap, bool, double) isFilled = bitmap.IsNotBlackAndCheckFilled(0.4);
 
-            if (isFilled.Item2) SaveResult(isFilled.Item3, _spinnerResults);
+                if (isFilled.Item2) SaveResult(isFilled.Item3, _spinnerResults);
+            }
+            catch(Exception)
+            {
 
-            IEnumerable<double> uniques = _spinnerResults.Distinct();
+            }
+
+            IEnumerable<double> uniques = _spinnerResults?.Distinct();
 
             return uniques?.Count() >= 3;
         }

@@ -17,6 +17,7 @@ namespace Kenedia.Modules.Characters.Controls
     public enum NotificationType
     {
         Unkown,
+        Tesseract,
         OCR,
         APITimeout,
         InvalidAPI,
@@ -197,6 +198,70 @@ namespace Kenedia.Modules.Characters.Controls
             _dismiss.Draw(this, spriteBatch, RelativeMousePosition);
             _settingsCog.Draw(this, spriteBatch, RelativeMousePosition);
             spriteBatch.DrawStringOnCtrl(this, string.Format(strings.OCRNotification, Resolution), GameService.Content.DefaultFont14, _textRectangle, Color.White, true, HorizontalAlignment.Left, VerticalAlignment.Middle);
+
+            BasicTooltipText = txt;
+        }
+
+        protected override void OnClick(MouseEventArgs e)
+        {
+            base.OnClick(e);
+
+            if (_settingsCog.Hovered)
+            {
+                ClickAction?.Invoke();
+            }
+
+            if (_dismiss.Hovered)
+            {
+                var p = Parent;
+
+                Dispose();
+                p?.Invalidate();
+            }
+        }
+    }
+
+    public class TesseractFailedNotification : BaseNotification
+    {
+        private Rectangle _textRectangle;
+        private DetailedTexture _settingsCog = new(155052, 157110);
+        private DetailedTexture _dismiss = new(156012, 156011)
+        {
+            TextureRegion = new(4, 4, 24, 24)
+        };
+
+        public Action ClickAction { get; set; }
+
+        public string PathToEngine { get; internal set; }
+
+        public TesseractFailedNotification()
+        {
+            NotificationType = NotificationType.Tesseract;
+        }
+
+        public override void RecalculateLayout()
+        {
+            base.RecalculateLayout();
+
+            int height = GameService.Content.DefaultFont14.LineHeight + 4;
+            _dismiss.Bounds = new(0, 0, height, height);
+            _settingsCog.Bounds = new(_dismiss.Bounds.Right + 2, 0, height, height);
+
+            int width = Width - _settingsCog.Bounds.Right - 6;
+            string wrappedText = TextUtil.WrapText(GameService.Content.DefaultFont14, string.Format(strings.TesseractFailedNotification, PathToEngine), width);
+            var rect = GameService.Content.DefaultFont14.GetStringRectangle(wrappedText);
+
+            _textRectangle = new(_settingsCog.Bounds.Right + 6, 0, width, (int)rect.Height);
+            Height = Math.Max(height, _textRectangle.Height);
+        }
+
+        protected override void Paint(SpriteBatch spriteBatch, Rectangle bounds)
+        {
+            string txt = string.Empty;
+
+            _dismiss.Draw(this, spriteBatch, RelativeMousePosition);
+            _settingsCog.Draw(this, spriteBatch, RelativeMousePosition);
+            spriteBatch.DrawStringOnCtrl(this, string.Format(strings.TesseractFailedNotification, PathToEngine), GameService.Content.DefaultFont14, _textRectangle, Color.White, true, HorizontalAlignment.Left, VerticalAlignment.Top);
 
             BasicTooltipText = txt;
         }

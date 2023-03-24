@@ -39,6 +39,7 @@ using Kenedia.Modules.Characters.Controls.SideMenu;
 using Kenedia.Modules.Characters.Res;
 using Gw2Sharp.WebApi;
 using System.Collections.Specialized;
+using System.Threading;
 
 // TODO if character name is in multiple accounts -> don't load
 namespace Kenedia.Modules.Characters
@@ -86,6 +87,7 @@ namespace Kenedia.Modules.Characters
         public ObservableCollection<Character_Model> CharacterModels { get; } = new();
 
         private Character_Model _currentCharacterModel;
+        private CancellationTokenSource _characterFileTokenSource;
 
         public Character_Model CurrentCharacterModel
         {
@@ -196,6 +198,9 @@ namespace Kenedia.Modules.Characters
         protected override async Task LoadAsync()
         {
             await base.LoadAsync();
+
+            if (Settings.LoadCachedAccounts.Value) _ = await LoadCharacters();
+
             await Data.Load();
         }
 
@@ -220,9 +225,6 @@ namespace Kenedia.Modules.Characters
             }
 
             CharacterModels.CollectionChanged += OnCharacterCollectionChanged;
-
-            if (Settings.LoadCachedAccounts.Value) _ = LoadCharacters();
-
             Services.InputDetectionService.ClickedOrKey += InputDetectionService_ClickedOrKey;
         }
 
@@ -392,6 +394,7 @@ namespace Kenedia.Modules.Characters
                 MainWindow.CharacterEdit.ShowImages(true);
             };
 
+            OCR.MainWindow = MainWindow;
             CharacterSwapping.HideMainWindow = MainWindow.Hide;
             CharacterSwapping.OCR = OCR;
             CharacterSorting.OCR = OCR;
@@ -568,12 +571,12 @@ namespace Kenedia.Modules.Characters
             SearchFilters.Add("Male", new((c) => c.Gender == Gender.Male));
         }
 
-        private void AddOrUpdateCharacters(IApiV2ObjectList<Character> characters)
+        private async void AddOrUpdateCharacters(IApiV2ObjectList<Character> characters)
         {
             if (!_loadedCharacters && Settings.LoadCachedAccounts.Value)
             {
                 Logger.Info($"This is our first API data fetched for this character/session. Trying to load local data first.");
-                if (LoadCharacters() == null)
+                if (await LoadCharacters() == null)
                 {
                     Logger.Info($"Checking the cache.");
                 }
@@ -643,12 +646,13 @@ namespace Kenedia.Modules.Characters
             //    Settings.ImportVersion.Value = OldCharacterModel.ImportVersion;
             //}
 
-            SaveCharacterList();
             MainWindow?.CreateCharacterControls();
             MainWindow?.PerformFiltering();
+
+            _ = SaveCharacterList();
         }
 
-        private bool? LoadCharacters()
+        private async Task<bool?> LoadCharacters()
         {
             PlayerCharacter player = GameService.Gw2Mumble.PlayerCharacter;
 
@@ -670,7 +674,8 @@ namespace Kenedia.Modules.Characters
                         return accounts.Find(e => e.CharacterNames.Contains(player.Name));
                     }
                 }
-                catch { }
+                catch (Exception)
+                { }
 
                 return null;
             }
@@ -690,17 +695,20 @@ namespace Kenedia.Modules.Characters
                 }
 
                 Logger.Info($"Found '{player.Name ?? "Unkown Player name."}' in a stored character list for '{Paths.AccountName}'. Loading characters of '{Paths.AccountName}'");
-                return LoadCharacterFile();
+                return await LoadCharacterFile();
             }
 
             return false;
         }
 
-        private bool LoadCharacterFile()
+        private async Task<bool> LoadCharacterFile()
         {
             try
             {
-                if (File.Exists(CharactersPath))
+                _characterFileTokenSource?.Cancel();
+                _characterFileTokenSource = new CancellationTokenSource();
+
+                if (File.Exists(CharactersPath)&& await FileExtension.WaitForFileUnlock(CharactersPath, 2500, _characterFileTokenSource.Token))
                 {
                     FileInfo infos = new(CharactersPath);
                     string content = File.ReadAllText(CharactersPath);
@@ -729,18 +737,40 @@ namespace Kenedia.Modules.Characters
             }
             catch (Exception ex)
             {
-                Logger.Warn(ex, "Failed to load the local characters from file '" + CharactersPath + "'.");
-                File.Copy(CharactersPath, CharactersPath.Replace(".json", " [" + DateTimeOffset.Now.ToUnixTimeSeconds().ToString() + "].corrupted.json"));
+                if (!_characterFileTokenSource.IsCancellationRequested)
+                {
+                    Logger.Warn(ex, "Failed to load the local characters from file '" + CharactersPath + "'.");
+                    File.Copy(CharactersPath, CharactersPath.Replace(".json", " [" + DateTimeOffset.Now.ToUnixTimeSeconds().ToString() + "].corrupted.json"));
+                }
+
                 return false;
             }
         }
 
-        private void SaveCharacterList()
+        private async Task SaveCharacterList()
         {
-            string json = JsonConvert.SerializeObject(CharacterModels, Formatting.Indented);
+            try
+            {
+                _characterFileTokenSource?.Cancel();
+                _characterFileTokenSource = new CancellationTokenSource();
 
-            // write string to file
-            File.WriteAllText(CharactersPath, json);
+                if (await FileExtension.WaitForFileUnlock(CharactersPath, 2500, _characterFileTokenSource.Token))
+                {
+                    string json = JsonConvert.SerializeObject(CharacterModels, Formatting.Indented);
+
+                    // write string to file
+                    File.WriteAllText(CharactersPath, json);
+                }
+                else
+                {
+                   if(!_characterFileTokenSource.IsCancellationRequested) Logger.Info("Failed to save the characters file '" + CharactersPath + "'.");
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.Warn("Failed to save the characters file '" + CharactersPath + "'.");
+                Logger.Warn($"{ex}");
+            }
         }
 
         private void RequestCharacterSave()
