@@ -75,6 +75,7 @@ namespace Kenedia.Modules.Characters.Controls.SideMenu
             };
             _toggleAll.ShowChanged += All_ShowChanged;
             _toggleAll.CheckChanged += All_CheckChanged;
+            _toggleAll.ShowTooltipChanged += All_ShowTooltipCheckChanged;
 
             _separator = new Panel()
             {
@@ -97,6 +98,14 @@ namespace Kenedia.Modules.Characters.Controls.SideMenu
 
             GameService.Overlay.UserLocale.SettingChanged += OnLanguageChanged;
             OnLanguageChanged();
+        }
+
+        private void All_ShowTooltipCheckChanged(object sender, bool e)
+        {
+            foreach (KeyValuePair<string, DisplayCheckToggle> t in _toggles)
+            {
+                t.Value.ShowTooltipChecked = e;
+            }
         }
 
         private void All_CheckChanged(object sender, bool e)
@@ -181,6 +190,7 @@ namespace Kenedia.Modules.Characters.Controls.SideMenu
                 t.Value.Text = _resourceManager.GetString(t.Key);
                 t.Value.DisplayTooltip = string.Format(_resourceManager.GetString("ShowItem"), _resourceManager.GetString(t.Key));
                 t.Value.CheckTooltip = string.Format(_resourceManager.GetString("CheckItem"), _resourceManager.GetString(t.Key));
+                t.Value.ShowTooltipTooltip = string.Format(_resourceManager.GetString("ShowItemOnTooltip"), _resourceManager.GetString(t.Key));
             }
         }
 

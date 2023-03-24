@@ -263,6 +263,7 @@
     <Compile Include="Characters.cs" />
     <Compile Include="Controls\BasicTooltip.cs" />
     <Compile Include="Controls\CharacterEdit.cs" />
+    <Compile Include="Controls\CharacterLabels.cs" />
     <Compile Include="Controls\ChoyaSpinner.cs" />
     <Compile Include="Controls\PendingDeletionNotification.cs" />
     <Compile Include="Controls\RadialMenu.cs" />

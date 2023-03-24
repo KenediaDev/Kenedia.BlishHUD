@@ -1022,4 +1022,7 @@ Chemin d'accès au fichier 'tesseract.dll' : {0}</value>
   <data name="Age" xml:space="preserve">
     <value>L'âge</value>
   </data>
+  <data name="ShowItemOnTooltip" xml:space="preserve">
+    <value>Afficher {0} dans l'infobulle</value>
+  </data>
 </root>

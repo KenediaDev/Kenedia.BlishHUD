@@ -16,9 +16,12 @@ namespace Kenedia.Modules.Characters.Controls.SideMenu
         private readonly AsyncTexture2D _eyeHovered;
         private readonly AsyncTexture2D _telescope;
         private readonly AsyncTexture2D _telescopeHovered;
+        private readonly AsyncTexture2D _info;
+        private readonly AsyncTexture2D _infoHovered;
 
         private readonly ImageToggle _showButton;
         private readonly ImageToggle _checkButton;
+        private readonly ImageToggle _showTooltipButton;
         private readonly Label _textLabel;
 
         private readonly string _key;
@@ -26,17 +29,21 @@ namespace Kenedia.Modules.Characters.Controls.SideMenu
 
         private bool _checkChecked;
         private bool _showChecked;
+        private bool _showTooltip;
 
         public event EventHandler<Tuple<bool, bool>> Changed;
         public event EventHandler<bool> ShowChanged;
+        public event EventHandler<bool> ShowTooltipChanged;
         public event EventHandler<bool> CheckChanged;
 
-        public DisplayCheckToggle(TextureManager textureManager, bool displayButton_Checked = true, bool checkbox_Checked = true)
+        public DisplayCheckToggle(TextureManager textureManager, bool displayButton_Checked = true, bool checkbox_Checked = true, bool showTooltip_Checked = true)
         {
             _eye = textureManager.GetControlTexture(ControlTextures.Eye_Button);
             _eyeHovered = textureManager.GetControlTexture(ControlTextures.Eye_Button_Hovered);
             _telescope = textureManager.GetControlTexture(ControlTextures.Telescope_Button);
             _telescopeHovered = textureManager.GetControlTexture(ControlTextures.Telescope_Button_Hovered);
+            _info = textureManager.GetControlTexture(ControlTextures.Info_Button);
+            _infoHovered = textureManager.GetControlTexture(ControlTextures.Info_Button_Hovered);
 
             WidthSizingMode = SizingMode.Fill;
             HeightSizingMode = SizingMode.AutoSize;
@@ -68,6 +75,18 @@ namespace Kenedia.Modules.Characters.Controls.SideMenu
             CheckChecked = _checkButton.Checked;
             _checkButton.CheckedChanged += SettingChanged;
 
+            _showTooltipButton = new()
+            {
+                Parent = this,
+                ShowX = true,
+                Texture = _info,
+                HoveredTexture = _infoHovered,
+                Size = new Point(20, 20),
+                Checked = showTooltip_Checked,
+            };
+            ShowTooltipChecked = _showTooltipButton.Checked;
+            _showTooltipButton.CheckedChanged += SettingChanged;
+
             _textLabel = new()
             {
                 Parent = this,
@@ -77,14 +96,14 @@ namespace Kenedia.Modules.Characters.Controls.SideMenu
             };
         }
 
-        public DisplayCheckToggle(TextureManager textureManager, Settings settings, string key, bool show = true, bool check = true) : this(textureManager, true, true)
+        public DisplayCheckToggle(TextureManager textureManager, Settings settings, string key, bool show = true, bool check = true, bool tooltip = true) : this(textureManager, true, true)
         {
             _settings = settings;
             _key = key;
 
             if (!settings.DisplayToggles.Value.ContainsKey(_key))
             {
-                settings.DisplayToggles.Value.Add(_key, new(show, check));
+                settings.DisplayToggles.Value.Add(_key, new(show, check, tooltip));
             }
 
             _showButton.Checked = settings.DisplayToggles.Value[_key].Show;
@@ -92,6 +111,9 @@ namespace Kenedia.Modules.Characters.Controls.SideMenu
 
             _checkButton.Checked = settings.DisplayToggles.Value[_key].Check;
             CheckChecked = _checkButton.Checked;
+
+            _showTooltipButton.Checked = settings.DisplayToggles.Value[_key].ShowTooltip;
+            ShowTooltipChecked = _showTooltipButton.Checked;
         }
 
         public string Text
@@ -106,13 +128,22 @@ namespace Kenedia.Modules.Characters.Controls.SideMenu
             set => _checkButton.BasicTooltipText = value;
         }
 
+        public string ShowTooltipTooltip
+        {
+            get => _showTooltipButton.BasicTooltipText;
+            set => _showTooltipButton.BasicTooltipText = value;
+        }
+
         public string DisplayTooltip
         {
             get => _showButton.BasicTooltipText;
             set => _showButton.BasicTooltipText = value;
         }
 
+        public bool ShowTooltipChecked { get => _showTooltip; set { _showTooltip = value; _showTooltipButton.Checked = value; } }
+
         public bool CheckChecked { get => _checkChecked; set { _checkChecked = value; _checkButton.Checked = value; } }
+
         public bool ShowChecked { get => _showChecked; set { _showChecked = value; _showButton.Checked = value; } }
 
         private void SettingChanged(object sender, CheckChangedEvent e)
@@ -121,7 +152,7 @@ namespace Kenedia.Modules.Characters.Controls.SideMenu
             {
                 _settings.DisplayToggles.Value = new(_settings.DisplayToggles.Value)
                 {
-                    [_key] = new(_showButton.Checked, _checkButton.Checked)
+                    [_key] = new(_showButton.Checked, _checkButton.Checked, _showTooltipButton.Checked)
                 };
             }
 
@@ -135,6 +166,12 @@ namespace Kenedia.Modules.Characters.Controls.SideMenu
             {
                 _showChecked = _showButton.Checked;
                 ShowChanged?.Invoke(this, _showButton.Checked);
+            }
+
+            if (_showTooltip != _showTooltipButton.Checked)
+            {
+                _showTooltip = _showTooltipButton.Checked;
+                ShowTooltipChanged?.Invoke(this, _showTooltipButton.Checked);
             }
 
             Changed?.Invoke(this, new(_showButton.Checked, _checkButton.Checked));

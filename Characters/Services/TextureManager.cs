@@ -36,6 +36,8 @@ namespace Kenedia.Modules.Characters.Services
             Telescope_Button,
             Telescope_Button_Hovered,
             Choya,
+            Info_Button,
+            Info_Button_Hovered,
         }
 
         public enum Icons

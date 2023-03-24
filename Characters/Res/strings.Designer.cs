@@ -2239,6 +2239,15 @@ namespace Kenedia.Modules.Characters.Res {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Show {0} on tooltip.
+        /// </summary>
+        internal static string ShowItemOnTooltip {
+            get {
+                return ResourceManager.GetString("ShowItemOnTooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Show Last Button.
         /// </summary>
         internal static string ShowLastButton {

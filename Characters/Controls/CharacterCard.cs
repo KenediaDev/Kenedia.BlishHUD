@@ -26,14 +26,12 @@ using Panel = Kenedia.Modules.Core.Controls.Panel;
 using Point = Microsoft.Xna.Framework.Point;
 using Rectangle = Microsoft.Xna.Framework.Rectangle;
 using Kenedia.Modules.Core.Services;
+using System.Diagnostics;
 
 namespace Kenedia.Modules.Characters.Controls
 {
     public class CharacterCard : Panel
     {
-        private readonly List<Control> _dataControls = new();
-        private bool _updateCharacter = false;
-
         private readonly AsyncTexture2D _iconFrame = AsyncTexture2D.FromAssetId(1414041);
         private readonly AsyncTexture2D _loginTexture = AsyncTexture2D.FromAssetId(60968); //157092
         private readonly AsyncTexture2D _loginTextureHovered = AsyncTexture2D.FromAssetId(60968); //157094
@@ -42,22 +40,10 @@ namespace Kenedia.Modules.Characters.Controls
         private readonly AsyncTexture2D _presentTexture = AsyncTexture2D.FromAssetId(593864);
         private readonly AsyncTexture2D _presentTextureOpen = AsyncTexture2D.FromAssetId(593865);
 
-        private readonly IconLabel _nameLabel;
-        private readonly IconLabel _levelLabel;
-        private readonly IconLabel _professionLabel;
-        private readonly IconLabel _raceLabel;
-        private readonly IconLabel _genderLabel;
-        private readonly IconLabel _mapLabel;
-        private readonly IconLabel _lastLoginLabel;
-        private readonly IconLabel _nextBirthdayLabel;
-        private readonly IconLabel _ageLabel;
-        private readonly IconLabel _customIndex;
-        private readonly TagFlowPanel _tagPanel;
-
-        private readonly CraftingControl _craftingControl;
         private readonly BasicTooltip _textTooltip;
         private readonly CharacterTooltip _characterTooltip;
         private readonly FlowPanel _contentPanel;
+        private readonly CharacterLabels _infoLabels;
         private readonly Dummy _iconDummy;
 
         private Rectangle _loginRect;
@@ -73,13 +59,12 @@ namespace Kenedia.Modules.Characters.Controls
         private int _iconSize;
 
         private Character_Model _character;
-        private readonly List<Tag> _tags = new();
-        private readonly Func<Character_Model> _currentCharacter;
         private readonly TextureManager _textureManager;
         private readonly Data _data;
         private readonly MainWindow _mainWindow;
         private readonly Settings _settings;
         private double _lastUniform;
+        private bool _updateCharacter;
 
         public CharacterCard()
         {
@@ -100,120 +85,7 @@ namespace Kenedia.Modules.Characters.Controls
                 Size = Point.Zero,
             };
 
-            _nameLabel = new IconLabel()
-            {
-                Parent = _contentPanel,
-                AutoSizeWidth = true,
-                AutoSizeHeight = true,
-                TextColor = Colors.ColonialWhite,
-            };
-
-            _levelLabel = new IconLabel()
-            {
-                Parent = _contentPanel,
-                AutoSizeWidth = true,
-                AutoSizeHeight = true,
-                Icon = AsyncTexture2D.FromAssetId(157085),
-                TextureRectangle = new Rectangle(2, 2, 28, 28),
-            };
-
-            _genderLabel = new IconLabel()
-            {
-                Parent = _contentPanel,
-                AutoSizeWidth = true,
-                AutoSizeHeight = true,
-            };
-
-            _raceLabel = new IconLabel()
-            {
-                Parent = _contentPanel,
-                AutoSizeWidth = true,
-                AutoSizeHeight = true,
-            };
-            _professionLabel = new IconLabel()
-            {
-                Parent = _contentPanel,
-                AutoSizeWidth = true,
-                AutoSizeHeight = true,
-            };
-            _mapLabel = new IconLabel()
-            {
-                Parent = _contentPanel,
-                AutoSizeWidth = true,
-                AutoSizeHeight = true,
-                Icon = AsyncTexture2D.FromAssetId(358406),
-                TextureRectangle = new Rectangle(2, 2, 28, 28),
-            };
-
-            _craftingControl = new CraftingControl()
-            {
-                Parent = _contentPanel,
-                Width = _contentPanel.Width,
-                Height = 20,
-                Character = Character,
-            };
-
-            _ageLabel = new IconLabel()
-            {
-                Parent = _contentPanel,
-                AutoSizeWidth = true,
-                AutoSizeHeight = true,
-                Icon = AsyncTexture2D.FromAssetId(1424243),
-                TextureRectangle = new Rectangle(2, 2, 28, 28),
-            };
-
-            _nextBirthdayLabel = new IconLabel()
-            {
-                Parent = _contentPanel,
-                AutoSizeWidth = true,
-                AutoSizeHeight = true,
-                Icon = AsyncTexture2D.FromAssetId(593864),
-                TextureRectangle = new Rectangle(2, 2, 28, 28),
-            };
-
-            _lastLoginLabel = new IconLabel()
-            {
-                Parent = _contentPanel,
-                AutoSizeWidth = true,
-                AutoSizeHeight = true,
-                Icon = AsyncTexture2D.FromAssetId(155035),
-                TextureRectangle = new Rectangle(10, 10, 44, 44),
-            };
-
-            _customIndex = new IconLabel()
-            {
-                Parent = _contentPanel,
-                AutoSizeWidth = true,
-                AutoSizeHeight = true,
-                TextureRectangle = new Rectangle(2, 2, 28, 28),
-                Icon = AsyncTexture2D.FromAssetId(156909),
-            };
-
-            _tagPanel = new()
-            {
-                Parent = _contentPanel,
-                Font = _lastLoginLabel.Font,
-                FlowDirection = ControlFlowDirection.LeftToRight,
-                ControlPadding = new Vector2(3, 2),
-                HeightSizingMode = SizingMode.AutoSize,
-                Visible = false,
-            };
-
-            _dataControls = new()
-            {
-                _nameLabel,
-                _customIndex,
-                _levelLabel,
-                _genderLabel,
-                _raceLabel,
-                _professionLabel,
-                _mapLabel,
-                _nextBirthdayLabel,
-                _ageLabel,
-                _lastLoginLabel,
-                _craftingControl,
-                _tagPanel,
-            };
+            _infoLabels = new CharacterLabels(_contentPanel);
 
             _textTooltip = new BasicTooltip()
             {
@@ -223,34 +95,44 @@ namespace Kenedia.Modules.Characters.Controls
                 Size = new Point(300, 50),
                 Visible = false,
             };
+
             _textTooltip.Shown += TextTooltip_Shown;
+
             _created = true;
+            _updateCharacter = true;
         }
 
         public CharacterCard(CharacterCard card) : this()
         {
-            _currentCharacter = card._currentCharacter;
             _textureManager = card._textureManager;
             _data = card._data;
             _mainWindow = card._mainWindow;
             _settings = card._settings;
-
-            _craftingControl.Settings = _settings;
-            _craftingControl.Data = _data;
-
-            _genderLabel.Icon = _textureManager.GetIcon(TextureManager.Icons.Gender);
-
+            
             Size = card.Size;
 
             Character = card._character;
-            UpdateDataControlsVisibility();
-            _updateCharacter = true;
-            //UpdateCharacterInfo();
+            _infoLabels.TextureManager = _textureManager;
+            _infoLabels.Data = _data;
+            _infoLabels.Settings = _settings;
+
+            _settings.AppearanceSettingChanged += Settings_AppearanceSettingChanged;
+
+            Settings_AppearanceSettingChanged(this, null);
+        }
+
+        private void Settings_AppearanceSettingChanged(object sender, EventArgs e)
+        {
+            _infoLabels.UpdateDataControlsVisibility();
+            _infoLabels.UpdateCharacterInfo();
+
+            _ = CalculateLayout();
+            AdaptNewBounds();
+            UniformWithAttached();
         }
 
         public CharacterCard(Func<Character_Model> currentCharacter, TextureManager textureManager, Data data, MainWindow mainWindow, Settings settings) : this()
         {
-            _currentCharacter = currentCharacter;
             _textureManager = textureManager;
             _data = data;
             _mainWindow = mainWindow;
@@ -262,13 +144,11 @@ namespace Kenedia.Modules.Characters.Controls
             BackgroundColor = new Color(0, 0, 0, 75);
             AutoSizePadding = new Point(0, 2);
 
-            LocalizingService.LocaleChanged += ApplyCharacter;
+            _infoLabels.TextureManager = _textureManager;
+            _infoLabels.Data = _data;
+            _infoLabels.Settings = _settings;
+            _infoLabels.CurrentCharacter = currentCharacter;
             _settings.AppearanceSettingChanged += Settings_AppearanceSettingChanged;
-
-            _craftingControl.Settings = _settings;
-            _craftingControl.Data = _data;
-
-            _genderLabel.Icon = _textureManager.GetIcon(TextureManager.Icons.Gender);
 
             _characterTooltip = new CharacterTooltip(currentCharacter, textureManager, data, _settings)
             {
@@ -281,8 +161,6 @@ namespace Kenedia.Modules.Characters.Controls
         }
 
         public bool IsDraggingTarget { get; set; } = false;
-
-        private Character_Model CurrentCharacter => _currentCharacter?.Invoke();
 
         public List<CharacterCard> AttachedCards { get; set; } = new();
 
@@ -297,7 +175,7 @@ namespace Kenedia.Modules.Characters.Controls
             {
                 if (Character != null)
                 {
-                    UpdateCharacterInfo();
+                    _infoLabels.UpdateCharacterInfo();
                 }
             }
         }
@@ -307,25 +185,30 @@ namespace Kenedia.Modules.Characters.Controls
             get => _character;
             set
             {
-                if (_character != value)
+                var temp = _character;
+                if(Common.SetProperty(ref _character, value))
                 {
+                    if (temp != null)
+                    {
+                        temp.Deleted -= CharacterDeleted;
+                        temp.Updated -= ApplyCharacter;
+                    }
+
                     if (_character != null)
                     {
-                        _character.Updated -= ApplyCharacter;
-                        _character.Deleted -= CharacterDeleted;
-                    }
-
-                    _character = value;
-                    if (_characterTooltip != null) _characterTooltip.Character = value;
-
-                    if (value != null)
-                    {
-                        _character.Updated += ApplyCharacter;
                         _character.Deleted += CharacterDeleted;
-                        UpdateCharacterInfo();
+                        _character.Updated += ApplyCharacter;
                     }
                 }
+
+                if (_characterTooltip != null) _characterTooltip.Character = value;
+                if(_infoLabels != null) _infoLabels.Character = value;
             }
+        }
+
+        private void ApplyCharacter(object sender, EventArgs e)
+        {
+            _updateCharacter = true;
         }
 
         public Rectangle ControlContentBounds
@@ -368,12 +251,11 @@ namespace Kenedia.Modules.Characters.Controls
         {
             if (_created && Visible)
             {
-                UpdateDataControlsVisibility();
+                _infoLabels.RecalculateBounds();
                 _contentPanel.Visible = _settings.PanelLayout.Value != CharacterPanelLayout.OnlyIcons;
-                _tagPanel.FitWidestTag(_dataControls.Max(e => e.Visible && e != _tagPanel ? e.Width : 0));
 
-                IEnumerable<Control> controls = _dataControls.Where(e => e.Visible);
-                Control firstControl = controls.Count() > 0 ? _dataControls.Where(e => e.Visible && e is IFontControl)?.FirstOrDefault() : null;
+                IEnumerable<Control> controls = _infoLabels.DataControls.Where(e => e.Visible);
+                Control firstControl = controls.Count() > 0 ? _infoLabels.DataControls.Where(e => e.Visible && e is IFontControl)?.FirstOrDefault() : null;
                 bool anyVisible = _contentPanel.Visible && controls.Count() > 0;
                 int width = anyVisible ? controls.Max(e => e.Width) + (int)(_contentPanel.OuterControlPadding.X * 2) : 0;
                 int height = anyVisible ? controls.Aggregate((int)(_contentPanel.OuterControlPadding.Y * 2), (result, e) => result + e.Height + (int)_contentPanel.ControlPadding.Y) : 0;
@@ -525,7 +407,7 @@ namespace Kenedia.Modules.Characters.Controls
 
                     if (!IsDraggingTarget)
                     {
-                        bool anyVisible = _contentPanel.Visible && _dataControls.Where(e => e.Visible)?.Count() > 0;
+                        bool anyVisible = _contentPanel.Visible && _infoLabels.DataControls.Where(e => e.Visible)?.Count() > 0;
 
                         _textTooltip.Text = Character.HasBirthdayPresent ? string.Format(strings.Birthday_Text, Character.Name, Character.Age) : string.Format(strings.LoginWith, Character.Name);
                         _textTooltip.Visible = loginHovered && anyVisible;
@@ -653,30 +535,6 @@ namespace Kenedia.Modules.Characters.Controls
         {
             base.UpdateContainer(gameTime);
 
-            if (Character != null && _lastLoginLabel.Visible)
-            {
-                if (CurrentCharacter != Character)
-                {
-                    TimeSpan ts = DateTimeOffset.UtcNow.Subtract(Character.LastLogin);
-                    _lastLoginLabel.Text = string.Format("{1} {0} {2:00}:{3:00}:{4:00}", strings.Days, Math.Floor(ts.TotalDays), ts.Hours, ts.Minutes, ts.Seconds);
-                }
-                else
-                {
-                    _lastLoginLabel.Text = string.Format("{1} {0} {2:00}:{3:00}:{4:00}", strings.Days, 0, 0, 0, 0);
-                }
-            }
-
-            if (Character != null && _nextBirthdayLabel.Visible)
-            {
-                TimeSpan ts = Character.UntilNextBirthday;
-                _nextBirthdayLabel.Text = string.Format("{1} {0} {2:00}:{3:00}:{4:00}", strings.Days, Math.Floor(ts.TotalDays), ts.Hours, ts.Minutes, ts.Seconds);
-            }
-
-            if (Character != null && _ageLabel.Visible)
-            {
-                _ageLabel.Text = string.Format("{1} ({0} Years)", Character.Age, Character.Created.Date.ToString("d"));
-            }
-
             if (!IsDraggingTarget)
             {
                 if (!MouseOver && _textTooltip.Visible)
@@ -690,10 +548,13 @@ namespace Kenedia.Modules.Characters.Controls
                 }
             }
 
+            _infoLabels.Update(gameTime);
+
             if (_updateCharacter && _created && Visible)
             {
-                UpdateCharacterInfo();
-            }
+                Settings_AppearanceSettingChanged(this, null);
+                _updateCharacter = false;
+            }          
         }
 
         protected override void OnRightMouseButtonPressed(MouseEventArgs e)
@@ -807,53 +668,20 @@ namespace Kenedia.Modules.Characters.Controls
         protected override void DisposeControl()
         {
             base.DisposeControl();
-
-            LocalizingService.LocaleChanged -= ApplyCharacter;
-
+                        
             _textTooltip.Shown -= TextTooltip_Shown;
             if (_character != null)
             {
-                _character.Updated -= ApplyCharacter;
                 _character.Deleted -= CharacterDeleted;
             }
 
-            _dataControls?.DisposeAll();
+            _infoLabels?.Dispose();
             _contentPanel?.Dispose();
             _textTooltip?.Dispose();
             _characterTooltip?.Dispose();
 
-            _tagPanel.Children.DisposeAll();
-            _tagPanel.DisposeAll();
-
             Children.DisposeAll();
             _ = _mainWindow.CharacterCards.Remove(this);
-            _updateCharacter = true;
-        }
-
-        private BitmapFont GetFont(bool nameFont = false)
-        {
-            FontSize fontSize = FontSize.Size8;
-
-            switch (_settings.PanelSize.Value)
-            {
-                case PanelSizes.Small:
-                    fontSize = nameFont ? FontSize.Size16 : FontSize.Size12;
-                    break;
-
-                case PanelSizes.Normal:
-                    fontSize = nameFont ? FontSize.Size18 : FontSize.Size14;
-                    break;
-
-                case PanelSizes.Large:
-                    fontSize = nameFont ? FontSize.Size22 : FontSize.Size18;
-                    break;
-
-                case PanelSizes.Custom:
-                    fontSize = nameFont ? (FontSize)_settings.CustomCharacterNameFontSize.Value : (FontSize)_settings.CustomCharacterFontSize.Value;
-                    break;
-            }
-
-            return GameService.Content.GetFont(FontFace.Menomonia, fontSize, FontStyle.Regular);
         }
 
         private void TextTooltip_Shown(object sender, EventArgs e)
@@ -866,133 +694,10 @@ namespace Kenedia.Modules.Characters.Controls
             Dispose();
         }
 
-        private void ApplyCharacter(object sender, EventArgs e)
-        {
-            _updateCharacter = true;
-        }
-
-        private void UpdateCharacterInfo()
-        {
-            _nameLabel.Text = Character.Name;
-
-            _levelLabel.Text = string.Format(strings.LevelAmount, Character.Level);
-
-            _professionLabel.Icon = Character.SpecializationIcon;
-            _professionLabel.Text = Character.SpecializationName;
-
-            if (_professionLabel.Icon != null)
-            {
-                _professionLabel.TextureRectangle = _professionLabel.Icon.Width == 32 ? new Rectangle(2, 2, 28, 28) : new Rectangle(4, 4, 56, 56);
-            }
-
-            _genderLabel.Text = Character.Gender.ToString();
-
-            _raceLabel.Text = _data.Races[Character.Race].Name;
-            _raceLabel.Icon = _data.Races[Character.Race].Icon;
-
-            _mapLabel.Text = _data.GetMapById(Character.Map).Name;
-
-            //_lastLoginLabel.Icon = AsyncTexture2D.FromAssetId(841721);
-            _lastLoginLabel.Text = string.Format("{1} {0} {2:00}:{3:00}:{4:00}", strings.Days, 0, 0, 0, 0);
-            _nextBirthdayLabel.Text = string.Format("{1} {0} {2:00}:{3:00}:{4:00}", strings.Days, 0, 0, 0, 0);
-            _ageLabel.Text = string.Format("{1} {0} {2:00}:{3:00}:{4:00}", strings.Days, 0, 0, 0, 0);
-
-            _customIndex.Text = string.Format(strings.CustomIndex + " {0}", Character.Index);
-
-            var tagLlist = _tags.Select(e => e.Text);
-            var characterTags = Character.Tags.ToList();
-
-            var deleteTags = tagLlist.Except(characterTags);
-            var addTags = characterTags.Except(tagLlist);
-
-            bool tagChanged = deleteTags.Any() || addTags.Any();
-
-            if (tagChanged)
-            {
-                var deleteList = new List<Tag>();
-                foreach (string tag in deleteTags)
-                {
-                    var t = _tags.FirstOrDefault(e => e.Text == tag);
-                    if (t != null) deleteList.Add(t);
-                }
-
-                foreach (var t in deleteList)
-                {
-                    t.Dispose();
-                    _ = _tags.Remove(t);
-                }
-
-                foreach (string tag in addTags)
-                {
-                    _tags.Add(new Tag()
-                    {
-                        Parent = _tagPanel,
-                        Text = tag,
-                        Active = true,
-                        ShowDelete = false,
-                        CanInteract = false,
-                    });
-                }
-
-                _tagPanel.FitWidestTag(_dataControls.Max(e => e.Visible && e != _tagPanel ? e.Width : 0));
-            }
-
-            _craftingControl.Character = Character;
-
-            _updateCharacter = false;
-            UniformWithAttached();
-        }
-
         public void HideTooltips()
         {
             _textTooltip.Hide();
             _characterTooltip.Hide();
-        }
-
-        private void UpdateDataControlsVisibility()
-        {
-            NameFont = GetFont(true);
-            Font = GetFont();
-
-            _contentPanel.ControlPadding = new(Font.LineHeight / 10, Font.LineHeight / 10);
-
-            _nameLabel.Visible = _settings.DisplayToggles.Value["Name"].Show;
-            _nameLabel.Font = NameFont;
-
-            _levelLabel.Visible = _settings.DisplayToggles.Value["Level"].Show;
-            _levelLabel.Font = Font;
-
-            _genderLabel.Visible = _settings.DisplayToggles.Value["Gender"].Show;
-            _genderLabel.Font = Font;
-
-            _raceLabel.Visible = _settings.DisplayToggles.Value["Race"].Show;
-            _raceLabel.Font = Font;
-
-            _professionLabel.Visible = _settings.DisplayToggles.Value["Profession"].Show;
-            _professionLabel.Font = Font;
-
-            _lastLoginLabel.Visible = _settings.DisplayToggles.Value["LastLogin"].Show;
-            _lastLoginLabel.Font = Font;
-
-            _ageLabel.Visible = _settings.DisplayToggles.Value["Age"].Show;
-            _ageLabel.Font = Font;
-
-            _nextBirthdayLabel.Visible = _settings.DisplayToggles.Value["NextBirthday"].Show;
-            _nextBirthdayLabel.Font = Font;
-
-            _mapLabel.Visible = _settings.DisplayToggles.Value["Map"].Show;
-            _mapLabel.Font = Font;
-
-            _craftingControl.Visible = _settings.DisplayToggles.Value["CraftingProfession"].Show;
-            _craftingControl.Font = Font;
-
-            _customIndex.Visible = _settings.DisplayToggles.Value["CustomIndex"].Show;
-            _customIndex.Font = Font;
-
-            _tagPanel.Visible = _settings.DisplayToggles.Value["Tags"].Show && Character.Tags.Count > 0;
-            _tagPanel.Font = Font;
-
-            _craftingControl.Height = Font.LineHeight + 2;
         }
 
         private void AdaptNewBounds()
@@ -1008,7 +713,7 @@ namespace Kenedia.Modules.Characters.Controls
                 //Height = _controlBounds.Height + AutoSizePadding.Y;
             }
 
-            bool anyVisible = _contentPanel.Visible && _dataControls.Where(e => e.Visible)?.Count() > 0;
+            bool anyVisible = _contentPanel.Visible && _infoLabels.DataControls.Where(e => e.Visible)?.Count() > 0;
 
             _cogRect = new Rectangle(_controlBounds.Width - _cogSize - 4, 4, _cogSize, _cogSize);
             int size = _iconSize > 0 ? Math.Min(56, _iconRectangle.Width - 8) : Math.Min(56, Math.Min(_textBounds.Width, _textBounds.Height) - 8);
@@ -1018,11 +723,6 @@ namespace Kenedia.Modules.Characters.Controls
                 _iconSize > 0 ? new Rectangle((_iconRectangle.Width - size) / 2, (_iconRectangle.Height - size) / 2, size, size) :
                 new Rectangle((_textBounds.Width - size) / 2, (_textBounds.Height - size) / 2, size, size) :
                 new Rectangle(pad, pad, size, size);
-        }
-
-        private void Settings_AppearanceSettingChanged(object sender, EventArgs e)
-        {
-            ApplyCharacter(null, null);
         }
     }
 }

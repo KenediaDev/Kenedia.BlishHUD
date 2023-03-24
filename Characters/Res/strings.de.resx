@@ -1024,4 +1024,7 @@ Pfad zur 'tesseract.dll': {0}</value>
   <data name="Age" xml:space="preserve">
     <value>Alter</value>
   </data>
+  <data name="ShowItemOnTooltip" xml:space="preserve">
+    <value>Zeige {0} in der QuickInfo</value>
+  </data>
 </root>

@@ -1022,4 +1022,7 @@ Ruta a 'tesseract.dll': {0}</value>
   <data name="Age" xml:space="preserve">
     <value>Edad</value>
   </data>
+  <data name="ShowItemOnTooltip" xml:space="preserve">
+    <value>Mostrar {0} en el tooltip</value>
+  </data>
 </root>
