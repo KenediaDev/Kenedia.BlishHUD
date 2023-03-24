@@ -49,6 +49,7 @@ namespace Kenedia.Modules.Characters.Controls
         private readonly IconLabel _genderLabel;
         private readonly IconLabel _mapLabel;
         private readonly IconLabel _lastLoginLabel;
+        private readonly IconLabel _nextBirthdayLabel;
         private readonly IconLabel _customIndex;
         private readonly TagFlowPanel _tagPanel;
 
@@ -151,6 +152,15 @@ namespace Kenedia.Modules.Characters.Controls
                 Character = Character,
             };
 
+            _nextBirthdayLabel = new IconLabel()
+            {
+                Parent = _contentPanel,
+                AutoSizeWidth = true,
+                AutoSizeHeight = true,
+                Icon = AsyncTexture2D.FromAssetId(593864),
+                TextureRectangle = new Rectangle(10, 10, 44, 44),
+            };
+
             _lastLoginLabel = new IconLabel()
             {
                 Parent = _contentPanel,
@@ -188,6 +198,7 @@ namespace Kenedia.Modules.Characters.Controls
                 _raceLabel,
                 _professionLabel,
                 _mapLabel,
+                _nextBirthdayLabel,
                 _lastLoginLabel,
                 _craftingControl,
                 _tagPanel,
@@ -644,6 +655,19 @@ namespace Kenedia.Modules.Characters.Controls
                 }
             }
 
+            if (Character != null && _nextBirthdayLabel.Visible)
+            {
+                if (CurrentCharacter != Character)
+                {
+                    TimeSpan ts = DateTimeOffset.UtcNow.Subtract(Character.NextBirthday);
+                    _nextBirthdayLabel.Text = string.Format("{1} {0} {2:00}:{3:00}:{4:00}", strings.Days, Math.Floor(ts.TotalDays), ts.Hours, ts.Minutes, ts.Seconds);
+                }
+                else
+                {
+                    _nextBirthdayLabel.Text = string.Format("{1} {0} {2:00}:{3:00}:{4:00}", strings.Days, 0, 0, 0, 0);
+                }
+            }
+
             if (!IsDraggingTarget)
             {
                 if (!MouseOver && _textTooltip.Visible)
@@ -861,6 +885,7 @@ namespace Kenedia.Modules.Characters.Controls
 
             //_lastLoginLabel.Icon = AsyncTexture2D.FromAssetId(841721);
             _lastLoginLabel.Text = string.Format("{1} {0} {2:00}:{3:00}:{4:00}", strings.Days, 0, 0, 0, 0);
+            _nextBirthdayLabel.Text = string.Format("{1} {0} {2:00}:{3:00}:{4:00}", strings.Days, 0, 0, 0, 0);
 
             _customIndex.Text = string.Format(strings.CustomIndex + " {0}", Character.Index);
 
@@ -938,6 +963,9 @@ namespace Kenedia.Modules.Characters.Controls
 
             _lastLoginLabel.Visible = _settings.DisplayToggles.Value["LastLogin"].Show;
             _lastLoginLabel.Font = Font;
+
+            _nextBirthdayLabel.Visible = _settings.DisplayToggles.Value["NextBirthday"].Show;
+            _nextBirthdayLabel.Font = Font;
 
             _mapLabel.Visible = _settings.DisplayToggles.Value["Map"].Show;
             _mapLabel.Font = Font;

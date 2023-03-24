@@ -52,6 +52,7 @@ namespace Kenedia.Modules.Characters.Models
         private bool _hadBirthday;
         private bool _isCurrentCharacter;
         private bool _markedAsDeleted;
+        private DateTime _nextBirthday;
 
         public Character_Model()
         {
@@ -377,6 +378,25 @@ namespace Kenedia.Modules.Characters.Models
                 }
 
                 return false;
+            }
+        }
+
+        public DateTime NextBirthday
+        {
+            get
+            {
+                for (int i = 1; i < 100; i++)
+                {
+                    DateTime birthDay = Created.AddYears(i).DateTime;
+
+                    if((birthDay.Year == DateTime.UtcNow.Year && birthDay >= DateTime.UtcNow) || birthDay.Year == DateTime.UtcNow.Year + 1)
+                    {
+                        _nextBirthday = birthDay;
+                        return _nextBirthday;
+                    }
+                }
+
+                return _nextBirthday;
             }
         }
 

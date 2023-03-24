@@ -1015,4 +1015,7 @@ Benachrichtigungen im Falle von:
     <value>Das Laden der 'tesseract.dll', die für das Lesen von Charakternamen erforderlich ist, ist fehlgeschlagen.
 Pfad zur 'tesseract.dll': {0}</value>
   </data>
+  <data name="NextBirthday" xml:space="preserve">
+    <value>Nächster Geburtstag</value>
+  </data>
 </root>

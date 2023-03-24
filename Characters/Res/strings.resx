@@ -1013,4 +1013,7 @@ Notifications in case of:
     <value>Failed to load the 'tesseract.dll' which is required for the Character Name reading.
 Path to the 'tesseract.dll': {0}</value>
   </data>
+  <data name="NextBirthday" xml:space="preserve">
+    <value>Next Birthday</value>
+  </data>
 </root>

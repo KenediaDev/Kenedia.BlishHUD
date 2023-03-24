@@ -35,6 +35,10 @@ namespace Kenedia.Modules.Characters.Extensions
             {
                 return SortBy.TimeSinceLogin;
             }
+            else if (s == string.Format(strings.SortBy, strings.NextBirthday))
+            {
+                return SortBy.NextBirthday;
+            }
             else if (s == string.Format(strings.SortBy, strings.Map))
             {
                 return SortBy.Map;
@@ -58,6 +62,7 @@ namespace Kenedia.Modules.Characters.Extensions
                 SortBy.Profession => string.Format(strings.SortBy, strings.Profession),
                 SortBy.Specialization => string.Format(strings.SortBy, strings.Specialization),
                 SortBy.TimeSinceLogin => string.Format(strings.SortBy, strings.TimeSinceLogin),
+                SortBy.NextBirthday => string.Format(strings.SortBy, strings.NextBirthday),
                 SortBy.Map => string.Format(strings.SortBy, strings.Map),
                 SortBy.Tag => string.Format(strings.SortBy, strings.Tag),
                 SortBy.Custom => strings.Custom,

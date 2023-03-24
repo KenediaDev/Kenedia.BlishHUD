@@ -1013,4 +1013,7 @@ Notifications en cas de :
     <value>Échec du chargement de 'tesseract.dll' qui est nécessaire pour la lecture des noms de caractères.
 Chemin d'accès au fichier 'tesseract.dll' : {0}</value>
   </data>
+  <data name="NextBirthday" xml:space="preserve">
+    <value>Prochain anniversaire</value>
+  </data>
 </root>

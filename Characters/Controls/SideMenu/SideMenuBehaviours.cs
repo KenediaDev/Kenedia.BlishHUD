@@ -24,6 +24,7 @@ namespace Kenedia.Modules.Characters.Controls.SideMenu
             new( "Gender", null),
             new( "Profession", null),
             new( "LastLogin", null),
+            new( "NextBirthday", null),
             new( "Map", null),
             new( "CraftingProfession", null),
             new( "OnlyMaxCrafting", null),
@@ -151,6 +152,7 @@ namespace Kenedia.Modules.Characters.Controls.SideMenu
             _orderDropdown.Items.Add(string.Format(strings.SortBy, strings.Profession));
             _orderDropdown.Items.Add(string.Format(strings.SortBy, strings.Specialization));
             _orderDropdown.Items.Add(string.Format(strings.SortBy, strings.TimeSinceLogin));
+            _orderDropdown.Items.Add(string.Format(strings.SortBy, strings.NextBirthday));
             _orderDropdown.Items.Add(string.Format(strings.SortBy, strings.Map));
             //_orderDropdown.Items.Add(string.Format(strings.SortBy, strings.Tags));
             _orderDropdown.Items.Add(strings.Custom);

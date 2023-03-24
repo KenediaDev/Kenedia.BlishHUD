@@ -1533,6 +1533,15 @@ namespace Kenedia.Modules.Characters.Res {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Next Birthday.
+        /// </summary>
+        internal static string NextBirthday {
+            get {
+                return ResourceManager.GetString("NextBirthday", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to No Crafting Profession.
         /// </summary>
         internal static string NoCraftingProfession {

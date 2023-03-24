@@ -135,6 +135,7 @@ namespace Kenedia.Modules.Characters.Services
             Gender,
             Specialization,
             Custom,
+            NextBirthday,
         }
 
         public enum FilterBehavior

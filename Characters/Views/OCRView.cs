@@ -459,8 +459,6 @@ namespace Characters.Views
                     _readTick = gameTime.TotalGameTime.TotalMilliseconds;
 
                     string result = await _ocr.Read(true);
-                    _bestMatchLabel.Text = !string.IsNullOrEmpty(result) ? _ocr.ReadResult : $"Tesseract Engine Loaded: {_ocr.IsLoaded}";
-                    _resultLabel.Text = !string.IsNullOrEmpty(result) ? _ocr.BestMatchResult : $"{_ocr.PathToEngine}";
 
                     if (result != null)
                     {
@@ -473,9 +471,14 @@ namespace Characters.Views
 
                         _resultLabel.Font = Content.DefaultFont32;
                         _resultLabel.WrapText = false;
+
+                        _bestMatchLabel.Text = _ocr.BestMatchResult;
+                        _resultLabel.Text = _ocr.ReadResult;
                     }
-                    else
+                    else if(!_ocr.IsLoaded)
                     {
+                        _bestMatchLabel.Text = !string.IsNullOrEmpty(result) ? _ocr.BestMatchResult: $"Tesseract Engine Loaded: {_ocr.IsLoaded}";
+                        _resultLabel.Text = !string.IsNullOrEmpty(result) ? _ocr.ReadResult : $"{_ocr.PathToEngine}";
                         _resultLabel.Font = Content.DefaultFont14;
                         _resultLabel.WrapText = true;
                     }

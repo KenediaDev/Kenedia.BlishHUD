@@ -490,7 +490,7 @@ namespace Kenedia.Modules.Characters.Views
         {
             var sortby = _settings.SortType.Value;
             bool asc = _settings.SortOrder.Value == SortDirection.Ascending;
-            bool isNum = sortby is SortBy.Level or SortBy.TimeSinceLogin or SortBy.Map;
+            bool isNum = sortby is SortBy.Level or SortBy.TimeSinceLogin or SortBy.Map or SortBy.NextBirthday;
 
             if (_settings.SortType.Value != SortBy.Custom)
             {

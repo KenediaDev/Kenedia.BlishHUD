@@ -33,6 +33,7 @@ namespace Kenedia.Modules.Characters.Controls
         private readonly IconLabel _raceLabel;
         private readonly IconLabel _mapLabel;
         private readonly IconLabel _lastLoginLabel;
+        private readonly IconLabel _nextBirthdayLabel;
         private readonly Label _disclaimerLabel;
         private readonly TagFlowPanel _tagPanel;
 
@@ -123,6 +124,15 @@ namespace Kenedia.Modules.Characters.Controls
                 Character = Character,
             };
 
+            _nextBirthdayLabel = new IconLabel()
+            {
+                Parent = _contentPanel,
+                AutoSizeWidth = true,
+                AutoSizeHeight = true,
+                Icon = AsyncTexture2D.FromAssetId(593864),
+                TextureRectangle = new Rectangle(2, 2, 28, 28),
+            };
+
             _lastLoginLabel = new IconLabel()
             {
                 Parent = _contentPanel,
@@ -148,6 +158,7 @@ namespace Kenedia.Modules.Characters.Controls
                 _raceLabel,
                 _professionLabel,
                 _mapLabel,
+                _nextBirthdayLabel,
                 _lastLoginLabel,
                 _craftingControl,
                 _tagPanel,
@@ -193,6 +204,13 @@ namespace Kenedia.Modules.Characters.Controls
                 TimeSpan ts = DateTimeOffset.UtcNow.Subtract(Character.LastLogin);
                 _lastLoginLabel.Text = string.Format("{1} {0} {2:00}:{3:00}:{4:00}", strings.Days, Math.Floor(ts.TotalDays), ts.Hours, ts.Minutes, ts.Seconds);
             }
+
+            if (Character != null && _nextBirthdayLabel.Visible)
+            {
+                TimeSpan ts = Character.NextBirthday.Subtract(DateTimeOffset.UtcNow.DateTime);
+                _nextBirthdayLabel.Text = string.Format("{1} {0} {2:00}:{3:00}:{4:00}", strings.Days, Math.Floor(ts.TotalDays), ts.Hours, ts.Minutes, ts.Seconds);
+            }
+
             UpdateLayout();
             if (_updateCharacter && Visible)
             {
@@ -233,6 +251,9 @@ namespace Kenedia.Modules.Characters.Controls
 
             _mapLabel.Visible = true;
             _mapLabel.Font = Font;
+
+            _nextBirthdayLabel.Visible = true;
+            _nextBirthdayLabel.Font = Font;
 
             _lastLoginLabel.Visible = true;
             _lastLoginLabel.Font = Font;
