@@ -35,7 +35,6 @@ namespace Kenedia.Modules.Characters.Controls
         private readonly IconLabel _nextBirthdayLabel;
         private readonly IconLabel _ageLabel;
         private readonly IconLabel _customIndex;
-        private readonly TagFlowPanel _tagPanel;
         private Character_Model _character;
         private readonly List<Tag> _tags = new();
         private readonly bool _created;
@@ -137,7 +136,7 @@ namespace Kenedia.Modules.Characters.Controls
                 Icon = AsyncTexture2D.FromAssetId(156909),
             };
 
-            _tagPanel = new()
+            TagPanel = new()
             {
                 Parent = parent,
                 Font = _lastLoginLabel.Font,
@@ -160,7 +159,7 @@ namespace Kenedia.Modules.Characters.Controls
                 _ageLabel,
                 _lastLoginLabel,
                 _craftingControl,
-                _tagPanel,
+                TagPanel,
             };
 
             LocalizingService.LocaleChanged += UserLocale_SettingChanged;
@@ -170,7 +169,7 @@ namespace Kenedia.Modules.Characters.Controls
             _created = true;
         }
 
-        public TagFlowPanel TagPanel => _tagPanel;
+        public TagFlowPanel TagPanel { get; }
 
         public BitmapFont NameFont { get; set; } = GameService.Content.DefaultFont14;
 
@@ -242,7 +241,7 @@ namespace Kenedia.Modules.Characters.Controls
         public void RecalculateBounds()
         {
             UpdateDataControlsVisibility();
-            _tagPanel.FitWidestTag(DataControls.Max(e => e.Visible && e != _tagPanel ? e.Width : 0));
+            TagPanel.FitWidestTag(DataControls.Max(e => e.Visible && e != TagPanel ? e.Width : 0));
         }
 
         public void Dispose()
@@ -302,7 +301,7 @@ namespace Kenedia.Modules.Characters.Controls
                 {
                     _tags.Add(new Tag()
                     {
-                        Parent = _tagPanel,
+                        Parent = TagPanel,
                         Text = tag,
                         Active = true,
                         ShowDelete = false,
@@ -310,7 +309,7 @@ namespace Kenedia.Modules.Characters.Controls
                     });
                 }
 
-                _tagPanel.FitWidestTag(DataControls.Max(e => e.Visible && e != _tagPanel ? e.Width : 0));
+                TagPanel.FitWidestTag(DataControls.Max(e => e.Visible && e != TagPanel ? e.Width : 0));
             }
 
             _craftingControl.Character = Character;
@@ -318,46 +317,48 @@ namespace Kenedia.Modules.Characters.Controls
 
         public void UpdateDataControlsVisibility(bool tooltip = false)
         {
-            if(_settings == null) return;
+            if (_settings == null) return;
+            var settings = _settings.DisplayToggles.Value;
 
             NameFont = GetFont(true);
             Font = GetFont();
 
-            _nameLabel.Visible = tooltip ? _settings.DisplayToggles.Value["Name"].ShowTooltip : _settings.DisplayToggles.Value["Name"].Show;
+            _nameLabel.Visible = !settings.TryGetValue("Name", out var name) || (tooltip ? name.ShowTooltip : name.Show);
+
             _nameLabel.Font = NameFont;
 
-            _levelLabel.Visible = tooltip ? _settings.DisplayToggles.Value["Level"].ShowTooltip : _settings.DisplayToggles.Value["Level"].Show;
+            _levelLabel.Visible = !settings.TryGetValue("Level", out var level) || (tooltip ? level.ShowTooltip : level.Show);
             _levelLabel.Font = Font;
 
-            _genderLabel.Visible = tooltip ? _settings.DisplayToggles.Value["Gender"].ShowTooltip : _settings.DisplayToggles.Value["Gender"].Show;
+            _genderLabel.Visible = !settings.TryGetValue("Gender", out var gender) || (tooltip ? gender.ShowTooltip : gender.Show);
             _genderLabel.Font = Font;
 
-            _raceLabel.Visible = tooltip ? _settings.DisplayToggles.Value["Race"].ShowTooltip : _settings.DisplayToggles.Value["Race"].Show;
+            _raceLabel.Visible = !settings.TryGetValue("Race", out var race) ||( tooltip ? race.ShowTooltip : race.Show);
             _raceLabel.Font = Font;
 
-            _professionLabel.Visible = tooltip ? _settings.DisplayToggles.Value["Profession"].ShowTooltip : _settings.DisplayToggles.Value["Profession"].Show;
+            _professionLabel.Visible = !settings.TryGetValue("Profession", out var profession) || (tooltip ? profession.ShowTooltip : profession.Show);
             _professionLabel.Font = Font;
 
-            _lastLoginLabel.Visible = tooltip ? _settings.DisplayToggles.Value["LastLogin"].ShowTooltip : _settings.DisplayToggles.Value["LastLogin"].Show;
+            _lastLoginLabel.Visible = !settings.TryGetValue("LastLogin", out var lastlogin) || (tooltip ? lastlogin.ShowTooltip : lastlogin.Show);
             _lastLoginLabel.Font = Font;
 
-            _ageLabel.Visible = tooltip ? _settings.DisplayToggles.Value["Age"].ShowTooltip : _settings.DisplayToggles.Value["Age"].Show;
+            _ageLabel.Visible = !settings.TryGetValue("Age", out var age) || (tooltip ? age.ShowTooltip : age.Show);
             _ageLabel.Font = Font;
 
-            _nextBirthdayLabel.Visible = tooltip ? _settings.DisplayToggles.Value["NextBirthday"].ShowTooltip : _settings.DisplayToggles.Value["NextBirthday"].Show;
+            _nextBirthdayLabel.Visible = !settings.TryGetValue("NextBirthday", out var nextbirthday) || (tooltip ? nextbirthday.ShowTooltip : nextbirthday.Show);
             _nextBirthdayLabel.Font = Font;
 
-            _mapLabel.Visible = tooltip ? _settings.DisplayToggles.Value["Map"].ShowTooltip : _settings.DisplayToggles.Value["Map"].Show;
+            _mapLabel.Visible = !settings.TryGetValue("Map", out var map) || (tooltip ? map.ShowTooltip : map.Show);
             _mapLabel.Font = Font;
 
-            _craftingControl.Visible = tooltip ? _settings.DisplayToggles.Value["CraftingProfession"].ShowTooltip : _settings.DisplayToggles.Value["CraftingProfession"].Show;
+            _craftingControl.Visible = !settings.TryGetValue("CraftingProfession", out var craftingprofession) || (tooltip ? craftingprofession.ShowTooltip : craftingprofession.Show);
             _craftingControl.Font = Font;
 
-            _customIndex.Visible = tooltip ? _settings.DisplayToggles.Value["CustomIndex"].ShowTooltip : _settings.DisplayToggles.Value["CustomIndex"].Show;
+            _customIndex.Visible = !settings.TryGetValue("CustomIndex", out var customindex) || (tooltip ? customindex.ShowTooltip : customindex.Show);
             _customIndex.Font = Font;
 
-            _tagPanel.Visible = (tooltip ? _settings.DisplayToggles.Value["Tags"].ShowTooltip : _settings.DisplayToggles.Value["Tags"].Show) && (Character?.Tags.Count ?? 0) > 0;
-            _tagPanel.Font = Font;
+            TagPanel.Visible = (!settings.TryGetValue("Tags", out var tags) || (tooltip ? tags.ShowTooltip : tags.Show)) && (Character?.Tags.Count ?? 0) > 0;
+            TagPanel.Font = Font;
 
             _craftingControl.Height = Font.LineHeight + 2;
 
@@ -395,7 +396,7 @@ namespace Kenedia.Modules.Characters.Controls
             return GameService.Content.GetFont(FontFace.Menomonia, fontSize, FontStyle.Regular);
         }
 
-        internal void Update(GameTime gameTime)
+        internal void Update()
         {
             if (Character != null && _lastLoginLabel.Visible)
             {

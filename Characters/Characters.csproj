@@ -411,8 +411,12 @@
     <Folder Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Res\strings.de.resx" />
-    <EmbeddedResource Include="Res\strings.es.resx" />
+    <EmbeddedResource Include="Res\strings.de.resx">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Res\strings.es.resx">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
     <EmbeddedResource Include="Res\strings.fr.resx">
       <SubType>Designer</SubType>
     </EmbeddedResource>

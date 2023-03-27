@@ -61,6 +61,7 @@ namespace Kenedia.Modules.Characters.Views
         private APITimeoutNotification _apiTimeoutNotification;
         private APIPermissionNotification _apiPermissionNotification;
         private TesseractFailedNotification _tesseractFailedNotification;
+        private double lastUniform;
 
         public MainWindow(Texture2D background, Rectangle windowRegion, Rectangle contentRegion,
             Settings settings, TextureManager textureManager, ObservableCollection<Character_Model> characterModels,
@@ -542,6 +543,12 @@ namespace Kenedia.Modules.Characters.Views
                 _filterCharacters = false;
                 PerformFiltering();
             }
+
+            if (gameTime.TotalGameTime.TotalMilliseconds - lastUniform > 1000)
+            {
+                lastUniform = gameTime.TotalGameTime.TotalMilliseconds;
+                CharacterCards.FirstOrDefault()?.UniformWithAttached();
+            }
         }
 
         public override void RecalculateLayout()
@@ -590,6 +597,8 @@ namespace Kenedia.Modules.Characters.Views
 
                 _filterBox.Focused = true;
             }
+
+            CharacterCards.FirstOrDefault()?.UniformWithAttached();
         }
 
         protected override void OnHidden(EventArgs e)

@@ -27,6 +27,7 @@ using Point = Microsoft.Xna.Framework.Point;
 using Rectangle = Microsoft.Xna.Framework.Rectangle;
 using Kenedia.Modules.Core.Services;
 using System.Diagnostics;
+using MonoGame.Extended;
 
 namespace Kenedia.Modules.Characters.Controls
 {
@@ -123,12 +124,17 @@ namespace Kenedia.Modules.Characters.Controls
 
         private void Settings_AppearanceSettingChanged(object sender, EventArgs e)
         {
+            Update();
+            UniformWithAttached();
+        }
+
+        private void Update()
+        {
             _infoLabels.UpdateDataControlsVisibility();
             _infoLabels.UpdateCharacterInfo();
 
             _ = CalculateLayout();
             AdaptNewBounds();
-            UniformWithAttached();
         }
 
         public CharacterCard(Func<Character_Model> currentCharacter, TextureManager textureManager, Data data, MainWindow mainWindow, Settings settings) : this()
@@ -228,6 +234,7 @@ namespace Kenedia.Modules.Characters.Controls
         public void UniformWithAttached(bool force = false)
         {
             double now = Common.Now();
+            Update(); 
 
             if (_lastUniform != now || force)
             {
@@ -548,7 +555,7 @@ namespace Kenedia.Modules.Characters.Controls
                 }
             }
 
-            _infoLabels.Update(gameTime);
+            _infoLabels.Update();
 
             if (_updateCharacter && _created && Visible)
             {

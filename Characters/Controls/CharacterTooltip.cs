@@ -20,6 +20,7 @@ using Gw2Sharp.WebApi;
 using Kenedia.Modules.Core.Utility;
 using Gw2Sharp.WebApi.V2.Models;
 using System.Diagnostics;
+using MonoGame.Extended.Timers;
 
 namespace Kenedia.Modules.Characters.Controls
 {
@@ -93,10 +94,20 @@ namespace Kenedia.Modules.Characters.Controls
             {
                 _infoLabels.Character = value;
 
+                var temp = _character;
                 if (Common.SetProperty(ref _character, value))
                 {
+                    if (temp != null) temp.Updated -= Character_Updated;
+                    if (_character != null) _character.Updated += Character_Updated;
                 }
             }
+        }
+
+        private void Character_Updated(object sender, EventArgs e)
+        {
+            _infoLabels.UpdateDataControlsVisibility(true);
+            _infoLabels.Update();
+            UpdateSize();
         }
 
         public override void UpdateContainer(GameTime gameTime)
@@ -104,9 +115,6 @@ namespace Kenedia.Modules.Characters.Controls
             base.UpdateContainer(gameTime);
             Location = new Point(Input.Mouse.Position.X, Input.Mouse.Position.Y + 35);
 
-            _infoLabels.UpdateDataControlsVisibility(true);
-            _infoLabels.Update(gameTime);
-            UpdateSize();
         }
 
         public override void PaintBeforeChildren(SpriteBatch spriteBatch, Rectangle bounds)
@@ -134,11 +142,14 @@ namespace Kenedia.Modules.Characters.Controls
             base.OnShown(e);
 
             Location = new Point(Input.Mouse.Position.X, Input.Mouse.Position.Y + 35);
+            Character_Updated(this, null);
         }
 
         protected override void DisposeControl()
         {
             base.DisposeControl();
+
+            if (_character != null) _character.Updated -= Character_Updated;
         }
     }
 }
