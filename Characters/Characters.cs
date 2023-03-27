@@ -199,14 +199,6 @@ namespace Kenedia.Modules.Characters
         {
             await base.LoadAsync();
 
-            if (Settings.LoadCachedAccounts.Value) _ = await LoadCharacters();
-
-            await Data.Load();
-        }
-
-        protected override void OnModuleLoaded(EventArgs e)
-        {
-            base.OnModuleLoaded(e);
             CharacterSwapping = new(Settings, Services.GameState, CharacterModels);
             CharacterSorting = new(Settings, Services.GameState, CharacterModels);
 
@@ -214,6 +206,14 @@ namespace Kenedia.Modules.Characters
             CharacterSorting.CharacterSwapping = CharacterSwapping;
 
             TextureManager = new TextureManager(Services.TexturesService);
+            await Data.Load();
+
+            if (Settings.LoadCachedAccounts.Value) _ = await LoadCharacters();
+        }
+
+        protected override void OnModuleLoaded(EventArgs e)
+        {
+            base.OnModuleLoaded(e);
 
             GW2APIHandler = new GW2API_Handler(Gw2ApiManager, AddOrUpdateCharacters, () => APISpinner, Paths, Data);
             GW2APIHandler.AccountChanged += GW2APIHandler_AccountChanged;
