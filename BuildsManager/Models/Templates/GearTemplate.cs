@@ -89,9 +89,9 @@ namespace Kenedia.Modules.BuildsManager.Models.Templates
             {
                 if (BuildsManager.Data.StatMap.TryFind(e => e.Stat == Stat.EquipmentStatType, out var statMap))
                 {                    
-                    var choices = (Item as EquipmentItem).StatChoices;
+                    var choices = (Item as EquipmentItem)?.StatChoices;
 
-                    if (choices.TryFind(statMap.Ids.Contains, out int newStatId))
+                    if (choices != null && choices.TryFind(statMap.Ids.Contains, out int newStatId))
                     {
                         Stat = BuildsManager.Data.Stats[newStatId];
                         return;
@@ -110,7 +110,6 @@ namespace Kenedia.Modules.BuildsManager.Models.Templates
         {
             base.OnItemChanged();
 
-            Debug.WriteLine($"ITEM Changed: {Item?.Name}");
             ItemRarity = Item?.Rarity ?? ItemRarity.Unknown;
         }
     }

@@ -28,7 +28,6 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage
         private readonly ItemTexture _sigilTexture = new() { };
         private readonly ItemTexture _pvpSigilTexture = new() { };
         private readonly ItemTexture _infusionTexture = new() { };
-        private readonly DetailedTexture _statTexture = new() { };
 
         private Rectangle _statBounds;
         private Rectangle _sigilBounds;
@@ -68,8 +67,6 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage
             int x = _sigilSlotTexture.Bounds.Right + textPadding + 4;
             _sigilBounds = new(x, _sigilSlotTexture.Bounds.Top - 1, Width - x, _sigilSlotTexture.Bounds.Height);
             _infusionBounds = new(x, _infusionSlotTexture.Bounds.Top, Width - x, _infusionSlotTexture.Bounds.Height);
-
-            _statTexture.Bounds = new(Icon.Bounds.Center.Add(new(-2, -2)), new(Icon.Bounds.Height / 2));
         }
 
         protected override void Paint(SpriteBatch spriteBatch, Rectangle bounds)
@@ -84,12 +81,11 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage
             }
             else
             {
-                _statTexture.Draw(this, spriteBatch);
                 _sigilSlotTexture.Draw(this, spriteBatch, RelativeMousePosition);
                 _sigilTexture.Draw(this, spriteBatch, RelativeMousePosition);
                 spriteBatch.DrawStringOnCtrl(this, GetDisplayString(Sigil?.DisplayText ?? string.Empty), UpgradeFont, _sigilBounds, UpgradeColor, false, HorizontalAlignment.Left, VerticalAlignment.Middle);
 
-                var mainHandRarity = 
+                var mainHandRarity =
                     (GearSlot is GearTemplateSlot.OffHand or GearTemplateSlot.AltOffHand) &&
                     Template.GearTemplate.Weapons[GearSlot == GearTemplateSlot.OffHand ? GearTemplateSlot.MainHand : GearTemplateSlot.AltMainHand]?.Weapon.IsTwoHanded() == true ?
                     Template.GearTemplate.Weapons[GearSlot == GearTemplateSlot.OffHand ? GearTemplateSlot.MainHand : GearTemplateSlot.AltMainHand]?.Item?.Rarity
@@ -108,7 +104,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage
         {
             base.OnStatChanged();
 
-            _statTexture.Texture = Stat?.Icon;
+            StatTexture.Texture = Stat?.Icon;
         }
 
         protected override void SlotChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
@@ -131,7 +127,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage
             Infusion = weapon?.Infusion;
             _infusionTexture.Item = weapon?.Infusion;
 
-            _statTexture.Texture = Stat?.Icon;
+            StatTexture.Texture = Stat?.Icon;
         }
 
         protected override void OnClick(MouseEventArgs e)
@@ -162,7 +158,6 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage
         private readonly ItemTexture _sigil2Texture = new() { };
         private readonly ItemTexture _infusionTexture = new() { };
         private readonly ItemTexture _infusion2Texture = new() { };
-        private readonly DetailedTexture _statTexture = new() { };
 
         private Rectangle _statBounds;
         private Rectangle _sigilBounds;
@@ -216,8 +211,6 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage
 
             _infusionBounds = new(x, _infusionSlotTexture.Bounds.Top, upgradeWidth, _infusionSlotTexture.Bounds.Height);
             _infusion2Bounds = new(x + upgradeWidth, _infusionSlotTexture.Bounds.Top, upgradeWidth, _infusionSlotTexture.Bounds.Height);
-
-            _statTexture.Bounds = new(Icon.Bounds.Center.Add(new(-2, -2)), new(Icon.Bounds.Height / 2));
         }
 
         protected override void Paint(SpriteBatch spriteBatch, Rectangle bounds)
@@ -229,8 +222,6 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage
             else
             {
                 base.Paint(spriteBatch, bounds);
-
-                _statTexture.Draw(this, spriteBatch);
 
                 _sigilSlotTexture.Draw(this, spriteBatch, RelativeMousePosition);
                 _sigilTexture.Draw(this, spriteBatch, RelativeMousePosition);
@@ -257,7 +248,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage
         {
             base.OnStatChanged();
 
-            _statTexture.Texture = Stat?.Icon;
+            StatTexture.Texture = Stat?.Icon;
         }
 
         protected override void SlotChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
@@ -283,7 +274,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage
             Infusion2 = weapon?.Infusion2;
             _infusion2Texture.Item = weapon?.Infusion2;
 
-            _statTexture.Texture = Stat?.Icon;
+            StatTexture.Texture = Stat?.Icon;
         }
 
         protected override void OnClick(MouseEventArgs e)
@@ -313,7 +304,6 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage
 
         private readonly ItemTexture _runeTexture = new() { };
         private readonly ItemTexture _infusionTexture = new() { };
-        private readonly DetailedTexture _statTexture = new() { };
 
         private Rectangle _statBounds;
         private Rectangle _runeBounds;
@@ -345,8 +335,6 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage
             int x = _runeSlotTexture.Bounds.Right + textPadding + 4;
             _runeBounds = new(x, _runeSlotTexture.Bounds.Top - 1, Width - x, _runeSlotTexture.Bounds.Height);
             _infusionBounds = new(x, _infusionSlotTexture.Bounds.Top, Width - x, _infusionSlotTexture.Bounds.Height);
-
-            _statTexture.Bounds = new(Icon.Bounds.Center.Add(new(-2, -2)), new(Icon.Bounds.Height / 2));
         }
 
         protected override void Paint(SpriteBatch spriteBatch, Rectangle bounds)
@@ -354,8 +342,6 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage
             if (Template?.PvE != false)
             {
                 base.Paint(spriteBatch, bounds);
-
-                _statTexture.Draw(this, spriteBatch);
                 _runeSlotTexture.Draw(this, spriteBatch, RelativeMousePosition);
                 _runeTexture.Draw(this, spriteBatch, RelativeMousePosition);
                 spriteBatch.DrawStringOnCtrl(this, GetDisplayString(Rune?.DisplayText ?? string.Empty), UpgradeFont, _runeBounds, UpgradeColor, false, HorizontalAlignment.Left, VerticalAlignment.Middle);
@@ -373,7 +359,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage
         {
             base.OnStatChanged();
 
-            _statTexture.Texture = Stat?.Icon;
+            StatTexture.Texture = Stat?.Icon;
         }
 
         protected override void SlotChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
@@ -415,8 +401,6 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage
         private readonly ItemTexture _infusion2Texture = new() { };
         private readonly ItemTexture _infusion3Texture = new() { };
 
-        private readonly DetailedTexture _statTexture = new() { };
-
         public JuwellerySlotControl(GearTemplateSlot gearSlot, Container parent) : base(gearSlot, parent)
         {
             _infusion1SlotTexture.Texture = BuildsManager.ModuleInstance.ContentsManager.GetTexture(@"textures\infusionslot.png");
@@ -445,8 +429,6 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage
 
             _infusion3SlotTexture.Bounds = new(Icon.Bounds.Right + 2, Icon.Bounds.Top + ((infusionSize + 2) * 2), infusionSize, infusionSize);
             _infusion3Texture.Bounds = _infusion3SlotTexture.Bounds;
-
-            _statTexture.Bounds = new(Icon.Bounds.Center.Add(new(-2, -2)), new(Icon.Bounds.Height / 2));
         }
 
         protected override void Paint(SpriteBatch spriteBatch, Rectangle bounds)
@@ -472,8 +454,6 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage
                         _infusion3Texture.Draw(this, spriteBatch, RelativeMousePosition);
                     }
                 }
-
-                _statTexture.Draw(this, spriteBatch, RelativeMousePosition);
             }
         }
 
@@ -481,7 +461,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage
         {
             base.OnStatChanged();
 
-            _statTexture.Texture = Stat?.Icon;
+            StatTexture.Texture = Stat?.Icon;
         }
 
         protected override void SlotChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
@@ -501,7 +481,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage
             Infusion3 = item?.Infusion3;
             _infusion3Texture.Item = item?.Infusion3;
 
-            _statTexture.Texture = Stat?.Icon;
+            StatTexture.Texture = Stat?.Icon;
         }
 
         protected override void OnClick(MouseEventArgs e)
@@ -526,8 +506,6 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage
         private readonly DetailedTexture _enrichmentSlotTexture = new() { TextureRegion = new(37, 37, 54, 54) };
         private readonly ItemTexture _enrichmentTexture = new() { };
 
-        private readonly DetailedTexture _statTexture = new() { };
-
         public AmuletSlotControl(GearTemplateSlot gearSlot, Container parent) : base(gearSlot, parent)
         {
             _enrichmentSlotTexture.Texture = BuildsManager.ModuleInstance.ContentsManager.GetTexture(@"textures\infusionslot.png");
@@ -544,8 +522,6 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage
 
             _enrichmentSlotTexture.Bounds = new(Icon.Bounds.Right + 2, Icon.Bounds.Top, infusionSize, infusionSize);
             _enrichmentTexture.Bounds = _enrichmentSlotTexture.Bounds;
-
-            _statTexture.Bounds = new(Icon.Bounds.Center.Add(new(-2, -2)), new(Icon.Bounds.Height / 2));
         }
 
         protected override void Paint(SpriteBatch spriteBatch, Rectangle bounds)
@@ -559,8 +535,6 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage
                     _enrichmentSlotTexture.Draw(this, spriteBatch, RelativeMousePosition);
                     _enrichmentTexture.Draw(this, spriteBatch, RelativeMousePosition);
                 }
-
-                _statTexture.Draw(this, spriteBatch, RelativeMousePosition);
             }
         }
 
@@ -568,7 +542,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage
         {
             base.OnStatChanged();
 
-            _statTexture.Texture = Stat?.Icon;
+            StatTexture.Texture = Stat?.Icon;
         }
 
         protected override void SlotChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
@@ -582,7 +556,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage
             Enrichment = item?.Enrichment;
             _enrichmentTexture.Item = item?.Enrichment;
 
-            _statTexture.Texture = Stat?.Icon;
+            StatTexture.Texture = Stat?.Icon;
         }
 
         protected override void OnClick(MouseEventArgs e)
@@ -730,6 +704,8 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage
 
         public Stat Stat { get => _stat; set => Common.SetProperty(ref _stat, value, OnStatChanged); }
 
+        protected readonly DetailedTexture StatTexture = new() { };
+
         protected virtual void OnStatChanged()
         {
 
@@ -835,12 +811,20 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage
             int size = Math.Min(Width, Height);
             Icon.Bounds = new(0, 0, size, size);
             Item.Bounds = new(0, 0, size, size);
+
+            int padding = 3;
+            StatTexture.Bounds = new(Icon.Bounds.Center.Add(new Point(-padding, -padding)), new((size - (padding * 2)) / 2));
         }
 
         protected override void Paint(SpriteBatch spriteBatch, Rectangle bounds)
         {
             Icon.Draw(this, spriteBatch, RelativeMousePosition);
             Item.Draw(this, spriteBatch, RelativeMousePosition, ItemColor);
+
+            if (Template?.PvE != false)
+            {
+                StatTexture.Draw(this, spriteBatch);
+            }
         }
 
         protected override void OnClick(MouseEventArgs e)
@@ -860,7 +844,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage
 
             var a = AbsoluteBounds;
 
-            if (Icon.Hovered && (GearSlot.IsArmor() || GearSlot.IsWeapon() ||GearSlot.IsJuwellery()) && Item.Item != null)
+            if (Icon.Hovered && (GearSlot.IsArmor() || GearSlot.IsWeapon() || GearSlot.IsJuwellery()) && Item.Item != null)
                 SelectionPanel?.SetStatAnchor(this, new Rectangle(a.Location, Point.Zero).Add(Icon.Bounds), GearSlot, GearSubSlotType.Item, GearSlot.ToString().ToLowercaseNamingConvention(), (item) => TemplateSlot.Item = item);
         }
 

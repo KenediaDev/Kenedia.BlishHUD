@@ -31,11 +31,11 @@ namespace Kenedia.Modules.BuildsManager.Models.Templates
         internal static BuildSpecialization FromByte(byte id, ProfessionType profession)
         {
             return BuildsManager.Data.Professions?[profession]?.Specializations.TryGetValue(id, out Specialization specialization) == true
-                ? (new()
+                ? new()
                 {
                     Specialization = specialization,
-                })
-                : null;
+                }
+                : new();
         }
     }
 }

@@ -43,9 +43,9 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
         private readonly Dummy _dummy;
         private readonly Dictionary<SpecializationSlot, SpecLine> _specializations = new()
         {
-            {SpecializationSlot.Line_1,  new SpecLine(){ Line = SpecializationSlot.Line_1, } },
-            {SpecializationSlot.Line_2,  new SpecLine() {Line = SpecializationSlot.Line_2, } },
-            {SpecializationSlot.Line_3,  new SpecLine() {Line = SpecializationSlot.Line_3, } },
+            {SpecializationSlot.Line_1,  new SpecLine(SpecializationSlot.Line_1)},
+            {SpecializationSlot.Line_2,  new SpecLine(SpecializationSlot.Line_2)},
+            {SpecializationSlot.Line_3,  new SpecLine(SpecializationSlot.Line_3)},
         };
         private readonly FramedImage _specIcon;
         private readonly FramedImage _raceIcon;
@@ -196,7 +196,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
             _specializations[SpecializationSlot.Line_2].Template = Template;
             _specializations[SpecializationSlot.Line_3].Template = Template;
 
-            _raceIcon.Texture = BuildsManager.Data.Races[Template?.Race  ?? Races.None].Icon;
+            _raceIcon.Texture = BuildsManager.Data.Races[Template?.Race ?? Races.None].Icon;
             _raceIcon.BasicTooltipText = BuildsManager.Data.Races[Template?.Race ?? Races.None].Name;
 
             _specIcon.Texture = Template?.EliteSpecialization != null ? Template.EliteSpecialization.ProfessionIconBig : BuildsManager.Data.Professions?[Template?.Profession ?? ProfessionType.Guardian]?.IconBig;
@@ -281,7 +281,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
                 _professionRaceSelection.Location = RelativeMousePosition;
                 _professionRaceSelection.OnClickAction = (value) =>
                 {
-                    if(Template != null)
+                    if (Template != null)
                     {
                         Template.Profession = (ProfessionType)value;
                     }

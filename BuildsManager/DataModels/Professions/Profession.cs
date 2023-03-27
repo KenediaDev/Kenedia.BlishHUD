@@ -115,6 +115,21 @@ namespace Kenedia.Modules.BuildsManager.DataModels.Professions
 
                 // Add Flip & Bundle Skills
                 var profSkillIds = prof.Skills.Select(e => e.Id).ToList();
+                var traitedSkillsIds = new List<int>();
+                foreach(var spec in specializations.Values.Where(e => e.Profession == professionType))
+                {
+                    foreach(var traited in spec.MajorTraits.Values.Where(e => e.Skills.Count > 0).Select(e => e.Skills))
+                    {
+                        traitedSkillsIds.AddRange(traited);
+                    }
+
+                    foreach(var traited in spec.MinorTraits.Values.Where(e => e.Skills.Count > 0).Select(e => e.Skills))
+                    {
+                        traitedSkillsIds.AddRange(traited);
+                    }
+                }
+                profSkillIds.AddRange(traitedSkillsIds);
+
                 var tSkillids = skills.Where(e => e.Value.Professions.Count <= 2 && e.Value.Professions.Contains(professionType)).Select(e => e.Value.Id).Except(profSkillIds).ToList();
                 var raceSkills = races.SelectMany(e => e.Value.Skills).Select(e => e.Value.Id).ToList();
 
@@ -202,7 +217,7 @@ namespace Kenedia.Modules.BuildsManager.DataModels.Professions
                     }
                 }
 
-                foreach (int id in profSkillIds)
+                foreach (int id in profSkillIds.Distinct())
                 {
                     if (skills.TryGetValue(id, out Skill weaponSkill))
                     {

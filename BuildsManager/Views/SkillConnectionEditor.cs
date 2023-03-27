@@ -16,7 +16,7 @@ namespace Kenedia.Modules.BuildsManager.Views
     public class SkillConnectionEditor : StandardWindow
     {
         private Dictionary<int, OldSkillConnection> _connections = new();
-        private ProfessionType _profession = ProfessionType.Guardian;
+        private ProfessionType? _profession = ProfessionType.Guardian;
         private readonly EditingControl _connectionEdit;
         private readonly SkillSelector _selector;
         private readonly Dropdown _specialization;
@@ -29,8 +29,9 @@ namespace Kenedia.Modules.BuildsManager.Views
             {
                 Parent = this,
                 Width = 300,
-                ValueChangedAction = (v) => Profession = (ProfessionType)Enum.Parse(typeof(ProfessionType), v)
+                ValueChangedAction = (v) => Profession = Enum.TryParse(v, out ProfessionType prof) ? prof : null,
             };
+            _specialization.Items.Add("None");
 
             foreach (ProfessionType p in Enum.GetValues(typeof(ProfessionType)))
             {
@@ -65,9 +66,9 @@ namespace Kenedia.Modules.BuildsManager.Views
             _specialization.SelectedItem = Profession.ToString();
         }
 
-        public event EventHandler<ProfessionType> ProfessionChanged;
+        public event EventHandler<ProfessionType?> ProfessionChanged;
 
-        public ProfessionType Profession { get => _profession; private set => Common.SetProperty(ref _profession, value, OnProfessionChanged); }
+        public ProfessionType? Profession { get => _profession; private set => Common.SetProperty(ref _profession, value, OnProfessionChanged); }
 
         private void OnProfessionChanged()
         {

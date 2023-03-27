@@ -30,5 +30,14 @@ namespace Kenedia.Modules.BuildsManager.Models.Templates
 
             return 0;
         }
+
+        public override void Wipe()
+        {
+            foreach(var buildspec in this)
+            {
+                buildspec.Value.Specialization = null;
+                buildspec.Value.Traits.Wipe();
+            }
+        }
     }
 }

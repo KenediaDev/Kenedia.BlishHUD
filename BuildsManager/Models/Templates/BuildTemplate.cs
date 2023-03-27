@@ -48,9 +48,6 @@ namespace Kenedia.Modules.BuildsManager.Models.Templates
 
         private void OnProfessionChanged(object sender, PropertyChangedEventArgs e)
         {
-
-            Debug.WriteLine($"PROFESSION CHANGED");
-
             _loading = true;
             
             Specializations?.Wipe();
@@ -395,7 +392,6 @@ namespace Kenedia.Modules.BuildsManager.Models.Templates
                 await Task.Delay(1, _eventCancellationTokenSource.Token);
                 if (!_eventCancellationTokenSource.IsCancellationRequested)
                 {
-                    Debug.WriteLine($"{nameof(BuildTemplate)} Trigger Changed Event now.");
                     Changed?.Invoke(sender, e);
                 }
             }

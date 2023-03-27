@@ -77,7 +77,7 @@ namespace Kenedia.Modules.Core.Models
             return base.Remove(key);
         }
         
-        public void Wipe()
+        public virtual void Wipe()
         {
             foreach (var key in Keys.ToList())
             {

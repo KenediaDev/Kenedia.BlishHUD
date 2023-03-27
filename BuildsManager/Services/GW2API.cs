@@ -73,9 +73,9 @@ namespace Kenedia.Modules.BuildsManager.Services
             LocalizedString state = new();
 
             Locale locale = GameService.Overlay.UserLocale.Value;
-            //await GetItems(_cancellationTokenSource.Token);
+            await GetItems(_cancellationTokenSource.Token);
             await GetProfessions(_cancellationTokenSource.Token);
-            //await GetPets(_cancellationTokenSource.Token);
+            await GetPets(_cancellationTokenSource.Token);
         }
 
         public async Task GetItems(CancellationToken cancellation)
@@ -526,11 +526,11 @@ namespace Kenedia.Modules.BuildsManager.Services
             }
             catch (RequestException ex)
             {
-                Debug.WriteLine($"RequestException {ex}");
+                BuildsManager.Logger.Warn($"RequestException {ex}");
             }
             catch (Exception ex)
             {
-                Debug.WriteLine($"Exception {ex}");
+                BuildsManager.Logger.Warn($"Exception {ex}");
             }
         }
 
@@ -835,7 +835,7 @@ namespace Kenedia.Modules.BuildsManager.Services
                 var itemMapping = new ItemMapping();
                 int count = 0;
 
-                Debug.WriteLine($"Fetching a total of {raw_itemids.Count} items.");
+                BuildsManager.Logger.Info($"Fetching a total of {raw_itemids.Count} items.");
 
                 foreach (var ids in itemid_lists)
                 {
@@ -844,7 +844,7 @@ namespace Kenedia.Modules.BuildsManager.Services
                         count++;
                         IReadOnlyList<Item> items = null;
 
-                        Debug.WriteLine($"Fetching chunk {count}/{itemid_lists.Count}");
+                        BuildsManager.Logger.Info($"Fetching chunk {count}/{itemid_lists.Count}");
                         //Debug.WriteLine($"ID: {ids.FirstOrDefault()}");
 
                         try
@@ -853,7 +853,7 @@ namespace Kenedia.Modules.BuildsManager.Services
                         }
                         catch (RequestException ex)
                         {
-                            Debug.WriteLine($"Exception {ex}");
+                            BuildsManager.Logger.Warn($"Exception {ex}");
                             invalid.AddRange(ids);
 
                             string json = JsonConvert.SerializeObject(invalid, Formatting.Indented);
@@ -861,7 +861,7 @@ namespace Kenedia.Modules.BuildsManager.Services
                         }
                         catch (Exception ex)
                         {
-                            Debug.WriteLine($"Exception {ex}");
+                            BuildsManager.Logger.Warn($"Exception {ex}");
                             invalid.AddRange(ids);
 
                             string json = JsonConvert.SerializeObject(invalid, Formatting.Indented);
@@ -1046,7 +1046,7 @@ namespace Kenedia.Modules.BuildsManager.Services
                     }
                 }
 
-                Debug.WriteLine($"All {raw_itemids.Count} items fetched!");
+                BuildsManager.Logger.Info($"All {raw_itemids.Count} items fetched!");
 
                 string finaljson = JsonConvert.SerializeObject(itemMapping, Formatting.Indented);
                 File.WriteAllText($@"{Paths.ModulePath}\data\ItemMapping.json", finaljson);
@@ -1057,7 +1057,7 @@ namespace Kenedia.Modules.BuildsManager.Services
             }
             catch (Exception ex)
             {
-                Debug.WriteLine($"Exception {ex}");
+                BuildsManager.Logger.Warn($"Exception {ex}");
             }
         }
     }

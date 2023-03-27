@@ -72,7 +72,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.SkillConnectionEdit
             SelectionPanel.Invalidate();
         }
 
-        private void SkillConnectionEditor_ProfessionChanged(object sender, Gw2Sharp.Models.ProfessionType e)
+        private void SkillConnectionEditor_ProfessionChanged(object sender, Gw2Sharp.Models.ProfessionType? e)
         {
             _ = FilterItems(string.Empty);
         }

@@ -6,6 +6,7 @@ using Kenedia.Modules.Core.DataModels;
 using Kenedia.Modules.Core.Models;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System.Diagnostics;
 using System.Linq;
 using static Blish_HUD.ContentService;
 using SkillSlot = Gw2Sharp.WebApi.V2.Models.SkillSlot;
@@ -217,10 +218,10 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage.ProfessionSpecific
                     _skills[0].Skill = skills[63089];
                     //TODO add Mech Skills
 
-                    //_skills[1].Skill = GetSkill(SkillSlot.Profession2);
-                    //_skills[2].Skill = GetSkill(SkillSlot.Profession3);
-                    //_skills[3].Skill = GetSkill(SkillSlot.Profession4);
-                    //_skills[4].Skill = GetSkill(SkillSlot.Profession5);
+                    _skills[1].Skill = skills[63334]?.GetEffectiveSkill(Template);
+                    _skills[2].Skill = skills[63367]?.GetEffectiveSkill(Template);
+                    _skills[3].Skill = skills[63121]?.GetEffectiveSkill(Template);
+
                     break;
 
                 case (int)SpecializationType.Scrapper:

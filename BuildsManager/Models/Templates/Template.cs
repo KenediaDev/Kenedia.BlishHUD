@@ -222,7 +222,7 @@ namespace Kenedia.Modules.BuildsManager.Models.Templates
         private readonly GearTemplate _gearTemplate = new();
         private ProfessionType _profession;
         private string _description;
-        private string _name = "Power Deadeye - Dagger/Dagger | Shortbow";
+        private string _name = "New Template";
         private string _id;
         private bool _terrestrial = true;
         private AttunementType _mainAttunement = AttunementType.Fire;
@@ -236,6 +236,8 @@ namespace Kenedia.Modules.BuildsManager.Models.Templates
             _gearTemplate.PropertyChanged += TemplateChanged;
 
         }
+
+        public event PropertyChangedEventHandler ProfessionChanged;
 
         public event PropertyChangedEventHandler Changed;
 
@@ -412,6 +414,12 @@ namespace Kenedia.Modules.BuildsManager.Models.Templates
             };
         }
 
+        private void OnProfessionChanged(object sender, PropertyChangedEventArgs e)
+        {
+            ProfessionChanged?.Invoke(sender, e);
+            TemplateChanged(sender, e);
+        }
+
         private async void TemplateChanged(object sender, PropertyChangedEventArgs e)
         {
             if (MainAttunement != AltAttunement && EliteSpecialization?.Id != (int)SpecializationType.Weaver)
@@ -491,7 +499,6 @@ namespace Kenedia.Modules.BuildsManager.Models.Templates
                 await Task.Delay(1, _eventCancellationTokenSource.Token);
                 if (!_eventCancellationTokenSource.IsCancellationRequested)
                 {
-                    Debug.WriteLine($"{nameof(Template)} Trigger Changed Event now.");
                     Changed?.Invoke(sender, e);
                 }
             }

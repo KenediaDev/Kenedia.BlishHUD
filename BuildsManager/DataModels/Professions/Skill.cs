@@ -251,7 +251,7 @@ namespace Kenedia.Modules.BuildsManager.DataModels.Professions
                         }
                     }
 
-                    if (skill.SkillConnection != null && skill.SkillConnection.EnvCounter != null)
+                    if (skill?.SkillConnection != null && skill.SkillConnection.EnvCounter != null)
                     {
                         bool useCounterSkill = (template.Terrestrial && !skill.SkillConnection.Enviroment.HasFlag(Enviroment.Terrestrial)) || (!template.Terrestrial && !skill.SkillConnection.Enviroment.HasFlag(Enviroment.Aquatic));
                         if (useCounterSkill) _ = BuildsManager.Data.Professions[template.Profession].Skills.TryGetValue((int)skill.SkillConnection.EnvCounter, out skill);

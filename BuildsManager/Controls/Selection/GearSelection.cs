@@ -2,6 +2,7 @@
 using Kenedia.Modules.BuildsManager.DataModels.Professions;
 using Kenedia.Modules.BuildsManager.Extensions;
 using Kenedia.Modules.BuildsManager.Models.Templates;
+using Kenedia.Modules.Core.Controls;
 using Kenedia.Modules.Core.Extensions;
 using Kenedia.Modules.Core.Utility;
 using System;
@@ -33,6 +34,8 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
         private readonly List<Selectable> _utilites;
         private readonly List<Selectable> _enrichments;
         private readonly List<Selectable> _infusions;
+
+        private readonly Button _autoEquipItems;
 
         public GearSelection()
         {
@@ -82,6 +85,37 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
                 _filterText = txt.Trim().ToLower();
                 PerformFiltering();
             };
+
+            _autoEquipItems = new()
+            {
+                Parent = this,
+                Location = new(Search.Left + 2, Search.Bottom + 5),
+                Text = "Equip Ascended Items",
+                ClickAction = EquipItems,
+            };
+
+            SelectionContent.SetLocation(Search.Left, _autoEquipItems.Bottom + 5);
+        }
+
+        private void EquipItems()
+        {
+            var armors = _armors.Where(e => (e.Item as Armor).Weight == Template?.Profession.GetArmorType() && (e.Item.Rarity == Gw2Sharp.WebApi.V2.Models.ItemRarity.Ascended || e.TemplateSlot == GearTemplateSlot.AquaBreather))?.Select(e => e.Item);
+            foreach (var armor in Template?.GearTemplate?.Armors.Values)
+            {
+                armor.Item = armors.Where(e => e.TemplateSlot == armor.Slot)?.FirstOrDefault();
+            }
+
+            var trinkets = _trinkets.Where(e => e.Item.Rarity == Gw2Sharp.WebApi.V2.Models.ItemRarity.Ascended)?.Select(e => e.Item);
+            trinkets = trinkets.Append(_backs.Where(e => e.Item.Rarity == Gw2Sharp.WebApi.V2.Models.ItemRarity.Ascended)?.Select(e => e.Item).FirstOrDefault());
+            foreach (var trinket in Template?.GearTemplate?.Juwellery.Values)
+            {
+                var effectiveSlot =
+                    trinket.Slot is GearTemplateSlot.Ring_2 ? GearTemplateSlot.Ring_1 :
+                    trinket.Slot is GearTemplateSlot.Accessory_2 ? GearTemplateSlot.Accessory_1 :
+                    trinket.Slot;
+
+                trinket.Item = trinkets.Where(e => e.TemplateSlot == effectiveSlot)?.FirstOrDefault();
+            }
         }
 
         public Template Template
@@ -116,7 +150,13 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
 
         public GearTemplateSlot ActiveSlot { get => _activeSlot; set => Common.SetProperty(ref _activeSlot, value, ApplySlot); }
 
-        public GearSubSlotType SubSlotType { get => _subSlotType; set => Common.SetProperty(ref _subSlotType, value, ApplySlot); }
+        public GearSubSlotType SubSlotType { get => _subSlotType; set => Common.SetProperty(ref _subSlotType, value, ApplySubSlot); }
+
+        private void ApplySubSlot(object sender, PropertyChangedEventArgs e)
+        {
+            Search.Text = null;
+            ApplySlot();
+        }
 
         public Action<BaseItem> OnItemSelected { get; set; }
 
@@ -333,6 +373,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
             base.RecalculateLayout();
 
             Search?.SetSize(Width - Search.Left);
+            _autoEquipItems?.SetSize(Width - _autoEquipItems.Left);
         }
 
         protected override void DisposeControl()

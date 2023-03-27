@@ -201,8 +201,6 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
             SelectionContent.FilterChildren<ProfessionRaceSelectable>(e => e.SelectionType == Type);
 
             var ctrl = SelectionContent.Children.FirstOrDefault();
-
-            Debug.WriteLine($"Visible: {SelectionContent.Children.Where(e => e.Visible).Count()}");
             Height = ContentPadding.Vertical + (SelectionContent.Children.Where(e => e.Visible).Count() * (Math.Max(ctrl.Height, 48) + (int)SelectionContent.ControlPadding.Y));
 
             SelectionContent.Invalidate();

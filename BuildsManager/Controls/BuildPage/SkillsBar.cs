@@ -182,7 +182,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
                 if (weapon != null && BuildsManager.Data.Professions[Template.Profession].Weapons.ContainsKey(weapon))
                 {
                     var weaponSkillIds = BuildsManager.Data.Professions[Template.Profession].Weapons[weapon].Skills;
-                    var weaponSkills = BuildsManager.Data.Professions[Template.Profession].Skills.Where(e => weaponSkillIds.Contains(e.Value.Id) && e.Value.SkillConnection?.Default == null);
+                    var weaponSkills = BuildsManager.Data.Professions[Template.Profession].Skills.Where(e => weaponSkillIds.Contains(e.Value.Id) && e.Value.SkillConnection?.Default == null && e.Value.Slot > SkillSlot.Weapon3);
 
                     if (Template.Profession == Gw2Sharp.Models.ProfessionType.Elementalist)
                     {
@@ -238,7 +238,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
                 if (weapon != null && BuildsManager.Data.Professions[Template.Profession].Weapons.ContainsKey(weapon))
                 {
                     var weaponSkillIds = BuildsManager.Data.Professions[Template.Profession].Weapons[weapon].Skills;
-                    var weaponSkills = BuildsManager.Data.Professions[Template.Profession].Skills.Where(e => weaponSkillIds.Contains(e.Value.Id) && e.Value.SkillConnection?.Default == null);
+                    var weaponSkills = BuildsManager.Data.Professions[Template.Profession].Skills.Where(e => weaponSkillIds.Contains(e.Value.Id) && e.Value.SkillConnection?.Default == null && e.Value.Slot > SkillSlot.Weapon3);
 
                     if (Template.Profession == Gw2Sharp.Models.ProfessionType.Elementalist)
                     {
@@ -265,7 +265,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
 
                 var weapon = Template.GearTemplate.Weapons[GearTemplateSlot.Aquatic].Weapon;
 
-                if (weapon != null && BuildsManager.Data.Professions[Template.Profession].Weapons.ContainsKey(weapon))
+                if (BuildsManager.Data.Professions[Template.Profession].Weapons.ContainsKey(weapon))
                 {
                     var weaponSkillIds = BuildsManager.Data.Professions[Template.Profession].Weapons[weapon].Skills;
                     var weaponSkills = BuildsManager.Data.Professions[Template.Profession].Skills.Where(e => weaponSkillIds.Contains(e.Value.Id) && e.Value.SkillConnection?.Default == null);

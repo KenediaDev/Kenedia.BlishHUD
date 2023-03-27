@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using Kenedia.Modules.Core.DataModels;
 using Kenedia.Modules.BuildsManager.Views;
 using Kenedia.Modules.Core.Extensions;
+using System.Diagnostics;
 
 namespace Kenedia.Modules.BuildsManager.Controls.SkillConnectionEdit
 {
@@ -50,11 +51,16 @@ namespace Kenedia.Modules.BuildsManager.Controls.SkillConnectionEdit
 
             string[] strings = obj.Split(',');
 
+            string profString = Editor?.Profession.ToString();
+            bool any = Editor?.Profession == null;
+
             foreach (SkillEntryControl item in SelectionPanel.Children)
             {
-                item.Visible = item.Skill?.Professions.Count == 1 && (item.Skill?.Professions.Contains(Editor?.Profession.ToString()) == true) && 
+                item.Visible = 
+                    (any || item.Skill?.Professions.Count == 1) &&
+                    (any || item.Skill?.Professions.Contains(profString) == true) &&
                     (obj == string.Empty ||
-                    item.Skill?.Name.ToLower().ContainsAnyTrimmed(strings) == true || 
+                    item.Skill?.Name?.ToLower().ContainsAnyTrimmed(strings) == true ||
                     item.Skill?.Id.ToString().ToLower().ContainsAnyTrimmed(strings) == true);
             }
 
@@ -72,7 +78,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.SkillConnectionEdit
             SelectionPanel.Invalidate();
         }
 
-        private void SkillConnectionEditor_ProfessionChanged(object sender, Gw2Sharp.Models.ProfessionType e)
+        private void SkillConnectionEditor_ProfessionChanged(object sender, Gw2Sharp.Models.ProfessionType? e)
         {
             _ = FilterItems(string.Empty);
         }

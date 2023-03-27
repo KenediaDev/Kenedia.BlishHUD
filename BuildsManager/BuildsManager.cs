@@ -217,10 +217,13 @@ namespace Kenedia.Modules.BuildsManager
             //await GW2API.FetchBaseSkills();
 
             //Data.Stats.Clear();
-            //await GW2API.UpdateData();
+            //await Data.ImportOldConnections();
 
-            await Data.LoadBaseSkills();
-            await Data.LoadConnections();
+            //await Data.LoadBaseSkills();
+            //await Data.LoadConnections();
+
+            //Data.Professions.Clear();
+            //await GW2API.UpdateData();
 
             base.ReloadKey_Activated(sender, e);
 
@@ -229,6 +232,7 @@ namespace Kenedia.Modules.BuildsManager
 
         protected override void LoadGUI()
         {
+            Debug.WriteLine($"Data.IsLoaded {Data.IsLoaded}");
             if (!Data.IsLoaded) return;
 
             base.LoadGUI();
@@ -259,7 +263,7 @@ namespace Kenedia.Modules.BuildsManager
                     Height = 900,
                 };
 
-                MainWindow.Show();
+                //MainWindow.Show();
             }
 
             if (false)

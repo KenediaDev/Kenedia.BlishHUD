@@ -157,6 +157,8 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
         private readonly List<AttributeToggle> _statIcons = new();
         private readonly List<StatSelectable> _stats = new();
         private readonly bool _created;
+        private readonly Checkbox _applyAllCheckbox;
+
         private Template _template;
         private BaseTemplateEntry _templateSlot;
 
@@ -208,16 +210,50 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
                     Parent = SelectionContent,
                     Width = SelectionContent.Width - 35,
                     Stat = stat.Value,
-                    OnStatSelected = (selectedStat) => (TemplateSlot as GearTemplateEntry).Stat = selectedStat,
+                    OnStatSelected = SelectStat,
                 });
             }
 
             Search.PerformFiltering = FilterStats;
             Search.SetLocation(Search.Left, Search.Top + 30);
-            SelectionContent.SetLocation(Search.Left, Search.Bottom + 5);
+
+            _applyAllCheckbox = new()
+            {
+                Parent = this,
+                Location = new(Search.Left + 2, Search.Bottom + 5),
+                Text = "Apply to whole item group"
+            };
+
+            SelectionContent.SetLocation(Search.Left, _applyAllCheckbox.Bottom + 5);
+
             FilterStats();
 
             _created = true;
+        }
+
+        private void SelectStat(Stat selectedStat)
+        {
+            switch (_applyAllCheckbox.Checked)
+            {
+                case false:
+                    (TemplateSlot as GearTemplateEntry).Stat = selectedStat;
+                    break;
+
+                case true:
+                    var slots =
+                        (TemplateSlot as GearTemplateEntry).Slot.IsArmor() ? Template?.GearTemplate?.Armors.Values.Cast<GearTemplateEntry>() :
+                        (TemplateSlot as GearTemplateEntry).Slot.IsWeapon() ? Template?.GearTemplate?.Weapons.Values.Cast<GearTemplateEntry>() :
+                        (TemplateSlot as GearTemplateEntry).Slot.IsJuwellery() ? Template?.GearTemplate?.Juwellery.Values.Cast<GearTemplateEntry>() : null;
+
+                    foreach (var slot in slots)
+                    {
+                        if ((slot.Slot is not GearTemplateSlot.OffHand and not GearTemplateSlot.AltOffHand) || slot.Item is not null)
+                        {
+                            slot.Stat = selectedStat;
+                        }
+                    }
+                    break;
+            }
         }
 
         public Template Template
@@ -254,6 +290,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
             base.RecalculateLayout();
             if (!_created) return;
 
+            _applyAllCheckbox.Width = Search.Width;
         }
 
         protected override void OnSelectionContent_Resized(object sender, Blish_HUD.Controls.ResizedEventArgs e)
@@ -282,7 +319,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
 
             foreach (var stat in _stats)
             {
-                var statAttributes = stat.Stat.Attributes.Select (e => e.Value.Id);
+                var statAttributes = stat.Stat.Attributes.Select(e => e.Value.Id);
 
                 stat.Visible =
                     (anyAttribute || attributes.All(e => statAttributes.Contains(e))) &&
