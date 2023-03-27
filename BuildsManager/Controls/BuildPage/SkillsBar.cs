@@ -595,9 +595,11 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
                     var skills = BuildsManager.Data.Professions[Template.Profession].Skills;
 
                     //var filteredSkills = skills.Where(e => e.Value.PaletteId > 0 && e.Value.Slot != null && e.Value.Slot == skillType && e.Value.Categories != null && (e.Value.Specialization == 0 || Template.BuildTemplate.HasSpecialization(e.Value.Specialization))).OrderBy(e => e.Value.Categories != null ? e.Value.Categories[0] : SkillCategory.None).ToList();
-                    var filteredSkills = skills.Where(e => e.Value.PaletteId > 0 && e.Value.Slot != null && e.Value.Slot == skillType && (e.Value.Specialization == 0 || Template.BuildTemplate.HasSpecialization(e.Value.Specialization))).OrderBy(e => e.Value.Categories != null ? e.Value.Categories[0] : SkillCategory.None).ToList();
+                    var filteredSkills = skills.Where(e => e.Value.PaletteId > 0 && e.Value.Slot != null && e.Value.Slot == skillType && (e.Value.Specialization == 0 || Template.BuildTemplate.HasSpecialization(e.Value.Specialization))).ToList();
                     var racialSkills = Template.Race != Core.DataModels.Races.None ? BuildsManager.Data.Races[Template.Race]?.Skills.Where(e => e.Value.PaletteId > 0 && e.Value.Slot != null && e.Value.Slot == skillType).ToList() : new();
                     if (racialSkills != null) filteredSkills.AddRange(racialSkills);
+
+                    //filteredSkills.Sort((a, b) => a.Value.Categories.CompareTo(b.Value.Categories));
 
                     int columns = Math.Min(filteredSkills.Count(), 4);
                     int rows = (int)Math.Ceiling(filteredSkills.Count() / (double)columns);
@@ -605,7 +607,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
 
                     int column = 0;
                     int row = 0;
-                    foreach (var skill in filteredSkills)
+                    foreach (var skill in filteredSkills.OrderBy(e => e.Value.Categories).ToList())
                     {
                         _selectableSkills[skillType].Add(new() { Skill = skill.Value, Bounds = new(_selectorBounds.Left + 4 + (column * _skillSize), _selectorBounds.Top + 4 + (row * _skillSize), _skillSize - 4, _skillSize - 4) });
                         column++;

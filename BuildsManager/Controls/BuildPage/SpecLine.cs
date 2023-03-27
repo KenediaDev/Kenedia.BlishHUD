@@ -293,7 +293,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
             _baseFrame.Draw(this, spriteBatch);
             _selector.Draw(this, spriteBatch, hoverPos, null, null, _selectorOpen ? true : null);
             if (_selector.Hovered) txt = "Change Specialization";
-            (hasSpec ? _hexagon : _noSpecHexagon).Draw(this, spriteBatch);
+            (hasSpec ? _hexagon : _noSpecHexagon).Draw(this, spriteBatch, hoverPos);
             if (Line == SpecializationSlot.Line_3) _eliteFrame.Draw(this, spriteBatch);
 
             _weaponTrait.Draw(this, spriteBatch, hoverPos, null, null, _selectorOpen ? false : null);
@@ -399,7 +399,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
                     }
                 }
 
-                _selectorOpen = !_selectorOpen;
+                _selectorOpen = (_hexagon.Hovered || _noSpecHexagon.Hovered || _selector.Hovered) && !_selectorOpen;
             }
         }
 

@@ -23,8 +23,9 @@ namespace Kenedia.Modules.Characters.Services
         Light,
     }
 
-    public class Data
+    public class Data : IDisposable
     {
+        private bool _disposed;
         private readonly ContentsManager _contentsManager;
         private readonly PathCollection _paths;
 
@@ -1114,7 +1115,7 @@ namespace Kenedia.Modules.Characters.Services
                 if (e.NewValue != null)
                 {
                     IconBig.TextureSwapped -= IconBig_TextureSwapped;
-                    IconBig.SwapTexture(IconBig.Texture.GetRegion(new Rectangle(5, 5, IconBig.Width - 10, IconBig.Height - 10)));
+                    _iconBig = IconBig.Texture.Duplicate().GetRegion(new Rectangle(5, 5, IconBig.Width - 10, IconBig.Height - 10));
                 }
             }
 
@@ -1122,8 +1123,8 @@ namespace Kenedia.Modules.Characters.Services
             {
                 if (e.NewValue != null)
                 {
-                    Icon.TextureSwapped -= Icon_TextureSwapped;
-                    Icon.SwapTexture(Icon.Texture.GetRegion(new Rectangle(5, 5, Icon.Width - 10, Icon.Height - 10)));
+                    Icon.TextureSwapped -= Icon_TextureSwapped;                    
+                    _icon = IconBig.Texture.Duplicate().GetRegion(new Rectangle(5, 5, Icon.Width - 10, Icon.Height - 10));
                 }
             }
         }
@@ -1203,6 +1204,23 @@ namespace Kenedia.Modules.Characters.Services
             Races[RaceType.Human].Icon = _contentsManager.GetTexture(@"textures\races\" + "human" + ".png");
             Races[RaceType.Norn].Icon = _contentsManager.GetTexture(@"textures\races\" + "norn" + ".png");
             Races[RaceType.Sylvari].Icon = _contentsManager.GetTexture(@"textures\races\" + "sylvari" + ".png");
+        }
+
+        public void Dispose()
+        {
+            if(_disposed) return;
+            _disposed = true;
+
+            foreach(var prof in Professions.Values)
+            {
+                prof.Icon.Dispose();
+                prof.IconBig.Dispose();
+            }
+
+            Races.Clear();
+            Specializations.Clear();
+            Professions.Clear();
+            CrafingProfessions.Clear();
         }
     }
 }

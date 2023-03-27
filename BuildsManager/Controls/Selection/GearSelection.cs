@@ -126,9 +126,20 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
                 if (Common.SetProperty(ref _template, value, ApplyTemplate))
                 {
                     if (temp != null) temp.Changed -= TemplateChanged;
+                    if (temp != null) temp.ProfessionChanged -= Template_ProfessionChanged;
                     if (_template != null) _template.Changed += TemplateChanged;
+                    if (_template != null) _template.ProfessionChanged += Template_ProfessionChanged;
                 }
             }
+        }
+
+        private void Template_ProfessionChanged(object sender, PropertyChangedEventArgs e)
+        {
+            string tempTxt = Search.Text;
+
+            ApplySubSlot(sender, e);
+
+            Search.Text = tempTxt;
         }
 
         public BaseTemplateEntry TemplateSlot { get; set; }

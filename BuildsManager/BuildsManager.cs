@@ -222,8 +222,9 @@ namespace Kenedia.Modules.BuildsManager
             //await Data.LoadBaseSkills();
             //await Data.LoadConnections();
 
-            //Data.Professions.Clear();
-            //await GW2API.UpdateData();
+            Data.Professions.Clear();
+            Data.Races.Clear();
+            await GW2API.UpdateData();
 
             base.ReloadKey_Activated(sender, e);
 
@@ -232,7 +233,6 @@ namespace Kenedia.Modules.BuildsManager
 
         protected override void LoadGUI()
         {
-            Debug.WriteLine($"Data.IsLoaded {Data.IsLoaded}");
             if (!Data.IsLoaded) return;
 
             base.LoadGUI();
@@ -301,6 +301,8 @@ namespace Kenedia.Modules.BuildsManager
         protected override void Unload()
         {
             base.Unload();
+
+            DeleteCornerIcons();
         }
 
         private void CreateCornerIcons()

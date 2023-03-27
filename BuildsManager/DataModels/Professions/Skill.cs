@@ -40,20 +40,28 @@ namespace Kenedia.Modules.BuildsManager.DataModels.Professions
             SkillConnection = connection ?? null;
             Attunement = connection?.Attunement;
 
-            if ((skill.Categories != null && skill.Categories.Count > 0) || skill.Name.Contains('\"'))
+            if (skill.Specialization is not null and not 0)
             {
-                Categories = new();
-                if (skill.Name.Contains('\"')) Categories.Add(SkillCategory.Shout);
+                if (!Categories.HasFlag(SkillCategory.Specialization)) Categories |= SkillCategory.Specialization;
+            }
+            else if (skill.Professions.Count == 1 && skill.Professions.Contains("Engineer") && skill.BundleSkills != null)
+            {
+                if (!Categories.HasFlag(SkillCategory.Kit)) Categories |= SkillCategory.Kit;
+            }
+            else if ((skill.Categories != null && skill.Categories.Count > 0) || skill.Name.Contains('\"'))
+            {
+                if (skill.Name.Contains('\"') && !Categories.HasFlag(SkillCategory.Shout)) Categories |= SkillCategory.Shout;
 
                 if (skill.Categories != null)
                 {
                     foreach (string s in skill.Categories)
                     {
-                        if (Enum.TryParse(s, out SkillCategory category)) Categories.Add(category);
+                        if (Enum.TryParse(s, out SkillCategory category))
+                        {
+                            if (!Categories.HasFlag(category)) Categories |= category;
+                        }
                     }
                 }
-
-                Categories = Categories.Count > 0 ? Categories : null;
             }
 
             BundleSkills = skill.BundleSkills != null && skill.BundleSkills.Count > 0 ? skill.BundleSkills.ToList() : null;
@@ -144,7 +152,7 @@ namespace Kenedia.Modules.BuildsManager.DataModels.Professions
         public SkillFlag Flags { get; set; }
 
         [DataMember]
-        public List<SkillCategory> Categories { get; set; }
+        public SkillCategory Categories { get; set; }
 
         [DataMember]
         public int? FlipSkill { get; set; }

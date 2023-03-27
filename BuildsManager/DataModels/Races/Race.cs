@@ -5,6 +5,7 @@ using System.Runtime.Serialization;
 using Kenedia.Modules.Core.DataModels;
 using Skill = Kenedia.Modules.BuildsManager.DataModels.Professions.Skill;
 using Blish_HUD.Content;
+using System.Diagnostics;
 
 namespace Kenedia.Modules.BuildsManager.DataModels
 {
@@ -36,6 +37,9 @@ namespace Kenedia.Modules.BuildsManager.DataModels
                 {
                     if (skills.TryGetValue(id, out Skill skill))
                     {
+                        skill.Categories = Professions.SkillCategory.Racial;
+                        Debug.WriteLine($"CTOR SET RACIAL FLAG: {Professions.SkillCategory.Racial} -  skill.Categories {skill.Categories}");
+
                         Skills.Add(id, skill);
                     }
                 }
@@ -94,6 +98,11 @@ namespace Kenedia.Modules.BuildsManager.DataModels
                         skill ??= allSkillsSkill;
                         skill.Name = allSkillsSkill.Name;
                         skill.Description= allSkillsSkill.Description;
+                        allSkillsSkill.Categories = Professions.SkillCategory.Racial;
+                        skill.Categories = Professions.SkillCategory.Racial;
+
+
+                        Debug.WriteLine($"SET RACIAL FLAG: {Professions.SkillCategory.Racial} -  skill.Categories {skill.Categories}");
 
                         if (!exists)
                         {
