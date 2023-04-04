@@ -159,7 +159,7 @@ namespace Kenedia.Modules.Characters.Services
                 {
                     if (!cancellationToken.IsCancellationRequested)
                     {
-                        ScreenNotification.ShowNotification("[Characters]: " + strings.Error_InvalidPermissions, ScreenNotification.NotificationType.Error);
+                        //ScreenNotification.ShowNotification("[Characters]: " + strings.Error_InvalidPermissions, ScreenNotification.NotificationType.Error);
                         Characters.Logger.Warn(strings.Error_InvalidPermissions);
                         MainWindow?.SendAPIPermissionNotification();
                     }
