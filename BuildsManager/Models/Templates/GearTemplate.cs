@@ -661,6 +661,8 @@ namespace Kenedia.Modules.BuildsManager.Models.Templates
                 Common[GearTemplateSlot.Utility].FromCode(parts[(int)GearTemplateSlot.Utility].Substring(1, parts[(int)GearTemplateSlot.Utility].Length - 1));
                 Common[GearTemplateSlot.JadeBotCore].FromCode(parts[(int)GearTemplateSlot.JadeBotCore].Substring(1, parts[(int)GearTemplateSlot.JadeBotCore].Length - 1));
 
+                PropertyChanged?.Invoke(this, null);
+
                 _loading = false;
             }
         }

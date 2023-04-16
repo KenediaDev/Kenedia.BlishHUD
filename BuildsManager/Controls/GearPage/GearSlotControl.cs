@@ -100,9 +100,9 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage
             }
         }
 
-        protected override void OnStatChanged()
+        protected override void OnStatChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
-            base.OnStatChanged();
+            base.OnStatChanged(sender, e);
 
             StatTexture.Texture = Stat?.Icon;
         }
@@ -244,9 +244,9 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage
             }
         }
 
-        protected override void OnStatChanged()
+        protected override void OnStatChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
-            base.OnStatChanged();
+            base.OnStatChanged(sender, e);
 
             StatTexture.Texture = Stat?.Icon;
         }
@@ -355,9 +355,9 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage
             }
         }
 
-        protected override void OnStatChanged()
+        protected override void OnStatChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
-            base.OnStatChanged();
+            base.OnStatChanged(sender, e);
 
             StatTexture.Texture = Stat?.Icon;
         }
@@ -457,9 +457,9 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage
             }
         }
 
-        protected override void OnStatChanged()
+        protected override void OnStatChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
-            base.OnStatChanged();
+            base.OnStatChanged(sender, e);
 
             StatTexture.Texture = Stat?.Icon;
         }
@@ -538,9 +538,9 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage
             }
         }
 
-        protected override void OnStatChanged()
+        protected override void OnStatChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
-            base.OnStatChanged();
+            base.OnStatChanged(sender, e);
 
             StatTexture.Texture = Stat?.Icon;
         }
@@ -704,12 +704,12 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage
 
         public Stat Stat { get => _stat; set => Common.SetProperty(ref _stat, value, OnStatChanged); }
 
-        protected readonly DetailedTexture StatTexture = new() { };
-
-        protected virtual void OnStatChanged()
+        protected virtual void OnStatChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
-
+            Debug.WriteLine($"{GearSlot}: STAT CHANGED");
         }
+
+        protected readonly DetailedTexture StatTexture = new() { };
 
         public void ApplyTemplate()
         {

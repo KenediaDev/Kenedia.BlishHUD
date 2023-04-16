@@ -583,73 +583,75 @@ namespace Kenedia.Modules.Characters
             }
 
             Logger.Info($"Update characters for '{Paths.AccountName}' based on fresh data from the api.");
-
-            var freshList = characters.Select(c => new { c.Name, c.Created }).ToList();
-            var oldList = CharacterModels.Select(c => new { c.Name, c.Created }).ToList();
-
-            bool updateMarkedCharacters = false;
-            for (int i = CharacterModels.Count - 1; i >= 0; i--)
+            if (Paths.AccountName != null && characters.Count > 0)
             {
-                Character_Model c = CharacterModels[i];
-                if (!freshList.Contains(new { c.Name, c.Created }))
-                {
+                var freshList = characters.Select(c => new { c.Name, c.Created }).ToList();
+                var oldList = CharacterModels.Select(c => new { c.Name, c.Created }).ToList();
 
-                    if (Settings.AutomaticCharacterDelete.Value)
+                bool updateMarkedCharacters = false;
+                for (int i = CharacterModels.Count - 1; i >= 0; i--)
+                {
+                    Character_Model c = CharacterModels[i];
+                    if (!freshList.Contains(new { c.Name, c.Created }))
                     {
-                        Logger.Info($"{c.Name} created on {c.Created} no longer exists. Delete them!");
-                        c.Delete();
-                        //CharacterModels.RemoveAt(i);
-                    }
-                    else if (!c.MarkedAsDeleted)
-                    {
-                        Logger.Info($"{c.Name} created on {c.Created} does not exist in the api data. Mark them as potentially deleted!");
-                        c.MarkedAsDeleted = true;
-                        updateMarkedCharacters = true;
+
+                        if (Settings.AutomaticCharacterDelete.Value)
+                        {
+                            Logger.Info($"{c.Name} created on {c.Created} no longer exists. Delete them!");
+                            c.Delete();
+                            //CharacterModels.RemoveAt(i);
+                        }
+                        else if (!c.MarkedAsDeleted)
+                        {
+                            Logger.Info($"{c.Name} created on {c.Created} does not exist in the api data. Mark them as potentially deleted!");
+                            c.MarkedAsDeleted = true;
+                            updateMarkedCharacters = true;
+                        }
                     }
                 }
+
+                if (updateMarkedCharacters) MainWindow.UpdateMissingNotification();
+
+                int pos = 0;
+                foreach (var c in characters)
+                {
+                    if (!oldList.Contains(new { c.Name, c.Created }))
+                    {
+                        Logger.Info($"{c.Name} created on {c.Created} does not exist yet. Create them!");
+                        CharacterModels.Add(new(c, CharacterSwapping, Paths.ModulePath, RequestCharacterSave, CharacterModels, Data) { Position = pos });
+                    }
+                    else
+                    {
+                        //Logger.Info($"{c.Name} created on {c.Created} does exist already. Update it!");
+                        var character = CharacterModels.FirstOrDefault(e => e.Name == c.Name);
+                        character?.UpdateCharacter(c);
+                        if (character != null)
+                        {
+                            character.Position = pos;
+                        }
+                    }
+
+                    pos++;
+                }
+
+                //if (!File.Exists(CharactersPath) || Settings.ImportVersion.Value < OldCharacterModel.ImportVersion)
+                //{
+                //    string p = CharactersPath.Replace(@"kenedia\", "");
+
+                //    if (File.Exists(p))
+                //    {
+                //        Logger.Info($"This is the first start of {Name} since import version {OldCharacterModel.ImportVersion}. Importing old data from {p}!");
+                //        OldCharacterModel.Import(p, CharacterModels, AccountImagesPath, Paths.AccountName, Tags);
+                //    }
+
+                //    Settings.ImportVersion.Value = OldCharacterModel.ImportVersion;
+                //}
+
+                MainWindow?.CreateCharacterControls();
+                MainWindow?.PerformFiltering();
+
+                _ = SaveCharacterList();
             }
-
-            if (updateMarkedCharacters) MainWindow.UpdateMissingNotification();
-
-            int pos = 0;
-            foreach (var c in characters)
-            {
-                if (!oldList.Contains(new { c.Name, c.Created }))
-                {
-                    Logger.Info($"{c.Name} created on {c.Created} does not exist yet. Create them!");
-                    CharacterModels.Add(new(c, CharacterSwapping, Paths.ModulePath, RequestCharacterSave, CharacterModels, Data) { Position = pos });
-                }
-                else
-                {
-                    //Logger.Info($"{c.Name} created on {c.Created} does exist already. Update it!");
-                    var character = CharacterModels.FirstOrDefault(e => e.Name == c.Name);
-                    character?.UpdateCharacter(c);
-                    if (character != null)
-                    {
-                        character.Position = pos;
-                    }
-                }
-
-                pos++;
-            }
-
-            //if (!File.Exists(CharactersPath) || Settings.ImportVersion.Value < OldCharacterModel.ImportVersion)
-            //{
-            //    string p = CharactersPath.Replace(@"kenedia\", "");
-
-            //    if (File.Exists(p))
-            //    {
-            //        Logger.Info($"This is the first start of {Name} since import version {OldCharacterModel.ImportVersion}. Importing old data from {p}!");
-            //        OldCharacterModel.Import(p, CharacterModels, AccountImagesPath, Paths.AccountName, Tags);
-            //    }
-
-            //    Settings.ImportVersion.Value = OldCharacterModel.ImportVersion;
-            //}
-
-            MainWindow?.CreateCharacterControls();
-            MainWindow?.PerformFiltering();
-
-            _ = SaveCharacterList();
         }
 
         private async Task<bool?> LoadCharacters()

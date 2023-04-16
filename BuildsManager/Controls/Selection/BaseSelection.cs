@@ -33,7 +33,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
                 ControlPadding = new(5),
                 ContentPadding = new(5),                
             };
-            SelectionContent.Resized += OnSelectionContent_Resized;
+            SelectionContent.Resized += OnSelectionContent_Resized;                       
         }
 
         protected virtual void OnSelectionContent_Resized(object sender, Blish_HUD.Controls.ResizedEventArgs e)

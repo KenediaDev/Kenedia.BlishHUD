@@ -55,8 +55,9 @@ namespace Kenedia.Modules.Characters.Services
             set
             {
                 var temp = _account;
-                if(Common.SetProperty(ref _account, value, AccountChanged, value != null && _paths.AccountName != value?.Name))
+                if(Common.SetProperty(ref _account, value, AccountChanged))
                 {
+                    _paths.AccountName = value?.Name;
                     Characters.Logger.Info($"Account changed from {temp?.Name ?? "No Account"} to {value?.Name ?? "No Account"}!");
                 }
             }
@@ -150,7 +151,7 @@ namespace Kenedia.Modules.Characters.Services
                     }
 
                     UpdateAccountsList(account, characters);
-
+                    
                     _callBack?.Invoke(characters);
                     Reset(cancellationToken, !cancellationToken.IsCancellationRequested);
                     return true;
@@ -159,7 +160,6 @@ namespace Kenedia.Modules.Characters.Services
                 {
                     if (!cancellationToken.IsCancellationRequested)
                     {
-                        //ScreenNotification.ShowNotification("[Characters]: " + strings.Error_InvalidPermissions, ScreenNotification.NotificationType.Error);
                         Characters.Logger.Warn(strings.Error_InvalidPermissions);
                         MainWindow?.SendAPIPermissionNotification();
                     }

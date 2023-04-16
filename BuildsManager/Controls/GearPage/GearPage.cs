@@ -247,9 +247,11 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage
 
             foreach (var slot in _slots.Values)
             {
-                slot.Visible = Template?.PvE == false
+                slot.Visible = 
+                    (slot.GearSlot is not GearTemplateSlot.AltAquatic || Template.Profession is not Gw2Sharp.Models.ProfessionType.Engineer and not Gw2Sharp.Models.ProfessionType.Elementalist) &&
+                    (Template?.PvE == false
                     ? slot.GearSlot is GearTemplateSlot.MainHand or GearTemplateSlot.AltMainHand or GearTemplateSlot.OffHand or GearTemplateSlot.AltOffHand or GearTemplateSlot.PvpAmulet
-                    : slot.GearSlot is not GearTemplateSlot.PvpAmulet;
+                    : slot.GearSlot is not GearTemplateSlot.PvpAmulet);
             }
         }
 

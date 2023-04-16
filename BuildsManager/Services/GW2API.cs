@@ -557,6 +557,8 @@ namespace Kenedia.Modules.BuildsManager.Services
 
                     30703, // Sunrise, else to many GS
                     30704, // Twilight, else to many GS
+
+                    63366, //Nameless Rune
                 };
 
                 var jadetechmodules = new List<int>() {

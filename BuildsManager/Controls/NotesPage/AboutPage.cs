@@ -1,5 +1,4 @@
-﻿using Kenedia.Modules.BuildsManager.Controls.Selection;
-using Kenedia.Modules.BuildsManager.Models.Templates;
+﻿using Kenedia.Modules.BuildsManager.Models.Templates;
 using Kenedia.Modules.Core.Controls;
 using Kenedia.Modules.Core.Services;
 using Kenedia.Modules.Core.Utility;
@@ -27,6 +26,8 @@ namespace Kenedia.Modules.BuildsManager.Controls.NotesPage
         private readonly List<(EncounterFlag tag, Image texture, Checkbox checkbox)> _encounters = new();
         private readonly bool _created = false;
         private bool _changeBuild = true;
+
+        private Color _disabledColor = Color.Gray;
 
         private Template _template;
         public AboutPage(TexturesService texturesService)
@@ -146,10 +147,10 @@ namespace Kenedia.Modules.BuildsManager.Controls.NotesPage
                         }
                         ));
 
-                    t.checkbox.CheckedChangedAction = async (isChecked) =>
+                    t.checkbox.CheckedChangedAction = (isChecked) =>
                     {
-                        t.checkbox.TextColor = isChecked ? Color.White : Color.Gray * 0.5F;
-                        t.texture.Tint = isChecked ? Color.White : Color.Gray * 0.5F;
+                        t.checkbox.TextColor = isChecked ? Color.White : _disabledColor;
+                        t.texture.Tint = isChecked ? Color.White : _disabledColor;
 
                         if (_changeBuild)
                         {
@@ -193,8 +194,8 @@ namespace Kenedia.Modules.BuildsManager.Controls.NotesPage
 
                     t.checkbox.CheckedChangedAction = async (isChecked) =>
                     {
-                        t.checkbox.TextColor = isChecked ? Color.White : Color.Gray * 0.5F;
-                        t.texture.Tint = isChecked ? Color.White : Color.Gray * 0.5F;
+                        t.checkbox.TextColor = isChecked ? Color.White : _disabledColor;
+                        t.texture.Tint = isChecked ? Color.White : _disabledColor;
 
                         if (_changeBuild)
                         {
@@ -234,15 +235,15 @@ namespace Kenedia.Modules.BuildsManager.Controls.NotesPage
             foreach (var tag in _tags)
             {
                 tag.checkbox.Checked = Template?.Tags.HasFlag(tag.tag) == true;
-                tag.checkbox.TextColor = tag.checkbox.Checked ? Color.White : Color.Gray * 0.5F;
-                tag.texture.Tint = tag.checkbox.Checked ? Color.White : Color.Gray * 0.5F;
+                tag.checkbox.TextColor = tag.checkbox.Checked ? Color.White : _disabledColor;
+                tag.texture.Tint = tag.checkbox.Checked ? Color.White : _disabledColor;
             }
 
             foreach (var tag in _encounters)
             {
                 tag.checkbox.Checked = Template?.Encounters.HasFlag(tag.tag) == true;
-                tag.checkbox.TextColor = tag.checkbox.Checked ? Color.White : Color.Gray * 0.5F;
-                tag.texture.Tint = tag.checkbox.Checked ? Color.White : Color.Gray * 0.5F;
+                tag.checkbox.TextColor = tag.checkbox.Checked ? Color.White : _disabledColor;
+                tag.texture.Tint = tag.checkbox.Checked ? Color.White : _disabledColor;
             }
 
             _noteField.Text = Template?.Description;
@@ -267,66 +268,6 @@ namespace Kenedia.Modules.BuildsManager.Controls.NotesPage
             }
 
             _deleteTemplate.Location = new(ContentRegion.Right - 150, _tagsLabel.Bottom - 25);
-        }
-
-        protected override void DisposeControl()
-        {
-            base.DisposeControl();
-
-            if (_template != null) _template.Changed -= TemplateChanged;
-        }
-    }
-
-    public class RotationPage : Blish_HUD.Controls.Container
-    {
-        private readonly Blish_HUD.Controls.MultilineTextBox _noteField;
-        private readonly bool created = false;
-        private TexturesService _texturesService;
-
-        private Template _template;
-
-        public RotationPage(TexturesService texturesService)
-        {
-            _texturesService = texturesService;
-
-            _noteField = new()
-            {
-                Parent = this,
-                HideBackground = false,
-            };
-
-            created = true;
-        }
-
-        public Template Template
-        {
-            get => _template; set
-            {
-                var temp = _template;
-                if (Common.SetProperty(ref _template, value, ApplyTemplate))
-                {
-                    if (temp != null) temp.Changed -= TemplateChanged;
-                    if (_template != null) _template.Changed += TemplateChanged;
-                }
-            }
-        }
-
-        private void ApplyTemplate()
-        {
-
-        }
-
-        private void TemplateChanged(object sender, PropertyChangedEventArgs e)
-        {
-            ApplyTemplate();
-        }
-
-        public override void RecalculateLayout()
-        {
-            base.RecalculateLayout();
-            if (!created) return;
-
-            if (_noteField != null) _noteField.Size = Size;
         }
 
         protected override void DisposeControl()

@@ -278,6 +278,7 @@
     <Compile Include="Controls\GearPage\AttributeTexture.cs" />
     <Compile Include="Controls\GearPage\ItemTexture.cs" />
     <Compile Include="Controls\GearPage\JadeBotControl.cs" />
+    <Compile Include="Controls\NotesPage\AboutPage.cs" />
     <Compile Include="Controls\Selection\BaseSelection.cs" />
     <Compile Include="Controls\Selection\BuildSelection.cs" />
     <Compile Include="Controls\GearPage\GearPage.cs" />
@@ -291,7 +292,7 @@
     <Compile Include="Controls\Selection\SelectionPanel.cs" />
     <Compile Include="Controls\GearPage\StatSummary.cs" />
     <Compile Include="Controls\GearPage\UtilityControl.cs" />
-    <Compile Include="Controls\NotesPage\NotesPage.cs" />
+    <Compile Include="Controls\NotesPage\RotationPage.cs" />
     <Compile Include="Controls\Selection\StatSelection.cs" />
     <Compile Include="Controls\Selection\TagTexture.cs" />
     <Compile Include="Controls\Selection\TemplateSelectable.cs" />

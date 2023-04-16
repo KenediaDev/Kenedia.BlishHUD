@@ -7,7 +7,9 @@ using Kenedia.Modules.Core.Extensions;
 using Kenedia.Modules.Core.Utility;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using SharpDX.WIC;
 using System;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace Kenedia.Modules.BuildsManager.Controls.Selection
 {
@@ -75,7 +77,14 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
 
         private void SetItem()
         {
-            BasicTooltipText = Item == null ? null : Item.Name + $" [{Item.Id}] "+ (Item.Type == Gw2Sharp.WebApi.V2.Models.ItemType.Weapon ? Environment.NewLine + (Item as Weapon).WeaponType.ToSkillWeapon() : string.Empty);
+            string txt = Item == null ? null : Item.Name + $" [{Item.Id}] "+ (Item.Type == Gw2Sharp.WebApi.V2.Models.ItemType.Weapon ? Environment.NewLine + (Item as Weapon).WeaponType.ToSkillWeapon() : string.Empty);
+
+            if(Item != null && !string.IsNullOrEmpty(Item.DisplayText)) 
+            {
+                txt += Environment.NewLine + Item.Description;
+            }
+
+            BasicTooltipText= txt;
         }
     }
 }

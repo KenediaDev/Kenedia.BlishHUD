@@ -108,6 +108,12 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage.ProfessionSpecific
                     break;
 
                 case (int)SpecializationType.Mechanist:
+                    if(Template.Terrestrial == false)
+                    {
+                        _skills[0].Draw(this, spriteBatch, RelativeMousePosition);
+                        return;
+                    }
+
                     _target.Draw(this, spriteBatch);
                     _return.Draw(this, spriteBatch);
                     _combatState.Draw(this, spriteBatch);
@@ -215,7 +221,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage.ProfessionSpecific
             switch (Template.EliteSpecialization?.Id)
             {
                 case (int)SpecializationType.Mechanist:
-                    _skills[0].Skill = skills[63089];
+                    _skills[0].Skill = Template.Terrestrial ? skills[63089] : skills[63210];
                     //TODO add Mech Skills
 
                     _skills[1].Skill = skills[63334]?.GetEffectiveSkill(Template);

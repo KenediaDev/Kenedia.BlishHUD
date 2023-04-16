@@ -20,6 +20,7 @@ using static Blish_HUD.ContentService;
 using Gw2Sharp.Models;
 using Kenedia.Modules.Core.DataModels;
 using System.Diagnostics;
+using static Blish_HUD.ArcDps.Common.CommonFields;
 
 namespace Kenedia.Modules.BuildsManager.Controls.Selection
 {
@@ -271,20 +272,6 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
                     TextureRectangle = new(4, 4, 24, 24),
                 });
 
-                //foreach (var spec in prof.Specializations.Values)
-                //{                    
-                //    if (spec.Elite)
-                //    {
-                //        j++;
-                //        _specIcons.Add(new DetailedTexture(spec.ProfessionIconBig.Texture.ToGrayScaledPalettable())
-                //        {
-                //            Bounds = new(i * 25, j * 25, 25, 25),
-                //            DrawColor = ColorExtension.Guardian * 0.7F,
-                //            HoverDrawColor = ColorExtension.Guardian,
-                //        });
-                //    }
-                //}
-
                 i++;
             }
 
@@ -324,13 +311,18 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
 
             BuildsManager.ModuleInstance.SelectedTemplateChanged += ModuleInstance_SelectedTemplateChanged;
 
-            Search.TextChangedAction = (txt) =>
-            {
-                _addBuildsButton.BasicTooltipText = string.IsNullOrEmpty(txt) ? $"Create a new Template" : $"Create new Template '{txt}'";
-            };
+            Search.TextChangedAction = (txt) => _addBuildsButton.BasicTooltipText = string.IsNullOrEmpty(txt) ? $"Create a new Template" : $"Create new Template '{txt}'";
 
             BuildsManager.ModuleInstance.Templates.CollectionChanged += Templates_CollectionChanged;
             Templates_CollectionChanged(this, null);
+
+            GameService.Gw2Mumble.PlayerCharacter.SpecializationChanged += PlayerCharacter_SpecializationChanged;
+        }
+
+        private void PlayerCharacter_SpecializationChanged(object sender, ValueEventArgs<int> e)
+        {
+            _specIcons.ForEach(c => c.Checked = c.Profession == GameService.Gw2Mumble.PlayerCharacter.Profession);
+            FilterTemplates();
         }
 
         private void FilterTemplates()
@@ -409,11 +401,6 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
         public override void PaintAfterChildren(SpriteBatch spriteBatch, Rectangle bounds)
         {
             base.PaintAfterChildren(spriteBatch, bounds);
-
-            foreach (var specIcon in _specIcons)
-            {
-                //specIcon.Draw(this, spriteBatch, RelativeMousePosition);
-            }
         }
 
         public override void RecalculateLayout()

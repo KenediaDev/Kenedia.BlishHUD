@@ -26,6 +26,7 @@ using Blish_HUD.Controls;
 using Kenedia.Modules.Core.Res;
 using CornerIcon = Kenedia.Modules.Core.Controls.CornerIcon;
 using LoadingSpinner = Kenedia.Modules.Core.Controls.LoadingSpinner;
+using System.Linq;
 
 namespace Kenedia.Modules.BuildsManager
 {
@@ -176,6 +177,9 @@ namespace Kenedia.Modules.BuildsManager
                         Templates.Add(template);
                     }
                 }
+
+                if (Templates.Count == 0 && SelectedTemplate != null) Templates.Add(SelectedTemplate);
+                SelectedTemplate = Templates.FirstOrDefault();
             }
             catch (Exception)
             {
@@ -191,6 +195,10 @@ namespace Kenedia.Modules.BuildsManager
             {
                 CreateCornerIcons();
             }
+
+            Settings.ToggleWindowKey.Value.Enabled = true;
+            Settings.ToggleWindowKey.Value.Activated += OnToggleWindowKey;
+
         }
 
         protected override void Update(GameTime gameTime)
@@ -222,9 +230,9 @@ namespace Kenedia.Modules.BuildsManager
             //await Data.LoadBaseSkills();
             //await Data.LoadConnections();
 
-            Data.Professions.Clear();
-            Data.Races.Clear();
-            await GW2API.UpdateData();
+            //Data.Professions.Clear();
+            //Data.Races.Clear();
+            //await GW2API.UpdateData();
 
             base.ReloadKey_Activated(sender, e);
 
@@ -344,6 +352,14 @@ namespace Kenedia.Modules.BuildsManager
         private void CornerIcon_Moved(object sender, MovedEventArgs e)
         {
             if (_apiSpinner != null) _apiSpinner.Location = new Point(_cornerIcon.Left, _cornerIcon.Bottom + 3);
+        }
+
+        private void OnToggleWindowKey(object sender, EventArgs e)
+        {
+            if (Control.ActiveControl is not TextBox)
+            {
+                MainWindow?.ToggleWindow();
+            }
         }
 
         private void SelectedTemplateSwitched()

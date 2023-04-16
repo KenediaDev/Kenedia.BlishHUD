@@ -247,8 +247,10 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
 
                     foreach (var slot in slots)
                     {
-                        if ((slot.Slot is not GearTemplateSlot.OffHand and not GearTemplateSlot.AltOffHand) || slot.Item is not null)
+                        if ((slot.Slot is not GearTemplateSlot.OffHand and not GearTemplateSlot.AltOffHand) && slot.Item is not null)
                         {
+
+                            Debug.WriteLine($"Set {slot.Slot} to {selectedStat.Name} as it contains {slot.Item?.Name}");
                             slot.Stat = selectedStat;
                         }
                     }

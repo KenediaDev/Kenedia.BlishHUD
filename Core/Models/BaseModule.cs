@@ -107,7 +107,6 @@ namespace Kenedia.Modules.Core.Models
         protected override void OnModuleLoaded(EventArgs e)
         {
             base.OnModuleLoaded(e);
-
         }
 
         protected virtual void LoadGUI()
