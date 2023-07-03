@@ -78,7 +78,7 @@ namespace Kenedia.Modules.Core.Controls
 
         public Color? ModalColor { get => _modalBackground.BackgroundColor; set => _modalBackground.BackgroundColor = value; }
 
-        public int DesiredWidth { get; set; } = 0;
+        public int DesiredWidth { get; set; } = 300;
 
         public BaseDialog(string title, string message, ButtonDefinition[] buttons = null)
         {
@@ -107,8 +107,6 @@ namespace Kenedia.Modules.Core.Controls
                 Visible = false,
             };
 
-            BuildButtons();
-            SelectButton();
             BackgroundImage = _backgroundImage;
             Parent = GameService.Graphics.SpriteScreen;
             ZIndex = int.MaxValue;
@@ -121,6 +119,9 @@ namespace Kenedia.Modules.Core.Controls
 
             _buttonPanel.Parent = this;
             _buttonPanel.Resized += ButtonPanel_Resized;
+
+            BuildButtons();
+            SelectButton();
 
             GameService.Input.Keyboard.KeyPressed += Keyboard_KeyPressed;
             Parent.Resized += Parent_Resized;

@@ -42,11 +42,15 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage
         private readonly AttributeTexture _boonDuration = new(156599) { TextureRegion = new(4, 4, 24, 24) };
         private readonly AttributeTexture _magicFind = new(536054) { TextureRegion = new(4, 4, 24, 24) };
 
+        private readonly DetailedTexture _placeholder = new() { };
+
         public StatSummary()
         {
             _created = true;
             Size = new(380, 300);
             ClipsBounds = false;
+
+            _placeholder.Texture = BuildsManager.ModuleInstance.ContentsManager.GetTexture(@"textures\choya_placeholder.png");
         }
 
         public Template Template
@@ -56,8 +60,8 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage
                 var temp = _template;
                 if (Common.SetProperty(ref _template, value, ApplyTemplate))
                 {
-                    if (temp != null) temp.Changed -= TemplateChanged;
-                    if (_template != null) _template.Changed += TemplateChanged;
+                    if (temp != null) temp.PropertyChanged -= TemplateChanged;
+                    if (_template != null) _template.PropertyChanged += TemplateChanged;
                 }
             }
         }
@@ -68,66 +72,72 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage
 
             BitmapFont font = Content.DefaultFont14;
             _texturePanelHeader.Draw(this, spriteBatch);
-            spriteBatch.DrawStringOnCtrl(this, "Attributes", Content.DefaultFont18, _texturePanelHeader.Bounds.Add(10, -2, 0, 0), Color.White);
+            //spriteBatch.DrawStringOnCtrl(this, "Attributes", Content.DefaultFont18, _texturePanelHeader.Bounds.Add(10, -2, 0, 0), Color.White);
+            spriteBatch.DrawStringOnCtrl(this, "Praise the Choya!", Content.DefaultFont18, _texturePanelHeader.Bounds.Add(10, -2, 0, 0), Color.White, false, Blish_HUD.Controls.HorizontalAlignment.Center);
             _textureLeftCornerAccent.Draw(this, spriteBatch, SpriteEffects.FlipHorizontally, null, Color.Black);
             _textureLeftSideAccent.Draw(this, spriteBatch, SpriteEffects.FlipHorizontally, null, Color.Black);
             _textureRightCornerAccent.Draw(this, spriteBatch);
             _textureRightSideAccent.Draw(this, spriteBatch, null, Color.Black);
+            _placeholder.Draw(this, spriteBatch, null, Color.White);
 
-            _power.Draw(this, spriteBatch);
-            _power.DrawAmount(this, spriteBatch, Template != null ? Template.Attributes.Power : 0, font);
+            if (false)
+            {
+                _power.Draw(this, spriteBatch);
+                _power.DrawAmount(this, spriteBatch, Template != null ? Template.Attributes.Power : 0, font);
 
-            _precision.Draw(this, spriteBatch);
-            _precision.DrawAmount(this, spriteBatch, Template != null ? Template.Attributes.Precision : 0, font);
+                _precision.Draw(this, spriteBatch);
+                _precision.DrawAmount(this, spriteBatch, Template != null ? Template.Attributes.Precision : 0, font);
 
-            _ferocity.Draw(this, spriteBatch);
-            _ferocity.DrawAmount(this, spriteBatch, Template != null ? Template.Attributes.Ferocity : 0, font);
+                _ferocity.Draw(this, spriteBatch);
+                _ferocity.DrawAmount(this, spriteBatch, Template != null ? Template.Attributes.Ferocity : 0, font);
 
-            _thoughness.Draw(this, spriteBatch);
-            _thoughness.DrawAmount(this, spriteBatch, Template != null ? Template.Attributes.Toughness : 0, font);
+                _thoughness.Draw(this, spriteBatch);
+                _thoughness.DrawAmount(this, spriteBatch, Template != null ? Template.Attributes.Toughness : 0, font);
 
-            _vitality.Draw(this, spriteBatch);
-            _vitality.DrawAmount(this, spriteBatch, Template != null ? Template.Attributes.Vitality : 0, font);
+                _vitality.Draw(this, spriteBatch);
+                _vitality.DrawAmount(this, spriteBatch, Template != null ? Template.Attributes.Vitality : 0, font);
 
-            _condition.Draw(this, spriteBatch);
-            _condition.DrawAmount(this, spriteBatch, Template != null ? Template.Attributes.ConditionDamage : 0, font);
+                _condition.Draw(this, spriteBatch);
+                _condition.DrawAmount(this, spriteBatch, Template != null ? Template.Attributes.ConditionDamage : 0, font);
 
-            _expertise.Draw(this, spriteBatch);
-            _expertise.DrawAmount(this, spriteBatch, Template != null ? Template.Attributes.Expertise : 0, font);
+                _expertise.Draw(this, spriteBatch);
+                _expertise.DrawAmount(this, spriteBatch, Template != null ? Template.Attributes.Expertise : 0, font);
 
-            _concentration.Draw(this, spriteBatch);
-            _concentration.DrawAmount(this, spriteBatch, Template != null ? Template.Attributes.Concentration : 0, font);
+                _concentration.Draw(this, spriteBatch);
+                _concentration.DrawAmount(this, spriteBatch, Template != null ? Template.Attributes.Concentration : 0, font);
 
-            _agonyResistance.Draw(this, spriteBatch);
-            _agonyResistance.DrawAmount(this, spriteBatch, Template != null ? Template.Attributes.AgonyResistance : 0, font);
+                _agonyResistance.Draw(this, spriteBatch);
+                _agonyResistance.DrawAmount(this, spriteBatch, Template != null ? Template.Attributes.AgonyResistance : 0, font);
 
-            _profession.Draw(this, spriteBatch);
-            _profession.DrawAmount(this, spriteBatch, Template != null ? Template.Attributes.ProfessionSpecific : 0, font);
+                _profession.Draw(this, spriteBatch);
+                _profession.DrawAmount(this, spriteBatch, Template != null ? Template.Attributes.ProfessionSpecific : 0, font);
 
-            _armor.Draw(this, spriteBatch);
-            _armor.DrawAmount(this, spriteBatch, Template != null ? Template.Attributes.Armor : 0, font);
+                _armor.Draw(this, spriteBatch);
+                _armor.DrawAmount(this, spriteBatch, Template != null ? Template.Attributes.Armor : 0, font);
 
-            _health.Draw(this, spriteBatch);
-            _health.DrawAmount(this, spriteBatch, Template != null ? Template.Attributes.Health : 0, font);
+                _health.Draw(this, spriteBatch);
+                _health.DrawAmount(this, spriteBatch, Template != null ? Template.Attributes.Health : 0, font);
 
-            _critChance.Draw(this, spriteBatch);
-            _critChance.DrawAmount(this, spriteBatch, string.Format("{0:N2}%", Template != null ? Math.Truncate(Template.Attributes.CritChance * 100) / 100 : 0), font);
+                _critChance.Draw(this, spriteBatch);
+                _critChance.DrawAmount(this, spriteBatch, string.Format("{0:N2}%", Template != null ? Math.Truncate(Template.Attributes.CritChance * 100) / 100 : 0), font);
 
-            _critDamage.Draw(this, spriteBatch);
-            _critDamage.DrawAmount(this, spriteBatch, string.Format("{0:N1}%", Template != null ? Math.Truncate(Template.Attributes.CritDamage * 10) / 10 : 0), font);
+                _critDamage.Draw(this, spriteBatch);
+                _critDamage.DrawAmount(this, spriteBatch, string.Format("{0:N1}%", Template != null ? Math.Truncate(Template.Attributes.CritDamage * 10) / 10 : 0), font);
 
-            _healingPower.Draw(this, spriteBatch);
-            _healingPower.DrawAmount(this, spriteBatch, Template != null ? Template.Attributes.HealingPower : 0, font);
+                _healingPower.Draw(this, spriteBatch);
+                _healingPower.DrawAmount(this, spriteBatch, Template != null ? Template.Attributes.HealingPower : 0, font);
 
-            _conditionDuration.Draw(this, spriteBatch);
-            _conditionDuration.DrawAmount(this, spriteBatch, string.Format("{0:N2}%", Template != null ? Math.Truncate(Template.Attributes.ConditionDuration * 100) / 100 : 0), font);
+                _conditionDuration.Draw(this, spriteBatch);
+                _conditionDuration.DrawAmount(this, spriteBatch, string.Format("{0:N2}%", Template != null ? Math.Truncate(Template.Attributes.ConditionDuration * 100) / 100 : 0), font);
 
-            _boonDuration.Draw(this, spriteBatch);
-            _boonDuration.DrawAmount(this, spriteBatch, string.Format("{0:N2}%", Template != null ? Math.Truncate(Template.Attributes.BoonDuration * 100) / 100 : 0), font);
+                _boonDuration.Draw(this, spriteBatch);
+                _boonDuration.DrawAmount(this, spriteBatch, string.Format("{0:N2}%", Template != null ? Math.Truncate(Template.Attributes.BoonDuration * 100) / 100 : 0), font);
 
-            _magicFind.Draw(this, spriteBatch);
-            _magicFind.DrawAmount(this, spriteBatch, $"{(Template != null ? Template.Attributes.MagicFind : 0)}%", font);
+                _magicFind.Draw(this, spriteBatch);
+                _magicFind.DrawAmount(this, spriteBatch, $"{(Template != null ? Template.Attributes.MagicFind : 0)}%", font);
+            }
         }
+
         public override void RecalculateLayout()
         {
             base.RecalculateLayout();
@@ -145,6 +155,8 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage
                 _textureLeftSideAccent.Bounds = new(-8, _texturePanelHeader.Bounds.Height, 16, Height - _texturePanelHeader.Bounds.Height + 16);
                 _textureRightCornerAccent.Bounds = new(Width - accentWidth + 8, Height - 10, accentWidth, _textureLeftCornerAccent.Texture.Height);
                 _textureRightSideAccent.Bounds = new(-8 + Width, 0, 16, Height);
+
+                _placeholder.Bounds = new(_textureLeftSideAccent.Bounds.X + 20, _textureLeftSideAccent.Bounds.Y + 20, _textureRightSideAccent.Bounds.Left - _textureLeftSideAccent.Bounds.Left - 40, _textureLeftSideAccent.Bounds.Height - 40);
 
                 RectangleDimensions padding = new(10, 5 + _texturePanelHeader.Bounds.Height, 0, 8);
 

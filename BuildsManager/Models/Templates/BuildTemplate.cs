@@ -15,7 +15,7 @@ using System.Threading;
 
 namespace Kenedia.Modules.BuildsManager.Models.Templates
 {
-    public class BuildTemplate : IDisposable
+    public class BuildTemplate : IDisposable, INotifyPropertyChanged
     {
         private bool _disposed = false;
         private bool _loading = false;
@@ -42,7 +42,7 @@ namespace Kenedia.Modules.BuildsManager.Models.Templates
             LoadFromCode(buildCode);
         }
 
-        public event PropertyChangedEventHandler Changed;
+        public event PropertyChangedEventHandler PropertyChanged;
 
         public ProfessionType Profession { get => _profession; set => Common.SetProperty(ref _profession, value, OnProfessionChanged); }
 
@@ -372,14 +372,14 @@ namespace Kenedia.Modules.BuildsManager.Models.Templates
         private void OnChanged(object sender, PropertyChangedEventArgs e)
         {
             if (_loading) return;
-            Changed?.Invoke(sender, e);
+            PropertyChanged?.Invoke(sender, e);
         }
 
         private void CollectionChanged(object sender, PropertyChangedEventArgs e)
         {
             if (_loading) return;
 
-            Changed?.Invoke(sender, e);
+            PropertyChanged?.Invoke(sender, e);
         }
 
         private async Task TriggerChanged(object sender, PropertyChangedEventArgs e)
@@ -392,7 +392,7 @@ namespace Kenedia.Modules.BuildsManager.Models.Templates
                 await Task.Delay(1, _eventCancellationTokenSource.Token);
                 if (!_eventCancellationTokenSource.IsCancellationRequested)
                 {
-                    Changed?.Invoke(sender, e);
+                    PropertyChanged?.Invoke(sender, e);
                 }
             }
             catch (Exception)

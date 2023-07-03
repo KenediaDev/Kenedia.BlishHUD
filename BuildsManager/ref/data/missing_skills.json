@@ -261,5 +261,47 @@
       "Guardian"
     ],
     "AssetId": 1770471
+  },
+  "1001": {
+    "Id": 1001,
+    "Names": {
+      "English": "Dodge",
+      "Spanish": null,
+      "German": "Ausweichen",
+      "French": null
+    },
+    "Professions": [
+      "Guardian",
+      "Warrior",
+      "Engineer",
+      "Ranger",
+      "Thief",
+      "Elementalist",
+      "Mesmer",
+      "Necromancer",
+      "Revenant"
+    ],
+    "AssetId": 867422
+  },
+  "1002": {
+    "Id": 1002,
+    "Names": {
+      "English": "Swap Weapons",
+      "Spanish": null,
+      "German": "Waffen wechseln",
+      "French": null
+    },
+    "Professions": [
+      "Guardian",
+      "Warrior",
+      "Engineer",
+      "Ranger",
+      "Thief",
+      "Elementalist",
+      "Mesmer",
+      "Necromancer",
+      "Revenant"
+    ],
+    "AssetId": 156587
   }
 }

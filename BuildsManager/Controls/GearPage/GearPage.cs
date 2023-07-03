@@ -26,7 +26,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage
         private Rectangle _headerBounds;
         private Rectangle _statPanelHeaderBounds;
 
-        private Dictionary<GearTemplateSlot, GearSlotControl> _slots = new();
+        private Dictionary<GearTemplateSlot, BaseSlotControl> _slots = new();
 
         private FramedImage _framedSpecIcon;
         private SelectionPanel _selectionPanel;
@@ -152,7 +152,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage
                 var temp = _template;
                 if (Common.SetProperty(ref _template, value, ApplyTemplate))
                 {
-                    if (temp != null) temp.Changed -= TemplateChanged;
+                    if (temp != null) temp.PropertyChanged -= TemplateChanged;
 
                     _stats.Template = _template;
 
@@ -161,7 +161,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage
                         slot.Value.Template = _template;
                     }
 
-                    if (_template != null) _template.Changed += TemplateChanged;
+                    if (_template != null) _template.PropertyChanged += TemplateChanged;
                 }
             }
         }
@@ -201,7 +201,10 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage
                 _framedSpecIcon.Location = new(_stats.Right - 45, _headerBounds.Bottom + 5);
                 _framedSpecIcon.Size = new(45, 45);
 
-                int padding = (_framedSpecIcon.Left - _pve.Bounds.Right - (45 * 3)) / 4;
+                /// Change to 3 once we get the JadeBotCore implemented
+                int amount = 2;
+                int padding = (_framedSpecIcon.Left - _pve.Bounds.Right - (45 * amount)) / (amount + 1);
+                
                 _slots[GearTemplateSlot.Nourishment].Location = new(_pve.Bounds.Right + padding + ((45 + padding) * 0), _pve.Bounds.Top);
                 _slots[GearTemplateSlot.Utility].Location = new(_pve.Bounds.Right + padding + ((45 + padding) * 1), _pve.Bounds.Top);
                 _slots[GearTemplateSlot.JadeBotCore].Location = new(_pve.Bounds.Right + padding + ((45 + padding) * 2), _pve.Bounds.Top);
@@ -248,6 +251,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage
             foreach (var slot in _slots.Values)
             {
                 slot.Visible = 
+                    (slot.GearSlot is not GearTemplateSlot.JadeBotCore) &&
                     (slot.GearSlot is not GearTemplateSlot.AltAquatic || Template.Profession is not Gw2Sharp.Models.ProfessionType.Engineer and not Gw2Sharp.Models.ProfessionType.Elementalist) &&
                     (Template?.PvE == false
                     ? slot.GearSlot is GearTemplateSlot.MainHand or GearTemplateSlot.AltMainHand or GearTemplateSlot.OffHand or GearTemplateSlot.AltOffHand or GearTemplateSlot.PvpAmulet

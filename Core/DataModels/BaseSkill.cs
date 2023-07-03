@@ -46,6 +46,15 @@ namespace Kenedia.Modules.Core.DataModels
         }
 
         [DataMember]
+        public LocalizedString Descriptions { get; protected set; } = new();
+
+        public string Description
+        {
+            get => Descriptions.Text;
+            set => Descriptions.Text = value;
+        }
+
+        [DataMember]
         public List<string> Professions { get; set; } = new();
 
         [DataMember]

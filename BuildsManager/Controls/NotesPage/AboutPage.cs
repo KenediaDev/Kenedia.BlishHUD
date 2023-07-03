@@ -223,8 +223,8 @@ namespace Kenedia.Modules.BuildsManager.Controls.NotesPage
                 var temp = _template;
                 if (Common.SetProperty(ref _template, value, ApplyTemplate))
                 {
-                    if (temp != null) temp.Changed -= TemplateChanged;
-                    if (_template != null) _template.Changed += TemplateChanged;
+                    if (temp != null) temp.PropertyChanged -= TemplateChanged;
+                    if (_template != null) _template.PropertyChanged += TemplateChanged;
                 }
             }
         }
@@ -274,7 +274,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.NotesPage
         {
             base.DisposeControl();
 
-            if (_template != null) _template.Changed -= TemplateChanged;
+            if (_template != null) _template.PropertyChanged -= TemplateChanged;
         }
     }
 }

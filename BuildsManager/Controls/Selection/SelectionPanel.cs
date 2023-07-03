@@ -12,6 +12,9 @@ using Blish_HUD.Content;
 using System.ComponentModel;
 using Kenedia.Modules.BuildsManager.DataModels.Items;
 using Kenedia.Modules.BuildsManager.Controls.GearPage;
+using Kenedia.Modules.BuildsManager.Controls.NotesPage;
+using Blish_HUD.Controls;
+using System.Diagnostics;
 
 namespace Kenedia.Modules.BuildsManager.Controls.Selection
 {
@@ -23,20 +26,41 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
         private readonly GearSelection _gearSelection;
         private readonly BuildSelection _buildSelection;
         private readonly StatSelection _statSelection;
+        private readonly SkillSelection _skillSelection;
         private readonly AsyncTexture2D _separator = AsyncTexture2D.FromAssetId(156055);
 
-        private DetailedTexture _backButton = new(784268);
-        private DetailedTexture _pointerArrow = new(784266) { TextureRegion = new(16, 16, 32, 32) };
-        private Blish_HUD.Controls.Control _gearAnchor;
-        private Blish_HUD.Controls.Control _templateAnchor;
+        private readonly DetailedTexture _backButton = new(784268);
+        private readonly DetailedTexture _pointerArrow = new(784266) { TextureRegion = new(16, 16, 32, 32) };
+        private Control _subAnchor;
+        private Control _mainAnchor;
 
-        private Rectangle _anchorDrawBounds => _gearAnchor != null ? _gearAnchorDrawBounds : _templateAnchorDrawBounds;
-        private Rectangle _templateAnchorDrawBounds;
-        private Rectangle _gearAnchorDrawBounds;
+        private Rectangle AnchorDrawBounds
+        {
+            get => _selectionType switch
+            {
+                SelectionTypes.Templates => _mainAnchorDrawBounds,
+                _ => _subAnchorDrawBounds
+            };
 
-        private Rectangle AnchorBounds => _gearAnchor != null ? _gearAnchorBounds : _templateAnchorBounds;
-        private Rectangle _templateAnchorBounds;
-        private Rectangle _gearAnchorBounds;
+            set
+            {
+                if (_selectionType == SelectionTypes.Templates)
+                {
+                    _mainAnchorDrawBounds = value;
+                }
+                else
+                {
+                    _subAnchorDrawBounds = value;
+                }
+
+                _anchorDrawBounds =
+                    _selectionType == SelectionTypes.Templates ? _mainAnchorDrawBounds :
+                    _subAnchorDrawBounds;
+            }
+        }
+
+        private Rectangle _mainAnchorDrawBounds;
+        private Rectangle _subAnchorDrawBounds;
 
         private Rectangle _backBounds;
         private Rectangle _backTextBounds;
@@ -44,6 +68,8 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
         private SelectionTypes _selectionType = SelectionTypes.Templates;
 
         float _animationStart = 0f;
+        private Control _anchor;
+        private Rectangle _anchorDrawBounds;
 
         public SelectionPanel()
         {
@@ -67,6 +93,12 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
                 Parent = this,
                 Visible = false,
             };
+
+            _skillSelection = new()
+            {
+                Parent = this,
+                Visible = false,
+            };
         }
 
         public enum SelectionTypes
@@ -75,6 +107,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
             Templates,
             Items,
             Stats,
+            Skills,
         }
 
         public string Title { get; set; }
@@ -86,8 +119,8 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
                 var temp = _template;
                 if (Common.SetProperty(ref _template, value, ApplyTemplate))
                 {
-                    if (temp != null) temp.Changed -= TemplateChanged;
-                    if (_template != null) _template.Changed += TemplateChanged;
+                    if (temp != null) temp.PropertyChanged -= TemplateChanged;
+                    if (_template != null) _template.PropertyChanged += TemplateChanged;
                 }
             }
         }
@@ -101,11 +134,35 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
                     _gearSelection.Visible = _selectionType == SelectionTypes.Items;
                     _buildSelection.Visible = _selectionType == SelectionTypes.Templates;
                     _statSelection.Visible = _selectionType == SelectionTypes.Stats;
+                    _skillSelection.Visible = _selectionType == SelectionTypes.Skills;
                 }
             }
         }
 
-        private Blish_HUD.Controls.Control Anchor => _gearAnchor ?? _templateAnchor;
+        private Control Anchor
+        {
+            get => _selectionType switch
+            {
+                SelectionTypes.Templates => _mainAnchor,
+                _ => _subAnchor
+            };
+
+            set
+            {
+                if (_selectionType == SelectionTypes.Templates)
+                {
+                    _mainAnchor = value;
+                }
+                else
+                {
+                    _subAnchor = value;
+                }
+
+                _anchor =
+                        _selectionType == SelectionTypes.Templates ? _mainAnchor :
+                        _subAnchor;
+            }
+        }
 
         private void TemplateChanged(object sender, PropertyChangedEventArgs e)
         {
@@ -116,65 +173,73 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
         {
             _gearSelection.Template = Template;
             _statSelection.Template = Template;
+            _skillSelection.Template = Template;
         }
 
-        public void SetTemplateAnchor(Blish_HUD.Controls.Control anchor)
+        private void SetAnchor(Control anchor, Rectangle? anchorBounds = null)
         {
-            SelectionType = SelectionTypes.Templates;
-            _templateAnchor = anchor;
+            Anchor = anchor;
 
-            if (_templateAnchor != null)
+            if (Anchor != null)
             {
                 int size = anchor.AbsoluteBounds.Height;
-                int y = anchor.AbsoluteBounds.Center.Y - (size / 2);
-                _templateAnchorBounds = new(Anchor.AbsoluteBounds.Left - AbsoluteBounds.Left - (size / 2), Anchor.AbsoluteBounds.Top - AbsoluteBounds.Top + (Anchor.AbsoluteBounds.Height / 2) - (size / 2), size, size);
-
                 size = Math.Min(size, 32);
-                _templateAnchorDrawBounds = new(Anchor.AbsoluteBounds.Left - AbsoluteBounds.Left - (size / 2), Anchor.AbsoluteBounds.Top - AbsoluteBounds.Top + (Anchor.AbsoluteBounds.Height / 2) - (size / 2), size, size);
+
+                AnchorDrawBounds = anchorBounds ?? new(Anchor.AbsoluteBounds.Left - AbsoluteBounds.Left - (size / 2), Anchor.AbsoluteBounds.Top - AbsoluteBounds.Top + (Anchor.AbsoluteBounds.Height / 2) - (size / 2), size, size);
             }
         }
 
-        public void SetGearAnchor(Blish_HUD.Controls.Control anchor, Rectangle anchorBounds, GearTemplateSlot slot, GearSubSlotType subslot = GearSubSlotType.Item, string title = "Selection", Action<BaseItem> onItemSelected = null)
+        public void SetSkillAnchor(RotationElementControl anchor)
         {
-            SelectionType = anchor != null ? SelectionTypes.Items : SelectionTypes.Templates;
-            _gearAnchor = anchor;
-            if (_gearAnchor == null) return;
+            SelectionType = SelectionTypes.Skills;
+            _skillSelection.Anchor = anchor.RotationElement;
+            SetAnchor(anchor);
+        }
+
+        public void SetTemplateAnchor(Control anchor)
+        {
+            SelectionType = SelectionTypes.Templates;
+            SetAnchor(anchor);
+        }
+
+        public void SetGearAnchor(Control anchor, Rectangle anchorBounds, GearTemplateSlot slot, GearSubSlotType subslot = GearSubSlotType.Item, string title = "Selection", Action<BaseItem> onItemSelected = null)
+        {
+            SelectionType = SelectionTypes.Items;
+            Anchor = anchor;
+
+            if (Anchor == null) return;
 
             Title = title;
 
-            int size = anchorBounds.Height;
-            int y = anchorBounds.Center.Y - (size / 2);
-            //_anchorBounds = new(anchorBounds.Left - AbsoluteBounds.Left - (size / 3), y - AbsoluteBounds.Top, size, size);
-            _gearAnchorBounds = new(anchorBounds.Left - AbsoluteBounds.Left - (size / 2), anchorBounds.Top - AbsoluteBounds.Top + (anchorBounds.Height / 2) - (size / 2), size, size);
-
-            size = Math.Min(size, 32);
-            _gearAnchorDrawBounds = new(anchorBounds.Left - AbsoluteBounds.Left - (size / 2), anchorBounds.Top - AbsoluteBounds.Top + (anchorBounds.Height / 2) - (size / 2), size, size);
+            int size = Math.Min(anchorBounds.Height, 32);
+            SetAnchor(anchor, new(anchorBounds.Left - AbsoluteBounds.Left - (size / 2), anchorBounds.Top - AbsoluteBounds.Top + (anchorBounds.Height / 2) - (size / 2), size, size));
 
             _gearSelection.ActiveSlot = slot;
             _gearSelection.SubSlotType = subslot;
-            _gearSelection.TemplateSlot = (anchor as GearSlotControl)?.TemplateSlot;
+            _gearSelection.TemplateSlot = (anchor as BaseSlotControl)?.TemplateSlot;
             _gearSelection.OnItemSelected = onItemSelected;
         }
 
-        public void SetStatAnchor(Blish_HUD.Controls.Control anchor, Rectangle anchorBounds, GearTemplateSlot slot, GearSubSlotType subslot = GearSubSlotType.Item, string title = "Selection", Action<BaseItem> onItemSelected = null)
+        public void SetStatAnchor(Control anchor, Rectangle anchorBounds, string title = "Selection", Action<BaseItem> onItemSelected = null)
         {
-            SelectionType = anchor != null ? SelectionTypes.Stats : SelectionTypes.Templates;
-            _gearAnchor = anchor;
-            if (_gearAnchor == null) return;
+            SelectionType = SelectionTypes.Stats;
+            Anchor = anchor;
+
+            if (Anchor == null) return;
 
             Title = title;
 
-            int size = anchorBounds.Height;
-            int y = anchorBounds.Center.Y - (size / 2);
-            //_anchorBounds = new(anchorBounds.Left - AbsoluteBounds.Left - (size / 3), y - AbsoluteBounds.Top, size, size);
-            _gearAnchorBounds = new(anchorBounds.Left - AbsoluteBounds.Left - (size / 2), anchorBounds.Top - AbsoluteBounds.Top + (anchorBounds.Height / 2) - (size / 2), size, size);
+            int size = Math.Min(anchorBounds.Height, 32);
+            SetAnchor(anchor, new(anchorBounds.Left - AbsoluteBounds.Left - (size / 2), anchorBounds.Top - AbsoluteBounds.Top + (anchorBounds.Height / 2) - (size / 2), size, size));
 
-            size = Math.Min(size, 32);
-            _gearAnchorDrawBounds = new(anchorBounds.Left - AbsoluteBounds.Left - (size / 2), anchorBounds.Top - AbsoluteBounds.Top + (anchorBounds.Height / 2) - (size / 2), size, size);
-
-            _statSelection.TemplateSlot = (anchor as GearSlotControl)?.TemplateSlot;
+            _statSelection.TemplateSlot = (anchor as BaseSlotControl)?.TemplateSlot;
             _gearSelection.OnItemSelected = onItemSelected;
 
+        }
+
+        public void ResetAnchor()
+        {
+            SelectionType = SelectionTypes.Templates;
         }
 
         public override void RecalculateLayout()
@@ -187,6 +252,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
 
             if (_gearSelection != null) _gearSelection.Location = new(10, _backBounds.Bottom + 10);
             if (_statSelection != null) _statSelection.Location = new(10, _backBounds.Bottom + 10);
+            if (_skillSelection != null) _skillSelection.Location = new(10, 10);
             if (_buildSelection != null) _buildSelection.Location = new(10, 10);
         }
 
@@ -214,6 +280,10 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
                 {
                     DrawStatSelection(spriteBatch, bounds);
                 }
+                else if (SelectionType == SelectionTypes.Skills)
+                {
+                    DrawSkillSelection(spriteBatch, bounds);
+                }
             }
         }
 
@@ -227,17 +297,16 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
 
                 int size = Anchor.AbsoluteBounds.Height;
                 int y = Anchor.AbsoluteBounds.Center.Y - (size / 2);
-                _templateAnchorBounds = new(Anchor.AbsoluteBounds.Left - AbsoluteBounds.Left - (size / 2), Anchor.AbsoluteBounds.Top - AbsoluteBounds.Top + (Anchor.AbsoluteBounds.Height / 2) - (size / 2), size, size);
 
                 size = Math.Min(size, 32);
-                _templateAnchorDrawBounds = new(Anchor.AbsoluteBounds.Left - AbsoluteBounds.Left - (size / 2), Anchor.AbsoluteBounds.Top - AbsoluteBounds.Top + (Anchor.AbsoluteBounds.Height / 2) - (size / 2), size, size);
+                _mainAnchorDrawBounds = new(Anchor.AbsoluteBounds.Left - AbsoluteBounds.Left - (size / 2), Anchor.AbsoluteBounds.Top - AbsoluteBounds.Top + (Anchor.AbsoluteBounds.Height / 2) - (size / 2), size, size);
 
-                int easeDistance = _anchorDrawBounds.Width / 3;
+                int easeDistance = AnchorDrawBounds.Width / 3;
                 int animationOffset;
                 float duration = 0.75F;
 
                 animationOffset = (int)Tweening.Quartic.EaseOut(_animationStart, -easeDistance, easeDistance, duration);
-                _pointerArrow.Bounds = _anchorDrawBounds.Add(animationOffset, 0, 0, 0);
+                _pointerArrow.Bounds = AnchorDrawBounds.Add(animationOffset, 0, 0, 0);
 
                 if (animationOffset < -easeDistance)
                 {
@@ -250,12 +319,11 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
         {
             base.OnClick(e);
 
-            if (_gearAnchor != null)
+            if (Anchor != null)
             {
-                if (_backBounds.Contains(RelativeMousePosition))
+                if (_selectionType is SelectionTypes.Stats or SelectionTypes.Items && _backBounds.Contains(RelativeMousePosition))
                 {
-                    _gearAnchor = null;
-                    SelectionType = SelectionTypes.Templates;
+                    ResetAnchor();
                 }
             }
         }
@@ -284,6 +352,12 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
 
             _backButton.Draw(this, spriteBatch, RelativeMousePosition, Color.White);
             spriteBatch.DrawStringOnCtrl(this, Title, Content.DefaultFont18, _backTextBounds, Color.White, false, Blish_HUD.Controls.HorizontalAlignment.Left, Blish_HUD.Controls.VerticalAlignment.Middle);
+        }
+
+        private void DrawSkillSelection(SpriteBatch spriteBatch, Rectangle bounds)
+        {
+            _pointerArrow.Draw(this, spriteBatch, null, Color.White);
+
         }
 
         private void DrawBuildSelection(SpriteBatch spriteBatch, Rectangle bounds)

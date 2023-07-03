@@ -44,7 +44,7 @@ namespace Kenedia.Modules.BuildsManager.Views
                 Location = new(_selectionPanel.Right + 15, 0),
                 Width = ContentRegion.Width - 144,
                 HeightSizingMode = Blish_HUD.Controls.SizingMode.Fill,
-                OnTabSwitched = () => _selectionPanel.SetGearAnchor(null, Rectangle.Empty, GearTemplateSlot.None),
+                OnTabSwitched = _selectionPanel.ResetAnchor,
                 //BackgroundColor = Color.Green * 0.2F,
             };
 
@@ -83,6 +83,7 @@ namespace Kenedia.Modules.BuildsManager.Views
                 {
                     HeightSizingMode = Blish_HUD.Controls.SizingMode.Fill,
                     WidthSizingMode = Blish_HUD.Controls.SizingMode.Fill,
+                    SelectionPanel = _selectionPanel,
                 })
             {
                 Header = "Rotation",

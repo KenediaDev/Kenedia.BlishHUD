@@ -12,6 +12,8 @@ using System.Data;
 using System.Diagnostics;
 using Kenedia.Modules.Core.Extensions;
 using Gw2Sharp.WebApi.V2.Models;
+using System.Threading;
+using Newtonsoft.Json.Bson;
 
 namespace Kenedia.Modules.BuildsManager.Models.Templates
 {
@@ -49,6 +51,16 @@ namespace Kenedia.Modules.BuildsManager.Models.Templates
                 GearTemplateEntryType.None;
         }
 
+        public virtual void Reset()
+        {
+            ResetItem();
+        }
+
+        public void ResetItem()
+        {
+            Item = null;
+        }
+
         public virtual string ToCode()
         {
             return $"[{MappedId}]";
@@ -58,7 +70,7 @@ namespace Kenedia.Modules.BuildsManager.Models.Templates
         {
             _mappedId = Item?.MappedId ?? -1;
 
-            OnPropertyChanged(this, new(nameof(Item)));            
+            OnPropertyChanged(this, new(nameof(Item)));
         }
 
         public virtual void OnPropertyChanged(object sender, PropertyChangedEventArgs e)
@@ -77,9 +89,9 @@ namespace Kenedia.Modules.BuildsManager.Models.Templates
         private Stat _stat;
         private ItemRarity _itemRarity;
 
-        public Stat Stat { get => _stat; set => Common.SetProperty(ref _stat , value, OnPropertyChanged); }
+        public Stat Stat { get => _stat; set => Common.SetProperty(ref _stat, value, OnPropertyChanged); }
 
-        public ItemRarity ItemRarity { get => _itemRarity; set => Common.SetProperty(ref _itemRarity , value, OnRarityChanged); }
+        public ItemRarity ItemRarity { get => _itemRarity; set => Common.SetProperty(ref _itemRarity, value, OnRarityChanged); }
 
         private void OnRarityChanged(object sender, PropertyChangedEventArgs e)
         {
@@ -88,7 +100,7 @@ namespace Kenedia.Modules.BuildsManager.Models.Templates
             if (Stat != null && (Item == null || !(Item as EquipmentItem).StatChoices.Contains(Stat.Id)))
             {
                 if (BuildsManager.Data.StatMap.TryFind(e => e.Stat == Stat.EquipmentStatType, out var statMap))
-                {                    
+                {
                     var choices = (Item as EquipmentItem)?.StatChoices;
 
                     if (choices != null && choices.TryFind(statMap.Ids.Contains, out int newStatId))
@@ -111,6 +123,22 @@ namespace Kenedia.Modules.BuildsManager.Models.Templates
             base.OnItemChanged();
 
             ItemRarity = Item?.Rarity ?? ItemRarity.Unknown;
+        }
+
+        public override void Reset()
+        {
+            ResetStat();
+            ResetUpgrades();
+        }
+
+        public void ResetStat()
+        {
+            Stat = null;
+        }
+
+        public virtual void ResetUpgrades()
+        {
+
         }
     }
 
@@ -157,10 +185,10 @@ namespace Kenedia.Modules.BuildsManager.Models.Templates
 
         public Infusion Infusion
         {
-            get => InfusionIds.Count < 1 ? null : _infusion;
+            get => InfusionIds == null || InfusionIds.Count < 1 ? null : _infusion;
             set
             {
-                if (Common.SetProperty(ref _infusion, value))
+                if (Common.SetProperty(ref _infusion, value) && InfusionIds != null)
                 {
                     InfusionIds[0] = _infusion?.MappedId ?? -1;
                 }
@@ -169,11 +197,11 @@ namespace Kenedia.Modules.BuildsManager.Models.Templates
 
         public Infusion Infusion2
         {
-            get => InfusionIds.Count < 2 ? null : _infusion2;
+            get => InfusionIds == null || InfusionIds.Count < 2 ? null : _infusion2;
             set
             {
-                if (InfusionIds.Count < 2) return;
-                if (Common.SetProperty(ref _infusion2, value))
+                if (InfusionIds == null || InfusionIds.Count < 2) return;
+                if (Common.SetProperty(ref _infusion2, value) && InfusionIds != null)
                 {
                     InfusionIds[1] = _infusion2?.MappedId ?? -1;
                 }
@@ -182,11 +210,11 @@ namespace Kenedia.Modules.BuildsManager.Models.Templates
 
         public Infusion Infusion3
         {
-            get => InfusionIds.Count < 3 ? null : _infusion3;
+            get => InfusionIds == null || InfusionIds.Count < 3 ? null : _infusion3;
             set
             {
-                if (InfusionIds.Count < 3) return;
-                if (Common.SetProperty(ref _infusion3, value))
+                if (InfusionIds == null || InfusionIds.Count < 3) return;
+                if (Common.SetProperty(ref _infusion3, value) && InfusionIds != null)
                 {
                     InfusionIds[2] = _infusion3?.MappedId ?? -1;
                 }
@@ -305,6 +333,44 @@ namespace Kenedia.Modules.BuildsManager.Models.Templates
                     BuildsManager.Data.Backs.Values.Where(e => e.MappedId == mappedId).FirstOrDefault() :
                     BuildsManager.Data.Trinkets.Values.Where(e => e.MappedId == mappedId).FirstOrDefault();
             }
+        }
+
+        public override void Reset()
+        {
+            base.Reset();
+
+            ResetItem();
+            ResetInfusion();
+            ResetEnrichment();
+        }
+
+        public void ResetInfusion(int? index = null)
+        {
+            switch (index)
+            {
+                case null:
+                    Infusion = null;
+                    Infusion2 = null;
+                    Infusion3 = null;
+                    break;
+
+                case 0:
+                    Infusion = null;
+                    break;
+
+                case 1:
+                    Infusion2 = null;
+                    break;
+
+                case 2:
+                    Infusion3 = null;
+                    break;
+            }
+        }
+
+        public void ResetEnrichment()
+        {
+            Enrichment = null;
         }
     }
 
@@ -437,6 +503,37 @@ namespace Kenedia.Modules.BuildsManager.Models.Templates
                 Item = BuildsManager.Data.Weapons.Values.Where(e => e.MappedId == MappedId).FirstOrDefault();
             }
         }
+
+        public override void ResetUpgrades()
+        {
+            base.ResetUpgrades();
+
+            ResetSigils();
+        }
+
+        public void ResetSigils(int? index = null)
+        {
+            switch (index)
+            {
+                case null:
+                    Sigil = null;
+                    Sigil2 = null;
+                    PvpSigil = null;
+                    break;
+
+                case 0:
+                    Sigil = null;
+                    break;
+
+                case 1:
+                    Sigil2 = null;
+                    break;
+
+                case 2:
+                    PvpSigil = null;
+                    break;
+            }
+        }
     }
 
     public class ArmorEntry : JuwelleryEntry
@@ -514,6 +611,17 @@ namespace Kenedia.Modules.BuildsManager.Models.Templates
                 }
             }
         }
+
+        public override void ResetUpgrades()
+        {
+            base.ResetUpgrades();
+            ResetRune();
+        }
+
+        public void ResetRune()
+        {
+            Rune = null;
+        }
     }
 
     public enum GearTemplateEntryType
@@ -567,7 +675,7 @@ namespace Kenedia.Modules.BuildsManager.Models.Templates
 
         private void ItemChanged(object sender, PropertyChangedEventArgs e)
         {
-            if(_loading) return;
+            if (_loading) return;
 
             if (Weapons[GearTemplateSlot.MainHand].Weapon is WeaponType.Staff or WeaponType.Rifle or WeaponType.Hammer or WeaponType.Greatsword or WeaponType.LongBow or WeaponType.ShortBow)
             {

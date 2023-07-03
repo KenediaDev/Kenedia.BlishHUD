@@ -21,6 +21,7 @@ using System.Threading.Tasks;
 using System.Xml.Linq;
 using Kenedia.Modules.BuildsManager.DataModels.Stats;
 using Kenedia.Modules.BuildsManager.DataModels.Items;
+using Kenedia.Modules.BuildsManager.Extensions;
 
 namespace Kenedia.Modules.BuildsManager.Models.Templates
 {
@@ -216,10 +217,8 @@ namespace Kenedia.Modules.BuildsManager.Models.Templates
     }
 
     [DataContract]
-    public class Template
+    public class Template : INotifyPropertyChanged
     {
-        private readonly BuildTemplate _buildTemplate = new();
-        private readonly GearTemplate _gearTemplate = new();
         private ProfessionType _profession;
         private string _description;
         private string _name = "New Template";
@@ -232,14 +231,21 @@ namespace Kenedia.Modules.BuildsManager.Models.Templates
 
         public Template()
         {
-            _buildTemplate.Changed += TemplateChanged;
-            _gearTemplate.PropertyChanged += TemplateChanged;
+            BuildTemplate.PropertyChanged += TemplateChanged;
+            GearTemplate.PropertyChanged += TemplateChanged;
+            RotationTemplate.PropertyChanged += TemplateChanged;
+        }
 
+        public Template(string? buildCode, string? gearCode) : this()
+        {
+            if (!string.IsNullOrEmpty(buildCode)) BuildTemplate.LoadFromCode(buildCode);
+            if (!string.IsNullOrEmpty(gearCode)) GearTemplate.LoadFromCode(gearCode);
+            //if (!string.IsNullOrEmpty(rotationCode)) RotationTemplate.LoadFromCode(rotationCode);
         }
 
         public event PropertyChangedEventHandler ProfessionChanged;
 
-        public event PropertyChangedEventHandler Changed;
+        public event PropertyChangedEventHandler PropertyChanged;
 
         //[DataMember]
         //public string Id { get => _id; set => Common.SetProperty(ref _id, value, Changed); }
@@ -365,42 +371,18 @@ namespace Kenedia.Modules.BuildsManager.Models.Templates
         /// </summary>
         public Skill ActiveBundle { get; set; }
 
-        public BuildTemplate BuildTemplate
-        {
-            get => _buildTemplate;
-            //set
-            //{
-            //    var prev = _buildTemplate;
+        public BuildTemplate BuildTemplate { get; } = new();
 
-            //    if (Common.SetProperty(ref _buildTemplate, value, Changed))
-            //    {
-            //        if (prev != null) prev.Changed -= TemplateChanged;
+        public GearTemplate GearTemplate { get; } = new();
 
-            //        _buildTemplate ??= new();
-            //        _buildTemplate.Changed += TemplateChanged;
-            //    }
-            //}
-        }
-
-        public GearTemplate GearTemplate
-        {
-            get => _gearTemplate;
-            //set
-            //{
-            //    var prev = _gearTemplate;
-            //    if (Common.SetProperty(ref _gearTemplate, value, Changed))
-            //    {
-            //        if (prev != null) prev.PropertyChanged -= TemplateChanged;
-
-            //        _gearTemplate ??= new();
-            //        _gearTemplate.PropertyChanged += TemplateChanged;
-            //    }
-            //}
-        }
+        public RotationTemplate RotationTemplate { get; } = new();
 
         public bool PvE { get => _pvE; internal set => Common.SetProperty(ref _pvE, value, TemplateChanged); }
 
         public string FilePath => @$"{BuildsManager.ModuleInstance.Paths.TemplatesPath}{Common.MakeValidFileName(Name.Trim())}.json";
+
+        [DataMember]
+        public Dictionary<string, string> RotationCodes { get; set; } = new();
 
         public SkillCollection GetActiveSkills()
         {
@@ -429,7 +411,7 @@ namespace Kenedia.Modules.BuildsManager.Models.Templates
 
             UpdateAttributes();
 
-            Changed?.Invoke(sender, e);
+            PropertyChanged?.Invoke(sender, e);
             await Save();
         }
 
@@ -499,7 +481,7 @@ namespace Kenedia.Modules.BuildsManager.Models.Templates
                 await Task.Delay(1, _eventCancellationTokenSource.Token);
                 if (!_eventCancellationTokenSource.IsCancellationRequested)
                 {
-                    Changed?.Invoke(sender, e);
+                    PropertyChanged?.Invoke(sender, e);
                 }
             }
             catch (Exception)
@@ -568,6 +550,13 @@ namespace Kenedia.Modules.BuildsManager.Models.Templates
                 {
                     string path = BuildsManager.ModuleInstance.Paths.TemplatesPath;
                     if (!Directory.Exists(path)) _ = Directory.CreateDirectory(path);
+
+                    RotationCodes.Clear();
+                    foreach (var rotation in RotationTemplate.Rotations)
+                    {
+                        RotationCodes.Add(rotation.Name, rotation.RotationCode);
+                    }
+
                     string json = JsonConvert.SerializeObject(this, Formatting.Indented);
                     File.WriteAllText($@"{path}\{Common.MakeValidFileName(Name.Trim())}.json", json);
                 }
@@ -576,6 +565,27 @@ namespace Kenedia.Modules.BuildsManager.Models.Templates
             {
                 if (!_cancellationTokenSource.Token.IsCancellationRequested) BuildsManager.Logger.Warn(ex.ToString());
             }
+        }
+
+        public IEnumerable<T> GetSlotGroup<T>(GearTemplateSlot slot)
+            where T : GearTemplateEntry
+        {
+            var slots =
+                slot.IsArmor() ? GearTemplate?.Armors.Values.Cast<T>() :
+                slot.IsWeapon() ? GearTemplate?.Weapons.Values.Cast<T>() :
+                slot.IsJuwellery() ? GearTemplate?.Juwellery.Values.Cast<T>() : null;
+
+            return slots;
+        }
+
+        internal void LoadRotations()
+        {
+            foreach(KeyValuePair<string, string> pair in RotationCodes)
+            {
+                RotationTemplate.Rotations.Add(new(pair.Key, pair.Value));
+            }
+
+            RotationTemplate.RegisterEvents();
         }
     }
 }

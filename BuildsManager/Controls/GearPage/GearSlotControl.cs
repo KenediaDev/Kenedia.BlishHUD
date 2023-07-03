@@ -16,10 +16,11 @@ using Kenedia.Modules.BuildsManager.DataModels.Stats;
 using Blish_HUD.Controls;
 using MonoGame.Extended.BitmapFonts;
 using System.Diagnostics;
+using Kenedia.Modules.Core.Controls;
 
 namespace Kenedia.Modules.BuildsManager.Controls.GearPage
 {
-    public class WeaponSlotControl : GearSlotControl
+    public class WeaponSlotControl : GearSlotConstrol
     {
         private readonly DetailedTexture _sigilSlotTexture = new() { Texture = AsyncTexture2D.FromAssetId(784324), TextureRegion = new(37, 37, 54, 54), };
         private readonly DetailedTexture _pvpSigilSlotTexture = new() { Texture = AsyncTexture2D.FromAssetId(784324), TextureRegion = new(37, 37, 54, 54), };
@@ -147,7 +148,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage
         }
     }
 
-    public class AquaticSlotControl : GearSlotControl
+    public class AquaticSlotControl : GearSlotConstrol
     {
         private readonly DetailedTexture _sigilSlotTexture = new() { Texture = AsyncTexture2D.FromAssetId(784324), TextureRegion = new(37, 37, 54, 54), };
         private readonly DetailedTexture _sigil2SlotTexture = new() { Texture = AsyncTexture2D.FromAssetId(784324), TextureRegion = new(37, 37, 54, 54), };
@@ -297,7 +298,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage
         }
     }
 
-    public class ArmorSlotControl : GearSlotControl
+    public class ArmorSlotControl : GearSlotConstrol
     {
         private readonly DetailedTexture _runeSlotTexture = new() { Texture = AsyncTexture2D.FromAssetId(784323), TextureRegion = new(37, 37, 54, 54), };
         private readonly DetailedTexture _infusionSlotTexture = new() { TextureRegion = new(37, 37, 54, 54) };
@@ -391,7 +392,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage
         }
     }
 
-    public class JuwellerySlotControl : GearSlotControl
+    public class JuwellerySlotControl : GearSlotConstrol
     {
         private readonly DetailedTexture _infusion1SlotTexture = new() { TextureRegion = new(37, 37, 54, 54) };
         private readonly DetailedTexture _infusion2SlotTexture = new() { TextureRegion = new(37, 37, 54, 54) };
@@ -501,15 +502,45 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage
         }
     }
 
-    public class AmuletSlotControl : GearSlotControl
+    public class AmuletSlotControl : BaseSlotControl
     {
         private readonly DetailedTexture _enrichmentSlotTexture = new() { TextureRegion = new(37, 37, 54, 54) };
         private readonly ItemTexture _enrichmentTexture = new() { };
+        private readonly ContextMenuStrip _resetMenu;
 
         public AmuletSlotControl(GearTemplateSlot gearSlot, Container parent) : base(gearSlot, parent)
         {
             _enrichmentSlotTexture.Texture = BuildsManager.ModuleInstance.ContentsManager.GetTexture(@"textures\infusionslot.png");
             ItemColor = Color.Gray;
+
+            ContextMenuStripItem menuItem;
+
+            menuItem = Menu.AddMenuItem(new ContextMenuItem(() => "Reset", Reset));
+            _resetMenu = menuItem.Submenu = new();
+            menuItem = _resetMenu.AddMenuItem(new ContextMenuItem(() => "Item", ResetItem));
+            menuItem = _resetMenu.AddMenuItem(new ContextMenuItem(() => "Stats", ResetStat));
+            menuItem = _resetMenu.AddMenuItem(new ContextMenuItem(() => "Upgrade", ResetUpgrade));
+            menuItem = _resetMenu.AddMenuItem(new ContextMenuItem(() => "Enrichment", ResetEnrichment));
+        }
+
+        private void ResetEnrichment()
+        {
+            (TemplateSlot as JuwelleryEntry)?.ResetEnrichment();
+        }
+
+        private void ResetUpgrade()
+        {
+            (TemplateSlot as JuwelleryEntry)?.ResetUpgrades();
+        }
+
+        private void ResetStat()
+        {
+            (TemplateSlot as JuwelleryEntry)?.ResetStat();
+        }
+
+        private void ResetItem()
+        {
+            TemplateSlot?.ResetItem();
         }
 
         public Enrichment Enrichment { get; private set; }
@@ -568,12 +599,18 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage
             if (_enrichmentSlotTexture.Hovered)
                 SelectionPanel?.SetGearAnchor(this, new Rectangle(a.Location, Point.Zero).Add(_enrichmentSlotTexture.Bounds), GearSlot, GearSubSlotType.Enrichment, GearSlot.ToString().ToLowercaseNamingConvention(), (item) => (TemplateSlot as JuwelleryEntry).Enrichment = item as Enrichment);
         }
+
+        private void Reset()
+        {
+            TemplateSlot?.Reset();
+        }
     }
 
-    public class PvpAmuletSlotControl : GearSlotControl
+    public class PvpAmuletSlotControl : BaseSlotControl
     {
         public PvpAmuletSlotControl(GearTemplateSlot gearSlot, Container parent) : base(gearSlot, parent)
         {
+            _ = Menu.AddMenuItem(new ContextMenuItem(() => "Reset", ResetSlot_Click));
         }
 
         protected override void Paint(SpriteBatch spriteBatch, Rectangle bounds)
@@ -581,9 +618,14 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage
             base.Paint(spriteBatch, bounds);
 
         }
+
+        private void ResetSlot_Click()
+        {
+            TemplateSlot?.Reset();
+        }
     }
 
-    public class JadeBotControl : GearSlotControl
+    public class JadeBotControl : BaseSlotControl
     {
         public JadeBotControl(GearTemplateSlot gearSlot, Container parent) : base(gearSlot, parent)
         {
@@ -591,26 +633,42 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage
             Icon.TextureRegion = new(36, 36, 56, 56);
             Size = new(45, 45);
             ItemColor = Color.White;
+
+            _ = Menu.AddMenuItem(new ContextMenuItem(() => "Reset", ResetSlot_Click));
+        }
+
+        private void ResetSlot_Click()
+        {
+            TemplateSlot?.Reset();
         }
     }
 
-    public class UtilityControl : GearSlotControl
+    public class UtilityControl : BaseSlotControl
     {
         public UtilityControl(GearTemplateSlot gearSlot, Container parent) : base(gearSlot, parent)
         {
             Icon.Texture = BuildsManager.ModuleInstance.ContentsManager.GetTexture(@"textures\utilityslot.png");
             Size = new(45, 45);
             ItemColor = Color.White;
+
+            _ = Menu.AddMenuItem(new ContextMenuItem(() => "Reset", ResetSlot_Click));
+        }
+
+        private void ResetSlot_Click()
+        {
+            TemplateSlot?.Reset();
         }
     }
 
-    public class NourishmentControl : GearSlotControl
+    public class NourishmentControl : BaseSlotControl
     {
         public NourishmentControl(GearTemplateSlot gearSlot, Container parent) : base(gearSlot, parent)
         {
             Icon.Texture = BuildsManager.ModuleInstance.ContentsManager.GetTexture(@"textures\foodslot.png");
             Size = new(45, 45);
             ItemColor = Color.White;
+
+            _ = Menu.AddMenuItem(new ContextMenuItem(() => "Reset", ResetSlot_Click));
         }
 
         public override void RecalculateLayout()
@@ -624,9 +682,234 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage
             base.Paint(spriteBatch, bounds);
 
         }
+
+        private void ResetSlot_Click()
+        {
+            TemplateSlot?.Reset();
+        }
     }
 
-    public class GearSlotControl : Control
+    public class GearSlotConstrol : BaseSlotControl
+    {
+        private ContextMenuStrip _resetMenu;
+        private ContextMenuStrip _groupMenu;
+        private ContextMenuStrip _fillMenu;
+        private ContextMenuStrip _overrideMenu;
+
+        public GearSlotConstrol(GearTemplateSlot gearSlot, Container parent) : base(gearSlot, parent)
+        {
+            ContextMenuStripItem menuItem;
+
+            _fillMenu = Menu.AddMenuItem(new ContextMenuItem(() => "Fill", Fill)).Submenu = new();
+            menuItem = _fillMenu.AddMenuItem(new ContextMenuItem(() => "Stats", FillStats));
+            menuItem = _fillMenu.AddMenuItem(new ContextMenuItem(() => "Upgrades", FillUpgrades));
+            menuItem = _fillMenu.AddMenuItem(new ContextMenuItem(() => "Infusions", Fillnfusions));
+
+            _overrideMenu = Menu.AddMenuItem(new ContextMenuItem(() => "Override", Override)).Submenu = new();
+            menuItem = _overrideMenu.AddMenuItem(new ContextMenuItem(() => "Stats", OverrideStats));
+            menuItem = _overrideMenu.AddMenuItem(new ContextMenuItem(() => "Upgrades", OverrideUpgrades));
+            menuItem = _overrideMenu.AddMenuItem(new ContextMenuItem(() => "Infusions", OverrideInfusions));
+
+            menuItem = Menu.AddMenuItem(new ContextMenuItem(() => "Reset", Reset));
+            _resetMenu = menuItem.Submenu = new();
+            menuItem = _resetMenu.AddMenuItem(new ContextMenuItem(() => "Item", ResetItem));
+            menuItem = _resetMenu.AddMenuItem(new ContextMenuItem(() => "Stats", ResetStat));
+            menuItem = _resetMenu.AddMenuItem(new ContextMenuItem(() => "Upgrade", ResetUpgrade));
+            menuItem = _resetMenu.AddMenuItem(new ContextMenuItem(() => "Infusions", ResetInfusion));
+
+            menuItem = Menu.AddMenuItem(new ContextMenuItem(() => "Reset Group", ResetGroup));
+            _groupMenu = menuItem.Submenu = new();
+            menuItem = _groupMenu.AddMenuItem(new ContextMenuItem(() => "Items", ResetItems));
+            menuItem = _groupMenu.AddMenuItem(new ContextMenuItem(() => "Upgrades", ResetUpgrades));
+            menuItem = _groupMenu.AddMenuItem(new ContextMenuItem(() => "Infusions", ResetInfusions));
+            menuItem = _groupMenu.AddMenuItem(new ContextMenuItem(() => "Stats", ResetStats));
+        }
+
+        private void Override()
+        {
+            OverrideStats();
+            OverrideUpgrades();
+            OverrideInfusions();
+        }
+
+        private void Fill()
+        {
+            FillStats();
+            FillUpgrades();
+            Fillnfusions();
+        }
+
+        private void OverrideInfusions()
+        {
+            foreach (var item in Template?.GetSlotGroup<JuwelleryEntry>(GearSlot))
+            {
+                //if (item.Item == null) continue;
+                item.Infusion = (TemplateSlot as JuwelleryEntry)?.Infusion;
+                item.Infusion2 = (TemplateSlot as JuwelleryEntry)?.Infusion;
+                item.Infusion3 = (TemplateSlot as JuwelleryEntry)?.Infusion;
+            }
+        }
+
+        private void OverrideUpgrades()
+        {
+            if (GearSlot.IsWeapon())
+            {
+                foreach (var item in Template?.GetSlotGroup<WeaponEntry>(GearSlot))
+                {
+                    //if (item.Item == null) continue;
+                    item.Sigil = (TemplateSlot as WeaponEntry)?.Sigil;
+                    item.Sigil2 = (TemplateSlot as WeaponEntry)?.Sigil2;
+                    item.PvpSigil = (TemplateSlot as WeaponEntry)?.PvpSigil;
+                }
+            }
+
+            if (GearSlot.IsArmor())
+            {
+                foreach (var item in Template?.GetSlotGroup<ArmorEntry>(GearSlot))
+                {
+                    //if (item.Item == null) continue;
+                    item.Rune = (TemplateSlot as ArmorEntry)?.Rune;
+                }
+            }
+
+            if (GearSlot.IsJuwellery())
+            {
+                foreach (var item in Template?.GetSlotGroup<JuwelleryEntry>(GearSlot))
+                {
+                    //if (item.Item == null) continue;
+
+                }
+            }
+        }
+
+        private void OverrideStats()
+        {
+            foreach (var item in Template?.GetSlotGroup<JuwelleryEntry>(GearSlot))
+            {
+                //if (item.Item == null) continue;
+                item.Stat = (TemplateSlot as JuwelleryEntry)?.Stat;
+            }
+        }
+
+        private void Fillnfusions()
+        {
+            foreach (var item in Template?.GetSlotGroup<JuwelleryEntry>(GearSlot))
+            {
+                //if (item.Item == null) continue;
+                item.Infusion ??= (TemplateSlot as JuwelleryEntry)?.Infusion;
+                item.Infusion2 ??= (TemplateSlot as JuwelleryEntry)?.Infusion;
+                item.Infusion3 ??= (TemplateSlot as JuwelleryEntry)?.Infusion;
+            }
+        }
+
+        private void FillUpgrades()
+        {
+            if (GearSlot.IsWeapon())
+            {
+                foreach (var item in Template?.GetSlotGroup<WeaponEntry>(GearSlot))
+                {
+                    //if (item.Item == null) continue;
+                    item.Sigil ??= (TemplateSlot as WeaponEntry)?.Sigil;
+                    item.Sigil2 ??= (TemplateSlot as WeaponEntry)?.Sigil2;
+                    item.PvpSigil ??= (TemplateSlot as WeaponEntry)?.PvpSigil;
+                }
+            }
+
+            if (GearSlot.IsArmor())
+            {
+                foreach (var item in Template?.GetSlotGroup<ArmorEntry>(GearSlot))
+                {
+                    //if (item.Item == null) continue;
+                    item.Rune ??= (TemplateSlot as ArmorEntry)?.Rune;
+                }
+            }
+
+            if (GearSlot.IsJuwellery())
+            {
+                foreach (var item in Template?.GetSlotGroup<JuwelleryEntry>(GearSlot))
+                {
+                    //if (item.Item == null) continue;
+
+                }
+            }
+        }
+
+        private void FillStats()
+        {
+            foreach (var item in Template?.GetSlotGroup<JuwelleryEntry>(GearSlot))
+            {
+                //if (item.Item == null) continue;
+                item.Stat ??= (TemplateSlot as JuwelleryEntry)?.Stat;
+            }
+        }
+
+        private void ResetStats()
+        {
+            foreach (var item in Template?.GetSlotGroup<JuwelleryEntry>(GearSlot))
+            {
+                item.ResetStat();
+            }
+        }
+
+        private void ResetStat()
+        {
+            (TemplateSlot as JuwelleryEntry)?.ResetStat();
+        }
+
+        private void ResetInfusion()
+        {
+            (TemplateSlot as JuwelleryEntry)?.ResetInfusion();
+        }
+
+        private void ResetInfusions()
+        {
+            foreach (var item in Template?.GetSlotGroup<JuwelleryEntry>(GearSlot))
+            {
+                item.ResetInfusion();
+            }
+        }
+
+        private void ResetUpgrades()
+        {
+            foreach (var item in Template?.GetSlotGroup<GearTemplateEntry>(GearSlot))
+            {
+                item?.ResetUpgrades();
+            }
+        }
+
+        private void ResetUpgrade()
+        {
+            (TemplateSlot as GearTemplateEntry)?.ResetUpgrades();
+        }
+
+        private void ResetItems()
+        {
+            foreach (var item in Template?.GetSlotGroup<GearTemplateEntry>(GearSlot))
+            {
+                item.ResetItem();
+            }
+        }
+
+        private void ResetItem()
+        {
+            TemplateSlot?.ResetItem();
+        }
+
+        private void ResetGroup()
+        {
+            foreach (var item in Template?.GetSlotGroup<GearTemplateEntry>(GearSlot))
+            {
+                item.Reset();
+            }
+        }
+
+        private void Reset()
+        {
+            TemplateSlot?.Reset();
+        }
+    }
+
+    public class BaseSlotControl : Control
     {
         private GearTemplateSlot _gearSlot = GearTemplateSlot.None;
         private Template _template;
@@ -650,13 +933,15 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage
 
         public GearTemplateSlot GearSlot { get => _gearSlot; set => Common.SetProperty(ref _gearSlot, value, ApplySlot); }
 
-        public GearSlotControl()
+        public BaseSlotControl()
         {
             Size = new(380, 64);
             ClipsBounds = false;
+
+            Menu = new();
         }
 
-        public GearSlotControl(GearTemplateSlot gearSlot, Container parent) : this()
+        public BaseSlotControl(GearTemplateSlot gearSlot, Container parent) : this()
         {
             GearSlot = gearSlot;
             Parent = parent;
@@ -671,8 +956,8 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage
                 var temp = _template;
                 if (Common.SetProperty(ref _template, value, ApplyTemplate))
                 {
-                    if (temp != null) temp.Changed -= TemplateChanged;
-                    if (_template != null) _template.Changed += TemplateChanged;
+                    if (temp != null) temp.PropertyChanged -= TemplateChanged;
+                    if (_template != null) _template.PropertyChanged += TemplateChanged;
                 }
             }
         }
@@ -706,7 +991,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage
 
         protected virtual void OnStatChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
-            Debug.WriteLine($"{GearSlot}: STAT CHANGED");
+
         }
 
         protected readonly DetailedTexture StatTexture = new() { };
@@ -844,8 +1129,11 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage
 
             var a = AbsoluteBounds;
 
-            if (Icon.Hovered && (GearSlot.IsArmor() || GearSlot.IsWeapon() || GearSlot.IsJuwellery()) && Item.Item != null)
-                SelectionPanel?.SetStatAnchor(this, new Rectangle(a.Location, Point.Zero).Add(Icon.Bounds), GearSlot, GearSubSlotType.Item, GearSlot.ToString().ToLowercaseNamingConvention(), (item) => TemplateSlot.Item = item);
+            if (Icon.Hovered && (GearSlot.IsArmor() || GearSlot.IsWeapon() || GearSlot.IsJuwellery()))
+            {
+                if (Item.Item != null) SelectionPanel?.SetStatAnchor(this, new Rectangle(a.Location, Point.Zero).Add(Icon.Bounds), GearSlot.ToString().ToLowercaseNamingConvention(), (item) => TemplateSlot.Item = item);
+                Menu.Hide();
+            }
         }
 
         protected string GetDisplayString(string s)

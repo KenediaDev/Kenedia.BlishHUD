@@ -174,6 +174,7 @@ namespace Kenedia.Modules.BuildsManager
 
                     if (template != null)
                     {
+                        template.LoadRotations();
                         Templates.Add(template);
                     }
                 }
@@ -181,8 +182,9 @@ namespace Kenedia.Modules.BuildsManager
                 if (Templates.Count == 0 && SelectedTemplate != null) Templates.Add(SelectedTemplate);
                 SelectedTemplate = Templates.FirstOrDefault();
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                Logger.Warn(ex.Message );
                 Logger.Warn($"Loading Templates failed!");
             }
         }

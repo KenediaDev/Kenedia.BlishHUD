@@ -18,6 +18,9 @@ using Kenedia.Modules.Core.Services;
 using System;
 using System.ComponentModel;
 using ProtoBuf.WellKnownTypes;
+using System.Threading.Tasks;
+using Blish_HUD.Controls;
+using TextBox = Kenedia.Modules.Core.Controls.TextBox;
 
 namespace Kenedia.Modules.BuildsManager.Controls.Selection
 {
@@ -124,7 +127,52 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
             };
 
             Input.Mouse.LeftMouseButtonPressed += Mouse_LeftMouseButtonPressed;
+            SetTooltip();
+
+            Menu = new();
+            _ = Menu.AddMenuItem(new ContextMenuItem(() => "Duplicate", DuplicateTemplate));
+            _ = Menu.AddMenuItem(new ContextMenuItem(() => "Delete", DeleteTemplate));
+
             _created = true;
+        }
+
+        private async void DeleteTemplate()
+        {
+            var result = await new BaseDialog("Warning", $"Are you sure to delete '{Template?.Name}'?") { DesiredWidth = 300, AutoSize = true }.ShowDialog();
+
+            if (result == DialogResult.OK)
+            {
+                _ = BuildsManager.ModuleInstance.Templates.Remove(Template);
+                _ = Template?.Delete();
+                if (BuildsManager.ModuleInstance.SelectedTemplate == Template) BuildsManager.ModuleInstance.SelectedTemplate = null;
+            }
+        }
+
+        private void DuplicateTemplate()
+        {
+            Template t;
+            string name = (Template?.Name ?? "New Template") + " - Copy";
+            if (BuildsManager.ModuleInstance.Templates.Where(e => e.Name == name).Count() == 0)
+            {
+                BuildsManager.ModuleInstance.Templates.Add(t = new(Template?.BuildCode, Template?.GearCode) { Name = name });
+                BuildsManager.ModuleInstance.SelectedTemplate = t;
+            }
+            else
+            {
+                ScreenNotification.ShowNotification($"There is already a template with the name '{name}'");
+            }
+        }
+
+        private void SetTooltip()
+        {
+            string txt = "CTRL + Left Click to copy the Build Template Code";
+
+            foreach(var c in Children)
+            {
+                c.BasicTooltipText = txt;
+            }
+
+            BasicTooltipText = txt;
         }
 
         public Action OnClickAction { get; set; }
@@ -139,8 +187,8 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
                 var temp = _template;
                 if (Common.SetProperty(ref _template, value, ApplyTemplate))
                 {
-                    if (temp != null) temp.Changed -= TemplateChanged;
-                    if (_template != null) _template.Changed += TemplateChanged;
+                    if (temp != null) temp.PropertyChanged -= TemplateChanged;
+                    if (_template != null) _template.PropertyChanged += TemplateChanged;
                 }
             }
         }
@@ -172,7 +220,9 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
 
             if (Template?.Profession != null)
             {
-                var prof = MouseOver ? _copyTexture : _specTexture;
+                //var prof = MouseOver ? _copyTexture : _specTexture;
+
+                var prof = _specTexture;
                 if (prof != null) spriteBatch.DrawOnCtrl(this, prof, _specBounds, prof.Bounds, Color.White, 0F, Vector2.Zero);
                 if (_raceTexture != null) spriteBatch.DrawOnCtrl(this, _raceTexture, _raceBounds, _raceTexture.Bounds, Color.White, 0F, Vector2.Zero);
             }
@@ -314,7 +364,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
             base.DisposeControl();
 
             Input.Mouse.LeftMouseButtonPressed -= Mouse_LeftMouseButtonPressed;
-            if (_template != null) _template.Changed -= TemplateChanged;
+            if (_template != null) _template.PropertyChanged -= TemplateChanged;
         }
 
         public override void UpdateContainer(GameTime gameTime)

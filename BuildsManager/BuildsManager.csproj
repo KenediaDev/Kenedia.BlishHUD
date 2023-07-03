@@ -279,6 +279,7 @@
     <Compile Include="Controls\GearPage\ItemTexture.cs" />
     <Compile Include="Controls\GearPage\JadeBotControl.cs" />
     <Compile Include="Controls\NotesPage\AboutPage.cs" />
+    <Compile Include="Controls\Selection\AttributeToggle.cs" />
     <Compile Include="Controls\Selection\BaseSelection.cs" />
     <Compile Include="Controls\Selection\BuildSelection.cs" />
     <Compile Include="Controls\GearPage\GearPage.cs" />
@@ -293,6 +294,7 @@
     <Compile Include="Controls\GearPage\StatSummary.cs" />
     <Compile Include="Controls\GearPage\UtilityControl.cs" />
     <Compile Include="Controls\NotesPage\RotationPage.cs" />
+    <Compile Include="Controls\Selection\StatSelectable.cs" />
     <Compile Include="Controls\Selection\StatSelection.cs" />
     <Compile Include="Controls\Selection\TagTexture.cs" />
     <Compile Include="Controls\Selection\TemplateSelectable.cs" />
@@ -353,6 +355,7 @@
     <Compile Include="Models\Templates\LegendSlot.cs" />
     <Compile Include="Models\Templates\PetCollection.cs" />
     <Compile Include="Models\Templates\PetSlot.cs" />
+    <Compile Include="Models\Templates\RotationTemplate.cs" />
     <Compile Include="Models\Templates\SkillCollection.cs" />
     <Compile Include="Models\Templates\SpecializationCollection.cs" />
     <Compile Include="Models\Templates\SpecializationSlot.cs" />

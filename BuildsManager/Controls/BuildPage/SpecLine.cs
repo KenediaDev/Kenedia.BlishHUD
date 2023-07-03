@@ -114,11 +114,11 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
                 var temp = _template;
                 if (Common.SetProperty(ref _template, value, SelectedTemplateChanged))
                 {
-                    if (temp != null) temp.Changed -= OnProfessionChanged;
-                    if (temp != null) temp.Changed -= ApplyTemplate;
+                    if (temp != null) temp.PropertyChanged -= OnProfessionChanged;
+                    if (temp != null) temp.PropertyChanged -= ApplyTemplate;
 
-                    if (_template != null) _template.Changed += OnProfessionChanged;
-                    if (_template != null) _template.Changed += ApplyTemplate;
+                    if (_template != null) _template.PropertyChanged += OnProfessionChanged;
+                    if (_template != null) _template.PropertyChanged += ApplyTemplate;
                 }
             }
         }

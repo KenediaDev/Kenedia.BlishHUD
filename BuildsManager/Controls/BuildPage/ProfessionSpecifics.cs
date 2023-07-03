@@ -22,8 +22,8 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
                 var temp = InternTemplate;
                 if (Common.SetProperty(ref InternTemplate, value, ApplyTemplate, value != null))
                 {
-                    if (temp != null) temp.Changed -= Temp_Changed;
-                    if (InternTemplate != null) InternTemplate.Changed += Temp_Changed;
+                    if (temp != null) temp.PropertyChanged -= Temp_Changed;
+                    if (InternTemplate != null) InternTemplate.PropertyChanged += Temp_Changed;
                 }
             }
         }

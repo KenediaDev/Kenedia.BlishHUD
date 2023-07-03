@@ -1,19 +1,154 @@
-﻿using Kenedia.Modules.BuildsManager.DataModels.Items;
+﻿using Blish_HUD.Controls;
+using Kenedia.Modules.BuildsManager.DataModels.Items;
 using Kenedia.Modules.BuildsManager.DataModels.Professions;
 using Kenedia.Modules.BuildsManager.Extensions;
 using Kenedia.Modules.BuildsManager.Models.Templates;
 using Kenedia.Modules.Core.Controls;
 using Kenedia.Modules.Core.Extensions;
 using Kenedia.Modules.Core.Utility;
+using SharpDX.XAudio2;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
+using static Kenedia.Modules.BuildsManager.Controls.Selection.Selectable;
 using static Kenedia.Modules.BuildsManager.DataModels.Professions.Weapon;
 
 namespace Kenedia.Modules.BuildsManager.Controls.Selection
 {
+    public class GroupSelectable : Selectable
+    {
+        private ContextMenuStripItem _allSlots;
+        private ContextMenuStripItem _itemGroup;
+
+        public GroupSelectable()
+        {
+            Menu = new();
+
+            _allSlots = Menu.AddMenuItem("Apply to all slots");
+            _allSlots.Click += AllSlots_Click;
+
+            _itemGroup = Menu.AddMenuItem("Apply to item group");
+            _itemGroup.Click += ItemGroup_Click;
+        }
+
+        protected override void OnTypeChanged(object sender, PropertyChangedEventArgs e)
+        {
+            base.OnTypeChanged(sender, e);
+
+            if (Type != SelectableType.Infusion && _allSlots != null)
+            {
+                _allSlots.Click -= AllSlots_Click;
+                _allSlots.Dispose();
+                _allSlots = null;
+            }
+            else if (_allSlots == null)
+            {
+                _allSlots = Menu.AddMenuItem("Apply to all slots");
+                _allSlots.Click += AllSlots_Click;
+            }
+        }
+
+        private void ItemGroup_Click(object sender, Blish_HUD.Input.MouseEventArgs e)
+        {
+            switch (Type)
+            {
+                case SelectableType.Rune:
+                    var armors = Template?.GearTemplate?.Armors.Values.Cast<ArmorEntry>();
+
+                    foreach (var slot in armors)
+                    {
+                        //if (slot.Item is not null)
+                        //{
+                        //}
+
+                        slot.Rune = (Rune)Item;
+                    }
+
+                    break;
+
+                case SelectableType.Sigil:
+                    var weapons = Template?.GearTemplate?.Weapons.Values.Cast<WeaponEntry>();
+
+                    foreach (var slot in weapons)
+                    {
+                        //if (slot.Item is not null)
+                        //{
+                        //}
+
+                        slot.Sigil = (Sigil)Item;
+                        slot.Sigil2 = (Sigil)Item;
+                        slot.PvpSigil = (Sigil)Item;
+                    }
+
+                    break;
+
+                case SelectableType.Infusion:
+                    var slots =
+                        ActiveSlot.IsArmor() ? Template?.GearTemplate?.Armors.Values.Cast<JuwelleryEntry>() :
+                        ActiveSlot.IsWeapon() ? Template?.GearTemplate?.Weapons.Values.Cast<JuwelleryEntry>() :
+                        ActiveSlot.IsJuwellery() ? Template?.GearTemplate?.Juwellery.Values.Cast<JuwelleryEntry>() : null;
+
+                    foreach (var slot in slots)
+                    {
+                        //if (slot.Item is not null)
+                        //{
+                        //}
+
+                        slot.Infusion = (Infusion)Item;
+                        slot.Infusion2 = (Infusion)Item;
+                        slot.Infusion3 = (Infusion)Item;
+                    }
+
+                    break;
+            }
+        }
+
+        private void AllSlots_Click(object sender, Blish_HUD.Input.MouseEventArgs e)
+        {
+            switch (Type)
+            {
+                case SelectableType.Rune:
+                    var armors = Template?.GearTemplate?.Armors.Values.Cast<ArmorEntry>();
+
+                    foreach (var slot in armors)
+                    {
+                        slot.Rune = (Rune)Item;
+                    }
+
+                    break;
+
+                case SelectableType.Sigil:
+                    var weapons = Template?.GearTemplate?.Weapons.Values.Cast<WeaponEntry>();
+
+                    foreach (var slot in weapons)
+                    {
+                        slot.Sigil = (Sigil)Item;
+                        slot.Sigil2 = (Sigil)Item;
+                    }
+
+                    break;
+
+                case SelectableType.Infusion:
+                    var slots = new List<JuwelleryEntry>();
+
+                    slots.AddRange(Template?.GearTemplate?.Armors.Values.Cast<JuwelleryEntry>());
+                    slots.AddRange(Template?.GearTemplate?.Weapons.Values.Cast<JuwelleryEntry>());
+                    slots.AddRange(Template?.GearTemplate?.Juwellery.Values.Cast<JuwelleryEntry>());
+
+                    foreach (var slot in slots)
+                    {
+                        slot.Infusion = (Infusion)Item;
+                        slot.Infusion2 = (Infusion)Item;
+                        slot.Infusion3 = (Infusion)Item;
+                    }
+
+                    break;
+            }
+        }
+    }
+
     public class GearSelection : BaseSelection
     {
         private readonly Dictionary<GearTemplateSlot, List<Selectable>> _selectablesPerSlot = new();
@@ -26,24 +161,25 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
         private readonly List<Selectable> _trinkets;
         private readonly List<Selectable> _backs;
         private readonly List<Selectable> _weapons;
-        private readonly List<Selectable> _pveSigils;
-        private readonly List<Selectable> _pvpSigils;
-        private readonly List<Selectable> _pveRunes;
-        private readonly List<Selectable> _pvpRunes;
+        private readonly List<GroupSelectable> _pveSigils;
+        private readonly List<GroupSelectable> _pvpSigils;
+        private readonly List<GroupSelectable> _pveRunes;
+        private readonly List<GroupSelectable> _pvpRunes;
         private readonly List<Selectable> _nourishment;
         private readonly List<Selectable> _utilites;
         private readonly List<Selectable> _enrichments;
-        private readonly List<Selectable> _infusions;
+        private readonly List<GroupSelectable> _infusions;
 
         private readonly Button _autoEquipItems;
 
         public GearSelection()
         {
-            List<Selectable> AddItems<T>(IOrderedEnumerable<T> items)
+            List<S> AddItems<S, T>(IOrderedEnumerable<T> items)
                 where T : BaseItem
+                where S : Selectable, new()
             {
-                List<Selectable> list = new();
-                Selectable entry;
+                List<S> list = new();
+                S entry;
 
                 foreach (var item in items)
                 {
@@ -59,7 +195,12 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
                                 //OnItemSelectedX(item);
                                 OnItemSelected?.Invoke(item);
                             }
-                        }
+                        },
+                        Type =
+                            item is Rune ? SelectableType.Rune :
+                            item is Sigil ? SelectableType.Sigil :
+                            item is Infusion ? SelectableType.Infusion :
+                            SelectableType.None,
                     });
                     list.Add(entry);
                 }
@@ -67,18 +208,18 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
                 return list;
             }
 
-            _armors = AddItems(BuildsManager.Data.Armors.Values.OrderByDescending(e => e.Rarity).ThenBy(e => e.Id));
-            _trinkets = AddItems(BuildsManager.Data.Trinkets.Values.OrderByDescending(e => e.Rarity).ThenBy(e => e.Id));
-            _backs = AddItems(BuildsManager.Data.Backs.Values.OrderByDescending(e => e.Rarity).ThenBy(e => e.Id));
-            _weapons = AddItems(BuildsManager.Data.Weapons.Values.OrderBy(e => e.WeaponType).ThenByDescending(e => e.Rarity).ThenBy(e => e.Id));
-            _pveSigils = AddItems(BuildsManager.Data.PveSigils.Values.OrderByDescending(e => e.Rarity).ThenBy(e => e.Name).ThenBy(e => e.Id));
-            _pvpSigils = AddItems(BuildsManager.Data.PvpSigils.Values.OrderByDescending(e => e.Rarity).ThenBy(e => e.Name).ThenBy(e => e.Id));
-            _pveRunes = AddItems(BuildsManager.Data.PveRunes.Values.OrderByDescending(e => e.Rarity).ThenBy(e => e.Name).ThenBy(e => e.Id));
-            _pvpRunes = AddItems(BuildsManager.Data.PvpRunes.Values.OrderByDescending(e => e.Rarity).ThenBy(e => e.Name).ThenBy(e => e.Id));
-            _nourishment = AddItems(BuildsManager.Data.Nourishments.Values.OrderByDescending(e => e.Rarity).ThenBy(e => e.Name).ThenBy(e => e.Id));
-            _utilites = AddItems(BuildsManager.Data.Utilities.Values.OrderByDescending(e => e.Name).ThenBy(e => e.Id));
-            _enrichments = AddItems(BuildsManager.Data.Enrichments.Values.OrderByDescending(e => e.Rarity).ThenBy(e => e.Name).ThenBy(e => e.Id));
-            _infusions = AddItems(BuildsManager.Data.Infusions.Values.OrderByDescending(e => e.Rarity).ThenBy(e => e.Name).ThenBy(e => e.Id));
+            _armors = AddItems<Selectable, Armor>(BuildsManager.Data.Armors.Values.OrderByDescending(e => e.Rarity).ThenBy(e => e.Id));
+            _trinkets = AddItems<Selectable, Trinket>(BuildsManager.Data.Trinkets.Values.OrderByDescending(e => e.Rarity).ThenBy(e => e.Id));
+            _backs = AddItems<Selectable, Trinket>(BuildsManager.Data.Backs.Values.OrderByDescending(e => e.Rarity).ThenBy(e => e.Id));
+            _weapons = AddItems<Selectable, DataModels.Items.Weapon>(BuildsManager.Data.Weapons.Values.OrderBy(e => e.WeaponType).ThenByDescending(e => e.Rarity).ThenBy(e => e.Id));
+            _pveSigils = AddItems<GroupSelectable, Sigil>(BuildsManager.Data.PveSigils.Values.OrderByDescending(e => e.Rarity).ThenBy(e => e.Name).ThenBy(e => e.Id));
+            _pvpSigils = AddItems<GroupSelectable, Sigil>(BuildsManager.Data.PvpSigils.Values.OrderByDescending(e => e.Rarity).ThenBy(e => e.Name).ThenBy(e => e.Id));
+            _pveRunes = AddItems<GroupSelectable, Rune>(BuildsManager.Data.PveRunes.Values.OrderByDescending(e => e.Rarity).ThenBy(e => e.Name).ThenBy(e => e.Id));
+            _pvpRunes = AddItems<GroupSelectable, Rune>(BuildsManager.Data.PvpRunes.Values.OrderByDescending(e => e.Rarity).ThenBy(e => e.Name).ThenBy(e => e.Id));
+            _nourishment = AddItems<Selectable, Nourishment>(BuildsManager.Data.Nourishments.Values.OrderByDescending(e => e.Rarity).ThenBy(e => e.Name).ThenBy(e => e.Id));
+            _utilites = AddItems<Selectable, DataModels.Items.Utility>(BuildsManager.Data.Utilities.Values.OrderByDescending(e => e.Name).ThenBy(e => e.Id));
+            _enrichments = AddItems<Selectable, Enrichment>(BuildsManager.Data.Enrichments.Values.OrderByDescending(e => e.Rarity).ThenBy(e => e.Name).ThenBy(e => e.Id));
+            _infusions = AddItems<GroupSelectable, Infusion>(BuildsManager.Data.Infusions.Values.OrderByDescending(e => e.Rarity).ThenBy(e => e.Name).ThenBy(e => e.Id));
 
             Search.TextChangedAction = (txt) =>
             {
@@ -97,24 +238,29 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
             SelectionContent.SetLocation(Search.Left, _autoEquipItems.Bottom + 5);
         }
 
-        private void EquipItems()
+        private async void EquipItems()
         {
-            var armors = _armors.Where(e => (e.Item as Armor).Weight == Template?.Profession.GetArmorType() && (e.Item.Rarity == Gw2Sharp.WebApi.V2.Models.ItemRarity.Ascended || e.TemplateSlot == GearTemplateSlot.AquaBreather))?.Select(e => e.Item);
-            foreach (var armor in Template?.GearTemplate?.Armors.Values)
-            {
-                armor.Item = armors.Where(e => e.TemplateSlot == armor.Slot)?.FirstOrDefault();
-            }
+            var result = await new BaseDialog("Warning", "Are you sure to override all items?") { DesiredWidth = 300, AutoSize = true }.ShowDialog();
 
-            var trinkets = _trinkets.Where(e => e.Item.Rarity == Gw2Sharp.WebApi.V2.Models.ItemRarity.Ascended)?.Select(e => e.Item);
-            trinkets = trinkets.Append(_backs.Where(e => e.Item.Rarity == Gw2Sharp.WebApi.V2.Models.ItemRarity.Ascended)?.Select(e => e.Item).FirstOrDefault());
-            foreach (var trinket in Template?.GearTemplate?.Juwellery.Values)
+            if (result == DialogResult.OK)
             {
-                var effectiveSlot =
-                    trinket.Slot is GearTemplateSlot.Ring_2 ? GearTemplateSlot.Ring_1 :
-                    trinket.Slot is GearTemplateSlot.Accessory_2 ? GearTemplateSlot.Accessory_1 :
-                    trinket.Slot;
+                var armors = _armors.Where(e => (e.Item as Armor).Weight == Template?.Profession.GetArmorType() && (e.Item.Rarity == Gw2Sharp.WebApi.V2.Models.ItemRarity.Ascended || e.TemplateSlot == GearTemplateSlot.AquaBreather))?.Select(e => e.Item);
+                foreach (var armor in Template?.GearTemplate?.Armors.Values)
+                {
+                    armor.Item = armors.Where(e => e.TemplateSlot == armor.Slot)?.FirstOrDefault();
+                }
 
-                trinket.Item = trinkets.Where(e => e.TemplateSlot == effectiveSlot)?.FirstOrDefault();
+                var trinkets = _trinkets.Where(e => e.Item.Rarity == Gw2Sharp.WebApi.V2.Models.ItemRarity.Ascended)?.Select(e => e.Item);
+                trinkets = trinkets.Append(_backs.Where(e => e.Item.Rarity == Gw2Sharp.WebApi.V2.Models.ItemRarity.Ascended)?.Select(e => e.Item).FirstOrDefault());
+                foreach (var trinket in Template?.GearTemplate?.Juwellery.Values)
+                {
+                    var effectiveSlot =
+                        trinket.Slot is GearTemplateSlot.Ring_2 ? GearTemplateSlot.Ring_1 :
+                        trinket.Slot is GearTemplateSlot.Accessory_2 ? GearTemplateSlot.Accessory_1 :
+                        trinket.Slot;
+
+                    trinket.Item = trinkets.Where(e => e.TemplateSlot == effectiveSlot)?.FirstOrDefault();
+                }
             }
         }
 
@@ -125,9 +271,14 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
                 var temp = _template;
                 if (Common.SetProperty(ref _template, value, ApplyTemplate))
                 {
-                    if (temp != null) temp.Changed -= TemplateChanged;
+                    foreach (var slot in _selectables)
+                    {
+                        slot.Template = value;
+                    }
+
+                    if (temp != null) temp.PropertyChanged -= TemplateChanged;
                     if (temp != null) temp.ProfessionChanged -= Template_ProfessionChanged;
-                    if (_template != null) _template.Changed += TemplateChanged;
+                    if (_template != null) _template.PropertyChanged += TemplateChanged;
                     if (_template != null) _template.ProfessionChanged += Template_ProfessionChanged;
                 }
             }
@@ -166,6 +317,11 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
         private void ApplySubSlot(object sender, PropertyChangedEventArgs e)
         {
             Search.Text = null;
+            foreach (var item in _selectables)
+            {
+                item.SubSlotType = SubSlotType;
+            }
+
             ApplySlot();
         }
 
@@ -374,6 +530,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
             foreach (var item in _selectables)
             {
                 item.Visible = false;
+                item.ActiveSlot = ActiveSlot;
             }
 
             PerformFiltering();

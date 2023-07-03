@@ -1,7 +1,4 @@
-﻿using Blish_HUD;
-using Blish_HUD.Content;
-using Blish_HUD.Input;
-using Gw2Sharp.WebApi;
+﻿using Gw2Sharp.WebApi;
 using Kenedia.Modules.BuildsManager.Controls.GearPage;
 using Kenedia.Modules.BuildsManager.DataModels.Items;
 using Kenedia.Modules.BuildsManager.DataModels.Stats;
@@ -12,7 +9,6 @@ using Kenedia.Modules.Core.Extensions;
 using Kenedia.Modules.Core.Utility;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -20,135 +16,102 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using static Blish_HUD.ContentService;
+using static System.Net.Mime.MediaTypeNames;
 using AttributeType = Gw2Sharp.WebApi.V2.Models.AttributeType;
 
 namespace Kenedia.Modules.BuildsManager.Controls.Selection
 {
-    public class AttributeToggle : ImageToggle
+    public class SkillSelection : BaseSelection
     {
-        private AttributeType _attribute;
-        public AttributeToggle()
-        {
-            ImageColor = Color.Gray * 0.5F;
-            ActiveColor = Color.White;
-            TextureRectangle = new(4, 4, 24, 24);
-        }
+        private Template _template;
+        private readonly List<SkillSelectable> _skills = new();
 
-        public AttributeType Attribute { get => _attribute; set => Common.SetProperty(ref _attribute, value, OnAttributeChanged); }
-
-        private void OnAttributeChanged()
+        public Template Template
         {
-            Texture = _attribute switch
+            get => _template; set
             {
-                AttributeType.Power => AsyncTexture2D.FromAssetId(66722),
-                AttributeType.Toughness => AsyncTexture2D.FromAssetId(156612),
-                AttributeType.Vitality => AsyncTexture2D.FromAssetId(156613),
-                AttributeType.Precision => AsyncTexture2D.FromAssetId(156609),
-                AttributeType.CritDamage => AsyncTexture2D.FromAssetId(156602),
-                AttributeType.ConditionDamage => AsyncTexture2D.FromAssetId(156600),
-                AttributeType.ConditionDuration => AsyncTexture2D.FromAssetId(156601),
-                AttributeType.BoonDuration => AsyncTexture2D.FromAssetId(156599),
-                AttributeType.Healing => AsyncTexture2D.FromAssetId(156606),
-                _ => AsyncTexture2D.FromAssetId(536054),
-            };
+                var temp = _template;
+                if (Common.SetProperty(ref _template, value, ApplyTemplate))
+                {
+                    foreach (var skill in _skills)
+                    {
+                        skill.Template = value;
+                    }
+
+                    if (temp != null) temp.PropertyChanged -= TemplateChanged;
+                    if (_template != null) _template.PropertyChanged += TemplateChanged;
+                }
+            }
         }
-    }
 
-    public class StatSelectable : Panel
-    {
-        private readonly AsyncTexture2D _textureVignette = AsyncTexture2D.FromAssetId(605003);
-        private Rectangle _vignetteBounds;
-
-        private readonly bool _created;
-        private readonly Image _icon;
-        private readonly Label _name;
-        private readonly Label _statSummary;
-
-        private double _attributeAdjustment;
-        private Stat _stat;
-
-        public StatSelectable()
+        public SkillSelection()
         {
-            HeightSizingMode = Blish_HUD.Controls.SizingMode.AutoSize;
-            BorderWidth = new(2);
-            BorderColor = Color.Black;
-            BackgroundColor = Color.Black * 0.4F;
-            ContentPadding = new(5);
+            var ids = new List<int>();
 
-            _name = new()
+            foreach (var profession in BuildsManager.Data.Professions)
             {
-                Parent = this,
-                WrapText = false,
-                AutoSizeHeight = true,
-                //BackgroundColor = Color.Blue * 0.2F,
-                Font = Content.DefaultFont16,
-                TextColor = Colors.ColonialWhite,
-            };
+                foreach (var skill in profession.Value.Skills)
+                {
+                    if (!ids.Contains(skill.Value.Id))
+                    {
+                        _skills.Add(new()
+                        {
+                            Parent = SelectionContent,
+                            Width = SelectionContent.Width - 35,
+                            Skill = skill.Value,
+                            GetRotationElement = () => Anchor,
+                        });
 
-            _statSummary = new()
+                        ids.Add(skill.Value.Id);
+                    }
+                }
+            }
+
+            Search.PerformFiltering = FilterSkills;
+        }
+
+        private void FilterSkills(string txt)
+        {
+            txt ??= Search.Text;
+            string searchTxt = txt.Trim().ToLower();
+            bool anyName = searchTxt.IsNullOrEmpty();
+
+            foreach (var skill in _skills)
             {
-                Parent = this,
-                AutoSizeHeight = true,
-                VerticalAlignment = Blish_HUD.Controls.VerticalAlignment.Top,
-                //BackgroundColor = Color.White * 0.2F,
-            };
+                skill.Visible = anyName || skill.Skill?.Name.ToLower().Trim().Contains(searchTxt) == true;
+            }
 
-            _icon = new()
+            SelectionContent.SortChildren<SkillSelectable>((a, b) => a.Skill.Name.CompareTo(b.Skill.Name));
+        }
+
+        public RotationElement Anchor { get; set; }
+
+        private void TemplateChanged(object sender, PropertyChangedEventArgs e)
+        {
+            ApplyTemplate();
+        }
+
+        private void ApplyTemplate()
+        {
+
+        }
+
+        protected override void DisposeControl()
+        {
+            base.DisposeControl();
+            _skills.Clear();
+        }
+
+        protected override void OnSelectionContent_Resized(object sender, Blish_HUD.Controls.ResizedEventArgs e)
+        {
+            base.OnSelectionContent_Resized(sender, e);
+
+            Search?.SetSize(SelectionContent.Width - 5);
+
+            foreach (var skill in _skills)
             {
-                Parent = this,
-                Size = new(48),
-                Location = new(2, 2),
-            };
-
-            _created = true;
-        }
-
-        public Action<Stat> OnStatSelected;
-
-        public Stat Stat { get => _stat; set => Common.SetProperty(ref _stat, value, OnStatChanged); }
-
-        public double AttributeAdjustment { get => _attributeAdjustment; set => Common.SetProperty(ref _attributeAdjustment, value, OnMultiplierChanged); }
-
-        public override void RecalculateLayout()
-        {
-            base.RecalculateLayout();
-            if (!_created) return;
-
-            _name?.SetSize(ContentRegion.Width - _icon.Width - 10, _name.Font.LineHeight);
-            _name?.SetLocation(_icon.Right + 10, _icon.Top);
-
-            _statSummary?.SetLocation(_name.Left, _name.Bottom);
-            _statSummary?.SetSize(_name.Width, ContentRegion.Height - _name.Height);
-
-            _vignetteBounds = _icon.LocalBounds.Add(0, 0, 10, 10);
-        }
-
-        public override void PaintBeforeChildren(SpriteBatch spriteBatch, Rectangle bounds)
-        {
-            base.PaintBeforeChildren(spriteBatch, bounds);
-
-            spriteBatch.DrawOnCtrl(this, Textures.Pixel, _vignetteBounds, Rectangle.Empty, Color.Gray * 0.3F, 0F, Vector2.Zero);
-            spriteBatch.DrawOnCtrl(this, _textureVignette, _vignetteBounds, _textureVignette.Bounds, Color.Black, 0F, Vector2.Zero);
-        }
-
-        protected override void OnClick(MouseEventArgs e)
-        {
-            base.OnClick(e);
-
-            OnStatSelected?.Invoke(Stat);
-        }
-
-        private void OnStatChanged()
-        {
-            _name.Text = _stat?.Name;
-            _statSummary.Text = string.Join(Environment.NewLine, _stat?.Attributes.Values.Where(e => e != null).Select(e => $"+ {Math.Round(e.Value + (e.Multiplier * _attributeAdjustment))} {e.Id.GetDisplayName()}"));
-            _icon.Texture = _stat?.Icon;
-        }
-
-        private void OnMultiplierChanged()
-        {
-            _statSummary.Text = string.Join(Environment.NewLine, _stat?.Attributes.Values.Where(e => e != null).Select(e => $"+ {Math.Round(e.Value + (e.Multiplier * _attributeAdjustment))} {e.Id.GetDisplayName()}"));
+                skill.Width = SelectionContent.Width - 35;
+            }
         }
     }
 
@@ -157,7 +120,6 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
         private readonly List<AttributeToggle> _statIcons = new();
         private readonly List<StatSelectable> _stats = new();
         private readonly bool _created;
-        private readonly Checkbox _applyAllCheckbox;
 
         private Template _template;
         private BaseTemplateEntry _templateSlot;
@@ -210,21 +172,13 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
                     Parent = SelectionContent,
                     Width = SelectionContent.Width - 35,
                     Stat = stat.Value,
-                    OnStatSelected = SelectStat,
                 });
             }
 
             Search.PerformFiltering = FilterStats;
             Search.SetLocation(Search.Left, Search.Top + 30);
 
-            _applyAllCheckbox = new()
-            {
-                Parent = this,
-                Location = new(Search.Left + 2, Search.Bottom + 5),
-                Text = "Apply to whole item group"
-            };
-
-            SelectionContent.SetLocation(Search.Left, _applyAllCheckbox.Bottom + 5);
+            SelectionContent.SetLocation(Search.Left, Search.Bottom + 5);
 
             FilterStats();
 
@@ -233,24 +187,25 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
 
         private void SelectStat(Stat selectedStat)
         {
-            switch (_applyAllCheckbox.Checked)
+            bool applyall = false;
+
+            switch (applyall)
             {
                 case false:
                     (TemplateSlot as GearTemplateEntry).Stat = selectedStat;
                     break;
 
                 case true:
-                    var slots =
-                        (TemplateSlot as GearTemplateEntry).Slot.IsArmor() ? Template?.GearTemplate?.Armors.Values.Cast<GearTemplateEntry>() :
-                        (TemplateSlot as GearTemplateEntry).Slot.IsWeapon() ? Template?.GearTemplate?.Weapons.Values.Cast<GearTemplateEntry>() :
-                        (TemplateSlot as GearTemplateEntry).Slot.IsJuwellery() ? Template?.GearTemplate?.Juwellery.Values.Cast<GearTemplateEntry>() : null;
+                    List<GearTemplateEntry> slots = new();
+
+                    slots.AddRange(Template?.GearTemplate?.Armors.Values.Cast<GearTemplateEntry>());
+                    slots.AddRange(Template?.GearTemplate?.Weapons.Values.Cast<GearTemplateEntry>());
+                    slots.AddRange(Template?.GearTemplate?.Juwellery.Values.Cast<GearTemplateEntry>());
 
                     foreach (var slot in slots)
                     {
-                        if ((slot.Slot is not GearTemplateSlot.OffHand and not GearTemplateSlot.AltOffHand) && slot.Item is not null)
+                        if (slot.Item is not null)
                         {
-
-                            Debug.WriteLine($"Set {slot.Slot} to {selectedStat.Name} as it contains {slot.Item?.Name}");
                             slot.Stat = selectedStat;
                         }
                     }
@@ -265,8 +220,13 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
                 var temp = _template;
                 if (Common.SetProperty(ref _template, value, ApplyTemplate))
                 {
-                    if (temp != null) temp.Changed -= TemplateChanged;
-                    if (_template != null) _template.Changed += TemplateChanged;
+                    foreach (var stat in _stats)
+                    {
+                        stat.Template = value;
+                    }
+
+                    if (temp != null) temp.PropertyChanged -= TemplateChanged;
+                    if (_template != null) _template.PropertyChanged += TemplateChanged;
                 }
             }
         }
@@ -282,6 +242,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
 
                 foreach (var stat in _stats)
                 {
+                    stat.ActiveTemplateSlot = value;
                     stat.AttributeAdjustment = _templateSlot?.Item != null ? ((_templateSlot?.Item as EquipmentItem).AttributeAdjustment + exoticTrinkets) : 0;
                 }
             });
@@ -292,7 +253,6 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
             base.RecalculateLayout();
             if (!_created) return;
 
-            _applyAllCheckbox.Width = Search.Width;
         }
 
         protected override void OnSelectionContent_Resized(object sender, Blish_HUD.Controls.ResizedEventArgs e)

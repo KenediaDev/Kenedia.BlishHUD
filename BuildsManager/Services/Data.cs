@@ -16,6 +16,7 @@ using System.Threading;
 using Kenedia.Modules.BuildsManager.Models;
 using Kenedia.Modules.BuildsManager.DataModels.Items;
 using Kenedia.Modules.BuildsManager.Models.Templates;
+using Kenedia.Modules.Core.Extensions;
 
 namespace Kenedia.Modules.BuildsManager.Services
 {
@@ -55,6 +56,8 @@ namespace Kenedia.Modules.BuildsManager.Services
         public Dictionary<int, SkillConnection> SkillConnections { get; set; } = new();
 
         public Dictionary<int, BaseSkill> BaseSkills { get; set; } = new();
+
+        public Dictionary<int, BaseSkill> MissingSkills { get; set; } = new();
 
         public Dictionary<int, Armor> Armors { get; private set; } = new();
 
@@ -162,6 +165,7 @@ namespace Kenedia.Modules.BuildsManager.Services
 
                 _logger.Debug("Item Map loaded!");
 
+                await LoadMissingSkills();
                 await LoadBaseSkills();
                 await LoadConnections();
 
@@ -187,6 +191,20 @@ namespace Kenedia.Modules.BuildsManager.Services
 
                 SkillsByPalette = PaletteBySkills.ToList();
 
+                _logger.Debug($"Import missing Skills");
+                foreach (var baseSkill in MissingSkills)
+                {
+                    Skill skill = new(baseSkill.Value); 
+
+                    foreach(var prof in skill.Professions)
+                    {
+                        if (!Professions[prof].Skills.ContainsKey(skill.Id))
+                        {
+                            Professions[prof].Skills.Add(skill.Id, skill);
+                        }
+                    }
+                }
+
                 _logger.Debug("All data loaded!");
             }
             catch (Exception ex)
@@ -194,6 +212,12 @@ namespace Kenedia.Modules.BuildsManager.Services
                 _logger.Debug("Failed to load data!");
                 _logger.Debug($"{ex}");
             }
+        }
+
+        public async Task LoadMissingSkills()
+        {
+            MissingSkills = JsonConvert.DeserializeObject<Dictionary<int, BaseSkill>>(await new StreamReader(_contentsManager.GetFileStream(@"data\missing_skills.json")).ReadToEndAsync());
+
         }
 
         public async Task LoadBaseSkills()
@@ -306,6 +330,17 @@ namespace Kenedia.Modules.BuildsManager.Services
                 data = JsonConvert.DeserializeObject(json, typeof(Dictionary<int, OldSkillConnection>));
                 OldConnections = (Dictionary<int, OldSkillConnection>)data;
             }
+        }
+
+        public Skill GetSkillById(int id)
+        {
+
+            foreach (var profession in Professions)
+            {
+                if (profession.Value.Skills.TryGetValue(id, out Skill skill)) return skill;
+            }
+
+            return null;
         }
 
         public async Task Save()

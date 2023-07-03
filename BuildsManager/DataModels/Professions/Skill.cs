@@ -24,6 +24,22 @@ namespace Kenedia.Modules.BuildsManager.DataModels.Professions
 
         public Skill() { }
 
+        public Skill(BaseSkill baseSkill)
+        {
+            Names = baseSkill.Names;
+            Descriptions = baseSkill.Descriptions;
+            Id = baseSkill.Id;
+            IconAssetId = baseSkill.AssetId ?? 0;
+            Slot = baseSkill.Slot;
+            foreach (string prof in baseSkill.Professions)
+            {
+                if (Enum.TryParse(prof, out ProfessionType profType))
+                {
+                    Professions.Add(profType);
+                }
+            }
+        }
+
         public Skill(APISkill skill, Dictionary<int, int> paletteBySkills)
         {
             Id = skill.Id;
