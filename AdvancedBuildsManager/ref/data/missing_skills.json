@@ -1,0 +1,307 @@
+{
+  "10700": {
+    "Id": 10700,
+    "Names": {
+      "English": "Leave Transform",
+      "Spanish": null,
+      "German": null,
+      "French": null
+    },
+    "Professions": [ "Warrior", "Engineer" ],
+    "AssetId": 2271035
+  },
+  "15796": {
+    "Id": 15796,
+    "Names": {
+      "English": "Plague",
+      "Spanish": null,
+      "German": null,
+      "French": null
+    },
+    "Professions": [ "Engineer" ],
+    "AssetId": 103312
+  },
+  "41258": {
+    "Id": 41258,
+    "Names": {
+      "English": "Chapter 1: Searing Spell",
+      "Spanish": null,
+      "German": null,
+      "French": null
+    },
+    "Professions": [ "Guardian" ],
+    "AssetId": 1770473
+  },
+  "40635": {
+    "Id": 40635,
+    "Names": {
+      "English": "Chapter 2: Igniting Burst",
+      "Spanish": null,
+      "German": null,
+      "French": null
+    },
+    "Professions": [ "Guardian" ],
+    "AssetId": 1770474
+  },
+  "42449": {
+    "Id": 42449,
+    "Names": {
+      "English": "Chapter 3: Heated Rebuke",
+      "Spanish": null,
+      "German": null,
+      "French": null
+    },
+    "Professions": [ "Guardian" ],
+    "AssetId": 1770475
+  },
+  "41169": {
+    "Id": 41169,
+    "Names": {
+      "English": "Chapter 3: Heated Rebuke",
+      "Spanish": null,
+      "German": null,
+      "French": null
+    },
+    "Professions": [ "Guardian" ],
+    "AssetId": 1770475
+  },
+  "40015": {
+    "Id": 40015,
+    "Names": {
+      "English": "Chapter 4: Scorched Aftermath",
+      "Spanish": null,
+      "German": null,
+      "French": null
+    },
+    "Professions": [ "Guardian" ],
+    "AssetId": 1770476
+  },
+  "41957": {
+    "Id": 41957,
+    "Names": {
+      "English": "Epilogue: Ashes of the Just",
+      "Spanish": null,
+      "German": null,
+      "French": null
+    },
+    "Professions": [ "Guardian" ],
+    "AssetId": 1770477
+  },
+  "45022": {
+    "Id": 45022,
+    "Names": {
+      "English": "Chapter 1: Desert Bloom",
+      "Spanish": null,
+      "German": null,
+      "French": null
+    },
+    "Professions": [ "Guardian" ],
+    "AssetId": 1770479
+  },
+  "40787": {
+    "Id": 40787,
+    "Names": {
+      "English": "Chapter 1: Desert Bloom",
+      "Spanish": null,
+      "German": null,
+      "French": null
+    },
+    "Professions": [ "Guardian" ],
+    "AssetId": 1770479
+  },
+  "40679": {
+    "Id": 40679,
+    "Names": {
+      "English": "Chapter 2: Radiant Recovery",
+      "Spanish": null,
+      "German": null,
+      "French": null
+    },
+    "Professions": [ "Guardian" ],
+    "AssetId": 1770480
+  },
+  "43329": {
+    "Id": 43329,
+    "Names": {
+      "English": "Chapter 3: Azure Sun",
+      "Spanish": null,
+      "German": null,
+      "French": null
+    },
+    "Professions": [ "Guardian" ],
+    "AssetId": 1770481
+  },
+  "45128": {
+    "Id": 45128,
+    "Names": {
+      "English": "Chapter 3: Azure Sun",
+      "Spanish": null,
+      "German": null,
+      "French": null
+    },
+    "Professions": [ "Guardian" ],
+    "AssetId": 1770481
+  },
+  "42008": {
+    "Id": 42008,
+    "Names": {
+      "English": "Chapter 4: Shining River",
+      "Spanish": null,
+      "German": null,
+      "French": null
+    },
+    "Professions": [ "Guardian" ],
+    "AssetId": 1770482
+  },
+  "42925": {
+    "Id": 42925,
+    "Names": {
+      "English": "Epilogue: Eternal Oasis",
+      "Spanish": null,
+      "German": null,
+      "French": null
+    },
+    "Professions": [ "Guardian" ],
+    "AssetId": 1770483
+  },
+  "44871": {
+    "Id": 44871,
+    "Names": {
+      "English": "Epilogue: Eternal Oasis",
+      "Spanish": null,
+      "German": null,
+      "French": null
+    },
+    "Professions": [ "Guardian" ],
+    "AssetId": 1770483
+  },
+  "42986": {
+    "Id": 42986,
+    "Names": {
+      "English": "Chapter 1: Unflinching Charge",
+      "Spanish": null,
+      "German": null,
+      "French": null
+    },
+    "Professions": [ "Guardian" ],
+    "AssetId": 1770467
+  },
+  "41968": {
+    "Id": 41968,
+    "Names": {
+      "English": "Chapter 2: Daring Challenge",
+      "Spanish": null,
+      "German": null,
+      "French": null
+    },
+    "Professions": [ "Guardian" ],
+    "AssetId": 1770468
+  },
+  "41836": {
+    "Id": 41836,
+    "Names": {
+      "English": "Chapter 3: Valiant Bulwark",
+      "Spanish": null,
+      "German": null,
+      "French": null
+    },
+    "Professions": [
+      "Guardian"
+    ],
+    "AssetId": 1770469
+  },
+  "44924": {
+    "Id": 44924,
+    "Names": {
+      "English": "Chapter 3: Valiant Bulwark",
+      "Spanish": null,
+      "German": null,
+      "French": null
+    },
+    "Professions": [
+      "Guardian"
+    ],
+    "AssetId": 1770469
+  },
+  "40988": {
+    "Id": 40988,
+    "Names": {
+      "English": "Chapter 4: Stalwart Stand",
+      "Spanish": null,
+      "German": null,
+      "French": null
+    },
+    "Professions": [
+      "Guardian"
+    ],
+    "AssetId": 1770470
+  },
+  "44455": {
+    "Id": 44455,
+    "Names": {
+      "English": "Epilogue: Unbroken Lines",
+      "Spanish": null,
+      "German": null,
+      "French": null
+    },
+    "Professions": [
+      "Guardian"
+    ],
+    "AssetId": 1770471
+  },
+  "43194": {
+    "Id": 43194,
+    "Names": {
+      "English": "Epilogue: Unbroken Lines",
+      "Spanish": null,
+      "German": null,
+      "French": null
+    },
+    "Professions": [
+      "Guardian"
+    ],
+    "AssetId": 1770471
+  },
+  "1001": {
+    "Id": 1001,
+    "Names": {
+      "English": "Dodge",
+      "Spanish": null,
+      "German": "Ausweichen",
+      "French": null
+    },
+    "Professions": [
+      "Guardian",
+      "Warrior",
+      "Engineer",
+      "Ranger",
+      "Thief",
+      "Elementalist",
+      "Mesmer",
+      "Necromancer",
+      "Revenant"
+    ],
+    "AssetId": 867422
+  },
+  "1002": {
+    "Id": 1002,
+    "Names": {
+      "English": "Swap Weapons",
+      "Spanish": null,
+      "German": "Waffen wechseln",
+      "French": null
+    },
+    "Professions": [
+      "Guardian",
+      "Warrior",
+      "Engineer",
+      "Ranger",
+      "Thief",
+      "Elementalist",
+      "Mesmer",
+      "Necromancer",
+      "Revenant"
+    ],
+    "AssetId": 156587
+  }
+}

@@ -1,0 +1,366 @@
+[
+  {
+    "Stat": 0,
+    "Name": "DireRabid",
+    "Ids": [
+      581
+    ]
+  },
+  {
+    "Stat": 1,
+    "Name": "Cavaliers",
+    "Ids": [
+      583,
+      616
+    ]
+  },
+  {
+    "Stat": 2,
+    "Name": "Berserkers",
+    "Ids": [
+      584,
+      161
+    ]
+  },
+  {
+    "Stat": 3,
+    "Name": "Rabid",
+    "Ids": [
+      585,
+      154
+    ]
+  },
+  {
+    "Stat": 4,
+    "Name": "Soldiers",
+    "Ids": [
+      586,
+      162
+    ]
+  },
+  {
+    "Stat": 5,
+    "Name": "Celestial",
+    "Ids": [
+      588,
+      559
+    ]
+  },
+  {
+    "Stat": 6,
+    "Name": "BerserkerValkyrie",
+    "Ids": [
+      591
+    ]
+  },
+  {
+    "Stat": 7,
+    "Name": "RabidApothecary",
+    "Ids": [
+      592
+    ]
+  },
+  {
+    "Stat": 8,
+    "Name": "Clerics",
+    "Ids": [
+      656,
+      155
+    ]
+  },
+  {
+    "Stat": 9,
+    "Name": "Knights",
+    "Ids": [
+      657,
+      158
+    ]
+  },
+  {
+    "Stat": 10,
+    "Name": "Rampagers",
+    "Ids": [
+      658,
+      159
+    ]
+  },
+  {
+    "Stat": 11,
+    "Name": "Apothecarys",
+    "Ids": [
+      659,
+      605
+    ]
+  },
+  {
+    "Stat": 12,
+    "Name": "Captains",
+    "Ids": [
+      660
+    ]
+  },
+  {
+    "Stat": 13,
+    "Name": "Settlers",
+    "Ids": [
+      690,
+      700
+    ]
+  },
+  {
+    "Stat": 14,
+    "Name": "Sentinels",
+    "Ids": [
+      1035,
+      686
+    ]
+  },
+  {
+    "Stat": 15,
+    "Name": "Magis",
+    "Ids": [
+      1037,
+      156
+    ]
+  },
+  {
+    "Stat": 16,
+    "Name": "Carrion",
+    "Ids": [
+      1038,
+      160
+    ]
+  },
+  {
+    "Stat": 17,
+    "Name": "Sinister",
+    "Ids": [
+      1064,
+      1067
+    ]
+  },
+  {
+    "Stat": 18,
+    "Name": "Nomads",
+    "Ids": [
+      1066,
+      1026
+    ]
+  },
+  {
+    "Stat": 19,
+    "Name": "Shamans",
+    "Ids": [
+      1097,
+      153
+    ]
+  },
+  {
+    "Stat": 20,
+    "Name": "Crusader",
+    "Ids": [
+      1232,
+      1109,
+      1271,
+      1098
+    ]
+  },
+  {
+    "Stat": 21,
+    "Name": "Dire",
+    "Ids": [
+      1114,
+      754
+    ]
+  },
+  {
+    "Stat": 22,
+    "Name": "Trailblazers",
+    "Ids": [
+      1115,
+      1085,
+      1229,
+      1262
+    ]
+  },
+  {
+    "Stat": 23,
+    "Name": "Valkyrie",
+    "Ids": [
+      1119,
+      157
+    ]
+  },
+  {
+    "Stat": 24,
+    "Name": "Commanders",
+    "Ids": [
+      1125,
+      1131,
+      1227,
+      1267
+    ]
+  },
+  {
+    "Stat": 25,
+    "Name": "Assassins",
+    "Ids": [
+      1128,
+      753
+    ]
+  },
+  {
+    "Stat": 26,
+    "Name": "Vipers",
+    "Ids": [
+      1130,
+      1153,
+      1224,
+      1268
+    ]
+  },
+  {
+    "Stat": 27,
+    "Name": "Minstrels",
+    "Ids": [
+      1134,
+      1123,
+      1226,
+      1265
+    ]
+  },
+  {
+    "Stat": 28,
+    "Name": "Vigilant",
+    "Ids": [
+      1139,
+      1118,
+      1228,
+      1264
+    ]
+  },
+  {
+    "Stat": 29,
+    "Name": "Marauder",
+    "Ids": [
+      1145,
+      1111,
+      1231,
+      1263
+    ]
+  },
+  {
+    "Stat": 30,
+    "Name": "Wanderers",
+    "Ids": [
+      1162,
+      1270,
+      1140,
+      1225
+    ]
+  },
+  {
+    "Stat": 31,
+    "Name": "Zealots",
+    "Ids": [
+      1163,
+      799
+    ]
+  },
+  {
+    "Stat": 32,
+    "Name": "Seraph",
+    "Ids": [
+      1220,
+      1222,
+      1230,
+      1269
+    ]
+  },
+  {
+    "Stat": 33,
+    "Name": "Grieving",
+    "Ids": [
+      1329,
+      1344,
+      1366,
+      1379
+    ]
+  },
+  {
+    "Stat": 34,
+    "Name": "Marshals",
+    "Ids": [
+      1337,
+      1364,
+      1374,
+      1378
+    ]
+  },
+  {
+    "Stat": 35,
+    "Name": "Harriers",
+    "Ids": [
+      1345,
+      1363,
+      1367,
+      1377
+    ]
+  },
+  {
+    "Stat": 36,
+    "Name": "Givers",
+    "Ids": [
+      1430,
+      628
+    ]
+  },
+  {
+    "Stat": 37,
+    "Name": "Bringers",
+    "Ids": [
+      1436,
+      1032
+    ]
+  },
+  {
+    "Stat": 38,
+    "Name": "Plaguedoctors",
+    "Ids": [
+      1486,
+      1484,
+      1549,
+      1559
+    ]
+  },
+  {
+    "Stat": 39,
+    "Name": "Diviners",
+    "Ids": [
+      1538,
+      1566,
+      1539,
+      1556
+    ]
+  },
+  {
+    "Stat": 40,
+    "Name": "Ritualists",
+    "Ids": [
+      1694,
+      1686,
+      1706,
+      1717
+    ]
+  },
+  {
+    "Stat": 41,
+    "Name": "Dragons",
+    "Ids": [
+      1697,
+      1681,
+      1687,
+      1691
+    ]
+  }
+]

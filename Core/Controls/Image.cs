@@ -1,7 +1,6 @@
 ﻿using Blish_HUD;
 using Blish_HUD.Input;
 using Gw2Sharp.WebApi;
-using Kenedia.Modules.BuildsManager.DataModels.Items;
 using Kenedia.Modules.Core.Interfaces;
 using Kenedia.Modules.Core.Services;
 using Kenedia.Modules.Core.Utility;
