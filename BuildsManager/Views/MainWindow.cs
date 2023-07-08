@@ -10,6 +10,7 @@ using Kenedia.Modules.BuildsManager.Controls;
 using Kenedia.Modules.BuildsManager.Controls.GearPage;
 using Kenedia.Modules.BuildsManager.Controls.NotesPage;
 using Kenedia.Modules.BuildsManager.Controls.Selection;
+using System;
 
 namespace Kenedia.Modules.BuildsManager.Views
 {
@@ -21,9 +22,8 @@ namespace Kenedia.Modules.BuildsManager.Views
         private readonly TabbedRegion _tabbedRegion;
         private readonly GearPage _gear;
         private readonly AboutPage _notes;
-        private readonly RotationPage _rotation;
         private readonly SelectionPanel _selectionPanel;
-        private Template _template;
+        private Template _template = new();
 
         public MainWindow(AsyncTexture2D background, Rectangle windowRegion, Rectangle contentRegion, Data data, TexturesService texturesService) : base(background, windowRegion, contentRegion)
         {
@@ -35,6 +35,7 @@ namespace Kenedia.Modules.BuildsManager.Views
                 Location = new(0, 0),
                 HeightSizingMode = Blish_HUD.Controls.SizingMode.Fill,
                 Width = 375,
+                Template = _template,
                 //BackgroundColor = Color.Yellow * 0.2F,
             };
 
@@ -55,43 +56,38 @@ namespace Kenedia.Modules.BuildsManager.Views
                 {
                     HeightSizingMode = Blish_HUD.Controls.SizingMode.Fill,
                     WidthSizingMode = Blish_HUD.Controls.SizingMode.Fill,
+                    Template = _template,
                 })
             {
                 Header = "About",
                 Icon = AsyncTexture2D.FromAssetId(440023),
             });
 
-            _tabbedRegion.AddTab(new TabbedRegionTab(
-                _build = new BuildPage(_texturesService))
+            _tabbedRegion.AddTab(tab = new TabbedRegionTab(
+                _build = new BuildPage(_texturesService)
+                {
+                    Template = _template,
+                })
             {
                 Header = "Build",
                 Icon = AsyncTexture2D.FromAssetId(156720),
             });
 
-            _tabbedRegion.AddTab(tab = new TabbedRegionTab(
+            _tabbedRegion.AddTab(new TabbedRegionTab(
                 _gear = new GearPage(_texturesService)
                 {
                     SelectionPanel = _selectionPanel,
+                    Template = _template,
                 })
             {
                 Header = "Gear",
                 Icon = AsyncTexture2D.FromAssetId(156714),
             });
 
-            _tabbedRegion.AddTab(new TabbedRegionTab(
-                _rotation = new RotationPage(_texturesService)
-                {
-                    HeightSizingMode = Blish_HUD.Controls.SizingMode.Fill,
-                    WidthSizingMode = Blish_HUD.Controls.SizingMode.Fill,
-                    SelectionPanel = _selectionPanel,
-                })
-            {
-                Header = "Rotation",
-                Icon = AsyncTexture2D.FromAssetId(155054),
-            });
-
             _tabbedRegion.SwitchTab(tab);
         }
+
+        public event EventHandler<Template> TemplateChanged;
 
         public Template Template
         {
@@ -102,7 +98,7 @@ namespace Kenedia.Modules.BuildsManager.Views
         {
             base.RecalculateLayout();
 
-            if(_tabbedRegion != null)
+            if (_tabbedRegion != null)
             {
                 _selectionPanel.ZIndex = _tabbedRegion.ZIndex + 1;
             }
@@ -113,8 +109,9 @@ namespace Kenedia.Modules.BuildsManager.Views
             _build.Template = _template;
             _gear.Template = _template;
             _notes.Template = _template;
-            _rotation.Template = _template;
             _selectionPanel.Template = _template;
+
+            TemplateChanged?.Invoke(this, Template);
         }
 
         protected override void DisposeControl()
@@ -124,7 +121,6 @@ namespace Kenedia.Modules.BuildsManager.Views
             _build?.Dispose();
             _gear?.Dispose();
             _notes?.Dispose();
-            _rotation?.Dispose();
             _selectionPanel?.Dispose();
         }
     }

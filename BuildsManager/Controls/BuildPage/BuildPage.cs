@@ -1,25 +1,24 @@
-﻿using Blish_HUD.Content;
+﻿using Blish_HUD;
+using Blish_HUD.Content;
 using Blish_HUD.Controls;
+using Blish_HUD.Input;
+using Gw2Sharp.Models;
+using Kenedia.Modules.BuildsManager.Controls.BuildPage.ProfessionSpecific;
+using Kenedia.Modules.BuildsManager.Controls.Selection;
 using Kenedia.Modules.BuildsManager.Models.Templates;
 using Kenedia.Modules.Core.Controls;
+using Kenedia.Modules.Core.DataModels;
 using Kenedia.Modules.Core.Models;
+using Kenedia.Modules.Core.Services;
 using Kenedia.Modules.Core.Utility;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using FlowPanel = Kenedia.Modules.Core.Controls.FlowPanel;
-using System;
-using Gw2Sharp.Models;
-using Kenedia.Modules.BuildsManager.Controls.BuildPage.ProfessionSpecific;
 using Panel = Kenedia.Modules.Core.Controls.Panel;
-using Blish_HUD;
-using Kenedia.Modules.Core.Services;
-using Kenedia.Modules.Core.DataModels;
 using TextBox = Kenedia.Modules.Core.Controls.TextBox;
-using System.Diagnostics;
-using Kenedia.Modules.BuildsManager.Controls.Selection;
-using Blish_HUD.Input;
 
 namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
 {
@@ -58,6 +57,9 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
 
         public BuildPage(TexturesService texturesService)
         {
+            //[&DQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==]
+            //[&DQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=]
+
             _texturesService = texturesService;
 
             ClipsBounds = false;
@@ -90,17 +92,13 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
             {
                 Parent = this,
                 Location = new(_copyButton.Right + 2, 0),
-                EnterPressedAction = (code) =>
-                {
-                    Template.BuildTemplate.LoadFromCode(code);
-                }
+                EnterPressedAction = (txt) => Template?.BuildTemplate?.LoadFromCode(txt)
             };
 
             _professionSpecificsContainer = new()
             {
                 Parent = this,
                 Location = new(0, _buildCodeBox.Bottom + 7),
-                //BackgroundColor= Color.White * 0.2F,
                 Width = 500,
                 Height = 100,
                 ZIndex = 13,
@@ -117,19 +115,17 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
             _specIcon = new FramedImage()
             {
                 Parent = this,
-                Width = Width,
-                Size = new(80),
+                Size = new(40),
                 ZIndex = 15,
             };
 
             _raceIcon = new FramedImage()
             {
                 Parent = this,
-                Width = Width,
-                TextureSize = new Point(64),
+                TextureSize = new Point(32),
                 ZIndex = 15,
                 Texture = _texturesService.GetTexture(@"textures\races\pact.png", "pact"),
-                Size = new(80),
+                Size = new(40),
             };
 
             _dummy = new Dummy()
@@ -232,9 +228,9 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
                 _specsBackground.Bounds = new(0, _dummy.Bottom - 55, Width + 15, _dummy.Height + _specializationsPanel.Height + 34);
                 _specsBackground.TextureRegion = new(0, 0, 650, 450);
 
-                _specIcon.Location = new(_specializationsPanel.Width - _specIcon.Width - 8, _professionSpecificsContainer.Top + 11);
+                _specIcon.Location = new(_specializationsPanel.Width - _specIcon.Width - 8, _professionSpecificsContainer.Top + 8);
 
-                _raceIcon.Location = new(_specializationsPanel.Width - _raceIcon.Width - _specIcon.Width - 8 - 10, _professionSpecificsContainer.Top + 11);
+                _raceIcon.Location = new(_specializationsPanel.Width - _raceIcon.Width - 8, _specIcon.Bottom + 4);
 
                 _skillsBackground.Bounds = new(_specializationsPanel.Left, _specializationsPanel.Top, _specializationsPanel.Width, _professionSpecificsContainer.Height + _skillbar.Height + 10);
                 _skillsBackground.TextureRegion = new(20, 20, _specializationsPanel.Width, _specializationsPanel.Height + _skillbar.Height);
@@ -255,6 +251,8 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
 
         public override void PaintBeforeChildren(SpriteBatch spriteBatch, Rectangle bounds)
         {
+            RecalculateLayout();
+
             base.PaintBeforeChildren(spriteBatch, bounds);
             _skillsBackground?.Draw(this, spriteBatch);
             _skillsBackgroundBottomBorder?.Draw(this, spriteBatch);

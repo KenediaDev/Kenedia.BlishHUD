@@ -108,7 +108,6 @@ namespace Kenedia.Modules.BuildsManager.Controls.NotesPage
                 {
                     _ = BuildsManager.ModuleInstance.Templates.Remove(Template);
                     _ = Template.Delete();
-                    BuildsManager.ModuleInstance.SelectedTemplate = null;
                 },
             };
 

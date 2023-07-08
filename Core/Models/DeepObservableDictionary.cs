@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Blish_HUD;
+using Blish_HUD.Controls;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -6,6 +8,22 @@ using System.Runtime.CompilerServices;
 
 namespace Kenedia.Modules.Core.Models
 {
+    public class DictionaryItemChanged<TKey, TValue> : EventArgs
+    {
+        public DictionaryItemChanged(TKey key, TValue oldValue, TValue newValue)
+        {
+            OldValue = oldValue;
+            NewValue = newValue;
+            Key = key;
+        }
+
+        public TValue OldValue { get; set; }
+        
+        public TValue NewValue { get; set; }
+
+        public TKey Key { get; set; }
+    }
+
     public class DeepObservableDictionary<TKey, TValue> : Dictionary<TKey, TValue>, IDisposable
         where TValue : INotifyPropertyChanged
     {
@@ -22,10 +40,11 @@ namespace Kenedia.Modules.Core.Models
 
         }
 
+        public event EventHandler<DictionaryItemChanged<TKey, TValue>> ValueChanged;
         public event EventHandler<PropertyChangedEventArgs> ItemChanged;
         public event EventHandler<PropertyChangedEventArgs> CollectionChanged;
 
-        private void OnValueChanged(object sender, PropertyChangedEventArgs e)
+        private void OnItemProperty_Changed(object sender, PropertyChangedEventArgs e)
         {
             ItemChanged?.Invoke(sender, e);
         }
@@ -38,13 +57,14 @@ namespace Kenedia.Modules.Core.Models
                 v.PropertyChanged -= ItemProperty_Changed;
             }
 
-            base[key] = value;
-            CollectionChanged?.Invoke(this, new(propName));
-
             if (value != null)
             {
                 value.PropertyChanged += ItemProperty_Changed;
             }
+
+            base[key] = value;
+            ValueChanged?.Invoke(this, new(key, v, value));
+            CollectionChanged?.Invoke(this, new(propName));
         }
 
         public void Dispose()
@@ -87,7 +107,7 @@ namespace Kenedia.Modules.Core.Models
 
         protected void ItemProperty_Changed(object sender, PropertyChangedEventArgs e)
         {;
-            OnValueChanged(sender, e);
+            OnItemProperty_Changed(sender, e);
         }
     }
 }

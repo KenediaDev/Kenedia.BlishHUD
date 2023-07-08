@@ -1,6 +1,7 @@
 ﻿using Gw2Sharp.Models;
 using Kenedia.Modules.BuildsManager.DataModels.Professions;
 using Kenedia.Modules.Core.Utility;
+using System;
 using System.ComponentModel;
 
 namespace Kenedia.Modules.BuildsManager.Models.Templates
@@ -17,9 +18,17 @@ namespace Kenedia.Modules.BuildsManager.Models.Templates
 
         public event PropertyChangedEventHandler PropertyChanged;
 
+        public event PropertyChangedEventHandler SpecChanged;
+
         public int Index { get => _index; set => Common.SetProperty(ref _index, value, PropertyChanged); }
 
-        public Specialization Specialization { get => _specialization; set => Common.SetProperty(ref _specialization, value, PropertyChanged); }
+        public Specialization Specialization { get => _specialization; set => Common.SetProperty(ref _specialization, value, OnSpecializationChanged); }
+
+        private void OnSpecializationChanged(object sender, PropertyChangedEventArgs e)
+        {
+            SpecChanged?.Invoke(sender, e);
+            PropertyChanged?.Invoke(sender, e);
+        }
 
         public TraitCollection Traits { get; } = new();
 

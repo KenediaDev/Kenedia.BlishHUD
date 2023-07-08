@@ -144,7 +144,6 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
             {
                 _ = BuildsManager.ModuleInstance.Templates.Remove(Template);
                 _ = Template?.Delete();
-                if (BuildsManager.ModuleInstance.SelectedTemplate == Template) BuildsManager.ModuleInstance.SelectedTemplate = null;
             }
         }
 
@@ -155,7 +154,6 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
             if (BuildsManager.ModuleInstance.Templates.Where(e => e.Name == name).Count() == 0)
             {
                 BuildsManager.ModuleInstance.Templates.Add(t = new(Template?.BuildCode, Template?.GearCode) { Name = name });
-                BuildsManager.ModuleInstance.SelectedTemplate = t;
             }
             else
             {
@@ -273,7 +271,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
             spriteBatch.DrawOnCtrl(this, Textures.Pixel, new(ContentRegion.X, ContentRegion.Bottom - 28, ContentRegion.Width, 28), Rectangle.Empty, Color.Black * 0.3F);
 
             base.PaintBeforeChildren(spriteBatch, bounds);
-            bool isActive = BuildsManager.ModuleInstance.SelectedTemplate == _template;
+            bool isActive = Template == _template;
             spriteBatch.DrawFrame(this, bounds, isActive ? Colors.ColonialWhite : Color.Transparent, 2);
 
             spriteBatch.DrawOnCtrl(this, _textureBottomSectionSeparator, _separatorBounds, _textureBottomSectionSeparator.Bounds, Color.Black, 0F, Vector2.Zero);
@@ -355,7 +353,8 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
 
                 return;
             }
-            BuildsManager.ModuleInstance.SelectedTemplate = _template;
+
+            Template = _template;
             OnClickAction?.Invoke();
         }
 

@@ -226,7 +226,6 @@ namespace Kenedia.Modules.BuildsManager.Models.Templates
         private bool _terrestrial = true;
         private AttunementType _mainAttunement = AttunementType.Fire;
         private AttunementType _altAttunement = AttunementType.Earth;
-        private LegendSlot _legendSlot = LegendSlot.TerrestrialActive;
         private bool loaded = true;
 
         public Template()
@@ -242,6 +241,11 @@ namespace Kenedia.Modules.BuildsManager.Models.Templates
             if (!string.IsNullOrEmpty(gearCode)) GearTemplate.LoadFromCode(gearCode);
             //if (!string.IsNullOrEmpty(rotationCode)) RotationTemplate.LoadFromCode(rotationCode);
         }
+
+        /// <summary>
+        /// Event triggering on Profession and Elite Spec Changed
+        /// </summary>
+        public event PropertyChangedEventHandler SpecChanged;
 
         public event PropertyChangedEventHandler ProfessionChanged;
 
@@ -288,6 +292,7 @@ namespace Kenedia.Modules.BuildsManager.Models.Templates
                     if (BuildTemplate != null)
                     {
                         BuildTemplate.Profession = value;
+                        SpecChanged?.Invoke(this, null);
                         //GearTemplate.Profession = value;
                     }
                 }
@@ -335,30 +340,18 @@ namespace Kenedia.Modules.BuildsManager.Models.Templates
         public bool Terrestrial
         {
             get => LegendSlot is LegendSlot.TerrestrialActive or LegendSlot.TerrestrialInactive;
-            set
-            {
-                switch (LegendSlot)
-                {
-                    case LegendSlot.AquaticActive:
-                    case LegendSlot.AquaticInactive:
-                        LegendSlot newTerrestialSlot = LegendSlot is LegendSlot.AquaticActive ? LegendSlot.TerrestrialActive : LegendSlot.TerrestrialInactive;
-                        _ = Common.SetProperty(ref _legendSlot, newTerrestialSlot, TemplateChanged);
-
-                        break;
-
-                    case LegendSlot.TerrestrialActive:
-                    case LegendSlot.TerrestrialInactive:
-                        LegendSlot newAquaticSlot = LegendSlot is LegendSlot.TerrestrialActive ? LegendSlot.AquaticActive : LegendSlot.AquaticInactive;
-                        _ = Common.SetProperty(ref _legendSlot, newAquaticSlot, TemplateChanged);
-                        break;
-                }
-            }
         }
 
         public LegendSlot LegendSlot
         {
-            get => _legendSlot;
-            set => Common.SetProperty(ref _legendSlot, value, TemplateChanged);
+            get => BuildTemplate.LegendSlot;
+            set 
+            {
+                if(BuildTemplate.LegendSlot != value)
+                {
+                    BuildTemplate.LegendSlot = value;
+                }
+            }
         }
 
         /// <summary>

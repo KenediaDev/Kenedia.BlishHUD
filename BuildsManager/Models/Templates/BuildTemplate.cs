@@ -12,6 +12,7 @@ using System.Diagnostics;
 using Kenedia.Modules.Core.Models;
 using System.Threading.Tasks;
 using System.Threading;
+using Kenedia.Modules.BuildsManager.Controls.BuildPage;
 
 namespace Kenedia.Modules.BuildsManager.Models.Templates
 {
@@ -31,10 +32,17 @@ namespace Kenedia.Modules.BuildsManager.Models.Templates
             InactiveTerrestrialSkills.CollectionChanged += CollectionChanged;
             AquaticSkills.CollectionChanged += CollectionChanged;
             InactiveAquaticSkills.CollectionChanged += CollectionChanged;
-            Legends.CollectionChanged += CollectionChanged;
+            Legends.CollectionChanged += LegendsChanged;
             Pets.CollectionChanged += CollectionChanged;
             Specializations.CollectionChanged += CollectionChanged;
             Specializations.ItemChanged += CollectionChanged;
+
+            Specializations.EliteSpecChanged += Specializations_EliteSpecChanged; ;
+        }
+
+        private void Specializations_EliteSpecChanged(object sender, EventArgs e)
+        {
+            EliteSpecChanged?.Invoke(this, null);
         }
 
         public BuildTemplate(string buildCode) : this()
@@ -44,12 +52,20 @@ namespace Kenedia.Modules.BuildsManager.Models.Templates
 
         public event PropertyChangedEventHandler PropertyChanged;
 
+        public event PropertyChangedEventHandler Loaded;
+
+        public event PropertyChangedEventHandler LegendChanged;
+
+        public event EventHandler EliteSpecChanged;
+
+        public event EventHandler ProfessionChanged;
+
         public ProfessionType Profession { get => _profession; set => Common.SetProperty(ref _profession, value, OnProfessionChanged); }
 
         private void OnProfessionChanged(object sender, PropertyChangedEventArgs e)
         {
             _loading = true;
-            
+
             Specializations?.Wipe();
             AquaticSkills?.Wipe();
             TerrestrialSkills?.Wipe();
@@ -60,11 +76,12 @@ namespace Kenedia.Modules.BuildsManager.Models.Templates
             _loading = false;
 
             OnChanged(sender, e);
+            ProfessionChanged?.Invoke(this, e);
         }
 
         public Dictionary<BuildSkillSlot, Skill> Test { get; } = new();
 
-        public ObservableDictionary<BuildSkillSlot, Skill> ObservableTest{ get; } = new();
+        public ObservableDictionary<BuildSkillSlot, Skill> ObservableTest { get; } = new();
 
         public SkillCollection SkillCollectionTest { get; } = new();
 
@@ -81,6 +98,8 @@ namespace Kenedia.Modules.BuildsManager.Models.Templates
         public PetCollection Pets { get; } = new();
 
         public SpecializationCollection Specializations { get; } = new();
+
+        public LegendSlot LegendSlot { get; set; } = LegendSlot.TerrestrialActive;
 
         public string ParseBuildCode()
         {
@@ -150,9 +169,11 @@ namespace Kenedia.Modules.BuildsManager.Models.Templates
             }
 
             byte[] bytes = build.ToArray();
-            build.Parse(bytes);
 
-            return build.ToString(); ;
+            build.Parse(bytes.Concat(new byte[] { 0, 0 }).ToArray());
+            string code = build.ToString();
+
+            return code;
         }
 
         public void LoadFromCode(string code)
@@ -244,54 +265,22 @@ namespace Kenedia.Modules.BuildsManager.Models.Templates
             }
 
             _loading = false;
+            LegendSlot = LegendSlot.TerrestrialActive;
+
             OnChanged(this, null);
+            Loaded?.Invoke(this, null);
         }
 
         public void SwapLegends()
         {
             if (Profession == ProfessionType.Revenant)
             {
-                var newActiveTerrestrialLegend = Legends[LegendSlot.TerrestrialInactive];
-                var newActiveTerrestrialSkills = InactiveTerrestrialSkills.ToDictionary(e => e.Key, e => e.Value);
-
-                Legends[LegendSlot.TerrestrialInactive] = Legends[LegendSlot.TerrestrialActive];
-                Legends[LegendSlot.TerrestrialActive] = newActiveTerrestrialLegend;
-
-                InactiveTerrestrialSkills[BuildSkillSlot.Heal] = TerrestrialSkills[BuildSkillSlot.Heal];
-                InactiveTerrestrialSkills[BuildSkillSlot.Utility_1] = TerrestrialSkills[BuildSkillSlot.Utility_1];
-                InactiveTerrestrialSkills[BuildSkillSlot.Utility_2] = TerrestrialSkills[BuildSkillSlot.Utility_2];
-                InactiveTerrestrialSkills[BuildSkillSlot.Utility_3] = TerrestrialSkills[BuildSkillSlot.Utility_3];
-                InactiveTerrestrialSkills[BuildSkillSlot.Elite] = TerrestrialSkills[BuildSkillSlot.Elite];
-
-                TerrestrialSkills[BuildSkillSlot.Heal] = newActiveTerrestrialSkills[BuildSkillSlot.Heal];
-                TerrestrialSkills[BuildSkillSlot.Utility_1] = newActiveTerrestrialSkills[BuildSkillSlot.Utility_1];
-                TerrestrialSkills[BuildSkillSlot.Utility_2] = newActiveTerrestrialSkills[BuildSkillSlot.Utility_2];
-                TerrestrialSkills[BuildSkillSlot.Utility_3] = newActiveTerrestrialSkills[BuildSkillSlot.Utility_3];
-                TerrestrialSkills[BuildSkillSlot.Elite] = newActiveTerrestrialSkills[BuildSkillSlot.Elite];
-
-                var newActiveAquaticLegend = Legends[LegendSlot.AquaticInactive];
-                var newActiveAquaticSkills = InactiveAquaticSkills.ToDictionary(e => e.Key, e => e.Value);
-
-                Legends[LegendSlot.AquaticInactive] = Legends[LegendSlot.AquaticActive];
-                Legends[LegendSlot.AquaticActive] = newActiveAquaticLegend;
-
-                InactiveAquaticSkills[BuildSkillSlot.Heal] = AquaticSkills[BuildSkillSlot.Heal];
-                InactiveAquaticSkills[BuildSkillSlot.Utility_1] = AquaticSkills[BuildSkillSlot.Utility_1];
-                InactiveAquaticSkills[BuildSkillSlot.Utility_2] = AquaticSkills[BuildSkillSlot.Utility_2];
-                InactiveAquaticSkills[BuildSkillSlot.Utility_3] = AquaticSkills[BuildSkillSlot.Utility_3];
-                InactiveAquaticSkills[BuildSkillSlot.Elite] = AquaticSkills[BuildSkillSlot.Elite];
-
-                AquaticSkills[BuildSkillSlot.Heal] = newActiveAquaticSkills[BuildSkillSlot.Heal];
-                AquaticSkills[BuildSkillSlot.Utility_1] = newActiveAquaticSkills[BuildSkillSlot.Utility_1];
-                AquaticSkills[BuildSkillSlot.Utility_2] = newActiveAquaticSkills[BuildSkillSlot.Utility_2];
-                AquaticSkills[BuildSkillSlot.Utility_3] = newActiveAquaticSkills[BuildSkillSlot.Utility_3];
-                AquaticSkills[BuildSkillSlot.Elite] = newActiveAquaticSkills[BuildSkillSlot.Elite];
+                LegendSlot = LegendSlot is LegendSlot.TerrestrialActive or LegendSlot.AquaticActive ? LegendSlot.TerrestrialInactive : LegendSlot.TerrestrialActive;
             }
         }
 
         public void SetLegend(Legend legend, LegendSlot slot)
         {
-            Legends[slot] = legend;
             var skills = TerrestrialSkills;
 
             switch (slot)
@@ -337,6 +326,8 @@ namespace Kenedia.Modules.BuildsManager.Models.Templates
                     skills[(BuildSkillSlot)i] = paletteId != null ? Legend.SkillFromUShort((ushort)paletteId.Value, legend) : null;
                 }
             }
+
+            Legends[slot] = legend;
         }
 
         public bool HasSpecialization(int specializationId)
@@ -410,9 +401,17 @@ namespace Kenedia.Modules.BuildsManager.Models.Templates
             InactiveTerrestrialSkills.CollectionChanged -= CollectionChanged;
             AquaticSkills.CollectionChanged -= CollectionChanged;
             InactiveAquaticSkills.CollectionChanged -= CollectionChanged;
-            Legends.CollectionChanged -= CollectionChanged;
+            Legends.CollectionChanged -= LegendsChanged;
             Pets.CollectionChanged -= CollectionChanged;
             Specializations.ItemChanged -= CollectionChanged;
+        }
+
+        private void LegendsChanged(object sender, PropertyChangedEventArgs e)
+        {
+            if (_loading) return;
+
+            PropertyChanged?.Invoke(sender, e);
+            LegendChanged?.Invoke(sender ?? this, e);
         }
     }
 }

@@ -257,6 +257,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controls\BuildPage\BuildPage.cs" />
+    <Compile Include="Controls\BuildPage\LegendSlotSkillSlotCollection.cs" />
     <Compile Include="Controls\BuildPage\ProfessionSpecifics.cs" />
     <Compile Include="Controls\BuildPage\ProfessionSpecific\ElementalistSpecifics.cs" />
     <Compile Include="Controls\BuildPage\ProfessionSpecific\EngineerSpecifics.cs" />
@@ -266,14 +267,15 @@
     <Compile Include="Controls\BuildPage\ProfessionSpecific\PetIcon.cs" />
     <Compile Include="Controls\BuildPage\ProfessionSpecific\RangerSpecifics.cs" />
     <Compile Include="Controls\BuildPage\ProfessionSpecific\RevenantSpecifics.cs" />
+    <Compile Include="Controls\BuildPage\ProfessionSpecific\ThiefSpecifics.cs" />
+    <Compile Include="Controls\BuildPage\ProfessionSpecific\WarriorSpecifics.cs" />
     <Compile Include="Controls\BuildPage\SelectableSkillIconCollection.cs" />
     <Compile Include="Controls\BuildPage\SkillIcon.cs" />
     <Compile Include="Controls\BuildPage\SkillIconCollection.cs" />
     <Compile Include="Controls\BuildPage\SkillsBar.cs" />
+    <Compile Include="Controls\BuildPage\SkillSlotCollection.cs" />
     <Compile Include="Controls\BuildPage\SpecLine.cs" />
-    <Compile Include="Controls\BuildPage\ProfessionSpecific\ThiefSpecifics.cs" />
     <Compile Include="Controls\BuildPage\TraitIcon.cs" />
-    <Compile Include="Controls\BuildPage\ProfessionSpecific\WarriorSpecifics.cs" />
     <Compile Include="Controls\BuildPage\WeaponSkillIconCollection.cs" />
     <Compile Include="Controls\GearPage\AttributeTexture.cs" />
     <Compile Include="Controls\GearPage\ItemTexture.cs" />
@@ -298,21 +300,6 @@
     <Compile Include="Controls\Selection\StatSelection.cs" />
     <Compile Include="Controls\Selection\TagTexture.cs" />
     <Compile Include="Controls\Selection\TemplateSelectable.cs" />
-    <Compile Include="Controls\SkillConnectionEdit\EditingControl.cs" />
-    <Compile Include="Controls\SkillConnectionEdit\PetControl.cs" />
-    <Compile Include="Controls\SkillConnectionEdit\PetEntryControl.cs" />
-    <Compile Include="Controls\SkillConnectionEdit\PetSelector.cs" />
-    <Compile Include="Controls\SkillConnectionEdit\ReflectedPetControl.cs" />
-    <Compile Include="Controls\SkillConnectionEdit\ReflectedSkillControl.cs" />
-    <Compile Include="Controls\SkillConnectionEdit\ReflectedTraitControl.cs" />
-    <Compile Include="Controls\SkillConnectionEdit\Selector.cs" />
-    <Compile Include="Controls\SkillConnectionEdit\SkillControl.cs" />
-    <Compile Include="Controls\SkillConnectionEdit\SkillConnectionControl.cs" />
-    <Compile Include="Controls\SkillConnectionEdit\SkillEntryControl.cs" />
-    <Compile Include="Controls\SkillConnectionEdit\SkillSelector.cs" />
-    <Compile Include="Controls\SkillConnectionEdit\TraitControl.cs" />
-    <Compile Include="Controls\SkillConnectionEdit\TraitEntryControl.cs" />
-    <Compile Include="Controls\SkillConnectionEdit\TraitSelector.cs" />
     <Compile Include="Controls\TabbedRegion.cs" />
     <Compile Include="DataModels\Items\BaseItem.cs" />
     <Compile Include="DataModels\Items\BonusStat.cs" />
@@ -375,7 +362,6 @@
     <Compile Include="Services\Settings.cs" />
     <Compile Include="Utility\StatUtility.cs" />
     <Compile Include="Views\MainWindow.cs" />
-    <Compile Include="Views\SkillConnectionEditor.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
@@ -471,7 +457,7 @@
     <None Include="ref\data\missing_skills.json" />
     <None Include="ref\data\rune_ids.json" />
     <None Include="ref\data\sigil_ids.json" />
-    <None Include="ref\data\SkillConnections.json" />
+    <None Include="ref\data\skill_connections.json" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Res\" />

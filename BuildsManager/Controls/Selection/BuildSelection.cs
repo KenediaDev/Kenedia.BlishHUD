@@ -292,7 +292,6 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
                         if (BuildsManager.ModuleInstance.Templates.Where(e => e.Name == name).Count() == 0)
                         {
                             BuildsManager.ModuleInstance.Templates.Add(t = new() { Name = name });
-                            BuildsManager.ModuleInstance.SelectedTemplate = t;
                             Search.Text = null;
 
                             try
@@ -308,8 +307,6 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
                     });
                 },
             };
-
-            BuildsManager.ModuleInstance.SelectedTemplateChanged += ModuleInstance_SelectedTemplateChanged;
 
             Search.TextChangedAction = (txt) => _addBuildsButton.BasicTooltipText = string.IsNullOrEmpty(txt) ? $"Create a new Template" : $"Create new Template '{txt}'";
 
@@ -356,8 +353,6 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
 
         private void ModuleInstance_SelectedTemplateChanged(object sender, EventArgs e)
         {
-            var activeTemplate = _templates.Find(e => e.Template == BuildsManager.ModuleInstance.SelectedTemplate);
-            if (activeTemplate != null) SelectionPanel.SetTemplateAnchor(activeTemplate);
         }
 
         public SelectionPanel SelectionPanel { get; set; }
@@ -472,7 +467,6 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
             base.DisposeControl();
             _sortBehavior?.Dispose();
 
-            BuildsManager.ModuleInstance.SelectedTemplateChanged -= ModuleInstance_SelectedTemplateChanged;
         }
     }
 }

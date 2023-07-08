@@ -11,7 +11,33 @@ namespace Kenedia.Modules.BuildsManager.Models.Templates
             {
                 Add(e, new());
             }
+
+            ValueChanged += SpecializationCollection_ValueChanged;
         }
+
+        private void SpecializationCollection_ValueChanged(object sender, DictionaryItemChanged<SpecializationSlot, BuildSpecialization> e)
+        {
+            if(e.Key == SpecializationSlot.Line_3)
+            {
+                EliteSpecChanged?.Invoke(this, e);
+            }
+        }
+
+        private void SpecializationCollection_ItemChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            if((SpecializationSlot) sender == SpecializationSlot.Line_3)
+            {
+                this[SpecializationSlot.Line_3].SpecChanged += SpecializationCollection_SpecChanged;
+
+            }
+        }
+
+        private void SpecializationCollection_SpecChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+
+        }
+
+        public event EventHandler EliteSpecChanged;
 
         public byte GetSpecializationByte(SpecializationSlot slot)
         {
