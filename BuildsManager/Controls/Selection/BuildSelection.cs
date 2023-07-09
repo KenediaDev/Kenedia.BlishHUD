@@ -268,7 +268,8 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
                     ActiveColor = Color.White,
                     Profession = prof.Id,
                     OnCheckChanged = (isChecked) => FilterTemplates(),
-                    Checked = prof.Id == player?.Profession,
+                    Checked = false,
+                    //Checked = prof.Id == player?.Profession,
                     TextureRectangle = new(4, 4, 24, 24),
                 });
 
@@ -318,7 +319,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
 
         private void PlayerCharacter_SpecializationChanged(object sender, ValueEventArgs<int> e)
         {
-            _specIcons.ForEach(c => c.Checked = c.Profession == GameService.Gw2Mumble.PlayerCharacter.Profession);
+            //_specIcons.ForEach(c => c.Checked = c.Profession == GameService.Gw2Mumble.PlayerCharacter.Profession);
             FilterTemplates();
         }
 

@@ -14,6 +14,7 @@ using Kenedia.Modules.Core.Extensions;
 using Gw2Sharp.WebApi.V2.Models;
 using System.Threading;
 using Newtonsoft.Json.Bson;
+using Gw2Sharp.Models;
 
 namespace Kenedia.Modules.BuildsManager.Models.Templates
 {
@@ -708,6 +709,8 @@ namespace Kenedia.Modules.BuildsManager.Models.Templates
         public Dictionary<GearTemplateSlot, BaseTemplateEntry> PvpAmulets => this[GearTemplateEntryType.PvpAmulet];
 
         public Dictionary<GearTemplateSlot, BaseTemplateEntry> Common => this[GearTemplateEntryType.None];
+
+        public ProfessionType Profession { get; set; }
 
         public string ParseGearCode()
         {

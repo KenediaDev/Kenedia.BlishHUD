@@ -6,6 +6,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System.Linq;
 using Kenedia.Modules.BuildsManager.DataModels.Professions;
+using Kenedia.Modules.BuildsManager.Models;
 
 namespace Kenedia.Modules.BuildsManager.Controls.BuildPage.ProfessionSpecific
 {
@@ -34,7 +35,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage.ProfessionSpecific
             new(),
         };
 
-        public MesmerSpecifics()
+        public MesmerSpecifics(TemplatePresenter template) : base(template)
         {
 
         }
@@ -45,7 +46,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage.ProfessionSpecific
 
             int xOffset = 70;
 
-            switch (Template.EliteSpecialization?.Id)
+            switch (TemplatePresenter.Template.EliteSpecialization?.Id)
             {
                 case (int)SpecializationType.Virtuoso:
                     for (int i = 0; i < _clones.Length; i++)
@@ -74,7 +75,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage.ProfessionSpecific
 
         protected override void Paint(SpriteBatch spriteBatch, Rectangle bounds)
         {
-            switch (Template.EliteSpecialization?.Id)
+            switch (TemplatePresenter.Template.EliteSpecialization?.Id)
             {
                 case (int)SpecializationType.Virtuoso:
                     for (int i = 0; i < _clones.Length; i++)
@@ -135,7 +136,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage.ProfessionSpecific
 
                 foreach(var item in skills.Values.Where(e => e.Slot == slot))
                 {
-                    skill ??= item.Specialization == Template.EliteSpecialization?.Id || item.Specialization == 0 ? item : skill;
+                    skill ??= item.Specialization == TemplatePresenter.Template.EliteSpecialization?.Id || item.Specialization == 0 ? item : skill;
                 }
 
                 return skill;

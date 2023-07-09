@@ -2,7 +2,9 @@
 using Blish_HUD.Controls;
 using Blish_HUD.Gw2Mumble;
 using Blish_HUD.Input;
+using Gw2Sharp.Models;
 using Kenedia.Modules.BuildsManager.DataModels.Professions;
+using Kenedia.Modules.BuildsManager.Models;
 using Kenedia.Modules.BuildsManager.Models.Templates;
 using Kenedia.Modules.Core.Extensions;
 using Kenedia.Modules.Core.Models;
@@ -10,14 +12,10 @@ using Kenedia.Modules.Core.Utility;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MonoGame.Extended;
-using SharpDX.Direct3D9;
-using SharpDX.MediaFoundation;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
-using static Blish_HUD.ArcDps.Common.CommonFields;
 using static Blish_HUD.ContentService;
 
 namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
@@ -73,7 +71,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
         private Dictionary<int, Trait> _majorTraits = new();
         private bool _selectorOpen = false;
         private Rectangle _specSelectorBounds;
-        private Template _template;
+        private TemplatePresenter _templatePresenter;
         private readonly List<(Specialization spec, Rectangle bounds)> _specBounds = new();
 
         public SpecLine(SpecializationSlot line)
@@ -105,46 +103,59 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
 
         public Func<bool> CanInteract { get; set; } = () => true;
 
-        private BuildTemplate Build => Template?.BuildTemplate;
+        private BuildTemplate Build => TemplatePresenter.Template?.BuildTemplate;
 
-        public Template Template
+        public TemplatePresenter TemplatePresenter
         {
-            get => _template; set
-            {
-                var temp = _template;
-                if (Common.SetProperty(ref _template, value, SelectedTemplateChanged))
-                {
-                    if (temp != null) temp.PropertyChanged -= OnProfessionChanged;
-                    if (temp != null) temp.PropertyChanged -= ApplyTemplate;
+            get => _templatePresenter; set => Common.SetProperty(ref _templatePresenter, value, OnTemplatePresenterChanged);
+        }
 
-                    if (_template != null) _template.PropertyChanged += OnProfessionChanged;
-                    if (_template != null) _template.PropertyChanged += ApplyTemplate;
-                }
+        private void OnTemplatePresenterChanged(object sender, Core.Models.ValueChangedEventArgs<TemplatePresenter> e)
+        {
+            if (e.OldValue != null)
+            {
+                e.OldValue.TemplateChanged -= TemplateChanged;
+                e.OldValue.ProfessionChanged -= OnProfessionChanged;
+                e.OldValue.EliteSpecializationChanged -= BuildTemplate_EliteSpecializationChanged;
+                e.NewValue.SpecializationChanged -= OnSpecializationChanged;
+                e.OldValue.Loaded -= BuildTemplate_Loaded;
+            }
+
+            if (e.NewValue != null)
+            {
+                e.NewValue.TemplateChanged += TemplateChanged;
+                e.NewValue.ProfessionChanged += OnProfessionChanged; ;
+                e.NewValue.EliteSpecializationChanged += BuildTemplate_EliteSpecializationChanged;
+                e.NewValue.SpecializationChanged += OnSpecializationChanged;
+                e.NewValue.Loaded += BuildTemplate_Loaded;
             }
         }
 
-        private void SelectedTemplateChanged(object sender, PropertyChangedEventArgs e)
+        private void OnSpecializationChanged(object sender, DictionaryItemChangedEventArgs<SpecializationSlot, Specialization> e)
         {
-            OnProfessionChanged(sender, e);
-            ApplyTemplate(sender, e);
+            ApplyTemplate();
         }
 
-        public BuildSpecialization BuildSpecialization => Template?.BuildTemplate?.Specializations[Line];
-
-        private void OnProfessionChanged(object sender, PropertyChangedEventArgs e)
+        private void BuildTemplate_EliteSpecializationChanged(object sender, Core.Models.ValueChangedEventArgs<Specialization> e)
         {
-            PlayerCharacter player = GameService.Gw2Mumble.PlayerCharacter;
+            ApplyTemplate();
+        }
 
-            var profession = BuildsManager.Data.Professions[Template?.Profession ?? player?.Profession ?? Gw2Sharp.Models.ProfessionType.Guardian];
-            int i = 0;
-            foreach (var s in profession.Specializations.Values)
-            {
-                if (!s.Elite || Line == SpecializationSlot.Line_3)
-                {
-                    _specBounds[i] = new(s, _specBounds[i].bounds);
-                    i++;
-                }
-            }
+        private void TemplateChanged(object sender, Core.Models.ValueChangedEventArgs<Template> e)
+        {
+            ApplyTemplate();
+        }
+
+        private void BuildTemplate_Loaded(object sender, EventArgs e)
+        {
+            ApplyTemplate();
+        }
+
+        public BuildSpecialization BuildSpecialization => TemplatePresenter?.Template?.BuildTemplate?.Specializations[Line];
+
+        private void OnProfessionChanged(object sender, Core.Models.ValueChangedEventArgs<ProfessionType> e)
+        {
+            ApplyTemplate();
         }
 
         public SpecializationSlot Line { get; private set; }
@@ -189,8 +200,21 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
             _specSelectorBounds = new(_selector.Bounds.Right, 0, Width - _selector.Bounds.Right, Height);
         }
 
-        public void ApplyTemplate(object sender = null, System.ComponentModel.PropertyChangedEventArgs e = null)
+        public void ApplyTemplate()
         {
+            PlayerCharacter player = GameService.Gw2Mumble.PlayerCharacter;
+
+            var profession = BuildsManager.Data.Professions[TemplatePresenter.Template?.BuildTemplate?.Profession ?? player?.Profession ?? Gw2Sharp.Models.ProfessionType.Guardian];
+            int j = 0;
+            foreach (var s in profession.Specializations.Values)
+            {
+                if (!s.Elite || Line == SpecializationSlot.Line_3)
+                {
+                    _specBounds[j] = new(s, _specBounds[j].bounds);
+                    j++;
+                }
+            }
+
             _weaponTrait.Texture = BuildSpecialization?.Specialization?.WeaponTrait?.Icon;
             _specializationBackground.Texture = BuildSpecialization?.Specialization?.Background;
 
@@ -210,39 +234,9 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
                     _majors[i].Selected = trait != null && BuildSpecialization.Traits[trait.Tier] == trait;
                 }
 
-                if (Line == SpecializationSlot.Line_3 && Template != null && Template.BuildTemplate != null)
+                if (Line == SpecializationSlot.Line_3 && TemplatePresenter?.Template?.BuildTemplate != null)
                 {
-                    foreach (var s in Template.BuildTemplate.AquaticSkills.ToList())
-                    {
-                        if (s.Value != null && s.Value.Specialization != 0 && s.Value.Specialization != BuildSpecialization.Specialization.Id)
-                        {
-                            Template.BuildTemplate.AquaticSkills[s.Key] = null;
-                        }
-                    }
-
-                    foreach (var s in Template.BuildTemplate.InactiveAquaticSkills.ToList())
-                    {
-                        if (s.Value != null && s.Value.Specialization != 0 && s.Value.Specialization != BuildSpecialization.Specialization.Id)
-                        {
-                            Template.BuildTemplate.InactiveAquaticSkills[s.Key] = null;
-                        }
-                    };
-
-                    foreach (var s in Template.BuildTemplate.TerrestrialSkills.ToList())
-                    {
-                        if (s.Value != null && s.Value.Specialization != 0 && s.Value.Specialization != BuildSpecialization.Specialization.Id)
-                        {
-                            Template.BuildTemplate.TerrestrialSkills[s.Key] = null;
-                        }
-                    }
-
-                    foreach (var s in Template.BuildTemplate.InactiveTerrestrialSkills.ToList())
-                    {
-                        if (s.Value != null && s.Value.Specialization != 0 && s.Value.Specialization != BuildSpecialization.Specialization.Id)
-                        {
-                            Template.BuildTemplate.InactiveTerrestrialSkills[s.Key] = null;
-                        }
-                    }
+                    // Remove invalid skills
                 }
             }
         }
@@ -267,13 +261,17 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
                 for (int i = 0; i < _majors.Count; i++)
                 {
                     var major = _majors[i].Bounds;
-                    minor = _minors[(int)_majors[i].Trait.Tier - 1].Bounds;
-                    if (_majors[i].Selected)
-                    {
-                        Rectangle? minorNext = _minors.ContainsKey((int)_majors[i].Trait.Tier) ? _minors[(int)_majors[i].Trait.Tier].Bounds : null;
 
-                        spriteBatch.DrawLine(new(minor.Right - Scale(2) + AbsoluteBounds.X, minor.Center.Y + AbsoluteBounds.Y), new(major.Left + Scale(2) + AbsoluteBounds.X, major.Center.Y + AbsoluteBounds.Y), Colors.ColonialWhite * 0.8f, Scale(2));
-                        if (minorNext != null) spriteBatch.DrawLine(new(major.Right - Scale(2) + AbsoluteBounds.X, major.Center.Y + AbsoluteBounds.Y), new(minorNext.Value.Left + Scale(2) + AbsoluteBounds.X, minorNext.Value.Center.Y + AbsoluteBounds.Y), Colors.ColonialWhite * 0.8f, Scale(2));
+                    if (_majors[i].Trait != null)
+                    {
+                        minor = _minors[(int)_majors[i].Trait.Tier - 1].Bounds;
+                        if (_majors[i].Selected)
+                        {
+                            Rectangle? minorNext = _minors.ContainsKey((int)_majors[i].Trait.Tier) ? _minors[(int)_majors[i].Trait.Tier].Bounds : null;
+
+                            spriteBatch.DrawLine(new(minor.Right - Scale(2) + AbsoluteBounds.X, minor.Center.Y + AbsoluteBounds.Y), new(major.Left + Scale(2) + AbsoluteBounds.X, major.Center.Y + AbsoluteBounds.Y), Colors.ColonialWhite * 0.8f, Scale(2));
+                            if (minorNext != null) spriteBatch.DrawLine(new(major.Right - Scale(2) + AbsoluteBounds.X, major.Center.Y + AbsoluteBounds.Y), new(minorNext.Value.Left + Scale(2) + AbsoluteBounds.X, minorNext.Value.Center.Y + AbsoluteBounds.Y), Colors.ColonialWhite * 0.8f, Scale(2));
+                        }
                     }
                 }
 
@@ -351,33 +349,8 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
                                 {
                                     if (hasSpec)
                                     {
-                                        temp = new()
-                                        {
-                                            Specialization = BuildSpecialization.Specialization
-                                        };
-                                        temp.Traits[TraitTier.Adept] = BuildSpecialization.Traits[TraitTier.Adept];
-                                        temp.Traits[TraitTier.Master] = BuildSpecialization.Traits[TraitTier.Master];
-                                        temp.Traits[TraitTier.GrandMaster] = BuildSpecialization.Traits[TraitTier.GrandMaster];
 
-                                        BuildSpecialization.Specialization = Build.Specializations[slot].Specialization;
-                                        BuildSpecialization.Traits[TraitTier.Adept] = Build.Specializations[slot].Traits[TraitTier.Adept];
-                                        BuildSpecialization.Traits[TraitTier.Master] = Build.Specializations[slot].Traits[TraitTier.Master];
-                                        BuildSpecialization.Traits[TraitTier.GrandMaster] = Build.Specializations[slot].Traits[TraitTier.GrandMaster];
-
-                                        if (temp.Specialization == null || !temp.Specialization.Elite)
-                                        {
-                                            Build.Specializations[slot].Specialization = temp.Specialization;
-                                            Build.Specializations[slot].Traits[TraitTier.Adept] = temp.Traits[TraitTier.Adept];
-                                            Build.Specializations[slot].Traits[TraitTier.Master] = temp.Traits[TraitTier.Master];
-                                            Build.Specializations[slot].Traits[TraitTier.GrandMaster] = temp.Traits[TraitTier.GrandMaster];
-                                        }
-                                        else
-                                        {
-                                            Build.Specializations[slot].Specialization = null;
-                                            Build.Specializations[slot].Traits[TraitTier.Adept] = null;
-                                            Build.Specializations[slot].Traits[TraitTier.Master] = null;
-                                            Build.Specializations[slot].Traits[TraitTier.GrandMaster] = null;
-                                        }
+                                        TemplatePresenter.Template.BuildTemplate.SwapSpecializations(Line, slot);
 
                                         _selectorOpen = !_selectorOpen;
                                         return;

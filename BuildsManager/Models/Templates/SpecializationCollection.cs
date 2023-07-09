@@ -1,47 +1,53 @@
-﻿using Kenedia.Modules.Core.Models;
+﻿using Kenedia.Modules.BuildsManager.DataModels.Professions;
+using Kenedia.Modules.Core.Models;
 using System;
+using System.ComponentModel;
+using System.Diagnostics;
+using static Kenedia.Modules.BuildsManager.Models.Templates.BuildSpecialization;
 
 namespace Kenedia.Modules.BuildsManager.Models.Templates
 {
-    public class SpecializationCollection : DeepObservableDictionary<SpecializationSlot, BuildSpecialization>
+    public class SpecializationCollection : NotifyPropertyChangedDictionary<SpecializationSlot, BuildSpecialization>
     {
         public SpecializationCollection()
         {
+            ItemChanged += SpecializationCollection_ItemChanged;
+            ItemPropertyChanged += SpecializationCollection_ItemPropertyChanged;
+
             foreach (SpecializationSlot e in Enum.GetValues(typeof(SpecializationSlot)))
             {
-                Add(e, new());
+                Add(e, new() { SpecializationSlot = e });
             }
-
-            ValueChanged += SpecializationCollection_ValueChanged;
         }
 
-        private void SpecializationCollection_ValueChanged(object sender, DictionaryItemChanged<SpecializationSlot, BuildSpecialization> e)
+        private void SpecializationCollection_ItemPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            if(e.Key == SpecializationSlot.Line_3)
+            TraitsChanged?.Invoke(sender, e);
+        }
+
+        private void SpecializationCollection_ItemChanged(object sender, DictionaryItemChangedEventArgs<SpecializationSlot, BuildSpecialization> e)
+        {
+            if (e.Key == SpecializationSlot.Line_3)
+            {
+                if(e.OldValue != null) e.OldValue.SpecChanged -= SpecializationCollection_SpecChanged;
+                if (e.NewValue != null) e.NewValue.SpecChanged += SpecializationCollection_SpecChanged;
+            }
+        }
+
+        private void SpecializationCollection_SpecChanged(object sender, SpecializationChangedEventArgs e)
+        {
+            if (e.SpecializationSlot == SpecializationSlot.Line_3)
             {
                 EliteSpecChanged?.Invoke(this, e);
             }
         }
 
-        private void SpecializationCollection_ItemChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
-        {
-            if((SpecializationSlot) sender == SpecializationSlot.Line_3)
-            {
-                this[SpecializationSlot.Line_3].SpecChanged += SpecializationCollection_SpecChanged;
-
-            }
-        }
-
-        private void SpecializationCollection_SpecChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
-        {
-
-        }
-
-        public event EventHandler EliteSpecChanged;
+        public event EventHandler<SpecializationChangedEventArgs> EliteSpecChanged;
+        public event EventHandler<PropertyChangedEventArgs> TraitsChanged;
 
         public byte GetSpecializationByte(SpecializationSlot slot)
         {
-            byte id = (byte)(TryGetValue(slot, out BuildSpecialization specialization) && specialization != null  && specialization.Specialization  != null ? specialization.Specialization?.Id : 0);
+            byte id = (byte)(TryGetValue(slot, out BuildSpecialization specialization) && specialization != null && specialization.Specialization != null ? specialization.Specialization?.Id : 0);
             return id;
         }
 
@@ -59,7 +65,7 @@ namespace Kenedia.Modules.BuildsManager.Models.Templates
 
         public override void Wipe()
         {
-            foreach(var buildspec in this)
+            foreach (var buildspec in this)
             {
                 buildspec.Value.Specialization = null;
                 buildspec.Value.Traits.Wipe();

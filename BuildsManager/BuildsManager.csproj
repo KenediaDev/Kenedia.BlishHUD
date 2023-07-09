@@ -332,9 +332,11 @@
     <Compile Include="Extensions\ChatLinkExtension.cs" />
     <Compile Include="Models\ItemMap.cs" />
     <Compile Include="Models\Paths.cs" />
+    <Compile Include="Models\TemplatePresenter.cs" />
     <Compile Include="Models\Templates\BuildSkillSlot.cs" />
     <Compile Include="Models\Templates\BuildSpecialization.cs" />
     <Compile Include="Models\Templates\BuildTemplate.cs" />
+    <Compile Include="Models\Templates\EncounterFlag.cs" />
     <Compile Include="Models\Templates\GearCollection.cs" />
     <Compile Include="Models\Templates\GearSlot.cs" />
     <Compile Include="Models\Templates\GearTemplate.cs" />
@@ -343,12 +345,14 @@
     <Compile Include="Models\Templates\PetCollection.cs" />
     <Compile Include="Models\Templates\PetSlot.cs" />
     <Compile Include="Models\Templates\RotationTemplate.cs" />
-    <Compile Include="Models\Templates\SkillCollection.cs" />
+    <Compile Include="Models\Templates\SplitSkillCollection.cs" />
     <Compile Include="Models\Templates\SpecializationCollection.cs" />
     <Compile Include="Models\Templates\SpecializationSlot.cs" />
     <Compile Include="Models\Templates\Template.cs" />
     <Compile Include="Models\Templates\TemplateAttributes.cs" />
+    <Compile Include="Models\Templates\TemplateFlag.cs" />
     <Compile Include="Models\Templates\TemplateItem.cs" />
+    <Compile Include="Models\Templates\TemplateTagTextures.cs" />
     <Compile Include="Models\Templates\TraitCollection.cs" />
     <Compile Include="Models\Templates\TraitSlot.cs" />
     <Compile Include="Models\Templates\UpgradeCollection.cs" />

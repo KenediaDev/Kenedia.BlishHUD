@@ -4,6 +4,7 @@ using Blish_HUD.Controls;
 using Blish_HUD.Input;
 using Gw2Sharp;
 using Kenedia.Modules.BuildsManager.DataModels.Professions;
+using Kenedia.Modules.BuildsManager.Models;
 using Kenedia.Modules.BuildsManager.Models.Templates;
 using Kenedia.Modules.Core.DataModels;
 using Kenedia.Modules.Core.Extensions;
@@ -127,7 +128,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage.ProfessionSpecific
 
         private Rectangle _energyDisplayValue = Rectangle.Empty;
 
-        public RevenantSpecifics()
+        public RevenantSpecifics(TemplatePresenter template) : base(template)
         {
             Input.Mouse.LeftMouseButtonPressed += Mouse_LeftMouseButtonPressed;
         }
@@ -182,7 +183,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage.ProfessionSpecific
             {
                 if (swap.Hovered)
                 {
-                    Template?.BuildTemplate.SwapLegends();
+                    TemplatePresenter.SwapLegend();
                     return;
                 }
             }
@@ -205,7 +206,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage.ProfessionSpecific
         {
             foreach (LegendSlot slot in Enum.GetValues(typeof(LegendSlot)))
             {
-                _legends[slot].Legend = Template.BuildTemplate.Legends[slot];
+                _legends[slot].Legend = TemplatePresenter.Template.BuildTemplate.Legends[slot];
             }
 
             base.ApplyTemplate();
@@ -235,6 +236,12 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage.ProfessionSpecific
                 swap.Draw(this, spriteBatch, RelativeMousePosition);
             }
 
+            var r = _legends[LegendSlot.TerrestrialActive].Bounds;
+            spriteBatch.DrawStringOnCtrl(this, TemplatePresenter.LegendSlot is LegendSlot.TerrestrialActive ? "Active Legend" : "Inactive Legend", Content.DefaultFont16, new(r.Right + 5, r.Center.Y - (Content.DefaultFont14.LineHeight / 2), 100, Content.DefaultFont16.LineHeight), Color.White);
+
+            r = _legends[LegendSlot.AquaticActive].Bounds;
+            spriteBatch.DrawStringOnCtrl(this, TemplatePresenter.LegendSlot is LegendSlot.TerrestrialActive ? "Active Legend" : "Inactive Legend", Content.DefaultFont16, new(r.Right + 5, r.Center.Y - (Content.DefaultFont14.LineHeight / 2), 100, Content.DefaultFont16.LineHeight), Color.White);
+
             if (_selectorOpen)
             {
                 DrawSelector(spriteBatch, bounds);
@@ -250,7 +257,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage.ProfessionSpecific
 
         private LegendSlot GetOtherSlot(LegendSlot? slot = null)
         {
-            slot ??= Template.LegendSlot;
+            slot ??= TemplatePresenter.LegendSlot;
 
             return slot switch
             {
@@ -271,19 +278,18 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage.ProfessionSpecific
                 {
                     if (s.Hovered)
                     {
-                        if (Template.Terrestrial || !s.Legend.Swap.Flags.HasFlag(SkillFlag.NoUnderwater))
+                        if (true|| !s.Legend.Swap.Flags.HasFlag(SkillFlag.NoUnderwater))
                         {
                             var slot = GetOtherSlot(_selectorAnchor.LegendSlot);
-                            var otherLegend = Template.BuildTemplate.Legends[slot];
+                            var otherLegend = TemplatePresenter.Template.BuildTemplate.Legends[slot];
 
                             if (otherLegend != null && otherLegend == s.Legend)
                             {
-                                Template.BuildTemplate.SetLegend(_selectorAnchor.Legend, slot);
+                                TemplatePresenter.Template.BuildTemplate.SetLegend(_selectorAnchor.Legend, slot);
                             }
 
-                            Template.BuildTemplate.SetLegend(s.Legend, _selectorAnchor.LegendSlot);
+                            TemplatePresenter.Template.BuildTemplate.SetLegend(s.Legend, _selectorAnchor.LegendSlot);
                             _selectorAnchor.Legend = s.Legend;
-
                         }
                     }
                 }
@@ -296,7 +302,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage.ProfessionSpecific
         {
             _selectableLegends.Clear();
 
-            var legends = BuildsManager.Data.Professions[Gw2Sharp.Models.ProfessionType.Revenant].Legends.Where(e => e.Value.Specialization == 0 || e.Value.Specialization == Template.EliteSpecialization?.Id);
+            var legends = BuildsManager.Data.Professions[Gw2Sharp.Models.ProfessionType.Revenant].Legends.Where(e => e.Value.Specialization == 0 || e.Value.Specialization == TemplatePresenter.Template.EliteSpecialization?.Id);
 
             int columns = Math.Min(legends.Count(), 4);
             int rows = (int)Math.Ceiling(legends.Count() / (double)columns);
@@ -336,7 +342,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage.ProfessionSpecific
 
             foreach (var s in _selectableLegends)
             {
-                s.Draw(this, spriteBatch, Template.Terrestrial, RelativeMousePosition);
+                s.Draw(this, spriteBatch, true, RelativeMousePosition);
             }
 
             spriteBatch.DrawStringOnCtrl(this, "Legends", Content.DefaultFont18, new Rectangle(_selectorBounds.Left, _selectorBounds.Bottom - 12 - Content.DefaultFont18.LineHeight, _selectorBounds.Width, Content.DefaultFont18.LineHeight), Color.White, false, HorizontalAlignment.Center);

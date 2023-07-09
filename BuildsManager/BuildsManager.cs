@@ -16,6 +16,7 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel.Composition;
+using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
 using CornerIcon = Kenedia.Modules.Core.Controls.CornerIcon;
@@ -45,6 +46,8 @@ namespace Kenedia.Modules.BuildsManager
 
         public ObservableCollection<Template> Templates { get; private set; } = new();
 
+        public Template SelectedTemplate => MainWindow?.Template ?? null;
+
         protected override void DefineSettings(SettingCollection settings)
         {
             base.DefineSettings(settings);
@@ -69,7 +72,7 @@ namespace Kenedia.Modules.BuildsManager
             Data = new(ContentsManager, Paths);
         }
 
-        protected override async void OnLocaleChanged(object sender, ValueChangedEventArgs<Locale> e)
+        protected override async void OnLocaleChanged(object sender, Blish_HUD.ValueChangedEventArgs<Locale> e)
         {
             if (e.NewValue is not Locale.Korean and not Locale.Chinese)
             {
@@ -204,7 +207,7 @@ namespace Kenedia.Modules.BuildsManager
             DeleteCornerIcons();
         }
 
-        private void ShowCornerIcon_SettingChanged(object sender, ValueChangedEventArgs<bool> e)
+        private void ShowCornerIcon_SettingChanged(object sender, Blish_HUD.ValueChangedEventArgs<bool> e)
         {
             if (e.NewValue)
             {
@@ -220,33 +223,32 @@ namespace Kenedia.Modules.BuildsManager
         {
             Logger.Info($"LoadTemplates");
 
-            //try
-            //{
-            //    string[] templates = Directory.GetFiles(Paths.TemplatesPath);
+            try
+            {
+                string[] templates = Directory.GetFiles(Paths.TemplatesPath);
 
-            //    Logger.Info($"Loading {templates.Length} Templates ...");
-            //    foreach (string file in templates)
-            //    {
-            //        using var reader = File.OpenText(file);
-            //        string fileText = await reader.ReadToEndAsync();
+                Logger.Info($"Loading {templates.Length} Templates ...");
+                foreach (string file in templates)
+                {
+                    using var reader = File.OpenText(file);
+                    string fileText = await reader.ReadToEndAsync();
 
-            //        var template = JsonConvert.DeserializeObject<Template>(fileText);
+                    var template = JsonConvert.DeserializeObject<Template>(fileText);
 
-            //        if (template != null)
-            //        {
-            //            template.LoadRotations();
-            //            Templates.Add(template);
-            //        }
-            //    }
+                    if (template != null)
+                    {
+                        Templates.Add(template);
+                    }
+                }
 
-            //    if (Templates.Count == 0 && SelectedTemplate != null) Templates.Add(SelectedTemplate);
-            //    SelectedTemplate = Templates.FirstOrDefault();
-            //}
-            //catch (Exception ex)
-            //{
-            //    Logger.Warn(ex.Message );
-            //    Logger.Warn($"Loading Templates failed!");
-            //}
+                //if (Templates.Count == 0 && SelectedTemplate != null) Templates.Add(SelectedTemplate);
+                //SelectedTemplate = Templates.FirstOrDefault();
+            }
+            catch (Exception ex)
+            {
+                Logger.Warn(ex.Message);
+                Logger.Warn($"Loading Templates failed!");
+            }
         }
 
         private void CreateCornerIcons()

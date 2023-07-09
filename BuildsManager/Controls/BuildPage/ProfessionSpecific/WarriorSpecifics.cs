@@ -6,6 +6,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System.Linq;
 using Kenedia.Modules.BuildsManager.DataModels.Professions;
+using Kenedia.Modules.BuildsManager.Models;
 
 namespace Kenedia.Modules.BuildsManager.Controls.BuildPage.ProfessionSpecific
 {
@@ -38,7 +39,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage.ProfessionSpecific
             new(),
         };
 
-        public WarriorSpecifics()
+        public WarriorSpecifics(TemplatePresenter template) : base(template)
         {
 
         }
@@ -48,7 +49,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage.ProfessionSpecific
             base.RecalculateLayout();
             int xOffset = 90;
 
-            switch (Template.EliteSpecialization?.Id)
+            switch (TemplatePresenter.Template.EliteSpecialization?.Id)
             {
                 case (int)SpecializationType.Bladesworn:
                     for (int i = 0; i < _charges.Length; i++)
@@ -112,7 +113,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage.ProfessionSpecific
 
         protected override void Paint(SpriteBatch spriteBatch, Rectangle bounds)
         {
-            switch (Template.EliteSpecialization?.Id)
+            switch (TemplatePresenter.Template.EliteSpecialization?.Id)
             {
                 case (int)SpecializationType.Bladesworn:
                     _barBackground.Draw(this, spriteBatch);
@@ -160,28 +161,28 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage.ProfessionSpecific
             Skill GetSkill(SkillSlot slot)
             {
                 Skill skill = null;
-                bool spellbreaker = Template.EliteSpecialization?.Id == (int)SpecializationType.Spellbreaker;
-                bool berserker = Template.EliteSpecialization?.Id == (int)SpecializationType.Berserker;
+                bool spellbreaker = TemplatePresenter.Template.EliteSpecialization?.Id == (int)SpecializationType.Spellbreaker;
+                bool berserker = TemplatePresenter.Template.EliteSpecialization?.Id == (int)SpecializationType.Berserker;
                 if (spellbreaker && slot == SkillSlot.Profession2)
                 {
                     return skills[44165];
                 }
 
-                foreach (var item in skills.Values.Where(
-                    e => e.Slot == slot &&                     
-                    e.WeaponType != null && ((!spellbreaker && e.WeaponType == Weapon.WeaponType.None) || e.WeaponType == (Template.Terrestrial ? Template.GearTemplate.Weapons[GearTemplateSlot.MainHand].Weapon : Template.GearTemplate.Weapons[GearTemplateSlot.Aquatic].Weapon))))
-                {
-                    skill ??= item.Specialization == Template.EliteSpecialization?.Id || item.Specialization == 0 ? item : skill;
-                    if (!berserker && item.Specialization == Template.EliteSpecialization?.Id && skill.Specialization == 0)
-                    {
-                        skill = item;
-                    }
-                }
+                //foreach (var item in skills.Values.Where(
+                //    e => e.Slot == slot &&                     
+                //    e.WeaponType != null && ((!spellbreaker && e.WeaponType == Weapon.WeaponType.None) || e.WeaponType == (BuildPage.Terrestrial ? TemplatePresenter.GearTemplate.Weapons[GearTemplateSlot.MainHand].Weapon : TemplatePresenter.GearTemplate.Weapons[GearTemplateSlot.Aquatic].Weapon))))
+                //{
+                //    skill ??= item.Specialization == TemplatePresenter.EliteSpecialization?.Id || item.Specialization == 0 ? item : skill;
+                //    if (!berserker && item.Specialization == TemplatePresenter.EliteSpecialization?.Id && skill.Specialization == 0)
+                //    {
+                //        skill = item;
+                //    }
+                //}
 
                 return skill;
             }
 
-            if (Template.EliteSpecialization?.Id is (int) SpecializationType.Spellbreaker or (int) SpecializationType.Berserker)
+            if (TemplatePresenter.Template.EliteSpecialization?.Id is (int) SpecializationType.Spellbreaker or (int) SpecializationType.Berserker)
             {
                 _skills[0].Skill = GetSkill(SkillSlot.Profession2);
                 _skills[1].Skill = GetSkill(SkillSlot.Profession1);

@@ -38,7 +38,7 @@ namespace Kenedia.Modules.Core.Models
             GameService.Overlay.UserLocale.SettingChanged += UserLocaleOnSettingChanged;
         }
 
-        private void UserLocaleOnSettingChanged(object sender, ValueChangedEventArgs<Locale> e)
+        private void UserLocaleOnSettingChanged(object sender, Blish_HUD.ValueChangedEventArgs<Locale> e)
         {
             _internalConnection.Locale = e.NewValue;
 

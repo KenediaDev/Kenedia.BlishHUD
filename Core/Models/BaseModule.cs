@@ -99,7 +99,7 @@ namespace Kenedia.Modules.Core.Models
             await Services.SharedSettings.Load(Paths.SharedSettingsPath);
         }
 
-        protected virtual void OnLocaleChanged(object sender, ValueChangedEventArgs<Gw2Sharp.WebApi.Locale> eventArgs)
+        protected virtual void OnLocaleChanged(object sender, Blish_HUD.ValueChangedEventArgs<Gw2Sharp.WebApi.Locale> eventArgs)
         {
             LocalizingService.OnLocaleChanged(sender, eventArgs);
         }

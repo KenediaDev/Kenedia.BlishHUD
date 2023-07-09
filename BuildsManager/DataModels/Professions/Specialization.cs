@@ -1,5 +1,7 @@
 ﻿using Blish_HUD.Content;
 using Gw2Sharp.Models;
+using Gw2Sharp.WebApi.V2.Models;
+using Kenedia.Modules.BuildsManager.Models.Templates;
 using Kenedia.Modules.Core.Models;
 using Kenedia.Modules.Core.Utility;
 using System;
@@ -154,5 +156,10 @@ namespace Kenedia.Modules.BuildsManager.DataModels.Professions
 
         [DataMember]
         public Trait WeaponTrait { get; set; }
+
+        public static Specialization FromByte(byte spezializationId, ProfessionType profession)
+        {
+            return BuildsManager.Data.Professions?[profession]?.Specializations.TryGetValue(spezializationId, out Specialization specialization) == true ? specialization : null;
+        }
     }
 }

@@ -11,6 +11,7 @@ using Kenedia.Modules.BuildsManager.Controls.GearPage;
 using Kenedia.Modules.BuildsManager.Controls.NotesPage;
 using Kenedia.Modules.BuildsManager.Controls.Selection;
 using System;
+using System.Diagnostics;
 
 namespace Kenedia.Modules.BuildsManager.Views
 {
@@ -36,6 +37,8 @@ namespace Kenedia.Modules.BuildsManager.Views
                 HeightSizingMode = Blish_HUD.Controls.SizingMode.Fill,
                 Width = 375,
                 Template = _template,
+                MainWindow = this,
+                ZIndex = int.MaxValue /2,
                 //BackgroundColor = Color.Yellow * 0.2F,
             };
 
@@ -46,6 +49,7 @@ namespace Kenedia.Modules.BuildsManager.Views
                 Width = ContentRegion.Width - 144,
                 HeightSizingMode = Blish_HUD.Controls.SizingMode.Fill,
                 OnTabSwitched = _selectionPanel.ResetAnchor,
+                ZIndex = int.MaxValue,
                 //BackgroundColor = Color.Green * 0.2F,
             };
 
@@ -64,14 +68,12 @@ namespace Kenedia.Modules.BuildsManager.Views
             });
 
             _tabbedRegion.AddTab(tab = new TabbedRegionTab(
-                _build = new BuildPage(_texturesService)
-                {
-                    Template = _template,
-                })
+                _build = new BuildPage(_texturesService))
             {
                 Header = "Build",
                 Icon = AsyncTexture2D.FromAssetId(156720),
             });
+            _build.TemplatePresenter.Template = _template;
 
             _tabbedRegion.AddTab(new TabbedRegionTab(
                 _gear = new GearPage(_texturesService)
@@ -106,7 +108,8 @@ namespace Kenedia.Modules.BuildsManager.Views
 
         private void ApplyTemplate()
         {
-            _build.Template = _template;
+            _build.TemplatePresenter.Template = _template;
+
             _gear.Template = _template;
             _notes.Template = _template;
             _selectionPanel.Template = _template;

@@ -1,6 +1,7 @@
 ﻿using Blish_HUD;
 using Blish_HUD.Controls;
 using Kenedia.Modules.BuildsManager.DataModels.Professions;
+using Kenedia.Modules.BuildsManager.Models;
 using Kenedia.Modules.BuildsManager.Models.Templates;
 using Kenedia.Modules.Core.DataModels;
 using Kenedia.Modules.Core.Models;
@@ -22,6 +23,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage.ProfessionSpecific
 
         private Color _healthColor = new(162, 17, 11);
         private Rectangle _healthRectangle;
+        private Enviroment Enviroment = Enviroment.Terrestrial;
 
         private readonly DetailedTexture _energyBg = new(1636718);
         private readonly DetailedTexture _energy = new(1636719);
@@ -34,7 +36,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage.ProfessionSpecific
             new(),
         };
 
-        public EngineerSpecifics()
+        public EngineerSpecifics(TemplatePresenter template) : base(template)
         {
 
         }
@@ -46,7 +48,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage.ProfessionSpecific
             int xOffset = 90;
 
             _skills[0].TextureRegion = new(14, 14, 100, 100);
-            switch (Template?.EliteSpecialization?.Id)
+            switch (TemplatePresenter.Template.BuildTemplate?.EliteSpecialization?.Id)
             {
                 case (int)SpecializationType.Holosmith:
                     for (int i = 0; i < 5; i++)
@@ -83,7 +85,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage.ProfessionSpecific
                     break;
             }
 
-            if (Template?.EliteSpecialization?.Id == (int)SpecializationType.Scrapper)
+            if (TemplatePresenter.Template?.BuildTemplate?.EliteSpecialization?.Id == (int)SpecializationType.Scrapper)
             {
                 _skills[4].TextureRegion = new(6, 6, 51, 51);
             }
@@ -93,7 +95,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage.ProfessionSpecific
         {
             RecalculateLayout();
 
-            switch (Template?.EliteSpecialization?.Id)
+            switch (TemplatePresenter.Template?.BuildTemplate?.EliteSpecialization?.Id)
             {
                 case (int)SpecializationType.Holosmith:
                     for (int i = 0; i < 5; i++)
@@ -108,7 +110,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage.ProfessionSpecific
                     break;
 
                 case (int)SpecializationType.Mechanist:
-                    if(Template.Terrestrial == false)
+                    if (false)
                     {
                         _skills[0].Draw(this, spriteBatch, RelativeMousePosition);
                         return;
@@ -161,56 +163,59 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage.ProfessionSpecific
             {
                 Skill skill = null;
 
-                foreach (var item in skills.Values.Where(e => e.Slot == slot))
-                {
-                    skill ??= item.Specialization == Template.EliteSpecialization?.Id || item.Specialization == 0 ? item : skill;
-                    if (item.Specialization == Template.EliteSpecialization?.Id && skill.Specialization == 0)
-                    {
-                        skill = item;
-                    }
-                }
+                //foreach (var item in skills.Values.Where(e => e.Slot == slot))
+                //{
+                //    skill ??= item.Specialization == Template.EliteSpecialization?.Id || item.Specialization == 0 ? item : skill;
+                //    if (item.Specialization == Template.EliteSpecialization?.Id && skill.Specialization == 0)
+                //    {
+                //        skill = item;
+                //    }
+                //}
 
                 return skill;
             }
 
             Skill GetToolbeltSkill(SkillSlot slot)
             {
-                var buildSkills = Template.GetActiveSkills();
+                Models.Templates.SkillSlot state = Models.Templates.SkillSlot.Active;
+                Models.Templates.SkillSlot enviroment = Models.Templates.SkillSlot.Terrestrial;
+
+                var buildSkills = TemplatePresenter.Template?.BuildTemplate?.Skills.Where(e => e.Key.HasFlag(state | enviroment)).ToDictionary(e => e.Key, e => e.Value);
 
                 switch (slot)
                 {
                     case SkillSlot.Profession1:
-                        if (buildSkills[BuildSkillSlot.Heal] != null)
+                        if (buildSkills[state | enviroment | Models.Templates.SkillSlot.Heal] != null)
                         {
-                            return buildSkills[BuildSkillSlot.Heal].ToolbeltSkill != null && skills.TryGetValue((int)buildSkills[BuildSkillSlot.Heal].ToolbeltSkill, out Skill skill) ? skill : null;
+                            return buildSkills[state | enviroment | Models.Templates.SkillSlot.Heal].ToolbeltSkill != null && skills.TryGetValue((int)buildSkills[state | enviroment | Models.Templates.SkillSlot.Heal].ToolbeltSkill, out Skill skill) ? skill : null;
                         }
                         break;
 
                     case SkillSlot.Profession2:
-                        if (buildSkills[BuildSkillSlot.Utility_1] != null)
+                        if (buildSkills[state | enviroment | Models.Templates.SkillSlot.Utility_1] != null)
                         {
-                            return buildSkills[BuildSkillSlot.Utility_1].ToolbeltSkill != null && skills.TryGetValue((int)buildSkills[BuildSkillSlot.Utility_1].ToolbeltSkill, out Skill skill) ? skill : null;
+                            return buildSkills[state | enviroment | Models.Templates.SkillSlot.Utility_1].ToolbeltSkill != null && skills.TryGetValue((int)buildSkills[state | enviroment | Models.Templates.SkillSlot.Utility_1].ToolbeltSkill, out Skill skill) ? skill : null;
                         }
                         break;
 
                     case SkillSlot.Profession3:
-                        if (buildSkills[BuildSkillSlot.Utility_2] != null)
+                        if (buildSkills[state | enviroment | Models.Templates.SkillSlot.Utility_2] != null)
                         {
-                            return buildSkills[BuildSkillSlot.Utility_2].ToolbeltSkill != null && skills.TryGetValue((int)buildSkills[BuildSkillSlot.Utility_2].ToolbeltSkill, out Skill skill) ? skill : null;
+                            return buildSkills[state | enviroment | Models.Templates.SkillSlot.Utility_2].ToolbeltSkill != null && skills.TryGetValue((int)buildSkills[state | enviroment | Models.Templates.SkillSlot.Utility_2].ToolbeltSkill, out Skill skill) ? skill : null;
                         }
                         break;
 
                     case SkillSlot.Profession4:
-                        if (buildSkills[BuildSkillSlot.Utility_3] != null)
+                        if (buildSkills[state | enviroment | Models.Templates.SkillSlot.Utility_3] != null)
                         {
-                            return buildSkills[BuildSkillSlot.Utility_3].ToolbeltSkill != null && skills.TryGetValue((int)buildSkills[BuildSkillSlot.Utility_3].ToolbeltSkill, out Skill skill) ? skill : null;
+                            return buildSkills[state | enviroment | Models.Templates.SkillSlot.Utility_3].ToolbeltSkill != null && skills.TryGetValue((int)buildSkills[state | enviroment | Models.Templates.SkillSlot.Utility_3].ToolbeltSkill, out Skill skill) ? skill : null;
                         }
                         break;
 
                     case SkillSlot.Profession5:
-                        if (buildSkills[BuildSkillSlot.Elite] != null)
+                        if (buildSkills[state | enviroment | Models.Templates.SkillSlot.Elite] != null)
                         {
-                            return buildSkills[BuildSkillSlot.Elite].ToolbeltSkill != null && skills.TryGetValue((int)buildSkills[BuildSkillSlot.Elite].ToolbeltSkill, out Skill skill) ? skill : null;
+                            return buildSkills[state | enviroment | Models.Templates.SkillSlot.Elite].ToolbeltSkill != null && skills.TryGetValue((int)buildSkills[state | enviroment | Models.Templates.SkillSlot.Elite].ToolbeltSkill, out Skill skill) ? skill : null;
                         }
                         break;
                 }
@@ -218,15 +223,15 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage.ProfessionSpecific
                 return null;
             }
 
-            switch (Template.EliteSpecialization?.Id)
+            switch (TemplatePresenter.Template.BuildTemplate.EliteSpecialization?.Id)
             {
                 case (int)SpecializationType.Mechanist:
-                    _skills[0].Skill = Template.Terrestrial ? skills[63089] : skills[63210];
+                    _skills[0].Skill = Enviroment == Enviroment.Terrestrial ? skills[63089] : skills[63210];
                     //TODO add Mech Skills
 
-                    _skills[1].Skill = skills[63334]?.GetEffectiveSkill(Template);
-                    _skills[2].Skill = skills[63367]?.GetEffectiveSkill(Template);
-                    _skills[3].Skill = skills[63121]?.GetEffectiveSkill(Template);
+                    _skills[1].Skill = skills[63334]?.GetEffectiveSkill(TemplatePresenter.Template, Enviroment);
+                    _skills[2].Skill = skills[63367]?.GetEffectiveSkill(TemplatePresenter.Template, Enviroment);
+                    _skills[3].Skill = skills[63121]?.GetEffectiveSkill(TemplatePresenter.Template, Enviroment);
 
                     break;
 
@@ -243,7 +248,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage.ProfessionSpecific
                     break;
             }
 
-            if (Template.EliteSpecialization?.Id != (int)SpecializationType.Mechanist)
+            if (TemplatePresenter.Template.BuildTemplate.EliteSpecialization?.Id != (int)SpecializationType.Mechanist)
             {
                 _skills[0].Skill = GetToolbeltSkill(SkillSlot.Profession1);
                 _skills[1].Skill = GetToolbeltSkill(SkillSlot.Profession2);

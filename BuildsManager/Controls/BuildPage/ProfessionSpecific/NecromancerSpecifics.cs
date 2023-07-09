@@ -8,6 +8,7 @@ using Kenedia.Modules.Core.Models;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System.Linq;
+using Kenedia.Modules.BuildsManager.Models;
 
 namespace Kenedia.Modules.BuildsManager.Controls.BuildPage.ProfessionSpecific
 {
@@ -35,7 +36,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage.ProfessionSpecific
             new(),
         };
 
-        public NecromancerSpecifics()
+        public NecromancerSpecifics(TemplatePresenter template) : base(template)
         {
 
         }
@@ -45,7 +46,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage.ProfessionSpecific
             base.RecalculateLayout();
             int xOffset = 80;
 
-            switch (Template.EliteSpecialization?.Id)
+            switch (TemplatePresenter.Template.EliteSpecialization?.Id)
             {
                 case (int)SpecializationType.Scourge:
                     _shades.Bounds = new(xOffset + 10 + 46, 28, 36, 36);
@@ -82,7 +83,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage.ProfessionSpecific
 
         protected override void Paint(SpriteBatch spriteBatch, Rectangle bounds)
         {
-            switch (Template.EliteSpecialization?.Id)
+            switch (TemplatePresenter.Template.EliteSpecialization?.Id)
             {
                 case (int)SpecializationType.Scourge:
                     _shades.Draw(this, spriteBatch);
@@ -125,8 +126,8 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage.ProfessionSpecific
 
                 foreach (var item in skills.Values.Where(e => e.Slot == slot))
                 {
-                    skill ??= item.Specialization == Template.EliteSpecialization?.Id || item.Specialization == 0 ? item : skill;
-                    if (item.Specialization == Template.EliteSpecialization?.Id && skill.Specialization == 0)
+                    skill ??= item.Specialization == TemplatePresenter.Template.EliteSpecialization?.Id || item.Specialization == 0 ? item : skill;
+                    if (item.Specialization == TemplatePresenter.Template.EliteSpecialization?.Id && skill.Specialization == 0)
                     {
                         skill = item;
                     }
@@ -135,7 +136,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage.ProfessionSpecific
                 return skill;
             }
 
-            switch (Template.EliteSpecialization?.Id)
+            switch (TemplatePresenter.Template.EliteSpecialization?.Id)
             {
                 case (int)SpecializationType.Scourge:
                     _skills[0].Skill = GetSkill(SkillSlot.Profession1);

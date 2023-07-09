@@ -277,9 +277,8 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
                     }
 
                     if (temp != null) temp.PropertyChanged -= TemplateChanged;
-                    if (temp != null) temp.ProfessionChanged -= Template_ProfessionChanged;
+
                     if (_template != null) _template.PropertyChanged += TemplateChanged;
-                    if (_template != null) _template.ProfessionChanged += Template_ProfessionChanged;
                 }
             }
         }

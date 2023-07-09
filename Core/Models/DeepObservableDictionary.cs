@@ -8,21 +8,42 @@ using System.Runtime.CompilerServices;
 
 namespace Kenedia.Modules.Core.Models
 {
-    public class DictionaryItemChanged<TKey, TValue> : EventArgs
+#nullable enable
+    public delegate void DictionaryItemChangedEventHandler<TKey, TValue>(object sender, Models.DictionaryItemChangedEventArgs<TKey, TValue> e);
+
+    public delegate void ValueChangedEventHandler<T>(object sender, Models.ValueChangedEventArgs<T> e);
+
+    public class ValueChangedEventArgs<TValue> : EventArgs
     {
-        public DictionaryItemChanged(TKey key, TValue oldValue, TValue newValue)
+        public ValueChangedEventArgs(TValue? oldValue, TValue? newValue)
+        {
+            OldValue = oldValue;
+            NewValue = newValue;
+        }
+
+        public TValue? OldValue { get; set; }
+
+        public TValue? NewValue { get; set; }
+    }
+#nullable disable
+
+#nullable enable
+    public class DictionaryItemChangedEventArgs<TKey, TValue> : EventArgs
+    {
+        public DictionaryItemChangedEventArgs(TKey key, TValue? oldValue, TValue? newValue)
         {
             OldValue = oldValue;
             NewValue = newValue;
             Key = key;
         }
 
-        public TValue OldValue { get; set; }
-        
-        public TValue NewValue { get; set; }
+        public TValue? OldValue { get; set; }
+
+        public TValue? NewValue { get; set; }
 
         public TKey Key { get; set; }
     }
+#nullable disable
 
     public class DeepObservableDictionary<TKey, TValue> : Dictionary<TKey, TValue>, IDisposable
         where TValue : INotifyPropertyChanged
@@ -37,10 +58,10 @@ namespace Kenedia.Modules.Core.Models
 
         public DeepObservableDictionary()
         {
-
+            
         }
 
-        public event EventHandler<DictionaryItemChanged<TKey, TValue>> ValueChanged;
+        public event EventHandler<DictionaryItemChangedEventArgs<TKey, TValue>> ValueChanged;
         public event EventHandler<PropertyChangedEventArgs> ItemChanged;
         public event EventHandler<PropertyChangedEventArgs> CollectionChanged;
 
@@ -84,6 +105,7 @@ namespace Kenedia.Modules.Core.Models
             value.PropertyChanged += ItemProperty_Changed;
 
             base.Add(key, value);
+            ValueChanged?.Invoke(this, new(key, default, value));
             CollectionChanged?.Invoke(this, new("Items"));
         }
 

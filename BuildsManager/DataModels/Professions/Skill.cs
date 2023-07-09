@@ -13,6 +13,7 @@ using System.Linq;
 using System.Runtime.Serialization;
 using static Kenedia.Modules.BuildsManager.DataModels.Professions.Weapon;
 using APISkill = Gw2Sharp.WebApi.V2.Models.Skill;
+using SkillSlot = Gw2Sharp.WebApi.V2.Models.SkillSlot;
 
 namespace Kenedia.Modules.BuildsManager.DataModels.Professions
 {
@@ -241,7 +242,7 @@ namespace Kenedia.Modules.BuildsManager.DataModels.Professions
             return GetRevPaletteId(skill.Id);
         }
 
-        public Skill GetEffectiveSkill(Template template)
+        public Skill GetEffectiveSkill(Template template, Enviroment enviroment)
         {
             Skill skill = this;
 
@@ -277,7 +278,7 @@ namespace Kenedia.Modules.BuildsManager.DataModels.Professions
 
                     if (skill?.SkillConnection != null && skill.SkillConnection.EnvCounter != null)
                     {
-                        bool useCounterSkill = (template.Terrestrial && !skill.SkillConnection.Enviroment.HasFlag(Enviroment.Terrestrial)) || (!template.Terrestrial && !skill.SkillConnection.Enviroment.HasFlag(Enviroment.Aquatic));
+                        bool useCounterSkill = (enviroment == Enviroment.Terrestrial && !skill.SkillConnection.Enviroment.HasFlag(Enviroment.Terrestrial)) || (enviroment != Enviroment.Terrestrial && !skill.SkillConnection.Enviroment.HasFlag(Enviroment.Aquatic));
                         if (useCounterSkill) _ = BuildsManager.Data.Professions[template.Profession].Skills.TryGetValue((int)skill.SkillConnection.EnvCounter, out skill);
                     }
                 }

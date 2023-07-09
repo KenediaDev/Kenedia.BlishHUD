@@ -15,6 +15,9 @@ using System.Collections.Generic;
 using System.Linq;
 using static Blish_HUD.ContentService;
 using System.Diagnostics;
+using SharpDX.MediaFoundation;
+using Kenedia.Modules.BuildsManager.Models;
+using Gw2Sharp;
 
 namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
 {
@@ -24,35 +27,15 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
         private readonly DetailedTexture _aquaticTexture = new(1988170);
         private readonly DetailedTexture _terrestrialTexture = new(1988171);
 
-        private readonly List<DetailedTexture> _terrestrialSelectors = new()
-        {
-            new(157138, 157140),
-            new(157138, 157140),
-            new(157138, 157140),
-            new(157138, 157140),
-            new(157138, 157140),
-        };
+        private TemplatePresenter _templatePresenter;
 
-        private readonly List<DetailedTexture> _aquaticSelectors = new()
-        {
-            new(157138, 157140),
-            new(157138, 157140),
-            new(157138, 157140),
-            new(157138, 157140),
-            new(157138, 157140),
-        };
+        private readonly SkillIconCollection _skillIcons = new(true);
 
-        private Template _template;
-
-        private readonly SkillIconCollection _aquaticSkills = new();
-        private readonly SkillIconCollection _inactiveAquaticSkills = new();
-        private readonly SkillIconCollection _terrestrialSkills = new();
-        private readonly SkillIconCollection _inactiveTerrestrialSkills = new();
-
-        private readonly SelectableSkillIconCollection _selectableSkills = new();
+        private readonly List<SkillIcon> _selectableSkills = new();
         private SkillSlot _selectedSkillSlot;
         private Rectangle _selectorBounds;
         private SkillIcon _selectorAnchor;
+        private LegendSlot _legendSlot = LegendSlot.TerrestrialActive;
 
         private bool _selectorOpen = false;
         private double _lastOpen;
@@ -66,8 +49,6 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
 
             Input.Mouse.LeftMouseButtonPressed += Mouse_LeftMouseButtonPressed;
         }
-
-        private bool Terrestrial => Template != null && Template.BuildTemplate != null && Template.Terrestrial;
 
         private bool AnyHovered
         {
@@ -89,26 +70,45 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
             }
         }
 
-        public Template Template
+        public TemplatePresenter TemplatePresenter
         {
-            get => _template; set
+            get => _templatePresenter; set => Common.SetProperty(ref _templatePresenter, value, SetTemplatePresenter);
+        }
+
+        private void SetTemplatePresenter(object sender, Core.Models.ValueChangedEventArgs<TemplatePresenter> e)
+        {
+            if (e.OldValue != null)
             {
-                var temp = _template;
-                if (Common.SetProperty(ref _template, value, BuildTemplate_Loaded))
-                {
-                    if (temp != null) temp.BuildTemplate.Loaded -= BuildTemplate_Loaded;
-                    if (_template != null) _template.BuildTemplate.Loaded += BuildTemplate_Loaded;
-
-                    if (temp != null) temp.BuildTemplate.LegendChanged -= BuildTemplate_LegendChanged;
-                    if (_template != null) _template.BuildTemplate.LegendChanged += BuildTemplate_LegendChanged;
-
-                    if (temp != null) temp.BuildTemplate.ProfessionChanged -= Template_ProfessionChanged;
-                    if (_template != null) _template.BuildTemplate.ProfessionChanged += Template_ProfessionChanged;
-
-                    if (temp != null) temp.BuildTemplate.EliteSpecChanged -= BuildTemplate_EliteSpecChanged;
-                    if (_template != null) _template.BuildTemplate.EliteSpecChanged += BuildTemplate_EliteSpecChanged; ;
-                }
+                e.OldValue.ProfessionChanged -= Template_ProfessionChanged;
+                e.OldValue.EliteSpecializationChanged -= BuildTemplate_EliteSpecChanged;
+                e.OldValue.TemplateChanged -= OnTemplateChanged;
+                e.OldValue.LegendChanged -= On_LegendChanged;
+                e.OldValue.Loaded += OnLoaded;
             }
+
+            if (e.NewValue != null)
+            {
+                e.NewValue.ProfessionChanged += Template_ProfessionChanged;
+                e.NewValue.EliteSpecializationChanged += BuildTemplate_EliteSpecChanged;
+                e.NewValue.TemplateChanged += OnTemplateChanged;
+                e.NewValue.LegendChanged += On_LegendChanged;
+                e.NewValue.Loaded += OnLoaded;
+            }
+        }
+
+        private void On_LegendChanged(object sender, DictionaryItemChangedEventArgs<LegendSlot, Legend> e)
+        {
+            SetSkills();
+        }
+
+        private void OnLoaded(object sender, EventArgs e)
+        {
+            SetSkills();
+        }
+
+        private void OnTemplateChanged(object sender, Core.Models.ValueChangedEventArgs<Template> e)
+        {
+            SetSkills();
         }
 
         private void BuildTemplate_EliteSpecChanged(object sender, EventArgs e)
@@ -123,41 +123,17 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
 
         private void SetSkills()
         {
-            for (int i = 0; i < _aquaticSkills.Count; i++)
-            {
-                _aquaticSkills[(BuildSkillSlot)i].Skill = null;
-                _inactiveAquaticSkills[(BuildSkillSlot)i].Skill = null;
-                _terrestrialSkills[(BuildSkillSlot)i].Skill = null;
-                _inactiveTerrestrialSkills[(BuildSkillSlot)i].Skill = null;
-            }
+            _skillIcons.Wipe();
 
-            if (Template == null)
+            if (TemplatePresenter?.Template == null)
             {
                 return;
             }
 
-            foreach (var spair in Template.BuildTemplate.AquaticSkills)
+            foreach (var spair in TemplatePresenter.Template?.BuildTemplate?.Skills)
             {
-                _aquaticSkills[spair.Key].Skill = spair.Value?.GetEffectiveSkill(Template);
-                _aquaticSkills[spair.Key].Slot = spair.Key;
-            }
-
-            foreach (var spair in Template.BuildTemplate.InactiveAquaticSkills)
-            {
-                _inactiveAquaticSkills[spair.Key].Skill = spair.Value?.GetEffectiveSkill(Template);
-                _inactiveAquaticSkills[spair.Key].Slot = spair.Key;
-            }
-
-            foreach (var spair in Template.BuildTemplate.TerrestrialSkills)
-            {
-                _terrestrialSkills[spair.Key].Skill = spair.Value?.GetEffectiveSkill(Template);
-                _terrestrialSkills[spair.Key].Slot = spair.Key;
-            }
-
-            foreach (var spair in Template.BuildTemplate.InactiveTerrestrialSkills)
-            {
-                _inactiveTerrestrialSkills[spair.Key].Skill = spair.Value?.GetEffectiveSkill(Template);
-                _inactiveTerrestrialSkills[spair.Key].Slot = spair.Key;
+                _skillIcons[spair.Key].Skill = spair.Value;
+                _skillIcons[spair.Key].Slot = spair.Key;
             }
         }
 
@@ -189,107 +165,42 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
         {
             base.RecalculateLayout();
 
-            int offsetX = 90;
             int offsetY = 5;
-            int secondRowY = 64;
             _skillSize = 64;
-            int weponSize = 52;
 
-            _terrestrialTexture.Bounds = new Rectangle(4, ((Height - _skillSize - 14) / 2) + offsetY, 42, 42);
-            offsetX = _terrestrialTexture.Bounds.Right + 5;
+            _terrestrialTexture.Bounds = new Rectangle(5, ((Height - _skillSize - 14) / 2) + offsetY, 42, 42);
+            _aquaticTexture.Bounds = new Rectangle(_terrestrialTexture.Bounds.Right + (_skillSize * 5) + 20, ((Height - _skillSize - 14) / 2) + offsetY, 42, 42);
 
-            for (int i = 0; i < _terrestrialSkills.Count; i++)
+            foreach (var spair in _skillIcons)
             {
-                var terrestrial = _terrestrialSkills[(BuildSkillSlot)i];
-                terrestrial.Bounds = new Rectangle(offsetX, ((Height - _skillSize - 14) / 2) + offsetY, _skillSize, _skillSize);
+                var key = spair.Key;
 
-                var terrestrialInactive = _inactiveTerrestrialSkills[(BuildSkillSlot)i];
-                terrestrialInactive.Bounds = new Rectangle(offsetX, ((Height - _skillSize - 14) / 2) + offsetY, _skillSize, _skillSize);
+                int pos = key.HasFlag(Models.Templates.SkillSlot.Heal) ? _skillSize * 0 : key.HasFlag(Models.Templates.SkillSlot.Utility_1) ? _skillSize * 1 : key.HasFlag(Models.Templates.SkillSlot.Utility_2) ? _skillSize * 2 : key.HasFlag(Models.Templates.SkillSlot.Utility_3) ? _skillSize * 3 : _skillSize * 4;
 
-                _terrestrialSelectors[i].Bounds = new Rectangle(offsetX, ((Height - _skillSize - 14) / 2) - 14 + offsetY, _skillSize, 15);
-
-                offsetX += _skillSize;
-            }
-
-            _aquaticTexture.Bounds = new Rectangle(_terrestrialSkills[(BuildSkillSlot)4].Bounds.Right + 15, ((Height - _skillSize - 14) / 2) + offsetY, 42, 42);
-            offsetX = _aquaticTexture.Bounds.Right + 5;
-
-            for (int i = 0; i < _terrestrialSkills.Count; i++)
-            {
-                var aquatic = _aquaticSkills[(BuildSkillSlot)i];
-                aquatic.Bounds = new Rectangle(offsetX, ((Height - _skillSize - 14) / 2) + offsetY, _skillSize, _skillSize);
-
-                var aquaticInactive = _inactiveAquaticSkills[(BuildSkillSlot)i];
-                aquaticInactive.Bounds = new Rectangle(offsetX, ((Height - _skillSize - 14) / 2) + offsetY, _skillSize, _skillSize);
-
-                _aquaticSelectors[i].Bounds = new Rectangle(offsetX, ((Height - _skillSize - 14) / 2) - 14 + offsetY, _skillSize, 15);
-
-                offsetX += _skillSize;
+                _skillIcons[spair.Key].Bounds = new((spair.Key.HasFlag(Models.Templates.SkillSlot.Terrestrial) ? _terrestrialTexture.Bounds.Right : _aquaticTexture.Bounds.Right) + 5 + pos, ((Height - _skillSize - 14) / 2) + offsetY, _skillSize, _skillSize);
+                _skillIcons[spair.Key].Selector.Bounds = new((spair.Key.HasFlag(Models.Templates.SkillSlot.Terrestrial) ? _terrestrialTexture.Bounds.Right : _aquaticTexture.Bounds.Right) + 5 + pos, ((Height - _skillSize - 14) / 2) + offsetY - 13, _skillSize, 15);
             }
         }
 
         protected override void Paint(SpriteBatch spriteBatch, Rectangle bounds)
         {
+            RecalculateLayout();
             _terrestrialTexture.Draw(this, spriteBatch, RelativeMousePosition, Color.White);
             _aquaticTexture.Draw(this, spriteBatch, RelativeMousePosition, Color.White);
 
-            var slot = Template?.LegendSlot;
+            Models.Templates.SkillSlot state = TemplatePresenter.LegendSlot == LegendSlot.TerrestrialActive ? Models.Templates.SkillSlot.Active : Models.Templates.SkillSlot.Inactive;
             string txt = string.Empty;
 
-            switch (slot)
+            foreach (var spair in TemplatePresenter.Template.BuildTemplate.Skills)
             {
-                case LegendSlot.AquaticActive:
-                case LegendSlot.TerrestrialActive:
-
-                    foreach (var s in _terrestrialSkills)
+                if (spair.Key.HasFlag(state))
+                {
+                    _skillIcons[spair.Key].Draw(this, spriteBatch, true, RelativeMousePosition);
+                    if (!SeletorOpen && _skillIcons[spair.Key].Hovered && _skillIcons[spair.Key].Skill != null)
                     {
-                        s.Value.Draw(this, spriteBatch, true, RelativeMousePosition);
-                        if (!SeletorOpen && s.Value.Hovered && s.Value.Skill != null)
-                        {
-                            txt = s.Value.Skill.Name;
-                        }
+                        txt = _skillIcons[spair.Key].Skill.Name;
                     }
-
-                    foreach (var s in _aquaticSkills)
-                    {
-                        s.Value.Draw(this, spriteBatch, false, RelativeMousePosition);
-                        if (!SeletorOpen && s.Value.Hovered && s.Value.Skill != null)
-                        {
-                            txt = s.Value.Skill.Name;
-                        }
-                    }
-                    break;
-
-                case LegendSlot.TerrestrialInactive:
-                case LegendSlot.AquaticInactive:
-                    foreach (var s in _inactiveTerrestrialSkills)
-                    {
-                        s.Value.Draw(this, spriteBatch, true, RelativeMousePosition);
-                        if (!SeletorOpen && s.Value.Hovered && s.Value.Skill != null)
-                        {
-                            txt = s.Value.Skill.Name;
-                        }
-                    }
-
-                    foreach (var s in _inactiveAquaticSkills)
-                    {
-                        s.Value.Draw(this, spriteBatch, false, RelativeMousePosition);
-                        if (!SeletorOpen && s.Value.Hovered && s.Value.Skill != null)
-                        {
-                            txt = s.Value.Skill.Name;
-                        }
-                    }
-                    break;
-            };
-
-            foreach (var s in _aquaticSelectors)
-            {
-                s.Draw(this, spriteBatch, RelativeMousePosition);
-            }
-
-            foreach (var s in _terrestrialSelectors)
-            {
-                s.Draw(this, spriteBatch, RelativeMousePosition);
+                }
             }
 
             if (SeletorOpen)
@@ -304,36 +215,13 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
         {
             base.OnRightMouseButtonPressed(e);
 
-            for (int i = 0; i < _terrestrialSkills.Count; i++)
+            foreach (var skillIcon in _skillIcons)
             {
-                SkillIcon skill = null;
-                LegendSlot slot = LegendSlot.TerrestrialActive;
-
-                switch (Template.LegendSlot)
+                if (skillIcon.Value.Hovered)
                 {
-                    case LegendSlot.TerrestrialActive:
-                    case LegendSlot.AquaticActive:
-                        skill = _aquaticSkills[(BuildSkillSlot)i].Hovered ? _aquaticSkills[(BuildSkillSlot)i] : _terrestrialSkills[(BuildSkillSlot)i];
-                        slot = _aquaticSkills[(BuildSkillSlot)i].Hovered ? LegendSlot.AquaticActive : LegendSlot.TerrestrialActive;
-                        break;
-                    case LegendSlot.TerrestrialInactive:
-                    case LegendSlot.AquaticInactive:
-                        skill = _inactiveAquaticSkills[(BuildSkillSlot)i].Hovered ? _inactiveAquaticSkills[(BuildSkillSlot)i] : _inactiveTerrestrialSkills[(BuildSkillSlot)i];
-                        slot = _inactiveAquaticSkills[(BuildSkillSlot)i].Hovered ? LegendSlot.AquaticInactive : LegendSlot.TerrestrialInactive;
-                        break;
-                }
-
-                if (skill.Hovered)
-                {
-                    if (Template.Profession != Gw2Sharp.Models.ProfessionType.Revenant || Template.BuildTemplate.Legends[slot] != null)
-                    {
-                        var skillSlot = i == 0 ? SkillSlot.Heal : i == 4 ? SkillSlot.Elite : SkillSlot.Utility;
-                        _selectedSkillSlot = skillSlot;
-                        SeletorOpen = _selectorAnchor != skill || !SeletorOpen;
-                        _selectorAnchor = skill;
-                        GetSelectableSkills(skillSlot, slot);
-                        return;
-                    }
+                    SeletorOpen = _selectorAnchor != skillIcon.Value || !SeletorOpen;
+                    _selectorAnchor = skillIcon.Value;
+                    GetSelectableSkills(skillIcon.Key);
                 }
             }
         }
@@ -342,37 +230,13 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
         {
             base.OnClick(e);
 
-            for (int i = 0; i < _terrestrialSkills.Count; i++)
+            foreach (var skillIcon in _skillIcons)
             {
-                var skill = _terrestrialSkills[(BuildSkillSlot)i];
-                var terrestrialSelector = _terrestrialSelectors[i];
-
-                if (skill != null && ((skill.Hovered && GameService.Input.Mouse.State.RightButton == Microsoft.Xna.Framework.Input.ButtonState.Pressed) || terrestrialSelector.Hovered))
+                if (skillIcon.Value.Selector.Hovered)
                 {
-                    if (Template.Profession != Gw2Sharp.Models.ProfessionType.Revenant || Template.BuildTemplate.Legends[Template.LegendSlot] != null)
-                    {
-                        var skillSlot = i == 0 ? SkillSlot.Heal : i == 4 ? SkillSlot.Elite : SkillSlot.Utility;
-                        _selectedSkillSlot = skillSlot;
-                        SeletorOpen = _selectorAnchor != skill || !SeletorOpen;
-                        _selectorAnchor = skill;
-                        GetSelectableSkills(skillSlot);
-                        return;
-                    }
-                }
-
-                var aquaticSelector = _aquaticSelectors[i];
-                skill = _aquaticSkills[(BuildSkillSlot)i];
-                if (skill != null && ((skill.Hovered && GameService.Input.Mouse.State.RightButton == Microsoft.Xna.Framework.Input.ButtonState.Pressed) || aquaticSelector.Hovered))
-                {
-                    if (Template.Profession != Gw2Sharp.Models.ProfessionType.Revenant || Template.BuildTemplate.Legends[Template.LegendSlot] != null)
-                    {
-                        var skillSlot = i == 0 ? SkillSlot.Heal : i == 4 ? SkillSlot.Elite : SkillSlot.Utility;
-                        _selectedSkillSlot = skillSlot;
-                        SeletorOpen = _selectorAnchor != skill || !SeletorOpen;
-                        _selectorAnchor = skill;
-                        GetSelectableSkills(skillSlot);
-                        return;
-                    }
+                    SeletorOpen = _selectorAnchor != skillIcon.Value || !SeletorOpen;
+                    _selectorAnchor = skillIcon.Value;
+                    GetSelectableSkills(skillIcon.Key);
                 }
             }
         }
@@ -381,44 +245,28 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
         {
             if (SeletorOpen)
             {
-                foreach (var s in _selectableSkills[_selectedSkillSlot])
+                Models.Templates.SkillSlot enviromentState = _selectorAnchor.Slot.GetEnviromentState();
+                bool terrestrial = _selectorAnchor.Slot.HasFlag(Models.Templates.SkillSlot.Terrestrial);
+
+                foreach (var s in _selectableSkills)
                 {
                     if (s.Hovered)
                     {
-                        if (Terrestrial || Template.Profession == Gw2Sharp.Models.ProfessionType.Revenant || !s.Skill.Flags.HasFlag(Gw2Sharp.SkillFlag.NoUnderwater))
+                        if (terrestrial || TemplatePresenter.Template.Profession == Gw2Sharp.Models.ProfessionType.Revenant || !s.Skill.Flags.HasFlag(Gw2Sharp.SkillFlag.NoUnderwater))
                         {
-                            var targetSkills = Template.BuildTemplate.TerrestrialSkills;
-                            var skillIcons = _terrestrialSkills;
-
-                            switch (Template.LegendSlot)
+                            if (TemplatePresenter.Template.BuildTemplate.Skills.HasSkill(s.Skill, enviromentState))
                             {
-                                case LegendSlot.AquaticActive:
-                                    targetSkills = Template.BuildTemplate.AquaticSkills;
-                                    skillIcons = _aquaticSkills;
-                                    break;
-                                case LegendSlot.TerrestrialActive:
-                                    targetSkills = Template.BuildTemplate.TerrestrialSkills;
-                                    skillIcons = _terrestrialSkills;
-                                    break;
-                                case LegendSlot.TerrestrialInactive:
-                                    targetSkills = Template.BuildTemplate.InactiveTerrestrialSkills;
-                                    skillIcons = _inactiveTerrestrialSkills;
-                                    break;
-                                case LegendSlot.AquaticInactive:
-                                    targetSkills = Template.BuildTemplate.InactiveAquaticSkills;
-                                    skillIcons = _inactiveAquaticSkills;
-                                    break;
-                            };
-
-                            if (targetSkills.HasSkill(s.Skill))
-                            {
-                                var slot = targetSkills.GetSkillSlot(s.Skill);
-                                targetSkills[slot] = _selectorAnchor.Skill;
-                                skillIcons[slot].Skill = _selectorAnchor.Skill;
+                                var slot = TemplatePresenter.Template.BuildTemplate.Skills.GetSkillSlot(s.Skill, enviromentState);
+                                TemplatePresenter.Template.BuildTemplate.Skills[slot] = _selectorAnchor.Skill;
+                                _skillIcons[slot].Skill = _selectorAnchor.Skill;
                             }
 
                             _selectorAnchor.Skill = s.Skill;
-                            targetSkills[_selectorAnchor.Slot] = s.Skill;
+                            _skillIcons[_selectorAnchor.Slot].Skill = s.Skill;
+                            TemplatePresenter.Template.BuildTemplate.Skills[_selectorAnchor.Slot] = s.Skill;
+
+                            SeletorOpen = false;
+                            return;
                         }
                     }
                 }
@@ -427,76 +275,97 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
             SeletorOpen = false;
         }
 
-        private void GetSelectableSkills(SkillSlot skillSlot, LegendSlot legendSlot = LegendSlot.TerrestrialActive)
+        private void GetSelectableSkills(Models.Templates.SkillSlot skillSlot)
         {
-            if (Template != null)
+            _selectableSkills.Clear();
+
+            var slot = skillSlot.HasFlag(Models.Templates.SkillSlot.Utility_1) ? SkillSlot.Utility :
+            skillSlot.HasFlag(Models.Templates.SkillSlot.Utility_2) ? SkillSlot.Utility :
+            skillSlot.HasFlag(Models.Templates.SkillSlot.Utility_3) ? SkillSlot.Utility :
+            skillSlot.HasFlag(Models.Templates.SkillSlot.Heal) ? SkillSlot.Heal :
+            SkillSlot.Elite;
+
+            if (TemplatePresenter.Template.Profession != Gw2Sharp.Models.ProfessionType.Revenant)
             {
-                _selectableSkills[skillSlot].Clear();
-                Template.LegendSlot = legendSlot;
+                var skills = BuildsManager.Data.Professions[TemplatePresenter.Template.Profession].Skills;
+                var filteredSkills = skills.Where(e => e.Value.PaletteId > 0 && e.Value.Slot != null && e.Value.Slot == slot && (e.Value.Specialization == 0 || TemplatePresenter.Template.BuildTemplate.HasSpecialization(e.Value.Specialization))).ToList();
+                var racialSkills = TemplatePresenter.Template.Race != Core.DataModels.Races.None ? BuildsManager.Data.Races[TemplatePresenter.Template.Race]?.Skills.Where(e => e.Value.PaletteId > 0 && e.Value.Slot != null && e.Value.Slot == slot).ToList() : new();
+                if (racialSkills != null) filteredSkills.AddRange(racialSkills);
 
-                if (Template.Profession != Gw2Sharp.Models.ProfessionType.Revenant)
+                int columns = Math.Min(filteredSkills.Count(), 4);
+                int rows = (int)Math.Ceiling(filteredSkills.Count() / (double)columns);
+                _selectorBounds = new(_selectorAnchor.Bounds.X - (((_skillSize * columns) + 8) / 2 - (_skillSize / 2)), _selectorAnchor.Bounds.Bottom, (_skillSize * columns) + 4, (_skillSize * rows) + 40);
+                _selectedSkillSlot = slot;
+                int column = 0;
+                int row = 0;
+
+                foreach (var skill in filteredSkills.OrderBy(e => e.Value.Categories).ToList())
                 {
-                    var skills = BuildsManager.Data.Professions[Template.Profession].Skills;
+                    _selectableSkills.Add(new() { Skill = skill.Value, Bounds = new(_selectorBounds.Left + 4 + (column * _skillSize), _selectorBounds.Top + 4 + (row * _skillSize), _skillSize - 4, _skillSize - 4) });
+                    column++;
 
-                    var filteredSkills = skills.Where(e => e.Value.PaletteId > 0 && e.Value.Slot != null && e.Value.Slot == skillSlot && (e.Value.Specialization == 0 || Template.BuildTemplate.HasSpecialization(e.Value.Specialization))).ToList();
-                    var racialSkills = Template.Race != Core.DataModels.Races.None ? BuildsManager.Data.Races[Template.Race]?.Skills.Where(e => e.Value.PaletteId > 0 && e.Value.Slot != null && e.Value.Slot == skillSlot).ToList() : new();
-                    if (racialSkills != null) filteredSkills.AddRange(racialSkills);
-
-                    int columns = Math.Min(filteredSkills.Count(), 4);
-                    int rows = (int)Math.Ceiling(filteredSkills.Count() / (double)columns);
-                    _selectorBounds = new(_selectorAnchor.Bounds.X - (((_skillSize * columns) + 8) / 2 - (_skillSize / 2)), _selectorAnchor.Bounds.Bottom, (_skillSize * columns) + 4, (_skillSize * rows) + 40);
-
-                    int column = 0;
-                    int row = 0;
-                    foreach (var skill in filteredSkills.OrderBy(e => e.Value.Categories).ToList())
+                    if (column > 3)
                     {
-                        _selectableSkills[skillSlot].Add(new() { Skill = skill.Value, Bounds = new(_selectorBounds.Left + 4 + (column * _skillSize), _selectorBounds.Top + 4 + (row * _skillSize), _skillSize - 4, _skillSize - 4) });
-                        column++;
-
-                        if (column > 3)
-                        {
-                            column = 0;
-                            row++;
-                        }
+                        column = 0;
+                        row++;
                     }
                 }
-                else
+            }
+            else
+            {
+                List<Skill> filteredSkills = new();
+                LegendSlot legendSlot = LegendSlot.TerrestrialActive;
+
+                switch (skillSlot.GetEnviromentState())
                 {
-                    if (Template.BuildTemplate.Legends[legendSlot] != null)
+                    case Models.Templates.SkillSlot.Active | Models.Templates.SkillSlot.Aquatic:
+                        legendSlot = LegendSlot.AquaticActive;
+                        break;
+
+                    case Models.Templates.SkillSlot.Inactive | Models.Templates.SkillSlot.Aquatic:
+                        legendSlot = LegendSlot.AquaticInactive;
+                        break;
+
+                    case Models.Templates.SkillSlot.Active | Models.Templates.SkillSlot.Terrestrial:
+                        legendSlot = LegendSlot.TerrestrialActive;
+                        break;
+
+                    case Models.Templates.SkillSlot.Inactive | Models.Templates.SkillSlot.Terrestrial:
+                        legendSlot = LegendSlot.TerrestrialInactive;
+                        break;
+                }
+
+                var skills = TemplatePresenter.Template.BuildTemplate.Legends[legendSlot];
+
+                switch (slot)
+                {
+                    case SkillSlot.Heal:
+                        filteredSkills.Add(skills.Heal);
+                        break;
+                    case SkillSlot.Elite:
+                        filteredSkills.Add(skills.Elite);
+                        break;
+                    case SkillSlot.Utility:
+                        filteredSkills.AddRange(skills.Utilities.Select(e => e.Value));
+                        break;
+                }
+
+                int columns = 4;
+                int rows = (int)Math.Ceiling(filteredSkills.Count() / (double)columns);
+                _selectorBounds = new(_selectorAnchor.Bounds.X - (((_skillSize * columns) + 8) / 2 - (_skillSize / 2)), _selectorAnchor.Bounds.Bottom, (_skillSize * columns) + 4, (_skillSize * rows) + 40);
+                _selectedSkillSlot = slot;
+
+                int column = 0;
+                int row = 0;
+                foreach (var skill in filteredSkills)
+                {
+                    _selectableSkills.Add(new() { Skill = skill, Bounds = new(_selectorBounds.Left + 4 + (column * _skillSize), _selectorBounds.Top + 4 + (row * _skillSize), _skillSize - 4, _skillSize - 4) });
+                    column++;
+
+                    if (column > 3)
                     {
-                        var skills = Template.BuildTemplate.Legends[legendSlot];
-
-                        List<Skill> filteredSkills = new();
-                        switch (skillSlot)
-                        {
-                            case SkillSlot.Heal:
-                                filteredSkills.Add(Template.BuildTemplate.Legends[legendSlot].Heal);
-                                break;
-                            case SkillSlot.Elite:
-                                filteredSkills.Add(Template.BuildTemplate.Legends[legendSlot].Elite);
-                                break;
-                            case SkillSlot.Utility:
-                                filteredSkills.AddRange(Template.BuildTemplate.Legends[legendSlot].Utilities.Select(e => e.Value));
-                                break;
-                        }
-
-                        int columns = 4;
-                        int rows = (int)Math.Ceiling(filteredSkills.Count() / (double)columns);
-                        _selectorBounds = new(_selectorAnchor.Bounds.X - (((_skillSize * columns) + 8) / 2 - (_skillSize / 2)), _selectorAnchor.Bounds.Bottom, (_skillSize * columns) + 4, (_skillSize * rows) + 40);
-
-                        int column = 0;
-                        int row = 0;
-                        foreach (var skill in filteredSkills)
-                        {
-                            _selectableSkills[skillSlot].Add(new() { Skill = skill, Bounds = new(_selectorBounds.Left + 4 + (column * _skillSize), _selectorBounds.Top + 4 + (row * _skillSize), _skillSize - 4, _skillSize - 4) });
-                            column++;
-
-                            if (column > 3)
-                            {
-                                column = 0;
-                                row++;
-                            }
-                        }
+                        column = 0;
+                        row++;
                     }
                 }
             }
@@ -520,9 +389,12 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
             // Right
             spriteBatch.DrawOnCtrl(this, Textures.Pixel, new Rectangle(_selectorBounds.Right - 2, _selectorBounds.Top, 2, _selectorBounds.Height), Rectangle.Empty, borderColor * 0.8f);
 
-            foreach (var s in _selectableSkills[_selectedSkillSlot])
+            if (_selectableSkills != null)
             {
-                s.Draw(this, spriteBatch, Terrestrial, RelativeMousePosition);
+                foreach (var s in _selectableSkills)
+                {
+                    s.Draw(this, spriteBatch, _selectorAnchor.Slot.HasFlag(Models.Templates.SkillSlot.Terrestrial), RelativeMousePosition);
+                }
             }
 
             spriteBatch.DrawStringOnCtrl(this, string.Format("{0} Skills", _selectedSkillSlot), Content.DefaultFont18, new Rectangle(_selectorBounds.Left, _selectorBounds.Bottom - 12 - Content.DefaultFont18.LineHeight, _selectorBounds.Width, Content.DefaultFont18.LineHeight), Color.White, false, HorizontalAlignment.Center);

@@ -7,6 +7,7 @@ using Microsoft.Xna.Framework.Graphics;
 using System.Collections.Generic;
 using System.Linq;
 using Kenedia.Modules.BuildsManager.DataModels.Professions;
+using Kenedia.Modules.BuildsManager.Models;
 
 namespace Kenedia.Modules.BuildsManager.Controls.BuildPage.ProfessionSpecific
 {
@@ -42,9 +43,8 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage.ProfessionSpecific
             new(),
         };
 
-        public GuardianSpecifics()
+        public GuardianSpecifics(TemplatePresenter template) : base(template)
         {
-
         }
 
         public override void RecalculateLayout()
@@ -53,7 +53,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage.ProfessionSpecific
 
             int xOffset = 90;
 
-            switch (Template.EliteSpecialization?.Id)
+            switch (TemplatePresenter.Template.BuildTemplate.EliteSpecialization?.Id)
             {
                 case (int)SpecializationType.Firebrand:
                     _pagesBackground.Bounds = new(xOffset + 10, 50, 256, 64);
@@ -77,7 +77,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage.ProfessionSpecific
 
         protected override void Paint(SpriteBatch spriteBatch, Rectangle bounds)
         {
-            switch (Template.EliteSpecialization?.Id)
+            switch (TemplatePresenter.Template.BuildTemplate.EliteSpecialization?.Id)
             {
                 case (int)SpecializationType.Firebrand:
                     _pagesBackground.Draw(this, spriteBatch);
@@ -101,8 +101,8 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage.ProfessionSpecific
 
                 foreach (var item in skills.Values.Where(e => e.Slot == slot))
                 {
-                    skill ??= item.Specialization == Template.EliteSpecialization?.Id || item.Specialization == 0 ? item : skill;
-                    if (item.Specialization == Template.EliteSpecialization?.Id && skill.Specialization == 0)
+                    skill ??= item.Specialization == TemplatePresenter.Template.BuildTemplate.EliteSpecialization?.Id || item.Specialization == 0 ? item : skill;
+                    if (item.Specialization == TemplatePresenter.Template.BuildTemplate.EliteSpecialization?.Id && skill.Specialization == 0)
                     {
                         skill = item;
                     }

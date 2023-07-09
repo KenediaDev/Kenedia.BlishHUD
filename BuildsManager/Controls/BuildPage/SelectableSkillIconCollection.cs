@@ -3,9 +3,9 @@ using System.Collections.Generic;
 
 namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
 {
-    public class SelectableSkillIconCollection : Dictionary<SkillSlot, List<SkillIcon>>
+    public class SkillIconSelectionCollection : Dictionary<SkillSlot, List<SkillIcon>>
     {
-        public SelectableSkillIconCollection()
+        public SkillIconSelectionCollection()
         {
             Add(SkillSlot.Heal, new());
             Add(SkillSlot.Utility, new());

@@ -15,6 +15,7 @@ using Kenedia.Modules.BuildsManager.Controls.GearPage;
 using Kenedia.Modules.BuildsManager.Controls.NotesPage;
 using Blish_HUD.Controls;
 using System.Diagnostics;
+using Kenedia.Modules.BuildsManager.Views;
 
 namespace Kenedia.Modules.BuildsManager.Controls.Selection
 {
@@ -33,6 +34,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
         private readonly DetailedTexture _pointerArrow = new(784266) { TextureRegion = new(16, 16, 32, 32) };
         private Control _subAnchor;
         private Control _mainAnchor;
+        private MainWindow _mainWindow;
 
         private Rectangle AnchorDrawBounds
         {
@@ -74,30 +76,35 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
         public SelectionPanel()
         {
             ClipsBounds = false;
+            ZIndex = 0;
 
             _gearSelection = new()
             {
                 Parent = this,
                 Visible = false,
+                ZIndex = ZIndex,
             };
 
             _buildSelection = new()
             {
                 Parent = this,
                 Visible = true,
-                SelectionPanel = this
+                SelectionPanel = this,
+                ZIndex = ZIndex,
             };
 
             _statSelection = new()
             {
                 Parent = this,
                 Visible = false,
+                ZIndex = ZIndex,
             };
 
             _skillSelection = new()
             {
                 Parent = this,
                 Visible = false,
+                ZIndex = ZIndex,
             };
         }
 
@@ -108,6 +115,12 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
             Items,
             Stats,
             Skills,
+        }
+
+        public MainWindow MainWindow
+        {
+            get { return _mainWindow; }
+            set { _mainWindow = value; }
         }
 
         public string Title { get; set; }
@@ -200,6 +213,11 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
         {
             SelectionType = SelectionTypes.Templates;
             SetAnchor(anchor);
+
+            if (MainWindow != null)
+            {
+                MainWindow.Template = (anchor as TemplateSelectable)?.Template;
+            }
         }
 
         public void SetGearAnchor(Control anchor, Rectangle anchorBounds, GearTemplateSlot slot, GearSubSlotType subslot = GearSubSlotType.Item, string title = "Selection", Action<BaseItem> onItemSelected = null)

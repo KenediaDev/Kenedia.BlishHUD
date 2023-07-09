@@ -2,12 +2,16 @@
 using Kenedia.Modules.BuildsManager.Models.Templates;
 using Kenedia.Modules.Core.Utility;
 using Gw2Sharp.Models;
+using Kenedia.Modules.BuildsManager.Models;
+using Kenedia.Modules.Core.Models;
+using System;
+using System.Diagnostics;
 
 namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
 {
     public abstract class ProfessionSpecifics : Control
     {
-        protected Template InternTemplate;
+        protected TemplatePresenter Internal_TemplatePresenter;
 
         public ProfessionSpecifics()
         {
@@ -15,25 +19,56 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
             ZIndex = int.MaxValue;
         }
 
-        public Template Template
+        public ProfessionSpecifics(TemplatePresenter template) : this()
         {
-            get => InternTemplate; set
+            TemplatePresenter = template;
+        }
+
+        public BuildPage BuildPage { get; set; }
+
+        public TemplatePresenter TemplatePresenter
+        {
+            get => Internal_TemplatePresenter; set => Common.SetProperty(ref Internal_TemplatePresenter, value, SetTemplatePresenter);
+        }
+
+        private void SetTemplatePresenter(object sender, ValueChangedEventArgs<TemplatePresenter> e)
+        {
+            if (e.OldValue != null)
             {
-                var temp = InternTemplate;
-                if (Common.SetProperty(ref InternTemplate, value, ApplyTemplate, value != null))
-                {
-                    if (temp != null) temp.PropertyChanged -= Temp_Changed;
-                    if (InternTemplate != null) InternTemplate.PropertyChanged += Temp_Changed;
-                }
+                e.OldValue.Loaded -= OnLoaded;
+                e.OldValue.TemplateChanged -= TemplatePresenter_TemplateChanged;
+                e.OldValue.BuildCodeChanged -= OnBuildCodeChanged;
+                e.OldValue.LegendChanged -= OnLegendChanged;
+            }
+
+            if (e.NewValue != null)
+            {
+                e.NewValue.Loaded += OnLoaded;
+                e.NewValue.TemplateChanged += TemplatePresenter_TemplateChanged;
+                e.NewValue.BuildCodeChanged += OnBuildCodeChanged;
+                e.NewValue.LegendChanged += OnLegendChanged;
             }
         }
 
-        private void Temp_Changed(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        private void OnLoaded(object sender, EventArgs e)
         {
             ApplyTemplate();
         }
 
-        public ProfessionType Profession { get; protected set; }
+        private void OnBuildCodeChanged(object sender, EventArgs e)
+        {
+            ApplyTemplate();
+        }
+
+        private void OnLegendChanged(object sender, DictionaryItemChangedEventArgs<LegendSlot, DataModels.Professions.Legend> e)
+        {
+            ApplyTemplate();
+        }
+
+        private void TemplatePresenter_TemplateChanged(object sender, Core.Models.ValueChangedEventArgs<Template> e)
+        {
+            ApplyTemplate();
+        }
 
         protected virtual void ApplyTemplate()
         {

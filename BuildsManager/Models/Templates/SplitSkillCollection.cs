@@ -5,7 +5,7 @@ using System;
 
 namespace Kenedia.Modules.BuildsManager.Models.Templates
 {
-    public class SkillCollection : ObservableDictionary<BuildSkillSlot, Skill>
+    public class SplitSkillCollection : ObservableDictionary<BuildSkillSlot, Skill>
     {
         //public new Skill this[BuildSkillSlot key]
         //{
@@ -13,7 +13,7 @@ namespace Kenedia.Modules.BuildsManager.Models.Templates
         //    //set => OnValueChanged(key, ContainsKey(key) ? base[key] : default, value);
         //}
 
-        public SkillCollection()
+        public SplitSkillCollection()
         {
             foreach (BuildSkillSlot e in Enum.GetValues(typeof(BuildSkillSlot)))
             {

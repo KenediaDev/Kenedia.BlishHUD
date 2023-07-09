@@ -185,10 +185,26 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
                 var temp = _template;
                 if (Common.SetProperty(ref _template, value, ApplyTemplate))
                 {
-                    if (temp != null) temp.PropertyChanged -= TemplateChanged;
-                    if (_template != null) _template.PropertyChanged += TemplateChanged;
+                    if (temp != null) temp.RaceChanged -= Template_RaceChanged;
+                    if (_template != null) _template.RaceChanged += Template_RaceChanged;
+
+                    if (temp != null) temp.BuildTemplate.BuildCodeChanged -= BuildTemplate_BuildCodeChanged;
+                    if (_template != null) _template.BuildTemplate.BuildCodeChanged += BuildTemplate_BuildCodeChanged;
+
+                    if (temp != null) temp.BuildTemplate.Loaded -= BuildTemplate_BuildCodeChanged;
+                    if (_template != null) _template.BuildTemplate.Loaded += BuildTemplate_BuildCodeChanged;
                 }
             }
+        }
+
+        private void Template_RaceChanged(object sender, Core.Models.ValueChangedEventArgs<Races> e)
+        {
+            _raceTexture = BuildsManager.Data.Races.TryGetValue(_template?.Race ?? Races.None, out var race) ? race.Icon : null;
+        }
+
+        private void BuildTemplate_BuildCodeChanged(object sender, EventArgs e)
+        {
+            ApplyTemplate();
         }
 
         public void ToggleEditMode(bool enable)
@@ -271,7 +287,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
             spriteBatch.DrawOnCtrl(this, Textures.Pixel, new(ContentRegion.X, ContentRegion.Bottom - 28, ContentRegion.Width, 28), Rectangle.Empty, Color.Black * 0.3F);
 
             base.PaintBeforeChildren(spriteBatch, bounds);
-            bool isActive = Template == _template;
+            bool isActive = BuildsManager.ModuleInstance.SelectedTemplate == _template;
             spriteBatch.DrawFrame(this, bounds, isActive ? Colors.ColonialWhite : Color.Transparent, 2);
 
             spriteBatch.DrawOnCtrl(this, _textureBottomSectionSeparator, _separatorBounds, _textureBottomSectionSeparator.Bounds, Color.Black, 0F, Vector2.Zero);
@@ -419,7 +435,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
         {
             _name.Text = _template?.Name;
             _raceTexture = BuildsManager.Data.Races.TryGetValue(_template?.Race ?? Races.None, out var race) ? race.Icon : null;
-            _specTexture = Template?.EliteSpecialization?.ProfessionIconBig ?? (BuildsManager.Data.Professions.TryGetValue((Gw2Sharp.Models.ProfessionType)Template?.Profession, out var profession) ? profession.IconBig : null);
+            _specTexture = Template?.BuildTemplate?.EliteSpecialization?.ProfessionIconBig ?? (BuildsManager.Data.Professions.TryGetValue((Gw2Sharp.Models.ProfessionType)Template?.BuildTemplate?.Profession, out var profession) ? profession.IconBig : null);
 
             _tagTexturess.Clear();
 

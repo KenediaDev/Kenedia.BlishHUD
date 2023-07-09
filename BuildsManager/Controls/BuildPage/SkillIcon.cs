@@ -17,6 +17,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
         private readonly AsyncTexture2D _noAquaticFlagTexture = AsyncTexture2D.FromAssetId(157145);
         private Rectangle _noAquaticFlagTextureRegion;
         private Skill _skill;
+        private DetailedTexture _selector = new(157138, 157140);
 
         public SkillIcon()
         {
@@ -40,7 +41,11 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
 
         public Rectangle AutoCastTextureRegion { get; }
 
-        public BuildSkillSlot Slot { get; set; }
+        public SkillSlot Slot { get; set; }
+
+        public bool ShowSelector { get; set; } = false;
+
+        public DetailedTexture Selector => _selector;
 
         private void ApplyTrait()
         {
@@ -95,6 +100,11 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
                     (float)rotation,
                     (Vector2)origin);
             }
+
+            if (ShowSelector)
+            {
+                _selector.Draw(ctrl, spriteBatch, mousePos);
+            }
         }
 
         public override void Draw(Control ctrl, SpriteBatch spriteBatch, Point? mousePos = null, Color? color = null, Color? bgColor = null, bool? forceHover = null, float? rotation = null, Vector2? origin = null)
@@ -140,6 +150,11 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
                     (Color)color,
                     (float)rotation,
                     (Vector2)origin);
+            }
+
+            if (ShowSelector)
+            {
+                _selector.Draw(ctrl, spriteBatch, mousePos);
             }
         }
     }

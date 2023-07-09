@@ -2,6 +2,7 @@
 using Blish_HUD.Controls;
 using Blish_HUD.Input;
 using Kenedia.Modules.BuildsManager.DataModels.Professions;
+using Kenedia.Modules.BuildsManager.Models;
 using Kenedia.Modules.BuildsManager.Models.Templates;
 using Kenedia.Modules.Core.DataModels;
 using Kenedia.Modules.Core.Models;
@@ -9,6 +10,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using static Blish_HUD.ContentService;
 
@@ -19,6 +21,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage.ProfessionSpecific
         private readonly List<int> _aquaticPets = new() { 1, 5, 6, 7, 9, 11, 12, 18, 19, 20, 21, 23, 24, 25, 26, 27, 40, 41, 42, 43, 45, 47, 63, };
         private readonly List<int> _terrestrialPets = new() { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 44, 45, 46, 47, 48, 51, 52, 54, 55, 57, 59, 61, 63, 64, 65, 66 };
 
+        private bool applied = false;
         private readonly Dictionary<PetSlot, PetIcon> _pets = new()
         {
             {PetSlot.Terrestrial_1, new() { PetSlot = PetSlot.Terrestrial_1 }},
@@ -29,7 +32,6 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage.ProfessionSpecific
 
         private readonly bool _enableUntamed = false;
 
-        private Specialization _specialization;
         private Color _healthColor = new(162, 17, 11);
         private Rectangle _healthRectangle;
         private Rectangle _slotRectangle;
@@ -39,9 +41,8 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage.ProfessionSpecific
         private Rectangle _selectorBounds;
         private bool _selectorOpen = false;
 
-        public RangerSpecifics()
+        public RangerSpecifics(TemplatePresenter template) : base(template)
         {
-            Profession = Gw2Sharp.Models.ProfessionType.Ranger;
             Input.Mouse.LeftMouseButtonPressed += Mouse_LeftMouseButtonPressed;
 
             foreach (var pet in BuildsManager.Data.Pets.OrderBy(e => e.Value.Id))
@@ -78,12 +79,15 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage.ProfessionSpecific
 
         protected override void Paint(SpriteBatch spriteBatch, Rectangle bounds)
         {
-            if (Template != null)
-            {
+            if (TemplatePresenter != null)
+            {                
                 foreach (var pet in _pets.Values)
                 {
+                    pet.Pet ??= TemplatePresenter?.Template?.BuildTemplate?.Pets?[pet.PetSlot];
                     pet.Draw(this, spriteBatch, RelativeMousePosition);
                 }
+
+                applied = true;
 
                 Color borderColor = Color.Black;
                 Rectangle b = _healthRectangle;
@@ -113,10 +117,10 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage.ProfessionSpecific
                             _ => PetSlot.Terrestrial_1,
                         };
 
-                        if (Template.BuildTemplate.Pets[otherSlot] != s.Pet)
+                        if (TemplatePresenter.Template.BuildTemplate.Pets[otherSlot] != s.Pet)
                         {
                             _selectorAnchor.Pet = s.Pet;
-                            Template.BuildTemplate.Pets[_selectorAnchor.PetSlot] = s.Pet;
+                            TemplatePresenter.Template.BuildTemplate.Pets[_selectorAnchor.PetSlot] = s.Pet;
                         }
 
                         break;
@@ -148,13 +152,11 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage.ProfessionSpecific
 
         protected override void ApplyTemplate()
         {
-            _specialization = null;
-
-            if (Template != null)
+            if (TemplatePresenter != null)
             {
                 foreach (var pet in _pets.Values)
                 {
-                    pet.Pet = Template.BuildTemplate.Pets[pet.PetSlot];
+                    pet.Pet = TemplatePresenter?.Template?.BuildTemplate?.Pets?[pet.PetSlot];
                 }
             }
 
@@ -197,7 +199,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage.ProfessionSpecific
 
         private void GetSelectablePets()
         {
-            if (Template != null)
+            if (TemplatePresenter != null)
             {
                 var flag = _selectorAnchor.PetSlot is PetSlot.Terrestrial_1 or PetSlot.Terrestrial_2 ? Enviroment.Terrestrial : Enviroment.Aquatic;
                 var pets = _selectablePets.Where(e => e.Pet.Enviroment.HasFlag(flag));
