@@ -85,7 +85,7 @@ namespace Kenedia.Modules.ReleaseTheChoya
             ReleaseAChoya(_persistentChoya);
         }
 
-        private void ShowCornerIcon_SettingChanged(object sender, ValueChangedEventArgs<bool> e)
+        private void ShowCornerIcon_SettingChanged(object sender, Blish_HUD.ValueChangedEventArgs<bool> e)
         {
             _cornerIcon?.Dispose();
 
@@ -103,7 +103,7 @@ namespace Kenedia.Modules.ReleaseTheChoya
             }
         }
 
-        private void ChoyaDelay_SettingChanged(object sender, ValueChangedEventArgs<Core.Structs.Range> e)
+        private void ChoyaDelay_SettingChanged(object sender, Blish_HUD.ValueChangedEventArgs<Core.Structs.Range> e)
         {
             _randomTick = 0;
             _idletick = 0;

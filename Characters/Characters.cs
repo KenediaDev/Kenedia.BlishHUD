@@ -133,7 +133,7 @@ namespace Kenedia.Modules.Characters
             return new SettingsView(() => SettingsWindow?.ToggleWindow());
         }
 
-        protected override async void OnLocaleChanged(object sender, ValueChangedEventArgs<Locale> eventArgs)
+        protected override async void OnLocaleChanged(object sender, Blish_HUD.ValueChangedEventArgs<Locale> eventArgs)
         {
             await GW2APIHandler.FetchLocale(eventArgs?.NewValue, !_mapsUpdated);
             _mapsUpdated = true;
@@ -405,7 +405,7 @@ namespace Kenedia.Modules.Characters
             GW2APIHandler.MainWindow = MainWindow;
         }
 
-        private void ClientWindowService_ResolutionChanged(object sender, ValueChangedEventArgs<Point> e)
+        private void ClientWindowService_ResolutionChanged(object sender, Blish_HUD.ValueChangedEventArgs<Point> e)
         {
             MainWindow?.CheckOCRRegion();
         }
@@ -528,7 +528,7 @@ namespace Kenedia.Modules.Characters
             if (APISpinner != null) APISpinner.Location = new Point(_cornerIcon.Left, _cornerIcon.Bottom + 3);
         }
 
-        private void ShowCornerIcon_SettingChanged(object sender, ValueChangedEventArgs<bool> e)
+        private void ShowCornerIcon_SettingChanged(object sender, Blish_HUD.ValueChangedEventArgs<bool> e)
         {
             if (e.NewValue)
             {

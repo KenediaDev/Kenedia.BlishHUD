@@ -1110,7 +1110,7 @@ namespace Kenedia.Modules.Characters.Services
                 }
             }
 
-            private void IconBig_TextureSwapped(object sender, ValueChangedEventArgs<Texture2D> e)
+            private void IconBig_TextureSwapped(object sender, Blish_HUD.ValueChangedEventArgs<Texture2D> e)
             {
                 if (e.NewValue != null)
                 {
@@ -1119,7 +1119,7 @@ namespace Kenedia.Modules.Characters.Services
                 }
             }
 
-            private void Icon_TextureSwapped(object sender, ValueChangedEventArgs<Texture2D> e)
+            private void Icon_TextureSwapped(object sender, Blish_HUD.ValueChangedEventArgs<Texture2D> e)
             {
                 if (e.NewValue != null)
                 {

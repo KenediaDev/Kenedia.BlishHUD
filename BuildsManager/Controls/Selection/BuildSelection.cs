@@ -82,7 +82,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
 
         private void SetValue(object sender, PropertyChangedEventArgs e)
         {
-            if(Value == null)
+            if (Value == null)
             {
                 _name.Text = null;
                 _icon.Texture = null;
@@ -151,7 +151,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
             BorderWidth = new(2);
             ContentPadding = new(5);
 
-            foreach(Races race in Enum.GetValues(typeof(Races)))
+            foreach (Races race in Enum.GetValues(typeof(Races)))
             {
                 _races.Add(ctrl = new()
                 {
@@ -162,7 +162,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
                 });
             }
 
-            foreach(ProfessionType profession in Enum.GetValues(typeof(ProfessionType)))
+            foreach (ProfessionType profession in Enum.GetValues(typeof(ProfessionType)))
             {
                 _professions.Add(ctrl = new()
                 {
@@ -220,7 +220,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
 
             foreach (var child in SelectionContent.Children)
             {
-               child.Width = SelectionContent.Width;
+                child.Width = SelectionContent.Width;
             }
         }
     }
@@ -299,6 +299,10 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
                             {
                                 var code = await ClipboardUtil.WindowsClipboardService.GetTextAsync();
                                 t.BuildTemplate.LoadFromCode(code);
+                                //BuildsManager.ModuleInstance.MainWindow.Template = t;
+                                TemplateSelectable ts = null;
+                                SelectionPanel?.SetTemplateAnchor(ts = _templates.FirstOrDefault(e => e.Template == t));
+                                ts?.ToggleEditMode(true);
                             }
                             catch (Exception)
                             {

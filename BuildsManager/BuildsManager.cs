@@ -189,8 +189,7 @@ namespace Kenedia.Modules.BuildsManager
                 Height = 900,
             };
 
-            MainWindow.Show();
-
+            //MainWindow.Show();
         }
 
         protected override void UnloadGUI()

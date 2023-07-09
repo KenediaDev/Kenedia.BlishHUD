@@ -335,7 +335,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
                         break;
                 }
 
-                var skills = TemplatePresenter.Template.BuildTemplate.Legends[legendSlot];
+                var skills = TemplatePresenter.Template?.BuildTemplate?.Legends[legendSlot];
 
                 switch (slot)
                 {

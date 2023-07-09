@@ -75,7 +75,7 @@ namespace Kenedia.Modules.AdvancedBuildsManager
             Settings.ShowCornerIcon.SettingChanged += ShowCornerIcon_SettingChanged; ;
         }
 
-        private void ShowCornerIcon_SettingChanged(object sender, ValueChangedEventArgs<bool> e)
+        private void ShowCornerIcon_SettingChanged(object sender, Blish_HUD.ValueChangedEventArgs<bool> e)
         {
             if (e.NewValue)
             {
@@ -103,7 +103,7 @@ namespace Kenedia.Modules.AdvancedBuildsManager
             Data = new(ContentsManager, Paths);
         }
 
-        protected override async void OnLocaleChanged(object sender, ValueChangedEventArgs<Locale> e)
+        protected override async void OnLocaleChanged(object sender, Blish_HUD.ValueChangedEventArgs<Locale> e)
         {
             if (e.NewValue is not Locale.Korean and not Locale.Chinese)
             {

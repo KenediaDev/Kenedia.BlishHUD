@@ -232,6 +232,11 @@ namespace Kenedia.Modules.BuildsManager.Models.Templates
         {
             if (_busy) return;
 
+            Skills.Wipe();
+            Specializations.Wipe();
+            Pets.Wipe();
+            Legends.Wipe();
+
             ProfessionChanged?.Invoke(this, e);
             BuildCodeChanged?.Invoke(this, e);
         }
