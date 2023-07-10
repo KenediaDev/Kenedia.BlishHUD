@@ -47,6 +47,8 @@ namespace Kenedia.Modules.BuildsManager.Models.Templates
 
         public ObservableList<string> TextTags { get; private set; } = new();
 
+        public bool AutoSave { get; set; } = false;
+
         [DataMember]
         public TemplateFlag Tags { get => _tags; set => Common.SetProperty(ref _tags, value, TemplateChanged); }
 
@@ -152,12 +154,19 @@ namespace Kenedia.Modules.BuildsManager.Models.Templates
         private async void TemplateChanged(object sender, PropertyChangedEventArgs e)
         {
             PropertyChanged?.Invoke(sender, e);
-            await Save();
+
+            if (AutoSave)
+            {
+                await Save();
+            }
         }
 
         private async void BuildTemplate_BuildCodeChanged(object sender, EventArgs e)
         {
-            await Save();
+            if (AutoSave)
+            {
+                await Save();
+            }
         }
 
         private async Task TriggerChanged(object sender, PropertyChangedEventArgs e)

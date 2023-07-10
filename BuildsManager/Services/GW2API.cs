@@ -22,11 +22,13 @@ using System.Threading;
 using Kenedia.Modules.Core.DataModels;
 using Gw2Sharp;
 using ApiSkill = Gw2Sharp.WebApi.V2.Models.Skill;
+using ApiLegend = Gw2Sharp.WebApi.V2.Models.Legend;
 using Kenedia.Modules.Core.Extensions;
 using System.Diagnostics;
 using Gw2Sharp.WebApi.Exceptions;
 using Kenedia.Modules.BuildsManager.Models;
 using Kenedia.Modules.BuildsManager.DataModels.Items;
+using System.Collections;
 
 namespace Kenedia.Modules.BuildsManager.Services
 {
@@ -205,6 +207,20 @@ namespace Kenedia.Modules.BuildsManager.Services
                 var apiLegends = await _gw2ApiManager.Gw2ApiClient.V2.Legends.AllAsync(cancellation);
                 var apiRaces = await _gw2ApiManager.Gw2ApiClient.V2.Races.AllAsync(cancellation);
 
+                var adjustedApiLegends = apiLegends.Append(new()
+                {
+                    Id = "Legend7",
+                    Swap = 62891,
+                    Heal = 62719,
+                    Elite = 62942,
+                    Utilities = new List<int>()
+                    {
+                        62832,
+                        62962,
+                        62878,
+                    }
+                });
+
                 if (cancellation.IsCancellationRequested) return;
 
                 var paletteBySkills = new Dictionary<int, int>();
@@ -222,9 +238,9 @@ namespace Kenedia.Modules.BuildsManager.Services
                     skills.Add(skill.Id, new(skill, paletteBySkills));
                 }
 
-                if(!_data.Races.Any(e => e.Key == Races.None))
+                if (!_data.Races.Any(e => e.Key == Races.None))
                 {
-                    _data.Races.Add(Races.None, new() { Name = "None", Id = Races.None});
+                    _data.Races.Add(Races.None, new() { Name = "None", Id = Races.None });
                 }
 
                 foreach (var apiRace in apiRaces)
@@ -259,7 +275,7 @@ namespace Kenedia.Modules.BuildsManager.Services
                 }
 
                 var legends = new Dictionary<int, Legend>();
-                foreach (var l in apiLegends)
+                foreach (var l in adjustedApiLegends)
                 {
                     var legend = new Legend(l, skills);
                     legends.Add(legend.Id, new(l, skills));

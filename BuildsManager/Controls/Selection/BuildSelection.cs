@@ -21,6 +21,7 @@ using Gw2Sharp.Models;
 using Kenedia.Modules.Core.DataModels;
 using System.Diagnostics;
 using static Blish_HUD.ArcDps.Common.CommonFields;
+using System.Runtime.CompilerServices;
 
 namespace Kenedia.Modules.BuildsManager.Controls.Selection
 {
@@ -231,11 +232,19 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
         private readonly ImageButton _addBuildsButton;
         private readonly List<TemplateSelectable> _templates = new();
 
+        private readonly LoadingSpinner _spinner;
         private readonly Dropdown _sortBehavior;
         private double _lastShown;
 
         public BuildSelection()
         {
+            _spinner = new()
+            {
+                Parent = this,
+                Location = SelectionContent.LocalBounds.Center,
+                Size = new(64),
+            };
+
             _sortBehavior = new()
             {
                 Parent = this,
@@ -292,7 +301,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
                         string name = string.IsNullOrEmpty(Search.Text) ? "New Template" : Search.Text;
                         if (BuildsManager.ModuleInstance.Templates.Where(e => e.Name == name).Count() == 0)
                         {
-                            BuildsManager.ModuleInstance.Templates.Add(t = new() { Name = name });
+                            BuildsManager.ModuleInstance.Templates.Add(t = new() { Name = name, AutoSave = true });
                             Search.Text = null;
 
                             try
@@ -353,7 +362,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
             }
             if (_sortBehavior.SelectedItem == "Sort by Name") SelectionContent.SortChildren<TemplateSelectable>((a, b) => a.Template.Name.CompareTo(b.Template.Name));
 
-            SelectionContent.Invalidate();
+            //SelectionContent.Invalidate();
         }
 
         private void ModuleInstance_SelectedTemplateChanged(object sender, EventArgs e)
@@ -364,10 +373,28 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
 
         private void Templates_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
         {
+            if (!BuildsManager.ModuleInstance.TemplatesLoaded)
+            {
+                if (!_spinner.Visible)
+                {
+                    _spinner.Show();
+                    _spinner.Location = SelectionPanel.LocalBounds.Center.Add(_spinner.Size.Scale(-0.5));
+                    _templates.DisposeAll();
+                    _templates.Clear();
+                }
+
+                return;
+            }
+            else
+            {
+                _spinner.Hide();
+            }
+
+            bool firstLoad = _templates.Count == 0 && BuildsManager.ModuleInstance.Templates.Count != 0;
             var templates = _templates.Select(e => e.Template);
             var removedTemplates = templates.Except(BuildsManager.ModuleInstance.Templates);
             var addedTemplates = BuildsManager.ModuleInstance.Templates.Except(templates);
-            bool firstLoad = _templates.Count == 0 && BuildsManager.ModuleInstance.Templates.Count != 0;
+            TemplateSelectable targetTemplate = null;
 
             foreach (var template in addedTemplates)
             {
@@ -380,7 +407,12 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
                 };
 
                 t.OnClickAction = () => SelectionPanel?.SetTemplateAnchor(t);
-                if (!firstLoad) t.ToggleEditMode(true);
+                if (!firstLoad)
+                {
+                    SelectionPanel?.SetTemplateAnchor(t);
+                    t.ToggleEditMode(true);
+                    targetTemplate = t;
+                }
 
                 _templates.Add(t);
             }

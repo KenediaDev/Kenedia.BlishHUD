@@ -214,10 +214,10 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage.ProfessionSpecific
 
         protected override void Paint(SpriteBatch spriteBatch, Rectangle bounds)
         {
-            RecalculateLayout();
-
             foreach (var legend in _legends)
             {
+                _legends[legend.Key].Legend ??= TemplatePresenter.Template.BuildTemplate.Legends[legend.Key];
+
                 legend.Value.Draw(this, spriteBatch, RelativeMousePosition);
 
                 if (legend.Key is LegendSlot.AquaticActive or LegendSlot.TerrestrialActive)

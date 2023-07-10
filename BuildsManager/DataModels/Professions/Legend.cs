@@ -7,7 +7,7 @@ namespace Kenedia.Modules.BuildsManager.DataModels.Professions
 {
     [DataContract]
     public class Legend
-    {      
+    {
         public Legend()
         {
 

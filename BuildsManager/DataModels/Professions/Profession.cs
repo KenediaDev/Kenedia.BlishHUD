@@ -91,7 +91,7 @@ namespace Kenedia.Modules.BuildsManager.DataModels.Professions
                         bool exists = Weapons.TryGetValue(weaponType, out Weapon weapon);
                         weapon ??= new Weapon(apiWeapon, skills);
 
-                        if(professionType == ProfessionType.Guardian && weaponType == WeaponType.Sword)
+                        if (professionType == ProfessionType.Guardian && weaponType == WeaponType.Sword)
                         {
                             weapon.Specialization = (int)SpecializationType.Willbender;
                             weapon.SpecializationWielded = WieldingFlag.Offhand;
@@ -116,14 +116,14 @@ namespace Kenedia.Modules.BuildsManager.DataModels.Professions
                 // Add Flip & Bundle Skills
                 var profSkillIds = prof.Skills.Select(e => e.Id).ToList();
                 var traitedSkillsIds = new List<int>();
-                foreach(var spec in specializations.Values.Where(e => e.Profession == professionType))
+                foreach (var spec in specializations.Values.Where(e => e.Profession == professionType))
                 {
-                    foreach(var traited in spec.MajorTraits.Values.Where(e => e.Skills.Count > 0).Select(e => e.Skills))
+                    foreach (var traited in spec.MajorTraits.Values.Where(e => e.Skills.Count > 0).Select(e => e.Skills))
                     {
                         traitedSkillsIds.AddRange(traited);
                     }
 
-                    foreach(var traited in spec.MinorTraits.Values.Where(e => e.Skills.Count > 0).Select(e => e.Skills))
+                    foreach (var traited in spec.MinorTraits.Values.Where(e => e.Skills.Count > 0).Select(e => e.Skills))
                     {
                         traitedSkillsIds.AddRange(traited);
                     }

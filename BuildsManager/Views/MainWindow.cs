@@ -24,7 +24,7 @@ namespace Kenedia.Modules.BuildsManager.Views
         private readonly GearPage _gear;
         private readonly AboutPage _notes;
         private readonly SelectionPanel _selectionPanel;
-        private Template _template = new();
+        private Template _template = new() { AutoSave = true };
 
         public MainWindow(AsyncTexture2D background, Rectangle windowRegion, Rectangle contentRegion, Data data, TexturesService texturesService) : base(background, windowRegion, contentRegion)
         {
@@ -38,7 +38,7 @@ namespace Kenedia.Modules.BuildsManager.Views
                 Width = 375,
                 Template = _template,
                 MainWindow = this,
-                ZIndex = int.MaxValue /2,
+                ZIndex = int.MaxValue / 2,
                 //BackgroundColor = Color.Yellow * 0.2F,
             };
 
