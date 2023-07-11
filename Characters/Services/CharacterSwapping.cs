@@ -12,6 +12,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using static System.Net.Mime.MediaTypeNames;
+using System.Collections.Generic;
 
 namespace Kenedia.Modules.Characters.Services
 {
@@ -38,7 +39,7 @@ namespace Kenedia.Modules.Characters.Services
     {
         private readonly Settings _settings;
         private readonly GameState _gameState;
-        private readonly ObservableCollection<Character_Model> _characterModels;
+        private readonly ObservableCollection<Character_Model> _rawCharacterModels;
 
         private bool _ignoreOCR;
 
@@ -46,7 +47,7 @@ namespace Kenedia.Modules.Characters.Services
         {
             _settings = settings;
             _gameState = gameState;
-            _characterModels = characterModels;
+            _rawCharacterModels = characterModels;
         }
 
         public OCR OCR { get; set; }
@@ -83,12 +84,27 @@ namespace Kenedia.Modules.Characters.Services
 
         public Character_Model Character { get; set; }
 
+        private List<Character_Model> CharacterModels
+        {
+            get
+            {
+                if (_settings?.IncludeBetaCharacters.Value == true)
+                {
+                    return _rawCharacterModels.ToList();
+                }
+                else
+                {
+                    return _rawCharacterModels.Where(e => !e.Beta).ToList();
+                }
+            }
+        }
+
         private bool IsTaskCanceled(CancellationToken cancellationToken)
         {
             if (cancellationToken != null && cancellationToken.IsCancellationRequested)
             {
                 if (_state is not SwappingState.LoggedOut) { _movedLeft = 0; };
-                if (_state is SwappingState.MovedToStart) { _movedLeft = _characterModels.Count; };
+                if (_state is SwappingState.MovedToStart) { _movedLeft = CharacterModels.Count; };
 
                 _state = SwappingState.Canceled;
                 return true;
@@ -167,9 +183,9 @@ namespace Kenedia.Modules.Characters.Services
                     {
                         _state = SwappingState.CharacterLost;
 
-                        await MoveLeft(cancellationToken, Math.Min(_characterModels.Count, _settings.CheckDistance.Value));
+                        await MoveLeft(cancellationToken, Math.Min(CharacterModels.Count, _settings.CheckDistance.Value));
 
-                        for (int i = 1; i < Math.Min(_characterModels.Count, _settings.CheckDistance.Value * 2); i++)
+                        for (int i = 1; i < Math.Min(CharacterModels.Count, _settings.CheckDistance.Value * 2); i++)
                         {
                             await MoveRight(cancellationToken, 1);
                             await Delay(cancellationToken, 150);
@@ -373,7 +389,7 @@ namespace Kenedia.Modules.Characters.Services
             if (IsTaskCanceled(cancellationToken)) { return; }
 
             var stopwatch = Stopwatch.StartNew();
-            int moves = _characterModels.Count - _movedLeft;
+            int moves = CharacterModels.Count - _movedLeft;
             for (int i = 0; i < moves; i++)
             {
                 if (stopwatch.ElapsedMilliseconds > 5000)
@@ -396,7 +412,7 @@ namespace Kenedia.Modules.Characters.Services
             Status = string.Format(strings.CharacterSwap_MoveTo, Character.Name);
             if (IsTaskCanceled(cancellationToken)) { return; }
 
-            var order = _characterModels.OrderByDescending(e => e.LastLogin).ToList();
+            var order = CharacterModels.OrderByDescending(e => e.LastLogin).ToList();
 
             var stopwatch = Stopwatch.StartNew();
             foreach (Character_Model character in order)

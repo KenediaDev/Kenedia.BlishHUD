@@ -1027,4 +1027,10 @@ Pfad zur 'tesseract.dll': {0}</value>
   <data name="ShowItemOnTooltip" xml:space="preserve">
     <value>Zeige {0} in der QuickInfo</value>
   </data>
+  <data name="IncludeBetaCharacters" xml:space="preserve">
+    <value>Beta-Charaktere einbeziehen</value>
+  </data>
+  <data name="IncludeBetaCharacters_Tooltip" xml:space="preserve">
+    <value>Zeichen einschließen, die nur während einer Beta verfügbar sind. Dies muss manuell ein- und ausgeschaltet werden</value>
+  </data>
 </root>

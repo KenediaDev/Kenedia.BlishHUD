@@ -54,6 +54,7 @@ namespace Kenedia.Modules.Characters.Models
         private bool _isCurrentCharacter;
         private bool _markedAsDeleted;
         private DateTime _nextBirthday;
+        private bool _beta;
 
         public Character_Model()
         {
@@ -69,6 +70,7 @@ namespace Kenedia.Modules.Characters.Models
 
             _name = character.Name;
             _level = character.Level;
+            _beta = character.Flags.ToList().Contains(CharacterFlag.Beta);
 
             _race = (RaceType)Enum.Parse(typeof(RaceType), character.Race);
             _profession = (ProfessionType)Enum.Parse(typeof(ProfessionType), character.Profession);
@@ -103,6 +105,7 @@ namespace Kenedia.Modules.Characters.Models
             _name = character.Name;
             _level = character.Level;
             _map = character.Map;
+            _beta = character.Beta;
             Crafting = character.Crafting;
             _race = character.Race;
             _profession = character.Profession;
@@ -127,6 +130,13 @@ namespace Kenedia.Modules.Characters.Models
         public event EventHandler Deleted;
 
         public bool IsCurrentCharacter { get => _isCurrentCharacter; set => SetProperty(ref _isCurrentCharacter, value); }
+
+        [DataMember]
+        public bool Beta
+        {
+            get => _beta;
+            set => SetProperty(ref _beta, value);
+        }
 
         [DataMember]
         public string Name
@@ -535,6 +545,8 @@ namespace Kenedia.Modules.Characters.Models
         {
             _name = character.Name;
             _level = character.Level;
+
+            _beta = character.Flags.ToList().Contains(CharacterFlag.Beta);
 
             _race = (RaceType)Enum.Parse(typeof(RaceType), character.Race);
             _profession = (ProfessionType)Enum.Parse(typeof(ProfessionType), character.Profession);

@@ -33,7 +33,8 @@ namespace Kenedia.Modules.Characters.Views
     {
         private readonly Settings _settings;
         private readonly TextureManager _textureManager;
-        private readonly ObservableCollection<Character_Model> _characterModels;
+        private readonly ObservableCollection<Character_Model> _rawCharacterModels;
+
         private readonly SearchFilterCollection _searchFilters;
         private readonly SearchFilterCollection _tagFilters;
         private readonly Action _toggleOCR;
@@ -71,7 +72,7 @@ namespace Kenedia.Modules.Characters.Views
         {
             _settings = settings;
             _textureManager = textureManager;
-            _characterModels = characterModels;
+            _rawCharacterModels = characterModels;
             _searchFilters = searchFilters;
             _tagFilters = tagFilters;
             _toggleOCR = toggleOCR;
@@ -104,7 +105,7 @@ namespace Kenedia.Modules.Characters.Views
             };
             _collapseWrapper.Hidden += CollapseWrapper_Hidden;
 
-            _notifications = new NotificationPanel(_characterModels)
+            _notifications = new NotificationPanel(_rawCharacterModels)
             {
                 Parent = _collapseWrapper,
                 WidthSizingMode = SizingMode.Fill,
@@ -173,7 +174,7 @@ namespace Kenedia.Modules.Characters.Views
                 Visible = _settings.ShowLastButton.Value,
                 ClickAction = (m) =>
                 {
-                    var character = _characterModels.Aggregate((a, b) => b.LastLogin > a.LastLogin ? a : b);
+                    var character = CharacterModels.Aggregate((a, b) => b.LastLogin > a.LastLogin ? a : b);
                     character?.Swap(true);
                 }
             };
@@ -260,8 +261,18 @@ namespace Kenedia.Modules.Characters.Views
             _settings.PinSideMenus.SettingChanged += PinSideMenus_SettingChanged;
             _settings.ShowRandomButton.SettingChanged += ShowRandomButton_SettingChanged;
             _settings.ShowLastButton.SettingChanged += ShowLastButton_SettingChanged;
+            _settings.IncludeBetaCharacters.SettingChanged += IncludeBetaCharacters_SettingChanged;
 
             GameService.Gw2Mumble.CurrentMap.MapChanged += CurrentMap_MapChanged;
+        }
+
+        private void IncludeBetaCharacters_SettingChanged(object sender, ValueChangedEventArgs<bool> e)
+        {
+            LoadedModels?.Clear();
+            CharactersPanel?.ClearChildren();
+            CharacterCards?.Clear();
+
+            CreateCharacterControls();
         }
 
         private void CollapseWrapper_Hidden(object sender, EventArgs e)
@@ -270,6 +281,21 @@ namespace Kenedia.Modules.Characters.Views
         }
 
         public List<Character_Model> LoadedModels { get; } = new();
+
+        private List<Character_Model> CharacterModels
+        {
+            get
+            {
+                if (_settings?.IncludeBetaCharacters.Value == true)
+                {
+                    return _rawCharacterModels.ToList();
+                }
+                else
+                {
+                    return _rawCharacterModels.Where(e => !e.Beta).ToList();
+                }
+            }
+        }
 
         private void FilterDelay_SettingChanged(object sender, ValueChangedEventArgs<int> e)
         {
@@ -469,7 +495,7 @@ namespace Kenedia.Modules.Characters.Views
         {
             if (SideMenu.Tabs.Count > 1 && CharacterCards != null)
             {
-                var newCharacters = _characterModels.Except(LoadedModels);
+                var newCharacters = CharacterModels.Except(LoadedModels);
 
                 foreach (Character_Model c in newCharacters)
                 {

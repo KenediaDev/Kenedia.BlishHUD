@@ -29,7 +29,8 @@ namespace Kenedia.Modules.Characters.Services
         private string _status;
         private readonly Settings _settings;
         private readonly GameState _gameState;
-        private readonly ObservableCollection<Character_Model> _characters;
+        private readonly ObservableCollection<Character_Model> _rawCharacterModels;
+
         private CancellationTokenSource _cancellationTokenSource;
         private List<Character_Model> _models;
         private SortingState _state;
@@ -64,7 +65,7 @@ namespace Kenedia.Modules.Characters.Services
         {
             _settings = settings;
             _gameState = gameState;
-            _characters = characters;
+            _rawCharacterModels = characters;
         }
 
         public event EventHandler Started;
@@ -77,6 +78,21 @@ namespace Kenedia.Modules.Characters.Services
         public CharacterSwapping CharacterSwapping { get; set; }
 
         public Action UpdateCharacterList { get; set; }
+
+        private List<Character_Model> Characters
+        {
+            get
+            {
+                if (_settings?.IncludeBetaCharacters.Value == true)
+                {
+                    return _rawCharacterModels.ToList();
+                }
+                else
+                {
+                    return _rawCharacterModels.Where(e => !e.Beta).ToList();
+                }
+            }
+        }
 
         public string Status
         {
@@ -108,7 +124,7 @@ namespace Kenedia.Modules.Characters.Services
             _cancellationTokenSource = new();
             _cancellationTokenSource.CancelAfter(180000);
 
-            _models = _characters.OrderByDescending(e => e.LastLogin).ToList();
+            _models = Characters.OrderByDescending(e => e.LastLogin).ToList();
             _lastName = string.Empty;
             _state = SortingState.None;
             NoNameChange = 0;

@@ -35,6 +35,8 @@ namespace Kenedia.Modules.Characters.Services
             AutomaticCharacterDelete = internalSettings.DefineSetting(nameof(AutomaticCharacterDelete), false);
             ShowNotifications = internalSettings.DefineSetting(nameof(ShowNotifications), true);
 
+            IncludeBetaCharacters = internalSettings.DefineSetting(nameof(IncludeBetaCharacters), true);
+
             FilterAsOne = internalSettings.DefineSetting(nameof(FilterAsOne), false);
             UseBetaGamestate = internalSettings.DefineSetting(nameof(UseBetaGamestate), true);
 
@@ -171,6 +173,8 @@ namespace Kenedia.Modules.Characters.Services
         public SettingEntry<Dictionary<string, ShowCheckPair>> DisplayToggles { get; set; }
 
         public SettingEntry<bool> PinSideMenus { get; set; }
+
+        public SettingEntry<bool> IncludeBetaCharacters { get; set; }
 
         public SettingEntry<bool> CloseWindowOnSwap { get; set; }
 

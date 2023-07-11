@@ -1025,4 +1025,10 @@ Chemin d'accès au fichier 'tesseract.dll' : {0}</value>
   <data name="ShowItemOnTooltip" xml:space="preserve">
     <value>Afficher {0} dans l'infobulle</value>
   </data>
+  <data name="IncludeBetaCharacters" xml:space="preserve">
+    <value>Inclure des personnages bêta</value>
+  </data>
+  <data name="IncludeBetaCharacters_Tooltip" xml:space="preserve">
+    <value>Inclure les personnages qui ne sont disponibles que pendant une bêta. Cette option doit être activée ou désactivée manuellement</value>
+  </data>
 </root>

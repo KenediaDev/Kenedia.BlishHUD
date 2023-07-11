@@ -1057,6 +1057,15 @@ namespace Kenedia.Modules.Characters.Views
             _ = new Checkbox()
             {
                 Parent = cP,
+                Checked = _settings.IncludeBetaCharacters.Value,
+                CheckedChangedAction = (b) => _settings.IncludeBetaCharacters.Value = b,
+                SetLocalizedText = () => strings.IncludeBetaCharacters,
+                SetLocalizedTooltip = () => strings.IncludeBetaCharacters_Tooltip,
+            };
+
+            _ = new Checkbox()
+            {
+                Parent = cP,
                 Checked = _settings.LoadCachedAccounts.Value,
                 CheckedChangedAction = (b) => _settings.LoadCachedAccounts.Value = b,
                 SetLocalizedText = () => strings.LoadCachedAccounts,

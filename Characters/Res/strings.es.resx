@@ -1025,4 +1025,10 @@ Ruta a 'tesseract.dll': {0}</value>
   <data name="ShowItemOnTooltip" xml:space="preserve">
     <value>Mostrar {0} en el tooltip</value>
   </data>
+  <data name="IncludeBetaCharacters" xml:space="preserve">
+    <value>Incluir personajes beta</value>
+  </data>
+  <data name="IncludeBetaCharacters_Tooltip" xml:space="preserve">
+    <value>Incluir personajes que sólo están disponibles durante una beta. Esta opción debe activarse y desactivarse manualmente</value>
+  </data>
 </root>

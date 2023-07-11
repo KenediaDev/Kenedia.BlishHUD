@@ -1260,6 +1260,24 @@ namespace Kenedia.Modules.Characters.Res {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Include Beta Characters.
+        /// </summary>
+        internal static string IncludeBetaCharacters {
+            get {
+                return ResourceManager.GetString("IncludeBetaCharacters", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Include characters which are only available during a beta. This needs to manually turned on and off.
+        /// </summary>
+        internal static string IncludeBetaCharacters_Tooltip {
+            get {
+                return ResourceManager.GetString("IncludeBetaCharacters_Tooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Include matches.
         /// </summary>
         internal static string IncludeMatches {
