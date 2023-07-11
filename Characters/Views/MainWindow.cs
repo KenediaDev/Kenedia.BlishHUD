@@ -174,8 +174,15 @@ namespace Kenedia.Modules.Characters.Views
                 Visible = _settings.ShowLastButton.Value,
                 ClickAction = (m) =>
                 {
-                    var character = CharacterModels.Aggregate((a, b) => b.LastLogin > a.LastLogin ? a : b);
-                    character?.Swap(true);
+                    if (CharacterModels.Count > 1)
+                    {
+                        var character = CharacterModels.Aggregate((a, b) => b.LastLogin > a.LastLogin ? a : b);
+                        character?.Swap(true);
+                    }
+                    else if(CharacterModels.Count == 1) 
+                    {
+                        CharacterModels?.FirstOrDefault()?.Swap(true);
+                    }
                 }
             };
             _lastButton.Texture.TextureSwapped += Texture_TextureSwapped;
@@ -704,7 +711,7 @@ namespace Kenedia.Modules.Characters.Views
                 {
                     c?.Character.Swap();
 
-                    if(c == null)
+                    if (c == null)
                     {
                         Characters.Logger.Debug("No character found to swap to.");
                     }
@@ -824,7 +831,7 @@ namespace Kenedia.Modules.Characters.Views
 
             if (_settings.ShowNotifications.Value && _notifications.Children.Count > 0 && _notifications.Children.Any(e => e.Visible))
             {
-                _collapseWrapper.Show();                
+                _collapseWrapper.Show();
                 ContentPanel.Invalidate();
             }
 
