@@ -162,9 +162,12 @@ namespace Kenedia.Modules.BuildsManager
             _cancellationTokenSource?.Cancel();
             _cancellationTokenSource = new CancellationTokenSource();
 
+            //await GW2API.UpdateData();
+            //await GW2API.CreateItemMap(_cancellationTokenSource.Token);
+
             await LoadTemplates();
 
-            //base.ReloadKey_Activated(sender, e);
+            base.ReloadKey_Activated(sender, e);
         }
 
         protected override void LoadGUI()
@@ -196,7 +199,7 @@ namespace Kenedia.Modules.BuildsManager
                 Height = 900,
             };
 
-            //MainWindow.Show();
+            MainWindow.Show();
         }
 
         protected override void UnloadGUI()

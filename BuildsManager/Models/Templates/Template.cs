@@ -19,27 +19,49 @@ using System.Xml.Linq;
 using Kenedia.Modules.BuildsManager.DataModels.Stats;
 using Kenedia.Modules.BuildsManager.DataModels.Items;
 using Kenedia.Modules.BuildsManager.Extensions;
+using Blish_HUD;
 
 namespace Kenedia.Modules.BuildsManager.Models.Templates
 {
     [DataContract]
     public class Template : INotifyPropertyChanged
     {
-        private ProfessionType _profession;
+        private ProfessionType _profession = ProfessionType.Guardian;
         private string _description;
         private string _name = "New Template";
         private bool _loaded = true;
 
         public Template()
         {
+            BuildTemplate.ProfessionChanged += BuildTemplate_ProfessionChanged;
+            GearTemplate.ProfessionChanged += GearTemplate_ProfessionChanged;
+
             BuildTemplate.BuildCodeChanged += BuildTemplate_BuildCodeChanged;
             GearTemplate.PropertyChanged += TemplateChanged;
+
+            Profession = GameService.Gw2Mumble.PlayerCharacter?.Profession ?? Profession;
+
+            Debug.WriteLine($"Profession {Profession}");
+        }
+
+        private void GearTemplate_ProfessionChanged(object sender, Core.Models.ValueChangedEventArgs<ProfessionType> e)
+        {
+            Profession = GearTemplate?.Profession ?? Profession;
+        }
+
+        private void BuildTemplate_ProfessionChanged(object sender, Core.Models.ValueChangedEventArgs<ProfessionType> e)
+        {
+            Profession = BuildTemplate?.Profession ?? Profession;
         }
 
         public Template(string? buildCode, string? gearCode) : this()
         {
             if (!string.IsNullOrEmpty(buildCode)) BuildTemplate.LoadFromCode(buildCode);
             if (!string.IsNullOrEmpty(gearCode)) GearTemplate.LoadFromCode(gearCode);
+
+            Profession = BuildTemplate?.Profession ?? Profession;
+
+            Debug.WriteLine($"Profession {Profession}");
         }
 
         public event ValueChangedEventHandler<Races> RaceChanged;
@@ -94,7 +116,7 @@ namespace Kenedia.Modules.BuildsManager.Models.Templates
         [DataMember]
         public Races Race { get => _race; set => Common.SetProperty(ref _race, value, OnRaceChanged); }
 
-        private void OnRaceChanged(object sender, ValueChangedEventArgs<Races> e)
+        private void OnRaceChanged(object sender, Core.Models.ValueChangedEventArgs<Races> e)
         {
             RaceChanged?.Invoke(this, e);
         }

@@ -1004,6 +1004,26 @@
       "Id": 97826,
       "MappedId": 200,
       "Name": "Plate of Crispy Fish Pancakes"
+    },
+    {
+      "Id": 99379,
+      "MappedId": 201,
+      "Name": "Mocha of the Mists Coffee Pitcher"
+    },
+    {
+      "Id": 99785,
+      "MappedId": 202,
+      "Name": "Mists-Infused Peppercorn-Crusted Sous-Vide Steak"
+    },
+    {
+      "Id": 99794,
+      "MappedId": 203,
+      "Name": "Mists-Infused Spherified Peppercorn-Spiced Oyster Soup"
+    },
+    {
+      "Id": 99804,
+      "MappedId": 204,
+      "Name": "Bowl of Mists-Infused Fruit Salad with Mint Garnish"
     }
   ],
   "Utilities": [
@@ -1376,6 +1396,16 @@
       "Id": 91350,
       "MappedId": 73,
       "Name": "Powerful Potion of Mordrem Slaying"
+    },
+    {
+      "Id": 99842,
+      "MappedId": 74,
+      "Name": "Mist-Infused Maintenance Oil"
+    },
+    {
+      "Id": 99845,
+      "MappedId": 75,
+      "Name": "Mist-Infused Sharpening Stone"
     }
   ],
   "PveRunes": [
@@ -1706,172 +1736,172 @@
     },
     {
       "Id": 67339,
-      "MappedId": 66,
+      "MappedId": 65,
       "Name": "Superior Rune of the Trapper"
     },
     {
       "Id": 67342,
-      "MappedId": 67,
+      "MappedId": 66,
       "Name": "Superior Rune of Radiance"
     },
     {
       "Id": 67344,
-      "MappedId": 68,
+      "MappedId": 67,
       "Name": "Superior Rune of Evasion"
     },
     {
       "Id": 67912,
-      "MappedId": 69,
+      "MappedId": 68,
       "Name": "Superior Rune of the Defender"
     },
     {
       "Id": 68437,
-      "MappedId": 70,
+      "MappedId": 69,
       "Name": "Superior Rune of Snowfall"
     },
     {
       "Id": 69370,
-      "MappedId": 71,
+      "MappedId": 70,
       "Name": "Superior Rune of the Revenant"
     },
     {
       "Id": 70450,
-      "MappedId": 72,
+      "MappedId": 71,
       "Name": "Superior Rune of the Druid"
     },
     {
       "Id": 70600,
-      "MappedId": 73,
+      "MappedId": 72,
       "Name": "Superior Rune of Leadership"
     },
     {
       "Id": 70829,
-      "MappedId": 74,
+      "MappedId": 73,
       "Name": "Superior Rune of the Reaper"
     },
     {
       "Id": 71276,
-      "MappedId": 75,
+      "MappedId": 74,
       "Name": "Superior Rune of the Scrapper"
     },
     {
       "Id": 71425,
-      "MappedId": 76,
+      "MappedId": 75,
       "Name": "Superior Rune of the Berserker"
     },
     {
       "Id": 72852,
-      "MappedId": 77,
+      "MappedId": 76,
       "Name": "Superior Rune of the Daredevil"
     },
     {
       "Id": 72912,
-      "MappedId": 78,
+      "MappedId": 77,
       "Name": "Superior Rune of Thorns"
     },
     {
       "Id": 73399,
-      "MappedId": 79,
+      "MappedId": 78,
       "Name": "Superior Rune of the Chronomancer"
     },
     {
       "Id": 73653,
-      "MappedId": 80,
+      "MappedId": 79,
       "Name": "Superior Rune of Durability"
     },
     {
       "Id": 74978,
-      "MappedId": 81,
+      "MappedId": 80,
       "Name": "Superior Rune of the Dragonhunter"
     },
     {
       "Id": 76100,
-      "MappedId": 82,
+      "MappedId": 81,
       "Name": "Superior Rune of the Herald"
     },
     {
       "Id": 76166,
-      "MappedId": 83,
+      "MappedId": 82,
       "Name": "Superior Rune of the Tempest"
     },
     {
       "Id": 76813,
-      "MappedId": 84,
+      "MappedId": 83,
       "Name": "Superior Rune of Surging"
     },
     {
       "Id": 81091,
-      "MappedId": 85,
+      "MappedId": 84,
       "Name": "Superior Rune of Nature's Bounty"
     },
     {
       "Id": 82633,
-      "MappedId": 86,
+      "MappedId": 85,
       "Name": "Superior Rune of the Holosmith"
     },
     {
       "Id": 82791,
-      "MappedId": 87,
+      "MappedId": 86,
       "Name": "Superior Rune of the Deadeye"
     },
     {
       "Id": 83338,
-      "MappedId": 88,
+      "MappedId": 87,
       "Name": "Superior Rune of the Firebrand"
     },
     {
       "Id": 83367,
-      "MappedId": 89,
+      "MappedId": 88,
       "Name": "Superior Rune of the Cavalier"
     },
     {
       "Id": 83423,
-      "MappedId": 90,
+      "MappedId": 89,
       "Name": "Superior Rune of the Weaver"
     },
     {
       "Id": 83502,
-      "MappedId": 91,
+      "MappedId": 90,
       "Name": "Superior Rune of the Renegade"
     },
     {
       "Id": 83663,
-      "MappedId": 92,
+      "MappedId": 91,
       "Name": "Superior Rune of the Scourge"
     },
     {
       "Id": 83964,
-      "MappedId": 93,
+      "MappedId": 92,
       "Name": "Superior Rune of the Soulbeast"
     },
     {
       "Id": 84127,
-      "MappedId": 94,
+      "MappedId": 93,
       "Name": "Superior Rune of the Mirage"
     },
     {
       "Id": 84171,
-      "MappedId": 95,
+      "MappedId": 94,
       "Name": "Superior Rune of the Rebirth"
     },
     {
       "Id": 84749,
-      "MappedId": 96,
+      "MappedId": 95,
       "Name": "Superior Rune of the Spellbreaker"
     },
     {
       "Id": 85713,
-      "MappedId": 97,
+      "MappedId": 96,
       "Name": "Superior Rune of the Stars"
     },
     {
       "Id": 88118,
-      "MappedId": 98,
+      "MappedId": 97,
       "Name": "Superior Rune of the Zephyrite"
     },
     {
       "Id": 89999,
-      "MappedId": 99,
+      "MappedId": 98,
       "Name": "Superior Rune of Fireworks"
     }
   ],
@@ -4681,6 +4711,116 @@
       "Id": 99248,
       "MappedId": 363,
       "Name": "Clockwork Infusion"
+    },
+    {
+      "Id": 99784,
+      "MappedId": 364,
+      "Name": "Mistwalker Infusion"
+    },
+    {
+      "Id": 99789,
+      "MappedId": 365,
+      "Name": "Mistwalker Infusion"
+    },
+    {
+      "Id": 99790,
+      "MappedId": 366,
+      "Name": "Mistwalker Infusion"
+    },
+    {
+      "Id": 99809,
+      "MappedId": 367,
+      "Name": "Mistwalker Infusion"
+    },
+    {
+      "Id": 99824,
+      "MappedId": 368,
+      "Name": "Mistwalker Infusion"
+    },
+    {
+      "Id": 99839,
+      "MappedId": 369,
+      "Name": "Mistwalker Infusion"
+    },
+    {
+      "Id": 99848,
+      "MappedId": 370,
+      "Name": "Mistwalker Infusion"
+    },
+    {
+      "Id": 99850,
+      "MappedId": 371,
+      "Name": "Mistwalker Infusion"
+    },
+    {
+      "Id": 99869,
+      "MappedId": 372,
+      "Name": "Mote of Darkness"
+    },
+    {
+      "Id": 99878,
+      "MappedId": 373,
+      "Name": "Mote of Darkness"
+    },
+    {
+      "Id": 99880,
+      "MappedId": 374,
+      "Name": "Mote of Darkness"
+    },
+    {
+      "Id": 99881,
+      "MappedId": 375,
+      "Name": "Mote of Darkness"
+    },
+    {
+      "Id": 99882,
+      "MappedId": 376,
+      "Name": "Mote of Darkness"
+    },
+    {
+      "Id": 99887,
+      "MappedId": 377,
+      "Name": "Mote of Darkness"
+    },
+    {
+      "Id": 99894,
+      "MappedId": 378,
+      "Name": "Mote of Darkness"
+    },
+    {
+      "Id": 99898,
+      "MappedId": 379,
+      "Name": "Mote of Darkness"
+    },
+    {
+      "Id": 99921,
+      "MappedId": 380,
+      "Name": "Silent Symphony"
+    },
+    {
+      "Id": 99929,
+      "MappedId": 381,
+      "Name": "Silent Symphony"
+    },
+    {
+      "Id": 99932,
+      "MappedId": 382,
+      "Name": "Silent Symphony"
+    },
+    {
+      "Id": 99939,
+      "MappedId": 383,
+      "Name": "Silent Symphony"
+    },
+    {
+      "Id": 99940,
+      "MappedId": 384,
+      "Name": "Silent Symphony"
+    },
+    {
+      "Id": 99948,
+      "MappedId": 385,
+      "Name": "Silent Symphony"
     }
   ],
   "Enrichments": [
@@ -4745,1277 +4885,217 @@
       "Id": 80058,
       "MappedId": 2,
       "Name": "Mist Band (Infused)"
-    },
-    {
-      "Id": 81908,
-      "MappedId": 3,
-      "Name": "Aurora"
-    },
-    {
-      "Id": 91048,
-      "MappedId": 4,
-      "Name": "Vision"
-    },
-    {
-      "Id": 91234,
-      "MappedId": 5,
-      "Name": "Coalescence"
-    },
-    {
-      "Id": 92991,
-      "MappedId": 6,
-      "Name": "Transcendence"
-    },
-    {
-      "Id": 93105,
-      "MappedId": 7,
-      "Name": "Conflux"
-    },
-    {
-      "Id": 95380,
-      "MappedId": 8,
-      "Name": "Prismatic Champion's Regalia"
-    },
-    {
-      "Id": 96699,
-      "MappedId": 9,
-      "Name": "Willbender's Ring"
-    },
-    {
-      "Id": 97239,
-      "MappedId": 10,
-      "Name": "Willbender's Trinket"
-    },
-    {
-      "Id": 97687,
-      "MappedId": 11,
-      "Name": "Badge of Compelling"
     }
   ],
   "Backs": [
     {
-      "Id": 74155,
-      "MappedId": 0,
-      "Name": "Ad Infinitum"
-    },
-    {
-      "Id": 74623,
-      "MappedId": 1,
-      "Name": "Crusader's Pack"
-    },
-    {
-      "Id": 77474,
-      "MappedId": 2,
-      "Name": "The Ascension"
-    },
-    {
-      "Id": 81462,
-      "MappedId": 3,
-      "Name": "Warbringer"
-    },
-    {
       "Id": 94947,
-      "MappedId": 4,
+      "MappedId": 0,
       "Name": "Dragonscale Cape"
     }
   ],
   "Weapons": [
     {
-      "Id": 30684,
-      "MappedId": 0,
-      "Name": "Frostfang"
-    },
-    {
-      "Id": 30685,
-      "MappedId": 1,
-      "Name": "Kudzu"
-    },
-    {
-      "Id": 30686,
-      "MappedId": 2,
-      "Name": "The Dreamer"
-    },
-    {
-      "Id": 30687,
-      "MappedId": 3,
-      "Name": "Incinerator"
-    },
-    {
-      "Id": 30688,
-      "MappedId": 4,
-      "Name": "The Minstrel"
-    },
-    {
-      "Id": 30689,
-      "MappedId": 5,
-      "Name": "Eternity"
-    },
-    {
-      "Id": 30690,
-      "MappedId": 6,
-      "Name": "The Juggernaut"
-    },
-    {
-      "Id": 30691,
-      "MappedId": 7,
-      "Name": "Kamohoali'i Kotaki"
-    },
-    {
-      "Id": 30692,
-      "MappedId": 8,
-      "Name": "The Moot"
-    },
-    {
-      "Id": 30693,
-      "MappedId": 9,
-      "Name": "Quip"
-    },
-    {
-      "Id": 30694,
-      "MappedId": 10,
-      "Name": "The Predator"
-    },
-    {
-      "Id": 30695,
-      "MappedId": 11,
-      "Name": "Meteorlogicus"
-    },
-    {
-      "Id": 30696,
-      "MappedId": 12,
-      "Name": "The Flameseeker Prophecies"
-    },
-    {
-      "Id": 30697,
-      "MappedId": 13,
-      "Name": "Frenzy"
-    },
-    {
-      "Id": 30698,
-      "MappedId": 14,
-      "Name": "The Bifrost"
-    },
-    {
-      "Id": 30699,
-      "MappedId": 15,
-      "Name": "Bolt"
-    },
-    {
-      "Id": 30700,
-      "MappedId": 16,
-      "Name": "Rodgort"
-    },
-    {
-      "Id": 30701,
-      "MappedId": 17,
-      "Name": "Kraitkin"
-    },
-    {
-      "Id": 30702,
-      "MappedId": 18,
-      "Name": "Howler"
-    },
-    {
-      "Id": 70638,
-      "MappedId": 19,
-      "Name": "Gold Fractal Warhorn"
-    },
-    {
-      "Id": 70785,
-      "MappedId": 20,
-      "Name": "Gold Fractal Staff"
-    },
-    {
-      "Id": 71164,
-      "MappedId": 21,
-      "Name": "Gold Fractal Rifle"
-    },
-    {
-      "Id": 71232,
-      "MappedId": 22,
-      "Name": "Gold Fractal Focus"
-    },
-    {
-      "Id": 71383,
-      "MappedId": 23,
-      "Name": "Nevermore"
-    },
-    {
-      "Id": 71670,
-      "MappedId": 24,
-      "Name": "Gold Fractal Hammer"
-    },
-    {
-      "Id": 72165,
-      "MappedId": 25,
-      "Name": "Gold Fractal Short Bow"
-    },
-    {
-      "Id": 72542,
-      "MappedId": 26,
-      "Name": "Gold Fractal Shield"
-    },
-    {
-      "Id": 72713,
-      "MappedId": 27,
-      "Name": "HOPE"
-    },
-    {
-      "Id": 73091,
-      "MappedId": 28,
-      "Name": "Gold Fractal Greatsword"
-    },
-    {
-      "Id": 73269,
-      "MappedId": 29,
-      "Name": "Gold Fractal Longbow"
-    },
-    {
-      "Id": 73380,
-      "MappedId": 30,
-      "Name": "Gold Fractal Axe"
-    },
-    {
-      "Id": 74760,
-      "MappedId": 31,
-      "Name": "Gold Fractal Speargun"
-    },
-    {
-      "Id": 74862,
-      "MappedId": 32,
-      "Name": "Gold Fractal Pistol"
-    },
-    {
-      "Id": 75830,
-      "MappedId": 33,
-      "Name": "Gold Fractal Harpoon"
-    },
-    {
-      "Id": 75835,
-      "MappedId": 34,
-      "Name": "Gold Fractal Mace"
-    },
-    {
-      "Id": 75881,
-      "MappedId": 35,
-      "Name": "Gold Fractal Dagger"
-    },
-    {
-      "Id": 76158,
-      "MappedId": 36,
-      "Name": "Astralaria"
-    },
-    {
-      "Id": 76257,
-      "MappedId": 37,
-      "Name": "Gold Fractal Sword"
-    },
-    {
-      "Id": 76598,
-      "MappedId": 38,
-      "Name": "Gold Fractal Scepter"
-    },
-    {
-      "Id": 76974,
-      "MappedId": 39,
-      "Name": "Gold Fractal Torch"
-    },
-    {
-      "Id": 77196,
-      "MappedId": 40,
-      "Name": "Gold Fractal Trident"
-    },
-    {
-      "Id": 78556,
-      "MappedId": 41,
-      "Name": "Chuka and Champawat"
-    },
-    {
-      "Id": 79562,
-      "MappedId": 42,
-      "Name": "Eureka"
-    },
-    {
-      "Id": 79802,
-      "MappedId": 43,
-      "Name": "Shooshadoo"
-    },
-    {
-      "Id": 80488,
-      "MappedId": 44,
-      "Name": "The HMS Divinity"
-    },
-    {
-      "Id": 81206,
-      "MappedId": 45,
-      "Name": "Flames of War"
-    },
-    {
-      "Id": 81839,
-      "MappedId": 46,
-      "Name": "Sharur"
-    },
-    {
-      "Id": 81957,
-      "MappedId": 47,
-      "Name": "The Shining Blade"
-    },
-    {
       "Id": 84872,
-      "MappedId": 48,
+      "MappedId": 0,
       "Name": "Cobalt Antique Artifact"
     },
     {
       "Id": 84888,
-      "MappedId": 49,
+      "MappedId": 1,
       "Name": "Cobalt Antique Greatbow"
     },
     {
       "Id": 84899,
-      "MappedId": 50,
+      "MappedId": 2,
       "Name": "Cobalt Antique Impaler"
     },
     {
       "Id": 85010,
-      "MappedId": 51,
+      "MappedId": 3,
       "Name": "Cobalt Antique Revolver"
     },
     {
       "Id": 85017,
-      "MappedId": 52,
+      "MappedId": 4,
       "Name": "Cobalt Antique Razor"
     },
     {
       "Id": 85026,
-      "MappedId": 53,
+      "MappedId": 5,
       "Name": "Cobalt Antique Spire"
     },
     {
       "Id": 85052,
-      "MappedId": 54,
+      "MappedId": 6,
       "Name": "Cobalt Antique Short Bow"
     },
     {
       "Id": 85060,
-      "MappedId": 55,
+      "MappedId": 7,
       "Name": "Cobalt Antique Warhammer"
     },
     {
       "Id": 85105,
-      "MappedId": 56,
+      "MappedId": 8,
       "Name": "Cobalt Antique Reaver"
     },
     {
       "Id": 85117,
-      "MappedId": 57,
+      "MappedId": 9,
       "Name": "Cobalt Antique Wand"
     },
     {
       "Id": 85250,
-      "MappedId": 58,
+      "MappedId": 10,
       "Name": "Cobalt Antique Blade"
     },
     {
       "Id": 85251,
-      "MappedId": 59,
+      "MappedId": 11,
       "Name": "Cobalt Antique Claymore"
     },
     {
       "Id": 85262,
-      "MappedId": 60,
+      "MappedId": 12,
       "Name": "Cobalt Antique Musket"
     },
     {
       "Id": 85265,
-      "MappedId": 61,
+      "MappedId": 13,
       "Name": "Cobalt Antique Trident"
     },
     {
       "Id": 85267,
-      "MappedId": 62,
+      "MappedId": 14,
       "Name": "Cobalt Antique Flanged Mace"
     },
     {
       "Id": 85307,
-      "MappedId": 63,
+      "MappedId": 15,
       "Name": "Cobalt Antique Herald"
     },
     {
       "Id": 85323,
-      "MappedId": 64,
+      "MappedId": 16,
       "Name": "Cobalt Antique Brazier"
     },
     {
       "Id": 85341,
-      "MappedId": 65,
+      "MappedId": 17,
       "Name": "Cobalt Antique Harpoon Gun"
     },
     {
       "Id": 85360,
-      "MappedId": 66,
+      "MappedId": 18,
       "Name": "Cobalt Antique Bastion"
-    },
-    {
-      "Id": 86098,
-      "MappedId": 67,
-      "Name": "The Binding of Ipos"
-    },
-    {
-      "Id": 87109,
-      "MappedId": 68,
-      "Name": "Claw of the Khan-Ur"
-    },
-    {
-      "Id": 87687,
-      "MappedId": 69,
-      "Name": "Verdarach"
-    },
-    {
-      "Id": 88576,
-      "MappedId": 70,
-      "Name": "Xiuquatl"
-    },
-    {
-      "Id": 89854,
-      "MappedId": 71,
-      "Name": "Pharus"
-    },
-    {
-      "Id": 90551,
-      "MappedId": 72,
-      "Name": "Exordium"
-    },
-    {
-      "Id": 95612,
-      "MappedId": 73,
-      "Name": "Aurene's Tail"
-    },
-    {
-      "Id": 95675,
-      "MappedId": 74,
-      "Name": "Aurene's Fang"
-    },
-    {
-      "Id": 95684,
-      "MappedId": 75,
-      "Name": "Aurene's Weight"
-    },
-    {
-      "Id": 95808,
-      "MappedId": 76,
-      "Name": "Aurene's Argument"
-    },
-    {
-      "Id": 96028,
-      "MappedId": 77,
-      "Name": "Aurene's Scale"
-    },
-    {
-      "Id": 96203,
-      "MappedId": 78,
-      "Name": "Aurene's Claw"
-    },
-    {
-      "Id": 96221,
-      "MappedId": 79,
-      "Name": "Aurene's Wisdom"
-    },
-    {
-      "Id": 96356,
-      "MappedId": 80,
-      "Name": "Aurene's Bite"
-    },
-    {
-      "Id": 96652,
-      "MappedId": 81,
-      "Name": "Aurene's Insight"
-    },
-    {
-      "Id": 96937,
-      "MappedId": 82,
-      "Name": "Aurene's Rending"
-    },
-    {
-      "Id": 97077,
-      "MappedId": 83,
-      "Name": "Aurene's Wing"
-    },
-    {
-      "Id": 97099,
-      "MappedId": 84,
-      "Name": "Aurene's Breath"
-    },
-    {
-      "Id": 97165,
-      "MappedId": 85,
-      "Name": "Aurene's Gaze"
-    },
-    {
-      "Id": 97377,
-      "MappedId": 86,
-      "Name": "Aurene's Persuasion"
-    },
-    {
-      "Id": 97590,
-      "MappedId": 87,
-      "Name": "Aurene's Flight"
-    },
-    {
-      "Id": 97783,
-      "MappedId": 88,
-      "Name": "Aurene's Voice"
     }
   ],
   "Armors": [
     {
-      "Id": 68356,
-      "MappedId": 0,
-      "Name": "Rime-Rimmed Mariner's Rebreather"
-    },
-    {
-      "Id": 68357,
-      "MappedId": 1,
-      "Name": "Rime-Rimmed Mariner's Rebreather"
-    },
-    {
-      "Id": 68359,
-      "MappedId": 2,
-      "Name": "Rime-Rimmed Mariner's Rebreather"
-    },
-    {
-      "Id": 70597,
-      "MappedId": 3,
-      "Name": "Bladed Helmet"
-    },
-    {
-      "Id": 70719,
-      "MappedId": 4,
-      "Name": "Bladed Boots"
-    },
-    {
-      "Id": 70899,
-      "MappedId": 5,
-      "Name": "Bladed Pants"
-    },
-    {
-      "Id": 71149,
-      "MappedId": 6,
-      "Name": "Bladed Gloves"
-    },
-    {
-      "Id": 71738,
-      "MappedId": 7,
-      "Name": "Bladed Vestments"
-    },
-    {
-      "Id": 71759,
-      "MappedId": 8,
-      "Name": "Bladed Shoulderpads"
-    },
-    {
-      "Id": 71786,
-      "MappedId": 9,
-      "Name": "Bladed Greaves"
-    },
-    {
-      "Id": 73202,
-      "MappedId": 10,
-      "Name": "Bladed Mantle"
-    },
-    {
-      "Id": 73850,
-      "MappedId": 11,
-      "Name": "Bladed Tassets"
-    },
-    {
-      "Id": 74006,
-      "MappedId": 12,
-      "Name": "Bladed Gauntlets"
-    },
-    {
-      "Id": 74543,
-      "MappedId": 13,
-      "Name": "Bladed Jerkin"
-    },
-    {
-      "Id": 74957,
-      "MappedId": 14,
-      "Name": "Bladed Breastplate"
-    },
-    {
-      "Id": 75368,
-      "MappedId": 15,
-      "Name": "Bladed Leggings"
-    },
-    {
-      "Id": 75380,
-      "MappedId": 16,
-      "Name": "Bladed Pauldrons"
-    },
-    {
-      "Id": 75625,
-      "MappedId": 17,
-      "Name": "Bladed Cowl"
-    },
-    {
-      "Id": 75646,
-      "MappedId": 18,
-      "Name": "Bladed Shoes"
-    },
-    {
-      "Id": 75967,
-      "MappedId": 19,
-      "Name": "Bladed Mask"
-    },
-    {
-      "Id": 76182,
-      "MappedId": 20,
-      "Name": "Bladed Vambraces"
-    },
-    {
       "Id": 79838,
-      "MappedId": 21,
+      "MappedId": 0,
       "Name": "Wegloop's Air Mask"
     },
     {
       "Id": 79873,
-      "MappedId": 22,
+      "MappedId": 1,
       "Name": "Wegloop's Air Veil"
     },
     {
       "Id": 79895,
-      "MappedId": 23,
+      "MappedId": 2,
       "Name": "Wegloop's Air Helmet"
     },
     {
-      "Id": 80111,
-      "MappedId": 24,
-      "Name": "Perfected Envoy Gloves"
-    },
-    {
-      "Id": 80131,
-      "MappedId": 25,
-      "Name": "Perfected Envoy Mantle"
-    },
-    {
-      "Id": 80145,
-      "MappedId": 26,
-      "Name": "Perfected Envoy Shoulderpads"
-    },
-    {
-      "Id": 80161,
-      "MappedId": 27,
-      "Name": "Perfected Envoy Vambraces"
-    },
-    {
-      "Id": 80190,
-      "MappedId": 28,
-      "Name": "Perfected Envoy Vestments"
-    },
-    {
-      "Id": 80205,
-      "MappedId": 29,
-      "Name": "Perfected Envoy Gauntlets"
-    },
-    {
-      "Id": 80248,
-      "MappedId": 30,
-      "Name": "Perfected Envoy Cowl"
-    },
-    {
-      "Id": 80252,
-      "MappedId": 31,
-      "Name": "Perfected Envoy Leggings"
-    },
-    {
-      "Id": 80254,
-      "MappedId": 32,
-      "Name": "Perfected Envoy Breastplate"
-    },
-    {
-      "Id": 80277,
-      "MappedId": 33,
-      "Name": "Perfected Envoy Tassets"
-    },
-    {
-      "Id": 80281,
-      "MappedId": 34,
-      "Name": "Perfected Envoy Boots"
-    },
-    {
-      "Id": 80296,
-      "MappedId": 35,
-      "Name": "Perfected Envoy Mask"
-    },
-    {
-      "Id": 80356,
-      "MappedId": 36,
-      "Name": "Perfected Envoy Pants"
-    },
-    {
-      "Id": 80384,
-      "MappedId": 37,
-      "Name": "Perfected Envoy Helmet"
-    },
-    {
-      "Id": 80399,
-      "MappedId": 38,
-      "Name": "Perfected Envoy Shoes"
-    },
-    {
-      "Id": 80435,
-      "MappedId": 39,
-      "Name": "Perfected Envoy Pauldrons"
-    },
-    {
-      "Id": 80557,
-      "MappedId": 40,
-      "Name": "Perfected Envoy Greaves"
-    },
-    {
-      "Id": 80578,
-      "MappedId": 41,
-      "Name": "Perfected Envoy Jerkin"
-    },
-    {
       "Id": 80701,
-      "MappedId": 42,
+      "MappedId": 3,
       "Name": "Illustrious Visage"
     },
     {
       "Id": 80815,
-      "MappedId": 43,
+      "MappedId": 4,
       "Name": "Illustrious Footwear"
     },
     {
       "Id": 80825,
-      "MappedId": 44,
+      "MappedId": 5,
       "Name": "Illustrious Shoulderguard"
     },
     {
       "Id": 80836,
-      "MappedId": 45,
+      "MappedId": 6,
       "Name": "Illustrious Striders"
     },
     {
-      "Id": 82093,
-      "MappedId": 46,
-      "Name": "Triumphant Hero's Shinplates"
-    },
-    {
-      "Id": 82098,
-      "MappedId": 47,
-      "Name": "Glorious Hero's Brigandine"
-    },
-    {
-      "Id": 82102,
-      "MappedId": 48,
-      "Name": "Sublime Mistforged Triumphant Hero's Brigandine"
-    },
-    {
-      "Id": 82109,
-      "MappedId": 49,
-      "Name": "Mistforged Triumphant Hero's Armguards"
-    },
-    {
-      "Id": 82173,
-      "MappedId": 50,
-      "Name": "Triumphant Hero's Epaulets"
-    },
-    {
-      "Id": 82180,
-      "MappedId": 51,
-      "Name": "Mistforged Triumphant Hero's Faceguard"
-    },
-    {
-      "Id": 82196,
-      "MappedId": 52,
-      "Name": "Triumphant Hero's Legplates"
-    },
-    {
-      "Id": 82214,
-      "MappedId": 53,
-      "Name": "Ardent Glorious Shinplates"
-    },
-    {
-      "Id": 82245,
-      "MappedId": 54,
-      "Name": "Ardent Glorious Wristplates"
-    },
-    {
-      "Id": 82268,
-      "MappedId": 55,
-      "Name": "Glorious Hero's Shoulderguards"
-    },
-    {
-      "Id": 82272,
-      "MappedId": 56,
-      "Name": "Glorious Hero's Shinplates"
-    },
-    {
-      "Id": 82334,
-      "MappedId": 57,
-      "Name": "Glorious Hero's Breastplate"
-    },
-    {
-      "Id": 82348,
-      "MappedId": 58,
-      "Name": "Mistforged Triumphant Hero's Gauntlets"
-    },
-    {
-      "Id": 82401,
-      "MappedId": 59,
-      "Name": "Glorious Hero's Cap"
-    },
-    {
-      "Id": 82410,
-      "MappedId": 60,
-      "Name": "Glorious Hero's Gauntlets"
-    },
-    {
-      "Id": 82423,
-      "MappedId": 61,
-      "Name": "Glorious Hero's Crown"
-    },
-    {
-      "Id": 82437,
-      "MappedId": 62,
-      "Name": "Triumphant Hero's Faceguard"
-    },
-    {
-      "Id": 82456,
-      "MappedId": 63,
-      "Name": "Triumphant Hero's Gauntlets"
-    },
-    {
-      "Id": 82465,
-      "MappedId": 64,
-      "Name": "Ardent Glorious Gauntlets"
-    },
-    {
-      "Id": 82502,
-      "MappedId": 65,
-      "Name": "Mistforged Triumphant Hero's Leggings"
-    },
-    {
-      "Id": 82512,
-      "MappedId": 66,
-      "Name": "Ardent Glorious Legguards"
-    },
-    {
-      "Id": 82519,
-      "MappedId": 67,
-      "Name": "Ardent Glorious Footgear"
-    },
-    {
-      "Id": 82552,
-      "MappedId": 68,
-      "Name": "Mistforged Triumphant Hero's Wristplates"
-    },
-    {
-      "Id": 82670,
-      "MappedId": 69,
-      "Name": "Ardent Glorious Brigandine"
-    },
-    {
-      "Id": 82698,
-      "MappedId": 70,
-      "Name": "Glorious Hero's Plate Helm"
-    },
-    {
-      "Id": 82801,
-      "MappedId": 71,
-      "Name": "Triumphant Hero's Wargreaves"
-    },
-    {
-      "Id": 82902,
-      "MappedId": 72,
-      "Name": "Triumphant Hero's Masque"
-    },
-    {
-      "Id": 82903,
-      "MappedId": 73,
-      "Name": "Triumphant Hero's Legguards"
-    },
-    {
-      "Id": 82925,
-      "MappedId": 74,
-      "Name": "Mistforged Triumphant Hero's Masque"
-    },
-    {
-      "Id": 82963,
-      "MappedId": 75,
-      "Name": "Triumphant Hero's Pauldrons"
-    },
-    {
-      "Id": 82994,
-      "MappedId": 76,
-      "Name": "Triumphant Hero's Shoulderguards"
-    },
-    {
-      "Id": 83036,
-      "MappedId": 77,
-      "Name": "Triumphant Hero's Raiment"
-    },
-    {
-      "Id": 83087,
-      "MappedId": 78,
-      "Name": "Mistforged Triumphant Hero's Shoulderguards"
-    },
-    {
-      "Id": 83094,
-      "MappedId": 79,
-      "Name": "Mistforged Triumphant Hero's Wargreaves"
-    },
-    {
-      "Id": 83113,
-      "MappedId": 80,
-      "Name": "Ardent Glorious Raiment"
-    },
-    {
-      "Id": 83127,
-      "MappedId": 81,
-      "Name": "Ardent Glorious Pauldrons"
-    },
-    {
-      "Id": 83162,
-      "MappedId": 82,
-      "Name": "Ardent Glorious Armguards"
-    },
-    {
-      "Id": 83240,
-      "MappedId": 83,
-      "Name": "Glorious Hero's Legguards"
-    },
-    {
-      "Id": 83289,
-      "MappedId": 84,
-      "Name": "Triumphant Hero's Footgear"
-    },
-    {
-      "Id": 83308,
-      "MappedId": 85,
-      "Name": "Mistforged Triumphant Hero's Epaulets"
-    },
-    {
-      "Id": 83323,
-      "MappedId": 86,
-      "Name": "Ardent Glorious Legplates"
-    },
-    {
-      "Id": 83348,
-      "MappedId": 87,
-      "Name": "Ardent Glorious Breastplate"
-    },
-    {
-      "Id": 83394,
-      "MappedId": 88,
-      "Name": "Triumphant Hero's Breastplate"
-    },
-    {
-      "Id": 83482,
-      "MappedId": 89,
-      "Name": "Mistforged Triumphant Hero's Footgear"
-    },
-    {
-      "Id": 83497,
-      "MappedId": 90,
-      "Name": "Triumphant Hero's Leggings"
-    },
-    {
-      "Id": 83595,
-      "MappedId": 91,
-      "Name": "Ardent Glorious Epaulets"
-    },
-    {
-      "Id": 83676,
-      "MappedId": 92,
-      "Name": "Glorious Hero's Wristplates"
-    },
-    {
-      "Id": 83699,
-      "MappedId": 93,
-      "Name": "Mistforged Triumphant Hero's Shinplates"
-    },
-    {
-      "Id": 83702,
-      "MappedId": 94,
-      "Name": "Mistforged Triumphant Hero's Legplates"
-    },
-    {
-      "Id": 83729,
-      "MappedId": 95,
-      "Name": "Glorious Hero's Raiment"
-    },
-    {
-      "Id": 83862,
-      "MappedId": 96,
-      "Name": "Mistforged Triumphant Hero's Legguards"
-    },
-    {
-      "Id": 83921,
-      "MappedId": 97,
-      "Name": "Ardent Glorious Plate Helm"
-    },
-    {
-      "Id": 83929,
-      "MappedId": 98,
-      "Name": "Ardent Glorious Shoulderguards"
-    },
-    {
-      "Id": 83957,
-      "MappedId": 99,
-      "Name": "Glorious Hero's Wargreaves"
-    },
-    {
-      "Id": 84110,
-      "MappedId": 100,
-      "Name": "Triumphant Hero's Wristplates"
-    },
-    {
-      "Id": 84176,
-      "MappedId": 101,
-      "Name": "Triumphant Hero's Warhelm"
-    },
-    {
-      "Id": 84181,
-      "MappedId": 102,
-      "Name": "Mistforged Triumphant Hero's Pauldrons"
-    },
-    {
-      "Id": 84301,
-      "MappedId": 103,
-      "Name": "Mistforged Triumphant Hero's Warhelm"
-    },
-    {
-      "Id": 84341,
-      "MappedId": 104,
-      "Name": "Glorious Hero's Leggings"
-    },
-    {
-      "Id": 84427,
-      "MappedId": 105,
-      "Name": "Glorious Hero's Footgear"
-    },
-    {
-      "Id": 84461,
-      "MappedId": 106,
-      "Name": "Glorious Hero's Armguards"
-    },
-    {
-      "Id": 84481,
-      "MappedId": 107,
-      "Name": "Sublime Mistforged Triumphant Hero's Breastplate"
-    },
-    {
-      "Id": 84508,
-      "MappedId": 108,
-      "Name": "Sublime Mistforged Triumphant Hero's Raiment"
-    },
-    {
-      "Id": 84546,
-      "MappedId": 109,
-      "Name": "Ardent Glorious Leggings"
-    },
-    {
-      "Id": 84561,
-      "MappedId": 110,
-      "Name": "Glorious Hero's Pauldrons"
-    },
-    {
-      "Id": 84578,
-      "MappedId": 111,
-      "Name": "Triumphant Hero's Brigandine"
-    },
-    {
-      "Id": 84629,
-      "MappedId": 112,
-      "Name": "Triumphant Hero's Armguards"
-    },
-    {
-      "Id": 84633,
-      "MappedId": 113,
-      "Name": "Ardent Glorious Crown"
-    },
-    {
-      "Id": 84643,
-      "MappedId": 114,
-      "Name": "Ardent Glorious Cap"
-    },
-    {
-      "Id": 84655,
-      "MappedId": 115,
-      "Name": "Ardent Glorious Wargreaves"
-    },
-    {
-      "Id": 84723,
-      "MappedId": 116,
-      "Name": "Glorious Hero's Epaulets"
-    },
-    {
-      "Id": 84748,
-      "MappedId": 117,
-      "Name": "Glorious Hero's Legplates"
-    },
-    {
       "Id": 84875,
-      "MappedId": 118,
+      "MappedId": 7,
       "Name": "Illustrious Pauldrons"
     },
     {
       "Id": 84887,
-      "MappedId": 119,
+      "MappedId": 8,
       "Name": "Illustrious Tassets"
     },
     {
       "Id": 84918,
-      "MappedId": 120,
+      "MappedId": 9,
       "Name": "Illustrious Epaulets"
     },
     {
       "Id": 84977,
-      "MappedId": 121,
+      "MappedId": 10,
       "Name": "Illustrious Guise"
     },
     {
       "Id": 85055,
-      "MappedId": 122,
+      "MappedId": 11,
       "Name": "Illustrious Greaves"
     },
     {
       "Id": 85070,
-      "MappedId": 123,
+      "MappedId": 12,
       "Name": "Illustrious Wristguards"
     },
     {
       "Id": 85084,
-      "MappedId": 124,
+      "MappedId": 13,
       "Name": "Illustrious Breastplate"
     },
     {
       "Id": 85128,
-      "MappedId": 125,
+      "MappedId": 14,
       "Name": "Illustrious Masque"
     },
     {
       "Id": 85140,
-      "MappedId": 126,
+      "MappedId": 15,
       "Name": "Illustrious Warfists"
     },
     {
       "Id": 85169,
-      "MappedId": 127,
+      "MappedId": 16,
       "Name": "Illustrious Grips"
     },
     {
       "Id": 85193,
-      "MappedId": 128,
+      "MappedId": 17,
       "Name": "Illustrious Visor"
     },
     {
       "Id": 85264,
-      "MappedId": 129,
+      "MappedId": 18,
       "Name": "Illustrious Leggings"
     },
     {
       "Id": 85333,
-      "MappedId": 130,
+      "MappedId": 19,
       "Name": "Illustrious Doublet"
     },
     {
       "Id": 85362,
-      "MappedId": 131,
+      "MappedId": 20,
       "Name": "Illustrious Breeches"
-    },
-    {
-      "Id": 89093,
-      "MappedId": 132,
-      "Name": "Mistforged Glorious Hero's Gauntlets"
-    },
-    {
-      "Id": 89094,
-      "MappedId": 133,
-      "Name": "Mistforged Glorious Hero's Legguards"
-    },
-    {
-      "Id": 89101,
-      "MappedId": 134,
-      "Name": "Mistforged Glorious Hero's Leggings"
-    },
-    {
-      "Id": 89117,
-      "MappedId": 135,
-      "Name": "Mistforged Glorious Hero's Plate Helm"
-    },
-    {
-      "Id": 89126,
-      "MappedId": 136,
-      "Name": "Mistforged Glorious Hero's Cap"
-    },
-    {
-      "Id": 89134,
-      "MappedId": 137,
-      "Name": "Mistforged Glorious Hero's Wristplates"
-    },
-    {
-      "Id": 89152,
-      "MappedId": 138,
-      "Name": "Mistforged Glorious Hero's Breastplate"
-    },
-    {
-      "Id": 89158,
-      "MappedId": 139,
-      "Name": "Mistforged Glorious Hero's Epaulets"
-    },
-    {
-      "Id": 89167,
-      "MappedId": 140,
-      "Name": "Mistforged Glorious Hero's Armguards"
-    },
-    {
-      "Id": 89174,
-      "MappedId": 141,
-      "Name": "Mistforged Glorious Hero's Raiment"
-    },
-    {
-      "Id": 89183,
-      "MappedId": 142,
-      "Name": "Mistforged Glorious Hero's Brigandine"
-    },
-    {
-      "Id": 89209,
-      "MappedId": 143,
-      "Name": "Mistforged Glorious Hero's Pauldrons"
-    },
-    {
-      "Id": 89234,
-      "MappedId": 144,
-      "Name": "Mistforged Glorious Hero's Shoulderguards"
-    },
-    {
-      "Id": 89235,
-      "MappedId": 145,
-      "Name": "Mistforged Glorious Hero's Shinplates"
-    },
-    {
-      "Id": 89245,
-      "MappedId": 146,
-      "Name": "Mistforged Glorious Hero's Footgear"
-    },
-    {
-      "Id": 89252,
-      "MappedId": 147,
-      "Name": "Mistforged Glorious Hero's Wargreaves"
-    },
-    {
-      "Id": 89260,
-      "MappedId": 148,
-      "Name": "Mistforged Glorious Hero's Crown"
-    },
-    {
-      "Id": 89266,
-      "MappedId": 149,
-      "Name": "Mistforged Glorious Hero's Legplates"
     }
   ],
   "PowerCore": []

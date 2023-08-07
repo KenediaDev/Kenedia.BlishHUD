@@ -109,7 +109,7 @@ namespace Kenedia.Modules.Characters.Controls
             _data = card._data;
             _mainWindow = card._mainWindow;
             _settings = card._settings;
-            
+
             Size = card.Size;
 
             Character = card._character;
@@ -192,7 +192,7 @@ namespace Kenedia.Modules.Characters.Controls
             set
             {
                 var temp = _character;
-                if(Common.SetProperty(ref _character, value))
+                if (Common.SetProperty(ref _character, value))
                 {
                     if (temp != null)
                     {
@@ -208,7 +208,7 @@ namespace Kenedia.Modules.Characters.Controls
                 }
 
                 if (_characterTooltip != null) _characterTooltip.Character = value;
-                if(_infoLabels != null) _infoLabels.Character = value;
+                if (_infoLabels != null) _infoLabels.Character = value;
             }
         }
 
@@ -234,7 +234,7 @@ namespace Kenedia.Modules.Characters.Controls
         public void UniformWithAttached(bool force = false)
         {
             double now = Common.Now();
-            Update(); 
+            Update();
 
             if (_lastUniform != now || force)
             {
@@ -422,8 +422,8 @@ namespace Kenedia.Modules.Characters.Controls
                         spriteBatch.DrawOnCtrl(
                             this,
                             Character.HasBirthdayPresent ? loginHovered ? _presentTextureOpen : _presentTexture : loginHovered ? _loginTextureHovered : _loginTexture,
-                            _loginRect,
-                            _loginTexture.Bounds,
+                            Character.HasBirthdayPresent ? _loginRect.Add(8, 8, -16, -16) : _loginRect,
+                            Character.HasBirthdayPresent ? loginHovered ? _presentTextureOpen.Bounds : _presentTexture.Bounds : loginHovered ? _loginTextureHovered.Bounds : _loginTexture.Bounds,
                             loginHovered ? Color.White : new Color(215, 215, 215),
                             0f,
                             default);
@@ -446,8 +446,8 @@ namespace Kenedia.Modules.Characters.Controls
                     spriteBatch.DrawOnCtrl(
                         this,
                         Character.HasBirthdayPresent ? loginHovered ? _presentTextureOpen : _presentTexture : loginHovered ? _loginTextureHovered : _loginTexture,
-                        _loginRect,
-                        _loginTexture.Bounds,
+                        Character.HasBirthdayPresent ? _loginRect.Add(8, 8, -16, -16) : _loginRect,
+                        Character.HasBirthdayPresent ? loginHovered ? _presentTextureOpen.Bounds : _presentTexture.Bounds : loginHovered ? _loginTextureHovered.Bounds : _loginTexture.Bounds,
                         loginHovered ? Color.White : new Color(200, 200, 200),
                         0f,
                         default);
@@ -488,7 +488,7 @@ namespace Kenedia.Modules.Characters.Controls
                     spriteBatch.DrawOnCtrl(
                         this,
                         _presentTexture,
-                        _loginRect,
+                        Character.HasBirthdayPresent ? _loginRect.Add(8, 8, -16, -16) : _loginRect,
                         _presentTexture.Bounds,
                         Color.White,
                         0f,
@@ -508,7 +508,7 @@ namespace Kenedia.Modules.Characters.Controls
                     spriteBatch.DrawOnCtrl(
                         this,
                         _presentTexture,
-                        _loginRect,
+                        Character.HasBirthdayPresent ? _loginRect.Add(8, 8, -16, -16) : _loginRect,
                         _presentTexture.Bounds,
                         Color.White,
                         0f,
@@ -561,7 +561,7 @@ namespace Kenedia.Modules.Characters.Controls
             {
                 Settings_AppearanceSettingChanged(this, null);
                 _updateCharacter = false;
-            }          
+            }
         }
 
         protected override void OnRightMouseButtonPressed(MouseEventArgs e)
@@ -675,7 +675,7 @@ namespace Kenedia.Modules.Characters.Controls
         protected override void DisposeControl()
         {
             base.DisposeControl();
-                        
+
             _textTooltip.Shown -= TextTooltip_Shown;
             if (_character != null)
             {

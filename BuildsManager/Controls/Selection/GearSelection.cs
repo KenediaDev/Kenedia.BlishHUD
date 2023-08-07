@@ -1,5 +1,4 @@
-﻿using Blish_HUD.Controls;
-using Kenedia.Modules.BuildsManager.DataModels.Items;
+﻿using Kenedia.Modules.BuildsManager.DataModels.Items;
 using Kenedia.Modules.BuildsManager.DataModels.Professions;
 using Kenedia.Modules.BuildsManager.Extensions;
 using Kenedia.Modules.BuildsManager.Models.Templates;
@@ -17,138 +16,6 @@ using static Kenedia.Modules.BuildsManager.DataModels.Professions.Weapon;
 
 namespace Kenedia.Modules.BuildsManager.Controls.Selection
 {
-    public class GroupSelectable : Selectable
-    {
-        private ContextMenuStripItem _allSlots;
-        private ContextMenuStripItem _itemGroup;
-
-        public GroupSelectable()
-        {
-            Menu = new();
-
-            _allSlots = Menu.AddMenuItem("Apply to all slots");
-            _allSlots.Click += AllSlots_Click;
-
-            _itemGroup = Menu.AddMenuItem("Apply to item group");
-            _itemGroup.Click += ItemGroup_Click;
-        }
-
-        protected override void OnTypeChanged(object sender, PropertyChangedEventArgs e)
-        {
-            base.OnTypeChanged(sender, e);
-
-            if (Type != SelectableType.Infusion && _allSlots != null)
-            {
-                _allSlots.Click -= AllSlots_Click;
-                _allSlots.Dispose();
-                _allSlots = null;
-            }
-            else if (_allSlots == null)
-            {
-                _allSlots = Menu.AddMenuItem("Apply to all slots");
-                _allSlots.Click += AllSlots_Click;
-            }
-        }
-
-        private void ItemGroup_Click(object sender, Blish_HUD.Input.MouseEventArgs e)
-        {
-            switch (Type)
-            {
-                case SelectableType.Rune:
-                    var armors = Template?.GearTemplate?.Armors.Values.Cast<ArmorEntry>();
-
-                    foreach (var slot in armors)
-                    {
-                        //if (slot.Item is not null)
-                        //{
-                        //}
-
-                        slot.Rune = (Rune)Item;
-                    }
-
-                    break;
-
-                case SelectableType.Sigil:
-                    var weapons = Template?.GearTemplate?.Weapons.Values.Cast<WeaponEntry>();
-
-                    foreach (var slot in weapons)
-                    {
-                        //if (slot.Item is not null)
-                        //{
-                        //}
-
-                        slot.Sigil = (Sigil)Item;
-                        slot.Sigil2 = (Sigil)Item;
-                        slot.PvpSigil = (Sigil)Item;
-                    }
-
-                    break;
-
-                case SelectableType.Infusion:
-                    var slots =
-                        ActiveSlot.IsArmor() ? Template?.GearTemplate?.Armors.Values.Cast<JuwelleryEntry>() :
-                        ActiveSlot.IsWeapon() ? Template?.GearTemplate?.Weapons.Values.Cast<JuwelleryEntry>() :
-                        ActiveSlot.IsJuwellery() ? Template?.GearTemplate?.Juwellery.Values.Cast<JuwelleryEntry>() : null;
-
-                    foreach (var slot in slots)
-                    {
-                        //if (slot.Item is not null)
-                        //{
-                        //}
-
-                        slot.Infusion = (Infusion)Item;
-                        slot.Infusion2 = (Infusion)Item;
-                        slot.Infusion3 = (Infusion)Item;
-                    }
-
-                    break;
-            }
-        }
-
-        private void AllSlots_Click(object sender, Blish_HUD.Input.MouseEventArgs e)
-        {
-            switch (Type)
-            {
-                case SelectableType.Rune:
-                    var armors = Template?.GearTemplate?.Armors.Values.Cast<ArmorEntry>();
-
-                    foreach (var slot in armors)
-                    {
-                        slot.Rune = (Rune)Item;
-                    }
-
-                    break;
-
-                case SelectableType.Sigil:
-                    var weapons = Template?.GearTemplate?.Weapons.Values.Cast<WeaponEntry>();
-
-                    foreach (var slot in weapons)
-                    {
-                        slot.Sigil = (Sigil)Item;
-                        slot.Sigil2 = (Sigil)Item;
-                    }
-
-                    break;
-
-                case SelectableType.Infusion:
-                    var slots = new List<JuwelleryEntry>();
-
-                    slots.AddRange(Template?.GearTemplate?.Armors.Values.Cast<JuwelleryEntry>());
-                    slots.AddRange(Template?.GearTemplate?.Weapons.Values.Cast<JuwelleryEntry>());
-                    slots.AddRange(Template?.GearTemplate?.Juwellery.Values.Cast<JuwelleryEntry>());
-
-                    foreach (var slot in slots)
-                    {
-                        slot.Infusion = (Infusion)Item;
-                        slot.Infusion2 = (Infusion)Item;
-                        slot.Infusion3 = (Infusion)Item;
-                    }
-
-                    break;
-            }
-        }
-    }
-
     public class GearSelection : BaseSelection
     {
         private readonly Dictionary<GearTemplateSlot, List<Selectable>> _selectablesPerSlot = new();
@@ -169,8 +36,6 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
         private readonly List<Selectable> _utilites;
         private readonly List<Selectable> _enrichments;
         private readonly List<GroupSelectable> _infusions;
-
-        private readonly Button _autoEquipItems;
 
         public GearSelection()
         {
@@ -227,40 +92,27 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
                 PerformFiltering();
             };
 
-            _autoEquipItems = new()
-            {
-                Parent = this,
-                Location = new(Search.Left + 2, Search.Bottom + 5),
-                Text = "Equip Ascended Items",
-                ClickAction = EquipItems,
-            };
-
-            SelectionContent.SetLocation(Search.Left, _autoEquipItems.Bottom + 5);
+            SelectionContent.SetLocation(Search.Left, Search.Bottom + 5);
         }
 
         private async void EquipItems()
         {
-            var result = await new BaseDialog("Warning", "Are you sure to override all items?") { DesiredWidth = 300, AutoSize = true }.ShowDialog();
-
-            if (result == DialogResult.OK)
+            var armors = _armors.Where(e => (e.Item as Armor).Weight == Template?.Profession.GetArmorType() && (e.Item.Rarity == Gw2Sharp.WebApi.V2.Models.ItemRarity.Ascended || e.TemplateSlot == GearTemplateSlot.AquaBreather))?.Select(e => e.Item);
+            foreach (var armor in Template?.GearTemplate?.Armors.Values)
             {
-                var armors = _armors.Where(e => (e.Item as Armor).Weight == Template?.Profession.GetArmorType() && (e.Item.Rarity == Gw2Sharp.WebApi.V2.Models.ItemRarity.Ascended || e.TemplateSlot == GearTemplateSlot.AquaBreather))?.Select(e => e.Item);
-                foreach (var armor in Template?.GearTemplate?.Armors.Values)
-                {
-                    armor.Item = armors.Where(e => e.TemplateSlot == armor.Slot)?.FirstOrDefault();
-                }
+                armor.Item = armors.Where(e => e.TemplateSlot == armor.Slot)?.FirstOrDefault();
+            }
 
-                var trinkets = _trinkets.Where(e => e.Item.Rarity == Gw2Sharp.WebApi.V2.Models.ItemRarity.Ascended)?.Select(e => e.Item);
-                trinkets = trinkets.Append(_backs.Where(e => e.Item.Rarity == Gw2Sharp.WebApi.V2.Models.ItemRarity.Ascended)?.Select(e => e.Item).FirstOrDefault());
-                foreach (var trinket in Template?.GearTemplate?.Juwellery.Values)
-                {
-                    var effectiveSlot =
-                        trinket.Slot is GearTemplateSlot.Ring_2 ? GearTemplateSlot.Ring_1 :
-                        trinket.Slot is GearTemplateSlot.Accessory_2 ? GearTemplateSlot.Accessory_1 :
-                        trinket.Slot;
+            var trinkets = _trinkets.Where(e => e.Item.Rarity == Gw2Sharp.WebApi.V2.Models.ItemRarity.Ascended)?.Select(e => e.Item);
+            trinkets = trinkets.Append(_backs.Where(e => e.Item.Rarity == Gw2Sharp.WebApi.V2.Models.ItemRarity.Ascended)?.Select(e => e.Item).FirstOrDefault());
+            foreach (var trinket in Template?.GearTemplate?.Juwellery.Values)
+            {
+                var effectiveSlot =
+                    trinket.Slot is GearTemplateSlot.Ring_2 ? GearTemplateSlot.Ring_1 :
+                    trinket.Slot is GearTemplateSlot.Accessory_2 ? GearTemplateSlot.Accessory_1 :
+                    trinket.Slot;
 
-                    trinket.Item = trinkets.Where(e => e.TemplateSlot == effectiveSlot)?.FirstOrDefault();
-                }
+                trinket.Item = trinkets.Where(e => e.TemplateSlot == effectiveSlot)?.FirstOrDefault();
             }
         }
 
@@ -540,7 +392,6 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
             base.RecalculateLayout();
 
             Search?.SetSize(Width - Search.Left);
-            _autoEquipItems?.SetSize(Width - _autoEquipItems.Left);
         }
 
         protected override void DisposeControl()

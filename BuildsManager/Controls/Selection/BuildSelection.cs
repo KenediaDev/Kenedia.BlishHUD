@@ -301,7 +301,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
                         string name = string.IsNullOrEmpty(Search.Text) ? "New Template" : Search.Text;
                         if (BuildsManager.ModuleInstance.Templates.Where(e => e.Name == name).Count() == 0)
                         {
-                            BuildsManager.ModuleInstance.Templates.Add(t = new() { Name = name, AutoSave = true });
+                            BuildsManager.ModuleInstance.Templates.Add(t = new() { Name = name, AutoSave = true});
                             Search.Text = null;
 
                             try

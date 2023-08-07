@@ -100,5 +100,10 @@ namespace Kenedia.Modules.BuildsManager.DataModels.Items
             Type = item.Type;
             DisplayText = item.Name;
         }
+
+        public void SetAssetId(int id)
+        {
+            AssetId = id;
+        }
     }
 }

@@ -389,7 +389,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage
 
             if (_infusionSlotTexture.Hovered)
                 SelectionPanel?.SetGearAnchor(this, new Rectangle(a.Location, Point.Zero).Add(_infusionSlotTexture.Bounds), GearSlot, GearSubSlotType.Infusion, GearSlot.ToString().ToLowercaseNamingConvention(), (item) => (TemplateSlot as ArmorEntry).Infusion = item as Infusion);
-        }
+        }        
     }
 
     public class JuwellerySlotControl : GearSlotConstrol
@@ -625,13 +625,15 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage
         }
     }
 
-    public class JadeBotControl : BaseSlotControl
+    public class RelicControl : BaseSlotControl
     {
-        public JadeBotControl(GearTemplateSlot gearSlot, Container parent) : base(gearSlot, parent)
+        private Rectangle _frame;
+        private Rectangle _titleBounds;
+        private Rectangle _statBounds;
+
+        public RelicControl(GearTemplateSlot gearSlot, Container parent) : base(gearSlot, parent)
         {
-            Icon.Texture = AsyncTexture2D.FromAssetId(2630946);
-            Icon.TextureRegion = new(36, 36, 56, 56);
-            Size = new(45, 45);
+            Icon.Texture = BuildsManager.ModuleInstance.ContentsManager.GetTexture(@"textures\relic_slot.png");
             ItemColor = Color.White;
 
             _ = Menu.AddMenuItem(new ContextMenuItem(() => "Reset", ResetSlot_Click));
@@ -640,15 +642,77 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage
         private void ResetSlot_Click()
         {
             TemplateSlot?.Reset();
+        }
+
+        public override void RecalculateLayout()
+        {
+            base.RecalculateLayout();
+
+            _frame = new(Icon.Bounds.Right + 5, Icon.Bounds.Top, Width - Icon.Bounds.Left - 5, Height);
+            _titleBounds = new(Icon.Bounds.Right + 10, Icon.Bounds.Top + 2, Width - Icon.Bounds.Left - 20, Content.DefaultFont16.LineHeight);
+            _statBounds = new(Icon.Bounds.Right + 10, _titleBounds.Bottom + 2, Width - Icon.Bounds.Left - 20, Content.DefaultFont12.LineHeight);
+        }
+
+        protected override void Paint(SpriteBatch spriteBatch, Rectangle bounds)
+        {
+            //spriteBatch.DrawFrame(this, _frame, Color.White * 0.35F);
+
+            base.Paint(spriteBatch, bounds);
+
+            spriteBatch.DrawStringOnCtrl(this, Item?.Item?.Name ?? "Relic", Content.DefaultFont16, _titleBounds, Item?.Item?.Rarity.GetColor() ?? Color.White * 0.5F);
+            spriteBatch.DrawStringOnCtrl(this, (Item?.Item as Nourishment)?.Details.Description ?? Item?.Item?.Description, Content.DefaultFont12, _statBounds, Color.White, false, HorizontalAlignment.Left, VerticalAlignment.Top);
+        }
+    }
+
+    public class JadeBotControl : BaseSlotControl
+    {
+        private Rectangle _frame;
+        private Rectangle _titleBounds;
+        private Rectangle _statBounds;
+
+        public JadeBotControl(GearTemplateSlot gearSlot, Container parent) : base(gearSlot, parent)
+        {
+            Icon.Texture = AsyncTexture2D.FromAssetId(2630946);
+            Icon.TextureRegion = new(36, 36, 56, 56);
+            ItemColor = Color.White;
+
+            _ = Menu.AddMenuItem(new ContextMenuItem(() => "Reset", ResetSlot_Click));
+        }
+
+        private void ResetSlot_Click()
+        {
+            TemplateSlot?.Reset();
+        }
+
+        public override void RecalculateLayout()
+        {
+            base.RecalculateLayout();
+
+            _frame = new(Icon.Bounds.Right + 5, Icon.Bounds.Top, Width - Icon.Bounds.Left - 5, Height);
+            _titleBounds = new(Icon.Bounds.Right + 10, Icon.Bounds.Top + 2, Width - Icon.Bounds.Left - 20, Content.DefaultFont16.LineHeight);
+            _statBounds = new(Icon.Bounds.Right + 10, _titleBounds.Bottom + 2, Width - Icon.Bounds.Left - 20, Content.DefaultFont12.LineHeight);
+        }
+
+        protected override void Paint(SpriteBatch spriteBatch, Rectangle bounds)
+        {
+            //spriteBatch.DrawFrame(this, _frame, Color.White * 0.35F);
+
+            base.Paint(spriteBatch, bounds);
+
+            spriteBatch.DrawStringOnCtrl(this, Item?.Item?.Name ?? "Jade Bot Core", Content.DefaultFont16, _titleBounds, Item?.Item?.Rarity.GetColor() ?? Color.White * 0.5F);
+            spriteBatch.DrawStringOnCtrl(this, Item?.Item?.Description ?? "", Content.DefaultFont12, _statBounds, Color.White, false, HorizontalAlignment.Left, VerticalAlignment.Top);
         }
     }
 
     public class UtilityControl : BaseSlotControl
     {
+        private Rectangle _frame;
+        private Rectangle _titleBounds;
+        private Rectangle _statBounds;
+
         public UtilityControl(GearTemplateSlot gearSlot, Container parent) : base(gearSlot, parent)
         {
             Icon.Texture = BuildsManager.ModuleInstance.ContentsManager.GetTexture(@"textures\utilityslot.png");
-            Size = new(45, 45);
             ItemColor = Color.White;
 
             _ = Menu.AddMenuItem(new ContextMenuItem(() => "Reset", ResetSlot_Click));
@@ -658,15 +722,38 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage
         {
             TemplateSlot?.Reset();
         }
+
+        public override void RecalculateLayout()
+        {
+            base.RecalculateLayout();
+
+            _frame = new(Icon.Bounds.Right + 5, Icon.Bounds.Top, Width - Icon.Bounds.Left - 5, Height);
+            _titleBounds = new(Icon.Bounds.Right + 10, Icon.Bounds.Top + 2, Width - Icon.Bounds.Left - 20, Content.DefaultFont16.LineHeight);
+            _statBounds = new(Icon.Bounds.Right + 10, _titleBounds.Bottom + 2, Width - Icon.Bounds.Left - 20, Content.DefaultFont12.LineHeight);
+        }
+
+        protected override void Paint(SpriteBatch spriteBatch, Rectangle bounds)
+        {
+            //spriteBatch.DrawFrame(this, _frame, Color.White * 0.35F);
+
+            base.Paint(spriteBatch, bounds);
+
+            spriteBatch.DrawStringOnCtrl(this, Item?.Item?.Name ?? "", Content.DefaultFont16, _titleBounds, Item?.Item?.Rarity.GetColor() ?? Color.White);
+            spriteBatch.DrawStringOnCtrl(this, (Item?.Item as DataModels.Items.Utility)?.Details.Description ?? Item?.Item?.Description, Content.DefaultFont12, _statBounds, Color.White, false, HorizontalAlignment.Left, VerticalAlignment.Top);
+        }
     }
 
     public class NourishmentControl : BaseSlotControl
     {
+        private Rectangle _frame;
+        private Rectangle _titleBounds;
+        private Rectangle _statBounds;
+
         public NourishmentControl(GearTemplateSlot gearSlot, Container parent) : base(gearSlot, parent)
         {
             Icon.Texture = BuildsManager.ModuleInstance.ContentsManager.GetTexture(@"textures\foodslot.png");
-            Size = new(45, 45);
             ItemColor = Color.White;
+            ClipsBounds = true;
 
             _ = Menu.AddMenuItem(new ContextMenuItem(() => "Reset", ResetSlot_Click));
         }
@@ -675,12 +762,19 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage
         {
             base.RecalculateLayout();
 
+            _frame = new(Icon.Bounds.Right + 5, Icon.Bounds.Top, Width - Icon.Bounds.Left - 5, Height);
+            _titleBounds = new(Icon.Bounds.Right + 10, Icon.Bounds.Top + 2, Width - Icon.Bounds.Left - 20, Content.DefaultFont16.LineHeight);
+            _statBounds = new(Icon.Bounds.Right + 10, _titleBounds.Bottom + 2, Width - Icon.Bounds.Left - 20, Content.DefaultFont12.LineHeight);
         }
 
         protected override void Paint(SpriteBatch spriteBatch, Rectangle bounds)
         {
+            //spriteBatch.DrawFrame(this, _frame, Color.White * 0.35F);
+
             base.Paint(spriteBatch, bounds);
 
+            spriteBatch.DrawStringOnCtrl(this, Item?.Item?.Name ?? "", Content.DefaultFont16, _titleBounds, Item?.Item?.Rarity.GetColor() ?? Color.White);
+            spriteBatch.DrawStringOnCtrl(this, (Item?.Item as Nourishment)?.Details.Description ?? Item?.Item?.Description, Content.DefaultFont12, _statBounds, Color.White, false, HorizontalAlignment.Left, VerticalAlignment.Top);
         }
 
         private void ResetSlot_Click()
@@ -712,14 +806,14 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage
 
             menuItem = Menu.AddMenuItem(new ContextMenuItem(() => "Reset", Reset));
             _resetMenu = menuItem.Submenu = new();
-            menuItem = _resetMenu.AddMenuItem(new ContextMenuItem(() => "Item", ResetItem));
+            //menuItem = _resetMenu.AddMenuItem(new ContextMenuItem(() => "Item", ResetItem));
             menuItem = _resetMenu.AddMenuItem(new ContextMenuItem(() => "Stats", ResetStat));
             menuItem = _resetMenu.AddMenuItem(new ContextMenuItem(() => "Upgrade", ResetUpgrade));
             menuItem = _resetMenu.AddMenuItem(new ContextMenuItem(() => "Infusions", ResetInfusion));
 
             menuItem = Menu.AddMenuItem(new ContextMenuItem(() => "Reset Group", ResetGroup));
             _groupMenu = menuItem.Submenu = new();
-            menuItem = _groupMenu.AddMenuItem(new ContextMenuItem(() => "Items", ResetItems));
+            //menuItem = _groupMenu.AddMenuItem(new ContextMenuItem(() => "Items", ResetItems));
             menuItem = _groupMenu.AddMenuItem(new ContextMenuItem(() => "Upgrades", ResetUpgrades));
             menuItem = _groupMenu.AddMenuItem(new ContextMenuItem(() => "Infusions", ResetInfusions));
             menuItem = _groupMenu.AddMenuItem(new ContextMenuItem(() => "Stats", ResetStats));
@@ -906,6 +1000,10 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage
         private void Reset()
         {
             TemplateSlot?.Reset();
+
+            ResetStat();
+            ResetInfusion();
+            ResetUpgrade();
         }
     }
 
@@ -915,7 +1013,6 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage
         private Template _template;
 
         protected readonly DetailedTexture Icon = new() { TextureRegion = new(37, 37, 54, 54) };
-        protected readonly ItemTexture Item = new() { };
 
         protected int MaxTextLength = 52;
 
@@ -932,6 +1029,8 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage
         private Stat _stat;
 
         public GearTemplateSlot GearSlot { get => _gearSlot; set => Common.SetProperty(ref _gearSlot, value, ApplySlot); }
+
+        public ItemTexture Item { get; } = new() { };
 
         public BaseSlotControl()
         {

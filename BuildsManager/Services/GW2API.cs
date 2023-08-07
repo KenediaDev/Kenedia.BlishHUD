@@ -29,6 +29,7 @@ using Gw2Sharp.WebApi.Exceptions;
 using Kenedia.Modules.BuildsManager.Models;
 using Kenedia.Modules.BuildsManager.DataModels.Items;
 using System.Collections;
+using Kenedia.Modules.Core.Utility;
 
 namespace Kenedia.Modules.BuildsManager.Services
 {
@@ -39,6 +40,60 @@ namespace Kenedia.Modules.BuildsManager.Services
         private readonly Data _data;
         private readonly PathCollection _paths;
         private CancellationTokenSource _cancellationTokenSource;
+
+        private readonly Dictionary<int, int?> _skinDictionary = new()
+                {
+                    { 85105, 5013 }, //Axe
+                    { 85017, 4997 }, //Dagger
+                    { 85251, 4995 }, //Greatsword
+                    { 85060, 5022 }, //Hammer
+                    { 85267, 5005 }, //Mace
+                    { 85360, 5018 }, //Shield
+                    { 85250, 5020 }, //Sword
+                    { 84899, 5164 }, //Spear
+                    { 85052, 5000 }, //Shortbow
+                    { 84888, 4998 }, //Longbow
+                    { 85010, 5008 }, //Pistol
+                    { 85262, 5021 }, //Rifle
+                    { 85307, 5001 }, //Warhorn
+                    { 85323, 4992 }, //Torch
+                    { 85341, 4990 }, //Harpoon Gun
+                    { 84872, 4994 }, //Focus
+                    { 85117, 4989 }, //Scepter
+                    { 85026, 5019 }, //Staff
+                    { 85265, 5129 }, //Trident
+                    { 94947, 10161 }, //Back
+                    
+                    { 79895, 854 }, //Aqua Breather (Heavy)
+                    { 85193, 818 }, // Helm (Heavy)
+                    { 84875, 808 }, // Shoulder (Heavy)
+                    { 85084, 807 }, // Coat (Heavy)
+                    { 85140, 812 }, // Gloves (Heavy)
+                    { 84887, 797 }, // Leggings (Heavy)
+                    { 85055, 801 },  // Boots (Heavy)
+                    
+                    { 79838, 856 }, //Aqua Breather (Medium)
+                    { 80701, 817 }, // Helm (Medium)
+                    { 80825 , 805 }, // Shoulder (Medium)
+                    { 84977, 806 }, // Coat (Medium)
+                    { 85169, 811 }, // Gloves (Medium)
+                    { 85264, 796 }, // Leggings (Medium)
+                    { 80836, 799 }, // Boots (Medium)
+                    
+                    { 79873, 855 }, //Aqua Breather (Light)
+                    { 85128, 819 }, // Helm (Light)
+                    { 84918, 810 }, // Shoulder (Light)
+                    { 85333, 809 }, // Coat (Light)
+                    { 85070, 813 }, // Gloves (Light)
+                    { 85362, 798 }, // Leggings (Light)
+                    { 80815, 803 },  // Boots (Light)                    
+   
+                    { 79980, null }, // Amulet
+                    { 80002, null }, // Accessory
+                    { 80058, null },  // Ring
+
+                    //{ 0, null },  // Relic
+                };
 
         public GW2API(Gw2ApiManager gw2ApiManager, Data data, PathCollection paths)
         {
@@ -86,6 +141,7 @@ namespace Kenedia.Modules.BuildsManager.Services
             {
                 string json;
 
+                var skins = await _gw2ApiManager.Gw2ApiClient.V2.Skins.ManyAsync(_skinDictionary.Where(e => e.Value != null).Select(e => (int)e.Value));
                 var api_armors = await _gw2ApiManager.Gw2ApiClient.V2.Items.ManyAsync(_data.ItemMap.Armors.Select(e => e.Id), cancellation);
                 var api_weapons = await _gw2ApiManager.Gw2ApiClient.V2.Items.ManyAsync(_data.ItemMap.Weapons.Select(e => e.Id), cancellation);
                 var api_backs = await _gw2ApiManager.Gw2ApiClient.V2.Items.ManyAsync(_data.ItemMap.Backs.Select(e => e.Id), cancellation);
@@ -108,6 +164,8 @@ namespace Kenedia.Modules.BuildsManager.Services
                 void ApplyData<T, TT>(IReadOnlyList<Item> items, Dictionary<int, TT> targetlist, string file, List<ItemMap> map, bool hasStatChoices = false) where T : Item where TT : BaseItem, new()
                 {
                     BuildsManager.Logger.Info($"Saving {file} ...");
+                    var skinIds = skins.Select(e => e.Id);
+
                     foreach (var i in items)
                     {
                         bool exists = targetlist.TryGetValue(i.Id, out TT item);
@@ -118,6 +176,24 @@ namespace Kenedia.Modules.BuildsManager.Services
                         if (mappedItem != null)
                         {
                             item.MappedId = mappedItem.MappedId;
+                        }
+
+                        // Adjust Skins
+                        if (_skinDictionary.ContainsKey(item.Id))
+                        {
+                            if(_skinDictionary[item.Id] != null)
+                            {
+                                if (skinIds.Contains((int)_skinDictionary[item.Id]))
+                                {
+                                    var skin = skins.First(e => e.Id == _skinDictionary[item.Id]);
+
+                                    if (skin != null)
+                                    {
+                                        item.Name = skin.Name;
+                                        item.SetAssetId(skin.Icon.GetAssetIdFromRenderUrl());
+                                    }
+                                }
+                            }
                         }
 
                         if (!exists) targetlist.Add(i.Id, (TT)item);
@@ -784,70 +860,9 @@ namespace Kenedia.Modules.BuildsManager.Services
                     77196,
                 };
 
-                var ascended = new List<int>()
-                {
-                    //Aquabreather
-                    79873,
-                    79838,
-                    79895,
-
-                    //Light
-                    85128,
-                    84918,
-                    85333,
-                    85070,
-                    85362,
-                    80815,
-
-                    //Medium
-                    80701,
-                    80825,
-                    84977,
-                    85169,
-                    85264,
-                    80836,
-                    
-                    //Heavy
-                    85193,
-                    84875,
-                    85084,
-                    85140,
-                    84887,
-                    85055,
-
-                    //Weapons
-                    85105,
-                    85017,
-                    85251,
-                    85060,
-                    85267,
-                    85360,
-                    85250,
-                    84899,
-                    85052,
-                    84888,
-                    85010,
-                    85262,
-                    85307,
-                    85323,
-                    85341,
-                    84872,
-                    85117,
-                    85026,
-                    85265,
-
-                    //Back
-                    94947,
-
-                    //Trinkets
-                    79980,
-                    80002,
-                    80058,
-                };
-
                 var manualItems = new List<int>();
-                manualItems.AddRange(ascended);
-                manualItems.AddRange(exotic);
+                manualItems.AddRange(_skinDictionary.Keys);
+                //manualItems.AddRange(exotic);
 
                 var itemid_lists = itemids.ChunkBy(200);
                 var itemMapping = new ItemMapping();
@@ -900,52 +915,51 @@ namespace Kenedia.Modules.BuildsManager.Services
                                     });
                                 }
 
-                                if (item.Type == ItemType.Trinket && (item.Rarity == ItemRarity.Legendary || (manualItems.Contains(item.Id))))
+                                if (manualItems.Contains(item.Id))
                                 {
-                                    var trinket = (ItemTrinket)item;
-
-                                    itemMapping.Trinkets.Add(new()
+                                    switch (item.Type.Value)
                                     {
-                                        Id = trinket.Id,
-                                        MappedId = itemMapping.Trinkets.Count,
-                                        Name = trinket.Name,
-                                    });
-                                }
+                                        case ItemType.Trinket:
+                                            var trinket = (ItemTrinket)item;
 
-                                if (item.Type == ItemType.Back && (item.Rarity == ItemRarity.Legendary || (manualItems.Contains(item.Id))))
-                                {
-                                    var back = (ItemBack)item;
+                                            itemMapping.Trinkets.Add(new()
+                                            {
+                                                Id = trinket.Id,
+                                                MappedId = itemMapping.Trinkets.Count,
+                                                Name = trinket.Name,
+                                            });
+                                            break;
+                                        case ItemType.Back:
+                                            var back = (ItemBack)item;
 
-                                    itemMapping.Backs.Add(new()
-                                    {
-                                        Id = back.Id,
-                                        MappedId = itemMapping.Backs.Count,
-                                        Name = back.Name,
-                                    });
-                                }
+                                            itemMapping.Backs.Add(new()
+                                            {
+                                                Id = back.Id,
+                                                MappedId = itemMapping.Backs.Count,
+                                                Name = back.Name,
+                                            });
+                                            break;
+                                        case ItemType.Armor:
+                                            var armor = (ItemArmor)item;
 
-                                if (item.Type == ItemType.Armor && (item.Rarity == ItemRarity.Legendary || (manualItems.Contains(item.Id))))
-                                {
-                                    var armor = (ItemArmor)item;
+                                            itemMapping.Armors.Add(new()
+                                            {
+                                                Id = armor.Id,
+                                                MappedId = itemMapping.Armors.Count,
+                                                Name = armor.Name,
+                                            });
+                                            break;
+                                        case ItemType.Weapon:
+                                            var weapon = (ItemWeapon)item;
 
-                                    itemMapping.Armors.Add(new()
-                                    {
-                                        Id = armor.Id,
-                                        MappedId = itemMapping.Armors.Count,
-                                        Name = armor.Name,
-                                    });
-                                }
-
-                                if (item.Type == ItemType.Weapon && (item.Rarity == ItemRarity.Legendary || (manualItems.Contains(item.Id))))
-                                {
-                                    var weapon = (ItemWeapon)item;
-
-                                    itemMapping.Weapons.Add(new()
-                                    {
-                                        Id = weapon.Id,
-                                        MappedId = itemMapping.Weapons.Count,
-                                        Name = weapon.Name,
-                                    });
+                                            itemMapping.Weapons.Add(new()
+                                            {
+                                                Id = weapon.Id,
+                                                MappedId = itemMapping.Weapons.Count,
+                                                Name = weapon.Name,
+                                            });
+                                            break;
+                                    }
                                 }
 
                                 if (item.Type == ItemType.Consumable)

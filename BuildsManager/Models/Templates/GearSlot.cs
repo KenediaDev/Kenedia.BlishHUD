@@ -36,5 +36,6 @@
         Nourishment,
         Utility,
         JadeBotCore,
+        Relic,
     }
 }

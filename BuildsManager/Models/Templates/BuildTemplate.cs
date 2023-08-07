@@ -354,10 +354,13 @@ namespace Kenedia.Modules.BuildsManager.Models.Templates
             _loading = true;
             _busy = true;
 
+            ProfessionType prevProfession = Profession;
+            ProfessionType newProfession = ProfessionType.Guardian;
+
             if (Gw2ChatLink.TryParse(code, out IGw2ChatLink chatlink))
             {
                 build.Parse(chatlink.ToArray());
-                Profession = build.Profession;
+                Profession = newProfession = build.Profession;
 
                 Specializations[SpecializationSlot.Line_1].Specialization = Specialization.FromByte(build.Specialization1Id, build.Profession);
                 if (Specializations[SpecializationSlot.Line_1].Specialization != null)
@@ -440,6 +443,8 @@ namespace Kenedia.Modules.BuildsManager.Models.Templates
 
             _loading = false;
             _busy = false;
+
+            ProfessionChanged?.Invoke(this, new(prevProfession, newProfession));
             Loaded?.Invoke(this, null);
         }
 

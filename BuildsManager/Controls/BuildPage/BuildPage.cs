@@ -227,6 +227,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
             TemplatePresenter.EliteSpecializationChanged -= BuildTemplate_EliteSpecChanged;
             TemplatePresenter.Loaded -= BuildTemplate_Loaded;
             TemplatePresenter = null;
+            TemplatePresenter =  new();
         }
 
         protected override void OnClick(MouseEventArgs e)

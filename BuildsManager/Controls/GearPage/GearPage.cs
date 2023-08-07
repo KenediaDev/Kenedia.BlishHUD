@@ -11,6 +11,10 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using Kenedia.Modules.BuildsManager.Controls.Selection;
+using Kenedia.Modules.Core.Extensions;
+using ItemWeightType = Gw2Sharp.WebApi.V2.Models.ItemWeightType;
+using Gw2Sharp.Models;
+using Kenedia.Modules.BuildsManager.Models;
 
 namespace Kenedia.Modules.BuildsManager.Controls.GearPage
 {
@@ -19,12 +23,9 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage
         private readonly TexturesService _texturesService;
         private readonly TextBox _gearCodeBox;
         private readonly ImageButton _copyButton;
-        private readonly Panel _statPanel;
-        private readonly StatSummary _stats;
 
         private Template _template;
         private Rectangle _headerBounds;
-        private Rectangle _statPanelHeaderBounds;
 
         private Dictionary<GearTemplateSlot, BaseSlotControl> _slots = new();
 
@@ -32,6 +33,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage
         private SelectionPanel _selectionPanel;
         private readonly DetailedTexture _pve = new(2229699, 2229700);
         private readonly DetailedTexture _pvp = new(2229701, 2229702);
+        private readonly ProfessionRaceSelection _professionRaceSelection;
 
         public GearPage(TexturesService _texturesService)
         {
@@ -73,24 +75,6 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage
                 }
             };
 
-            _statPanel = new()
-            {
-                Parent = this,
-                Title = "♥",
-                Height = 365,
-                Width = 270,
-                ShowBorder = true,
-                ShowRightBorder = true,
-                Visible = false,
-            };
-
-            _stats = new()
-            {
-                Parent = this,
-                Height = _statPanel.Height,
-                Width = _statPanel.Width,
-            };
-
             _framedSpecIcon = new()
             {
                 Parent = this,
@@ -121,28 +105,16 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage
                 {GearTemplateSlot.Utility, new UtilityControl(GearTemplateSlot.Utility, this)},
                 {GearTemplateSlot.Nourishment, new NourishmentControl(GearTemplateSlot.Nourishment, this)},
                 {GearTemplateSlot.JadeBotCore, new JadeBotControl(GearTemplateSlot.JadeBotCore, this)},
+                {GearTemplateSlot.Relic, new RelicControl(GearTemplateSlot.Relic, this)},
             };
 
-            //_slots[GearTemplateSlot.Utility].ClickAction = () =>
-            //{
-            //    SelectionPanel?.SetGearAnchor(_slots[GearTemplateSlot.Utility], _slots[GearTemplateSlot.Utility].AbsoluteBounds, GearTemplateSlot.Utility, "Utilities");
-            //};
-
-            //_slots[GearTemplateSlot.Nourishment].ClickAction = () =>
-            //{
-            //    if (SelectionPanel != null)
-            //    {
-            //        SelectionPanel?.SetGearAnchor(_slots[GearTemplateSlot.Nourishment], _slots[GearTemplateSlot.Nourishment].AbsoluteBounds, GearTemplateSlot.Nourishment, "Nourishments");
-            //    }
-            //};
-
-            //_slots[GearTemplateSlot.JadeBotCore].ClickAction = () =>
-            //{
-            //    if (SelectionPanel != null)
-            //    {
-            //        SelectionPanel?.SetGearAnchor(_slots[GearTemplateSlot.JadeBotCore], _slots[GearTemplateSlot.JadeBotCore].AbsoluteBounds, GearTemplateSlot.JadeBotCore, "JadeBotCore");
-            //    }
-            //};
+            _professionRaceSelection = new()
+            {
+                Parent = this,
+                Visible = false,
+                ClipsBounds = false,
+                ZIndex = 16,
+            };
         }
 
         public Template Template
@@ -153,8 +125,6 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage
                 if (Common.SetProperty(ref _template, value, ApplyTemplate))
                 {
                     if (temp != null) temp.PropertyChanged -= TemplateChanged;
-
-                    _stats.Template = _template;
 
                     foreach (var slot in _slots)
                     {
@@ -194,20 +164,20 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage
 
                 _headerBounds = new(0, _copyButton.Top, 300, _copyButton.Height);
 
-                _pve.Bounds = new(secondColumn, _headerBounds.Bottom + 5, 45, 45);
-                _pvp.Bounds = new(secondColumn, _headerBounds.Bottom + 5, 45, 45);
+                _pve.Bounds = new(secondColumn, _headerBounds.Bottom + 5, 64, 64);
+                _pvp.Bounds = new(secondColumn, _headerBounds.Bottom + 5, 64, 64);
 
-                _stats.Location = new(secondColumn - 5, _pve.Bounds.Bottom + 5);
-                _framedSpecIcon.Location = new(_stats.Right - 45, _headerBounds.Bottom + 5);
-                _framedSpecIcon.Size = new(45, 45);
+                _framedSpecIcon.Location = new(secondColumn + 270 - 45, _headerBounds.Bottom + 5);
+                _framedSpecIcon.Size = new(64, 64);
 
                 /// Change to 3 once we get the JadeBotCore implemented
                 int amount = 2;
                 int padding = (_framedSpecIcon.Left - _pve.Bounds.Right - (45 * amount)) / (amount + 1);
                 
-                _slots[GearTemplateSlot.Nourishment].Location = new(_pve.Bounds.Right + padding + ((45 + padding) * 0), _pve.Bounds.Top);
-                _slots[GearTemplateSlot.Utility].Location = new(_pve.Bounds.Right + padding + ((45 + padding) * 1), _pve.Bounds.Top);
-                _slots[GearTemplateSlot.JadeBotCore].Location = new(_pve.Bounds.Right + padding + ((45 + padding) * 2), _pve.Bounds.Top);
+                _slots[GearTemplateSlot.Nourishment].Location = new(secondColumn, _pve.Bounds.Bottom + 20);
+                _slots[GearTemplateSlot.Utility].Location = new(secondColumn, _slots[GearTemplateSlot.Nourishment].Bottom + 5);
+                _slots[GearTemplateSlot.JadeBotCore].Location = new(secondColumn, _slots[GearTemplateSlot.Utility].Bottom + 20);
+                _slots[GearTemplateSlot.Relic].Location = new(secondColumn, _slots[GearTemplateSlot.JadeBotCore].Bottom + 5);
 
                 _slots[GearTemplateSlot.Head].Location = new(0, _gearCodeBox.Bottom + 5);
                 _slots[GearTemplateSlot.Shoulder].Location = new(_slots[GearTemplateSlot.Head].Left, _slots[GearTemplateSlot.Head].Bottom + gearSpacing);
@@ -224,7 +194,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage
                 _slots[GearTemplateSlot.AltMainHand].Location = new(_slots[GearTemplateSlot.OffHand].Left, _slots[GearTemplateSlot.OffHand].Bottom + 35);
                 _slots[GearTemplateSlot.AltOffHand].Location = new(_slots[GearTemplateSlot.AltMainHand].Left + 4, _slots[GearTemplateSlot.AltMainHand].Bottom + 8);
 
-                _slots[GearTemplateSlot.Back].Location = new(secondColumn, _stats.Bottom + 15);
+                _slots[GearTemplateSlot.Back].Location = new(secondColumn, _slots[GearTemplateSlot.Relic].Bottom + 20);
                 _slots[GearTemplateSlot.Accessory_1].Location = new(_slots[GearTemplateSlot.Back].Right + 3, _slots[GearTemplateSlot.Back].Top);
                 _slots[GearTemplateSlot.Accessory_2].Location = new(_slots[GearTemplateSlot.Accessory_1].Right + 3, _slots[GearTemplateSlot.Back].Top);
 
@@ -232,7 +202,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage
                 _slots[GearTemplateSlot.Ring_1].Location = new(_slots[GearTemplateSlot.Amulet].Right + 3, _slots[GearTemplateSlot.Amulet].Top);
                 _slots[GearTemplateSlot.Ring_2].Location = new(_slots[GearTemplateSlot.Ring_1].Right + 3, _slots[GearTemplateSlot.Amulet].Top);
 
-                _slots[GearTemplateSlot.AquaBreather].Location = new(_slots[GearTemplateSlot.Back].Left, _slots[GearTemplateSlot.Amulet].Bottom + 10);
+                _slots[GearTemplateSlot.AquaBreather].Location = new(_slots[GearTemplateSlot.Back].Left, _slots[GearTemplateSlot.Amulet].Bottom + 20);
                 _slots[GearTemplateSlot.Aquatic].Location = new(_slots[GearTemplateSlot.AquaBreather].Left, _slots[GearTemplateSlot.AquaBreather].Bottom + 15);
                 _slots[GearTemplateSlot.AltAquatic].Location = new(_slots[GearTemplateSlot.Aquatic].Left, _slots[GearTemplateSlot.Aquatic].Bottom + 8);
             }
@@ -246,12 +216,49 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage
             {
                 _framedSpecIcon.Texture = _template.EliteSpecialization?.ProfessionIconBig ??
                     BuildsManager.Data.Professions[_template.Profession].IconBig;
+
+                switch(_template.Profession.GetArmorType())
+                {
+                    case ItemWeightType.Heavy:
+                        _slots[GearTemplateSlot.AquaBreather].Item.Item = BuildsManager.Data.Armors[79895];
+                        _slots[GearTemplateSlot.Head].Item.Item = BuildsManager.Data.Armors[85193];
+                        _slots[GearTemplateSlot.Shoulder].Item.Item = BuildsManager.Data.Armors[84875];
+                        _slots[GearTemplateSlot.Chest].Item.Item = BuildsManager.Data.Armors[85084];
+                        _slots[GearTemplateSlot.Hand].Item.Item = BuildsManager.Data.Armors[85140];
+                        _slots[GearTemplateSlot.Leg].Item.Item = BuildsManager.Data.Armors[84887];
+                        _slots[GearTemplateSlot.Foot].Item.Item = BuildsManager.Data.Armors[85055];
+                        break;
+                    case ItemWeightType.Medium:
+                        _slots[GearTemplateSlot.AquaBreather].Item.Item = BuildsManager.Data.Armors[79838];
+                        _slots[GearTemplateSlot.Head].Item.Item = BuildsManager.Data.Armors[80701];
+                        _slots[GearTemplateSlot.Shoulder].Item.Item = BuildsManager.Data.Armors[80825];
+                        _slots[GearTemplateSlot.Chest].Item.Item = BuildsManager.Data.Armors[84977];
+                        _slots[GearTemplateSlot.Hand].Item.Item = BuildsManager.Data.Armors[85169];
+                        _slots[GearTemplateSlot.Leg].Item.Item = BuildsManager.Data.Armors[85264];
+                        _slots[GearTemplateSlot.Foot].Item.Item = BuildsManager.Data.Armors[80836];
+                        break;
+                    case ItemWeightType.Light:
+                        _slots[GearTemplateSlot.AquaBreather].Item.Item = BuildsManager.Data.Armors[79873];
+                        _slots[GearTemplateSlot.Head].Item.Item = BuildsManager.Data.Armors[85128];
+                        _slots[GearTemplateSlot.Shoulder].Item.Item = BuildsManager.Data.Armors[84918];
+                        _slots[GearTemplateSlot.Chest].Item.Item = BuildsManager.Data.Armors[85333];
+                        _slots[GearTemplateSlot.Hand].Item.Item = BuildsManager.Data.Armors[85070];
+                        _slots[GearTemplateSlot.Leg].Item.Item = BuildsManager.Data.Armors[85362];
+                        _slots[GearTemplateSlot.Foot].Item.Item = BuildsManager.Data.Armors[80815];
+                        break;
+                }
+
+                _slots[GearTemplateSlot.Back].Item.Item = BuildsManager.Data.Backs[94947];
+                _slots[GearTemplateSlot.Amulet].Item.Item = BuildsManager.Data.Trinkets[79980];
+                _slots[GearTemplateSlot.Accessory_1].Item.Item = BuildsManager.Data.Trinkets[80002];
+                _slots[GearTemplateSlot.Accessory_2].Item.Item = BuildsManager.Data.Trinkets[80002];
+                _slots[GearTemplateSlot.Ring_1].Item.Item = BuildsManager.Data.Trinkets[80058];
+                _slots[GearTemplateSlot.Ring_2].Item.Item = BuildsManager.Data.Trinkets[80058];
             }
 
             foreach (var slot in _slots.Values)
             {
                 slot.Visible = 
-                    (slot.GearSlot is not GearTemplateSlot.JadeBotCore) &&
                     (slot.GearSlot is not GearTemplateSlot.AltAquatic || Template.Profession is not Gw2Sharp.Models.ProfessionType.Engineer and not Gw2Sharp.Models.ProfessionType.Elementalist) &&
                     (Template?.PvE == false
                     ? slot.GearSlot is GearTemplateSlot.MainHand or GearTemplateSlot.AltMainHand or GearTemplateSlot.OffHand or GearTemplateSlot.AltOffHand or GearTemplateSlot.PvpAmulet
@@ -285,6 +292,14 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage
             if ((Template != null && Template.PvE ? _pve : _pvp).Hovered)
             {
                 Template.PvE = !Template.PvE;
+            }
+
+            if (_framedSpecIcon?.MouseOver == true)
+            {
+                _professionRaceSelection.Visible = true;
+                _professionRaceSelection.Type = ProfessionRaceSelection.SelectionType.Profession;
+                _professionRaceSelection.Location = RelativeMousePosition;
+                _professionRaceSelection.OnClickAction = (value) => Template.Profession = (ProfessionType)value;
             }
         }
 
