@@ -21,7 +21,7 @@ namespace Kenedia.Modules.BuildsManager.TemplateEntries
         {
             string[] parts = GetCode(code).Split('|');
 
-            if (parts.Length == 3)
+            if (parts.Length == 2)
             {
                 Stat = int.TryParse(parts[0], out int stat) ? BuildsManager.Data.Stats.Where(e => e.Value.Id == stat).FirstOrDefault().Value : null;
                 Enrichment = int.TryParse(parts[1], out int enrichment) ? BuildsManager.Data.Enrichments.Where(e => e.Value.Id == enrichment).FirstOrDefault().Value : null;

@@ -64,6 +64,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage.GearSlots
             Parent = parent;
 
             TemplatePresenter.LoadedGearFromCode += OnGearCodeLoaded;
+            TemplatePresenter.TemplateChanged += OnGearCodeLoaded;
         }
 
         public SelectionPanel SelectionPanel { get; set; }
@@ -367,7 +368,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage.GearSlots
             {
                 _pvpSigilSlotTexture.Draw(this, spriteBatch, RelativeMousePosition);
                 _pvpSigilTexture.Draw(this, spriteBatch, RelativeMousePosition);
-                spriteBatch.DrawStringOnCtrl(this, GetDisplayString(PvpSigil?.DisplayText ?? string.Empty), UpgradeFont, _sigilBounds, UpgradeColor, false, HorizontalAlignment.Left, VerticalAlignment.Middle);
+                spriteBatch.DrawStringOnCtrl(this, GetDisplayString(PvpSigil?.DisplayText ?? string.Empty), UpgradeFont, _pvpSigilBounds, UpgradeColor, false, HorizontalAlignment.Left, VerticalAlignment.Middle);
             }
         }
 

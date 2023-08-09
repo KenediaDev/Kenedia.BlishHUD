@@ -410,10 +410,10 @@ namespace Kenedia.Modules.BuildsManager.Models
 
             Back.FromCode(parts[10]);
             Amulet.FromCode(parts[11]);
-            Ring_1.FromCode(parts[12]);
-            Ring_2.FromCode(parts[13]);
-            Accessory_1.FromCode(parts[14]);
-            Accessory_2.FromCode(parts[15]);
+            Accessory_1.FromCode(parts[12]);
+            Accessory_2.FromCode(parts[13]);
+            Ring_1.FromCode(parts[14]);
+            Ring_2.FromCode(parts[15]);
 
             AquaBreather.FromCode(parts[16]);
             Aquatic.FromCode(parts[17]);
@@ -517,10 +517,10 @@ namespace Kenedia.Modules.BuildsManager.Models
 
             code += Back.ToCode();
             code += Amulet.ToCode();
-            code += Ring_1.ToCode();
-            code += Ring_2.ToCode();
             code += Accessory_1.ToCode();
             code += Accessory_2.ToCode();
+            code += Ring_1.ToCode();
+            code += Ring_2.ToCode();
 
             code += AquaBreather.ToCode();
             code += Aquatic.ToCode();

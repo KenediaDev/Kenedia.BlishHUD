@@ -26,14 +26,14 @@ namespace Kenedia.Modules.BuildsManager.TemplateEntries
             if (parts.Length == 3)
             {
                 Stat = int.TryParse(parts[0], out int stat) ? BuildsManager.Data.Stats.Where(e => e.Value.Id == stat).FirstOrDefault().Value : null;
-                Infusion = int.TryParse(parts[1], out int infusion) ? BuildsManager.Data.Infusions.Where(e => e.Value.Id == infusion).FirstOrDefault().Value : null;
-                Rune = int.TryParse(parts[2], out int rune) ? BuildsManager.Data.PveRunes.Where(e => e.Value.Id == rune).FirstOrDefault().Value : null;
+                Rune = int.TryParse(parts[1], out int rune) ? BuildsManager.Data.PveRunes.Where(e => e.Value.Id == rune).FirstOrDefault().Value : null;
+                Infusion = int.TryParse(parts[2], out int infusion) ? BuildsManager.Data.Infusions.Where(e => e.Value.Id == infusion).FirstOrDefault().Value : null;
             }
         }
 
         public override string ToCode()
         {
-            return $"[{Stat?.Id ?? -1}|{Infusion?.Id ?? -1}|{Rune?.Id ?? -1}]";
+            return $"[{Stat?.Id ?? -1}|{Rune?.Id ?? -1}|{Infusion?.Id ?? -1}]";
         }
     }
 }
