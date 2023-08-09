@@ -35,7 +35,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage
         private Rectangle _pvpSigilBounds;
         private Rectangle _infusionBounds;
 
-        public WeaponSlotControl(GearTemplateSlot gearSlot, Container parent) : base(gearSlot, parent)
+        public WeaponSlotControl(TemplateSlot gearSlot, Container parent) : base(gearSlot, parent)
         {
             _infusionSlotTexture.Texture = BuildsManager.ModuleInstance.ContentsManager.GetTexture(@"textures\infusionslot.png");
         }
@@ -51,8 +51,8 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage
             base.RecalculateLayout();
 
             int upgradeSize = (Icon.Bounds.Size.Y - 4) / 2;
-            int iconPadding = GearSlot is GearTemplateSlot.OffHand or GearTemplateSlot.AltOffHand ? 7 : 0;
-            int textPadding = GearSlot is GearTemplateSlot.OffHand or GearTemplateSlot.AltOffHand ? 8 : 5;
+            int iconPadding = GearSlot is Models.Templates.TemplateSlot.OffHand or Models.Templates.TemplateSlot.AltOffHand ? 7 : 0;
+            int textPadding = GearSlot is Models.Templates.TemplateSlot.OffHand or Models.Templates.TemplateSlot.AltOffHand ? 8 : 5;
 
             _sigilSlotTexture.Bounds = new(Icon.Bounds.Right + 2 + iconPadding, 0, upgradeSize, upgradeSize);
             _sigilTexture.Bounds = _sigilSlotTexture.Bounds;
@@ -87,9 +87,9 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage
                 spriteBatch.DrawStringOnCtrl(this, GetDisplayString(Sigil?.DisplayText ?? string.Empty), UpgradeFont, _sigilBounds, UpgradeColor, false, HorizontalAlignment.Left, VerticalAlignment.Middle);
 
                 var mainHandRarity =
-                    (GearSlot is GearTemplateSlot.OffHand or GearTemplateSlot.AltOffHand) &&
-                    Template.GearTemplate.Weapons[GearSlot == GearTemplateSlot.OffHand ? GearTemplateSlot.MainHand : GearTemplateSlot.AltMainHand]?.Weapon.IsTwoHanded() == true ?
-                    Template.GearTemplate.Weapons[GearSlot == GearTemplateSlot.OffHand ? GearTemplateSlot.MainHand : GearTemplateSlot.AltMainHand]?.Item?.Rarity
+                    (GearSlot is Models.Templates.TemplateSlot.OffHand or Models.Templates.TemplateSlot.AltOffHand) &&
+                    Template.GearTemplate.Weapons[GearSlot == Models.Templates.TemplateSlot.OffHand ? Models.Templates.TemplateSlot.MainHand : Models.Templates.TemplateSlot.AltMainHand]?.Weapon.IsTwoHanded() == true ?
+                    Template.GearTemplate.Weapons[GearSlot == Models.Templates.TemplateSlot.OffHand ? Models.Templates.TemplateSlot.MainHand : Models.Templates.TemplateSlot.AltMainHand]?.Item?.Rarity
                     : Gw2Sharp.WebApi.V2.Models.ItemRarity.Legendary;
 
                 if (Item?.Item?.Rarity != Gw2Sharp.WebApi.V2.Models.ItemRarity.Exotic && mainHandRarity != Gw2Sharp.WebApi.V2.Models.ItemRarity.Exotic)
@@ -166,7 +166,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage
         private Rectangle _infusionBounds;
         private Rectangle _infusion2Bounds;
 
-        public AquaticSlotControl(GearTemplateSlot gearSlot, Container parent) : base(gearSlot, parent)
+        public AquaticSlotControl(TemplateSlot gearSlot, Container parent) : base(gearSlot, parent)
         {
             _infusionSlotTexture.Texture = BuildsManager.ModuleInstance.ContentsManager.GetTexture(@"textures\infusionslot.png");
             _infusion2SlotTexture.Texture = BuildsManager.ModuleInstance.ContentsManager.GetTexture(@"textures\infusionslot.png");
@@ -190,8 +190,8 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage
             base.RecalculateLayout();
 
             int upgradeSize = (Icon.Bounds.Size.Y - 4) / 2;
-            int iconPadding = GearSlot is GearTemplateSlot.OffHand or GearTemplateSlot.AltOffHand ? 7 : 0;
-            int textPadding = GearSlot is GearTemplateSlot.OffHand or GearTemplateSlot.AltOffHand ? 8 : 5;
+            int iconPadding = GearSlot is Models.Templates.TemplateSlot.OffHand or Models.Templates.TemplateSlot.AltOffHand ? 7 : 0;
+            int textPadding = GearSlot is Models.Templates.TemplateSlot.OffHand or Models.Templates.TemplateSlot.AltOffHand ? 8 : 5;
 
             _sigilSlotTexture.Bounds = new(Icon.Bounds.Right + 2 + iconPadding, 0, upgradeSize, upgradeSize);
             _sigilTexture.Bounds = _sigilSlotTexture.Bounds;
@@ -310,7 +310,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage
         private Rectangle _runeBounds;
         private Rectangle _infusionBounds;
 
-        public ArmorSlotControl(GearTemplateSlot gearSlot, Container parent) : base(gearSlot, parent)
+        public ArmorSlotControl(TemplateSlot gearSlot, Container parent) : base(gearSlot, parent)
         {
             _infusionSlotTexture.Texture = BuildsManager.ModuleInstance.ContentsManager.GetTexture(@"textures\infusionslot.png");
         }
@@ -325,7 +325,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage
 
             int upgradeSize = (Icon.Bounds.Size.Y - 4) / 2;
             int iconPadding = 0;
-            int textPadding = GearSlot is GearTemplateSlot.AquaBreather ? upgradeSize + 5 : 5;
+            int textPadding = GearSlot is Models.Templates.TemplateSlot.AquaBreather ? upgradeSize + 5 : 5;
 
             _runeSlotTexture.Bounds = new(Icon.Bounds.Right + 2 + iconPadding, 0, upgradeSize, upgradeSize);
             _runeTexture.Bounds = _runeSlotTexture.Bounds;
@@ -389,7 +389,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage
 
             if (_infusionSlotTexture.Hovered)
                 SelectionPanel?.SetGearAnchor(this, new Rectangle(a.Location, Point.Zero).Add(_infusionSlotTexture.Bounds), GearSlot, GearSubSlotType.Infusion, GearSlot.ToString().ToLowercaseNamingConvention(), (item) => (TemplateSlot as ArmorEntry).Infusion = item as Infusion);
-        }        
+        }
     }
 
     public class JuwellerySlotControl : GearSlotConstrol
@@ -402,7 +402,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage
         private readonly ItemTexture _infusion2Texture = new() { };
         private readonly ItemTexture _infusion3Texture = new() { };
 
-        public JuwellerySlotControl(GearTemplateSlot gearSlot, Container parent) : base(gearSlot, parent)
+        public JuwellerySlotControl(TemplateSlot gearSlot, Container parent) : base(gearSlot, parent)
         {
             _infusion1SlotTexture.Texture = BuildsManager.ModuleInstance.ContentsManager.GetTexture(@"textures\infusionslot.png");
             _infusion2SlotTexture.Texture = BuildsManager.ModuleInstance.ContentsManager.GetTexture(@"textures\infusionslot.png");
@@ -443,13 +443,13 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage
                     _infusion1SlotTexture.Draw(this, spriteBatch, RelativeMousePosition);
                     _infusion1Texture.Draw(this, spriteBatch, RelativeMousePosition);
 
-                    if (GearSlot is GearTemplateSlot.Ring_1 or GearTemplateSlot.Ring_2 or GearTemplateSlot.Back)
+                    if (GearSlot is Models.Templates.TemplateSlot.Ring_1 or Models.Templates.TemplateSlot.Ring_2 or Models.Templates.TemplateSlot.Back)
                     {
                         _infusion2SlotTexture.Draw(this, spriteBatch, RelativeMousePosition);
                         _infusion2Texture.Draw(this, spriteBatch, RelativeMousePosition);
                     }
 
-                    if (GearSlot is GearTemplateSlot.Ring_1 or GearTemplateSlot.Ring_2)
+                    if (GearSlot is Models.Templates.TemplateSlot.Ring_1 or Models.Templates.TemplateSlot.Ring_2)
                     {
                         _infusion3SlotTexture.Draw(this, spriteBatch, RelativeMousePosition);
                         _infusion3Texture.Draw(this, spriteBatch, RelativeMousePosition);
@@ -508,7 +508,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage
         private readonly ItemTexture _enrichmentTexture = new() { };
         private readonly ContextMenuStrip _resetMenu;
 
-        public AmuletSlotControl(GearTemplateSlot gearSlot, Container parent) : base(gearSlot, parent)
+        public AmuletSlotControl(TemplateSlot gearSlot, Container parent) : base(gearSlot, parent)
         {
             _enrichmentSlotTexture.Texture = BuildsManager.ModuleInstance.ContentsManager.GetTexture(@"textures\infusionslot.png");
             ItemColor = Color.Gray;
@@ -608,20 +608,60 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage
 
     public class PvpAmuletSlotControl : BaseSlotControl
     {
-        public PvpAmuletSlotControl(GearTemplateSlot gearSlot, Container parent) : base(gearSlot, parent)
+        private readonly DetailedTexture _runeSlotTexture = new() { Texture = AsyncTexture2D.FromAssetId(784323), TextureRegion = new(37, 37, 54, 54), };
+        private readonly ItemTexture _runeTexture = new() { };
+
+        private Rectangle _runeBounds;
+
+        public PvpAmuletSlotControl(TemplateSlot gearSlot, Container parent) : base(gearSlot, parent)
         {
+            GearSlot = Models.Templates.TemplateSlot.PvpAmulet;
             _ = Menu.AddMenuItem(new ContextMenuItem(() => "Reset", ResetSlot_Click));
         }
+
+        public Rune Rune { get; private set; }
 
         protected override void Paint(SpriteBatch spriteBatch, Rectangle bounds)
         {
             base.Paint(spriteBatch, bounds);
 
+            _runeSlotTexture.Draw(this, spriteBatch, RelativeMousePosition);
+            _runeTexture.Draw(this, spriteBatch, RelativeMousePosition);
+            spriteBatch.DrawStringOnCtrl(this, GetDisplayString(Rune?.DisplayText ?? string.Empty), UpgradeFont, _runeBounds, UpgradeColor, false, HorizontalAlignment.Left, VerticalAlignment.Middle);
         }
 
         private void ResetSlot_Click()
         {
             TemplateSlot?.Reset();
+        }
+
+        public override void RecalculateLayout()
+        {
+            base.RecalculateLayout();
+
+            int upgradeSize = (Icon.Bounds.Size.Y - 4) / 2;
+            int iconPadding = 0;
+            int textPadding = GearSlot is Models.Templates.TemplateSlot.AquaBreather ? upgradeSize + 5 : 5;
+
+            int pvpUpgradeSize = 48;
+            _runeSlotTexture.Bounds = new(Icon.Bounds.Right + 2 + 5 + iconPadding, (Icon.Bounds.Height - pvpUpgradeSize) / 2, pvpUpgradeSize, pvpUpgradeSize);
+            _runeTexture.Bounds = _runeSlotTexture.Bounds;
+
+            int x = _runeSlotTexture.Bounds.Right + textPadding + 4;
+            _runeBounds = new(x, _runeSlotTexture.Bounds.Top - 1, Width - x, _runeSlotTexture.Bounds.Height);
+        }
+
+        protected override void OnClick(MouseEventArgs e)
+        {
+            base.OnClick(e);
+
+            var a = AbsoluteBounds;
+
+            if (_runeSlotTexture.Hovered)
+            {
+                SelectionPanel?.SetGearAnchor(this, new Rectangle(a.Location, Point.Zero).Add(_runeSlotTexture.Bounds), GearSlot, GearSubSlotType.Rune, GearSlot.ToString().ToLowercaseNamingConvention(), (item) => Debug.WriteLine($"{item.Name}"));
+                //SelectionPanel?.SetGearAnchor(this, new Rectangle(a.Location, Point.Zero).Add(_runeSlotTexture.Bounds), GearSlot, GearSubSlotType.Rune, GearSlot.ToString().ToLowercaseNamingConvention(), (item) => TemplateSlot.Item = item as Rune);
+            }
         }
     }
 
@@ -631,7 +671,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage
         private Rectangle _titleBounds;
         private Rectangle _statBounds;
 
-        public RelicControl(GearTemplateSlot gearSlot, Container parent) : base(gearSlot, parent)
+        public RelicControl(TemplateSlot gearSlot, Container parent) : base(gearSlot, parent)
         {
             Icon.Texture = BuildsManager.ModuleInstance.ContentsManager.GetTexture(@"textures\relic_slot.png");
             ItemColor = Color.White;
@@ -670,7 +710,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage
         private Rectangle _titleBounds;
         private Rectangle _statBounds;
 
-        public JadeBotControl(GearTemplateSlot gearSlot, Container parent) : base(gearSlot, parent)
+        public JadeBotControl(TemplateSlot gearSlot, Container parent) : base(gearSlot, parent)
         {
             Icon.Texture = AsyncTexture2D.FromAssetId(2630946);
             Icon.TextureRegion = new(36, 36, 56, 56);
@@ -710,7 +750,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage
         private Rectangle _titleBounds;
         private Rectangle _statBounds;
 
-        public UtilityControl(GearTemplateSlot gearSlot, Container parent) : base(gearSlot, parent)
+        public UtilityControl(TemplateSlot gearSlot, Container parent) : base(gearSlot, parent)
         {
             Icon.Texture = BuildsManager.ModuleInstance.ContentsManager.GetTexture(@"textures\utilityslot.png");
             ItemColor = Color.White;
@@ -749,7 +789,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage
         private Rectangle _titleBounds;
         private Rectangle _statBounds;
 
-        public NourishmentControl(GearTemplateSlot gearSlot, Container parent) : base(gearSlot, parent)
+        public NourishmentControl(TemplateSlot gearSlot, Container parent) : base(gearSlot, parent)
         {
             Icon.Texture = BuildsManager.ModuleInstance.ContentsManager.GetTexture(@"textures\foodslot.png");
             ItemColor = Color.White;
@@ -790,7 +830,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage
         private ContextMenuStrip _fillMenu;
         private ContextMenuStrip _overrideMenu;
 
-        public GearSlotConstrol(GearTemplateSlot gearSlot, Container parent) : base(gearSlot, parent)
+        public GearSlotConstrol(TemplateSlot gearSlot, Container parent) : base(gearSlot, parent)
         {
             ContextMenuStripItem menuItem;
 
@@ -1009,7 +1049,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage
 
     public class BaseSlotControl : Control
     {
-        private GearTemplateSlot _gearSlot = GearTemplateSlot.None;
+        private TemplateSlot _gearSlot = Models.Templates.TemplateSlot.None;
         private Template _template;
 
         protected readonly DetailedTexture Icon = new() { TextureRegion = new(37, 37, 54, 54) };
@@ -1028,7 +1068,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage
         private BaseTemplateEntry _templateSlot;
         private Stat _stat;
 
-        public GearTemplateSlot GearSlot { get => _gearSlot; set => Common.SetProperty(ref _gearSlot, value, ApplySlot); }
+        public TemplateSlot GearSlot { get => _gearSlot; set => Common.SetProperty(ref _gearSlot, value, ApplySlot); }
 
         public ItemTexture Item { get; } = new() { };
 
@@ -1040,7 +1080,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage
             Menu = new();
         }
 
-        public BaseSlotControl(GearTemplateSlot gearSlot, Container parent) : this()
+        public BaseSlotControl(TemplateSlot gearSlot, Container parent) : this()
         {
             GearSlot = gearSlot;
             Parent = parent;
@@ -1055,8 +1095,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage
                 var temp = _template;
                 if (Common.SetProperty(ref _template, value, ApplyTemplate))
                 {
-                    if (temp != null) temp.PropertyChanged -= TemplateChanged;
-                    if (_template != null) _template.PropertyChanged += TemplateChanged;
+
                 }
             }
         }
@@ -1109,7 +1148,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage
             {
                 TemplateSlot = Template?.GearTemplate.Juwellery[GearSlot];
             }
-            else if (GearSlot == GearTemplateSlot.PvpAmulet)
+            else if (GearSlot == Models.Templates.TemplateSlot.PvpAmulet)
             {
                 //TemplateSlot = Template?.GearTemplate.PvpAmulet[GearSlot];
             }
@@ -1135,7 +1174,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage
                 Item.Item = Template?.GearTemplate.Juwellery[GearSlot].Item;
                 Stat = Template?.GearTemplate.Juwellery[GearSlot].Stat;
             }
-            else if (GearSlot is GearTemplateSlot.PvpAmulet)
+            else if (GearSlot is Models.Templates.TemplateSlot.PvpAmulet)
             {
                 //Item.Item = Template?.GearTemplate.PvpAmulet[GearSlot].Item;
                 //if (Template != null) Upgrade1 = BuildsManager.Data.PvpRunes.Where(e => e.Value.MappedId == Template.GearTemplate.PvpAmulet[GearSlot].RuneIds[0]).FirstOrDefault().Value;
@@ -1156,28 +1195,28 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage
 
         protected virtual void ApplySlot()
         {
-            var assetIds = new Dictionary<GearTemplateSlot, int>()
+            var assetIds = new Dictionary<TemplateSlot, int>()
             {
-                {GearTemplateSlot.AquaBreather, 156308},
-                {GearTemplateSlot.Head, 156307},
-                {GearTemplateSlot.Shoulder, 156311},
-                {GearTemplateSlot.Chest, 156297},
-                {GearTemplateSlot.Hand, 156306},
-                {GearTemplateSlot.Leg, 156309},
-                {GearTemplateSlot.Foot, 156300},
-                {GearTemplateSlot.MainHand, 156316},
-                {GearTemplateSlot.OffHand, 156320},
-                {GearTemplateSlot.Aquatic, 156313},
-                {GearTemplateSlot.AltMainHand, 156316},
-                {GearTemplateSlot.AltOffHand, 156320},
-                {GearTemplateSlot.AltAquatic, 156313},
-                {GearTemplateSlot.Back, 156293},
-                {GearTemplateSlot.Amulet, 156310},
-                {GearTemplateSlot.Accessory_1, 156298},
-                {GearTemplateSlot.Accessory_2, 156299},
-                {GearTemplateSlot.Ring_1, 156301},
-                {GearTemplateSlot.Ring_2, 156302},
-                {GearTemplateSlot.PvpAmulet, 784322},
+                { Models.Templates.TemplateSlot.AquaBreather, 156308},
+                { Models.Templates.TemplateSlot.Head, 156307},
+                { Models.Templates.TemplateSlot.Shoulder, 156311},
+                { Models.Templates.TemplateSlot.Chest, 156297},
+                { Models.Templates.TemplateSlot.Hand, 156306},
+                { Models.Templates.TemplateSlot.Leg, 156309},
+                { Models.Templates.TemplateSlot.Foot, 156300},
+                { Models.Templates.TemplateSlot.MainHand, 156316},
+                { Models.Templates.TemplateSlot.OffHand, 156320},
+                { Models.Templates.TemplateSlot.Aquatic, 156313},
+                { Models.Templates.TemplateSlot.AltMainHand, 156316},
+                { Models.Templates.TemplateSlot.AltOffHand, 156320},
+                { Models.Templates.TemplateSlot.AltAquatic, 156313},
+                { Models.Templates.TemplateSlot.Back, 156293},
+                { Models.Templates.TemplateSlot.Amulet, 156310},
+                { Models.Templates.TemplateSlot.Accessory_1, 156298},
+                { Models.Templates.TemplateSlot.Accessory_2, 156299},
+                { Models.Templates.TemplateSlot.Ring_1, 156301},
+                { Models.Templates.TemplateSlot.Ring_2, 156302},
+                { Models.Templates.TemplateSlot.PvpAmulet, 784322},
             };
 
             if (assetIds.TryGetValue(GearSlot, out int assetId))
@@ -1219,7 +1258,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage
             ClickAction?.Invoke();
 
             if (Icon.Hovered)
-                SelectionPanel?.SetGearAnchor(this, new Rectangle(a.Location, Point.Zero).Add(Icon.Bounds), GearSlot, GearSubSlotType.Item, GearSlot.ToString().ToLowercaseNamingConvention(), (item) => TemplateSlot.Item = item);
+                SelectionPanel?.SetGearAnchor(this, new Rectangle(a.Location, Point.Zero).Add(Icon.Bounds), GearSlot, GearSubSlotType.Item, GearSlot.ToString().ToLowercaseNamingConvention(), (item) => TemplateSlot?.SetItem(item));
         }
 
         protected override void OnRightMouseButtonPressed(MouseEventArgs e)

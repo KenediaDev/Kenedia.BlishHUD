@@ -9,13 +9,13 @@ namespace Kenedia.Modules.BuildsManager.Models.Templates
 {
     public class BaseTemplateEntry : INotifyPropertyChanged
     {
-        private GearTemplateSlot _slot = (GearTemplateSlot)(-2);
+        private TemplateSlot _slot = (TemplateSlot)(-2);
         private int _mappedId = -1;
         private BaseItem _item;
 
         public GearTemplateEntryType Type { get; set; }
 
-        public GearTemplateSlot Slot { get => _slot; set => Common.SetProperty(ref _slot, value, OnSlotApply); }
+        public TemplateSlot Slot { get => _slot; set => Common.SetProperty(ref _slot, value, OnSlotApply); }
 
         public BaseItem Item { get => _item; set => Common.SetProperty(ref _item, value, OnItemChanged); }
 
@@ -71,6 +71,11 @@ namespace Kenedia.Modules.BuildsManager.Models.Templates
         public virtual void FromCode(string code)
         {
             MappedId = int.TryParse(code, out int mappedId) ? mappedId : -1;
+        }
+    
+        public void SetItem(BaseItem item)
+        {
+            Item = item;
         }
     }
 }

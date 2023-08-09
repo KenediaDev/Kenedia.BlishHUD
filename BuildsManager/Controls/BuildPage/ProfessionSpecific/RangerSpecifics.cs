@@ -1,16 +1,13 @@
 ﻿using Blish_HUD;
 using Blish_HUD.Controls;
 using Blish_HUD.Input;
-using Kenedia.Modules.BuildsManager.DataModels.Professions;
 using Kenedia.Modules.BuildsManager.Models;
 using Kenedia.Modules.BuildsManager.Models.Templates;
 using Kenedia.Modules.Core.DataModels;
-using Kenedia.Modules.Core.Models;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using static Blish_HUD.ContentService;
 
@@ -83,7 +80,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage.ProfessionSpecific
             {                
                 foreach (var pet in _pets.Values)
                 {
-                    pet.Pet ??= TemplatePresenter?.Template?.BuildTemplate?.Pets?[pet.PetSlot];
+                    pet.Pet ??= TemplatePresenter?.Template?.Pets?[pet.PetSlot];
                     pet.Draw(this, spriteBatch, RelativeMousePosition);
                 }
 
@@ -117,10 +114,10 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage.ProfessionSpecific
                             _ => PetSlot.Terrestrial_1,
                         };
 
-                        if (TemplatePresenter.Template.BuildTemplate.Pets[otherSlot] != s.Pet)
+                        if (TemplatePresenter.Template.Pets[otherSlot] != s.Pet)
                         {
                             _selectorAnchor.Pet = s.Pet;
-                            TemplatePresenter.Template.BuildTemplate.Pets[_selectorAnchor.PetSlot] = s.Pet;
+                            TemplatePresenter.Template.Pets[_selectorAnchor.PetSlot] = s.Pet;
                         }
 
                         break;
@@ -156,7 +153,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage.ProfessionSpecific
             {
                 foreach (var pet in _pets.Values)
                 {
-                    pet.Pet = TemplatePresenter?.Template?.BuildTemplate?.Pets?[pet.PetSlot];
+                    pet.Pet = TemplatePresenter?.Template?.Pets?[pet.PetSlot];
                 }
             }
 

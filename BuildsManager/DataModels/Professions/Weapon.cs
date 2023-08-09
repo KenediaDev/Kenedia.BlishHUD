@@ -1,9 +1,7 @@
-﻿using Gw2Sharp;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
 using APIWeapon = Gw2Sharp.WebApi.V2.Models.ProfessionWeapon;
-using System.Linq;
 
 namespace Kenedia.Modules.BuildsManager.DataModels.Professions
 {

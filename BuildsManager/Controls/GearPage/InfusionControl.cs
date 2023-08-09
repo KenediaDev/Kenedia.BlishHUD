@@ -51,8 +51,6 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage
                 var temp = _template;
                 if (Common.SetProperty(ref _template, value, ApplyTemplate))
                 {
-                    if (temp != null) temp.PropertyChanged -= TemplateChanged;
-                    if (_template != null) _template.PropertyChanged += TemplateChanged;
                 }
             }
         }

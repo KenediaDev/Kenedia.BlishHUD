@@ -17,8 +17,6 @@ using Kenedia.Modules.Core.DataModels;
 using Kenedia.Modules.Core.Services;
 using System;
 using System.ComponentModel;
-using ProtoBuf.WellKnownTypes;
-using System.Threading.Tasks;
 using Blish_HUD.Controls;
 using TextBox = Kenedia.Modules.Core.Controls.TextBox;
 

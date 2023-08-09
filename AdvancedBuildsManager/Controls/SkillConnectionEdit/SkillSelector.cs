@@ -3,7 +3,6 @@ using System.Threading.Tasks;
 using Kenedia.Modules.Core.DataModels;
 using Kenedia.Modules.AdvancedBuildsManager.Views;
 using Kenedia.Modules.Core.Extensions;
-using System.Diagnostics;
 
 namespace Kenedia.Modules.AdvancedBuildsManager.Controls.SkillConnectionEdit
 {

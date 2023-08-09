@@ -1,14 +1,13 @@
 ﻿using Blish_HUD.Content;
 using Gw2Sharp;
 using Gw2Sharp.Models;
-using Gw2Sharp.WebApi.V2.Models;
+using Kenedia.Modules.BuildsManager.Models;
 using Kenedia.Modules.BuildsManager.Models.Templates;
 using Kenedia.Modules.Core.DataModels;
 using Kenedia.Modules.Core.Models;
 using Kenedia.Modules.Core.Utility;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Runtime.Serialization;
 using static Kenedia.Modules.BuildsManager.DataModels.Professions.Weapon;
@@ -242,7 +241,7 @@ namespace Kenedia.Modules.BuildsManager.DataModels.Professions
             return GetRevPaletteId(skill.Id);
         }
 
-        public Skill GetEffectiveSkill(Template template, Enviroment enviroment)
+        public Skill GetEffectiveSkill(VTemplate template, Enviroment enviroment)
         {
             Skill skill = this;
 
@@ -250,7 +249,7 @@ namespace Kenedia.Modules.BuildsManager.DataModels.Professions
             {
                 List<int> traitIds = new();
 
-                foreach (var spec in template.BuildTemplate.Specializations)
+                foreach (var spec in template.Specializations)
                 {
                     if (spec.Value != null && spec.Value.Specialization != null)
                     {

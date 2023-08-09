@@ -16,9 +16,7 @@ using static Kenedia.Modules.Characters.Services.Settings;
 using FlowPanel = Kenedia.Modules.Core.Controls.FlowPanel;
 using Rectangle = Microsoft.Xna.Framework.Rectangle;
 using Gw2Sharp.WebApi;
-using Kenedia.Modules.Core.Interfaces;
 using Kenedia.Modules.Core.Services;
-using System.Diagnostics;
 
 namespace Kenedia.Modules.Characters.Controls
 {

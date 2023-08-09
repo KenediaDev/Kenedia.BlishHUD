@@ -1,19 +1,14 @@
 ﻿using Blish_HUD;
-using Blish_HUD.Controls;
 using Blish_HUD.Input;
-using Gw2Sharp.WebApi.V2;
 using Kenedia.Modules.AdvancedBuildsManager.DataModels.Items;
 using Kenedia.Modules.AdvancedBuildsManager.Extensions;
 using Kenedia.Modules.AdvancedBuildsManager.Models.Templates;
-using Kenedia.Modules.Core.Controls;
 using Kenedia.Modules.Core.Extensions;
 using Kenedia.Modules.Core.Utility;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using SharpDX.WIC;
 using System;
 using System.ComponentModel;
-using static System.Net.Mime.MediaTypeNames;
 
 namespace Kenedia.Modules.AdvancedBuildsManager.Controls.Selection
 {

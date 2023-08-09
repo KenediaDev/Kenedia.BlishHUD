@@ -9,13 +9,11 @@ using static Blish_HUD.ContentService;
 using Kenedia.Modules.Core.Extensions;
 using Kenedia.Modules.Core.Utility;
 using Blish_HUD.Content;
-using System.ComponentModel;
 using Kenedia.Modules.BuildsManager.DataModels.Items;
 using Kenedia.Modules.BuildsManager.Controls.GearPage;
-using Kenedia.Modules.BuildsManager.Controls.NotesPage;
 using Blish_HUD.Controls;
-using System.Diagnostics;
 using Kenedia.Modules.BuildsManager.Views;
+using Kenedia.Modules.BuildsManager.Models;
 
 namespace Kenedia.Modules.BuildsManager.Controls.Selection
 {
@@ -27,7 +25,6 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
         private readonly GearSelection _gearSelection;
         private readonly BuildSelection _buildSelection;
         private readonly StatSelection _statSelection;
-        private readonly SkillSelection _skillSelection;
         private readonly AsyncTexture2D _separator = AsyncTexture2D.FromAssetId(156055);
 
         private readonly DetailedTexture _backButton = new(784268);
@@ -73,16 +70,18 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
         private Control _anchor;
         private Rectangle _anchorDrawBounds;
 
-        public SelectionPanel()
+        public SelectionPanel(TemplatePresenter templatePresenter)
         {
+            TemplatePresenter = templatePresenter;
+
             ClipsBounds = false;
-            ZIndex = 0;
 
             _gearSelection = new()
             {
                 Parent = this,
                 Visible = false,
                 ZIndex = ZIndex,
+                TemplatePresenter = TemplatePresenter,
             };
 
             _buildSelection = new()
@@ -91,6 +90,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
                 Visible = true,
                 SelectionPanel = this,
                 ZIndex = ZIndex,
+                TemplatePresenter = TemplatePresenter,
             };
 
             _statSelection = new()
@@ -98,13 +98,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
                 Parent = this,
                 Visible = false,
                 ZIndex = ZIndex,
-            };
-
-            _skillSelection = new()
-            {
-                Parent = this,
-                Visible = false,
-                ZIndex = ZIndex,
+                TemplatePresenter = TemplatePresenter,
             };
         }
 
@@ -117,6 +111,8 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
             Skills,
         }
 
+        public TemplatePresenter TemplatePresenter { get; private set; }
+
         public MainWindow MainWindow
         {
             get { return _mainWindow; }
@@ -124,19 +120,6 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
         }
 
         public string Title { get; set; }
-
-        public Template Template
-        {
-            get => _template; set
-            {
-                var temp = _template;
-                if (Common.SetProperty(ref _template, value, ApplyTemplate))
-                {
-                    if (temp != null) temp.PropertyChanged -= TemplateChanged;
-                    if (_template != null) _template.PropertyChanged += TemplateChanged;
-                }
-            }
-        }
 
         public SelectionTypes SelectionType
         {
@@ -147,7 +130,6 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
                     _gearSelection.Visible = _selectionType == SelectionTypes.Items;
                     _buildSelection.Visible = _selectionType == SelectionTypes.Templates;
                     _statSelection.Visible = _selectionType == SelectionTypes.Stats;
-                    _skillSelection.Visible = _selectionType == SelectionTypes.Skills;
                 }
             }
         }
@@ -177,18 +159,6 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
             }
         }
 
-        private void TemplateChanged(object sender, PropertyChangedEventArgs e)
-        {
-            ApplyTemplate();
-        }
-
-        private void ApplyTemplate()
-        {
-            _gearSelection.Template = Template;
-            _statSelection.Template = Template;
-            _skillSelection.Template = Template;
-        }
-
         private void SetAnchor(Control anchor, Rectangle? anchorBounds = null)
         {
             Anchor = anchor;
@@ -201,14 +171,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
                 AnchorDrawBounds = anchorBounds ?? new(Anchor.AbsoluteBounds.Left - AbsoluteBounds.Left - (size / 2), Anchor.AbsoluteBounds.Top - AbsoluteBounds.Top + (Anchor.AbsoluteBounds.Height / 2) - (size / 2), size, size);
             }
         }
-
-        public void SetSkillAnchor(RotationElementControl anchor)
-        {
-            SelectionType = SelectionTypes.Skills;
-            _skillSelection.Anchor = anchor.RotationElement;
-            SetAnchor(anchor);
-        }
-
+        
         public void SetTemplateAnchor(Control anchor)
         {
             SelectionType = SelectionTypes.Templates;
@@ -220,7 +183,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
             }
         }
 
-        public void SetGearAnchor(Control anchor, Rectangle anchorBounds, GearTemplateSlot slot, GearSubSlotType subslot = GearSubSlotType.Item, string title = "Selection", Action<BaseItem> onItemSelected = null)
+        public void SetGearAnchor(Control anchor, Rectangle anchorBounds, TemplateSlot slot, GearSubSlotType subslot = GearSubSlotType.Item, string title = "Selection", Action<BaseItem> onItemSelected = null)
         {
             SelectionType = SelectionTypes.Items;
             Anchor = anchor;
@@ -270,7 +233,6 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
 
             if (_gearSelection != null) _gearSelection.Location = new(10, _backBounds.Bottom + 10);
             if (_statSelection != null) _statSelection.Location = new(10, _backBounds.Bottom + 10);
-            if (_skillSelection != null) _skillSelection.Location = new(10, 10);
             if (_buildSelection != null) _buildSelection.Location = new(10, 10);
         }
 
@@ -356,7 +318,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
             }
 
             _backButton.Draw(this, spriteBatch, RelativeMousePosition, Color.White);
-            spriteBatch.DrawStringOnCtrl(this, Title, Content.DefaultFont18, _backTextBounds, Color.White, false, Blish_HUD.Controls.HorizontalAlignment.Left, Blish_HUD.Controls.VerticalAlignment.Middle);
+            spriteBatch.DrawStringOnCtrl(this, Title, Content.DefaultFont18, _backTextBounds, Color.White, false, HorizontalAlignment.Left, VerticalAlignment.Middle);
         }
 
         private void DrawStatSelection(SpriteBatch spriteBatch, Rectangle bounds)
@@ -369,7 +331,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
             }
 
             _backButton.Draw(this, spriteBatch, RelativeMousePosition, Color.White);
-            spriteBatch.DrawStringOnCtrl(this, Title, Content.DefaultFont18, _backTextBounds, Color.White, false, Blish_HUD.Controls.HorizontalAlignment.Left, Blish_HUD.Controls.VerticalAlignment.Middle);
+            spriteBatch.DrawStringOnCtrl(this, Title, Content.DefaultFont18, _backTextBounds, Color.White, false, HorizontalAlignment.Left, VerticalAlignment.Middle);
         }
 
         private void DrawSkillSelection(SpriteBatch spriteBatch, Rectangle bounds)

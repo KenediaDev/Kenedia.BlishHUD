@@ -7,12 +7,12 @@ using Gw2Sharp.WebApi;
 using Kenedia.Modules.BuildsManager.Models;
 using Kenedia.Modules.BuildsManager.Models.Templates;
 using Kenedia.Modules.BuildsManager.Services;
+using Kenedia.Modules.BuildsManager.Utility;
 using Kenedia.Modules.BuildsManager.Views;
 using Kenedia.Modules.Core.Extensions;
 using Kenedia.Modules.Core.Models;
 using Kenedia.Modules.Core.Res;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using Newtonsoft.Json;
 using System;
 using System.Collections.ObjectModel;
@@ -47,11 +47,11 @@ namespace Kenedia.Modules.BuildsManager
 
         public static Data Data { get; set; }
 
-        public ObservableCollection<Template> Templates { get; private set; } = new();
+        public ObservableCollection<VTemplate> Templates { get; private set; } = new();
 
         public bool TemplatesLoaded { get; private set; } = false;
 
-        public Template SelectedTemplate => MainWindow?.Template ?? null;
+        public VTemplate SelectedTemplate => MainWindow?.Template ?? null;
 
         protected override void DefineSettings(SettingCollection settings)
         {
@@ -162,10 +162,13 @@ namespace Kenedia.Modules.BuildsManager
             _cancellationTokenSource?.Cancel();
             _cancellationTokenSource = new CancellationTokenSource();
 
+            //await GW2API.GetItems(_cancellationTokenSource.Token);
             //await GW2API.UpdateData();
             //await GW2API.CreateItemMap(_cancellationTokenSource.Token);
 
             await LoadTemplates();
+
+            //CreateDummyTemplate();
 
             base.ReloadKey_Activated(sender, e);
         }
@@ -255,7 +258,9 @@ namespace Kenedia.Modules.BuildsManager
                         using var reader = File.OpenText(file);
                         string fileText = await reader.ReadToEndAsync();
 
-                        var template = JsonConvert.DeserializeObject<Template>(fileText);
+                        JsonSerializerSettings settings = new();
+                        settings.Converters.Add(new TemplateConverter());
+                        var template = JsonConvert.DeserializeObject<VTemplate>(fileText, settings);
 
                         if (template != null)
                         {
@@ -265,11 +270,6 @@ namespace Kenedia.Modules.BuildsManager
 
                     //if (Templates.Count == 0 && SelectedTemplate != null) Templates.Add(SelectedTemplate);
                     //SelectedTemplate = Templates.FirstOrDefault();}
-                }
-
-                foreach (var template in Templates)
-                {
-                    template.AutoSave = true;
                 }
 
                 time.Stop();
@@ -331,6 +331,30 @@ namespace Kenedia.Modules.BuildsManager
             {
                 MainWindow?.ToggleWindow();
             }
+        }
+    
+        private void CreateDummyTemplate()
+        {
+            var tt = new VTemplate
+            {
+                Name = "Test Template #1",
+                BuildCode = "[&DQEQGzEvPjZLF0sXehZ6FjYBNgFTF1MXcRJxEgAAAAAAAAAAAAAAAAAAAAAAAA==]"
+            };
+
+            tt.Aquatic.Item = Data.Weapons[85265];
+            tt.AltAquatic.Item = Data.Weapons[84899];
+
+            tt.Encounters = EncounterFlag.Slothasor | EncounterFlag.Sabetha;
+            tt.Tags = TemplateFlag.Pve;
+
+            _ = tt.Save();
+
+            var nt = new VTemplate(tt.BuildCode, tt.GearCode);
+
+            var code = "[6|161|24548|81235|37131][8|161|24548|81235|37131][11|161|24548|81235|37131][0|161|24548|81235|37131][-1|-1|-1][-1|-1|-1][-1|-1|-1][-1|-1|-1][-1|-1|-1][-1|-1|-1][-1|-1|-1][-1|-1][-1|-1|-1|-1][-1|-1|-1|-1][-1|-1][-1|-1][-1|-1|-1][19|161|24548|24548|37131|37131][17|161|24548|24548|37131|37131][4|21092][-1][-1][-1][-1]";
+
+            Debug.WriteLine($"Aquatic: {nt.Aquatic.Item?.Name}");
+            Debug.WriteLine($"AltAquatic: {nt.AltAquatic.Item?.Name}");
         }
     }
 }

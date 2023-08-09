@@ -1,16 +1,13 @@
 ﻿using Blish_HUD.Controls;
 using Kenedia.Modules.AdvancedBuildsManager.DataModels.Items;
-using Kenedia.Modules.AdvancedBuildsManager.DataModels.Professions;
 using Kenedia.Modules.AdvancedBuildsManager.Extensions;
 using Kenedia.Modules.AdvancedBuildsManager.Models.Templates;
 using Kenedia.Modules.Core.Controls;
 using Kenedia.Modules.Core.Extensions;
 using Kenedia.Modules.Core.Utility;
-using SharpDX.XAudio2;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Diagnostics;
 using System.Linq;
 using static Kenedia.Modules.AdvancedBuildsManager.Controls.Selection.Selectable;
 using static Kenedia.Modules.AdvancedBuildsManager.DataModels.Professions.Weapon;

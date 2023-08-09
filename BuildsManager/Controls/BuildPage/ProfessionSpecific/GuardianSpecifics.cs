@@ -1,5 +1,4 @@
-﻿using Kenedia.Modules.BuildsManager.Models.Templates;
-using Kenedia.Modules.Core.DataModels;
+﻿using Kenedia.Modules.Core.DataModels;
 using Kenedia.Modules.Core.Models;
 using SkillSlot = Gw2Sharp.WebApi.V2.Models.SkillSlot;
 using Microsoft.Xna.Framework;
@@ -53,7 +52,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage.ProfessionSpecific
 
             int xOffset = 90;
 
-            switch (TemplatePresenter.Template.BuildTemplate.EliteSpecialization?.Id)
+            switch (TemplatePresenter.Template.EliteSpecialization?.Id)
             {
                 case (int)SpecializationType.Firebrand:
                     _pagesBackground.Bounds = new(xOffset + 10, 50, 256, 64);
@@ -77,7 +76,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage.ProfessionSpecific
 
         protected override void Paint(SpriteBatch spriteBatch, Rectangle bounds)
         {
-            switch (TemplatePresenter.Template.BuildTemplate.EliteSpecialization?.Id)
+            switch (TemplatePresenter.Template.EliteSpecialization?.Id)
             {
                 case (int)SpecializationType.Firebrand:
                     _pagesBackground.Draw(this, spriteBatch);
@@ -101,8 +100,8 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage.ProfessionSpecific
 
                 foreach (var item in skills.Values.Where(e => e.Slot == slot))
                 {
-                    skill ??= item.Specialization == TemplatePresenter.Template.BuildTemplate.EliteSpecialization?.Id || item.Specialization == 0 ? item : skill;
-                    if (item.Specialization == TemplatePresenter.Template.BuildTemplate.EliteSpecialization?.Id && skill.Specialization == 0)
+                    skill ??= item.Specialization == TemplatePresenter.Template.EliteSpecialization?.Id || item.Specialization == 0 ? item : skill;
+                    if (item.Specialization == TemplatePresenter.Template.EliteSpecialization?.Id && skill.Specialization == 0)
                     {
                         skill = item;
                     }

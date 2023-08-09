@@ -25,8 +25,6 @@ using FlowPanel = Kenedia.Modules.Core.Controls.FlowPanel;
 using Panel = Kenedia.Modules.Core.Controls.Panel;
 using Point = Microsoft.Xna.Framework.Point;
 using Rectangle = Microsoft.Xna.Framework.Rectangle;
-using Kenedia.Modules.Core.Services;
-using System.Diagnostics;
 using MonoGame.Extended;
 
 namespace Kenedia.Modules.Characters.Controls

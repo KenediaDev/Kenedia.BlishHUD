@@ -1,7 +1,6 @@
 ﻿using Blish_HUD;
 using Blish_HUD.Content;
 using Blish_HUD.Controls;
-using Kenedia.Modules.Characters.Res;
 using Kenedia.Modules.Characters.Models;
 using Kenedia.Modules.Characters.Services;
 using Kenedia.Modules.Core.Controls;
@@ -15,12 +14,7 @@ using Color = Microsoft.Xna.Framework.Color;
 using FlowPanel = Kenedia.Modules.Core.Controls.FlowPanel;
 using Point = Microsoft.Xna.Framework.Point;
 using Rectangle = Microsoft.Xna.Framework.Rectangle;
-using Label = Kenedia.Modules.Core.Controls.Label;
-using Gw2Sharp.WebApi;
 using Kenedia.Modules.Core.Utility;
-using Gw2Sharp.WebApi.V2.Models;
-using System.Diagnostics;
-using MonoGame.Extended.Timers;
 
 namespace Kenedia.Modules.Characters.Controls
 {

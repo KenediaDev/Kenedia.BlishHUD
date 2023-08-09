@@ -10,7 +10,7 @@
         Enrichment
     }
 
-    public enum GearTemplateSlot
+    public enum TemplateSlot
     {
         None = -1,
         Head,

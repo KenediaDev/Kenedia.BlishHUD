@@ -1,7 +1,7 @@
-﻿using Kenedia.Modules.BuildsManager.Models.Templates;
+﻿using Kenedia.Modules.BuildsManager.Models;
+using Kenedia.Modules.BuildsManager.Models.Templates;
 using Kenedia.Modules.Core.Controls;
 using Kenedia.Modules.Core.Services;
-using Kenedia.Modules.Core.Utility;
 using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
@@ -30,9 +30,10 @@ namespace Kenedia.Modules.BuildsManager.Controls.NotesPage
         private Color _disabledColor = Color.Gray;
 
         private Template _template;
-        public AboutPage(TexturesService texturesService)
+        public AboutPage(TexturesService texturesService, TemplatePresenter _templatePresenter)
         {
             _texturesService = texturesService;
+            TemplatePresenter = _templatePresenter;
 
             _tagPanel = new()
             {
@@ -55,10 +56,10 @@ namespace Kenedia.Modules.BuildsManager.Controls.NotesPage
                 Location = new(0, _tagPanel.Top - 25),
                 ClickAction = () =>
                 {
-                    if(Template !=null)
+                    if(TemplatePresenter?.Template !=null)
                     {
-                        Template.Encounters = (EncounterFlag)Enum.GetValues(typeof(EncounterFlag)).Cast<long>().Sum();
-                        Template.Tags = (TemplateFlag)Enum.GetValues(typeof(TemplateFlag)).Cast<int>().Sum();
+                        TemplatePresenter.Template.Encounters = (EncounterFlag)Enum.GetValues(typeof(EncounterFlag)).Cast<long>().Sum();
+                        TemplatePresenter.Template.Tags = (TemplateFlag)Enum.GetValues(typeof(TemplateFlag)).Cast<int>().Sum();
                     }
                 },
             };
@@ -71,10 +72,10 @@ namespace Kenedia.Modules.BuildsManager.Controls.NotesPage
                 Location = new(_setAll.Right + 5, _setAll.Top),
                 ClickAction = () =>
                 {
-                    if (Template != null)
+                    if (TemplatePresenter?.Template != null)
                     {
-                        Template.Encounters = EncounterFlag.None;
-                        Template.Tags = TemplateFlag.None;
+                        TemplatePresenter.Template.Encounters = EncounterFlag.None;
+                        TemplatePresenter.Template.Tags = TemplateFlag.None;
                     }
                 },
             };
@@ -106,8 +107,8 @@ namespace Kenedia.Modules.BuildsManager.Controls.NotesPage
                 Location = new(ContentRegion.Right -  155, _tagsLabel.Bottom - 25),
                 ClickAction = () =>
                 {
-                    _ = BuildsManager.ModuleInstance.Templates.Remove(Template);
-                    _ = Template.Delete();
+                    _ = BuildsManager.ModuleInstance.Templates.Remove(TemplatePresenter?.Template);
+                    _ = TemplatePresenter?.Template.Delete();
                 },
             };
 
@@ -117,7 +118,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.NotesPage
                 HideBackground = false,
             };
 
-            _noteField.TextChanged += _noteField_TextChanged;
+            _noteField.TextChanged += NoteField_TextChanged;
 
             foreach (TemplateFlag tag in Enum.GetValues(typeof(TemplateFlag)))
             {
@@ -151,9 +152,9 @@ namespace Kenedia.Modules.BuildsManager.Controls.NotesPage
                         t.checkbox.TextColor = isChecked ? Color.White : _disabledColor;
                         t.texture.Tint = isChecked ? Color.White : _disabledColor;
 
-                        if (_changeBuild)
+                        if (_changeBuild && TemplatePresenter?.Template != null)
                         {
-                            Template.Tags = isChecked ? Template.Tags | tag : Template.Tags & ~tag;
+                            TemplatePresenter.Template.Tags = isChecked ? TemplatePresenter.Template.Tags | tag : TemplatePresenter.Template.Tags & ~tag;
                         }
                     };
                 }
@@ -196,35 +197,30 @@ namespace Kenedia.Modules.BuildsManager.Controls.NotesPage
                         t.checkbox.TextColor = isChecked ? Color.White : _disabledColor;
                         t.texture.Tint = isChecked ? Color.White : _disabledColor;
 
-                        if (_changeBuild)
+                        if (_changeBuild && TemplatePresenter?.Template != null)
                         {
-                            Template.Encounters = isChecked ? Template.Encounters | tag : Template.Encounters & ~tag;
+                            TemplatePresenter.Template.Encounters = isChecked ? TemplatePresenter.Template.Encounters | tag : TemplatePresenter.Template.Encounters & ~tag;
                         }
                     };
                 }
             }
 
+            TemplatePresenter.TemplateChanged += TemplatePresenter_TemplateChanged;
             _created = true;
         }
 
-        private void _noteField_TextChanged(object sender, EventArgs e)
+        private void TemplatePresenter_TemplateChanged(object sender, Core.Models.ValueChangedEventArgs<VTemplate> e)
+        {
+            ApplyTemplate();
+        }
+
+        public TemplatePresenter TemplatePresenter { get; private set; }
+
+        private void NoteField_TextChanged(object sender, EventArgs e)
         {
             if(_changeBuild)
             {
-                Template.Description = _noteField.Text;
-            }
-        }
-
-        public Template Template
-        {
-            get => _template; set
-            {
-                var temp = _template;
-                if (Common.SetProperty(ref _template, value, ApplyTemplate))
-                {
-                    if (temp != null) temp.PropertyChanged -= TemplateChanged;
-                    if (_template != null) _template.PropertyChanged += TemplateChanged;
-                }
+                TemplatePresenter.Template.Description = _noteField.Text;
             }
         }
 
@@ -233,19 +229,19 @@ namespace Kenedia.Modules.BuildsManager.Controls.NotesPage
             _changeBuild = false;
             foreach (var tag in _tags)
             {
-                tag.checkbox.Checked = Template?.Tags.HasFlag(tag.tag) == true;
+                tag.checkbox.Checked = TemplatePresenter?.Template?.Tags.HasFlag(tag.tag) == true;
                 tag.checkbox.TextColor = tag.checkbox.Checked ? Color.White : _disabledColor;
                 tag.texture.Tint = tag.checkbox.Checked ? Color.White : _disabledColor;
             }
 
             foreach (var tag in _encounters)
             {
-                tag.checkbox.Checked = Template?.Encounters.HasFlag(tag.tag) == true;
+                tag.checkbox.Checked = TemplatePresenter?.Template?.Encounters.HasFlag(tag.tag) == true;
                 tag.checkbox.TextColor = tag.checkbox.Checked ? Color.White : _disabledColor;
                 tag.texture.Tint = tag.checkbox.Checked ? Color.White : _disabledColor;
             }
 
-            _noteField.Text = Template?.Description;
+            _noteField.Text = TemplatePresenter?.Template?.Description;
             _changeBuild = true;
         }
 
@@ -273,7 +269,6 @@ namespace Kenedia.Modules.BuildsManager.Controls.NotesPage
         {
             base.DisposeControl();
 
-            if (_template != null) _template.PropertyChanged -= TemplateChanged;
         }
     }
 }

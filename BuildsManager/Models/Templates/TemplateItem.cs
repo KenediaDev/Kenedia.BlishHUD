@@ -17,28 +17,28 @@ namespace Kenedia.Modules.BuildsManager.Models.Templates
 
         public UpgradeCollection Upgrades { get; set; } = new();
 
-        public string ToCode(GearTemplateSlot slot)
+        public string ToCode(TemplateSlot slot)
         {
             return slot switch
             {
-                GearTemplateSlot.Head or GearTemplateSlot.Shoulder or GearTemplateSlot.Chest or GearTemplateSlot.Hand or GearTemplateSlot.Leg or GearTemplateSlot.Foot or GearTemplateSlot.PvpAmulet
+                TemplateSlot.Head or TemplateSlot.Shoulder or TemplateSlot.Chest or TemplateSlot.Hand or TemplateSlot.Leg or TemplateSlot.Foot or TemplateSlot.PvpAmulet
                     => $"[{(int)Stat}|({Upgrades[UpgradeSlot.Rune]})]",
 
-                GearTemplateSlot.MainHand or GearTemplateSlot.AltMainHand or GearTemplateSlot.OffHand or GearTemplateSlot.AltOffHand
+                TemplateSlot.MainHand or TemplateSlot.AltMainHand or TemplateSlot.OffHand or TemplateSlot.AltOffHand
                     => $"[{(int)Stat}|{(int)(Weapon ?? WeaponType.Unknown)}|({Upgrades[UpgradeSlot.Sigil_1]}-{Upgrades[UpgradeSlot.PvpSigil_1]})]",
 
-                GearTemplateSlot.Aquatic or GearTemplateSlot.AltAquatic
+                TemplateSlot.Aquatic or TemplateSlot.AltAquatic
                     => $"[{(int)Stat}|{(int)(Weapon ?? WeaponType.Unknown)}|({Upgrades[UpgradeSlot.Sigil_1]}-{Upgrades[UpgradeSlot.Sigil_2]})]",
                 _
                     => $"[{(int)Stat}]",
             };
         }
 
-        public void FromCode(GearTemplateSlot slot, string code)
+        public void FromCode(TemplateSlot slot, string code)
         {
             try
             {
-                if (slot is GearTemplateSlot.Head or GearTemplateSlot.Shoulder or GearTemplateSlot.Chest or GearTemplateSlot.Hand or GearTemplateSlot.Leg or GearTemplateSlot.Foot or GearTemplateSlot.PvpAmulet)
+                if (slot is TemplateSlot.Head or TemplateSlot.Shoulder or TemplateSlot.Chest or TemplateSlot.Hand or TemplateSlot.Leg or TemplateSlot.Foot or TemplateSlot.PvpAmulet)
                 {
                     code = code.Substring(1, code.Length - 2);
                     string[] parts = code.Split('|');
@@ -46,7 +46,7 @@ namespace Kenedia.Modules.BuildsManager.Models.Templates
                     Upgrades[UpgradeSlot.Rune] = int.TryParse(upgrades[0], out int rune) ? rune : 0;
                     return;
                 }
-                else if (slot is GearTemplateSlot.MainHand or GearTemplateSlot.AltMainHand or GearTemplateSlot.OffHand or GearTemplateSlot.AltOffHand)
+                else if (slot is TemplateSlot.MainHand or TemplateSlot.AltMainHand or TemplateSlot.OffHand or TemplateSlot.AltOffHand)
                 {
                     code = code.Substring(1, code.Length - 2);
                     string[] parts = code.Split('|');
@@ -56,7 +56,7 @@ namespace Kenedia.Modules.BuildsManager.Models.Templates
                     Upgrades[UpgradeSlot.PvpSigil_1] = int.TryParse(upgrades[1], out int pvpsigil) ? pvpsigil : 0;
                     return;
                 }
-                else if (slot is GearTemplateSlot.Aquatic or GearTemplateSlot.AltAquatic)
+                else if (slot is TemplateSlot.Aquatic or TemplateSlot.AltAquatic)
                 {
                     code = code.Substring(1, code.Length - 2);
                     string[] parts = code.Split('|');

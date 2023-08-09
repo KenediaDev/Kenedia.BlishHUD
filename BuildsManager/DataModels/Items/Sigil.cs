@@ -11,7 +11,7 @@ namespace Kenedia.Modules.BuildsManager.DataModels.Items
     {
         public Sigil()
         {
-            TemplateSlot = GearTemplateSlot.None;
+            TemplateSlot = TemplateSlot.None;
 
         }
 

@@ -2,7 +2,6 @@
 using Blish_HUD.Controls;
 using SkillSlot = Gw2Sharp.WebApi.V2.Models.SkillSlot;
 using Kenedia.Modules.BuildsManager.DataModels.Professions;
-using Kenedia.Modules.BuildsManager.Models.Templates;
 using Kenedia.Modules.Core.DataModels;
 using Kenedia.Modules.Core.Models;
 using Microsoft.Xna.Framework;

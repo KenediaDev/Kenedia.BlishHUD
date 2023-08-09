@@ -14,7 +14,6 @@ using Kenedia.Modules.AdvancedBuildsManager.DataModels.Items;
 using Kenedia.Modules.AdvancedBuildsManager.Controls.GearPage;
 using Kenedia.Modules.AdvancedBuildsManager.Controls.NotesPage;
 using Blish_HUD.Controls;
-using System.Diagnostics;
 
 namespace Kenedia.Modules.AdvancedBuildsManager.Controls.Selection
 {

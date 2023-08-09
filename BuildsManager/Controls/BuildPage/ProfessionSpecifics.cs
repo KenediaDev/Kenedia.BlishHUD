@@ -1,11 +1,9 @@
 ﻿using Blish_HUD.Controls;
 using Kenedia.Modules.BuildsManager.Models.Templates;
 using Kenedia.Modules.Core.Utility;
-using Gw2Sharp.Models;
 using Kenedia.Modules.BuildsManager.Models;
 using Kenedia.Modules.Core.Models;
 using System;
-using System.Diagnostics;
 
 namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
 {
@@ -35,16 +33,14 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
         {
             if (e.OldValue != null)
             {
-                e.OldValue.Loaded -= OnLoaded;
-                e.OldValue.TemplateChanged -= TemplatePresenter_TemplateChanged;
+                e.OldValue.LoadedBuildFromCode -= OnLoaded;
                 e.OldValue.BuildCodeChanged -= OnBuildCodeChanged;
                 e.OldValue.LegendChanged -= OnLegendChanged;
             }
 
             if (e.NewValue != null)
             {
-                e.NewValue.Loaded += OnLoaded;
-                e.NewValue.TemplateChanged += TemplatePresenter_TemplateChanged;
+                e.NewValue.LoadedBuildFromCode += OnLoaded;
                 e.NewValue.BuildCodeChanged += OnBuildCodeChanged;
                 e.NewValue.LegendChanged += OnLegendChanged;
             }

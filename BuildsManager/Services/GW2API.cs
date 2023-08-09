@@ -11,25 +11,21 @@ using System.Linq;
 using System.Threading.Tasks;
 using File = System.IO.File;
 using Race = Kenedia.Modules.BuildsManager.DataModels.Race;
-using Profession = Kenedia.Modules.BuildsManager.DataModels.Professions.Profession;
 using Skill = Kenedia.Modules.BuildsManager.DataModels.Professions.Skill;
 using Trait = Kenedia.Modules.BuildsManager.DataModels.Professions.Trait;
 using Specialization = Kenedia.Modules.BuildsManager.DataModels.Professions.Specialization;
 using Legend = Kenedia.Modules.BuildsManager.DataModels.Professions.Legend;
-using Kenedia.Modules.BuildsManager.DataModels.Stats;
-using Pet = Kenedia.Modules.BuildsManager.DataModels.Professions.Pet;
 using System.Threading;
 using Kenedia.Modules.Core.DataModels;
 using Gw2Sharp;
 using ApiSkill = Gw2Sharp.WebApi.V2.Models.Skill;
-using ApiLegend = Gw2Sharp.WebApi.V2.Models.Legend;
+using ApiPvpAmulet = Gw2Sharp.WebApi.V2.Models.PvpAmulet;
 using Kenedia.Modules.Core.Extensions;
-using System.Diagnostics;
 using Gw2Sharp.WebApi.Exceptions;
 using Kenedia.Modules.BuildsManager.Models;
 using Kenedia.Modules.BuildsManager.DataModels.Items;
-using System.Collections;
 using Kenedia.Modules.Core.Utility;
+using PvpAmulet = Kenedia.Modules.BuildsManager.DataModels.Items.PvpAmulet;
 
 namespace Kenedia.Modules.BuildsManager.Services
 {
@@ -62,7 +58,6 @@ namespace Kenedia.Modules.BuildsManager.Services
                     { 85117, 4989 }, //Scepter
                     { 85026, 5019 }, //Staff
                     { 85265, 5129 }, //Trident
-                    { 94947, 10161 }, //Back
                     
                     { 79895, 854 }, //Aqua Breather (Heavy)
                     { 85193, 818 }, // Helm (Heavy)
@@ -88,6 +83,7 @@ namespace Kenedia.Modules.BuildsManager.Services
                     { 85362, 798 }, // Leggings (Light)
                     { 80815, 803 },  // Boots (Light)                    
    
+                    { 94947, 10161 }, //Back
                     { 79980, null }, // Amulet
                     { 80002, null }, // Accessory
                     { 80058, null },  // Ring
@@ -146,6 +142,7 @@ namespace Kenedia.Modules.BuildsManager.Services
                 var api_weapons = await _gw2ApiManager.Gw2ApiClient.V2.Items.ManyAsync(_data.ItemMap.Weapons.Select(e => e.Id), cancellation);
                 var api_backs = await _gw2ApiManager.Gw2ApiClient.V2.Items.ManyAsync(_data.ItemMap.Backs.Select(e => e.Id), cancellation);
                 var api_trinkets = await _gw2ApiManager.Gw2ApiClient.V2.Items.ManyAsync(_data.ItemMap.Trinkets.Select(e => e.Id), cancellation);
+                var api_amulets = await _gw2ApiManager.Gw2ApiClient.V2.Pvp.Amulets.AllAsync(cancellation);
 
                 var api_enrichments = await _gw2ApiManager.Gw2ApiClient.V2.Items.ManyAsync(_data.ItemMap.Enrichments.Select(e => e.Id), cancellation);
                 var api_infusions = await _gw2ApiManager.Gw2ApiClient.V2.Items.ManyAsync(_data.ItemMap.Infusions.Select(e => e.Id), cancellation);
@@ -160,6 +157,23 @@ namespace Kenedia.Modules.BuildsManager.Services
                 var statChoices = new List<int>();
 
                 if (cancellation.IsCancellationRequested) return;
+
+                void ApplyAmuletData(IReadOnlyList<ApiPvpAmulet> amulets, Dictionary<int, PvpAmulet> targetlist, string file, List<ItemMap> map)
+                {
+                    BuildsManager.Logger.Info($"Saving {file} ...");
+
+                    foreach (var i in amulets)
+                    {
+                        bool exists = targetlist.TryGetValue(i.Id, out PvpAmulet amulet);
+                        amulet ??= new(i);
+                        amulet.Apply(i);
+
+                        if (!exists) targetlist.Add(i.Id, amulet);
+                    }
+
+                    string json = JsonConvert.SerializeObject(targetlist, Formatting.Indented);
+                    File.WriteAllText($@"{Paths.ModulePath}\data\{file}.json", json);
+                }
 
                 void ApplyData<T, TT>(IReadOnlyList<Item> items, Dictionary<int, TT> targetlist, string file, List<ItemMap> map, bool hasStatChoices = false) where T : Item where TT : BaseItem, new()
                 {
@@ -221,6 +235,8 @@ namespace Kenedia.Modules.BuildsManager.Services
                 ApplyData<ItemUpgradeComponent, Rune>(api_pvpRunes, _data.PvpRunes, "PvpRunes", _data.ItemMap.PvpRunes);
                 ApplyData<ItemUpgradeComponent, Sigil>(api_pveSigils, _data.PveSigils, "PveSigils", _data.ItemMap.PveSigils);
                 ApplyData<ItemUpgradeComponent, Sigil>(api_pvpSigils, _data.PvpSigils, "PvpSigils", _data.ItemMap.PvpSigils);
+
+                ApplyAmuletData(api_amulets, _data.PvpAmulets, "PvpAmulets", _data.ItemMap.PvpAmulets);
 
                 //Get Stats
                 await GetStats(cancellation, statChoices);

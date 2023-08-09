@@ -22,10 +22,10 @@ namespace Kenedia.Modules.BuildsManager.DataModels.Items
 
                 TemplateSlot = trinket.Details.Type.Value switch
                 {
-                    ItemTrinketType.Amulet => GearTemplateSlot.Amulet,
-                    ItemTrinketType.Ring => GearTemplateSlot.Ring_1,
-                    ItemTrinketType.Accessory => GearTemplateSlot.Accessory_1,
-                    _ => GearTemplateSlot.None,
+                    ItemTrinketType.Amulet => TemplateSlot.Amulet,
+                    ItemTrinketType.Ring => TemplateSlot.Ring_1,
+                    ItemTrinketType.Accessory => TemplateSlot.Accessory_1,
+                    _ => TemplateSlot.None,
                 };
             }
             else if(item.Type == ItemType.Back)
@@ -35,7 +35,7 @@ namespace Kenedia.Modules.BuildsManager.DataModels.Items
                 AttributeAdjustment = back.Details.AttributeAdjustment;
                 StatChoices = back.Details.StatChoices;
                 InfusionSlots = new int[back.Details.InfusionSlots.Count];
-                TemplateSlot = GearTemplateSlot.Back;
+                TemplateSlot = TemplateSlot.Back;
             }
         }
     }

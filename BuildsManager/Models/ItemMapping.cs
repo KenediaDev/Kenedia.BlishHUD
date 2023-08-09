@@ -17,5 +17,6 @@ namespace Kenedia.Modules.BuildsManager.Models
         public List<ItemMap> Weapons = new();
         public List<ItemMap> Armors = new();
         public List<ItemMap> PowerCore = new();
+        public List<ItemMap> PvpAmulets = new();
     }
 }

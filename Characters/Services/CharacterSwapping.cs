@@ -11,7 +11,6 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using static System.Net.Mime.MediaTypeNames;
 using System.Collections.Generic;
 
 namespace Kenedia.Modules.Characters.Services

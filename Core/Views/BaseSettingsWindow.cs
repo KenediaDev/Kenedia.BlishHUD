@@ -1,12 +1,9 @@
-﻿using Blish_HUD;
-using Blish_HUD.Content;
+﻿using Blish_HUD.Content;
 using Blish_HUD.Controls;
 using Kenedia.Modules.Core.Extensions;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using MonoGame.Extended.BitmapFonts;
 using System;
-using static Blish_HUD.ContentService;
 using FlowPanel = Kenedia.Modules.Core.Controls.FlowPanel;
 using Label = Kenedia.Modules.Core.Controls.Label;
 using Panel = Kenedia.Modules.Core.Controls.Panel;

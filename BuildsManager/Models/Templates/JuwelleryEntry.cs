@@ -132,15 +132,15 @@ namespace Kenedia.Modules.BuildsManager.Models.Templates
 
             EnrichmentIds = Slot switch
             {
-                GearTemplateSlot.Amulet => new() { -1 },
+                TemplateSlot.Amulet => new() { -1 },
                 _ => null,
             };
 
             InfusionIds = Slot switch
             {
-                GearTemplateSlot.Ring_1 or GearTemplateSlot.Ring_2 => new() { -1, -1, -1, },
-                GearTemplateSlot.Back or GearTemplateSlot.Aquatic or GearTemplateSlot.AltAquatic => new() { -1, -1 },
-                GearTemplateSlot.Amulet => null,
+                TemplateSlot.Ring_1 or TemplateSlot.Ring_2 => new() { -1, -1, -1, },
+                TemplateSlot.Back or TemplateSlot.Aquatic or TemplateSlot.AltAquatic => new() { -1, -1 },
+                TemplateSlot.Amulet => null,
                 _ => new() { -1 },
             };
         }
@@ -155,11 +155,11 @@ namespace Kenedia.Modules.BuildsManager.Models.Templates
         {
             string[] parts = code.Split('|');
 
-            if (Slot is GearTemplateSlot.Ring_1 or GearTemplateSlot.Ring_2)
+            if (Slot is TemplateSlot.Ring_1 or TemplateSlot.Ring_2)
             {
                 if (parts.Length != 5) return;
             }
-            else if (Slot is GearTemplateSlot.Back)
+            else if (Slot is TemplateSlot.Back)
             {
                 if (parts.Length != 4) return;
             }
@@ -171,18 +171,18 @@ namespace Kenedia.Modules.BuildsManager.Models.Templates
             MappedId = int.TryParse(parts[0], out int mappedId) ? mappedId : -1;
             Stat = int.TryParse(parts[1], out int stat) ? BuildsManager.Data.Stats.Where(e => e.Value.MappedId == stat).FirstOrDefault().Value : null;
 
-            if (Slot == GearTemplateSlot.Back)
+            if (Slot == TemplateSlot.Back)
             {
                 InfusionIds[0] = int.TryParse(parts[2], out int infusion1) ? infusion1 : -1;
                 InfusionIds[1] = int.TryParse(parts[3], out int infusion2) ? infusion2 : -1;
             }
-            else if (Slot is GearTemplateSlot.Ring_1 or GearTemplateSlot.Ring_2)
+            else if (Slot is TemplateSlot.Ring_1 or TemplateSlot.Ring_2)
             {
                 InfusionIds[0] = int.TryParse(parts[2], out int infusion1) ? infusion1 : -1;
                 InfusionIds[1] = int.TryParse(parts[3], out int infusion2) ? infusion2 : -1;
                 InfusionIds[2] = int.TryParse(parts[4], out int infusion3) ? infusion3 : -1;
             }
-            else if (Slot is GearTemplateSlot.Amulet)
+            else if (Slot is TemplateSlot.Amulet)
             {
                 EnrichmentIds[0] = int.TryParse(parts[2], out int enrichment) ? enrichment : -1;
                 Enrichment = BuildsManager.Data.Enrichments.Values.Where(e => e.MappedId == enrichment).FirstOrDefault();
@@ -194,7 +194,7 @@ namespace Kenedia.Modules.BuildsManager.Models.Templates
 
             if (MappedId > -1)
             {
-                Item = Slot == GearTemplateSlot.Back ?
+                Item = Slot == TemplateSlot.Back ?
                     BuildsManager.Data.Backs.Values.Where(e => e.MappedId == mappedId).FirstOrDefault() :
                     BuildsManager.Data.Trinkets.Values.Where(e => e.MappedId == mappedId).FirstOrDefault();
             }

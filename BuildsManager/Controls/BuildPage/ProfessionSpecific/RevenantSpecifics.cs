@@ -6,7 +6,6 @@ using Gw2Sharp;
 using Kenedia.Modules.BuildsManager.DataModels.Professions;
 using Kenedia.Modules.BuildsManager.Models;
 using Kenedia.Modules.BuildsManager.Models.Templates;
-using Kenedia.Modules.Core.DataModels;
 using Kenedia.Modules.Core.Extensions;
 using Kenedia.Modules.Core.Models;
 using Kenedia.Modules.Core.Utility;
@@ -14,7 +13,6 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using static Blish_HUD.ContentService;
 
@@ -206,7 +204,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage.ProfessionSpecific
         {
             foreach (LegendSlot slot in Enum.GetValues(typeof(LegendSlot)))
             {
-                _legends[slot].Legend = TemplatePresenter.Template.BuildTemplate.Legends[slot];
+                _legends[slot].Legend = TemplatePresenter.Template.Legends[slot];
             }
 
             base.ApplyTemplate();
@@ -216,7 +214,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage.ProfessionSpecific
         {
             foreach (var legend in _legends)
             {
-                _legends[legend.Key].Legend ??= TemplatePresenter.Template.BuildTemplate.Legends[legend.Key];
+                _legends[legend.Key].Legend ??= TemplatePresenter.Template.Legends[legend.Key];
 
                 legend.Value.Draw(this, spriteBatch, RelativeMousePosition);
 
@@ -281,14 +279,14 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage.ProfessionSpecific
                         if (true|| !s.Legend.Swap.Flags.HasFlag(SkillFlag.NoUnderwater))
                         {
                             var slot = GetOtherSlot(_selectorAnchor.LegendSlot);
-                            var otherLegend = TemplatePresenter.Template.BuildTemplate.Legends[slot];
+                            var otherLegend = TemplatePresenter.Template.Legends[slot];
 
                             if (otherLegend != null && otherLegend == s.Legend)
                             {
-                                TemplatePresenter.Template.BuildTemplate.SetLegend(_selectorAnchor.Legend, slot);
+                                TemplatePresenter.Template.SetLegend(_selectorAnchor.Legend, slot);
                             }
 
-                            TemplatePresenter.Template.BuildTemplate.SetLegend(s.Legend, _selectorAnchor.LegendSlot);
+                            TemplatePresenter.Template.SetLegend(s.Legend, _selectorAnchor.LegendSlot);
                             _selectorAnchor.Legend = s.Legend;
                         }
                     }

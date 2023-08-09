@@ -4,7 +4,6 @@ using Kenedia.Modules.Core.DataModels;
 using Kenedia.Modules.Core.Models;
 using Kenedia.Modules.Core.Utility;
 using System.Collections.Generic;
-using System.Linq;
 using System.Runtime.Serialization;
 using APIPet = Gw2Sharp.WebApi.V2.Models.Pet;
 

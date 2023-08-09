@@ -4,22 +4,22 @@ using System.Collections.Generic;
 
 namespace Kenedia.Modules.BuildsManager.Models.Templates
 {
-    public class GearCollection : Dictionary<GearTemplateSlot, TemplateItem>
+    public class GearCollection : Dictionary<TemplateSlot, TemplateItem>
     {
         public GearCollection()
         {
-            foreach (GearTemplateSlot e in Enum.GetValues(typeof(GearTemplateSlot)))
+            foreach (TemplateSlot e in Enum.GetValues(typeof(TemplateSlot)))
             {
                 Add(e, new());
             }
         }
 
-        public string ToCode(GearTemplateSlot slot)
+        public string ToCode(TemplateSlot slot)
         {
             return this[slot].ToCode(slot);
         }
 
-        public void FromCode(GearTemplateSlot slot, string code)
+        public void FromCode(TemplateSlot slot, string code)
         {
             this[slot].FromCode(slot, code);
         }

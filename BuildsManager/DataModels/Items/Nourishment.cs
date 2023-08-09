@@ -10,7 +10,7 @@ namespace Kenedia.Modules.BuildsManager.DataModels.Items
     {
         public Nourishment()
         {
-            TemplateSlot = GearTemplateSlot.Nourishment;
+            TemplateSlot = TemplateSlot.Nourishment;
 
         }
 

@@ -11,7 +11,8 @@ using Kenedia.Modules.BuildsManager.Controls.GearPage;
 using Kenedia.Modules.BuildsManager.Controls.NotesPage;
 using Kenedia.Modules.BuildsManager.Controls.Selection;
 using System;
-using System.Diagnostics;
+using Kenedia.Modules.BuildsManager.Models;
+using Kenedia.Modules.Core.Models;
 
 namespace Kenedia.Modules.BuildsManager.Views
 {
@@ -22,24 +23,23 @@ namespace Kenedia.Modules.BuildsManager.Views
         private readonly BuildPage _build;
         private readonly TabbedRegion _tabbedRegion;
         private readonly GearPage _gear;
-        private readonly AboutPage _notes;
+        private readonly AboutPage _aboutPage;
         private readonly SelectionPanel _selectionPanel;
-        private Template _template = new() { AutoSave = true };
+        private readonly TemplatePresenter _templatePresenter = new();
 
         public MainWindow(AsyncTexture2D background, Rectangle windowRegion, Rectangle contentRegion, Data data, TexturesService texturesService) : base(background, windowRegion, contentRegion)
         {
             _data = data;
             _texturesService = texturesService;
-            _selectionPanel = new()
+
+            _selectionPanel = new(_templatePresenter)
             {
                 Parent = this,
                 Location = new(0, 0),
                 HeightSizingMode = Blish_HUD.Controls.SizingMode.Fill,
                 Width = 375,
-                Template = _template,
                 MainWindow = this,
-                ZIndex = int.MaxValue / 2,
-                //BackgroundColor = Color.Yellow * 0.2F,
+                ZIndex = int.MaxValue,
             };
 
             _tabbedRegion = new()
@@ -49,18 +49,17 @@ namespace Kenedia.Modules.BuildsManager.Views
                 Width = ContentRegion.Width - 144,
                 HeightSizingMode = Blish_HUD.Controls.SizingMode.Fill,
                 OnTabSwitched = _selectionPanel.ResetAnchor,
-                ZIndex = int.MaxValue,
+                ZIndex = int.MaxValue - 5,
                 //BackgroundColor = Color.Green * 0.2F,
             };
 
             TabbedRegionTab tab;
 
             _tabbedRegion.AddTab(new TabbedRegionTab(
-                _notes = new AboutPage(_texturesService)
+                _aboutPage = new AboutPage(_texturesService, _templatePresenter)
                 {
                     HeightSizingMode = Blish_HUD.Controls.SizingMode.Fill,
                     WidthSizingMode = Blish_HUD.Controls.SizingMode.Fill,
-                    Template = _template,
                 })
             {
                 Header = "About",
@@ -68,18 +67,16 @@ namespace Kenedia.Modules.BuildsManager.Views
             });
 
             _tabbedRegion.AddTab(tab = new TabbedRegionTab(
-                _build = new BuildPage(_texturesService))
+                _build = new BuildPage(_texturesService, _templatePresenter))
             {
                 Header = "Build",
                 Icon = AsyncTexture2D.FromAssetId(156720),
             });
-            _build.TemplatePresenter.Template = _template;
 
             _tabbedRegion.AddTab(new TabbedRegionTab(
-                _gear = new GearPage(_texturesService)
+                _gear = new GearPage(_texturesService, _templatePresenter)
                 {
                     SelectionPanel = _selectionPanel,
-                    Template = _template,
                 })
             {
                 Header = "Gear",
@@ -89,11 +86,20 @@ namespace Kenedia.Modules.BuildsManager.Views
             _tabbedRegion.SwitchTab(tab);
         }
 
-        public event EventHandler<Template> TemplateChanged;
+        public event ValueChangedEventHandler<VTemplate> TemplateChanged;
 
-        public Template Template
+        public VTemplate Template
         {
-            get => _template; set => Common.SetProperty(ref _template, value, ApplyTemplate);
+            get => _templatePresenter.Template; set
+            {
+                var prev = _templatePresenter.Template;
+
+                if (_templatePresenter.Template != value)
+                {
+                    _templatePresenter.Template = value ?? new();
+                    TemplateChanged?.Invoke(this, new(prev, _templatePresenter.Template));
+                }
+            }
         }
 
         public override void RecalculateLayout()
@@ -106,24 +112,13 @@ namespace Kenedia.Modules.BuildsManager.Views
             }
         }
 
-        private void ApplyTemplate()
-        {
-            _build.TemplatePresenter.Template = _template;
-
-            _gear.Template = _template;
-            _notes.Template = _template;
-            _selectionPanel.Template = _template;
-
-            TemplateChanged?.Invoke(this, Template);
-        }
-
         protected override void DisposeControl()
         {
             base.DisposeControl();
             _tabbedRegion?.Dispose();
             _build?.Dispose();
             _gear?.Dispose();
-            _notes?.Dispose();
+            _aboutPage?.Dispose();
             _selectionPanel?.Dispose();
         }
     }

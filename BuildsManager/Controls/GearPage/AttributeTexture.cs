@@ -1,6 +1,5 @@
 ﻿using Blish_HUD;
 using Blish_HUD.Content;
-using Kenedia.Modules.BuildsManager.DataModels.Stats;
 using Kenedia.Modules.Core.Models;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;

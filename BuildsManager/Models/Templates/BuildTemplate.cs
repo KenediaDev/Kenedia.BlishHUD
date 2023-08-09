@@ -5,12 +5,10 @@ using Kenedia.Modules.BuildsManager.DataModels.Professions;
 using Kenedia.Modules.Core.DataModels;
 using Kenedia.Modules.Core.Models;
 using Kenedia.Modules.Core.Utility;
-using SharpDX.WIC;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
-using System.Threading;
+using System.Threading.Tasks;
 
 namespace Kenedia.Modules.BuildsManager.Models.Templates
 {
@@ -135,11 +133,51 @@ namespace Kenedia.Modules.BuildsManager.Models.Templates
 
             this[targetSlot] = skill;
         }
+
+        public bool WipeInvalidRacialSkills(Races race)
+        {
+            bool wiped = false;
+            List<int> invalidIds = new();
+            foreach (Races r in Enum.GetValues(typeof(Races)))
+            {
+                if (r != race) invalidIds.AddRange(BuildsManager.Data.Races[r]?.Skills.Select(e => e.Value.Id));
+            }
+
+            foreach (var key in Keys.ToList())
+            {
+                if (invalidIds.Contains(this[key]?.Id ?? 0))
+                {
+                    wiped = true;   
+                    this[key] = default;
+                }
+            }
+
+            return wiped;
+        }
+
+        public bool WipeSkills(Races? race)
+        {
+            bool wiped = false;
+            var racials = race == null ? null : BuildsManager.Data.Races[(Races)race]?.Skills;
+
+            foreach (var key in Keys.ToList())
+            {
+                if (race == null || (racials != null && !racials.ContainsKey(this[key]?.Id ?? 0)))
+                {
+                    wiped = true;
+                    this[key] = default;
+                }
+            }
+
+            return wiped;
+        }
     }
 
     public class BuildTemplate : IDisposable
     {
+        private bool _triggerEvents = true;
         private bool _disposed = false;
+
         private bool _loading = false;
         private bool _busy = false;
 
@@ -350,9 +388,8 @@ namespace Kenedia.Modules.BuildsManager.Models.Templates
 
         public void LoadFromCode(string code)
         {
+            PauseEvents(500);
             BuildChatLink build = new();
-            _loading = true;
-            _busy = true;
 
             ProfessionType prevProfession = Profession;
             ProfessionType newProfession = ProfessionType.Guardian;
@@ -579,6 +616,13 @@ namespace Kenedia.Modules.BuildsManager.Models.Templates
             if (_disposed) return;
             _disposed = true;
 
+        }
+
+        public async void PauseEvents(int ms = 500)
+        {
+            _triggerEvents = false;
+            await Task.Delay(ms);
+            _triggerEvents = true;
         }
     }
 }

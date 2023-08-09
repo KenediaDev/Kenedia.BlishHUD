@@ -1,5 +1,4 @@
-﻿using Gw2Sharp.WebApi.V2.Models;
-using Kenedia.Modules.BuildsManager.Models.Templates;
+﻿using Kenedia.Modules.BuildsManager.Models.Templates;
 using SkillSlot = Gw2Sharp.WebApi.V2.Models.SkillSlot;
 
 namespace Kenedia.Modules.BuildsManager.Utility

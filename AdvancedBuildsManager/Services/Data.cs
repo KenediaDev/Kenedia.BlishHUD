@@ -16,7 +16,6 @@ using System.Threading;
 using Kenedia.Modules.AdvancedBuildsManager.Models;
 using Kenedia.Modules.AdvancedBuildsManager.DataModels.Items;
 using Kenedia.Modules.AdvancedBuildsManager.Models.Templates;
-using Kenedia.Modules.Core.Extensions;
 
 namespace Kenedia.Modules.AdvancedBuildsManager.Services
 {

@@ -1,5 +1,4 @@
 ﻿using Blish_HUD.Content;
-using Gw2Sharp;
 using Gw2Sharp.Models;
 using Kenedia.Modules.Core.DataModels;
 using Kenedia.Modules.Core.Models;

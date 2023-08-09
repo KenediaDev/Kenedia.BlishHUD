@@ -17,10 +17,9 @@ using Kenedia.Modules.Core.DataModels;
 using Kenedia.Modules.Core.Services;
 using System;
 using System.ComponentModel;
-using ProtoBuf.WellKnownTypes;
-using System.Threading.Tasks;
 using Blish_HUD.Controls;
 using TextBox = Kenedia.Modules.Core.Controls.TextBox;
+using Kenedia.Modules.BuildsManager.Models;
 
 namespace Kenedia.Modules.BuildsManager.Controls.Selection
 {
@@ -57,7 +56,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
         private Rectangle _tagBounds;
         private Rectangle _nameBounds;
 
-        private Template _template;
+        private VTemplate _template;
         private double _animationStart;
         private double _animationDuration = 1500;
         private float _animationOpacityStep = 1;
@@ -78,7 +77,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
                 Height = _nameFont.LineHeight,
                 Font = _nameFont,
                 WrapText = true,
-                VerticalAlignment = Blish_HUD.Controls.VerticalAlignment.Middle,
+                VerticalAlignment = VerticalAlignment.Middle,
             };
 
             _nameEdit = new()
@@ -149,7 +148,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
 
         private void DuplicateTemplate()
         {
-            Template t;
+            VTemplate t;
             string name = (Template?.Name ?? "New Template") + " - Copy";
             if (BuildsManager.ModuleInstance.Templates.Where(e => e.Name == name).Count() == 0)
             {
@@ -177,7 +176,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
 
         public Action OnNameChangedAction { get; set; }
 
-        public Template Template
+        public VTemplate Template
         {
             get => _template;
             set
@@ -188,23 +187,36 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
                     if (temp != null) temp.RaceChanged -= Template_RaceChanged;
                     if (_template != null) _template.RaceChanged += Template_RaceChanged;
 
-                    if (temp != null) temp.BuildTemplate.BuildCodeChanged -= BuildTemplate_BuildCodeChanged;
-                    if (_template != null) _template.BuildTemplate.BuildCodeChanged += BuildTemplate_BuildCodeChanged;
+                    if (temp != null) temp.LoadedBuildFromCode -= Template_LoadedBuildFromCode;
+                    if (_template != null) _template.LoadedBuildFromCode += Template_LoadedBuildFromCode;
 
-                    if (temp != null) temp.BuildTemplate.Loaded -= BuildTemplate_BuildCodeChanged;
-                    if (_template != null) _template.BuildTemplate.Loaded += BuildTemplate_BuildCodeChanged;
+                    if (temp != null) temp.ProfessionChanged -= Template_ProfessionChanged;
+                    if (_template != null) _template.ProfessionChanged += Template_ProfessionChanged;
+
+                    if (temp != null) temp.EliteSpecializationChanged -= Template_EliteSpecializationChanged;
+                    if (_template != null) _template.EliteSpecializationChanged += Template_EliteSpecializationChanged;
                 }
             }
+        }
+
+        private void Template_EliteSpecializationChanged(object sender, Core.Models.ValueChangedEventArgs<DataModels.Professions.Specialization> e)
+        {
+            ApplyTemplate();
+        }
+
+        private void Template_ProfessionChanged(object sender, Core.Models.ValueChangedEventArgs<Gw2Sharp.Models.ProfessionType> e)
+        {
+            ApplyTemplate();
+        }
+
+        private void Template_LoadedBuildFromCode(object sender, EventArgs e)
+        {
+            ApplyTemplate();
         }
 
         private void Template_RaceChanged(object sender, Core.Models.ValueChangedEventArgs<Races> e)
         {
             _raceTexture = BuildsManager.Data.Races.TryGetValue(_template?.Race ?? Races.None, out var race) ? race.Icon : null;
-        }
-
-        private void BuildTemplate_BuildCodeChanged(object sender, EventArgs e)
-        {
-            ApplyTemplate();
         }
 
         public void ToggleEditMode(bool enable)
@@ -249,7 +261,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
                 {
                     if (_tagTexturess.Count - amount > 1 && !_tagBounds.Contains(_tagTexturess[i + 1].Bounds))
                     {
-                        spriteBatch.DrawStringOnCtrl(this, $"+{_tagTexturess.Count - amount}", Content.DefaultFont14, tagTexture.Bounds, Colors.OldLace, false, Blish_HUD.Controls.HorizontalAlignment.Center);
+                        spriteBatch.DrawStringOnCtrl(this, $"+{_tagTexturess.Count - amount}", Content.DefaultFont14, tagTexture.Bounds, Colors.OldLace, false, HorizontalAlignment.Center);
                         if (tagTexture.Bounds.Contains(RelativeMousePosition))
                         {
                             txt = string.Join(Environment.NewLine, _tagTexturess.Skip(amount).Take(_tagTexturess.Count - amount).Select(e => e.TemplateTag.ToString()));
@@ -334,8 +346,6 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
             _editButton?.SetSize(_editBounds.Size.Add(new(-4)));
 
             _tagBounds = new(_leftAccentBorderBounds.Right - 6, _bottomBounds.Top, _rightAccentBorderBounds.Left - (_leftAccentBorderBounds.Right - 10), _bottomBounds.Height);
-
-            TagTexture prev;
             for (int i = 0; i < _tagTexturess.Count; i++)
             {
                 TagTexture tagTexture = _tagTexturess[i];
@@ -347,8 +357,6 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
                 {
                     tagTexture.Bounds = new(_leftAccentBorderBounds.Right - 6 + (i * (_bottomBounds.Height + 3)), _bottomBounds.Top, _bottomBounds.Height, _bottomBounds.Height);
                 }
-
-                prev = tagTexture;
             }
         }
 
@@ -379,7 +387,6 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
             base.DisposeControl();
 
             Input.Mouse.LeftMouseButtonPressed -= Mouse_LeftMouseButtonPressed;
-            if (_template != null) _template.PropertyChanged -= TemplateChanged;
         }
 
         public override void UpdateContainer(GameTime gameTime)
@@ -413,7 +420,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
             _name.TextColor = color;
             _name.WrapText = false;
             _name.Font = _notificationFont;
-            _name.HorizontalAlignment = Blish_HUD.Controls.HorizontalAlignment.Left;
+            _name.HorizontalAlignment = HorizontalAlignment.Left;
             _name.Text = v;
 
             _animationRunning = true;
@@ -424,7 +431,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
             _name.TextColor = Color.White;
             _name.Font = _nameFont;
             _name.WrapText = true;
-            _name.HorizontalAlignment = Blish_HUD.Controls.HorizontalAlignment.Left;
+            _name.HorizontalAlignment = HorizontalAlignment.Left;
             _name.Opacity = 1F;
             _name.Text = _template.Name;
 
@@ -435,7 +442,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
         {
             _name.Text = _template?.Name;
             _raceTexture = BuildsManager.Data.Races.TryGetValue(_template?.Race ?? Races.None, out var race) ? race.Icon : null;
-            _specTexture = Template?.BuildTemplate?.EliteSpecialization?.ProfessionIconBig ?? (BuildsManager.Data.Professions.TryGetValue((Gw2Sharp.Models.ProfessionType)Template?.BuildTemplate?.Profession, out var profession) ? profession.IconBig : null);
+            _specTexture = Template?.EliteSpecialization?.ProfessionIconBig ?? (BuildsManager.Data.Professions.TryGetValue((Gw2Sharp.Models.ProfessionType)Template?.Profession, out var profession) ? profession.IconBig : null);
 
             _tagTexturess.Clear();
 
@@ -458,7 +465,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
                         TagTexture t;
                         //_tagTexturess.Add(t = new(((TemplateTag)flag).GetTexture()));
                         _tagTexturess.Add(t = ((EncounterFlag)flag).GetDetailedTexture());
-                        int pad = (t.Texture.Width / 16);
+                        int pad = t.Texture.Width / 16;
                         t.TextureRegion = flag is EncounterFlag.NormalMode or EncounterFlag.ChallengeMode ? new(-pad, -pad, t.Texture.Width + (pad * 2), t.Texture.Height + (pad * 2)) : t.TextureRegion;
                     }
                 }

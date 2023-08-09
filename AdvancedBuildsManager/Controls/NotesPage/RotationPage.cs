@@ -8,10 +8,7 @@ using Kenedia.Modules.Core.Utility;
 using Microsoft.Xna.Framework;
 using System;
 using System.ComponentModel;
-using System.Diagnostics;
 using System.Threading.Tasks;
-using ContextMenuStrip = Blish_HUD.Controls.ContextMenuStrip;
-using ContextMenuStripItem = Blish_HUD.Controls.ContextMenuStripItem;
 
 namespace Kenedia.Modules.AdvancedBuildsManager.Controls.NotesPage
 {

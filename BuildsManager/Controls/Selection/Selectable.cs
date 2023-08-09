@@ -1,19 +1,14 @@
 ﻿using Blish_HUD;
-using Blish_HUD.Controls;
 using Blish_HUD.Input;
-using Gw2Sharp.WebApi.V2;
 using Kenedia.Modules.BuildsManager.DataModels.Items;
 using Kenedia.Modules.BuildsManager.Extensions;
 using Kenedia.Modules.BuildsManager.Models.Templates;
-using Kenedia.Modules.Core.Controls;
 using Kenedia.Modules.Core.Extensions;
 using Kenedia.Modules.Core.Utility;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using SharpDX.WIC;
 using System;
 using System.ComponentModel;
-using static System.Net.Mime.MediaTypeNames;
 
 namespace Kenedia.Modules.BuildsManager.Controls.Selection
 {
@@ -56,13 +51,13 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
 
         public Action OnClickAction { get; set; }
 
-        public GearTemplateSlot TemplateSlot { get; set; }
+        public TemplateSlot TemplateSlot { get; set; }
 
         public BaseItem Item { get => _item; set => Common.SetProperty(ref _item, value, SetItem); }
 
         public Template Template { get => _template; set => Common.SetProperty(ref _template, value); }
 
-        public GearTemplateSlot ActiveSlot { get; set; }
+        public TemplateSlot ActiveSlot { get; set; }
 
         public GearSubSlotType SubSlotType { get; set; }
 

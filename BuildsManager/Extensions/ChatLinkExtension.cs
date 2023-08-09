@@ -113,19 +113,19 @@ namespace Kenedia.Modules.BuildsManager.Extensions
 
     public static class GearTemplateSlotExtension
     {
-        public static bool IsArmor(this GearTemplateSlot slot)
+        public static bool IsArmor(this TemplateSlot slot)
         {
-            return slot is GearTemplateSlot.Head or GearTemplateSlot.Shoulder or GearTemplateSlot.Chest or GearTemplateSlot.Hand or GearTemplateSlot.Leg or GearTemplateSlot.Foot or GearTemplateSlot.AquaBreather;
+            return slot is TemplateSlot.Head or TemplateSlot.Shoulder or TemplateSlot.Chest or TemplateSlot.Hand or TemplateSlot.Leg or TemplateSlot.Foot or TemplateSlot.AquaBreather;
         }
 
-        public static bool IsWeapon(this GearTemplateSlot slot)
+        public static bool IsWeapon(this TemplateSlot slot)
         {
-            return slot is GearTemplateSlot.MainHand or GearTemplateSlot.AltMainHand or GearTemplateSlot.OffHand or GearTemplateSlot.AltOffHand or GearTemplateSlot.Aquatic or GearTemplateSlot.AltAquatic;
+            return slot is TemplateSlot.MainHand or TemplateSlot.AltMainHand or TemplateSlot.OffHand or TemplateSlot.AltOffHand or TemplateSlot.Aquatic or TemplateSlot.AltAquatic;
         }
 
-        public static bool IsJuwellery(this GearTemplateSlot slot)
+        public static bool IsJuwellery(this TemplateSlot slot)
         {
-            return slot is GearTemplateSlot.Back or GearTemplateSlot.Amulet or GearTemplateSlot.Ring_1 or GearTemplateSlot.Ring_2 or GearTemplateSlot.Accessory_1 or GearTemplateSlot.Accessory_2;
+            return slot is TemplateSlot.Back or TemplateSlot.Amulet or TemplateSlot.Ring_1 or TemplateSlot.Ring_2 or TemplateSlot.Accessory_1 or TemplateSlot.Accessory_2;
         }
     }
 

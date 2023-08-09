@@ -15,7 +15,6 @@ using Kenedia.Modules.AdvancedBuildsManager.DataModels.Items;
 using Kenedia.Modules.AdvancedBuildsManager.DataModels.Stats;
 using Blish_HUD.Controls;
 using MonoGame.Extended.BitmapFonts;
-using System.Diagnostics;
 using Kenedia.Modules.Core.Controls;
 
 namespace Kenedia.Modules.AdvancedBuildsManager.Controls.GearPage

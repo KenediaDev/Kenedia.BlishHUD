@@ -1,7 +1,7 @@
-﻿using System;
+﻿using Kenedia.Modules.Core.DataModels;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Diagnostics;
 using System.Linq;
 using System.Runtime.CompilerServices;
 
@@ -33,7 +33,7 @@ namespace Kenedia.Modules.Core.Models
                 newValue.PropertyChanged += ItemProperty_Changed;
             }
 
-            bool exists = base.ContainsKey(key);
+            bool exists = ContainsKey(key);
 
             base[key] = newValue;
             ItemChanged?.Invoke(this, new(key, oldValue, newValue));
@@ -125,7 +125,7 @@ namespace Kenedia.Modules.Core.Models
         {
             if (oldValue?.Equals(newValue) is true) return;
                         
-            bool exists = base.ContainsKey(key);
+            bool exists = ContainsKey(key);
 
             base[key] = newValue;
             ItemChanged?.Invoke(this, new(key, oldValue, newValue));

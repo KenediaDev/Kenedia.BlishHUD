@@ -18,5 +18,13 @@ namespace Kenedia.Modules.BuildsManager.Models.Templates
         {
             return (byte)(TryGetValue(slot, out Pet pet) && pet != null ? pet.Id : 0);
         }
+
+        public void LoadFromCode(byte terrestrial_1, byte terrestrial_2, byte aquatic_1, byte aquatic_2)
+        {
+            this[PetSlot.Terrestrial_1] = Pet.FromByte(terrestrial_1);
+            this[PetSlot.Terrestrial_2] = Pet.FromByte(terrestrial_2);
+            this[PetSlot.Aquatic_1] = Pet.FromByte(aquatic_1);
+            this[PetSlot.Aquatic_2] = Pet.FromByte(aquatic_2);
+        }
     }
 }

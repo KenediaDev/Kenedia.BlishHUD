@@ -10,14 +10,10 @@ using Kenedia.Modules.Core.Utility;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MonoGame.Extended;
-using SharpDX.Direct3D9;
-using SharpDX.MediaFoundation;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Diagnostics;
 using System.Linq;
-using static Blish_HUD.ArcDps.Common.CommonFields;
 using static Blish_HUD.ContentService;
 
 namespace Kenedia.Modules.AdvancedBuildsManager.Controls.BuildPage

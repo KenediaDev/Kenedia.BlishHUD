@@ -15,6 +15,7 @@ using Kenedia.Modules.Core.Extensions;
 using ItemWeightType = Gw2Sharp.WebApi.V2.Models.ItemWeightType;
 using Gw2Sharp.Models;
 using Kenedia.Modules.BuildsManager.Models;
+using Kenedia.Modules.BuildsManager.Controls.GearPage.GearSlots;
 
 namespace Kenedia.Modules.BuildsManager.Controls.GearPage
 {
@@ -24,10 +25,9 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage
         private readonly TextBox _gearCodeBox;
         private readonly ImageButton _copyButton;
 
-        private Template _template;
         private Rectangle _headerBounds;
 
-        private Dictionary<GearTemplateSlot, BaseSlotControl> _slots = new();
+        private Dictionary<TemplateSlot, GearSlot> _templateSlots = new();
 
         private FramedImage _framedSpecIcon;
         private SelectionPanel _selectionPanel;
@@ -35,9 +35,11 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage
         private readonly DetailedTexture _pvp = new(2229701, 2229702);
         private readonly ProfessionRaceSelection _professionRaceSelection;
 
-        public GearPage(TexturesService _texturesService)
+        public GearPage(TexturesService _texturesService, TemplatePresenter templatePresenter)
         {
             this._texturesService = _texturesService;
+            TemplatePresenter = templatePresenter;
+
             WidthSizingMode = Blish_HUD.Controls.SizingMode.Fill;
             HeightSizingMode = Blish_HUD.Controls.SizingMode.Fill;
 
@@ -68,11 +70,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage
             {
                 Parent = this,
                 Location = new(_copyButton.Right + 2, 0),
-                EnterPressedAction = (code) =>
-                {
-                    Template.GearTemplate.LoadFromCode(code);
-                    ApplyTemplate();
-                }
+                EnterPressedAction = (txt) => TemplatePresenter.Template?.LoadGearFromCode(txt, true)
             };
 
             _framedSpecIcon = new()
@@ -80,32 +78,36 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage
                 Parent = this,
             };
 
-            _slots = new()
+            _templateSlots = new()
             {
-                {GearTemplateSlot.Head, new ArmorSlotControl(GearTemplateSlot.Head, this)},
-                {GearTemplateSlot.Shoulder, new ArmorSlotControl(GearTemplateSlot.Shoulder, this)},
-                {GearTemplateSlot.Chest, new ArmorSlotControl(GearTemplateSlot.Chest, this)},
-                {GearTemplateSlot.Hand, new ArmorSlotControl(GearTemplateSlot.Hand, this)},
-                {GearTemplateSlot.Leg, new ArmorSlotControl(GearTemplateSlot.Leg, this)},
-                {GearTemplateSlot.Foot, new ArmorSlotControl(GearTemplateSlot.Foot, this)},
-                {GearTemplateSlot.MainHand, new WeaponSlotControl(GearTemplateSlot.MainHand, this)},
-                {GearTemplateSlot.OffHand, new WeaponSlotControl(GearTemplateSlot.OffHand, this){ Height = 55 }},
-                {GearTemplateSlot.Aquatic, new AquaticSlotControl(GearTemplateSlot.Aquatic, this){ Height = 55}},
-                {GearTemplateSlot.AltMainHand, new WeaponSlotControl(GearTemplateSlot.AltMainHand, this)},
-                {GearTemplateSlot.AltOffHand, new WeaponSlotControl(GearTemplateSlot.AltOffHand, this){ Height = 55 }},
-                {GearTemplateSlot.AltAquatic, new AquaticSlotControl(GearTemplateSlot.AltAquatic, this){ Height = 55 }},
-                {GearTemplateSlot.Back, new JuwellerySlotControl(GearTemplateSlot.Back, this) { Width = 85 } },
-                {GearTemplateSlot.Amulet, new AmuletSlotControl(GearTemplateSlot.Amulet, this){ Width = 85 }},
-                {GearTemplateSlot.Accessory_1, new JuwellerySlotControl(GearTemplateSlot.Accessory_1, this){ Width = 85 }},
-                {GearTemplateSlot.Accessory_2, new JuwellerySlotControl(GearTemplateSlot.Accessory_2, this){ Width = 85}},
-                {GearTemplateSlot.Ring_1, new JuwellerySlotControl(GearTemplateSlot.Ring_1, this){ Width = 85 }},
-                {GearTemplateSlot.Ring_2, new JuwellerySlotControl(GearTemplateSlot.Ring_2, this){ Width = 85 }},
-                {GearTemplateSlot.AquaBreather, new ArmorSlotControl(GearTemplateSlot.AquaBreather, this){ Height = 55 }},
-                {GearTemplateSlot.PvpAmulet, new PvpAmuletSlotControl (GearTemplateSlot.PvpAmulet, this)},
-                {GearTemplateSlot.Utility, new UtilityControl(GearTemplateSlot.Utility, this)},
-                {GearTemplateSlot.Nourishment, new NourishmentControl(GearTemplateSlot.Nourishment, this)},
-                {GearTemplateSlot.JadeBotCore, new JadeBotControl(GearTemplateSlot.JadeBotCore, this)},
-                {GearTemplateSlot.Relic, new RelicControl(GearTemplateSlot.Relic, this)},
+                {TemplateSlot.Head, new ArmorSlot(TemplateSlot.Head, this, TemplatePresenter)},
+                {TemplateSlot.Shoulder, new ArmorSlot(TemplateSlot.Shoulder, this, TemplatePresenter)},
+                {TemplateSlot.Chest, new ArmorSlot(TemplateSlot.Chest, this, TemplatePresenter)},
+                {TemplateSlot.Hand, new ArmorSlot(TemplateSlot.Hand, this, TemplatePresenter)},
+                {TemplateSlot.Leg, new ArmorSlot(TemplateSlot.Leg, this, TemplatePresenter)},
+                {TemplateSlot.Foot, new ArmorSlot(TemplateSlot.Foot, this, TemplatePresenter)},
+
+                {TemplateSlot.MainHand, new WeaponSlot(TemplateSlot.MainHand, this, TemplatePresenter)},
+                {TemplateSlot.OffHand, new WeaponSlot(TemplateSlot.OffHand, this, TemplatePresenter){ Height = 55 }},
+                {TemplateSlot.AltMainHand, new WeaponSlot(TemplateSlot.AltMainHand, this, TemplatePresenter)},
+                {TemplateSlot.AltOffHand, new WeaponSlot(TemplateSlot.AltOffHand, this, TemplatePresenter){ Height = 55 }},
+
+                {TemplateSlot.AquaBreather, new ArmorSlot(TemplateSlot.AquaBreather, this, TemplatePresenter){ Height = 55 }},
+                {TemplateSlot.Aquatic, new AquaticWeaponSlot(TemplateSlot.Aquatic, this, TemplatePresenter){ Height = 55 }},
+                {TemplateSlot.AltAquatic, new AquaticWeaponSlot(TemplateSlot.AltAquatic, this, TemplatePresenter){ Height = 55 }},
+
+                {TemplateSlot.Back, new BackSlot(TemplateSlot.Back, this, TemplatePresenter){ Width = 85}},
+                {TemplateSlot.Amulet, new AmuletSlot(TemplateSlot.Amulet, this, TemplatePresenter){ Width = 85}},
+                {TemplateSlot.Ring_1, new RingSlot(TemplateSlot.Ring_1, this, TemplatePresenter){ Width = 85}},
+                {TemplateSlot.Ring_2, new RingSlot(TemplateSlot.Ring_2, this, TemplatePresenter){ Width = 85}},
+                {TemplateSlot.Accessory_1, new AccessoireSlot(TemplateSlot.Accessory_1, this, TemplatePresenter){ Width = 85}},
+                {TemplateSlot.Accessory_2, new AccessoireSlot(TemplateSlot.Accessory_2, this, TemplatePresenter){ Width = 85}},
+
+                {TemplateSlot.PvpAmulet, new PvpAmuletSlot(TemplateSlot.PvpAmulet, this, TemplatePresenter) {Visible = false } },
+                {TemplateSlot.Nourishment, new NourishmentSlot(TemplateSlot.Nourishment, this, TemplatePresenter)},
+                {TemplateSlot.Utility, new UtilitySlot(TemplateSlot.Utility, this, TemplatePresenter)},
+                {TemplateSlot.JadeBotCore, new JadeBotCoreSlot(TemplateSlot.JadeBotCore, this, TemplatePresenter)},
+                {TemplateSlot.Relic, new RelicSlot(TemplateSlot.Relic, this, TemplatePresenter)},
             };
 
             _professionRaceSelection = new()
@@ -115,26 +117,36 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage
                 ClipsBounds = false,
                 ZIndex = 16,
             };
+
+            TemplatePresenter.TemplateChanged += TemplatePresenter_TemplateChanged;
+            TemplatePresenter.LoadedGearFromCode += TemplatePresenter_LoadedGearFromCode;
+            TemplatePresenter.ProfessionChanged += TemplatePresenter_ProfessionChanged;
+            TemplatePresenter.EliteSpecializationChanged += TemplatePresenter_EliteSpecializationChanged;
+
+            ApplyTemplate();
         }
 
-        public Template Template
+        private void TemplatePresenter_EliteSpecializationChanged(object sender, Core.Models.ValueChangedEventArgs<DataModels.Professions.Specialization> e)
         {
-            get => _template; set
-            {
-                var temp = _template;
-                if (Common.SetProperty(ref _template, value, ApplyTemplate))
-                {
-                    if (temp != null) temp.PropertyChanged -= TemplateChanged;
 
-                    foreach (var slot in _slots)
-                    {
-                        slot.Value.Template = _template;
-                    }
-
-                    if (_template != null) _template.PropertyChanged += TemplateChanged;
-                }
-            }
         }
+
+        private void TemplatePresenter_ProfessionChanged(object sender, Core.Models.ValueChangedEventArgs<ProfessionType> e)
+        {
+            ApplyTemplate();
+        }
+
+        private void TemplatePresenter_TemplateChanged(object sender, Core.Models.ValueChangedEventArgs<VTemplate> e)
+        {
+            ApplyTemplate();
+        }
+
+        private void TemplatePresenter_LoadedGearFromCode(object sender, EventArgs e)
+        {
+            ApplyTemplate();
+        }
+
+        public TemplatePresenter TemplatePresenter { get; private set; }
 
         public SelectionPanel SelectionPanel
         {
@@ -143,7 +155,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage
                 if (_selectionPanel == value) return;
                 _selectionPanel = value;
 
-                foreach (var slot in _slots.Values)
+                foreach (var slot in _templateSlots.Values)
                 {
                     slot.SelectionPanel = value;
                 }
@@ -156,10 +168,9 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage
 
             if (_gearCodeBox != null) _gearCodeBox.Width = Width - _gearCodeBox.Left;
 
-            if (_slots.Count > 0)
+            if (_templateSlots.Count > 0)
             {
-
-                int secondColumn = _slots[GearTemplateSlot.AquaBreather].Width + 10;
+                int secondColumn = _templateSlots[TemplateSlot.AquaBreather].Width + 10;
                 int gearSpacing = 8;
 
                 _headerBounds = new(0, _copyButton.Top, 300, _copyButton.Height);
@@ -170,101 +181,108 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage
                 _framedSpecIcon.Location = new(secondColumn + 270 - 45, _headerBounds.Bottom + 5);
                 _framedSpecIcon.Size = new(64, 64);
 
-                /// Change to 3 once we get the JadeBotCore implemented
-                int amount = 2;
-                int padding = (_framedSpecIcon.Left - _pve.Bounds.Right - (45 * amount)) / (amount + 1);
-                
-                _slots[GearTemplateSlot.Nourishment].Location = new(secondColumn, _pve.Bounds.Bottom + 20);
-                _slots[GearTemplateSlot.Utility].Location = new(secondColumn, _slots[GearTemplateSlot.Nourishment].Bottom + 5);
-                _slots[GearTemplateSlot.JadeBotCore].Location = new(secondColumn, _slots[GearTemplateSlot.Utility].Bottom + 20);
-                _slots[GearTemplateSlot.Relic].Location = new(secondColumn, _slots[GearTemplateSlot.JadeBotCore].Bottom + 5);
+                _templateSlots[TemplateSlot.Head].Location = new(0, _gearCodeBox.Bottom + 5);
+                _templateSlots[TemplateSlot.Shoulder].Location = new(_templateSlots[TemplateSlot.Head].Left, _templateSlots[TemplateSlot.Head].Bottom + gearSpacing);
+                _templateSlots[TemplateSlot.Chest].Location = new(_templateSlots[TemplateSlot.Shoulder].Left, _templateSlots[TemplateSlot.Shoulder].Bottom + gearSpacing);
+                _templateSlots[TemplateSlot.Hand].Location = new(_templateSlots[TemplateSlot.Chest].Left, _templateSlots[TemplateSlot.Chest].Bottom + gearSpacing);
+                _templateSlots[TemplateSlot.Leg].Location = new(_templateSlots[TemplateSlot.Hand].Left, _templateSlots[TemplateSlot.Hand].Bottom + gearSpacing);
+                _templateSlots[TemplateSlot.Foot].Location = new(_templateSlots[TemplateSlot.Leg].Left, _templateSlots[TemplateSlot.Leg].Bottom + gearSpacing);
 
-                _slots[GearTemplateSlot.Head].Location = new(0, _gearCodeBox.Bottom + 5);
-                _slots[GearTemplateSlot.Shoulder].Location = new(_slots[GearTemplateSlot.Head].Left, _slots[GearTemplateSlot.Head].Bottom + gearSpacing);
-                _slots[GearTemplateSlot.Chest].Location = new(_slots[GearTemplateSlot.Shoulder].Left, _slots[GearTemplateSlot.Shoulder].Bottom + gearSpacing);
-                _slots[GearTemplateSlot.Hand].Location = new(_slots[GearTemplateSlot.Chest].Left, _slots[GearTemplateSlot.Chest].Bottom + gearSpacing);
-                _slots[GearTemplateSlot.Leg].Location = new(_slots[GearTemplateSlot.Hand].Left, _slots[GearTemplateSlot.Hand].Bottom + gearSpacing);
-                _slots[GearTemplateSlot.Foot].Location = new(_slots[GearTemplateSlot.Leg].Left, _slots[GearTemplateSlot.Leg].Bottom + gearSpacing);
+                _templateSlots[TemplateSlot.Nourishment].Location = new(secondColumn, _pve.Bounds.Bottom + 20);
+                _templateSlots[TemplateSlot.Utility].Location = new(secondColumn, _templateSlots[TemplateSlot.Nourishment].Bottom + 5);
+                _templateSlots[TemplateSlot.JadeBotCore].Location = new(secondColumn, _templateSlots[TemplateSlot.Utility].Bottom + 20);
+                _templateSlots[TemplateSlot.Relic].Location = new(secondColumn, _templateSlots[TemplateSlot.JadeBotCore].Bottom + 5);
 
-                _slots[GearTemplateSlot.PvpAmulet].Location = new(_slots[GearTemplateSlot.Leg].Left, _slots[GearTemplateSlot.Leg].Bottom + gearSpacing);
+                _templateSlots[TemplateSlot.PvpAmulet].Location = new(_templateSlots[TemplateSlot.Leg].Left, _templateSlots[TemplateSlot.Leg].Bottom + gearSpacing);
 
-                _slots[GearTemplateSlot.MainHand].Location = new(_slots[GearTemplateSlot.Foot].Left, _slots[GearTemplateSlot.Foot].Bottom + 15);
-                _slots[GearTemplateSlot.OffHand].Location = new(_slots[GearTemplateSlot.MainHand].Left + 4, _slots[GearTemplateSlot.MainHand].Bottom + 8);
+                _templateSlots[TemplateSlot.MainHand].Location = new(_templateSlots[TemplateSlot.Foot].Left, _templateSlots[TemplateSlot.Foot].Bottom + 15);
+                _templateSlots[TemplateSlot.OffHand].Location = new(_templateSlots[TemplateSlot.MainHand].Left + 4, _templateSlots[TemplateSlot.MainHand].Bottom + 8);
 
-                _slots[GearTemplateSlot.AltMainHand].Location = new(_slots[GearTemplateSlot.OffHand].Left, _slots[GearTemplateSlot.OffHand].Bottom + 35);
-                _slots[GearTemplateSlot.AltOffHand].Location = new(_slots[GearTemplateSlot.AltMainHand].Left + 4, _slots[GearTemplateSlot.AltMainHand].Bottom + 8);
+                _templateSlots[TemplateSlot.AltMainHand].Location = new(_templateSlots[TemplateSlot.OffHand].Left, _templateSlots[TemplateSlot.OffHand].Bottom + 35);
+                _templateSlots[TemplateSlot.AltOffHand].Location = new(_templateSlots[TemplateSlot.AltMainHand].Left + 4, _templateSlots[TemplateSlot.AltMainHand].Bottom + 8);
 
-                _slots[GearTemplateSlot.Back].Location = new(secondColumn, _slots[GearTemplateSlot.Relic].Bottom + 20);
-                _slots[GearTemplateSlot.Accessory_1].Location = new(_slots[GearTemplateSlot.Back].Right + 3, _slots[GearTemplateSlot.Back].Top);
-                _slots[GearTemplateSlot.Accessory_2].Location = new(_slots[GearTemplateSlot.Accessory_1].Right + 3, _slots[GearTemplateSlot.Back].Top);
+                _templateSlots[TemplateSlot.Back].Location = new(secondColumn, _templateSlots[TemplateSlot.Relic].Bottom + 20);
+                _templateSlots[TemplateSlot.Accessory_1].Location = new(_templateSlots[TemplateSlot.Back].Right + 3, _templateSlots[TemplateSlot.Back].Top);
+                _templateSlots[TemplateSlot.Accessory_2].Location = new(_templateSlots[TemplateSlot.Accessory_1].Right + 3, _templateSlots[TemplateSlot.Back].Top);
 
-                _slots[GearTemplateSlot.Amulet].Location = new(_slots[GearTemplateSlot.Back].Left, _slots[GearTemplateSlot.Back].Bottom + 3);
-                _slots[GearTemplateSlot.Ring_1].Location = new(_slots[GearTemplateSlot.Amulet].Right + 3, _slots[GearTemplateSlot.Amulet].Top);
-                _slots[GearTemplateSlot.Ring_2].Location = new(_slots[GearTemplateSlot.Ring_1].Right + 3, _slots[GearTemplateSlot.Amulet].Top);
+                _templateSlots[TemplateSlot.Amulet].Location = new(_templateSlots[TemplateSlot.Back].Left, _templateSlots[TemplateSlot.Back].Bottom + 3);
+                _templateSlots[TemplateSlot.Ring_1].Location = new(_templateSlots[TemplateSlot.Amulet].Right + 3, _templateSlots[TemplateSlot.Amulet].Top);
+                _templateSlots[TemplateSlot.Ring_2].Location = new(_templateSlots[TemplateSlot.Ring_1].Right + 3, _templateSlots[TemplateSlot.Amulet].Top);
 
-                _slots[GearTemplateSlot.AquaBreather].Location = new(_slots[GearTemplateSlot.Back].Left, _slots[GearTemplateSlot.Amulet].Bottom + 20);
-                _slots[GearTemplateSlot.Aquatic].Location = new(_slots[GearTemplateSlot.AquaBreather].Left, _slots[GearTemplateSlot.AquaBreather].Bottom + 15);
-                _slots[GearTemplateSlot.AltAquatic].Location = new(_slots[GearTemplateSlot.Aquatic].Left, _slots[GearTemplateSlot.Aquatic].Bottom + 8);
+                _templateSlots[TemplateSlot.AquaBreather].Location = new(_templateSlots[TemplateSlot.Back].Left, _templateSlots[TemplateSlot.Amulet].Bottom + 20);
+                _templateSlots[TemplateSlot.Aquatic].Location = new(_templateSlots[TemplateSlot.AquaBreather].Left, _templateSlots[TemplateSlot.AquaBreather].Bottom + 15);
+                _templateSlots[TemplateSlot.AltAquatic].Location = new(_templateSlots[TemplateSlot.Aquatic].Left, _templateSlots[TemplateSlot.Aquatic].Bottom + 8);
             }
         }
 
         public void ApplyTemplate()
         {
-            _gearCodeBox.Text = Template?.GearTemplate?.ParseGearCode();
+            _gearCodeBox.Text = TemplatePresenter.Template?.ParseGearCode();
 
-            if (_template != null && BuildsManager.Data.Professions.ContainsKey(_template.Profession))
+            if (TemplatePresenter.Template != null && BuildsManager.Data.Professions.ContainsKey(TemplatePresenter.Template.Profession))
             {
-                _framedSpecIcon.Texture = _template.EliteSpecialization?.ProfessionIconBig ??
-                    BuildsManager.Data.Professions[_template.Profession].IconBig;
+                _framedSpecIcon.Texture = TemplatePresenter.Template.EliteSpecialization?.ProfessionIconBig ??
+                    BuildsManager.Data.Professions[TemplatePresenter.Template.Profession].IconBig;
 
-                switch(_template.Profession.GetArmorType())
+                switch(TemplatePresenter.Template.Profession.GetArmorType())
                 {
                     case ItemWeightType.Heavy:
-                        _slots[GearTemplateSlot.AquaBreather].Item.Item = BuildsManager.Data.Armors[79895];
-                        _slots[GearTemplateSlot.Head].Item.Item = BuildsManager.Data.Armors[85193];
-                        _slots[GearTemplateSlot.Shoulder].Item.Item = BuildsManager.Data.Armors[84875];
-                        _slots[GearTemplateSlot.Chest].Item.Item = BuildsManager.Data.Armors[85084];
-                        _slots[GearTemplateSlot.Hand].Item.Item = BuildsManager.Data.Armors[85140];
-                        _slots[GearTemplateSlot.Leg].Item.Item = BuildsManager.Data.Armors[84887];
-                        _slots[GearTemplateSlot.Foot].Item.Item = BuildsManager.Data.Armors[85055];
+                        _templateSlots[TemplateSlot.AquaBreather].Item = BuildsManager.Data.Armors[79895];
+                        _templateSlots[TemplateSlot.Head].Item = BuildsManager.Data.Armors[85193];
+                        _templateSlots[TemplateSlot.Shoulder].Item = BuildsManager.Data.Armors[84875];
+                        _templateSlots[TemplateSlot.Chest].Item = BuildsManager.Data.Armors[85084];
+                        _templateSlots[TemplateSlot.Hand].Item = BuildsManager.Data.Armors[85140];
+                        _templateSlots[TemplateSlot.Leg].Item = BuildsManager.Data.Armors[84887];
+                        _templateSlots[TemplateSlot.Foot].Item = BuildsManager.Data.Armors[85055];
                         break;
                     case ItemWeightType.Medium:
-                        _slots[GearTemplateSlot.AquaBreather].Item.Item = BuildsManager.Data.Armors[79838];
-                        _slots[GearTemplateSlot.Head].Item.Item = BuildsManager.Data.Armors[80701];
-                        _slots[GearTemplateSlot.Shoulder].Item.Item = BuildsManager.Data.Armors[80825];
-                        _slots[GearTemplateSlot.Chest].Item.Item = BuildsManager.Data.Armors[84977];
-                        _slots[GearTemplateSlot.Hand].Item.Item = BuildsManager.Data.Armors[85169];
-                        _slots[GearTemplateSlot.Leg].Item.Item = BuildsManager.Data.Armors[85264];
-                        _slots[GearTemplateSlot.Foot].Item.Item = BuildsManager.Data.Armors[80836];
+                        _templateSlots[TemplateSlot.AquaBreather].Item = BuildsManager.Data.Armors[79838];
+                        _templateSlots[TemplateSlot.Head].Item = BuildsManager.Data.Armors[80701];
+                        _templateSlots[TemplateSlot.Shoulder].Item = BuildsManager.Data.Armors[80825];
+                        _templateSlots[TemplateSlot.Chest].Item = BuildsManager.Data.Armors[84977];
+                        _templateSlots[TemplateSlot.Hand].Item = BuildsManager.Data.Armors[85169];
+                        _templateSlots[TemplateSlot.Leg].Item = BuildsManager.Data.Armors[85264];
+                        _templateSlots[TemplateSlot.Foot].Item = BuildsManager.Data.Armors[80836];
                         break;
                     case ItemWeightType.Light:
-                        _slots[GearTemplateSlot.AquaBreather].Item.Item = BuildsManager.Data.Armors[79873];
-                        _slots[GearTemplateSlot.Head].Item.Item = BuildsManager.Data.Armors[85128];
-                        _slots[GearTemplateSlot.Shoulder].Item.Item = BuildsManager.Data.Armors[84918];
-                        _slots[GearTemplateSlot.Chest].Item.Item = BuildsManager.Data.Armors[85333];
-                        _slots[GearTemplateSlot.Hand].Item.Item = BuildsManager.Data.Armors[85070];
-                        _slots[GearTemplateSlot.Leg].Item.Item = BuildsManager.Data.Armors[85362];
-                        _slots[GearTemplateSlot.Foot].Item.Item = BuildsManager.Data.Armors[80815];
+                        _templateSlots[TemplateSlot.AquaBreather].Item = BuildsManager.Data.Armors[79873];
+                        _templateSlots[TemplateSlot.Head].Item = BuildsManager.Data.Armors[85128];
+                        _templateSlots[TemplateSlot.Shoulder].Item = BuildsManager.Data.Armors[84918];
+                        _templateSlots[TemplateSlot.Chest].Item = BuildsManager.Data.Armors[85333];
+                        _templateSlots[TemplateSlot.Hand].Item = BuildsManager.Data.Armors[85070];
+                        _templateSlots[TemplateSlot.Leg].Item = BuildsManager.Data.Armors[85362];
+                        _templateSlots[TemplateSlot.Foot].Item = BuildsManager.Data.Armors[80815];
                         break;
                 }
 
-                _slots[GearTemplateSlot.Back].Item.Item = BuildsManager.Data.Backs[94947];
-                _slots[GearTemplateSlot.Amulet].Item.Item = BuildsManager.Data.Trinkets[79980];
-                _slots[GearTemplateSlot.Accessory_1].Item.Item = BuildsManager.Data.Trinkets[80002];
-                _slots[GearTemplateSlot.Accessory_2].Item.Item = BuildsManager.Data.Trinkets[80002];
-                _slots[GearTemplateSlot.Ring_1].Item.Item = BuildsManager.Data.Trinkets[80058];
-                _slots[GearTemplateSlot.Ring_2].Item.Item = BuildsManager.Data.Trinkets[80058];
+                var t = TemplatePresenter.Template;
+                _templateSlots[TemplateSlot.MainHand].Item = t.MainHand.Item; 
+                _templateSlots[TemplateSlot.OffHand].Item = t.OffHand.Item; 
+                _templateSlots[TemplateSlot.Aquatic].Item = t.Aquatic.Item;
+
+                _templateSlots[TemplateSlot.AltMainHand].Item = t.AltMainHand.Item;
+                _templateSlots[TemplateSlot.AltOffHand].Item = t.AltOffHand.Item;
+                _templateSlots[TemplateSlot.AltAquatic].Item = t.AltAquatic.Item;
+
+                _templateSlots[TemplateSlot.PvpAmulet].Item = t.PvpAmulet.Item;
+
+                _templateSlots[TemplateSlot.Nourishment].Item = t.Nourishment.Item;
+                _templateSlots[TemplateSlot.Utility].Item = t.Utility.Item;
+                _templateSlots[TemplateSlot.JadeBotCore].Item = t.JadeBotCore.Item;
+                _templateSlots[TemplateSlot.Relic].Item = t.Relic.Item;
             }
 
-            foreach (var slot in _slots.Values)
+            foreach (var slot in _templateSlots.Values)
             {
                 slot.Visible = 
-                    (slot.GearSlot is not GearTemplateSlot.AltAquatic || Template.Profession is not Gw2Sharp.Models.ProfessionType.Engineer and not Gw2Sharp.Models.ProfessionType.Elementalist) &&
-                    (Template?.PvE == false
-                    ? slot.GearSlot is GearTemplateSlot.MainHand or GearTemplateSlot.AltMainHand or GearTemplateSlot.OffHand or GearTemplateSlot.AltOffHand or GearTemplateSlot.PvpAmulet
-                    : slot.GearSlot is not GearTemplateSlot.PvpAmulet);
+                    (slot.Slot is not TemplateSlot.AltAquatic || TemplatePresenter.Template.Profession is not ProfessionType.Engineer and not ProfessionType.Elementalist) &&
+                    (TemplatePresenter.IsPve == false
+                    ? slot.Slot is TemplateSlot.MainHand or TemplateSlot.AltMainHand or TemplateSlot.OffHand or TemplateSlot.AltOffHand or TemplateSlot.PvpAmulet
+                    : slot.Slot is not TemplateSlot.PvpAmulet);
             }
         }
+
+
 
         public override void PaintBeforeChildren(SpriteBatch spriteBatch, Rectangle bounds)
         {
@@ -276,12 +294,9 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage
         {
             base.PaintAfterChildren(spriteBatch, bounds);
 
-            if (Template != null)
+            if (TemplatePresenter.Template != null)
             {
-                (Template.PvE ? _pve : _pvp).Draw(this, spriteBatch, RelativeMousePosition);
-
-                //spriteBatch.DrawStringOnCtrl(this, Template.PvE ? "PvE Build" : "PvP Build", Content.DefaultFont18, _headerBounds, Color.White);
-                //spriteBatch.DrawStringOnCtrl(this, "Attributes", Content.DefaultFont18, _statPanelHeaderBounds, Color.White);
+                (TemplatePresenter.IsPve ? _pve : _pvp).Draw(this, spriteBatch, RelativeMousePosition);
             }
         }
 
@@ -289,9 +304,18 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage
         {
             base.OnClick(e);
 
-            if ((Template != null && Template.PvE ? _pve : _pvp).Hovered)
+            if ((TemplatePresenter.Template != null && TemplatePresenter.IsPve ? _pve : _pvp).Hovered)
             {
-                Template.PvE = !Template.PvE;
+                TemplatePresenter.GameMode = TemplatePresenter.IsPve ? GameModeType.PvP : GameModeType.PvE;
+
+                foreach (var slot in _templateSlots.Values)
+                {
+                    slot.Visible =
+                        (slot.Slot is not TemplateSlot.AltAquatic || TemplatePresenter.Template.Profession is not ProfessionType.Engineer and not ProfessionType.Elementalist) &&
+                        (TemplatePresenter.IsPve == false
+                        ? slot.Slot is TemplateSlot.MainHand or TemplateSlot.AltMainHand or TemplateSlot.OffHand or TemplateSlot.AltOffHand or TemplateSlot.PvpAmulet
+                        : slot.Slot is not TemplateSlot.PvpAmulet);
+                }
             }
 
             if (_framedSpecIcon?.MouseOver == true)
@@ -299,7 +323,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage
                 _professionRaceSelection.Visible = true;
                 _professionRaceSelection.Type = ProfessionRaceSelection.SelectionType.Profession;
                 _professionRaceSelection.Location = RelativeMousePosition;
-                _professionRaceSelection.OnClickAction = (value) => Template.Profession = (ProfessionType)value;
+                _professionRaceSelection.OnClickAction = (value) => TemplatePresenter.Template.Profession = (ProfessionType)value;
             }
         }
 

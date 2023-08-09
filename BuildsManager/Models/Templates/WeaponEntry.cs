@@ -24,8 +24,8 @@ namespace Kenedia.Modules.BuildsManager.Models.Templates
         private void SigilIds_Changed(object sender, PropertyChangedEventArgs e)
         {
             if (_sigilIds != null && _sigilIds.Count > 0) _sigil = BuildsManager.Data.PveSigils.Values.Where(e => e.MappedId == _sigilIds[0]).FirstOrDefault();
-            if (_sigilIds != null && _sigilIds.Count > 1 && Slot is not GearTemplateSlot.Aquatic and not GearTemplateSlot.AltAquatic) _pvpSigil = BuildsManager.Data.PvpSigils.Values.Where(e => e.MappedId == _sigilIds[1]).FirstOrDefault();
-            if (_sigilIds != null && _sigilIds.Count > 1 && Slot is GearTemplateSlot.Aquatic or GearTemplateSlot.AltAquatic) _sigil2 = BuildsManager.Data.PveSigils.Values.Where(e => e.MappedId == _sigilIds[1]).FirstOrDefault();
+            if (_sigilIds != null && _sigilIds.Count > 1 && Slot is not TemplateSlot.Aquatic and not TemplateSlot.AltAquatic) _pvpSigil = BuildsManager.Data.PvpSigils.Values.Where(e => e.MappedId == _sigilIds[1]).FirstOrDefault();
+            if (_sigilIds != null && _sigilIds.Count > 1 && Slot is TemplateSlot.Aquatic or TemplateSlot.AltAquatic) _sigil2 = BuildsManager.Data.PveSigils.Values.Where(e => e.MappedId == _sigilIds[1]).FirstOrDefault();
 
             OnPropertyChanged(sender, e);
         }
@@ -95,7 +95,7 @@ namespace Kenedia.Modules.BuildsManager.Models.Templates
 
             SigilIds = Slot switch
             {
-                GearTemplateSlot.Aquatic or GearTemplateSlot.AltAquatic => new() { -1, -1 },
+                TemplateSlot.Aquatic or TemplateSlot.AltAquatic => new() { -1, -1 },
                 _ => new() { -1, -1, },
             };
         }
@@ -112,7 +112,7 @@ namespace Kenedia.Modules.BuildsManager.Models.Templates
         {
             string[] parts = code.Split('|');
 
-            if (Slot is GearTemplateSlot.Aquatic or GearTemplateSlot.AltAquatic)
+            if (Slot is TemplateSlot.Aquatic or TemplateSlot.AltAquatic)
             {
                 if (parts.Length == 6)
                 {

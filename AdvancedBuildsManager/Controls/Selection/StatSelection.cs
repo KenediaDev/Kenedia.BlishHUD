@@ -1,10 +1,7 @@
-﻿using Gw2Sharp.WebApi;
-using Kenedia.Modules.AdvancedBuildsManager.Controls.GearPage;
-using Kenedia.Modules.AdvancedBuildsManager.DataModels.Items;
+﻿using Kenedia.Modules.AdvancedBuildsManager.DataModels.Items;
 using Kenedia.Modules.AdvancedBuildsManager.DataModels.Stats;
 using Kenedia.Modules.AdvancedBuildsManager.Extensions;
 using Kenedia.Modules.AdvancedBuildsManager.Models.Templates;
-using Kenedia.Modules.Core.Controls;
 using Kenedia.Modules.Core.Extensions;
 using Kenedia.Modules.Core.Utility;
 using Microsoft.IdentityModel.Tokens;
@@ -12,11 +9,7 @@ using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Diagnostics;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using static System.Net.Mime.MediaTypeNames;
 using AttributeType = Gw2Sharp.WebApi.V2.Models.AttributeType;
 
 namespace Kenedia.Modules.AdvancedBuildsManager.Controls.Selection

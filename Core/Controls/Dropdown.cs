@@ -1,10 +1,8 @@
 ﻿using Blish_HUD;
 using Blish_HUD.Controls;
-using Blish_HUD.Input;
 using Gw2Sharp.WebApi;
 using Kenedia.Modules.Core.Interfaces;
 using Kenedia.Modules.Core.Services;
-using Kenedia.Modules.Core.Utility;
 using System;
 using System.Collections.Generic;
 using System.Linq;

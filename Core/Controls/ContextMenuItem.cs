@@ -5,8 +5,6 @@ using Gw2Sharp.WebApi;
 using Kenedia.Modules.Core.Interfaces;
 using Kenedia.Modules.Core.Services;
 using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Kenedia.Modules.Core.Controls
 {

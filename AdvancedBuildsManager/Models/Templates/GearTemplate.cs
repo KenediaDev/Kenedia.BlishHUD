@@ -9,11 +9,8 @@ using System.Linq;
 using static Kenedia.Modules.AdvancedBuildsManager.DataModels.Professions.Weapon;
 using Kenedia.Modules.Core.Models;
 using System.Data;
-using System.Diagnostics;
 using Kenedia.Modules.Core.Extensions;
 using Gw2Sharp.WebApi.V2.Models;
-using System.Threading;
-using Newtonsoft.Json.Bson;
 
 namespace Kenedia.Modules.AdvancedBuildsManager.Models.Templates
 {

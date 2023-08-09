@@ -1,5 +1,4 @@
 ﻿using Kenedia.Modules.Core.Controls;
-using Kenedia.Modules.Core.Models;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System.Collections.Generic;
@@ -15,12 +14,9 @@ using System;
 using System.Threading.Tasks;
 using Blish_HUD.Gw2Mumble;
 using System.ComponentModel;
-using Kenedia.Modules.AdvancedBuildsManager.Controls.GearPage;
 using static Blish_HUD.ContentService;
 using Gw2Sharp.Models;
 using Kenedia.Modules.Core.DataModels;
-using System.Diagnostics;
-using static Blish_HUD.ArcDps.Common.CommonFields;
 
 namespace Kenedia.Modules.AdvancedBuildsManager.Controls.Selection
 {

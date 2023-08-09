@@ -8,6 +8,46 @@ using System.Runtime.Serialization;
 namespace Kenedia.Modules.BuildsManager.DataModels.Items
 {
     [DataContract]
+    public class Relic : BaseItem
+    {
+        public Relic()
+        {
+            TemplateSlot = TemplateSlot.Relic;
+        }
+    }
+
+    [DataContract]
+    public class JadeBotCore : BaseItem
+    {
+        public JadeBotCore()
+        {
+            TemplateSlot = TemplateSlot.JadeBotCore;
+        }
+    }
+    
+    [DataContract]
+    public class PvpAmulet : BaseItem
+    {
+        public PvpAmulet()
+        {
+            TemplateSlot = TemplateSlot.PvpAmulet;
+        }
+
+        public PvpAmulet(Gw2Sharp.WebApi.V2.Models.PvpAmulet apiAmulet) : this()
+        {
+            Id = apiAmulet.Id;
+            Name = apiAmulet.Name;
+            AssetId = apiAmulet.Icon.GetAssetIdFromRenderUrl();
+            Rarity = ItemRarity.Basic;
+            Type = ItemType.Unknown;
+            Attributes = apiAmulet.Attributes;
+        }
+
+        [DataMember]
+        public ItemAttributes Attributes { get; set; } = new();
+    }
+
+    [DataContract]
     public class BaseItem
     {
         private AsyncTexture2D _icon;
@@ -28,7 +68,7 @@ namespace Kenedia.Modules.BuildsManager.DataModels.Items
             Type = item.Type;
         }
 
-        public BaseItem(Item item, GearTemplateSlot templateSlot) : this(item)
+        public BaseItem(Item item, TemplateSlot templateSlot) : this(item)
         {
             TemplateSlot = templateSlot;
         }
@@ -37,7 +77,7 @@ namespace Kenedia.Modules.BuildsManager.DataModels.Items
         public ItemType Type { get; protected set; }
 
         [DataMember]
-        public GearTemplateSlot TemplateSlot { get; protected set; }
+        public TemplateSlot TemplateSlot { get; protected set; }
 
         [DataMember]
         public int Id { get; protected set; }
@@ -99,6 +139,17 @@ namespace Kenedia.Modules.BuildsManager.DataModels.Items
             Chatlink = item.ChatLink;
             Type = item.Type;
             DisplayText = item.Name;
+        }
+
+        public virtual void Apply(Gw2Sharp.WebApi.V2.Models.PvpAmulet amulet)
+        {
+            Id = amulet.Id;
+            MappedId = amulet.Id;
+            Name = amulet.Name;
+            AssetId = amulet.Icon.GetAssetIdFromRenderUrl();
+            DisplayText = amulet.Name;
+            Rarity = ItemRarity.Basic;
+            Type = ItemType.Unknown;            
         }
 
         public void SetAssetId(int id)

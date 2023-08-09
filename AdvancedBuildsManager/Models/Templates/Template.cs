@@ -12,14 +12,11 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.Threading;
 using System.Threading.Tasks;
-using System.Xml.Linq;
-using Kenedia.Modules.AdvancedBuildsManager.DataModels.Stats;
 using Kenedia.Modules.AdvancedBuildsManager.DataModels.Items;
 using Kenedia.Modules.AdvancedBuildsManager.Extensions;
 

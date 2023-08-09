@@ -11,7 +11,6 @@ using Kenedia.Modules.Core.Controls;
 using Kenedia.Modules.Core.DataModels;
 using Kenedia.Modules.Core.Models;
 using Kenedia.Modules.Core.Services;
-using Kenedia.Modules.Core.Utility;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -36,12 +35,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
         private readonly Panel _professionSpecificsContainer;
         private readonly SkillsBar _skillbar;
         private readonly Dummy _dummy;
-        private readonly Dictionary<SpecializationSlot, SpecLine> _specializations = new()
-        {
-            {SpecializationSlot.Line_1,  new SpecLine(SpecializationSlot.Line_1)},
-            {SpecializationSlot.Line_2,  new SpecLine(SpecializationSlot.Line_2)},
-            {SpecializationSlot.Line_3,  new SpecLine(SpecializationSlot.Line_3)},
-        };
+        private readonly Dictionary<SpecializationSlot, SpecLine> _specializations;
         private readonly FramedImage _specIcon;
         private readonly FramedImage _raceIcon;
         private readonly TexturesService _texturesService;
@@ -50,9 +44,10 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
 
         private ProfessionSpecifics _professionSpecifics;
 
-        public BuildPage(TexturesService texturesService)
+        public BuildPage(TexturesService texturesService, TemplatePresenter _templatePresenter)
         {
             _texturesService = texturesService;
+            TemplatePresenter = _templatePresenter;
 
             ClipsBounds = false;
             WidthSizingMode = SizingMode.Fill;
@@ -84,7 +79,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
             {
                 Parent = this,
                 Location = new(_copyButton.Right + 2, 0),
-                EnterPressedAction = (txt) => TemplatePresenter.Template?.BuildTemplate?.LoadFromCode(txt)
+                EnterPressedAction = (txt) => TemplatePresenter.Template?.LoadBuildFromCode(txt, true)
             };
 
             _professionSpecificsContainer = new()
@@ -96,13 +91,12 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
                 ZIndex = 13,
             };
 
-            _skillbar = new SkillsBar()
+            _skillbar = new SkillsBar(TemplatePresenter)
             {
                 Parent = this,
                 Location = new(5, _professionSpecificsContainer.Bottom),
                 Width = Width,
                 ZIndex = 12,
-                TemplatePresenter = TemplatePresenter,
             };
 
             _specIcon = new FramedImage()
@@ -142,12 +136,12 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
                 ZIndex = 10,
             };
 
-            _specializations.ToList().ForEach(l =>
+            _specializations = new()
             {
-                l.Value.Parent = _specializationsPanel;
-                l.Value.CanInteract = () => !_skillbar.IsSelecting;
-                l.Value.TemplatePresenter = TemplatePresenter;
-            });
+                {SpecializationSlot.Line_1,  new SpecLine(SpecializationSlot.Line_1, TemplatePresenter) { Parent = _specializationsPanel, CanInteract = () => !_skillbar.IsSelecting } },
+                {SpecializationSlot.Line_2,  new SpecLine(SpecializationSlot.Line_2, TemplatePresenter) { Parent = _specializationsPanel, CanInteract = () => !_skillbar.IsSelecting } },
+                {SpecializationSlot.Line_3,  new SpecLine(SpecializationSlot.Line_3, TemplatePresenter) { Parent = _specializationsPanel, CanInteract = () => !_skillbar.IsSelecting } },
+            };
 
             _professionRaceSelection = new()
             {
@@ -157,20 +151,22 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
                 ZIndex = 16,
             };
 
-            TemplatePresenter.TemplateChanged += TemplatePresenter_TemplateChanged;
             TemplatePresenter.BuildCodeChanged += TemplatePresenter_BuildCodeChanged;
             TemplatePresenter.ProfessionChanged += BuildTemplate_ProfessionChanged;
             TemplatePresenter.RaceChanged += TemplatePresenter_RaceChanged;
             TemplatePresenter.EliteSpecializationChanged += BuildTemplate_EliteSpecChanged;
-            TemplatePresenter.Loaded += BuildTemplate_Loaded;
+            TemplatePresenter.LoadedBuildFromCode += BuildTemplate_Loaded;
+            TemplatePresenter.TemplateChanged += TemplatePresenter_TemplateChanged;
+
+            SetRaceAndProfessionAndSpec();
         }
+
+        public TemplatePresenter TemplatePresenter { get; private set; }
 
         private void TemplatePresenter_RaceChanged(object sender, Core.Models.ValueChangedEventArgs<Races> e)
         {
             SetRaceAndProfessionAndSpec();
         }
-
-        public TemplatePresenter TemplatePresenter { get; private set; } = new();
 
         public override void RecalculateLayout()
         {
@@ -221,13 +217,12 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
 
             _specializations.ToList().ForEach(l => l.Value.Dispose());
 
-            TemplatePresenter.TemplateChanged -= TemplatePresenter_TemplateChanged;
             TemplatePresenter.BuildCodeChanged -= TemplatePresenter_BuildCodeChanged;
             TemplatePresenter.ProfessionChanged -= BuildTemplate_ProfessionChanged;
             TemplatePresenter.EliteSpecializationChanged -= BuildTemplate_EliteSpecChanged;
-            TemplatePresenter.Loaded -= BuildTemplate_Loaded;
+            TemplatePresenter.LoadedBuildFromCode -= BuildTemplate_Loaded;
+            TemplatePresenter.TemplateChanged -= TemplatePresenter_TemplateChanged;
             TemplatePresenter = null;
-            TemplatePresenter =  new();
         }
 
         protected override void OnClick(MouseEventArgs e)
@@ -251,18 +246,19 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
             }
         }
 
-        private void TemplatePresenter_TemplateChanged(object sender, Core.Models.ValueChangedEventArgs<Template> e)
-        {
-            SetRaceAndProfessionAndSpec();
-        }
-
         private void TemplatePresenter_BuildCodeChanged(object sender, EventArgs e)
         {
-            _buildCodeBox.Text = TemplatePresenter.Template?.BuildTemplate.ParseBuildCode();
+            _buildCodeBox.Text = TemplatePresenter.Template?.ParseBuildCode();
         }
 
         private void BuildTemplate_Loaded(object sender, EventArgs e)
         {
+            SetRaceAndProfessionAndSpec();
+        }
+
+        private void TemplatePresenter_TemplateChanged(object sender, Core.Models.ValueChangedEventArgs<VTemplate> e)
+        {
+            _buildCodeBox.Text = TemplatePresenter.Template?.ParseBuildCode();
             SetRaceAndProfessionAndSpec();
         }
 

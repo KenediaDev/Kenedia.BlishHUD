@@ -1,11 +1,9 @@
 ﻿using Blish_HUD;
-using Blish_HUD.Content;
 using Blish_HUD.Controls;
 using Blish_HUD.Input;
 using SkillSlot = Gw2Sharp.WebApi.V2.Models.SkillSlot;
 using Kenedia.Modules.BuildsManager.DataModels.Professions;
 using Kenedia.Modules.BuildsManager.Models.Templates;
-using Kenedia.Modules.BuildsManager.Utility;
 using Kenedia.Modules.Core.Models;
 using Kenedia.Modules.Core.Utility;
 using Microsoft.Xna.Framework;
@@ -14,10 +12,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using static Blish_HUD.ContentService;
-using System.Diagnostics;
-using SharpDX.MediaFoundation;
 using Kenedia.Modules.BuildsManager.Models;
 using Gw2Sharp;
+using System.Diagnostics;
 
 namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
 {
@@ -41,8 +38,10 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
         private double _lastOpen;
         private int _skillSize;
 
-        public SkillsBar()
+        public SkillsBar(TemplatePresenter templatePresenter)
         {
+            TemplatePresenter = templatePresenter;
+
             Height = 125;
             ClipsBounds = false;
             ZIndex = int.MaxValue / 2;
@@ -80,20 +79,32 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
             if (e.OldValue != null)
             {
                 e.OldValue.ProfessionChanged -= Template_ProfessionChanged;
+                e.OldValue.RaceChanged -= Template_RaceChanged;
                 e.OldValue.EliteSpecializationChanged -= BuildTemplate_EliteSpecChanged;
-                e.OldValue.TemplateChanged -= OnTemplateChanged;
                 e.OldValue.LegendChanged -= On_LegendChanged;
-                e.OldValue.Loaded += OnLoaded;
+                e.OldValue.LoadedBuildFromCode -= OnLoaded;
+                e.OldValue.TemplateChanged -= On_TemplateChanged;
             }
 
             if (e.NewValue != null)
             {
                 e.NewValue.ProfessionChanged += Template_ProfessionChanged;
+                e.NewValue.RaceChanged += Template_RaceChanged;
                 e.NewValue.EliteSpecializationChanged += BuildTemplate_EliteSpecChanged;
-                e.NewValue.TemplateChanged += OnTemplateChanged;
                 e.NewValue.LegendChanged += On_LegendChanged;
-                e.NewValue.Loaded += OnLoaded;
+                e.NewValue.LoadedBuildFromCode += OnLoaded;
+                e.NewValue.TemplateChanged += On_TemplateChanged;
             }
+        }
+
+        private void On_TemplateChanged(object sender, Core.Models.ValueChangedEventArgs<VTemplate> e)
+        {
+            SetSkills();
+        }
+
+        private void Template_RaceChanged(object sender, Core.Models.ValueChangedEventArgs<Core.DataModels.Races> e)
+        {
+            SetSkills();
         }
 
         private void On_LegendChanged(object sender, DictionaryItemChangedEventArgs<LegendSlot, Legend> e)
@@ -130,7 +141,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
                 return;
             }
 
-            foreach (var spair in TemplatePresenter.Template?.BuildTemplate?.Skills)
+            foreach (var spair in TemplatePresenter.Template?.Skills)
             {
                 _skillIcons[spair.Key].Skill = spair.Value;
                 _skillIcons[spair.Key].Slot = spair.Key;
@@ -191,7 +202,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
             Models.Templates.SkillSlot state = TemplatePresenter.LegendSlot == LegendSlot.TerrestrialActive ? Models.Templates.SkillSlot.Active : Models.Templates.SkillSlot.Inactive;
             string txt = string.Empty;
 
-            foreach (var spair in TemplatePresenter.Template.BuildTemplate.Skills)
+            foreach (var spair in TemplatePresenter.Template.Skills)
             {
                 if (spair.Key.HasFlag(state))
                 {
@@ -252,18 +263,18 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
                 {
                     if (s.Hovered)
                     {
-                        if (terrestrial || TemplatePresenter.Template.Profession == Gw2Sharp.Models.ProfessionType.Revenant || !s.Skill.Flags.HasFlag(Gw2Sharp.SkillFlag.NoUnderwater))
+                        if (terrestrial || TemplatePresenter.Template.Profession == Gw2Sharp.Models.ProfessionType.Revenant || !s.Skill.Flags.HasFlag(SkillFlag.NoUnderwater))
                         {
-                            if (TemplatePresenter.Template.BuildTemplate.Skills.HasSkill(s.Skill, enviromentState))
+                            if (TemplatePresenter.Template.Skills.HasSkill(s.Skill, enviromentState))
                             {
-                                var slot = TemplatePresenter.Template.BuildTemplate.Skills.GetSkillSlot(s.Skill, enviromentState);
-                                TemplatePresenter.Template.BuildTemplate.Skills[slot] = _selectorAnchor.Skill;
+                                var slot = TemplatePresenter.Template.Skills.GetSkillSlot(s.Skill, enviromentState);
+                                TemplatePresenter.Template.Skills[slot] = _selectorAnchor.Skill;
                                 _skillIcons[slot].Skill = _selectorAnchor.Skill;
                             }
 
                             _selectorAnchor.Skill = s.Skill;
                             _skillIcons[_selectorAnchor.Slot].Skill = s.Skill;
-                            TemplatePresenter.Template.BuildTemplate.Skills[_selectorAnchor.Slot] = s.Skill;
+                            TemplatePresenter.Template.Skills[_selectorAnchor.Slot] = s.Skill;
 
                             SeletorOpen = false;
                             return;
@@ -288,7 +299,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
             if (TemplatePresenter.Template.Profession != Gw2Sharp.Models.ProfessionType.Revenant)
             {
                 var skills = BuildsManager.Data.Professions[TemplatePresenter.Template.Profession].Skills;
-                var filteredSkills = skills.Where(e => e.Value.PaletteId > 0 && e.Value.Slot != null && e.Value.Slot == slot && (e.Value.Specialization == 0 || TemplatePresenter.Template.BuildTemplate.HasSpecialization(e.Value.Specialization))).ToList();
+                var filteredSkills = skills.Where(e => e.Value.PaletteId > 0 && e.Value.Slot != null && e.Value.Slot == slot && (e.Value.Specialization == 0 || TemplatePresenter.Template.HasSpecialization(e.Value.Specialization))).ToList();
                 var racialSkills = TemplatePresenter.Template.Race != Core.DataModels.Races.None ? BuildsManager.Data.Races[TemplatePresenter.Template.Race]?.Skills.Where(e => e.Value.PaletteId > 0 && e.Value.Slot != null && e.Value.Slot == slot).ToList() : new();
                 if (racialSkills != null) filteredSkills.AddRange(racialSkills);
 
@@ -335,19 +346,22 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
                         break;
                 }
 
-                var skills = TemplatePresenter.Template?.BuildTemplate?.Legends[legendSlot];
+                var skills = TemplatePresenter.Template?.Legends[legendSlot];
 
-                switch (slot)
+                if (skills != null)
                 {
-                    case SkillSlot.Heal:
-                        filteredSkills.Add(skills.Heal);
-                        break;
-                    case SkillSlot.Elite:
-                        filteredSkills.Add(skills.Elite);
-                        break;
-                    case SkillSlot.Utility:
-                        filteredSkills.AddRange(skills.Utilities.Select(e => e.Value));
-                        break;
+                    switch (slot)
+                    {
+                        case SkillSlot.Heal:
+                            filteredSkills.Add(skills.Heal);
+                            break;
+                        case SkillSlot.Elite:
+                            filteredSkills.Add(skills.Elite);
+                            break;
+                        case SkillSlot.Utility:
+                            filteredSkills.AddRange(skills.Utilities.Select(e => e.Value));
+                            break;
+                    }
                 }
 
                 int columns = 4;

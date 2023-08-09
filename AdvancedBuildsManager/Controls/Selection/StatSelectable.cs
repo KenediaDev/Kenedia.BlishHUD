@@ -1,7 +1,6 @@
 ﻿using Blish_HUD;
 using Blish_HUD.Content;
 using Blish_HUD.Input;
-using Kenedia.Modules.AdvancedBuildsManager.Controls.GearPage;
 using Kenedia.Modules.AdvancedBuildsManager.DataModels.Professions;
 using Kenedia.Modules.AdvancedBuildsManager.DataModels.Stats;
 using Kenedia.Modules.AdvancedBuildsManager.Extensions;
@@ -14,7 +13,6 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Diagnostics;
 using System.Linq;
 using static Blish_HUD.ContentService;
 

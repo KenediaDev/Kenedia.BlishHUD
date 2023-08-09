@@ -1,15 +1,12 @@
 ﻿using Kenedia.Modules.BuildsManager.DataModels.Items;
-using Kenedia.Modules.BuildsManager.DataModels.Professions;
 using Kenedia.Modules.BuildsManager.Extensions;
+using Kenedia.Modules.BuildsManager.Models;
 using Kenedia.Modules.BuildsManager.Models.Templates;
-using Kenedia.Modules.Core.Controls;
 using Kenedia.Modules.Core.Extensions;
 using Kenedia.Modules.Core.Utility;
-using SharpDX.XAudio2;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Diagnostics;
 using System.Linq;
 using static Kenedia.Modules.BuildsManager.Controls.Selection.Selectable;
 using static Kenedia.Modules.BuildsManager.DataModels.Professions.Weapon;
@@ -18,9 +15,9 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
 {
     public class GearSelection : BaseSelection
     {
-        private readonly Dictionary<GearTemplateSlot, List<Selectable>> _selectablesPerSlot = new();
+        private readonly Dictionary<TemplateSlot, List<Selectable>> _selectablesPerSlot = new();
         private readonly List<Selectable> _selectables = new();
-        private GearTemplateSlot _activeSlot;
+        private TemplateSlot _activeSlot;
         private GearSubSlotType _subSlotType;
         private Template _template;
         private string _filterText;
@@ -28,6 +25,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
         private readonly List<Selectable> _trinkets;
         private readonly List<Selectable> _backs;
         private readonly List<Selectable> _weapons;
+        private readonly List<Selectable> _pvpAmulets;
         private readonly List<GroupSelectable> _pveSigils;
         private readonly List<GroupSelectable> _pvpSigils;
         private readonly List<GroupSelectable> _pveRunes;
@@ -77,6 +75,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
             _trinkets = AddItems<Selectable, Trinket>(BuildsManager.Data.Trinkets.Values.OrderByDescending(e => e.Rarity).ThenBy(e => e.Id));
             _backs = AddItems<Selectable, Trinket>(BuildsManager.Data.Backs.Values.OrderByDescending(e => e.Rarity).ThenBy(e => e.Id));
             _weapons = AddItems<Selectable, DataModels.Items.Weapon>(BuildsManager.Data.Weapons.Values.OrderBy(e => e.WeaponType).ThenByDescending(e => e.Rarity).ThenBy(e => e.Id));
+            _pvpAmulets = AddItems<Selectable, PvpAmulet>(BuildsManager.Data.PvpAmulets.Values.OrderBy(e => e.Name).ThenBy(e => e.Id));
             _pveSigils = AddItems<GroupSelectable, Sigil>(BuildsManager.Data.PveSigils.Values.OrderByDescending(e => e.Rarity).ThenBy(e => e.Name).ThenBy(e => e.Id));
             _pvpSigils = AddItems<GroupSelectable, Sigil>(BuildsManager.Data.PvpSigils.Values.OrderByDescending(e => e.Rarity).ThenBy(e => e.Name).ThenBy(e => e.Id));
             _pveRunes = AddItems<GroupSelectable, Rune>(BuildsManager.Data.PveRunes.Values.OrderByDescending(e => e.Rarity).ThenBy(e => e.Name).ThenBy(e => e.Id));
@@ -95,9 +94,11 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
             SelectionContent.SetLocation(Search.Left, Search.Bottom + 5);
         }
 
+        public TemplatePresenter TemplatePresenter { get; set; } = new();
+
         private async void EquipItems()
         {
-            var armors = _armors.Where(e => (e.Item as Armor).Weight == Template?.Profession.GetArmorType() && (e.Item.Rarity == Gw2Sharp.WebApi.V2.Models.ItemRarity.Ascended || e.TemplateSlot == GearTemplateSlot.AquaBreather))?.Select(e => e.Item);
+            var armors = _armors.Where(e => (e.Item as Armor).Weight == Template?.Profession.GetArmorType() && (e.Item.Rarity == Gw2Sharp.WebApi.V2.Models.ItemRarity.Ascended || e.TemplateSlot == Models.Templates.TemplateSlot.AquaBreather))?.Select(e => e.Item);
             foreach (var armor in Template?.GearTemplate?.Armors.Values)
             {
                 armor.Item = armors.Where(e => e.TemplateSlot == armor.Slot)?.FirstOrDefault();
@@ -108,8 +109,8 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
             foreach (var trinket in Template?.GearTemplate?.Juwellery.Values)
             {
                 var effectiveSlot =
-                    trinket.Slot is GearTemplateSlot.Ring_2 ? GearTemplateSlot.Ring_1 :
-                    trinket.Slot is GearTemplateSlot.Accessory_2 ? GearTemplateSlot.Accessory_1 :
+                    trinket.Slot is Models.Templates.TemplateSlot.Ring_2 ? Models.Templates.TemplateSlot.Ring_1 :
+                    trinket.Slot is Models.Templates.TemplateSlot.Accessory_2 ? Models.Templates.TemplateSlot.Accessory_1 :
                     trinket.Slot;
 
                 trinket.Item = trinkets.Where(e => e.TemplateSlot == effectiveSlot)?.FirstOrDefault();
@@ -128,9 +129,6 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
                         slot.Template = value;
                     }
 
-                    if (temp != null) temp.PropertyChanged -= TemplateChanged;
-
-                    if (_template != null) _template.PropertyChanged += TemplateChanged;
                 }
             }
         }
@@ -161,7 +159,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
             return item.Name == null || string.IsNullOrEmpty(_filterText) || item.Name.ToLower().Contains(_filterText);
         }
 
-        public GearTemplateSlot ActiveSlot { get => _activeSlot; set => Common.SetProperty(ref _activeSlot, value, ApplySlot); }
+        public TemplateSlot ActiveSlot { get => _activeSlot; set => Common.SetProperty(ref _activeSlot, value, ApplySlot); }
 
         public GearSubSlotType SubSlotType { get => _subSlotType; set => Common.SetProperty(ref _subSlotType, value, ApplySubSlot); }
 
@@ -182,13 +180,13 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
         {
             switch (ActiveSlot)
             {
-                case GearTemplateSlot.Head:
-                case GearTemplateSlot.Shoulder:
-                case GearTemplateSlot.Chest:
-                case GearTemplateSlot.Hand:
-                case GearTemplateSlot.Leg:
-                case GearTemplateSlot.Foot:
-                case GearTemplateSlot.AquaBreather:
+                case Models.Templates.TemplateSlot.Head:
+                case Models.Templates.TemplateSlot.Shoulder:
+                case Models.Templates.TemplateSlot.Chest:
+                case Models.Templates.TemplateSlot.Hand:
+                case Models.Templates.TemplateSlot.Leg:
+                case Models.Templates.TemplateSlot.Foot:
+                case Models.Templates.TemplateSlot.AquaBreather:
                     if (SubSlotType == GearSubSlotType.Item)
                     {
                         foreach (var item in _armors)
@@ -217,13 +215,13 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
 
                     break;
 
-                case GearTemplateSlot.MainHand:
-                case GearTemplateSlot.AltMainHand:
-                case GearTemplateSlot.OffHand:
-                case GearTemplateSlot.AltOffHand:
-                case GearTemplateSlot.Aquatic:
-                case GearTemplateSlot.AltAquatic:
-                    bool slotIsOffhand = ActiveSlot is GearTemplateSlot.OffHand or GearTemplateSlot.AltOffHand;
+                case Models.Templates.TemplateSlot.MainHand:
+                case Models.Templates.TemplateSlot.AltMainHand:
+                case Models.Templates.TemplateSlot.OffHand:
+                case Models.Templates.TemplateSlot.AltOffHand:
+                case Models.Templates.TemplateSlot.Aquatic:
+                case Models.Templates.TemplateSlot.AltAquatic:
+                    bool slotIsOffhand = ActiveSlot is Models.Templates.TemplateSlot.OffHand or Models.Templates.TemplateSlot.AltOffHand;
 
                     if (SubSlotType == GearSubSlotType.Item)
                     {
@@ -236,7 +234,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
                             if (weapon.Value != null)
                             {
                                 bool terrainMatch =
-                                    (ActiveSlot is GearTemplateSlot.AltAquatic or GearTemplateSlot.Aquatic) ?
+                                    (ActiveSlot is Models.Templates.TemplateSlot.AltAquatic or Models.Templates.TemplateSlot.Aquatic) ?
                                     weapon.Value.Type.IsAquatic() :
                                     !weapon.Value.Type.IsAquatic();
                                 bool wieldMatch = slotIsOffhand ? weapon.Value.Wielded.HasFlag(WieldingFlag.Offhand) : weapon.Value.Wielded.HasFlag(WieldingFlag.Mainhand) || weapon.Value.Wielded.HasFlag(WieldingFlag.TwoHand);
@@ -254,9 +252,9 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
                                 }
 
                                 var effectiveSlot =
-                                    ActiveSlot is GearTemplateSlot.AltAquatic ? GearTemplateSlot.Aquatic :
-                                    ActiveSlot is GearTemplateSlot.AltMainHand ? GearTemplateSlot.MainHand :
-                                    ActiveSlot is GearTemplateSlot.AltOffHand ? GearTemplateSlot.OffHand :
+                                    ActiveSlot is Models.Templates.TemplateSlot.AltAquatic ? Models.Templates.TemplateSlot.Aquatic :
+                                    ActiveSlot is Models.Templates.TemplateSlot.AltMainHand ? Models.Templates.TemplateSlot.MainHand :
+                                    ActiveSlot is Models.Templates.TemplateSlot.AltOffHand ? Models.Templates.TemplateSlot.OffHand :
                                     ActiveSlot;
 
                                 item.Visible =
@@ -284,7 +282,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
 
                     break;
 
-                case GearTemplateSlot.Amulet:
+                case Models.Templates.TemplateSlot.Amulet:
                     if (SubSlotType == GearSubSlotType.Item)
                     {
                         foreach (var item in _trinkets)
@@ -304,7 +302,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
 
                     break;
 
-                case GearTemplateSlot.Back:
+                case Models.Templates.TemplateSlot.Back:
                     if (SubSlotType == GearSubSlotType.Item)
                     {
                         foreach (var item in _backs)
@@ -324,17 +322,17 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
 
                     break;
 
-                case GearTemplateSlot.Ring_1:
-                case GearTemplateSlot.Ring_2:
-                case GearTemplateSlot.Accessory_1:
-                case GearTemplateSlot.Accessory_2:
+                case Models.Templates.TemplateSlot.Ring_1:
+                case Models.Templates.TemplateSlot.Ring_2:
+                case Models.Templates.TemplateSlot.Accessory_1:
+                case Models.Templates.TemplateSlot.Accessory_2:
                     if (SubSlotType == GearSubSlotType.Item)
                     {
                         foreach (var item in _trinkets)
                         {
                             var effectiveSlot =
-                                ActiveSlot is GearTemplateSlot.Ring_2 ? GearTemplateSlot.Ring_1 :
-                                ActiveSlot is GearTemplateSlot.Accessory_2 ? GearTemplateSlot.Accessory_1 :
+                                ActiveSlot is Models.Templates.TemplateSlot.Ring_2 ? Models.Templates.TemplateSlot.Ring_1 :
+                                ActiveSlot is Models.Templates.TemplateSlot.Accessory_2 ? Models.Templates.TemplateSlot.Accessory_1 :
                                 ActiveSlot;
 
                             item.Visible =
@@ -352,7 +350,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
 
                     break;
 
-                case GearTemplateSlot.Nourishment:
+                case Models.Templates.TemplateSlot.Nourishment:
                     foreach (var item in _nourishment)
                     {
                         item.Visible = MatchingMethod(item.Item);
@@ -360,7 +358,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
 
                     break;
 
-                case GearTemplateSlot.Utility:
+                case Models.Templates.TemplateSlot.Utility:
                     foreach (var item in _utilites)
                     {
                         item.Visible = MatchingMethod(item.Item);
@@ -368,8 +366,26 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
 
                     break;
 
-                case GearTemplateSlot.JadeBotCore:
+                case Models.Templates.TemplateSlot.JadeBotCore:
+                    break;
 
+                case Models.Templates.TemplateSlot.PvpAmulet:
+                    if (SubSlotType == GearSubSlotType.Item)
+                    {
+                        foreach (var item in _pvpAmulets)
+                        {
+                            item.Visible =
+                                MatchingMethod(item.Item) &&
+                                item.Item?.TemplateSlot == ActiveSlot;
+                        }
+                    }
+                    else if (SubSlotType == GearSubSlotType.Rune)
+                    {
+                        foreach (var item in _pvpRunes)
+                        {
+                            item.Visible = MatchingMethod(item.Item);
+                        }
+                    }
                     break;
             }
 

@@ -2,12 +2,10 @@
 using Blish_HUD.Controls;
 using Kenedia.Modules.BuildsManager.DataModels.Professions;
 using Kenedia.Modules.BuildsManager.Models;
-using Kenedia.Modules.BuildsManager.Models.Templates;
 using Kenedia.Modules.Core.DataModels;
 using Kenedia.Modules.Core.Models;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System.Diagnostics;
 using System.Linq;
 using static Blish_HUD.ContentService;
 using SkillSlot = Gw2Sharp.WebApi.V2.Models.SkillSlot;
@@ -48,7 +46,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage.ProfessionSpecific
             int xOffset = 90;
 
             _skills[0].TextureRegion = new(14, 14, 100, 100);
-            switch (TemplatePresenter.Template.BuildTemplate?.EliteSpecialization?.Id)
+            switch (TemplatePresenter.Template?.EliteSpecialization?.Id)
             {
                 case (int)SpecializationType.Holosmith:
                     for (int i = 0; i < 5; i++)
@@ -85,7 +83,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage.ProfessionSpecific
                     break;
             }
 
-            if (TemplatePresenter.Template?.BuildTemplate?.EliteSpecialization?.Id == (int)SpecializationType.Scrapper)
+            if (TemplatePresenter.Template?.EliteSpecialization?.Id == (int)SpecializationType.Scrapper)
             {
                 _skills[4].TextureRegion = new(6, 6, 51, 51);
             }
@@ -95,7 +93,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage.ProfessionSpecific
         {
             RecalculateLayout();
 
-            switch (TemplatePresenter.Template?.BuildTemplate?.EliteSpecialization?.Id)
+            switch (TemplatePresenter.Template?.EliteSpecialization?.Id)
             {
                 case (int)SpecializationType.Holosmith:
                     for (int i = 0; i < 5; i++)
@@ -180,7 +178,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage.ProfessionSpecific
                 Models.Templates.SkillSlot state = Models.Templates.SkillSlot.Active;
                 Models.Templates.SkillSlot enviroment = Models.Templates.SkillSlot.Terrestrial;
 
-                var buildSkills = TemplatePresenter.Template?.BuildTemplate?.Skills.Where(e => e.Key.HasFlag(state | enviroment)).ToDictionary(e => e.Key, e => e.Value);
+                var buildSkills = TemplatePresenter.Template?.Skills.Where(e => e.Key.HasFlag(state | enviroment)).ToDictionary(e => e.Key, e => e.Value);
 
                 switch (slot)
                 {
@@ -223,7 +221,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage.ProfessionSpecific
                 return null;
             }
 
-            switch (TemplatePresenter.Template.BuildTemplate.EliteSpecialization?.Id)
+            switch (TemplatePresenter.Template.EliteSpecialization?.Id)
             {
                 case (int)SpecializationType.Mechanist:
                     _skills[0].Skill = Enviroment == Enviroment.Terrestrial ? skills[63089] : skills[63210];
@@ -248,7 +246,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage.ProfessionSpecific
                     break;
             }
 
-            if (TemplatePresenter.Template.BuildTemplate.EliteSpecialization?.Id != (int)SpecializationType.Mechanist)
+            if (TemplatePresenter.Template.EliteSpecialization?.Id != (int)SpecializationType.Mechanist)
             {
                 _skills[0].Skill = GetToolbeltSkill(SkillSlot.Profession1);
                 _skills[1].Skill = GetToolbeltSkill(SkillSlot.Profession2);

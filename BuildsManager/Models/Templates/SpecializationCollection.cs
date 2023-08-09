@@ -2,7 +2,7 @@
 using Kenedia.Modules.Core.Models;
 using System;
 using System.ComponentModel;
-using System.Diagnostics;
+using ProfessionType = Gw2Sharp.Models.ProfessionType;
 using static Kenedia.Modules.BuildsManager.Models.Templates.BuildSpecialization;
 
 namespace Kenedia.Modules.BuildsManager.Models.Templates
@@ -70,6 +70,14 @@ namespace Kenedia.Modules.BuildsManager.Models.Templates
                 buildspec.Value.Specialization = null;
                 buildspec.Value.Traits.Wipe();
             }
+        }
+
+        public void LoadFromCode(ProfessionType profession, SpecializationSlot slot, byte specId, byte adept, byte master, byte grandMaster)
+        {
+            var specialization = this[slot].Specialization = Specialization.FromByte(specId, profession);
+            this[slot].Traits[TraitTier.Adept] = Trait.FromByte(adept, specialization, TraitTier.Adept);
+            this[slot].Traits[TraitTier.Master] = Trait.FromByte(master, specialization, TraitTier.Master);
+            this[slot].Traits[TraitTier.GrandMaster] = Trait.FromByte(grandMaster, specialization, TraitTier.GrandMaster);
         }
     }
 }

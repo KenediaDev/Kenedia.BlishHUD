@@ -1,6 +1,5 @@
 ﻿using SkillSlot = Gw2Sharp.WebApi.V2.Models.SkillSlot;
 using Kenedia.Modules.BuildsManager.DataModels.Professions;
-using Kenedia.Modules.BuildsManager.Models.Templates;
 using Kenedia.Modules.Core.Models;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -89,25 +88,25 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage.ProfessionSpecific
 
             if (_skills[0].Hovered)
             {
-                TemplatePresenter.AltAttunement = TemplatePresenter.Template.BuildTemplate.EliteSpecialization?.Id == (int)SpecializationType.Weaver ? TemplatePresenter.MainAttunement : AttunementType.Fire;
+                TemplatePresenter.AltAttunement = TemplatePresenter.Template.EliteSpecialization?.Id == (int)SpecializationType.Weaver ? TemplatePresenter.MainAttunement : AttunementType.Fire;
                 TemplatePresenter.MainAttunement = AttunementType.Fire;
             }
 
             if (_skills[1].Hovered)
             {
-                TemplatePresenter.AltAttunement= TemplatePresenter.Template.BuildTemplate.EliteSpecialization?.Id == (int)SpecializationType.Weaver ? TemplatePresenter.MainAttunement : AttunementType.Water;
+                TemplatePresenter.AltAttunement= TemplatePresenter.Template.EliteSpecialization?.Id == (int)SpecializationType.Weaver ? TemplatePresenter.MainAttunement : AttunementType.Water;
                 TemplatePresenter.MainAttunement = AttunementType.Water;
             }
 
             if (_skills[2].Hovered)
             {
-                TemplatePresenter.AltAttunement= TemplatePresenter.Template.BuildTemplate.EliteSpecialization?.Id == (int)SpecializationType.Weaver ? TemplatePresenter.MainAttunement : AttunementType.Air;
+                TemplatePresenter.AltAttunement= TemplatePresenter.Template.EliteSpecialization?.Id == (int)SpecializationType.Weaver ? TemplatePresenter.MainAttunement : AttunementType.Air;
                 TemplatePresenter.MainAttunement = AttunementType.Air;
             }
 
             if (_skills[3].Hovered)
             {
-                TemplatePresenter.AltAttunement= TemplatePresenter.Template.BuildTemplate.EliteSpecialization?.Id == (int)SpecializationType.Weaver ? TemplatePresenter.MainAttunement : AttunementType.Earth;
+                TemplatePresenter.AltAttunement= TemplatePresenter.Template.EliteSpecialization?.Id == (int)SpecializationType.Weaver ? TemplatePresenter.MainAttunement : AttunementType.Earth;
                 TemplatePresenter.MainAttunement = AttunementType.Earth;
             }
         }
@@ -115,7 +114,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage.ProfessionSpecific
         protected override void Paint(SpriteBatch spriteBatch, Rectangle bounds)
         {
             RecalculateLayout();
-            switch (TemplatePresenter.Template.BuildTemplate.EliteSpecialization?.Id)
+            switch (TemplatePresenter.Template.EliteSpecialization?.Id)
             {
                 case (int)SpecializationType.Catalyst:
                     for (int i = 0; i < 4; i++)
@@ -155,16 +154,16 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage.ProfessionSpecific
 
                 foreach (var item in skills.Values.Where(e => e.Slot == slot))
                 {
-                    skill ??= item.Specialization == TemplatePresenter.Template.BuildTemplate.EliteSpecialization?.Id || item.Specialization == 0 ? item : skill;
+                    skill ??= item.Specialization == TemplatePresenter.Template.EliteSpecialization?.Id || item.Specialization == 0 ? item : skill;
                 }
 
                 return skill;
             }
 
-            _skills[0].Skill = TemplatePresenter.Template.BuildTemplate.EliteSpecialization?.Id == (int) SpecializationType.Tempest && TemplatePresenter.MainAttunement  == AttunementType.Fire ? skills[29706] : GetSkill(SkillSlot.Profession1);
-            _skills[1].Skill = TemplatePresenter.Template.BuildTemplate.EliteSpecialization?.Id == (int)SpecializationType.Tempest && TemplatePresenter.MainAttunement == AttunementType.Water ? skills[29415] : GetSkill(SkillSlot.Profession2);
-            _skills[2].Skill = TemplatePresenter.Template.BuildTemplate.EliteSpecialization?.Id == (int)SpecializationType.Tempest && TemplatePresenter.MainAttunement == AttunementType.Air ? skills[29719] : GetSkill(SkillSlot.Profession3);
-            _skills[3].Skill = TemplatePresenter.Template.BuildTemplate.EliteSpecialization?.Id == (int)SpecializationType.Tempest && TemplatePresenter.MainAttunement == AttunementType.Earth ? skills[29618] : GetSkill(SkillSlot.Profession4);
+            _skills[0].Skill = TemplatePresenter.Template.EliteSpecialization?.Id == (int) SpecializationType.Tempest && TemplatePresenter.MainAttunement  == AttunementType.Fire ? skills[29706] : GetSkill(SkillSlot.Profession1);
+            _skills[1].Skill = TemplatePresenter.Template.EliteSpecialization?.Id == (int)SpecializationType.Tempest && TemplatePresenter.MainAttunement == AttunementType.Water ? skills[29415] : GetSkill(SkillSlot.Profession2);
+            _skills[2].Skill = TemplatePresenter.Template.EliteSpecialization?.Id == (int)SpecializationType.Tempest && TemplatePresenter.MainAttunement == AttunementType.Air ? skills[29719] : GetSkill(SkillSlot.Profession3);
+            _skills[3].Skill = TemplatePresenter.Template.EliteSpecialization?.Id == (int)SpecializationType.Tempest && TemplatePresenter.MainAttunement == AttunementType.Earth ? skills[29618] : GetSkill(SkillSlot.Profession4);
             _skills[4].Skill = 
                 TemplatePresenter.MainAttunement == AttunementType.Fire ? skills[62813] :
                 TemplatePresenter.MainAttunement == AttunementType.Water ? skills[62723] :
