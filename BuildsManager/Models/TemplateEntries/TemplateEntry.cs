@@ -11,15 +11,8 @@ namespace Kenedia.Modules.BuildsManager.TemplateEntries
 
         public TemplateSlot Slot { get; }
 
-        public abstract string ToCode();
+        public abstract short[] AddToCodeArray(short[] array);
 
-        public abstract void FromCode(string code);
-
-        public string GetCode(string code)
-        {
-            if (code.StartsWith("[")) code = code.Substring(1, code.Length - 1);
-            if (code.EndsWith("]")) code = code.Substring(0, code.Length - 1);
-            return code;
-        }
+        public abstract short[] GetFromCodeArray(short[] array);
     }
 }

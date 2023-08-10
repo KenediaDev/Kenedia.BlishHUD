@@ -1,5 +1,6 @@
 ﻿using Blish_HUD.Content;
 using Gw2Sharp.WebApi.V2.Models;
+using Kenedia.Modules.Core.Models;
 using System.Runtime.Serialization;
 
 namespace Kenedia.Modules.BuildsManager.DataModels.Items
@@ -10,13 +11,31 @@ namespace Kenedia.Modules.BuildsManager.DataModels.Items
         private AsyncTexture2D _icon;
 
         [DataMember]
-        public string? Name { get; set; }
-
-        [DataMember]
         public ItemConsumableType Type { get; set; }
 
         [DataMember]
-        public string Description { get; set; } = string.Empty;
+        public LocalizedString Names { get; protected set; } = new();
+        public string Name
+        {
+            get => Names.Text;
+            set => Names.Text = value;
+        }
+
+        [DataMember]
+        public LocalizedString DisplayTexts { get; protected set; } = new();
+        public string DisplayText
+        {
+            get => DisplayTexts.Text;
+            set => DisplayTexts.Text = value;
+        }
+
+        [DataMember]
+        public LocalizedString Descriptions { get; protected set; } = new();
+        public string Description
+        {
+            get => Descriptions.Text;
+            set => Descriptions.Text = value;
+        }
 
         [DataMember]
         public int? DurationMs { get; set; }

@@ -37,6 +37,99 @@ namespace Kenedia.Modules.BuildsManager.Services
         private readonly PathCollection _paths;
         private CancellationTokenSource _cancellationTokenSource;
 
+        private readonly List<int> _infusions = new()
+        {
+            39336, //Mighty Infusion
+            39335, //Precise Infusion
+            39337, //Malign Infusion
+            39339, //Resilient Infusion
+            39338, //Vital Infusion
+            39340, //Healing Infusion
+
+            39616, //Healing +5 Agony Infusion
+            39617, //Resilient +5 Agony Infusion
+            39618, //Vital +5 Agony Infusion
+            39619, //Malign +5 Agony Infusion
+            39620, //Mighty +5 Agony Infusion
+            39621, //Precise +5 Agony Infusion
+            85971, //Spiteful +5 Agony Infusion
+            86338, //Mystical +5 Agony Infusion
+
+            37133, //Resilient +7 Agony Infusion
+            37134, //Vital +7 Agony Infusion
+            37123, //Healing +7 Agony Infusion
+            37127, //Mighty +7 Agony Infusion
+            37128, //Precise +7 Agony Infusion
+            37129, //Malign +7 Agony Infusion
+            85881, //Mystical +7 Agony Infusion
+            86150, //Spiteful +7 Agony Infusion
+
+            37130, //Malign +9 Agony Infusion
+            37131, //Mighty +9 Agony Infusion
+            37132, //Precise +9 Agony Infusion
+            37135, //Resilient +9 Agony Infusion
+            37136, //Vital +9 Agony Infusion            
+            37125, //Healing +9 Agony Infusion
+            86180, //Mystical +9 Agony Infusion
+            86113, //Spiteful +9 Agony Infusion
+
+            43250, //Healing WvW Infusion
+            43251, //Resilient WvW Infusion
+            43252, //Vital WvW Infusion
+            43253, //Malign WvW Infusion
+            43254, //Mighty WvW Infusion
+            43255, //Precise WvW Infusion
+            86986, //Concentration WvW Infusion
+            87218, //Expertise WvW Infusion
+
+            49424, //+1 Agony Infusion
+            49425, //+2 Agony Infusion
+            49426, //+3 Agony Infusion
+            49427, //+4 Agony Infusion
+            49428, //+5 Agony Infusion
+            49429, //+6 Agony Infusion
+            49430, //+7 Agony Infusion
+            49431, //+8 Agony Infusion
+            49432, //+9 Agony Infusion
+            49433, //+10 Agony Infusion
+            49434, //+11 Agony Infusion
+            49435, //+12 Agony Infusion
+            49436, //+13 Agony Infusion
+            49437, //+14 Agony Infusion
+            49438, //+15 Agony Infusion
+            49439, //+16 Agony Infusion
+            49440, //+17 Agony Infusion
+            49441, //+18 Agony Infusion
+            49442, //+19 Agony Infusion
+            49443, //+20 Agony Infusion
+            49444, //+21 Agony Infusion
+            49445, //+22 Agony Infusion
+            49446, //+23 Agony Infusion
+            49447, //+24 Agony Infusion
+            
+            87528, //Swim-Speed Infusion +10
+            87518, //Swim-Speed Infusion +11
+            87493, //Swim-Speed Infusion +12
+            87503, //Swim-Speed Infusion +13
+            87526, //Swim-Speed Infusion +14
+            87496, //Swim-Speed Infusion +15
+            87497, //Swim-Speed Infusion +16
+            87508, //Swim-Speed Infusion +17
+            87516, //Swim-Speed Infusion +18
+            87532, //Swim-Speed Infusion +19
+            87495, //Swim-Speed Infusion +20
+            87525, //Swim-Speed Infusion +21
+            87511, //Swim-Speed Infusion +22
+            87512, //Swim-Speed Infusion +23
+            87527, //Swim-Speed Infusion +24
+            87502, //Swim-Speed Infusion +25
+            87538, //Swim-Speed Infusion +26
+            87504, //Swim-Speed Infusion +27
+            //87504, //Swim-Speed Infusion +28
+            //87504, //Swim-Speed Infusion +29
+            //87504, //Swim-Speed Infusion +30
+        };
+
         private readonly Dictionary<int, int?> _skinDictionary = new()
                 {
                     { 85105, 5013 }, //Axe
@@ -145,7 +238,7 @@ namespace Kenedia.Modules.BuildsManager.Services
                 var api_amulets = await _gw2ApiManager.Gw2ApiClient.V2.Pvp.Amulets.AllAsync(cancellation);
 
                 var api_enrichments = await _gw2ApiManager.Gw2ApiClient.V2.Items.ManyAsync(_data.ItemMap.Enrichments.Select(e => e.Id), cancellation);
-                var api_infusions = await _gw2ApiManager.Gw2ApiClient.V2.Items.ManyAsync(_data.ItemMap.Infusions.Select(e => e.Id), cancellation);
+                var api_infusions = await _gw2ApiManager.Gw2ApiClient.V2.Items.ManyAsync(_infusions, cancellation);
 
                 var api_nourishments = await _gw2ApiManager.Gw2ApiClient.V2.Items.ManyAsync(_data.ItemMap.Nourishments.Select(e => e.Id), cancellation);
                 var api_utility = await _gw2ApiManager.Gw2ApiClient.V2.Items.ManyAsync(_data.ItemMap.Utilities.Select(e => e.Id), cancellation);
@@ -926,7 +1019,7 @@ namespace Kenedia.Modules.BuildsManager.Services
                                     itemMapping.PowerCore.Add(new()
                                     {
                                         Id = item.Id,
-                                        MappedId = itemMapping.PowerCore.Count,
+                                        MappedId = (byte)itemMapping.PowerCore.Count,
                                         Name = item.Name,
                                     });
                                 }
@@ -941,7 +1034,7 @@ namespace Kenedia.Modules.BuildsManager.Services
                                             itemMapping.Trinkets.Add(new()
                                             {
                                                 Id = trinket.Id,
-                                                MappedId = itemMapping.Trinkets.Count,
+                                                MappedId = (byte)itemMapping.Trinkets.Count,
                                                 Name = trinket.Name,
                                             });
                                             break;
@@ -951,7 +1044,7 @@ namespace Kenedia.Modules.BuildsManager.Services
                                             itemMapping.Backs.Add(new()
                                             {
                                                 Id = back.Id,
-                                                MappedId = itemMapping.Backs.Count,
+                                                MappedId = (byte)itemMapping.Backs.Count,
                                                 Name = back.Name,
                                             });
                                             break;
@@ -961,7 +1054,7 @@ namespace Kenedia.Modules.BuildsManager.Services
                                             itemMapping.Armors.Add(new()
                                             {
                                                 Id = armor.Id,
-                                                MappedId = itemMapping.Armors.Count,
+                                                MappedId = (byte)itemMapping.Armors.Count,
                                                 Name = armor.Name,
                                             });
                                             break;
@@ -971,7 +1064,7 @@ namespace Kenedia.Modules.BuildsManager.Services
                                             itemMapping.Weapons.Add(new()
                                             {
                                                 Id = weapon.Id,
-                                                MappedId = itemMapping.Weapons.Count,
+                                                MappedId = (byte)itemMapping.Weapons.Count,
                                                 Name = weapon.Name,
                                             });
                                             break;
@@ -990,7 +1083,7 @@ namespace Kenedia.Modules.BuildsManager.Services
                                             itemMapping.Nourishments.Add(new()
                                             {
                                                 Id = consumable.Id,
-                                                MappedId = itemMapping.Nourishments.Count,
+                                                MappedId = (byte)itemMapping.Nourishments.Count,
                                                 Name = consumable.Name,
                                             });
                                         }
@@ -1004,7 +1097,7 @@ namespace Kenedia.Modules.BuildsManager.Services
                                             itemMapping.Utilities.Add(new()
                                             {
                                                 Id = consumable.Id,
-                                                MappedId = itemMapping.Utilities.Count,
+                                                MappedId = (byte)itemMapping.Utilities.Count,
                                                 Name = consumable.Name,
                                             });
                                         }
@@ -1026,7 +1119,7 @@ namespace Kenedia.Modules.BuildsManager.Services
                                             itemMapping.PvpRunes.Add(new()
                                             {
                                                 Id = upgrade.Id,
-                                                MappedId = itemMapping.PvpRunes.Count,
+                                                MappedId = (byte)itemMapping.PvpRunes.Count,
                                                 Name = upgrade.Name,
                                             });
                                         }
@@ -1035,7 +1128,7 @@ namespace Kenedia.Modules.BuildsManager.Services
                                             itemMapping.PveRunes.Add(new()
                                             {
                                                 Id = upgrade.Id,
-                                                MappedId = itemMapping.PveRunes.Count,
+                                                MappedId = (byte)itemMapping.PveRunes.Count,
                                                 Name = upgrade.Name,
                                             });
                                         }
@@ -1049,7 +1142,7 @@ namespace Kenedia.Modules.BuildsManager.Services
                                             itemMapping.PvpSigils.Add(new()
                                             {
                                                 Id = upgrade.Id,
-                                                MappedId = itemMapping.PvpSigils.Count,
+                                                MappedId = (byte)itemMapping.PvpSigils.Count,
                                                 Name = upgrade.Name,
                                             });
                                         }
@@ -1058,7 +1151,7 @@ namespace Kenedia.Modules.BuildsManager.Services
                                             itemMapping.PveSigils.Add(new()
                                             {
                                                 Id = upgrade.Id,
-                                                MappedId = itemMapping.PveSigils.Count,
+                                                MappedId = (byte)itemMapping.PveSigils.Count,
                                                 Name = upgrade.Name,
                                             });
                                         }
@@ -1070,7 +1163,7 @@ namespace Kenedia.Modules.BuildsManager.Services
                                         itemMapping.Infusions.Add(new()
                                         {
                                             Id = upgrade.Id,
-                                            MappedId = itemMapping.Infusions.Count,
+                                            MappedId = (byte)itemMapping.Infusions.Count,
                                             Name = upgrade.Name,
                                         });
                                     }
@@ -1081,7 +1174,7 @@ namespace Kenedia.Modules.BuildsManager.Services
                                         itemMapping.Enrichments.Add(new()
                                         {
                                             Id = upgrade.Id,
-                                            MappedId = itemMapping.Enrichments.Count,
+                                            MappedId = (byte)itemMapping.Enrichments.Count,
                                             Name = upgrade.Name,
                                         });
                                     }

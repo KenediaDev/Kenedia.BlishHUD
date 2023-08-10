@@ -83,7 +83,7 @@ namespace Kenedia.Modules.BuildsManager.DataModels.Items
         public int Id { get; protected set; }
 
         [DataMember]
-        public int MappedId { get;  set; }
+        public byte MappedId { get;  set; }
 
         [DataMember]
         public ItemRarity Rarity { get; protected set; }
@@ -144,7 +144,7 @@ namespace Kenedia.Modules.BuildsManager.DataModels.Items
         public virtual void Apply(Gw2Sharp.WebApi.V2.Models.PvpAmulet amulet)
         {
             Id = amulet.Id;
-            MappedId = amulet.Id;
+            MappedId = (byte)amulet.Id;
             Name = amulet.Name;
             AssetId = amulet.Icon.GetAssetIdFromRenderUrl();
             DisplayText = amulet.Name;

@@ -63,8 +63,8 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage.GearSlots
             Slot = gearSlot;
             Parent = parent;
 
-            TemplatePresenter.LoadedGearFromCode += OnGearCodeLoaded;
-            TemplatePresenter.TemplateChanged += OnGearCodeLoaded;
+            TemplatePresenter.LoadedGearFromCode += SetItems;
+            TemplatePresenter.TemplateChanged += SetItems;
         }
 
         public SelectionPanel SelectionPanel { get; set; }
@@ -135,7 +135,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage.GearSlots
             ItemTexture.Bounds = new(0, 0, size, size);
         }
 
-        protected virtual void OnGearCodeLoaded(object sender, EventArgs e)
+        protected virtual void SetItems(object sender, EventArgs e)
         {
 
         }
@@ -234,9 +234,9 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage.GearSlots
             }
         }
 
-        protected override void OnGearCodeLoaded(object sender, EventArgs e)
+        protected override void SetItems(object sender, EventArgs e)
         {
-            base.OnGearCodeLoaded(sender, e);
+            base.SetItems(sender, e);
 
             var armor = TemplatePresenter.Template[Slot] as ArmorTemplateEntry;
             
@@ -372,9 +372,9 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage.GearSlots
             }
         }
 
-        protected override void OnGearCodeLoaded(object sender, EventArgs e)
+        protected override void SetItems(object sender, EventArgs e)
         {
-            base.OnGearCodeLoaded(sender, e);
+            base.SetItems(sender, e);
 
             var armor = TemplatePresenter.Template[Slot] as WeaponTemplateEntry;
 
@@ -532,9 +532,9 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage.GearSlots
             }
         }
 
-        protected override void OnGearCodeLoaded(object sender, EventArgs e)
+        protected override void SetItems(object sender, EventArgs e)
         {
-            base.OnGearCodeLoaded(sender, e);
+            base.SetItems(sender, e);
 
             var armor = TemplatePresenter.Template[Slot] as AquaticWeaponTemplateEntry;
 
@@ -650,9 +650,9 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage.GearSlots
             _infusion2Texture.Draw(this, spriteBatch, RelativeMousePosition);
         }
 
-        protected override void OnGearCodeLoaded(object sender, EventArgs e)
+        protected override void SetItems(object sender, EventArgs e)
         {
-            base.OnGearCodeLoaded(sender, e);
+            base.SetItems(sender, e);
 
             var armor = TemplatePresenter.Template[Slot] as BackTemplateEntry;
 
@@ -740,9 +740,9 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage.GearSlots
             _enrichmentTexture.Draw(this, spriteBatch, RelativeMousePosition);
         }
 
-        protected override void OnGearCodeLoaded(object sender, EventArgs e)
+        protected override void SetItems(object sender, EventArgs e)
         {
-            base.OnGearCodeLoaded(sender, e);
+            base.SetItems(sender, e);
 
             var armor = TemplatePresenter.Template[Slot] as AmuletTemplateEntry;
 
@@ -827,9 +827,9 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage.GearSlots
             _infusionTexture.Draw(this, spriteBatch, RelativeMousePosition);
         }
 
-        protected override void OnGearCodeLoaded(object sender, EventArgs e)
+        protected override void SetItems(object sender, EventArgs e)
         {
-            base.OnGearCodeLoaded(sender, e);
+            base.SetItems(sender, e);
 
             var armor = TemplatePresenter.Template[Slot] as AccessoireTemplateEntry;
 
@@ -941,9 +941,9 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage.GearSlots
             _infusion3Texture.Draw(this, spriteBatch, RelativeMousePosition);
         }
 
-        protected override void OnGearCodeLoaded(object sender, EventArgs e)
+        protected override void SetItems(object sender, EventArgs e)
         {
-            base.OnGearCodeLoaded(sender, e);
+            base.SetItems(sender, e);
 
             var armor = TemplatePresenter.Template[Slot] as RingTemplateEntry;
 
@@ -1026,9 +1026,9 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage.GearSlots
             //spriteBatch.DrawStringOnCtrl(this, ItemTexture?.Item?.Name ?? "Pvp Amulet", Content.DefaultFont16, _titleBounds, ItemTexture?.Item?.Rarity.GetColor() ?? Color.White * 0.5F);
         }
 
-        protected override void OnGearCodeLoaded(object sender, EventArgs e)
+        protected override void SetItems(object sender, EventArgs e)
         {
-            base.OnGearCodeLoaded(sender, e);
+            base.SetItems(sender, e);
 
             var armor = TemplatePresenter.Template[Slot] as PvpAmuletTemplateEntry;
 
@@ -1068,12 +1068,12 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage.GearSlots
             base.Paint(spriteBatch, bounds);
 
             spriteBatch.DrawStringOnCtrl(this, ItemTexture?.Item?.Name ?? "", Content.DefaultFont16, _titleBounds, ItemTexture?.Item?.Rarity.GetColor() ?? Color.White);
-            spriteBatch.DrawStringOnCtrl(this, (ItemTexture?.Item as DataModels.Items.Utility)?.Details.Description ?? ItemTexture?.Item?.Description, Content.DefaultFont12, _statBounds, Color.White, false, HorizontalAlignment.Left, VerticalAlignment.Top);
+            spriteBatch.DrawStringOnCtrl(this, (ItemTexture?.Item as Nourishment)?.Details.Description ?? ItemTexture?.Item?.Description, Content.DefaultFont12, _statBounds, Color.White, false, HorizontalAlignment.Left, VerticalAlignment.Top);
         }
 
-        protected override void OnGearCodeLoaded(object sender, EventArgs e)
+        protected override void SetItems(object sender, EventArgs e)
         {
-            base.OnGearCodeLoaded(sender, e);
+            base.SetItems(sender, e);
 
             var nourishment = TemplatePresenter.Template[Slot] as NourishmentEntry;
             Item = nourishment?.Item;
@@ -1110,9 +1110,9 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage.GearSlots
             spriteBatch.DrawStringOnCtrl(this, (ItemTexture?.Item as DataModels.Items.Utility)?.Details.Description ?? ItemTexture?.Item?.Description, Content.DefaultFont12, _statBounds, Color.White, false, HorizontalAlignment.Left, VerticalAlignment.Top);
         }
 
-        protected override void OnGearCodeLoaded(object sender, EventArgs e)
+        protected override void SetItems(object sender, EventArgs e)
         {
-            base.OnGearCodeLoaded(sender, e);
+            base.SetItems(sender, e);
 
             var utility = TemplatePresenter.Template[Slot] as UtilityEntry;
             Item = utility?.Item;
@@ -1150,9 +1150,9 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage.GearSlots
             spriteBatch.DrawStringOnCtrl(this, (ItemTexture?.Item as DataModels.Items.Utility)?.Details.Description ?? ItemTexture?.Item?.Description ?? "Currently not available", Content.DefaultFont12, _statBounds, Color.White, false, HorizontalAlignment.Left, VerticalAlignment.Top);
         }
 
-        protected override void OnGearCodeLoaded(object sender, EventArgs e)
+        protected override void SetItems(object sender, EventArgs e)
         {
-            base.OnGearCodeLoaded(sender, e);
+            base.SetItems(sender, e);
 
             var jadebotcore = TemplatePresenter.Template[Slot] as JadeBotTemplateEntry;
             Item = jadebotcore?.Item;
@@ -1189,9 +1189,9 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage.GearSlots
             spriteBatch.DrawStringOnCtrl(this, (ItemTexture?.Item as DataModels.Items.Utility)?.Details.Description ?? ItemTexture?.Item?.Description ?? "Currently not available", Content.DefaultFont12, _statBounds, Color.White, false, HorizontalAlignment.Left, VerticalAlignment.Top);
         }
 
-        protected override void OnGearCodeLoaded(object sender, EventArgs e)
+        protected override void SetItems(object sender, EventArgs e)
         {
-            base.OnGearCodeLoaded(sender, e);
+            base.SetItems(sender, e);
 
             var relic = TemplatePresenter.Template[Slot] as RelicTemplateEntry;
             Item = relic?.Item;

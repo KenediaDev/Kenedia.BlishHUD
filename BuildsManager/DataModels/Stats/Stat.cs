@@ -68,7 +68,7 @@ namespace Kenedia.Modules.BuildsManager.DataModels.Stats
         public int Id { get; set; }
 
         [DataMember]
-        public int MappedId { get; set; }
+        public byte MappedId { get; set; }
 
         [DataMember]
         public LocalizedString Names { get; protected set; } = new();

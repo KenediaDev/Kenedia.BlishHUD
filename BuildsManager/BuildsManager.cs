@@ -3,7 +3,9 @@ using Blish_HUD.Content;
 using Blish_HUD.Controls;
 using Blish_HUD.Modules;
 using Blish_HUD.Settings;
+using Gw2Sharp.ChatLinks;
 using Gw2Sharp.WebApi;
+using Kenedia.Modules.BuildsManager.DataModels.Items;
 using Kenedia.Modules.BuildsManager.Models;
 using Kenedia.Modules.BuildsManager.Models.Templates;
 using Kenedia.Modules.BuildsManager.Services;
@@ -15,10 +17,12 @@ using Kenedia.Modules.Core.Res;
 using Microsoft.Xna.Framework;
 using Newtonsoft.Json;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel.Composition;
 using System.Diagnostics;
 using System.IO;
+using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using CornerIcon = Kenedia.Modules.Core.Controls.CornerIcon;
@@ -171,6 +175,8 @@ namespace Kenedia.Modules.BuildsManager
             //CreateDummyTemplate();
 
             base.ReloadKey_Activated(sender, e);
+
+            Debug.WriteLine($"Infusions: {Data.Infusions.Count}");
         }
 
         protected override void LoadGUI()
@@ -332,7 +338,7 @@ namespace Kenedia.Modules.BuildsManager
                 MainWindow?.ToggleWindow();
             }
         }
-    
+
         private void CreateDummyTemplate()
         {
             var tt = new VTemplate
@@ -351,7 +357,10 @@ namespace Kenedia.Modules.BuildsManager
 
             var nt = new VTemplate(tt.BuildCode, tt.GearCode);
 
-            var code = "[6|161|24548|81235|37131][8|161|24548|81235|37131][11|161|24548|81235|37131][0|161|24548|81235|37131][161|24836|37131][161|24836|37131][161|24836|37131][161|24836|37131][161|24836|37131][161|24836|37131][161|37131|37131][161|39330][161|37131][161|37131][161|37131|37131|37131][161|37131|37131|37131][161|24836|37131][19|161|24548|24548|37131|37131][17|161|24548|24548|37131|37131][4|21092][12464][8485][-1][-1]";
+            var code_itemIds = "[6|161|24548|81235|37131][8|161|24548|81235|37131][11|161|24548|81235|37131][0|161|24548|81235|37131][161|24836|37131][161|24836|37131][161|24836|37131][161|24836|37131][161|24836|37131][161|24836|37131][161|37131|37131][161|39330][161|37131][161|37131][161|37131|37131|37131][161|37131|37131|37131][161|24836|37131][19|161|24548|24548|37131|37131][17|161|24548|24548|37131|37131][4|21092][12464][8485][-1][-1]";
+            var code_mappedIds = "[6|8|0|19|6][8|8|0|19|6][11|8|0|19|6][0|8|0|19|6][8|48|6][8|48|6][8|48|6][8|48|6][8|48|6][8|48|6][8|6|6][8|0][8|6][8|6][8|6|6|6][8|6|6|6][8|48|6][19|8|0|0|6|6][17|8|0|0|6|6][4|0][14][0][-1][-1]";
+            var code_encodedShorts = "[&BgAIAAAAEwAGAAgACAAAABMABgALAAgAAAATAAYAAAAIAAAAEwAGAAgAMAAGAAgAMAAGAAgAMAAGAAgAMAAGAAgAMAAGAAgAMAAGAAgABgAGAAgAAAAIAAYACAAGAAgABgAGAAYACAAGAAYABgAIADAABgATAAgAAAAAAAYABgARAAgAAAAAAAYABgAEAAAADgAAAP////8=]";
+
 
             Debug.WriteLine($"Aquatic: {nt.Aquatic.Item?.Name}");
             Debug.WriteLine($"AltAquatic: {nt.AltAquatic.Item?.Name}");

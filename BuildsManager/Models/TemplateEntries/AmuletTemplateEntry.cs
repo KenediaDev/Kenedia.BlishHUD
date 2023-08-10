@@ -2,6 +2,9 @@
 using System.Linq;
 using Kenedia.Modules.BuildsManager.DataModels.Items;
 using Kenedia.Modules.BuildsManager.DataModels.Stats;
+using Gw2Sharp.WebApi.V2.Models;
+using Kenedia.Modules.BuildsManager.Utility;
+using System;
 
 namespace Kenedia.Modules.BuildsManager.TemplateEntries
 {
@@ -17,20 +20,23 @@ namespace Kenedia.Modules.BuildsManager.TemplateEntries
 
         public Enrichment Enrichment { get; set; }
 
-        public override void FromCode(string code)
+        public override short[] AddToCodeArray(short[] array)
         {
-            string[] parts = GetCode(code).Split('|');
-
-            if (parts.Length == 2)
+            return array.Concat(new short[]
             {
-                Stat = int.TryParse(parts[0], out int stat) ? BuildsManager.Data.Stats.Where(e => e.Value.Id == stat).FirstOrDefault().Value : null;
-                Enrichment = int.TryParse(parts[1], out int enrichment) ? BuildsManager.Data.Enrichments.Where(e => e.Value.Id == enrichment).FirstOrDefault().Value : null;
-            }
+                (short)(Stat?.MappedId ?? -1),
+                (short)(Enrichment?.MappedId ?? -1),
+            }).ToArray();
         }
 
-        public override string ToCode()
+        public override short[] GetFromCodeArray(short[] array)
         {
-            return $"[{Stat?.Id ?? -1}|{Enrichment?.Id ?? -1}]";
+            int newStartIndex = 2;
+
+            Stat = byte.TryParse($"{array[0]}", out byte stat) ? BuildsManager.Data.Stats.Where(e => e.Value.MappedId == stat).FirstOrDefault().Value : null;
+            Enrichment = byte.TryParse($"{array[1]}", out byte enrichment) ? BuildsManager.Data.Enrichments.Where(e => e.Value.MappedId == enrichment).FirstOrDefault().Value : null;
+
+            return GearTemplateCode.RemoveFromStart(array, newStartIndex);
         }
     }
 }

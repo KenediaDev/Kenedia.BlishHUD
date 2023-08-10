@@ -16,6 +16,9 @@ using System.Threading.Tasks;
 using Kenedia.Modules.BuildsManager.TemplateEntries;
 using System.Collections.Generic;
 using Blish_HUD.Gw2Mumble;
+using System.Diagnostics;
+using Kenedia.Modules.BuildsManager.Utility;
+using SharpDX;
 
 namespace Kenedia.Modules.BuildsManager.Models
 {
@@ -386,44 +389,38 @@ namespace Kenedia.Modules.BuildsManager.Models
         public async void LoadGearFromCode(string? code, bool save = false)
         {
             // Disable Events to prevent unnecessary event triggers during the load
-
             if (code == null) return;
 
-            string[] parts = code.Split(']');
+            short[] codeArray = GearTemplateCode.DecodeBase64ToShorts(code);
 
-            if (parts.Length != 25) return;
+            codeArray = MainHand.GetFromCodeArray(codeArray);
+            codeArray = OffHand.GetFromCodeArray(codeArray);
+            codeArray = AltMainHand.GetFromCodeArray(codeArray);
+            codeArray = AltOffHand.GetFromCodeArray(codeArray);
 
-            _triggerEvents = false;
+            codeArray = Head.GetFromCodeArray(codeArray);
+            codeArray = Shoulder.GetFromCodeArray(codeArray);
+            codeArray = Chest.GetFromCodeArray(codeArray);
+            codeArray = Hand.GetFromCodeArray(codeArray);
+            codeArray = Leg.GetFromCodeArray(codeArray);
+            codeArray = Foot.GetFromCodeArray(codeArray);
 
-            MainHand.FromCode(parts[0]);
-            OffHand.FromCode(parts[1]);
+            codeArray = Back.GetFromCodeArray(codeArray);
+            codeArray = Amulet.GetFromCodeArray(codeArray);
+            codeArray = Accessory_1.GetFromCodeArray(codeArray);
+            codeArray = Accessory_2.GetFromCodeArray(codeArray);
+            codeArray = Ring_1.GetFromCodeArray(codeArray);
+            codeArray = Ring_2.GetFromCodeArray(codeArray);
 
-            AltMainHand.FromCode(parts[2]);
-            AltOffHand.FromCode(parts[3]);
+            codeArray = AquaBreather.GetFromCodeArray(codeArray);
+            codeArray = Aquatic.GetFromCodeArray(codeArray);
+            codeArray = AltAquatic.GetFromCodeArray(codeArray);
 
-            Head.FromCode(parts[4]);
-            Shoulder.FromCode(parts[5]);
-            Chest.FromCode(parts[6]);
-            Hand.FromCode(parts[7]);
-            Leg.FromCode(parts[8]);
-            Foot.FromCode(parts[9]);
-
-            Back.FromCode(parts[10]);
-            Amulet.FromCode(parts[11]);
-            Accessory_1.FromCode(parts[12]);
-            Accessory_2.FromCode(parts[13]);
-            Ring_1.FromCode(parts[14]);
-            Ring_2.FromCode(parts[15]);
-
-            AquaBreather.FromCode(parts[16]);
-            Aquatic.FromCode(parts[17]);
-            AltAquatic.FromCode(parts[18]);
-
-            PvpAmulet.FromCode(parts[19]);
-            Nourishment.FromCode(parts[20]);
-            Utility.FromCode(parts[21]);
-            Relic.FromCode(parts[22]);
-            JadeBotCore.FromCode(parts[23]);
+            codeArray = PvpAmulet.GetFromCodeArray(codeArray);
+            codeArray = Nourishment.GetFromCodeArray(codeArray);
+            codeArray = Utility.GetFromCodeArray(codeArray);
+            codeArray = Relic.GetFromCodeArray(codeArray);
+            codeArray = JadeBotCore.GetFromCodeArray(codeArray);
 
             // Enable Events again to become responsive
             _triggerEvents = true;
@@ -500,39 +497,38 @@ namespace Kenedia.Modules.BuildsManager.Models
 
         public string? ParseGearCode()
         {
-            string code = "";
+            short[] codeArray = new short[0];
 
-            code += MainHand.ToCode();
-            code += OffHand.ToCode();
+            codeArray = MainHand.AddToCodeArray(codeArray);
+            codeArray = OffHand.AddToCodeArray(codeArray);
+            codeArray = AltMainHand.AddToCodeArray(codeArray);
+            codeArray = AltOffHand.AddToCodeArray(codeArray);
 
-            code += AltMainHand.ToCode();
-            code += AltOffHand.ToCode();
+            codeArray = Head.AddToCodeArray(codeArray);
+            codeArray = Shoulder.AddToCodeArray(codeArray);
+            codeArray = Chest.AddToCodeArray(codeArray);
+            codeArray = Hand.AddToCodeArray(codeArray);
+            codeArray = Leg.AddToCodeArray(codeArray);
+            codeArray = Foot.AddToCodeArray(codeArray);
 
-            code += Head.ToCode();
-            code += Shoulder.ToCode();
-            code += Chest.ToCode();
-            code += Hand.ToCode();
-            code += Leg.ToCode();
-            code += Foot.ToCode();
+            codeArray = Back.AddToCodeArray(codeArray);
+            codeArray = Amulet.AddToCodeArray(codeArray);
+            codeArray = Accessory_1.AddToCodeArray(codeArray);
+            codeArray = Accessory_2.AddToCodeArray(codeArray);
+            codeArray = Ring_1.AddToCodeArray(codeArray);
+            codeArray = Ring_2.AddToCodeArray(codeArray);
 
-            code += Back.ToCode();
-            code += Amulet.ToCode();
-            code += Accessory_1.ToCode();
-            code += Accessory_2.ToCode();
-            code += Ring_1.ToCode();
-            code += Ring_2.ToCode();
+            codeArray = AquaBreather.AddToCodeArray(codeArray);
+            codeArray = Aquatic.AddToCodeArray(codeArray);
+            codeArray = AltAquatic.AddToCodeArray(codeArray);
 
-            code += AquaBreather.ToCode();
-            code += Aquatic.ToCode();
-            code += AltAquatic.ToCode();
+            codeArray = PvpAmulet.AddToCodeArray(codeArray);
+            codeArray = Nourishment.AddToCodeArray(codeArray);
+            codeArray = Utility.AddToCodeArray(codeArray);
+            codeArray = Relic.AddToCodeArray(codeArray);
+            codeArray = JadeBotCore.AddToCodeArray(codeArray);
 
-            code += PvpAmulet.ToCode();
-            code += Nourishment.ToCode();
-            code += Utility.ToCode();
-            code += Relic.ToCode();
-            code += JadeBotCore.ToCode();
-
-            return code;
+            return GearTemplateCode.EncodeShortsToBase64(codeArray);
         }
 
         private async void AutoSave()

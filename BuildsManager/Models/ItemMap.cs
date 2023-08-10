@@ -4,7 +4,7 @@
     {
         public int Id { get; set; }
 
-        public int MappedId { get; set; }
+        public byte MappedId { get; set; }
 
         public string Name { get; set; }
     }
