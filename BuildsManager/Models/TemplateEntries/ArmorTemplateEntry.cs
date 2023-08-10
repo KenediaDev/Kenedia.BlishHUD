@@ -22,42 +22,25 @@ namespace Kenedia.Modules.BuildsManager.TemplateEntries
 
         public Stat Stat { get; set; }
 
-        public override short[] AddToCodeArray(short[] array)
+        public override byte[] AddToCodeArray(byte[] array)
         {
-            return array.Concat(new short[]
+            return array.Concat(new byte[]
             {
-                (short)(Stat?.MappedId ?? -1),
-                (short)(Rune?.MappedId ?? -1),
-                (short)(Infusion?.MappedId ?? -1),
+                Stat?.MappedId ?? 0,
+                Rune ?.MappedId ?? 0,
+                Infusion ?.MappedId ?? 0,
             }).ToArray();
         }
 
-        public override void FromCode(string code)
-        {
-            string[] parts = GetCode(code).Split('|');
-
-            if (parts.Length == 3)
-            {
-                Stat = int.TryParse(parts[0], out int stat) ? BuildsManager.Data.Stats.Where(e => e.Value.MappedId == stat).FirstOrDefault().Value : null;
-                Rune = int.TryParse(parts[1], out int rune) ? BuildsManager.Data.PveRunes.Where(e => e.Value.MappedId == rune).FirstOrDefault().Value : null;
-                Infusion = int.TryParse(parts[2], out int infusion) ? BuildsManager.Data.Infusions.Where(e => e.Value.MappedId == infusion).FirstOrDefault().Value : null;
-            }
-        }
-
-        public override short[] GetFromCodeArray(short[] array)
+        public override byte[] GetFromCodeArray(byte[] array)
         {
             int newStartIndex = 3;
 
-            Stat = int.TryParse($"{array[0]}", out int stat) ? BuildsManager.Data.Stats.Where(e => e.Value.MappedId == stat).FirstOrDefault().Value : null;
-            Rune = int.TryParse($"{array[1]}", out int rune) ? BuildsManager.Data.PveRunes.Where(e => e.Value.MappedId == rune).FirstOrDefault().Value : null;
-            Infusion = int.TryParse($"{array[2]}", out int infusion_1) ? BuildsManager.Data.Infusions.Where(e => e.Value.MappedId == infusion_1).FirstOrDefault().Value : null;
+            Stat = BuildsManager.Data.Stats.Where(e => e.Value.MappedId == array[0]).FirstOrDefault().Value;
+            Rune = BuildsManager.Data.PveRunes.Where(e => e.Value.MappedId == array[1]).FirstOrDefault().Value;
+            Infusion = BuildsManager.Data.Infusions.Where(e => e.Value.MappedId == array[2]).FirstOrDefault().Value;
 
             return GearTemplateCode.RemoveFromStart(array, newStartIndex);
-        }
-
-        public override string ToCode()
-        {
-            return $"[{Stat?.MappedId ?? -1}|{Rune?.MappedId ?? -1}|{Infusion?.MappedId ?? -1}]";
         }
     }
 }

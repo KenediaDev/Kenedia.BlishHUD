@@ -16,6 +16,7 @@ namespace Kenedia.Modules.BuildsManager.Services
             SettingCollection internalSettings = settings.AddSubCollection("Internal", false, false);
 
             ShowCornerIcon = internalSettings.DefineSetting(nameof(ShowCornerIcon), true);
+            SlowLoad = internalSettings.DefineSetting(nameof(SlowLoad), false);
 
             //Temporary
             ToggleWindowKey = settings.DefineSetting(nameof(ToggleWindowKey), new KeyBinding(ModifierKeys.Shift, Keys.B), 
@@ -24,6 +25,8 @@ namespace Kenedia.Modules.BuildsManager.Services
         }
 
         public SettingEntry<bool> ShowCornerIcon { get; set; }
+
+        public SettingEntry<bool> SlowLoad { get; set; }
 
         public SettingEntry<KeyBinding> ToggleWindowKey { get; set; }
     }

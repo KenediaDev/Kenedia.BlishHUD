@@ -70,7 +70,8 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage
             {
                 Parent = this,
                 Location = new(_copyButton.Right + 2, 0),
-                EnterPressedAction = (txt) => TemplatePresenter.Template?.LoadGearFromCode(txt, true)
+                EnterPressedAction = (txt) => TemplatePresenter.Template?.LoadGearFromCode(txt, true),
+                Font = GameService.Content.GetFont(ContentService.FontFace.Menomonia, ContentService.FontSize.Size11, ContentService.FontStyle.Regular),
             };
 
             _framedSpecIcon = new()
@@ -281,8 +282,6 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage
                     : slot.Slot is not TemplateSlot.PvpAmulet);
             }
         }
-
-
 
         public override void PaintBeforeChildren(SpriteBatch spriteBatch, Rectangle bounds)
         {

@@ -14,6 +14,7 @@ using Kenedia.Modules.BuildsManager.Views;
 using Kenedia.Modules.Core.Extensions;
 using Kenedia.Modules.Core.Models;
 using Kenedia.Modules.Core.Res;
+using Kenedia.Modules.Core.Utility;
 using Microsoft.Xna.Framework;
 using Newtonsoft.Json;
 using System;
@@ -22,6 +23,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel.Composition;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -53,7 +55,16 @@ namespace Kenedia.Modules.BuildsManager
 
         public ObservableCollection<VTemplate> Templates { get; private set; } = new();
 
-        public bool TemplatesLoaded { get; private set; } = false;
+        public event ValueChangedEventHandler<bool> TemplatesLoadedDone;
+
+        private bool _templatesLoaded = false;
+
+        public bool TemplatesLoaded { get => _templatesLoaded; private set => Common.SetProperty(ref _templatesLoaded, value, OnTemplatesLoaded, value); }
+
+        private void OnTemplatesLoaded(object sender, Core.Models.ValueChangedEventArgs<bool> e)
+        {
+            TemplatesLoadedDone?.Invoke(this, e);
+        }
 
         public VTemplate SelectedTemplate => MainWindow?.Template ?? null;
 
@@ -168,20 +179,29 @@ namespace Kenedia.Modules.BuildsManager
 
             //await GW2API.GetItems(_cancellationTokenSource.Token);
             //await GW2API.UpdateData();
-            //await GW2API.CreateItemMap(_cancellationTokenSource.Token);
+
+            //var template = Templates.FirstOrDefault(e => e.Name == "Test Template #1");
+            //var build = template.BuildCode;
+            //var gear = template.GearCode;
+
+            //for (int i = 0; i < 1000; i++)
+            //{
+            //    _ = new VTemplate(build, gear)
+            //    {
+            //        Name = $"Template #{i}",
+            //    }.Save(0);
+            //}
 
             await LoadTemplates();
 
             //CreateDummyTemplate();
 
             base.ReloadKey_Activated(sender, e);
-
-            Debug.WriteLine($"Infusions: {Data.Infusions.Count}");
         }
 
         protected override void LoadGUI()
         {
-            if (!Data.IsLoaded) return;
+            if (!Data.IsLoaded || !TemplatesLoaded) return;
 
             base.LoadGUI();
             int Height = 670;
@@ -240,54 +260,69 @@ namespace Kenedia.Modules.BuildsManager
         private async Task LoadTemplates()
         {
             Logger.Info($"LoadTemplates");
-            var time = new System.Diagnostics.Stopwatch();
-            time.Start();
-            TemplatesLoaded = false;
 
-            try
+            _ = Task.Run(async () =>
             {
-                _fileAccessTokenSource?.Cancel();
-                _fileAccessTokenSource = new CancellationTokenSource();
-                string[] templates = Directory.GetFiles(Paths.TemplatesPath);
+                TemplatesLoaded = false;
+                var time = new System.Diagnostics.Stopwatch();
+                time.Start();
 
-                Templates.Clear();
-
-                Logger.Info($"Loading {templates.Length} Templates ...");
-                int i = 0;
-                foreach (string file in templates)
+                try
                 {
-                    i++;
-                    TemplatesLoaded = i >= templates.Length;
+                    _fileAccessTokenSource?.Cancel();
+                    _fileAccessTokenSource = new CancellationTokenSource();
+                    string[] templates = Directory.GetFiles(Paths.TemplatesPath);
 
-                    if (await FileExtension.WaitForFileUnlock(file, 2500, _fileAccessTokenSource.Token))
+                    Templates.Clear();
+
+                    JsonSerializerSettings settings = new();
+                    settings.Converters.Add(new TemplateConverter());
+
+                    Logger.Info($"Loading {templates.Length} Templates ...");
+                    Settings.SlowLoad.Value = false;
+                    if (Settings.SlowLoad.Value)
                     {
-                        using var reader = File.OpenText(file);
-                        string fileText = await reader.ReadToEndAsync();
-
-                        JsonSerializerSettings settings = new();
-                        settings.Converters.Add(new TemplateConverter());
-                        var template = JsonConvert.DeserializeObject<VTemplate>(fileText, settings);
-
-                        if (template != null)
+                        foreach (string file in templates)
                         {
-                            Templates.Add(template);
+                            if (await FileExtension.WaitForFileUnlock(file, 2500, _fileAccessTokenSource.Token))
+                            {
+                                using var reader = File.OpenText(file);
+                                string fileText = await reader.ReadToEndAsync();
+                                var template = JsonConvert.DeserializeObject<VTemplate>(fileText, settings);
+
+                                if (template != null)
+                                {
+                                    Templates.Add(template);
+                                }
+                            }
+                        }
+                    }
+                    else
+                    {
+                        foreach (string file in templates)
+                        {
+                            string fileText = File.ReadAllText(file);
+                            var template = JsonConvert.DeserializeObject<VTemplate>(fileText, settings);
+
+                            if (template != null)
+                            {
+                                Templates.Add(template);
+                            }
                         }
                     }
 
-                    //if (Templates.Count == 0 && SelectedTemplate != null) Templates.Add(SelectedTemplate);
-                    //SelectedTemplate = Templates.FirstOrDefault();}
+                    time.Stop();
+                    Logger.Info($"Time to load {templates.Length} templates {time.ElapsedMilliseconds}ms. {Templates.Count} out of {templates.Length} templates got loaded.");
+                }
+                catch (Exception ex)
+                {
+                    Logger.Warn(ex.Message);
+                    Logger.Warn($"Loading Templates failed!");
                 }
 
-                time.Stop();
-                Logger.Info($"Time to load {templates.Length} templates {time.ElapsedMilliseconds}ms. {Templates.Count} out of {templates.Length} templates got loaded.");
-            }
-            catch (Exception ex)
-            {
-                Logger.Warn(ex.Message);
-                Logger.Warn($"Loading Templates failed!");
-            }
+                TemplatesLoaded = true;
+            });
 
-            TemplatesLoaded = true;
         }
 
         private void CreateCornerIcons()

@@ -97,6 +97,8 @@ namespace Kenedia.Modules.BuildsManager.Views
                 if (_templatePresenter.Template != value)
                 {
                     _templatePresenter.Template = value ?? new();
+                    _templatePresenter.Template?.Load();
+
                     TemplateChanged?.Invoke(this, new(prev, _templatePresenter.Template));
                 }
             }

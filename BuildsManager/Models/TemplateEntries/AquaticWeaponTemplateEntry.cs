@@ -27,51 +27,31 @@ namespace Kenedia.Modules.BuildsManager.TemplateEntries
 
         public Stat Stat { get; set; }
 
-        public override short[] AddToCodeArray(short[] array)
+        public override byte[] AddToCodeArray(byte[] array)
         {
-            return array.Concat(new short[]
+            return array.Concat(new byte[]
             {
-                (short)(Item?.WeaponType ?? ItemWeaponType.Unknown),
-                (short)(Stat?.MappedId ?? -1),
-                (short)(Sigil_1?.MappedId ?? -1),
-                (short)(Sigil_2?.MappedId ?? -1),
-                (short)(Infusion_1?.MappedId ?? -1),
-                (short)(Infusion_2?.MappedId ?? -1),
+                (byte)(Item?.WeaponType ?? ItemWeaponType.Unknown),
+                Stat ?.MappedId ?? 0,
+                Sigil_1 ?.MappedId ?? 0,
+                Sigil_2 ?.MappedId ?? 0,
+                Infusion_1 ?.MappedId ?? 0,
+                Infusion_2 ?.MappedId ?? 0,
             }).ToArray();
         }
 
-        public override void FromCode(string code)
-        {
-            string[] parts = GetCode(code).Split('|');
-
-            if (parts.Length == 6)
-            {
-                Item = Enum.TryParse(parts[0], out ItemWeaponType weaponType) ? BuildsManager.Data.Weapons.Values.Where(e => e.WeaponType == weaponType).FirstOrDefault() : null;
-                Stat = int.TryParse(parts[1], out int stat) ? BuildsManager.Data.Stats.Where(e => e.Value.MappedId == stat).FirstOrDefault().Value : null;
-                Sigil_1 = int.TryParse(parts[2], out int sigil_1) ? BuildsManager.Data.PveSigils.Where(e => e.Value.MappedId == sigil_1).FirstOrDefault().Value : null;
-                Sigil_2 = int.TryParse(parts[3], out int sigil_2) ? BuildsManager.Data.PveSigils.Where(e => e.Value.MappedId == sigil_2).FirstOrDefault().Value : null;
-                Infusion_1 = int.TryParse(parts[4], out int infusion_1) ? BuildsManager.Data.Infusions.Where(e => e.Value.MappedId == infusion_1).FirstOrDefault().Value : null;
-                Infusion_2 = int.TryParse(parts[5], out int infusion_2) ? BuildsManager.Data.Infusions.Where(e => e.Value.MappedId == infusion_2).FirstOrDefault().Value : null;
-            }
-        }
-
-        public override short[] GetFromCodeArray(short[] array)
+        public override byte[] GetFromCodeArray(byte[] array)
         {
             int newStartIndex = 6;
 
             Item = Enum.TryParse($"{array[0]}", out ItemWeaponType weaponType) ? BuildsManager.Data.Weapons.Values.Where(e => e.WeaponType == weaponType).FirstOrDefault() : null;
-            Stat = int.TryParse($"{array[1]}", out int stat) ? BuildsManager.Data.Stats.Where(e => e.Value.MappedId == stat).FirstOrDefault().Value : null;
-            Sigil_1 = int.TryParse($"{array[2]}", out int sigil_1) ? BuildsManager.Data.PveSigils.Where(e => e.Value.MappedId == sigil_1).FirstOrDefault().Value : null;
-            Sigil_2 = int.TryParse($"{array[3]}", out int sigil_2) ? BuildsManager.Data.PveSigils.Where(e => e.Value.MappedId == sigil_2).FirstOrDefault().Value : null;
-            Infusion_1 = int.TryParse($"{array[4]}", out int infusion_1) ? BuildsManager.Data.Infusions.Where(e => e.Value.MappedId == infusion_1).FirstOrDefault().Value : null;
-            Infusion_2 = int.TryParse($"{array[5]}", out int infusion_2) ? BuildsManager.Data.Infusions.Where(e => e.Value.MappedId == infusion_2).FirstOrDefault().Value : null;
+            Stat = BuildsManager.Data.Stats.Where(e => e.Value.MappedId == array[1]).FirstOrDefault().Value;
+            Sigil_1 = BuildsManager.Data.PveSigils.Where(e => e.Value.MappedId == array[2]).FirstOrDefault().Value;
+            Sigil_2 = BuildsManager.Data.PveSigils.Where(e => e.Value.MappedId == array[3]).FirstOrDefault().Value;
+            Infusion_1 = BuildsManager.Data.Infusions.Where(e => e.Value.MappedId == array[4]).FirstOrDefault().Value;
+            Infusion_2 = BuildsManager.Data.Infusions.Where(e => e.Value.MappedId == array[5]).FirstOrDefault().Value;
 
             return GearTemplateCode.RemoveFromStart(array, newStartIndex);
-        }
-
-        public override string ToCode()
-        {
-            return $"[{(int)(Item?.WeaponType ?? ItemWeaponType.Unknown)}|{Stat?.MappedId ?? -1}|{Sigil_1?.MappedId ?? -1}|{Sigil_2?.MappedId ?? -1}|{Infusion_1?.MappedId ?? -1}|{Infusion_2?.MappedId ?? -1}]";
         }
     }
 }

@@ -115,10 +115,16 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
 
             Search.TextChangedAction = (txt) => _addBuildsButton.BasicTooltipText = string.IsNullOrEmpty(txt) ? $"Create a new Template" : $"Create new Template '{txt}'";
 
+            BuildsManager.ModuleInstance.TemplatesLoadedDone += ModuleInstance_TemplatesLoadedDone; ;
             BuildsManager.ModuleInstance.Templates.CollectionChanged += Templates_CollectionChanged;
             Templates_CollectionChanged(this, null);
 
             GameService.Gw2Mumble.PlayerCharacter.SpecializationChanged += PlayerCharacter_SpecializationChanged;
+        }
+
+        private void ModuleInstance_TemplatesLoadedDone(object sender, Core.Models.ValueChangedEventArgs<bool> e)
+        {
+            Templates_CollectionChanged(sender, null);
         }
 
         public TemplatePresenter TemplatePresenter { get; set; } = new();

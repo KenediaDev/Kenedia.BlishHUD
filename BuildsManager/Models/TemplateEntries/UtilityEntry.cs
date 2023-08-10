@@ -12,36 +12,21 @@ namespace Kenedia.Modules.BuildsManager.TemplateEntries
 
         public DataModels.Items.Utility Item { get; set; }
 
-        public override short[] AddToCodeArray(short[] array)
+        public override byte[] AddToCodeArray(byte[] array)
         {
-            return array.Concat(new short[]
+            return array.Concat(new byte[]
             {
-                (short)(Item?.MappedId ?? -1),
+                Item ?.MappedId ?? 0,
             }).ToArray();
         }
 
-        public override void FromCode(string code)
-        {
-            string[] parts = GetCode(code).Split('|');
-
-            if (parts.Length == 1)
-            {
-                Item = int.TryParse(parts[0], out int id) ? BuildsManager.Data.Utilities.Values.Where(e => e.MappedId == id).FirstOrDefault() : null;
-            }
-        }
-
-        public override short[] GetFromCodeArray(short[] array)
+        public override byte[] GetFromCodeArray(byte[] array)
         {
             int newStartIndex = 1;
 
-            Item = int.TryParse($"{array[0]}", out int id) ? BuildsManager.Data.Utilities.Values.Where(e => e.MappedId == id).FirstOrDefault() : null;
+            Item = BuildsManager.Data.Utilities.Values.Where(e => e.MappedId == array[0]).FirstOrDefault();
 
             return GearTemplateCode.RemoveFromStart(array, newStartIndex);
-        }
-
-        public override string ToCode()
-        {
-            return $"[{Item?.MappedId ?? -1}]";
         }
     }
 }

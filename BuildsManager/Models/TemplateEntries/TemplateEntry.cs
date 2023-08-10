@@ -11,8 +11,8 @@ namespace Kenedia.Modules.BuildsManager.TemplateEntries
 
         public TemplateSlot Slot { get; }
 
-        public abstract short[] AddToCodeArray(short[] array);
+        public abstract byte[] AddToCodeArray(byte[] array);
 
-        public abstract short[] GetFromCodeArray(short[] array);
+        public abstract byte[] GetFromCodeArray(byte[] array);
     }
 }

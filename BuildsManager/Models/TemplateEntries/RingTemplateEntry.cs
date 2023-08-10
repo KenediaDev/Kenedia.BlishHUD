@@ -24,45 +24,27 @@ namespace Kenedia.Modules.BuildsManager.TemplateEntries
 
         public Stat Stat { get; set; }
 
-        public override short[] AddToCodeArray(short[] array)
+        public override byte[] AddToCodeArray(byte[] array)
         {
-            return array.Concat(new short[]
+            return array.Concat(new byte[]
             {
-                (short)(Stat?.MappedId ?? -1),
-                (short)(Infusion_1?.MappedId ?? -1),
-                (short)(Infusion_2?.MappedId ?? -1),
-                (short)(Infusion_3?.MappedId ?? -1),
+                Stat ?.MappedId ?? 0,
+                Infusion_1 ?.MappedId ?? 0,
+                Infusion_2 ?.MappedId ?? 0,
+                Infusion_3 ?.MappedId ?? 0,
             }).ToArray();
         }
 
-        public override void FromCode(string code)
-        {
-            string[] parts = GetCode(code).Split('|');
-
-            if (parts.Length == 4)
-            {
-                Stat = int.TryParse(parts[0], out int stat) ? BuildsManager.Data.Stats.Where(e => e.Value.MappedId == stat).FirstOrDefault().Value : null;
-                Infusion_1 = int.TryParse(parts[1], out int infusion1) ? BuildsManager.Data.Infusions.Where(e => e.Value.MappedId == infusion1).FirstOrDefault().Value : null;
-                Infusion_2 = int.TryParse(parts[2], out int infusion2) ? BuildsManager.Data.Infusions.Where(e => e.Value.MappedId == infusion2).FirstOrDefault().Value : null;
-                Infusion_3 = int.TryParse(parts[3], out int infusion3) ? BuildsManager.Data.Infusions.Where(e => e.Value.MappedId == infusion3).FirstOrDefault().Value : null;
-            }
-        }
-
-        public override short[] GetFromCodeArray(short[] array)
+        public override byte[] GetFromCodeArray(byte[] array)
         {
             int newStartIndex = 4;
 
-            Stat = int.TryParse($"{array[0]}", out int stat) ? BuildsManager.Data.Stats.Where(e => e.Value.MappedId == stat).FirstOrDefault().Value : null;
-            Infusion_1 = int.TryParse($"{array[1]}", out int infusion1) ? BuildsManager.Data.Infusions.Where(e => e.Value.MappedId == infusion1).FirstOrDefault().Value : null;
-            Infusion_2 = int.TryParse($"{array[2]}", out int infusion2) ? BuildsManager.Data.Infusions.Where(e => e.Value.MappedId == infusion2).FirstOrDefault().Value : null;
-            Infusion_3 = int.TryParse($"{array[3]}", out int infusion3) ? BuildsManager.Data.Infusions.Where(e => e.Value.MappedId == infusion3).FirstOrDefault().Value : null;
+            Stat = BuildsManager.Data.Stats.Where(e => e.Value.MappedId == array[0]).FirstOrDefault().Value;
+            Infusion_1 = BuildsManager.Data.Infusions.Where(e => e.Value.MappedId == array[1]).FirstOrDefault().Value;
+            Infusion_2 = BuildsManager.Data.Infusions.Where(e => e.Value.MappedId == array[2]).FirstOrDefault().Value;
+            Infusion_3 = BuildsManager.Data.Infusions.Where(e => e.Value.MappedId == array[3]).FirstOrDefault().Value;
 
             return GearTemplateCode.RemoveFromStart(array, newStartIndex);
-        }
-
-        public override string ToCode()
-        {
-            return $"[{Stat?.MappedId ?? -1}|{Infusion_1?.MappedId ?? -1}|{Infusion_2?.MappedId ?? -1}|{Infusion_3?.MappedId ?? -1}]";
         }
     }
 }

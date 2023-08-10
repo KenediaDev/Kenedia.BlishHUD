@@ -20,21 +20,21 @@ namespace Kenedia.Modules.BuildsManager.TemplateEntries
 
         public Infusion Infusion { get; set; }
 
-        public override short[] AddToCodeArray(short[] array)
+        public override byte[] AddToCodeArray(byte[] array)
         {
-            return array.Concat(new short[]
+            return array.Concat(new byte[]
             {
-                (short)(Stat?.MappedId ?? -1),
-                (short)(Infusion?.MappedId ?? -1),
+                Stat?.MappedId ?? 0,
+                Infusion?.MappedId ?? 0,
             }).ToArray();
         }
 
-        public override short[] GetFromCodeArray(short[] array)
+        public override byte[] GetFromCodeArray(byte[] array)
         {
             int newStartIndex = 2;
 
-            Stat = byte.TryParse($"{array[0]}", out byte stat) ? BuildsManager.Data.Stats.Where(e => e.Value.MappedId == stat).FirstOrDefault().Value : null;
-            Infusion = byte.TryParse($"{array[1]}", out byte infusion) ? BuildsManager.Data.Infusions.Where(e => e.Value.MappedId == infusion).FirstOrDefault().Value : null;
+            Stat = BuildsManager.Data.Stats.Where(e => e.Value.MappedId == array[0]).FirstOrDefault().Value;
+            Infusion = BuildsManager.Data.Infusions.Where(e => e.Value.MappedId == array[1]).FirstOrDefault().Value;
 
             return GearTemplateCode.RemoveFromStart(array, newStartIndex);
         }

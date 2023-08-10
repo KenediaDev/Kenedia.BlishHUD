@@ -63,7 +63,6 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
 
         private Rectangle _backBounds;
         private Rectangle _backTextBounds;
-        private Template _template;
         private SelectionTypes _selectionType = SelectionTypes.Templates;
 
         float _animationStart = 0f;
@@ -215,7 +214,6 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
 
             _statSelection.TemplateSlot = (anchor as BaseSlotControl)?.TemplateSlot;
             _gearSelection.OnItemSelected = onItemSelected;
-
         }
 
         public void ResetAnchor()

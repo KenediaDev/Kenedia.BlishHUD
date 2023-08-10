@@ -21,23 +21,23 @@ namespace Kenedia.Modules.BuildsManager.TemplateEntries
 
         public Infusion Infusion_2 { get; set; }
 
-        public override short[] AddToCodeArray(short[] array)
+        public override byte[] AddToCodeArray(byte[] array)
         {
-            return array.Concat(new short[]
+            return array.Concat(new byte[]
             {
-                (short)(Stat?.MappedId ?? -1),
-                (short)(Infusion_1?.MappedId ?? -1),
-                (short)(Infusion_2?.MappedId ?? -1),
+                Stat ?.MappedId ?? 0,
+                Infusion_1 ?.MappedId ?? 0,
+                Infusion_2 ?.MappedId ?? 0,
             }).ToArray();
         }
 
-        public override short[] GetFromCodeArray(short[] array)
+        public override byte[] GetFromCodeArray(byte[] array)
         {
             int newStartIndex = 3;
 
-            Stat = byte.TryParse($"{array[0]}", out byte stat) ? BuildsManager.Data.Stats.Where(e => e.Value.MappedId == stat).FirstOrDefault().Value : null;
-            Infusion_1 = byte.TryParse($"{array[1]}", out byte infusion1) ? BuildsManager.Data.Infusions.Where(e => e.Value.MappedId == infusion1).FirstOrDefault().Value : null;
-            Infusion_2 = byte.TryParse($"{array[2]}", out byte infusion2) ? BuildsManager.Data.Infusions.Where(e => e.Value.MappedId == infusion2).FirstOrDefault().Value : null;
+            Stat = BuildsManager.Data.Stats.Where(e => e.Value.MappedId == array[0]).FirstOrDefault().Value;
+            Infusion_1 = BuildsManager.Data.Infusions.Where(e => e.Value.MappedId == array[1]).FirstOrDefault().Value;
+            Infusion_2 = BuildsManager.Data.Infusions.Where(e => e.Value.MappedId == array[2]).FirstOrDefault().Value;
 
             return GearTemplateCode.RemoveFromStart(array, newStartIndex);
         }

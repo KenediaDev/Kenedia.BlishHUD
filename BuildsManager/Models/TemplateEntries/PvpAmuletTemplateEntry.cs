@@ -15,39 +15,23 @@ namespace Kenedia.Modules.BuildsManager.TemplateEntries
 
         public Rune Rune{ get; set; }
 
-        public override short[] AddToCodeArray(short[] array)
+        public override byte[] AddToCodeArray(byte[] array)
         {
-            return array.Concat(new short[]
+            return array.Concat(new byte[]
             {
-                (short)(Item?.MappedId ?? -1),
-                (short)(Rune?.MappedId ?? -1),
+                Item ?.MappedId ?? 0,
+                Rune ?.MappedId ?? 0,
             }).ToArray();
         }
 
-        public override void FromCode(string code)
-        {
-            string[] parts = GetCode(code).Split('|');
-
-            if (parts.Length == 2)
-            {
-                Item = int.TryParse(parts[0], out int id) ? BuildsManager.Data.PvpAmulets.Values.Where(e => e.MappedId == id).FirstOrDefault() : null;
-                Rune = int.TryParse(parts[1], out int runeId) ? BuildsManager.Data.PvpRunes.Values.Where(e => e.MappedId == runeId).FirstOrDefault() : null;
-            }
-        }
-
-        public override short[] GetFromCodeArray(short[] array)
+        public override byte[] GetFromCodeArray(byte[] array)
         {
             int newStartIndex = 2;
 
-            Item = int.TryParse($"{array[0]}", out int id) ? BuildsManager.Data.PvpAmulets.Values.Where(e => e.MappedId == id).FirstOrDefault() : null;
-            Rune = int.TryParse($"{array[1]}", out int rune) ? BuildsManager.Data.PvpRunes.Where(e => e.Value.MappedId == rune).FirstOrDefault().Value : null;
+            Item = BuildsManager.Data.PvpAmulets.Values.Where(e => e.MappedId == array[0]).FirstOrDefault();
+            Rune = BuildsManager.Data.PvpRunes.Where(e => e.Value.MappedId == array[1]).FirstOrDefault().Value;
 
             return GearTemplateCode.RemoveFromStart(array, newStartIndex);
-        }
-
-        public override string ToCode()
-        {
-            return $"[{Item?.MappedId ?? -1}|{Rune?.MappedId ?? -1}]";
         }
     }
 }

@@ -378,7 +378,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
                 return;
             }
 
-            Template = _template;
+            Template?.Load();
             OnClickAction?.Invoke();
         }
 

@@ -2,6 +2,7 @@
 using Kenedia.Modules.BuildsManager.Extensions;
 using Kenedia.Modules.BuildsManager.Models;
 using Kenedia.Modules.BuildsManager.Models.Templates;
+using Kenedia.Modules.BuildsManager.TemplateEntries;
 using Kenedia.Modules.Core.Extensions;
 using Kenedia.Modules.Core.Utility;
 using System;
@@ -53,9 +54,9 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
                         Visible = false,
                         OnClickAction = () =>
                         {
-                            if (Template != null)
+                            if (TemplatePresenter?.Template != null)
                             {
-                                //OnItemSelectedX(item);
+                                OnItemSelected(item);
                                 OnItemSelected?.Invoke(item);
                             }
                         },
@@ -98,38 +99,22 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
 
         private async void EquipItems()
         {
-            var armors = _armors.Where(e => (e.Item as Armor).Weight == Template?.Profession.GetArmorType() && (e.Item.Rarity == Gw2Sharp.WebApi.V2.Models.ItemRarity.Ascended || e.TemplateSlot == Models.Templates.TemplateSlot.AquaBreather))?.Select(e => e.Item);
-            foreach (var armor in Template?.GearTemplate?.Armors.Values)
+            var armors = _armors.Where(e => (e.Item as Armor).Weight == TemplatePresenter?.Template?.Profession.GetArmorType() && (e.Item.Rarity == Gw2Sharp.WebApi.V2.Models.ItemRarity.Ascended || e.TemplateSlot == Models.Templates.TemplateSlot.AquaBreather))?.Select(e => e.Item);
+            foreach (var armor in TemplatePresenter?.Template?.Armors.Values)
             {
-                armor.Item = armors.Where(e => e.TemplateSlot == armor.Slot)?.FirstOrDefault();
+                (armor as ArmorTemplateEntry).Item = armors.Where(e => e.TemplateSlot == armor.Slot)?.FirstOrDefault();
             }
 
             var trinkets = _trinkets.Where(e => e.Item.Rarity == Gw2Sharp.WebApi.V2.Models.ItemRarity.Ascended)?.Select(e => e.Item);
             trinkets = trinkets.Append(_backs.Where(e => e.Item.Rarity == Gw2Sharp.WebApi.V2.Models.ItemRarity.Ascended)?.Select(e => e.Item).FirstOrDefault());
-            foreach (var trinket in Template?.GearTemplate?.Juwellery.Values)
+            foreach (var trinket in TemplatePresenter?.Template?.Juwellery.Values)
             {
                 var effectiveSlot =
                     trinket.Slot is Models.Templates.TemplateSlot.Ring_2 ? Models.Templates.TemplateSlot.Ring_1 :
                     trinket.Slot is Models.Templates.TemplateSlot.Accessory_2 ? Models.Templates.TemplateSlot.Accessory_1 :
                     trinket.Slot;
 
-                trinket.Item = trinkets.Where(e => e.TemplateSlot == effectiveSlot)?.FirstOrDefault();
-            }
-        }
-
-        public Template Template
-        {
-            get => _template; set
-            {
-                var temp = _template;
-                if (Common.SetProperty(ref _template, value, ApplyTemplate))
-                {
-                    foreach (var slot in _selectables)
-                    {
-                        slot.Template = value;
-                    }
-
-                }
+                //trinket.Item = trinkets.Where(e => e.TemplateSlot == effectiveSlot)?.FirstOrDefault();
             }
         }
 
@@ -194,13 +179,13 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
                             item.Visible =
                                 MatchingMethod(item.Item) &&
                                 item.Item?.TemplateSlot == ActiveSlot &&
-                                Template?.Profession.GetArmorType() == (item.Item as Armor).Weight;
+                                TemplatePresenter?.Template?.Profession.GetArmorType() == (item.Item as Armor).Weight;
                         }
 
                     }
                     else if (SubSlotType == GearSubSlotType.Rune)
                     {
-                        foreach (var item in Template?.PvE == false ? _pvpRunes : _pveRunes)
+                        foreach (var item in _pveRunes)
                         {
                             item.Visible = MatchingMethod(item.Item);
                         }
@@ -229,7 +214,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
                         {
                             bool weaponMatch = false;
 
-                            var weapon = BuildsManager.Data.Professions[Template.Profession].Weapons.Where(e => (item.Item as DataModels.Items.Weapon).WeaponType.IsWeaponType(e.Value.Type)).FirstOrDefault();
+                            var weapon = BuildsManager.Data.Professions[TemplatePresenter?.Template.Profession ?? Gw2Sharp.Models.ProfessionType.Guardian].Weapons.Where(e => (item.Item as DataModels.Items.Weapon).WeaponType.IsWeaponType(e.Value.Type)).FirstOrDefault();
 
                             if (weapon.Value != null)
                             {
@@ -246,7 +231,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
                                 }
 
                                 //Elite Spec Matched
-                                if (weapon.Value.Specialization == Template.EliteSpecialization?.Id && wieldMatch)
+                                if (weapon.Value.Specialization == TemplatePresenter?.Template.EliteSpecialization?.Id && wieldMatch)
                                 {
                                     weaponMatch = true;
                                 }
@@ -267,7 +252,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
                     }
                     else if (SubSlotType == GearSubSlotType.Sigil)
                     {
-                        foreach (var item in Template?.PvE == false ? _pvpSigils : _pveSigils)
+                        foreach (var item in TemplatePresenter?.IsPve == false ? _pvpSigils : _pveSigils)
                         {
                             item.Visible = MatchingMethod(item.Item);
                         }

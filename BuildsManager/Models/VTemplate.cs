@@ -19,6 +19,7 @@ using Blish_HUD.Gw2Mumble;
 using System.Diagnostics;
 using Kenedia.Modules.BuildsManager.Utility;
 using SharpDX;
+using System.Collections;
 
 namespace Kenedia.Modules.BuildsManager.Models
 {
@@ -26,6 +27,7 @@ namespace Kenedia.Modules.BuildsManager.Models
     public class VTemplate : IDisposable
     {
 #nullable enable
+        private bool _loaded = false;
         private bool _disposed = false;
         private bool _triggerEvents = true;
 
@@ -36,6 +38,10 @@ namespace Kenedia.Modules.BuildsManager.Models
 
         private string _name = "New Template";
         private string _description = string.Empty;
+
+        private string _savedBuildCode = string.Empty;
+        private string _savedGearCode = string.Empty;
+        public Specialization? _savedEliteSpecialization = null;
 
         private CancellationTokenSource? _cancellationTokenSource;
 
@@ -99,36 +105,8 @@ namespace Kenedia.Modules.BuildsManager.Models
                 spec.TraitsChanged += Spec_TraitsChanged;
             }
 
-            MainHand.Item = BuildsManager.Data.Weapons[84888];
-            AltMainHand.Item = BuildsManager.Data.Weapons[85052];
-
             PlayerCharacter player = Blish_HUD.GameService.Gw2Mumble.PlayerCharacter;
             Profession = player?.Profession ?? Profession;
-        }
-
-        private void Spec_TraitsChanged(object sender, EventArgs e)
-        {
-            BuildChanged?.Invoke(this, e);
-        }
-
-        private void Skills_ItemChanged(object sender, DictionaryItemChangedEventArgs<SkillSlot, Skill?> e)
-        {
-            BuildChanged?.Invoke(this, e);
-        }
-
-        private void Pets_ItemChanged(object sender, DictionaryItemChangedEventArgs<PetSlot, Pet?> e)
-        {
-            BuildChanged?.Invoke(this, e);
-        }
-
-        private void Legends_ItemChanged(object sender, DictionaryItemChangedEventArgs<LegendSlot, Legend?> e)
-        {
-            BuildChanged?.Invoke(this, e);
-        }
-
-        private void Specializations_ItemPropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
-        {
-            BuildChanged?.Invoke(this, e);
         }
 
         public VTemplate(string? buildCode, string? gearCode) : this()
@@ -137,7 +115,7 @@ namespace Kenedia.Modules.BuildsManager.Models
         }
 
         [JsonConstructor]
-        public VTemplate(string name, EncounterFlag encounters, TemplateFlag tags, string buildCode, string gearCode) : this()
+        public VTemplate(string name, EncounterFlag encounters, TemplateFlag tags, string buildCode, string gearCode, Races? race, ProfessionType? profession, int? elitespecId) : this()
         {
             // Disable Events to prevent unnecessary event triggers during the load
             _triggerEvents = false;
@@ -145,6 +123,9 @@ namespace Kenedia.Modules.BuildsManager.Models
             _name = name;
             _encounters = encounters;
             _tags = tags;
+            _race = race ?? Races.None;
+            _profession = profession ?? ProfessionType.Guardian;
+            _savedEliteSpecialization = BuildsManager.Data.Professions[Profession]?.Specializations.FirstOrDefault(e => e.Value.Id == elitespecId).Value;
 
             // Enable Events again to become responsive
             _triggerEvents = true;
@@ -156,8 +137,10 @@ namespace Kenedia.Modules.BuildsManager.Models
         #region General Template 
         public string FilePath => @$"{BuildsManager.ModuleInstance.Paths.TemplatesPath}{Common.MakeValidFileName(Name.Trim())}.json";
 
+        [DataMember]
         public ProfessionType Profession { get => _profession; set => Common.SetProperty(ref _profession, value, OnProfessionChanged, _triggerEvents); }
 
+        [DataMember]
         public Races Race { get => _race; set => Common.SetProperty(ref _race, value, OnRaceChanged, _triggerEvents); }
 
         [DataMember]
@@ -176,19 +159,23 @@ namespace Kenedia.Modules.BuildsManager.Models
         public string? BuildCode
         {
             set => LoadBuildFromCode(value);
-            get => ParseBuildCode();
+            get => !_loaded ? _savedBuildCode : ParseBuildCode();
         }
 
         [DataMember]
         public string? GearCode
         {
             set => LoadGearFromCode(value);
-            get => ParseGearCode();
+            get => !_loaded ? _savedGearCode : ParseGearCode();
         }
         #endregion General Template
 
         #region Build
-        public Specialization? EliteSpecialization => Specializations?[SpecializationSlot.Line_3]?.Specialization;
+
+        [DataMember]
+        public int? EliteSpecializationId => Specializations?[SpecializationSlot.Line_3]?.Specialization?.Id ?? _savedEliteSpecialization?.Id;
+
+        public Specialization? EliteSpecialization => Specializations?[SpecializationSlot.Line_3]?.Specialization ?? _savedEliteSpecialization;
 
         public PetCollection Pets { get; } = new();
 
@@ -207,6 +194,7 @@ namespace Kenedia.Modules.BuildsManager.Models
             {
                 if (slot == TemplateSlot.None) return;
 
+                Debug.WriteLine($"Set {slot} to {value?.Slot}");
                 GetType().GetProperty(slot.ToString())?.SetValue(this, value);
             }
         }
@@ -266,6 +254,36 @@ namespace Kenedia.Modules.BuildsManager.Models
         public Dictionary<TemplateSlot, TemplateEntry> Juwellery { get; }
         #endregion
 
+        private async void Spec_TraitsChanged(object sender, EventArgs e)
+        {
+            BuildChanged?.Invoke(this, e);
+            await Save();
+        }
+
+        private async void Skills_ItemChanged(object sender, DictionaryItemChangedEventArgs<SkillSlot, Skill?> e)
+        {
+            BuildChanged?.Invoke(this, e);
+            await Save();
+        }
+
+        private async void Pets_ItemChanged(object sender, DictionaryItemChangedEventArgs<PetSlot, Pet?> e)
+        {
+            BuildChanged?.Invoke(this, e);
+            await Save();
+        }
+
+        private async void Legends_ItemChanged(object sender, DictionaryItemChangedEventArgs<LegendSlot, Legend?> e)
+        {
+            BuildChanged?.Invoke(this, e);
+            await Save();
+        }
+
+        private async void Specializations_ItemPropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            BuildChanged?.Invoke(this, e);
+            await Save();
+        }
+
         private async void OnProfessionChanged(object sender, ValueChangedEventArgs<ProfessionType> e)
         {
             if (Skills.WipeSkills(Race))
@@ -278,7 +296,10 @@ namespace Kenedia.Modules.BuildsManager.Models
             Legends.Wipe();
 
             RemoveInvalidCombinations();
+
+            if (!_triggerEvents) return;
             ProfessionChanged?.Invoke(this, e);
+
             await Save();
         }
 
@@ -290,6 +311,8 @@ namespace Kenedia.Modules.BuildsManager.Models
             }
 
             RemoveInvalidCombinations();
+
+            if (!_triggerEvents) return;
             RaceChanged?.Invoke(this, e);
             await Save();
         }
@@ -390,39 +413,43 @@ namespace Kenedia.Modules.BuildsManager.Models
         {
             // Disable Events to prevent unnecessary event triggers during the load
             if (code == null) return;
+            try
+            {
+                byte[] codeArray = Convert.FromBase64String(GearTemplateCode.PrepareBase64String(code));
 
-            short[] codeArray = GearTemplateCode.DecodeBase64ToShorts(code);
+                codeArray = MainHand.GetFromCodeArray(codeArray);
+                codeArray = OffHand.GetFromCodeArray(codeArray);
+                codeArray = AltMainHand.GetFromCodeArray(codeArray);
+                codeArray = AltOffHand.GetFromCodeArray(codeArray);
 
-            codeArray = MainHand.GetFromCodeArray(codeArray);
-            codeArray = OffHand.GetFromCodeArray(codeArray);
-            codeArray = AltMainHand.GetFromCodeArray(codeArray);
-            codeArray = AltOffHand.GetFromCodeArray(codeArray);
+                codeArray = Head.GetFromCodeArray(codeArray);
+                codeArray = Shoulder.GetFromCodeArray(codeArray);
+                codeArray = Chest.GetFromCodeArray(codeArray);
+                codeArray = Hand.GetFromCodeArray(codeArray);
+                codeArray = Leg.GetFromCodeArray(codeArray);
+                codeArray = Foot.GetFromCodeArray(codeArray);
 
-            codeArray = Head.GetFromCodeArray(codeArray);
-            codeArray = Shoulder.GetFromCodeArray(codeArray);
-            codeArray = Chest.GetFromCodeArray(codeArray);
-            codeArray = Hand.GetFromCodeArray(codeArray);
-            codeArray = Leg.GetFromCodeArray(codeArray);
-            codeArray = Foot.GetFromCodeArray(codeArray);
+                codeArray = Back.GetFromCodeArray(codeArray);
+                codeArray = Amulet.GetFromCodeArray(codeArray);
+                codeArray = Accessory_1.GetFromCodeArray(codeArray);
+                codeArray = Accessory_2.GetFromCodeArray(codeArray);
+                codeArray = Ring_1.GetFromCodeArray(codeArray);
+                codeArray = Ring_2.GetFromCodeArray(codeArray);
 
-            codeArray = Back.GetFromCodeArray(codeArray);
-            codeArray = Amulet.GetFromCodeArray(codeArray);
-            codeArray = Accessory_1.GetFromCodeArray(codeArray);
-            codeArray = Accessory_2.GetFromCodeArray(codeArray);
-            codeArray = Ring_1.GetFromCodeArray(codeArray);
-            codeArray = Ring_2.GetFromCodeArray(codeArray);
+                codeArray = AquaBreather.GetFromCodeArray(codeArray);
+                codeArray = Aquatic.GetFromCodeArray(codeArray);
+                codeArray = AltAquatic.GetFromCodeArray(codeArray);
 
-            codeArray = AquaBreather.GetFromCodeArray(codeArray);
-            codeArray = Aquatic.GetFromCodeArray(codeArray);
-            codeArray = AltAquatic.GetFromCodeArray(codeArray);
+                codeArray = PvpAmulet.GetFromCodeArray(codeArray);
+                codeArray = Nourishment.GetFromCodeArray(codeArray);
+                codeArray = Utility.GetFromCodeArray(codeArray);
+                codeArray = Relic.GetFromCodeArray(codeArray);
+                codeArray = JadeBotCore.GetFromCodeArray(codeArray);
 
-            codeArray = PvpAmulet.GetFromCodeArray(codeArray);
-            codeArray = Nourishment.GetFromCodeArray(codeArray);
-            codeArray = Utility.GetFromCodeArray(codeArray);
-            codeArray = Relic.GetFromCodeArray(codeArray);
-            codeArray = JadeBotCore.GetFromCodeArray(codeArray);
+                // Enable Events again to become responsive
+            }
+            catch { }
 
-            // Enable Events again to become responsive
             _triggerEvents = true;
 
             LoadedGearFromCode?.Invoke(this, null);
@@ -497,7 +524,7 @@ namespace Kenedia.Modules.BuildsManager.Models
 
         public string? ParseGearCode()
         {
-            short[] codeArray = new short[0];
+            byte[] codeArray = new byte[0];
 
             codeArray = MainHand.AddToCodeArray(codeArray);
             codeArray = OffHand.AddToCodeArray(codeArray);
@@ -528,22 +555,26 @@ namespace Kenedia.Modules.BuildsManager.Models
             codeArray = Relic.AddToCodeArray(codeArray);
             codeArray = JadeBotCore.AddToCodeArray(codeArray);
 
-            return GearTemplateCode.EncodeShortsToBase64(codeArray);
+            return $"[&{Convert.ToBase64String(codeArray)}]";
         }
 
         private async void AutoSave()
         {
+            if (!_triggerEvents) return;
+
             await Save();
         }
 
-        public async Task Save()
+        public async Task Save(int timeToWait = 150)
         {
+            if(!_loaded) return;
+
             _cancellationTokenSource?.Cancel();
             _cancellationTokenSource = new CancellationTokenSource();
 
             try
             {
-                await Task.Delay(1000, _cancellationTokenSource.Token);
+                await Task.Delay(timeToWait, _cancellationTokenSource.Token);
                 if (!_cancellationTokenSource.Token.IsCancellationRequested)
                 {
                     string path = BuildsManager.ModuleInstance.Paths.TemplatesPath;
@@ -656,8 +687,20 @@ namespace Kenedia.Modules.BuildsManager.Models
             }
         }
 
+        public void Load()
+        {
+            if (_loaded) return;
+
+            GearCode = _savedGearCode;
+            BuildCode = _savedBuildCode;
+
+            _loaded = true;
+        }
+
         private async void OnSpecializationChanged(object sender, DictionaryItemChangedEventArgs<SpecializationSlot, Specialization> e)
         {
+            if (!_triggerEvents) return;
+
             SpecializationChanged?.Invoke(sender, e);
             await Save();
         }
@@ -815,6 +858,8 @@ namespace Kenedia.Modules.BuildsManager.Models
 
         private async void OnLegendChanged(object sender, DictionaryItemChangedEventArgs<LegendSlot, Legend> e)
         {
+            if (!_triggerEvents) return;
+
             LegendChanged?.Invoke(sender, e);
             await Save();
         }

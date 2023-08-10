@@ -9,10 +9,25 @@ namespace Kenedia.Modules.BuildsManager.Utility
 {
     public static class GearTemplateCode
     {
-        public static short[] RemoveFromStart(short[] array, int index)
+ 
+        public static string PrepareBase64String(string code)
+        {
+            if (code.StartsWith("[&")) code = code.Substring(2);
+            if (code.EndsWith("]")) code = code.Substring(0, code.Length - 1);
+            return code;
+        }
+
+        public static string DecodeBase64ToBytes(string code)
+        {
+            if (code.StartsWith("[&")) code = code.Substring(2);
+            if (code.EndsWith("]")) code = code.Substring(0, code.Length - 1);
+            return code;
+        }
+
+        public static byte[] RemoveFromStart(byte[] array, int index)
         {
             int newArrayLength = array.Length - index;
-            short[] newArray = new short[newArrayLength];
+            byte[] newArray = new byte[newArrayLength];
 
             Array.Copy(array, index, newArray, 0, newArrayLength);
 
@@ -36,9 +51,7 @@ namespace Kenedia.Modules.BuildsManager.Utility
 
         public static short[] DecodeBase64ToShorts(string encodedString)
         {
-            if (encodedString.StartsWith("[&")) encodedString = encodedString.Substring(2);
-            if (encodedString.EndsWith("]")) encodedString = encodedString.Substring(0, encodedString.Length - 1);
-
+            encodedString = PrepareBase64String(encodedString);
             short[] shortArray = new short[0];
 
             try

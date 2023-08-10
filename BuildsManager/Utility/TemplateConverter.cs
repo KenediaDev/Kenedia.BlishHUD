@@ -1,5 +1,7 @@
-﻿using Kenedia.Modules.BuildsManager.Models;
+﻿using Gw2Sharp.Models;
+using Kenedia.Modules.BuildsManager.Models;
 using Kenedia.Modules.BuildsManager.Models.Templates;
+using Kenedia.Modules.Core.DataModels;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
@@ -24,9 +26,12 @@ namespace Kenedia.Modules.BuildsManager.Utility
             string? name = (string?)jo["Name"];
             string? buildCode = (string?)jo["BuildCode"];
             string? gearCode = (string?)jo["GearCode"];
+            int? race = (int?)jo["Race"];
+            int? profession = (int?)jo["Profession"];
+            int? elitespecId = (int?)jo["EliteSpecializationId"];
 
             // Construct the Result object using the non-default constructor
-            VTemplate result = new VTemplate(name, (EncounterFlag)encounters, (TemplateFlag)tags, buildCode, gearCode);
+            var result = new VTemplate(name, (EncounterFlag)encounters, (TemplateFlag)tags, buildCode, gearCode, (Races)(race ?? -1), (ProfessionType)(profession ?? 1), elitespecId ?? 0);
 
             // (If anything else needs to be populated on the result object, do that here)
 
