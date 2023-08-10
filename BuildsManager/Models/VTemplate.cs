@@ -130,8 +130,8 @@ namespace Kenedia.Modules.BuildsManager.Models
             // Enable Events again to become responsive
             _triggerEvents = true;
 
-            BuildCode = buildCode;
-            GearCode = gearCode;
+            _savedBuildCode = buildCode;
+            _savedGearCode = gearCode;
         }
 
         #region General Template 
