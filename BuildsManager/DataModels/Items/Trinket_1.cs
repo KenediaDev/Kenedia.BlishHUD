@@ -8,7 +8,7 @@ using System.Runtime.Serialization;
 namespace Kenedia.Modules.BuildsManager.DataModels.Items
 {
     [DataContract]
-    public class Relic : BaseItem
+    public class Relic : Trinket
     {
         public Relic()
         {
@@ -17,7 +17,7 @@ namespace Kenedia.Modules.BuildsManager.DataModels.Items
     }
 
     [DataContract]
-    public class JadeBotCore : BaseItem
+    public class JadeBotCore : Trinket
     {
         public JadeBotCore()
         {
@@ -26,7 +26,7 @@ namespace Kenedia.Modules.BuildsManager.DataModels.Items
     }
     
     [DataContract]
-    public class PvpAmulet : BaseItem
+    public class PvpAmulet : Trinket
     {
         public PvpAmulet()
         {

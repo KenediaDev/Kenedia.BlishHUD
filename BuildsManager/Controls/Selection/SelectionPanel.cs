@@ -14,6 +14,9 @@ using Kenedia.Modules.BuildsManager.Controls.GearPage;
 using Blish_HUD.Controls;
 using Kenedia.Modules.BuildsManager.Views;
 using Kenedia.Modules.BuildsManager.Models;
+using System.Diagnostics;
+using System.Collections.Generic;
+using Kenedia.Modules.BuildsManager.DataModels.Stats;
 
 namespace Kenedia.Modules.BuildsManager.Controls.Selection
 {
@@ -92,12 +95,11 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
                 TemplatePresenter = TemplatePresenter,
             };
 
-            _statSelection = new()
+            _statSelection = new(TemplatePresenter)
             {
                 Parent = this,
                 Visible = false,
                 ZIndex = ZIndex,
-                TemplatePresenter = TemplatePresenter,
             };
         }
 
@@ -135,11 +137,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
 
         private Control Anchor
         {
-            get => _selectionType switch
-            {
-                SelectionTypes.Templates => _mainAnchor,
-                _ => _subAnchor
-            };
+            get => _anchor;
 
             set
             {
@@ -170,7 +168,62 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
                 AnchorDrawBounds = anchorBounds ?? new(Anchor.AbsoluteBounds.Left - AbsoluteBounds.Left - (size / 2), Anchor.AbsoluteBounds.Top - AbsoluteBounds.Top + (Anchor.AbsoluteBounds.Height / 2) - (size / 2), size, size);
             }
         }
-        
+
+        public void SetAnchor<T>(Control anchor, Rectangle anchorBounds, SelectionTypes selectionType, Enum slot, Enum subslot, Action<T> onClickAction, IReadOnlyList<int> statChoices = null, double? attributeAdjustment = null, string? title = null) where T : class
+        {
+            Anchor = anchor;
+            SelectionType = selectionType;
+            Title = title ?? SelectionType.ToString();
+
+            if (Anchor != null)
+            {
+                int size = Math.Min(anchorBounds.Height, 32);
+                AnchorDrawBounds = new(anchorBounds.Left - AbsoluteBounds.Left - (size / 2), anchorBounds.Top - AbsoluteBounds.Top + (anchorBounds.Height / 2) - (size / 2), size, size);
+
+                switch (SelectionType)
+                {
+                    case SelectionTypes.Items:
+                        _gearSelection.ActiveSlot = (TemplateSlot)slot;
+                        _gearSelection.SubSlotType = (GearSubSlotType)subslot;
+
+                        _gearSelection.OnClickAction = (obj) =>
+                        {
+                            if (obj is T item)
+                            {
+                                onClickAction(item);
+                            }
+                        };
+                        break;
+
+                    case SelectionTypes.Stats:
+                        _statSelection.OnClickAction = (obj) =>
+                        {
+                            if (obj is T stat)
+                            {
+                                onClickAction(stat);
+                            }
+                        };
+                        _statSelection.AttributeAdjustments = attributeAdjustment ?? 0;
+                        _statSelection.StatChoices = statChoices;
+                        break;
+
+                    case SelectionTypes.Templates:
+                        _buildSelection.OnClickAction = (obj) =>
+                        {
+                            if (obj is T item)
+                            {
+                                onClickAction(item);
+                            }
+                        };
+                        break;
+                }
+            }
+            else
+            {
+                Debug.WriteLine($"ANCHOR IS NULL!");
+            }
+        }
+
         public void SetTemplateAnchor(Control anchor)
         {
             SelectionType = SelectionTypes.Templates;
@@ -196,8 +249,6 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
 
             _gearSelection.ActiveSlot = slot;
             _gearSelection.SubSlotType = subslot;
-            _gearSelection.TemplateSlot = (anchor as BaseSlotControl)?.TemplateSlot;
-            _gearSelection.OnItemSelected = onItemSelected;
         }
 
         public void SetStatAnchor(Control anchor, Rectangle anchorBounds, string title = "Selection", Action<BaseItem> onItemSelected = null)
@@ -211,9 +262,6 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
 
             int size = Math.Min(anchorBounds.Height, 32);
             SetAnchor(anchor, new(anchorBounds.Left - AbsoluteBounds.Left - (size / 2), anchorBounds.Top - AbsoluteBounds.Top + (anchorBounds.Height / 2) - (size / 2), size, size));
-
-            _statSelection.TemplateSlot = (anchor as BaseSlotControl)?.TemplateSlot;
-            _gearSelection.OnItemSelected = onItemSelected;
         }
 
         public void ResetAnchor()

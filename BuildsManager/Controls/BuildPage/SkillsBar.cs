@@ -14,7 +14,6 @@ using System.Linq;
 using static Blish_HUD.ContentService;
 using Kenedia.Modules.BuildsManager.Models;
 using Gw2Sharp;
-using System.Diagnostics;
 
 namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
 {

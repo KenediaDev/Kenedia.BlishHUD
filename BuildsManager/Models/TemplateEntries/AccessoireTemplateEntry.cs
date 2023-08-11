@@ -2,23 +2,40 @@
 using System.Linq;
 using Kenedia.Modules.BuildsManager.DataModels.Items;
 using Kenedia.Modules.BuildsManager.DataModels.Stats;
-using Gw2Sharp.WebApi.V2.Models;
 using Kenedia.Modules.BuildsManager.Utility;
 using System;
+using Kenedia.Modules.Core.Utility;
+using Kenedia.Modules.Core.Models;
 
 namespace Kenedia.Modules.BuildsManager.TemplateEntries
 {
     public class AccessoireTemplateEntry : TemplateEntry
     {
+        private Stat _stat;
+        private Infusion _infusion;
+
         public AccessoireTemplateEntry(TemplateSlot slot) : base(slot)
         {
         }
 
-        public BaseItem Item { get; } = BuildsManager.Data.Trinkets.TryGetValue(80002, out Trinket accessoire) ? accessoire : null;
+        public event EventHandler<ValueChangedEventArgs<Infusion>> InfusionChanged;
+        public event EventHandler<ValueChangedEventArgs<Stat>> StatChanged;
 
-        public Stat Stat { get; set; }
+        public Trinket Accessoire { get; } = BuildsManager.Data.Trinkets.TryGetValue(80002, out Trinket accessoire) ? accessoire : null;
 
-        public Infusion Infusion { get; set; }
+        public Stat Stat { get => _stat; set => Common.SetProperty(ref _stat, value, OnStatChanged); }
+
+        public Infusion Infusion { get => _infusion; set => Common.SetProperty(ref _infusion, value, OnInfusionChanged); }
+
+        private void OnInfusionChanged(object sender, ValueChangedEventArgs<Infusion> e)
+        {
+            InfusionChanged?.Invoke(this, e);
+        }
+
+        private void OnStatChanged(object sender, ValueChangedEventArgs<Stat> e)
+        {
+            StatChanged?.Invoke(this, e);
+        }
 
         public override byte[] AddToCodeArray(byte[] array)
         {

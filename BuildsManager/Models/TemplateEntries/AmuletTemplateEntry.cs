@@ -2,23 +2,40 @@
 using System.Linq;
 using Kenedia.Modules.BuildsManager.DataModels.Items;
 using Kenedia.Modules.BuildsManager.DataModels.Stats;
-using Gw2Sharp.WebApi.V2.Models;
 using Kenedia.Modules.BuildsManager.Utility;
 using System;
+using Kenedia.Modules.Core.Utility;
+using Kenedia.Modules.Core.Models;
 
 namespace Kenedia.Modules.BuildsManager.TemplateEntries
 {
     public class AmuletTemplateEntry : TemplateEntry
     {
+        private Stat _stat;
+        private Enrichment _enrichment;
+
         public AmuletTemplateEntry(TemplateSlot slot) : base(slot)
         {
         }
 
-        public Stat Stat { get; set; }
+        public event EventHandler<ValueChangedEventArgs<Enrichment>> EnrichmentChanged;
+        public event EventHandler<ValueChangedEventArgs<Stat>> StatChanged;
 
-        public BaseItem Item { get; } = BuildsManager.Data.Trinkets.TryGetValue(79980, out Trinket accessoire) ? accessoire : null;
+        public Trinket Amulet { get; } = BuildsManager.Data.Trinkets.TryGetValue(79980, out Trinket accessoire) ? accessoire : null;
 
-        public Enrichment Enrichment { get; set; }
+        public Stat Stat { get => _stat; set => Common.SetProperty(ref _stat, value, OnStatChanged); }
+
+        public Enrichment Enrichment { get => _enrichment; set => Common.SetProperty(ref _enrichment, value, OnEnrichmentChanged); }
+
+        private void OnEnrichmentChanged(object sender, ValueChangedEventArgs<Enrichment> e)
+        {
+            EnrichmentChanged?.Invoke(this, e);
+        }
+
+        private void OnStatChanged(object sender, ValueChangedEventArgs<Stat> e)
+        {
+            StatChanged?.Invoke(this, e);
+        }
 
         public override byte[] AddToCodeArray(byte[] array)
         {

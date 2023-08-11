@@ -5,7 +5,6 @@ using Kenedia.Modules.BuildsManager.Models.Templates;
 using Kenedia.Modules.Core.Controls;
 using Kenedia.Modules.Core.Models;
 using Kenedia.Modules.Core.Services;
-using Kenedia.Modules.Core.Utility;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -123,8 +122,14 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage
             TemplatePresenter.LoadedGearFromCode += TemplatePresenter_LoadedGearFromCode;
             TemplatePresenter.ProfessionChanged += TemplatePresenter_ProfessionChanged;
             TemplatePresenter.EliteSpecializationChanged += TemplatePresenter_EliteSpecializationChanged;
+            TemplatePresenter.GearCodeChanged += TemplatePresenter_GearCodeChanged;
 
             ApplyTemplate();
+        }
+
+        private void TemplatePresenter_GearCodeChanged(object sender, EventArgs e)
+        {
+            _gearCodeBox.Text = TemplatePresenter?.Template?.GearCode;
         }
 
         private void TemplatePresenter_EliteSpecializationChanged(object sender, Core.Models.ValueChangedEventArgs<DataModels.Professions.Specialization> e)
@@ -257,20 +262,20 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage
                 }
 
                 var t = TemplatePresenter.Template;
-                _templateSlots[TemplateSlot.MainHand].Item = t.MainHand.Item; 
-                _templateSlots[TemplateSlot.OffHand].Item = t.OffHand.Item; 
-                _templateSlots[TemplateSlot.Aquatic].Item = t.Aquatic.Item;
+                _templateSlots[TemplateSlot.MainHand].Item = t.MainHand.Weapon; 
+                _templateSlots[TemplateSlot.OffHand].Item = t.OffHand.Weapon; 
+                _templateSlots[TemplateSlot.Aquatic].Item = t.Aquatic.Weapon;
 
-                _templateSlots[TemplateSlot.AltMainHand].Item = t.AltMainHand.Item;
-                _templateSlots[TemplateSlot.AltOffHand].Item = t.AltOffHand.Item;
-                _templateSlots[TemplateSlot.AltAquatic].Item = t.AltAquatic.Item;
+                _templateSlots[TemplateSlot.AltMainHand].Item = t.AltMainHand.Weapon;
+                _templateSlots[TemplateSlot.AltOffHand].Item = t.AltOffHand.Weapon;
+                _templateSlots[TemplateSlot.AltAquatic].Item = t.AltAquatic.Weapon;
 
-                _templateSlots[TemplateSlot.PvpAmulet].Item = t.PvpAmulet.Item;
+                _templateSlots[TemplateSlot.PvpAmulet].Item = t.PvpAmulet.PvpAmulet;
 
-                _templateSlots[TemplateSlot.Nourishment].Item = t.Nourishment.Item;
-                _templateSlots[TemplateSlot.Utility].Item = t.Utility.Item;
-                _templateSlots[TemplateSlot.JadeBotCore].Item = t.JadeBotCore.Item;
-                _templateSlots[TemplateSlot.Relic].Item = t.Relic.Item;
+                _templateSlots[TemplateSlot.Nourishment].Item = t.Nourishment.Nourishment;
+                _templateSlots[TemplateSlot.Utility].Item = t.Utility.Utility;
+                _templateSlots[TemplateSlot.JadeBotCore].Item = t.JadeBotCore.JadeBotCore;
+                _templateSlots[TemplateSlot.Relic].Item = t.Relic.Relic;
             }
 
             foreach (var slot in _templateSlots.Values)

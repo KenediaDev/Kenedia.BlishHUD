@@ -2,24 +2,43 @@
 using System.Linq;
 using Kenedia.Modules.BuildsManager.DataModels.Items;
 using Kenedia.Modules.BuildsManager.Utility;
+using Kenedia.Modules.Core.Utility;
+using Kenedia.Modules.Core.Models;
+using System;
 
 namespace Kenedia.Modules.BuildsManager.TemplateEntries
 {
     public class PvpAmuletTemplateEntry : TemplateEntry
     {
+        private PvpAmulet _pvpAmulet;
+        private Rune _rune;
+
         public PvpAmuletTemplateEntry(TemplateSlot slot) : base(slot)
         {
         }
 
-        public PvpAmulet Item { get; set; }
+        public event EventHandler<ValueChangedEventArgs<PvpAmulet>> PvpAmuletChanged;
+        public event EventHandler<ValueChangedEventArgs<Rune>> RuneChanged;
 
-        public Rune Rune{ get; set; }
+        public PvpAmulet PvpAmulet { get => _pvpAmulet; set => Common.SetProperty(ref _pvpAmulet, value, OnPvpAmuletChanged); }
+
+        public Rune Rune{ get => _rune; set => Common.SetProperty(ref _rune, value, OnRuneChanged); }
+
+        private void OnPvpAmuletChanged(object sender, ValueChangedEventArgs<PvpAmulet> e)
+        {
+            PvpAmuletChanged?.Invoke(sender, e);
+        }
+
+        private void OnRuneChanged(object sender, ValueChangedEventArgs<Rune> e)
+        {
+            RuneChanged?.Invoke(sender, e);
+        }
 
         public override byte[] AddToCodeArray(byte[] array)
         {
             return array.Concat(new byte[]
             {
-                Item ?.MappedId ?? 0,
+                PvpAmulet ?.MappedId ?? 0,
                 Rune ?.MappedId ?? 0,
             }).ToArray();
         }
@@ -28,7 +47,7 @@ namespace Kenedia.Modules.BuildsManager.TemplateEntries
         {
             int newStartIndex = 2;
 
-            Item = BuildsManager.Data.PvpAmulets.Values.Where(e => e.MappedId == array[0]).FirstOrDefault();
+            PvpAmulet = BuildsManager.Data.PvpAmulets.Values.Where(e => e.MappedId == array[0]).FirstOrDefault();
             Rune = BuildsManager.Data.PvpRunes.Where(e => e.Value.MappedId == array[1]).FirstOrDefault().Value;
 
             return GearTemplateCode.RemoveFromStart(array, newStartIndex);

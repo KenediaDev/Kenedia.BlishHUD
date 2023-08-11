@@ -3,9 +3,7 @@ using Blish_HUD.Content;
 using Blish_HUD.Controls;
 using Blish_HUD.Modules;
 using Blish_HUD.Settings;
-using Gw2Sharp.ChatLinks;
 using Gw2Sharp.WebApi;
-using Kenedia.Modules.BuildsManager.DataModels.Items;
 using Kenedia.Modules.BuildsManager.Models;
 using Kenedia.Modules.BuildsManager.Models.Templates;
 using Kenedia.Modules.BuildsManager.Services;
@@ -18,13 +16,10 @@ using Kenedia.Modules.Core.Utility;
 using Microsoft.Xna.Framework;
 using Newtonsoft.Json;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel.Composition;
 using System.Diagnostics;
 using System.IO;
-using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using CornerIcon = Kenedia.Modules.Core.Controls.CornerIcon;
@@ -191,6 +186,9 @@ namespace Kenedia.Modules.BuildsManager
             //        Name = $"Template #{i}",
             //    }.Save(0);
             //}
+
+
+            Debug.WriteLine($" BuildsManager.Data.Stats {BuildsManager.Data.Stats.Count}");
 
             await LoadTemplates();
 
@@ -382,8 +380,8 @@ namespace Kenedia.Modules.BuildsManager
                 BuildCode = "[&DQEQGzEvPjZLF0sXehZ6FjYBNgFTF1MXcRJxEgAAAAAAAAAAAAAAAAAAAAAAAA==]"
             };
 
-            tt.Aquatic.Item = Data.Weapons[85265];
-            tt.AltAquatic.Item = Data.Weapons[84899];
+            tt.Aquatic.Weapon = Data.Weapons[85265];
+            tt.AltAquatic.Weapon = Data.Weapons[84899];
 
             tt.Encounters = EncounterFlag.Slothasor | EncounterFlag.Sabetha;
             tt.Tags = TemplateFlag.Pve;
@@ -397,8 +395,8 @@ namespace Kenedia.Modules.BuildsManager
             var code_encodedShorts = "[&BgAIAAAAEwAGAAgACAAAABMABgALAAgAAAATAAYAAAAIAAAAEwAGAAgAMAAGAAgAMAAGAAgAMAAGAAgAMAAGAAgAMAAGAAgAMAAGAAgABgAGAAgAAAAIAAYACAAGAAgABgAGAAYACAAGAAYABgAIADAABgATAAgAAAAAAAYABgARAAgAAAAAAAYABgAEAAAADgAAAP////8=]";
 
 
-            Debug.WriteLine($"Aquatic: {nt.Aquatic.Item?.Name}");
-            Debug.WriteLine($"AltAquatic: {nt.AltAquatic.Item?.Name}");
+            Debug.WriteLine($"Aquatic: {nt.Aquatic.Weapon?.Name}");
+            Debug.WriteLine($"AltAquatic: {nt.AltAquatic.Weapon?.Name}");
         }
     }
 }

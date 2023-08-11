@@ -4,7 +4,6 @@ using Microsoft.Xna.Framework.Graphics;
 using System.Collections.Generic;
 using Kenedia.Modules.Core.Extensions;
 using Blish_HUD.Content;
-using Kenedia.Modules.BuildsManager.Models.Templates;
 using System.Linq;
 using Blish_HUD.Input;
 using Blish_HUD;

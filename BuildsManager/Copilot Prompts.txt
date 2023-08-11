@@ -1,0 +1,12 @@
+// Sort the following class members to match the coding conventions:
+// 1. Constants
+// 2. Enums
+// 3. Fields
+// 4. Constructors
+// 5. Events
+// 6. Properties
+// 7. Methods
+// 8. Structs
+// 9. Classes
+// 10. Interfaces
+// 11. Delegates

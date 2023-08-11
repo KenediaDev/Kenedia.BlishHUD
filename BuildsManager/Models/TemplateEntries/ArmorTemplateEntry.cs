@@ -2,25 +2,51 @@
 using System.Linq;
 using Kenedia.Modules.BuildsManager.DataModels.Items;
 using Kenedia.Modules.BuildsManager.DataModels.Stats;
-using Gw2Sharp.WebApi.V2.Models;
 using Kenedia.Modules.BuildsManager.Utility;
 using System;
+using Kenedia.Modules.Core.Utility;
+using Kenedia.Modules.Core.Models;
 
 namespace Kenedia.Modules.BuildsManager.TemplateEntries
 {
     public class ArmorTemplateEntry : TemplateEntry
     {
+        private Stat _stat;
+        private Infusion _infusion;
+        private Rune _rune;
+        private Armor _armor;
+
         public ArmorTemplateEntry(TemplateSlot slot) : base(slot)
         {
         }
 
-        public BaseItem Item { get; set; }
+        public event EventHandler<ValueChangedEventArgs<Rune>> RuneChanged;
+        public event EventHandler<ValueChangedEventArgs<Infusion>> InfusionChanged;
+        public event EventHandler<ValueChangedEventArgs<Stat>> StatChanged;
 
-        public Rune Rune { get; set; }
+        public Armor Armor { get => _armor; set => Common.SetProperty(ref _armor, value); }
 
-        public Infusion Infusion { get; set; }
+        public Rune Rune { get => _rune; set => Common.SetProperty(ref _rune, value, OnRuneChanged); }
 
-        public Stat Stat { get; set; }
+        public Infusion Infusion { get => _infusion; set => Common.SetProperty(ref _infusion, value, OnInfusionChanged); }
+
+        public Stat Stat { get => _stat; set => Common.SetProperty(ref _stat, value, OnStatChanged); }
+
+
+        private void OnRuneChanged(object sender, ValueChangedEventArgs<Rune> e)
+        {
+            RuneChanged?.Invoke(this, e);
+        }
+
+        private void OnInfusionChanged(object sender, ValueChangedEventArgs<Infusion> e)
+        {
+            InfusionChanged?.Invoke(this, e);
+        }
+
+        private void OnStatChanged(object sender, ValueChangedEventArgs<Stat> e)
+        {
+            StatChanged?.Invoke(this, e);
+        }
 
         public override byte[] AddToCodeArray(byte[] array)
         {

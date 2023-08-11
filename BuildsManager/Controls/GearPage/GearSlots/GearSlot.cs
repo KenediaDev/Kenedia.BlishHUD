@@ -2,9 +2,6 @@
 using Container = Blish_HUD.Controls.Container;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
 using Kenedia.Modules.BuildsManager.Models.Templates;
@@ -19,13 +16,13 @@ using Kenedia.Modules.BuildsManager.Models;
 using Kenedia.Modules.BuildsManager.DataModels.Items;
 using MonoGame.Extended.BitmapFonts;
 using Blish_HUD.Controls;
-using ItemRarity = Gw2Sharp.WebApi.V2.Models.ItemRarity;
 using Kenedia.Modules.Core.Extensions;
 using Kenedia.Modules.BuildsManager.Controls.Selection;
-using SharpDX.Direct3D9;
 using Kenedia.Modules.BuildsManager.Extensions;
 using Kenedia.Modules.Core.Controls;
 using Kenedia.Modules.BuildsManager.TemplateEntries;
+using static Kenedia.Modules.BuildsManager.Controls.Selection.SelectionPanel;
+using System.Linq;
 
 namespace Kenedia.Modules.BuildsManager.Controls.GearPage.GearSlots
 {
@@ -247,13 +244,33 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage.GearSlots
             var a = AbsoluteBounds;
 
             if (Icon.Hovered)
-                SelectionPanel?.SetStatAnchor(this, new Rectangle(a.Location, Point.Zero).Add(Icon.Bounds), Slot.ToString().ToLowercaseNamingConvention(), (item) => Debug.WriteLine($"{item?.Name}"));
+            {
+                SelectionPanel?.SetAnchor<Stat>(this, new Rectangle(a.Location, Point.Zero).Add(Icon.Bounds), SelectionTypes.Stats, Slot, GearSubSlotType.None, (stat) =>
+                {
+                    (TemplatePresenter?.Template[Slot] as ArmorTemplateEntry).Stat = stat;
+                    Stat = stat;
+                },
+                (TemplatePresenter?.Template[Slot] as ArmorTemplateEntry).Armor?.StatChoices,
+                (TemplatePresenter?.Template[Slot] as ArmorTemplateEntry).Armor?.AttributeAdjustment);
+            }
 
             if (_runeSlotTexture.Hovered)
-                SelectionPanel?.SetGearAnchor(this, new Rectangle(a.Location, Point.Zero).Add(_runeSlotTexture.Bounds), Slot, GearSubSlotType.Rune, Slot.ToString().ToLowercaseNamingConvention(), (item) => Debug.WriteLine($"{item?.Name}"));
+            {
+                SelectionPanel?.SetAnchor<Rune>(this, new Rectangle(a.Location, Point.Zero).Add(_runeSlotTexture.Bounds), SelectionTypes.Items, Slot, GearSubSlotType.Rune, (rune) =>
+                {
+                    (TemplatePresenter?.Template[Slot] as ArmorTemplateEntry).Rune = rune;
+                    Rune = rune;
+                });
+            }
 
             if (_infusionSlotTexture.Hovered)
-                SelectionPanel?.SetGearAnchor(this, new Rectangle(a.Location, Point.Zero).Add(_infusionSlotTexture.Bounds), Slot, GearSubSlotType.Infusion, Slot.ToString().ToLowercaseNamingConvention(), (item) => Debug.WriteLine($"{item?.Name}"));
+            {
+                SelectionPanel?.SetAnchor<Infusion>(this, new Rectangle(a.Location, Point.Zero).Add(_infusionSlotTexture.Bounds), SelectionTypes.Items, Slot, GearSubSlotType.Infusion, (infusion) =>
+                {
+                    (TemplatePresenter?.Template[Slot] as ArmorTemplateEntry).Infusion = infusion;
+                    Infusion = infusion;
+                });
+            }
         }
 
         private void OnStatChanged(object sender, Core.Models.ValueChangedEventArgs<Stat> e)
@@ -372,7 +389,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage.GearSlots
         {
             base.Paint(spriteBatch, bounds);
 
-                if (TemplatePresenter.IsPve != false)
+            if (TemplatePresenter.IsPve != false)
             {
                 _statTexture.Draw(this, spriteBatch);
                 _changeWeaponTexture.Draw(this, spriteBatch, RelativeMousePosition);
@@ -411,22 +428,59 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage.GearSlots
             var a = AbsoluteBounds;
 
             if (Icon.Hovered && TemplatePresenter.IsPve)
-                SelectionPanel?.SetStatAnchor(this, new Rectangle(a.Location, Point.Zero).Add(Icon.Bounds), Slot.ToString().ToLowercaseNamingConvention(), (stat) => Debug.WriteLine($"{stat?.Name}"));
+            {
+                SelectionPanel?.SetAnchor<Stat>(this, new Rectangle(a.Location, Point.Zero).Add(Icon.Bounds), SelectionTypes.Stats, Slot, GearSubSlotType.None, (stat) =>
+                {
+                    (TemplatePresenter?.Template[Slot] as WeaponTemplateEntry).Stat = stat;
+                    Stat = stat;
+                }, (TemplatePresenter?.Template[Slot] as WeaponTemplateEntry).Weapon?.StatChoices ?? BuildsManager.Data.Weapons.Values.FirstOrDefault()?.StatChoices,
+                (TemplatePresenter?.Template[Slot] as WeaponTemplateEntry).Weapon?.AttributeAdjustment);
+            }
 
             if (_pvpSigilSlotTexture.Hovered)
-                SelectionPanel?.SetGearAnchor(this, new Rectangle(a.Location, Point.Zero).Add(_pvpSigilSlotTexture.Bounds), Slot, GearSubSlotType.Sigil, Slot.ToString().ToLowercaseNamingConvention(), (item) => Debug.WriteLine($"{item?.Name}"));
-            
+            {
+                SelectionPanel?.SetAnchor<Sigil>(this, new Rectangle(a.Location, Point.Zero).Add(_pvpSigilSlotTexture.Bounds), SelectionTypes.Items, Slot, GearSubSlotType.Sigil, (sigil) =>
+                {
+                    (TemplatePresenter?.Template[Slot] as WeaponTemplateEntry).PvpSigil = sigil;
+                    PvpSigil = sigil;
+                });
+            }
+
             if (_sigilSlotTexture.Hovered)
-                SelectionPanel?.SetGearAnchor(this, new Rectangle(a.Location, Point.Zero).Add(_sigilSlotTexture.Bounds), Slot, GearSubSlotType.Sigil, Slot.ToString().ToLowercaseNamingConvention(), (item) => Debug.WriteLine($"{item?.Name}"));
+            {
+                SelectionPanel?.SetAnchor<Sigil>(this, new Rectangle(a.Location, Point.Zero).Add(_sigilSlotTexture.Bounds), SelectionTypes.Items, Slot, GearSubSlotType.Sigil, (sigil) =>
+                {
+                    (TemplatePresenter?.Template[Slot] as WeaponTemplateEntry).Sigil = sigil;
+                    Sigil = sigil;
+                });
+            }
 
             if (_infusionSlotTexture.Hovered)
-                SelectionPanel?.SetGearAnchor(this, new Rectangle(a.Location, Point.Zero).Add(_infusionSlotTexture.Bounds), Slot, GearSubSlotType.Infusion, Slot.ToString().ToLowercaseNamingConvention(), (item) => Debug.WriteLine($"{item?.Name}"));
+            {
+                SelectionPanel?.SetAnchor<Infusion>(this, new Rectangle(a.Location, Point.Zero).Add(_infusionSlotTexture.Bounds), SelectionTypes.Items, Slot, GearSubSlotType.Infusion, (infusion) =>
+                {
+                    (TemplatePresenter?.Template[Slot] as WeaponTemplateEntry).Infusion = infusion;
+                    Infusion = infusion;
+                });
+            }
 
             if (_changeWeaponTexture.Hovered)
-                SelectionPanel?.SetGearAnchor(this, new Rectangle(a.Location, Point.Zero).Add(Icon.Bounds), Slot, GearSubSlotType.Item, Slot.ToString().ToLowercaseNamingConvention(), (item) => (TemplatePresenter?.Template[Slot] as WeaponTemplateEntry).Item = item as Weapon);
+            {
+                SelectionPanel?.SetAnchor<Weapon>(this, new Rectangle(a.Location, Point.Zero).Add(Icon.Bounds), SelectionTypes.Items, Slot, GearSubSlotType.Item, (item) =>
+                {
+                    (TemplatePresenter?.Template[Slot] as WeaponTemplateEntry).Weapon = item;
+                    Item = item;
+                });
+            }
 
             if (Icon.Hovered && TemplatePresenter.IsPvp)
-                SelectionPanel?.SetGearAnchor(this, new Rectangle(a.Location, Point.Zero).Add(Icon.Bounds), Slot, GearSubSlotType.Item, Slot.ToString().ToLowercaseNamingConvention(), (item) => (TemplatePresenter?.Template[Slot] as WeaponTemplateEntry).Item = item as Weapon);
+            {
+                SelectionPanel?.SetAnchor<Weapon>(this, new Rectangle(a.Location, Point.Zero).Add(Icon.Bounds), SelectionTypes.Items, Slot, GearSubSlotType.Item, (item) =>
+                {
+                    (TemplatePresenter?.Template[Slot] as WeaponTemplateEntry).Weapon = item;
+                    Item = item;
+                });
+            }
         }
 
         private void OnStatChanged(object sender, Core.Models.ValueChangedEventArgs<Stat> e)
@@ -592,10 +646,10 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage.GearSlots
 
             var armor = TemplatePresenter.Template[Slot] as AquaticWeaponTemplateEntry;
 
-            Infusion1 = armor?.Infusion_1;
-            Infusion2 = armor?.Infusion_2;
-            Sigil1 = armor?.Sigil_1;
-            Sigil2 = armor?.Sigil_2;
+            Infusion1 = armor?.Infusion1;
+            Infusion2 = armor?.Infusion2;
+            Sigil1 = armor?.Sigil1;
+            Sigil2 = armor?.Sigil2;
 
             Stat = armor?.Stat;
         }
@@ -607,22 +661,60 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage.GearSlots
             var a = AbsoluteBounds;
 
             if (Icon.Hovered)
-                SelectionPanel?.SetStatAnchor(this, new Rectangle(a.Location, Point.Zero).Add(Icon.Bounds), Slot.ToString().ToLowercaseNamingConvention(), (item) => Debug.WriteLine($"{item?.Name}"));
+            {
+                SelectionPanel?.SetAnchor<Stat>(this, new Rectangle(a.Location, Point.Zero).Add(Icon.Bounds), SelectionTypes.Stats, Slot, GearSubSlotType.None, (stat) =>
+                {
+                    (TemplatePresenter?.Template[Slot] as AquaticWeaponTemplateEntry).Stat = stat;
+                    Stat = stat;
+                }, 
+                (TemplatePresenter?.Template[Slot] as AquaticWeaponTemplateEntry).Weapon?.StatChoices,
+                (TemplatePresenter?.Template[Slot] as AquaticWeaponTemplateEntry).Weapon?.AttributeAdjustment);
+            }
 
             if (_sigil1SlotTexture.Hovered)
-                SelectionPanel?.SetGearAnchor(this, new Rectangle(a.Location, Point.Zero).Add(_sigil1SlotTexture.Bounds), Slot, GearSubSlotType.Sigil, Slot.ToString().ToLowercaseNamingConvention(), (item) => Debug.WriteLine($"{item?.Name}"));
+            {
+                SelectionPanel?.SetAnchor<Sigil>(this, new Rectangle(a.Location, Point.Zero).Add(_sigil1SlotTexture.Bounds), SelectionTypes.Items, Slot, GearSubSlotType.Sigil, (sigil) =>
+                {
+                    (TemplatePresenter?.Template[Slot] as AquaticWeaponTemplateEntry).Sigil1 = sigil;
+                    Sigil1 = sigil;
+                });
+            }
 
             if (_infusion1SlotTexture.Hovered)
-                SelectionPanel?.SetGearAnchor(this, new Rectangle(a.Location, Point.Zero).Add(_infusion1SlotTexture.Bounds), Slot, GearSubSlotType.Infusion, Slot.ToString().ToLowercaseNamingConvention(), (item) => Debug.WriteLine($"{item?.Name}"));
-            
+            {
+                SelectionPanel?.SetAnchor<Infusion>(this, new Rectangle(a.Location, Point.Zero).Add(_infusion1SlotTexture.Bounds), SelectionTypes.Items, Slot, GearSubSlotType.Infusion, (infusion) =>
+                {
+                    (TemplatePresenter?.Template[Slot] as AquaticWeaponTemplateEntry).Infusion1 = infusion;
+                    Infusion1 = infusion;
+                });
+            }
+
             if (_sigil2SlotTexture.Hovered)
-                SelectionPanel?.SetGearAnchor(this, new Rectangle(a.Location, Point.Zero).Add(_sigil2SlotTexture.Bounds), Slot, GearSubSlotType.Sigil, Slot.ToString().ToLowercaseNamingConvention(), (item) => Debug.WriteLine($"{item?.Name}"));
+            {
+                SelectionPanel?.SetAnchor<Sigil>(this, new Rectangle(a.Location, Point.Zero).Add(_sigil2SlotTexture.Bounds), SelectionTypes.Items, Slot, GearSubSlotType.Sigil, (sigil) =>
+                {
+                    (TemplatePresenter?.Template[Slot] as AquaticWeaponTemplateEntry).Sigil2 = sigil;
+                    Sigil2 = sigil;
+                });
+            }
 
             if (_infusion2SlotTexture.Hovered)
-                SelectionPanel?.SetGearAnchor(this, new Rectangle(a.Location, Point.Zero).Add(_infusion2SlotTexture.Bounds), Slot, GearSubSlotType.Infusion, Slot.ToString().ToLowercaseNamingConvention(), (item) => Debug.WriteLine($"{item?.Name}"));
+            {
+                SelectionPanel?.SetAnchor<Infusion>(this, new Rectangle(a.Location, Point.Zero).Add(_infusion2SlotTexture.Bounds), SelectionTypes.Items, Slot, GearSubSlotType.Infusion, (infusion) =>
+                {
+                    (TemplatePresenter?.Template[Slot] as AquaticWeaponTemplateEntry).Infusion2 = infusion;
+                    Infusion2 = infusion;
+                });
+            }
 
             if (_changeWeaponTexture.Hovered)
-                SelectionPanel?.SetGearAnchor(this, new Rectangle(a.Location, Point.Zero).Add(Icon.Bounds), Slot, GearSubSlotType.Item, Slot.ToString().ToLowercaseNamingConvention(), (item) => Debug.WriteLine($"{item?.Name}"));
+            {
+                SelectionPanel?.SetAnchor<Weapon>(this, new Rectangle(a.Location, Point.Zero).Add(Icon.Bounds), SelectionTypes.Items, Slot, GearSubSlotType.Item, (item) =>
+                {
+                    (TemplatePresenter?.Template[Slot] as AquaticWeaponTemplateEntry).Weapon = item;
+                    Item = item;
+                });
+            }
         }
 
         private void OnStatChanged(object sender, Core.Models.ValueChangedEventArgs<Stat> e)
@@ -735,8 +827,8 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage.GearSlots
 
             var armor = TemplatePresenter.Template[Slot] as BackTemplateEntry;
 
-            Infusion1 = armor?.Infusion_1;
-            Infusion2 = armor?.Infusion_2;
+            Infusion1 = armor?.Infusion1;
+            Infusion2 = armor?.Infusion2;
 
             Stat = armor?.Stat;
         }
@@ -748,14 +840,32 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage.GearSlots
             var a = AbsoluteBounds;
 
             if (Icon.Hovered)
-                SelectionPanel?.SetStatAnchor(this, new Rectangle(a.Location, Point.Zero).Add(Icon.Bounds), Slot.ToString().ToLowercaseNamingConvention(), (item) => Debug.WriteLine($"{item?.Name}"));
+            {
+                SelectionPanel?.SetAnchor<Stat>(this, new Rectangle(a.Location, Point.Zero).Add(Icon.Bounds), SelectionTypes.Stats, Slot, GearSubSlotType.None, (stat) =>
+                {
+                    (TemplatePresenter?.Template[Slot] as BackTemplateEntry).Stat = stat;
+                    Stat = stat;
+                }, (TemplatePresenter?.Template[Slot] as BackTemplateEntry).Back?.StatChoices, 
+                (TemplatePresenter?.Template[Slot] as BackTemplateEntry).Back?.AttributeAdjustment);
+            }
 
             if (_infusion1SlotTexture.Hovered)
-                SelectionPanel?.SetGearAnchor(this, new Rectangle(a.Location, Point.Zero).Add(_infusion1SlotTexture.Bounds), Slot, GearSubSlotType.Infusion, Slot.ToString().ToLowercaseNamingConvention(), (item) => Debug.WriteLine($"{item?.Name}"));
-            
-            if (_infusion2SlotTexture.Hovered)
-                SelectionPanel?.SetGearAnchor(this, new Rectangle(a.Location, Point.Zero).Add(_infusion2SlotTexture.Bounds), Slot, GearSubSlotType.Infusion, Slot.ToString().ToLowercaseNamingConvention(), (item) => Debug.WriteLine($"{item?.Name}"));
+            {
+                SelectionPanel?.SetAnchor<Infusion>(this, new Rectangle(a.Location, Point.Zero).Add(_infusion1SlotTexture.Bounds), SelectionTypes.Items, Slot, GearSubSlotType.Infusion, (infusion) =>
+                {
+                    (TemplatePresenter?.Template[Slot] as BackTemplateEntry).Infusion1 = infusion;
+                    Infusion1 = infusion;
+                });
+            }
 
+            if (_infusion2SlotTexture.Hovered)
+            {
+                SelectionPanel?.SetAnchor<Infusion>(this, new Rectangle(a.Location, Point.Zero).Add(_infusion2SlotTexture.Bounds), SelectionTypes.Items, Slot, GearSubSlotType.Infusion, (infusion) =>
+                {
+                    (TemplatePresenter?.Template[Slot] as BackTemplateEntry).Infusion2 = infusion;
+                    Infusion2 = infusion;
+                });
+            }
         }
 
         private void OnStatChanged(object sender, Core.Models.ValueChangedEventArgs<Stat> e)
@@ -853,10 +963,23 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage.GearSlots
             var a = AbsoluteBounds;
 
             if (Icon.Hovered)
-                SelectionPanel?.SetStatAnchor(this, new Rectangle(a.Location, Point.Zero).Add(Icon.Bounds), Slot.ToString().ToLowercaseNamingConvention(), (item) => Debug.WriteLine($"{item?.Name}"));
+            {
+                SelectionPanel?.SetAnchor<Stat>(this, new Rectangle(a.Location, Point.Zero).Add(Icon.Bounds), SelectionTypes.Stats, Slot, GearSubSlotType.None, (stat) =>
+                {
+                    (TemplatePresenter?.Template[Slot] as AmuletTemplateEntry).Stat = stat;
+                    Stat = stat;
+                }, (TemplatePresenter?.Template[Slot] as AmuletTemplateEntry).Amulet?.StatChoices,
+                (TemplatePresenter?.Template[Slot] as AmuletTemplateEntry).Amulet?.AttributeAdjustment);
+            }
 
             if (_enrichmentSlotTexture.Hovered)
-                SelectionPanel?.SetGearAnchor(this, new Rectangle(a.Location, Point.Zero).Add(_enrichmentSlotTexture.Bounds), Slot, GearSubSlotType.Enrichment, Slot.ToString().ToLowercaseNamingConvention(), (item) => Debug.WriteLine($"{item?.Name}"));
+            {
+                SelectionPanel?.SetAnchor<Enrichment>(this, new Rectangle(a.Location, Point.Zero).Add(_enrichmentSlotTexture.Bounds), SelectionTypes.Items, Slot, GearSubSlotType.Enrichment, (enrichment) =>
+                {
+                    (TemplatePresenter?.Template[Slot] as AmuletTemplateEntry).Enrichment = enrichment;
+                    Enrichment = enrichment;
+                });
+            }
         }
 
         private void OnEnrichmentChanged(object sender, Core.Models.ValueChangedEventArgs<Enrichment> e)
@@ -953,10 +1076,23 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage.GearSlots
             var a = AbsoluteBounds;
 
             if (Icon.Hovered)
-                SelectionPanel?.SetStatAnchor(this, new Rectangle(a.Location, Point.Zero).Add(Icon.Bounds), Slot.ToString().ToLowercaseNamingConvention(), (item) => Debug.WriteLine($"{item?.Name}"));
+            {
+                SelectionPanel?.SetAnchor<Stat>(this, new Rectangle(a.Location, Point.Zero).Add(Icon.Bounds), SelectionTypes.Stats, Slot, GearSubSlotType.None, (stat) =>
+                {
+                    (TemplatePresenter?.Template[Slot] as AccessoireTemplateEntry).Stat = stat;
+                    Stat = stat;
+                }, (TemplatePresenter?.Template[Slot] as AccessoireTemplateEntry).Accessoire?.StatChoices,
+                (TemplatePresenter?.Template[Slot] as AccessoireTemplateEntry).Accessoire?.AttributeAdjustment);
+            }
 
             if (_infusionSlotTexture.Hovered)
-                SelectionPanel?.SetGearAnchor(this, new Rectangle(a.Location, Point.Zero).Add(_infusionSlotTexture.Bounds), Slot, GearSubSlotType.Infusion, Slot.ToString().ToLowercaseNamingConvention(), (item) => Debug.WriteLine($"{item?.Name}"));
+            {
+                SelectionPanel?.SetAnchor<Infusion>(this, new Rectangle(a.Location, Point.Zero).Add(_infusionSlotTexture.Bounds), SelectionTypes.Items, Slot, GearSubSlotType.Infusion, (infusion) =>
+                {
+                    (TemplatePresenter?.Template[Slot] as AccessoireTemplateEntry).Infusion = infusion;
+                    Infusion = infusion;
+                });
+            }
         }
 
         private void OnInfusionChanged(object sender, Core.Models.ValueChangedEventArgs<Infusion> e)
@@ -1069,9 +1205,9 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage.GearSlots
 
             var armor = TemplatePresenter.Template[Slot] as RingTemplateEntry;
 
-            Infusion1 = armor?.Infusion_1;
-            Infusion2 = armor?.Infusion_2;
-            Infusion3 = armor?.Infusion_3;
+            Infusion1 = armor?.Infusion1;
+            Infusion2 = armor?.Infusion2;
+            Infusion3 = armor?.Infusion3;
             Stat = armor?.Stat;
         }
 
@@ -1082,16 +1218,41 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage.GearSlots
             var a = AbsoluteBounds;
 
             if (Icon.Hovered)
-                SelectionPanel?.SetStatAnchor(this, new Rectangle(a.Location, Point.Zero).Add(Icon.Bounds), Slot.ToString().ToLowercaseNamingConvention(), (item) => Debug.WriteLine($"{item?.Name}"));
+            {
+                SelectionPanel?.SetAnchor<Stat>(this, new Rectangle(a.Location, Point.Zero).Add(Icon.Bounds), SelectionTypes.Stats, Slot, GearSubSlotType.None, (stat) =>
+                {
+                    (TemplatePresenter?.Template[Slot] as RingTemplateEntry).Stat = stat;
+                    Stat = stat;
+                }, (TemplatePresenter?.Template[Slot] as RingTemplateEntry).Ring?.StatChoices,
+                (TemplatePresenter?.Template[Slot] as RingTemplateEntry).Ring?.AttributeAdjustment);
+            }
 
             if (_infusion1SlotTexture.Hovered)
-                SelectionPanel?.SetGearAnchor(this, new Rectangle(a.Location, Point.Zero).Add(_infusion1SlotTexture.Bounds), Slot, GearSubSlotType.Infusion, Slot.ToString().ToLowercaseNamingConvention(), (item) => Debug.WriteLine($"{item?.Name}"));
+            {
+                SelectionPanel?.SetAnchor<Infusion>(this, new Rectangle(a.Location, Point.Zero).Add(_infusion1SlotTexture.Bounds), SelectionTypes.Items, Slot, GearSubSlotType.Infusion, (infusion) =>
+                {
+                    (TemplatePresenter?.Template[Slot] as RingTemplateEntry).Infusion1 = infusion;
+                    Infusion1 = infusion;
+                });
+            }
 
             if (_infusion2SlotTexture.Hovered)
-                SelectionPanel?.SetGearAnchor(this, new Rectangle(a.Location, Point.Zero).Add(_infusion2SlotTexture.Bounds), Slot, GearSubSlotType.Infusion, Slot.ToString().ToLowercaseNamingConvention(), (item) => Debug.WriteLine($"{item?.Name}"));
+            {
+                SelectionPanel?.SetAnchor<Infusion>(this, new Rectangle(a.Location, Point.Zero).Add(_infusion2SlotTexture.Bounds), SelectionTypes.Items, Slot, GearSubSlotType.Infusion, (infusion) =>
+                {
+                    (TemplatePresenter?.Template[Slot] as RingTemplateEntry).Infusion2 = infusion;
+                    Infusion2 = infusion;
+                });
+            }
 
             if (_infusion3SlotTexture.Hovered)
-                SelectionPanel?.SetGearAnchor(this, new Rectangle(a.Location, Point.Zero).Add(_infusion3SlotTexture.Bounds), Slot, GearSubSlotType.Infusion, Slot.ToString().ToLowercaseNamingConvention(), (item) => Debug.WriteLine($"{item?.Name}"));
+            {
+                SelectionPanel?.SetAnchor<Infusion>(this, new Rectangle(a.Location, Point.Zero).Add(_infusion3SlotTexture.Bounds), SelectionTypes.Items, Slot, GearSubSlotType.Infusion, (infusion) =>
+                {
+                    (TemplatePresenter?.Template[Slot] as RingTemplateEntry).Infusion3 = infusion;
+                    Infusion3 = infusion;
+                });
+            }
         }
 
         private void OnStatChanged(object sender, Core.Models.ValueChangedEventArgs<Stat> e)
@@ -1183,10 +1344,22 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage.GearSlots
             var a = AbsoluteBounds;
 
             if (Icon.Hovered)
-                SelectionPanel?.SetGearAnchor(this, new Rectangle(a.Location, Point.Zero).Add(Icon.Bounds), Slot, GearSubSlotType.Item, Slot.ToString().ToLowercaseNamingConvention(), (item) => Debug.WriteLine($"{item?.Name}"));
+            {
+                SelectionPanel?.SetAnchor<PvpAmulet>(this, new Rectangle(a.Location, Point.Zero).Add(Icon.Bounds), SelectionTypes.Items, Slot, GearSubSlotType.Item, (pvpAmulet) =>
+                {
+                    (TemplatePresenter?.Template[Slot] as PvpAmuletTemplateEntry).PvpAmulet = pvpAmulet;
+                    Item = pvpAmulet;
+                });
+            }
 
             if (_runeSlotTexture.Hovered)
-                SelectionPanel?.SetGearAnchor(this, new Rectangle(a.Location, Point.Zero).Add(_runeSlotTexture.Bounds), Slot, GearSubSlotType.Rune, Slot.ToString().ToLowercaseNamingConvention(), (item) => Debug.WriteLine($"{item?.Name}"));
+            {
+                SelectionPanel?.SetAnchor<Rune>(this, new Rectangle(a.Location, Point.Zero).Add(_runeSlotTexture.Bounds), SelectionTypes.Items, Slot, GearSubSlotType.Rune, (rune) =>
+                {
+                    (TemplatePresenter?.Template[Slot] as PvpAmuletTemplateEntry).Rune = rune;
+                    Rune = rune;
+                });
+            }
         }
 
         private void OnRuneChanged(object sender, Core.Models.ValueChangedEventArgs<Rune> e)
@@ -1232,7 +1405,13 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage.GearSlots
             var a = AbsoluteBounds;
 
             if (Icon.Hovered)
-                SelectionPanel?.SetGearAnchor(this, new Rectangle(a.Location, Point.Zero).Add(Icon.Bounds), Slot, GearSubSlotType.Item, Slot.ToString().ToLowercaseNamingConvention(), (item) => Debug.WriteLine($"{item?.Name}"));
+            {
+                SelectionPanel?.SetAnchor<Nourishment>(this, new Rectangle(a.Location, Point.Zero).Add(Icon.Bounds), SelectionTypes.Items, Slot, GearSubSlotType.Item, (nourishment) =>
+                {
+                    (TemplatePresenter?.Template[Slot] as NourishmentEntry).Nourishment = nourishment;
+                    Item = nourishment;
+                });
+            }
         }
 
         protected override void SetItems(object sender, EventArgs e)
@@ -1240,7 +1419,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage.GearSlots
             base.SetItems(sender, e);
 
             var nourishment = TemplatePresenter.Template[Slot] as NourishmentEntry;
-            Item = nourishment?.Item;
+            Item = nourishment?.Nourishment;
         }
     }
 
@@ -1279,7 +1458,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage.GearSlots
             base.SetItems(sender, e);
 
             var utility = TemplatePresenter.Template[Slot] as UtilityEntry;
-            Item = utility?.Item;
+            Item = utility?.Utility;
         }
 
         protected override void OnClick(MouseEventArgs e)
@@ -1289,7 +1468,13 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage.GearSlots
             var a = AbsoluteBounds;
 
             if (Icon.Hovered)
-                SelectionPanel?.SetGearAnchor(this, new Rectangle(a.Location, Point.Zero).Add(Icon.Bounds), Slot, GearSubSlotType.Item, Slot.ToString().ToLowercaseNamingConvention(), (item) => Debug.WriteLine($"{item?.Name}"));
+            {
+                SelectionPanel?.SetAnchor<DataModels.Items.Utility>(this, new Rectangle(a.Location, Point.Zero).Add(Icon.Bounds), SelectionTypes.Items, Slot, GearSubSlotType.Item, (utility) =>
+                {
+                    (TemplatePresenter?.Template[Slot] as UtilityEntry).Utility = utility;
+                    Item = utility;
+                });
+            }
         }
     }
 
@@ -1329,7 +1514,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage.GearSlots
             base.SetItems(sender, e);
 
             var jadebotcore = TemplatePresenter.Template[Slot] as JadeBotTemplateEntry;
-            Item = jadebotcore?.Item;
+            Item = jadebotcore?.JadeBotCore;
         }
 
         protected override void OnClick(MouseEventArgs e)
@@ -1341,7 +1526,13 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage.GearSlots
             var a = AbsoluteBounds;
 
             if (Icon.Hovered)
-                SelectionPanel?.SetGearAnchor(this, new Rectangle(a.Location, Point.Zero).Add(Icon.Bounds), Slot, GearSubSlotType.Item, Slot.ToString().ToLowercaseNamingConvention(), (item) => Debug.WriteLine($"{item?.Name}"));
+            {
+                SelectionPanel?.SetAnchor<JadeBotCore>(this, new Rectangle(a.Location, Point.Zero).Add(Icon.Bounds), SelectionTypes.Items, Slot, GearSubSlotType.Item, (jadeBotCore) =>
+                {
+                    (TemplatePresenter?.Template[Slot] as JadeBotTemplateEntry).JadeBotCore = jadeBotCore;
+                    Item = jadeBotCore;
+                });
+            }
         }
     }
 
@@ -1380,7 +1571,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage.GearSlots
             base.SetItems(sender, e);
 
             var relic = TemplatePresenter.Template[Slot] as RelicTemplateEntry;
-            Item = relic?.Item;
+            Item = relic?.Relic;
         }
 
         protected override void OnClick(MouseEventArgs e)
@@ -1392,7 +1583,13 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage.GearSlots
             var a = AbsoluteBounds;
 
             if (Icon.Hovered)
-                SelectionPanel?.SetGearAnchor(this, new Rectangle(a.Location, Point.Zero).Add(Icon.Bounds), Slot, GearSubSlotType.Item, Slot.ToString().ToLowercaseNamingConvention(), (item) => Debug.WriteLine($"{item?.Name}"));
+            {
+                SelectionPanel?.SetAnchor<Relic>(this, new Rectangle(a.Location, Point.Zero).Add(Icon.Bounds), SelectionTypes.Items, Slot, GearSubSlotType.Item, (relic) =>
+                {
+                    (TemplatePresenter?.Template[Slot] as RelicTemplateEntry).Relic = relic;
+                    Item = relic;
+                });
+            }
         }
     }
 }

@@ -4,11 +4,13 @@ using Kenedia.Modules.BuildsManager.Extensions;
 using Kenedia.Modules.BuildsManager.Models;
 using Kenedia.Modules.BuildsManager.Models.Templates;
 using Kenedia.Modules.Core.Extensions;
+using Kenedia.Modules.Core.Models;
 using Kenedia.Modules.Core.Utility;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using AttributeType = Gw2Sharp.WebApi.V2.Models.AttributeType;
 
@@ -19,12 +21,12 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
         private readonly List<AttributeToggle> _statIcons = new();
         private readonly List<StatSelectable> _stats = new();
         private readonly bool _created;
+        private IReadOnlyList<int> _statChoices;
+        private double _attributeAdjustments;
 
-        private Template _template;
-        private BaseTemplateEntry _templateSlot;
-
-        public StatSelection()
+        public StatSelection(TemplatePresenter templatePresenter)
         {
+            TemplatePresenter = templatePresenter;
             AttributeToggle t;
             int i = 0;
             int size = 25;
@@ -71,6 +73,13 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
                     Parent = SelectionContent,
                     Width = SelectionContent.Width - 35,
                     Stat = stat.Value,
+                    OnClickAction = () =>
+                    {
+                        if (TemplatePresenter?.Template != null)
+                        {
+                            OnClickAction(stat.Value);
+                        }
+                    },
                 });
             }
 
@@ -84,51 +93,23 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
             _created = true;
         }
 
-        public TemplatePresenter TemplatePresenter { get; set; } = new();
+        public TemplatePresenter TemplatePresenter { get; }
 
-        private void SelectStat(Stat selectedStat)
+        public IReadOnlyList<int> StatChoices { get => _statChoices; set => Common.SetProperty(ref _statChoices , value, OnStatChoicesChanged); }
+
+        public double AttributeAdjustments {  get => _attributeAdjustments; set => Common.SetProperty(ref _attributeAdjustments, value, OnAttributeAdjustmentsChanged); }
+
+        private void OnAttributeAdjustmentsChanged(object sender, ValueChangedEventArgs<double> e)
         {
-            bool applyall = false;
-
-            switch (applyall)
+            foreach (var stat in _stats)
             {
-                case false:
-                    (TemplateSlot as GearTemplateEntry).Stat = selectedStat;
-                    break;
-
-                case true:
-                    List<GearTemplateEntry> slots = new();
-
-                    slots.AddRange(TemplatePresenter?.Template?.Armors.Values.Cast<GearTemplateEntry>());
-                    slots.AddRange(TemplatePresenter?.Template?.Weapons.Values.Cast<GearTemplateEntry>());
-                    slots.AddRange(TemplatePresenter?.Template?.Juwellery.Values.Cast<GearTemplateEntry>());
-
-                    foreach (var slot in slots)
-                    {
-                        if (slot.Item is not null)
-                        {
-                            slot.Stat = selectedStat;
-                        }
-                    }
-                    break;
+                stat.AttributeAdjustment = AttributeAdjustments;
             }
         }
 
-        public BaseTemplateEntry TemplateSlot
+        private void OnStatChoicesChanged(object sender, ValueChangedEventArgs<IReadOnlyList<int>> e)
         {
-            get => _templateSlot;
-            set => Common.SetProperty(ref _templateSlot, value, () =>
-            {
-                FilterStats(null);
-
-                double exoticTrinkets = 0;
-
-                foreach (var stat in _stats)
-                {
-                    stat.ActiveTemplateSlot = value;
-                    stat.AttributeAdjustment = _templateSlot?.Item != null ? ((_templateSlot?.Item as EquipmentItem).AttributeAdjustment + exoticTrinkets) : 0;
-                }
-            });
+            FilterStats(null);
         }
 
         public override void RecalculateLayout()
@@ -156,7 +137,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
             string searchTxt = txt.Trim().ToLower();
             bool anyName = searchTxt.IsNullOrEmpty();
 
-            var validStats = TemplateSlot?.Item != null ? (TemplateSlot?.Item as EquipmentItem).StatChoices : new List<int>();
+            var validStats = StatChoices ?? new List<int>();
             bool anyStat = validStats.Count == 0;
 
             bool anyAttribute = !_statIcons.Any(e => e.Checked);
@@ -168,7 +149,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
 
                 stat.Visible =
                     (anyAttribute || attributes.All(e => statAttributes.Contains(e))) &&
-                    validStats.Contains(stat.Stat.Id) &&
+                    (validStats.Contains(stat.Stat.Id)) &&
                     (anyName || stat.Stat?.Name.ToLower().Trim().Contains(searchTxt) == true);
             }
 

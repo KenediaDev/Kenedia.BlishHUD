@@ -1,24 +1,35 @@
 ﻿using Kenedia.Modules.BuildsManager.Models.Templates;
 using System.Linq;
 using Kenedia.Modules.BuildsManager.DataModels.Items;
-using Gw2Sharp.WebApi.V2.Models;
 using Kenedia.Modules.BuildsManager.Utility;
+using Kenedia.Modules.Core.Utility;
+using Kenedia.Modules.Core.Models;
+using System;
 
 namespace Kenedia.Modules.BuildsManager.TemplateEntries
 {
     public class JadeBotTemplateEntry : TemplateEntry
     {
+        private JadeBotCore _jadeBotCore;
+
         public JadeBotTemplateEntry(TemplateSlot slot) : base(slot)
         {
         }
 
-        public JadeBotCore Item { get; set; }
+        public event EventHandler<ValueChangedEventArgs<JadeBotCore>> JadeBotCoreChanged;
+
+        public JadeBotCore JadeBotCore { get => _jadeBotCore; set => Common.SetProperty(ref _jadeBotCore, value, OnJadeBotCoreChanged); }
+
+        private void OnJadeBotCoreChanged(object sender, ValueChangedEventArgs<JadeBotCore> e)
+        {
+            JadeBotCoreChanged?.Invoke(sender, e);
+        }
 
         public override byte[] AddToCodeArray(byte[] array)
         {
             return array.Concat(new byte[]
             {
-                Item ?.MappedId ?? 0,
+                JadeBotCore ?.MappedId ?? 0,
             }).ToArray();
         }
 
@@ -26,7 +37,7 @@ namespace Kenedia.Modules.BuildsManager.TemplateEntries
         {
             int newStartIndex = 1;
 
-            Item = BuildsManager.Data.JadeBotCores.Values.Where(e => e.MappedId == array[0]).FirstOrDefault();
+            JadeBotCore = BuildsManager.Data.JadeBotCores.Values.Where(e => e.MappedId == array[0]).FirstOrDefault();
 
             return GearTemplateCode.RemoveFromStart(array, newStartIndex);
         }

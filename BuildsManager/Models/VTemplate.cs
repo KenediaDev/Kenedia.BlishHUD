@@ -16,10 +16,9 @@ using System.Threading.Tasks;
 using Kenedia.Modules.BuildsManager.TemplateEntries;
 using System.Collections.Generic;
 using Blish_HUD.Gw2Mumble;
-using System.Diagnostics;
 using Kenedia.Modules.BuildsManager.Utility;
-using SharpDX;
-using System.Collections;
+using Kenedia.Modules.BuildsManager.DataModels.Items;
+using Kenedia.Modules.BuildsManager.DataModels.Stats;
 
 namespace Kenedia.Modules.BuildsManager.Models
 {
@@ -105,6 +104,8 @@ namespace Kenedia.Modules.BuildsManager.Models
                 spec.TraitsChanged += Spec_TraitsChanged;
             }
 
+            RegisterGearListeners();
+
             PlayerCharacter player = Blish_HUD.GameService.Gw2Mumble.PlayerCharacter;
             Profession = player?.Profession ?? Profession;
         }
@@ -187,17 +188,7 @@ namespace Kenedia.Modules.BuildsManager.Models
         #endregion Build
 
         #region Gear
-        public TemplateEntry? this[TemplateSlot slot]
-        {
-            get => slot == TemplateSlot.None ? null : (TemplateEntry)GetType().GetProperty(slot.ToString()).GetValue(this);
-            set
-            {
-                if (slot == TemplateSlot.None) return;
-
-                Debug.WriteLine($"Set {slot} to {value?.Slot}");
-                GetType().GetProperty(slot.ToString())?.SetValue(this, value);
-            }
-        }
+        public TemplateEntry? this[TemplateSlot slot] => slot == TemplateSlot.None ? null : (TemplateEntry)GetType().GetProperty(slot.ToString()).GetValue(this);
 
         public ArmorTemplateEntry Head { get; } = new(TemplateSlot.Head);
 
@@ -254,6 +245,291 @@ namespace Kenedia.Modules.BuildsManager.Models
         public Dictionary<TemplateSlot, TemplateEntry> Juwellery { get; }
         #endregion
 
+        private void RegisterGearListeners()
+        {
+            foreach (TemplateSlot slot in Enum.GetValues(typeof(TemplateSlot)))
+            {
+                switch (slot)
+                {
+                    case TemplateSlot.Head:
+                    case TemplateSlot.Shoulder:
+                    case TemplateSlot.Chest:
+                    case TemplateSlot.Hand:
+                    case TemplateSlot.Leg:
+                    case TemplateSlot.Foot:
+                    case TemplateSlot.AquaBreather:
+                        if (this[slot] is not ArmorTemplateEntry armor)
+                            continue;
+
+                        armor.StatChanged += Armor_StatChanged;
+                        armor.RuneChanged += Armor_RuneChanged;
+                        armor.InfusionChanged += Armor_InfusionChanged;
+                        break;
+
+                    case TemplateSlot.MainHand:
+                    case TemplateSlot.OffHand:
+                    case TemplateSlot.AltMainHand:
+                    case TemplateSlot.AltOffHand:
+                        if (this[slot] is not WeaponTemplateEntry weapon)
+                            continue;
+
+                        weapon.StatChanged += Weapon_StatChanged;
+                        weapon.SigilChanged += Weapon_SigilChanged;
+                        weapon.InfusionChanged += Weapon_InfusionChanged;
+                        weapon.WeaponChanged += Weapon_WeaponChanged;
+
+                        break;
+
+                    case TemplateSlot.Aquatic:
+                    case TemplateSlot.AltAquatic:
+                        if (this[slot] is not AquaticWeaponTemplateEntry aqua)
+                            continue;
+
+                        aqua.StatChanged += Aqua_StatChanged;
+                        aqua.Sigil1Changed += Aqua_Sigil1Changed;
+                        aqua.Sigil2Changed += Aqua_Sigil2Changed;
+                        aqua.WeaponChanged += Aqua_WeaponChanged;
+                        aqua.Infusion1Changed += Aqua_Infusion1Changed;
+                        aqua.Infusion2Changed += Aqua_Infusion2Changed;
+
+                        break;
+
+                    case TemplateSlot.Amulet:
+                        if (this[slot] is not AmuletTemplateEntry amulet)
+                            continue;
+
+                        amulet.StatChanged += Amulet_StatChanged;
+                        amulet.EnrichmentChanged += Amulet_EnrichmentChanged;
+                        break;
+
+                    case TemplateSlot.Ring_1:
+                    case TemplateSlot.Ring_2:
+                        if (this[slot] is not RingTemplateEntry ring)
+                            continue;
+
+                        ring.StatChanged += Ring_StatChanged;
+                        ring.Infusion1Changed += Ring_Infusion1Changed;
+                        ring.Infusion2Changed += Ring_Infusion2Changed;
+                        ring.Infusion3Changed += Ring_Infusion3Changed;
+                        break;
+
+                    case TemplateSlot.Accessory_1:
+                    case TemplateSlot.Accessory_2:
+                        if (this[slot] is not AccessoireTemplateEntry accessory)
+                            continue;
+
+                        accessory.StatChanged += Accessory_StatChanged;
+                        accessory.InfusionChanged += Accessory_InfusionChanged;
+                        break;
+                    case TemplateSlot.Back:
+                        if (this[slot] is not BackTemplateEntry back)
+                            continue;
+
+                        back.StatChanged += Back_StatChanged;
+                        back.Infusion1Changed += Back_Infusion1Changed;
+                        back.Infusion2Changed += Back_Infusion2Changed;
+                        break;
+
+                    case TemplateSlot.PvpAmulet:
+                        if (this[slot] is not PvpAmuletTemplateEntry pvpAmulet)
+                            continue;
+
+                        pvpAmulet.PvpAmuletChanged += PvpAmulet_PvpAmuletChanged;
+                        pvpAmulet.RuneChanged += PvpAmulet_RuneChanged;
+                        break;
+
+                    case TemplateSlot.Nourishment:
+                        if (this[slot] is not NourishmentEntry nourishment)
+                            continue;
+
+                        nourishment.NourishmentChanged += Nourishment_NourishmentChanged;
+                        break;
+
+                    case TemplateSlot.Utility:
+                        if (this[slot] is not UtilityEntry utility)
+                            continue;
+
+                        utility.UtilityChanged += Utility_UtilityChanged;
+                        break;
+
+                    case TemplateSlot.JadeBotCore:
+                        if (this[slot] is not JadeBotTemplateEntry jadeBotCore)
+                            continue;
+
+                        jadeBotCore.JadeBotCoreChanged += JadeBotCore_JadeBotCoreChanged;
+                        break;
+
+                    case TemplateSlot.Relic:
+                        if (this[slot] is not RelicTemplateEntry relic)
+                            continue;
+
+                        relic.RelicChanged += Relic_RelicChanged;
+                        break;
+                }
+            }
+        }
+
+        private async void OnGearChanged(object sender, EventArgs e)
+        {
+            GearChanged?.Invoke(this, e);
+            await Save();
+        }
+
+        private void Relic_RelicChanged(object sender, ValueChangedEventArgs<Relic> e)
+        {
+            OnGearChanged(sender, e);
+        }
+
+        private void JadeBotCore_JadeBotCoreChanged(object sender, ValueChangedEventArgs<JadeBotCore> e)
+        {
+            OnGearChanged(sender, e);
+        }
+
+        private void Utility_UtilityChanged(object sender, ValueChangedEventArgs<DataModels.Items.Utility> e)
+        {
+            OnGearChanged(sender, e);
+        }
+
+        private void Nourishment_NourishmentChanged(object sender, ValueChangedEventArgs<Nourishment> e)
+        {
+            OnGearChanged(sender, e);
+        }
+
+        private void PvpAmulet_RuneChanged(object sender, ValueChangedEventArgs<Rune> e)
+        {
+            OnGearChanged(sender, e);
+        }
+
+        private void PvpAmulet_PvpAmuletChanged(object sender, ValueChangedEventArgs<PvpAmulet> e)
+        {
+            OnGearChanged(sender, e);
+        }
+
+        private void Back_Infusion2Changed(object sender, ValueChangedEventArgs<Infusion> e)
+        {
+            OnGearChanged(sender, e);
+        }
+
+        private void Back_Infusion1Changed(object sender, ValueChangedEventArgs<Infusion> e)
+        {
+            OnGearChanged(sender, e);
+        }
+
+        private void Back_StatChanged(object sender, ValueChangedEventArgs<Stat> e)
+        {
+            OnGearChanged(sender, e);
+        }
+
+        private void Accessory_InfusionChanged(object sender, ValueChangedEventArgs<Infusion> e)
+        {
+            OnGearChanged(sender, e);
+        }
+
+        private void Accessory_StatChanged(object sender, ValueChangedEventArgs<Stat> e)
+        {
+            OnGearChanged(sender, e);
+        }
+
+        private void Ring_Infusion3Changed(object sender, ValueChangedEventArgs<Infusion> e)
+        {
+            OnGearChanged(sender, e);
+        }
+
+        private void Ring_Infusion2Changed(object sender, ValueChangedEventArgs<Infusion> e)
+        {
+            OnGearChanged(sender, e);
+        }
+
+        private void Ring_Infusion1Changed(object sender, ValueChangedEventArgs<Infusion> e)
+        {
+            OnGearChanged(sender, e);
+        }
+
+        private void Ring_StatChanged(object sender, ValueChangedEventArgs<Stat> e)
+        {
+            OnGearChanged(sender, e);
+        }
+
+        private void Amulet_EnrichmentChanged(object sender, ValueChangedEventArgs<Enrichment> e)
+        {
+            OnGearChanged(sender, e);
+        }
+
+        private void Amulet_StatChanged(object sender, ValueChangedEventArgs<Stat> e)
+        {
+            OnGearChanged(sender, e);
+        }
+
+        private void Aqua_Infusion2Changed(object sender, ValueChangedEventArgs<Infusion> e)
+        {
+            OnGearChanged(sender, e);
+        }
+
+        private void Aqua_Infusion1Changed(object sender, ValueChangedEventArgs<Infusion> e)
+        {
+            OnGearChanged(sender, e);
+        }
+
+        private void Aqua_WeaponChanged(object sender, ValueChangedEventArgs<DataModels.Items.Weapon> e)
+        {
+            OnGearChanged(sender, e);
+        }
+
+        private void Aqua_Sigil2Changed(object sender, ValueChangedEventArgs<Sigil> e)
+        {
+            OnGearChanged(sender, e);
+        }
+
+        private void Aqua_Sigil1Changed(object sender, ValueChangedEventArgs<Sigil> e)
+        {
+            OnGearChanged(sender, e);
+        }
+
+        private void Aqua_StatChanged(object sender, ValueChangedEventArgs<Stat> e)
+        {
+            OnGearChanged(sender, e);
+        }
+
+        private void Weapon_WeaponChanged(object sender, ValueChangedEventArgs<DataModels.Items.Weapon> e)
+        {
+            OnGearChanged(sender, e);
+        }
+
+        private void Weapon_InfusionChanged(object sender, ValueChangedEventArgs<Infusion> e)
+        {
+            OnGearChanged(sender, e);
+        }
+
+        private void Weapon_SigilChanged(object sender, ValueChangedEventArgs<Sigil> e)
+        {
+            OnGearChanged(sender, e);
+        }
+
+        private void Weapon_StatChanged(object sender, ValueChangedEventArgs<Stat> e)
+        {
+            OnGearChanged(sender, e);
+        }
+
+        private void Armor_ItemChanged(object sender, ValueChangedEventArgs<Trinket> e)
+        {
+            OnGearChanged(sender, e);
+        }
+
+        private void Armor_InfusionChanged(object sender, ValueChangedEventArgs<Infusion> e)
+        {
+            OnGearChanged(sender, e);
+        }
+
+        private void Armor_RuneChanged(object sender, ValueChangedEventArgs<Rune> e)
+        {
+            OnGearChanged(sender, e);
+        }
+
+        private void Armor_StatChanged(object sender, ValueChangedEventArgs<DataModels.Stats.Stat> e)
+        {
+            OnGearChanged(sender, e);
+        }
+
         private async void Spec_TraitsChanged(object sender, EventArgs e)
         {
             BuildChanged?.Invoke(this, e);
@@ -295,12 +571,48 @@ namespace Kenedia.Modules.BuildsManager.Models
             Pets.Wipe();
             Legends.Wipe();
 
+            SetArmorItems();
+
             RemoveInvalidCombinations();
 
             if (!_triggerEvents) return;
             ProfessionChanged?.Invoke(this, e);
 
             await Save();
+        }
+
+        private void SetArmorItems()
+        {
+            switch (Profession.GetArmorType())
+            {
+                case Gw2Sharp.WebApi.V2.Models.ItemWeightType.Heavy:
+                    AquaBreather.Armor = BuildsManager.Data.Armors[79895];
+                    Head.Armor = BuildsManager.Data.Armors[85193];
+                    Shoulder.Armor = BuildsManager.Data.Armors[84875];
+                    Chest.Armor  = BuildsManager.Data.Armors[85084];
+                    Hand.Armor = BuildsManager.Data.Armors[85140];
+                    Leg.Armor = BuildsManager.Data.Armors[84887];
+                    Foot.Armor = BuildsManager.Data.Armors[85055];
+                    break;
+                case Gw2Sharp.WebApi.V2.Models.ItemWeightType.Medium:
+                    AquaBreather.Armor = BuildsManager.Data.Armors[79838];
+                    Head.Armor = BuildsManager.Data.Armors[80701];
+                    Shoulder.Armor = BuildsManager.Data.Armors[80825];
+                    Chest.Armor = BuildsManager.Data.Armors[84977];
+                    Hand.Armor = BuildsManager.Data.Armors[85169];
+                    Leg.Armor = BuildsManager.Data.Armors[85264];
+                    Foot.Armor = BuildsManager.Data.Armors[80836];
+                    break;
+                case Gw2Sharp.WebApi.V2.Models.ItemWeightType.Light:
+                    AquaBreather.Armor = BuildsManager.Data.Armors[79873];
+                    Head.Armor = BuildsManager.Data.Armors[85128];
+                    Shoulder.Armor = BuildsManager.Data.Armors[84918];
+                    Chest.Armor = BuildsManager.Data.Armors[85333];
+                    Hand.Armor = BuildsManager.Data.Armors[85070];
+                    Leg.Armor = BuildsManager.Data.Armors[85362];
+                    Foot.Armor = BuildsManager.Data.Armors[80815];
+                    break;
+            }
         }
 
         private async void OnRaceChanged(object sender, ValueChangedEventArgs<Races> e)
@@ -567,7 +879,7 @@ namespace Kenedia.Modules.BuildsManager.Models
 
         public async Task Save(int timeToWait = 150)
         {
-            if(!_loaded) return;
+            if (!_loaded) return;
 
             _cancellationTokenSource?.Cancel();
             _cancellationTokenSource = new CancellationTokenSource();
@@ -829,9 +1141,9 @@ namespace Kenedia.Modules.BuildsManager.Models
                 if (slot.Key is not TemplateSlot.Aquatic and not TemplateSlot.AltAquatic)
                 {
                     var weapon = slot.Value as WeaponTemplateEntry;
-                    if (weapon?.Item?.WeaponType != null)
+                    if (weapon?.Weapon?.WeaponType != null)
                     {
-                        var weaponType = weapon.Item.WeaponType;
+                        var weaponType = weapon.Weapon.WeaponType;
                         var profWeapon = BuildsManager.Data.Professions[Profession].Weapons.FirstOrDefault(e => e.Value.Type.ToItemWeaponType() == weaponType);
 
                         if (profWeapon.Value == null || profWeapon.Value.Specialization != EliteSpecialization?.Id)
@@ -849,8 +1161,8 @@ namespace Kenedia.Modules.BuildsManager.Models
                 {
                     if (Weapons[slot] is WeaponTemplateEntry weapon)
                     {
-                        BuildsManager.Logger.Info($"Remove {weapon.Item?.Name} because we can not wield it with our current specs.");
-                        weapon.Item = null;
+                        BuildsManager.Logger.Info($"Remove {weapon.Weapon?.Name} because we can not wield it with our current specs.");
+                        weapon.Weapon = null;
                     }
                 }
             }

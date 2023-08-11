@@ -174,7 +174,7 @@ namespace Kenedia.Modules.BuildsManager.Models.Templates
                     {
                         item.NameChanged -= RotationTemplate_PropertyChanged;
                     }
-
+                                        
                     break;
             }
 

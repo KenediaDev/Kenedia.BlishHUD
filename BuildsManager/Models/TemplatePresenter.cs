@@ -5,7 +5,6 @@ using Kenedia.Modules.Core.DataModels;
 using Kenedia.Modules.Core.Models;
 using Kenedia.Modules.Core.Utility;
 using System;
-using System.Diagnostics;
 
 namespace Kenedia.Modules.BuildsManager.Models
 {
@@ -27,6 +26,8 @@ namespace Kenedia.Modules.BuildsManager.Models
         public event EventHandler LoadedBuildFromCode;
 
         public event EventHandler BuildCodeChanged;
+
+        public event EventHandler GearCodeChanged;
 
         public event ValueChangedEventHandler<VTemplate> TemplateChanged;
 
@@ -72,6 +73,7 @@ namespace Kenedia.Modules.BuildsManager.Models
             {
                 e.OldValue.RaceChanged -= On_RaceChanged;
                 e.OldValue.BuildChanged -= On_BuildChanged;
+                e.OldValue.GearChanged -= On_GearChanged;
                 e.OldValue.ProfessionChanged -= On_ProfessionChanged;
                 e.OldValue.EliteSpecializationChanged -= On_EliteSpecializationChanged;
                 e.OldValue.SpecializationChanged -= On_SpecializationChanged;
@@ -92,12 +94,18 @@ namespace Kenedia.Modules.BuildsManager.Models
         {
             template.RaceChanged += On_RaceChanged;
             template.BuildChanged += On_BuildChanged;
+            template.GearChanged += On_GearChanged;
             template.ProfessionChanged += On_ProfessionChanged;
             template.EliteSpecializationChanged += On_EliteSpecializationChanged;
             template.SpecializationChanged += On_SpecializationChanged;
 
             template.LoadedBuildFromCode += On_LoadedBuildFromCode;
             template.LoadedGearFromCode += On_LoadedGearFromCode;
+        }
+
+        private void On_GearChanged(object sender, EventArgs e)
+        {
+            GearCodeChanged?.Invoke(sender, e);
         }
 
         private void On_LoadedGearFromCode(object sender, EventArgs e)

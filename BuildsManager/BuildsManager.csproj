@@ -305,7 +305,7 @@
     <Compile Include="Controls\Selection\TagTexture.cs" />
     <Compile Include="Controls\Selection\TemplateSelectable.cs" />
     <Compile Include="Controls\TabbedRegion.cs" />
-    <Compile Include="DataModels\Items\BaseItem.cs" />
+    <Compile Include="DataModels\Items\Trinket_1.cs" />
     <Compile Include="DataModels\Items\BonusStat.cs" />
     <Compile Include="DataModels\Items\BonusType.cs" />
     <Compile Include="DataModels\Items\ConsumableDetails.cs" />

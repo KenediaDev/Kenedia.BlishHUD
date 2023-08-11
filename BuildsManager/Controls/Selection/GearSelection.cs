@@ -2,10 +2,8 @@
 using Kenedia.Modules.BuildsManager.Extensions;
 using Kenedia.Modules.BuildsManager.Models;
 using Kenedia.Modules.BuildsManager.Models.Templates;
-using Kenedia.Modules.BuildsManager.TemplateEntries;
 using Kenedia.Modules.Core.Extensions;
 using Kenedia.Modules.Core.Utility;
-using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -16,11 +14,9 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
 {
     public class GearSelection : BaseSelection
     {
-        private readonly Dictionary<TemplateSlot, List<Selectable>> _selectablesPerSlot = new();
         private readonly List<Selectable> _selectables = new();
         private TemplateSlot _activeSlot;
         private GearSubSlotType _subSlotType;
-        private Template _template;
         private string _filterText;
         private readonly List<Selectable> _armors;
         private readonly List<Selectable> _trinkets;
@@ -56,8 +52,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
                         {
                             if (TemplatePresenter?.Template != null)
                             {
-                                OnItemSelected(item);
-                                OnItemSelected?.Invoke(item);
+                                OnClickAction(item);
                             }
                         },
                         Type =
@@ -97,26 +92,9 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
 
         public TemplatePresenter TemplatePresenter { get; set; } = new();
 
-        private async void EquipItems()
-        {
-            var armors = _armors.Where(e => (e.Item as Armor).Weight == TemplatePresenter?.Template?.Profession.GetArmorType() && (e.Item.Rarity == Gw2Sharp.WebApi.V2.Models.ItemRarity.Ascended || e.TemplateSlot == Models.Templates.TemplateSlot.AquaBreather))?.Select(e => e.Item);
-            foreach (var armor in TemplatePresenter?.Template?.Armors.Values)
-            {
-                (armor as ArmorTemplateEntry).Item = armors.Where(e => e.TemplateSlot == armor.Slot)?.FirstOrDefault();
-            }
+        public TemplateSlot ActiveSlot { get => _activeSlot; set => Common.SetProperty(ref _activeSlot, value, ApplySlot); }
 
-            var trinkets = _trinkets.Where(e => e.Item.Rarity == Gw2Sharp.WebApi.V2.Models.ItemRarity.Ascended)?.Select(e => e.Item);
-            trinkets = trinkets.Append(_backs.Where(e => e.Item.Rarity == Gw2Sharp.WebApi.V2.Models.ItemRarity.Ascended)?.Select(e => e.Item).FirstOrDefault());
-            foreach (var trinket in TemplatePresenter?.Template?.Juwellery.Values)
-            {
-                var effectiveSlot =
-                    trinket.Slot is Models.Templates.TemplateSlot.Ring_2 ? Models.Templates.TemplateSlot.Ring_1 :
-                    trinket.Slot is Models.Templates.TemplateSlot.Accessory_2 ? Models.Templates.TemplateSlot.Accessory_1 :
-                    trinket.Slot;
-
-                //trinket.Item = trinkets.Where(e => e.TemplateSlot == effectiveSlot)?.FirstOrDefault();
-            }
-        }
+        public GearSubSlotType SubSlotType { get => _subSlotType; set => Common.SetProperty(ref _subSlotType, value, ApplySubSlot); }
 
         private void Template_ProfessionChanged(object sender, PropertyChangedEventArgs e)
         {
@@ -127,26 +105,10 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
             Search.Text = tempTxt;
         }
 
-        public BaseTemplateEntry TemplateSlot { get; set; }
-
-        private void TemplateChanged(object sender, PropertyChangedEventArgs e)
-        {
-
-        }
-
-        private void ApplyTemplate()
-        {
-
-        }
-
         private bool MatchingMethod(BaseItem item)
         {
             return item.Name == null || string.IsNullOrEmpty(_filterText) || item.Name.ToLower().Contains(_filterText);
         }
-
-        public TemplateSlot ActiveSlot { get => _activeSlot; set => Common.SetProperty(ref _activeSlot, value, ApplySlot); }
-
-        public GearSubSlotType SubSlotType { get => _subSlotType; set => Common.SetProperty(ref _subSlotType, value, ApplySubSlot); }
 
         private void ApplySubSlot(object sender, PropertyChangedEventArgs e)
         {
@@ -159,7 +121,10 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
             ApplySlot();
         }
 
-        public Action<BaseItem> OnItemSelected { get; set; }
+        protected override void DisposeControl()
+        {
+            base.DisposeControl();
+        }
 
         public void PerformFiltering()
         {
@@ -393,11 +358,6 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
             base.RecalculateLayout();
 
             Search?.SetSize(Width - Search.Left);
-        }
-
-        protected override void DisposeControl()
-        {
-            base.DisposeControl();
         }
     }
 }

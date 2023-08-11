@@ -77,7 +77,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
         {
             base.OnClick(e);
 
-            (ActiveTemplateSlot as GearTemplateEntry).Stat = Stat;
+            OnClickAction?.Invoke();
         }
 
         private void ApplyGroup_Click(object sender, MouseEventArgs e)
@@ -113,6 +113,8 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
         public BaseTemplateEntry ActiveTemplateSlot { get; set; }
 
         public Template Template { get; set; }
+
+        public Action OnClickAction { get; set; }
 
         public override void RecalculateLayout()
         {

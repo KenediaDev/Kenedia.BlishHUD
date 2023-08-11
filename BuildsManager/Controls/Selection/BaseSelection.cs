@@ -1,5 +1,6 @@
 ﻿using Kenedia.Modules.Core.Controls;
 using Microsoft.Xna.Framework;
+using System;
 
 namespace Kenedia.Modules.BuildsManager.Controls.Selection
 {
@@ -36,12 +37,14 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
             SelectionContent.Resized += OnSelectionContent_Resized;                       
         }
 
+        public Action<object> OnClickAction { get; set; }
+
+        public Rectangle SelectionBounds => new(SelectionContent.LocalBounds.Location, SelectionContent.ContentRegion.Size);
+
         protected virtual void OnSelectionContent_Resized(object sender, Blish_HUD.Controls.ResizedEventArgs e)
         {
             if (SelectionContent == null) return;
         }
-
-        public Rectangle SelectionBounds => new(SelectionContent.LocalBounds.Location, SelectionContent.ContentRegion.Size);
 
         public override void RecalculateLayout()
         {
