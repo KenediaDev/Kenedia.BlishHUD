@@ -61,8 +61,6 @@ namespace Kenedia.Modules.Characters.Controls
             Input.Keyboard.KeyPressed += Keyboard_KeyPressed;
         }
 
-        private Character_Model CurrentCharacter => _currentCharacter?.Invoke();
-
         public bool HasDisplayedCharacters()
         {
             if (_characters != null) _displayedCharacters = _characters.Count > 0 ? _characters.Where(e => e.ShowOnRadial).ToList() : new();

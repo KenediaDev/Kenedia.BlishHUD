@@ -102,18 +102,18 @@ namespace Kenedia.Modules.BuildsManager.Services
 
         public Dictionary<int, Enrichment> Enrichments { get; private set; } = new();
 
-        public bool TryGetItemsFor<T>(TemplateSlot slot, out Dictionary<int, T> dict) where T : BaseItem
+        public bool TryGetItemsFor<T>(TemplateSlotType slot, out Dictionary<int, T> dict) where T : BaseItem
         {
             var type = typeof(BaseItem);
             switch (slot)
             {
-                case TemplateSlot.Head:
-                case TemplateSlot.Shoulder:
-                case TemplateSlot.Chest:
-                case TemplateSlot.Hand:
-                case TemplateSlot.Leg:
-                case TemplateSlot.Foot:
-                case TemplateSlot.AquaBreather:
+                case TemplateSlotType.Head:
+                case TemplateSlotType.Shoulder:
+                case TemplateSlotType.Chest:
+                case TemplateSlotType.Hand:
+                case TemplateSlotType.Leg:
+                case TemplateSlotType.Foot:
+                case TemplateSlotType.AquaBreather:
                     dict = Armors.ToDictionary(e => e.Key, e => e.Value as T);
                     return true;
 
@@ -121,24 +121,24 @@ namespace Kenedia.Modules.BuildsManager.Services
                 //    dict = PvpAmulets.ToDictionary(e => e.Key, e => e.Value as T);
                 //    return true;
 
-                case TemplateSlot.MainHand:
-                case TemplateSlot.AltMainHand:
-                case TemplateSlot.OffHand:
-                case TemplateSlot.AltOffHand:
-                case TemplateSlot.Aquatic:
-                case TemplateSlot.AltAquatic:
+                case TemplateSlotType.MainHand:
+                case TemplateSlotType.AltMainHand:
+                case TemplateSlotType.OffHand:
+                case TemplateSlotType.AltOffHand:
+                case TemplateSlotType.Aquatic:
+                case TemplateSlotType.AltAquatic:
                     dict = Weapons.ToDictionary(e => e.Key, e => e.Value as T);
                     return true;
 
-                case TemplateSlot.Back:
+                case TemplateSlotType.Back:
                     dict = Backs.ToDictionary(e => e.Key, e => e.Value as T);
                     return true;
 
-                case TemplateSlot.Nourishment:
+                case TemplateSlotType.Nourishment:
                     dict = Nourishments.ToDictionary(e => e.Key, e => e.Value as T);
                     return true;
 
-                case TemplateSlot.Utility:
+                case TemplateSlotType.Utility:
                     dict = Utilities.ToDictionary(e => e.Key, e => e.Value as T);
                     return true;
 
@@ -148,13 +148,13 @@ namespace Kenedia.Modules.BuildsManager.Services
             }
         }
 
-        public Dictionary<int, BaseItem> GetUpgradesFor<item>(TemplateSlot slot, bool pve = true)
+        public Dictionary<int, BaseItem> GetUpgradesFor<item>(TemplateSlotType slot, bool pve = true)
         {
             return slot switch
             {
-                TemplateSlot.PvpAmulet => PvpRunes.ToDictionary(e => e.Key, e => (BaseItem)e.Value),
-                TemplateSlot.MainHand or TemplateSlot.AltMainHand or TemplateSlot.OffHand or TemplateSlot.AltOffHand or TemplateSlot.Aquatic or TemplateSlot.AltAquatic => (pve ? PveSigils : PvpSigils).ToDictionary(e => e.Key, e => (BaseItem)e.Value),
-                TemplateSlot.Head or TemplateSlot.Shoulder or TemplateSlot.Chest or TemplateSlot.Hand or TemplateSlot.Leg or TemplateSlot.Foot or TemplateSlot.AquaBreather => (pve ? PveRunes : PvpRunes).ToDictionary(e => e.Key, e => (BaseItem)e.Value),
+                TemplateSlotType.PvpAmulet => PvpRunes.ToDictionary(e => e.Key, e => (BaseItem)e.Value),
+                TemplateSlotType.MainHand or TemplateSlotType.AltMainHand or TemplateSlotType.OffHand or TemplateSlotType.AltOffHand or TemplateSlotType.Aquatic or TemplateSlotType.AltAquatic => (pve ? PveSigils : PvpSigils).ToDictionary(e => e.Key, e => (BaseItem)e.Value),
+                TemplateSlotType.Head or TemplateSlotType.Shoulder or TemplateSlotType.Chest or TemplateSlotType.Hand or TemplateSlotType.Leg or TemplateSlotType.Foot or TemplateSlotType.AquaBreather => (pve ? PveRunes : PvpRunes).ToDictionary(e => e.Key, e => (BaseItem)e.Value),
                 _ => null,
             };
         }

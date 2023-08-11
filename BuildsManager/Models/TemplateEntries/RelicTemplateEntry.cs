@@ -12,7 +12,7 @@ namespace Kenedia.Modules.BuildsManager.TemplateEntries
     {
         private Relic _relic;
 
-        public RelicTemplateEntry(TemplateSlot slot) : base(slot)
+        public RelicTemplateEntry(TemplateSlotType slot) : base(slot)
         {
         }
 

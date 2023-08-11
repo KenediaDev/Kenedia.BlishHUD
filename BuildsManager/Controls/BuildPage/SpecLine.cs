@@ -73,7 +73,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
         private TemplatePresenter _templatePresenter;
         private readonly List<(Specialization spec, Rectangle bounds)> _specBounds = new();
 
-        public SpecLine(SpecializationSlot line, TemplatePresenter template)
+        public SpecLine(SpecializationSlotType line, TemplatePresenter template)
         {
             TemplatePresenter = template;
 
@@ -87,7 +87,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
             int size = Scale(72);
             int offset = 40;
 
-            for (int i = 0; i < (Line == SpecializationSlot.Line_3 ? 8 : 5); i++)
+            for (int i = 0; i < (Line == SpecializationSlotType.Line_3 ? 8 : 5); i++)
             {
                 _specBounds.Add(new(null, new(offset, (Height - size) / 2, size, size)));
                 offset += size + Scale(10);
@@ -130,22 +130,17 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
             }
         }
 
-        private void TemplatePresenter_TemplateChanged(object sender, Core.Models.ValueChangedEventArgs<VTemplate> e)
+        private void TemplatePresenter_TemplateChanged(object sender, Core.Models.ValueChangedEventArgs<Template> e)
         {
             ApplyTemplate();
         }
 
-        private void OnSpecializationChanged(object sender, DictionaryItemChangedEventArgs<SpecializationSlot, Specialization> e)
+        private void OnSpecializationChanged(object sender, DictionaryItemChangedEventArgs<SpecializationSlotType, Specialization> e)
         {
             ApplyTemplate();
         }
 
         private void BuildTemplate_EliteSpecializationChanged(object sender, Core.Models.ValueChangedEventArgs<Specialization> e)
-        {
-            ApplyTemplate();
-        }
-
-        private void TemplateChanged(object sender, Core.Models.ValueChangedEventArgs<Template> e)
         {
             ApplyTemplate();
         }
@@ -162,7 +157,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
             ApplyTemplate();
         }
 
-        public SpecializationSlot Line { get; private set; }
+        public SpecializationSlotType Line { get; private set; }
 
         public override void RecalculateLayout()
         {
@@ -212,7 +207,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
             int j = 0;
             foreach (var s in profession.Specializations.Values)
             {
-                if (!s.Elite || Line == SpecializationSlot.Line_3)
+                if (!s.Elite || Line == SpecializationSlotType.Line_3)
                 {
                     _specBounds[j] = new(s, _specBounds[j].bounds);
                     j++;
@@ -238,7 +233,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
                     _majors[i].Selected = trait != null && BuildSpecialization.Traits[trait.Tier] == trait;
                 }
 
-                if (Line == SpecializationSlot.Line_3 && TemplatePresenter?.Template != null)
+                if (Line == SpecializationSlotType.Line_3 && TemplatePresenter?.Template != null)
                 {
                     // Remove invalid skills
                 }
@@ -296,7 +291,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
             _selector.Draw(this, spriteBatch, hoverPos, null, null, _selectorOpen ? true : null);
             if (_selector.Hovered) txt = "Change Specialization";
             (hasSpec ? _hexagon : _noSpecHexagon).Draw(this, spriteBatch, hoverPos);
-            if (Line == SpecializationSlot.Line_3) _eliteFrame.Draw(this, spriteBatch);
+            if (Line == SpecializationSlotType.Line_3) _eliteFrame.Draw(this, spriteBatch);
 
             _weaponTrait.Draw(this, spriteBatch, hoverPos, null, null, _selectorOpen ? false : null);
             if (_weaponTrait.Hovered) txt = _weaponTrait.Trait?.Description;
@@ -335,7 +330,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
                 }
                 else
                 {
-                    SpecializationSlot slot = SpecializationSlot.Line_1;
+                    SpecializationSlotType slot = SpecializationSlotType.Line_1;
                     BuildSpecialization temp = null;
 
                     // TODO Figure out why it modifies the collection
@@ -347,7 +342,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
                             if (spec.bounds.Contains(RelativeMousePosition))
                             {
                                 bool hasSpec = TemplatePresenter?.Template?.HasSpecialization(spec.spec) == true;
-                                slot = (SpecializationSlot)(hasSpec ? TemplatePresenter?.Template?.GetSpecializationSlot(spec.spec) : SpecializationSlot.Line_1);
+                                slot = (SpecializationSlotType)(hasSpec ? TemplatePresenter?.Template?.GetSpecializationSlot(spec.spec) : SpecializationSlotType.Line_1);
 
                                 if (BuildSpecialization != null && (BuildSpecialization?.Specialization == null || BuildSpecialization.Specialization != spec.spec))
                                 {

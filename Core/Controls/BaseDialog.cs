@@ -68,7 +68,6 @@ namespace Kenedia.Modules.Core.Controls
         private Rectangle _titleTextBounds;
         private Rectangle _messageTextBounds;
         private string _message;
-        private CancellationTokenSource _cancellationTokenSource;
 
         public ButtonDefinition[] Buttons { get; }
 

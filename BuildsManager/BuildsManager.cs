@@ -48,7 +48,7 @@ namespace Kenedia.Modules.BuildsManager
 
         public static Data Data { get; set; }
 
-        public ObservableCollection<VTemplate> Templates { get; private set; } = new();
+        public ObservableCollection<Template> Templates { get; private set; } = new();
 
         public event ValueChangedEventHandler<bool> TemplatesLoadedDone;
 
@@ -61,7 +61,7 @@ namespace Kenedia.Modules.BuildsManager
             TemplatesLoadedDone?.Invoke(this, e);
         }
 
-        public VTemplate SelectedTemplate => MainWindow?.Template ?? null;
+        public Template SelectedTemplate => MainWindow?.Template ?? null;
 
         protected override void DefineSettings(SettingCollection settings)
         {
@@ -188,7 +188,7 @@ namespace Kenedia.Modules.BuildsManager
             //}
 
 
-            Debug.WriteLine($" BuildsManager.Data.Stats {BuildsManager.Data.Stats.Count}");
+            Debug.WriteLine($" BuildsManager.Data.Stats {Data.Stats.Count}");
 
             await LoadTemplates();
 
@@ -262,7 +262,7 @@ namespace Kenedia.Modules.BuildsManager
             _ = Task.Run(async () =>
             {
                 TemplatesLoaded = false;
-                var time = new System.Diagnostics.Stopwatch();
+                var time = new Stopwatch();
                 time.Start();
 
                 try
@@ -286,7 +286,7 @@ namespace Kenedia.Modules.BuildsManager
                             {
                                 using var reader = File.OpenText(file);
                                 string fileText = await reader.ReadToEndAsync();
-                                var template = JsonConvert.DeserializeObject<VTemplate>(fileText, settings);
+                                var template = JsonConvert.DeserializeObject<Template>(fileText, settings);
 
                                 if (template != null)
                                 {
@@ -300,7 +300,7 @@ namespace Kenedia.Modules.BuildsManager
                         foreach (string file in templates)
                         {
                             string fileText = File.ReadAllText(file);
-                            var template = JsonConvert.DeserializeObject<VTemplate>(fileText, settings);
+                            var template = JsonConvert.DeserializeObject<Template>(fileText, settings);
 
                             if (template != null)
                             {
@@ -370,33 +370,6 @@ namespace Kenedia.Modules.BuildsManager
             {
                 MainWindow?.ToggleWindow();
             }
-        }
-
-        private void CreateDummyTemplate()
-        {
-            var tt = new VTemplate
-            {
-                Name = "Test Template #1",
-                BuildCode = "[&DQEQGzEvPjZLF0sXehZ6FjYBNgFTF1MXcRJxEgAAAAAAAAAAAAAAAAAAAAAAAA==]"
-            };
-
-            tt.Aquatic.Weapon = Data.Weapons[85265];
-            tt.AltAquatic.Weapon = Data.Weapons[84899];
-
-            tt.Encounters = EncounterFlag.Slothasor | EncounterFlag.Sabetha;
-            tt.Tags = TemplateFlag.Pve;
-
-            _ = tt.Save();
-
-            var nt = new VTemplate(tt.BuildCode, tt.GearCode);
-
-            var code_itemIds = "[6|161|24548|81235|37131][8|161|24548|81235|37131][11|161|24548|81235|37131][0|161|24548|81235|37131][161|24836|37131][161|24836|37131][161|24836|37131][161|24836|37131][161|24836|37131][161|24836|37131][161|37131|37131][161|39330][161|37131][161|37131][161|37131|37131|37131][161|37131|37131|37131][161|24836|37131][19|161|24548|24548|37131|37131][17|161|24548|24548|37131|37131][4|21092][12464][8485][-1][-1]";
-            var code_mappedIds = "[6|8|0|19|6][8|8|0|19|6][11|8|0|19|6][0|8|0|19|6][8|48|6][8|48|6][8|48|6][8|48|6][8|48|6][8|48|6][8|6|6][8|0][8|6][8|6][8|6|6|6][8|6|6|6][8|48|6][19|8|0|0|6|6][17|8|0|0|6|6][4|0][14][0][-1][-1]";
-            var code_encodedShorts = "[&BgAIAAAAEwAGAAgACAAAABMABgALAAgAAAATAAYAAAAIAAAAEwAGAAgAMAAGAAgAMAAGAAgAMAAGAAgAMAAGAAgAMAAGAAgAMAAGAAgABgAGAAgAAAAIAAYACAAGAAgABgAGAAYACAAGAAYABgAIADAABgATAAgAAAAAAAYABgARAAgAAAAAAAYABgAEAAAADgAAAP////8=]";
-
-
-            Debug.WriteLine($"Aquatic: {nt.Aquatic.Weapon?.Name}");
-            Debug.WriteLine($"AltAquatic: {nt.AltAquatic.Weapon?.Name}");
         }
     }
 }

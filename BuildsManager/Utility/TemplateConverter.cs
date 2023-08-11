@@ -12,7 +12,7 @@ namespace Kenedia.Modules.BuildsManager.Utility
     {
         public override bool CanConvert(Type objectType)
         {
-            return objectType == typeof(VTemplate);
+            return objectType == typeof(Template);
         }
 
         public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
@@ -26,12 +26,13 @@ namespace Kenedia.Modules.BuildsManager.Utility
             string? name = (string?)jo["Name"];
             string? buildCode = (string?)jo["BuildCode"];
             string? gearCode = (string?)jo["GearCode"];
+            string? description = (string?)jo["Description"];
             int? race = (int?)jo["Race"];
             int? profession = (int?)jo["Profession"];
             int? elitespecId = (int?)jo["EliteSpecializationId"];
 
             // Construct the Result object using the non-default constructor
-            var result = new VTemplate(name, (EncounterFlag)encounters, (TemplateFlag)tags, buildCode, gearCode, (Races)(race ?? -1), (ProfessionType)(profession ?? 1), elitespecId ?? 0);
+            var result = new Template(name, (EncounterFlag)encounters, (TemplateFlag)tags, buildCode, gearCode, description, (Races)(race ?? -1), (ProfessionType)(profession ?? 1), elitespecId ?? 0);
 
             // (If anything else needs to be populated on the result object, do that here)
 

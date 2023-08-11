@@ -4,11 +4,11 @@ using System;
 
 namespace Kenedia.Modules.BuildsManager.Models.Templates
 {
-    public class TraitCollection : ObservableDictionary<TraitTier, Trait>
+    public class TraitCollection : ObservableDictionary<TraitTierType, Trait>
     {
         public TraitCollection()
         {
-            foreach (TraitTier e in Enum.GetValues(typeof(TraitTier)))
+            foreach (TraitTierType e in Enum.GetValues(typeof(TraitTierType)))
             {
                 Add(e, null);
             }

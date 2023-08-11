@@ -12,7 +12,7 @@ namespace Kenedia.Modules.BuildsManager.DataModels.Items
     {
         public Relic()
         {
-            TemplateSlot = TemplateSlot.Relic;
+            TemplateSlot = TemplateSlotType.Relic;
         }
     }
 
@@ -21,7 +21,7 @@ namespace Kenedia.Modules.BuildsManager.DataModels.Items
     {
         public JadeBotCore()
         {
-            TemplateSlot = TemplateSlot.JadeBotCore;
+            TemplateSlot = TemplateSlotType.JadeBotCore;
         }
     }
     
@@ -30,7 +30,7 @@ namespace Kenedia.Modules.BuildsManager.DataModels.Items
     {
         public PvpAmulet()
         {
-            TemplateSlot = TemplateSlot.PvpAmulet;
+            TemplateSlot = TemplateSlotType.PvpAmulet;
         }
 
         public PvpAmulet(Gw2Sharp.WebApi.V2.Models.PvpAmulet apiAmulet) : this()
@@ -68,7 +68,7 @@ namespace Kenedia.Modules.BuildsManager.DataModels.Items
             Type = item.Type;
         }
 
-        public BaseItem(Item item, TemplateSlot templateSlot) : this(item)
+        public BaseItem(Item item, TemplateSlotType templateSlot) : this(item)
         {
             TemplateSlot = templateSlot;
         }
@@ -77,7 +77,7 @@ namespace Kenedia.Modules.BuildsManager.DataModels.Items
         public ItemType Type { get; protected set; }
 
         [DataMember]
-        public TemplateSlot TemplateSlot { get; protected set; }
+        public TemplateSlotType TemplateSlot { get; protected set; }
 
         [DataMember]
         public int Id { get; protected set; }

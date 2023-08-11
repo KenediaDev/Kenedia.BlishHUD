@@ -25,16 +25,16 @@ namespace Kenedia.Modules.BuildsManager.DataModels.Items
 
                 TemplateSlot = weapon.Details.Type.Value switch
                 {
-                    ItemWeaponType.Speargun => TemplateSlot.Aquatic,
-                    ItemWeaponType.Harpoon => TemplateSlot.Aquatic,
-                    ItemWeaponType.Trident => TemplateSlot.Aquatic,
+                    ItemWeaponType.Speargun => TemplateSlotType.Aquatic,
+                    ItemWeaponType.Harpoon => TemplateSlotType.Aquatic,
+                    ItemWeaponType.Trident => TemplateSlotType.Aquatic,
 
-                    ItemWeaponType.Shield => TemplateSlot.OffHand,
-                    ItemWeaponType.Focus => TemplateSlot.OffHand,
-                    ItemWeaponType.Torch => TemplateSlot.OffHand,
-                    ItemWeaponType.Warhorn => TemplateSlot.OffHand,
+                    ItemWeaponType.Shield => TemplateSlotType.OffHand,
+                    ItemWeaponType.Focus => TemplateSlotType.OffHand,
+                    ItemWeaponType.Torch => TemplateSlotType.OffHand,
+                    ItemWeaponType.Warhorn => TemplateSlotType.OffHand,
 
-                    _ => TemplateSlot.MainHand,
+                    _ => TemplateSlotType.MainHand,
                 };
             }
         }

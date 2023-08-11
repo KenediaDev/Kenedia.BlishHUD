@@ -337,7 +337,7 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Controls.Selection
             }
 
             _backButton.Draw(this, spriteBatch, RelativeMousePosition, Color.White);
-            spriteBatch.DrawStringOnCtrl(this, Title, Content.DefaultFont18, _backTextBounds, Color.White, false, Blish_HUD.Controls.HorizontalAlignment.Left, Blish_HUD.Controls.VerticalAlignment.Middle);
+            spriteBatch.DrawStringOnCtrl(this, Title, Content.DefaultFont18, _backTextBounds, Color.White, false, HorizontalAlignment.Left, VerticalAlignment.Middle);
         }
 
         private void DrawStatSelection(SpriteBatch spriteBatch, Rectangle bounds)
@@ -350,7 +350,7 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Controls.Selection
             }
 
             _backButton.Draw(this, spriteBatch, RelativeMousePosition, Color.White);
-            spriteBatch.DrawStringOnCtrl(this, Title, Content.DefaultFont18, _backTextBounds, Color.White, false, Blish_HUD.Controls.HorizontalAlignment.Left, Blish_HUD.Controls.VerticalAlignment.Middle);
+            spriteBatch.DrawStringOnCtrl(this, Title, Content.DefaultFont18, _backTextBounds, Color.White, false, HorizontalAlignment.Left, VerticalAlignment.Middle);
         }
 
         private void DrawSkillSelection(SpriteBatch spriteBatch, Rectangle bounds)

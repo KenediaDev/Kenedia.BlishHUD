@@ -219,8 +219,6 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Models.Templates
         private ProfessionType _profession;
         private string _description;
         private string _name = "New Template";
-        private string _id;
-        private bool _terrestrial = true;
         private AttunementType _mainAttunement = AttunementType.Fire;
         private AttunementType _altAttunement = AttunementType.Earth;
         private LegendSlot _legendSlot = LegendSlot.TerrestrialActive;

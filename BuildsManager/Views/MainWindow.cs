@@ -6,7 +6,7 @@ using Microsoft.Xna.Framework;
 using Kenedia.Modules.Core.Services;
 using Kenedia.Modules.BuildsManager.Controls;
 using Kenedia.Modules.BuildsManager.Controls.GearPage;
-using Kenedia.Modules.BuildsManager.Controls.NotesPage;
+using Kenedia.Modules.BuildsManager.Controls.AboutPage;
 using Kenedia.Modules.BuildsManager.Controls.Selection;
 using Kenedia.Modules.BuildsManager.Models;
 using Kenedia.Modules.Core.Models;
@@ -83,9 +83,9 @@ namespace Kenedia.Modules.BuildsManager.Views
             _tabbedRegion.SwitchTab(tab);
         }
 
-        public event ValueChangedEventHandler<VTemplate> TemplateChanged;
+        public event ValueChangedEventHandler<Template> TemplateChanged;
 
-        public VTemplate Template
+        public Template Template
         {
             get => _templatePresenter.Template; set
             {

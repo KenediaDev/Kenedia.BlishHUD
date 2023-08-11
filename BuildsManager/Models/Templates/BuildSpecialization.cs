@@ -10,7 +10,7 @@ namespace Kenedia.Modules.BuildsManager.Models.Templates
 {
     public class BuildSpecialization : INotifyPropertyChanged
     {
-        private SpecializationSlot _specializationSlot;
+        private SpecializationSlotType _specializationSlot;
         private Specialization _specialization;
 
         public BuildSpecialization()
@@ -19,12 +19,12 @@ namespace Kenedia.Modules.BuildsManager.Models.Templates
             Traits.ItemChanged += Traits_ItemChanged;
         }
 
-        private void Traits_ItemChanged(object sender, DictionaryItemChangedEventArgs<TraitTier, Trait> e)
+        private void Traits_ItemChanged(object sender, DictionaryItemChangedEventArgs<TraitTierType, Trait> e)
         {
             TraitsChanged?.Invoke( sender, e );
         }
 
-        private void Traits_ValueChanged(object sender, DictionaryItemChangedEventArgs<TraitTier, Trait> e)
+        private void Traits_ValueChanged(object sender, DictionaryItemChangedEventArgs<TraitTierType, Trait> e)
         {
         }
 
@@ -33,7 +33,7 @@ namespace Kenedia.Modules.BuildsManager.Models.Templates
         public event EventHandler<SpecializationChangedEventArgs> SpecChanged;
         public event EventHandler<EventArgs> TraitsChanged;
 
-        public SpecializationSlot SpecializationSlot { get => _specializationSlot; set => Common.SetProperty(ref _specializationSlot, value, PropertyChanged); }
+        public SpecializationSlotType SpecializationSlot { get => _specializationSlot; set => Common.SetProperty(ref _specializationSlot, value, PropertyChanged); }
 
         public Specialization Specialization
         {
@@ -57,7 +57,7 @@ namespace Kenedia.Modules.BuildsManager.Models.Templates
             TraitsChanged?.Invoke(this, e);
         }
 
-        internal static BuildSpecialization FromByte(byte id, ProfessionType profession, SpecializationSlot specializationSlot)
+        internal static BuildSpecialization FromByte(byte id, ProfessionType profession, SpecializationSlotType specializationSlot)
         {
             return BuildsManager.Data.Professions?[profession]?.Specializations.TryGetValue(id, out Specialization specialization) == true
                 ? new()
@@ -74,7 +74,7 @@ namespace Kenedia.Modules.BuildsManager.Models.Templates
 #nullable enable
         public class SpecializationChangedEventArgs : EventArgs
         {
-            public SpecializationChangedEventArgs(Specialization? oldValue, Specialization? newValue, SpecializationSlot specializationSlot = SpecializationSlot.Line_1)
+            public SpecializationChangedEventArgs(Specialization? oldValue, Specialization? newValue, SpecializationSlotType specializationSlot = SpecializationSlotType.Line_1)
             {
                 OldSpecialization = oldValue;
                 NewSpecialization = newValue;
@@ -85,7 +85,7 @@ namespace Kenedia.Modules.BuildsManager.Models.Templates
 
             public Specialization? NewSpecialization { get; set; }
 
-            public SpecializationSlot SpecializationSlot { get; set; }
+            public SpecializationSlotType SpecializationSlot { get; set; }
         }
 #nullable disable
     }

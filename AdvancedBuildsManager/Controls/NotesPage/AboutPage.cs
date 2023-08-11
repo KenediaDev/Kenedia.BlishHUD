@@ -15,9 +15,7 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Controls.NotesPage
         private readonly Blish_HUD.Controls.MultilineTextBox _noteField;
         private readonly TexturesService _texturesService;
         private readonly FlowPanel _tagPanel;
-        private readonly FlowPanel _encountersPanel;
         private readonly Label _notesLabel;
-        private readonly Label _encountersLabel;
         private readonly Label _tagsLabel;
         private readonly Button _clearAll;
         private readonly Button _setAll;

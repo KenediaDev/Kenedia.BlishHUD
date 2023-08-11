@@ -10,11 +10,11 @@ namespace Kenedia.Modules.BuildsManager.Models
 {
     public class TemplatePresenter
     {
-        private VTemplate _template = new();
+        private Template _template = new();
         private GameModeType _gameMode = GameModeType.PvE;
         private AttunementType _mainAttunement = AttunementType.Fire;
         private AttunementType _altAttunement = AttunementType.Fire;
-        private LegendSlot _legendSlot = LegendSlot.TerrestrialActive;
+        private LegendSlotType _legendSlot = LegendSlotType.TerrestrialActive;
 
         public TemplatePresenter()
         {
@@ -29,35 +29,35 @@ namespace Kenedia.Modules.BuildsManager.Models
 
         public event EventHandler GearCodeChanged;
 
-        public event ValueChangedEventHandler<VTemplate> TemplateChanged;
+        public event ValueChangedEventHandler<Template> TemplateChanged;
 
-        public event ValueChangedEventHandler<LegendSlot> LegendSlotChanged;
+        public event ValueChangedEventHandler<LegendSlotType> LegendSlotChanged;
 
         public event ValueChangedEventHandler<GameModeType> GameModeChanged;
 
         public event ValueChangedEventHandler<AttunementType> AttunementChanged;
 
-        public event DictionaryItemChangedEventHandler<PetSlot, Pet> PetChanged;
+        public event DictionaryItemChangedEventHandler<PetSlotType, Pet> PetChanged;
 
         public event ValueChangedEventHandler<ProfessionType> ProfessionChanged;
 
         public event ValueChangedEventHandler<Races> RaceChanged;
 
-        public event DictionaryItemChangedEventHandler<SkillSlot, Skill> SkillChanged;
+        public event DictionaryItemChangedEventHandler<SkillSlotType, Skill> SkillChanged;
 
         public event ValueChangedEventHandler<Specialization> EliteSpecializationChanged;
 
-        public event DictionaryItemChangedEventHandler<LegendSlot, Legend> LegendChanged;
+        public event DictionaryItemChangedEventHandler<LegendSlotType, Legend> LegendChanged;
 
-        public event DictionaryItemChangedEventHandler<SpecializationSlot, Specialization> SpecializationChanged;
+        public event DictionaryItemChangedEventHandler<SpecializationSlotType, Specialization> SpecializationChanged;
 
-        public VTemplate Template { get => _template; set => Common.SetProperty(ref _template, value, On_TemplateChanged); }
+        public Template Template { get => _template; set => Common.SetProperty(ref _template, value, On_TemplateChanged); }
 
         public AttunementType MainAttunement { get => _mainAttunement; set => Common.SetProperty(ref _mainAttunement, value, On_AttunementChanged); }
 
         public AttunementType AltAttunement { get => _altAttunement; set => Common.SetProperty(ref _altAttunement, value, On_AttunementChanged); }
 
-        public LegendSlot LegendSlot { get => _legendSlot; set => Common.SetProperty(ref _legendSlot, value, On_LegendSlotChanged); }
+        public LegendSlotType LegendSlot { get => _legendSlot; set => Common.SetProperty(ref _legendSlot, value, On_LegendSlotChanged); }
 
         public GameModeType GameMode { get => _gameMode; set => Common.SetProperty(ref _gameMode, value, On_GameModeChanged); }
 
@@ -67,7 +67,7 @@ namespace Kenedia.Modules.BuildsManager.Models
 
         public bool IsWvw => GameMode == GameModeType.WvW;
 
-        private void On_TemplateChanged(object sender, ValueChangedEventArgs<VTemplate> e)
+        private void On_TemplateChanged(object sender, ValueChangedEventArgs<Template> e)
         {
             if (e.OldValue != null)
             {
@@ -90,7 +90,7 @@ namespace Kenedia.Modules.BuildsManager.Models
             TemplateChanged?.Invoke(this, e);
         }
 
-        private void RegisterEvents(VTemplate template)
+        private void RegisterEvents(Template template)
         {
             template.RaceChanged += On_RaceChanged;
             template.BuildChanged += On_BuildChanged;
@@ -134,25 +134,25 @@ namespace Kenedia.Modules.BuildsManager.Models
             BuildCodeChanged?.Invoke(sender, e);
         }
 
-        private void On_LegendChanged(object sender, DictionaryItemChangedEventArgs<LegendSlot, Legend> e)
+        private void On_LegendChanged(object sender, DictionaryItemChangedEventArgs<LegendSlotType, Legend> e)
         {
             LegendChanged?.Invoke(sender, e);
             BuildCodeChanged?.Invoke(sender, e);
         }
 
-        private void On_SpecializationChanged(object sender, DictionaryItemChangedEventArgs<SpecializationSlot, Specialization> e)
+        private void On_SpecializationChanged(object sender, DictionaryItemChangedEventArgs<SpecializationSlotType, Specialization> e)
         {
             SpecializationChanged?.Invoke(sender, e);
             BuildCodeChanged?.Invoke(sender, e);
         }
 
-        private void On_SkillChanged(object sender, DictionaryItemChangedEventArgs<SkillSlot, Skill> e)
+        private void On_SkillChanged(object sender, DictionaryItemChangedEventArgs<SkillSlotType, Skill> e)
         {
             SkillChanged?.Invoke(sender, e);
             BuildCodeChanged?.Invoke(sender, e);
         }
 
-        private void On_PetChanged(object sender, DictionaryItemChangedEventArgs<PetSlot, Pet> e)
+        private void On_PetChanged(object sender, DictionaryItemChangedEventArgs<PetSlotType, Pet> e)
         {
             PetChanged?.Invoke(sender, e);
             BuildCodeChanged?.Invoke(sender, e);
@@ -164,7 +164,7 @@ namespace Kenedia.Modules.BuildsManager.Models
             BuildCodeChanged?.Invoke(sender, e);
         }
 
-        private void On_LegendSlotChanged(object sender, ValueChangedEventArgs<LegendSlot> e)
+        private void On_LegendSlotChanged(object sender, ValueChangedEventArgs<LegendSlotType> e)
         {
             LegendSlotChanged?.Invoke(sender, e);
         }
@@ -189,10 +189,10 @@ namespace Kenedia.Modules.BuildsManager.Models
             On_AttunementChanged(this, new(_altAttunement, _mainAttunement));
         }
 
-        public void SwapLegend(LegendSlot? legendSlot = null)
+        public void SwapLegend(LegendSlotType? legendSlot = null)
         {
-            legendSlot ??= LegendSlot is LegendSlot.AquaticActive or LegendSlot.TerrestrialActive ? LegendSlot.TerrestrialInactive : LegendSlot.TerrestrialActive;
-            LegendSlot slot = legendSlot is LegendSlot.AquaticActive or LegendSlot.TerrestrialActive ? LegendSlot.TerrestrialActive : LegendSlot.TerrestrialInactive;
+            legendSlot ??= LegendSlot is LegendSlotType.AquaticActive or LegendSlotType.TerrestrialActive ? LegendSlotType.TerrestrialInactive : LegendSlotType.TerrestrialActive;
+            LegendSlotType slot = legendSlot is LegendSlotType.AquaticActive or LegendSlotType.TerrestrialActive ? LegendSlotType.TerrestrialActive : LegendSlotType.TerrestrialInactive;
 
             if (_legendSlot.Equals(slot)) return;
 

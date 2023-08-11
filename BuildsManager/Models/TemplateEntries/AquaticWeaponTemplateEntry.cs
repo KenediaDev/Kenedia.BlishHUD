@@ -20,7 +20,7 @@ namespace Kenedia.Modules.BuildsManager.TemplateEntries
         private Infusion _infusion2;
         private Stat _stat;
 
-        public AquaticWeaponTemplateEntry(TemplateSlot slot) : base(slot)
+        public AquaticWeaponTemplateEntry(TemplateSlotType slot) : base(slot)
         {
         }
 

@@ -13,7 +13,7 @@ namespace Kenedia.Modules.BuildsManager.TemplateEntries
         private PvpAmulet _pvpAmulet;
         private Rune _rune;
 
-        public PvpAmuletTemplateEntry(TemplateSlot slot) : base(slot)
+        public PvpAmuletTemplateEntry(TemplateSlotType slot) : base(slot)
         {
         }
 

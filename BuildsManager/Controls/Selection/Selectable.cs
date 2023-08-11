@@ -20,7 +20,6 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
 
         private Color RarityColor = Color.White;
         private BaseItem _item;
-        private Template _template;
         private SelectableType _type;
 
         public Selectable()
@@ -51,13 +50,11 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
 
         public Action OnClickAction { get; set; }
 
-        public TemplateSlot TemplateSlot { get; set; }
+        public TemplateSlotType TemplateSlot { get; set; }
 
         public BaseItem Item { get => _item; set => Common.SetProperty(ref _item, value, SetItem); }
 
-        public Template Template { get => _template; set => Common.SetProperty(ref _template, value); }
-
-        public TemplateSlot ActiveSlot { get; set; }
+        public TemplateSlotType ActiveSlot { get; set; }
 
         public GearSubSlotType SubSlotType { get; set; }
 

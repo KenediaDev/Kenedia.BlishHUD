@@ -26,7 +26,7 @@ namespace Kenedia.Modules.BuildsManager.DataModels.Professions
             Description = trait.Description;
             Specialization = trait.Specialization;
             IconAssetId = trait.Icon.GetAssetIdFromRenderUrl();
-            Tier = (Models.Templates.TraitTier)trait.Tier;
+            Tier = (Models.Templates.TraitTierType)trait.Tier;
             Order = trait.Order;
             Type = trait.Slot.Value;
             ChatLink = trait.CreateChatLink();
@@ -94,7 +94,7 @@ namespace Kenedia.Modules.BuildsManager.DataModels.Professions
         public TraitSlot Type { get; set; }
 
         [DataMember]
-        public Models.Templates.TraitTier Tier { get; set; }
+        public Models.Templates.TraitTierType Tier { get; set; }
 
         [DataMember]
         public int Order { get; set; }
@@ -111,7 +111,7 @@ namespace Kenedia.Modules.BuildsManager.DataModels.Professions
             Facts = trait.Facts?.ToList();
             TraitedFacts = trait.TraitedFacts?.ToList();
         }
-        internal static Trait FromByte(byte order, Specialization specialization, Models.Templates.TraitTier tier)
+        internal static Trait FromByte(byte order, Specialization specialization, Models.Templates.TraitTierType tier)
         {
             return order == 0 ? null :
                 specialization?.MajorTraits.Where(e => e.Value.Tier == tier)?.ToList()?.Find(e => e.Value.Order == (int)order - 1).Value;

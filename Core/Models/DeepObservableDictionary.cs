@@ -7,9 +7,9 @@ using System.Runtime.CompilerServices;
 namespace Kenedia.Modules.Core.Models
 {
 #nullable enable
-    public delegate void DictionaryItemChangedEventHandler<TKey, TValue>(object sender, Models.DictionaryItemChangedEventArgs<TKey, TValue> e);
+    public delegate void DictionaryItemChangedEventHandler<TKey, TValue>(object sender, DictionaryItemChangedEventArgs<TKey, TValue> e);
 
-    public delegate void ValueChangedEventHandler<T>(object sender, Models.ValueChangedEventArgs<T> e);
+    public delegate void ValueChangedEventHandler<T>(object sender, ValueChangedEventArgs<T> e);
 
     public class ValueChangedEventArgs<TValue> : EventArgs
     {

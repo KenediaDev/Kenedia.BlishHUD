@@ -178,34 +178,6 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Controls.Selection
             _created = true;
         }
 
-        private void SelectStat(Stat selectedStat)
-        {
-            bool applyall = false;
-
-            switch (applyall)
-            {
-                case false:
-                    (TemplateSlot as GearTemplateEntry).Stat = selectedStat;
-                    break;
-
-                case true:
-                    List<GearTemplateEntry> slots = new();
-
-                    slots.AddRange(Template?.GearTemplate?.Armors.Values.Cast<GearTemplateEntry>());
-                    slots.AddRange(Template?.GearTemplate?.Weapons.Values.Cast<GearTemplateEntry>());
-                    slots.AddRange(Template?.GearTemplate?.Juwellery.Values.Cast<GearTemplateEntry>());
-
-                    foreach (var slot in slots)
-                    {
-                        if (slot.Item is not null)
-                        {
-                            slot.Stat = selectedStat;
-                        }
-                    }
-                    break;
-            }
-        }
-
         public Template Template
         {
             get => _template; set

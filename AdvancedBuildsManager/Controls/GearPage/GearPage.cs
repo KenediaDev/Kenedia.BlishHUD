@@ -24,8 +24,6 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Controls.GearPage
 
         private Template _template;
         private Rectangle _headerBounds;
-        private Rectangle _statPanelHeaderBounds;
-
         private Dictionary<GearTemplateSlot, BaseSlotControl> _slots = new();
 
         private FramedImage _framedSpecIcon;

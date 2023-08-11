@@ -34,7 +34,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
         private readonly Panel _professionSpecificsContainer;
         private readonly SkillsBar _skillbar;
         private readonly Dummy _dummy;
-        private readonly Dictionary<SpecializationSlot, SpecLine> _specializations;
+        private readonly Dictionary<SpecializationSlotType, SpecLine> _specializations;
         private readonly FramedImage _specIcon;
         private readonly FramedImage _raceIcon;
         private readonly TexturesService _texturesService;
@@ -137,9 +137,9 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
 
             _specializations = new()
             {
-                {SpecializationSlot.Line_1,  new SpecLine(SpecializationSlot.Line_1, TemplatePresenter) { Parent = _specializationsPanel, CanInteract = () => !_skillbar.IsSelecting } },
-                {SpecializationSlot.Line_2,  new SpecLine(SpecializationSlot.Line_2, TemplatePresenter) { Parent = _specializationsPanel, CanInteract = () => !_skillbar.IsSelecting } },
-                {SpecializationSlot.Line_3,  new SpecLine(SpecializationSlot.Line_3, TemplatePresenter) { Parent = _specializationsPanel, CanInteract = () => !_skillbar.IsSelecting } },
+                {SpecializationSlotType.Line_1,  new SpecLine(SpecializationSlotType.Line_1, TemplatePresenter) { Parent = _specializationsPanel, CanInteract = () => !_skillbar.IsSelecting } },
+                {SpecializationSlotType.Line_2,  new SpecLine(SpecializationSlotType.Line_2, TemplatePresenter) { Parent = _specializationsPanel, CanInteract = () => !_skillbar.IsSelecting } },
+                {SpecializationSlotType.Line_3,  new SpecLine(SpecializationSlotType.Line_3, TemplatePresenter) { Parent = _specializationsPanel, CanInteract = () => !_skillbar.IsSelecting } },
             };
 
             _professionRaceSelection = new()
@@ -255,7 +255,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
             SetRaceAndProfessionAndSpec();
         }
 
-        private void TemplatePresenter_TemplateChanged(object sender, Core.Models.ValueChangedEventArgs<VTemplate> e)
+        private void TemplatePresenter_TemplateChanged(object sender, Core.Models.ValueChangedEventArgs<Template> e)
         {
             _buildCodeBox.Text = TemplatePresenter.Template?.ParseBuildCode();
             SetRaceAndProfessionAndSpec();

@@ -31,10 +31,6 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Controls.BuildPage.ProfessionSpe
             new(Rectangle.Empty, new(231, 195, 22)),
             new(Rectangle.Empty, Color.Transparent),
         };
-
-        private int _inactiveSize = 34;
-        private int _secondary = 39;
-        private int _main = 44;
         private Rectangle _catalystEnergy;
         private Color _catalystEnergyColor;
 

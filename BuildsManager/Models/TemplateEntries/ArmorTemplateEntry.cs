@@ -16,7 +16,7 @@ namespace Kenedia.Modules.BuildsManager.TemplateEntries
         private Rune _rune;
         private Armor _armor;
 
-        public ArmorTemplateEntry(TemplateSlot slot) : base(slot)
+        public ArmorTemplateEntry(TemplateSlotType slot) : base(slot)
         {
         }
 

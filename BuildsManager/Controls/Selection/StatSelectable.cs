@@ -63,13 +63,6 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
                 Location = new(2, 2),
             };
 
-            Menu = new();
-            _applyAll = Menu.AddMenuItem("Apply to all");
-            _applyAll.Click += ApplyAll_Click;
-
-            _applyGroup = Menu.AddMenuItem("Apply to item group");
-            _applyGroup.Click += ApplyGroup_Click;
-
             _created = true;
         }
 
@@ -80,39 +73,9 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
             OnClickAction?.Invoke();
         }
 
-        private void ApplyGroup_Click(object sender, MouseEventArgs e)
-        {
-            var slots =
-                (ActiveTemplateSlot as GearTemplateEntry).Slot.IsArmor() ? Template?.GearTemplate?.Armors.Values.Cast<GearTemplateEntry>() :
-                (ActiveTemplateSlot as GearTemplateEntry).Slot.IsWeapon() ? Template?.GearTemplate?.Weapons.Values.Cast<GearTemplateEntry>() :
-                (ActiveTemplateSlot as GearTemplateEntry).Slot.IsJuwellery() ? Template?.GearTemplate?.Juwellery.Values.Cast<GearTemplateEntry>() : null;
-
-            foreach (var slot in slots)
-            {
-                slot.Stat = Stat;
-            }
-        }
-
-        private void ApplyAll_Click(object sender, MouseEventArgs e)
-        {
-            List<GearTemplateEntry> slots = new();
-            slots.AddRange(Template?.GearTemplate?.Armors.Values.Cast<GearTemplateEntry>());
-            slots.AddRange(Template?.GearTemplate?.Weapons.Values.Cast<GearTemplateEntry>());
-            slots.AddRange(Template?.GearTemplate?.Juwellery.Values.Cast<GearTemplateEntry>());
-
-            foreach (var slot in slots)
-            {
-                slot.Stat = Stat;
-            }
-        }
-
         public Stat Stat { get => _stat; set => Common.SetProperty(ref _stat, value, OnStatChanged); }
 
         public double AttributeAdjustment { get => _attributeAdjustment; set => Common.SetProperty(ref _attributeAdjustment, value, OnMultiplierChanged); }
-
-        public BaseTemplateEntry ActiveTemplateSlot { get; set; }
-
-        public Template Template { get; set; }
 
         public Action OnClickAction { get; set; }
 

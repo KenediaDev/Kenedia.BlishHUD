@@ -240,7 +240,7 @@ namespace Kenedia.Modules.BuildsManager.DataModels.Professions
             return GetRevPaletteId(skill.Id);
         }
 
-        public Skill GetEffectiveSkill(VTemplate template, Enviroment enviroment)
+        public Skill GetEffectiveSkill(Template template, Enviroment enviroment)
         {
             Skill skill = this;
 

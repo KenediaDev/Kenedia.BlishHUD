@@ -7,14 +7,14 @@ using static Kenedia.Modules.BuildsManager.Models.Templates.BuildSpecialization;
 
 namespace Kenedia.Modules.BuildsManager.Models.Templates
 {
-    public class SpecializationCollection : NotifyPropertyChangedDictionary<SpecializationSlot, BuildSpecialization>
+    public class SpecializationCollection : NotifyPropertyChangedDictionary<SpecializationSlotType, BuildSpecialization>
     {
         public SpecializationCollection()
         {
             ItemChanged += SpecializationCollection_ItemChanged;
             ItemPropertyChanged += SpecializationCollection_ItemPropertyChanged;
 
-            foreach (SpecializationSlot e in Enum.GetValues(typeof(SpecializationSlot)))
+            foreach (SpecializationSlotType e in Enum.GetValues(typeof(SpecializationSlotType)))
             {
                 Add(e, new() { SpecializationSlot = e });
             }
@@ -25,9 +25,9 @@ namespace Kenedia.Modules.BuildsManager.Models.Templates
             TraitsChanged?.Invoke(sender, e);
         }
 
-        private void SpecializationCollection_ItemChanged(object sender, DictionaryItemChangedEventArgs<SpecializationSlot, BuildSpecialization> e)
+        private void SpecializationCollection_ItemChanged(object sender, DictionaryItemChangedEventArgs<SpecializationSlotType, BuildSpecialization> e)
         {
-            if (e.Key == SpecializationSlot.Line_3)
+            if (e.Key == SpecializationSlotType.Line_3)
             {
                 if(e.OldValue != null) e.OldValue.SpecChanged -= SpecializationCollection_SpecChanged;
                 if (e.NewValue != null) e.NewValue.SpecChanged += SpecializationCollection_SpecChanged;
@@ -36,7 +36,7 @@ namespace Kenedia.Modules.BuildsManager.Models.Templates
 
         private void SpecializationCollection_SpecChanged(object sender, SpecializationChangedEventArgs e)
         {
-            if (e.SpecializationSlot == SpecializationSlot.Line_3)
+            if (e.SpecializationSlot == SpecializationSlotType.Line_3)
             {
                 EliteSpecChanged?.Invoke(this, e);
             }
@@ -45,13 +45,13 @@ namespace Kenedia.Modules.BuildsManager.Models.Templates
         public event EventHandler<SpecializationChangedEventArgs> EliteSpecChanged;
         public event EventHandler<PropertyChangedEventArgs> TraitsChanged;
 
-        public byte GetSpecializationByte(SpecializationSlot slot)
+        public byte GetSpecializationByte(SpecializationSlotType slot)
         {
             byte id = (byte)(TryGetValue(slot, out BuildSpecialization specialization) && specialization != null && specialization.Specialization != null ? specialization.Specialization?.Id : 0);
             return id;
         }
 
-        public byte GetTraitByte(TraitTier traitSlot, BuildSpecialization buildSpecialization)
+        public byte GetTraitByte(TraitTierType traitSlot, BuildSpecialization buildSpecialization)
         {
             if (buildSpecialization != null)
             {
@@ -72,12 +72,12 @@ namespace Kenedia.Modules.BuildsManager.Models.Templates
             }
         }
 
-        public void LoadFromCode(ProfessionType profession, SpecializationSlot slot, byte specId, byte adept, byte master, byte grandMaster)
+        public void LoadFromCode(ProfessionType profession, SpecializationSlotType slot, byte specId, byte adept, byte master, byte grandMaster)
         {
             var specialization = this[slot].Specialization = Specialization.FromByte(specId, profession);
-            this[slot].Traits[TraitTier.Adept] = Trait.FromByte(adept, specialization, TraitTier.Adept);
-            this[slot].Traits[TraitTier.Master] = Trait.FromByte(master, specialization, TraitTier.Master);
-            this[slot].Traits[TraitTier.GrandMaster] = Trait.FromByte(grandMaster, specialization, TraitTier.GrandMaster);
+            this[slot].Traits[TraitTierType.Adept] = Trait.FromByte(adept, specialization, TraitTierType.Adept);
+            this[slot].Traits[TraitTierType.Master] = Trait.FromByte(master, specialization, TraitTierType.Master);
+            this[slot].Traits[TraitTierType.GrandMaster] = Trait.FromByte(grandMaster, specialization, TraitTierType.GrandMaster);
         }
     }
 }

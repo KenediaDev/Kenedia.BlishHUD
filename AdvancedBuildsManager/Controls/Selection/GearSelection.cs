@@ -208,7 +208,7 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Controls.Selection
             _armors = AddItems<Selectable, Armor>(AdvancedBuildsManager.Data.Armors.Values.OrderByDescending(e => e.Rarity).ThenBy(e => e.Id));
             _trinkets = AddItems<Selectable, Trinket>(AdvancedBuildsManager.Data.Trinkets.Values.OrderByDescending(e => e.Rarity).ThenBy(e => e.Id));
             _backs = AddItems<Selectable, Trinket>(AdvancedBuildsManager.Data.Backs.Values.OrderByDescending(e => e.Rarity).ThenBy(e => e.Id));
-            _weapons = AddItems<Selectable, DataModels.Items.Weapon>(AdvancedBuildsManager.Data.Weapons.Values.OrderBy(e => e.WeaponType).ThenByDescending(e => e.Rarity).ThenBy(e => e.Id));
+            _weapons = AddItems<Selectable, Weapon>(AdvancedBuildsManager.Data.Weapons.Values.OrderBy(e => e.WeaponType).ThenByDescending(e => e.Rarity).ThenBy(e => e.Id));
             _pveSigils = AddItems<GroupSelectable, Sigil>(AdvancedBuildsManager.Data.PveSigils.Values.OrderByDescending(e => e.Rarity).ThenBy(e => e.Name).ThenBy(e => e.Id));
             _pvpSigils = AddItems<GroupSelectable, Sigil>(AdvancedBuildsManager.Data.PvpSigils.Values.OrderByDescending(e => e.Rarity).ThenBy(e => e.Name).ThenBy(e => e.Id));
             _pveRunes = AddItems<GroupSelectable, Rune>(AdvancedBuildsManager.Data.PveRunes.Values.OrderByDescending(e => e.Rarity).ThenBy(e => e.Name).ThenBy(e => e.Id));
@@ -377,7 +377,7 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Controls.Selection
                         {
                             bool weaponMatch = false;
 
-                            var weapon = AdvancedBuildsManager.Data.Professions[Template.Profession].Weapons.Where(e => (item.Item as DataModels.Items.Weapon).WeaponType.IsWeaponType(e.Value.Type)).FirstOrDefault();
+                            var weapon = AdvancedBuildsManager.Data.Professions[Template.Profession].Weapons.Where(e => (item.Item as Weapon).WeaponType.IsWeaponType(e.Value.Type)).FirstOrDefault();
 
                             if (weapon.Value != null)
                             {

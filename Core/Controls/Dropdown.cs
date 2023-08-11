@@ -13,7 +13,6 @@ namespace Kenedia.Modules.Core.Controls
     {
         private Func<List<string>> _setLocalizedItems;
         private Func<string> _setLocalizedTooltip;
-        private double _lastShown;
 
         public Dropdown()
         {

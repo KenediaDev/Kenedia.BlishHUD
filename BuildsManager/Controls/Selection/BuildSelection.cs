@@ -87,7 +87,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
                 {
                     _ = Task.Run(async () =>
                     {
-                        VTemplate t;
+                        Template t;
                         string name = string.IsNullOrEmpty(Search.Text) ? "New Template" : Search.Text;
                         if (BuildsManager.ModuleInstance.Templates.Where(e => e.Name == name).Count() == 0)
                         {
@@ -120,6 +120,8 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
 
             GameService.Gw2Mumble.PlayerCharacter.SpecializationChanged += PlayerCharacter_SpecializationChanged;
         }
+
+        public List<TemplateSelectable> Templates => _templates;
 
         private void ModuleInstance_TemplatesLoadedDone(object sender, Core.Models.ValueChangedEventArgs<bool> e)
         {

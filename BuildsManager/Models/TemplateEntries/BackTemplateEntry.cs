@@ -15,7 +15,7 @@ namespace Kenedia.Modules.BuildsManager.TemplateEntries
         private Infusion _infusion1;
         private Infusion _infusion2;
 
-        public BackTemplateEntry(TemplateSlot slot) : base(slot)
+        public BackTemplateEntry(TemplateSlotType slot) : base(slot)
         {
         }
 

@@ -36,7 +36,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage.ProfessionSpecific
 
         public Legend Legend { get => _legend; set => Common.SetProperty(ref _legend, value, ApplyLegend); }
 
-        public LegendSlot LegendSlot { get; set; }
+        public LegendSlotType LegendSlot { get; set; }
 
         private void ApplyLegend()
         {
@@ -100,26 +100,26 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage.ProfessionSpecific
             new(784346){HoverDrawColor = Colors.ColonialWhite},
             new(784346){HoverDrawColor = Colors.ColonialWhite},
         };
-        private readonly Dictionary<LegendSlot, LegendIcon> _legends = new()
+        private readonly Dictionary<LegendSlotType, LegendIcon> _legends = new()
         {
-            { LegendSlot.TerrestrialActive, new() { LegendSlot = LegendSlot.TerrestrialActive} },
-            { LegendSlot.TerrestrialInactive, new() { LegendSlot = LegendSlot.TerrestrialInactive} },
-            { LegendSlot.AquaticActive, new() { LegendSlot = LegendSlot.AquaticActive} },
-            { LegendSlot.AquaticInactive, new() { LegendSlot = LegendSlot.AquaticInactive} },
+            { LegendSlotType.TerrestrialActive, new() { LegendSlot = LegendSlotType.TerrestrialActive} },
+            { LegendSlotType.TerrestrialInactive, new() { LegendSlot = LegendSlotType.TerrestrialInactive} },
+            { LegendSlotType.AquaticActive, new() { LegendSlot = LegendSlotType.AquaticActive} },
+            { LegendSlotType.AquaticInactive, new() { LegendSlot = LegendSlotType.AquaticInactive} },
         };
 
-        private readonly Dictionary<LegendSlot, DetailedTexture> _selectors = new()
+        private readonly Dictionary<LegendSlotType, DetailedTexture> _selectors = new()
         {
-            { LegendSlot.TerrestrialActive, new(157138, 157140) },
-            { LegendSlot.TerrestrialInactive, new(157138, 157140) },
-            { LegendSlot.AquaticActive, new(157138, 157140) },
-            { LegendSlot.AquaticInactive, new(157138, 157140) },
+            { LegendSlotType.TerrestrialActive, new(157138, 157140) },
+            { LegendSlotType.TerrestrialInactive, new(157138, 157140) },
+            { LegendSlotType.AquaticActive, new(157138, 157140) },
+            { LegendSlotType.AquaticInactive, new(157138, 157140) },
         };
 
         private readonly int _legendSize = 48;
         private List<LegendIcon> _selectableLegends = new();
 
-        private LegendSlot _selectedLegendSlot;
+        private LegendSlotType _selectedLegendSlot;
         private Rectangle _selectorBounds;
         private LegendIcon _selectorAnchor;
         private bool _selectorOpen = false;
@@ -137,29 +137,29 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage.ProfessionSpecific
 
             int xOffset = 90;
 
-            _legends[LegendSlot.TerrestrialInactive].Bounds = new(xOffset, 45, _legendSize, _legendSize);
-            _selectors[LegendSlot.TerrestrialInactive].Bounds = new(xOffset, 35, _legendSize, 10);
+            _legends[LegendSlotType.TerrestrialInactive].Bounds = new(xOffset, 45, _legendSize, _legendSize);
+            _selectors[LegendSlotType.TerrestrialInactive].Bounds = new(xOffset, 35, _legendSize, 10);
 
             _swaps[0].Bounds = new(xOffset + 2 + _legendSize - ((int)(_legendSize / 1.5) / 2), 55, (int)(_legendSize / 1.5), (int)(_legendSize / 1.5));
 
-            _legends[LegendSlot.TerrestrialActive].Bounds = new(xOffset + 5 + _legendSize, 45, _legendSize, _legendSize);
-            _selectors[LegendSlot.TerrestrialActive].Bounds = new(xOffset + 5 + _legendSize, 35, _legendSize, 10);
+            _legends[LegendSlotType.TerrestrialActive].Bounds = new(xOffset + 5 + _legendSize, 45, _legendSize, _legendSize);
+            _selectors[LegendSlotType.TerrestrialActive].Bounds = new(xOffset + 5 + _legendSize, 35, _legendSize, 10);
 
             xOffset += 10 + _legendSize + 320;
-            _legends[LegendSlot.AquaticInactive].Bounds = new(xOffset, 45, _legendSize, _legendSize);
-            _selectors[LegendSlot.AquaticInactive].Bounds = new(xOffset, 35, _legendSize, 10);
+            _legends[LegendSlotType.AquaticInactive].Bounds = new(xOffset, 45, _legendSize, _legendSize);
+            _selectors[LegendSlotType.AquaticInactive].Bounds = new(xOffset, 35, _legendSize, 10);
 
             _swaps[1].Bounds = new(xOffset + 2 + _legendSize - ((int)(_legendSize / 1.5) / 2), 55, (int)(_legendSize / 1.5), (int)(_legendSize / 1.5));
 
-            _legends[LegendSlot.AquaticActive].Bounds = new(xOffset + 5 + _legendSize, 45, _legendSize, _legendSize);
-            _selectors[LegendSlot.AquaticActive].Bounds = new(xOffset + 5 + _legendSize, 35, _legendSize, 10);
+            _legends[LegendSlotType.AquaticActive].Bounds = new(xOffset + 5 + _legendSize, 45, _legendSize, _legendSize);
+            _selectors[LegendSlotType.AquaticActive].Bounds = new(xOffset + 5 + _legendSize, 35, _legendSize, 10);
         }
 
         protected override void OnRightMouseButtonPressed(MouseEventArgs e)
         {
             base.OnRightMouseButtonPressed(e);
 
-            foreach (LegendSlot slot in Enum.GetValues(typeof(LegendSlot)))
+            foreach (LegendSlotType slot in Enum.GetValues(typeof(LegendSlotType)))
             {
                 if (_selectors[slot].Hovered || _legends[slot].Hovered)
                 {
@@ -186,7 +186,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage.ProfessionSpecific
                 }
             }
 
-            foreach (LegendSlot slot in Enum.GetValues(typeof(LegendSlot)))
+            foreach (LegendSlotType slot in Enum.GetValues(typeof(LegendSlotType)))
             {
                 if (_selectors[slot].Hovered || _legends[slot].Hovered)
                 {
@@ -202,7 +202,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage.ProfessionSpecific
 
         protected override void ApplyTemplate()
         {
-            foreach (LegendSlot slot in Enum.GetValues(typeof(LegendSlot)))
+            foreach (LegendSlotType slot in Enum.GetValues(typeof(LegendSlotType)))
             {
                 _legends[slot].Legend = TemplatePresenter.Template.Legends[slot];
             }
@@ -218,7 +218,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage.ProfessionSpecific
 
                 legend.Value.Draw(this, spriteBatch, RelativeMousePosition);
 
-                if (legend.Key is LegendSlot.AquaticActive or LegendSlot.TerrestrialActive)
+                if (legend.Key is LegendSlotType.AquaticActive or LegendSlotType.TerrestrialActive)
                 {
                     spriteBatch.DrawFrame(this, legend.Value.Bounds, Colors.ColonialWhite * 0.75F, 2);
                 }
@@ -234,11 +234,11 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage.ProfessionSpecific
                 swap.Draw(this, spriteBatch, RelativeMousePosition);
             }
 
-            var r = _legends[LegendSlot.TerrestrialActive].Bounds;
-            spriteBatch.DrawStringOnCtrl(this, TemplatePresenter.LegendSlot is LegendSlot.TerrestrialActive ? "Active Legend" : "Inactive Legend", Content.DefaultFont16, new(r.Right + 5, r.Center.Y - (Content.DefaultFont14.LineHeight / 2), 100, Content.DefaultFont16.LineHeight), Color.White);
+            var r = _legends[LegendSlotType.TerrestrialActive].Bounds;
+            spriteBatch.DrawStringOnCtrl(this, TemplatePresenter.LegendSlot is LegendSlotType.TerrestrialActive ? "Active Legend" : "Inactive Legend", Content.DefaultFont16, new(r.Right + 5, r.Center.Y - (Content.DefaultFont14.LineHeight / 2), 100, Content.DefaultFont16.LineHeight), Color.White);
 
-            r = _legends[LegendSlot.AquaticActive].Bounds;
-            spriteBatch.DrawStringOnCtrl(this, TemplatePresenter.LegendSlot is LegendSlot.TerrestrialActive ? "Active Legend" : "Inactive Legend", Content.DefaultFont16, new(r.Right + 5, r.Center.Y - (Content.DefaultFont14.LineHeight / 2), 100, Content.DefaultFont16.LineHeight), Color.White);
+            r = _legends[LegendSlotType.AquaticActive].Bounds;
+            spriteBatch.DrawStringOnCtrl(this, TemplatePresenter.LegendSlot is LegendSlotType.TerrestrialActive ? "Active Legend" : "Inactive Legend", Content.DefaultFont16, new(r.Right + 5, r.Center.Y - (Content.DefaultFont14.LineHeight / 2), 100, Content.DefaultFont16.LineHeight), Color.White);
 
             if (_selectorOpen)
             {
@@ -253,16 +253,16 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage.ProfessionSpecific
             Input.Mouse.LeftMouseButtonPressed -= Mouse_LeftMouseButtonPressed;
         }
 
-        private LegendSlot GetOtherSlot(LegendSlot? slot = null)
+        private LegendSlotType GetOtherSlot(LegendSlotType? slot = null)
         {
             slot ??= TemplatePresenter.LegendSlot;
 
             return slot switch
             {
-                LegendSlot.AquaticActive => LegendSlot.AquaticInactive,
-                LegendSlot.AquaticInactive => LegendSlot.AquaticActive,
-                LegendSlot.TerrestrialActive => LegendSlot.TerrestrialInactive,
-                LegendSlot.TerrestrialInactive => LegendSlot.TerrestrialActive,
+                LegendSlotType.AquaticActive => LegendSlotType.AquaticInactive,
+                LegendSlotType.AquaticInactive => LegendSlotType.AquaticActive,
+                LegendSlotType.TerrestrialActive => LegendSlotType.TerrestrialInactive,
+                LegendSlotType.TerrestrialInactive => LegendSlotType.TerrestrialActive,
                 null => throw new NotImplementedException(),
                 _ => throw new NotImplementedException()
             };
@@ -296,7 +296,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage.ProfessionSpecific
             }
         }
 
-        private void GetSelectableLegends(LegendSlot legendSlot)
+        private void GetSelectableLegends(LegendSlotType legendSlot)
         {
             _selectableLegends.Clear();
 

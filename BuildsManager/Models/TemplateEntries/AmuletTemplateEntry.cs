@@ -14,7 +14,7 @@ namespace Kenedia.Modules.BuildsManager.TemplateEntries
         private Stat _stat;
         private Enrichment _enrichment;
 
-        public AmuletTemplateEntry(TemplateSlot slot) : base(slot)
+        public AmuletTemplateEntry(TemplateSlotType slot) : base(slot)
         {
         }
 

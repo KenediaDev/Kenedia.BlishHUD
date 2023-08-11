@@ -21,7 +21,7 @@ namespace Kenedia.Modules.Core.Utility
         public static bool SetProperty<T>(ref T property, T newValue, ValueChangedEventHandler<T> OnUpdated, bool triggerOnUpdate = true)
         {
             var temp = property;
-            if (SetProperty<T>(ref property, newValue))
+            if (SetProperty(ref property, newValue))
             {
                 if (triggerOnUpdate) OnUpdated?.Invoke(property, new(property, newValue));
 
@@ -33,7 +33,7 @@ namespace Kenedia.Modules.Core.Utility
 
         public static bool SetProperty<T>(ref T property, T newValue, PropertyChangedEventHandler OnUpdated, bool triggerOnUpdate = true, [CallerMemberName] string propName = null)
         {
-            if (SetProperty<T>(ref property, newValue))
+            if (SetProperty(ref property, newValue))
             {
                 if (triggerOnUpdate) OnUpdated?.Invoke(property, new(propName));
 
@@ -45,7 +45,7 @@ namespace Kenedia.Modules.Core.Utility
 
         public static bool SetProperty<T>(ref T property, T newValue, Action OnUpdated, bool triggerOnUpdate = true)
         {
-            if(SetProperty<T>(ref property, newValue))
+            if(SetProperty(ref property, newValue))
             {
                 if (triggerOnUpdate) OnUpdated?.Invoke();
 

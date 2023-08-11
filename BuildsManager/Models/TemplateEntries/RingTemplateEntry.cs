@@ -17,7 +17,7 @@ namespace Kenedia.Modules.BuildsManager.TemplateEntries
         private Infusion _infusion3;
         private Stat _stat;
 
-        public RingTemplateEntry(TemplateSlot slot) : base(slot)
+        public RingTemplateEntry(TemplateSlotType slot) : base(slot)
         {
         }
 

@@ -54,9 +54,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
         private Rectangle _bottomBounds;
         private Rectangle _vignetteBounds;
         private Rectangle _tagBounds;
-        private Rectangle _nameBounds;
-
-        private VTemplate _template;
+        private Template _template;
         private double _animationStart;
         private double _animationDuration = 1500;
         private float _animationOpacityStep = 1;
@@ -148,7 +146,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
 
         private void DuplicateTemplate()
         {
-            VTemplate t;
+            Template t;
             string name = (Template?.Name ?? "New Template") + " - Copy";
             if (BuildsManager.ModuleInstance.Templates.Where(e => e.Name == name).Count() == 0)
             {
@@ -176,7 +174,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
 
         public Action OnNameChangedAction { get; set; }
 
-        public VTemplate Template
+        public Template Template
         {
             get => _template;
             set
@@ -195,8 +193,25 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
 
                     if (temp != null) temp.EliteSpecializationChanged -= Template_EliteSpecializationChanged;
                     if (_template != null) _template.EliteSpecializationChanged += Template_EliteSpecializationChanged;
+
+                    if (temp != null) temp.EncountersChanged -= Template_EncountersChanged;
+                    if (_template != null) _template.EncountersChanged += Template_EncountersChanged;
+
+                    if (temp != null) temp.TagsChanged -= Template_TagsChanged;
+                    if (_template != null) _template.TagsChanged += Template_TagsChanged;
+
                 }
             }
+        }
+
+        private void Template_TagsChanged(object sender, Core.Models.ValueChangedEventArgs<TemplateFlag> e)
+        {
+            ApplyTemplate();
+        }
+
+        private void Template_EncountersChanged(object sender, Core.Models.ValueChangedEventArgs<EncounterFlag> e)
+        {
+            ApplyTemplate();
         }
 
         private void Template_EliteSpecializationChanged(object sender, Core.Models.ValueChangedEventArgs<DataModels.Professions.Specialization> e)

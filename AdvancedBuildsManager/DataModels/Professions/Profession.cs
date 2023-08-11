@@ -73,7 +73,7 @@ namespace Kenedia.Modules.AdvancedBuildsManager.DataModels.Professions
         [DataMember]
         public Dictionary<int, int> SkillsByPalette { get; set; }
 
-        internal void Apply(APIProfession prof, Dictionary<int, Specialization> specializations, Dictionary<int, Trait> traits, Dictionary<int, Skill> skills, Dictionary<int, Legend> legends, Dictionary<Core.DataModels.Races, Race> races)
+        internal void Apply(APIProfession prof, Dictionary<int, Specialization> specializations, Dictionary<int, Trait> traits, Dictionary<int, Skill> skills, Dictionary<int, Legend> legends, Dictionary<Races, Race> races)
         {
             if (Enum.TryParse(prof.Id, out ProfessionType professionType))
             {

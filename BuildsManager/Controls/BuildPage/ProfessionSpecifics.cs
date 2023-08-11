@@ -56,12 +56,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
             ApplyTemplate();
         }
 
-        private void OnLegendChanged(object sender, DictionaryItemChangedEventArgs<LegendSlot, DataModels.Professions.Legend> e)
-        {
-            ApplyTemplate();
-        }
-
-        private void TemplatePresenter_TemplateChanged(object sender, Core.Models.ValueChangedEventArgs<Template> e)
+        private void OnLegendChanged(object sender, DictionaryItemChangedEventArgs<LegendSlotType, DataModels.Professions.Legend> e)
         {
             ApplyTemplate();
         }

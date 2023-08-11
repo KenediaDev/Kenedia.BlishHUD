@@ -54,9 +54,6 @@ namespace Kenedia.Modules.Characters.Views
         private readonly bool _created;
         private bool _filterCharacters;
         private double _filterTick = 0;
-
-        private Rectangle _emblemRectangle;
-        private Rectangle _titleRectangle;
         private APITimeoutNotification _apiTimeoutNotification;
         private APIPermissionNotification _apiPermissionNotification;
         private TesseractFailedNotification _tesseractFailedNotification;

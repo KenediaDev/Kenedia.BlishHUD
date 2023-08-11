@@ -28,13 +28,9 @@ namespace Kenedia.Modules.Characters.Controls
         private readonly Func<Character_Model> _currentCharacter;
         private readonly TextureManager _textureManager;
         private readonly Data _data;
-        private Rectangle _iconRectangle;
-        private Rectangle _contentRectangle;
-
         private Point _textureOffset = new(25, 25);
         private Character_Model _character;
         private readonly List<Tag> _tags = new();
-        private bool _updateCharacter;
 
         public CharacterTooltip(Func<Character_Model> currentCharacter, TextureManager textureManager, Data data, Settings settings)
         {

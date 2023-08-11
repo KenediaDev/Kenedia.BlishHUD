@@ -4,11 +4,11 @@ using System.Collections.Generic;
 
 namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
 {
-    public class LegendSlotSkillSlotCollection<T> : Dictionary<LegendSlot, SkillSlotCollection<T>> where T : class, new()
+    public class LegendSlotSkillSlotCollection<T> : Dictionary<LegendSlotType, SkillSlotCollection<T>> where T : class, new()
     {
         public LegendSlotSkillSlotCollection()
         {
-            foreach (LegendSlot e in Enum.GetValues(typeof(LegendSlot)))
+            foreach (LegendSlotType e in Enum.GetValues(typeof(LegendSlotType)))
             {
                 Add(e, new());
             }

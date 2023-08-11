@@ -10,6 +10,7 @@ using MonoGame.Extended.BitmapFonts;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Linq;
 
 namespace Kenedia.Modules.BuildsManager.Controls
@@ -163,6 +164,8 @@ namespace Kenedia.Modules.BuildsManager.Controls
 
         public void SwitchTab(TabbedRegionTab tab)
         {
+
+            Debug.WriteLine($"SwitchTab!");
             OnTabSwitched?.Invoke();
 
             if (tab != null)

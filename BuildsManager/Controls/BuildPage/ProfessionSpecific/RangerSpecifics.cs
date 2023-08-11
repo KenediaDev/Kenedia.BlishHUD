@@ -19,16 +19,13 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage.ProfessionSpecific
         private readonly List<int> _terrestrialPets = new() { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 44, 45, 46, 47, 48, 51, 52, 54, 55, 57, 59, 61, 63, 64, 65, 66 };
 
         private bool applied = false;
-        private readonly Dictionary<PetSlot, PetIcon> _pets = new()
+        private readonly Dictionary<PetSlotType, PetIcon> _pets = new()
         {
-            {PetSlot.Terrestrial_1, new() { PetSlot = PetSlot.Terrestrial_1 }},
-            {PetSlot.Terrestrial_2, new() { PetSlot = PetSlot.Terrestrial_2 }},
-            {PetSlot.Aquatic_1, new() { PetSlot = PetSlot.Aquatic_1 }},
-            {PetSlot.Aquatic_2, new() { PetSlot = PetSlot.Aquatic_2 }},
+            {PetSlotType.Terrestrial_1, new() { PetSlot = PetSlotType.Terrestrial_1 }},
+            {PetSlotType.Terrestrial_2, new() { PetSlot = PetSlotType.Terrestrial_2 }},
+            {PetSlotType.Aquatic_1, new() { PetSlot = PetSlotType.Aquatic_1 }},
+            {PetSlotType.Aquatic_2, new() { PetSlot = PetSlotType.Aquatic_2 }},
         };
-
-        private readonly bool _enableUntamed = false;
-
         private Color _healthColor = new(162, 17, 11);
         private Rectangle _healthRectangle;
         private Rectangle _slotRectangle;
@@ -54,22 +51,22 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage.ProfessionSpecific
 
             int xOffset = 60;
 
-            _pets[PetSlot.Terrestrial_1].Bounds = new(xOffset, 0, _petSize.X, _petSize.Y);
-            _pets[PetSlot.Terrestrial_1].PawRegion = new(xOffset + 34, 40, 58, 58);
-            _pets[PetSlot.Terrestrial_1].FallbackBounds = new(xOffset + 34, 40, 58, 58);
+            _pets[PetSlotType.Terrestrial_1].Bounds = new(xOffset, 0, _petSize.X, _petSize.Y);
+            _pets[PetSlotType.Terrestrial_1].PawRegion = new(xOffset + 34, 40, 58, 58);
+            _pets[PetSlotType.Terrestrial_1].FallbackBounds = new(xOffset + 34, 40, 58, 58);
 
-            _pets[PetSlot.Terrestrial_2].Bounds = new(xOffset + 125, 0, _petSize.X, _petSize.Y);
-            _pets[PetSlot.Terrestrial_2].PawRegion = new(xOffset + 34 + 125, 40, 58, 58);
-            _pets[PetSlot.Terrestrial_2].FallbackBounds = new(xOffset + 34 + 125, 40, 58, 58);
+            _pets[PetSlotType.Terrestrial_2].Bounds = new(xOffset + 125, 0, _petSize.X, _petSize.Y);
+            _pets[PetSlotType.Terrestrial_2].PawRegion = new(xOffset + 34 + 125, 40, 58, 58);
+            _pets[PetSlotType.Terrestrial_2].FallbackBounds = new(xOffset + 34 + 125, 40, 58, 58);
 
             xOffset = 60 + 34 + 125 + 220;
-            _pets[PetSlot.Aquatic_1].Bounds = new(xOffset, 0, _petSize.X, _petSize.Y);
-            _pets[PetSlot.Aquatic_1].PawRegion = new(xOffset + 34, 40, 58, 58);
-            _pets[PetSlot.Aquatic_1].FallbackBounds = new(xOffset + 34, 40, 58, 58);
+            _pets[PetSlotType.Aquatic_1].Bounds = new(xOffset, 0, _petSize.X, _petSize.Y);
+            _pets[PetSlotType.Aquatic_1].PawRegion = new(xOffset + 34, 40, 58, 58);
+            _pets[PetSlotType.Aquatic_1].FallbackBounds = new(xOffset + 34, 40, 58, 58);
 
-            _pets[PetSlot.Aquatic_2].Bounds = new(xOffset + 125, 0, _petSize.X, _petSize.Y);
-            _pets[PetSlot.Aquatic_2].PawRegion = new(xOffset + 34 + 125, 40, 58, 58);
-            _pets[PetSlot.Aquatic_2].FallbackBounds = new(xOffset + 34 + 125, 40, 58, 58);
+            _pets[PetSlotType.Aquatic_2].Bounds = new(xOffset + 125, 0, _petSize.X, _petSize.Y);
+            _pets[PetSlotType.Aquatic_2].PawRegion = new(xOffset + 34 + 125, 40, 58, 58);
+            _pets[PetSlotType.Aquatic_2].FallbackBounds = new(xOffset + 34 + 125, 40, 58, 58);
 
             _slotRectangle = new(xOffset, 5, 188, 18);
         }
@@ -102,16 +99,16 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage.ProfessionSpecific
             {
                 foreach (var s in _selectablePets)
                 {
-                    var flag = _selectorAnchor.PetSlot is PetSlot.Terrestrial_1 or PetSlot.Terrestrial_2 ? Enviroment.Terrestrial : Enviroment.Aquatic;
+                    var flag = _selectorAnchor.PetSlot is PetSlotType.Terrestrial_1 or PetSlotType.Terrestrial_2 ? Enviroment.Terrestrial : Enviroment.Aquatic;
 
                     if (s.Hovered && s.Pet.Enviroment.HasFlag(flag))
                     {
                         var otherSlot = _selectorAnchor.PetSlot switch
                         {
-                            PetSlot.Aquatic_1 => PetSlot.Aquatic_2,
-                            PetSlot.Aquatic_2 => PetSlot.Aquatic_1,
-                            PetSlot.Terrestrial_1 => PetSlot.Terrestrial_2,
-                            _ => PetSlot.Terrestrial_1,
+                            PetSlotType.Aquatic_1 => PetSlotType.Aquatic_2,
+                            PetSlotType.Aquatic_2 => PetSlotType.Aquatic_1,
+                            PetSlotType.Terrestrial_1 => PetSlotType.Terrestrial_2,
+                            _ => PetSlotType.Terrestrial_1,
                         };
 
                         if (TemplatePresenter.Template.Pets[otherSlot] != s.Pet)
@@ -182,7 +179,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage.ProfessionSpecific
 
                 foreach (var s in _selectablePets)
                 {
-                    var flag = _selectorAnchor.PetSlot is PetSlot.Terrestrial_1 or PetSlot.Terrestrial_2 ? Enviroment.Terrestrial : Enviroment.Aquatic;
+                    var flag = _selectorAnchor.PetSlot is PetSlotType.Terrestrial_1 or PetSlotType.Terrestrial_2 ? Enviroment.Terrestrial : Enviroment.Aquatic;
 
                     if (s.Pet.Enviroment.HasFlag(flag))
                     {
@@ -190,7 +187,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage.ProfessionSpecific
                     }
                 }
 
-                spriteBatch.DrawStringOnCtrl(this, string.Format("{0} Pets", _selectorAnchor.PetSlot is PetSlot.Terrestrial_1 or PetSlot.Terrestrial_2 ? "Terrestrial" : "Aquatic"), Content.DefaultFont18, new Rectangle(_selectorBounds.Left, _selectorBounds.Bottom - 12 - Content.DefaultFont18.LineHeight, _selectorBounds.Width, Content.DefaultFont18.LineHeight), Color.White, false, HorizontalAlignment.Center);
+                spriteBatch.DrawStringOnCtrl(this, string.Format("{0} Pets", _selectorAnchor.PetSlot is PetSlotType.Terrestrial_1 or PetSlotType.Terrestrial_2 ? "Terrestrial" : "Aquatic"), Content.DefaultFont18, new Rectangle(_selectorBounds.Left, _selectorBounds.Bottom - 12 - Content.DefaultFont18.LineHeight, _selectorBounds.Width, Content.DefaultFont18.LineHeight), Color.White, false, HorizontalAlignment.Center);
             }
         }
 
@@ -198,7 +195,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage.ProfessionSpecific
         {
             if (TemplatePresenter != null)
             {
-                var flag = _selectorAnchor.PetSlot is PetSlot.Terrestrial_1 or PetSlot.Terrestrial_2 ? Enviroment.Terrestrial : Enviroment.Aquatic;
+                var flag = _selectorAnchor.PetSlot is PetSlotType.Terrestrial_1 or PetSlotType.Terrestrial_2 ? Enviroment.Terrestrial : Enviroment.Aquatic;
                 var pets = _selectablePets.Where(e => e.Pet.Enviroment.HasFlag(flag));
 
                 int columns = Math.Min(pets.Count(), 6);

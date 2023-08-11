@@ -24,14 +24,14 @@ namespace Kenedia.Modules.BuildsManager.DataModels.Items
 
                 TemplateSlot = armor.Details.Type.Value switch
                 {
-                    ItemArmorSlotType.HelmAquatic=> TemplateSlot.AquaBreather,
-                    ItemArmorSlotType.Helm=> TemplateSlot.Head,
-                    ItemArmorSlotType.Shoulders=> TemplateSlot.Shoulder,
-                    ItemArmorSlotType.Coat => TemplateSlot.Chest,
-                    ItemArmorSlotType.Gloves=> TemplateSlot.Hand,
-                    ItemArmorSlotType.Leggings => TemplateSlot.Leg,
-                    ItemArmorSlotType.Boots=> TemplateSlot.Foot,
-                    _ => TemplateSlot.None,
+                    ItemArmorSlotType.HelmAquatic=> TemplateSlotType.AquaBreather,
+                    ItemArmorSlotType.Helm=> TemplateSlotType.Head,
+                    ItemArmorSlotType.Shoulders=> TemplateSlotType.Shoulder,
+                    ItemArmorSlotType.Coat => TemplateSlotType.Chest,
+                    ItemArmorSlotType.Gloves=> TemplateSlotType.Hand,
+                    ItemArmorSlotType.Leggings => TemplateSlotType.Leg,
+                    ItemArmorSlotType.Boots=> TemplateSlotType.Foot,
+                    _ => TemplateSlotType.None,
                 };
             }
         }

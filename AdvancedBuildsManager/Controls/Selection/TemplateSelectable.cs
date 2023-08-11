@@ -53,8 +53,6 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Controls.Selection
         private Rectangle _bottomBounds;
         private Rectangle _vignetteBounds;
         private Rectangle _tagBounds;
-        private Rectangle _nameBounds;
-
         private Template _template;
         private double _animationStart;
         private double _animationDuration = 1500;
@@ -76,7 +74,7 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Controls.Selection
                 Height = _nameFont.LineHeight,
                 Font = _nameFont,
                 WrapText = true,
-                VerticalAlignment = Blish_HUD.Controls.VerticalAlignment.Middle,
+                VerticalAlignment = VerticalAlignment.Middle,
             };
 
             _nameEdit = new()
@@ -233,7 +231,7 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Controls.Selection
                 {
                     if (_tagTexturess.Count - amount > 1 && !_tagBounds.Contains(_tagTexturess[i + 1].Bounds))
                     {
-                        spriteBatch.DrawStringOnCtrl(this, $"+{_tagTexturess.Count - amount}", Content.DefaultFont14, tagTexture.Bounds, Colors.OldLace, false, Blish_HUD.Controls.HorizontalAlignment.Center);
+                        spriteBatch.DrawStringOnCtrl(this, $"+{_tagTexturess.Count - amount}", Content.DefaultFont14, tagTexture.Bounds, Colors.OldLace, false, HorizontalAlignment.Center);
                         if (tagTexture.Bounds.Contains(RelativeMousePosition))
                         {
                             txt = string.Join(Environment.NewLine, _tagTexturess.Skip(amount).Take(_tagTexturess.Count - amount).Select(e => e.TemplateTag.ToString()));
@@ -396,7 +394,7 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Controls.Selection
             _name.TextColor = color;
             _name.WrapText = false;
             _name.Font = _notificationFont;
-            _name.HorizontalAlignment = Blish_HUD.Controls.HorizontalAlignment.Left;
+            _name.HorizontalAlignment = HorizontalAlignment.Left;
             _name.Text = v;
 
             _animationRunning = true;
@@ -407,7 +405,7 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Controls.Selection
             _name.TextColor = Color.White;
             _name.Font = _nameFont;
             _name.WrapText = true;
-            _name.HorizontalAlignment = Blish_HUD.Controls.HorizontalAlignment.Left;
+            _name.HorizontalAlignment = HorizontalAlignment.Left;
             _name.Opacity = 1F;
             _name.Text = _template.Name;
 

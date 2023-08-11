@@ -185,7 +185,7 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Controls.BuildPage
             _specSelectorBounds = new(_selector.Bounds.Right, 0, Width - _selector.Bounds.Right, Height);
         }
 
-        public void ApplyTemplate(object sender = null, System.ComponentModel.PropertyChangedEventArgs e = null)
+        public void ApplyTemplate(object sender = null, PropertyChangedEventArgs e = null)
         {
             _weaponTrait.Texture = BuildSpecialization?.Specialization?.WeaponTrait?.Icon;
             _specializationBackground.Texture = BuildSpecialization?.Specialization?.Background;

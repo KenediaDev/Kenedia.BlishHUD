@@ -17,10 +17,11 @@ using Kenedia.Modules.BuildsManager.Models;
 using System.Diagnostics;
 using System.Collections.Generic;
 using Kenedia.Modules.BuildsManager.DataModels.Stats;
+using System.Linq;
 
 namespace Kenedia.Modules.BuildsManager.Controls.Selection
 {
-    public class SelectionPanel : Blish_HUD.Controls.Container
+    public class SelectionPanel : Container
     {
         //Pointer Arrow 784266
         //Back Button Arrow 784268
@@ -34,7 +35,6 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
         private readonly DetailedTexture _pointerArrow = new(784266) { TextureRegion = new(16, 16, 32, 32) };
         private Control _subAnchor;
         private Control _mainAnchor;
-        private MainWindow _mainWindow;
 
         private Rectangle AnchorDrawBounds
         {
@@ -54,10 +54,6 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
                 {
                     _subAnchorDrawBounds = value;
                 }
-
-                _anchorDrawBounds =
-                    _selectionType == SelectionTypes.Templates ? _mainAnchorDrawBounds :
-                    _subAnchorDrawBounds;
             }
         }
 
@@ -70,7 +66,6 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
 
         float _animationStart = 0f;
         private Control _anchor;
-        private Rectangle _anchorDrawBounds;
 
         public SelectionPanel(TemplatePresenter templatePresenter)
         {
@@ -114,11 +109,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
 
         public TemplatePresenter TemplatePresenter { get; private set; }
 
-        public MainWindow MainWindow
-        {
-            get { return _mainWindow; }
-            set { _mainWindow = value; }
-        }
+        public MainWindow MainWindow { get; set; }
 
         public string Title { get; set; }
 
@@ -183,7 +174,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
                 switch (SelectionType)
                 {
                     case SelectionTypes.Items:
-                        _gearSelection.ActiveSlot = (TemplateSlot)slot;
+                        _gearSelection.ActiveSlot = (TemplateSlotType)slot;
                         _gearSelection.SubSlotType = (GearSubSlotType)subslot;
 
                         _gearSelection.OnClickAction = (obj) =>
@@ -218,10 +209,6 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
                         break;
                 }
             }
-            else
-            {
-                Debug.WriteLine($"ANCHOR IS NULL!");
-            }
         }
 
         public void SetTemplateAnchor(Control anchor)
@@ -235,38 +222,10 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
             }
         }
 
-        public void SetGearAnchor(Control anchor, Rectangle anchorBounds, TemplateSlot slot, GearSubSlotType subslot = GearSubSlotType.Item, string title = "Selection", Action<BaseItem> onItemSelected = null)
-        {
-            SelectionType = SelectionTypes.Items;
-            Anchor = anchor;
-
-            if (Anchor == null) return;
-
-            Title = title;
-
-            int size = Math.Min(anchorBounds.Height, 32);
-            SetAnchor(anchor, new(anchorBounds.Left - AbsoluteBounds.Left - (size / 2), anchorBounds.Top - AbsoluteBounds.Top + (anchorBounds.Height / 2) - (size / 2), size, size));
-
-            _gearSelection.ActiveSlot = slot;
-            _gearSelection.SubSlotType = subslot;
-        }
-
-        public void SetStatAnchor(Control anchor, Rectangle anchorBounds, string title = "Selection", Action<BaseItem> onItemSelected = null)
-        {
-            SelectionType = SelectionTypes.Stats;
-            Anchor = anchor;
-
-            if (Anchor == null) return;
-
-            Title = title;
-
-            int size = Math.Min(anchorBounds.Height, 32);
-            SetAnchor(anchor, new(anchorBounds.Left - AbsoluteBounds.Left - (size / 2), anchorBounds.Top - AbsoluteBounds.Top + (anchorBounds.Height / 2) - (size / 2), size, size));
-        }
-
         public void ResetAnchor()
         {
             SelectionType = SelectionTypes.Templates;
+            SetAnchor(_buildSelection.Templates.FirstOrDefault(e => e.Template == MainWindow.Template));
         }
 
         public override void RecalculateLayout()

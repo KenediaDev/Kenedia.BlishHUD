@@ -41,7 +41,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
 
         public Rectangle AutoCastTextureRegion { get; }
 
-        public SkillSlot Slot { get; set; }
+        public SkillSlotType Slot { get; set; }
 
         public bool ShowSelector { get; set; } = false;
 

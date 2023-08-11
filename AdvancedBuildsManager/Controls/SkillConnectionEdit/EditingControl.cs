@@ -30,7 +30,6 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Controls.SkillConnectionEdit
 
         private double _created = 0;
         private OldSkillConnection _skillConnection;
-        private FlowPanel _enviromentFlags;
         private (Label, Checkbox) _terrestrialFlag;
         private (Label, Checkbox) _aquaticFlag;
         private (Label, Dropdown) _weapon;
@@ -524,19 +523,6 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Controls.SkillConnectionEdit
             base.PaintBeforeChildren(spriteBatch, bounds);
 
             spriteBatch.DrawOnCtrl(this, Textures.Pixel, ContentRegion, Color.Black * 0.3F);
-        }
-
-        private FlowPanel CreateFlowPanel(string? title)
-        {
-            return new()
-            {
-                Parent = _contentPanel,
-                HeightSizingMode = Blish_HUD.Controls.SizingMode.AutoSize,
-                FlowDirection = Blish_HUD.Controls.ControlFlowDirection.SingleTopToBottom,
-                ContentPadding = new(10, 40, 10, 5),
-                Title = title,
-                CanCollapse = true,
-            };
         }
     }
 }

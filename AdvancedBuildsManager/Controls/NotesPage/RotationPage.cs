@@ -239,7 +239,6 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Controls.NotesPage
 
     public class RotationPage : Blish_HUD.Controls.Container
     {
-        private readonly Blish_HUD.Controls.MultilineTextBox _noteField;
         private readonly bool created = false;
         private TexturesService _texturesService;
         private readonly Button _addRotation;

@@ -28,8 +28,6 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Controls.GearPage
         private readonly ItemTexture _sigilTexture = new() { };
         private readonly ItemTexture _pvpSigilTexture = new() { };
         private readonly ItemTexture _infusionTexture = new() { };
-
-        private Rectangle _statBounds;
         private Rectangle _sigilBounds;
         private Rectangle _pvpSigilBounds;
         private Rectangle _infusionBounds;
@@ -158,8 +156,6 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Controls.GearPage
         private readonly ItemTexture _sigil2Texture = new() { };
         private readonly ItemTexture _infusionTexture = new() { };
         private readonly ItemTexture _infusion2Texture = new() { };
-
-        private Rectangle _statBounds;
         private Rectangle _sigilBounds;
         private Rectangle _sigil2Bounds;
         private Rectangle _infusionBounds;
@@ -304,8 +300,6 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Controls.GearPage
 
         private readonly ItemTexture _runeTexture = new() { };
         private readonly ItemTexture _infusionTexture = new() { };
-
-        private Rectangle _statBounds;
         private Rectangle _runeBounds;
         private Rectangle _infusionBounds;
 

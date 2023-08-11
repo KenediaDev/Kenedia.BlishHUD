@@ -14,7 +14,7 @@ namespace Kenedia.Modules.BuildsManager.TemplateEntries
         private Stat _stat;
         private Infusion _infusion;
 
-        public AccessoireTemplateEntry(TemplateSlot slot) : base(slot)
+        public AccessoireTemplateEntry(TemplateSlotType slot) : base(slot)
         {
         }
 

@@ -5,17 +5,17 @@ using System.Linq;
 
 namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
 {
-    public class SkillIconCollection : Dictionary<SkillSlot, SkillIcon>
+    public class SkillIconCollection : Dictionary<SkillSlotType, SkillIcon>
     {
         public SkillIconCollection(bool showSelector = false)
         {
-            foreach (SkillSlot slot in Enum.GetValues(typeof(SkillSlot)))
+            foreach (SkillSlotType slot in Enum.GetValues(typeof(SkillSlotType)))
             {
-                if (slot >= SkillSlot.Heal)
+                if (slot >= SkillSlotType.Heal)
                 {
-                    foreach (SkillSlot state in new SkillSlot[] { SkillSlot.Active, SkillSlot.Inactive })
+                    foreach (SkillSlotType state in new SkillSlotType[] { SkillSlotType.Active, SkillSlotType.Inactive })
                     {
-                        foreach (SkillSlot enviroment in new SkillSlot[] { SkillSlot.Terrestrial, SkillSlot.Aquatic })
+                        foreach (SkillSlotType enviroment in new SkillSlotType[] { SkillSlotType.Terrestrial, SkillSlotType.Aquatic })
                         {
                             Add(state | enviroment | slot, new() { ShowSelector = showSelector });
                         }

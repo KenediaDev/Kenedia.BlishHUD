@@ -10,7 +10,7 @@ namespace Kenedia.Modules.BuildsManager.DataModels.Items
     {
         public Utility()
         {
-            TemplateSlot = TemplateSlot.Utility;
+            TemplateSlot = TemplateSlotType.Utility;
 
         }
 

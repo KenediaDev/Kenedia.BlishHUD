@@ -18,14 +18,14 @@ namespace Kenedia.Modules.BuildsManager.Utility
             };
         }
 
-        public static BuildSkillSlot GetBuildSkillSlot(this SkillSlot? slot)
+        public static BuildSkillSlotType GetBuildSkillSlot(this SkillSlot? slot)
         {
             return slot switch
             {
-                SkillSlot.Elite=> BuildSkillSlot.Elite,
-                SkillSlot.Heal=> BuildSkillSlot.Heal,
-                SkillSlot.Utility=> BuildSkillSlot.Utility_1,
-                _ => BuildSkillSlot.Utility_1,
+                SkillSlot.Elite=> BuildSkillSlotType.Elite,
+                SkillSlot.Heal=> BuildSkillSlotType.Heal,
+                SkillSlot.Utility=> BuildSkillSlotType.Utility_1,
+                _ => BuildSkillSlotType.Utility_1,
             };
         }
     }

@@ -8,7 +8,7 @@
   "dependencies": {
     "bh.blishhud": ">=1.0.0"
   },
-  "description": "A Blish approach to enhance your gameplay experience with the 'Legendary Armory' and 'Build Templates'. A must have for everyone with a lot of builds!",
+  "description": "A Blish approach to store and share build setups (gear and build) with your friends, guilds and communities. A must have for everyone with a lot of builds!",
   "directories": [ "kenedia" ],
   "enabled_without_gw2": false,
   "manifest_version": 1,
@@ -16,5 +16,5 @@
   "namespace": "Kenedia.Modules.BuildsManager",
   "package": "Kenedia.Modules.BuildsManager.dll",
   "url": "https://github.com/KenediaDev/Kenedia.BlishHUD",
-  "version": "0.2.3-Alpha"
+  "version": "0.3.2-Alpha"
 }

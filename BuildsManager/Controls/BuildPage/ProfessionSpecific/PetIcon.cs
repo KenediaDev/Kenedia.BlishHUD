@@ -22,7 +22,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage.ProfessionSpecific
             FallBackTexture = AsyncTexture2D.FromAssetId(156797);
         }
 
-        public PetSlot PetSlot { get; set; }
+        public PetSlotType PetSlot { get; set; }
 
         public Rectangle PawRegion { get; set; }
 

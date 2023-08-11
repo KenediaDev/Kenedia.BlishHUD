@@ -12,7 +12,7 @@ namespace Kenedia.Modules.BuildsManager.TemplateEntries
     {
         private JadeBotCore _jadeBotCore;
 
-        public JadeBotTemplateEntry(TemplateSlot slot) : base(slot)
+        public JadeBotTemplateEntry(TemplateSlotType slot) : base(slot)
         {
         }
 
