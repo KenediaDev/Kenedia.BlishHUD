@@ -11,6 +11,7 @@ namespace Kenedia.Modules.Core.Controls
     public class ContextMenuItem : ContextMenuStripItem, ILocalizable
     {
         private Func<string> _setLocalizedText;
+        private Func<string> _setLocalizedTooltip;
 
         public ContextMenuItem()
         {
@@ -30,6 +31,23 @@ namespace Kenedia.Modules.Core.Controls
             OnClickAction = onClickAction;
         }
 
+        public ContextMenuItem(Func<string> setLocalizedText, Action onClickAction, Func<string> setLocalizedTooltip = null)
+        {
+            SetLocalizedText = setLocalizedText;
+            OnClickAction = onClickAction;
+            SetLocalizedTooltip = setLocalizedTooltip;
+        }
+
+        public Func<string> SetLocalizedTooltip
+        {
+            get => _setLocalizedTooltip;
+            set
+            {
+                _setLocalizedTooltip = value;
+                BasicTooltipText = value?.Invoke();
+            }
+        }
+
         public Func<string> SetLocalizedText
         {
             get => _setLocalizedText;
@@ -45,6 +63,7 @@ namespace Kenedia.Modules.Core.Controls
         public void UserLocale_SettingChanged(object sender, ValueChangedEventArgs<Locale> e)
         {
             if (SetLocalizedText != null) Text = SetLocalizedText?.Invoke();
+            if (SetLocalizedTooltip != null) BasicTooltipText = SetLocalizedTooltip?.Invoke();
         }
                 
         protected override void OnClick(MouseEventArgs e)

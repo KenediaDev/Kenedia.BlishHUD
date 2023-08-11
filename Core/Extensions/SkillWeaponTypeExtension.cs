@@ -19,6 +19,37 @@ namespace Kenedia.Modules.Core.Extensions
 
     public static class ItemWeaponTypeExtension
     {
+        public static bool IsTwoHanded(this ItemWeaponType itemWeaponType)
+        {
+            return itemWeaponType is 
+                ItemWeaponType.Greatsword or
+                ItemWeaponType.Hammer or
+                ItemWeaponType.LongBow or
+                ItemWeaponType.Rifle or
+                ItemWeaponType.ShortBow or
+                ItemWeaponType.Staff;
+        }
+
+        public static bool IsOneHanded(this ItemWeaponType itemWeaponType)
+        {
+            return itemWeaponType is 
+                ItemWeaponType.Axe or
+                ItemWeaponType.Dagger or
+                ItemWeaponType.Mace or
+                ItemWeaponType.Pistol or
+                ItemWeaponType.Scepter or
+                ItemWeaponType.Sword;
+        }
+
+        public static bool IsOffHand(this ItemWeaponType itemWeaponType)
+        {
+            return itemWeaponType is 
+                ItemWeaponType.Focus or
+                ItemWeaponType.Shield or
+                ItemWeaponType.Torch or
+                ItemWeaponType.Warhorn;
+        }
+
         public static SkillWeaponType ToSkillWeapon(this ItemWeaponType itemWeaponType)
         {
             string enumName =

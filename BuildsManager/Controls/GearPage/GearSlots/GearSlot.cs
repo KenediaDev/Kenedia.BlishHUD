@@ -23,6 +23,7 @@ using Kenedia.Modules.Core.Controls;
 using Kenedia.Modules.BuildsManager.TemplateEntries;
 using static Kenedia.Modules.BuildsManager.Controls.Selection.SelectionPanel;
 using System.Linq;
+using ItemWeaponType = Gw2Sharp.WebApi.V2.Models.ItemWeaponType;
 
 namespace Kenedia.Modules.BuildsManager.Controls.GearPage.GearSlots
 {
@@ -51,20 +52,23 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage.GearSlots
 
         public GearSlot(TemplateSlot gearSlot, Container parent, TemplatePresenter templatePresenter)
         {
+            TemplatePresenter = templatePresenter;
+            Slot = gearSlot;
+            Parent = parent;
+
             Size = new(380, 64);
             ClipsBounds = true;
 
             Menu = new();
-
-            TemplatePresenter = templatePresenter;
-            Slot = gearSlot;
-            Parent = parent;
+            CreateSubMenus();
 
             TemplatePresenter.LoadedGearFromCode += SetItems;
             TemplatePresenter.TemplateChanged += SetItems;
         }
 
         public SelectionPanel SelectionPanel { get; set; }
+
+        public List<GearSlot> SlotGroup { get; set; }
 
         protected override void Paint(SpriteBatch spriteBatch, Rectangle bounds)
         {
@@ -131,6 +135,27 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage.GearSlots
         {
 
         }
+
+        protected void CreateSubMenu(Func<string> menuGroupName, Func<string> menuGroupTooltip = null, Action menuGroupAction = null, List<(Func<string> text, Func<string> tooltip, Action action)> menuItems = null)
+        {
+            if (menuItems == null)
+            {
+                _ = Menu.AddMenuItem(new ContextMenuItem(menuGroupName, menuGroupAction, menuGroupTooltip));
+                return;
+            }
+
+            var menuGroup = Menu.AddMenuItem(new ContextMenuItem(menuGroupName, menuGroupAction, menuGroupTooltip)).Submenu = new();
+
+            foreach (var (text, tooltip, action) in menuItems ?? new())
+            {
+                _ = menuGroup.AddMenuItem(new ContextMenuItem(text, action, tooltip));
+            }
+        }
+
+        protected virtual void CreateSubMenus()
+        {
+
+        }
     }
 
     public class ArmorSlot : GearSlot
@@ -153,32 +178,6 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage.GearSlots
         public ArmorSlot(TemplateSlot gearSlot, Container parent, TemplatePresenter templatePresenter) : base(gearSlot, parent, templatePresenter)
         {
             _infusionSlotTexture.Texture = BuildsManager.ModuleInstance.ContentsManager.GetTexture(@"textures\infusionslot.png");
-
-            ContextMenuStripItem menuItem;
-            menuItem = Menu.AddMenuItem(new ContextMenuItem(() => "Reset", null));
-
-            var resetMenu = menuItem.Submenu = new();
-            menuItem = resetMenu.AddMenuItem(new ContextMenuItem(() => "Stat", null));
-            menuItem = resetMenu.AddMenuItem(new ContextMenuItem(() => "Rune", null));
-            menuItem = resetMenu.AddMenuItem(new ContextMenuItem(() => "Infusion", null));
-
-            menuItem = Menu.AddMenuItem(new ContextMenuItem(() => "Fill", null));
-            var fillMenu = menuItem.Submenu = new();
-            menuItem = fillMenu.AddMenuItem(new ContextMenuItem(() => "Stat", null));
-            menuItem = fillMenu.AddMenuItem(new ContextMenuItem(() => "Rune", null));
-            menuItem = fillMenu.AddMenuItem(new ContextMenuItem(() => "Infusion", null));
-
-            menuItem = Menu.AddMenuItem(new ContextMenuItem(() => "Override", null));
-            var overrideMenu = menuItem.Submenu = new();
-            menuItem = overrideMenu.AddMenuItem(new ContextMenuItem(() => "Stat", null));
-            menuItem = overrideMenu.AddMenuItem(new ContextMenuItem(() => "Rune", null));
-            menuItem = overrideMenu.AddMenuItem(new ContextMenuItem(() => "Infusion", null));
-
-            menuItem = Menu.AddMenuItem(new ContextMenuItem(() => "All Armor", null));
-            var groupMenu = menuItem.Submenu = new();
-            menuItem = groupMenu.AddMenuItem(new ContextMenuItem(() => "Reset Stats", null));
-            menuItem = groupMenu.AddMenuItem(new ContextMenuItem(() => "Reset Runes", null));
-            menuItem = groupMenu.AddMenuItem(new ContextMenuItem(() => "Reset Infusions", null));
         }
 
         public Stat Stat { get => _stat; set => Common.SetProperty(ref _stat, value, OnStatChanged); }
@@ -273,6 +272,101 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage.GearSlots
             }
         }
 
+        protected override void CreateSubMenus()
+        {
+            base.CreateSubMenus();
+
+            CreateSubMenu(() => "Reset", () => "Reset stat, rune and infusion", () =>
+            {
+                Stat = null;
+                Rune = null;
+                Infusion = null;
+            }, new()
+            {
+                new(() => "Stat", () => "Reset the stat.", () => Stat = null ),
+                new(() => "Rune", () => "Reset the rune.", () => Rune = null ),
+                new(() => "Infusion", () => "Reset the infusion.", () => Infusion = null ),
+                });
+
+            CreateSubMenu(() => "Fill", () => "Fill the stat, rune and infusion of all empty armor slots", () =>
+            {
+                SetGroupStat(Stat, false);
+                SetGroupRune(Rune, false);
+                SetGroupInfusion(Infusion, false);
+            }, new()
+            {
+                new(() => "Stat", () => "Fill all empty stat slots.", () => SetGroupStat(Stat, false)),
+                new(() => "Rune", () => "Fill all empty rune slots.", () => SetGroupRune(Rune, false)),
+                new(() => "Infusion", () => "Fill all empty infusion slots.", () => SetGroupInfusion(Infusion, false)),
+                });
+
+            CreateSubMenu(() => "Override", () => "Override the stat, rune and infusion of all armor slots", () =>
+            {
+                SetGroupStat(Stat, true);
+                SetGroupRune(Rune, true);
+                SetGroupInfusion(Infusion, true);
+            }, new()
+            {
+                new(() => "Stat", () => "Override all stat slots.", () => SetGroupStat(Stat, true)),
+                new(() => "Rune", () => "Override all rune slots.", () => SetGroupRune(Rune, true)),
+                new(() => "Infusion", () => "Override all infusion slots.", () => SetGroupInfusion(Infusion, true)),
+                });
+
+            CreateSubMenu(() => "Reset all armor", () => "Reset all stats, runes and infusions for all armor slots", () =>
+            {
+                SetGroupStat(null, true);
+                SetGroupRune(null, true);
+                SetGroupInfusion(null, true);
+            }, new()
+            {
+                new(() => "Stats", () => "Reset all stats of all armor slots.", () => SetGroupStat(null, true)),
+                new(() => "Runes", () => "Reset all runes of all armor slots.", () => SetGroupRune(null, true)),
+                new(() => "Infusions", () => "Reset all infusions of all armor slots.", () => SetGroupInfusion(null, true) ),
+                });
+        }
+
+        private void SetGroupStat(Stat stat, bool overrideExisting)
+        {
+            foreach (var slot in SlotGroup)
+            {
+                var armor = slot as ArmorSlot;
+
+                if (overrideExisting || armor.Stat == null)
+                {
+                    armor.Stat = stat;
+                    (TemplatePresenter.Template[armor.Slot] as ArmorTemplateEntry).Stat = stat;
+                }
+            }
+        }
+
+        private void SetGroupRune(Rune rune, bool overrideExisting)
+        {
+            foreach (var slot in SlotGroup)
+            {
+                var armor = slot as ArmorSlot;
+
+                if (overrideExisting || armor.Rune == null)
+                {
+                    armor.Rune = rune;
+                    (TemplatePresenter.Template[armor.Slot] as ArmorTemplateEntry).Rune = rune;
+                }
+            }
+        }
+
+        private void SetGroupInfusion(Infusion infusion, bool overrideExisting)
+        {
+            foreach (var slot in SlotGroup)
+            {
+                var armor = slot as ArmorSlot;
+
+                if (overrideExisting || armor.Infusion == null)
+                {
+                    armor.Infusion = infusion;
+                    (TemplatePresenter.Template[armor.Slot] as ArmorTemplateEntry).Infusion = infusion;
+                }
+            }
+        }
+
         private void OnStatChanged(object sender, Core.Models.ValueChangedEventArgs<Stat> e)
         {
             _statTexture.Texture = Stat?.Icon;
@@ -320,32 +414,6 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage.GearSlots
         public WeaponSlot(TemplateSlot gearSlot, Container parent, TemplatePresenter templatePresenter) : base(gearSlot, parent, templatePresenter)
         {
             _infusionSlotTexture.Texture = BuildsManager.ModuleInstance.ContentsManager.GetTexture(@"textures\infusionslot.png");
-
-            ContextMenuStripItem menuItem;
-            menuItem = Menu.AddMenuItem(new ContextMenuItem(() => "Reset", null));
-
-            var _resetMenu = menuItem.Submenu = new();
-            menuItem = _resetMenu.AddMenuItem(new ContextMenuItem(() => "Stat", null));
-            menuItem = _resetMenu.AddMenuItem(new ContextMenuItem(() => "Sigil", null));
-            menuItem = _resetMenu.AddMenuItem(new ContextMenuItem(() => "Infusion", null));
-
-            menuItem = Menu.AddMenuItem(new ContextMenuItem(() => "Fill", null));
-            var fillMenu = menuItem.Submenu = new();
-            menuItem = fillMenu.AddMenuItem(new ContextMenuItem(() => "Stat", null));
-            menuItem = fillMenu.AddMenuItem(new ContextMenuItem(() => "Sigil", null));
-            menuItem = fillMenu.AddMenuItem(new ContextMenuItem(() => "Infusion", null));
-
-            menuItem = Menu.AddMenuItem(new ContextMenuItem(() => "Override", null));
-            var overrideMenu = menuItem.Submenu = new();
-            menuItem = overrideMenu.AddMenuItem(new ContextMenuItem(() => "Stat", null));
-            menuItem = overrideMenu.AddMenuItem(new ContextMenuItem(() => "Sigil", null));
-            menuItem = overrideMenu.AddMenuItem(new ContextMenuItem(() => "Infusion", null));
-
-            menuItem = Menu.AddMenuItem(new ContextMenuItem(() => "All Weapons", null));
-            var groupMenu = menuItem.Submenu = new();
-            menuItem = groupMenu.AddMenuItem(new ContextMenuItem(() => "Reset Stats", null));
-            menuItem = groupMenu.AddMenuItem(new ContextMenuItem(() => "Reset Sigils", null));
-            menuItem = groupMenu.AddMenuItem(new ContextMenuItem(() => "Reset Infusions", null));
         }
 
         public Stat Stat { get => _stat; set => Common.SetProperty(ref _stat, value, OnStatChanged); }
@@ -355,6 +423,103 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage.GearSlots
         public Sigil PvpSigil { get => _pvpSigil; set => Common.SetProperty(ref _pvpSigil, value, OnPvpSigilChanged); }
 
         public Infusion Infusion { get => _infusion; set => Common.SetProperty(ref _infusion, value, OnInfusionChanged); }
+
+        public WeaponSlot OtherHandSlot { get; set; }
+
+        private void SetGroupStat(Stat stat = null, bool overrideExisting = false)
+        {
+            foreach (var slot in SlotGroup)
+            {
+                if (slot.Slot is TemplateSlot.Aquatic or TemplateSlot.AltAquatic)
+                {
+                    var entry = TemplatePresenter.Template[slot.Slot] as AquaticWeaponTemplateEntry;
+                    entry.Stat = overrideExisting ? stat : entry.Stat ?? stat;
+                    (slot as AquaticWeaponSlot).Stat = overrideExisting ? stat : (slot as AquaticWeaponSlot).Stat ?? stat;
+                }
+                else
+                {
+                    var entry = TemplatePresenter.Template[slot.Slot] as WeaponTemplateEntry;
+                    entry.Stat = overrideExisting ? stat : entry.Stat ?? stat;
+                    (slot as WeaponSlot).Stat = overrideExisting ? stat : (slot as WeaponSlot).Stat ?? stat;
+                }
+            }
+        }
+
+        private void SetGroupSigil(Sigil sigil = null, bool overrideExisting = false)
+        {
+            foreach (var slot in SlotGroup)
+            {
+                if (slot.Slot is TemplateSlot.Aquatic or TemplateSlot.AltAquatic)
+                {
+                    var entry = TemplatePresenter.Template[slot.Slot] as AquaticWeaponTemplateEntry;
+                    entry.Sigil1 = overrideExisting ? sigil : entry.Sigil1 ?? sigil;
+                    entry.Sigil2 = overrideExisting ? sigil : entry.Sigil2 ?? sigil;
+                    (slot as AquaticWeaponSlot).Sigil1 = overrideExisting ? sigil : (slot as AquaticWeaponSlot).Sigil1 ?? sigil;
+                    (slot as AquaticWeaponSlot).Sigil2 = overrideExisting ? sigil : (slot as AquaticWeaponSlot).Sigil2 ?? sigil;
+                }
+                else
+                {
+                    var entry = TemplatePresenter.Template[slot.Slot] as WeaponTemplateEntry;
+                    entry.Sigil = overrideExisting ? sigil : entry.Sigil ?? sigil;
+                    (slot as WeaponSlot).Sigil = overrideExisting ? sigil : (slot as WeaponSlot).Sigil ?? sigil;
+                }
+            }
+        }
+
+        private void SetGroupInfusion(Infusion infusion = null, bool overrideExisting = false)
+        {
+            foreach (var slot in SlotGroup)
+            {
+                if (slot.Slot is TemplateSlot.Aquatic or TemplateSlot.AltAquatic)
+                {
+                    var entry = TemplatePresenter.Template[slot.Slot] as AquaticWeaponTemplateEntry;
+                    entry.Infusion1 = overrideExisting ? infusion : entry.Infusion1 ?? infusion;
+                    entry.Infusion2 = overrideExisting ? infusion : entry.Infusion2 ?? infusion;
+                    (slot as AquaticWeaponSlot).Infusion1 = overrideExisting ? infusion : (slot as AquaticWeaponSlot).Infusion1 ?? infusion;
+                    (slot as AquaticWeaponSlot).Infusion2 = overrideExisting ? infusion : (slot as AquaticWeaponSlot).Infusion2 ?? infusion;
+                }
+                else
+                {
+                    var entry = TemplatePresenter.Template[slot.Slot] as WeaponTemplateEntry;
+                    entry.Infusion = overrideExisting ? infusion : entry.Infusion ?? infusion;
+                    (slot as WeaponSlot).Infusion = overrideExisting ? infusion : (slot as WeaponSlot).Infusion ?? infusion;
+                }
+            }
+        }
+
+        private void SetGroupPvpSigil(Sigil sigil = null, bool overrideExisting = false)
+        {
+            foreach (var slot in SlotGroup)
+            {
+                if (slot.Slot is TemplateSlot.Aquatic or TemplateSlot.AltAquatic)
+                {
+
+                }
+                else
+                {
+                    var entry = TemplatePresenter.Template[slot.Slot] as WeaponTemplateEntry;
+                    entry.PvpSigil = overrideExisting ? sigil : entry.PvpSigil ?? sigil;
+                    (slot as WeaponSlot).PvpSigil = overrideExisting ? sigil : (slot as WeaponSlot).PvpSigil ?? sigil;
+                }
+            }
+        }
+
+        private void SetGroupWeapon(Weapon item = null, bool overrideExisting = false)
+        {
+            foreach (var slot in SlotGroup)
+            {
+                if (slot.Slot is TemplateSlot.Aquatic or TemplateSlot.AltAquatic)
+                {
+                    if (overrideExisting || (slot as AquaticWeaponSlot).Item == null)
+                        (slot as AquaticWeaponSlot).SelectWeapon(item);
+                }
+                else
+                {
+                    if (overrideExisting || (slot as WeaponSlot).Item == null)
+                        (slot as WeaponSlot).SelectWeapon(item);
+                }
+            }
+        }
 
         public override void RecalculateLayout()
         {
@@ -464,23 +629,115 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage.GearSlots
                 });
             }
 
-            if (_changeWeaponTexture.Hovered)
+            if (_changeWeaponTexture.Hovered || (Icon.Hovered && TemplatePresenter.IsPvp))
             {
-                SelectionPanel?.SetAnchor<Weapon>(this, new Rectangle(a.Location, Point.Zero).Add(Icon.Bounds), SelectionTypes.Items, Slot, GearSubSlotType.Item, (item) =>
-                {
-                    (TemplatePresenter?.Template[Slot] as WeaponTemplateEntry).Weapon = item;
-                    Item = item;
+                SelectionPanel?.SetAnchor<Weapon>(this, new Rectangle(a.Location, Point.Zero).Add(Icon.Bounds), SelectionTypes.Items, Slot, GearSubSlotType.Item, SelectWeapon);
+            }
+        }
+
+        protected override void CreateSubMenus()
+        {
+            base.CreateSubMenus();
+
+            CreateSubMenu(() => "Reset", () => "Reset weapon, stat, sigils and infusion", () =>
+            {
+                Stat = null;
+                Sigil = null;
+                PvpSigil = null;
+                Infusion = null;
+                Item = null;
+            }, new()
+            {
+                new(() => "Weapon", () => "Reset the weapon.", () => Item = null ),
+                new(() => "Stat", () => "Reset the stat.", () => Stat = null ),
+                new(() => "Sigil", () => "Reset the sigil.", () => Sigil = null ),
+                new(() => "PvP Sigil", () => "Reset the PvP sigil.", () => PvpSigil = null ),
+                new(() => "Infusion", () => "Reset the infusion.", () => Infusion = null ),
                 });
+
+            CreateSubMenu(() => "Fill", () => "Fill the weapon, stat, sigils and infusions of all empty weapon slots", () =>
+            {
+                SetGroupWeapon(Item as Weapon, false);
+                SetGroupStat(Stat, false);
+                SetGroupSigil(Sigil, false);
+                SetGroupPvpSigil(PvpSigil, false);
+                SetGroupInfusion(Infusion, false);
+            }, new()
+            {
+                new(() => "Weapon", () => "Fill the weapon for all empty weapon slots.", () => SetGroupWeapon(Item as Weapon, false)),
+                new(() => "Stat", () => "Fill all empty stat slots.", () => SetGroupStat(Stat, false)),
+                new(() => "Sigil", () => "Fill all empty sigil slots.", () => SetGroupSigil(Sigil, false)),
+                new(() => "PvP Sigil", () => "Fill all empty PvP sigil slots.", () => SetGroupPvpSigil(PvpSigil, false)),
+                new(() => "Infusion", () => "Fill all empty infusion slots.", () => SetGroupInfusion(Infusion, false)),
+                });
+
+            CreateSubMenu(() => "Override", () => "Override the weapon, stat, sigils and infusions of all weapon slots", () =>
+            {
+                SetGroupWeapon(Item as Weapon, true);
+                SetGroupStat(Stat, true);
+                SetGroupSigil(Sigil, true);
+                SetGroupPvpSigil(PvpSigil, true);
+                SetGroupInfusion(Infusion, true);
+            }, new()
+            {
+                new(() => "Weapon", () => "Override all weapon slots.", () => SetGroupWeapon(Item as Weapon, true)),
+                new(() => "Stat", () => "Override all stat slots.", () => SetGroupStat(Stat, true)),
+                new(() => "Sigil", () => "Override all sigil slots.", () => SetGroupSigil(Sigil, true)),
+                new(() => "PvP Sigil", () => "Override all PvP sigil slots.", () => SetGroupPvpSigil(PvpSigil, true)),
+                new(() => "Infusion", () => "Override all infusion slots.", () => SetGroupInfusion(Infusion, true)),
+                });
+
+            CreateSubMenu(() => "Reset all weapons", () => "Reset all weapons, stats, sigils and infusions for all weapon slots", () =>
+            {
+                SetGroupWeapon(null, true);
+                SetGroupStat(null, true);
+                SetGroupSigil(null, true);
+                SetGroupPvpSigil(null, true);
+                SetGroupInfusion(null, true);
+            }, new()
+            {
+                new(() => "Weapons", () => "Reset all weapons of all weapon slots.", () => SetGroupWeapon(null, true)),
+                new(() => "Stats", () => "Reset all stats of all weapon slots.", () => SetGroupStat(null, true)),
+                new(() => "Sigils", () => "Reset all sigils of all weapon slots.", () => SetGroupSigil(null, true)),
+                new(() => "PvP Sigils", () => "Reset all PvP sigils of all weapon slots.", () => SetGroupPvpSigil(null, true)),
+                new(() => "Infusions", () => "Reset all infusions of all weapon slots.", () => SetGroupInfusion(null, true) ),
+                });
+        }
+
+        public void SelectWeapon(Weapon item)
+        {
+            if (item == null)
+            {
+                (TemplatePresenter?.Template[Slot] as WeaponTemplateEntry).Weapon = item;
+                Item = item;
+                return;
             }
 
-            if (Icon.Hovered && TemplatePresenter.IsPvp)
+            if (item.WeaponType is ItemWeaponType.Trident or ItemWeaponType.Speargun or ItemWeaponType.Harpoon)
+                return;
+
+            if (item.WeaponType.IsTwoHanded() && Slot is not TemplateSlot.MainHand and not TemplateSlot.AltMainHand)
+                return;
+
+            var template = TemplatePresenter.Template;
+            var otherHand =
+                Slot is TemplateSlot.MainHand ? TemplateSlot.OffHand :
+                Slot is TemplateSlot.AltMainHand ? TemplateSlot.AltOffHand :
+                Slot is TemplateSlot.OffHand ? TemplateSlot.MainHand :
+                Slot is TemplateSlot.AltOffHand ? TemplateSlot.AltMainHand :
+                TemplateSlot.None;
+
+            if (item.WeaponType.IsTwoHanded() || (Slot is TemplateSlot.OffHand or TemplateSlot.AltOffHand && (OtherHandSlot?.Item as Weapon)?.WeaponType.IsTwoHanded() == true))
             {
-                SelectionPanel?.SetAnchor<Weapon>(this, new Rectangle(a.Location, Point.Zero).Add(Icon.Bounds), SelectionTypes.Items, Slot, GearSubSlotType.Item, (item) =>
+                if (template[otherHand] is WeaponTemplateEntry offHand)
                 {
-                    (TemplatePresenter?.Template[Slot] as WeaponTemplateEntry).Weapon = item;
-                    Item = item;
-                });
+                    offHand.Weapon = null;
+                    if (OtherHandSlot != null) OtherHandSlot.Item = null;
+                }
             }
+
+            (TemplatePresenter?.Template[Slot] as WeaponTemplateEntry).Weapon = item;
+            Item = item;
         }
 
         private void OnStatChanged(object sender, Core.Models.ValueChangedEventArgs<Stat> e)
@@ -541,32 +798,6 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage.GearSlots
         {
             _infusion1SlotTexture.Texture = BuildsManager.ModuleInstance.ContentsManager.GetTexture(@"textures\infusionslot.png");
             _infusion2SlotTexture.Texture = BuildsManager.ModuleInstance.ContentsManager.GetTexture(@"textures\infusionslot.png");
-
-            ContextMenuStripItem menuItem;
-            menuItem = Menu.AddMenuItem(new ContextMenuItem(() => "Reset", null));
-
-            var _resetMenu = menuItem.Submenu = new();
-            menuItem = _resetMenu.AddMenuItem(new ContextMenuItem(() => "Stat", null));
-            menuItem = _resetMenu.AddMenuItem(new ContextMenuItem(() => "Sigils", null));
-            menuItem = _resetMenu.AddMenuItem(new ContextMenuItem(() => "Infusions", null));
-
-            menuItem = Menu.AddMenuItem(new ContextMenuItem(() => "Fill", null));
-            var fillMenu = menuItem.Submenu = new();
-            menuItem = fillMenu.AddMenuItem(new ContextMenuItem(() => "Stat", null));
-            menuItem = fillMenu.AddMenuItem(new ContextMenuItem(() => "Sigil", null));
-            menuItem = fillMenu.AddMenuItem(new ContextMenuItem(() => "Infusion", null));
-
-            menuItem = Menu.AddMenuItem(new ContextMenuItem(() => "Override", null));
-            var overrideMenu = menuItem.Submenu = new();
-            menuItem = overrideMenu.AddMenuItem(new ContextMenuItem(() => "Stat", null));
-            menuItem = overrideMenu.AddMenuItem(new ContextMenuItem(() => "Sigil", null));
-            menuItem = overrideMenu.AddMenuItem(new ContextMenuItem(() => "Infusion", null));
-
-            menuItem = Menu.AddMenuItem(new ContextMenuItem(() => "All Weapons", null));
-            var groupMenu = menuItem.Submenu = new();
-            menuItem = groupMenu.AddMenuItem(new ContextMenuItem(() => "Reset Stats", null));
-            menuItem = groupMenu.AddMenuItem(new ContextMenuItem(() => "Reset Sigils", null));
-            menuItem = groupMenu.AddMenuItem(new ContextMenuItem(() => "Reset Infusions", null));
         }
 
         public Stat Stat { get => _stat; set => Common.SetProperty(ref _stat, value, OnStatChanged); }
@@ -578,6 +809,84 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage.GearSlots
         public Infusion Infusion1 { get => _infusion1; set => Common.SetProperty(ref _infusion1, value, OnInfusion1Changed); }
 
         public Infusion Infusion2 { get => _infusion2; set => Common.SetProperty(ref _infusion2, value, OnInfusion2Changed); }
+
+        private void SetGroupStat(Stat stat = null, bool overrideExisting = false)
+        {
+            foreach (var slot in SlotGroup)
+            {
+                if (slot.Slot is TemplateSlot.Aquatic or TemplateSlot.AltAquatic)
+                {
+                    var entry = TemplatePresenter.Template[slot.Slot] as AquaticWeaponTemplateEntry;
+                    entry.Stat = overrideExisting ? stat : entry.Stat ?? stat;
+                    (slot as AquaticWeaponSlot).Stat = overrideExisting ? stat : (slot as AquaticWeaponSlot).Stat ?? stat;
+                }
+                else
+                {
+                    var entry = TemplatePresenter.Template[slot.Slot] as WeaponTemplateEntry;
+                    entry.Stat = overrideExisting ? stat : entry.Stat ?? stat;
+                    (slot as WeaponSlot).Stat = overrideExisting ? stat : (slot as WeaponSlot).Stat ?? stat;
+                }
+            }
+        }
+
+        private void SetGroupSigil(Sigil sigil = null, bool overrideExisting = false)
+        {
+            foreach (var slot in SlotGroup)
+            {
+                if (slot.Slot is TemplateSlot.Aquatic or TemplateSlot.AltAquatic)
+                {
+                    var entry = TemplatePresenter.Template[slot.Slot] as AquaticWeaponTemplateEntry;
+                    entry.Sigil1 = overrideExisting ? sigil : entry.Sigil1 ?? sigil;
+                    entry.Sigil2 = overrideExisting ? sigil : entry.Sigil2 ?? sigil;
+                    (slot as AquaticWeaponSlot).Sigil1 = overrideExisting ? sigil : (slot as AquaticWeaponSlot).Sigil1 ?? sigil;
+                    (slot as AquaticWeaponSlot).Sigil2 = overrideExisting ? sigil : (slot as AquaticWeaponSlot).Sigil2 ?? sigil;
+                }
+                else
+                {
+                    var entry = TemplatePresenter.Template[slot.Slot] as WeaponTemplateEntry;
+                    entry.Sigil = overrideExisting ? sigil : entry.Sigil ?? sigil;
+                    (slot as WeaponSlot).Sigil = overrideExisting ? sigil : (slot as WeaponSlot).Sigil ?? sigil;
+                }
+            }
+        }
+
+        private void SetGroupInfusion(Infusion infusion = null, bool overrideExisting = false)
+        {
+            foreach (var slot in SlotGroup)
+            {
+                if (slot.Slot is TemplateSlot.Aquatic or TemplateSlot.AltAquatic)
+                {
+                    var entry = TemplatePresenter.Template[slot.Slot] as AquaticWeaponTemplateEntry;
+                    entry.Infusion1 = overrideExisting ? infusion : entry.Infusion1 ?? infusion;
+                    entry.Infusion2 = overrideExisting ? infusion : entry.Infusion2 ?? infusion;
+                    (slot as AquaticWeaponSlot).Infusion1 = overrideExisting ? infusion : (slot as AquaticWeaponSlot).Infusion1 ?? infusion;
+                    (slot as AquaticWeaponSlot).Infusion2 = overrideExisting ? infusion : (slot as AquaticWeaponSlot).Infusion2 ?? infusion;
+                }
+                else
+                {
+                    var entry = TemplatePresenter.Template[slot.Slot] as WeaponTemplateEntry;
+                    entry.Infusion = overrideExisting ? infusion : entry.Infusion ?? infusion;
+                    (slot as WeaponSlot).Infusion = overrideExisting ? infusion : (slot as WeaponSlot).Infusion ?? infusion;
+                }
+            }
+        }
+
+        private void SetGroupWeapon(Weapon item = null, bool overrideExisting = false)
+        {
+            foreach (var slot in SlotGroup)
+            {
+                if (slot.Slot is TemplateSlot.Aquatic or TemplateSlot.AltAquatic)
+                {
+                    if (overrideExisting || (slot as AquaticWeaponSlot).Item == null)
+                        (slot as AquaticWeaponSlot).SelectWeapon(item);
+                }
+                else
+                {
+                    if (overrideExisting || (slot as WeaponSlot).Item == null)
+                        (slot as WeaponSlot).SelectWeapon(item);
+                }
+            }
+        }
 
         public override void RecalculateLayout()
         {
@@ -611,6 +920,15 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage.GearSlots
 
             _infusion1Bounds = new(x, _infusion1SlotTexture.Bounds.Top, upgradeWidth, _infusion1SlotTexture.Bounds.Height);
             _infusion2Bounds = new(x + upgradeWidth, _infusion1SlotTexture.Bounds.Top, upgradeWidth, _infusion1SlotTexture.Bounds.Height);
+        }
+
+        public void SelectWeapon(Weapon item)
+        {
+            if (item == null || item.WeaponType is ItemWeaponType.Harpoon or ItemWeaponType.Speargun or ItemWeaponType.Trident)
+            {
+                (TemplatePresenter?.Template[Slot] as AquaticWeaponTemplateEntry).Weapon = item;
+                Item = item;
+            }
         }
 
         protected override void Paint(SpriteBatch spriteBatch, Rectangle bounds)
@@ -666,7 +984,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage.GearSlots
                 {
                     (TemplatePresenter?.Template[Slot] as AquaticWeaponTemplateEntry).Stat = stat;
                     Stat = stat;
-                }, 
+                },
                 (TemplatePresenter?.Template[Slot] as AquaticWeaponTemplateEntry).Weapon?.StatChoices,
                 (TemplatePresenter?.Template[Slot] as AquaticWeaponTemplateEntry).Weapon?.AttributeAdjustment);
             }
@@ -717,6 +1035,73 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage.GearSlots
             }
         }
 
+        protected override void CreateSubMenus()
+        {
+            base.CreateSubMenus();
+
+            CreateSubMenu(() => "Reset", () => "Reset weapon, stat, sigils and infusions", () =>
+            {
+                Stat = null;
+                Sigil1 = null;
+                Sigil2 = null;
+                Infusion1 = null;
+                Item = null;
+            }, new()
+            {
+                new(() => "Weapon", () => "Reset the weapon.", () => Item = null ),
+                new(() => "Stat", () => "Reset the stat.", () => Stat = null ),
+                new(() => "Sigil", () => "Reset the sigils.", () => {
+                    Sigil1 = null;
+                    Sigil2 = null;
+                }),
+                new(() => "Infusion", () => "Reset the infusions.", () => {
+                    Infusion1 = null;
+                } ),
+                });
+
+            CreateSubMenu(() => "Fill", () => "Fill the weapon, stat, sigils and infusions of all empty weapon slots", () =>
+            {
+                SetGroupWeapon(Item as Weapon, false);
+                SetGroupStat(Stat, false);
+                SetGroupSigil(Sigil1, false);
+                SetGroupInfusion(Infusion1, false);
+            }, new()
+            {
+                new(() => "Weapon", () => "Fill the weapon for all empty weapon slots.", () => SetGroupWeapon(Item as Weapon, false)),
+                new(() => "Stat", () => "Fill all empty stat slots.", () => SetGroupStat(Stat, false)),
+                new(() => "Sigil", () => "Fill all empty sigil slots.", () => SetGroupSigil(Sigil1, false)),
+                new(() => "Infusion", () => "Fill all empty infusion slots.", () => SetGroupInfusion(Infusion1, false)),
+                });
+
+            CreateSubMenu(() => "Override", () => "Override the weapon, stat, sigils and infusions of all weapon slots", () =>
+            {
+                SetGroupWeapon(Item as Weapon, true);
+                SetGroupStat(Stat, true);
+                SetGroupSigil(Sigil1, true);
+                SetGroupInfusion(Infusion1, true);
+            }, new()
+            {
+                new(() => "Weapon", () => "Override all weapon slots.", () => SetGroupWeapon(Item as Weapon, true)),
+                new(() => "Stat", () => "Override all stat slots.", () => SetGroupStat(Stat, true)),
+                new(() => "Sigil", () => "Override all sigil slots.", () => SetGroupSigil(Sigil1, true)),
+                new(() => "Infusion", () => "Override all infusion slots.", () => SetGroupInfusion(Infusion1, true)),
+                });
+
+            CreateSubMenu(() => "Reset all weapons", () => "Reset all weapons, stats, sigils and infusions for all weapon slots", () =>
+            {
+                SetGroupWeapon(null, true);
+                SetGroupStat(null, true);
+                SetGroupSigil(null, true);
+                SetGroupInfusion(null, true);
+            }, new()
+            {
+                new(() => "Weapons", () => "Reset all weapons of all weapon slots.", () => SetGroupWeapon(null, true)),
+                new(() => "Stats", () => "Reset all stats of all weapon slots.", () => SetGroupStat(null, true)),
+                new(() => "Sigils", () => "Reset all sigils of all weapon slots.", () => SetGroupSigil(null, true)),
+                new(() => "Infusions", () => "Reset all infusions of all weapon slots.", () => SetGroupInfusion(null, true) ),
+                });
+        }
+
         private void OnStatChanged(object sender, Core.Models.ValueChangedEventArgs<Stat> e)
         {
             _statTexture.Texture = Stat?.Icon;
@@ -762,28 +1147,6 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage.GearSlots
             _infusion1SlotTexture.Texture = BuildsManager.ModuleInstance.ContentsManager.GetTexture(@"textures\infusionslot.png");
             _infusion2SlotTexture.Texture = BuildsManager.ModuleInstance.ContentsManager.GetTexture(@"textures\infusionslot.png");
             ItemTexture.Item = BuildsManager.Data.Backs[94947];
-
-            ContextMenuStripItem menuItem;
-            menuItem = Menu.AddMenuItem(new ContextMenuItem(() => "Reset", null));
-
-            var _resetMenu = menuItem.Submenu = new();
-            menuItem = _resetMenu.AddMenuItem(new ContextMenuItem(() => "Stat", null));
-            menuItem = _resetMenu.AddMenuItem(new ContextMenuItem(() => "Infusions", null));
-
-            menuItem = Menu.AddMenuItem(new ContextMenuItem(() => "Fill", null));
-            var fillMenu = menuItem.Submenu = new();
-            menuItem = fillMenu.AddMenuItem(new ContextMenuItem(() => "Stat", null));
-            menuItem = fillMenu.AddMenuItem(new ContextMenuItem(() => "Infusion", null));
-
-            menuItem = Menu.AddMenuItem(new ContextMenuItem(() => "Override", null));
-            var overrideMenu = menuItem.Submenu = new();
-            menuItem = overrideMenu.AddMenuItem(new ContextMenuItem(() => "Stat", null));
-            menuItem = overrideMenu.AddMenuItem(new ContextMenuItem(() => "Infusion", null));
-
-            menuItem = Menu.AddMenuItem(new ContextMenuItem(() => "All Juwellery", null));
-            var groupMenu = menuItem.Submenu = new();
-            menuItem = groupMenu.AddMenuItem(new ContextMenuItem(() => "Reset Stats", null));
-            menuItem = groupMenu.AddMenuItem(new ContextMenuItem(() => "Reset Infusions", null));
         }
 
         public Stat Stat { get => _stat; set => Common.SetProperty(ref _stat, value, OnStatChanged); }
@@ -845,7 +1208,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage.GearSlots
                 {
                     (TemplatePresenter?.Template[Slot] as BackTemplateEntry).Stat = stat;
                     Stat = stat;
-                }, (TemplatePresenter?.Template[Slot] as BackTemplateEntry).Back?.StatChoices, 
+                }, (TemplatePresenter?.Template[Slot] as BackTemplateEntry).Back?.StatChoices,
                 (TemplatePresenter?.Template[Slot] as BackTemplateEntry).Back?.AttributeAdjustment);
             }
 
@@ -865,6 +1228,129 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage.GearSlots
                     (TemplatePresenter?.Template[Slot] as BackTemplateEntry).Infusion2 = infusion;
                     Infusion2 = infusion;
                 });
+            }
+        }
+
+        protected override void CreateSubMenus()
+        {
+            base.CreateSubMenus();
+
+            CreateSubMenu(() => "Reset", () => "Reset stat and infusion", () =>
+            {
+                Stat = null;
+                Infusion1 = null;
+                Infusion2 = null;
+            }, new()
+            {
+                new(() => "Stat",() => "Reset the stat.",() => Stat = null),
+                new(() => "Infusion",() => "Reset the infusions",() => {
+                Infusion1 = null;
+                Infusion2 = null;
+                }),
+            });
+
+            CreateSubMenu(() => "Fill", () => "Fill the stat and infusions of all empty juwellery slots", () =>
+            {
+                SetGroupStat(Stat, false);
+                SetGroupInfusion(Infusion1, false);
+            }, new()
+            {
+                new(() => "Stat", () => "Fill all empty stat slots.", () => SetGroupStat(Stat, false)),
+                new(() => "Infusion", () => "Fill all empty infusion slots.", () => SetGroupInfusion(Infusion1, false)),
+                });
+
+            CreateSubMenu(() => "Override", () => "Override the stat and infusions of all juwellery slots", () =>
+            {
+                SetGroupStat(Stat, true);
+                SetGroupInfusion(Infusion1, true);
+            }, new()
+            {
+                new(() => "Stat", () => "Override all stat slots.", () => SetGroupStat(Stat, true)),
+                new(() => "Infusion", () => "Override all infusion slots.", () => SetGroupInfusion(Infusion1, true)),
+                });
+
+            CreateSubMenu(() => "Reset all juwellery", () => "Reset all stats and infusions for all juwellery slots", () =>
+            {
+                SetGroupStat(null, true);
+                SetGroupInfusion(null, true);
+            }, new()
+            {
+                new(() => "Stats",() => "Reset all stats of all juwellery slots.",() => SetGroupStat(null, true)),
+                new(() => "Infusions",() => "Reset all infusions of all juwellery slots.",() => SetGroupInfusion(null, true)),
+            });
+        }
+
+        private void SetGroupStat(Stat stat, bool overrideExisting)
+        {
+            foreach (var slot in SlotGroup)
+            {
+                switch (slot.Slot)
+                {
+                    case TemplateSlot.Accessory_1:
+                    case TemplateSlot.Accessory_2:
+                        var accessoire = slot as AccessoireSlot;
+                        accessoire.Stat = overrideExisting ? stat : accessoire.Stat ?? stat;
+                        (TemplatePresenter.Template[slot.Slot] as AccessoireTemplateEntry).Stat = overrideExisting ? stat : accessoire.Stat ?? stat; ;
+                        break;
+
+                    case TemplateSlot.Back:
+                        var back = slot as BackSlot;
+                        back.Stat = overrideExisting ? stat : back.Stat ?? stat;
+                        (TemplatePresenter.Template[slot.Slot] as BackTemplateEntry).Stat = overrideExisting ? stat : back.Stat ?? stat; ;
+                        break;
+
+                    case TemplateSlot.Amulet:
+                        var amulet = slot as AmuletSlot;
+                        amulet.Stat = overrideExisting ? stat : amulet.Stat ?? stat;
+                        (TemplatePresenter.Template[slot.Slot] as AmuletTemplateEntry).Stat = overrideExisting ? stat : amulet.Stat ?? stat; ;
+                        break;
+
+                    case TemplateSlot.Ring_1:
+                    case TemplateSlot.Ring_2:
+                        var ring = slot as RingSlot;
+                        ring.Stat = overrideExisting ? stat : ring.Stat ?? stat;
+                        (TemplatePresenter.Template[slot.Slot] as RingTemplateEntry).Stat = overrideExisting ? stat : ring.Stat ?? stat; ;
+                        break;
+                }
+            }
+        }
+
+        private void SetGroupInfusion(Infusion infusion, bool overrideExisting)
+        {
+            foreach (var slot in SlotGroup)
+            {
+                switch (slot.Slot)
+                {
+                    case TemplateSlot.Accessory_1:
+                    case TemplateSlot.Accessory_2:
+                        var accessoire = slot as AccessoireSlot;
+                        accessoire.Infusion = overrideExisting ? infusion : accessoire.Infusion ?? infusion;
+                        (TemplatePresenter.Template[slot.Slot] as AccessoireTemplateEntry).Infusion = overrideExisting ? infusion : accessoire.Infusion ?? infusion;
+                        break;
+
+                    case TemplateSlot.Back:
+                        var back = slot as BackSlot;
+
+                        back.Infusion1 = overrideExisting ? infusion : back.Infusion1 ?? infusion;
+                        back.Infusion2 = overrideExisting ? infusion : back.Infusion2 ?? infusion;
+
+                        (TemplatePresenter.Template[slot.Slot] as BackTemplateEntry).Infusion1 = overrideExisting ? infusion : back.Infusion1 ?? infusion;
+                        (TemplatePresenter.Template[slot.Slot] as BackTemplateEntry).Infusion2 = overrideExisting ? infusion : back.Infusion2 ?? infusion;
+                        break;
+
+                    case TemplateSlot.Ring_1:
+                    case TemplateSlot.Ring_2:
+                        var ring = slot as RingSlot;
+
+                        ring.Infusion1 = overrideExisting ? infusion : ring.Infusion1 ?? infusion;
+                        ring.Infusion2 = overrideExisting ? infusion : ring.Infusion2 ?? infusion;
+                        ring.Infusion3 = overrideExisting ? infusion : ring.Infusion3 ?? infusion;
+
+                        (TemplatePresenter.Template[slot.Slot] as RingTemplateEntry).Infusion1 = overrideExisting ? infusion : ring.Infusion1 ?? infusion;
+                        (TemplatePresenter.Template[slot.Slot] as RingTemplateEntry).Infusion2 = overrideExisting ? infusion : ring.Infusion2 ?? infusion;
+                        (TemplatePresenter.Template[slot.Slot] as RingTemplateEntry).Infusion3 = overrideExisting ? infusion : ring.Infusion3 ?? infusion;
+                        break;
+                }
             }
         }
 
@@ -898,25 +1384,6 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage.GearSlots
         {
             _enrichmentSlotTexture.Texture = BuildsManager.ModuleInstance.ContentsManager.GetTexture(@"textures\infusionslot.png");
             ItemTexture.Item = BuildsManager.Data.Trinkets[79980];
-
-            ContextMenuStripItem menuItem;
-            menuItem = Menu.AddMenuItem(new ContextMenuItem(() => "Reset", null));
-
-            var _resetMenu = menuItem.Submenu = new();
-            menuItem = _resetMenu.AddMenuItem(new ContextMenuItem(() => "Stat", null));
-            menuItem = _resetMenu.AddMenuItem(new ContextMenuItem(() => "Enrichment", null));
-
-            menuItem = Menu.AddMenuItem(new ContextMenuItem(() => "Fill", null));
-            var fillMenu = menuItem.Submenu = new();
-            menuItem = fillMenu.AddMenuItem(new ContextMenuItem(() => "Stat", null));
-
-            menuItem = Menu.AddMenuItem(new ContextMenuItem(() => "Override", null));
-            var overrideMenu = menuItem.Submenu = new();
-            menuItem = overrideMenu.AddMenuItem(new ContextMenuItem(() => "Stat", null));
-
-            menuItem = Menu.AddMenuItem(new ContextMenuItem(() => "All Juwellery", null));
-            var groupMenu = menuItem.Submenu = new();
-            menuItem = groupMenu.AddMenuItem(new ContextMenuItem(() => "Reset Stats", null));
         }
 
         public Stat Stat { get => _stat; set => Common.SetProperty(ref _stat, value, OnStatChanged); }
@@ -982,6 +1449,70 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage.GearSlots
             }
         }
 
+        protected override void CreateSubMenus()
+        {
+            base.CreateSubMenus();
+
+            CreateSubMenu(() => "Reset", () => "Reset stat and enrichment", () =>
+            {
+                Stat = null;
+                Enrichment = null;
+            }, new()
+            {
+                new(() => "Stat", () => "Reset the stat.", () => Stat = null ),
+                new(() => "Enrichment", () => "Reset the enrichment.", () => Enrichment = null )});
+
+            CreateSubMenu(() => "Fill", () => "Fill the stat of all empty juwellery slots", () => SetGroupStat(Stat, false), new()
+            {
+                new(() => "Stat", () => "Fill all empty stat slots.", () => SetGroupStat(Stat, false)),
+                });
+
+            CreateSubMenu(() => "Override", () => "Override the stat of all juwellery slots", () => SetGroupStat(Stat, true), new()
+            {
+                new(() => "Stat", () => "Override all stat slots.", () => SetGroupStat(Stat, true)),
+                });
+
+            CreateSubMenu(() => "Reset all juwellery", () => "Reset all stats and infusions for all juwellery slots", () => SetGroupStat(null, true), new()
+            {
+                new(() => "Stats", () => "Reset all stats of all juwellery slots.", () => SetGroupStat(null, true)),
+                });
+        }
+
+        private void SetGroupStat(Stat stat, bool overrideExisting)
+        {
+            foreach (var slot in SlotGroup)
+            {
+                switch (slot.Slot)
+                {
+                    case TemplateSlot.Accessory_1:
+                    case TemplateSlot.Accessory_2:
+                        var accessoire = slot as AccessoireSlot;
+                        accessoire.Stat = overrideExisting ? stat : accessoire.Stat ?? stat;
+                        (TemplatePresenter.Template[slot.Slot] as AccessoireTemplateEntry).Stat = overrideExisting ? stat : accessoire.Stat ?? stat; ;
+                        break;
+
+                    case TemplateSlot.Back:
+                        var back = slot as BackSlot;
+                        back.Stat = overrideExisting ? stat : back.Stat ?? stat;
+                        (TemplatePresenter.Template[slot.Slot] as BackTemplateEntry).Stat = overrideExisting ? stat : back.Stat ?? stat; ;
+                        break;
+
+                    case TemplateSlot.Amulet:
+                        var amulet = slot as AmuletSlot;
+                        amulet.Stat = overrideExisting ? stat : amulet.Stat ?? stat;
+                        (TemplatePresenter.Template[slot.Slot] as AmuletTemplateEntry).Stat = overrideExisting ? stat : amulet.Stat ?? stat; ;
+                        break;
+
+                    case TemplateSlot.Ring_1:
+                    case TemplateSlot.Ring_2:
+                        var ring = slot as RingSlot;
+                        ring.Stat = overrideExisting ? stat : ring.Stat ?? stat;
+                        (TemplatePresenter.Template[slot.Slot] as RingTemplateEntry).Stat = overrideExisting ? stat : ring.Stat ?? stat; ;
+                        break;
+                }
+            }
+        }
+
         private void OnEnrichmentChanged(object sender, Core.Models.ValueChangedEventArgs<Enrichment> e)
         {
             _enrichmentTexture.Texture = Enrichment?.Icon;
@@ -1008,28 +1539,6 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage.GearSlots
         {
             _infusionSlotTexture.Texture = BuildsManager.ModuleInstance.ContentsManager.GetTexture(@"textures\infusionslot.png");
             ItemTexture.Item = BuildsManager.Data.Trinkets[80002];
-
-            ContextMenuStripItem menuItem;
-            menuItem = Menu.AddMenuItem(new ContextMenuItem(() => "Reset", null));
-
-            var _resetMenu = menuItem.Submenu = new();
-            menuItem = _resetMenu.AddMenuItem(new ContextMenuItem(() => "Stat", null));
-            menuItem = _resetMenu.AddMenuItem(new ContextMenuItem(() => "Infusion", null));
-
-            menuItem = Menu.AddMenuItem(new ContextMenuItem(() => "Fill", null));
-            var fillMenu = menuItem.Submenu = new();
-            menuItem = fillMenu.AddMenuItem(new ContextMenuItem(() => "Stat", null));
-            menuItem = fillMenu.AddMenuItem(new ContextMenuItem(() => "Infusion", null));
-
-            menuItem = Menu.AddMenuItem(new ContextMenuItem(() => "Override", null));
-            var overrideMenu = menuItem.Submenu = new();
-            menuItem = overrideMenu.AddMenuItem(new ContextMenuItem(() => "Stat", null));
-            menuItem = overrideMenu.AddMenuItem(new ContextMenuItem(() => "Infusion", null));
-
-            menuItem = Menu.AddMenuItem(new ContextMenuItem(() => "All Juwellery", null));
-            var groupMenu = menuItem.Submenu = new();
-            menuItem = groupMenu.AddMenuItem(new ContextMenuItem(() => "Reset Stats", null));
-            menuItem = groupMenu.AddMenuItem(new ContextMenuItem(() => "Reset Infusions", null));
         }
 
         public Stat Stat { get => _stat; set => Common.SetProperty(ref _stat, value, OnStatChanged); }
@@ -1095,6 +1604,123 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage.GearSlots
             }
         }
 
+        protected override void CreateSubMenus()
+        {
+            base.CreateSubMenus();
+
+            CreateSubMenu(() => "Reset", () => "Reset stat and infusion", () =>
+            {
+                Stat = null;
+                Infusion = null;
+            }, new()
+            {
+                new(() => "Stat",() => "Reset the stat.",() => Stat = null),
+                new(() => "Infusion",() => "Reset the infusion.",() => Infusion = null),
+            });
+
+            CreateSubMenu(() => "Fill", () => "Fill the stat and infusions of all empty juwellery slots", () =>
+            {
+                SetGroupStat(Stat, false);
+                SetGroupInfusion(Infusion, false);
+            }, new()
+            {
+                new(() => "Stat", () => "Fill all empty stat slots.", () => SetGroupStat(Stat, false)),
+                new(() => "Infusion", () => "Fill all empty infusion slots.", () => SetGroupInfusion(Infusion, false)),
+                });
+
+            CreateSubMenu(() => "Override", () => "Override the stat and infusions of all juwellery slots", () =>
+            {
+                SetGroupStat(Stat, true);
+                SetGroupInfusion(Infusion, true);
+            }, new()
+            {
+                new(() => "Stat", () => "Override all stat slots.", () => SetGroupStat(Stat, true)),
+                new(() => "Infusion", () => "Override all infusion slots.", () => SetGroupInfusion(Infusion, true)),
+                });
+
+            CreateSubMenu(() => "Reset all juwellery", () => "Reset all stats and infusions for all juwellery slots", () =>
+            {
+                SetGroupStat(null, true);
+                SetGroupInfusion(null, true);
+            }, new()
+            { new(() => "Stats",() => "Reset all stats of all juwellery slots.",() => SetGroupStat(null, true)),
+                new(() => "Infusions",() => "Reset all infusions of all juwellery slots.",() => SetGroupInfusion(null, true)), });
+        }
+
+        private void SetGroupStat(Stat stat, bool overrideExisting)
+        {
+            foreach (var slot in SlotGroup)
+            {
+                switch (slot.Slot)
+                {
+                    case TemplateSlot.Accessory_1:
+                    case TemplateSlot.Accessory_2:
+                        var accessoire = slot as AccessoireSlot;
+                        accessoire.Stat = overrideExisting ? stat : accessoire.Stat ?? stat;
+                        (TemplatePresenter.Template[slot.Slot] as AccessoireTemplateEntry).Stat = overrideExisting ? stat : accessoire.Stat ?? stat; ;
+                        break;
+
+                    case TemplateSlot.Back:
+                        var back = slot as BackSlot;
+                        back.Stat = overrideExisting ? stat : back.Stat ?? stat;
+                        (TemplatePresenter.Template[slot.Slot] as BackTemplateEntry).Stat = overrideExisting ? stat : back.Stat ?? stat; ;
+                        break;
+
+                    case TemplateSlot.Amulet:
+                        var amulet = slot as AmuletSlot;
+                        amulet.Stat = overrideExisting ? stat : amulet.Stat ?? stat;
+                        (TemplatePresenter.Template[slot.Slot] as AmuletTemplateEntry).Stat = overrideExisting ? stat : amulet.Stat ?? stat; ;
+                        break;
+
+                    case TemplateSlot.Ring_1:
+                    case TemplateSlot.Ring_2:
+                        var ring = slot as RingSlot;
+                        ring.Stat = overrideExisting ? stat : ring.Stat ?? stat;
+                        (TemplatePresenter.Template[slot.Slot] as RingTemplateEntry).Stat = overrideExisting ? stat : ring.Stat ?? stat; ;
+                        break;
+                }
+            }
+        }
+
+        private void SetGroupInfusion(Infusion infusion, bool overrideExisting)
+        {
+            foreach (var slot in SlotGroup)
+            {
+                switch (slot.Slot)
+                {
+                    case TemplateSlot.Accessory_1:
+                    case TemplateSlot.Accessory_2:
+                        var accessoire = slot as AccessoireSlot;
+                        accessoire.Infusion = overrideExisting ? infusion : accessoire.Infusion ?? infusion;
+                        (TemplatePresenter.Template[slot.Slot] as AccessoireTemplateEntry).Infusion = overrideExisting ? infusion : accessoire.Infusion ?? infusion;
+                        break;
+
+                    case TemplateSlot.Back:
+                        var back = slot as BackSlot;
+
+                        back.Infusion1 = overrideExisting ? infusion : back.Infusion1 ?? infusion;
+                        back.Infusion2 = overrideExisting ? infusion : back.Infusion2 ?? infusion;
+
+                        (TemplatePresenter.Template[slot.Slot] as BackTemplateEntry).Infusion1 = overrideExisting ? infusion : back.Infusion1 ?? infusion;
+                        (TemplatePresenter.Template[slot.Slot] as BackTemplateEntry).Infusion2 = overrideExisting ? infusion : back.Infusion2 ?? infusion;
+                        break;
+
+                    case TemplateSlot.Ring_1:
+                    case TemplateSlot.Ring_2:
+                        var ring = slot as RingSlot;
+
+                        ring.Infusion1 = overrideExisting ? infusion : ring.Infusion1 ?? infusion;
+                        ring.Infusion2 = overrideExisting ? infusion : ring.Infusion2 ?? infusion;
+                        ring.Infusion3 = overrideExisting ? infusion : ring.Infusion3 ?? infusion;
+
+                        (TemplatePresenter.Template[slot.Slot] as RingTemplateEntry).Infusion1 = overrideExisting ? infusion : ring.Infusion1 ?? infusion;
+                        (TemplatePresenter.Template[slot.Slot] as RingTemplateEntry).Infusion2 = overrideExisting ? infusion : ring.Infusion2 ?? infusion;
+                        (TemplatePresenter.Template[slot.Slot] as RingTemplateEntry).Infusion3 = overrideExisting ? infusion : ring.Infusion3 ?? infusion;
+                        break;
+                }
+            }
+        }
+
         private void OnInfusionChanged(object sender, Core.Models.ValueChangedEventArgs<Infusion> e)
         {
             _infusionTexture.Texture = Infusion?.Icon;
@@ -1133,28 +1759,6 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage.GearSlots
             _infusion2SlotTexture.Texture = BuildsManager.ModuleInstance.ContentsManager.GetTexture(@"textures\infusionslot.png");
             _infusion3SlotTexture.Texture = BuildsManager.ModuleInstance.ContentsManager.GetTexture(@"textures\infusionslot.png");
             ItemTexture.Item = BuildsManager.Data.Trinkets[80058];
-
-            ContextMenuStripItem menuItem;
-            menuItem = Menu.AddMenuItem(new ContextMenuItem(() => "Reset", null));
-
-            var _resetMenu = menuItem.Submenu = new();
-            menuItem = _resetMenu.AddMenuItem(new ContextMenuItem(() => "Stat", null));
-            menuItem = _resetMenu.AddMenuItem(new ContextMenuItem(() => "Infusions", null));
-
-            menuItem = Menu.AddMenuItem(new ContextMenuItem(() => "Fill", null));
-            var fillMenu = menuItem.Submenu = new();
-            menuItem = fillMenu.AddMenuItem(new ContextMenuItem(() => "Stat", null));
-            menuItem = fillMenu.AddMenuItem(new ContextMenuItem(() => "Infusion", null));
-
-            menuItem = Menu.AddMenuItem(new ContextMenuItem(() => "Override", null));
-            var overrideMenu = menuItem.Submenu = new();
-            menuItem = overrideMenu.AddMenuItem(new ContextMenuItem(() => "Stat", null));
-            menuItem = overrideMenu.AddMenuItem(new ContextMenuItem(() => "Infusion", null));
-
-            menuItem = Menu.AddMenuItem(new ContextMenuItem(() => "All Juwellery", null));
-            var groupMenu = menuItem.Submenu = new();
-            menuItem = groupMenu.AddMenuItem(new ContextMenuItem(() => "Reset Stats", null));
-            menuItem = groupMenu.AddMenuItem(new ContextMenuItem(() => "Reset Infusions", null));
         }
 
         public Stat Stat { get => _stat; set => Common.SetProperty(ref _stat, value, OnStatChanged); }
@@ -1255,6 +1859,132 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage.GearSlots
             }
         }
 
+        protected override void CreateSubMenus()
+        {
+            base.CreateSubMenus();
+
+            CreateSubMenu(() => "Reset", () => "Reset stat and infusion", () =>
+            {
+                Stat = null;
+                Infusion1 = null;
+                Infusion2 = null;
+                Infusion3 = null;
+            }, new()
+            {
+                new(() => "Stat",() => "Reset the stat.",() => Stat = null),
+                new(() => "Infusion",() => "Reset the infusion.",() =>
+                {
+                    Infusion1 = null;
+                    Infusion2 = null;
+                    Infusion3 = null;
+                }),
+            });
+
+            CreateSubMenu(() => "Fill", () => "Fill the stat and infusions of all empty juwellery slots", () =>
+            {
+                SetGroupStat(Stat, false);
+                SetGroupInfusion(Infusion1, false);
+            }, new()
+            {
+                new(() => "Stat", () => "Fill all empty stat slots.", () => SetGroupStat(Stat, false)),
+                new(() => "Infusion", () => "Fill all empty infusion slots.", () => SetGroupInfusion(Infusion1, false)),
+                });
+
+            CreateSubMenu(() => "Override", () => "Override the stat and infusions of all juwellery slots", () =>
+            {
+                SetGroupStat(Stat, true);
+                SetGroupInfusion(Infusion1, true);
+            }, new()
+            {
+                new(() => "Stat", () => "Override all stat slots.", () => SetGroupStat(Stat, true)),
+                new(() => "Infusion", () => "Override all infusion slots.", () => SetGroupInfusion(Infusion1, true)),
+                });
+
+            CreateSubMenu(() => "Reset all juwellery", () => "Reset all stats and infusions for all juwellery slots", () =>
+            {
+                SetGroupStat(null, true);
+                SetGroupInfusion(null, true);
+            }, new()
+            {
+                new(() => "Stats",() => "Reset all stats of all juwellery slots.",() => SetGroupStat(null, true)),
+                new(() => "Infusions",() => "Reset all infusions of all juwellery slots.",() => SetGroupInfusion(null, true)),
+            });
+        }
+
+        private void SetGroupStat(Stat stat, bool overrideExisting)
+        {
+            foreach (var slot in SlotGroup)
+            {
+                switch (slot.Slot)
+                {
+                    case TemplateSlot.Accessory_1:
+                    case TemplateSlot.Accessory_2:
+                        var accessoire = slot as AccessoireSlot;
+                        accessoire.Stat = overrideExisting ? stat : accessoire.Stat ?? stat;
+                        (TemplatePresenter.Template[slot.Slot] as AccessoireTemplateEntry).Stat = overrideExisting ? stat : accessoire.Stat ?? stat; ;
+                        break;
+
+                    case TemplateSlot.Back:
+                        var back = slot as BackSlot;
+                        back.Stat = overrideExisting ? stat : back.Stat ?? stat;
+                        (TemplatePresenter.Template[slot.Slot] as BackTemplateEntry).Stat = overrideExisting ? stat : back.Stat ?? stat; ;
+                        break;
+
+                    case TemplateSlot.Amulet:
+                        var amulet = slot as AmuletSlot;
+                        amulet.Stat = overrideExisting ? stat : amulet.Stat ?? stat;
+                        (TemplatePresenter.Template[slot.Slot] as AmuletTemplateEntry).Stat = overrideExisting ? stat : amulet.Stat ?? stat; ;
+                        break;
+
+                    case TemplateSlot.Ring_1:
+                    case TemplateSlot.Ring_2:
+                        var ring = slot as RingSlot;
+                        ring.Stat = overrideExisting ? stat : ring.Stat ?? stat;
+                        (TemplatePresenter.Template[slot.Slot] as RingTemplateEntry).Stat = overrideExisting ? stat : ring.Stat ?? stat; ;
+                        break;
+                }
+            }
+        }
+
+        private void SetGroupInfusion(Infusion infusion, bool overrideExisting)
+        {
+            foreach (var slot in SlotGroup)
+            {
+                switch (slot.Slot)
+                {
+                    case TemplateSlot.Accessory_1:
+                    case TemplateSlot.Accessory_2:
+                        var accessoire = slot as AccessoireSlot;
+                        accessoire.Infusion = overrideExisting ? infusion : accessoire.Infusion ?? infusion;
+                        (TemplatePresenter.Template[slot.Slot] as AccessoireTemplateEntry).Infusion = overrideExisting ? infusion : accessoire.Infusion ?? infusion;
+                        break;
+
+                    case TemplateSlot.Back:
+                        var back = slot as BackSlot;
+
+                        back.Infusion1 = overrideExisting ? infusion : back.Infusion1 ?? infusion;
+                        back.Infusion2 = overrideExisting ? infusion : back.Infusion2 ?? infusion;
+
+                        (TemplatePresenter.Template[slot.Slot] as BackTemplateEntry).Infusion1 = overrideExisting ? infusion : back.Infusion1 ?? infusion;
+                        (TemplatePresenter.Template[slot.Slot] as BackTemplateEntry).Infusion2 = overrideExisting ? infusion : back.Infusion2 ?? infusion;
+                        break;
+
+                    case TemplateSlot.Ring_1:
+                    case TemplateSlot.Ring_2:
+                        var ring = slot as RingSlot;
+
+                        ring.Infusion1 = overrideExisting ? infusion : ring.Infusion1 ?? infusion;
+                        ring.Infusion2 = overrideExisting ? infusion : ring.Infusion2 ?? infusion;
+                        ring.Infusion3 = overrideExisting ? infusion : ring.Infusion3 ?? infusion;
+
+                        (TemplatePresenter.Template[slot.Slot] as RingTemplateEntry).Infusion1 = overrideExisting ? infusion : ring.Infusion1 ?? infusion;
+                        (TemplatePresenter.Template[slot.Slot] as RingTemplateEntry).Infusion2 = overrideExisting ? infusion : ring.Infusion2 ?? infusion;
+                        (TemplatePresenter.Template[slot.Slot] as RingTemplateEntry).Infusion3 = overrideExisting ? infusion : ring.Infusion3 ?? infusion;
+                        break;
+                }
+            }
+        }
+
         private void OnStatChanged(object sender, Core.Models.ValueChangedEventArgs<Stat> e)
         {
             _statTexture.Texture = Stat?.Icon;
@@ -1274,7 +2004,6 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage.GearSlots
         {
             _infusion3Texture.Texture = Infusion3?.Icon;
         }
-
     }
 
     public class PvpAmuletSlot : GearSlot
@@ -1290,13 +2019,6 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage.GearSlots
         public PvpAmuletSlot(TemplateSlot gearSlot, Container parent, TemplatePresenter templatePresenter) : base(gearSlot, parent, templatePresenter)
         {
             ClipsBounds = false;
-
-            ContextMenuStripItem menuItem;
-            menuItem = Menu.AddMenuItem(new ContextMenuItem(() => "Reset", null));
-
-            var _resetMenu = menuItem.Submenu = new();
-            menuItem = _resetMenu.AddMenuItem(new ContextMenuItem(() => "Amulet", null));
-            menuItem = _resetMenu.AddMenuItem(new ContextMenuItem(() => "Rune", null));
         }
 
         public Rune Rune { get => _rune; set => Common.SetProperty(ref _rune, value, OnRuneChanged); }
@@ -1362,6 +2084,21 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage.GearSlots
             }
         }
 
+        protected override void CreateSubMenus()
+        {
+            base.CreateSubMenus();
+
+            CreateSubMenu(() => "Reset", () => "Reset amulet and rune", () =>
+            {
+                Item = null;
+                Rune = null;
+            }, new()
+            {
+                new(() => "Amulet",() => "Reset the amulet",() => Item = null),
+                new(() => "Rune",() => "Reset the rune.",() => Rune = null),
+            });
+        }
+
         private void OnRuneChanged(object sender, Core.Models.ValueChangedEventArgs<Rune> e)
         {
             _runeTexture.Texture = Rune?.Icon;
@@ -1377,9 +2114,6 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage.GearSlots
         {
             Icon.Texture = BuildsManager.ModuleInstance.ContentsManager.GetTexture(@"textures\foodslot.png");
             ItemColor = Color.White;
-
-            ContextMenuStripItem menuItem;
-            menuItem = Menu.AddMenuItem(new ContextMenuItem(() => "Reset", null));
         }
 
         public override void RecalculateLayout()
@@ -1421,6 +2155,13 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage.GearSlots
             var nourishment = TemplatePresenter.Template[Slot] as NourishmentEntry;
             Item = nourishment?.Nourishment;
         }
+
+        protected override void CreateSubMenus()
+        {
+            base.CreateSubMenus();
+
+            CreateSubMenu(() => "Reset", () => "Reset nourishment", () => Item = null);
+        }
     }
 
     public class UtilitySlot : GearSlot
@@ -1432,9 +2173,6 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage.GearSlots
         {
             Icon.Texture = BuildsManager.ModuleInstance.ContentsManager.GetTexture(@"textures\utilityslot.png");
             ItemColor = Color.White;
-
-            ContextMenuStripItem menuItem;
-            menuItem = Menu.AddMenuItem(new ContextMenuItem(() => "Reset", null));
         }
 
         public override void RecalculateLayout()
@@ -1476,6 +2214,13 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage.GearSlots
                 });
             }
         }
+
+        protected override void CreateSubMenus()
+        {
+            base.CreateSubMenus();
+
+            CreateSubMenu(() => "Reset", () => "Reset utility", () => Item = null);
+        }
     }
 
     public class JadeBotCoreSlot : GearSlot
@@ -1488,9 +2233,6 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage.GearSlots
             Icon.Texture = AsyncTexture2D.FromAssetId(2630946);
             Icon.TextureRegion = new(36, 36, 56, 56);
             ItemColor = Color.White;
-
-            ContextMenuStripItem menuItem;
-            menuItem = Menu.AddMenuItem(new ContextMenuItem(() => "Reset", null));
         }
 
         public override void RecalculateLayout()
@@ -1534,6 +2276,14 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage.GearSlots
                 });
             }
         }
+
+        protected override void CreateSubMenus()
+        {
+            base.CreateSubMenus();
+
+            return;
+            CreateSubMenu(() => "Reset", () => "Reset jade bot core", () => Item = null);
+        }
     }
 
     public class RelicSlot : GearSlot
@@ -1545,9 +2295,6 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage.GearSlots
         {
             Icon.Texture = BuildsManager.ModuleInstance.ContentsManager.GetTexture(@"textures\relic_slot.png");
             ItemColor = Color.White;
-
-            ContextMenuStripItem menuItem;
-            menuItem = Menu.AddMenuItem(new ContextMenuItem(() => "Reset", null));
         }
 
         public override void RecalculateLayout()
@@ -1590,6 +2337,14 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage.GearSlots
                     Item = relic;
                 });
             }
+        }
+
+        protected override void CreateSubMenus()
+        {
+            base.CreateSubMenus();
+
+            return;
+            CreateSubMenu(() => "Reset", () => "Reset relic", () => Item = null);
         }
     }
 }

@@ -15,6 +15,8 @@ using ItemWeightType = Gw2Sharp.WebApi.V2.Models.ItemWeightType;
 using Gw2Sharp.Models;
 using Kenedia.Modules.BuildsManager.Models;
 using Kenedia.Modules.BuildsManager.Controls.GearPage.GearSlots;
+using Kenedia.Modules.BuildsManager.TemplateEntries;
+using Kenedia.Modules.BuildsManager.Extensions;
 
 namespace Kenedia.Modules.BuildsManager.Controls.GearPage
 {
@@ -109,6 +111,47 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage
                 {TemplateSlot.JadeBotCore, new JadeBotCoreSlot(TemplateSlot.JadeBotCore, this, TemplatePresenter)},
                 {TemplateSlot.Relic, new RelicSlot(TemplateSlot.Relic, this, TemplatePresenter)},
             };
+
+            (_templateSlots[TemplateSlot.MainHand] as WeaponSlot).OtherHandSlot = _templateSlots[TemplateSlot.OffHand] as WeaponSlot;
+            (_templateSlots[TemplateSlot.AltMainHand] as WeaponSlot).OtherHandSlot = _templateSlots[TemplateSlot.AltOffHand] as WeaponSlot;
+
+            (_templateSlots[TemplateSlot.OffHand] as WeaponSlot).OtherHandSlot = _templateSlots[TemplateSlot.MainHand] as WeaponSlot;
+            (_templateSlots[TemplateSlot.AltOffHand] as WeaponSlot).OtherHandSlot = _templateSlots[TemplateSlot.AltMainHand] as WeaponSlot;
+
+            List<GearSlot> armors = new();
+            List<GearSlot> weapons = new();
+            List<GearSlot> juwellery = new();
+
+            foreach (var slot in _templateSlots.Values)
+            {
+                if(slot.Slot.IsArmor())
+                {
+                    armors.Add(slot);
+                }
+                else if(slot.Slot.IsWeapon())
+                {
+                    weapons.Add(slot);
+                }
+                else if(slot.Slot.IsJuwellery())
+                {
+                    juwellery.Add(slot);
+                } 
+            }
+
+            foreach (GearSlot armor in armors)
+            {
+                armor.SlotGroup = armors;
+            }
+
+            foreach (GearSlot weapon in weapons)
+            {
+                weapon.SlotGroup = weapons;
+            }
+
+            foreach (GearSlot juwellerySlot in juwellery)
+            {
+                juwellerySlot.SlotGroup = juwellery;
+            }
 
             _professionRaceSelection = new()
             {

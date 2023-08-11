@@ -353,6 +353,7 @@
     <Compile Include="Models\TemplateEntries\UtilityEntry.cs" />
     <Compile Include="Models\TemplateEntries\WeaponTemplateEntry.cs" />
     <Compile Include="Utility\GearTemplateCode.cs" />
+    <Compile Include="Utility\SkillSlotConversion.cs" />
     <Compile Include="Utility\TemplateConverter.cs" />
     <Compile Include="Models\TemplatePresenter.cs" />
     <Compile Include="Models\Templates\ArmorEntry.cs" />
