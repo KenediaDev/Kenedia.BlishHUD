@@ -164,8 +164,6 @@ namespace Kenedia.Modules.BuildsManager.Controls
 
         public void SwitchTab(TabbedRegionTab tab)
         {
-
-            Debug.WriteLine($"SwitchTab!");
             OnTabSwitched?.Invoke();
 
             if (tab != null)

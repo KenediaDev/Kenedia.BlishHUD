@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Kenedia.Modules.BuildsManager.DataModels.Professions;
 using Kenedia.Modules.BuildsManager.Models;
+using System.Diagnostics;
 
 namespace Kenedia.Modules.BuildsManager.Controls.BuildPage.ProfessionSpecific
 {
@@ -72,6 +73,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage.ProfessionSpecific
 
                     break;
             }
+
         }
 
         protected override void Paint(SpriteBatch spriteBatch, Rectangle bounds)
@@ -86,7 +88,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage.ProfessionSpecific
 
             for (int i = 0; i < _skills.Length; i++)
             {
-                _skills[i].Draw(this, spriteBatch, RelativeMousePosition);
+                _skills[i].Draw(this, spriteBatch);
             }
         }
 

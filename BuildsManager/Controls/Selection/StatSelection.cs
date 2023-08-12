@@ -1,8 +1,5 @@
-﻿using Kenedia.Modules.BuildsManager.DataModels.Items;
-using Kenedia.Modules.BuildsManager.DataModels.Stats;
-using Kenedia.Modules.BuildsManager.Extensions;
+﻿using Kenedia.Modules.BuildsManager.Extensions;
 using Kenedia.Modules.BuildsManager.Models;
-using Kenedia.Modules.BuildsManager.Models.Templates;
 using Kenedia.Modules.Core.Extensions;
 using Kenedia.Modules.Core.Models;
 using Kenedia.Modules.Core.Utility;
@@ -10,7 +7,6 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using AttributeType = Gw2Sharp.WebApi.V2.Models.AttributeType;
 

@@ -17,7 +17,6 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
         private readonly AsyncTexture2D _noAquaticFlagTexture = AsyncTexture2D.FromAssetId(157145);
         private Rectangle _noAquaticFlagTextureRegion;
         private Skill _skill;
-        private DetailedTexture _selector = new(157138, 157140);
 
         public SkillIcon()
         {
@@ -31,7 +30,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
             _noAquaticFlagTextureRegion = new(16, 16, 96, 96);
         }
 
-        public Skill Skill { get => _skill; set => Common.SetProperty(ref _skill, value, ApplyTrait); }
+        public Skill Skill { get => _skill; set => Common.SetProperty(ref _skill, value, ApplySkill); }
 
         public AsyncTexture2D HoveredFrameTexture { get; private set; }
 
@@ -45,9 +44,9 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
 
         public bool ShowSelector { get; set; } = false;
 
-        public DetailedTexture Selector => _selector;
+        public DetailedTexture Selector { get; } = new(157138, 157140);
 
-        private void ApplyTrait()
+        private void ApplySkill()
         {
             Texture = Skill?.Icon;
 
@@ -103,7 +102,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
 
             if (ShowSelector)
             {
-                _selector.Draw(ctrl, spriteBatch, mousePos);
+                Selector.Draw(ctrl, spriteBatch, mousePos);
             }
         }
 
@@ -154,7 +153,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
 
             if (ShowSelector)
             {
-                _selector.Draw(ctrl, spriteBatch, mousePos);
+                Selector.Draw(ctrl, spriteBatch, mousePos);
             }
         }
     }

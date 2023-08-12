@@ -19,7 +19,7 @@ using Blish_HUD.Gw2Mumble;
 using Kenedia.Modules.BuildsManager.Utility;
 using Kenedia.Modules.BuildsManager.DataModels.Items;
 using Kenedia.Modules.BuildsManager.DataModels.Stats;
-using System.Diagnostics;
+using Kenedia.Modules.BuildsManager.Extensions;
 
 namespace Kenedia.Modules.BuildsManager.Models
 {
@@ -53,9 +53,9 @@ namespace Kenedia.Modules.BuildsManager.Models
 
         public event EventHandler? LoadedBuildFromCode;
 
-        public event ValueChangedEventHandler<TemplateFlag> TagsChanged;
+        public event ValueChangedEventHandler<TemplateFlag>? TagsChanged;
 
-        public event ValueChangedEventHandler<EncounterFlag> EncountersChanged;
+        public event ValueChangedEventHandler<EncounterFlag>? EncountersChanged;
 
         public event ValueChangedEventHandler<Races>? RaceChanged;
 
@@ -63,7 +63,7 @@ namespace Kenedia.Modules.BuildsManager.Models
 
         public event ValueChangedEventHandler<Specialization>? EliteSpecializationChanged;
 
-        public event DictionaryItemChangedEventHandler<SpecializationSlotType, Specialization> SpecializationChanged;
+        public event DictionaryItemChangedEventHandler<SpecializationSlotType, Specialization>? SpecializationChanged;
 
         public event DictionaryItemChangedEventHandler<LegendSlotType, Legend>? LegendChanged;
 
@@ -99,6 +99,7 @@ namespace Kenedia.Modules.BuildsManager.Models
                 {TemplateSlotType.AltAquatic, AltAquatic},
                 };
 
+            Specializations.EliteSpecChanged += Specializations_EliteSpecChanged;
             Specializations.ItemPropertyChanged += Specializations_ItemPropertyChanged;
             Legends.ItemChanged += Legends_ItemChanged;
             Pets.ItemChanged += Pets_ItemChanged;
@@ -113,6 +114,11 @@ namespace Kenedia.Modules.BuildsManager.Models
 
             PlayerCharacter player = Blish_HUD.GameService.Gw2Mumble.PlayerCharacter;
             Profession = player?.Profession ?? Profession;
+        }
+
+        private void Specializations_EliteSpecChanged(object sender, BuildSpecialization.SpecializationChangedEventArgs e)
+        {
+            EliteSpecializationChanged?.Invoke(this, new ValueChangedEventArgs<Specialization>(e.OldSpecialization, e.NewSpecialization));
         }
 
         public Template(string? buildCode, string? gearCode) : this()
@@ -590,7 +596,7 @@ namespace Kenedia.Modules.BuildsManager.Models
 
             SetArmorItems();
 
-            RemoveInvalidCombinations();
+            RemoveInvalidBuildCombinations();
 
             if (!_triggerEvents) return;
             ProfessionChanged?.Invoke(this, e);
@@ -639,7 +645,7 @@ namespace Kenedia.Modules.BuildsManager.Models
                 BuildChanged?.Invoke(this, e);
             }
 
-            RemoveInvalidCombinations();
+            RemoveInvalidBuildCombinations();
 
             if (!_triggerEvents) return;
             RaceChanged?.Invoke(this, e);
@@ -779,6 +785,7 @@ namespace Kenedia.Modules.BuildsManager.Models
             }
             catch { }
 
+            RemoveInvalidGearCombinations();
             _triggerEvents = true;
 
             LoadedGearFromCode?.Invoke(this, null);
@@ -1011,7 +1018,7 @@ namespace Kenedia.Modules.BuildsManager.Models
                 spec.Traits[TraitTierType.Master] = master;
                 spec.Traits[TraitTierType.GrandMaster] = grandmaster;
 
-                RemoveInvalidCombinations();
+                RemoveInvalidBuildCombinations();
                 OnSpecializationChanged(this, new(slot, prev, specialization));
             }
         }
@@ -1053,7 +1060,7 @@ namespace Kenedia.Modules.BuildsManager.Models
                 SetSpecialization(slot2, prevSlot1.Specialization, prevSlot1.Traits[TraitTierType.Adept], prevSlot1.Traits[TraitTierType.Master], prevSlot1.Traits[TraitTierType.GrandMaster]);
                 SetSpecialization(slot1, prevSlot2.Specialization, prevSlot2.Traits[TraitTierType.Adept], prevSlot2.Traits[TraitTierType.Master], prevSlot2.Traits[TraitTierType.GrandMaster]);
 
-                RemoveInvalidCombinations();
+                RemoveInvalidBuildCombinations();
                 SpecializationChanged?.Invoke(this, new(slot1, prevSlot1.Specialization, prevSlot2.Specialization));
             }
 
@@ -1127,7 +1134,54 @@ namespace Kenedia.Modules.BuildsManager.Models
             LegendChanged?.Invoke(this, new(slot, temp, legend));
         }
 
-        private void RemoveInvalidCombinations()
+        private void RemoveInvalidGearCombinations()
+        {
+            // Check and clean invalid Weapons?
+            var wipeWeapons = new List<TemplateSlotType>();
+            var professionWeapons = BuildsManager.Data.Professions[Profession].Weapons.Select(e => e.Value.Type.ToItemWeaponType()).ToList() ?? new();
+
+            foreach (var slot in Weapons)
+            {
+                if (slot.Key is not TemplateSlotType.Aquatic and not TemplateSlotType.AltAquatic)
+                {
+                    var weapon = (slot.Value as WeaponTemplateEntry)?.Weapon;
+                    if (weapon != null && !professionWeapons.Contains(weapon.WeaponType))
+                    {
+                        wipeWeapons.Add(slot.Key);
+                    }
+                }
+                else
+                {
+                    var weapon = (slot.Value as AquaticWeaponTemplateEntry)?.Weapon;
+                    if(weapon != null && !professionWeapons.Contains(weapon.WeaponType))
+                    {
+                        wipeWeapons.Add(slot.Key);
+                    }
+                }
+            }
+
+            foreach (var slot in wipeWeapons)
+            {
+                if (slot is not TemplateSlotType.Aquatic and not TemplateSlotType.AltAquatic)
+                {
+                    if (Weapons[slot] is WeaponTemplateEntry weapon)
+                    {
+                        BuildsManager.Logger.Info($"Remove {weapon.Weapon?.Name} because we can not wield it with our current profession.");
+                        weapon.Weapon = null;
+                    }
+                }
+                else
+                {
+                    if (Weapons[slot] is AquaticWeaponTemplateEntry weapon)
+                    {
+                        BuildsManager.Logger.Info($"Remove {weapon.Weapon?.Name} because we can not wield it with our current profession.");
+                        weapon.Weapon = null;
+                    }
+                }
+            }
+        }
+
+        private void RemoveInvalidBuildCombinations()
         {
             // Check and clean invalid Legends
             if (Profession is ProfessionType.Revenant)

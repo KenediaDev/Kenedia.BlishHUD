@@ -9,7 +9,6 @@ using Blish_HUD.Content;
 using Kenedia.Modules.Core.Utility;
 using Kenedia.Modules.Core.Models;
 using Blish_HUD.Input;
-using System.Diagnostics;
 using Kenedia.Modules.BuildsManager.Models;
 using Kenedia.Modules.BuildsManager.DataModels.Items;
 using MonoGame.Extended.BitmapFonts;

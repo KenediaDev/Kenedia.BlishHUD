@@ -157,14 +157,14 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
             TemplatePresenter.LoadedBuildFromCode += BuildTemplate_Loaded;
             TemplatePresenter.TemplateChanged += TemplatePresenter_TemplateChanged;
 
-            SetRaceAndProfessionAndSpec();
+            SetSelectionTextures();
         }
 
         public TemplatePresenter TemplatePresenter { get; private set; }
 
         private void TemplatePresenter_RaceChanged(object sender, Core.Models.ValueChangedEventArgs<Races> e)
         {
-            SetRaceAndProfessionAndSpec();
+            SetSelectionTextures();
         }
 
         public override void RecalculateLayout()
@@ -252,33 +252,30 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
 
         private void BuildTemplate_Loaded(object sender, EventArgs e)
         {
-            SetRaceAndProfessionAndSpec();
+            SetSelectionTextures();
+            SetProfessionSpecifics();
         }
 
         private void TemplatePresenter_TemplateChanged(object sender, Core.Models.ValueChangedEventArgs<Template> e)
         {
             _buildCodeBox.Text = TemplatePresenter.Template?.ParseBuildCode();
-            SetRaceAndProfessionAndSpec();
+            SetSelectionTextures();
+            SetProfessionSpecifics();
         }
 
         private void BuildTemplate_ProfessionChanged(object sender, EventArgs e)
         {
-            SetRaceAndProfessionAndSpec();
+            SetSelectionTextures();
+            SetProfessionSpecifics();
         }
 
         private void BuildTemplate_EliteSpecChanged(object sender, EventArgs e)
         {
-            SetRaceAndProfessionAndSpec();
+            SetSelectionTextures();
         }
 
-        private void SetRaceAndProfessionAndSpec()
+        private void SetProfessionSpecifics()
         {
-            _specIcon.Texture = TemplatePresenter.Template?.EliteSpecialization != null ? TemplatePresenter.Template.EliteSpecialization.ProfessionIconBig : BuildsManager.Data.Professions?[TemplatePresenter.Template?.Profession ?? ProfessionType.Guardian]?.IconBig;
-            _specIcon.BasicTooltipText = TemplatePresenter.Template?.EliteSpecialization != null ? TemplatePresenter.Template.EliteSpecialization.Name : BuildsManager.Data.Professions?[TemplatePresenter.Template?.Profession ?? ProfessionType.Guardian]?.Name;
-
-            _raceIcon.Texture = BuildsManager.Data.Races[TemplatePresenter.Template?.Race ?? Races.None].Icon;
-            _raceIcon.BasicTooltipText = BuildsManager.Data.Races[TemplatePresenter.Template?.Race ?? Races.None].Name;
-
             _professionSpecifics?.Dispose();
 
             if (TemplatePresenter?.Template != null)
@@ -321,6 +318,15 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
                     _professionSpecifics.Height = _professionSpecificsContainer?.Height ?? 0;
                 }
             }
+        }
+
+        private void SetSelectionTextures()
+        {
+            _specIcon.Texture = TemplatePresenter.Template?.EliteSpecialization != null ? TemplatePresenter.Template.EliteSpecialization.ProfessionIconBig : BuildsManager.Data.Professions?[TemplatePresenter.Template?.Profession ?? ProfessionType.Guardian]?.IconBig;
+            _specIcon.BasicTooltipText = TemplatePresenter.Template?.EliteSpecialization != null ? TemplatePresenter.Template.EliteSpecialization.Name : BuildsManager.Data.Professions?[TemplatePresenter.Template?.Profession ?? ProfessionType.Guardian]?.Name;
+
+            _raceIcon.Texture = BuildsManager.Data.Races[TemplatePresenter.Template?.Race ?? Races.None].Icon;
+            _raceIcon.BasicTooltipText = BuildsManager.Data.Races[TemplatePresenter.Template?.Race ?? Races.None].Name;
         }
     }
 }

@@ -9,14 +9,10 @@ using static Blish_HUD.ContentService;
 using Kenedia.Modules.Core.Extensions;
 using Kenedia.Modules.Core.Utility;
 using Blish_HUD.Content;
-using Kenedia.Modules.BuildsManager.DataModels.Items;
-using Kenedia.Modules.BuildsManager.Controls.GearPage;
 using Blish_HUD.Controls;
 using Kenedia.Modules.BuildsManager.Views;
 using Kenedia.Modules.BuildsManager.Models;
-using System.Diagnostics;
 using System.Collections.Generic;
-using Kenedia.Modules.BuildsManager.DataModels.Stats;
 using System.Linq;
 
 namespace Kenedia.Modules.BuildsManager.Controls.Selection

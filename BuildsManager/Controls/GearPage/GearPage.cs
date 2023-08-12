@@ -15,7 +15,6 @@ using ItemWeightType = Gw2Sharp.WebApi.V2.Models.ItemWeightType;
 using Gw2Sharp.Models;
 using Kenedia.Modules.BuildsManager.Models;
 using Kenedia.Modules.BuildsManager.Controls.GearPage.GearSlots;
-using Kenedia.Modules.BuildsManager.TemplateEntries;
 using Kenedia.Modules.BuildsManager.Extensions;
 
 namespace Kenedia.Modules.BuildsManager.Controls.GearPage

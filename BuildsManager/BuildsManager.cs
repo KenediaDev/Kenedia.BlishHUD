@@ -5,7 +5,6 @@ using Blish_HUD.Modules;
 using Blish_HUD.Settings;
 using Gw2Sharp.WebApi;
 using Kenedia.Modules.BuildsManager.Models;
-using Kenedia.Modules.BuildsManager.Models.Templates;
 using Kenedia.Modules.BuildsManager.Services;
 using Kenedia.Modules.BuildsManager.Utility;
 using Kenedia.Modules.BuildsManager.Views;
@@ -187,9 +186,6 @@ namespace Kenedia.Modules.BuildsManager
             //    }.Save(0);
             //}
 
-
-            Debug.WriteLine($" BuildsManager.Data.Stats {Data.Stats.Count}");
-
             await LoadTemplates();
 
             //CreateDummyTemplate();
@@ -226,7 +222,9 @@ namespace Kenedia.Modules.BuildsManager
                 Height = 900,
             };
 
+#if DEBUG
             MainWindow.Show();
+#endif
         }
 
         protected override void UnloadGUI()

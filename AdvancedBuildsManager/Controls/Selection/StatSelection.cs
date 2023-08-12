@@ -1,5 +1,4 @@
 ﻿using Kenedia.Modules.AdvancedBuildsManager.DataModels.Items;
-using Kenedia.Modules.AdvancedBuildsManager.DataModels.Stats;
 using Kenedia.Modules.AdvancedBuildsManager.Extensions;
 using Kenedia.Modules.AdvancedBuildsManager.Models.Templates;
 using Kenedia.Modules.Core.Extensions;

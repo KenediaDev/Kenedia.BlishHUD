@@ -2,7 +2,6 @@
 using Blish_HUD.Modules;
 using Blish_HUD.Modules.Managers;
 using Blish_HUD.Settings;
-using Gw2Sharp.WebApi;
 using Gw2Sharp.WebApi.V2.Models;
 using Kenedia.Modules.Core.Models;
 using Kenedia.Modules.Core.Views;
@@ -12,7 +11,6 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Diagnostics;
-using System.Linq;
 using System.Threading.Tasks;
 using Map = Kenedia.Modules.Core.DataModels.Map;
 

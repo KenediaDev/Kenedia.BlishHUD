@@ -4,6 +4,7 @@ using Kenedia.Modules.Core.Utility;
 using Kenedia.Modules.BuildsManager.Models;
 using Kenedia.Modules.Core.Models;
 using System;
+using System.Diagnostics;
 
 namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
 {
@@ -11,15 +12,13 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
     {
         protected TemplatePresenter Internal_TemplatePresenter;
 
-        public ProfessionSpecifics()
-        {
-            ClipsBounds = false;
-            ZIndex = int.MaxValue;
-        }
-
-        public ProfessionSpecifics(TemplatePresenter template) : this()
+        public ProfessionSpecifics(TemplatePresenter template)
         {
             TemplatePresenter = template;
+            ClipsBounds = false;
+            ZIndex = int.MaxValue;
+
+            ApplyTemplate();
         }
 
         public BuildPage BuildPage { get; set; }
@@ -34,24 +33,31 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
             if (e.OldValue != null)
             {
                 e.OldValue.LoadedBuildFromCode -= OnLoaded;
-                e.OldValue.BuildCodeChanged -= OnBuildCodeChanged;
                 e.OldValue.LegendChanged -= OnLegendChanged;
+                e.OldValue.EliteSpecializationChanged -= OnEliteSpecializationChanged;
+                e.OldValue.TemplateChanged -= OnTemplateChanged;
             }
 
             if (e.NewValue != null)
             {
                 e.NewValue.LoadedBuildFromCode += OnLoaded;
-                e.NewValue.BuildCodeChanged += OnBuildCodeChanged;
                 e.NewValue.LegendChanged += OnLegendChanged;
+                e.NewValue.EliteSpecializationChanged += OnEliteSpecializationChanged;
+                e.NewValue.TemplateChanged += OnTemplateChanged;
             }
         }
 
-        private void OnLoaded(object sender, EventArgs e)
+        private void OnEliteSpecializationChanged(object sender, ValueChangedEventArgs<DataModels.Professions.Specialization> e)
         {
             ApplyTemplate();
         }
 
-        private void OnBuildCodeChanged(object sender, EventArgs e)
+        private void OnTemplateChanged(object sender, ValueChangedEventArgs<Template> e)
+        {
+            ApplyTemplate();
+        }
+
+        private void OnLoaded(object sender, EventArgs e)
         {
             ApplyTemplate();
         }
@@ -64,6 +70,16 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
         protected virtual void ApplyTemplate()
         {
             RecalculateLayout();
+        }
+
+        protected override void DisposeControl()
+        {
+            TemplatePresenter.LoadedBuildFromCode -= OnLoaded;
+            TemplatePresenter.LegendChanged -= OnLegendChanged;
+            TemplatePresenter.TemplateChanged -= OnTemplateChanged;
+            TemplatePresenter.EliteSpecializationChanged -= OnEliteSpecializationChanged;
+
+            base.DisposeControl();
         }
     }
 }
