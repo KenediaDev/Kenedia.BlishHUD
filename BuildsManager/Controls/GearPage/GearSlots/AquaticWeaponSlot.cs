@@ -189,11 +189,12 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage.GearSlots
             }
         }
 
-        protected override void Paint(SpriteBatch spriteBatch, Rectangle bounds)
+        public override void PaintAfterChildren(SpriteBatch spriteBatch, Rectangle bounds)
         {
+            base.PaintAfterChildren(spriteBatch, bounds);
+
             if (TemplatePresenter.IsPve != false)
             {
-                base.Paint(spriteBatch, bounds);
                 _statTexture.Draw(this, spriteBatch);
                 _changeWeaponTexture.Draw(this, spriteBatch, RelativeMousePosition);
                 _sigil1SlotTexture.Draw(this, spriteBatch, RelativeMousePosition);
@@ -363,6 +364,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage.GearSlots
         private void OnStatChanged(object sender, Core.Models.ValueChangedEventArgs<Stat> e)
         {
             _statTexture.Texture = Stat?.Icon;
+            ItemControl.Stat = Stat;
         }
 
         private void OnSigil2Changed(object sender, Core.Models.ValueChangedEventArgs<Sigil> e)

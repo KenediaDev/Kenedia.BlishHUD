@@ -57,6 +57,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage.GearSlots
             int size = Math.Min(Width, Height);
             int padding = 3;
             _statTexture.Bounds = new(Icon.Bounds.Center.Add(new Point(-padding, -padding)), new((size - (padding * 2)) / 2));
+            //_statTexture.Bounds = new(Icon.Bounds.Center.Add(new(-2)), new((size - (padding * 2)) / 2));
 
             _runeSlotTexture.Bounds = new(Icon.Bounds.Right + 2 + iconPadding, 0, upgradeSize, upgradeSize);
             _runeTexture.Bounds = _runeSlotTexture.Bounds;
@@ -69,11 +70,12 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage.GearSlots
             _infusionBounds = new(x, _infusionSlotTexture.Bounds.Top, Width - x, _infusionSlotTexture.Bounds.Height);
         }
 
-        protected override void Paint(SpriteBatch spriteBatch, Rectangle bounds)
+        public override void PaintAfterChildren(SpriteBatch spriteBatch, Rectangle bounds)
         {
+            base.PaintAfterChildren(spriteBatch, bounds);
+
             if (TemplatePresenter.IsPve != false)
             {
-                base.Paint(spriteBatch, bounds);
                 _statTexture.Draw(this, spriteBatch);
                 _runeSlotTexture.Draw(this, spriteBatch, RelativeMousePosition);
                 _runeTexture.Draw(this, spriteBatch, RelativeMousePosition);
@@ -230,6 +232,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage.GearSlots
         private void OnStatChanged(object sender, Core.Models.ValueChangedEventArgs<Stat> e)
         {
             _statTexture.Texture = Stat?.Icon;
+            ItemControl.Stat = Stat;
         }
 
         private void OnRuneChanged(object sender, Core.Models.ValueChangedEventArgs<Rune> e)

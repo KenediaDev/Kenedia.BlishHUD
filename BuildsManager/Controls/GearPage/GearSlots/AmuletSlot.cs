@@ -29,7 +29,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage.GearSlots
         public AmuletSlot(TemplateSlotType gearSlot, Container parent, TemplatePresenter templatePresenter) : base(gearSlot, parent, templatePresenter)
         {
             _enrichmentSlotTexture.Texture = BuildsManager.ModuleInstance.ContentsManager.GetTexture(@"textures\infusionslot.png");
-            ItemTexture.Item = BuildsManager.Data.Trinkets[79980];
+            ItemControl.Item = BuildsManager.Data.Trinkets[79980];
         }
 
         public Stat Stat { get => _stat; set => Common.SetProperty(ref _stat, value, OnStatChanged); }
@@ -50,9 +50,9 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage.GearSlots
             _enrichmentTexture.Bounds = _enrichmentSlotTexture.Bounds;
         }
 
-        protected override void Paint(SpriteBatch spriteBatch, Rectangle bounds)
+        public override void PaintAfterChildren(SpriteBatch spriteBatch, Rectangle bounds)
         {
-            base.Paint(spriteBatch, bounds);
+            base.PaintAfterChildren(spriteBatch, bounds);
             _statTexture.Draw(this, spriteBatch);
 
             _enrichmentSlotTexture.Draw(this, spriteBatch, RelativeMousePosition);
@@ -167,6 +167,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage.GearSlots
         private void OnStatChanged(object sender, Core.Models.ValueChangedEventArgs<Stat> e)
         {
             _statTexture.Texture = Stat?.Icon;
+            ItemControl.Stat = Stat;
         }
     }
 }

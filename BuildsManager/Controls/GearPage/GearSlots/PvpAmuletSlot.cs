@@ -50,9 +50,9 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage.GearSlots
             _titleBounds = new(_runeBounds.Left, _runeBounds.Top - (Content.DefaultFont16.LineHeight + 2), _runeBounds.Width, Content.DefaultFont16.LineHeight);
         }
 
-        protected override void Paint(SpriteBatch spriteBatch, Rectangle bounds)
+        public override void PaintAfterChildren(SpriteBatch spriteBatch, Rectangle bounds)
         {
-            base.Paint(spriteBatch, bounds);
+            base.PaintAfterChildren(spriteBatch, bounds);
 
             _runeSlotTexture.Draw(this, spriteBatch, RelativeMousePosition);
             _runeTexture.Draw(this, spriteBatch, RelativeMousePosition);

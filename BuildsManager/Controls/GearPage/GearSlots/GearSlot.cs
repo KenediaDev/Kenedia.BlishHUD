@@ -14,10 +14,11 @@ using Kenedia.Modules.BuildsManager.DataModels.Items;
 using MonoGame.Extended.BitmapFonts;
 using Kenedia.Modules.BuildsManager.Controls.Selection;
 using Kenedia.Modules.Core.Controls;
+using Kenedia.Modules.BuildsManager.Extensions;
 
 namespace Kenedia.Modules.BuildsManager.Controls.GearPage.GearSlots
 {
-    public class GearSlot : Control
+    public class GearSlot : Container
     {
         protected readonly DetailedTexture Icon = new() { TextureRegion = new(37, 37, 54, 54) };
         private TemplateSlotType _slot = TemplateSlotType.None;
@@ -34,9 +35,9 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage.GearSlots
 
         protected TemplatePresenter TemplatePresenter;
 
-        protected ItemTexture ItemTexture { get; } = new() { };
+        protected ItemControl ItemControl { get; } = new();
 
-        public BaseItem Item { get => ItemTexture.Item; set => ItemTexture.Item = value; }
+        public BaseItem Item { get => ItemControl.Item; set => ItemControl.Item = value; }
 
         public TemplateSlotType Slot { get => _slot; set => Common.SetProperty(ref _slot, value, ApplySlot); }
 
@@ -52,6 +53,8 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage.GearSlots
             Menu = new();
             CreateSubMenus();
 
+            ItemControl.Parent = this;
+
             TemplatePresenter.LoadedGearFromCode += SetItems;
             TemplatePresenter.TemplateChanged += SetItems;
         }
@@ -60,10 +63,11 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage.GearSlots
 
         public List<GearSlot> SlotGroup { get; set; }
 
-        protected override void Paint(SpriteBatch spriteBatch, Rectangle bounds)
+        public override void PaintBeforeChildren(SpriteBatch spriteBatch, Rectangle bounds)
         {
+            base.PaintBeforeChildren(spriteBatch, bounds);
+
             Icon.Draw(this, spriteBatch, RelativeMousePosition);
-            ItemTexture.Draw(this, spriteBatch, RelativeMousePosition, ItemColor);
         }
 
         protected override void OnClick(MouseEventArgs e)
@@ -104,6 +108,11 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage.GearSlots
                 Icon.Texture = AsyncTexture2D.FromAssetId(assetId);
             }
 
+            if(Slot.IsArmor()  || Slot.IsWeapon() || Slot.IsJuwellery())
+            {
+                ItemControl.TextureColor = Color.Gray;
+            }
+
             RecalculateLayout();
         }
 
@@ -118,7 +127,9 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage.GearSlots
 
             int size = Math.Min(Width, Height);
             Icon.Bounds = new(0, 0, size, size);
-            ItemTexture.Bounds = new(0, 0, size, size);
+            ItemControl.Location = AbsoluteBounds.Location;
+            ItemControl.Size = new(size);
+            //ItemTexture.Bounds = new(0, 0, size, size);
         }
 
         protected virtual void SetItems(object sender, EventArgs e)

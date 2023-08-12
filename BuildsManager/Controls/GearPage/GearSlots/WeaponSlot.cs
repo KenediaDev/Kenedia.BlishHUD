@@ -188,9 +188,9 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage.GearSlots
             _infusionBounds = new(x, _infusionSlotTexture.Bounds.Top, Width - x, _infusionSlotTexture.Bounds.Height);
         }
 
-        protected override void Paint(SpriteBatch spriteBatch, Rectangle bounds)
+        public override void PaintAfterChildren(SpriteBatch spriteBatch, Rectangle bounds)
         {
-            base.Paint(spriteBatch, bounds);
+            base.PaintAfterChildren(spriteBatch, bounds);
 
             if (TemplatePresenter.IsPve != false)
             {
@@ -376,11 +376,13 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage.GearSlots
 
             (TemplatePresenter?.Template[Slot] as WeaponTemplateEntry).Weapon = item;
             Item = item;
+            ItemControl.Item = item;
         }
 
         private void OnStatChanged(object sender, Core.Models.ValueChangedEventArgs<Stat> e)
         {
             _statTexture.Texture = Stat?.Icon;
+            ItemControl.Stat = Stat;
         }
 
         private void OnSigilChanged(object sender, Core.Models.ValueChangedEventArgs<Sigil> e)

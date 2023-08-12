@@ -16,7 +16,18 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage
         private BaseItem _item;
         private Color _frameColor;
 
+        public ItemTexture()
+        {
+        }
+
+        public ItemTexture(Container parent)
+        {
+            Parent = parent;
+        }
+
         public BaseItem Item { get => _item; set => Common.SetProperty(ref _item, value, ApplyItem); }
+
+        public Container Parent { get; set; }
 
         private void ApplyItem()
         {

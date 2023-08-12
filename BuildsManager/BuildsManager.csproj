@@ -291,6 +291,7 @@
     <Compile Include="Controls\GearPage\GearSlots\RingSlot.cs" />
     <Compile Include="Controls\GearPage\GearSlots\UtilitySlot.cs" />
     <Compile Include="Controls\GearPage\GearSlots\WeaponSlot.cs" />
+    <Compile Include="Controls\GearPage\ItemControl.cs" />
     <Compile Include="Controls\GearPage\ItemTexture.cs" />
     <Compile Include="Controls\AboutPage\AboutPage.cs" />
     <Compile Include="Controls\Selection\AttributeToggle.cs" />
