@@ -118,8 +118,8 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Controls.Selection
                 var temp = _template;
                 if (Common.SetProperty(ref _template, value, ApplyTemplate))
                 {
-                    if (temp != null) temp.PropertyChanged -= TemplateChanged;
-                    if (_template != null) _template.PropertyChanged += TemplateChanged;
+                    if (temp is not null) temp.PropertyChanged -= TemplateChanged;
+                    if (_template is not null) _template.PropertyChanged += TemplateChanged;
                 }
             }
         }
@@ -179,7 +179,7 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Controls.Selection
         {
             Anchor = anchor;
 
-            if (Anchor != null)
+            if (Anchor is not null)
             {
                 int size = anchor.AbsoluteBounds.Height;
                 size = Math.Min(size, 32);
@@ -249,10 +249,10 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Controls.Selection
             _backButton.Bounds = new(_backBounds.Left + 10, _backBounds.Top + 10, _backBounds.Height - 20, _backBounds.Height - 20);
             _backTextBounds = new(_backButton.Bounds.Right + 10, _backBounds.Top + 10, _backBounds.Width - (_backButton.Bounds.Right + 10), _backBounds.Height - 20);
 
-            if (_gearSelection != null) _gearSelection.Location = new(10, _backBounds.Bottom + 10);
-            if (_statSelection != null) _statSelection.Location = new(10, _backBounds.Bottom + 10);
-            if (_skillSelection != null) _skillSelection.Location = new(10, 10);
-            if (_buildSelection != null) _buildSelection.Location = new(10, 10);
+            if (_gearSelection is not null) _gearSelection.Location = new(10, _backBounds.Bottom + 10);
+            if (_statSelection is not null) _statSelection.Location = new(10, _backBounds.Bottom + 10);
+            if (_skillSelection is not null) _skillSelection.Location = new(10, 10);
+            if (_buildSelection is not null) _buildSelection.Location = new(10, 10);
         }
 
         public override void PaintBeforeChildren(SpriteBatch spriteBatch, Rectangle bounds)
@@ -265,7 +265,7 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Controls.Selection
             base.PaintAfterChildren(spriteBatch, bounds);
             //RecalculateLayout();
 
-            if (Anchor != null && Anchor.Visible && Anchor.Parent != null && Anchor.Parent.AbsoluteBounds.Contains(Anchor.AbsoluteBounds.Center))
+            if (Anchor is not null && Anchor.Visible && Anchor.Parent is not null && Anchor.Parent.AbsoluteBounds.Contains(Anchor.AbsoluteBounds.Center))
             {
                 if (SelectionType == SelectionTypes.Items)
                 {
@@ -290,7 +290,7 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Controls.Selection
         {
             base.UpdateContainer(gameTime);
 
-            if (Anchor != null && Anchor.Parent != null && Anchor.Parent.AbsoluteBounds.Contains(Anchor.AbsoluteBounds.Center))
+            if (Anchor is not null && Anchor.Parent is not null && Anchor.Parent.AbsoluteBounds.Contains(Anchor.AbsoluteBounds.Center))
             {
                 _animationStart += (float)gameTime.ElapsedGameTime.TotalSeconds;
 
@@ -318,7 +318,7 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Controls.Selection
         {
             base.OnClick(e);
 
-            if (Anchor != null)
+            if (Anchor is not null)
             {
                 if (_selectionType is SelectionTypes.Stats or SelectionTypes.Items && _backBounds.Contains(RelativeMousePosition))
                 {

@@ -4,11 +4,13 @@ using Blish_HUD.Controls;
 using Kenedia.Modules.Core.Utility;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System;
 
 namespace Kenedia.Modules.Core.Models
 {
-    public class DetailedTexture
+    public class DetailedTexture : IDisposable
     {
+        private bool _isDisposed;
         private AsyncTexture2D _texture;
         private AsyncTexture2D _hoveredTexture;
         private AsyncTexture2D _fallbackTexture;
@@ -35,11 +37,11 @@ namespace Kenedia.Modules.Core.Models
 
         public bool Hovered { get; protected set; }
 
-        public AsyncTexture2D Texture { get => _texture; set => Common.SetProperty(ref _texture, value, () => ApplyBounds(), value != null); }
+        public AsyncTexture2D Texture { get => _texture; set => Common.SetProperty(ref _texture, value, () => ApplyBounds(), value is not null); }
 
-        public AsyncTexture2D HoveredTexture { get => _hoveredTexture; set => Common.SetProperty(ref _hoveredTexture, value, () => ApplyBounds(), value != null); }
+        public AsyncTexture2D HoveredTexture { get => _hoveredTexture; set => Common.SetProperty(ref _hoveredTexture, value, () => ApplyBounds(), value is not null); }
 
-        public AsyncTexture2D FallBackTexture { get => _fallbackTexture; set => Common.SetProperty(ref _fallbackTexture, value, () => ApplyBounds(), value != null); }
+        public AsyncTexture2D FallBackTexture { get => _fallbackTexture; set => Common.SetProperty(ref _fallbackTexture, value, () => ApplyBounds(), value is not null); }
 
         public Rectangle TextureRegion { get; set; }
 
@@ -55,19 +57,20 @@ namespace Kenedia.Modules.Core.Models
 
         public virtual void Draw(Control ctrl, SpriteBatch spriteBatch, Point? mousePos = null, Color? color = null, Color? bgColor = null, bool? forceHover = null, float? rotation = null, Vector2? origin = null)
         {
-            if (FallBackTexture != null || Texture != null)
+            if(_isDisposed) return;
+            if (FallBackTexture is not null || Texture is not null)
             {
                 origin ??= Vector2.Zero;
                 rotation ??= 0F;
 
-                Hovered = mousePos != null && Bounds.Contains((Point)mousePos);
-                color ??= (Hovered  && HoverDrawColor  != null ? HoverDrawColor : DrawColor) ?? Color.White;
+                Hovered = mousePos is not null && Bounds.Contains((Point)mousePos);
+                color ??= (Hovered && HoverDrawColor is not null ? HoverDrawColor : DrawColor) ?? Color.White;
 
-                if (Texture != null)
+                if (Texture is not null)
                 {
                     spriteBatch.DrawOnCtrl(
                         ctrl,
-                        (forceHover == true || Hovered) && HoveredTexture != null ? HoveredTexture : Texture ?? FallBackTexture,
+                        (forceHover == true || Hovered) && HoveredTexture is not null ? HoveredTexture : Texture ?? FallBackTexture,
                         Bounds,
                         TextureRegion,
                         (Color)color,
@@ -86,7 +89,7 @@ namespace Kenedia.Modules.Core.Models
                         (Vector2)origin);
                 }
 
-                if (bgColor != null)
+                if (bgColor is not null)
                 {
                     spriteBatch.DrawOnCtrl(
                     ctrl,
@@ -102,20 +105,21 @@ namespace Kenedia.Modules.Core.Models
 
         public virtual void Draw(Control ctrl, SpriteBatch spriteBatch, SpriteEffects? effect, Point? mousePos = null, Color? color = null, Color? bgColor = null, bool? forceHover = null, float? rotation = null, Vector2? origin = null)
         {
-            if (FallBackTexture != null || Texture != null)
+            if (_isDisposed) return;
+            if (FallBackTexture is not null || Texture is not null)
             {
                 effect ??= SpriteEffects.FlipHorizontally;
                 origin ??= Vector2.Zero;
                 rotation ??= 0F;
 
-                Hovered = mousePos != null && Bounds.Contains((Point)mousePos);
-                color ??= (Hovered && HoverDrawColor != null ? HoverDrawColor : DrawColor) ?? Color.White;
+                Hovered = mousePos is not null && Bounds.Contains((Point)mousePos);
+                color ??= (Hovered && HoverDrawColor is not null ? HoverDrawColor : DrawColor) ?? Color.White;
 
-                if (Texture != null)
+                if (Texture is not null)
                 {
                     spriteBatch.DrawOnCtrl(
                         ctrl,
-                        (forceHover == true || Hovered) && HoveredTexture != null ? HoveredTexture : Texture ?? FallBackTexture,
+                        (forceHover == true || Hovered) && HoveredTexture is not null ? HoveredTexture : Texture ?? FallBackTexture,
                         Bounds,
                         TextureRegion,
                         (Color)color,
@@ -136,7 +140,7 @@ namespace Kenedia.Modules.Core.Models
                         (SpriteEffects)effect);
                 }
 
-                if (bgColor != null)
+                if (bgColor is not null)
                 {
                     spriteBatch.DrawOnCtrl(
                     ctrl,
@@ -156,6 +160,16 @@ namespace Kenedia.Modules.Core.Models
             if (TextureRegion == Rectangle.Empty || force) TextureRegion = (Texture ?? FallBackTexture).Bounds;
             if (FallbackRegion == Rectangle.Empty || force) FallbackRegion = (Texture ?? FallBackTexture).Bounds;
             if (Bounds == Rectangle.Empty || force) Bounds = (Texture ?? FallBackTexture).Bounds;
+        }
+
+        public virtual void Dispose()
+        {
+            if (_isDisposed) return;
+
+            _isDisposed = true;
+            Texture = null;
+            HoveredTexture = null;
+            FallBackTexture = null;
         }
     }
 }

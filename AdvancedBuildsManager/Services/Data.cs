@@ -271,7 +271,7 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Services
                         SkillConnections.Add(item.Key, new SkillConnection() { Id = item.Value.Id, AssetId = item.Value.AssetId });
                     }
 
-                    if (connection != null && connection.Professions.Count <= 0)
+                    if (connection is not null && connection.Professions.Count <= 0)
                     {
                         foreach (string p in item.Value.Professions)
                         {
@@ -282,7 +282,7 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Services
                         }
                     }
 
-                    if (connection != null)
+                    if (connection is not null)
                     {
                         connection.Slot = item.Value.Slot;
                     }

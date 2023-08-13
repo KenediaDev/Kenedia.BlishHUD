@@ -9,8 +9,9 @@ using System;
 
 namespace Kenedia.Modules.BuildsManager.TemplateEntries
 {
-    public class BackTemplateEntry : TemplateEntry
+    public class BackTemplateEntry : TemplateEntry, IDisposable
     {
+        private bool _isDisposed;
         private Stat _stat;
         private Infusion _infusion1;
         private Infusion _infusion2;
@@ -25,7 +26,7 @@ namespace Kenedia.Modules.BuildsManager.TemplateEntries
 
         public Stat Stat { get => _stat; set => Common.SetProperty(ref _stat, value, OnStatChanged); }
 
-        public Trinket Back { get; } = BuildsManager.Data.Backs.TryGetValue(94947, out Trinket back) ? back : null;
+        public Trinket Back { get; private set; } = BuildsManager.Data.Backs.TryGetValue(94947, out Trinket back) ? back : null;
 
         public Infusion Infusion1 { get => _infusion1; set => Common.SetProperty(ref _infusion1, value, OnInfusion1Changed); }
 
@@ -65,6 +66,17 @@ namespace Kenedia.Modules.BuildsManager.TemplateEntries
             Infusion2 = BuildsManager.Data.Infusions.Where(e => e.Value.MappedId == array[2]).FirstOrDefault().Value;
 
             return GearTemplateCode.RemoveFromStart(array, newStartIndex);
+        }
+
+        public void Dispose()
+        {
+            if(_isDisposed) return;
+            _isDisposed = true;
+
+            Stat = null;
+            Infusion1 = null;
+            Infusion2 = null;
+            Back = null;
         }
     }
 }

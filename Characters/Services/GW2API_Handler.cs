@@ -76,7 +76,7 @@ namespace Kenedia.Modules.Characters.Services
                     accounts = JsonConvert.DeserializeObject<List<AccountSummary>>(content);
                     accountEntry = accounts.Find(e => e.AccountName == account.Name);
 
-                    if (accountEntry != null)
+                    if (accountEntry is not null)
                     {
                         accountEntry.AccountName = account.Name;
                         accountEntry.CharacterNames = new();

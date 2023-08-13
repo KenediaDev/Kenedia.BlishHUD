@@ -32,7 +32,7 @@ namespace Kenedia.Modules.AdvancedBuildsManager.DataModels.Professions
             {
                 var skill = skills.Find(e => e.Id == petSkill.Id);
 
-                if (skill != null)
+                if (skill is not null)
                 {
                     Skills.Add(petSkill.Id, skill);
                 }
@@ -68,7 +68,7 @@ namespace Kenedia.Modules.AdvancedBuildsManager.DataModels.Professions
         {
             get
             {
-                if (_icon != null) return _icon;
+                if (_icon is not null) return _icon;
 
                 _icon = AsyncTexture2D.FromAssetId(IconAssetId);
                 return _icon;
@@ -97,7 +97,7 @@ namespace Kenedia.Modules.AdvancedBuildsManager.DataModels.Professions
             {
                 var skill = skills.Find(e => e.Id == petSkill.Value.Id);
 
-                if (skill != null)
+                if (skill is not null)
                 {
                     petSkill.Value.Name = skill.Name;
                     petSkill.Value.Description = skill.Description;

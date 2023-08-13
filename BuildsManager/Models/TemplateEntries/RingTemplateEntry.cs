@@ -10,8 +10,9 @@ using System;
 namespace Kenedia.Modules.BuildsManager.TemplateEntries
 {
     public class 
-        RingTemplateEntry : TemplateEntry
+        RingTemplateEntry : TemplateEntry, IDisposable
     {
+        private bool _isDisposed;
         private Infusion _infusion1;
         private Infusion _infusion2;
         private Infusion _infusion3;
@@ -26,7 +27,7 @@ namespace Kenedia.Modules.BuildsManager.TemplateEntries
         public event EventHandler<ValueChangedEventArgs<Infusion>> Infusion2Changed;
         public event EventHandler<ValueChangedEventArgs<Infusion>> Infusion3Changed;
 
-        public Trinket Ring { get; } = BuildsManager.Data.Trinkets.TryGetValue(80058, out Trinket ring) ? ring : null;
+        public Trinket Ring { get; private set; } = BuildsManager.Data.Trinkets.TryGetValue(80058, out Trinket ring) ? ring : null;
 
         public Infusion Infusion1 { get => _infusion1; set => Common.SetProperty(ref _infusion1, value, OnInfusion1Changed); }
 
@@ -77,6 +78,18 @@ namespace Kenedia.Modules.BuildsManager.TemplateEntries
             Infusion3 = BuildsManager.Data.Infusions.Where(e => e.Value.MappedId == array[3]).FirstOrDefault().Value;
 
             return GearTemplateCode.RemoveFromStart(array, newStartIndex);
+        }
+
+        public void Dispose()
+        {
+            if (_isDisposed) return;
+            _isDisposed = true;
+            
+            Ring = null;
+            StatChanged = null;
+            Infusion1Changed = null;
+            Infusion2Changed = null;
+            Infusion3Changed = null;
         }
     }
 }

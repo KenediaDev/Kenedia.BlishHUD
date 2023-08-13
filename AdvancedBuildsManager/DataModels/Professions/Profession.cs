@@ -25,7 +25,7 @@ namespace Kenedia.Modules.AdvancedBuildsManager.DataModels.Professions
         {
             get
             {
-                if (_icon != null) return _icon;
+                if (_icon is not null) return _icon;
 
                 _icon = AsyncTexture2D.FromAssetId(IconAssetId);
                 return _icon;
@@ -36,7 +36,7 @@ namespace Kenedia.Modules.AdvancedBuildsManager.DataModels.Professions
         {
             get
             {
-                if (_iconBig != null) return _iconBig;
+                if (_iconBig is not null) return _iconBig;
 
                 _iconBig = AsyncTexture2D.FromAssetId(IconBigAssetId);
                 return _iconBig;
@@ -154,7 +154,7 @@ namespace Kenedia.Modules.AdvancedBuildsManager.DataModels.Professions
 
                     result.Add(skill.Id);
 
-                    if (skill.BundleSkills != null)
+                    if (skill.BundleSkills is not null)
                     {
                         result.AddRange(skill.BundleSkills);
                         foreach (int bundleskill in skill.BundleSkills)
@@ -163,23 +163,23 @@ namespace Kenedia.Modules.AdvancedBuildsManager.DataModels.Professions
                         }
                     }
 
-                    if (skill.FlipSkill != null)
+                    if (skill.FlipSkill is not null)
                     {
                         result.Add((int)skill.FlipSkill);
                         result.AddRange(getIds(getSkillById((int)skill.FlipSkill, skills)));
                     }
 
-                    if (skill.NextChain != null)
+                    if (skill.NextChain is not null)
                     {
                         result.Add((int)skill.NextChain);
                     }
 
-                    if (skill.PrevChain != null)
+                    if (skill.PrevChain is not null)
                     {
                         result.Add((int)skill.PrevChain);
                     }
 
-                    if (skill.ToolbeltSkill != null)
+                    if (skill.ToolbeltSkill is not null)
                     {
                         result.Add((int)skill.ToolbeltSkill);
                     }
@@ -192,10 +192,10 @@ namespace Kenedia.Modules.AdvancedBuildsManager.DataModels.Professions
                     var skill = getSkillById(id, skills);
                     var existingSkill = getSkillById(id, Skills);
 
-                    if (skill != null)
+                    if (skill is not null)
                     {
                         // Update
-                        if (existingSkill != null)
+                        if (existingSkill is not null)
                         {
                             existingSkill.Name = skill.Name;
                             existingSkill.Description = skill.Description;

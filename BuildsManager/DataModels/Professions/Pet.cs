@@ -1,8 +1,10 @@
 ﻿using Blish_HUD.Content;
 using Gw2Sharp.WebApi.V2.Models;
 using Kenedia.Modules.Core.DataModels;
+using Kenedia.Modules.Core.Extensions;
 using Kenedia.Modules.Core.Models;
 using Kenedia.Modules.Core.Utility;
+using System;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
 using APIPet = Gw2Sharp.WebApi.V2.Models.Pet;
@@ -10,8 +12,9 @@ using APIPet = Gw2Sharp.WebApi.V2.Models.Pet;
 namespace Kenedia.Modules.BuildsManager.DataModels.Professions
 {
     [DataContract]
-    public class Pet
+    public class Pet : IDisposable
     {
+        private bool _isDisposed;
         private readonly List<int> _aquaticPets = new() { 1, 5, 6, 7, 9, 11, 12, 18, 19, 20, 21, 23, 24, 25, 26, 27, 40, 41, 42, 43, 45, 47, 63, };
         private readonly List<int> _terrestrialPets = new() { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 44, 45, 46, 47, 48, 51, 52, 54, 55, 57, 59, 61, 63, 64, 65, 66 };
 
@@ -40,7 +43,7 @@ namespace Kenedia.Modules.BuildsManager.DataModels.Professions
             {
                 var skill = skills.Find(e => e.Id == petSkill.Id);
 
-                if (skill != null)
+                if (skill is not null)
                 {
                     Skills.Add(petSkill.Id, skill);
                 }
@@ -76,7 +79,7 @@ namespace Kenedia.Modules.BuildsManager.DataModels.Professions
         {
             get
             {
-                if (_icon != null) return _icon;
+                if (_icon is not null) return _icon;
 
                 _icon = AsyncTexture2D.FromAssetId(IconAssetId);
                 return _icon;
@@ -108,12 +111,23 @@ namespace Kenedia.Modules.BuildsManager.DataModels.Professions
             {
                 var skill = skills.Find(e => e.Id == petSkill.Value.Id);
 
-                if (skill != null)
+                if (skill is not null)
                 {
                     petSkill.Value.Name = skill.Name;
                     petSkill.Value.Description = skill.Description;
                 }
             }
+        }
+
+        public void Dispose()
+        {
+            if (_isDisposed) return;
+
+            _isDisposed = true;
+            _icon = null;
+
+            Skills?.Values?.DisposeAll();
+            Skills?.Clear();
         }
     }
 }

@@ -6,12 +6,17 @@ using System;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
 using APISpecialization = Gw2Sharp.WebApi.V2.Models.Specialization;
+using Kenedia.Modules.Core.Utility;
+using Kenedia.Modules.Core.DataModels;
+using Kenedia.Modules.Core.Extensions;
+using Kenedia.Modules.Core.Models;
 
 namespace Kenedia.Modules.BuildsManager.DataModels.Professions
 {
     [DataContract]
-    public class Specialization
+    public class Specialization : IDisposable
     {
+        private bool _isDisposed;
         private AsyncTexture2D _icon;
         private AsyncTexture2D _background;
         private AsyncTexture2D _profession_icon;
@@ -64,7 +69,7 @@ namespace Kenedia.Modules.BuildsManager.DataModels.Professions
                     index++;
                 }
 
-                if (specialization.WeaponTrait != null && traits.TryGetValue((int)specialization.WeaponTrait, out Trait weaponTrait))
+                if (specialization.WeaponTrait is not null && traits.TryGetValue((int)specialization.WeaponTrait, out Trait weaponTrait))
                 {
                     WeaponTrait = weaponTrait;
                 }
@@ -95,7 +100,7 @@ namespace Kenedia.Modules.BuildsManager.DataModels.Professions
         {
             get
             {
-                if (_icon != null) return _icon;
+                if (_icon is not null) return _icon;
 
                 _icon = AsyncTexture2D.FromAssetId(IconAssetId);
                 return _icon;
@@ -108,7 +113,7 @@ namespace Kenedia.Modules.BuildsManager.DataModels.Professions
         {
             get
             {
-                if (_background != null) return _background;
+                if (_background is not null) return _background;
 
                 _background = AsyncTexture2D.FromAssetId(BackgroundAssetId);
                 return _background;
@@ -121,9 +126,9 @@ namespace Kenedia.Modules.BuildsManager.DataModels.Professions
         {
             get
             {
-                if (_profession_icon != null) return _profession_icon;
+                if (_profession_icon is not null) return _profession_icon;
 
-                if (ProfessionIconAssetId != null)
+                if (ProfessionIconAssetId is not null)
                 {
                     _profession_icon = AsyncTexture2D.FromAssetId((int)ProfessionIconAssetId);
                 }
@@ -137,8 +142,8 @@ namespace Kenedia.Modules.BuildsManager.DataModels.Professions
         {
             get
             {
-                if (_profession_icon_big != null) return _profession_icon_big;
-                if(ProfessionIconBigAssetId != null)
+                if (_profession_icon_big is not null) return _profession_icon_big;
+                if(ProfessionIconBigAssetId is not null)
                 {
                     _profession_icon_big = AsyncTexture2D.FromAssetId((int)ProfessionIconBigAssetId);
                 }
@@ -158,6 +163,26 @@ namespace Kenedia.Modules.BuildsManager.DataModels.Professions
         public static Specialization FromByte(byte spezializationId, ProfessionType profession)
         {
             return BuildsManager.Data.Professions?[profession]?.Specializations.TryGetValue(spezializationId, out Specialization specialization) == true ? specialization : null;
+        }
+
+        public void Dispose()
+        {
+            if (_isDisposed) return;
+            _isDisposed = true;
+
+            _icon = null;
+            _background = null;
+            _profession_icon = null;
+            _profession_icon_big = null;
+
+            WeaponTrait?.Dispose();
+            WeaponTrait =null;
+
+            MinorTraits?.Values?.DisposeAll();
+            MinorTraits.Clear();
+
+            MajorTraits?.Values?.DisposeAll();
+            MajorTraits.Clear();
         }
     }
 }

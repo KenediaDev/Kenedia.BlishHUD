@@ -9,8 +9,9 @@ using Kenedia.Modules.Core.Models;
 
 namespace Kenedia.Modules.BuildsManager.TemplateEntries
 {
-    public class AccessoireTemplateEntry : TemplateEntry
+    public class AccessoireTemplateEntry : TemplateEntry, IDisposable
     {
+        private bool _isDisposed;
         private Stat _stat;
         private Infusion _infusion;
 
@@ -21,7 +22,7 @@ namespace Kenedia.Modules.BuildsManager.TemplateEntries
         public event EventHandler<ValueChangedEventArgs<Infusion>> InfusionChanged;
         public event EventHandler<ValueChangedEventArgs<Stat>> StatChanged;
 
-        public Trinket Accessoire { get; } = BuildsManager.Data.Trinkets.TryGetValue(80002, out Trinket accessoire) ? accessoire : null;
+        public Trinket Accessoire { get; private set; } = BuildsManager.Data.Trinkets.TryGetValue(80002, out Trinket accessoire) ? accessoire : null;
 
         public Stat Stat { get => _stat; set => Common.SetProperty(ref _stat, value, OnStatChanged); }
 
@@ -54,6 +55,18 @@ namespace Kenedia.Modules.BuildsManager.TemplateEntries
             Infusion = BuildsManager.Data.Infusions.Where(e => e.Value.MappedId == array[1]).FirstOrDefault().Value;
 
             return GearTemplateCode.RemoveFromStart(array, newStartIndex);
+        }
+
+        public void Dispose()
+        {
+            if (_isDisposed)
+                return;
+
+            _isDisposed = true;
+
+            Stat = null;
+            Infusion = null;
+            Accessoire = null;
         }
     }
 }

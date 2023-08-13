@@ -34,7 +34,7 @@ namespace Kenedia.Modules.Characters
         private readonly Color _spacingColor = Color.FromArgb(255, 200, 200, 200);
         private readonly Color _ignoredColor = Color.FromArgb(255, 100, 100, 100);
 
-        private bool _disposed = false;
+        private bool _isDisposed = false;
         private MainWindow _mainWindow;
 
         public MainWindow MainWindow { get => _mainWindow; set => Common.SetProperty(ref _mainWindow, value, MainWindowChanged); }
@@ -93,9 +93,9 @@ namespace Kenedia.Modules.Characters
 
         public void Dispose()
         {
-            if (_disposed) return;
+            if (_isDisposed) return;
 
-            _disposed = true;
+            _isDisposed = true;
             _view?.Dispose();
             CleanedTexture?.Dispose();
             SourceTexture?.Dispose();
@@ -287,7 +287,7 @@ namespace Kenedia.Modules.Characters
             distances.Sort((a, b) => a.Item2.CompareTo(b.Item2));
             (string, int, int, int, bool)? bestMatch = distances?.FirstOrDefault();
 
-            return ((string, int, int, int, bool))(bestMatch != null ? bestMatch : new(string.Empty, 0, 0, 0, false));
+            return ((string, int, int, int, bool))(bestMatch is not null ? bestMatch : new(string.Empty, 0, 0, 0, false));
         }
 #nullable disable
 

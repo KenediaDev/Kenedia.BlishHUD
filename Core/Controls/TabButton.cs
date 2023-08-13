@@ -34,7 +34,7 @@ namespace Kenedia.Modules.Core.Controls
             Color bgColor = Active ? Color.Transparent : Color.Black;
             spriteBatch.DrawOnCtrl(this, ContentService.Textures.Pixel, bounds, Rectangle.Empty, bgColor * (MouseOver ? 0.35f : 0.55f));
 
-            if (Icon != null)
+            if (Icon is not null)
             {
                 Rectangle tRect = TextureRectangle != Rectangle.Empty ? TextureRectangle : Icon.Bounds;
                 int size = bounds.Height - 4;

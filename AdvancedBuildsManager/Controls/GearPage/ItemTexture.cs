@@ -20,18 +20,18 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Controls.GearPage
 
         private void ApplyItem()
         {
-            _frameColor = Item != null ? (Color)Item?.Rarity.GetColor() : Color.White * 0.5F;
+            _frameColor = Item is not null ? (Color)Item?.Rarity.GetColor() : Color.White * 0.5F;
             Texture = Item?.Icon;
         }
 
         public void Draw(Control ctrl, SpriteBatch spriteBatch, Point? mousePos = null, Color? color = null)
         {
-            if (FallBackTexture != null || Texture != null)
+            if (FallBackTexture is not null || Texture is not null)
             {
-                Hovered = mousePos != null && Bounds.Contains((Point)mousePos);
-                color ??= (Hovered && HoverDrawColor != null ? HoverDrawColor : DrawColor) ?? Color.White;
+                Hovered = mousePos is not null && Bounds.Contains((Point)mousePos);
+                color ??= (Hovered && HoverDrawColor is not null ? HoverDrawColor : DrawColor) ?? Color.White;
 
-                if (Texture != null)
+                if (Texture is not null)
                 {
                     spriteBatch.DrawOnCtrl(
                         ctrl,

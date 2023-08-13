@@ -949,8 +949,8 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Controls.GearPage
                 var temp = _template;
                 if (Common.SetProperty(ref _template, value, ApplyTemplate))
                 {
-                    if (temp != null) temp.PropertyChanged -= TemplateChanged;
-                    if (_template != null) _template.PropertyChanged += TemplateChanged;
+                    if (temp is not null) temp.PropertyChanged -= TemplateChanged;
+                    if (_template is not null) _template.PropertyChanged += TemplateChanged;
                 }
             }
         }
@@ -963,8 +963,8 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Controls.GearPage
                 var temp = _templateSlot;
                 if (Common.SetProperty(ref _templateSlot, value))
                 {
-                    if (temp != null) temp.PropertyChanged -= SlotChanged;
-                    if (_templateSlot != null)
+                    if (temp is not null) temp.PropertyChanged -= SlotChanged;
+                    if (_templateSlot is not null)
                     {
                         _templateSlot.PropertyChanged += SlotChanged;
                     }
@@ -1032,8 +1032,8 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Controls.GearPage
             else if (GearSlot is GearTemplateSlot.PvpAmulet)
             {
                 //Item.Item = Template?.GearTemplate.PvpAmulet[GearSlot].Item;
-                //if (Template != null) Upgrade1 = AdvancedBuildsManager.Data.PvpRunes.Where(e => e.Value.MappedId == Template.GearTemplate.PvpAmulet[GearSlot].RuneIds[0]).FirstOrDefault().Value;
-                //Stat = Template?.GearTemplate.PvpAmulet[GearSlot].Stat != null && AdvancedBuildsManager.Data.Stats.TryGetValue((int)Template?.GearTemplate.PvpAmulet[GearSlot].Stat, out Stat stat) ? stat : null;
+                //if (Template is not null) Upgrade1 = AdvancedBuildsManager.Data.PvpRunes.Where(e => e.Value.MappedId == Template.GearTemplate.PvpAmulet[GearSlot].RuneIds[0]).FirstOrDefault().Value;
+                //Stat = Template?.GearTemplate.PvpAmulet[GearSlot].Stat is not null && AdvancedBuildsManager.Data.Stats.TryGetValue((int)Template?.GearTemplate.PvpAmulet[GearSlot].Stat, out Stat stat) ? stat : null;
                 Stat = null;
             }
             else
@@ -1124,7 +1124,7 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Controls.GearPage
 
             if (Icon.Hovered && (GearSlot.IsArmor() || GearSlot.IsWeapon() || GearSlot.IsJuwellery()))
             {
-                if (Item.Item != null) SelectionPanel?.SetStatAnchor(this, new Rectangle(a.Location, Point.Zero).Add(Icon.Bounds), GearSlot.ToString().ToLowercaseNamingConvention(), (item) => TemplateSlot.Item = item);
+                if (Item.Item is not null) SelectionPanel?.SetStatAnchor(this, new Rectangle(a.Location, Point.Zero).Add(Icon.Bounds), GearSlot.ToString().ToLowercaseNamingConvention(), (item) => TemplateSlot.Item = item);
                 Menu.Hide();
             }
         }

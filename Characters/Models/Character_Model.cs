@@ -166,13 +166,13 @@ namespace Kenedia.Modules.Characters.Models
             get
             {
                 var list = new List<KeyValuePair<int, CraftingProfession>>();
-                if (_data != null)
+                if (_data is not null)
                 {
                     foreach (CharacterCrafting crafting in Crafting)
                     {
                         CraftingProfession craftingProf = _data.CrafingProfessions.Where(e => e.Value.Id == crafting.Id)?.FirstOrDefault().Value;
 
-                        if (craftingProf != null)
+                        if (craftingProf is not null)
                         {
                             list.Add(new(crafting.Rating, craftingProf));
                         }
@@ -242,19 +242,19 @@ namespace Kenedia.Modules.Characters.Models
             }
         }
 
-        public string MapName => _data != null && _data.Maps.TryGetValue(Map, out Map map) ? map.Name : string.Empty;
+        public string MapName => _data is not null && _data.Maps.TryGetValue(Map, out Map map) ? map.Name : string.Empty;
 
-        public string RaceName => _data != null && _data.Races.TryGetValue(Race, out Data.Race race) ? race.Name : "Unkown Race";
+        public string RaceName => _data is not null && _data.Races.TryGetValue(Race, out Data.Race race) ? race.Name : "Unkown Race";
 
-        public string ProfessionName => _data != null && _data.Professions.TryGetValue(Profession, out Data.Profession profession) ? profession.Name : "Data not loaded.";
+        public string ProfessionName => _data is not null && _data.Professions.TryGetValue(Profession, out Data.Profession profession) ? profession.Name : "Data not loaded.";
 
-        public string SpecializationName => _data != null && Specialization != SpecializationType.None && Enum.IsDefined(typeof(SpecializationType), Specialization) && _data.Specializations.TryGetValue(Specialization, out Data.Specialization specialization)
+        public string SpecializationName => _data is not null && Specialization != SpecializationType.None && Enum.IsDefined(typeof(SpecializationType), Specialization) && _data.Specializations.TryGetValue(Specialization, out Data.Specialization specialization)
                     ? specialization.Name
                     : ProfessionName;
 
-        public AsyncTexture2D ProfessionIcon => _data != null && _data.Professions.TryGetValue(Profession, out Data.Profession profession) ? profession.IconBig : null;
+        public AsyncTexture2D ProfessionIcon => _data is not null && _data.Professions.TryGetValue(Profession, out Data.Profession profession) ? profession.IconBig : null;
 
-        public AsyncTexture2D SpecializationIcon => _data != null && Specialization != SpecializationType.None && Enum.IsDefined(typeof(SpecializationType), Specialization) && _data.Specializations.TryGetValue(Specialization, out Data.Specialization specialization)
+        public AsyncTexture2D SpecializationIcon => _data is not null && Specialization != SpecializationType.None && Enum.IsDefined(typeof(SpecializationType), Specialization) && _data.Specializations.TryGetValue(Specialization, out Data.Specialization specialization)
                     ? specialization.IconBig
                     : ProfessionIcon;
 
@@ -266,7 +266,7 @@ namespace Kenedia.Modules.Characters.Models
                 {
                     string path = ModulePath + (IconPath ?? string.Empty);
 
-                    if (IconPath != null && File.Exists(path))
+                    if (IconPath is not null && File.Exists(path))
                     {
                         GameService.Graphics.QueueMainThreadRender((graphicsDevice) => _icon = TextureUtil.FromStreamPremultiplied(graphicsDevice, new FileStream(ModulePath + IconPath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite)));
                     }
@@ -492,7 +492,7 @@ namespace Kenedia.Modules.Characters.Models
             distances.Sort((a, b) => a.Item4.CompareTo(b.Item4));
             (string, int, int, int, bool)? bestMatch = distances?.FirstOrDefault();
 
-            if (bestMatch != null && bestMatch.HasValue)
+            if (bestMatch is not null && bestMatch.HasValue)
             {
                 foreach ((string, int, int, int, bool) match in distances.Where(e => e.Item4 == bestMatch.Value.Item4))
                 {
@@ -532,7 +532,7 @@ namespace Kenedia.Modules.Characters.Models
         {
             character ??= GameService.Gw2Mumble.PlayerCharacter;
             
-            if (character != null && character.Name == Name)
+            if (character is not null && character.Name == Name)
             {
                 Specialization = (SpecializationType)character.Specialization;
                 Map = GameService.Gw2Mumble.CurrentMap.IsCommonMap() ? GameService.Gw2Mumble.CurrentMap.Id : Map;
@@ -558,7 +558,7 @@ namespace Kenedia.Modules.Characters.Models
             foreach (CharacterCraftingDiscipline disc in character.Crafting.ToList())
             {
                 CharacterCrafting craft = Crafting.Find(e => e.Id == (int)disc.Discipline.Value);
-                bool craftFound = craft != null;
+                bool craftFound = craft is not null;
                 craft ??= new();
                 craft.Id = (int)disc.Discipline.Value;
                 craft.Rating = disc.Rating;

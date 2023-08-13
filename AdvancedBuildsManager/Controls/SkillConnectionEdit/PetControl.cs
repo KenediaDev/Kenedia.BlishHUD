@@ -84,7 +84,7 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Controls.SkillConnectionEdit
 
             _skillIcon.Draw(this, spriteBatch, RelativeMousePosition);
 
-            if (Pet != null)
+            if (Pet is not null)
             {
                 spriteBatch.DrawStringOnCtrl(this, $"{Pet.Id}", Content.DefaultFont16, _idBounds, Color.White);
                 spriteBatch.DrawStringOnCtrl(this, Pet.Name, Content.DefaultFont16, _nameBounds, Color.White);

@@ -311,7 +311,7 @@ namespace Kenedia.Modules.Characters.Controls
             _dismiss.Bounds = new(0, 0, height, height);
             _delete.Bounds = new(_dismiss.Bounds.Right + 2, 0, height, height);
 
-            if (MarkedCharacter != null)
+            if (MarkedCharacter is not null)
             {
                 int width = Width - _delete.Bounds.Right - 6;
                 string wrappedText = TextUtil.WrapText(GameService.Content.DefaultFont14, string.Format(strings.DeletedCharacterNotification, MarkedCharacter.Name, MarkedCharacter.Created.ToString("d")), width);
@@ -326,7 +326,7 @@ namespace Kenedia.Modules.Characters.Controls
         {
             string txt = string.Empty;
 
-            if (MarkedCharacter != null)
+            if (MarkedCharacter is not null)
             {
                 _delete.Draw(this, spriteBatch, RelativeMousePosition);
                 if (_delete.Hovered)
@@ -350,7 +350,7 @@ namespace Kenedia.Modules.Characters.Controls
         {
             base.OnClick(e);
 
-            if (MarkedCharacter != null)
+            if (MarkedCharacter is not null)
             {
                 if (_delete.Hovered)
                 {

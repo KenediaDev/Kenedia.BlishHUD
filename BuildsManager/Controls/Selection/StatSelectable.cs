@@ -18,8 +18,6 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
     {
         private readonly AsyncTexture2D _textureVignette = AsyncTexture2D.FromAssetId(605003);
         private Rectangle _vignetteBounds;
-        private readonly Blish_HUD.Controls.ContextMenuStripItem _applyAll;
-        private readonly Blish_HUD.Controls.ContextMenuStripItem _applyGroup;
         private readonly bool _created;
         private readonly Image _icon;
         private readonly Label _name;
@@ -102,13 +100,22 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
         private void OnStatChanged()
         {
             _name.Text = _stat?.Name;
-            _statSummary.Text = string.Join(Environment.NewLine, _stat?.Attributes.Values.Where(e => e != null).Select(e => $"+ {Math.Round(e.Value + (e.Multiplier * _attributeAdjustment))} {e.Id.GetDisplayName()}"));
+            _statSummary.Text = _stat == null ? null : string.Join(Environment.NewLine, _stat?.Attributes?.Values.Where(e => e is not null).Select(e => $"+ {Math.Round(e.Value + (e.Multiplier * _attributeAdjustment))} {e.Id.GetDisplayName()}"));
             _icon.Texture = _stat?.Icon;
         }
 
         private void OnMultiplierChanged()
         {
-            _statSummary.Text = string.Join(Environment.NewLine, _stat?.Attributes.Values.Where(e => e != null).Select(e => $"+ {Math.Round(e.Value + (e.Multiplier * _attributeAdjustment))} {e.Id.GetDisplayName()}"));
+            _statSummary.Text = string.Join(Environment.NewLine, _stat?.Attributes.Values.Where(e => e is not null).Select(e => $"+ {Math.Round(e.Value + (e.Multiplier * _attributeAdjustment))} {e.Id.GetDisplayName()}"));
+        }
+
+        protected override void DisposeControl()
+        {
+            base.DisposeControl();
+
+            Stat = null;
+            _textureVignette.Dispose();
+            base.DisposeControl();
         }
     }
 }

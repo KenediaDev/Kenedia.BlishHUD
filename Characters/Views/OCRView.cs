@@ -460,7 +460,7 @@ namespace Characters.Views
 
                     string result = await _ocr.Read(true);
 
-                    if (result != null)
+                    if (result is not null)
                     {
                         _sourceImage.Texture = _ocr.SourceTexture;
                         _sourceImage.Size = _ocr.SourceTexture.Bounds.Size;

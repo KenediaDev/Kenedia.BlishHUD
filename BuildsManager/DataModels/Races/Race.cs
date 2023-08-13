@@ -10,8 +10,9 @@ using System.Diagnostics;
 namespace Kenedia.Modules.BuildsManager.DataModels
 {
     [DataContract]
-    public class Race
+    public class Race : IDisposable
     {
+        private bool _isDisposed;
         private AsyncTexture2D _icon;
         private AsyncTexture2D _hoveredIcon;
 
@@ -38,7 +39,6 @@ namespace Kenedia.Modules.BuildsManager.DataModels
                     if (skills.TryGetValue(id, out Skill skill))
                     {
                         skill.Categories = Professions.SkillCategory.Racial;
-                        Debug.WriteLine($"CTOR SET RACIAL FLAG: {Professions.SkillCategory.Racial} -  skill.Categories {skill.Categories}");
 
                         Skills.Add(id, skill);
                     }
@@ -65,7 +65,7 @@ namespace Kenedia.Modules.BuildsManager.DataModels
         {
             get
             {
-                if (_icon != null) return _icon;
+                if (_icon is not null) return _icon;
 
                 _icon = BuildsManager.ModuleInstance.ContentsManager.GetTexture($@"textures\races\{Id.ToString().ToLower()}.png");
                 return _icon;
@@ -76,7 +76,7 @@ namespace Kenedia.Modules.BuildsManager.DataModels
         {
             get
             {
-                if (_hoveredIcon != null) return _hoveredIcon;
+                if (_hoveredIcon is not null) return _hoveredIcon;
 
                 _hoveredIcon = BuildsManager.ModuleInstance.ContentsManager.GetTexture($@"textures\races\{Id.ToString().ToLower()}_hovered.png");
                 return _hoveredIcon;
@@ -111,6 +111,15 @@ namespace Kenedia.Modules.BuildsManager.DataModels
                     }
                 }
             }
+        }
+
+        public void Dispose()
+        {
+            if (_isDisposed) return;
+            _isDisposed = true;
+
+            _icon = null;
+            _hoveredIcon = null;
         }
     }
 }

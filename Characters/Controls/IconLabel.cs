@@ -38,7 +38,7 @@ namespace Kenedia.Modules.Characters.Controls
             set
             {
                 _icon = value;
-                if (value != null)
+                if (value is not null)
                 {
                     UpdateLayout();
                 }
@@ -51,7 +51,7 @@ namespace Kenedia.Modules.Characters.Controls
             set
             {
                 _font = value;
-                if (value != null)
+                if (value is not null)
                 {
                     UpdateLayout();
                 }
@@ -67,7 +67,7 @@ namespace Kenedia.Modules.Characters.Controls
         protected override void Paint(SpriteBatch spriteBatch, Rectangle bounds)
         {
             AsyncTexture2D texture = Icon;
-            if (texture != null)
+            if (texture is not null)
             {
                 spriteBatch.DrawOnCtrl(
                     this,

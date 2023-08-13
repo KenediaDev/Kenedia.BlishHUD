@@ -46,7 +46,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage.GearSlots
         {
             base.SetItems(sender, e);
 
-            var utility = TemplatePresenter.Template[Slot] as UtilityTemplateEntry;
+            var utility = TemplatePresenter?.Template?[Slot] as UtilityTemplateEntry;
             Item = utility?.Utility;
         }
 

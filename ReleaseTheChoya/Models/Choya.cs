@@ -14,7 +14,7 @@ namespace Kenedia.Modules.ReleaseTheChoya.Models
     public class Choya : IDisposable
     {
         private SettingEntry<Choya> _setting;
-        private bool _disposed;
+        private bool _isDisposed;
         private string _name = "New Choya";
         private int _steps = 360;
         private Vector2 _travelDistance = new(4, 2);
@@ -152,8 +152,8 @@ namespace Kenedia.Modules.ReleaseTheChoya.Models
 
         public void Dispose()
         {
-            if (_disposed) return;
-            _disposed = true;
+            if (_isDisposed) return;
+            _isDisposed = true;
 
             Container?.Dispose();
             Control?.Dispose();
@@ -180,7 +180,7 @@ namespace Kenedia.Modules.ReleaseTheChoya.Models
 
         private void UpdateSetting()
         {
-            if (_setting != null)
+            if (_setting is not null)
             {
                 _setting.Value = new()
                 {

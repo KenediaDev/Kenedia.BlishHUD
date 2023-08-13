@@ -3,9 +3,7 @@ using System;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
 using Kenedia.Modules.BuildsManager.Models.Templates;
-using Blish_HUD.Content;
 using Kenedia.Modules.Core.Utility;
-using Kenedia.Modules.Core.Models;
 using Blish_HUD;
 using Blish_HUD.Input;
 using Kenedia.Modules.BuildsManager.Models;
@@ -60,7 +58,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage.GearSlots
         {
             base.SetItems(sender, e);
 
-            var armor = TemplatePresenter.Template[Slot] as PvpAmuletTemplateEntry;
+            var armor = TemplatePresenter?.Template?[Slot] as PvpAmuletTemplateEntry;
 
             Rune = armor?.Rune;
         }
@@ -108,6 +106,13 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage.GearSlots
         private void OnRuneChanged(object sender, Core.Models.ValueChangedEventArgs<Rune> e)
         {
             _runeControl.Item = Rune;
+        }
+
+        protected override void DisposeControl()
+        {
+            base.DisposeControl();
+
+            Rune = null;
         }
     }
 }

@@ -34,7 +34,7 @@ namespace Kenedia.Modules.AdvancedBuildsManager.DataModels.Professions
 
         public Trait(APITrait trait, Dictionary<int, Skill> skills) : this(trait)
         {
-            if(trait.Skills != null)
+            if(trait.Skills is not null)
             {
                 foreach(var s in trait.Skills)
                 {
@@ -83,7 +83,7 @@ namespace Kenedia.Modules.AdvancedBuildsManager.DataModels.Professions
         {
             get
             {
-                if (_icon != null) return _icon;
+                if (_icon is not null) return _icon;
 
                 _icon = AsyncTexture2D.FromAssetId(IconAssetId);
                 return _icon;

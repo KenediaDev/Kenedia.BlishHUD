@@ -40,7 +40,7 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Controls.SkillConnectionEdit
                         pinfo.SetValue(Item, newId);
 
                         var prop = SkillConnection.GetType().GetProperty(typeof(T).Name);
-                        if (prop != null)
+                        if (prop is not null)
                         {
                             if (Item.HasValues())
                             {
@@ -49,7 +49,7 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Controls.SkillConnectionEdit
                                     prop.SetValue(SkillConnection, Item);
                                 }
                             }
-                            else if (prop.GetValue(SkillConnection) != null)
+                            else if (prop.GetValue(SkillConnection) is not null)
                             {
                                 prop.SetValue(SkillConnection, null);
                             }
@@ -88,10 +88,10 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Controls.SkillConnectionEdit
                 {
                     BaseSkill skill = null;
 
-                    if (Item != null)
+                    if (Item is not null)
                     {
                         object value = pinfo.GetValue(Item);
-                        skill = value != null ? AdvancedBuildsManager.Data.BaseSkills.GetValueOrDefault((int)value) : null;
+                        skill = value is not null ? AdvancedBuildsManager.Data.BaseSkills.GetValueOrDefault((int)value) : null;
                     }
 
                     ctrl.Item2.Skill = skill;

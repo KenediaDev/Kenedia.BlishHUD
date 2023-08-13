@@ -75,7 +75,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
 
         private void SetTemplatePresenter(object sender, Core.Models.ValueChangedEventArgs<TemplatePresenter> e)
         {
-            if (e.OldValue != null)
+            if (e.OldValue is not null)
             {
                 e.OldValue.ProfessionChanged -= Template_ProfessionChanged;
                 e.OldValue.RaceChanged -= Template_RaceChanged;
@@ -85,7 +85,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
                 e.OldValue.TemplateChanged -= On_TemplateChanged;
             }
 
-            if (e.NewValue != null)
+            if (e.NewValue is not null)
             {
                 e.NewValue.ProfessionChanged += Template_ProfessionChanged;
                 e.NewValue.RaceChanged += Template_RaceChanged;
@@ -189,7 +189,6 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
 
         protected override void Paint(SpriteBatch spriteBatch, Rectangle bounds)
         {
-            RecalculateLayout();
             _terrestrialTexture.Draw(this, spriteBatch, RelativeMousePosition, Color.White);
             _aquaticTexture.Draw(this, spriteBatch, RelativeMousePosition, Color.White);
 
@@ -201,9 +200,9 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
                 if (spair.Key.HasFlag(state))
                 {
                     _skillIcons[spair.Key].Draw(this, spriteBatch, true, RelativeMousePosition);
-                    if (!SeletorOpen && _skillIcons[spair.Key].Hovered && _skillIcons[spair.Key].Skill != null)
+                    if (!SeletorOpen && _skillIcons[spair.Key].Hovered && _skillIcons[spair.Key].Skill is not null)
                     {
-                        if(Tooltip is SkillTooltip tooltip)
+                        if (Tooltip is SkillTooltip tooltip)
                         {
                             tooltip.Skill = _skillIcons[spair.Key].Skill;
                         }
@@ -295,9 +294,9 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
             if (TemplatePresenter.Template.Profession != Gw2Sharp.Models.ProfessionType.Revenant)
             {
                 var skills = BuildsManager.Data.Professions[TemplatePresenter.Template.Profession].Skills;
-                var filteredSkills = skills.Where(e => e.Value.PaletteId > 0 && e.Value.Slot != null && e.Value.Slot == slot && (e.Value.Specialization == 0 || TemplatePresenter.Template.HasSpecialization(e.Value.Specialization))).ToList();
-                var racialSkills = TemplatePresenter.Template.Race != Core.DataModels.Races.None ? BuildsManager.Data.Races[TemplatePresenter.Template.Race]?.Skills.Where(e => e.Value.PaletteId > 0 && e.Value.Slot != null && e.Value.Slot == slot).ToList() : new();
-                if (racialSkills != null) filteredSkills.AddRange(racialSkills);
+                var filteredSkills = skills.Where(e => e.Value.PaletteId > 0 && e.Value.Slot is not null && e.Value.Slot == slot && (e.Value.Specialization == 0 || TemplatePresenter.Template.HasSpecialization(e.Value.Specialization))).ToList();
+                var racialSkills = TemplatePresenter.Template.Race != Core.DataModels.Races.None ? BuildsManager.Data.Races[TemplatePresenter.Template.Race]?.Skills.Where(e => e.Value.PaletteId > 0 && e.Value.Slot is not null && e.Value.Slot == slot).ToList() : new();
+                if (racialSkills is not null) filteredSkills.AddRange(racialSkills);
 
                 int columns = Math.Min(filteredSkills.Count(), 4);
                 int rows = (int)Math.Ceiling(filteredSkills.Count() / (double)columns);
@@ -344,7 +343,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
 
                 var skills = TemplatePresenter.Template?.Legends[legendSlot];
 
-                if (skills != null)
+                if (skills is not null)
                 {
                     switch (slot)
                     {
@@ -399,7 +398,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
             // Right
             spriteBatch.DrawOnCtrl(this, Textures.Pixel, new Rectangle(_selectorBounds.Right - 2, _selectorBounds.Top, 2, _selectorBounds.Height), Rectangle.Empty, borderColor * 0.8f);
 
-            if (_selectableSkills != null)
+            if (_selectableSkills is not null)
             {
                 foreach (var s in _selectableSkills)
                 {
@@ -415,6 +414,18 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
             base.DisposeControl();
 
             Input.Mouse.LeftMouseButtonPressed -= Mouse_LeftMouseButtonPressed;
+            _selectorAnchor?.Dispose();
+
+            _aquaticTexture?.Dispose();
+            _terrestrialTexture?.Dispose();
+            _selectingFrame?.Dispose();
+
+            foreach (var c in _skillIcons.Values)
+            {
+                c?.Dispose();
+            }
+
+            TemplatePresenter = null;
         }
     }
 }

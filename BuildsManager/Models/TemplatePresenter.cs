@@ -71,7 +71,7 @@ namespace Kenedia.Modules.BuildsManager.Models
 
         private void On_TemplateChanged(object sender, ValueChangedEventArgs<Template> e)
         {
-            if (e.OldValue != null)
+            if (e.OldValue is not null)
             {
                 e.OldValue.RaceChanged -= On_RaceChanged;
                 e.OldValue.BuildChanged -= On_BuildChanged;
@@ -86,7 +86,7 @@ namespace Kenedia.Modules.BuildsManager.Models
                 e.OldValue.NameChanged -= On_NameChanged;
             }
 
-            if (e.NewValue != null)
+            if (e.NewValue is not null)
             {
                 RegisterEvents(e.NewValue);
             }
@@ -215,7 +215,7 @@ namespace Kenedia.Modules.BuildsManager.Models
 
         public void SetProfession(ProfessionType profession)
         {
-            if (Template != null)
+            if (Template is not null)
             {
                 Template.Profession = profession;
             }
@@ -223,7 +223,7 @@ namespace Kenedia.Modules.BuildsManager.Models
 
         public void SetRace(Races race)
         {
-            if (Template != null)
+            if (Template is not null)
             {
                 Template.Race = race;
             }

@@ -12,6 +12,7 @@ using Kenedia.Modules.Core.Extensions;
 using Kenedia.Modules.BuildsManager.Extensions;
 using Kenedia.Modules.BuildsManager.TemplateEntries;
 using static Kenedia.Modules.BuildsManager.Controls.Selection.SelectionPanel;
+using Kenedia.Modules.BuildsManager.Res;
 
 namespace Kenedia.Modules.BuildsManager.Controls.GearPage.GearSlots
 {
@@ -40,15 +41,15 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage.GearSlots
         {
             base.PaintAfterChildren(spriteBatch, bounds);
 
-            spriteBatch.DrawStringOnCtrl(this, ItemControl?.Item?.Name ?? "Relic", Content.DefaultFont16, _titleBounds, ItemControl?.Item?.Rarity.GetColor() ?? Color.White * 0.5F);
-            spriteBatch.DrawStringOnCtrl(this, (ItemControl?.Item as DataModels.Items.Utility)?.Details.Description ?? ItemControl?.Item?.Description ?? "Currently not available", Content.DefaultFont12, _statBounds, Color.White, false, HorizontalAlignment.Left, VerticalAlignment.Top);
+            spriteBatch.DrawStringOnCtrl(this, ItemControl?.Item?.Name ?? strings.Relic, Content.DefaultFont16, _titleBounds, ItemControl?.Item?.Rarity.GetColor() ?? Color.White * 0.5F);
+            spriteBatch.DrawStringOnCtrl(this, (ItemControl?.Item as DataModels.Items.Utility)?.Details.Description ?? ItemControl?.Item?.Description ?? strings.CurrentlyNotAvailable, Content.DefaultFont12, _statBounds, Color.White, false, HorizontalAlignment.Left, VerticalAlignment.Top);
         }
 
         protected override void SetItems(object sender, EventArgs e)
         {
             base.SetItems(sender, e);
 
-            var relic = TemplatePresenter.Template[Slot] as RelicTemplateEntry;
+            var relic = TemplatePresenter?.Template?[Slot] as RelicTemplateEntry;
             Item = relic?.Relic;
         }
 

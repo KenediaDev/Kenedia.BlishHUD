@@ -58,7 +58,7 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Views
 
             PlayerCharacter player = GameService.Gw2Mumble.PlayerCharacter;
 
-            if (player != null)
+            if (player is not null)
             {
                 Profession = player.Profession;
             }
@@ -85,7 +85,7 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Views
         public override void RecalculateLayout()
         {
             base.RecalculateLayout();
-            if (_selector != null) _selector.Width = 300;
+            if (_selector is not null) _selector.Width = 300;
         }
     }
 }

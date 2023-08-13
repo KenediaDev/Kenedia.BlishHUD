@@ -11,7 +11,7 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Controls.SkillConnectionEdit
             TextureRegion = new(16, 16, 200, 200);
         }
 
-        public Pet Pet => Entry != null ? (Pet) Entry : null;
+        public Pet Pet => Entry is not null ? (Pet) Entry : null;
 
         public Action<PetEntryControl> OnClickAction { get; set; }
 

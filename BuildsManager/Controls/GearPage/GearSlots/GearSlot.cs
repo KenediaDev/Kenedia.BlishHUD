@@ -1,5 +1,4 @@
-﻿using Control = Blish_HUD.Controls.Control;
-using Container = Blish_HUD.Controls.Container;
+﻿using Container = Blish_HUD.Controls.Container;
 using System;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework.Graphics;
@@ -7,7 +6,6 @@ using Microsoft.Xna.Framework;
 using Kenedia.Modules.BuildsManager.Models.Templates;
 using Blish_HUD.Content;
 using Kenedia.Modules.Core.Utility;
-using Kenedia.Modules.Core.Models;
 using Blish_HUD.Input;
 using Kenedia.Modules.BuildsManager.Models;
 using Kenedia.Modules.BuildsManager.DataModels.Items;
@@ -15,6 +13,7 @@ using MonoGame.Extended.BitmapFonts;
 using Kenedia.Modules.BuildsManager.Controls.Selection;
 using Kenedia.Modules.Core.Controls;
 using Kenedia.Modules.BuildsManager.Extensions;
+using Kenedia.Modules.Core.Models;
 
 namespace Kenedia.Modules.BuildsManager.Controls.GearPage.GearSlots
 {
@@ -32,7 +31,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage.GearSlots
         protected BitmapFont UpgradeFont = Content.DefaultFont18;
         protected BitmapFont InfusionFont = Content.DefaultFont12;
 
-        protected TemplatePresenter TemplatePresenter;
+        private TemplatePresenter _templatePresenter;
 
         protected ItemControl ItemControl { get; } = new();
 
@@ -54,13 +53,28 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage.GearSlots
 
             ItemControl.Parent = this;
 
-            TemplatePresenter.LoadedGearFromCode += SetItems;
-            TemplatePresenter.TemplateChanged += SetItems;
         }
 
         public SelectionPanel SelectionPanel { get; set; }
 
         public List<GearSlot> SlotGroup { get; set; }
+
+        protected TemplatePresenter TemplatePresenter { get => _templatePresenter; set => Common.SetProperty(ref _templatePresenter, value, OnTemplatePresenterChanged); }
+
+        private void OnTemplatePresenterChanged(object sender, ValueChangedEventArgs<TemplatePresenter> e)
+        {
+            if (e.OldValue is not null)
+            {
+                e.OldValue.LoadedGearFromCode -= SetItems;
+                e.OldValue.TemplateChanged -= SetItems;
+            }
+
+            if (e.NewValue is not null)
+            {
+                e.NewValue.LoadedGearFromCode += SetItems;
+                e.NewValue.TemplateChanged += SetItems;
+            }
+        }
 
         public override void PaintBeforeChildren(SpriteBatch spriteBatch, Rectangle bounds)
         {
@@ -108,7 +122,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage.GearSlots
                 ItemControl.Placeholder.TextureRegion = new(38, 38, 52, 52);
             }
 
-            if(Slot.IsArmor()  || Slot.IsWeapon() || Slot.IsJuwellery())
+            if (Slot.IsArmor() || Slot.IsWeapon() || Slot.IsJuwellery())
             {
                 ItemControl.TextureColor = Color.Gray;
             }
@@ -155,6 +169,14 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage.GearSlots
         protected virtual void CreateSubMenus()
         {
 
+        }
+
+        protected override void DisposeControl()
+        {
+            base.DisposeControl();
+
+            TemplatePresenter = null;
+            ItemControl?.Dispose();
         }
     }
 }

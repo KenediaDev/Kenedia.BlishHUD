@@ -87,8 +87,8 @@ namespace Kenedia.Modules.Characters.Controls
                 var temp = _character;
                 if (Common.SetProperty(ref _character, value))
                 {
-                    if (temp != null) temp.Updated -= Character_Updated;
-                    if (_character != null) _character.Updated += Character_Updated;
+                    if (temp is not null) temp.Updated -= Character_Updated;
+                    if (_character is not null) _character.Updated += Character_Updated;
                 }
             }
         }
@@ -139,7 +139,7 @@ namespace Kenedia.Modules.Characters.Controls
         {
             base.DisposeControl();
 
-            if (_character != null) _character.Updated -= Character_Updated;
+            if (_character is not null) _character.Updated -= Character_Updated;
         }
     }
 }

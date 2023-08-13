@@ -1,10 +1,8 @@
 ﻿using Container = Blish_HUD.Controls.Container;
 using System;
-using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
 using Kenedia.Modules.BuildsManager.Models.Templates;
 using Kenedia.Modules.Core.Utility;
-using Kenedia.Modules.Core.Models;
 using Blish_HUD;
 using Blish_HUD.Input;
 using Kenedia.Modules.BuildsManager.DataModels.Stats;
@@ -47,7 +45,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage.GearSlots
         {
             base.SetItems(sender, e);
 
-            var armor = TemplatePresenter.Template[Slot] as AmuletTemplateEntry;
+            var armor = TemplatePresenter?.Template?[Slot] as AmuletTemplateEntry;
 
             Enrichment = armor?.Enrichment;
             Stat = armor?.Stat;
@@ -151,6 +149,14 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage.GearSlots
         private void OnStatChanged(object sender, Core.Models.ValueChangedEventArgs<Stat> e)
         {
             ItemControl.Stat = Stat;
+        }
+
+        protected override void DisposeControl()
+        {
+            base.DisposeControl();
+
+            Stat = null;
+            Enrichment = null;
         }
     }
 }

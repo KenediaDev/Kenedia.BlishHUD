@@ -50,7 +50,7 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Services
 
         public bool IsCanceled()
         {
-            return _cancellationTokenSource != null && _cancellationTokenSource.IsCancellationRequested;
+            return _cancellationTokenSource is not null && _cancellationTokenSource.IsCancellationRequested;
         }
 
         public async Task UpdateData()
@@ -109,7 +109,7 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Services
                         item.Apply((T)i);
 
                         var mappedItem = map.Find(e => e.Id == i.Id);
-                        if (mappedItem != null)
+                        if (mappedItem is not null)
                         {
                             item.MappedId = mappedItem.MappedId;
                         }
@@ -355,10 +355,10 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Services
                 ids ??= new();
                 ids.Add(targetSkill.Id);
 
-                if (targetSkill.NextChain != null)
+                if (targetSkill.NextChain is not null)
                 {
                     var s = skills.Find(e => e != targetSkill && e.Id == targetSkill.NextChain);
-                    if (s != null && !(ids?.Contains(s.Id) == true))
+                    if (s is not null && !(ids?.Contains(s.Id) == true))
                     {
                         _ = getChain(s, ids);
                     }
@@ -381,10 +381,10 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Services
                 ids ??= new List<int>();
                 ids.Add(targetSkill.Id);
 
-                if (targetSkill.NextChain != null)
+                if (targetSkill.NextChain is not null)
                 {
                     var s = skills.Find(e => e != targetSkill && e.Id == targetSkill.NextChain);
-                    if (s != null && !(ids?.Contains(s.Id) == true))
+                    if (s is not null && !(ids?.Contains(s.Id) == true))
                     {
                         _ = getFlips(s, ids);
                     }
@@ -409,21 +409,21 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Services
                     {
                         Id = skill.Id,
                         Weapon = skill.WeaponType?.ToEnum() ?? null,
-                        Specialization = skill.Specialization != null ? (SpecializationType)skill.Specialization : null,
+                        Specialization = skill.Specialization is not null ? (SpecializationType)skill.Specialization : null,
                         Enviroment = skill.Flags.Count() > 0 && skill.Flags.Aggregate((x, y) => x |= y.ToEnum()).Value.HasFlag(SkillFlag.NoUnderwater) ? Enviroment.Terrestrial : Enviroment.Terrestrial | Enviroment.Aquatic,
                     };
 
-                    if (skill.ToolbeltSkill != null)
+                    if (skill.ToolbeltSkill is not null)
                     {
                         connection.Toolbelt = skill.ToolbeltSkill;
                     }
 
-                    if (skill.NextChain != null)
+                    if (skill.NextChain is not null)
                     {
                         connection.Chain = getChain(skill);
                     }
 
-                    if (skill.BundleSkills != null)
+                    if (skill.BundleSkills is not null)
                     {
                         connection.Bundle = new()
                         {
@@ -435,7 +435,7 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Services
                         };
                     }
 
-                    if (skill.TransformSkills != null)
+                    if (skill.TransformSkills is not null)
                     {
                         connection.Transform = new()
                         {
@@ -447,19 +447,19 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Services
                         };
                     }
 
-                    if (skill.FlipSkill != null)
+                    if (skill.FlipSkill is not null)
                     {
                         connection.FlipSkills = getFlips(skill);
                     }
 
-                    if (skill.TraitedFacts != null)
+                    if (skill.TraitedFacts is not null)
                     {
                         foreach (var t in skill.TraitedFacts)
                         {
-                            if (t.RequiresTrait != null)
+                            if (t.RequiresTrait is not null)
                             {
                                 var trait = traits.Find(e => e.Id == t.RequiresTrait);
-                                if (trait != null && trait.Skills != null)
+                                if (trait is not null && trait.Skills is not null)
                                 {
                                     connection.Traited ??= new();
                                     foreach (int s in trait.Skills.Select(e => e.Id).ToList())
@@ -494,7 +494,7 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Services
                 e.Transform?.Contains(connection.Value.Id) == true ||
                 e.FlipSkills?.Contains(connection.Value.Id) == true ||
                 e.Traited?.ContainsKey(connection.Value.Id) == true ||
-                (e.Toolbelt != null && e.Toolbelt == connection.Value.Id)
+                (e.Toolbelt is not null && e.Toolbelt == connection.Value.Id)
                 )?.Id;
             }
 
@@ -837,7 +837,7 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Services
 
                 foreach (var ids in itemid_lists)
                 {
-                    if (ids != null)
+                    if (ids is not null)
                     {
                         count++;
                         IReadOnlyList<Item> items = null;
@@ -866,7 +866,7 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Services
                             File.WriteAllText($@"{Paths.ModulePath}\data\InvalidItemIds.json", json);
                         }
 
-                        if (items != null)
+                        if (items is not null)
                         {
                             foreach (var item in items)
                             {

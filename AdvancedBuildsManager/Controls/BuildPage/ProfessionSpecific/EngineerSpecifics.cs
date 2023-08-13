@@ -179,37 +179,37 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Controls.BuildPage.ProfessionSpe
                 switch (slot)
                 {
                     case SkillSlot.Profession1:
-                        if (buildSkills[BuildSkillSlot.Heal] != null)
+                        if (buildSkills[BuildSkillSlot.Heal] is not null)
                         {
-                            return buildSkills[BuildSkillSlot.Heal].ToolbeltSkill != null && skills.TryGetValue((int)buildSkills[BuildSkillSlot.Heal].ToolbeltSkill, out Skill skill) ? skill : null;
+                            return buildSkills[BuildSkillSlot.Heal].ToolbeltSkill is not null && skills.TryGetValue((int)buildSkills[BuildSkillSlot.Heal].ToolbeltSkill, out Skill skill) ? skill : null;
                         }
                         break;
 
                     case SkillSlot.Profession2:
-                        if (buildSkills[BuildSkillSlot.Utility_1] != null)
+                        if (buildSkills[BuildSkillSlot.Utility_1] is not null)
                         {
-                            return buildSkills[BuildSkillSlot.Utility_1].ToolbeltSkill != null && skills.TryGetValue((int)buildSkills[BuildSkillSlot.Utility_1].ToolbeltSkill, out Skill skill) ? skill : null;
+                            return buildSkills[BuildSkillSlot.Utility_1].ToolbeltSkill is not null && skills.TryGetValue((int)buildSkills[BuildSkillSlot.Utility_1].ToolbeltSkill, out Skill skill) ? skill : null;
                         }
                         break;
 
                     case SkillSlot.Profession3:
-                        if (buildSkills[BuildSkillSlot.Utility_2] != null)
+                        if (buildSkills[BuildSkillSlot.Utility_2] is not null)
                         {
-                            return buildSkills[BuildSkillSlot.Utility_2].ToolbeltSkill != null && skills.TryGetValue((int)buildSkills[BuildSkillSlot.Utility_2].ToolbeltSkill, out Skill skill) ? skill : null;
+                            return buildSkills[BuildSkillSlot.Utility_2].ToolbeltSkill is not null && skills.TryGetValue((int)buildSkills[BuildSkillSlot.Utility_2].ToolbeltSkill, out Skill skill) ? skill : null;
                         }
                         break;
 
                     case SkillSlot.Profession4:
-                        if (buildSkills[BuildSkillSlot.Utility_3] != null)
+                        if (buildSkills[BuildSkillSlot.Utility_3] is not null)
                         {
-                            return buildSkills[BuildSkillSlot.Utility_3].ToolbeltSkill != null && skills.TryGetValue((int)buildSkills[BuildSkillSlot.Utility_3].ToolbeltSkill, out Skill skill) ? skill : null;
+                            return buildSkills[BuildSkillSlot.Utility_3].ToolbeltSkill is not null && skills.TryGetValue((int)buildSkills[BuildSkillSlot.Utility_3].ToolbeltSkill, out Skill skill) ? skill : null;
                         }
                         break;
 
                     case SkillSlot.Profession5:
-                        if (buildSkills[BuildSkillSlot.Elite] != null)
+                        if (buildSkills[BuildSkillSlot.Elite] is not null)
                         {
-                            return buildSkills[BuildSkillSlot.Elite].ToolbeltSkill != null && skills.TryGetValue((int)buildSkills[BuildSkillSlot.Elite].ToolbeltSkill, out Skill skill) ? skill : null;
+                            return buildSkills[BuildSkillSlot.Elite].ToolbeltSkill is not null && skills.TryGetValue((int)buildSkills[BuildSkillSlot.Elite].ToolbeltSkill, out Skill skill) ? skill : null;
                         }
                         break;
                 }

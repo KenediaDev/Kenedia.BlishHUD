@@ -169,14 +169,14 @@ namespace Kenedia.Modules.AdvancedBuildsManager
 
                     var template = JsonConvert.DeserializeObject<Template>(fileText);
 
-                    if (template != null)
+                    if (template is not null)
                     {
                         template.LoadRotations();
                         Templates.Add(template);
                     }
                 }
 
-                if (Templates.Count == 0 && SelectedTemplate != null) Templates.Add(SelectedTemplate);
+                if (Templates.Count == 0 && SelectedTemplate is not null) Templates.Add(SelectedTemplate);
                 SelectedTemplate = Templates.FirstOrDefault();
             }
             catch (Exception ex)
@@ -340,7 +340,7 @@ namespace Kenedia.Modules.AdvancedBuildsManager
 
         private void DeleteCornerIcons()
         {
-            if (_cornerIcon != null) _cornerIcon.Moved -= CornerIcon_Moved;
+            if (_cornerIcon is not null) _cornerIcon.Moved -= CornerIcon_Moved;
             _cornerIcon?.Dispose();
             _cornerIcon = null;
 
@@ -350,7 +350,7 @@ namespace Kenedia.Modules.AdvancedBuildsManager
 
         private void CornerIcon_Moved(object sender, MovedEventArgs e)
         {
-            if (_apiSpinner != null) _apiSpinner.Location = new Point(_cornerIcon.Left, _cornerIcon.Bottom + 3);
+            if (_apiSpinner is not null) _apiSpinner.Location = new Point(_cornerIcon.Left, _cornerIcon.Bottom + 3);
         }
 
         private void OnToggleWindowKey(object sender, EventArgs e)
@@ -363,7 +363,7 @@ namespace Kenedia.Modules.AdvancedBuildsManager
 
         private void SelectedTemplateSwitched()
         {
-            if (MainWindow != null) MainWindow.Template = SelectedTemplate;
+            if (MainWindow is not null) MainWindow.Template = SelectedTemplate;
             SelectedTemplateChanged?.Invoke(this, null);
         }
     }

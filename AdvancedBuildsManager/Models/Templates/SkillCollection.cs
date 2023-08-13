@@ -22,14 +22,14 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Models.Templates
 
         public ushort GetPaletteId(BuildSkillSlot slot)
         {
-            return (ushort)(TryGetValue(slot, out Skill skill) && skill != null ? skill.PaletteId : 0);
+            return (ushort)(TryGetValue(slot, out Skill skill) && skill is not null ? skill.PaletteId : 0);
         }
 
         public bool HasSkill(Skill skill)
         {
             foreach(var s in this)
             {
-                if (s.Value != null && s.Value == skill) return true;
+                if (s.Value is not null && s.Value == skill) return true;
             }
 
             return false;
@@ -39,7 +39,7 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Models.Templates
         {
             foreach(var s in this)
             {
-                if (s.Value != null && s.Value.Id == skillid) return true;
+                if (s.Value is not null && s.Value.Id == skillid) return true;
             }
 
             return false;
@@ -49,7 +49,7 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Models.Templates
         {
             foreach(var s in this)
             {
-                if (s.Value != null && s.Value.Id == skillid) return s.Key;
+                if (s.Value is not null && s.Value.Id == skillid) return s.Key;
             }
 
             return BuildSkillSlot.Utility_1;
@@ -59,7 +59,7 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Models.Templates
         {
             foreach(var s in this)
             {
-                if (s.Value != null && s.Value == skill) return s.Key;
+                if (s.Value is not null && s.Value == skill) return s.Key;
             }
 
             return BuildSkillSlot.Utility_1;

@@ -36,7 +36,7 @@ namespace Kenedia.Modules.Core.Controls
         protected override void Paint(SpriteBatch spriteBatch, Rectangle bounds)
         {
             Color? borderColor = BorderColor;
-            if (borderColor != null)
+            if (borderColor is not null)
             {
                 // Top
                 spriteBatch.DrawOnCtrl(this, ContentService.Textures.Pixel, new Rectangle(bounds.Left, bounds.Top, bounds.Width, BorderWidth.Top), Rectangle.Empty, (Color)borderColor * 0.5f);

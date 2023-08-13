@@ -9,8 +9,9 @@ using Kenedia.Modules.Core.Models;
 
 namespace Kenedia.Modules.BuildsManager.TemplateEntries
 {
-    public class AmuletTemplateEntry : TemplateEntry
+    public class AmuletTemplateEntry : TemplateEntry, IDisposable
     {
+        private bool _isDisposed;
         private Stat _stat;
         private Enrichment _enrichment;
 
@@ -21,7 +22,7 @@ namespace Kenedia.Modules.BuildsManager.TemplateEntries
         public event EventHandler<ValueChangedEventArgs<Enrichment>> EnrichmentChanged;
         public event EventHandler<ValueChangedEventArgs<Stat>> StatChanged;
 
-        public Trinket Amulet { get; } = BuildsManager.Data.Trinkets.TryGetValue(79980, out Trinket accessoire) ? accessoire : null;
+        public Trinket Amulet { get; private set; } = BuildsManager.Data.Trinkets.TryGetValue(79980, out Trinket accessoire) ? accessoire : null;
 
         public Stat Stat { get => _stat; set => Common.SetProperty(ref _stat, value, OnStatChanged); }
 
@@ -54,6 +55,17 @@ namespace Kenedia.Modules.BuildsManager.TemplateEntries
             Enrichment = BuildsManager.Data.Enrichments.Where(e => e.Value.MappedId == array[1]).FirstOrDefault().Value;
 
             return GearTemplateCode.RemoveFromStart(array, newStartIndex);
+        }
+
+        public void Dispose()
+        {
+            if (_isDisposed) return;
+
+            _isDisposed = true;
+
+            Stat = null;
+            Enrichment = null;
+            Amulet = null;
         }
     }
 }

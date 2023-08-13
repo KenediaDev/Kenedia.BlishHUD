@@ -19,7 +19,8 @@ using Blish_HUD.Gw2Mumble;
 using Kenedia.Modules.BuildsManager.Utility;
 using Kenedia.Modules.BuildsManager.DataModels.Items;
 using Kenedia.Modules.BuildsManager.DataModels.Stats;
-using Kenedia.Modules.BuildsManager.Extensions;
+using System.Diagnostics;
+using Kenedia.Modules.BuildsManager.Res;
 
 namespace Kenedia.Modules.BuildsManager.Models
 {
@@ -28,7 +29,7 @@ namespace Kenedia.Modules.BuildsManager.Models
     {
 #nullable enable
         private bool _loaded = false;
-        private bool _disposed = false;
+        private bool _isDisposed = false;
         private bool _triggerEvents = true;
 
         private Races _race = Races.None;
@@ -36,7 +37,7 @@ namespace Kenedia.Modules.BuildsManager.Models
         private EncounterFlag _encounters = EncounterFlag.None;
         private ProfessionType _profession = ProfessionType.Guardian;
 
-        private string _name = "New Template";
+        private string _name =  strings.NewTemplate;
         private string _description = string.Empty;
 
         private string _savedBuildCode = string.Empty;
@@ -275,7 +276,7 @@ namespace Kenedia.Modules.BuildsManager.Models
                         if (this[slot] is not ArmorTemplateEntry armor)
                             continue;
 
-                        armor.StatChanged += Armor_StatChanged;
+                        armor.StatChanged -= Armor_StatChanged;
                         armor.RuneChanged += Armor_RuneChanged;
                         armor.InfusionChanged += Armor_InfusionChanged;
                         break;
@@ -382,16 +383,147 @@ namespace Kenedia.Modules.BuildsManager.Models
                 }
             }
         }
+        
+        private void UnRegisterGearListeners()
+        {
+            foreach (TemplateSlotType slot in Enum.GetValues(typeof(TemplateSlotType)))
+            {
+                switch (slot)
+                {
+                    case TemplateSlotType.Head:
+                    case TemplateSlotType.Shoulder:
+                    case TemplateSlotType.Chest:
+                    case TemplateSlotType.Hand:
+                    case TemplateSlotType.Leg:
+                    case TemplateSlotType.Foot:
+                    case TemplateSlotType.AquaBreather:
+                        if (this[slot] is not ArmorTemplateEntry armor)
+                            continue;
+
+                        armor.StatChanged -= Armor_StatChanged;
+                        armor.RuneChanged -= Armor_RuneChanged;
+                        armor.InfusionChanged -= Armor_InfusionChanged;
+                        break;
+
+                    case TemplateSlotType.MainHand:
+                    case TemplateSlotType.OffHand:
+                    case TemplateSlotType.AltMainHand:
+                    case TemplateSlotType.AltOffHand:
+                        if (this[slot] is not WeaponTemplateEntry weapon)
+                            continue;
+
+                        weapon.StatChanged -= Weapon_StatChanged;
+                        weapon.SigilChanged -= Weapon_SigilChanged;
+                        weapon.InfusionChanged -= Weapon_InfusionChanged;
+                        weapon.WeaponChanged -= Weapon_WeaponChanged;
+
+                        break;
+
+                    case TemplateSlotType.Aquatic:
+                    case TemplateSlotType.AltAquatic:
+                        if (this[slot] is not AquaticWeaponTemplateEntry aqua)
+                            continue;
+
+                        aqua.StatChanged -= Aqua_StatChanged;
+                        aqua.Sigil1Changed -= Aqua_Sigil1Changed;
+                        aqua.Sigil2Changed -= Aqua_Sigil2Changed;
+                        aqua.WeaponChanged -= Aqua_WeaponChanged;
+                        aqua.Infusion1Changed -= Aqua_Infusion1Changed;
+                        aqua.Infusion2Changed -= Aqua_Infusion2Changed;
+
+                        break;
+
+                    case TemplateSlotType.Amulet:
+                        if (this[slot] is not AmuletTemplateEntry amulet)
+                            continue;
+
+                        amulet.StatChanged -= Amulet_StatChanged;
+                        amulet.EnrichmentChanged -= Amulet_EnrichmentChanged;
+                        break;
+
+                    case TemplateSlotType.Ring_1:
+                    case TemplateSlotType.Ring_2:
+                        if (this[slot] is not RingTemplateEntry ring)
+                            continue;
+
+                        ring.StatChanged -= Ring_StatChanged;
+                        ring.Infusion1Changed -= Ring_Infusion1Changed;
+                        ring.Infusion2Changed -= Ring_Infusion2Changed;
+                        ring.Infusion3Changed -= Ring_Infusion3Changed;
+                        break;
+
+                    case TemplateSlotType.Accessory_1:
+                    case TemplateSlotType.Accessory_2:
+                        if (this[slot] is not AccessoireTemplateEntry accessory)
+                            continue;
+
+                        accessory.StatChanged -= Accessory_StatChanged;
+                        accessory.InfusionChanged -= Accessory_InfusionChanged;
+                        break;
+                    case TemplateSlotType.Back:
+                        if (this[slot] is not BackTemplateEntry back)
+                            continue;
+
+                        back.StatChanged -= Back_StatChanged;
+                        back.Infusion1Changed -= Back_Infusion1Changed;
+                        back.Infusion2Changed -= Back_Infusion2Changed;
+                        break;
+
+                    case TemplateSlotType.PvpAmulet:
+                        if (this[slot] is not PvpAmuletTemplateEntry pvpAmulet)
+                            continue;
+
+                        pvpAmulet.PvpAmuletChanged -= PvpAmulet_PvpAmuletChanged;
+                        pvpAmulet.RuneChanged -= PvpAmulet_RuneChanged;
+                        break;
+
+                    case TemplateSlotType.Nourishment:
+                        if (this[slot] is not NourishmentTemplateEntry nourishment)
+                            continue;
+
+                        nourishment.NourishmentChanged -= Nourishment_NourishmentChanged;
+                        break;
+
+                    case TemplateSlotType.Utility:
+                        if (this[slot] is not UtilityTemplateEntry utility)
+                            continue;
+
+                        utility.UtilityChanged -= Utility_UtilityChanged;
+                        break;
+
+                    case TemplateSlotType.JadeBotCore:
+                        if (this[slot] is not JadeBotTemplateEntry jadeBotCore)
+                            continue;
+
+                        jadeBotCore.JadeBotCoreChanged -= JadeBotCore_JadeBotCoreChanged;
+                        break;
+
+                    case TemplateSlotType.Relic:
+                        if (this[slot] is not RelicTemplateEntry relic)
+                            continue;
+
+                        relic.RelicChanged -= Relic_RelicChanged;
+                        break;
+                }
+            }
+        }
 
         private void OnNameChanged(object sender, ValueChangedEventArgs<string> e)
         {
+            if(!_triggerEvents)
+                return;
+
             AutoSave();
             NameChanged?.Invoke(this, e);
         }
 
         private async void OnGearChanged(object sender, EventArgs e)
         {
+            if (!_triggerEvents)
+                return;
+
             GearChanged?.Invoke(this, e);
+
             await Save();
         }
 
@@ -552,50 +684,58 @@ namespace Kenedia.Modules.BuildsManager.Models
 
         private void OnTagsChanged(object sender, ValueChangedEventArgs<TemplateFlag> e)
         {
+            if (!_triggerEvents) return;
             TagsChanged?.Invoke(this, e);
         }
         private void OnEncountersChanged(object sender, ValueChangedEventArgs<EncounterFlag> e)
         {
+            if (!_triggerEvents) return;
             EncountersChanged?.Invoke(this, e);
         }
 
         private async void Spec_TraitsChanged(object sender, EventArgs e)
         {
+            if (!_triggerEvents) return;
+
             BuildChanged?.Invoke(this, e);
             await Save();
         }
 
         private async void Skills_ItemChanged(object sender, DictionaryItemChangedEventArgs<SkillSlotType, Skill?> e)
         {
+            if (!_triggerEvents) return;
             BuildChanged?.Invoke(this, e);
+
             await Save();
         }
 
         private async void Pets_ItemChanged(object sender, DictionaryItemChangedEventArgs<PetSlotType, Pet?> e)
         {
+            if (!_triggerEvents) return;
             BuildChanged?.Invoke(this, e);
             await Save();
         }
 
         private async void Legends_ItemChanged(object sender, DictionaryItemChangedEventArgs<LegendSlotType, Legend?> e)
         {
+            if (!_triggerEvents) return;
             BuildChanged?.Invoke(this, e);
             await Save();
         }
 
         private async void Specializations_ItemPropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
+            if (!_triggerEvents) return;
             BuildChanged?.Invoke(this, e);
             await Save();
         }
 
         private async void OnProfessionChanged(object sender, ValueChangedEventArgs<ProfessionType> e)
         {
-            if (Skills.WipeSkills(Race))
-            {
-                BuildChanged?.Invoke(this, e);
-            }
+            bool temp = _triggerEvents;
 
+            _triggerEvents = false;
+            _ = Skills.WipeSkills(Race);
             Specializations.Wipe();
             Pets.Wipe();
             Legends.Wipe();
@@ -606,8 +746,10 @@ namespace Kenedia.Modules.BuildsManager.Models
 
             RemoveInvalidBuildCombinations();
 
+            _triggerEvents = temp;
             if (!_triggerEvents) return;
             ProfessionChanged?.Invoke(this, e);
+            BuildChanged?.Invoke(this, e);
 
             await Save();
         }
@@ -620,7 +762,7 @@ namespace Kenedia.Modules.BuildsManager.Models
                     AquaBreather.Armor = BuildsManager.Data.Armors[79895];
                     Head.Armor = BuildsManager.Data.Armors[85193];
                     Shoulder.Armor = BuildsManager.Data.Armors[84875];
-                    Chest.Armor  = BuildsManager.Data.Armors[85084];
+                    Chest.Armor = BuildsManager.Data.Armors[85084];
                     Hand.Armor = BuildsManager.Data.Armors[85140];
                     Leg.Armor = BuildsManager.Data.Armors[84887];
                     Foot.Armor = BuildsManager.Data.Armors[85055];
@@ -662,12 +804,12 @@ namespace Kenedia.Modules.BuildsManager.Models
 
         public void LoadFromCode(string? build = null, string? gear = null)
         {
-            if (build != null)
+            if (build is not null)
             {
                 LoadBuildFromCode(build);
             }
 
-            if (gear != null)
+            if (gear is not null)
             {
                 LoadGearFromCode(gear);
             }
@@ -678,7 +820,7 @@ namespace Kenedia.Modules.BuildsManager.Models
             // Disable Events to prevent unnecessary event triggers during the load
             _triggerEvents = false;
 
-            if (code != null && Gw2ChatLink.TryParse(code, out IGw2ChatLink? chatlink))
+            if (code is not null && Gw2ChatLink.TryParse(code, out IGw2ChatLink? chatlink))
             {
                 BuildChatLink build = new();
                 build.Parse(chatlink.ToArray());
@@ -906,10 +1048,11 @@ namespace Kenedia.Modules.BuildsManager.Models
         {
             if (!_triggerEvents) return;
 
+            Debug.WriteLine($"AutoSave");
             await Save();
         }
 
-        public async Task Save(int timeToWait = 250)
+        public async Task Save(int timeToWait = 500)
         {
             if (!_loaded) return;
 
@@ -982,8 +1125,23 @@ namespace Kenedia.Modules.BuildsManager.Models
 
         public void Dispose()
         {
-            if (_disposed) return;
-            _disposed = true;
+            if (_isDisposed) return;
+            _isDisposed = true;
+            _triggerEvents = false;
+
+            UnRegisterGearListeners();
+
+            Specializations.EliteSpecChanged -= Specializations_EliteSpecChanged;
+            Specializations.ItemPropertyChanged -= Specializations_ItemPropertyChanged;
+            Legends.ItemChanged -= Legends_ItemChanged;
+            Pets.ItemChanged -= Pets_ItemChanged;
+            Skills.ItemChanged -= Skills_ItemChanged;
+
+            foreach (var spec in Specializations.Values)
+            {
+                if(spec !=null)
+                    spec.TraitsChanged -= Spec_TraitsChanged;
+            }
         }
 
         public bool HasSpecialization(Specialization specialization)
@@ -1018,8 +1176,9 @@ namespace Kenedia.Modules.BuildsManager.Models
 
         public void SetSpecialization(SpecializationSlotType slot, Specialization? specialization = null, Trait? adept = null, Trait? master = null, Trait? grandmaster = null)
         {
-            if (Specializations.TryGetValue(slot, out var spec) && spec != null)
+            if (Specializations.TryGetValue(slot, out var spec) && spec is not null)
             {
+                _triggerEvents = false;
                 var prev = spec.Specialization;
                 spec.Specialization = specialization;
                 spec.Traits[TraitTierType.Adept] = adept;
@@ -1027,6 +1186,8 @@ namespace Kenedia.Modules.BuildsManager.Models
                 spec.Traits[TraitTierType.GrandMaster] = grandmaster;
 
                 RemoveInvalidBuildCombinations();
+                _triggerEvents = true;
+
                 OnSpecializationChanged(this, new(slot, prev, specialization));
             }
         }
@@ -1046,6 +1207,7 @@ namespace Kenedia.Modules.BuildsManager.Models
             if (!_triggerEvents) return;
 
             SpecializationChanged?.Invoke(sender, e);
+
             await Save();
         }
 
@@ -1053,17 +1215,17 @@ namespace Kenedia.Modules.BuildsManager.Models
         {
             _triggerEvents = false;
 
-            if (Specializations != null)
+            if (Specializations is not null)
             {
                 var prevSlot1 = new BuildSpecialization() { Specialization = Specializations?[slot1]?.Specialization?.Elite == true && slot2 != SpecializationSlotType.Line_3 ? null : Specializations?[slot1]?.Specialization };
-                prevSlot1.Traits[TraitTierType.Adept] = prevSlot1.Specialization != null ? Specializations?[slot1]?.Traits[TraitTierType.Adept] : null;
-                prevSlot1.Traits[TraitTierType.Master] = prevSlot1.Specialization != null ? Specializations?[slot1]?.Traits[TraitTierType.Master] : null;
-                prevSlot1.Traits[TraitTierType.GrandMaster] = prevSlot1.Specialization != null ? Specializations?[slot1]?.Traits[TraitTierType.GrandMaster] : null;
+                prevSlot1.Traits[TraitTierType.Adept] = prevSlot1.Specialization is not null ? Specializations?[slot1]?.Traits[TraitTierType.Adept] : null;
+                prevSlot1.Traits[TraitTierType.Master] = prevSlot1.Specialization is not null ? Specializations?[slot1]?.Traits[TraitTierType.Master] : null;
+                prevSlot1.Traits[TraitTierType.GrandMaster] = prevSlot1.Specialization is not null ? Specializations?[slot1]?.Traits[TraitTierType.GrandMaster] : null;
 
                 var prevSlot2 = new BuildSpecialization() { Specialization = Specializations?[slot2]?.Specialization?.Elite == true && slot1 != SpecializationSlotType.Line_3 ? null : Specializations?[slot2]?.Specialization };
-                prevSlot2.Traits[TraitTierType.Adept] = prevSlot2.Specialization != null ? Specializations?[slot2]?.Traits[TraitTierType.Adept] : null;
-                prevSlot2.Traits[TraitTierType.Master] = prevSlot2.Specialization != null ? Specializations?[slot2]?.Traits[TraitTierType.Master] : null;
-                prevSlot2.Traits[TraitTierType.GrandMaster] = prevSlot2.Specialization != null ? Specializations?[slot2]?.Traits[TraitTierType.GrandMaster] : null;
+                prevSlot2.Traits[TraitTierType.Adept] = prevSlot2.Specialization is not null ? Specializations?[slot2]?.Traits[TraitTierType.Adept] : null;
+                prevSlot2.Traits[TraitTierType.Master] = prevSlot2.Specialization is not null ? Specializations?[slot2]?.Traits[TraitTierType.Master] : null;
+                prevSlot2.Traits[TraitTierType.GrandMaster] = prevSlot2.Specialization is not null ? Specializations?[slot2]?.Traits[TraitTierType.GrandMaster] : null;
 
                 SetSpecialization(slot2, prevSlot1.Specialization, prevSlot1.Traits[TraitTierType.Adept], prevSlot1.Traits[TraitTierType.Master], prevSlot1.Traits[TraitTierType.GrandMaster]);
                 SetSpecialization(slot1, prevSlot2.Specialization, prevSlot2.Traits[TraitTierType.Adept], prevSlot2.Traits[TraitTierType.Master], prevSlot2.Traits[TraitTierType.GrandMaster]);
@@ -1121,7 +1283,7 @@ namespace Kenedia.Modules.BuildsManager.Models
             {
                 SkillSlotType skillSlot = state | enviroment | array[i];
                 int? paletteId = Skills[skillSlot]?.PaletteId;
-                Skills[skillSlot] = paletteId != null ? Legend.SkillFromUShort((ushort)paletteId.Value, legend) : null;
+                Skills[skillSlot] = paletteId is not null ? Legend.SkillFromUShort((ushort)paletteId.Value, legend) : null;
             }
 
             for (int j = 0; j < missingIds.Length; j++)
@@ -1153,7 +1315,7 @@ namespace Kenedia.Modules.BuildsManager.Models
                 if (slot.Key is not TemplateSlotType.Aquatic and not TemplateSlotType.AltAquatic)
                 {
                     var weapon = (slot.Value as WeaponTemplateEntry)?.Weapon;
-                    if (weapon != null && !professionWeapons.Contains(weapon.WeaponType))
+                    if (weapon is not null && !professionWeapons.Contains(weapon.WeaponType))
                     {
                         wipeWeapons.Add(slot.Key);
                     }
@@ -1161,7 +1323,7 @@ namespace Kenedia.Modules.BuildsManager.Models
                 else
                 {
                     var weapon = (slot.Value as AquaticWeaponTemplateEntry)?.Weapon;
-                    if(weapon != null && !professionWeapons.Contains(weapon.WeaponType))
+                    if (weapon is not null && !professionWeapons.Contains(weapon.WeaponType))
                     {
                         wipeWeapons.Add(slot.Key);
                     }
@@ -1198,7 +1360,7 @@ namespace Kenedia.Modules.BuildsManager.Models
 
                 foreach (var legend in Legends)
                 {
-                    if (legend.Value != null && legend.Value?.Specialization != 0 && legend.Value?.Specialization != EliteSpecialization?.Id)
+                    if (legend.Value is not null && legend.Value?.Specialization != 0 && legend.Value?.Specialization != EliteSpecialization?.Id)
                     {
                         wipeLegends.Add(legend.Key);
                     }
@@ -1219,6 +1381,7 @@ namespace Kenedia.Modules.BuildsManager.Models
             if (!_triggerEvents) return;
 
             LegendChanged?.Invoke(sender, e);
+
             await Save();
         }
 #nullable disable

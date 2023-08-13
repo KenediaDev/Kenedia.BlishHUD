@@ -13,9 +13,10 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
 {
     public class ProfessionRaceSelection : BaseSelection
     {
+        private readonly List<ProfessionRaceSelectable> _races = new();
+        private readonly List<ProfessionRaceSelectable> _professions = new();
+
         private SelectionType _type = SelectionType.Race;
-        private List<ProfessionRaceSelectable> _races = new();
-        private List<ProfessionRaceSelectable> _professions = new();
 
         public ProfessionRaceSelection()
         {
@@ -79,8 +80,6 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
             get => _type;
             set => Common.SetProperty(ref _type, value, OnTypeChanged);
         }
-
-        public Action<Enum> OnClickAction { get; set; }
 
         private void OnTypeChanged(object sender, PropertyChangedEventArgs e)
         {

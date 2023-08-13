@@ -78,11 +78,11 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Controls.Selection
         {
             RecalculateLayout();
 
-            if (Item != null)
+            if (Item is not null)
             {
                 spriteBatch.DrawFrame(this, bounds, Item.Rarity.GetColor(), 2);
 
-                if (Item.Icon != null)
+                if (Item.Icon is not null)
                 {
                     spriteBatch.DrawOnCtrl(this, Item.Icon, _iconBounds);
                 }
@@ -110,7 +110,7 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Controls.Selection
         {
             string txt = Item == null ? null : Item.Name + $" [{Item.Id}] " + (Item.Type == Gw2Sharp.WebApi.V2.Models.ItemType.Weapon ? Environment.NewLine + (Item as Weapon).WeaponType.ToSkillWeapon() : string.Empty);
 
-            if (Item != null && !string.IsNullOrEmpty(Item.DisplayText))
+            if (Item is not null && !string.IsNullOrEmpty(Item.DisplayText))
             {
                 txt += Environment.NewLine + Item.Description;
             }

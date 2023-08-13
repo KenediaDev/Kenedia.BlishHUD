@@ -8,8 +8,9 @@ using System;
 
 namespace Kenedia.Modules.BuildsManager.TemplateEntries
 {
-    public class PvpAmuletTemplateEntry : TemplateEntry
+    public class PvpAmuletTemplateEntry : TemplateEntry, IDisposable
     {
+        private bool _isDisposed;
         private PvpAmulet _pvpAmulet;
         private Rune _rune;
 
@@ -51,6 +52,15 @@ namespace Kenedia.Modules.BuildsManager.TemplateEntries
             Rune = BuildsManager.Data.PvpRunes.Where(e => e.Value.MappedId == array[1]).FirstOrDefault().Value;
 
             return GearTemplateCode.RemoveFromStart(array, newStartIndex);
+        }
+
+        public void Dispose()
+        {
+            if (_isDisposed) return;
+            _isDisposed = true;
+
+            PvpAmulet = null;
+            Rune = null;
         }
     }
 }

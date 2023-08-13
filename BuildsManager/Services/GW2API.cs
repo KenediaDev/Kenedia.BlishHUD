@@ -200,7 +200,7 @@ namespace Kenedia.Modules.BuildsManager.Services
 
         public bool IsCanceled()
         {
-            return _cancellationTokenSource != null && _cancellationTokenSource.IsCancellationRequested;
+            return _cancellationTokenSource is not null && _cancellationTokenSource.IsCancellationRequested;
         }
 
         public async Task UpdateData()
@@ -230,7 +230,7 @@ namespace Kenedia.Modules.BuildsManager.Services
             {
                 string json;
 
-                var skins = await _gw2ApiManager.Gw2ApiClient.V2.Skins.ManyAsync(_skinDictionary.Where(e => e.Value != null).Select(e => (int)e.Value));
+                var skins = await _gw2ApiManager.Gw2ApiClient.V2.Skins.ManyAsync(_skinDictionary.Where(e => e.Value is not null).Select(e => (int)e.Value));
                 var api_armors = await _gw2ApiManager.Gw2ApiClient.V2.Items.ManyAsync(_data.ItemMap.Armors.Select(e => e.Id), cancellation);
                 var api_weapons = await _gw2ApiManager.Gw2ApiClient.V2.Items.ManyAsync(_data.ItemMap.Weapons.Select(e => e.Id), cancellation);
                 var api_backs = await _gw2ApiManager.Gw2ApiClient.V2.Items.ManyAsync(_data.ItemMap.Backs.Select(e => e.Id), cancellation);
@@ -280,7 +280,7 @@ namespace Kenedia.Modules.BuildsManager.Services
                         item.Apply((T)i);
 
                         var mappedItem = map.Find(e => e.Id == i.Id);
-                        if (mappedItem != null)
+                        if (mappedItem is not null)
                         {
                             item.MappedId = mappedItem.MappedId;
                         }
@@ -288,13 +288,13 @@ namespace Kenedia.Modules.BuildsManager.Services
                         // Adjust Skins
                         if (_skinDictionary.ContainsKey(item.Id))
                         {
-                            if(_skinDictionary[item.Id] != null)
+                            if(_skinDictionary[item.Id] is not null)
                             {
                                 if (skinIds.Contains((int)_skinDictionary[item.Id]))
                                 {
                                     var skin = skins.First(e => e.Id == _skinDictionary[item.Id]);
 
-                                    if (skin != null)
+                                    if (skin is not null)
                                     {
                                         item.Name = skin.Name;
                                         item.SetAssetId(skin.Icon.GetAssetIdFromRenderUrl());
@@ -560,10 +560,10 @@ namespace Kenedia.Modules.BuildsManager.Services
                 ids ??= new();
                 ids.Add(targetSkill.Id);
 
-                if (targetSkill.NextChain != null)
+                if (targetSkill.NextChain is not null)
                 {
                     var s = skills.Find(e => e != targetSkill && e.Id == targetSkill.NextChain);
-                    if (s != null && !(ids?.Contains(s.Id) == true))
+                    if (s is not null && !(ids?.Contains(s.Id) == true))
                     {
                         _ = getChain(s, ids);
                     }
@@ -586,10 +586,10 @@ namespace Kenedia.Modules.BuildsManager.Services
                 ids ??= new List<int>();
                 ids.Add(targetSkill.Id);
 
-                if (targetSkill.NextChain != null)
+                if (targetSkill.NextChain is not null)
                 {
                     var s = skills.Find(e => e != targetSkill && e.Id == targetSkill.NextChain);
-                    if (s != null && !(ids?.Contains(s.Id) == true))
+                    if (s is not null && !(ids?.Contains(s.Id) == true))
                     {
                         _ = getFlips(s, ids);
                     }
@@ -614,21 +614,21 @@ namespace Kenedia.Modules.BuildsManager.Services
                     {
                         Id = skill.Id,
                         Weapon = skill.WeaponType?.ToEnum() ?? null,
-                        Specialization = skill.Specialization != null ? (SpecializationType)skill.Specialization : null,
+                        Specialization = skill.Specialization is not null ? (SpecializationType)skill.Specialization : null,
                         Enviroment = skill.Flags.Count() > 0 && skill.Flags.Aggregate((x, y) => x |= y.ToEnum()).Value.HasFlag(SkillFlag.NoUnderwater) ? Enviroment.Terrestrial : Enviroment.Terrestrial | Enviroment.Aquatic,
                     };
 
-                    if (skill.ToolbeltSkill != null)
+                    if (skill.ToolbeltSkill is not null)
                     {
                         connection.Toolbelt = skill.ToolbeltSkill;
                     }
 
-                    if (skill.NextChain != null)
+                    if (skill.NextChain is not null)
                     {
                         connection.Chain = getChain(skill);
                     }
 
-                    if (skill.BundleSkills != null)
+                    if (skill.BundleSkills is not null)
                     {
                         connection.Bundle = new()
                         {
@@ -640,7 +640,7 @@ namespace Kenedia.Modules.BuildsManager.Services
                         };
                     }
 
-                    if (skill.TransformSkills != null)
+                    if (skill.TransformSkills is not null)
                     {
                         connection.Transform = new()
                         {
@@ -652,19 +652,19 @@ namespace Kenedia.Modules.BuildsManager.Services
                         };
                     }
 
-                    if (skill.FlipSkill != null)
+                    if (skill.FlipSkill is not null)
                     {
                         connection.FlipSkills = getFlips(skill);
                     }
 
-                    if (skill.TraitedFacts != null)
+                    if (skill.TraitedFacts is not null)
                     {
                         foreach (var t in skill.TraitedFacts)
                         {
-                            if (t.RequiresTrait != null)
+                            if (t.RequiresTrait is not null)
                             {
                                 var trait = traits.Find(e => e.Id == t.RequiresTrait);
-                                if (trait != null && trait.Skills != null)
+                                if (trait is not null && trait.Skills is not null)
                                 {
                                     connection.Traited ??= new();
                                     foreach (int s in trait.Skills.Select(e => e.Id).ToList())
@@ -699,7 +699,7 @@ namespace Kenedia.Modules.BuildsManager.Services
                 e.Transform?.Contains(connection.Value.Id) == true ||
                 e.FlipSkills?.Contains(connection.Value.Id) == true ||
                 e.Traited?.ContainsKey(connection.Value.Id) == true ||
-                (e.Toolbelt != null && e.Toolbelt == connection.Value.Id)
+                (e.Toolbelt is not null && e.Toolbelt == connection.Value.Id)
                 )?.Id;
             }
 
@@ -981,7 +981,7 @@ namespace Kenedia.Modules.BuildsManager.Services
 
                 foreach (var ids in itemid_lists)
                 {
-                    if (ids != null)
+                    if (ids is not null)
                     {
                         count++;
                         IReadOnlyList<Item> items = null;
@@ -1010,7 +1010,7 @@ namespace Kenedia.Modules.BuildsManager.Services
                             File.WriteAllText($@"{Paths.ModulePath}\data\InvalidItemIds.json", json);
                         }
 
-                        if (items != null)
+                        if (items is not null)
                         {
                             foreach (var item in items)
                             {

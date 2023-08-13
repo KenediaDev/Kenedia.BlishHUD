@@ -478,7 +478,7 @@ namespace Kenedia.Modules.Characters.Views
 
             foreach ((CharacterCard ctrl, bool toggleResult, bool stringsResult, bool tagsResult) in from CharacterCard ctrl in CharactersPanel.Children
                                                                                                      let c = ctrl.Character
-                                                                                                     where c != null
+                                                                                                     where c is not null
                                                                                                      let toggleResult = toggleFilters.Count == 0 || (include == FilterResult(c))
                                                                                                      let stringsResult = stringFilters.Count == 0 || (include == StringFilterResult(c))
                                                                                                      let tagsResult = tagFilters.Count == 0 || (include == TagResult(c))
@@ -495,7 +495,7 @@ namespace Kenedia.Modules.Characters.Views
 
         public void CreateCharacterControls()
         {
-            if (SideMenu.Tabs.Count > 1 && CharacterCards != null)
+            if (SideMenu.Tabs.Count > 1 && CharacterCards is not null)
             {
                 var newCharacters = CharacterModels.Except(LoadedModels);
 
@@ -563,7 +563,7 @@ namespace Kenedia.Modules.Characters.Views
         {
             base.UpdateContainer(gameTime);
 
-            BasicTooltipText = MouseOverTitleBar && Version != null ? $"v. {Version}" : null;
+            BasicTooltipText = MouseOverTitleBar && Version is not null ? $"v. {Version}" : null;
 
             if (_filterCharacters && gameTime.TotalGameTime.TotalMilliseconds - _filterTick > _settings.FilterDelay.Value)
             {
@@ -643,12 +643,12 @@ namespace Kenedia.Modules.Characters.Views
 
             if (_created)
             {
-                if (ContentPanel != null)
+                if (ContentPanel is not null)
                 {
                     ContentPanel.Size = new Point(ContentRegion.Size.X, ContentRegion.Size.Y - 35);
                 }
 
-                if (_dropdownPanel != null)
+                if (_dropdownPanel is not null)
                 {
                     //_dropdownPanel.Size = new Point(ContentRegion.Size.X, 31);
                     _filterBox.Width = _dropdownPanel.Width - _buttonPanel.Width - 2;

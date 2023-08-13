@@ -1,13 +1,9 @@
-﻿using Blish_HUD;
-using Blish_HUD.Input;
+﻿using Blish_HUD.Input;
 using Kenedia.Modules.BuildsManager.Controls.GearPage;
 using Kenedia.Modules.BuildsManager.DataModels.Items;
-using Kenedia.Modules.BuildsManager.Extensions;
 using Kenedia.Modules.BuildsManager.Models.Templates;
-using Kenedia.Modules.Core.Extensions;
 using Kenedia.Modules.Core.Utility;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.ComponentModel;
 
@@ -89,12 +85,19 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
 
             //string txt = Item == null ? null : Item.Name + $" [{Item.Id}] " + (Item.Type == Gw2Sharp.WebApi.V2.Models.ItemType.Weapon ? Environment.NewLine + (Item as Weapon).WeaponType.ToSkillWeapon() : string.Empty);
 
-            //if (Item != null && !string.IsNullOrEmpty(Item.DisplayText))
+            //if (Item is not null && !string.IsNullOrEmpty(Item.DisplayText))
             //{
             //    txt += Environment.NewLine + Item.Description;
             //}
 
             //BasicTooltipText = txt;
+        }
+
+        protected override void DisposeControl()
+        {
+            base.DisposeControl();
+
+            Item = null;
         }
     }
 }

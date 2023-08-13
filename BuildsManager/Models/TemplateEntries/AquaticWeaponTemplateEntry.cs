@@ -11,8 +11,9 @@ using Kenedia.Modules.Core.Models;
 
 namespace Kenedia.Modules.BuildsManager.TemplateEntries
 {
-    public class AquaticWeaponTemplateEntry : TemplateEntry
+    public class AquaticWeaponTemplateEntry : TemplateEntry, IDisposable
     {
+        private bool _isDisposed;
         private Weapon _weapon;
         private Sigil _sigil1;
         private Sigil _sigil2;
@@ -98,6 +99,19 @@ namespace Kenedia.Modules.BuildsManager.TemplateEntries
             Infusion2 = BuildsManager.Data.Infusions.Where(e => e.Value.MappedId == array[5]).FirstOrDefault().Value;
 
             return GearTemplateCode.RemoveFromStart(array, newStartIndex);
+        }
+
+        public void Dispose()
+        {
+            if(_isDisposed) return;
+            _isDisposed = true;
+
+            Weapon = null;
+            Stat = null;
+            Sigil1 = null;
+            Sigil2 = null;
+            Infusion1 = null;
+            Infusion2 = null;
         }
     }
 }

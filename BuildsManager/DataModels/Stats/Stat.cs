@@ -1,55 +1,16 @@
 ﻿using Blish_HUD.Content;
-using Gw2Sharp.WebApi.V2.Models;
 using Kenedia.Modules.Core.Models;
-using System.Collections.Generic;
+using System;
 using System.Runtime.Serialization;
 using APIStat = Gw2Sharp.WebApi.V2.Models.Itemstat;
 
 namespace Kenedia.Modules.BuildsManager.DataModels.Stats
 {
-    public class StatAttributes : Dictionary<AttributeType, StatAttribute>
-    {
-        public StatAttributes()
-        {
-            //foreach(AttributeType attribute in Enum.GetValues(typeof(AttributeType)))
-            //{
-            //    if (attribute is AttributeType.Unknown or AttributeType.None) continue;
-
-            //    this[attribute] = null;
-            //}
-        }
-    }
-
-    public class Attribute
-    {
-        public Attribute() { }
-    }
-
     [DataContract]
-    public class StatAttribute
+    public class Stat : IDisposable
     {
-        public StatAttribute() { }
+        private bool _isDisposed;
 
-        public StatAttribute(ItemstatAttribute attribute)
-        {
-            Id = attribute.Attribute.ToEnum();
-            Multiplier = attribute.Multiplier;
-            Value = attribute.Value;
-        }
-
-        [DataMember]
-        public double Multiplier { get; set; }
-
-        [DataMember]
-        public AttributeType Id { get; set; }
-
-        [DataMember]
-        public int Value { get; set; }
-    }
-
-    [DataContract]
-    public class Stat
-    {
         private AsyncTexture2D _icon;
 
         public Stat()
@@ -85,7 +46,7 @@ namespace Kenedia.Modules.BuildsManager.DataModels.Stats
         {
             get
             {
-                if (_icon != null) return _icon;
+                if (_icon is not null) return _icon;
 
                 _icon = TryGetTextureId(out int? textureId) ? BuildsManager.ModuleInstance.ContentsManager.GetTexture($@"textures\equipment_stats\{textureId}.png") : AsyncTexture2D.FromAssetId(156021);
                 return _icon;
@@ -98,7 +59,7 @@ namespace Kenedia.Modules.BuildsManager.DataModels.Stats
         private bool TryGetTextureId(out int? id)
         {
             var foundId = BuildsManager.Data.StatMap.Find(e => e.Ids.Contains(Id))?.Stat;
-            id = foundId != null ? (int) foundId : -1;
+            id = foundId is not null ? (int) foundId : -1;
 
             return id != -1;
         }
@@ -114,6 +75,14 @@ namespace Kenedia.Modules.BuildsManager.DataModels.Stats
             }
 
             EquipmentStatType = BuildsManager.Data.StatMap.Find(e => e.Ids.Contains(stat.Id)).Stat;
+        }
+
+        public void Dispose()
+        {
+            if (_isDisposed) return;
+            _isDisposed = true;
+
+            _icon = null;
         }
     }
 }

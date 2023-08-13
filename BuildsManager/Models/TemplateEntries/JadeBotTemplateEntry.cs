@@ -8,8 +8,9 @@ using System;
 
 namespace Kenedia.Modules.BuildsManager.TemplateEntries
 {
-    public class JadeBotTemplateEntry : TemplateEntry
+    public class JadeBotTemplateEntry : TemplateEntry, IDisposable
     {
+        private bool _isDisposed;
         private JadeBotCore _jadeBotCore;
 
         public JadeBotTemplateEntry(TemplateSlotType slot) : base(slot)
@@ -40,6 +41,14 @@ namespace Kenedia.Modules.BuildsManager.TemplateEntries
             JadeBotCore = BuildsManager.Data.JadeBotCores.Values.Where(e => e.MappedId == array[0]).FirstOrDefault();
 
             return GearTemplateCode.RemoveFromStart(array, newStartIndex);
+        }
+
+        public void Dispose()
+        {
+            if(_isDisposed) return;
+            _isDisposed = true;
+
+            JadeBotCore = null;
         }
     }
 }

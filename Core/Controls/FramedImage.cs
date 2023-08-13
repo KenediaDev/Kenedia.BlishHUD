@@ -51,7 +51,7 @@ namespace Kenedia.Modules.Core.Controls
         {
             spriteBatch.DrawOnCtrl(this, IconFrame, _iconFrameBounds, FrameTextureRegion == Rectangle.Empty ? IconFrame.Bounds : FrameTextureRegion, Color.White);
             spriteBatch.DrawOnCtrl(this, IconFrame, _rightIconFrameBounds, FrameTextureRegion == Rectangle.Empty ? IconFrame.Bounds : FrameTextureRegion, Color.White, 0F, Vector2.Zero, SpriteEffects.FlipHorizontally | SpriteEffects.FlipVertically);
-            if (Texture != null) spriteBatch.DrawOnCtrl(this, Texture, _textureBounds, TextureRegion == Rectangle.Empty ? Texture.Bounds : TextureRegion, Color.White);
+            if (Texture is not null) spriteBatch.DrawOnCtrl(this, Texture, _textureBounds, TextureRegion == Rectangle.Empty ? Texture.Bounds : TextureRegion, Color.White);
         }
     }
 }

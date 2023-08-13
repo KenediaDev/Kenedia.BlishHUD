@@ -7,13 +7,7 @@ using Kenedia.Modules.BuildsManager.DataModels.Items;
 using Kenedia.Modules.Core.Extensions;
 using Blish_HUD;
 using System;
-using Kenedia.Modules.BuildsManager.TemplateEntries;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement.ListView;
 using Kenedia.Modules.BuildsManager.DataModels.Stats;
-using static Blish_HUD.ContentService;
-using System.Diagnostics;
-using Blish_HUD.Content;
-using System.Diagnostics.Eventing.Reader;
 
 namespace Kenedia.Modules.BuildsManager.Controls.GearPage
 {
@@ -83,8 +77,6 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage
 
         protected override void Paint(SpriteBatch spriteBatch, Rectangle bounds)
         {
-            RecalculateLayout();
-
             if (Item == null)
             {
                 _placeholder.Draw(this, spriteBatch, RelativeMousePosition, TextureColor);
@@ -103,6 +95,16 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage
             int size = Math.Min(Width, Height);
 
             return Math.Max(2, size / 24);
+        }
+
+        override protected void DisposeControl()
+        {
+            Item = null;
+            Stat = null;
+            _texture?.Dispose();
+            _statTexture?.Dispose();
+            _placeholder?.Dispose();
+            base.DisposeControl();
         }
     }
 }

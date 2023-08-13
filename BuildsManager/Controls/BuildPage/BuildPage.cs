@@ -5,18 +5,20 @@ using Blish_HUD.Input;
 using Gw2Sharp.Models;
 using Kenedia.Modules.BuildsManager.Controls.BuildPage.ProfessionSpecific;
 using Kenedia.Modules.BuildsManager.Controls.Selection;
+using Kenedia.Modules.BuildsManager.DataModels;
+using Kenedia.Modules.BuildsManager.DataModels.Professions;
 using Kenedia.Modules.BuildsManager.Models;
 using Kenedia.Modules.BuildsManager.Models.Templates;
 using Kenedia.Modules.Core.Controls;
 using Kenedia.Modules.Core.DataModels;
 using Kenedia.Modules.Core.Models;
 using Kenedia.Modules.Core.Services;
+using Kenedia.Modules.Core.Utility;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using FlowPanel = Kenedia.Modules.Core.Controls.FlowPanel;
 using Panel = Kenedia.Modules.Core.Controls.Panel;
 using TextBox = Kenedia.Modules.Core.Controls.TextBox;
@@ -43,11 +45,12 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
         private readonly ImageButton _copyButton;
 
         private ProfessionSpecifics _professionSpecifics;
+        private TemplatePresenter _templatePresenter;
 
-        public BuildPage(TexturesService texturesService, TemplatePresenter _templatePresenter)
+        public BuildPage(TexturesService texturesService, TemplatePresenter templatePresenter)
         {
             _texturesService = texturesService;
-            TemplatePresenter = _templatePresenter;
+            TemplatePresenter = templatePresenter;
 
             ClipsBounds = false;
             WidthSizingMode = SizingMode.Fill;
@@ -151,17 +154,34 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
                 ZIndex = 16,
             };
 
-            TemplatePresenter.BuildCodeChanged += TemplatePresenter_BuildCodeChanged;
-            TemplatePresenter.ProfessionChanged += BuildTemplate_ProfessionChanged;
-            TemplatePresenter.RaceChanged += TemplatePresenter_RaceChanged;
-            TemplatePresenter.EliteSpecializationChanged += BuildTemplate_EliteSpecChanged;
-            TemplatePresenter.LoadedBuildFromCode += BuildTemplate_Loaded;
-            TemplatePresenter.TemplateChanged += TemplatePresenter_TemplateChanged;
-
             SetSelectionTextures();
         }
 
-        public TemplatePresenter TemplatePresenter { get; private set; }
+        public TemplatePresenter TemplatePresenter { get => _templatePresenter; set => Common.SetProperty(ref _templatePresenter, value, OnTemplatePresenterSet); }
+
+        private void OnTemplatePresenterSet(object sender, Core.Models.ValueChangedEventArgs<TemplatePresenter> e)
+        {
+
+            if (e.OldValue is not null)
+            {
+                e.OldValue.BuildCodeChanged -= TemplatePresenter_BuildCodeChanged;
+                e.OldValue.ProfessionChanged -= BuildTemplate_ProfessionChanged;
+                e.OldValue.RaceChanged -= TemplatePresenter_RaceChanged;
+                e.OldValue.EliteSpecializationChanged -= BuildTemplate_EliteSpecChanged;
+                e.OldValue.LoadedBuildFromCode -= BuildTemplate_Loaded;
+                e.OldValue.TemplateChanged -= TemplatePresenter_TemplateChanged;
+            }
+
+            if (e.NewValue is not null)
+            {
+                e.NewValue.BuildCodeChanged += TemplatePresenter_BuildCodeChanged;
+                e.NewValue.ProfessionChanged += BuildTemplate_ProfessionChanged;
+                e.NewValue.RaceChanged += TemplatePresenter_RaceChanged;
+                e.NewValue.EliteSpecializationChanged += BuildTemplate_EliteSpecChanged;
+                e.NewValue.LoadedBuildFromCode += BuildTemplate_Loaded;
+                e.NewValue.TemplateChanged += TemplatePresenter_TemplateChanged;
+            }
+        }
 
         private void TemplatePresenter_RaceChanged(object sender, Core.Models.ValueChangedEventArgs<Races> e)
         {
@@ -171,9 +191,9 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
         public override void RecalculateLayout()
         {
             base.RecalculateLayout();
-            if (_buildCodeBox != null) _buildCodeBox.Width = Width - _buildCodeBox.Left;
+            if (_buildCodeBox is not null) _buildCodeBox.Width = Width - _buildCodeBox.Left;
 
-            if (_specializationsPanel != null)
+            if (_specializationsPanel is not null)
             {
                 _professionSpecificsContainer.Width = _specializationsPanel.Width;
 
@@ -195,7 +215,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
                 _skillsBackgroundBottomBorder.Bounds = new(_professionSpecificsContainer.Right - (_professionSpecificsContainer.Width / 2) + 5, _professionSpecificsContainer.Top, (_professionSpecificsContainer.Width / 2) + 16, _professionSpecificsContainer.Height + _skillbar.Height + 12 + 10);
                 _skillsBackgroundBottomBorder.TextureRegion = new(108, 275, _professionSpecificsContainer.Width / 2, _professionSpecificsContainer.Height + _skillbar.Height);
 
-                if (_professionSpecifics != null)
+                if (_professionSpecifics is not null)
                 {
                     _professionSpecifics.Width = _professionSpecificsContainer.Width;
                     _professionSpecifics.Height = _professionSpecificsContainer.Height;
@@ -217,11 +237,11 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
 
             _specializations.ToList().ForEach(l => l.Value.Dispose());
 
-            TemplatePresenter.BuildCodeChanged -= TemplatePresenter_BuildCodeChanged;
-            TemplatePresenter.ProfessionChanged -= BuildTemplate_ProfessionChanged;
-            TemplatePresenter.EliteSpecializationChanged -= BuildTemplate_EliteSpecChanged;
-            TemplatePresenter.LoadedBuildFromCode -= BuildTemplate_Loaded;
-            TemplatePresenter.TemplateChanged -= TemplatePresenter_TemplateChanged;
+            foreach (var c in Children)
+            {
+                c?.Dispose();
+            }
+
             TemplatePresenter = null;
         }
 
@@ -259,7 +279,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
 
         private void TemplatePresenter_TemplateChanged(object sender, Core.Models.ValueChangedEventArgs<Template> e)
         {
-            _buildCodeBox.Text = TemplatePresenter.Template?.ParseBuildCode();
+            _buildCodeBox.Text = TemplatePresenter?.Template?.ParseBuildCode();
             SetSelectionTextures();
             SetProfessionSpecifics();
         }
@@ -279,7 +299,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
         {
             _professionSpecifics?.Dispose();
 
-            if (TemplatePresenter?.Template != null)
+            if (TemplatePresenter?.Template is not null)
             {
                 switch (TemplatePresenter?.Template.Profession)
                 {
@@ -312,7 +332,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
                         break;
                 }
 
-                if (_professionSpecifics != null)
+                if (_professionSpecifics is not null)
                 {
                     _professionSpecifics.Parent = _professionSpecificsContainer;
                     _professionSpecifics.Width = _professionSpecificsContainer?.Width ?? 0;
@@ -323,11 +343,11 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
 
         private void SetSelectionTextures()
         {
-            _specIcon.Texture = TemplatePresenter.Template?.EliteSpecialization != null ? TemplatePresenter.Template.EliteSpecialization.ProfessionIconBig : BuildsManager.Data.Professions?[TemplatePresenter.Template?.Profession ?? ProfessionType.Guardian]?.IconBig;
-            _specIcon.BasicTooltipText = TemplatePresenter.Template?.EliteSpecialization != null ? TemplatePresenter.Template.EliteSpecialization.Name : BuildsManager.Data.Professions?[TemplatePresenter.Template?.Profession ?? ProfessionType.Guardian]?.Name;
+            _specIcon.Texture = TemplatePresenter?.Template?.EliteSpecialization?.ProfessionIconBig ?? (BuildsManager.Data?.Professions?.TryGetValue(TemplatePresenter?.Template?.Profession ?? ProfessionType.Guardian, out Profession professionForIcon) == true ? professionForIcon.IconBig : null);
+            _specIcon.BasicTooltipText =TemplatePresenter?.Template?.EliteSpecialization?.Name ?? (BuildsManager.Data?.Professions?.TryGetValue(TemplatePresenter?.Template?.Profession ?? ProfessionType.Guardian, out Profession professionForName) == true ? professionForName.Name : null);
 
-            _raceIcon.Texture = BuildsManager.Data.Races[TemplatePresenter.Template?.Race ?? Races.None].Icon;
-            _raceIcon.BasicTooltipText = BuildsManager.Data.Races[TemplatePresenter.Template?.Race ?? Races.None].Name;
+            _raceIcon.Texture = BuildsManager.Data?.Races?.TryGetValue(TemplatePresenter?.Template?.Race ?? Races.None, out Race raceIcon) == true ? raceIcon.Icon : null;
+            _raceIcon.BasicTooltipText = BuildsManager.Data?.Races?.TryGetValue(TemplatePresenter?.Template?.Race ?? Races.None, out Race raceName) == true ? raceName.Name : null;
         }
     }
 }

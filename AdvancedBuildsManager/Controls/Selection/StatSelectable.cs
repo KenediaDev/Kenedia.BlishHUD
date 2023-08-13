@@ -112,7 +112,7 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Controls.Selection
             base.OnClick(e);
             var element = GetRotationElement();
 
-            if (element != null)
+            if (element is not null)
             {
                 element.Skill = Skill;
             }
@@ -242,13 +242,13 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Controls.Selection
         private void OnStatChanged()
         {
             _name.Text = _stat?.Name;
-            _statSummary.Text = string.Join(Environment.NewLine, _stat?.Attributes.Values.Where(e => e != null).Select(e => $"+ {Math.Round(e.Value + (e.Multiplier * _attributeAdjustment))} {e.Id.GetDisplayName()}"));
+            _statSummary.Text = string.Join(Environment.NewLine, _stat?.Attributes.Values.Where(e => e is not null).Select(e => $"+ {Math.Round(e.Value + (e.Multiplier * _attributeAdjustment))} {e.Id.GetDisplayName()}"));
             _icon.Texture = _stat?.Icon;
         }
 
         private void OnMultiplierChanged()
         {
-            _statSummary.Text = string.Join(Environment.NewLine, _stat?.Attributes.Values.Where(e => e != null).Select(e => $"+ {Math.Round(e.Value + (e.Multiplier * _attributeAdjustment))} {e.Id.GetDisplayName()}"));
+            _statSummary.Text = string.Join(Environment.NewLine, _stat?.Attributes.Values.Where(e => e is not null).Select(e => $"+ {Math.Round(e.Value + (e.Multiplier * _attributeAdjustment))} {e.Id.GetDisplayName()}"));
         }
     }
 }

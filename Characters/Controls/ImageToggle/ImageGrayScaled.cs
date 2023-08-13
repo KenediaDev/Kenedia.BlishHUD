@@ -28,9 +28,9 @@ namespace Kenedia.Modules.Characters.Controls
                 var temp = _texture; 
                 if(Common.SetProperty(ref _texture, value))
                 {
-                    if(temp != null) temp.TextureSwapped -= Texture_TextureSwapped;
-                    if(_texture != null) _texture.TextureSwapped += Texture_TextureSwapped;
-                    if (_texture != null)
+                    if(temp is not null) temp.TextureSwapped -= Texture_TextureSwapped;
+                    if(_texture is not null) _texture.TextureSwapped += Texture_TextureSwapped;
+                    if (_texture is not null)
                     {
                         _grayScaleTexture = _texture.Texture.ToGrayScaledPalettable();
                     }
@@ -99,7 +99,7 @@ namespace Kenedia.Modules.Characters.Controls
 
         protected override void Paint(SpriteBatch spriteBatch, Rectangle bounds)
         {
-            if (_texture != null)
+            if (_texture is not null)
             {
                 spriteBatch.DrawOnCtrl(
                     this,

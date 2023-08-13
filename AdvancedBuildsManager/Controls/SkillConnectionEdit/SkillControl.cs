@@ -101,7 +101,7 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Controls.SkillConnectionEdit
 
             _skillIcon.Draw(this, spriteBatch, RelativeMousePosition);
 
-            if (Skill != null)
+            if (Skill is not null)
             {
                 spriteBatch.DrawStringOnCtrl(this, $"{Skill.Id}", Content.DefaultFont16, _idBounds, Color.White);
                 spriteBatch.DrawStringOnCtrl(this, Skill.Name, Content.DefaultFont16, _nameBounds, Color.White);

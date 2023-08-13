@@ -110,11 +110,11 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Controls.BuildPage
                 var temp = _template;
                 if (Common.SetProperty(ref _template, value, SelectedTemplateChanged))
                 {
-                    if (temp != null) temp.PropertyChanged -= OnProfessionChanged;
-                    if (temp != null) temp.PropertyChanged -= ApplyTemplate;
+                    if (temp is not null) temp.PropertyChanged -= OnProfessionChanged;
+                    if (temp is not null) temp.PropertyChanged -= ApplyTemplate;
 
-                    if (_template != null) _template.PropertyChanged += OnProfessionChanged;
-                    if (_template != null) _template.PropertyChanged += ApplyTemplate;
+                    if (_template is not null) _template.PropertyChanged += OnProfessionChanged;
+                    if (_template is not null) _template.PropertyChanged += ApplyTemplate;
                 }
             }
         }
@@ -190,7 +190,7 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Controls.BuildPage
             _weaponTrait.Texture = BuildSpecialization?.Specialization?.WeaponTrait?.Icon;
             _specializationBackground.Texture = BuildSpecialization?.Specialization?.Background;
 
-            if (BuildSpecialization != null && BuildSpecialization.Specialization != null)
+            if (BuildSpecialization is not null && BuildSpecialization.Specialization is not null)
             {
                 _minorsTraits = BuildSpecialization.Specialization.MinorTraits.ToDictionary(e => e.Value.Index, e => e.Value);
                 _majorTraits = BuildSpecialization.Specialization.MajorTraits.ToDictionary(e => e.Value.Index, e => e.Value);
@@ -203,14 +203,14 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Controls.BuildPage
                 for (int i = 0; i < _majors.Count; i++)
                 {
                     _majors[i].Trait = _majorTraits.TryGetValue(i, out Trait trait) ? trait : null;
-                    _majors[i].Selected = trait != null && BuildSpecialization.Traits[trait.Tier] == trait;
+                    _majors[i].Selected = trait is not null && BuildSpecialization.Traits[trait.Tier] == trait;
                 }
 
-                if (Line == SpecializationSlot.Line_3 && Template != null && Template.BuildTemplate != null)
+                if (Line == SpecializationSlot.Line_3 && Template is not null && Template.BuildTemplate is not null)
                 {
                     foreach (var s in Template.BuildTemplate.AquaticSkills.ToList())
                     {
-                        if (s.Value != null && s.Value.Specialization != 0 && s.Value.Specialization != BuildSpecialization.Specialization.Id)
+                        if (s.Value is not null && s.Value.Specialization != 0 && s.Value.Specialization != BuildSpecialization.Specialization.Id)
                         {
                             Template.BuildTemplate.AquaticSkills[s.Key] = null;
                         }
@@ -218,7 +218,7 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Controls.BuildPage
 
                     foreach (var s in Template.BuildTemplate.InactiveAquaticSkills.ToList())
                     {
-                        if (s.Value != null && s.Value.Specialization != 0 && s.Value.Specialization != BuildSpecialization.Specialization.Id)
+                        if (s.Value is not null && s.Value.Specialization != 0 && s.Value.Specialization != BuildSpecialization.Specialization.Id)
                         {
                             Template.BuildTemplate.InactiveAquaticSkills[s.Key] = null;
                         }
@@ -226,7 +226,7 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Controls.BuildPage
 
                     foreach (var s in Template.BuildTemplate.TerrestrialSkills.ToList())
                     {
-                        if (s.Value != null && s.Value.Specialization != 0 && s.Value.Specialization != BuildSpecialization.Specialization.Id)
+                        if (s.Value is not null && s.Value.Specialization != 0 && s.Value.Specialization != BuildSpecialization.Specialization.Id)
                         {
                             Template.BuildTemplate.TerrestrialSkills[s.Key] = null;
                         }
@@ -234,7 +234,7 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Controls.BuildPage
 
                     foreach (var s in Template.BuildTemplate.InactiveTerrestrialSkills.ToList())
                     {
-                        if (s.Value != null && s.Value.Specialization != 0 && s.Value.Specialization != BuildSpecialization.Specialization.Id)
+                        if (s.Value is not null && s.Value.Specialization != 0 && s.Value.Specialization != BuildSpecialization.Specialization.Id)
                         {
                             Template.BuildTemplate.InactiveTerrestrialSkills[s.Key] = null;
                         }
@@ -247,13 +247,13 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Controls.BuildPage
         {
             string txt = string.Empty;
             bool canInteract = CanInteract?.Invoke() is true or null;
-            bool hasSpec = BuildSpecialization != null && BuildSpecialization.Specialization != null;
+            bool hasSpec = BuildSpecialization is not null && BuildSpecialization.Specialization is not null;
 
             Point? hoverPos = canInteract ? RelativeMousePosition : null;
 
             //_background.Draw(this, spriteBatch);
 
-            if (BuildSpecialization != null && BuildSpecialization.Specialization != null)
+            if (BuildSpecialization is not null && BuildSpecialization.Specialization is not null)
             {
                 _specializationBackground.Draw(this, spriteBatch);
 
@@ -269,7 +269,7 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Controls.BuildPage
                         Rectangle? minorNext = _minors.ContainsKey((int)_majors[i].Trait.Tier) ? _minors[(int)_majors[i].Trait.Tier].Bounds : null;
 
                         spriteBatch.DrawLine(new(minor.Right - Scale(2) + AbsoluteBounds.X, minor.Center.Y + AbsoluteBounds.Y), new(major.Left + Scale(2) + AbsoluteBounds.X, major.Center.Y + AbsoluteBounds.Y), Colors.ColonialWhite * 0.8f, Scale(2));
-                        if (minorNext != null) spriteBatch.DrawLine(new(major.Right - Scale(2) + AbsoluteBounds.X, major.Center.Y + AbsoluteBounds.Y), new(minorNext.Value.Left + Scale(2) + AbsoluteBounds.X, minorNext.Value.Center.Y + AbsoluteBounds.Y), Colors.ColonialWhite * 0.8f, Scale(2));
+                        if (minorNext is not null) spriteBatch.DrawLine(new(major.Right - Scale(2) + AbsoluteBounds.X, major.Center.Y + AbsoluteBounds.Y), new(minorNext.Value.Left + Scale(2) + AbsoluteBounds.X, minorNext.Value.Center.Y + AbsoluteBounds.Y), Colors.ColonialWhite * 0.8f, Scale(2));
                     }
                 }
 
@@ -315,13 +315,13 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Controls.BuildPage
 
                     for (int i = 0; i < _majors.Count; i++)
                     {
-                        if (trait != null && _majors[i].Trait.Tier == trait.Trait.Tier)
+                        if (trait is not null && _majors[i].Trait.Tier == trait.Trait.Tier)
                         {
                             _majors[i].Selected = trait == _majors[i] && !_majors[i].Selected;
                         }
                     }
 
-                    if (trait != null)
+                    if (trait is not null)
                     {
                         BuildSpecialization.Traits[trait.Trait.Tier] = trait.Selected ? trait.Trait : null;
                         return;
@@ -343,7 +343,7 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Controls.BuildPage
                                 bool hasSpec = Build?.HasSpecialization(spec.spec) == true;
                                 slot = (SpecializationSlot)(hasSpec ? Build?.GetSpecializationSlot(spec.spec) : SpecializationSlot.Line_1);
 
-                                if (BuildSpecialization != null && (BuildSpecialization?.Specialization == null || BuildSpecialization.Specialization != spec.spec))
+                                if (BuildSpecialization is not null && (BuildSpecialization?.Specialization == null || BuildSpecialization.Specialization != spec.spec))
                                 {
                                     if (hasSpec)
                                     {
@@ -430,7 +430,7 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Controls.BuildPage
                 bool hovered = spec.bounds.Contains(RelativeMousePosition);
                 bool hasSpec = Build?.HasSpecialization(spec.spec) == true;
 
-                if (spec.spec != null)
+                if (spec.spec is not null)
                 {
                     spriteBatch.DrawOnCtrl(
                     this,

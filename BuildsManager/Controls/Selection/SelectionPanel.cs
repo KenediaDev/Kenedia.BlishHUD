@@ -14,6 +14,7 @@ using Kenedia.Modules.BuildsManager.Views;
 using Kenedia.Modules.BuildsManager.Models;
 using System.Collections.Generic;
 using System.Linq;
+using Kenedia.Modules.BuildsManager.Res;
 
 namespace Kenedia.Modules.BuildsManager.Controls.Selection
 {
@@ -25,7 +26,6 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
         private readonly GearSelection _gearSelection;
         private readonly BuildSelection _buildSelection;
         private readonly StatSelection _statSelection;
-        private readonly AsyncTexture2D _separator = AsyncTexture2D.FromAssetId(156055);
 
         private readonly DetailedTexture _backButton = new(784268);
         private readonly DetailedTexture _pointerArrow = new(784266) { TextureRegion = new(16, 16, 32, 32) };
@@ -66,6 +66,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
         public SelectionPanel(TemplatePresenter templatePresenter, MainWindow mainWindow)
         {
             TemplatePresenter = templatePresenter;
+            MainWindow = mainWindow;
 
             ClipsBounds = false;
 
@@ -83,7 +84,6 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
                 Visible = true,
                 SelectionPanel = this,
                 ZIndex = ZIndex,
-                TemplatePresenter = TemplatePresenter,
             };
 
             _statSelection = new(TemplatePresenter)
@@ -92,13 +92,6 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
                 Visible = false,
                 ZIndex = ZIndex,
             };
-
-            MainWindow = mainWindow;
-            var selectables = _buildSelection.SelectionContainer?.GetChildrenOfType<TemplateSelectable>();
-            if (selectables != null)
-                mainWindow.Template = selectables.FirstOrDefault()?.Template ?? new();
-
-            ResetAnchor();
         }
 
         public enum SelectionTypes
@@ -154,7 +147,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
         {
             Anchor = anchor;
 
-            if (Anchor != null)
+            if (Anchor is not null)
             {
                 int size = anchor.AbsoluteBounds.Height;
                 size = Math.Min(size, 32);
@@ -169,7 +162,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
             SelectionType = selectionType;
             Title = title ?? SelectionType.ToString();
 
-            if (Anchor != null)
+            if (Anchor is not null)
             {
                 int size = Math.Min(anchorBounds.Height, 32);
                 AnchorDrawBounds = new(anchorBounds.Left - AbsoluteBounds.Left - (size / 2), anchorBounds.Top - AbsoluteBounds.Top + (anchorBounds.Height / 2) - (size / 2), size, size);
@@ -214,12 +207,24 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
             }
         }
 
+        public void SelectFirstTemplate()
+        {
+            if(_buildSelection.Templates.Count == 0)
+                _ = _buildSelection.CreateTemplate(strings.NewTemplate);
+
+            var selectables = _buildSelection.SelectionContainer?.GetChildrenOfType<TemplateSelectable>();
+            if (selectables is not null && MainWindow is not null)
+                MainWindow.Template = selectables.FirstOrDefault()?.Template ?? _buildSelection.CreateTemplate(strings.NewTemplate);
+
+            ResetAnchor();
+        }
+
         public void SetTemplateAnchor(Control anchor)
         {
             SelectionType = SelectionTypes.Templates;
             SetAnchor(anchor);
 
-            if (MainWindow != null)
+            if (MainWindow is not null)
             {
                 MainWindow.Template = (anchor as TemplateSelectable)?.Template;
             }
@@ -239,9 +244,9 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
             _backButton.Bounds = new(_backBounds.Left + 10, _backBounds.Top + 10, _backBounds.Height - 20, _backBounds.Height - 20);
             _backTextBounds = new(_backButton.Bounds.Right + 10, _backBounds.Top + 10, _backBounds.Width - (_backButton.Bounds.Right + 10), _backBounds.Height - 20);
 
-            if (_gearSelection != null) _gearSelection.Location = new(10, _backBounds.Bottom + 10);
-            if (_statSelection != null) _statSelection.Location = new(10, _backBounds.Bottom + 10);
-            if (_buildSelection != null) _buildSelection.Location = new(10, 10);
+            if (_gearSelection is not null) _gearSelection.Location = new(10, _backBounds.Bottom + 10);
+            if (_statSelection is not null) _statSelection.Location = new(10, _backBounds.Bottom + 10);
+            if (_buildSelection is not null) _buildSelection.Location = new(10, 10);
         }
 
         public override void PaintBeforeChildren(SpriteBatch spriteBatch, Rectangle bounds)
@@ -254,7 +259,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
             base.PaintAfterChildren(spriteBatch, bounds);
             //RecalculateLayout();
 
-            if (Anchor != null && Anchor.Visible && Anchor.Parent != null && Anchor.Parent.AbsoluteBounds.Contains(Anchor.AbsoluteBounds.Center))
+            if (Anchor is not null && Anchor.Visible && Anchor.Parent is not null && Anchor.Parent.AbsoluteBounds.Contains(Anchor.AbsoluteBounds.Center))
             {
                 if (SelectionType == SelectionTypes.Items)
                 {
@@ -279,7 +284,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
         {
             base.UpdateContainer(gameTime);
 
-            if (Anchor != null && Anchor.Parent != null && Anchor.Parent.AbsoluteBounds.Contains(Anchor.AbsoluteBounds.Center))
+            if (Anchor is not null && Anchor.Parent is not null && Anchor.Parent.AbsoluteBounds.Contains(Anchor.AbsoluteBounds.Center))
             {
                 _animationStart += (float)gameTime.ElapsedGameTime.TotalSeconds;
 
@@ -307,7 +312,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
         {
             base.OnClick(e);
 
-            if (Anchor != null)
+            if (Anchor is not null)
             {
                 if (_selectionType is SelectionTypes.Stats or SelectionTypes.Items && _backBounds.Contains(RelativeMousePosition))
                 {
@@ -352,6 +357,14 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
         {
             _pointerArrow.Draw(this, spriteBatch, null, Color.White);
 
+        }
+
+        protected override void DisposeControl()
+        {
+            base.DisposeControl();
+
+            _backButton?.Dispose();
+            _pointerArrow?.Dispose();
         }
     }
 }

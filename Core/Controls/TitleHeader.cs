@@ -50,14 +50,14 @@ namespace Kenedia.Modules.Core.Controls
 
         public void UserLocale_SettingChanged(object sender, ValueChangedEventArgs<Locale> e)
         {
-            if (SetLocalizedTooltip != null) BasicTooltipText = SetLocalizedTooltip?.Invoke();
-            if (SetLocalizedTitle != null) Title = SetLocalizedTitle?.Invoke();
+            if (SetLocalizedTooltip is not null) BasicTooltipText = SetLocalizedTooltip?.Invoke();
+            if (SetLocalizedTitle is not null) Title = SetLocalizedTitle?.Invoke();
         }
 
         protected override void Paint(SpriteBatch spriteBatch, Rectangle bounds)
         {
             spriteBatch.DrawOnCtrl(this, _texturePanelHeader, bounds, _texturePanelHeader.Bounds);
-            if (Title != null) spriteBatch.DrawStringOnCtrl(this, Title, Font, _titleBounds, Color.White);
+            if (Title is not null) spriteBatch.DrawStringOnCtrl(this, Title, Font, _titleBounds, Color.White);
         }
     }
 }

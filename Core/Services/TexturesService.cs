@@ -15,7 +15,7 @@ namespace Kenedia.Modules.Core.Services
     {
         private readonly Dictionary<string, Texture2D> _loadedTextures = new();
         private readonly ContentsManager _contentsManager;
-        private bool _disposed;
+        private bool _isDisposed;
 
         public TexturesService(ContentsManager contentsManager)
         {
@@ -24,8 +24,8 @@ namespace Kenedia.Modules.Core.Services
 
         public void Dispose()
         {
-            if (_disposed) return;
-            _disposed = true;
+            if (_isDisposed) return;
+            _isDisposed = true;
 
             if(_loadedTextures.Count > 0) _loadedTextures.Select(e => e.Value).DisposeAll();
             _loadedTextures.Clear();

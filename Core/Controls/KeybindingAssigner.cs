@@ -48,8 +48,8 @@ namespace Kenedia.Modules.Core.Controls
 
         public void UserLocale_SettingChanged(object sender, ValueChangedEventArgs<Locale> e)
         {
-            if (SetLocalizedKeyBindingName != null) KeyBindingName = SetLocalizedKeyBindingName?.Invoke();
-            if (SetLocalizedTooltip != null) BasicTooltipText = SetLocalizedTooltip?.Invoke();
+            if (SetLocalizedKeyBindingName is not null) KeyBindingName = SetLocalizedKeyBindingName?.Invoke();
+            if (SetLocalizedTooltip is not null) BasicTooltipText = SetLocalizedTooltip?.Invoke();
         }
 
         protected override void DisposeControl()

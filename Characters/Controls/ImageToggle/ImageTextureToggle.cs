@@ -30,7 +30,7 @@ namespace Kenedia.Modules.Characters.Controls
 
         protected override void Paint(SpriteBatch spriteBatch, Rectangle bounds)
         {
-            if (ActiveTexture != null)
+            if (ActiveTexture is not null)
             {
                 AsyncTexture2D texture = _active ? ActiveTexture : InactiveTexture ?? ActiveTexture;
 
@@ -44,7 +44,7 @@ namespace Kenedia.Modules.Characters.Controls
                     default);
             }
 
-            if (ActiveText != null)
+            if (ActiveText is not null)
             {
                 string text = _active ? ActiveText : InactiveText ?? ActiveText;
 

@@ -28,7 +28,7 @@ namespace Kenedia.Modules.Core.Controls
 
         public void UserLocale_SettingChanged(object sender, ValueChangedEventArgs<Locale> e)
         {
-            if (SetLocalizedTooltip != null) BasicTooltipText = SetLocalizedTooltip?.Invoke();
+            if (SetLocalizedTooltip is not null) BasicTooltipText = SetLocalizedTooltip?.Invoke();
         }
 
         protected override void DisposeControl()

@@ -83,7 +83,7 @@ namespace Kenedia.Modules.Core.Controls
         {
             base.PaintBeforeChildren(spriteBatch, bounds);
 
-            if (_resizeTexture != null && CanChange && (!ShowResizeOnlyOnMouseOver || MouseOver))
+            if (_resizeTexture is not null && CanChange && (!ShowResizeOnlyOnMouseOver || MouseOver))
             {
                 spriteBatch.DrawOnCtrl(
                     this,

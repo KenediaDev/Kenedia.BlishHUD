@@ -85,7 +85,7 @@ namespace Kenedia.Modules.Characters.Controls
             get => _text.Font;
             set
             {
-                if (value != null && _text.Font != value)
+                if (value is not null && _text.Font != value)
                 {
                     _dummy.Size = new Point(value.LineHeight, value.LineHeight);
                     _delete.Size = new Point(value.LineHeight, value.LineHeight);
@@ -124,7 +124,7 @@ namespace Kenedia.Modules.Characters.Controls
             set
             {
                 _background = value;
-                if (value != null)
+                if (value is not null)
                 {
                     CreateDisabledBackground(null, null);
                     _background.TextureSwapped += CreateDisabledBackground;
@@ -137,7 +137,7 @@ namespace Kenedia.Modules.Characters.Controls
             get => _delete.Visible;
             set
             {
-                if (_delete != null)
+                if (_delete is not null)
                 {
                     _delete.Visible = value;
                     _dummy.Visible = !value;
@@ -151,7 +151,7 @@ namespace Kenedia.Modules.Characters.Controls
             get => _text?.Text;
             set
             {
-                if (_text != null)
+                if (_text is not null)
                 {
                     _text.Text = value;
                     _text.Width = (int)Font.MeasureString(value).Width + 4;
@@ -162,9 +162,9 @@ namespace Kenedia.Modules.Characters.Controls
 
         public override void PaintBeforeChildren(SpriteBatch spriteBatch, Rectangle bounds)
         {
-            if (_background != null)
+            if (_background is not null)
             {
-                AsyncTexture2D texture = Active ? _background : _disabledBackground != null ? _disabledBackground : _background;
+                AsyncTexture2D texture = Active ? _background : _disabledBackground is not null ? _disabledBackground : _background;
 
                 spriteBatch.DrawOnCtrl(this, texture, bounds, bounds, Active ? Color.White * 0.98f : _disabledColor * 0.8f);
             }

@@ -85,7 +85,7 @@ namespace Kenedia.Modules.AdvancedBuildsManager.DataModels.Stats
         {
             get
             {
-                if (_icon != null) return _icon;
+                if (_icon is not null) return _icon;
 
                 _icon = TryGetTextureId(out int? textureId) ? AdvancedBuildsManager.ModuleInstance.ContentsManager.GetTexture($@"textures\equipment_stats\{textureId}.png") : AsyncTexture2D.FromAssetId(156021);
                 return _icon;
@@ -98,7 +98,7 @@ namespace Kenedia.Modules.AdvancedBuildsManager.DataModels.Stats
         private bool TryGetTextureId(out int? id)
         {
             var foundId = AdvancedBuildsManager.Data.StatMap.Find(e => e.Ids.Contains(Id))?.Stat;
-            id = foundId != null ? (int) foundId : -1;
+            id = foundId is not null ? (int) foundId : -1;
 
             return id != -1;
         }

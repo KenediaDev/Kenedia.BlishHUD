@@ -73,7 +73,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage.ProfessionSpecific
 
         protected override void Paint(SpriteBatch spriteBatch, Rectangle bounds)
         {
-            if (TemplatePresenter != null)
+            if (TemplatePresenter is not null)
             {                
                 foreach (var pet in _pets.Values)
                 {
@@ -146,7 +146,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage.ProfessionSpecific
 
         protected override void ApplyTemplate()
         {
-            if (TemplatePresenter != null)
+            if (TemplatePresenter is not null)
             {
                 foreach (var pet in _pets.Values)
                 {
@@ -159,7 +159,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage.ProfessionSpecific
 
         private void DrawSelector(SpriteBatch spriteBatch, Rectangle bounds)
         {
-            if (_selectorAnchor != null)
+            if (_selectorAnchor is not null)
             {
                 spriteBatch.DrawOnCtrl(this, Textures.Pixel, _selectorBounds, Rectangle.Empty, Color.Black * 0.7f);
 
@@ -193,7 +193,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage.ProfessionSpecific
 
         private void GetSelectablePets()
         {
-            if (TemplatePresenter != null)
+            if (TemplatePresenter is not null)
             {
                 var flag = _selectorAnchor.PetSlot is PetSlotType.Terrestrial_1 or PetSlotType.Terrestrial_2 ? Enviroment.Terrestrial : Enviroment.Aquatic;
                 var pets = _selectablePets.Where(e => e.Pet.Enviroment.HasFlag(flag));

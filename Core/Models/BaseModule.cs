@@ -143,7 +143,7 @@ namespace Kenedia.Modules.Core.Models
             {
                 PlayerCharacter player = GameService.Gw2Mumble.PlayerCharacter;
 
-                if (player != null && !string.IsNullOrEmpty(player.Name))
+                if (player is not null && !string.IsNullOrEmpty(player.Name))
                 {
                     LoadGUI();
                 }
@@ -152,7 +152,6 @@ namespace Kenedia.Modules.Core.Models
 
         protected override void Unload()
         {
-            base.Unload();
             UnloadGUI();
 
             Services?.Dispose();
@@ -162,6 +161,7 @@ namespace Kenedia.Modules.Core.Models
             ReloadKey.Value.Activated -= ReloadKey_Activated;
 #endif
             ModuleInstance = null;
+            base.Unload();
         }
 
         protected virtual void ReloadKey_Activated(object sender, EventArgs e)

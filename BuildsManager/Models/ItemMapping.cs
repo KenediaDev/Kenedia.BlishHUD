@@ -1,9 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace Kenedia.Modules.BuildsManager.Models
 {
-    public class ItemMapping
+    public class ItemMapping : IDisposable
     {
+        private bool _isDisposed = false;
+
         public List<ItemMap> Nourishments = new();
         public List<ItemMap> Utilities = new();
         public List<ItemMap> PveRunes = new();
@@ -18,5 +21,26 @@ namespace Kenedia.Modules.BuildsManager.Models
         public List<ItemMap> Armors = new();
         public List<ItemMap> PowerCore = new();
         public List<ItemMap> PvpAmulets = new();
+    
+        public void Dispose()
+        {
+            if(_isDisposed) return;
+            _isDisposed = true;
+
+            Nourishments.Clear();
+            Utilities.Clear();
+            PveRunes.Clear();
+            PvpRunes.Clear();
+            PveSigils.Clear();
+            PvpSigils.Clear();
+            Infusions.Clear();
+            Enrichments.Clear();
+            Trinkets.Clear();
+            Backs.Clear();
+            Weapons.Clear();
+            Armors.Clear();
+            PowerCore.Clear();
+            PvpAmulets.Clear();
+        }
     }
 }

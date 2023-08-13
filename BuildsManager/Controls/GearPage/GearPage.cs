@@ -16,6 +16,9 @@ using Gw2Sharp.Models;
 using Kenedia.Modules.BuildsManager.Models;
 using Kenedia.Modules.BuildsManager.Controls.GearPage.GearSlots;
 using Kenedia.Modules.BuildsManager.Extensions;
+using Kenedia.Modules.BuildsManager.Res;
+using Kenedia.Modules.Core.Utility;
+using Kenedia.Modules.BuildsManager.DataModels.Professions;
 
 namespace Kenedia.Modules.BuildsManager.Controls.GearPage
 {
@@ -24,13 +27,14 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage
         private readonly TexturesService _texturesService;
         private readonly TextBox _gearCodeBox;
         private readonly ImageButton _copyButton;
+        private readonly FramedImage _framedSpecIcon;
 
         private Rectangle _headerBounds;
 
         private Dictionary<TemplateSlotType, GearSlot> _templateSlots = new();
 
-        private FramedImage _framedSpecIcon;
         private SelectionPanel _selectionPanel;
+        private TemplatePresenter _templatePresenter;
         private readonly DetailedTexture _pve = new(2229699, 2229700);
         private readonly DetailedTexture _pvp = new(2229701, 2229702);
         private readonly ProfessionRaceSelection _professionRaceSelection;
@@ -43,7 +47,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage
             WidthSizingMode = Blish_HUD.Controls.SizingMode.Fill;
             HeightSizingMode = Blish_HUD.Controls.SizingMode.Fill;
 
-            string gearCodeDisclaimer = $"This code is not the same as the Equipment Template from the game. The games Template can't be read or shared sadly.{Environment.NewLine}The purpose of this code is to share the modules Equipment Template easily with other module users.";
+            string gearCodeDisclaimer = strings.EquipmentCodeDisclaimer;
             _copyButton = new()
             {
                 Parent = this,
@@ -163,12 +167,6 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage
                 ZIndex = 16,
             };
 
-            TemplatePresenter.TemplateChanged += TemplatePresenter_TemplateChanged;
-            TemplatePresenter.LoadedGearFromCode += TemplatePresenter_LoadedGearFromCode;
-            TemplatePresenter.ProfessionChanged += TemplatePresenter_ProfessionChanged;
-            TemplatePresenter.EliteSpecializationChanged += TemplatePresenter_EliteSpecializationChanged;
-            TemplatePresenter.GearCodeChanged += TemplatePresenter_GearCodeChanged;
-
             ApplyTemplate();
         }
 
@@ -197,7 +195,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage
             ApplyTemplate();
         }
 
-        public TemplatePresenter TemplatePresenter { get; private set; }
+        public TemplatePresenter TemplatePresenter { get => _templatePresenter; private set => Common.SetProperty(ref _templatePresenter ,value, OnTemplatePresenterChanged); }
 
         public SelectionPanel SelectionPanel
         {
@@ -213,11 +211,32 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage
             }
         }
 
+        private void OnTemplatePresenterChanged(object sender, Core.Models.ValueChangedEventArgs<TemplatePresenter> e)
+        {
+            if(e.OldValue is not null)
+            {
+                e.OldValue.TemplateChanged -= TemplatePresenter_TemplateChanged;
+                e.OldValue.LoadedGearFromCode -= TemplatePresenter_LoadedGearFromCode;
+                e.OldValue.ProfessionChanged -= TemplatePresenter_ProfessionChanged;
+                e.OldValue.EliteSpecializationChanged -= TemplatePresenter_EliteSpecializationChanged;
+                e.OldValue.GearCodeChanged -= TemplatePresenter_GearCodeChanged;
+            }
+
+            if(e.NewValue is not null)
+            {
+                e.NewValue.TemplateChanged += TemplatePresenter_TemplateChanged;
+                e.NewValue.LoadedGearFromCode += TemplatePresenter_LoadedGearFromCode;
+                e.NewValue.ProfessionChanged += TemplatePresenter_ProfessionChanged;
+                e.NewValue.EliteSpecializationChanged += TemplatePresenter_EliteSpecializationChanged;
+                e.NewValue.GearCodeChanged += TemplatePresenter_GearCodeChanged;
+            }
+        }
+
         public override void RecalculateLayout()
         {
             base.RecalculateLayout();
 
-            if (_gearCodeBox != null) _gearCodeBox.Width = Width - _gearCodeBox.Left;
+            if (_gearCodeBox is not null) _gearCodeBox.Width = Width - _gearCodeBox.Left;
 
             if (_templateSlots.Count > 0)
             {
@@ -268,9 +287,9 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage
 
         public void ApplyTemplate()
         {
-            _gearCodeBox.Text = TemplatePresenter.Template?.ParseGearCode();
+            _gearCodeBox.Text = TemplatePresenter?.Template?.ParseGearCode();
 
-            if (TemplatePresenter.Template != null && BuildsManager.Data.Professions.ContainsKey(TemplatePresenter.Template.Profession))
+            if (TemplatePresenter?.Template is not null && TemplatePresenter?.Template?.Profession is not null && BuildsManager.Data?.Professions?.ContainsKey(TemplatePresenter?.Template?.Profession ?? ProfessionType.Guardian) == true)
             {
                 _framedSpecIcon.Texture = TemplatePresenter.Template.EliteSpecialization?.ProfessionIconBig ??
                     BuildsManager.Data.Professions[TemplatePresenter.Template.Profession].IconBig;
@@ -343,7 +362,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage
         {
             base.PaintAfterChildren(spriteBatch, bounds);
 
-            if (TemplatePresenter.Template != null)
+            if (TemplatePresenter.Template is not null)
             {
                 (TemplatePresenter.IsPve ? _pve : _pvp).Draw(this, spriteBatch, RelativeMousePosition);
             }
@@ -353,7 +372,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage
         {
             base.OnClick(e);
 
-            if ((TemplatePresenter.Template != null && TemplatePresenter.IsPve ? _pve : _pvp).Hovered)
+            if ((TemplatePresenter.Template is not null && TemplatePresenter.IsPve ? _pve : _pvp).Hovered)
             {
                 TemplatePresenter.GameMode = TemplatePresenter.IsPve ? GameModeType.PvP : GameModeType.PvE;
 
@@ -379,6 +398,19 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage
         private void TemplateChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
             ApplyTemplate();
+        }
+
+        protected override void DisposeControl()
+        {
+            base.DisposeControl();
+
+            _templateSlots?.Values?.DisposeAll();
+            _templateSlots?.Clear();
+
+            _pve?.Dispose();
+            _pvp?.Dispose();
+
+            TemplatePresenter = null;
         }
     }
 }

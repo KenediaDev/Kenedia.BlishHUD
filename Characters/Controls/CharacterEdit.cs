@@ -118,7 +118,7 @@ namespace Kenedia.Modules.Characters.Controls
                 SetLocalizedText = () => strings.ShowInList,
                 CheckedChangedAction = (b) =>
                 {
-                    if (Character != null) Character.Show = b;
+                    if (Character is not null) Character.Show = b;
                     _refreshCharacters?.Invoke();
                 },
             };
@@ -132,7 +132,7 @@ namespace Kenedia.Modules.Characters.Controls
                 SetLocalizedTooltip = () => strings.ShowOnRadial_Tooltip,
                 CheckedChangedAction = (b) =>
                 {
-                    if (Character != null) Character.ShowOnRadial = b;
+                    if (Character is not null) Character.ShowOnRadial = b;
                     _refreshCharacters?.Invoke();
                 },
             };
@@ -144,7 +144,7 @@ namespace Kenedia.Modules.Characters.Controls
                 Location = new(355 - 40, 30),
                 Texture = tM.GetControlTexture(ControlTextures.Delete_Button),
                 HoveredTexture = tM.GetControlTexture(ControlTextures.Delete_Button_Hovered),
-                SetLocalizedTooltip = () => string.Format(strings.DeleteItem, Character != null ? Character.Name : "Character"),
+                SetLocalizedTooltip = () => string.Format(strings.DeleteItem, Character is not null ? Character.Name : "Character"),
                 ClickAction = ConfirmDelete,
                 ZIndex = 11,
             };
@@ -164,7 +164,7 @@ namespace Kenedia.Modules.Characters.Controls
                     _refreshCharacters?.Invoke();
                     _birthdayButton.Hide();
                 },
-                SetLocalizedTooltip = () => Character != null ? string.Format(strings.Birthday_Text, Character.Name, Character.Age) + "\n" + strings.ClickBirthdayToMarkAsOpen : string.Empty,
+                SetLocalizedTooltip = () => Character is not null ? string.Format(strings.Birthday_Text, Character.Name, Character.Age) + "\n" + strings.ClickBirthdayToMarkAsOpen : string.Empty,
                 Visible = false,
             };
 
@@ -230,7 +230,7 @@ namespace Kenedia.Modules.Characters.Controls
                 },
                 EnterPressedAction = (t) =>
                 {
-                    if (t != null && t.Length > 0 && !_allTags.Contains(t))
+                    if (t is not null && t.Length > 0 && !_allTags.Contains(t))
                     {
                         _allTags.Add(t);
                         Character.AddTag(t);
@@ -252,7 +252,7 @@ namespace Kenedia.Modules.Characters.Controls
                 BasicTooltipText = string.Format(strings.AddItem, strings.Tag),
                 ClickAction = (m) =>
                 {
-                    if (_tagBox.Text != null && _tagBox.Text.Length > 0 && !_allTags.Contains(_tagBox.Text))
+                    if (_tagBox.Text is not null && _tagBox.Text.Length > 0 && !_allTags.Contains(_tagBox.Text))
                     {
                         _allTags.Add(_tagBox.Text);
                         Character.AddTag(_tagBox.Text);
@@ -333,7 +333,7 @@ namespace Kenedia.Modules.Characters.Controls
                 foreach (string tag in deleteTags)
                 {
                     var t = _tags.FirstOrDefault(e => e.Text == tag);
-                    if (t != null) deleteList.Add(t);
+                    if (t is not null) deleteList.Add(t);
                 }
 
                 foreach (var t in deleteList)
@@ -344,7 +344,7 @@ namespace Kenedia.Modules.Characters.Controls
 
                 foreach (string tag in addTags)
                 {
-                    _ = AddTag(tag, Character != null && Character.Tags.Contains(tag));
+                    _ = AddTag(tag, Character is not null && Character.Tags.Contains(tag));
                 }
             }
 
@@ -355,9 +355,9 @@ namespace Kenedia.Modules.Characters.Controls
         {
             base.OnResized(e);
 
-            if (BackgroundImage != null) TextureRectangle = new Rectangle(30, 30, Math.Min(BackgroundImage.Width - 100, Width), Math.Min(BackgroundImage.Height - 100, Height));
-            if (_tagPanel != null) _tagPanel.FitWidestTag(355);
-            //if (_closeButton != null) _closeButton.Location = new(AbsoluteBounds.Right - _closeButton.Size.X - AutoSizePadding.X, AbsoluteBounds.Top + AutoSizePadding.Y);
+            if (BackgroundImage is not null) TextureRectangle = new Rectangle(30, 30, Math.Min(BackgroundImage.Width - 100, Width), Math.Min(BackgroundImage.Height - 100, Height));
+            if (_tagPanel is not null) _tagPanel.FitWidestTag(355);
+            //if (_closeButton is not null) _closeButton.Location = new(AbsoluteBounds.Right - _closeButton.Size.X - AutoSizePadding.X, AbsoluteBounds.Top + AutoSizePadding.Y);
         }
 
         public void LoadImages(object sender, EventArgs e)
@@ -377,11 +377,11 @@ namespace Kenedia.Modules.Characters.Controls
                     AsyncTexture2D noImgTexture = null;
                     Character ??= (Anchor as MainWindow)?.CharacterCards.FirstOrDefault()?.Character;
 
-                    if (Character != null)
+                    if (Character is not null)
                     {
                         _imagePanel.Children.Clear();
                         noImgTexture = Character.SpecializationIcon;
-                        if (Anchor != null && Anchor.Visible)
+                        if (Anchor is not null && Anchor.Visible)
                         {
                             (Anchor as MainWindow)?.ShowAttached(this);
                             ShowImages(true, false);
@@ -479,7 +479,7 @@ namespace Kenedia.Modules.Characters.Controls
 
         private void ApplyCharacter()
         {
-            if (Character != null)
+            if (Character is not null)
             {
                 _image.Texture = Character.Icon;
                 _name.Text = Character.Name;
@@ -494,7 +494,7 @@ namespace Kenedia.Modules.Characters.Controls
                     t.SetActive(_character.Tags.Contains(t.Text));
                 }
 
-                if (_noImgButton != null)
+                if (_noImgButton is not null)
                 {
                     _noImgButton.Texture = Character.SpecializationIcon;
                 }

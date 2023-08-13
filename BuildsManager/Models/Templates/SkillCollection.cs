@@ -37,7 +37,7 @@ namespace Kenedia.Modules.BuildsManager.Models.Templates
 
         public ushort GetPaletteId(SkillSlotType slot)
         {
-            return (ushort)(TryGetValue(slot, out Skill skill) && skill != null ? skill.PaletteId : 0);
+            return (ushort)(TryGetValue(slot, out Skill skill) && skill is not null ? skill.PaletteId : 0);
         }
 
         public bool HasSkill(Skill skill, SkillSlotType state_enviroment)
@@ -133,7 +133,7 @@ namespace Kenedia.Modules.BuildsManager.Models.Templates
 
             foreach (var key in Keys.ToList())
             {
-                if (race == null || (racials != null && !racials.ContainsKey(this[key]?.Id ?? 0)))
+                if (race == null || (racials is not null && !racials.ContainsKey(this[key]?.Id ?? 0)))
                 {
                     wiped = true;
                     this[key] = default;

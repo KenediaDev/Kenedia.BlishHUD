@@ -28,7 +28,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
         {
             foreach (var key in Keys.ToList())
             {
-                if(this[key] != null) this[key].Skill = default;
+                if(this[key] is not null) this[key].Skill = default;
             }
         }
     }

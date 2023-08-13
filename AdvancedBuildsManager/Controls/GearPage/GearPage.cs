@@ -128,7 +128,7 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Controls.GearPage
 
             //_slots[GearTemplateSlot.Nourishment].ClickAction = () =>
             //{
-            //    if (SelectionPanel != null)
+            //    if (SelectionPanel is not null)
             //    {
             //        SelectionPanel?.SetGearAnchor(_slots[GearTemplateSlot.Nourishment], _slots[GearTemplateSlot.Nourishment].AbsoluteBounds, GearTemplateSlot.Nourishment, "Nourishments");
             //    }
@@ -136,7 +136,7 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Controls.GearPage
 
             //_slots[GearTemplateSlot.JadeBotCore].ClickAction = () =>
             //{
-            //    if (SelectionPanel != null)
+            //    if (SelectionPanel is not null)
             //    {
             //        SelectionPanel?.SetGearAnchor(_slots[GearTemplateSlot.JadeBotCore], _slots[GearTemplateSlot.JadeBotCore].AbsoluteBounds, GearTemplateSlot.JadeBotCore, "JadeBotCore");
             //    }
@@ -150,7 +150,7 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Controls.GearPage
                 var temp = _template;
                 if (Common.SetProperty(ref _template, value, ApplyTemplate))
                 {
-                    if (temp != null) temp.PropertyChanged -= TemplateChanged;
+                    if (temp is not null) temp.PropertyChanged -= TemplateChanged;
 
                     _stats.Template = _template;
 
@@ -159,7 +159,7 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Controls.GearPage
                         slot.Value.Template = _template;
                     }
 
-                    if (_template != null) _template.PropertyChanged += TemplateChanged;
+                    if (_template is not null) _template.PropertyChanged += TemplateChanged;
                 }
             }
         }
@@ -182,7 +182,7 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Controls.GearPage
         {
             base.RecalculateLayout();
 
-            if (_gearCodeBox != null) _gearCodeBox.Width = Width - _gearCodeBox.Left;
+            if (_gearCodeBox is not null) _gearCodeBox.Width = Width - _gearCodeBox.Left;
 
             if (_slots.Count > 0)
             {
@@ -240,7 +240,7 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Controls.GearPage
         {
             _gearCodeBox.Text = Template?.GearTemplate?.ParseGearCode();
 
-            if (_template != null && AdvancedBuildsManager.Data.Professions.ContainsKey(_template.Profession))
+            if (_template is not null && AdvancedBuildsManager.Data.Professions.ContainsKey(_template.Profession))
             {
                 _framedSpecIcon.Texture = _template.EliteSpecialization?.ProfessionIconBig ??
                     AdvancedBuildsManager.Data.Professions[_template.Profession].IconBig;
@@ -267,7 +267,7 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Controls.GearPage
         {
             base.PaintAfterChildren(spriteBatch, bounds);
 
-            if (Template != null)
+            if (Template is not null)
             {
                 (Template.PvE ? _pve : _pvp).Draw(this, spriteBatch, RelativeMousePosition);
 
@@ -280,7 +280,7 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Controls.GearPage
         {
             base.OnClick(e);
 
-            if ((Template != null && Template.PvE ? _pve : _pvp).Hovered)
+            if ((Template is not null && Template.PvE ? _pve : _pvp).Hovered)
             {
                 Template.PvE = !Template.PvE;
             }

@@ -37,7 +37,7 @@ namespace Kenedia.Modules.Core.Models
         {
             lang ??= Blish_HUD.GameService.Overlay.UserLocale.Value;
 
-            if (lang != null)
+            if (lang is not null)
             {
                 this[(Locale)lang] = value;
             }
@@ -47,7 +47,7 @@ namespace Kenedia.Modules.Core.Models
         {
             lang ??= Blish_HUD.GameService.Overlay.UserLocale.Value;
 
-            return lang != null && TryGetValue((Locale) lang, out string text) && !string.IsNullOrEmpty(text) ? text : TryGetValue(Locale.English, out string english) && !string.IsNullOrEmpty(english) ? english : null;
+            return lang is not null && TryGetValue((Locale) lang, out string text) && !string.IsNullOrEmpty(text) ? text : TryGetValue(Locale.English, out string english) && !string.IsNullOrEmpty(english) ? english : null;
         }
     }
 }

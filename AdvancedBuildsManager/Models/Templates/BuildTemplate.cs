@@ -16,7 +16,7 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Models.Templates
 {
     public class BuildTemplate : IDisposable, INotifyPropertyChanged
     {
-        private bool _disposed = false;
+        private bool _isDisposed = false;
         private bool _loading = false;
         private ProfessionType _profession;
         private CancellationTokenSource _eventCancellationTokenSource;
@@ -24,7 +24,7 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Models.Templates
         public BuildTemplate()
         {
             PlayerCharacter player = GameService.Gw2Mumble.PlayerCharacter;
-            Profession = player != null ? player.Profession : ProfessionType.Guardian;
+            Profession = player is not null ? player.Profession : ProfessionType.Guardian;
 
             TerrestrialSkills.CollectionChanged += CollectionChanged;
             InactiveTerrestrialSkills.CollectionChanged += CollectionChanged;
@@ -165,7 +165,7 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Models.Templates
                 Profession = build.Profession;
 
                 Specializations[SpecializationSlot.Line_1] = BuildSpecialization.FromByte(build.Specialization1Id, build.Profession);
-                if (Specializations[SpecializationSlot.Line_1] != null)
+                if (Specializations[SpecializationSlot.Line_1] is not null)
                 {
                     Specializations[SpecializationSlot.Line_1].Traits[TraitTier.Adept] = Trait.FromByte(build.Specialization1Trait1Index, Specializations[SpecializationSlot.Line_1]?.Specialization, TraitTier.Adept);
                     Specializations[SpecializationSlot.Line_1].Traits[TraitTier.Master] = Trait.FromByte(build.Specialization1Trait2Index, Specializations[SpecializationSlot.Line_1]?.Specialization, TraitTier.Master);
@@ -173,7 +173,7 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Models.Templates
                 }
 
                 Specializations[SpecializationSlot.Line_2] = BuildSpecialization.FromByte(build.Specialization2Id, build.Profession);
-                if (Specializations[SpecializationSlot.Line_2] != null)
+                if (Specializations[SpecializationSlot.Line_2] is not null)
                 {
                     Specializations[SpecializationSlot.Line_2].Traits[TraitTier.Adept] = Trait.FromByte(build.Specialization2Trait1Index, Specializations[SpecializationSlot.Line_2]?.Specialization, TraitTier.Adept);
                     Specializations[SpecializationSlot.Line_2].Traits[TraitTier.Master] = Trait.FromByte(build.Specialization2Trait2Index, Specializations[SpecializationSlot.Line_2]?.Specialization, TraitTier.Master);
@@ -181,7 +181,7 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Models.Templates
                 }
 
                 Specializations[SpecializationSlot.Line_3] = BuildSpecialization.FromByte(build.Specialization3Id, build.Profession);
-                if (Specializations[SpecializationSlot.Line_3] != null)
+                if (Specializations[SpecializationSlot.Line_3] is not null)
                 {
                     Specializations[SpecializationSlot.Line_3].Traits[TraitTier.Adept] = Trait.FromByte(build.Specialization3Trait1Index, Specializations[SpecializationSlot.Line_3]?.Specialization, TraitTier.Adept);
                     Specializations[SpecializationSlot.Line_3].Traits[TraitTier.Master] = Trait.FromByte(build.Specialization3Trait2Index, Specializations[SpecializationSlot.Line_3]?.Specialization, TraitTier.Master);
@@ -324,7 +324,7 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Models.Templates
             for (int i = 1; i < 3 + 1; i++)
             {
                 int? paletteId = paletteIds[i - 1];
-                skills[(BuildSkillSlot)i] = paletteId != null ? Legend.SkillFromUShort((ushort)paletteId.Value, legend) : null;
+                skills[(BuildSkillSlot)i] = paletteId is not null ? Legend.SkillFromUShort((ushort)paletteId.Value, legend) : null;
             }
 
             var missingIds = ids.Except(paletteIds);
@@ -333,7 +333,7 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Models.Templates
                 if (missingIds.Count() > i - 1)
                 {
                     int? paletteId = missingIds.ElementAt(i - 1);
-                    skills[(BuildSkillSlot)i] = paletteId != null ? Legend.SkillFromUShort((ushort)paletteId.Value, legend) : null;
+                    skills[(BuildSkillSlot)i] = paletteId is not null ? Legend.SkillFromUShort((ushort)paletteId.Value, legend) : null;
                 }
             }
         }
@@ -402,8 +402,8 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Models.Templates
 
         public void Dispose()
         {
-            if (_disposed) return;
-            _disposed = true;
+            if (_isDisposed) return;
+            _isDisposed = true;
 
             TerrestrialSkills.CollectionChanged -= CollectionChanged;
             InactiveTerrestrialSkills.CollectionChanged -= CollectionChanged;

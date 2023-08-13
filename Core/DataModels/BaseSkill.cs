@@ -64,7 +64,7 @@ namespace Kenedia.Modules.Core.DataModels
         {
             get
             {
-                if (_icon != null || AssetId == null) return _icon;
+                if (_icon is not null || AssetId == null) return _icon;
 
                 _icon = AsyncTexture2D.FromAssetId((int)AssetId);
                 return _icon;

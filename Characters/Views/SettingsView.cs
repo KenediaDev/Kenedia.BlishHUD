@@ -39,7 +39,7 @@ namespace Kenedia.Modules.Characters.Views
 
         protected override void Unload()
         {
-            if (_openSettingsButton != null) _openSettingsButton.Click -= OpenSettingsButton_Click;
+            if (_openSettingsButton is not null) _openSettingsButton.Click -= OpenSettingsButton_Click;
         }
     }
 }

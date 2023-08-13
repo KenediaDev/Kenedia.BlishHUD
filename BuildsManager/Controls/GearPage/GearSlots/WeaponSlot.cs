@@ -3,7 +3,6 @@ using System;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
 using Kenedia.Modules.BuildsManager.Models.Templates;
-using Blish_HUD.Content;
 using Kenedia.Modules.Core.Utility;
 using Kenedia.Modules.Core.Models;
 using Blish_HUD;
@@ -221,7 +220,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage.GearSlots
         {
             base.SetItems(sender, e);
 
-            var armor = TemplatePresenter.Template[Slot] as WeaponTemplateEntry;
+            var armor = TemplatePresenter?.Template?[Slot] as WeaponTemplateEntry;
 
             Infusion = armor?.Infusion;
             Sigil = armor?.Sigil;
@@ -375,7 +374,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage.GearSlots
                 if (template[otherHand] is WeaponTemplateEntry offHand)
                 {
                     offHand.Weapon = null;
-                    if (OtherHandSlot != null) OtherHandSlot.Item = null;
+                    if (OtherHandSlot is not null) OtherHandSlot.Item = null;
                 }
             }
 
@@ -402,6 +401,17 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage.GearSlots
         private void OnInfusionChanged(object sender, Core.Models.ValueChangedEventArgs<Infusion> e)
         {
             _infusionControl.Item = Infusion;
+        }
+
+        protected override void DisposeControl()
+        {
+            base.DisposeControl();
+
+            Stat = null;
+            Sigil = null;
+            PvpSigil = null;
+            Infusion = null;
+            OtherHandSlot = null;
         }
     }
 }

@@ -10,27 +10,24 @@ using Kenedia.Modules.BuildsManager.Controls.AboutPage;
 using Kenedia.Modules.BuildsManager.Controls.Selection;
 using Kenedia.Modules.BuildsManager.Models;
 using Kenedia.Modules.Core.Models;
-using System.Linq;
+using Kenedia.Modules.BuildsManager.Res;
 
 namespace Kenedia.Modules.BuildsManager.Views
 {
     public class MainWindow : StandardWindow
     {
-        private readonly Data _data;
         private readonly TexturesService _texturesService;
         private readonly BuildPage _build;
         private readonly TabbedRegion _tabbedRegion;
         private readonly GearPage _gear;
         private readonly AboutPage _aboutPage;
         private readonly SelectionPanel _selectionPanel;
-        private readonly TemplatePresenter _templatePresenter = new();
 
-        public MainWindow(AsyncTexture2D background, Rectangle windowRegion, Rectangle contentRegion, Data data, TexturesService texturesService) : base(background, windowRegion, contentRegion)
+        public MainWindow(AsyncTexture2D background, Rectangle windowRegion, Rectangle contentRegion, TexturesService texturesService) : base(background, windowRegion, contentRegion)
         {
-            _data = data;
             _texturesService = texturesService;
 
-            _selectionPanel = new(_templatePresenter, this)
+            _selectionPanel = new(TemplatePresenter, this)
             {
                 Parent = this,
                 Location = new(0, 0),
@@ -47,44 +44,45 @@ namespace Kenedia.Modules.BuildsManager.Views
                 HeightSizingMode = Blish_HUD.Controls.SizingMode.Fill,
                 OnTabSwitched = _selectionPanel.ResetAnchor,
                 ZIndex = int.MaxValue - 5,
-                //BackgroundColor = Color.Green * 0.2F,
             };
 
             TabbedRegionTab tab;
 
             _tabbedRegion.AddTab(new TabbedRegionTab(
-                _aboutPage = new AboutPage(_texturesService, _templatePresenter)
+                _aboutPage = new AboutPage(_texturesService, TemplatePresenter)
                 {
                     HeightSizingMode = Blish_HUD.Controls.SizingMode.Fill,
                     WidthSizingMode = Blish_HUD.Controls.SizingMode.Fill,
                 })
             {
-                Header = "About",
+                Header = () => strings.About,
                 Icon = AsyncTexture2D.FromAssetId(440023),
             });
 
             _tabbedRegion.AddTab(tab = new TabbedRegionTab(
-                _build = new BuildPage(_texturesService, _templatePresenter))
+                _build = new BuildPage(_texturesService, TemplatePresenter))
             {
-                Header = "Build",
+                Header = () => strings.Build,
                 Icon = AsyncTexture2D.FromAssetId(156720),
             });
 
             _tabbedRegion.AddTab(new TabbedRegionTab(
-                _gear = new GearPage(_texturesService, _templatePresenter)
+                _gear = new GearPage(_texturesService, TemplatePresenter)
                 {
                     SelectionPanel = _selectionPanel,
                 })
             {
-                Header = "Gear",
+                Header = () => strings.Equipment,
                 Icon = AsyncTexture2D.FromAssetId(156714),
             });
 
-            //_tabbedRegion.SwitchTab(tab);
+            _tabbedRegion.SwitchTab(tab);
 
-            _templatePresenter.NameChanged += TemplatePresenter_NameChanged;
+            TemplatePresenter.NameChanged += TemplatePresenter_NameChanged;
             //Template = BuildsManager.ModuleInstance?.Templates.FirstOrDefault();
         }
+
+        private TemplatePresenter TemplatePresenter { get; set; } = new();
 
         private void TemplatePresenter_NameChanged(object sender, ValueChangedEventArgs<string> e)
         {
@@ -95,18 +93,18 @@ namespace Kenedia.Modules.BuildsManager.Views
 
         public Template Template
         {
-            get => _templatePresenter.Template; set
+            get => TemplatePresenter?.Template; set
             {
-                var prev = _templatePresenter.Template;
+                var prev = TemplatePresenter.Template;
 
                 SubName = value?.Name;
 
-                if (_templatePresenter.Template != value)
+                if (TemplatePresenter.Template != value)
                 {
-                    _templatePresenter.Template = value ?? new();
-                    _templatePresenter.Template?.Load();
+                    TemplatePresenter.Template = value ?? new();
+                    TemplatePresenter.Template?.Load();
 
-                    TemplateChanged?.Invoke(this, new(prev, _templatePresenter.Template));
+                    TemplateChanged?.Invoke(this, new(prev, TemplatePresenter.Template));
                 }
             }
         }
@@ -115,7 +113,7 @@ namespace Kenedia.Modules.BuildsManager.Views
         {
             base.RecalculateLayout();
 
-            if (_tabbedRegion != null)
+            if (_tabbedRegion is not null)
             {
                 _selectionPanel.ZIndex = _tabbedRegion.ZIndex + 1;
             }
@@ -129,6 +127,14 @@ namespace Kenedia.Modules.BuildsManager.Views
             _gear?.Dispose();
             _aboutPage?.Dispose();
             _selectionPanel?.Dispose();
+
+            TemplatePresenter.Template = null;
+            TemplatePresenter = null;
+        }
+
+        public void SelectFirstTemplate()
+        {
+            _selectionPanel?.SelectFirstTemplate();
         }
     }
 }

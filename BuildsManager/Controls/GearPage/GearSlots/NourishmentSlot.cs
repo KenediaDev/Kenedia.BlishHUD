@@ -12,7 +12,6 @@ using Kenedia.Modules.Core.Extensions;
 using Kenedia.Modules.BuildsManager.Extensions;
 using Kenedia.Modules.BuildsManager.TemplateEntries;
 using static Kenedia.Modules.BuildsManager.Controls.Selection.SelectionPanel;
-using Blish_HUD.Content;
 
 namespace Kenedia.Modules.BuildsManager.Controls.GearPage.GearSlots
 {
@@ -64,7 +63,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage.GearSlots
         {
             base.SetItems(sender, e);
 
-            var nourishment = TemplatePresenter.Template[Slot] as NourishmentTemplateEntry;
+            var nourishment = TemplatePresenter?.Template?[Slot] as NourishmentTemplateEntry;
             Item = nourishment?.Nourishment;
         }
 

@@ -20,10 +20,10 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Controls.BuildPage
             get => InternTemplate; set
             {
                 var temp = InternTemplate;
-                if (Common.SetProperty(ref InternTemplate, value, ApplyTemplate, value != null))
+                if (Common.SetProperty(ref InternTemplate, value, ApplyTemplate, value is not null))
                 {
-                    if (temp != null) temp.PropertyChanged -= Temp_Changed;
-                    if (InternTemplate != null) InternTemplate.PropertyChanged += Temp_Changed;
+                    if (temp is not null) temp.PropertyChanged -= Temp_Changed;
+                    if (InternTemplate is not null) InternTemplate.PropertyChanged += Temp_Changed;
                 }
             }
         }

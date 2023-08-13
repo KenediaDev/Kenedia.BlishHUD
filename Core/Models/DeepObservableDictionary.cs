@@ -46,7 +46,7 @@ namespace Kenedia.Modules.Core.Models
     public class DeepObservableDictionary<TKey, TValue> : Dictionary<TKey, TValue>, IDisposable
         where TValue : INotifyPropertyChanged
     {
-        private bool _disposed;
+        private bool _isDisposed;
 
         public new TValue this[TKey key]
         {
@@ -71,12 +71,12 @@ namespace Kenedia.Modules.Core.Models
         private void OnValueChanged(TKey key, TValue v, TValue value, [CallerMemberName] string propName = null)
         {
             if (value?.Equals(v) is true) return;
-            if (v != null)
+            if (v is not null)
             {
                 v.PropertyChanged -= ItemProperty_Changed;
             }
 
-            if (value != null)
+            if (value is not null)
             {
                 value.PropertyChanged += ItemProperty_Changed;
             }
@@ -88,8 +88,8 @@ namespace Kenedia.Modules.Core.Models
 
         public void Dispose()
         {
-            if (_disposed) return;
-            _disposed = true;
+            if (_isDisposed) return;
+            _isDisposed = true;
 
             foreach (var kvp in this)
             {

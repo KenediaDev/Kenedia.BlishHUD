@@ -85,7 +85,7 @@ namespace Kenedia.Modules.Core.Controls
             Message = message;
             Buttons = buttons;
 
-            if (buttons != null)
+            if (buttons is not null)
             {
                 _buttons = buttons.Select(x =>
                 {
@@ -223,7 +223,7 @@ namespace Kenedia.Modules.Core.Controls
         {
             base.RecalculateLayout();
 
-            if (Parent != null) Location = new((Parent.Width - Width) / 2, (Parent.Height - Height) / 2);
+            if (Parent is not null) Location = new((Parent.Width - Width) / 2, (Parent.Height - Height) / 2);
             TextureRectangle = new(30, 30, Math.Min(Width, _backgroundImage.Width - 60), Math.Min(Height, _backgroundImage.Height - 60));
 
             _titleBounds = new(ContentRegion.Left, ContentRegion.Top, ContentRegion.Width, TitleFont.LineHeight + 2);

@@ -65,7 +65,7 @@ namespace Kenedia.Modules.AdvancedBuildsManager.DataModels
         {
             get
             {
-                if (_icon != null) return _icon;
+                if (_icon is not null) return _icon;
 
                 _icon = AdvancedBuildsManager.ModuleInstance.ContentsManager.GetTexture($@"textures\races\{Id.ToString().ToLower()}.png");
                 return _icon;
@@ -76,7 +76,7 @@ namespace Kenedia.Modules.AdvancedBuildsManager.DataModels
         {
             get
             {
-                if (_hoveredIcon != null) return _hoveredIcon;
+                if (_hoveredIcon is not null) return _hoveredIcon;
 
                 _hoveredIcon = AdvancedBuildsManager.ModuleInstance.ContentsManager.GetTexture($@"textures\races\{Id.ToString().ToLower()}_hovered.png");
                 return _hoveredIcon;

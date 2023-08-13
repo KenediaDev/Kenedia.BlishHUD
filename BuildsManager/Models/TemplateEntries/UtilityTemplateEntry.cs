@@ -7,8 +7,9 @@ using System;
 
 namespace Kenedia.Modules.BuildsManager.TemplateEntries
 {
-    public class UtilityTemplateEntry : TemplateEntry
+    public class UtilityTemplateEntry : TemplateEntry, IDisposable
     {
+        private bool _isDisposed;
         private DataModels.Items.Utility _utility;
 
         public UtilityTemplateEntry(TemplateSlotType slot) : base(slot)
@@ -39,6 +40,14 @@ namespace Kenedia.Modules.BuildsManager.TemplateEntries
             Utility = BuildsManager.Data.Utilities.Values.Where(e => e.MappedId == array[0]).FirstOrDefault();
 
             return GearTemplateCode.RemoveFromStart(array, newStartIndex);
+        }
+
+        public void Dispose()
+        {
+            if (_isDisposed) return;
+            _isDisposed = true;
+
+            Utility = null;
         }
     }
 }

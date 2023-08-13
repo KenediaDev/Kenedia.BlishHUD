@@ -27,7 +27,7 @@ namespace Kenedia.Modules.AdvancedBuildsManager.DataModels.Items
             {
                 var upgrade = (ItemUpgradeComponent)item;
 
-                if (upgrade.Details.InfixUpgrade != null && upgrade.Details.InfixUpgrade.Attributes != null)
+                if (upgrade.Details.InfixUpgrade is not null && upgrade.Details.InfixUpgrade.Attributes is not null)
                 {
                     Bonus = upgrade.Details.InfixUpgrade.Buff.Description;
                     DisplayText = upgrade.Details.InfixUpgrade.Buff.Description.Trim();

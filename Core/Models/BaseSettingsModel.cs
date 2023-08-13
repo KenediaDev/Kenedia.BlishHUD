@@ -4,13 +4,13 @@ namespace Kenedia.Modules.Core.Models
 {
     public class BaseSettingsModel : IDisposable
     {
-        private bool _disposed;
+        private bool _isDisposed;
 
         public void Dispose()
         {
-            if (!_disposed)
+            if (!_isDisposed)
             {
-                _disposed = true;
+                _isDisposed = true;
                 OnDispose();
             }
         }

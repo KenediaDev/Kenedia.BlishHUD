@@ -8,7 +8,6 @@ using Kenedia.Modules.BuildsManager.Models;
 using Kenedia.Modules.BuildsManager.Services;
 using Kenedia.Modules.BuildsManager.Utility;
 using Kenedia.Modules.BuildsManager.Views;
-using Kenedia.Modules.Core.Extensions;
 using Kenedia.Modules.Core.Models;
 using Kenedia.Modules.Core.Res;
 using Kenedia.Modules.Core.Utility;
@@ -91,9 +90,12 @@ namespace Kenedia.Modules.BuildsManager
             if (e.NewValue is not Locale.Korean and not Locale.Chinese)
             {
                 GW2API.Cancel();
+                _apiSpinner?.Hide();
 
                 if (!Data.Professions.TryGetValue(Gw2Sharp.Models.ProfessionType.Guardian, out DataModels.Professions.Profession profession) || !profession.Names.TryGetValue(e.NewValue, out string name) || string.IsNullOrEmpty(name))
                 {
+                    _apiSpinner?.Show();
+
                     Logger.Info($"No data for {e.NewValue} loaded yet. Fetching new data from the API.");
                     await GW2API.UpdateData();
 
@@ -101,6 +103,8 @@ namespace Kenedia.Modules.BuildsManager
                     {
                         Logger.Info($"Apply fresh {e.NewValue} data to the UI.");
                     }
+
+                    _apiSpinner?.Hide();
                 }
                 else
                 {
@@ -161,8 +165,6 @@ namespace Kenedia.Modules.BuildsManager
             {
                 _tick = gameTime.TotalGameTime.TotalMilliseconds;
 
-                //var attribute = typeof(Gw2Client).Assembly.GetCustomAttributes(typeof(System.Reflection.AssemblyFileVersionAttribute), true).FirstOrDefault();
-                //Debug.WriteLine($"{((System.Reflection.AssemblyFileVersionAttribute)attribute).Version.ToString()}");
             }
         }
 
@@ -171,24 +173,7 @@ namespace Kenedia.Modules.BuildsManager
             _cancellationTokenSource?.Cancel();
             _cancellationTokenSource = new CancellationTokenSource();
 
-            //await GW2API.GetItems(_cancellationTokenSource.Token);
-            //await GW2API.UpdateData();
-
-            //var template = Templates.FirstOrDefault(e => e.Name == "Test Template #1");
-            //var build = template.BuildCode;
-            //var gear = template.GearCode;
-
-            //for (int i = 0; i < 1000; i++)
-            //{
-            //    _ = new VTemplate(build, gear)
-            //    {
-            //        Name = $"Template #{i}",
-            //    }.Save(0);
-            //}
-
             await LoadTemplates();
-
-            //CreateDummyTemplate();
 
             base.ReloadKey_Activated(sender, e);
         }
@@ -207,7 +192,6 @@ namespace Kenedia.Modules.BuildsManager
                 Services.TexturesService.GetTexture(@"textures\mainwindow_background.png", "mainwindow_background"),
                 new Rectangle(30, 30, Width, Height + 30),
                 new Rectangle(30, 20, Width - 3, Height + 15),
-                Data,
                 Services.TexturesService)
             {
                 Parent = GameService.Graphics.SpriteScreen,
@@ -225,6 +209,8 @@ namespace Kenedia.Modules.BuildsManager
 #if DEBUG
             MainWindow.Show();
 #endif
+
+            MainWindow.SelectFirstTemplate();
         }
 
         protected override void UnloadGUI()
@@ -236,9 +222,11 @@ namespace Kenedia.Modules.BuildsManager
 
         protected override void Unload()
         {
-            base.Unload();
-
             DeleteCornerIcons();
+            Templates?.Clear();
+            Data?.Dispose();
+
+            base.Unload();
         }
 
         private void ShowCornerIcon_SettingChanged(object sender, Blish_HUD.ValueChangedEventArgs<bool> e)
@@ -275,35 +263,14 @@ namespace Kenedia.Modules.BuildsManager
                     settings.Converters.Add(new TemplateConverter());
 
                     Logger.Info($"Loading {templates.Length} Templates ...");
-                    Settings.SlowLoad.Value = false;
-                    if (Settings.SlowLoad.Value)
+                    foreach (string file in templates)
                     {
-                        foreach (string file in templates)
-                        {
-                            if (await FileExtension.WaitForFileUnlock(file, 2500, _fileAccessTokenSource.Token))
-                            {
-                                using var reader = File.OpenText(file);
-                                string fileText = await reader.ReadToEndAsync();
-                                var template = JsonConvert.DeserializeObject<Template>(fileText, settings);
+                        string fileText = File.ReadAllText(file);
+                        var template = JsonConvert.DeserializeObject<Template>(fileText, settings);
 
-                                if (template != null)
-                                {
-                                    Templates.Add(template);
-                                }
-                            }
-                        }
-                    }
-                    else
-                    {
-                        foreach (string file in templates)
+                        if (template is not null)
                         {
-                            string fileText = File.ReadAllText(file);
-                            var template = JsonConvert.DeserializeObject<Template>(fileText, settings);
-
-                            if (template != null)
-                            {
-                                Templates.Add(template);
-                            }
+                            Templates.Add(template);
                         }
                     }
 
@@ -329,7 +296,7 @@ namespace Kenedia.Modules.BuildsManager
             {
                 Icon = AsyncTexture2D.FromAssetId(156720),
                 HoverIcon = AsyncTexture2D.FromAssetId(156721),
-                SetLocalizedTooltip = () => string.Format("Toggle {0}", $"{Name}"),
+                SetLocalizedTooltip = () => string.Format(strings_common.ToggleItem, $"{Name}"),
                 Parent = GameService.Graphics.SpriteScreen,
                 Visible = Settings.ShowCornerIcon.Value,
                 ClickAction = () => MainWindow?.ToggleWindow(),
@@ -349,7 +316,7 @@ namespace Kenedia.Modules.BuildsManager
 
         private void DeleteCornerIcons()
         {
-            if (_cornerIcon != null) _cornerIcon.Moved -= CornerIcon_Moved;
+            if (_cornerIcon is not null) _cornerIcon.Moved -= CornerIcon_Moved;
             _cornerIcon?.Dispose();
             _cornerIcon = null;
 
@@ -359,7 +326,7 @@ namespace Kenedia.Modules.BuildsManager
 
         private void CornerIcon_Moved(object sender, MovedEventArgs e)
         {
-            if (_apiSpinner != null) _apiSpinner.Location = new Point(_cornerIcon.Left, _cornerIcon.Bottom + 3);
+            if (_apiSpinner is not null) _apiSpinner.Location = new Point(_cornerIcon.Left, _cornerIcon.Bottom + 3);
         }
 
         private void OnToggleWindowKey(object sender, EventArgs e)

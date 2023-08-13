@@ -210,7 +210,7 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Controls.SkillConnectionEdit
             _terrestrialFlag = UI.CreateLabeledControl<Checkbox>(_infosPanel, "Terrestrial");
             _terrestrialFlag.Item2.CheckedChangedAction = (c) =>
             {
-                if (SkillConnection != null)
+                if (SkillConnection is not null)
                 {
                     if (c)
                     {
@@ -227,7 +227,7 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Controls.SkillConnectionEdit
             _aquaticFlag = UI.CreateLabeledControl<Checkbox>(_infosPanel, "Aquatic");
             _aquaticFlag.Item2.CheckedChangedAction = (c) =>
             {
-                if (SkillConnection != null)
+                if (SkillConnection is not null)
                 {
                     if (c)
                     {
@@ -277,7 +277,7 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Controls.SkillConnectionEdit
             _fireFlag = UI.CreateLabeledControl<Checkbox>(_infosPanel, "Fire");
             _fireFlag.Item2.CheckedChangedAction = (c) =>
             {
-                if (SkillConnection != null)
+                if (SkillConnection is not null)
                 {
                     if (c)
                     {
@@ -295,7 +295,7 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Controls.SkillConnectionEdit
             _waterFlag = UI.CreateLabeledControl<Checkbox>(_infosPanel, "Water");
             _waterFlag.Item2.CheckedChangedAction = (c) =>
             {
-                if (SkillConnection != null)
+                if (SkillConnection is not null)
                 {
                     if (c)
                     {
@@ -313,7 +313,7 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Controls.SkillConnectionEdit
             _airFlag = UI.CreateLabeledControl<Checkbox>(_infosPanel, "Air");
             _airFlag.Item2.CheckedChangedAction = (c) =>
             {
-                if (SkillConnection != null)
+                if (SkillConnection is not null)
                 {
                     if (c)
                     {
@@ -331,7 +331,7 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Controls.SkillConnectionEdit
             _earthFlag = UI.CreateLabeledControl<Checkbox>(_infosPanel, "Earth");
             _earthFlag.Item2.CheckedChangedAction = (c) =>
             {
-                if (SkillConnection != null)
+                if (SkillConnection is not null)
                 {
                     if (c)
                     {
@@ -446,11 +446,11 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Controls.SkillConnectionEdit
             _weapon.Item2.SelectedItem = SkillConnection.Weapon == null ? SkillWeaponType.None.ToString() : SkillConnection.Weapon.ToString();
             _specialization.Item2.SelectedItem = SkillConnection.Specialization == null ? SpecializationType.None.ToString() : SkillConnection.Specialization.ToString();
 
-            _default.Item2.Skill = SkillConnection.Default != null ? AdvancedBuildsManager.Data.BaseSkills.GetValueOrDefault((int)SkillConnection.Default) : null;
-            _pvp.Item2.Skill = SkillConnection.Pvp != null ? AdvancedBuildsManager.Data.BaseSkills.GetValueOrDefault((int)SkillConnection.Pvp) : null;
-            _enviromentalCounterskill.Item2.Skill = SkillConnection.EnviromentalCounterskill != null ? AdvancedBuildsManager.Data.BaseSkills.GetValueOrDefault((int)SkillConnection.EnviromentalCounterskill) : null;
-            _unleashed.Item2.Skill = SkillConnection.Unleashed != null ? AdvancedBuildsManager.Data.BaseSkills.GetValueOrDefault((int)SkillConnection.Unleashed) : null;
-            _toolbelt.Item2.Skill = SkillConnection.Toolbelt != null ? AdvancedBuildsManager.Data.BaseSkills.GetValueOrDefault((int)SkillConnection.Toolbelt) : null;
+            _default.Item2.Skill = SkillConnection.Default is not null ? AdvancedBuildsManager.Data.BaseSkills.GetValueOrDefault((int)SkillConnection.Default) : null;
+            _pvp.Item2.Skill = SkillConnection.Pvp is not null ? AdvancedBuildsManager.Data.BaseSkills.GetValueOrDefault((int)SkillConnection.Pvp) : null;
+            _enviromentalCounterskill.Item2.Skill = SkillConnection.EnviromentalCounterskill is not null ? AdvancedBuildsManager.Data.BaseSkills.GetValueOrDefault((int)SkillConnection.EnviromentalCounterskill) : null;
+            _unleashed.Item2.Skill = SkillConnection.Unleashed is not null ? AdvancedBuildsManager.Data.BaseSkills.GetValueOrDefault((int)SkillConnection.Unleashed) : null;
+            _toolbelt.Item2.Skill = SkillConnection.Toolbelt is not null ? AdvancedBuildsManager.Data.BaseSkills.GetValueOrDefault((int)SkillConnection.Toolbelt) : null;
 
             //_singleSkillsPanel.Collapsed = false;
 
@@ -498,7 +498,7 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Controls.SkillConnectionEdit
         {
             base.RecalculateLayout();
 
-            if (_contentPanel != null)
+            if (_contentPanel is not null)
             {
                 _contentPanel.Width = Width;
                 foreach (var c in _contentPanel.Children)

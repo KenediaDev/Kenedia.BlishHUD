@@ -4,7 +4,6 @@ using Kenedia.Modules.Core.Models;
 using Kenedia.Modules.Core.Utility;
 using System;
 using System.ComponentModel;
-using System.Diagnostics;
 
 namespace Kenedia.Modules.BuildsManager.Models.Templates
 {
@@ -51,8 +50,6 @@ namespace Kenedia.Modules.BuildsManager.Models.Templates
 
         private void Traits_CollectionChanged(object sender, PropertyChangedEventArgs e)
         {
-            Debug.WriteLine($"Traits_CollectionChanged");
-
             PropertyChanged?.Invoke(sender, e);
             TraitsChanged?.Invoke(this, e);
         }
@@ -88,5 +85,5 @@ namespace Kenedia.Modules.BuildsManager.Models.Templates
             public SpecializationSlotType SpecializationSlot { get; set; }
         }
 #nullable disable
-    }
+    }    
 }

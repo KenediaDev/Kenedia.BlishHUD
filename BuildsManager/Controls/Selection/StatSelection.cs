@@ -71,7 +71,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
                     Stat = stat.Value,
                     OnClickAction = () =>
                     {
-                        if (TemplatePresenter?.Template != null)
+                        if (TemplatePresenter?.Template is not null)
                         {
                             OnClickAction(stat.Value);
                         }
@@ -150,6 +150,16 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
             }
 
             SelectionContent.SortChildren<StatSelectable>((a, b) => a.Stat.Name.CompareTo(b.Stat.Name));
+        }
+
+        protected override void DisposeControl()
+        {
+            base.DisposeControl();
+
+            _stats?.DisposeAll();
+            _stats?.Clear();
+            _statIcons?.DisposeAll();
+            _statIcons?.Clear();
         }
     }
 }

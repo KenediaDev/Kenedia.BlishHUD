@@ -22,12 +22,12 @@ namespace Kenedia.Modules.Core.Models
         {
             if (oldValue?.Equals(newValue) is true) return;
 
-            if (oldValue != null)
+            if (oldValue is not null)
             {
                 oldValue.PropertyChanged -= ItemProperty_Changed;
             }
 
-            if (newValue != null)
+            if (newValue is not null)
             {
                 newValue.PropertyChanged += ItemProperty_Changed;
             }
@@ -60,7 +60,7 @@ namespace Kenedia.Modules.Core.Models
         public new void Add(TKey key, TValue? value)
         {
             if (ContainsKey(key)) return;
-            if (value != null)
+            if (value is not null)
             {
                 value.PropertyChanged += ItemProperty_Changed;
             }
@@ -74,7 +74,7 @@ namespace Kenedia.Modules.Core.Models
         {
             if (ContainsKey(key))
             {
-                if (this[key] != null)
+                if (this[key] is not null)
                 {
                     this[key].PropertyChanged -= ItemProperty_Changed;
                 }

@@ -183,37 +183,37 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage.ProfessionSpecific
                 switch (slot)
                 {
                     case SkillSlot.Profession1:
-                        if (buildSkills[state | enviroment | Models.Templates.SkillSlotType.Heal] != null)
+                        if (buildSkills[state | enviroment | Models.Templates.SkillSlotType.Heal] is not null)
                         {
-                            return buildSkills[state | enviroment | Models.Templates.SkillSlotType.Heal].ToolbeltSkill != null && skills.TryGetValue((int)buildSkills[state | enviroment | Models.Templates.SkillSlotType.Heal].ToolbeltSkill, out Skill skill) ? skill : null;
+                            return buildSkills[state | enviroment | Models.Templates.SkillSlotType.Heal].ToolbeltSkill is not null && skills.TryGetValue((int)buildSkills[state | enviroment | Models.Templates.SkillSlotType.Heal].ToolbeltSkill, out Skill skill) ? skill : null;
                         }
                         break;
 
                     case SkillSlot.Profession2:
-                        if (buildSkills[state | enviroment | Models.Templates.SkillSlotType.Utility_1] != null)
+                        if (buildSkills[state | enviroment | Models.Templates.SkillSlotType.Utility_1] is not null)
                         {
-                            return buildSkills[state | enviroment | Models.Templates.SkillSlotType.Utility_1].ToolbeltSkill != null && skills.TryGetValue((int)buildSkills[state | enviroment | Models.Templates.SkillSlotType.Utility_1].ToolbeltSkill, out Skill skill) ? skill : null;
+                            return buildSkills[state | enviroment | Models.Templates.SkillSlotType.Utility_1].ToolbeltSkill is not null && skills.TryGetValue((int)buildSkills[state | enviroment | Models.Templates.SkillSlotType.Utility_1].ToolbeltSkill, out Skill skill) ? skill : null;
                         }
                         break;
 
                     case SkillSlot.Profession3:
-                        if (buildSkills[state | enviroment | Models.Templates.SkillSlotType.Utility_2] != null)
+                        if (buildSkills[state | enviroment | Models.Templates.SkillSlotType.Utility_2] is not null)
                         {
-                            return buildSkills[state | enviroment | Models.Templates.SkillSlotType.Utility_2].ToolbeltSkill != null && skills.TryGetValue((int)buildSkills[state | enviroment | Models.Templates.SkillSlotType.Utility_2].ToolbeltSkill, out Skill skill) ? skill : null;
+                            return buildSkills[state | enviroment | Models.Templates.SkillSlotType.Utility_2].ToolbeltSkill is not null && skills.TryGetValue((int)buildSkills[state | enviroment | Models.Templates.SkillSlotType.Utility_2].ToolbeltSkill, out Skill skill) ? skill : null;
                         }
                         break;
 
                     case SkillSlot.Profession4:
-                        if (buildSkills[state | enviroment | Models.Templates.SkillSlotType.Utility_3] != null)
+                        if (buildSkills[state | enviroment | Models.Templates.SkillSlotType.Utility_3] is not null)
                         {
-                            return buildSkills[state | enviroment | Models.Templates.SkillSlotType.Utility_3].ToolbeltSkill != null && skills.TryGetValue((int)buildSkills[state | enviroment | Models.Templates.SkillSlotType.Utility_3].ToolbeltSkill, out Skill skill) ? skill : null;
+                            return buildSkills[state | enviroment | Models.Templates.SkillSlotType.Utility_3].ToolbeltSkill is not null && skills.TryGetValue((int)buildSkills[state | enviroment | Models.Templates.SkillSlotType.Utility_3].ToolbeltSkill, out Skill skill) ? skill : null;
                         }
                         break;
 
                     case SkillSlot.Profession5:
-                        if (buildSkills[state | enviroment | Models.Templates.SkillSlotType.Elite] != null)
+                        if (buildSkills[state | enviroment | Models.Templates.SkillSlotType.Elite] is not null)
                         {
-                            return buildSkills[state | enviroment | Models.Templates.SkillSlotType.Elite].ToolbeltSkill != null && skills.TryGetValue((int)buildSkills[state | enviroment | Models.Templates.SkillSlotType.Elite].ToolbeltSkill, out Skill skill) ? skill : null;
+                            return buildSkills[state | enviroment | Models.Templates.SkillSlotType.Elite].ToolbeltSkill is not null && skills.TryGetValue((int)buildSkills[state | enviroment | Models.Templates.SkillSlotType.Elite].ToolbeltSkill, out Skill skill) ? skill : null;
                         }
                         break;
                 }

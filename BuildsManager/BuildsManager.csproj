@@ -279,7 +279,6 @@
     <Compile Include="Controls\BuildPage\TraitIcon.cs" />
     <Compile Include="Controls\BuildPage\TraitTooltip.cs" />
     <Compile Include="Controls\BuildPage\WeaponSkillIconCollection.cs" />
-    <Compile Include="Controls\GearPage\AttributeTexture.cs" />
     <Compile Include="Controls\GearPage\GearSlots\AccessoireSlot.cs" />
     <Compile Include="Controls\GearPage\GearSlots\AmuletSlot.cs" />
     <Compile Include="Controls\GearPage\GearSlots\AquaticWeaponSlot.cs" />
@@ -339,8 +338,11 @@
     <Compile Include="DataModels\Professions\Trait.cs" />
     <Compile Include="DataModels\Professions\Weapon.cs" />
     <Compile Include="DataModels\Races\Race.cs" />
+    <Compile Include="DataModels\Stats\Attribute.cs" />
     <Compile Include="DataModels\Stats\EquipmentStat.cs" />
     <Compile Include="DataModels\Stats\Stat.cs" />
+    <Compile Include="DataModels\Stats\StatAttribute.cs" />
+    <Compile Include="DataModels\Stats\StatAttributes.cs" />
     <Compile Include="Extensions\ChatLinkExtension.cs" />
     <Compile Include="Extensions\ItemDescriptionStringExtension.cs" />
     <Compile Include="Interfaces\ITemplateContainer.cs" />
@@ -366,6 +368,13 @@
     <Compile Include="Models\Templates\SkillSlotExtension.cs" />
     <Compile Include="Models\Templates\TemplateSlotType.cs" />
     <Compile Include="Models\Templates\WeaponSkillSlot.cs" />
+    <Compile Include="Res\strings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>strings.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Services\StatMap.cs" />
+    <Compile Include="Services\StatMapping.cs" />
     <Compile Include="Utility\GearTemplateCode.cs" />
     <Compile Include="Utility\SkillSlotConversion.cs" />
     <Compile Include="Utility\TemplateConverter.cs" />
@@ -492,9 +501,7 @@
     <None Include="ref\data\sigil_ids.json" />
     <None Include="ref\data\skill_connections.json" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Res\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Content Include="ref\textures\equipment_stats\11.png" />
     <Content Include="ref\textures\equipment_stats\37.png" />
@@ -558,6 +565,15 @@
     <Content Include="ref\textures\races\sylvari.png" />
     <Content Include="ref\textures\races\sylvari_hovered.png" />
     <Content Include="ref\textures\utilityslot.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Res\strings.de.resx" />
+    <EmbeddedResource Include="Res\strings.es.resx" />
+    <EmbeddedResource Include="Res\strings.fr.resx" />
+    <EmbeddedResource Include="Res\strings.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>strings.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="..\Core\Core.projitems" Label="Shared" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

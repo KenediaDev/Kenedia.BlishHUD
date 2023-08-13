@@ -1,12 +1,14 @@
-﻿using Kenedia.Modules.BuildsManager.DataModels.Professions;
+﻿using Gw2Sharp.WebApi;
+using Kenedia.Modules.BuildsManager.DataModels.Professions;
 using Kenedia.Modules.BuildsManager.Extensions;
 using Kenedia.Modules.Core.Controls;
 using Kenedia.Modules.Core.Models;
 using Kenedia.Modules.Core.Utility;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using SharpDX.Direct3D9;
 using static Blish_HUD.ContentService;
+using Kenedia.Modules.Core.Services;
+using Kenedia.Modules.BuildsManager.Res;
 
 namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
 {
@@ -56,6 +58,8 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
                 Font = Content.DefaultFont14,
                 WrapText = true,
             };
+
+            LocalizingService.LocaleChanged += UserLocale_SettingChanged;
         }
 
         public Trait Trait { get => _trait; set => Common.SetProperty(ref _trait, value, ApplyTrait); }
@@ -63,17 +67,22 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
         private void ApplyTrait(object sender, ValueChangedEventArgs<Trait> e)
         {
             _title.TextColor = Colors.Chardonnay;
-            _title.Text = e.NewValue?.Name;
-            _id.Text = $"Trait Id: {e.NewValue?.Id}";
-            _description.Text = e.NewValue?.Description.InterpretItemDescription();
+            _title.Text = Trait?.Name;
+            _id.Text = $"{strings.TraitId}: {Trait?.Id}";
+            _description.Text = Trait?.Description.InterpretItemDescription();
 
-            if (e.NewValue != null)
+            if (Trait is not null)
             {
-                _image.Texture = e.NewValue.Icon;
+                _image.Texture = Trait.Icon;
 
-                int padding = (e.NewValue.Icon?.Width ?? 0) / 16;
-                _image.TextureRegion = new(padding, padding, e.NewValue.Icon.Width - (padding * 2), e.NewValue.Icon.Height - (padding * 2));
+                int padding = (Trait.Icon?.Width ?? 0) / 16;
+                _image.TextureRegion = new(padding, padding, Trait.Icon.Width - (padding * 2), Trait.Icon.Height - (padding * 2));
             }
+        }
+
+        private void UserLocale_SettingChanged(object sender, Blish_HUD.ValueChangedEventArgs<Locale> e)
+        {
+            ApplyTrait(this, null);
         }
 
         public override void Draw(SpriteBatch spriteBatch, Rectangle drawBounds, Rectangle scissor)
@@ -87,6 +96,15 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
             base.PaintBeforeChildren(spriteBatch, bounds);
 
             _image.Draw(this, spriteBatch);
+        }
+
+        override protected void DisposeControl()
+        {
+            Trait = null;
+
+            LocalizingService.LocaleChanged -= UserLocale_SettingChanged;
+            _image?.Dispose();
+            base.DisposeControl();
         }
     }
 }

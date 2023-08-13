@@ -30,8 +30,8 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Controls.Selection
                         skill.Template = value;
                     }
 
-                    if (temp != null) temp.PropertyChanged -= TemplateChanged;
-                    if (_template != null) _template.PropertyChanged += TemplateChanged;
+                    if (temp is not null) temp.PropertyChanged -= TemplateChanged;
+                    if (_template is not null) _template.PropertyChanged += TemplateChanged;
                 }
             }
         }
@@ -189,8 +189,8 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Controls.Selection
                         stat.Template = value;
                     }
 
-                    if (temp != null) temp.PropertyChanged -= TemplateChanged;
-                    if (_template != null) _template.PropertyChanged += TemplateChanged;
+                    if (temp is not null) temp.PropertyChanged -= TemplateChanged;
+                    if (_template is not null) _template.PropertyChanged += TemplateChanged;
                 }
             }
         }
@@ -207,7 +207,7 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Controls.Selection
                 foreach (var stat in _stats)
                 {
                     stat.ActiveTemplateSlot = value;
-                    stat.AttributeAdjustment = _templateSlot?.Item != null ? ((_templateSlot?.Item as EquipmentItem).AttributeAdjustment + exoticTrinkets) : 0;
+                    stat.AttributeAdjustment = _templateSlot?.Item is not null ? ((_templateSlot?.Item as EquipmentItem).AttributeAdjustment + exoticTrinkets) : 0;
                 }
             });
         }
@@ -237,7 +237,7 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Controls.Selection
             string searchTxt = txt.Trim().ToLower();
             bool anyName = searchTxt.IsNullOrEmpty();
 
-            var validStats = TemplateSlot?.Item != null ? (TemplateSlot?.Item as EquipmentItem).StatChoices : new List<int>();
+            var validStats = TemplateSlot?.Item is not null ? (TemplateSlot?.Item as EquipmentItem).StatChoices : new List<int>();
             bool anyStat = validStats.Count == 0;
 
             bool anyAttribute = !_statIcons.Any(e => e.Checked);

@@ -94,13 +94,13 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Models.Templates
         {
             int? currentStatId = Stat?.Id;
 
-            if (Stat != null && (Item == null || !(Item as EquipmentItem).StatChoices.Contains(Stat.Id)))
+            if (Stat is not null && (Item == null || !(Item as EquipmentItem).StatChoices.Contains(Stat.Id)))
             {
                 if (AdvancedBuildsManager.Data.StatMap.TryFind(e => e.Stat == Stat.EquipmentStatType, out var statMap))
                 {
                     var choices = (Item as EquipmentItem)?.StatChoices;
 
-                    if (choices != null && choices.TryFind(statMap.Ids.Contains, out int newStatId))
+                    if (choices is not null && choices.TryFind(statMap.Ids.Contains, out int newStatId))
                     {
                         Stat = AdvancedBuildsManager.Data.Stats[newStatId];
                         return;
@@ -161,8 +161,8 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Models.Templates
                 var temp = _infusionIds;
                 if (Common.SetProperty(ref _infusionIds, value))
                 {
-                    if (temp != null) temp.PropertyChanged -= InfusionIds_Changed;
-                    if (_infusionIds != null)
+                    if (temp is not null) temp.PropertyChanged -= InfusionIds_Changed;
+                    if (_infusionIds is not null)
                     {
                         _infusionIds.PropertyChanged += InfusionIds_Changed;
                         OnPropertyChanged(this, new(nameof(InfusionIds)));
@@ -173,9 +173,9 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Models.Templates
 
         private void InfusionIds_Changed(object sender, PropertyChangedEventArgs e)
         {
-            if (_infusionIds != null && _infusionIds.Count > 0) _infusion = AdvancedBuildsManager.Data.Infusions.Values.Where(e => e.MappedId == _infusionIds[0]).FirstOrDefault();
-            if (_infusionIds != null && _infusionIds.Count > 1) _infusion2 = AdvancedBuildsManager.Data.Infusions.Values.Where(e => e.MappedId == _infusionIds[1]).FirstOrDefault();
-            if (_infusionIds != null && _infusionIds.Count > 2) _infusion3 = AdvancedBuildsManager.Data.Infusions.Values.Where(e => e.MappedId == _infusionIds[2]).FirstOrDefault();
+            if (_infusionIds is not null && _infusionIds.Count > 0) _infusion = AdvancedBuildsManager.Data.Infusions.Values.Where(e => e.MappedId == _infusionIds[0]).FirstOrDefault();
+            if (_infusionIds is not null && _infusionIds.Count > 1) _infusion2 = AdvancedBuildsManager.Data.Infusions.Values.Where(e => e.MappedId == _infusionIds[1]).FirstOrDefault();
+            if (_infusionIds is not null && _infusionIds.Count > 2) _infusion3 = AdvancedBuildsManager.Data.Infusions.Values.Where(e => e.MappedId == _infusionIds[2]).FirstOrDefault();
 
             OnPropertyChanged(sender, e);
         }
@@ -185,7 +185,7 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Models.Templates
             get => InfusionIds == null || InfusionIds.Count < 1 ? null : _infusion;
             set
             {
-                if (Common.SetProperty(ref _infusion, value) && InfusionIds != null)
+                if (Common.SetProperty(ref _infusion, value) && InfusionIds is not null)
                 {
                     InfusionIds[0] = _infusion?.MappedId ?? -1;
                 }
@@ -198,7 +198,7 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Models.Templates
             set
             {
                 if (InfusionIds == null || InfusionIds.Count < 2) return;
-                if (Common.SetProperty(ref _infusion2, value) && InfusionIds != null)
+                if (Common.SetProperty(ref _infusion2, value) && InfusionIds is not null)
                 {
                     InfusionIds[1] = _infusion2?.MappedId ?? -1;
                 }
@@ -211,7 +211,7 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Models.Templates
             set
             {
                 if (InfusionIds == null || InfusionIds.Count < 3) return;
-                if (Common.SetProperty(ref _infusion3, value) && InfusionIds != null)
+                if (Common.SetProperty(ref _infusion3, value) && InfusionIds is not null)
                 {
                     InfusionIds[2] = _infusion3?.MappedId ?? -1;
                 }
@@ -228,8 +228,8 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Models.Templates
                 var temp = _enrichmentIds;
                 if (Common.SetProperty(ref _enrichmentIds, value))
                 {
-                    if (temp != null) temp.PropertyChanged -= EnrichmentIds_Changed;
-                    if (_enrichmentIds != null)
+                    if (temp is not null) temp.PropertyChanged -= EnrichmentIds_Changed;
+                    if (_enrichmentIds is not null)
                     {
                         _enrichmentIds.PropertyChanged += EnrichmentIds_Changed;
                         OnPropertyChanged(this, new(nameof(EnrichmentIds)));
@@ -240,7 +240,7 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Models.Templates
 
         private void EnrichmentIds_Changed(object sender, PropertyChangedEventArgs e)
         {
-            if (_enrichmentIds != null && _enrichmentIds.Count > 0)
+            if (_enrichmentIds is not null && _enrichmentIds.Count > 0)
                 _enrichment = AdvancedBuildsManager.Data.Enrichments.Values.Where(e => e.MappedId == _enrichmentIds[0]).FirstOrDefault();
 
             OnPropertyChanged(sender, e);
@@ -385,9 +385,9 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Models.Templates
 
         private void SigilIds_Changed(object sender, PropertyChangedEventArgs e)
         {
-            if (_sigilIds != null && _sigilIds.Count > 0) _sigil = AdvancedBuildsManager.Data.PveSigils.Values.Where(e => e.MappedId == _sigilIds[0]).FirstOrDefault();
-            if (_sigilIds != null && _sigilIds.Count > 1 && Slot is not GearTemplateSlot.Aquatic and not GearTemplateSlot.AltAquatic) _pvpSigil = AdvancedBuildsManager.Data.PvpSigils.Values.Where(e => e.MappedId == _sigilIds[1]).FirstOrDefault();
-            if (_sigilIds != null && _sigilIds.Count > 1 && Slot is GearTemplateSlot.Aquatic or GearTemplateSlot.AltAquatic) _sigil2 = AdvancedBuildsManager.Data.PveSigils.Values.Where(e => e.MappedId == _sigilIds[1]).FirstOrDefault();
+            if (_sigilIds is not null && _sigilIds.Count > 0) _sigil = AdvancedBuildsManager.Data.PveSigils.Values.Where(e => e.MappedId == _sigilIds[0]).FirstOrDefault();
+            if (_sigilIds is not null && _sigilIds.Count > 1 && Slot is not GearTemplateSlot.Aquatic and not GearTemplateSlot.AltAquatic) _pvpSigil = AdvancedBuildsManager.Data.PvpSigils.Values.Where(e => e.MappedId == _sigilIds[1]).FirstOrDefault();
+            if (_sigilIds is not null && _sigilIds.Count > 1 && Slot is GearTemplateSlot.Aquatic or GearTemplateSlot.AltAquatic) _sigil2 = AdvancedBuildsManager.Data.PveSigils.Values.Where(e => e.MappedId == _sigilIds[1]).FirstOrDefault();
 
             OnPropertyChanged(sender, e);
         }
@@ -400,8 +400,8 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Models.Templates
                 var temp = _sigilIds;
                 if (Common.SetProperty(ref _sigilIds, value))
                 {
-                    if (temp != null) temp.PropertyChanged -= SigilIds_Changed;
-                    if (_sigilIds != null)
+                    if (temp is not null) temp.PropertyChanged -= SigilIds_Changed;
+                    if (_sigilIds is not null)
                     {
                         _sigilIds.PropertyChanged += SigilIds_Changed;
                     }
@@ -551,8 +551,8 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Models.Templates
                 var temp = _runeIds;
                 if (Common.SetProperty(ref _runeIds, value))
                 {
-                    if (temp != null) temp.PropertyChanged -= RuneIds_Changed;
-                    if (_runeIds != null)
+                    if (temp is not null) temp.PropertyChanged -= RuneIds_Changed;
+                    if (_runeIds is not null)
                     {
                         _runeIds.PropertyChanged += RuneIds_Changed;
                     }
@@ -562,7 +562,7 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Models.Templates
 
         private void RuneIds_Changed(object sender, PropertyChangedEventArgs e)
         {
-            if (_runeIds != null && _runeIds.Count > 0) _rune = AdvancedBuildsManager.Data.PveRunes.Values.Where(e => e.MappedId == _runeIds[0]).FirstOrDefault();
+            if (_runeIds is not null && _runeIds.Count > 0) _rune = AdvancedBuildsManager.Data.PveRunes.Values.Where(e => e.MappedId == _runeIds[0]).FirstOrDefault();
 
             OnPropertyChanged(sender, e);
         }

@@ -4,7 +4,6 @@ using Kenedia.Modules.Core.Utility;
 using Kenedia.Modules.BuildsManager.Models;
 using Kenedia.Modules.Core.Models;
 using System;
-using System.Diagnostics;
 
 namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
 {
@@ -30,7 +29,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
 
         private void SetTemplatePresenter(object sender, ValueChangedEventArgs<TemplatePresenter> e)
         {
-            if (e.OldValue != null)
+            if (e.OldValue is not null)
             {
                 e.OldValue.LoadedBuildFromCode -= OnLoaded;
                 e.OldValue.LegendChanged -= OnLegendChanged;
@@ -38,7 +37,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
                 e.OldValue.TemplateChanged -= OnTemplateChanged;
             }
 
-            if (e.NewValue != null)
+            if (e.NewValue is not null)
             {
                 e.NewValue.LoadedBuildFromCode += OnLoaded;
                 e.NewValue.LegendChanged += OnLegendChanged;
@@ -74,10 +73,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
 
         protected override void DisposeControl()
         {
-            TemplatePresenter.LoadedBuildFromCode -= OnLoaded;
-            TemplatePresenter.LegendChanged -= OnLegendChanged;
-            TemplatePresenter.TemplateChanged -= OnTemplateChanged;
-            TemplatePresenter.EliteSpecializationChanged -= OnEliteSpecializationChanged;
+            TemplatePresenter = null;
 
             base.DisposeControl();
         }

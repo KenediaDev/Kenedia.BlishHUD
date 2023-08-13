@@ -3,6 +3,7 @@ using Gw2Sharp.WebApi.V2.Models;
 using Kenedia.Modules.BuildsManager.Extensions;
 using Kenedia.Modules.Core.Models;
 using Kenedia.Modules.Core.Utility;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization;
@@ -11,8 +12,9 @@ using APITrait = Gw2Sharp.WebApi.V2.Models.Trait;
 namespace Kenedia.Modules.BuildsManager.DataModels.Professions
 {
     [DataContract]
-    public class Trait
+    public class Trait : IDisposable
     {
+        private bool _ísDisposed;
         private AsyncTexture2D _icon;
 
         public Trait()
@@ -34,7 +36,7 @@ namespace Kenedia.Modules.BuildsManager.DataModels.Professions
 
         public Trait(APITrait trait, Dictionary<int, Skill> skills) : this(trait)
         {
-            if(trait.Skills != null)
+            if(trait.Skills is not null)
             {
                 foreach(var s in trait.Skills)
                 {
@@ -83,7 +85,7 @@ namespace Kenedia.Modules.BuildsManager.DataModels.Professions
         {
             get
             {
-                if (_icon != null) return _icon;
+                if (_icon is not null) return _icon;
 
                 _icon = AsyncTexture2D.FromAssetId(IconAssetId);
                 return _icon;
@@ -115,6 +117,12 @@ namespace Kenedia.Modules.BuildsManager.DataModels.Professions
         {
             return order == 0 ? null :
                 specialization?.MajorTraits.Where(e => e.Value.Tier == tier)?.ToList()?.Find(e => e.Value.Order == (int)order - 1).Value;
+        }
+
+        public void Dispose()
+        {
+            if(_ísDisposed) return;
+            _icon = null;
         }
     }
 }

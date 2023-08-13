@@ -1,6 +1,7 @@
 ﻿using Gw2Sharp.ChatLinks;
 using Gw2Sharp.WebApi.V2.Models;
 using Kenedia.Modules.BuildsManager.Models.Templates;
+using Kenedia.Modules.BuildsManager.Res;
 using static Kenedia.Modules.BuildsManager.DataModels.Professions.Weapon;
 using Color = Microsoft.Xna.Framework.Color;
 
@@ -10,19 +11,18 @@ namespace Kenedia.Modules.BuildsManager.Extensions
     {
         public static string GetDisplayName(this AttributeType attribute)
         {
-            string concentration = "Concentration";
-            string expertise = "Expertise";
-            string ConditionDamage = "Condition Damage";
-            string Healing = "Healing Power";
-            string CritDamage = "Ferocity";
-
             return attribute switch
             {
-                AttributeType.BoonDuration => concentration,
-                AttributeType.ConditionDuration => expertise,
-                AttributeType.ConditionDamage => ConditionDamage,
-                AttributeType.Healing => Healing,
-                AttributeType.CritDamage => CritDamage,
+                AttributeType.BoonDuration => strings.BoonDuration,
+                AttributeType.ConditionDamage => strings.ConditionDamage,
+                AttributeType.ConditionDuration => strings.ConditionDuration,
+                AttributeType.CritDamage => strings.CritDamage,
+                AttributeType.Healing => strings.Healing,
+                AttributeType.Power => strings.Power,
+                AttributeType.Precision => strings.Precision,
+                AttributeType.Toughness => strings.Toughness,
+                AttributeType.Vitality => strings.Vitality,
+                AttributeType.AgonyResistance => strings.AgonyResistance,
                 _ => attribute.ToString(),
             };
         }

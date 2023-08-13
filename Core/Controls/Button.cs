@@ -57,8 +57,8 @@ namespace Kenedia.Modules.Core.Controls
 
         public void UserLocale_SettingChanged(object sender, ValueChangedEventArgs<Locale> e)
         {
-            if (SetLocalizedText != null) Text = SetLocalizedText?.Invoke();
-            if (SetLocalizedTooltip != null) BasicTooltipText = SetLocalizedTooltip?.Invoke();
+            if (SetLocalizedText is not null) Text = SetLocalizedText?.Invoke();
+            if (SetLocalizedTooltip is not null) BasicTooltipText = SetLocalizedTooltip?.Invoke();
         }
 
         protected override void OnClick(MouseEventArgs e)
@@ -81,7 +81,7 @@ namespace Kenedia.Modules.Core.Controls
             Size2 textDimensions = GetTextDimensions();
             int num = (int)((float)(_size.X / 2) - (textDimensions.Width / 2f));
 
-            if (Icon != null)
+            if (Icon is not null)
             {
                 num = (!(textDimensions.Width > 0f)) ? (num + 8) : (num + 10);
                 Point point = ResizeIcon ? new Point(16) : Icon.Texture.Bounds.Size;
@@ -109,7 +109,7 @@ namespace Kenedia.Modules.Core.Controls
             spriteBatch.DrawOnCtrl(this, _textureButtonBorder, new Rectangle(Width - 4, 2, 4, Height - 3), new Rectangle(0, 1, 4, 1));
             spriteBatch.DrawOnCtrl(this, _textureButtonBorder, new Rectangle(3, Height - 4, Width - 6, 4), new Rectangle(1, 0, 1, 4));
             spriteBatch.DrawOnCtrl(this, _textureButtonBorder, new Rectangle(0, 2, 4, Height - 3), new Rectangle(0, 3, 4, 1));
-            if (Icon != null)
+            if (Icon is not null)
             {
                 spriteBatch.DrawOnCtrl(this, Icon, _layoutIconBounds);
             }

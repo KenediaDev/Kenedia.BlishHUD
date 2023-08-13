@@ -63,7 +63,7 @@ namespace Kenedia.Modules.Characters.Controls
 
         public bool HasDisplayedCharacters()
         {
-            if (_characters != null) _displayedCharacters = _characters.Count > 0 ? _characters.Where(e => e.ShowOnRadial).ToList() : new();
+            if (_characters is not null) _displayedCharacters = _characters.Count > 0 ? _characters.Where(e => e.ShowOnRadial).ToList() : new();
             return _displayedCharacters.Count() > 0;
         }
 
@@ -89,7 +89,7 @@ namespace Kenedia.Modules.Characters.Controls
         {
             base.RecalculateLayout();
 
-            if (Parent != null)
+            if (Parent is not null)
             {
                 _displayedCharacters = _characters.Count > 0 ? _characters.Where(e => e.ShowOnRadial).ToList() : new();
                 _displayedCharacters.Sort((a, b) => a.Name.CompareTo(b.Name));
@@ -200,9 +200,9 @@ namespace Kenedia.Modules.Characters.Controls
             {
                 _selected ??= section.Triangle.Contains(mouse) ? section : null;
 
-                if (RelativeMousePosition == _center || _selected != null || !section.Triangle.Contains(mouse))
+                if (RelativeMousePosition == _center || _selected is not null || !section.Triangle.Contains(mouse))
                 {
-                    if (section.Lines != null)
+                    if (section.Lines is not null)
                     {
                         foreach (var line in section.Lines)
                         {
@@ -235,7 +235,7 @@ namespace Kenedia.Modules.Characters.Controls
                 }
             }
 
-            if (_selected != null)
+            if (_selected is not null)
             {
                 if (_settings.Radial_ShowAdvancedTooltip.Value)
                 {
@@ -247,7 +247,7 @@ namespace Kenedia.Modules.Characters.Controls
                     txt = _selected.Character.Name;
                 }
 
-                if (_selected.Lines != null)
+                if (_selected.Lines is not null)
                 {
                     foreach (var line in _selected.Lines)
                     {
@@ -291,7 +291,7 @@ namespace Kenedia.Modules.Characters.Controls
         {
             base.OnClick(e);
 
-            if (_selected != null)
+            if (_selected is not null)
             {
                 Hide();
 
@@ -319,7 +319,7 @@ namespace Kenedia.Modules.Characters.Controls
 
         protected override void DisposeControl()
         {
-            if (Parent != null) Parent.Resized -= Parent_Resized;
+            if (Parent is not null) Parent.Resized -= Parent_Resized;
 
             foreach (Character_Model c in _characters)
             {

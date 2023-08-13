@@ -8,8 +8,9 @@ using System;
 
 namespace Kenedia.Modules.BuildsManager.TemplateEntries
 {
-    public class NourishmentTemplateEntry : TemplateEntry
+    public class NourishmentTemplateEntry : TemplateEntry, IDisposable
     {
+        private bool _isDisposed;
         private Nourishment _nourishment;
 
         public NourishmentTemplateEntry(TemplateSlotType slot) : base(slot)
@@ -40,6 +41,14 @@ namespace Kenedia.Modules.BuildsManager.TemplateEntries
             Nourishment = BuildsManager.Data.Nourishments.Values.Where(e => e.MappedId == array[0]).FirstOrDefault();
 
             return GearTemplateCode.RemoveFromStart(array, newStartIndex);
+        }
+
+        public void Dispose()
+        {
+            if (_isDisposed) return;
+            _isDisposed = true;
+
+            Nourishment = null;
         }
     }
 }

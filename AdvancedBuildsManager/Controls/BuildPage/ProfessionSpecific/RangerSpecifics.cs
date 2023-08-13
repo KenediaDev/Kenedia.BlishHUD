@@ -66,7 +66,7 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Controls.BuildPage.ProfessionSpe
 
             _healthRectangle = new(xOffset, 80, 188, 18);
             _slotRectangle = new(xOffset, 5, 188, 18);
-            if (_enableUntamed && _specialization != null && _specialization.Id == (int)SpecializationType.Untamed)
+            if (_enableUntamed && _specialization is not null && _specialization.Id == (int)SpecializationType.Untamed)
             {
                 _combatState.Bounds = new(xOffset + (38 * 2), 0, 36, 36);
                 _return.Bounds = new(xOffset + (38 * 1), 0, 36, 36);
@@ -88,9 +88,9 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Controls.BuildPage.ProfessionSpe
 
         protected override void Paint(SpriteBatch spriteBatch, Rectangle bounds)
         {
-            if (Template != null)
+            if (Template is not null)
             {
-                if (_enableUntamed && _specialization != null && _specialization.Id == (int)SpecializationType.Untamed)
+                if (_enableUntamed && _specialization is not null && _specialization.Id == (int)SpecializationType.Untamed)
                 {
                     PaintUntamed(spriteBatch, bounds, RelativeMousePosition);
                 }
@@ -194,11 +194,11 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Controls.BuildPage.ProfessionSpe
         {
             _specialization = null;
 
-            if (Template != null)
+            if (Template is not null)
             {
                 foreach (var s in Template.BuildTemplate.Specializations)
                 {
-                    if (s.Value != null && s.Value.Specialization != null && s.Value.Specialization.Elite)
+                    if (s.Value is not null && s.Value.Specialization is not null && s.Value.Specialization.Elite)
                     {
                         _specialization = s.Value.Specialization;
                         break;
@@ -222,9 +222,9 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Controls.BuildPage.ProfessionSpe
                 var skill = Template.BuildTemplate.Pets[_pet.PetSlot]?.Skills.FirstOrDefault();
                 _skill.Skill = skill.HasValue ? skill.Value.Value : _skill.Skill;
 
-                if (_enableUntamed && _specialization != null && _specialization.Id == (int)SpecializationType.Untamed)
+                if (_enableUntamed && _specialization is not null && _specialization.Id == (int)SpecializationType.Untamed)
                 {
-                    _skill.Skill = _pet.Pet != null ? _pet.Pet.Skills.FirstOrDefault().Value : _skill.Skill;
+                    _skill.Skill = _pet.Pet is not null ? _pet.Pet.Skills.FirstOrDefault().Value : _skill.Skill;
                     //_skill2.Skill = AdvancedBuildsManager.Data.Professions[Gw2Sharp.Models.ProfessionType.Ranger].Skills.Where(e => e.Value.Slot == Gw2Sharp.WebApi.V2.Models.SkillSlot.Profession2 && e.Value.Specialization == (int)Specializations.Soulbeast)?.FirstOrDefault().Value;
                     //_skill3.Skill = AdvancedBuildsManager.Data.Professions[Gw2Sharp.Models.ProfessionType.Ranger].Skills.Where(e => e.Value.Slot == Gw2Sharp.WebApi.V2.Models.SkillSlot.Profession3 && e.Value.Specialization == (int)Specializations.Soulbeast)?.FirstOrDefault().Value;
                 }
@@ -292,7 +292,7 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Controls.BuildPage.ProfessionSpe
 
         private void GetSelectablePets()
         {
-            if (Template != null)
+            if (Template is not null)
             {
                 _selectablePets.Clear();
 

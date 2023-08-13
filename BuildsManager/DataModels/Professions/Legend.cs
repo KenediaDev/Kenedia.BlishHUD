@@ -1,13 +1,17 @@
 ﻿using Gw2Sharp.Models;
+using System;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
 using APILegend = Gw2Sharp.WebApi.V2.Models.Legend;
+using Kenedia.Modules.Core.Extensions;
 
 namespace Kenedia.Modules.BuildsManager.DataModels.Professions
 {
     [DataContract]
-    public class Legend
+    public class Legend : IDisposable
     {
+        private bool _isDisposed;
+
         public Legend()
         {
 
@@ -100,7 +104,7 @@ namespace Kenedia.Modules.BuildsManager.DataModels.Professions
 
         internal static Skill SkillFromUShort(ushort paletteId, Legend legend)
         {
-            if (legend != null)
+            if (legend is not null)
             {
                 if (legend.Elite.PaletteId == paletteId) return legend.Elite;
                 if (legend.Heal.PaletteId == paletteId) return legend.Heal;
@@ -112,6 +116,24 @@ namespace Kenedia.Modules.BuildsManager.DataModels.Professions
             }
 
             return null;
+        }
+
+        public void Dispose()
+        {
+            if(_isDisposed) return;
+            _isDisposed = true;
+
+            Utilities?.Values?.DisposeAll();
+            Utilities.Clear();
+
+            Heal?.Dispose();
+            Heal = null;
+
+            Elite?.Dispose();
+            Elite = null;
+
+            Swap?.Dispose();
+            Swap = null;
         }
     }
 }

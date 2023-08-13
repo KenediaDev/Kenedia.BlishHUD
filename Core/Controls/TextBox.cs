@@ -10,6 +10,7 @@ namespace Kenedia.Modules.Core.Controls
     {
         private Func<string> _setLocalizedText;
         private Func<string> _setLocalizedTooltip;
+        private Func<string> _setLocalizedPlaceholder;
 
         public TextBox()
         {
@@ -38,6 +39,16 @@ namespace Kenedia.Modules.Core.Controls
             }
         }
 
+        public Func<string> SetLocalizedPlaceholder
+        {
+            get => _setLocalizedPlaceholder;
+            set
+            {
+                _setLocalizedPlaceholder = value;
+                PlaceholderText = value?.Invoke();
+            }
+        }
+
         public Action ClickAction { get; set; }
 
         public Action<string> EnterPressedAction { get; set; }
@@ -58,8 +69,9 @@ namespace Kenedia.Modules.Core.Controls
 
         public void UserLocale_SettingChanged(object sender, ValueChangedEventArgs<Locale> e)
         {
-            if (SetLocalizedText != null) Text = SetLocalizedText?.Invoke();
-            if (SetLocalizedTooltip != null) BasicTooltipText = SetLocalizedTooltip?.Invoke();
+            if (SetLocalizedText is not null) Text = SetLocalizedText?.Invoke();
+            if (SetLocalizedTooltip is not null) BasicTooltipText = SetLocalizedTooltip?.Invoke();
+            if (SetLocalizedPlaceholder is not null) PlaceholderText = SetLocalizedPlaceholder?.Invoke();
         }
 
         protected override void DisposeControl()

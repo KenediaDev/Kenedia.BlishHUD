@@ -34,7 +34,7 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Controls.Selection
         {
             base.OnTypeChanged(sender, e);
 
-            if (Type != SelectableType.Infusion && _allSlots != null)
+            if (Type != SelectableType.Infusion && _allSlots is not null)
             {
                 _allSlots.Click -= AllSlots_Click;
                 _allSlots.Dispose();
@@ -187,7 +187,7 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Controls.Selection
                         Visible = false,
                         OnClickAction = () =>
                         {
-                            if (Template != null)
+                            if (Template is not null)
                             {
                                 //OnItemSelectedX(item);
                                 OnItemSelected?.Invoke(item);
@@ -273,10 +273,10 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Controls.Selection
                         slot.Template = value;
                     }
 
-                    if (temp != null) temp.PropertyChanged -= TemplateChanged;
-                    if (temp != null) temp.ProfessionChanged -= Template_ProfessionChanged;
-                    if (_template != null) _template.PropertyChanged += TemplateChanged;
-                    if (_template != null) _template.ProfessionChanged += Template_ProfessionChanged;
+                    if (temp is not null) temp.PropertyChanged -= TemplateChanged;
+                    if (temp is not null) temp.ProfessionChanged -= Template_ProfessionChanged;
+                    if (_template is not null) _template.PropertyChanged += TemplateChanged;
+                    if (_template is not null) _template.ProfessionChanged += Template_ProfessionChanged;
                 }
             }
         }
@@ -379,7 +379,7 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Controls.Selection
 
                             var weapon = AdvancedBuildsManager.Data.Professions[Template.Profession].Weapons.Where(e => (item.Item as Weapon).WeaponType.IsWeaponType(e.Value.Type)).FirstOrDefault();
 
-                            if (weapon.Value != null)
+                            if (weapon.Value is not null)
                             {
                                 bool terrainMatch =
                                     (ActiveSlot is GearTemplateSlot.AltAquatic or GearTemplateSlot.Aquatic) ?

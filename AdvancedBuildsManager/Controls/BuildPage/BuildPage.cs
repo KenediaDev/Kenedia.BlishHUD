@@ -176,8 +176,8 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Controls.BuildPage
                 var temp = _template;
                 if (Common.SetProperty(ref _template, value, ApplyTemplate))
                 {
-                    if (temp != null) temp.PropertyChanged -= TemplateChanged;
-                    if (_template != null) _template.PropertyChanged += TemplateChanged;
+                    if (temp is not null) temp.PropertyChanged -= TemplateChanged;
+                    if (_template is not null) _template.PropertyChanged += TemplateChanged;
                 }
             }
         }
@@ -198,17 +198,17 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Controls.BuildPage
             _raceIcon.Texture = AdvancedBuildsManager.Data.Races[Template?.Race ?? Races.None].Icon;
             _raceIcon.BasicTooltipText = AdvancedBuildsManager.Data.Races[Template?.Race ?? Races.None].Name;
 
-            _specIcon.Texture = Template?.EliteSpecialization != null ? Template.EliteSpecialization.ProfessionIconBig : AdvancedBuildsManager.Data.Professions?[Template?.Profession ?? ProfessionType.Guardian]?.IconBig;
-            _specIcon.BasicTooltipText = Template?.EliteSpecialization != null ? Template.EliteSpecialization.Name : AdvancedBuildsManager.Data.Professions?[Template?.Profession ?? ProfessionType.Guardian]?.Name;
+            _specIcon.Texture = Template?.EliteSpecialization is not null ? Template.EliteSpecialization.ProfessionIconBig : AdvancedBuildsManager.Data.Professions?[Template?.Profession ?? ProfessionType.Guardian]?.IconBig;
+            _specIcon.BasicTooltipText = Template?.EliteSpecialization is not null ? Template.EliteSpecialization.Name : AdvancedBuildsManager.Data.Professions?[Template?.Profession ?? ProfessionType.Guardian]?.Name;
 
             _skillbar.Template = Template;
 
-            if (Template?.Profession != null && (_professionSpecifics == null || _professionSpecifics.Profession != Template?.Profession))
+            if (Template?.Profession is not null && (_professionSpecifics == null || _professionSpecifics.Profession != Template?.Profession))
             {
                 CreateSpecifics();
             }
 
-            if (_professionSpecifics != null)
+            if (_professionSpecifics is not null)
             {
                 _professionSpecifics.Parent = _professionSpecificsContainer;
                 _professionSpecifics.Template = Template;
@@ -220,9 +220,9 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Controls.BuildPage
         public override void RecalculateLayout()
         {
             base.RecalculateLayout();
-            if (_buildCodeBox != null) _buildCodeBox.Width = Width - _buildCodeBox.Left;
+            if (_buildCodeBox is not null) _buildCodeBox.Width = Width - _buildCodeBox.Left;
 
-            if (_specializationsPanel != null)
+            if (_specializationsPanel is not null)
             {
                 _professionSpecificsContainer.Width = _specializationsPanel.Width;
 
@@ -244,7 +244,7 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Controls.BuildPage
                 _skillsBackgroundBottomBorder.Bounds = new(_professionSpecificsContainer.Right - (_professionSpecificsContainer.Width / 2) + 5, _professionSpecificsContainer.Top, (_professionSpecificsContainer.Width / 2) + 16, _professionSpecificsContainer.Height + _skillbar.Height + 12 + 10);
                 _skillsBackgroundBottomBorder.TextureRegion = new(108, 275, _professionSpecificsContainer.Width / 2, _professionSpecificsContainer.Height + _skillbar.Height);
 
-                if (_professionSpecifics != null)
+                if (_professionSpecifics is not null)
                 {
                     _professionSpecifics.Width = _professionSpecificsContainer.Width;
                     _professionSpecifics.Height = _professionSpecificsContainer.Height;
@@ -280,7 +280,7 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Controls.BuildPage
                 _professionRaceSelection.Location = RelativeMousePosition;
                 _professionRaceSelection.OnClickAction = (value) =>
                 {
-                    if (Template != null)
+                    if (Template is not null)
                     {
                         Template.Profession = (ProfessionType)value;
                     }
@@ -294,7 +294,7 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Controls.BuildPage
                 _professionRaceSelection.Location = RelativeMousePosition;
                 _professionRaceSelection.OnClickAction = (value) =>
                 {
-                    if (Template != null)
+                    if (Template is not null)
                     {
                         Template.Race = (Races)value;
                     }

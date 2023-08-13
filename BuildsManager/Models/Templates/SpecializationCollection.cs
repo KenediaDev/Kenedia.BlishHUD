@@ -29,8 +29,8 @@ namespace Kenedia.Modules.BuildsManager.Models.Templates
         {
             if (e.Key == SpecializationSlotType.Line_3)
             {
-                if(e.OldValue != null) e.OldValue.SpecChanged -= SpecializationCollection_SpecChanged;
-                if (e.NewValue != null) e.NewValue.SpecChanged += SpecializationCollection_SpecChanged;
+                if(e.OldValue is not null) e.OldValue.SpecChanged -= SpecializationCollection_SpecChanged;
+                if (e.NewValue is not null) e.NewValue.SpecChanged += SpecializationCollection_SpecChanged;
             }
         }
 
@@ -47,17 +47,17 @@ namespace Kenedia.Modules.BuildsManager.Models.Templates
 
         public byte GetSpecializationByte(SpecializationSlotType slot)
         {
-            byte id = (byte)(TryGetValue(slot, out BuildSpecialization specialization) && specialization != null && specialization.Specialization != null ? specialization.Specialization?.Id : 0);
+            byte id = (byte)(TryGetValue(slot, out BuildSpecialization specialization) && specialization is not null && specialization.Specialization is not null ? specialization.Specialization?.Id : 0);
             return id;
         }
 
         public byte GetTraitByte(TraitTierType traitSlot, BuildSpecialization buildSpecialization)
         {
-            if (buildSpecialization != null)
+            if (buildSpecialization is not null)
             {
                 int? order = buildSpecialization.Traits[traitSlot]?.Order;
 
-                return (byte)(order != null ? order + 1 : 0);
+                return (byte)(order is not null ? order + 1 : 0);
             }
 
             return 0;

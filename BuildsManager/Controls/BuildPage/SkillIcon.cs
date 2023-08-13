@@ -127,7 +127,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
             // Right
             spriteBatch.DrawOnCtrl(ctrl, Textures.Pixel, new Rectangle(Bounds.Right - 1, Bounds.Top, 1, Bounds.Height), Rectangle.Empty, borderColor * 0.6f);
 
-            if (AutoCastTexture != null)
+            if (AutoCastTexture is not null)
             {
                 spriteBatch.DrawOnCtrl(
                     ctrl,

@@ -56,9 +56,9 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Controls.SkillConnectionEdit
         {
             base.RecalculateLayout();
 
-            if (Filter != null) Filter.Width = Width;
+            if (Filter is not null) Filter.Width = Width;
 
-            if (SelectionPanel != null)
+            if (SelectionPanel is not null)
             {
                 SelectionPanel.Width = Width;
 

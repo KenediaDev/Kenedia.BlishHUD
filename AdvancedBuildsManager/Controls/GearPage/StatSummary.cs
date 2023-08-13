@@ -60,8 +60,8 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Controls.GearPage
                 var temp = _template;
                 if (Common.SetProperty(ref _template, value, ApplyTemplate))
                 {
-                    if (temp != null) temp.PropertyChanged -= TemplateChanged;
-                    if (_template != null) _template.PropertyChanged += TemplateChanged;
+                    if (temp is not null) temp.PropertyChanged -= TemplateChanged;
+                    if (_template is not null) _template.PropertyChanged += TemplateChanged;
                 }
             }
         }
@@ -83,58 +83,58 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Controls.GearPage
             if (false)
             {
                 _power.Draw(this, spriteBatch);
-                _power.DrawAmount(this, spriteBatch, Template != null ? Template.Attributes.Power : 0, font);
+                _power.DrawAmount(this, spriteBatch, Template is not null ? Template.Attributes.Power : 0, font);
 
                 _precision.Draw(this, spriteBatch);
-                _precision.DrawAmount(this, spriteBatch, Template != null ? Template.Attributes.Precision : 0, font);
+                _precision.DrawAmount(this, spriteBatch, Template is not null ? Template.Attributes.Precision : 0, font);
 
                 _ferocity.Draw(this, spriteBatch);
-                _ferocity.DrawAmount(this, spriteBatch, Template != null ? Template.Attributes.Ferocity : 0, font);
+                _ferocity.DrawAmount(this, spriteBatch, Template is not null ? Template.Attributes.Ferocity : 0, font);
 
                 _thoughness.Draw(this, spriteBatch);
-                _thoughness.DrawAmount(this, spriteBatch, Template != null ? Template.Attributes.Toughness : 0, font);
+                _thoughness.DrawAmount(this, spriteBatch, Template is not null ? Template.Attributes.Toughness : 0, font);
 
                 _vitality.Draw(this, spriteBatch);
-                _vitality.DrawAmount(this, spriteBatch, Template != null ? Template.Attributes.Vitality : 0, font);
+                _vitality.DrawAmount(this, spriteBatch, Template is not null ? Template.Attributes.Vitality : 0, font);
 
                 _condition.Draw(this, spriteBatch);
-                _condition.DrawAmount(this, spriteBatch, Template != null ? Template.Attributes.ConditionDamage : 0, font);
+                _condition.DrawAmount(this, spriteBatch, Template is not null ? Template.Attributes.ConditionDamage : 0, font);
 
                 _expertise.Draw(this, spriteBatch);
-                _expertise.DrawAmount(this, spriteBatch, Template != null ? Template.Attributes.Expertise : 0, font);
+                _expertise.DrawAmount(this, spriteBatch, Template is not null ? Template.Attributes.Expertise : 0, font);
 
                 _concentration.Draw(this, spriteBatch);
-                _concentration.DrawAmount(this, spriteBatch, Template != null ? Template.Attributes.Concentration : 0, font);
+                _concentration.DrawAmount(this, spriteBatch, Template is not null ? Template.Attributes.Concentration : 0, font);
 
                 _agonyResistance.Draw(this, spriteBatch);
-                _agonyResistance.DrawAmount(this, spriteBatch, Template != null ? Template.Attributes.AgonyResistance : 0, font);
+                _agonyResistance.DrawAmount(this, spriteBatch, Template is not null ? Template.Attributes.AgonyResistance : 0, font);
 
                 _profession.Draw(this, spriteBatch);
-                _profession.DrawAmount(this, spriteBatch, Template != null ? Template.Attributes.ProfessionSpecific : 0, font);
+                _profession.DrawAmount(this, spriteBatch, Template is not null ? Template.Attributes.ProfessionSpecific : 0, font);
 
                 _armor.Draw(this, spriteBatch);
-                _armor.DrawAmount(this, spriteBatch, Template != null ? Template.Attributes.Armor : 0, font);
+                _armor.DrawAmount(this, spriteBatch, Template is not null ? Template.Attributes.Armor : 0, font);
 
                 _health.Draw(this, spriteBatch);
-                _health.DrawAmount(this, spriteBatch, Template != null ? Template.Attributes.Health : 0, font);
+                _health.DrawAmount(this, spriteBatch, Template is not null ? Template.Attributes.Health : 0, font);
 
                 _critChance.Draw(this, spriteBatch);
-                _critChance.DrawAmount(this, spriteBatch, string.Format("{0:N2}%", Template != null ? Math.Truncate(Template.Attributes.CritChance * 100) / 100 : 0), font);
+                _critChance.DrawAmount(this, spriteBatch, string.Format("{0:N2}%", Template is not null ? Math.Truncate(Template.Attributes.CritChance * 100) / 100 : 0), font);
 
                 _critDamage.Draw(this, spriteBatch);
-                _critDamage.DrawAmount(this, spriteBatch, string.Format("{0:N1}%", Template != null ? Math.Truncate(Template.Attributes.CritDamage * 10) / 10 : 0), font);
+                _critDamage.DrawAmount(this, spriteBatch, string.Format("{0:N1}%", Template is not null ? Math.Truncate(Template.Attributes.CritDamage * 10) / 10 : 0), font);
 
                 _healingPower.Draw(this, spriteBatch);
-                _healingPower.DrawAmount(this, spriteBatch, Template != null ? Template.Attributes.HealingPower : 0, font);
+                _healingPower.DrawAmount(this, spriteBatch, Template is not null ? Template.Attributes.HealingPower : 0, font);
 
                 _conditionDuration.Draw(this, spriteBatch);
-                _conditionDuration.DrawAmount(this, spriteBatch, string.Format("{0:N2}%", Template != null ? Math.Truncate(Template.Attributes.ConditionDuration * 100) / 100 : 0), font);
+                _conditionDuration.DrawAmount(this, spriteBatch, string.Format("{0:N2}%", Template is not null ? Math.Truncate(Template.Attributes.ConditionDuration * 100) / 100 : 0), font);
 
                 _boonDuration.Draw(this, spriteBatch);
-                _boonDuration.DrawAmount(this, spriteBatch, string.Format("{0:N2}%", Template != null ? Math.Truncate(Template.Attributes.BoonDuration * 100) / 100 : 0), font);
+                _boonDuration.DrawAmount(this, spriteBatch, string.Format("{0:N2}%", Template is not null ? Math.Truncate(Template.Attributes.BoonDuration * 100) / 100 : 0), font);
 
                 _magicFind.Draw(this, spriteBatch);
-                _magicFind.DrawAmount(this, spriteBatch, $"{(Template != null ? Template.Attributes.MagicFind : 0)}%", font);
+                _magicFind.DrawAmount(this, spriteBatch, $"{(Template is not null ? Template.Attributes.MagicFind : 0)}%", font);
             }
         }
 

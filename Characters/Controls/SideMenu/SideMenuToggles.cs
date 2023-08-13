@@ -108,7 +108,7 @@ namespace Kenedia.Modules.Characters.Controls.SideMenu
                 foreach (string tag in deleteTags)
                 {
                     var t = _tags.FirstOrDefault(e => e.Text == tag);
-                    if (t != null) deleteList.Add(t);
+                    if (t is not null) deleteList.Add(t);
                 }
 
                 foreach (var t in deleteList)
@@ -208,7 +208,7 @@ namespace Kenedia.Modules.Characters.Controls.SideMenu
                 foreach (KeyValuePair<Gw2Sharp.Models.ProfessionType, Data.Profession> p in profs)
                 {
                     KeyValuePair<ImageColorToggle, Action> t = specToggles.Find(e => p.Key == e.Key.Profession && !_toggles.Contains(e));
-                    if (t.Key != null)
+                    if (t.Key is not null)
                     {
                         _toggles.Add(t);
                     }

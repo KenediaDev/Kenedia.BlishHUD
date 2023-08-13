@@ -15,7 +15,7 @@ namespace Kenedia.Modules.Characters.Controls
             get => _font;
             set
             {
-                if (_font != value && value != null)
+                if (_font != value && value is not null)
                 {
                     _font = value;
                     OnFontChanged();
@@ -53,7 +53,7 @@ namespace Kenedia.Modules.Characters.Controls
         {
             base.OnChildAdded(e);
 
-            if (Font != null && e.ChangedChild.GetType() == typeof(IFontControl))
+            if (Font is not null && e.ChangedChild.GetType() == typeof(IFontControl))
             {
                 (e.ChangedChild as IFontControl).Font = Font;
             }

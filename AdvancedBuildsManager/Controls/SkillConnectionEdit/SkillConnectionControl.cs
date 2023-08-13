@@ -59,9 +59,9 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Controls.SkillConnectionEdit
                 spriteBatch.DrawOnCtrl(this, Textures.Pixel, new Rectangle(bounds.Right - 2, bounds.Top, 2, bounds.Height), Rectangle.Empty, borderColor * 0.8f);
             }
 
-            if (Icon != null) spriteBatch.DrawOnCtrl(this, Icon, _iconBounds, TextureRegion ?? Icon.Bounds, Color.White);
-            if (Id != null) spriteBatch.DrawStringOnCtrl(this, $"{Id}", Content.DefaultFont16, _idBounds, color);
-            if (Name != null) spriteBatch.DrawStringOnCtrl(this, Name, Content.DefaultFont16, _nameBounds, color);
+            if (Icon is not null) spriteBatch.DrawOnCtrl(this, Icon, _iconBounds, TextureRegion ?? Icon.Bounds, Color.White);
+            if (Id is not null) spriteBatch.DrawStringOnCtrl(this, $"{Id}", Content.DefaultFont16, _idBounds, color);
+            if (Name is not null) spriteBatch.DrawStringOnCtrl(this, Name, Content.DefaultFont16, _nameBounds, color);
         }
 
         protected virtual void ApplyConnection()

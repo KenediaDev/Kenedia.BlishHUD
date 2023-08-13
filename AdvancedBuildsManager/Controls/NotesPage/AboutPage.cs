@@ -69,7 +69,7 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Controls.NotesPage
                 Location = new(_setAll.Right + 5, _setAll.Top),
                 ClickAction = () =>
                 {
-                    if (Template != null)
+                    if (Template is not null)
                     {
                         Template.Encounters = EncounterFlag.None;
                         Template.Tags = TemplateFlag.None;
@@ -221,8 +221,8 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Controls.NotesPage
                 var temp = _template;
                 if (Common.SetProperty(ref _template, value, ApplyTemplate))
                 {
-                    if (temp != null) temp.PropertyChanged -= TemplateChanged;
-                    if (_template != null) _template.PropertyChanged += TemplateChanged;
+                    if (temp is not null) temp.PropertyChanged -= TemplateChanged;
+                    if (_template is not null) _template.PropertyChanged += TemplateChanged;
                 }
             }
         }
@@ -258,7 +258,7 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Controls.NotesPage
             base.RecalculateLayout();
             if (!_created) return;
 
-            if (_noteField != null)
+            if (_noteField is not null)
             {
                 _notesLabel.Location = new(_tagPanel.Right + 18, 50 - _notesLabel.Font.LineHeight - 2);
                 _noteField.Location = new(_tagPanel.Right + 15, 50);
@@ -272,7 +272,7 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Controls.NotesPage
         {
             base.DisposeControl();
 
-            if (_template != null) _template.PropertyChanged -= TemplateChanged;
+            if (_template is not null) _template.PropertyChanged -= TemplateChanged;
         }
     }
 }

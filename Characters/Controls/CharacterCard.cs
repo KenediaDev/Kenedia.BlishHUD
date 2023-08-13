@@ -174,10 +174,10 @@ namespace Kenedia.Modules.Characters.Controls
 
         public int Index
         {
-            get => Character != null ? Character.Index : 0;
+            get => Character is not null ? Character.Index : 0;
             set
             {
-                if (Character != null)
+                if (Character is not null)
                 {
                     _infoLabels.UpdateCharacterInfo();
                 }
@@ -192,21 +192,21 @@ namespace Kenedia.Modules.Characters.Controls
                 var temp = _character;
                 if (Common.SetProperty(ref _character, value))
                 {
-                    if (temp != null)
+                    if (temp is not null)
                     {
                         temp.Deleted -= CharacterDeleted;
                         temp.Updated -= ApplyCharacter;
                     }
 
-                    if (_character != null)
+                    if (_character is not null)
                     {
                         _character.Deleted += CharacterDeleted;
                         _character.Updated += ApplyCharacter;
                     }
                 }
 
-                if (_characterTooltip != null) _characterTooltip.Character = value;
-                if (_infoLabels != null) _infoLabels.Character = value;
+                if (_characterTooltip is not null) _characterTooltip.Character = value;
+                if (_infoLabels is not null) _infoLabels.Character = value;
             }
         }
 
@@ -275,10 +275,10 @@ namespace Kenedia.Modules.Characters.Controls
 
                 _iconRectangle = new Rectangle(0, 0, _iconSize, _iconSize);
 
-                _cogSize = Math.Max(20, (firstControl != null ? ((IFontControl)firstControl).Font.LineHeight : Font.LineHeight) - 4);
+                _cogSize = Math.Max(20, (firstControl is not null ? ((IFontControl)firstControl).Font.LineHeight : Font.LineHeight) - 4);
                 _cogSize = !anyVisible ? _iconSize / 5 : _cogSize;
 
-                if (firstControl != null && width < firstControl.Width + 5 + _cogSize)
+                if (firstControl is not null && width < firstControl.Width + 5 + _cogSize)
                 {
                     width += anyVisible ? 5 + _cogSize : 0;
                 }
@@ -326,11 +326,11 @@ namespace Kenedia.Modules.Characters.Controls
                 0f,
                 default);
 
-            if (Character != null)
+            if (Character is not null)
             {
                 if (_settings.PanelLayout.Value != CharacterPanelLayout.OnlyText)
                 {
-                    if (!Character.HasDefaultIcon && Character.Icon != null)
+                    if (!Character.HasDefaultIcon && Character.Icon is not null)
                     {
                         spriteBatch.DrawOnCtrl(
                             this,
@@ -345,7 +345,7 @@ namespace Kenedia.Modules.Characters.Controls
                     {
                         AsyncTexture2D texture = Character.SpecializationIcon;
 
-                        if (texture != null)
+                        if (texture is not null)
                         {
                             spriteBatch.DrawOnCtrl(
                                 this,
@@ -470,7 +470,7 @@ namespace Kenedia.Modules.Characters.Controls
                 }
             }
 
-            if (!MouseOver && Character != null && Character.HasBirthdayPresent)
+            if (!MouseOver && Character is not null && Character.HasBirthdayPresent)
             {
                 if (_settings.PanelLayout.Value != CharacterPanelLayout.OnlyText)
                 {
@@ -514,7 +514,7 @@ namespace Kenedia.Modules.Characters.Controls
                 }
             }
 
-            if (IsDraggingTarget || (_mainWindow != null && bounds.Contains(RelativeMousePosition) && _mainWindow.IsActive) || MouseOver)
+            if (IsDraggingTarget || (_mainWindow is not null && bounds.Contains(RelativeMousePosition) && _mainWindow.IsActive) || MouseOver)
             {
                 Color color = Colors.ColonialWhite;
 
@@ -590,7 +590,7 @@ namespace Kenedia.Modules.Characters.Controls
                 {
                     PlayerCharacter player = GameService.Gw2Mumble.PlayerCharacter;
 
-                    if (player != null && player.Name == Character.Name && Character.HasBirthdayPresent)
+                    if (player is not null && player.Name == Character.Name && Character.HasBirthdayPresent)
                     {
                         _ = await _settings.MailKey.Value.PerformPress(50, false);
                         _mainWindow.CharacterEdit.Character = Character;
@@ -675,7 +675,7 @@ namespace Kenedia.Modules.Characters.Controls
             base.DisposeControl();
 
             _textTooltip.Shown -= TextTooltip_Shown;
-            if (_character != null)
+            if (_character is not null)
             {
                 _character.Deleted -= CharacterDeleted;
             }

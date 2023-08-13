@@ -66,7 +66,7 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Controls.BuildPage
             Input.Mouse.LeftMouseButtonPressed += Mouse_LeftMouseButtonPressed;
         }
 
-        private bool Terrestrial => Template != null && Template.BuildTemplate != null && Template.Terrestrial;
+        private bool Terrestrial => Template is not null && Template.BuildTemplate is not null && Template.Terrestrial;
 
         private bool AnyHovered
         {
@@ -95,8 +95,8 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Controls.BuildPage
                 var temp = _template;
                 if (Common.SetProperty(ref _template, value, ApplyTemplate))
                 {
-                    if (temp != null) temp.PropertyChanged -= TemplateChanged;
-                    if (_template != null) _template.PropertyChanged += TemplateChanged;
+                    if (temp is not null) temp.PropertyChanged -= TemplateChanged;
+                    if (_template is not null) _template.PropertyChanged += TemplateChanged;
                 }
             }
         }
@@ -146,11 +146,11 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Controls.BuildPage
             bool ele = Template.Profession == Gw2Sharp.Models.ProfessionType.Elementalist;
 
             //TODO Ignore Ambush / Stealth skills
-            if (Template.GearTemplate.Weapons[GearTemplateSlot.MainHand] != null)
+            if (Template.GearTemplate.Weapons[GearTemplateSlot.MainHand] is not null)
             {
                 var weapon = Template.GearTemplate.Weapons[GearTemplateSlot.MainHand].Weapon;
 
-                if (weapon != null && AdvancedBuildsManager.Data.Professions[Template.Profession].Weapons.ContainsKey(weapon))
+                if (AdvancedBuildsManager.Data.Professions[Template.Profession].Weapons.ContainsKey(weapon))
                 {
                     var weaponSkillIds = AdvancedBuildsManager.Data.Professions[Template.Profession].Weapons[weapon].Skills;
                     var weaponSkills = AdvancedBuildsManager.Data.Professions[Template.Profession].Skills.Where(e => weaponSkillIds.Contains(e.Value.Id) && e.Value.SkillConnection?.Default == null);
@@ -174,11 +174,11 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Controls.BuildPage
                 }
             }
 
-            if (Template.GearTemplate.Weapons[GearTemplateSlot.OffHand] != null)
+            if (Template.GearTemplate.Weapons[GearTemplateSlot.OffHand] is not null)
             {
                 var weapon = Template.GearTemplate.Weapons[GearTemplateSlot.OffHand].Weapon;
 
-                if (weapon != null && AdvancedBuildsManager.Data.Professions[Template.Profession].Weapons.ContainsKey(weapon))
+                if (AdvancedBuildsManager.Data.Professions[Template.Profession].Weapons.ContainsKey(weapon))
                 {
                     var weaponSkillIds = AdvancedBuildsManager.Data.Professions[Template.Profession].Weapons[weapon].Skills;
                     var weaponSkills = AdvancedBuildsManager.Data.Professions[Template.Profession].Skills.Where(e => weaponSkillIds.Contains(e.Value.Id) && e.Value.SkillConnection?.Default == null && e.Value.Slot > SkillSlot.Weapon3);
@@ -202,11 +202,11 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Controls.BuildPage
                 }
             }
 
-            if (Template.GearTemplate.Weapons[GearTemplateSlot.AltMainHand] != null)
+            if (Template.GearTemplate.Weapons[GearTemplateSlot.AltMainHand] is not null)
             {
                 var weapon = Template.GearTemplate.Weapons[GearTemplateSlot.AltMainHand].Weapon;
 
-                if (weapon != null && AdvancedBuildsManager.Data.Professions[Template.Profession].Weapons.ContainsKey(weapon))
+                if (AdvancedBuildsManager.Data.Professions[Template.Profession].Weapons.ContainsKey(weapon))
                 {
                     var weaponSkillIds = AdvancedBuildsManager.Data.Professions[Template.Profession].Weapons[weapon].Skills;
                     var weaponSkills = AdvancedBuildsManager.Data.Professions[Template.Profession].Skills.Where(e => weaponSkillIds.Contains(e.Value.Id) && e.Value.SkillConnection?.Default == null);
@@ -230,11 +230,11 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Controls.BuildPage
                 }
             }
 
-            if (Template.GearTemplate.Weapons[GearTemplateSlot.AltOffHand] != null)
+            if (Template.GearTemplate.Weapons[GearTemplateSlot.AltOffHand] is not null)
             {
                 var weapon = Template.GearTemplate.Weapons[GearTemplateSlot.AltOffHand].Weapon;
 
-                if (weapon != null && AdvancedBuildsManager.Data.Professions[Template.Profession].Weapons.ContainsKey(weapon))
+                if (AdvancedBuildsManager.Data.Professions[Template.Profession].Weapons.ContainsKey(weapon))
                 {
                     var weaponSkillIds = AdvancedBuildsManager.Data.Professions[Template.Profession].Weapons[weapon].Skills;
                     var weaponSkills = AdvancedBuildsManager.Data.Professions[Template.Profession].Skills.Where(e => weaponSkillIds.Contains(e.Value.Id) && e.Value.SkillConnection?.Default == null && e.Value.Slot > SkillSlot.Weapon3);
@@ -258,9 +258,9 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Controls.BuildPage
                 }
             }
 
-            if (Template.GearTemplate.Weapons[GearTemplateSlot.Aquatic] != null)
+            if (Template.GearTemplate.Weapons[GearTemplateSlot.Aquatic] is not null)
             {
-                //foreach (var s in AdvancedBuildsManager.Data.Professions[Template.Profession].Skills.Where(e => e.Value.WeaponType == weapon && e.Value.PrevChain == null && (!ele || (e.Value.Attunement != null && e.Value.Attunement == Template.MainAttunement))))
+                //foreach (var s in AdvancedBuildsManager.Data.Professions[Template.Profession].Skills.Where(e => e.Value.WeaponType == weapon && e.Value.PrevChain == null && (!ele || (e.Value.Attunement is not null && e.Value.Attunement == Template.MainAttunement))))
 
                 var weapon = Template.GearTemplate.Weapons[GearTemplateSlot.Aquatic].Weapon;
 
@@ -288,7 +288,7 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Controls.BuildPage
                 }
             }
 
-            if (Template.GearTemplate.Weapons[GearTemplateSlot.AltAquatic] != null)
+            if (Template.GearTemplate.Weapons[GearTemplateSlot.AltAquatic] is not null)
             {
                 var weapon = Template.GearTemplate.Weapons[GearTemplateSlot.AltAquatic].Weapon;
 
@@ -404,7 +404,7 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Controls.BuildPage
             foreach (var s in Terrestrial ? _terrestrialWeaponSkills : _aquaticWeaponSkills)
             {
                 s.Value.Draw(this, spriteBatch, RelativeMousePosition);
-                if (!SeletorOpen && s.Value.Hovered && s.Value.Skill != null)
+                if (!SeletorOpen && s.Value.Hovered && s.Value.Skill is not null)
                 {
                     BasicTooltipText = s.Value.Skill.Name;
                 }
@@ -432,7 +432,7 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Controls.BuildPage
             foreach (var s in skills)
             {
                 s.Value.Draw(this, spriteBatch, Template?.Terrestrial == true, RelativeMousePosition);
-                if (!SeletorOpen && s.Value.Hovered && s.Value.Skill != null)
+                if (!SeletorOpen && s.Value.Hovered && s.Value.Skill is not null)
                 {
                     BasicTooltipText = s.Value.Skill.Name;
                 }
@@ -446,7 +446,7 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Controls.BuildPage
             foreach (var s in Terrestrial ? _terrestrialInactiveWeaponSkills : _aquaticInactiveWeaponSkills)
             {
                 s.Value.Draw(this, spriteBatch, RelativeMousePosition);
-                if (!SeletorOpen && s.Value.Hovered && s.Value.Skill != null)
+                if (!SeletorOpen && s.Value.Hovered && s.Value.Skill is not null)
                 {
                     BasicTooltipText = s.Value.Skill.Name;
                 }
@@ -482,7 +482,7 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Controls.BuildPage
                         break;
                 }
 
-                if (skill != null && skill.Hovered)
+                if (skill is not null && skill.Hovered)
                 {
                     var skillSlot = i == 0 ? SkillSlot.Heal : i == 4 ? SkillSlot.Elite : SkillSlot.Utility;
                     _selectedSkillSlot = skillSlot;
@@ -498,7 +498,7 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Controls.BuildPage
         {
             base.OnClick(e);
 
-            if (Template != null && Template.BuildTemplate != null)
+            if (Template is not null && Template.BuildTemplate is not null)
             {
                 var slot = Template.LegendSlot;
                 if (_terrestrialTexture.Hovered)
@@ -521,7 +521,7 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Controls.BuildPage
                 var skill = Terrestrial ? _terrestrialSkills[(BuildSkillSlot)i] : _aquaticSkills[(BuildSkillSlot)i];
                 var selector = _selectors[i];
 
-                if (skill != null && ((skill.Hovered && GameService.Input.Mouse.State.RightButton == Microsoft.Xna.Framework.Input.ButtonState.Pressed) || selector.Hovered))
+                if (skill is not null && ((skill.Hovered && GameService.Input.Mouse.State.RightButton == Microsoft.Xna.Framework.Input.ButtonState.Pressed) || selector.Hovered))
                 {
                     var skillSlot = i == 0 ? SkillSlot.Heal : i == 4 ? SkillSlot.Elite : SkillSlot.Utility;
                     _selectedSkillSlot = skillSlot;
@@ -585,7 +585,7 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Controls.BuildPage
 
         private void GetSelectableSkills(SkillSlot skillType)
         {
-            if (Template != null)
+            if (Template is not null)
             {
                 _selectableSkills[skillType].Clear();
 
@@ -593,10 +593,10 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Controls.BuildPage
                 {
                     var skills = AdvancedBuildsManager.Data.Professions[Template.Profession].Skills;
 
-                    //var filteredSkills = skills.Where(e => e.Value.PaletteId > 0 && e.Value.Slot != null && e.Value.Slot == skillType && e.Value.Categories != null && (e.Value.Specialization == 0 || Template.BuildTemplate.HasSpecialization(e.Value.Specialization))).OrderBy(e => e.Value.Categories != null ? e.Value.Categories[0] : SkillCategory.None).ToList();
-                    var filteredSkills = skills.Where(e => e.Value.PaletteId > 0 && e.Value.Slot != null && e.Value.Slot == skillType && (e.Value.Specialization == 0 || Template.BuildTemplate.HasSpecialization(e.Value.Specialization))).ToList();
-                    var racialSkills = Template.Race != Core.DataModels.Races.None ? AdvancedBuildsManager.Data.Races[Template.Race]?.Skills.Where(e => e.Value.PaletteId > 0 && e.Value.Slot != null && e.Value.Slot == skillType).ToList() : new();
-                    if (racialSkills != null) filteredSkills.AddRange(racialSkills);
+                    //var filteredSkills = skills.Where(e => e.Value.PaletteId > 0 && e.Value.Slot is not null && e.Value.Slot == skillType && e.Value.Categories is not null && (e.Value.Specialization == 0 || Template.BuildTemplate.HasSpecialization(e.Value.Specialization))).OrderBy(e => e.Value.Categories is not null ? e.Value.Categories[0] : SkillCategory.None).ToList();
+                    var filteredSkills = skills.Where(e => e.Value.PaletteId > 0 && e.Value.Slot is not null && e.Value.Slot == skillType && (e.Value.Specialization == 0 || Template.BuildTemplate.HasSpecialization(e.Value.Specialization))).ToList();
+                    var racialSkills = Template.Race != Core.DataModels.Races.None ? AdvancedBuildsManager.Data.Races[Template.Race]?.Skills.Where(e => e.Value.PaletteId > 0 && e.Value.Slot is not null && e.Value.Slot == skillType).ToList() : new();
+                    if (racialSkills is not null) filteredSkills.AddRange(racialSkills);
 
                     //filteredSkills.Sort((a, b) => a.Value.Categories.CompareTo(b.Value.Categories));
 

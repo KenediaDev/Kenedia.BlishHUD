@@ -41,7 +41,7 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Controls.BuildPage.ProfessionSpe
             color ??= Color.White;
             origin ??= Vector2.Zero;
             rotation ??= 0F;
-            Hovered = mousePos != null && PawRegion.Contains((Point)mousePos);
+            Hovered = mousePos is not null && PawRegion.Contains((Point)mousePos);
 
             if (Hovered)
             {

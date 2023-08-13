@@ -280,7 +280,7 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Models.Templates
             {
                 if (Common.SetProperty(ref _profession, value, TemplateChanged))
                 {
-                    if (BuildTemplate != null)
+                    if (BuildTemplate is not null)
                     {
                         BuildTemplate.Profession = value;
                         //GearTemplate.Profession = value;
@@ -418,7 +418,7 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Models.Templates
 
                 foreach (var item in items.Values)
                 {
-                    if (item.Stat != null && item.Item != null && item.Stat.Attributes.ContainsKey(attribute))
+                    if (item.Stat is not null && item.Item is not null && item.Stat.Attributes.ContainsKey(attribute))
                     {
                         amount += Math.Round(item.Stat.Attributes[attribute].Value + (item.Stat.Attributes[attribute].Multiplier * (item.Item as EquipmentItem).AttributeAdjustment));
                     }
@@ -463,7 +463,7 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Models.Templates
             };
 
             Attributes.Health = baseHealth + ((Attributes.Vitality - 1000) * 10);
-            Attributes.Armor = 1000 + armorNoAquatic.Values.Where(e => e.Item != null).Sum(e => (e.Item as Armor).Defense) + mainSet.Values.Where(e => e.Item != null).Sum(e => (e.Item as DataModels.Items.Weapon).Defense);
+            Attributes.Armor = 1000 + armorNoAquatic.Values.Where(e => e.Item is not null).Sum(e => (e.Item as Armor).Defense) + mainSet.Values.Where(e => e.Item is not null).Sum(e => (e.Item as DataModels.Items.Weapon).Defense);
         }
 
         private async Task TriggerChanged(object sender, PropertyChangedEventArgs e)

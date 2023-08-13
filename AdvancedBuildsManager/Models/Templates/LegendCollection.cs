@@ -16,7 +16,7 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Models.Templates
 
         public byte GetLegendByte(LegendSlot slot)
         {
-            return (byte)(TryGetValue(slot, out Legend legend) && legend != null ? legend.Id : 0);
+            return (byte)(TryGetValue(slot, out Legend legend) && legend is not null ? legend.Id : 0);
         }
     }
 }

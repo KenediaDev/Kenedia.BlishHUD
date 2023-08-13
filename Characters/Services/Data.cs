@@ -25,7 +25,7 @@ namespace Kenedia.Modules.Characters.Services
 
     public class Data : IDisposable
     {
-        private bool _disposed;
+        private bool _isDisposed;
         private readonly ContentsManager _contentsManager;
         private readonly PathCollection _paths;
 
@@ -1078,7 +1078,7 @@ namespace Kenedia.Modules.Characters.Services
                 set
                 {
                     _icon = value;
-                    if (_icon != null)
+                    if (_icon is not null)
                     {
                         _icon.TextureSwapped += Icon_TextureSwapped;
                     }
@@ -1091,7 +1091,7 @@ namespace Kenedia.Modules.Characters.Services
                 set
                 {
                     _iconBig = value;
-                    if (_iconBig != null)
+                    if (_iconBig is not null)
                     {
                         _iconBig.TextureSwapped += IconBig_TextureSwapped;
                     }
@@ -1112,7 +1112,7 @@ namespace Kenedia.Modules.Characters.Services
 
             private void IconBig_TextureSwapped(object sender, Blish_HUD.ValueChangedEventArgs<Texture2D> e)
             {
-                if (e.NewValue != null)
+                if (e.NewValue is not null)
                 {
                     IconBig.TextureSwapped -= IconBig_TextureSwapped;
                     _iconBig = IconBig.Texture.Duplicate().GetRegion(new Rectangle(5, 5, IconBig.Width - 10, IconBig.Height - 10));
@@ -1121,7 +1121,7 @@ namespace Kenedia.Modules.Characters.Services
 
             private void Icon_TextureSwapped(object sender, Blish_HUD.ValueChangedEventArgs<Texture2D> e)
             {
-                if (e.NewValue != null)
+                if (e.NewValue is not null)
                 {
                     Icon.TextureSwapped -= Icon_TextureSwapped;                    
                     _icon = IconBig.Texture.Duplicate().GetRegion(new Rectangle(5, 5, Icon.Width - 10, Icon.Height - 10));
@@ -1186,7 +1186,7 @@ namespace Kenedia.Modules.Characters.Services
                 {
                     string jsonString = await new StreamReader(path).ReadToEndAsync();
 
-                    if (jsonString != null && jsonString != string.Empty)
+                    if (jsonString is not null && jsonString != string.Empty)
                     {
                         Maps = JsonConvert.DeserializeObject<Dictionary<int, Map>>(jsonString);
                         
@@ -1208,8 +1208,8 @@ namespace Kenedia.Modules.Characters.Services
 
         public void Dispose()
         {
-            if(_disposed) return;
-            _disposed = true;
+            if(_isDisposed) return;
+            _isDisposed = true;
 
             foreach(var prof in Professions.Values)
             {

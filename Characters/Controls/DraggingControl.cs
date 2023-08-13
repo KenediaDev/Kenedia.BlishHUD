@@ -36,7 +36,7 @@ namespace Kenedia.Modules.Characters.Controls
                     _characterControl = value;
                     _internalCharacterCard?.Dispose();
 
-                    if (value != null)
+                    if (value is not null)
                     {
                         _internalCharacterCard = new(value)
                         {
@@ -58,7 +58,7 @@ namespace Kenedia.Modules.Characters.Controls
             }
         }
 
-        public bool IsActive => _internalCharacterCard != null && Visible;
+        public bool IsActive => _internalCharacterCard is not null && Visible;
 
         public void StartDragging(CharacterCard characterCard)
         {
@@ -70,7 +70,7 @@ namespace Kenedia.Modules.Characters.Controls
 
         public void EndDragging()
         {
-            if (_internalCharacterCard != null)
+            if (_internalCharacterCard is not null)
             {
                 _ = RemoveChild(_internalCharacterCard);
                 _internalCharacterCard?.Dispose();
@@ -87,7 +87,7 @@ namespace Kenedia.Modules.Characters.Controls
         {
             base.UpdateContainer(gameTime);
 
-            if (_internalCharacterCard != null)
+            if (_internalCharacterCard is not null)
             {
                 if (!_layoutRefreshed && Visible && gameTime.TotalGameTime.TotalMilliseconds - _lastlayoutRefreshed >= 0)
                 {

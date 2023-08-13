@@ -5,7 +5,7 @@ namespace Kenedia.Modules.Core.Models
 {
     public class ServiceCollection : IDisposable
     {
-        private bool _disposed;
+        private bool _isDisposed;
 
         public ServiceCollection(GameState gameState, ClientWindowService clientWindowService, SharedSettings sharedSettings, TexturesService texturesService, InputDetectionService inputDetectionService)
         {
@@ -28,8 +28,8 @@ namespace Kenedia.Modules.Core.Models
 
         public void Dispose()
         {
-            if(_disposed ) return;
-            _disposed = true;
+            if(_isDisposed ) return;
+            _isDisposed = true;
 
             GameState.Dispose();
             TexturesService.Dispose();

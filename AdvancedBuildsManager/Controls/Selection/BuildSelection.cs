@@ -353,7 +353,7 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Controls.Selection
         private void ModuleInstance_SelectedTemplateChanged(object sender, EventArgs e)
         {
             var activeTemplate = _templates.Find(e => e.Template == AdvancedBuildsManager.ModuleInstance.SelectedTemplate);
-            if (activeTemplate != null) SelectionPanel.SetTemplateAnchor(activeTemplate);
+            if (activeTemplate is not null) SelectionPanel.SetTemplateAnchor(activeTemplate);
         }
 
         public SelectionPanel SelectionPanel { get; set; }

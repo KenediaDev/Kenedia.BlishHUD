@@ -223,7 +223,7 @@ namespace Kenedia.Modules.Characters.Services
 
         public bool Cancel()
         {
-            bool canceled = _cancellationTokenSource != null && !_cancellationTokenSource.IsCancellationRequested;
+            bool canceled = _cancellationTokenSource is not null && !_cancellationTokenSource.IsCancellationRequested;
 
             _state = SwappingState.Canceled;
             _cancellationTokenSource?.Cancel();
@@ -236,7 +236,7 @@ namespace Kenedia.Modules.Characters.Services
             PlayerCharacter player = GameService.Gw2Mumble.PlayerCharacter;
             bool inCharSelection = _settings.UseBetaGamestate.Value ? _gameState.IsCharacterSelection : !GameService.GameIntegration.Gw2Instance.IsInGame;
 
-            if (player != null && player.Name == character.Name && !inCharSelection)
+            if (player is not null && player.Name == character.Name && !inCharSelection)
             {
                 return;
             }
@@ -300,7 +300,7 @@ namespace Kenedia.Modules.Characters.Services
 
             if (delay > 0)
             {
-                if (partial != null)
+                if (partial is not null)
                 {
                     delay = delay / 100 * (int)(partial * 100);
                 }
@@ -495,7 +495,7 @@ namespace Kenedia.Modules.Characters.Services
             }
 
             PlayerCharacter player = GameService.Gw2Mumble.PlayerCharacter;
-            if (player != null && player.Name == Character.Name)
+            if (player is not null && player.Name == Character.Name)
             {
                 Character.UpdateCharacter(player);
                 Succeeded?.Invoke(null, null);

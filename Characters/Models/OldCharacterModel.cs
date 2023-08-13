@@ -46,7 +46,7 @@ namespace Kenedia.Modules.Characters.Models
                                 }
                             }
                         });
-                        character.Map = old?.Map != null ? old.Map : 0;
+                        character.Map = old?.Map is not null ? old.Map : 0;
                         character.IconPath = !string.IsNullOrEmpty(old.Icon) ? old.Icon : string.Empty;
 
                         if (!string.IsNullOrEmpty(old.Icon))

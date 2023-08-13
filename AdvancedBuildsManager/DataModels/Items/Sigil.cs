@@ -30,7 +30,7 @@ namespace Kenedia.Modules.AdvancedBuildsManager.DataModels.Items
             if (item.Type == ItemType.UpgradeComponent)
             {
                 var upgrade = (ItemUpgradeComponent)item;
-                if (upgrade.Details.InfixUpgrade != null && upgrade.Details.InfixUpgrade.Buff != null)
+                if (upgrade.Details.InfixUpgrade is not null && upgrade.Details.InfixUpgrade.Buff is not null)
                 {
                     Buff = upgrade.Details.InfixUpgrade.Buff.Description;
                 }

@@ -96,7 +96,7 @@ namespace Kenedia.Modules.Characters
             {
                 if (_currentCharacterModel != value)
                 {
-                    if (_currentCharacterModel != null)
+                    if (_currentCharacterModel is not null)
                     {
                         _currentCharacterModel.Updated -= CurrentCharacterModel_Updated;
                         _currentCharacterModel.IsCurrentCharacter = false;
@@ -104,7 +104,7 @@ namespace Kenedia.Modules.Characters
 
                     _currentCharacterModel = value;
 
-                    if (_currentCharacterModel != null)
+                    if (_currentCharacterModel is not null)
                     {
                         _currentCharacterModel.Updated += CurrentCharacterModel_Updated;
                         _currentCharacterModel.UpdateCharacter();
@@ -256,7 +256,7 @@ namespace Kenedia.Modules.Characters
                 _ticks.Global = 0;
                 PlayerCharacter player = GameService.Gw2Mumble.PlayerCharacter;
 
-                string name = player != null ? player.Name : string.Empty;
+                string name = player is not null ? player.Name : string.Empty;
                 bool charSelection = Settings.UseBetaGamestate.Value ? Services.GameState.IsCharacterSelection : !GameService.GameIntegration.Gw2Instance.IsInGame;
 
                 CurrentCharacterModel = !charSelection ? CharacterModels.FirstOrDefault(e => e.Name == name) : null;
@@ -267,7 +267,7 @@ namespace Kenedia.Modules.Characters
                     _mapsUpdated = true;
                 }
 
-                if (CurrentCharacterModel != null)
+                if (CurrentCharacterModel is not null)
                 {
                     CurrentCharacterModel?.UpdateCharacter(player);
                 }
@@ -515,7 +515,7 @@ namespace Kenedia.Modules.Characters
 
         private void DeleteCornerIcons()
         {
-            if (_cornerIcon != null) _cornerIcon.Moved -= CornerIcon_Moved;
+            if (_cornerIcon is not null) _cornerIcon.Moved -= CornerIcon_Moved;
             _cornerIcon?.Dispose();
             _cornerIcon = null;
 
@@ -525,7 +525,7 @@ namespace Kenedia.Modules.Characters
 
         private void CornerIcon_Moved(object sender, MovedEventArgs e)
         {
-            if (APISpinner != null) APISpinner.Location = new Point(_cornerIcon.Left, _cornerIcon.Bottom + 3);
+            if (APISpinner is not null) APISpinner.Location = new Point(_cornerIcon.Left, _cornerIcon.Bottom + 3);
         }
 
         private void ShowCornerIcon_SettingChanged(object sender, Blish_HUD.ValueChangedEventArgs<bool> e)
@@ -557,7 +557,7 @@ namespace Kenedia.Modules.Characters
 
             foreach (KeyValuePair<int, Data.CraftingProfession> e in Data.CrafingProfessions)
             {
-                SearchFilters.Add(e.Value.Name, new((c) => c.Crafting.Find(p => Settings.DisplayToggles.Value["CraftingProfession"].Check && p.Id == e.Value.Id && (!Settings.DisplayToggles.Value["OnlyMaxCrafting"].Check || p.Rating >= e.Value.MaxRating)) != null));
+                SearchFilters.Add(e.Value.Name, new((c) => c.Crafting.Find(p => Settings.DisplayToggles.Value["CraftingProfession"].Check && p.Id == e.Value.Id && (!Settings.DisplayToggles.Value["OnlyMaxCrafting"].Check || p.Rating >= e.Value.MaxRating)) is not null));
             }
 
             foreach (KeyValuePair<RaceType, Data.Race> e in Data.Races)
@@ -583,7 +583,7 @@ namespace Kenedia.Modules.Characters
             }
 
             Logger.Info($"Update characters for '{Paths.AccountName}' based on fresh data from the api.");
-            if (Paths.AccountName != null && characters.Count > 0)
+            if (Paths.AccountName is not null && characters.Count > 0)
             {
                 var freshList = characters.Select(c => new { c.Name, c.Created }).ToList();
                 var oldList = CharacterModels.Select(c => new { c.Name, c.Created }).ToList();
@@ -625,7 +625,7 @@ namespace Kenedia.Modules.Characters
                         //Logger.Info($"{c.Name} created on {c.Created} does exist already. Update it!");
                         var character = CharacterModels.FirstOrDefault(e => e.Name == c.Name);
                         character?.UpdateCharacter(c);
-                        if (character != null)
+                        if (character is not null)
                         {
                             character.Position = pos;
                         }
@@ -684,7 +684,7 @@ namespace Kenedia.Modules.Characters
 
             AccountSummary account = getAccount();
 
-            if (account != null || !string.IsNullOrEmpty(Paths.AccountName))
+            if (account is not null || !string.IsNullOrEmpty(Paths.AccountName))
             {
                 Paths.AccountName ??= account.AccountName;
 
@@ -718,7 +718,7 @@ namespace Kenedia.Modules.Characters
                     List<Character_Model> characters = JsonConvert.DeserializeObject<List<Character_Model>>(content);
                     var names = CharacterModels.Select(c => c.Name).ToList();
 
-                    if (characters != null)
+                    if (characters is not null)
                     {
                         characters.ForEach(c =>
                         {

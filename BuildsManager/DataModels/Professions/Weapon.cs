@@ -2,12 +2,15 @@
 using System.Collections.Generic;
 using System.Runtime.Serialization;
 using APIWeapon = Gw2Sharp.WebApi.V2.Models.ProfessionWeapon;
+using Kenedia.Modules.Core.Extensions;
 
 namespace Kenedia.Modules.BuildsManager.DataModels.Professions
 {
     [DataContract]
-    public class Weapon
+    public class Weapon : IDisposable
     {
+        private bool _isDisposed;
+
         public Weapon()
         {
 
@@ -120,6 +123,13 @@ namespace Kenedia.Modules.BuildsManager.DataModels.Professions
 
         public void ApplyLanguage(Dictionary<int, Skill> skills)
         {
+        }
+
+        public void Dispose()
+        {
+            if (_isDisposed) return;
+            _isDisposed = true;
+
         }
     }
 }

@@ -63,7 +63,7 @@ namespace Kenedia.Modules.ReleaseTheChoya.Views
 
         protected override void Unload()
         {
-            if (_openSettingsButton != null) _openSettingsButton.Click -= OpenSettingsButton_Click;
+            if (_openSettingsButton is not null) _openSettingsButton.Click -= OpenSettingsButton_Click;
 
             _choya?.Dispose();
             _openSettingsButton?.Dispose();

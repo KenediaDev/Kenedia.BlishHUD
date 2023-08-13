@@ -43,7 +43,7 @@ namespace Kenedia.Modules.Characters.Controls
             set
             {
                 _font = value;
-                if (value != null)
+                if (value is not null)
                 {
                     Width = Height + 4 + (int)value.MeasureString(strings.NoCraftingProfession).Width;
                 }
@@ -66,7 +66,7 @@ namespace Kenedia.Modules.Characters.Controls
                 default);
 
             bool craftingDisplayed = false;
-            if (Character != null && Character.Crafting.Count > 0 && Settings != null && Data != null)
+            if (Character is not null && Character.Crafting.Count > 0 && Settings is not null && Data is not null)
             {
                 System.Collections.Generic.Dictionary<int, CraftingProfession> craftingDictionary = Data.CrafingProfessions;
 
@@ -74,13 +74,13 @@ namespace Kenedia.Modules.Characters.Controls
                 foreach (CharacterCrafting crafting in Character.Crafting)
                 {
                     _ = craftingDictionary.TryGetValue(crafting.Id, out CraftingProfession craftingProfession);
-                    if (craftingProfession != null)
+                    if (craftingProfession is not null)
                     {
                         Text = "NA";
 
                         bool onlyMax = Settings.DisplayToggles.Value["OnlyMaxCrafting"].Show;
 
-                        if (craftingProfession.Icon != null && (!onlyMax || crafting.Rating == craftingProfession.MaxRating))
+                        if (craftingProfession.Icon is not null && (!onlyMax || crafting.Rating == craftingProfession.MaxRating))
                         {
                             craftingDisplayed = true;
                             Rectangle craftBounds = new(bounds.Height + 6 + (i * bounds.Height), 2, bounds.Height - 4, bounds.Height - 4);

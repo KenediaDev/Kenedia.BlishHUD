@@ -25,12 +25,12 @@ namespace Kenedia.Modules.Core.DataModels
             Weapon = c.Weapon;
             Specialization = c.Specialization;
             EnvCounter = c.EnviromentalCounterskill;
-            Stealth = c.Stealth?.Default != null ? c.Stealth?.Default : c.Chain?.Stealth;
-            Malicious = c.Stealth?.Malicious != null ? c.Stealth?.Malicious : c.Chain?.Malicious;
+            Stealth = c.Stealth?.Default is not null ? c.Stealth?.Default : c.Chain?.Stealth;
+            Malicious = c.Stealth?.Malicious is not null ? c.Stealth?.Malicious : c.Chain?.Malicious;
             Ambush = c.Chain?.Ambush;
             Unleashed = c.Chain?.Unleashed;
             
-            if(c.Chain!= null)
+            if(c.Chain is not null)
             {
                 Chain = new()
                 {
@@ -44,7 +44,7 @@ namespace Kenedia.Modules.Core.DataModels
                 _ = Chain.RemoveAll(e => e == null);
             }
 
-            if(c.FlipSkills!= null)
+            if(c.FlipSkills is not null)
             {
                 FlipSkills = new()
                 {
@@ -145,7 +145,7 @@ namespace Kenedia.Modules.Core.DataModels
 
         public bool HasValues()
         {
-            return Values.Any(e => e != null);
+            return Values.Any(e => e is not null);
         }
     }
 
@@ -266,7 +266,7 @@ namespace Kenedia.Modules.Core.DataModels
 
         public bool HasValues()
         {
-            return this.Any(e => e != null);
+            return this.Any(e => e is not null);
         }
     }
 

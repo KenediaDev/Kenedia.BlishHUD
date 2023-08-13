@@ -28,7 +28,7 @@ namespace Kenedia.Modules.Core.Extensions
                 if (mod != ModifierKeys.None && mods.HasFlag(mod))
                 {
                     Blish_HUD.Controls.Intern.Keyboard.Press(ModKeyMapping[(int)mod], false);
-                    if (cancellationToken != null && cancellationToken.Value.IsCancellationRequested) { return false; }
+                    if (cancellationToken is not null && cancellationToken.Value.IsCancellationRequested) { return false; }
                 }
             }
 
@@ -40,14 +40,14 @@ namespace Kenedia.Modules.Core.Extensions
                 Blish_HUD.Controls.Intern.Keyboard.Stroke((VirtualKeyShort)keybinding.PrimaryKey, true);               
             }
 
-            if (cancellationToken != null) await Task.Delay(keyDelay, cancellationToken.Value);
+            if (cancellationToken is not null) await Task.Delay(keyDelay, cancellationToken.Value);
 
             foreach (ModifierKeys mod in Enum.GetValues(typeof(ModifierKeys)))
             {
                 if (mod != ModifierKeys.None && mods.HasFlag(mod))
                 {
                     Blish_HUD.Controls.Intern.Keyboard.Release(ModKeyMapping[(int)mod], false);
-                    if (cancellationToken != null && cancellationToken.Value.IsCancellationRequested) { return false; }
+                    if (cancellationToken is not null && cancellationToken.Value.IsCancellationRequested) { return false; }
                 }
             }
 

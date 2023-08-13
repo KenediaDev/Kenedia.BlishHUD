@@ -148,7 +148,7 @@ namespace Kenedia.Modules.Characters.Controls.SideMenu
 
         private void SettingChanged(object sender, CheckChangedEvent e)
         {
-            if (_settings != null)
+            if (_settings is not null)
             {
                 _settings.DisplayToggles.Value = new(_settings.DisplayToggles.Value)
                 {

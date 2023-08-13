@@ -195,8 +195,8 @@ namespace Kenedia.Modules.Characters.Controls
                 var temp = _settings;
                 if (Common.SetProperty(ref _settings, value, OnSettingsChanged))
                 {
-                    if (temp != null) { temp.AppearanceSettingChanged -= Settings_AppearanceSettingChanged; }
-                    if (_settings != null) { _settings.AppearanceSettingChanged += Settings_AppearanceSettingChanged; }
+                    if (temp is not null) { temp.AppearanceSettingChanged -= Settings_AppearanceSettingChanged; }
+                    if (_settings is not null) { _settings.AppearanceSettingChanged += Settings_AppearanceSettingChanged; }
                 }
             }
         }
@@ -210,7 +210,7 @@ namespace Kenedia.Modules.Characters.Controls
         {
             _craftingControl.Settings = _settings;
 
-            if (_settings != null)
+            if (_settings is not null)
             {
                 RecalculateBounds();
             }
@@ -233,7 +233,7 @@ namespace Kenedia.Modules.Characters.Controls
 
         private void OnTextureManagerAdded(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
-            if (_genderLabel != null) _genderLabel.Icon = _textureManager?.GetIcon(TextureManager.Icons.Gender);
+            if (_genderLabel is not null) _genderLabel.Icon = _textureManager?.GetIcon(TextureManager.Icons.Gender);
         }
 
         public void RecalculateBounds()
@@ -259,7 +259,7 @@ namespace Kenedia.Modules.Characters.Controls
             _professionLabel.Icon = Character.SpecializationIcon;
             _professionLabel.Text = Character.SpecializationName;
 
-            if (_professionLabel.Icon != null)
+            if (_professionLabel.Icon is not null)
             {
                 _professionLabel.TextureRectangle = _professionLabel.Icon.Width == 32 ? new Rectangle(2, 2, 28, 28) : new Rectangle(4, 4, 56, 56);
             }
@@ -286,7 +286,7 @@ namespace Kenedia.Modules.Characters.Controls
                 foreach (string tag in deleteTags)
                 {
                     var t = _tags.FirstOrDefault(e => e.Text == tag);
-                    if (t != null) deleteList.Add(t);
+                    if (t is not null) deleteList.Add(t);
                 }
 
                 foreach (var t in deleteList)
@@ -360,7 +360,7 @@ namespace Kenedia.Modules.Characters.Controls
 
             _craftingControl.Height = Font.LineHeight + 2;
 
-            if (Parent != null)
+            if (Parent is not null)
             {
                 Parent.ControlPadding = new(Font.LineHeight / 10, Font.LineHeight / 10);
                 Parent?.Invalidate();
@@ -396,7 +396,7 @@ namespace Kenedia.Modules.Characters.Controls
 
         internal void Update()
         {
-            if (Character != null && _lastLoginLabel.Visible)
+            if (Character is not null && _lastLoginLabel.Visible)
             {
                 if (CurrentCharacter?.Invoke() != Character)
                 {
@@ -409,13 +409,13 @@ namespace Kenedia.Modules.Characters.Controls
                 }
             }
 
-            if (Character != null && _nextBirthdayLabel.Visible)
+            if (Character is not null && _nextBirthdayLabel.Visible)
             {
                 TimeSpan ts = Character.UntilNextBirthday;
                 _nextBirthdayLabel.Text = string.Format("{1} {0} {2:00}:{3:00}:{4:00}", strings.Days, Math.Floor(ts.TotalDays), ts.Hours, ts.Minutes, ts.Seconds);
             }
 
-            if (Character != null && _ageLabel.Visible)
+            if (Character is not null && _ageLabel.Visible)
             {
                 _ageLabel.Text = string.Format("{1} ({0} Years)", Character.Age, Character.Created.Date.ToString("d"));
             }

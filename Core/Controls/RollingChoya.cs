@@ -110,7 +110,7 @@ namespace Kenedia.Modules.Core.Controls
 
                 case false:
                     int size = Math.Min(Width, Height);
-                    Rectangle movementBounds = Parent != null ? Parent.AbsoluteBounds : Rectangle.Empty;
+                    Rectangle movementBounds = Parent is not null ? Parent.AbsoluteBounds : Rectangle.Empty;
                     Location = new((movementBounds.Width - size) / 2, (movementBounds.Height - size) / 2);
                     break;
 
@@ -119,7 +119,7 @@ namespace Kenedia.Modules.Core.Controls
 
         protected override void Paint(SpriteBatch spriteBatch, Rectangle bounds)
         {
-            if (ChoyaTexture != null)
+            if (ChoyaTexture is not null)
             {
                 double ms = GameService.Overlay.CurrentGameTime.TotalGameTime.TotalMilliseconds;
                 double duration = ms - _start;
@@ -127,7 +127,7 @@ namespace Kenedia.Modules.Core.Controls
 
                 _choyaTargeted = ChoyaHunt && AbsoluteBounds.Contains(Input.Mouse.Position);
 
-                Rectangle movementBounds = Parent != null ? Parent.ContentRegion : Rectangle.Empty;
+                Rectangle movementBounds = Parent is not null ? Parent.ContentRegion : Rectangle.Empty;
 
                 int size = Math.Min(Width, Height);
                 int choyaSize = Math.Min(ChoyaTexture.Bounds.Width, ChoyaTexture.Bounds.Height);
@@ -144,7 +144,7 @@ namespace Kenedia.Modules.Core.Controls
 
                 Size = new(size);
 
-                if (ChoyaTexture != null) spriteBatch.DrawOnCtrl(this, ChoyaTexture, choyaRect, ChoyaTexture.Bounds, _choyaTargeted ? Color.Red : TextureColor, rotation, new(choyaSize / 2));
+                if (ChoyaTexture is not null) spriteBatch.DrawOnCtrl(this, ChoyaTexture, choyaRect, ChoyaTexture.Bounds, _choyaTargeted ? Color.Red : TextureColor, rotation, new(choyaSize / 2));
 
                 if (movementBounds.Width < Location.X + TravelDistance.X + (choyaSize / 20))
                 {
@@ -180,7 +180,7 @@ namespace Kenedia.Modules.Core.Controls
         {
             base.DisposeControl();
 
-            if(InputDetectionService != null) InputDetectionService.MouseClicked -= InputDetectionService_MouseClicked;
+            if(InputDetectionService is not null) InputDetectionService.MouseClicked -= InputDetectionService_MouseClicked;
         }
     }
 }

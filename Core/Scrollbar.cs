@@ -61,7 +61,7 @@ namespace Kenedia.Modules.Core.Controls
             set
             {
                 float aVal = MathHelper.Clamp(value, 0f, 1f);
-                if (_associatedContainer != null && _targetScrollDistance != aVal)
+                if (_associatedContainer is not null && _targetScrollDistance != aVal)
                 {
                     _targetScrollDistance = aVal;
                 }
@@ -178,7 +178,7 @@ namespace Kenedia.Modules.Core.Controls
 
             // Avoid scrolling nested panels
             var ctrl = (Control)sender;
-            while (ctrl != _associatedContainer && ctrl != null)
+            while (ctrl != _associatedContainer && ctrl is not null)
             {
                 if (ctrl is Panel) return;
                 ctrl = ctrl.Parent;
@@ -286,7 +286,7 @@ namespace Kenedia.Modules.Core.Controls
             double lastVal = _scrollbarPercent;
             RecalculateScrollbarSize();
 
-            if (lastVal != _scrollbarPercent && _associatedContainer != null)
+            if (lastVal != _scrollbarPercent && _associatedContainer is not null)
             {
                 ScrollDistance = 0;
                 TargetScrollDistance = 0;
@@ -332,7 +332,7 @@ namespace Kenedia.Modules.Core.Controls
             // Don't show the scrollbar if there is nothing to scroll
             if (_scrollbarPercent > 0.99) return;
 
-            var drawTint = (ScrollFocus == ClickFocus.None && MouseOver) || (_associatedContainer != null && _associatedContainer.MouseOver)
+            var drawTint = (ScrollFocus == ClickFocus.None && MouseOver) || (_associatedContainer is not null && _associatedContainer.MouseOver)
                                ? Color.White
                                : ContentService.Colors.Darkened(0.6f);
 

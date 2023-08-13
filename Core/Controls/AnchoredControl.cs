@@ -29,7 +29,7 @@ namespace Kenedia.Modules.Core.Controls
 
                 if (_anchor != value)
                 {
-                    if (_anchor != null)
+                    if (_anchor is not null)
                     {
                         _anchor.Moved -= Anchor_Moved;
                         _anchor.Resized -= Anchor_Moved;
@@ -55,7 +55,7 @@ namespace Kenedia.Modules.Core.Controls
         {
             base.OnResized(e);
 
-            if (Anchor != null)
+            if (Anchor is not null)
             {
                 Location = GetPosition();
             }

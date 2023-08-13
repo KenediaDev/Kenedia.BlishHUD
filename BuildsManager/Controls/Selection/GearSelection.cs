@@ -50,7 +50,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
                         Visible = false,
                         OnClickAction = () =>
                         {
-                            if (TemplatePresenter?.Template != null)
+                            if (TemplatePresenter?.Template is not null)
                             {
                                 OnClickAction(item);
                             }
@@ -124,6 +124,9 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
         protected override void DisposeControl()
         {
             base.DisposeControl();
+
+            SelectionContent?.Children?.DisposeAll();
+            _selectables?.DisposeAll();
         }
 
         public void PerformFiltering()
@@ -181,7 +184,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
 
                             var weapon = BuildsManager.Data.Professions[TemplatePresenter?.Template.Profession ?? Gw2Sharp.Models.ProfessionType.Guardian].Weapons.Where(e => (item.Item as Weapon).WeaponType.IsWeaponType(e.Value.Type)).FirstOrDefault();
 
-                            if (weapon.Value != null)
+                            if (weapon.Value is not null)
                             {
                                 bool terrainMatch =
                                     (ActiveSlot is TemplateSlotType.AltAquatic or TemplateSlotType.Aquatic) ?

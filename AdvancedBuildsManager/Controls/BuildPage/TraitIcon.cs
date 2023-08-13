@@ -20,7 +20,7 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Controls.BuildPage
         {
             Texture = Trait?.Icon;
 
-            if (Trait != null && Trait.Icon != null)
+            if (Trait is not null && Trait.Icon is not null)
             {
                 int padding = Trait.Icon.Width / 16;
                 TextureRegion = new(padding, padding, Trait.Icon.Width - (padding * 2), Trait.Icon.Height - (padding * 2));

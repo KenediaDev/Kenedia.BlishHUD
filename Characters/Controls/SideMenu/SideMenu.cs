@@ -63,7 +63,7 @@ namespace Kenedia.Modules.Characters.Controls.SideMenu
             //Height = 415;
             HeightSizingMode = SizingMode.AutoSize;
 
-            if (BackgroundImage != null) TextureRectangle = new Rectangle(30, 30, BackgroundImage.Width - 60, BackgroundImage.Height - 60);
+            if (BackgroundImage is not null) TextureRectangle = new Rectangle(30, 30, BackgroundImage.Width - 60, BackgroundImage.Height - 60);
         }
 
         public SideMenuToggles TogglesTab { get; set; }
@@ -167,7 +167,7 @@ namespace Kenedia.Modules.Characters.Controls.SideMenu
         {
             base.RecalculateLayout();
 
-            if (_headerPanel != null) _headerPanel.Width = ContentRegion.Width;
+            if (_headerPanel is not null) _headerPanel.Width = ContentRegion.Width;
         }
 
         public override bool SwitchTab(PanelTab tab = null)
@@ -191,7 +191,7 @@ namespace Kenedia.Modules.Characters.Controls.SideMenu
         {
             base.OnResized(e);
 
-            if (BackgroundImage != null) TextureRectangle = new Rectangle(30, 30, Math.Min(BackgroundImage.Width - 100, Width), Math.Min(BackgroundImage.Height - 100, Height));
+            if (BackgroundImage is not null) TextureRectangle = new Rectangle(30, 30, Math.Min(BackgroundImage.Width - 100, Width), Math.Min(BackgroundImage.Height - 100, Height));
 
             int gap = (_headerPanel.Width - 7 - (_buttons.Count * 20)) / (_buttons.Count - 1);
             for (int i = 0; i < _buttons.Count; i++)

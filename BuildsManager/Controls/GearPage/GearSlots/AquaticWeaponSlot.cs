@@ -3,7 +3,6 @@ using System;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
 using Kenedia.Modules.BuildsManager.Models.Templates;
-using Blish_HUD.Content;
 using Kenedia.Modules.Core.Utility;
 using Kenedia.Modules.Core.Models;
 using Blish_HUD;
@@ -200,7 +199,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage.GearSlots
         {
             base.SetItems(sender, e);
 
-            var armor = TemplatePresenter.Template[Slot] as AquaticWeaponTemplateEntry;
+            var armor = TemplatePresenter?.Template?[Slot] as AquaticWeaponTemplateEntry;
 
             Infusion1 = armor?.Infusion1;
             Infusion2 = armor?.Infusion2;
@@ -364,6 +363,17 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage.GearSlots
         private void OnInfusion2Changed(object sender, Core.Models.ValueChangedEventArgs<Infusion> e)
         {
             _infusion2Control.Item = Infusion2;
+        }
+
+        protected override void DisposeControl()
+        {
+            base.DisposeControl();
+
+            Stat = null;
+            Sigil1 = null;
+            Sigil2 = null;
+            Infusion1 = null;
+            Infusion2 = null;
         }
     }
 }

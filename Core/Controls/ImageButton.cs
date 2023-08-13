@@ -57,7 +57,7 @@ namespace Kenedia.Modules.Core.Controls
 
         public void UserLocale_SettingChanged(object sender, ValueChangedEventArgs<Locale> e)
         {
-            if (SetLocalizedTooltip != null) BasicTooltipText = SetLocalizedTooltip?.Invoke();
+            if (SetLocalizedTooltip is not null) BasicTooltipText = SetLocalizedTooltip?.Invoke();
         }
 
         protected override void DisposeControl()
@@ -69,18 +69,18 @@ namespace Kenedia.Modules.Core.Controls
 
         private AsyncTexture2D GetTexture()
         {
-            return !Enabled && DisabledTexture != null ? DisabledTexture :
-                Clicked && ClickedTexture != null ? ClickedTexture
-                : MouseOver && HoveredTexture != null ? HoveredTexture
+            return !Enabled && DisabledTexture is not null ? DisabledTexture :
+                Clicked && ClickedTexture is not null ? ClickedTexture
+                : MouseOver && HoveredTexture is not null ? HoveredTexture
                 : Texture;
         }
 
         protected override void Paint(SpriteBatch spriteBatch, Rectangle bounds)
         {
             AsyncTexture2D texture = GetTexture();
-            Color? color = ColorHovered != null && MouseOver ? ColorHovered : ColorClicked != null && Clicked ? ColorClicked : Color;
+            Color? color = ColorHovered is not null && MouseOver ? ColorHovered : ColorClicked is not null && Clicked ? ColorClicked : Color;
 
-            if (texture != null && color != null)
+            if (texture is not null && color is not null)
             {              
                 spriteBatch.DrawOnCtrl(
                     this,

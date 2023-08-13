@@ -189,7 +189,7 @@ namespace Kenedia.Modules.Core.Views
 
         public void AddTab(BaseTab tab)
         {
-            if (tab != null)
+            if (tab is not null)
             {
                 BaseTab prevTab = _tabs.Count > 0 ? _tabs[SelectedTabIndex] : tab;
 

@@ -1,10 +1,8 @@
 ﻿using Container = Blish_HUD.Controls.Container;
 using System;
-using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
 using Kenedia.Modules.BuildsManager.Models.Templates;
 using Kenedia.Modules.Core.Utility;
-using Kenedia.Modules.Core.Models;
 using Blish_HUD;
 using Blish_HUD.Input;
 using Kenedia.Modules.BuildsManager.DataModels.Stats;
@@ -62,7 +60,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage.GearSlots
         {
             base.SetItems(sender, e);
 
-            var armor = TemplatePresenter.Template[Slot] as RingTemplateEntry;
+            var armor = TemplatePresenter?.Template?[Slot] as RingTemplateEntry;
 
             Infusion1 = armor?.Infusion1;
             Infusion2 = armor?.Infusion2;
@@ -258,6 +256,16 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage.GearSlots
         private void OnInfusion3Changed(object sender, Core.Models.ValueChangedEventArgs<Infusion> e)
         {
             _infusion1Control.Item = Infusion3;
+        }
+
+        protected override void DisposeControl()
+        {
+            base.DisposeControl();
+
+            Stat = null;
+            Infusion1 = null;
+            Infusion2 = null;
+            Infusion3 = null;
         }
     }
 }

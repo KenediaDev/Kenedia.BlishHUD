@@ -39,7 +39,7 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Controls.SkillConnectionEdit
                 Size = new(32),
                 ClickAction = (m) =>
                 {
-                    if (SkillConnection != null) CreateTraitControls(new(0, 0));
+                    if (SkillConnection is not null) CreateTraitControls(new(0, 0));
                 }
             };
         }
@@ -67,7 +67,7 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Controls.SkillConnectionEdit
                 {
                     SkillConnection.Traited ??= Item;
                 }
-                else if (SkillConnection.Traited != null)
+                else if (SkillConnection.Traited is not null)
                 {
                     SkillConnection.Traited = null;
                 }
@@ -89,18 +89,18 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Controls.SkillConnectionEdit
             var trait = GetTrait(traitid);
             _ = AdvancedBuildsManager.Data.BaseSkills.TryGetValue(skillid, out BaseSkill skill);
 
-            if (trait != null) temp.Item2.Trait = trait;
-            if (skill != null) temp.Item3.Skill = skill;
+            if (trait is not null) temp.Item2.Trait = trait;
+            if (skill is not null) temp.Item3.Skill = skill;
 
             temp.Item3.OnChangedAction = (prevId, newId) =>
             {
                 prevId ??= 0;
 
-                if (newId != null)
+                if (newId is not null)
                 {
-                    if (prevId != null) _ = Item.Remove((int)prevId);
+                    if (prevId is not null) _ = Item.Remove((int)prevId);
 
-                    Item[(int)newId] = temp.Item2.Trait != null ? (int)temp.Item2.Trait?.Id : 0;
+                    Item[(int)newId] = temp.Item2.Trait is not null ? (int)temp.Item2.Trait?.Id : 0;
 
                     Save();
                 }
@@ -108,9 +108,9 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Controls.SkillConnectionEdit
 
             temp.Item2.OnTraitChangedAction = (trait_id) =>
             {
-                if (trait_id != null)
+                if (trait_id is not null)
                 {
-                    int id = temp.Item3.Skill != null ? temp.Item3.Skill.Id : 0;
+                    int id = temp.Item3.Skill is not null ? temp.Item3.Skill.Id : 0;
                     Item[id] = (int)trait_id;
 
                     Save();
@@ -135,7 +135,7 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Controls.SkillConnectionEdit
             {
                 id ??= 0;
 
-                if (id != null)
+                if (id is not null)
                 {
                     _ = Item?.Remove((int)id);
                     temp.Item1.Dispose();
@@ -145,7 +145,7 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Controls.SkillConnectionEdit
                 {
                     SkillConnection.Traited ??= Item;
                 }
-                else if (SkillConnection.Traited != null)
+                else if (SkillConnection.Traited is not null)
                 {
                     SkillConnection.Traited = null;
                 }
@@ -161,17 +161,17 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Controls.SkillConnectionEdit
             for (int i = Children.Count - 1; i >= 0; i--)
             {
                 Blish_HUD.Controls.Control item = Children[i];
-                if (item != null && item != _addButton)
+                if (item is not null && item != _addButton)
                 {
                     item?.Dispose();
                 }
             }
 
-            if (SkillConnection != null)
+            if (SkillConnection is not null)
             {
                 _canSave = false;
 
-                if (SkillConnection.Traited != null)
+                if (SkillConnection.Traited is not null)
                 {
                     foreach (var traitPair in SkillConnection.Traited)
                     {

@@ -20,6 +20,8 @@ using System.ComponentModel;
 using Blish_HUD.Controls;
 using TextBox = Kenedia.Modules.Core.Controls.TextBox;
 using Kenedia.Modules.BuildsManager.Models;
+using Kenedia.Modules.BuildsManager.Res;
+using Gw2Sharp.WebApi;
 
 namespace Kenedia.Modules.BuildsManager.Controls.Selection
 {
@@ -28,8 +30,8 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
         private readonly TexturesService _texturesService;
         private readonly AsyncTexture2D _lineTexture = AsyncTexture2D.FromAssetId(605025);
 
-        private readonly AsyncTexture2D _copyTexture = AsyncTexture2D.FromAssetId(2208345);
-        private readonly AsyncTexture2D _textureFillCrest = AsyncTexture2D.FromAssetId(605004);
+        //private readonly AsyncTexture2D _copyTexture = AsyncTexture2D.FromAssetId(2208345);
+        //private readonly AsyncTexture2D _textureFillCrest = AsyncTexture2D.FromAssetId(605004);
         private readonly AsyncTexture2D _textureVignette = AsyncTexture2D.FromAssetId(605003);
         private readonly AsyncTexture2D _textureCornerButton = AsyncTexture2D.FromAssetId(605011);
         private readonly AsyncTexture2D _textureBottomSectionSeparator = AsyncTexture2D.FromAssetId(157218);
@@ -41,7 +43,6 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
         private readonly bool _created;
         private readonly Label _name;
 
-        private readonly List<Tag> _tags = new();
         private readonly List<TagTexture> _tagTexturess = new();
 
         private Rectangle _separatorBounds;
@@ -127,15 +128,22 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
             SetTooltip();
 
             Menu = new();
-            _ = Menu.AddMenuItem(new ContextMenuItem(() => "Duplicate", DuplicateTemplate));
-            _ = Menu.AddMenuItem(new ContextMenuItem(() => "Delete", DeleteTemplate));
+            _ = Menu.AddMenuItem(new ContextMenuItem(() => strings.Duplicate, DuplicateTemplate));
+            _ = Menu.AddMenuItem(new ContextMenuItem(() => strings.Delete, DeleteTemplate));
 
             _created = true;
+
+            LocalizingService.LocaleChanged += LocalizingService_OnLocaleChanged;
+        }
+
+        private void LocalizingService_OnLocaleChanged(object arg1, ValueChangedEventArgs<Locale> args)
+        {
+            SetTooltip();
         }
 
         private async void DeleteTemplate()
         {
-            var result = await new BaseDialog("Warning", $"Are you sure to delete '{Template?.Name}'?") { DesiredWidth = 300, AutoSize = true }.ShowDialog();
+            var result = await new BaseDialog(strings.Warning, string.Format(strings.ConfirmTemplateDelete, Template?.Name)) { DesiredWidth = 300, AutoSize = true }.ShowDialog();
 
             if (result == DialogResult.OK)
             {
@@ -147,20 +155,20 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
         private void DuplicateTemplate()
         {
             Template t;
-            string name = (Template?.Name ?? "New Template") + " - Copy";
+            string name = $"{Template?.Name ?? strings.NewTemplate} - {strings.Copy}";
             if (BuildsManager.ModuleInstance.Templates.Where(e => e.Name == name).Count() == 0)
             {
                 BuildsManager.ModuleInstance.Templates.Add(t = new(Template?.BuildCode, Template?.GearCode) { Name = name });
             }
             else
             {
-                ScreenNotification.ShowNotification($"There is already a template with the name '{name}'");
+                ScreenNotification.ShowNotification(string.Format(strings.TemplateExistsAlready, name));
             }
         }
 
         private void SetTooltip()
         {
-            string txt = "CTRL + Left Click to copy the Build Template Code";
+            string txt = strings.CopyBuildTemplateCode;
 
             foreach(var c in Children)
             {
@@ -182,23 +190,23 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
                 var temp = _template;
                 if (Common.SetProperty(ref _template, value, ApplyTemplate))
                 {
-                    if (temp != null) temp.RaceChanged -= Template_RaceChanged;
-                    if (_template != null) _template.RaceChanged += Template_RaceChanged;
+                    if (temp is not null) temp.RaceChanged -= Template_RaceChanged;
+                    if (_template is not null) _template.RaceChanged += Template_RaceChanged;
 
-                    if (temp != null) temp.LoadedBuildFromCode -= Template_LoadedBuildFromCode;
-                    if (_template != null) _template.LoadedBuildFromCode += Template_LoadedBuildFromCode;
+                    if (temp is not null) temp.LoadedBuildFromCode -= Template_LoadedBuildFromCode;
+                    if (_template is not null) _template.LoadedBuildFromCode += Template_LoadedBuildFromCode;
 
-                    if (temp != null) temp.ProfessionChanged -= Template_ProfessionChanged;
-                    if (_template != null) _template.ProfessionChanged += Template_ProfessionChanged;
+                    if (temp is not null) temp.ProfessionChanged -= Template_ProfessionChanged;
+                    if (_template is not null) _template.ProfessionChanged += Template_ProfessionChanged;
 
-                    if (temp != null) temp.EliteSpecializationChanged -= Template_EliteSpecializationChanged;
-                    if (_template != null) _template.EliteSpecializationChanged += Template_EliteSpecializationChanged;
+                    if (temp is not null) temp.EliteSpecializationChanged -= Template_EliteSpecializationChanged;
+                    if (_template is not null) _template.EliteSpecializationChanged += Template_EliteSpecializationChanged;
 
-                    if (temp != null) temp.EncountersChanged -= Template_EncountersChanged;
-                    if (_template != null) _template.EncountersChanged += Template_EncountersChanged;
+                    if (temp is not null) temp.EncountersChanged -= Template_EncountersChanged;
+                    if (_template is not null) _template.EncountersChanged += Template_EncountersChanged;
 
-                    if (temp != null) temp.TagsChanged -= Template_TagsChanged;
-                    if (_template != null) _template.TagsChanged += Template_TagsChanged;
+                    if (temp is not null) temp.TagsChanged -= Template_TagsChanged;
+                    if (_template is not null) _template.TagsChanged += Template_TagsChanged;
 
                 }
             }
@@ -254,18 +262,17 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
         {
             base.PaintAfterChildren(spriteBatch, bounds);
 
-            RecalculateLayout();
             string? txt = null;
             spriteBatch.DrawOnCtrl(this, _textureVignette, _vignetteBounds, _textureVignette.Bounds, Color.Black, 0F, Vector2.Zero);
             //spriteBatch.DrawOnCtrl(this, _textureFillCrest, _textureFillCrest.Bounds, _textureFillCrest.Bounds, Color.Black, 0F, Vector2.Zero);
 
-            if (Template?.Profession != null)
+            if (Template?.Profession is not null)
             {
                 //var prof = MouseOver ? _copyTexture : _specTexture;
 
                 var prof = _specTexture;
-                if (prof != null) spriteBatch.DrawOnCtrl(this, prof, _specBounds, prof.Bounds, Color.White, 0F, Vector2.Zero);
-                if (_raceTexture != null) spriteBatch.DrawOnCtrl(this, _raceTexture, _raceBounds, _raceTexture.Bounds, Color.White, 0F, Vector2.Zero);
+                if (prof is not null) spriteBatch.DrawOnCtrl(this, prof, _specBounds, prof.Bounds, Color.White, 0F, Vector2.Zero);
+                if (_raceTexture is not null) spriteBatch.DrawOnCtrl(this, _raceTexture, _raceBounds, _raceTexture.Bounds, Color.White, 0F, Vector2.Zero);
             }
 
             int amount = 0;
@@ -402,6 +409,13 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
             base.DisposeControl();
 
             Input.Mouse.LeftMouseButtonPressed -= Mouse_LeftMouseButtonPressed;
+
+            _lineTexture?.Dispose();
+            _textureVignette?.Dispose();
+            _textureCornerButton?.Dispose();
+            _textureBottomSectionSeparator?.Dispose();
+            _tagTexturess?.DisposeAll();
+            _tagTexturess?.Clear();
         }
 
         public override void UpdateContainer(GameTime gameTime)
@@ -461,7 +475,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
 
             _tagTexturess.Clear();
 
-            if (_template != null)
+            if (_template is not null)
             {
                 foreach (var flag in _template.Tags.GetFlags())
                 {

@@ -285,17 +285,17 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Controls.BuildPage.ProfessionSpe
             _legend2.Legend = Template.BuildTemplate.Legends[GetOtherSlot()];
             _legend2.LegendSlot = GetOtherSlot();
 
-            if (Template.EliteSpecialization != null && Template.EliteSpecialization.Id == (int)SpecializationType.Renegade)
+            if (Template.EliteSpecialization is not null && Template.EliteSpecialization.Id == (int)SpecializationType.Renegade)
             {
                 _professionSkill2.Skill = AdvancedBuildsManager.Data.Professions[Gw2Sharp.Models.ProfessionType.Revenant]?.Skills.Where(e => e.Value.Specialization == (int)SpecializationType.Renegade && e.Value.Slot == Gw2Sharp.WebApi.V2.Models.SkillSlot.Profession2)?.FirstOrDefault().Value;
                 _professionSkill3.Skill = AdvancedBuildsManager.Data.Professions[Gw2Sharp.Models.ProfessionType.Revenant]?.Skills.Where(e => e.Value.Specialization == (int)SpecializationType.Renegade && e.Value.Slot == Gw2Sharp.WebApi.V2.Models.SkillSlot.Profession3)?.FirstOrDefault().Value;
                 _professionSkill4.Skill = AdvancedBuildsManager.Data.Professions[Gw2Sharp.Models.ProfessionType.Revenant]?.Skills.Where(e => e.Value.Specialization == (int)SpecializationType.Renegade && e.Value.Slot == Gw2Sharp.WebApi.V2.Models.SkillSlot.Profession4)?.FirstOrDefault().Value;
             }
-            else if (Template.EliteSpecialization != null && Template.EliteSpecialization.Id == (int)SpecializationType.Herald)
+            else if (Template.EliteSpecialization is not null && Template.EliteSpecialization.Id == (int)SpecializationType.Herald)
             {
                 _professionSkill2.Skill = AdvancedBuildsManager.Data.Professions[Gw2Sharp.Models.ProfessionType.Revenant]?.Skills.Where(e => e.Value.Specialization == (int) SpecializationType.Herald && e.Value.Slot == Gw2Sharp.WebApi.V2.Models.SkillSlot.Profession2)?.FirstOrDefault().Value;
             }
-            else if (Template.EliteSpecialization != null && Template.EliteSpecialization.Id == (int)SpecializationType.Vindicator)
+            else if (Template.EliteSpecialization is not null && Template.EliteSpecialization.Id == (int)SpecializationType.Vindicator)
             {
                 var skills = AdvancedBuildsManager.Data.Professions[Gw2Sharp.Models.ProfessionType.Revenant]?.Skills.Where(e => e.Value.Specialization == (int)SpecializationType.Vindicator && e.Value.Slot == Gw2Sharp.WebApi.V2.Models.SkillSlot.Profession2);
                 _professionSkill2.Skill = skills?.ElementAt(0).Value;
@@ -386,7 +386,7 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Controls.BuildPage.ProfessionSpe
                         {
                             var otherLegend = Template.BuildTemplate.Legends[GetOtherSlot(_selectorAnchor.LegendSlot)];
 
-                            if (otherLegend != null && otherLegend == s.Legend)
+                            if (otherLegend is not null && otherLegend == s.Legend)
                             {
                                 Template.BuildTemplate.SetLegend(_selectorAnchor.Legend, GetOtherSlot(_selectorAnchor.LegendSlot));
                             }

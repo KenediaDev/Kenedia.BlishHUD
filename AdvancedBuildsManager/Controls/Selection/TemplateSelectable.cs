@@ -183,8 +183,8 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Controls.Selection
                 var temp = _template;
                 if (Common.SetProperty(ref _template, value, ApplyTemplate))
                 {
-                    if (temp != null) temp.PropertyChanged -= TemplateChanged;
-                    if (_template != null) _template.PropertyChanged += TemplateChanged;
+                    if (temp is not null) temp.PropertyChanged -= TemplateChanged;
+                    if (_template is not null) _template.PropertyChanged += TemplateChanged;
                 }
             }
         }
@@ -214,13 +214,13 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Controls.Selection
             spriteBatch.DrawOnCtrl(this, _textureVignette, _vignetteBounds, _textureVignette.Bounds, Color.Black, 0F, Vector2.Zero);
             //spriteBatch.DrawOnCtrl(this, _textureFillCrest, _textureFillCrest.Bounds, _textureFillCrest.Bounds, Color.Black, 0F, Vector2.Zero);
 
-            if (Template?.Profession != null)
+            if (Template?.Profession is not null)
             {
                 //var prof = MouseOver ? _copyTexture : _specTexture;
 
                 var prof = _specTexture;
-                if (prof != null) spriteBatch.DrawOnCtrl(this, prof, _specBounds, prof.Bounds, Color.White, 0F, Vector2.Zero);
-                if (_raceTexture != null) spriteBatch.DrawOnCtrl(this, _raceTexture, _raceBounds, _raceTexture.Bounds, Color.White, 0F, Vector2.Zero);
+                if (prof is not null) spriteBatch.DrawOnCtrl(this, prof, _specBounds, prof.Bounds, Color.White, 0F, Vector2.Zero);
+                if (_raceTexture is not null) spriteBatch.DrawOnCtrl(this, _raceTexture, _raceBounds, _raceTexture.Bounds, Color.White, 0F, Vector2.Zero);
             }
 
             int amount = 0;
@@ -360,7 +360,7 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Controls.Selection
             base.DisposeControl();
 
             Input.Mouse.LeftMouseButtonPressed -= Mouse_LeftMouseButtonPressed;
-            if (_template != null) _template.PropertyChanged -= TemplateChanged;
+            if (_template is not null) _template.PropertyChanged -= TemplateChanged;
         }
 
         public override void UpdateContainer(GameTime gameTime)
@@ -420,7 +420,7 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Controls.Selection
 
             _tagTexturess.Clear();
 
-            if (_template != null)
+            if (_template is not null)
             {
                 foreach (var flag in _template.Tags.GetFlags())
                 {

@@ -48,7 +48,7 @@ namespace Kenedia.Modules.Core.Models
 
         public string SharedSettingsPath => $@"{BasePath}\shared_settings.json";
 
-        public string? AccountPath => _accountName != null ? $@"{ModulePath}{AccountName}\" : null;
+        public string? AccountPath => _accountName is not null ? $@"{ModulePath}{AccountName}\" : null;
 
         private void AddAccountFolder()
         {

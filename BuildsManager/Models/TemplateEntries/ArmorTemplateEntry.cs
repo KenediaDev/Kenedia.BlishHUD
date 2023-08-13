@@ -9,8 +9,9 @@ using Kenedia.Modules.Core.Models;
 
 namespace Kenedia.Modules.BuildsManager.TemplateEntries
 {
-    public class ArmorTemplateEntry : TemplateEntry
+    public class ArmorTemplateEntry : TemplateEntry, IDisposable
     {
+        private bool _isDisposed;
         private Stat _stat;
         private Infusion _infusion;
         private Rune _rune;
@@ -67,6 +68,19 @@ namespace Kenedia.Modules.BuildsManager.TemplateEntries
             Infusion = BuildsManager.Data.Infusions.Where(e => e.Value.MappedId == array[2]).FirstOrDefault().Value;
 
             return GearTemplateCode.RemoveFromStart(array, newStartIndex);
+        }
+
+        public void Dispose()
+        {
+            if(_isDisposed)
+                return;
+
+            _isDisposed = true;
+
+            Stat = null;
+            Rune = null;
+            Infusion = null;
+            Armor = null;
         }
     }
 }

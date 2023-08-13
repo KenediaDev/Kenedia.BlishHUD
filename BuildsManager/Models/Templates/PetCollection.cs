@@ -16,7 +16,7 @@ namespace Kenedia.Modules.BuildsManager.Models.Templates
 
         public byte GetPetByte(PetSlotType slot)
         {
-            return (byte)(TryGetValue(slot, out Pet pet) && pet != null ? pet.Id : 0);
+            return (byte)(TryGetValue(slot, out Pet pet) && pet is not null ? pet.Id : 0);
         }
 
         public void LoadFromCode(byte terrestrial_1, byte terrestrial_2, byte aquatic_1, byte aquatic_2)

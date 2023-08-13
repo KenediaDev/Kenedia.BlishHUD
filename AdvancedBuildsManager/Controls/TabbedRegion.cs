@@ -71,7 +71,7 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Controls
                 spriteBatch.DrawStringOnCtrl(ctrl, _header, _font, _textBounds, Color.White);
             }
 
-            if (Icon != null)
+            if (Icon is not null)
             {
                 spriteBatch.DrawOnCtrl(ctrl, Icon, _iconBounds, Color.White);
             }
@@ -165,7 +165,7 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Controls
         {
             OnTabSwitched?.Invoke();
 
-            if (tab != null)
+            if (tab is not null)
             {
                 tab.Container.Visible = true;
                 _activeTab = tab;
@@ -188,7 +188,7 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Controls
             _headerRegion = new Rectangle(0, 0, Width, HeaderFont.LineHeight + _headerPading.Vertical);
             _contentRegion = new Rectangle(0 + _contentPadding.Left, _headerRegion.Bottom + _contentPadding.Top, Width - +_contentPadding.Horizontal, Height - _headerRegion.Bottom - _contentPadding.Vertical);
 
-            if (_contentPanel != null)
+            if (_contentPanel is not null)
             {
                 _contentPanel.Location = _contentRegion.Location;
                 _contentPanel.Size = _contentRegion.Size;

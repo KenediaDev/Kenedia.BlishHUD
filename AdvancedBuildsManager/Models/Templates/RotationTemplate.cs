@@ -74,7 +74,7 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Models.Templates
             string code = "";
             foreach (var item in this)
             {
-                if (item.Skill != null) code += "[" + item.Repetition + "|" + item.Skill.Id + "]";
+                if (item.Skill is not null) code += "[" + item.Repetition + "|" + item.Skill.Id + "]";
             }
 
             return code.IsNullOrEmpty() ? "" : code.Substring(0, code.Length);

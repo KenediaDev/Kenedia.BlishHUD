@@ -8,8 +8,9 @@ using System;
 
 namespace Kenedia.Modules.BuildsManager.TemplateEntries
 {
-    public class RelicTemplateEntry : TemplateEntry
+    public class RelicTemplateEntry : TemplateEntry, IDisposable
     {
+        private bool _isDisposed;
         private Relic _relic;
 
         public RelicTemplateEntry(TemplateSlotType slot) : base(slot)
@@ -40,6 +41,14 @@ namespace Kenedia.Modules.BuildsManager.TemplateEntries
             Relic = BuildsManager.Data.Relics.Values.Where(e => e.MappedId == array[0]).FirstOrDefault();
 
             return GearTemplateCode.RemoveFromStart(array, newStartIndex);
+        }
+
+        public void Dispose()
+        {
+            if (_isDisposed) return;
+            _isDisposed = true;
+
+            Relic = null;
         }
     }
 }

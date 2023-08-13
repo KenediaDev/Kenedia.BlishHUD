@@ -1,5 +1,6 @@
 ﻿using Kenedia.Modules.BuildsManager.Models;
 using Kenedia.Modules.BuildsManager.Models.Templates;
+using Kenedia.Modules.BuildsManager.Res;
 using Kenedia.Modules.Core.Controls;
 using Kenedia.Modules.Core.Services;
 using Microsoft.Xna.Framework;
@@ -47,13 +48,13 @@ namespace Kenedia.Modules.BuildsManager.Controls.AboutPage
 
             _setAll = new()
             {
-                Text = "All",
+                SetLocalizedText = () => strings.All,
                 Parent = this,
                 Width = (_tagPanel.Width - 5) / 2,
                 Location = new(0, _tagPanel.Top - 25),
                 ClickAction = () =>
                 {
-                    if(TemplatePresenter?.Template !=null)
+                    if (TemplatePresenter?.Template is not null)
                     {
                         TemplatePresenter.Template.Encounters = (EncounterFlag)Enum.GetValues(typeof(EncounterFlag)).Cast<long>().Sum();
                         TemplatePresenter.Template.Tags = (TemplateFlag)Enum.GetValues(typeof(TemplateFlag)).Cast<int>().Sum();
@@ -64,13 +65,13 @@ namespace Kenedia.Modules.BuildsManager.Controls.AboutPage
 
             _clearAll = new()
             {
-                Text = "Clear",
+                SetLocalizedText = () => strings.None,
                 Parent = this,
                 Width = (_tagPanel.Width - 5) / 2,
                 Location = new(_setAll.Right + 5, _setAll.Top),
                 ClickAction = () =>
                 {
-                    if (TemplatePresenter?.Template != null)
+                    if (TemplatePresenter?.Template is not null)
                     {
                         TemplatePresenter.Template.Encounters = EncounterFlag.None;
                         TemplatePresenter.Template.Tags = TemplateFlag.None;
@@ -82,7 +83,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.AboutPage
             _tagsLabel = new()
             {
                 Parent = this,
-                Text = "Tags",
+                SetLocalizedText = () => strings.Tags,
                 Font = Content.DefaultFont32,
                 AutoSizeWidth = true,
                 AutoSizeHeight = true,
@@ -92,7 +93,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.AboutPage
             _notesLabel = new()
             {
                 Parent = this,
-                Text = "Notes",
+                SetLocalizedText = () => strings.Notes,
                 Font = Content.DefaultFont32,
                 AutoSizeWidth = true,
                 AutoSizeHeight = true,
@@ -100,10 +101,10 @@ namespace Kenedia.Modules.BuildsManager.Controls.AboutPage
 
             _deleteTemplate = new()
             {
-                Text = "Delete Template",
                 Parent = this,
+                SetLocalizedText = () => strings.DeleteTemplate,
                 Width = 150,
-                Location = new(ContentRegion.Right -  155, _tagsLabel.Bottom - 25),
+                Location = new(ContentRegion.Right - 155, _tagsLabel.Bottom - 25),
                 ClickAction = () =>
                 {
                     _ = BuildsManager.ModuleInstance.Templates.Remove(TemplatePresenter?.Template);
@@ -151,7 +152,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.AboutPage
                         t.checkbox.TextColor = isChecked ? Color.White : _disabledColor;
                         t.texture.Tint = isChecked ? Color.White : _disabledColor;
 
-                        if (_changeBuild && TemplatePresenter?.Template != null)
+                        if (_changeBuild && TemplatePresenter?.Template is not null)
                         {
                             TemplatePresenter.Template.Tags = isChecked ? TemplatePresenter.Template.Tags | tag : TemplatePresenter.Template.Tags & ~tag;
                         }
@@ -196,7 +197,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.AboutPage
                         t.checkbox.TextColor = isChecked ? Color.White : _disabledColor;
                         t.texture.Tint = isChecked ? Color.White : _disabledColor;
 
-                        if (_changeBuild && TemplatePresenter?.Template != null)
+                        if (_changeBuild && TemplatePresenter?.Template is not null)
                         {
                             TemplatePresenter.Template.Encounters = isChecked ? TemplatePresenter.Template.Encounters | tag : TemplatePresenter.Template.Encounters & ~tag;
                         }
@@ -217,7 +218,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.AboutPage
 
         private void NoteField_TextChanged(object sender, EventArgs e)
         {
-            if(_changeBuild)
+            if (_changeBuild)
             {
                 TemplatePresenter.Template.Description = _noteField.Text;
             }
@@ -254,7 +255,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.AboutPage
             base.RecalculateLayout();
             if (!_created) return;
 
-            if (_noteField != null)
+            if (_noteField is not null)
             {
                 _notesLabel.Location = new(_tagPanel.Right + 18, 50 - _notesLabel.Font.LineHeight - 2);
                 _noteField.Location = new(_tagPanel.Right + 15, 50);
@@ -268,6 +269,11 @@ namespace Kenedia.Modules.BuildsManager.Controls.AboutPage
         {
             base.DisposeControl();
 
+            TemplatePresenter.TemplateChanged -= TemplatePresenter_TemplateChanged;
+            foreach (var c in Children)
+            {
+                c?.Dispose();
+            }
         }
     }
 }

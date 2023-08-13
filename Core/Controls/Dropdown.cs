@@ -44,7 +44,7 @@ namespace Kenedia.Modules.Core.Controls
 
         public void UserLocale_SettingChanged(object sender, ValueChangedEventArgs<Locale> e)
         {
-            if (SetLocalizedItems != null)
+            if (SetLocalizedItems is not null)
             {
                 int? index = Items?.ToList().FindIndex(a => a == SelectedItem);
 
@@ -62,7 +62,7 @@ namespace Kenedia.Modules.Core.Controls
                 SelectedItem = selected ?? SelectedItem;
             }
 
-            if (SetLocalizedTooltip != null) BasicTooltipText = SetLocalizedTooltip?.Invoke();
+            if (SetLocalizedTooltip is not null) BasicTooltipText = SetLocalizedTooltip?.Invoke();
         }
 
         protected override void OnValueChanged(ValueChangedEventArgs e)

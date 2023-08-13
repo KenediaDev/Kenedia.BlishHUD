@@ -102,7 +102,7 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Views
         {
             base.RecalculateLayout();
 
-            if(_tabbedRegion != null)
+            if(_tabbedRegion is not null)
             {
                 _selectionPanel.ZIndex = _tabbedRegion.ZIndex + 1;
             }

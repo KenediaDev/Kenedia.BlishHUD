@@ -56,7 +56,7 @@ namespace Kenedia.Modules.Core.Views
             _titleTextRegion = new(Math.Max(Math.Max(MainWindowEmblem == null ? 0 : _mainEmblemRectangle.Right, SubWindowEmblem == null ? 0 : _subEmblemRectangle.Right) - 16, 0), 5, Width - Math.Max(_mainEmblemRectangle.Right, _subEmblemRectangle.Right) - 30, 30);
 
             _versionRectangle = Rectangle.Empty;
-            if (Version != null && !string.IsNullOrEmpty($"v. {Version}"))
+            if (Version is not null && !string.IsNullOrEmpty($"v. {Version}"))
             {
                 MonoGame.Extended.RectangleF versionBounds = VersionFont.GetStringRectangle($"v. {Version}");
                 _versionRectangle = new(_titleTextRegion.Right - (int)versionBounds.Width, _titleTextRegion.Top, (int)versionBounds.Width, _titleTextRegion.Height - 3);
@@ -121,7 +121,7 @@ namespace Kenedia.Modules.Core.Views
         {
             base.PaintAfterChildren(spriteBatch, bounds);
 
-            if (MainWindowEmblem != null)
+            if (MainWindowEmblem is not null)
             {
                 spriteBatch.DrawOnCtrl(
                     this,
@@ -133,7 +133,7 @@ namespace Kenedia.Modules.Core.Views
                     default);
             }
 
-            if (SubWindowEmblem != null)
+            if (SubWindowEmblem is not null)
             {
                 spriteBatch.DrawOnCtrl(
                     this,
@@ -175,7 +175,7 @@ namespace Kenedia.Modules.Core.Views
                     VerticalAlignment.Middle);
             }
 
-            if (Version != null && (_titleTextRegion.Width >= _titleRectangle.Width + 10 + _versionRectangle.Width))
+            if (Version is not null && (_titleTextRegion.Width >= _titleRectangle.Width + 10 + _versionRectangle.Width))
             {
                 spriteBatch.DrawStringOnCtrl(this, $"v. {Version}", VersionFont, _versionRectangle, Color.White, false, true, 1, HorizontalAlignment.Right, VerticalAlignment.Bottom);
             }

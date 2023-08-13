@@ -28,7 +28,7 @@ namespace Kenedia.Modules.AdvancedBuildsManager.DataModels.Items
             if (item.Type == ItemType.UpgradeComponent)
             {
                 var upgrade = (ItemUpgradeComponent)item;
-                if (upgrade.Details.Bonuses != null)
+                if (upgrade.Details.Bonuses is not null)
                 {
                     BonusDescriptions.AddBonuses(upgrade.Details.Bonuses);
                 }

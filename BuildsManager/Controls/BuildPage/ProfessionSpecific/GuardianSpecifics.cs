@@ -7,7 +7,6 @@ using System.Collections.Generic;
 using System.Linq;
 using Kenedia.Modules.BuildsManager.DataModels.Professions;
 using Kenedia.Modules.BuildsManager.Models;
-using System.Diagnostics;
 
 namespace Kenedia.Modules.BuildsManager.Controls.BuildPage.ProfessionSpecific
 {

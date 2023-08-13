@@ -17,7 +17,7 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Models.Templates
 
         public ushort GetPaletteId(WeaponSkillSlot slot)
         {
-            return (ushort)(TryGetValue(slot, out Skill skill) && skill != null ? skill.PaletteId : 0);
+            return (ushort)(TryGetValue(slot, out Skill skill) && skill is not null ? skill.PaletteId : 0);
         }
     }
 }

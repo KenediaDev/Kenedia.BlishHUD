@@ -106,7 +106,7 @@ namespace Kenedia.Modules.Characters.Services
 
         public bool Cancel()
         {
-            bool canceled = _cancellationTokenSource != null && !_cancellationTokenSource.IsCancellationRequested;
+            bool canceled = _cancellationTokenSource is not null && !_cancellationTokenSource.IsCancellationRequested;
 
             _state = SortingState.Canceled;
             _cancellationTokenSource?.Cancel();
@@ -155,7 +155,7 @@ namespace Kenedia.Modules.Characters.Services
 
             if (delay > 0)
             {
-                if(partial != null)
+                if(partial is not null)
                 {
                     delay = delay / 100 * (int)(partial * 100);
                 }
@@ -256,13 +256,13 @@ namespace Kenedia.Modules.Characters.Services
                 int distance = name.LevenshteinDistance(c.Name);
                 int listDistance = 0; //c.Position.Difference(_currentIndex);
 
-                distances.Add((c.Name, distance, listDistance, listDistance + distance, expectedCharacter != null && c.Name == expectedCharacter?.Name));
+                distances.Add((c.Name, distance, listDistance, listDistance + distance, expectedCharacter is not null && c.Name == expectedCharacter?.Name));
             }
 
             distances.Sort((a, b) => a.Item4.CompareTo(b.Item4));
             (string, int, int, int, bool)? bestMatch = distances?.FirstOrDefault();
 
-            if (bestMatch != null && bestMatch.HasValue)
+            if (bestMatch is not null && bestMatch.HasValue)
             {
                 foreach ((string, int, int, int, bool) match in distances.Where(e => e.Item4 == bestMatch.Value.Item4))
                 {
@@ -290,7 +290,7 @@ namespace Kenedia.Modules.Characters.Services
                 //Character_Model c = s_models.Find(e => e.Name == name);
                 Character_Model c = _models.Find(e => e.Name == match.Item1);
 
-                if (c != null)
+                if (c is not null)
                 {
                     c.OrderIndex = _currentIndex;
                 }
@@ -336,12 +336,12 @@ namespace Kenedia.Modules.Characters.Services
                     Character_Model next = _models.Count > i + 1 ? _models[i + 1] : null;
                     Character_Model current = _models[i];
 
-                    // var nCurr = string.Format("Current: {0} | LastLogin: {1} | More Recent: {2}", current.Name, current.LastLogin, next != null && current.LastLogin <= next.LastLogin);
-                    // var nNext = string.Format("Next: {0} | LastLogin: {1} | More Recent: {2}", next != null ? next.Name : "No Next", next != null ? next.LastLogin : "No Next", next != null && current.LastLogin <= next.LastLogin);
+                    // var nCurr = string.Format("Current: {0} | LastLogin: {1} | More Recent: {2}", current.Name, current.LastLogin, next is not null && current.LastLogin <= next.LastLogin);
+                    // var nNext = string.Format("Next: {0} | LastLogin: {1} | More Recent: {2}", next is not null ? next.Name : "No Next", next is not null ? next.LastLogin : "No Next", next is not null && current.LastLogin <= next.LastLogin);
 
                     // Characters.Logger.Info(nCurr);
                     // Characters.Logger.Info(nNext + Environment.NewLine);
-                    if (next != null && current.LastLogin <= next.LastLogin)
+                    if (next is not null && current.LastLogin <= next.LastLogin)
                     {
                         current.LastLogin = next.LastLogin.AddSeconds(1);
                         messedUp = true;

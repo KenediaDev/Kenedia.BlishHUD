@@ -100,7 +100,7 @@ namespace Kenedia.Modules.Core.Controls
                 }
             }
 
-            if (tab != null)
+            if (tab is not null)
             {
                 tab.Active = true;
             }

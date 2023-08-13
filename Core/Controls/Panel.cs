@@ -198,7 +198,7 @@ namespace Kenedia.Modules.Core.Controls
 
             ContentRegion = new Rectangle(_contentPadding.Left + num4, _contentPadding.Top + num, _size.X - num4 - num2 - _contentPadding.Horizontal, _size.Y - num - num3 - _contentPadding.Vertical);
             _layoutHeaderBounds = new Rectangle(num4, 0, Width, num);
-            _layoutHeaderIconBounds = TitleIcon != null ? new Rectangle(_layoutHeaderBounds.Left + _titleIconPadding.Left, _titleIconPadding.Top, num - _titleIconPadding.Vertical, num - _titleIconPadding.Vertical) : Rectangle.Empty;
+            _layoutHeaderIconBounds = TitleIcon is not null ? new Rectangle(_layoutHeaderBounds.Left + _titleIconPadding.Left, _titleIconPadding.Top, num - _titleIconPadding.Vertical, num - _titleIconPadding.Vertical) : Rectangle.Empty;
 
             _layoutHeaderTextBounds = new Rectangle(_layoutHeaderIconBounds.Right + _titleIconPadding.Right, 0, _layoutHeaderBounds.Width - _layoutHeaderIconBounds.Width, num);
 
@@ -212,7 +212,7 @@ namespace Kenedia.Modules.Core.Controls
         public override void PaintBeforeChildren(SpriteBatch spriteBatch, Rectangle bounds)
         {
             _tooltip.Visible = false;
-            if (_backgroundTexture != null)
+            if (_backgroundTexture is not null)
             {
                 spriteBatch.DrawOnCtrl(this, _backgroundTexture, bounds);
             }
@@ -236,7 +236,7 @@ namespace Kenedia.Modules.Core.Controls
                 }
 
                 spriteBatch.DrawStringOnCtrl(this, _title, Content.DefaultFont16, _layoutHeaderTextBounds, Color.White);
-                if (TitleIcon != null) spriteBatch.DrawOnCtrl(this, TitleIcon, _layoutHeaderIconBounds, TitleIcon.Bounds, Color.White);
+                if (TitleIcon is not null) spriteBatch.DrawOnCtrl(this, TitleIcon, _layoutHeaderIconBounds, TitleIcon.Bounds, Color.White);
                 if (_canCollapse)
                 {
                     spriteBatch.DrawOnCtrl(this, _textureAccordionArrow, _layoutAccordionArrowBounds, null, Color.White, ArrowRotation, _layoutAccordionArrowOrigin);
@@ -253,8 +253,8 @@ namespace Kenedia.Modules.Core.Controls
                 spriteBatch.DrawOnCtrl(this, _textureCornerAccent, _layoutBottomRightAccentBounds, _layoutCornerAccentSrc, Color.White * AccentOpacity, 0f, Vector2.Zero, SpriteEffects.FlipVertically);
             }
 
-            Color? backgroundColor = BackgroundHoveredColor != null && Hovered ? BackgroundHoveredColor : BackgroundColor;
-            if (backgroundColor != null)
+            Color? backgroundColor = BackgroundHoveredColor is not null && Hovered ? BackgroundHoveredColor : BackgroundColor;
+            if (backgroundColor is not null)
             {
                 spriteBatch.DrawOnCtrl(
                     this,
@@ -264,8 +264,8 @@ namespace Kenedia.Modules.Core.Controls
                     (Color)backgroundColor);
             }
 
-            Color? backgroundImageColor = BackgroundImageHoveredColor != null && Hovered ? BackgroundImageHoveredColor : BackgroundImageColor;
-            if (BackgroundImage != null && backgroundImageColor != null)
+            Color? backgroundImageColor = BackgroundImageHoveredColor is not null && Hovered ? BackgroundImageHoveredColor : BackgroundImageColor;
+            if (BackgroundImage is not null && backgroundImageColor is not null)
             {
                 spriteBatch.DrawOnCtrl(
                     this,
@@ -277,8 +277,8 @@ namespace Kenedia.Modules.Core.Controls
                     default);
             }
 
-            Color? borderColor = HoveredBorderColor != null && Hovered ? HoveredBorderColor : BorderColor;
-            if (borderColor != null)
+            Color? borderColor = HoveredBorderColor is not null && Hovered ? HoveredBorderColor : BorderColor;
+            if (borderColor is not null)
             {
                 DrawBorders(spriteBatch);
             }
@@ -286,9 +286,9 @@ namespace Kenedia.Modules.Core.Controls
 
         public void UserLocale_SettingChanged(object sender, ValueChangedEventArgs<Locale> e)
         {
-            if (SetLocalizedTooltip != null) BasicTooltipText = SetLocalizedTooltip?.Invoke();
-            if (SetLocalizedTitle != null) Title = SetLocalizedTitle?.Invoke();
-            if (SetLocalizedTitleTooltip != null) TitleTooltipText = SetLocalizedTitleTooltip?.Invoke();
+            if (SetLocalizedTooltip is not null) BasicTooltipText = SetLocalizedTooltip?.Invoke();
+            if (SetLocalizedTitle is not null) Title = SetLocalizedTitle?.Invoke();
+            if (SetLocalizedTitleTooltip is not null) TitleTooltipText = SetLocalizedTitleTooltip?.Invoke();
         }
 
         protected override void DisposeControl()
@@ -345,8 +345,8 @@ namespace Kenedia.Modules.Core.Controls
 
         private void DrawBorders(SpriteBatch spriteBatch)
         {
-            Color? borderColor = HoveredBorderColor != null && Hovered ? HoveredBorderColor : BorderColor;
-            if (borderColor != null)
+            Color? borderColor = HoveredBorderColor is not null && Hovered ? HoveredBorderColor : BorderColor;
+            if (borderColor is not null)
             {
                 foreach (var r in _topBorders)
                 {

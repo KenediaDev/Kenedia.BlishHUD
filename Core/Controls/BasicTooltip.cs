@@ -106,7 +106,7 @@ namespace Kenedia.Modules.Core.Controls
 
         private void UpdateLayout()
         {
-            if (Font != null && Text != null)
+            if (Font is not null && Text is not null)
             {
                 MonoGame.Extended.Size2 sSize = Font.MeasureString(Text);
                 Size = new Point(10 + (int)sSize.Width, 10 + (int)sSize.Height);

@@ -38,7 +38,7 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Controls.SkillConnectionEdit
                 Size = new(32),
                 ClickAction = (m) =>
                 {
-                    if (SkillConnection != null)
+                    if (SkillConnection is not null)
                     {
                         CreatePetControls(SkillConnection.Pets == null ? 0 : SkillConnection.Pets.Count, null);
                         var ctrls = _controls.LastOrDefault();
@@ -76,7 +76,7 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Controls.SkillConnectionEdit
         private void CreatePetControls(int i, int? petid)
         {
             var temp = UI.CreateLabeledControl<PetControl>(this, $"Pet {i}", 100, 400, 32);
-            if (petid != null && AdvancedBuildsManager.Data.Pets.TryGetValue((int)petid, out DataModels.Professions.Pet pet))
+            if (petid is not null && AdvancedBuildsManager.Data.Pets.TryGetValue((int)petid, out DataModels.Professions.Pet pet))
             {
                 temp.Item2.Pet = pet;
             }
@@ -88,14 +88,14 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Controls.SkillConnectionEdit
                 if (!Item.Contains(id))
                 {
                     _ = Item.Remove(petid);
-                    if (id != null) Item.Add(id);
+                    if (id is not null) Item.Add(id);
                 }
 
                 if (Item.HasValues())
                 {
                     SkillConnection.Pets ??= Item;
                 }
-                else if (SkillConnection.Pets != null)
+                else if (SkillConnection.Pets is not null)
                 {
                     SkillConnection.Pets = null;
                 }
@@ -126,11 +126,11 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Controls.SkillConnectionEdit
                 item.Value.Item1.Dispose();
             }
 
-            if (SkillConnection != null)
+            if (SkillConnection is not null)
             {
                 _canSave = false;
 
-                if (SkillConnection.Pets != null)
+                if (SkillConnection.Pets is not null)
                 {
                     for (int i = 0; i < SkillConnection.Pets.Count; i++)
                     {

@@ -100,7 +100,7 @@ namespace Kenedia.Modules.AdvancedBuildsManager.DataModels.Professions
 
         internal static Skill SkillFromUShort(ushort paletteId, Legend legend)
         {
-            if (legend != null)
+            if (legend is not null)
             {
                 if (legend.Elite.PaletteId == paletteId) return legend.Elite;
                 if (legend.Heal.PaletteId == paletteId) return legend.Heal;

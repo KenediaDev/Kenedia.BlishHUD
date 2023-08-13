@@ -10,6 +10,9 @@ using System;
 using ItemType = Gw2Sharp.WebApi.V2.Models.ItemType;
 using Kenedia.Modules.BuildsManager.DataModels.Stats;
 using System.Linq;
+using Kenedia.Modules.Core.Services;
+using Gw2Sharp.WebApi;
+using Kenedia.Modules.BuildsManager.Res;
 
 namespace Kenedia.Modules.BuildsManager.Controls.GearPage
 {
@@ -66,11 +69,18 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage
                 Font = Content.DefaultFont14,
                 WrapText = true,
             };
+
+            LocalizingService.LocaleChanged += UserLocale_SettingChanged;
         }
 
         public BaseItem Item { get => _item; set => Common.SetProperty(ref _item, value, ApplyItem); }
 
         public Stat Stat { get => _stat; set => Common.SetProperty(ref _stat, value, ApplyStat); }
+
+        private void UserLocale_SettingChanged(object sender, ValueChangedEventArgs<Locale> e)
+        {
+            ApplyItem(this, null);
+        }
 
         private void ApplyStat(object sender, Core.Models.ValueChangedEventArgs<Stat> e)
         {
@@ -85,7 +95,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage
                 case ItemType.Armor:
                     if (Item is Armor armor)
                     {
-                        _description.Text = string.Join(Environment.NewLine, Stat?.Attributes.Values.Where(e => e != null).Select(e => $"+ {Math.Round(e.Value + (e.Multiplier * (armor?.AttributeAdjustment ?? 0)))} {e.Id.GetDisplayName()}"));
+                        _description.Text = string.Join(Environment.NewLine, Stat?.Attributes.Values.Where(e => e is not null).Select(e => $"+ {Math.Round(e.Value + (e.Multiplier * (armor?.AttributeAdjustment ?? 0)))} {e.Id.GetDisplayName()}"));
                         _description.TextColor = Color.Lime;
                     }
                     break;
@@ -93,7 +103,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage
                 case ItemType.Weapon:
                     if (Item is Weapon weapon)
                     {
-                        _description.Text = string.Join(Environment.NewLine, Stat?.Attributes.Values.Where(e => e != null).Select(e => $"+ {Math.Round(e.Value + (e.Multiplier * (weapon?.AttributeAdjustment ?? 0)))} {e.Id.GetDisplayName()}"));
+                        _description.Text = string.Join(Environment.NewLine, Stat?.Attributes.Values.Where(e => e is not null).Select(e => $"+ {Math.Round(e.Value + (e.Multiplier * (weapon?.AttributeAdjustment ?? 0)))} {e.Id.GetDisplayName()}"));
                         _description.TextColor = Color.Lime;
                     }
                     break;
@@ -102,7 +112,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage
                 case ItemType.Back:
                     if (Item is Trinket trinket)
                     {
-                        _description.Text = string.Join(Environment.NewLine, Stat?.Attributes.Values.Where(e => e != null).Select(e => $"+ {Math.Round(e.Value + (e.Multiplier * (trinket?.AttributeAdjustment ?? 0)))} {e.Id.GetDisplayName()}"));
+                        _description.Text = string.Join(Environment.NewLine, Stat?.Attributes.Values.Where(e => e is not null).Select(e => $"+ {Math.Round(e.Value + (e.Multiplier * (trinket?.AttributeAdjustment ?? 0)))} {e.Id.GetDisplayName()}"));
                         _description.TextColor = Color.Lime;
                     }
                     break;
@@ -114,7 +124,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage
             _image.Texture = Item?.Icon;
             _frameColor = Item?.Rarity.GetColor() ?? Color.Transparent;
             _title.Text = Item?.Name;
-            _id.Text = $"Item Id: {Item?.Id}";
+            _id.Text = $"{strings.ItemId}: {Item?.Id}";
             _title.TextColor = Item?.Rarity.GetColor() ?? Color.White;
 
             switch (Item?.Type)
@@ -168,7 +178,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage
         {
             base.PaintBeforeChildren(spriteBatch, bounds);
 
-            if (_image?.Texture != null)
+            if (_image?.Texture is not null)
             {
                 spriteBatch.DrawFrame(this, _image.LocalBounds.Add(2, 2, 6, 4), _frameColor, 2);
             }

@@ -1,4 +1,5 @@
 ﻿using Blish_HUD;
+using Blish_HUD.Controls;
 using Blish_HUD.Gw2Mumble;
 using Blish_HUD.Input;
 using Gw2Sharp.Models;
@@ -18,7 +19,7 @@ using static Blish_HUD.ContentService;
 
 namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
 {
-    public class SpecLine : Blish_HUD.Controls.Container
+    public class SpecLine : Control
     {
         private readonly double _ratio = 647 / (double)135;
         private readonly DetailedTexture _baseFrame = new(993595)
@@ -67,7 +68,19 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
 
         private Dictionary<int, Trait> _minorsTraits = new();
         private Dictionary<int, Trait> _majorTraits = new();
+
         private bool _selectorOpen = false;
+
+        public bool SelectorOpen { get => _selectorOpen; set => Common.SetProperty(ref _selectorOpen, value, OnSelectorToggled); }
+
+        private void OnSelectorToggled(object sender, Core.Models.ValueChangedEventArgs<bool> e)
+        {
+            if (Tooltip is TraitTooltip tooltip)
+            {
+                tooltip.Trait = null;
+            }
+        }
+
         private Rectangle _specSelectorBounds;
         private TemplatePresenter _templatePresenter;
         private readonly List<(Specialization spec, Rectangle bounds)> _specBounds = new();
@@ -75,6 +88,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
         public SpecLine(SpecializationSlotType line, TemplatePresenter template)
         {
             TemplatePresenter = template;
+            Tooltip = new TraitTooltip();
 
             Line = line;
             Height = 158;
@@ -91,27 +105,13 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
                 _specBounds.Add(new(null, new(offset, (Height - size) / 2, size, size)));
                 offset += size + Scale(10);
             }
-
-            _weaponTrait.Parent = this;
-            _weaponTrait.Selected = true;
-            
-            foreach (var trait in _minors)
-            {
-                trait.Value.Parent = this;
-                trait.Value.Selected = true;
-            }
-
-            foreach (var trait in _majors)
-            {
-                trait.Value.Parent = this;
-            }
         }
 
         private void MouseMouseButtonPressed(object sender, MouseEventArgs e)
         {
             if (!MouseOver)
             {
-                _selectorOpen = false;
+                SelectorOpen = false;
             }
         }
 
@@ -124,7 +124,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
 
         private void OnTemplatePresenterChanged(object sender, Core.Models.ValueChangedEventArgs<TemplatePresenter> e)
         {
-            if (e.OldValue != null)
+            if (e.OldValue is not null)
             {
                 e.OldValue.ProfessionChanged -= OnProfessionChanged;
                 e.OldValue.EliteSpecializationChanged -= BuildTemplate_EliteSpecializationChanged;
@@ -133,7 +133,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
                 e.OldValue.TemplateChanged -= TemplatePresenter_TemplateChanged;
             }
 
-            if (e.NewValue != null)
+            if (e.NewValue is not null)
             {
                 e.NewValue.ProfessionChanged += OnProfessionChanged; ;
                 e.NewValue.EliteSpecializationChanged += BuildTemplate_EliteSpecializationChanged;
@@ -188,7 +188,6 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
                 Height = ratioHeight;
             }
 
-            int size = 40;
             _scale = Height / (double)149;
 
             _baseFrame.Bounds = new(0, 0, Width, Height);
@@ -197,18 +196,17 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
             _specializationBackground.Bounds = new(0, 0, Width, Height);
             _hexagon.Bounds = new(Scale(64), Scale(4), Height - Scale(8), Height - Scale(8));
             _noSpecHexagon.Bounds = new(Scale(64), Scale(4), Height - Scale(8), Height - Scale(8));
-            _weaponTrait.SetBounds(new(_hexagon.Bounds.Right - Scale(size) - Scale(20), _hexagon.Bounds.Bottom - Scale(size) - Scale(8), Scale(size), Scale(size)));
+            _weaponTrait.Bounds = new(_hexagon.Bounds.Right - Scale(46) - Scale(20), _hexagon.Bounds.Bottom - Scale(46) - Scale(8), Scale(46), Scale(46));
             _selector.Bounds = new(0, 0, Scale(18), Height);
 
             for (int i = 0; i < _minors.Count; i++)
             {
-                _minors[i].SetBounds(new(Scale(225) + (i * Scale(160)), LocalBounds.Center.Y - (Scale(size) / 2), Scale(size), Scale(size)));
+                _minors[i].Bounds = new(Scale(225) + (i * Scale(160)), LocalBounds.Center.Y - (Scale(42) / 2), Scale(42), Scale(42));
             }
-
             for (int i = 0; i < _majors.Count; i++)
             {
                 int row = i - ((int)Math.Floor(i / (double)3) * 3);
-                _majors[i].SetBounds(new(Scale(300) + ((int)Math.Floor(i / (double)3) * Scale(160)), Scale(8) + (row * Scale(size + 4)), Scale(size), Scale(size)));
+                _majors[i].Bounds = new(Scale(300) + ((int)Math.Floor(i / (double)3) * Scale(160)), Scale(8) + (row * Scale(42 + 4)), Scale(42), Scale(42));
             }
 
             _specSelectorBounds = new(_selector.Bounds.Right, 0, Width - _selector.Bounds.Right, Height);
@@ -217,8 +215,9 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
         public void ApplyTemplate()
         {
             PlayerCharacter player = GameService.Gw2Mumble.PlayerCharacter;
+            if (BuildsManager.Data?.Professions?.TryGetValue(TemplatePresenter?.Template?.Profession ?? player?.Profession ?? ProfessionType.Guardian, out Profession profession) != true)
+                return;
 
-            var profession = BuildsManager.Data.Professions[TemplatePresenter.Template?.Profession ?? player?.Profession ?? ProfessionType.Guardian];
             int j = 0;
             foreach (var s in profession.Specializations.Values)
             {
@@ -229,10 +228,10 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
                 }
             }
 
-            _weaponTrait.Trait = BuildSpecialization?.Specialization?.WeaponTrait;
+            _weaponTrait.Texture = BuildSpecialization?.Specialization?.WeaponTrait?.Icon;
             _specializationBackground.Texture = BuildSpecialization?.Specialization?.Background;
 
-            if (BuildSpecialization != null && BuildSpecialization.Specialization != null)
+            if (BuildSpecialization is not null && BuildSpecialization.Specialization is not null)
             {
                 _minorsTraits = BuildSpecialization.Specialization.MinorTraits.ToDictionary(e => e.Value.Index, e => e.Value);
                 _majorTraits = BuildSpecialization.Specialization.MajorTraits.ToDictionary(e => e.Value.Index, e => e.Value);
@@ -245,85 +244,82 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
                 for (int i = 0; i < _majors.Count; i++)
                 {
                     _majors[i].Trait = _majorTraits.TryGetValue(i, out Trait trait) ? trait : null;
-                    _majors[i].Selected = trait != null && BuildSpecialization.Traits[trait.Tier] == trait;
+                    _majors[i].Selected = trait is not null && BuildSpecialization.Traits[trait.Tier] == trait;
                 }
 
-                if (Line == SpecializationSlotType.Line_3 && TemplatePresenter?.Template != null)
+                if (Line == SpecializationSlotType.Line_3 && TemplatePresenter?.Template is not null)
                 {
                     // Remove invalid skills
                 }
             }
-
-            foreach (var trait in _minors)
-            {
-                trait.Value.Visible = BuildSpecialization?.Specialization != null;
-            }
-
-            foreach (var trait in _majors)
-            {
-                trait.Value.Visible = BuildSpecialization?.Specialization != null;
-            }
-
-            _weaponTrait.Visible = BuildSpecialization?.Specialization != null;
         }
 
-        public override void PaintAfterChildren(SpriteBatch spriteBatch, Rectangle bounds)
+        protected override void Paint(SpriteBatch spriteBatch, Rectangle bounds)
         {
-            base.PaintAfterChildren(spriteBatch, bounds);
-
-            bool canInteract = CanInteract?.Invoke() is true or null;
-            Point? hoverPos = canInteract ? RelativeMousePosition : null;
-            bool hasSpec = BuildSpecialization != null && BuildSpecialization.Specialization != null;
-
-            _baseFrame.Draw(this, spriteBatch);
-            _selector.Draw(this, spriteBatch, hoverPos, null, null, _selectorOpen ? true : null);
-
-            if (Line == SpecializationSlotType.Line_3) _eliteFrame.Draw(this, spriteBatch);
-
-            if (_selectorOpen)
-            {
-                _ = DrawSelector(spriteBatch, bounds);
-            }
-        }
-
-        public override void PaintBeforeChildren(SpriteBatch spriteBatch, Rectangle bounds)
-        {
-            base.PaintBeforeChildren(spriteBatch, bounds);
-
             string txt = string.Empty;
             bool canInteract = CanInteract?.Invoke() is true or null;
-            bool hasSpec = BuildSpecialization != null && BuildSpecialization.Specialization != null;
+            bool hasSpec = BuildSpecialization is not null && BuildSpecialization.Specialization is not null;
 
             Point? hoverPos = canInteract ? RelativeMousePosition : null;
 
             //_background.Draw(this, spriteBatch);
 
-            if (BuildSpecialization != null && BuildSpecialization.Specialization != null)
+            if (BuildSpecialization is not null && BuildSpecialization.Specialization is not null && !SelectorOpen)
             {
+                if (Tooltip is TraitTooltip traitTooltip)
+                    traitTooltip.Trait = null;
+
                 _specializationBackground.Draw(this, spriteBatch);
 
-                var minor = _minors[0].LocalBounds;
+                var minor = _minors[0].Bounds;
                 spriteBatch.DrawLine(new(_hexagon.Bounds.Right - Scale(18) + AbsoluteBounds.X, _hexagon.Bounds.Center.Y + AbsoluteBounds.Y), new(minor.Left + Scale(3) + AbsoluteBounds.X, minor.Center.Y + AbsoluteBounds.Y), Colors.ColonialWhite * 0.8f, Scale(3));
 
                 for (int i = 0; i < _majors.Count; i++)
                 {
-                    var major = _majors[i].LocalBounds;
+                    var major = _majors[i].Bounds;
 
-                    if (_majors[i].Trait != null)
+                    if (_majors[i].Trait is not null)
                     {
-                        minor = _minors[(int)_majors[i].Trait.Tier - 1].LocalBounds;
+                        minor = _minors[(int)_majors[i].Trait.Tier - 1].Bounds;
                         if (_majors[i].Selected)
                         {
-                            Rectangle? minorNext = _minors.ContainsKey((int)_majors[i].Trait.Tier) ? _minors[(int)_majors[i].Trait.Tier].LocalBounds : null;
+                            Rectangle? minorNext = _minors.ContainsKey((int)_majors[i].Trait.Tier) ? _minors[(int)_majors[i].Trait.Tier].Bounds : null;
 
                             spriteBatch.DrawLine(new(minor.Right - Scale(2) + AbsoluteBounds.X, minor.Center.Y + AbsoluteBounds.Y), new(major.Left + Scale(2) + AbsoluteBounds.X, major.Center.Y + AbsoluteBounds.Y), Colors.ColonialWhite * 0.8f, Scale(2));
-                            if (minorNext != null) spriteBatch.DrawLine(new(major.Right - Scale(2) + AbsoluteBounds.X, major.Center.Y + AbsoluteBounds.Y), new(minorNext.Value.Left + Scale(2) + AbsoluteBounds.X, minorNext.Value.Center.Y + AbsoluteBounds.Y), Colors.ColonialWhite * 0.8f, Scale(2));
+                            if (minorNext is not null) spriteBatch.DrawLine(new(major.Right - Scale(2) + AbsoluteBounds.X, major.Center.Y + AbsoluteBounds.Y), new(minorNext.Value.Left + Scale(2) + AbsoluteBounds.X, minorNext.Value.Center.Y + AbsoluteBounds.Y), Colors.ColonialWhite * 0.8f, Scale(2));
                         }
                     }
                 }
+
+                for (int i = 0; i < _minors.Count; i++)
+                {
+                    _minors[i].Draw(this, spriteBatch, hoverPos, null, null, SelectorOpen ? false : null);
+                    if (_minors[i].Hovered && Tooltip is TraitTooltip tooltip)
+                        tooltip.Trait = _minors[i].Trait;
+                }
+
+                for (int i = 0; i < _majors.Count; i++)
+                {
+                    _majors[i].Draw(this, spriteBatch, hoverPos, _majors[i].Selected ? Color.White : _majors[i].Hovered ? Color.DarkGray : Color.White * 0.6f, _majors[i].Selected ? null : _majors[i].Hovered ? Color.Gray * 0.1f : Color.Black * 0.5f, SelectorOpen ? false : null);
+
+                    if (_majors[i].Hovered && Tooltip is TraitTooltip tooltip)
+                        tooltip.Trait = _majors[i].Trait;
+                }
             }
 
+            _baseFrame.Draw(this, spriteBatch);
+            _selector.Draw(this, spriteBatch, hoverPos, null, null, SelectorOpen ? true : null);
+            if (_selector.Hovered) txt = "Change Specialization";
             (hasSpec ? _hexagon : _noSpecHexagon).Draw(this, spriteBatch, hoverPos);
+            if (Line == SpecializationSlotType.Line_3) _eliteFrame.Draw(this, spriteBatch);
+
+            _weaponTrait.Draw(this, spriteBatch, hoverPos, null, null, SelectorOpen ? false : null);
+            if (_weaponTrait.Hovered) txt = _weaponTrait.Trait?.Description;
+
+            if (SelectorOpen)
+            {
+                txt = DrawSelector(spriteBatch, bounds);
+            }
         }
 
         protected override void OnClick(MouseEventArgs e)
@@ -332,19 +328,19 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
 
             if (CanInteract?.Invoke() == true)
             {
-                if (!_selectorOpen && BuildSpecialization?.Specialization != null)
+                if (!SelectorOpen)
                 {
-                    TraitIcon trait = _majors.FirstOrDefault(e => e.Value.MouseOver).Value;
+                    TraitIcon trait = _majors.FirstOrDefault(e => e.Value.Hovered).Value;
 
                     for (int i = 0; i < _majors.Count; i++)
                     {
-                        if (trait != null && _majors[i].Trait.Tier == trait.Trait.Tier)
+                        if (trait is not null && _majors[i].Trait.Tier == trait.Trait.Tier)
                         {
                             _majors[i].Selected = trait == _majors[i] && !_majors[i].Selected;
                         }
                     }
 
-                    if (trait != null)
+                    if (trait is not null)
                     {
                         BuildSpecialization.Traits[trait.Trait.Tier] = trait.Selected ? trait.Trait : null;
                         return;
@@ -366,13 +362,13 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
                                 bool hasSpec = TemplatePresenter?.Template?.HasSpecialization(spec.spec) == true;
                                 slot = (SpecializationSlotType)(hasSpec ? TemplatePresenter?.Template?.GetSpecializationSlot(spec.spec) : SpecializationSlotType.Line_1);
 
-                                if (BuildSpecialization != null && (BuildSpecialization?.Specialization == null || BuildSpecialization.Specialization != spec.spec))
+                                if (BuildSpecialization is not null && (BuildSpecialization?.Specialization == null || BuildSpecialization.Specialization != spec.spec))
                                 {
                                     if (hasSpec)
                                     {
 
                                         TemplatePresenter.Template.SwapSpecializations(Line, slot);
-                                        _selectorOpen = !_selectorOpen;
+                                        SelectorOpen = !SelectorOpen;
                                         return;
                                     }
                                     else
@@ -389,7 +385,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
                     }
                 }
 
-                _selectorOpen = (_hexagon.Hovered || _noSpecHexagon.Hovered || _selector.Hovered) && !_selectorOpen;
+                SelectorOpen = (_hexagon.Hovered || _noSpecHexagon.Hovered || _selector.Hovered) && !SelectorOpen;
             }
         }
 
@@ -399,6 +395,20 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
 
             Input.Mouse.LeftMouseButtonPressed -= MouseMouseButtonPressed;
             Input.Mouse.RightMouseButtonPressed -= MouseMouseButtonPressed;
+
+            _baseFrame?.Dispose();
+            _eliteFrame?.Dispose();
+            _background?.Dispose();
+            _specializationBackground?.Dispose();
+            _selector?.Dispose();
+            _hexagon?.Dispose();
+            _noSpecHexagon?.Dispose();
+            _weaponTrait?.Dispose();
+
+            _minors?.Values?.DisposeAll();
+            _majors?.Values?.DisposeAll();
+
+            TemplatePresenter = null;
         }
 
         private int Scale(int input)
@@ -424,7 +434,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
                 bool hovered = spec.bounds.Contains(RelativeMousePosition);
                 bool hasSpec = TemplatePresenter?.Template?.HasSpecialization(spec.spec) == true;
 
-                if (spec.spec != null)
+                if (spec.spec is not null)
                 {
                     spriteBatch.DrawOnCtrl(
                     this,

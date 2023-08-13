@@ -72,8 +72,8 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Controls.NotesPage
 
                 if (Common.SetProperty(ref _rotationElement, value, SetElement))
                 {
-                    if (temp != null) temp.PropertyChanged -= RotationElement_PropertyChanged;
-                    if (_rotationElement != null) _rotationElement.PropertyChanged += RotationElement_PropertyChanged;
+                    if (temp is not null) temp.PropertyChanged -= RotationElement_PropertyChanged;
+                    if (_rotationElement is not null) _rotationElement.PropertyChanged += RotationElement_PropertyChanged;
                 }
             }
         }
@@ -200,7 +200,7 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Controls.NotesPage
 
         public void AddRotationElementControl(RotationElement element = null)
         {
-            if (Rotation != null)
+            if (Rotation is not null)
             {
                 var ctrl = new RotationElementControl()
                 {
@@ -279,15 +279,15 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Controls.NotesPage
                 var temp = _template;
                 if (Common.SetProperty(ref _template, value, ApplyTemplate))
                 {
-                    if (temp != null) temp.PropertyChanged -= TemplateChanged;
-                    if (_template != null) _template.PropertyChanged += TemplateChanged;
+                    if (temp is not null) temp.PropertyChanged -= TemplateChanged;
+                    if (_template is not null) _template.PropertyChanged += TemplateChanged;
                 }
             }
         }
 
         private void AddRotationPanel(Rotation rotation = null)
         {
-            if (Template != null && Template.RotationTemplate != null)
+            if (Template is not null && Template.RotationTemplate is not null)
             {              
                 var ctrl = new RotationPanel()
                 {
@@ -326,7 +326,7 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Controls.NotesPage
         {
             base.DisposeControl();
 
-            if (_template != null) _template.PropertyChanged -= TemplateChanged;
+            if (_template is not null) _template.PropertyChanged -= TemplateChanged;
         }
     }
 }

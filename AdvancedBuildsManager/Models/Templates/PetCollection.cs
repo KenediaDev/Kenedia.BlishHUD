@@ -16,7 +16,7 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Models.Templates
 
         public byte GetPetByte(PetSlot slot)
         {
-            return (byte)(TryGetValue(slot, out Pet pet) && pet != null ? pet.Id : 0);
+            return (byte)(TryGetValue(slot, out Pet pet) && pet is not null ? pet.Id : 0);
         }
     }
 }

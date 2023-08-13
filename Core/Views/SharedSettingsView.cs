@@ -282,7 +282,7 @@ namespace Kenedia.Modules.Core.Views
 
         public void UpdateOffset()
         {
-            if (_leftOffsetBox != null)
+            if (_leftOffsetBox is not null)
             {
                 SharedSettings.WindowOffset = new(_leftOffsetBox.Value, _topOffsetBox.Value, _rightOffsetBox.Value, _bottomOffsetBox.Value);
 

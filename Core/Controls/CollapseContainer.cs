@@ -152,7 +152,7 @@ namespace Kenedia.Modules.Core.Controls
             _collapseAnim?.CancelAndComplete();
             _ = SetProperty(ref _collapsed, false);
 
-            var bounds = SizeDeterminingChild != null ? ControlUtil.GetControlBounds(new Control[] { SizeDeterminingChild }) : Point.Zero;
+            var bounds = SizeDeterminingChild is not null ? ControlUtil.GetControlBounds(new Control[] { SizeDeterminingChild }) : Point.Zero;
             int height = MaxSize != Point.Zero ? Math.Min(MaxSize.Y, bounds.Y + ContentPadding.Vertical + _titleBarHeight) : bounds.Y + ContentPadding.Vertical + _titleBarHeight;
 
             _collapseAnim = Animation.Tweener
@@ -178,7 +178,7 @@ namespace Kenedia.Modules.Core.Controls
             if (_collapsed) return;
 
             // Prevent us from setting the _preCollapseHeight midtransition by accident
-            if (_collapseAnim != null && _collapseAnim.Completion < 1)
+            if (_collapseAnim is not null && _collapseAnim.Completion < 1)
             {
                 _collapseAnim.CancelAndComplete();
             }
@@ -217,14 +217,14 @@ namespace Kenedia.Modules.Core.Controls
                 var temp = _sizeDeterminingChild;
                 if (Common.SetProperty(ref _sizeDeterminingChild, value, OnChildSet))
                 {
-                    if (temp != null) temp.Resized -= SizeDeterminingChild_Resized;
+                    if (temp is not null) temp.Resized -= SizeDeterminingChild_Resized;
                 }
             }
         }
 
         private void OnChildSet()
         {
-            if (_sizeDeterminingChild != null)
+            if (_sizeDeterminingChild is not null)
             {
                 _sizeDeterminingChild.Resized += SizeDeterminingChild_Resized;
                 _sizeDeterminingChild.Hidden += SizeDeterminingChild_Hidden;
@@ -243,7 +243,7 @@ namespace Kenedia.Modules.Core.Controls
 
         private void SetHeight()
         {
-            var bounds = _sizeDeterminingChild != null ? ControlUtil.GetControlBounds(new Control[] { _sizeDeterminingChild }) : Point.Zero;
+            var bounds = _sizeDeterminingChild is not null ? ControlUtil.GetControlBounds(new Control[] { _sizeDeterminingChild }) : Point.Zero;
             int height = MaxSize != Point.Zero ? Math.Min(MaxSize.Y, bounds.Y + ContentPadding.Vertical + _titleBarHeight) : bounds.Y + ContentPadding.Vertical + _titleBarHeight;
             Height = Collapsed ? _titleBarHeight : height;
         }
@@ -269,7 +269,7 @@ namespace Kenedia.Modules.Core.Controls
         {
             base.RecalculateLayout();
 
-            int num = (!string.IsNullOrEmpty(_title) || TitleIcon != null) ? _titleBarHeight : 0;
+            int num = (!string.IsNullOrEmpty(_title) || TitleIcon is not null) ? _titleBarHeight : 0;
             int num2 = 0;
             int num3 = 0;
             int num4 = 0;
@@ -290,7 +290,7 @@ namespace Kenedia.Modules.Core.Controls
             _panelBounds = new Rectangle(num4, num, _size.X - num4 - num2, _size.Y - num - num3);
             ContentRegion = new Rectangle(num4 + ContentPadding.Left, num + ContentPadding.Top, _size.X - num4 - num2 - ContentPadding.Horizontal, _size.Y - num - num3 - ContentPadding.Vertical);
             _layoutHeaderBounds = new Rectangle(0, 0, Width, num);
-            _layoutHeaderIconBounds = TitleIcon != null ? new Rectangle(_layoutHeaderBounds.Left + _titleIconPadding.Left, _titleIconPadding.Top, num - _titleIconPadding.Vertical, num - _titleIconPadding.Vertical) : Rectangle.Empty;
+            _layoutHeaderIconBounds = TitleIcon is not null ? new Rectangle(_layoutHeaderBounds.Left + _titleIconPadding.Left, _titleIconPadding.Top, num - _titleIconPadding.Vertical, num - _titleIconPadding.Vertical) : Rectangle.Empty;
 
             _layoutHeaderTextBounds = new Rectangle(_layoutHeaderIconBounds.Right + _titleIconPadding.Right, 0, _layoutHeaderBounds.Width - _layoutHeaderIconBounds.Width, num);
 
@@ -318,7 +318,7 @@ namespace Kenedia.Modules.Core.Controls
                 }
 
                 spriteBatch.DrawStringOnCtrl(this, _title, Content.DefaultFont16, _layoutHeaderTextBounds, Color.White);
-                if (TitleIcon != null) spriteBatch.DrawOnCtrl(this, TitleIcon, _layoutHeaderIconBounds, TitleIcon.Bounds, Color.White);
+                if (TitleIcon is not null) spriteBatch.DrawOnCtrl(this, TitleIcon, _layoutHeaderIconBounds, TitleIcon.Bounds, Color.White);
                 if (_canCollapse)
                 {
                     spriteBatch.DrawOnCtrl(this, _textureAccordionArrow, _layoutAccordionArrowBounds, null, Color.White, ArrowRotation, _layoutAccordionArrowOrigin);

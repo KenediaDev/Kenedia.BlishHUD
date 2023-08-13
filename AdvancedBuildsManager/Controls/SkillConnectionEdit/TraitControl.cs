@@ -34,7 +34,7 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Controls.SkillConnectionEdit
         {
             var trait = GetTrait(traitid);
 
-            if (trait != null)
+            if (trait is not null)
             {
                 Trait = trait;
             }
@@ -71,7 +71,7 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Controls.SkillConnectionEdit
             string txt = string.Empty;
             _skillIcon.Draw(this, spriteBatch, RelativeMousePosition);
 
-            if (Trait != null)
+            if (Trait is not null)
             {
                 spriteBatch.DrawStringOnCtrl(this, $"{Trait.Id}", Content.DefaultFont16, _idBounds, Color.White);
                 spriteBatch.DrawStringOnCtrl(this, Trait.Name, Content.DefaultFont16, _nameBounds, Color.White);

@@ -1,14 +1,14 @@
 ﻿using Kenedia.Modules.BuildsManager.DataModels.Professions;
 using Kenedia.Modules.BuildsManager.Extensions;
 using Kenedia.Modules.Core.Controls;
-using Kenedia.Modules.Core.Extensions;
 using Kenedia.Modules.Core.Models;
-using Kenedia.Modules.Core.Structs;
 using Kenedia.Modules.Core.Utility;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System;
 using static Blish_HUD.ContentService;
+using Kenedia.Modules.Core.Services;
+using Gw2Sharp.WebApi;
+using Kenedia.Modules.BuildsManager.Res;
 
 namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
 {
@@ -58,6 +58,8 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
                 Font = Content.DefaultFont14,
                 WrapText = true,
             };
+
+            LocalizingService.LocaleChanged += UserLocale_SettingChanged;
         }
 
         public Skill Skill { get => _skill; set => Common.SetProperty(ref _skill, value, ApplySkill); }
@@ -65,14 +67,15 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
         private void ApplySkill(object sender, ValueChangedEventArgs<Skill> e)
         {
             _title.TextColor = Colors.Chardonnay;
-            _title.Text = e.NewValue?.Name;
-            _id.Text = $"Skill Id: {e.NewValue?.Id}";
-            _description.Text = e.NewValue?.Description.InterpretItemDescription();
+            _title.Text = Skill?.Name;
+            _id.Text = $"{strings.SkillId}: {Skill?.Id}";
+            _description.Text = Skill?.Description.InterpretItemDescription();
+            _image.Texture = Skill?.Icon;
+        }
 
-            if (e.NewValue != null)
-            {
-                _image.Texture = e.NewValue.Icon;
-            }
+        private void UserLocale_SettingChanged(object sender, Blish_HUD.ValueChangedEventArgs<Locale> e)
+        {
+            ApplySkill(this, null);
         }
 
         public override void Draw(SpriteBatch spriteBatch, Rectangle drawBounds, Rectangle scissor)
@@ -86,6 +89,14 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
             base.PaintBeforeChildren(spriteBatch, bounds);
 
             _image.Draw(this, spriteBatch);
+        }
+
+        protected override void DisposeControl()
+        {
+            Skill = null;
+            _image.Texture = null;
+
+            base.DisposeControl();
         }
     }
 }

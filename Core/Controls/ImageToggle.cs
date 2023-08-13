@@ -85,9 +85,9 @@ namespace Kenedia.Modules.Core.Controls
 
         private AsyncTexture2D GetTexture()
         {
-            return _clicked && ClickedTexture != null ? ClickedTexture
-                : Checked && ActiveTexture != null ? ActiveTexture
-                : MouseOver && HoveredTexture != null ? HoveredTexture
+            return _clicked && ClickedTexture is not null ? ClickedTexture
+                : Checked && ActiveTexture is not null ? ActiveTexture
+                : MouseOver && HoveredTexture is not null ? HoveredTexture
                 : Texture;
         }
 
@@ -95,7 +95,7 @@ namespace Kenedia.Modules.Core.Controls
         {
             AsyncTexture2D texture = GetTexture();
 
-            if (texture != null)
+            if (texture is not null)
             {
                 _clicked = _clicked && MouseOver;
 

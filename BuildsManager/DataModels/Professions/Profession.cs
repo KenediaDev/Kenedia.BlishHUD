@@ -1,6 +1,7 @@
 ﻿using Blish_HUD.Content;
 using Gw2Sharp.Models;
 using Kenedia.Modules.Core.DataModels;
+using Kenedia.Modules.Core.Extensions;
 using Kenedia.Modules.Core.Models;
 using Kenedia.Modules.Core.Utility;
 using System;
@@ -13,8 +14,9 @@ using APIProfession = Gw2Sharp.WebApi.V2.Models.Profession;
 namespace Kenedia.Modules.BuildsManager.DataModels.Professions
 {
     [DataContract]
-    public class Profession
+    public class Profession : IDisposable
     {
+        private bool _isDisposed;
         private AsyncTexture2D _icon;
         private AsyncTexture2D _iconBig;
 
@@ -25,7 +27,7 @@ namespace Kenedia.Modules.BuildsManager.DataModels.Professions
         {
             get
             {
-                if (_icon != null) return _icon;
+                if (_icon is not null) return _icon;
 
                 _icon = AsyncTexture2D.FromAssetId(IconAssetId);
                 return _icon;
@@ -36,7 +38,7 @@ namespace Kenedia.Modules.BuildsManager.DataModels.Professions
         {
             get
             {
-                if (_iconBig != null) return _iconBig;
+                if (_iconBig is not null) return _iconBig;
 
                 _iconBig = AsyncTexture2D.FromAssetId(IconBigAssetId);
                 return _iconBig;
@@ -72,6 +74,27 @@ namespace Kenedia.Modules.BuildsManager.DataModels.Professions
 
         [DataMember]
         public Dictionary<int, int> SkillsByPalette { get; set; }
+
+        public void Dispose()
+        {
+            if (_isDisposed) return;
+            _isDisposed = true;
+
+            _icon = null;
+            _iconBig = null;
+
+            Skills?.Values.DisposeAll();
+            Skills?.Clear();
+
+            Legends?.Values.DisposeAll();
+            Legends?.Clear();
+
+            Specializations?.Values.DisposeAll();
+            Specializations?.Clear();
+
+            Weapons?.Values.DisposeAll();
+            Weapons?.Clear();
+        }
 
         internal void Apply(APIProfession prof, Dictionary<int, Specialization> specializations, Dictionary<int, Trait> traits, Dictionary<int, Skill> skills, Dictionary<int, Legend> legends, Dictionary<Races, Race> races)
         {
@@ -154,7 +177,7 @@ namespace Kenedia.Modules.BuildsManager.DataModels.Professions
 
                     result.Add(skill.Id);
 
-                    if (skill.BundleSkills != null)
+                    if (skill.BundleSkills is not null)
                     {
                         result.AddRange(skill.BundleSkills);
                         foreach (int bundleskill in skill.BundleSkills)
@@ -163,23 +186,23 @@ namespace Kenedia.Modules.BuildsManager.DataModels.Professions
                         }
                     }
 
-                    if (skill.FlipSkill != null)
+                    if (skill.FlipSkill is not null)
                     {
                         result.Add((int)skill.FlipSkill);
                         result.AddRange(getIds(getSkillById((int)skill.FlipSkill, skills)));
                     }
 
-                    if (skill.NextChain != null)
+                    if (skill.NextChain is not null)
                     {
                         result.Add((int)skill.NextChain);
                     }
 
-                    if (skill.PrevChain != null)
+                    if (skill.PrevChain is not null)
                     {
                         result.Add((int)skill.PrevChain);
                     }
 
-                    if (skill.ToolbeltSkill != null)
+                    if (skill.ToolbeltSkill is not null)
                     {
                         result.Add((int)skill.ToolbeltSkill);
                     }
@@ -192,10 +215,10 @@ namespace Kenedia.Modules.BuildsManager.DataModels.Professions
                     var skill = getSkillById(id, skills);
                     var existingSkill = getSkillById(id, Skills);
 
-                    if (skill != null)
+                    if (skill is not null)
                     {
                         // Update
-                        if (existingSkill != null)
+                        if (existingSkill is not null)
                         {
                             existingSkill.Name = skill.Name;
                             existingSkill.Description = skill.Description;

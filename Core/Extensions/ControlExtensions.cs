@@ -10,7 +10,7 @@ namespace Kenedia.Modules.Core.Extensions
         {
             bool IsParentSetAndVisible(Control ctrl)
             {
-                return ctrl.Visible && ctrl.Parent != null && 
+                return ctrl.Visible && ctrl.Parent is not null && 
                     ((ctrl.Parent == GameService.Graphics.SpriteScreen && ctrl.Parent.Visible) ||
                     (ctrl.Parent.Visible && IsParentSetAndVisible(ctrl.Parent)));
             }

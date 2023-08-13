@@ -15,17 +15,17 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Models.Templates
 
         public byte GetSpecializationByte(SpecializationSlot slot)
         {
-            byte id = (byte)(TryGetValue(slot, out BuildSpecialization specialization) && specialization != null  && specialization.Specialization  != null ? specialization.Specialization?.Id : 0);
+            byte id = (byte)(TryGetValue(slot, out BuildSpecialization specialization) && specialization is not null  && specialization.Specialization  is not null ? specialization.Specialization?.Id : 0);
             return id;
         }
 
         public byte GetTraitByte(TraitTier traitSlot, BuildSpecialization buildSpecialization)
         {
-            if (buildSpecialization != null)
+            if (buildSpecialization is not null)
             {
                 int? order = buildSpecialization.Traits[traitSlot]?.Order;
 
-                return (byte)(order != null ? order + 1 : 0);
+                return (byte)(order is not null ? order + 1 : 0);
             }
 
             return 0;

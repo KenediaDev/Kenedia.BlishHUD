@@ -46,7 +46,7 @@ namespace Kenedia.Modules.Characters.Controls
 
             int size = Math.Min(Width, Height);
 
-            if (_choyaTexture != null) spriteBatch.DrawOnCtrl(this, _choyaTexture, new(new(_xOffset, Height / 2), new(size)), _choyaTexture.Bounds, Color.White, _rotation, new(_choyaSize / 2));
+            if (_choyaTexture is not null) spriteBatch.DrawOnCtrl(this, _choyaTexture, new(new(_xOffset, Height / 2), new(size)), _choyaTexture.Bounds, Color.White, _rotation, new(_choyaSize / 2));
         }
 
         protected override void OnShown(EventArgs e)

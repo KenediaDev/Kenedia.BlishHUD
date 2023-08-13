@@ -81,7 +81,7 @@ namespace Kenedia.Modules.Core.Extensions
             int? maxHeight = imageMap.Select(l => l.Max(e => e.Y))?.ToList()?.FirstOrDefault();
             var bitmap = new Bitmap(last.X - first.X + 1, last.Y - first.Y + 1);
 
-            if (imageMap.Count > 0 && maxHeight != null && maxHeight > 0)
+            if (imageMap.Count > 0 && maxHeight is not null && maxHeight > 0)
             {
                 foreach (List<Point> column in imageMap)
                 {

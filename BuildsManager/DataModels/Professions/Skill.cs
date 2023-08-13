@@ -17,8 +17,9 @@ namespace Kenedia.Modules.BuildsManager.DataModels.Professions
 {
 
     [DataContract]
-    public class Skill
+    public class Skill : IDisposable
     {
+        private bool _isDisposed;
         private AsyncTexture2D _icon;
 
         public Skill() { }
@@ -45,11 +46,11 @@ namespace Kenedia.Modules.BuildsManager.DataModels.Professions
             IconAssetId = skill.Icon.GetAssetIdFromRenderUrl();
             Name = skill.Name;
             Description = skill.Description;
-            Specialization = skill.Specialization != null ? (int)skill.Specialization : 0;
+            Specialization = skill.Specialization is not null ? (int)skill.Specialization : 0;
             ChatLink = skill.ChatLink;
             Flags = skill.Flags.Count() > 0 ? skill.Flags.Aggregate((x, y) => x |= y.ToEnum()) : SkillFlag.Unknown;
             Slot = skill.Slot?.ToEnum();
-            WeaponType = skill.WeaponType != null ? (WeaponType)skill.WeaponType?.ToEnum() : null;
+            WeaponType = skill.WeaponType is not null ? (WeaponType)skill.WeaponType?.ToEnum() : null;
 
             _ = BuildsManager.Data.SkillConnections.TryGetValue(skill.Id, out var connection);
             SkillConnection = connection ?? null;
@@ -59,15 +60,15 @@ namespace Kenedia.Modules.BuildsManager.DataModels.Professions
             {
                 if (!Categories.HasFlag(SkillCategory.Specialization)) Categories |= SkillCategory.Specialization;
             }
-            else if (skill.Professions.Count == 1 && skill.Professions.Contains("Engineer") && skill.BundleSkills != null)
+            else if (skill.Professions.Count == 1 && skill.Professions.Contains("Engineer") && skill.BundleSkills is not null)
             {
                 if (!Categories.HasFlag(SkillCategory.Kit)) Categories |= SkillCategory.Kit;
             }
-            else if ((skill.Categories != null && skill.Categories.Count > 0) || skill.Name.Contains('\"'))
+            else if ((skill.Categories is not null && skill.Categories.Count > 0) || skill.Name.Contains('\"'))
             {
                 if (skill.Name.Contains('\"') && !Categories.HasFlag(SkillCategory.Shout)) Categories |= SkillCategory.Shout;
 
-                if (skill.Categories != null)
+                if (skill.Categories is not null)
                 {
                     foreach (string s in skill.Categories)
                     {
@@ -79,11 +80,11 @@ namespace Kenedia.Modules.BuildsManager.DataModels.Professions
                 }
             }
 
-            BundleSkills = skill.BundleSkills != null && skill.BundleSkills.Count > 0 ? skill.BundleSkills.ToList() : null;
-            FlipSkill = skill.FlipSkill != null ? skill.FlipSkill : null;
-            ToolbeltSkill = skill.ToolbeltSkill != null ? skill.ToolbeltSkill : null;
-            PrevChain = skill.PrevChain != null ? skill.PrevChain : null;
-            NextChain = skill.NextChain != null ? skill.NextChain : null;
+            BundleSkills = skill.BundleSkills is not null && skill.BundleSkills.Count > 0 ? skill.BundleSkills.ToList() : null;
+            FlipSkill = skill.FlipSkill is not null ? skill.FlipSkill : null;
+            ToolbeltSkill = skill.ToolbeltSkill is not null ? skill.ToolbeltSkill : null;
+            PrevChain = skill.PrevChain is not null ? skill.PrevChain : null;
+            NextChain = skill.NextChain is not null ? skill.NextChain : null;
 
             if (paletteBySkills.TryGetValue(skill.Id, out int paletteId))
             {
@@ -138,7 +139,7 @@ namespace Kenedia.Modules.BuildsManager.DataModels.Professions
         {
             get
             {
-                if (_icon != null) return _icon;
+                if (_icon is not null) return _icon;
 
                 _icon = AsyncTexture2D.FromAssetId(IconAssetId);
                 return _icon;
@@ -199,7 +200,7 @@ namespace Kenedia.Modules.BuildsManager.DataModels.Professions
             foreach (var race in BuildsManager.Data.Races)
             {
                 var skill = race.Value.Skills.Where(e => e.Value.PaletteId == id).FirstOrDefault();
-                if (skill.Value != null)
+                if (skill.Value is not null)
                 {
                     return skill.Value;
                 }
@@ -244,22 +245,22 @@ namespace Kenedia.Modules.BuildsManager.DataModels.Professions
         {
             Skill skill = this;
 
-            if (template != null)
+            if (template is not null)
             {
                 List<int> traitIds = new();
 
                 foreach (var spec in template.Specializations)
                 {
-                    if (spec.Value != null && spec.Value.Specialization != null)
+                    if (spec.Value is not null && spec.Value.Specialization is not null)
                     {
-                        traitIds.AddRange(spec.Value.Traits.Where(e => e.Value != null).Select(e => e.Value.Id));
-                        traitIds.AddRange(spec.Value.Specialization.MinorTraits.Where(e => e.Value != null).Select(e => e.Value.Id));
+                        traitIds.AddRange(spec.Value.Traits.Where(e => e.Value is not null).Select(e => e.Value.Id));
+                        traitIds.AddRange(spec.Value.Specialization.MinorTraits.Where(e => e.Value is not null).Select(e => e.Value.Id));
                     }
                 }
 
-                if (SkillConnection != null)
+                if (SkillConnection is not null)
                 {
-                    if (SkillConnection.Traited != null)
+                    if (SkillConnection.Traited is not null)
                     {
                         foreach (int traitid in traitIds)
                         {
@@ -274,7 +275,7 @@ namespace Kenedia.Modules.BuildsManager.DataModels.Professions
                         }
                     }
 
-                    if (skill?.SkillConnection != null && skill.SkillConnection.EnvCounter != null)
+                    if (skill?.SkillConnection is not null && skill.SkillConnection.EnvCounter is not null)
                     {
                         bool useCounterSkill = (enviroment == Enviroment.Terrestrial && !skill.SkillConnection.Enviroment.HasFlag(Enviroment.Terrestrial)) || (enviroment != Enviroment.Terrestrial && !skill.SkillConnection.Enviroment.HasFlag(Enviroment.Aquatic));
                         if (useCounterSkill) _ = BuildsManager.Data.Professions[template.Profession].Skills.TryGetValue((int)skill.SkillConnection.EnvCounter, out skill);
@@ -283,6 +284,14 @@ namespace Kenedia.Modules.BuildsManager.DataModels.Professions
             }
 
             return skill;
+        }
+
+        public void Dispose()
+        {
+            if(_isDisposed) return;
+            _isDisposed = true;
+
+            _icon = null;
         }
     }
 }

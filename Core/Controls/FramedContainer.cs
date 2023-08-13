@@ -194,8 +194,8 @@ namespace Kenedia.Modules.Core.Controls
 
         private void DrawBorders(SpriteBatch spriteBatch)
         {
-            Color? borderColor = HoveredBorderColor != null && MouseOver ? HoveredBorderColor : BorderColor;
-            if (borderColor != null)
+            Color? borderColor = HoveredBorderColor is not null && MouseOver ? HoveredBorderColor : BorderColor;
+            if (borderColor is not null)
             {
                 foreach (var r in _topBorders)
                 {
@@ -246,8 +246,8 @@ namespace Kenedia.Modules.Core.Controls
         {
             base.PaintBeforeChildren(spriteBatch, bounds);
 
-            Color? backgroundColor = BackgroundHoveredColor != null && MouseOver ? BackgroundHoveredColor : BackgroundColor;
-            if (backgroundColor != null)
+            Color? backgroundColor = BackgroundHoveredColor is not null && MouseOver ? BackgroundHoveredColor : BackgroundColor;
+            if (backgroundColor is not null)
             {
                 spriteBatch.DrawOnCtrl(
                     this,
@@ -257,8 +257,8 @@ namespace Kenedia.Modules.Core.Controls
                     (Color)backgroundColor);
             }
 
-            Color? backgroundImageColor = BackgroundImageHoveredColor != null && MouseOver ? BackgroundImageHoveredColor : BackgroundImageColor;
-            if (BackgroundImage != null && backgroundImageColor != null)
+            Color? backgroundImageColor = BackgroundImageHoveredColor is not null && MouseOver ? BackgroundImageHoveredColor : BackgroundImageColor;
+            if (BackgroundImage is not null && backgroundImageColor is not null)
             {
                 spriteBatch.DrawOnCtrl(
                     this,
@@ -273,7 +273,7 @@ namespace Kenedia.Modules.Core.Controls
 
         public virtual void UserLocale_SettingChanged(object sender, ValueChangedEventArgs<Locale> e)
         {
-            if (SetLocalizedTooltip != null) BasicTooltipText = SetLocalizedTooltip?.Invoke();
+            if (SetLocalizedTooltip is not null) BasicTooltipText = SetLocalizedTooltip?.Invoke();
         }
 
         protected override void OnMouseMoved(MouseEventArgs e)

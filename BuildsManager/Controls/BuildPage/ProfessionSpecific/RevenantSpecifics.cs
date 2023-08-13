@@ -6,6 +6,7 @@ using Gw2Sharp;
 using Kenedia.Modules.BuildsManager.DataModels.Professions;
 using Kenedia.Modules.BuildsManager.Models;
 using Kenedia.Modules.BuildsManager.Models.Templates;
+using Kenedia.Modules.BuildsManager.Res;
 using Kenedia.Modules.Core.Extensions;
 using Kenedia.Modules.Core.Models;
 using Kenedia.Modules.Core.Utility;
@@ -204,7 +205,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage.ProfessionSpecific
         {
             foreach (LegendSlotType slot in Enum.GetValues(typeof(LegendSlotType)))
             {
-                _legends[slot].Legend = TemplatePresenter.Template.Legends[slot];
+                _legends[slot].Legend = TemplatePresenter?.Template?.Legends[slot];
             }
 
             base.ApplyTemplate();
@@ -235,10 +236,10 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage.ProfessionSpecific
             }
 
             var r = _legends[LegendSlotType.TerrestrialActive].Bounds;
-            spriteBatch.DrawStringOnCtrl(this, TemplatePresenter.LegendSlot is LegendSlotType.TerrestrialActive ? "Active Legend" : "Inactive Legend", Content.DefaultFont16, new(r.Right + 5, r.Center.Y - (Content.DefaultFont14.LineHeight / 2), 100, Content.DefaultFont16.LineHeight), Color.White);
+            spriteBatch.DrawStringOnCtrl(this, TemplatePresenter.LegendSlot is LegendSlotType.TerrestrialActive ? strings.ActiveLegend : strings.InactiveLegend, Content.DefaultFont16, new(r.Right + 5, r.Center.Y - (Content.DefaultFont14.LineHeight / 2), 100, Content.DefaultFont16.LineHeight), Color.White);
 
             r = _legends[LegendSlotType.AquaticActive].Bounds;
-            spriteBatch.DrawStringOnCtrl(this, TemplatePresenter.LegendSlot is LegendSlotType.TerrestrialActive ? "Active Legend" : "Inactive Legend", Content.DefaultFont16, new(r.Right + 5, r.Center.Y - (Content.DefaultFont14.LineHeight / 2), 100, Content.DefaultFont16.LineHeight), Color.White);
+            spriteBatch.DrawStringOnCtrl(this, TemplatePresenter.LegendSlot is LegendSlotType.TerrestrialActive ? strings.ActiveLegend : strings.InactiveLegend, Content.DefaultFont16, new(r.Right + 5, r.Center.Y - (Content.DefaultFont14.LineHeight / 2), 100, Content.DefaultFont16.LineHeight), Color.White);
 
             if (_selectorOpen)
             {
@@ -281,7 +282,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage.ProfessionSpecific
                             var slot = GetOtherSlot(_selectorAnchor.LegendSlot);
                             var otherLegend = TemplatePresenter.Template.Legends[slot];
 
-                            if (otherLegend != null && otherLegend == s.Legend)
+                            if (otherLegend is not null && otherLegend == s.Legend)
                             {
                                 TemplatePresenter.Template.SetLegend(_selectorAnchor.Legend, slot);
                             }
