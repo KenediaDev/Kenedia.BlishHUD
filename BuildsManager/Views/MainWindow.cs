@@ -10,6 +10,7 @@ using Kenedia.Modules.BuildsManager.Controls.AboutPage;
 using Kenedia.Modules.BuildsManager.Controls.Selection;
 using Kenedia.Modules.BuildsManager.Models;
 using Kenedia.Modules.Core.Models;
+using System.Linq;
 
 namespace Kenedia.Modules.BuildsManager.Views
 {
@@ -29,13 +30,12 @@ namespace Kenedia.Modules.BuildsManager.Views
             _data = data;
             _texturesService = texturesService;
 
-            _selectionPanel = new(_templatePresenter)
+            _selectionPanel = new(_templatePresenter, this)
             {
                 Parent = this,
                 Location = new(0, 0),
                 HeightSizingMode = Blish_HUD.Controls.SizingMode.Fill,
                 Width = 375,
-                MainWindow = this,
                 ZIndex = int.MaxValue,
             };
 
@@ -80,7 +80,15 @@ namespace Kenedia.Modules.BuildsManager.Views
                 Icon = AsyncTexture2D.FromAssetId(156714),
             });
 
-            _tabbedRegion.SwitchTab(tab);
+            //_tabbedRegion.SwitchTab(tab);
+
+            _templatePresenter.NameChanged += TemplatePresenter_NameChanged;
+            //Template = BuildsManager.ModuleInstance?.Templates.FirstOrDefault();
+        }
+
+        private void TemplatePresenter_NameChanged(object sender, ValueChangedEventArgs<string> e)
+        {
+            SubName = e.NewValue;
         }
 
         public event ValueChangedEventHandler<Template> TemplateChanged;
@@ -90,6 +98,8 @@ namespace Kenedia.Modules.BuildsManager.Views
             get => _templatePresenter.Template; set
             {
                 var prev = _templatePresenter.Template;
+
+                SubName = value?.Name;
 
                 if (_templatePresenter.Template != value)
                 {

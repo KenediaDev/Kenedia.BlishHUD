@@ -17,6 +17,7 @@ using Gw2Sharp;
 
 namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
 {
+
     public class SkillsBar : Control
     {
         private readonly DetailedTexture _selectingFrame = new(157147);
@@ -38,6 +39,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
         public SkillsBar(TemplatePresenter templatePresenter)
         {
             TemplatePresenter = templatePresenter;
+            Tooltip = new SkillTooltip();
 
             Height = 125;
             ClipsBounds = false;
@@ -201,7 +203,10 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
                     _skillIcons[spair.Key].Draw(this, spriteBatch, true, RelativeMousePosition);
                     if (!SeletorOpen && _skillIcons[spair.Key].Hovered && _skillIcons[spair.Key].Skill != null)
                     {
-                        txt = _skillIcons[spair.Key].Skill.Name;
+                        if(Tooltip is SkillTooltip tooltip)
+                        {
+                            tooltip.Skill = _skillIcons[spair.Key].Skill;
+                        }
                     }
                 }
             }
@@ -211,7 +216,6 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
                 DrawSelector(spriteBatch, bounds);
             }
 
-            BasicTooltipText = txt;
         }
 
         protected override void OnRightMouseButtonPressed(MouseEventArgs e)

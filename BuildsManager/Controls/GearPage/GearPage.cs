@@ -43,6 +43,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage
             WidthSizingMode = Blish_HUD.Controls.SizingMode.Fill;
             HeightSizingMode = Blish_HUD.Controls.SizingMode.Fill;
 
+            string gearCodeDisclaimer = $"This code is not the same as the Equipment Template from the game. The games Template can't be read or shared sadly.{Environment.NewLine}The purpose of this code is to share the modules Equipment Template easily with other module users.";
             _copyButton = new()
             {
                 Parent = this,
@@ -50,6 +51,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage
                 Texture = AsyncTexture2D.FromAssetId(2208345),
                 HoveredTexture = AsyncTexture2D.FromAssetId(2208347),
                 Size = new(26),
+                SetLocalizedTooltip = () => gearCodeDisclaimer,
                 ClickAction = (m) =>
                 {
                     try
@@ -72,6 +74,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage
                 Location = new(_copyButton.Right + 2, 0),
                 EnterPressedAction = (txt) => TemplatePresenter.Template?.LoadGearFromCode(txt, true),
                 Font = GameService.Content.GetFont(ContentService.FontFace.Menomonia, ContentService.FontSize.Size11, ContentService.FontStyle.Regular),
+                SetLocalizedTooltip = () => gearCodeDisclaimer,
             };
 
             _framedSpecIcon = new()

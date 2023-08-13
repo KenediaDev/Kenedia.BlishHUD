@@ -20,15 +20,14 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage.GearSlots
     public class PvpAmuletSlot : GearSlot
     {
         private Rectangle _titleBounds;
-        private readonly DetailedTexture _runeSlotTexture = new() { Texture = AsyncTexture2D.FromAssetId(784323), TextureRegion = new(37, 37, 54, 54), };
-
-        private readonly ItemTexture _runeTexture = new() { };
+        private readonly ItemControl _runeControl = new(new(784323) { TextureRegion = new(38, 38, 52, 52) });
 
         private Rune _rune;
         private Rectangle _runeBounds;
 
         public PvpAmuletSlot(TemplateSlotType gearSlot, Container parent, TemplatePresenter templatePresenter) : base(gearSlot, parent, templatePresenter)
         {
+            _runeControl.Parent = this;
             ClipsBounds = false;
         }
 
@@ -38,15 +37,14 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage.GearSlots
         {
             base.RecalculateLayout();
 
-            int upgradeSize = (Icon.Bounds.Size.Y - 4) / 2;
+            int upgradeSize = (ItemControl.LocalBounds.Size.Y - 4) / 2;
             int iconPadding = 0;
             int textPadding = Slot is TemplateSlotType.AquaBreather ? upgradeSize + 5 : 5;
 
             int pvpUpgradeSize = 48;
-            _runeSlotTexture.Bounds = new(Icon.Bounds.Right + 2 + 5 + iconPadding, (Icon.Bounds.Height - pvpUpgradeSize) / 2, pvpUpgradeSize, pvpUpgradeSize);
-            _runeTexture.Bounds = _runeSlotTexture.Bounds;
-            _runeBounds = new(_runeSlotTexture.Bounds.Right + 10, _runeTexture.Bounds.Top, Width - (_runeTexture.Bounds.Right + 2), _runeTexture.Bounds.Height);
+            _runeControl.SetBounds(new(ItemControl.LocalBounds.Right + 2 + 5 + iconPadding, (ItemControl.LocalBounds.Height - pvpUpgradeSize) / 2, pvpUpgradeSize, pvpUpgradeSize));
 
+            _runeBounds = new(_runeControl.Right + 10, _runeControl.Top, Width - (_runeControl.Right + 2), _runeControl.Height);
             _titleBounds = new(_runeBounds.Left, _runeBounds.Top - (Content.DefaultFont16.LineHeight + 2), _runeBounds.Width, Content.DefaultFont16.LineHeight);
         }
 
@@ -54,10 +52,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage.GearSlots
         {
             base.PaintAfterChildren(spriteBatch, bounds);
 
-            _runeSlotTexture.Draw(this, spriteBatch, RelativeMousePosition);
-            _runeTexture.Draw(this, spriteBatch, RelativeMousePosition);
             spriteBatch.DrawStringOnCtrl(this, GetDisplayString(Rune?.DisplayText ?? string.Empty), UpgradeFont, _runeBounds, UpgradeColor, false, HorizontalAlignment.Left, VerticalAlignment.Middle);
-
             //spriteBatch.DrawStringOnCtrl(this, ItemTexture?.Item?.Name ?? "Pvp Amulet", Content.DefaultFont16, _titleBounds, ItemTexture?.Item?.Rarity.GetColor() ?? Color.White * 0.5F);
         }
 
@@ -76,18 +71,18 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage.GearSlots
 
             var a = AbsoluteBounds;
 
-            if (Icon.Hovered)
+            if (ItemControl.MouseOver)
             {
-                SelectionPanel?.SetAnchor<PvpAmulet>(this, new Rectangle(a.Location, Point.Zero).Add(Icon.Bounds), SelectionTypes.Items, Slot, GearSubSlotType.Item, (pvpAmulet) =>
+                SelectionPanel?.SetAnchor<PvpAmulet>(this, new Rectangle(a.Location, Point.Zero).Add(ItemControl.LocalBounds), SelectionTypes.Items, Slot, GearSubSlotType.Item, (pvpAmulet) =>
                 {
                     (TemplatePresenter?.Template[Slot] as PvpAmuletTemplateEntry).PvpAmulet = pvpAmulet;
                     Item = pvpAmulet;
                 });
             }
 
-            if (_runeSlotTexture.Hovered)
+            if (_runeControl.MouseOver)
             {
-                SelectionPanel?.SetAnchor<Rune>(this, new Rectangle(a.Location, Point.Zero).Add(_runeSlotTexture.Bounds), SelectionTypes.Items, Slot, GearSubSlotType.Rune, (rune) =>
+                SelectionPanel?.SetAnchor<Rune>(this, new Rectangle(a.Location, Point.Zero).Add(_runeControl.LocalBounds), SelectionTypes.Items, Slot, GearSubSlotType.Rune, (rune) =>
                 {
                     (TemplatePresenter?.Template[Slot] as PvpAmuletTemplateEntry).Rune = rune;
                     Rune = rune;
@@ -112,7 +107,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage.GearSlots
 
         private void OnRuneChanged(object sender, Core.Models.ValueChangedEventArgs<Rune> e)
         {
-            _runeTexture.Texture = Rune?.Icon;
+            _runeControl.Item = Rune;
         }
     }
 }

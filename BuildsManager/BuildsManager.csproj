@@ -274,8 +274,10 @@
     <Compile Include="Controls\BuildPage\SkillIconCollection.cs" />
     <Compile Include="Controls\BuildPage\SkillsBar.cs" />
     <Compile Include="Controls\BuildPage\SkillSlotCollection.cs" />
+    <Compile Include="Controls\BuildPage\SkillTooltip.cs" />
     <Compile Include="Controls\BuildPage\SpecLine.cs" />
     <Compile Include="Controls\BuildPage\TraitIcon.cs" />
+    <Compile Include="Controls\BuildPage\TraitTooltip.cs" />
     <Compile Include="Controls\BuildPage\WeaponSkillIconCollection.cs" />
     <Compile Include="Controls\GearPage\AttributeTexture.cs" />
     <Compile Include="Controls\GearPage\GearSlots\AccessoireSlot.cs" />
@@ -294,6 +296,7 @@
     <Compile Include="Controls\GearPage\ItemControl.cs" />
     <Compile Include="Controls\GearPage\ItemTexture.cs" />
     <Compile Include="Controls\AboutPage\AboutPage.cs" />
+    <Compile Include="Controls\GearPage\ItemTooltip.cs" />
     <Compile Include="Controls\Selection\AttributeToggle.cs" />
     <Compile Include="Controls\Selection\BaseSelection.cs" />
     <Compile Include="Controls\Selection\BuildSelection.cs" />
@@ -309,6 +312,7 @@
     <Compile Include="Controls\Selection\TagTexture.cs" />
     <Compile Include="Controls\Selection\TemplateSelectable.cs" />
     <Compile Include="Controls\TabbedRegion.cs" />
+    <Compile Include="Controls\TabbedRegionTab.cs" />
     <Compile Include="DataModels\Items\Trinket_1.cs" />
     <Compile Include="DataModels\Items\BonusStat.cs" />
     <Compile Include="DataModels\Items\BonusType.cs" />
@@ -338,6 +342,7 @@
     <Compile Include="DataModels\Stats\EquipmentStat.cs" />
     <Compile Include="DataModels\Stats\Stat.cs" />
     <Compile Include="Extensions\ChatLinkExtension.cs" />
+    <Compile Include="Extensions\ItemDescriptionStringExtension.cs" />
     <Compile Include="Interfaces\ITemplateContainer.cs" />
     <Compile Include="Models\GameModeType.cs" />
     <Compile Include="Models\GearArrayIndex.cs" />

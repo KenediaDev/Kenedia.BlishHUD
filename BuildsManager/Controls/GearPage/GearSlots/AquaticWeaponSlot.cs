@@ -21,10 +21,10 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage.GearSlots
 {
     public class AquaticWeaponSlot : GearSlot
     {
-        private readonly DetailedTexture _sigil1SlotTexture = new() { Texture = AsyncTexture2D.FromAssetId(784324), TextureRegion = new(37, 37, 54, 54), };
-        private readonly DetailedTexture _sigil2SlotTexture = new() { Texture = AsyncTexture2D.FromAssetId(784324), TextureRegion = new(37, 37, 54, 54), };
-        private readonly DetailedTexture _infusion1SlotTexture = new() { TextureRegion = new(37, 37, 54, 54) };
-        private readonly DetailedTexture _infusion2SlotTexture = new() { TextureRegion = new(37, 37, 54, 54) };
+        private readonly ItemControl _infusion1Control = new(new() { TextureRegion = new(38, 38, 52, 52) });
+        private readonly ItemControl _infusion2Control = new(new() { TextureRegion = new(38, 38, 52, 52) });
+        private readonly ItemControl _sigil1Control = new(new(784324) { TextureRegion = new(38, 38, 52, 52) });
+        private readonly ItemControl _sigil2Control = new(new(784324) { TextureRegion = new(38, 38, 52, 52) });
 
         private readonly DetailedTexture _changeWeaponTexture = new(2338896, 2338895)
         {
@@ -34,12 +34,6 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage.GearSlots
         };
 
         private readonly DetailedTexture _statTexture = new() { };
-
-        private readonly ItemTexture _sigil1Texture = new() { };
-        private readonly ItemTexture _sigil2Texture = new() { };
-
-        private readonly ItemTexture _infusion1Texture = new() { };
-        private readonly ItemTexture _infusion2Texture = new() { };
 
         private Stat _stat;
         private Sigil _sigil1;
@@ -54,8 +48,13 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage.GearSlots
 
         public AquaticWeaponSlot(TemplateSlotType gearSlot, Container parent, TemplatePresenter templatePresenter) : base(gearSlot, parent, templatePresenter)
         {
-            _infusion1SlotTexture.Texture = BuildsManager.ModuleInstance.ContentsManager.GetTexture(@"textures\infusionslot.png");
-            _infusion2SlotTexture.Texture = BuildsManager.ModuleInstance.ContentsManager.GetTexture(@"textures\infusionslot.png");
+            _infusion1Control.Placeholder.Texture = BuildsManager.ModuleInstance.ContentsManager.GetTexture(@"textures\infusionslot.png");
+            _infusion2Control.Placeholder.Texture = BuildsManager.ModuleInstance.ContentsManager.GetTexture(@"textures\infusionslot.png");
+
+            _sigil1Control.Parent = this;
+            _sigil2Control.Parent = this;
+            _infusion1Control.Parent = this;
+            _infusion2Control.Parent = this;
         }
 
         public Stat Stat { get => _stat; set => Common.SetProperty(ref _stat, value, OnStatChanged); }
@@ -150,34 +149,26 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage.GearSlots
         {
             base.RecalculateLayout();
 
-            int upgradeSize = (Icon.Bounds.Size.Y - 4) / 2;
-            int iconPadding = 0;
+            int upgradeSize = (ItemControl.LocalBounds.Size.Y - 4) / 2;
             int textPadding = Slot is TemplateSlotType.AquaBreather ? upgradeSize + 5 : 5;
 
             int size = Math.Min(Width, Height);
-            int padding = 3;
-            _statTexture.Bounds = new(Icon.Bounds.Center.Add(new Point(-padding, -padding)), new((size - (padding * 2)) / 2));
-            _changeWeaponTexture.Bounds = new(new(Icon.Bounds.Left + padding, padding), new((int)((size - (padding * 2)) / 2.5)));
+            int padding = 2;
+            _changeWeaponTexture.Bounds = new(new(ItemControl.LocalBounds.Left + padding, padding), new((int)((size - (padding * 2)) / 2.5)));
 
-            _sigil1SlotTexture.Bounds = new(Icon.Bounds.Right + 2 + iconPadding, 0, upgradeSize, upgradeSize);
-            _sigil1Texture.Bounds = _sigil1SlotTexture.Bounds;
+            _sigil1Control.SetBounds(new(ItemControl.Right + padding, 0, upgradeSize, upgradeSize));
+            _sigil2Control.SetBounds(new(ItemControl.Right + padding + upgradeSize + padding, 0, upgradeSize, upgradeSize));
 
-            _sigil2SlotTexture.Bounds = new(Icon.Bounds.Right + 2 + iconPadding + upgradeSize + 2, 0, upgradeSize, upgradeSize);
-            _sigil2Texture.Bounds = _sigil2SlotTexture.Bounds;
+            _infusion1Control.SetBounds(new(ItemControl.Right + padding, ItemControl.Bottom - upgradeSize, upgradeSize, upgradeSize));
+            _infusion2Control.SetBounds(new(ItemControl.Right + padding + upgradeSize + padding, ItemControl.Bottom - upgradeSize, upgradeSize, upgradeSize));
 
-            _infusion1SlotTexture.Bounds = new(Icon.Bounds.Right + 2 + iconPadding, _sigil1SlotTexture.Bounds.Bottom + 4, upgradeSize, upgradeSize);
-            _infusion1Texture.Bounds = _infusion1SlotTexture.Bounds;
+            int upgradeWidth = (Width - (_sigil2Control.Right + 2)) / 2;
+            int x = _sigil2Control.Right + textPadding + 4;
+            _sigil1Bounds = new(x, _sigil1Control.Top, upgradeWidth, _sigil1Control.Height);
+            _sigil2Bounds = new(x + upgradeWidth, _sigil1Control.Top, upgradeWidth, _sigil1Control.Height);
 
-            _infusion2SlotTexture.Bounds = new(Icon.Bounds.Right + 2 + iconPadding + upgradeSize + 2, _sigil1SlotTexture.Bounds.Bottom + 4, upgradeSize, upgradeSize);
-            _infusion2Texture.Bounds = _infusion2SlotTexture.Bounds;
-
-            int upgradeWidth = (Width - (_sigil2SlotTexture.Bounds.Right + 2)) / 2;
-            int x = _sigil2SlotTexture.Bounds.Right + textPadding + 4;
-            _sigil1Bounds = new(x, _sigil1SlotTexture.Bounds.Top, upgradeWidth, _sigil1SlotTexture.Bounds.Height);
-            _sigil2Bounds = new(x + upgradeWidth, _sigil1SlotTexture.Bounds.Top, upgradeWidth, _sigil1SlotTexture.Bounds.Height);
-
-            _infusion1Bounds = new(x, _infusion1SlotTexture.Bounds.Top, upgradeWidth, _infusion1SlotTexture.Bounds.Height);
-            _infusion2Bounds = new(x + upgradeWidth, _infusion1SlotTexture.Bounds.Top, upgradeWidth, _infusion1SlotTexture.Bounds.Height);
+            _infusion1Bounds = new(x, _infusion1Control.Top, upgradeWidth, _infusion1Control.Height);
+            _infusion2Bounds = new(x + upgradeWidth, _infusion1Control.Top, upgradeWidth, _infusion1Control.Height);
         }
 
         public void SelectWeapon(Weapon item)
@@ -195,22 +186,10 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage.GearSlots
 
             if (TemplatePresenter.IsPve != false)
             {
-                _statTexture.Draw(this, spriteBatch);
                 _changeWeaponTexture.Draw(this, spriteBatch, RelativeMousePosition);
-                _sigil1SlotTexture.Draw(this, spriteBatch, RelativeMousePosition);
-                _sigil2SlotTexture.Draw(this, spriteBatch, RelativeMousePosition);
-
-                _sigil1Texture.Draw(this, spriteBatch, RelativeMousePosition);
-                _sigil2Texture.Draw(this, spriteBatch, RelativeMousePosition);
 
                 spriteBatch.DrawStringOnCtrl(this, GetDisplayString(Sigil1?.DisplayText ?? string.Empty), UpgradeFont, _sigil1Bounds, UpgradeColor, false, HorizontalAlignment.Left, VerticalAlignment.Middle);
                 spriteBatch.DrawStringOnCtrl(this, GetDisplayString(Sigil2?.DisplayText ?? string.Empty), UpgradeFont, _sigil2Bounds, UpgradeColor, false, HorizontalAlignment.Left, VerticalAlignment.Middle);
-
-                _infusion1SlotTexture.Draw(this, spriteBatch, RelativeMousePosition);
-                _infusion2SlotTexture.Draw(this, spriteBatch, RelativeMousePosition);
-
-                _infusion1Texture.Draw(this, spriteBatch, RelativeMousePosition);
-                _infusion2Texture.Draw(this, spriteBatch, RelativeMousePosition);
 
                 spriteBatch.DrawStringOnCtrl(this, GetDisplayString(Infusion1?.DisplayText ?? string.Empty), InfusionFont, _infusion1Bounds, InfusionColor, true, HorizontalAlignment.Left, VerticalAlignment.Middle);
                 spriteBatch.DrawStringOnCtrl(this, GetDisplayString(Infusion2?.DisplayText ?? string.Empty), InfusionFont, _infusion2Bounds, InfusionColor, true, HorizontalAlignment.Left, VerticalAlignment.Middle);
@@ -237,9 +216,9 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage.GearSlots
 
             var a = AbsoluteBounds;
 
-            if (Icon.Hovered)
+            if (ItemControl.MouseOver)
             {
-                SelectionPanel?.SetAnchor<Stat>(this, new Rectangle(a.Location, Point.Zero).Add(Icon.Bounds), SelectionTypes.Stats, Slot, GearSubSlotType.None, (stat) =>
+                SelectionPanel?.SetAnchor<Stat>(this, new Rectangle(a.Location, Point.Zero).Add(ItemControl.LocalBounds), SelectionTypes.Stats, Slot, GearSubSlotType.None, (stat) =>
                 {
                     (TemplatePresenter?.Template[Slot] as AquaticWeaponTemplateEntry).Stat = stat;
                     Stat = stat;
@@ -248,36 +227,36 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage.GearSlots
                 (TemplatePresenter?.Template[Slot] as AquaticWeaponTemplateEntry).Weapon?.AttributeAdjustment);
             }
 
-            if (_sigil1SlotTexture.Hovered)
+            if (_sigil1Control.MouseOver)
             {
-                SelectionPanel?.SetAnchor<Sigil>(this, new Rectangle(a.Location, Point.Zero).Add(_sigil1SlotTexture.Bounds), SelectionTypes.Items, Slot, GearSubSlotType.Sigil, (sigil) =>
+                SelectionPanel?.SetAnchor<Sigil>(this, new Rectangle(a.Location, Point.Zero).Add(_sigil1Control.LocalBounds), SelectionTypes.Items, Slot, GearSubSlotType.Sigil, (sigil) =>
                 {
                     (TemplatePresenter?.Template[Slot] as AquaticWeaponTemplateEntry).Sigil1 = sigil;
                     Sigil1 = sigil;
                 });
             }
 
-            if (_infusion1SlotTexture.Hovered)
+            if (_infusion1Control.MouseOver)
             {
-                SelectionPanel?.SetAnchor<Infusion>(this, new Rectangle(a.Location, Point.Zero).Add(_infusion1SlotTexture.Bounds), SelectionTypes.Items, Slot, GearSubSlotType.Infusion, (infusion) =>
+                SelectionPanel?.SetAnchor<Infusion>(this, new Rectangle(a.Location, Point.Zero).Add(_infusion1Control.LocalBounds), SelectionTypes.Items, Slot, GearSubSlotType.Infusion, (infusion) =>
                 {
                     (TemplatePresenter?.Template[Slot] as AquaticWeaponTemplateEntry).Infusion1 = infusion;
                     Infusion1 = infusion;
                 });
             }
 
-            if (_sigil2SlotTexture.Hovered)
+            if (_sigil2Control.MouseOver)
             {
-                SelectionPanel?.SetAnchor<Sigil>(this, new Rectangle(a.Location, Point.Zero).Add(_sigil2SlotTexture.Bounds), SelectionTypes.Items, Slot, GearSubSlotType.Sigil, (sigil) =>
+                SelectionPanel?.SetAnchor<Sigil>(this, new Rectangle(a.Location, Point.Zero).Add(_sigil2Control.LocalBounds), SelectionTypes.Items, Slot, GearSubSlotType.Sigil, (sigil) =>
                 {
                     (TemplatePresenter?.Template[Slot] as AquaticWeaponTemplateEntry).Sigil2 = sigil;
                     Sigil2 = sigil;
                 });
             }
 
-            if (_infusion2SlotTexture.Hovered)
+            if (_infusion2Control.MouseOver)
             {
-                SelectionPanel?.SetAnchor<Infusion>(this, new Rectangle(a.Location, Point.Zero).Add(_infusion2SlotTexture.Bounds), SelectionTypes.Items, Slot, GearSubSlotType.Infusion, (infusion) =>
+                SelectionPanel?.SetAnchor<Infusion>(this, new Rectangle(a.Location, Point.Zero).Add(_infusion2Control.LocalBounds), SelectionTypes.Items, Slot, GearSubSlotType.Infusion, (infusion) =>
                 {
                     (TemplatePresenter?.Template[Slot] as AquaticWeaponTemplateEntry).Infusion2 = infusion;
                     Infusion2 = infusion;
@@ -286,7 +265,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage.GearSlots
 
             if (_changeWeaponTexture.Hovered)
             {
-                SelectionPanel?.SetAnchor<Weapon>(this, new Rectangle(a.Location, Point.Zero).Add(Icon.Bounds), SelectionTypes.Items, Slot, GearSubSlotType.Item, (item) =>
+                SelectionPanel?.SetAnchor<Weapon>(this, new Rectangle(a.Location, Point.Zero).Add(ItemControl.LocalBounds), SelectionTypes.Items, Slot, GearSubSlotType.Item, (item) =>
                 {
                     (TemplatePresenter?.Template[Slot] as AquaticWeaponTemplateEntry).Weapon = item;
                     Item = item;
@@ -369,22 +348,22 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage.GearSlots
 
         private void OnSigil2Changed(object sender, Core.Models.ValueChangedEventArgs<Sigil> e)
         {
-            _sigil2Texture.Texture = Sigil2?.Icon;
+            _sigil2Control.Item = Sigil2;
         }
 
         private void OnSigil1Changed(object sender, Core.Models.ValueChangedEventArgs<Sigil> e)
         {
-            _sigil1Texture.Texture = Sigil1?.Icon;
+            _sigil1Control.Item = Sigil1;
         }
 
         private void OnInfusion1Changed(object sender, Core.Models.ValueChangedEventArgs<Infusion> e)
         {
-            _infusion1Texture.Texture = Infusion1?.Icon;
+            _infusion1Control.Item = Infusion1;
         }
 
         private void OnInfusion2Changed(object sender, Core.Models.ValueChangedEventArgs<Infusion> e)
         {
-            _infusion2Texture.Texture = Infusion2?.Icon;
+            _infusion2Control.Item = Infusion2;
         }
     }
 }

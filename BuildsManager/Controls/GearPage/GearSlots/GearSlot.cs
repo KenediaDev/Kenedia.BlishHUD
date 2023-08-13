@@ -20,7 +20,6 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage.GearSlots
 {
     public class GearSlot : Container
     {
-        protected readonly DetailedTexture Icon = new() { TextureRegion = new(37, 37, 54, 54) };
         private TemplateSlotType _slot = TemplateSlotType.None;
 
         protected int MaxTextLength = 52;
@@ -67,7 +66,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage.GearSlots
         {
             base.PaintBeforeChildren(spriteBatch, bounds);
 
-            Icon.Draw(this, spriteBatch, RelativeMousePosition);
+            //Icon.Draw(this, spriteBatch, RelativeMousePosition);
         }
 
         protected override void OnClick(MouseEventArgs e)
@@ -105,7 +104,8 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage.GearSlots
 
             if (assetIds.TryGetValue(Slot, out int assetId))
             {
-                Icon.Texture = AsyncTexture2D.FromAssetId(assetId);
+                ItemControl.Placeholder.Texture = AsyncTexture2D.FromAssetId(assetId);
+                ItemControl.Placeholder.TextureRegion = new(38, 38, 52, 52);
             }
 
             if(Slot.IsArmor()  || Slot.IsWeapon() || Slot.IsJuwellery())
@@ -126,7 +126,6 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage.GearSlots
             base.RecalculateLayout();
 
             int size = Math.Min(Width, Height);
-            Icon.Bounds = new(0, 0, size, size);
             ItemControl.Location = AbsoluteBounds.Location;
             ItemControl.Size = new(size);
             //ItemTexture.Bounds = new(0, 0, size, size);

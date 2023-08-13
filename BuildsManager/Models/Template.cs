@@ -53,6 +53,8 @@ namespace Kenedia.Modules.BuildsManager.Models
 
         public event EventHandler? LoadedBuildFromCode;
 
+        public event ValueChangedEventHandler<string>? NameChanged;
+
         public event ValueChangedEventHandler<TemplateFlag>? TagsChanged;
 
         public event ValueChangedEventHandler<EncounterFlag>? EncountersChanged;
@@ -163,7 +165,7 @@ namespace Kenedia.Modules.BuildsManager.Models
         public EncounterFlag Encounters { get => _encounters; set => Common.SetProperty(ref _encounters, value, OnEncountersChanged, _triggerEvents); }
 
         [DataMember]
-        public string Name { get => _name; set => Common.SetProperty(ref _name, value, AutoSave, _triggerEvents); }
+        public string Name { get => _name; set => Common.SetProperty(ref _name, value, OnNameChanged, _triggerEvents); }
 
         [DataMember]
         public string Description { get => _description; set => Common.SetProperty(ref _description, value, AutoSave, _triggerEvents); }
@@ -379,6 +381,12 @@ namespace Kenedia.Modules.BuildsManager.Models
                         break;
                 }
             }
+        }
+
+        private void OnNameChanged(object sender, ValueChangedEventArgs<string> e)
+        {
+            AutoSave();
+            NameChanged?.Invoke(this, e);
         }
 
         private async void OnGearChanged(object sender, EventArgs e)

@@ -23,10 +23,6 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage.GearSlots
 {
     public class WeaponSlot : GearSlot
     {
-        private readonly DetailedTexture _sigilSlotTexture = new() { Texture = AsyncTexture2D.FromAssetId(784324), TextureRegion = new(37, 37, 54, 54), };
-        private readonly DetailedTexture _pvpSigilSlotTexture = new() { Texture = AsyncTexture2D.FromAssetId(784324), TextureRegion = new(37, 37, 54, 54), };
-        private readonly DetailedTexture _infusionSlotTexture = new() { TextureRegion = new(37, 37, 54, 54) };
-
         private readonly DetailedTexture _changeWeaponTexture = new(2338896, 2338895)
         {
             TextureRegion = new(4, 4, 24, 24),
@@ -34,11 +30,9 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage.GearSlots
             HoverDrawColor = Color.White,
         };
 
-        private readonly DetailedTexture _statTexture = new() { };
-
-        private readonly ItemTexture _sigilTexture = new() { };
-        private readonly ItemTexture _pvpSigilTexture = new() { };
-        private readonly ItemTexture _infusionTexture = new() { };
+        private readonly ItemControl _sigilControl = new(new(784324) { TextureRegion = new(38, 38, 52, 52) });
+        private readonly ItemControl _pvpSigilControl = new(new(784324) { TextureRegion = new(38, 38, 52, 52) }) { Visible = false };
+        private readonly ItemControl _infusionControl = new(new() { TextureRegion = new(38, 38, 52, 52) });
 
         private Stat _stat;
         private Sigil _sigil;
@@ -51,7 +45,13 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage.GearSlots
 
         public WeaponSlot(TemplateSlotType gearSlot, Container parent, TemplatePresenter templatePresenter) : base(gearSlot, parent, templatePresenter)
         {
-            _infusionSlotTexture.Texture = BuildsManager.ModuleInstance.ContentsManager.GetTexture(@"textures\infusionslot.png");
+            _infusionControl.Placeholder.Texture = BuildsManager.ModuleInstance.ContentsManager.GetTexture(@"textures\infusionslot.png");
+
+            _sigilControl.Parent = this;
+            _pvpSigilControl.Parent = this;
+            _infusionControl.Parent = this;
+
+            TemplatePresenter.GameModeChanged += TemplatePresenter_GameModeChanged;
         }
 
         public Stat Stat { get => _stat; set => Common.SetProperty(ref _stat, value, OnStatChanged); }
@@ -63,6 +63,22 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage.GearSlots
         public Infusion Infusion { get => _infusion; set => Common.SetProperty(ref _infusion, value, OnInfusionChanged); }
 
         public WeaponSlot OtherHandSlot { get; set; }
+                
+        private void TemplatePresenter_GameModeChanged(object sender, Core.Models.ValueChangedEventArgs<GameModeType> e)
+        {
+            if (e.NewValue == GameModeType.PvP)
+            {
+                _sigilControl.Visible = false;
+                _infusionControl.Visible = false;
+                _pvpSigilControl.Visible = true;
+            }
+            else
+            {
+                _sigilControl.Visible = true;
+                _infusionControl.Visible = true;
+                _pvpSigilControl.Visible = false;
+            }
+        }
 
         private void SetGroupStat(Stat stat = null, bool overrideExisting = false)
         {
@@ -163,29 +179,25 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage.GearSlots
         {
             base.RecalculateLayout();
 
-            int upgradeSize = (Icon.Bounds.Size.Y - 4) / 2;
+            int upgradeSize = (ItemControl.LocalBounds.Size.Y - 4) / 2;
             int iconPadding = Slot is TemplateSlotType.OffHand or TemplateSlotType.AltOffHand ? 7 : 0;
             int textPadding = Slot is TemplateSlotType.OffHand or TemplateSlotType.AltOffHand ? 8 : 5;
 
-            int size = Math.Min(Width, Height);
-            int padding = 3;
-            _changeWeaponTexture.Bounds = new(new(Icon.Bounds.Left + padding, padding), new((int)((size - (padding * 2)) / 2.5)));
-            _statTexture.Bounds = new(Icon.Bounds.Center.Add(new Point(-padding, -padding)), new((size - (padding * 2)) / 2));
-
-            _sigilSlotTexture.Bounds = new(Icon.Bounds.Right + 2 + iconPadding, 0, upgradeSize, upgradeSize);
-            _sigilTexture.Bounds = _sigilSlotTexture.Bounds;
-
             int pvpUpgradeSize = 48;
-            _pvpSigilSlotTexture.Bounds = new(Icon.Bounds.Right + 2 + 5 + iconPadding, (Icon.Bounds.Height - pvpUpgradeSize) / 2, pvpUpgradeSize, pvpUpgradeSize);
-            _pvpSigilTexture.Bounds = _pvpSigilSlotTexture.Bounds;
-            _pvpSigilBounds = new(_pvpSigilSlotTexture.Bounds.Right + 10, _pvpSigilTexture.Bounds.Top, Width - (_pvpSigilTexture.Bounds.Right + 2), _pvpSigilTexture.Bounds.Height);
+            int size = Math.Min(Width, Height);
+            int padding = 2;
+            _changeWeaponTexture.Bounds = new(new(ItemControl.LocalBounds.Left + padding, padding), new((int)((size - (padding * 2)) / 2.5)));
 
-            _infusionSlotTexture.Bounds = new(Icon.Bounds.Right + 2 + iconPadding, _sigilSlotTexture.Bounds.Bottom + 4, upgradeSize, upgradeSize);
-            _infusionTexture.Bounds = _infusionSlotTexture.Bounds;
+            _sigilControl.SetBounds(new(ItemControl.Right + padding, 0, upgradeSize, upgradeSize));
+            _infusionControl.SetBounds(new(ItemControl.Right + padding, ItemControl.Bottom - upgradeSize, upgradeSize, upgradeSize));
 
-            int x = _sigilSlotTexture.Bounds.Right + textPadding + 4;
-            _sigilBounds = new(x, _sigilSlotTexture.Bounds.Top - 1, Width - x, _sigilSlotTexture.Bounds.Height);
-            _infusionBounds = new(x, _infusionSlotTexture.Bounds.Top, Width - x, _infusionSlotTexture.Bounds.Height);
+            _pvpSigilControl.SetBounds(new(ItemControl.LocalBounds.Right + 2 + 5 + iconPadding, (ItemControl.LocalBounds.Height - pvpUpgradeSize) / 2, pvpUpgradeSize, pvpUpgradeSize));
+
+            _pvpSigilBounds = new(_pvpSigilControl.Right + 10, _pvpSigilControl.Top, Width - (_pvpSigilControl.Right + 2), _pvpSigilControl.Height);
+
+            int x = _sigilControl.Right + textPadding + 4;
+            _sigilBounds = new(x, _sigilControl.Top - 1, Width - x, _sigilControl.Height);
+            _infusionBounds = new(x, _infusionControl.Top, Width - x, _infusionControl.Height);
         }
 
         public override void PaintAfterChildren(SpriteBatch spriteBatch, Rectangle bounds)
@@ -194,20 +206,13 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage.GearSlots
 
             if (TemplatePresenter.IsPve != false)
             {
-                _statTexture.Draw(this, spriteBatch);
                 _changeWeaponTexture.Draw(this, spriteBatch, RelativeMousePosition);
-                _sigilSlotTexture.Draw(this, spriteBatch, RelativeMousePosition);
-                _sigilTexture.Draw(this, spriteBatch, RelativeMousePosition);
-                spriteBatch.DrawStringOnCtrl(this, GetDisplayString(Sigil?.DisplayText ?? string.Empty), UpgradeFont, _sigilBounds, UpgradeColor, false, HorizontalAlignment.Left, VerticalAlignment.Middle);
 
-                _infusionSlotTexture.Draw(this, spriteBatch, RelativeMousePosition);
-                _infusionTexture.Draw(this, spriteBatch, RelativeMousePosition);
+                spriteBatch.DrawStringOnCtrl(this, GetDisplayString(Sigil?.DisplayText ?? string.Empty), UpgradeFont, _sigilBounds, UpgradeColor, false, HorizontalAlignment.Left, VerticalAlignment.Middle);
                 spriteBatch.DrawStringOnCtrl(this, GetDisplayString(Infusion?.DisplayText ?? string.Empty), InfusionFont, _infusionBounds, InfusionColor, true, HorizontalAlignment.Left, VerticalAlignment.Middle);
             }
             else if (TemplatePresenter.IsPvp)
             {
-                _pvpSigilSlotTexture.Draw(this, spriteBatch, RelativeMousePosition);
-                _pvpSigilTexture.Draw(this, spriteBatch, RelativeMousePosition);
                 spriteBatch.DrawStringOnCtrl(this, GetDisplayString(PvpSigil?.DisplayText ?? string.Empty), UpgradeFont, _pvpSigilBounds, UpgradeColor, false, HorizontalAlignment.Left, VerticalAlignment.Middle);
             }
         }
@@ -230,9 +235,9 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage.GearSlots
 
             var a = AbsoluteBounds;
 
-            if (Icon.Hovered && TemplatePresenter.IsPve)
+            if (ItemControl.MouseOver && TemplatePresenter.IsPve)
             {
-                SelectionPanel?.SetAnchor<Stat>(this, new Rectangle(a.Location, Point.Zero).Add(Icon.Bounds), SelectionTypes.Stats, Slot, GearSubSlotType.None, (stat) =>
+                SelectionPanel?.SetAnchor<Stat>(this, new Rectangle(a.Location, Point.Zero).Add(ItemControl.LocalBounds), SelectionTypes.Stats, Slot, GearSubSlotType.None, (stat) =>
                 {
                     (TemplatePresenter?.Template[Slot] as WeaponTemplateEntry).Stat = stat;
                     Stat = stat;
@@ -240,36 +245,36 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage.GearSlots
                 (TemplatePresenter?.Template[Slot] as WeaponTemplateEntry).Weapon?.AttributeAdjustment);
             }
 
-            if (_pvpSigilSlotTexture.Hovered)
+            if (_pvpSigilControl.MouseOver)
             {
-                SelectionPanel?.SetAnchor<Sigil>(this, new Rectangle(a.Location, Point.Zero).Add(_pvpSigilSlotTexture.Bounds), SelectionTypes.Items, Slot, GearSubSlotType.Sigil, (sigil) =>
+                SelectionPanel?.SetAnchor<Sigil>(this, new Rectangle(a.Location, Point.Zero).Add(_pvpSigilControl.LocalBounds), SelectionTypes.Items, Slot, GearSubSlotType.Sigil, (sigil) =>
                 {
                     (TemplatePresenter?.Template[Slot] as WeaponTemplateEntry).PvpSigil = sigil;
                     PvpSigil = sigil;
                 });
             }
 
-            if (_sigilSlotTexture.Hovered)
+            if (_sigilControl.MouseOver)
             {
-                SelectionPanel?.SetAnchor<Sigil>(this, new Rectangle(a.Location, Point.Zero).Add(_sigilSlotTexture.Bounds), SelectionTypes.Items, Slot, GearSubSlotType.Sigil, (sigil) =>
+                SelectionPanel?.SetAnchor<Sigil>(this, new Rectangle(a.Location, Point.Zero).Add(_sigilControl.LocalBounds), SelectionTypes.Items, Slot, GearSubSlotType.Sigil, (sigil) =>
                 {
                     (TemplatePresenter?.Template[Slot] as WeaponTemplateEntry).Sigil = sigil;
                     Sigil = sigil;
                 });
             }
 
-            if (_infusionSlotTexture.Hovered)
+            if (_infusionControl.MouseOver)
             {
-                SelectionPanel?.SetAnchor<Infusion>(this, new Rectangle(a.Location, Point.Zero).Add(_infusionSlotTexture.Bounds), SelectionTypes.Items, Slot, GearSubSlotType.Infusion, (infusion) =>
+                SelectionPanel?.SetAnchor<Infusion>(this, new Rectangle(a.Location, Point.Zero).Add(_infusionControl.LocalBounds), SelectionTypes.Items, Slot, GearSubSlotType.Infusion, (infusion) =>
                 {
                     (TemplatePresenter?.Template[Slot] as WeaponTemplateEntry).Infusion = infusion;
                     Infusion = infusion;
                 });
             }
 
-            if (_changeWeaponTexture.Hovered || (Icon.Hovered && TemplatePresenter.IsPvp))
+            if (_changeWeaponTexture.Hovered || (ItemControl.MouseOver && TemplatePresenter.IsPvp))
             {
-                SelectionPanel?.SetAnchor<Weapon>(this, new Rectangle(a.Location, Point.Zero).Add(Icon.Bounds), SelectionTypes.Items, Slot, GearSubSlotType.Item, SelectWeapon);
+                SelectionPanel?.SetAnchor<Weapon>(this, new Rectangle(a.Location, Point.Zero).Add(ItemControl.LocalBounds), SelectionTypes.Items, Slot, GearSubSlotType.Item, SelectWeapon);
             }
         }
 
@@ -381,23 +386,22 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage.GearSlots
 
         private void OnStatChanged(object sender, Core.Models.ValueChangedEventArgs<Stat> e)
         {
-            _statTexture.Texture = Stat?.Icon;
             ItemControl.Stat = Stat;
         }
 
         private void OnSigilChanged(object sender, Core.Models.ValueChangedEventArgs<Sigil> e)
         {
-            _sigilTexture.Texture = Sigil?.Icon;
+            _sigilControl.Item = Sigil;
         }
 
         private void OnPvpSigilChanged(object sender, Core.Models.ValueChangedEventArgs<Sigil> e)
         {
-            _pvpSigilTexture.Texture = PvpSigil?.Icon;
+            _pvpSigilControl.Item = PvpSigil;
         }
 
         private void OnInfusionChanged(object sender, Core.Models.ValueChangedEventArgs<Infusion> e)
         {
-            _infusionTexture.Texture = Infusion?.Icon;
+            _infusionControl.Item = Infusion;
         }
     }
 }

@@ -12,6 +12,7 @@ using Kenedia.Modules.Core.Extensions;
 using Kenedia.Modules.BuildsManager.Extensions;
 using Kenedia.Modules.BuildsManager.TemplateEntries;
 using static Kenedia.Modules.BuildsManager.Controls.Selection.SelectionPanel;
+using Blish_HUD.Content;
 
 namespace Kenedia.Modules.BuildsManager.Controls.GearPage.GearSlots
 {
@@ -22,7 +23,8 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage.GearSlots
 
         public NourishmentSlot(TemplateSlotType gearSlot, Container parent, TemplatePresenter templatePresenter) : base(gearSlot, parent, templatePresenter)
         {
-            Icon.Texture = BuildsManager.ModuleInstance.ContentsManager.GetTexture(@"textures\foodslot.png");
+            ItemControl.Placeholder.Texture = BuildsManager.ModuleInstance.ContentsManager.GetTexture(@"textures\foodslot.png");
+            ItemControl.Placeholder.TextureRegion = new(38, 38, 52, 52);
             ItemColor = Color.White;
         }
 
@@ -30,8 +32,8 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage.GearSlots
         {
             base.RecalculateLayout();
 
-            _titleBounds = new(Icon.Bounds.Right + 10, Icon.Bounds.Top + 2, Width - Icon.Bounds.Left - 20, Content.DefaultFont16.LineHeight);
-            _statBounds = new(Icon.Bounds.Right + 10, _titleBounds.Bottom + 2, Width - Icon.Bounds.Left - 20, Content.DefaultFont12.LineHeight);
+            _titleBounds = new(ItemControl.LocalBounds.Right + 10, ItemControl.LocalBounds.Top + 2, Width - ItemControl.LocalBounds.Left - 20, Content.DefaultFont16.LineHeight);
+            _statBounds = new(ItemControl.LocalBounds.Right + 10, _titleBounds.Bottom + 2, Width - ItemControl.LocalBounds.Left - 20, Content.DefaultFont12.LineHeight);
         }
 
         public override void PaintAfterChildren(SpriteBatch spriteBatch, Rectangle bounds)
@@ -48,9 +50,9 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage.GearSlots
 
             var a = AbsoluteBounds;
 
-            if (Icon.Hovered)
+            if (ItemControl.MouseOver)
             {
-                SelectionPanel?.SetAnchor<Nourishment>(this, new Rectangle(a.Location, Point.Zero).Add(Icon.Bounds), SelectionTypes.Items, Slot, GearSubSlotType.Item, (nourishment) =>
+                SelectionPanel?.SetAnchor<Nourishment>(this, new Rectangle(a.Location, Point.Zero).Add(ItemControl.LocalBounds), SelectionTypes.Items, Slot, GearSubSlotType.Item, (nourishment) =>
                 {
                     (TemplatePresenter?.Template[Slot] as NourishmentTemplateEntry).Nourishment = nourishment;
                     Item = nourishment;

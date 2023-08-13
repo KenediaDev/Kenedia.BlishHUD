@@ -39,6 +39,8 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
 
         public Action<object> OnClickAction { get; set; }
 
+        public FlowPanel SelectionContainer => SelectionContent;
+
         public Rectangle SelectionBounds => new(SelectionContent.LocalBounds.Location, SelectionContent.ContentRegion.Size);
 
         protected virtual void OnSelectionContent_Resized(object sender, Blish_HUD.Controls.ResizedEventArgs e)

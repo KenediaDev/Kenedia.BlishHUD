@@ -49,5 +49,11 @@ namespace Kenedia.Modules.Core.Extensions
         {
             c.Size = size;
         }
+
+        public static void SetBounds(this Control c, Rectangle bounds)
+        {
+            c.SetLocation(bounds.Location);
+            c.SetSize(bounds.Size);
+        }
     }
 }

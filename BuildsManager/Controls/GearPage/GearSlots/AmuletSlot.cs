@@ -18,18 +18,17 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage.GearSlots
 {
     public class AmuletSlot : GearSlot
     {
-        private readonly DetailedTexture _enrichmentSlotTexture = new() { TextureRegion = new(37, 37, 54, 54) };
-        private readonly DetailedTexture _statTexture = new() { };
-
-        private readonly ItemTexture _enrichmentTexture = new() { };
+        private readonly ItemControl _enrichmentControl = new(new() { TextureRegion = new(38, 38, 52, 52) });
 
         private Stat _stat;
         private Enrichment _enrichment;
 
         public AmuletSlot(TemplateSlotType gearSlot, Container parent, TemplatePresenter templatePresenter) : base(gearSlot, parent, templatePresenter)
         {
-            _enrichmentSlotTexture.Texture = BuildsManager.ModuleInstance.ContentsManager.GetTexture(@"textures\infusionslot.png");
+            _enrichmentControl.Placeholder.Texture = BuildsManager.ModuleInstance.ContentsManager.GetTexture(@"textures\infusionslot.png");
             ItemControl.Item = BuildsManager.Data.Trinkets[79980];
+
+            _enrichmentControl.Parent = this;
         }
 
         public Stat Stat { get => _stat; set => Common.SetProperty(ref _stat, value, OnStatChanged); }
@@ -40,23 +39,8 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage.GearSlots
         {
             base.RecalculateLayout();
 
-            int size = Math.Min(Width, Height);
-            int padding = 3;
-            _statTexture.Bounds = new(Icon.Bounds.Center.Add(new Point(-padding, -padding)), new((size - (padding * 2)) / 2));
-
-            int infusionSize = (Icon.Bounds.Size.Y - 4) / 3;
-
-            _enrichmentSlotTexture.Bounds = new(Icon.Bounds.Right + 2, Icon.Bounds.Top, infusionSize, infusionSize);
-            _enrichmentTexture.Bounds = _enrichmentSlotTexture.Bounds;
-        }
-
-        public override void PaintAfterChildren(SpriteBatch spriteBatch, Rectangle bounds)
-        {
-            base.PaintAfterChildren(spriteBatch, bounds);
-            _statTexture.Draw(this, spriteBatch);
-
-            _enrichmentSlotTexture.Draw(this, spriteBatch, RelativeMousePosition);
-            _enrichmentTexture.Draw(this, spriteBatch, RelativeMousePosition);
+            int infusionSize = (ItemControl.LocalBounds.Size.Y - 4) / 3;
+            _enrichmentControl.SetBounds(new(ItemControl.LocalBounds.Right + 1, ItemControl.LocalBounds.Top, infusionSize, infusionSize));
         }
 
         protected override void SetItems(object sender, EventArgs e)
@@ -75,9 +59,9 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage.GearSlots
 
             var a = AbsoluteBounds;
 
-            if (Icon.Hovered)
+            if (ItemControl.MouseOver)
             {
-                SelectionPanel?.SetAnchor<Stat>(this, new Rectangle(a.Location, Point.Zero).Add(Icon.Bounds), SelectionTypes.Stats, Slot, GearSubSlotType.None, (stat) =>
+                SelectionPanel?.SetAnchor<Stat>(this, new Rectangle(a.Location, Point.Zero).Add(ItemControl.LocalBounds), SelectionTypes.Stats, Slot, GearSubSlotType.None, (stat) =>
                 {
                     (TemplatePresenter?.Template[Slot] as AmuletTemplateEntry).Stat = stat;
                     Stat = stat;
@@ -85,9 +69,9 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage.GearSlots
                 (TemplatePresenter?.Template[Slot] as AmuletTemplateEntry).Amulet?.AttributeAdjustment);
             }
 
-            if (_enrichmentSlotTexture.Hovered)
+            if (_enrichmentControl.MouseOver)
             {
-                SelectionPanel?.SetAnchor<Enrichment>(this, new Rectangle(a.Location, Point.Zero).Add(_enrichmentSlotTexture.Bounds), SelectionTypes.Items, Slot, GearSubSlotType.Enrichment, (enrichment) =>
+                SelectionPanel?.SetAnchor<Enrichment>(this, new Rectangle(a.Location, Point.Zero).Add(_enrichmentControl.LocalBounds), SelectionTypes.Items, Slot, GearSubSlotType.Enrichment, (enrichment) =>
                 {
                     (TemplatePresenter?.Template[Slot] as AmuletTemplateEntry).Enrichment = enrichment;
                     Enrichment = enrichment;
@@ -161,12 +145,11 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage.GearSlots
 
         private void OnEnrichmentChanged(object sender, Core.Models.ValueChangedEventArgs<Enrichment> e)
         {
-            _enrichmentTexture.Texture = Enrichment?.Icon;
+            _enrichmentControl.Item = Enrichment;
         }
 
         private void OnStatChanged(object sender, Core.Models.ValueChangedEventArgs<Stat> e)
         {
-            _statTexture.Texture = Stat?.Icon;
             ItemControl.Stat = Stat;
         }
     }

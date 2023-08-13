@@ -16,7 +16,9 @@ namespace Kenedia.Modules.Core.Views
     //TODO fix the version in title header
     public class StandardWindow : Blish_HUD.Controls.StandardWindow
     {
+        private Rectangle _subTitleRectangle;
         protected BitmapFont TitleFont = Content.DefaultFont32;
+        protected BitmapFont SubTitleFont = Content.DefaultFont18;
         private Rectangle _subEmblemRectangle;
         private Rectangle _mainEmblemRectangle;
         private Rectangle _titleTextRegion;
@@ -25,6 +27,7 @@ namespace Kenedia.Modules.Core.Views
         private string _name;
         protected BitmapFont VersionFont = Content.DefaultFont14;
         private SemVer.Version _version;
+        private string _subName;
         private readonly List<AnchoredContainer> _attachedContainers = new();
 
         public StandardWindow(AsyncTexture2D background, Rectangle windowRegion, Rectangle contentRegion) : base(background, windowRegion, contentRegion)
@@ -36,6 +39,8 @@ namespace Kenedia.Modules.Core.Views
         public SemVer.Version Version { get => _version; set => Common.SetProperty(ref _version, value, RecalculateLayout); }
 
         public string Name { get => _name; set => Common.SetProperty(ref _name, value, RecalculateLayout); }
+
+        public string SubName { get => _subName; set => Common.SetProperty(ref _subName, value, RecalculateLayout); }
 
         public AsyncTexture2D MainWindowEmblem { get; set; }
 
@@ -78,6 +83,14 @@ namespace Kenedia.Modules.Core.Views
                         break;
                     }
                 }
+            }
+
+            if (!string.IsNullOrEmpty(SubName))
+            {
+                var titleBounds = SubTitleFont.GetStringRectangle(SubName);
+                Rectangle subTitleRectangle = new(_titleRectangle.Right + 25, _titleRectangle.Top, (int)titleBounds.Width, _titleRectangle.Height);
+
+                _subTitleRectangle = subTitleRectangle;
             }
         }
 
@@ -140,6 +153,21 @@ namespace Kenedia.Modules.Core.Views
                     TitleFont,
                     _titleRectangle,
                     Colors.ColonialWhite,
+                    false,
+                    true,
+                    1,
+                    HorizontalAlignment.Left,
+                    VerticalAlignment.Middle);
+            }
+
+            if (_subTitleRectangle.Width <= _titleTextRegion.Width && !string.IsNullOrEmpty(SubName))
+            {
+                spriteBatch.DrawStringOnCtrl(
+                    this,
+                    SubName,
+                    SubTitleFont,
+                    _subTitleRectangle,
+                    Color.White,
                     false,
                     true,
                     1,

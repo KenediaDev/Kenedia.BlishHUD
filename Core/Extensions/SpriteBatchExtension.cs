@@ -45,10 +45,10 @@ namespace Kenedia.Modules.Core.Extensions
         public static void DrawFrame(this SpriteBatch spriteBatch, Control ctrl, Rectangle _selectorBounds, Color borderColor, int width = 1)
         {
             // Top
-            spriteBatch.DrawOnCtrl(ctrl, Textures.Pixel, new Rectangle(_selectorBounds.Left, _selectorBounds.Top, _selectorBounds.Width, width), Rectangle.Empty, borderColor * 0.8f);
+            spriteBatch.DrawOnCtrl(ctrl, Textures.Pixel, new Rectangle(_selectorBounds.Left + width, _selectorBounds.Top, _selectorBounds.Width - (width * 2), width), Rectangle.Empty, borderColor * 0.8f);
 
             // Bottom
-            spriteBatch.DrawOnCtrl(ctrl, Textures.Pixel, new Rectangle(_selectorBounds.Left, _selectorBounds.Bottom - width, _selectorBounds.Width, width), Rectangle.Empty, borderColor * 0.8f);
+            spriteBatch.DrawOnCtrl(ctrl, Textures.Pixel, new Rectangle(_selectorBounds.Left  + width, _selectorBounds.Bottom - width, _selectorBounds.Width - (width * 2), width), Rectangle.Empty, borderColor * 0.8f);
 
             // Left
             spriteBatch.DrawOnCtrl(ctrl, Textures.Pixel, new Rectangle(_selectorBounds.Left, _selectorBounds.Top, width, _selectorBounds.Height), Rectangle.Empty, borderColor * 0.8f);

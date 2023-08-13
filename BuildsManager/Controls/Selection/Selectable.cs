@@ -1,5 +1,6 @@
 ﻿using Blish_HUD;
 using Blish_HUD.Input;
+using Kenedia.Modules.BuildsManager.Controls.GearPage;
 using Kenedia.Modules.BuildsManager.DataModels.Items;
 using Kenedia.Modules.BuildsManager.Extensions;
 using Kenedia.Modules.BuildsManager.Models.Templates;
@@ -12,8 +13,9 @@ using System.ComponentModel;
 
 namespace Kenedia.Modules.BuildsManager.Controls.Selection
 {
-    public class Selectable : Blish_HUD.Controls.Control
+    public class Selectable : Blish_HUD.Controls.Container
     {
+        private readonly ItemControl _itemControl = new();
         private Rectangle _iconBounds;
         private Rectangle _nameBounds;
         private Rectangle _descriptionBounds;
@@ -26,6 +28,9 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
         {
             Size = new(64, 64);
             BackgroundColor = Color.Black * 0.2F;
+
+            _itemControl.Parent = this;
+            _itemControl.Size = new(64);
         }
 
         public enum TargetType
@@ -71,31 +76,6 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
         {
         }
 
-        protected override void Paint(SpriteBatch spriteBatch, Rectangle bounds)
-        {
-            RecalculateLayout();
-
-            if (Item != null)
-            {
-                spriteBatch.DrawFrame(this, bounds, Item.Rarity.GetColor(), 2);
-
-                if (Item.Icon != null)
-                {
-                    spriteBatch.DrawOnCtrl(this, Item.Icon, _iconBounds);
-                }
-
-                if (!string.IsNullOrEmpty(Item.Name))
-                {
-                    //spriteBatch.DrawStringOnCtrl(this, Item.Name, Content.DefaultFont16, _nameBounds, Item.Rarity.GetColor(), true, Blish_HUD.Controls.HorizontalAlignment.Left, Blish_HUD.Controls.VerticalAlignment.Top);
-                }
-
-                if (!string.IsNullOrEmpty(Item.Description))
-                {
-                    //spriteBatch.DrawStringOnCtrl(this, Item.Description, Content.DefaultFont12, _descriptionBounds, Color.White, true);
-                }
-            }
-        }
-
         protected override void OnClick(MouseEventArgs e)
         {
             base.OnClick(e);
@@ -105,14 +85,16 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
 
         private void SetItem()
         {
-            string txt = Item == null ? null : Item.Name + $" [{Item.Id}] " + (Item.Type == Gw2Sharp.WebApi.V2.Models.ItemType.Weapon ? Environment.NewLine + (Item as Weapon).WeaponType.ToSkillWeapon() : string.Empty);
+            _itemControl.Item = Item;
 
-            if (Item != null && !string.IsNullOrEmpty(Item.DisplayText))
-            {
-                txt += Environment.NewLine + Item.Description;
-            }
+            //string txt = Item == null ? null : Item.Name + $" [{Item.Id}] " + (Item.Type == Gw2Sharp.WebApi.V2.Models.ItemType.Weapon ? Environment.NewLine + (Item as Weapon).WeaponType.ToSkillWeapon() : string.Empty);
 
-            BasicTooltipText = txt;
+            //if (Item != null && !string.IsNullOrEmpty(Item.DisplayText))
+            //{
+            //    txt += Environment.NewLine + Item.Description;
+            //}
+
+            //BasicTooltipText = txt;
         }
     }
 }

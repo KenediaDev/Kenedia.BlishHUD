@@ -29,6 +29,8 @@ namespace Kenedia.Modules.BuildsManager.Models
 
         public event EventHandler GearCodeChanged;
 
+        public event ValueChangedEventHandler<string> NameChanged;
+
         public event ValueChangedEventHandler<Template> TemplateChanged;
 
         public event ValueChangedEventHandler<LegendSlotType> LegendSlotChanged;
@@ -80,6 +82,8 @@ namespace Kenedia.Modules.BuildsManager.Models
 
                 e.OldValue.LoadedBuildFromCode -= On_LoadedBuildFromCode;
                 e.OldValue.LoadedGearFromCode -= On_LoadedGearFromCode;
+
+                e.OldValue.NameChanged -= On_NameChanged;
             }
 
             if (e.NewValue != null)
@@ -101,6 +105,13 @@ namespace Kenedia.Modules.BuildsManager.Models
 
             template.LoadedBuildFromCode += On_LoadedBuildFromCode;
             template.LoadedGearFromCode += On_LoadedGearFromCode;
+
+            template.NameChanged += On_NameChanged;
+        }
+
+        private void On_NameChanged(object sender, ValueChangedEventArgs<string> e)
+        {
+            NameChanged?.Invoke(sender, e);
         }
 
         private void On_GearChanged(object sender, EventArgs e)

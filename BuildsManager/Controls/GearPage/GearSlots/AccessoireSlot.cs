@@ -18,19 +18,17 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage.GearSlots
 {
     public class AccessoireSlot : GearSlot
     {
-        private readonly DetailedTexture _infusionSlotTexture = new() { TextureRegion = new(37, 37, 54, 54) };
-
-        private readonly DetailedTexture _statTexture = new() { };
-
-        private readonly ItemTexture _infusionTexture = new() { };
+        private readonly ItemControl _infusionControl = new(new() { TextureRegion = new(38, 38, 52, 52) });
 
         private Stat _stat;
         private Infusion _infusion;
 
         public AccessoireSlot(TemplateSlotType gearSlot, Container parent, TemplatePresenter templatePresenter) : base(gearSlot, parent, templatePresenter)
         {
-            _infusionSlotTexture.Texture = BuildsManager.ModuleInstance.ContentsManager.GetTexture(@"textures\infusionslot.png");
+            _infusionControl.Placeholder.Texture = BuildsManager.ModuleInstance.ContentsManager.GetTexture(@"textures\infusionslot.png");
             ItemControl.Item = BuildsManager.Data.Trinkets[80002];
+
+            _infusionControl.Parent = this;
         }
 
         public Stat Stat { get => _stat; set => Common.SetProperty(ref _stat, value, OnStatChanged); }
@@ -41,23 +39,9 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage.GearSlots
         {
             base.RecalculateLayout();
 
-            int size = Math.Min(Width, Height);
-            int padding = 3;
-            _statTexture.Bounds = new(Icon.Bounds.Center.Add(new Point(-padding, -padding)), new((size - (padding * 2)) / 2));
+            int infusionSize = (ItemControl.LocalBounds.Size.Y - 4) / 3;
 
-            int infusionSize = (Icon.Bounds.Size.Y - 4) / 3;
-
-            _infusionSlotTexture.Bounds = new(Icon.Bounds.Right + 2, Icon.Bounds.Top, infusionSize, infusionSize);
-            _infusionTexture.Bounds = _infusionSlotTexture.Bounds;
-        }
-
-        public override void PaintAfterChildren(SpriteBatch spriteBatch, Rectangle bounds)
-        {
-            base.PaintAfterChildren(spriteBatch, bounds);
-            _statTexture.Draw(this, spriteBatch);
-
-            _infusionSlotTexture.Draw(this, spriteBatch, RelativeMousePosition);
-            _infusionTexture.Draw(this, spriteBatch, RelativeMousePosition);
+            _infusionControl.SetBounds(new(ItemControl.Right + 1, ItemControl.Top, infusionSize, infusionSize));
         }
 
         protected override void SetItems(object sender, EventArgs e)
@@ -76,9 +60,9 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage.GearSlots
 
             var a = AbsoluteBounds;
 
-            if (Icon.Hovered)
+            if (ItemControl.MouseOver)
             {
-                SelectionPanel?.SetAnchor<Stat>(this, new Rectangle(a.Location, Point.Zero).Add(Icon.Bounds), SelectionTypes.Stats, Slot, GearSubSlotType.None, (stat) =>
+                SelectionPanel?.SetAnchor<Stat>(this, new Rectangle(a.Location, Point.Zero).Add(ItemControl.LocalBounds), SelectionTypes.Stats, Slot, GearSubSlotType.None, (stat) =>
                 {
                     (TemplatePresenter?.Template[Slot] as AccessoireTemplateEntry).Stat = stat;
                     Stat = stat;
@@ -86,9 +70,9 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage.GearSlots
                 (TemplatePresenter?.Template[Slot] as AccessoireTemplateEntry).Accessoire?.AttributeAdjustment);
             }
 
-            if (_infusionSlotTexture.Hovered)
+            if (_infusionControl.MouseOver)
             {
-                SelectionPanel?.SetAnchor<Infusion>(this, new Rectangle(a.Location, Point.Zero).Add(_infusionSlotTexture.Bounds), SelectionTypes.Items, Slot, GearSubSlotType.Infusion, (infusion) =>
+                SelectionPanel?.SetAnchor<Infusion>(this, new Rectangle(a.Location, Point.Zero).Add(_infusionControl.LocalBounds), SelectionTypes.Items, Slot, GearSubSlotType.Infusion, (infusion) =>
                 {
                     (TemplatePresenter?.Template[Slot] as AccessoireTemplateEntry).Infusion = infusion;
                     Infusion = infusion;
@@ -215,12 +199,11 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage.GearSlots
 
         private void OnInfusionChanged(object sender, Core.Models.ValueChangedEventArgs<Infusion> e)
         {
-            _infusionTexture.Texture = Infusion?.Icon;
+            _infusionControl.Item = Infusion;
         }
 
         private void OnStatChanged(object sender, Core.Models.ValueChangedEventArgs<Stat> e)
         {
-            _statTexture.Texture = Stat?.Icon;
             ItemControl.Stat = Stat;
         }
     }

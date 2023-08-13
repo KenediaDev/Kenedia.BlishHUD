@@ -20,13 +20,8 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage.GearSlots
 {
     public class ArmorSlot : GearSlot
     {
-        private readonly DetailedTexture _runeSlotTexture = new() { Texture = AsyncTexture2D.FromAssetId(784323), TextureRegion = new(37, 37, 54, 54), };
-        private readonly DetailedTexture _infusionSlotTexture = new() { TextureRegion = new(37, 37, 54, 54) };
-
-        private readonly DetailedTexture _statTexture = new() { };
-
-        private readonly ItemTexture _runeTexture = new() { };
-        private readonly ItemTexture _infusionTexture = new() { };
+        private readonly ItemControl _runeControl = new(new(784323) { TextureRegion = new(38, 38, 52, 52) });
+        private readonly ItemControl _infusionControl = new(new (){ TextureRegion = new(38, 38, 52, 52) });
 
         private Stat _stat;
         private Rune _rune;
@@ -37,7 +32,10 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage.GearSlots
 
         public ArmorSlot(TemplateSlotType gearSlot, Container parent, TemplatePresenter templatePresenter) : base(gearSlot, parent, templatePresenter)
         {
-            _infusionSlotTexture.Texture = BuildsManager.ModuleInstance.ContentsManager.GetTexture(@"textures\infusionslot.png");
+            _infusionControl.Placeholder.Texture = BuildsManager.ModuleInstance.ContentsManager.GetTexture(@"textures\infusionslot.png");
+
+            _runeControl.Parent = this;
+            _infusionControl.Parent = this;
         }
 
         public Stat Stat { get => _stat; set => Common.SetProperty(ref _stat, value, OnStatChanged); }
@@ -50,39 +48,25 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage.GearSlots
         {
             base.RecalculateLayout();
 
-            int upgradeSize = (Icon.Bounds.Size.Y - 4) / 2;
+            int upgradeSize = (ItemControl.Height - 4) / 2;
             int iconPadding = 0;
             int textPadding = Slot is TemplateSlotType.AquaBreather ? upgradeSize + 5 : 5;
 
-            int size = Math.Min(Width, Height);
-            int padding = 3;
-            _statTexture.Bounds = new(Icon.Bounds.Center.Add(new Point(-padding, -padding)), new((size - (padding * 2)) / 2));
-            //_statTexture.Bounds = new(Icon.Bounds.Center.Add(new(-2)), new((size - (padding * 2)) / 2));
+            _runeControl.SetBounds(new(ItemControl.Right + 2 + iconPadding, iconPadding , upgradeSize, upgradeSize));
+            _infusionControl.SetBounds(new(ItemControl.Right + 2 + iconPadding, ItemControl.Bottom - (upgradeSize + iconPadding), upgradeSize, upgradeSize));
 
-            _runeSlotTexture.Bounds = new(Icon.Bounds.Right + 2 + iconPadding, 0, upgradeSize, upgradeSize);
-            _runeTexture.Bounds = _runeSlotTexture.Bounds;
-
-            _infusionSlotTexture.Bounds = new(Icon.Bounds.Right + 2 + iconPadding, _runeSlotTexture.Bounds.Bottom + 4, upgradeSize, upgradeSize);
-            _infusionTexture.Bounds = _infusionSlotTexture.Bounds;
-
-            int x = _runeSlotTexture.Bounds.Right + textPadding + 4;
-            _runeBounds = new(x, _runeSlotTexture.Bounds.Top - 1, Width - x, _runeSlotTexture.Bounds.Height);
-            _infusionBounds = new(x, _infusionSlotTexture.Bounds.Top, Width - x, _infusionSlotTexture.Bounds.Height);
+            int x = _runeControl.LocalBounds.Right + textPadding + 4;
+            _runeBounds = new(x, _runeControl.LocalBounds.Top - 1, Width - x, _runeControl.LocalBounds.Height);
+            _infusionBounds = new(x, _infusionControl.LocalBounds.Top, Width - x, _infusionControl.LocalBounds.Height);
         }
 
-        public override void PaintAfterChildren(SpriteBatch spriteBatch, Rectangle bounds)
+        public override void PaintBeforeChildren(SpriteBatch spriteBatch, Rectangle bounds)
         {
-            base.PaintAfterChildren(spriteBatch, bounds);
+            base.PaintBeforeChildren(spriteBatch, bounds);
 
             if (TemplatePresenter.IsPve != false)
             {
-                _statTexture.Draw(this, spriteBatch);
-                _runeSlotTexture.Draw(this, spriteBatch, RelativeMousePosition);
-                _runeTexture.Draw(this, spriteBatch, RelativeMousePosition);
                 spriteBatch.DrawStringOnCtrl(this, GetDisplayString(Rune?.DisplayText ?? string.Empty), UpgradeFont, _runeBounds, UpgradeColor, false, HorizontalAlignment.Left, VerticalAlignment.Middle);
-
-                _infusionSlotTexture.Draw(this, spriteBatch, RelativeMousePosition);
-                _infusionTexture.Draw(this, spriteBatch, RelativeMousePosition);
                 spriteBatch.DrawStringOnCtrl(this, GetDisplayString(Infusion?.DisplayText ?? string.Empty), InfusionFont, _infusionBounds, InfusionColor, true, HorizontalAlignment.Left, VerticalAlignment.Middle);
             }
         }
@@ -104,9 +88,9 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage.GearSlots
 
             var a = AbsoluteBounds;
 
-            if (Icon.Hovered)
+            if (ItemControl.MouseOver)
             {
-                SelectionPanel?.SetAnchor<Stat>(this, new Rectangle(a.Location, Point.Zero).Add(Icon.Bounds), SelectionTypes.Stats, Slot, GearSubSlotType.None, (stat) =>
+                SelectionPanel?.SetAnchor<Stat>(this, new Rectangle(a.Location, Point.Zero).Add(ItemControl.LocalBounds), SelectionTypes.Stats, Slot, GearSubSlotType.None, (stat) =>
                 {
                     (TemplatePresenter?.Template[Slot] as ArmorTemplateEntry).Stat = stat;
                     Stat = stat;
@@ -115,18 +99,18 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage.GearSlots
                 (TemplatePresenter?.Template[Slot] as ArmorTemplateEntry).Armor?.AttributeAdjustment);
             }
 
-            if (_runeSlotTexture.Hovered)
+            if (_runeControl.MouseOver)
             {
-                SelectionPanel?.SetAnchor<Rune>(this, new Rectangle(a.Location, Point.Zero).Add(_runeSlotTexture.Bounds), SelectionTypes.Items, Slot, GearSubSlotType.Rune, (rune) =>
+                SelectionPanel?.SetAnchor<Rune>(this, new Rectangle(a.Location, Point.Zero).Add(_runeControl.LocalBounds), SelectionTypes.Items, Slot, GearSubSlotType.Rune, (rune) =>
                 {
                     (TemplatePresenter?.Template[Slot] as ArmorTemplateEntry).Rune = rune;
                     Rune = rune;
                 });
             }
 
-            if (_infusionSlotTexture.Hovered)
+            if (_infusionControl.MouseOver)
             {
-                SelectionPanel?.SetAnchor<Infusion>(this, new Rectangle(a.Location, Point.Zero).Add(_infusionSlotTexture.Bounds), SelectionTypes.Items, Slot, GearSubSlotType.Infusion, (infusion) =>
+                SelectionPanel?.SetAnchor<Infusion>(this, new Rectangle(a.Location, Point.Zero).Add(_infusionControl.LocalBounds), SelectionTypes.Items, Slot, GearSubSlotType.Infusion, (infusion) =>
                 {
                     (TemplatePresenter?.Template[Slot] as ArmorTemplateEntry).Infusion = infusion;
                     Infusion = infusion;
@@ -231,18 +215,17 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage.GearSlots
 
         private void OnStatChanged(object sender, Core.Models.ValueChangedEventArgs<Stat> e)
         {
-            _statTexture.Texture = Stat?.Icon;
             ItemControl.Stat = Stat;
         }
 
         private void OnRuneChanged(object sender, Core.Models.ValueChangedEventArgs<Rune> e)
         {
-            _runeTexture.Texture = Rune?.Icon;
+            _runeControl.Item = Rune;
         }
 
         private void OnInfusionChanged(object sender, Core.Models.ValueChangedEventArgs<Infusion> e)
         {
-            _infusionTexture.Texture = Infusion?.Icon;
+            _infusionControl.Item = Infusion;
         }
     }
 }

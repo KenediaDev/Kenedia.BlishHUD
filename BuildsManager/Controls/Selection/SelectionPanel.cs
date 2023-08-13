@@ -63,7 +63,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
         float _animationStart = 0f;
         private Control _anchor;
 
-        public SelectionPanel(TemplatePresenter templatePresenter)
+        public SelectionPanel(TemplatePresenter templatePresenter, MainWindow mainWindow)
         {
             TemplatePresenter = templatePresenter;
 
@@ -92,6 +92,13 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
                 Visible = false,
                 ZIndex = ZIndex,
             };
+
+            MainWindow = mainWindow;
+            var selectables = _buildSelection.SelectionContainer?.GetChildrenOfType<TemplateSelectable>();
+            if (selectables != null)
+                mainWindow.Template = selectables.FirstOrDefault()?.Template ?? new();
+
+            ResetAnchor();
         }
 
         public enum SelectionTypes
