@@ -52,6 +52,8 @@ namespace Kenedia.Modules.Core.Models
 
         public ModulePaths Paths { get; protected set; }
 
+        public SettingCollection SettingCollection { get; private set; }
+
         public ServiceCollection Services { get; private set; }
 
         public SharedSettingsView SharedSettingsView { get; private set; }
@@ -122,6 +124,7 @@ namespace Kenedia.Modules.Core.Models
         protected override void DefineSettings(SettingCollection settings)
         {
             base.DefineSettings(settings);
+            SettingCollection = settings;
 
 #if DEBUG
             Logger.Info($"{Name} is started in Debug mode. Enabling Reload Key.");

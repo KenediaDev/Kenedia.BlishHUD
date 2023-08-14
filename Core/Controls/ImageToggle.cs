@@ -6,10 +6,11 @@ using Kenedia.Modules.Core.Utility;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
+using ICheckable = Blish_HUD.Controls.ICheckable;
 
 namespace Kenedia.Modules.Core.Controls
 {
-    public class ImageToggle : Control
+    public class ImageToggle : Control, ICheckable
     {
         private readonly AsyncTexture2D _exTexture = AsyncTexture2D.FromAssetId(784262);
 

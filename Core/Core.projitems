@@ -17,6 +17,8 @@
     <Compile Include="$(MSBuildThisFileDirectory)Controls\ContextMenuItem.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controls\FramedImage.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controls\GameItem.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\Hotbar.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\HotbarButton.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controls\RollingChoya.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controls\FilterBox.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controls\FramedMaskedRegion.cs" />
@@ -72,6 +74,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\StringListExtension.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\Texture2DExtension.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\WaitHandleExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Interfaces\ICheckable.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Interfaces\IFontControl.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Interfaces\ILocalizable.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Interfaces\INameAndIcon.cs" />
@@ -132,6 +135,7 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <None Include="$(MSBuildThisFileDirectory)Interfaces\Directory.Build.props" />
     <None Include="$(MSBuildThisFileDirectory)Res\Textures\RollingChoya.png" />
     <None Include="$(MSBuildThisFileDirectory)Textures\RollingChoya.png" />
   </ItemGroup>
