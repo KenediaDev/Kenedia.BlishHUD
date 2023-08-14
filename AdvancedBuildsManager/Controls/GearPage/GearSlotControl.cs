@@ -385,7 +385,7 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Controls.GearPage
         }
     }
 
-    public class JuwellerySlotControl : GearSlotConstrol
+    public class JewellerySlotControl : GearSlotConstrol
     {
         private readonly DetailedTexture _infusion1SlotTexture = new() { TextureRegion = new(37, 37, 54, 54) };
         private readonly DetailedTexture _infusion2SlotTexture = new() { TextureRegion = new(37, 37, 54, 54) };
@@ -395,7 +395,7 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Controls.GearPage
         private readonly ItemTexture _infusion2Texture = new() { };
         private readonly ItemTexture _infusion3Texture = new() { };
 
-        public JuwellerySlotControl(GearTemplateSlot gearSlot, Container parent) : base(gearSlot, parent)
+        public JewellerySlotControl(GearTemplateSlot gearSlot, Container parent) : base(gearSlot, parent)
         {
             _infusion1SlotTexture.Texture = AdvancedBuildsManager.ModuleInstance.ContentsManager.GetTexture(@"textures\infusionslot.png");
             _infusion2SlotTexture.Texture = AdvancedBuildsManager.ModuleInstance.ContentsManager.GetTexture(@"textures\infusionslot.png");
@@ -462,7 +462,7 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Controls.GearPage
         {
             base.SlotChanged(sender, e);
 
-            var item = TemplateSlot as JuwelleryEntry;
+            var item = TemplateSlot as JewelleryEntry;
 
             Item.Item = item?.Item;
 
@@ -485,13 +485,13 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Controls.GearPage
             var a = AbsoluteBounds;
 
             if (_infusion1SlotTexture.Hovered)
-                SelectionPanel?.SetGearAnchor(this, new Rectangle(a.Location, Point.Zero).Add(_infusion1SlotTexture.Bounds), GearSlot, GearSubSlotType.Infusion, GearSlot.ToString().ToLowercaseNamingConvention(), (item) => (TemplateSlot as JuwelleryEntry).Infusion = item as Infusion);
+                SelectionPanel?.SetGearAnchor(this, new Rectangle(a.Location, Point.Zero).Add(_infusion1SlotTexture.Bounds), GearSlot, GearSubSlotType.Infusion, GearSlot.ToString().ToLowercaseNamingConvention(), (item) => (TemplateSlot as JewelleryEntry).Infusion = item as Infusion);
 
             if (_infusion2SlotTexture.Hovered)
-                SelectionPanel?.SetGearAnchor(this, new Rectangle(a.Location, Point.Zero).Add(_infusion2SlotTexture.Bounds), GearSlot, GearSubSlotType.Infusion, GearSlot.ToString().ToLowercaseNamingConvention(), (item) => (TemplateSlot as JuwelleryEntry).Infusion2 = item as Infusion);
+                SelectionPanel?.SetGearAnchor(this, new Rectangle(a.Location, Point.Zero).Add(_infusion2SlotTexture.Bounds), GearSlot, GearSubSlotType.Infusion, GearSlot.ToString().ToLowercaseNamingConvention(), (item) => (TemplateSlot as JewelleryEntry).Infusion2 = item as Infusion);
 
             if (_infusion3SlotTexture.Hovered)
-                SelectionPanel?.SetGearAnchor(this, new Rectangle(a.Location, Point.Zero).Add(_infusion3SlotTexture.Bounds), GearSlot, GearSubSlotType.Infusion, GearSlot.ToString().ToLowercaseNamingConvention(), (item) => (TemplateSlot as JuwelleryEntry).Infusion3 = item as Infusion);
+                SelectionPanel?.SetGearAnchor(this, new Rectangle(a.Location, Point.Zero).Add(_infusion3SlotTexture.Bounds), GearSlot, GearSubSlotType.Infusion, GearSlot.ToString().ToLowercaseNamingConvention(), (item) => (TemplateSlot as JewelleryEntry).Infusion3 = item as Infusion);
         }
     }
 
@@ -518,17 +518,17 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Controls.GearPage
 
         private void ResetEnrichment()
         {
-            (TemplateSlot as JuwelleryEntry)?.ResetEnrichment();
+            (TemplateSlot as JewelleryEntry)?.ResetEnrichment();
         }
 
         private void ResetUpgrade()
         {
-            (TemplateSlot as JuwelleryEntry)?.ResetUpgrades();
+            (TemplateSlot as JewelleryEntry)?.ResetUpgrades();
         }
 
         private void ResetStat()
         {
-            (TemplateSlot as JuwelleryEntry)?.ResetStat();
+            (TemplateSlot as JewelleryEntry)?.ResetStat();
         }
 
         private void ResetItem()
@@ -573,7 +573,7 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Controls.GearPage
         {
             base.SlotChanged(sender, e);
 
-            var item = TemplateSlot as JuwelleryEntry;
+            var item = TemplateSlot as JewelleryEntry;
 
             Item.Item = item?.Item;
 
@@ -590,7 +590,7 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Controls.GearPage
             var a = AbsoluteBounds;
 
             if (_enrichmentSlotTexture.Hovered)
-                SelectionPanel?.SetGearAnchor(this, new Rectangle(a.Location, Point.Zero).Add(_enrichmentSlotTexture.Bounds), GearSlot, GearSubSlotType.Enrichment, GearSlot.ToString().ToLowercaseNamingConvention(), (item) => (TemplateSlot as JuwelleryEntry).Enrichment = item as Enrichment);
+                SelectionPanel?.SetGearAnchor(this, new Rectangle(a.Location, Point.Zero).Add(_enrichmentSlotTexture.Bounds), GearSlot, GearSubSlotType.Enrichment, GearSlot.ToString().ToLowercaseNamingConvention(), (item) => (TemplateSlot as JewelleryEntry).Enrichment = item as Enrichment);
         }
 
         private void Reset()
@@ -734,12 +734,12 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Controls.GearPage
 
         private void OverrideInfusions()
         {
-            foreach (var item in Template?.GetSlotGroup<JuwelleryEntry>(GearSlot))
+            foreach (var item in Template?.GetSlotGroup<JewelleryEntry>(GearSlot))
             {
                 //if (item.Item == null) continue;
-                item.Infusion = (TemplateSlot as JuwelleryEntry)?.Infusion;
-                item.Infusion2 = (TemplateSlot as JuwelleryEntry)?.Infusion;
-                item.Infusion3 = (TemplateSlot as JuwelleryEntry)?.Infusion;
+                item.Infusion = (TemplateSlot as JewelleryEntry)?.Infusion;
+                item.Infusion2 = (TemplateSlot as JewelleryEntry)?.Infusion;
+                item.Infusion3 = (TemplateSlot as JewelleryEntry)?.Infusion;
             }
         }
 
@@ -765,9 +765,9 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Controls.GearPage
                 }
             }
 
-            if (GearSlot.IsJuwellery())
+            if (GearSlot.IsJewellery())
             {
-                foreach (var item in Template?.GetSlotGroup<JuwelleryEntry>(GearSlot))
+                foreach (var item in Template?.GetSlotGroup<JewelleryEntry>(GearSlot))
                 {
                     //if (item.Item == null) continue;
 
@@ -777,21 +777,21 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Controls.GearPage
 
         private void OverrideStats()
         {
-            foreach (var item in Template?.GetSlotGroup<JuwelleryEntry>(GearSlot))
+            foreach (var item in Template?.GetSlotGroup<JewelleryEntry>(GearSlot))
             {
                 //if (item.Item == null) continue;
-                item.Stat = (TemplateSlot as JuwelleryEntry)?.Stat;
+                item.Stat = (TemplateSlot as JewelleryEntry)?.Stat;
             }
         }
 
         private void Fillnfusions()
         {
-            foreach (var item in Template?.GetSlotGroup<JuwelleryEntry>(GearSlot))
+            foreach (var item in Template?.GetSlotGroup<JewelleryEntry>(GearSlot))
             {
                 //if (item.Item == null) continue;
-                item.Infusion ??= (TemplateSlot as JuwelleryEntry)?.Infusion;
-                item.Infusion2 ??= (TemplateSlot as JuwelleryEntry)?.Infusion;
-                item.Infusion3 ??= (TemplateSlot as JuwelleryEntry)?.Infusion;
+                item.Infusion ??= (TemplateSlot as JewelleryEntry)?.Infusion;
+                item.Infusion2 ??= (TemplateSlot as JewelleryEntry)?.Infusion;
+                item.Infusion3 ??= (TemplateSlot as JewelleryEntry)?.Infusion;
             }
         }
 
@@ -817,9 +817,9 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Controls.GearPage
                 }
             }
 
-            if (GearSlot.IsJuwellery())
+            if (GearSlot.IsJewellery())
             {
-                foreach (var item in Template?.GetSlotGroup<JuwelleryEntry>(GearSlot))
+                foreach (var item in Template?.GetSlotGroup<JewelleryEntry>(GearSlot))
                 {
                     //if (item.Item == null) continue;
 
@@ -829,16 +829,16 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Controls.GearPage
 
         private void FillStats()
         {
-            foreach (var item in Template?.GetSlotGroup<JuwelleryEntry>(GearSlot))
+            foreach (var item in Template?.GetSlotGroup<JewelleryEntry>(GearSlot))
             {
                 //if (item.Item == null) continue;
-                item.Stat ??= (TemplateSlot as JuwelleryEntry)?.Stat;
+                item.Stat ??= (TemplateSlot as JewelleryEntry)?.Stat;
             }
         }
 
         private void ResetStats()
         {
-            foreach (var item in Template?.GetSlotGroup<JuwelleryEntry>(GearSlot))
+            foreach (var item in Template?.GetSlotGroup<JewelleryEntry>(GearSlot))
             {
                 item.ResetStat();
             }
@@ -846,17 +846,17 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Controls.GearPage
 
         private void ResetStat()
         {
-            (TemplateSlot as JuwelleryEntry)?.ResetStat();
+            (TemplateSlot as JewelleryEntry)?.ResetStat();
         }
 
         private void ResetInfusion()
         {
-            (TemplateSlot as JuwelleryEntry)?.ResetInfusion();
+            (TemplateSlot as JewelleryEntry)?.ResetInfusion();
         }
 
         private void ResetInfusions()
         {
-            foreach (var item in Template?.GetSlotGroup<JuwelleryEntry>(GearSlot))
+            foreach (var item in Template?.GetSlotGroup<JewelleryEntry>(GearSlot))
             {
                 item.ResetInfusion();
             }
@@ -999,9 +999,9 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Controls.GearPage
             {
                 TemplateSlot = Template?.GearTemplate.Weapons[GearSlot];
             }
-            else if (GearSlot.IsJuwellery())
+            else if (GearSlot.IsJewellery())
             {
-                TemplateSlot = Template?.GearTemplate.Juwellery[GearSlot];
+                TemplateSlot = Template?.GearTemplate.Jewellery[GearSlot];
             }
             else if (GearSlot == GearTemplateSlot.PvpAmulet)
             {
@@ -1024,10 +1024,10 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Controls.GearPage
                 Item.Item = Template?.GearTemplate.Weapons[GearSlot].Item;
                 Stat = Template?.GearTemplate.Weapons[GearSlot].Stat;
             }
-            else if (GearSlot.IsJuwellery())
+            else if (GearSlot.IsJewellery())
             {
-                Item.Item = Template?.GearTemplate.Juwellery[GearSlot].Item;
-                Stat = Template?.GearTemplate.Juwellery[GearSlot].Stat;
+                Item.Item = Template?.GearTemplate.Jewellery[GearSlot].Item;
+                Stat = Template?.GearTemplate.Jewellery[GearSlot].Stat;
             }
             else if (GearSlot is GearTemplateSlot.PvpAmulet)
             {
@@ -1122,7 +1122,7 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Controls.GearPage
 
             var a = AbsoluteBounds;
 
-            if (Icon.Hovered && (GearSlot.IsArmor() || GearSlot.IsWeapon() || GearSlot.IsJuwellery()))
+            if (Icon.Hovered && (GearSlot.IsArmor() || GearSlot.IsWeapon() || GearSlot.IsJewellery()))
             {
                 if (Item.Item is not null) SelectionPanel?.SetStatAnchor(this, new Rectangle(a.Location, Point.Zero).Add(Icon.Bounds), GearSlot.ToString().ToLowercaseNamingConvention(), (item) => TemplateSlot.Item = item);
                 Menu.Hide();

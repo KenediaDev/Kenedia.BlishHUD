@@ -435,7 +435,7 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Models.Templates
 
                 double amount = GetAmount(armorNoAquatic, attribute);
                 amount += GetAmount(mainSet, attribute);
-                amount += GetAmount(GearTemplate.Juwellery, attribute);
+                amount += GetAmount(GearTemplate.Jewellery, attribute);
 
                 if (attribute is AttributeType.Power) Attributes.Power = 1000 + amount;
                 if (attribute is AttributeType.Vitality) Attributes.Vitality = 1000 + amount;
@@ -568,7 +568,7 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Models.Templates
             var slots =
                 slot.IsArmor() ? GearTemplate?.Armors.Values.Cast<T>() :
                 slot.IsWeapon() ? GearTemplate?.Weapons.Values.Cast<T>() :
-                slot.IsJuwellery() ? GearTemplate?.Juwellery.Values.Cast<T>() : null;
+                slot.IsJewellery() ? GearTemplate?.Jewellery.Values.Cast<T>() : null;
 
             return slots;
         }

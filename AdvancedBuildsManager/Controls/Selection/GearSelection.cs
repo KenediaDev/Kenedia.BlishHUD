@@ -83,9 +83,9 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Controls.Selection
 
                 case SelectableType.Infusion:
                     var slots =
-                        ActiveSlot.IsArmor() ? Template?.GearTemplate?.Armors.Values.Cast<JuwelleryEntry>() :
-                        ActiveSlot.IsWeapon() ? Template?.GearTemplate?.Weapons.Values.Cast<JuwelleryEntry>() :
-                        ActiveSlot.IsJuwellery() ? Template?.GearTemplate?.Juwellery.Values.Cast<JuwelleryEntry>() : null;
+                        ActiveSlot.IsArmor() ? Template?.GearTemplate?.Armors.Values.Cast<JewelleryEntry>() :
+                        ActiveSlot.IsWeapon() ? Template?.GearTemplate?.Weapons.Values.Cast<JewelleryEntry>() :
+                        ActiveSlot.IsJewellery() ? Template?.GearTemplate?.Jewellery.Values.Cast<JewelleryEntry>() : null;
 
                     foreach (var slot in slots)
                     {
@@ -128,11 +128,11 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Controls.Selection
                     break;
 
                 case SelectableType.Infusion:
-                    var slots = new List<JuwelleryEntry>();
+                    var slots = new List<JewelleryEntry>();
 
-                    slots.AddRange(Template?.GearTemplate?.Armors.Values.Cast<JuwelleryEntry>());
-                    slots.AddRange(Template?.GearTemplate?.Weapons.Values.Cast<JuwelleryEntry>());
-                    slots.AddRange(Template?.GearTemplate?.Juwellery.Values.Cast<JuwelleryEntry>());
+                    slots.AddRange(Template?.GearTemplate?.Armors.Values.Cast<JewelleryEntry>());
+                    slots.AddRange(Template?.GearTemplate?.Weapons.Values.Cast<JewelleryEntry>());
+                    slots.AddRange(Template?.GearTemplate?.Jewellery.Values.Cast<JewelleryEntry>());
 
                     foreach (var slot in slots)
                     {
@@ -249,7 +249,7 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Controls.Selection
 
                 var trinkets = _trinkets.Where(e => e.Item.Rarity == Gw2Sharp.WebApi.V2.Models.ItemRarity.Ascended)?.Select(e => e.Item);
                 trinkets = trinkets.Append(_backs.Where(e => e.Item.Rarity == Gw2Sharp.WebApi.V2.Models.ItemRarity.Ascended)?.Select(e => e.Item).FirstOrDefault());
-                foreach (var trinket in Template?.GearTemplate?.Juwellery.Values)
+                foreach (var trinket in Template?.GearTemplate?.Jewellery.Values)
                 {
                     var effectiveSlot =
                         trinket.Slot is GearTemplateSlot.Ring_2 ? GearTemplateSlot.Ring_1 :

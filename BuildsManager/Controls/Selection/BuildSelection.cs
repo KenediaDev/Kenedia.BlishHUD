@@ -119,11 +119,15 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
 
             BuildsManager.ModuleInstance.TemplatesLoadedDone += ModuleInstance_TemplatesLoadedDone; ;
             BuildsManager.ModuleInstance.Templates.CollectionChanged += Templates_CollectionChanged;
-            Templates_CollectionChanged(this, null);
 
-            GameService.Gw2Mumble.PlayerCharacter.SpecializationChanged += PlayerCharacter_SpecializationChanged;
             LocalizingService.LocaleChanged += LocalizingService_LocaleChanged;
+
+            Templates_CollectionChanged(this, null);
         }
+
+        public List<TemplateSelectable> Templates { get; } = new();
+
+        public SelectionPanel SelectionPanel { get; set; }
 
         private void SortBehavior_ValueChanged(object sender, Blish_HUD.Controls.ValueChangedEventArgs e)
         {
@@ -136,18 +140,14 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
             _sortBehavior.Items[1] = strings.SortByName;
         }
 
-        public List<TemplateSelectable> Templates { get; } = new();
-
         private void ModuleInstance_TemplatesLoadedDone(object sender, Core.Models.ValueChangedEventArgs<bool> e)
         {
             Templates_CollectionChanged(sender, null);
         }
 
-        public SelectionPanel SelectionPanel { get; set; }
-
-        private void PlayerCharacter_SpecializationChanged(object sender, ValueEventArgs<int> e)
+        public void SetTogglesToPlayerProfession()
         {
-            //_specIcons.ForEach(c => c.Checked = c.Profession == GameService.Gw2Mumble.PlayerCharacter.Profession);
+            _specIcons.ForEach(c => c.Checked = c.Profession == GameService.Gw2Mumble.PlayerCharacter.Profession);
             FilterTemplates();
         }
 
@@ -203,12 +203,12 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
                 _spinner.Hide();
             }
 
-            bool firstLoad = Templates.Count == 0 && (BuildsManager.ModuleInstance?.Templates?.Count ?? 0)!= 0;
+            bool firstLoad = Templates.Count == 0 && (BuildsManager.ModuleInstance?.Templates?.Count ?? 0) != 0;
             var templates = Templates.Select(e => e.Template);
             var removedTemplates = templates.Except(BuildsManager.ModuleInstance?.Templates ?? new());
             var addedTemplates = BuildsManager.ModuleInstance?.Templates?.Except(templates);
             TemplateSelectable targetTemplate = null;
-            
+
             if (addedTemplates == null) return;
 
             foreach (var template in addedTemplates)
@@ -252,12 +252,19 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
 
         public Template CreateTemplate(string name)
         {
-            if (BuildsManager.ModuleInstance.Templates.Where(e => e.Name == name).FirstOrDefault() is not Template template)
+            for (int i = 0; i < int.MaxValue; i++)
             {
-                Template t;
-                BuildsManager.ModuleInstance.Templates.Add(t = new() { Name = name });
-                SelectionPanel?.SetTemplateAnchor(Templates.FirstOrDefault(e => e.Template == t));
-                return t;
+                string newName = i == 0 ? name : $"{name} #{i}";
+
+                if (BuildsManager.ModuleInstance.Templates.Where(e => e.Name == newName)?.FirstOrDefault() is not Template template)
+                {
+                    TemplateSelectable ts = null;
+                    Template t;
+                    BuildsManager.ModuleInstance.Templates.Add(t = new() { Name = newName });
+                    SelectionPanel?.SetTemplateAnchor(ts = Templates.FirstOrDefault(e => e.Template == t));
+                    ts?.ToggleEditMode(false);
+                    return t;
+                }
             }
 
             return null;
@@ -331,6 +338,12 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
         {
             base.DisposeControl();
             _sortBehavior?.Dispose();
+
+            BuildsManager.ModuleInstance.TemplatesLoadedDone -= ModuleInstance_TemplatesLoadedDone; ;
+            BuildsManager.ModuleInstance.Templates.CollectionChanged -= Templates_CollectionChanged;
+            Templates_CollectionChanged(this, null);
+
+            LocalizingService.LocaleChanged -= LocalizingService_LocaleChanged;
 
             Templates.Clear();
         }

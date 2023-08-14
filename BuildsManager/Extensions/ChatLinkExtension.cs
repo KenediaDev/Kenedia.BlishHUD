@@ -123,7 +123,7 @@ namespace Kenedia.Modules.BuildsManager.Extensions
             return slot is TemplateSlotType.MainHand or TemplateSlotType.AltMainHand or TemplateSlotType.OffHand or TemplateSlotType.AltOffHand or TemplateSlotType.Aquatic or TemplateSlotType.AltAquatic;
         }
 
-        public static bool IsJuwellery(this TemplateSlotType slot)
+        public static bool IsJewellery(this TemplateSlotType slot)
         {
             return slot is TemplateSlotType.Back or TemplateSlotType.Amulet or TemplateSlotType.Ring_1 or TemplateSlotType.Ring_2 or TemplateSlotType.Accessory_1 or TemplateSlotType.Accessory_2;
         }

@@ -12,6 +12,7 @@ using Kenedia.Modules.Core.Extensions;
 using Kenedia.Modules.BuildsManager.Extensions;
 using Kenedia.Modules.BuildsManager.TemplateEntries;
 using static Kenedia.Modules.BuildsManager.Controls.Selection.SelectionPanel;
+using Kenedia.Modules.BuildsManager.Res;
 
 namespace Kenedia.Modules.BuildsManager.Controls.GearPage.GearSlots
 {
@@ -71,7 +72,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage.GearSlots
         {
             base.CreateSubMenus();
 
-            CreateSubMenu(() => "Reset", () => "Reset nourishment", () => Item = null);
+            CreateSubMenu(() => strings.Reset, () => string.Format(strings.ResetEntry, strings.Nourishment), () => Item = null);
         }
     }
 }

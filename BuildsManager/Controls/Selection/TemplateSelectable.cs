@@ -22,6 +22,7 @@ using TextBox = Kenedia.Modules.Core.Controls.TextBox;
 using Kenedia.Modules.BuildsManager.Models;
 using Kenedia.Modules.BuildsManager.Res;
 using Gw2Sharp.WebApi;
+using System.Diagnostics;
 
 namespace Kenedia.Modules.BuildsManager.Controls.Selection
 {
@@ -91,7 +92,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
                     string moddedtxt = txt.Trim().ToLower();
                     var template = BuildsManager.ModuleInstance.Templates.Where(e => e.Name.ToLower() == moddedtxt).FirstOrDefault();
 
-                    if ((template == null || template == Template))
+                    if (template == null || template == Template)
                     {
                         _ = (Template?.ChangeName(txt));
                         ToggleEditMode(false);
@@ -371,14 +372,10 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
             for (int i = 0; i < _tagTexturess.Count; i++)
             {
                 TagTexture tagTexture = _tagTexturess[i];
-                if (tagTexture.TemplateTag.GetType() == typeof(EncounterFlag) && tagTexture.TemplateTag is not EncounterFlag.NormalMode and not EncounterFlag.ChallengeMode)
-                {
-                    tagTexture.Bounds = new(_leftAccentBorderBounds.Right - 6 + (i * (_bottomBounds.Height + 3)), _bottomBounds.Top + 2, _bottomBounds.Height - 4, _bottomBounds.Height - 4);
-                }
-                else
-                {
-                    tagTexture.Bounds = new(_leftAccentBorderBounds.Right - 6 + (i * (_bottomBounds.Height + 3)), _bottomBounds.Top, _bottomBounds.Height, _bottomBounds.Height);
-                }
+
+                tagTexture.Bounds = tagTexture.TemplateTag.GetType() == typeof(EncounterFlag) && tagTexture.TemplateTag is not EncounterFlag.NormalMode and not EncounterFlag.ChallengeMode
+                    ? new(_leftAccentBorderBounds.Right - 6 + (i * (_bottomBounds.Height + 3)), _bottomBounds.Top + 2, _bottomBounds.Height - 4, _bottomBounds.Height - 4)
+                    : new(_leftAccentBorderBounds.Right - 6 + (i * (_bottomBounds.Height + 3)), _bottomBounds.Top, _bottomBounds.Height, _bottomBounds.Height);
             }
         }
 
@@ -498,6 +495,8 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
                         t.TextureRegion = flag is EncounterFlag.NormalMode or EncounterFlag.ChallengeMode ? new(-pad, -pad, t.Texture.Width + (pad * 2), t.Texture.Height + (pad * 2)) : t.TextureRegion;
                     }
                 }
+
+                RecalculateLayout();
             }
         }
 

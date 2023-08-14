@@ -12,6 +12,7 @@ using Blish_HUD.Controls;
 using Kenedia.Modules.Core.Extensions;
 using Kenedia.Modules.BuildsManager.TemplateEntries;
 using static Kenedia.Modules.BuildsManager.Controls.Selection.SelectionPanel;
+using Kenedia.Modules.BuildsManager.Res;
 
 namespace Kenedia.Modules.BuildsManager.Controls.GearPage.GearSlots
 {
@@ -92,14 +93,14 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage.GearSlots
         {
             base.CreateSubMenus();
 
-            CreateSubMenu(() => "Reset", () => "Reset amulet and rune", () =>
+            CreateSubMenu(() => strings.Reset, () => string.Format(strings.ResetEntry, $"{strings.Amulet} {strings.And} {strings.Rune}"), () =>
             {
                 Item = null;
                 Rune = null;
             }, new()
             {
-                new(() => "Amulet",() => "Reset the amulet",() => Item = null),
-                new(() => "Rune",() => "Reset the rune.",() => Rune = null),
+                new(() => strings.Amulet,() => string.Format(strings.ResetEntry, strings.Amulet),() => Item = null),
+                new(() => strings.Rune,() => string.Format(strings.ResetEntry, strings.Rune),() => Rune = null),
             });
         }
 

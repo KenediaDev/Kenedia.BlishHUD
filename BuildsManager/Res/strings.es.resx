@@ -226,9 +226,6 @@ El propósito de este código es compartir la Plantilla de Equipo del módulo f�
   <data name="CurrentlyNotAvailable" xml:space="preserve">
     <value>Actualmente no disponible</value>
   </data>
-  <data name="Search" xml:space="preserve">
-    <value>Buscar ...</value>
-  </data>
   <data name="None" xml:space="preserve">
     <value>Ninguno</value>
   </data>
@@ -243,5 +240,110 @@ El propósito de este código es compartir la Plantilla de Equipo del módulo f�
   </data>
   <data name="ItemControlClickToCopyItem" xml:space="preserve">
     <value>CTRL + Click Izquierdo para copiar el nombre del ítem</value>
+  </data>
+  <data name="Reset" xml:space="preserve">
+    <value>Restablecer</value>
+  </data>
+  <data name="Fill" xml:space="preserve">
+    <value>Rellene</value>
+  </data>
+  <data name="Override" xml:space="preserve">
+    <value>Anular</value>
+  </data>
+  <data name="ResetAll" xml:space="preserve">
+    <value>Restablecer todo {0}</value>
+  </data>
+  <data name="Stat" xml:space="preserve">
+    <value>Stat</value>
+  </data>
+  <data name="Infusion" xml:space="preserve">
+    <value>Infusión</value>
+  </data>
+  <data name="Infusions" xml:space="preserve">
+    <value>Infusiones</value>
+  </data>
+  <data name="Enrichment" xml:space="preserve">
+    <value>Enriquecimiento</value>
+  </data>
+  <data name="Rune" xml:space="preserve">
+    <value>Runa</value>
+  </data>
+  <data name="Sigil" xml:space="preserve">
+    <value>Sigil</value>
+  </data>
+  <data name="Runes" xml:space="preserve">
+    <value>Runas</value>
+  </data>
+  <data name="Sigils" xml:space="preserve">
+    <value>Sigils</value>
+  </data>
+  <data name="PvpSigil" xml:space="preserve">
+    <value>PvP Sigil</value>
+  </data>
+  <data name="PvpSigils" xml:space="preserve">
+    <value>Sigilos PvP</value>
+  </data>
+  <data name="ResetEntry" xml:space="preserve">
+    <value>Reiniciar {0}</value>
+  </data>
+  <data name="FillEntry" xml:space="preserve">
+    <value>Llenar {0}</value>
+  </data>
+  <data name="And" xml:space="preserve">
+    <value>y</value>
+  </data>
+  <data name="EmptyJewellerySlots" xml:space="preserve">
+    <value>de todas las joyas vacías</value>
+  </data>
+  <data name="JewellerySlots" xml:space="preserve">
+    <value>de todas las ranuras para joyas</value>
+  </data>
+  <data name="OverrideEntry" xml:space="preserve">
+    <value>Anular {0}</value>
+  </data>
+  <data name="Amulet" xml:space="preserve">
+    <value>Amuleto</value>
+  </data>
+  <data name="Armor" xml:space="preserve">
+    <value>Armadura</value>
+  </data>
+  <data name="Armors" xml:space="preserve">
+    <value>Armaduras</value>
+  </data>
+  <data name="ArmorSlots" xml:space="preserve">
+    <value>de todas las ranuras de armadura</value>
+  </data>
+  <data name="EmptyArmorSlots" xml:space="preserve">
+    <value>de todas las ranuras de armadura vacías</value>
+  </data>
+  <data name="EmptyWeaponSlots" xml:space="preserve">
+    <value>de todas las ranuras de armas vacías</value>
+  </data>
+  <data name="Jewellery" xml:space="preserve">
+    <value>Joyería</value>
+  </data>
+  <data name="Nourishment" xml:space="preserve">
+    <value>Alimentación</value>
+  </data>
+  <data name="Utility" xml:space="preserve">
+    <value>Utilidad</value>
+  </data>
+  <data name="Weapon" xml:space="preserve">
+    <value>Arma</value>
+  </data>
+  <data name="Weapons" xml:space="preserve">
+    <value>Armas</value>
+  </data>
+  <data name="WeaponSlots" xml:space="preserve">
+    <value>de todas las ranuras para armas</value>
+  </data>
+  <data name="Stats" xml:space="preserve">
+    <value>Valores</value>
+  </data>
+  <data name="AutoSetProfession_Name" xml:space="preserve">
+    <value>Filtro de ajuste automático</value>
+  </data>
+  <data name="AutoSetProfession_Tooltip" xml:space="preserve">
+    <value>Ajustar automáticamente el filtro de profesión a la profesión actual al cambiar de profesión.</value>
   </data>
 </root>

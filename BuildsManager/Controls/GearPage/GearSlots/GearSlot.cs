@@ -122,7 +122,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage.GearSlots
                 ItemControl.Placeholder.TextureRegion = new(38, 38, 52, 52);
             }
 
-            if (Slot.IsArmor() || Slot.IsWeapon() || Slot.IsJuwellery())
+            if (Slot.IsArmor() || Slot.IsWeapon() || Slot.IsJewellery())
             {
                 ItemControl.TextureColor = Color.Gray;
             }

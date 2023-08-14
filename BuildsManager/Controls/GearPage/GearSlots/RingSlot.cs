@@ -11,6 +11,7 @@ using Kenedia.Modules.BuildsManager.DataModels.Items;
 using Kenedia.Modules.Core.Extensions;
 using Kenedia.Modules.BuildsManager.TemplateEntries;
 using static Kenedia.Modules.BuildsManager.Controls.Selection.SelectionPanel;
+using Kenedia.Modules.BuildsManager.Res;
 
 namespace Kenedia.Modules.BuildsManager.Controls.GearPage.GearSlots
 {
@@ -116,7 +117,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage.GearSlots
         {
             base.CreateSubMenus();
 
-            CreateSubMenu(() => "Reset", () => "Reset stat and infusion", () =>
+            CreateSubMenu(() => strings.Reset, () => string.Format(strings.ResetEntry, $"{strings.Stat} {strings.And} {strings.Infusions}"), () =>
             {
                 Stat = null;
                 Infusion1 = null;
@@ -124,8 +125,8 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage.GearSlots
                 Infusion3 = null;
             }, new()
             {
-                new(() => "Stat",() => "Reset the stat.",() => Stat = null),
-                new(() => "Infusion",() => "Reset the infusion.",() =>
+                new(() => strings.Stat,() => string.Format(strings.ResetEntry, strings.Stat),() => Stat = null),
+                new(() => strings.Infusions,() => string.Format(strings.ResetEntry, strings.Infusions),() =>
                 {
                     Infusion1 = null;
                     Infusion2 = null;
@@ -133,34 +134,34 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage.GearSlots
                 }),
             });
 
-            CreateSubMenu(() => "Fill", () => "Fill the stat and infusions of all empty juwellery slots", () =>
+            CreateSubMenu(() => strings.Fill, () => string.Format(strings.FillEntry, $"{strings.Stat} {strings.And} {strings.Infusions} {strings.EmptyJewellerySlots}"), () =>
             {
                 SetGroupStat(Stat, false);
                 SetGroupInfusion(Infusion1, false);
             }, new()
             {
-                new(() => "Stat", () => "Fill all empty stat slots.", () => SetGroupStat(Stat, false)),
-                new(() => "Infusion", () => "Fill all empty infusion slots.", () => SetGroupInfusion(Infusion1, false)),
+                new(() => strings.Stat, () => string.Format(strings.FillEntry, $"{strings.Stat} {strings.EmptyJewellerySlots}"), () => SetGroupStat(Stat, false)),
+                new(() => strings.Infusions, () => string.Format(strings.FillEntry, $"{strings.Infusions} {strings.EmptyJewellerySlots}"), () => SetGroupInfusion(Infusion1, false)),
                 });
 
-            CreateSubMenu(() => "Override", () => "Override the stat and infusions of all juwellery slots", () =>
+            CreateSubMenu(() => strings.Override, () => string.Format(strings.OverrideEntry, $"{strings.Stat} {strings.And} {strings.Infusions} {strings.JewellerySlots}"), () =>
             {
                 SetGroupStat(Stat, true);
                 SetGroupInfusion(Infusion1, true);
             }, new()
             {
-                new(() => "Stat", () => "Override all stat slots.", () => SetGroupStat(Stat, true)),
-                new(() => "Infusion", () => "Override all infusion slots.", () => SetGroupInfusion(Infusion1, true)),
+                new(() => strings.Stat, () => string.Format(strings.OverrideEntry, $"{strings.Stat} {strings.JewellerySlots}"), () => SetGroupStat(Stat, true)),
+                new(() => strings.Infusions, () => string.Format(strings.OverrideEntry, $"{strings.Infusions} {strings.JewellerySlots}"), () => SetGroupInfusion(Infusion1, true)),
                 });
 
-            CreateSubMenu(() => "Reset all juwellery", () => "Reset all stats and infusions for all juwellery slots", () =>
+            CreateSubMenu(() => string.Format(strings.ResetAll, strings.Jewellery), () => string.Format(strings.ResetEntry, $"{strings.Stats} {strings.And} {strings.Infusions} {strings.JewellerySlots}"), () =>
             {
                 SetGroupStat(null, true);
                 SetGroupInfusion(null, true);
             }, new()
             {
-                new(() => "Stats",() => "Reset all stats of all juwellery slots.",() => SetGroupStat(null, true)),
-                new(() => "Infusions",() => "Reset all infusions of all juwellery slots.",() => SetGroupInfusion(null, true)),
+                new(() => strings.Stats,() => string.Format(strings.ResetEntry, $"{strings.Stats} {strings.JewellerySlots}"),() => SetGroupStat(null, true)),
+                new(() => strings.Infusions,() => string.Format(strings.ResetEntry, $"{strings.Infusions} {strings.JewellerySlots}"),() => SetGroupInfusion(null, true)),
             });
         }
 

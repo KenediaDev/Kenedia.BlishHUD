@@ -1,5 +1,6 @@
 ﻿using Kenedia.Modules.BuildsManager.Res;
 using Kenedia.Modules.Core.Controls;
+using Kenedia.Modules.Core.Res;
 using Microsoft.Xna.Framework;
 using System;
 
@@ -19,7 +20,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
             {
                 Parent = this,
                 Location = new(2, 0),
-                SetLocalizedPlaceholder = () => strings.Search,
+                SetLocalizedPlaceholder = () => strings_common.Search,
                 FilteringOnTextChange = true,
             };
 

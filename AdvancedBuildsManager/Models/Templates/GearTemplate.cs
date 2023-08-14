@@ -44,7 +44,7 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Models.Templates
             Type =
                 _slot.IsArmor() ? GearTemplateEntryType.Armor :
                 _slot.IsWeapon() ? GearTemplateEntryType.Weapon :
-                _slot.IsJuwellery() ? GearTemplateEntryType.Equipment :
+                _slot.IsJewellery() ? GearTemplateEntryType.Equipment :
                 GearTemplateEntryType.None;
         }
 
@@ -139,7 +139,7 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Models.Templates
         }
     }
 
-    public class JuwelleryEntry : GearTemplateEntry
+    public class JewelleryEntry : GearTemplateEntry
     {
         private Enrichment _enrichment;
         private Infusion _infusion;
@@ -148,7 +148,7 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Models.Templates
 
         private ObservableList<int> _infusionIds = new();
 
-        public JuwelleryEntry()
+        public JewelleryEntry()
         {
             _enrichmentIds.PropertyChanged += EnrichmentIds_Changed;
         }
@@ -371,7 +371,7 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Models.Templates
         }
     }
 
-    public class WeaponEntry : JuwelleryEntry
+    public class WeaponEntry : JewelleryEntry
     {
         private WeaponType _weapon = WeaponType.Unknown;
         private Sigil _sigil;
@@ -533,7 +533,7 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Models.Templates
         }
     }
 
-    public class ArmorEntry : JuwelleryEntry
+    public class ArmorEntry : JewelleryEntry
     {
         private Rune _rune;
         private ObservableList<int> _runeIds = new() { -1 };
@@ -650,9 +650,9 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Models.Templates
                 {
                     this[GearTemplateEntryType.Armor].Add(slot, new ArmorEntry() { Slot = slot });
                 }
-                else if (slot.IsJuwellery())
+                else if (slot.IsJewellery())
                 {
-                    this[GearTemplateEntryType.Equipment].Add(slot, new JuwelleryEntry() { Slot = slot });
+                    this[GearTemplateEntryType.Equipment].Add(slot, new JewelleryEntry() { Slot = slot });
                 }
                 else if (slot is GearTemplateSlot.PvpAmulet)
                 {
@@ -700,7 +700,7 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Models.Templates
 
         public Dictionary<GearTemplateSlot, ArmorEntry> Armors => this[GearTemplateEntryType.Armor].ToDictionary(e => e.Key, e => (ArmorEntry)e.Value);
 
-        public Dictionary<GearTemplateSlot, JuwelleryEntry> Juwellery => this[GearTemplateEntryType.Equipment].ToDictionary(e => e.Key, e => (JuwelleryEntry)e.Value);
+        public Dictionary<GearTemplateSlot, JewelleryEntry> Jewellery => this[GearTemplateEntryType.Equipment].ToDictionary(e => e.Key, e => (JewelleryEntry)e.Value);
 
         public Dictionary<GearTemplateSlot, BaseTemplateEntry> PvpAmulets => this[GearTemplateEntryType.PvpAmulet];
 
@@ -720,7 +720,7 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Models.Templates
                 code += entry.ToCode();
             }
 
-            foreach (var entry in Juwellery.Values.OrderBy(e => e.Slot))
+            foreach (var entry in Jewellery.Values.OrderBy(e => e.Slot))
             {
                 code += entry.ToCode();
             }
@@ -758,7 +758,7 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Models.Templates
 
                 for (int i = (int)GearTemplateSlot.Back; i <= (int)GearTemplateSlot.Ring_2; i++)
                 {
-                    Juwellery[(GearTemplateSlot)i].FromCode(parts[i].Substring(1, parts[i].Length - 1));
+                    Jewellery[(GearTemplateSlot)i].FromCode(parts[i].Substring(1, parts[i].Length - 1));
                 }
 
                 PvpAmulets[GearTemplateSlot.PvpAmulet].FromCode(parts[(int)GearTemplateSlot.PvpAmulet].Substring(1, parts[(int)GearTemplateSlot.PvpAmulet].Length - 1));

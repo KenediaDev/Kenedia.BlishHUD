@@ -180,6 +180,15 @@ namespace Kenedia.Modules.Core.Res {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Search ....
+        /// </summary>
+        internal static string Search {
+            get {
+                return ResourceManager.GetString("Search", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Settings.
         /// </summary>
         internal static string Settings {

@@ -17,6 +17,7 @@ using Kenedia.Modules.BuildsManager.TemplateEntries;
 using static Kenedia.Modules.BuildsManager.Controls.Selection.SelectionPanel;
 using System.Linq;
 using ItemWeaponType = Gw2Sharp.WebApi.V2.Models.ItemWeaponType;
+using Kenedia.Modules.BuildsManager.Res;
 
 namespace Kenedia.Modules.BuildsManager.Controls.GearPage.GearSlots
 {
@@ -281,7 +282,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage.GearSlots
         {
             base.CreateSubMenus();
 
-            CreateSubMenu(() => "Reset", () => "Reset weapon, stat, sigils and infusion", () =>
+            CreateSubMenu(() => strings.Reset, () => string.Format(strings.ResetEntry, $"{strings.Weapon}, {strings.Stat}, {strings.Sigils} {strings.And} {strings.Infusion}"), () =>
             {
                 Stat = null;
                 Sigil = null;
@@ -290,14 +291,14 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage.GearSlots
                 Item = null;
             }, new()
             {
-                new(() => "Weapon", () => "Reset the weapon.", () => Item = null ),
-                new(() => "Stat", () => "Reset the stat.", () => Stat = null ),
-                new(() => "Sigil", () => "Reset the sigil.", () => Sigil = null ),
-                new(() => "PvP Sigil", () => "Reset the PvP sigil.", () => PvpSigil = null ),
-                new(() => "Infusion", () => "Reset the infusion.", () => Infusion = null ),
+                new(() => strings.Weapon, () => string.Format(strings.ResetEntry, strings.Weapon), () => Item = null ),
+                new(() => strings.Stat, () => string.Format(strings.ResetEntry, strings.Stat), () => Stat = null ),
+                new(() => strings.Sigil, () =>  string.Format(strings.ResetEntry, strings.Sigil), () => Sigil = null ),
+                new(() => strings.PvpSigil, () => string.Format(strings.ResetEntry, strings.PvpSigil), () => PvpSigil = null ),
+                new(() => strings.Infusion, () => string.Format(strings.ResetEntry, strings.Infusion), () => Infusion = null ),
                 });
 
-            CreateSubMenu(() => "Fill", () => "Fill the weapon, stat, sigils and infusions of all empty weapon slots", () =>
+       CreateSubMenu(() => strings.Fill, () => string.Format(strings.FillEntry, $"{strings.Weapon}, {strings.Stat}, {strings.Sigils} {strings.And} {strings.Infusion} {strings.EmptyWeaponSlots}"), () =>
             {
                 SetGroupWeapon(Item as Weapon, false);
                 SetGroupStat(Stat, false);
@@ -306,14 +307,14 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage.GearSlots
                 SetGroupInfusion(Infusion, false);
             }, new()
             {
-                new(() => "Weapon", () => "Fill the weapon for all empty weapon slots.", () => SetGroupWeapon(Item as Weapon, false)),
-                new(() => "Stat", () => "Fill all empty stat slots.", () => SetGroupStat(Stat, false)),
-                new(() => "Sigil", () => "Fill all empty sigil slots.", () => SetGroupSigil(Sigil, false)),
-                new(() => "PvP Sigil", () => "Fill all empty PvP sigil slots.", () => SetGroupPvpSigil(PvpSigil, false)),
-                new(() => "Infusion", () => "Fill all empty infusion slots.", () => SetGroupInfusion(Infusion, false)),
+                new(() => strings.Weapon, () => string.Format(strings.FillEntry, $"{strings.Weapon} {strings.EmptyWeaponSlots}"), () => SetGroupWeapon(Item as Weapon, false)),
+                new(() => strings.Stat, () => string.Format(strings.FillEntry, $"{strings.Stat} {strings.EmptyWeaponSlots}"), () => SetGroupStat(Stat, false)),
+                new(() => strings.Sigil, () => string.Format(strings.FillEntry, $"{strings.Sigil} {strings.EmptyWeaponSlots}"), () => SetGroupSigil(Sigil, false)),
+                new(() => strings.PvpSigil, () => string.Format(strings.FillEntry, $"{strings.PvpSigil} {strings.EmptyWeaponSlots}"), () => SetGroupPvpSigil(PvpSigil, false)),
+                new(() => strings.Infusion, () => string.Format(strings.FillEntry, $"{strings.Infusion} {strings.EmptyWeaponSlots}"), () => SetGroupInfusion(Infusion, false)),
                 });
 
-            CreateSubMenu(() => "Override", () => "Override the weapon, stat, sigils and infusions of all weapon slots", () =>
+            CreateSubMenu(() => strings.Override, () => string.Format(strings.OverrideEntry, $"{strings.Weapon}, {strings.Stat}, {strings.Sigils} {strings.And} {strings.Infusion} {strings.WeaponSlots}"), () =>
             {
                 SetGroupWeapon(Item as Weapon, true);
                 SetGroupStat(Stat, true);
@@ -322,14 +323,14 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage.GearSlots
                 SetGroupInfusion(Infusion, true);
             }, new()
             {
-                new(() => "Weapon", () => "Override all weapon slots.", () => SetGroupWeapon(Item as Weapon, true)),
-                new(() => "Stat", () => "Override all stat slots.", () => SetGroupStat(Stat, true)),
-                new(() => "Sigil", () => "Override all sigil slots.", () => SetGroupSigil(Sigil, true)),
-                new(() => "PvP Sigil", () => "Override all PvP sigil slots.", () => SetGroupPvpSigil(PvpSigil, true)),
-                new(() => "Infusion", () => "Override all infusion slots.", () => SetGroupInfusion(Infusion, true)),
+                new(() => strings.Weapon, () => string.Format(strings.OverrideEntry, $"{strings.Weapons} {strings.WeaponSlots}"), () => SetGroupWeapon(Item as Weapon, true)),
+                new(() => strings.Stat, () => string.Format(strings.OverrideEntry, $"{strings.Stat} {strings.WeaponSlots}"), () => SetGroupStat(Stat, true)),
+                new(() => strings.Sigil, () => string.Format(strings.OverrideEntry, $"{strings.Sigil} {strings.WeaponSlots}"), () => SetGroupSigil(Sigil, true)),
+                new(() => strings.PvpSigil, () => string.Format(strings.OverrideEntry, $"{strings.PvpSigil} {strings.WeaponSlots}"), () => SetGroupPvpSigil(PvpSigil, true)),
+                new(() => strings.Infusion, () => string.Format(strings.OverrideEntry, $"{strings.Infusion} {strings.WeaponSlots}"), () => SetGroupInfusion(Infusion, true)),
                 });
 
-            CreateSubMenu(() => "Reset all weapons", () => "Reset all weapons, stats, sigils and infusions for all weapon slots", () =>
+            CreateSubMenu(() => string.Format(strings.ResetAll, strings.Weapons), () => string.Format(strings.ResetEntry, $"{strings.Weapons}, {strings.Stats} , {strings.Sigils} {strings.And} {strings.Infusions} {strings.WeaponSlots}"), () =>
             {
                 SetGroupWeapon(null, true);
                 SetGroupStat(null, true);
@@ -338,11 +339,11 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage.GearSlots
                 SetGroupInfusion(null, true);
             }, new()
             {
-                new(() => "Weapons", () => "Reset all weapons of all weapon slots.", () => SetGroupWeapon(null, true)),
-                new(() => "Stats", () => "Reset all stats of all weapon slots.", () => SetGroupStat(null, true)),
-                new(() => "Sigils", () => "Reset all sigils of all weapon slots.", () => SetGroupSigil(null, true)),
-                new(() => "PvP Sigils", () => "Reset all PvP sigils of all weapon slots.", () => SetGroupPvpSigil(null, true)),
-                new(() => "Infusions", () => "Reset all infusions of all weapon slots.", () => SetGroupInfusion(null, true) ),
+                new(() => strings.Weapons, () => string.Format(strings.ResetAll, $"{strings.Weapons} {strings.WeaponSlots}"), () => SetGroupWeapon(null, true)),
+                new(() => strings.Stats, () => string.Format(strings.ResetAll, $"{strings.Stats} {strings.WeaponSlots}"), () => SetGroupStat(null, true)),
+                new(() => strings.Sigils, () => string.Format(strings.ResetAll, $"{strings.Sigils} {strings.WeaponSlots}"), () => SetGroupSigil(null, true)),
+                new(() => strings.PvpSigils, () => string.Format(strings.ResetAll, $"{strings.PvpSigils} {strings.WeaponSlots}"), () => SetGroupPvpSigil(null, true)),
+                new(() => strings.Infusions, () => string.Format(strings.ResetAll, $"{strings.Infusions} {strings.WeaponSlots}"), () => SetGroupInfusion(null, true) ),
                 });
         }
 

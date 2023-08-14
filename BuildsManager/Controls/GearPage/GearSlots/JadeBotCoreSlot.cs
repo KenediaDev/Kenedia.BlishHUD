@@ -78,7 +78,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage.GearSlots
             base.CreateSubMenus();
 
             return;
-            CreateSubMenu(() => "Reset", () => "Reset jade bot core", () => Item = null);
+            CreateSubMenu(() => strings.Reset, () => string.Format(strings.ResetEntry, strings.JadeBotCore), () => Item = null);
         }
     }
 }

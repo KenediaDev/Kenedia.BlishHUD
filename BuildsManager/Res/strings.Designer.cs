@@ -97,6 +97,69 @@ namespace Kenedia.Modules.BuildsManager.Res {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Amulet.
+        /// </summary>
+        internal static string Amulet {
+            get {
+                return ResourceManager.GetString("Amulet", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to and.
+        /// </summary>
+        internal static string And {
+            get {
+                return ResourceManager.GetString("And", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Armor.
+        /// </summary>
+        internal static string Armor {
+            get {
+                return ResourceManager.GetString("Armor", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Armors.
+        /// </summary>
+        internal static string Armors {
+            get {
+                return ResourceManager.GetString("Armors", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to of all armor slots.
+        /// </summary>
+        internal static string ArmorSlots {
+            get {
+                return ResourceManager.GetString("ArmorSlots", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Auto Set Filter.
+        /// </summary>
+        internal static string AutoSetProfession_Name {
+            get {
+                return ResourceManager.GetString("AutoSetProfession_Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Automatically set the profession filter to the current profession on profession change.
+        /// </summary>
+        internal static string AutoSetProfession_Tooltip {
+            get {
+                return ResourceManager.GetString("AutoSetProfession_Tooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Concentration.
         /// </summary>
         internal static string BoonDuration {
@@ -223,6 +286,42 @@ namespace Kenedia.Modules.BuildsManager.Res {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to of all empty armor slots.
+        /// </summary>
+        internal static string EmptyArmorSlots {
+            get {
+                return ResourceManager.GetString("EmptyArmorSlots", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to of all empty jewellery slots.
+        /// </summary>
+        internal static string EmptyJewellerySlots {
+            get {
+                return ResourceManager.GetString("EmptyJewellerySlots", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to of all empty weapon slots.
+        /// </summary>
+        internal static string EmptyWeaponSlots {
+            get {
+                return ResourceManager.GetString("EmptyWeaponSlots", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Enrichment.
+        /// </summary>
+        internal static string Enrichment {
+            get {
+                return ResourceManager.GetString("Enrichment", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Equipment.
         /// </summary>
         internal static string Equipment {
@@ -242,6 +341,24 @@ namespace Kenedia.Modules.BuildsManager.Res {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Fill.
+        /// </summary>
+        internal static string Fill {
+            get {
+                return ResourceManager.GetString("Fill", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Fill {0}.
+        /// </summary>
+        internal static string FillEntry {
+            get {
+                return ResourceManager.GetString("FillEntry", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Healing Power.
         /// </summary>
         internal static string Healing {
@@ -256,6 +373,24 @@ namespace Kenedia.Modules.BuildsManager.Res {
         internal static string InactiveLegend {
             get {
                 return ResourceManager.GetString("InactiveLegend", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Infusion.
+        /// </summary>
+        internal static string Infusion {
+            get {
+                return ResourceManager.GetString("Infusion", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Infusions.
+        /// </summary>
+        internal static string Infusions {
+            get {
+                return ResourceManager.GetString("Infusions", resourceCulture);
             }
         }
         
@@ -296,6 +431,24 @@ namespace Kenedia.Modules.BuildsManager.Res {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Jewellery.
+        /// </summary>
+        internal static string Jewellery {
+            get {
+                return ResourceManager.GetString("Jewellery", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to of all jewellery slots.
+        /// </summary>
+        internal static string JewellerySlots {
+            get {
+                return ResourceManager.GetString("JewellerySlots", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to New Template.
         /// </summary>
         internal static string NewTemplate {
@@ -323,6 +476,33 @@ namespace Kenedia.Modules.BuildsManager.Res {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Nourishment.
+        /// </summary>
+        internal static string Nourishment {
+            get {
+                return ResourceManager.GetString("Nourishment", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Override.
+        /// </summary>
+        internal static string Override {
+            get {
+                return ResourceManager.GetString("Override", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Override {0}.
+        /// </summary>
+        internal static string OverrideEntry {
+            get {
+                return ResourceManager.GetString("OverrideEntry", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Power.
         /// </summary>
         internal static string Power {
@@ -341,6 +521,24 @@ namespace Kenedia.Modules.BuildsManager.Res {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to PvP Sigil.
+        /// </summary>
+        internal static string PvpSigil {
+            get {
+                return ResourceManager.GetString("PvpSigil", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to PvP Sigils.
+        /// </summary>
+        internal static string PvpSigils {
+            get {
+                return ResourceManager.GetString("PvpSigils", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Relic.
         /// </summary>
         internal static string Relic {
@@ -350,11 +548,65 @@ namespace Kenedia.Modules.BuildsManager.Res {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Search ....
+        ///   Looks up a localized string similar to Reset.
         /// </summary>
-        internal static string Search {
+        internal static string Reset {
             get {
-                return ResourceManager.GetString("Search", resourceCulture);
+                return ResourceManager.GetString("Reset", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Reset all {0}.
+        /// </summary>
+        internal static string ResetAll {
+            get {
+                return ResourceManager.GetString("ResetAll", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Reset {0}.
+        /// </summary>
+        internal static string ResetEntry {
+            get {
+                return ResourceManager.GetString("ResetEntry", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Rune.
+        /// </summary>
+        internal static string Rune {
+            get {
+                return ResourceManager.GetString("Rune", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Runes.
+        /// </summary>
+        internal static string Runes {
+            get {
+                return ResourceManager.GetString("Runes", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Sigil.
+        /// </summary>
+        internal static string Sigil {
+            get {
+                return ResourceManager.GetString("Sigil", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Sigils.
+        /// </summary>
+        internal static string Sigils {
+            get {
+                return ResourceManager.GetString("Sigils", resourceCulture);
             }
         }
         
@@ -382,6 +634,24 @@ namespace Kenedia.Modules.BuildsManager.Res {
         internal static string SortyByProfession {
             get {
                 return ResourceManager.GetString("SortyByProfession", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Stat.
+        /// </summary>
+        internal static string Stat {
+            get {
+                return ResourceManager.GetString("Stat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Stats.
+        /// </summary>
+        internal static string Stats {
+            get {
+                return ResourceManager.GetString("Stats", resourceCulture);
             }
         }
         
@@ -422,6 +692,15 @@ namespace Kenedia.Modules.BuildsManager.Res {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Utility.
+        /// </summary>
+        internal static string Utility {
+            get {
+                return ResourceManager.GetString("Utility", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Vitality.
         /// </summary>
         internal static string Vitality {
@@ -436,6 +715,33 @@ namespace Kenedia.Modules.BuildsManager.Res {
         internal static string Warning {
             get {
                 return ResourceManager.GetString("Warning", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Weapon.
+        /// </summary>
+        internal static string Weapon {
+            get {
+                return ResourceManager.GetString("Weapon", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Weapons.
+        /// </summary>
+        internal static string Weapons {
+            get {
+                return ResourceManager.GetString("Weapons", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to of all weapon slots.
+        /// </summary>
+        internal static string WeaponSlots {
+            get {
+                return ResourceManager.GetString("WeaponSlots", resourceCulture);
             }
         }
     }

@@ -9,6 +9,7 @@ using Blish_HUD;
 using static Blish_HUD.ContentService;
 using Blish_HUD.Input;
 using Kenedia.Modules.BuildsManager.Models;
+using System.Diagnostics;
 
 namespace Kenedia.Modules.BuildsManager.Controls.BuildPage.ProfessionSpecific
 {

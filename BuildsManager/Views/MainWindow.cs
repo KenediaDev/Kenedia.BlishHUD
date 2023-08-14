@@ -82,7 +82,7 @@ namespace Kenedia.Modules.BuildsManager.Views
             //Template = BuildsManager.ModuleInstance?.Templates.FirstOrDefault();
         }
 
-        private TemplatePresenter TemplatePresenter { get; set; } = new();
+        private TemplatePresenter TemplatePresenter { get; } = new();
 
         private void TemplatePresenter_NameChanged(object sender, ValueChangedEventArgs<string> e)
         {
@@ -95,7 +95,8 @@ namespace Kenedia.Modules.BuildsManager.Views
         {
             get => TemplatePresenter?.Template; set
             {
-                var prev = TemplatePresenter.Template;
+                if(TemplatePresenter is null) return;
+                var prev = TemplatePresenter?.Template;
 
                 SubName = value?.Name;
 
@@ -129,7 +130,6 @@ namespace Kenedia.Modules.BuildsManager.Views
             _selectionPanel?.Dispose();
 
             TemplatePresenter.Template = null;
-            TemplatePresenter = null;
         }
 
         public void SelectFirstTemplate()

@@ -11,6 +11,7 @@ using Kenedia.Modules.BuildsManager.DataModels.Items;
 using Kenedia.Modules.Core.Extensions;
 using Kenedia.Modules.BuildsManager.TemplateEntries;
 using static Kenedia.Modules.BuildsManager.Controls.Selection.SelectionPanel;
+using Kenedia.Modules.BuildsManager.Res;
 
 namespace Kenedia.Modules.BuildsManager.Controls.GearPage.GearSlots
 {
@@ -81,28 +82,28 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage.GearSlots
         {
             base.CreateSubMenus();
 
-            CreateSubMenu(() => "Reset", () => "Reset stat and enrichment", () =>
+            CreateSubMenu(() => strings.Reset, () => string.Format(strings.ResetEntry, $"{strings.Stat} {strings.And} {strings.Enrichment}"), () =>
             {
                 Stat = null;
                 Enrichment = null;
             }, new()
             {
-                new(() => "Stat", () => "Reset the stat.", () => Stat = null ),
-                new(() => "Enrichment", () => "Reset the enrichment.", () => Enrichment = null )});
+                new(() => strings.Stat, () => string.Format(strings.ResetEntry, strings.Stat), () => Stat = null ),
+                new(() => strings.Enrichment, () => string.Format(strings.ResetEntry, strings.Enrichment), () => Enrichment = null )});
 
-            CreateSubMenu(() => "Fill", () => "Fill the stat of all empty juwellery slots", () => SetGroupStat(Stat, false), new()
+            CreateSubMenu(() => strings.Fill, () => string.Format(strings.FillEntry, $"{strings.Stat} {strings.EmptyJewellerySlots}"), () => SetGroupStat(Stat, false), new()
             {
-                new(() => "Stat", () => "Fill all empty stat slots.", () => SetGroupStat(Stat, false)),
+                new(() => strings.Stat, () => string.Format(strings.FillEntry, $"{strings.Stat} {strings.EmptyJewellerySlots}"), () => SetGroupStat(Stat, false)),
                 });
 
-            CreateSubMenu(() => "Override", () => "Override the stat of all juwellery slots", () => SetGroupStat(Stat, true), new()
+            CreateSubMenu(() => strings.Override, () => string.Format(strings.Override, $"{strings.Stat} {strings.JewellerySlots}"), () => SetGroupStat(Stat, true), new()
             {
-                new(() => "Stat", () => "Override all stat slots.", () => SetGroupStat(Stat, true)),
+                new(() => strings.Stat, () => string.Format(strings.OverrideEntry, $"{strings.Stat} {strings.JewellerySlots}"), () => SetGroupStat(Stat, true)),
                 });
 
-            CreateSubMenu(() => "Reset all juwellery", () => "Reset all stats and infusions for all juwellery slots", () => SetGroupStat(null, true), new()
+            CreateSubMenu(() => string.Format(strings.ResetAll, strings.Jewellery), () => string.Format(strings.ResetEntry, $"{strings.Stats} {strings.And} {strings.Infusions} {strings.JewellerySlots}"), () => SetGroupStat(null, true), new()
             {
-                new(() => "Stats", () => "Reset all stats of all juwellery slots.", () => SetGroupStat(null, true)),
+                new(() => strings.Stats, () => string.Format(strings.ResetAll, $"{strings.Stats} {strings.JewellerySlots}"), () => SetGroupStat(null, true)),
                 });
         }
 

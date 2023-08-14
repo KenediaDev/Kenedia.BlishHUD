@@ -18,6 +18,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using FlowPanel = Kenedia.Modules.Core.Controls.FlowPanel;
 using Panel = Kenedia.Modules.Core.Controls.Panel;
@@ -114,7 +115,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
                 Parent = this,
                 TextureSize = new Point(32),
                 ZIndex = 15,
-                Texture = _texturesService.GetTexture(@"textures\races\pact.png", "pact"),
+                Texture = _texturesService.GetTexture(@"textures\races\none.png", "none"),
                 Size = new(40),
             };
 
@@ -242,6 +243,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
                 c?.Dispose();
             }
 
+            Debug.WriteLine($"BuildsPage Dispose");
             TemplatePresenter = null;
         }
 

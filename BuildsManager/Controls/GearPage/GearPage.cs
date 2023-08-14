@@ -126,7 +126,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage
 
             List<GearSlot> armors = new();
             List<GearSlot> weapons = new();
-            List<GearSlot> juwellery = new();
+            List<GearSlot> jewellery  = new();
 
             foreach (var slot in _templateSlots.Values)
             {
@@ -138,9 +138,9 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage
                 {
                     weapons.Add(slot);
                 }
-                else if(slot.Slot.IsJuwellery())
+                else if(slot.Slot.IsJewellery())
                 {
-                    juwellery.Add(slot);
+                    jewellery .Add(slot);
                 } 
             }
 
@@ -154,9 +154,9 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage
                 weapon.SlotGroup = weapons;
             }
 
-            foreach (GearSlot juwellerySlot in juwellery)
+            foreach (GearSlot jewelrySlot in jewellery )
             {
-                juwellerySlot.SlotGroup = juwellery;
+                jewelrySlot.SlotGroup = jewellery ;
             }
 
             _professionRaceSelection = new()

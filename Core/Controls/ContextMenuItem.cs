@@ -5,6 +5,7 @@ using Gw2Sharp.WebApi;
 using Kenedia.Modules.Core.Interfaces;
 using Kenedia.Modules.Core.Services;
 using System;
+using System.Diagnostics;
 
 namespace Kenedia.Modules.Core.Controls
 {
@@ -15,23 +16,22 @@ namespace Kenedia.Modules.Core.Controls
 
         public ContextMenuItem()
         {
-
             LocalizingService.LocaleChanged += UserLocale_SettingChanged;
             UserLocale_SettingChanged(null, null);
         }
 
-        public ContextMenuItem(Func<string> setLocalizedText)
+        public ContextMenuItem(Func<string> setLocalizedText) : this()
         {
             SetLocalizedText = setLocalizedText;
         }
 
-        public ContextMenuItem(Func<string> setLocalizedText, Action onClickAction)
+        public ContextMenuItem(Func<string> setLocalizedText, Action onClickAction) : this()
         {
             SetLocalizedText = setLocalizedText;
             OnClickAction = onClickAction;
         }
 
-        public ContextMenuItem(Func<string> setLocalizedText, Action onClickAction, Func<string> setLocalizedTooltip = null)
+        public ContextMenuItem(Func<string> setLocalizedText, Action onClickAction, Func<string> setLocalizedTooltip = null) : this()
         {
             SetLocalizedText = setLocalizedText;
             OnClickAction = onClickAction;

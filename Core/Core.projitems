@@ -117,13 +117,9 @@
     <Compile Include="$(MSBuildThisFileDirectory)Views\StandardWindow.cs" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Res\strings_common.de.resx">
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Res\strings_common.de.resx" />
     <EmbeddedResource Include="$(MSBuildThisFileDirectory)Res\strings_common.es.resx" />
-    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Res\strings_common.fr.resx">
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Res\strings_common.fr.resx" />
     <EmbeddedResource Include="$(MSBuildThisFileDirectory)Res\strings_common.resx">
       <LastGenOutput>strings_common.Designer.cs</LastGenOutput>
       <Generator>ResXFileCodeGenerator</Generator>

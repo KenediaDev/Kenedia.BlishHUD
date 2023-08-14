@@ -4,12 +4,13 @@ using Kenedia.Modules.Core.Utility;
 using Kenedia.Modules.BuildsManager.Models;
 using Kenedia.Modules.Core.Models;
 using System;
+using System.Diagnostics;
 
 namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
 {
     public abstract class ProfessionSpecifics : Control
     {
-        protected TemplatePresenter Internal_TemplatePresenter;
+        private TemplatePresenter _templatePresenter;
 
         public ProfessionSpecifics(TemplatePresenter template)
         {
@@ -24,7 +25,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
 
         public TemplatePresenter TemplatePresenter
         {
-            get => Internal_TemplatePresenter; set => Common.SetProperty(ref Internal_TemplatePresenter, value, SetTemplatePresenter);
+            get => _templatePresenter; set => Common.SetProperty(ref _templatePresenter, value, SetTemplatePresenter);
         }
 
         private void SetTemplatePresenter(object sender, ValueChangedEventArgs<TemplatePresenter> e)
@@ -78,8 +79,6 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
 
         protected override void DisposeControl()
         {
-            TemplatePresenter = null;
-
             base.DisposeControl();
         }
     }

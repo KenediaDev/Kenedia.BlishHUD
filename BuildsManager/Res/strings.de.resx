@@ -226,9 +226,6 @@ Der Zweck dieses Codes ist es, die Module Ausrüstungsvorlage leicht mit anderen
   <data name="CurrentlyNotAvailable" xml:space="preserve">
     <value>Derzeit nicht verfügbar</value>
   </data>
-  <data name="Search" xml:space="preserve">
-    <value>Suche ...</value>
-  </data>
   <data name="None" xml:space="preserve">
     <value>Keine</value>
   </data>
@@ -239,9 +236,114 @@ Der Zweck dieses Codes ist es, die Module Ausrüstungsvorlage leicht mit anderen
     <value>Inaktive Legende</value>
   </data>
   <data name="ItemControlClickToCopyStat" xml:space="preserve">
-    <value>CTRL + Linksklick auf das Statistiksymbol, um den Statistiknamen zu kopieren</value>
+    <value>CTRL + Linksklick auf das Werte-Symbol, um den Werte-Namen zu kopieren</value>
   </data>
   <data name="ItemControlClickToCopyItem" xml:space="preserve">
     <value>CTRL + Linksklick zum Kopieren des Objektnamens</value>
+  </data>
+  <data name="Reset" xml:space="preserve">
+    <value>Zurücksetzen</value>
+  </data>
+  <data name="Fill" xml:space="preserve">
+    <value>Füllen</value>
+  </data>
+  <data name="Override" xml:space="preserve">
+    <value>Überschreiben</value>
+  </data>
+  <data name="ResetAll" xml:space="preserve">
+    <value>Alle {0} zurücksetzen</value>
+  </data>
+  <data name="Stat" xml:space="preserve">
+    <value>Attribute</value>
+  </data>
+  <data name="Stats" xml:space="preserve">
+    <value>Attribute</value>
+  </data>
+  <data name="Infusion" xml:space="preserve">
+    <value>Infusion</value>
+  </data>
+  <data name="Infusions" xml:space="preserve">
+    <value>Infusionen</value>
+  </data>
+  <data name="Enrichment" xml:space="preserve">
+    <value>Anreicherung</value>
+  </data>
+  <data name="Rune" xml:space="preserve">
+    <value>Rune</value>
+  </data>
+  <data name="Sigil" xml:space="preserve">
+    <value>Sigil</value>
+  </data>
+  <data name="Runes" xml:space="preserve">
+    <value>Runen</value>
+  </data>
+  <data name="Sigils" xml:space="preserve">
+    <value>Sigile</value>
+  </data>
+  <data name="PvpSigil" xml:space="preserve">
+    <value>PvP-Sigil</value>
+  </data>
+  <data name="PvpSigils" xml:space="preserve">
+    <value>PvP-Sigile</value>
+  </data>
+  <data name="ResetEntry" xml:space="preserve">
+    <value>{0} zurücksetzen </value>
+  </data>
+  <data name="FillEntry" xml:space="preserve">
+    <value>{0} füllen</value>
+  </data>
+  <data name="And" xml:space="preserve">
+    <value>und</value>
+  </data>
+  <data name="EmptyJewellerySlots" xml:space="preserve">
+    <value>aller leeren Schmuckfelder</value>
+  </data>
+  <data name="JewellerySlots" xml:space="preserve">
+    <value>aller Schmuckfelder</value>
+  </data>
+  <data name="OverrideEntry" xml:space="preserve">
+    <value>{0} überschreiben</value>
+  </data>
+  <data name="Amulet" xml:space="preserve">
+    <value>Amulett</value>
+  </data>
+  <data name="Armor" xml:space="preserve">
+    <value>Rüstung</value>
+  </data>
+  <data name="Armors" xml:space="preserve">
+    <value>Rüstungen</value>
+  </data>
+  <data name="ArmorSlots" xml:space="preserve">
+    <value>aller Rüstungsfelder</value>
+  </data>
+  <data name="EmptyArmorSlots" xml:space="preserve">
+    <value>aller leeren Rüstungsfelder</value>
+  </data>
+  <data name="EmptyWeaponSlots" xml:space="preserve">
+    <value>aller leeren Waffenfelder</value>
+  </data>
+  <data name="Jewellery" xml:space="preserve">
+    <value>Schmuck</value>
+  </data>
+  <data name="Nourishment" xml:space="preserve">
+    <value>Ernährung</value>
+  </data>
+  <data name="Utility" xml:space="preserve">
+    <value>Dienstprogramm</value>
+  </data>
+  <data name="Weapon" xml:space="preserve">
+    <value>Waffe</value>
+  </data>
+  <data name="Weapons" xml:space="preserve">
+    <value>Waffen</value>
+  </data>
+  <data name="WeaponSlots" xml:space="preserve">
+    <value>aller Waffenfelder</value>
+  </data>
+  <data name="AutoSetProfession_Name" xml:space="preserve">
+    <value>Automatisch eingestellter Filter</value>
+  </data>
+  <data name="AutoSetProfession_Tooltip" xml:space="preserve">
+    <value>Automatisches Setzen des Klassenfilters auf die aktuelle Klasse beim Klassenwechsel</value>
   </data>
 </root>

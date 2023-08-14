@@ -92,7 +92,7 @@ namespace Kenedia.Modules.BuildsManager.Models
                 {TemplateSlotType.AltAquatic, AltAquatic},
                 };
 
-            Juwellery = new()
+            Jewellery = new()
                 {
                 {TemplateSlotType.MainHand, MainHand },
                 {TemplateSlotType.OffHand, OffHand },
@@ -257,7 +257,7 @@ namespace Kenedia.Modules.BuildsManager.Models
 
         public Dictionary<TemplateSlotType, TemplateEntry> Armors { get; }
 
-        public Dictionary<TemplateSlotType, TemplateEntry> Juwellery { get; }
+        public Dictionary<TemplateSlotType, TemplateEntry> Jewellery { get; }
         #endregion
 
         private void RegisterGearListeners()

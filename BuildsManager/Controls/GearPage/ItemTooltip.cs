@@ -110,6 +110,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage
         private void UserLocale_SettingChanged(object sender, ValueChangedEventArgs<Locale> e)
         {
             ApplyItem(this, null);
+            Comment = SetLocalizedComment?.Invoke();
         }
 
         private void ApplyStat(object sender, Core.Models.ValueChangedEventArgs<Stat> e)

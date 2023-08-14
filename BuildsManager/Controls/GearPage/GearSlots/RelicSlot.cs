@@ -76,7 +76,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage.GearSlots
             base.CreateSubMenus();
 
             return;
-            CreateSubMenu(() => "Reset", () => "Reset relic", () => Item = null);
+            CreateSubMenu(() => strings.Reset, () => string.Format(strings.ResetEntry, strings.Relic), () => Item = null);
         }
     }
 }

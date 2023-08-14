@@ -188,7 +188,7 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Controls.Selection
             var slots =
                 (ActiveTemplateSlot as GearTemplateEntry).Slot.IsArmor() ? Template?.GearTemplate?.Armors.Values.Cast<GearTemplateEntry>() :
                 (ActiveTemplateSlot as GearTemplateEntry).Slot.IsWeapon() ? Template?.GearTemplate?.Weapons.Values.Cast<GearTemplateEntry>() :
-                (ActiveTemplateSlot as GearTemplateEntry).Slot.IsJuwellery() ? Template?.GearTemplate?.Juwellery.Values.Cast<GearTemplateEntry>() : null;
+                (ActiveTemplateSlot as GearTemplateEntry).Slot.IsJewellery() ? Template?.GearTemplate?.Jewellery.Values.Cast<GearTemplateEntry>() : null;
 
             foreach (var slot in slots)
             {
@@ -201,7 +201,7 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Controls.Selection
             List<GearTemplateEntry> slots = new();
             slots.AddRange(Template?.GearTemplate?.Armors.Values.Cast<GearTemplateEntry>());
             slots.AddRange(Template?.GearTemplate?.Weapons.Values.Cast<GearTemplateEntry>());
-            slots.AddRange(Template?.GearTemplate?.Juwellery.Values.Cast<GearTemplateEntry>());
+            slots.AddRange(Template?.GearTemplate?.Jewellery.Values.Cast<GearTemplateEntry>());
 
             foreach (var slot in slots)
             {

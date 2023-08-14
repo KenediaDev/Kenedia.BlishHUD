@@ -183,4 +183,7 @@
   <data name="Tag" xml:space="preserve">
     <value>Etiquette personnalisée</value>
   </data>
+  <data name="Search" xml:space="preserve">
+    <value>Recherche ...</value>
+  </data>
 </root>

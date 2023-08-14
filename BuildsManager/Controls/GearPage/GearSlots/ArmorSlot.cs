@@ -13,6 +13,7 @@ using Blish_HUD.Controls;
 using Kenedia.Modules.Core.Extensions;
 using Kenedia.Modules.BuildsManager.TemplateEntries;
 using static Kenedia.Modules.BuildsManager.Controls.Selection.SelectionPanel;
+using Kenedia.Modules.BuildsManager.Res;
 
 namespace Kenedia.Modules.BuildsManager.Controls.GearPage.GearSlots
 {
@@ -120,52 +121,52 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage.GearSlots
         {
             base.CreateSubMenus();
 
-            CreateSubMenu(() => "Reset", () => "Reset stat, rune and infusion", () =>
+            CreateSubMenu(() => strings.Reset, () => string.Format(strings.ResetEntry, $"{strings.Stat}, {strings.Rune} {strings.And} {strings.Infusion}"), () =>
             {
                 Stat = null;
                 Rune = null;
                 Infusion = null;
             }, new()
             {
-                new(() => "Stat", () => "Reset the stat.", () => Stat = null ),
-                new(() => "Rune", () => "Reset the rune.", () => Rune = null ),
-                new(() => "Infusion", () => "Reset the infusion.", () => Infusion = null ),
+                new(() => strings.Stat, () => string.Format(strings.ResetEntry, strings.Stat), () => Stat = null ),
+                new(() => strings.Rune, () => string.Format(strings.ResetEntry, strings.Rune), () => Rune = null ),
+                new(() => strings.Infusion, () => string.Format(strings.ResetEntry, strings.Infusion), () => Infusion = null ),
                 });
 
-            CreateSubMenu(() => "Fill", () => "Fill the stat, rune and infusion of all empty armor slots", () =>
+            CreateSubMenu(() => strings.Fill, () => string.Format(strings.FillEntry, $"{strings.Stat}, {strings.Rune} {strings.And} {strings.Infusion} {strings.EmptyArmorSlots}"), () =>
             {
                 SetGroupStat(Stat, false);
                 SetGroupRune(Rune, false);
                 SetGroupInfusion(Infusion, false);
             }, new()
             {
-                new(() => "Stat", () => "Fill all empty stat slots.", () => SetGroupStat(Stat, false)),
-                new(() => "Rune", () => "Fill all empty rune slots.", () => SetGroupRune(Rune, false)),
-                new(() => "Infusion", () => "Fill all empty infusion slots.", () => SetGroupInfusion(Infusion, false)),
+                new(() => strings.Stat, () => string.Format(strings.FillEntry, $"{strings.Stat} {strings.EmptyArmorSlots}"), () => SetGroupStat(Stat, false)),
+                new(() => strings.Rune, () => string.Format(strings.FillEntry, $"{strings.Rune} {strings.EmptyArmorSlots}"), () => SetGroupRune(Rune, false)),
+                new(() => strings.Infusion, () => string.Format(strings.FillEntry, $"{strings.Infusion} {strings.EmptyArmorSlots}"), () => SetGroupInfusion(Infusion, false)),
                 });
 
-            CreateSubMenu(() => "Override", () => "Override the stat, rune and infusion of all armor slots", () =>
+            CreateSubMenu(() => strings.Override, () => string.Format(strings.OverrideEntry, $"{strings.Stat}, {strings.Rune} {strings.And} {strings.Infusions} {strings.ArmorSlots}"), () =>
             {
                 SetGroupStat(Stat, true);
                 SetGroupRune(Rune, true);
                 SetGroupInfusion(Infusion, true);
             }, new()
             {
-                new(() => "Stat", () => "Override all stat slots.", () => SetGroupStat(Stat, true)),
-                new(() => "Rune", () => "Override all rune slots.", () => SetGroupRune(Rune, true)),
-                new(() => "Infusion", () => "Override all infusion slots.", () => SetGroupInfusion(Infusion, true)),
+                new(() => strings.Stat, () => string.Format(strings.OverrideEntry, $"{strings.Stat} {strings.ArmorSlots}"), () => SetGroupStat(Stat, true)),
+                new(() => strings.Rune, () => string.Format(strings.OverrideEntry, $"{strings.Rune} {strings.ArmorSlots}"), () => SetGroupRune(Rune, true)),
+                new(() => strings.Infusion, () => string.Format(strings.OverrideEntry, $"{strings.Infusion} {strings.ArmorSlots}"), () => SetGroupInfusion(Infusion, true)),
                 });
 
-            CreateSubMenu(() => "Reset all armor", () => "Reset all stats, runes and infusions for all armor slots", () =>
+            CreateSubMenu(() => string.Format(strings.ResetAll, strings.Armors), () => string.Format(strings.ResetEntry, $"{strings.Stats}, {strings.Runes} {strings.And} {strings.Infusions} {strings.ArmorSlots}"), () =>
             {
                 SetGroupStat(null, true);
                 SetGroupRune(null, true);
                 SetGroupInfusion(null, true);
             }, new()
             {
-                new(() => "Stats", () => "Reset all stats of all armor slots.", () => SetGroupStat(null, true)),
-                new(() => "Runes", () => "Reset all runes of all armor slots.", () => SetGroupRune(null, true)),
-                new(() => "Infusions", () => "Reset all infusions of all armor slots.", () => SetGroupInfusion(null, true) ),
+                new(() => strings.Stats, () =>  string.Format(strings.ResetAll, $"{strings.Stats} {strings.ArmorSlots}"), () => SetGroupStat(null, true)),
+                new(() => strings.Runes, () => string.Format(strings.ResetAll, $"{strings.Runes} {strings.ArmorSlots}"), () => SetGroupRune(null, true)),
+                new(() => strings.Infusions, () => string.Format(strings.ResetAll, $"{strings.Infusions} {strings.ArmorSlots}"), () => SetGroupInfusion(null, true) ),
                 });
         }
 

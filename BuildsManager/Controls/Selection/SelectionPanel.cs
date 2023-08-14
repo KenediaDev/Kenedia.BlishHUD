@@ -15,6 +15,7 @@ using Kenedia.Modules.BuildsManager.Models;
 using System.Collections.Generic;
 using System.Linq;
 using Kenedia.Modules.BuildsManager.Res;
+using System.Diagnostics;
 
 namespace Kenedia.Modules.BuildsManager.Controls.Selection
 {
@@ -92,6 +93,18 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
                 Visible = false,
                 ZIndex = ZIndex,
             };
+
+            GameService.Gw2Mumble.PlayerCharacter.NameChanged += PlayerCharacter_NameChanged;
+            PlayerCharacter_NameChanged();
+        }
+
+        private void PlayerCharacter_NameChanged(object sender = null, EventArgs e = null)
+        {
+            if (BuildsManager.ModuleInstance?.Settings?.AutoSetFilterProfession?.Value == true)
+            {
+                _buildSelection.SetTogglesToPlayerProfession();
+                SelectFirstTemplate();
+            }           
         }
 
         public enum SelectionTypes
@@ -214,7 +227,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
 
             var selectables = _buildSelection.SelectionContainer?.GetChildrenOfType<TemplateSelectable>();
             if (selectables is not null && MainWindow is not null)
-                MainWindow.Template = selectables.FirstOrDefault()?.Template ?? _buildSelection.CreateTemplate(strings.NewTemplate);
+                MainWindow.Template = selectables.FirstOrDefault(e => e.Visible)?.Template ?? _buildSelection.CreateTemplate(strings.NewTemplate);
 
             ResetAnchor();
         }
