@@ -117,7 +117,8 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage.ProfessionSpecific
         {
             RecalculateLayout();
 
-            var skills = BuildsManager.Data.Professions[Gw2Sharp.Models.ProfessionType.Necromancer].Skills;
+            var skills = BuildsManager.Data?.Professions?[Gw2Sharp.Models.ProfessionType.Necromancer]?.Skills;
+            if (skills is null) return;
 
             Skill GetSkill(SkillSlot slot)
             {

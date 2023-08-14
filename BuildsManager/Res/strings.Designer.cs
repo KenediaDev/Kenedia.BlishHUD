@@ -260,6 +260,24 @@ namespace Kenedia.Modules.BuildsManager.Res {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to CTRL + Left Click to copy the item name.
+        /// </summary>
+        internal static string ItemControlClickToCopyItem {
+            get {
+                return ResourceManager.GetString("ItemControlClickToCopyItem", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to CTRL + Left Click the stat icon to copy the stat name.
+        /// </summary>
+        internal static string ItemControlClickToCopyStat {
+            get {
+                return ResourceManager.GetString("ItemControlClickToCopyStat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Item Id.
         /// </summary>
         internal static string ItemId {

@@ -238,4 +238,10 @@ Der Zweck dieses Codes ist es, die Module Ausrüstungsvorlage leicht mit anderen
   <data name="InactiveLegend" xml:space="preserve">
     <value>Inaktive Legende</value>
   </data>
+  <data name="ItemControlClickToCopyStat" xml:space="preserve">
+    <value>CTRL + Linksklick auf das Statistiksymbol, um den Statistiknamen zu kopieren</value>
+  </data>
+  <data name="ItemControlClickToCopyItem" xml:space="preserve">
+    <value>CTRL + Linksklick zum Kopieren des Objektnamens</value>
+  </data>
 </root>

@@ -184,6 +184,8 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage.ProfessionSpecific
                     if (s.Pet.Enviroment.HasFlag(flag))
                     {
                         s.Draw(this, spriteBatch, RelativeMousePosition);
+
+                        //spriteBatch.DrawStringOnCtrl(this, s?.Pet?.Id.ToString() ?? "null", Content.DefaultFont18, new(new(s.Bounds.Center.X, s.Bounds.Top), bounds.Size), Color.Lime);
                     }
                 }
 
@@ -196,7 +198,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage.ProfessionSpecific
             if (TemplatePresenter is not null)
             {
                 var flag = _selectorAnchor.PetSlot is PetSlotType.Terrestrial_1 or PetSlotType.Terrestrial_2 ? Enviroment.Terrestrial : Enviroment.Aquatic;
-                var pets = _selectablePets.Where(e => e.Pet.Enviroment.HasFlag(flag));
+                var pets = _selectablePets.OrderBy(e => e.Pet.Order).Where(e => e.Pet.Enviroment.HasFlag(flag));
 
                 int columns = Math.Min(pets.Count(), 6);
                 int rows = (int)Math.Ceiling(pets.Count() / (double)columns);
@@ -213,6 +215,9 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage.ProfessionSpecific
                     p.PawRegion = new(_selectorBounds.Left + (column * (petSize - 28)) + (int)(34 / 1.25), _selectorBounds.Top + (row * (petSize - 28)) + (int)(40 / 1.25), (int)(58 / 1.25), (int)(58 / 1.25));
 
                     column++;
+
+                    if (p.Pet?.Id == 43)
+                        column++;
 
                     if (column >= columns)
                     {

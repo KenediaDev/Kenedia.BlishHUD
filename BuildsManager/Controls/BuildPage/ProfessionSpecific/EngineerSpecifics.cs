@@ -155,7 +155,8 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage.ProfessionSpecific
 
         protected override void ApplyTemplate()
         {
-            var skills = BuildsManager.Data.Professions[Gw2Sharp.Models.ProfessionType.Engineer].Skills;
+            var skills = BuildsManager.Data?.Professions?[Gw2Sharp.Models.ProfessionType.Engineer]?.Skills;
+            if (skills is null) return;
 
             Skill GetSkill(SkillSlot slot)
             {

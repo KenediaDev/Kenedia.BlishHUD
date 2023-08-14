@@ -14,6 +14,8 @@ using System.Linq;
 using static Blish_HUD.ContentService;
 using Kenedia.Modules.BuildsManager.Models;
 using Gw2Sharp;
+using System.Diagnostics;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
 {
@@ -130,12 +132,17 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
         {
             _skillIcons.Wipe();
 
+            if (Tooltip is SkillTooltip tooltip)
+            {
+                tooltip.Skill = null;
+            }
+
             if (TemplatePresenter?.Template == null)
             {
                 return;
             }
 
-            foreach (var spair in TemplatePresenter.Template?.Skills)
+            foreach (var spair in TemplatePresenter?.Template?.Skills)
             {
                 _skillIcons[spair.Key].Skill = spair.Value;
                 _skillIcons[spair.Key].Slot = spair.Key;
@@ -285,13 +292,16 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
         {
             _selectableSkills.Clear();
 
+            if (TemplatePresenter?.Template?.Profession is null)
+                return;
+
             var slot = skillSlot.HasFlag(SkillSlotType.Utility_1) ? SkillSlot.Utility :
             skillSlot.HasFlag(SkillSlotType.Utility_2) ? SkillSlot.Utility :
             skillSlot.HasFlag(SkillSlotType.Utility_3) ? SkillSlot.Utility :
             skillSlot.HasFlag(SkillSlotType.Heal) ? SkillSlot.Heal :
             SkillSlot.Elite;
 
-            if (TemplatePresenter.Template.Profession != Gw2Sharp.Models.ProfessionType.Revenant)
+            if (TemplatePresenter?.Template?.Profession != Gw2Sharp.Models.ProfessionType.Revenant)
             {
                 var skills = BuildsManager.Data.Professions[TemplatePresenter.Template.Profession].Skills;
                 var filteredSkills = skills.Where(e => e.Value.PaletteId > 0 && e.Value.Slot is not null && e.Value.Slot == slot && (e.Value.Specialization == 0 || TemplatePresenter.Template.HasSpecialization(e.Value.Specialization))).ToList();

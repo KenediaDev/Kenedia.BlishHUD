@@ -3,8 +3,9 @@
 namespace Kenedia.Modules.BuildsManager.DataModels.Professions
 {
     [Flags]
-    public enum SkillCategory : long
+    public enum SkillCategoryType : long
     {
+
         None = 0,
         Trap = 1L << 0,
         Turret = 1L << 1,
@@ -30,22 +31,21 @@ namespace Kenedia.Modules.BuildsManager.DataModels.Professions
         Mantra = 1L << 21,
         Manipulation = 1L << 22,
         Clone = 1L << 23,
-        Glamour = 1L << 24,
-        Cantrip = 1L << 25,
-        Conjure = 1L << 26,
-        Shout = 1L << 27,
-        Consecration = 1L << 28,
-        Meditation = 1L << 29,
-        Banner = 1L << 30,
-        Stance = 1L << 31,
-        Specialization = 1L << 32,
-        Racial = 1L << 33,
-
-        Transform = 1L << 34,
-        Symbol = 1L << 35,
-        Virtue = 1L << 36,
-        Ward = 1L << 37,
-        Phantasm = 1L << 38,
+        Phantasm = 1L << 24,
+        Glamour = 1L << 25,
+        Cantrip = 1L << 26,
+        Conjure = 1L << 27,
+        Shout = 1L << 28,
+        Consecration = 1L << 29,
+        Meditation = 1L << 30,
+        Banner = 1L << 31,
+        Stance = 1L << 32,
+        Specialization = 1L << 33,
+        Racial = 1L << 34,
+        Transform = 1L << 35,
+        Symbol = 1L << 36,
+        Virtue = 1L << 37,
+        Ward = 1L << 38,
         Mark = 1L << 39,
         StealthAttack = 1L << 40,
         DualWield = 1L << 41,

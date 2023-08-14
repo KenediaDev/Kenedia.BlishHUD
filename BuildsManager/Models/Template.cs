@@ -686,11 +686,16 @@ namespace Kenedia.Modules.BuildsManager.Models
         {
             if (!_triggerEvents) return;
             TagsChanged?.Invoke(this, e);
+
+            AutoSave();
         }
+
         private void OnEncountersChanged(object sender, ValueChangedEventArgs<EncounterFlag> e)
         {
             if (!_triggerEvents) return;
+
             EncountersChanged?.Invoke(this, e);
+            AutoSave();
         }
 
         private async void Spec_TraitsChanged(object sender, EventArgs e)
@@ -719,6 +724,7 @@ namespace Kenedia.Modules.BuildsManager.Models
         private async void Legends_ItemChanged(object sender, DictionaryItemChangedEventArgs<LegendSlotType, Legend?> e)
         {
             if (!_triggerEvents) return;
+
             BuildChanged?.Invoke(this, e);
             await Save();
         }
@@ -1048,7 +1054,6 @@ namespace Kenedia.Modules.BuildsManager.Models
         {
             if (!_triggerEvents) return;
 
-            Debug.WriteLine($"AutoSave");
             await Save();
         }
 

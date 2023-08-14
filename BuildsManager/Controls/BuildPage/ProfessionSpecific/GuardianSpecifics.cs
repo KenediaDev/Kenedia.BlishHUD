@@ -93,7 +93,8 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage.ProfessionSpecific
 
         protected override void ApplyTemplate()
         {
-            var skills = BuildsManager.Data.Professions[Gw2Sharp.Models.ProfessionType.Guardian].Skills;
+            var skills = BuildsManager.Data?.Professions?[Gw2Sharp.Models.ProfessionType.Guardian]?.Skills;
+            if (skills is null) return;
 
             Skill GetSkill(SkillSlot slot)
             {
@@ -101,8 +102,8 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage.ProfessionSpecific
 
                 foreach (var item in skills.Values.Where(e => e.Slot == slot))
                 {
-                    skill ??= item.Specialization == TemplatePresenter.Template.EliteSpecialization?.Id || item.Specialization == 0 ? item : skill;
-                    if (item.Specialization == TemplatePresenter.Template.EliteSpecialization?.Id && skill.Specialization == 0)
+                    skill ??= item.Specialization == TemplatePresenter?.Template.EliteSpecialization?.Id || item.Specialization == 0 ? item : skill;
+                    if (item.Specialization == TemplatePresenter?.Template?.EliteSpecialization?.Id && skill.Specialization == 0)
                     {
                         skill = item;
                     }

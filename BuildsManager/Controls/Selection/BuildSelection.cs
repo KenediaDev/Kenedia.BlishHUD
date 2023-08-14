@@ -14,6 +14,8 @@ using System.Threading.Tasks;
 using Blish_HUD.Gw2Mumble;
 using Kenedia.Modules.BuildsManager.Models;
 using Kenedia.Modules.BuildsManager.Res;
+using Kenedia.Modules.Core.Services;
+using Gw2Sharp.WebApi;
 
 namespace Kenedia.Modules.BuildsManager.Controls.Selection
 {
@@ -41,6 +43,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
             };
             _sortBehavior.Items.Add(strings.SortyByProfession);
             _sortBehavior.Items.Add(strings.SortByName);
+            _sortBehavior.ValueChanged += SortBehavior_ValueChanged;
 
             Search.Location = new(2, 60);
             SelectionContent.Location = new(0, Search.Bottom + 5);
@@ -119,6 +122,18 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
             Templates_CollectionChanged(this, null);
 
             GameService.Gw2Mumble.PlayerCharacter.SpecializationChanged += PlayerCharacter_SpecializationChanged;
+            LocalizingService.LocaleChanged += LocalizingService_LocaleChanged;
+        }
+
+        private void SortBehavior_ValueChanged(object sender, Blish_HUD.Controls.ValueChangedEventArgs e)
+        {
+            FilterTemplates();
+        }
+
+        private void LocalizingService_LocaleChanged(object sender, ValueChangedEventArgs<Locale> e)
+        {
+            _sortBehavior.Items[0] = strings.SortyByProfession;
+            _sortBehavior.Items[1] = strings.SortByName;
         }
 
         public List<TemplateSelectable> Templates { get; } = new();

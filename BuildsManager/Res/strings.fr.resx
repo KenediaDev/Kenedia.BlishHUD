@@ -238,4 +238,10 @@ Le but de ce code est de partager facilement le modèle d'équipement du module 
   <data name="InactiveLegend" xml:space="preserve">
     <value>Légende inactive</value>
   </data>
+  <data name="ItemControlClickToCopyStat" xml:space="preserve">
+    <value>CTRL + Gauche Cliquez sur l'icône de la stat pour copier le nom de la stat.</value>
+  </data>
+  <data name="ItemControlClickToCopyItem" xml:space="preserve">
+    <value>CTRL + clic gauche pour copier le nom de l'élément</value>
+  </data>
 </root>

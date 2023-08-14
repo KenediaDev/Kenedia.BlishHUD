@@ -45,7 +45,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage.ProfessionSpecific
 
             int xOffset = 70;
 
-            switch (TemplatePresenter.Template.EliteSpecialization?.Id)
+            switch (TemplatePresenter?.Template?.EliteSpecialization?.Id)
             {
                 case (int)SpecializationType.Virtuoso:
                     for (int i = 0; i < _clones.Length; i++)
@@ -127,7 +127,8 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage.ProfessionSpecific
         {
             base.ApplyTemplate();
 
-            var skills = BuildsManager.Data.Professions[Gw2Sharp.Models.ProfessionType.Mesmer].Skills;
+            var skills = BuildsManager.Data?.Professions?[Gw2Sharp.Models.ProfessionType.Mesmer]?.Skills;
+            if (skills is null) return;
 
             Skill GetSkill(SkillSlot slot)
             {
@@ -135,7 +136,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage.ProfessionSpecific
 
                 foreach(var item in skills.Values.Where(e => e.Slot == slot))
                 {
-                    skill ??= item.Specialization == TemplatePresenter.Template.EliteSpecialization?.Id || item.Specialization == 0 ? item : skill;
+                    skill ??= item.Specialization == TemplatePresenter?.Template?.EliteSpecialization?.Id || item.Specialization == 0 ? item : skill;
                 }
 
                 return skill;

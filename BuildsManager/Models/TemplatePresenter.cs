@@ -79,6 +79,7 @@ namespace Kenedia.Modules.BuildsManager.Models
                 e.OldValue.ProfessionChanged -= On_ProfessionChanged;
                 e.OldValue.EliteSpecializationChanged -= On_EliteSpecializationChanged;
                 e.OldValue.SpecializationChanged -= On_SpecializationChanged;
+                e.OldValue.LegendChanged -= On_LegendChanged;
 
                 e.OldValue.LoadedBuildFromCode -= On_LoadedBuildFromCode;
                 e.OldValue.LoadedGearFromCode -= On_LoadedGearFromCode;
@@ -102,6 +103,7 @@ namespace Kenedia.Modules.BuildsManager.Models
             template.ProfessionChanged += On_ProfessionChanged;
             template.EliteSpecializationChanged += On_EliteSpecializationChanged;
             template.SpecializationChanged += On_SpecializationChanged;
+            template.LegendChanged += On_LegendChanged;
 
             template.LoadedBuildFromCode += On_LoadedBuildFromCode;
             template.LoadedGearFromCode += On_LoadedGearFromCode;

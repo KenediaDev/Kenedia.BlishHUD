@@ -68,6 +68,11 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
 
         protected virtual void ApplyTemplate()
         {
+            if(TemplatePresenter?.Template is null)
+            {
+                return;
+            }
+
             RecalculateLayout();
         }
 

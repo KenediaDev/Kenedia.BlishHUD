@@ -56,23 +56,36 @@ namespace Kenedia.Modules.BuildsManager.DataModels.Professions
             SkillConnection = connection ?? null;
             Attunement = connection?.Attunement;
 
+            var missinCategories = new Dictionary<SkillCategoryType, List<int>>()
+            {
+                {SkillCategoryType.Preparation, new(){13057, 13026, 13038, 13056} }
+            };
+
+            foreach(var id in missinCategories.Values)
+            {
+                if (id.Contains(skill.Id))
+                {
+                    Categories |= missinCategories.FirstOrDefault(x => x.Value.Contains(skill.Id)).Key;
+                }
+            }
+
             if (skill.Specialization is not null and not 0)
             {
-                if (!Categories.HasFlag(SkillCategory.Specialization)) Categories |= SkillCategory.Specialization;
+                if (!Categories.HasFlag(SkillCategoryType.Specialization)) Categories |= SkillCategoryType.Specialization;
             }
             else if (skill.Professions.Count == 1 && skill.Professions.Contains("Engineer") && skill.BundleSkills is not null)
             {
-                if (!Categories.HasFlag(SkillCategory.Kit)) Categories |= SkillCategory.Kit;
+                if (!Categories.HasFlag(SkillCategoryType.Kit)) Categories |= SkillCategoryType.Kit;
             }
             else if ((skill.Categories is not null && skill.Categories.Count > 0) || skill.Name.Contains('\"'))
             {
-                if (skill.Name.Contains('\"') && !Categories.HasFlag(SkillCategory.Shout)) Categories |= SkillCategory.Shout;
+                if (skill.Name.Contains('\"') && !Categories.HasFlag(SkillCategoryType.Shout)) Categories |= SkillCategoryType.Shout;
 
                 if (skill.Categories is not null)
                 {
                     foreach (string s in skill.Categories)
                     {
-                        if (Enum.TryParse(s, out SkillCategory category))
+                        if (Enum.TryParse(s, out SkillCategoryType category))
                         {
                             if (!Categories.HasFlag(category)) Categories |= category;
                         }
@@ -168,7 +181,7 @@ namespace Kenedia.Modules.BuildsManager.DataModels.Professions
         public SkillFlag Flags { get; set; }
 
         [DataMember]
-        public SkillCategory Categories { get; set; }
+        public SkillCategoryType Categories { get; set; }
 
         [DataMember]
         public int? FlipSkill { get; set; }
@@ -288,7 +301,7 @@ namespace Kenedia.Modules.BuildsManager.DataModels.Professions
 
         public void Dispose()
         {
-            if(_isDisposed) return;
+            if (_isDisposed) return;
             _isDisposed = true;
 
             _icon = null;

@@ -22,7 +22,7 @@ namespace Kenedia.Modules.BuildsManager.Utility
 
             // Read the properties which will be used as constructor parameters
             int? tags = (int?)jo["Tags"];
-            int? encounters = (int?)jo["Encounters"];
+            long? encounters = (long?)jo["Encounters"];
             string? name = (string?)jo["Name"];
             string? buildCode = (string?)jo["BuildCode"];
             string? gearCode = (string?)jo["GearCode"];

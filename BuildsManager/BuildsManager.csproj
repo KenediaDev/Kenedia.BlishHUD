@@ -332,7 +332,7 @@
     <Compile Include="DataModels\Professions\Pet.cs" />
     <Compile Include="DataModels\Professions\Profession.cs" />
     <Compile Include="DataModels\Professions\Skill.cs" />
-    <Compile Include="DataModels\Professions\SkillCategory.cs" />
+    <Compile Include="DataModels\Professions\SkillCategoryType.cs" />
     <Compile Include="DataModels\Professions\Skillfacts\SkillFact.cs" />
     <Compile Include="DataModels\Professions\Specialization.cs" />
     <Compile Include="DataModels\Professions\Trait.cs" />

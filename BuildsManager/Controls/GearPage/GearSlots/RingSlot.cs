@@ -250,12 +250,12 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage.GearSlots
 
         private void OnInfusion2Changed(object sender, Core.Models.ValueChangedEventArgs<Infusion> e)
         {
-            _infusion1Control.Item = Infusion2;
+            _infusion2Control.Item = Infusion2;
         }
 
         private void OnInfusion3Changed(object sender, Core.Models.ValueChangedEventArgs<Infusion> e)
         {
-            _infusion1Control.Item = Infusion3;
+            _infusion3Control.Item = Infusion3;
         }
 
         protected override void DisposeControl()

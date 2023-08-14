@@ -40,6 +40,8 @@ namespace Kenedia.Modules.BuildsManager
         {
             ModuleInstance = this;
             HasGUI = true;
+
+            CreateCornerIcons();
         }
 
         private GW2API GW2API { get; set; }
@@ -104,6 +106,7 @@ namespace Kenedia.Modules.BuildsManager
                         Logger.Info($"Apply fresh {e.NewValue} data to the UI.");
                     }
 
+                    if (Data.IsLoaded && !TemplatesLoaded) await LoadTemplates();
                     _apiSpinner?.Hide();
                 }
                 else
@@ -147,9 +150,9 @@ namespace Kenedia.Modules.BuildsManager
         {
             base.OnModuleLoaded(e);
 
-            if (Settings.ShowCornerIcon.Value)
+            if (!Settings.ShowCornerIcon.Value)
             {
-                CreateCornerIcons();
+                DeleteCornerIcons();
             }
 
             Settings.ToggleWindowKey.Value.Enabled = true;
@@ -298,7 +301,7 @@ namespace Kenedia.Modules.BuildsManager
                 HoverIcon = AsyncTexture2D.FromAssetId(156721),
                 SetLocalizedTooltip = () => string.Format(strings_common.ToggleItem, $"{Name}"),
                 Parent = GameService.Graphics.SpriteScreen,
-                Visible = Settings.ShowCornerIcon.Value,
+                Visible = Settings?.ShowCornerIcon?.Value ?? false,
                 ClickAction = () => MainWindow?.ToggleWindow(),
             };
 

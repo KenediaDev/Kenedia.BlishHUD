@@ -238,4 +238,10 @@ El propósito de este código es compartir la Plantilla de Equipo del módulo f�
   <data name="InactiveLegend" xml:space="preserve">
     <value>Leyenda inactiva</value>
   </data>
+  <data name="ItemControlClickToCopyStat" xml:space="preserve">
+    <value>CTRL + Izquierda Haz clic en el icono de la estadística para copiar el nombre de la estadística</value>
+  </data>
+  <data name="ItemControlClickToCopyItem" xml:space="preserve">
+    <value>CTRL + Click Izquierdo para copiar el nombre del ítem</value>
+  </data>
 </root>

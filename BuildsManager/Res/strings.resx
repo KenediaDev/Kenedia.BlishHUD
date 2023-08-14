@@ -218,4 +218,10 @@ The purpose of this code is to share the modules Equipment Template easily with 
   <data name="InactiveLegend" xml:space="preserve">
     <value>Inactive Legend</value>
   </data>
+  <data name="ItemControlClickToCopyStat" xml:space="preserve">
+    <value>CTRL + Left Click the stat icon to copy the stat name</value>
+  </data>
+  <data name="ItemControlClickToCopyItem" xml:space="preserve">
+    <value>CTRL + Left Click to copy the item name</value>
+  </data>
 </root>

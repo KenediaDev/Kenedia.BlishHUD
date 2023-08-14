@@ -8,6 +8,10 @@ using Kenedia.Modules.Core.Extensions;
 using Blish_HUD;
 using System;
 using Kenedia.Modules.BuildsManager.DataModels.Stats;
+using Blish_HUD.Input;
+using Microsoft.Xna.Framework.Input;
+using System.Linq;
+using Kenedia.Modules.BuildsManager.Res;
 
 namespace Kenedia.Modules.BuildsManager.Controls.GearPage
 {
@@ -24,7 +28,10 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage
 
         public ItemControl()
         {
-            Tooltip = new ItemTooltip();
+            Tooltip = new ItemTooltip()
+            {
+                SetLocalizedComment = () => Environment.NewLine + strings.ItemControlClickToCopyItem,
+            };
         }
 
         public ItemControl(DetailedTexture placeholder) : this()
@@ -59,7 +66,14 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage
             _texture.Texture = Item?.Icon;
 
             if (Tooltip is ItemTooltip itemTooltip)
+            {
                 itemTooltip.Item = Item;
+                itemTooltip.SetLocalizedComment = (Item?.Type) switch
+                {
+                    Gw2Sharp.WebApi.V2.Models.ItemType.Armor or Gw2Sharp.WebApi.V2.Models.ItemType.Back or Gw2Sharp.WebApi.V2.Models.ItemType.Trinket or Gw2Sharp.WebApi.V2.Models.ItemType.Weapon => () => Environment.NewLine + strings.ItemControlClickToCopyItem + Environment.NewLine + strings.ItemControlClickToCopyStat,
+                    _ => () => Environment.NewLine + strings.ItemControlClickToCopyItem,
+                };
+            }
         }
 
         public override void RecalculateLayout()
@@ -87,7 +101,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage
             }
 
             spriteBatch.DrawFrame(this, bounds, _frameColor, _frameThickness);
-            _statTexture.Draw(this, spriteBatch);
+            _statTexture.Draw(this, spriteBatch, RelativeMousePosition);
         }
 
         private int CalculateFrameThickness()
@@ -95,6 +109,17 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage
             int size = Math.Min(Width, Height);
 
             return Math.Max(2, size / 24);
+        }
+
+        protected override async void OnClick(MouseEventArgs e)
+        {
+            base.OnClick(e);
+
+            if (Input.Keyboard.KeysDown.Contains(Keys.LeftControl))
+            {
+                _ = await ClipboardUtil.WindowsClipboardService.SetTextAsync(_statTexture.Hovered ? Stat?.Name : Item?.Name);
+
+            }
         }
 
         override protected void DisposeControl()

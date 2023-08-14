@@ -22,11 +22,14 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage
         private readonly Label _title;
         private readonly Label _id;
         private readonly Label _description;
+        private readonly Label _commentLabel;
 
         private BaseItem _item;
         private Stat _stat;
+        private string _comment;
 
         private Color _frameColor = Color.Transparent;
+        private Func<string> _setLocalizedComment;
 
         public ItemTooltip()
         {
@@ -70,12 +73,39 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage
                 WrapText = true,
             };
 
+            _commentLabel = new()
+            {
+                Parent = this,
+                Width = 300,
+                AutoSizeHeight = true,
+                Location = new(_description.Left, _description.Bottom + 10),
+                Font = Content.DefaultFont12,
+                TextColor = Color.DarkGray,
+                WrapText = true,
+                Visible = false,
+            };
+
             LocalizingService.LocaleChanged += UserLocale_SettingChanged;
         }
 
         public BaseItem Item { get => _item; set => Common.SetProperty(ref _item, value, ApplyItem); }
 
         public Stat Stat { get => _stat; set => Common.SetProperty(ref _stat, value, ApplyStat); }
+
+        public string Comment { get => _comment; set => Common.SetProperty(ref _comment, value, ApplyComment); }
+
+        public Func<string> SetLocalizedComment { get => _setLocalizedComment; set => Common.SetProperty(ref _setLocalizedComment, value, ApplyLocalizedComment);}
+
+        private void ApplyLocalizedComment(object sender, Core.Models.ValueChangedEventArgs<Func<string>> e)
+        {
+            Comment = SetLocalizedComment?.Invoke();
+        }
+
+        private void ApplyComment(object sender, Core.Models.ValueChangedEventArgs<string> e)
+        {
+            _commentLabel.Text = Comment;
+            _commentLabel.Visible = !string.IsNullOrEmpty(Comment);
+        }
 
         private void UserLocale_SettingChanged(object sender, ValueChangedEventArgs<Locale> e)
         {
@@ -168,6 +198,13 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage
             }
         }
 
+        public override void RecalculateLayout()
+        {
+            base.RecalculateLayout();
+
+            _commentLabel?.SetLocation(new(_description?.Left ?? 0, (_description?.Bottom ?? 0) + 2));
+        }
+
         public override void Draw(SpriteBatch spriteBatch, Rectangle drawBounds, Rectangle scissor)
         {
             if (Item == null) return;
@@ -182,6 +219,13 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage
             {
                 spriteBatch.DrawFrame(this, _image.LocalBounds.Add(2, 2, 6, 4), _frameColor, 2);
             }
+        }
+
+        protected override void DisposeControl()
+        {
+            base.DisposeControl();
+
+            LocalizingService.LocaleChanged -= UserLocale_SettingChanged;
         }
     }
 }
