@@ -19,6 +19,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Controls\GameItem.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controls\Hotbar.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controls\HotbarButton.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\MouseContainer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controls\RollingChoya.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controls\FilterBox.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controls\FramedMaskedRegion.cs" />
@@ -109,6 +110,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Structs\RectangleDimensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Utility\Common.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Utility\RandomHelper.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Utility\ScreenCapture.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Utility\TextUtil.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Utility\Tweening.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Utility\UI.cs" />

@@ -13,6 +13,7 @@ using Kenedia.Modules.QoL.SubModules.ItemDestruction;
 using Kenedia.Modules.QoL.SubModules.Resets;
 using Kenedia.Modules.QoL.SubModules.SkipCutscenes;
 using Kenedia.Modules.QoL.SubModules.WaypointPaste;
+using Kenedia.Modules.QoL.SubModules.WikiSearch;
 using Kenedia.Modules.QoL.SubModules.ZoomOut;
 using Microsoft.Xna.Framework;
 using MonoGame.Extended.Timers;
@@ -48,10 +49,6 @@ namespace Kenedia.Modules.QoL
 
             Settings = new Settings(settings);
 
-            SubModules.Add(SubModuleType.Resets, new Resets(SettingCollection));
-            SubModules.Add(SubModuleType.ZoomOut, new ZoomOut(SettingCollection));
-            SubModules.Add(SubModuleType.SkipCutscenes, new SkipCutscenes(SettingCollection));
-            SubModules.Add(SubModuleType.ItemDesctruction, new ItemDesctruction(SettingCollection));
         }
 
         protected override void Initialize()
@@ -61,8 +58,7 @@ namespace Kenedia.Modules.QoL
 
             Logger.Info($"Starting {Name} v." + Version.BaseVersion());
 
-            //SubModules.Add(SubModuleType.EnhancedCrosshair, new EnhancedCrosshair(SettingCollection));
-            //SubModules.Add(SubModuleType.WaypointPaste, new WaypointPaste(SettingCollection));
+            LoadSubModules();
         }
 
         protected override async Task LoadAsync()
@@ -121,6 +117,31 @@ namespace Kenedia.Modules.QoL
             {
                 subModule?.Unload();
             }
+            SubModules.Clear();
+        }
+
+        protected override void ReloadKey_Activated(object sender, EventArgs e)
+        {
+            base.ReloadKey_Activated(sender, e);
+
+            foreach (var subModule in SubModules.Values)
+            {
+                subModule?.Unload();
+            }
+            SubModules.Clear();
+
+            LoadSubModules();
+        }
+
+        private void LoadSubModules()
+        {
+            SubModules.Add(SubModuleType.Resets, new Resets(SettingCollection));
+            SubModules.Add(SubModuleType.ZoomOut, new ZoomOut(SettingCollection));
+            SubModules.Add(SubModuleType.SkipCutscenes, new SkipCutscenes(SettingCollection));
+            SubModules.Add(SubModuleType.ItemDestruction, new ItemDestruction(SettingCollection));
+            //SubModules.Add(SubModuleType.WikiSearch, new WikiSearch(SettingCollection));
+            //SubModules.Add(SubModuleType.EnhancedCrosshair, new EnhancedCrosshair(SettingCollection));
+            //SubModules.Add(SubModuleType.WaypointPaste, new WaypointPaste(SettingCollection));
         }
     }
 }

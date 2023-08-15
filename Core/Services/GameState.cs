@@ -228,7 +228,6 @@ namespace Kenedia.Modules.Core.Services
             _logoutMask.Size = new((int)(size.Width * 2 * factor), (int)(size.Height * 2 * factor));
             _logoutMask.Location = new(GameService.Graphics.SpriteScreen.Left, GameService.Graphics.SpriteScreen.Bottom + (-_logoutMask.Size.Y));
 
-
             using Bitmap bitmap = new(size.Width, size.Height);
             using var g = Graphics.FromImage(bitmap);
             using MemoryStream s = new();

@@ -1,5 +1,6 @@
 ﻿using Blish_HUD;
 using Blish_HUD.Controls;
+using Kenedia.Modules.Core.Structs;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using static Blish_HUD.ContentService;
@@ -55,6 +56,23 @@ namespace Kenedia.Modules.Core.Extensions
 
             // Right
             spriteBatch.DrawOnCtrl(ctrl, Textures.Pixel, new Rectangle(_selectorBounds.Right - width, _selectorBounds.Top, width, _selectorBounds.Height), Rectangle.Empty, borderColor * 0.8f);
+        }
+
+        public static void DrawFrame(this SpriteBatch spriteBatch, Control ctrl, Rectangle _selectorBounds, Color borderColor, RectangleDimensions? borderDimensions)
+        {
+            var border = borderDimensions ?? new RectangleDimensions(2);
+
+            // Top
+            spriteBatch.DrawOnCtrl(ctrl, Textures.Pixel, new Rectangle(_selectorBounds.Left + border.Left, _selectorBounds.Top, _selectorBounds.Width - border.Horizontal, border.Top), Rectangle.Empty, borderColor * 0.8f);
+
+            // Bottom
+            spriteBatch.DrawOnCtrl(ctrl, Textures.Pixel, new Rectangle(_selectorBounds.Left  + border.Left, _selectorBounds.Bottom - border.Bottom, _selectorBounds.Width - border.Horizontal, border.Bottom), Rectangle.Empty, borderColor * 0.8f);
+
+            // Left
+            spriteBatch.DrawOnCtrl(ctrl, Textures.Pixel, new Rectangle(_selectorBounds.Left, _selectorBounds.Top, border.Left, _selectorBounds.Height), Rectangle.Empty, borderColor * 0.8f);
+
+            // Right
+            spriteBatch.DrawOnCtrl(ctrl, Textures.Pixel, new Rectangle(_selectorBounds.Right - border.Right, _selectorBounds.Top, border.Right, _selectorBounds.Height), Rectangle.Empty, borderColor * 0.8f);
         }
     }
 }

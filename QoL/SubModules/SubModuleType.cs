@@ -12,8 +12,9 @@ namespace Kenedia.Modules.QoL.SubModules
         Resets,
         ZoomOut,
         SkipCutscenes,
-        ItemDesctruction,
+        ItemDestruction,
         EnhancedCrosshair,
         WaypointPaste,
+        WikiSearch,
     }
 }

@@ -87,8 +87,6 @@ namespace Kenedia.Modules.QoL.SubModules
 
         protected virtual void DefineSettings(SettingCollection settings)
         {
-            Debug.WriteLine($"DefineSettings for {SubModuleType}");
-
             Settings = settings.AddSubCollection($"{SubModuleType}", true);
             Settings.RenderInUi = true;
 
