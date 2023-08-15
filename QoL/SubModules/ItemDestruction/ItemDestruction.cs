@@ -7,65 +7,34 @@ using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-using System.Web.UI.Design.WebControls;
 using SizingMode = Blish_HUD.Controls.SizingMode;
 using ControlFlowDirection = Blish_HUD.Controls.ControlFlowDirection;
 using Blish_HUD.Input;
 using Microsoft.Xna.Framework.Input;
-using System.Diagnostics;
-using Blish_HUD.Controls.Extern;
-using Blish_HUD.Modules;
-using Kenedia.Modules.Core.Services;
-using Kenedia.Modules.Core.Structs;
-using Blish_HUD.Content;
-using Microsoft.Xna.Framework.Graphics;
 using Keyboard = Blish_HUD.Controls.Intern.Keyboard;
 using Key = Blish_HUD.Controls.Extern.VirtualKeyShort;
+using Kenedia.Modules.QoL.Res;
 
 namespace Kenedia.Modules.QoL.SubModules.ItemDestruction
 {
-    public class BorderedImage : Image
-    {
-        public BorderedImage()
-        {
-
-        }
-
-        public RectangleDimensions BorderWidth { get; set; } = new(2);
-
-        protected override void Paint(SpriteBatch spriteBatch, Rectangle bounds)
-        {
-            base.Paint(spriteBatch, bounds);
-
-            spriteBatch.DrawFrame(this, bounds, ContentService.Colors.ColonialWhite, 2);
-        }
-    }
-
     internal class ItemDestruction : SubModule
     {
-        private readonly Image _itemHighlighter;
         private readonly BorderedImage _itemPreview;
-        private readonly Label _moduleNameLabel;
         private readonly Label _destroyLabel;
         private readonly Label _instuctionLabel;
         private readonly MouseContainer _mouseContainer;
+
         private double _lastAction;
         private double _tick;
-        private ItemDestructionState _state = ItemDestructionState.None;
+        private ItemDestructionState _state = ItemDestructionState.Disabled;
         private string _copiedText;
+
+        private SettingEntry<bool> _disableOnRightClick;
+        private SettingEntry<KeyBinding> _modifierToChat;
 
         public ItemDestruction(SettingCollection settings) : base(settings)
         {
-            SubModuleType = SubModuleType.ItemDestruction;
-
-            Icon = new()
-            {
-                Texture = QoL.ModuleInstance.ContentsManager.GetTexture($@"textures\{SubModuleType}.png"),
-                HoveredTexture = QoL.ModuleInstance.ContentsManager.GetTexture($@"textures\{SubModuleType}_Hovered.png"),
-            };
-
             UI_Elements.Add(_mouseContainer = new()
             {
                 Parent = GameService.Graphics.SpriteScreen,
@@ -80,11 +49,6 @@ namespace Kenedia.Modules.QoL.SubModules.ItemDestruction
                 MouseOffset = new(25),
             });
 
-            //var spinner = new LoadingSpinner()
-            //{
-            //    Parent = _mouseContainer,
-            //    Size = new(48),
-            //};
             var p = new Rectangle(0, 0, 0, 0);
 
             _itemPreview = new()
@@ -108,14 +72,14 @@ namespace Kenedia.Modules.QoL.SubModules.ItemDestruction
                 ContentPadding = new(5, 0, 0, 0)
             };
 
-            _moduleNameLabel = new()
+            _ = new Label()
             {
                 Parent = flowPanel,
                 Font = GameService.Content.DefaultFont18,
                 TextColor = ContentService.Colors.Chardonnay,
                 AutoSizeWidth = true,
                 Height = GameService.Content.DefaultFont18.LineHeight,
-                Text = "Item Destruction",
+                Text = $"{SubModuleType}".SplitStringOnUppercase(),
             };
 
             _destroyLabel = new()
@@ -137,20 +101,11 @@ namespace Kenedia.Modules.QoL.SubModules.ItemDestruction
                 Height = GameService.Content.DefaultFont16.LineHeight,
                 Text = "SHIFT + Left Click on item!",
             };
-
-            UI_Elements.Add(_itemHighlighter = new()
-            {
-                Texture = QoL.ModuleInstance.ContentsManager.GetTexture($@"textures\ItemHighlighter.png"),
-                Parent = GameService.Graphics.SpriteScreen,
-                Visible = false,
-                Size = new(36),
-            });
-
-            Load();
         }
 
         private enum ItemDestructionState
         {
+            Disabled,
             None,
             Selected,
             Dragged,
@@ -158,6 +113,8 @@ namespace Kenedia.Modules.QoL.SubModules.ItemDestruction
         }
 
         private ItemDestructionState State { get => _state; set => Common.SetProperty(ref _state, value, OnStateSwitched); }
+
+        public override SubModuleType SubModuleType => SubModuleType.ItemDestruction;
 
         private void OnStateSwitched(object sender, Core.Models.ValueChangedEventArgs<ItemDestructionState> e)
         {
@@ -175,12 +132,10 @@ namespace Kenedia.Modules.QoL.SubModules.ItemDestruction
             {
                 case ItemDestructionState.None:
                     _instuctionLabel.Text = instructions[State];
-                    _itemHighlighter.Hide();
                     break;
 
                 case ItemDestructionState.Selected:
                     _instuctionLabel.Text = instructions[State];
-                    //_itemHighlighter.Show();
                     break;
 
                 case ItemDestructionState.Dragged:
@@ -189,7 +144,6 @@ namespace Kenedia.Modules.QoL.SubModules.ItemDestruction
 
                 case ItemDestructionState.Destroyed:
                     _instuctionLabel.Text = instructions[State];
-                    _itemHighlighter.Hide();
                     break;
             }
         }
@@ -207,13 +161,23 @@ namespace Kenedia.Modules.QoL.SubModules.ItemDestruction
         protected override void DefineSettings(SettingCollection settings)
         {
             base.DefineSettings(settings);
+
+            _modifierToChat = settings.DefineSetting(nameof(_modifierToChat),
+                new KeyBinding(Keys.LeftShift),
+                () => strings.DisableOnSearch_Name,
+                () => strings.DisableOnSearch_Tooltip);
+
+            _disableOnRightClick = settings.DefineSetting(nameof(_disableOnRightClick),
+                true,
+                () => strings.DisableOnSearch_Name,
+                () => strings.DisableOnSearch_Tooltip);
         }
 
         protected override void Disable()
         {
             base.Disable();
             _mouseContainer.Hide();
-            State = ItemDestructionState.None;
+            State = ItemDestructionState.Disabled;
         }
 
         override protected void Enable()
@@ -244,7 +208,7 @@ namespace Kenedia.Modules.QoL.SubModules.ItemDestruction
 
         private void Mouse_RightMouseButtonPressed(object sender, MouseEventArgs e)
         {
-            if (!Enabled) return;
+            if (!Enabled || !_disableOnRightClick.Value) return;
 
             State = ItemDestructionState.None;
         }
@@ -287,7 +251,6 @@ namespace Kenedia.Modules.QoL.SubModules.ItemDestruction
                 var point = e.MousePosition.Add(new(-32));
 
                 _itemPreview.Texture = ScreenCapture.CaptureRegion(wndBounds, p, new(point, new(64)), factor, new(64));
-                _itemHighlighter.Location = e.MousePosition;
 
                 _copiedText = await CopyItemFromChat();
                 //await OpenWikiForItemFromChat();
@@ -309,108 +272,66 @@ namespace Kenedia.Modules.QoL.SubModules.ItemDestruction
 
         private async Task Paste()
         {
-            Keyboard.Press(Key.LCONTROL, true);
-            Keyboard.Stroke(Key.KEY_V, true);
-            await Task.Delay(25);
-            Keyboard.Release(Key.LCONTROL, true);
+            try
+            {
+                Keyboard.Press(Key.LCONTROL, true);
+                Keyboard.Stroke(Key.KEY_V, true);
+                await Task.Delay(25);
+                Keyboard.Release(Key.LCONTROL, true);
+            }
+            catch { }
         }
 
         private async Task<string> CopyItemFromChat()
         {
-            _lastAction = Common.Now();
-            await Task.Delay(50);
+            string text = string.Empty;
 
-            Keyboard.Release(Key.LSHIFT, true);
-            await Task.Delay(5);
-
-            Keyboard.Press(Key.LCONTROL, true);
-            Keyboard.Stroke(Key.KEY_A, true);
-            await Task.Delay(25);
-
-            Keyboard.Stroke(Key.KEY_C, true);
-            await Task.Delay(50);
-            Keyboard.Release(Key.LCONTROL, true);
-
-            Keyboard.Stroke(Key.BACK, true);
-            Keyboard.Stroke(Key.RETURN, true);
-            await Task.Delay(5);
-
-            string text = await ClipboardUtil.WindowsClipboardService.GetTextAsync();
-
-            if (string.IsNullOrEmpty(text))
+            try
             {
-                return string.Empty;
-            }
+                _lastAction = Common.Now();
+                await Task.Delay(50);
 
-            string[] items = text.Split('[');
-            text = items.Last();
-
-            if (text.StartsWith("["))
-                text = text.Substring(1);
-
-            if (text.EndsWith("]"))
-                text = text.Substring(0, text.Length - 1);
-
-            _ = await ClipboardUtil.WindowsClipboardService.SetTextAsync(text);
-
-            _lastAction = Common.Now();
-            return text;
-        }
-
-        private async Task OpenWikiForItemFromChat()
-        {
-            _lastAction = Common.Now();
-            await Task.Delay(50);
-
-            bool isReady = false;
-            for (int i = 0; i < 500; i++)
-            {
-                if (GameService.Gw2Mumble.UI.IsTextInputFocused && !GameService.Input.Keyboard.KeysDown.Contains(Keys.RightShift) && !GameService.Input.Keyboard.KeysDown.Contains(Keys.LeftShift))
-                {
-                    isReady = true;
-                    break;
-                }
-
+                Keyboard.Release(Key.LSHIFT, true);
                 await Task.Delay(5);
-            }
 
-            if (!isReady) return;
+                Keyboard.Press(Key.LCONTROL, true);
+                Keyboard.Stroke(Key.KEY_A, true);
+                await Task.Delay(25);
 
-            for (int i = 0; i < 5; i++)
-            {
-                Keyboard.Release(Key.LSHIFT, false);
-                await Task.Delay(10);
-            }
+                Keyboard.Stroke(Key.KEY_C, true);
+                await Task.Delay(50);
+                Keyboard.Release(Key.LCONTROL, true);
 
-            int delay = 40;
-            Keyboard.Press(Key.LCONTROL, true);
-            await Task.Delay(delay);
-
-            Keyboard.Stroke(Key.LEFT, true);
-            await Task.Delay(delay);
-
-            bool hasWiki = await ClipboardUtil.WindowsClipboardService.SetTextAsync("/wiki ");
-            if (hasWiki)
-            {
-                Keyboard.Stroke(Key.KEY_V, true);
-                await Task.Delay(delay);
-            }
-
-            Keyboard.Release(Key.LCONTROL, true);
-            if (!hasWiki)
-            {
                 Keyboard.Stroke(Key.BACK, true);
                 Keyboard.Stroke(Key.RETURN, true);
-                return;
+                await Task.Delay(5);
+
+                text = await ClipboardUtil.WindowsClipboardService.GetTextAsync();
+
+                if (string.IsNullOrEmpty(text))
+                {
+                    return string.Empty;
+                }
+
+                string[] items = text.Split('[');
+                text = items.Last();
+
+                if (text.StartsWith("["))
+                    text = text.Substring(1);
+
+                if (text.EndsWith("]"))
+                    text = text.Substring(0, text.Length - 1);
+
+                _ = await ClipboardUtil.WindowsClipboardService.SetTextAsync(text);
+
+                _lastAction = Common.Now();
+            }
+            catch
+            {
+
             }
 
-            await Task.Delay(delay);
-
-            Keyboard.Stroke(Key.RETURN, true);
-            await Task.Delay(delay);
-            await Task.Delay(300);
-
-            GameService.GameIntegration.Gw2Instance.FocusGw2();
+            return text;
         }
 
         protected override void SwitchLanguage()

@@ -162,7 +162,7 @@ namespace Kenedia.Modules.Core.Controls
                 (c as Control).Visible = e.NewValue || c.Checked;
             }
 
-            _itemsPanel.SortChildren<ImageToggle>((a, b) => b.Visible.CompareTo(a.Visible));
+            //_itemsPanel.SortChildren<ImageToggle>((a, b) => b.Visible.CompareTo(a.Visible));
 
             RecalculateLayout();
         }
@@ -182,7 +182,7 @@ namespace Kenedia.Modules.Core.Controls
         {
             if (sender is Control control)
             {
-                control.Visible = e.Checked;
+                control.Visible = ExpandBar || e.Checked;
             }
 
             RecalculateLayout();

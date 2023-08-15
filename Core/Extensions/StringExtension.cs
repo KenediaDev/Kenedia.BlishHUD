@@ -23,6 +23,31 @@ namespace Kenedia.Modules.Core.Extensions
             return s_namingConventionConvert.Replace(s.Replace("_", ""), " ");
         }
 
+        public static string RemoveLeadingNumbers(this string input)
+        {
+            // Use regular expression to remove leading numbers
+            string result = Regex.Replace(input, @"^\d+", "");
+
+            return result;
+        }
+
+        public static string SplitStringOnUppercase(this string input)
+        {
+            var result = new StringBuilder();
+
+            foreach (char c in input)
+            {
+                if (char.IsUpper(c) && result.Length > 0)
+                {
+                    _ = result.Append(' '); // Add space before uppercase letter
+                }
+
+                _ = result.Append(c);
+            }
+
+            return result.ToString();
+        }
+
         /// <summary>
         /// Compute the distance between two strings.
         /// https://stackoverflow.com/questions/28647002/find-most-accurate-match-in-strings

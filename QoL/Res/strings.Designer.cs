@@ -61,6 +61,24 @@ namespace Kenedia.Modules.QoL.Res {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Disable after Search.
+        /// </summary>
+        internal static string DisableOnSearch_Name {
+            get {
+                return ResourceManager.GetString("DisableOnSearch_Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Disables the module after a wiki search.
+        /// </summary>
+        internal static string DisableOnSearch_Tooltip {
+            get {
+                return ResourceManager.GetString("DisableOnSearch_Tooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Hotbar Expand Direction.
         /// </summary>
         internal static string HotbarExpandDirection_Name {
@@ -93,6 +111,42 @@ namespace Kenedia.Modules.QoL.Res {
         internal static string HotkeyEntry_Name {
             get {
                 return ResourceManager.GetString("HotkeyEntry_Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Modifier to link item to chat.
+        /// </summary>
+        internal static string ModifierToSendToChat_Name {
+            get {
+                return ResourceManager.GetString("ModifierToSendToChat_Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The Modifier (Default: SHIFT) to link an item to the chat.
+        /// </summary>
+        internal static string ModifierToSendToChat_Tooltip {
+            get {
+                return ResourceManager.GetString("ModifierToSendToChat_Tooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Return Type.
+        /// </summary>
+        internal static string ReturnType_Name {
+            get {
+                return ResourceManager.GetString("ReturnType_Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Type to return after copying the item name..
+        /// </summary>
+        internal static string ReturnType_Tooltip {
+            get {
+                return ResourceManager.GetString("ReturnType_Tooltip", resourceCulture);
             }
         }
         

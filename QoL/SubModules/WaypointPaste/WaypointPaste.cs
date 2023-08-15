@@ -13,16 +13,10 @@ namespace Kenedia.Modules.QoL.SubModules.WaypointPaste
     {
         public WaypointPaste(SettingCollection settings) : base(settings)
         {
-            SubModuleType = SubModuleType.WaypointPaste;
 
-            Icon = new()
-            {
-                Texture = QoL.ModuleInstance.ContentsManager.GetTexture($@"textures\{SubModuleType}.png"),
-                HoveredTexture = QoL.ModuleInstance.ContentsManager.GetTexture($@"textures\{SubModuleType}_Hovered.png"),
-            };
-
-            Load();
         }
+
+        public override SubModuleType SubModuleType => SubModuleType.WaypointPaste;
 
         public override void Update(GameTime gameTime)
         {

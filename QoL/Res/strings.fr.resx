@@ -135,4 +135,16 @@
   <data name="ShowInHotbar_Description" xml:space="preserve">
     <value>Afficher {0} dans la barre d'outils</value>
   </data>
+  <data name="DisableOnSearch_Name" xml:space="preserve">
+    <value>Désactiver après la recherche</value>
+  </data>
+  <data name="DisableOnSearch_Tooltip" xml:space="preserve">
+    <value>Désactive le module après une recherche wiki</value>
+  </data>
+  <data name="ModifierToSendToChat_Name" xml:space="preserve">
+    <value>Modificateur pour lier l'élément au chat</value>
+  </data>
+  <data name="ModifierToSendToChat_Tooltip" xml:space="preserve">
+    <value>Le modificateur (par défaut : SHIFT) pour lier un élément au chat.</value>
+  </data>
 </root>

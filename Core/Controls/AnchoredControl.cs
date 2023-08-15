@@ -6,7 +6,6 @@ using System;
 
 namespace Kenedia.Modules.Core.Controls
 {
-
     public class AnchoredContainer : FramedContainer
     {
         private Control _anchor;

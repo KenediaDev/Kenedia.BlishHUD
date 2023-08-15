@@ -12,16 +12,9 @@ namespace Kenedia.Modules.QoL.SubModules.ZoomOut
     {
         public ZoomOut(SettingCollection settings) : base(settings)
         {
-            SubModuleType = SubModuleType.ZoomOut;
-
-            Icon = new()
-            {
-                Texture = QoL.ModuleInstance.ContentsManager.GetTexture($@"textures\{SubModuleType}.png"),
-                HoveredTexture = QoL.ModuleInstance.ContentsManager.GetTexture($@"textures\{SubModuleType}_Hovered.png"),
-            };
-
-            Load();
         }
+
+        public override SubModuleType SubModuleType => SubModuleType.ZoomOut;
 
         public override void Update(GameTime gameTime)
         {

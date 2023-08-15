@@ -264,9 +264,10 @@
       <DependentUpon>strings.resx</DependentUpon>
     </Compile>
     <Compile Include="Services\Settings.cs" />
+    <Compile Include="SubModules\CopyItemName\CopyItemName.cs" />
     <Compile Include="SubModules\EnhancedCrosshair\EnhancedCrosshair.cs" />
     <Compile Include="SubModules\ItemDestruction\ItemDestruction.cs" />
-    <Compile Include="SubModules\Resets\Resets.cs" />
+    <Compile Include="SubModules\GameResets\GameResets.cs" />
     <Compile Include="SubModules\SkipCutscenes\SkipCutscenes.cs" />
     <Compile Include="SubModules\SubModule.cs" />
     <Compile Include="SubModules\SubModuleType.cs" />

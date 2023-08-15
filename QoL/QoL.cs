@@ -8,9 +8,10 @@ using Kenedia.Modules.Core.Extensions;
 using Kenedia.Modules.Core.Models;
 using Kenedia.Modules.QoL.Services;
 using Kenedia.Modules.QoL.SubModules;
+using Kenedia.Modules.QoL.SubModules.CopyItemName;
 using Kenedia.Modules.QoL.SubModules.EnhancedCrosshair;
+using Kenedia.Modules.QoL.SubModules.GameResets;
 using Kenedia.Modules.QoL.SubModules.ItemDestruction;
-using Kenedia.Modules.QoL.SubModules.Resets;
 using Kenedia.Modules.QoL.SubModules.SkipCutscenes;
 using Kenedia.Modules.QoL.SubModules.WaypointPaste;
 using Kenedia.Modules.QoL.SubModules.WikiSearch;
@@ -117,6 +118,7 @@ namespace Kenedia.Modules.QoL
             {
                 subModule?.Unload();
             }
+
             SubModules.Clear();
         }
 
@@ -135,13 +137,19 @@ namespace Kenedia.Modules.QoL
 
         private void LoadSubModules()
         {
-            SubModules.Add(SubModuleType.Resets, new Resets(SettingCollection));
-            SubModules.Add(SubModuleType.ZoomOut, new ZoomOut(SettingCollection));
-            SubModules.Add(SubModuleType.SkipCutscenes, new SkipCutscenes(SettingCollection));
+            //SubModules.Add(SubModuleType.GameResets, new GameResets(SettingCollection));
+            //SubModules.Add(SubModuleType.ZoomOut, new ZoomOut(SettingCollection));
+            //SubModules.Add(SubModuleType.SkipCutscenes, new SkipCutscenes(SettingCollection));
             SubModules.Add(SubModuleType.ItemDestruction, new ItemDestruction(SettingCollection));
-            //SubModules.Add(SubModuleType.WikiSearch, new WikiSearch(SettingCollection));
+            SubModules.Add(SubModuleType.WikiSearch, new WikiSearch(SettingCollection));
             //SubModules.Add(SubModuleType.EnhancedCrosshair, new EnhancedCrosshair(SettingCollection));
             //SubModules.Add(SubModuleType.WaypointPaste, new WaypointPaste(SettingCollection));
+            SubModules.Add(SubModuleType.CopyItemName, new CopyItemName(SettingCollection));
+
+            foreach (var module in SubModules.Values)
+            {
+                module?.Load();                
+            }
         }
     }
 }

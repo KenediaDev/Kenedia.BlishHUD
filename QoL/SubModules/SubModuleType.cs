@@ -9,12 +9,13 @@ namespace Kenedia.Modules.QoL.SubModules
     public enum SubModuleType
     {
         None,
-        Resets,
+        GameResets,
         ZoomOut,
         SkipCutscenes,
         ItemDestruction,
         EnhancedCrosshair,
         WaypointPaste,
         WikiSearch,
+        CopyItemName,
     }
 }

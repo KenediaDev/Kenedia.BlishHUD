@@ -20,21 +20,42 @@ namespace Kenedia.Modules.QoL.SubModules
 {
     public abstract class SubModule
     {
+        private readonly SettingCollection _settings;
+
+        private bool _loaded;
         private bool _unloaded;
         private bool _enabled;
         private Func<string> _localizedName;
         private Func<string> _localizedDescription;
 
-        private SettingCollection _settings;
         protected SettingCollection Settings;
         protected SubModuleUI UI_Elements = new();
 
         public SubModule(SettingCollection settings)
         {
             _settings = settings;
+            DefineSettings(_settings);
+
+            Icon = new()
+            {
+                Texture = QoL.ModuleInstance.ContentsManager.GetTexture($@"textures\{SubModuleType}.png"),
+                HoveredTexture = QoL.ModuleInstance.ContentsManager.GetTexture($@"textures\{SubModuleType}_Hovered.png"),
+            };
+
+            ToggleControl = new ImageToggle()
+            {
+                Texture = Icon.Texture,
+                HoveredTexture = Icon.HoveredTexture,
+                BasicTooltipText = SubModuleType.ToString(),
+                ActiveColor = Colors.Chardonnay,
+                Checked = EnabledSetting.Value,
+                Size = new(32),
+                Visible = EnabledSetting.Value,
+                OnCheckChanged = (b) => Enabled = b,
+            };
         }
 
-        public SubModuleType SubModuleType { get; protected set; } = SubModuleType.None;
+        public abstract SubModuleType SubModuleType { get; }
 
         public bool Enabled { get => _enabled; set => Common.SetProperty(ref _enabled, value, OnEnabledChanged); }
 
@@ -42,9 +63,9 @@ namespace Kenedia.Modules.QoL.SubModules
 
         public Func<string> LocalizedDescription { get => _localizedDescription; set => Common.SetProperty(ref _localizedDescription, value); }
 
-        public ImageToggle ToggleControl { get; private set; }
+        public ImageToggle ToggleControl { get; }
 
-        public DetailedTexture Icon { get; set; }
+        public DetailedTexture Icon { get; }
 
         public string Name { get; set; }
 
@@ -60,10 +81,17 @@ namespace Kenedia.Modules.QoL.SubModules
 
         private void OnEnabledChanged(object sender, ValueChangedEventArgs<bool> e)
         {
+
             (e.NewValue ? (Action)Enable : Disable)();
             EnabledSetting.Value = e.NewValue;
+
+            if (ToggleControl is ImageToggle toggle)
+            {
+                toggle.Checked = Enabled;
+                ToggleControl?.Parent?.RecalculateLayout();
+            }
         }
-        
+
         private void LocalizingService_LocaleChanged(object sender = null, EventArgs e = null)
         {
             SwitchLanguage();
@@ -92,12 +120,12 @@ namespace Kenedia.Modules.QoL.SubModules
 
             EnabledSetting = Settings.DefineSetting(nameof(EnabledSetting), false);
 
-            HotKey = Settings.DefineSetting(nameof(HotKey), new KeyBinding(Keys.None), 
-                () => string.Format(strings.HotkeyEntry_Name, $"{SubModuleType}"), 
+            HotKey = Settings.DefineSetting(nameof(HotKey), new KeyBinding(Keys.None),
+                () => string.Format(strings.HotkeyEntry_Name, $"{SubModuleType}"),
                 () => string.Format(strings.HotkeyEntry_Description, $"{SubModuleType}"));
 
-            ShowInHotbar = Settings.DefineSetting(nameof(ShowInHotbar), true, 
-                () => string.Format(strings.ShowInHotbar_Name, $"{SubModuleType}"), 
+            ShowInHotbar = Settings.DefineSetting(nameof(ShowInHotbar), true,
+                () => string.Format(strings.ShowInHotbar_Name, $"{SubModuleType}"),
                 () => string.Format(strings.ShowInHotbar_Description, $"{SubModuleType}"));
 
             HotKey.Value.Enabled = true;
@@ -107,33 +135,17 @@ namespace Kenedia.Modules.QoL.SubModules
         private void HotKey_Activated(object sender, EventArgs e)
         {
             Enabled = !Enabled;
-
-            if(ToggleControl is ImageToggle toggle)
-                toggle.Checked = Enabled;
         }
 
         public virtual void Load()
         {
+            if (_loaded) return;
+            _loaded = true;
+
             LocalizingService.LocaleChanged += LocalizingService_LocaleChanged;
-
             LocalizingService_LocaleChanged();
-            DefineSettings(_settings);
 
-            ToggleControl = ShowInHotbar.Value == false ? null : new ImageToggle()
-            {
-                Texture = Icon.Texture,
-                HoveredTexture = Icon.HoveredTexture,
-                BasicTooltipText = SubModuleType.ToString(),
-                ActiveColor = Colors.Chardonnay,
-                Checked = EnabledSetting.Value,
-                Size = new(32),
-                Visible = EnabledSetting.Value,
-                OnCheckChanged = (b) =>
-                {
-                    EnabledSetting.Value = b;
-                    ToggleControl?.Parent?.RecalculateLayout();
-                },
-            };
+            Enabled = EnabledSetting.Value;
         }
 
         public virtual void Unload()
@@ -141,6 +153,7 @@ namespace Kenedia.Modules.QoL.SubModules
             if (_unloaded) return;
             _unloaded = true;
 
+            ToggleControl?.Dispose();
             UI_Elements.DisposeAll();
             HotKey.Value.Activated -= HotKey_Activated;
             LocalizingService.LocaleChanged -= LocalizingService_LocaleChanged;

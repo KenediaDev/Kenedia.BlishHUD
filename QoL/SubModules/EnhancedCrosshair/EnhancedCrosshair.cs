@@ -14,16 +14,10 @@ namespace Kenedia.Modules.QoL.SubModules.EnhancedCrosshair
         //1677342
         public EnhancedCrosshair(SettingCollection settings) : base(settings)
         {
-            SubModuleType = SubModuleType.EnhancedCrosshair;
 
-            Icon = new()
-            {
-                Texture = QoL.ModuleInstance.ContentsManager.GetTexture($@"textures\{SubModuleType}.png"),
-                HoveredTexture = QoL.ModuleInstance.ContentsManager.GetTexture($@"textures\{SubModuleType}_Hovered.png"),
-            };
-
-            Load();
         }
+
+        public override SubModuleType SubModuleType => SubModuleType.EnhancedCrosshair;
 
         public override void Update(GameTime gameTime)
         {

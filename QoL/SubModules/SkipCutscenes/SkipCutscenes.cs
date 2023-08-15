@@ -12,16 +12,10 @@ namespace Kenedia.Modules.QoL.SubModules.SkipCutscenes
     {
         public SkipCutscenes(SettingCollection settings) : base(settings)
         {
-            SubModuleType = SubModuleType.SkipCutscenes;
 
-            Icon = new()
-            {
-                Texture = QoL.ModuleInstance.ContentsManager.GetTexture($@"textures\{SubModuleType}.png"),
-                HoveredTexture = QoL.ModuleInstance.ContentsManager.GetTexture($@"textures\{SubModuleType}_Hovered.png"),
-            };
-
-            Load();
         }
+
+        public override SubModuleType SubModuleType => SubModuleType.SkipCutscenes;
 
         public override void Update(GameTime gameTime)
         {

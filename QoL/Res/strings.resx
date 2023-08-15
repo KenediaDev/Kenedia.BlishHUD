@@ -115,4 +115,22 @@
   <data name="ShowInHotbar_Description" xml:space="preserve">
     <value>Show {0} in the hotbar</value>
   </data>
+  <data name="DisableOnSearch_Name" xml:space="preserve">
+    <value>Disable after Search</value>
+  </data>
+  <data name="DisableOnSearch_Tooltip" xml:space="preserve">
+    <value>Disables the module after a wiki search</value>
+  </data>
+  <data name="ModifierToSendToChat_Name" xml:space="preserve">
+    <value>Modifier to link item to chat</value>
+  </data>
+  <data name="ModifierToSendToChat_Tooltip" xml:space="preserve">
+    <value>The Modifier (Default: SHIFT) to link an item to the chat</value>
+  </data>
+  <data name="ReturnType_Name" xml:space="preserve">
+    <value>Return Type</value>
+  </data>
+  <data name="ReturnType_Tooltip" xml:space="preserve">
+    <value>Type to return after copying the item name.</value>
+  </data>
 </root>
