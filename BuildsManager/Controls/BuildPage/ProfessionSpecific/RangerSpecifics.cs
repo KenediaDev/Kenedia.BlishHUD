@@ -146,6 +146,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage.ProfessionSpecific
 
         protected override void ApplyTemplate()
         {
+            base.ApplyTemplate();
             if (TemplatePresenter is not null)
             {
                 foreach (var pet in _pets.Values)
@@ -153,8 +154,6 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage.ProfessionSpecific
                     pet.Pet = TemplatePresenter?.Template?.Pets?[pet.PetSlot];
                 }
             }
-
-            base.ApplyTemplate();
         }
 
         private void DrawSelector(SpriteBatch spriteBatch, Rectangle bounds)

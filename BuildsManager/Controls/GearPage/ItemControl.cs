@@ -12,6 +12,7 @@ using Blish_HUD.Input;
 using Microsoft.Xna.Framework.Input;
 using System.Linq;
 using Kenedia.Modules.BuildsManager.Res;
+using MonoGame.Extended.TextureAtlases;
 
 namespace Kenedia.Modules.BuildsManager.Controls.GearPage
 {
@@ -64,6 +65,12 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage
         {
             _frameColor = Item?.Rarity.GetColor() ?? Color.White * 0.15F;
             _texture.Texture = Item?.Icon;
+
+            if (Item is BaseItem item && item.Icon != null)
+            {
+                int padding = item.Icon.Width / 16;
+                _texture.TextureRegion = new(padding, padding, Item.Icon.Width - (padding * 2), Item.Icon.Height - (padding * 2));
+            }
 
             if (Tooltip is ItemTooltip itemTooltip)
             {

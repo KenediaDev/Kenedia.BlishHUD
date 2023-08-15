@@ -142,7 +142,9 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage.ProfessionSpecific
 
         protected override void ApplyTemplate()
         {
-            RecalculateLayout();
+            if (TemplatePresenter?.Template is null) return;
+            base.ApplyTemplate();
+
             var skills = BuildsManager.Data?.Professions?[Gw2Sharp.Models.ProfessionType.Elementalist]?.Skills;
             if (skills is null) return;
 

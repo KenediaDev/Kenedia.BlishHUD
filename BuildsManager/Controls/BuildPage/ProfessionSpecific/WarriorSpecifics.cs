@@ -154,6 +154,9 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage.ProfessionSpecific
 
         protected override void ApplyTemplate()
         {
+            if (TemplatePresenter?.Template is null) return;
+            base.ApplyTemplate();
+
             var skills = BuildsManager.Data?.Professions?[Gw2Sharp.Models.ProfessionType.Warrior]?.Skills;
             if (skills is null) return;
 
@@ -191,8 +194,6 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage.ProfessionSpecific
                 _skills[0].Skill = GetSkill(SkillSlot.Profession1);
                 _skills[1].Skill = GetSkill(SkillSlot.Profession2);
             }
-
-            RecalculateLayout();
         }
     }
 }

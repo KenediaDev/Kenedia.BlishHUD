@@ -158,6 +158,12 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage
             _id.Text = $"{strings.ItemId}: {Item?.Id}";
             _title.TextColor = Item?.Rarity.GetColor() ?? Color.White;
 
+            if (Item is BaseItem item && item.Icon != null)
+            {
+                int padding = item.Icon.Width / 16;
+                _image.SourceRectangle = new(padding, padding, Item.Icon.Width - (padding * 2), Item.Icon.Height - (padding * 2));
+            }
+
             switch (Item?.Type)
             {
                 case ItemType.Consumable:

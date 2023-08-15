@@ -155,6 +155,9 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage.ProfessionSpecific
 
         protected override void ApplyTemplate()
         {
+            if (TemplatePresenter?.Template is null) return;
+            base.ApplyTemplate();
+
             var skills = BuildsManager.Data?.Professions?[Gw2Sharp.Models.ProfessionType.Engineer]?.Skills;
             if (skills is null) return;
 
@@ -254,8 +257,6 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage.ProfessionSpecific
                 _skills[2].Skill = GetToolbeltSkill(SkillSlot.Profession3);
                 _skills[3].Skill = GetToolbeltSkill(SkillSlot.Profession4);
             }
-
-            base.ApplyTemplate();
         }
     }
 }

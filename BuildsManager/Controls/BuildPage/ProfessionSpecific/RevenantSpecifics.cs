@@ -203,12 +203,13 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage.ProfessionSpecific
 
         protected override void ApplyTemplate()
         {
+            if (TemplatePresenter?.Template is null) return;
+            base.ApplyTemplate();
+
             foreach (LegendSlotType slot in Enum.GetValues(typeof(LegendSlotType)))
             {
                 _legends[slot].Legend = TemplatePresenter?.Template?.Legends?[slot];
             }
-
-            base.ApplyTemplate();
         }
 
         protected override void Paint(SpriteBatch spriteBatch, Rectangle bounds)

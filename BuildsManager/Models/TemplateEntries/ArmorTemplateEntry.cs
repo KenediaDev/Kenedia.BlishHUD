@@ -33,7 +33,6 @@ namespace Kenedia.Modules.BuildsManager.TemplateEntries
 
         public Stat Stat { get => _stat; set => Common.SetProperty(ref _stat, value, OnStatChanged); }
 
-
         private void OnRuneChanged(object sender, ValueChangedEventArgs<Rune> e)
         {
             RuneChanged?.Invoke(this, e);

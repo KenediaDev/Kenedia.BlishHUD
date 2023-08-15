@@ -276,7 +276,7 @@ namespace Kenedia.Modules.BuildsManager.Models
                         if (this[slot] is not ArmorTemplateEntry armor)
                             continue;
 
-                        armor.StatChanged -= Armor_StatChanged;
+                        armor.StatChanged += Armor_StatChanged;
                         armor.RuneChanged += Armor_RuneChanged;
                         armor.InfusionChanged += Armor_InfusionChanged;
                         break;
