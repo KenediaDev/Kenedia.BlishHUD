@@ -449,6 +449,15 @@ namespace Kenedia.Modules.BuildsManager.Res {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to No data available through the GW2 API from ArenaNet..
+        /// </summary>
+        internal static string MissingInfoFromAPI {
+            get {
+                return ResourceManager.GetString("MissingInfoFromAPI", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to New Template.
         /// </summary>
         internal static string NewTemplate {

@@ -2,6 +2,7 @@
 using Blish_HUD.Content;
 using Blish_HUD.Input;
 using Gw2Sharp.WebApi;
+using Kenedia.Modules.Core.Extensions;
 using Kenedia.Modules.Core.Interfaces;
 using Kenedia.Modules.Core.Services;
 using Microsoft.Xna.Framework;
@@ -14,10 +15,13 @@ namespace Kenedia.Modules.Core.Controls
     public class ImageButton : Blish_HUD.Controls.Control, ILocalizable
     {
         private Func<string> _setLocalizedTooltip;
+        private readonly AsyncTexture2D _background = AsyncTexture2D.FromAssetId(155983);
+
+        public AsyncTexture2D IconFrame { get; set; } = AsyncTexture2D.FromAssetId(1414041);
 
         public ImageButton()
         {
-            LocalizingService.LocaleChanged  += UserLocale_SettingChanged;
+            LocalizingService.LocaleChanged += UserLocale_SettingChanged;
             UserLocale_SettingChanged(null, null);
         }
 
@@ -29,11 +33,11 @@ namespace Kenedia.Modules.Core.Controls
 
         public Color? ColorClicked { get; set; }
 
-        public Color? Color { get; set; } = Microsoft.Xna.Framework.Color.White;
+        public Color? ImageColor { get; set; } = Microsoft.Xna.Framework.Color.White;
 
         public Rectangle? SizeRectangle { get; set; }
 
-        public Rectangle? TextureRectangle { get; set; } 
+        public Rectangle? TextureRectangle { get; set; }
 
         public AsyncTexture2D Texture { get; set; }
 
@@ -42,6 +46,10 @@ namespace Kenedia.Modules.Core.Controls
         public AsyncTexture2D HoveredTexture { get; set; }
 
         public AsyncTexture2D ClickedTexture { get; set; }
+
+        public bool ShowButton { get; set; } = false;
+
+        public bool ShowImageFrame { get; set; } = false;
 
         public float? TextureRotation { get; set; }
 
@@ -77,17 +85,24 @@ namespace Kenedia.Modules.Core.Controls
 
         protected override void Paint(SpriteBatch spriteBatch, Rectangle bounds)
         {
+            //if (ShowButton)
+            //{
+            //    spriteBatch.DrawOnCtrl(this, _background, bounds, Color.White);
+            //    spriteBatch.DrawFrame(this, bounds.Add(new(2, 2, -4, -4)), Color.White * 0.3F, 2);
+            //    spriteBatch.DrawFrame(this, bounds, Color.Black, 2);
+            //}
+
             AsyncTexture2D texture = GetTexture();
-            Color? color = ColorHovered is not null && MouseOver ? ColorHovered : ColorClicked is not null && Clicked ? ColorClicked : Color;
+            Color? color = ColorHovered is not null && MouseOver ? ColorHovered : ColorClicked is not null && Clicked ? ColorClicked : ImageColor;
 
             if (texture is not null && color is not null)
-            {              
+            {
                 spriteBatch.DrawOnCtrl(
                     this,
                     texture,
                     SizeRectangle ?? bounds,
                     TextureRectangle ?? texture.Bounds,
-                    (Color) color,
+                    (Color)color,
                     (float)(TextureRotation ?? 0f),
                     default);
             }
@@ -97,7 +112,13 @@ namespace Kenedia.Modules.Core.Controls
         {
             base.OnClick(e);
 
-            if(Enabled) ClickAction?.Invoke(e);
+            if (Enabled) ClickAction?.Invoke(e);
+        }
+
+        public override void RecalculateLayout()
+        {
+            base.RecalculateLayout();
+
         }
     }
 }

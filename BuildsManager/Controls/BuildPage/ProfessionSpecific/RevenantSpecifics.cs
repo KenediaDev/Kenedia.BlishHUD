@@ -168,7 +168,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage.ProfessionSpecific
                     _selectorOpen = !_selectorOpen;
                     if (_selectorOpen)
                     {
-                        GetSelectableLegends(_selectedLegendSlot);
+                        GetSelectableLegends(slot);
                     }
                 }
             }
@@ -195,7 +195,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage.ProfessionSpecific
                     _selectorOpen = !_selectorOpen;
                     if (_selectorOpen)
                     {
-                        GetSelectableLegends(_selectedLegendSlot);
+                        GetSelectableLegends(slot);
                     }
                 }
             }
@@ -218,7 +218,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage.ProfessionSpecific
             {
                 _legends[legend.Key].Legend ??= TemplatePresenter.Template.Legends[legend.Key];
 
-                legend.Value.Draw(this, spriteBatch, RelativeMousePosition);
+                legend.Value.Draw(this, spriteBatch, legend.Key is LegendSlotType.TerrestrialActive or LegendSlotType.TerrestrialInactive, RelativeMousePosition);
 
                 if (legend.Key is LegendSlotType.AquaticActive or LegendSlotType.TerrestrialActive)
                 {
@@ -278,7 +278,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage.ProfessionSpecific
                 {
                     if (s.Hovered)
                     {
-                        if (true|| !s.Legend.Swap.Flags.HasFlag(SkillFlag.NoUnderwater))
+                        if (_selectedLegendSlot is LegendSlotType.TerrestrialActive or LegendSlotType.TerrestrialInactive || !s.Legend.Swap.Flags.HasFlag(SkillFlag.NoUnderwater))
                         {
                             var slot = GetOtherSlot(_selectorAnchor.LegendSlot);
                             var otherLegend = TemplatePresenter.Template.Legends[slot];
@@ -300,9 +300,11 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage.ProfessionSpecific
 
         private void GetSelectableLegends(LegendSlotType legendSlot)
         {
+            _selectedLegendSlot = legendSlot;
             _selectableLegends.Clear();
 
-            var legends = BuildsManager.Data.Professions[Gw2Sharp.Models.ProfessionType.Revenant].Legends.Where(e => e.Value.Specialization == 0 || e.Value.Specialization == TemplatePresenter.Template.EliteSpecialization?.Id);
+            var legends = BuildsManager.Data.Professions[Gw2Sharp.Models.ProfessionType.Revenant].Legends.Where(e =>
+            e.Value.Specialization == 0 || e.Value.Specialization == TemplatePresenter.Template.EliteSpecialization?.Id);
 
             int columns = Math.Min(legends.Count(), 4);
             int rows = (int)Math.Ceiling(legends.Count() / (double)columns);
@@ -342,7 +344,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage.ProfessionSpecific
 
             foreach (var s in _selectableLegends)
             {
-                s.Draw(this, spriteBatch, true, RelativeMousePosition);
+                s.Draw(this, spriteBatch, _selectedLegendSlot is LegendSlotType.TerrestrialActive or LegendSlotType.TerrestrialInactive, RelativeMousePosition);
             }
 
             spriteBatch.DrawStringOnCtrl(this, "Legends", Content.DefaultFont18, new Rectangle(_selectorBounds.Left, _selectorBounds.Bottom - 12 - Content.DefaultFont18.LineHeight, _selectorBounds.Width, Content.DefaultFont18.LineHeight), Color.White, false, HorizontalAlignment.Center);

@@ -33,7 +33,6 @@ namespace Kenedia.Modules.BuildsManager.Views
                 Location = new(0, 0),
                 HeightSizingMode = Blish_HUD.Controls.SizingMode.Fill,
                 Width = 375,
-                ZIndex = int.MaxValue,
             };
 
             _tabbedRegion = new()
@@ -43,7 +42,6 @@ namespace Kenedia.Modules.BuildsManager.Views
                 Width = ContentRegion.Width - 144,
                 HeightSizingMode = Blish_HUD.Controls.SizingMode.Fill,
                 OnTabSwitched = _selectionPanel.ResetAnchor,
-                ZIndex = int.MaxValue - 5,
             };
 
             TabbedRegionTab tab;
@@ -113,11 +111,6 @@ namespace Kenedia.Modules.BuildsManager.Views
         public override void RecalculateLayout()
         {
             base.RecalculateLayout();
-
-            if (_tabbedRegion is not null)
-            {
-                _selectionPanel.ZIndex = _tabbedRegion.ZIndex + 1;
-            }
         }
 
         protected override void DisposeControl()

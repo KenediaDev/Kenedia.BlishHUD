@@ -39,8 +39,8 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
         private readonly SkillsBar _skillbar;
         private readonly Dummy _dummy;
         private readonly Dictionary<SpecializationSlotType, SpecLine> _specializations;
-        private readonly FramedImage _specIcon;
-        private readonly FramedImage _raceIcon;
+        private readonly ButtonImage _specIcon;
+        private readonly ButtonImage _raceIcon;
         private readonly TexturesService _texturesService;
         private readonly TextBox _buildCodeBox;
         private readonly ImageButton _copyButton;
@@ -103,14 +103,14 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
                 ZIndex = 12,
             };
 
-            _specIcon = new FramedImage()
+            _specIcon = new()
             {
                 Parent = this,
                 Size = new(40),
                 ZIndex = 15,
             };
 
-            _raceIcon = new FramedImage()
+            _raceIcon = new()
             {
                 Parent = this,
                 TextureSize = new Point(32),

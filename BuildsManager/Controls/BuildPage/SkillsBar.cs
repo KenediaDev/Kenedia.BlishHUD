@@ -206,7 +206,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
             {
                 if (spair.Key.HasFlag(state))
                 {
-                    _skillIcons[spair.Key].Draw(this, spriteBatch, true, RelativeMousePosition);
+                    _skillIcons[spair.Key].Draw(this, spriteBatch, spair.Key.HasFlag(SkillSlotType.Terrestrial), RelativeMousePosition);
                     if (!SeletorOpen && _skillIcons[spair.Key].Hovered && _skillIcons[spair.Key].Skill is not null)
                     {
                         if (Tooltip is SkillTooltip tooltip)
@@ -220,8 +220,12 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
             if (SeletorOpen)
             {
                 DrawSelector(spriteBatch, bounds);
-            }
 
+                if (Tooltip is SkillTooltip tooltip)
+                {
+                    tooltip.Skill = null;
+                }
+            }
         }
 
         protected override void OnRightMouseButtonPressed(MouseEventArgs e)
@@ -413,6 +417,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
                 foreach (var s in _selectableSkills)
                 {
                     s.Draw(this, spriteBatch, _selectorAnchor.Slot.HasFlag(SkillSlotType.Terrestrial), RelativeMousePosition);
+
                 }
             }
 

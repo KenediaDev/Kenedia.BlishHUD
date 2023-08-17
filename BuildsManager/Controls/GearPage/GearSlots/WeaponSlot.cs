@@ -63,7 +63,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage.GearSlots
         public Infusion Infusion { get => _infusion; set => Common.SetProperty(ref _infusion, value, OnInfusionChanged); }
 
         public WeaponSlot OtherHandSlot { get; set; }
-                
+
         private void TemplatePresenter_GameModeChanged(object sender, Core.Models.ValueChangedEventArgs<GameModeType> e)
         {
             if (e.NewValue == GameModeType.PvP)
@@ -169,7 +169,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage.GearSlots
                 }
                 else
                 {
-                    if (overrideExisting || (slot as WeaponSlot).Item == null)
+                    if (overrideExisting || ((slot as WeaponSlot).Item == null && (slot.Slot is TemplateSlotType.MainHand or TemplateSlotType.AltOffHand || (slot as WeaponSlot).OtherHandSlot.Item == null)))
                         (slot as WeaponSlot).SelectWeapon(item);
                 }
             }
@@ -298,21 +298,21 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage.GearSlots
                 new(() => strings.Infusion, () => string.Format(strings.ResetEntry, strings.Infusion), () => Infusion = null ),
                 });
 
-       CreateSubMenu(() => strings.Fill, () => string.Format(strings.FillEntry, $"{strings.Weapon}, {strings.Stat}, {strings.Sigils} {strings.And} {strings.Infusion} {strings.EmptyWeaponSlots}"), () =>
-            {
-                SetGroupWeapon(Item as Weapon, false);
-                SetGroupStat(Stat, false);
-                SetGroupSigil(Sigil, false);
-                SetGroupPvpSigil(PvpSigil, false);
-                SetGroupInfusion(Infusion, false);
-            }, new()
-            {
+            CreateSubMenu(() => strings.Fill, () => string.Format(strings.FillEntry, $"{strings.Weapon}, {strings.Stat}, {strings.Sigils} {strings.And} {strings.Infusion} {strings.EmptyWeaponSlots}"), () =>
+                 {
+                     SetGroupWeapon(Item as Weapon, false);
+                     SetGroupStat(Stat, false);
+                     SetGroupSigil(Sigil, false);
+                     SetGroupPvpSigil(PvpSigil, false);
+                     SetGroupInfusion(Infusion, false);
+                 }, new()
+                 {
                 new(() => strings.Weapon, () => string.Format(strings.FillEntry, $"{strings.Weapon} {strings.EmptyWeaponSlots}"), () => SetGroupWeapon(Item as Weapon, false)),
                 new(() => strings.Stat, () => string.Format(strings.FillEntry, $"{strings.Stat} {strings.EmptyWeaponSlots}"), () => SetGroupStat(Stat, false)),
                 new(() => strings.Sigil, () => string.Format(strings.FillEntry, $"{strings.Sigil} {strings.EmptyWeaponSlots}"), () => SetGroupSigil(Sigil, false)),
                 new(() => strings.PvpSigil, () => string.Format(strings.FillEntry, $"{strings.PvpSigil} {strings.EmptyWeaponSlots}"), () => SetGroupPvpSigil(PvpSigil, false)),
                 new(() => strings.Infusion, () => string.Format(strings.FillEntry, $"{strings.Infusion} {strings.EmptyWeaponSlots}"), () => SetGroupInfusion(Infusion, false)),
-                });
+                     });
 
             CreateSubMenu(() => strings.Override, () => string.Format(strings.OverrideEntry, $"{strings.Weapon}, {strings.Stat}, {strings.Sigils} {strings.And} {strings.Infusion} {strings.WeaponSlots}"), () =>
             {

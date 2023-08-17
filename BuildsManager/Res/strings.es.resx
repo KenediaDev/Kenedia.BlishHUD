@@ -346,4 +346,7 @@ El propósito de este código es compartir la Plantilla de Equipo del módulo f�
   <data name="AutoSetProfession_Tooltip" xml:space="preserve">
     <value>Ajustar automáticamente el filtro de profesión a la profesión actual al cambiar de profesión.</value>
   </data>
+  <data name="MissingInfoFromAPI" xml:space="preserve">
+    <value>No hay datos disponibles a través de la API de GW2 de ArenaNet.</value>
+  </data>
 </root>

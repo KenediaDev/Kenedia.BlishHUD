@@ -9,6 +9,7 @@ using Microsoft.Xna.Framework.Graphics;
 using System.Collections.Generic;
 using Kenedia.Modules.Core.Services;
 using System.Threading.Tasks;
+using Blish_HUD.Controls;
 
 namespace Kenedia.Modules.Core.Controls
 {
@@ -155,6 +156,8 @@ namespace Kenedia.Modules.Core.Controls
                 Title = value?.Invoke();
             }
         }
+
+        public bool CaptureInput { get; set; } = true;
 
         public override void RecalculateLayout()
         {
@@ -380,6 +383,11 @@ namespace Kenedia.Modules.Core.Controls
                     spriteBatch.DrawOnCtrl(this, ContentService.Textures.Pixel, r.Item1, Rectangle.Empty, (Color)borderColor * r.Item2);
                 }
             }
+        }
+
+        protected override CaptureType CapturesInput()
+        {
+            return CaptureInput ? base.CapturesInput() : CaptureType.None;
         }
     }
 }

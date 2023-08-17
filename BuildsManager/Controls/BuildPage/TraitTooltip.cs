@@ -69,7 +69,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
             _title.TextColor = Colors.Chardonnay;
             _title.Text = Trait?.Name;
             _id.Text = $"{strings.TraitId}: {Trait?.Id}";
-            _description.Text = Trait?.Description.InterpretItemDescription();
+            _description.Text = Trait?.Description.InterpretItemDescription() ?? strings.MissingInfoFromAPI;
 
             if (Trait is not null)
             {

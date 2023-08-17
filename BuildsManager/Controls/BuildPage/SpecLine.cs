@@ -6,6 +6,7 @@ using Gw2Sharp.Models;
 using Kenedia.Modules.BuildsManager.DataModels.Professions;
 using Kenedia.Modules.BuildsManager.Models;
 using Kenedia.Modules.BuildsManager.Models.Templates;
+using Kenedia.Modules.Core.Controls;
 using Kenedia.Modules.Core.Extensions;
 using Kenedia.Modules.Core.Models;
 using Kenedia.Modules.Core.Utility;
@@ -16,6 +17,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using static Blish_HUD.ContentService;
+using Label = Kenedia.Modules.Core.Controls.Label;
 
 namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
 {
@@ -70,6 +72,9 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
         private Dictionary<int, Trait> _majorTraits = new();
 
         private bool _selectorOpen = false;
+        private readonly TraitTooltip _traitTooltip;
+        private readonly Tooltip _basicTooltip;
+        private readonly Label _basicTooltipLabel;
 
         public bool SelectorOpen { get => _selectorOpen; set => Common.SetProperty(ref _selectorOpen, value, OnSelectorToggled); }
 
@@ -88,7 +93,17 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
         public SpecLine(SpecializationSlotType line, TemplatePresenter template)
         {
             TemplatePresenter = template;
-            Tooltip = new TraitTooltip();
+            Tooltip = _traitTooltip = new TraitTooltip();
+            _basicTooltip = new()
+            {
+
+            };
+            _basicTooltipLabel = new Label()
+            {
+                Parent = _basicTooltip,
+                AutoSizeHeight = true,
+                AutoSizeWidth = true,
+            };
 
             Line = line;
             Height = 158;
@@ -106,6 +121,8 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
                 offset += size + Scale(10);
             }
         }
+
+        private string _basicTooltipText { get => _basicTooltipLabel.Text; set => _basicTooltipLabel.Text = value; }
 
         private void MouseMouseButtonPressed(object sender, MouseEventArgs e)
         {
@@ -263,11 +280,11 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
             Point? hoverPos = canInteract ? RelativeMousePosition : null;
 
             //_background.Draw(this, spriteBatch);
+            _basicTooltipText = null;
 
             if (BuildSpecialization is not null && BuildSpecialization.Specialization is not null && !SelectorOpen)
             {
-                if (Tooltip is TraitTooltip traitTooltip)
-                    traitTooltip.Trait = null;
+                _traitTooltip.Trait = null;
 
                 _specializationBackground.Draw(this, spriteBatch);
 
@@ -294,32 +311,36 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
                 for (int i = 0; i < _minors.Count; i++)
                 {
                     _minors[i].Draw(this, spriteBatch, hoverPos, null, null, SelectorOpen ? false : null);
-                    if (_minors[i].Hovered && Tooltip is TraitTooltip tooltip)
-                        tooltip.Trait = _minors[i].Trait;
+                    if (_minors[i].Hovered)
+                        _traitTooltip.Trait = _minors[i].Trait;
                 }
 
                 for (int i = 0; i < _majors.Count; i++)
                 {
                     _majors[i].Draw(this, spriteBatch, hoverPos, _majors[i].Selected ? Color.White : _majors[i].Hovered ? Color.DarkGray : Color.White * 0.6f, _majors[i].Selected ? null : _majors[i].Hovered ? Color.Gray * 0.1f : Color.Black * 0.5f, SelectorOpen ? false : null);
 
-                    if (_majors[i].Hovered && Tooltip is TraitTooltip tooltip)
-                        tooltip.Trait = _majors[i].Trait;
+                    if (_majors[i].Hovered)
+                        _traitTooltip.Trait = _majors[i].Trait;
                 }
             }
 
             _baseFrame.Draw(this, spriteBatch);
             _selector.Draw(this, spriteBatch, hoverPos, null, null, SelectorOpen ? true : null);
-            if (_selector.Hovered) txt = "Change Specialization";
+            if (_selector.Hovered) _basicTooltipText = "Change Specialization";
             (hasSpec ? _hexagon : _noSpecHexagon).Draw(this, spriteBatch, hoverPos);
             if (Line == SpecializationSlotType.Line_3) _eliteFrame.Draw(this, spriteBatch);
 
             _weaponTrait.Draw(this, spriteBatch, hoverPos, null, null, SelectorOpen ? false : null);
-            if (_weaponTrait.Hovered) txt = _weaponTrait.Trait?.Description;
+            if (_weaponTrait.Hovered)
+                _traitTooltip.Trait = _weaponTrait.Trait;
 
             if (SelectorOpen)
             {
-                txt = DrawSelector(spriteBatch, bounds);
+                _basicTooltipText = DrawSelector(spriteBatch, bounds) ?? _basicTooltipText;
             }
+
+            Tooltip = SelectorOpen ? _basicTooltip : _traitTooltip;
+            _basicTooltip.Opacity = string.IsNullOrEmpty(_basicTooltipText) ? 0F : 1F;
         }
 
         protected override void OnClick(MouseEventArgs e)
@@ -416,9 +437,9 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
             return (int)Math.Ceiling(input * _scale);
         }
 
-        private string DrawSelector(SpriteBatch spriteBatch, Rectangle bounds)
+        private string? DrawSelector(SpriteBatch spriteBatch, Rectangle bounds)
         {
-            string txt = string.Empty;
+            string txt = null;
 
             spriteBatch.DrawOnCtrl(
             this,

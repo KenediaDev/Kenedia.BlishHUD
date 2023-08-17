@@ -61,6 +61,33 @@ namespace Kenedia.Modules.QoL.Res {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Crosshair Size.
+        /// </summary>
+        internal static string CrosshairSize_Name {
+            get {
+                return ResourceManager.GetString("CrosshairSize_Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Size of the Crosshair.
+        /// </summary>
+        internal static string CrosshairSize_Tooltip {
+            get {
+                return ResourceManager.GetString("CrosshairSize_Tooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to days.
+        /// </summary>
+        internal static string Days {
+            get {
+                return ResourceManager.GetString("Days", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Disable after Search.
         /// </summary>
         internal static string DisableOnSearch_Name {

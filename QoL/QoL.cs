@@ -76,6 +76,8 @@ namespace Kenedia.Modules.QoL
         {
             base.Update(gameTime);
 
+            Hotbar.Visible = GameService.GameIntegration.Gw2Instance.IsInGame && !GameService.Gw2Mumble.UI.IsMapOpen;
+
             foreach (var subModule in SubModules)
             {
                 subModule.Value.Update(gameTime);
@@ -137,13 +139,12 @@ namespace Kenedia.Modules.QoL
 
         private void LoadSubModules()
         {
-            //SubModules.Add(SubModuleType.GameResets, new GameResets(SettingCollection));
-            //SubModules.Add(SubModuleType.ZoomOut, new ZoomOut(SettingCollection));
-            //SubModules.Add(SubModuleType.SkipCutscenes, new SkipCutscenes(SettingCollection));
+            SubModules.Add(SubModuleType.GameResets, new GameResets(SettingCollection));
+            SubModules.Add(SubModuleType.ZoomOut, new ZoomOut(SettingCollection));
+            SubModules.Add(SubModuleType.SkipCutscenes, new SkipCutscenes(SettingCollection));
             SubModules.Add(SubModuleType.ItemDestruction, new ItemDestruction(SettingCollection));
             SubModules.Add(SubModuleType.WikiSearch, new WikiSearch(SettingCollection));
-            //SubModules.Add(SubModuleType.EnhancedCrosshair, new EnhancedCrosshair(SettingCollection));
-            //SubModules.Add(SubModuleType.WaypointPaste, new WaypointPaste(SettingCollection));
+            SubModules.Add(SubModuleType.WaypointPaste, new WaypointPaste(SettingCollection));
             SubModules.Add(SubModuleType.CopyItemName, new CopyItemName(SettingCollection));
 
             foreach (var module in SubModules.Values)

@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework.Graphics;
+using System.Drawing;
 using System.IO;
 using Color = Microsoft.Xna.Framework.Color;
 
@@ -9,6 +10,20 @@ namespace Kenedia.Modules.Core.Extensions
         public static Texture2D CreateTexture2D(this MemoryStream s)
         {
             Texture2D texture;
+
+            using (Blish_HUD.Graphics.GraphicsDeviceContext device = Blish_HUD.GameService.Graphics.LendGraphicsDeviceContext())
+            {
+                texture = Texture2D.FromStream(device.GraphicsDevice, s);
+            }
+
+            return texture;
+        }
+
+        public static Texture2D CreateTexture2D(this Bitmap bitmap)
+        {
+            Texture2D texture;
+            MemoryStream s = new();
+            bitmap.Save(s, System.Drawing.Imaging.ImageFormat.Png);
 
             using (Blish_HUD.Graphics.GraphicsDeviceContext device = Blish_HUD.GameService.Graphics.LendGraphicsDeviceContext())
             {

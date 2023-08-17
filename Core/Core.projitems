@@ -14,12 +14,14 @@
     <Compile Include="$(MSBuildThisFileDirectory)Controls\BasicTooltip.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)controls\BorderedImage.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controls\Button.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\ButtonImage.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controls\CollapseContainer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controls\ContextMenuItem.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controls\FramedImage.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controls\GameItem.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controls\Hotbar.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controls\HotbarButton.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\IconLabel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controls\MouseContainer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controls\RollingChoya.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controls\FilterBox.cs" />
@@ -145,5 +147,9 @@
   <ItemGroup>
     <Folder Include="$(MSBuildThisFileDirectory)Events\" />
     <Folder Include="$(MSBuildThisFileDirectory)Textures\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="$(MSBuildThisFileDirectory)Res\Textures\ImageButtonBackground.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Res\Textures\ImageButtonBackground_Hovered.png" />
   </ItemGroup>
 </Project>

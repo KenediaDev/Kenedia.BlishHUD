@@ -147,4 +147,19 @@
   <data name="ModifierToSendToChat_Tooltip" xml:space="preserve">
     <value>Le modificateur (par défaut : SHIFT) pour lier un élément au chat.</value>
   </data>
+  <data name="ReturnType_Name" xml:space="preserve">
+    <value>Type de retour</value>
+  </data>
+  <data name="ReturnType_Tooltip" xml:space="preserve">
+    <value>Type à retourner après avoir copié le nom de l'élément.</value>
+  </data>
+  <data name="CrosshairSize_Name" xml:space="preserve">
+    <value>Taille du réticule</value>
+  </data>
+  <data name="CrosshairSize_Tooltip" xml:space="preserve">
+    <value>Taille du réticule</value>
+  </data>
+  <data name="Days" xml:space="preserve">
+    <value>jours</value>
+  </data>
 </root>

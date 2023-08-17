@@ -40,7 +40,6 @@ namespace Kenedia.Modules.Core.Res {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-
                     global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Kenedia.Modules." + Assembly.GetExecutingAssembly().FullName.Split(',')[0].Substring(Assembly.GetExecutingAssembly().FullName.Split(',')[0].LastIndexOf('.') + 1) + ".Res.textures_common", typeof(textures_common).Assembly);
                     resourceMan = temp;
                 }
@@ -59,6 +58,26 @@ namespace Kenedia.Modules.Core.Res {
             }
             set {
                 resourceCulture = value;
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap ImageButtonBackground {
+            get {
+                object obj = ResourceManager.GetObject("ImageButtonBackground", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap ImageButtonBackground_Hovered {
+            get {
+                object obj = ResourceManager.GetObject("ImageButtonBackground_Hovered", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
             }
         }
         

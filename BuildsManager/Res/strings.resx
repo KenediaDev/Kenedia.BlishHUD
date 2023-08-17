@@ -346,4 +346,7 @@ The purpose of this code is to share the modules Equipment Template easily with 
   <data name="AutoSetProfession_Tooltip" xml:space="preserve">
     <value>Automatically set the profession filter to the current profession on profession change</value>
   </data>
+  <data name="MissingInfoFromAPI" xml:space="preserve">
+    <value>No data available through the GW2 API from ArenaNet.</value>
+  </data>
 </root>

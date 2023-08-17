@@ -126,7 +126,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage
                 case ItemType.Armor:
                     if (Item is Armor armor)
                     {
-                        _description.Text = string.Join(Environment.NewLine, Stat?.Attributes.Values.Where(e => e is not null).Select(e => $"+ {Math.Round(e.Value + (e.Multiplier * (armor?.AttributeAdjustment ?? 0)))} {e.Id.GetDisplayName()}"));
+                        _description.Text = string.Join(Environment.NewLine, Stat?.Attributes.Values.Where(e => e is not null).Select(e => $"+ {Math.Round(e.Value + (e.Multiplier * (armor?.AttributeAdjustment ?? 0)))} {e.Id.GetDisplayName()}")) ?? strings.MissingInfoFromAPI; ;
                         _description.TextColor = Color.Lime;
                     }
                     break;
@@ -134,7 +134,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage
                 case ItemType.Weapon:
                     if (Item is Weapon weapon)
                     {
-                        _description.Text = string.Join(Environment.NewLine, Stat?.Attributes.Values.Where(e => e is not null).Select(e => $"+ {Math.Round(e.Value + (e.Multiplier * (weapon?.AttributeAdjustment ?? 0)))} {e.Id.GetDisplayName()}"));
+                        _description.Text = string.Join(Environment.NewLine, Stat?.Attributes.Values.Where(e => e is not null).Select(e => $"+ {Math.Round(e.Value + (e.Multiplier * (weapon?.AttributeAdjustment ?? 0)))} {e.Id.GetDisplayName()}")) ?? strings.MissingInfoFromAPI; ;
                         _description.TextColor = Color.Lime;
                     }
                     break;
@@ -143,7 +143,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage
                 case ItemType.Back:
                     if (Item is Trinket trinket)
                     {
-                        _description.Text = string.Join(Environment.NewLine, Stat?.Attributes.Values.Where(e => e is not null).Select(e => $"+ {Math.Round(e.Value + (e.Multiplier * (trinket?.AttributeAdjustment ?? 0)))} {e.Id.GetDisplayName()}"));
+                        _description.Text = string.Join(Environment.NewLine, Stat?.Attributes.Values.Where(e => e is not null).Select(e => $"+ {Math.Round(e.Value + (e.Multiplier * (trinket?.AttributeAdjustment ?? 0)))} {e.Id.GetDisplayName()}")) ?? strings.MissingInfoFromAPI; ;
                         _description.TextColor = Color.Lime;
                     }
                     break;
@@ -169,11 +169,11 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage
                 case ItemType.Consumable:
                     if (Item is Nourishment nourishment)
                     {
-                        _description.Text = nourishment.Details.Description;
+                        _description.Text = nourishment.Details.Description ?? strings.MissingInfoFromAPI;
                     }
                     else if (Item is DataModels.Items.Utility utility)
                     {
-                        _description.Text = utility.Details.Description;
+                        _description.Text = utility.Details.Description ?? strings.MissingInfoFromAPI; ;
                     }
                     break;
 
@@ -187,19 +187,19 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage
                 case ItemType.UpgradeComponent:
                     if (Item is Rune rune)
                     {
-                        _description.Text = rune.BonusDescriptions.Bonuses.Select(e => e.InterpretItemDescription()).ToList().Enumerate(Environment.NewLine, "({0}): ");
+                        _description.Text = rune.BonusDescriptions.Bonuses.Select(e => e.InterpretItemDescription()).ToList().Enumerate(Environment.NewLine, "({0}): ") ?? strings.MissingInfoFromAPI; ;
                     }
                     else if (Item is Sigil sigil)
                     {
-                        _description.Text = sigil.Buff.InterpretItemDescription();
+                        _description.Text = sigil.Buff.InterpretItemDescription() ?? strings.MissingInfoFromAPI; ;
                     }
                     else if (Item is Infusion infusion)
                     {
-                        _description.Text = infusion.DisplayText;
+                        _description.Text = infusion.DisplayText ?? strings.MissingInfoFromAPI; ;
                     }
                     else if (Item is Enrichment enrichment)
                     {
-                        _description.Text = enrichment.DisplayText;
+                        _description.Text = enrichment.DisplayText ?? strings.MissingInfoFromAPI; ;
                     }
                     break;
             }

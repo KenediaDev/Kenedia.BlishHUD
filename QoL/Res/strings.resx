@@ -133,4 +133,13 @@
   <data name="ReturnType_Tooltip" xml:space="preserve">
     <value>Type to return after copying the item name.</value>
   </data>
+  <data name="CrosshairSize_Name" xml:space="preserve">
+    <value>Crosshair Size</value>
+  </data>
+  <data name="CrosshairSize_Tooltip" xml:space="preserve">
+    <value>Size of the Crosshair</value>
+  </data>
+  <data name="Days" xml:space="preserve">
+    <value>days</value>
+  </data>
 </root>

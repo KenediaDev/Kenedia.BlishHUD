@@ -27,7 +27,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage
         private readonly TexturesService _texturesService;
         private readonly TextBox _gearCodeBox;
         private readonly ImageButton _copyButton;
-        private readonly FramedImage _framedSpecIcon;
+        private readonly ButtonImage _framedSpecIcon;
 
         private Rectangle _headerBounds;
 

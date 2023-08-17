@@ -49,6 +49,11 @@ namespace Kenedia.Modules.Core.Models
 
         public Rectangle Bounds { get; set; }
 
+        public Point Size
+        {
+            get => Bounds.Size; set => Bounds = new(Bounds.Location, value);
+        }
+
         public Rectangle FallbackBounds { get; set; }
 
         public Color? DrawColor { get; set; }
@@ -57,7 +62,7 @@ namespace Kenedia.Modules.Core.Models
 
         public virtual void Draw(Control ctrl, SpriteBatch spriteBatch, Point? mousePos = null, Color? color = null, Color? bgColor = null, bool? forceHover = null, float? rotation = null, Vector2? origin = null)
         {
-            if(_isDisposed) return;
+            if (_isDisposed) return;
             if (FallBackTexture is not null || Texture is not null)
             {
                 origin ??= Vector2.Zero;

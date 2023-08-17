@@ -30,7 +30,7 @@ namespace Kenedia.Modules.Core.Controls
             int yOffset = (int)(Height * 0.15);
 
             Point size = TextureSize ?? Size;
-            Point padding = new((Width - size.X) / 2,( Height - size.Y) / 2);
+            Point padding = new((Width - size.X) / 2, (Height - size.Y) / 2);
 
             _textureBounds = new((xOffset / 2) + padding.X, (yOffset / 2) + padding.Y, size.X - (xOffset * 1), size.Y - (yOffset * 1));
             _iconFrameBounds = new(0, yOffset, Width - xOffset, Height - yOffset);

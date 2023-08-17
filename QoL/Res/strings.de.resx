@@ -147,4 +147,19 @@
   <data name="ModifierToSendToChat_Tooltip" xml:space="preserve">
     <value>Der Modifikator (Standard: SHIFT), um ein Element mit dem Chat zu verknüpfen</value>
   </data>
+  <data name="ReturnType_Name" xml:space="preserve">
+    <value>Rückgabe Typ</value>
+  </data>
+  <data name="ReturnType_Tooltip" xml:space="preserve">
+    <value>Tippen Sie hier, um nach dem Kopieren des Objektnamens zurückzukehren.</value>
+  </data>
+  <data name="CrosshairSize_Name" xml:space="preserve">
+    <value>Fadenkreuz Größe</value>
+  </data>
+  <data name="CrosshairSize_Tooltip" xml:space="preserve">
+    <value>Größe des Fadenkreuzes</value>
+  </data>
+  <data name="Days" xml:space="preserve">
+    <value>Tage</value>
+  </data>
 </root>

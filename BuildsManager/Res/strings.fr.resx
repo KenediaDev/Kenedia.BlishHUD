@@ -346,4 +346,7 @@ Le but de ce code est de partager facilement le modèle d'équipement du module 
   <data name="AutoSetProfession_Tooltip" xml:space="preserve">
     <value>Définir automatiquement le filtre de la profession sur la profession actuelle lors d'un changement de profession</value>
   </data>
+  <data name="MissingInfoFromAPI" xml:space="preserve">
+    <value>Aucune donnée n'est disponible via l'API GW2 d'ArenaNet.</value>
+  </data>
 </root>

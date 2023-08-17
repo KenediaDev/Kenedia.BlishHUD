@@ -63,6 +63,26 @@ namespace Kenedia.Modules.Core.Res {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap ImageButtonBackground {
+            get {
+                object obj = ResourceManager.GetObject("ImageButtonBackground", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap ImageButtonBackground_Hovered {
+            get {
+                object obj = ResourceManager.GetObject("ImageButtonBackground_Hovered", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap RollingChoya {
             get {
                 object obj = ResourceManager.GetObject("RollingChoya", resourceCulture);

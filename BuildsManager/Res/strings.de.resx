@@ -346,4 +346,7 @@ Der Zweck dieses Codes ist es, die Module Ausrüstungsvorlage leicht mit anderen
   <data name="AutoSetProfession_Tooltip" xml:space="preserve">
     <value>Automatisches Setzen des Klassenfilters auf die aktuelle Klasse beim Klassenwechsel</value>
   </data>
+  <data name="MissingInfoFromAPI" xml:space="preserve">
+    <value>Über die GW2-API von ArenaNet sind keine Daten verfügbar.</value>
+  </data>
 </root>

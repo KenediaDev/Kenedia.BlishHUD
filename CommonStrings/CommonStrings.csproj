@@ -104,5 +104,11 @@
   <ItemGroup>
     <Folder Include="Resources\" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Textures\ImageButtonBackground.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Textures\ImageButtonBackground_Hovered.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
