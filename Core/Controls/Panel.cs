@@ -161,6 +161,8 @@ namespace Kenedia.Modules.Core.Controls
             }
         }
 
+        public bool CaptureInput { get; set; } = true;
+
         public override void RecalculateLayout()
         {
             base.RecalculateLayout();
@@ -368,6 +370,11 @@ namespace Kenedia.Modules.Core.Controls
                     spriteBatch.DrawOnCtrl(this, ContentService.Textures.Pixel, r.Item1, Rectangle.Empty, (Color)borderColor * r.Item2);
                 }
             }
+        }
+
+        protected override CaptureType CapturesInput()
+        {
+            return CaptureInput ? base.CapturesInput() : CaptureType.None;
         }
     }
 }

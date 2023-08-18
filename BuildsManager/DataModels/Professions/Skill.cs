@@ -1,6 +1,7 @@
 ﻿using Blish_HUD.Content;
 using Gw2Sharp;
 using Gw2Sharp.Models;
+using Kenedia.Modules.BuildsManager.Controls.BuildPage;
 using Kenedia.Modules.BuildsManager.Models;
 using Kenedia.Modules.Core.DataModels;
 using Kenedia.Modules.Core.Models;
@@ -17,7 +18,7 @@ namespace Kenedia.Modules.BuildsManager.DataModels.Professions
 {
 
     [DataContract]
-    public class Skill : IDisposable
+    public class Skill : IDisposable, IBaseApiData
     {
         private bool _isDisposed;
         private AsyncTexture2D _icon;

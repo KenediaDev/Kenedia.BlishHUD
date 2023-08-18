@@ -1,5 +1,6 @@
 ﻿using Blish_HUD.Content;
 using Gw2Sharp.WebApi.V2.Models;
+using Kenedia.Modules.BuildsManager.Controls.BuildPage;
 using Kenedia.Modules.Core.DataModels;
 using Kenedia.Modules.Core.Extensions;
 using Kenedia.Modules.Core.Models;
@@ -13,7 +14,7 @@ using APIPet = Gw2Sharp.WebApi.V2.Models.Pet;
 namespace Kenedia.Modules.BuildsManager.DataModels.Professions
 {
     [DataContract]
-    public class Pet : IDisposable
+    public class Pet : IDisposable, IBaseApiData
     {
         private bool _isDisposed;
         private readonly List<int> _aquaticPets = new() { 1, 5, 6, 7, 9, 11, 12, 18, 19, 20, 21, 23, 24, 25, 26, 27, 40, 41, 42, 43, 45, 47, 63, };

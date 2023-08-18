@@ -1,5 +1,6 @@
 ﻿using Blish_HUD.Content;
 using Gw2Sharp.WebApi.V2.Models;
+using Kenedia.Modules.BuildsManager.Controls.BuildPage;
 using Kenedia.Modules.BuildsManager.Extensions;
 using Kenedia.Modules.Core.Models;
 using Kenedia.Modules.Core.Utility;
@@ -12,9 +13,9 @@ using APITrait = Gw2Sharp.WebApi.V2.Models.Trait;
 namespace Kenedia.Modules.BuildsManager.DataModels.Professions
 {
     [DataContract]
-    public class Trait : IDisposable
+    public class Trait : IDisposable, IBaseApiData
     {
-        private bool _ísDisposed;
+        private bool _isDisposed;
         private AsyncTexture2D _icon;
 
         public Trait()
@@ -121,7 +122,9 @@ namespace Kenedia.Modules.BuildsManager.DataModels.Professions
 
         public void Dispose()
         {
-            if(_ísDisposed) return;
+            if(_isDisposed) return;
+            _isDisposed = true;
+
             _icon = null;
         }
     }

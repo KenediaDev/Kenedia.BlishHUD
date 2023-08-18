@@ -270,6 +270,7 @@
     <Compile Include="Controls\BuildPage\ProfessionSpecific\ThiefSpecifics.cs" />
     <Compile Include="Controls\BuildPage\ProfessionSpecific\WarriorSpecifics.cs" />
     <Compile Include="Controls\BuildPage\SelectableSkillIconCollection.cs" />
+    <Compile Include="Controls\BuildPage\Selector.cs" />
     <Compile Include="Controls\BuildPage\SkillIcon.cs" />
     <Compile Include="Controls\BuildPage\SkillIconCollection.cs" />
     <Compile Include="Controls\BuildPage\SkillsBar.cs" />

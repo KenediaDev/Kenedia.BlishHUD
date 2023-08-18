@@ -4,6 +4,7 @@ using Blish_HUD.Input;
 using SkillSlot = Gw2Sharp.WebApi.V2.Models.SkillSlot;
 using Kenedia.Modules.BuildsManager.DataModels.Professions;
 using Kenedia.Modules.BuildsManager.Models.Templates;
+using Kenedia.Modules.Core.Extensions;
 using Kenedia.Modules.Core.Models;
 using Kenedia.Modules.Core.Utility;
 using Microsoft.Xna.Framework;
@@ -16,15 +17,18 @@ using Kenedia.Modules.BuildsManager.Models;
 using Gw2Sharp;
 using System.Diagnostics;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
+using System.Text.RegularExpressions;
+using Kenedia.Modules.BuildsManager.Res;
 
 namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
 {
 
-    public class SkillsBar : Control
+    public class SkillsBar : Container
     {
         private readonly DetailedTexture _selectingFrame = new(157147);
         private readonly DetailedTexture _aquaticTexture = new(1988170);
         private readonly DetailedTexture _terrestrialTexture = new(1988171);
+        private readonly SkillSelector _skillSelector;
 
         private TemplatePresenter _templatePresenter;
 
@@ -48,6 +52,33 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
             ZIndex = int.MaxValue / 2;
 
             Input.Mouse.LeftMouseButtonPressed += Mouse_LeftMouseButtonPressed;
+
+            _skillSelector = new()
+            {
+                Parent = Graphics.SpriteScreen,
+                Visible = false,
+                OnClickAction = (skill) =>
+                {
+                    SkillSlotType enviromentState = _selectorAnchor.Slot.GetEnviromentState();
+                    bool terrestrial = _selectorAnchor.Slot.HasFlag(SkillSlotType.Terrestrial);
+                    if (terrestrial || TemplatePresenter.Template.Profession == Gw2Sharp.Models.ProfessionType.Revenant || !skill.Flags.HasFlag(SkillFlag.NoUnderwater))
+                    {
+                        if (TemplatePresenter.Template.Skills.HasSkill(skill, enviromentState))
+                        {
+                            var slot = TemplatePresenter.Template.Skills.GetSkillSlot(skill, enviromentState);
+                            TemplatePresenter.Template.Skills[slot] = _selectorAnchor.Skill;
+                            _skillIcons[slot].Skill = _selectorAnchor.Skill;
+                        }
+
+                        _selectorAnchor.Skill = skill;
+                        _skillIcons[_selectorAnchor.Slot].Skill = skill;
+                        TemplatePresenter.Template.Skills[_selectorAnchor.Slot] = skill;
+
+                        SeletorOpen = false;
+                        return;
+                    }
+                }
+            };
         }
 
         private bool AnyHovered
@@ -194,36 +225,38 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
             }
         }
 
-        protected override void Paint(SpriteBatch spriteBatch, Rectangle bounds)
+        public override void UpdateContainer(GameTime gameTime)
         {
+            base.UpdateContainer(gameTime);
+
+            if (_skillSelector is not null)
+            {
+                if (_selectorAnchor is not null)
+                    _skillSelector.TopCenterAnchor = AbsoluteBounds.Location.Add(_selectorAnchor.Bounds.Location).Add(new((_selectorAnchor.Bounds.Size.X / 2) - 1, -2));
+            }
+        }
+
+        public override void PaintBeforeChildren(SpriteBatch spriteBatch, Rectangle bounds)
+        {
+            base.PaintBeforeChildren(spriteBatch, bounds);
+
             _terrestrialTexture.Draw(this, spriteBatch, RelativeMousePosition, Color.White);
             _aquaticTexture.Draw(this, spriteBatch, RelativeMousePosition, Color.White);
 
             SkillSlotType state = TemplatePresenter.LegendSlot == LegendSlotType.TerrestrialActive ? SkillSlotType.Active : SkillSlotType.Inactive;
-            string txt = string.Empty;
 
             foreach (var spair in TemplatePresenter.Template.Skills)
             {
                 if (spair.Key.HasFlag(state))
                 {
                     _skillIcons[spair.Key].Draw(this, spriteBatch, spair.Key.HasFlag(SkillSlotType.Terrestrial), RelativeMousePosition);
-                    if (!SeletorOpen && _skillIcons[spair.Key].Hovered && _skillIcons[spair.Key].Skill is not null)
-                    {
+                    if (_skillIcons[spair.Key].Hovered && _skillIcons[spair.Key].Skill is not null)
+                    {                        
                         if (Tooltip is SkillTooltip tooltip)
                         {
-                            tooltip.Skill = _skillIcons[spair.Key].Skill;
+                            tooltip.Skill = _skillIcons[spair.Key] != _selectorAnchor ? _skillIcons[spair.Key].Skill : null;
                         }
                     }
-                }
-            }
-
-            if (SeletorOpen)
-            {
-                DrawSelector(spriteBatch, bounds);
-
-                if (Tooltip is SkillTooltip tooltip)
-                {
-                    tooltip.Skill = null;
                 }
             }
         }
@@ -239,6 +272,12 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
                     SeletorOpen = _selectorAnchor != skillIcon.Value || !SeletorOpen;
                     _selectorAnchor = skillIcon.Value;
                     GetSelectableSkills(skillIcon.Key);
+                    _skillSelector.ZIndex = ZIndex + 100;
+                    _skillSelector.SelectedItem = skillIcon.Value.Skill;
+
+                    var slot = skillIcon.Key;
+                    slot &= ~(SkillSlotType.Aquatic | SkillSlotType.Inactive | SkillSlotType.Terrestrial | SkillSlotType.Active);
+                    _skillSelector.Label = $"{Regex.Replace($"{slot.ToString().Trim()}", @"[_0-9]", "")} {strings.Skills}";
                 }
             }
         }
@@ -254,41 +293,17 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
                     SeletorOpen = _selectorAnchor != skillIcon.Value || !SeletorOpen;
                     _selectorAnchor = skillIcon.Value;
                     GetSelectableSkills(skillIcon.Key);
+                    _skillSelector.ZIndex = ZIndex + 100;
+
+                    var slot = skillIcon.Key;
+                    slot &= ~(SkillSlotType.Aquatic | SkillSlotType.Inactive | SkillSlotType.Terrestrial | SkillSlotType.Active);
+                    _skillSelector.Label = $"{Regex.Replace($"{slot.ToString().Trim()}", @"[_0-9]", "")} {strings.Skills}";
                 }
             }
         }
 
         private void Mouse_LeftMouseButtonPressed(object sender, MouseEventArgs e)
         {
-            if (SeletorOpen)
-            {
-                SkillSlotType enviromentState = _selectorAnchor.Slot.GetEnviromentState();
-                bool terrestrial = _selectorAnchor.Slot.HasFlag(SkillSlotType.Terrestrial);
-
-                foreach (var s in _selectableSkills)
-                {
-                    if (s.Hovered)
-                    {
-                        if (terrestrial || TemplatePresenter.Template.Profession == Gw2Sharp.Models.ProfessionType.Revenant || !s.Skill.Flags.HasFlag(SkillFlag.NoUnderwater))
-                        {
-                            if (TemplatePresenter.Template.Skills.HasSkill(s.Skill, enviromentState))
-                            {
-                                var slot = TemplatePresenter.Template.Skills.GetSkillSlot(s.Skill, enviromentState);
-                                TemplatePresenter.Template.Skills[slot] = _selectorAnchor.Skill;
-                                _skillIcons[slot].Skill = _selectorAnchor.Skill;
-                            }
-
-                            _selectorAnchor.Skill = s.Skill;
-                            _skillIcons[_selectorAnchor.Slot].Skill = s.Skill;
-                            TemplatePresenter.Template.Skills[_selectorAnchor.Slot] = s.Skill;
-
-                            SeletorOpen = false;
-                            return;
-                        }
-                    }
-                }
-            }
-
             SeletorOpen = false;
         }
 
@@ -319,9 +334,11 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
                 int column = 0;
                 int row = 0;
 
+                List<Skill> selectableSkills = new();
                 foreach (var skill in filteredSkills.OrderBy(e => e.Value.Categories).ToList())
                 {
                     _selectableSkills.Add(new() { Skill = skill.Value, Bounds = new(_selectorBounds.Left + 4 + (column * _skillSize), _selectorBounds.Top + 4 + (row * _skillSize), _skillSize - 4, _skillSize - 4) });
+                    selectableSkills.Add(skill.Value);
                     column++;
 
                     if (column > 3)
@@ -330,6 +347,8 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
                         row++;
                     }
                 }
+
+                _skillSelector.SetItems(selectableSkills);
             }
             else
             {
@@ -391,11 +410,16 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
                         row++;
                     }
                 }
+
+                _skillSelector.SetItems(filteredSkills);
             }
+
         }
 
         private void DrawSelector(SpriteBatch spriteBatch, Rectangle bounds)
         {
+            if (true) return;
+
             spriteBatch.DrawOnCtrl(this, Textures.Pixel, _selectorBounds, Rectangle.Empty, Color.Black * 0.7f);
 
             Color borderColor = Color.Black;
@@ -434,6 +458,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
             _aquaticTexture?.Dispose();
             _terrestrialTexture?.Dispose();
             _selectingFrame?.Dispose();
+            _skillSelector?.Dispose();
 
             foreach (var c in _skillIcons.Values)
             {

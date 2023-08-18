@@ -349,4 +349,7 @@ The purpose of this code is to share the modules Equipment Template easily with 
   <data name="MissingInfoFromAPI" xml:space="preserve">
     <value>No data available through the GW2 API from ArenaNet.</value>
   </data>
+  <data name="Skills" xml:space="preserve">
+    <value>Skills</value>
+  </data>
 </root>

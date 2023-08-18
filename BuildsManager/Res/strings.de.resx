@@ -349,4 +349,7 @@ Der Zweck dieses Codes ist es, die Module Ausrüstungsvorlage leicht mit anderen
   <data name="MissingInfoFromAPI" xml:space="preserve">
     <value>Über die GW2-API von ArenaNet sind keine Daten verfügbar.</value>
   </data>
+  <data name="Skills" xml:space="preserve">
+    <value>Fertigkeiten</value>
+  </data>
 </root>

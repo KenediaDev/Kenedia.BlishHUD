@@ -26,6 +26,11 @@ namespace Kenedia.Modules.Core.Extensions
             return new Point(b.X + p.X, b.Y + p.Y);
         }
 
+        public static Point Substract(this Point b, Point p)
+        {
+            return new Point(b.X - p.X, b.Y - p.Y);
+        }
+
         public static Point Scale(this Point p, double factor)
         {
             return new Point((int)(p.X * factor), (int)(p.Y * factor));
