@@ -13,7 +13,7 @@ using APITrait = Gw2Sharp.WebApi.V2.Models.Trait;
 namespace Kenedia.Modules.BuildsManager.DataModels.Professions
 {
     [DataContract]
-    public class Trait : IDisposable, IBaseApiData
+    public class Trait : IDisposable
     {
         private bool _isDisposed;
         private AsyncTexture2D _icon;

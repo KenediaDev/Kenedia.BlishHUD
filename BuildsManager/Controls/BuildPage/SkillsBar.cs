@@ -35,7 +35,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
         private readonly SkillIconCollection _skillIcons = new(true);
 
         private readonly List<SkillIcon> _selectableSkills = new();
-        private SkillSlot _selectedSkillSlot;
+
         private Rectangle _selectorBounds;
         private SkillIcon _selectorAnchor;
         private bool _selectorOpen = false;
@@ -228,12 +228,6 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
         public override void UpdateContainer(GameTime gameTime)
         {
             base.UpdateContainer(gameTime);
-
-            if (_skillSelector is not null)
-            {
-                if (_selectorAnchor is not null)
-                    _skillSelector.TopCenterAnchor = AbsoluteBounds.Location.Add(_selectorAnchor.Bounds.Location).Add(new((_selectorAnchor.Bounds.Size.X / 2) - 1, -2));
-            }
         }
 
         public override void PaintBeforeChildren(SpriteBatch spriteBatch, Rectangle bounds)
@@ -289,7 +283,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
 
         private void Mouse_LeftMouseButtonPressed(object sender, MouseEventArgs e)
         {
-            SeletorOpen = false;
+
         }
 
         private void SetSelector(KeyValuePair<SkillSlotType, SkillIcon> skillIcon)
@@ -297,10 +291,9 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
             SeletorOpen = _selectorAnchor != skillIcon.Value || !SeletorOpen;
             _selectorAnchor = skillIcon.Value;
 
+            _skillSelector.Anchor = this;
             _skillSelector.ZIndex = ZIndex + 100;
             _skillSelector.SelectedItem = skillIcon.Value.Skill;
-
-            Debug.WriteLine($"_skillSelector.SelectedItem {_skillSelector.SelectedItem?.Name}");
 
             var slot = skillIcon.Key;
             slot &= ~(SkillSlotType.Aquatic | SkillSlotType.Inactive | SkillSlotType.Terrestrial | SkillSlotType.Active);
@@ -327,56 +320,22 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
                 var skills = BuildsManager.Data.Professions[TemplatePresenter.Template.Profession].Skills;
                 var filteredSkills = skills.Where(e => e.Value.PaletteId > 0 && e.Value.Slot is not null && e.Value.Slot == slot && (e.Value.Specialization == 0 || TemplatePresenter.Template.HasSpecialization(e.Value.Specialization))).ToList();
 
-                Debug.WriteLine($"Skills: {string.Join(Environment.NewLine, filteredSkills.Select(e => e.Value.Name))}");
                 var racialSkills = TemplatePresenter.Template.Race != Core.DataModels.Races.None ? BuildsManager.Data.Races[TemplatePresenter.Template.Race]?.Skills.Where(e => e.Value.PaletteId > 0 && e.Value.Slot is not null && e.Value.Slot == slot).ToList() : new();
                 if (racialSkills is not null) filteredSkills.AddRange(racialSkills);
 
-                int columns = Math.Min(filteredSkills.Count(), 4);
-                int rows = (int)Math.Ceiling(filteredSkills.Count() / (double)columns);
-                _selectorBounds = new(_selectorAnchor.Bounds.X - (((_skillSize * columns) + 8) / 2 - (_skillSize / 2)), _selectorAnchor.Bounds.Bottom, (_skillSize * columns) + 4, (_skillSize * rows) + 40);
-                _selectedSkillSlot = slot;
-                int column = 0;
-                int row = 0;
-
-                List<Skill> selectableSkills = new();
-                foreach (var skill in filteredSkills.OrderBy(e => e.Value.Categories).ToList())
-                {
-                    _selectableSkills.Add(new() { Skill = skill.Value, Bounds = new(_selectorBounds.Left + 4 + (column * _skillSize), _selectorBounds.Top + 4 + (row * _skillSize), _skillSize - 4, _skillSize - 4) });
-                    selectableSkills.Add(skill.Value);
-                    column++;
-
-                    if (column > 3)
-                    {
-                        column = 0;
-                        row++;
-                    }
-                }
-
-                _skillSelector.SetItems(selectableSkills);
+                _skillSelector.SetItems(filteredSkills.Select(e => e.Value));
             }
             else
             {
                 List<Skill> filteredSkills = new();
-                LegendSlotType legendSlot = LegendSlotType.TerrestrialActive;
-
-                switch (skillSlot.GetEnviromentState())
+                LegendSlotType legendSlot = skillSlot.GetEnviromentState() switch
                 {
-                    case SkillSlotType.Active | SkillSlotType.Aquatic:
-                        legendSlot = LegendSlotType.AquaticActive;
-                        break;
-
-                    case SkillSlotType.Inactive | SkillSlotType.Aquatic:
-                        legendSlot = LegendSlotType.AquaticInactive;
-                        break;
-
-                    case SkillSlotType.Active | SkillSlotType.Terrestrial:
-                        legendSlot = LegendSlotType.TerrestrialActive;
-                        break;
-
-                    case SkillSlotType.Inactive | SkillSlotType.Terrestrial:
-                        legendSlot = LegendSlotType.TerrestrialInactive;
-                        break;
-                }
+                    SkillSlotType.Active | SkillSlotType.Aquatic => LegendSlotType.AquaticActive,
+                    SkillSlotType.Inactive | SkillSlotType.Aquatic => LegendSlotType.AquaticInactive,
+                    SkillSlotType.Active | SkillSlotType.Terrestrial => LegendSlotType.TerrestrialActive,
+                    SkillSlotType.Inactive | SkillSlotType.Terrestrial => LegendSlotType.TerrestrialInactive,
+                    _ => LegendSlotType.TerrestrialActive,
+                };
 
                 var skills = TemplatePresenter.Template?.Legends[legendSlot];
 
@@ -393,25 +352,6 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
                         case SkillSlot.Utility:
                             filteredSkills.AddRange(skills.Utilities.Select(e => e.Value));
                             break;
-                    }
-                }
-
-                int columns = 4;
-                int rows = (int)Math.Ceiling(filteredSkills.Count() / (double)columns);
-                _selectorBounds = new(_selectorAnchor.Bounds.X - (((_skillSize * columns) + 8) / 2 - (_skillSize / 2)), _selectorAnchor.Bounds.Bottom, (_skillSize * columns) + 4, (_skillSize * rows) + 40);
-                _selectedSkillSlot = slot;
-
-                int column = 0;
-                int row = 0;
-                foreach (var skill in filteredSkills)
-                {
-                    _selectableSkills.Add(new() { Skill = skill, Bounds = new(_selectorBounds.Left + 4 + (column * _skillSize), _selectorBounds.Top + 4 + (row * _skillSize), _skillSize - 4, _skillSize - 4) });
-                    column++;
-
-                    if (column > 3)
-                    {
-                        column = 0;
-                        row++;
                     }
                 }
 

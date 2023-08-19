@@ -257,6 +257,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controls\BuildPage\BuildPage.cs" />
+    <Compile Include="Controls\BuildPage\PetSelector.cs" />
+    <Compile Include="Controls\BuildPage\Selectable.cs" />
+    <Compile Include="Controls\BuildPage\SkillSelector.cs" />
+    <Compile Include="Interfaces\IBaseApiData.cs" />
     <Compile Include="Controls\BuildPage\LegendSlotSkillSlotCollection.cs" />
     <Compile Include="Controls\BuildPage\ProfessionSpecifics.cs" />
     <Compile Include="Controls\BuildPage\ProfessionSpecific\ElementalistSpecifics.cs" />
@@ -270,6 +274,7 @@
     <Compile Include="Controls\BuildPage\ProfessionSpecific\ThiefSpecifics.cs" />
     <Compile Include="Controls\BuildPage\ProfessionSpecific\WarriorSpecifics.cs" />
     <Compile Include="Controls\BuildPage\SelectableSkillIconCollection.cs" />
+    <Compile Include="Controls\BuildPage\SelectableType.cs" />
     <Compile Include="Controls\BuildPage\Selector.cs" />
     <Compile Include="Controls\BuildPage\SkillIcon.cs" />
     <Compile Include="Controls\BuildPage\SkillIconCollection.cs" />

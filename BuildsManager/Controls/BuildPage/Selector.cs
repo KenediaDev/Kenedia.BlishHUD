@@ -1,6 +1,5 @@
-﻿using Blish_HUD.Content;
-using Colors = Blish_HUD.ContentService.Colors;
-using Kenedia.Modules.BuildsManager.DataModels.Professions;
+﻿using Kenedia.Modules.BuildsManager.DataModels.Professions;
+using Kenedia.Modules.BuildsManager.Interfaces;
 using Kenedia.Modules.Core.Utility;
 using Kenedia.Modules.Core.Controls;
 using Kenedia.Modules.Core.Extensions;
@@ -12,169 +11,26 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using SizingMode = Blish_HUD.Controls.SizingMode;
+using Control = Blish_HUD.Controls.Control;
 using ControlFlowDirection = Blish_HUD.Controls.ControlFlowDirection;
-using Kenedia.Modules.Core.Models;
 using Blish_HUD;
 using Blish_HUD.Input;
 using System.Diagnostics;
 
 namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
 {
-    public interface IBaseApiData
-    {
-        public string Name { get; set; }
-        public string Description { get; set; }
-        public int Id { get; set; }
-        public AsyncTexture2D Icon { get; }
-    }
-
-    public enum SelectableType
-    {
-        None,
-        Skill,
-        Item,
-        Pet,
-    }
-
-    public class Selectable<IBaseApiData> : Blish_HUD.Controls.Control
-    {
-        private AsyncTexture2D _texture;
-        private IBaseApiData _data;
-
-        public IBaseApiData Data { get => _data; set => Common.SetProperty(ref _data, value, ApplyData); }
-
-        public Selectable()
-        {
-            Size = new Point(64);
-        }
-
-        public SelectableType Type { get; private set; }
-
-        public Rectangle TextureRegion { get; private set; }
-
-        public Action<IBaseApiData> OnClickAction { get; set; }
-
-        public bool IsSelected { get; set; }
-
-        private void ApplyData(object sender, Core.Models.ValueChangedEventArgs<IBaseApiData> e)
-        {
-            if (Data is null) return;
-
-            switch (Data)
-            {
-                case Skill skill:
-                    Type = SelectableType.Skill;
-                    //TextureRegion = new(14, 14, 100, 100);
-                    int sPadding = (int)(skill.Icon.Width * 0.109375);
-                    TextureRegion = new(sPadding, sPadding, skill.Icon.Width - (sPadding * 2), skill.Icon.Height - (sPadding * 2));
-                    _texture = skill.Icon;
-                    Tooltip = new SkillTooltip() { Skill = skill };
-                    break;
-
-                case Pet pet:
-                    Type = SelectableType.Pet;
-                    TextureRegion = new(16, 16, 200, 200);
-                    _texture = pet.Icon;
-                    break;
-            }
-        }
-
-        public override void RecalculateLayout()
-        {
-            base.RecalculateLayout();
-
-            if (Data is null) return;
-        }
-
-        protected override void Paint(SpriteBatch spriteBatch, Rectangle bounds)
-        {
-            if (Data is null) return;
-
-            spriteBatch.DrawOnCtrl(this, _texture, bounds, TextureRegion, Color.White);
-
-            if (IsSelected)
-                spriteBatch.DrawFrame(this, bounds, Colors.ColonialWhite, 3);
-
-            if (MouseOver)
-                spriteBatch.DrawFrame(this, bounds, Colors.ColonialWhite, 2);
-        }
-
-        protected override void OnClick(MouseEventArgs e)
-        {
-            base.OnClick(e);
-            if (Data is null) return;
-
-            OnClickAction?.Invoke(Data);
-        }
-    }
-
-    public class SkillSelector : Selector<Skill>
-    {
-        private readonly DetailedTexture _selectingFrame = new(157147);
-
-        public SkillSelector()
-        {
-            ContentPanel.BorderWidth = new(2, 0, 2, 2);
-
-        }
-
-        public override void PaintBeforeChildren(SpriteBatch spriteBatch, Rectangle bounds)
-        {
-            base.PaintBeforeChildren(spriteBatch, bounds);
-        }
-
-        public override void PaintAfterChildren(SpriteBatch spriteBatch, Rectangle bounds)
-        {
-            base.PaintAfterChildren(spriteBatch, bounds);
-            RecalculateLayout();
-
-            int p = 10;
-            Rectangle r = new(Point.Zero.Add(new(-p, -2)), new(Width + (p * 2), SelectableSize.Y + 8));
-            ContentPanel.BorderWidth = new(2);
-            HeaderPanel.BorderWidth = new(0, 0, 0, 2);
-            HeaderPanel.BorderColor = Color.Transparent;
-
-            spriteBatch.DrawCenteredRotationOnCtrl(this, _selectingFrame.Texture, r, _selectingFrame.TextureRegion, Color.White, 0.0F, true, true);
-
-            r = new(new(0, 0), new(ContentPanel.Width, SelectableSize.Y));
-            HeaderPanel?.SetBounds(r);
-        }
-
-        protected override void Recalculate(object sender, Core.Models.ValueChangedEventArgs<Point> e)
-        {
-            base.Recalculate(sender, e);
-
-        }
-
-        public override void RecalculateLayout()
-        {
-            base.RecalculateLayout();
-
-            if (ContentPanel is not null && HeaderPanel is not null)
-            {
-                int p = 24;
-                Rectangle r = new(Point.Zero.Substract(new(p, _selectingFrame.Size.Y + 3)), new(Width + (p * 2), SelectableSize.Y + 6));
-                r = new(Point.Zero, new(ContentPanel.Width, SelectableSize.Y));
-                HeaderPanel?.SetBounds(r);
-            }
-        }
-
-        protected override Blish_HUD.Controls.CaptureType CapturesInput()
-        {
-            return HeaderPanel.MouseOver ? Blish_HUD.Controls.CaptureType.None : base.CapturesInput();
-        }
-    }
 
     public class Selector<T> : FlowPanel where T : IBaseApiData
     {
-        private readonly FlowPanel _flowPanel;
+        private Control _anchor;
         private readonly Label _label;
         private Point _selectableSize = new(64);
-        private Point _topCenterAnchor;
         private Action<T> _onClickAction;
         private T _selectedItem;
+        private int _selectablePerRow = 4;
         protected readonly Panel HeaderPanel;
         protected readonly Panel ContentPanel;
+        protected readonly FlowPanel FlowPanel;
 
         public Selector()
         {
@@ -198,7 +54,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
                 Parent = this,
             };
 
-            _flowPanel = new()
+            FlowPanel = new()
             {
                 Parent = ContentPanel,
                 FlowDirection = ControlFlowDirection.LeftToRight,
@@ -221,7 +77,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
 
         private void Mouse_LeftMouseButtonPressed(object sender, MouseEventArgs e)
         {
-            if(MouseOver) return;
+            if (MouseOver) return;
 
             Visible = false;
         }
@@ -236,9 +92,11 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
 
         public Action<T> OnClickAction { get => _onClickAction; set => Common.SetProperty(ref _onClickAction, value, ApplyAction); }
 
+        public int SelectablePerRow { get => _selectablePerRow; set => Common.SetProperty(ref _selectablePerRow, value, RecalculateLayout); }
+
         public Point SelectableSize { get => _selectableSize; set => Common.SetProperty(ref _selectableSize, value, Recalculate); }
 
-        public Point TopCenterAnchor { get => _topCenterAnchor; set => Common.SetProperty(ref _topCenterAnchor, value, MoveToFit); }
+        public Control Anchor { get => _anchor; set => Common.SetProperty(ref _anchor, value, RecalculateLayout); }
 
         public string Label { get => _label.Text; set => _label.Text = value; }
 
@@ -269,10 +127,6 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
             RecalculateLayout();
         }
 
-        private void MoveToFit(object sender, Core.Models.ValueChangedEventArgs<Point> e)
-        {
-            Location = new Point(TopCenterAnchor.X - (Width / 2), TopCenterAnchor.Y);
-        }
 
         private Selectable<T> CreateSelectable(T item)
         {
@@ -287,7 +141,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
 
             return new()
             {
-                Parent = _flowPanel,
+                Parent = FlowPanel,
                 Size = SelectableSize,
                 Data = item,
                 OnClickAction = OnClickAction,
@@ -366,23 +220,30 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
         {
             base.RecalculateLayout();
 
-            _flowPanel?.Invalidate();
+            FlowPanel?.Invalidate();
             ContentPanel?.Invalidate();
 
-            if (_flowPanel is not null)
+            if (FlowPanel is not null)
             {
-                Point p = _flowPanel.Size.Substract(_flowPanel.ContentRegion.Size);
-                _flowPanel.Width = p.X + (SelectableSize.X * 4) + ((int)_flowPanel.ControlPadding.X * 3);
-                _flowPanel.Height = p.Y + (SelectableSize.Y * Math.Max(1, Items.Count / 4)) + ((int)_flowPanel.ControlPadding.Y * (Math.Max(1, Items.Count / 4) - 1));
+                Point p = FlowPanel.Size.Substract(FlowPanel.ContentRegion.Size);
+                FlowPanel.Width = p.X + (SelectableSize.X * SelectablePerRow) + ((int)FlowPanel.ControlPadding.X * (SelectablePerRow - 1));
+                FlowPanel.Height = p.Y + (SelectableSize.Y * Math.Max(1, (int)Math.Ceiling(Items.Count / (decimal)SelectablePerRow))) + ((int)FlowPanel.ControlPadding.Y * Math.Max(1, (int)Math.Ceiling(Items.Count / ((decimal)SelectablePerRow - 1))));
 
-                _flowPanel.RecalculateLayout();
+                FlowPanel.RecalculateLayout();
             }
 
-            if (_label is not null && _flowPanel is not null)
+            if (_label is not null && FlowPanel is not null)
             {
-                _label.Width = _flowPanel.Width;
-                _label.Location = new(0, _flowPanel.Bottom);
+                _label.Width = FlowPanel.Width;
+                _label.Location = new(0, FlowPanel.Bottom);
             }
+        }
+
+        public override void Draw(SpriteBatch spriteBatch, Rectangle drawBounds, Rectangle scissor)
+        {
+            if (Anchor?.IsDrawn() != true) return;
+
+            base.Draw(spriteBatch, drawBounds, scissor);
         }
 
         public override void PaintBeforeChildren(SpriteBatch spriteBatch, Rectangle bounds)
@@ -400,6 +261,9 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
                 CaptureInput = !HeaderPanel.MouseOver;
                 HeaderPanel.CaptureInput = !HeaderPanel.MouseOver;
             }
+
+            if(Anchor is not null)
+               Location = new(Anchor.AbsoluteBounds.Center.X - (Width / 2), Anchor.AbsoluteBounds.Top);
         }
 
         protected override void OnClick(MouseEventArgs e)

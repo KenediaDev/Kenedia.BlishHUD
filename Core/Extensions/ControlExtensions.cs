@@ -18,6 +18,16 @@ namespace Kenedia.Modules.Core.Extensions
             return IsParentSetAndVisible(control);
         }
 
+        public static bool IsDrawn(this Control c)
+        {
+            return c.Parent is not null && c.Parent.Visible is true && c.Parent.AbsoluteBounds.Contains(c.AbsoluteBounds.Center) is true && (c.Parent == GameService.Graphics.SpriteScreen || IsDrawn(c.Parent));
+        }
+
+        public static bool IsDrawn(this Control c, Rectangle b)
+        {
+            return c.Parent is not null && c.Parent.Visible is true && c.Parent.AbsoluteBounds.Contains(b.Center) is true && (c.Parent == GameService.Graphics.SpriteScreen || IsDrawn(c.Parent, b));
+        }
+
         public static bool ToggleVisibility(this Control c, bool? visible = null)
         {
             c.Visible = visible ?? !c.Visible;

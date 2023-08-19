@@ -29,40 +29,14 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
         private readonly StatSelection _statSelection;
 
         private readonly DetailedTexture _backButton = new(784268);
-        private readonly DetailedTexture _pointerArrow = new(784266) { TextureRegion = new(16, 16, 32, 32) };
         private Control _subAnchor;
         private Control _mainAnchor;
         private Core.Controls.Pointer _pointer;
-
-        private Rectangle AnchorDrawBounds
-        {
-            get => _selectionType switch
-            {
-                SelectionTypes.Templates => _mainAnchorDrawBounds,
-                _ => _subAnchorDrawBounds
-            };
-
-            set
-            {
-                if (_selectionType == SelectionTypes.Templates)
-                {
-                    _mainAnchorDrawBounds = value;
-                }
-                else
-                {
-                    _subAnchorDrawBounds = value;
-                }
-            }
-        }
-
-        private Rectangle _mainAnchorDrawBounds;
-        private Rectangle _subAnchorDrawBounds;
 
         private Rectangle _backBounds;
         private Rectangle _backTextBounds;
         private SelectionTypes _selectionType = SelectionTypes.Templates;
 
-        private float _animationStart = 0f;
         private Control _anchor;
 
         public SelectionPanel(TemplatePresenter templatePresenter, MainWindow mainWindow)
@@ -161,14 +135,6 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
         private void SetAnchor(Control anchor, Rectangle? anchorBounds = null)
         {
             Anchor = anchor;
-
-            if (Anchor is not null)
-            {
-                int size = anchor.AbsoluteBounds.Height;
-                size = Math.Min(size, 32);
-
-                AnchorDrawBounds = anchorBounds ?? new(Anchor.AbsoluteBounds.Left - AbsoluteBounds.Left - (size / 2), Anchor.AbsoluteBounds.Top - AbsoluteBounds.Top + (Anchor.AbsoluteBounds.Height / 2) - (size / 2), size, size);
-            }
         }
 
         public void SetAnchor<T>(Control anchor, Rectangle anchorBounds, SelectionTypes selectionType, Enum slot, Enum subslot, Action<T> onClickAction, IReadOnlyList<int> statChoices = null, double? attributeAdjustment = null, string? title = null) where T : class
@@ -179,9 +145,6 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
 
             if (Anchor is not null)
             {
-                int size = Math.Min(anchorBounds.Height, 32);
-                AnchorDrawBounds = new(anchorBounds.Left - AbsoluteBounds.Left - (size / 2), anchorBounds.Top - AbsoluteBounds.Top + (anchorBounds.Height / 2) - (size / 2), size, size);
-
                 switch (SelectionType)
                 {
                     case SelectionTypes.Items:
@@ -332,7 +295,6 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
 
             _pointer?.Dispose();
             _backButton?.Dispose();
-            _pointerArrow?.Dispose();
         }
     }
 }
