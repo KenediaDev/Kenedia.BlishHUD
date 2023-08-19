@@ -286,6 +286,15 @@ namespace Kenedia.Modules.BuildsManager.Res {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Elite Skills.
+        /// </summary>
+        internal static string EliteSkills {
+            get {
+                return ResourceManager.GetString("EliteSkills", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to of all empty armor slots.
         /// </summary>
         internal static string EmptyArmorSlots {
@@ -364,6 +373,15 @@ namespace Kenedia.Modules.BuildsManager.Res {
         internal static string Healing {
             get {
                 return ResourceManager.GetString("Healing", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Heal Skills.
+        /// </summary>
+        internal static string HealSkills {
+            get {
+                return ResourceManager.GetString("HealSkills", resourceCulture);
             }
         }
         
@@ -710,11 +728,20 @@ namespace Kenedia.Modules.BuildsManager.Res {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Utility.
+        ///   Looks up a localized string similar to Enhancement.
         /// </summary>
-        internal static string Utility {
+        internal static string Enhancement {
             get {
                 return ResourceManager.GetString("Utility", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Utility Skills.
+        /// </summary>
+        internal static string UtilitySkills {
+            get {
+                return ResourceManager.GetString("UtilitySkills", resourceCulture);
             }
         }
         

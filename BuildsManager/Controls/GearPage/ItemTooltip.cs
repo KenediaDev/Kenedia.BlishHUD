@@ -171,7 +171,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage
                     {
                         _description.Text = nourishment.Details.Description ?? strings.MissingInfoFromAPI;
                     }
-                    else if (Item is DataModels.Items.Utility utility)
+                    else if (Item is DataModels.Items.Enhancement utility)
                     {
                         _description.Text = utility.Details.Description ?? strings.MissingInfoFromAPI; ;
                     }

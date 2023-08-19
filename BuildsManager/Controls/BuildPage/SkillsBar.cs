@@ -269,15 +269,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
             {
                 if (skillIcon.Value.Hovered)
                 {
-                    SeletorOpen = _selectorAnchor != skillIcon.Value || !SeletorOpen;
-                    _selectorAnchor = skillIcon.Value;
-                    GetSelectableSkills(skillIcon.Key);
-                    _skillSelector.ZIndex = ZIndex + 100;
-                    _skillSelector.SelectedItem = skillIcon.Value.Skill;
-
-                    var slot = skillIcon.Key;
-                    slot &= ~(SkillSlotType.Aquatic | SkillSlotType.Inactive | SkillSlotType.Terrestrial | SkillSlotType.Active);
-                    _skillSelector.Label = $"{Regex.Replace($"{slot.ToString().Trim()}", @"[_0-9]", "")} {strings.Skills}";
+                    SetSelector(skillIcon);
                 }
             }
         }
@@ -290,14 +282,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
             {
                 if (skillIcon.Value.Selector.Hovered)
                 {
-                    SeletorOpen = _selectorAnchor != skillIcon.Value || !SeletorOpen;
-                    _selectorAnchor = skillIcon.Value;
-                    GetSelectableSkills(skillIcon.Key);
-                    _skillSelector.ZIndex = ZIndex + 100;
-
-                    var slot = skillIcon.Key;
-                    slot &= ~(SkillSlotType.Aquatic | SkillSlotType.Inactive | SkillSlotType.Terrestrial | SkillSlotType.Active);
-                    _skillSelector.Label = $"{Regex.Replace($"{slot.ToString().Trim()}", @"[_0-9]", "")} {strings.Skills}";
+                    SetSelector(skillIcon);
                 }
             }
         }
@@ -305,6 +290,23 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
         private void Mouse_LeftMouseButtonPressed(object sender, MouseEventArgs e)
         {
             SeletorOpen = false;
+        }
+
+        private void SetSelector(KeyValuePair<SkillSlotType, SkillIcon> skillIcon)
+        {
+            SeletorOpen = _selectorAnchor != skillIcon.Value || !SeletorOpen;
+            _selectorAnchor = skillIcon.Value;
+
+            _skillSelector.ZIndex = ZIndex + 100;
+            _skillSelector.SelectedItem = skillIcon.Value.Skill;
+
+            Debug.WriteLine($"_skillSelector.SelectedItem {_skillSelector.SelectedItem?.Name}");
+
+            var slot = skillIcon.Key;
+            slot &= ~(SkillSlotType.Aquatic | SkillSlotType.Inactive | SkillSlotType.Terrestrial | SkillSlotType.Active);
+            _skillSelector.Label = strings.ResourceManager.GetString($"{Regex.Replace($"{slot.ToString().Trim()}", @"[_0-9]", "")}Skills");
+
+            GetSelectableSkills(skillIcon.Key);
         }
 
         private void GetSelectableSkills(SkillSlotType skillSlot)
@@ -324,6 +326,8 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
             {
                 var skills = BuildsManager.Data.Professions[TemplatePresenter.Template.Profession].Skills;
                 var filteredSkills = skills.Where(e => e.Value.PaletteId > 0 && e.Value.Slot is not null && e.Value.Slot == slot && (e.Value.Specialization == 0 || TemplatePresenter.Template.HasSpecialization(e.Value.Specialization))).ToList();
+
+                Debug.WriteLine($"Skills: {string.Join(Environment.NewLine, filteredSkills.Select(e => e.Value.Name))}");
                 var racialSkills = TemplatePresenter.Template.Race != Core.DataModels.Races.None ? BuildsManager.Data.Races[TemplatePresenter.Template.Race]?.Skills.Where(e => e.Value.PaletteId > 0 && e.Value.Slot is not null && e.Value.Slot == slot).ToList() : new();
                 if (racialSkills is not null) filteredSkills.AddRange(racialSkills);
 
@@ -414,38 +418,6 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
                 _skillSelector.SetItems(filteredSkills);
             }
 
-        }
-
-        private void DrawSelector(SpriteBatch spriteBatch, Rectangle bounds)
-        {
-            if (true) return;
-
-            spriteBatch.DrawOnCtrl(this, Textures.Pixel, _selectorBounds, Rectangle.Empty, Color.Black * 0.7f);
-
-            Color borderColor = Color.Black;
-
-            // Top
-            spriteBatch.DrawOnCtrl(this, Textures.Pixel, new Rectangle(_selectorBounds.Left, _selectorBounds.Top, _selectorBounds.Width, 2), Rectangle.Empty, borderColor * 0.8f);
-
-            // Bottom
-            spriteBatch.DrawOnCtrl(this, Textures.Pixel, new Rectangle(_selectorBounds.Left, _selectorBounds.Bottom - 2, _selectorBounds.Width, 2), Rectangle.Empty, borderColor * 0.8f);
-
-            // Left
-            spriteBatch.DrawOnCtrl(this, Textures.Pixel, new Rectangle(_selectorBounds.Left, _selectorBounds.Top, 2, _selectorBounds.Height), Rectangle.Empty, borderColor * 0.8f);
-
-            // Right
-            spriteBatch.DrawOnCtrl(this, Textures.Pixel, new Rectangle(_selectorBounds.Right - 2, _selectorBounds.Top, 2, _selectorBounds.Height), Rectangle.Empty, borderColor * 0.8f);
-
-            if (_selectableSkills is not null)
-            {
-                foreach (var s in _selectableSkills)
-                {
-                    s.Draw(this, spriteBatch, _selectorAnchor.Slot.HasFlag(SkillSlotType.Terrestrial), RelativeMousePosition);
-
-                }
-            }
-
-            spriteBatch.DrawStringOnCtrl(this, string.Format("{0} Skills", _selectedSkillSlot), Content.DefaultFont18, new Rectangle(_selectorBounds.Left, _selectorBounds.Bottom - 12 - Content.DefaultFont18.LineHeight, _selectorBounds.Width, Content.DefaultFont18.LineHeight), Color.White, false, HorizontalAlignment.Center);
         }
 
         protected override void DisposeControl()

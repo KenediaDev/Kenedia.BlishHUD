@@ -325,9 +325,6 @@ El propósito de este código es compartir la Plantilla de Equipo del módulo f�
   <data name="Nourishment" xml:space="preserve">
     <value>Alimentación</value>
   </data>
-  <data name="Utility" xml:space="preserve">
-    <value>Utilidad</value>
-  </data>
   <data name="Weapon" xml:space="preserve">
     <value>Arma</value>
   </data>
@@ -351,5 +348,17 @@ El propósito de este código es compartir la Plantilla de Equipo del módulo f�
   </data>
   <data name="Skills" xml:space="preserve">
     <value>Habilidades</value>
+  </data>
+  <data name="HealSkills" xml:space="preserve">
+    <value>Habilidades de curación</value>
+  </data>
+  <data name="UtilitySkills" xml:space="preserve">
+    <value>Habilidades útiles</value>
+  </data>
+  <data name="EliteSkills" xml:space="preserve">
+    <value>Habilidades de élite</value>
+  </data>
+  <data name="Utility" xml:space="preserve">
+    <value>Mejora</value>
   </data>
 </root>

@@ -24,7 +24,7 @@
         Ring_2,
         PvpAmulet,
         Nourishment,
-        Utility,
+        Enhancement,
         JadeBotCore,
         Relic,
     }

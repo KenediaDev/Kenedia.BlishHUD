@@ -247,7 +247,7 @@ namespace Kenedia.Modules.BuildsManager.Models
 
         public NourishmentTemplateEntry Nourishment { get; } = new(TemplateSlotType.Nourishment);
 
-        public UtilityTemplateEntry Utility { get; } = new(TemplateSlotType.Utility);
+        public EnhancementTemplateEntry Enhancement { get; } = new(TemplateSlotType.Enhancement);
 
         public JadeBotTemplateEntry JadeBotCore { get; } = new(TemplateSlotType.JadeBotCore);
 
@@ -360,8 +360,8 @@ namespace Kenedia.Modules.BuildsManager.Models
                         nourishment.NourishmentChanged += Nourishment_NourishmentChanged;
                         break;
 
-                    case TemplateSlotType.Utility:
-                        if (this[slot] is not UtilityTemplateEntry utility)
+                    case TemplateSlotType.Enhancement:
+                        if (this[slot] is not EnhancementTemplateEntry utility)
                             continue;
 
                         utility.UtilityChanged += Utility_UtilityChanged;
@@ -484,8 +484,8 @@ namespace Kenedia.Modules.BuildsManager.Models
                         nourishment.NourishmentChanged -= Nourishment_NourishmentChanged;
                         break;
 
-                    case TemplateSlotType.Utility:
-                        if (this[slot] is not UtilityTemplateEntry utility)
+                    case TemplateSlotType.Enhancement:
+                        if (this[slot] is not EnhancementTemplateEntry utility)
                             continue;
 
                         utility.UtilityChanged -= Utility_UtilityChanged;
@@ -537,7 +537,7 @@ namespace Kenedia.Modules.BuildsManager.Models
             OnGearChanged(sender, e);
         }
 
-        private void Utility_UtilityChanged(object sender, ValueChangedEventArgs<DataModels.Items.Utility> e)
+        private void Utility_UtilityChanged(object sender, ValueChangedEventArgs<DataModels.Items.Enhancement> e)
         {
             OnGearChanged(sender, e);
         }
@@ -933,7 +933,7 @@ namespace Kenedia.Modules.BuildsManager.Models
 
                 codeArray = PvpAmulet.GetFromCodeArray(codeArray);
                 codeArray = Nourishment.GetFromCodeArray(codeArray);
-                codeArray = Utility.GetFromCodeArray(codeArray);
+                codeArray = Enhancement.GetFromCodeArray(codeArray);
                 codeArray = Relic.GetFromCodeArray(codeArray);
                 codeArray = JadeBotCore.GetFromCodeArray(codeArray);
 
@@ -1043,7 +1043,7 @@ namespace Kenedia.Modules.BuildsManager.Models
 
             codeArray = PvpAmulet.AddToCodeArray(codeArray);
             codeArray = Nourishment.AddToCodeArray(codeArray);
-            codeArray = Utility.AddToCodeArray(codeArray);
+            codeArray = Enhancement.AddToCodeArray(codeArray);
             codeArray = Relic.AddToCodeArray(codeArray);
             codeArray = JadeBotCore.AddToCodeArray(codeArray);
 

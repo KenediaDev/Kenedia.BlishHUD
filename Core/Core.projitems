@@ -23,6 +23,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Controls\HotbarButton.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controls\IconLabel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controls\MouseContainer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)controls\Pointer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controls\RollingChoya.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controls\FilterBox.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controls\FramedMaskedRegion.cs" />

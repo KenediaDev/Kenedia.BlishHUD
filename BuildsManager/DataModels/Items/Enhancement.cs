@@ -6,11 +6,11 @@ using System.Runtime.Serialization;
 namespace Kenedia.Modules.BuildsManager.DataModels.Items
 {
     [DataContract]
-    public class Utility : BaseItem
+    public class Enhancement : BaseItem
     {
-        public Utility()
+        public Enhancement()
         {
-            TemplateSlot = TemplateSlotType.Utility;
+            TemplateSlot = TemplateSlotType.Enhancement;
 
         }
 

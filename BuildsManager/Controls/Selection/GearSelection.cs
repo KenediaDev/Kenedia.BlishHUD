@@ -77,7 +77,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
             _pveRunes = AddItems<Selectable, Rune>(BuildsManager.Data.PveRunes.Values.OrderByDescending(e => e.Rarity).ThenBy(e => e.Name).ThenBy(e => e.Id));
             _pvpRunes = AddItems<Selectable, Rune>(BuildsManager.Data.PvpRunes.Values.OrderByDescending(e => e.Rarity).ThenBy(e => e.Name).ThenBy(e => e.Id));
             _nourishment = AddItems<Selectable, Nourishment>(BuildsManager.Data.Nourishments.Values.OrderByDescending(e => e.Rarity).ThenBy(e => e.Name).ThenBy(e => e.Id));
-            _utilites = AddItems<Selectable, DataModels.Items.Utility>(BuildsManager.Data.Utilities.Values.OrderByDescending(e => e.Name).ThenBy(e => e.Id));
+            _utilites = AddItems<Selectable, DataModels.Items.Enhancement>(BuildsManager.Data.Utilities.Values.OrderByDescending(e => e.Name).ThenBy(e => e.Id));
             _enrichments = AddItems<Selectable, Enrichment>(BuildsManager.Data.Enrichments.Values.OrderByDescending(e => e.Rarity).ThenBy(e => e.Name).ThenBy(e => e.Id));
             _infusions = AddItems<Selectable, Infusion>(BuildsManager.Data.Infusions.Values.OrderByDescending(e => e.Rarity).ThenBy(e => e.Name.Length).ThenBy(e => e.Name).ThenBy(e => e.Id));
 
@@ -311,7 +311,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
 
                     break;
 
-                case TemplateSlotType.Utility:
+                case TemplateSlotType.Enhancement:
                     foreach (var item in _utilites)
                     {
                         item.Visible = MatchingMethod(item.Item);

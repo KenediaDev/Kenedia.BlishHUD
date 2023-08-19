@@ -325,9 +325,6 @@ Le but de ce code est de partager facilement le modèle d'équipement du module 
   <data name="Nourishment" xml:space="preserve">
     <value>Alimentation</value>
   </data>
-  <data name="Utility" xml:space="preserve">
-    <value>Utilité</value>
-  </data>
   <data name="Weapon" xml:space="preserve">
     <value>Arme</value>
   </data>
@@ -351,5 +348,17 @@ Le but de ce code est de partager facilement le modèle d'équipement du module 
   </data>
   <data name="Skills" xml:space="preserve">
     <value>Compétences</value>
+  </data>
+  <data name="HealSkills" xml:space="preserve">
+    <value>Compétences de guérison</value>
+  </data>
+  <data name="UtilitySkills" xml:space="preserve">
+    <value>Compétences utilitaires</value>
+  </data>
+  <data name="EliteSkills" xml:space="preserve">
+    <value>Compétences d'élite</value>
+  </data>
+  <data name="Utility" xml:space="preserve">
+    <value>Amélioration</value>
   </data>
 </root>

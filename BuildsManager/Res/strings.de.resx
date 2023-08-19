@@ -328,9 +328,6 @@ Der Zweck dieses Codes ist es, die Module Ausrüstungsvorlage leicht mit anderen
   <data name="Nourishment" xml:space="preserve">
     <value>Ernährung</value>
   </data>
-  <data name="Utility" xml:space="preserve">
-    <value>Dienstprogramm</value>
-  </data>
   <data name="Weapon" xml:space="preserve">
     <value>Waffe</value>
   </data>
@@ -351,5 +348,17 @@ Der Zweck dieses Codes ist es, die Module Ausrüstungsvorlage leicht mit anderen
   </data>
   <data name="Skills" xml:space="preserve">
     <value>Fertigkeiten</value>
+  </data>
+  <data name="Utility" xml:space="preserve">
+    <value>Verbesserung</value>
+  </data>
+  <data name="HealSkills" xml:space="preserve">
+    <value>Heil-Fähigkeiten</value>
+  </data>
+  <data name="UtilitySkills" xml:space="preserve">
+    <value>Utility-Fähigkeiten</value>
+  </data>
+  <data name="EliteSkills" xml:space="preserve">
+    <value>Elite-Fähigkeiten</value>
   </data>
 </root>

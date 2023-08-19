@@ -34,7 +34,7 @@ namespace Kenedia.Modules.Core.Controls
         protected override void Paint(SpriteBatch spriteBatch, Rectangle bounds)
         {
             if (_buttonImage is not null)
-                spriteBatch.DrawOnCtrl(this, _buttonImage, bounds, _buttonImage.Bounds, Color.White);
+                spriteBatch.DrawOnCtrl(this, MouseOver ? _hoveredButton : _buttonImage, bounds, _buttonImage.Bounds, Color.White);
 
             if (MouseOver)
             {

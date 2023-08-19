@@ -15,12 +15,12 @@ using Kenedia.Modules.BuildsManager.Res;
 
 namespace Kenedia.Modules.BuildsManager.Controls.GearPage.GearSlots
 {
-    public class UtilitySlot : GearSlot
+    public class EnhancementSlot : GearSlot
     {
         private Rectangle _titleBounds;
         private Rectangle _statBounds;
 
-        public UtilitySlot(TemplateSlotType gearSlot, Container parent, TemplatePresenter templatePresenter) : base(gearSlot, parent, templatePresenter)
+        public EnhancementSlot(TemplateSlotType gearSlot, Container parent, TemplatePresenter templatePresenter) : base(gearSlot, parent, templatePresenter)
         {
             ItemControl.Placeholder.Texture = BuildsManager.ModuleInstance.ContentsManager.GetTexture(@"textures\utilityslot.png");
             ItemControl.Placeholder.TextureRegion = new(38, 38, 52, 52);
@@ -40,15 +40,15 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage.GearSlots
             base.PaintAfterChildren(spriteBatch, bounds);
 
             spriteBatch.DrawStringOnCtrl(this, ItemControl?.Item?.Name ?? "", Content.DefaultFont16, _titleBounds, ItemControl?.Item?.Rarity.GetColor() ?? Color.White);
-            spriteBatch.DrawStringOnCtrl(this, (ItemControl?.Item as DataModels.Items.Utility)?.Details.Description ?? ItemControl?.Item?.Description, Content.DefaultFont12, _statBounds, Color.White, false, HorizontalAlignment.Left, VerticalAlignment.Top);
+            spriteBatch.DrawStringOnCtrl(this, (ItemControl?.Item as DataModels.Items.Enhancement)?.Details.Description ?? ItemControl?.Item?.Description, Content.DefaultFont12, _statBounds, Color.White, false, HorizontalAlignment.Left, VerticalAlignment.Top);
         }
 
         protected override void SetItems(object sender, EventArgs e)
         {
             base.SetItems(sender, e);
 
-            var utility = TemplatePresenter?.Template?[Slot] as UtilityTemplateEntry;
-            Item = utility?.Utility;
+            var enhancement = TemplatePresenter?.Template?[Slot] as EnhancementTemplateEntry;
+            Item = enhancement?.Enhancement;
         }
 
         protected override void OnClick(MouseEventArgs e)
@@ -59,9 +59,9 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage.GearSlots
 
             if (ItemControl.MouseOver)
             {
-                SelectionPanel?.SetAnchor<DataModels.Items.Utility>(this, new Rectangle(a.Location, Point.Zero).Add(ItemControl.LocalBounds), SelectionTypes.Items, Slot, GearSubSlotType.Item, (utility) =>
+                SelectionPanel?.SetAnchor<DataModels.Items.Enhancement>(this, new Rectangle(a.Location, Point.Zero).Add(ItemControl.LocalBounds), SelectionTypes.Items, Slot, GearSubSlotType.Item, (utility) =>
                 {
-                    (TemplatePresenter?.Template[Slot] as UtilityTemplateEntry).Utility = utility;
+                    (TemplatePresenter?.Template[Slot] as EnhancementTemplateEntry).Enhancement = utility;
                     Item = utility;
                 });
             }
@@ -71,7 +71,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage.GearSlots
         {
             base.CreateSubMenus();
 
-            CreateSubMenu(() => strings.Reset, () => string.Format(strings.ResetEntry, strings.Utility), () => Item = null);
+            CreateSubMenu(() => strings.Reset, () => string.Format(strings.ResetEntry, strings.Enhancement), () => Item = null);
         }
     }
 }

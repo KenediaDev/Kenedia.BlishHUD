@@ -323,7 +323,7 @@ namespace Kenedia.Modules.BuildsManager.Services
                 ApplyData<ItemUpgradeComponent, Enrichment>(api_enrichments, _data.Enrichments, "Enrichments", _data.ItemMap.Enrichments);
                 ApplyData<ItemUpgradeComponent, Infusion>(api_infusions, _data.Infusions, "Infusions", _data.ItemMap.Infusions);
                 ApplyData<ItemConsumable, Nourishment>(api_nourishments, _data.Nourishments, "Nourishments", _data.ItemMap.Nourishments);
-                ApplyData<ItemConsumable, DataModels.Items.Utility>(api_utility, _data.Utilities, "Utilities", _data.ItemMap.Utilities);
+                ApplyData<ItemConsumable, DataModels.Items.Enhancement>(api_utility, _data.Utilities, "Utilities", _data.ItemMap.Utilities);
                 ApplyData<ItemUpgradeComponent, Rune>(api_pveRunes, _data.PveRunes, "PveRunes", _data.ItemMap.PveRunes);
                 ApplyData<ItemUpgradeComponent, Rune>(api_pvpRunes, _data.PvpRunes, "PvpRunes", _data.ItemMap.PvpRunes);
                 ApplyData<ItemUpgradeComponent, Sigil>(api_pveSigils, _data.PveSigils, "PveSigils", _data.ItemMap.PveSigils);

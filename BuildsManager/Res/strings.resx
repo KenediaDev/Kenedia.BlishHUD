@@ -328,9 +328,6 @@ The purpose of this code is to share the modules Equipment Template easily with 
   <data name="Nourishment" xml:space="preserve">
     <value>Nourishment</value>
   </data>
-  <data name="Utility" xml:space="preserve">
-    <value>Utility</value>
-  </data>
   <data name="Weapon" xml:space="preserve">
     <value>Weapon</value>
   </data>
@@ -351,5 +348,17 @@ The purpose of this code is to share the modules Equipment Template easily with 
   </data>
   <data name="Skills" xml:space="preserve">
     <value>Skills</value>
+  </data>
+  <data name="HealSkills" xml:space="preserve">
+    <value>Heal Skills</value>
+  </data>
+  <data name="UtilitySkills" xml:space="preserve">
+    <value>Utility Skills</value>
+  </data>
+  <data name="EliteSkills" xml:space="preserve">
+    <value>Elite Skills</value>
+  </data>
+  <data name="Utility" xml:space="preserve">
+    <value>Enhancement</value>
   </data>
 </root>

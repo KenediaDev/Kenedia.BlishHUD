@@ -7,20 +7,20 @@ using System;
 
 namespace Kenedia.Modules.BuildsManager.TemplateEntries
 {
-    public class UtilityTemplateEntry : TemplateEntry, IDisposable
+    public class EnhancementTemplateEntry : TemplateEntry, IDisposable
     {
         private bool _isDisposed;
-        private DataModels.Items.Utility _utility;
+        private DataModels.Items.Enhancement _utility;
 
-        public UtilityTemplateEntry(TemplateSlotType slot) : base(slot)
+        public EnhancementTemplateEntry(TemplateSlotType slot) : base(slot)
         {
         }
 
-        public event EventHandler<ValueChangedEventArgs<DataModels.Items.Utility>> UtilityChanged;
+        public event EventHandler<ValueChangedEventArgs<DataModels.Items.Enhancement>> UtilityChanged;
 
-        public DataModels.Items.Utility Utility { get => _utility; set => Common.SetProperty(ref _utility, value, OnUtilityChanged); }
+        public DataModels.Items.Enhancement Enhancement { get => _utility; set => Common.SetProperty(ref _utility, value, OnUtilityChanged); }
 
-        private void OnUtilityChanged(object sender, ValueChangedEventArgs<DataModels.Items.Utility> e)
+        private void OnUtilityChanged(object sender, ValueChangedEventArgs<DataModels.Items.Enhancement> e)
         {
             UtilityChanged?.Invoke(this, e);
         }
@@ -29,7 +29,7 @@ namespace Kenedia.Modules.BuildsManager.TemplateEntries
         {
             return array.Concat(new byte[]
             {
-                Utility ?.MappedId ?? 0,
+                Enhancement ?.MappedId ?? 0,
             }).ToArray();
         }
 
@@ -37,7 +37,7 @@ namespace Kenedia.Modules.BuildsManager.TemplateEntries
         {
             int newStartIndex = 1;
 
-            Utility = BuildsManager.Data.Utilities.Values.Where(e => e.MappedId == array[0]).FirstOrDefault();
+            Enhancement = BuildsManager.Data.Utilities.Values.Where(e => e.MappedId == array[0]).FirstOrDefault();
 
             return GearTemplateCode.RemoveFromStart(array, newStartIndex);
         }
@@ -47,7 +47,7 @@ namespace Kenedia.Modules.BuildsManager.TemplateEntries
             if (_isDisposed) return;
             _isDisposed = true;
 
-            Utility = null;
+            Enhancement = null;
         }
     }
 }

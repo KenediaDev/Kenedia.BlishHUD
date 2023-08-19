@@ -291,7 +291,7 @@
     <Compile Include="Controls\GearPage\GearSlots\PvpAmuletSlot.cs" />
     <Compile Include="Controls\GearPage\GearSlots\RelicSlot.cs" />
     <Compile Include="Controls\GearPage\GearSlots\RingSlot.cs" />
-    <Compile Include="Controls\GearPage\GearSlots\UtilitySlot.cs" />
+    <Compile Include="Controls\GearPage\GearSlots\EnhancementSlot.cs" />
     <Compile Include="Controls\GearPage\GearSlots\WeaponSlot.cs" />
     <Compile Include="Controls\GearPage\ItemControl.cs" />
     <Compile Include="Controls\GearPage\ItemTexture.cs" />
@@ -324,7 +324,7 @@
     <Compile Include="DataModels\Items\RuneBonuses.cs" />
     <Compile Include="DataModels\Items\Sigil.cs" />
     <Compile Include="DataModels\Items\StatConversion.cs" />
-    <Compile Include="DataModels\Items\Utility.cs" />
+    <Compile Include="DataModels\Items\Enhancement.cs" />
     <Compile Include="DataModels\Items\Armor.cs" />
     <Compile Include="DataModels\Items\EquipmentItem.cs" />
     <Compile Include="DataModels\Items\Trinket.cs" />
@@ -362,7 +362,7 @@
     <Compile Include="Models\TemplateEntries\RelicTemplateEntry.cs" />
     <Compile Include="Models\TemplateEntries\RingTemplateEntry.cs" />
     <Compile Include="Models\TemplateEntries\TemplateEntry.cs" />
-    <Compile Include="Models\TemplateEntries\UtilityTemplateEntry.cs" />
+    <Compile Include="Models\TemplateEntries\EnhancementTemplateEntry.cs" />
     <Compile Include="Models\TemplateEntries\WeaponTemplateEntry.cs" />
     <Compile Include="Models\Templates\SkillCollection.cs" />
     <Compile Include="Models\Templates\SkillSlotType.cs" />

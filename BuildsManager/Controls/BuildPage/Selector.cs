@@ -249,6 +249,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
                 case SelectableType.Skill:
                     Controls.ForEach(c => c.IsSelected = (c.Data as Skill) == (SelectedItem as Skill));
                     break;
+
                 case SelectableType.Pet:
                     Controls.ForEach(c => c.IsSelected = (c.Data as Pet) == (SelectedItem as Pet));
                     break;
@@ -290,6 +291,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
                 Size = SelectableSize,
                 Data = item,
                 OnClickAction = OnClickAction,
+                IsSelected = item.Equals(SelectedItem),
             };
         }
 

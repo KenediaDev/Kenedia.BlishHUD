@@ -32,6 +32,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
         private readonly DetailedTexture _pointerArrow = new(784266) { TextureRegion = new(16, 16, 32, 32) };
         private Control _subAnchor;
         private Control _mainAnchor;
+        private Core.Controls.Pointer _pointer;
 
         private Rectangle AnchorDrawBounds
         {
@@ -61,7 +62,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
         private Rectangle _backTextBounds;
         private SelectionTypes _selectionType = SelectionTypes.Templates;
 
-        float _animationStart = 0f;
+        private float _animationStart = 0f;
         private Control _anchor;
 
         public SelectionPanel(TemplatePresenter templatePresenter, MainWindow mainWindow)
@@ -70,6 +71,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
             MainWindow = mainWindow;
 
             ClipsBounds = false;
+            _pointer = new();
 
             _gearSelection = new()
             {
@@ -150,9 +152,9 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
                     _subAnchor = value;
                 }
 
-                _anchor =
+                _pointer.Anchor = _anchor =
                         _selectionType == SelectionTypes.Templates ? _mainAnchor :
-                        _subAnchor;
+                        _subAnchor;                
             }
         }
 
@@ -270,7 +272,6 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
         public override void PaintAfterChildren(SpriteBatch spriteBatch, Rectangle bounds)
         {
             base.PaintAfterChildren(spriteBatch, bounds);
-            //RecalculateLayout();
 
             if (Anchor is not null && Anchor.Visible && Anchor.Parent is not null && Anchor.Parent.AbsoluteBounds.Contains(Anchor.AbsoluteBounds.Center))
             {
@@ -278,17 +279,9 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
                 {
                     DrawGearSelection(spriteBatch, bounds);
                 }
-                else if (SelectionType == SelectionTypes.Templates)
-                {
-                    DrawBuildSelection(spriteBatch, bounds);
-                }
                 else if (SelectionType == SelectionTypes.Stats)
                 {
                     DrawStatSelection(spriteBatch, bounds);
-                }
-                else if (SelectionType == SelectionTypes.Skills)
-                {
-                    DrawSkillSelection(spriteBatch, bounds);
                 }
             }
         }
@@ -296,29 +289,6 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
         public override void UpdateContainer(GameTime gameTime)
         {
             base.UpdateContainer(gameTime);
-
-            if (Anchor is not null && Anchor.Parent is not null && Anchor.Parent.AbsoluteBounds.Contains(Anchor.AbsoluteBounds.Center))
-            {
-                _animationStart += (float)gameTime.ElapsedGameTime.TotalSeconds;
-
-                int size = Anchor.AbsoluteBounds.Height;
-                int y = Anchor.AbsoluteBounds.Center.Y - (size / 2);
-
-                size = Math.Min(size, 32);
-                _mainAnchorDrawBounds = new(Anchor.AbsoluteBounds.Left - AbsoluteBounds.Left - (size / 2), Anchor.AbsoluteBounds.Top - AbsoluteBounds.Top + (Anchor.AbsoluteBounds.Height / 2) - (size / 2), size, size);
-
-                int easeDistance = AnchorDrawBounds.Width / 3;
-                int animationOffset;
-                float duration = 0.75F;
-
-                animationOffset = (int)Tweening.Quartic.EaseOut(_animationStart, -easeDistance, easeDistance, duration);
-                _pointerArrow.Bounds = AnchorDrawBounds.Add(animationOffset, 0, 0, 0);
-
-                if (animationOffset < -easeDistance)
-                {
-                    _animationStart -= duration * 2;
-                }
-            }
         }
 
         protected override void OnClick(MouseEventArgs e)
@@ -336,8 +306,6 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
 
         private void DrawGearSelection(SpriteBatch spriteBatch, Rectangle bounds)
         {
-            _pointerArrow.Draw(this, spriteBatch, null, Color.White);
-
             if (_backBounds.Contains(RelativeMousePosition))
             {
                 spriteBatch.DrawOnCtrl(this, Textures.Pixel, _backBounds, Colors.ColonialWhite * 0.3F);
@@ -349,8 +317,6 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
 
         private void DrawStatSelection(SpriteBatch spriteBatch, Rectangle bounds)
         {
-            _pointerArrow.Draw(this, spriteBatch, null, Color.White);
-
             if (_backBounds.Contains(RelativeMousePosition))
             {
                 spriteBatch.DrawOnCtrl(this, Textures.Pixel, _backBounds, Colors.ColonialWhite * 0.3F);
@@ -360,22 +326,11 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
             spriteBatch.DrawStringOnCtrl(this, Title, Content.DefaultFont18, _backTextBounds, Color.White, false, HorizontalAlignment.Left, VerticalAlignment.Middle);
         }
 
-        private void DrawSkillSelection(SpriteBatch spriteBatch, Rectangle bounds)
-        {
-            _pointerArrow.Draw(this, spriteBatch, null, Color.White);
-
-        }
-
-        private void DrawBuildSelection(SpriteBatch spriteBatch, Rectangle bounds)
-        {
-            _pointerArrow.Draw(this, spriteBatch, null, Color.White);
-
-        }
-
         protected override void DisposeControl()
         {
             base.DisposeControl();
 
+            _pointer?.Dispose();
             _backButton?.Dispose();
             _pointerArrow?.Dispose();
         }

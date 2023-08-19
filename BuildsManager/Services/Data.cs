@@ -81,7 +81,7 @@ namespace Kenedia.Modules.BuildsManager.Services
 
         public Dictionary<int, Rune> PveRunes { get; private set; } = new();
 
-        public Dictionary<int, DataModels.Items.Utility> Utilities { get; private set; } = new();
+        public Dictionary<int, DataModels.Items.Enhancement> Utilities { get; private set; } = new();
 
         public Dictionary<int, Nourishment> Nourishments { get; private set; } = new();
 
@@ -125,7 +125,7 @@ namespace Kenedia.Modules.BuildsManager.Services
                     dict = Nourishments.ToDictionary(e => e.Key, e => e.Value as T);
                     return true;
 
-                case TemplateSlotType.Utility:
+                case TemplateSlotType.Enhancement:
                     dict = Utilities.ToDictionary(e => e.Key, e => e.Value as T);
                     return true;
 
