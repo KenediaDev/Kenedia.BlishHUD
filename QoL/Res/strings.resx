@@ -142,4 +142,34 @@
   <data name="Days" xml:space="preserve">
     <value>days</value>
   </data>
+  <data name="ZoomOutKey_Name" xml:space="preserve">
+    <value>Zoom Out</value>
+  </data>
+  <data name="ZoomOutKey_Tooltip" xml:space="preserve">
+    <value>The games 'Zoom Out' Keybind in the camera section. This must be set and match else things can go bad.</value>
+  </data>
+  <data name="ManualZoom_Name" xml:space="preserve">
+    <value>Manual Max Zoom Out</value>
+  </data>
+  <data name="ManualZoom_Tooltip" xml:space="preserve">
+    <value>Manual trigger to zoom out the furthest possible.</value>
+  </data>
+  <data name="ZoomOnCameraChange_Name" xml:space="preserve">
+    <value>Trigger on camera change</value>
+  </data>
+  <data name="ZoomOnCameraChange_Tooltip" xml:space="preserve">
+    <value>Trigger the zoom out on camera changes</value>
+  </data>
+  <data name="AllowManualZoom_Name" xml:space="preserve">
+    <value>Allow manual zoom</value>
+  </data>
+  <data name="AllowManualZoom_Tooltip" xml:space="preserve">
+    <value>When using the scroll wheel of your mouse the camera won't zoom out until the next trigger</value>
+  </data>
+  <data name="ZoomOnFoVChange_Name" xml:space="preserve">
+    <value>Trigger on FoV change</value>
+  </data>
+  <data name="ZoomOnFoVChange_Tooltip" xml:space="preserve">
+    <value>Trigger on any Field of View change</value>
+  </data>
 </root>

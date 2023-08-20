@@ -52,7 +52,7 @@ namespace Kenedia.Modules.Core.Controls
             var size = Font.GetStringRectangle(Text);
 
             int imagePadding = Texture is null ? 0 : (Math.Max(Texture.Bounds.Height, (int)size.Height) - p.Vertical - Texture.Bounds.Height) / 2;
-            int textPadding = (Math.Max(Texture.Bounds.Height, (int)size.Height) - p.Vertical - (int)size.Height) / 2;
+            int textPadding = (Math.Max(Texture?.Bounds.Height ?? 0, (int)size.Height) - p.Vertical - (int)size.Height) / 2;
 
             _iconBounds = Texture is null ? Rectangle.Empty : new Rectangle(p.Left, p.Top + imagePadding, Texture.Bounds.Width, Texture.Bounds.Height);
             _textBounds = new(_iconBounds.Right + InnerPadding, p.Top + textPadding, (int)size.Width, (int)size.Height);

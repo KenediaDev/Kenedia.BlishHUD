@@ -61,6 +61,24 @@ namespace Kenedia.Modules.QoL.Res {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Allow manual zoom.
+        /// </summary>
+        internal static string AllowManualZoom_Name {
+            get {
+                return ResourceManager.GetString("AllowManualZoom_Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to When using the scroll wheel of your mouse the camera won&apos;t zoom out until the next trigger.
+        /// </summary>
+        internal static string AllowManualZoom_Tooltip {
+            get {
+                return ResourceManager.GetString("AllowManualZoom_Tooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Crosshair Size.
         /// </summary>
         internal static string CrosshairSize_Name {
@@ -142,6 +160,24 @@ namespace Kenedia.Modules.QoL.Res {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Manual Max Zoom Out.
+        /// </summary>
+        internal static string ManualZoom_Name {
+            get {
+                return ResourceManager.GetString("ManualZoom_Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Manual trigger to zoom out the furthest possible..
+        /// </summary>
+        internal static string ManualZoom_Tooltip {
+            get {
+                return ResourceManager.GetString("ManualZoom_Tooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Modifier to link item to chat.
         /// </summary>
         internal static string ModifierToSendToChat_Name {
@@ -192,6 +228,60 @@ namespace Kenedia.Modules.QoL.Res {
         internal static string ShowInHotbar_Name {
             get {
                 return ResourceManager.GetString("ShowInHotbar_Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Trigger on camera change.
+        /// </summary>
+        internal static string ZoomOnCameraChange_Name {
+            get {
+                return ResourceManager.GetString("ZoomOnCameraChange_Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Trigger the zoom out on camera changes.
+        /// </summary>
+        internal static string ZoomOnCameraChange_Tooltip {
+            get {
+                return ResourceManager.GetString("ZoomOnCameraChange_Tooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Trigger on FoV change.
+        /// </summary>
+        internal static string ZoomOnFoVChange_Name {
+            get {
+                return ResourceManager.GetString("ZoomOnFoVChange_Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Trigger on any Field of View change.
+        /// </summary>
+        internal static string ZoomOnFoVChange_Tooltip {
+            get {
+                return ResourceManager.GetString("ZoomOnFoVChange_Tooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Zoom Out.
+        /// </summary>
+        internal static string ZoomOutKey_Name {
+            get {
+                return ResourceManager.GetString("ZoomOutKey_Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The games &apos;Zoom Out&apos; Keybind in the camera section. This must be set and match else things can go bad..
+        /// </summary>
+        internal static string ZoomOutKey_Tooltip {
+            get {
+                return ResourceManager.GetString("ZoomOutKey_Tooltip", resourceCulture);
             }
         }
     }

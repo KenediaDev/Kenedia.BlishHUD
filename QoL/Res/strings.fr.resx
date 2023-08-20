@@ -162,4 +162,34 @@
   <data name="Days" xml:space="preserve">
     <value>jours</value>
   </data>
+  <data name="ZoomOutKey_Name" xml:space="preserve">
+    <value>Zoom arrière</value>
+  </data>
+  <data name="ZoomOutKey_Tooltip" xml:space="preserve">
+    <value>Le Keybind 'Zoom Out' des jeux dans la section caméra. Il doit être défini et correspondre, sinon les choses peuvent mal tourner.</value>
+  </data>
+  <data name="ManualZoom_Name" xml:space="preserve">
+    <value>Zoom arrière max. manuel</value>
+  </data>
+  <data name="ManualZoom_Tooltip" xml:space="preserve">
+    <value>Déclenchement manuel pour zoomer le plus loin possible.</value>
+  </data>
+  <data name="ZoomOnCameraChange_Name" xml:space="preserve">
+    <value>Déclenchement en cas de changement de caméra</value>
+  </data>
+  <data name="ZoomOnCameraChange_Tooltip" xml:space="preserve">
+    <value>Déclencher le zoom arrière en cas de changement de caméra</value>
+  </data>
+  <data name="AllowManualZoom_Name" xml:space="preserve">
+    <value>Autoriser le zoom manuel</value>
+  </data>
+  <data name="AllowManualZoom_Tooltip" xml:space="preserve">
+    <value>Lorsque vous utilisez la molette de votre souris, la caméra ne fait pas de zoom arrière avant le prochain déclenchement.</value>
+  </data>
+  <data name="ZoomOnFoVChange_Name" xml:space="preserve">
+    <value>Déclenchement en cas de modification du champ visuel</value>
+  </data>
+  <data name="ZoomOnFoVChange_Tooltip" xml:space="preserve">
+    <value>Déclenchement sur tout changement de champ de vision</value>
+  </data>
 </root>

@@ -162,4 +162,34 @@
   <data name="Days" xml:space="preserve">
     <value>Tage</value>
   </data>
+  <data name="ZoomOutKey_Name" xml:space="preserve">
+    <value>Herauszoomen</value>
+  </data>
+  <data name="ZoomOutKey_Tooltip" xml:space="preserve">
+    <value>Die Spiele 'Zoom Out' Keybind in der Kamera-Sektion. Dies muss eingestellt werden und passen sonst Dinge schlecht gehen kann.</value>
+  </data>
+  <data name="ManualZoom_Name" xml:space="preserve">
+    <value>Manuell Max Zoom Out</value>
+  </data>
+  <data name="ManualZoom_Tooltip" xml:space="preserve">
+    <value>Manueller Auslöser, um so weit wie möglich herauszuzoomen.</value>
+  </data>
+  <data name="ZoomOnCameraChange_Name" xml:space="preserve">
+    <value>Auslösung bei Kamerawechsel</value>
+  </data>
+  <data name="ZoomOnCameraChange_Tooltip" xml:space="preserve">
+    <value>Auslösen des Zooms bei Kamerawechsel</value>
+  </data>
+  <data name="AllowManualZoom_Name" xml:space="preserve">
+    <value>Manuelles Zoomen zulassen</value>
+  </data>
+  <data name="AllowManualZoom_Tooltip" xml:space="preserve">
+    <value>Wenn Sie das Scrollrad Ihrer Maus verwenden, wird die Kamera erst beim nächsten Auslösen herausgezoomt</value>
+  </data>
+  <data name="ZoomOnFoVChange_Name" xml:space="preserve">
+    <value>Auslösung bei FoV-Änderung</value>
+  </data>
+  <data name="ZoomOnFoVChange_Tooltip" xml:space="preserve">
+    <value>Auslösung bei jeder Änderung des Sichtfelds</value>
+  </data>
 </root>

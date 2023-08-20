@@ -2,6 +2,7 @@
 using Blish_HUD.Content;
 using Gw2Sharp.WebApi;
 using Kenedia.Modules.Core.Models;
+using Microsoft.Xna.Framework;
 using System;
 using System.ComponentModel;
 using System.IO;
@@ -187,6 +188,18 @@ namespace Kenedia.Modules.Core.Utility
             }
 
             return sb.Length == 0 ? "_" : changed ? sb.ToString() : text;
+        }
+
+        public static double CalculateDistance(Vector3 vector1, Vector3 vector2)
+        {
+            double squaredDistance =
+                Math.Pow(vector2.X - vector1.X, 2) +
+                Math.Pow(vector2.Y - vector1.Y, 2) +
+                Math.Pow(vector2.Z - vector1.Z, 2);
+            
+            double distance = Math.Sqrt(squaredDistance);
+
+            return distance;
         }
     }
 }

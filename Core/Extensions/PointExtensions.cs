@@ -11,14 +11,14 @@ namespace Kenedia.Modules.Core.Extensions
             return (int)Math.Sqrt(Math.Pow(p2.X - p1.X, 2) + Math.Pow(p2.Y - p1.Y, 2));
         }
 
-        public static int Distance3D(this Vector3 p1, Vector3 p2)
+        public static float Distance3D(this Vector3 p1, Vector3 p2)
         {
             float deltaX = p2.X - p1.X;
             float deltaY = p2.Y - p1.Y;
             float deltaZ = p2.Z - p1.Z;
 
             float distance = (float)Math.Sqrt((deltaX * deltaX) + (deltaY * deltaY) + (deltaZ * deltaZ));
-            return (int)distance;
+            return distance;
         }
 
         public static Point Add(this Point b, Point p)

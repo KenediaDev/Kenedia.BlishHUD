@@ -162,4 +162,34 @@
   <data name="Days" xml:space="preserve">
     <value>días</value>
   </data>
+  <data name="ZoomOutKey_Name" xml:space="preserve">
+    <value>Alejar</value>
+  </data>
+  <data name="ZoomOutKey_Tooltip" xml:space="preserve">
+    <value>El juego 'Zoom Out' Keybind en la sección de la cámara. Esto debe establecerse y coincidir de lo contrario las cosas pueden ir mal.</value>
+  </data>
+  <data name="ManualZoom_Name" xml:space="preserve">
+    <value>Zoom máximo manual</value>
+  </data>
+  <data name="ManualZoom_Tooltip" xml:space="preserve">
+    <value>Disparador manual para alejar el zoom lo máximo posible.</value>
+  </data>
+  <data name="ZoomOnCameraChange_Name" xml:space="preserve">
+    <value>Disparo al cambiar de cámara</value>
+  </data>
+  <data name="ZoomOnCameraChange_Tooltip" xml:space="preserve">
+    <value>Activa el zoom out en los cambios de cámara</value>
+  </data>
+  <data name="AllowManualZoom_Name" xml:space="preserve">
+    <value>Permitir zoom manual</value>
+  </data>
+  <data name="AllowManualZoom_Tooltip" xml:space="preserve">
+    <value>Al utilizar la rueda de desplazamiento del ratón, la cámara no se alejará hasta el siguiente disparo.</value>
+  </data>
+  <data name="ZoomOnFoVChange_Name" xml:space="preserve">
+    <value>Activación por cambio de FoV</value>
+  </data>
+  <data name="ZoomOnFoVChange_Tooltip" xml:space="preserve">
+    <value>Disparo ante cualquier cambio en el campo de visión</value>
+  </data>
 </root>
