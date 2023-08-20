@@ -40,6 +40,8 @@ using Kenedia.Modules.Characters.Res;
 using Gw2Sharp.WebApi;
 using System.Collections.Specialized;
 using System.Threading;
+using NotificationBadge = Kenedia.Modules.Core.Controls.NotificationBadge;
+using AnchoredContainer = Kenedia.Modules.Core.Controls.AnchoredContainer;
 
 // TODO if character name is in multiple accounts -> don't load
 namespace Kenedia.Modules.Characters
@@ -51,6 +53,8 @@ namespace Kenedia.Modules.Characters
 
         private readonly Ticks _ticks = new();
 
+        private AnchoredContainer _cornerContainer;
+        private NotificationBadge _notificationBadge;
         private CornerIcon _cornerIcon;
         private bool _saveCharacters;
         private bool _loadedCharacters;
@@ -80,7 +84,7 @@ namespace Kenedia.Modules.Characters
 
         public PotraitCapture PotraitCapture { get; private set; }
 
-        public LoadingSpinner APISpinner { get; private set; }
+        public LoadingSpinner ApiSpinner { get; private set; }
 
         public TextureManager TextureManager { get; private set; }
 
@@ -215,7 +219,7 @@ namespace Kenedia.Modules.Characters
         {
             base.OnModuleLoaded(e);
 
-            GW2APIHandler = new GW2API_Handler(Gw2ApiManager, AddOrUpdateCharacters, () => APISpinner, Paths, Data);
+            GW2APIHandler = new GW2API_Handler(Gw2ApiManager, AddOrUpdateCharacters, () => ApiSpinner, Paths, Data, () => _notificationBadge);
             GW2APIHandler.AccountChanged += GW2APIHandler_AccountChanged;
             Gw2ApiManager.SubtokenUpdated += Gw2ApiManager_SubtokenUpdated;
 
@@ -464,6 +468,7 @@ namespace Kenedia.Modules.Characters
         protected override void ReloadKey_Activated(object sender, EventArgs e)
         {
             base.ReloadKey_Activated(sender, e);
+            CreateCornerIcons();
             GameService.Graphics.SpriteScreen.Visible = true;
             MainWindow?.ToggleWindow();
             SettingsWindow?.ToggleWindow();
@@ -501,31 +506,47 @@ namespace Kenedia.Modules.Characters
                 ClickAction = () => MainWindow?.ToggleWindow(),
             };
 
-            APISpinner = new LoadingSpinner()
+            _cornerContainer = new()
             {
-                Location = new Point(_cornerIcon.Left, _cornerIcon.Bottom + 3),
                 Parent = GameService.Graphics.SpriteScreen,
-                Size = new Point(_cornerIcon.Width, _cornerIcon.Height),
-                BasicTooltipText = strings_common.FetchingApiData,
+                WidthSizingMode = SizingMode.AutoSize,
+                HeightSizingMode = SizingMode.AutoSize,
+                Anchor = _cornerIcon,
+                AnchorPosition = AnchoredContainer.AnchorPos.Bottom,
+                RelativePosition = new(0, -_cornerIcon.Height / 2),
+                CaptureInput = CaptureType.Filter,
+            };
+
+            _notificationBadge = new NotificationBadge()
+            {
+                Location = new(_cornerIcon.Width - 15, 0),
+                Parent = _cornerContainer,
+                Size = new(20),
+                Opacity = 0.6f,
+                HoveredOpacity = 1f,
+                CaptureInput = CaptureType.Filter,
+                Anchor = _cornerIcon,
                 Visible = false,
             };
 
-            _cornerIcon.Moved += CornerIcon_Moved;
+            ApiSpinner = new LoadingSpinner()
+            {
+                Location = new Point(0, _notificationBadge.Bottom),
+                Parent = _cornerContainer,
+                Size = _cornerIcon.Size,
+                BasicTooltipText = strings_common.FetchingApiData,
+                Visible = false,
+                CaptureInput = null,
+            };
         }
 
         private void DeleteCornerIcons()
         {
-            if (_cornerIcon is not null) _cornerIcon.Moved -= CornerIcon_Moved;
             _cornerIcon?.Dispose();
             _cornerIcon = null;
 
-            APISpinner?.Dispose();
-            APISpinner = null;
-        }
-
-        private void CornerIcon_Moved(object sender, MovedEventArgs e)
-        {
-            if (APISpinner is not null) APISpinner.Location = new Point(_cornerIcon.Left, _cornerIcon.Bottom + 3);
+            _cornerContainer?.Dispose();
+            _cornerContainer = null;
         }
 
         private void ShowCornerIcon_SettingChanged(object sender, Blish_HUD.ValueChangedEventArgs<bool> e)

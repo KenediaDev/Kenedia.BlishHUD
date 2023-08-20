@@ -18,6 +18,12 @@ using Kenedia.Modules.Core.Models;
 using Kenedia.Modules.Characters.Views;
 using Kenedia.Modules.Core.Utility;
 using System.ComponentModel;
+using Gw2Sharp.WebApi.Exceptions;
+using Kenedia.Modules.Core.Controls;
+using System.Text.RegularExpressions;
+using Kenedia.Modules.Core.Res;
+using LoadingSpinner = Kenedia.Modules.Core.Controls.LoadingSpinner;
+using System.Diagnostics;
 
 namespace Kenedia.Modules.Characters.Services
 {
@@ -27,13 +33,15 @@ namespace Kenedia.Modules.Characters.Services
         private readonly Gw2ApiManager _gw2ApiManager;
         private readonly Action<IApiV2ObjectList<Character>> _callBack;
         private readonly Data _data;
+        private readonly Func<Core.Controls.NotificationBadge> _notificationBadge;
         private readonly Func<LoadingSpinner> _getSpinner;
         private readonly PathCollection _paths;
         private readonly string _accountFilePath;
+        private double _lastApiCheck = double.MinValue;
 
         private CancellationTokenSource _cancellationTokenSource;
 
-        public GW2API_Handler(Gw2ApiManager gw2ApiManager, Action<IApiV2ObjectList<Character>> callBack, Func<LoadingSpinner> getSpinner, PathCollection paths, Data data)
+        public GW2API_Handler(Gw2ApiManager gw2ApiManager, Action<IApiV2ObjectList<Character>> callBack, Func<LoadingSpinner> getSpinner, PathCollection paths, Data data, Func<Core.Controls.NotificationBadge> notificationBadge)
         {
             _gw2ApiManager = gw2ApiManager;
             _callBack = callBack;
@@ -41,6 +49,7 @@ namespace Kenedia.Modules.Characters.Services
             _paths = paths;
             _accountFilePath = paths.ModulePath + @"\accounts.json";
             _data = data;
+            _notificationBadge = notificationBadge;
         }
 
         public MainWindow MainWindow { get; set; }
@@ -48,6 +57,7 @@ namespace Kenedia.Modules.Characters.Services
         public event PropertyChangedEventHandler AccountChanged;
 
         private Account _account;
+        private Exception _lastException;
 
         public Account Account
         {
@@ -55,7 +65,7 @@ namespace Kenedia.Modules.Characters.Services
             set
             {
                 var temp = _account;
-                if(Common.SetProperty(ref _account, value, AccountChanged))
+                if (Common.SetProperty(ref _account, value, AccountChanged))
                 {
                     _paths.AccountName = value?.Name;
                     Characters.Logger.Info($"Account changed from {temp?.Name ?? "No Account"} to {value?.Name ?? "No Account"}!");
@@ -127,6 +137,11 @@ namespace Kenedia.Modules.Characters.Services
             var cancellationToken = _cancellationTokenSource.Token;
             _getSpinner?.Invoke()?.Show();
 
+            if (_notificationBadge() is NotificationBadge notificationBadge)
+            {
+                notificationBadge.Visible = false;
+            }
+
             try
             {
                 Characters.Logger.Info($"Fetching new API Data ...");
@@ -151,7 +166,7 @@ namespace Kenedia.Modules.Characters.Services
                     }
 
                     UpdateAccountsList(account, characters);
-                    
+
                     _callBack?.Invoke(characters);
                     Reset(cancellationToken, !cancellationToken.IsCancellationRequested);
                     return true;
@@ -162,14 +177,16 @@ namespace Kenedia.Modules.Characters.Services
                     {
                         Characters.Logger.Warn(strings.Error_InvalidPermissions);
                         MainWindow?.SendAPIPermissionNotification();
+                        HandleAPIExceptions(new Gw2ApiInvalidPermissionsException());
                     }
 
                     Reset(cancellationToken, !cancellationToken.IsCancellationRequested);
                     return false;
                 }
             }
-            catch (Gw2Sharp.WebApi.Exceptions.UnexpectedStatusException ex)
+            catch (UnexpectedStatusException ex)
             {
+                HandleAPIExceptions(ex);
                 MainWindow?.SendAPITimeoutNotification();
                 Characters.Logger.Warn(ex, strings.APITimeoutNotification);
                 Reset(cancellationToken, !cancellationToken.IsCancellationRequested);
@@ -179,8 +196,10 @@ namespace Kenedia.Modules.Characters.Services
             {
                 if (!cancellationToken.IsCancellationRequested)
                 {
-                    Characters.Logger.Warn(ex, strings.Error_FailedAPIFetch);
+                    _logger.Warn(ex, strings.Error_FailedAPIFetch);
                 }
+
+                HandleAPIExceptions(ex);
 
                 Reset(cancellationToken, !cancellationToken.IsCancellationRequested);
                 return false;
@@ -191,7 +210,7 @@ namespace Kenedia.Modules.Characters.Services
         {
             locale ??= GameService.Overlay.UserLocale.Value;
 
-            if (force || _data.Maps.Count == 0 || !_data.Maps.FirstOrDefault().Value.Names.TryGetValue((Locale) locale, out string name) || string.IsNullOrEmpty(name))
+            if (force || _data.Maps.Count == 0 || !_data.Maps.FirstOrDefault().Value.Names.TryGetValue((Locale)locale, out string name) || string.IsNullOrEmpty(name))
             {
                 Characters.Logger.Info($"No data for {(Locale)locale} loaded yet. Fetching new data from the API.");
                 await GetMaps();
@@ -200,21 +219,89 @@ namespace Kenedia.Modules.Characters.Services
 
         public async Task GetMaps()
         {
-            var _maps = _data.Maps;
-            var maps = await _gw2ApiManager.Gw2ApiClient.V2.Maps.AllAsync();
-
-            foreach (var m in maps)
+            if (_notificationBadge() is NotificationBadge notificationBadge)
             {
-                bool exists = _maps.TryGetValue(m.Id, out Map map);
-
-                map ??= new Map(m);
-                map.Name = m.Name;
-
-                if (!exists) _maps.Add(m.Id, map);
+                notificationBadge.Visible = false;
             }
 
-            string json = JsonConvert.SerializeObject(_maps, Formatting.Indented);
-            File.WriteAllText($@"{_paths.ModuleDataPath}\Maps.json", json);
+            try
+            {
+                var _maps = _data.Maps;
+                var maps = await _gw2ApiManager.Gw2ApiClient.V2.Maps.AllAsync();
+
+                foreach (var m in maps)
+                {
+                    bool exists = _maps.TryGetValue(m.Id, out Map map);
+
+                    map ??= new Map(m);
+                    map.Name = m.Name;
+
+                    if (!exists) _maps.Add(m.Id, map);
+                }
+
+                string json = JsonConvert.SerializeObject(_maps, Formatting.Indented);
+                File.WriteAllText($@"{_paths.ModuleDataPath}\Maps.json", json);
+            }
+            catch (Exception ex)
+            {
+                _logger.Warn($"Failed to fetch armory items.");
+                _logger.Warn($"{ex}");
+                HandleAPIExceptions(ex);
+            }
+        }
+
+        private async void HandleAPIExceptions(Exception ex)
+        {
+            if (_notificationBadge() is NotificationBadge notificationBadge)
+            {
+                notificationBadge.Visible = true;
+
+                static string? GetExceptionMessage(Exception ex)
+                {
+                    string lineBreakPattern = @"<\/h[0-9]>";
+                    string lineBreakReplacement = Environment.NewLine;
+                    string result = Regex.Replace(ex.Message ?? string.Empty, lineBreakPattern, lineBreakReplacement);
+
+                    string pattern = @"<[^>]+>";
+                    string replacement = "";
+
+                    result = Regex.Replace(result, pattern, replacement);
+                    return string.IsNullOrEmpty(result) ? null : $"\n\n{result}";
+                }
+
+                switch (ex)
+                {
+                    case Gw2ApiInvalidPermissionsException:
+                        ex = await TestAPI() ?? ex;
+                        break;
+                }
+
+                notificationBadge.SetLocalizedText = ex switch
+                {
+                    ServiceUnavailableException => () => $"{strings_common.GW2API_Unavailable}{GetExceptionMessage(ex)}",
+                    RequestException => () => $"{strings_common.GW2API_RequestFailed}{GetExceptionMessage(ex)}",
+                    RequestException<string> => () => $"{strings_common.GW2API_RequestFailed}{GetExceptionMessage(ex)}",
+                    Gw2ApiInvalidPermissionsException => () => $"{strings.Error_InvalidPermissions}\nIf you have a valid API Key added there are probably issues with the API currently.",
+                    _ => () => $"{GetExceptionMessage(ex)}",
+                };
+            }
+
+            _lastException = ex;
+        }
+
+        private async Task<Exception> TestAPI()
+        {
+            try
+            {
+                _lastApiCheck = Common.Now();
+                var b = await _gw2ApiManager.Gw2ApiClient.V2.Build.GetAsync();
+
+                return null;
+            }
+            catch (Exception ex)
+            {
+                return ex;
+            }
         }
     }
 }

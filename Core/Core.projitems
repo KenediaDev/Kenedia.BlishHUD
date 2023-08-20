@@ -90,6 +90,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Models\DeepObservableDictionary.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\DetailedTexture.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\GameStateChangedEventArgs.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)models\Gw2ApiInvalidPermissionsException.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\LocalizedString.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\ObservableDictionary.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\ObservableListInt.cs" />
