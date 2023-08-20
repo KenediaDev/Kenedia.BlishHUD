@@ -8,7 +8,7 @@ using System.Diagnostics;
 
 namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
 {
-    public abstract class ProfessionSpecifics : Control
+    public abstract class ProfessionSpecifics : Panel
     {
         private TemplatePresenter _templatePresenter;
 
@@ -16,7 +16,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
         {
             TemplatePresenter = template;
             ClipsBounds = false;
-            ZIndex = int.MaxValue;
+            ZIndex = int.MaxValue / 2;
 
             ApplyTemplate();
         }

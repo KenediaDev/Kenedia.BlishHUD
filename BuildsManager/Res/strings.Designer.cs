@@ -115,6 +115,15 @@ namespace Kenedia.Modules.BuildsManager.Res {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Aquatic Pets.
+        /// </summary>
+        internal static string AquaticPets {
+            get {
+                return ResourceManager.GetString("AquaticPets", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Armor.
         /// </summary>
         internal static string Armor {
@@ -318,6 +327,15 @@ namespace Kenedia.Modules.BuildsManager.Res {
         internal static string EmptyWeaponSlots {
             get {
                 return ResourceManager.GetString("EmptyWeaponSlots", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Enhancement.
+        /// </summary>
+        internal static string Enhancement {
+            get {
+                return ResourceManager.GetString("Enhancement", resourceCulture);
             }
         }
         
@@ -530,6 +548,15 @@ namespace Kenedia.Modules.BuildsManager.Res {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Pet Id.
+        /// </summary>
+        internal static string PetId {
+            get {
+                return ResourceManager.GetString("PetId", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Power.
         /// </summary>
         internal static string Power {
@@ -710,6 +737,15 @@ namespace Kenedia.Modules.BuildsManager.Res {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Terrestrial Pets.
+        /// </summary>
+        internal static string TerrestrialPets {
+            get {
+                return ResourceManager.GetString("TerrestrialPets", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Toughness.
         /// </summary>
         internal static string Toughness {
@@ -724,15 +760,6 @@ namespace Kenedia.Modules.BuildsManager.Res {
         internal static string TraitId {
             get {
                 return ResourceManager.GetString("TraitId", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Enhancement.
-        /// </summary>
-        internal static string Enhancement {
-            get {
-                return ResourceManager.GetString("Utility", resourceCulture);
             }
         }
         

@@ -1244,6 +1244,7 @@ namespace Kenedia.Modules.BuildsManager.Models
 
         public void SetLegend(Legend legend, LegendSlotType slot)
         {
+            _triggerEvents = false;
             SkillSlotType state = SkillSlotType.Active;
             SkillSlotType enviroment = SkillSlotType.Terrestrial;
 
@@ -1304,6 +1305,7 @@ namespace Kenedia.Modules.BuildsManager.Models
                 }
             }
 
+            _triggerEvents = true;
             var temp = Legends[slot];
             Legends[slot] = legend;
             LegendChanged?.Invoke(this, new(slot, temp, legend));

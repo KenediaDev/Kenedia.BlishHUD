@@ -1,4 +1,5 @@
 ﻿using Blish_HUD;
+using Blish_HUD.Controls;
 using Gw2Sharp.WebApi;
 using Kenedia.Modules.Core.Interfaces;
 using Kenedia.Modules.Core.Services;
@@ -26,6 +27,8 @@ namespace Kenedia.Modules.Core.Controls
             }
         }
 
+        public CaptureType? CaptureInput { get; set; }
+
         public void UserLocale_SettingChanged(object sender, ValueChangedEventArgs<Locale> e)
         {
             if (SetLocalizedTooltip is not null) BasicTooltipText = SetLocalizedTooltip?.Invoke();
@@ -36,6 +39,11 @@ namespace Kenedia.Modules.Core.Controls
             base.DisposeControl();
 
             GameService.Overlay.UserLocale.SettingChanged -= UserLocale_SettingChanged;
+        }
+
+        protected override CaptureType CapturesInput()
+        {
+            return CaptureInput ?? base.CapturesInput();
         }
     }
 }

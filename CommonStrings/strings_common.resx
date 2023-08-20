@@ -190,4 +190,10 @@
   <data name="Search" xml:space="preserve">
     <value>Search ...</value>
   </data>
+  <data name="GW2API_Unavailable" xml:space="preserve">
+    <value>GW2 API is currently unavailable.</value>
+  </data>
+  <data name="GW2API_RequestFailed" xml:space="preserve">
+    <value>GW2 API request failed.</value>
+  </data>
 </root>

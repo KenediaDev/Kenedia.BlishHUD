@@ -8,20 +8,23 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 using Blish_HUD;
 using Blish_HUD.Input;
+using System.Diagnostics;
 
 namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
 {
     public class Selectable<IBaseApiData> : Blish_HUD.Controls.Control
     {
-        private AsyncTexture2D _texture;
+        private Rectangle _textureBounds;
         private IBaseApiData _data;
 
-        public IBaseApiData Data { get => _data; set => Common.SetProperty(ref _data, value, ApplyData); }
+        protected AsyncTexture2D Texture;
 
         public Selectable()
         {
             Size = new Point(64);
         }
+
+        public IBaseApiData Data { get => _data; set => Common.SetProperty(ref _data, value, ApplyData); }
 
         public SelectableType Type { get; private set; }
 
@@ -31,25 +34,43 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
 
         public bool IsSelected { get; set; }
 
-        private void ApplyData(object sender, Core.Models.ValueChangedEventArgs<IBaseApiData> e)
+        public bool HighlightSelected { get; set; } = true;
+
+        public bool HighlightHovered { get; set; } = true;
+
+        protected virtual void ApplyData(object sender, Core.Models.ValueChangedEventArgs<IBaseApiData> e)
         {
             if (Data is null) return;
 
             switch (Data)
             {
+                case Legend legend:
+                    Type = SelectableType.Legend;
+                    //TextureRegion = new(14, 14, 100, 100);
+                    int lPadding = (int)(legend.Icon.Width * 0.109375);
+                    TextureRegion = new(lPadding, lPadding, legend.Icon.Width - (lPadding * 2), legend.Icon.Height - (lPadding * 2));
+                    Texture = legend.Icon;
+                    ClipsBounds = true;
+
+                    break;
                 case Skill skill:
                     Type = SelectableType.Skill;
                     //TextureRegion = new(14, 14, 100, 100);
                     int sPadding = (int)(skill.Icon.Width * 0.109375);
                     TextureRegion = new(sPadding, sPadding, skill.Icon.Width - (sPadding * 2), skill.Icon.Height - (sPadding * 2));
-                    _texture = skill.Icon;
-                    Tooltip = new SkillTooltip() { Skill = skill };
+                    Texture = skill.Icon;
+                    ClipsBounds = true;
+
                     break;
 
                 case Pet pet:
                     Type = SelectableType.Pet;
                     TextureRegion = new(16, 16, 200, 200);
-                    _texture = pet.Icon;
+                    Texture = pet.Icon;
+                    ClipsBounds = false;
+                    HighlightHovered = false;
+                    HighlightSelected = false;
+
                     break;
             }
         }
@@ -59,18 +80,35 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
             base.RecalculateLayout();
 
             if (Data is null) return;
+
+            int pad = 48;
+            _textureBounds = Data is not Pet ? LocalBounds : LocalBounds.Add(new(
+                -pad,
+                -pad,
+                pad * 2,
+                pad * 2
+                ));
         }
 
         protected override void Paint(SpriteBatch spriteBatch, Rectangle bounds)
         {
             if (Data is null) return;
 
-            spriteBatch.DrawOnCtrl(this, _texture, bounds, TextureRegion, Color.White);
+            int pad = 16;
+            _textureBounds = Data is not Pet ? bounds : bounds.Add(new(
+                -pad,
+                -pad,
+                pad * 2,
+                pad * 2
+                ));
 
-            if (IsSelected)
+            if (Texture is not null)
+                spriteBatch.DrawOnCtrl(this, Texture, _textureBounds, TextureRegion, Color.White);
+
+            if (HighlightSelected && IsSelected)
                 spriteBatch.DrawFrame(this, bounds, Colors.ColonialWhite, 3);
 
-            if (MouseOver)
+            if (HighlightHovered && MouseOver)
                 spriteBatch.DrawFrame(this, bounds, Colors.ColonialWhite, 2);
         }
 

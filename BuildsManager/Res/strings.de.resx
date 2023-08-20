@@ -151,7 +151,7 @@
     <value>Kopie</value>
   </data>
   <data name="ItemId" xml:space="preserve">
-    <value>Artikel-ID</value>
+    <value>Gegenstands-ID</value>
   </data>
   <data name="TraitId" xml:space="preserve">
     <value>Eigenschaft Id</value>
@@ -349,7 +349,7 @@ Der Zweck dieses Codes ist es, die Module Ausrüstungsvorlage leicht mit anderen
   <data name="Skills" xml:space="preserve">
     <value>Fertigkeiten</value>
   </data>
-  <data name="Utility" xml:space="preserve">
+  <data name="Enhancement" xml:space="preserve">
     <value>Verbesserung</value>
   </data>
   <data name="HealSkills" xml:space="preserve">
@@ -360,5 +360,14 @@ Der Zweck dieses Codes ist es, die Module Ausrüstungsvorlage leicht mit anderen
   </data>
   <data name="EliteSkills" xml:space="preserve">
     <value>Elite-Fähigkeiten</value>
+  </data>
+  <data name="TerrestrialPets" xml:space="preserve">
+    <value>Tiergefährten an Land</value>
+  </data>
+  <data name="AquaticPets" xml:space="preserve">
+    <value>Tiergefährten im Wasser</value>
+  </data>
+  <data name="PetId" xml:space="preserve">
+    <value>Tiergefährten-ID</value>
   </data>
 </root>

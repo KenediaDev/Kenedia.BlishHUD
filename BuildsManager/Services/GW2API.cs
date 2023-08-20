@@ -26,6 +26,9 @@ using Kenedia.Modules.BuildsManager.Models;
 using Kenedia.Modules.BuildsManager.DataModels.Items;
 using Kenedia.Modules.Core.Utility;
 using PvpAmulet = Kenedia.Modules.BuildsManager.DataModels.Items.PvpAmulet;
+using Kenedia.Modules.Core.Controls;
+using System.Text.RegularExpressions;
+using Kenedia.Modules.Core.Res;
 
 namespace Kenedia.Modules.BuildsManager.Services
 {
@@ -35,7 +38,9 @@ namespace Kenedia.Modules.BuildsManager.Services
         private readonly Gw2ApiManager _gw2ApiManager;
         private readonly Data _data;
         private readonly PathCollection _paths;
+        private readonly Func<NotificationBadge> _notificationBadge;
         private CancellationTokenSource _cancellationTokenSource;
+        private Exception _lastException = null;
 
         private readonly List<int> _infusions = new()
         {
@@ -184,11 +189,12 @@ namespace Kenedia.Modules.BuildsManager.Services
                     //{ 0, null },  // Relic
                 };
 
-        public GW2API(Gw2ApiManager gw2ApiManager, Data data, PathCollection paths)
+        public GW2API(Gw2ApiManager gw2ApiManager, Data data, PathCollection paths, Func<NotificationBadge> notificationBadge)
         {
             _gw2ApiManager = gw2ApiManager;
             _data = data;
             _paths = paths;
+            _notificationBadge = notificationBadge;
         }
 
         public PathCollection Paths { get; set; }
@@ -217,6 +223,11 @@ namespace Kenedia.Modules.BuildsManager.Services
             _logger.Info($"{nameof(UpdateData)}: Fetch data ...");
 
             LocalizedString state = new();
+
+            if (_notificationBadge() is NotificationBadge notificationBadge)
+            {
+                notificationBadge.Visible = false;
+            }
 
             Locale locale = GameService.Overlay.UserLocale.Value;
             await GetItems(_cancellationTokenSource.Token);
@@ -288,7 +299,7 @@ namespace Kenedia.Modules.BuildsManager.Services
                         // Adjust Skins
                         if (_skinDictionary.ContainsKey(item.Id))
                         {
-                            if(_skinDictionary[item.Id] is not null)
+                            if (_skinDictionary[item.Id] is not null)
                             {
                                 if (skinIds.Contains((int)_skinDictionary[item.Id]))
                                 {
@@ -340,6 +351,7 @@ namespace Kenedia.Modules.BuildsManager.Services
                 {
                     _logger.Warn($"Failed to fetch armory items.");
                     _logger.Warn($"{ex}");
+                    HandleAPIExceptions(ex);
                 }
             }
         }
@@ -377,6 +389,7 @@ namespace Kenedia.Modules.BuildsManager.Services
                 {
                     _logger.Warn($"Failed to fetch Stats.");
                     _logger.Warn($"{ex}");
+                    HandleAPIExceptions(ex);
                 }
             }
         }
@@ -492,6 +505,7 @@ namespace Kenedia.Modules.BuildsManager.Services
                 {
                     _logger.Warn($"Failed to fetch Professions.");
                     _logger.Warn($"{ex}");
+                    HandleAPIExceptions(ex);
                 }
             }
         }
@@ -540,198 +554,8 @@ namespace Kenedia.Modules.BuildsManager.Services
                 {
                     _logger.Warn($"Failed to fetch Ranger Pets.");
                     _logger.Warn($"{ex}");
+                    HandleAPIExceptions(ex);
                 }
-            }
-        }
-
-        public async Task GetSkillConnections(CancellationToken cancellation)
-        {
-            var apiSkills = await _gw2ApiManager.Gw2ApiClient.V2.Skills.AllAsync(cancellation);
-            var apiTraits = await _gw2ApiManager.Gw2ApiClient.V2.Traits.AllAsync(cancellation);
-            if (cancellation.IsCancellationRequested) return;
-
-            var traits = apiTraits.ToList();
-            var skills = apiSkills.ToList();
-
-            Chain getChain(ApiSkill targetSkill, List<int> ids = null)
-            {
-                if (targetSkill == null) return null;
-
-                ids ??= new();
-                ids.Add(targetSkill.Id);
-
-                if (targetSkill.NextChain is not null)
-                {
-                    var s = skills.Find(e => e != targetSkill && e.Id == targetSkill.NextChain);
-                    if (s is not null && !(ids?.Contains(s.Id) == true))
-                    {
-                        _ = getChain(s, ids);
-                    }
-                }
-
-                return new()
-                {
-                    First = ids.Count > 0 ? ids[0] : null,
-                    Second = ids.Count > 1 ? ids[1] : null,
-                    Third = ids.Count > 2 ? ids[2] : null,
-                    Fourth = ids.Count > 3 ? ids[3] : null,
-                    Fifth = ids.Count > 4 ? ids[4] : null,
-                };
-            }
-
-            FlipSkills getFlips(ApiSkill targetSkill, List<int> ids = null)
-            {
-                if (targetSkill == null) return null;
-
-                ids ??= new List<int>();
-                ids.Add(targetSkill.Id);
-
-                if (targetSkill.NextChain is not null)
-                {
-                    var s = skills.Find(e => e != targetSkill && e.Id == targetSkill.NextChain);
-                    if (s is not null && !(ids?.Contains(s.Id) == true))
-                    {
-                        _ = getFlips(s, ids);
-                    }
-                }
-
-                return new()
-                {
-                    Default = ids.Count > 0 ? ids[0] : null,
-                    State1 = ids.Count > 1 ? ids[1] : null,
-                    State2 = ids.Count > 2 ? ids[2] : null,
-                    State3 = ids.Count > 3 ? ids[3] : null,
-                    State4 = ids.Count > 4 ? ids[4] : null,
-                };
-            }
-
-            BuildsManager.Data.OldConnections = new Dictionary<int, OldSkillConnection>();
-            foreach (var skill in skills)
-            {
-                if (skill.Type != SkillType.Monster && skill.Professions.Count > 0)
-                {
-                    var connection = new OldSkillConnection()
-                    {
-                        Id = skill.Id,
-                        Weapon = skill.WeaponType?.ToEnum() ?? null,
-                        Specialization = skill.Specialization is not null ? (SpecializationType)skill.Specialization : null,
-                        Enviroment = skill.Flags.Count() > 0 && skill.Flags.Aggregate((x, y) => x |= y.ToEnum()).Value.HasFlag(SkillFlag.NoUnderwater) ? Enviroment.Terrestrial : Enviroment.Terrestrial | Enviroment.Aquatic,
-                    };
-
-                    if (skill.ToolbeltSkill is not null)
-                    {
-                        connection.Toolbelt = skill.ToolbeltSkill;
-                    }
-
-                    if (skill.NextChain is not null)
-                    {
-                        connection.Chain = getChain(skill);
-                    }
-
-                    if (skill.BundleSkills is not null)
-                    {
-                        connection.Bundle = new()
-                        {
-                            Weapon_1 = skill.BundleSkills.Count() > 0 ? skill.BundleSkills[0] : null,
-                            Weapon_2 = skill.BundleSkills.Count() > 1 ? skill.BundleSkills[1] : null,
-                            Weapon_3 = skill.BundleSkills.Count() > 2 ? skill.BundleSkills[2] : null,
-                            Weapon_4 = skill.BundleSkills.Count() > 3 ? skill.BundleSkills[3] : null,
-                            Weapon_5 = skill.BundleSkills.Count() > 4 ? skill.BundleSkills[4] : null,
-                        };
-                    }
-
-                    if (skill.TransformSkills is not null)
-                    {
-                        connection.Transform = new()
-                        {
-                            Weapon_1 = skill.TransformSkills.Count() > 0 ? skill.TransformSkills[0] : null,
-                            Weapon_2 = skill.TransformSkills.Count() > 1 ? skill.TransformSkills[1] : null,
-                            Weapon_3 = skill.TransformSkills.Count() > 2 ? skill.TransformSkills[2] : null,
-                            Weapon_4 = skill.TransformSkills.Count() > 3 ? skill.TransformSkills[3] : null,
-                            Weapon_5 = skill.TransformSkills.Count() > 4 ? skill.TransformSkills[4] : null,
-                        };
-                    }
-
-                    if (skill.FlipSkill is not null)
-                    {
-                        connection.FlipSkills = getFlips(skill);
-                    }
-
-                    if (skill.TraitedFacts is not null)
-                    {
-                        foreach (var t in skill.TraitedFacts)
-                        {
-                            if (t.RequiresTrait is not null)
-                            {
-                                var trait = traits.Find(e => e.Id == t.RequiresTrait);
-                                if (trait is not null && trait.Skills is not null)
-                                {
-                                    connection.Traited ??= new();
-                                    foreach (int s in trait.Skills.Select(e => e.Id).ToList())
-                                    {
-                                        connection.Traited[s] = trait.Id;
-                                    }
-                                }
-                            }
-                        }
-                    }
-
-                    if (skill.Slot == SkillSlot.Weapon1 && skill.Professions.Contains("Thief"))
-                    {
-                        connection.Chain.Stealth = skills.Find(e => e.Slot == skill.Slot && e.WeaponType == skill.WeaponType && e.Categories?.Contains("StealthAttack") == true)?.Id;
-                    }
-
-                    if (skill.Slot == SkillSlot.Weapon1 && skill.Professions.Contains("Mesmer"))
-                    {
-                        connection.Chain.Ambush = skills.Find(e => e.Slot == skill.Slot && e.WeaponType == skill.WeaponType && e.Description?.Contains("Ambush") == true)?.Id;
-                    }
-
-                    BuildsManager.Data.OldConnections.Add(skill.Id, connection);
-                }
-            }
-
-            var cnts = BuildsManager.Data.OldConnections.Values.ToList();
-            foreach (var connection in BuildsManager.Data.OldConnections)
-            {
-                connection.Value.Default = cnts.Find(e =>
-                e.Chain?.Contains(connection.Value.Id) == true ||
-                e.Bundle?.Contains(connection.Value.Id) == true ||
-                e.Transform?.Contains(connection.Value.Id) == true ||
-                e.FlipSkills?.Contains(connection.Value.Id) == true ||
-                e.Traited?.ContainsKey(connection.Value.Id) == true ||
-                (e.Toolbelt is not null && e.Toolbelt == connection.Value.Id)
-                )?.Id;
-            }
-
-            string json = JsonConvert.SerializeObject(BuildsManager.Data.SkillConnections, Formatting.Indented);
-            File.WriteAllText($@"{_paths.ModuleDataPath}\SkillConnections.json", json);
-        }
-
-        internal async Task FetchBaseSkills(CancellationToken cancellation)
-        {
-            var skills = await _gw2ApiManager.Gw2ApiClient.V2.Skills.AllAsync(cancellation);
-            if (cancellation.IsCancellationRequested) return;
-            var baseSkills = skills.ToList().ToDictionary(skill => skill.Id, skill => new BaseSkill(skill));
-
-            string json = JsonConvert.SerializeObject(baseSkills, Formatting.Indented);
-            File.WriteAllText($@"{Paths.ModulePath}\data\BaseSkills.json", json);
-
-            await _data.LoadBaseSkills();
-        }
-
-        public async Task FetchItems(CancellationToken cancellation)
-        {
-            try
-            {
-                if (cancellation.IsCancellationRequested) return;
-            }
-            catch (RequestException ex)
-            {
-                BuildsManager.Logger.Warn($"RequestException {ex}");
-            }
-            catch (Exception ex)
-            {
-                BuildsManager.Logger.Warn($"Exception {ex}");
             }
         }
 
@@ -1000,6 +824,8 @@ namespace Kenedia.Modules.BuildsManager.Services
 
                             string json = JsonConvert.SerializeObject(invalid, Formatting.Indented);
                             File.WriteAllText($@"{Paths.ModulePath}\data\InvalidItemIds.json", json);
+
+                            HandleAPIExceptions(ex);
                         }
                         catch (Exception ex)
                         {
@@ -1008,6 +834,8 @@ namespace Kenedia.Modules.BuildsManager.Services
 
                             string json = JsonConvert.SerializeObject(invalid, Formatting.Indented);
                             File.WriteAllText($@"{Paths.ModulePath}\data\InvalidItemIds.json", json);
+
+                            HandleAPIExceptions(ex);
                         }
 
                         if (items is not null)
@@ -1200,6 +1028,48 @@ namespace Kenedia.Modules.BuildsManager.Services
             {
                 BuildsManager.Logger.Warn($"Exception {ex}");
             }
+        }
+
+        private void HandleAPIExceptions(Exception ex)
+        {
+            if (_notificationBadge() is NotificationBadge notificationBadge)
+            {
+                notificationBadge.Visible = true;
+
+                static string? GetExceptionMessage(Exception ex)
+                {
+                    string lineBreakPattern = @"<\/h[0-9]>";
+                    string lineBreakReplacement = Environment.NewLine;
+                    string result = Regex.Replace(ex.Message ?? string.Empty, lineBreakPattern, lineBreakReplacement);
+
+                    string pattern = @"<[^>]+>";
+                    string replacement = "";
+
+                    result = Regex.Replace(result, pattern, replacement);
+                    return string.IsNullOrEmpty(result) ? null : $"\n\n{result}";
+                }
+
+                switch (ex)
+                {
+                    case ServiceUnavailableException:
+                        notificationBadge.SetLocalizedText = () => $"{strings_common.GW2API_Unavailable}{GetExceptionMessage(ex)}";
+
+                        break;
+
+                    case RequestException:
+                        notificationBadge.SetLocalizedText = () => $"{strings_common.GW2API_RequestFailed}{GetExceptionMessage(ex)}";
+                        break;
+
+                    case RequestException<string>:
+                        notificationBadge.SetLocalizedText = () => $"{strings_common.GW2API_RequestFailed}{GetExceptionMessage(ex)}";
+                        break;
+
+                    default:
+                        notificationBadge.Visible = false; break;
+                }
+            }
+
+            _lastException = ex;
         }
     }
 }

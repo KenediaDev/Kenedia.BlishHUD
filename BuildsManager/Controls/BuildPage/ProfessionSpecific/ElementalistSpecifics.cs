@@ -108,9 +108,10 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage.ProfessionSpecific
             }
         }
 
-        protected override void Paint(SpriteBatch spriteBatch, Rectangle bounds)
+        public override void PaintAfterChildren(SpriteBatch spriteBatch, Rectangle bounds)
         {
-            RecalculateLayout();
+            base.PaintAfterChildren(spriteBatch, bounds);
+
             switch (TemplatePresenter.Template.EliteSpecialization?.Id)
             {
                 case (int)SpecializationType.Catalyst:

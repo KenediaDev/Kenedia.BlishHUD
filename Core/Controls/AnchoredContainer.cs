@@ -1,8 +1,10 @@
 ﻿using Blish_HUD;
 using Blish_HUD.Controls;
 using Kenedia.Modules.Core.Structs;
+using Kenedia.Modules.Core.Utility;
 using Microsoft.Xna.Framework;
 using System;
+using System.Runtime.InteropServices;
 
 namespace Kenedia.Modules.Core.Controls
 {
@@ -21,23 +23,25 @@ namespace Kenedia.Modules.Core.Controls
             AutoVertical,
         }
 
+        public CaptureType? CaptureInput { get; set; } = null;
+
         public Control Anchor {
-            get => _anchor; 
-            set
+            get => _anchor;
+            set => Common.SetProperty(ref _anchor, value, OnAnchorChanged);
+        }
+
+        private void OnAnchorChanged(object sender, Models.ValueChangedEventArgs<Control> e)
+        {
+            if (e.OldValue is not null)
             {
+                e.OldValue.Moved -= Anchor_Moved;
+                e.OldValue.Resized -= Anchor_Moved;
+            }
 
-                if (_anchor != value)
-                {
-                    if (_anchor is not null)
-                    {
-                        _anchor.Moved -= Anchor_Moved;
-                        _anchor.Resized -= Anchor_Moved;
-                    }
-
-                    _anchor = value;
-                    _anchor.Resized += Anchor_Moved;
-                    _anchor.Moved += Anchor_Moved;
-                }                
+            if (e.NewValue is not null)
+            {
+                e.NewValue.Moved += Anchor_Moved;
+                e.NewValue.Resized += Anchor_Moved;
             }
         }
 
@@ -96,6 +100,11 @@ namespace Kenedia.Modules.Core.Controls
         {
             base.DisposeControl();
 
+        }
+
+        protected override CaptureType CapturesInput()
+        {
+            return CaptureInput ?? base.CapturesInput();
         }
     }
 }

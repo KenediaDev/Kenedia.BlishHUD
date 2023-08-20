@@ -40,6 +40,7 @@ namespace Kenedia.Modules.Core.Res {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
+
                     global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Kenedia.Modules." + Assembly.GetExecutingAssembly().FullName.Split(',')[0].Substring(Assembly.GetExecutingAssembly().FullName.Split(',')[0].LastIndexOf('.') + 1) + ".Res.strings_common", typeof(strings_common).Assembly);
                     resourceMan = temp;
                 }
@@ -130,6 +131,24 @@ namespace Kenedia.Modules.Core.Res {
         internal static string GeneralSettings {
             get {
                 return ResourceManager.GetString("GeneralSettings", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to GW2 API request failed..
+        /// </summary>
+        internal static string GW2API_RequestFailed {
+            get {
+                return ResourceManager.GetString("GW2API_RequestFailed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to GW2 API is currently unavailable..
+        /// </summary>
+        internal static string GW2API_Unavailable {
+            get {
+                return ResourceManager.GetString("GW2API_Unavailable", resourceCulture);
             }
         }
         

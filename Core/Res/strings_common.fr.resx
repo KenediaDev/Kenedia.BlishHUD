@@ -186,4 +186,10 @@
   <data name="Search" xml:space="preserve">
     <value>Recherche ...</value>
   </data>
+  <data name="GW2API_Unavailable" xml:space="preserve">
+    <value>L'API GW2 est actuellement indisponible.</value>
+  </data>
+  <data name="GW2API_RequestFailed" xml:space="preserve">
+    <value>La demande d'API GW2 a échoué.</value>
+  </data>
 </root>

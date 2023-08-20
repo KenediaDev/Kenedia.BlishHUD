@@ -19,6 +19,7 @@ using System.Diagnostics;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 using System.Text.RegularExpressions;
 using Kenedia.Modules.BuildsManager.Res;
+using Gw2Sharp.Models;
 
 namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
 {
@@ -32,20 +33,17 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
 
         private TemplatePresenter _templatePresenter;
 
-        private readonly SkillIconCollection _skillIcons = new(true);
+        private readonly SkillControlCollection _skillIcons = new(true);
 
-        private readonly List<SkillIcon> _selectableSkills = new();
+        private readonly List<SkillControl> _selectableSkills = new();
 
-        private Rectangle _selectorBounds;
-        private SkillIcon _selectorAnchor;
-        private bool _selectorOpen = false;
-        private double _lastOpen;
+        private SkillControl _selectorAnchor;
+
         private int _skillSize;
 
         public SkillsBar(TemplatePresenter templatePresenter)
         {
             TemplatePresenter = templatePresenter;
-            Tooltip = new SkillTooltip();
 
             Height = 125;
             ClipsBounds = false;
@@ -74,31 +72,11 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
                         _skillIcons[_selectorAnchor.Slot].Skill = skill;
                         TemplatePresenter.Template.Skills[_selectorAnchor.Slot] = skill;
 
-                        SeletorOpen = false;
+                        _skillSelector?.Hide();
                         return;
                     }
                 }
             };
-        }
-
-        private bool AnyHovered
-        {
-            get
-            {
-                bool hovered = _selectorOpen && _selectorBounds.Contains(RelativeMousePosition);
-                hovered = hovered || AbsoluteBounds.Contains(Input.Mouse.Position);
-
-                return hovered;
-            }
-        }
-
-        public bool IsSelecting
-        {
-            get
-            {
-                double timeSince = Common.Now() - _lastOpen;
-                return _selectorOpen || timeSince <= 200;
-            }
         }
 
         public TemplatePresenter TemplatePresenter
@@ -116,6 +94,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
                 e.OldValue.LegendChanged -= On_LegendChanged;
                 e.OldValue.LoadedBuildFromCode -= OnLoaded;
                 e.OldValue.TemplateChanged -= On_TemplateChanged;
+                e.OldValue.LegendSlotChanged -= On_LegendSlotChanged;
             }
 
             if (e.NewValue is not null)
@@ -126,7 +105,13 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
                 e.NewValue.LegendChanged += On_LegendChanged;
                 e.NewValue.LoadedBuildFromCode += OnLoaded;
                 e.NewValue.TemplateChanged += On_TemplateChanged;
+                e.NewValue.LegendSlotChanged += On_LegendSlotChanged;
             }
+        }
+
+        private void On_LegendSlotChanged(object sender, Core.Models.ValueChangedEventArgs<LegendSlotType> e)
+        {
+            SetSkills();
         }
 
         private void On_TemplateChanged(object sender, Core.Models.ValueChangedEventArgs<Template> e)
@@ -163,20 +148,21 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
         {
             _skillIcons.Wipe();
 
-            if (Tooltip is SkillTooltip tooltip)
-            {
-                tooltip.Skill = null;
-            }
-
             if (TemplatePresenter?.Template == null)
             {
                 return;
             }
 
+            var prof = TemplatePresenter.Template.Profession;
+            bool active = TemplatePresenter.LegendSlot is LegendSlotType.TerrestrialActive or LegendSlotType.AquaticActive;
+
             foreach (var spair in TemplatePresenter?.Template?.Skills)
             {
+                _skillIcons[spair.Key].Parent = this;
                 _skillIcons[spair.Key].Skill = spair.Value;
                 _skillIcons[spair.Key].Slot = spair.Key;
+                _skillIcons[spair.Key].Visible  = 
+                    prof == ProfessionType.Revenant  ? active  ? spair.Key.HasFlag(SkillSlotType.Active) : spair.Key.HasFlag(SkillSlotType.Inactive) : spair.Key.HasFlag(SkillSlotType.Active);
             }
         }
 
@@ -188,20 +174,6 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
         private void BuildTemplate_Loaded(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
             SetSkills();
-        }
-
-        private bool SeletorOpen
-        {
-            get => _selectorOpen;
-            set
-            {
-                if (AnyHovered || _selectorOpen)
-                {
-                    _lastOpen = Common.Now();
-                }
-
-                _selectorOpen = value;
-            }
         }
 
         public override void RecalculateLayout()
@@ -220,14 +192,15 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
 
                 int pos = key.HasFlag(SkillSlotType.Heal) ? _skillSize * 0 : key.HasFlag(SkillSlotType.Utility_1) ? _skillSize * 1 : key.HasFlag(SkillSlotType.Utility_2) ? _skillSize * 2 : key.HasFlag(SkillSlotType.Utility_3) ? _skillSize * 3 : _skillSize * 4;
 
-                _skillIcons[spair.Key].Bounds = new((spair.Key.HasFlag(SkillSlotType.Terrestrial) ? _terrestrialTexture.Bounds.Right : _aquaticTexture.Bounds.Right) + 5 + pos, ((Height - _skillSize - 14) / 2) + offsetY, _skillSize, _skillSize);
-                _skillIcons[spair.Key].Selector.Bounds = new((spair.Key.HasFlag(SkillSlotType.Terrestrial) ? _terrestrialTexture.Bounds.Right : _aquaticTexture.Bounds.Right) + 5 + pos, ((Height - _skillSize - 14) / 2) + offsetY - 13, _skillSize, 15);
+                _skillIcons[spair.Key].SetBounds(new((spair.Key.HasFlag(SkillSlotType.Terrestrial) ? _terrestrialTexture.Bounds.Right : _aquaticTexture.Bounds.Right) + 5 + pos, ((Height - _skillSize - 14) / 2) + offsetY, _skillSize, _skillSize + 15));
+                //_skillIcons[spair.Key].Selector.Bounds = new((spair.Key.HasFlag(SkillSlotType.Terrestrial) ? _terrestrialTexture.Bounds.Right : _aquaticTexture.Bounds.Right) + 5 + pos, ((Height - _skillSize - 14) / 2) + offsetY - 13, _skillSize, 15);
             }
         }
 
         public override void UpdateContainer(GameTime gameTime)
         {
             base.UpdateContainer(gameTime);
+
         }
 
         public override void PaintBeforeChildren(SpriteBatch spriteBatch, Rectangle bounds)
@@ -236,23 +209,6 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
 
             _terrestrialTexture.Draw(this, spriteBatch, RelativeMousePosition, Color.White);
             _aquaticTexture.Draw(this, spriteBatch, RelativeMousePosition, Color.White);
-
-            SkillSlotType state = TemplatePresenter.LegendSlot == LegendSlotType.TerrestrialActive ? SkillSlotType.Active : SkillSlotType.Inactive;
-
-            foreach (var spair in TemplatePresenter.Template.Skills)
-            {
-                if (spair.Key.HasFlag(state))
-                {
-                    _skillIcons[spair.Key].Draw(this, spriteBatch, spair.Key.HasFlag(SkillSlotType.Terrestrial), RelativeMousePosition);
-                    if (_skillIcons[spair.Key].Hovered && _skillIcons[spair.Key].Skill is not null)
-                    {                        
-                        if (Tooltip is SkillTooltip tooltip)
-                        {
-                            tooltip.Skill = _skillIcons[spair.Key] != _selectorAnchor ? _skillIcons[spair.Key].Skill : null;
-                        }
-                    }
-                }
-            }
         }
 
         protected override void OnRightMouseButtonPressed(MouseEventArgs e)
@@ -261,7 +217,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
 
             foreach (var skillIcon in _skillIcons)
             {
-                if (skillIcon.Value.Hovered)
+                if (skillIcon.Value.MouseOver)
                 {
                     SetSelector(skillIcon);
                 }
@@ -274,7 +230,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
 
             foreach (var skillIcon in _skillIcons)
             {
-                if (skillIcon.Value.Selector.Hovered)
+                if (skillIcon.Value.IsSelectorHovered)
                 {
                     SetSelector(skillIcon);
                 }
@@ -286,20 +242,20 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
 
         }
 
-        private void SetSelector(KeyValuePair<SkillSlotType, SkillIcon> skillIcon)
+        private void SetSelector(KeyValuePair<SkillSlotType, SkillControl> skillCtrl)
         {
-            SeletorOpen = _selectorAnchor != skillIcon.Value || !SeletorOpen;
-            _selectorAnchor = skillIcon.Value;
+            _selectorAnchor = skillCtrl.Value;
 
-            _skillSelector.Anchor = this;
+            _skillSelector.Anchor = skillCtrl.Value;
+            _skillSelector.AnchorOffset = new(-2, 10);
             _skillSelector.ZIndex = ZIndex + 100;
-            _skillSelector.SelectedItem = skillIcon.Value.Skill;
+            _skillSelector.SelectedItem = skillCtrl.Value.Skill;
 
-            var slot = skillIcon.Key;
+            var slot = skillCtrl.Key;
             slot &= ~(SkillSlotType.Aquatic | SkillSlotType.Inactive | SkillSlotType.Terrestrial | SkillSlotType.Active);
             _skillSelector.Label = strings.ResourceManager.GetString($"{Regex.Replace($"{slot.ToString().Trim()}", @"[_0-9]", "")}Skills");
 
-            GetSelectableSkills(skillIcon.Key);
+            GetSelectableSkills(skillCtrl.Key);
         }
 
         private void GetSelectableSkills(SkillSlotType skillSlot)

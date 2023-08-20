@@ -358,7 +358,16 @@ Le but de ce code est de partager facilement le modèle d'équipement du module 
   <data name="EliteSkills" xml:space="preserve">
     <value>Compétences d'élite</value>
   </data>
-  <data name="Utility" xml:space="preserve">
+  <data name="Enhancement" xml:space="preserve">
     <value>Amélioration</value>
+  </data>
+  <data name="AquaticPets" xml:space="preserve">
+    <value>Animaux aquatiques</value>
+  </data>
+  <data name="TerrestrialPets" xml:space="preserve">
+    <value>Animaux terrestres</value>
+  </data>
+  <data name="PetId" xml:space="preserve">
+    <value>Pet Id</value>
   </data>
 </root>

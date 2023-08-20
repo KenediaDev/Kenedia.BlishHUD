@@ -4,11 +4,13 @@ using System.Collections.Generic;
 using System.Runtime.Serialization;
 using APILegend = Gw2Sharp.WebApi.V2.Models.Legend;
 using Kenedia.Modules.Core.Extensions;
+using Kenedia.Modules.BuildsManager.Interfaces;
+using Blish_HUD.Content;
 
 namespace Kenedia.Modules.BuildsManager.DataModels.Professions
 {
     [DataContract]
-    public class Legend : IDisposable
+    public class Legend : IDisposable, IBaseApiData
     {
         private bool _isDisposed;
 
@@ -51,11 +53,11 @@ namespace Kenedia.Modules.BuildsManager.DataModels.Professions
             }
         }
 
-        public static (int, int, int, int, int, int) LegendaryAllianceLuxonIds{ get; } = new(62891, 62719, 62832, 62962, 62878, 62942);
+        public static (int, int, int, int, int, int) LegendaryAllianceLuxonIds { get; } = new(62891, 62719, 62832, 62962, 62878, 62942);
 
-        public static (int, int, int, int, int, int) LegendaryAllianceKurzickIds{ get; } = new(62749, 62680, 62702, 62941, 62796, 62687);
+        public static (int, int, int, int, int, int) LegendaryAllianceKurzickIds { get; } = new(62749, 62680, 62702, 62941, 62796, 62687);
 
-        public string Name => Swap.Name;
+        public string Name { get => Swap?.Name; set { if (Swap is not null) Swap.Name = value; } }
 
         [DataMember]
         public int Id { get; set; }
@@ -75,6 +77,10 @@ namespace Kenedia.Modules.BuildsManager.DataModels.Professions
         [DataMember]
         public int Specialization { get; set; }
 
+        public string Description { get => Swap?.Description; set { if (Swap is not null) Swap.Description = value; } }
+
+        public AsyncTexture2D Icon => Swap?.Icon;
+
         internal void ApplyLanguage(KeyValuePair<int, Legend> leg)
         {
             Heal.Name = leg.Value.Heal.Name;
@@ -86,9 +92,9 @@ namespace Kenedia.Modules.BuildsManager.DataModels.Professions
             Elite.Name = leg.Value.Elite.Name;
             Elite.Description = leg.Value.Elite.Description;
 
-            foreach(var ut in Utilities.Values)
+            foreach (var ut in Utilities.Values)
             {
-                if(leg.Value.Utilities.TryGetValue(ut.Id, out var utility))
+                if (leg.Value.Utilities.TryGetValue(ut.Id, out var utility))
                 {
                     utility.Name = ut.Name;
                     utility.Description = ut.Description;
@@ -120,7 +126,7 @@ namespace Kenedia.Modules.BuildsManager.DataModels.Professions
 
         public void Dispose()
         {
-            if(_isDisposed) return;
+            if (_isDisposed) return;
             _isDisposed = true;
 
             Utilities?.Values?.DisposeAll();

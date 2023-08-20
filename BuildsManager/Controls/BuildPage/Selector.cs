@@ -19,7 +19,6 @@ using System.Diagnostics;
 
 namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
 {
-
     public class Selector<T> : FlowPanel where T : IBaseApiData
     {
         private Control _anchor;
@@ -28,9 +27,12 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
         private Action<T> _onClickAction;
         private T _selectedItem;
         private int _selectablePerRow = 4;
+        private Point _anchorOffset;
         protected readonly Panel HeaderPanel;
         protected readonly Panel ContentPanel;
         protected readonly FlowPanel FlowPanel;
+
+        protected Rectangle BlockInputRegion;
 
         public Selector()
         {
@@ -73,10 +75,32 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
             };
 
             Input.Mouse.LeftMouseButtonPressed += Mouse_LeftMouseButtonPressed;
+            Input.Mouse.RightMouseButtonPressed += Mouse_RightMouseButtonPressed;
+        }
+
+        private void Mouse_RightMouseButtonPressed(object sender, MouseEventArgs e)
+        {
+            if (!Visible) return;
+
+            if (HeaderPanel?.MouseOver == true && !BlockInputRegion.Contains(RelativeMousePosition))
+            {
+                Visible = false;
+            }
+
+            if (MouseOver) return;
+
+            Visible = false;
         }
 
         private void Mouse_LeftMouseButtonPressed(object sender, MouseEventArgs e)
         {
+            if (!Visible) return;
+
+            if (HeaderPanel?.MouseOver == true && !BlockInputRegion.Contains(RelativeMousePosition))
+            {
+                Visible = false;
+            }
+
             if (MouseOver) return;
 
             Visible = false;
@@ -98,22 +122,20 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
 
         public Control Anchor { get => _anchor; set => Common.SetProperty(ref _anchor, value, RecalculateLayout); }
 
+        public Point AnchorOffset { get => _anchorOffset; set => Common.SetProperty(ref _anchorOffset, value, RecalculateLayout); }
+
         public string Label { get => _label.Text; set => _label.Text = value; }
+
+        public bool PassSelected { get; set; } = true;
 
         private void ApplySelected(object sender, Core.Models.ValueChangedEventArgs<T> e)
         {
-            switch (Type)
-            {
-                case SelectableType.Skill:
-                    Controls.ForEach(c => c.IsSelected = (c.Data as Skill) == (SelectedItem as Skill));
-                    break;
+            OnDataApplied(e.NewValue);
+        }
 
-                case SelectableType.Pet:
-                    Controls.ForEach(c => c.IsSelected = (c.Data as Pet) == (SelectedItem as Pet));
-                    break;
-                default:
-                    break;
-            }
+        protected virtual void OnDataApplied(T item)
+        {
+
         }
 
         private void ApplyAction(object sender, Core.Models.ValueChangedEventArgs<Action<T>> e)
@@ -127,8 +149,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
             RecalculateLayout();
         }
 
-
-        private Selectable<T> CreateSelectable(T item)
+        protected virtual Selectable<T> CreateSelectable(T item)
         {
             Type = item switch
             {
@@ -145,7 +166,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
                 Size = SelectableSize,
                 Data = item,
                 OnClickAction = OnClickAction,
-                IsSelected = item.Equals(SelectedItem),
+                IsSelected = PassSelected && item.Equals(SelectedItem),
             };
         }
 
@@ -241,7 +262,10 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
 
         public override void Draw(SpriteBatch spriteBatch, Rectangle drawBounds, Rectangle scissor)
         {
-            if (Anchor?.IsDrawn() != true) return;
+            if (Anchor?.IsDrawn() != true)
+            {
+                Visible = false;
+            };
 
             base.Draw(spriteBatch, drawBounds, scissor);
         }
@@ -255,22 +279,40 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
         public override void UpdateContainer(GameTime gameTime)
         {
             base.UpdateContainer(gameTime);
-
-            if (HeaderPanel is not null)
-            {
-                CaptureInput = !HeaderPanel.MouseOver;
-                HeaderPanel.CaptureInput = !HeaderPanel.MouseOver;
-            }
-
-            if(Anchor is not null)
-               Location = new(Anchor.AbsoluteBounds.Center.X - (Width / 2), Anchor.AbsoluteBounds.Top);
+            if (!Visible) return;
+            SetCapture();
+            MoveToAnchor();
         }
 
         protected override void OnClick(MouseEventArgs e)
         {
             base.OnClick(e);
 
-            Visible = false;
+        }
+
+        protected virtual void SetCapture()
+        {
+            if (HeaderPanel is not null)
+            {
+                CaptureInput = !HeaderPanel.MouseOver;
+                HeaderPanel.CaptureInput = !HeaderPanel.MouseOver;
+            }
+        }
+
+        protected virtual void MoveToAnchor()
+        {
+
+            if (Anchor is not null)
+                Location = new(Anchor.AbsoluteBounds.Center.X - (Width / 2) + AnchorOffset.X, Anchor.AbsoluteBounds.Top + AnchorOffset.Y);
+        }
+
+        protected override void DisposeControl()
+        {
+            base.DisposeControl();
+
+            Input.Mouse.LeftMouseButtonPressed -= Mouse_LeftMouseButtonPressed;
+            Input.Mouse.RightMouseButtonPressed -= Mouse_RightMouseButtonPressed;
+
         }
     }
 }

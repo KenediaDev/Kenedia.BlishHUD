@@ -358,7 +358,16 @@ The purpose of this code is to share the modules Equipment Template easily with 
   <data name="EliteSkills" xml:space="preserve">
     <value>Elite Skills</value>
   </data>
-  <data name="Utility" xml:space="preserve">
+  <data name="Enhancement" xml:space="preserve">
     <value>Enhancement</value>
+  </data>
+  <data name="AquaticPets" xml:space="preserve">
+    <value>Aquatic Pets</value>
+  </data>
+  <data name="TerrestrialPets" xml:space="preserve">
+    <value>Terrestrial Pets</value>
+  </data>
+  <data name="PetId" xml:space="preserve">
+    <value>Pet Id</value>
   </data>
 </root>

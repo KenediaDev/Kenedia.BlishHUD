@@ -5,22 +5,24 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 using Kenedia.Modules.Core.Models;
 using Blish_HUD;
-using System.Diagnostics;
+using Kenedia.Modules.BuildsManager.Models.Templates;
 
 namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
 {
-    public class SkillSelector : Selector<Skill>
+    public class LegendSelector : Selector<Legend>
     {
         private readonly DetailedTexture _selectingFrame = new(157147);
 
-        public SkillSelector()
+        public LegendSelector()
         {
             ContentPanel.BorderWidth = new(2, 0, 2, 2);
             ContentPanel.ContentPadding = new(10);
-            SelectableSize = new(56);
+            SelectableSize = new(48);
         }
 
-        protected override void OnDataApplied(Skill item)
+        public LegendSlotType LegendSlot { get; set; } = LegendSlotType.TerrestrialActive;
+
+        protected override void OnDataApplied(Legend item)
         {
             base.OnDataApplied(item);
 
@@ -48,18 +50,19 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
 
         }
 
-        protected override Selectable<Skill> CreateSelectable(Skill item)
+        protected override Selectable<Legend> CreateSelectable(Legend item)
         {
-            Type = SelectableType.Skill;
+            Type = SelectableType.Legend;
             Visible = true;
 
-            return new SkillSelectable()
+            return new LegendSelectable()
             {
                 Parent = FlowPanel,
                 Size = SelectableSize,
                 Data = item,
                 OnClickAction = OnClickAction,
                 IsSelected = PassSelected && item.Equals(SelectedItem),
+                LegendSlot = LegendSlot,
             };
         }
 

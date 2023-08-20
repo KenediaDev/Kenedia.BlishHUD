@@ -41,8 +41,6 @@ namespace Kenedia.Modules.BuildsManager.Services
 
         public Dictionary<int, SkillConnection> SkillConnections { get; set; } = new();
 
-        public Dictionary<int, BaseSkill> BaseSkills { get; set; } = new();
-
         public Dictionary<int, BaseSkill> MissingSkills { get; set; } = new();
 
         public Dictionary<int, Armor> Armors { get; private set; } = new();
@@ -158,12 +156,11 @@ namespace Kenedia.Modules.BuildsManager.Services
                 _logger.Debug("Item Map loaded!");
 
                 await LoadMissingSkills();
-                await LoadBaseSkills();
                 await LoadConnections();
 
                 foreach (var prop in GetType().GetProperties())
                 {
-                    if (prop.Name is not nameof(SkillsByPalette) and not nameof(BaseSkills) and not nameof(SkillConnections) and not nameof(OldConnections) and not nameof(ItemMap) and not nameof(StatMap) and not nameof(IsLoaded))
+                    if (prop.Name is not nameof(SkillsByPalette) and not nameof(SkillConnections) and not nameof(OldConnections) and not nameof(ItemMap) and not nameof(StatMap) and not nameof(IsLoaded))
                     {
                         string path = $@"{_paths.ModuleDataPath}{prop.Name}.json";
 
@@ -190,9 +187,9 @@ namespace Kenedia.Modules.BuildsManager.Services
 
                     foreach(var prof in skill.Professions)
                     {
-                        if (!Professions[prof].Skills.ContainsKey(skill.Id))
+                        if (Professions.TryGetValue(prof, out Profession profession) && !profession.Skills.ContainsKey(skill.Id))
                         {
-                            Professions[prof].Skills.Add(skill.Id, skill);
+                            profession.Skills.Add(skill.Id, skill);
                         }
                     }
                 }
@@ -212,116 +209,9 @@ namespace Kenedia.Modules.BuildsManager.Services
 
         }
 
-        public async Task LoadBaseSkills()
-        {
-            string path = $@"{_paths.ModuleDataPath}{nameof(BaseSkills)}.json";
-
-            if (File.Exists(path))
-            {
-                _logger.Debug($"Loading data for property {nameof(BaseSkills)} from '{$@"{_paths.ModuleDataPath}{nameof(BaseSkills)}.json"}'");
-                string json = await new StreamReader($@"{_paths.ModuleDataPath}{nameof(BaseSkills)}.json").ReadToEndAsync();
-                object data = JsonConvert.DeserializeObject(json, typeof(Dictionary<int, BaseSkill>));
-
-                BaseSkills = JsonConvert.DeserializeObject<Dictionary<int, BaseSkill>>(await new StreamReader(_contentsManager.GetFileStream(@"data\missing_skills.json")).ReadToEndAsync());
-                foreach (var item in (Dictionary<int, BaseSkill>)data)
-                {
-                    if (!BaseSkills.ContainsKey(item.Key))
-                    {
-                        BaseSkills.Add(item.Key, item.Value);
-                    }
-                }
-            }
-            else
-            {
-                _logger.Debug($"File for property {nameof(BaseSkills)} does not exist at '{$@"{_paths.ModuleDataPath}{nameof(BaseSkills)}.json"}'!");
-            }
-        }
-
-        public async Task ImportOldConnections()
-        {
-            string path = $@"{_paths.ModuleDataPath}{nameof(OldConnections)}.json";
-
-            if (File.Exists(path))
-            {
-                _logger.Debug($"Loading data for property {nameof(OldConnections)} from '{$@"{_paths.ModuleDataPath}{nameof(OldConnections)}.json"}'");
-                string json = await new StreamReader($@"{_paths.ModuleDataPath}{nameof(OldConnections)}.json").ReadToEndAsync();
-                object data = JsonConvert.DeserializeObject(json, typeof(Dictionary<int, OldSkillConnection>));
-                OldConnections = (Dictionary<int, OldSkillConnection>)data;
-                SkillConnections.Clear();
-
-                foreach (var skillConnection in OldConnections)
-                {
-                    if (!SkillConnections.ContainsKey(skillConnection.Key))
-                    {
-                        SkillConnections.Add(skillConnection.Key, new SkillConnection(skillConnection.Value));
-                    }
-                }
-
-                foreach (var item in BaseSkills)
-                {
-                    if (!SkillConnections.TryGetValue(item.Key, out SkillConnection connection))
-                    {
-                        SkillConnections.Add(item.Key, new SkillConnection() { Id = item.Value.Id, AssetId = item.Value.AssetId });
-                    }
-
-                    if (connection is not null && connection.Professions.Count <= 0)
-                    {
-                        foreach (string p in item.Value.Professions)
-                        {
-                            if (Enum.TryParse(p, out ProfessionType pt))
-                            {
-                                connection.Professions.Add(pt);
-                            }
-                        }
-                    }
-
-                    if (connection is not null)
-                    {
-                        connection.Slot = item.Value.Slot;
-                    }
-                }
-
-                await Save();
-            }
-            else
-            {
-                _logger.Debug($"File for property {nameof(OldConnections)} does not exist at '{$@"{_paths.ModuleDataPath}{nameof(OldConnections)}.json"}'!");
-            }
-        }
-
         public async Task LoadConnections()
         {
-            string oldpath = $@"{_paths.ModuleDataPath}{nameof(OldConnections)}.json";
             SkillConnections = (Dictionary<int, SkillConnection>)JsonConvert.DeserializeObject(await new StreamReader(_contentsManager.GetFileStream(@"data\skill_connections.json")).ReadToEndAsync(), typeof(Dictionary<int, SkillConnection>));
-
-            //Adding missing skills, prob obsolete atm
-            foreach (var item in BaseSkills)
-            {
-                if (!SkillConnections.TryGetValue(item.Key, out SkillConnection connection))
-                {
-                    SkillConnection cn;
-                    SkillConnections.Add(item.Key, cn = new SkillConnection() { Id = item.Value.Id, AssetId = item.Value.AssetId, Slot = item.Value.Slot });
-
-                    foreach (string p in item.Value.Professions)
-                    {
-                        if (Enum.TryParse(p, out ProfessionType pt) && !cn.Professions.Contains(pt))
-                        {
-                            cn.Professions.Add(pt);
-                        }
-                    }
-                }
-            }
-
-            if (File.Exists(oldpath))
-            {
-                string json;
-                object data;
-
-                _logger.Debug($"Loading data for property {nameof(OldConnections)} from '{$@"{_paths.ModuleDataPath}{nameof(OldConnections)}.json"}'");
-                json = await new StreamReader($@"{_paths.ModuleDataPath}{nameof(OldConnections)}.json").ReadToEndAsync();
-                data = JsonConvert.DeserializeObject(json, typeof(Dictionary<int, OldSkillConnection>));
-                OldConnections = (Dictionary<int, OldSkillConnection>)data;
-            }
         }
 
         public Skill GetSkillById(int id)
@@ -361,7 +251,6 @@ namespace Kenedia.Modules.BuildsManager.Services
             OldConnections?.Clear();
             StatMap?.Clear();
             SkillConnections?.Clear();
-            BaseSkills?.Clear();
             MissingSkills?.Clear();
             Armors?.Clear();
             Trinkets?.Clear();

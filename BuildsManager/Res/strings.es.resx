@@ -358,7 +358,16 @@ El propósito de este código es compartir la Plantilla de Equipo del módulo f�
   <data name="EliteSkills" xml:space="preserve">
     <value>Habilidades de élite</value>
   </data>
-  <data name="Utility" xml:space="preserve">
+  <data name="Enhancement" xml:space="preserve">
     <value>Mejora</value>
+  </data>
+  <data name="AquaticPets" xml:space="preserve">
+    <value>Mascotas acuáticas</value>
+  </data>
+  <data name="TerrestrialPets" xml:space="preserve">
+    <value>Mascotas terrestres</value>
+  </data>
+  <data name="PetId" xml:space="preserve">
+    <value>Identificación de mascotas</value>
   </data>
 </root>

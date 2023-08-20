@@ -133,6 +133,24 @@ namespace Kenedia.Modules.Core.Res {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to GW2 API request failed..
+        /// </summary>
+        internal static string GW2API_RequestFailed {
+            get {
+                return ResourceManager.GetString("GW2API_RequestFailed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to GW2 API is currently unavailable..
+        /// </summary>
+        internal static string GW2API_Unavailable {
+            get {
+                return ResourceManager.GetString("GW2API_Unavailable", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to {0} Settings.
         /// </summary>
         internal static string ItemSettings {

@@ -129,7 +129,7 @@ namespace Kenedia.Modules.BuildsManager.Models.Templates
         public bool WipeSkills(Races? race)
         {
             bool wiped = false;
-            var racials = race == null ? null : BuildsManager.Data.Races[(Races)race]?.Skills;
+            var racials = race == null ? null : BuildsManager.Data?.Races?[(Races)race]?.Skills;
 
             foreach (var key in Keys.ToList())
             {

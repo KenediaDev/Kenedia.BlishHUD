@@ -6,5 +6,6 @@
         Skill,
         Item,
         Pet,
+        Legend,
     }
 }

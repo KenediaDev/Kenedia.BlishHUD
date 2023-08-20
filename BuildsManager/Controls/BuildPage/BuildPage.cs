@@ -142,9 +142,9 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
 
             _specializations = new()
             {
-                {SpecializationSlotType.Line_1,  new SpecLine(SpecializationSlotType.Line_1, TemplatePresenter) { Parent = _specializationsPanel, CanInteract = () => !_skillbar.IsSelecting } },
-                {SpecializationSlotType.Line_2,  new SpecLine(SpecializationSlotType.Line_2, TemplatePresenter) { Parent = _specializationsPanel, CanInteract = () => !_skillbar.IsSelecting } },
-                {SpecializationSlotType.Line_3,  new SpecLine(SpecializationSlotType.Line_3, TemplatePresenter) { Parent = _specializationsPanel, CanInteract = () => !_skillbar.IsSelecting } },
+                {SpecializationSlotType.Line_1,  new SpecLine(SpecializationSlotType.Line_1, TemplatePresenter) { Parent = _specializationsPanel } },
+                {SpecializationSlotType.Line_2,  new SpecLine(SpecializationSlotType.Line_2, TemplatePresenter) { Parent = _specializationsPanel} },
+                {SpecializationSlotType.Line_3,  new SpecLine(SpecializationSlotType.Line_3, TemplatePresenter) { Parent = _specializationsPanel} },
             };
 
             _professionRaceSelection = new()
@@ -243,7 +243,6 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
                 c?.Dispose();
             }
 
-            Debug.WriteLine($"BuildsPage Dispose");
             TemplatePresenter = null;
         }
 
@@ -270,7 +269,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
 
         private void TemplatePresenter_BuildCodeChanged(object sender, EventArgs e)
         {
-            _buildCodeBox.Text = TemplatePresenter.Template?.ParseBuildCode();
+            _buildCodeBox.Text = TemplatePresenter?.Template?.ParseBuildCode();
         }
 
         private void BuildTemplate_Loaded(object sender, EventArgs e)

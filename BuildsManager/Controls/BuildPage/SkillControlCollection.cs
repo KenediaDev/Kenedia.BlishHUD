@@ -5,9 +5,9 @@ using System.Linq;
 
 namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
 {
-    public class SkillIconCollection : Dictionary<SkillSlotType, SkillIcon>
+    public class SkillControlCollection : Dictionary<SkillSlotType, SkillControl>
     {
-        public SkillIconCollection(bool showSelector = false)
+        public SkillControlCollection(bool showSelector = false)
         {
             foreach (SkillSlotType slot in Enum.GetValues(typeof(SkillSlotType)))
             {
@@ -17,7 +17,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
                     {
                         foreach (SkillSlotType enviroment in new SkillSlotType[] { SkillSlotType.Terrestrial, SkillSlotType.Aquatic })
                         {
-                            Add(state | enviroment | slot, new() { ShowSelector = showSelector });
+                            Add(state | enviroment | slot, new() { });
                         }
                     }
                 }
