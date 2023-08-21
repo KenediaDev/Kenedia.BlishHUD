@@ -62,20 +62,20 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
             LocalizingService.LocaleChanged += UserLocale_SettingChanged;
         }
 
-        public Pet Pet { get => _pet; set => Common.SetProperty(ref _pet, value, ApplySkill); }
+        public Pet Pet { get => _pet; set => Common.SetProperty(ref _pet, value, ApplyPet); }
 
-        private void ApplySkill(object sender, ValueChangedEventArgs<Pet> e)
+        private void ApplyPet(object sender, ValueChangedEventArgs<Pet> e)
         {
             _title.TextColor = Colors.Chardonnay;
             _title.Text = Pet?.Name;
             _id.Text = $"{strings.PetId}: {Pet?.Id}";
-            _description.Text = Pet?.Description.InterpretItemDescription();
+            _description.Text = Pet?.Description?.Substring(0, Pet.Description.Length - 5).InterpretItemDescription();
             _image.Texture = Pet?.Icon;
         }
 
         private void UserLocale_SettingChanged(object sender, Blish_HUD.ValueChangedEventArgs<Locale> e)
         {
-            ApplySkill(this, null);
+            ApplyPet(this, null);
         }
 
         public override void Draw(SpriteBatch spriteBatch, Rectangle drawBounds, Rectangle scissor)

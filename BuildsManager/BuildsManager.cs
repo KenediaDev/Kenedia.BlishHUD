@@ -173,10 +173,10 @@ namespace Kenedia.Modules.BuildsManager
         {
             _cancellationTokenSource?.Cancel();
             _cancellationTokenSource = new CancellationTokenSource();
-            CreateCornerIcons();
 
-            await GW2API.UpdateData();
-            //base.ReloadKey_Activated(sender, e);
+            await LoadTemplates();
+
+            base.ReloadKey_Activated(sender, e);
         }
 
         protected override void LoadGUI()

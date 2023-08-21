@@ -9,6 +9,7 @@ using Kenedia.Modules.Core.Models;
 using Kenedia.Modules.Core.Utility;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using MonoGame.Extended.TextureAtlases;
 using System;
 
 namespace Kenedia.Modules.BuildsManager.Controls.BuildPage.ProfessionSpecific
@@ -17,7 +18,8 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage.ProfessionSpecific
     {
         private readonly DetailedTexture _highlight = new(156844) { TextureRegion = new(16, 16, 200, 200) };
         private readonly DetailedTexture _selector = new(157138, 157140);
-        private readonly DetailedTexture _petTexture = new() { TextureRegion = new(16, 16, 200, 200) };
+        private readonly DetailedTexture _petTexture = new() { TextureRegion = new(16, 16, 200, 200), };
+        private readonly DetailedTexture _emptySlotTexture = new(157154) { TextureRegion = new(14, 14, 100, 100) };
         private Pet _pet;
 
         public PetControl()
@@ -37,7 +39,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage.ProfessionSpecific
         {
             _petTexture.Texture = Pet?.Icon;
 
-            if(Tooltip is PetTooltip petTooltip)
+            if (Tooltip is PetTooltip petTooltip)
             {
                 petTooltip.Pet = Pet;
             }
@@ -45,8 +47,12 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage.ProfessionSpecific
 
         protected override void Paint(SpriteBatch spriteBatch, Rectangle bounds)
         {
+            RecalculateLayout();
             _selector?.Draw(this, spriteBatch);
             _petTexture?.Draw(this, spriteBatch);
+
+            if (Pet is null)
+                _emptySlotTexture?.Draw(this, spriteBatch);
 
             if (MouseOver)
                 _highlight?.Draw(this, spriteBatch);
@@ -62,6 +68,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage.ProfessionSpecific
             var p = new Point(Width / 2, Height / 2);
             var s = new Point(64, 15);
             _selector.Bounds = new(p.X - (s.X / 2) + 4, p.Y - 36, s.X, s.Y);
+            _emptySlotTexture.Bounds = new(p.X - (s.X / 2) + 4, p.Y - 36 + _selector.Bounds.Height, s.X, s.X);
         }
 
         protected override void OnRightMouseButtonPressed(MouseEventArgs e)

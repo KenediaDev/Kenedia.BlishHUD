@@ -131,7 +131,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage.ProfessionSpecific
             {
                 var flag = _selectorAnchor.PetSlot is PetSlotType.Terrestrial_1 or PetSlotType.Terrestrial_2 ? Enviroment.Terrestrial : Enviroment.Aquatic;
 
-                _petSelector.SetItems(BuildsManager.Data.Pets.Values.Where(e => e.Enviroment.HasFlag(flag)));
+                _petSelector.SetItems(BuildsManager.Data.Pets.Values.Where(e => e.Enviroment.HasFlag(flag)).OrderBy(e => e.Order));
             }
         }
 

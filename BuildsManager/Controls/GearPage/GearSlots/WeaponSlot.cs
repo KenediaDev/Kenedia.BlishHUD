@@ -169,7 +169,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage.GearSlots
                 }
                 else
                 {
-                    if (overrideExisting || ((slot as WeaponSlot).Item == null && (slot.Slot is TemplateSlotType.MainHand or TemplateSlotType.AltOffHand || (slot as WeaponSlot).OtherHandSlot.Item == null)))
+                    if (overrideExisting || ((slot as WeaponSlot).Item == null && (slot.Slot is TemplateSlotType.MainHand or TemplateSlotType.AltMainHand || (slot as WeaponSlot).OtherHandSlot.Item == null)))
                         (slot as WeaponSlot).SelectWeapon(item);
                 }
             }
