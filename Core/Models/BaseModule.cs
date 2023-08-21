@@ -34,7 +34,7 @@ namespace Kenedia.Modules.Core.Models
             var sharedSettings = new SharedSettings();
             var texturesService = new TexturesService(ContentsManager);
             var inputDetectionService = new InputDetectionService();
-            var gameState = new GameState(clientWindowService, sharedSettings);
+            var gameState = new GameStateDetectionService(clientWindowService, sharedSettings);
 
             Services = new(gameState, clientWindowService, sharedSettings, texturesService, inputDetectionService);
             SharedSettingsView = new SharedSettingsView(sharedSettings, clientWindowService);
@@ -138,7 +138,7 @@ namespace Kenedia.Modules.Core.Models
         {
             base.Update(gameTime);
 
-            Services.GameState.Run(gameTime);
+            Services.GameStateDetectionService.Run(gameTime);
             Services.ClientWindowService.Run(gameTime);
             Services.InputDetectionService.Run(gameTime);
 

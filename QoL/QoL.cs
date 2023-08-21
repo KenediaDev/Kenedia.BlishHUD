@@ -141,7 +141,7 @@ namespace Kenedia.Modules.QoL
         {
             SubModules.Add(SubModuleType.GameResets, new GameResets(SettingCollection));
             SubModules.Add(SubModuleType.ZoomOut, new ZoomOut(SettingCollection));
-            SubModules.Add(SubModuleType.SkipCutscenes, new SkipCutscenes(SettingCollection));
+            SubModules.Add(SubModuleType.SkipCutscenes, new SkipCutscenes(SettingCollection, Services.GameStateDetectionService));
             SubModules.Add(SubModuleType.ItemDestruction, new ItemDestruction(SettingCollection));
             SubModules.Add(SubModuleType.WikiSearch, new WikiSearch(SettingCollection));
             SubModules.Add(SubModuleType.WaypointPaste, new WaypointPaste(SettingCollection));

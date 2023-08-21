@@ -261,7 +261,7 @@ namespace Kenedia.Modules.Characters
                 PlayerCharacter player = GameService.Gw2Mumble.PlayerCharacter;
 
                 string name = player is not null ? player.Name : string.Empty;
-                bool charSelection = Settings.UseBetaGamestate.Value ? Services.GameState.IsCharacterSelection : !GameService.GameIntegration.Gw2Instance.IsInGame;
+                bool charSelection = Settings.UseBetaGamestate.Value ? Services.GameStateDetectionService.IsCharacterSelection : !GameService.GameIntegration.Gw2Instance.IsInGame;
 
                 CurrentCharacterModel = !charSelection ? CharacterModels.FirstOrDefault(e => e.Name == name) : null;
 

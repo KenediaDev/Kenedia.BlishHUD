@@ -107,7 +107,7 @@
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Scrollbar.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\ClientWindowService.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Services\GameState.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Services\GameStateDetectionService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\InputDetectionService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\LocalizingService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\SharedSettings.cs" />

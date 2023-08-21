@@ -6,7 +6,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Kenedia.Modules.Core.Controls
 {
-    internal class FramedMaskedRegion : MaskedRegion
+    public class FramedMaskedRegion : MaskedRegion
     {
         public FramedMaskedRegion()
         {
@@ -35,6 +35,9 @@ namespace Kenedia.Modules.Core.Controls
 
         protected override void Paint(SpriteBatch spriteBatch, Rectangle bounds)
         {
+
+            base.Paint(spriteBatch, MaskedRegion);
+
             Color? borderColor = BorderColor;
             if (borderColor is not null)
             {
@@ -55,7 +58,6 @@ namespace Kenedia.Modules.Core.Controls
                 spriteBatch.DrawOnCtrl(this, ContentService.Textures.Pixel, new Rectangle(bounds.Right - 1, bounds.Top, BorderWidth.Right / 2, bounds.Height), Rectangle.Empty, (Color)borderColor * 0.6f);
             }
 
-            base.Paint(spriteBatch, MaskedRegion);
         }
     }
 }
