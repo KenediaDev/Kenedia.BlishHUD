@@ -48,79 +48,12 @@ namespace Kenedia.Modules.Core.Services
         private bool _isDisposed;
         private double _lastTick = 0;
 
-        private readonly Label _gameStateLabel = new()
-        {
-            Visible = false,
-            Parent = GameService.Graphics.SpriteScreen,
-            ZIndex = int.MaxValue,
-            Font = GameService.Content.GetFont(ContentService.FontFace.Menomonia, ContentService.FontSize.Size36, ContentService.FontStyle.Regular),
-            BackgroundColor = Color.Orange,
-            Width = 200,
-            Height = 50,
-        };
-
         private readonly FramedMaskedRegion _spinnerMask = new()
         {
             Visible = false,
             Parent = GameService.Graphics.SpriteScreen,
             ZIndex = int.MaxValue,
             BorderColor = Color.Transparent,
-        };
-
-        private readonly FramedMaskedRegion _logoutMask = new()
-        {
-            Visible = false,
-            Parent = GameService.Graphics.SpriteScreen,
-            ZIndex = int.MaxValue,
-            BorderColor = Color.Transparent,
-        };
-
-        private readonly Image _topRightImage = new()
-        {
-            Visible = false,
-            Parent = GameService.Graphics.SpriteScreen,
-            ZIndex = int.MaxValue,
-            BackgroundColor = Color.Red,
-        };
-
-        private readonly Image _topLeftImage = new()
-        {
-            Visible = false,
-            Parent = GameService.Graphics.SpriteScreen,
-            ZIndex = int.MaxValue,
-            BackgroundColor = Color.Red,
-        };
-
-        private readonly Image _bottomRightImage = new()
-        {
-            Visible = false,
-            Parent = GameService.Graphics.SpriteScreen,
-            ZIndex = int.MaxValue,
-            BackgroundColor = Color.Red,
-        };
-
-        private readonly Image _bottomLeftImage = new()
-        {
-            Visible = false,
-            Parent = GameService.Graphics.SpriteScreen,
-            ZIndex = int.MaxValue,
-            BackgroundColor = Color.Red,
-        };
-
-        private readonly Image _spinnerImage = new()
-        {
-            Visible = false,
-            Parent = GameService.Graphics.SpriteScreen,
-            ZIndex = int.MaxValue,
-            BackgroundColor = Color.Red,
-        };
-
-        private readonly Image _centerImage = new()
-        {
-            Visible = false,
-            Parent = GameService.Graphics.SpriteScreen,
-            ZIndex = int.MaxValue,
-            BackgroundColor = Color.Red,
         };
 
         private readonly FramedMaskedRegion _topRightMask = new()
@@ -169,9 +102,9 @@ namespace Kenedia.Modules.Core.Services
         };
 
         private readonly List<GameStatusType> _gameStatuses = new();
+
         private GameStatusType _gameStatus = GameStatusType.None;
 
-        private readonly List<(double time, Bitmap image, double difference)> _imageCache = new();
         private (Bitmap lastImage, Bitmap newImage) _bottomLeftImages = new(null, null);
         private (Bitmap lastImage, Bitmap newImage) _bottomRightImages = new(null, null);
         private (Bitmap lastImage, Bitmap newImage) _topRightImages = new(null, null);
@@ -255,10 +188,6 @@ namespace Kenedia.Modules.Core.Services
             if (!Enabled) return;
 
             NewStatus = GameStatusType.Unknown;
-
-            _gameStateLabel.Location = GameService.Graphics.SpriteScreen.LocalBounds.Center.Add(new(-_gameStateLabel.Width / 2, -_gameStateLabel.Height / 2));
-            _gameStateLabel.Size = new(400, 50);
-            _gameStateLabel.HorizontalAlignment = Blish_HUD.Controls.HorizontalAlignment.Center;
 
             if (GameService.Gw2Mumble.TimeSinceTick.TotalMilliseconds <= 500 && _startingMumbleTick != GameService.Gw2Mumble.Tick)
             {
@@ -349,7 +278,6 @@ namespace Kenedia.Modules.Core.Services
                     {
                         GameStatus = NewStatus;
                         _gameStatuses.Clear();
-                        _gameStateLabel.Text = GameStatus.ToString();
                     }
                 }
             }
@@ -361,17 +289,6 @@ namespace Kenedia.Modules.Core.Services
             images.lastImage = images.newImage;
 
             var b = GameService.Graphics.SpriteScreen.LocalBounds;
-            Color maskColor = t switch
-            {
-                ScreenRegionType.TopLeft => Color.Red,
-                ScreenRegionType.TopRight => Color.Green,
-                ScreenRegionType.BottomLeft => Color.Blue,
-                ScreenRegionType.BottomRight => Color.Yellow,
-                ScreenRegionType.Center => Color.Purple,
-                ScreenRegionType.LoadingSpinner => Color.White,
-                _ => Color.Transparent
-            };
-
             Point maskSize = t switch
             {
                 ScreenRegionType.TopLeft => new(100, 25),
@@ -394,35 +311,9 @@ namespace Kenedia.Modules.Core.Services
                 _ => Point.Zero
             };
 
-            Point imagePos = t switch
-            {
-                ScreenRegionType.TopLeft => maskPos.Add(new(0, maskSize.Y)),
-                ScreenRegionType.TopRight => maskPos.Add(new(0, maskSize.Y)),
-                ScreenRegionType.BottomLeft => maskPos.Add(new(0, -maskSize.Y)),
-                ScreenRegionType.BottomRight => maskPos.Add(new(0, -maskSize.Y)),
-                ScreenRegionType.Center => maskPos.Add(new(0, maskSize.Y)),
-                ScreenRegionType.LoadingSpinner => maskPos.Add(new(0, -maskSize.Y)),
-                _ => Point.Zero
-            };
-
-            Image image = t switch
-            {
-                ScreenRegionType.TopLeft => _topLeftImage,
-                ScreenRegionType.TopRight => _topRightImage,
-                ScreenRegionType.BottomLeft => _bottomLeftImage,
-                ScreenRegionType.BottomRight => _bottomRightImage,
-                ScreenRegionType.Center => _centerImage,
-                ScreenRegionType.LoadingSpinner => _spinnerImage,
-                _ => null
-            };
-
             region.BorderColor = Color.Transparent;
             region.Location = maskPos;
             region.Size = maskSize;
-
-            image.BackgroundColor = maskColor;
-            image.Location = imagePos;
-            image.Size = maskSize;
 
             try
             {
@@ -437,7 +328,6 @@ namespace Kenedia.Modules.Core.Services
                 double factor = GameService.Graphics.UIScaleMultiplier;
                 g.CopyFromScreen(new(wndBounds.Left + offset.Left + (int)(maskPos.X * factor), wndBounds.Top + offset.Top + (int)(maskPos.Y * factor)), DrawPoint.Empty, new((int)(maskSize.X * factor), (int)(maskSize.Y * factor)));
 
-                //image.Texture = bitmap.CreateTexture2D();
                 images.newImage = bitmap;
             }
             catch
@@ -533,8 +423,31 @@ namespace Kenedia.Modules.Core.Services
             if (!_isDisposed)
             {
                 _isDisposed = true;
+
                 _spinnerMask?.Dispose();
-                _logoutMask?.Dispose();
+                _spinnerImages.lastImage?.Dispose();
+                _spinnerImages.newImage?.Dispose();
+
+                _centerMask?.Dispose();
+                _centerImages.lastImage?.Dispose();
+                _centerImages.newImage?.Dispose();
+
+                _topLeftMask?.Dispose();
+                _topLeftImages.lastImage?.Dispose();
+                _topLeftImages.newImage?.Dispose();
+
+                _topRightMask?.Dispose();
+                _topRightImages.lastImage?.Dispose();
+                _topRightImages.newImage?.Dispose();
+
+                _bottomLeftMask?.Dispose();
+                _bottomLeftImages.lastImage?.Dispose();
+                _bottomLeftImages.newImage?.Dispose();
+
+                _bottomRightMask?.Dispose();
+                _bottomRightImages.lastImage?.Dispose();
+                _bottomRightImages.newImage?.Dispose();
+
             }
         }
 
@@ -543,16 +456,6 @@ namespace Kenedia.Modules.Core.Services
             public ScreenChanging()
             {
 
-            }
-
-            public ScreenChanging(bool isTopLeftChanging, bool isTopRightChanging, bool isBottomLeftChanging, bool isBottomRightChanging, bool isCenterChanging, bool isSpinnerChanging)
-            {
-                IsTopLeftChanging = isTopLeftChanging;
-                IsTopRightChanging = isTopRightChanging;
-                IsBottomLeftChanging = isBottomLeftChanging;
-                IsBottomRightChanging = isBottomRightChanging;
-                IsCenterChanging = isCenterChanging;
-                IsSpinnerChanging = isSpinnerChanging;
             }
 
             public bool IsTopLeftChanging { get; set; }
