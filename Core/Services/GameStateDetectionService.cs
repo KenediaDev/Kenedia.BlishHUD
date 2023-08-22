@@ -25,28 +25,32 @@ namespace Kenedia.Modules.Core.Services
         TopLeft,
         TopRight,
         BottomLeft,
-        BottomRight
+        BottomRight,
+        Center,
+        LoadingSpinner,
     }
 
-    public enum GameStatus
+    public enum GameStatusType
     {
+        None = -1,
         Unknown = 0,
         Ingame,
         CharacterSelection,
         LoadingScreen,
-        Cutscene
+        Cutscene,
+        Vista,
+        CharacterCreation,
     }
 
     public class GameStateDetectionService : IDisposable
     {
+        private readonly double _startingMumbleTick = GameService.Gw2Mumble.Tick;
         private bool _isDisposed;
         private double _lastTick = 0;
-        private double? _cutsceneStart;
-        private double _cutsceneDuration = 0;
 
         private readonly Label _gameStateLabel = new()
         {
-            Visible = true,
+            Visible = false,
             Parent = GameService.Graphics.SpriteScreen,
             ZIndex = int.MaxValue,
             Font = GameService.Content.GetFont(ContentService.FontFace.Menomonia, ContentService.FontSize.Size36, ContentService.FontStyle.Regular),
@@ -54,6 +58,7 @@ namespace Kenedia.Modules.Core.Services
             Width = 200,
             Height = 50,
         };
+
         private readonly FramedMaskedRegion _spinnerMask = new()
         {
             Visible = false,
@@ -102,6 +107,22 @@ namespace Kenedia.Modules.Core.Services
             BackgroundColor = Color.Red,
         };
 
+        private readonly Image _spinnerImage = new()
+        {
+            Visible = false,
+            Parent = GameService.Graphics.SpriteScreen,
+            ZIndex = int.MaxValue,
+            BackgroundColor = Color.Red,
+        };
+
+        private readonly Image _centerImage = new()
+        {
+            Visible = false,
+            Parent = GameService.Graphics.SpriteScreen,
+            ZIndex = int.MaxValue,
+            BackgroundColor = Color.Red,
+        };
+
         private readonly FramedMaskedRegion _topRightMask = new()
         {
             Visible = false,
@@ -138,16 +159,25 @@ namespace Kenedia.Modules.Core.Services
             BorderWidth = new(2),
         };
 
-        private readonly List<double> _spinnerResults = new();
+        private readonly FramedMaskedRegion _centerMask = new()
+        {
+            Visible = false,
+            Parent = GameService.Graphics.SpriteScreen,
+            ZIndex = int.MaxValue,
+            BorderColor = Color.Red,
+            BorderWidth = new(2),
+        };
 
-        private readonly List<GameStatus> _gameStatuses = new();
-        private GameStatus _gameStatus = GameStatus.Unknown;
+        private readonly List<GameStatusType> _gameStatuses = new();
+        private GameStatusType _gameStatus = GameStatusType.None;
 
         private readonly List<(double time, Bitmap image, double difference)> _imageCache = new();
         private (Bitmap lastImage, Bitmap newImage) _bottomLeftImages = new(null, null);
         private (Bitmap lastImage, Bitmap newImage) _bottomRightImages = new(null, null);
         private (Bitmap lastImage, Bitmap newImage) _topRightImages = new(null, null);
         private (Bitmap lastImage, Bitmap newImage) _topLeftImages = new(null, null);
+        private (Bitmap lastImage, Bitmap newImage) _centerImages = new(null, null);
+        private (Bitmap lastImage, Bitmap newImage) _spinnerImages = new(null, null);
 
         public GameStateDetectionService(ClientWindowService clientWindowService, SharedSettings sharedSettings)
         {
@@ -160,6 +190,7 @@ namespace Kenedia.Modules.Core.Services
         public event EventHandler<GameStateChangedEventArgs> ChangedToCharacterSelection;
         public event EventHandler<GameStateChangedEventArgs> ChangedToLoadingScreen;
         public event EventHandler<GameStateChangedEventArgs> ChangedToCutscene;
+        public event EventHandler<GameStateChangedEventArgs> ChangedToVista;
 
         public bool Enabled { get; set; } = true;
 
@@ -167,15 +198,11 @@ namespace Kenedia.Modules.Core.Services
 
         public SharedSettings SharedSettings { get; set; }
 
-        public int Count { get; set; } = 0;
+        private GameStatusType NewStatus { get; set; }
 
-        public Stopwatch GameTime { get; set; }
+        public GameStatusType OldStatus { get; private set; }
 
-        private GameStatus NewStatus { get; set; }
-
-        public GameStatus OldStatus { get; private set; }
-
-        public GameStatus GameStatus
+        public GameStatusType GameStatus
         {
             get => _gameStatus;
             private set
@@ -193,28 +220,24 @@ namespace Kenedia.Modules.Core.Services
 
                     switch (_gameStatus)
                     {
-                        case GameStatus.Ingame:
-                            _spinnerResults.Clear();
-                            _cutsceneDuration = 0;
-                            _cutsceneStart = null;
+                        case GameStatusType.Ingame:
                             ChangedToIngame?.Invoke(GameStatus, eventArgs);
                             break;
 
-                        case GameStatus.CharacterSelection:
-                            _spinnerResults.Clear();
-                            _cutsceneDuration = 0;
-                            _cutsceneStart = null;
+                        case GameStatusType.CharacterSelection:
                             ChangedToCharacterSelection?.Invoke(GameStatus, eventArgs);
                             break;
 
-                        case GameStatus.LoadingScreen:
-                            _cutsceneDuration = 0;
-                            _cutsceneStart = null;
+                        case GameStatusType.LoadingScreen:
                             ChangedToLoadingScreen?.Invoke(GameStatus, eventArgs);
                             break;
 
-                        case GameStatus.Cutscene:
+                        case GameStatusType.Cutscene:
                             ChangedToCutscene?.Invoke(GameStatus, eventArgs);
+                            break;
+
+                        case GameStatusType.Vista:
+                            ChangedToVista?.Invoke(GameStatus, eventArgs);
                             break;
                     }
 
@@ -223,28 +246,33 @@ namespace Kenedia.Modules.Core.Services
             }
         }
 
-        public bool IsIngame => GameStatus == GameStatus.Ingame;
+        public bool IsIngame => GameStatus == GameStatusType.Ingame;
 
-        public bool IsCharacterSelection => GameStatus == GameStatus.CharacterSelection;
+        public bool IsCharacterSelection => GameStatus == GameStatusType.CharacterSelection;
 
         public void Run(GameTime gameTime)
         {
             if (!Enabled) return;
 
-            NewStatus = GameStatus.Unknown;
+            NewStatus = GameStatusType.Unknown;
 
             _gameStateLabel.Location = GameService.Graphics.SpriteScreen.LocalBounds.Center.Add(new(-_gameStateLabel.Width / 2, -_gameStateLabel.Height / 2));
             _gameStateLabel.Size = new(400, 50);
             _gameStateLabel.HorizontalAlignment = Blish_HUD.Controls.HorizontalAlignment.Center;
 
-            if (GameService.Gw2Mumble.TimeSinceTick.TotalMilliseconds <= 500)
+            if (GameService.Gw2Mumble.TimeSinceTick.TotalMilliseconds <= 500 && _startingMumbleTick != GameService.Gw2Mumble.Tick)
             {
-                NewStatus = GameStatus.Ingame;
+                NewStatus = GameStatusType.Ingame;
 
                 _topLeftMask.Hide();
                 _topRightMask.Hide();
                 _bottomLeftMask.Hide();
                 _bottomRightMask.Hide();
+            }
+
+            else if (GameStatus is GameStatusType.None)
+            {
+                return;
             }
 
             else if (GameService.GameIntegration.Gw2Instance.Gw2HasFocus)
@@ -263,30 +291,62 @@ namespace Kenedia.Modules.Core.Services
 
                     //Debug.WriteLine($"screenChanging {screenChanging.IsLeftChanging} | {screenChanging.IsRightChanging}");
 
-                    if (GameStatus is not GameStatus.CharacterSelection && sC.IsTopRightChanging && sC.IsBottomRightChanging && sC.IsTopLeftChanging && sC.IsBottomLeftChanging)
+                    // All Changing => Vista
+                    bool vista = sC.AreAllChanging;
+
+                    // No corner but center => Cutscene
+                    bool cutscene = !sC.AreCornersChanging && sC.IsCenterChanging && !sC.IsSpinnerChanging;
+
+                    // No corner but Spinner and Center => Character Selection
+                    bool characterSelection = sC.NoneChanging || (!sC.AreCornersChanging && sC.IsCenterChanging && sC.IsSpinnerChanging);
+
+                    // No corner but Spinner => Loading Screen
+                    bool loadingScreen = !sC.AreCornersChanging && !sC.IsCenterChanging && sC.IsSpinnerChanging;
+
+                    // After Character Selection we can only get loading screen or character creation
+                    bool characterCreation = false;
+
+                    // After Character Creation we can only get cutscene or ingame
+                    bool creationCutscene = !sC.AreCornersChanging && sC.IsCenterChanging && sC.IsSpinnerChanging;
+
+                    //After vista we can only get ingame
+                    if ((GameStatus is GameStatusType.Ingame && vista) || GameStatus is GameStatusType.Vista)
                     {
-                        NewStatus = GameStatus.Cutscene;
-                    }
-                    else if (!sC.IsTopRightChanging && !sC.IsTopLeftChanging && sC.IsBottomRightChanging && !sC.IsBottomLeftChanging)
-                    {
-                        NewStatus = GameStatus.LoadingScreen;
-                    }
-                    else if (GameStatus is not GameStatus.LoadingScreen && !sC.IsTopRightChanging && !sC.IsTopLeftChanging && !sC.IsBottomLeftChanging)
-                    {
-                        NewStatus = GameStatus.CharacterSelection;
+                        NewStatus = GameStatusType.Vista;
                     }
 
-                    Debug.WriteLine($"NewStatus: {NewStatus}");
+                    //After cutscene we can only get ingame or loading screen
+                    else if (GameStatus is GameStatusType.Ingame or GameStatusType.LoadingScreen && (cutscene || creationCutscene))
+                    {
+                        NewStatus = GameStatusType.Cutscene;
+                    }
+
+                    //Loading screens can only appear after cutscenes or character selection or while ingame
+                    else if (GameStatus is GameStatusType.Cutscene or GameStatusType.Ingame or GameStatusType.CharacterSelection && loadingScreen)
+                    {
+                        NewStatus = GameStatusType.LoadingScreen;
+                    }
+
+                    // Character creation can only appear after Character Selection
+                    else if (GameStatus is GameStatusType.CharacterSelection && characterCreation)
+                    {
+                        NewStatus = GameStatusType.CharacterCreation;
+                    }
+
+                    // Character selection can only appear after ingame
+                    else if (GameStatus is GameStatusType.Ingame && characterSelection)
+                    {
+                        NewStatus = GameStatusType.CharacterSelection;
+                    }
                 }
             }
 
-            if (NewStatus != GameStatus.Unknown)
+            if (NewStatus != GameStatusType.Unknown)
             {
-                if (StatusConfirmed(NewStatus, _gameStatuses, NewStatus == GameStatus.LoadingScreen ? 2 : 2))
+                if (StatusConfirmed(NewStatus, _gameStatuses, NewStatus == GameStatusType.LoadingScreen ? 2 : 2))
                 {
                     if (GameStatus != NewStatus)
                     {
-                        Debug.WriteLine($"NewStatus {NewStatus}");
                         GameStatus = NewStatus;
                         _gameStatuses.Clear();
                         _gameStateLabel.Text = GameStatus.ToString();
@@ -307,6 +367,8 @@ namespace Kenedia.Modules.Core.Services
                 ScreenRegionType.TopRight => Color.Green,
                 ScreenRegionType.BottomLeft => Color.Blue,
                 ScreenRegionType.BottomRight => Color.Yellow,
+                ScreenRegionType.Center => Color.Purple,
+                ScreenRegionType.LoadingSpinner => Color.White,
                 _ => Color.Transparent
             };
 
@@ -315,7 +377,9 @@ namespace Kenedia.Modules.Core.Services
                 ScreenRegionType.TopLeft => new(100, 25),
                 ScreenRegionType.TopRight => new(100, 25),
                 ScreenRegionType.BottomLeft => new(100, 25),
-                ScreenRegionType.BottomRight => new(100, 150),
+                ScreenRegionType.BottomRight => new(100, 25),
+                ScreenRegionType.Center => new(100, 100),
+                ScreenRegionType.LoadingSpinner => new(100, 150),
                 _ => Point.Zero
             };
 
@@ -325,6 +389,8 @@ namespace Kenedia.Modules.Core.Services
                 ScreenRegionType.TopRight => new(b.Width - maskSize.X, 0),
                 ScreenRegionType.BottomLeft => new(0, b.Height - maskSize.Y),
                 ScreenRegionType.BottomRight => new(b.Width - maskSize.X, b.Height - maskSize.Y),
+                ScreenRegionType.Center => new(b.Center.X - (maskSize.X / 2), b.Center.Y - (maskSize.Y / 2)),
+                ScreenRegionType.LoadingSpinner => new(b.Width - maskSize.X, b.Height - maskSize.Y),
                 _ => Point.Zero
             };
 
@@ -334,6 +400,8 @@ namespace Kenedia.Modules.Core.Services
                 ScreenRegionType.TopRight => maskPos.Add(new(0, maskSize.Y)),
                 ScreenRegionType.BottomLeft => maskPos.Add(new(0, -maskSize.Y)),
                 ScreenRegionType.BottomRight => maskPos.Add(new(0, -maskSize.Y)),
+                ScreenRegionType.Center => maskPos.Add(new(0, maskSize.Y)),
+                ScreenRegionType.LoadingSpinner => maskPos.Add(new(0, -maskSize.Y)),
                 _ => Point.Zero
             };
 
@@ -343,6 +411,8 @@ namespace Kenedia.Modules.Core.Services
                 ScreenRegionType.TopRight => _topRightImage,
                 ScreenRegionType.BottomLeft => _bottomLeftImage,
                 ScreenRegionType.BottomRight => _bottomRightImage,
+                ScreenRegionType.Center => _centerImage,
+                ScreenRegionType.LoadingSpinner => _spinnerImage,
                 _ => null
             };
 
@@ -378,137 +448,32 @@ namespace Kenedia.Modules.Core.Services
             return images;
         }
 
-        /// <summary>
-        /// Captures the region for the spinner and checks if the spinner is visible/the region changes.
-        /// </summary>
-        private void CaptureRightBottom()
-        {
-            if (_bottomRightImages.lastImage is not null) _bottomRightImages.lastImage.Dispose();
-            if (_bottomRightImages.newImage is not null) _bottomRightImages.lastImage = _bottomRightImages.newImage;
-
-            RECT wndBounds = ClientWindowService.WindowBounds;
-            bool windowed = GameService.GameIntegration.GfxSettings.ScreenMode == Blish_HUD.GameIntegration.GfxSettings.ScreenModeSetting.Windowed;
-            RectangleDimensions offset = windowed ? SharedSettings.WindowOffset : new(0);
-
-            Gw2Sharp.Mumble.Models.UiSize uiSize = GameService.Gw2Mumble.UI.UISize;
-            Size size = new(100 + ((int)uiSize * 2), 128 + ((int)uiSize * 2));
-
-            var pos = new DrawPoint(-size.Width, -size.Height);
-
-            double factor = GameService.Graphics.UIScaleMultiplier;
-
-            _spinnerMask.Size = new((int)(size.Width * 2 * factor), (int)(size.Height * 2 * factor));
-            _spinnerMask.Location = new(GameService.Graphics.SpriteScreen.Right + (-_spinnerMask.Size.X), GameService.Graphics.SpriteScreen.Bottom + (-_spinnerMask.Size.Y));
-
-            try
-            {
-                Bitmap bitmap = new(size.Width, size.Height);
-                using var g = Graphics.FromImage(bitmap);
-                using MemoryStream s = new();
-
-                g.CopyFromScreen(new(wndBounds.Right + offset.Right + pos.X, wndBounds.Bottom + offset.Bottom + pos.Y - 30), DrawPoint.Empty, size);
-
-                _bottomRightImages.newImage = bitmap;
-            }
-            catch
-            {
-
-            }
-        }
-
-        private void CaptureRightTop()
-        {
-            _topRightImages.lastImage?.Dispose();
-            if (_topRightImages.newImage is not null) _topRightImages.lastImage = _topRightImages.newImage;
-
-            RECT wndBounds = ClientWindowService.WindowBounds;
-            bool windowed = GameService.GameIntegration.GfxSettings.ScreenMode == Blish_HUD.GameIntegration.GfxSettings.ScreenModeSetting.Windowed;
-            RectangleDimensions offset = windowed ? SharedSettings.WindowOffset : new(0);
-
-            Gw2Sharp.Mumble.Models.UiSize uiSize = GameService.Gw2Mumble.UI.UISize;
-            Size size = new(100 + ((int)uiSize * 2), 128 + ((int)uiSize * 2));
-
-            var pos = new DrawPoint(-size.Width, -size.Height);
-
-            double factor = GameService.Graphics.UIScaleMultiplier;
-
-            _spinnerMask.Size = new((int)(size.Width * 2 * factor), (int)(size.Height * 2 * factor));
-            _spinnerMask.Location = new(GameService.Graphics.SpriteScreen.Right + (-_spinnerMask.Size.X), GameService.Graphics.SpriteScreen.Bottom + (-_spinnerMask.Size.Y));
-
-            try
-            {
-                Bitmap bitmap = new(size.Width, size.Height);
-                using var g = Graphics.FromImage(bitmap);
-                using MemoryStream s = new();
-
-                g.CopyFromScreen(new(wndBounds.Right + offset.Right + pos.X, wndBounds.Bottom + offset.Bottom + pos.Y - 30), DrawPoint.Empty, size);
-
-                _topRightImages.newImage = bitmap;
-            }
-            catch
-            {
-
-            }
-        }
-
-        /// <summary>
-        /// Captures the region for the logout button and checks if the button is visible/the region changes.
-        /// </summary>
-        private void CaptureLeftBottom()
-        {
-            _bottomLeftImages.lastImage?.Dispose();
-            if (_bottomLeftImages.newImage is not null) _bottomLeftImages.lastImage = _bottomLeftImages.newImage;
-
-            RECT wndBounds = ClientWindowService.WindowBounds;
-            bool windowed = GameService.GameIntegration.GfxSettings.ScreenMode == Blish_HUD.GameIntegration.GfxSettings.ScreenModeSetting.Windowed;
-            RectangleDimensions offset = windowed ? SharedSettings.WindowOffset : new(0);
-
-            Gw2Sharp.Mumble.Models.UiSize uiSize = GameService.Gw2Mumble.UI.UISize;
-            Size size = new(50 + ((int)uiSize * 3), 40 + ((int)uiSize * 3));
-
-            var pos = new DrawPoint(0, -size.Height);
-
-            double factor = GameService.Graphics.UIScaleMultiplier;
-
-            _logoutMask.Size = new((int)(size.Width * 2 * factor), (int)(size.Height * 2 * factor));
-            _logoutMask.Location = new(GameService.Graphics.SpriteScreen.Left, GameService.Graphics.SpriteScreen.Bottom + (-_logoutMask.Size.Y));
-
-            try
-            {
-                Bitmap bitmap = new(size.Width, size.Height);
-                using var g = Graphics.FromImage(bitmap);
-                using MemoryStream s = new();
-
-                g.CopyFromScreen(new(wndBounds.Left + offset.Left, wndBounds.Bottom + offset.Bottom + pos.Y), DrawPoint.Empty, size);
-
-                _bottomLeftImages.newImage = bitmap;
-            }
-            catch
-            {
-
-            }
-        }
-
         private ScreenChanging IsScreenChanging()
         {
-            double topLeft = 0;
-            double topRight = 0;
-            double bottomLeft = 0;
-            double bottomRight = 0;
-
             double threshold = 0.999;
+            double loadingspinner;
+            double center;
+            double topLeft;
+            double topRight;
+            double bottomLeft;
+            double bottomRight;
+
             var changes = new ScreenChanging()
             {
                 IsTopLeftChanging = (topLeft = CompareImagesMSE(_topLeftImages = CaptureRegion(_topLeftImages, _topLeftMask, ScreenRegionType.TopLeft))) < threshold,
                 IsTopRightChanging = (topRight = CompareImagesMSE(_topRightImages = CaptureRegion(_topRightImages, _topRightMask, ScreenRegionType.TopRight))) < threshold,
                 IsBottomLeftChanging = (bottomLeft = CompareImagesMSE(_bottomLeftImages = CaptureRegion(_bottomLeftImages, _bottomLeftMask, ScreenRegionType.BottomLeft))) < threshold,
-                IsBottomRightChanging = (bottomRight = CompareImagesMSE(_bottomRightImages = CaptureRegion(_bottomRightImages, _bottomRightMask, ScreenRegionType.BottomRight))) < threshold
+                IsBottomRightChanging = (bottomRight = CompareImagesMSE(_bottomRightImages = CaptureRegion(_bottomRightImages, _bottomRightMask, ScreenRegionType.BottomRight))) < threshold,
+                IsSpinnerChanging = (loadingspinner = CompareImagesMSE(_spinnerImages = CaptureRegion(_spinnerImages, _spinnerMask, ScreenRegionType.LoadingSpinner))) < threshold,
+                IsCenterChanging = (center = CompareImagesMSE(_centerImages = CaptureRegion(_centerImages, _centerMask, ScreenRegionType.Center))) < threshold
             };
 
-            Debug.WriteLine($"Top Left: {topLeft} | Changing {topLeft < threshold}");
-            Debug.WriteLine($"Top Right: {topRight} | Changing {topRight < threshold}");
-            Debug.WriteLine($"Bottom Left: {bottomLeft} | Changing {bottomLeft < threshold}");
-            Debug.WriteLine($"Bottom Right: {bottomRight} | Changing {bottomRight < threshold}");
+            //Debug.WriteLine($"Top Left        : {topLeft < threshold} | {topLeft}");
+            //Debug.WriteLine($"Top Right       : {topRight < threshold} | {topRight}");
+            //Debug.WriteLine($"Bottom Left     : {bottomLeft < threshold} | {bottomLeft}");
+            //Debug.WriteLine($"Bottom Right    : {bottomRight < threshold} | {bottomRight}");
+            //Debug.WriteLine($"Loading Spinner : {loadingspinner < threshold} | {loadingspinner}");
+            //Debug.WriteLine($"Center          : {center < threshold} | {center}");
 
             return changes;
         }
@@ -547,81 +512,11 @@ namespace Kenedia.Modules.Core.Services
             return similarity;
         }
 
-        public bool IsButtonVisible()
-        {
-            RECT wndBounds = ClientWindowService.WindowBounds;
-            bool windowed = GameService.GameIntegration.GfxSettings.ScreenMode == Blish_HUD.GameIntegration.GfxSettings.ScreenModeSetting.Windowed;
-            RectangleDimensions offset = windowed ? SharedSettings.WindowOffset : new(0);
-
-            Gw2Sharp.Mumble.Models.UiSize uiSize = GameService.Gw2Mumble.UI.UISize;
-            Size size = new(50 + ((int)uiSize * 3), 40 + ((int)uiSize * 3));
-
-            var pos = new DrawPoint(0, -size.Height);
-
-            double factor = GameService.Graphics.UIScaleMultiplier;
-
-            _logoutMask.Size = new((int)(size.Width * 2 * factor), (int)(size.Height * 2 * factor));
-            _logoutMask.Location = new(GameService.Graphics.SpriteScreen.Left, GameService.Graphics.SpriteScreen.Bottom + (-_logoutMask.Size.Y));
-
-            using Bitmap bitmap = new(size.Width, size.Height);
-            using var g = Graphics.FromImage(bitmap);
-            using MemoryStream s = new();
-
-            g.CopyFromScreen(new(wndBounds.Left + offset.Left, wndBounds.Bottom + offset.Bottom + pos.Y), DrawPoint.Empty, size);
-
-            (Bitmap, bool, double) cutFilled = bitmap.IsCutAndCheckFilled(0.4, 0.7f);
-
-            return cutFilled.Item3 is > 0.35;
-        }
-
-        public bool IsLoadingSpinnerVisible()
-        {
-            RECT wndBounds = ClientWindowService.WindowBounds;
-            bool windowed = GameService.GameIntegration.GfxSettings.ScreenMode == Blish_HUD.GameIntegration.GfxSettings.ScreenModeSetting.Windowed;
-            RectangleDimensions offset = windowed ? SharedSettings.WindowOffset : new(0);
-
-            Gw2Sharp.Mumble.Models.UiSize uiSize = GameService.Gw2Mumble.UI.UISize;
-            Size size = new(64 + ((int)uiSize * 2), 64 + ((int)uiSize * 2));
-
-            var pos = new DrawPoint(-size.Width, -size.Height);
-
-            double factor = GameService.Graphics.UIScaleMultiplier;
-
-            _spinnerMask.Size = new((int)(size.Width * 2 * factor), (int)(size.Height * 2 * factor));
-            _spinnerMask.Location = new(GameService.Graphics.SpriteScreen.Right + (-_spinnerMask.Size.X), GameService.Graphics.SpriteScreen.Bottom + (-_spinnerMask.Size.Y));
-
-            try
-            {
-                using Bitmap bitmap = new(size.Width, size.Height);
-                using var g = Graphics.FromImage(bitmap);
-                using MemoryStream s = new();
-
-                g.CopyFromScreen(new(wndBounds.Right + offset.Right + pos.X, wndBounds.Bottom + offset.Bottom + pos.Y - 30), DrawPoint.Empty, size);
-                (Bitmap, bool, double) isFilled = bitmap.IsNotBlackAndCheckFilled(0.4);
-
-                if (isFilled.Item2) SaveResult(isFilled.Item3, _spinnerResults);
-            }
-            catch (Exception)
-            {
-
-            }
-
-            IEnumerable<double> uniques = _spinnerResults?.Distinct();
-
-            return uniques?.Count() >= 3;
-        }
-
-        private void SaveResult(double result, List<double> list)
-        {
-            list.Add(result);
-            if (list.Count > 4) list.RemoveAt(0);
-        }
-
-        private bool StatusConfirmed(GameStatus newStatus, List<GameStatus> resultList, int threshold = 3)
+        private bool StatusConfirmed(GameStatusType newStatus, List<GameStatusType> resultList, int threshold = 3)
         {
             resultList.Add(newStatus);
 
-            var partial = new List<GameStatus>();
+            var partial = new List<GameStatusType>();
             for (int i = resultList.Count - 1; i >= 0; i--)
             {
                 partial.Add(resultList[i]);
@@ -650,12 +545,14 @@ namespace Kenedia.Modules.Core.Services
 
             }
 
-            public ScreenChanging(bool isTopLeftChanging, bool isTopRightChanging, bool isBottomLeftChanging, bool isBottomRightChanging)
+            public ScreenChanging(bool isTopLeftChanging, bool isTopRightChanging, bool isBottomLeftChanging, bool isBottomRightChanging, bool isCenterChanging, bool isSpinnerChanging)
             {
                 IsTopLeftChanging = isTopLeftChanging;
                 IsTopRightChanging = isTopRightChanging;
                 IsBottomLeftChanging = isBottomLeftChanging;
                 IsBottomRightChanging = isBottomRightChanging;
+                IsCenterChanging = isCenterChanging;
+                IsSpinnerChanging = isSpinnerChanging;
             }
 
             public bool IsTopLeftChanging { get; set; }
@@ -665,6 +562,17 @@ namespace Kenedia.Modules.Core.Services
             public bool IsBottomLeftChanging { get; set; }
 
             public bool IsBottomRightChanging { get; set; }
+
+            public bool IsCenterChanging { get; set; }
+
+            public bool IsSpinnerChanging { get; set; }
+
+            public bool AreCornersChanging => IsTopLeftChanging || IsTopRightChanging || IsBottomLeftChanging || IsBottomRightChanging;
+
+            public bool AreAllChanging => AreCornersChanging && IsCenterChanging && IsSpinnerChanging;
+
+            public bool NoneChanging => !IsTopLeftChanging && !IsTopRightChanging && !IsBottomRightChanging && !IsBottomLeftChanging && !IsCenterChanging && !IsSpinnerChanging;
+
         }
     }
 }

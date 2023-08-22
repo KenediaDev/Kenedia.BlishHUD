@@ -12,11 +12,16 @@ using System.Threading;
 using System.Threading.Tasks;
 using Kenedia.Modules.Core.Services;
 using Kenedia.Modules.Core.Models;
+using Kenedia.Modules.Core.Structs;
+using Kenedia.Modules.Core.Utility;
+using Blish_HUD.Controls.Intern;
+using Mouse = Blish_HUD.Controls.Intern.Mouse;
 
 namespace Kenedia.Modules.QoL.SubModules.SkipCutscenes
 {
     public class SkipCutscenes : SubModule
     {
+        private Logger _logger = Logger.GetLogger(typeof(SkipCutscenes));
         private CancellationTokenSource _cts;
         private Point _resolution;
         private double _mumbleTick = 0;
@@ -24,6 +29,7 @@ namespace Kenedia.Modules.QoL.SubModules.SkipCutscenes
         private bool _clickAgain = false;
         private bool _sleptBeforeClick;
         private double _ticks;
+        private Point _mousePosition;
         private CinematicStateType _cutsceneState;
         private InteractStateType _moduleState;
         private readonly List<int> _introMaps = new()
@@ -47,6 +53,12 @@ namespace Kenedia.Modules.QoL.SubModules.SkipCutscenes
         public SkipCutscenes(SettingCollection settings, GameStateDetectionService gameStateDetectionService) : base(settings)
         {
             _gameStateDetectionService = gameStateDetectionService;
+            GameService.GameIntegration.Gw2Instance.Gw2LostFocus += Gw2Instance_Gw2LostFocus;
+        }
+
+        private void Gw2Instance_Gw2LostFocus(object sender, EventArgs e)
+        {
+            if (Enabled) Cancel();
         }
 
         public override SubModuleType SubModuleType => SubModuleType.SkipCutscenes;
@@ -92,12 +104,6 @@ namespace Kenedia.Modules.QoL.SubModules.SkipCutscenes
                 _mumbleTick = Mumble.Tick + 5;
                 return;
             }
-
-            if(!_inGame && Mumble.Tick > _mumbleTick)
-            {
-                //Debug.WriteLine($"Mumble.Tick: {Mumble.Tick} | _mumbleTick {_mumbleTick}");
-                HandleCutscene();
-            }
         }
 
         protected override void DefineSettings(SettingCollection settings)
@@ -114,8 +120,8 @@ namespace Kenedia.Modules.QoL.SubModules.SkipCutscenes
         {
             if (Enabled)
             {
-                _mumbleTick = GameService.Gw2Mumble.Tick + 250;
-                _cts?.Cancel();
+                _logger.Debug("Escape got pressed manually. Lets cancel!");
+                Cancel();
             }
         }
 
@@ -123,40 +129,47 @@ namespace Kenedia.Modules.QoL.SubModules.SkipCutscenes
         {
             base.Load();
 
-            _gameStateDetectionService.ChangedToCutscene += On_ChangedToCutscene;
-
-            _gameStateDetectionService.ChangedToIngame += CancelSkip_GameStateNoCutscene;
-            _gameStateDetectionService.ChangedToLoadingScreen += CancelSkip_GameStateNoCutscene;
-            _gameStateDetectionService.ChangedToCharacterSelection += CancelSkip_GameStateNoCutscene;
-
-            GameService.Gw2Mumble.CurrentMap.MapChanged += CurrentMap_MapChanged;
-            GameService.Gw2Mumble.PlayerCharacter.NameChanged += PlayerCharacter_NameChanged;
+            _gameStateDetectionService.GameStateChanged += On_GameStateChanged;
         }
 
-        private void CancelSkip_GameStateNoCutscene(object sender, GameStateChangedEventArgs e)
+        private async void On_GameStateChanged(object sender, GameStateChangedEventArgs e)
         {
-            Debug.WriteLine($"GAMESTATE CHANGED TO {e.Status}! Cancel Skipping!");
-            if (Enabled) Cancel();
-        }
+            _logger.Info($"Gamestate changed to {e.Status}");
+            switch (e.Status)
+            {
+                case GameStatusType.Vista:
+                    if (Enabled) await SkipVista();
+                    break;
 
-        private void On_ChangedToCutscene(object sender, GameStateChangedEventArgs e)
-        {
-            Debug.WriteLine($"GAMESTATE CHANGED TO {e.Status}! START SKIPPING!");
-            if (Enabled) HandleCutscene();
+                case GameStatusType.Cutscene:
+                    if (Enabled) await SkipCutscene();
+                    break;
+
+                default:
+                    if (Enabled) Cancel();
+                    break;
+            }
         }
 
         private void Cancel()
         {
             _mumbleTick = GameService.Gw2Mumble.Tick + 250;
+
+            if (_mousePosition != Point.Zero)
+                Mouse.SetPosition(_mousePosition.X, _mousePosition.Y, true);
+
             _cts?.Cancel();
+            _cts = null;
+
+            _mousePosition = Point.Zero;
         }
 
         public override void Unload()
         {
             base.Unload();
 
-            GameService.Gw2Mumble.CurrentMap.MapChanged -= CurrentMap_MapChanged;
-            GameService.Gw2Mumble.PlayerCharacter.NameChanged -= PlayerCharacter_NameChanged;
+            _gameStateDetectionService.GameStateChanged -= On_GameStateChanged;
+            Cancel_Key.Value.Activated -= Cancel_Key_Activated;
         }
 
         private void PlayerCharacter_NameChanged(object sender, ValueEventArgs<string> e)
@@ -179,27 +192,65 @@ namespace Kenedia.Modules.QoL.SubModules.SkipCutscenes
             }
         }
 
-        private void HandleCutscene()
-        {
-            _cts ??= new CancellationTokenSource();
-
-            _ = Task.Run(SkipCutscene, _cts.Token);
-        }
-
         private async Task SkipCutscene()
         {
+            try
+            {
+                _cts ??= new CancellationTokenSource();
 
-            Debug.WriteLine($"SkipCutscene");
+                _logger.Info($"SkipCutscene");
+                _logger.Info($"Press Escape and wait a bit");
+                await Input.SendKey(Keys.Escape, false);
+                await Task.Delay(250, _cts.Token);
+
+                if (_cts is null || _cts.Token.IsCancellationRequested) return;
+
+                _logger.Info($"We are still in the cutscene lets try with mouse.");
+                var pos = QoL.ModuleInstance.Services.ClientWindowService.WindowBounds;
+                var p = new Point(pos.Right - 50, pos.Bottom - 35);
+                var m = GameService.Input.Mouse.Position;
+                double factor = GameService.Graphics.UIScaleMultiplier;
+
+                bool windowed = GameService.GameIntegration.GfxSettings.ScreenMode == Blish_HUD.GameIntegration.GfxSettings.ScreenModeSetting.Windowed;
+                RectangleDimensions offset = windowed ? QoL.ModuleInstance.Services.SharedSettings.WindowOffset : new(0);
+
+                _mousePosition = new(pos.Left + (int)(m.X * factor) + offset.Left, pos.Top + offset.Top + (int)(m.Y * factor));
+
+                for (int i = 0; i < 3; i++)
+                {
+                    Mouse.SetPosition(p.X, p.Y, true);
+                    if (_cts is null || _cts.Token.IsCancellationRequested) return;
+
+                    await Task.Delay(25, _cts.Token);
+                    if (_cts is null || _cts.Token.IsCancellationRequested) return;
+
+                    _logger.Info($"Click with the mouse in the bottom right corner.");
+                    Mouse.Click(MouseButton.LEFT, p.X, p.Y, true);
+                    if (_cts is null || _cts.Token.IsCancellationRequested) return;
+
+                    await Task.Delay(125, _cts.Token);
+                    if (_cts is null || _cts.Token.IsCancellationRequested) return;
+                }
+            }
+            catch (TaskCanceledException)
+            {
+
+            }
         }
 
-        private async Task SkipCutsceneWithEscape()
+        private async Task SkipVista()
         {
+            try
+            {
+                _cts ??= new CancellationTokenSource();
 
-        }
+                _logger.Info($"Skip Vista with Escape.");
+                await Input.SendKey(Keys.Escape, false);
+            }
+            catch (TaskCanceledException)
+            {
 
-        private async Task SkipCutsceneWithMouse()
-        {
-
+            }
         }
     }
 }

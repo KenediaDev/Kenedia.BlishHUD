@@ -42,12 +42,10 @@ namespace Kenedia.Modules.QoL.SubModules
                 HoveredTexture = QoL.ModuleInstance.ContentsManager.GetTexture($@"textures\{SubModuleType}_Hovered.png"),
             };
 
-            ToggleControl = new ImageToggle()
+            ToggleControl = new()
             {
-                Texture = Icon.Texture,
-                HoveredTexture = Icon.HoveredTexture,
+                Icon = Icon,
                 BasicTooltipText = SubModuleType.ToString(),
-                ActiveColor = Colors.Chardonnay,
                 Checked = EnabledSetting.Value,
                 Size = new(32),
                 Visible = EnabledSetting.Value,
@@ -63,7 +61,7 @@ namespace Kenedia.Modules.QoL.SubModules
 
         public Func<string> LocalizedDescription { get => _localizedDescription; set => Common.SetProperty(ref _localizedDescription, value); }
 
-        public ImageToggle ToggleControl { get; }
+        public HotbarButton ToggleControl { get; }
 
         public DetailedTexture Icon { get; }
 
@@ -85,7 +83,7 @@ namespace Kenedia.Modules.QoL.SubModules
             (e.NewValue ? (Action)Enable : Disable)();
             EnabledSetting.Value = e.NewValue;
 
-            if (ToggleControl is ImageToggle toggle)
+            if (ToggleControl is HotbarButton toggle)
             {
                 toggle.Checked = Enabled;
                 ToggleControl?.Parent?.RecalculateLayout();

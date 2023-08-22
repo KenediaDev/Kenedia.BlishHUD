@@ -203,8 +203,8 @@ namespace Kenedia.Modules.Characters
         {
             await base.LoadAsync();
 
-            CharacterSwapping = new(Settings, Services.GameState, CharacterModels);
-            CharacterSorting = new(Settings, Services.GameState, CharacterModels);
+            CharacterSwapping = new(Settings, Services.GameStateDetectionService, CharacterModels);
+            CharacterSorting = new(Settings, Services.GameStateDetectionService, CharacterModels);
 
             CharacterSwapping.CharacterSorting = CharacterSorting;
             CharacterSorting.CharacterSwapping = CharacterSwapping;

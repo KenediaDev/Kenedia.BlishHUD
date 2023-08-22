@@ -5,7 +5,7 @@ namespace Kenedia.Modules.Core.Models
 {
     public class GameStateChangedEventArgs : EventArgs
     {
-        public GameStatus OldStatus;
-        public GameStatus Status;
+        public GameStatusType OldStatus;
+        public GameStatusType Status;
     }
 }

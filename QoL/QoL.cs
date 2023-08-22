@@ -76,7 +76,8 @@ namespace Kenedia.Modules.QoL
         {
             base.Update(gameTime);
 
-            Hotbar.Visible = GameService.GameIntegration.Gw2Instance.IsInGame && !GameService.Gw2Mumble.UI.IsMapOpen;
+            if(Hotbar is not null)
+                Hotbar.Visible = GameService.GameIntegration.Gw2Instance.IsInGame && !GameService.Gw2Mumble.UI.IsMapOpen;
 
             foreach (var subModule in SubModules)
             {
