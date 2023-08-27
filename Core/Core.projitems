@@ -63,6 +63,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\ColorExtension.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\ContainerExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\ControlExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Extensions\DirectoryExtension.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\DisposableExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\EnumExtension.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\FileExtension.cs" />

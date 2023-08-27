@@ -24,7 +24,7 @@ namespace Kenedia.Modules.Core.Utility
             var temp = property;
             if (SetProperty(ref property, newValue))
             {
-                if (triggerOnUpdate) OnUpdated?.Invoke(property, new(property, newValue));
+                if (triggerOnUpdate) OnUpdated?.Invoke(property, new(temp, newValue));
 
                 return true;
             }

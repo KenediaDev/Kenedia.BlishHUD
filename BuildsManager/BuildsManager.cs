@@ -81,12 +81,6 @@ namespace Kenedia.Modules.BuildsManager
 
             Paths = new(DirectoriesManager, Name);
 
-            JsonConvert.DefaultSettings = () => new JsonSerializerSettings
-            {
-                Formatting = Formatting.Indented,
-                NullValueHandling = NullValueHandling.Ignore,
-            };
-
             Logger.Info($"Starting {Name} v." + Version.BaseVersion());
             Data = new(ContentsManager, Paths);
         }
