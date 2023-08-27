@@ -41,10 +41,7 @@ namespace Kenedia.Modules.Characters.Models
             using var httpClient = new HttpClient();
             string content = await httpClient.GetStringAsync(Url);
 
-            string jsonStart = "{\"BetaStart\":" + JsonConvert.SerializeObject(DateTime.UtcNow) + ",\n";
-            string jsonEnd = "\"BetaEnd\":" + JsonConvert.SerializeObject(DateTime.UtcNow.AddSeconds(15)) + "}";
-
-            var info = JsonConvert.DeserializeObject<StaticInfo>(jsonStart + jsonEnd);
+            var info = JsonConvert.DeserializeObject<StaticInfo>(content);
             return info;
         }
 
