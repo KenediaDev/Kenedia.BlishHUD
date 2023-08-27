@@ -498,6 +498,7 @@ namespace Kenedia.Modules.Characters.Controls
                 _image.Texture = Character.Icon;
                 _name.Text = Character.Name;
                 _show.Checked = Character.Show;
+                _beta.Checked = Character.Beta;
                 _radial.Checked = Character.ShowOnRadial;
                 _birthdayButton.BasicTooltipText = _birthdayButton.SetLocalizedTooltip?.Invoke();
                 _birthdayButton.Visible = Character.HadBirthday;

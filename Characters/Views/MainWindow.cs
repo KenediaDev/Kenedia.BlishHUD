@@ -24,6 +24,7 @@ using StandardWindow = Kenedia.Modules.Core.Views.StandardWindow;
 using System.Threading.Tasks;
 using Kenedia.Modules.Core.Utility;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 
 namespace Kenedia.Modules.Characters.Views
 {
@@ -464,7 +465,7 @@ namespace Kenedia.Modules.Characters.Views
                                                                                                      let toggleResult = toggleFilters.Count == 0 || (include == FilterResult(c))
                                                                                                      let stringsResult = stringFilters.Count == 0 || (include == StringFilterResult(c))
                                                                                                      let tagsResult = tagFilters.Count == 0 || (include == TagResult(c))
-                                                                                                     let betaResult = (_data.StaticInfo.IsBeta && c.Beta) || !c.Beta
+                                                                                                     let betaResult = (_data.StaticInfo.IsBeta && c.Beta) || toggleFilters.Where(e => e.Value.IsEnabled).Select(e => e.Key).Contains("Hidden") || !c.Beta
                                                                                                      select (ctrl, toggleResult, stringsResult, tagsResult, betaResult))
             {
                 ctrl.Visible = toggleResult && stringsResult && tagsResult && betaResult;

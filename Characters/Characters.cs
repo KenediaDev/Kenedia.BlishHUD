@@ -596,7 +596,7 @@ namespace Kenedia.Modules.Characters
             }
 
             SearchFilters.Add("Birthday", new((c) => c.HasBirthdayPresent));
-            SearchFilters.Add("Hidden", new((c) => !c.Show));
+            SearchFilters.Add("Hidden", new((c) => !c.Show || (!Data.StaticInfo.IsBeta && c.Beta)));
             SearchFilters.Add("Female", new((c) => c.Gender == Gender.Female));
             SearchFilters.Add("Male", new((c) => c.Gender == Gender.Male));
         }
@@ -769,11 +769,8 @@ namespace Kenedia.Modules.Characters
             }
             catch (Exception ex)
             {
-                if (!_characterFileTokenSource.IsCancellationRequested)
-                {
-                    Logger.Warn(ex, "Failed to load the local characters from file '" + CharactersPath + "'.");
-                    File.Copy(CharactersPath, CharactersPath.Replace(".json", " [" + DateTimeOffset.Now.ToUnixTimeSeconds().ToString() + "].corrupted.json"));
-                }
+                Logger.Warn(ex, "Failed to load the local characters from file '" + CharactersPath + "'.");
+                File.Copy(CharactersPath, CharactersPath.Replace(".json", " [" + DateTimeOffset.Now.ToUnixTimeSeconds().ToString() + "].corrupted.json"));
 
                 return false;
             }
