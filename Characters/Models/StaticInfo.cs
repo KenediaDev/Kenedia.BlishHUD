@@ -12,8 +12,8 @@ namespace Kenedia.Modules.Characters.Models
         private bool _isBetaUpcoming = true;
         private bool _isBeta = false;
 
-        public static string rUrl = "https://bhm.blishhud.com/Kenedia.Modules.Characters/static_info.json";
-        public static string Url = "https://raw.githubusercontent.com/KenediaDev/Kenedia.BlishHUD/bhud-static/Kenedia.Modules.Characters/static_info.json";
+        public static string Url = "https://bhm.blishhud.com/Kenedia.Modules.Characters/static_info.json";
+        public static string githubUrl = "https://raw.githubusercontent.com/KenediaDev/Kenedia.BlishHUD/bhud-static/Kenedia.Modules.Characters/static_info.json";
 
         public StaticInfo(DateTime betaStart, DateTime betaEnd)
         {

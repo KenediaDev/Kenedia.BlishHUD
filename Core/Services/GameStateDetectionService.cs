@@ -204,7 +204,7 @@ namespace Kenedia.Modules.Core.Services
             else if (GameService.GameIntegration.Gw2Instance.Gw2HasFocus)
             {
                 // Throttle the check so we don't stress the CPU to badly with the checks
-                if (gameTime.TotalGameTime.TotalMilliseconds - _lastTick > 125)
+                if (gameTime.TotalGameTime.TotalMilliseconds - _lastTick > 200)
                 {
                     var sC = IsScreenChanging();
 
@@ -266,9 +266,6 @@ namespace Kenedia.Modules.Core.Services
                         NewStatus = GameStatusType.CharacterSelection;
                     }
                 }
-
-
-                Debug.WriteLine($"NewStatus: {NewStatus}");
             }
 
             if (NewStatus != GameStatusType.Unknown)
