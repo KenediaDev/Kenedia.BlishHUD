@@ -6,10 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
 using APISpecialization = Gw2Sharp.WebApi.V2.Models.Specialization;
-using Kenedia.Modules.Core.Utility;
-using Kenedia.Modules.Core.DataModels;
 using Kenedia.Modules.Core.Extensions;
-using Kenedia.Modules.Core.Models;
 
 namespace Kenedia.Modules.BuildsManager.DataModels.Professions
 {

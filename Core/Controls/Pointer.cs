@@ -6,8 +6,6 @@ using Microsoft.Xna.Framework.Graphics;
 using Control = Blish_HUD.Controls.Control;
 using Blish_HUD;
 using System;
-using System.Diagnostics;
-using NAudio.Dsp;
 
 namespace Kenedia.Modules.Core.Controls
 {

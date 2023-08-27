@@ -1,12 +1,7 @@
 ﻿using Newtonsoft.Json;
 using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
 using System.Net.Http;
 using System.Runtime.Serialization;
-using System.Security.Policy;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Kenedia.Modules.Characters.Models

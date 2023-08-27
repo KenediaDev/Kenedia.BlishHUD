@@ -8,14 +8,11 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using SizingMode = Blish_HUD.Controls.SizingMode;
 using Control = Blish_HUD.Controls.Control;
 using ControlFlowDirection = Blish_HUD.Controls.ControlFlowDirection;
 using Blish_HUD;
 using Blish_HUD.Input;
-using System.Diagnostics;
 
 namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
 {

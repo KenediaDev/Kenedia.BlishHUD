@@ -12,7 +12,6 @@ using Blish_HUD.Input;
 using Microsoft.Xna.Framework.Input;
 using System.Linq;
 using Kenedia.Modules.BuildsManager.Res;
-using MonoGame.Extended.TextureAtlases;
 
 namespace Kenedia.Modules.BuildsManager.Controls.GearPage
 {

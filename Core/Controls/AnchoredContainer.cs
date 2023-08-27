@@ -4,7 +4,6 @@ using Kenedia.Modules.Core.Structs;
 using Kenedia.Modules.Core.Utility;
 using Microsoft.Xna.Framework;
 using System;
-using System.Runtime.InteropServices;
 
 namespace Kenedia.Modules.Core.Controls
 {

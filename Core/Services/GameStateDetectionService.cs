@@ -8,15 +8,11 @@ using Bitmap = System.Drawing.Bitmap;
 using Graphics = System.Drawing.Graphics;
 using DrawPoint = System.Drawing.Point;
 using Point = Microsoft.Xna.Framework.Point;
-using Size = System.Drawing.Size;
-using Kenedia.Modules.Core.Extensions;
 using Kenedia.Modules.Core.Models;
 using System.Diagnostics;
-using Kenedia.Modules.Core.Utility;
 using Kenedia.Modules.Core.Structs;
 using static Kenedia.Modules.Core.Utility.WindowsUtil.User32Dll;
 using Kenedia.Modules.Core.Controls;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace Kenedia.Modules.Core.Services
 {
@@ -364,12 +360,12 @@ namespace Kenedia.Modules.Core.Services
                 IsCenterChanging = (center = CompareImagesMSE(_centerImages = CaptureRegion(_centerImages, _centerMask, ScreenRegionType.Center))) < threshold
             };
 
-            Debug.WriteLine($"Top Left        : {changes.IsTopLeftChanging} | {topLeft}");
-            Debug.WriteLine($"Top Right       : {changes.IsTopRightChanging} | {topRight}");
-            Debug.WriteLine($"Bottom Left     : {changes.IsBottomLeftChanging} | {bottomLeft}");
-            Debug.WriteLine($"Bottom Right    : {changes.IsBottomRightChanging} | {bottomRight}");
-            Debug.WriteLine($"Loading Spinner : {changes.IsSpinnerChanging} | {loadingspinner}");
-            Debug.WriteLine($"Center          : {changes.IsCenterChanging} | {center}");
+            //Debug.WriteLine($"Top Left        : {changes.IsTopLeftChanging} | {topLeft}");
+            //Debug.WriteLine($"Top Right       : {changes.IsTopRightChanging} | {topRight}");
+            //Debug.WriteLine($"Bottom Left     : {changes.IsBottomLeftChanging} | {bottomLeft}");
+            //Debug.WriteLine($"Bottom Right    : {changes.IsBottomRightChanging} | {bottomRight}");
+            //Debug.WriteLine($"Loading Spinner : {changes.IsSpinnerChanging} | {loadingspinner}");
+            //Debug.WriteLine($"Center          : {changes.IsCenterChanging} | {center}");
 
             return changes;
         }

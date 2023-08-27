@@ -17,8 +17,6 @@ using Specialization = Kenedia.Modules.BuildsManager.DataModels.Professions.Spec
 using Legend = Kenedia.Modules.BuildsManager.DataModels.Professions.Legend;
 using System.Threading;
 using Kenedia.Modules.Core.DataModels;
-using Gw2Sharp;
-using ApiSkill = Gw2Sharp.WebApi.V2.Models.Skill;
 using ApiPvpAmulet = Gw2Sharp.WebApi.V2.Models.PvpAmulet;
 using Kenedia.Modules.Core.Extensions;
 using Gw2Sharp.WebApi.Exceptions;

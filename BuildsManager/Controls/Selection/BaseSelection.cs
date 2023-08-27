@@ -1,5 +1,4 @@
-﻿using Kenedia.Modules.BuildsManager.Res;
-using Kenedia.Modules.Core.Controls;
+﻿using Kenedia.Modules.Core.Controls;
 using Kenedia.Modules.Core.Res;
 using Microsoft.Xna.Framework;
 using System;

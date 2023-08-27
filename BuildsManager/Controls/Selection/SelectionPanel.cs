@@ -6,16 +6,13 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using static Blish_HUD.ContentService;
-using Kenedia.Modules.Core.Extensions;
 using Kenedia.Modules.Core.Utility;
-using Blish_HUD.Content;
 using Blish_HUD.Controls;
 using Kenedia.Modules.BuildsManager.Views;
 using Kenedia.Modules.BuildsManager.Models;
 using System.Collections.Generic;
 using System.Linq;
 using Kenedia.Modules.BuildsManager.Res;
-using System.Diagnostics;
 
 namespace Kenedia.Modules.BuildsManager.Controls.Selection
 {

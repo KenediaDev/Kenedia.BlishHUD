@@ -1,10 +1,5 @@
 ﻿using Blish_HUD.Content;
-using System;
-using System.Collections.Generic;
-using System.Text;
-using Kenedia.Modules.Core.Services;
 using System.Drawing;
-using Microsoft.Xna.Framework;
 using Rectangle = Microsoft.Xna.Framework.Rectangle;
 using Kenedia.Modules.Core.Extensions;
 using System.IO;

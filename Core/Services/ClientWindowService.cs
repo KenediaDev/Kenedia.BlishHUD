@@ -1,8 +1,6 @@
 ﻿using Blish_HUD;
-using Blish_HUD.Content;
 using Microsoft.Xna.Framework;
 using System;
-using System.IO;
 using static Kenedia.Modules.Core.Utility.WindowsUtil.User32Dll;
 
 namespace Kenedia.Modules.Core.Services

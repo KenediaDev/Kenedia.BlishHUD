@@ -1,15 +1,12 @@
 ﻿using Blish_HUD;
-using Blish_HUD.Content;
 using Blish_HUD.Controls;
 using Blish_HUD.Modules;
 using Blish_HUD.Settings;
 using Kenedia.Modules.Core.Controls;
-using Kenedia.Modules.Core.Extensions;
 using Kenedia.Modules.Core.Models;
 using Kenedia.Modules.QoL.Services;
 using Kenedia.Modules.QoL.SubModules;
 using Kenedia.Modules.QoL.SubModules.CopyItemName;
-using Kenedia.Modules.QoL.SubModules.EnhancedCrosshair;
 using Kenedia.Modules.QoL.SubModules.GameResets;
 using Kenedia.Modules.QoL.SubModules.ItemDestruction;
 using Kenedia.Modules.QoL.SubModules.SkipCutscenes;
@@ -17,13 +14,10 @@ using Kenedia.Modules.QoL.SubModules.WaypointPaste;
 using Kenedia.Modules.QoL.SubModules.WikiSearch;
 using Kenedia.Modules.QoL.SubModules.ZoomOut;
 using Microsoft.Xna.Framework;
-using MonoGame.Extended.Timers;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
-using System.Diagnostics;
 using System.Threading.Tasks;
-using static Blish_HUD.ContentService;
 
 namespace Kenedia.Modules.QoL
 {

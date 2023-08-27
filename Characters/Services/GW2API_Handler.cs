@@ -1,5 +1,4 @@
-﻿using Blish_HUD.Controls;
-using Blish_HUD.Modules.Managers;
+﻿using Blish_HUD.Modules.Managers;
 using Kenedia.Modules.Characters.Res;
 using Gw2Sharp.WebApi.V2;
 using Gw2Sharp.WebApi.V2.Models;
@@ -23,7 +22,6 @@ using Kenedia.Modules.Core.Controls;
 using System.Text.RegularExpressions;
 using Kenedia.Modules.Core.Res;
 using LoadingSpinner = Kenedia.Modules.Core.Controls.LoadingSpinner;
-using System.Diagnostics;
 
 namespace Kenedia.Modules.Characters.Services
 {

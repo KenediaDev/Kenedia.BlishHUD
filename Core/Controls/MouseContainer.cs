@@ -1,15 +1,10 @@
-﻿using Container = Blish_HUD.Controls.Container;
-using Control = Blish_HUD.Controls.Control;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System;
 using Microsoft.Xna.Framework;
 using Blish_HUD;
 using Kenedia.Modules.Core.Extensions;
 using Kenedia.Modules.Core.Models;
 using Kenedia.Modules.Core.Structs;
 using Microsoft.Xna.Framework.Graphics;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement.TrayNotify;
 
 namespace Kenedia.Modules.Core.Controls
 {

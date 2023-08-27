@@ -1,6 +1,5 @@
 ﻿using Blish_HUD.Content;
 using Kenedia.Modules.BuildsManager.Controls.BuildPage;
-using Kenedia.Modules.BuildsManager.Services;
 using Kenedia.Modules.Core.Views;
 using Microsoft.Xna.Framework;
 using Kenedia.Modules.Core.Services;

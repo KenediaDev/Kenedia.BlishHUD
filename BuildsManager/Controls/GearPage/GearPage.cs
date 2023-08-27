@@ -18,7 +18,6 @@ using Kenedia.Modules.BuildsManager.Controls.GearPage.GearSlots;
 using Kenedia.Modules.BuildsManager.Extensions;
 using Kenedia.Modules.BuildsManager.Res;
 using Kenedia.Modules.Core.Utility;
-using Kenedia.Modules.BuildsManager.DataModels.Professions;
 
 namespace Kenedia.Modules.BuildsManager.Controls.GearPage
 {

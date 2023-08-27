@@ -6,14 +6,7 @@ using Kenedia.Modules.Core.Utility;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using InputKeyboard = Blish_HUD.Controls.Intern.Keyboard;
 using Kenedia.Modules.Core.Extensions;
-using MonoGame.Extended;
 
 namespace Kenedia.Modules.QoL.SubModules.ZoomOut
 {

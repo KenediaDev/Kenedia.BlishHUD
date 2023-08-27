@@ -24,7 +24,6 @@ using StandardWindow = Kenedia.Modules.Core.Views.StandardWindow;
 using System.Threading.Tasks;
 using Kenedia.Modules.Core.Utility;
 using System.Collections.ObjectModel;
-using System.Diagnostics;
 
 namespace Kenedia.Modules.Characters.Views
 {

@@ -5,13 +5,8 @@ using Kenedia.Modules.Core.Utility;
 using Kenedia.Modules.Core.Res;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using SharpDX.MediaFoundation;
 using System;
 using System.Collections.Generic;
-using System.Text;
-using Kenedia.Modules.Core.Structs;
-using System.Linq;
-using System.Diagnostics;
 
 namespace Kenedia.Modules.Core.Controls
 {

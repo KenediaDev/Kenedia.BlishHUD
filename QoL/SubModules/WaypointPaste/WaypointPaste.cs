@@ -1,5 +1,4 @@
 ﻿using Blish_HUD;
-using Blish_HUD.Gw2Mumble;
 using Blish_HUD.Input;
 using Blish_HUD.Settings;
 using Kenedia.Modules.Core.Utility;
@@ -7,14 +6,10 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Keyboard = Blish_HUD.Controls.Intern.Keyboard;
 using Key = Blish_HUD.Controls.Extern.VirtualKeyShort;
-using System.Diagnostics;
 using Kenedia.Modules.Core.Extensions;
-using Blish_HUD.Controls.Extern;
 
 namespace Kenedia.Modules.QoL.SubModules.WaypointPaste
 {

@@ -22,7 +22,6 @@ using TextBox = Kenedia.Modules.Core.Controls.TextBox;
 using Kenedia.Modules.BuildsManager.Models;
 using Kenedia.Modules.BuildsManager.Res;
 using Gw2Sharp.WebApi;
-using System.Diagnostics;
 
 namespace Kenedia.Modules.BuildsManager.Controls.Selection
 {

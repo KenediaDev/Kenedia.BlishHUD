@@ -1,16 +1,11 @@
 ﻿using Control = Blish_HUD.Controls.Control;
 using System;
-using System.Collections.Generic;
-using System.Text;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
-using Blish_HUD.Content;
-using Blish_HUD;
 using Kenedia.Modules.Core.Models;
 using Kenedia.Modules.Core.Utility;
 using Blish_HUD.Input;
 using ICheckable = Blish_HUD.Controls.ICheckable;
-using System.Diagnostics;
 
 namespace Kenedia.Modules.Core.Controls
 {
