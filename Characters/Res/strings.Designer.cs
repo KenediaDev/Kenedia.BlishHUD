@@ -1305,6 +1305,24 @@ namespace Kenedia.Modules.Characters.Res {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Beta Character.
+        /// </summary>
+        internal static string IsBeta {
+            get {
+                return ResourceManager.GetString("IsBeta", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Is this a beta character?.
+        /// </summary>
+        internal static string IsBeta_Tooltip {
+            get {
+                return ResourceManager.GetString("IsBeta_Tooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to {0} Settings.
         /// </summary>
         internal static string ItemSettings {

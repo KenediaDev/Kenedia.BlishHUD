@@ -79,20 +79,7 @@ namespace Kenedia.Modules.Characters.Services
 
         public Action UpdateCharacterList { get; set; }
 
-        private List<Character_Model> Characters
-        {
-            get
-            {
-                if (_settings?.IncludeBetaCharacters.Value == true)
-                {
-                    return _rawCharacterModels.ToList();
-                }
-                else
-                {
-                    return _rawCharacterModels.Where(e => !e.Beta).ToList();
-                }
-            }
-        }
+        private List<Character_Model> Characters => Modules.Characters.Characters.ModuleInstance.Data.StaticInfo.IsBeta ? _rawCharacterModels.ToList() : _rawCharacterModels.Where(e => !e.Beta).ToList();
 
         public string Status
         {

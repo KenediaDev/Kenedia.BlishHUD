@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Net.Http;
 using System.Runtime.Serialization;
@@ -13,13 +14,19 @@ namespace Kenedia.Modules.Characters.Models
     [DataContract]
     public class StaticInfo
     {
-        public static string Url = "https://bhm.blishhud.com/Kenedia.Modules.Characters/static_info.json";
+        private bool _isBetaUpcoming = true;
+        private bool _isBeta = false;
+
+        public static string rUrl = "https://bhm.blishhud.com/Kenedia.Modules.Characters/static_info.json";
+        public static string Url = "https://raw.githubusercontent.com/KenediaDev/Kenedia.BlishHUD/bhud-static/Kenedia.Modules.Characters/static_info.json";
 
         public StaticInfo(DateTime betaStart, DateTime betaEnd)
         {
             BetaStart = betaStart;
             BetaEnd = betaEnd;
         }
+
+        public event EventHandler<bool> BetaStateChanged;
 
         [DataMember]
         public DateTime BetaStart { get; private set; }
@@ -34,8 +41,25 @@ namespace Kenedia.Modules.Characters.Models
             using var httpClient = new HttpClient();
             string content = await httpClient.GetStringAsync(Url);
 
-            var info = JsonConvert.DeserializeObject<StaticInfo>(content);
+            string jsonStart = "{\"BetaStart\":" + JsonConvert.SerializeObject(DateTime.UtcNow) + ",\n";
+            string jsonEnd = "\"BetaEnd\":" + JsonConvert.SerializeObject(DateTime.UtcNow.AddSeconds(15)) + "}";
+
+            var info = JsonConvert.DeserializeObject<StaticInfo>(jsonStart + jsonEnd);
             return info;
+        }
+
+        public void CheckBeta()
+        {
+            if (!_isBetaUpcoming) return;
+            _isBetaUpcoming = DateTime.UtcNow < BetaEnd;
+
+            if (_isBeta != IsBeta)
+            {
+                _isBeta = IsBeta;
+
+                Characters.Logger.Debug($"Beta has {(IsBeta ? "started." : "ended.")}");
+                BetaStateChanged?.Invoke(this, _isBeta);
+            }
         }
     }
 }

@@ -1031,4 +1031,10 @@ Ruta a 'tesseract.dll': {0}</value>
   <data name="IncludeBetaCharacters_Tooltip" xml:space="preserve">
     <value>Incluir personajes que sólo están disponibles durante una beta. Esta opción debe activarse y desactivarse manualmente</value>
   </data>
+  <data name="IsBeta" xml:space="preserve">
+    <value>Carácter Beta</value>
+  </data>
+  <data name="IsBeta_Tooltip" xml:space="preserve">
+    <value>¿Es un personaje beta?</value>
+  </data>
 </root>

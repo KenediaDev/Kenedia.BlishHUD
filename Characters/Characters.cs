@@ -213,6 +213,13 @@ namespace Kenedia.Modules.Characters
             await Data.Load();
 
             if (Settings.LoadCachedAccounts.Value) _ = await LoadCharacters();
+
+            Data.StaticInfo.BetaStateChanged += StaticInfo_BetaStateChanged;
+        }
+
+        private void StaticInfo_BetaStateChanged(object sender, bool e)
+        {
+            MainWindow?.AdjustForBeta();
         }
 
         protected override void OnModuleLoaded(EventArgs e)
@@ -275,6 +282,8 @@ namespace Kenedia.Modules.Characters
                 {
                     CurrentCharacterModel?.UpdateCharacter(player);
                 }
+
+                Data?.StaticInfo?.CheckBeta();
             }
 
             if (_ticks.APIUpdate > 300)

@@ -83,20 +83,7 @@ namespace Kenedia.Modules.Characters.Services
 
         public Character_Model Character { get; set; }
 
-        private List<Character_Model> CharacterModels
-        {
-            get
-            {
-                if (_settings?.IncludeBetaCharacters.Value == true)
-                {
-                    return _rawCharacterModels.ToList();
-                }
-                else
-                {
-                    return _rawCharacterModels.Where(e => !e.Beta).ToList();
-                }
-            }
-        }
+        private List<Character_Model> CharacterModels => Characters.ModuleInstance.Data.StaticInfo.IsBeta ? _rawCharacterModels.ToList() : _rawCharacterModels.Where(e => !e.Beta).ToList();
 
         private bool IsTaskCanceled(CancellationToken cancellationToken)
         {

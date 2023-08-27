@@ -43,6 +43,7 @@ namespace Kenedia.Modules.Characters.Controls
         private readonly Label _name;
         private readonly Checkbox _show;
         private readonly Checkbox _radial;
+        private readonly Checkbox _beta;
         private readonly ImageButton _birthdayButton;
         private readonly Panel _buttonContainer;
         private readonly Button _captureImages;
@@ -137,6 +138,19 @@ namespace Kenedia.Modules.Characters.Controls
                 },
             };
 
+            _beta = new Checkbox()
+            {
+                Parent = this,
+                Location = new Point(_image.Right + 5 + 2, _radial.Bottom),
+                Size = new Point(100, 21),
+                SetLocalizedText = () => strings.IsBeta,
+                SetLocalizedTooltip = () => strings.IsBeta_Tooltip,
+                CheckedChangedAction = (b) =>
+                {
+                    if (Character is not null) Character.Beta = b;
+                },
+            };
+
             _delete = new()
             {
                 Parent = this,
@@ -214,7 +228,7 @@ namespace Kenedia.Modules.Characters.Controls
             _tagContainer = new Panel()
             {
                 Parent = this,
-                Location = new Point(0, _image.Bottom + 5 + 2),
+                Location = new Point(0, _beta.Bottom + 5 + 2),
                 Width = 355,
                 HeightSizingMode = SizingMode.AutoSize,
             };

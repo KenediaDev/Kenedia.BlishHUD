@@ -270,11 +270,6 @@ namespace Kenedia.Modules.Characters.Views
 
         private void IncludeBetaCharacters_SettingChanged(object sender, ValueChangedEventArgs<bool> e)
         {
-            LoadedModels?.Clear();
-            CharactersPanel?.ClearChildren();
-            CharacterCards?.Clear();
-
-            CreateCharacterControls();
         }
 
         private void CollapseWrapper_Hidden(object sender, EventArgs e)
@@ -284,20 +279,7 @@ namespace Kenedia.Modules.Characters.Views
 
         public List<Character_Model> LoadedModels { get; } = new();
 
-        private List<Character_Model> CharacterModels
-        {
-            get
-            {
-                if (_settings?.IncludeBetaCharacters.Value == true)
-                {
-                    return _rawCharacterModels.ToList();
-                }
-                else
-                {
-                    return _rawCharacterModels.Where(e => !e.Beta).ToList();
-                }
-            }
-        }
+        private List<Character_Model> CharacterModels => _rawCharacterModels.ToList();
 
         private void FilterDelay_SettingChanged(object sender, ValueChangedEventArgs<int> e)
         {
@@ -476,15 +458,16 @@ namespace Kenedia.Modules.Characters.Views
                 return matchAll && results.Count(e => e == true) >= strings.Count;
             }
 
-            foreach ((CharacterCard ctrl, bool toggleResult, bool stringsResult, bool tagsResult) in from CharacterCard ctrl in CharactersPanel.Children
+            foreach ((CharacterCard ctrl, bool toggleResult, bool stringsResult, bool tagsResult, bool betaResult) in from CharacterCard ctrl in CharactersPanel.Children
                                                                                                      let c = ctrl.Character
                                                                                                      where c is not null
                                                                                                      let toggleResult = toggleFilters.Count == 0 || (include == FilterResult(c))
                                                                                                      let stringsResult = stringFilters.Count == 0 || (include == StringFilterResult(c))
                                                                                                      let tagsResult = tagFilters.Count == 0 || (include == TagResult(c))
-                                                                                                     select (ctrl, toggleResult, stringsResult, tagsResult))
+                                                                                                     let betaResult = (_data.StaticInfo.IsBeta && c.Beta) || !c.Beta
+                                                                                                     select (ctrl, toggleResult, stringsResult, tagsResult, betaResult))
             {
-                ctrl.Visible = toggleResult && stringsResult && tagsResult;
+                ctrl.Visible = toggleResult && stringsResult && tagsResult && betaResult;
             }
 
             SortCharacters();
@@ -850,6 +833,15 @@ namespace Kenedia.Modules.Characters.Views
             {
                 _collapseWrapper.Height = _collapseWrapper.TitleBarHeight;
             }
+        }
+
+        public void AdjustForBeta()
+        {
+            LoadedModels?.Clear();
+            CharactersPanel?.ClearChildren();
+            CharacterCards?.Clear();
+
+            CreateCharacterControls();
         }
     }
 }

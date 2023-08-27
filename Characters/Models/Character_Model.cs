@@ -69,7 +69,7 @@ namespace Kenedia.Modules.Characters.Models
 
             _name = character.Name;
             _level = character.Level;
-            _beta = _beta || character.Flags.ToList().Contains(CharacterFlag.Beta);
+            //_beta = _beta || character.Flags.ToList().Contains(CharacterFlag.Beta);
 
             _race = (RaceType)Enum.Parse(typeof(RaceType), character.Race);
             _profession = (ProfessionType)Enum.Parse(typeof(ProfessionType), character.Profession);
@@ -545,7 +545,7 @@ namespace Kenedia.Modules.Characters.Models
             _name = character.Name;
             _level = character.Level;
 
-            _beta = _beta || character.Flags.ToList().Contains(CharacterFlag.Beta);
+            //_beta = _beta || character.Flags.ToList().Contains(CharacterFlag.Beta);
 
             _race = (RaceType)Enum.Parse(typeof(RaceType), character.Race);
             _profession = (ProfessionType)Enum.Parse(typeof(ProfessionType), character.Profession);

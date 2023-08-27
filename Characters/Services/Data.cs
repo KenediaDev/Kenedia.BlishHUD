@@ -1188,9 +1188,6 @@ namespace Kenedia.Modules.Characters.Services
             {
                 StaticInfo = await StaticInfo.GetStaticInfo();
 
-                Debug.WriteLine($"BetaStart: {StaticInfo.BetaStart}");
-                Debug.WriteLine($"BetaEnd: {StaticInfo.BetaEnd}");
-
                 if (File.Exists(path))
                 {
                     string jsonString = await new StreamReader(path).ReadToEndAsync();

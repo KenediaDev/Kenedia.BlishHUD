@@ -1031,4 +1031,10 @@ Chemin d'accès au fichier 'tesseract.dll' : {0}</value>
   <data name="IncludeBetaCharacters_Tooltip" xml:space="preserve">
     <value>Inclure les personnages qui ne sont disponibles que pendant une bêta. Cette option doit être activée ou désactivée manuellement</value>
   </data>
+  <data name="IsBeta" xml:space="preserve">
+    <value>Caractère bêta</value>
+  </data>
+  <data name="IsBeta_Tooltip" xml:space="preserve">
+    <value>S'agit-il d'un personnage bêta ?</value>
+  </data>
 </root>

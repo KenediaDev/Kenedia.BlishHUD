@@ -425,6 +425,7 @@
     <EmbeddedResource Include="Res\strings.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>strings.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="..\Core\Core.projitems" Label="Shared" />
