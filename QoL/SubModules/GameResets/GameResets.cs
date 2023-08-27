@@ -100,7 +100,8 @@ namespace Kenedia.Modules.QoL.SubModules.GameResets
             base.Unload();
             GameService.Gw2Mumble.UI.CompassSizeChanged -= UI_CompassSizeChanged;
             GameService.Gw2Mumble.UI.IsCompassTopRightChanged -= UI_IsCompassTopRightChanged;
-            QoL.ModuleInstance.Services.ClientWindowService.ResolutionChanged -= ClientWindowService_ResolutionChanged;
+            if (QoL.ModuleInstance is not null)
+                QoL.ModuleInstance.Services.ClientWindowService.ResolutionChanged -= ClientWindowService_ResolutionChanged;
         }
 
         private void UI_IsCompassTopRightChanged(object sender, ValueEventArgs<bool> e)
@@ -127,7 +128,7 @@ namespace Kenedia.Modules.QoL.SubModules.GameResets
 
         public override void Update(GameTime gameTime)
         {
-            if(!Enabled) return;
+            if (!Enabled) return;
             _container.Visible = Enabled && GameService.GameIntegration.Gw2Instance.IsInGame && !GameService.Gw2Mumble.UI.IsMapOpen;
             SetTexts();
             SetPositions();

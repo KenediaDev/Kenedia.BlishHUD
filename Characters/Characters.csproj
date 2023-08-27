@@ -299,6 +299,7 @@
     <Compile Include="Models\Crafting_Model.cs" />
     <Compile Include="Models\OldCharacterModel.cs" />
     <Compile Include="Models\ShowCheckPair.cs" />
+    <Compile Include="Models\StaticInfo.cs" />
     <Compile Include="Models\TagList.cs" />
     <Compile Include="OCR\OCR.cs" />
     <Compile Include="Models\SearchFilterCollection.cs" />
@@ -332,6 +333,7 @@
     <None Include="ref\data\professions.json" />
     <None Include="ref\data\races.json" />
     <None Include="ref\data\specialization.json" />
+    <None Include="StaticHosting\static_info.json" />
     <None Include="tessdata\configs\config.cfg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

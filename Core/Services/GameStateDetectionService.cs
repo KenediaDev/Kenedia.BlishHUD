@@ -197,6 +197,7 @@ namespace Kenedia.Modules.Core.Services
                 _topRightMask.Hide();
                 _bottomLeftMask.Hide();
                 _bottomRightMask.Hide();
+                _spinnerMask.Hide();
             }
 
             else if (GameStatus is GameStatusType.None)
@@ -207,7 +208,7 @@ namespace Kenedia.Modules.Core.Services
             else if (GameService.GameIntegration.Gw2Instance.Gw2HasFocus)
             {
                 // Throttle the check so we don't stress the CPU to badly with the checks
-                if (gameTime.TotalGameTime.TotalMilliseconds - _lastTick > 250)
+                if (gameTime.TotalGameTime.TotalMilliseconds - _lastTick > 125)
                 {
                     var sC = IsScreenChanging();
 
@@ -215,6 +216,7 @@ namespace Kenedia.Modules.Core.Services
                     _topRightMask.Show();
                     _bottomLeftMask.Show();
                     _bottomRightMask.Show();
+                    _spinnerMask.Show();
 
                     _lastTick = gameTime.TotalGameTime.TotalMilliseconds;
 
@@ -268,11 +270,14 @@ namespace Kenedia.Modules.Core.Services
                         NewStatus = GameStatusType.CharacterSelection;
                     }
                 }
+
+
+                Debug.WriteLine($"NewStatus: {NewStatus}");
             }
 
             if (NewStatus != GameStatusType.Unknown)
             {
-                if (StatusConfirmed(NewStatus, _gameStatuses, NewStatus == GameStatusType.LoadingScreen ? 2 : 2))
+                if (StatusConfirmed(NewStatus, _gameStatuses, NewStatus == GameStatusType.LoadingScreen ? 3 : 8))
                 {
                     if (GameStatus != NewStatus)
                     {
@@ -296,7 +301,7 @@ namespace Kenedia.Modules.Core.Services
                 ScreenRegionType.BottomLeft => new(100, 25),
                 ScreenRegionType.BottomRight => new(100, 25),
                 ScreenRegionType.Center => new(100, 100),
-                ScreenRegionType.LoadingSpinner => new(100, 150),
+                ScreenRegionType.LoadingSpinner => new(100, 100),
                 _ => Point.Zero
             };
 
@@ -307,7 +312,7 @@ namespace Kenedia.Modules.Core.Services
                 ScreenRegionType.BottomLeft => new(0, b.Height - maskSize.Y),
                 ScreenRegionType.BottomRight => new(b.Width - maskSize.X, b.Height - maskSize.Y),
                 ScreenRegionType.Center => new(b.Center.X - (maskSize.X / 2), b.Center.Y - (maskSize.Y / 2)),
-                ScreenRegionType.LoadingSpinner => new(b.Width - maskSize.X, b.Height - maskSize.Y),
+                ScreenRegionType.LoadingSpinner => new(b.Width - maskSize.X, b.Height - maskSize.Y - 50),
                 _ => Point.Zero
             };
 
@@ -341,6 +346,7 @@ namespace Kenedia.Modules.Core.Services
         private ScreenChanging IsScreenChanging()
         {
             double threshold = 0.999;
+            double spinner_threshold = 1;
             double loadingspinner;
             double center;
             double topLeft;
@@ -354,16 +360,16 @@ namespace Kenedia.Modules.Core.Services
                 IsTopRightChanging = (topRight = CompareImagesMSE(_topRightImages = CaptureRegion(_topRightImages, _topRightMask, ScreenRegionType.TopRight))) < threshold,
                 IsBottomLeftChanging = (bottomLeft = CompareImagesMSE(_bottomLeftImages = CaptureRegion(_bottomLeftImages, _bottomLeftMask, ScreenRegionType.BottomLeft))) < threshold,
                 IsBottomRightChanging = (bottomRight = CompareImagesMSE(_bottomRightImages = CaptureRegion(_bottomRightImages, _bottomRightMask, ScreenRegionType.BottomRight))) < threshold,
-                IsSpinnerChanging = (loadingspinner = CompareImagesMSE(_spinnerImages = CaptureRegion(_spinnerImages, _spinnerMask, ScreenRegionType.LoadingSpinner))) < threshold,
+                IsSpinnerChanging = (loadingspinner = CompareImagesMSE(_spinnerImages = CaptureRegion(_spinnerImages, _spinnerMask, ScreenRegionType.LoadingSpinner))) < spinner_threshold,
                 IsCenterChanging = (center = CompareImagesMSE(_centerImages = CaptureRegion(_centerImages, _centerMask, ScreenRegionType.Center))) < threshold
             };
 
-            //Debug.WriteLine($"Top Left        : {topLeft < threshold} | {topLeft}");
-            //Debug.WriteLine($"Top Right       : {topRight < threshold} | {topRight}");
-            //Debug.WriteLine($"Bottom Left     : {bottomLeft < threshold} | {bottomLeft}");
-            //Debug.WriteLine($"Bottom Right    : {bottomRight < threshold} | {bottomRight}");
-            //Debug.WriteLine($"Loading Spinner : {loadingspinner < threshold} | {loadingspinner}");
-            //Debug.WriteLine($"Center          : {center < threshold} | {center}");
+            Debug.WriteLine($"Top Left        : {changes.IsTopLeftChanging} | {topLeft}");
+            Debug.WriteLine($"Top Right       : {changes.IsTopRightChanging} | {topRight}");
+            Debug.WriteLine($"Bottom Left     : {changes.IsBottomLeftChanging} | {bottomLeft}");
+            Debug.WriteLine($"Bottom Right    : {changes.IsBottomRightChanging} | {bottomRight}");
+            Debug.WriteLine($"Loading Spinner : {changes.IsSpinnerChanging} | {loadingspinner}");
+            Debug.WriteLine($"Center          : {changes.IsCenterChanging} | {center}");
 
             return changes;
         }

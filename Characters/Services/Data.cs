@@ -2,12 +2,14 @@
 using Blish_HUD.Content;
 using Blish_HUD.Modules.Managers;
 using Gw2Sharp.Models;
+using Kenedia.Modules.Characters.Models;
 using Kenedia.Modules.Core.DataModels;
 using Kenedia.Modules.Core.Models;
 using Microsoft.Xna.Framework.Graphics;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Threading.Tasks;
 using Color = Microsoft.Xna.Framework.Color;
@@ -1031,6 +1033,8 @@ namespace Kenedia.Modules.Characters.Services
             return Maps.ContainsKey(id) ? Maps[id] : new Map() { Name = "Unknown Map", Id = 0 };
         }
 
+        public StaticInfo StaticInfo { get; set; }
+
         public class CraftingProfession
         {
             public AsyncTexture2D Icon { get; set; }
@@ -1182,6 +1186,11 @@ namespace Kenedia.Modules.Characters.Services
             Characters.Logger.Info($"Trying to load Maps from {path}");
             try
             {
+                StaticInfo = await StaticInfo.GetStaticInfo();
+
+                Debug.WriteLine($"BetaStart: {StaticInfo.BetaStart}");
+                Debug.WriteLine($"BetaEnd: {StaticInfo.BetaEnd}");
+
                 if (File.Exists(path))
                 {
                     string jsonString = await new StreamReader(path).ReadToEndAsync();
