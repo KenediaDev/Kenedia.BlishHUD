@@ -9,6 +9,7 @@ using Kenedia.Modules.QoL.Res;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using System;
+using Kenedia.Modules.QoL.Views;
 
 namespace Kenedia.Modules.QoL.SubModules
 {
@@ -71,6 +72,8 @@ namespace Kenedia.Modules.QoL.SubModules
 
         public abstract void Update(GameTime gameTime);
 
+        public abstract void CreateSettingsPanel(FlowPanel flowPanel, int width);
+
         private void OnEnabledChanged(object sender, ValueChangedEventArgs<bool> e)
         {
 
@@ -108,7 +111,7 @@ namespace Kenedia.Modules.QoL.SubModules
         protected virtual void DefineSettings(SettingCollection settings)
         {
             Settings = settings.AddSubCollection($"{SubModuleType}", true);
-            Settings.RenderInUi = true;
+            Settings.RenderInUi = false;
 
             EnabledSetting = Settings.DefineSetting(nameof(EnabledSetting), false);
 

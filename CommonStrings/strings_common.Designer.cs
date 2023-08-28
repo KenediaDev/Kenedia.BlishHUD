@@ -215,6 +215,15 @@ namespace Kenedia.Modules.Core.Res {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Shared Settings.
+        /// </summary>
+        internal static string SharedSettings {
+            get {
+                return ResourceManager.GetString("SharedSettings", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Show Corner Icon for {0}.
         /// </summary>
         internal static string ShowCornerIcon {

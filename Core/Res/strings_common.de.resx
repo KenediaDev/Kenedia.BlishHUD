@@ -192,4 +192,7 @@
   <data name="GW2API_RequestFailed" xml:space="preserve">
     <value>GW2-API-Anfrage fehlgeschlagen.</value>
   </data>
+  <data name="SharedSettings" xml:space="preserve">
+    <value>Gemeinsame Einstellungen</value>
+  </data>
 </root>

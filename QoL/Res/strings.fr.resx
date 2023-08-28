@@ -192,4 +192,40 @@
   <data name="ZoomOnFoVChange_Tooltip" xml:space="preserve">
     <value>Déclenchement sur tout changement de champ de vision</value>
   </data>
+  <data name="DisableOnRightClick_Name" xml:space="preserve">
+    <value>Désactivation au clic droit</value>
+  </data>
+  <data name="DisableOnRightClick_Tooltip" xml:space="preserve">
+    <value>Désactiver le sous-module lors d'un clic droit</value>
+  </data>
+  <data name="WaypointChatcode_Name" xml:space="preserve">
+    <value>Waypoint Chatcode</value>
+  </data>
+  <data name="WaypointChatcode_Tooltip" xml:space="preserve">
+    <value>Le code de chat du point de passage à afficher dans le chat.</value>
+  </data>
+  <data name="PasteWaypointHotkey_Name" xml:space="preserve">
+    <value>Coller un point de repère</value>
+  </data>
+  <data name="PasteWaypointHotkey_Tooltip" xml:space="preserve">
+    <value>Touche de raccourci pour déclencher le collage du point de repère</value>
+  </data>
+  <data name="ShowServerTime_Name" xml:space="preserve">
+    <value>Afficher l'heure du serveur</value>
+  </data>
+  <data name="ShowServerTime_Tooltip" xml:space="preserve">
+    <value>Afficher l'heure du serveur en bas à gauche de la minimap</value>
+  </data>
+  <data name="ShowDailyReset_Name" xml:space="preserve">
+    <value>Afficher la réinitialisation quotidienne</value>
+  </data>
+  <data name="ShowDailyReset_Tooltip" xml:space="preserve">
+    <value>Afficher le temps restant jusqu'à la réinitialisation quotidienne en bas à gauche de la minimap</value>
+  </data>
+  <data name="ShowWeeklyReset_Name" xml:space="preserve">
+    <value>Afficher la réinitialisation hebdomadaire</value>
+  </data>
+  <data name="ShowWeeklyReset_Tooltip" xml:space="preserve">
+    <value>Afficher le temps restant jusqu'à la réinitialisation hebdomadaire en bas à gauche de la minimap</value>
+  </data>
 </root>

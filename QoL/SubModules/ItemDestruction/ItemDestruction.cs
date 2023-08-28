@@ -163,14 +163,10 @@ namespace Kenedia.Modules.QoL.SubModules.ItemDestruction
             base.DefineSettings(settings);
 
             _modifierToChat = settings.DefineSetting(nameof(_modifierToChat),
-                new KeyBinding(Keys.LeftShift),
-                () => strings.DisableOnSearch_Name,
-                () => strings.DisableOnSearch_Tooltip);
+                new KeyBinding(Keys.LeftShift));
 
             _disableOnRightClick = settings.DefineSetting(nameof(_disableOnRightClick),
-                true,
-                () => strings.DisableOnSearch_Name,
-                () => strings.DisableOnSearch_Tooltip);
+                true);
         }
 
         protected override void Disable()
@@ -337,6 +333,57 @@ namespace Kenedia.Modules.QoL.SubModules.ItemDestruction
         protected override void SwitchLanguage()
         {
             base.SwitchLanguage();
+        }
+
+        public override void CreateSettingsPanel(FlowPanel flowPanel, int width)
+        {
+            var headerPanel = new Panel()
+            {
+                Parent = flowPanel,
+                Width = width,
+                HeightSizingMode = SizingMode.AutoSize,
+                ShowBorder = true,
+                CanCollapse = true,
+                TitleIcon = Icon.Texture,
+                Title = SubModuleType.ToString(),
+            };
+
+            var contentFlowPanel = new FlowPanel()
+            {
+                Parent = headerPanel,
+                HeightSizingMode = SizingMode.AutoSize,
+                WidthSizingMode = SizingMode.Fill,
+                FlowDirection = ControlFlowDirection.SingleTopToBottom,
+                ContentPadding = new(5, 2),
+                ControlPadding = new(0, 2),
+            };
+
+            _ = new KeybindingAssigner()
+            {
+                Parent = contentFlowPanel,
+                Width = width - 16,
+                KeyBinding = HotKey.Value,
+                KeybindChangedAction = (kb) =>
+                {
+                    HotKey.Value = new()
+                    {
+                        ModifierKeys = kb.ModifierKeys,
+                        PrimaryKey = kb.PrimaryKey,
+                        Enabled = kb.Enabled,
+                        IgnoreWhenInTextField = true,
+                    };
+                },
+                SetLocalizedKeyBindingName = () => string.Format(strings.HotkeyEntry_Name, $"{SubModuleType}"),
+                SetLocalizedTooltip = () => string.Format(strings.HotkeyEntry_Description, $"{SubModuleType}"),
+            };
+
+
+            UI.WrapWithLabel(() => strings.DisableOnRightClick_Name, () => strings.DisableOnRightClick_Tooltip, contentFlowPanel, width - 16, new Checkbox()
+            {
+                Height = 20,
+                Checked = _disableOnRightClick.Value,
+                CheckedChangedAction = (b) => _disableOnRightClick.Value = b,
+            });
         }
     }
 }

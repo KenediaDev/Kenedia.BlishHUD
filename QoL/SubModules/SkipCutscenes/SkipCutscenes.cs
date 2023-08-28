@@ -13,22 +13,19 @@ using Kenedia.Modules.Core.Structs;
 using Kenedia.Modules.Core.Utility;
 using Blish_HUD.Controls.Intern;
 using Mouse = Blish_HUD.Controls.Intern.Mouse;
+using Kenedia.Modules.Core.Controls;
+using SizingMode = Blish_HUD.Controls.SizingMode;
+using ControlFlowDirection = Blish_HUD.Controls.ControlFlowDirection;
+using Kenedia.Modules.QoL.Res;
 
 namespace Kenedia.Modules.QoL.SubModules.SkipCutscenes
 {
     public class SkipCutscenes : SubModule
     {
-        private Logger _logger = Logger.GetLogger(typeof(SkipCutscenes));
+        private readonly Logger _logger = Logger.GetLogger(typeof(SkipCutscenes));
         private CancellationTokenSource _cts;
-        private Point _resolution;
-        private double _mumbleTick = 0;
-        private bool _introCutscene = false;
-        private bool _clickAgain = false;
-        private bool _sleptBeforeClick;
-        private double _ticks;
         private Point _mousePosition;
-        private CinematicStateType _cutsceneState;
-        private InteractStateType _moduleState;
+
         private readonly List<int> _introMaps = new()
         {
             573, //Queensdale
@@ -84,23 +81,8 @@ namespace Kenedia.Modules.QoL.SubModules.SkipCutscenes
             Done,
         }
 
-        public override async void Update(GameTime gameTime)
+        public override void Update(GameTime gameTime)
         {
-            var Mumble = GameService.Gw2Mumble;
-            var resolution = GameService.Graphics.Resolution;
-            var _inGame = GameService.GameIntegration.Gw2Instance.IsInGame;
-
-            if (_introMaps.Contains(Mumble.CurrentMap.Id))
-            {
-                _introCutscene = true;
-            }
-
-            if (GameService.Graphics.Resolution != resolution)
-            {
-                _resolution = resolution;
-                _mumbleTick = Mumble.Tick + 5;
-                return;
-            }
         }
 
         protected override void DefineSettings(SettingCollection settings)
@@ -150,8 +132,6 @@ namespace Kenedia.Modules.QoL.SubModules.SkipCutscenes
 
         private void Cancel()
         {
-            _mumbleTick = GameService.Gw2Mumble.Tick + 250;
-
             if (_mousePosition != Point.Zero)
                 Mouse.SetPosition(_mousePosition.X, _mousePosition.Y, true);
 
@@ -167,26 +147,6 @@ namespace Kenedia.Modules.QoL.SubModules.SkipCutscenes
 
             _gameStateDetectionService.GameStateChanged -= On_GameStateChanged;
             Cancel_Key.Value.Activated -= Cancel_Key_Activated;
-        }
-
-        private void PlayerCharacter_NameChanged(object sender, ValueEventArgs<string> e)
-        {
-            _introCutscene = false;
-        }
-
-        private void CurrentMap_MapChanged(object sender, ValueEventArgs<int> e)
-        {
-            if (Enabled)
-            {
-                _mumbleTick = GameService.Gw2Mumble.Tick;
-
-                if (_introCutscene && _starterMaps.Contains(GameService.Gw2Mumble.CurrentMap.Id))
-                {
-                    _ticks = _ticks + 1250;
-                    _cutsceneState = CinematicStateType.InitialSleep;
-                    _moduleState = InteractStateType.Ready;
-                }
-            }
         }
 
         private async Task SkipCutscene()
@@ -248,6 +208,49 @@ namespace Kenedia.Modules.QoL.SubModules.SkipCutscenes
             {
 
             }
+        }
+
+        public override void CreateSettingsPanel(FlowPanel flowPanel, int width)
+        {
+            var headerPanel = new Panel()
+            {
+                Parent = flowPanel,
+                Width = width,
+                HeightSizingMode = SizingMode.AutoSize,
+                ShowBorder = true,
+                CanCollapse = true,
+                TitleIcon = Icon.Texture,
+                Title = SubModuleType.ToString(),
+            };
+
+            var contentFlowPanel = new FlowPanel()
+            {
+                Parent = headerPanel,
+                HeightSizingMode = SizingMode.AutoSize,
+                WidthSizingMode = SizingMode.Fill,
+                FlowDirection = ControlFlowDirection.SingleTopToBottom,
+                ContentPadding = new(5, 2),
+                ControlPadding = new(0, 2),
+            };
+
+            _ = new KeybindingAssigner()
+            {
+                Parent = contentFlowPanel,
+                Width = width - 16,
+                KeyBinding = HotKey.Value,
+                KeybindChangedAction = (kb) =>
+                {
+                    HotKey.Value = new()
+                    {
+                        ModifierKeys = kb.ModifierKeys,
+                        PrimaryKey = kb.PrimaryKey,
+                        Enabled = kb.Enabled,
+                        IgnoreWhenInTextField = true,
+                    };
+                },
+                SetLocalizedKeyBindingName = () => string.Format(strings.HotkeyEntry_Name, $"{SubModuleType}"),
+                SetLocalizedTooltip = () => string.Format(strings.HotkeyEntry_Description, $"{SubModuleType}"),
+            };
         }
     }
 }

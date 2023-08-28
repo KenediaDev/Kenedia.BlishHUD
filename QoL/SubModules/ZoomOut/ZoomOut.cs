@@ -3,10 +3,15 @@ using Blish_HUD.Input;
 using Blish_HUD.Settings;
 using Kenedia.Modules.QoL.Res;
 using Kenedia.Modules.Core.Utility;
+using Kenedia.Modules.Core.Controls;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using System;
 using Kenedia.Modules.Core.Extensions;
+using SizingMode = Blish_HUD.Controls.SizingMode;
+using ControlFlowDirection = Blish_HUD.Controls.ControlFlowDirection;
+using Blish_HUD.Content;
+using Kenedia.Modules.Core.Res;
 
 namespace Kenedia.Modules.QoL.SubModules.ZoomOut
 {
@@ -69,23 +74,17 @@ namespace Kenedia.Modules.QoL.SubModules.ZoomOut
         {
             base.DefineSettings(settings);
 
-            _zoomOutKey = Settings.DefineSetting(nameof(_zoomOutKey), new KeyBinding(Keys.PageDown), () => strings.ZoomOutKey_Name, () => strings.ZoomOutKey_Tooltip);
-            _manualMaxZoom = Settings.DefineSetting(nameof(_manualMaxZoom), new KeyBinding(ModifierKeys.Shift, Keys.Left), () => strings.ManualZoom_Name, () => strings.ManualZoom_Tooltip);
+            _zoomOutKey = Settings.DefineSetting(nameof(_zoomOutKey), new KeyBinding(Keys.PageDown));
+            _manualMaxZoom = Settings.DefineSetting(nameof(_manualMaxZoom), new KeyBinding(Keys.None));
 
             _zoomOnCameraChange = settings.DefineSetting(nameof(_zoomOnCameraChange),
-                true,
-                () => strings.ZoomOnCameraChange_Name,
-                () => strings.ZoomOnCameraChange_Tooltip);
+                true);
 
             _allowManualZoom = settings.DefineSetting(nameof(_allowManualZoom),
-                true,
-                () => strings.AllowManualZoom_Name,
-                () => strings.AllowManualZoom_Tooltip);
+                true);
 
             _zoomOnFoVChange = settings.DefineSetting(nameof(_zoomOnFoVChange),
-                true,
-                () => strings.AllowManualZoom_Name,
-                () => strings.AllowManualZoom_Tooltip);
+                true);
 
             _manualMaxZoom.Value.Enabled = true;
             _manualMaxZoom.Value.Activated += ManualMaxZoomOut;
@@ -97,7 +96,7 @@ namespace Kenedia.Modules.QoL.SubModules.ZoomOut
 
             for (int i = 0; i < ((25 - distance) * 2); i++)
             {
-                _zoomOutKey.Press();
+                _ = _zoomOutKey.Press();
             }
         }
 
@@ -105,7 +104,7 @@ namespace Kenedia.Modules.QoL.SubModules.ZoomOut
         {
             for (int i = 0; i < ((25 - distance) * 2); i++)
             {
-                _zoomOutKey.Press();
+                _ = _zoomOutKey.Press();
             }
         }
 
@@ -172,6 +171,108 @@ namespace Kenedia.Modules.QoL.SubModules.ZoomOut
         protected override void SwitchLanguage()
         {
             base.SwitchLanguage();
+        }
+
+        public override void CreateSettingsPanel(FlowPanel flowPanel, int width)
+        {
+            var headerPanel = new Panel()
+            {
+                Parent = flowPanel,
+                Width = width,
+                HeightSizingMode = SizingMode.AutoSize,
+                ShowBorder = true,
+                CanCollapse = true,
+                TitleIcon = Icon.Texture,
+                Title = SubModuleType.ToString(),
+            };
+
+            var contentFlowPanel = new FlowPanel()
+            {
+                Parent = headerPanel,
+                HeightSizingMode = SizingMode.AutoSize,
+                WidthSizingMode = SizingMode.Fill,
+                FlowDirection = ControlFlowDirection.SingleTopToBottom,
+                ContentPadding = new(5, 2),
+                ControlPadding = new(0, 2),
+            };
+
+            _ = new KeybindingAssigner()
+            {
+                Parent = contentFlowPanel,
+                Width = width - 16,
+                KeyBinding = HotKey.Value,
+                KeybindChangedAction = (kb) =>
+                {
+                    HotKey.Value = new()
+                    {
+                        ModifierKeys = kb.ModifierKeys,
+                        PrimaryKey = kb.PrimaryKey,
+                        Enabled = kb.Enabled,
+                        IgnoreWhenInTextField = true,
+                    };
+                },
+                SetLocalizedKeyBindingName = () => string.Format(strings.HotkeyEntry_Name, $"{SubModuleType}"),
+                SetLocalizedTooltip = () => string.Format(strings.HotkeyEntry_Description, $"{SubModuleType}"),
+            };
+
+            _ = new KeybindingAssigner()
+            {
+                Parent = contentFlowPanel,
+                Width = width - 16,
+                KeyBinding = _zoomOutKey.Value,
+                KeybindChangedAction = (kb) =>
+                {
+                    _zoomOutKey.Value = new()
+                    {
+                        ModifierKeys = kb.ModifierKeys,
+                        PrimaryKey = kb.PrimaryKey,
+                        Enabled = kb.Enabled,
+                        IgnoreWhenInTextField = true,
+                    };
+                },
+                SetLocalizedKeyBindingName = () => strings.ZoomOutKey_Name,
+                SetLocalizedTooltip = () => strings.ZoomOutKey_Tooltip,
+            };
+
+            _ = new KeybindingAssigner()
+            {
+                Parent = contentFlowPanel,
+                Width = width - 16,
+                KeyBinding = _manualMaxZoom.Value,
+                KeybindChangedAction = (kb) =>
+                {
+                    _manualMaxZoom.Value = new()
+                    {
+                        ModifierKeys = kb.ModifierKeys,
+                        PrimaryKey = kb.PrimaryKey,
+                        Enabled = kb.Enabled,
+                        IgnoreWhenInTextField = true,
+                    };
+                },
+                SetLocalizedKeyBindingName = () => strings.ManualZoom_Name,
+                SetLocalizedTooltip = () => strings.ManualZoom_Tooltip,
+            };
+
+            UI.WrapWithLabel(() => strings.ZoomOnCameraChange_Name, () => strings.ZoomOnCameraChange_Tooltip, contentFlowPanel, width - 16, new Checkbox()
+            {
+                Height = 20,
+                Checked = _zoomOnCameraChange.Value,
+                CheckedChangedAction = (b) => _zoomOnCameraChange.Value = b,
+            });
+
+            UI.WrapWithLabel(() => strings.ZoomOnFoVChange_Name, () => strings.ZoomOnFoVChange_Tooltip, contentFlowPanel, width - 16, new Checkbox()
+            {
+                Height = 20,
+                Checked = _zoomOnFoVChange.Value,
+                CheckedChangedAction = (b) => _zoomOnFoVChange.Value = b,
+            });
+
+            UI.WrapWithLabel(() => strings.AllowManualZoom_Name, () => strings.AllowManualZoom_Tooltip, contentFlowPanel, width - 16, new Checkbox()
+            {
+                Height = 20,
+                Checked = _allowManualZoom.Value,
+                CheckedChangedAction = (b) => _allowManualZoom.Value = b,
+            });
         }
     }
 }

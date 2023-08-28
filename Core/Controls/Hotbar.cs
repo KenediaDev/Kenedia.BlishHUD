@@ -13,6 +13,8 @@ using ContentService = Blish_HUD.ContentService;
 using ICheckable = Blish_HUD.Controls.ICheckable;
 using Microsoft.Xna.Framework.Graphics;
 using Blish_HUD;
+using Kenedia.Modules.QoL.Res;
+using Kenedia.Modules.Core.Res;
 
 namespace Kenedia.Modules.Core.Controls
 {
@@ -70,6 +72,12 @@ namespace Kenedia.Modules.Core.Controls
 
             OnExpandTypeChanged(this, new(ExpandType.LeftToRight, ExpandType.LeftToRight));
             ExpandType = ExpandType.BottomToTop;
+
+            BasicTooltipText = $"Press {MoveModifier} and drag the hotbar to the desired position";
+            _expandDummy.BasicTooltipText = $"Press {MoveModifier} and drag the hotbar to the desired position";
+
+            Menu = new();
+            _ = Menu.AddMenuItem(new ContextMenuItem(() => strings_common.OpenSettings, () => OpenSettingsAction?.Invoke()));
         }
 
         public ExpandType ExpandType { get => _expandType; set => Common.SetProperty(ref _expandType, value, OnExpandTypeChanged); }
@@ -81,6 +89,8 @@ namespace Kenedia.Modules.Core.Controls
         public int MinButtonSize { get; set; } = 24;
 
         public Action<Point> OnMoveAction { get; set; }
+
+        public Action OpenSettingsAction { get; set; }
 
         private void OnExpandTypeChanged(object sender, Models.ValueChangedEventArgs<ExpandType> e)
         {
@@ -145,6 +155,7 @@ namespace Kenedia.Modules.Core.Controls
                     break;
             }
 
+            ForceOnScreen();
             RecalculateLayout();
         }
 
@@ -433,11 +444,14 @@ namespace Kenedia.Modules.Core.Controls
 
             if (Location.X < screen.Left)
                 Location = new(screen.Left, Location.Y);
-            else if (Location.X + Width > screen.Right)
+            
+            if (Location.X + Width > screen.Right)
                 Location = new(screen.Right - Width, Location.Y);
-            else if (Location.Y < screen.Top)
+            
+            if (Location.Y < screen.Top)
                 Location = new(Location.X, screen.Top);
-            else if (Location.Y + Height > screen.Bottom)
+            
+            if (Location.Y + Height > screen.Bottom)
                 Location = new(Location.X, screen.Bottom - Height);
         }
     }

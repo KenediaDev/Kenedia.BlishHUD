@@ -67,7 +67,14 @@ namespace Kenedia.Modules.Core.Controls
         protected override void DisposeControl()
         {
             base.DisposeControl();
-            Icon?.Dispose();
+
+            if (Icon is not null)
+            {
+                Icon.Texture = null;
+                Icon.FallBackTexture = null;
+                Icon.HoveredTexture = null;
+                Icon = null;
+            }
         }
     }
 }

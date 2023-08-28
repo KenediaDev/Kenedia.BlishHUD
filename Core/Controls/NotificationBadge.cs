@@ -45,6 +45,8 @@ namespace Kenedia.Modules.Core.Controls
             set => Common.SetProperty(ref _anchor, value, OnAnchorChanged);
         }
 
+        public Func<string> SetLocalizedTooltip { get; set; }
+
         private void OnAnchorChanged(object sender, ValueChangedEventArgs<Control> e)
         {
             if (e.OldValue is not null)

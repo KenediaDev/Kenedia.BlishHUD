@@ -10,6 +10,10 @@ using System.Threading.Tasks;
 using Keyboard = Blish_HUD.Controls.Intern.Keyboard;
 using Key = Blish_HUD.Controls.Extern.VirtualKeyShort;
 using Kenedia.Modules.Core.Extensions;
+using Kenedia.Modules.Core.Controls;
+using SizingMode = Blish_HUD.Controls.SizingMode;
+using ControlFlowDirection = Blish_HUD.Controls.ControlFlowDirection;
+using Kenedia.Modules.QoL.Res;
 
 namespace Kenedia.Modules.QoL.SubModules.WaypointPaste
 {
@@ -17,8 +21,8 @@ namespace Kenedia.Modules.QoL.SubModules.WaypointPaste
     public class WaypointPaste : SubModule
     {
         private double _ticks;
-        private string _waypoint = "[&BCAJAAA=]";
         private SettingEntry<KeyBinding> _pasteWaypoint;
+        private SettingEntry<string> _waypoint;
 
         public WaypointPaste(SettingCollection settings) : base(settings)
         {
@@ -36,7 +40,8 @@ namespace Kenedia.Modules.QoL.SubModules.WaypointPaste
         {
             base.DefineSettings(settings);
 
-            _pasteWaypoint = settings.DefineSetting(nameof(_pasteWaypoint), new KeyBinding(ModifierKeys.Shift | ModifierKeys.Alt, Keys.B));
+            _pasteWaypoint = settings.DefineSetting(nameof(_pasteWaypoint), new KeyBinding(Keys.None));
+            _waypoint = settings.DefineSetting(nameof(_waypoint), "[&BCAJAAA=]");
 
             _pasteWaypoint.Value.Enabled = true;
             _pasteWaypoint.Value.Activated += PasteWaypoint_Activated;
@@ -96,7 +101,7 @@ namespace Kenedia.Modules.QoL.SubModules.WaypointPaste
                 await Input.SendKey(new Keys[] { Keys.LeftControl }, Keys.V, true);
                 await Input.SendKey(Keys.Tab, true);
 
-                bool hasWaypoint = await ClipboardUtil.WindowsClipboardService.SetTextAsync(_waypoint);
+                bool hasWaypoint = await ClipboardUtil.WindowsClipboardService.SetTextAsync(_waypoint.Value);
                 if (!hasWaypoint) return;
 
                 await Input.SendKey(new Keys[] { Keys.LeftControl }, Keys.V, true);
@@ -121,6 +126,57 @@ namespace Kenedia.Modules.QoL.SubModules.WaypointPaste
             base.Enable();
 
             PasteWaypoint();
+        }
+
+        public override void CreateSettingsPanel(FlowPanel flowPanel, int width)
+        {
+            var headerPanel = new Panel()
+            {
+                Parent = flowPanel,
+                Width = width,
+                HeightSizingMode = SizingMode.AutoSize,
+                ShowBorder = true,
+                CanCollapse = true,
+                TitleIcon = Icon.Texture,
+                Title = SubModuleType.ToString(),
+            };
+
+            var contentFlowPanel = new FlowPanel()
+            {
+                Parent = headerPanel,
+                HeightSizingMode = SizingMode.AutoSize,
+                WidthSizingMode = SizingMode.Fill,
+                FlowDirection = ControlFlowDirection.SingleTopToBottom,
+                ContentPadding = new(5, 2),
+                ControlPadding = new(0, 2),
+            };
+
+            //_pasteWaypoint
+
+            UI.WrapWithLabel(() => strings.WaypointChatcode_Name, () => strings.WaypointChatcode_Tooltip, contentFlowPanel, width - 16, new TextBox()
+            {
+                Text = _waypoint.Value,
+                TextChangedAction= (txt) => _waypoint.Value = txt,
+            });
+
+            _ = new KeybindingAssigner()
+            {
+                Parent = contentFlowPanel,
+                Width = width - 16,
+                KeyBinding = _pasteWaypoint.Value,
+                KeybindChangedAction = (kb) =>
+                {
+                    _pasteWaypoint.Value = new()
+                    {
+                        ModifierKeys = kb.ModifierKeys,
+                        PrimaryKey = kb.PrimaryKey,
+                        Enabled = kb.Enabled,
+                        IgnoreWhenInTextField = true,
+                    };
+                },
+                SetLocalizedKeyBindingName = () => strings.PasteWaypointHotkey_Name,
+                SetLocalizedTooltip = () => strings.PasteWaypointHotkey_Tooltip,
+            };
         }
     }
 }

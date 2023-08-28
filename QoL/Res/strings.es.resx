@@ -192,4 +192,40 @@
   <data name="ZoomOnFoVChange_Tooltip" xml:space="preserve">
     <value>Disparo ante cualquier cambio en el campo de visión</value>
   </data>
+  <data name="DisableOnRightClick_Name" xml:space="preserve">
+    <value>Desactivar al hacer clic con el botón derecho</value>
+  </data>
+  <data name="DisableOnRightClick_Tooltip" xml:space="preserve">
+    <value>Desactivar el submódulo al hacer clic con el botón derecho</value>
+  </data>
+  <data name="WaypointChatcode_Name" xml:space="preserve">
+    <value>Waypoint Chatcode</value>
+  </data>
+  <data name="WaypointChatcode_Tooltip" xml:space="preserve">
+    <value>El chatcode del waypoint para publicar en el chat.</value>
+  </data>
+  <data name="PasteWaypointHotkey_Name" xml:space="preserve">
+    <value>Pegar Waypoint</value>
+  </data>
+  <data name="PasteWaypointHotkey_Tooltip" xml:space="preserve">
+    <value>Tecla de acceso rápido para activar el pegado de waypoints</value>
+  </data>
+  <data name="ShowServerTime_Name" xml:space="preserve">
+    <value>Mostrar hora del servidor</value>
+  </data>
+  <data name="ShowServerTime_Tooltip" xml:space="preserve">
+    <value>Mostrar la hora del servidor en la parte inferior izquierda del minimapa</value>
+  </data>
+  <data name="ShowDailyReset_Name" xml:space="preserve">
+    <value>Mostrar reinicio diario</value>
+  </data>
+  <data name="ShowDailyReset_Tooltip" xml:space="preserve">
+    <value>Mostrar el tiempo hasta el reinicio diario en la parte inferior izquierda del minimapa.</value>
+  </data>
+  <data name="ShowWeeklyReset_Name" xml:space="preserve">
+    <value>Mostrar reinicio semanal</value>
+  </data>
+  <data name="ShowWeeklyReset_Tooltip" xml:space="preserve">
+    <value>Mostrar el tiempo hasta el reinicio semanal en la parte inferior izquierda del minimapa.</value>
+  </data>
 </root>

@@ -1,5 +1,7 @@
 ﻿using Blish_HUD;
+using Blish_HUD.Content;
 using Blish_HUD.Controls;
+using Blish_HUD.Graphics.UI;
 using Blish_HUD.Modules;
 using Blish_HUD.Settings;
 using Kenedia.Modules.Core.Controls;
@@ -13,7 +15,9 @@ using Kenedia.Modules.QoL.SubModules.SkipCutscenes;
 using Kenedia.Modules.QoL.SubModules.WaypointPaste;
 using Kenedia.Modules.QoL.SubModules.WikiSearch;
 using Kenedia.Modules.QoL.SubModules.ZoomOut;
+using Kenedia.Modules.QoL.Views;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
@@ -43,7 +47,18 @@ namespace Kenedia.Modules.QoL
             base.DefineSettings(settings);
 
             Settings = new Settings(settings);
+            Settings.HotbarExpandDirection.SettingChanged += HotbarExpandDirection_SettingChanged;
+        }
 
+        private void HotbarExpandDirection_SettingChanged(object sender, Blish_HUD.ValueChangedEventArgs<ExpandType> e)
+        {
+            if (Hotbar is not null)
+                Hotbar.ExpandType = e.NewValue;
+        }
+
+        public override IView GetSettingsView()
+        {
+            return new SettingsView(() => SettingsWindow?.ToggleWindow());
         }
 
         protected override void Initialize()
@@ -70,7 +85,7 @@ namespace Kenedia.Modules.QoL
         {
             base.Update(gameTime);
 
-            if(Hotbar is not null)
+            if (Hotbar is not null)
                 Hotbar.Visible = GameService.GameIntegration.Gw2Instance.IsInGame && !GameService.Gw2Mumble.UI.IsMapOpen;
 
             foreach (var subModule in SubModules)
@@ -92,18 +107,39 @@ namespace Kenedia.Modules.QoL
                 Location = Settings.HotbarPosition.Value,
                 ExpandType = Settings.HotbarExpandDirection.Value,
                 OnMoveAction = (p) => Settings.HotbarPosition.Value = p,
+                OpenSettingsAction = () => SettingsWindow?.ToggleWindow(),
             };
 
             foreach (var subModule in SubModules.Values)
             {
                 Hotbar.AddItem(subModule.ToggleControl);
             }
+
+            var settingsBg = AsyncTexture2D.FromAssetId(155997);
+            Texture2D cutSettingsBg = settingsBg.Texture.GetRegion(0, 0, settingsBg.Width - 482, settingsBg.Height - 390);
+
+            SettingsWindow = new SettingsWindow(
+                settingsBg,
+                new Rectangle(30, 30, cutSettingsBg.Width + 10, cutSettingsBg.Height),
+                new Rectangle(30, 35, cutSettingsBg.Width - 5, cutSettingsBg.Height - 15),
+                Settings,
+                SharedSettingsView,
+                SubModules)
+            {
+                Parent = GameService.Graphics.SpriteScreen,
+                Title = "❤",
+                Subtitle = "❤",
+                SavesPosition = true,
+                Id = $"{Name} SettingsWindow",
+                Version = ModuleVersion,
+            };
         }
 
         protected override void UnloadGUI()
         {
             base.UnloadGUI();
 
+            SettingsWindow?.Dispose();
             Hotbar?.Dispose();
         }
 
@@ -144,7 +180,7 @@ namespace Kenedia.Modules.QoL
 
             foreach (var module in SubModules.Values)
             {
-                module?.Load();                
+                module?.Load();
             }
         }
     }

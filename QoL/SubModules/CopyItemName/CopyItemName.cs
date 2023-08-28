@@ -21,15 +21,12 @@ namespace Kenedia.Modules.QoL.SubModules.CopyItemName
     {
         private readonly BorderedImage _itemPreview;
         private readonly MouseContainer _mouseContainer;
-        private readonly Label _instuctionLabel;
         private readonly Label _destroyLabel;
 
         private SettingEntry<bool> _disableOnSearch;
         private SettingEntry<bool> _disableOnRightClick;
         private SettingEntry<KeyBinding> _modifierToChat;
         private SettingEntry<ReturnType> _returnType;
-
-        private string _copiedText;
 
         public CopyItemName(SettingCollection settings) : base(settings)
         {
@@ -90,7 +87,7 @@ namespace Kenedia.Modules.QoL.SubModules.CopyItemName
                 Text = "No Item name copied yet.",
             };
 
-            _instuctionLabel = new()
+            _ = new Label()
             {
                 Parent = flowPanel,
                 Font = GameService.Content.DefaultFont16,
@@ -116,24 +113,16 @@ namespace Kenedia.Modules.QoL.SubModules.CopyItemName
             base.DefineSettings(settings);
 
             _disableOnSearch = settings.DefineSetting(nameof(_disableOnSearch),
-                true,
-                () => strings.DisableOnSearch_Name,
-                () => strings.DisableOnSearch_Tooltip);
+                true);
 
             _disableOnRightClick = settings.DefineSetting(nameof(_disableOnRightClick),
-                true,
-                () => strings.DisableOnSearch_Name,
-                () => strings.DisableOnSearch_Tooltip);
+                true);
 
             _modifierToChat = settings.DefineSetting(nameof(_modifierToChat),
-                new KeyBinding(Keys.LeftShift),
-                () => strings.DisableOnSearch_Name,
-                () => strings.DisableOnSearch_Tooltip);
+                new KeyBinding(Keys.LeftShift));
 
             _returnType = settings.DefineSetting(nameof(_returnType),
-                ReturnType.Name,
-                () => strings.ReturnType_Name,
-                () => strings.ReturnType_Tooltip);
+                ReturnType.Name);
         }
 
         public override void Update(GameTime gameTime)
@@ -245,10 +234,15 @@ namespace Kenedia.Modules.QoL.SubModules.CopyItemName
                     if (text.EndsWith("]"))
                         text = text.Substring(0, text.Length - 1);
                 }
+                else
+                {
+                    text = "[" + text;
+                }
 
                 if(_returnType.Value == ReturnType.Name)
                 {
                     text = text.RemoveLeadingNumbers();
+                    text = text.TrimStart();
                 }
 
                 _ = await ClipboardUtil.WindowsClipboardService.SetTextAsync(text);
@@ -258,6 +252,80 @@ namespace Kenedia.Modules.QoL.SubModules.CopyItemName
             {
 
             }
+        }
+
+        public override void CreateSettingsPanel(FlowPanel flowPanel, int width)
+        {
+            var headerPanel = new Panel()
+            {
+                Parent = flowPanel,
+                Width = width,
+                HeightSizingMode = SizingMode.AutoSize,
+                ShowBorder = true,
+                CanCollapse = true,
+                TitleIcon = Icon.Texture,
+                Title = SubModuleType.ToString(),
+            };
+
+            var contentFlowPanel = new FlowPanel()
+            {
+                Parent = headerPanel,
+                HeightSizingMode = SizingMode.AutoSize,
+                WidthSizingMode = SizingMode.Fill,
+                FlowDirection = ControlFlowDirection.SingleTopToBottom,
+                ContentPadding = new(5, 2),
+                ControlPadding = new(0, 2),
+            };
+
+            _ = new KeybindingAssigner()
+            {
+                Parent = contentFlowPanel,
+                Width = width - 16,
+                KeyBinding = HotKey.Value,
+                KeybindChangedAction = (kb) =>
+                {
+                    HotKey.Value = new()
+                    {
+                        ModifierKeys = kb.ModifierKeys,
+                        PrimaryKey = kb.PrimaryKey,
+                        Enabled = kb.Enabled,
+                        IgnoreWhenInTextField = true,
+                    };
+                },
+                SetLocalizedKeyBindingName = () => string.Format(strings.HotkeyEntry_Name, $"{SubModuleType}"),
+                SetLocalizedTooltip = () => string.Format(strings.HotkeyEntry_Description, $"{SubModuleType}"),
+            };
+
+            UI.WrapWithLabel(() => strings.DisableOnSearch_Name, () => strings.DisableOnSearch_Tooltip, contentFlowPanel, width - 16, new Checkbox()
+            {
+                Height = 20,
+                Checked = _disableOnSearch.Value,
+                CheckedChangedAction = (b) => _disableOnSearch.Value = b,
+            });
+
+            UI.WrapWithLabel(() => strings.DisableOnRightClick_Name, () => strings.DisableOnRightClick_Tooltip, contentFlowPanel, width - 16, new Checkbox()
+            {
+                Height = 20,
+                Checked = _disableOnRightClick.Value,
+                CheckedChangedAction = (b) => _disableOnRightClick.Value = b,
+            });
+
+            UI.WrapWithLabel(() => strings.ReturnType_Name, () => strings.ReturnType_Tooltip, contentFlowPanel, width - 16, new Dropdown()
+            {
+                Location = new(250, 0),
+                Parent = contentFlowPanel,
+                SetLocalizedItems = () =>
+                {
+                    return new()
+                    {
+                        $"{ReturnType.Name}".SplitStringOnUppercase(),
+                        $"{ReturnType.AmountName}".SplitStringOnUppercase(),
+                        $"{ReturnType.BracketAmountName}".SplitStringOnUppercase(),
+                    };
+                },
+                SelectedItem = $"{_returnType.Value}",
+                ValueChangedAction = (b) => _returnType.Value = Enum.TryParse(b.RemoveSpaces(), out ReturnType returnType) ? returnType : _returnType.Value,
+            });
         }
     }
 }

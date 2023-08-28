@@ -275,6 +275,8 @@
     <Compile Include="SubModules\WaypointPaste\WaypointPaste.cs" />
     <Compile Include="SubModules\WikiSearch\WikiSearch.cs" />
     <Compile Include="SubModules\ZoomOut\ZoomOut.cs" />
+    <Compile Include="Views\SettingsView.cs" />
+    <Compile Include="Views\SettingsWindow.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

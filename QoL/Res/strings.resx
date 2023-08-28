@@ -172,4 +172,40 @@
   <data name="ZoomOnFoVChange_Tooltip" xml:space="preserve">
     <value>Trigger on any Field of View change</value>
   </data>
+  <data name="DisableOnRightClick_Name" xml:space="preserve">
+    <value>Disable on Right Click</value>
+  </data>
+  <data name="DisableOnRightClick_Tooltip" xml:space="preserve">
+    <value>Disable the sub module when right clicking</value>
+  </data>
+  <data name="WaypointChatcode_Name" xml:space="preserve">
+    <value>Waypoint Chatcode</value>
+  </data>
+  <data name="WaypointChatcode_Tooltip" xml:space="preserve">
+    <value>The chatcode of the waypoint to post in chat.</value>
+  </data>
+  <data name="PasteWaypointHotkey_Name" xml:space="preserve">
+    <value>Paste Waypoint</value>
+  </data>
+  <data name="PasteWaypointHotkey_Tooltip" xml:space="preserve">
+    <value>Hotkey to trigger the waypoint paste</value>
+  </data>
+  <data name="ShowServerTime_Name" xml:space="preserve">
+    <value>Show Server Time</value>
+  </data>
+  <data name="ShowServerTime_Tooltip" xml:space="preserve">
+    <value>Show the server time on the bottom left of the minimap</value>
+  </data>
+  <data name="ShowDailyReset_Name" xml:space="preserve">
+    <value>Show Daily Reset</value>
+  </data>
+  <data name="ShowDailyReset_Tooltip" xml:space="preserve">
+    <value>Show the time until daily reset on the bottom left of the minimap</value>
+  </data>
+  <data name="ShowWeeklyReset_Name" xml:space="preserve">
+    <value>Show Weekly Reset</value>
+  </data>
+  <data name="ShowWeeklyReset_Tooltip" xml:space="preserve">
+    <value>Show the time until weekly reset on the bottom left of the minimap</value>
+  </data>
 </root>

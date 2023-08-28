@@ -8,7 +8,7 @@
   "dependencies": {
     "bh.blishhud": ">=1.0.0"
   },
-  "description": "A collection of smaller Quality of Life features!\n\nAll UI Controls can be moved with 'ALT + Left Click & Drag'.'",
+  "description": "A collection of smaller Quality of Life features!",
   "enabled_without_gw2": false,
   "manifest_version": 1,
   "name": "Tyrian QoL",

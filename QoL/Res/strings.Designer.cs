@@ -106,6 +106,24 @@ namespace Kenedia.Modules.QoL.Res {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Disable on Right Click.
+        /// </summary>
+        internal static string DisableOnRightClick_Name {
+            get {
+                return ResourceManager.GetString("DisableOnRightClick_Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Disable the sub module when right clicking.
+        /// </summary>
+        internal static string DisableOnRightClick_Tooltip {
+            get {
+                return ResourceManager.GetString("DisableOnRightClick_Tooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Disable after Search.
         /// </summary>
         internal static string DisableOnSearch_Name {
@@ -196,6 +214,24 @@ namespace Kenedia.Modules.QoL.Res {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Paste Waypoint.
+        /// </summary>
+        internal static string PasteWaypointHotkey_Name {
+            get {
+                return ResourceManager.GetString("PasteWaypointHotkey_Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Hotkey to trigger the waypoint paste.
+        /// </summary>
+        internal static string PasteWaypointHotkey_Tooltip {
+            get {
+                return ResourceManager.GetString("PasteWaypointHotkey_Tooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Return Type.
         /// </summary>
         internal static string ReturnType_Name {
@@ -214,6 +250,24 @@ namespace Kenedia.Modules.QoL.Res {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Show Daily Reset.
+        /// </summary>
+        internal static string ShowDailyReset_Name {
+            get {
+                return ResourceManager.GetString("ShowDailyReset_Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Show the time until daily reset on the bottom left of the minimap.
+        /// </summary>
+        internal static string ShowDailyReset_Tooltip {
+            get {
+                return ResourceManager.GetString("ShowDailyReset_Tooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Show {0} in the hotbar.
         /// </summary>
         internal static string ShowInHotbar_Description {
@@ -228,6 +282,60 @@ namespace Kenedia.Modules.QoL.Res {
         internal static string ShowInHotbar_Name {
             get {
                 return ResourceManager.GetString("ShowInHotbar_Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Show Server Time.
+        /// </summary>
+        internal static string ShowServerTime_Name {
+            get {
+                return ResourceManager.GetString("ShowServerTime_Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Show the server time on the bottom left of the minimap.
+        /// </summary>
+        internal static string ShowServerTime_Tooltip {
+            get {
+                return ResourceManager.GetString("ShowServerTime_Tooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Show Weekly Reset.
+        /// </summary>
+        internal static string ShowWeeklyReset_Name {
+            get {
+                return ResourceManager.GetString("ShowWeeklyReset_Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Show the time until weekly reset on the bottom left of the minimap.
+        /// </summary>
+        internal static string ShowWeeklyReset_Tooltip {
+            get {
+                return ResourceManager.GetString("ShowWeeklyReset_Tooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Waypoint Chatcode.
+        /// </summary>
+        internal static string WaypointChatcode_Name {
+            get {
+                return ResourceManager.GetString("WaypointChatcode_Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The chatcode of the waypoint to post in chat..
+        /// </summary>
+        internal static string WaypointChatcode_Tooltip {
+            get {
+                return ResourceManager.GetString("WaypointChatcode_Tooltip", resourceCulture);
             }
         }
         

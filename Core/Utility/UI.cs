@@ -1,8 +1,15 @@
 ﻿using Blish_HUD;
+using SizingMode = Blish_HUD.Controls.SizingMode;
+using ControlFlowDirection = Blish_HUD.Controls.ControlFlowDirection;
+using Control = Blish_HUD.Controls.Control;
+using Container = Blish_HUD.Controls.Container;
+using VerticalAlignment = Blish_HUD.Controls.VerticalAlignment;
+using HorizontalAlignment = Blish_HUD.Controls.HorizontalAlignment;
 using Kenedia.Modules.Core.Controls;
 using MonoGame.Extended.BitmapFonts;
 using System;
 using static Blish_HUD.ContentService;
+using Kenedia.Modules.Core.Interfaces;
 
 namespace Kenedia.Modules.Core.Utility
 {
@@ -55,5 +62,34 @@ namespace Kenedia.Modules.Core.Utility
             return (label, num);
         }
 
+        public static void WrapWithLabel(Func<string> localizedLabelContent, Func<string> localizedTooltip, Container parent, int width, Control ctrl)
+        {
+            var flowPanel = new FlowPanel()
+            {
+                Parent = parent,
+                Width = width,
+                HeightSizingMode = SizingMode.AutoSize,
+                FlowDirection = ControlFlowDirection.SingleLeftToRight,
+                SetLocalizedTooltip = localizedTooltip,
+            };
+
+            var label = new Label()
+            {
+                Parent = flowPanel,
+                Height = ctrl.Height,
+                Width = (width - flowPanel.ContentPadding.Horizontal - ((int)flowPanel.ControlPadding.X *2)) / 2,
+                SetLocalizedText = localizedLabelContent,
+                SetLocalizedTooltip = localizedTooltip,
+                VerticalAlignment = VerticalAlignment.Middle,
+            };
+
+            ctrl.Parent = flowPanel;
+            ctrl.Width = label.Width;
+
+            if(ctrl is ILocalizable localizable)
+            {
+                localizable.SetLocalizedTooltip = localizedTooltip;
+            }
+        }
     }
 }

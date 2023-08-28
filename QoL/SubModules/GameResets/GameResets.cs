@@ -1,11 +1,13 @@
 ﻿using Blish_HUD;
 using Blish_HUD.Settings;
 using Kenedia.Modules.Core.Controls;
+using Kenedia.Modules.Core.Utility;
 using Microsoft.Xna.Framework;
 using System;
 using SizingMode = Blish_HUD.Controls.SizingMode;
 using ControlFlowDirection = Blish_HUD.Controls.ControlFlowDirection;
 using Kenedia.Modules.QoL.Res;
+using System.Linq;
 
 namespace Kenedia.Modules.QoL.SubModules.GameResets
 {
@@ -16,6 +18,10 @@ namespace Kenedia.Modules.QoL.SubModules.GameResets
         private readonly IconLabel _serverReset;
         private readonly IconLabel _weeklyReset;
 
+        private SettingEntry<bool> _showServerTime;
+        private SettingEntry<bool> _showDailyReset;
+        private SettingEntry<bool> _showWeeklyReset;
+
         public GameResets(SettingCollection settings) : base(settings)
         {
             UI_Elements.Add(_container = new()
@@ -23,20 +29,21 @@ namespace Kenedia.Modules.QoL.SubModules.GameResets
                 Parent = GameService.Graphics.SpriteScreen,
                 Visible = Enabled,
                 WidthSizingMode = SizingMode.AutoSize,
-                HeightSizingMode = SizingMode.AutoSize,
-                FlowDirection = ControlFlowDirection.SingleTopToBottom,
+                HeightSizingMode = SizingMode.Standard,
+                Height = (GameService.Content.DefaultFont14.LineHeight * 3) + (2 * 3),
+                FlowDirection = ControlFlowDirection.SingleBottomToTop,
                 ControlPadding = new Vector2(0, 2),
                 Location = GameService.Graphics.SpriteScreen.LocalBounds.Center,
                 Enabled = false,
                 CaptureInput = false,
             });
 
-            _serverTime = new IconLabel()
+            _weeklyReset = new IconLabel()
             {
                 Parent = _container,
-                Texture = new(517180) { Size = new(GameService.Content.DefaultFont14.LineHeight), TextureRegion = new(4, 4, 24, 24) },
-                Text = "00:00:00",
-                BasicTooltipText = "Server Time",
+                Texture = new(156692) { Size = new(GameService.Content.DefaultFont14.LineHeight) },
+                Text = "0 days 00:00:00",
+                BasicTooltipText = "Weekly Reset",
                 AutoSize = true,
                 Enabled = false,
                 CaptureInput = false,
@@ -53,12 +60,12 @@ namespace Kenedia.Modules.QoL.SubModules.GameResets
                 CaptureInput = false,
             };
 
-            _weeklyReset = new IconLabel()
+            _serverTime = new IconLabel()
             {
                 Parent = _container,
-                Texture = new(156692) { Size = new(GameService.Content.DefaultFont14.LineHeight) },
-                Text = "0 days 00:00:00",
-                BasicTooltipText = "Weekly Reset",
+                Texture = new(517180) { Size = new(GameService.Content.DefaultFont14.LineHeight), TextureRegion = new(4, 4, 24, 24) },
+                Text = "00:00:00",
+                BasicTooltipText = "Server Time",
                 AutoSize = true,
                 Enabled = false,
                 CaptureInput = false,
@@ -86,8 +93,44 @@ namespace Kenedia.Modules.QoL.SubModules.GameResets
             base.Unload();
             GameService.Gw2Mumble.UI.CompassSizeChanged -= UI_CompassSizeChanged;
             GameService.Gw2Mumble.UI.IsCompassTopRightChanged -= UI_IsCompassTopRightChanged;
+
             if (QoL.ModuleInstance is not null)
                 QoL.ModuleInstance.Services.ClientWindowService.ResolutionChanged -= ClientWindowService_ResolutionChanged;
+
+            _showServerTime.SettingChanged -= ChangeServerTimeVisibility;
+            _showDailyReset.SettingChanged -= ChangeServerResetVisibility;
+            _showWeeklyReset.SettingChanged -= ChangeWeeklyResetVisibility;
+        }
+
+        protected override void DefineSettings(SettingCollection settings)
+        {
+            base.DefineSettings(settings);
+
+            _showServerTime = settings.DefineSetting(nameof(_showServerTime), true);
+            _showDailyReset = settings.DefineSetting(nameof(_showDailyReset), true);
+            _showWeeklyReset = settings.DefineSetting(nameof(_showWeeklyReset), true);
+
+            _showServerTime.SettingChanged += ChangeServerTimeVisibility;
+            _showDailyReset.SettingChanged += ChangeServerResetVisibility;
+            _showWeeklyReset.SettingChanged += ChangeWeeklyResetVisibility;
+        }
+
+        private void ChangeServerTimeVisibility(object sender, ValueChangedEventArgs<bool> e)
+        {
+            _serverTime.Visible = e.NewValue;
+            _serverTime.Parent?.Invalidate();
+        }
+
+        private void ChangeServerResetVisibility(object sender, ValueChangedEventArgs<bool> e)
+        {
+            _serverReset.Visible = e.NewValue;
+            _serverReset.Parent?.Invalidate();
+        }
+        
+        private void ChangeWeeklyResetVisibility(object sender, ValueChangedEventArgs<bool> e)
+        {
+            _weeklyReset.Visible = e.NewValue;
+            _weeklyReset.Parent?.Invalidate();
         }
 
         private void UI_IsCompassTopRightChanged(object sender, ValueEventArgs<bool> e)
@@ -155,6 +198,70 @@ namespace Kenedia.Modules.QoL.SubModules.GameResets
 
             var serverReset = t.Subtract(now);
             _serverReset.Text = string.Format("{0:00}:{1:00}:{2:00}", serverReset.Hours, serverReset.Minutes, serverReset.Seconds);
+        }
+
+        public override void CreateSettingsPanel(FlowPanel flowPanel, int width)
+        {
+            var headerPanel = new Panel()
+            {
+                Parent = flowPanel,
+                Width = width,
+                HeightSizingMode = SizingMode.AutoSize,
+                ShowBorder = true,
+                CanCollapse = true,
+                TitleIcon = Icon.Texture,
+                Title = SubModuleType.ToString(),
+            };
+
+            var contentFlowPanel = new FlowPanel()
+            {
+                Parent = headerPanel,
+                HeightSizingMode = SizingMode.AutoSize,
+                WidthSizingMode = SizingMode.Fill,
+                FlowDirection = ControlFlowDirection.SingleTopToBottom,
+                ContentPadding = new(5, 2),
+                ControlPadding = new(0, 2),
+            };
+
+            _ = new KeybindingAssigner()
+            {
+                Parent = contentFlowPanel,
+                Width = width - 16,
+                KeyBinding = HotKey.Value,
+                KeybindChangedAction = (kb) =>
+                {
+                    HotKey.Value = new()
+                    {
+                        ModifierKeys = kb.ModifierKeys,
+                        PrimaryKey = kb.PrimaryKey,
+                        Enabled = kb.Enabled,
+                        IgnoreWhenInTextField = true,
+                    };
+                },
+                SetLocalizedKeyBindingName = () => string.Format(strings.HotkeyEntry_Name, $"{SubModuleType}"),
+                SetLocalizedTooltip = () => string.Format(strings.HotkeyEntry_Description, $"{SubModuleType}"),
+            };
+
+            UI.WrapWithLabel(() => strings.ShowServerTime_Name, () => strings.ShowServerTime_Tooltip, contentFlowPanel, width - 16, new Checkbox()
+            {
+                Height = 20,
+                Checked = _showServerTime.Value,
+                CheckedChangedAction = (b) => _showServerTime.Value = b,
+            });
+
+            UI.WrapWithLabel(() => strings.ShowDailyReset_Name, () => strings.ShowDailyReset_Tooltip, contentFlowPanel, width - 16, new Checkbox()
+            {
+                Height = 20,
+                Checked = _showDailyReset.Value,
+                CheckedChangedAction = (b) => _showDailyReset.Value = b,
+            });
+
+            UI.WrapWithLabel(() => strings.ShowWeeklyReset_Name, () => strings.ShowWeeklyReset_Tooltip, contentFlowPanel, width - 16, new Checkbox()
+            {
+                Height = 20,
+                Checked = _showWeeklyReset.Value,
+                CheckedChangedAction = (b) => _showWeeklyReset.Value = b,
+            });
         }
     }
 }

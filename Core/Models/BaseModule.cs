@@ -13,6 +13,7 @@ using Microsoft.Xna.Framework.Input;
 using Blish_HUD.Controls;
 using Blish_HUD.Gw2Mumble;
 using Newtonsoft.Json;
+using Kenedia.Modules.Core.Controls;
 
 namespace Kenedia.Modules.Core.Models
 {

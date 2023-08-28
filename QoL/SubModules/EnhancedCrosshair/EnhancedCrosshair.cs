@@ -7,6 +7,8 @@ using System;
 using Kenedia.Modules.QoL.Res;
 using Blish_HUD.Content;
 using System.IO;
+using SizingMode = Blish_HUD.Controls.SizingMode;
+using ControlFlowDirection = Blish_HUD.Controls.ControlFlowDirection;
 
 namespace Kenedia.Modules.QoL.SubModules.EnhancedCrosshair
 {
@@ -71,6 +73,49 @@ namespace Kenedia.Modules.QoL.SubModules.EnhancedCrosshair
                 new Point(48),
                 () => strings.DisableOnSearch_Name,
                 () => strings.DisableOnSearch_Tooltip);
+        }
+
+        public override void CreateSettingsPanel(FlowPanel flowPanel, int width)
+        {
+            var headerPanel = new Panel()
+            {
+                Parent = flowPanel,
+                Width = width,
+                HeightSizingMode = SizingMode.AutoSize,
+                ShowBorder = true,
+                CanCollapse = true,
+                TitleIcon = Icon.Texture,
+                Title = SubModuleType.ToString(),
+            };
+
+            var contentFlowPanel = new FlowPanel()
+            {
+                Parent = headerPanel,
+                HeightSizingMode = SizingMode.AutoSize,
+                WidthSizingMode = SizingMode.Fill,
+                FlowDirection = ControlFlowDirection.SingleTopToBottom,
+                ControlPadding = new(10),
+            };
+
+
+            _ = new KeybindingAssigner()
+            {
+                Parent = contentFlowPanel,
+                Width = width,
+                KeyBinding = HotKey.Value,
+                KeybindChangedAction = (kb) =>
+                {
+                    HotKey.Value = new()
+                    {
+                        ModifierKeys = kb.ModifierKeys,
+                        PrimaryKey = kb.PrimaryKey,
+                        Enabled = kb.Enabled,
+                        IgnoreWhenInTextField = true,
+                    };
+                },
+                SetLocalizedKeyBindingName = () => string.Format(strings.HotkeyEntry_Name, $"{SubModuleType}"),
+                SetLocalizedTooltip = () => string.Format(strings.HotkeyEntry_Description, $"{SubModuleType}"),
+            };
         }
     }
 }

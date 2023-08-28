@@ -12,6 +12,7 @@ using SizingMode = Blish_HUD.Controls.SizingMode;
 using ControlFlowDirection = Blish_HUD.Controls.ControlFlowDirection;
 using Blish_HUD.Input;
 using Kenedia.Modules.Core.Extensions;
+using Kenedia.Modules.Core.Utility;
 using Kenedia.Modules.QoL.Res;
 
 namespace Kenedia.Modules.QoL.SubModules.WikiSearch
@@ -19,7 +20,6 @@ namespace Kenedia.Modules.QoL.SubModules.WikiSearch
     public class WikiSearch : SubModule
     {
         private readonly MouseContainer _mouseContainer;
-        private readonly Label _instuctionLabel;
 
         private SettingEntry<bool> _disableOnRightClick;
         private SettingEntry<bool> _disableOnSearch;
@@ -78,7 +78,7 @@ namespace Kenedia.Modules.QoL.SubModules.WikiSearch
                 Text = $"{SubModuleType}".SplitStringOnUppercase(),
             };
 
-            _instuctionLabel = new()
+            _ = new Label()
             {
                 Parent = flowPanel,
                 Font = GameService.Content.DefaultFont16,
@@ -115,19 +115,13 @@ namespace Kenedia.Modules.QoL.SubModules.WikiSearch
             base.DefineSettings(settings);
 
             _disableOnSearch = settings.DefineSetting(nameof(_disableOnSearch),
-                true,
-                () => strings.DisableOnSearch_Name,
-                () => strings.DisableOnSearch_Tooltip);
+                true);
 
             _disableOnRightClick = settings.DefineSetting(nameof(_disableOnRightClick),
-                true,
-                () => strings.DisableOnSearch_Name,
-                () => strings.DisableOnSearch_Tooltip);
+                true);
 
             _modifierToChat = settings.DefineSetting(nameof(_modifierToChat),
-                new KeyBinding(Keys.LeftShift),
-                () => strings.DisableOnSearch_Name,
-                () => strings.DisableOnSearch_Tooltip);
+                new KeyBinding(Keys.LeftShift));
         }
 
         override public void Load()
@@ -221,6 +215,63 @@ namespace Kenedia.Modules.QoL.SubModules.WikiSearch
                 GameService.GameIntegration.Gw2Instance.FocusGw2();
             }
             catch { }
+        }
+
+        public override void CreateSettingsPanel(FlowPanel flowPanel, int width)
+        {
+            var headerPanel = new Panel()
+            {
+                Parent = flowPanel,
+                Width = width,
+                HeightSizingMode = SizingMode.AutoSize,
+                ShowBorder = true,
+                CanCollapse = true,
+                TitleIcon = Icon.Texture,
+                Title = SubModuleType.ToString(),
+            };
+
+            var contentFlowPanel = new FlowPanel()
+            {
+                Parent = headerPanel,
+                HeightSizingMode = SizingMode.AutoSize,
+                WidthSizingMode = SizingMode.Fill,
+                FlowDirection = ControlFlowDirection.SingleTopToBottom,
+                ContentPadding = new(5, 2),
+                ControlPadding = new(0, 2),
+            };
+
+            _ = new KeybindingAssigner()
+            {
+                Parent = contentFlowPanel,
+                Width = width - 16,
+                KeyBinding = HotKey.Value,
+                KeybindChangedAction = (kb) =>
+                {
+                    HotKey.Value = new()
+                    {
+                        ModifierKeys = kb.ModifierKeys,
+                        PrimaryKey = kb.PrimaryKey,
+                        Enabled = kb.Enabled,
+                        IgnoreWhenInTextField = true,
+                    };
+                },
+                SetLocalizedKeyBindingName = () => string.Format(strings.HotkeyEntry_Name, $"{SubModuleType}"),
+                SetLocalizedTooltip = () => string.Format(strings.HotkeyEntry_Description, $"{SubModuleType}"),
+            };
+
+            UI.WrapWithLabel(() => strings.DisableOnSearch_Name, () => strings.DisableOnSearch_Tooltip, contentFlowPanel, width - 16, new Checkbox()
+            {
+                Height = 20,
+                Checked = _disableOnSearch.Value,
+                CheckedChangedAction = (b) => _disableOnSearch.Value = b,
+            });
+
+            UI.WrapWithLabel(() => strings.DisableOnRightClick_Name, () => strings.DisableOnRightClick_Tooltip, contentFlowPanel, width - 16, new Checkbox()
+            {
+                Height = 20,
+                Checked = _disableOnRightClick.Value,
+                CheckedChangedAction = (b) => _disableOnRightClick.Value = b,
+            });
         }
     }
 }

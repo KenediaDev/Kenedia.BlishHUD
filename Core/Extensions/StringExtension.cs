@@ -31,6 +31,11 @@ namespace Kenedia.Modules.Core.Extensions
             return result;
         }
 
+        public static string RemoveSpaces(this string input)
+        {
+            return input.Replace(" ", "");
+        }
+
         public static string SplitStringOnUppercase(this string input)
         {
             var result = new StringBuilder();

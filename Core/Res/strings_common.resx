@@ -196,4 +196,7 @@
   <data name="GW2API_RequestFailed" xml:space="preserve">
     <value>GW2 API request failed.</value>
   </data>
+  <data name="SharedSettings" xml:space="preserve">
+    <value>Shared Settings</value>
+  </data>
 </root>
