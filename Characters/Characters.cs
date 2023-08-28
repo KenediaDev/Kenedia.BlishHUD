@@ -60,6 +60,8 @@ namespace Kenedia.Modules.Characters
         private bool _loadedCharacters;
         private bool _mapsUpdated;
 
+        private SemVer.Version _version;
+
         [ImportingConstructor]
         public Characters([Import("ModuleParameters")] ModuleParameters moduleParameters)
             : base(moduleParameters)
@@ -187,6 +189,8 @@ namespace Kenedia.Modules.Characters
             Settings.RadialKey.Value.Activated += RadialMenuToggle;
 
             Tags.CollectionChanged += Tags_CollectionChanged;
+
+            _version = Settings.Version.Value;
 
             Settings.Version.Value = ModuleVersion;
         }
@@ -462,7 +466,16 @@ namespace Kenedia.Modules.Characters
         {
             if (GameService.GameIntegration.Gw2Instance.Gw2HasFocus && (!Settings.CancelOnlyOnESC.Value || GameService.Input.Keyboard.KeysDown.Contains(Keys.Escape)))
             {
-                CancelEverything();
+                var keys = new List<Keys>()
+                {
+                    Settings.LogoutKey.Value.PrimaryKey,
+                    Keys.Enter,
+                };
+
+                if (GameService.Input.Keyboard.KeysDown.Except(keys).Count() > 0)
+                {
+                    CancelEverything();
+                }
             }
         }
 
@@ -740,7 +753,7 @@ namespace Kenedia.Modules.Characters
                 _characterFileTokenSource?.Cancel();
                 _characterFileTokenSource = new CancellationTokenSource();
 
-                if (File.Exists(CharactersPath)&& await FileExtension.WaitForFileUnlock(CharactersPath, 2500, _characterFileTokenSource.Token))
+                if (File.Exists(CharactersPath) && await FileExtension.WaitForFileUnlock(CharactersPath, 2500, _characterFileTokenSource.Token))
                 {
                     FileInfo infos = new(CharactersPath);
                     string content = File.ReadAllText(CharactersPath);
@@ -755,7 +768,7 @@ namespace Kenedia.Modules.Characters
                             if (!names.Contains(c.Name))
                             {
                                 Tags.AddTags(c.Tags);
-                                CharacterModels.Add(new(c, CharacterSwapping, Paths.ModulePath, RequestCharacterSave, CharacterModels, Data));
+                                CharacterModels.Add(new(c, CharacterSwapping, Paths.ModulePath, RequestCharacterSave, CharacterModels, Data) { Beta = _version >= new SemVer.Version(1, 0, 20) && c.Beta });
                                 names.Add(c.Name);
                             }
                         });
@@ -792,7 +805,7 @@ namespace Kenedia.Modules.Characters
                 }
                 else
                 {
-                   if(!_characterFileTokenSource.IsCancellationRequested) Logger.Info("Failed to save the characters file '" + CharactersPath + "'.");
+                    if (!_characterFileTokenSource.IsCancellationRequested) Logger.Info("Failed to save the characters file '" + CharactersPath + "'.");
                 }
             }
             catch (Exception ex)
