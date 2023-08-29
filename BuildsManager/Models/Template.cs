@@ -248,7 +248,7 @@ namespace Kenedia.Modules.BuildsManager.Models
 
         public EnhancementTemplateEntry Enhancement { get; } = new(TemplateSlotType.Enhancement);
 
-        public JadeBotTemplateEntry JadeBotCore { get; } = new(TemplateSlotType.JadeBotCore);
+        public PowerCoreTemplateEntry PowerCore { get; } = new(TemplateSlotType.PowerCore);
 
         public RelicTemplateEntry Relic { get; } = new(TemplateSlotType.Relic);
 
@@ -366,11 +366,11 @@ namespace Kenedia.Modules.BuildsManager.Models
                         utility.UtilityChanged += Utility_UtilityChanged;
                         break;
 
-                    case TemplateSlotType.JadeBotCore:
-                        if (this[slot] is not JadeBotTemplateEntry jadeBotCore)
+                    case TemplateSlotType.PowerCore:
+                        if (this[slot] is not PowerCoreTemplateEntry powerCore)
                             continue;
 
-                        jadeBotCore.JadeBotCoreChanged += JadeBotCore_JadeBotCoreChanged;
+                        powerCore.PowerCoreChanged += PowerCore_PowerCoreChanged;
                         break;
 
                     case TemplateSlotType.Relic:
@@ -490,11 +490,11 @@ namespace Kenedia.Modules.BuildsManager.Models
                         utility.UtilityChanged -= Utility_UtilityChanged;
                         break;
 
-                    case TemplateSlotType.JadeBotCore:
-                        if (this[slot] is not JadeBotTemplateEntry jadeBotCore)
+                    case TemplateSlotType.PowerCore:
+                        if (this[slot] is not PowerCoreTemplateEntry powerCore)
                             continue;
 
-                        jadeBotCore.JadeBotCoreChanged -= JadeBotCore_JadeBotCoreChanged;
+                        powerCore.PowerCoreChanged -= PowerCore_PowerCoreChanged;
                         break;
 
                     case TemplateSlotType.Relic:
@@ -531,7 +531,7 @@ namespace Kenedia.Modules.BuildsManager.Models
             OnGearChanged(sender, e);
         }
 
-        private void JadeBotCore_JadeBotCoreChanged(object sender, ValueChangedEventArgs<JadeBotCore> e)
+        private void PowerCore_PowerCoreChanged(object sender, ValueChangedEventArgs<PowerCore> e)
         {
             OnGearChanged(sender, e);
         }
@@ -934,7 +934,7 @@ namespace Kenedia.Modules.BuildsManager.Models
                 codeArray = Nourishment.GetFromCodeArray(codeArray);
                 codeArray = Enhancement.GetFromCodeArray(codeArray);
                 codeArray = Relic.GetFromCodeArray(codeArray);
-                codeArray = JadeBotCore.GetFromCodeArray(codeArray);
+                codeArray = PowerCore.GetFromCodeArray(codeArray);
 
                 // Enable Events again to become responsive
             }
@@ -1044,7 +1044,7 @@ namespace Kenedia.Modules.BuildsManager.Models
             codeArray = Nourishment.AddToCodeArray(codeArray);
             codeArray = Enhancement.AddToCodeArray(codeArray);
             codeArray = Relic.AddToCodeArray(codeArray);
-            codeArray = JadeBotCore.AddToCodeArray(codeArray);
+            codeArray = PowerCore.AddToCodeArray(codeArray);
 
             return $"[&{Convert.ToBase64String(codeArray)}]";
         }

@@ -45,6 +45,8 @@ namespace Kenedia.Modules.BuildsManager
             ModuleInstance = this;
             HasGUI = true;
 
+            Services.GameStateDetectionService.Enabled = false;
+
             CreateCornerIcons();
         }
 
@@ -104,7 +106,7 @@ namespace Kenedia.Modules.BuildsManager
                         Logger.Info($"Apply fresh {e.NewValue} data to the UI.");
                     }
 
-                    if (Data.IsLoaded && !TemplatesLoaded) await LoadTemplates();
+                    if (Data.IsLoaded && !TemplatesLoaded) LoadTemplates();
                     _apiSpinner?.Hide();
                 }
                 else
@@ -135,7 +137,7 @@ namespace Kenedia.Modules.BuildsManager
                 }
             }
 
-            if (Data.IsLoaded) await LoadTemplates();
+            if (Data.IsLoaded) LoadTemplates();
         }
 
         protected override void OnModuleLoaded(EventArgs e)
@@ -168,9 +170,13 @@ namespace Kenedia.Modules.BuildsManager
             _cancellationTokenSource?.Cancel();
             _cancellationTokenSource = new CancellationTokenSource();
 
-            await LoadTemplates();
+            //LoadTemplates();
 
             base.ReloadKey_Activated(sender, e);
+
+            //await GW2API.CreateItemMap(_cancellationTokenSource.Token);
+            //await GW2API.UpdateData();
+            //await Data.Load();
         }
 
         protected override void LoadGUI()
@@ -236,11 +242,11 @@ namespace Kenedia.Modules.BuildsManager
             }
         }
 
-        private async Task LoadTemplates()
+        private void LoadTemplates()
         {
             Logger.Info($"LoadTemplates");
 
-            _ = Task.Run(async () =>
+            _ = Task.Run(() =>
             {
                 TemplatesLoaded = false;
                 var time = new Stopwatch();

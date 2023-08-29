@@ -38,7 +38,8 @@ namespace Kenedia.Modules.Characters.Services
             IncludeBetaCharacters = internalSettings.DefineSetting(nameof(IncludeBetaCharacters), true);
 
             FilterAsOne = internalSettings.DefineSetting(nameof(FilterAsOne), false);
-            UseBetaGamestate = internalSettings.DefineSetting(nameof(UseBetaGamestate), true);
+            UseBetaGamestate = internalSettings.DefineSetting(nameof(UseBetaGamestate), false);
+            DebugMode = internalSettings.DefineSetting(nameof(DebugMode), true);
 
             EnableRadialMenu = internalSettings.DefineSetting(nameof(EnableRadialMenu), true);
             Radial_Scale = internalSettings.DefineSetting(nameof(Radial_Scale), 0.66F);
@@ -65,7 +66,7 @@ namespace Kenedia.Modules.Characters.Services
             DoubleClickToEnter = internalSettings.DefineSetting(nameof(DoubleClickToEnter), false);
             EnterToLogin = internalSettings.DefineSetting(nameof(EnterToLogin), false);
             CheckDistance = internalSettings.DefineSetting(nameof(CheckDistance), 5);
-            SwapDelay = internalSettings.DefineSetting(nameof(SwapDelay), 250);
+            SwapDelay = internalSettings.DefineSetting(nameof(SwapDelay), 500);
             KeyDelay = internalSettings.DefineSetting(nameof(KeyDelay), 10);
             FilterDelay = internalSettings.DefineSetting(nameof(FilterDelay), 0);
             WindowSize = internalSettings.DefineSetting(nameof(CurrentWindowSize), new Point(385, 920));
@@ -115,7 +116,6 @@ namespace Kenedia.Modules.Characters.Services
             _appearanceSettings.ItemRemoved += AppearanceSettings_ItemRemoved;
             _settings = settings;
         }
-
 
         public event EventHandler AppearanceSettingChanged;
 
@@ -171,6 +171,8 @@ namespace Kenedia.Modules.Characters.Services
         public SettingCollection AccountSettings { get; private set; }
 
         public SettingEntry<Dictionary<string, ShowCheckPair>> DisplayToggles { get; set; }
+
+        public SettingEntry<bool> DebugMode { get; set; }
 
         public SettingEntry<bool> PinSideMenus { get; set; }
 

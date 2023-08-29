@@ -25,7 +25,7 @@
         PvpAmulet,
         Nourishment,
         Enhancement,
-        JadeBotCore,
+        PowerCore,
         Relic,
     }
 }

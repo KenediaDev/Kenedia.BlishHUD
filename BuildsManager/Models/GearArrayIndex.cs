@@ -96,6 +96,6 @@
         Utility,
         Relic,
 
-        JadeBotCore,
+        PowerCore,
     }
 }

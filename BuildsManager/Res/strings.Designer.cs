@@ -458,15 +458,6 @@ namespace Kenedia.Modules.BuildsManager.Res {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Jade Bot Core.
-        /// </summary>
-        internal static string JadeBotCore {
-            get {
-                return ResourceManager.GetString("JadeBotCore", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Jewellery.
         /// </summary>
         internal static string Jewellery {
@@ -562,6 +553,15 @@ namespace Kenedia.Modules.BuildsManager.Res {
         internal static string Power {
             get {
                 return ResourceManager.GetString("Power", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Power Core.
+        /// </summary>
+        internal static string PowerCore {
+            get {
+                return ResourceManager.GetString("PowerCore", resourceCulture);
             }
         }
         

@@ -1017,8 +1017,8 @@ namespace Kenedia.Modules.Characters.Views
             {
                 Location = new(225, 2),
                 Parent = subP,
-                MinValue = 0,
-                MaxValue = 60000,
+                MinValue = 500,
+                MaxValue = 30000,
                 Value = _settings.SwapDelay.Value,
                 Width = ContentRegion.Width - 35 - 225,
                 ValueChangedAction = (num) =>
@@ -1105,6 +1105,15 @@ namespace Kenedia.Modules.Characters.Views
                 CheckedChangedAction = (b) => _settings.ShowNotifications.Value = b,
                 SetLocalizedText = () => strings.ShowNotifications,
                 SetLocalizedTooltip = () => strings.ShowNotifications_Tooltip,
+            };
+
+            _ = new Checkbox()
+            {
+                Parent = cP,
+                Checked = _settings.DebugMode.Value,
+                CheckedChangedAction = (b) => _settings.DebugMode.Value = b,
+                SetLocalizedText = () => strings.DebugMode_Name,
+                SetLocalizedTooltip = () => strings.DebugMode_Tooltip,
             };
             #endregion
         }

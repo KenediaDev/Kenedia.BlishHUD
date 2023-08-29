@@ -166,6 +166,10 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage
 
             switch (Item?.Type)
             {
+                case ItemType.PowerCore:
+                    _description.Text = Item.Description ?? strings.MissingInfoFromAPI;
+                    break;
+
                 case ItemType.Consumable:
                     if (Item is Nourishment nourishment)
                     {

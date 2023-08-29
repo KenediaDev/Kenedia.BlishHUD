@@ -217,9 +217,6 @@
     <value>Ce code n'est pas le même que celui de l'Equipment Template du jeu. Le modèle du jeu ne peut malheureusement pas être lu ou partagé.
 Le but de ce code est de partager facilement le modèle d'équipement du module avec d'autres utilisateurs du module.</value>
   </data>
-  <data name="JadeBotCore" xml:space="preserve">
-    <value>Jade Bot Core</value>
-  </data>
   <data name="Relic" xml:space="preserve">
     <value>Relique</value>
   </data>
@@ -369,5 +366,8 @@ Le but de ce code est de partager facilement le modèle d'équipement du module 
   </data>
   <data name="PetId" xml:space="preserve">
     <value>Pet Id</value>
+  </data>
+  <data name="PowerCore" xml:space="preserve">
+    <value>Noyau de puissance</value>
   </data>
 </root>

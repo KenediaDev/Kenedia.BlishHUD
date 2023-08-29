@@ -144,7 +144,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
             {
                 e.OldValue.ProfessionChanged -= OnProfessionChanged;
                 e.OldValue.EliteSpecializationChanged -= BuildTemplate_EliteSpecializationChanged;
-                e.NewValue.SpecializationChanged -= OnSpecializationChanged;
+                e.OldValue.SpecializationChanged -= OnSpecializationChanged;
                 e.OldValue.LoadedBuildFromCode -= BuildTemplate_Loaded;
                 e.OldValue.TemplateChanged -= TemplatePresenter_TemplateChanged;
             }

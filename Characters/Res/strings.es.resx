@@ -1037,4 +1037,10 @@ Ruta a 'tesseract.dll': {0}</value>
   <data name="IsBeta_Tooltip" xml:space="preserve">
     <value>¿Es un personaje beta?</value>
   </data>
+  <data name="DebugMode_Name" xml:space="preserve">
+    <value>Activar el modo depuración</value>
+  </data>
+  <data name="DebugMode_Tooltip" xml:space="preserve">
+    <value>Activar el modo de depuración para proporcionar más información a través del blish log</value>
+  </data>
 </root>

@@ -1037,4 +1037,10 @@ Chemin d'accès au fichier 'tesseract.dll' : {0}</value>
   <data name="IsBeta_Tooltip" xml:space="preserve">
     <value>S'agit-il d'un personnage bêta ?</value>
   </data>
+  <data name="DebugMode_Name" xml:space="preserve">
+    <value>Activer le mode débogage</value>
+  </data>
+  <data name="DebugMode_Tooltip" xml:space="preserve">
+    <value>Activer le mode de débogage pour fournir plus d'informations à travers le journal blish</value>
+  </data>
 </root>

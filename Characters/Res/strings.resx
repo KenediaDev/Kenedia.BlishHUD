@@ -1037,4 +1037,10 @@ Path to the 'tesseract.dll': {0}</value>
   <data name="IsBeta_Tooltip" xml:space="preserve">
     <value>Is this a beta character?</value>
   </data>
+  <data name="DebugMode_Name" xml:space="preserve">
+    <value>Enable Debug Mode</value>
+  </data>
+  <data name="DebugMode_Tooltip" xml:space="preserve">
+    <value>Enable the debug mode to provide more information through the blish log</value>
+  </data>
 </root>

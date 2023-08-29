@@ -692,6 +692,24 @@ namespace Kenedia.Modules.Characters.Res {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Enable Debug Mode.
+        /// </summary>
+        internal static string DebugMode_Name {
+            get {
+                return ResourceManager.GetString("DebugMode_Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Enable the debug mode to provide more information through the blish log.
+        /// </summary>
+        internal static string DebugMode_Tooltip {
+            get {
+                return ResourceManager.GetString("DebugMode_Tooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Delays.
         /// </summary>
         internal static string Delays {

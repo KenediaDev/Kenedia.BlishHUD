@@ -201,6 +201,14 @@ namespace Kenedia.Modules.Characters
 
             Settings = new Settings(settings);
             Settings.ShowCornerIcon.SettingChanged += ShowCornerIcon_SettingChanged;
+            Settings.UseBetaGamestate.SettingChanged += UseBetaGamestate_SettingChanged;
+
+            Services.GameStateDetectionService.Enabled = Settings.UseBetaGamestate.Value;
+        }
+
+        private void UseBetaGamestate_SettingChanged(object sender, Blish_HUD.ValueChangedEventArgs<bool> e)
+        {
+            Services.GameStateDetectionService.Enabled = e.NewValue;
         }
 
         protected override async Task LoadAsync()

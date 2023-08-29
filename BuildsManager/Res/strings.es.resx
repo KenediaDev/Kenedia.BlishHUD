@@ -217,9 +217,6 @@
     <value>Este código no es el mismo que la Plantilla de Equipo del juego. La Plantilla del juego no puede ser leída o compartida tristemente.
 El propósito de este código es compartir la Plantilla de Equipo del módulo fácilmente con otros usuarios del módulo.</value>
   </data>
-  <data name="JadeBotCore" xml:space="preserve">
-    <value>Jade Bot Core</value>
-  </data>
   <data name="Relic" xml:space="preserve">
     <value>Reliquia</value>
   </data>
@@ -369,5 +366,8 @@ El propósito de este código es compartir la Plantilla de Equipo del módulo f�
   </data>
   <data name="PetId" xml:space="preserve">
     <value>Identificación de mascotas</value>
+  </data>
+  <data name="PowerCore" xml:space="preserve">
+    <value>Núcleo de potencia</value>
   </data>
 </root>

@@ -14,15 +14,16 @@ using Kenedia.Modules.BuildsManager.Extensions;
 using Kenedia.Modules.BuildsManager.TemplateEntries;
 using static Kenedia.Modules.BuildsManager.Controls.Selection.SelectionPanel;
 using Kenedia.Modules.BuildsManager.Res;
+using System.Diagnostics;
 
 namespace Kenedia.Modules.BuildsManager.Controls.GearPage.GearSlots
 {
-    public class JadeBotCoreSlot : GearSlot
+    public class PowerCoreSlot : GearSlot
     {
         private Rectangle _titleBounds;
         private Rectangle _statBounds;
 
-        public JadeBotCoreSlot(TemplateSlotType gearSlot, Container parent, TemplatePresenter templatePresenter) : base(gearSlot, parent, templatePresenter)
+        public PowerCoreSlot(TemplateSlotType gearSlot, Container parent, TemplatePresenter templatePresenter) : base(gearSlot, parent, templatePresenter)
         {
             ItemControl.Placeholder.Texture = AsyncTexture2D.FromAssetId(2630946);
             ItemControl.Placeholder.TextureRegion = new(38, 38, 52, 52);
@@ -43,32 +44,30 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage.GearSlots
         {
             base.PaintAfterChildren(spriteBatch, bounds);
 
-            spriteBatch.DrawStringOnCtrl(this, ItemControl?.Item?.Name ?? strings.JadeBotCore, Content.DefaultFont16, _titleBounds, ItemControl?.Item?.Rarity.GetColor() ?? Color.White * 0.5F);
-            spriteBatch.DrawStringOnCtrl(this, (ItemControl?.Item as DataModels.Items.Enhancement)?.Details.Description ?? ItemControl?.Item?.Description ?? strings.CurrentlyNotAvailable, Content.DefaultFont12, _statBounds, Color.White, false, HorizontalAlignment.Left, VerticalAlignment.Top);
+            spriteBatch.DrawStringOnCtrl(this, ItemControl?.Item?.Name ?? strings.PowerCore, Content.DefaultFont16, _titleBounds, ItemControl?.Item?.Rarity.GetColor() ?? Color.White * 0.5F);
+            spriteBatch.DrawStringOnCtrl(this, (ItemControl?.Item as Enhancement)?.Details.Description ?? ItemControl?.Item?.Description, Content.DefaultFont12, _statBounds, Color.White, false, HorizontalAlignment.Left, VerticalAlignment.Top);
         }
 
         protected override void SetItems(object sender, EventArgs e)
         {
             base.SetItems(sender, e);
 
-            var jadebotcore = TemplatePresenter?.Template?[Slot] as JadeBotTemplateEntry;
-            Item = jadebotcore?.JadeBotCore;
+            var powerCore = TemplatePresenter?.Template?[Slot] as PowerCoreTemplateEntry;
+            Item = powerCore?.PowerCore;
         }
 
         protected override void OnClick(MouseEventArgs e)
         {
             base.OnClick(e);
 
-            return;
-
             var a = AbsoluteBounds;
 
             if (ItemControl.MouseOver)
             {
-                SelectionPanel?.SetAnchor<JadeBotCore>(this, new Rectangle(a.Location, Point.Zero).Add(ItemControl.LocalBounds), SelectionTypes.Items, Slot, GearSubSlotType.Item, (jadeBotCore) =>
+                SelectionPanel?.SetAnchor<PowerCore>(this, new Rectangle(a.Location, Point.Zero).Add(ItemControl.LocalBounds), SelectionTypes.Items, Slot, GearSubSlotType.Item, (powerCores) =>
                 {
-                    (TemplatePresenter?.Template[Slot] as JadeBotTemplateEntry).JadeBotCore = jadeBotCore;
-                    Item = jadeBotCore;
+                    (TemplatePresenter?.Template[Slot] as PowerCoreTemplateEntry).PowerCore = powerCores;
+                    Item = powerCores;
                 });
             }
         }
@@ -77,8 +76,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage.GearSlots
         {
             base.CreateSubMenus();
 
-            return;
-            CreateSubMenu(() => strings.Reset, () => string.Format(strings.ResetEntry, strings.JadeBotCore), () => Item = null);
+            CreateSubMenu(() => strings.Reset, () => string.Format(strings.ResetEntry, strings.PowerCore), () => Item = null);
         }
     }
 }

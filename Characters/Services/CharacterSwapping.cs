@@ -99,9 +99,16 @@ namespace Kenedia.Modules.Characters.Services
             return false;
         }
 
+        private void Debug(string txt)
+        {
+            if(_settings.DebugMode.Value)
+                Characters.Logger.Info(txt);
+
+        }
+
         public async Task MoveRight(CancellationToken cancellationToken, int amount = 1)
         {
-            Characters.Logger.Info($"Move right to find {Character?.Name ?? "Unkown Character"}.");
+            Debug($"Move right to find {Character?.Name ?? "Unkown Character"}.");
             Status = strings.CharacterSwap_Right;
             for (int i = 0; i < amount; i++)
             {
@@ -112,7 +119,7 @@ namespace Kenedia.Modules.Characters.Services
 
         public async Task MoveLeft(CancellationToken cancellationToken, int amount = 1)
         {
-            Characters.Logger.Info($"Move left to find {Character?.Name ?? "Unkown Character"}.");
+            Debug($"Move left to find {Character?.Name ?? "Unkown Character"}.");
             Status = strings.CharacterSwap_Left;
             for (int i = 0; i < amount; i++)
             {
@@ -307,7 +314,7 @@ namespace Kenedia.Modules.Characters.Services
         {
             if (IsTaskCanceled(cancellationToken)) { return false; }
 
-            Characters.Logger.Info("Logging out");
+            Debug("Logging out");
             if (GameService.GameIntegration.Gw2Instance.IsInGame)
             {
                 Status = strings.CharacterSwap_Logout;
@@ -335,7 +342,7 @@ namespace Kenedia.Modules.Characters.Services
                             string txt = await OCR.Read();
                             while (stopwatch.ElapsedMilliseconds < 5000 && txt.Length <= 2 && !cancellationToken.IsCancellationRequested)
                             {
-                                Characters.Logger.Info($"We are in the character selection but the OCR did only read '{txt}'. Waiting a bit longer!");
+                                Debug($"We are in the character selection but the OCR did only read '{txt}'. Waiting a bit longer!");
                                 await Delay(cancellationToken, 250);
                                 txt = await OCR.Read();
                                 if (cancellationToken.IsCancellationRequested) return _gameState.IsCharacterSelection;
@@ -343,7 +350,7 @@ namespace Kenedia.Modules.Characters.Services
                         }
                         else
                         {
-                            Characters.Logger.Info($"OCR did not load the engine fully. {Character?.Name ?? "Character Name"} can not be confirmed!");
+                            Debug($"OCR did not load the engine fully. {Character?.Name ?? "Character Name"} can not be confirmed!");
                         }
                     }
                 }
@@ -359,7 +366,7 @@ namespace Kenedia.Modules.Characters.Services
                             string txt = await OCR.Read();
                             while (stopwatch.ElapsedMilliseconds < 5000 && txt.Length <= 2 && !cancellationToken.IsCancellationRequested)
                             {
-                                Characters.Logger.Info($"We should be in the character selection but the OCR did only read '{txt}'. Waiting a bit longer!");
+                                Debug($"We should be in the character selection but the OCR did only read '{txt}'. Waiting a bit longer!");
                                 await Delay(cancellationToken, 250);
                                 txt = await OCR.Read();
                                 if (cancellationToken.IsCancellationRequested) return _gameState.IsCharacterSelection;
@@ -367,7 +374,7 @@ namespace Kenedia.Modules.Characters.Services
                         }
                         else
                         {
-                            Characters.Logger.Info($"OCR did not load the engine fully. {Character?.Name ?? "Character Name"} can not be confirmed!");
+                            Debug($"OCR did not load the engine fully. {Character?.Name ?? "Character Name"} can not be confirmed!");
                         }
                     }
                 }
@@ -383,7 +390,7 @@ namespace Kenedia.Modules.Characters.Services
             Status = strings.CharacterSwap_MoveFirst;
             if (IsTaskCanceled(cancellationToken)) { return; }
 
-            Characters.Logger.Info("Move to first Character.");
+            Debug("Move to first Character.");
             var stopwatch = Stopwatch.StartNew();
             int moves = CharacterModels.Count - _movedLeft;
             for (int i = 0; i < moves; i++)
@@ -408,7 +415,7 @@ namespace Kenedia.Modules.Characters.Services
             Status = string.Format(strings.CharacterSwap_MoveTo, Character.Name);
             if (IsTaskCanceled(cancellationToken)) { return; }
 
-            Characters.Logger.Info($"Move to {Character?.Name ?? "Unkown Character"}.");
+            Debug($"Move to {Character?.Name ?? "Unkown Character"}.");
             var order = CharacterModels.OrderByDescending(e => e.LastLogin).ToList();
 
             var stopwatch = Stopwatch.StartNew();
@@ -438,14 +445,14 @@ namespace Kenedia.Modules.Characters.Services
             if (!_settings.UseOCR.Value || _ignoreOCR || !OCR.IsLoaded) return true;
             if (Character == null || string.IsNullOrEmpty(Character.Name)) return false;
 
-            Characters.Logger.Info($"Confirm {Character?.Name ?? "Unkown Character"}s name.");
+            Debug($"Confirm {Character?.Name ?? "Unkown Character"}s name.");
             string ocr_result = _settings.UseOCR.Value ? await OCR.Read() : "No OCR";
             (string, int, int, int, bool) isBestMatch = ("No OCR enabled.", 0, 0, 0, false);
 
             if (_settings.UseOCR.Value)
             {
                 Status = $"Confirm name ..." + Environment.NewLine + $"{ocr_result}";
-                Characters.Logger.Info($"OCR Result: {ocr_result}.");
+                Debug($"OCR Result: {ocr_result}.");
 
                 if (_settings.OnlyEnterOnExact.Value)
                 {
@@ -453,7 +460,7 @@ namespace Kenedia.Modules.Characters.Services
                 }
 
                 isBestMatch = Character.NameMatches(ocr_result);
-                Characters.Logger.Info($"Swapping to {Character.Name} - Best result for : '{ocr_result}' is '{isBestMatch.Item1}' with edit distance of: {isBestMatch.Item2} and which is {isBestMatch.Item3} steps away in the character list. Resulting in a total difference of {isBestMatch.Item4}.");
+                Debug($"Swapping to {Character.Name} - Best result for : '{ocr_result}' is '{isBestMatch.Item1}' with edit distance of: {isBestMatch.Item2} and which is {isBestMatch.Item3} steps away in the character list. Resulting in a total difference of {isBestMatch.Item4}.");
                 return isBestMatch.Item5;
             }
 
@@ -466,7 +473,7 @@ namespace Kenedia.Modules.Characters.Services
 
             if (_settings.EnterOnSwap.Value)
             {
-                Characters.Logger.Info($"Login to {Character?.Name ?? "Unkown Character"}.");
+                Debug($"Login to {Character?.Name ?? "Unkown Character"}.");
                 Status = string.Format(strings.CharacterSwap_LoginTo, Character.Name);
                 Blish_HUD.Controls.Intern.Keyboard.Stroke(VirtualKeyShort.RETURN, false);
                 await Delay(cancellationToken);

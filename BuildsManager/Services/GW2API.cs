@@ -27,6 +27,11 @@ using PvpAmulet = Kenedia.Modules.BuildsManager.DataModels.Items.PvpAmulet;
 using Kenedia.Modules.Core.Controls;
 using System.Text.RegularExpressions;
 using Kenedia.Modules.Core.Res;
+using System.Security.Policy;
+using System.Net.Http;
+using System.Diagnostics;
+using Kenedia.Modules.BuildsManager.Utility;
+using Kenedia.Modules.BuildsManager.DataModels.Converter;
 
 namespace Kenedia.Modules.BuildsManager.Services
 {
@@ -256,6 +261,10 @@ namespace Kenedia.Modules.BuildsManager.Services
                 var api_pvpRunes = await _gw2ApiManager.Gw2ApiClient.V2.Items.ManyAsync(_data.ItemMap.PvpRunes.Select(e => e.Id), cancellation);
                 var api_pveSigils = await _gw2ApiManager.Gw2ApiClient.V2.Items.ManyAsync(_data.ItemMap.PveSigils.Select(e => e.Id), cancellation);
                 var api_pvpSigils = await _gw2ApiManager.Gw2ApiClient.V2.Items.ManyAsync(_data.ItemMap.PvpSigils.Select(e => e.Id), cancellation);
+
+                var api_cores = await _gw2ApiManager.Gw2ApiClient.V2.Items.ManyAsync(_data.ItemMap.PowerCores.Select(e => e.Id), cancellation);
+                var api_relics = await _gw2ApiManager.Gw2ApiClient.V2.Items.ManyAsync(_data.ItemMap.Relics.Select(e => e.Id), cancellation);
+
                 var statChoices = new List<int>();
 
                 if (cancellation.IsCancellationRequested) return;
@@ -332,11 +341,14 @@ namespace Kenedia.Modules.BuildsManager.Services
                 ApplyData<ItemUpgradeComponent, Enrichment>(api_enrichments, _data.Enrichments, "Enrichments", _data.ItemMap.Enrichments);
                 ApplyData<ItemUpgradeComponent, Infusion>(api_infusions, _data.Infusions, "Infusions", _data.ItemMap.Infusions);
                 ApplyData<ItemConsumable, Nourishment>(api_nourishments, _data.Nourishments, "Nourishments", _data.ItemMap.Nourishments);
-                ApplyData<ItemConsumable, DataModels.Items.Enhancement>(api_utility, _data.Utilities, "Utilities", _data.ItemMap.Utilities);
+                ApplyData<ItemConsumable, Enhancement>(api_utility, _data.Utilities, "Utilities", _data.ItemMap.Utilities);
                 ApplyData<ItemUpgradeComponent, Rune>(api_pveRunes, _data.PveRunes, "PveRunes", _data.ItemMap.PveRunes);
                 ApplyData<ItemUpgradeComponent, Rune>(api_pvpRunes, _data.PvpRunes, "PvpRunes", _data.ItemMap.PvpRunes);
                 ApplyData<ItemUpgradeComponent, Sigil>(api_pveSigils, _data.PveSigils, "PveSigils", _data.ItemMap.PveSigils);
                 ApplyData<ItemUpgradeComponent, Sigil>(api_pvpSigils, _data.PvpSigils, "PvpSigils", _data.ItemMap.PvpSigils);
+
+                ApplyData<Item, PowerCore>(api_cores, _data.PowerCores, "PowerCores", _data.ItemMap.PowerCores);
+                ApplyData<Item, Relic>(api_relics, _data.Relics, "Relics", _data.ItemMap.Relics);
 
                 ApplyAmuletData(api_amulets, _data.PvpAmulets, "PvpAmulets", _data.ItemMap.PvpAmulets);
 
@@ -583,83 +595,6 @@ namespace Kenedia.Modules.BuildsManager.Services
 
                     63366, //Nameless Rune
                 };
-
-                var jadetechmodules = new List<int>() {
-                    95923,
-                    97553,
-                    96654,
-                    97572,
-                    96826,
-                    97410,
-                    96871,
-                    97775,
-                    97107,
-                    95904,
-                    96853,
-                    96919,
-                    96758,
-                    95893,
-                    95647,
-                    96477,
-                    95802,
-                    96360,
-                    97289,
-                    97656,
-                    96450,
-                    96992,
-                    96618,
-                    96590,
-                    95800,
-                    95801,
-                    97686,
-                    97535,
-                    95582,
-                    95948,
-                    97101,
-                    96474,
-                    95582,
-                    95647,
-                    95800,
-                    95801,
-                    95802,
-                    95864,
-                    95893,
-                    95904,
-                    95923,
-                    95948,
-                    96070,
-                    96299,
-                    96360,
-                    96450,
-                    96467,
-                    96474,
-                    96477,
-                    96590,
-                    96613,
-                    96618,
-                    96628,
-                    96654,
-                    96758,
-                    96826,
-                    96853,
-                    96871,
-                    96919,
-                    96992,
-                    97020,
-                    97041,
-                    97101,
-                    97107,
-                    97284,
-                    97289,
-                    97339,
-                    97410,
-                    97535,
-                    97553,
-                    97572,
-                    97656,
-                    97686,
-                    97775
-                };
                 var commonfeasts = new List<int>()
                 {
                     82657,
@@ -723,7 +658,6 @@ namespace Kenedia.Modules.BuildsManager.Services
                 };
                 _ = itemids.RemoveAll(invalidIds.Contains);
                 _ = itemids.RemoveAll(commonfeasts.Contains);
-                _ = itemids.RemoveAll(jadetechmodules.Contains);
 
                 //Ascended and Exotic
                 var exotic = new List<int>()
@@ -840,12 +774,22 @@ namespace Kenedia.Modules.BuildsManager.Services
                         {
                             foreach (var item in items)
                             {
-                                if (item.Type == ItemType.PowerCore)
+                                if (item.Type.ToString() == "Mwcc")
                                 {
-                                    itemMapping.PowerCore.Add(new()
+                                    itemMapping.Relics.Add(new()
                                     {
                                         Id = item.Id,
-                                        MappedId = (byte)(itemMapping.PowerCore.Count + 1),
+                                        MappedId = (byte)(itemMapping.Relics.Count + 1),
+                                        Name = item.Name,
+                                    });
+                                }
+
+                                if (item.Type == ItemType.PowerCore)
+                                {
+                                    itemMapping.PowerCores.Add(new()
+                                    {
+                                        Id = item.Id,
+                                        MappedId = (byte)(itemMapping.PowerCores.Count + 1),
                                         Name = item.Name,
                                     });
                                 }
@@ -1025,6 +969,80 @@ namespace Kenedia.Modules.BuildsManager.Services
             catch (Exception ex)
             {
                 BuildsManager.Logger.Warn($"Exception {ex}");
+            }
+        }
+
+        public async Task GetJadeCores(CancellationToken cancellation)
+        {
+            try
+            {
+                List<int> coreIds = new()
+                {
+                    97339,
+                    97041,
+                    97284,
+                    96628,
+                    95864,
+                    96467,
+                    97020,
+                    96299,
+                    96070,
+                    96613,
+                };
+
+                var items = await _gw2ApiManager.Gw2ApiClient.V2.Items.ManyAsync(coreIds, cancellation);
+
+                var jadeBotCoresDictionary = new Dictionary<int, PowerCore>();
+
+                foreach (var item in items)
+                {
+                    Debug.WriteLine($"item {item.Name} has Type {item.Type}");
+                    jadeBotCoresDictionary.Add(item.Id, new(item)
+                    {
+                        MappedId = (byte)(jadeBotCoresDictionary.Count + 1),
+                    });
+                }
+
+                string json = JsonConvert.SerializeObject(jadeBotCoresDictionary, Formatting.Indented);
+                File.WriteAllText($@"{Paths.ModulePath}\data\{"JadeBotCores"}.json", json);
+            }
+            catch
+            {
+
+            }
+        }
+
+        public async Task GetRelics(CancellationToken cancellation)
+        {
+            try
+            {
+                List<int> relicIds = new()
+                {
+                    100144,
+                    100659,
+                };
+
+                var items = await _gw2ApiManager.Gw2ApiClient.V2.Items.ManyAsync(relicIds, cancellation);
+
+                var relicDictionary = new Dictionary<int, PowerCore>();
+
+                foreach (var item in items)
+                {
+                    Debug.WriteLine($"item {item.Name} has Type {item.Type}");
+
+                    Debug.WriteLine($"Match {item.Type == "Mwcc"}");
+                    relicDictionary.Add(item.Id, new(item)
+                    {
+                        MappedId = (byte)(relicDictionary.Count + 1),
+                    });
+                }
+
+                string json = JsonConvert.SerializeObject(relicDictionary, Formatting.Indented);
+                File.WriteAllText($@"{Paths.ModulePath}\data\{"Relics"}.json", json);
+            }
+            catch
+            {
+
             }
         }
 

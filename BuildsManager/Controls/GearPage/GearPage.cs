@@ -113,7 +113,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage
                 {TemplateSlotType.PvpAmulet, new PvpAmuletSlot(TemplateSlotType.PvpAmulet, this, TemplatePresenter) {Visible = false } },
                 {TemplateSlotType.Nourishment, new NourishmentSlot(TemplateSlotType.Nourishment, this, TemplatePresenter)},
                 {TemplateSlotType.Enhancement, new EnhancementSlot(TemplateSlotType.Enhancement, this, TemplatePresenter)},
-                {TemplateSlotType.JadeBotCore, new JadeBotCoreSlot(TemplateSlotType.JadeBotCore, this, TemplatePresenter)},
+                {TemplateSlotType.PowerCore, new PowerCoreSlot(TemplateSlotType.PowerCore, this, TemplatePresenter)},
                 {TemplateSlotType.Relic, new RelicSlot(TemplateSlotType.Relic, this, TemplatePresenter)},
             };
 
@@ -259,8 +259,8 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage
 
                 _templateSlots[TemplateSlotType.Nourishment].Location = new(secondColumn, _pve.Bounds.Bottom + 20);
                 _templateSlots[TemplateSlotType.Enhancement].Location = new(secondColumn, _templateSlots[TemplateSlotType.Nourishment].Bottom + 5);
-                _templateSlots[TemplateSlotType.JadeBotCore].Location = new(secondColumn, _templateSlots[TemplateSlotType.Enhancement].Bottom + 20);
-                _templateSlots[TemplateSlotType.Relic].Location = new(secondColumn, _templateSlots[TemplateSlotType.JadeBotCore].Bottom + 5);
+                _templateSlots[TemplateSlotType.PowerCore].Location = new(secondColumn, _templateSlots[TemplateSlotType.Enhancement].Bottom + 20);
+                _templateSlots[TemplateSlotType.Relic].Location = new(secondColumn, _templateSlots[TemplateSlotType.PowerCore].Bottom + 5);
 
                 _templateSlots[TemplateSlotType.PvpAmulet].Location = new(_templateSlots[TemplateSlotType.Leg].Left, _templateSlots[TemplateSlotType.Leg].Bottom + gearSpacing);
 
@@ -337,7 +337,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage
 
                 _templateSlots[TemplateSlotType.Nourishment].Item = t.Nourishment.Nourishment;
                 _templateSlots[TemplateSlotType.Enhancement].Item = t.Enhancement.Enhancement;
-                _templateSlots[TemplateSlotType.JadeBotCore].Item = t.JadeBotCore.JadeBotCore;
+                _templateSlots[TemplateSlotType.PowerCore].Item = t.PowerCore.PowerCore;
                 _templateSlots[TemplateSlotType.Relic].Item = t.Relic.Relic;
             }
 

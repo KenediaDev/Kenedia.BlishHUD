@@ -31,6 +31,8 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
         private readonly List<Selectable> _utilites;
         private readonly List<Selectable> _enrichments;
         private readonly List<Selectable> _infusions;
+        private readonly List<Selectable> _powerCores;
+        private readonly List<Selectable> _relics;
 
         public GearSelection()
         {
@@ -80,6 +82,8 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
             _utilites = AddItems<Selectable, DataModels.Items.Enhancement>(BuildsManager.Data.Utilities.Values.OrderByDescending(e => e.Name).ThenBy(e => e.Id));
             _enrichments = AddItems<Selectable, Enrichment>(BuildsManager.Data.Enrichments.Values.OrderByDescending(e => e.Rarity).ThenBy(e => e.Name).ThenBy(e => e.Id));
             _infusions = AddItems<Selectable, Infusion>(BuildsManager.Data.Infusions.Values.OrderByDescending(e => e.Rarity).ThenBy(e => e.Name.Length).ThenBy(e => e.Name).ThenBy(e => e.Id));
+            _powerCores = AddItems<Selectable, PowerCore>(BuildsManager.Data.PowerCores.Values.OrderByDescending(e => e.Rarity).ThenBy(e => e.Name.Length).ThenBy(e => e.Name).ThenBy(e => e.Id));
+            _relics = AddItems<Selectable, Relic>(BuildsManager.Data.Relics.Values.OrderByDescending(e => e.Rarity).ThenBy(e => e.Name.Length).ThenBy(e => e.Name).ThenBy(e => e.Id));
 
             Search.TextChangedAction = (txt) =>
             {
@@ -319,7 +323,18 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
 
                     break;
 
-                case TemplateSlotType.JadeBotCore:
+                case TemplateSlotType.Relic:
+                    foreach (var item in _relics)
+                    {
+                        item.Visible = MatchingMethod(item.Item);
+                    }
+                    break;
+
+                case TemplateSlotType.PowerCore:
+                    foreach (var item in _powerCores)
+                    {
+                        item.Visible = MatchingMethod(item.Item);
+                    }
                     break;
 
                 case TemplateSlotType.PvpAmulet:

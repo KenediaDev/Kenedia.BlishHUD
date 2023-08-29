@@ -19,7 +19,8 @@ namespace Kenedia.Modules.BuildsManager.Models
         public List<ItemMap> Backs = new();
         public List<ItemMap> Weapons = new();
         public List<ItemMap> Armors = new();
-        public List<ItemMap> PowerCore = new();
+        public List<ItemMap> PowerCores = new();
+        public List<ItemMap> Relics = new();
         public List<ItemMap> PvpAmulets = new();
     
         public void Dispose()
@@ -39,7 +40,7 @@ namespace Kenedia.Modules.BuildsManager.Models
             Backs.Clear();
             Weapons.Clear();
             Armors.Clear();
-            PowerCore.Clear();
+            PowerCores.Clear();
             PvpAmulets.Clear();
         }
     }

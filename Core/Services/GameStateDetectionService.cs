@@ -204,7 +204,7 @@ namespace Kenedia.Modules.Core.Services
             else if (GameService.GameIntegration.Gw2Instance.Gw2HasFocus)
             {
                 // Throttle the check so we don't stress the CPU to badly with the checks
-                if (gameTime.TotalGameTime.TotalMilliseconds - _lastTick > 100)
+                if (gameTime.TotalGameTime.TotalMilliseconds - _lastTick > 250)
                 {
                     var sC = IsScreenChanging();
 
@@ -261,7 +261,7 @@ namespace Kenedia.Modules.Core.Services
                     }
 
                     // Character selection can only appear after ingame
-                    else if (GameStatus is GameStatusType.Ingame or GameStatusType.Cutscene  or GameStatusType.Vista && characterSelection)
+                    else if (GameStatus is GameStatusType.Ingame && characterSelection)
                     {
                         NewStatus = GameStatusType.CharacterSelection;
                     }
@@ -270,7 +270,7 @@ namespace Kenedia.Modules.Core.Services
 
             if (NewStatus != GameStatusType.Unknown)
             {
-                if (StatusConfirmed(NewStatus, _gameStatuses, NewStatus == GameStatusType.LoadingScreen ? 3 : 5))
+                if (StatusConfirmed(NewStatus, _gameStatuses, NewStatus == GameStatusType.LoadingScreen ? 2 : 4))
                 {
                     if (GameStatus != NewStatus)
                     {

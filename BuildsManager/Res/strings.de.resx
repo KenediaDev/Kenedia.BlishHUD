@@ -217,9 +217,6 @@
     <value>Dieser Code ist nicht derselbe wie die Ausrüstungsvorlage aus dem Spiel. Die Spielvorlage kann leider nicht gelesen oder weitergegeben werden.
 Der Zweck dieses Codes ist es, die Module Ausrüstungsvorlage leicht mit anderen Modulbenutzern zu teilen.</value>
   </data>
-  <data name="JadeBotCore" xml:space="preserve">
-    <value>Jade Bot Kern</value>
-  </data>
   <data name="Relic" xml:space="preserve">
     <value>Reliquie</value>
   </data>
@@ -369,5 +366,8 @@ Der Zweck dieses Codes ist es, die Module Ausrüstungsvorlage leicht mit anderen
   </data>
   <data name="PetId" xml:space="preserve">
     <value>Tiergefährten-ID</value>
+  </data>
+  <data name="PowerCore" xml:space="preserve">
+    <value>Kernleistung</value>
   </data>
 </root>

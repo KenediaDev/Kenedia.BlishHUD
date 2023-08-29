@@ -15,6 +15,8 @@ namespace Kenedia.Modules.Characters.Models
         public static string Url = "https://bhm.blishhud.com/Kenedia.Modules.Characters/static_info.json";
         public static string githubUrl = "https://raw.githubusercontent.com/KenediaDev/Kenedia.BlishHUD/bhud-static/Kenedia.Modules.Characters/static_info.json";
 
+        public StaticInfo() { }
+
         public StaticInfo(DateTime betaStart, DateTime betaEnd)
         {
             BetaStart = betaStart;
@@ -24,20 +26,29 @@ namespace Kenedia.Modules.Characters.Models
         public event EventHandler<bool> BetaStateChanged;
 
         [DataMember]
-        public DateTime BetaStart { get; private set; }
+        public DateTime BetaStart { get; private set; } = DateTime.MinValue;
 
         [DataMember]
-        public DateTime BetaEnd { get; private set; }
+        public DateTime BetaEnd { get; private set; } = DateTime.MinValue;
 
         public bool IsBeta => DateTime.UtcNow >= BetaStart && DateTime.UtcNow < BetaEnd;
 
         public async static Task<StaticInfo> GetStaticInfo()
         {
-            using var httpClient = new HttpClient();
-            string content = await httpClient.GetStringAsync(Url);
+            try
+            {
+                using var httpClient = new HttpClient();
+                string content = await httpClient.GetStringAsync(Url);
 
-            var info = JsonConvert.DeserializeObject<StaticInfo>(content);
-            return info;
+                var info = JsonConvert.DeserializeObject<StaticInfo>(content);
+                return info;
+            }
+            catch 
+            { 
+                Characters.Logger.Warn($"Failed to get static info from {Url}");
+            }
+
+            return new StaticInfo();
         }
 
         public void CheckBeta()

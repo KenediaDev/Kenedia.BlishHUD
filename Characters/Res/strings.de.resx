@@ -1039,4 +1039,10 @@ Pfad zur 'tesseract.dll': {0}</value>
   <data name="IsBeta_Tooltip" xml:space="preserve">
     <value>Ist dies eine Beta-Charakter?</value>
   </data>
+  <data name="DebugMode_Name" xml:space="preserve">
+    <value>Debug-Modus einschalten</value>
+  </data>
+  <data name="DebugMode_Tooltip" xml:space="preserve">
+    <value>Aktivieren Sie den Debug-Modus, um mehr Informationen über das Blish-Protokoll zu erhalten</value>
+  </data>
 </root>

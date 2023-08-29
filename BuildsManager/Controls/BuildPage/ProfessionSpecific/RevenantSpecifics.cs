@@ -41,6 +41,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage.ProfessionSpecific
             _legendSelector = new()
             {
                 Parent = Graphics.SpriteScreen,
+                Visible = false,
                 OnClickAction = (legend) =>
                 {
                     if (_selectedLegendSlot is LegendSlotType.TerrestrialActive or LegendSlotType.TerrestrialInactive || !legend.Swap.Flags.HasFlag(SkillFlag.NoUnderwater))

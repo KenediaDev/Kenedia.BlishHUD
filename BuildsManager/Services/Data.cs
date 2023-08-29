@@ -51,7 +51,7 @@ namespace Kenedia.Modules.BuildsManager.Services
 
         public Dictionary<int, Relic> Relics { get; private set; } = new();
 
-        public Dictionary<int, JadeBotCore> JadeBotCores { get; private set; } = new();
+        public Dictionary<int, PowerCore> PowerCores { get; private set; } = new();
 
         public Dictionary<int, DataModels.Items.Weapon> Weapons { get; private set; } = new();
 
@@ -256,7 +256,7 @@ namespace Kenedia.Modules.BuildsManager.Services
             Trinkets?.Clear();
             PvpAmulets?.Clear();
             Relics?.Clear();
-            JadeBotCores?.Clear();
+            PowerCores?.Clear();
             Weapons?.Clear();
             Professions?.Clear();
             Races?.Clear();

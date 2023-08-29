@@ -170,7 +170,7 @@ namespace Kenedia.Modules.QoL.SubModules.WaypointPaste
                 ControlPadding = new(0, 2),
             };
 
-            UI.WrapWithLabel(() => strings.ShowInHotbar_Name, () => strings.ShowInHotbar_Description, contentFlowPanel, width - 16, new Checkbox()
+            UI.WrapWithLabel(() => string.Format(strings.ShowInHotbar_Name, Name), () => string.Format(strings.ShowInHotbar_Description, Name), contentFlowPanel, width - 16, new Checkbox()
             {
                 Height = 20,
                 Checked = ShowInHotbar.Value,

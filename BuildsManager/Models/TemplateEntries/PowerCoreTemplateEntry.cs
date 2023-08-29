@@ -8,29 +8,29 @@ using System;
 
 namespace Kenedia.Modules.BuildsManager.TemplateEntries
 {
-    public class JadeBotTemplateEntry : TemplateEntry, IDisposable
+    public class PowerCoreTemplateEntry : TemplateEntry, IDisposable
     {
         private bool _isDisposed;
-        private JadeBotCore _jadeBotCore;
+        private PowerCore _powerCore;
 
-        public JadeBotTemplateEntry(TemplateSlotType slot) : base(slot)
+        public PowerCoreTemplateEntry(TemplateSlotType slot) : base(slot)
         {
         }
 
-        public event EventHandler<ValueChangedEventArgs<JadeBotCore>> JadeBotCoreChanged;
+        public event EventHandler<ValueChangedEventArgs<PowerCore>> PowerCoreChanged;
 
-        public JadeBotCore JadeBotCore { get => _jadeBotCore; set => Common.SetProperty(ref _jadeBotCore, value, OnJadeBotCoreChanged); }
+        public PowerCore PowerCore { get => _powerCore; set => Common.SetProperty(ref _powerCore, value, OnPowerCoreChanged); }
 
-        private void OnJadeBotCoreChanged(object sender, ValueChangedEventArgs<JadeBotCore> e)
+        private void OnPowerCoreChanged(object sender, ValueChangedEventArgs<PowerCore> e)
         {
-            JadeBotCoreChanged?.Invoke(sender, e);
+            PowerCoreChanged?.Invoke(sender, e);
         }
 
         public override byte[] AddToCodeArray(byte[] array)
         {
             return array.Concat(new byte[]
             {
-                JadeBotCore ?.MappedId ?? 0,
+                PowerCore ?.MappedId ?? 0,
             }).ToArray();
         }
 
@@ -38,7 +38,7 @@ namespace Kenedia.Modules.BuildsManager.TemplateEntries
         {
             int newStartIndex = 1;
 
-            JadeBotCore = BuildsManager.Data.JadeBotCores.Values.Where(e => e.MappedId == array[0]).FirstOrDefault();
+            PowerCore = BuildsManager.Data.PowerCores.Values.Where(e => e.MappedId == array[0]).FirstOrDefault();
 
             return GearTemplateCode.RemoveFromStart(array, newStartIndex);
         }
@@ -48,7 +48,7 @@ namespace Kenedia.Modules.BuildsManager.TemplateEntries
             if(_isDisposed) return;
             _isDisposed = true;
 
-            JadeBotCore = null;
+            PowerCore = null;
         }
     }
 }

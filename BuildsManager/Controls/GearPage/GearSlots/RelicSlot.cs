@@ -42,7 +42,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage.GearSlots
             base.PaintAfterChildren(spriteBatch, bounds);
 
             spriteBatch.DrawStringOnCtrl(this, ItemControl?.Item?.Name ?? strings.Relic, Content.DefaultFont16, _titleBounds, ItemControl?.Item?.Rarity.GetColor() ?? Color.White * 0.5F);
-            spriteBatch.DrawStringOnCtrl(this, (ItemControl?.Item as DataModels.Items.Enhancement)?.Details.Description ?? ItemControl?.Item?.Description ?? strings.CurrentlyNotAvailable, Content.DefaultFont12, _statBounds, Color.White, false, HorizontalAlignment.Left, VerticalAlignment.Top);
+            spriteBatch.DrawStringOnCtrl(this, (ItemControl?.Item as DataModels.Items.Enhancement)?.Details.Description ?? ItemControl?.Item?.Description, Content.DefaultFont12, _statBounds, Color.White, false, HorizontalAlignment.Left, VerticalAlignment.Top);
         }
 
         protected override void SetItems(object sender, EventArgs e)
@@ -56,8 +56,6 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage.GearSlots
         protected override void OnClick(MouseEventArgs e)
         {
             base.OnClick(e);
-
-            return;
 
             var a = AbsoluteBounds;
 
@@ -75,7 +73,6 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage.GearSlots
         {
             base.CreateSubMenus();
 
-            return;
             CreateSubMenu(() => strings.Reset, () => string.Format(strings.ResetEntry, strings.Relic), () => Item = null);
         }
     }

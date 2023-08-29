@@ -111,8 +111,21 @@ namespace Kenedia.Modules.QoL.SubModules.SkipCutscenes
             _gameStateDetectionService.GameStateChanged += On_GameStateChanged;
         }
 
-        private async void On_GameStateChanged(object sender, GameStateChangedEventArgs e)
+        protected override void Enable()
         {
+            base.Enable();
+            _gameStateDetectionService.Enabled = true;
+        }
+
+        protected override void Disable()
+        {
+            base.Disable();
+            _gameStateDetectionService.Enabled = false;
+
+        }
+
+        private async void On_GameStateChanged(object sender, GameStateChangedEventArgs e)
+        {            
             _logger.Info($"Gamestate changed to {e.Status}");
             switch (e.Status)
             {

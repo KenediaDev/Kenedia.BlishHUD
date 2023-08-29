@@ -3,50 +3,11 @@ using Gw2Sharp.WebApi.V2.Models;
 using Kenedia.Modules.BuildsManager.Models.Templates;
 using Kenedia.Modules.Core.Models;
 using Kenedia.Modules.Core.Utility;
+using Newtonsoft.Json;
 using System.Runtime.Serialization;
 
 namespace Kenedia.Modules.BuildsManager.DataModels.Items
 {
-    [DataContract]
-    public class Relic : Trinket
-    {
-        public Relic()
-        {
-            TemplateSlot = TemplateSlotType.Relic;
-        }
-    }
-
-    [DataContract]
-    public class JadeBotCore : Trinket
-    {
-        public JadeBotCore()
-        {
-            TemplateSlot = TemplateSlotType.JadeBotCore;
-        }
-    }
-    
-    [DataContract]
-    public class PvpAmulet : Trinket
-    {
-        public PvpAmulet()
-        {
-            TemplateSlot = TemplateSlotType.PvpAmulet;
-        }
-
-        public PvpAmulet(Gw2Sharp.WebApi.V2.Models.PvpAmulet apiAmulet) : this()
-        {
-            Id = apiAmulet.Id;
-            Name = apiAmulet.Name;
-            AssetId = apiAmulet.Icon.GetAssetIdFromRenderUrl();
-            Rarity = ItemRarity.Basic;
-            Type = ItemType.Unknown;
-            Attributes = apiAmulet.Attributes;
-        }
-
-        [DataMember]
-        public ItemAttributes Attributes { get; set; } = new();
-    }
-
     [DataContract]
     public class BaseItem
     {
@@ -74,25 +35,25 @@ namespace Kenedia.Modules.BuildsManager.DataModels.Items
         }
 
         [DataMember]
-        public ItemType Type { get; protected set; }
+        public ItemType Type { get; set; }
 
         [DataMember]
-        public TemplateSlotType TemplateSlot { get; protected set; }
+        public TemplateSlotType TemplateSlot { get; set; }
 
         [DataMember]
-        public int Id { get; protected set; }
+        public int Id { get; set; }
 
         [DataMember]
         public byte MappedId { get;  set; }
 
         [DataMember]
-        public ItemRarity Rarity { get; protected set; }
+        public ItemRarity Rarity { get; set; }
 
         [DataMember]
-        public string Chatlink { get; protected set; }
+        public string Chatlink { get; set; }
 
         [DataMember]
-        public int AssetId { get; protected set; }
+        public int AssetId { get; set; }
         public AsyncTexture2D Icon
         {
             get

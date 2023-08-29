@@ -50,6 +50,7 @@ namespace Kenedia.Modules.QoL
             Settings = new Settings(settings);
             Settings.HotbarExpandDirection.SettingChanged += HotbarExpandDirection_SettingChanged;
             Settings.HotbarButtonSorting.SettingChanged += HotbarButtonSorting_SettingChanged;
+
         }
 
         private void HotbarButtonSorting_SettingChanged(object sender, Blish_HUD.ValueChangedEventArgs<SortType> e)

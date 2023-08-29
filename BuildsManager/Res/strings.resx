@@ -220,8 +220,8 @@
     <value>This code is not the same as the Equipment Template from the game. The games Template can't be read or shared sadly.
 The purpose of this code is to share the modules Equipment Template easily with other module users.</value>
   </data>
-  <data name="JadeBotCore" xml:space="preserve">
-    <value>Jade Bot Core</value>
+  <data name="PowerCore" xml:space="preserve">
+    <value>Power Core</value>
   </data>
   <data name="Relic" xml:space="preserve">
     <value>Relic</value>

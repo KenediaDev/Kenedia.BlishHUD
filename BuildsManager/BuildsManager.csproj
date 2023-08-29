@@ -64,7 +64,6 @@
     </Reference>
     <Reference Include="Gw2Sharp, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Gw2Sharp.1.7.4\lib\netstandard2.0\Gw2Sharp.dll</HintPath>
-      <Private>False</Private>
     </Reference>
     <Reference Include="Microsoft.Bcl.AsyncInterfaces, Version=7.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Bcl.AsyncInterfaces.7.0.0\lib\net462\Microsoft.Bcl.AsyncInterfaces.dll</HintPath>
@@ -267,6 +266,10 @@
     <Compile Include="Controls\BuildPage\SkillControl.cs" />
     <Compile Include="Controls\BuildPage\SkillSelectable.cs" />
     <Compile Include="Controls\BuildPage\SkillSelector.cs" />
+    <Compile Include="DataModels\Converter\RelicConverter.cs" />
+    <Compile Include="DataModels\Items\PowerCore.cs" />
+    <Compile Include="DataModels\Items\PvpAmulet.cs" />
+    <Compile Include="DataModels\Items\Relic.cs" />
     <Compile Include="Interfaces\IBaseApiData.cs" />
     <Compile Include="Controls\BuildPage\LegendSlotSkillSlotCollection.cs" />
     <Compile Include="Controls\BuildPage\ProfessionSpecifics.cs" />
@@ -298,7 +301,7 @@
     <Compile Include="Controls\GearPage\GearSlots\ArmorSlot.cs" />
     <Compile Include="Controls\GearPage\GearSlots\BackSlot.cs" />
     <Compile Include="Controls\GearPage\GearSlots\GearSlot.cs" />
-    <Compile Include="Controls\GearPage\GearSlots\JadeBotCoreSlot.cs" />
+    <Compile Include="Controls\GearPage\GearSlots\PowerCoreSlot.cs" />
     <Compile Include="Controls\GearPage\GearSlots\NourishmentSlot.cs" />
     <Compile Include="Controls\GearPage\GearSlots\PvpAmuletSlot.cs" />
     <Compile Include="Controls\GearPage\GearSlots\RelicSlot.cs" />
@@ -325,7 +328,7 @@
     <Compile Include="Controls\Selection\TemplateSelectable.cs" />
     <Compile Include="Controls\TabbedRegion.cs" />
     <Compile Include="Controls\TabbedRegionTab.cs" />
-    <Compile Include="DataModels\Items\Trinket_1.cs" />
+    <Compile Include="DataModels\Items\BaseItem.cs" />
     <Compile Include="DataModels\Items\BonusStat.cs" />
     <Compile Include="DataModels\Items\BonusType.cs" />
     <Compile Include="DataModels\Items\ConsumableDetails.cs" />
@@ -368,7 +371,7 @@
     <Compile Include="Models\TemplateEntries\AquaticWeaponTemplateEntry.cs" />
     <Compile Include="Models\TemplateEntries\ArmorTemplateEntry.cs" />
     <Compile Include="Models\TemplateEntries\BackTemplateEntry.cs" />
-    <Compile Include="Models\TemplateEntries\JadeBotTemplateEntry.cs" />
+    <Compile Include="Models\TemplateEntries\PowerCoreTemplateEntry.cs" />
     <Compile Include="Models\TemplateEntries\NourishmentTemplateEntry.cs" />
     <Compile Include="Models\TemplateEntries\PvpAmuletTemplateEntry.cs" />
     <Compile Include="Models\TemplateEntries\RelicTemplateEntry.cs" />
@@ -389,6 +392,7 @@
     <Compile Include="Services\StatMap.cs" />
     <Compile Include="Services\StatMapping.cs" />
     <Compile Include="Utility\GearTemplateCode.cs" />
+    <Compile Include="DataModels\Converter\PowerCoreConverter.cs" />
     <Compile Include="Utility\SkillSlotConversion.cs" />
     <Compile Include="Utility\TemplateConverter.cs" />
     <Compile Include="Models\TemplatePresenter.cs" />
