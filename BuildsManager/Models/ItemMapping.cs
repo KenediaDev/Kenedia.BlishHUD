@@ -7,21 +7,21 @@ namespace Kenedia.Modules.BuildsManager.Models
     {
         private bool _isDisposed = false;
 
-        public List<ItemMap> Nourishments = new();
-        public List<ItemMap> Utilities = new();
-        public List<ItemMap> PveRunes = new();
-        public List<ItemMap> PvpRunes = new();
-        public List<ItemMap> PveSigils = new();
-        public List<ItemMap> PvpSigils = new();
-        public List<ItemMap> Infusions = new();
-        public List<ItemMap> Enrichments = new();
-        public List<ItemMap> Trinkets = new();
-        public List<ItemMap> Backs = new();
-        public List<ItemMap> Weapons = new();
-        public List<ItemMap> Armors = new();
-        public List<ItemMap> PowerCores = new();
-        public List<ItemMap> Relics = new();
-        public List<ItemMap> PvpAmulets = new();
+        public List<BasicItemMap> Nourishments = new();
+        public List<BasicItemMap> Utilities = new();
+        public List<BasicItemMap> PveRunes = new();
+        public List<BasicItemMap> PvpRunes = new();
+        public List<BasicItemMap> PveSigils = new();
+        public List<BasicItemMap> PvpSigils = new();
+        public List<BasicItemMap> Infusions = new();
+        public List<BasicItemMap> Enrichments = new();
+        public List<BasicItemMap> Trinkets = new();
+        public List<BasicItemMap> Backs = new();
+        public List<BasicItemMap> Weapons = new();
+        public List<BasicItemMap> Armors = new();
+        public List<BasicItemMap> PowerCores = new();
+        public List<BasicItemMap> Relics = new();
+        public List<BasicItemMap> PvpAmulets = new();
     
         public void Dispose()
         {

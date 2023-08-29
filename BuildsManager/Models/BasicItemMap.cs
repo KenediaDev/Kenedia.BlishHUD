@@ -1,6 +1,6 @@
 ﻿namespace Kenedia.Modules.BuildsManager.Models
 {
-    public class ItemMap
+    public class BasicItemMap
     {
         public int Id { get; set; }
 

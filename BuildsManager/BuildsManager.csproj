@@ -364,8 +364,9 @@
     <Compile Include="Interfaces\ITemplateContainer.cs" />
     <Compile Include="Models\GameModeType.cs" />
     <Compile Include="Models\GearArrayIndex.cs" />
-    <Compile Include="Models\ItemMap.cs" />
+    <Compile Include="Models\BasicItemMap.cs" />
     <Compile Include="Models\Paths.cs" />
+    <Compile Include="Models\StaticVersion.cs" />
     <Compile Include="Models\TemplateEntries\AccessoireTemplateEntry.cs" />
     <Compile Include="Models\TemplateEntries\AmuletTemplateEntry.cs" />
     <Compile Include="Models\TemplateEntries\AquaticWeaponTemplateEntry.cs" />

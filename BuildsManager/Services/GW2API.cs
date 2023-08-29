@@ -269,7 +269,7 @@ namespace Kenedia.Modules.BuildsManager.Services
 
                 if (cancellation.IsCancellationRequested) return;
 
-                void ApplyAmuletData(IReadOnlyList<ApiPvpAmulet> amulets, Dictionary<int, PvpAmulet> targetlist, string file, List<ItemMap> map)
+                void ApplyAmuletData(IReadOnlyList<ApiPvpAmulet> amulets, Dictionary<int, PvpAmulet> targetlist, string file, List<BasicItemMap> map)
                 {
                     BuildsManager.Logger.Info($"Saving {file} ...");
 
@@ -286,7 +286,7 @@ namespace Kenedia.Modules.BuildsManager.Services
                     File.WriteAllText($@"{Paths.ModulePath}\data\{file}.json", json);
                 }
 
-                void ApplyData<T, TT>(IReadOnlyList<Item> items, Dictionary<int, TT> targetlist, string file, List<ItemMap> map, bool hasStatChoices = false) where T : Item where TT : BaseItem, new()
+                void ApplyData<T, TT>(IReadOnlyList<Item> items, Dictionary<int, TT> targetlist, string file, List<BasicItemMap> map, bool hasStatChoices = false) where T : Item where TT : BaseItem, new()
                 {
                     BuildsManager.Logger.Info($"Saving {file} ...");
                     var skinIds = skins.Select(e => e.Id);
