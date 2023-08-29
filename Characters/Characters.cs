@@ -635,20 +635,22 @@ namespace Kenedia.Modules.Characters
                 for (int i = CharacterModels.Count - 1; i >= 0; i--)
                 {
                     Character_Model c = CharacterModels[i];
-                    if (!freshList.Contains(new { c.Name, c.Created }))
+                    if (c is not null)
                     {
-
-                        if (Settings.AutomaticCharacterDelete.Value)
+                        if (!freshList.Contains(new { c.Name, c.Created }))
                         {
-                            Logger.Info($"{c.Name} created on {c.Created} no longer exists. Delete them!");
-                            c.Delete();
-                            //CharacterModels.RemoveAt(i);
-                        }
-                        else if (!c.MarkedAsDeleted)
-                        {
-                            Logger.Info($"{c.Name} created on {c.Created} does not exist in the api data. Mark them as potentially deleted!");
-                            c.MarkedAsDeleted = true;
-                            updateMarkedCharacters = true;
+                            if (Settings.AutomaticCharacterDelete.Value)
+                            {
+                                Logger?.Info($"{c?.Name} created on {c?.Created} no longer exists. Delete them!");
+                                c?.Delete();
+                                //CharacterModels.RemoveAt(i);
+                            }
+                            else if (!c.MarkedAsDeleted)
+                            {
+                                Logger?.Info($"{c.Name} created on {c.Created} does not exist in the api data. Mark them as potentially deleted!");
+                                c.MarkedAsDeleted = true;
+                                updateMarkedCharacters = true;
+                            }
                         }
                     }
                 }
