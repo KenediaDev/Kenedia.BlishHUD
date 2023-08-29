@@ -14,6 +14,7 @@ using Blish_HUD.Input;
 using Kenedia.Modules.Core.Extensions;
 using Kenedia.Modules.QoL.Res;
 using Kenedia.Modules.Core.Utility;
+using System.Diagnostics;
 
 namespace Kenedia.Modules.QoL.SubModules.CopyItemName
 {
@@ -23,7 +24,7 @@ namespace Kenedia.Modules.QoL.SubModules.CopyItemName
         private readonly MouseContainer _mouseContainer;
         private readonly Label _destroyLabel;
 
-        private SettingEntry<bool> _disableOnSearch;
+        private SettingEntry<bool> _disableOnCopy;
         private SettingEntry<bool> _disableOnRightClick;
         private SettingEntry<KeyBinding> _modifierToChat;
         private SettingEntry<ReturnType> _returnType;
@@ -42,6 +43,7 @@ namespace Kenedia.Modules.QoL.SubModules.CopyItemName
                 Visible = Enabled,
                 ContentPadding = new(5),
                 MouseOffset = new(25),
+                ZIndex = int.MaxValue,
             });
 
             var p = new Rectangle(0, 0, 0, 0);
@@ -112,7 +114,7 @@ namespace Kenedia.Modules.QoL.SubModules.CopyItemName
         {
             base.DefineSettings(settings);
 
-            _disableOnSearch = settings.DefineSetting(nameof(_disableOnSearch),
+            _disableOnCopy = settings.DefineSetting(nameof(_disableOnCopy),
                 true);
 
             _disableOnRightClick = settings.DefineSetting(nameof(_disableOnRightClick),
@@ -247,6 +249,13 @@ namespace Kenedia.Modules.QoL.SubModules.CopyItemName
 
                 _ = await ClipboardUtil.WindowsClipboardService.SetTextAsync(text);
                 _destroyLabel.Text = text;
+
+                if (_disableOnCopy.Value)
+                {
+
+                    Debug.WriteLine($"DISABLE");
+                    Disable(); 
+                }
             }
             catch
             {
@@ -277,6 +286,13 @@ namespace Kenedia.Modules.QoL.SubModules.CopyItemName
                 ControlPadding = new(0, 2),
             };
 
+            UI.WrapWithLabel(() => string.Format(strings.ShowInHotbar_Name, $"{SubModuleType}"), () => string.Format(strings.ShowInHotbar_Description, $"{SubModuleType}"), contentFlowPanel, width - 16, new Checkbox()
+            {
+                Height = 20,
+                Checked = ShowInHotbar.Value,
+                CheckedChangedAction = (b) => ShowInHotbar.Value = b,
+            });
+
             _ = new KeybindingAssigner()
             {
                 Parent = contentFlowPanel,
@@ -296,11 +312,11 @@ namespace Kenedia.Modules.QoL.SubModules.CopyItemName
                 SetLocalizedTooltip = () => string.Format(strings.HotkeyEntry_Description, $"{SubModuleType}"),
             };
 
-            UI.WrapWithLabel(() => strings.DisableOnSearch_Name, () => strings.DisableOnSearch_Tooltip, contentFlowPanel, width - 16, new Checkbox()
+            UI.WrapWithLabel(() => strings.DisableOnCopy_Name, () => strings.DisableOnCopy_Tooltip, contentFlowPanel, width - 16, new Checkbox()
             {
                 Height = 20,
-                Checked = _disableOnSearch.Value,
-                CheckedChangedAction = (b) => _disableOnSearch.Value = b,
+                Checked = _disableOnCopy.Value,
+                CheckedChangedAction = (b) => _disableOnCopy.Value = b,
             });
 
             UI.WrapWithLabel(() => strings.DisableOnRightClick_Name, () => strings.DisableOnRightClick_Tooltip, contentFlowPanel, width - 16, new Checkbox()

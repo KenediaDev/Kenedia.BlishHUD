@@ -6,6 +6,7 @@ using Blish_HUD.Modules;
 using Blish_HUD.Settings;
 using Kenedia.Modules.Core.Controls;
 using Kenedia.Modules.Core.Models;
+using Kenedia.Modules.QoL.Controls;
 using Kenedia.Modules.QoL.Services;
 using Kenedia.Modules.QoL.SubModules;
 using Kenedia.Modules.QoL.SubModules.CopyItemName;
@@ -38,7 +39,7 @@ namespace Kenedia.Modules.QoL
             AutoLoadGUI = true;
         }
 
-        public Hotbar Hotbar { get; set; }
+        public ModuleHotbar Hotbar { get; set; }
 
         public Dictionary<SubModuleType, SubModule> SubModules { get; } = new();
 
@@ -48,6 +49,13 @@ namespace Kenedia.Modules.QoL
 
             Settings = new Settings(settings);
             Settings.HotbarExpandDirection.SettingChanged += HotbarExpandDirection_SettingChanged;
+            Settings.HotbarButtonSorting.SettingChanged += HotbarButtonSorting_SettingChanged;
+        }
+
+        private void HotbarButtonSorting_SettingChanged(object sender, Blish_HUD.ValueChangedEventArgs<SortType> e)
+        {
+            if (Hotbar is not null)
+                Hotbar.SortType = e.NewValue;
         }
 
         private void HotbarExpandDirection_SettingChanged(object sender, Blish_HUD.ValueChangedEventArgs<ExpandType> e)
@@ -100,12 +108,13 @@ namespace Kenedia.Modules.QoL
 
             Hotbar?.Dispose();
 
-            Hotbar = new Hotbar()
+            Hotbar = new()
             {
                 Parent = GameService.Graphics.SpriteScreen,
                 TextureRectangle = new(new(50, 50), new(200, 50)),
                 Location = Settings.HotbarPosition.Value,
                 ExpandType = Settings.HotbarExpandDirection.Value,
+                SortType = Settings.HotbarButtonSorting.Value,
                 OnMoveAction = (p) => Settings.HotbarPosition.Value = p,
                 OpenSettingsAction = () => SettingsWindow?.ToggleWindow(),
             };
@@ -153,6 +162,9 @@ namespace Kenedia.Modules.QoL
             }
 
             SubModules.Clear();
+
+            Settings.HotbarExpandDirection.SettingChanged -= HotbarExpandDirection_SettingChanged;
+            Settings.HotbarButtonSorting.SettingChanged -= HotbarButtonSorting_SettingChanged;
         }
 
         protected override void ReloadKey_Activated(object sender, EventArgs e)

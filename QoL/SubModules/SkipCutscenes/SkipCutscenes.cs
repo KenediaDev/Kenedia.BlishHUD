@@ -233,6 +233,13 @@ namespace Kenedia.Modules.QoL.SubModules.SkipCutscenes
                 ControlPadding = new(0, 2),
             };
 
+            UI.WrapWithLabel(() => string.Format(strings.ShowInHotbar_Name, $"{SubModuleType}"), () => string.Format(strings.ShowInHotbar_Description, $"{SubModuleType}"), contentFlowPanel, width - 16, new Checkbox()
+            {
+                Height = 20,
+                Checked = ShowInHotbar.Value,
+                CheckedChangedAction = (b) => ShowInHotbar.Value = b,
+            });
+
             _ = new KeybindingAssigner()
             {
                 Parent = contentFlowPanel,

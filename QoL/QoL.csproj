@@ -256,6 +256,8 @@
     <Reference Include="System.Xml.ReaderWriter" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controls\ModuleButton.cs" />
+    <Compile Include="Controls\ModuleHotbar.cs" />
     <Compile Include="QoL.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Res\strings.Designer.cs">
@@ -284,7 +286,6 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Controls\" />
     <Folder Include="ref\" />
   </ItemGroup>
   <ItemGroup>

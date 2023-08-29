@@ -40,6 +40,7 @@ namespace Kenedia.Modules.QoL.SubModules.WikiSearch
                 Visible = Enabled,
                 ContentPadding = new(5),
                 MouseOffset = new(25),
+                ZIndex = int.MaxValue,
             };
 
             var p = new Rectangle(0, 0, 0, 0);
@@ -213,6 +214,11 @@ namespace Kenedia.Modules.QoL.SubModules.WikiSearch
                 await Task.Delay(300);
 
                 GameService.GameIntegration.Gw2Instance.FocusGw2();
+
+                if (_disableOnSearch.Value)
+                {
+                    Disable();
+                }
             }
             catch { }
         }
@@ -239,6 +245,13 @@ namespace Kenedia.Modules.QoL.SubModules.WikiSearch
                 ContentPadding = new(5, 2),
                 ControlPadding = new(0, 2),
             };
+
+            UI.WrapWithLabel(() => string.Format(strings.ShowInHotbar_Name, $"{SubModuleType}"), () => string.Format(strings.ShowInHotbar_Description, $"{SubModuleType}"), contentFlowPanel, width - 16, new Checkbox()
+            {
+                Height = 20,
+                Checked = ShowInHotbar.Value,
+                CheckedChangedAction = (b) => ShowInHotbar.Value = b,
+            });
 
             _ = new KeybindingAssigner()
             {

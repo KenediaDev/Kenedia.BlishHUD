@@ -47,6 +47,7 @@ namespace Kenedia.Modules.QoL.SubModules.ItemDestruction
                 Visible = Enabled,
                 ContentPadding = new(5),
                 MouseOffset = new(25),
+                ZIndex = int.MaxValue,
             });
 
             var p = new Rectangle(0, 0, 0, 0);
@@ -206,6 +207,7 @@ namespace Kenedia.Modules.QoL.SubModules.ItemDestruction
         {
             if (!Enabled || !_disableOnRightClick.Value) return;
 
+            Disable();
             State = ItemDestructionState.None;
         }
 
@@ -358,6 +360,13 @@ namespace Kenedia.Modules.QoL.SubModules.ItemDestruction
                 ControlPadding = new(0, 2),
             };
 
+            UI.WrapWithLabel(() => string.Format(strings.ShowInHotbar_Name, $"{SubModuleType}"), () => string.Format(strings.ShowInHotbar_Description, $"{SubModuleType}"), contentFlowPanel, width - 16, new Checkbox()
+            {
+                Height = 20,
+                Checked = ShowInHotbar.Value,
+                CheckedChangedAction = (b) => ShowInHotbar.Value = b,
+            });
+
             _ = new KeybindingAssigner()
             {
                 Parent = contentFlowPanel,
@@ -376,7 +385,6 @@ namespace Kenedia.Modules.QoL.SubModules.ItemDestruction
                 SetLocalizedKeyBindingName = () => string.Format(strings.HotkeyEntry_Name, $"{SubModuleType}"),
                 SetLocalizedTooltip = () => string.Format(strings.HotkeyEntry_Description, $"{SubModuleType}"),
             };
-
 
             UI.WrapWithLabel(() => strings.DisableOnRightClick_Name, () => strings.DisableOnRightClick_Tooltip, contentFlowPanel, width - 16, new Checkbox()
             {

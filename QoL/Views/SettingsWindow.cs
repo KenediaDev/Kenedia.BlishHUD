@@ -96,6 +96,22 @@ namespace Kenedia.Modules.QoL.Views
                 SelectedItem = $"{_settings.HotbarExpandDirection.Value}".SplitStringOnUppercase(),
                 ValueChangedAction = (b) => _settings.HotbarExpandDirection.Value = Enum.TryParse(b.RemoveSpaces(), out ExpandType expandType) ? expandType : _settings.HotbarExpandDirection.Value,
             });
+
+            UI.WrapWithLabel(() => strings.HotbarButtonSorting_Name, () => strings.HotbarButtonSorting_Tooltip, contentFlowPanel, ContentRegion.Width - 20 - 16, new Dropdown()
+            {
+                Location = new(250, 0),
+                Parent = contentFlowPanel,
+                SetLocalizedItems = () =>
+                {
+                    return new()
+                    {
+                        $"{SortType.ActivesFirst}".SplitStringOnUppercase(),
+                        $"{SortType.ByModuleName}".SplitStringOnUppercase(),
+                    };
+                },
+                SelectedItem = $"{_settings.HotbarButtonSorting.Value}".SplitStringOnUppercase(),
+                ValueChangedAction = (b) => _settings.HotbarButtonSorting.Value = Enum.TryParse(b.RemoveSpaces(), out SortType sortType) ? sortType : _settings.HotbarButtonSorting.Value,
+            });
         }
 
         private void CreateClientSettings()

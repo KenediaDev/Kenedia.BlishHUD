@@ -1,6 +1,7 @@
 ﻿using Blish_HUD;
 using Blish_HUD.Settings;
 using Kenedia.Modules.Core.Controls;
+using Kenedia.Modules.Core.Utility;
 using Kenedia.Modules.Core.Extensions;
 using Microsoft.Xna.Framework;
 using System;
@@ -97,6 +98,12 @@ namespace Kenedia.Modules.QoL.SubModules.EnhancedCrosshair
                 ControlPadding = new(10),
             };
 
+            UI.WrapWithLabel(() => string.Format(strings.ShowInHotbar_Name, $"{SubModuleType}"), () => string.Format(strings.ShowInHotbar_Description, $"{SubModuleType}"), contentFlowPanel, width - 16, new Checkbox()
+            {
+                Height = 20,
+                Checked = ShowInHotbar.Value,
+                CheckedChangedAction = (b) => ShowInHotbar.Value = b,
+            });
 
             _ = new KeybindingAssigner()
             {

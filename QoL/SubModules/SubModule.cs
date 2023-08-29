@@ -10,6 +10,8 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using System;
 using Kenedia.Modules.QoL.Views;
+using Kenedia.Modules.QoL.Controls;
+using System.Diagnostics;
 
 namespace Kenedia.Modules.QoL.SubModules
 {
@@ -31,6 +33,8 @@ namespace Kenedia.Modules.QoL.SubModules
             _settings = settings;
             DefineSettings(_settings);
 
+            Name = SubModuleType.ToString();
+
             Icon = new()
             {
                 Texture = QoL.ModuleInstance.ContentsManager.GetTexture($@"textures\{SubModuleType}.png"),
@@ -45,6 +49,7 @@ namespace Kenedia.Modules.QoL.SubModules
                 Size = new(32),
                 Visible = EnabledSetting.Value,
                 OnCheckChanged = (b) => Enabled = b,
+                Module = this,
             };
         }
 
@@ -56,7 +61,7 @@ namespace Kenedia.Modules.QoL.SubModules
 
         public Func<string> LocalizedDescription { get => _localizedDescription; set => Common.SetProperty(ref _localizedDescription, value); }
 
-        public HotbarButton ToggleControl { get; }
+        public ModuleButton ToggleControl { get; }
 
         public DetailedTexture Icon { get; }
 
@@ -94,12 +99,12 @@ namespace Kenedia.Modules.QoL.SubModules
 
         protected virtual void Enable()
         {
-
+            Enabled = true;
         }
 
         protected virtual void Disable()
         {
-
+            Enabled = false;
         }
 
         protected virtual void SwitchLanguage()
@@ -125,6 +130,20 @@ namespace Kenedia.Modules.QoL.SubModules
 
             HotKey.Value.Enabled = true;
             HotKey.Value.Activated += HotKey_Activated;
+
+            ShowInHotbar.SettingChanged += ShowInHotbar_SettingChanged;
+        }
+
+        private void ShowInHotbar_SettingChanged(object sender, Blish_HUD.ValueChangedEventArgs<bool> e)
+        {
+            if (ToggleControl is HotbarButton _)
+            {
+                if(ToggleControl?.Parent?.Parent is ModuleHotbar moduleHotbar)
+                {
+                    moduleHotbar.SetButtonsExpanded();
+                    moduleHotbar.RecalculateLayout();
+                }
+            }
         }
 
         private void HotKey_Activated(object sender, EventArgs e)

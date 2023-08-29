@@ -129,12 +129,6 @@
   <data name="HotkeyEntry_Description" xml:space="preserve">
     <value>Touche de raccourci pour basculer {0}</value>
   </data>
-  <data name="ShowInHotbar_Name" xml:space="preserve">
-    <value>Afficher dans la barre d'outils</value>
-  </data>
-  <data name="ShowInHotbar_Description" xml:space="preserve">
-    <value>Afficher {0} dans la barre d'outils</value>
-  </data>
   <data name="DisableOnSearch_Name" xml:space="preserve">
     <value>Désactiver après la recherche</value>
   </data>
@@ -227,5 +221,29 @@
   </data>
   <data name="ShowWeeklyReset_Tooltip" xml:space="preserve">
     <value>Afficher le temps restant jusqu'à la réinitialisation hebdomadaire en bas à gauche de la minimap</value>
+  </data>
+  <data name="PasteWaypointFromClipboard_Name" xml:space="preserve">
+    <value>Utiliser d'abord le presse-papiers</value>
+  </data>
+  <data name="PasteWaypointFromClipboard_Tooltip" xml:space="preserve">
+    <value>Vérifier si le contenu du presse-papiers est un lien de chat de point de passage, si c'est le cas, l'utiliser à la place du code du point de passage.</value>
+  </data>
+  <data name="ShowInHotbar_Name" xml:space="preserve">
+    <value>Afficher {0} dans la barre d'outils</value>
+  </data>
+  <data name="ShowInHotbar_Description" xml:space="preserve">
+    <value>Afficher {0} dans la barre d'outils</value>
+  </data>
+  <data name="DisableOnCopy_Name" xml:space="preserve">
+    <value>Désactiver après la copie</value>
+  </data>
+  <data name="DisableOnCopy_Tooltip" xml:space="preserve">
+    <value>Désactiver le sous-module après avoir copié le nom d'un élément</value>
+  </data>
+  <data name="HotbarButtonSorting_Name" xml:space="preserve">
+    <value>Ordre des boutons de la barre d'outils</value>
+  </data>
+  <data name="HotbarButtonSorting_Tooltip" xml:space="preserve">
+    <value>Ordre des boutons de la barre d'outils</value>
   </data>
 </root>

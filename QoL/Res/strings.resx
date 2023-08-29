@@ -110,10 +110,10 @@
     <value>Hotkey to toggle {0}</value>
   </data>
   <data name="ShowInHotbar_Name" xml:space="preserve">
-    <value>Show in hotbar</value>
+    <value>Show {0} on hotbar</value>
   </data>
   <data name="ShowInHotbar_Description" xml:space="preserve">
-    <value>Show {0} in the hotbar</value>
+    <value>Show {0} on the hotbar</value>
   </data>
   <data name="DisableOnSearch_Name" xml:space="preserve">
     <value>Disable after Search</value>
@@ -207,5 +207,23 @@
   </data>
   <data name="ShowWeeklyReset_Tooltip" xml:space="preserve">
     <value>Show the time until weekly reset on the bottom left of the minimap</value>
+  </data>
+  <data name="PasteWaypointFromClipboard_Name" xml:space="preserve">
+    <value>Use Clipboard first</value>
+  </data>
+  <data name="PasteWaypointFromClipboard_Tooltip" xml:space="preserve">
+    <value>Check if the clipboard content is a waypoint chatlink, if so use that instead of the waypoint code</value>
+  </data>
+  <data name="DisableOnCopy_Name" xml:space="preserve">
+    <value>Disable after copy</value>
+  </data>
+  <data name="DisableOnCopy_Tooltip" xml:space="preserve">
+    <value>Disable the sub module after copying a items name</value>
+  </data>
+  <data name="HotbarButtonSorting_Name" xml:space="preserve">
+    <value>Hotbar Button Order</value>
+  </data>
+  <data name="HotbarButtonSorting_Tooltip" xml:space="preserve">
+    <value>Order of the hotbars buttons</value>
   </data>
 </root>

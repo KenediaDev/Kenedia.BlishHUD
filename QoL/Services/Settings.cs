@@ -18,10 +18,13 @@ namespace Kenedia.Modules.QoL.Services
             _internal_settings = _settings.AddSubCollection("Internal");
             HotbarPosition = _internal_settings.DefineSetting(nameof(HotbarPosition), new Point(0, 32));
 
-            HotbarExpandDirection = _settings.DefineSetting(nameof(HotbarExpandDirection), ExpandType.LeftToRight, () => strings.HotbarExpandDirection_Name, () => strings.HotbarExpandDirection_Tooltip );
+            HotbarExpandDirection = _settings.DefineSetting(nameof(HotbarExpandDirection), ExpandType.LeftToRight);
+            HotbarButtonSorting = _settings.DefineSetting(nameof(HotbarButtonSorting), SortType.ActivesFirst);
         }
 
         public SettingEntry<ExpandType> HotbarExpandDirection { get; }
+
+        public SettingEntry<SortType> HotbarButtonSorting{ get; }
 
         public SettingEntry<Point> HotbarPosition { get; }
     }

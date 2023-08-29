@@ -14,6 +14,8 @@ using Kenedia.Modules.Core.Controls;
 using SizingMode = Blish_HUD.Controls.SizingMode;
 using ControlFlowDirection = Blish_HUD.Controls.ControlFlowDirection;
 using Kenedia.Modules.QoL.Res;
+using Gw2Sharp.ChatLinks;
+using System.Diagnostics;
 
 namespace Kenedia.Modules.QoL.SubModules.WaypointPaste
 {
@@ -23,6 +25,7 @@ namespace Kenedia.Modules.QoL.SubModules.WaypointPaste
         private double _ticks;
         private SettingEntry<KeyBinding> _pasteWaypoint;
         private SettingEntry<string> _waypoint;
+        private SettingEntry<bool> _pasteCurrentClipboardWaypointFirst;
 
         public WaypointPaste(SettingCollection settings) : base(settings)
         {
@@ -40,6 +43,7 @@ namespace Kenedia.Modules.QoL.SubModules.WaypointPaste
         {
             base.DefineSettings(settings);
 
+            _pasteCurrentClipboardWaypointFirst = settings.DefineSetting(nameof(_pasteCurrentClipboardWaypointFirst), false);
             _pasteWaypoint = settings.DefineSetting(nameof(_pasteWaypoint), new KeyBinding(Keys.None));
             _waypoint = settings.DefineSetting(nameof(_waypoint), "[&BCAJAAA=]");
 
@@ -54,6 +58,21 @@ namespace Kenedia.Modules.QoL.SubModules.WaypointPaste
             try
             {
                 _ticks = Common.Now();
+
+                string waypoint = _waypoint.Value;
+                if (_pasteCurrentClipboardWaypointFirst.Value)
+                {
+                    string currentContent = await ClipboardUtil.WindowsClipboardService.GetTextAsync();
+
+                    if (!string.IsNullOrEmpty(currentContent) && Gw2ChatLink.TryParse(currentContent, out IGw2ChatLink chatLink) && chatLink is not null)
+                    {
+                        if (chatLink.Type == ChatLinkType.PointOfInterest)
+                        {
+                            waypoint = currentContent;
+                        }
+                    }
+                }
+
                 await Input.SendKey(Keys.Enter);
 
                 bool isReady = false;
@@ -101,7 +120,7 @@ namespace Kenedia.Modules.QoL.SubModules.WaypointPaste
                 await Input.SendKey(new Keys[] { Keys.LeftControl }, Keys.V, true);
                 await Input.SendKey(Keys.Tab, true);
 
-                bool hasWaypoint = await ClipboardUtil.WindowsClipboardService.SetTextAsync(_waypoint.Value);
+                bool hasWaypoint = await ClipboardUtil.WindowsClipboardService.SetTextAsync(waypoint);
                 if (!hasWaypoint) return;
 
                 await Input.SendKey(new Keys[] { Keys.LeftControl }, Keys.V, true);
@@ -151,12 +170,11 @@ namespace Kenedia.Modules.QoL.SubModules.WaypointPaste
                 ControlPadding = new(0, 2),
             };
 
-            //_pasteWaypoint
-
-            UI.WrapWithLabel(() => strings.WaypointChatcode_Name, () => strings.WaypointChatcode_Tooltip, contentFlowPanel, width - 16, new TextBox()
+            UI.WrapWithLabel(() => strings.ShowInHotbar_Name, () => strings.ShowInHotbar_Description, contentFlowPanel, width - 16, new Checkbox()
             {
-                Text = _waypoint.Value,
-                TextChangedAction= (txt) => _waypoint.Value = txt,
+                Height = 20,
+                Checked = ShowInHotbar.Value,
+                CheckedChangedAction = (b) => ShowInHotbar.Value = b,
             });
 
             _ = new KeybindingAssigner()
@@ -177,6 +195,18 @@ namespace Kenedia.Modules.QoL.SubModules.WaypointPaste
                 SetLocalizedKeyBindingName = () => strings.PasteWaypointHotkey_Name,
                 SetLocalizedTooltip = () => strings.PasteWaypointHotkey_Tooltip,
             };
+
+            UI.WrapWithLabel(() => strings.WaypointChatcode_Name, () => strings.WaypointChatcode_Tooltip, contentFlowPanel, width - 16, new TextBox()
+            {
+                Text = _waypoint.Value,
+                TextChangedAction = (txt) => _waypoint.Value = txt,
+            });
+
+            UI.WrapWithLabel(() => strings.PasteWaypointFromClipboard_Name, () => strings.PasteWaypointFromClipboard_Tooltip, contentFlowPanel, width - 16, new Checkbox()
+            {
+                Checked = _pasteCurrentClipboardWaypointFirst.Value,
+                CheckedChangedAction = (b) => _pasteCurrentClipboardWaypointFirst.Value = b,
+            });
         }
     }
 }

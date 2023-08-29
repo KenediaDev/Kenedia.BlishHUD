@@ -24,7 +24,6 @@ namespace Kenedia.Modules.Core.Controls
             ClipsBounds = true;
         }
 
-
         public DetailedTexture Icon { get; set; }
 
         public bool Checked { get => _checked; set => Common.SetProperty(ref _checked, value, On_CheckChanged); }

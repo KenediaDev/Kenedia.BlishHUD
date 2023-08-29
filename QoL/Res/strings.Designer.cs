@@ -106,6 +106,24 @@ namespace Kenedia.Modules.QoL.Res {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Disable after copy.
+        /// </summary>
+        internal static string DisableOnCopy_Name {
+            get {
+                return ResourceManager.GetString("DisableOnCopy_Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Disable the sub module after copying a items name.
+        /// </summary>
+        internal static string DisableOnCopy_Tooltip {
+            get {
+                return ResourceManager.GetString("DisableOnCopy_Tooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Disable on Right Click.
         /// </summary>
         internal static string DisableOnRightClick_Name {
@@ -138,6 +156,24 @@ namespace Kenedia.Modules.QoL.Res {
         internal static string DisableOnSearch_Tooltip {
             get {
                 return ResourceManager.GetString("DisableOnSearch_Tooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Hotbar Button Order.
+        /// </summary>
+        internal static string HotbarButtonSorting_Name {
+            get {
+                return ResourceManager.GetString("HotbarButtonSorting_Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Order of the hotbars buttons.
+        /// </summary>
+        internal static string HotbarButtonSorting_Tooltip {
+            get {
+                return ResourceManager.GetString("HotbarButtonSorting_Tooltip", resourceCulture);
             }
         }
         
@@ -214,6 +250,24 @@ namespace Kenedia.Modules.QoL.Res {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Use Clipboard first.
+        /// </summary>
+        internal static string PasteWaypointFromClipboard_Name {
+            get {
+                return ResourceManager.GetString("PasteWaypointFromClipboard_Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Check if the clipboard content is a waypoint chatlink, if so use that instead of the waypoint code.
+        /// </summary>
+        internal static string PasteWaypointFromClipboard_Tooltip {
+            get {
+                return ResourceManager.GetString("PasteWaypointFromClipboard_Tooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Paste Waypoint.
         /// </summary>
         internal static string PasteWaypointHotkey_Name {
@@ -268,7 +322,7 @@ namespace Kenedia.Modules.QoL.Res {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Show {0} in the hotbar.
+        ///   Looks up a localized string similar to Show {0} on the hotbar.
         /// </summary>
         internal static string ShowInHotbar_Description {
             get {
@@ -277,7 +331,7 @@ namespace Kenedia.Modules.QoL.Res {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Show in hotbar.
+        ///   Looks up a localized string similar to Show {0} on hotbar.
         /// </summary>
         internal static string ShowInHotbar_Name {
             get {

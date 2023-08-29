@@ -129,12 +129,6 @@
   <data name="HotkeyEntry_Description" xml:space="preserve">
     <value>Hotkey zum Umschalten {0}</value>
   </data>
-  <data name="ShowInHotbar_Name" xml:space="preserve">
-    <value>In Hotbar anzeigen</value>
-  </data>
-  <data name="ShowInHotbar_Description" xml:space="preserve">
-    <value>{0} in der Hotbar anzeigen</value>
-  </data>
   <data name="DisableOnSearch_Name" xml:space="preserve">
     <value>Deaktivieren nach Suche</value>
   </data>
@@ -227,5 +221,29 @@
   </data>
   <data name="ShowWeeklyReset_Tooltip" xml:space="preserve">
     <value>Anzeige der Zeit bis zum wöchentlichen Reset unten links auf der Minimap</value>
+  </data>
+  <data name="PasteWaypointFromClipboard_Name" xml:space="preserve">
+    <value>Zuerst die Zwischenablage verwenden</value>
+  </data>
+  <data name="PasteWaypointFromClipboard_Tooltip" xml:space="preserve">
+    <value>Prüfe, ob der Inhalt der Zwischenablage ein Wegpunkt-Chatlink ist, wenn ja, verwende diesen anstelle des Wegpunkt-Codes</value>
+  </data>
+  <data name="ShowInHotbar_Name" xml:space="preserve">
+    <value>{0} auf der Hotbar anzeigen</value>
+  </data>
+  <data name="ShowInHotbar_Description" xml:space="preserve">
+    <value>{0} in der Hotbar anzeigen</value>
+  </data>
+  <data name="DisableOnCopy_Name" xml:space="preserve">
+    <value>Deaktivieren nach dem Kopieren</value>
+  </data>
+  <data name="DisableOnCopy_Tooltip" xml:space="preserve">
+    <value>Deaktivieren Sie das Untermodul nach dem Kopieren eines Elementnamens</value>
+  </data>
+  <data name="HotbarButtonSorting_Name" xml:space="preserve">
+    <value>Reihenfolge der Hotbar-Schaltflächen</value>
+  </data>
+  <data name="HotbarButtonSorting_Tooltip" xml:space="preserve">
+    <value>Reihenfolge der Schaltflächen der Hotbars</value>
   </data>
 </root>

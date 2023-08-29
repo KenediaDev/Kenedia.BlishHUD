@@ -129,12 +129,6 @@
   <data name="HotkeyEntry_Description" xml:space="preserve">
     <value>Tecla para alternar {0}</value>
   </data>
-  <data name="ShowInHotbar_Name" xml:space="preserve">
-    <value>Mostrar en hotbar</value>
-  </data>
-  <data name="ShowInHotbar_Description" xml:space="preserve">
-    <value>Mostrar {0} en la barra de acceso directo</value>
-  </data>
   <data name="DisableOnSearch_Name" xml:space="preserve">
     <value>Desactivar tras la búsqueda</value>
   </data>
@@ -227,5 +221,29 @@
   </data>
   <data name="ShowWeeklyReset_Tooltip" xml:space="preserve">
     <value>Mostrar el tiempo hasta el reinicio semanal en la parte inferior izquierda del minimapa.</value>
+  </data>
+  <data name="PasteWaypointFromClipboard_Name" xml:space="preserve">
+    <value>Utilizar primero el portapapeles</value>
+  </data>
+  <data name="PasteWaypointFromClipboard_Tooltip" xml:space="preserve">
+    <value>Compruebe si el contenido del portapapeles es un chatlink de waypoint, si es así utilícelo en lugar del código de waypoint</value>
+  </data>
+  <data name="ShowInHotbar_Name" xml:space="preserve">
+    <value>Mostrar {0} en la barra</value>
+  </data>
+  <data name="ShowInHotbar_Description" xml:space="preserve">
+    <value>Mostrar {0} en la barra de acceso rápido</value>
+  </data>
+  <data name="DisableOnCopy_Name" xml:space="preserve">
+    <value>Desactivar después de copiar</value>
+  </data>
+  <data name="DisableOnCopy_Tooltip" xml:space="preserve">
+    <value>Desactivar el submódulo después de copiar el nombre de un elemento</value>
+  </data>
+  <data name="HotbarButtonSorting_Name" xml:space="preserve">
+    <value>Orden de los botones de la barra</value>
+  </data>
+  <data name="HotbarButtonSorting_Tooltip" xml:space="preserve">
+    <value>Orden de los botones de las barras de acceso rápido</value>
   </data>
 </root>

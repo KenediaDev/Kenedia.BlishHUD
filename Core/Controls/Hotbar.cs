@@ -25,11 +25,16 @@ namespace Kenedia.Modules.Core.Controls
         BottomToTop
     }
 
+    public enum SortType
+    {
+        ActivesFirst,
+        ByModuleName,
+    }
+
     public class Hotbar : Panel
     {
         private readonly DetailedTexture _expander = new(155909, 155910);
         private readonly Dummy _expandDummy;
-        private readonly FlowPanel _itemsPanel;
         private readonly int _itemPadding = 4;
 
         private bool _resizeBarPending;
@@ -44,6 +49,9 @@ namespace Kenedia.Modules.Core.Controls
         private Rectangle _expanderBackgroundBounds;
 
         private ExpandType _expandType = ExpandType.LeftToRight;
+        private SortType _sortType = SortType.ActivesFirst;
+
+        protected readonly FlowPanel ItemsPanel;
 
         //517181 | 517182 Arrow up
         public Hotbar()
@@ -62,7 +70,7 @@ namespace Kenedia.Modules.Core.Controls
                 Size = new(16, 32),
             };
 
-            _itemsPanel = new()
+            ItemsPanel = new()
             {
                 Parent = this,
                 FlowDirection = Blish_HUD.Controls.ControlFlowDirection.SingleLeftToRight,
@@ -81,6 +89,8 @@ namespace Kenedia.Modules.Core.Controls
 
         public ExpandType ExpandType { get => _expandType; set => Common.SetProperty(ref _expandType, value, OnExpandTypeChanged); }
 
+        public SortType SortType { get => _sortType; set => Common.SetProperty(ref _sortType, value, OnSortTypeCanged); }
+
         public bool ExpandBar { get => _expandBar; set => Common.SetProperty(ref _expandBar, value, OnExpandChanged); }
 
         public ModifierKeys MoveModifier { get; set; } = ModifierKeys.Alt;
@@ -91,12 +101,21 @@ namespace Kenedia.Modules.Core.Controls
 
         public Action OpenSettingsAction { get; set; }
 
+        private void OnSortTypeCanged(object sender, Models.ValueChangedEventArgs<SortType> e)
+        {
+            if (ItemsPanel is null) return;
+
+            SetButtonsExpanded();
+            ForceOnScreen();
+            RecalculateLayout();
+        }
+
         private void OnExpandTypeChanged(object sender, Models.ValueChangedEventArgs<ExpandType> e)
         {
-            if (_itemsPanel is null) return;
+            if (ItemsPanel is null) return;
             _resizeBarPending = true;
 
-            _itemsPanel.Size = Point.Zero;
+            ItemsPanel.Size = Point.Zero;
             Size = Point.Zero;
 
             switch (e.NewValue)
@@ -106,11 +125,11 @@ namespace Kenedia.Modules.Core.Controls
                     _expander.HoveredTexture = AsyncTexture2D.FromAssetId(155910);
                     _expander.TextureRegion = new(new(0, 0), new(16, 32));
                     _expandDummy.Size = new(16, 32);
-                    _itemsPanel.FlowDirection = Blish_HUD.Controls.ControlFlowDirection.SingleLeftToRight;
-                    _itemsPanel.WidthSizingMode = Blish_HUD.Controls.SizingMode.Standard;
-                    _itemsPanel.HeightSizingMode = Blish_HUD.Controls.SizingMode.AutoSize;
-                    _itemsPanel.ContentPadding = new(5, 4, 0, 4);
-                    _itemsPanel.ControlPadding = new(5);
+                    ItemsPanel.FlowDirection = Blish_HUD.Controls.ControlFlowDirection.SingleLeftToRight;
+                    ItemsPanel.WidthSizingMode = Blish_HUD.Controls.SizingMode.Standard;
+                    ItemsPanel.HeightSizingMode = Blish_HUD.Controls.SizingMode.AutoSize;
+                    ItemsPanel.ContentPadding = new(5, 4, 0, 4);
+                    ItemsPanel.ControlPadding = new(5);
                     ContentPadding = new(0);
                     break;
 
@@ -119,11 +138,11 @@ namespace Kenedia.Modules.Core.Controls
                     _expander.HoveredTexture = AsyncTexture2D.FromAssetId(155907);
                     _expander.TextureRegion = new(new(16, 0), new(16, 32));
                     _expandDummy.Size = new(16, 32);
-                    _itemsPanel.FlowDirection = Blish_HUD.Controls.ControlFlowDirection.SingleRightToLeft;
-                    _itemsPanel.WidthSizingMode = Blish_HUD.Controls.SizingMode.Standard;
-                    _itemsPanel.HeightSizingMode = Blish_HUD.Controls.SizingMode.AutoSize;
-                    _itemsPanel.ContentPadding = new(-5, 4, 5, 4);
-                    _itemsPanel.ControlPadding = new(5);
+                    ItemsPanel.FlowDirection = Blish_HUD.Controls.ControlFlowDirection.SingleRightToLeft;
+                    ItemsPanel.WidthSizingMode = Blish_HUD.Controls.SizingMode.Standard;
+                    ItemsPanel.HeightSizingMode = Blish_HUD.Controls.SizingMode.AutoSize;
+                    ItemsPanel.ContentPadding = new(-5, 4, 5, 4);
+                    ItemsPanel.ControlPadding = new(5);
                     ContentPadding = new(0);
                     break;
 
@@ -132,11 +151,11 @@ namespace Kenedia.Modules.Core.Controls
                     _expander.HoveredTexture = AsyncTexture2D.FromAssetId(155929);
                     _expander.TextureRegion = new(new(0, 8), new(32, 16));
                     _expandDummy.Size = new(32, 16);
-                    _itemsPanel.WidthSizingMode = Blish_HUD.Controls.SizingMode.AutoSize;
-                    _itemsPanel.HeightSizingMode = Blish_HUD.Controls.SizingMode.Standard;
-                    _itemsPanel.FlowDirection = Blish_HUD.Controls.ControlFlowDirection.SingleTopToBottom;
-                    _itemsPanel.ContentPadding = new(5, 4, 5, 4);
-                    _itemsPanel.ControlPadding = new(5);
+                    ItemsPanel.WidthSizingMode = Blish_HUD.Controls.SizingMode.AutoSize;
+                    ItemsPanel.HeightSizingMode = Blish_HUD.Controls.SizingMode.Standard;
+                    ItemsPanel.FlowDirection = Blish_HUD.Controls.ControlFlowDirection.SingleTopToBottom;
+                    ItemsPanel.ContentPadding = new(5, 4, 5, 4);
+                    ItemsPanel.ControlPadding = new(5);
                     ContentPadding = new(0, 2);
                     break;
 
@@ -145,11 +164,11 @@ namespace Kenedia.Modules.Core.Controls
                     _expander.HoveredTexture = AsyncTexture2D.FromAssetId(155929);
                     _expander.TextureRegion = new(new(0, 8), new(32, 16));
                     _expandDummy.Size = new(32, 16);
-                    _itemsPanel.WidthSizingMode = Blish_HUD.Controls.SizingMode.AutoSize;
-                    _itemsPanel.HeightSizingMode = Blish_HUD.Controls.SizingMode.Standard;
-                    _itemsPanel.FlowDirection = Blish_HUD.Controls.ControlFlowDirection.SingleBottomToTop;
-                    _itemsPanel.ContentPadding = new(5, 0, 5, 2);
-                    _itemsPanel.ControlPadding = new(5);
+                    ItemsPanel.WidthSizingMode = Blish_HUD.Controls.SizingMode.AutoSize;
+                    ItemsPanel.HeightSizingMode = Blish_HUD.Controls.SizingMode.Standard;
+                    ItemsPanel.FlowDirection = Blish_HUD.Controls.ControlFlowDirection.SingleBottomToTop;
+                    ItemsPanel.ContentPadding = new(5, 0, 5, 2);
+                    ItemsPanel.ControlPadding = new(5);
                     ContentPadding = new(0, 2);
                     break;
             }
@@ -160,28 +179,31 @@ namespace Kenedia.Modules.Core.Controls
 
         private void OnExpandChanged(object sender, Models.ValueChangedEventArgs<bool> e)
         {
-            bool childDisplayed = e.NewValue || _itemsPanel.Children.FirstOrDefault(e => e.Visible) is not null;
+            bool childDisplayed = e.NewValue || ItemsPanel.Children.FirstOrDefault(e => e.Visible) is not null;
             _resizeBarPending = true;
 
-            foreach (var c in _itemsPanel.Children.OfType<ICheckable>())
-            {
-                (c as Control).Visible = e.NewValue || c.Checked;
-            }
-
-            //_itemsPanel.SortChildren<ImageToggle>((a, b) => b.Visible.CompareTo(a.Visible));
-
+            SetButtonsExpanded();
             RecalculateLayout();
+        }
+
+        public virtual void SetButtonsExpanded()
+        {
+            foreach (var c in ItemsPanel.Children.OfType<ICheckable>())
+            {
+                (c as Control).Visible = ExpandBar || c.Checked;
+            }
         }
 
         public void AddItem(ICheckable item)
         {
             if (item is Control control)
             {
-                control.Parent = _itemsPanel;
+                control.Parent = ItemsPanel;
                 item.CheckedChanged += Item_CheckedChanged;
             }
 
             RecalculateLayout();
+            SetButtonsExpanded();
         }
 
         private void Item_CheckedChanged(object sender, Blish_HUD.Controls.CheckChangedEvent e)
@@ -232,15 +254,30 @@ namespace Kenedia.Modules.Core.Controls
             }
         }
 
+        protected virtual void SortButtons()
+        {
+            switch (SortType)
+            {
+                case SortType.ActivesFirst:
+                    ItemsPanel.SortChildren<HotbarButton>((a, b) => b.Checked.CompareTo(a.Checked));
+                    break;
+
+                case SortType.ByModuleName:
+                    ItemsPanel.SortChildren<HotbarButton>((a, b) => a.BasicTooltipText.CompareTo(b.BasicTooltipText));
+                    break;
+            }
+        }
+
         public override void RecalculateLayout()
         {
             base.RecalculateLayout();
-
-            if (_itemsPanel is null)
+            if (ItemsPanel is null)
                 return;
 
             if (BackgroundImage is not null)
                 TextureRectangle = new(50, 50, Math.Min(BackgroundImage.Bounds.Size.X, Width), Math.Min(Height, BackgroundImage.Bounds.Size.Y));
+
+            SortButtons();
 
             switch (ExpandType)
             {
@@ -266,10 +303,10 @@ namespace Kenedia.Modules.Core.Controls
         public int GetItemPanelSize(bool any = false, bool isChecked = false, bool vertical = false)
         {
             IEnumerable<Control> visibleItems = isChecked ?
-                _itemsPanel.Children.OfType<ICheckable>().Where(e => any || e.Checked).Cast<Control>() :
-                _itemsPanel.Children.Where(e => any || e.Visible);
+                ItemsPanel.Children.OfType<ICheckable>().Where(e => any || e.Checked).Cast<Control>() :
+                ItemsPanel.Children.Where(e => any || e.Visible);
 
-            return (int)visibleItems.Sum(e => (vertical ? e.Height : e.Width) + (vertical ? _itemsPanel.ControlPadding.Y : _itemsPanel.ControlPadding.X));
+            return (int)visibleItems.Sum(e => (vertical ? e.Height : e.Width) + (vertical ? ItemsPanel.ControlPadding.Y : ItemsPanel.ControlPadding.X));
         }
 
         private void CalculateLeftToRight()
@@ -277,26 +314,26 @@ namespace Kenedia.Modules.Core.Controls
             if (BackgroundImage is not null)
                 TextureRectangle = new(50, 50, Math.Min(BackgroundImage.Bounds.Size.X, Width), Math.Min(Height, BackgroundImage.Bounds.Size.Y));
 
-            if (_itemsPanel is not null)
+            if (ItemsPanel is not null)
             {
-                var visibleItems = _itemsPanel.Children.Where(e => e.Visible);
-                _itemsPanel.Size = new((int)visibleItems.Sum(e => e.Width + _itemsPanel.ControlPadding.X) + (visibleItems?.Count() > 0 ? _itemsPanel.ContentPadding.Horizontal : 0), Height - AutoSizePadding.Y);
-                _itemsPanel.Location = new(0, 0);
+                var visibleItems = ItemsPanel.Children.Where(e => e.Visible);
+                ItemsPanel.Size = new((int)visibleItems.Sum(e => e.Width + ItemsPanel.ControlPadding.X) + (visibleItems?.Count() > 0 ? ItemsPanel.ContentPadding.Horizontal : 0), Height - AutoSizePadding.Y);
+                ItemsPanel.Location = new(0, 0);
             }
 
             if (_expandDummy is not null)
             {
-                _expandDummy.Location = new(Math.Max(_itemsPanel?.Right ?? 0, 5), ((_itemsPanel?.Height ?? Height) - _expandDummy.Height) / 2);
+                _expandDummy.Location = new(Math.Max(ItemsPanel?.Right ?? 0, 5), ((ItemsPanel?.Height ?? Height) - _expandDummy.Height) / 2);
                 _expanderBackgroundBounds = new(_expandDummy.Left - 2, BorderWidth.Top, _expandDummy.Width + 2, Height - BorderWidth.Vertical);
             }
         }
 
         private void CalculateRightToLeft()
         {
-            bool isAnyVisible = _itemsPanel.Children.Any(e => e.Visible);
+            bool isAnyVisible = ItemsPanel.Children.Any(e => e.Visible);
             int expandedItemsWidth = GetItemPanelSize(true, false);
             int checkedItemsWidth = GetItemPanelSize(false, true);
-            int padding = isAnyVisible ? _itemsPanel.ContentPadding.Horizontal : 0;
+            int padding = isAnyVisible ? ItemsPanel.ContentPadding.Horizontal : 0;
 
             if (_resizeBarPending)
             {
@@ -307,7 +344,7 @@ namespace Kenedia.Modules.Core.Controls
                     _start_ItemWidth = new(checkedItemsWidth, 0);
 
                     Location = _start.Add(new(-(expandedItemsWidth - checkedItemsWidth), 0));
-                    _itemsPanel.Width = expandedItemsWidth + padding;
+                    ItemsPanel.Width = expandedItemsWidth + padding;
                 }
                 // Move bar to the right                
                 else
@@ -315,15 +352,15 @@ namespace Kenedia.Modules.Core.Controls
                     _delta = new(_start_ItemWidth.X - checkedItemsWidth, 0);
                     Location = _start.Add(_delta);
 
-                    _itemsPanel.Width = isAnyVisible ? checkedItemsWidth + padding : 0;
+                    ItemsPanel.Width = isAnyVisible ? checkedItemsWidth + padding : 0;
                 }
 
                 _resizeBarPending = false;
             }
 
-            _expandDummy.Location = new(0, ((_itemsPanel?.Height ?? Height) - _expandDummy.Height) / 2);
+            _expandDummy.Location = new(0, ((ItemsPanel?.Height ?? Height) - _expandDummy.Height) / 2);
             _expanderBackgroundBounds = new(BorderWidth.Left, BorderWidth.Top, _expandDummy.Width + 2, Height - BorderWidth.Vertical);
-            _itemsPanel.Location = new(_expandDummy.Right + BorderWidth.Horizontal, 0);
+            ItemsPanel.Location = new(_expandDummy.Right + BorderWidth.Horizontal, 0);
         }
 
         private void CalculateTopToBottom()
@@ -333,26 +370,26 @@ namespace Kenedia.Modules.Core.Controls
             if (BackgroundImage is not null)
                 TextureRectangle = new(50, 50, Math.Min(BackgroundImage.Bounds.Size.X, Width), Math.Min(Height, BackgroundImage.Bounds.Size.Y));
 
-            if (_itemsPanel is not null)
+            if (ItemsPanel is not null)
             {
-                var visibleItems = _itemsPanel.Children.Where(e => e.Visible);
-                _itemsPanel.Size = new(Width - AutoSizePadding.X, (int)visibleItems.Sum(e => e.Width + _itemsPanel.ControlPadding.X) + (visibleItems?.Count() > 0 ? _itemsPanel.ContentPadding.Horizontal : 0));
-                _itemsPanel.Location = new(0, 0);
+                var visibleItems = ItemsPanel.Children.Where(e => e.Visible);
+                ItemsPanel.Size = new(Width - AutoSizePadding.X, (int)visibleItems.Sum(e => e.Width + ItemsPanel.ControlPadding.X) + (visibleItems?.Count() > 0 ? ItemsPanel.ContentPadding.Horizontal : 0));
+                ItemsPanel.Location = new(0, 0);
             }
 
             if (_expandDummy is not null)
             {
-                _expandDummy.Location = new(((_itemsPanel?.Width ?? Width) - _expandDummy.Width) / 2, Math.Max(_itemsPanel?.Bottom ?? 0, 5) - 5);
+                _expandDummy.Location = new(((ItemsPanel?.Width ?? Width) - _expandDummy.Width) / 2, Math.Max(ItemsPanel?.Bottom ?? 0, 5) - 5);
                 _expanderBackgroundBounds = new(BorderWidth.Left, Height - _expandDummy.Height - BorderWidth.Bottom, Width - BorderWidth.Horizontal, _expandDummy.Height);
             }
         }
 
         private void CalculateBottomToTop()
         {
-            bool isAnyVisible = _itemsPanel.Children.Any(e => e.Visible);
+            bool isAnyVisible = ItemsPanel.Children.Any(e => e.Visible);
             int expandedItemsWidth = GetItemPanelSize(true, false, true);
             int checkedItemsWidth = GetItemPanelSize(false, true, true);
-            int padding = isAnyVisible ? _itemsPanel.ContentPadding.Vertical : 0;
+            int padding = isAnyVisible ? ItemsPanel.ContentPadding.Vertical : 0;
 
             if (_resizeBarPending)
             {
@@ -363,7 +400,7 @@ namespace Kenedia.Modules.Core.Controls
                     _start_ItemWidth = new(checkedItemsWidth, 0);
 
                     Location = _start.Add(new(0, -(expandedItemsWidth - checkedItemsWidth)));
-                    _itemsPanel.Height = expandedItemsWidth + padding;
+                    ItemsPanel.Height = expandedItemsWidth + padding;
                 }
                 // Move bar to the right                
                 else
@@ -371,7 +408,7 @@ namespace Kenedia.Modules.Core.Controls
                     _delta = new(0, _start_ItemWidth.X - checkedItemsWidth);
                     Location = _start.Add(_delta);
 
-                    _itemsPanel.Height = isAnyVisible ? checkedItemsWidth + padding : 0;
+                    ItemsPanel.Height = isAnyVisible ? checkedItemsWidth + padding : 0;
                 }
 
                 _resizeBarPending = false;
@@ -379,7 +416,7 @@ namespace Kenedia.Modules.Core.Controls
 
             _expandDummy.Location = new((Width - AutoSizePadding.X - _expandDummy.Width) / 2, 0);
             _expanderBackgroundBounds = new(BorderWidth.Left, BorderWidth.Top, Width - BorderWidth.Horizontal, _expandDummy.Height);
-            _itemsPanel.Location = new(0, _expandDummy.Bottom);
+            ItemsPanel.Location = new(0, _expandDummy.Bottom);
         }
 
         protected override void DisposeControl()
@@ -443,13 +480,13 @@ namespace Kenedia.Modules.Core.Controls
 
             if (Location.X < screen.Left)
                 Location = new(screen.Left, Location.Y);
-            
+
             if (Location.X + Width > screen.Right)
                 Location = new(screen.Right - Width, Location.Y);
-            
+
             if (Location.Y < screen.Top)
                 Location = new(Location.X, screen.Top);
-            
+
             if (Location.Y + Height > screen.Bottom)
                 Location = new(Location.X, screen.Bottom - Height);
         }
