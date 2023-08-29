@@ -13,7 +13,6 @@ using ContentService = Blish_HUD.ContentService;
 using ICheckable = Blish_HUD.Controls.ICheckable;
 using Microsoft.Xna.Framework.Graphics;
 using Blish_HUD;
-using Kenedia.Modules.QoL.Res;
 using Kenedia.Modules.Core.Res;
 
 namespace Kenedia.Modules.Core.Controls

@@ -18,7 +18,7 @@
   "dependencies": {
     "bh.blishhud": ">=1.0.0"
   },
-  "description": "I have a dream that swapping characters is quick and easy even with 72 of them! Unfortunately, swapping characters can quickly become quite a pain with many characters.\nWhere was the Asuran Guardian I parked in Draconis Mons among my 70 characters?\nI have great news! This module will change your life, that's how close it comes to the dream. Search for the right characters using dozens of filter options and switch to them with just one click!",
+  "description": "I have a dream that swapping characters is quick and easy even with 73 of them! Unfortunately, swapping characters can quickly become quite a pain with many characters.\nWhere was the Asuran Guardian I parked in Draconis Mons among my 73 characters?\nI have great news! This module will change your life, that's how close it comes to the dream. Search for the right characters using dozens of filter options and switch to them with just one click!",
   "directories": [ "kenedia" ],
   "enabled_without_gw2": false,
   "manifest_version": 1,
@@ -26,5 +26,5 @@
   "namespace": "Kenedia.Modules.Characters",
   "package": "Kenedia.Modules.Characters.dll",
   "url": "https://github.com/KenediaDev/Kenedia.BlishHUD",
-  "version": "1.0.20"
+  "version": "1.0.21"
 }

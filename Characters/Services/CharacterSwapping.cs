@@ -220,75 +220,72 @@ namespace Kenedia.Modules.Characters.Services
             return canceled;
         }
 
-        public void Start(Character_Model character, bool ignoreOCR = false, Logger logger = null)
+        public async void Start(Character_Model character, bool ignoreOCR = false, Logger logger = null)
         {
-            _ = Task.Run(async () =>
+            try
             {
-                try
+
+                PlayerCharacter player = GameService.Gw2Mumble.PlayerCharacter;
+                bool inCharSelection = _settings.UseBetaGamestate.Value ? !_gameState.IsIngame : !GameService.GameIntegration.Gw2Instance.IsInGame;
+
+                if (player is not null && player.Name == character.Name && !inCharSelection)
                 {
-
-                    PlayerCharacter player = GameService.Gw2Mumble.PlayerCharacter;
-                    bool inCharSelection = _settings.UseBetaGamestate.Value ? !_gameState.IsIngame : !GameService.GameIntegration.Gw2Instance.IsInGame;
-
-                    if (player is not null && player.Name == character.Name && !inCharSelection)
-                    {
-                        return;
-                    }
-
-                    _cancellationTokenSource?.Cancel();
-                    _cancellationTokenSource = new();
-                    _cancellationTokenSource.CancelAfter(90000);
-
-                    Character = character;
-                    _state = GameService.GameIntegration.Gw2Instance.IsInGame ? SwappingState.None : SwappingState.LoggedOut;
-                    _ignoreOCR = ignoreOCR;
-
-                    Started?.Invoke(null, null);
-                    Status = string.Format(strings.CharacterSwap_SwitchTo, Character.Name);
-
-                    while (_state is not SwappingState.Done and not SwappingState.CharacterFullyLost and not SwappingState.Canceled && !_cancellationTokenSource.Token.IsCancellationRequested)
-                    {
-                        try
-                        {
-                            await Run(_cancellationTokenSource.Token);
-
-                            switch (_state)
-                            {
-                                case SwappingState.Done:
-                                    Status = strings.Status_Done;
-
-                                    if (GameService.GameIntegration.Gw2Instance.IsInGame)
-                                    {
-                                        if (_settings.CloseWindowOnSwap.Value)
-                                        {
-                                            HideMainWindow?.Invoke();
-                                        }
-                                    }
-
-                                    break;
-
-                                case SwappingState.CharacterFullyLost:
-                                    Status = string.Format(strings.CharacterSwap_FailedSwap, Character.Name);
-                                    Failed?.Invoke(null, null);
-
-                                    if (_settings.AutoSortCharacters.Value)
-                                    {
-                                        CharacterSorting.Start();
-                                    }
-
-                                    break;
-                            }
-                        }
-                        catch (TaskCanceledException)
-                        {
-
-                        }
-                    }
-
-                    Finished?.Invoke(null, null);
+                    return;
                 }
-                catch { }
-            });
+
+                _cancellationTokenSource?.Cancel();
+                _cancellationTokenSource = new();
+                _cancellationTokenSource.CancelAfter(90000);
+
+                Character = character;
+                _state = GameService.GameIntegration.Gw2Instance.IsInGame ? SwappingState.None : SwappingState.LoggedOut;
+                _ignoreOCR = ignoreOCR;
+
+                Started?.Invoke(null, null);
+                Status = string.Format(strings.CharacterSwap_SwitchTo, Character.Name);
+
+                while (_state is not SwappingState.Done and not SwappingState.CharacterFullyLost and not SwappingState.Canceled && !_cancellationTokenSource.Token.IsCancellationRequested)
+                {
+                    try
+                    {
+                        await Run(_cancellationTokenSource.Token);
+
+                        switch (_state)
+                        {
+                            case SwappingState.Done:
+                                Status = strings.Status_Done;
+
+                                if (GameService.GameIntegration.Gw2Instance.IsInGame)
+                                {
+                                    if (_settings.CloseWindowOnSwap.Value)
+                                    {
+                                        HideMainWindow?.Invoke();
+                                    }
+                                }
+
+                                break;
+
+                            case SwappingState.CharacterFullyLost:
+                                Status = string.Format(strings.CharacterSwap_FailedSwap, Character.Name);
+                                Failed?.Invoke(null, null);
+
+                                if (_settings.AutoSortCharacters.Value)
+                                {
+                                    CharacterSorting.Start();
+                                }
+
+                                break;
+                        }
+                    }
+                    catch (TaskCanceledException)
+                    {
+
+                    }
+                }
+
+                Finished?.Invoke(null, null);
+            }
+            catch { }
         }
 
         private async Task Delay(CancellationToken cancellationToken, int? delay = null, double? partial = null)
