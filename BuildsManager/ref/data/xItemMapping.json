@@ -1,4 +1,4 @@
-﻿{
+{
   "Nourishments": [
     {
       "Id": 8519,
@@ -3568,6 +3568,334 @@
       "Name": "Illustrious Breeches"
     }
   ],
-  "PowerCore": [],
+  "PowerCores": [
+    {
+      "Id": 95864,
+      "MappedId": 1,
+      "Name": "Jade Bot Core: Tier 5"
+    },
+    {
+      "Id": 96070,
+      "MappedId": 2,
+      "Name": "Jade Bot Core: Tier 9"
+    },
+    {
+      "Id": 96299,
+      "MappedId": 3,
+      "Name": "Jade Bot Core: Tier 8"
+    },
+    {
+      "Id": 96467,
+      "MappedId": 4,
+      "Name": "Jade Bot Core: Tier 6"
+    },
+    {
+      "Id": 96613,
+      "MappedId": 5,
+      "Name": "Jade Bot Core: Tier 10"
+    },
+    {
+      "Id": 96628,
+      "MappedId": 6,
+      "Name": "Jade Bot Core: Tier 4"
+    },
+    {
+      "Id": 97020,
+      "MappedId": 7,
+      "Name": "Jade Bot Core: Tier 7"
+    },
+    {
+      "Id": 97041,
+      "MappedId": 8,
+      "Name": "Jade Bot Core: Tier 2"
+    },
+    {
+      "Id": 97284,
+      "MappedId": 9,
+      "Name": "Jade Bot Core: Tier 3"
+    },
+    {
+      "Id": 97339,
+      "MappedId": 10,
+      "Name": "Jade Bot Core: Tier 1"
+    }
+  ],
+  "Relics": [
+    {
+      "Id": 99965,
+      "MappedId": 1,
+      "Name": "Relic of the Flock"
+    },
+    {
+      "Id": 99997,
+      "MappedId": 2,
+      "Name": "Relic of Isgarren"
+    },
+    {
+      "Id": 100031,
+      "MappedId": 3,
+      "Name": "Relic of the Monk"
+    },
+    {
+      "Id": 100048,
+      "MappedId": 4,
+      "Name": "Relic of the Ice"
+    },
+    {
+      "Id": 100074,
+      "MappedId": 5,
+      "Name": "Relic of Cerus"
+    },
+    {
+      "Id": 100090,
+      "MappedId": 6,
+      "Name": "Relic of the Dragonhunter"
+    },
+    {
+      "Id": 100115,
+      "MappedId": 7,
+      "Name": "Relic of Mabon"
+    },
+    {
+      "Id": 100144,
+      "MappedId": 8,
+      "Name": "Relic of the Warrior"
+    },
+    {
+      "Id": 100148,
+      "MappedId": 9,
+      "Name": "Relic of Speed"
+    },
+    {
+      "Id": 100153,
+      "MappedId": 10,
+      "Name": "Relic of the Fractal"
+    },
+    {
+      "Id": 100158,
+      "MappedId": 11,
+      "Name": "Relic of the Mirage"
+    },
+    {
+      "Id": 100165,
+      "MappedId": 12,
+      "Name": "Relic of the Necromancer"
+    },
+    {
+      "Id": 100177,
+      "MappedId": 13,
+      "Name": "Relic of Peitha"
+    },
+    {
+      "Id": 100194,
+      "MappedId": 14,
+      "Name": "Relic of the Weaver"
+    },
+    {
+      "Id": 100219,
+      "MappedId": 15,
+      "Name": "Relic of the Herald"
+    },
+    {
+      "Id": 100230,
+      "MappedId": 16,
+      "Name": "Relic of the Krait"
+    },
+    {
+      "Id": 100345,
+      "MappedId": 17,
+      "Name": "Relic of the Daredevil"
+    },
+    {
+      "Id": 100368,
+      "MappedId": 18,
+      "Name": "Relic of the Scourge"
+    },
+    {
+      "Id": 100385,
+      "MappedId": 19,
+      "Name": "Relic of the Centaur"
+    },
+    {
+      "Id": 100388,
+      "MappedId": 20,
+      "Name": "Relic of the Astral Ward"
+    },
+    {
+      "Id": 100390,
+      "MappedId": 21,
+      "Name": "Relic of Antitoxin"
+    },
+    {
+      "Id": 100400,
+      "MappedId": 22,
+      "Name": "Relic of the Sunless"
+    },
+    {
+      "Id": 100411,
+      "MappedId": 23,
+      "Name": "Relic of the Trooper"
+    },
+    {
+      "Id": 100429,
+      "MappedId": 24,
+      "Name": "Relic of Mercy"
+    },
+    {
+      "Id": 100432,
+      "MappedId": 25,
+      "Name": "Relic of Akeem"
+    },
+    {
+      "Id": 100442,
+      "MappedId": 26,
+      "Name": "Relic of Dwayna"
+    },
+    {
+      "Id": 100448,
+      "MappedId": 27,
+      "Name": "Relic of the Citadel"
+    },
+    {
+      "Id": 100450,
+      "MappedId": 28,
+      "Name": "Relic of the Chronomancer"
+    },
+    {
+      "Id": 100453,
+      "MappedId": 29,
+      "Name": "Relic of the Firebrand"
+    },
+    {
+      "Id": 100455,
+      "MappedId": 30,
+      "Name": "Relic of Durability"
+    },
+    {
+      "Id": 100461,
+      "MappedId": 31,
+      "Name": "Relic of Lyhr"
+    },
+    {
+      "Id": 100527,
+      "MappedId": 32,
+      "Name": "Relic of the Brawler"
+    },
+    {
+      "Id": 100542,
+      "MappedId": 33,
+      "Name": "Relic of the Cavalier"
+    },
+    {
+      "Id": 100557,
+      "MappedId": 34,
+      "Name": "Relic of the Wizard's Tower"
+    },
+    {
+      "Id": 100561,
+      "MappedId": 35,
+      "Name": "Relic of the Adventurer"
+    },
+    {
+      "Id": 100562,
+      "MappedId": 36,
+      "Name": "Relic of Durability"
+    },
+    {
+      "Id": 100579,
+      "MappedId": 37,
+      "Name": "Relic of the Nightmare"
+    },
+    {
+      "Id": 100580,
+      "MappedId": 38,
+      "Name": "Relic of the Necromancer"
+    },
+    {
+      "Id": 100614,
+      "MappedId": 39,
+      "Name": "Relic of Evasion"
+    },
+    {
+      "Id": 100625,
+      "MappedId": 40,
+      "Name": "Relic of Leadership"
+    },
+    {
+      "Id": 100659,
+      "MappedId": 41,
+      "Name": "Relic of the Water"
+    },
+    {
+      "Id": 100693,
+      "MappedId": 42,
+      "Name": "Relic of the Afflicted"
+    },
+    {
+      "Id": 100694,
+      "MappedId": 43,
+      "Name": "Relic of the Unseen Invasion"
+    },
+    {
+      "Id": 100739,
+      "MappedId": 44,
+      "Name": "Relic of the Reaper"
+    },
+    {
+      "Id": 100752,
+      "MappedId": 45,
+      "Name": "Relic of the Pack"
+    },
+    {
+      "Id": 100775,
+      "MappedId": 46,
+      "Name": "Relic of Vass"
+    },
+    {
+      "Id": 100794,
+      "MappedId": 47,
+      "Name": "Relic of Resistance"
+    },
+    {
+      "Id": 100849,
+      "MappedId": 48,
+      "Name": "Relic of the Aristocracy"
+    },
+    {
+      "Id": 100886,
+      "MappedId": 49,
+      "Name": "Relic of Evasion"
+    },
+    {
+      "Id": 100893,
+      "MappedId": 50,
+      "Name": "Relic of the Zephyrite"
+    },
+    {
+      "Id": 100916,
+      "MappedId": 51,
+      "Name": "Relic of the Thief"
+    },
+    {
+      "Id": 100924,
+      "MappedId": 52,
+      "Name": "Relic of the Deadeye"
+    },
+    {
+      "Id": 100934,
+      "MappedId": 53,
+      "Name": "Relic of the Defender"
+    },
+    {
+      "Id": 100942,
+      "MappedId": 54,
+      "Name": "Relic of Dagda"
+    },
+    {
+      "Id": 100947,
+      "MappedId": 55,
+      "Name": "Relic of Fireworks"
+    }
+  ],
   "PvpAmulets": []
 }

@@ -25,6 +25,7 @@ using CornerIcon = Kenedia.Modules.Core.Controls.CornerIcon;
 using LoadingSpinner = Kenedia.Modules.Core.Controls.LoadingSpinner;
 using AnchoredContainer = Kenedia.Modules.Core.Controls.AnchoredContainer;
 using Rectangle = Microsoft.Xna.Framework.Rectangle;
+using Version = SemVer.Version;
 
 namespace Kenedia.Modules.BuildsManager
 {
@@ -51,6 +52,8 @@ namespace Kenedia.Modules.BuildsManager
         }
 
         private GW2API GW2API { get; set; }
+
+        private StaticHosting StaticHosting { get; set; }
 
         public static Data Data { get; set; }
 
@@ -170,13 +173,101 @@ namespace Kenedia.Modules.BuildsManager
             _cancellationTokenSource?.Cancel();
             _cancellationTokenSource = new CancellationTokenSource();
 
+            var version = new Version(0, 0, 1);
+            var itemMapCollection = new ItemMapCollection(version);
+
+            foreach (var item in Data.ItemMap.Utilities)
+            {
+                itemMapCollection.Enhancements.Add(item.MappedId, item.Id);
+            }
+
+            foreach (var item in Data.ItemMap.Armors)
+            {
+                itemMapCollection.Armors.Add(item.MappedId, item.Id);
+            }
+
+            foreach (var item in Data.ItemMap.Weapons)
+            {
+                itemMapCollection.Weapons.Add(item.MappedId, item.Id);
+            }
+
+            foreach (var item in Data.ItemMap.Backs)
+            {
+                itemMapCollection.Backs.Add(item.MappedId, item.Id);
+            }
+
+            foreach (var item in Data.ItemMap.Enrichments)
+            {
+                itemMapCollection.Enrichments.Add(item.MappedId, item.Id);
+            }
+
+            foreach (var item in Data.ItemMap.Infusions)
+            {
+                itemMapCollection.Infusions.Add(item.MappedId, item.Id);
+            }
+
+            foreach (var item in Data.ItemMap.Nourishments)
+            {
+                itemMapCollection.Nourishments.Add(item.MappedId, item.Id);
+            }
+
+            foreach (var item in Data.ItemMap.PowerCores)
+            {
+                itemMapCollection.PowerCores.Add(item.MappedId, item.Id);
+            }
+
+            foreach (var item in Data.ItemMap.PveRunes)
+            {
+                itemMapCollection.PveRunes.Add(item.MappedId, item.Id);
+            }
+
+            foreach (var item in Data.ItemMap.PveSigils)
+            {
+                itemMapCollection.PveSigils.Add(item.MappedId, item.Id);
+            }
+
+            foreach (var item in Data.ItemMap.PvpAmulets)
+            {
+                itemMapCollection.PvpAmulets.Add(item.MappedId, item.Id);
+            }
+
+            foreach (var item in Data.ItemMap.PvpRunes)
+            {
+                itemMapCollection.PvpRunes.Add(item.MappedId, item.Id);
+            }
+
+            foreach (var item in Data.ItemMap.PvpSigils)
+            {
+                itemMapCollection.PvpSigils.Add(item.MappedId, item.Id);
+            }
+
+            foreach (var item in Data.ItemMap.Relics)
+            {
+                itemMapCollection.Relics.Add(item.MappedId, item.Id);
+            }
+
+            foreach (var item in Data.ItemMap.Trinkets)
+            {
+                itemMapCollection.Trinkets.Add(item.MappedId, item.Id);
+            }
+
+            Debug.WriteLine($"Saving itemMapCollection {itemMapCollection.Infusions.Version}");
+
+            foreach(var itemmap in itemMapCollection)
+            {
+                string json = JsonConvert.SerializeObject(itemmap.Value, Formatting.Indented);
+                File.WriteAllText($@"{Paths.ModulePath}\data\itemmap\{itemmap.Key}.json", json);
+            }
+
+            string vjson = JsonConvert.SerializeObject(new StaticVersion(version), Formatting.Indented);
+            File.WriteAllText($@"{Paths.ModulePath}\data\itemmap\Version.json", vjson);
+
+            var versions = await StaticHosting.GetStaticVersion();
+
+            Debug.WriteLine($"version {versions.Armors}");
+
             //LoadTemplates();
-
-            base.ReloadKey_Activated(sender, e);
-
-            //await GW2API.CreateItemMap(_cancellationTokenSource.Token);
-            //await GW2API.UpdateData();
-            //await Data.Load();
+            //base.ReloadKey_Activated(sender, e);
         }
 
         protected override void LoadGUI()

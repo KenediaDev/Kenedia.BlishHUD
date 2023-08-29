@@ -390,6 +390,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>strings.resx</DependentUpon>
     </Compile>
+    <Compile Include="Services\StaticHosting.cs" />
     <Compile Include="Services\StatMap.cs" />
     <Compile Include="Services\StatMapping.cs" />
     <Compile Include="Utility\GearTemplateCode.cs" />
@@ -514,6 +515,7 @@
     <None Include="manifest.json" />
     <None Include="packages.config" />
     <None Include="ref\data\ItemMapping.json" />
+    <None Include="ref\data\xItemMapping.json" />
     <None Include="ref\data\missing_skills.json" />
     <None Include="ref\data\rune_ids.json" />
     <None Include="ref\data\sigil_ids.json" />
