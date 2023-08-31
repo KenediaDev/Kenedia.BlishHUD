@@ -23,11 +23,11 @@ namespace Kenedia.Modules.BuildsManager.Services
     {
         private readonly Logger _logger = Logger.GetLogger(typeof(Data));
         private readonly ContentsManager _contentsManager;
-        private readonly PathCollection _paths;
+        private readonly Paths _paths;
         private CancellationTokenSource _cancellationTokenSource;
         private bool _isDisposed;
 
-        public Data(ContentsManager contentsManager, PathCollection paths)
+        public Data(ContentsManager contentsManager, Paths paths)
         {
             _contentsManager = contentsManager;
             _paths = paths;
@@ -38,8 +38,6 @@ namespace Kenedia.Modules.BuildsManager.Services
         public Dictionary<int, OldSkillConnection> OldConnections { get; set; } = new();
 
         public ItemMapCollection ItemMaps { get; set; } 
-
-        public ItemMapping ItemMap { get; set; } = new();
 
         public StatMapping StatMap { get; set; } = new();
 
@@ -154,7 +152,6 @@ namespace Kenedia.Modules.BuildsManager.Services
             {
                 _logger.Debug("Loading local data...");
 
-                ItemMap = JsonConvert.DeserializeObject<ItemMapping>(await new StreamReader(_contentsManager.GetFileStream(@"data\ItemMapping.json")).ReadToEndAsync());
                 StatMap = JsonConvert.DeserializeObject<StatMapping>(await new StreamReader(_contentsManager.GetFileStream(@"data\stats_map.json")).ReadToEndAsync());
 
                 _logger.Debug("Item Map loaded!");
@@ -166,7 +163,7 @@ namespace Kenedia.Modules.BuildsManager.Services
 
                 foreach (var prop in GetType().GetProperties())
                 {
-                    if (prop.Name is not nameof(SkillsByPalette) and not nameof(SkillConnections) and not nameof(ItemMaps) and not nameof(OldConnections) and not nameof(ItemMap) and not nameof(StatMap) and not nameof(IsLoaded))
+                    if (prop.Name is not nameof(SkillsByPalette) and not nameof(SkillConnections) and not nameof(ItemMaps) and not nameof(OldConnections) and not nameof(ItemMaps) and not nameof(StatMap) and not nameof(IsLoaded))
                     {
                         string path = $@"{_paths.ModuleDataPath}{prop.Name}.json";
 
@@ -251,8 +248,6 @@ namespace Kenedia.Modules.BuildsManager.Services
             if (_isDisposed) return;
 
             _isDisposed = true;
-
-            ItemMap?.Dispose();
 
             OldConnections?.Clear();
             StatMap?.Clear();

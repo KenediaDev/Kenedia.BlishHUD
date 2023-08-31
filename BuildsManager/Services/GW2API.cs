@@ -244,32 +244,34 @@ namespace Kenedia.Modules.BuildsManager.Services
             {
                 string json;
 
+                var api_items = _gw2ApiManager.Gw2ApiClient.V2.Items;
+
                 var skins = await _gw2ApiManager.Gw2ApiClient.V2.Skins.ManyAsync(_skinDictionary.Where(e => e.Value is not null).Select(e => (int)e.Value));
-                var api_armors = await _gw2ApiManager.Gw2ApiClient.V2.Items.ManyAsync(_data.ItemMap.Armors.Select(e => e.Id), cancellation);
-                var api_weapons = await _gw2ApiManager.Gw2ApiClient.V2.Items.ManyAsync(_data.ItemMap.Weapons.Select(e => e.Id), cancellation);
-                var api_backs = await _gw2ApiManager.Gw2ApiClient.V2.Items.ManyAsync(_data.ItemMap.Backs.Select(e => e.Id), cancellation);
-                var api_trinkets = await _gw2ApiManager.Gw2ApiClient.V2.Items.ManyAsync(_data.ItemMap.Trinkets.Select(e => e.Id), cancellation);
+                var api_armors = await api_items.ManyAsync(_data.ItemMaps.Armors.Values, cancellation);
+                var api_weapons = await api_items.ManyAsync(_data.ItemMaps.Weapons.Values, cancellation);
+                var api_backs = await api_items.ManyAsync(_data.ItemMaps.Backs.Values, cancellation);
+                var api_trinkets = await api_items.ManyAsync(_data.ItemMaps.Trinkets.Values, cancellation);
                 var api_amulets = await _gw2ApiManager.Gw2ApiClient.V2.Pvp.Amulets.AllAsync(cancellation);
 
-                var api_enrichments = await _gw2ApiManager.Gw2ApiClient.V2.Items.ManyAsync(_data.ItemMap.Enrichments.Select(e => e.Id), cancellation);
-                var api_infusions = await _gw2ApiManager.Gw2ApiClient.V2.Items.ManyAsync(_infusions, cancellation);
+                var api_enrichments = await api_items.ManyAsync(_data.ItemMaps.Enrichments.Values, cancellation);
+                var api_infusions = await api_items.ManyAsync(_infusions, cancellation);
 
-                var api_nourishments = await _gw2ApiManager.Gw2ApiClient.V2.Items.ManyAsync(_data.ItemMap.Nourishments.Select(e => e.Id), cancellation);
-                var api_utility = await _gw2ApiManager.Gw2ApiClient.V2.Items.ManyAsync(_data.ItemMap.Utilities.Select(e => e.Id), cancellation);
+                var api_nourishments = await api_items.ManyAsync(_data.ItemMaps.Nourishments.Values, cancellation);
+                var api_enhancement = await api_items.ManyAsync(_data.ItemMaps.Enhancements.Values, cancellation);
 
-                var api_pveRunes = await _gw2ApiManager.Gw2ApiClient.V2.Items.ManyAsync(_data.ItemMap.PveRunes.Select(e => e.Id), cancellation);
-                var api_pvpRunes = await _gw2ApiManager.Gw2ApiClient.V2.Items.ManyAsync(_data.ItemMap.PvpRunes.Select(e => e.Id), cancellation);
-                var api_pveSigils = await _gw2ApiManager.Gw2ApiClient.V2.Items.ManyAsync(_data.ItemMap.PveSigils.Select(e => e.Id), cancellation);
-                var api_pvpSigils = await _gw2ApiManager.Gw2ApiClient.V2.Items.ManyAsync(_data.ItemMap.PvpSigils.Select(e => e.Id), cancellation);
+                var api_pveRunes = await api_items.ManyAsync(_data.ItemMaps.PveRunes.Values, cancellation);
+                var api_pvpRunes = await api_items.ManyAsync(_data.ItemMaps.PvpRunes.Values, cancellation);
+                var api_pveSigils = await api_items.ManyAsync(_data.ItemMaps.PveSigils.Values, cancellation);
+                var api_pvpSigils = await api_items.ManyAsync(_data.ItemMaps.PvpSigils.Values, cancellation);
 
-                var api_cores = await _gw2ApiManager.Gw2ApiClient.V2.Items.ManyAsync(_data.ItemMap.PowerCores.Select(e => e.Id), cancellation);
-                var api_relics = await _gw2ApiManager.Gw2ApiClient.V2.Items.ManyAsync(_data.ItemMap.Relics.Select(e => e.Id), cancellation);
+                var api_cores = await api_items.ManyAsync(_data.ItemMaps.PowerCores.Values ?? new List<int>() { 0, }, cancellation);
+                var api_relics = await api_items.ManyAsync(_data.ItemMaps.Relics.Values ?? new List<int>() { 0, }, cancellation);
 
                 var statChoices = new List<int>();
 
                 if (cancellation.IsCancellationRequested) return;
 
-                void ApplyAmuletData(IReadOnlyList<ApiPvpAmulet> amulets, Dictionary<int, PvpAmulet> targetlist, string file, List<BasicItemMap> map)
+                void ApplyAmuletData(IReadOnlyList<ApiPvpAmulet> amulets, Dictionary<int, PvpAmulet> targetlist, string file, ItemMap map)
                 {
                     BuildsManager.Logger.Info($"Saving {file} ...");
 
@@ -286,7 +288,7 @@ namespace Kenedia.Modules.BuildsManager.Services
                     File.WriteAllText($@"{Paths.ModulePath}\data\{file}.json", json);
                 }
 
-                void ApplyData<T, TT>(IReadOnlyList<Item> items, Dictionary<int, TT> targetlist, string file, List<BasicItemMap> map, bool hasStatChoices = false) where T : Item where TT : BaseItem, new()
+                void ApplyData<T, TT>(IReadOnlyList<Item> items, Dictionary<int, TT> targetlist, string file, ItemMap map, bool hasStatChoices = false) where T : Item where TT : BaseItem, new()
                 {
                     BuildsManager.Logger.Info($"Saving {file} ...");
                     var skinIds = skins.Select(e => e.Id);
@@ -297,10 +299,10 @@ namespace Kenedia.Modules.BuildsManager.Services
                         item ??= new();
                         item.Apply((T)i);
 
-                        var mappedItem = map.Find(e => e.Id == i.Id);
-                        if (mappedItem is not null)
+                        var mappedItem = map.Items.FirstOrDefault(e => e.Value == i.Id);
+                        if (mappedItem.Value is not 0)
                         {
-                            item.MappedId = mappedItem.MappedId;
+                            item.MappedId = mappedItem.Key;
                         }
 
                         // Adjust Skins
@@ -333,24 +335,24 @@ namespace Kenedia.Modules.BuildsManager.Services
                     File.WriteAllText($@"{Paths.ModulePath}\data\{file}.json", json);
                 }
 
-                ApplyData<ItemArmor, Armor>(api_armors, _data.Armors, "Armors", _data.ItemMap.Armors, true);
-                ApplyData<ItemWeapon, Weapon>(api_weapons, _data.Weapons, "Weapons", _data.ItemMap.Weapons, true);
-                ApplyData<ItemBack, Trinket>(api_backs, _data.Backs, "Backs", _data.ItemMap.Backs, true);
-                ApplyData<ItemTrinket, Trinket>(api_trinkets, _data.Trinkets, "Trinkets", _data.ItemMap.Trinkets, true);
+                ApplyData<ItemArmor, Armor>(api_armors, _data.Armors, "Armors", _data.ItemMaps.Armors, true);
+                ApplyData<ItemWeapon, Weapon>(api_weapons, _data.Weapons, "Weapons", _data.ItemMaps.Weapons, true);
+                ApplyData<ItemBack, Trinket>(api_backs, _data.Backs, "Backs", _data.ItemMaps.Backs, true);
+                ApplyData<ItemTrinket, Trinket>(api_trinkets, _data.Trinkets, "Trinkets", _data.ItemMaps.Trinkets, true);
 
-                ApplyData<ItemUpgradeComponent, Enrichment>(api_enrichments, _data.Enrichments, "Enrichments", _data.ItemMap.Enrichments);
-                ApplyData<ItemUpgradeComponent, Infusion>(api_infusions, _data.Infusions, "Infusions", _data.ItemMap.Infusions);
-                ApplyData<ItemConsumable, Nourishment>(api_nourishments, _data.Nourishments, "Nourishments", _data.ItemMap.Nourishments);
-                ApplyData<ItemConsumable, Enhancement>(api_utility, _data.Utilities, "Utilities", _data.ItemMap.Utilities);
-                ApplyData<ItemUpgradeComponent, Rune>(api_pveRunes, _data.PveRunes, "PveRunes", _data.ItemMap.PveRunes);
-                ApplyData<ItemUpgradeComponent, Rune>(api_pvpRunes, _data.PvpRunes, "PvpRunes", _data.ItemMap.PvpRunes);
-                ApplyData<ItemUpgradeComponent, Sigil>(api_pveSigils, _data.PveSigils, "PveSigils", _data.ItemMap.PveSigils);
-                ApplyData<ItemUpgradeComponent, Sigil>(api_pvpSigils, _data.PvpSigils, "PvpSigils", _data.ItemMap.PvpSigils);
+                ApplyData<ItemUpgradeComponent, Enrichment>(api_enrichments, _data.Enrichments, "Enrichments", _data.ItemMaps.Enrichments);
+                ApplyData<ItemUpgradeComponent, Infusion>(api_infusions, _data.Infusions, "Infusions", _data.ItemMaps.Infusions);
+                ApplyData<ItemConsumable, Nourishment>(api_nourishments, _data.Nourishments, "Nourishments", _data.ItemMaps.Nourishments);
+                ApplyData<ItemConsumable, Enhancement>(api_enhancement, _data.Utilities, "Enhancements", _data.ItemMaps.Enhancements);
+                ApplyData<ItemUpgradeComponent, Rune>(api_pveRunes, _data.PveRunes, "PveRunes", _data.ItemMaps.PveRunes);
+                ApplyData<ItemUpgradeComponent, Rune>(api_pvpRunes, _data.PvpRunes, "PvpRunes", _data.ItemMaps.PvpRunes);
+                ApplyData<ItemUpgradeComponent, Sigil>(api_pveSigils, _data.PveSigils, "PveSigils", _data.ItemMaps.PveSigils);
+                ApplyData<ItemUpgradeComponent, Sigil>(api_pvpSigils, _data.PvpSigils, "PvpSigils", _data.ItemMaps.PvpSigils);
 
-                ApplyData<Item, PowerCore>(api_cores, _data.PowerCores, "PowerCores", _data.ItemMap.PowerCores);
-                ApplyData<Item, Relic>(api_relics, _data.Relics, "Relics", _data.ItemMap.Relics);
+                ApplyData<Item, PowerCore>(api_cores, _data.PowerCores, "PowerCores", _data.ItemMaps.PowerCores);
+                ApplyData<Item, Relic>(api_relics, _data.Relics, "Relics", _data.ItemMaps.Relics);
 
-                ApplyAmuletData(api_amulets, _data.PvpAmulets, "PvpAmulets", _data.ItemMap.PvpAmulets);
+                ApplyAmuletData(api_amulets, _data.PvpAmulets, "PvpAmulets", _data.ItemMaps.PvpAmulets);
 
                 //Get Stats
                 await GetStats(cancellation, statChoices);
@@ -1088,7 +1090,7 @@ namespace Kenedia.Modules.BuildsManager.Services
             _lastException = ex;
         }
 
-        public async Task UpdateMappedIds()
+        public async Task UpdateMappedIds(string versionString)
         {
             try
             {
@@ -1096,14 +1098,24 @@ namespace Kenedia.Modules.BuildsManager.Services
                 _cancellationTokenSource = new CancellationTokenSource();
 
                 var raw_itemids = await _gw2ApiManager.Gw2ApiClient.V2.Items.IdsAsync(_cancellationTokenSource.Token);
+                var invalidIds = new List<int>()
+                {
+                    11126, // Corrupted
+                    63366, //Nameless Rune
+                    90369, // Corrupted
+                };
+
                 if (_cancellationTokenSource.IsCancellationRequested)
                     return;
 
-                var itemid_lists = raw_itemids.ToList().ChunkBy(200);
+                var itemid_lists = raw_itemids.Except(invalidIds).ToList().ChunkBy(200);
                 int count = 0;
 
                 foreach (var ids in itemid_lists)
                 {
+                    if (_cancellationTokenSource.IsCancellationRequested)
+                        return;
+
                     if (ids is not null)
                     {
                         IReadOnlyList<Item> items = null;
@@ -1117,84 +1129,101 @@ namespace Kenedia.Modules.BuildsManager.Services
 
                             foreach (var item in items)
                             {
-                                List<ItemMap> maps = new();
-
-                                switch (item)
+                                try
                                 {
-                                    case ItemArmor armor:
-                                        if (_skinDictionary.ContainsKey(armor.Id)) maps.Add(_data.ItemMaps.Armors);
-                                        break;
+                                    List<ItemMap> maps = new();
 
-                                    case ItemBack back:
-                                        if (_skinDictionary.ContainsKey(back.Id)) maps.Add(_data.ItemMaps.Backs);
-                                        break;
-
-                                    case ItemWeapon weapon:
-                                        if (_skinDictionary.ContainsKey(weapon.Id)) maps.Add(_data.ItemMaps.Weapons);
-                                        break;
-
-                                    case ItemTrinket trinket:
-                                        if (_skinDictionary.ContainsKey(trinket.Id)) maps.Add(_data.ItemMaps.Trinkets);
-                                        break;
-
-                                    case ItemConsumable consumable:
-                                        maps.Add(consumable.Details.Type.Value switch
-                                        {
-                                            ItemConsumableType.Food => _data.ItemMaps.Nourishments,
-                                            ItemConsumableType.Utility => _data.ItemMaps.Enhancements,
-                                            _ => null,
-                                        });
-                                        break;
-
-                                    case ItemUpgradeComponent upgrade:
-                                        if (upgrade.Details.InfusionUpgradeFlags?.ToList()?.Contains(ItemInfusionFlag.Infusion) == true && _infusions.Contains(upgrade.Id))
-                                        {
-                                            maps.Add(_data.ItemMaps.Infusions);
-                                        }
-                                        else if (upgrade.Details.InfusionUpgradeFlags?.ToList()?.Contains(ItemInfusionFlag.Enrichment) == true)
-                                        {
-                                            maps.Add(_data.ItemMaps.Enrichments);
-                                        }
-                                        else
-                                        {
-                                            if (upgrade.Details.Type.Value is ItemUpgradeComponentType.Rune)
-                                            {
-                                                if (upgrade.GameTypes.FirstOrDefault(e => e.Value == ItemGameType.Pvp) is not null) maps.Add(_data.ItemMaps.PvpRunes);
-                                                if (upgrade.GameTypes.FirstOrDefault(e => e.Value == ItemGameType.Pve) is not null) maps.Add(_data.ItemMaps.PveRunes);
-                                            }
-
-                                            if (upgrade.Details.Type.Value is ItemUpgradeComponentType.Sigil)
-                                            {
-                                                if (upgrade.GameTypes.FirstOrDefault(e => e.Value == ItemGameType.Pvp) is not null) maps.Add(_data.ItemMaps.PvpSigils);
-                                                if (upgrade.GameTypes.FirstOrDefault(e => e.Value == ItemGameType.Pve) is not null) maps.Add(_data.ItemMaps.PveSigils);
-                                            }
-                                        }
-                                        break;
-
-                                    default:
-                                        if (item.Type.ToString() == "Mwcc")
-                                        {
-                                            maps.Add(_data.ItemMaps.Relics);
-                                        }
-
-                                        break;
-                                }
-
-                                foreach (var map in maps)
-                                {
-                                    if (map is not null && map.Items.FirstOrDefault(x => x.Value == item.Id) is KeyValuePair<byte, int> sitem && sitem.Value <= 0 && map.Count < byte.MaxValue)
+                                    switch (item)
                                     {
-                                        BuildsManager.Logger.Info($"Adding {item.Id} to {item.Type}");
-                                        map.Add((byte)(map.Count + 1), item.Id);
+                                        case ItemArmor armor:
+                                            if (_skinDictionary.ContainsKey(armor.Id)) maps.Add(_data.ItemMaps.Armors);
+                                            break;
+
+                                        case ItemBack back:
+                                            if (_skinDictionary.ContainsKey(back.Id)) maps.Add(_data.ItemMaps.Backs);
+                                            break;
+
+                                        case ItemWeapon weapon:
+                                            if (_skinDictionary.ContainsKey(weapon.Id)) maps.Add(_data.ItemMaps.Weapons);
+                                            break;
+
+                                        case ItemTrinket trinket:
+                                            if (_skinDictionary.ContainsKey(trinket.Id)) maps.Add(_data.ItemMaps.Trinkets);
+                                            break;
+
+                                        case ItemConsumable consumable:
+                                            if (consumable.Level == 80 && (consumable.Details.ApplyCount is not null || consumable.Rarity.Value is ItemRarity.Ascended))
+                                            {
+                                                maps.Add(consumable.Details.Type.Value switch
+                                                {
+                                                    ItemConsumableType.Food => _data.ItemMaps.Nourishments,
+                                                    ItemConsumableType.Utility => _data.ItemMaps.Enhancements,
+                                                    _ => null,
+                                                });
+                                            }
+                                            break;
+
+                                        case ItemUpgradeComponent upgrade:
+                                            if (upgrade.Details.InfusionUpgradeFlags?.ToList()?.Contains(ItemInfusionFlag.Infusion) == true && _infusions.Contains(upgrade.Id))
+                                            {
+                                                maps.Add(_data.ItemMaps.Infusions);
+                                            }
+                                            else if (upgrade.Details.InfusionUpgradeFlags?.ToList()?.Contains(ItemInfusionFlag.Enrichment) == true)
+                                            {
+                                                maps.Add(_data.ItemMaps.Enrichments);
+                                            }
+                                            else
+                                            {
+                                                if (upgrade.Details.Type.Value is ItemUpgradeComponentType.Rune)
+                                                {
+                                                    if (upgrade.GameTypes.FirstOrDefault(e => e.Value == ItemGameType.Pvp) is not null) maps.Add(_data.ItemMaps.PvpRunes);
+                                                    if (upgrade.GameTypes.FirstOrDefault(e => e.Value == ItemGameType.Pve) is not null) maps.Add(_data.ItemMaps.PveRunes);
+                                                }
+
+                                                if (upgrade.Details.Type.Value is ItemUpgradeComponentType.Sigil)
+                                                {
+                                                    if (upgrade.GameTypes.FirstOrDefault(e => e.Value == ItemGameType.Pvp) is not null) maps.Add(_data.ItemMaps.PvpSigils);
+                                                    if (upgrade.GameTypes.FirstOrDefault(e => e.Value == ItemGameType.Pve) is not null) maps.Add(_data.ItemMaps.PveSigils);
+                                                }
+                                            }
+                                            break;
+
+                                        default:
+                                            if (item.Type.ToString() == "Mwcc")
+                                            {
+                                                maps.Add(_data.ItemMaps.Relics);
+                                            }
+
+                                            break;
                                     }
+
+                                    foreach (var map in maps)
+                                    {
+                                        if (map is not null && map.Items.FirstOrDefault(x => x.Value == item.Id) is KeyValuePair<byte, int> sitem && sitem.Value <= 0 && map.Count < byte.MaxValue)
+                                        {
+                                            BuildsManager.Logger.Info($"Adding {item.Id} to {item.Type}");
+                                            map.Add((byte)(map.Count + 1), item.Id);
+                                        }
+                                    }
+                                }
+                                catch (Exception ex)
+                                {
+                                    BuildsManager.Logger.Warn($"{item.Id}Exception {ex}");
                                 }
                             }
                         }
                         catch (Exception ex)
                         {
-                            BuildsManager.Logger.Warn($"Exception {ex}");
+
+                            BuildsManager.Logger.Warn($"Exception thrown for ids: {Environment.NewLine + string.Join($",{Environment.NewLine}", ids)} {Environment.NewLine + ex}");
                         }
                     }
+                }
+
+                var version = new SemVer.Version(versionString);
+                foreach (var map in _data.ItemMaps)
+                {
+                    map.Value.Version = version;
                 }
 
                 _data.ItemMaps.Save();

@@ -255,14 +255,14 @@ namespace Kenedia.Modules.BuildsManager.Models
 
     public class ItemMapCollection
     {
-        private readonly PathCollection _paths;
+        private readonly Paths _paths;
 
-        public ItemMapCollection(PathCollection paths)
+        public ItemMapCollection(Paths paths)
         {
             _paths = paths;
         }
 
-        public ItemMapCollection(Version version, PathCollection paths) : this(paths)
+        public ItemMapCollection(Version version, Paths paths) : this(paths)
         {
             foreach (var itemMap in this)
             {
@@ -320,45 +320,42 @@ namespace Kenedia.Modules.BuildsManager.Models
             yield return new KeyValuePair<string, ItemMap>(nameof(PvpAmulets), PvpAmulets);
         }
 
-        public async Task GetVersions()
-        {
-        }
-
         public async Task FetchAndLoad()
         {
             try
             {
                 var versions = await StaticHosting.GetStaticVersion();
-                string path = Path.Combine(_paths.ModuleDataPath, "itemmap");
+                string path = _paths.ItemMapPath;
 
                 foreach (var itemMap in this)
                 {
                     string filePath = Path.Combine(path, $"{itemMap.Key}.json");
-
-                    if (File.Exists(filePath))
+                    var prop = typeof(ItemMapCollection).GetProperty(itemMap.Key);
+                    
+                    if (prop != null)
                     {
-                        var prop = typeof(ItemMapCollection).GetProperty(itemMap.Key);
+                        ItemMap value = null;
 
-                        if (prop != null)
+                        if (File.Exists(filePath))
                         {
-                            BuildsManager.Logger.Info($"Loading {itemMap.Key} item map");
                             string json = File.ReadAllText(filePath);
-
-                            var value = JsonConvert.DeserializeObject<ItemMap>(json);
-
-                            if (value.Version < versions[itemMap.Key])
-                            {
-                                BuildsManager.Logger.Info($"Updating {itemMap.Key} item map from version {value.Version} to  {versions[itemMap.Key]}");
-                                value = await StaticHosting.GetItemMap(itemMap.Key);
-                                value.SaveToJson(filePath);
-                            }
-                            else
-                            {
-                                BuildsManager.Logger.Info($"Loaded {itemMap.Key} item map version {value.Version}  which is the most recent version.");
-                            }
-
-                            prop.SetValue(this, value);
+                            value = JsonConvert.DeserializeObject<ItemMap>(json);
                         }
+
+                        if (value is null || value.Version < versions[itemMap.Key])
+                        {
+                            BuildsManager.Logger.Info($"Updating {itemMap.Key} item map from version {value?.Version?.ToString() ?? "0.0.0"} to {versions[itemMap.Key]}");
+                            value = await StaticHosting.GetItemMap(itemMap.Key);
+
+                            BuildsManager.Logger.Info($"Added {value.Count - itemMap.Value.Count} new mapped entries.");
+                            value.SaveToJson(filePath);
+                        }
+                        else
+                        {
+                            BuildsManager.Logger.Info($"Loaded {itemMap.Key} item map version {value.Version} which is the most recent version.");
+                        }
+
+                        prop.SetValue(this, value);
                     }
                 }
             }
@@ -369,11 +366,9 @@ namespace Kenedia.Modules.BuildsManager.Models
         {
             try
             {
-                string path = Path.Combine(_paths.ModuleDataPath, "itemmap");
-
                 foreach (var itemMap in this)
                 {
-                    string filePath = Path.Combine(path, $"{itemMap.Key}.json");
+                    string filePath = Path.Combine(_paths.ItemMapPath, $"{itemMap.Key}.json");
                     itemMap.Value.SaveToJson(filePath);
                 }
             }
