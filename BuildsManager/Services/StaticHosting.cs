@@ -11,6 +11,7 @@ namespace Kenedia.Modules.BuildsManager.Services
 {
     public class StaticHosting
     {
+        public static string BaseUrl = "https://bhm.blishhud.com/Kenedia.Modules.BuildsManager/";
         public static string Url = "https://bhm.blishhud.com/Kenedia.Modules.BuildsManager/Version.json";
 
         public async static Task<StaticVersion> GetStaticVersion()
@@ -29,6 +30,26 @@ namespace Kenedia.Modules.BuildsManager.Services
             }
 
             return new StaticVersion();
+        }
+
+        public async static Task<ItemMap> GetItemMap(string fileName)
+        {
+            string url = $"{BaseUrl}{fileName}.json";
+
+            try
+            {
+                using var httpClient = new HttpClient();
+                string content = await httpClient.GetStringAsync(url);
+
+                var info = JsonConvert.DeserializeObject<ItemMap>(content);
+                return info;
+            }
+            catch
+            {
+                BuildsManager.Logger.Warn($"Failed to get item map from {url}");
+            }
+
+            return null;
         }
     }
 }

@@ -31,9 +31,13 @@ namespace Kenedia.Modules.BuildsManager.Services
         {
             _contentsManager = contentsManager;
             _paths = paths;
+
+            ItemMaps = new(_paths);
         }
 
         public Dictionary<int, OldSkillConnection> OldConnections { get; set; } = new();
+
+        public ItemMapCollection ItemMaps { get; set; } 
 
         public ItemMapping ItemMap { get; set; } = new();
 
@@ -158,9 +162,11 @@ namespace Kenedia.Modules.BuildsManager.Services
                 await LoadMissingSkills();
                 await LoadConnections();
 
+                await ItemMaps.FetchAndLoad();
+
                 foreach (var prop in GetType().GetProperties())
                 {
-                    if (prop.Name is not nameof(SkillsByPalette) and not nameof(SkillConnections) and not nameof(OldConnections) and not nameof(ItemMap) and not nameof(StatMap) and not nameof(IsLoaded))
+                    if (prop.Name is not nameof(SkillsByPalette) and not nameof(SkillConnections) and not nameof(ItemMaps) and not nameof(OldConnections) and not nameof(ItemMap) and not nameof(StatMap) and not nameof(IsLoaded))
                     {
                         string path = $@"{_paths.ModuleDataPath}{prop.Name}.json";
 

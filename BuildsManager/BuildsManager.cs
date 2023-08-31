@@ -26,6 +26,7 @@ using LoadingSpinner = Kenedia.Modules.Core.Controls.LoadingSpinner;
 using AnchoredContainer = Kenedia.Modules.Core.Controls.AnchoredContainer;
 using Rectangle = Microsoft.Xna.Framework.Rectangle;
 using Version = SemVer.Version;
+using Newtonsoft.Json.Serialization;
 
 namespace Kenedia.Modules.BuildsManager
 {
@@ -85,6 +86,13 @@ namespace Kenedia.Modules.BuildsManager
             base.Initialize();
 
             Paths = new(DirectoriesManager, Name);
+
+            JsonConvert.DefaultSettings = () => new JsonSerializerSettings
+            {
+                Formatting = Formatting.Indented,
+                NullValueHandling = NullValueHandling.Ignore,
+                ContractResolver = new SemverVersionContractResolver()
+            };
 
             Logger.Info($"Starting {Name} v." + Version.BaseVersion());
             Data = new(ContentsManager, Paths);
@@ -174,7 +182,7 @@ namespace Kenedia.Modules.BuildsManager
             _cancellationTokenSource = new CancellationTokenSource();
 
             var version = new Version(0, 0, 1);
-            var itemMapCollection = new ItemMapCollection(version);
+            var itemMapCollection = new ItemMapCollection(version, Paths);
 
             foreach (var item in Data.ItemMap.Utilities)
             {
@@ -253,18 +261,19 @@ namespace Kenedia.Modules.BuildsManager
 
             Debug.WriteLine($"Saving itemMapCollection {itemMapCollection.Infusions.Version}");
 
-            foreach(var itemmap in itemMapCollection)
+            foreach (var itemmap in itemMapCollection)
             {
                 string json = JsonConvert.SerializeObject(itemmap.Value, Formatting.Indented);
                 File.WriteAllText($@"{Paths.ModulePath}\data\itemmap\{itemmap.Key}.json", json);
             }
 
-            string vjson = JsonConvert.SerializeObject(new StaticVersion(version), Formatting.Indented);
-            File.WriteAllText($@"{Paths.ModulePath}\data\itemmap\Version.json", vjson);
+            new StaticVersion(version).SaveToJson($@"{Paths.ModulePath}\data\itemmap\Version.json");
 
             var versions = await StaticHosting.GetStaticVersion();
 
             Debug.WriteLine($"version {versions.Armors}");
+
+            await GW2API.UpdateMappedIds();
 
             //LoadTemplates();
             //base.ReloadKey_Activated(sender, e);
@@ -399,7 +408,7 @@ namespace Kenedia.Modules.BuildsManager
                 Parent = GameService.Graphics.SpriteScreen,
                 WidthSizingMode = SizingMode.AutoSize,
                 HeightSizingMode = SizingMode.AutoSize,
-                Anchor = _cornerIcon,                
+                Anchor = _cornerIcon,
                 AnchorPosition = AnchoredContainer.AnchorPos.Bottom,
                 RelativePosition = new(0, -_cornerIcon.Height / 2),
                 CaptureInput = CaptureType.Filter,

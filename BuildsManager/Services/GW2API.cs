@@ -1087,5 +1087,121 @@ namespace Kenedia.Modules.BuildsManager.Services
 
             _lastException = ex;
         }
+
+        public async Task UpdateMappedIds()
+        {
+            try
+            {
+                _cancellationTokenSource?.Cancel();
+                _cancellationTokenSource = new CancellationTokenSource();
+
+                var raw_itemids = await _gw2ApiManager.Gw2ApiClient.V2.Items.IdsAsync(_cancellationTokenSource.Token);
+                if (_cancellationTokenSource.IsCancellationRequested)
+                    return;
+
+                var itemid_lists = raw_itemids.ToList().ChunkBy(200);
+                int count = 0;
+
+                foreach (var ids in itemid_lists)
+                {
+                    if (ids is not null)
+                    {
+                        IReadOnlyList<Item> items = null;
+                        count++;
+
+                        BuildsManager.Logger.Info($"Fetching chunk {count}/{itemid_lists.Count}");
+
+                        try
+                        {
+                            items = await _gw2ApiManager.Gw2ApiClient.V2.Items.ManyAsync(ids, _cancellationTokenSource.Token);
+
+                            foreach (var item in items)
+                            {
+                                List<ItemMap> maps = new();
+
+                                switch (item)
+                                {
+                                    case ItemArmor armor:
+                                        if (_skinDictionary.ContainsKey(armor.Id)) maps.Add(_data.ItemMaps.Armors);
+                                        break;
+
+                                    case ItemBack back:
+                                        if (_skinDictionary.ContainsKey(back.Id)) maps.Add(_data.ItemMaps.Backs);
+                                        break;
+
+                                    case ItemWeapon weapon:
+                                        if (_skinDictionary.ContainsKey(weapon.Id)) maps.Add(_data.ItemMaps.Weapons);
+                                        break;
+
+                                    case ItemTrinket trinket:
+                                        if (_skinDictionary.ContainsKey(trinket.Id)) maps.Add(_data.ItemMaps.Trinkets);
+                                        break;
+
+                                    case ItemConsumable consumable:
+                                        maps.Add(consumable.Details.Type.Value switch
+                                        {
+                                            ItemConsumableType.Food => _data.ItemMaps.Nourishments,
+                                            ItemConsumableType.Utility => _data.ItemMaps.Enhancements,
+                                            _ => null,
+                                        });
+                                        break;
+
+                                    case ItemUpgradeComponent upgrade:
+                                        if (upgrade.Details.InfusionUpgradeFlags?.ToList()?.Contains(ItemInfusionFlag.Infusion) == true && _infusions.Contains(upgrade.Id))
+                                        {
+                                            maps.Add(_data.ItemMaps.Infusions);
+                                        }
+                                        else if (upgrade.Details.InfusionUpgradeFlags?.ToList()?.Contains(ItemInfusionFlag.Enrichment) == true)
+                                        {
+                                            maps.Add(_data.ItemMaps.Enrichments);
+                                        }
+                                        else
+                                        {
+                                            if (upgrade.Details.Type.Value is ItemUpgradeComponentType.Rune)
+                                            {
+                                                if (upgrade.GameTypes.FirstOrDefault(e => e.Value == ItemGameType.Pvp) is not null) maps.Add(_data.ItemMaps.PvpRunes);
+                                                if (upgrade.GameTypes.FirstOrDefault(e => e.Value == ItemGameType.Pve) is not null) maps.Add(_data.ItemMaps.PveRunes);
+                                            }
+
+                                            if (upgrade.Details.Type.Value is ItemUpgradeComponentType.Sigil)
+                                            {
+                                                if (upgrade.GameTypes.FirstOrDefault(e => e.Value == ItemGameType.Pvp) is not null) maps.Add(_data.ItemMaps.PvpSigils);
+                                                if (upgrade.GameTypes.FirstOrDefault(e => e.Value == ItemGameType.Pve) is not null) maps.Add(_data.ItemMaps.PveSigils);
+                                            }
+                                        }
+                                        break;
+
+                                    default:
+                                        if (item.Type.ToString() == "Mwcc")
+                                        {
+                                            maps.Add(_data.ItemMaps.Relics);
+                                        }
+
+                                        break;
+                                }
+
+                                foreach (var map in maps)
+                                {
+                                    if (map is not null && map.Items.FirstOrDefault(x => x.Value == item.Id) is KeyValuePair<byte, int> sitem && sitem.Value <= 0 && map.Count < byte.MaxValue)
+                                    {
+                                        BuildsManager.Logger.Info($"Adding {item.Id} to {item.Type}");
+                                        map.Add((byte)(map.Count + 1), item.Id);
+                                    }
+                                }
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            BuildsManager.Logger.Warn($"Exception {ex}");
+                        }
+                    }
+                }
+
+                _data.ItemMaps.Save();
+            }
+            catch
+            {
+            }
+        }
     }
 }

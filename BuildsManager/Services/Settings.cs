@@ -4,6 +4,7 @@ using Kenedia.Modules.Core.Models;
 using Kenedia.Modules.Core.Res;
 using Microsoft.Xna.Framework.Input;
 using Kenedia.Modules.BuildsManager.Res;
+using Kenedia.Modules.BuildsManager.Models;
 
 namespace Kenedia.Modules.BuildsManager.Services
 {
