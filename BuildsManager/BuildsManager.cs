@@ -56,7 +56,7 @@ namespace Kenedia.Modules.BuildsManager
 
         private StaticHosting StaticHosting { get; set; }
 
-        public static Data Data { get; set; }
+        public static DataOG Data { get; set; }
 
         public ObservableCollection<Template> Templates { get; private set; } = new();
 
@@ -95,14 +95,16 @@ namespace Kenedia.Modules.BuildsManager
             };
 
             Logger.Info($"Starting {Name} v." + Version.BaseVersion());
-            Data = new(ContentsManager, Paths);
+            Data = new(ContentsManager, Paths, Gw2ApiManager);
         }
 
         protected override async void OnLocaleChanged(object sender, Blish_HUD.ValueChangedEventArgs<Locale> e)
         {
+            if (GW2API is null) return;
+
             if (e.NewValue is not Locale.Korean and not Locale.Chinese)
             {
-                GW2API.Cancel();
+                GW2API?.Cancel();
                 _apiSpinner?.Hide();
 
                 if (!Data.Professions.TryGetValue(Gw2Sharp.Models.ProfessionType.Guardian, out DataModels.Professions.Profession profession) || !profession.Names.TryGetValue(e.NewValue, out string name) || string.IsNullOrEmpty(name))
@@ -110,9 +112,9 @@ namespace Kenedia.Modules.BuildsManager
                     _apiSpinner?.Show();
 
                     Logger.Info($"No data for {e.NewValue} loaded yet. Fetching new data from the API.");
-                    await GW2API.UpdateData();
+                    await GW2API?.UpdateData();
 
-                    if (!GW2API.IsCanceled())
+                    if (GW2API?.IsCanceled() == false)
                     {
                         Logger.Info($"Apply fresh {e.NewValue} data to the UI.");
                     }
@@ -133,11 +135,11 @@ namespace Kenedia.Modules.BuildsManager
         {
             await base.LoadAsync();
 
-            await Data.Load();
-            GW2API = new(Gw2ApiManager, Data, Paths, () => _notificationBadge)
-            {
-                Paths = Paths,
-            };
+            GW2API = new(Gw2ApiManager, () => Data, Paths, () => _notificationBadge);
+
+            bool dataLoaded = await Data.Load();
+            if (!dataLoaded)
+                return;
 
             if (GameService.Overlay.UserLocale.Value is not Locale.Korean and not Locale.Chinese)
             {
@@ -181,10 +183,13 @@ namespace Kenedia.Modules.BuildsManager
             _cancellationTokenSource?.Cancel();
             _cancellationTokenSource = new CancellationTokenSource();
 
-            //await GW2API.UpdateMappedIds("0.0.2");
+            //await GW2API.UpdateMappedIds("0.0.3");
 
             //LoadTemplates();
             //base.ReloadKey_Activated(sender, e);
+
+            var data = new Data(ContentsManager, Paths, Gw2ApiManager);
+            await data.Load();
         }
 
         protected override void LoadGUI()

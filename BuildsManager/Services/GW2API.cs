@@ -39,7 +39,7 @@ namespace Kenedia.Modules.BuildsManager.Services
     {
         private readonly Logger _logger = Logger.GetLogger(typeof(GW2API));
         private readonly Gw2ApiManager _gw2ApiManager;
-        private readonly Data _data;
+        private readonly Func<DataOG> _getData;
         private readonly PathCollection _paths;
         private readonly Func<NotificationBadge> _notificationBadge;
         private CancellationTokenSource _cancellationTokenSource;
@@ -192,13 +192,15 @@ namespace Kenedia.Modules.BuildsManager.Services
                     //{ 0, null },  // Relic
                 };
 
-        public GW2API(Gw2ApiManager gw2ApiManager, Data data, PathCollection paths, Func<NotificationBadge> notificationBadge)
+        public GW2API(Gw2ApiManager gw2ApiManager, Func<DataOG> getData, PathCollection paths, Func<NotificationBadge> notificationBadge)
         {
             _gw2ApiManager = gw2ApiManager;
-            _data = data;
+            _getData = getData;
             _paths = paths;
             _notificationBadge = notificationBadge;
         }
+
+        private DataOG Data => _getData?.Invoke();
 
         public PathCollection Paths { get; set; }
 
@@ -247,31 +249,31 @@ namespace Kenedia.Modules.BuildsManager.Services
                 var api_items = _gw2ApiManager.Gw2ApiClient.V2.Items;
 
                 var skins = await _gw2ApiManager.Gw2ApiClient.V2.Skins.ManyAsync(_skinDictionary.Where(e => e.Value is not null).Select(e => (int)e.Value));
-                var api_armors = await api_items.ManyAsync(_data.ItemMaps.Armors.Values, cancellation);
-                var api_weapons = await api_items.ManyAsync(_data.ItemMaps.Weapons.Values, cancellation);
-                var api_backs = await api_items.ManyAsync(_data.ItemMaps.Backs.Values, cancellation);
-                var api_trinkets = await api_items.ManyAsync(_data.ItemMaps.Trinkets.Values, cancellation);
+                var api_armors = await api_items.ManyAsync(Data.ByteIntMaps.Armors.Values, cancellation);
+                var api_weapons = await api_items.ManyAsync(Data.ByteIntMaps.Weapons.Values, cancellation);
+                var api_backs = await api_items.ManyAsync(Data.ByteIntMaps.Backs.Values, cancellation);
+                var api_trinkets = await api_items.ManyAsync(Data.ByteIntMaps.Trinkets.Values, cancellation);
                 var api_amulets = await _gw2ApiManager.Gw2ApiClient.V2.Pvp.Amulets.AllAsync(cancellation);
 
-                var api_enrichments = await api_items.ManyAsync(_data.ItemMaps.Enrichments.Values, cancellation);
+                var api_enrichments = await api_items.ManyAsync(Data.ByteIntMaps.Enrichments.Values, cancellation);
                 var api_infusions = await api_items.ManyAsync(_infusions, cancellation);
 
-                var api_nourishments = await api_items.ManyAsync(_data.ItemMaps.Nourishments.Values, cancellation);
-                var api_enhancement = await api_items.ManyAsync(_data.ItemMaps.Enhancements.Values, cancellation);
+                var api_nourishments = await api_items.ManyAsync(Data.ByteIntMaps.Nourishments.Values, cancellation);
+                var api_enhancement = await api_items.ManyAsync(Data.ByteIntMaps.Enhancements.Values, cancellation);
 
-                var api_pveRunes = await api_items.ManyAsync(_data.ItemMaps.PveRunes.Values, cancellation);
-                var api_pvpRunes = await api_items.ManyAsync(_data.ItemMaps.PvpRunes.Values, cancellation);
-                var api_pveSigils = await api_items.ManyAsync(_data.ItemMaps.PveSigils.Values, cancellation);
-                var api_pvpSigils = await api_items.ManyAsync(_data.ItemMaps.PvpSigils.Values, cancellation);
+                var api_pveRunes = await api_items.ManyAsync(Data.ByteIntMaps.PveRunes.Values, cancellation);
+                var api_pvpRunes = await api_items.ManyAsync(Data.ByteIntMaps.PvpRunes.Values, cancellation);
+                var api_pveSigils = await api_items.ManyAsync(Data.ByteIntMaps.PveSigils.Values, cancellation);
+                var api_pvpSigils = await api_items.ManyAsync(Data.ByteIntMaps.PvpSigils.Values, cancellation);
 
-                var api_cores = await api_items.ManyAsync(_data.ItemMaps.PowerCores.Values ?? new List<int>() { 0, }, cancellation);
-                var api_relics = await api_items.ManyAsync(_data.ItemMaps.Relics.Values ?? new List<int>() { 0, }, cancellation);
+                var api_cores = Data.ByteIntMaps?.PowerCores?.Values.Count() > 0 ? await api_items.ManyAsync(Data.ByteIntMaps?.PowerCores?.Values ?? new List<int>() { 0, }, cancellation) : new List<Item>();
+                var api_relics = Data.ByteIntMaps?.Relics?.Values.Count() > 0 ? await api_items.ManyAsync(Data.ByteIntMaps?.Relics?.Values ?? new List<int>() { 0, }, cancellation) : new List<Item>();
 
                 var statChoices = new List<int>();
 
                 if (cancellation.IsCancellationRequested) return;
 
-                void ApplyAmuletData(IReadOnlyList<ApiPvpAmulet> amulets, Dictionary<int, PvpAmulet> targetlist, string file, ItemMap map)
+                void ApplyAmuletData(IReadOnlyList<ApiPvpAmulet> amulets, Dictionary<int, PvpAmulet> targetlist, string file, ByteIntMap map)
                 {
                     BuildsManager.Logger.Info($"Saving {file} ...");
 
@@ -288,7 +290,7 @@ namespace Kenedia.Modules.BuildsManager.Services
                     File.WriteAllText($@"{Paths.ModulePath}\data\{file}.json", json);
                 }
 
-                void ApplyData<T, TT>(IReadOnlyList<Item> items, Dictionary<int, TT> targetlist, string file, ItemMap map, bool hasStatChoices = false) where T : Item where TT : BaseItem, new()
+                void ApplyData<T, TT>(IReadOnlyList<Item> items, Dictionary<int, TT> targetlist, string file, ByteIntMap map, bool hasStatChoices = false) where T : Item where TT : BaseItem, new()
                 {
                     BuildsManager.Logger.Info($"Saving {file} ...");
                     var skinIds = skins.Select(e => e.Id);
@@ -335,24 +337,24 @@ namespace Kenedia.Modules.BuildsManager.Services
                     File.WriteAllText($@"{Paths.ModulePath}\data\{file}.json", json);
                 }
 
-                ApplyData<ItemArmor, Armor>(api_armors, _data.Armors, "Armors", _data.ItemMaps.Armors, true);
-                ApplyData<ItemWeapon, Weapon>(api_weapons, _data.Weapons, "Weapons", _data.ItemMaps.Weapons, true);
-                ApplyData<ItemBack, Trinket>(api_backs, _data.Backs, "Backs", _data.ItemMaps.Backs, true);
-                ApplyData<ItemTrinket, Trinket>(api_trinkets, _data.Trinkets, "Trinkets", _data.ItemMaps.Trinkets, true);
+                ApplyData<ItemArmor, Armor>(api_armors, Data.Armors, "Armors", Data.ByteIntMaps.Armors, true);
+                ApplyData<ItemWeapon, Weapon>(api_weapons, Data.Weapons, "Weapons", Data.ByteIntMaps.Weapons, true);
+                ApplyData<ItemBack, Trinket>(api_backs, Data.Backs, "Backs", Data.ByteIntMaps.Backs, true);
+                ApplyData<ItemTrinket, Trinket>(api_trinkets, Data.Trinkets, "Trinkets", Data.ByteIntMaps.Trinkets, true);
 
-                ApplyData<ItemUpgradeComponent, Enrichment>(api_enrichments, _data.Enrichments, "Enrichments", _data.ItemMaps.Enrichments);
-                ApplyData<ItemUpgradeComponent, Infusion>(api_infusions, _data.Infusions, "Infusions", _data.ItemMaps.Infusions);
-                ApplyData<ItemConsumable, Nourishment>(api_nourishments, _data.Nourishments, "Nourishments", _data.ItemMaps.Nourishments);
-                ApplyData<ItemConsumable, Enhancement>(api_enhancement, _data.Utilities, "Enhancements", _data.ItemMaps.Enhancements);
-                ApplyData<ItemUpgradeComponent, Rune>(api_pveRunes, _data.PveRunes, "PveRunes", _data.ItemMaps.PveRunes);
-                ApplyData<ItemUpgradeComponent, Rune>(api_pvpRunes, _data.PvpRunes, "PvpRunes", _data.ItemMaps.PvpRunes);
-                ApplyData<ItemUpgradeComponent, Sigil>(api_pveSigils, _data.PveSigils, "PveSigils", _data.ItemMaps.PveSigils);
-                ApplyData<ItemUpgradeComponent, Sigil>(api_pvpSigils, _data.PvpSigils, "PvpSigils", _data.ItemMaps.PvpSigils);
+                ApplyData<ItemUpgradeComponent, Enrichment>(api_enrichments, Data.Enrichments, "Enrichments", Data.ByteIntMaps.Enrichments);
+                ApplyData<ItemUpgradeComponent, Infusion>(api_infusions, Data.Infusions, "Infusions", Data.ByteIntMaps.Infusions);
+                ApplyData<ItemConsumable, Nourishment>(api_nourishments, Data.Nourishments, "Nourishments", Data.ByteIntMaps.Nourishments);
+                ApplyData<ItemConsumable, Enhancement>(api_enhancement, Data.Utilities, "Enhancements", Data.ByteIntMaps.Enhancements);
+                ApplyData<ItemUpgradeComponent, Rune>(api_pveRunes, Data.PveRunes, "PveRunes", Data.ByteIntMaps.PveRunes);
+                ApplyData<ItemUpgradeComponent, Rune>(api_pvpRunes, Data.PvpRunes, "PvpRunes", Data.ByteIntMaps.PvpRunes);
+                ApplyData<ItemUpgradeComponent, Sigil>(api_pveSigils, Data.PveSigils, "PveSigils", Data.ByteIntMaps.PveSigils);
+                ApplyData<ItemUpgradeComponent, Sigil>(api_pvpSigils, Data.PvpSigils, "PvpSigils", Data.ByteIntMaps.PvpSigils);
 
-                ApplyData<Item, PowerCore>(api_cores, _data.PowerCores, "PowerCores", _data.ItemMaps.PowerCores);
-                ApplyData<Item, Relic>(api_relics, _data.Relics, "Relics", _data.ItemMaps.Relics);
+                ApplyData<Item, PowerCore>(api_cores, Data.PowerCores, "PowerCores", Data.ByteIntMaps.PowerCores);
+                ApplyData<Item, Relic>(api_relics, Data.Relics, "Relics", Data.ByteIntMaps.Relics);
 
-                ApplyAmuletData(api_amulets, _data.PvpAmulets, "PvpAmulets", _data.ItemMaps.PvpAmulets);
+                ApplyAmuletData(api_amulets, Data.PvpAmulets, "PvpAmulets", Data.ByteIntMaps.PvpAmulets);
 
                 //Get Stats
                 await GetStats(cancellation, statChoices);
@@ -379,20 +381,20 @@ namespace Kenedia.Modules.BuildsManager.Services
                 {
                     if (statIds.Contains(e.Id))
                     {
-                        bool exists = _data.Stats.TryGetValue(e.Id, out var stat);
+                        bool exists = Data.Stats.TryGetValue(e.Id, out var stat);
                         stat ??= new(e);
                         stat.Apply(e);
 
                         if (!exists)
                         {
-                            stat.MappedId = (byte)(_data.Stats.Count + 1);
-                            _data.Stats.Add(e.Id, stat);
+                            stat.MappedId = (byte)(Data.Stats.Count + 1);
+                            Data.Stats.Add(e.Id, stat);
                         }
                     }
                 }
 
                 BuildsManager.Logger.Info($"Saving {"Stats"} ...");
-                string json = JsonConvert.SerializeObject(_data.Stats, Formatting.Indented);
+                string json = JsonConvert.SerializeObject(Data.Stats, Formatting.Indented);
                 File.WriteAllText($@"{Paths.ModulePath}\data\Stats.json", json);
             }
             catch (Exception ex)
@@ -448,22 +450,22 @@ namespace Kenedia.Modules.BuildsManager.Services
                     skills.Add(skill.Id, new(skill, paletteBySkills));
                 }
 
-                if (!_data.Races.Any(e => e.Key == Races.None))
+                if (!Data.Races.Any(e => e.Key == Races.None))
                 {
-                    _data.Races.Add(Races.None, new() { Name = "None", Id = Races.None });
+                    Data.Races.Add(Races.None, new() { Name = "None", Id = Races.None });
                 }
 
                 foreach (var apiRace in apiRaces)
                 {
                     if (Enum.TryParse(apiRace.Id, out Races raceType))
                     {
-                        bool exists = _data.Races.TryGetValue(raceType, out Race race);
+                        bool exists = Data.Races.TryGetValue(raceType, out Race race);
 
                         race ??= new Race(apiRace, skills);
 
                         if (!exists)
                         {
-                            _data.Races.Add(race.Id, race);
+                            Data.Races.Add(race.Id, race);
                         }
                         else
                         {
@@ -495,20 +497,20 @@ namespace Kenedia.Modules.BuildsManager.Services
                 {
                     if (Enum.TryParse(e.Id, out ProfessionType professionType))
                     {
-                        bool exists = _data.Professions.TryGetValue(professionType, out var profession);
+                        bool exists = Data.Professions.TryGetValue(professionType, out var profession);
                         profession ??= new();
-                        profession.Apply(e, specializations, traits, skills, legends, _data.Races);
-                        if (!exists) _data.Professions.Add(professionType, profession);
+                        profession.Apply(e, specializations, traits, skills, legends, Data.Races);
+                        if (!exists) Data.Professions.Add(professionType, profession);
                     }
                 }
 
-                string json = JsonConvert.SerializeObject(_data.Professions, Formatting.Indented);
+                string json = JsonConvert.SerializeObject(Data.Professions, Formatting.Indented);
                 File.WriteAllText($@"{Paths.ModulePath}\data\Professions.json", json);
 
                 json = JsonConvert.SerializeObject(paletteBySkills, Formatting.Indented);
                 File.WriteAllText($@"{Paths.ModulePath}\data\PaletteBySkills.json", json);
 
-                json = JsonConvert.SerializeObject(_data.Races, Formatting.Indented);
+                json = JsonConvert.SerializeObject(Data.Races, Formatting.Indented);
                 File.WriteAllText($@"{Paths.ModulePath}\data\Races.json", json);
             }
             catch (Exception ex)
@@ -551,13 +553,13 @@ namespace Kenedia.Modules.BuildsManager.Services
 
                 foreach (var e in apiPets)
                 {
-                    bool exists = _data.Pets.TryGetValue(e.Id, out var pet);
+                    bool exists = Data.Pets.TryGetValue(e.Id, out var pet);
                     pet ??= new(e, petSkills);
                     pet.ApplyLanguage(e, petSkills);
-                    if (!exists) _data.Pets.Add(e.Id, pet);
+                    if (!exists) Data.Pets.Add(e.Id, pet);
                 }
 
-                string json = JsonConvert.SerializeObject(_data.Pets, Formatting.Indented);
+                string json = JsonConvert.SerializeObject(Data.Pets, Formatting.Indented);
                 File.WriteAllText($@"{Paths.ModulePath}\data\Pets.json", json);
             }
             catch (Exception ex)
@@ -1131,24 +1133,24 @@ namespace Kenedia.Modules.BuildsManager.Services
                             {
                                 try
                                 {
-                                    List<ItemMap> maps = new();
+                                    List<ByteIntMap> maps = new();
 
                                     switch (item)
                                     {
                                         case ItemArmor armor:
-                                            if (_skinDictionary.ContainsKey(armor.Id)) maps.Add(_data.ItemMaps.Armors);
+                                            if (_skinDictionary.ContainsKey(armor.Id)) maps.Add(Data.ByteIntMaps.Armors);
                                             break;
 
                                         case ItemBack back:
-                                            if (_skinDictionary.ContainsKey(back.Id)) maps.Add(_data.ItemMaps.Backs);
+                                            if (_skinDictionary.ContainsKey(back.Id)) maps.Add(Data.ByteIntMaps.Backs);
                                             break;
 
                                         case ItemWeapon weapon:
-                                            if (_skinDictionary.ContainsKey(weapon.Id)) maps.Add(_data.ItemMaps.Weapons);
+                                            if (_skinDictionary.ContainsKey(weapon.Id)) maps.Add(Data.ByteIntMaps.Weapons);
                                             break;
 
                                         case ItemTrinket trinket:
-                                            if (_skinDictionary.ContainsKey(trinket.Id)) maps.Add(_data.ItemMaps.Trinkets);
+                                            if (_skinDictionary.ContainsKey(trinket.Id)) maps.Add(Data.ByteIntMaps.Trinkets);
                                             break;
 
                                         case ItemConsumable consumable:
@@ -1156,42 +1158,47 @@ namespace Kenedia.Modules.BuildsManager.Services
                                             {
                                                 maps.Add(consumable.Details.Type.Value switch
                                                 {
-                                                    ItemConsumableType.Food => _data.ItemMaps.Nourishments,
-                                                    ItemConsumableType.Utility => _data.ItemMaps.Enhancements,
+                                                    ItemConsumableType.Food => Data.ByteIntMaps.Nourishments,
+                                                    ItemConsumableType.Utility => Data.ByteIntMaps.Enhancements,
                                                     _ => null,
                                                 });
                                             }
+
                                             break;
 
                                         case ItemUpgradeComponent upgrade:
                                             if (upgrade.Details.InfusionUpgradeFlags?.ToList()?.Contains(ItemInfusionFlag.Infusion) == true && _infusions.Contains(upgrade.Id))
                                             {
-                                                maps.Add(_data.ItemMaps.Infusions);
+                                                maps.Add(Data.ByteIntMaps.Infusions);
                                             }
                                             else if (upgrade.Details.InfusionUpgradeFlags?.ToList()?.Contains(ItemInfusionFlag.Enrichment) == true)
                                             {
-                                                maps.Add(_data.ItemMaps.Enrichments);
+                                                maps.Add(Data.ByteIntMaps.Enrichments);
                                             }
-                                            else
+                                            else if (upgrade.Rarity.Value is ItemRarity.Exotic)
                                             {
-                                                if (upgrade.Details.Type.Value is ItemUpgradeComponentType.Rune)
+                                                bool isRune = upgrade.Details.Flags.ToList().Contains(ItemUpgradeComponentFlag.HeavyArmor) && !upgrade.Details.Flags.ToList().Contains(ItemUpgradeComponentFlag.Trinket) && !upgrade.Details.Flags.ToList().Contains(ItemUpgradeComponentFlag.Sword);
+                                                bool isSigil = !upgrade.Details.Flags.ToList().Contains(ItemUpgradeComponentFlag.HeavyArmor) && !upgrade.Details.Flags.ToList().Contains(ItemUpgradeComponentFlag.Trinket) && upgrade.Details.Flags.ToList().Contains(ItemUpgradeComponentFlag.Sword);
+
+                                                if (isRune)
                                                 {
-                                                    if (upgrade.GameTypes.FirstOrDefault(e => e.Value == ItemGameType.Pvp) is not null) maps.Add(_data.ItemMaps.PvpRunes);
-                                                    if (upgrade.GameTypes.FirstOrDefault(e => e.Value == ItemGameType.Pve) is not null) maps.Add(_data.ItemMaps.PveRunes);
+                                                    if (upgrade.GameTypes.FirstOrDefault(e => e.Value == ItemGameType.Pvp) is not null) maps.Add(Data.ByteIntMaps.PvpRunes);
+                                                    if (upgrade.GameTypes.FirstOrDefault(e => e.Value == ItemGameType.Pve) is not null) maps.Add(Data.ByteIntMaps.PveRunes);
                                                 }
 
-                                                if (upgrade.Details.Type.Value is ItemUpgradeComponentType.Sigil)
+                                                if (isSigil)
                                                 {
-                                                    if (upgrade.GameTypes.FirstOrDefault(e => e.Value == ItemGameType.Pvp) is not null) maps.Add(_data.ItemMaps.PvpSigils);
-                                                    if (upgrade.GameTypes.FirstOrDefault(e => e.Value == ItemGameType.Pve) is not null) maps.Add(_data.ItemMaps.PveSigils);
+                                                    if (upgrade.GameTypes.FirstOrDefault(e => e.Value == ItemGameType.Pvp) is not null) maps.Add(Data.ByteIntMaps.PvpSigils);
+                                                    if (upgrade.GameTypes.FirstOrDefault(e => e.Value == ItemGameType.Pve) is not null) maps.Add(Data.ByteIntMaps.PveSigils);
                                                 }
                                             }
+
                                             break;
 
                                         default:
                                             if (item.Type.ToString() == "Mwcc")
                                             {
-                                                maps.Add(_data.ItemMaps.Relics);
+                                                maps.Add(Data.ByteIntMaps.Relics);
                                             }
 
                                             break;
@@ -1220,13 +1227,34 @@ namespace Kenedia.Modules.BuildsManager.Services
                     }
                 }
 
-                var version = new SemVer.Version(versionString);
-                foreach (var map in _data.ItemMaps)
+                var ring = (ItemTrinket) await _gw2ApiManager.Gw2ApiClient.V2.Items.GetAsync(91234, _cancellationTokenSource.Token);
+                var legyWeapon = (ItemWeapon) await _gw2ApiManager.Gw2ApiClient.V2.Items.GetAsync(30698, _cancellationTokenSource.Token);
+
+                var apiStats = await _gw2ApiManager.Gw2ApiClient.V2.Itemstats.ManyAsync(ring.Details.StatChoices.Concat(legyWeapon.Details.StatChoices), _cancellationTokenSource.Token);
+                if (_cancellationTokenSource.IsCancellationRequested) return;
+
+                foreach (var e in apiStats)
                 {
-                    map.Value.Version = version;
+                    var map = Data.ByteIntMaps.Stats;
+                    if (map is not null && map.Items.FirstOrDefault(x => x.Value == e.Id) is KeyValuePair<byte, int> sitem && sitem.Value <= 0 && map.Count < byte.MaxValue)
+                    {
+                        BuildsManager.Logger.Info($"Adding {e.Id} to Stats.");
+                        map.Add((byte)(map.Count + 1), e.Id);
+                    }
                 }
 
-                _data.ItemMaps.Save();
+                var version = new SemVer.Version(versionString);
+                foreach (var map in Data.ByteIntMaps)
+                {
+                    if(map.Value is not null)
+                        map.Value.Version = version;
+                }
+
+                Data.ByteIntMaps.Save();
+
+                var versionFile = new StaticVersion(version);
+                string json = JsonConvert.SerializeObject(versionFile);
+                File.WriteAllText($@"{Paths.ModuleDataPath}itemmap\Version.json", json);
             }
             catch
             {

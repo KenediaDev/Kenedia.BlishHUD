@@ -14,6 +14,7 @@ using Blish_HUD.Controls;
 using Blish_HUD.Gw2Mumble;
 using Newtonsoft.Json;
 using Kenedia.Modules.Core.Controls;
+using Blish_HUD.GameIntegration;
 
 namespace Kenedia.Modules.Core.Models
 {
@@ -92,6 +93,17 @@ namespace Kenedia.Modules.Core.Models
                 Formatting = Formatting.Indented,
                 NullValueHandling = NullValueHandling.Ignore,
             };
+
+            // SOTO Fix
+            if (Program.OverlayVersion < new SemVer.Version(1, 1, 0))
+            {
+                try
+                {
+                    var tacoActive = typeof(TacOIntegration).GetProperty(nameof(TacOIntegration.TacOIsRunning)).GetSetMethod(true);
+                    _ = (tacoActive?.Invoke(GameService.GameIntegration.TacO, new object[] { true }));
+                }
+                catch { /* NOOP */ }
+            }
         }
 
         protected override async Task LoadAsync()

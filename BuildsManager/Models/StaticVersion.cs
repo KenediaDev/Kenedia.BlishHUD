@@ -76,6 +76,7 @@ namespace Kenedia.Modules.BuildsManager.Models
             PowerCores = version;
             Relics = version;
             PvpAmulets = version;
+            Stats = version;
         }
 
         [JsonSemverVersion]
@@ -122,6 +123,9 @@ namespace Kenedia.Modules.BuildsManager.Models
 
         [JsonSemverVersion]
         public Version PvpAmulets { get; set; } = new(0, 0, 0);
+
+        [JsonSemverVersion]
+        public Version Stats { get; set; } = new(0, 0, 0);
 
         // Implement the IEnumerable<Version> interface
         public IEnumerator<KeyValuePair<string, Version>> GetEnumerator()
@@ -180,11 +184,11 @@ namespace Kenedia.Modules.BuildsManager.Models
         }
     }
 
-    public class ItemMap
+    public class ByteIntMap
     {
-        public ItemMap() { }
+        public ByteIntMap() { }
 
-        public ItemMap(Version version)
+        public ByteIntMap(Version version)
         {
             Version = version;
         }
@@ -249,20 +253,20 @@ namespace Kenedia.Modules.BuildsManager.Models
             };
 
             string json = JsonConvert.SerializeObject(this, settings);
-            System.IO.File.WriteAllText(path, json);
+            File.WriteAllText(path, json);
         }
     }
 
-    public class ItemMapCollection
+    public class ByteIntMapCollection
     {
         private readonly Paths _paths;
 
-        public ItemMapCollection(Paths paths)
+        public ByteIntMapCollection(Paths paths)
         {
             _paths = paths;
         }
 
-        public ItemMapCollection(Version version, Paths paths) : this(paths)
+        public ByteIntMapCollection(Version version, Paths paths) : this(paths)
         {
             foreach (var itemMap in this)
             {
@@ -270,57 +274,60 @@ namespace Kenedia.Modules.BuildsManager.Models
             }
         }
 
-        public ItemMap Nourishments { get; set; } = new();
+        public ByteIntMap Nourishments { get; } = new();
 
-        public ItemMap Enhancements { get; set; } = new();
+        public ByteIntMap Enhancements { get; } = new();
 
-        public ItemMap PveRunes { get; set; } = new();
+        public ByteIntMap PveRunes { get; } = new();
 
-        public ItemMap PvpRunes { get; set; } = new();
+        public ByteIntMap PvpRunes { get; } = new();
 
-        public ItemMap PveSigils { get; set; } = new();
+        public ByteIntMap PveSigils { get; } = new();
 
-        public ItemMap PvpSigils { get; set; } = new();
+        public ByteIntMap PvpSigils { get; } = new();
 
-        public ItemMap Infusions { get; set; } = new();
+        public ByteIntMap Infusions { get; } = new();
 
-        public ItemMap Enrichments { get; set; } = new();
+        public ByteIntMap Enrichments { get; } = new();
 
-        public ItemMap Trinkets { get; set; } = new();
+        public ByteIntMap Trinkets { get; } = new();
 
-        public ItemMap Backs { get; set; } = new();
+        public ByteIntMap Backs { get; } = new();
 
-        public ItemMap Weapons { get; set; } = new();
+        public ByteIntMap Weapons { get; } = new();
 
-        public ItemMap Armors { get; set; } = new();
+        public ByteIntMap Armors { get; } = new();
 
-        public ItemMap PowerCores { get; set; } = new();
+        public ByteIntMap PowerCores { get; } = new();
 
-        public ItemMap Relics { get; set; } = new();
+        public ByteIntMap Relics { get; } = new();
 
-        public ItemMap PvpAmulets { get; set; } = new();
+        public ByteIntMap PvpAmulets { get; } = new();
+
+        public ByteIntMap Stats { get; } = new();
 
         // Implement the IEnumerable<Version> interface
-        public IEnumerator<KeyValuePair<string, ItemMap>> GetEnumerator()
+        public IEnumerator<KeyValuePair<string, ByteIntMap>> GetEnumerator()
         {
-            yield return new KeyValuePair<string, ItemMap>(nameof(Nourishments), Nourishments);
-            yield return new KeyValuePair<string, ItemMap>(nameof(Enhancements), Enhancements);
-            yield return new KeyValuePair<string, ItemMap>(nameof(PveRunes), PveRunes);
-            yield return new KeyValuePair<string, ItemMap>(nameof(PvpRunes), PvpRunes);
-            yield return new KeyValuePair<string, ItemMap>(nameof(PveSigils), PveSigils);
-            yield return new KeyValuePair<string, ItemMap>(nameof(PvpSigils), PvpSigils);
-            yield return new KeyValuePair<string, ItemMap>(nameof(Infusions), Infusions);
-            yield return new KeyValuePair<string, ItemMap>(nameof(Enrichments), Enrichments);
-            yield return new KeyValuePair<string, ItemMap>(nameof(Trinkets), Trinkets);
-            yield return new KeyValuePair<string, ItemMap>(nameof(Backs), Backs);
-            yield return new KeyValuePair<string, ItemMap>(nameof(Weapons), Weapons);
-            yield return new KeyValuePair<string, ItemMap>(nameof(Armors), Armors);
-            yield return new KeyValuePair<string, ItemMap>(nameof(PowerCores), PowerCores);
-            yield return new KeyValuePair<string, ItemMap>(nameof(Relics), Relics);
-            yield return new KeyValuePair<string, ItemMap>(nameof(PvpAmulets), PvpAmulets);
+            yield return new KeyValuePair<string, ByteIntMap>(nameof(Nourishments), Nourishments);
+            yield return new KeyValuePair<string, ByteIntMap>(nameof(Enhancements), Enhancements);
+            yield return new KeyValuePair<string, ByteIntMap>(nameof(PveRunes), PveRunes);
+            yield return new KeyValuePair<string, ByteIntMap>(nameof(PvpRunes), PvpRunes);
+            yield return new KeyValuePair<string, ByteIntMap>(nameof(PveSigils), PveSigils);
+            yield return new KeyValuePair<string, ByteIntMap>(nameof(PvpSigils), PvpSigils);
+            yield return new KeyValuePair<string, ByteIntMap>(nameof(Infusions), Infusions);
+            yield return new KeyValuePair<string, ByteIntMap>(nameof(Enrichments), Enrichments);
+            yield return new KeyValuePair<string, ByteIntMap>(nameof(Trinkets), Trinkets);
+            yield return new KeyValuePair<string, ByteIntMap>(nameof(Backs), Backs);
+            yield return new KeyValuePair<string, ByteIntMap>(nameof(Weapons), Weapons);
+            yield return new KeyValuePair<string, ByteIntMap>(nameof(Armors), Armors);
+            yield return new KeyValuePair<string, ByteIntMap>(nameof(PowerCores), PowerCores);
+            yield return new KeyValuePair<string, ByteIntMap>(nameof(Relics), Relics);
+            yield return new KeyValuePair<string, ByteIntMap>(nameof(PvpAmulets), PvpAmulets);
+            yield return new KeyValuePair<string, ByteIntMap>(nameof(Stats), Stats);
         }
 
-        public async Task FetchAndLoad()
+        public async Task<bool> FetchAndLoad()
         {
             try
             {
@@ -330,16 +337,16 @@ namespace Kenedia.Modules.BuildsManager.Models
                 foreach (var itemMap in this)
                 {
                     string filePath = Path.Combine(path, $"{itemMap.Key}.json");
-                    var prop = typeof(ItemMapCollection).GetProperty(itemMap.Key);
-                    
+                    var prop = typeof(ByteIntMapCollection).GetProperty(itemMap.Key);
+
                     if (prop != null)
                     {
-                        ItemMap value = null;
+                        ByteIntMap value = null;
 
                         if (File.Exists(filePath))
                         {
                             string json = File.ReadAllText(filePath);
-                            value = JsonConvert.DeserializeObject<ItemMap>(json);
+                            value = JsonConvert.DeserializeObject<ByteIntMap>(json);
                         }
 
                         if (value is null || value.Version < versions[itemMap.Key])
@@ -347,8 +354,8 @@ namespace Kenedia.Modules.BuildsManager.Models
                             BuildsManager.Logger.Info($"Updating {itemMap.Key} item map from version {value?.Version?.ToString() ?? "0.0.0"} to {versions[itemMap.Key]}");
                             value = await StaticHosting.GetItemMap(itemMap.Key);
 
-                            BuildsManager.Logger.Info($"Added {value.Count - itemMap.Value.Count} new mapped entries.");
-                            value.SaveToJson(filePath);
+                            BuildsManager.Logger.Info($"Added {(value?.Count ?? 0) - (itemMap.Value?.Count ?? 0)} new mapped entries.");
+                            value?.SaveToJson(filePath);
                         }
                         else
                         {
@@ -358,8 +365,12 @@ namespace Kenedia.Modules.BuildsManager.Models
                         prop.SetValue(this, value);
                     }
                 }
+
+                return true;
             }
             catch { }
+
+            return false;
         }
 
         public void Save()
@@ -369,7 +380,8 @@ namespace Kenedia.Modules.BuildsManager.Models
                 foreach (var itemMap in this)
                 {
                     string filePath = Path.Combine(_paths.ItemMapPath, $"{itemMap.Key}.json");
-                    itemMap.Value.SaveToJson(filePath);
+
+                    itemMap.Value?.SaveToJson(filePath);
                 }
             }
             catch { }

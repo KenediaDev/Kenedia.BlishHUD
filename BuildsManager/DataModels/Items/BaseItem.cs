@@ -8,8 +8,12 @@ using System.Runtime.Serialization;
 
 namespace Kenedia.Modules.BuildsManager.DataModels.Items
 {
+    public interface IDataMember
+    {
+    }
+
     [DataContract]
-    public class BaseItem
+    public class BaseItem : IDataMember
     {
         private AsyncTexture2D _icon;
 

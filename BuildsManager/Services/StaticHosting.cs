@@ -32,7 +32,7 @@ namespace Kenedia.Modules.BuildsManager.Services
             return new StaticVersion();
         }
 
-        public async static Task<ItemMap> GetItemMap(string fileName)
+        public async static Task<ByteIntMap> GetItemMap(string fileName)
         {
             string url = $"{BaseUrl}{fileName}.json";
 
@@ -41,7 +41,7 @@ namespace Kenedia.Modules.BuildsManager.Services
                 using var httpClient = new HttpClient();
                 string content = await httpClient.GetStringAsync(url);
 
-                var info = JsonConvert.DeserializeObject<ItemMap>(content);
+                var info = JsonConvert.DeserializeObject<ByteIntMap>(content);
                 return info;
             }
             catch
