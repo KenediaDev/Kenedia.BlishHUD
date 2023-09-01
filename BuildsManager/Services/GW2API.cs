@@ -1200,6 +1200,10 @@ namespace Kenedia.Modules.BuildsManager.Services
                                             {
                                                 maps.Add(Data.ByteIntMaps.Relics);
                                             }
+                                            else if(item.Type == ItemType.PowerCore)
+                                            {
+                                                maps.Add(Data.ByteIntMaps.PowerCores);
+                                            }
 
                                             break;
                                     }
