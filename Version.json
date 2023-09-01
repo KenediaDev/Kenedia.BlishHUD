@@ -13,5 +13,6 @@
   "Armors": "0.0.2",
   "PowerCores": "0.0.2",
   "Relics": "0.0.2",
-  "PvpAmulets": "0.0.2"
+  "PvpAmulets": "0.0.2",
+  "Stats": "0.0.2"
 }
