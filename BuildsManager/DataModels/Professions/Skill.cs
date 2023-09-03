@@ -53,10 +53,6 @@ namespace Kenedia.Modules.BuildsManager.DataModels.Professions
             Slot = skill.Slot?.ToEnum();
             WeaponType = skill.WeaponType is not null ? (WeaponType)skill.WeaponType?.ToEnum() : null;
 
-            _ = BuildsManager.Data.SkillConnections.TryGetValue(skill.Id, out var connection);
-            SkillConnection = connection ?? null;
-            Attunement = connection?.Attunement;
-
             var missinCategories = new Dictionary<SkillCategoryType, List<int>>()
             {
                 {SkillCategoryType.Preparation, new(){13057, 13026, 13038, 13056} }
@@ -118,9 +114,6 @@ namespace Kenedia.Modules.BuildsManager.DataModels.Professions
         }
 
         [DataMember]
-        public SkillConnection SkillConnection { get; protected set; }
-
-        [DataMember]
         public LocalizedString Names { get; protected set; } = new();
 
         public string Name
@@ -134,9 +127,6 @@ namespace Kenedia.Modules.BuildsManager.DataModels.Professions
 
         [DataMember]
         public int? Parent { get; set; }
-
-        [DataMember]
-        public AttunementType? Attunement { get; set; }
 
         [DataMember]
         public int Specialization { get; set; }
@@ -177,6 +167,9 @@ namespace Kenedia.Modules.BuildsManager.DataModels.Professions
 
         [DataMember]
         public WeaponType? WeaponType { get; set; }
+
+        [DataMember]
+        public WeaponType? Offhand { get; set; }
 
         [DataMember]
         public SkillFlag Flags { get; set; }
@@ -255,57 +248,79 @@ namespace Kenedia.Modules.BuildsManager.DataModels.Professions
             return GetRevPaletteId(skill.Id);
         }
 
-        public Skill GetEffectiveSkill(Template template, Enviroment enviroment)
-        {
-            Skill skill = this;
-
-            if (template is not null)
-            {
-                List<int> traitIds = new();
-
-                foreach (var spec in template.Specializations)
-                {
-                    if (spec.Value is not null && spec.Value.Specialization is not null)
-                    {
-                        traitIds.AddRange(spec.Value.Traits.Where(e => e.Value is not null).Select(e => e.Value.Id));
-                        traitIds.AddRange(spec.Value.Specialization.MinorTraits.Where(e => e.Value is not null).Select(e => e.Value.Id));
-                    }
-                }
-
-                if (SkillConnection is not null)
-                {
-                    if (SkillConnection.Traited is not null)
-                    {
-                        foreach (int traitid in traitIds)
-                        {
-                            if (SkillConnection.Traited.ContainsValue(traitid))
-                            {
-                                foreach (var tPair in SkillConnection.Traited)
-                                {
-                                    if (tPair.Value == traitid)
-                                        _ = BuildsManager.Data.Professions[template.Profession].Skills.TryGetValue(tPair.Key, out skill);
-                                }
-                            }
-                        }
-                    }
-
-                    if (skill?.SkillConnection is not null && skill.SkillConnection.EnvCounter is not null)
-                    {
-                        bool useCounterSkill = (enviroment == Enviroment.Terrestrial && !skill.SkillConnection.Enviroment.HasFlag(Enviroment.Terrestrial)) || (enviroment != Enviroment.Terrestrial && !skill.SkillConnection.Enviroment.HasFlag(Enviroment.Aquatic));
-                        if (useCounterSkill) _ = BuildsManager.Data.Professions[template.Profession].Skills.TryGetValue((int)skill.SkillConnection.EnvCounter, out skill);
-                    }
-                }
-            }
-
-            return skill;
-        }
-
         public void Dispose()
         {
             if (_isDisposed) return;
             _isDisposed = true;
 
             _icon = null;
+        }
+
+        internal void Apply(APISkill skill)
+        {
+            Id = skill.Id;
+            IconAssetId = skill.Icon.GetAssetIdFromRenderUrl();
+            Name = skill.Name;
+            Description = skill.Description;
+            Specialization = skill.Specialization is not null ? (int)skill.Specialization : 0;
+            ChatLink = skill.ChatLink;
+            Flags = skill.Flags.Count() > 0 ? skill.Flags.Aggregate((x, y) => x |= y.ToEnum()) : SkillFlag.Unknown;
+            Slot = skill.Slot?.ToEnum();
+            WeaponType = skill.WeaponType is not null ? (WeaponType)skill.WeaponType?.ToEnum() : null;
+
+            var missinCategories = new Dictionary<SkillCategoryType, List<int>>()
+            {
+                {SkillCategoryType.Preparation, new(){13057, 13026, 13038, 13056} }
+            };
+
+            foreach (var id in missinCategories.Values)
+            {
+                if (id.Contains(skill.Id))
+                {
+                    Categories |= missinCategories.FirstOrDefault(x => x.Value.Contains(skill.Id)).Key;
+                }
+            }
+
+            if (skill.Specialization is not null and not 0)
+            {
+                if (!Categories.HasFlag(SkillCategoryType.Specialization)) Categories |= SkillCategoryType.Specialization;
+            }
+            else if (skill.Professions.Count == 1 && skill.Professions.Contains("Engineer") && skill.BundleSkills is not null)
+            {
+                if (!Categories.HasFlag(SkillCategoryType.Kit)) Categories |= SkillCategoryType.Kit;
+            }
+            else if ((skill.Categories is not null && skill.Categories.Count > 0) || skill.Name.Contains('\"'))
+            {
+                if (skill.Name.Contains('\"') && !Categories.HasFlag(SkillCategoryType.Shout)) Categories |= SkillCategoryType.Shout;
+
+                if (skill.Categories is not null)
+                {
+                    foreach (string s in skill.Categories)
+                    {
+                        if (Enum.TryParse(s, out SkillCategoryType category))
+                        {
+                            if (!Categories.HasFlag(category)) Categories |= category;
+                        }
+                    }
+                }
+            }
+
+            BundleSkills = skill.BundleSkills is not null && skill.BundleSkills.Count > 0 ? skill.BundleSkills.ToList() : null;
+            FlipSkill = skill.FlipSkill is not null ? skill.FlipSkill : null;
+            ToolbeltSkill = skill.ToolbeltSkill is not null ? skill.ToolbeltSkill : null;
+            PrevChain = skill.PrevChain is not null ? skill.PrevChain : null;
+            NextChain = skill.NextChain is not null ? skill.NextChain : null;
+
+            foreach (string profName in skill.Professions)
+            {
+                if (Enum.TryParse(profName, out ProfessionType profession))
+                {
+                    Professions.Add(profession);
+                }
+            }
+
+            Facts = skill.Facts?.ToList();
+            TraitedFacts = skill.TraitedFacts?.ToList();
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Runtime.Serialization;
 using APIWeapon = Gw2Sharp.WebApi.V2.Models.ProfessionWeapon;
 
@@ -30,6 +31,7 @@ namespace Kenedia.Modules.BuildsManager.DataModels.Professions
                 }
 
                 Specialization = weapon.Value.Specialization;
+                Skills = new List<int>(weapon.Value.Skills.Select(e => e.Id));
             }
         }
 

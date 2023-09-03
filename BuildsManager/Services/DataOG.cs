@@ -35,7 +35,7 @@ namespace Kenedia.Modules.BuildsManager.Services
         [JsonSemverVersion]
         public Version Version { get; set; } = new(0, 0, 0);
 
-        public Dictionary<int, object> Items { get; set; } = new();
+        public Dictionary<string, object> Items { get; set; } = new();
 
         public virtual async Task<bool> LoadAndUpdate(string name, Version version, string path, Gw2ApiManager gw2ApiManager)
         {
@@ -43,21 +43,21 @@ namespace Kenedia.Modules.BuildsManager.Services
         }
 
         // Conversion method
-        public static MappedDataEntry FromGeneric<T>(MappedDataEntry<T> entry) where T : IDataMember, new()
+        public static MappedDataEntry FromGeneric<Key, T>(MappedDataEntry<Key, T> entry) where T : IDataMember, new() where Key : notnull
         {
             return new()
             {
                 Version = entry.Version,
-                Items = entry.Items.ToDictionary(kvp => kvp.Key, kvp => (object)kvp.Value),
+                Items = entry.Items.ToDictionary(kvp => $"{kvp.Key}", kvp => (object)kvp.Value),
             };
         }
     }
 
-    public class MappedDataEntry<T> : MappedDataEntry where T : IDataMember, new()
+    public class MappedDataEntry<Key, T> : MappedDataEntry where T : IDataMember, new()
     {
-        public new Dictionary<int, T> Items { get; protected set; } = new();
+        public new Dictionary<Key, T> Items { get; protected set; } = new();
 
-        public T this[int key]
+        public T this[Key key]
         {
             get => Items.TryGetValue(key, out T value) ? value : default;
             set => Items[key] = value;
@@ -67,17 +67,17 @@ namespace Kenedia.Modules.BuildsManager.Services
         public int Count => Items.Count;
 
         [JsonIgnore]
-        public IEnumerable<int> Keys => Items.Keys;
+        public IEnumerable<Key> Keys => Items.Keys;
 
         [JsonIgnore]
         public IEnumerable<T> Values => Items.Values;
 
-        public void Add(byte key, T value)
+        public void Add(Key key, T value)
         {
             Items.Add(key, value);
         }
 
-        public void Remove(byte key)
+        public void Remove(Key key)
         {
             _ = Items.Remove(key);
         }
@@ -87,12 +87,12 @@ namespace Kenedia.Modules.BuildsManager.Services
             Items.Clear();
         }
 
-        public bool ContainsKey(byte key)
+        public bool ContainsKey(Key key)
         {
             return Items.ContainsKey(key);
         }
 
-        public bool TryGetValue(byte key, out T value)
+        public bool TryGetValue(Key key, out T value)
         {
             return Items.TryGetValue(key, out value);
         }
@@ -103,23 +103,23 @@ namespace Kenedia.Modules.BuildsManager.Services
         }
     }
 
-    public class ItemMappedDataEntry<T> : MappedDataEntry<T> where T : BaseItem, new()
+    public class StatMappedDataEntry : MappedDataEntry<int, Stat>
     {
         public async override Task<bool> LoadAndUpdate(string name, Version version, string path, Gw2ApiManager gw2ApiManager)
         {
             try
             {
                 bool saveRequired = false;
-                MappedDataEntry<T> loaded = null;
+                MappedDataEntry<int, Stat> loaded = null;
 
                 if (!IsLoaded && File.Exists(path))
                 {
                     string json = File.ReadAllText(path);
-                    loaded = JsonConvert.DeserializeObject<MappedDataEntry<T>>(json);
+                    loaded = JsonConvert.DeserializeObject<MappedDataEntry<int, Stat>>(json);
                     IsLoaded = true;
                 }
 
-                Debug.WriteLine($"Load {typeof(T).Name}");
+                BuildsManager.Logger.Debug($"Load {name}.json");
 
                 Items = loaded?.Items ?? Items;
                 Version = loaded?.Version ?? Version;
@@ -140,7 +140,151 @@ namespace Kenedia.Modules.BuildsManager.Services
                     var idSets = fetchIds.ToList().ChunkBy(200);
 
                     saveRequired = saveRequired || idSets.Count > 0;
-                    Debug.WriteLine($"Fetch a total of {fetchIds.Count()} in {idSets.Count} sets.");
+                    BuildsManager.Logger.Debug($"Fetch a total of {fetchIds.Count()} in {idSets.Count} sets.");
+                    foreach (var ids in idSets)
+                    {
+                        var items = await gw2ApiManager.Gw2ApiClient.V2.Itemstats.ManyAsync(ids);
+
+                        foreach (var item in items)
+                        {
+                            bool exists = Items.Values.TryFind(e => e.Id == item.Id, out Stat entryItem);
+                            entryItem ??= new();
+
+                            entryItem?.Apply(item);
+
+                            if (!exists)
+                                Items.Add(item.Id, entryItem);
+                        }
+                    }
+                }
+
+                if (saveRequired)
+                {
+                    BuildsManager.Logger.Debug($"Saving {name}.json");
+                    string json = JsonConvert.SerializeObject(this);
+                    File.WriteAllText(path, json);
+                }
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                BuildsManager.Logger.Warn(ex, $"Failed to load {name} data.");
+                return false;
+            }
+        }
+    }
+    
+    public class PvpAmuletMappedDataEntry : MappedDataEntry<int, PvpAmulet>
+    {
+        public async override Task<bool> LoadAndUpdate(string name, Version version, string path, Gw2ApiManager gw2ApiManager)
+        {
+            try
+            {
+                bool saveRequired = false;
+                MappedDataEntry<int, PvpAmulet> loaded = null;
+
+                if (!IsLoaded && File.Exists(path))
+                {
+                    string json = File.ReadAllText(path);
+                    loaded = JsonConvert.DeserializeObject<MappedDataEntry<int, PvpAmulet>>(json);
+                    IsLoaded = true;
+                }
+
+                BuildsManager.Logger.Debug($"Load {name}.json");
+
+                Items = loaded?.Items ?? Items;
+                Version = loaded?.Version ?? Version;
+
+                var lang = GameService.Overlay.UserLocale.Value is Locale.Korean or Locale.Chinese ? Locale.English : GameService.Overlay.UserLocale.Value;
+                var fetchIds = Items.Values.Where(item => !string.IsNullOrEmpty(item.Name) && item.Names[lang] == null)?.Select(e => e.Id);
+
+                if (version > Version)
+                {
+                    var Map = await StaticHosting.GetItemMap(name);
+                    Version = Map.Version;
+                    fetchIds = fetchIds.Concat(Map.Values.Except(Items.Keys));
+                    saveRequired = true;
+                }
+
+                if (fetchIds.Count() > 0)
+                {
+                    var idSets = fetchIds.ToList().ChunkBy(200);
+
+                    saveRequired = saveRequired || idSets.Count > 0;
+                    BuildsManager.Logger.Debug($"Fetch a total of {fetchIds.Count()} in {idSets.Count} sets.");
+                    foreach (var ids in idSets)
+                    {
+                        var items = await gw2ApiManager.Gw2ApiClient.V2.Pvp.Amulets.ManyAsync(ids);
+
+                        foreach (var item in items)
+                        {
+                            bool exists = Items.Values.TryFind(e => e.Id == item.Id, out PvpAmulet entryItem);
+                            entryItem ??= new();
+
+                            entryItem?.Apply(item);
+
+                            if (!exists)
+                                Items.Add(item.Id, entryItem);
+                        }
+                    }
+                }
+
+                if (saveRequired)
+                {
+                    BuildsManager.Logger.Debug($"Saving {name}.json");
+                    string json = JsonConvert.SerializeObject(this);
+                    File.WriteAllText(path, json);
+                }
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                BuildsManager.Logger.Warn(ex, $"Failed to load {name} data.");
+                return false;
+            }
+        }
+    }
+
+    public class ItemMappedDataEntry<T> : MappedDataEntry<int, T> where T : BaseItem, new()
+    {
+        public async override Task<bool> LoadAndUpdate(string name, Version version, string path, Gw2ApiManager gw2ApiManager)
+        {
+            try
+            {
+                bool saveRequired = false;
+                MappedDataEntry<int,  T> loaded = null;
+
+                if (!IsLoaded && File.Exists(path))
+                {
+                    string json = File.ReadAllText(path);
+                    loaded = JsonConvert.DeserializeObject<MappedDataEntry<int, T>>(json);
+                    IsLoaded = true;
+                }
+
+                BuildsManager.Logger.Debug($"Load {name} .json");
+
+                Items = loaded?.Items ?? Items;
+                Version = loaded?.Version ?? Version;
+
+                var lang = GameService.Overlay.UserLocale.Value is Locale.Korean or Locale.Chinese ? Locale.English : GameService.Overlay.UserLocale.Value;
+                var fetchIds = Items.Values.Where(item => !string.IsNullOrEmpty(item.Name) && item.Names[lang] == null)?.Select(e => e.Id);
+
+                if (version > Version)
+                {
+                    var Map = await StaticHosting.GetItemMap(name);
+                    Version = Map.Version;
+                    fetchIds = fetchIds.Concat(Map.Values.Except(Items.Keys));
+                    saveRequired = true;
+                }
+
+                if (fetchIds.Count() > 0)
+                {
+                    var idSets = fetchIds.ToList().ChunkBy(200);
+
+                    saveRequired = saveRequired || idSets.Count > 0;
+                    BuildsManager.Logger.Debug($"Fetch a total of {fetchIds.Count()} in {idSets.Count} sets.");
                     foreach (var ids in idSets)
                     {
                         var items = await gw2ApiManager.Gw2ApiClient.V2.Items.ManyAsync(ids);
@@ -160,11 +304,112 @@ namespace Kenedia.Modules.BuildsManager.Services
 
                 if (saveRequired)
                 {
-                    Debug.WriteLine($"Saving {typeof(T).Name}");
+                    BuildsManager.Logger.Debug($"Saving {name} .json");
                     string json = JsonConvert.SerializeObject(this);
                     File.WriteAllText(path, json);
                 }
 
+                return true;
+            }
+            catch (Exception ex)
+            {
+                BuildsManager.Logger.Warn(ex, $"Failed to load {name} data.");
+                return false;
+            }
+        }
+    }
+
+    public class ProfessionDataEntry : MappedDataEntry<ProfessionType, Profession>
+    {
+        public async override Task<bool> LoadAndUpdate(string name, Version version, string path, Gw2ApiManager gw2ApiManager)
+        {
+            try
+            {
+                bool saveRequired = false;
+                ProfessionDataEntry loaded = null;
+
+                if (!IsLoaded && File.Exists(path))
+                {
+                    string json = File.ReadAllText(path);
+                    loaded = JsonConvert.DeserializeObject<ProfessionDataEntry>(json);
+                    IsLoaded = true;
+                }
+
+                Items = loaded?.Items ?? Items;
+                Version = loaded?.Version ?? Version;
+
+                var lang = GameService.Overlay.UserLocale.Value is Locale.Korean or Locale.Chinese ? Locale.English : GameService.Overlay.UserLocale.Value;
+                var fetchIds = Items.Values.Where(item => !string.IsNullOrEmpty(item.Name) && item.Names[lang] == null)?.Select(e => e.Id);
+
+                if (fetchIds.Count() > 0)
+                {
+                    var idSets = fetchIds.ToList().ChunkBy(200);
+
+                    saveRequired = saveRequired || idSets.Count > 0;
+
+                    BuildsManager.Logger.Debug($"Fetch a total of {fetchIds.Count()} in {idSets.Count} sets.");
+
+                    var apiSpecializations = await gw2ApiManager.Gw2ApiClient.V2.Specializations.AllAsync();
+                    var apiLegends = fetchIds.Contains(ProfessionType.Revenant) ? await gw2ApiManager.Gw2ApiClient.V2.Legends.AllAsync() : null;
+                    var apiTraits = await gw2ApiManager.Gw2ApiClient.V2.Traits.AllAsync();
+                    var apiSkills = await gw2ApiManager.Gw2ApiClient.V2.Skills.AllAsync();
+
+                    foreach (var ids in idSets)
+                    {
+                        var items = await gw2ApiManager.Gw2ApiClient.V2.Professions.ManyAsync(ids);
+
+                        foreach (var item in items)
+                        {
+                            bool exists = Items.Values.TryFind(e => $"{e.Id}" == item.Id, out Profession entryItem);
+                            entryItem ??= new();
+
+                            entryItem.Apply(item, apiSpecializations, apiLegends, apiTraits, apiSkills);
+
+                            if (!exists)
+                                Items.Add((ProfessionType)Enum.Parse(typeof(ProfessionType), item.Id), entryItem);
+                        }
+                    }
+                }
+
+                if (saveRequired)
+                {
+                    BuildsManager.Logger.Debug($"Saving {name} .json");
+                    string json = JsonConvert.SerializeObject(this);
+                    File.WriteAllText(path, json);
+                }
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                BuildsManager.Logger.Warn(ex, $"Failed to load {name} data.");
+                return false;
+            }
+        }
+    }
+
+    public class RaceDataEntry : MappedDataEntry<Races, Race>
+    {
+        public async override Task<bool> LoadAndUpdate(string name, Version version, string path, Gw2ApiManager gw2ApiManager)
+        {
+            try
+            {
+                return true;
+            }
+            catch (Exception ex)
+            {
+                BuildsManager.Logger.Warn(ex, $"Failed to load {name} data.");
+                return false;
+            }
+        }
+    }
+
+    public class PetDataEntry : MappedDataEntry<int, Pet>
+    {
+        public async override Task<bool> LoadAndUpdate(string name, Version version, string path, Gw2ApiManager gw2ApiManager)
+        {
+            try
+            {
                 return true;
             }
             catch (Exception ex)
@@ -187,6 +432,21 @@ namespace Kenedia.Modules.BuildsManager.Services
             _gw2ApiManager = gw2ApiManager;
             _contentsManager = contentsManager;
         }
+
+        [EnumeratorMember]
+        public ProfessionDataEntry Professions { get; } = new();
+
+        [EnumeratorMember]
+        public RaceDataEntry Races { get; } = new();
+
+        [EnumeratorMember]
+        public PetDataEntry Pets { get; } = new();
+
+        [EnumeratorMember]
+        public StatMappedDataEntry Stats { get; } = new();
+        
+        [EnumeratorMember]
+        public PvpAmuletMappedDataEntry PvpAmulets { get; } = new();
 
         [EnumeratorMember]
         public ItemMappedDataEntry<Armor> Armors { get; } = new();
@@ -254,6 +514,7 @@ namespace Kenedia.Modules.BuildsManager.Services
 
                 foreach (var (name, map) in this)
                 {
+                    Debug.WriteLine($"name {name}");
                     string path = Path.Combine(_paths.ModuleDataPath, $"{name}.json");
                     bool success = await map.LoadAndUpdate(name, versions[name], path, _gw2ApiManager);
                     failed = failed || !success;

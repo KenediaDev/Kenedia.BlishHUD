@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Runtime.Serialization;
 using APISpecialization = Gw2Sharp.WebApi.V2.Models.Specialization;
 using Kenedia.Modules.Core.Extensions;
+using System.Linq;
 
 namespace Kenedia.Modules.BuildsManager.DataModels.Professions
 {
@@ -26,17 +27,7 @@ namespace Kenedia.Modules.BuildsManager.DataModels.Professions
 
         public Specialization(APISpecialization specialization)
         {
-            if (Enum.TryParse(specialization.Profession, out ProfessionType profession))
-            {
-                Profession = profession;
-                Id = specialization.Id;
-                Elite = specialization.Elite;
-                Name = specialization.Name;
-                IconAssetId = specialization.Icon.GetAssetIdFromRenderUrl();
-                BackgroundAssetId = specialization.Background.GetAssetIdFromRenderUrl();
-                ProfessionIconAssetId = specialization.ProfessionIcon?.GetAssetIdFromRenderUrl();
-                ProfessionIconBigAssetId = specialization.ProfessionIconBig?.GetAssetIdFromRenderUrl();
-            }
+            Apply(specialization);
         }
 
         public Specialization(APISpecialization specialization, Dictionary<int, Trait> traits) : this(specialization)
@@ -140,7 +131,7 @@ namespace Kenedia.Modules.BuildsManager.DataModels.Professions
             get
             {
                 if (_profession_icon_big is not null) return _profession_icon_big;
-                if(ProfessionIconBigAssetId is not null)
+                if (ProfessionIconBigAssetId is not null)
                 {
                     _profession_icon_big = AsyncTexture2D.FromAssetId((int)ProfessionIconBigAssetId);
                 }
@@ -173,13 +164,78 @@ namespace Kenedia.Modules.BuildsManager.DataModels.Professions
             _profession_icon_big = null;
 
             WeaponTrait?.Dispose();
-            WeaponTrait =null;
+            WeaponTrait = null;
 
             MinorTraits?.Values?.DisposeAll();
             MinorTraits.Clear();
 
             MajorTraits?.Values?.DisposeAll();
             MajorTraits.Clear();
+        }
+
+        public void Apply(APISpecialization specialization)
+        {
+            if (Enum.TryParse(specialization.Profession, out ProfessionType profession))
+            {
+                Profession = profession;
+            }
+
+            Id = specialization.Id;
+            Elite = specialization.Elite;
+            Name = specialization.Name;
+            IconAssetId = specialization.Icon.GetAssetIdFromRenderUrl();
+            BackgroundAssetId = specialization.Background.GetAssetIdFromRenderUrl();
+            ProfessionIconAssetId = specialization.ProfessionIcon?.GetAssetIdFromRenderUrl();
+            ProfessionIconBigAssetId = specialization.ProfessionIconBig?.GetAssetIdFromRenderUrl();
+        }
+
+        public void Apply(APISpecialization specialization, Gw2Sharp.WebApi.V2.IApiV2ObjectList<Gw2Sharp.WebApi.V2.Models.Trait> traits)
+        {
+            Apply(specialization);
+
+            if (Enum.TryParse(specialization.Profession, out ProfessionType _))
+            {
+                int index = 0;
+                foreach (int t in specialization.MajorTraits)
+                {
+                    bool exists = MajorTraits.TryGetValue(t, out Trait trait);
+                    trait ??= new Trait();
+
+                    var apiTrait = traits.FirstOrDefault(x => x.Id == t);
+                    trait.Apply(apiTrait);
+                    trait.Index = index;
+
+                    if (!exists)
+                        MajorTraits.Add(t, trait);
+
+                    index++;
+                }
+
+                index = 0;
+                foreach (int t in specialization.MinorTraits)
+                {
+                    bool exists = MinorTraits.TryGetValue(t, out Trait trait);
+                    trait ??= new Trait();
+
+                    var apiTrait = traits.FirstOrDefault(x => x.Id == t);
+                    trait.Apply(apiTrait);
+                    trait.Index = index;
+
+                    if (!exists)
+                        MinorTraits.Add(t, trait);
+
+                    index++;
+                }
+
+                if (specialization.WeaponTrait is not null)
+                {
+                    if (traits.FirstOrDefault(e => e.Id == (int)specialization.WeaponTrait) is Gw2Sharp.WebApi.V2.Models.Trait trait)
+                    {
+                        WeaponTrait ??= new();
+                        WeaponTrait?.Apply(trait);
+                    }
+                }
+            }
         }
     }
 }

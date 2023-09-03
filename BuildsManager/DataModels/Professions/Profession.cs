@@ -1,5 +1,8 @@
 ﻿using Blish_HUD.Content;
 using Gw2Sharp.Models;
+using Gw2Sharp.WebApi.V2;
+using Gw2Sharp.WebApi.V2.Models;
+using Kenedia.Modules.BuildsManager.DataModels.Items;
 using Kenedia.Modules.Core.DataModels;
 using Kenedia.Modules.Core.Extensions;
 using Kenedia.Modules.Core.Models;
@@ -14,7 +17,7 @@ using APIProfession = Gw2Sharp.WebApi.V2.Models.Profession;
 namespace Kenedia.Modules.BuildsManager.DataModels.Professions
 {
     [DataContract]
-    public class Profession : IDisposable
+    public class Profession : IDisposable, IDataMember
     {
         private bool _isDisposed;
         private AsyncTexture2D _icon;
@@ -317,6 +320,90 @@ namespace Kenedia.Modules.BuildsManager.DataModels.Professions
                         else
                         {
                             legend.ApplyLanguage(leg);
+                        }
+                    }
+                }
+            }
+        }
+
+        internal void Apply(APIProfession prof, IApiV2ObjectList<Gw2Sharp.WebApi.V2.Models.Specialization> apiSpecializations, IApiV2ObjectList<Gw2Sharp.WebApi.V2.Models.Legend> apiLegends, IApiV2ObjectList<Gw2Sharp.WebApi.V2.Models.Trait> apiTraits, IApiV2ObjectList<Gw2Sharp.WebApi.V2.Models.Skill> apiSkills)
+        {
+            if (Enum.TryParse(prof.Id, out ProfessionType professionType))
+            {
+                Id = professionType;
+                Name = prof.Name;
+                IconAssetId = prof.Icon.GetAssetIdFromRenderUrl();
+                IconBigAssetId = prof.IconBig.GetAssetIdFromRenderUrl();
+                SkillsByPalette = prof.SkillsByPalette.ToDictionary(e => e.Key, e => e.Value);
+
+                // Create Weapons
+                foreach (var apiWeapon in prof.Weapons)
+                {
+                    if (Enum.TryParse(apiWeapon.Key, out WeaponType weaponType))
+                    {
+                        bool exists = Weapons.TryGetValue(weaponType, out Weapon weapon);
+                        weapon ??= new Weapon(apiWeapon);
+
+                        if (professionType == ProfessionType.Guardian && weaponType == WeaponType.Sword)
+                        {
+                            weapon.Specialization = (int)SpecializationType.Willbender;
+                            weapon.SpecializationWielded = WieldingFlag.Offhand;
+                        }
+                        else if (professionType == ProfessionType.Ranger && weaponType == WeaponType.Dagger)
+                        {
+                            weapon.Specialization = (int)SpecializationType.Soulbeast;
+                            weapon.SpecializationWielded = WieldingFlag.Mainhand;
+                        }
+
+                        if (!exists)
+                            Weapons.Add(weapon.Type, weapon);
+                    }
+                }
+
+                //Create Skills
+                var weaponSkills = prof.Weapons.SelectMany(weapon => weapon.Value.Skills).ToList();
+                foreach (var apiSkill in apiSkills)
+                {
+                    bool exists = Skills.TryGetValue(apiSkill.Id, out Skill skill);
+                    skill ??= new Skill();
+
+                    skill.Apply(apiSkill);
+
+                    if (weaponSkills.FirstOrDefault(e => e.Id == apiSkill.Id) is ProfessionWeaponSkill weaponSkill)
+                    {
+                        skill.Offhand = weaponSkill.Offhand is not null ? Enum.TryParse(weaponSkill.Offhand, out WeaponType weaponType) ? weaponType : null : null;
+                    }
+
+                    if (!exists)
+                        Skills.Add(skill.Id, skill);
+                }
+
+                //Create Specializations
+                foreach (var apiSpecialization in apiSpecializations)
+                {
+                    bool exists = Specializations.TryGetValue(apiSpecialization.Id, out Specialization specialization);
+                    specialization ??= new Specialization();
+
+                    specialization.Apply(apiSpecialization, apiTraits);
+
+                    if (!exists)
+                        Specializations.Add(specialization.Id, specialization);
+                }
+
+                //Create Legends
+                if (professionType == ProfessionType.Revenant)
+                {
+                    foreach (var apiLegend in apiLegends)
+                    {
+                        if (int.TryParse(apiLegend.Id.Replace("Legend", ""), out int id))
+                        {
+                            bool exists = Legends.TryGetValue(id, out Legend legend);
+                            legend ??= new Legend();
+
+                            legend.Apply(apiLegend, Skills);
+
+                            if (!exists)
+                                Legends.Add(legend.Id, legend);
                         }
                     }
                 }

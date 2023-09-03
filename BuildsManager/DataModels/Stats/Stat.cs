@@ -1,4 +1,5 @@
 ﻿using Blish_HUD.Content;
+using Kenedia.Modules.BuildsManager.DataModels.Items;
 using Kenedia.Modules.Core.Models;
 using System;
 using System.Runtime.Serialization;
@@ -7,7 +8,7 @@ using APIStat = Gw2Sharp.WebApi.V2.Models.Itemstat;
 namespace Kenedia.Modules.BuildsManager.DataModels.Stats
 {
     [DataContract]
-    public class Stat : IDisposable
+    public class Stat : IDisposable, IDataMember
     {
         private bool _isDisposed;
 

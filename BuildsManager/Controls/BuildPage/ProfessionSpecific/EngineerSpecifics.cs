@@ -231,9 +231,9 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage.ProfessionSpecific
                     _skills[0].Skill = Enviroment == Enviroment.Terrestrial ? skills[63089] : skills[63210];
                     //TODO add Mech Skills
 
-                    _skills[1].Skill = skills[63334]?.GetEffectiveSkill(TemplatePresenter.Template, Enviroment);
-                    _skills[2].Skill = skills[63367]?.GetEffectiveSkill(TemplatePresenter.Template, Enviroment);
-                    _skills[3].Skill = skills[63121]?.GetEffectiveSkill(TemplatePresenter.Template, Enviroment);
+                    _skills[1].Skill = skills[63334];
+                    _skills[2].Skill = skills[63367];
+                    _skills[3].Skill = skills[63121];
 
                     break;
 

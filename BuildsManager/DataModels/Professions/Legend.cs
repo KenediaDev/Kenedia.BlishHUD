@@ -21,36 +21,7 @@ namespace Kenedia.Modules.BuildsManager.DataModels.Professions
 
         public Legend(APILegend legend, Dictionary<int, Skill> skills)
         {
-            if (int.TryParse(legend.Id.Replace("Legend", ""), out int id))
-            {
-                if (skills.TryGetValue(legend.Swap, out Skill skill))
-                {
-                    Id = id;
-                    Swap = skill;
-                    Specialization = skill.Specialization;
-
-                    if (skills.TryGetValue(legend.Heal, out Skill heal))
-                    {
-                        heal.PaletteId = Skill.GetRevPaletteId(heal);
-                        Heal = heal;
-                    }
-
-                    if (skills.TryGetValue(legend.Elite, out Skill elite))
-                    {
-                        elite.PaletteId = Skill.GetRevPaletteId(elite);
-                        Elite = elite;
-                    }
-
-                    foreach (int util in legend.Utilities)
-                    {
-                        if (skills.TryGetValue(util, out Skill utility))
-                        {
-                            utility.PaletteId = Skill.GetRevPaletteId(utility);
-                            Utilities.Add(utility.Id, utility);
-                        }
-                    }
-                }
-            }
+            Apply(legend, skills);
         }
 
         public static (int, int, int, int, int, int) LegendaryAllianceLuxonIds { get; } = new(62891, 62719, 62832, 62962, 62878, 62942);
@@ -140,6 +111,40 @@ namespace Kenedia.Modules.BuildsManager.DataModels.Professions
 
             Swap?.Dispose();
             Swap = null;
+        }
+
+        internal void Apply(APILegend legend, Dictionary<int, Skill> skills)
+        {
+            if (int.TryParse(legend.Id.Replace("Legend", ""), out int id))
+            {
+                if (skills.TryGetValue(legend.Swap, out Skill skill))
+                {
+                    Id = id;
+                    Swap = skill;
+                    Specialization = skill.Specialization;
+
+                    if (skills.TryGetValue(legend.Heal, out Skill heal))
+                    {
+                        heal.PaletteId = Skill.GetRevPaletteId(heal);
+                        Heal = heal;
+                    }
+
+                    if (skills.TryGetValue(legend.Elite, out Skill elite))
+                    {
+                        elite.PaletteId = Skill.GetRevPaletteId(elite);
+                        Elite = elite;
+                    }
+
+                    foreach (int util in legend.Utilities)
+                    {
+                        if (skills.TryGetValue(util, out Skill utility))
+                        {
+                            utility.PaletteId = Skill.GetRevPaletteId(utility);
+                            Utilities.Add(utility.Id, utility);
+                        }
+                    }
+                }
+            }
         }
     }
 }

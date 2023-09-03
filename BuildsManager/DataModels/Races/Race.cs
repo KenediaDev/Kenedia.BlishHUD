@@ -6,11 +6,12 @@ using Kenedia.Modules.Core.DataModels;
 using Skill = Kenedia.Modules.BuildsManager.DataModels.Professions.Skill;
 using Blish_HUD.Content;
 using System.Diagnostics;
+using Kenedia.Modules.BuildsManager.DataModels.Items;
 
 namespace Kenedia.Modules.BuildsManager.DataModels
 {
     [DataContract]
-    public class Race : IDisposable
+    public class Race : IDisposable, IDataMember
     {
         private bool _isDisposed;
         private AsyncTexture2D _icon;

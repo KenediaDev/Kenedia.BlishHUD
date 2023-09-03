@@ -77,6 +77,8 @@ namespace Kenedia.Modules.BuildsManager.Models
             Relics = version;
             PvpAmulets = version;
             Stats = version;
+            Professions = version;
+            Pets = version;
         }
 
         [JsonSemverVersion]
@@ -127,6 +129,15 @@ namespace Kenedia.Modules.BuildsManager.Models
         [JsonSemverVersion]
         public Version Stats { get; set; } = new(0, 0, 0);
 
+        [JsonSemverVersion]
+        public Version Professions { get; set; } = new(0, 0, 0);
+
+        [JsonSemverVersion]
+        public Version Pets { get; set; } = new(0, 0, 0);
+
+        [JsonSemverVersion]
+        public Version Races { get; set; } = new(0, 0, 0);
+
         // Implement the IEnumerable<Version> interface
         public IEnumerator<KeyValuePair<string, Version>> GetEnumerator()
         {
@@ -145,6 +156,10 @@ namespace Kenedia.Modules.BuildsManager.Models
             yield return new KeyValuePair<string, Version>(nameof(PowerCores), PowerCores);
             yield return new KeyValuePair<string, Version>(nameof(Relics), Relics);
             yield return new KeyValuePair<string, Version>(nameof(PvpAmulets), PvpAmulets);
+            yield return new KeyValuePair<string, Version>(nameof(Stats), Stats);
+            yield return new KeyValuePair<string, Version>(nameof(Professions), Professions);
+            yield return new KeyValuePair<string, Version>(nameof(Pets), Pets);
+            yield return new KeyValuePair<string, Version>(nameof(Races), Races);
         }
 
         public void SaveToJson(string path)

@@ -23,15 +23,7 @@ namespace Kenedia.Modules.BuildsManager.DataModels.Professions
 
         public Trait(APITrait trait)
         {
-            Id = trait.Id;
-            Name = trait.Name;
-            Description = trait.Description;
-            Specialization = trait.Specialization;
-            IconAssetId = trait.Icon.GetAssetIdFromRenderUrl();
-            Tier = (Models.Templates.TraitTierType)trait.Tier;
-            Order = trait.Order;
-            Type = trait.Slot.Value;
-            ChatLink = trait.CreateChatLink();
+            Apply(trait);
         }
 
         public Trait(APITrait trait, Dictionary<int, Skill> skills) : this(trait)
@@ -125,6 +117,19 @@ namespace Kenedia.Modules.BuildsManager.DataModels.Professions
             _isDisposed = true;
 
             _icon = null;
+        }
+
+        internal void Apply(APITrait trait)
+        {
+            Id = trait.Id;
+            Name = trait.Name;
+            Description = trait.Description;
+            Specialization = trait.Specialization;
+            IconAssetId = trait.Icon.GetAssetIdFromRenderUrl();
+            Tier = (Models.Templates.TraitTierType)trait.Tier;
+            Order = trait.Order;
+            Type = trait.Slot.Value;
+            ChatLink = trait.CreateChatLink();
         }
     }
 }
