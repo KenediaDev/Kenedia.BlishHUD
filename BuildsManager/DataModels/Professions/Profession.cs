@@ -9,6 +9,7 @@ using Kenedia.Modules.Core.Models;
 using Kenedia.Modules.Core.Utility;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Runtime.Serialization;
 using static Kenedia.Modules.BuildsManager.DataModels.Professions.Weapon;
@@ -393,15 +394,19 @@ namespace Kenedia.Modules.BuildsManager.DataModels.Professions
                 //Create Legends
                 if (professionType == ProfessionType.Revenant)
                 {
+
+                    Debug.WriteLine($"LEGENDS");
                     Legends ??= new();
                     foreach (var apiLegend in apiLegends)
                     {
                         if (int.TryParse(apiLegend.Id.Replace("Legend", ""), out int id))
                         {
+
+                            Debug.WriteLine($"{apiLegend.Id} ID: {id}");
                             bool exists = Legends.TryGetValue(id, out Legend legend);
                             legend ??= new Legend();
 
-                            legend.Apply(apiLegend, Skills);
+                            legend.Apply(apiLegend, apiSkills);
 
                             if (!exists)
                                 Legends.Add(legend.Id, legend);

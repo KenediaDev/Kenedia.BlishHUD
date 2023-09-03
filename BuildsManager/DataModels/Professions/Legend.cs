@@ -6,6 +6,8 @@ using APILegend = Gw2Sharp.WebApi.V2.Models.Legend;
 using Kenedia.Modules.Core.Extensions;
 using Kenedia.Modules.BuildsManager.Interfaces;
 using Blish_HUD.Content;
+using Gw2Sharp.WebApi.V2;
+using System.Linq;
 
 namespace Kenedia.Modules.BuildsManager.DataModels.Professions
 {
@@ -144,6 +146,45 @@ namespace Kenedia.Modules.BuildsManager.DataModels.Professions
                         }
                     }
                 }
+            }
+        }
+
+        internal void Apply(APILegend legend, IApiV2ObjectList<Gw2Sharp.WebApi.V2.Models.Skill> skills)
+        {
+            if (int.TryParse(legend.Id.Replace("Legend", ""), out int id))
+            {
+                var swap = skills.FirstOrDefault(e => e.Id == legend.Swap);
+                var heal = skills.FirstOrDefault(e => e.Id == legend.Heal);
+                var elite = skills.FirstOrDefault(e => e.Id == legend.Elite);
+                var utilities = skills.Where(e => legend.Utilities.Contains(e.Id));
+
+                Id = id;
+                Specialization = swap?.Specialization ?? 0;
+
+                Swap ??= new Skill(swap)
+                {
+                    PaletteId = Skill.GetRevPaletteId(swap)
+                };
+                Swap.Apply(swap);
+
+                Heal ??= new Skill(heal)
+                {
+                    PaletteId = Skill.GetRevPaletteId(heal),
+                };
+                Heal.Apply(heal);
+
+                Elite ??= new Skill(elite)
+                {
+                    PaletteId = Skill.GetRevPaletteId(elite),
+                };
+                Elite.Apply(elite);
+
+                Utilities = Utilities.Count == 0 ? utilities.ToDictionary(e => e.Id, e => new Skill(e)) : Utilities;
+                foreach (var util in Utilities)
+                {
+                    util.Value.Apply(utilities.FirstOrDefault(e => e.Id == util.Key));
+                    util.Value.PaletteId = Skill.GetRevPaletteId(util.Value);
+                }                
             }
         }
     }

@@ -19,6 +19,7 @@ using WeaponItem = Kenedia.Modules.BuildsManager.DataModels.Items.Weapon;
 using Version = SemVer.Version;
 using Kenedia.Modules.Core.Extensions;
 using Gw2Sharp.WebApi;
+using System.Diagnostics;
 
 namespace Kenedia.Modules.BuildsManager.Services
 {
@@ -106,14 +107,14 @@ namespace Kenedia.Modules.BuildsManager.Services
                 bool saveRequired = false;
                 MappedDataEntry<int, Stat> loaded = null;
 
+                BuildsManager.Logger.Debug($"Load {name}.json");
+
                 if (!IsLoaded && File.Exists(path))
                 {
                     string json = File.ReadAllText(path);
                     loaded = JsonConvert.DeserializeObject<MappedDataEntry<int, Stat>>(json);
                     IsLoaded = true;
                 }
-
-                BuildsManager.Logger.Debug($"Load {name}.json");
 
                 Items = loaded?.Items ?? Items;
                 Version = loaded?.Version ?? Version;
@@ -178,14 +179,14 @@ namespace Kenedia.Modules.BuildsManager.Services
                 bool saveRequired = false;
                 MappedDataEntry<int, PvpAmulet> loaded = null;
 
+                BuildsManager.Logger.Debug($"Load {name}.json");
+
                 if (!IsLoaded && File.Exists(path))
                 {
                     string json = File.ReadAllText(path);
                     loaded = JsonConvert.DeserializeObject<MappedDataEntry<int, PvpAmulet>>(json);
                     IsLoaded = true;
                 }
-
-                BuildsManager.Logger.Debug($"Load {name}.json");
 
                 Items = loaded?.Items ?? Items;
                 Version = loaded?.Version ?? Version;
@@ -250,14 +251,14 @@ namespace Kenedia.Modules.BuildsManager.Services
                 bool saveRequired = false;
                 MappedDataEntry<int, T> loaded = null;
 
+                BuildsManager.Logger.Debug($"Load {name}.json");
+
                 if (!IsLoaded && File.Exists(path))
                 {
                     string json = File.ReadAllText(path);
                     loaded = JsonConvert.DeserializeObject<MappedDataEntry<int, T>>(json);
                     IsLoaded = true;
                 }
-
-                BuildsManager.Logger.Debug($"Load {name}.json");
 
                 Items = loaded?.Items ?? Items;
                 Version = loaded?.Version ?? Version;
@@ -278,7 +279,7 @@ namespace Kenedia.Modules.BuildsManager.Services
                     var idSets = fetchIds.ToList().ChunkBy(200);
 
                     saveRequired = saveRequired || idSets.Count > 0;
-                    BuildsManager.Logger.Debug($"Fetch a total of {fetchIds.Count()} in {idSets.Count} sets.");
+                    BuildsManager.Logger.Debug($"Fetch a total of {fetchIds.Count()} {name} in {idSets.Count} sets.");
                     foreach (var ids in idSets)
                     {
                         var items = await gw2ApiManager.Gw2ApiClient.V2.Items.ManyAsync(ids);
@@ -322,6 +323,8 @@ namespace Kenedia.Modules.BuildsManager.Services
                 bool saveRequired = false;
                 ProfessionDataEntry loaded = null;
 
+                BuildsManager.Logger.Debug($"Load {name}.json");
+
                 if (!IsLoaded && File.Exists(path))
                 {
                     string json = File.ReadAllText(path);
@@ -339,12 +342,18 @@ namespace Kenedia.Modules.BuildsManager.Services
                 var localeMissing = Items.Values.Where(item => !string.IsNullOrEmpty(item.Name) && item.Names[lang] == null)?.Select(e => e.Id);
                 var missing = professionTypes.Except(Items.Keys).Concat(localeMissing);
 
+                if (version > Version)
+                {
+                    Version = version;
+                    missing = professionTypes;
+                }
+
                 if (missing.Count() > 0)
                 {
                     var idSets = missing.ToList().ChunkBy(200);
                     saveRequired = saveRequired || idSets.Count > 0;
 
-                    BuildsManager.Logger.Debug($"Fetch a total of {missing.Count()} in {idSets.Count} sets.");
+                    BuildsManager.Logger.Debug($"Fetch a total of {missing.Count()} {name} in {idSets.Count} sets.");
 
                     var apiSpecializations = await gw2ApiManager.Gw2ApiClient.V2.Specializations.AllAsync();
                     var apiLegends = missing.Contains(ProfessionType.Revenant) ? await gw2ApiManager.Gw2ApiClient.V2.Legends.AllAsync() : null;
@@ -363,7 +372,7 @@ namespace Kenedia.Modules.BuildsManager.Services
                             entryItem.Apply(item, apiSpecializations, apiLegends, apiTraits, apiSkills);
 
                             if (!exists)
-                                Items.Add((ProfessionType)Enum.Parse(typeof(ProfessionType), item.Id), entryItem);
+                                Items.Add(entryItem.Id, entryItem);
                         }
                     }
                 }
@@ -394,6 +403,8 @@ namespace Kenedia.Modules.BuildsManager.Services
                 bool saveRequired = false;
                 RaceDataEntry loaded = null;
 
+                BuildsManager.Logger.Debug($"Load {name}.json");
+
                 if (!IsLoaded && File.Exists(path))
                 {
                     string json = File.ReadAllText(path);
@@ -410,12 +421,18 @@ namespace Kenedia.Modules.BuildsManager.Services
                 var localeMissing = Items.Values.Where(item => !string.IsNullOrEmpty(item.Name) && item.Names[lang] == null)?.Select(e => $"{e.Id}");
                 var missing = raceIds.Except(Items.Keys.Select(e => $"{e}")).Concat(localeMissing);
 
+                if (version > Version)
+                {
+                    Version = version;
+                    missing = raceIds;
+                }
+
                 if (missing.Count() > 0)
                 {
                     var idSets = missing.ToList().ChunkBy(200);
                     saveRequired = saveRequired || idSets.Count > 0;
 
-                    BuildsManager.Logger.Debug($"Fetch a total of {missing.Count()} in {idSets.Count} sets.");
+                    BuildsManager.Logger.Debug($"Fetch a total of {missing.Count()} {name} in {idSets.Count} sets.");
                     var apiSkills = await gw2ApiManager.Gw2ApiClient.V2.Skills.AllAsync();
                     var profession = await gw2ApiManager.Gw2ApiClient.V2.Professions.GetAsync(ProfessionType.Guardian);
 
@@ -462,6 +479,8 @@ namespace Kenedia.Modules.BuildsManager.Services
                 bool saveRequired = false;
                 PetDataEntry loaded = null;
 
+                BuildsManager.Logger.Debug($"Load {name}.json");
+
                 if (!IsLoaded && File.Exists(path))
                 {
                     string json = File.ReadAllText(path);
@@ -478,12 +497,18 @@ namespace Kenedia.Modules.BuildsManager.Services
                 var localeMissing = Items.Values.Where(item => !string.IsNullOrEmpty(item.Name) && item.Names[lang] == null)?.Select(e => e.Id);
                 var missing = petIds.Except(Items.Keys).Concat(localeMissing);
 
+                if (version > Version)
+                {
+                    Version = version;
+                    missing = petIds;
+                }
+
                 if (missing.Count() > 0)
                 {
                     var idSets = missing.ToList().ChunkBy(200);
                     saveRequired = saveRequired || idSets.Count > 0;
 
-                    BuildsManager.Logger.Debug($"Fetch a total of {missing.Count()} in {idSets.Count} sets.");
+                    BuildsManager.Logger.Debug($"Fetch a total of {missing.Count()} {name} in {idSets.Count} sets.");
 
                     foreach (var ids in idSets)
                     {

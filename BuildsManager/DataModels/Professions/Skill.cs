@@ -327,5 +327,10 @@ namespace Kenedia.Modules.BuildsManager.DataModels.Professions
             Facts = skill.Facts?.ToList();
             TraitedFacts = skill.TraitedFacts?.ToList();
         }
+
+        internal static int GetRevPaletteId(APISkill skill)
+        {
+            return GetRevPaletteId(skill.Id);
+        }
     }
 }
