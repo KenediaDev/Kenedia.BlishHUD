@@ -1,4 +1,5 @@
 ﻿using Blish_HUD.Content;
+using Gw2Sharp.WebApi.V2;
 using Gw2Sharp.WebApi.V2.Models;
 using Kenedia.Modules.BuildsManager.Interfaces;
 using Kenedia.Modules.Core.DataModels;
@@ -7,6 +8,7 @@ using Kenedia.Modules.Core.Models;
 using Kenedia.Modules.Core.Utility;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Runtime.Serialization;
 using APIPet = Gw2Sharp.WebApi.V2.Models.Pet;
 
@@ -29,39 +31,7 @@ namespace Kenedia.Modules.BuildsManager.DataModels.Professions
 
         public Pet(APIPet pet)
         {
-            Id = pet.Id;
-            IconAssetId = pet.Icon.GetAssetIdFromRenderUrl();
-
-            bool aquatic = _aquaticPets.Contains(pet.Id);
-            bool terrestrial = _terrestrialPets.Contains(pet.Id);
-            Enviroment = (terrestrial ? Enviroment.Terrestrial : 0) | (aquatic ? Enviroment.Aquatic : 0);
-
-            var petOrder = new List<int>()
-            {
-                13, 14, 15, 16, 17,
-                5, 20, 23, 24, 25,
-                1, 3, 9, 11, 47, 63,
-                54,
-                55,
-                52,
-                66,
-                4, 8, 22, 28, 29,
-                7, 12, 18, 19, 45,
-                6, 26, 27,
-                10, 30, 31, 32, 44, 65,
-                57,
-                33, 34, 35, 36,
-                2, 37, 38, 64, 39,
-                59,
-                48, 51,
-                46,
-                61,
-                21, 40,42, 41,43,
-            };
-
-            Order = petOrder.IndexOf(pet.Id);
-
-            ApplyLanguage(pet);
+            Apply(pet);
         }
 
         public Pet(APIPet pet, List<Skill> skills) : this(pet)
@@ -169,6 +139,58 @@ namespace Kenedia.Modules.BuildsManager.DataModels.Professions
 
             Skills?.Values?.DisposeAll();
             Skills?.Clear();
+        }
+
+        internal void Apply(APIPet pet)
+        {
+            Id = pet.Id;
+            IconAssetId = pet.Icon.GetAssetIdFromRenderUrl();
+
+            bool aquatic = _aquaticPets.Contains(pet.Id);
+            bool terrestrial = _terrestrialPets.Contains(pet.Id);
+            Enviroment = (terrestrial ? Enviroment.Terrestrial : 0) | (aquatic ? Enviroment.Aquatic : 0);
+
+            var petOrder = new List<int>()
+            {
+                13, 14, 15, 16, 17,
+                5, 20, 23, 24, 25,
+                1, 3, 9, 11, 47, 63,
+                54,
+                55,
+                52,
+                66,
+                4, 8, 22, 28, 29,
+                7, 12, 18, 19, 45,
+                6, 26, 27,
+                10, 30, 31, 32, 44, 65,
+                57,
+                33, 34, 35, 36,
+                2, 37, 38, 64, 39,
+                59,
+                48, 51,
+                46,
+                61,
+                21, 40,42, 41,43,
+            };
+
+            Order = petOrder.IndexOf(pet.Id);
+
+            ApplyLanguage(pet);
+        }
+
+        internal void Apply(APIPet pet, IApiV2ObjectList<Gw2Sharp.WebApi.V2.Models.Skill> skills)
+        {
+            Apply(pet);
+
+            foreach (PetSkill petSkill in pet.Skills)
+            {
+                var skill = skills.FirstOrDefault(e => e.Id == petSkill.Id);
+
+                if (skill is not null)
+                {
+                    Skills.Add(petSkill.Id, new Skill(skill));
+                }
+            }
         }
     }
 }

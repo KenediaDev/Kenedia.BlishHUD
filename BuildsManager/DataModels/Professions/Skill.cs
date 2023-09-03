@@ -25,6 +25,11 @@ namespace Kenedia.Modules.BuildsManager.DataModels.Professions
 
         public Skill() { }
 
+        public Skill(APISkill skill)
+        {
+            Apply(skill);
+        }
+
         public Skill(BaseSkill baseSkill)
         {
             Names = baseSkill.Names;

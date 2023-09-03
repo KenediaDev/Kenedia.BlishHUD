@@ -130,7 +130,7 @@ namespace Kenedia.Modules.BuildsManager.DataModels
             }
         }
 
-        public void Apply(Gw2Sharp.WebApi.V2.Models.Race race, IApiV2ObjectList<Gw2Sharp.WebApi.V2.Models.Skill> skills)
+        public void Apply(Gw2Sharp.WebApi.V2.Models.Race race, IApiV2ObjectList<Gw2Sharp.WebApi.V2.Models.Skill> skills, IReadOnlyDictionary<int, int> skillsByPalette)
         {
             Apply(race);
 
@@ -140,6 +140,8 @@ namespace Kenedia.Modules.BuildsManager.DataModels
                 {
                     bool exists = Skills.TryGetValue(id, out Skill skill);
                     skill ??= new();
+
+                    skill.PaletteId = skillsByPalette.FirstOrDefault(e => e.Value == id).Key;
 
                     Gw2Sharp.WebApi.V2.Models.Skill apiSkill = skills.Where(x => x.Id == id).FirstOrDefault();
 

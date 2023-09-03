@@ -22,7 +22,6 @@ namespace Kenedia.Modules.BuildsManager.Services
                 using var httpClient = new HttpClient();
                 string content = await httpClient.GetStringAsync(Url);
 
-                Debug.WriteLine($"content {content}");
                 var info = JsonConvert.DeserializeObject<StaticVersion>(content);
                 return info;
             }

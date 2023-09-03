@@ -95,6 +95,8 @@ namespace Kenedia.Modules.BuildsManager
             };
 
             Logger.Info($"Starting {Name} v." + Version.BaseVersion());
+
+            GW2API = new(Gw2ApiManager, () => Data, Paths, () => _notificationBadge);
             Data = new(ContentsManager, Paths, Gw2ApiManager);
         }
 
@@ -134,8 +136,6 @@ namespace Kenedia.Modules.BuildsManager
         protected override async Task LoadAsync()
         {
             await base.LoadAsync();
-
-            GW2API = new(Gw2ApiManager, () => Data, Paths, () => _notificationBadge);
 
             bool dataLoaded = await Data.Load();
             if (!dataLoaded)
@@ -183,7 +183,7 @@ namespace Kenedia.Modules.BuildsManager
             _cancellationTokenSource?.Cancel();
             _cancellationTokenSource = new CancellationTokenSource();
 
-            //await GW2API.UpdateMappedIds("0.0.3");
+            //await GW2API.UpdateMappedIds("0.0.4");
 
             //LoadTemplates();
             //base.ReloadKey_Activated(sender, e);

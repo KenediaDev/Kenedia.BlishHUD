@@ -5,7 +5,6 @@ using Kenedia.Modules.BuildsManager.DataModels;
 using Kenedia.Modules.BuildsManager.DataModels.Professions;
 using Kenedia.Modules.BuildsManager.DataModels.Stats;
 using Kenedia.Modules.Core.DataModels;
-using Kenedia.Modules.Core.Models;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -15,15 +14,10 @@ using System.Threading.Tasks;
 using System.Threading;
 using Kenedia.Modules.BuildsManager.Models;
 using Kenedia.Modules.BuildsManager.DataModels.Items;
-using Kenedia.Modules.BuildsManager.Models.Templates;
 using System.Reflection;
-using System.Collections;
 using WeaponItem = Kenedia.Modules.BuildsManager.DataModels.Items.Weapon;
 using Version = SemVer.Version;
-using System.Diagnostics;
-using Microsoft.Xna.Framework.Content;
 using Kenedia.Modules.Core.Extensions;
-using Item = Gw2Sharp.WebApi.V2.Models.Item;
 using Gw2Sharp.WebApi;
 
 namespace Kenedia.Modules.BuildsManager.Services
@@ -37,9 +31,9 @@ namespace Kenedia.Modules.BuildsManager.Services
 
         public Dictionary<string, object> Items { get; set; } = new();
 
-        public virtual async Task<bool> LoadAndUpdate(string name, Version version, string path, Gw2ApiManager gw2ApiManager)
+        public virtual Task<bool> LoadAndUpdate(string name, Version version, string path, Gw2ApiManager gw2ApiManager)
         {
-            return false;
+            return Task.FromResult(false);
         }
 
         // Conversion method
@@ -263,7 +257,7 @@ namespace Kenedia.Modules.BuildsManager.Services
                     IsLoaded = true;
                 }
 
-                BuildsManager.Logger.Debug($"Load {name} .json");
+                BuildsManager.Logger.Debug($"Load {name}.json");
 
                 Items = loaded?.Items ?? Items;
                 Version = loaded?.Version ?? Version;
@@ -304,7 +298,7 @@ namespace Kenedia.Modules.BuildsManager.Services
 
                 if (saveRequired)
                 {
-                    BuildsManager.Logger.Debug($"Saving {name} .json");
+                    BuildsManager.Logger.Debug($"Saving {name}.json");
                     string json = JsonConvert.SerializeObject(this);
                     File.WriteAllText(path, json);
                 }
@@ -376,7 +370,7 @@ namespace Kenedia.Modules.BuildsManager.Services
 
                 if (saveRequired)
                 {
-                    BuildsManager.Logger.Debug($"Saving {name} .json");
+                    BuildsManager.Logger.Debug($"Saving {name}.json");
                     string json = JsonConvert.SerializeObject(this);
                     File.WriteAllText(path, json);
                 }
@@ -423,6 +417,7 @@ namespace Kenedia.Modules.BuildsManager.Services
 
                     BuildsManager.Logger.Debug($"Fetch a total of {missing.Count()} in {idSets.Count} sets.");
                     var apiSkills = await gw2ApiManager.Gw2ApiClient.V2.Skills.AllAsync();
+                    var profession = await gw2ApiManager.Gw2ApiClient.V2.Professions.GetAsync(ProfessionType.Guardian);
 
                     foreach (var ids in idSets)
                     {
@@ -433,7 +428,7 @@ namespace Kenedia.Modules.BuildsManager.Services
                             bool exists = Items.Values.TryFind(e => $"{e.Id}" == item.Id, out Race entryItem);
                             entryItem ??= new();
 
-                            entryItem.Apply(item, apiSkills);
+                            entryItem.Apply(item, apiSkills, profession.SkillsByPalette);
 
                             if (!exists)
                                 Items.Add((Races)Enum.Parse(typeof(Races), item.Id), entryItem);
@@ -443,7 +438,7 @@ namespace Kenedia.Modules.BuildsManager.Services
 
                 if (saveRequired)
                 {
-                    BuildsManager.Logger.Debug($"Saving {name} .json");
+                    BuildsManager.Logger.Debug($"Saving {name}.json");
                     string json = JsonConvert.SerializeObject(this);
                     File.WriteAllText(path, json);
                 }
@@ -464,6 +459,56 @@ namespace Kenedia.Modules.BuildsManager.Services
         {
             try
             {
+                bool saveRequired = false;
+                PetDataEntry loaded = null;
+
+                if (!IsLoaded && File.Exists(path))
+                {
+                    string json = File.ReadAllText(path);
+                    loaded = JsonConvert.DeserializeObject<PetDataEntry>(json);
+                    IsLoaded = true;
+                }
+
+                Items = loaded?.Items ?? Items;
+                Version = loaded?.Version ?? Version;
+
+                var petIds = await gw2ApiManager.Gw2ApiClient.V2.Pets.IdsAsync();
+
+                var lang = GameService.Overlay.UserLocale.Value is Locale.Korean or Locale.Chinese ? Locale.English : GameService.Overlay.UserLocale.Value;
+                var localeMissing = Items.Values.Where(item => !string.IsNullOrEmpty(item.Name) && item.Names[lang] == null)?.Select(e => e.Id);
+                var missing = petIds.Except(Items.Keys).Concat(localeMissing);
+
+                if (missing.Count() > 0)
+                {
+                    var idSets = missing.ToList().ChunkBy(200);
+                    saveRequired = saveRequired || idSets.Count > 0;
+
+                    BuildsManager.Logger.Debug($"Fetch a total of {missing.Count()} in {idSets.Count} sets.");
+
+                    foreach (var ids in idSets)
+                    {
+                        var items = await gw2ApiManager.Gw2ApiClient.V2.Pets.ManyAsync(ids);
+
+                        foreach (var item in items)
+                        {
+                            bool exists = Items.TryGetValue(item.Id, out Pet entryItem);
+                            entryItem ??= new();
+
+                            entryItem.Apply(item);
+
+                            if (!exists)
+                                Items.Add(item.Id, entryItem);
+                        }
+                    }
+                }
+
+                if (saveRequired)
+                {
+                    BuildsManager.Logger.Debug($"Saving {name}.json");
+                    string json = JsonConvert.SerializeObject(this);
+                    File.WriteAllText(path, json);
+                }
+
                 return true;
             }
             catch (Exception ex)
@@ -568,7 +613,6 @@ namespace Kenedia.Modules.BuildsManager.Services
 
                 foreach (var (name, map) in this)
                 {
-                    Debug.WriteLine($"name {name}");
                     string path = Path.Combine(_paths.ModuleDataPath, $"{name}.json");
                     bool success = await map.LoadAndUpdate(name, versions[name], path, _gw2ApiManager);
                     failed = failed || !success;

@@ -202,7 +202,7 @@ namespace Kenedia.Modules.BuildsManager.Services
 
         private DataOG Data => _getData?.Invoke();
 
-        public PathCollection Paths { get; set; }
+        public PathCollection Paths => _paths;
 
         public void Cancel()
         {
@@ -1112,7 +1112,7 @@ namespace Kenedia.Modules.BuildsManager.Services
 
                 var itemid_lists = raw_itemids.Except(invalidIds).ToList().ChunkBy(200);
                 int count = 0;
-
+                itemid_lists.Clear();
                 foreach (var ids in itemid_lists)
                 {
                     if (_cancellationTokenSource.IsCancellationRequested)
@@ -1243,6 +1243,19 @@ namespace Kenedia.Modules.BuildsManager.Services
                     if (map is not null && map.Items.FirstOrDefault(x => x.Value == e.Id) is KeyValuePair<byte, int> sitem && sitem.Value <= 0 && map.Count < byte.MaxValue)
                     {
                         BuildsManager.Logger.Info($"Adding {e.Id} to Stats.");
+                        map.Add((byte)(map.Count + 1), e.Id);
+                    }
+                }
+
+                var apiAmulets = await _gw2ApiManager.Gw2ApiClient.V2.Pvp.Amulets.AllAsync(_cancellationTokenSource.Token);
+                if (_cancellationTokenSource.IsCancellationRequested) return;
+
+                foreach (var e in apiAmulets)
+                {
+                    var map = Data.ByteIntMaps.PvpAmulets;
+                    if (map is not null && map.Items.FirstOrDefault(x => x.Value == e.Id) is KeyValuePair<byte, int> sitem && sitem.Value <= 0 && map.Count < byte.MaxValue)
+                    {
+                        BuildsManager.Logger.Info($"Adding {e.Id} to Pvp Amulets.");
                         map.Add((byte)(map.Count + 1), e.Id);
                     }
                 }
