@@ -7,6 +7,8 @@ using Skill = Kenedia.Modules.BuildsManager.DataModels.Professions.Skill;
 using Blish_HUD.Content;
 using System.Diagnostics;
 using Kenedia.Modules.BuildsManager.DataModels.Items;
+using Gw2Sharp.WebApi.V2;
+using System.Linq;
 
 namespace Kenedia.Modules.BuildsManager.DataModels
 {
@@ -24,11 +26,7 @@ namespace Kenedia.Modules.BuildsManager.DataModels
 
         public Race(Gw2Sharp.WebApi.V2.Models.Race race)
         {
-            if (Enum.TryParse(race.Id, out Races racetype))
-            {
-                Name = race.Name;
-                Id = racetype;
-            }
+            Apply(race);
         }
 
         public Race(Gw2Sharp.WebApi.V2.Models.Race race, Dictionary<int, Skill> skills) : this(race)
@@ -98,7 +96,7 @@ namespace Kenedia.Modules.BuildsManager.DataModels
                     {
                         skill ??= allSkillsSkill;
                         skill.Name = allSkillsSkill.Name;
-                        skill.Description= allSkillsSkill.Description;
+                        skill.Description = allSkillsSkill.Description;
                         allSkillsSkill.Categories = Professions.SkillCategoryType.Racial;
                         skill.Categories = Professions.SkillCategoryType.Racial;
 
@@ -121,6 +119,39 @@ namespace Kenedia.Modules.BuildsManager.DataModels
 
             _icon = null;
             _hoveredIcon = null;
+        }
+
+        internal void Apply(Gw2Sharp.WebApi.V2.Models.Race race)
+        {
+            if (Enum.TryParse(race.Id, out Races racetype))
+            {
+                Name = race.Name;
+                Id = racetype;
+            }
+        }
+
+        public void Apply(Gw2Sharp.WebApi.V2.Models.Race race, IApiV2ObjectList<Gw2Sharp.WebApi.V2.Models.Skill> skills)
+        {
+            Apply(race);
+
+            if (Enum.TryParse(race.Id, out Races racetype))
+            {
+                foreach (int id in race.Skills)
+                {
+                    bool exists = Skills.TryGetValue(id, out Skill skill);
+                    skill ??= new();
+
+                    Gw2Sharp.WebApi.V2.Models.Skill apiSkill = skills.Where(x => x.Id == id).FirstOrDefault();
+
+                    if (apiSkill is not null)
+                        skill.Apply(apiSkill);
+
+                    skill.Categories = Professions.SkillCategoryType.Racial;
+
+                    if (!exists)
+                        Skills.Add(id, skill);
+                }
+            }
         }
     }
 }

@@ -397,6 +397,57 @@ namespace Kenedia.Modules.BuildsManager.Services
         {
             try
             {
+                bool saveRequired = false;
+                RaceDataEntry loaded = null;
+
+                if (!IsLoaded && File.Exists(path))
+                {
+                    string json = File.ReadAllText(path);
+                    loaded = JsonConvert.DeserializeObject<RaceDataEntry>(json);
+                    IsLoaded = true;
+                }
+
+                Items = loaded?.Items ?? Items;
+                Version = loaded?.Version ?? Version;
+
+                var raceIds = await gw2ApiManager.Gw2ApiClient.V2.Races.IdsAsync();
+
+                var lang = GameService.Overlay.UserLocale.Value is Locale.Korean or Locale.Chinese ? Locale.English : GameService.Overlay.UserLocale.Value;
+                var localeMissing = Items.Values.Where(item => !string.IsNullOrEmpty(item.Name) && item.Names[lang] == null)?.Select(e => $"{e.Id}");
+                var missing = raceIds.Except(Items.Keys.Select(e => $"{e}")).Concat(localeMissing);
+
+                if (missing.Count() > 0)
+                {
+                    var idSets = missing.ToList().ChunkBy(200);
+                    saveRequired = saveRequired || idSets.Count > 0;
+
+                    BuildsManager.Logger.Debug($"Fetch a total of {missing.Count()} in {idSets.Count} sets.");
+                    var apiSkills = await gw2ApiManager.Gw2ApiClient.V2.Skills.AllAsync();
+
+                    foreach (var ids in idSets)
+                    {
+                        var items = await gw2ApiManager.Gw2ApiClient.V2.Races.ManyAsync(ids);
+
+                        foreach (var item in items)
+                        {
+                            bool exists = Items.Values.TryFind(e => $"{e.Id}" == item.Id, out Race entryItem);
+                            entryItem ??= new();
+
+                            entryItem.Apply(item, apiSkills);
+
+                            if (!exists)
+                                Items.Add((Races)Enum.Parse(typeof(Races), item.Id), entryItem);
+                        }
+                    }
+                }
+
+                if (saveRequired)
+                {
+                    BuildsManager.Logger.Debug($"Saving {name} .json");
+                    string json = JsonConvert.SerializeObject(this);
+                    File.WriteAllText(path, json);
+                }
+
                 return true;
             }
             catch (Exception ex)
