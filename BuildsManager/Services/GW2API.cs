@@ -477,7 +477,7 @@ namespace Kenedia.Modules.BuildsManager.Services
                 var traits = new Dictionary<int, Trait>();
                 foreach (var trait in apiTraits)
                 {
-                    traits.Add(trait.Id, new(trait, skills));
+                    traits.Add(trait.Id, new(trait));
                 }
 
                 var specializations = new Dictionary<int, Specialization>();

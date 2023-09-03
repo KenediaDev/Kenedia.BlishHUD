@@ -174,7 +174,7 @@ namespace Kenedia.Modules.BuildsManager.Services
             }
         }
     }
-    
+
     public class PvpAmuletMappedDataEntry : MappedDataEntry<int, PvpAmulet>
     {
         public async override Task<bool> LoadAndUpdate(string name, Version version, string path, Gw2ApiManager gw2ApiManager)
@@ -254,7 +254,7 @@ namespace Kenedia.Modules.BuildsManager.Services
             try
             {
                 bool saveRequired = false;
-                MappedDataEntry<int,  T> loaded = null;
+                MappedDataEntry<int, T> loaded = null;
 
                 if (!IsLoaded && File.Exists(path))
                 {
@@ -338,19 +338,22 @@ namespace Kenedia.Modules.BuildsManager.Services
                 Items = loaded?.Items ?? Items;
                 Version = loaded?.Version ?? Version;
 
+                var professionIds = await gw2ApiManager.Gw2ApiClient.V2.Professions.IdsAsync();
+                var professionTypes = professionIds.Select(value => Enum.TryParse(value, out ProfessionType profession) ? profession : ProfessionType.Guardian).Distinct();
+
                 var lang = GameService.Overlay.UserLocale.Value is Locale.Korean or Locale.Chinese ? Locale.English : GameService.Overlay.UserLocale.Value;
-                var fetchIds = Items.Values.Where(item => !string.IsNullOrEmpty(item.Name) && item.Names[lang] == null)?.Select(e => e.Id);
+                var localeMissing = Items.Values.Where(item => !string.IsNullOrEmpty(item.Name) && item.Names[lang] == null)?.Select(e => e.Id);
+                var missing = professionTypes.Except(Items.Keys).Concat(localeMissing);
 
-                if (fetchIds.Count() > 0)
+                if (missing.Count() > 0)
                 {
-                    var idSets = fetchIds.ToList().ChunkBy(200);
-
+                    var idSets = missing.ToList().ChunkBy(200);
                     saveRequired = saveRequired || idSets.Count > 0;
 
-                    BuildsManager.Logger.Debug($"Fetch a total of {fetchIds.Count()} in {idSets.Count} sets.");
+                    BuildsManager.Logger.Debug($"Fetch a total of {missing.Count()} in {idSets.Count} sets.");
 
                     var apiSpecializations = await gw2ApiManager.Gw2ApiClient.V2.Specializations.AllAsync();
-                    var apiLegends = fetchIds.Contains(ProfessionType.Revenant) ? await gw2ApiManager.Gw2ApiClient.V2.Legends.AllAsync() : null;
+                    var apiLegends = missing.Contains(ProfessionType.Revenant) ? await gw2ApiManager.Gw2ApiClient.V2.Legends.AllAsync() : null;
                     var apiTraits = await gw2ApiManager.Gw2ApiClient.V2.Traits.AllAsync();
                     var apiSkills = await gw2ApiManager.Gw2ApiClient.V2.Skills.AllAsync();
 
@@ -444,7 +447,7 @@ namespace Kenedia.Modules.BuildsManager.Services
 
         [EnumeratorMember]
         public StatMappedDataEntry Stats { get; } = new();
-        
+
         [EnumeratorMember]
         public PvpAmuletMappedDataEntry PvpAmulets { get; } = new();
 

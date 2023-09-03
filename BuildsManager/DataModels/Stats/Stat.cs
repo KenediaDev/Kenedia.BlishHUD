@@ -54,9 +54,6 @@ namespace Kenedia.Modules.BuildsManager.DataModels.Stats
             }
         }
 
-        [DataMember]
-        public EquipmentStat EquipmentStatType { get; set; }
-
         private bool TryGetTextureId(out int? id)
         {
             var foundId = BuildsManager.Data.StatMap.Find(e => e.Ids.Contains(Id))?.Stat;
@@ -74,8 +71,6 @@ namespace Kenedia.Modules.BuildsManager.DataModels.Stats
             {
                 Attributes[att.Attribute.ToEnum()] = new(att);
             }
-
-            EquipmentStatType = BuildsManager.Data.StatMap.Find(e => e.Ids.Contains(stat.Id)).Stat;
         }
 
         public void Dispose()

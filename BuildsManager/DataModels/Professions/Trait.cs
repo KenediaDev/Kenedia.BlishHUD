@@ -26,21 +26,6 @@ namespace Kenedia.Modules.BuildsManager.DataModels.Professions
             Apply(trait);
         }
 
-        public Trait(APITrait trait, Dictionary<int, Skill> skills) : this(trait)
-        {
-            if(trait.Skills is not null)
-            {
-                foreach(var s in trait.Skills)
-                {
-                    if(skills.TryGetValue(s.Id, out Skill skill))
-                    {
-                        // TODO: Add traited skills
-                        Skills.Add(skill.Id);
-                    }
-                }
-            }
-        }
-
         [DataMember]
         public int Id { get; set; }
 
@@ -130,6 +115,14 @@ namespace Kenedia.Modules.BuildsManager.DataModels.Professions
             Order = trait.Order;
             Type = trait.Slot.Value;
             ChatLink = trait.CreateChatLink();
+
+            if (trait.Skills is not null)
+            {
+                foreach (var s in trait.Skills)
+                {
+                    Skills.Add(s.Id);
+                }
+            }
         }
     }
 }

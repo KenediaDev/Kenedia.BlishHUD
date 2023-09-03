@@ -2,6 +2,7 @@
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Net.Http;
 using System.Text;
@@ -21,6 +22,7 @@ namespace Kenedia.Modules.BuildsManager.Services
                 using var httpClient = new HttpClient();
                 string content = await httpClient.GetStringAsync(Url);
 
+                Debug.WriteLine($"content {content}");
                 var info = JsonConvert.DeserializeObject<StaticVersion>(content);
                 return info;
             }

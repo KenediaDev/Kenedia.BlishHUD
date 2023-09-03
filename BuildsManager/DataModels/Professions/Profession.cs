@@ -362,7 +362,7 @@ namespace Kenedia.Modules.BuildsManager.DataModels.Professions
 
                 //Create Skills
                 var weaponSkills = prof.Weapons.SelectMany(weapon => weapon.Value.Skills).ToList();
-                foreach (var apiSkill in apiSkills)
+                foreach (var apiSkill in apiSkills.Where(skill => prof.Skills.FirstOrDefault(e => e.Id == skill.Id) is not null || weaponSkills.FirstOrDefault(e => e.Id == skill.Id) is not null))
                 {
                     bool exists = Skills.TryGetValue(apiSkill.Id, out Skill skill);
                     skill ??= new Skill();
@@ -379,7 +379,7 @@ namespace Kenedia.Modules.BuildsManager.DataModels.Professions
                 }
 
                 //Create Specializations
-                foreach (var apiSpecialization in apiSpecializations)
+                foreach (var apiSpecialization in apiSpecializations.Where(e => e.Profession == $"{professionType}"))
                 {
                     bool exists = Specializations.TryGetValue(apiSpecialization.Id, out Specialization specialization);
                     specialization ??= new Specialization();
@@ -393,6 +393,7 @@ namespace Kenedia.Modules.BuildsManager.DataModels.Professions
                 //Create Legends
                 if (professionType == ProfessionType.Revenant)
                 {
+                    Legends ??= new();
                     foreach (var apiLegend in apiLegends)
                     {
                         if (int.TryParse(apiLegend.Id.Replace("Legend", ""), out int id))
