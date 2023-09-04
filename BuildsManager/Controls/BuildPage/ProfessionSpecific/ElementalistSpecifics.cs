@@ -81,6 +81,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage.ProfessionSpecific
         protected override void OnClick(MouseEventArgs e)
         {
             base.OnClick(e);
+            if (true) return;
 
             if (_skills[0].Hovered)
             {
@@ -160,15 +161,15 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage.ProfessionSpecific
                 return skill;
             }
 
-            _skills[0].Skill = TemplatePresenter.Template.EliteSpecialization?.Id == (int) SpecializationType.Tempest && TemplatePresenter.MainAttunement  == AttunementType.Fire ? skills[29706] : GetSkill(SkillSlot.Profession1);
-            _skills[1].Skill = TemplatePresenter.Template.EliteSpecialization?.Id == (int)SpecializationType.Tempest && TemplatePresenter.MainAttunement == AttunementType.Water ? skills[29415] : GetSkill(SkillSlot.Profession2);
-            _skills[2].Skill = TemplatePresenter.Template.EliteSpecialization?.Id == (int)SpecializationType.Tempest && TemplatePresenter.MainAttunement == AttunementType.Air ? skills[29719] : GetSkill(SkillSlot.Profession3);
-            _skills[3].Skill = TemplatePresenter.Template.EliteSpecialization?.Id == (int)SpecializationType.Tempest && TemplatePresenter.MainAttunement == AttunementType.Earth ? skills[29618] : GetSkill(SkillSlot.Profession4);
+            _skills[0].Skill = TemplatePresenter.Template.EliteSpecialization?.Id == (int) SpecializationType.Tempest && TemplatePresenter.MainAttunement  == AttunementType.Fire ? skills.Values.FirstOrDefault(e => e.Id == 29706) : GetSkill(SkillSlot.Profession1);
+            _skills[1].Skill = TemplatePresenter.Template.EliteSpecialization?.Id == (int)SpecializationType.Tempest && TemplatePresenter.MainAttunement == AttunementType.Water ? skills.Values.FirstOrDefault(e => e.Id == 29415) : GetSkill(SkillSlot.Profession2);
+            _skills[2].Skill = TemplatePresenter.Template.EliteSpecialization?.Id == (int)SpecializationType.Tempest && TemplatePresenter.MainAttunement == AttunementType.Air ? skills.Values.FirstOrDefault(e => e.Id == 29719) : GetSkill(SkillSlot.Profession3);
+            _skills[3].Skill = TemplatePresenter.Template.EliteSpecialization?.Id == (int)SpecializationType.Tempest && TemplatePresenter.MainAttunement == AttunementType.Earth ? skills.Values.FirstOrDefault(e => e.Id == 29618) : GetSkill(SkillSlot.Profession4);
             _skills[4].Skill = 
-                TemplatePresenter.MainAttunement == AttunementType.Fire ? skills[62813] :
-                TemplatePresenter.MainAttunement == AttunementType.Water ? skills[62723] :
-                TemplatePresenter.MainAttunement == AttunementType.Air ? skills[62940] :
-                TemplatePresenter.MainAttunement == AttunementType.Earth? skills[62837] :
+                TemplatePresenter.MainAttunement == AttunementType.Fire ? skills.Values.FirstOrDefault(e => e.Id == 62813) :
+                TemplatePresenter.MainAttunement == AttunementType.Water ? skills.Values.FirstOrDefault(e => e.Id == 62723) :
+                TemplatePresenter.MainAttunement == AttunementType.Air ? skills.Values.FirstOrDefault(e => e.Id == 62940) :
+                TemplatePresenter.MainAttunement == AttunementType.Earth? skills.Values.FirstOrDefault(e => e.Id == 62837) :
                 null;
 
             _catalystEnergyColor = 

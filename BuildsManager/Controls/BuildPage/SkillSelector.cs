@@ -1,16 +1,20 @@
 ﻿using Kenedia.Modules.BuildsManager.DataModels.Professions;
 using Kenedia.Modules.Core.Extensions;
+using Kenedia.Modules.Core.Utility;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using Kenedia.Modules.Core.Models;
+using Kenedia.Modules.Core.DataModels;
 using Blish_HUD;
+using System.Diagnostics;
 
 namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
 {
     public class SkillSelector : Selector<Skill>
     {
         private readonly DetailedTexture _selectingFrame = new(157147);
+        private Enviroment _enviroment;
 
         public SkillSelector()
         {
@@ -19,11 +23,30 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
             SelectableSize = new(56);
         }
 
+        public Enviroment Enviroment { get => _enviroment; set => Common.SetProperty(ref _enviroment, value, OnEnviromentChanged); }
+
+        private void OnEnviromentChanged(object sender, Core.Models.ValueChangedEventArgs<Enviroment> e)
+        {
+            Controls.ForEach(c =>
+            {
+                if (c is SkillSelectable selectable)
+                {
+                    selectable.Enviroment = Enviroment;
+                }
+            });
+        }
+
         protected override void OnDataApplied(Skill item)
         {
             base.OnDataApplied(item);
 
-            Controls.ForEach(c => c.IsSelected = c.Data == SelectedItem);
+            Controls.ForEach(c =>
+            {
+                if (c is SkillSelectable selectable)
+                {
+                    selectable.IsSelected = c.Data == SelectedItem;
+                }
+            });
         }
         public override void PaintBeforeChildren(SpriteBatch spriteBatch, Rectangle bounds)
         {
@@ -59,7 +82,8 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
                 Data = item,
                 OnClickAction = OnClickAction,
                 IsSelected = PassSelected && item.Equals(SelectedItem),
-            };
+                Enviroment = Enviroment,
+        };
         }
 
         public override void RecalculateLayout()

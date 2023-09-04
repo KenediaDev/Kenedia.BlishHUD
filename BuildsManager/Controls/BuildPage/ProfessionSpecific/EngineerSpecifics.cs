@@ -231,18 +231,18 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage.ProfessionSpecific
                     _skills[0].Skill = Enviroment == Enviroment.Terrestrial ? skills[63089] : skills[63210];
                     //TODO add Mech Skills
 
-                    _skills[1].Skill = skills[63334];
-                    _skills[2].Skill = skills[63367];
-                    _skills[3].Skill = skills[63121];
+                    _skills[1].Skill = skills.Values.FirstOrDefault(e => e.Id == 63334);
+                    _skills[2].Skill = skills.Values.FirstOrDefault(e => e.Id == 63367);
+                    _skills[3].Skill = skills.Values.FirstOrDefault(e => e.Id == 63121);
 
                     break;
 
                 case (int)SpecializationType.Scrapper:
-                    _skills[4].Skill = skills[56920];
+                    _skills[4].Skill = skills.Values.FirstOrDefault(e => e.Id == 56920);
                     break;
 
                 case (int)SpecializationType.Holosmith:
-                    _skills[4].Skill = skills[42938];
+                    _skills[4].Skill = skills.Values.FirstOrDefault(e => e.Id == 42938);
                     break;
 
                 default:

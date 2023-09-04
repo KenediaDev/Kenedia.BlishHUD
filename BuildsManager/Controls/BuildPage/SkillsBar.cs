@@ -1,4 +1,5 @@
 ﻿using Blish_HUD.Controls;
+using Kenedia.Modules.Core.DataModels;
 using Blish_HUD.Input;
 using SkillSlot = Gw2Sharp.WebApi.V2.Models.SkillSlot;
 using Kenedia.Modules.BuildsManager.DataModels.Professions;
@@ -16,6 +17,7 @@ using Gw2Sharp;
 using System.Text.RegularExpressions;
 using Kenedia.Modules.BuildsManager.Res;
 using Gw2Sharp.Models;
+using System.Diagnostics;
 
 namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
 {
@@ -55,7 +57,8 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
                 {
                     SkillSlotType enviromentState = _selectorAnchor.Slot.GetEnviromentState();
                     bool terrestrial = _selectorAnchor.Slot.HasFlag(SkillSlotType.Terrestrial);
-                    if (terrestrial || TemplatePresenter.Template.Profession == Gw2Sharp.Models.ProfessionType.Revenant || !skill.Flags.HasFlag(SkillFlag.NoUnderwater))
+
+                    if (terrestrial || TemplatePresenter.Template.Profession == ProfessionType.Revenant || !skill.Flags.HasFlag(SkillFlag.NoUnderwater))
                     {
                         if (TemplatePresenter.Template.Skills.HasSkill(skill, enviromentState))
                         {
@@ -248,8 +251,10 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
             _skillSelector.SelectedItem = skillCtrl.Value.Skill;
 
             var slot = skillCtrl.Key;
+
             slot &= ~(SkillSlotType.Aquatic | SkillSlotType.Inactive | SkillSlotType.Terrestrial | SkillSlotType.Active);
             _skillSelector.Label = strings.ResourceManager.GetString($"{Regex.Replace($"{slot.ToString().Trim()}", @"[_0-9]", "")}Skills");
+            _skillSelector.Enviroment = skillCtrl.Key.HasFlag(SkillSlotType.Aquatic) ? Enviroment.Aquatic : Enviroment.Terrestrial;
 
             GetSelectableSkills(skillCtrl.Key);
         }
@@ -267,7 +272,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
             skillSlot.HasFlag(SkillSlotType.Heal) ? SkillSlot.Heal :
             SkillSlot.Elite;
 
-            if (TemplatePresenter?.Template?.Profession != Gw2Sharp.Models.ProfessionType.Revenant)
+            if (TemplatePresenter?.Template?.Profession != ProfessionType.Revenant)
             {
                 var skills = BuildsManager.Data.Professions[TemplatePresenter.Template.Profession].Skills;
                 var filteredSkills = skills.Where(e => e.Value.PaletteId > 0 && e.Value.Slot is not null && e.Value.Slot == slot && (e.Value.Specialization == 0 || TemplatePresenter.Template.HasSpecialization(e.Value.Specialization))).ToList();
@@ -275,7 +280,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
                 var racialSkills = TemplatePresenter.Template.Race != Core.DataModels.Races.None ? BuildsManager.Data.Races[TemplatePresenter.Template.Race]?.Skills.Where(e => e.Value.PaletteId > 0 && e.Value.Slot is not null && e.Value.Slot == slot).ToList() : new();
                 if (racialSkills is not null) filteredSkills.AddRange(racialSkills);
 
-                _skillSelector.SetItems(filteredSkills.Select(e => e.Value));
+                _skillSelector.SetItems(filteredSkills.OrderBy(e => e.Value.Categories).Select(e => e.Value));
             }
             else
             {

@@ -107,10 +107,13 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage.ProfessionSpecific
 
                 foreach (var item in skills.Values.Where(e => e.Slot == slot))
                 {
-                    skill ??= item.Specialization == TemplatePresenter?.Template.EliteSpecialization?.Id || item.Specialization == 0 ? item : skill;
-                    if (item.Specialization == TemplatePresenter?.Template?.EliteSpecialization?.Id && skill.Specialization == 0)
+                    if (item.Id is not 41380)
                     {
-                        skill = item;
+                        skill ??= item.Specialization == TemplatePresenter?.Template.EliteSpecialization?.Id || item.Specialization == 0 ? item : skill;
+                        if (item.Specialization == TemplatePresenter?.Template?.EliteSpecialization?.Id && skill.Specialization == 0)
+                        {
+                            skill = item;
+                        }
                     }
                 }
 

@@ -64,7 +64,9 @@ namespace Kenedia.Modules.BuildsManager.DataModels.Items
             {
                 if (_icon is not null) return _icon;
 
-                _icon = AsyncTexture2D.FromAssetId(AssetId);
+                if (AssetId is not 0)
+                    _icon = AsyncTexture2D.FromAssetId(AssetId);
+
                 return _icon;
             }
         }
@@ -109,7 +111,6 @@ namespace Kenedia.Modules.BuildsManager.DataModels.Items
         public virtual void Apply(Gw2Sharp.WebApi.V2.Models.PvpAmulet amulet)
         {
             Id = amulet.Id;
-            MappedId = (byte)amulet.Id;
             Name = amulet.Name;
             AssetId = amulet.Icon.GetAssetIdFromRenderUrl();
             DisplayText = amulet.Name;

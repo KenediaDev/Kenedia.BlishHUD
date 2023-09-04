@@ -149,11 +149,11 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage.ProfessionSpecific
                     break;
 
                 case (int)SpecializationType.Harbinger:
-                    _skills[0].Skill = skills[62567];
+                    _skills[0].Skill = skills.Values.FirstOrDefault(e => e.Id == 62567);
                     break;
 
                 case (int)SpecializationType.Reaper:
-                    _skills[0].Skill = skills[30792];
+                    _skills[0].Skill = skills.Values.FirstOrDefault(e => e.Id == 30792);
                     break;
 
                 default:

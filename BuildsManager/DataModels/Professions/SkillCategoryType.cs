@@ -5,7 +5,6 @@ namespace Kenedia.Modules.BuildsManager.DataModels.Professions
     [Flags]
     public enum SkillCategoryType : long
     {
-
         None = 0,
         Trap = 1L << 0,
         Turret = 1L << 1,

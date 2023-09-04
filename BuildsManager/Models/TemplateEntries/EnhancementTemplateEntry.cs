@@ -37,7 +37,7 @@ namespace Kenedia.Modules.BuildsManager.TemplateEntries
         {
             int newStartIndex = 1;
 
-            Enhancement = BuildsManager.Data.Utilities.Values.Where(e => e.MappedId == array[0]).FirstOrDefault();
+            Enhancement = BuildsManager.Data.Enhancements.Items.Values.Where(e => e.MappedId == array[0]).FirstOrDefault();
 
             return GearTemplateCode.RemoveFromStart(array, newStartIndex);
         }

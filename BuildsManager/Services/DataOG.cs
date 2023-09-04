@@ -20,17 +20,26 @@ using Version = SemVer.Version;
 using Kenedia.Modules.Core.Extensions;
 using Gw2Sharp.WebApi;
 using System.Diagnostics;
+using System.Runtime.Serialization;
+using Kenedia.Modules.Core.Utility;
 
 namespace Kenedia.Modules.BuildsManager.Services
 {
-    public class MappedDataEntry
+    [DataContract]
+    public class MappedDataEntry : IDisposable
     {
-        protected bool IsLoaded = false;
+        protected bool DataLoaded = false;
 
+        [DataMember]
         [JsonSemverVersion]
         public Version Version { get; set; } = new(0, 0, 0);
 
+        [DataMember]
         public Dictionary<string, object> Items { get; set; } = new();
+
+        public bool IsLoaded => DataLoaded;
+
+        public ByteIntMap Map { get; set; }
 
         public virtual Task<bool> LoadAndUpdate(string name, Version version, string path, Gw2ApiManager gw2ApiManager)
         {
@@ -46,10 +55,17 @@ namespace Kenedia.Modules.BuildsManager.Services
                 Items = entry.Items.ToDictionary(kvp => $"{kvp.Key}", kvp => (object)kvp.Value),
             };
         }
+
+        public void Dispose()
+        {
+            Items.Clear();
+            Items = null;
+        }
     }
 
     public class MappedDataEntry<Key, T> : MappedDataEntry where T : IDataMember, new()
     {
+        [DataMember]
         public new Dictionary<Key, T> Items { get; protected set; } = new();
 
         public T this[Key key]
@@ -94,7 +110,7 @@ namespace Kenedia.Modules.BuildsManager.Services
 
         public override async Task<bool> LoadAndUpdate(string name, Version version, string path, Gw2ApiManager gw2ApiManager)
         {
-            return await Task.FromResult(IsLoaded);
+            return await Task.FromResult(DataLoaded);
         }
     }
 
@@ -109,22 +125,28 @@ namespace Kenedia.Modules.BuildsManager.Services
 
                 BuildsManager.Logger.Debug($"Load {name}.json");
 
-                if (!IsLoaded && File.Exists(path))
+                if (!DataLoaded && File.Exists(path))
                 {
                     string json = File.ReadAllText(path);
                     loaded = JsonConvert.DeserializeObject<MappedDataEntry<int, Stat>>(json);
-                    IsLoaded = true;
+                    DataLoaded = true;
                 }
 
                 Items = loaded?.Items ?? Items;
                 Version = loaded?.Version ?? Version;
 
                 var lang = GameService.Overlay.UserLocale.Value is Locale.Korean or Locale.Chinese ? Locale.English : GameService.Overlay.UserLocale.Value;
-                var fetchIds = Items.Values.Where(item => !string.IsNullOrEmpty(item.Name) && item.Names[lang] == null)?.Select(e => e.Id);
+                var fetchIds = Items.Values.Where(item => (item.Names[lang] == null) || (item.MappedId == 0))?.Select(e => e.Id);
 
-                if (version > Version)
+                if (version > Version || Map is null)
                 {
-                    var Map = await StaticHosting.GetItemMap(name);
+                    Map = await StaticHosting.GetItemMap(name);
+                    if (Map is null)
+                    {
+                        BuildsManager.Logger.Debug($"Failed to map for {name}");
+                        return false;
+                    }
+
                     Version = Map.Version;
                     fetchIds = fetchIds.Concat(Map.Values.Except(Items.Keys));
                     saveRequired = true;
@@ -143,7 +165,10 @@ namespace Kenedia.Modules.BuildsManager.Services
                         foreach (var item in items)
                         {
                             bool exists = Items.Values.TryFind(e => e.Id == item.Id, out Stat entryItem);
-                            entryItem ??= new();
+                            entryItem ??= new()
+                            {
+                                MappedId = Map?.Items?.FirstOrDefault(e => e.Value == item.Id).Key ?? 0,
+                            };
 
                             entryItem?.Apply(item);
 
@@ -160,6 +185,7 @@ namespace Kenedia.Modules.BuildsManager.Services
                     File.WriteAllText(path, json);
                 }
 
+                DataLoaded = DataLoaded || Items.Count > 0;
                 return true;
             }
             catch (Exception ex)
@@ -181,22 +207,28 @@ namespace Kenedia.Modules.BuildsManager.Services
 
                 BuildsManager.Logger.Debug($"Load {name}.json");
 
-                if (!IsLoaded && File.Exists(path))
+                if (!DataLoaded && File.Exists(path))
                 {
                     string json = File.ReadAllText(path);
                     loaded = JsonConvert.DeserializeObject<MappedDataEntry<int, PvpAmulet>>(json);
-                    IsLoaded = true;
+                    DataLoaded = true;
                 }
 
                 Items = loaded?.Items ?? Items;
                 Version = loaded?.Version ?? Version;
 
                 var lang = GameService.Overlay.UserLocale.Value is Locale.Korean or Locale.Chinese ? Locale.English : GameService.Overlay.UserLocale.Value;
-                var fetchIds = Items.Values.Where(item => !string.IsNullOrEmpty(item.Name) && item.Names[lang] == null)?.Select(e => e.Id);
+                var fetchIds = Items.Values.Where(item => item.Names[lang] == null)?.Select(e => e.Id);
 
-                if (version > Version)
+                if (version > Version || Map is null)
                 {
-                    var Map = await StaticHosting.GetItemMap(name);
+                    Map = await StaticHosting.GetItemMap(name);
+                    if (Map is null)
+                    {
+                        BuildsManager.Logger.Debug($"Failed to map for {name}");
+                        return false;
+                    }
+
                     Version = Map.Version;
                     fetchIds = fetchIds.Concat(Map.Values.Except(Items.Keys));
                     saveRequired = true;
@@ -215,7 +247,10 @@ namespace Kenedia.Modules.BuildsManager.Services
                         foreach (var item in items)
                         {
                             bool exists = Items.Values.TryFind(e => e.Id == item.Id, out PvpAmulet entryItem);
-                            entryItem ??= new();
+                            entryItem ??= new()
+                            {
+                                MappedId = Map?.Items?.FirstOrDefault(e => e.Value == item.Id).Key ?? 0,
+                            };
 
                             entryItem?.Apply(item);
 
@@ -232,6 +267,7 @@ namespace Kenedia.Modules.BuildsManager.Services
                     File.WriteAllText(path, json);
                 }
 
+                DataLoaded = DataLoaded || Items.Count > 0;
                 return true;
             }
             catch (Exception ex)
@@ -253,22 +289,28 @@ namespace Kenedia.Modules.BuildsManager.Services
 
                 BuildsManager.Logger.Debug($"Load {name}.json");
 
-                if (!IsLoaded && File.Exists(path))
+                if (!DataLoaded && File.Exists(path))
                 {
                     string json = File.ReadAllText(path);
                     loaded = JsonConvert.DeserializeObject<MappedDataEntry<int, T>>(json);
-                    IsLoaded = true;
+                    DataLoaded = true;
                 }
 
                 Items = loaded?.Items ?? Items;
                 Version = loaded?.Version ?? Version;
 
                 var lang = GameService.Overlay.UserLocale.Value is Locale.Korean or Locale.Chinese ? Locale.English : GameService.Overlay.UserLocale.Value;
-                var fetchIds = Items.Values.Where(item => !string.IsNullOrEmpty(item.Name) && item.Names[lang] == null)?.Select(e => e.Id);
+                var fetchIds = Items.Values.Where(item => item.Names[lang] == null)?.Select(e => e.Id);
 
-                if (version > Version)
+                if (version > Version || Map is null)
                 {
-                    var Map = await StaticHosting.GetItemMap(name);
+                    Map = await StaticHosting.GetItemMap(name);
+                    if (Map is null)
+                    {
+                        BuildsManager.Logger.Debug($"Failed to map for {name}");
+                        return false;
+                    }
+
                     Version = Map.Version;
                     fetchIds = fetchIds.Concat(Map.Values.Except(Items.Keys));
                     saveRequired = true;
@@ -287,9 +329,18 @@ namespace Kenedia.Modules.BuildsManager.Services
                         foreach (var item in items)
                         {
                             bool exists = Items.Values.TryFind(e => e.Id == item.Id, out T entryItem);
-                            entryItem ??= new();
+                            entryItem ??= new()
+                            {
+                                MappedId = Map?.Items?.FirstOrDefault(e => e.Value == item.Id).Key ?? 0,
+                            };
 
                             entryItem?.Apply(item);
+
+                            if (entryItem is not null && Data.SkinDictionary.TryGetValue(item.Id, out int? assetId) && assetId is not null)
+                            {
+                                var skin = await gw2ApiManager.Gw2ApiClient.V2.Skins.GetAsync(assetId.Value);
+                                entryItem.AssetId = skin?.Icon.GetAssetIdFromRenderUrl() ?? 0;
+                            }
 
                             if (!exists)
                                 Items.Add(item.Id, entryItem);
@@ -304,6 +355,7 @@ namespace Kenedia.Modules.BuildsManager.Services
                     File.WriteAllText(path, json);
                 }
 
+                DataLoaded = DataLoaded || Items.Count > 0;
                 return true;
             }
             catch (Exception ex)
@@ -325,11 +377,11 @@ namespace Kenedia.Modules.BuildsManager.Services
 
                 BuildsManager.Logger.Debug($"Load {name}.json");
 
-                if (!IsLoaded && File.Exists(path))
+                if (!DataLoaded && File.Exists(path))
                 {
                     string json = File.ReadAllText(path);
                     loaded = JsonConvert.DeserializeObject<ProfessionDataEntry>(json);
-                    IsLoaded = true;
+                    DataLoaded = true;
                 }
 
                 Items = loaded?.Items ?? Items;
@@ -339,7 +391,7 @@ namespace Kenedia.Modules.BuildsManager.Services
                 var professionTypes = professionIds.Select(value => Enum.TryParse(value, out ProfessionType profession) ? profession : ProfessionType.Guardian).Distinct();
 
                 var lang = GameService.Overlay.UserLocale.Value is Locale.Korean or Locale.Chinese ? Locale.English : GameService.Overlay.UserLocale.Value;
-                var localeMissing = Items.Values.Where(item => !string.IsNullOrEmpty(item.Name) && item.Names[lang] == null)?.Select(e => e.Id);
+                var localeMissing = Items.Values.Where(item => item.Names[lang] == null)?.Select(e => e.Id);
                 var missing = professionTypes.Except(Items.Keys).Concat(localeMissing);
 
                 if (version > Version)
@@ -384,6 +436,7 @@ namespace Kenedia.Modules.BuildsManager.Services
                     File.WriteAllText(path, json);
                 }
 
+                DataLoaded = DataLoaded || Items.Count > 0;
                 return true;
             }
             catch (Exception ex)
@@ -396,6 +449,11 @@ namespace Kenedia.Modules.BuildsManager.Services
 
     public class RaceDataEntry : MappedDataEntry<Races, Race>
     {
+        public RaceDataEntry()
+        {
+            Items.Add(Races.None, new() { Name = "None", Id = Races.None });
+        }
+
         public async override Task<bool> LoadAndUpdate(string name, Version version, string path, Gw2ApiManager gw2ApiManager)
         {
             try
@@ -405,11 +463,11 @@ namespace Kenedia.Modules.BuildsManager.Services
 
                 BuildsManager.Logger.Debug($"Load {name}.json");
 
-                if (!IsLoaded && File.Exists(path))
+                if (!DataLoaded && File.Exists(path))
                 {
                     string json = File.ReadAllText(path);
                     loaded = JsonConvert.DeserializeObject<RaceDataEntry>(json);
-                    IsLoaded = true;
+                    DataLoaded = true;
                 }
 
                 Items = loaded?.Items ?? Items;
@@ -418,7 +476,7 @@ namespace Kenedia.Modules.BuildsManager.Services
                 var raceIds = await gw2ApiManager.Gw2ApiClient.V2.Races.IdsAsync();
 
                 var lang = GameService.Overlay.UserLocale.Value is Locale.Korean or Locale.Chinese ? Locale.English : GameService.Overlay.UserLocale.Value;
-                var localeMissing = Items.Values.Where(item => !string.IsNullOrEmpty(item.Name) && item.Names[lang] == null)?.Select(e => $"{e.Id}");
+                var localeMissing = Items.Values.Where(item => item.Names[lang] == null)?.Select(e => $"{e.Id}");
                 var missing = raceIds.Except(Items.Keys.Select(e => $"{e}")).Concat(localeMissing);
 
                 if (version > Version)
@@ -460,6 +518,7 @@ namespace Kenedia.Modules.BuildsManager.Services
                     File.WriteAllText(path, json);
                 }
 
+                DataLoaded = DataLoaded || Items.Count > 0;
                 return true;
             }
             catch (Exception ex)
@@ -481,11 +540,11 @@ namespace Kenedia.Modules.BuildsManager.Services
 
                 BuildsManager.Logger.Debug($"Load {name}.json");
 
-                if (!IsLoaded && File.Exists(path))
+                if (!DataLoaded && File.Exists(path))
                 {
                     string json = File.ReadAllText(path);
                     loaded = JsonConvert.DeserializeObject<PetDataEntry>(json);
-                    IsLoaded = true;
+                    DataLoaded = true;
                 }
 
                 Items = loaded?.Items ?? Items;
@@ -494,7 +553,7 @@ namespace Kenedia.Modules.BuildsManager.Services
                 var petIds = await gw2ApiManager.Gw2ApiClient.V2.Pets.IdsAsync();
 
                 var lang = GameService.Overlay.UserLocale.Value is Locale.Korean or Locale.Chinese ? Locale.English : GameService.Overlay.UserLocale.Value;
-                var localeMissing = Items.Values.Where(item => !string.IsNullOrEmpty(item.Name) && item.Names[lang] == null)?.Select(e => e.Id);
+                var localeMissing = Items.Values.Where(item => item.Names[lang] == null)?.Select(e => e.Id);
                 var missing = petIds.Except(Items.Keys).Concat(localeMissing);
 
                 if (version > Version)
@@ -534,6 +593,7 @@ namespace Kenedia.Modules.BuildsManager.Services
                     File.WriteAllText(path, json);
                 }
 
+                DataLoaded = DataLoaded || Items.Count > 0;
                 return true;
             }
             catch (Exception ex)
@@ -544,8 +604,63 @@ namespace Kenedia.Modules.BuildsManager.Services
         }
     }
 
-    public class Data
+    public class Data : IDisposable
     {
+        public static readonly Dictionary<int, int?> SkinDictionary = new()
+                {
+                    { 85105, 5013 }, //Axe
+                    { 85017, 4997 }, //Dagger
+                    { 85251, 4995 }, //Greatsword
+                    { 85060, 5022 }, //Hammer
+                    { 85267, 5005 }, //Mace
+                    { 85360, 5018 }, //Shield
+                    { 85250, 5020 }, //Sword
+                    { 84899, 5164 }, //Spear
+                    { 85052, 5000 }, //Shortbow
+                    { 84888, 4998 }, //Longbow
+                    { 85010, 5008 }, //Pistol
+                    { 85262, 5021 }, //Rifle
+                    { 85307, 5001 }, //Warhorn
+                    { 85323, 4992 }, //Torch
+                    { 85341, 4990 }, //Harpoon Gun
+                    { 84872, 4994 }, //Focus
+                    { 85117, 4989 }, //Scepter
+                    { 85026, 5019 }, //Staff
+                    { 85265, 5129 }, //Trident
+                    
+                    { 79895, 854 }, //Aqua Breather (Heavy)
+                    { 85193, 818 }, // Helm (Heavy)
+                    { 84875, 808 }, // Shoulder (Heavy)
+                    { 85084, 807 }, // Coat (Heavy)
+                    { 85140, 812 }, // Gloves (Heavy)
+                    { 84887, 797 }, // Leggings (Heavy)
+                    { 85055, 801 },  // Boots (Heavy)
+                    
+                    { 79838, 856 }, //Aqua Breather (Medium)
+                    { 80701, 817 }, // Helm (Medium)
+                    { 80825 , 805 }, // Shoulder (Medium)
+                    { 84977, 806 }, // Coat (Medium)
+                    { 85169, 811 }, // Gloves (Medium)
+                    { 85264, 796 }, // Leggings (Medium)
+                    { 80836, 799 }, // Boots (Medium)
+                    
+                    { 79873, 855 }, //Aqua Breather (Light)
+                    { 85128, 819 }, // Helm (Light)
+                    { 84918, 810 }, // Shoulder (Light)
+                    { 85333, 809 }, // Coat (Light)
+                    { 85070, 813 }, // Gloves (Light)
+                    { 85362, 798 }, // Leggings (Light)
+                    { 80815, 803 },  // Boots (Light)                    
+   
+                    { 94947, 10161 }, //Back
+                    { 79980, null }, // Amulet
+                    { 80002, null }, // Accessory
+                    { 80058, null },  // Ring
+
+                    //{ 0, null },  // Relic
+                };
+
+        private bool _isDisposed;
         private Paths _paths;
         private Gw2ApiManager _gw2ApiManager;
         private ContentsManager _contentsManager;
@@ -555,6 +670,24 @@ namespace Kenedia.Modules.BuildsManager.Services
             _paths = paths;
             _gw2ApiManager = gw2ApiManager;
             _contentsManager = contentsManager;
+        }
+
+        public event EventHandler Loaded;
+
+        public bool IsLoaded
+        {
+            get
+            {
+                foreach (var (name, map) in this)
+                {
+                    if (!map.IsLoaded)
+                    {
+                        return false;
+                    }
+                }
+
+                return true;
+            }
         }
 
         [EnumeratorMember]
@@ -628,29 +761,45 @@ namespace Kenedia.Modules.BuildsManager.Services
 
         public async Task<bool> Load()
         {
-            try
+            //try
+            //{
+            StaticVersion versions = await StaticHosting.GetStaticVersion();
+            if (versions is null)
+                return false;
+
+            bool failed = false;
+
+            foreach (var (name, map) in this)
             {
-                StaticVersion versions = await StaticHosting.GetStaticVersion();
-                if (versions is null)
-                    return false;
-
-                bool failed = false;
-
-                foreach (var (name, map) in this)
-                {
-                    string path = Path.Combine(_paths.ModuleDataPath, $"{name}.json");
-                    bool success = await map.LoadAndUpdate(name, versions[name], path, _gw2ApiManager);
-                    failed = failed || !success;
-                }
-
-                return !failed;
+                string path = Path.Combine(_paths.ModuleDataPath, $"{name}.json");
+                bool success = await map.LoadAndUpdate(name, versions[name], path, _gw2ApiManager);
+                failed = failed || !success;
             }
-            catch
-            {
 
-            }
+            if (!failed)
+                Loaded?.Invoke(this, EventArgs.Empty);
+
+            return !failed;
+            //}
+            //catch
+            //{
+
+            //}
 
             return false;
+        }
+
+        public void Dispose()
+        {
+            if (_isDisposed)
+                return;
+
+            _isDisposed = true;
+
+            foreach (var (_, map) in this)
+            {
+                map?.Dispose();
+            }
         }
     }
 

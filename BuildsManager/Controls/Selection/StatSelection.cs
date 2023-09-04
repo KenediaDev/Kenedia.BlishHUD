@@ -62,7 +62,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
             }
 
             StatSelectable selectable;
-            foreach (var stat in BuildsManager.Data.Stats)
+            foreach (var stat in BuildsManager.Data.Stats.Items)
             {
                 _stats.Add(selectable = new()
                 {

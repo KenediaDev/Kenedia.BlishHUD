@@ -65,7 +65,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
 
         private void Mouse_LeftMouseButtonPressed(object sender, MouseEventArgs e)
         {
-            if (!Hovered) Hide();
+            Hide();
         }
 
         public enum SelectionType

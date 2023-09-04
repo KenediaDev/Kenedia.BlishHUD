@@ -46,78 +46,6 @@ namespace Kenedia.Modules.BuildsManager.DataModels.Professions
             }
         }
 
-        public Skill(APISkill skill, Dictionary<int, int> paletteBySkills)
-        {
-            Id = skill.Id;
-            IconAssetId = skill.Icon.GetAssetIdFromRenderUrl();
-            Name = skill.Name;
-            Description = skill.Description;
-            Specialization = skill.Specialization is not null ? (int)skill.Specialization : 0;
-            ChatLink = skill.ChatLink;
-            Flags = skill.Flags.Count() > 0 ? skill.Flags.Aggregate((x, y) => x |= y.ToEnum()) : SkillFlag.Unknown;
-            Slot = skill.Slot?.ToEnum();
-            WeaponType = skill.WeaponType is not null ? (WeaponType)skill.WeaponType?.ToEnum() : null;
-
-            var missinCategories = new Dictionary<SkillCategoryType, List<int>>()
-            {
-                {SkillCategoryType.Preparation, new(){13057, 13026, 13038, 13056} }
-            };
-
-            foreach(var id in missinCategories.Values)
-            {
-                if (id.Contains(skill.Id))
-                {
-                    Categories |= missinCategories.FirstOrDefault(x => x.Value.Contains(skill.Id)).Key;
-                }
-            }
-
-            if (skill.Specialization is not null and not 0)
-            {
-                if (!Categories.HasFlag(SkillCategoryType.Specialization)) Categories |= SkillCategoryType.Specialization;
-            }
-            else if (skill.Professions.Count == 1 && skill.Professions.Contains("Engineer") && skill.BundleSkills is not null)
-            {
-                if (!Categories.HasFlag(SkillCategoryType.Kit)) Categories |= SkillCategoryType.Kit;
-            }
-            else if ((skill.Categories is not null && skill.Categories.Count > 0) || skill.Name.Contains('\"'))
-            {
-                if (skill.Name.Contains('\"') && !Categories.HasFlag(SkillCategoryType.Shout)) Categories |= SkillCategoryType.Shout;
-
-                if (skill.Categories is not null)
-                {
-                    foreach (string s in skill.Categories)
-                    {
-                        if (Enum.TryParse(s, out SkillCategoryType category))
-                        {
-                            if (!Categories.HasFlag(category)) Categories |= category;
-                        }
-                    }
-                }
-            }
-
-            BundleSkills = skill.BundleSkills is not null && skill.BundleSkills.Count > 0 ? skill.BundleSkills.ToList() : null;
-            FlipSkill = skill.FlipSkill is not null ? skill.FlipSkill : null;
-            ToolbeltSkill = skill.ToolbeltSkill is not null ? skill.ToolbeltSkill : null;
-            PrevChain = skill.PrevChain is not null ? skill.PrevChain : null;
-            NextChain = skill.NextChain is not null ? skill.NextChain : null;
-
-            if (paletteBySkills.TryGetValue(skill.Id, out int paletteId))
-            {
-                PaletteId = paletteId;
-            }
-
-            foreach (string profName in skill.Professions)
-            {
-                if (Enum.TryParse(profName, out ProfessionType profession))
-                {
-                    Professions.Add(profession);
-                }
-            }
-
-            Facts = skill.Facts?.ToList();
-            TraitedFacts = skill.TraitedFacts?.ToList();
-        }
-
         [DataMember]
         public LocalizedString Names { get; protected set; } = new();
 
@@ -150,7 +78,9 @@ namespace Kenedia.Modules.BuildsManager.DataModels.Professions
             {
                 if (_icon is not null) return _icon;
 
-                _icon = AsyncTexture2D.FromAssetId(IconAssetId);
+                if (IconAssetId is not 0)
+                    _icon = AsyncTexture2D.FromAssetId(IconAssetId);
+
                 return _icon;
             }
         }
@@ -180,7 +110,7 @@ namespace Kenedia.Modules.BuildsManager.DataModels.Professions
         public SkillFlag Flags { get; set; }
 
         [DataMember]
-        public SkillCategoryType Categories { get; set; }
+        public SkillCategoryType Categories { get; set; } = SkillCategoryType.None;
 
         [DataMember]
         public int? FlipSkill { get; set; }
@@ -209,7 +139,7 @@ namespace Kenedia.Modules.BuildsManager.DataModels.Professions
 
         internal static Skill FromUShort(ushort id, ProfessionType profession)
         {
-            foreach (var race in BuildsManager.Data.Races)
+            foreach (var race in BuildsManager.Data.Races.Items)
             {
                 var skill = race.Value.Skills.Where(e => e.Value.PaletteId == id).FirstOrDefault();
                 if (skill.Value is not null)
@@ -278,33 +208,36 @@ namespace Kenedia.Modules.BuildsManager.DataModels.Professions
                 {SkillCategoryType.Preparation, new(){13057, 13026, 13038, 13056} }
             };
 
-            foreach (var id in missinCategories.Values)
+            if (Categories == SkillCategoryType.None)
             {
-                if (id.Contains(skill.Id))
+                foreach (var id in missinCategories.Values)
                 {
-                    Categories |= missinCategories.FirstOrDefault(x => x.Value.Contains(skill.Id)).Key;
-                }
-            }
-
-            if (skill.Specialization is not null and not 0)
-            {
-                if (!Categories.HasFlag(SkillCategoryType.Specialization)) Categories |= SkillCategoryType.Specialization;
-            }
-            else if (skill.Professions.Count == 1 && skill.Professions.Contains("Engineer") && skill.BundleSkills is not null)
-            {
-                if (!Categories.HasFlag(SkillCategoryType.Kit)) Categories |= SkillCategoryType.Kit;
-            }
-            else if ((skill.Categories is not null && skill.Categories.Count > 0) || skill.Name.Contains('\"'))
-            {
-                if (skill.Name.Contains('\"') && !Categories.HasFlag(SkillCategoryType.Shout)) Categories |= SkillCategoryType.Shout;
-
-                if (skill.Categories is not null)
-                {
-                    foreach (string s in skill.Categories)
+                    if (id.Contains(skill.Id))
                     {
-                        if (Enum.TryParse(s, out SkillCategoryType category))
+                        Categories |= missinCategories.FirstOrDefault(x => x.Value.Contains(skill.Id)).Key;
+                    }
+                }
+
+                if (skill.Specialization is not null and not 0)
+                {
+                    if (!Categories.HasFlag(SkillCategoryType.Specialization)) Categories |= SkillCategoryType.Specialization;
+                }
+                else if (skill.Professions.Count == 1 && skill.Professions.Contains("Engineer") && skill.BundleSkills is not null)
+                {
+                    if (!Categories.HasFlag(SkillCategoryType.Kit)) Categories |= SkillCategoryType.Kit;
+                }
+                else if ((skill.Categories is not null && skill.Categories.Count > 0) || skill.Name.Contains('\"'))
+                {
+                    if (skill.Name.Contains('\"') && !Categories.HasFlag(SkillCategoryType.Shout)) Categories |= SkillCategoryType.Shout;
+
+                    if (skill.Categories is not null)
+                    {
+                        foreach (string s in skill.Categories)
                         {
-                            if (!Categories.HasFlag(category)) Categories |= category;
+                            if (Enum.TryParse(s, out SkillCategoryType category))
+                            {
+                                if (!Categories.HasFlag(category)) Categories |= category;
+                            }
                         }
                     }
                 }

@@ -90,7 +90,9 @@ namespace Kenedia.Modules.BuildsManager.DataModels.Professions
             {
                 if (_icon is not null) return _icon;
 
-                _icon = AsyncTexture2D.FromAssetId(IconAssetId);
+                if (IconAssetId is not 0)
+                    _icon = AsyncTexture2D.FromAssetId(IconAssetId);
+
                 return _icon;
             }
         }
@@ -103,7 +105,9 @@ namespace Kenedia.Modules.BuildsManager.DataModels.Professions
             {
                 if (_background is not null) return _background;
 
-                _background = AsyncTexture2D.FromAssetId(BackgroundAssetId);
+                if (BackgroundAssetId is not 0)
+                    _background = AsyncTexture2D.FromAssetId(BackgroundAssetId);
+
                 return _background;
             }
         }
@@ -116,7 +120,7 @@ namespace Kenedia.Modules.BuildsManager.DataModels.Professions
             {
                 if (_profession_icon is not null) return _profession_icon;
 
-                if (ProfessionIconAssetId is not null)
+                if (ProfessionIconAssetId is not null and not 0)
                 {
                     _profession_icon = AsyncTexture2D.FromAssetId((int)ProfessionIconAssetId);
                 }
@@ -131,7 +135,7 @@ namespace Kenedia.Modules.BuildsManager.DataModels.Professions
             get
             {
                 if (_profession_icon_big is not null) return _profession_icon_big;
-                if (ProfessionIconBigAssetId is not null)
+                if (ProfessionIconBigAssetId is not null and not 0)
                 {
                     _profession_icon_big = AsyncTexture2D.FromAssetId((int)ProfessionIconBigAssetId);
                 }

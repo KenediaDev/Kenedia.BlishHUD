@@ -61,9 +61,9 @@ namespace Kenedia.Modules.BuildsManager.TemplateEntries
         {
             int newStartIndex = 3;
 
-            Stat = BuildsManager.Data.Stats.Where(e => e.Value.MappedId == array[0]).FirstOrDefault().Value;
-            Infusion1 = BuildsManager.Data.Infusions.Where(e => e.Value.MappedId == array[1]).FirstOrDefault().Value;
-            Infusion2 = BuildsManager.Data.Infusions.Where(e => e.Value.MappedId == array[2]).FirstOrDefault().Value;
+            Stat = BuildsManager.Data.Stats.Items.Where(e => e.Value.MappedId == array[0]).FirstOrDefault().Value;
+            Infusion1 = BuildsManager.Data.Infusions.Items.Where(e => e.Value.MappedId == array[1]).FirstOrDefault().Value;
+            Infusion2 = BuildsManager.Data.Infusions.Items.Where(e => e.Value.MappedId == array[2]).FirstOrDefault().Value;
 
             return GearTemplateCode.RemoveFromStart(array, newStartIndex);
         }

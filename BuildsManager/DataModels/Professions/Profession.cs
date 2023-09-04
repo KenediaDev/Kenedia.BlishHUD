@@ -33,7 +33,9 @@ namespace Kenedia.Modules.BuildsManager.DataModels.Professions
             {
                 if (_icon is not null) return _icon;
 
-                _icon = AsyncTexture2D.FromAssetId(IconAssetId);
+                if (IconAssetId is not 0)
+                    _icon = AsyncTexture2D.FromAssetId(IconAssetId);
+
                 return _icon;
             }
         }
@@ -44,7 +46,9 @@ namespace Kenedia.Modules.BuildsManager.DataModels.Professions
             {
                 if (_iconBig is not null) return _iconBig;
 
-                _iconBig = AsyncTexture2D.FromAssetId(IconBigAssetId);
+                if (IconBigAssetId is not 0)
+                    _iconBig = AsyncTexture2D.FromAssetId(IconBigAssetId);
+
                 return _iconBig;
             }
         }
@@ -363,12 +367,16 @@ namespace Kenedia.Modules.BuildsManager.DataModels.Professions
 
                 //Create Skills
                 var weaponSkills = prof.Weapons.SelectMany(weapon => weapon.Value.Skills).ToList();
-                foreach (var apiSkill in apiSkills.Where(skill => prof.Skills.FirstOrDefault(e => e.Id == skill.Id) is not null || weaponSkills.FirstOrDefault(e => e.Id == skill.Id) is not null))
+                var skills = apiSkills.Where(skill => prof.Skills.FirstOrDefault(e => e.Id == skill.Id) is not null || weaponSkills.FirstOrDefault(e => e.Id == skill.Id) is not null);
+                skills = skills.Concat(apiSkills.Where(e => e.Professions.Count <= 2 && e.Professions.Contains($"{professionType}")).ToList()).Distinct();
+
+                foreach (var apiSkill in skills)
                 {
                     bool exists = Skills.TryGetValue(apiSkill.Id, out Skill skill);
                     skill ??= new Skill();
 
                     skill.Apply(apiSkill);
+                    skill.PaletteId = prof.SkillsByPalette.FirstOrDefault(e => e.Value == apiSkill.Id).Value;
 
                     if (weaponSkills.FirstOrDefault(e => e.Id == apiSkill.Id) is ProfessionWeaponSkill weaponSkill)
                     {
@@ -394,15 +402,11 @@ namespace Kenedia.Modules.BuildsManager.DataModels.Professions
                 //Create Legends
                 if (professionType == ProfessionType.Revenant)
                 {
-
-                    Debug.WriteLine($"LEGENDS");
                     Legends ??= new();
                     foreach (var apiLegend in apiLegends)
                     {
                         if (int.TryParse(apiLegend.Id.Replace("Legend", ""), out int id))
                         {
-
-                            Debug.WriteLine($"{apiLegend.Id} ID: {id}");
                             bool exists = Legends.TryGetValue(id, out Legend legend);
                             legend ??= new Legend();
 

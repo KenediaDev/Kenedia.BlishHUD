@@ -1,4 +1,5 @@
-﻿using Kenedia.Modules.BuildsManager.DataModels.Professions;
+﻿using Kenedia.Modules.BuildsManager.DataModels;
+using Kenedia.Modules.BuildsManager.DataModels.Professions;
 using Kenedia.Modules.Core.DataModels;
 using Kenedia.Modules.Core.Models;
 using System;
@@ -111,14 +112,17 @@ namespace Kenedia.Modules.BuildsManager.Models.Templates
             List<int> invalidIds = new();
             foreach (Races r in Enum.GetValues(typeof(Races)))
             {
-                if (r != race) invalidIds.AddRange(BuildsManager.Data.Races[r]?.Skills.Select(e => e.Value.Id));
+                if (r is not Races.None && r != race && BuildsManager.Data.Races.TryGetValue(r , out  Race skillRace))
+                {
+                    invalidIds.AddRange(skillRace?.Skills.Select(e => e.Value.Id));
+                }
             }
 
             foreach (var key in Keys.ToList())
             {
                 if (invalidIds.Contains(this[key]?.Id ?? 0))
                 {
-                    wiped = true;   
+                    wiped = true;
                     this[key] = default;
                 }
             }

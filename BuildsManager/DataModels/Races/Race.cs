@@ -100,9 +100,6 @@ namespace Kenedia.Modules.BuildsManager.DataModels
                         allSkillsSkill.Categories = Professions.SkillCategoryType.Racial;
                         skill.Categories = Professions.SkillCategoryType.Racial;
 
-
-                        Debug.WriteLine($"SET RACIAL FLAG: {Professions.SkillCategoryType.Racial} -  skill.Categories {skill.Categories}");
-
                         if (!exists)
                         {
                             Skills.Add(id, skill);

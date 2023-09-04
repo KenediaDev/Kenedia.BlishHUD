@@ -48,8 +48,8 @@ namespace Kenedia.Modules.BuildsManager.TemplateEntries
         {
             int newStartIndex = 2;
 
-            PvpAmulet = BuildsManager.Data.PvpAmulets.Values.Where(e => e.MappedId == array[0]).FirstOrDefault();
-            Rune = BuildsManager.Data.PvpRunes.Where(e => e.Value.MappedId == array[1]).FirstOrDefault().Value;
+            PvpAmulet = BuildsManager.Data.PvpAmulets.Items.Values.Where(e => e.MappedId == array[0]).FirstOrDefault();
+            Rune = BuildsManager.Data.PvpRunes.Items.Where(e => e.Value.MappedId == array[1]).FirstOrDefault().Value;
 
             return GearTemplateCode.RemoveFromStart(array, newStartIndex);
         }
