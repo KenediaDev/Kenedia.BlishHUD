@@ -181,6 +181,11 @@ namespace Kenedia.Modules.Core.Views
             }
         }
 
+        public override void PaintBeforeChildren(SpriteBatch spriteBatch, Rectangle bounds)
+        {
+            base.PaintBeforeChildren(spriteBatch, bounds);
+        }
+
         protected override void DisposeControl()
         {
             base.DisposeControl();

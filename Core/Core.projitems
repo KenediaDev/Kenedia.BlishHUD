@@ -9,6 +9,9 @@
     <Import_RootNamespace>Kenedia.Modules.Core</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)Attributes\JsonSemverVersionAttribute.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Attributes\EnumeratorMemberAttribute.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ContractResolver\SemverVersionContractResolver.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controls\AnchoredContainer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controls\BaseDialog.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controls\BasicTooltip.cs" />
@@ -53,10 +56,13 @@
     <Compile Include="$(MSBuildThisFileDirectory)Controls\TextBox.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controls\TitleHeader.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controls\TrackBar.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Converter\SemverVersionConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)DataModels\AttunementType.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)DataModels\SemverVersionConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)DataModels\BaseSkill.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)DataModels\ItemType.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)DataModels\Map.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)DataModels\DataEntry.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)DataModels\Race.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)DataModels\SkillConnection.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)DataModels\Specializations.cs" />

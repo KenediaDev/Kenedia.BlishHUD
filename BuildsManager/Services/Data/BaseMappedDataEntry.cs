@@ -1,11 +1,12 @@
 ﻿using Blish_HUD.Modules.Managers;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Kenedia.Modules.BuildsManager.Models;
-using Kenedia.Modules.BuildsManager.DataModels.Items;
 using Version = SemVer.Version;
+using Kenedia.Modules.Core.Models;
+using Kenedia.Modules.BuildsManager.DataModels.Items;
+using Kenedia.Modules.BuildsManager.Models;
+using System.Collections.Generic;
 using System.Runtime.Serialization;
 
 namespace Kenedia.Modules.BuildsManager.Services

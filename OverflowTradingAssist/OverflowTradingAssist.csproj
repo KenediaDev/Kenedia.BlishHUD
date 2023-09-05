@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{97BAA4DC-B0B1-46EA-B076-1B036DCF71F3}</ProjectGuid>
+    <ProjectGuid>{8A030398-CB00-48DC-9885-5E9E0AAF185D}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Kenedia.Modules.BuildsManager</RootNamespace>
-    <AssemblyName>Kenedia.Modules.BuildsManager</AssemblyName>
+    <RootNamespace>Kenedia.Modules.OverflowTradingAssist</RootNamespace>
+    <AssemblyName>Kenedia.Modules.OverflowTradingAssist</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <LangVersion>latest</LangVersion>
     <FileAlignment>512</FileAlignment>
@@ -40,27 +40,21 @@
     </Reference>
     <Reference Include="Blish HUD, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\BlishHUD.1.0.0\lib\net472\Blish HUD.exe</HintPath>
-      <Private>False</Private>
     </Reference>
     <Reference Include="Gapotchenko.FX, Version=2022.2.7.4096, Culture=neutral, PublicKeyToken=a750ee378eaf756f, processorArchitecture=MSIL">
       <HintPath>..\packages\Gapotchenko.FX.2022.2.7\lib\net472\Gapotchenko.FX.dll</HintPath>
-      <Private>False</Private>
     </Reference>
     <Reference Include="Gapotchenko.FX.Diagnostics.CommandLine, Version=2022.2.7.4096, Culture=neutral, PublicKeyToken=a750ee378eaf756f, processorArchitecture=MSIL">
       <HintPath>..\packages\Gapotchenko.FX.Diagnostics.CommandLine.2022.2.7\lib\net472\Gapotchenko.FX.Diagnostics.CommandLine.dll</HintPath>
-      <Private>False</Private>
     </Reference>
     <Reference Include="Gapotchenko.FX.Diagnostics.Process, Version=2022.2.7.4096, Culture=neutral, PublicKeyToken=a750ee378eaf756f, processorArchitecture=MSIL">
       <HintPath>..\packages\Gapotchenko.FX.Diagnostics.Process.2022.2.7\lib\net472\Gapotchenko.FX.Diagnostics.Process.dll</HintPath>
-      <Private>False</Private>
     </Reference>
     <Reference Include="Gapotchenko.FX.Text, Version=2022.2.7.4096, Culture=neutral, PublicKeyToken=a750ee378eaf756f, processorArchitecture=MSIL">
       <HintPath>..\packages\Gapotchenko.FX.Text.2022.2.7\lib\net472\Gapotchenko.FX.Text.dll</HintPath>
-      <Private>False</Private>
     </Reference>
     <Reference Include="Gapotchenko.FX.Threading, Version=2022.2.7.4096, Culture=neutral, PublicKeyToken=a750ee378eaf756f, processorArchitecture=MSIL">
       <HintPath>..\packages\Gapotchenko.FX.Threading.2022.2.7\lib\net472\Gapotchenko.FX.Threading.dll</HintPath>
-      <Private>False</Private>
     </Reference>
     <Reference Include="Gw2Sharp, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Gw2Sharp.1.7.4\lib\netstandard2.0\Gw2Sharp.dll</HintPath>
@@ -71,19 +65,15 @@
     </Reference>
     <Reference Include="Microsoft.IdentityModel.Abstractions, Version=6.27.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.IdentityModel.Abstractions.6.27.0\lib\net472\Microsoft.IdentityModel.Abstractions.dll</HintPath>
-      <Private>False</Private>
     </Reference>
     <Reference Include="Microsoft.IdentityModel.JsonWebTokens, Version=6.27.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.IdentityModel.JsonWebTokens.6.27.0\lib\net472\Microsoft.IdentityModel.JsonWebTokens.dll</HintPath>
-      <Private>False</Private>
     </Reference>
     <Reference Include="Microsoft.IdentityModel.Logging, Version=6.27.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.IdentityModel.Logging.6.27.0\lib\net472\Microsoft.IdentityModel.Logging.dll</HintPath>
-      <Private>False</Private>
     </Reference>
     <Reference Include="Microsoft.IdentityModel.Tokens, Version=6.27.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.IdentityModel.Tokens.6.27.0\lib\net472\Microsoft.IdentityModel.Tokens.dll</HintPath>
-      <Private>False</Private>
     </Reference>
     <Reference Include="Microsoft.Win32.Primitives" />
     <Reference Include="MonoGame.Extended, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
@@ -108,15 +98,12 @@
     </Reference>
     <Reference Include="Ookii.Dialogs.WinForms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=66aa232afad40158, processorArchitecture=MSIL">
       <HintPath>..\packages\Ookii.Dialogs.WinForms.4.0.0\lib\net462\Ookii.Dialogs.WinForms.dll</HintPath>
-      <Private>False</Private>
     </Reference>
     <Reference Include="protobuf-net, Version=3.0.0.0, Culture=neutral, PublicKeyToken=257b51d87d2e4d67, processorArchitecture=MSIL">
       <HintPath>..\packages\protobuf-net.3.2.12\lib\net462\protobuf-net.dll</HintPath>
-      <Private>False</Private>
     </Reference>
     <Reference Include="protobuf-net.Core, Version=3.0.0.0, Culture=neutral, PublicKeyToken=257b51d87d2e4d67, processorArchitecture=MSIL">
       <HintPath>..\packages\protobuf-net.Core.3.2.12\lib\net462\protobuf-net.Core.dll</HintPath>
-      <Private>False</Private>
     </Reference>
     <Reference Include="SemVer, Version=1.2.2.0, Culture=neutral, PublicKeyToken=a89bb7dc6f7a145c, processorArchitecture=MSIL">
       <HintPath>..\packages\SemanticVersioning.1.2.2\lib\net45\SemVer.dll</HintPath>
@@ -166,7 +153,6 @@
     </Reference>
     <Reference Include="System.Collections.Immutable, Version=7.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Collections.Immutable.7.0.0\lib\net462\System.Collections.Immutable.dll</HintPath>
-      <Private>False</Private>
     </Reference>
     <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.Console" />
@@ -182,7 +168,6 @@
     <Reference Include="System.IdentityModel" />
     <Reference Include="System.IdentityModel.Tokens.Jwt, Version=6.27.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\System.IdentityModel.Tokens.Jwt.6.27.0\lib\net472\System.IdentityModel.Tokens.Jwt.dll</HintPath>
-      <Private>False</Private>
     </Reference>
     <Reference Include="System.IO" />
     <Reference Include="System.IO.Compression" />
@@ -231,7 +216,6 @@
     </Reference>
     <Reference Include="System.Text.Json, Version=7.0.0.2, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Text.Json.7.0.2\lib\net462\System.Text.Json.dll</HintPath>
-      <Private>False</Private>
     </Reference>
     <Reference Include="System.Text.RegularExpressions" />
     <Reference Include="System.Threading.Tasks.Extensions, Version=4.2.0.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
@@ -255,180 +239,14 @@
     <Reference Include="System.Xml.ReaderWriter" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Controls\BuildPage\BuildPage.cs" />
-    <Compile Include="Controls\BuildPage\LegendSelectable.cs" />
-    <Compile Include="Controls\BuildPage\LegendSelector.cs" />
-    <Compile Include="Controls\BuildPage\PetSelectable.cs" />
-    <Compile Include="Controls\BuildPage\PetSelector.cs" />
-    <Compile Include="Controls\BuildPage\PetTooltip.cs" />
-    <Compile Include="Controls\BuildPage\ProfessionSpecific\LegendIcon.cs" />
-    <Compile Include="Controls\BuildPage\Selectable.cs" />
-    <Compile Include="Controls\BuildPage\SkillControl.cs" />
-    <Compile Include="Controls\BuildPage\SkillSelectable.cs" />
-    <Compile Include="Controls\BuildPage\SkillSelector.cs" />
-    <Compile Include="DataModels\Converter\RelicConverter.cs" />
-    <Compile Include="DataModels\Items\PowerCore.cs" />
-    <Compile Include="DataModels\Items\PvpAmulet.cs" />
-    <Compile Include="DataModels\Items\Relic.cs" />
-    <Compile Include="Interfaces\IBaseApiData.cs" />
-    <Compile Include="Controls\BuildPage\LegendSlotSkillSlotCollection.cs" />
-    <Compile Include="Controls\BuildPage\ProfessionSpecifics.cs" />
-    <Compile Include="Controls\BuildPage\ProfessionSpecific\ElementalistSpecifics.cs" />
-    <Compile Include="Controls\BuildPage\ProfessionSpecific\EngineerSpecifics.cs" />
-    <Compile Include="Controls\BuildPage\ProfessionSpecific\GuardianSpecifics.cs" />
-    <Compile Include="Controls\BuildPage\ProfessionSpecific\MesmerSpecifics.cs" />
-    <Compile Include="Controls\BuildPage\ProfessionSpecific\NecromancerSpecifics.cs" />
-    <Compile Include="Controls\BuildPage\ProfessionSpecific\PetIcon.cs" />
-    <Compile Include="Controls\BuildPage\ProfessionSpecific\RangerSpecifics.cs" />
-    <Compile Include="Controls\BuildPage\ProfessionSpecific\RevenantSpecifics.cs" />
-    <Compile Include="Controls\BuildPage\ProfessionSpecific\ThiefSpecifics.cs" />
-    <Compile Include="Controls\BuildPage\ProfessionSpecific\WarriorSpecifics.cs" />
-    <Compile Include="Controls\BuildPage\SelectableSkillIconCollection.cs" />
-    <Compile Include="Controls\BuildPage\SelectableType.cs" />
-    <Compile Include="Controls\BuildPage\Selector.cs" />
-    <Compile Include="Controls\BuildPage\SkillIcon.cs" />
-    <Compile Include="Controls\BuildPage\SkillControlCollection.cs" />
-    <Compile Include="Controls\BuildPage\SkillsBar.cs" />
-    <Compile Include="Controls\BuildPage\SkillSlotCollection.cs" />
-    <Compile Include="Controls\BuildPage\SkillTooltip.cs" />
-    <Compile Include="Controls\BuildPage\SpecLine.cs" />
-    <Compile Include="Controls\BuildPage\TraitIcon.cs" />
-    <Compile Include="Controls\BuildPage\TraitTooltip.cs" />
-    <Compile Include="Controls\BuildPage\WeaponSkillIconCollection.cs" />
-    <Compile Include="Controls\GearPage\GearSlots\AccessoireSlot.cs" />
-    <Compile Include="Controls\GearPage\GearSlots\AmuletSlot.cs" />
-    <Compile Include="Controls\GearPage\GearSlots\AquaticWeaponSlot.cs" />
-    <Compile Include="Controls\GearPage\GearSlots\ArmorSlot.cs" />
-    <Compile Include="Controls\GearPage\GearSlots\BackSlot.cs" />
-    <Compile Include="Controls\GearPage\GearSlots\GearSlot.cs" />
-    <Compile Include="Controls\GearPage\GearSlots\PowerCoreSlot.cs" />
-    <Compile Include="Controls\GearPage\GearSlots\NourishmentSlot.cs" />
-    <Compile Include="Controls\GearPage\GearSlots\PvpAmuletSlot.cs" />
-    <Compile Include="Controls\GearPage\GearSlots\RelicSlot.cs" />
-    <Compile Include="Controls\GearPage\GearSlots\RingSlot.cs" />
-    <Compile Include="Controls\GearPage\GearSlots\EnhancementSlot.cs" />
-    <Compile Include="Controls\GearPage\GearSlots\WeaponSlot.cs" />
-    <Compile Include="Controls\GearPage\ItemControl.cs" />
-    <Compile Include="Controls\GearPage\ItemTexture.cs" />
-    <Compile Include="Controls\AboutPage\AboutPage.cs" />
-    <Compile Include="Controls\GearPage\ItemTooltip.cs" />
-    <Compile Include="Controls\Selection\AttributeToggle.cs" />
-    <Compile Include="Controls\Selection\BaseSelection.cs" />
-    <Compile Include="Controls\Selection\BuildSelection.cs" />
-    <Compile Include="Controls\GearPage\GearPage.cs" />
-    <Compile Include="Controls\Selection\GearSelection.cs" />
-    <Compile Include="Controls\Selection\ProfessionRaceSelectable.cs" />
-    <Compile Include="Controls\Selection\ProfessionRaceSelection.cs" />
-    <Compile Include="Controls\Selection\ProfessionToggle.cs" />
-    <Compile Include="Controls\Selection\Selectable.cs" />
-    <Compile Include="Controls\Selection\SelectionPanel.cs" />
-    <Compile Include="Controls\Selection\StatSelectable.cs" />
-    <Compile Include="Controls\Selection\StatSelection.cs" />
-    <Compile Include="Controls\Selection\TagTexture.cs" />
-    <Compile Include="Controls\Selection\TemplateSelectable.cs" />
-    <Compile Include="Controls\TabbedRegion.cs" />
-    <Compile Include="Controls\TabbedRegionTab.cs" />
-    <Compile Include="DataModels\Items\BaseItem.cs" />
-    <Compile Include="DataModels\Items\BonusStat.cs" />
-    <Compile Include="DataModels\Items\BonusType.cs" />
-    <Compile Include="DataModels\Items\ConsumableDetails.cs" />
-    <Compile Include="DataModels\Items\Enrichment.cs" />
-    <Compile Include="DataModels\Items\Infusion.cs" />
-    <Compile Include="DataModels\Items\Nourishment.cs" />
-    <Compile Include="DataModels\Items\Rune.cs" />
-    <Compile Include="DataModels\Items\RuneBonuses.cs" />
-    <Compile Include="DataModels\Items\Sigil.cs" />
-    <Compile Include="DataModels\Items\StatConversion.cs" />
-    <Compile Include="DataModels\Items\Enhancement.cs" />
-    <Compile Include="DataModels\Items\Armor.cs" />
-    <Compile Include="DataModels\Items\EquipmentItem.cs" />
-    <Compile Include="DataModels\Items\Trinket.cs" />
-    <Compile Include="DataModels\Items\Weapon.cs" />
-    <Compile Include="DataModels\Professions\Legend.cs" />
-    <Compile Include="DataModels\Professions\Pet.cs" />
-    <Compile Include="DataModels\Professions\Profession.cs" />
-    <Compile Include="DataModels\Professions\Skill.cs" />
-    <Compile Include="DataModels\Professions\SkillCategoryType.cs" />
-    <Compile Include="DataModels\Professions\Skillfacts\SkillFact.cs" />
-    <Compile Include="DataModels\Professions\Specialization.cs" />
-    <Compile Include="DataModels\Professions\Trait.cs" />
-    <Compile Include="DataModels\Professions\Weapon.cs" />
-    <Compile Include="DataModels\Races\Race.cs" />
-    <Compile Include="DataModels\Stats\Attribute.cs" />
-    <Compile Include="DataModels\Stats\EquipmentStat.cs" />
-    <Compile Include="DataModels\Stats\Stat.cs" />
-    <Compile Include="DataModels\Stats\StatAttribute.cs" />
-    <Compile Include="DataModels\Stats\StatAttributes.cs" />
-    <Compile Include="Extensions\ChatLinkExtension.cs" />
-    <Compile Include="Extensions\ItemDescriptionStringExtension.cs" />
-    <Compile Include="Interfaces\ITemplateContainer.cs" />
-    <Compile Include="Models\GameModeType.cs" />
-    <Compile Include="Models\GearArrayIndex.cs" />
-    <Compile Include="Models\BasicItemMap.cs" />
+    <Compile Include="DataModels\Item.cs" />
+    <Compile Include="Models\Trade.cs" />
+    <Compile Include="OverflowTradingAssist.cs" />
     <Compile Include="Models\Paths.cs" />
-    <Compile Include="Models\StaticVersion.cs" />
-    <Compile Include="Models\TemplateEntries\AccessoireTemplateEntry.cs" />
-    <Compile Include="Models\TemplateEntries\AmuletTemplateEntry.cs" />
-    <Compile Include="Models\TemplateEntries\AquaticWeaponTemplateEntry.cs" />
-    <Compile Include="Models\TemplateEntries\ArmorTemplateEntry.cs" />
-    <Compile Include="Models\TemplateEntries\BackTemplateEntry.cs" />
-    <Compile Include="Models\TemplateEntries\PowerCoreTemplateEntry.cs" />
-    <Compile Include="Models\TemplateEntries\NourishmentTemplateEntry.cs" />
-    <Compile Include="Models\TemplateEntries\PvpAmuletTemplateEntry.cs" />
-    <Compile Include="Models\TemplateEntries\RelicTemplateEntry.cs" />
-    <Compile Include="Models\TemplateEntries\RingTemplateEntry.cs" />
-    <Compile Include="Models\TemplateEntries\TemplateEntry.cs" />
-    <Compile Include="Models\TemplateEntries\EnhancementTemplateEntry.cs" />
-    <Compile Include="Models\TemplateEntries\WeaponTemplateEntry.cs" />
-    <Compile Include="Models\Templates\SkillCollection.cs" />
-    <Compile Include="Models\Templates\SkillSlotType.cs" />
-    <Compile Include="Models\Templates\SkillSlotExtension.cs" />
-    <Compile Include="Models\Templates\TemplateSlotType.cs" />
-    <Compile Include="Models\Templates\WeaponSkillSlot.cs" />
-    <Compile Include="Res\strings.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>strings.resx</DependentUpon>
-    </Compile>
-    <Compile Include="Services\Data\BaseMappedDataEntry.cs" />
-    <Compile Include="Services\Data\ItemMappedDataEntry.cs" />
-    <Compile Include="Services\Data\MappedDataEntry.cs" />
-    <Compile Include="Services\Data\PetDataEntry.cs" />
-    <Compile Include="Services\Data\ProfessionDataEntry.cs" />
-    <Compile Include="Services\Data\PvpAmuletMappedDataEntry.cs" />
-    <Compile Include="Services\Data\RaceDataEntry.cs" />
-    <Compile Include="Services\StaticHosting.cs" />
-    <Compile Include="Services\StatMap.cs" />
-    <Compile Include="Services\StatMappedDataEntry.cs" />
-    <Compile Include="Services\StatMapping.cs" />
-    <Compile Include="Utility\GearTemplateCode.cs" />
-    <Compile Include="DataModels\Converter\PowerCoreConverter.cs" />
-    <Compile Include="Utility\SkillSlotConversion.cs" />
-    <Compile Include="Utility\TemplateConverter.cs" />
-    <Compile Include="Models\TemplatePresenter.cs" />
-    <Compile Include="Models\Templates\BuildSkillSlotType.cs" />
-    <Compile Include="Models\Templates\BuildSpecialization.cs" />
-    <Compile Include="Models\Templates\EncounterFlag.cs" />
-    <Compile Include="Models\Templates\GearSubSlotType.cs" />
-    <Compile Include="Models\Templates\LegendCollection.cs" />
-    <Compile Include="Models\Templates\LegendSlotType.cs" />
-    <Compile Include="Models\Templates\PetCollection.cs" />
-    <Compile Include="Models\Templates\PetSlotType.cs" />
-    <Compile Include="Models\Templates\SpecializationCollection.cs" />
-    <Compile Include="Models\Templates\SpecializationSlotType.cs" />
-    <Compile Include="Models\Templates\TemplateFlag.cs" />
-    <Compile Include="Models\Templates\TemplateTagTextures.cs" />
-    <Compile Include="Models\Templates\TraitCollection.cs" />
-    <Compile Include="Models\Templates\TraitTierType.cs" />
-    <Compile Include="Models\Template.cs" />
+    <Compile Include="Models\TradePresenter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="BuildsManager.cs" />
     <Compile Include="Services\Data.cs" />
-    <Compile Include="Services\GW2API.cs" />
-    <Compile Include="Models\ItemMapping.cs" />
-    <Compile Include="Services\Settings.cs" />
-    <Compile Include="Utility\StatUtility.cs" />
-    <Compile Include="Utility\WeaponTypeConversion.cs" />
+    <Compile Include="Services\Data\HostedItems.cs" />
     <Compile Include="Views\MainWindow.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -521,93 +339,10 @@
     <None Include="Content\bin\Windows\Content\fonts\newkrytan\newkrytan-12-regular_1.xnb" />
     <None Include="manifest.json" />
     <None Include="packages.config" />
-    <None Include="ref\data\ItemMapping.json" />
-    <None Include="ref\data\xItemMapping.json" />
-    <None Include="ref\data\missing_skills.json" />
-    <None Include="ref\data\rune_ids.json" />
-    <None Include="ref\data\sigil_ids.json" />
-    <None Include="ref\data\skill_connections.json" />
-  </ItemGroup>
-  <ItemGroup />
-  <ItemGroup>
-    <Content Include="ref\textures\equipment_stats\11.png" />
-    <Content Include="ref\textures\equipment_stats\37.png" />
-    <Content Include="ref\textures\equipment_stats\38.png" />
-    <Content Include="ref\textures\equipment_stats\Apothecarys.png" />
-    <Content Include="ref\textures\equipment_stats\Assassins.png" />
-    <Content Include="ref\textures\equipment_stats\Berserkers.png" />
-    <Content Include="ref\textures\equipment_stats\BerserkerValkyrie.png" />
-    <Content Include="ref\textures\equipment_stats\Bringers.png" />
-    <Content Include="ref\textures\equipment_stats\Captains.png" />
-    <Content Include="ref\textures\equipment_stats\Carrion.png" />
-    <Content Include="ref\textures\equipment_stats\Cavaliers.png" />
-    <Content Include="ref\textures\equipment_stats\Celestial.png" />
-    <Content Include="ref\textures\equipment_stats\Clerics.png" />
-    <Content Include="ref\textures\equipment_stats\Commanders.png" />
-    <Content Include="ref\textures\equipment_stats\Crusader.png" />
-    <Content Include="ref\textures\equipment_stats\Dire.png" />
-    <Content Include="ref\textures\equipment_stats\DireRabid.png" />
-    <Content Include="ref\textures\equipment_stats\Diviners.png" />
-    <Content Include="ref\textures\equipment_stats\Dragons.png" />
-    <Content Include="ref\textures\equipment_stats\Givers.png" />
-    <Content Include="ref\textures\equipment_stats\Grieving.png" />
-    <Content Include="ref\textures\equipment_stats\Harriers.png" />
-    <Content Include="ref\textures\equipment_stats\icons.png" />
-    <Content Include="ref\textures\equipment_stats\Knights.png" />
-    <Content Include="ref\textures\equipment_stats\Magis.png" />
-    <Content Include="ref\textures\equipment_stats\Marauder.png" />
-    <Content Include="ref\textures\equipment_stats\Marshals.png" />
-    <Content Include="ref\textures\equipment_stats\Minstrels.png" />
-    <Content Include="ref\textures\equipment_stats\Nomads.png" />
-    <Content Include="ref\textures\equipment_stats\Plaguedoctors.png" />
-    <Content Include="ref\textures\equipment_stats\Rabid.png" />
-    <Content Include="ref\textures\equipment_stats\RabidApothecary.png" />
-    <Content Include="ref\textures\equipment_stats\Rampagers.png" />
-    <Content Include="ref\textures\equipment_stats\Ritualists.png" />
-    <Content Include="ref\textures\equipment_stats\Sentinels.png" />
-    <Content Include="ref\textures\equipment_stats\Seraph.png" />
-    <Content Include="ref\textures\equipment_stats\Settlers.png" />
-    <Content Include="ref\textures\equipment_stats\Shamans.png" />
-    <Content Include="ref\textures\equipment_stats\Sinister.png" />
-    <Content Include="ref\textures\equipment_stats\Soldiers.png" />
-    <Content Include="ref\textures\equipment_stats\Trailblazers.png" />
-    <Content Include="ref\textures\equipment_stats\Valkyrie.png" />
-    <Content Include="ref\textures\equipment_stats\Vigilant.png" />
-    <Content Include="ref\textures\equipment_stats\Vipers.png" />
-    <Content Include="ref\textures\equipment_stats\Wanderers.png" />
-    <Content Include="ref\textures\equipment_stats\Zealots.png" />
-    <Content Include="ref\textures\foodslot.png" />
-    <Content Include="ref\textures\infusionslot.png" />
-    <Content Include="ref\textures\mainwindow_background.png" />
-    <Content Include="ref\textures\races\asura.png" />
-    <Content Include="ref\textures\races\asura_hovered.png" />
-    <Content Include="ref\textures\races\charr.png" />
-    <Content Include="ref\textures\races\charr_hovered.png" />
-    <Content Include="ref\textures\races\human.png" />
-    <Content Include="ref\textures\races\human_hovered.png" />
-    <Content Include="ref\textures\races\norn.png" />
-    <Content Include="ref\textures\races\norn_hovered.png" />
-    <Content Include="ref\textures\races\pact.png" />
-    <Content Include="ref\textures\races\pact_hovered.png" />
-    <Content Include="ref\textures\races\sylvari.png" />
-    <Content Include="ref\textures\races\sylvari_hovered.png" />
-    <Content Include="ref\textures\utilityslot.png" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Res\strings.de.resx">
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Res\strings.es.resx">
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Res\strings.fr.resx">
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Res\strings.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>strings.Designer.cs</LastGenOutput>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
+    <Folder Include="ref\" />
+    <Folder Include="Res\" />
   </ItemGroup>
   <Import Project="..\Core\Core.projitems" Label="Shared" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

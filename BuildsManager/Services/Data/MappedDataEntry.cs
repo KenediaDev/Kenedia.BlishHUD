@@ -1,11 +1,11 @@
 ﻿using Blish_HUD.Modules.Managers;
 using Newtonsoft.Json;
-using System.Collections.Generic;
 using System.Threading.Tasks;
-using Kenedia.Modules.BuildsManager.DataModels.Items;
 using Version = SemVer.Version;
-using System.Runtime.Serialization;
 using System.Threading;
+using Kenedia.Modules.BuildsManager.DataModels.Items;
+using System.Collections.Generic;
+using System.Runtime.Serialization;
 
 namespace Kenedia.Modules.BuildsManager.Services
 {

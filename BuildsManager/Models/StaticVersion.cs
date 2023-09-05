@@ -6,45 +6,10 @@ using System.IO;
 using System.Threading.Tasks;
 using Version = SemVer.Version;
 using Kenedia.Modules.BuildsManager.Services;
+using Kenedia.Modules.Core.Models;
 
 namespace Kenedia.Modules.BuildsManager.Models
 {
-    public class SemverVersionConverter : JsonConverter<Version>
-    {
-        public override Version ReadJson(JsonReader reader, Type objectType, Version existingValue, bool hasExistingValue, JsonSerializer serializer)
-        {
-            return reader.Value == null ? null : new((string)reader.Value);
-        }
-
-        public override void WriteJson(JsonWriter writer, Version value, JsonSerializer serializer)
-        {
-            if (value != null)
-            {
-                writer.WriteValue(value.ToString());
-            }
-        }
-    }
-
-    [AttributeUsage(AttributeTargets.Property, Inherited = false, AllowMultiple = false)]
-    sealed class JsonSemverVersionAttribute : Attribute
-    {
-    }
-
-    public class SemverVersionContractResolver : DefaultContractResolver
-    {
-        protected override JsonProperty CreateProperty(System.Reflection.MemberInfo member, MemberSerialization memberSerialization)
-        {
-            JsonProperty property = base.CreateProperty(member, memberSerialization);
-
-            if (Attribute.IsDefined(member, typeof(JsonSemverVersionAttribute)))
-            {
-                property.Converter = new SemverVersionConverter();
-            }
-
-            return property;
-        }
-    }
-
     public class StaticVersion
     {
         public StaticVersion()

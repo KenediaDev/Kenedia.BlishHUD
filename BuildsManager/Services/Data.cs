@@ -11,6 +11,7 @@ using WeaponItem = Kenedia.Modules.BuildsManager.DataModels.Items.Weapon;
 using Kenedia.Modules.Core.Utility;
 using System.Threading;
 using Kenedia.Modules.Core.Controls;
+using Kenedia.Modules.Core.Attributes;
 
 namespace Kenedia.Modules.BuildsManager.Services
 {
@@ -195,6 +196,8 @@ namespace Kenedia.Modules.BuildsManager.Services
             LoadingSpinner spinner = _spinner?.Invoke();
             LastLoadAttempt = Common.Now;
 
+            BuildsManager.Logger.Info("Loading data");
+
             try
             {
                 _cancellationTokenSource?.Cancel();
@@ -227,6 +230,7 @@ namespace Kenedia.Modules.BuildsManager.Services
 
                 if (!failed)
                 {
+                    BuildsManager.Logger.Info("All data loaded!");
                     Loaded?.Invoke(this, EventArgs.Empty);
                 }
                 else
@@ -234,7 +238,9 @@ namespace Kenedia.Modules.BuildsManager.Services
                     if (_notificationBadge?.Invoke() is NotificationBadge badge)
                     {
                         badge.Show();
-                        badge.SetLocalizedText = () => $"Failed to load some data. Click to retry.{Environment.NewLine}Automatic retry at {DateTime.Now.AddMinutes(3):T}{loadStatus}";
+                        string txt = $"Failed to load some data. Click to retry.{Environment.NewLine}Automatic retry at {DateTime.Now.AddMinutes(3):T}{loadStatus}";
+                        badge.SetLocalizedText = () => txt;
+                        BuildsManager.Logger.Info(txt);
                     }
                 }
 
