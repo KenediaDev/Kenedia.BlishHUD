@@ -13,7 +13,6 @@ using Microsoft.Xna.Framework.Input;
 using Blish_HUD.Controls;
 using Blish_HUD.Gw2Mumble;
 using Newtonsoft.Json;
-using Kenedia.Modules.Core.Controls;
 using Blish_HUD.GameIntegration;
 
 namespace Kenedia.Modules.Core.Models
@@ -182,7 +181,9 @@ namespace Kenedia.Modules.Core.Models
 
         protected virtual void ReloadKey_Activated(object sender, EventArgs e)
         {
+#if DEBUG
             LoadGUI();
+#endif
         }
     }
 }

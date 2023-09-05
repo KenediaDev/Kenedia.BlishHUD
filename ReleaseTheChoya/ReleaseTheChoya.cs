@@ -131,7 +131,7 @@ namespace Kenedia.Modules.ReleaseTheChoya
 
         private void InputDetectionService_Interacted(object sender, double e)
         {
-            double now = Common.Now();
+            double now = Common.Now;
 
             bool idle = Settings.ShowWhenIdle.Value && now - Services.InputDetectionService.LastInteraction >= (Settings.IdleDelay.Value * 1000);
             bool noMove = Settings.ShowWhenStandingStill.Value && now - _lastMoveTick >= (Settings.NoMoveDelay.Value * 1000);
@@ -325,6 +325,7 @@ namespace Kenedia.Modules.ReleaseTheChoya
 
         protected override void ReloadKey_Activated(object sender, EventArgs e)
         {
+            Logger.Debug($"ReloadKey_Activated: {Name}");
             base.ReloadKey_Activated(sender, e);
             SettingsWindow?.ToggleWindow();
         }

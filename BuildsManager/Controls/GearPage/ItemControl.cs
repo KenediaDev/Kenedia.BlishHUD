@@ -76,7 +76,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage
                 itemTooltip.Item = Item;
                 itemTooltip.SetLocalizedComment = (Item?.Type) switch
                 {
-                    Gw2Sharp.WebApi.V2.Models.ItemType.Armor or Gw2Sharp.WebApi.V2.Models.ItemType.Back or Gw2Sharp.WebApi.V2.Models.ItemType.Trinket or Gw2Sharp.WebApi.V2.Models.ItemType.Weapon => () => Environment.NewLine + strings.ItemControlClickToCopyItem + Environment.NewLine + strings.ItemControlClickToCopyStat,
+                    Core.DataModels.ItemType.Armor or Core.DataModels.ItemType.Back or Core.DataModels.ItemType.Trinket or Core.DataModels.ItemType.Weapon => () => Environment.NewLine + strings.ItemControlClickToCopyItem + Environment.NewLine + strings.ItemControlClickToCopyStat,
                     _ => () => Environment.NewLine + strings.ItemControlClickToCopyItem,
                 };
             }

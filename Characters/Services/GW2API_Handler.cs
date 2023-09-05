@@ -291,7 +291,7 @@ namespace Kenedia.Modules.Characters.Services
         {
             try
             {
-                _lastApiCheck = Common.Now();
+                _lastApiCheck = Common.Now;
                 var b = await _gw2ApiManager.Gw2ApiClient.V2.Build.GetAsync();
 
                 return null;

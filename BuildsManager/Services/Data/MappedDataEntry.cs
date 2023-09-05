@@ -1,0 +1,62 @@
+﻿using Blish_HUD.Modules.Managers;
+using Newtonsoft.Json;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using Kenedia.Modules.BuildsManager.DataModels.Items;
+using Version = SemVer.Version;
+using System.Runtime.Serialization;
+using System.Threading;
+
+namespace Kenedia.Modules.BuildsManager.Services
+{
+    public class MappedDataEntry<Key, T> : BaseMappedDataEntry where T : IDataMember, new()
+    {
+        [DataMember]
+        public new Dictionary<Key, T> Items { get; protected set; } = new();
+
+        public T this[Key key]
+        {
+            get => Items.TryGetValue(key, out T value) ? value : default;
+            set => Items[key] = value;
+        }
+
+        [JsonIgnore]
+        public int Count => Items.Count;
+
+        [JsonIgnore]
+        public IEnumerable<Key> Keys => Items.Keys;
+
+        [JsonIgnore]
+        public IEnumerable<T> Values => Items.Values;
+
+        public void Add(Key key, T value)
+        {
+            Items.Add(key, value);
+        }
+
+        public void Remove(Key key)
+        {
+            _ = Items.Remove(key);
+        }
+
+        public void Clear()
+        {
+            Items.Clear();
+        }
+
+        public bool ContainsKey(Key key)
+        {
+            return Items.ContainsKey(key);
+        }
+
+        public bool TryGetValue(Key key, out T value)
+        {
+            return Items.TryGetValue(key, out value);
+        }
+
+        public override async Task<bool> LoadAndUpdate(string name, Version version, string path, Gw2ApiManager gw2ApiManager, CancellationToken cancellationToken)
+        {
+            return await Task.FromResult(DataLoaded);
+        }
+    }
+}

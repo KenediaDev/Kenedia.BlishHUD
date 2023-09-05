@@ -497,6 +497,8 @@ namespace Kenedia.Modules.Characters
 
         protected override void ReloadKey_Activated(object sender, EventArgs e)
         {
+            Logger.Debug($"ReloadKey_Activated: {Name}");
+
             base.ReloadKey_Activated(sender, e);
             CreateCornerIcons();
             GameService.Graphics.SpriteScreen.Visible = true;

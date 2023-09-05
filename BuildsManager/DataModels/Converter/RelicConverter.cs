@@ -4,7 +4,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
 using Kenedia.Modules.Core.Utility;
-using System.Collections.Generic;
+using ItemType = Kenedia.Modules.Core.DataModels.ItemType;
 
 namespace Kenedia.Modules.BuildsManager.DataModels.Converter
 {

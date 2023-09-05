@@ -1,18 +1,11 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
-using SemVer;
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using Kenedia.Modules.Core.Models;
 using System.IO;
-using System.Linq;
-using System.Runtime.Serialization;
-using System.Text;
 using System.Threading.Tasks;
 using Version = SemVer.Version;
 using Kenedia.Modules.BuildsManager.Services;
-using System.Diagnostics;
 
 namespace Kenedia.Modules.BuildsManager.Models
 {
@@ -340,52 +333,6 @@ namespace Kenedia.Modules.BuildsManager.Models
             yield return new KeyValuePair<string, ByteIntMap>(nameof(Relics), Relics);
             yield return new KeyValuePair<string, ByteIntMap>(nameof(PvpAmulets), PvpAmulets);
             yield return new KeyValuePair<string, ByteIntMap>(nameof(Stats), Stats);
-        }
-
-        public async Task<bool> FetchAndLoad()
-        {
-            try
-            {
-                var versions = await StaticHosting.GetStaticVersion();
-                string path = _paths.ItemMapPath;
-
-                foreach (var itemMap in this)
-                {
-                    string filePath = Path.Combine(path, $"{itemMap.Key}.json");
-                    var prop = typeof(ByteIntMapCollection).GetProperty(itemMap.Key);
-
-                    if (prop != null)
-                    {
-                        ByteIntMap value = null;
-
-                        if (File.Exists(filePath))
-                        {
-                            string json = File.ReadAllText(filePath);
-                            value = JsonConvert.DeserializeObject<ByteIntMap>(json);
-                        }
-
-                        if (value is null || value.Version < versions[itemMap.Key])
-                        {
-                            BuildsManager.Logger.Info($"Updating {itemMap.Key} item map from version {value?.Version?.ToString() ?? "0.0.0"} to {versions[itemMap.Key]}");
-                            value = await StaticHosting.GetItemMap(itemMap.Key);
-
-                            BuildsManager.Logger.Info($"Added {(value?.Count ?? 0) - (itemMap.Value?.Count ?? 0)} new mapped entries.");
-                            value?.SaveToJson(filePath);
-                        }
-                        else
-                        {
-                            BuildsManager.Logger.Info($"Loaded {itemMap.Key} item map version {value.Version} which is the most recent version.");
-                        }
-
-                        prop.SetValue(this, value);
-                    }
-                }
-
-                return true;
-            }
-            catch { }
-
-            return false;
         }
 
         public void Save()

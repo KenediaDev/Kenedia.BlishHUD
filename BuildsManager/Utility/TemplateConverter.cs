@@ -2,11 +2,9 @@
 using Kenedia.Modules.BuildsManager.Models;
 using Kenedia.Modules.BuildsManager.Models.Templates;
 using Kenedia.Modules.Core.DataModels;
-using Kenedia.Modules.Core.Extensions;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
-using System.Collections.Generic;
 
 namespace Kenedia.Modules.BuildsManager.Utility
 {

@@ -1,6 +1,4 @@
-﻿using Blish_HUD;
-using Blish_HUD.Content;
-using Kenedia.Modules.BuildsManager.DataModels.Professions;
+﻿using Kenedia.Modules.BuildsManager.DataModels.Professions;
 using Kenedia.Modules.Core.DataModels;
 using Kenedia.Modules.Core.Models;
 using Microsoft.Xna.Framework;

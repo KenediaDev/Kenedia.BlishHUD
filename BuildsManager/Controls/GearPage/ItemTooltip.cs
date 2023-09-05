@@ -7,7 +7,7 @@ using Kenedia.Modules.Core.Controls;
 using Kenedia.Modules.Core.Extensions;
 using Blish_HUD;
 using System;
-using ItemType = Gw2Sharp.WebApi.V2.Models.ItemType;
+using ItemType = Kenedia.Modules.Core.DataModels.ItemType;
 using Kenedia.Modules.BuildsManager.DataModels.Stats;
 using System.Linq;
 using Kenedia.Modules.Core.Services;
@@ -167,17 +167,18 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage
             switch (Item?.Type)
             {
                 case ItemType.PowerCore:
-                    _description.Text = Item.Description ?? strings.MissingInfoFromAPI;
+                case ItemType.Relic:
+                    _description.Text = Item.Description?.InterpretItemDescription() ?? strings.MissingInfoFromAPI;
                     break;
 
                 case ItemType.Consumable:
                     if (Item is Nourishment nourishment)
                     {
-                        _description.Text = nourishment.Details.Description ?? strings.MissingInfoFromAPI;
+                        _description.Text = nourishment?.Details?.Description?.InterpretItemDescription() ?? strings.MissingInfoFromAPI;
                     }
-                    else if (Item is DataModels.Items.Enhancement utility)
+                    else if (Item is Enhancement enhancement)
                     {
-                        _description.Text = utility.Details.Description ?? strings.MissingInfoFromAPI; ;
+                        _description.Text = enhancement?.Details?.Description?.InterpretItemDescription() ?? strings.MissingInfoFromAPI;
                     }
                     break;
 
@@ -205,6 +206,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage
                     {
                         _description.Text = enrichment.DisplayText ?? strings.MissingInfoFromAPI; ;
                     }
+
                     break;
             }
         }

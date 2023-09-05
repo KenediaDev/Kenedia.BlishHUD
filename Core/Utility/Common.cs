@@ -14,10 +14,7 @@ namespace Kenedia.Modules.Core.Utility
 {
     public static class Common
     {
-        public static double Now()
-        {
-            return GameService.Overlay.CurrentGameTime.TotalGameTime.TotalMilliseconds;
-        }
+        public static double Now => GameService.Overlay.CurrentGameTime.TotalGameTime.TotalMilliseconds;
 
         public static bool SetProperty<T>(ref T property, T newValue, ValueChangedEventHandler<T> OnUpdated, bool triggerOnUpdate = true)
         {

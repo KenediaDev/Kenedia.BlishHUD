@@ -16,6 +16,7 @@ using Kenedia.Modules.BuildsManager.Models;
 using Kenedia.Modules.BuildsManager.Res;
 using Kenedia.Modules.Core.Services;
 using Gw2Sharp.WebApi;
+using System.Diagnostics;
 
 namespace Kenedia.Modules.BuildsManager.Controls.Selection
 {
@@ -110,6 +111,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
                             TemplateSelectable ts = null;
                             SelectionPanel?.SetTemplateAnchor(ts = Templates.FirstOrDefault(e => e.Template == t));
                             ts?.ToggleEditMode(true);
+                            FilterTemplates();
                         }
                     });
                 },
@@ -221,6 +223,18 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
                     OnNameChangedAction = FilterTemplates,
                 };
 
+                template.ProfessionChanged += ProfessionChanged;
+                template.SpecializationChanged += SpecializationChanged;
+
+                if (t is not null)
+                {
+                    t.DisposeAction = () =>
+                    {
+                        template.ProfessionChanged -= ProfessionChanged;
+                        template.SpecializationChanged -= SpecializationChanged;
+                    };
+                }
+
                 t.OnClickAction = () => SelectionPanel?.SetTemplateAnchor(t);
                 if (!firstLoad)
                 {
@@ -263,11 +277,37 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
                     BuildsManager.ModuleInstance.Templates.Add(t = new() { Name = newName });
                     SelectionPanel?.SetTemplateAnchor(ts = Templates.FirstOrDefault(e => e.Template == t));
                     ts?.ToggleEditMode(false);
+
+                    t.ProfessionChanged += ProfessionChanged;
+                    t.SpecializationChanged += SpecializationChanged;
+
+                    if (ts is not null)
+                    {
+                        ts.DisposeAction = () =>
+                        {
+                            t.ProfessionChanged -= ProfessionChanged;
+                            t.SpecializationChanged -= SpecializationChanged;
+                        };
+                    }
+
                     return t;
                 }
             }
 
             return null;
+        }
+
+        private void SpecializationChanged(object sender, Core.Models.DictionaryItemChangedEventArgs<Models.Templates.SpecializationSlotType, DataModels.Professions.Specialization> e)
+        {
+            Debug.WriteLine($"SORT THEM SpecializationChanged");
+            FilterTemplates();
+        }
+
+        private void ProfessionChanged(object sender, Core.Models.ValueChangedEventArgs<Gw2Sharp.Models.ProfessionType> e)
+        {
+
+            Debug.WriteLine($"SORT THEM ProfessionChanged");
+            FilterTemplates();
         }
 
         public override void RecalculateLayout()
@@ -295,7 +335,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
 
         protected override void OnClick(MouseEventArgs e)
         {
-            if (Common.Now() - _lastShown >= 250)
+            if (Common.Now - _lastShown >= 250)
             {
                 base.OnClick(e);
             }
@@ -305,7 +345,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
         {
             base.OnShown(e);
 
-            _lastShown = Common.Now();
+            _lastShown = Common.Now;
         }
 
         protected override void OnHidden(EventArgs e)
@@ -326,10 +366,10 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
 
             if (!_sortBehavior.Enabled)
             {
-                _sortBehavior.Enabled = _sortBehavior.Enabled || Common.Now() - _lastShown >= 5;
+                _sortBehavior.Enabled = _sortBehavior.Enabled || Common.Now - _lastShown >= 5;
                 foreach (var icon in _specIcons)
                 {
-                    icon.Enabled = _sortBehavior.Enabled || Common.Now() - _lastShown >= 5;
+                    icon.Enabled = _sortBehavior.Enabled || Common.Now - _lastShown >= 5;
                 }
             }
         }

@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Blish_HUD.Content;
-using Kenedia.Modules.Core.Controls;
+﻿using Blish_HUD.Content;
 using Kenedia.Modules.Core.Views;
 using Microsoft.Xna.Framework;
 

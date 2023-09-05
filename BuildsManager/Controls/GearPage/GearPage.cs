@@ -216,6 +216,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage
             {
                 e.OldValue.TemplateChanged -= TemplatePresenter_TemplateChanged;
                 e.OldValue.LoadedGearFromCode -= TemplatePresenter_LoadedGearFromCode;
+                e.OldValue.LoadedBuildFromCode -= TemplatePresenter_LoadedBuildFromCode;
                 e.OldValue.ProfessionChanged -= TemplatePresenter_ProfessionChanged;
                 e.OldValue.EliteSpecializationChanged -= TemplatePresenter_EliteSpecializationChanged;
                 e.OldValue.GearCodeChanged -= TemplatePresenter_GearCodeChanged;
@@ -225,10 +226,16 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage
             {
                 e.NewValue.TemplateChanged += TemplatePresenter_TemplateChanged;
                 e.NewValue.LoadedGearFromCode += TemplatePresenter_LoadedGearFromCode;
+                e.NewValue.LoadedBuildFromCode += TemplatePresenter_LoadedBuildFromCode;
                 e.NewValue.ProfessionChanged += TemplatePresenter_ProfessionChanged;
                 e.NewValue.EliteSpecializationChanged += TemplatePresenter_EliteSpecializationChanged;
                 e.NewValue.GearCodeChanged += TemplatePresenter_GearCodeChanged;
             }
+        }
+
+        private void TemplatePresenter_LoadedBuildFromCode(object sender, EventArgs e)
+        {
+            ApplyTemplate();
         }
 
         public override void RecalculateLayout()

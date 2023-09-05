@@ -26,7 +26,6 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage.GearSlots
             ItemControl.Placeholder.Texture = BuildsManager.ModuleInstance.ContentsManager.GetTexture(@"textures\relic_slot.png");
             ItemControl.Placeholder.TextureRegion = new(38, 38, 52, 52);
             ItemColor = Color.White;
-            ItemControl.Tooltip = null;
         }
 
         public override void RecalculateLayout()

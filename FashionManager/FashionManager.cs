@@ -1,9 +1,7 @@
 ﻿using Blish_HUD;
 using Blish_HUD.Modules;
-using Blish_HUD.Modules.Managers;
 using Blish_HUD.Settings;
 using Kenedia.Modules.Core.Models;
-using Kenedia.Modules.Core.Views;
 using Kenedia.Modules.FashionManager.Models;
 using Kenedia.Modules.FashionManager.Views;
 using Microsoft.Xna.Framework;
@@ -51,6 +49,7 @@ namespace Kenedia.Modules.FashionManager
 
         protected override async void ReloadKey_Activated(object sender, EventArgs e)
         {
+            Logger.Debug($"ReloadKey_Activated: {Name}");
             base.ReloadKey_Activated(sender, e);
 
             FashionTemplate.Name ??= "Test";

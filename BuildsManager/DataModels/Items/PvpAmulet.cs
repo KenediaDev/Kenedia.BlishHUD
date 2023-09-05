@@ -2,6 +2,7 @@
 using Kenedia.Modules.BuildsManager.Models.Templates;
 using Kenedia.Modules.Core.Utility;
 using System.Runtime.Serialization;
+using ItemType = Kenedia.Modules.Core.DataModels.ItemType;
 
 namespace Kenedia.Modules.BuildsManager.DataModels.Items
 {

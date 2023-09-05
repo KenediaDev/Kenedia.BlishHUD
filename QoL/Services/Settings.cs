@@ -1,7 +1,6 @@
 ﻿using Blish_HUD.Settings;
 using Kenedia.Modules.Core.Controls;
 using Kenedia.Modules.Core.Models;
-using Kenedia.Modules.QoL.Res;
 using Microsoft.Xna.Framework;
 
 namespace Kenedia.Modules.QoL.Services

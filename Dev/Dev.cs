@@ -47,6 +47,8 @@ namespace Kenedia.Modules.Dev
 
         protected override async void ReloadKey_Activated(object sender, EventArgs e)
         {
+            Logger.Debug($"ReloadKey_Activated: {Name}");
+
             base.ReloadKey_Activated(sender, e);
 
             await TestAPI();

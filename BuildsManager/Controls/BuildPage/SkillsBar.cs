@@ -17,7 +17,6 @@ using Gw2Sharp;
 using System.Text.RegularExpressions;
 using Kenedia.Modules.BuildsManager.Res;
 using Gw2Sharp.Models;
-using System.Diagnostics;
 
 namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
 {

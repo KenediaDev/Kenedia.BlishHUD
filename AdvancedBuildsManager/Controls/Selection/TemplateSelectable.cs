@@ -388,7 +388,7 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Controls.Selection
         private void SetNotification(string v, Color color, double duration = 1500)
         {
             _animationDuration = duration;
-            _animationStart = Common.Now();
+            _animationStart = Common.Now;
             _animationOpacityStep = (float)(1F / (_animationDuration / 5));
 
             _name.TextColor = color;

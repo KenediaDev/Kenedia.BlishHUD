@@ -134,7 +134,7 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Controls.SkillConnectionEdit
             };
 
             CreateUI();
-            _created = Common.Now();
+            _created = Common.Now;
         }
 
         private void TraitSelected(TraitEntryControl obj, TraitControl anchor)
@@ -511,7 +511,7 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Controls.SkillConnectionEdit
         public override void UpdateContainer(GameTime gameTime)
         {
             base.UpdateContainer(gameTime);
-            if (_created != 0 && Common.Now() - _created >= 150)
+            if (_created != 0 && Common.Now - _created >= 150)
             {
                 RecalculateLayout();
                 _created = 0;

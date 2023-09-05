@@ -14,7 +14,6 @@ using Kenedia.Modules.BuildsManager.Extensions;
 using Kenedia.Modules.BuildsManager.TemplateEntries;
 using static Kenedia.Modules.BuildsManager.Controls.Selection.SelectionPanel;
 using Kenedia.Modules.BuildsManager.Res;
-using System.Diagnostics;
 
 namespace Kenedia.Modules.BuildsManager.Controls.GearPage.GearSlots
 {
@@ -29,7 +28,6 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage.GearSlots
             ItemControl.Placeholder.TextureRegion = new(38, 38, 52, 52);
 
             ItemColor = Color.White;
-            ItemControl.Tooltip = null;
         }
 
         public override void RecalculateLayout()

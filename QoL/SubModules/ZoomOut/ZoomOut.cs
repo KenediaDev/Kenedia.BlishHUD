@@ -10,8 +10,6 @@ using System;
 using Kenedia.Modules.Core.Extensions;
 using SizingMode = Blish_HUD.Controls.SizingMode;
 using ControlFlowDirection = Blish_HUD.Controls.ControlFlowDirection;
-using Blish_HUD.Content;
-using Kenedia.Modules.Core.Res;
 
 namespace Kenedia.Modules.QoL.SubModules.ZoomOut
 {
@@ -146,7 +144,7 @@ namespace Kenedia.Modules.QoL.SubModules.ZoomOut
             float distance = ComputeCameraDistance();
 
             _distance = distance;
-            _saveDistanceTicks = Common.Now() + 1000;
+            _saveDistanceTicks = Common.Now + 1000;
         }
 
         private float ComputeCameraDistance()

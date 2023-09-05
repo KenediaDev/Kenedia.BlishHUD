@@ -63,7 +63,7 @@ namespace Kenedia.Modules.Characters.Controls
         public void StartDragging(CharacterCard characterCard)
         {
             CharacterControl = characterCard;
-            _lastlayoutRefreshed = Common.Now() + 5;
+            _lastlayoutRefreshed = Common.Now + 5;
             _layoutRefreshed = false;
             Show();
         }

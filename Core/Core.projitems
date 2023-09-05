@@ -55,6 +55,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Controls\TrackBar.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)DataModels\AttunementType.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)DataModels\BaseSkill.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)DataModels\ItemType.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)DataModels\Map.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)DataModels\Race.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)DataModels\SkillConnection.cs" />

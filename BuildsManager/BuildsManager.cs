@@ -26,7 +26,6 @@ using LoadingSpinner = Kenedia.Modules.Core.Controls.LoadingSpinner;
 using AnchoredContainer = Kenedia.Modules.Core.Controls.AnchoredContainer;
 using Rectangle = Microsoft.Xna.Framework.Rectangle;
 using Version = SemVer.Version;
-using Newtonsoft.Json.Serialization;
 
 namespace Kenedia.Modules.BuildsManager
 {
@@ -95,7 +94,7 @@ namespace Kenedia.Modules.BuildsManager
             Logger.Info($"Starting {Name} v." + Version.BaseVersion());
 
             GW2API = new(Gw2ApiManager, () => Data, Paths, () => _notificationBadge);
-            Data = new(ContentsManager, Paths, Gw2ApiManager);
+            Data = new(Paths, Gw2ApiManager, () => _notificationBadge, () => _apiSpinner);
             Data.Loaded += Data_Loaded;
         }
 
@@ -103,8 +102,6 @@ namespace Kenedia.Modules.BuildsManager
         {
             if (!TemplatesLoaded) 
                 LoadTemplates();
-
-            _apiSpinner?.Hide();
         }
 
         protected override async void OnLocaleChanged(object sender, Blish_HUD.ValueChangedEventArgs<Locale> e)
@@ -113,17 +110,14 @@ namespace Kenedia.Modules.BuildsManager
 
             if (e.NewValue is not Locale.Korean and not Locale.Chinese)
             {
-                _apiSpinner?.Show();
                 bool success = await Data.Load();
 
                 if (!success)
                 {
                     //Set Failed Notification
-                    _notificationBadge.Show();
-                    _notificationBadge.SetLocalizedText = () => $"There was an issue when loading the Data for {e.NewValue} Localization.";
+                    //_notificationBadge.Show();
+                    //_notificationBadge.SetLocalizedText = () => $"There was an issue when loading the Data for {e.NewValue} Localization.";
                 }
-
-                _apiSpinner?.Hide();
 
                 base.OnLocaleChanged(sender, e);
             }
@@ -158,11 +152,16 @@ namespace Kenedia.Modules.BuildsManager
             {
                 _tick = gameTime.TotalGameTime.TotalMilliseconds;
 
+                if (Data?.IsLoaded == false)
+                {
+                    _ = Task.Run(Data.Load);
+                }
             }
         }
 
         protected override async void ReloadKey_Activated(object sender, EventArgs e)
         {
+            Logger.Debug($"ReloadKey_Activated: {Name}");
             _cancellationTokenSource?.Cancel();
             _cancellationTokenSource = new CancellationTokenSource();
 
@@ -293,7 +292,15 @@ namespace Kenedia.Modules.BuildsManager
                 SetLocalizedTooltip = () => string.Format(strings_common.ToggleItem, $"{Name}"),
                 Parent = GameService.Graphics.SpriteScreen,
                 Visible = Settings?.ShowCornerIcon?.Value ?? false,
-                ClickAction = () => MainWindow?.ToggleWindow(),
+                ClickAction = () =>
+                {
+                    if (!Data.IsLoaded)
+                    {
+                        _ = Task.Run(() => Data.Load(true));
+                    }
+
+                    MainWindow?.ToggleWindow();
+                }
             };
 
             _cornerContainer = new()

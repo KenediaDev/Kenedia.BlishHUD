@@ -15,7 +15,6 @@ using SizingMode = Blish_HUD.Controls.SizingMode;
 using ControlFlowDirection = Blish_HUD.Controls.ControlFlowDirection;
 using Kenedia.Modules.QoL.Res;
 using Gw2Sharp.ChatLinks;
-using System.Diagnostics;
 
 namespace Kenedia.Modules.QoL.SubModules.WaypointPaste
 {
@@ -57,7 +56,7 @@ namespace Kenedia.Modules.QoL.SubModules.WaypointPaste
 
             try
             {
-                _ticks = Common.Now();
+                _ticks = Common.Now;
 
                 string waypoint = _waypoint.Value;
                 if (_pasteCurrentClipboardWaypointFirst.Value)
@@ -127,7 +126,7 @@ namespace Kenedia.Modules.QoL.SubModules.WaypointPaste
 
                 await Input.SendKey(Keys.Enter);
 
-                _ticks = Common.Now();
+                _ticks = Common.Now;
                 Enabled = false;
             }
             catch

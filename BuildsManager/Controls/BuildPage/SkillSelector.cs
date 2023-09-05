@@ -7,7 +7,6 @@ using System;
 using Kenedia.Modules.Core.Models;
 using Kenedia.Modules.Core.DataModels;
 using Blish_HUD;
-using System.Diagnostics;
 
 namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
 {

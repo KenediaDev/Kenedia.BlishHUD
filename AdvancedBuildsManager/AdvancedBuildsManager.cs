@@ -215,6 +215,8 @@ namespace Kenedia.Modules.AdvancedBuildsManager
 
         protected override async void ReloadKey_Activated(object sender, EventArgs e)
         {
+            Logger.Debug($"ReloadKey_Activated: {Name}");
+
             _cancellationTokenSource?.Cancel();
             _cancellationTokenSource = new CancellationTokenSource();
 

@@ -424,7 +424,7 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Controls.Selection
 
         protected override void OnClick(MouseEventArgs e)
         {
-            if (Common.Now() - _lastShown >= 250)
+            if (Common.Now - _lastShown >= 250)
             {
                 base.OnClick(e);
             }
@@ -434,7 +434,7 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Controls.Selection
         {
             base.OnShown(e);
 
-            _lastShown = Common.Now();
+            _lastShown = Common.Now;
         }
 
         protected override void OnHidden(EventArgs e)
@@ -455,10 +455,10 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Controls.Selection
 
             if (!_sortBehavior.Enabled)
             {
-                _sortBehavior.Enabled = _sortBehavior.Enabled || Common.Now() - _lastShown >= 5;
+                _sortBehavior.Enabled = _sortBehavior.Enabled || Common.Now - _lastShown >= 5;
                 foreach (var icon in _specIcons)
                 {
-                    icon.Enabled = _sortBehavior.Enabled || Common.Now() - _lastShown >= 5;
+                    icon.Enabled = _sortBehavior.Enabled || Common.Now - _lastShown >= 5;
                 }
             }
         }

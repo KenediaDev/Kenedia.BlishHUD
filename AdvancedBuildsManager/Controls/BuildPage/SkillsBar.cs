@@ -83,7 +83,7 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Controls.BuildPage
         {
             get
             {
-                double timeSince = Common.Now() - _lastOpen;
+                double timeSince = Common.Now - _lastOpen;
                 return _selectorOpen || timeSince <= 200;
             }
         }
@@ -113,7 +113,7 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Controls.BuildPage
             {
                 if (AnyHovered || _selectorOpen)
                 {
-                    _lastOpen = Common.Now();
+                    _lastOpen = Common.Now;
                 }
 
                 _selectorOpen = value;

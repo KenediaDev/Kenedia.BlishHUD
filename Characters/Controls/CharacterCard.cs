@@ -231,7 +231,7 @@ namespace Kenedia.Modules.Characters.Controls
 
         public void UniformWithAttached(bool force = false)
         {
-            double now = Common.Now();
+            double now = Common.Now;
             Update();
 
             if (_lastUniform != now || force)

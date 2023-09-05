@@ -119,7 +119,7 @@ namespace Kenedia.Modules.QoL.SubModules.ItemDestruction
 
         private void OnStateSwitched(object sender, Core.Models.ValueChangedEventArgs<ItemDestructionState> e)
         {
-            _lastAction = Common.Now();
+            _lastAction = Common.Now;
 
             Dictionary<ItemDestructionState, string> instructions = new()
             {
@@ -213,7 +213,7 @@ namespace Kenedia.Modules.QoL.SubModules.ItemDestruction
 
         private async void Mouse_LeftMouseButtonReleased(object sender, MouseEventArgs e)
         {
-            if (Common.Now() - _lastAction < 150 || !Enabled) return;
+            if (Common.Now - _lastAction < 150 || !Enabled) return;
 
             switch (State)
             {
@@ -231,7 +231,7 @@ namespace Kenedia.Modules.QoL.SubModules.ItemDestruction
 
         private async void Mouse_LeftMouseButtonPressed(object sender, MouseEventArgs e)
         {
-            if (Common.Now() - _lastAction < 150 || !Enabled) return;
+            if (Common.Now - _lastAction < 150 || !Enabled) return;
 
             if (GameService.Input.Keyboard.KeysDown.Contains(Keys.LeftShift))
             {
@@ -286,7 +286,7 @@ namespace Kenedia.Modules.QoL.SubModules.ItemDestruction
 
             try
             {
-                _lastAction = Common.Now();
+                _lastAction = Common.Now;
                 await Task.Delay(50);
 
                 Keyboard.Release(Key.LSHIFT, true);
@@ -322,7 +322,7 @@ namespace Kenedia.Modules.QoL.SubModules.ItemDestruction
 
                 _ = await ClipboardUtil.WindowsClipboardService.SetTextAsync(text);
 
-                _lastAction = Common.Now();
+                _lastAction = Common.Now;
             }
             catch
             {

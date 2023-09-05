@@ -136,6 +136,8 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
             LocalizingService.LocaleChanged += LocalizingService_OnLocaleChanged;
         }
 
+        public Action DisposeAction { get; set; }
+
         private void LocalizingService_OnLocaleChanged(object arg1, ValueChangedEventArgs<Locale> args)
         {
             SetTooltip();
@@ -406,6 +408,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
 
             Input.Mouse.LeftMouseButtonPressed -= Mouse_LeftMouseButtonPressed;
 
+            DisposeAction?.Invoke();
             _lineTexture?.Dispose();
             _textureVignette?.Dispose();
             _textureCornerButton?.Dispose();
@@ -439,7 +442,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
         private void SetNotification(string v, Color color, double duration = 1500)
         {
             _animationDuration = duration;
-            _animationStart = Common.Now();
+            _animationStart = Common.Now;
             _animationOpacityStep = (float)(1F / (_animationDuration / 5));
 
             _name.TextColor = color;

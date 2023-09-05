@@ -2,9 +2,10 @@
 using Gw2Sharp.WebApi.V2.Models;
 using Kenedia.Modules.BuildsManager.Models.Templates;
 using Kenedia.Modules.Core.Models;
+using ItemType = Kenedia.Modules.Core.DataModels.ItemType;
 using Kenedia.Modules.Core.Utility;
-using Newtonsoft.Json;
 using System.Runtime.Serialization;
+using Kenedia.Modules.Core.Extensions;
 
 namespace Kenedia.Modules.BuildsManager.DataModels.Items
 {
@@ -30,7 +31,7 @@ namespace Kenedia.Modules.BuildsManager.DataModels.Items
             Id = item.Id;
             Name = item.Name;
             Description = item.Description;
-            Type = item.Type;
+            Type = item.Type.ToItemType();
         }
 
         public BaseItem(Item item, TemplateSlotType templateSlot) : this(item)
@@ -104,7 +105,7 @@ namespace Kenedia.Modules.BuildsManager.DataModels.Items
 
             Rarity = item.Rarity;
             Chatlink = item.ChatLink;
-            Type = item.Type;
+            Type = item.Type.ToItemType();
             DisplayText = item.Name;
         }
 

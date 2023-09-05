@@ -7,7 +7,6 @@ using System;
 using SizingMode = Blish_HUD.Controls.SizingMode;
 using ControlFlowDirection = Blish_HUD.Controls.ControlFlowDirection;
 using Kenedia.Modules.QoL.Res;
-using System.Linq;
 
 namespace Kenedia.Modules.QoL.SubModules.GameResets
 {

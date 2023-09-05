@@ -4,7 +4,6 @@ using ControlFlowDirection = Blish_HUD.Controls.ControlFlowDirection;
 using Control = Blish_HUD.Controls.Control;
 using Container = Blish_HUD.Controls.Container;
 using VerticalAlignment = Blish_HUD.Controls.VerticalAlignment;
-using HorizontalAlignment = Blish_HUD.Controls.HorizontalAlignment;
 using Kenedia.Modules.Core.Controls;
 using MonoGame.Extended.BitmapFonts;
 using System;

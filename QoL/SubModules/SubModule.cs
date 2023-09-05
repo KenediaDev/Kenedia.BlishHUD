@@ -9,9 +9,7 @@ using Kenedia.Modules.QoL.Res;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using System;
-using Kenedia.Modules.QoL.Views;
 using Kenedia.Modules.QoL.Controls;
-using System.Diagnostics;
 
 namespace Kenedia.Modules.QoL.SubModules
 {

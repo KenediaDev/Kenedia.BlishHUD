@@ -170,6 +170,7 @@ namespace Kenedia.Modules.QoL
 
         protected override void ReloadKey_Activated(object sender, EventArgs e)
         {
+            Logger.Debug($"ReloadKey_Activated: {Name}");
             base.ReloadKey_Activated(sender, e);
 
             foreach (var subModule in SubModules.Values)

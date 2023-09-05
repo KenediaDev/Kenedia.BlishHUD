@@ -9,7 +9,6 @@ using Graphics = System.Drawing.Graphics;
 using DrawPoint = System.Drawing.Point;
 using Point = Microsoft.Xna.Framework.Point;
 using Kenedia.Modules.Core.Models;
-using System.Diagnostics;
 using Kenedia.Modules.Core.Structs;
 using static Kenedia.Modules.Core.Utility.WindowsUtil.User32Dll;
 using Kenedia.Modules.Core.Controls;

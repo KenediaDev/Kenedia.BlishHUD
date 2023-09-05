@@ -1,6 +1,5 @@
 ﻿using Blish_HUD;
 using Blish_HUD.Modules.Managers;
-using Gw2Sharp.Models;
 using Gw2Sharp.WebApi;
 using Gw2Sharp.WebApi.V2.Models;
 using Kenedia.Modules.Core.Models;
@@ -10,28 +9,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using File = System.IO.File;
-using Race = Kenedia.Modules.BuildsManager.DataModels.Race;
-using Skill = Kenedia.Modules.BuildsManager.DataModels.Professions.Skill;
-using Trait = Kenedia.Modules.BuildsManager.DataModels.Professions.Trait;
-using Specialization = Kenedia.Modules.BuildsManager.DataModels.Professions.Specialization;
-using Legend = Kenedia.Modules.BuildsManager.DataModels.Professions.Legend;
 using System.Threading;
-using Kenedia.Modules.Core.DataModels;
-using ApiPvpAmulet = Gw2Sharp.WebApi.V2.Models.PvpAmulet;
 using Kenedia.Modules.Core.Extensions;
-using Gw2Sharp.WebApi.Exceptions;
 using Kenedia.Modules.BuildsManager.Models;
-using Kenedia.Modules.BuildsManager.DataModels.Items;
-using Kenedia.Modules.Core.Utility;
-using PvpAmulet = Kenedia.Modules.BuildsManager.DataModels.Items.PvpAmulet;
 using Kenedia.Modules.Core.Controls;
-using System.Text.RegularExpressions;
-using Kenedia.Modules.Core.Res;
-using System.Security.Policy;
-using System.Net.Http;
-using System.Diagnostics;
-using Kenedia.Modules.BuildsManager.Utility;
-using Kenedia.Modules.BuildsManager.DataModels.Converter;
 
 namespace Kenedia.Modules.BuildsManager.Services
 {
@@ -292,7 +273,7 @@ namespace Kenedia.Modules.BuildsManager.Services
                                             {
                                                 maps.Add(MapCollection.Relics);
                                             }
-                                            else if(item.Type == ItemType.PowerCore)
+                                            else if(item.Type == Gw2Sharp.WebApi.V2.Models.ItemType.PowerCore)
                                             {
                                                 maps.Add(MapCollection.PowerCores);
                                             }
