@@ -2,13 +2,11 @@
 using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Kenedia.Modules.BuildsManager.DataModels.Items;
 using Version = SemVer.Version;
 using System.Runtime.Serialization;
 using System.Threading;
-using Kenedia.Modules.BuildsManager.Models;
-using Kenedia.Modules.BuildsManager.Services;
 using System.Linq;
+using Kenedia.Modules.Core.Attributes;
 
 namespace Kenedia.Modules.Core.Models
 {
@@ -26,15 +24,13 @@ namespace Kenedia.Modules.Core.Models
 
         public bool IsLoaded => DataLoaded;
 
-        public ByteIntMap Map { get; set; }
-
         public virtual Task<bool> LoadAndUpdate(string name, Version version, string path, Gw2ApiManager gw2ApiManager, System.Threading.CancellationToken token)
         {
             return Task.FromResult(false);
         }
 
         // Conversion method
-        public static BaseDataEntry FromGeneric<Key, T>(DataEntry<Key, T> entry) where T : IDataMember, new() where Key : notnull
+        public static BaseDataEntry FromGeneric<Key, T>(DataEntry<Key, T> entry)
         {
             return new()
             {

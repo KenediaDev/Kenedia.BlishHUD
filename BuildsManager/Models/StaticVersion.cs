@@ -7,6 +7,8 @@ using System.Threading.Tasks;
 using Version = SemVer.Version;
 using Kenedia.Modules.BuildsManager.Services;
 using Kenedia.Modules.Core.Models;
+using Kenedia.Modules.Core.Attributes;
+using Kenedia.Modules.Core.ContractResolver;
 
 namespace Kenedia.Modules.BuildsManager.Models
 {
@@ -19,24 +21,10 @@ namespace Kenedia.Modules.BuildsManager.Models
 
         public StaticVersion(Version version)
         {
-            Nourishments = version;
-            Enhancements = version;
-            PveRunes = version;
-            PvpRunes = version;
-            PveSigils = version;
-            PvpSigils = version;
-            Infusions = version;
-            Enrichments = version;
-            Trinkets = version;
-            Backs = version;
-            Weapons = version;
-            Armors = version;
-            PowerCores = version;
-            Relics = version;
-            PvpAmulets = version;
-            Stats = version;
-            Professions = version;
-            Pets = version;
+            foreach (var property in this)
+            {
+                this[property.Key] = version;
+            }
         }
 
         [JsonSemverVersion]

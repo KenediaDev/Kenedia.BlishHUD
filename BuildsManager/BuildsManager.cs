@@ -9,6 +9,7 @@ using Kenedia.Modules.BuildsManager.Services;
 using Kenedia.Modules.BuildsManager.Utility;
 using Kenedia.Modules.BuildsManager.Views;
 using Kenedia.Modules.Core.Models;
+using Kenedia.Modules.Core.ContractResolver;
 using Kenedia.Modules.Core.Res;
 using Kenedia.Modules.Core.Utility;
 using Microsoft.Xna.Framework;
@@ -75,7 +76,7 @@ namespace Kenedia.Modules.BuildsManager
             base.DefineSettings(settings);
 
             Settings = new Settings(settings);
-            Settings.ShowCornerIcon.SettingChanged += ShowCornerIcon_SettingChanged; ;
+            Settings.ShowCornerIcon.SettingChanged += ShowCornerIcon_SettingChanged;
         }
 
         protected override void Initialize()

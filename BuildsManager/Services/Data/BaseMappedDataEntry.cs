@@ -8,6 +8,7 @@ using Kenedia.Modules.BuildsManager.DataModels.Items;
 using Kenedia.Modules.BuildsManager.Models;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
+using Kenedia.Modules.Core.Attributes;
 
 namespace Kenedia.Modules.BuildsManager.Services
 {

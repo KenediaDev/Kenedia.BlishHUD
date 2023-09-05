@@ -240,11 +240,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DataModels\Item.cs" />
+    <Compile Include="Models\StaticVersion.cs" />
     <Compile Include="Models\Trade.cs" />
     <Compile Include="OverflowTradingAssist.cs" />
     <Compile Include="Models\Paths.cs" />
     <Compile Include="Models\TradePresenter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\Settings.cs" />
+    <Compile Include="Services\StaticHosting.cs" />
     <Compile Include="Services\Data.cs" />
     <Compile Include="Services\Data\HostedItems.cs" />
     <Compile Include="Views\MainWindow.cs" />
