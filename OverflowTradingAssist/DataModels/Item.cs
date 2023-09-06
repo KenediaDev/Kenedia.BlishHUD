@@ -64,14 +64,6 @@ namespace Kenedia.Modules.OverflowTradingAssist.DataModels
         }
 
         [DataMember]
-        public LocalizedString DisplayTexts { get; protected set; } = new();
-        public string DisplayText
-        {
-            get => DisplayTexts.Text;
-            set => DisplayTexts.Text = value;
-        }
-
-        [DataMember]
         public LocalizedString Descriptions { get; protected set; } = new();
         public string Description
         {
@@ -89,7 +81,6 @@ namespace Kenedia.Modules.OverflowTradingAssist.DataModels
             Rarity = item.Rarity;
             Chatlink = item.ChatLink;
             Type = item.Type.ToItemType();
-            DisplayText = item.Name;
         }
 
         public void SetAssetId(int id)

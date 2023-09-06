@@ -12,6 +12,8 @@ using Kenedia.Modules.Core.Models;
 using Gw2Sharp.WebApi;
 using Kenedia.Modules.Core.Utility;
 using System.Threading;
+using Gw2Sharp.WebApi.V2.Models;
+using File = System.IO.File;
 
 namespace Kenedia.Modules.BuildsManager.Services
 {
@@ -29,16 +31,20 @@ namespace Kenedia.Modules.BuildsManager.Services
                 {
                     BuildsManager.Logger.Debug($"Load {name}.json");
                     string json = File.ReadAllText(path);
-                    loaded = JsonConvert.DeserializeObject<MappedDataEntry<int, T>>(json);
+                    loaded = JsonConvert.DeserializeObject<MappedDataEntry<int, T>>(json, SerializerSettings.SemverSerializer);
                     DataLoaded = true;
                 }
 
                 Items = loaded?.Items ?? Items;
                 Version = loaded?.Version ?? Version;
 
+                BuildsManager.Logger.Debug($"{name} Version {Version} | version {version}");
+
                 BuildsManager.Logger.Debug($"Check for missing values for {name}");
                 var lang = GameService.Overlay.UserLocale.Value is Locale.Korean or Locale.Chinese ? Locale.English : GameService.Overlay.UserLocale.Value;
                 var fetchIds = Items.Values.Where(item => item.Names[lang] == null)?.Select(e => e.Id);
+
+                bool fetchAll = version > Version;
 
                 if (version > Version || Map is null)
                 {
@@ -58,7 +64,9 @@ namespace Kenedia.Modules.BuildsManager.Services
                     Version = Map.Version;
                     fetchIds = fetchIds.Concat(Map.Values.Except(Items.Keys));
                     saveRequired = true;
-                    BuildsManager.Logger.Debug($"The current version does not match the map version. Updating all values for {name}.");
+
+                    if (fetchAll)
+                        BuildsManager.Logger.Debug($"The current version does not match the map version. Updating all values for {name}.");
                 }
 
                 if (fetchIds.Count() > 0)
@@ -70,7 +78,7 @@ namespace Kenedia.Modules.BuildsManager.Services
                     foreach (var ids in idSets)
                     {
                         var items = await gw2ApiManager.Gw2ApiClient.V2.Items.ManyAsync(ids, cancellationToken);
-                        if(cancellationToken.IsCancellationRequested)
+                        if (cancellationToken.IsCancellationRequested)
                         {
                             return false;
                         }
@@ -87,8 +95,15 @@ namespace Kenedia.Modules.BuildsManager.Services
 
                             if (entryItem is not null && Data.SkinDictionary.TryGetValue(item.Id, out int? assetId) && assetId is not null)
                             {
-                                var skin = await gw2ApiManager.Gw2ApiClient.V2.Skins.GetAsync(assetId.Value);
-                                entryItem.AssetId = skin?.Icon.GetAssetIdFromRenderUrl() ?? 0;
+                                if (entryItem.Type is Core.DataModels.ItemType.Trinket)
+                                {
+                                    entryItem.AssetId = assetId.Value;
+                                }
+                                else
+                                {
+                                    var skin = await gw2ApiManager.Gw2ApiClient.V2.Skins.GetAsync(assetId.Value);
+                                    entryItem.AssetId = skin?.Icon.GetAssetIdFromRenderUrl() ?? 0;
+                                }
                             }
 
                             if (!exists)
@@ -100,7 +115,7 @@ namespace Kenedia.Modules.BuildsManager.Services
                 if (saveRequired)
                 {
                     BuildsManager.Logger.Debug($"Saving {name}.json");
-                    string json = JsonConvert.SerializeObject(this);
+                    string json = JsonConvert.SerializeObject(this, SerializerSettings.SemverSerializer);
                     File.WriteAllText(path, json);
                 }
 

@@ -60,13 +60,7 @@ namespace Kenedia.Modules.OverflowTradingAssist.DataEntries
 
         public void SaveToJson(string path)
         {
-            var settings = new JsonSerializerSettings
-            {
-                ContractResolver = new SemverVersionContractResolver(),
-                Formatting = Formatting.Indented
-            };
-
-            string json = JsonConvert.SerializeObject(this, settings);
+            string json = JsonConvert.SerializeObject(this, SerializerSettings.SemverSerializer);
             File.WriteAllText(path, json);
         }
     }

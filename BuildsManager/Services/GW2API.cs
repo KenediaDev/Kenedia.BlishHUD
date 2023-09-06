@@ -185,7 +185,7 @@ namespace Kenedia.Modules.BuildsManager.Services
 
                 var itemid_lists = raw_itemids.Except(invalidIds).ToList().ChunkBy(200);
                 int count = 0;
-                itemid_lists.Clear();
+
                 foreach (var ids in itemid_lists)
                 {
                     if (_cancellationTokenSource.IsCancellationRequested)
@@ -343,7 +343,7 @@ namespace Kenedia.Modules.BuildsManager.Services
                 MapCollection.Save();
 
                 var versionFile = new StaticVersion(version);
-                string json = JsonConvert.SerializeObject(versionFile);
+                string json = JsonConvert.SerializeObject(versionFile, SerializerSettings.SemverSerializer);
                 File.WriteAllText($@"{Paths.ModuleDataPath}itemmap\Version.json", json);
             }
             catch

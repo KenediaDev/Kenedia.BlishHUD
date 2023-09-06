@@ -12,6 +12,7 @@ using Kenedia.Modules.Core.Utility;
 using System.Threading;
 using Kenedia.Modules.Core.Controls;
 using Kenedia.Modules.Core.Attributes;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace Kenedia.Modules.BuildsManager.Services
 {
@@ -19,54 +20,54 @@ namespace Kenedia.Modules.BuildsManager.Services
     {
         public static readonly Dictionary<int, int?> SkinDictionary = new()
                 {
-                    { 85105, 5013 }, //Axe
-                    { 85017, 4997 }, //Dagger
-                    { 85251, 4995 }, //Greatsword
-                    { 85060, 5022 }, //Hammer
-                    { 85267, 5005 }, //Mace
-                    { 85360, 5018 }, //Shield
-                    { 85250, 5020 }, //Sword
-                    { 84899, 5164 }, //Spear
-                    { 85052, 5000 }, //Shortbow
-                    { 84888, 4998 }, //Longbow
-                    { 85010, 5008 }, //Pistol
-                    { 85262, 5021 }, //Rifle
-                    { 85307, 5001 }, //Warhorn
-                    { 85323, 4992 }, //Torch
-                    { 85341, 4990 }, //Harpoon Gun
-                    { 84872, 4994 }, //Focus
-                    { 85117, 4989 }, //Scepter
-                    { 85026, 5019 }, //Staff
-                    { 85265, 5129 }, //Trident
+                    { 30684, 5013 }, //Axe
+                    { 30687, 4997 }, //Dagger
+                    { 30689, 4995 }, //Greatsword
+                    { 30690, 5022 }, //Hammer
+                    { 30692, 5005 }, //Mace
+                    { 30696, 5018 }, //Shield
+                    { 30699, 5020 }, //Sword
+                    { 30691, 5164 }, //Spear
+                    { 30686, 5000 }, //Shortbow
+                    { 30685, 4998 }, //Longbow
+                    { 30693, 5008 }, //Pistol
+                    { 30694, 5021 }, //Rifle
+                    { 30702, 5001 }, //Warhorn
+                    { 30700, 4992 }, //Torch
+                    { 30697, 4990 }, //Harpoon Gun
+                    { 30688, 4994 }, //Focus
+                    { 30695, 4989 }, //Scepter
+                    { 30698, 5019 }, //Staff
+                    { 30701, 5129 }, //Trident
                     
                     { 79895, 854 }, //Aqua Breather (Heavy)
-                    { 85193, 818 }, // Helm (Heavy)
-                    { 84875, 808 }, // Shoulder (Heavy)
-                    { 85084, 807 }, // Coat (Heavy)
-                    { 85140, 812 }, // Gloves (Heavy)
-                    { 84887, 797 }, // Leggings (Heavy)
-                    { 85055, 801 },  // Boots (Heavy)
+                    { 80384, 818 }, // Helm (Heavy)
+                    { 80435, 808 }, // Shoulder (Heavy)
+                    { 80254, 807 }, // Coat (Heavy)
+                    { 80205, 812 }, // Gloves (Heavy)
+                    { 80277, 797 }, // Leggings (Heavy)
+                    { 80557, 801 },  // Boots (Heavy)
                     
                     { 79838, 856 }, //Aqua Breather (Medium)
-                    { 80701, 817 }, // Helm (Medium)
-                    { 80825 , 805 }, // Shoulder (Medium)
-                    { 84977, 806 }, // Coat (Medium)
-                    { 85169, 811 }, // Gloves (Medium)
-                    { 85264, 796 }, // Leggings (Medium)
-                    { 80836, 799 }, // Boots (Medium)
+                    { 80296, 817 }, // Helm (Medium)
+                    { 80145 , 805 }, // Shoulder (Medium)
+                    { 80578, 806 }, // Coat (Medium)
+                    { 80161, 811 }, // Gloves (Medium)
+                    { 80252, 796 }, // Leggings (Medium)
+                    { 80281, 799 }, // Boots (Medium)
                     
                     { 79873, 855 }, //Aqua Breather (Light)
-                    { 85128, 819 }, // Helm (Light)
-                    { 84918, 810 }, // Shoulder (Light)
-                    { 85333, 809 }, // Coat (Light)
-                    { 85070, 813 }, // Gloves (Light)
-                    { 85362, 798 }, // Leggings (Light)
-                    { 80815, 803 },  // Boots (Light)                    
+                    { 80248, 819 }, // Helm (Light)
+                    { 80131, 810 }, // Shoulder (Light)
+                    { 80190, 809 }, // Coat (Light)
+                    { 80111, 813 }, // Gloves (Light)
+                    { 80356, 798 }, // Leggings (Light)
+                    { 80399, 803 },  // Boots (Light)                    
    
-                    { 94947, 10161 }, //Back
-                    { 79980, null }, // Amulet
-                    { 80002, null }, // Accessory
-                    { 80058, null },  // Ring
+                    { 74155, 10161 }, //Back
+                    { 92991, 1614376}, // Amulet
+                    { 81908, 1614709 }, // Accessory
+                    { 91234, 1614682},  // Ring
 
                     //{ 0, null },  // Relic
                 };
@@ -232,6 +233,12 @@ namespace Kenedia.Modules.BuildsManager.Services
                 {
                     BuildsManager.Logger.Info("All data loaded!");
                     Loaded?.Invoke(this, EventArgs.Empty);
+
+                    if (_notificationBadge?.Invoke() is NotificationBadge badge)
+                    {
+                        badge.SetLocalizedText = () => string.Empty;
+                        badge.Hide();
+                    }
                 }
                 else
                 {

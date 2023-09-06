@@ -3,6 +3,7 @@ using System;
 using System.Net.Http;
 using System.Runtime.Serialization;
 using System.Threading.Tasks;
+using Kenedia.Modules.Core.Models;
 
 namespace Kenedia.Modules.Characters.Models
 {
@@ -40,7 +41,7 @@ namespace Kenedia.Modules.Characters.Models
                 using var httpClient = new HttpClient();
                 string content = await httpClient.GetStringAsync(Url);
 
-                var info = JsonConvert.DeserializeObject<StaticInfo>(content);
+                var info = JsonConvert.DeserializeObject<StaticInfo>(content, SerializerSettings.Default);
                 return info;
             }
             catch 

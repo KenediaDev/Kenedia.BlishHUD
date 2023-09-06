@@ -85,13 +85,6 @@ namespace Kenedia.Modules.BuildsManager
 
             Paths = new(DirectoriesManager, Name);
 
-            JsonConvert.DefaultSettings = () => new JsonSerializerSettings
-            {
-                Formatting = Formatting.Indented,
-                NullValueHandling = NullValueHandling.Ignore,
-                ContractResolver = new SemverVersionContractResolver()
-            };
-
             Logger.Info($"Starting {Name} v." + Version.BaseVersion());
 
             GW2API = new(Gw2ApiManager, () => Data, Paths, () => _notificationBadge);
@@ -166,7 +159,7 @@ namespace Kenedia.Modules.BuildsManager
             _cancellationTokenSource?.Cancel();
             _cancellationTokenSource = new CancellationTokenSource();
 
-            //await GW2API.UpdateMappedIds("0.0.4");
+            //await GW2API.UpdateMappedIds("0.0.5");
 
             //LoadTemplates();
             base.ReloadKey_Activated(sender, e);

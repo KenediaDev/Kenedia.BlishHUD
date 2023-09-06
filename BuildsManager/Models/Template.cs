@@ -1071,7 +1071,7 @@ namespace Kenedia.Modules.BuildsManager.Models
                     string path = BuildsManager.ModuleInstance.Paths.TemplatesPath;
                     if (!Directory.Exists(path)) _ = Directory.CreateDirectory(path);
 
-                    string json = JsonConvert.SerializeObject(this, Formatting.Indented);
+                    string json = JsonConvert.SerializeObject(this, SerializerSettings.Default);
                     File.WriteAllText($@"{path}\{Common.MakeValidFileName(Name.Trim())}.json", json);
                 }
             }

@@ -21,6 +21,9 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage.GearSlots
         private Rectangle _titleBounds;
         private Rectangle _statBounds;
 
+        private string _relicName;
+        private string _relicDescription;
+
         public RelicSlot(TemplateSlotType gearSlot, Container parent, TemplatePresenter templatePresenter) : base(gearSlot, parent, templatePresenter)
         {
             ItemControl.Placeholder.Texture = BuildsManager.ModuleInstance.ContentsManager.GetTexture(@"textures\relic_slot.png");
@@ -40,8 +43,8 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage.GearSlots
         {
             base.PaintAfterChildren(spriteBatch, bounds);
 
-            spriteBatch.DrawStringOnCtrl(this, ItemControl?.Item?.Name ?? strings.Relic, Content.DefaultFont16, _titleBounds, ItemControl?.Item?.Rarity.GetColor() ?? Color.White * 0.5F);
-            spriteBatch.DrawStringOnCtrl(this, (ItemControl?.Item as DataModels.Items.Enhancement)?.Details.Description ?? ItemControl?.Item?.Description, Content.DefaultFont12, _statBounds, Color.White, false, HorizontalAlignment.Left, VerticalAlignment.Top);
+            spriteBatch.DrawStringOnCtrl(this, _relicName, Content.DefaultFont16, _titleBounds, ItemControl?.Item?.Rarity.GetColor() ?? Color.White * 0.5F);
+            spriteBatch.DrawStringOnCtrl(this, _relicDescription, Content.DefaultFont12, _statBounds, Color.White, false, HorizontalAlignment.Left, VerticalAlignment.Top);
         }
 
         protected override void SetItems(object sender, EventArgs e)
@@ -50,6 +53,9 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage.GearSlots
 
             var relic = TemplatePresenter?.Template?[Slot] as RelicTemplateEntry;
             Item = relic?.Relic;
+
+            _relicName = relic?.Relic?.Name ?? strings.Relic;
+            _relicDescription = relic?.Relic?.Description.InterpretItemDescription();
         }
 
         protected override void OnClick(MouseEventArgs e)

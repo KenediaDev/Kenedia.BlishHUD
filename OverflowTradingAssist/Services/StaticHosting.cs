@@ -7,6 +7,8 @@ using System.Linq;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
+using Version = SemVer.Version;
+using Kenedia.Modules.Core.Models;
 
 namespace Kenedia.Modules.OverflowTradingAssist.Services
 {
@@ -22,7 +24,7 @@ namespace Kenedia.Modules.OverflowTradingAssist.Services
                 using var httpClient = new HttpClient();
                 string content = await httpClient.GetStringAsync(VersionUrl);
 
-                var info = JsonConvert.DeserializeObject<StaticVersion>(content);
+                var info = JsonConvert.DeserializeObject<StaticVersion>(content, SerializerSettings.SemverSerializer);
                 return info;
             }
             catch
@@ -48,7 +50,7 @@ namespace Kenedia.Modules.OverflowTradingAssist.Services
 
                 string content = await response.Content.ReadAsStringAsync();
 
-                var info = JsonConvert.DeserializeObject<HostedItems<int>>(content);
+                var info = JsonConvert.DeserializeObject<HostedItems<int>>(content, SerializerSettings.SemverSerializer);
                 return info;
             }
             catch

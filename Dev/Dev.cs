@@ -61,7 +61,7 @@ namespace Kenedia.Modules.Dev
             {
                 skill2.HttpResponseInfo = null;
             }
-            string json = JsonConvert.SerializeObject(skills, Formatting.Indented);
+            string json = JsonConvert.SerializeObject(skills, SerializerSettings.Default);
             System.IO.File.WriteAllText($@"{Paths.ModulePath}\skills.json", json);
 
             //var skills = JsonConvert.DeserializeObject<List<Skill>>(await new StreamReader($@"{Paths.ModulePath}\skills.json").ReadToEndAsync());

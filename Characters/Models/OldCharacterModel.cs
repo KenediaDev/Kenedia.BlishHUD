@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
+using Kenedia.Modules.Core.Models;
 
 namespace Kenedia.Modules.Characters.Models
 {
@@ -27,7 +28,7 @@ namespace Kenedia.Modules.Characters.Models
                     }
 
                     string content = File.ReadAllText(path);
-                    var old_characters = JsonConvert.DeserializeObject<List<OldCharacterModel>>(content);
+                    var old_characters = JsonConvert.DeserializeObject<List<OldCharacterModel>>(content, SerializerSettings.Default);
                     string basePath = path.Replace("\\" + accountName + "\\characters.json", "");
                     imagePath = imagePath.Replace("\\" + accountName + "\\images", "");
 

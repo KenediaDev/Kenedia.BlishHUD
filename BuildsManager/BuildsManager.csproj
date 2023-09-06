@@ -399,7 +399,7 @@
     <Compile Include="Services\Data\RaceDataEntry.cs" />
     <Compile Include="Services\StaticHosting.cs" />
     <Compile Include="Services\StatMap.cs" />
-    <Compile Include="Services\StatMappedDataEntry.cs" />
+    <Compile Include="Services\Data\StatMappedDataEntry.cs" />
     <Compile Include="Services\StatMapping.cs" />
     <Compile Include="Utility\GearTemplateCode.cs" />
     <Compile Include="DataModels\Converter\PowerCoreConverter.cs" />

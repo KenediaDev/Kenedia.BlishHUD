@@ -8,6 +8,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Version = SemVer.Version;
 using Kenedia.Modules.Core.Extensions;
+using Kenedia.Modules.Core.Models;
 using Gw2Sharp.WebApi;
 using System.Threading;
 
@@ -27,7 +28,7 @@ namespace Kenedia.Modules.BuildsManager.Services
                 if (!DataLoaded && File.Exists(path))
                 {
                     string json = File.ReadAllText(path);
-                    loaded = JsonConvert.DeserializeObject<MappedDataEntry<int, Stat>>(json);
+                    loaded = JsonConvert.DeserializeObject<MappedDataEntry<int, Stat>>(json, SerializerSettings.SemverSerializer);
                     DataLoaded = true;
                 }
 
@@ -36,6 +37,8 @@ namespace Kenedia.Modules.BuildsManager.Services
 
                 var lang = GameService.Overlay.UserLocale.Value is Locale.Korean or Locale.Chinese ? Locale.English : GameService.Overlay.UserLocale.Value;
                 var fetchIds = Items.Values.Where(item => (item.Names[lang] == null) || (item.MappedId == 0))?.Select(e => e.Id);
+
+                bool fetchAll = version > Version;
 
                 if (version > Version || Map is null)
                 {
@@ -54,6 +57,9 @@ namespace Kenedia.Modules.BuildsManager.Services
                     Version = Map.Version;
                     fetchIds = fetchIds.Concat(Map.Values.Except(Items.Keys));
                     saveRequired = true;
+
+                    if (fetchAll)
+                        BuildsManager.Logger.Debug($"The current version does not match the map version. Updating all values for {name}.");
                 }
 
                 if (fetchIds.Count() > 0)
@@ -89,7 +95,7 @@ namespace Kenedia.Modules.BuildsManager.Services
                 if (saveRequired)
                 {
                     BuildsManager.Logger.Debug($"Saving {name}.json");
-                    string json = JsonConvert.SerializeObject(this);
+                    string json = JsonConvert.SerializeObject(this, SerializerSettings.SemverSerializer);
                     File.WriteAllText(path, json);
                 }
 

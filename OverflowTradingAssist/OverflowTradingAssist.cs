@@ -76,16 +76,7 @@ namespace Kenedia.Modules.OverflowTradingAssist
             //base.ReloadKey_Activated(sender, e);
 
             //var itemids = Gw2ApiManager.Gw2ApiClient.V2.Commerce.Listings.
-            var itemids = await Gw2ApiManager.Gw2ApiClient.V2.Items.IdsAsync();
-            var hostedItems = new HostedItems<int>();
-
-            hostedItems.Version = new("0.0.1");
-            foreach (int id in itemids)
-            {
-                hostedItems.Items.Add(id);
-            }
-
-            hostedItems.SaveToJson(Paths.ModuleDataPath + "hosteditems.json");
+            _ = await Data.Load(true);
         }
 
         protected override async Task LoadAsync()

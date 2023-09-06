@@ -22,6 +22,9 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage.GearSlots
         private Rectangle _titleBounds;
         private Rectangle _statBounds;
 
+        private string _powerCoreName;
+        private string _powerCoreDescription;
+
         public PowerCoreSlot(TemplateSlotType gearSlot, Container parent, TemplatePresenter templatePresenter) : base(gearSlot, parent, templatePresenter)
         {
             ItemControl.Placeholder.Texture = AsyncTexture2D.FromAssetId(2630946);
@@ -42,8 +45,8 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage.GearSlots
         {
             base.PaintAfterChildren(spriteBatch, bounds);
 
-            spriteBatch.DrawStringOnCtrl(this, ItemControl?.Item?.Name ?? strings.PowerCore, Content.DefaultFont16, _titleBounds, ItemControl?.Item?.Rarity.GetColor() ?? Color.White * 0.5F);
-            spriteBatch.DrawStringOnCtrl(this, (ItemControl?.Item as Enhancement)?.Details.Description ?? ItemControl?.Item?.Description, Content.DefaultFont12, _statBounds, Color.White, false, HorizontalAlignment.Left, VerticalAlignment.Top);
+            spriteBatch.DrawStringOnCtrl(this, _powerCoreName, Content.DefaultFont16, _titleBounds, ItemControl?.Item?.Rarity.GetColor() ?? Color.White * 0.5F);
+            spriteBatch.DrawStringOnCtrl(this, _powerCoreDescription, Content.DefaultFont12, _statBounds, Color.White, false, HorizontalAlignment.Left, VerticalAlignment.Top);
         }
 
         protected override void SetItems(object sender, EventArgs e)
@@ -52,6 +55,8 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage.GearSlots
 
             var powerCore = TemplatePresenter?.Template?[Slot] as PowerCoreTemplateEntry;
             Item = powerCore?.PowerCore;
+            _powerCoreName = powerCore?.PowerCore?.Name ?? strings.PowerCore;
+            _powerCoreDescription = powerCore?.PowerCore?.Description.InterpretItemDescription() ?? string.Empty;
         }
 
         protected override void OnClick(MouseEventArgs e)

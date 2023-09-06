@@ -1193,7 +1193,7 @@ namespace Kenedia.Modules.Characters.Services
 
                     if (jsonString is not null && jsonString != string.Empty)
                     {
-                        Maps = JsonConvert.DeserializeObject<Dictionary<int, Map>>(jsonString);
+                        Maps = JsonConvert.DeserializeObject<Dictionary<int, Map>>(jsonString, SerializerSettings.Default);
                         
                         Characters.Logger.Info($"Loaded Maps from {path}");
                     }

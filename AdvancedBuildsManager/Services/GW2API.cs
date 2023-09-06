@@ -23,6 +23,7 @@ using Kenedia.Modules.Core.Extensions;
 using Gw2Sharp.WebApi.Exceptions;
 using Kenedia.Modules.AdvancedBuildsManager.Models;
 using Kenedia.Modules.AdvancedBuildsManager.DataModels.Items;
+using ItemType = Gw2Sharp.WebApi.V2.Models.ItemType;
 
 namespace Kenedia.Modules.AdvancedBuildsManager.Services
 {
@@ -122,7 +123,7 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Services
                         }
                     }
 
-                    string json = JsonConvert.SerializeObject(targetlist, Formatting.Indented);
+                    string json = JsonConvert.SerializeObject(targetlist, SerializerSettings.Default);
                     File.WriteAllText($@"{Paths.ModulePath}\data\{file}.json", json);
                 }
 
@@ -177,7 +178,7 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Services
                 }
 
                 AdvancedBuildsManager.Logger.Info($"Saving {"Stats"} ...");
-                string json = JsonConvert.SerializeObject(_data.Stats, Formatting.Indented);
+                string json = JsonConvert.SerializeObject(_data.Stats, SerializerSettings.Default);
                 File.WriteAllText($@"{Paths.ModulePath}\data\Stats.json", json);
             }
             catch (Exception ex)
@@ -272,13 +273,13 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Services
                     }
                 }
 
-                string json = JsonConvert.SerializeObject(_data.Professions, Formatting.Indented);
+                string json = JsonConvert.SerializeObject(_data.Professions, SerializerSettings.Default);
                 File.WriteAllText($@"{Paths.ModulePath}\data\Professions.json", json);
 
-                json = JsonConvert.SerializeObject(paletteBySkills, Formatting.Indented);
+                json = JsonConvert.SerializeObject(paletteBySkills, SerializerSettings.Default);
                 File.WriteAllText($@"{Paths.ModulePath}\data\PaletteBySkills.json", json);
 
-                json = JsonConvert.SerializeObject(_data.Races, Formatting.Indented);
+                json = JsonConvert.SerializeObject(_data.Races, SerializerSettings.Default);
                 File.WriteAllText($@"{Paths.ModulePath}\data\Races.json", json);
             }
             catch (Exception ex)
@@ -326,7 +327,7 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Services
                     if (!exists) _data.Pets.Add(e.Id, pet);
                 }
 
-                string json = JsonConvert.SerializeObject(_data.Pets, Formatting.Indented);
+                string json = JsonConvert.SerializeObject(_data.Pets, SerializerSettings.Default);
                 File.WriteAllText($@"{Paths.ModulePath}\data\Pets.json", json);
             }
             catch (Exception ex)
@@ -498,7 +499,7 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Services
                 )?.Id;
             }
 
-            string json = JsonConvert.SerializeObject(AdvancedBuildsManager.Data.SkillConnections, Formatting.Indented);
+            string json = JsonConvert.SerializeObject(AdvancedBuildsManager.Data.SkillConnections, SerializerSettings.Default);
             File.WriteAllText($@"{_paths.ModuleDataPath}\SkillConnections.json", json);
         }
 
@@ -508,7 +509,7 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Services
             if (cancellation.IsCancellationRequested) return;
             var baseSkills = skills.ToList().ToDictionary(skill => skill.Id, skill => new BaseSkill(skill));
 
-            string json = JsonConvert.SerializeObject(baseSkills, Formatting.Indented);
+            string json = JsonConvert.SerializeObject(baseSkills, SerializerSettings.Default);
             File.WriteAllText($@"{Paths.ModulePath}\data\BaseSkills.json", json);
 
             await _data.LoadBaseSkills();
@@ -854,7 +855,7 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Services
                             AdvancedBuildsManager.Logger.Warn($"Exception {ex}");
                             invalid.AddRange(ids);
 
-                            string json = JsonConvert.SerializeObject(invalid, Formatting.Indented);
+                            string json = JsonConvert.SerializeObject(invalid, SerializerSettings.Default);
                             File.WriteAllText($@"{Paths.ModulePath}\data\InvalidItemIds.json", json);
                         }
                         catch (Exception ex)
@@ -862,7 +863,7 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Services
                             AdvancedBuildsManager.Logger.Warn($"Exception {ex}");
                             invalid.AddRange(ids);
 
-                            string json = JsonConvert.SerializeObject(invalid, Formatting.Indented);
+                            string json = JsonConvert.SerializeObject(invalid, SerializerSettings.Default);
                             File.WriteAllText($@"{Paths.ModulePath}\data\InvalidItemIds.json", json);
                         }
 
@@ -1038,7 +1039,7 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Services
                                 }
                             }
 
-                            string json = JsonConvert.SerializeObject(itemMapping, Formatting.Indented);
+                            string json = JsonConvert.SerializeObject(itemMapping, SerializerSettings.Default);
                             File.WriteAllText($@"{Paths.ModulePath}\data\ItemMapping.json", json);
                         }
                     }
@@ -1046,7 +1047,7 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Services
 
                 AdvancedBuildsManager.Logger.Info($"All {raw_itemids.Count} items fetched!");
 
-                string finaljson = JsonConvert.SerializeObject(itemMapping, Formatting.Indented);
+                string finaljson = JsonConvert.SerializeObject(itemMapping, SerializerSettings.Default);
                 File.WriteAllText($@"{Paths.ModulePath}\data\ItemMapping.json", finaljson);
             }
             catch (RequestException ex)

@@ -10,6 +10,7 @@ using Version = SemVer.Version;
 using Kenedia.Modules.Core.Extensions;
 using Gw2Sharp.WebApi;
 using System.Threading;
+using Kenedia.Modules.Core.Models;
 
 namespace Kenedia.Modules.BuildsManager.Services
 {
@@ -27,7 +28,7 @@ namespace Kenedia.Modules.BuildsManager.Services
                 {
                     BuildsManager.Logger.Debug($"Load {name}.json");
                     string json = File.ReadAllText(path);
-                    loaded = JsonConvert.DeserializeObject<PetDataEntry>(json);
+                    loaded = JsonConvert.DeserializeObject<PetDataEntry>(json, SerializerSettings.SemverSerializer);
                     DataLoaded = true;
                 }
 
@@ -83,7 +84,7 @@ namespace Kenedia.Modules.BuildsManager.Services
                 if (saveRequired)
                 {
                     BuildsManager.Logger.Debug($"Saving {name}.json");
-                    string json = JsonConvert.SerializeObject(this);
+                    string json = JsonConvert.SerializeObject(this, SerializerSettings.SemverSerializer);
                     File.WriteAllText(path, json);
                 }
 

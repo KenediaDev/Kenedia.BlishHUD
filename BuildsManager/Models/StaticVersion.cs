@@ -110,14 +110,8 @@ namespace Kenedia.Modules.BuildsManager.Models
 
         public void SaveToJson(string path)
         {
-            var settings = new JsonSerializerSettings
-            {
-                ContractResolver = new SemverVersionContractResolver(),
-                Formatting = Formatting.Indented
-            };
-
-            string json = JsonConvert.SerializeObject(this, settings);
-            System.IO.File.WriteAllText(path, json);
+            string json = JsonConvert.SerializeObject(this, SerializerSettings.SemverSerializer);
+            File.WriteAllText(path, json);
         }
 
         public Version this[string propertyName]
@@ -207,13 +201,7 @@ namespace Kenedia.Modules.BuildsManager.Models
 
         public void SaveToJson(string path)
         {
-            var settings = new JsonSerializerSettings
-            {
-                ContractResolver = new SemverVersionContractResolver(),
-                Formatting = Formatting.Indented
-            };
-
-            string json = JsonConvert.SerializeObject(this, settings);
+            string json = JsonConvert.SerializeObject(this, SerializerSettings.SemverSerializer);
             File.WriteAllText(path, json);
         }
     }

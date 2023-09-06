@@ -14,9 +14,112 @@ using Kenedia.Modules.Core.Controls;
 using Kenedia.Modules.Core.Utility;
 using Kenedia.Modules.Core.Models;
 using Kenedia.Modules.OverflowTradingAssist.DataModels;
+using Newtonsoft.Json;
+using Blish_HUD;
+using Gw2Sharp.WebApi;
+using Kenedia.Modules.Core.Extensions;
 
 namespace Kenedia.Modules.OverflowTradingAssist.Services
 {
+    public class ItemsData : DataEntry<Item>
+    {
+        public override async Task<bool> LoadAndUpdate(string name, SemVer.Version version, string path, Gw2ApiManager gw2ApiManager, CancellationToken cancellationToken)
+        {
+            try
+            {
+                var stopwatch = new System.Diagnostics.Stopwatch();
+                stopwatch.Start();
+                bool saveRequired = false;
+                ItemsData loaded = null;
+                OverflowTradingAssist.Logger.Debug($"Load and if required update {name}");
+
+                if (!DataLoaded && File.Exists(path))
+                {
+                    OverflowTradingAssist.Logger.Debug($"Load {name}.json");
+                    string json = File.ReadAllText(path);
+                    loaded = JsonConvert.DeserializeObject<ItemsData>(json, SerializerSettings.SemverSerializer);
+                    DataLoaded = true;
+                }
+
+                Items = loaded?.Items ?? Items;
+                Version = loaded?.Version ?? Version;
+
+                OverflowTradingAssist.Logger.Debug($"Check for missing values for {name}");
+                var itemIds = await gw2ApiManager.Gw2ApiClient.V2.Items.IdsAsync(cancellationToken);
+
+                if (cancellationToken.IsCancellationRequested)
+                {
+                    return false;
+                }
+
+                var lang = GameService.Overlay.UserLocale.Value is Locale.Korean or Locale.Chinese ? Locale.English : GameService.Overlay.UserLocale.Value;
+                var localeMissing = Items.Where(item => item.Names[lang] == null)?.Select(e => e.Id);
+                var missing = itemIds.Except(Items.Select(e => e.Id)).Concat(localeMissing);
+
+                if (version > Version)
+                {
+                    Version = version;
+                    missing = itemIds;
+                    OverflowTradingAssist.Logger.Debug($"The current version does not match the map version. Updating all values for {name}.");
+                }
+
+                if (missing.Count() > 0)
+                {
+                    var idSets = missing.ToList().ChunkBy(200);
+                    saveRequired = saveRequired || idSets.Count > 0;
+
+                    OverflowTradingAssist.Logger.Debug($"Fetch a total of {missing.Count()} {name} in {idSets.Count} sets.");
+                    if (cancellationToken.IsCancellationRequested)
+                    {
+                        return false;
+                    }
+
+                    int count = 0;
+                    foreach (var ids in idSets)
+                    {
+                        OverflowTradingAssist.Logger.Debug($"Fetch chunk {count}/{idSets.Count} for {name}.");
+                        var items = await gw2ApiManager.Gw2ApiClient.V2.Items.ManyAsync(ids, cancellationToken);
+                        if (cancellationToken.IsCancellationRequested)
+                        {
+                            return false;
+                        }
+
+                        foreach (var item in items)
+                        {
+                            bool exists = Items.TryFind(e => e.Id == item.Id, out Item entryItem);
+                            entryItem ??= new();
+
+                            entryItem.Apply(item);
+
+                            if (!exists)
+                                Items.Add(entryItem);
+                        }
+
+                        count++;
+                    }
+                }
+
+                if (saveRequired)
+                {
+                    OverflowTradingAssist.Logger.Debug($"Saving {name}.json");
+                    string json = JsonConvert.SerializeObject(this, SerializerSettings.SemverSerializer);
+                    File.WriteAllText(path, json);
+                }
+                
+                stopwatch.Stop();
+                OverflowTradingAssist.Logger.Debug($"Loaded {name} in {stopwatch.ElapsedMilliseconds}ms");
+
+                DataLoaded = DataLoaded || Items.Count > 0;
+                return true;
+            }
+            catch (Exception ex)
+            {
+                OverflowTradingAssist.Logger.Warn(ex, $"Failed to load {name} data.");
+                return false;
+            }
+        }
+    }
+
     public class Data
     {
         private readonly Gw2ApiManager _gw2ApiManager;
@@ -24,7 +127,7 @@ namespace Kenedia.Modules.OverflowTradingAssist.Services
         private readonly Func<LoadingSpinner> _spinner;
         private readonly Paths _paths;
         private CancellationTokenSource _cancellationTokenSource;
-                
+
         public Data(Paths paths, Gw2ApiManager gw2ApiManager, Func<Core.Controls.NotificationBadge> notificationBadge, Func<LoadingSpinner> spinner)
         {
             _paths = paths;
@@ -36,12 +139,12 @@ namespace Kenedia.Modules.OverflowTradingAssist.Services
         public event EventHandler Loaded;
 
         [EnumeratorMember]
-        public static DataEntry<Item> Items { get; set; } = new();
+        public static ItemsData Items { get; set; } = new();
 
         public bool IsLoaded { get; internal set; }
         public double LastLoadAttempt { get; private set; }
 
-        public IEnumerator<(string name, DataEntry<object> map)> GetEnumerator()
+        public IEnumerator<(string name, ItemsData map)> GetEnumerator()
         {
             var propertiesToEnumerate = GetType()
                 .GetProperties()
@@ -49,7 +152,7 @@ namespace Kenedia.Modules.OverflowTradingAssist.Services
 
             foreach (var property in propertiesToEnumerate)
             {
-                yield return (property.Name, property.GetValue(this) as DataEntry<object>);
+                yield return (property.Name, property.GetValue(this) as ItemsData);
             }
         }
 
@@ -68,6 +171,11 @@ namespace Kenedia.Modules.OverflowTradingAssist.Services
                 _cancellationTokenSource = new CancellationTokenSource();
 
                 StaticVersion versions = await StaticHosting.GetStaticVersion();
+                versions = new()
+                {
+                    Items = new("0.0.1")
+                };
+
                 if (versions is null)
                 {
                     if (_notificationBadge?.Invoke() is NotificationBadge badge)

@@ -4,6 +4,7 @@ using Newtonsoft.Json;
 using System;
 using System.Net.Http;
 using System.Threading.Tasks;
+using Kenedia.Modules.Core.Models;
 
 namespace Kenedia.Modules.BuildsManager.Services
 {
@@ -19,7 +20,7 @@ namespace Kenedia.Modules.BuildsManager.Services
                 using var httpClient = new HttpClient();
                 string content = await httpClient.GetStringAsync(Url);
 
-                var info = JsonConvert.DeserializeObject<StaticVersion>(content);
+                var info = JsonConvert.DeserializeObject<StaticVersion>(content, SerializerSettings.SemverSerializer);
                 return info;
             }
             catch(Exception ex)
@@ -46,7 +47,7 @@ namespace Kenedia.Modules.BuildsManager.Services
 
                 string content = await response.Content.ReadAsStringAsync();
 
-                var info = JsonConvert.DeserializeObject<ByteIntMap>(content);
+                var info = JsonConvert.DeserializeObject<ByteIntMap>(content, SerializerSettings.SemverSerializer);
                 return info;
             }
             catch (Exception ex)

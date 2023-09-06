@@ -81,7 +81,7 @@ namespace Kenedia.Modules.Characters.Services
                 if (File.Exists(_accountFilePath))
                 {
                     string content = File.ReadAllText(_accountFilePath);
-                    accounts = JsonConvert.DeserializeObject<List<AccountSummary>>(content);
+                    accounts = JsonConvert.DeserializeObject<List<AccountSummary>>(content, SerializerSettings.Default);
                     accountEntry = accounts.Find(e => e.AccountName == account.Name);
 
                     if (accountEntry is not null)
@@ -110,7 +110,7 @@ namespace Kenedia.Modules.Characters.Services
                     characters.ToList().ForEach(c => accountEntry.CharacterNames.Add(c.Name));
                 }
 
-                string json = JsonConvert.SerializeObject(accounts, Formatting.Indented);
+                string json = JsonConvert.SerializeObject(accounts, SerializerSettings.Default);
                 File.WriteAllText(_accountFilePath, json);
             }
             catch { }
@@ -237,7 +237,7 @@ namespace Kenedia.Modules.Characters.Services
                     if (!exists) _maps.Add(m.Id, map);
                 }
 
-                string json = JsonConvert.SerializeObject(_maps, Formatting.Indented);
+                string json = JsonConvert.SerializeObject(_maps, SerializerSettings.Default);
                 File.WriteAllText($@"{_paths.ModuleDataPath}\Maps.json", json);
             }
             catch (Exception ex)

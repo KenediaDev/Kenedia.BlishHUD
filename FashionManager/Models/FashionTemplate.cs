@@ -11,6 +11,7 @@ using Blish_HUD.Content;
 using Blish_HUD;
 using System.Runtime.Serialization;
 using Kenedia.Modules.Core.DataModels;
+using Kenedia.Modules.Core.Models;
 using System.Diagnostics;
 using DirectoryExtension = Kenedia.Modules.Core.Extensions.DirectoryExtension;
 using Newtonsoft.Json.Linq;
@@ -538,7 +539,7 @@ namespace Kenedia.Modules.FashionManager.Models
                         string path = $@"{FashionManager.ModuleInstance.Paths.TemplatesPath}\{fileName}";
                         if (!Directory.Exists(path)) _ = Directory.CreateDirectory(path);
 
-                        string json = JsonConvert.SerializeObject(this, Formatting.Indented);
+                        string json = JsonConvert.SerializeObject(this, SerializerSettings.Default);
                         System.IO.File.WriteAllText($@"{path}\{fileName}.json", json);
                     }
                 }

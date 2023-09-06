@@ -159,8 +159,8 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Services
             {
                 _logger.Debug("Loading local data...");
 
-                ItemMap = JsonConvert.DeserializeObject<ItemMapping>(await new StreamReader(_contentsManager.GetFileStream(@"data\ItemMapping.json")).ReadToEndAsync());
-                StatMap = JsonConvert.DeserializeObject<StatMapping>(await new StreamReader(_contentsManager.GetFileStream(@"data\stats_map.json")).ReadToEndAsync());
+                ItemMap = JsonConvert.DeserializeObject<ItemMapping>(await new StreamReader(_contentsManager.GetFileStream(@"data\ItemMapping.json")).ReadToEndAsync(), SerializerSettings.Default);
+                StatMap = JsonConvert.DeserializeObject<StatMapping>(await new StreamReader(_contentsManager.GetFileStream(@"data\stats_map.json")).ReadToEndAsync(), SerializerSettings.Default);
 
                 _logger.Debug("Item Map loaded!");
 
@@ -178,7 +178,7 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Services
                         {
                             _logger.Debug($"Loading data for property {prop.Name} from '{$@"{_paths.ModuleDataPath}{prop.Name}.json"}'");
                             string json = await new StreamReader($@"{_paths.ModuleDataPath}{prop.Name}.json").ReadToEndAsync();
-                            object data = JsonConvert.DeserializeObject(json, prop.PropertyType);
+                            object data = JsonConvert.DeserializeObject(json, prop.PropertyType, SerializerSettings.Default);
                             prop.SetValue(this, data);
                         }
                         else
@@ -215,7 +215,7 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Services
 
         public async Task LoadMissingSkills()
         {
-            MissingSkills = JsonConvert.DeserializeObject<Dictionary<int, BaseSkill>>(await new StreamReader(_contentsManager.GetFileStream(@"data\missing_skills.json")).ReadToEndAsync());
+            MissingSkills = JsonConvert.DeserializeObject<Dictionary<int, BaseSkill>>(await new StreamReader(_contentsManager.GetFileStream(@"data\missing_skills.json")).ReadToEndAsync(), SerializerSettings.Default);
 
         }
 
@@ -227,9 +227,9 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Services
             {
                 _logger.Debug($"Loading data for property {nameof(BaseSkills)} from '{$@"{_paths.ModuleDataPath}{nameof(BaseSkills)}.json"}'");
                 string json = await new StreamReader($@"{_paths.ModuleDataPath}{nameof(BaseSkills)}.json").ReadToEndAsync();
-                object data = JsonConvert.DeserializeObject(json, typeof(Dictionary<int, BaseSkill>));
+                object data = JsonConvert.DeserializeObject(json, typeof(Dictionary<int, BaseSkill>), SerializerSettings.Default);
 
-                BaseSkills = JsonConvert.DeserializeObject<Dictionary<int, BaseSkill>>(await new StreamReader(_contentsManager.GetFileStream(@"data\missing_skills.json")).ReadToEndAsync());
+                BaseSkills = JsonConvert.DeserializeObject<Dictionary<int, BaseSkill>>(await new StreamReader(_contentsManager.GetFileStream(@"data\missing_skills.json")).ReadToEndAsync(), SerializerSettings.Default);
                 foreach (var item in (Dictionary<int, BaseSkill>)data)
                 {
                     if (!BaseSkills.ContainsKey(item.Key))
@@ -252,7 +252,7 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Services
             {
                 _logger.Debug($"Loading data for property {nameof(OldConnections)} from '{$@"{_paths.ModuleDataPath}{nameof(OldConnections)}.json"}'");
                 string json = await new StreamReader($@"{_paths.ModuleDataPath}{nameof(OldConnections)}.json").ReadToEndAsync();
-                object data = JsonConvert.DeserializeObject(json, typeof(Dictionary<int, OldSkillConnection>));
+                object data = JsonConvert.DeserializeObject(json, typeof(Dictionary<int, OldSkillConnection>), SerializerSettings.Default);
                 OldConnections = (Dictionary<int, OldSkillConnection>)data;
                 SkillConnections.Clear();
 
@@ -299,7 +299,7 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Services
         public async Task LoadConnections()
         {
             string oldpath = $@"{_paths.ModuleDataPath}{nameof(OldConnections)}.json";
-            SkillConnections = (Dictionary<int, SkillConnection>)JsonConvert.DeserializeObject(await new StreamReader(_contentsManager.GetFileStream(@"data\skill_connections.json")).ReadToEndAsync(), typeof(Dictionary<int, SkillConnection>));
+            SkillConnections = (Dictionary<int, SkillConnection>)JsonConvert.DeserializeObject(await new StreamReader(_contentsManager.GetFileStream(@"data\skill_connections.json")).ReadToEndAsync(), typeof(Dictionary<int, SkillConnection>), SerializerSettings.Default);
 
             //Adding missing skills, prob obsolete atm
             foreach (var item in BaseSkills)
@@ -326,7 +326,7 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Services
 
                 _logger.Debug($"Loading data for property {nameof(OldConnections)} from '{$@"{_paths.ModuleDataPath}{nameof(OldConnections)}.json"}'");
                 json = await new StreamReader($@"{_paths.ModuleDataPath}{nameof(OldConnections)}.json").ReadToEndAsync();
-                data = JsonConvert.DeserializeObject(json, typeof(Dictionary<int, OldSkillConnection>));
+                data = JsonConvert.DeserializeObject(json, typeof(Dictionary<int, OldSkillConnection>), SerializerSettings.Default);
                 OldConnections = (Dictionary<int, OldSkillConnection>)data;
             }
         }
@@ -350,10 +350,10 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Services
             await Task.Delay(1000, _cancellationTokenSource.Token);
             if (_cancellationTokenSource.IsCancellationRequested) return;
 
-            string json = JsonConvert.SerializeObject(SkillConnections, Formatting.Indented);
+            string json = JsonConvert.SerializeObject(SkillConnections, SerializerSettings.Default);
             File.WriteAllText($@"{_paths.ModuleDataPath}\SkillConnections.json", json);
 
-            json = JsonConvert.SerializeObject(OldConnections, Formatting.Indented);
+            json = JsonConvert.SerializeObject(OldConnections, SerializerSettings.Default);
             File.WriteAllText($@"{_paths.ModuleDataPath}\OldConnections.json", json);
         }
     }

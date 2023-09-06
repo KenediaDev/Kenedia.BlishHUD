@@ -167,7 +167,7 @@ namespace Kenedia.Modules.AdvancedBuildsManager
                     using var reader = File.OpenText(file);
                     string fileText = await reader.ReadToEndAsync();
 
-                    var template = JsonConvert.DeserializeObject<Template>(fileText);
+                    var template = JsonConvert.DeserializeObject<Template>(fileText, SerializerSettings.Default);
 
                     if (template is not null)
                     {

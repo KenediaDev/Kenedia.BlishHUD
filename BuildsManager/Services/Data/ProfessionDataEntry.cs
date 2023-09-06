@@ -31,7 +31,7 @@ namespace Kenedia.Modules.BuildsManager.Services
                 {
                     BuildsManager.Logger.Debug($"Load {name}.json");
                     string json = File.ReadAllText(path);
-                    loaded = JsonConvert.DeserializeObject<ProfessionDataEntry>(json);
+                    loaded = JsonConvert.DeserializeObject<ProfessionDataEntry>(json, SerializerSettings.SemverSerializer);
                     DataLoaded = true;
                 }
 
@@ -99,7 +99,7 @@ namespace Kenedia.Modules.BuildsManager.Services
                 if (saveRequired)
                 {
                     BuildsManager.Logger.Debug($"Saving {name}.json");
-                    string json = JsonConvert.SerializeObject(this);
+                    string json = JsonConvert.SerializeObject(this, SerializerSettings.SemverSerializer);
                     File.WriteAllText(path, json);
                 }
 

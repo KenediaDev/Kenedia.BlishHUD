@@ -1,4 +1,5 @@
 ﻿using Kenedia.Modules.Core.Attributes;
+using Kenedia.Modules.Core.Models;
 using Kenedia.Modules.Core.ContractResolver;
 using Newtonsoft.Json;
 using System;
@@ -33,13 +34,7 @@ namespace Kenedia.Modules.OverflowTradingAssist.Models
 
         public void SaveToJson(string path)
         {
-            var settings = new JsonSerializerSettings
-            {
-                ContractResolver = new SemverVersionContractResolver(),
-                Formatting = Formatting.Indented
-            };
-
-            string json = JsonConvert.SerializeObject(this, settings);
+            string json = JsonConvert.SerializeObject(this, SerializerSettings.SemverSerializer);
             System.IO.File.WriteAllText(path, json);
         }
 

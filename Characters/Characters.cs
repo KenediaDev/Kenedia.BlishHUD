@@ -727,7 +727,7 @@ namespace Kenedia.Modules.Characters
                     if (File.Exists(path))
                     {
                         string content = File.ReadAllText(path);
-                        List<AccountSummary> accounts = JsonConvert.DeserializeObject<List<AccountSummary>>(content);
+                        List<AccountSummary> accounts = JsonConvert.DeserializeObject<List<AccountSummary>>(content, SerializerSettings.Default);
                         return accounts.Find(e => e.CharacterNames.Contains(player.Name));
                     }
                 }
@@ -770,7 +770,7 @@ namespace Kenedia.Modules.Characters
                     FileInfo infos = new(CharactersPath);
                     string content = File.ReadAllText(CharactersPath);
                     PlayerCharacter player = GameService.Gw2Mumble.PlayerCharacter;
-                    List<Character_Model> characters = JsonConvert.DeserializeObject<List<Character_Model>>(content);
+                    List<Character_Model> characters = JsonConvert.DeserializeObject<List<Character_Model>>(content, SerializerSettings.Default);
                     var names = CharacterModels.Select(c => c.Name).ToList();
 
                     if (characters is not null)
@@ -810,7 +810,7 @@ namespace Kenedia.Modules.Characters
 
                 if (await FileExtension.WaitForFileUnlock(CharactersPath, 2500, _characterFileTokenSource.Token))
                 {
-                    string json = JsonConvert.SerializeObject(CharacterModels, Formatting.Indented);
+                    string json = JsonConvert.SerializeObject(CharacterModels, SerializerSettings.Default);
 
                     // write string to file
                     File.WriteAllText(CharactersPath, json);

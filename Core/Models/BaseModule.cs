@@ -7,6 +7,7 @@ using System;
 using System.ComponentModel.Composition;
 using System.Threading.Tasks;
 using Blish_HUD;
+using Kenedia.Modules.Core.ContractResolver;
 using Kenedia.Modules.Core.Views;
 using Blish_HUD.Controls.Extern;
 using Microsoft.Xna.Framework.Input;
@@ -86,12 +87,6 @@ namespace Kenedia.Modules.Core.Models
             ModKeyMapping[(int)ModifierKeys.Ctrl] = VirtualKeyShort.CONTROL;
             ModKeyMapping[(int)ModifierKeys.Alt] = VirtualKeyShort.MENU;
             ModKeyMapping[(int)ModifierKeys.Shift] = VirtualKeyShort.LSHIFT;
-
-            JsonConvert.DefaultSettings = () => new JsonSerializerSettings
-            {
-                Formatting = Formatting.Indented,
-                NullValueHandling = NullValueHandling.Ignore,
-            };
 
             // SOTO Fix
             if (Program.OverlayVersion < new SemVer.Version(1, 1, 0))

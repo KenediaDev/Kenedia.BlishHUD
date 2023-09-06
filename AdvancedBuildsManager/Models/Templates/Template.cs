@@ -552,7 +552,7 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Models.Templates
                         RotationCodes.Add(rotation.Name, rotation.RotationCode);
                     }
 
-                    string json = JsonConvert.SerializeObject(this, Formatting.Indented);
+                    string json = JsonConvert.SerializeObject(this, SerializerSettings.Default);
                     File.WriteAllText($@"{path}\{Common.MakeValidFileName(Name.Trim())}.json", json);
                 }
             }
