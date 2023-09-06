@@ -27,62 +27,195 @@ namespace Kenedia.Modules.BuildsManager.Models
             }
         }
 
-        [JsonSemverVersion]
+        [JsonIgnore]
         public Version Nourishments { get; set; } = new(0, 0, 0);
 
-        [JsonSemverVersion]
+        [JsonProperty("Nourishments")]
+        private string NourishmentsString
+        {
+            get => Nourishments.ToString();
+            set => Nourishments = new Version(value);
+        }
+
+        [JsonIgnore]
         public Version Enhancements { get; set; } = new(0, 0, 0);
 
-        [JsonSemverVersion]
+        [JsonProperty("Enhancements")]
+        private string EnhancementsString
+        {
+            get => Enhancements.ToString();
+            set => Enhancements = new Version(value);
+        }
+
+        [JsonIgnore]
         public Version PveRunes { get; set; } = new(0, 0, 0);
 
-        [JsonSemverVersion]
+        [JsonProperty("PveRunes")]
+        private string PveRunesString
+        {
+            get => PveRunes.ToString();
+            set => PveRunes = new Version(value);
+        }
+
+        [JsonIgnore]
         public Version PvpRunes { get; set; } = new(0, 0, 0);
 
-        [JsonSemverVersion]
+        [JsonProperty("PvpRunes")]
+        private string PvpRunesString
+        {
+            get => PvpRunes.ToString();
+            set => PvpRunes = new Version(value);
+        }
+
+        [JsonIgnore]
         public Version PveSigils { get; set; } = new(0, 0, 0);
 
-        [JsonSemverVersion]
+        [JsonProperty("PveSigils")]
+        private string PveSigilsString
+        {
+            get => PveSigils.ToString();
+            set => PveSigils = new Version(value);
+        }
+
+        [JsonIgnore]
         public Version PvpSigils { get; set; } = new(0, 0, 0);
 
-        [JsonSemverVersion]
+        [JsonProperty("PvpSigils")]
+        private string PvpSigilsString
+        {
+            get => PvpSigils.ToString();
+            set => PvpSigils = new Version(value);
+        }
+
+        [JsonIgnore]
         public Version Infusions { get; set; } = new(0, 0, 0);
 
-        [JsonSemverVersion]
+        [JsonProperty("Infusions")]
+        private string InfusionsString
+        {
+            get => Infusions.ToString();
+            set => Infusions = new Version(value);
+        }
+
+        [JsonIgnore]
         public Version Enrichments { get; set; } = new(0, 0, 0);
 
-        [JsonSemverVersion]
+        [JsonProperty("Enrichments")]
+        private string EnrichmentsString
+        {
+            get => Enrichments.ToString();
+            set => Enrichments = new Version(value);
+        }
+
+        [JsonIgnore]
         public Version Trinkets { get; set; } = new(0, 0, 0);
 
-        [JsonSemverVersion]
+        [JsonProperty("Trinkets")]
+        private string TrinketsString
+        {
+            get => Trinkets.ToString();
+            set => Trinkets = new Version(value);
+        }
+
+        [JsonIgnore]
         public Version Backs { get; set; } = new(0, 0, 0);
 
-        [JsonSemverVersion]
+        [JsonProperty("Backs")]
+        private string BacksString
+        {
+            get => Backs.ToString();
+            set => Backs = new Version(value);
+        }
+
+        [JsonIgnore]
         public Version Weapons { get; set; } = new(0, 0, 0);
 
-        [JsonSemverVersion]
+        [JsonProperty("Weapons")]
+        private string WeaponsString
+        {
+            get => Weapons.ToString();
+            set => Weapons = new Version(value);
+        }
+
+        [JsonIgnore]
         public Version Armors { get; set; } = new(0, 0, 0);
 
-        [JsonSemverVersion]
+        [JsonProperty("Armors")]
+        private string ArmorsString
+        {
+            get => Armors.ToString();
+            set => Armors = new Version(value);
+        }
+
+        [JsonIgnore]
         public Version PowerCores { get; set; } = new(0, 0, 0);
 
-        [JsonSemverVersion]
+        [JsonProperty("PowerCores")]
+        private string PowerCoresString
+        {
+            get => PowerCores.ToString();
+            set => PowerCores = new Version(value);
+        }
+
+        [JsonIgnore]
         public Version Relics { get; set; } = new(0, 0, 0);
 
-        [JsonSemverVersion]
+        [JsonProperty("Relics")]
+        private string RelicsString
+        {
+            get => Relics.ToString();
+            set => Relics = new Version(value);
+        }
+
+        [JsonIgnore]
         public Version PvpAmulets { get; set; } = new(0, 0, 0);
 
-        [JsonSemverVersion]
+        [JsonProperty("PvpAmulets")]
+        private string PvpAmuletsString
+        {
+            get => PvpAmulets.ToString();
+            set => PvpAmulets = new Version(value);
+        }
+
+        [JsonIgnore]
         public Version Stats { get; set; } = new(0, 0, 0);
 
-        [JsonSemverVersion]
+        [JsonProperty("Stats")]
+        private string StatsString
+        {
+            get => Stats.ToString();
+            set => Stats = new Version(value);
+        }
+
+        [JsonIgnore]
         public Version Professions { get; set; } = new(0, 0, 0);
 
-        [JsonSemverVersion]
+        [JsonProperty("Professions")]
+        private string ProfessionsString
+        {
+            get => Professions.ToString();
+            set => Professions = new Version(value);
+        }
+
+        [JsonIgnore]
         public Version Pets { get; set; } = new(0, 0, 0);
 
-        [JsonSemverVersion]
+        [JsonProperty("Pets")]
+        private string PetsString
+        {
+            get => Pets.ToString();
+            set => Pets = new Version(value);
+        }
+
+        [JsonIgnore]
         public Version Races { get; set; } = new(0, 0, 0);
+
+        [JsonProperty("Races")]
+        private string RacesString
+        {
+            get => Races.ToString();
+            set => Races = new Version(value);
+        }
 
         // Implement the IEnumerable<Version> interface
         public IEnumerator<KeyValuePair<string, Version>> GetEnumerator()
@@ -110,7 +243,7 @@ namespace Kenedia.Modules.BuildsManager.Models
 
         public void SaveToJson(string path)
         {
-            string json = JsonConvert.SerializeObject(this, SerializerSettings.SemverSerializer);
+            string json = JsonConvert.SerializeObject(this, SerializerSettings.Default);
             File.WriteAllText(path, json);
         }
 
@@ -150,8 +283,15 @@ namespace Kenedia.Modules.BuildsManager.Models
 
         public Dictionary<byte, int> Items { get; } = new();
 
-        [JsonSemverVersion]
+        [JsonIgnore]
         public Version Version { get; set; } = new(0, 0, 0);
+
+        [JsonProperty("Version")]
+        private string VersionString
+        {
+            get => Version.ToString();
+            set => Version = new Version(value);
+        }
 
         public int this[byte key]
         {
@@ -201,7 +341,7 @@ namespace Kenedia.Modules.BuildsManager.Models
 
         public void SaveToJson(string path)
         {
-            string json = JsonConvert.SerializeObject(this, SerializerSettings.SemverSerializer);
+            string json = JsonConvert.SerializeObject(this, SerializerSettings.Default);
             File.WriteAllText(path, json);
         }
     }

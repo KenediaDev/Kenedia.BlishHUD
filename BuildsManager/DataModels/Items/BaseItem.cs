@@ -6,6 +6,7 @@ using ItemType = Kenedia.Modules.Core.DataModels.ItemType;
 using Kenedia.Modules.Core.Utility;
 using System.Runtime.Serialization;
 using Kenedia.Modules.Core.Extensions;
+using Kenedia.Modules.BuildsManager.Extensions;
 
 namespace Kenedia.Modules.BuildsManager.DataModels.Items
 {
@@ -92,7 +93,7 @@ namespace Kenedia.Modules.BuildsManager.DataModels.Items
         public LocalizedString Descriptions { get; protected set; } = new();
         public string Description
         {
-            get => Descriptions.Text;
+            get => Descriptions.Text.InterpretItemDescription();
             set => Descriptions.Text = value;
         }
 
@@ -116,7 +117,7 @@ namespace Kenedia.Modules.BuildsManager.DataModels.Items
             AssetId = amulet.Icon.GetAssetIdFromRenderUrl();
             DisplayText = amulet.Name;
             Rarity = ItemRarity.Basic;
-            Type = ItemType.Unknown;            
+            Type = ItemType.PvpAmulet;
         }
 
         public void SetAssetId(int id)

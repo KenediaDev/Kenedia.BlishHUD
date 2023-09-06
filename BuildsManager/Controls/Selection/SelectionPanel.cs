@@ -13,6 +13,8 @@ using Kenedia.Modules.BuildsManager.Models;
 using System.Collections.Generic;
 using System.Linq;
 using Kenedia.Modules.BuildsManager.Res;
+using System.Diagnostics;
+using Kenedia.Modules.BuildsManager.Extensions;
 
 namespace Kenedia.Modules.BuildsManager.Controls.Selection
 {
@@ -145,6 +147,15 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
                 switch (SelectionType)
                 {
                     case SelectionTypes.Items:
+                        if (((TemplateSlotType)slot).GetGroupType() != _gearSelection.ActiveSlot.GetGroupType())
+                        {
+                            _gearSelection.Search.Text = string.Empty;
+                        }
+                        else if (subslot is not null && (GearSubSlotType)subslot != _gearSelection.SubSlotType)
+                        {
+                            _gearSelection.Search.Text = string.Empty;
+                        }
+
                         _gearSelection.ActiveSlot = (TemplateSlotType)slot;
                         _gearSelection.SubSlotType = (GearSubSlotType)subslot;
 

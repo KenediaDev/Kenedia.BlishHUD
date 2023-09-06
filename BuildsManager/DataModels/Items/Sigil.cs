@@ -1,5 +1,6 @@
 ﻿using Gw2Sharp.WebApi;
 using Gw2Sharp.WebApi.V2.Models;
+using Kenedia.Modules.BuildsManager.Extensions;
 using Kenedia.Modules.BuildsManager.Models.Templates;
 using Kenedia.Modules.Core.Models;
 using System.Runtime.Serialization;
@@ -19,7 +20,7 @@ namespace Kenedia.Modules.BuildsManager.DataModels.Items
         public LocalizedString Buffs { get; protected set; } = new();
         public string Buff
         {
-            get => Buffs.Text;
+            get => Buffs.Text.InterpretItemDescription();
             set => Buffs.Text = value;
         }
 

@@ -59,7 +59,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage.GearSlots
 
             if (ItemControl.MouseOver)
             {
-                SelectionPanel?.SetAnchor<DataModels.Items.Enhancement>(this, new Rectangle(a.Location, Point.Zero).Add(ItemControl.LocalBounds), SelectionTypes.Items, Slot, GearSubSlotType.Item, (utility) =>
+                SelectionPanel?.SetAnchor<DataModels.Items.Enhancement>(ItemControl, new Rectangle(a.Location, Point.Zero).Add(ItemControl.LocalBounds), SelectionTypes.Items, Slot, GearSubSlotType.Item, (utility) =>
                 {
                     (TemplatePresenter?.Template[Slot] as EnhancementTemplateEntry).Enhancement = utility;
                     Item = utility;

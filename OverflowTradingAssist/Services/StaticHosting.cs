@@ -24,7 +24,7 @@ namespace Kenedia.Modules.OverflowTradingAssist.Services
                 using var httpClient = new HttpClient();
                 string content = await httpClient.GetStringAsync(VersionUrl);
 
-                var info = JsonConvert.DeserializeObject<StaticVersion>(content, SerializerSettings.SemverSerializer);
+                var info = JsonConvert.DeserializeObject<StaticVersion>(content, SerializerSettings.Default);
                 return info;
             }
             catch
@@ -50,7 +50,7 @@ namespace Kenedia.Modules.OverflowTradingAssist.Services
 
                 string content = await response.Content.ReadAsStringAsync();
 
-                var info = JsonConvert.DeserializeObject<HostedItems<int>>(content, SerializerSettings.SemverSerializer);
+                var info = JsonConvert.DeserializeObject<HostedItems<int>>(content, SerializerSettings.Default);
                 return info;
             }
             catch

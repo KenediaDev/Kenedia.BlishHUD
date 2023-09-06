@@ -60,7 +60,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage.GearSlots
 
             if (ItemControl.MouseOver)
             {
-                SelectionPanel?.SetAnchor<Stat>(this, new Rectangle(a.Location, Point.Zero).Add(ItemControl.LocalBounds), SelectionTypes.Stats, Slot, GearSubSlotType.None, (stat) =>
+                SelectionPanel?.SetAnchor<Stat>(ItemControl, new Rectangle(a.Location, Point.Zero).Add(ItemControl.LocalBounds), SelectionTypes.Stats, Slot, GearSubSlotType.None, (stat) =>
                 {
                     (TemplatePresenter?.Template[Slot] as AmuletTemplateEntry).Stat = stat;
                     Stat = stat;
@@ -70,7 +70,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage.GearSlots
 
             if (_enrichmentControl.MouseOver)
             {
-                SelectionPanel?.SetAnchor<Enrichment>(this, new Rectangle(a.Location, Point.Zero).Add(_enrichmentControl.LocalBounds), SelectionTypes.Items, Slot, GearSubSlotType.Enrichment, (enrichment) =>
+                SelectionPanel?.SetAnchor<Enrichment>(_enrichmentControl, new Rectangle(a.Location, Point.Zero).Add(_enrichmentControl.LocalBounds), SelectionTypes.Items, Slot, GearSubSlotType.Enrichment, (enrichment) =>
                 {
                     (TemplatePresenter?.Template[Slot] as AmuletTemplateEntry).Enrichment = enrichment;
                     Enrichment = enrichment;

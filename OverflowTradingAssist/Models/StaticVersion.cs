@@ -34,7 +34,7 @@ namespace Kenedia.Modules.OverflowTradingAssist.Models
 
         public void SaveToJson(string path)
         {
-            string json = JsonConvert.SerializeObject(this, SerializerSettings.SemverSerializer);
+            string json = JsonConvert.SerializeObject(this, SerializerSettings.Default);
             System.IO.File.WriteAllText(path, json);
         }
 

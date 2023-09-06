@@ -9,6 +9,7 @@ using Kenedia.Modules.BuildsManager.Models;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
 using Kenedia.Modules.Core.Attributes;
+using Newtonsoft.Json;
 
 namespace Kenedia.Modules.BuildsManager.Services
 {
@@ -17,9 +18,15 @@ namespace Kenedia.Modules.BuildsManager.Services
     {
         protected bool DataLoaded = false;
 
-        [DataMember]
-        [JsonSemverVersion]
         public Version Version { get; set; } = new(0, 0, 0);
+
+        [DataMember]
+        [JsonProperty("Version")]
+        public string VersionString
+        {
+            get => Version.ToString();
+            set => Version = new Version(value);
+        }
 
         [DataMember]
         public Dictionary<string, object> Items { get; set; } = new();

@@ -67,7 +67,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage.GearSlots
 
             if (ItemControl.MouseOver)
             {
-                SelectionPanel?.SetAnchor<PowerCore>(this, new Rectangle(a.Location, Point.Zero).Add(ItemControl.LocalBounds), SelectionTypes.Items, Slot, GearSubSlotType.Item, (powerCores) =>
+                SelectionPanel?.SetAnchor<PowerCore>(ItemControl, new Rectangle(a.Location, Point.Zero).Add(ItemControl.LocalBounds), SelectionTypes.Items, Slot, GearSubSlotType.Item, (powerCores) =>
                 {
                     (TemplatePresenter?.Template[Slot] as PowerCoreTemplateEntry).PowerCore = powerCores;
                     Item = powerCores;

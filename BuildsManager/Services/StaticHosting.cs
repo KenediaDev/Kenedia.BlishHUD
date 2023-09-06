@@ -15,17 +15,19 @@ namespace Kenedia.Modules.BuildsManager.Services
 
         public async static Task<StaticVersion> GetStaticVersion()
         {
+            string content = string.Empty;
             try
             {
                 using var httpClient = new HttpClient();
-                string content = await httpClient.GetStringAsync(Url);
+                content = await httpClient.GetStringAsync(Url);
 
-                var info = JsonConvert.DeserializeObject<StaticVersion>(content, SerializerSettings.SemverSerializer);
+                var info = JsonConvert.DeserializeObject<StaticVersion>(content, SerializerSettings.Default);
                 return info;
             }
             catch(Exception ex)
             {
                 BuildsManager.Logger.Warn($"Failed to get versions from {Url}");
+                BuildsManager.Logger.Warn($"Fetched content: {content}");
                 BuildsManager.Logger.Warn($"{ex}");
             }
 
@@ -35,6 +37,7 @@ namespace Kenedia.Modules.BuildsManager.Services
         public async static Task<ByteIntMap> GetItemMap(string fileName, System.Threading.CancellationToken cancellationToken)
         {
             string url = $"{BaseUrl}{fileName}.json";
+            string content = string.Empty;
 
             try
             {
@@ -45,14 +48,15 @@ namespace Kenedia.Modules.BuildsManager.Services
                     return null;
                 }
 
-                string content = await response.Content.ReadAsStringAsync();
+                content = await response.Content.ReadAsStringAsync();
 
-                var info = JsonConvert.DeserializeObject<ByteIntMap>(content, SerializerSettings.SemverSerializer);
+                var info = JsonConvert.DeserializeObject<ByteIntMap>(content, SerializerSettings.Default);
                 return info;
             }
             catch (Exception ex)
             {
                 BuildsManager.Logger.Warn($"Failed to get item map from {url}");
+                BuildsManager.Logger.Warn($"Fetched content: {content}");
                 BuildsManager.Logger.Warn($"{ex}");
             }
 

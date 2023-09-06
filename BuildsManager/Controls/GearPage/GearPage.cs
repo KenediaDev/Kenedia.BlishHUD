@@ -18,6 +18,7 @@ using Kenedia.Modules.BuildsManager.Controls.GearPage.GearSlots;
 using Kenedia.Modules.BuildsManager.Extensions;
 using Kenedia.Modules.BuildsManager.Res;
 using Kenedia.Modules.Core.Utility;
+using System.Diagnostics;
 
 namespace Kenedia.Modules.BuildsManager.Controls.GearPage
 {
@@ -34,6 +35,11 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage
 
         private SelectionPanel _selectionPanel;
         private TemplatePresenter _templatePresenter;
+        private readonly DetailedTexture _terrestrialSet = new(156323);
+        private readonly DetailedTexture _alternateTerrestrialSet = new(156324);
+        private readonly DetailedTexture _aquaticSet = new(156325);
+        private readonly DetailedTexture _alternateAquaticSet = new(156326);
+
         private readonly DetailedTexture _pve = new(2229699, 2229700);
         private readonly DetailedTexture _pvp = new(2229701, 2229702);
         private readonly ProfessionRaceSelection _professionRaceSelection;
@@ -125,22 +131,22 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage
 
             List<GearSlot> armors = new();
             List<GearSlot> weapons = new();
-            List<GearSlot> jewellery  = new();
+            List<GearSlot> jewellery = new();
 
             foreach (var slot in _templateSlots.Values)
             {
-                if(slot.Slot.IsArmor())
+                if (slot.Slot.IsArmor())
                 {
                     armors.Add(slot);
                 }
-                else if(slot.Slot.IsWeapon())
+                else if (slot.Slot.IsWeapon())
                 {
                     weapons.Add(slot);
                 }
-                else if(slot.Slot.IsJewellery())
+                else if (slot.Slot.IsJewellery())
                 {
-                    jewellery .Add(slot);
-                } 
+                    jewellery.Add(slot);
+                }
             }
 
             foreach (GearSlot armor in armors)
@@ -153,9 +159,9 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage
                 weapon.SlotGroup = weapons;
             }
 
-            foreach (GearSlot jewelrySlot in jewellery )
+            foreach (GearSlot jewelrySlot in jewellery)
             {
-                jewelrySlot.SlotGroup = jewellery ;
+                jewelrySlot.SlotGroup = jewellery;
             }
 
             _professionRaceSelection = new()
@@ -194,7 +200,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage
             ApplyTemplate();
         }
 
-        public TemplatePresenter TemplatePresenter { get => _templatePresenter; private set => Common.SetProperty(ref _templatePresenter ,value, OnTemplatePresenterChanged); }
+        public TemplatePresenter TemplatePresenter { get => _templatePresenter; private set => Common.SetProperty(ref _templatePresenter, value, OnTemplatePresenterChanged); }
 
         public SelectionPanel SelectionPanel
         {
@@ -212,7 +218,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage
 
         private void OnTemplatePresenterChanged(object sender, Core.Models.ValueChangedEventArgs<TemplatePresenter> e)
         {
-            if(e.OldValue is not null)
+            if (e.OldValue is not null)
             {
                 e.OldValue.TemplateChanged -= TemplatePresenter_TemplateChanged;
                 e.OldValue.LoadedGearFromCode -= TemplatePresenter_LoadedGearFromCode;
@@ -222,7 +228,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage
                 e.OldValue.GearCodeChanged -= TemplatePresenter_GearCodeChanged;
             }
 
-            if(e.NewValue is not null)
+            if (e.NewValue is not null)
             {
                 e.NewValue.TemplateChanged += TemplatePresenter_TemplateChanged;
                 e.NewValue.LoadedGearFromCode += TemplatePresenter_LoadedGearFromCode;
@@ -249,6 +255,10 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage
                 int secondColumn = _templateSlots[TemplateSlotType.AquaBreather].Width + 10;
                 int gearSpacing = 8;
 
+                int setSize = 36;
+                Point p = Point.Zero;
+                Point s = Point.Zero;
+
                 _headerBounds = new(0, _copyButton.Top, 300, _copyButton.Height);
 
                 _pve.Bounds = new(secondColumn, _headerBounds.Bottom + 5, 64, 64);
@@ -271,11 +281,15 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage
 
                 _templateSlots[TemplateSlotType.PvpAmulet].Location = new(_templateSlots[TemplateSlotType.Leg].Left, _templateSlots[TemplateSlotType.Leg].Bottom + gearSpacing);
 
-                _templateSlots[TemplateSlotType.MainHand].Location = new(_templateSlots[TemplateSlotType.Foot].Left, _templateSlots[TemplateSlotType.Foot].Bottom + 15);
-                _templateSlots[TemplateSlotType.OffHand].Location = new(_templateSlots[TemplateSlotType.MainHand].Left + 4, _templateSlots[TemplateSlotType.MainHand].Bottom + 8);
+                p = _templateSlots[TemplateSlotType.MainHand].Location = new(_templateSlots[TemplateSlotType.Foot].Left, _templateSlots[TemplateSlotType.Foot].Bottom + 15);
+                _templateSlots[TemplateSlotType.OffHand].Location = new(_templateSlots[TemplateSlotType.MainHand].Left + 4, _templateSlots[TemplateSlotType.MainHand].Bottom + 4);
+                s = _templateSlots[TemplateSlotType.MainHand].Size;
+                _terrestrialSet.Bounds = new(p.X + (s.Y / 2) - (setSize / 2), p.Y + s.Y - (setSize / 2) + 4, setSize, setSize);
 
-                _templateSlots[TemplateSlotType.AltMainHand].Location = new(_templateSlots[TemplateSlotType.OffHand].Left, _templateSlots[TemplateSlotType.OffHand].Bottom + 35);
-                _templateSlots[TemplateSlotType.AltOffHand].Location = new(_templateSlots[TemplateSlotType.AltMainHand].Left + 4, _templateSlots[TemplateSlotType.AltMainHand].Bottom + 8);
+                p = _templateSlots[TemplateSlotType.AltMainHand].Location = new(_templateSlots[TemplateSlotType.OffHand].Left, _templateSlots[TemplateSlotType.OffHand].Bottom + 35);
+                _templateSlots[TemplateSlotType.AltOffHand].Location = new(_templateSlots[TemplateSlotType.AltMainHand].Left + 4, _templateSlots[TemplateSlotType.AltMainHand].Bottom + 4);
+                s = _templateSlots[TemplateSlotType.AltMainHand].Size;
+                _alternateTerrestrialSet.Bounds = new(p.X + (s.Y / 2) - (setSize / 2), p.Y + s.Y - (setSize / 2) + 4, setSize, setSize);
 
                 _templateSlots[TemplateSlotType.Back].Location = new(secondColumn, _templateSlots[TemplateSlotType.Relic].Bottom + 20);
                 _templateSlots[TemplateSlotType.Accessory_1].Location = new(_templateSlots[TemplateSlotType.Back].Right + 3, _templateSlots[TemplateSlotType.Back].Top);
@@ -287,7 +301,12 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage
 
                 _templateSlots[TemplateSlotType.AquaBreather].Location = new(_templateSlots[TemplateSlotType.Back].Left, _templateSlots[TemplateSlotType.Amulet].Bottom + 20);
                 _templateSlots[TemplateSlotType.Aquatic].Location = new(_templateSlots[TemplateSlotType.AquaBreather].Left, _templateSlots[TemplateSlotType.AquaBreather].Bottom + 15);
-                _templateSlots[TemplateSlotType.AltAquatic].Location = new(_templateSlots[TemplateSlotType.Aquatic].Left, _templateSlots[TemplateSlotType.Aquatic].Bottom + 8);
+                var b = _templateSlots[TemplateSlotType.Aquatic].LocalBounds;
+                _aquaticSet.Bounds = new(b.Left + (b.Height / 2) - (setSize / 2), b.Bottom - (setSize / 2), setSize, setSize);
+
+                _templateSlots[TemplateSlotType.AltAquatic].Location = new(_templateSlots[TemplateSlotType.Aquatic].Left, _templateSlots[TemplateSlotType.Aquatic].Bottom + 12);
+                b = _templateSlots[TemplateSlotType.AltAquatic].LocalBounds;
+                _alternateAquaticSet.Bounds = new(b.Left + (b.Height / 2) - (setSize / 2), b.Bottom - (setSize / 2), setSize, setSize);
             }
         }
 
@@ -300,7 +319,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage
                 _framedSpecIcon.Texture = TemplatePresenter.Template.EliteSpecialization?.ProfessionIconBig ??
                     BuildsManager.Data.Professions[TemplatePresenter.Template.Profession].IconBig;
 
-                switch(TemplatePresenter.Template.Profession.GetArmorType())
+                switch (TemplatePresenter.Template.Profession.GetArmorType())
                 {
                     case ItemWeightType.Heavy:
                         _templateSlots[TemplateSlotType.AquaBreather].Item = BuildsManager.Data.Armors[79895];
@@ -332,8 +351,8 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage
                 }
 
                 var t = TemplatePresenter.Template;
-                _templateSlots[TemplateSlotType.MainHand].Item = t.MainHand.Weapon; 
-                _templateSlots[TemplateSlotType.OffHand].Item = t.OffHand.Weapon; 
+                _templateSlots[TemplateSlotType.MainHand].Item = t.MainHand.Weapon;
+                _templateSlots[TemplateSlotType.OffHand].Item = t.OffHand.Weapon;
                 _templateSlots[TemplateSlotType.Aquatic].Item = t.Aquatic.Weapon;
 
                 _templateSlots[TemplateSlotType.AltMainHand].Item = t.AltMainHand.Weapon;
@@ -350,7 +369,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage
 
             foreach (var slot in _templateSlots.Values)
             {
-                slot.Visible = 
+                slot.Visible =
                     (slot.Slot is not TemplateSlotType.AltAquatic || TemplatePresenter.Template.Profession is not ProfessionType.Engineer and not ProfessionType.Elementalist) &&
                     (TemplatePresenter.IsPve == false
                     ? slot.Slot is TemplateSlotType.MainHand or TemplateSlotType.AltMainHand or TemplateSlotType.OffHand or TemplateSlotType.AltOffHand or TemplateSlotType.PvpAmulet
@@ -371,6 +390,17 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage
             if (TemplatePresenter.Template is not null)
             {
                 (TemplatePresenter.IsPve ? _pve : _pvp).Draw(this, spriteBatch, RelativeMousePosition);
+
+                _terrestrialSet.Draw(this, spriteBatch);
+                _alternateTerrestrialSet.Draw(this, spriteBatch);
+
+                if (TemplatePresenter.IsPve == true)
+                {
+                    _aquaticSet.Draw(this, spriteBatch);
+
+                    if(_templateSlots[TemplateSlotType.AltAquatic].Visible)
+                        _alternateAquaticSet.Draw(this, spriteBatch);
+                }
             }
         }
 

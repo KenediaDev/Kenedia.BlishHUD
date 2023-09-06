@@ -1,7 +1,12 @@
 ﻿using Gw2Sharp.WebApi;
 using Gw2Sharp.WebApi.V2.Models;
+using Kenedia.Modules.Core.Extensions;
+using Kenedia.Modules.BuildsManager.Extensions;
 using Kenedia.Modules.BuildsManager.Models.Templates;
+using Kenedia.Modules.BuildsManager.Res;
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Runtime.Serialization;
 
 namespace Kenedia.Modules.BuildsManager.DataModels.Items
@@ -20,6 +25,8 @@ namespace Kenedia.Modules.BuildsManager.DataModels.Items
 
         [DataMember]
         public RuneBonuses BonusDescriptions { get; set; } = new();
+
+        public string Bonus => BonusDescriptions.Bonuses.Select(e => e.InterpretItemDescription()).ToList().Enumerate(Environment.NewLine, "({0}): ") ?? strings.MissingInfoFromAPI;
 
         public override void Apply(Item item)
         {

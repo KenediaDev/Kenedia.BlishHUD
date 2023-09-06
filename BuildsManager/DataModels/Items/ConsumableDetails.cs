@@ -1,5 +1,6 @@
 ﻿using Blish_HUD.Content;
 using Gw2Sharp.WebApi.V2.Models;
+using Kenedia.Modules.BuildsManager.Extensions;
 using Kenedia.Modules.Core.Models;
 using System.Runtime.Serialization;
 
@@ -33,7 +34,7 @@ namespace Kenedia.Modules.BuildsManager.DataModels.Items
         public LocalizedString Descriptions { get; protected set; } = new();
         public string Description
         {
-            get => Descriptions.Text;
+            get => Descriptions.Text.InterpretItemDescription();
             set => Descriptions.Text = value;
         }
 

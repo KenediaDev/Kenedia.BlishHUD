@@ -4,11 +4,13 @@ using Kenedia.Modules.BuildsManager.Models;
 using Kenedia.Modules.BuildsManager.Models.Templates;
 using Kenedia.Modules.Core.Extensions;
 using Kenedia.Modules.Core.Utility;
+using Microsoft.IdentityModel.Tokens;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using static Kenedia.Modules.BuildsManager.Controls.Selection.Selectable;
 using static Kenedia.Modules.BuildsManager.DataModels.Professions.Weapon;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace Kenedia.Modules.BuildsManager.Controls.Selection
 {
@@ -111,6 +113,54 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
 
         private bool MatchingMethod(BaseItem item)
         {
+            switch (item.Type)
+            {
+                case Core.DataModels.ItemType.Consumable:
+                    if (item is Enhancement enhancement)
+                    {
+                        return item.Name == null || string.IsNullOrEmpty(_filterText) || item.Name.ToLower().Contains(_filterText) || enhancement.Details?.Description?.ToLower()?.Contains(_filterText) == true;
+                    }
+                    else if (item is Nourishment nourishment)
+                    {
+                        return item.Name == null || string.IsNullOrEmpty(_filterText) || item.Name.ToLower().Contains(_filterText) || nourishment.Details?.Description?.ToLower()?.Contains(_filterText) == true;
+                    }
+                    break;
+
+                case Core.DataModels.ItemType.UpgradeComponent:
+                    if (item is Rune rune)
+                    {
+                        return item.Name == null || string.IsNullOrEmpty(_filterText) || item.Name.ToLower().Contains(_filterText) || rune.Bonus.ToLower()?.Contains(_filterText) == true;
+                    }
+                    else if (item is Sigil sigil)
+                    {
+                        return item.Name == null || string.IsNullOrEmpty(_filterText) || item.Name.ToLower().Contains(_filterText) || sigil.Buff.ToLower()?.Contains(_filterText) == true;
+                    }
+                    else if (item is Infusion infusion)
+                    {
+                        return item.Name == null || string.IsNullOrEmpty(_filterText) || item.Name.ToLower().Contains(_filterText) || infusion.Bonus.ToLower()?.Contains(_filterText) == true;
+                    }
+                    break;
+
+                case Core.DataModels.ItemType.PvpAmulet:
+                    if (item is PvpAmulet amulet)
+                    {
+                        bool matched = true;
+                        foreach (string s in _filterText.Split(' '))
+                        {
+                            string searchTxt = s.Trim().ToLower();
+
+                            if (!string.IsNullOrEmpty(searchTxt))
+                            {
+                                matched = matched && (item.Name.ToLower().Contains(searchTxt) || amulet.AttributesString?.ToLower()?.Contains(searchTxt) == true);
+                            }
+                        }
+
+                        return item.Name == null || string.IsNullOrEmpty(_filterText) || matched;
+                    }
+
+                    break;
+            }
+
             return item.Name == null || string.IsNullOrEmpty(_filterText) || item.Name.ToLower().Contains(_filterText);
         }
 

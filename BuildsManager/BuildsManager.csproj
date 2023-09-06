@@ -270,6 +270,7 @@
     <Compile Include="DataModels\Items\PowerCore.cs" />
     <Compile Include="DataModels\Items\PvpAmulet.cs" />
     <Compile Include="DataModels\Items\Relic.cs" />
+    <Compile Include="Extensions\GearSubSlotTypeExtension.cs" />
     <Compile Include="Interfaces\IBaseApiData.cs" />
     <Compile Include="Controls\BuildPage\LegendSlotSkillSlotCollection.cs" />
     <Compile Include="Controls\BuildPage\ProfessionSpecifics.cs" />

@@ -7,6 +7,7 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using AttributeType = Gw2Sharp.WebApi.V2.Models.AttributeType;
 
@@ -91,9 +92,9 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
 
         public TemplatePresenter TemplatePresenter { get; }
 
-        public IReadOnlyList<int> StatChoices { get => _statChoices; set => Common.SetProperty(ref _statChoices , value, OnStatChoicesChanged); }
+        public IReadOnlyList<int> StatChoices { get => _statChoices; set => Common.SetProperty(ref _statChoices, value, OnStatChoicesChanged); }
 
-        public double AttributeAdjustments {  get => _attributeAdjustments; set => Common.SetProperty(ref _attributeAdjustments, value, OnAttributeAdjustmentsChanged); }
+        public double AttributeAdjustments { get => _attributeAdjustments; set => Common.SetProperty(ref _attributeAdjustments, value, OnAttributeAdjustmentsChanged); }
 
         private void OnAttributeAdjustmentsChanged(object sender, ValueChangedEventArgs<double> e)
         {
@@ -130,23 +131,34 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
         private void FilterStats(string? txt = null)
         {
             txt ??= Search.Text;
-            string searchTxt = txt.Trim().ToLower();
-            bool anyName = searchTxt.IsNullOrEmpty();
-
-            var validStats = StatChoices ?? new List<int>();
-            bool anyStat = validStats.Count == 0;
-
-            bool anyAttribute = !_statIcons.Any(e => e.Checked);
-            var attributes = _statIcons.Where(e => e.Checked).Select(e => e.Attribute);
-
             foreach (var stat in _stats)
             {
-                var statAttributes = stat.Stat.Attributes.Select(e => e.Value.Id);
+                stat.Visible = false;
+            }
 
-                stat.Visible =
-                    (anyAttribute || attributes.All(e => statAttributes.Contains(e))) &&
-                    (validStats.Contains(stat.Stat.Id)) &&
-                    (anyName || stat.Stat?.Name.ToLower().Trim().Contains(searchTxt) == true);
+            bool first = true;
+            foreach (string s in txt.Split(' '))
+            {
+                string searchTxt = s.Trim().ToLower();
+                bool anyName = searchTxt.IsNullOrEmpty();
+
+                var validStats = StatChoices ?? new List<int>();
+                bool anyStat = validStats.Count == 0;
+
+                bool anyAttribute = !_statIcons.Any(e => e.Checked);
+                var attributes = _statIcons.Where(e => e.Checked).Select(e => e.Attribute);
+
+                foreach (var stat in _stats)
+                {
+                    var statAttributes = stat.Stat.Attributes.Select(e => e.Value.Id);
+
+                    stat.Visible = (first || stat.Visible) &&
+                        (anyAttribute || attributes.All(e => statAttributes.Contains(e))) &&
+                        validStats.Contains(stat.Stat.Id) &&
+                        (anyName || stat.Stat?.Name.ToLower().Trim().Contains(searchTxt) == true || stat.Stat?.DisplayAttributes.ToLower().Contains(searchTxt) == true);
+                }
+
+                first = false;
             }
 
             SelectionContent.SortChildren<StatSelectable>((a, b) => a.Stat.Name.CompareTo(b.Stat.Name));

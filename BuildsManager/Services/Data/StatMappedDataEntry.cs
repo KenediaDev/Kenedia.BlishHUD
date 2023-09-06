@@ -28,12 +28,14 @@ namespace Kenedia.Modules.BuildsManager.Services
                 if (!DataLoaded && File.Exists(path))
                 {
                     string json = File.ReadAllText(path);
-                    loaded = JsonConvert.DeserializeObject<MappedDataEntry<int, Stat>>(json, SerializerSettings.SemverSerializer);
+                    loaded = JsonConvert.DeserializeObject<MappedDataEntry<int, Stat>>(json, SerializerSettings.Default);
                     DataLoaded = true;
                 }
 
                 Items = loaded?.Items ?? Items;
                 Version = loaded?.Version ?? Version;
+
+                BuildsManager.Logger.Debug($"{name} Version {Version} | version {version}");
 
                 var lang = GameService.Overlay.UserLocale.Value is Locale.Korean or Locale.Chinese ? Locale.English : GameService.Overlay.UserLocale.Value;
                 var fetchIds = Items.Values.Where(item => (item.Names[lang] == null) || (item.MappedId == 0))?.Select(e => e.Id);
@@ -95,7 +97,7 @@ namespace Kenedia.Modules.BuildsManager.Services
                 if (saveRequired)
                 {
                     BuildsManager.Logger.Debug($"Saving {name}.json");
-                    string json = JsonConvert.SerializeObject(this, SerializerSettings.SemverSerializer);
+                    string json = JsonConvert.SerializeObject(this, SerializerSettings.Default);
                     File.WriteAllText(path, json);
                 }
 

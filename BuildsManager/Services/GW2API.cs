@@ -185,7 +185,7 @@ namespace Kenedia.Modules.BuildsManager.Services
 
                 var itemid_lists = raw_itemids.Except(invalidIds).ToList().ChunkBy(200);
                 int count = 0;
-
+                itemid_lists.Clear();
                 foreach (var ids in itemid_lists)
                 {
                     if (_cancellationTokenSource.IsCancellationRequested)
@@ -273,7 +273,7 @@ namespace Kenedia.Modules.BuildsManager.Services
                                             {
                                                 maps.Add(MapCollection.Relics);
                                             }
-                                            else if(item.Type == Gw2Sharp.WebApi.V2.Models.ItemType.PowerCore)
+                                            else if (item.Type == Gw2Sharp.WebApi.V2.Models.ItemType.PowerCore)
                                             {
                                                 maps.Add(MapCollection.PowerCores);
                                             }
@@ -304,19 +304,23 @@ namespace Kenedia.Modules.BuildsManager.Services
                     }
                 }
 
-                var ring = (ItemTrinket) await _gw2ApiManager.Gw2ApiClient.V2.Items.GetAsync(91234, _cancellationTokenSource.Token);
-                var legyWeapon = (ItemWeapon) await _gw2ApiManager.Gw2ApiClient.V2.Items.GetAsync(30698, _cancellationTokenSource.Token);
+                var ring = (ItemTrinket)await _gw2ApiManager.Gw2ApiClient.V2.Items.GetAsync(91234, _cancellationTokenSource.Token);
+                var legyWeapon = (ItemWeapon)await _gw2ApiManager.Gw2ApiClient.V2.Items.GetAsync(30698, _cancellationTokenSource.Token);
+                var statIds = ring.Details.StatChoices.Concat(legyWeapon.Details.StatChoices);
 
-                var apiStats = await _gw2ApiManager.Gw2ApiClient.V2.Itemstats.ManyAsync(ring.Details.StatChoices.Concat(legyWeapon.Details.StatChoices), _cancellationTokenSource.Token);
+                var apiStats = await _gw2ApiManager.Gw2ApiClient.V2.Itemstats.AllAsync(_cancellationTokenSource.Token);
                 if (_cancellationTokenSource.IsCancellationRequested) return;
 
                 foreach (var e in apiStats)
                 {
-                    var map = MapCollection.Stats;
-                    if (map is not null && map.Items.FirstOrDefault(x => x.Value == e.Id) is KeyValuePair<byte, int> sitem && sitem.Value <= 0 && map.Count < byte.MaxValue)
+                    if (statIds.Contains(e.Id))
                     {
-                        BuildsManager.Logger.Info($"Adding {e.Id} to Stats.");
-                        map.Add((byte)(map.Count + 1), e.Id);
+                        var map = MapCollection.Stats;
+                        if (map is not null && map.Items.FirstOrDefault(x => x.Value == e.Id) is KeyValuePair<byte, int> sitem && sitem.Value <= 0 && map.Count < byte.MaxValue)
+                        {
+                            BuildsManager.Logger.Info($"Adding {e.Id} to Stats.");
+                            map.Add((byte)(map.Count + 1), e.Id);
+                        }
                     }
                 }
 
@@ -336,14 +340,14 @@ namespace Kenedia.Modules.BuildsManager.Services
                 var version = new SemVer.Version(versionString);
                 foreach (var map in MapCollection)
                 {
-                    if(map.Value is not null)
+                    if (map.Value is not null)
                         map.Value.Version = version;
                 }
 
                 MapCollection.Save();
 
                 var versionFile = new StaticVersion(version);
-                string json = JsonConvert.SerializeObject(versionFile, SerializerSettings.SemverSerializer);
+                string json = JsonConvert.SerializeObject(versionFile, SerializerSettings.Default);
                 File.WriteAllText($@"{Paths.ModuleDataPath}itemmap\Version.json", json);
             }
             catch

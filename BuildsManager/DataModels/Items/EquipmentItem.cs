@@ -13,16 +13,16 @@ namespace Kenedia.Modules.BuildsManager.DataModels.Items
         }
 
         [DataMember]
-        public double AttributeAdjustment { get; protected set; }
+        public double AttributeAdjustment { get; set; }
 
         [DataMember]
-        public ItemEquipmentSlotType Slot { get; protected set; }
+        public ItemEquipmentSlotType Slot { get; set; }
 
         [DataMember]
-        public IReadOnlyList<int> StatChoices { get; protected set; }
+        public IReadOnlyList<int> StatChoices { get; set; }
 
         [DataMember]
-        public int[] InfusionSlots { get; protected set; }
+        public int[] InfusionSlots { get; set; }
 
     }
 }

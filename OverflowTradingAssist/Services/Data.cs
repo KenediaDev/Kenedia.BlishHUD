@@ -37,7 +37,7 @@ namespace Kenedia.Modules.OverflowTradingAssist.Services
                 {
                     OverflowTradingAssist.Logger.Debug($"Load {name}.json");
                     string json = File.ReadAllText(path);
-                    loaded = JsonConvert.DeserializeObject<ItemsData>(json, SerializerSettings.SemverSerializer);
+                    loaded = JsonConvert.DeserializeObject<ItemsData>(json, SerializerSettings.Default);
                     DataLoaded = true;
                 }
 
@@ -102,7 +102,7 @@ namespace Kenedia.Modules.OverflowTradingAssist.Services
                 if (saveRequired)
                 {
                     OverflowTradingAssist.Logger.Debug($"Saving {name}.json");
-                    string json = JsonConvert.SerializeObject(this, SerializerSettings.SemverSerializer);
+                    string json = JsonConvert.SerializeObject(this, SerializerSettings.Default);
                     File.WriteAllText(path, json);
                 }
                 

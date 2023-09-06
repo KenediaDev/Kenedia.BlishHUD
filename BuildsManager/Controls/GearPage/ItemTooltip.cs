@@ -94,7 +94,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage
 
         public string Comment { get => _comment; set => Common.SetProperty(ref _comment, value, ApplyComment); }
 
-        public Func<string> SetLocalizedComment { get => _setLocalizedComment; set => Common.SetProperty(ref _setLocalizedComment, value, ApplyLocalizedComment);}
+        public Func<string> SetLocalizedComment { get => _setLocalizedComment; set => Common.SetProperty(ref _setLocalizedComment, value, ApplyLocalizedComment); }
 
         private void ApplyLocalizedComment(object sender, Core.Models.ValueChangedEventArgs<Func<string>> e)
         {
@@ -168,17 +168,17 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage
             {
                 case ItemType.PowerCore:
                 case ItemType.Relic:
-                    _description.Text = Item.Description?.InterpretItemDescription() ?? strings.MissingInfoFromAPI;
+                    _description.Text = Item.Description ?? strings.MissingInfoFromAPI;
                     break;
 
                 case ItemType.Consumable:
                     if (Item is Nourishment nourishment)
                     {
-                        _description.Text = nourishment?.Details?.Description?.InterpretItemDescription() ?? strings.MissingInfoFromAPI;
+                        _description.Text = nourishment?.Details?.Description ?? strings.MissingInfoFromAPI;
                     }
                     else if (Item is Enhancement enhancement)
                     {
-                        _description.Text = enhancement?.Details?.Description?.InterpretItemDescription() ?? strings.MissingInfoFromAPI;
+                        _description.Text = enhancement?.Details?.Description ?? strings.MissingInfoFromAPI;
                     }
                     break;
 
@@ -192,11 +192,11 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage
                 case ItemType.UpgradeComponent:
                     if (Item is Rune rune)
                     {
-                        _description.Text = rune.BonusDescriptions.Bonuses.Select(e => e.InterpretItemDescription()).ToList().Enumerate(Environment.NewLine, "({0}): ") ?? strings.MissingInfoFromAPI; ;
+                        _description.Text = rune.Bonus;
                     }
                     else if (Item is Sigil sigil)
                     {
-                        _description.Text = sigil.Buff.InterpretItemDescription() ?? strings.MissingInfoFromAPI; ;
+                        _description.Text = sigil.Buff ?? strings.MissingInfoFromAPI; ;
                     }
                     else if (Item is Infusion infusion)
                     {
@@ -207,6 +207,14 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage
                         _description.Text = enrichment.DisplayText ?? strings.MissingInfoFromAPI; ;
                     }
 
+                    break;
+                
+                case ItemType.PvpAmulet:
+                    if (Item is PvpAmulet pvpAmulet)
+                    {
+                        _description.Text = pvpAmulet?.AttributesString;
+                        _description.TextColor = Color.Lime;
+                    }
                     break;
             }
         }

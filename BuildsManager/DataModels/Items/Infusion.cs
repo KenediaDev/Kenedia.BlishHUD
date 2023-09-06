@@ -1,4 +1,5 @@
 ﻿using Gw2Sharp.WebApi.V2.Models;
+using Kenedia.Modules.BuildsManager.Extensions;
 using Kenedia.Modules.Core.Models;
 using System;
 using System.Collections.Generic;
@@ -13,7 +14,7 @@ namespace Kenedia.Modules.BuildsManager.DataModels.Items
         public LocalizedString Bonuses { get; set; } = new();
         public string Bonus
         {
-            get => Bonuses.Text;
+            get => Bonuses.Text.InterpretItemDescription();
             set => Bonuses.Text = value;
         }
 

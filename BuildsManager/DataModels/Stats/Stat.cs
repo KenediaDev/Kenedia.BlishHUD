@@ -1,5 +1,6 @@
 ﻿using Blish_HUD.Content;
 using Kenedia.Modules.BuildsManager.DataModels.Items;
+using Kenedia.Modules.BuildsManager.Extensions;
 using Kenedia.Modules.Core.Models;
 using System;
 using System.Collections.Generic;
@@ -69,6 +70,8 @@ namespace Kenedia.Modules.BuildsManager.DataModels.Stats
         {
             Apply(stat);
         }
+
+        public string DisplayAttributes => string.Join(Environment.NewLine, Attributes?.Values.Where(e => e is not null).Select(e => $"+ {Math.Round(e.Value + (e.Multiplier * 0))} {e.Id.GetDisplayName()}"));
 
         [DataMember]
         public StatAttributes Attributes { get; set; } = new();

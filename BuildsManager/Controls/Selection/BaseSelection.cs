@@ -7,7 +7,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
 {
     public class BaseSelection : Panel
     {
-        protected readonly FilterBox Search;
+        public readonly FilterBox Search;
         protected readonly FlowPanel SelectionContent;
 
         public BaseSelection()

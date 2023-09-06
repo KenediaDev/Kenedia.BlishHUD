@@ -13,12 +13,5 @@ namespace Kenedia.Modules.Core.Models
             Formatting = Formatting.Indented,
             NullValueHandling = NullValueHandling.Ignore,
         };
-
-        public static JsonSerializerSettings SemverSerializer = new()
-        {
-            Formatting = Formatting.Indented,
-            NullValueHandling = NullValueHandling.Ignore,
-            ContractResolver = new SemverVersionContractResolver()
-        };
     }
 }

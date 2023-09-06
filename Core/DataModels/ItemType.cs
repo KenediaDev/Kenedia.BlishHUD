@@ -101,5 +101,10 @@
         /// Relic type.
         /// </summary>
         Relic,
+
+        /// <summary>
+        /// Relic type.
+        /// </summary>
+        PvpAmulet,
     }
 }

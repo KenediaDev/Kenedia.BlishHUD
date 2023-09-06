@@ -5,6 +5,7 @@ using Kenedia.Modules.BuildsManager.DataModels.Stats;
 using Kenedia.Modules.BuildsManager.Extensions;
 using Kenedia.Modules.Core.Controls;
 using Kenedia.Modules.Core.Extensions;
+using Kenedia.Modules.Core.Services;
 using Kenedia.Modules.Core.Utility;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -40,6 +41,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
                 WrapText = false,
                 AutoSizeHeight = true,
                 //BackgroundColor = Color.Blue * 0.2F,
+                SetLocalizedText = () => _stat?.Name,
                 Font = Content.DefaultFont16,
                 TextColor = Colors.ColonialWhite,
             };
@@ -49,6 +51,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
                 Parent = this,
                 AutoSizeHeight = true,
                 VerticalAlignment = Blish_HUD.Controls.VerticalAlignment.Top,
+                SetLocalizedText = () => _stat?.DisplayAttributes,
                 //BackgroundColor = Color.White * 0.2F,
             };
 
@@ -99,14 +102,14 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
 
         private void OnStatChanged()
         {
-            _name.Text = _stat?.Name;
-            _statSummary.Text = _stat == null ? null : string.Join(Environment.NewLine, _stat?.Attributes?.Values.Where(e => e is not null).Select(e => $"+ {Math.Round(e.Value + (e.Multiplier * _attributeAdjustment))} {e.Id.GetDisplayName()}"));
+            _name.SetLocalizedText = () => _stat?.Name;
+            _statSummary.SetLocalizedText = () => _stat?.DisplayAttributes;
             _icon.Texture = _stat?.Icon;
         }
 
         private void OnMultiplierChanged()
         {
-            _statSummary.Text = string.Join(Environment.NewLine, _stat?.Attributes.Values.Where(e => e is not null).Select(e => $"+ {Math.Round(e.Value + (e.Multiplier * _attributeAdjustment))} {e.Id.GetDisplayName()}"));
+            _statSummary.SetLocalizedText = () => _stat?.DisplayAttributes;
         }
 
         protected override void DisposeControl()

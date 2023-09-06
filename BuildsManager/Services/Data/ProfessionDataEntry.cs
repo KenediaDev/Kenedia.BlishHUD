@@ -31,12 +31,14 @@ namespace Kenedia.Modules.BuildsManager.Services
                 {
                     BuildsManager.Logger.Debug($"Load {name}.json");
                     string json = File.ReadAllText(path);
-                    loaded = JsonConvert.DeserializeObject<ProfessionDataEntry>(json, SerializerSettings.SemverSerializer);
+                    loaded = JsonConvert.DeserializeObject<ProfessionDataEntry>(json, SerializerSettings.Default);
                     DataLoaded = true;
                 }
 
                 Items = loaded?.Items ?? Items;
                 Version = loaded?.Version ?? Version;
+
+                BuildsManager.Logger.Debug($"{name} Version {Version} | version {version}");
 
                 BuildsManager.Logger.Debug($"Check for missing values for {name}");
                 var professionIds = await gw2ApiManager.Gw2ApiClient.V2.Professions.IdsAsync(cancellationToken);
@@ -99,7 +101,7 @@ namespace Kenedia.Modules.BuildsManager.Services
                 if (saveRequired)
                 {
                     BuildsManager.Logger.Debug($"Saving {name}.json");
-                    string json = JsonConvert.SerializeObject(this, SerializerSettings.SemverSerializer);
+                    string json = JsonConvert.SerializeObject(this, SerializerSettings.Default);
                     File.WriteAllText(path, json);
                 }
 

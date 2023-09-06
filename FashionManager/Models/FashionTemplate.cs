@@ -525,7 +525,7 @@ namespace Kenedia.Modules.FashionManager.Models
 
         public void Save(int timeToWait = 500)
         {
-            _ = Task.Run(async () =>
+            _ = Task.Run((Func<Task>)(async () =>
             {
                 _cancellationTokenSource?.Cancel();
                 _cancellationTokenSource = new CancellationTokenSource();
@@ -539,14 +539,14 @@ namespace Kenedia.Modules.FashionManager.Models
                         string path = $@"{FashionManager.ModuleInstance.Paths.TemplatesPath}\{fileName}";
                         if (!Directory.Exists(path)) _ = Directory.CreateDirectory(path);
 
-                        string json = JsonConvert.SerializeObject(this, SerializerSettings.Default);
+                        string json = JsonConvert.SerializeObject(this, (JsonSerializerSettings)SerializerSettings.Default);
                         System.IO.File.WriteAllText($@"{path}\{fileName}.json", json);
                     }
                 }
                 catch (Exception ex)
                 {
                 }
-            });
+            }));
         }
     }
 }

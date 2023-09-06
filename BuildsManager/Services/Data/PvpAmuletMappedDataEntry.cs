@@ -28,12 +28,14 @@ namespace Kenedia.Modules.BuildsManager.Services
                 {
                     BuildsManager.Logger.Debug($"Load {name}.json");
                     string json = File.ReadAllText(path);
-                    loaded = JsonConvert.DeserializeObject<MappedDataEntry<int, PvpAmulet>>(json, SerializerSettings.SemverSerializer);
+                    loaded = JsonConvert.DeserializeObject<MappedDataEntry<int, PvpAmulet>>(json, SerializerSettings.Default);
                     DataLoaded = true;
                 }
 
                 Items = loaded?.Items ?? Items;
                 Version = loaded?.Version ?? Version;
+
+                BuildsManager.Logger.Debug($"{name} Version {Version} | version {version}");
 
                 BuildsManager.Logger.Debug($"Check for missing values for {name}");
                 var lang = GameService.Overlay.UserLocale.Value is Locale.Korean or Locale.Chinese ? Locale.English : GameService.Overlay.UserLocale.Value;
@@ -93,7 +95,7 @@ namespace Kenedia.Modules.BuildsManager.Services
                 if (saveRequired)
                 {
                     BuildsManager.Logger.Debug($"Saving {name}.json");
-                    string json = JsonConvert.SerializeObject(this, SerializerSettings.SemverSerializer);
+                    string json = JsonConvert.SerializeObject(this, SerializerSettings.Default);
                     File.WriteAllText(path, json);
                 }
 

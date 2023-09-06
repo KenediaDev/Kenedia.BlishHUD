@@ -18,6 +18,7 @@ using static Kenedia.Modules.BuildsManager.Controls.Selection.SelectionPanel;
 using System.Linq;
 using ItemWeaponType = Gw2Sharp.WebApi.V2.Models.ItemWeaponType;
 using Kenedia.Modules.BuildsManager.Res;
+using System.Diagnostics;
 
 namespace Kenedia.Modules.BuildsManager.Controls.GearPage.GearSlots
 {
@@ -42,6 +43,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage.GearSlots
         private Rectangle _sigilBounds;
         private Rectangle _pvpSigilBounds;
         private Rectangle _infusionBounds;
+        private WeaponSlot _otherHandSlot;
 
         public WeaponSlot(TemplateSlotType gearSlot, Container parent, TemplatePresenter templatePresenter) : base(gearSlot, parent, templatePresenter)
         {
@@ -54,6 +56,9 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage.GearSlots
             TemplatePresenter.GameModeChanged += TemplatePresenter_GameModeChanged;
         }
 
+        public event EventHandler<Weapon> WeaponChanged;
+        public event EventHandler<Stat> StatChanged;
+
         public Stat Stat { get => _stat; set => Common.SetProperty(ref _stat, value, OnStatChanged); }
 
         public Sigil Sigil { get => _sigil; set => Common.SetProperty(ref _sigil, value, OnSigilChanged); }
@@ -62,7 +67,61 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage.GearSlots
 
         public Infusion Infusion { get => _infusion; set => Common.SetProperty(ref _infusion, value, OnInfusionChanged); }
 
-        public WeaponSlot OtherHandSlot { get; set; }
+        public WeaponSlot OtherHandSlot { get => _otherHandSlot; set => Common.SetProperty(ref _otherHandSlot, value, OnOtherHandSlotChanged); }
+
+        private void OnOtherHandSlotChanged(object sender, Core.Models.ValueChangedEventArgs<WeaponSlot> e)
+        {
+            if (e.OldValue != null)
+            {
+                e.OldValue.WeaponChanged -= OtherHandSlot_WeaponChanged;
+                e.OldValue.StatChanged -= OtherHandSlot_StatChanged;
+            }
+
+            if (e.NewValue != null)
+            {
+                e.NewValue.WeaponChanged += OtherHandSlot_WeaponChanged;
+                e.NewValue.StatChanged += OtherHandSlot_StatChanged;
+            }
+        }
+
+        private void OtherHandSlot_StatChanged(object sender, Stat e)
+        {
+            if (OtherHandSlot is not null && OtherHandSlot.Slot is TemplateSlotType.MainHand or TemplateSlotType.AltMainHand && (OtherHandSlot.Item as Weapon)?.WeaponType.IsTwoHanded() == true && OtherHandSlot.Stat != Stat)
+            {
+                Stat = OtherHandSlot.Stat;
+                return;
+            }
+        }
+
+        private void OtherHandSlot_WeaponChanged(object sender, Weapon e)
+        {
+            AdjustForOtherSlot();
+        }
+
+        private void AdjustForOtherSlot()
+        {
+            if (OtherHandSlot is not null && OtherHandSlot.Slot is TemplateSlotType.MainHand or TemplateSlotType.AltMainHand)
+            {
+                var otherHandWeapon = OtherHandSlot.Item as Weapon;
+                if (otherHandWeapon?.WeaponType.IsTwoHanded() != false)
+                {
+                    Item = OtherHandSlot.Item;
+                    Stat = OtherHandSlot.Stat;
+
+                    ItemControl.Opacity = 0.6F;
+                    return;
+                }
+                else if ((Item as Weapon)?.WeaponType.IsTwoHanded() == true)
+                {
+                    Item = null;
+                    Stat = null;
+                    ItemControl.Opacity = 1F;
+                    return;
+                }
+            }
+
+            ItemControl.Opacity = 1F;
+        }
 
         private void TemplatePresenter_GameModeChanged(object sender, Core.Models.ValueChangedEventArgs<GameModeType> e)
         {
@@ -221,12 +280,15 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage.GearSlots
         {
             base.SetItems(sender, e);
 
-            var armor = TemplatePresenter?.Template?[Slot] as WeaponTemplateEntry;
+            var weapon = TemplatePresenter?.Template?[Slot] as WeaponTemplateEntry;
 
-            Infusion = armor?.Infusion;
-            Sigil = armor?.Sigil;
-            PvpSigil = armor?.PvpSigil;
-            Stat = armor?.Stat;
+            Infusion = weapon?.Infusion;
+            Sigil = weapon?.Sigil;
+            PvpSigil = weapon?.PvpSigil;
+            Stat = weapon?.Stat;
+            Item = weapon?.Weapon;
+
+            AdjustForOtherSlot();
         }
 
         protected override void OnClick(MouseEventArgs e)
@@ -237,7 +299,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage.GearSlots
 
             if (ItemControl.MouseOver && TemplatePresenter.IsPve)
             {
-                SelectionPanel?.SetAnchor<Stat>(this, new Rectangle(a.Location, Point.Zero).Add(ItemControl.LocalBounds), SelectionTypes.Stats, Slot, GearSubSlotType.None, (stat) =>
+                SelectionPanel?.SetAnchor<Stat>(ItemControl, new Rectangle(a.Location, Point.Zero).Add(ItemControl.LocalBounds), SelectionTypes.Stats, Slot, GearSubSlotType.None, (stat) =>
                 {
                     (TemplatePresenter?.Template[Slot] as WeaponTemplateEntry).Stat = stat;
                     Stat = stat;
@@ -247,7 +309,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage.GearSlots
 
             if (_pvpSigilControl.MouseOver)
             {
-                SelectionPanel?.SetAnchor<Sigil>(this, new Rectangle(a.Location, Point.Zero).Add(_pvpSigilControl.LocalBounds), SelectionTypes.Items, Slot, GearSubSlotType.Sigil, (sigil) =>
+                SelectionPanel?.SetAnchor<Sigil>(_pvpSigilControl, new Rectangle(a.Location, Point.Zero).Add(_pvpSigilControl.LocalBounds), SelectionTypes.Items, Slot, GearSubSlotType.Sigil, (sigil) =>
                 {
                     (TemplatePresenter?.Template[Slot] as WeaponTemplateEntry).PvpSigil = sigil;
                     PvpSigil = sigil;
@@ -256,7 +318,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage.GearSlots
 
             if (_sigilControl.MouseOver)
             {
-                SelectionPanel?.SetAnchor<Sigil>(this, new Rectangle(a.Location, Point.Zero).Add(_sigilControl.LocalBounds), SelectionTypes.Items, Slot, GearSubSlotType.Sigil, (sigil) =>
+                SelectionPanel?.SetAnchor<Sigil>(_sigilControl, new Rectangle(a.Location, Point.Zero).Add(_sigilControl.LocalBounds), SelectionTypes.Items, Slot, GearSubSlotType.Sigil, (sigil) =>
                 {
                     (TemplatePresenter?.Template[Slot] as WeaponTemplateEntry).Sigil = sigil;
                     Sigil = sigil;
@@ -265,7 +327,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage.GearSlots
 
             if (_infusionControl.MouseOver)
             {
-                SelectionPanel?.SetAnchor<Infusion>(this, new Rectangle(a.Location, Point.Zero).Add(_infusionControl.LocalBounds), SelectionTypes.Items, Slot, GearSubSlotType.Infusion, (infusion) =>
+                SelectionPanel?.SetAnchor<Infusion>(_infusionControl, new Rectangle(a.Location, Point.Zero).Add(_infusionControl.LocalBounds), SelectionTypes.Items, Slot, GearSubSlotType.Infusion, (infusion) =>
                 {
                     (TemplatePresenter?.Template[Slot] as WeaponTemplateEntry).Infusion = infusion;
                     Infusion = infusion;
@@ -382,11 +444,21 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage.GearSlots
             (TemplatePresenter?.Template[Slot] as WeaponTemplateEntry).Weapon = item;
             Item = item;
             ItemControl.Item = item;
+
+            ItemControl.Opacity = 1F;
+            WeaponChanged?.Invoke(this, item);
         }
 
         private void OnStatChanged(object sender, Core.Models.ValueChangedEventArgs<Stat> e)
         {
+            if (OtherHandSlot is not null && OtherHandSlot.Slot is TemplateSlotType.MainHand or TemplateSlotType.AltMainHand && (OtherHandSlot.Item as Weapon)?.WeaponType.IsTwoHanded() == true && OtherHandSlot.Stat != Stat)
+            {
+                Stat = OtherHandSlot.Stat;
+                return;
+            }
+
             ItemControl.Stat = Stat;
+            StatChanged?.Invoke(this, Stat);
         }
 
         private void OnSigilChanged(object sender, Core.Models.ValueChangedEventArgs<Sigil> e)

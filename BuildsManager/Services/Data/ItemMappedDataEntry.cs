@@ -15,6 +15,7 @@ using System.Threading;
 using Gw2Sharp.WebApi.V2.Models;
 using File = System.IO.File;
 using Kenedia.Modules.BuildsManager.Res;
+using System.Collections.Generic;
 
 namespace Kenedia.Modules.BuildsManager.Services
 {
@@ -32,7 +33,7 @@ namespace Kenedia.Modules.BuildsManager.Services
                 {
                     BuildsManager.Logger.Debug($"Load {name}.json");
                     string json = File.ReadAllText(path);
-                    loaded = JsonConvert.DeserializeObject<MappedDataEntry<int, T>>(json, SerializerSettings.SemverSerializer);
+                    loaded = JsonConvert.DeserializeObject<MappedDataEntry<int, T>>(json, SerializerSettings.Default);
                     DataLoaded = true;
                 }
 
@@ -74,6 +75,9 @@ namespace Kenedia.Modules.BuildsManager.Services
                 {
                     var idSets = fetchIds.ToList().ChunkBy(200);
 
+                    var legyArmorHelmet = await gw2ApiManager.Gw2ApiClient.V2.Items.GetAsync(80384, cancellationToken);
+                    var statChoices = (legyArmorHelmet is ItemArmor armor) ? armor.Details.StatChoices : new List<int>();
+
                     saveRequired = saveRequired || idSets.Count > 0;
                     BuildsManager.Logger.Debug($"Fetch a total of {fetchIds.Count()} {name} in {idSets.Count} sets.");
                     foreach (var ids in idSets)
@@ -111,6 +115,11 @@ namespace Kenedia.Modules.BuildsManager.Services
                                         Models.Templates.TemplateSlotType.Accessory_2 => strings.Accessory,
                                         _ => entryItem.Name
                                     };
+
+                                    if (entryItem.TemplateSlot is Models.Templates.TemplateSlotType.AquaBreather && entryItem is Armor aquaBreather)
+                                    {
+                                        aquaBreather.StatChoices = statChoices;
+                                    }
                                 }
                                 else
                                 {
@@ -130,7 +139,7 @@ namespace Kenedia.Modules.BuildsManager.Services
                 if (saveRequired)
                 {
                     BuildsManager.Logger.Debug($"Saving {name}.json");
-                    string json = JsonConvert.SerializeObject(this, SerializerSettings.SemverSerializer);
+                    string json = JsonConvert.SerializeObject(this, SerializerSettings.Default);
                     File.WriteAllText(path, json);
                 }
 

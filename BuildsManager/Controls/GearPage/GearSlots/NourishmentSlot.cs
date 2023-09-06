@@ -52,7 +52,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage.GearSlots
 
             if (ItemControl.MouseOver)
             {
-                SelectionPanel?.SetAnchor<Nourishment>(this, new Rectangle(a.Location, Point.Zero).Add(ItemControl.LocalBounds), SelectionTypes.Items, Slot, GearSubSlotType.Item, (nourishment) =>
+                SelectionPanel?.SetAnchor<Nourishment>(ItemControl, new Rectangle(a.Location, Point.Zero).Add(ItemControl.LocalBounds), SelectionTypes.Items, Slot, GearSubSlotType.Item, (nourishment) =>
                 {
                     (TemplatePresenter?.Template[Slot] as NourishmentTemplateEntry).Nourishment = nourishment;
                     Item = nourishment;
