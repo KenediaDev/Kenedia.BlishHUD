@@ -25,7 +25,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage.GearSlots
         public AmuletSlot(TemplateSlotType gearSlot, Container parent, TemplatePresenter templatePresenter) : base(gearSlot, parent, templatePresenter)
         {
             _enrichmentControl.Placeholder.Texture = BuildsManager.ModuleInstance.ContentsManager.GetTexture(@"textures\infusionslot.png");
-            ItemControl.Item = BuildsManager.Data.Trinkets[79980];
+            ItemControl.Item = BuildsManager.Data.Trinkets[92991];
 
             _enrichmentControl.Parent = this;
         }

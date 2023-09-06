@@ -14,6 +14,7 @@ using Kenedia.Modules.Core.Utility;
 using System.Threading;
 using Gw2Sharp.WebApi.V2.Models;
 using File = System.IO.File;
+using Kenedia.Modules.BuildsManager.Res;
 
 namespace Kenedia.Modules.BuildsManager.Services
 {
@@ -95,14 +96,28 @@ namespace Kenedia.Modules.BuildsManager.Services
 
                             if (entryItem is not null && Data.SkinDictionary.TryGetValue(item.Id, out int? assetId) && assetId is not null)
                             {
+                                entryItem.Rarity = ItemRarity.Ascended;
+
                                 if (entryItem.Type is Core.DataModels.ItemType.Trinket)
                                 {
                                     entryItem.AssetId = assetId.Value;
+
+                                    entryItem.Name = entryItem.TemplateSlot switch
+                                    {
+                                        Models.Templates.TemplateSlotType.Amulet => strings.Amulet,
+                                        Models.Templates.TemplateSlotType.Ring_1 => strings.Ring,
+                                        Models.Templates.TemplateSlotType.Ring_2 => strings.Ring,
+                                        Models.Templates.TemplateSlotType.Accessory_1 => strings.Accessory,
+                                        Models.Templates.TemplateSlotType.Accessory_2 => strings.Accessory,
+                                        _ => entryItem.Name
+                                    };
                                 }
                                 else
                                 {
                                     var skin = await gw2ApiManager.Gw2ApiClient.V2.Skins.GetAsync(assetId.Value);
                                     entryItem.AssetId = skin?.Icon.GetAssetIdFromRenderUrl() ?? 0;
+
+                                    entryItem.Name = skin?.Name;
                                 }
                             }
 

@@ -370,4 +370,13 @@ Der Zweck dieses Codes ist es, die Module Ausrüstungsvorlage leicht mit anderen
   <data name="PowerCore" xml:space="preserve">
     <value>Kernleistung</value>
   </data>
+  <data name="Back" xml:space="preserve">
+    <value>Rücken</value>
+  </data>
+  <data name="Ring" xml:space="preserve">
+    <value>Ring</value>
+  </data>
+  <data name="Accessory" xml:space="preserve">
+    <value>Ohrring</value>
+  </data>
 </root>

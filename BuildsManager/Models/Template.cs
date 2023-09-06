@@ -765,30 +765,30 @@ namespace Kenedia.Modules.BuildsManager.Models
             {
                 case Gw2Sharp.WebApi.V2.Models.ItemWeightType.Heavy:
                     AquaBreather.Armor = BuildsManager.Data.Armors[79895];
-                    Head.Armor = BuildsManager.Data.Armors[85193];
-                    Shoulder.Armor = BuildsManager.Data.Armors[84875];
-                    Chest.Armor = BuildsManager.Data.Armors[85084];
-                    Hand.Armor = BuildsManager.Data.Armors[85140];
-                    Leg.Armor = BuildsManager.Data.Armors[84887];
-                    Foot.Armor = BuildsManager.Data.Armors[85055];
+                    Head.Armor = BuildsManager.Data.Armors[80384];
+                    Shoulder.Armor = BuildsManager.Data.Armors[80435];
+                    Chest.Armor = BuildsManager.Data.Armors[80254];
+                    Hand.Armor = BuildsManager.Data.Armors[80205];
+                    Leg.Armor = BuildsManager.Data.Armors[80277];
+                    Foot.Armor = BuildsManager.Data.Armors[80557];
                     break;
                 case Gw2Sharp.WebApi.V2.Models.ItemWeightType.Medium:
                     AquaBreather.Armor = BuildsManager.Data.Armors[79838];
-                    Head.Armor = BuildsManager.Data.Armors[80701];
-                    Shoulder.Armor = BuildsManager.Data.Armors[80825];
-                    Chest.Armor = BuildsManager.Data.Armors[84977];
-                    Hand.Armor = BuildsManager.Data.Armors[85169];
-                    Leg.Armor = BuildsManager.Data.Armors[85264];
-                    Foot.Armor = BuildsManager.Data.Armors[80836];
+                    Head.Armor = BuildsManager.Data.Armors[80296];
+                    Shoulder.Armor = BuildsManager.Data.Armors[80145];
+                    Chest.Armor = BuildsManager.Data.Armors[80578];
+                    Hand.Armor = BuildsManager.Data.Armors[80161];
+                    Leg.Armor = BuildsManager.Data.Armors[80252];
+                    Foot.Armor = BuildsManager.Data.Armors[80281];
                     break;
                 case Gw2Sharp.WebApi.V2.Models.ItemWeightType.Light:
                     AquaBreather.Armor = BuildsManager.Data.Armors[79873];
-                    Head.Armor = BuildsManager.Data.Armors[85128];
-                    Shoulder.Armor = BuildsManager.Data.Armors[84918];
-                    Chest.Armor = BuildsManager.Data.Armors[85333];
-                    Hand.Armor = BuildsManager.Data.Armors[85070];
-                    Leg.Armor = BuildsManager.Data.Armors[85362];
-                    Foot.Armor = BuildsManager.Data.Armors[80815];
+                    Head.Armor = BuildsManager.Data.Armors[80248];
+                    Shoulder.Armor = BuildsManager.Data.Armors[80131];
+                    Chest.Armor = BuildsManager.Data.Armors[80190];
+                    Hand.Armor = BuildsManager.Data.Armors[80111];
+                    Leg.Armor = BuildsManager.Data.Armors[80356];
+                    Foot.Armor = BuildsManager.Data.Armors[80399];
                     break;
             }
         }

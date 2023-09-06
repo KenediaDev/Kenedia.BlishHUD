@@ -70,6 +70,15 @@ namespace Kenedia.Modules.BuildsManager.Res {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Accessory.
+        /// </summary>
+        internal static string Accessory {
+            get {
+                return ResourceManager.GetString("Accessory", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Active Legend.
         /// </summary>
         internal static string ActiveLegend {
@@ -165,6 +174,15 @@ namespace Kenedia.Modules.BuildsManager.Res {
         internal static string AutoSetProfession_Tooltip {
             get {
                 return ResourceManager.GetString("AutoSetProfession_Tooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Back.
+        /// </summary>
+        internal static string Back {
+            get {
+                return ResourceManager.GetString("Back", resourceCulture);
             }
         }
         
@@ -625,6 +643,15 @@ namespace Kenedia.Modules.BuildsManager.Res {
         internal static string ResetEntry {
             get {
                 return ResourceManager.GetString("ResetEntry", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Ring.
+        /// </summary>
+        internal static string Ring {
+            get {
+                return ResourceManager.GetString("Ring", resourceCulture);
             }
         }
         

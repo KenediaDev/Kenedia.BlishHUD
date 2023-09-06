@@ -304,30 +304,30 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage
                 {
                     case ItemWeightType.Heavy:
                         _templateSlots[TemplateSlotType.AquaBreather].Item = BuildsManager.Data.Armors[79895];
-                        _templateSlots[TemplateSlotType.Head].Item = BuildsManager.Data.Armors[85193];
-                        _templateSlots[TemplateSlotType.Shoulder].Item = BuildsManager.Data.Armors[84875];
-                        _templateSlots[TemplateSlotType.Chest].Item = BuildsManager.Data.Armors[85084];
-                        _templateSlots[TemplateSlotType.Hand].Item = BuildsManager.Data.Armors[85140];
-                        _templateSlots[TemplateSlotType.Leg].Item = BuildsManager.Data.Armors[84887];
-                        _templateSlots[TemplateSlotType.Foot].Item = BuildsManager.Data.Armors[85055];
+                        _templateSlots[TemplateSlotType.Head].Item = BuildsManager.Data.Armors[80384];
+                        _templateSlots[TemplateSlotType.Shoulder].Item = BuildsManager.Data.Armors[80435];
+                        _templateSlots[TemplateSlotType.Chest].Item = BuildsManager.Data.Armors[80254];
+                        _templateSlots[TemplateSlotType.Hand].Item = BuildsManager.Data.Armors[80205];
+                        _templateSlots[TemplateSlotType.Leg].Item = BuildsManager.Data.Armors[80277];
+                        _templateSlots[TemplateSlotType.Foot].Item = BuildsManager.Data.Armors[80557];
                         break;
                     case ItemWeightType.Medium:
                         _templateSlots[TemplateSlotType.AquaBreather].Item = BuildsManager.Data.Armors[79838];
-                        _templateSlots[TemplateSlotType.Head].Item = BuildsManager.Data.Armors[80701];
-                        _templateSlots[TemplateSlotType.Shoulder].Item = BuildsManager.Data.Armors[80825];
-                        _templateSlots[TemplateSlotType.Chest].Item = BuildsManager.Data.Armors[84977];
-                        _templateSlots[TemplateSlotType.Hand].Item = BuildsManager.Data.Armors[85169];
-                        _templateSlots[TemplateSlotType.Leg].Item = BuildsManager.Data.Armors[85264];
-                        _templateSlots[TemplateSlotType.Foot].Item = BuildsManager.Data.Armors[80836];
+                        _templateSlots[TemplateSlotType.Head].Item = BuildsManager.Data.Armors[80296];
+                        _templateSlots[TemplateSlotType.Shoulder].Item = BuildsManager.Data.Armors[80145];
+                        _templateSlots[TemplateSlotType.Chest].Item = BuildsManager.Data.Armors[80578];
+                        _templateSlots[TemplateSlotType.Hand].Item = BuildsManager.Data.Armors[80161];
+                        _templateSlots[TemplateSlotType.Leg].Item = BuildsManager.Data.Armors[80252];
+                        _templateSlots[TemplateSlotType.Foot].Item = BuildsManager.Data.Armors[80281];
                         break;
                     case ItemWeightType.Light:
                         _templateSlots[TemplateSlotType.AquaBreather].Item = BuildsManager.Data.Armors[79873];
-                        _templateSlots[TemplateSlotType.Head].Item = BuildsManager.Data.Armors[85128];
-                        _templateSlots[TemplateSlotType.Shoulder].Item = BuildsManager.Data.Armors[84918];
-                        _templateSlots[TemplateSlotType.Chest].Item = BuildsManager.Data.Armors[85333];
-                        _templateSlots[TemplateSlotType.Hand].Item = BuildsManager.Data.Armors[85070];
-                        _templateSlots[TemplateSlotType.Leg].Item = BuildsManager.Data.Armors[85362];
-                        _templateSlots[TemplateSlotType.Foot].Item = BuildsManager.Data.Armors[80815];
+                        _templateSlots[TemplateSlotType.Head].Item = BuildsManager.Data.Armors[80248];
+                        _templateSlots[TemplateSlotType.Shoulder].Item = BuildsManager.Data.Armors[80131];
+                        _templateSlots[TemplateSlotType.Chest].Item = BuildsManager.Data.Armors[80190];
+                        _templateSlots[TemplateSlotType.Hand].Item = BuildsManager.Data.Armors[80111];
+                        _templateSlots[TemplateSlotType.Leg].Item = BuildsManager.Data.Armors[80356];
+                        _templateSlots[TemplateSlotType.Foot].Item = BuildsManager.Data.Armors[80399];
                         break;
                 }
 

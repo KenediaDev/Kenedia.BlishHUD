@@ -28,7 +28,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage.GearSlots
         {
             _infusion1Control.Placeholder.Texture = BuildsManager.ModuleInstance.ContentsManager.GetTexture(@"textures\infusionslot.png");
             _infusion2Control.Placeholder.Texture = BuildsManager.ModuleInstance.ContentsManager.GetTexture(@"textures\infusionslot.png");
-            ItemControl.Item = BuildsManager.Data.Backs[94947];
+            ItemControl.Item = BuildsManager.Data.Backs[74155];
 
             _infusion1Control.Parent = this;
             _infusion2Control.Parent = this;

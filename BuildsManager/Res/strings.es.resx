@@ -370,4 +370,13 @@ El propósito de este código es compartir la Plantilla de Equipo del módulo f�
   <data name="PowerCore" xml:space="preserve">
     <value>Núcleo de potencia</value>
   </data>
+  <data name="Back" xml:space="preserve">
+    <value>Volver</value>
+  </data>
+  <data name="Ring" xml:space="preserve">
+    <value>Anillo</value>
+  </data>
+  <data name="Accessory" xml:space="preserve">
+    <value>Accesorio</value>
+  </data>
 </root>

@@ -370,4 +370,13 @@ The purpose of this code is to share the modules Equipment Template easily with 
   <data name="PetId" xml:space="preserve">
     <value>Pet Id</value>
   </data>
+  <data name="Back" xml:space="preserve">
+    <value>Back</value>
+  </data>
+  <data name="Ring" xml:space="preserve">
+    <value>Ring</value>
+  </data>
+  <data name="Accessory" xml:space="preserve">
+    <value>Accessory</value>
+  </data>
 </root>

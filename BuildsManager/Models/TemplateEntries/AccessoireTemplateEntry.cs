@@ -22,7 +22,7 @@ namespace Kenedia.Modules.BuildsManager.TemplateEntries
         public event EventHandler<ValueChangedEventArgs<Infusion>> InfusionChanged;
         public event EventHandler<ValueChangedEventArgs<Stat>> StatChanged;
 
-        public Trinket Accessoire { get; private set; } = BuildsManager.Data.Trinkets.TryGetValue(80002, out Trinket accessoire) ? accessoire : null;
+        public Trinket Accessoire { get; private set; } = BuildsManager.Data.Trinkets.TryGetValue(81908, out Trinket accessoire) ? accessoire : null;
 
         public Stat Stat { get => _stat; set => Common.SetProperty(ref _stat, value, OnStatChanged); }
 

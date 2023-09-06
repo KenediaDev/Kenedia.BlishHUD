@@ -26,7 +26,7 @@ namespace Kenedia.Modules.BuildsManager.TemplateEntries
 
         public Stat Stat { get => _stat; set => Common.SetProperty(ref _stat, value, OnStatChanged); }
 
-        public Trinket Back { get; private set; } = BuildsManager.Data.Backs.TryGetValue(94947, out Trinket back) ? back : null;
+        public Trinket Back { get; private set; } = BuildsManager.Data.Backs.TryGetValue(74155, out Trinket back) ? back : null;
 
         public Infusion Infusion1 { get => _infusion1; set => Common.SetProperty(ref _infusion1, value, OnInfusion1Changed); }
 

@@ -25,7 +25,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage.GearSlots
         public AccessoireSlot(TemplateSlotType gearSlot, Container parent, TemplatePresenter templatePresenter) : base(gearSlot, parent, templatePresenter)
         {
             _infusionControl.Placeholder.Texture = BuildsManager.ModuleInstance.ContentsManager.GetTexture(@"textures\infusionslot.png");
-            ItemControl.Item = BuildsManager.Data.Trinkets[80002];
+            ItemControl.Item = BuildsManager.Data.Trinkets[81908];
 
             _infusionControl.Parent = this;
         }

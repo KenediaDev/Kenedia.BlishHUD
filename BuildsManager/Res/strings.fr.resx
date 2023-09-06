@@ -370,4 +370,13 @@ Le but de ce code est de partager facilement le modèle d'équipement du module 
   <data name="PowerCore" xml:space="preserve">
     <value>Noyau de puissance</value>
   </data>
+  <data name="Back" xml:space="preserve">
+    <value>Retour</value>
+  </data>
+  <data name="Ring" xml:space="preserve">
+    <value>Anneau</value>
+  </data>
+  <data name="Accessory" xml:space="preserve">
+    <value>Accessoire</value>
+  </data>
 </root>
