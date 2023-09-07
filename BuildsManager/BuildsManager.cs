@@ -95,7 +95,8 @@ namespace Kenedia.Modules.BuildsManager
         private void Data_Loaded(object sender, EventArgs e)
         {
             if (!TemplatesLoaded) 
-                LoadTemplates();
+                LoadTemplates(); 
+
         }
 
         protected override async void OnLocaleChanged(object sender, Blish_HUD.ValueChangedEventArgs<Locale> e)
