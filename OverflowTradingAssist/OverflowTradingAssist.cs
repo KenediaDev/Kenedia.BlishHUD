@@ -184,8 +184,8 @@ namespace Kenedia.Modules.OverflowTradingAssist
 
             _cornerIcon = new CornerIcon()
             {
-                Icon = AsyncTexture2D.FromAssetId(156720),
-                HoverIcon = AsyncTexture2D.FromAssetId(156721),
+                Icon = AsyncTexture2D.FromAssetId(157088),
+                HoverIcon = AsyncTexture2D.FromAssetId(157089),
                 SetLocalizedTooltip = () => string.Format(strings_common.ToggleItem, $"{Name}"),
                 Parent = GameService.Graphics.SpriteScreen,
                 Visible = Settings?.ShowCornerIcon?.Value ?? false,

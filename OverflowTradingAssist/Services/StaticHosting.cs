@@ -14,22 +14,23 @@ namespace Kenedia.Modules.OverflowTradingAssist.Services
 {
     public class StaticHosting
     {
-        public static string BaseUrl = "https://bhm.blishhud.com/Kenedia.Modules.OverflowTradingAssist/";
-        public static string VersionUrl = "https://bhm.blishhud.com/Kenedia.Modules.OverflowTradingAssist/Version.json";
+        public static string BaseUrl = "https://github.com/KenediaDev/Kenedia.BlishHUD/tree/bhud-static/Kenedia.Modules.OverflowTradingAssist/";
 
         public async static Task<StaticVersion> GetStaticVersion()
         {
+            string url = $"{BaseUrl}{"Version"}.json";
+
             try
             {
                 using var httpClient = new HttpClient();
-                string content = await httpClient.GetStringAsync(VersionUrl);
+                string content = await httpClient.GetStringAsync(url);
 
                 var info = JsonConvert.DeserializeObject<StaticVersion>(content, SerializerSettings.Default);
                 return info;
             }
             catch
             {
-                OverflowTradingAssist.Logger.Warn($"Failed to get versions from {VersionUrl}");
+                OverflowTradingAssist.Logger.Warn($"Failed to get versions from {url}");
             }
 
             return new StaticVersion();
