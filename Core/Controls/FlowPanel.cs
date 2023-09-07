@@ -363,22 +363,22 @@ namespace Kenedia.Modules.Core.Controls
             Color? borderColor = HoveredBorderColor is not null && MouseOver ? HoveredBorderColor : BorderColor;
             if (borderColor is not null)
             {
-                foreach (var r in _topBorders)
+                foreach (var r in new List<(Rectangle, float)>(_topBorders))
                 {
                     spriteBatch.DrawOnCtrl(this, ContentService.Textures.Pixel, r.Item1, Rectangle.Empty, (Color)borderColor * r.Item2);
                 }
 
-                foreach (var r in _leftBorders)
+                foreach (var r in new List<(Rectangle, float)>(_leftBorders))
                 {
                     spriteBatch.DrawOnCtrl(this, ContentService.Textures.Pixel, r.Item1, Rectangle.Empty, (Color)borderColor * r.Item2);
                 }
 
-                foreach (var r in _bottomBorders)
+                foreach (var r in new List<(Rectangle, float)>(_bottomBorders))
                 {
                     spriteBatch.DrawOnCtrl(this, ContentService.Textures.Pixel, r.Item1, Rectangle.Empty, (Color)borderColor * r.Item2);
                 }
 
-                foreach (var r in _rightBorders)
+                foreach (var r in new List<(Rectangle, float)>(_rightBorders))
                 {
                     spriteBatch.DrawOnCtrl(this, ContentService.Textures.Pixel, r.Item1, Rectangle.Empty, (Color)borderColor * r.Item2);
                 }

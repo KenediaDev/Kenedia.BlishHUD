@@ -46,6 +46,8 @@ namespace Kenedia.Modules.Core.Controls
         }
 
         public Func<string> SetLocalizedTooltip { get; set; }
+        
+        public Action ClickAction { get; set; }
 
         private void OnAnchorChanged(object sender, ValueChangedEventArgs<Control> e)
         {
@@ -99,6 +101,13 @@ namespace Kenedia.Modules.Core.Controls
         {
             base.OnMouseEntered(e);
             SetHoveredOpacity();
+        }
+
+        protected override void OnClick(MouseEventArgs e)
+        {
+            base.OnClick(e);
+
+            ClickAction?.Invoke();
         }
 
         protected override void Paint(SpriteBatch spriteBatch, Rectangle bounds)

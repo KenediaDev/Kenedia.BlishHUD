@@ -361,7 +361,6 @@
     <Compile Include="DataModels\Stats\StatAttribute.cs" />
     <Compile Include="DataModels\Stats\StatAttributes.cs" />
     <Compile Include="Extensions\ChatLinkExtension.cs" />
-    <Compile Include="Extensions\ItemDescriptionStringExtension.cs" />
     <Compile Include="Interfaces\ITemplateContainer.cs" />
     <Compile Include="Models\GameModeType.cs" />
     <Compile Include="Models\GearArrayIndex.cs" />

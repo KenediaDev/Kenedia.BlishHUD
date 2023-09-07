@@ -67,6 +67,8 @@
     <Compile Include="$(MSBuildThisFileDirectory)DataModels\SkillConnection.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)DataModels\Specializations.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\BitMapExtension.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Extensions\ItemDescriptionStringExtension.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Extensions\RarityExtension.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\CollectionExtension.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\ColorExtension.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\ContainerExtensions.cs" />

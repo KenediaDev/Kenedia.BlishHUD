@@ -63,8 +63,6 @@ namespace Kenedia.Modules.OverflowTradingAssist
         {
             base.Initialize();
             Paths = new(DirectoriesManager, Name);
-
-            HasGUI = false;
             Logger.Info($"Starting {Name} v." + Version.BaseVersion());
 
             Data = new(Paths, Gw2ApiManager, () => _notificationBadge, () => _apiSpinner);
@@ -73,16 +71,16 @@ namespace Kenedia.Modules.OverflowTradingAssist
         protected override async void ReloadKey_Activated(object sender, EventArgs e)
         {
             Logger.Debug($"ReloadKey_Activated: {Name}");
-            //base.ReloadKey_Activated(sender, e);
+            base.ReloadKey_Activated(sender, e);
 
             //var itemids = Gw2ApiManager.Gw2ApiClient.V2.Commerce.Listings.
-            _ = await Data.Load(true);
+            //_ = await Data.Load(true);
         }
 
         protected override async Task LoadAsync()
         {
             await base.LoadAsync();
-            _ = await Data.Load();
+            _ = Task.Run(Data.Load);
         }
 
         protected override void OnModuleLoaded(EventArgs e)
@@ -124,6 +122,8 @@ namespace Kenedia.Modules.OverflowTradingAssist
 
         protected override void LoadGUI()
         {
+            if (!Data.IsLoaded) return;
+
             base.LoadGUI();
 
             var settingsBg = AsyncTexture2D.FromAssetId(155983);
@@ -147,7 +147,7 @@ namespace Kenedia.Modules.OverflowTradingAssist
                 Height = 900,
             };
 
-            MainWindow.Show();
+            MainWindow?.Show();
         }
 
         protected override void UnloadGUI()
@@ -191,9 +191,13 @@ namespace Kenedia.Modules.OverflowTradingAssist
                 Visible = Settings?.ShowCornerIcon?.Value ?? false,
                 ClickAction = () =>
                 {
+
+                    Debug.WriteLine($"Loaded? {Data.IsLoaded}");
+
                     if (!Data.IsLoaded)
                     {
                         _ = Task.Run(() => Data.Load(true));
+                        return;
                     }
 
                     MainWindow?.ToggleWindow();
@@ -221,6 +225,16 @@ namespace Kenedia.Modules.OverflowTradingAssist
                 CaptureInput = CaptureType.Filter,
                 Anchor = _cornerIcon,
                 Visible = false,
+                ClickAction = () =>
+                {
+                    if (!Data.IsLoaded)
+                    {
+                        _ = Task.Run(() => Data.Load(true));
+                        return;
+                    }
+
+                    MainWindow?.ToggleWindow();
+                }
             };
 
             _apiSpinner = new LoadingSpinner()

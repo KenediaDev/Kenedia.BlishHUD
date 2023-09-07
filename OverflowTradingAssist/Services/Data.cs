@@ -44,6 +44,8 @@ namespace Kenedia.Modules.OverflowTradingAssist.Services
                 Items = loaded?.Items ?? Items;
                 Version = loaded?.Version ?? Version;
 
+                OverflowTradingAssist.Logger.Debug($"{name} Version {Version} | version {version}");
+
                 OverflowTradingAssist.Logger.Debug($"Check for missing values for {name}");
                 var itemIds = await gw2ApiManager.Gw2ApiClient.V2.Items.IdsAsync(cancellationToken);
 
@@ -58,9 +60,9 @@ namespace Kenedia.Modules.OverflowTradingAssist.Services
 
                 if (version > Version)
                 {
+                    OverflowTradingAssist.Logger.Debug($"The current version ({Version}) does not match the map version ({version}). Updating all values for {name}.");
                     Version = version;
                     missing = itemIds;
-                    OverflowTradingAssist.Logger.Debug($"The current version does not match the map version. Updating all values for {name}.");
                 }
 
                 if (missing.Count() > 0)
@@ -139,10 +141,25 @@ namespace Kenedia.Modules.OverflowTradingAssist.Services
         public event EventHandler Loaded;
 
         [EnumeratorMember]
-        public static ItemsData Items { get; set; } = new();
+        public ItemsData Items { get; set; } = new();
+        
+        public bool IsLoaded
+        {
+            get
+            {
+                foreach (var (_, map) in this)
+                {
+                    if (!map.IsLoaded)
+                    {
+                        return false;
+                    }
+                }
 
-        public bool IsLoaded { get; internal set; }
-        public double LastLoadAttempt { get; private set; }
+                return true;
+            }
+        }
+
+        public double LastLoadAttempt { get; private set; } = double.MinValue;
 
         public IEnumerator<(string name, ItemsData map)> GetEnumerator()
         {
@@ -158,12 +175,16 @@ namespace Kenedia.Modules.OverflowTradingAssist.Services
 
         public async Task<bool> Load()
         {
+            // Don't try to load more than once every 3 minutes
             if (Common.Now - LastLoadAttempt <= 180000)
             {
                 return false;
             }
 
             LoadingSpinner spinner = _spinner?.Invoke();
+            LastLoadAttempt = Common.Now;
+
+            OverflowTradingAssist.Logger.Info("Loading data");
 
             try
             {
@@ -171,10 +192,6 @@ namespace Kenedia.Modules.OverflowTradingAssist.Services
                 _cancellationTokenSource = new CancellationTokenSource();
 
                 StaticVersion versions = await StaticHosting.GetStaticVersion();
-                versions = new()
-                {
-                    Items = new("0.0.1")
-                };
 
                 if (versions is null)
                 {
@@ -204,6 +221,12 @@ namespace Kenedia.Modules.OverflowTradingAssist.Services
                 {
                     OverflowTradingAssist.Logger.Info("All data loaded!");
                     Loaded?.Invoke(this, EventArgs.Empty);
+
+                    if (_notificationBadge?.Invoke() is NotificationBadge badge)
+                    {
+                        badge.SetLocalizedText = () => string.Empty;
+                        badge.Hide();
+                    }
                 }
                 else
                 {

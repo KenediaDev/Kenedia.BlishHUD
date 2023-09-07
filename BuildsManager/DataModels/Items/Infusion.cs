@@ -4,6 +4,7 @@ using Kenedia.Modules.Core.Models;
 using System;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
+using Kenedia.Modules.Core.Extensions;
 
 namespace Kenedia.Modules.BuildsManager.DataModels.Items
 {

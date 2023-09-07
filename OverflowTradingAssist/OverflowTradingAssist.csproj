@@ -239,6 +239,9 @@
     <Reference Include="System.Xml.ReaderWriter" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controls\ItemControl.cs" />
+    <Compile Include="Controls\ItemSelectable.cs" />
+    <Compile Include="Controls\ItemTooltip.cs" />
     <Compile Include="DataModels\Item.cs" />
     <Compile Include="Models\StaticVersion.cs" />
     <Compile Include="Models\Trade.cs" />
@@ -246,6 +249,11 @@
     <Compile Include="Models\Paths.cs" />
     <Compile Include="Models\TradePresenter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Res\strings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>strings.resx</DependentUpon>
+    </Compile>
     <Compile Include="Services\Settings.cs" />
     <Compile Include="Services\StaticHosting.cs" />
     <Compile Include="Services\Data.cs" />
@@ -345,7 +353,15 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="ref\" />
-    <Folder Include="Res\" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Res\strings.de.resx" />
+    <EmbeddedResource Include="Res\strings.es.resx" />
+    <EmbeddedResource Include="Res\strings.fr.resx" />
+    <EmbeddedResource Include="Res\strings.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>strings.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="..\Core\Core.projitems" Label="Shared" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

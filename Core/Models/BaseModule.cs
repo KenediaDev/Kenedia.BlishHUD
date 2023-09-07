@@ -15,6 +15,7 @@ using Blish_HUD.Controls;
 using Blish_HUD.Gw2Mumble;
 using Newtonsoft.Json;
 using Blish_HUD.GameIntegration;
+using System.Diagnostics;
 
 namespace Kenedia.Modules.Core.Models
 {
