@@ -375,7 +375,7 @@ namespace Kenedia.Modules.BuildsManager.DataModels.Professions
                     skill ??= new Skill();
 
                     skill.Apply(apiSkill);
-                    skill.PaletteId = prof.SkillsByPalette.FirstOrDefault(e => e.Value == apiSkill.Id).Value;
+                    skill.PaletteId = prof.SkillsByPalette.FirstOrDefault(e => e.Value == apiSkill.Id).Key;
 
                     if (weaponSkills.FirstOrDefault(e => e.Id == apiSkill.Id) is ProfessionWeaponSkill weaponSkill)
                     {

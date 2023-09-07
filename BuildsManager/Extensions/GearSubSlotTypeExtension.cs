@@ -13,9 +13,9 @@ namespace Kenedia.Modules.BuildsManager.Extensions
         {
             return templateSlotType switch
             {
-                TemplateSlotType.Head or TemplateSlotType.Shoulder or TemplateSlotType.Chest or TemplateSlotType.Hand or TemplateSlotType.Leg or TemplateSlotType.Foot or TemplateSlotType.Back or TemplateSlotType.AquaBreather => GearSubSlotTypeType.Armor,
-                TemplateSlotType.Amulet or TemplateSlotType.Accessory_1 or TemplateSlotType.Accessory_2 or TemplateSlotType.Ring_1 or TemplateSlotType.Ring_2 or TemplateSlotType.Back => GearSubSlotTypeType.Trinket,
-                TemplateSlotType.MainHand or TemplateSlotType.OffHand or TemplateSlotType.Aquatic or TemplateSlotType.AltAquatic or TemplateSlotType.AltMainHand or TemplateSlotType.AltOffHand => GearSubSlotTypeType.Weapon,
+                TemplateSlotType.Head or TemplateSlotType.Shoulder or TemplateSlotType.Chest or TemplateSlotType.Hand or TemplateSlotType.Leg or TemplateSlotType.Foot or TemplateSlotType.Back or TemplateSlotType.AquaBreather => GearSubSlotTypeType.Equipment,
+                TemplateSlotType.Amulet or TemplateSlotType.Accessory_1 or TemplateSlotType.Accessory_2 or TemplateSlotType.Ring_1 or TemplateSlotType.Ring_2 or TemplateSlotType.Back => GearSubSlotTypeType.Equipment,
+                TemplateSlotType.MainHand or TemplateSlotType.OffHand or TemplateSlotType.Aquatic or TemplateSlotType.AltAquatic or TemplateSlotType.AltMainHand or TemplateSlotType.AltOffHand => GearSubSlotTypeType.Equipment,
                 TemplateSlotType.Nourishment => GearSubSlotTypeType.Nourishment,
                 TemplateSlotType.Enhancement => GearSubSlotTypeType.Enhancement,
                 TemplateSlotType.PowerCore => GearSubSlotTypeType.PowerCore,
@@ -30,9 +30,7 @@ namespace Kenedia.Modules.BuildsManager.Extensions
     public enum GearSubSlotTypeType
     {
         None = -1,
-        Armor,
-        Weapon,
-        Trinket,
+        Equipment,
         Relic,
         Nourishment,
         Enhancement,

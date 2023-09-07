@@ -1,5 +1,7 @@
 ﻿using Gw2Sharp.Models;
+using Kenedia.Modules.BuildsManager.DataModels.Items;
 using Kenedia.Modules.BuildsManager.DataModels.Professions;
+using Kenedia.Modules.BuildsManager.DataModels.Stats;
 using Kenedia.Modules.BuildsManager.Models.Templates;
 using Kenedia.Modules.Core.DataModels;
 using Kenedia.Modules.Core.Models;
@@ -28,6 +30,8 @@ namespace Kenedia.Modules.BuildsManager.Models
         public event EventHandler BuildCodeChanged;
 
         public event EventHandler GearCodeChanged;
+
+        public event EventHandler<(TemplateSlotType slot, BaseItem item, Stat stat)> TemplateSlotChanged;
 
         public event ValueChangedEventHandler<string> NameChanged;
 
@@ -109,6 +113,12 @@ namespace Kenedia.Modules.BuildsManager.Models
             template.LoadedGearFromCode += On_LoadedGearFromCode;
 
             template.NameChanged += On_NameChanged;
+            template.TemplateSlotChanged += Template_TemplateSlotChanged;
+        }
+
+        private void Template_TemplateSlotChanged(object sender, (TemplateSlotType slot, BaseItem item, Stat stat) e)
+        {
+            TemplateSlotChanged?.Invoke(sender, e);
         }
 
         private void On_NameChanged(object sender, ValueChangedEventArgs<string> e)

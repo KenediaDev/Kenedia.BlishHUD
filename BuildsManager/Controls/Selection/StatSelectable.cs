@@ -41,7 +41,6 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
                 WrapText = false,
                 AutoSizeHeight = true,
                 //BackgroundColor = Color.Blue * 0.2F,
-                SetLocalizedText = () => _stat?.Name,
                 Font = Content.DefaultFont16,
                 TextColor = Colors.ColonialWhite,
             };
@@ -51,7 +50,6 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
                 Parent = this,
                 AutoSizeHeight = true,
                 VerticalAlignment = Blish_HUD.Controls.VerticalAlignment.Top,
-                SetLocalizedText = () => _stat?.DisplayAttributes,
                 //BackgroundColor = Color.White * 0.2F,
             };
 
@@ -103,13 +101,13 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
         private void OnStatChanged()
         {
             _name.SetLocalizedText = () => _stat?.Name;
-            _statSummary.SetLocalizedText = () => _stat?.DisplayAttributes;
+            _statSummary.SetLocalizedText = () => _stat?.Attributes.ToString(AttributeAdjustment);
             _icon.Texture = _stat?.Icon;
         }
 
         private void OnMultiplierChanged()
         {
-            _statSummary.SetLocalizedText = () => _stat?.DisplayAttributes;
+            _statSummary.SetLocalizedText = () => _stat?.Attributes.ToString(AttributeAdjustment);
         }
 
         protected override void DisposeControl()

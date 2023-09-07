@@ -10,6 +10,7 @@ using Kenedia.Modules.BuildsManager.Controls.Selection;
 using Kenedia.Modules.BuildsManager.Models;
 using Kenedia.Modules.Core.Models;
 using Kenedia.Modules.BuildsManager.Res;
+using System.Diagnostics;
 
 namespace Kenedia.Modules.BuildsManager.Views
 {
@@ -92,7 +93,7 @@ namespace Kenedia.Modules.BuildsManager.Views
         {
             get => TemplatePresenter?.Template; set
             {
-                if(TemplatePresenter is null) return;
+                if (TemplatePresenter is null) return;
                 var prev = TemplatePresenter?.Template;
 
                 SubName = value?.Name;

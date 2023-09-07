@@ -20,6 +20,7 @@ using Kenedia.Modules.BuildsManager.Utility;
 using Kenedia.Modules.BuildsManager.DataModels.Items;
 using Kenedia.Modules.BuildsManager.DataModels.Stats;
 using Kenedia.Modules.BuildsManager.Res;
+using System.Diagnostics;
 
 namespace Kenedia.Modules.BuildsManager.Models
 {
@@ -112,15 +113,16 @@ namespace Kenedia.Modules.BuildsManager.Models
                 spec.TraitsChanged += Spec_TraitsChanged;
             }
 
+            MainHand.PairedWeapon = OffHand;
+            OffHand.PairedWeapon = MainHand;
+
+            AltMainHand.PairedWeapon = AltOffHand;
+            AltOffHand.PairedWeapon = AltMainHand;
+
             RegisterGearListeners();
 
             PlayerCharacter player = Blish_HUD.GameService.Gw2Mumble.PlayerCharacter;
             Profession = player?.Profession ?? Profession;
-        }
-
-        private void Specializations_EliteSpecChanged(object sender, BuildSpecialization.SpecializationChangedEventArgs e)
-        {
-            EliteSpecializationChanged?.Invoke(this, new ValueChangedEventArgs<Specialization>(e.OldSpecialization, e.NewSpecialization));
         }
 
         public Template(string? buildCode, string? gearCode) : this()
@@ -148,6 +150,8 @@ namespace Kenedia.Modules.BuildsManager.Models
             _savedBuildCode = buildCode;
             _savedGearCode = gearCode;
         }
+
+        public event EventHandler<(TemplateSlotType slot, BaseItem item, Stat stat)> TemplateSlotChanged;
 
         #region General Template 
         public string FilePath => @$"{BuildsManager.ModuleInstance.Paths.TemplatesPath}{Common.MakeValidFileName(Name.Trim())}.json";
@@ -259,6 +263,11 @@ namespace Kenedia.Modules.BuildsManager.Models
         public Dictionary<TemplateSlotType, TemplateEntry> Jewellery { get; }
         #endregion
 
+        private void Specializations_EliteSpecChanged(object sender, BuildSpecialization.SpecializationChangedEventArgs e)
+        {
+            EliteSpecializationChanged?.Invoke(this, new ValueChangedEventArgs<Specialization>(e.OldSpecialization, e.NewSpecialization));
+        }
+
         private void RegisterGearListeners()
         {
             foreach (TemplateSlotType slot in Enum.GetValues(typeof(TemplateSlotType)))
@@ -291,6 +300,7 @@ namespace Kenedia.Modules.BuildsManager.Models
                         weapon.SigilChanged += Weapon_SigilChanged;
                         weapon.InfusionChanged += Weapon_InfusionChanged;
                         weapon.WeaponChanged += Weapon_WeaponChanged;
+                        weapon.TemplateSlotChanged += Weapon_TemplateSlotChanged;
 
                         break;
 
@@ -382,7 +392,12 @@ namespace Kenedia.Modules.BuildsManager.Models
                 }
             }
         }
-        
+
+        private void Weapon_TemplateSlotChanged(object sender, (TemplateSlotType slot, BaseItem item, Stat stat) e)
+        {
+            TemplateSlotChanged?.Invoke(this, e);
+        }
+
         private void UnRegisterGearListeners()
         {
             foreach (TemplateSlotType slot in Enum.GetValues(typeof(TemplateSlotType)))
@@ -902,7 +917,9 @@ namespace Kenedia.Modules.BuildsManager.Models
         public async void LoadGearFromCode(string? code, bool save = false)
         {
             // Disable Events to prevent unnecessary event triggers during the load
+            _triggerEvents = false;
             if (code == null) return;
+
             try
             {
                 byte[] codeArray = Convert.FromBase64String(GearTemplateCode.PrepareBase64String(code));

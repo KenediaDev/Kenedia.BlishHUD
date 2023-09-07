@@ -1,5 +1,9 @@
 ﻿using Gw2Sharp.WebApi.V2.Models;
+using Kenedia.Modules.BuildsManager.Extensions;
+using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Text.Json.Serialization;
 
 namespace Kenedia.Modules.BuildsManager.DataModels.Stats
 {
@@ -7,12 +11,11 @@ namespace Kenedia.Modules.BuildsManager.DataModels.Stats
     {
         public StatAttributes()
         {
-            //foreach(AttributeType attribute in Enum.GetValues(typeof(AttributeType)))
-            //{
-            //    if (attribute is AttributeType.Unknown or AttributeType.None) continue;
+        }
 
-            //    this[attribute] = null;
-            //}
+        public string ToString(double attributeAdjustment)
+        {
+            return string.Join(Environment.NewLine, Values.Where(e => e is not null).Select(e => $"+ {Math.Round(e.Value + (e.Multiplier * attributeAdjustment))} {e.Id.GetDisplayName()}"));
         }
     }
 }

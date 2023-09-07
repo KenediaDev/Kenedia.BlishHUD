@@ -46,12 +46,11 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
             ClipsBounds = false;
             _pointer = new();
 
-            _gearSelection = new()
+            _gearSelection = new(TemplatePresenter)
             {
                 Parent = this,
                 Visible = false,
                 ZIndex = ZIndex,
-                TemplatePresenter = TemplatePresenter,
             };
 
             _buildSelection = new()

@@ -126,7 +126,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage
                 case ItemType.Armor:
                     if (Item is Armor armor)
                     {
-                        _description.Text = string.Join(Environment.NewLine, Stat?.Attributes.Values.Where(e => e is not null).Select(e => $"+ {Math.Round(e.Value + (e.Multiplier * (armor?.AttributeAdjustment ?? 0)))} {e.Id.GetDisplayName()}")) ?? strings.MissingInfoFromAPI; ;
+                        _description.Text = Stat?.Attributes.ToString(armor.AttributeAdjustment);
                         _description.TextColor = Color.Lime;
                     }
                     break;
@@ -134,7 +134,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage
                 case ItemType.Weapon:
                     if (Item is Weapon weapon)
                     {
-                        _description.Text = string.Join(Environment.NewLine, Stat?.Attributes.Values.Where(e => e is not null).Select(e => $"+ {Math.Round(e.Value + (e.Multiplier * (weapon?.AttributeAdjustment ?? 0)))} {e.Id.GetDisplayName()}")) ?? strings.MissingInfoFromAPI; ;
+                        _description.Text = Stat?.Attributes.ToString(weapon.AttributeAdjustment);
                         _description.TextColor = Color.Lime;
                     }
                     break;
@@ -143,7 +143,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage
                 case ItemType.Back:
                     if (Item is Trinket trinket)
                     {
-                        _description.Text = string.Join(Environment.NewLine, Stat?.Attributes.Values.Where(e => e is not null).Select(e => $"+ {Math.Round(e.Value + (e.Multiplier * (trinket?.AttributeAdjustment ?? 0)))} {e.Id.GetDisplayName()}")) ?? strings.MissingInfoFromAPI; ;
+                        _description.Text = Stat?.Attributes.ToString(trinket.AttributeAdjustment);
                         _description.TextColor = Color.Lime;
                     }
                     break;

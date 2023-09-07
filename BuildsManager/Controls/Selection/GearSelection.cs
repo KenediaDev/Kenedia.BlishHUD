@@ -3,8 +3,10 @@ using Kenedia.Modules.BuildsManager.Extensions;
 using Kenedia.Modules.BuildsManager.Models;
 using Kenedia.Modules.BuildsManager.Models.Templates;
 using Kenedia.Modules.Core.Extensions;
+using Kenedia.Modules.Core.Models;
 using Kenedia.Modules.Core.Utility;
 using Microsoft.IdentityModel.Tokens;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -20,6 +22,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
         private TemplateSlotType _activeSlot;
         private GearSubSlotType _subSlotType;
         private string _filterText;
+        private TemplatePresenter _templatePresenter;
         private readonly List<Selectable> _armors;
         private readonly List<Selectable> _trinkets;
         private readonly List<Selectable> _backs;
@@ -36,7 +39,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
         private readonly List<Selectable> _powerCores;
         private readonly List<Selectable> _relics;
 
-        public GearSelection()
+        public GearSelection(TemplatePresenter templatePresenter)
         {
             List<S> AddItems<S, T>(IOrderedEnumerable<T> items)
                 where T : BaseItem
@@ -94,13 +97,32 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
             };
 
             SelectionContent.SetLocation(Search.Left, Search.Bottom + 5);
+            TemplatePresenter = templatePresenter;
         }
 
-        public TemplatePresenter TemplatePresenter { get; set; } = new();
+        public TemplatePresenter TemplatePresenter { get => _templatePresenter; private set => Common.SetProperty(ref _templatePresenter , value, OnTemplatePresenterChanged); }
 
         public TemplateSlotType ActiveSlot { get => _activeSlot; set => Common.SetProperty(ref _activeSlot, value, ApplySlot); }
 
         public GearSubSlotType SubSlotType { get => _subSlotType; set => Common.SetProperty(ref _subSlotType, value, ApplySubSlot); }
+
+        private void OnTemplatePresenterChanged(object sender, ValueChangedEventArgs<TemplatePresenter> e)
+        {
+            if (e.OldValue is not null)
+            {
+                e.OldValue.TemplateChanged -= Template_TemplateChanged;
+            }
+
+            if (e.NewValue is not null)
+            {
+                e.NewValue.TemplateChanged += Template_TemplateChanged;
+            }
+        }
+
+        private void Template_TemplateChanged(object sender, ValueChangedEventArgs<Template> e)
+        {
+            ApplySlot();
+        }
 
         private void Template_ProfessionChanged(object sender, PropertyChangedEventArgs e)
         {

@@ -53,7 +53,6 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage.GearSlots
             _pvpSigilControl.Parent = this;
             _infusionControl.Parent = this;
 
-            TemplatePresenter.GameModeChanged += TemplatePresenter_GameModeChanged;
         }
 
         public event EventHandler<Weapon> WeaponChanged;
@@ -67,57 +66,52 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage.GearSlots
 
         public Infusion Infusion { get => _infusion; set => Common.SetProperty(ref _infusion, value, OnInfusionChanged); }
 
-        public WeaponSlot OtherHandSlot { get => _otherHandSlot; set => Common.SetProperty(ref _otherHandSlot, value, OnOtherHandSlotChanged); }
+        public WeaponSlot OtherHandSlot { get => _otherHandSlot; set => Common.SetProperty(ref _otherHandSlot, value); }
 
-        private void OnOtherHandSlotChanged(object sender, Core.Models.ValueChangedEventArgs<WeaponSlot> e)
+        protected override void OnTemplatePresenterChanged(object sender, Core.Models.ValueChangedEventArgs<TemplatePresenter> e)
         {
+            base.OnTemplatePresenterChanged(sender, e);
+
             if (e.OldValue != null)
             {
-                e.OldValue.WeaponChanged -= OtherHandSlot_WeaponChanged;
-                e.OldValue.StatChanged -= OtherHandSlot_StatChanged;
+                e.OldValue.GameModeChanged -= TemplatePresenter_GameModeChanged;
+                e.OldValue.TemplateSlotChanged -= TemplatePresenter_TemplateSlotChanged;
+
             }
 
             if (e.NewValue != null)
             {
-                e.NewValue.WeaponChanged += OtherHandSlot_WeaponChanged;
-                e.NewValue.StatChanged += OtherHandSlot_StatChanged;
+                e.NewValue.GameModeChanged += TemplatePresenter_GameModeChanged;
+                e.NewValue.TemplateSlotChanged += TemplatePresenter_TemplateSlotChanged;
             }
         }
 
-        private void OtherHandSlot_StatChanged(object sender, Stat e)
+        private void TemplatePresenter_TemplateSlotChanged(object sender, (TemplateSlotType slot, BaseItem item, Stat stat) e)
         {
-            if (OtherHandSlot is not null && OtherHandSlot.Slot is TemplateSlotType.MainHand or TemplateSlotType.AltMainHand && (OtherHandSlot.Item as Weapon)?.WeaponType.IsTwoHanded() == true && OtherHandSlot.Stat != Stat)
+            if (Slot == e.slot)
             {
-                Stat = OtherHandSlot.Stat;
-                return;
+                Item = e.item;
+                Stat = e.stat;
             }
+
+            AdjustForOtherSlot();
         }
 
-        private void OtherHandSlot_WeaponChanged(object sender, Weapon e)
+        protected override void OnItemChanged(object sender, Core.Models.ValueChangedEventArgs<BaseItem> e)
         {
+            base.OnItemChanged(sender, e);
+
             AdjustForOtherSlot();
+
+            WeaponChanged?.Invoke(this, e.NewValue as Weapon);
         }
 
         private void AdjustForOtherSlot()
         {
-            if (OtherHandSlot is not null && OtherHandSlot.Slot is TemplateSlotType.MainHand or TemplateSlotType.AltMainHand)
+            if ((Item as Weapon)?.WeaponType.IsTwoHanded() == true)
             {
-                var otherHandWeapon = OtherHandSlot.Item as Weapon;
-                if (otherHandWeapon?.WeaponType.IsTwoHanded() != false)
-                {
-                    Item = OtherHandSlot.Item;
-                    Stat = OtherHandSlot.Stat;
-
-                    ItemControl.Opacity = 0.6F;
-                    return;
-                }
-                else if ((Item as Weapon)?.WeaponType.IsTwoHanded() == true)
-                {
-                    Item = null;
-                    Stat = null;
-                    ItemControl.Opacity = 1F;
-                    return;
-                }
+                ItemControl.Opacity = Slot is TemplateSlotType.OffHand or TemplateSlotType.AltOffHand ? 0.5F : 1F;
+                return;
             }
 
             ItemControl.Opacity = 1F;
@@ -228,7 +222,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage.GearSlots
                 }
                 else
                 {
-                    if (overrideExisting || ((slot as WeaponSlot).Item == null && (slot.Slot is TemplateSlotType.MainHand or TemplateSlotType.AltMainHand || (slot as WeaponSlot).OtherHandSlot.Item == null)))
+                    if (overrideExisting || ((slot as WeaponSlot).Item == null))
                         (slot as WeaponSlot).SelectWeapon(item);
                 }
             }
@@ -286,7 +280,6 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage.GearSlots
             Sigil = weapon?.Sigil;
             PvpSigil = weapon?.PvpSigil;
             Stat = weapon?.Stat;
-            Item = weapon?.Weapon;
 
             AdjustForOtherSlot();
         }
@@ -421,8 +414,8 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage.GearSlots
             if (item.WeaponType is ItemWeaponType.Trident or ItemWeaponType.Speargun or ItemWeaponType.Harpoon)
                 return;
 
-            if (item.WeaponType.IsTwoHanded() && Slot is not TemplateSlotType.MainHand and not TemplateSlotType.AltMainHand)
-                return;
+            //if (item.WeaponType.IsTwoHanded() && Slot is not TemplateSlotType.MainHand and not TemplateSlotType.AltMainHand)
+            //    return;
 
             var template = TemplatePresenter.Template;
             var otherHand =
@@ -432,31 +425,22 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage.GearSlots
                 Slot is TemplateSlotType.AltOffHand ? TemplateSlotType.AltMainHand :
                 TemplateSlotType.None;
 
-            if (item.WeaponType.IsTwoHanded() || (Slot is TemplateSlotType.OffHand or TemplateSlotType.AltOffHand && (OtherHandSlot?.Item as Weapon)?.WeaponType.IsTwoHanded() == true))
-            {
-                if (template[otherHand] is WeaponTemplateEntry offHand)
-                {
-                    offHand.Weapon = null;
-                    if (OtherHandSlot is not null) OtherHandSlot.Item = null;
-                }
-            }
+            //if (item.WeaponType.IsTwoHanded() || (Slot is TemplateSlotType.OffHand or TemplateSlotType.AltOffHand && (OtherHandSlot?.Item as Weapon)?.WeaponType.IsTwoHanded() == true))
+            //{
+            //    if (template[otherHand] is WeaponTemplateEntry offHand)
+            //    {
+            //        offHand.Weapon = null;
+            //        if (OtherHandSlot is not null) OtherHandSlot.Item = null;
+            //    }
+            //}
 
             (TemplatePresenter?.Template[Slot] as WeaponTemplateEntry).Weapon = item;
             Item = item;
-            ItemControl.Item = item;
-
-            ItemControl.Opacity = 1F;
-            WeaponChanged?.Invoke(this, item);
+            ItemControl.Opacity = item?.WeaponType.IsTwoHanded() == true ? Slot is TemplateSlotType.OffHand or TemplateSlotType.AltOffHand ? 0.5F : 1F : 1F;
         }
 
         private void OnStatChanged(object sender, Core.Models.ValueChangedEventArgs<Stat> e)
         {
-            if (OtherHandSlot is not null && OtherHandSlot.Slot is TemplateSlotType.MainHand or TemplateSlotType.AltMainHand && (OtherHandSlot.Item as Weapon)?.WeaponType.IsTwoHanded() == true && OtherHandSlot.Stat != Stat)
-            {
-                Stat = OtherHandSlot.Stat;
-                return;
-            }
-
             ItemControl.Stat = Stat;
             StatChanged?.Invoke(this, Stat);
         }

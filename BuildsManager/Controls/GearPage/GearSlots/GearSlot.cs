@@ -14,6 +14,7 @@ using Kenedia.Modules.BuildsManager.Controls.Selection;
 using Kenedia.Modules.Core.Controls;
 using Kenedia.Modules.BuildsManager.Extensions;
 using Kenedia.Modules.Core.Models;
+using System.Diagnostics;
 
 namespace Kenedia.Modules.BuildsManager.Controls.GearPage.GearSlots
 {
@@ -35,7 +36,24 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage.GearSlots
 
         protected ItemControl ItemControl { get; } = new();
 
-        public BaseItem Item { get => ItemControl.Item; set => ItemControl.Item = value; }
+        public BaseItem Item
+        {
+            get => ItemControl.Item; set
+            {
+                if(value != ItemControl.Item)
+                {
+                    var oldItem = ItemControl.Item;
+                    ItemControl.Item = value;
+
+                    OnItemChanged(this, new ValueChangedEventArgs<BaseItem>(oldItem, value));
+                }
+            }
+        }
+
+        protected virtual void OnItemChanged(object sender, ValueChangedEventArgs<BaseItem> e)
+        {
+            ItemChanged?.Invoke(sender, e);
+        }
 
         public TemplateSlotType Slot { get => _slot; set => Common.SetProperty(ref _slot, value, ApplySlot); }
 
@@ -55,13 +73,15 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage.GearSlots
 
         }
 
+        public event ValueChangedEventHandler<BaseItem> ItemChanged;
+
         public SelectionPanel SelectionPanel { get; set; }
 
         public List<GearSlot> SlotGroup { get; set; }
 
         protected TemplatePresenter TemplatePresenter { get => _templatePresenter; set => Common.SetProperty(ref _templatePresenter, value, OnTemplatePresenterChanged); }
 
-        private void OnTemplatePresenterChanged(object sender, ValueChangedEventArgs<TemplatePresenter> e)
+        protected virtual void OnTemplatePresenterChanged(object sender, ValueChangedEventArgs<TemplatePresenter> e)
         {
             if (e.OldValue is not null)
             {
@@ -147,7 +167,6 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage.GearSlots
 
         protected virtual void SetItems(object sender, EventArgs e)
         {
-
         }
 
         protected void CreateSubMenu(Func<string> menuGroupName, Func<string> menuGroupTooltip = null, Action menuGroupAction = null, List<(Func<string> text, Func<string> tooltip, Action action)> menuItems = null)

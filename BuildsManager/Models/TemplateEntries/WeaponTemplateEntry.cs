@@ -8,6 +8,8 @@ using ItemWeaponType = Gw2Sharp.WebApi.V2.Models.ItemWeaponType;
 using Kenedia.Modules.BuildsManager.Utility;
 using Kenedia.Modules.Core.Utility;
 using Kenedia.Modules.Core.Models;
+using Kenedia.Modules.Core.Extensions;
+using System.Diagnostics;
 
 namespace Kenedia.Modules.BuildsManager.TemplateEntries
 {
@@ -20,6 +22,7 @@ namespace Kenedia.Modules.BuildsManager.TemplateEntries
         private Sigil _pvpSigil;
         private Infusion _infusion;
         private Stat _stat;
+        private WeaponTemplateEntry _pairedWeapon;
 
         public WeaponTemplateEntry(TemplateSlotType slot) : base(slot)
         {
@@ -36,6 +39,7 @@ namespace Kenedia.Modules.BuildsManager.TemplateEntries
         //     ArmorChanged?.Invoke(this, e);
         // }
 
+        public event EventHandler<(TemplateSlotType slot, BaseItem item, Stat stat)> TemplateSlotChanged;
         public event EventHandler<ValueChangedEventArgs<Weapon>> WeaponChanged;
         public event EventHandler<ValueChangedEventArgs<Sigil>> SigilChanged;
         public event EventHandler<ValueChangedEventArgs<Sigil>> PvpSigilChanged;
@@ -52,9 +56,64 @@ namespace Kenedia.Modules.BuildsManager.TemplateEntries
 
         public Stat Stat { get => _stat; set => Common.SetProperty(ref _stat, value, OnStatChanged); }
 
+        public WeaponTemplateEntry PairedWeapon { get => _pairedWeapon; set => Common.SetProperty(ref _pairedWeapon, value, SetPairedWeapon); }
+
+        private void SetPairedWeapon(object sender, ValueChangedEventArgs<WeaponTemplateEntry> e)
+        {
+            if (e.OldValue != null)
+            {
+                e.OldValue.WeaponChanged -= OnPairedWeaponChanged;
+                e.OldValue.StatChanged -= OnPairedStatChanged;
+            }
+
+            if (e.NewValue != null)
+            {
+                e.NewValue.WeaponChanged += OnPairedWeaponChanged;
+                e.NewValue.StatChanged += OnPairedStatChanged;
+            }
+        }
+
+        private void OnPairedStatChanged(object sender, ValueChangedEventArgs<Stat> e)
+        {
+            if (PairedWeapon is not null)
+            {
+                if (PairedWeapon.Slot is TemplateSlotType.MainHand or TemplateSlotType.AltMainHand)
+                {
+                    if (PairedWeapon.Weapon is not null && PairedWeapon.Weapon.WeaponType.IsTwoHanded())
+                    {
+                        Stat = PairedWeapon.Stat;
+                    }
+                    else if (Weapon is not null && Weapon.WeaponType.IsTwoHanded())
+                    {
+
+                    }
+                }
+            }
+        }
+
+        private void OnPairedWeaponChanged(object sender, ValueChangedEventArgs<Weapon> e)
+        {
+            if (PairedWeapon is not null)
+            {
+                if (PairedWeapon.Slot is TemplateSlotType.MainHand or TemplateSlotType.AltMainHand)
+                {
+                    if (PairedWeapon.Weapon is not null && PairedWeapon.Weapon.WeaponType.IsTwoHanded())
+                    {
+                        Weapon = PairedWeapon.Weapon;
+                        Stat = PairedWeapon.Stat;
+                    }
+                    else if (Weapon is not null && Weapon.WeaponType.IsTwoHanded())
+                    {
+                        Weapon = null;
+                    }
+                }
+            }
+        }
+
         private void OnWeaponChanged(object sender, ValueChangedEventArgs<Weapon> e)
         {
             WeaponChanged?.Invoke(this, e);
+            TemplateSlotChanged?.Invoke(this, (Slot, e.NewValue, Stat));
         }
 
         private void OnSigilChanged(object sender, ValueChangedEventArgs<Sigil> e)
@@ -75,6 +134,7 @@ namespace Kenedia.Modules.BuildsManager.TemplateEntries
         private void OnStatChanged(object sender, ValueChangedEventArgs<Stat> e)
         {
             StatChanged?.Invoke(this, e);
+            TemplateSlotChanged?.Invoke(this, (Slot, Weapon, e.NewValue));
         }
 
         public override byte[] AddToCodeArray(byte[] array)
