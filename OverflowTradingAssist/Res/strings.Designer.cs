@@ -79,11 +79,38 @@ namespace Kenedia.Modules.OverflowTradingAssist.Res {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Mail.
+        /// </summary>
+        internal static string Mail {
+            get {
+                return ResourceManager.GetString("Mail", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Mail ready..
+        /// </summary>
+        internal static string MailReady {
+            get {
+                return ResourceManager.GetString("MailReady", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to No data available through the GW2 API from ArenaNet..
         /// </summary>
         internal static string MissingInfoFromAPI {
             get {
                 return ResourceManager.GetString("MissingInfoFromAPI", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Wait for {0}s until next mail!.
+        /// </summary>
+        internal static string WaitForMail {
+            get {
+                return ResourceManager.GetString("WaitForMail", resourceCulture);
             }
         }
     }

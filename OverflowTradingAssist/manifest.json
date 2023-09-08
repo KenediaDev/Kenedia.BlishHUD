@@ -1,4 +1,10 @@
 {
+  "api_permissions": {
+    "account": {
+      "optional": false,
+      "details": "Base API Requirement."
+    }
+  },
   "contributors": [
     {
       "name": "Kenedia",

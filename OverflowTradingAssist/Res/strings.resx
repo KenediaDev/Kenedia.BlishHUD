@@ -106,4 +106,13 @@
   <data name="ItemControlClickToCopyItem" xml:space="preserve">
     <value>CTRL + Left Click to copy the item name</value>
   </data>
+  <data name="Mail" xml:space="preserve">
+    <value>Mail</value>
+  </data>
+  <data name="MailReady" xml:space="preserve">
+    <value>Mail ready.</value>
+  </data>
+  <data name="WaitForMail" xml:space="preserve">
+    <value>Wait for {0}s until next mail!</value>
+  </data>
 </root>

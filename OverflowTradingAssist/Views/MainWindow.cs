@@ -1,101 +1,51 @@
 ﻿using Blish_HUD.Content;
-using Kenedia.Modules.Core.Controls;
 using Kenedia.Modules.Core.Views;
+using Kenedia.Modules.Core.Utility;
 using Microsoft.Xna.Framework;
 using System;
-using System.Linq;
-using Kenedia.Modules.Core.Extensions;
 using System.Collections.Generic;
-using Kenedia.Modules.OverflowTradingAssist.DataModels;
-using System.Diagnostics;
-using Kenedia.Modules.OverflowTradingAssist.Controls.GearPage;
-using System.Threading.Tasks;
-using Kenedia.Modules.OverflowTradingAssist.Controls;
-using Kenedia.Modules.Core.Res;
+using Kenedia.Modules.OverflowTradingAssist.Services;
+using Kenedia.Modules.OverflowTradingAssist.Res;
+using Tab = Blish_HUD.Controls.Tab;
+using Kenedia.Modules.OverflowTradingAssist.Models;
+using Kenedia.Modules.Core.Models;
 
 namespace Kenedia.Modules.OverflowTradingAssist.Views
 {
-    public class MainWindow : StandardWindow
+    public class MainWindow : TabbedWindow
     {
-        private readonly FilterBox _filterBox;
-        private readonly FlowPanel _itemPanel;
+        private readonly TradePresenter _tradePresenter = new();
+        private readonly MailingService _mailingService;
+        private Trade _trade;
 
-        public MainWindow(AsyncTexture2D background, Rectangle windowRegion, Rectangle contentRegion) : base(background, windowRegion, contentRegion)
+        public MainWindow(AsyncTexture2D background, Rectangle windowRegion, Rectangle contentRegion, MailingService mailingService, Func<List<Trade>> getTrades) : base(background, windowRegion, contentRegion)
         {
-            _filterBox = new()
-            {
-                Parent = this,
-                Location = new(10, 10),
-                Width = 300,
-                FilteringOnTextChange = true,
-                FilteringOnEnter = true,
-                TextChangedAction = SearchForTopResults,
-                FilteringDelay = 500,
-                PlaceholderText = strings_common.Search,
-            };
+            _mailingService = mailingService;
 
-            _itemPanel = new()
-            {
-                Parent = this,
-                Location = new(10, _filterBox.Bottom + 5),
-                Width = 300,
-                Height = windowRegion.Height + 150,
-                BackgroundColor = Color.Black * 0.5F,
-                BorderColor = Color.Black,
-                BorderWidth = new(2),
-                ControlPadding = new(4, 4),
-                ContentPadding = new(4),
-                FlowDirection = Blish_HUD.Controls.ControlFlowDirection.SingleTopToBottom,
-                CanScroll = true,
-            };
+            Tabs.Add(new Tab(AsyncTexture2D.FromAssetId(156753), () => new TradeView(_mailingService, _tradePresenter), "Trade"));
+            Tabs.Add(new Tab(AsyncTexture2D.FromAssetId(156746), () => new TradeHistoryView(getTrades), "Trade History"));
+
+            _mailingService.MailReady += MailingService_MailReady;
+            _mailingService.TimeElapsed += MailingService_TimeElapsed;
         }
 
-        private void SearchForTopResults(string s)
-        {
-            if (OverflowTradingAssist.Data.IsLoaded)
-            {
-                _ = Task.Run(() =>
-                {
-                    var topItems = GetBestMatches(OverflowTradingAssist.Data.Items.Items, s, 50);
-                    _itemPanel.ClearChildren();
+        public Trade Trade { get => _trade; set => Common.SetProperty(ref _trade, value, ApplyTrade); }
 
-                    if (topItems != null && topItems.Count > 0)
-                    {
-                        foreach (Item item in topItems)
-                        {
-                            var itemControl = new ItemControl()
-                            {
-                                Item = item,
-                                Parent = _itemPanel,
-                                Height = 32,
-                                Width = _itemPanel.ContentRegion.Width,
-                                //WidthSizingMode = Blish_HUD.Controls.SizingMode.Fill,
-                            };
-                        }
-                    }
-                });
-            }
+        private void ApplyTrade(object sender, ValueChangedEventArgs<Trade> e)
+        {
+            _tradePresenter.Trade = e.NewValue;
         }
 
-        private List<Item> GetBestMatches(List<Item> stringList, string searchString, int numMatches)
+        private void MailingService_TimeElapsed(object sender, EventArgs e)
         {
-            var bestMatches = new List<Item>();
-            var matchDistances = new Dictionary<Item, int>();
-            var matchDistancesX = new Dictionary<string, int>();
+            SubName = string.Format(strings.WaitForMail, _mailingService.RemainingMailDelay);
+            SubNameColor = Color.OrangeRed;
+        }
 
-            foreach (Item item in stringList)
-            {
-                if (item?.Name?.ToLower().Contains(searchString.ToLower()) == true)
-                {
-                    int distance = searchString.LevenshteinDistance(item.Name);
-                    matchDistances[item] = distance;
-                }
-            }
-
-            var sortedMatches = matchDistances.OrderBy(kvp => kvp.Value);
-            bestMatches.AddRange(sortedMatches.Take(numMatches).Select(kvp => kvp.Key));
-
-            return bestMatches;
+        private void MailingService_MailReady(object sender, EventArgs e)
+        {
+            SubName = strings.MailReady;
+            SubNameColor = Color.Lime;
         }
     }
 }

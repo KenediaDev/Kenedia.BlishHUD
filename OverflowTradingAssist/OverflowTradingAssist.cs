@@ -27,6 +27,7 @@ using Rectangle = Microsoft.Xna.Framework.Rectangle;
 using Version = SemVer.Version;
 using TextBox = Kenedia.Modules.Core.Controls.TextBox;
 using Kenedia.Modules.OverflowTradingAssist.DataEntries;
+using System.Linq;
 
 namespace Kenedia.Modules.OverflowTradingAssist
 {
@@ -41,6 +42,12 @@ namespace Kenedia.Modules.OverflowTradingAssist
         private AnchoredContainer _cornerContainer;
 
         public static Data Data { get; set; }
+
+        public ExcelManipulation ExcelManipulation { get; set; }
+
+        public MailingService MailingService { get; set; }
+
+        public List<Trade> Trades { get; } = new();
 
         [ImportingConstructor]
         public OverflowTradingAssist([Import("ModuleParameters")] ModuleParameters moduleParameters) : base(moduleParameters)
@@ -66,6 +73,15 @@ namespace Kenedia.Modules.OverflowTradingAssist
             Logger.Info($"Starting {Name} v." + Version.BaseVersion());
 
             Data = new(Paths, Gw2ApiManager, () => _notificationBadge, () => _apiSpinner);
+            ExcelManipulation = new(Paths, Gw2ApiManager, () => _notificationBadge, () => _apiSpinner, () => Trades);
+            MailingService = new();
+
+            Data.Loaded += Data_Loaded;
+        }
+
+        private void Data_Loaded(object sender, EventArgs e)
+        {
+            ExcelManipulation.LoadTrades();
         }
 
         protected override async void ReloadKey_Activated(object sender, EventArgs e)
@@ -75,12 +91,27 @@ namespace Kenedia.Modules.OverflowTradingAssist
 
             //var itemids = Gw2ApiManager.Gw2ApiClient.V2.Commerce.Listings.
             //_ = await Data.Load(true);
+
+            //for (int i = 0; i < 10; i++)
+            //{
+            //    var trade = new Trade()
+            //    {
+            //        TradePartner = $"Kenedia.123{i}",
+            //        ReviewLink = "https://www.gw2spidy.com/trade/123456",
+            //        TradeListingLink = "https://www.gw2spidy.com/trade/123456",
+            //        Amount = 13550000,
+            //    };
+            //    trade.Items.Add(new() { Item = Data.Items.Items.ElementAt(i), Amount = 250 });
+            //    ExcelManipulation.SaveTrade(trade);
+            //}
+
+            ExcelManipulation.Test();
         }
 
         protected override async Task LoadAsync()
         {
             await base.LoadAsync();
-            _ = Task.Run(Data.Load);
+            _ = Task.Run(Data.Load);            
         }
 
         protected override void OnModuleLoaded(EventArgs e)
@@ -122,7 +153,7 @@ namespace Kenedia.Modules.OverflowTradingAssist
 
         protected override void LoadGUI()
         {
-            if (!Data.IsLoaded) return;
+            if (!Data.IsLoaded || !ExcelManipulation.IsLoaded) return;
 
             base.LoadGUI();
 
@@ -132,7 +163,9 @@ namespace Kenedia.Modules.OverflowTradingAssist
             MainWindow = new(
                 settingsBg,
                 new Rectangle(30, 30, cutSettingsBg.Width + 10, cutSettingsBg.Height),
-                new Rectangle(30, 35, cutSettingsBg.Width - 5, cutSettingsBg.Height - 15))
+                new Rectangle(30 + 46, 35, cutSettingsBg.Width - 46, cutSettingsBg.Height - 15),
+                MailingService,
+                () => Trades)
             {
                 Parent = GameService.Graphics.SpriteScreen,
                 Title = "❤",

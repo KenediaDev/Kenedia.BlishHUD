@@ -1,20 +1,20 @@
-﻿using Blish_HUD;
-using Blish_HUD.Content;
-using Blish_HUD.Controls;
-using Kenedia.Modules.Core.Controls;
-using Kenedia.Modules.Core.Extensions;
-using Kenedia.Modules.Core.Utility;
+﻿using Blish_HUD.Content;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using MonoGame.Extended.BitmapFonts;
 using System;
 using System.Collections.Generic;
+using System.Text;
+using Kenedia.Modules.Core.Controls;
+using Kenedia.Modules.Core.Utility;
 using static Blish_HUD.ContentService;
+using Kenedia.Modules.Core.Extensions;
+using Microsoft.Xna.Framework.Graphics;
+using Blish_HUD.Controls;
+using Blish_HUD;
 
 namespace Kenedia.Modules.Core.Views
 {
-    //TODO fix the version in title header
-    public class StandardWindow : Blish_HUD.Controls.StandardWindow
+    public class TabbedWindow : TabbedWindow2
     {
         private Rectangle _subTitleRectangle;
         protected BitmapFont TitleFont = Content.DefaultFont32;
@@ -30,7 +30,7 @@ namespace Kenedia.Modules.Core.Views
         private string _subName;
         private readonly List<AnchoredContainer> _attachedContainers = new();
 
-        public StandardWindow(AsyncTexture2D background, Rectangle windowRegion, Rectangle contentRegion) : base(background, windowRegion, contentRegion)
+        public TabbedWindow(AsyncTexture2D background, Rectangle windowRegion, Rectangle contentRegion) : base(background, windowRegion, contentRegion)
         {
         }
 

@@ -139,6 +139,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Views\BaseTabbedWindow.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Views\SharedSettingsView.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Views\StandardWindow.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Views\TabbedWindow.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="$(MSBuildThisFileDirectory)Res\strings_common.de.resx" />

@@ -41,6 +41,15 @@
     <Reference Include="Blish HUD, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\BlishHUD.1.0.0\lib\net472\Blish HUD.exe</HintPath>
     </Reference>
+    <Reference Include="EPPlus, Version=7.0.0.0, Culture=neutral, PublicKeyToken=ea159fdaa78159a1, processorArchitecture=MSIL">
+      <HintPath>..\packages\EPPlus.7.0.0-preview2\lib\net462\EPPlus.dll</HintPath>
+    </Reference>
+    <Reference Include="EPPlus.Interfaces, Version=6.1.1.0, Culture=neutral, PublicKeyToken=a694d7f3b0907a61, processorArchitecture=MSIL">
+      <HintPath>..\packages\EPPlus.Interfaces.6.1.1\lib\net462\EPPlus.Interfaces.dll</HintPath>
+    </Reference>
+    <Reference Include="EPPlus.System.Drawing, Version=6.1.1.0, Culture=neutral, PublicKeyToken=2308d35469c9bac0, processorArchitecture=MSIL">
+      <HintPath>..\packages\EPPlus.System.Drawing.6.1.1\lib\net462\EPPlus.System.Drawing.dll</HintPath>
+    </Reference>
     <Reference Include="Gapotchenko.FX, Version=2022.2.7.4096, Culture=neutral, PublicKeyToken=a750ee378eaf756f, processorArchitecture=MSIL">
       <HintPath>..\packages\Gapotchenko.FX.2022.2.7\lib\net472\Gapotchenko.FX.dll</HintPath>
     </Reference>
@@ -75,6 +84,9 @@
     <Reference Include="Microsoft.IdentityModel.Tokens, Version=6.27.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.IdentityModel.Tokens.6.27.0\lib\net472\Microsoft.IdentityModel.Tokens.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.IO.RecyclableMemoryStream, Version=1.4.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.IO.RecyclableMemoryStream.1.4.1\lib\net46\Microsoft.IO.RecyclableMemoryStream.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.Win32.Primitives" />
     <Reference Include="MonoGame.Extended, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\MonoGame.Extended.3.8.0\lib\netstandard2.0\MonoGame.Extended.dll</HintPath>
@@ -99,6 +111,7 @@
     <Reference Include="Ookii.Dialogs.WinForms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=66aa232afad40158, processorArchitecture=MSIL">
       <HintPath>..\packages\Ookii.Dialogs.WinForms.4.0.0\lib\net462\Ookii.Dialogs.WinForms.dll</HintPath>
     </Reference>
+    <Reference Include="PresentationCore" />
     <Reference Include="protobuf-net, Version=3.0.0.0, Culture=neutral, PublicKeyToken=257b51d87d2e4d67, processorArchitecture=MSIL">
       <HintPath>..\packages\protobuf-net.3.2.12\lib\net462\protobuf-net.dll</HintPath>
     </Reference>
@@ -155,6 +168,7 @@
       <HintPath>..\packages\System.Collections.Immutable.7.0.0\lib\net462\System.Collections.Immutable.dll</HintPath>
     </Reference>
     <Reference Include="System.ComponentModel.Composition" />
+    <Reference Include="System.configuration" />
     <Reference Include="System.Console" />
     <Reference Include="System.Core" />
     <Reference Include="System.Design" />
@@ -173,7 +187,14 @@
     <Reference Include="System.IO.Compression" />
     <Reference Include="System.IO.Compression.ZipFile" />
     <Reference Include="System.IO.FileSystem" />
-    <Reference Include="System.IO.FileSystem.Primitives" />
+    <Reference Include="System.IO.FileSystem.Primitives, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.IO.FileSystem.Primitives.4.0.1\lib\net46\System.IO.FileSystem.Primitives.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.IO.Packaging, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.IO.Packaging.4.0.0\lib\net46\System.IO.Packaging.dll</HintPath>
+    </Reference>
     <Reference Include="System.Linq" />
     <Reference Include="System.Linq.Expressions" />
     <Reference Include="System.Memory, Version=4.0.1.2, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
@@ -218,6 +239,7 @@
       <HintPath>..\packages\System.Text.Json.7.0.2\lib\net462\System.Text.Json.dll</HintPath>
     </Reference>
     <Reference Include="System.Text.RegularExpressions" />
+    <Reference Include="System.Threading.Tasks" />
     <Reference Include="System.Threading.Tasks.Extensions, Version=4.2.0.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Threading.Tasks.Extensions.4.5.4\lib\net461\System.Threading.Tasks.Extensions.dll</HintPath>
       <Private>False</Private>
@@ -237,11 +259,13 @@
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Xml.ReaderWriter" />
+    <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controls\ItemControl.cs" />
     <Compile Include="Controls\ItemSelectable.cs" />
     <Compile Include="Controls\ItemTooltip.cs" />
+    <Compile Include="Controls\TradeHistoryEntryControl.cs" />
     <Compile Include="DataModels\Item.cs" />
     <Compile Include="Models\StaticVersion.cs" />
     <Compile Include="Models\Trade.cs" />
@@ -254,11 +278,15 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>strings.resx</DependentUpon>
     </Compile>
+    <Compile Include="Services\ExcelManipulation.cs" />
+    <Compile Include="Services\MailingService.cs" />
     <Compile Include="Services\Settings.cs" />
     <Compile Include="Services\StaticHosting.cs" />
     <Compile Include="Services\Data.cs" />
     <Compile Include="Services\Data\HostedItems.cs" />
     <Compile Include="Views\MainWindow.cs" />
+    <Compile Include="Views\TradeHistoryView.cs" />
+    <Compile Include="Views\TradeView.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
@@ -350,10 +378,9 @@
     <None Include="Content\bin\Windows\Content\fonts\newkrytan\newkrytan-12-regular_1.xnb" />
     <None Include="manifest.json" />
     <None Include="packages.config" />
+    <None Include="ref\data\Overflow_Trade_Rep_Template.xlsx" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="ref\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <EmbeddedResource Include="Res\strings.de.resx" />
     <EmbeddedResource Include="Res\strings.es.resx" />
