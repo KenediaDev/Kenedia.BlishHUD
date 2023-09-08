@@ -68,17 +68,27 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage.GearSlots
             {
                 SelectionPanel?.SetAnchor<Relic>(ItemControl, new Rectangle(a.Location, Point.Zero).Add(ItemControl.LocalBounds), SelectionTypes.Items, Slot, GearSubSlotType.Item, (relic) =>
                 {
-                    (TemplatePresenter?.Template[Slot] as RelicTemplateEntry).Relic = relic;
                     Item = relic;
                 });
             }
+        }
+
+        protected override void OnItemChanged(object sender, Core.Models.ValueChangedEventArgs<BaseItem> e)
+        {
+            base.OnItemChanged(sender, e);
+
+            if (TemplatePresenter?.Template[Slot] is RelicTemplateEntry entry)
+                entry.Relic = Item as Relic;
         }
 
         protected override void CreateSubMenus()
         {
             base.CreateSubMenus();
 
-            CreateSubMenu(() => strings.Reset, () => string.Format(strings.ResetEntry, strings.Relic), () => Item = null);
+            CreateSubMenu(() => strings.Reset, () => string.Format(strings.ResetEntry, strings.Relic), () =>
+            {
+                Item = null;
+            });
         }
     }
 }

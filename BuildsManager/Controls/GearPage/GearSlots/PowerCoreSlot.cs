@@ -14,6 +14,7 @@ using Kenedia.Modules.BuildsManager.Extensions;
 using Kenedia.Modules.BuildsManager.TemplateEntries;
 using static Kenedia.Modules.BuildsManager.Controls.Selection.SelectionPanel;
 using Kenedia.Modules.BuildsManager.Res;
+using Microsoft.Win32;
 
 namespace Kenedia.Modules.BuildsManager.Controls.GearPage.GearSlots
 {
@@ -69,17 +70,24 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage.GearSlots
             {
                 SelectionPanel?.SetAnchor<PowerCore>(ItemControl, new Rectangle(a.Location, Point.Zero).Add(ItemControl.LocalBounds), SelectionTypes.Items, Slot, GearSubSlotType.Item, (powerCores) =>
                 {
-                    (TemplatePresenter?.Template[Slot] as PowerCoreTemplateEntry).PowerCore = powerCores;
                     Item = powerCores;
                 });
             }
+        }
+
+        protected override void OnItemChanged(object sender, Core.Models.ValueChangedEventArgs<BaseItem> e)
+        {
+            base.OnItemChanged(sender, e);
+
+            if (TemplatePresenter?.Template[Slot] is PowerCoreTemplateEntry entry)
+                entry.PowerCore = Item as PowerCore;
         }
 
         protected override void CreateSubMenus()
         {
             base.CreateSubMenus();
 
-            CreateSubMenu(() => strings.Reset, () => string.Format(strings.ResetEntry, strings.PowerCore), () => Item = null);
+            CreateSubMenu(() => strings.Reset, () => string.Format(strings.ResetEntry, strings.PowerCore), () => { Item = null; });
         }
     }
 }

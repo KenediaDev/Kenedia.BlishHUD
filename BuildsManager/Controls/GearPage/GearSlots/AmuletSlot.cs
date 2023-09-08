@@ -61,20 +61,14 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage.GearSlots
             if (ItemControl.MouseOver)
             {
                 SelectionPanel?.SetAnchor<Stat>(ItemControl, new Rectangle(a.Location, Point.Zero).Add(ItemControl.LocalBounds), SelectionTypes.Stats, Slot, GearSubSlotType.None, (stat) =>
-                {
-                    (TemplatePresenter?.Template[Slot] as AmuletTemplateEntry).Stat = stat;
-                    Stat = stat;
-                }, (TemplatePresenter?.Template[Slot] as AmuletTemplateEntry).Amulet?.StatChoices,
+                Stat = stat,
+                (TemplatePresenter?.Template[Slot] as AmuletTemplateEntry).Amulet?.StatChoices,
                 (TemplatePresenter?.Template[Slot] as AmuletTemplateEntry).Amulet?.AttributeAdjustment);
             }
 
             if (_enrichmentControl.MouseOver)
             {
-                SelectionPanel?.SetAnchor<Enrichment>(_enrichmentControl, new Rectangle(a.Location, Point.Zero).Add(_enrichmentControl.LocalBounds), SelectionTypes.Items, Slot, GearSubSlotType.Enrichment, (enrichment) =>
-                {
-                    (TemplatePresenter?.Template[Slot] as AmuletTemplateEntry).Enrichment = enrichment;
-                    Enrichment = enrichment;
-                });
+                SelectionPanel?.SetAnchor<Enrichment>(_enrichmentControl, new Rectangle(a.Location, Point.Zero).Add(_enrichmentControl.LocalBounds), SelectionTypes.Items, Slot, GearSubSlotType.Enrichment, (enrichment) => Enrichment = enrichment);
             }
         }
 
@@ -117,26 +111,22 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage.GearSlots
                     case TemplateSlotType.Accessory_2:
                         var accessoire = slot as AccessoireSlot;
                         accessoire.Stat = overrideExisting ? stat : accessoire.Stat ?? stat;
-                        (TemplatePresenter.Template[slot.Slot] as AccessoireTemplateEntry).Stat = overrideExisting ? stat : accessoire.Stat ?? stat; ;
                         break;
 
                     case TemplateSlotType.Back:
                         var back = slot as BackSlot;
                         back.Stat = overrideExisting ? stat : back.Stat ?? stat;
-                        (TemplatePresenter.Template[slot.Slot] as BackTemplateEntry).Stat = overrideExisting ? stat : back.Stat ?? stat; ;
                         break;
 
                     case TemplateSlotType.Amulet:
                         var amulet = slot as AmuletSlot;
                         amulet.Stat = overrideExisting ? stat : amulet.Stat ?? stat;
-                        (TemplatePresenter.Template[slot.Slot] as AmuletTemplateEntry).Stat = overrideExisting ? stat : amulet.Stat ?? stat; ;
                         break;
 
                     case TemplateSlotType.Ring_1:
                     case TemplateSlotType.Ring_2:
                         var ring = slot as RingSlot;
                         ring.Stat = overrideExisting ? stat : ring.Stat ?? stat;
-                        (TemplatePresenter.Template[slot.Slot] as RingTemplateEntry).Stat = overrideExisting ? stat : ring.Stat ?? stat; ;
                         break;
                 }
             }
@@ -145,11 +135,17 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage.GearSlots
         private void OnEnrichmentChanged(object sender, Core.Models.ValueChangedEventArgs<Enrichment> e)
         {
             _enrichmentControl.Item = Enrichment;
+
+            if (TemplatePresenter?.Template[Slot] is AmuletTemplateEntry entry)
+                entry.Enrichment = Enrichment;
         }
 
         private void OnStatChanged(object sender, Core.Models.ValueChangedEventArgs<Stat> e)
         {
             ItemControl.Stat = Stat;
+
+            if (TemplatePresenter?.Template[Slot] is AmuletTemplateEntry entry)
+                entry.Stat = Stat;
         }
 
         protected override void DisposeControl()

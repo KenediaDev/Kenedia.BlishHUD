@@ -26,7 +26,6 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage.ProfessionSpecific
             Tooltip = new SkillTooltip();
 
             Size = new(48, 62);
-            ClipsBounds  =false;
         }
 
         public Legend Legend { get => _legend; set => Common.SetProperty(ref _legend, value, ApplyLegend); }
@@ -52,15 +51,18 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage.ProfessionSpecific
             base.RecalculateLayout();
 
             int selectorHeight = (int)(15 / 79.0 * Height);
-            _texture.Bounds = new Rectangle(0, selectorHeight - 1, Width, Height - selectorHeight - 1);
-            _hoveredFrameTexture.Bounds = new Rectangle(0, selectorHeight - 1, Width, Height - selectorHeight - 1);
-            _noAquaticFlagTexture.Bounds = new Rectangle(0, selectorHeight - 1, Width, Height - selectorHeight - 1);
             _selector.Bounds = new Rectangle(0, 0, Width, selectorHeight);
+
+            _texture.Bounds = new Rectangle(0, selectorHeight - 1, Width, Height - selectorHeight - 5);
+            _hoveredFrameTexture.Bounds = new Rectangle(0, selectorHeight - 1, Width, Height - selectorHeight - 5);
+            _noAquaticFlagTexture.Bounds = new Rectangle(0, selectorHeight - 1, Width, Height - selectorHeight - 5);
+
+            Size = new(48, 62);
+            ClipsBounds = true;
         }
 
         protected override void Paint(SpriteBatch spriteBatch, Rectangle bounds)
         {
-            RecalculateLayout();
             if (Legend is not null)
                 _texture.Draw(this, spriteBatch, RelativeMousePosition, Color.White);
             else

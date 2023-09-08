@@ -101,6 +101,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage.GearSlots
         {
             base.OnItemChanged(sender, e);
 
+            (TemplatePresenter?.Template[Slot] as WeaponTemplateEntry).Weapon = Item as Weapon;
             AdjustForOtherSlot();
 
             WeaponChanged?.Invoke(this, e.NewValue as Weapon);
@@ -133,20 +134,31 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage.GearSlots
             }
         }
 
+        private void SetGroupPvpSigil(Sigil sigil = null, bool overrideExisting = false)
+        {
+            foreach (var slot in SlotGroup)
+            {
+                if (slot.Slot is TemplateSlotType.Aquatic or TemplateSlotType.AltAquatic)
+                {
+
+                }
+                else
+                {
+                    (slot as WeaponSlot).PvpSigil = overrideExisting ? sigil : (slot as WeaponSlot).PvpSigil ?? sigil;
+                }
+            }
+        }
+
         private void SetGroupStat(Stat stat = null, bool overrideExisting = false)
         {
             foreach (var slot in SlotGroup)
             {
                 if (slot.Slot is TemplateSlotType.Aquatic or TemplateSlotType.AltAquatic)
                 {
-                    var entry = TemplatePresenter.Template[slot.Slot] as AquaticWeaponTemplateEntry;
-                    entry.Stat = overrideExisting ? stat : entry.Stat ?? stat;
                     (slot as AquaticWeaponSlot).Stat = overrideExisting ? stat : (slot as AquaticWeaponSlot).Stat ?? stat;
                 }
                 else
                 {
-                    var entry = TemplatePresenter.Template[slot.Slot] as WeaponTemplateEntry;
-                    entry.Stat = overrideExisting ? stat : entry.Stat ?? stat;
                     (slot as WeaponSlot).Stat = overrideExisting ? stat : (slot as WeaponSlot).Stat ?? stat;
                 }
             }
@@ -158,16 +170,11 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage.GearSlots
             {
                 if (slot.Slot is TemplateSlotType.Aquatic or TemplateSlotType.AltAquatic)
                 {
-                    var entry = TemplatePresenter.Template[slot.Slot] as AquaticWeaponTemplateEntry;
-                    entry.Sigil1 = overrideExisting ? sigil : entry.Sigil1 ?? sigil;
-                    entry.Sigil2 = overrideExisting ? sigil : entry.Sigil2 ?? sigil;
                     (slot as AquaticWeaponSlot).Sigil1 = overrideExisting ? sigil : (slot as AquaticWeaponSlot).Sigil1 ?? sigil;
                     (slot as AquaticWeaponSlot).Sigil2 = overrideExisting ? sigil : (slot as AquaticWeaponSlot).Sigil2 ?? sigil;
                 }
                 else
                 {
-                    var entry = TemplatePresenter.Template[slot.Slot] as WeaponTemplateEntry;
-                    entry.Sigil = overrideExisting ? sigil : entry.Sigil ?? sigil;
                     (slot as WeaponSlot).Sigil = overrideExisting ? sigil : (slot as WeaponSlot).Sigil ?? sigil;
                 }
             }
@@ -179,34 +186,12 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage.GearSlots
             {
                 if (slot.Slot is TemplateSlotType.Aquatic or TemplateSlotType.AltAquatic)
                 {
-                    var entry = TemplatePresenter.Template[slot.Slot] as AquaticWeaponTemplateEntry;
-                    entry.Infusion1 = overrideExisting ? infusion : entry.Infusion1 ?? infusion;
-                    entry.Infusion2 = overrideExisting ? infusion : entry.Infusion2 ?? infusion;
                     (slot as AquaticWeaponSlot).Infusion1 = overrideExisting ? infusion : (slot as AquaticWeaponSlot).Infusion1 ?? infusion;
                     (slot as AquaticWeaponSlot).Infusion2 = overrideExisting ? infusion : (slot as AquaticWeaponSlot).Infusion2 ?? infusion;
                 }
                 else
                 {
-                    var entry = TemplatePresenter.Template[slot.Slot] as WeaponTemplateEntry;
-                    entry.Infusion = overrideExisting ? infusion : entry.Infusion ?? infusion;
                     (slot as WeaponSlot).Infusion = overrideExisting ? infusion : (slot as WeaponSlot).Infusion ?? infusion;
-                }
-            }
-        }
-
-        private void SetGroupPvpSigil(Sigil sigil = null, bool overrideExisting = false)
-        {
-            foreach (var slot in SlotGroup)
-            {
-                if (slot.Slot is TemplateSlotType.Aquatic or TemplateSlotType.AltAquatic)
-                {
-
-                }
-                else
-                {
-                    var entry = TemplatePresenter.Template[slot.Slot] as WeaponTemplateEntry;
-                    entry.PvpSigil = overrideExisting ? sigil : entry.PvpSigil ?? sigil;
-                    (slot as WeaponSlot).PvpSigil = overrideExisting ? sigil : (slot as WeaponSlot).PvpSigil ?? sigil;
                 }
             }
         }
@@ -222,7 +207,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage.GearSlots
                 }
                 else
                 {
-                    if (overrideExisting || ((slot as WeaponSlot).Item == null))
+                    if (overrideExisting || (slot as WeaponSlot).Item == null)
                         (slot as WeaponSlot).SelectWeapon(item);
                 }
             }
@@ -442,22 +427,35 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage.GearSlots
         private void OnStatChanged(object sender, Core.Models.ValueChangedEventArgs<Stat> e)
         {
             ItemControl.Stat = Stat;
+
+            if (TemplatePresenter?.Template[Slot] is WeaponTemplateEntry entry)
+                entry.Stat = Stat;
+
             StatChanged?.Invoke(this, Stat);
         }
 
         private void OnSigilChanged(object sender, Core.Models.ValueChangedEventArgs<Sigil> e)
         {
             _sigilControl.Item = Sigil;
+
+            if (TemplatePresenter?.Template[Slot] is WeaponTemplateEntry entry)
+                entry.Sigil = Sigil;
         }
 
         private void OnPvpSigilChanged(object sender, Core.Models.ValueChangedEventArgs<Sigil> e)
         {
             _pvpSigilControl.Item = PvpSigil;
+
+            if (TemplatePresenter?.Template[Slot] is WeaponTemplateEntry entry)
+                entry.PvpSigil = PvpSigil;
         }
 
         private void OnInfusionChanged(object sender, Core.Models.ValueChangedEventArgs<Infusion> e)
         {
             _infusionControl.Item = Infusion;
+
+            if (TemplatePresenter?.Template[Slot] is WeaponTemplateEntry entry)
+                entry.Infusion = Infusion;
         }
 
         protected override void DisposeControl()

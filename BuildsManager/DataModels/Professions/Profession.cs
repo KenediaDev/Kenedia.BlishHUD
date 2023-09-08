@@ -330,7 +330,7 @@ namespace Kenedia.Modules.BuildsManager.DataModels.Professions
             }
         }
 
-        internal void Apply(APIProfession prof, IApiV2ObjectList<Gw2Sharp.WebApi.V2.Models.Specialization> apiSpecializations, IApiV2ObjectList<Gw2Sharp.WebApi.V2.Models.Legend> apiLegends, IApiV2ObjectList<Gw2Sharp.WebApi.V2.Models.Trait> apiTraits, IApiV2ObjectList<Gw2Sharp.WebApi.V2.Models.Skill> apiSkills)
+        internal void Apply(APIProfession prof, IApiV2ObjectList<Gw2Sharp.WebApi.V2.Models.Specialization> apiSpecializations, IEnumerable<Gw2Sharp.WebApi.V2.Models.Legend> apiLegends, IApiV2ObjectList<Gw2Sharp.WebApi.V2.Models.Trait> apiTraits, IApiV2ObjectList<Gw2Sharp.WebApi.V2.Models.Skill> apiSkills)
         {
             if (Enum.TryParse(prof.Id, out ProfessionType professionType))
             {

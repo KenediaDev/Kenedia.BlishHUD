@@ -21,7 +21,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage.GearSlots
     public class ArmorSlot : GearSlot
     {
         private readonly ItemControl _runeControl = new(new(784323) { TextureRegion = new(38, 38, 52, 52) });
-        private readonly ItemControl _infusionControl = new(new (){ TextureRegion = new(38, 38, 52, 52) });
+        private readonly ItemControl _infusionControl = new(new() { TextureRegion = new(38, 38, 52, 52) });
 
         private Stat _stat;
         private Rune _rune;
@@ -52,7 +52,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage.GearSlots
             int iconPadding = 0;
             int textPadding = Slot is TemplateSlotType.AquaBreather ? upgradeSize + 5 : 5;
 
-            _runeControl.SetBounds(new(ItemControl.Right + 2 + iconPadding, iconPadding , upgradeSize, upgradeSize));
+            _runeControl.SetBounds(new(ItemControl.Right + 2 + iconPadding, iconPadding, upgradeSize, upgradeSize));
             _infusionControl.SetBounds(new(ItemControl.Right + 2 + iconPadding, ItemControl.Bottom - (upgradeSize + iconPadding), upgradeSize, upgradeSize));
 
             int x = _runeControl.LocalBounds.Right + textPadding + 4;
@@ -90,31 +90,19 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage.GearSlots
 
             if (ItemControl.MouseOver)
             {
-                SelectionPanel?.SetAnchor<Stat>(ItemControl, new Rectangle(a.Location, Point.Zero).Add(ItemControl.LocalBounds), SelectionTypes.Stats, Slot, GearSubSlotType.None, (stat) =>
-                {
-                    (TemplatePresenter?.Template[Slot] as ArmorTemplateEntry).Stat = stat;
-                    Stat = stat;
-                },
+                SelectionPanel?.SetAnchor<Stat>(ItemControl, new Rectangle(a.Location, Point.Zero).Add(ItemControl.LocalBounds), SelectionTypes.Stats, Slot, GearSubSlotType.None, (stat) => Stat = stat,
                 (TemplatePresenter?.Template[Slot] as ArmorTemplateEntry).Armor?.StatChoices,
                 (TemplatePresenter?.Template[Slot] as ArmorTemplateEntry).Armor?.AttributeAdjustment);
             }
 
             if (_runeControl.MouseOver)
             {
-                SelectionPanel?.SetAnchor<Rune>(_runeControl, new Rectangle(a.Location, Point.Zero).Add(_runeControl.LocalBounds), SelectionTypes.Items, Slot, GearSubSlotType.Rune, (rune) =>
-                {
-                    (TemplatePresenter?.Template[Slot] as ArmorTemplateEntry).Rune = rune;
-                    Rune = rune;
-                });
+                SelectionPanel?.SetAnchor<Rune>(_runeControl, new Rectangle(a.Location, Point.Zero).Add(_runeControl.LocalBounds), SelectionTypes.Items, Slot, GearSubSlotType.Rune, (rune) => Rune = rune);
             }
 
             if (_infusionControl.MouseOver)
             {
-                SelectionPanel?.SetAnchor<Infusion>(_infusionControl, new Rectangle(a.Location, Point.Zero).Add(_infusionControl.LocalBounds), SelectionTypes.Items, Slot, GearSubSlotType.Infusion, (infusion) =>
-                {
-                    (TemplatePresenter?.Template[Slot] as ArmorTemplateEntry).Infusion = infusion;
-                    Infusion = infusion;
-                });
+                SelectionPanel?.SetAnchor<Infusion>(_infusionControl, new Rectangle(a.Location, Point.Zero).Add(_infusionControl.LocalBounds), SelectionTypes.Items, Slot, GearSubSlotType.Infusion, (infusion) => Infusion = infusion);
             }
         }
 
@@ -180,7 +168,6 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage.GearSlots
                 if (overrideExisting || armor.Stat == null)
                 {
                     armor.Stat = stat;
-                    (TemplatePresenter.Template[armor.Slot] as ArmorTemplateEntry).Stat = stat;
                 }
             }
         }
@@ -194,7 +181,6 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage.GearSlots
                 if (overrideExisting || armor.Rune == null)
                 {
                     armor.Rune = rune;
-                    (TemplatePresenter.Template[armor.Slot] as ArmorTemplateEntry).Rune = rune;
                 }
             }
         }
@@ -208,7 +194,6 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage.GearSlots
                 if (overrideExisting || armor.Infusion == null)
                 {
                     armor.Infusion = infusion;
-                    (TemplatePresenter.Template[armor.Slot] as ArmorTemplateEntry).Infusion = infusion;
                 }
             }
         }
@@ -216,16 +201,25 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage.GearSlots
         private void OnStatChanged(object sender, Core.Models.ValueChangedEventArgs<Stat> e)
         {
             ItemControl.Stat = Stat;
+
+            if (TemplatePresenter?.Template[Slot] is ArmorTemplateEntry entry)
+                entry.Stat = Stat;
         }
 
         private void OnRuneChanged(object sender, Core.Models.ValueChangedEventArgs<Rune> e)
         {
             _runeControl.Item = Rune;
+
+            if (TemplatePresenter?.Template[Slot] is ArmorTemplateEntry entry)
+                entry.Rune = Rune;
         }
 
         private void OnInfusionChanged(object sender, Core.Models.ValueChangedEventArgs<Infusion> e)
         {
             _infusionControl.Item = Infusion;
+
+            if (TemplatePresenter?.Template[Slot] is ArmorTemplateEntry entry)
+                entry.Infusion = Infusion;
         }
 
         protected override void DisposeControl()

@@ -102,10 +102,14 @@ namespace Kenedia.Modules.BuildsManager.Services
                             {
                                 entryItem.Rarity = ItemRarity.Ascended;
 
+                                if (entryItem.TemplateSlot is Models.Templates.TemplateSlotType.AquaBreather && entryItem is Armor aquaBreather)
+                                {
+                                    aquaBreather.StatChoices = statChoices;
+                                }
+
                                 if (entryItem.Type is Core.DataModels.ItemType.Trinket)
                                 {
                                     entryItem.AssetId = assetId.Value;
-
                                     entryItem.Name = entryItem.TemplateSlot switch
                                     {
                                         Models.Templates.TemplateSlotType.Amulet => strings.Amulet,
@@ -115,11 +119,6 @@ namespace Kenedia.Modules.BuildsManager.Services
                                         Models.Templates.TemplateSlotType.Accessory_2 => strings.Accessory,
                                         _ => entryItem.Name
                                     };
-
-                                    if (entryItem.TemplateSlot is Models.Templates.TemplateSlotType.AquaBreather && entryItem is Armor aquaBreather)
-                                    {
-                                        aquaBreather.StatChoices = statChoices;
-                                    }
                                 }
                                 else
                                 {

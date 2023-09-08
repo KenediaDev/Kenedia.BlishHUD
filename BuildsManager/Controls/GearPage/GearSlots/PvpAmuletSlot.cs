@@ -99,14 +99,31 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage.GearSlots
                 Rune = null;
             }, new()
             {
-                new(() => strings.Amulet,() => string.Format(strings.ResetEntry, strings.Amulet),() => Item = null),
-                new(() => strings.Rune,() => string.Format(strings.ResetEntry, strings.Rune),() => Rune = null),
+                new(() => strings.Amulet,() => string.Format(strings.ResetEntry, strings.Amulet),() =>
+                {
+                    Item = null;
+                }),
+                new(() => strings.Rune,() => string.Format(strings.ResetEntry, strings.Rune),() =>
+                {
+                    Rune = null;
+                }),
             });
         }
 
         private void OnRuneChanged(object sender, Core.Models.ValueChangedEventArgs<Rune> e)
         {
             _runeControl.Item = Rune;
+
+            if (TemplatePresenter?.Template[Slot] is PvpAmuletTemplateEntry entry)
+                entry.Rune = Rune;
+        }
+
+        protected override void OnItemChanged(object sender, Core.Models.ValueChangedEventArgs<BaseItem> e)
+        {
+            base.OnItemChanged(sender, e);
+
+            if (TemplatePresenter?.Template[Slot] is PvpAmuletTemplateEntry entry)
+                entry.PvpAmulet = Item as PvpAmulet;
         }
 
         protected override void DisposeControl()

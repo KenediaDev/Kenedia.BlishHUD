@@ -135,7 +135,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
 
         private bool MatchingMethod(BaseItem item)
         {
-            switch (item.Type)
+            switch (item?.Type)
             {
                 case Core.DataModels.ItemType.Consumable:
                     if (item is Enhancement enhancement)
@@ -183,7 +183,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
                     break;
             }
 
-            return item.Name == null || string.IsNullOrEmpty(_filterText) || item.Name.ToLower().Contains(_filterText);
+            return item?.Name == null || string.IsNullOrEmpty(_filterText) || item.Name.ToLower().Contains(_filterText);
         }
 
         private void ApplySubSlot(object sender, PropertyChangedEventArgs e)

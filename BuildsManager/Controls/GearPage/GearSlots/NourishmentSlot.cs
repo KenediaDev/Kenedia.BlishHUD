@@ -68,11 +68,19 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage.GearSlots
             Item = nourishment?.Nourishment;
         }
 
+        protected override void OnItemChanged(object sender, Core.Models.ValueChangedEventArgs<BaseItem> e)
+        {
+            base.OnItemChanged(sender, e);
+
+            if (TemplatePresenter?.Template[Slot] is NourishmentTemplateEntry entry)
+                entry.Nourishment = Item as Nourishment;
+        }
+
         protected override void CreateSubMenus()
         {
             base.CreateSubMenus();
 
-            CreateSubMenu(() => strings.Reset, () => string.Format(strings.ResetEntry, strings.Nourishment), () => Item = null);
+            CreateSubMenu(() => strings.Reset, () => string.Format(strings.ResetEntry, strings.Nourishment), () => { Item = null; });
         }
     }
 }

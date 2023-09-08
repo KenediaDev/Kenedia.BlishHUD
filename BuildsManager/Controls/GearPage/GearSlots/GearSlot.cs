@@ -40,7 +40,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage.GearSlots
         {
             get => ItemControl.Item; set
             {
-                if(value != ItemControl.Item)
+                if (value != ItemControl.Item)
                 {
                     var oldItem = ItemControl.Item;
                     ItemControl.Item = value;

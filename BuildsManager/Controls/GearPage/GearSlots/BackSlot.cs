@@ -12,6 +12,7 @@ using Kenedia.Modules.Core.Extensions;
 using Kenedia.Modules.BuildsManager.TemplateEntries;
 using static Kenedia.Modules.BuildsManager.Controls.Selection.SelectionPanel;
 using Kenedia.Modules.BuildsManager.Res;
+using System.Net.NetworkInformation;
 
 namespace Kenedia.Modules.BuildsManager.Controls.GearPage.GearSlots
 {
@@ -70,30 +71,18 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage.GearSlots
 
             if (ItemControl.MouseOver)
             {
-                SelectionPanel?.SetAnchor<Stat>(ItemControl, new Rectangle(a.Location, Point.Zero).Add(ItemControl.LocalBounds), SelectionTypes.Stats, Slot, GearSubSlotType.None, (stat) =>
-                {
-                    (TemplatePresenter?.Template[Slot] as BackTemplateEntry).Stat = stat;
-                    Stat = stat;
-                }, (TemplatePresenter?.Template[Slot] as BackTemplateEntry).Back?.StatChoices,
+                SelectionPanel?.SetAnchor<Stat>(ItemControl, new Rectangle(a.Location, Point.Zero).Add(ItemControl.LocalBounds), SelectionTypes.Stats, Slot, GearSubSlotType.None, (stat) => Stat = stat, (TemplatePresenter?.Template[Slot] as BackTemplateEntry).Back?.StatChoices,
                 (TemplatePresenter?.Template[Slot] as BackTemplateEntry).Back?.AttributeAdjustment);
             }
 
             if (_infusion1Control.MouseOver)
             {
-                SelectionPanel?.SetAnchor<Infusion>(_infusion1Control, new Rectangle(a.Location, Point.Zero).Add(_infusion1Control.LocalBounds), SelectionTypes.Items, Slot, GearSubSlotType.Infusion, (infusion) =>
-                {
-                    (TemplatePresenter?.Template[Slot] as BackTemplateEntry).Infusion1 = infusion;
-                    Infusion1 = infusion;
-                });
+                SelectionPanel?.SetAnchor<Infusion>(_infusion1Control, new Rectangle(a.Location, Point.Zero).Add(_infusion1Control.LocalBounds), SelectionTypes.Items, Slot, GearSubSlotType.Infusion, (infusion) => Infusion1 = infusion);
             }
 
             if (_infusion2Control.MouseOver)
             {
-                SelectionPanel?.SetAnchor<Infusion>(_infusion2Control, new Rectangle(a.Location, Point.Zero).Add(_infusion2Control.LocalBounds), SelectionTypes.Items, Slot, GearSubSlotType.Infusion, (infusion) =>
-                {
-                    (TemplatePresenter?.Template[Slot] as BackTemplateEntry).Infusion2 = infusion;
-                    Infusion2 = infusion;
-                });
+                SelectionPanel?.SetAnchor<Infusion>(_infusion2Control, new Rectangle(a.Location, Point.Zero).Add(_infusion2Control.LocalBounds), SelectionTypes.Items, Slot, GearSubSlotType.Infusion, (infusion) => Infusion2 = infusion);
             }
         }
 
@@ -156,26 +145,22 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage.GearSlots
                     case TemplateSlotType.Accessory_2:
                         var accessoire = slot as AccessoireSlot;
                         accessoire.Stat = overrideExisting ? stat : accessoire.Stat ?? stat;
-                        (TemplatePresenter.Template[slot.Slot] as AccessoireTemplateEntry).Stat = overrideExisting ? stat : accessoire.Stat ?? stat; ;
                         break;
 
                     case TemplateSlotType.Back:
                         var back = slot as BackSlot;
                         back.Stat = overrideExisting ? stat : back.Stat ?? stat;
-                        (TemplatePresenter.Template[slot.Slot] as BackTemplateEntry).Stat = overrideExisting ? stat : back.Stat ?? stat; ;
                         break;
 
                     case TemplateSlotType.Amulet:
                         var amulet = slot as AmuletSlot;
                         amulet.Stat = overrideExisting ? stat : amulet.Stat ?? stat;
-                        (TemplatePresenter.Template[slot.Slot] as AmuletTemplateEntry).Stat = overrideExisting ? stat : amulet.Stat ?? stat; ;
                         break;
 
                     case TemplateSlotType.Ring_1:
                     case TemplateSlotType.Ring_2:
                         var ring = slot as RingSlot;
                         ring.Stat = overrideExisting ? stat : ring.Stat ?? stat;
-                        (TemplatePresenter.Template[slot.Slot] as RingTemplateEntry).Stat = overrideExisting ? stat : ring.Stat ?? stat; ;
                         break;
                 }
             }
@@ -191,7 +176,6 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage.GearSlots
                     case TemplateSlotType.Accessory_2:
                         var accessoire = slot as AccessoireSlot;
                         accessoire.Infusion = overrideExisting ? infusion : accessoire.Infusion ?? infusion;
-                        (TemplatePresenter.Template[slot.Slot] as AccessoireTemplateEntry).Infusion = overrideExisting ? infusion : accessoire.Infusion ?? infusion;
                         break;
 
                     case TemplateSlotType.Back:
@@ -199,9 +183,6 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage.GearSlots
 
                         back.Infusion1 = overrideExisting ? infusion : back.Infusion1 ?? infusion;
                         back.Infusion2 = overrideExisting ? infusion : back.Infusion2 ?? infusion;
-
-                        (TemplatePresenter.Template[slot.Slot] as BackTemplateEntry).Infusion1 = overrideExisting ? infusion : back.Infusion1 ?? infusion;
-                        (TemplatePresenter.Template[slot.Slot] as BackTemplateEntry).Infusion2 = overrideExisting ? infusion : back.Infusion2 ?? infusion;
                         break;
 
                     case TemplateSlotType.Ring_1:
@@ -211,10 +192,6 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage.GearSlots
                         ring.Infusion1 = overrideExisting ? infusion : ring.Infusion1 ?? infusion;
                         ring.Infusion2 = overrideExisting ? infusion : ring.Infusion2 ?? infusion;
                         ring.Infusion3 = overrideExisting ? infusion : ring.Infusion3 ?? infusion;
-
-                        (TemplatePresenter.Template[slot.Slot] as RingTemplateEntry).Infusion1 = overrideExisting ? infusion : ring.Infusion1 ?? infusion;
-                        (TemplatePresenter.Template[slot.Slot] as RingTemplateEntry).Infusion2 = overrideExisting ? infusion : ring.Infusion2 ?? infusion;
-                        (TemplatePresenter.Template[slot.Slot] as RingTemplateEntry).Infusion3 = overrideExisting ? infusion : ring.Infusion3 ?? infusion;
                         break;
                 }
             }
@@ -223,16 +200,26 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage.GearSlots
         private void OnStatChanged(object sender, Core.Models.ValueChangedEventArgs<Stat> e)
         {
             ItemControl.Stat = Stat;
+            (TemplatePresenter.Template[Slot] as BackTemplateEntry).Stat = Stat;
+
+            if (TemplatePresenter?.Template[Slot] is BackTemplateEntry entry)
+                entry.Stat = Stat;
         }
 
         private void OnInfusion2Changed(object sender, Core.Models.ValueChangedEventArgs<Infusion> e)
         {
             _infusion2Control.Item = Infusion2;
+
+            if (TemplatePresenter?.Template[Slot] is BackTemplateEntry entry)
+                entry.Infusion2 = Infusion2;
         }
 
         private void OnInfusion1Changed(object sender, Core.Models.ValueChangedEventArgs<Infusion> e)
         {
             _infusion1Control.Item = Infusion1;
+
+            if (TemplatePresenter?.Template[Slot] is BackTemplateEntry entry)
+                entry.Infusion1 = Infusion1;
         }
 
         protected override void DisposeControl()

@@ -12,6 +12,7 @@ using Kenedia.Modules.BuildsManager.Extensions;
 using Kenedia.Modules.BuildsManager.TemplateEntries;
 using static Kenedia.Modules.BuildsManager.Controls.Selection.SelectionPanel;
 using Kenedia.Modules.BuildsManager.Res;
+using Kenedia.Modules.BuildsManager.DataModels.Items;
 
 namespace Kenedia.Modules.BuildsManager.Controls.GearPage.GearSlots
 {
@@ -43,6 +44,14 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage.GearSlots
             spriteBatch.DrawStringOnCtrl(this, (ItemControl?.Item as DataModels.Items.Enhancement)?.Details.Description ?? ItemControl?.Item?.Description, Content.DefaultFont12, _statBounds, Color.White, false, HorizontalAlignment.Left, VerticalAlignment.Top);
         }
 
+        protected override void OnItemChanged(object sender, Core.Models.ValueChangedEventArgs<BaseItem> e)
+        {
+            base.OnItemChanged(sender, e);
+
+            if (TemplatePresenter?.Template[Slot] is EnhancementTemplateEntry entry)
+                entry.Enhancement = Item as Enhancement;
+        }
+
         protected override void SetItems(object sender, EventArgs e)
         {
             base.SetItems(sender, e);
@@ -59,11 +68,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage.GearSlots
 
             if (ItemControl.MouseOver)
             {
-                SelectionPanel?.SetAnchor<DataModels.Items.Enhancement>(ItemControl, new Rectangle(a.Location, Point.Zero).Add(ItemControl.LocalBounds), SelectionTypes.Items, Slot, GearSubSlotType.Item, (utility) =>
-                {
-                    (TemplatePresenter?.Template[Slot] as EnhancementTemplateEntry).Enhancement = utility;
-                    Item = utility;
-                });
+                SelectionPanel?.SetAnchor<DataModels.Items.Enhancement>(ItemControl, new Rectangle(a.Location, Point.Zero).Add(ItemControl.LocalBounds), SelectionTypes.Items, Slot, GearSubSlotType.Item, (enhancement) => Item = enhancement);
             }
         }
 

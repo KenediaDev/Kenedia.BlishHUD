@@ -71,6 +71,19 @@ namespace Kenedia.Modules.BuildsManager.Services
                     var apiLegends = missing.Contains(ProfessionType.Revenant) ? await gw2ApiManager.Gw2ApiClient.V2.Legends.AllAsync(cancellationToken) : null;
                     var apiTraits = await gw2ApiManager.Gw2ApiClient.V2.Traits.AllAsync(cancellationToken);
                     var apiSkills = await gw2ApiManager.Gw2ApiClient.V2.Skills.AllAsync(cancellationToken);
+                    var allLegends = apiLegends.Append(new()
+                    {
+                        Id = "Legend7",
+                        Swap = 62891,
+                        Heal = 62719,
+                        Elite = 62942,
+                        Utilities = new List<int>()
+                    {
+                        62832,
+                        62962,
+                        62878,
+                    }
+                    });
 
                     if (cancellationToken.IsCancellationRequested)
                     {
@@ -90,7 +103,7 @@ namespace Kenedia.Modules.BuildsManager.Services
                             bool exists = Items.Values.TryFind(e => $"{e.Id}" == item.Id, out Profession entryItem);
                             entryItem ??= new();
 
-                            entryItem.Apply(item, apiSpecializations, apiLegends, apiTraits, apiSkills);
+                            entryItem.Apply(item, apiSpecializations, allLegends, apiTraits, apiSkills);
 
                             if (!exists)
                                 Items.Add(entryItem.Id, entryItem);
