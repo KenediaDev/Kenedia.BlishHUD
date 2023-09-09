@@ -13,6 +13,13 @@ namespace Kenedia.Modules.OverflowTradingAssist.Models
         public int Amount { get; set; }
     }
 
+    public enum TradeType
+    {
+        None,
+        Buy,
+        Sell
+    }
+
     public class Trade
     {
         public List<ItemAmount> Items { get; set; } = new();
@@ -26,6 +33,8 @@ namespace Kenedia.Modules.OverflowTradingAssist.Models
         public string TradeListingLink { get; set; }
 
         public double Amount { get; set; }
+
+        public TradeType TradeType { get; set; }
 
         public bool IsValidTrade()
         {

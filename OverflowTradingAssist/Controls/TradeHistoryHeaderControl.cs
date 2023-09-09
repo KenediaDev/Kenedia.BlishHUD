@@ -12,8 +12,6 @@ namespace Kenedia.Modules.OverflowTradingAssist.Controls
         private readonly Label _tradePartnerLabel;
         private readonly Label _amountLabel;
         private readonly Label _itemSummaryLabel;
-        private readonly Label _reviewLinkLabel;
-        private readonly Label _tradeListingLinkLabel;
         private readonly TradeRank _tradeRank;
 
         public TradeHistoryHeaderControl(string partners, double amount, TradeRank tradeRank)
@@ -67,22 +65,6 @@ namespace Kenedia.Modules.OverflowTradingAssist.Controls
                 Font = Content.DefaultFont16,
             };
 
-            _reviewLinkLabel = new Label()
-            {
-                Parent = this,
-                Font = Content.DefaultFont16,
-                VerticalAlignment = Blish_HUD.Controls.VerticalAlignment.Middle,
-                TextColor = Color.White,
-            };
-
-            _tradeListingLinkLabel = new Label()
-            {
-                Parent = this,
-                Font = Content.DefaultFont16,
-                VerticalAlignment = Blish_HUD.Controls.VerticalAlignment.Middle,
-                TextColor = Color.White,
-            };
-
             _isCreated = true;
         }
 
@@ -92,11 +74,11 @@ namespace Kenedia.Modules.OverflowTradingAssist.Controls
 
             if (!_isCreated) return;
 
-            int partner = (int)(Width * 0.15F);
-            int amount = (int)(Width * 0.15F);
-            int itemSummary = (int)(Width * 0.30F);
-            int review = (int)(Width * 0.2F);
-            int listing = (int)(Width * 0.2F);
+            int trailing = (32 * 4) + (5 * 4);
+            int width = Width - trailing;
+            int partner = (int)(width * 0.15F);
+            int amount = (int)(width * 0.15F);
+            int itemSummary = (int)(width * 0.70F);
 
             _tradePartnerLabel?.SetLocation(0, 0);
             _tradePartnerLabel?.SetSize(partner, _tradePartnerLabel.Height);
@@ -108,12 +90,6 @@ namespace Kenedia.Modules.OverflowTradingAssist.Controls
 
             _itemSummaryLabel?.SetLocation(_rankIcon.Right, 0);
             _itemSummaryLabel?.SetSize(itemSummary, _rankIcon.Height);
-
-            _reviewLinkLabel?.SetLocation(_itemSummaryLabel.Right, 0);
-            _reviewLinkLabel?.SetSize(review, ContentRegion.Height);
-
-            _tradeListingLinkLabel?.SetLocation(_reviewLinkLabel.Right, 0);
-            _tradeListingLinkLabel?.SetSize(listing, ContentRegion.Height);
         }
     }
 }

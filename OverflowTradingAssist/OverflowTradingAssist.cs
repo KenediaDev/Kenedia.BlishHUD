@@ -105,7 +105,7 @@ namespace Kenedia.Modules.OverflowTradingAssist
             //    ExcelManipulation.SaveTrade(trade);
             //}
 
-            ExcelManipulation.Test();
+            ExcelManipulation.LoadTrades();
         }
 
         protected override async Task LoadAsync()

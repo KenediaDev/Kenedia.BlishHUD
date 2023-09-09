@@ -24,6 +24,7 @@ namespace Kenedia.Modules.OverflowTradingAssist.Services
         private static readonly int s_reviewLink = 4;
         private static readonly int s_tradeListingLink = 5;
         private static readonly int s_items = 10;
+        private static readonly int s_tradeType = 11;
 
         private readonly Paths _paths;
         private readonly Gw2ApiManager _gw2ApiManager;
@@ -110,6 +111,8 @@ namespace Kenedia.Modules.OverflowTradingAssist.Services
         {
             if (_trades?.Invoke() is List<Trade> trades && await EnsureFileExists())
             {
+                trades.Clear();
+
                 try
                 {
                     // Specify the path to the Excel file
@@ -176,6 +179,7 @@ namespace Kenedia.Modules.OverflowTradingAssist.Services
                                 ReviewLink = worksheet.Cells[i, s_reviewLink].Text,
                                 TradeListingLink = worksheet.Cells[i, s_tradeListingLink].Text,
                                 Items = GetItems(worksheet.Cells[i, s_items].Text),
+                                TradeType = Enum.TryParse(worksheet.Cells[i, s_tradeType].Text, out TradeType tradeType) ? tradeType : TradeType.None,
                             });
                         }
 
@@ -240,6 +244,7 @@ namespace Kenedia.Modules.OverflowTradingAssist.Services
                         worksheet.Cells[lastRowIndex, s_reviewLink].Value = trade.ReviewLink;
                         worksheet.Cells[lastRowIndex, s_tradeListingLink].Value = trade.TradeListingLink;
                         worksheet.Cells[lastRowIndex, s_items].Value = string.Join(", ", trade.Items.Select(e => $"{e.Amount}|{e.Item.Id}"));
+                        worksheet.Cells[lastRowIndex, s_tradeType].Value = trade.TradeType.ToString();
 
                         bool unlocked = await FileExtension.WaitForFileUnlock(excelFilePath);
                         if (!unlocked)

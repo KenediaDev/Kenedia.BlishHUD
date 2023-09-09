@@ -27,10 +27,11 @@ namespace Kenedia.Modules.OverflowTradingAssist.Controls
         private readonly Label _tradePartnerLabel;
         private readonly Label _amountLabel;
         private readonly Label _itemSummaryLabel;
-        private readonly Button _reviewLinkLabel;
-        private readonly Button _tradeListingLinkLabel;
+        private readonly ButtonImage _reviewLinkLabel;
+        private readonly ButtonImage _tradeListingLinkLabel;
         private readonly ButtonImage _edit;
-        private readonly ImageButton _delete;
+        private readonly ButtonImage _delete;
+        private readonly Image _tradeImage;
         private readonly Panel _panel;
 
         public TradeHistoryEntryControl(Trade trade, Color? color = null)
@@ -42,52 +43,59 @@ namespace Kenedia.Modules.OverflowTradingAssist.Controls
             HeightSizingMode = Blish_HUD.Controls.SizingMode.AutoSize;
             WidthSizingMode = Blish_HUD.Controls.SizingMode.Fill;
 
-            _panel = new Panel()
+            _panel = new()
             {
                 Parent = this,
                 HeightSizingMode = Blish_HUD.Controls.SizingMode.AutoSize,
                 BackgroundColor = Color.Black * 0.2F,
                 BorderColor = Color.Black,
                 BorderWidth = new(2),
-                ContentPadding = new(8, 4, 8, 8),
+                ContentPadding = new(8, 4, 4, 4),
             };
 
-            _tradePartnerLabel = new Label()
+            _tradePartnerLabel = new()
             {
                 Parent = _panel,
                 Text = Trade.TradePartner,
-                Height = ContentRegion.Height,
-                AutoSizeHeight = true,
+                Height = 32,
                 VerticalAlignment = Blish_HUD.Controls.VerticalAlignment.Middle,
                 TextColor = (Color)color,
             };
 
-            _amountLabel = new Label()
+            _amountLabel = new()
             {
                 Parent = _panel,
                 Text = string.Format("{0:#g 00s 00c}", Trade.Amount),
-                AutoSizeHeight = true,
+                Height = 32,
                 VerticalAlignment = Blish_HUD.Controls.VerticalAlignment.Middle,
                 TextColor = (Color)color,
             };
 
-            _itemSummaryLabel = new Label()
+            _tradeImage = new()
+            {
+                Parent = _panel,
+                SetLocalizedTooltip = () => Trade.TradeType is TradeType.Buy ? "Buy" : Trade.TradeType is TradeType.Sell ? "Sell" : "None",
+                Texture = AsyncTexture2D.FromAssetId(Trade.TradeType is TradeType.Buy ? 157326 : Trade.TradeType is TradeType.Sell ? 157328 : 157095),
+                Size = new(32),
+            };
+
+            _itemSummaryLabel = new()
             {
                 Parent = _panel,
                 Text = $"{Trade.ItemSummary}",
-                Height = ContentRegion.Height,
+                Height = 32,
                 VerticalAlignment = Blish_HUD.Controls.VerticalAlignment.Middle,
-                AutoSizeHeight = true,
                 TextColor = (Color)color,
             };
 
-            _reviewLinkLabel = new Button()
+            _reviewLinkLabel = new()
             {
                 Parent = _panel,
-                Text = "Open Trade Review Link",
-                Width = 200,
-                Icon = AsyncTexture2D.FromAssetId(156762),
-                ClickAction = () =>
+                SetLocalizedTooltip = () => "Open Trade Review Link",
+                Size = new(32),
+                Texture = AsyncTexture2D.FromAssetId(1234950),
+                HoveredTexture = AsyncTexture2D.FromAssetId(1304070),
+                ClickAction = (b) =>
                 {
                     if (!string.IsNullOrEmpty(Trade?.ReviewLink))
                         _ = Process.Start(Trade.ReviewLink);
@@ -95,13 +103,14 @@ namespace Kenedia.Modules.OverflowTradingAssist.Controls
             };
             _reviewLinkLabel.Click += ReviewLinkLabel_Click;
 
-            _tradeListingLinkLabel = new Button()
+            _tradeListingLinkLabel = new()
             {
                 Parent = _panel,
-                Text = "Open Trade Listing Link",
-                Width = 200,
-                Icon = AsyncTexture2D.FromAssetId(156764),
-                ClickAction = () =>
+                SetLocalizedTooltip = () => "Open Trade Listing Link",
+                Size = new(32),
+                Texture = AsyncTexture2D.FromAssetId(255379),
+                HoveredTexture = AsyncTexture2D.FromAssetId(255378),
+                ClickAction = (b) =>
                 {
                     if (!string.IsNullOrEmpty(Trade?.TradeListingLink))
                         _ = Process.Start(Trade.TradeListingLink);
@@ -109,20 +118,22 @@ namespace Kenedia.Modules.OverflowTradingAssist.Controls
             };
             _tradeListingLinkLabel.Click += TradeListingLinkLabel_Click;
 
-            _edit = new ButtonImage()
+            _edit = new()
             {
-                Parent = this,
+                Parent = _panel,
+                SetLocalizedTooltip = () => "Edit Trade",
                 Texture = AsyncTexture2D.FromAssetId(2175779),
                 HoveredTexture = AsyncTexture2D.FromAssetId(2175781),
-                Size = new(20),
+                Size = new(32),
             };
 
-            _delete = new ImageButton()
+            _delete = new()
             {
-                Parent = this,
-                Texture = AsyncTexture2D.FromAssetId(2175782),
-                HoveredTexture = AsyncTexture2D.FromAssetId(2175784),
-                Size = new(20),
+                Parent = _panel,
+                SetLocalizedTooltip = () => "Delete Trade",
+                Texture = AsyncTexture2D.FromAssetId(156674),
+                HoveredTexture = AsyncTexture2D.FromAssetId(156675),
+                Size = new(32),
             };
 
             _isCreated = true;
@@ -140,7 +151,7 @@ namespace Kenedia.Modules.OverflowTradingAssist.Controls
                 _ = Process.Start(Trade.TradeListingLink);
         }
 
-        public Trade Trade { get; }
+        public Trade Trade { get; private set; }
 
         public override void RecalculateLayout()
         {
@@ -148,15 +159,12 @@ namespace Kenedia.Modules.OverflowTradingAssist.Controls
 
             if (!_isCreated) return;
 
-            _edit.SetSize(ContentRegion.Height, ContentRegion.Height);
-            _delete.SetSize(ContentRegion.Height, ContentRegion.Height);
+            _panel.Width = ContentRegion.Width - 2;
 
-            _panel.Width = ContentRegion.Width - (_delete.Width + (int)ControlPadding.X + _edit.Width);
-
-            int width = _panel.ContentRegion.Width - 435;
-            int partner = (int)(width * 0.25F);
-            int amount = (int)(width * 0.25F);
-            int itemSummary = (int)(width * 0.50F);
+            int width = _panel.ContentRegion.Width - (_delete.Width + _tradeImage.Width + _edit.Width + _tradeListingLinkLabel.Width + _reviewLinkLabel.Width + (5 * 5));
+            int partner = (int)(width * 0.15F);
+            int amount = (int)(width * 0.15F);
+            int itemSummary = (int)(width * 0.70F);
 
             _tradePartnerLabel?.SetLocation(0, 0);
             _tradePartnerLabel?.SetSize(partner, _tradePartnerLabel.Height);
@@ -164,11 +172,22 @@ namespace Kenedia.Modules.OverflowTradingAssist.Controls
             _amountLabel?.SetLocation(_tradePartnerLabel.Right, 0);
             _amountLabel?.SetSize(amount, _amountLabel.Height);
 
-            _itemSummaryLabel?.SetLocation(_amountLabel.Right, 0);
+            _tradeImage.SetLocation(_amountLabel.Right, 0);
+
+            _itemSummaryLabel?.SetLocation(_tradeImage.Right + 5, 0);
             _itemSummaryLabel?.SetSize(itemSummary, _itemSummaryLabel.Height);
 
-            _reviewLinkLabel?.SetLocation(_itemSummaryLabel.Right, 0);
-            _tradeListingLinkLabel?.SetLocation(_reviewLinkLabel.Right, 0);
+            _reviewLinkLabel?.SetLocation(_itemSummaryLabel.Right + 5, 0);
+            _tradeListingLinkLabel?.SetLocation(_reviewLinkLabel.Right + 5, 0);
+            _edit?.SetLocation(_tradeListingLinkLabel.Right + 5, 0);
+            _delete?.SetLocation(_edit.Right + 5, 0);
+        }
+
+        protected override void DisposeControl()
+        {
+            base.DisposeControl();
+
+            Trade = null;
         }
     }
 }

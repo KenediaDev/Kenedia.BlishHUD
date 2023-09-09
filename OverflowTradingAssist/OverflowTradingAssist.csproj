@@ -287,6 +287,7 @@
     <Compile Include="Services\Data\HostedItems.cs" />
     <Compile Include="Views\MainWindow.cs" />
     <Compile Include="Views\TradeHistoryView.cs" />
+    <Compile Include="Views\TradeRank.cs" />
     <Compile Include="Views\TradeView.cs" />
   </ItemGroup>
   <ItemGroup>
