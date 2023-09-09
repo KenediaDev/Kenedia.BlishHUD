@@ -62,46 +62,43 @@ namespace Kenedia.Modules.OverflowTradingAssist.Services
         {
             if (!IsReady)
             {
-                if (!File.Exists(_paths.RepSheet))
+                try
                 {
-                    try
+                    var account = await _gw2ApiManager.Gw2ApiClient.V2.Account.GetAsync();
+
+                    if (account?.Name is not null)
                     {
-                        var account = await _gw2ApiManager.Gw2ApiClient.V2.Account.GetAsync();
+                        _paths.AccountName = account.Name;
 
-                        if (account?.Name is not null)
+                        string path = $@"{_paths.AccountPath}Overflow_Trade_Rep_Template.xlsx";
+
+                        if (!File.Exists(_paths.RepSheet))
                         {
-                            _paths.AccountName = account.Name;
-
-                            string path = $@"{_paths.AccountPath}Overflow_Trade_Rep_Template.xlsx";
-
-                            if (!File.Exists(_paths.RepSheet))
-                            {
-                                using Stream target = File.Create(_paths.RepSheet);
-                                Stream source = OverflowTradingAssist.ModuleInstance.ContentsManager.GetFileStream(@"data\Overflow_Trade_Rep_Template.xlsx");
-                                _ = source.Seek(0, SeekOrigin.Begin);
-                                source.CopyTo(target);
-                            }
-
-                            IsReady = File.Exists(_paths.RepSheet);
-                            return IsReady;
+                            using Stream target = File.Create(_paths.RepSheet);
+                            Stream source = OverflowTradingAssist.ModuleInstance.ContentsManager.GetFileStream(@"data\Overflow_Trade_Rep_Template.xlsx");
+                            _ = source.Seek(0, SeekOrigin.Begin);
+                            source.CopyTo(target);
                         }
-                    }
-                    catch (Exception ex)
-                    {
-                        OverflowTradingAssist.Logger.Warn(ex, "Failed to update subtoken.");
 
-                        if (_notificationBadge() is NotificationBadge notificationBadge)
-                        {
-                            notificationBadge.SetLocalizedText = () => "Failed to update subtoken.";
-                            notificationBadge.Show();
-                            return false;
-                        }
+                        IsReady = File.Exists(_paths.RepSheet);
+                        return IsReady;
                     }
                 }
-                else
+                catch (Exception ex)
                 {
-                    return true;
+                    OverflowTradingAssist.Logger.Warn(ex, "Failed to update subtoken.");
+
+                    if (_notificationBadge() is NotificationBadge notificationBadge)
+                    {
+                        notificationBadge.SetLocalizedText = () => "Failed to update subtoken.";
+                        notificationBadge.Show();
+                        return false;
+                    }
                 }
+            }
+            else
+            {
+                return true;
             }
 
             return IsReady;

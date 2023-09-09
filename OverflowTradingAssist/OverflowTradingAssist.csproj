@@ -266,6 +266,7 @@
     <Compile Include="Controls\ItemSelectable.cs" />
     <Compile Include="Controls\ItemTooltip.cs" />
     <Compile Include="Controls\TradeHistoryEntryControl.cs" />
+    <Compile Include="Controls\TradeHistoryHeaderControl.cs" />
     <Compile Include="DataModels\Item.cs" />
     <Compile Include="Models\StaticVersion.cs" />
     <Compile Include="Models\Trade.cs" />

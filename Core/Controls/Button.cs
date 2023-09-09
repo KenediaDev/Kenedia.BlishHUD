@@ -84,7 +84,7 @@ namespace Kenedia.Modules.Core.Controls
             if (Icon is not null)
             {
                 num = (!(textDimensions.Width > 0f)) ? (num + 8) : (num + 10);
-                Point point = ResizeIcon ? new Point(16) : Icon.Texture.Bounds.Size;
+                Point point = ResizeIcon ? new Point(16) : new(Math.Min(Math.Min(Icon.Texture.Bounds.Size.X, Width), Math.Min(Icon.Texture.Bounds.Size.Y, Height - 7)));
                 _layoutIconBounds = new Rectangle(num - point.X - 4, (_size.Y / 2) - (point.Y / 2), point.X, point.Y);
             }
 

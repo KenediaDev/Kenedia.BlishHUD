@@ -224,12 +224,15 @@ namespace Kenedia.Modules.OverflowTradingAssist
                 Visible = Settings?.ShowCornerIcon?.Value ?? false,
                 ClickAction = () =>
                 {
-
-                    Debug.WriteLine($"Loaded? {Data.IsLoaded}");
-
                     if (!Data.IsLoaded)
                     {
                         _ = Task.Run(() => Data.Load(true));
+                        return;
+                    }
+
+                    if(!ExcelManipulation.IsReady)
+                    {
+                        _ = Task.Run(ExcelManipulation.EnsureFileExists);
                         return;
                     }
 
