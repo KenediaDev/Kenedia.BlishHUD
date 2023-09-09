@@ -187,6 +187,9 @@ namespace Kenedia.Modules.OverflowTradingAssist.Controls
         {
             base.DisposeControl();
 
+            _panel?.Children?.DisposeAll();
+            _panel?.Dispose();
+
             Trade = null;
         }
     }

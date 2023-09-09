@@ -7,9 +7,15 @@ namespace Kenedia.Modules.Core.Extensions
     {
         public static void DisposeAll(this IEnumerable<IDisposable> disposables)
         {
-            foreach (IDisposable d in disposables)
+            try
             {
-                d?.Dispose();
+                foreach (IDisposable d in disposables)
+                {
+                    d?.Dispose();
+                }
+            }
+            catch (Exception ex)
+            {
             }
         }
     }

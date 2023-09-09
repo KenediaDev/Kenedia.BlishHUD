@@ -9,6 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Kenedia.Modules.OverflowTradingAssist.Models;
+using Kenedia.Modules.Core.Extensions;
 using Kenedia.Modules.OverflowTradingAssist.Controls;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.TextBox;
 using Blish_HUD;
@@ -175,8 +176,15 @@ namespace Kenedia.Modules.OverflowTradingAssist.Views
         protected override void Unload()
         {
             base.Unload();
+            try
+            {
+                _tradeHistoryEntries?.DisposeAll();
+                _tradeHistoryEntries.Clear();
+            }
+            catch
+            {
 
-            _tradeHistoryEntries.Clear();
+            }
         }
     }
 }
