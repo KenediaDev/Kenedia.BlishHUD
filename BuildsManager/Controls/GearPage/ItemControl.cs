@@ -39,6 +39,8 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage
             Placeholder = placeholder;
         }
 
+        public bool ShowStat { get; set; } = true;
+
         public BaseItem Item { get => _item; set => Common.SetProperty(ref _item, value, ApplyItem); }
 
         public Stat Stat { get => _stat; set => Common.SetProperty(ref _stat, value, ApplyStat); }
@@ -107,7 +109,9 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage
             }
 
             spriteBatch.DrawFrame(this, bounds, _frameColor, _frameThickness);
-            _statTexture.Draw(this, spriteBatch, RelativeMousePosition);
+            
+            if (ShowStat)
+                _statTexture.Draw(this, spriteBatch, RelativeMousePosition);
         }
 
         private int CalculateFrameThickness()

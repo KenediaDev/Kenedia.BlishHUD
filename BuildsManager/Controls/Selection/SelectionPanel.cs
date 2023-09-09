@@ -109,11 +109,11 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
             }
         }
 
-        private Control Anchor
+        public Control Anchor
         {
             get => _anchor;
 
-            set
+            private set
             {
                 if (_selectionType == SelectionTypes.Templates)
                 {
@@ -129,6 +129,8 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
                         _subAnchor;                
             }
         }
+
+        public GearSubSlotType SubSlotType { get; private set; }
 
         private void SetAnchor(Control anchor, Rectangle? anchorBounds = null)
         {
@@ -156,7 +158,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
                         }
 
                         _gearSelection.ActiveSlot = (TemplateSlotType)slot;
-                        _gearSelection.SubSlotType = (GearSubSlotType)subslot;
+                        _gearSelection.SubSlotType = SubSlotType = (GearSubSlotType)subslot;
 
                         _gearSelection.OnClickAction = (obj) =>
                         {

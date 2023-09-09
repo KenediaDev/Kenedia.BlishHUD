@@ -161,8 +161,11 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage.GearSlots
         {
             if (item == null || item.WeaponType is ItemWeaponType.Harpoon or ItemWeaponType.Speargun or ItemWeaponType.Trident)
             {
-                (TemplatePresenter?.Template[Slot] as AquaticWeaponTemplateEntry).Weapon = item;
-                Item = item;
+                if (TemplatePresenter?.Template[Slot] is AquaticWeaponTemplateEntry entry)
+                {
+                    entry.Weapon = item;
+                    Item = item;
+                }
             }
         }
 
@@ -186,14 +189,14 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage.GearSlots
         {
             base.SetItems(sender, e);
 
-            var armor = TemplatePresenter?.Template?[Slot] as AquaticWeaponTemplateEntry;
+            var aquaticWeapon = TemplatePresenter?.Template?[Slot] as AquaticWeaponTemplateEntry;
 
-            Infusion1 = armor?.Infusion1;
-            Infusion2 = armor?.Infusion2;
-            Sigil1 = armor?.Sigil1;
-            Sigil2 = armor?.Sigil2;
+            Infusion1 = aquaticWeapon?.Infusion1;
+            Infusion2 = aquaticWeapon?.Infusion2;
+            Sigil1 = aquaticWeapon?.Sigil1;
+            Sigil2 = aquaticWeapon?.Sigil2;
 
-            Stat = armor?.Stat;
+            Stat = aquaticWeapon?.Stat;
         }
 
         protected override void OnClick(MouseEventArgs e)

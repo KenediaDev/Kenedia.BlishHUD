@@ -15,6 +15,7 @@ using Kenedia.Modules.BuildsManager.TemplateEntries;
 using static Kenedia.Modules.BuildsManager.Controls.Selection.SelectionPanel;
 using Kenedia.Modules.BuildsManager.Res;
 using System.Diagnostics;
+using System.Net.NetworkInformation;
 
 namespace Kenedia.Modules.BuildsManager.Controls.GearPage.GearSlots
 {
@@ -163,11 +164,9 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage.GearSlots
         {
             foreach (var slot in SlotGroup)
             {
-                var armor = slot as ArmorSlot;
-
-                if (overrideExisting || armor.Stat == null)
+                if (slot is ArmorSlot armor)
                 {
-                    armor.Stat = stat;
+                    armor.Stat = overrideExisting ? stat : armor.Stat ?? stat;
                 }
             }
         }
@@ -176,11 +175,9 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage.GearSlots
         {
             foreach (var slot in SlotGroup)
             {
-                var armor = slot as ArmorSlot;
-
-                if (overrideExisting || armor.Rune == null)
+                if (slot is ArmorSlot armor)
                 {
-                    armor.Rune = rune;
+                    armor.Rune = overrideExisting ? rune : armor.Rune ?? rune;
                 }
             }
         }
@@ -189,11 +186,9 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage.GearSlots
         {
             foreach (var slot in SlotGroup)
             {
-                var armor = slot as ArmorSlot;
-
-                if (overrideExisting || armor.Infusion == null)
+                if (slot is ArmorSlot armor)
                 {
-                    armor.Infusion = infusion;
+                    armor.Infusion = overrideExisting ? infusion : armor.Infusion ?? infusion;
                 }
             }
         }

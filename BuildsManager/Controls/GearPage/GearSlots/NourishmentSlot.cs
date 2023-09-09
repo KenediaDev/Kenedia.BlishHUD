@@ -52,11 +52,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage.GearSlots
 
             if (ItemControl.MouseOver)
             {
-                SelectionPanel?.SetAnchor<Nourishment>(ItemControl, new Rectangle(a.Location, Point.Zero).Add(ItemControl.LocalBounds), SelectionTypes.Items, Slot, GearSubSlotType.Item, (nourishment) =>
-                {
-                    (TemplatePresenter?.Template[Slot] as NourishmentTemplateEntry).Nourishment = nourishment;
-                    Item = nourishment;
-                });
+                SelectionPanel?.SetAnchor<Nourishment>(ItemControl, new Rectangle(a.Location, Point.Zero).Add(ItemControl.LocalBounds), SelectionTypes.Items, Slot, GearSubSlotType.Item, (nourishment) => Item = nourishment);
             }
         }
 
@@ -80,7 +76,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage.GearSlots
         {
             base.CreateSubMenus();
 
-            CreateSubMenu(() => strings.Reset, () => string.Format(strings.ResetEntry, strings.Nourishment), () => { Item = null; });
+            CreateSubMenu(() => strings.Reset, () => string.Format(strings.ResetEntry, strings.Nourishment), () => Item = null);
         }
     }
 }

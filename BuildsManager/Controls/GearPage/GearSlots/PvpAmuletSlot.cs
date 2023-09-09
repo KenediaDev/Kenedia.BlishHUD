@@ -72,20 +72,12 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage.GearSlots
 
             if (ItemControl.MouseOver)
             {
-                SelectionPanel?.SetAnchor<PvpAmulet>(ItemControl, new Rectangle(a.Location, Point.Zero).Add(ItemControl.LocalBounds), SelectionTypes.Items, Slot, GearSubSlotType.Item, (pvpAmulet) =>
-                {
-                    (TemplatePresenter?.Template[Slot] as PvpAmuletTemplateEntry).PvpAmulet = pvpAmulet;
-                    Item = pvpAmulet;
-                });
+                SelectionPanel?.SetAnchor<PvpAmulet>(ItemControl, new Rectangle(a.Location, Point.Zero).Add(ItemControl.LocalBounds), SelectionTypes.Items, Slot, GearSubSlotType.Item, (pvpAmulet) => Item = pvpAmulet);
             }
 
             if (_runeControl.MouseOver)
             {
-                SelectionPanel?.SetAnchor<Rune>(this, new Rectangle(a.Location, Point.Zero).Add(_runeControl.LocalBounds), SelectionTypes.Items, Slot, GearSubSlotType.Rune, (rune) =>
-                {
-                    (TemplatePresenter?.Template[Slot] as PvpAmuletTemplateEntry).Rune = rune;
-                    Rune = rune;
-                });
+                SelectionPanel?.SetAnchor<Rune>(_runeControl, new Rectangle(a.Location, Point.Zero).Add(_runeControl.LocalBounds), SelectionTypes.Items, Slot, GearSubSlotType.Rune, (rune) => Rune = rune);
             }
         }
 
@@ -99,14 +91,8 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage.GearSlots
                 Rune = null;
             }, new()
             {
-                new(() => strings.Amulet,() => string.Format(strings.ResetEntry, strings.Amulet),() =>
-                {
-                    Item = null;
-                }),
-                new(() => strings.Rune,() => string.Format(strings.ResetEntry, strings.Rune),() =>
-                {
-                    Rune = null;
-                }),
+                new(() => strings.Amulet,() => string.Format(strings.ResetEntry, strings.Amulet),() => Item = null),
+                new(() => strings.Rune,() => string.Format(strings.ResetEntry, strings.Rune),() => Rune = null),
             });
         }
 

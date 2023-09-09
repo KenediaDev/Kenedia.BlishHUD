@@ -71,8 +71,9 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage.GearSlots
 
             if (ItemControl.MouseOver)
             {
-                SelectionPanel?.SetAnchor<Stat>(ItemControl, new Rectangle(a.Location, Point.Zero).Add(ItemControl.LocalBounds), SelectionTypes.Stats, Slot, GearSubSlotType.None, (stat) => Stat = stat, (TemplatePresenter?.Template[Slot] as BackTemplateEntry).Back?.StatChoices,
-                (TemplatePresenter?.Template[Slot] as BackTemplateEntry).Back?.AttributeAdjustment);
+                SelectionPanel?.SetAnchor<Stat>(ItemControl, new Rectangle(a.Location, Point.Zero).Add(ItemControl.LocalBounds), SelectionTypes.Stats, Slot, GearSubSlotType.None, (stat) => Stat = stat, 
+                    (TemplatePresenter?.Template[Slot] as BackTemplateEntry).Back?.StatChoices,
+                    (TemplatePresenter?.Template[Slot] as BackTemplateEntry).Back?.AttributeAdjustment);
             }
 
             if (_infusion1Control.MouseOver)
@@ -139,28 +140,22 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage.GearSlots
         {
             foreach (var slot in SlotGroup)
             {
-                switch (slot.Slot)
+                switch (slot)
                 {
-                    case TemplateSlotType.Accessory_1:
-                    case TemplateSlotType.Accessory_2:
-                        var accessoire = slot as AccessoireSlot;
+                    case AccessoireSlot accessoire:
                         accessoire.Stat = overrideExisting ? stat : accessoire.Stat ?? stat;
                         break;
 
-                    case TemplateSlotType.Back:
-                        var back = slot as BackSlot;
+                    case BackSlot back:
                         back.Stat = overrideExisting ? stat : back.Stat ?? stat;
                         break;
 
-                    case TemplateSlotType.Amulet:
-                        var amulet = slot as AmuletSlot;
-                        amulet.Stat = overrideExisting ? stat : amulet.Stat ?? stat;
+                    case RingSlot ring:
+                        ring.Stat = overrideExisting ? stat : ring.Stat ?? stat;
                         break;
 
-                    case TemplateSlotType.Ring_1:
-                    case TemplateSlotType.Ring_2:
-                        var ring = slot as RingSlot;
-                        ring.Stat = overrideExisting ? stat : ring.Stat ?? stat;
+                    case AmuletSlot amulet:
+                        amulet.Stat = overrideExisting ? stat : amulet.Stat ?? stat;
                         break;
                 }
             }
@@ -170,25 +165,18 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage.GearSlots
         {
             foreach (var slot in SlotGroup)
             {
-                switch (slot.Slot)
+                switch (slot)
                 {
-                    case TemplateSlotType.Accessory_1:
-                    case TemplateSlotType.Accessory_2:
-                        var accessoire = slot as AccessoireSlot;
+                    case AccessoireSlot accessoire:
                         accessoire.Infusion = overrideExisting ? infusion : accessoire.Infusion ?? infusion;
                         break;
 
-                    case TemplateSlotType.Back:
-                        var back = slot as BackSlot;
-
+                    case BackSlot back:
                         back.Infusion1 = overrideExisting ? infusion : back.Infusion1 ?? infusion;
                         back.Infusion2 = overrideExisting ? infusion : back.Infusion2 ?? infusion;
                         break;
 
-                    case TemplateSlotType.Ring_1:
-                    case TemplateSlotType.Ring_2:
-                        var ring = slot as RingSlot;
-
+                    case RingSlot ring:
                         ring.Infusion1 = overrideExisting ? infusion : ring.Infusion1 ?? infusion;
                         ring.Infusion2 = overrideExisting ? infusion : ring.Infusion2 ?? infusion;
                         ring.Infusion3 = overrideExisting ? infusion : ring.Infusion3 ?? infusion;
@@ -200,7 +188,6 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage.GearSlots
         private void OnStatChanged(object sender, Core.Models.ValueChangedEventArgs<Stat> e)
         {
             ItemControl.Stat = Stat;
-            (TemplatePresenter.Template[Slot] as BackTemplateEntry).Stat = Stat;
 
             if (TemplatePresenter?.Template[Slot] is BackTemplateEntry entry)
                 entry.Stat = Stat;

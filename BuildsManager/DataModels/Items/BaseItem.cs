@@ -93,7 +93,7 @@ namespace Kenedia.Modules.BuildsManager.DataModels.Items
         public LocalizedString Descriptions { get; protected set; } = new();
         public string Description
         {
-            get => Descriptions.Text.InterpretItemDescription();
+            get => Descriptions.Text?.InterpretItemDescription();
             set => Descriptions.Text = value;
         }
 

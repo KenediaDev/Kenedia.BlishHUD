@@ -21,7 +21,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage.GearSlots
         private Rectangle _titleBounds;
         private Rectangle _statBounds;
 
-        private string _relicName;
+        private string _relicName = strings.Relic;
         private string _relicDescription;
 
         public RelicSlot(TemplateSlotType gearSlot, Container parent, TemplatePresenter templatePresenter) : base(gearSlot, parent, templatePresenter)
@@ -53,9 +53,6 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage.GearSlots
 
             var relic = TemplatePresenter?.Template?[Slot] as RelicTemplateEntry;
             Item = relic?.Relic;
-
-            _relicName = relic?.Relic?.Name ?? strings.Relic;
-            _relicDescription = relic?.Relic?.Description.InterpretItemDescription();
         }
 
         protected override void OnClick(MouseEventArgs e)
@@ -66,16 +63,16 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage.GearSlots
 
             if (ItemControl.MouseOver)
             {
-                SelectionPanel?.SetAnchor<Relic>(ItemControl, new Rectangle(a.Location, Point.Zero).Add(ItemControl.LocalBounds), SelectionTypes.Items, Slot, GearSubSlotType.Item, (relic) =>
-                {
-                    Item = relic;
-                });
+                SelectionPanel?.SetAnchor<Relic>(ItemControl, new Rectangle(a.Location, Point.Zero).Add(ItemControl.LocalBounds), SelectionTypes.Items, Slot, GearSubSlotType.Item, (relic) => Item = relic);
             }
         }
 
         protected override void OnItemChanged(object sender, Core.Models.ValueChangedEventArgs<BaseItem> e)
         {
             base.OnItemChanged(sender, e);
+
+            _relicName = Item?.Name ?? strings.Relic;
+            _relicDescription = Item?.Description ?? string.Empty;
 
             if (TemplatePresenter?.Template[Slot] is RelicTemplateEntry entry)
                 entry.Relic = Item as Relic;
@@ -85,10 +82,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage.GearSlots
         {
             base.CreateSubMenus();
 
-            CreateSubMenu(() => strings.Reset, () => string.Format(strings.ResetEntry, strings.Relic), () =>
-            {
-                Item = null;
-            });
+            CreateSubMenu(() => strings.Reset, () => string.Format(strings.ResetEntry, strings.Relic), () => Item = null);
         }
     }
 }

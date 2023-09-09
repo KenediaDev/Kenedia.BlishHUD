@@ -87,12 +87,23 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage.GearSlots
             {
                 e.OldValue.LoadedGearFromCode -= SetItems;
                 e.OldValue.TemplateChanged -= SetItems;
+                e.OldValue.GameModeChanged -= GameModeChanged;
             }
 
             if (e.NewValue is not null)
             {
                 e.NewValue.LoadedGearFromCode += SetItems;
                 e.NewValue.TemplateChanged += SetItems;
+                e.NewValue.GameModeChanged += GameModeChanged;
+            }
+        }
+
+        protected virtual void GameModeChanged(object sender, ValueChangedEventArgs<GameModeType> e)
+        {
+            var a = SelectionPanel?.Anchor;
+            if (a is not null && Children?.Contains(a) is true)
+            {
+                SelectionPanel?.ResetAnchor();
             }
         }
 

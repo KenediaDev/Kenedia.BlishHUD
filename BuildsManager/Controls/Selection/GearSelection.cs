@@ -21,7 +21,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
         private readonly List<Selectable> _selectables = new();
         private TemplateSlotType _activeSlot;
         private GearSubSlotType _subSlotType;
-        private string _filterText;
+        private string _filterText = string.Empty;
         private TemplatePresenter _templatePresenter;
         private readonly List<Selectable> _armors;
         private readonly List<Selectable> _trinkets;
@@ -100,7 +100,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
             TemplatePresenter = templatePresenter;
         }
 
-        public TemplatePresenter TemplatePresenter { get => _templatePresenter; private set => Common.SetProperty(ref _templatePresenter , value, OnTemplatePresenterChanged); }
+        public TemplatePresenter TemplatePresenter { get => _templatePresenter; private set => Common.SetProperty(ref _templatePresenter, value, OnTemplatePresenterChanged); }
 
         public TemplateSlotType ActiveSlot { get => _activeSlot; set => Common.SetProperty(ref _activeSlot, value, ApplySlot); }
 
@@ -111,12 +111,19 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
             if (e.OldValue is not null)
             {
                 e.OldValue.TemplateChanged -= Template_TemplateChanged;
+                e.OldValue.GameModeChanged -= Template_GameModeChanged;
             }
 
             if (e.NewValue is not null)
             {
                 e.NewValue.TemplateChanged += Template_TemplateChanged;
+                e.NewValue.GameModeChanged += Template_GameModeChanged;
             }
+        }
+
+        private void Template_GameModeChanged(object sender, ValueChangedEventArgs<GameModeType> e)
+        {
+            PerformFiltering();
         }
 
         private void Template_TemplateChanged(object sender, ValueChangedEventArgs<Template> e)
@@ -135,31 +142,33 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
 
         private bool MatchingMethod(BaseItem item)
         {
+            string filterText = _filterText ?? string.Empty;
+
             switch (item?.Type)
             {
                 case Core.DataModels.ItemType.Consumable:
                     if (item is Enhancement enhancement)
                     {
-                        return item.Name == null || string.IsNullOrEmpty(_filterText) || item.Name.ToLower().Contains(_filterText) || enhancement.Details?.Description?.ToLower()?.Contains(_filterText) == true;
+                        return item.Name == null || string.IsNullOrEmpty(filterText) || item.Name.ToLower().Contains(filterText) || enhancement.Details?.Description?.ToLower()?.Contains(filterText) == true;
                     }
                     else if (item is Nourishment nourishment)
                     {
-                        return item.Name == null || string.IsNullOrEmpty(_filterText) || item.Name.ToLower().Contains(_filterText) || nourishment.Details?.Description?.ToLower()?.Contains(_filterText) == true;
+                        return item.Name == null || string.IsNullOrEmpty(filterText) || item.Name.ToLower().Contains(filterText) || nourishment.Details?.Description?.ToLower()?.Contains(filterText) == true;
                     }
                     break;
 
                 case Core.DataModels.ItemType.UpgradeComponent:
                     if (item is Rune rune)
                     {
-                        return item.Name == null || string.IsNullOrEmpty(_filterText) || item.Name.ToLower().Contains(_filterText) || rune.Bonus.ToLower()?.Contains(_filterText) == true;
+                        return item.Name == null || string.IsNullOrEmpty(filterText) || item.Name.ToLower().Contains(filterText) || rune.Bonus.ToLower()?.Contains(filterText) == true;
                     }
                     else if (item is Sigil sigil)
                     {
-                        return item.Name == null || string.IsNullOrEmpty(_filterText) || item.Name.ToLower().Contains(_filterText) || sigil.Buff.ToLower()?.Contains(_filterText) == true;
+                        return item.Name == null || string.IsNullOrEmpty(filterText) || item.Name.ToLower().Contains(filterText) || sigil.Buff.ToLower()?.Contains(filterText) == true;
                     }
                     else if (item is Infusion infusion)
                     {
-                        return item.Name == null || string.IsNullOrEmpty(_filterText) || item.Name.ToLower().Contains(_filterText) || infusion.Bonus.ToLower()?.Contains(_filterText) == true;
+                        return item.Name == null || string.IsNullOrEmpty(filterText) || item.Name.ToLower().Contains(filterText) || infusion.Bonus.ToLower()?.Contains(filterText) == true;
                     }
                     break;
 
@@ -167,7 +176,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
                     if (item is PvpAmulet amulet)
                     {
                         bool matched = true;
-                        foreach (string s in _filterText.Split(' '))
+                        foreach (string s in filterText.Split(' '))
                         {
                             string searchTxt = s.Trim().ToLower();
 
@@ -177,13 +186,13 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
                             }
                         }
 
-                        return item.Name == null || string.IsNullOrEmpty(_filterText) || matched;
+                        return item.Name == null || string.IsNullOrEmpty(filterText) || matched;
                     }
 
                     break;
             }
 
-            return item?.Name == null || string.IsNullOrEmpty(_filterText) || item.Name.ToLower().Contains(_filterText);
+            return item?.Name == null || string.IsNullOrEmpty(filterText) || item.Name.ToLower().Contains(filterText);
         }
 
         private void ApplySubSlot(object sender, PropertyChangedEventArgs e)
@@ -207,6 +216,9 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
 
         public void PerformFiltering()
         {
+            if (TemplatePresenter?.Template is null)
+                return;
+
             switch (ActiveSlot)
             {
                 case TemplateSlotType.Head:
@@ -296,6 +308,11 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
                     }
                     else if (SubSlotType == GearSubSlotType.Sigil)
                     {
+                        foreach (var item in TemplatePresenter?.IsPve == false ? _pveSigils : _pvpSigils)
+                        {
+                            item.Visible = false;
+                        }
+
                         foreach (var item in TemplatePresenter?.IsPve == false ? _pvpSigils : _pveSigils)
                         {
                             item.Visible = MatchingMethod(item.Item);

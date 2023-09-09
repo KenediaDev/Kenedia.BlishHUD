@@ -27,6 +27,7 @@ using LoadingSpinner = Kenedia.Modules.Core.Controls.LoadingSpinner;
 using AnchoredContainer = Kenedia.Modules.Core.Controls.AnchoredContainer;
 using Rectangle = Microsoft.Xna.Framework.Rectangle;
 using Version = SemVer.Version;
+using Kenedia.Modules.BuildsManager.Controls.GearPage.GearSlots;
 
 namespace Kenedia.Modules.BuildsManager
 {

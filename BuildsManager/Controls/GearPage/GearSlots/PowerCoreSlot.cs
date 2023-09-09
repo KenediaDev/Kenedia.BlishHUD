@@ -23,7 +23,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage.GearSlots
         private Rectangle _titleBounds;
         private Rectangle _statBounds;
 
-        private string _powerCoreName;
+        private string _powerCoreName = strings.PowerCore;
         private string _powerCoreDescription;
 
         public PowerCoreSlot(TemplateSlotType gearSlot, Container parent, TemplatePresenter templatePresenter) : base(gearSlot, parent, templatePresenter)
@@ -57,7 +57,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage.GearSlots
             var powerCore = TemplatePresenter?.Template?[Slot] as PowerCoreTemplateEntry;
             Item = powerCore?.PowerCore;
             _powerCoreName = powerCore?.PowerCore?.Name ?? strings.PowerCore;
-            _powerCoreDescription = powerCore?.PowerCore?.Description.InterpretItemDescription() ?? string.Empty;
+            _powerCoreDescription = powerCore?.PowerCore?.Description ?? string.Empty;
         }
 
         protected override void OnClick(MouseEventArgs e)
@@ -68,16 +68,16 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage.GearSlots
 
             if (ItemControl.MouseOver)
             {
-                SelectionPanel?.SetAnchor<PowerCore>(ItemControl, new Rectangle(a.Location, Point.Zero).Add(ItemControl.LocalBounds), SelectionTypes.Items, Slot, GearSubSlotType.Item, (powerCores) =>
-                {
-                    Item = powerCores;
-                });
+                SelectionPanel?.SetAnchor<PowerCore>(ItemControl, new Rectangle(a.Location, Point.Zero).Add(ItemControl.LocalBounds), SelectionTypes.Items, Slot, GearSubSlotType.Item, (powerCores) => Item = powerCores);
             }
         }
 
         protected override void OnItemChanged(object sender, Core.Models.ValueChangedEventArgs<BaseItem> e)
         {
             base.OnItemChanged(sender, e);
+
+            _powerCoreName = Item?.Name ?? strings.PowerCore;
+            _powerCoreDescription = Item?.Description ?? string.Empty;
 
             if (TemplatePresenter?.Template[Slot] is PowerCoreTemplateEntry entry)
                 entry.PowerCore = Item as PowerCore;
@@ -87,7 +87,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage.GearSlots
         {
             base.CreateSubMenus();
 
-            CreateSubMenu(() => strings.Reset, () => string.Format(strings.ResetEntry, strings.PowerCore), () => { Item = null; });
+            CreateSubMenu(() => strings.Reset, () => string.Format(strings.ResetEntry, strings.PowerCore), () => Item = null);
         }
     }
 }

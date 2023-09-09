@@ -77,35 +77,24 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage.GearSlots
 
             if (ItemControl.MouseOver)
             {
-                SelectionPanel?.SetAnchor<Stat>(ItemControl, new Rectangle(a.Location, Point.Zero).Add(ItemControl.LocalBounds), SelectionTypes.Stats, Slot, GearSubSlotType.None, (stat) =>
-                {
-                    Stat = stat;
-                }, (TemplatePresenter?.Template[Slot] as RingTemplateEntry).Ring?.StatChoices,
-                (TemplatePresenter?.Template[Slot] as RingTemplateEntry).Ring?.AttributeAdjustment);
+                SelectionPanel?.SetAnchor<Stat>(ItemControl, new Rectangle(a.Location, Point.Zero).Add(ItemControl.LocalBounds), SelectionTypes.Stats, Slot, GearSubSlotType.None, (stat) => Stat = stat,
+                    (TemplatePresenter?.Template[Slot] as RingTemplateEntry).Ring?.StatChoices,
+                    (TemplatePresenter?.Template[Slot] as RingTemplateEntry).Ring?.AttributeAdjustment);
             }
 
             if (_infusion1Control.MouseOver)
             {
-                SelectionPanel?.SetAnchor<Infusion>(_infusion1Control, new Rectangle(a.Location, Point.Zero).Add(_infusion1Control.LocalBounds), SelectionTypes.Items, Slot, GearSubSlotType.Infusion, (infusion) =>
-                {
-                    Infusion1 = infusion;
-                });
+                SelectionPanel?.SetAnchor<Infusion>(_infusion1Control, new Rectangle(a.Location, Point.Zero).Add(_infusion1Control.LocalBounds), SelectionTypes.Items, Slot, GearSubSlotType.Infusion, (infusion) => Infusion1 = infusion);
             }
 
             if (_infusion2Control.MouseOver)
             {
-                SelectionPanel?.SetAnchor<Infusion>(_infusion2Control, new Rectangle(a.Location, Point.Zero).Add(_infusion2Control.LocalBounds), SelectionTypes.Items, Slot, GearSubSlotType.Infusion, (infusion) =>
-                {
-                    Infusion2 = infusion;
-                });
+                SelectionPanel?.SetAnchor<Infusion>(_infusion2Control, new Rectangle(a.Location, Point.Zero).Add(_infusion2Control.LocalBounds), SelectionTypes.Items, Slot, GearSubSlotType.Infusion, (infusion) => Infusion2 = infusion);
             }
 
             if (_infusion3Control.MouseOver)
             {
-                SelectionPanel?.SetAnchor<Infusion>(_infusion3Control, new Rectangle(a.Location, Point.Zero).Add(_infusion3Control.LocalBounds), SelectionTypes.Items, Slot, GearSubSlotType.Infusion, (infusion) =>
-                {
-                    Infusion3 = infusion;
-                });
+                SelectionPanel?.SetAnchor<Infusion>(_infusion3Control, new Rectangle(a.Location, Point.Zero).Add(_infusion3Control.LocalBounds), SelectionTypes.Items, Slot, GearSubSlotType.Infusion, (infusion) => Infusion3 = infusion);
             }
         }
 
@@ -165,28 +154,22 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage.GearSlots
         {
             foreach (var slot in SlotGroup)
             {
-                switch (slot.Slot)
+                switch (slot)
                 {
-                    case TemplateSlotType.Accessory_1:
-                    case TemplateSlotType.Accessory_2:
-                        var accessoire = slot as AccessoireSlot;
+                    case AccessoireSlot accessoire:
                         accessoire.Stat = overrideExisting ? stat : accessoire.Stat ?? stat;
                         break;
 
-                    case TemplateSlotType.Back:
-                        var back = slot as BackSlot;
+                    case BackSlot back:
                         back.Stat = overrideExisting ? stat : back.Stat ?? stat;
                         break;
 
-                    case TemplateSlotType.Amulet:
-                        var amulet = slot as AmuletSlot;
-                        amulet.Stat = overrideExisting ? stat : amulet.Stat ?? stat;
+                    case RingSlot ring:
+                        ring.Stat = overrideExisting ? stat : ring.Stat ?? stat;
                         break;
 
-                    case TemplateSlotType.Ring_1:
-                    case TemplateSlotType.Ring_2:
-                        var ring = slot as RingSlot;
-                        ring.Stat = overrideExisting ? stat : ring.Stat ?? stat;
+                    case AmuletSlot amulet:
+                        amulet.Stat = overrideExisting ? stat : amulet.Stat ?? stat;
                         break;
                 }
             }
@@ -196,25 +179,18 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage.GearSlots
         {
             foreach (var slot in SlotGroup)
             {
-                switch (slot.Slot)
+                switch (slot)
                 {
-                    case TemplateSlotType.Accessory_1:
-                    case TemplateSlotType.Accessory_2:
-                        var accessoire = slot as AccessoireSlot;
+                    case AccessoireSlot accessoire:
                         accessoire.Infusion = overrideExisting ? infusion : accessoire.Infusion ?? infusion;
                         break;
 
-                    case TemplateSlotType.Back:
-                        var back = slot as BackSlot;
-
+                    case BackSlot back:
                         back.Infusion1 = overrideExisting ? infusion : back.Infusion1 ?? infusion;
                         back.Infusion2 = overrideExisting ? infusion : back.Infusion2 ?? infusion;
                         break;
 
-                    case TemplateSlotType.Ring_1:
-                    case TemplateSlotType.Ring_2:
-                        var ring = slot as RingSlot;
-
+                    case RingSlot ring:
                         ring.Infusion1 = overrideExisting ? infusion : ring.Infusion1 ?? infusion;
                         ring.Infusion2 = overrideExisting ? infusion : ring.Infusion2 ?? infusion;
                         ring.Infusion3 = overrideExisting ? infusion : ring.Infusion3 ?? infusion;
