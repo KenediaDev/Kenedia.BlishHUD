@@ -12,11 +12,12 @@ namespace Kenedia.Modules.Core.Controls
 {
     public class ButtonImage : ImageButton
     {
-        private readonly AsyncTexture2D _buttonImage;
-        private readonly AsyncTexture2D _hoveredButton;
         private readonly List<(Rectangle bounds, float alpha)> _frameBounds = new();
         private Rectangle _textureBounds;
         private Point? _textureSize;
+
+        private AsyncTexture2D _buttonImage;
+        private AsyncTexture2D _hoveredButton;
 
         public ButtonImage()
         {
@@ -69,6 +70,16 @@ namespace Kenedia.Modules.Core.Controls
                     Width - (i * 2),
                     Height - (i * 2)), i * stepSize));
             }
+        }
+        protected override void DisposeControl()
+        {
+            base.DisposeControl();
+
+            _hoveredButton?.Dispose();
+            _hoveredButton = null;
+
+            _buttonImage?.Dispose();
+            _buttonImage = null;
         }
     }
 }

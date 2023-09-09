@@ -131,13 +131,22 @@ namespace Kenedia.Modules.OverflowTradingAssist.Views
 
                 foreach (var trade in trades)
                 {
+                    bool any = string.IsNullOrEmpty(_filterBox.Text);
+                    string text = _filterBox.Text ?? string.Empty;
+                    bool visible = true;
+                    var items = trade.Items.Select(e => e?.Item?.Name?.ToLower());
+
+                    foreach (string s in text.Trim().ToLower().Split(' '))
+                    {
+                        visible = visible && (items.Any(i => i.Contains(s)) || trade.TradePartner.ToLower().Contains(s));
+                    }
+
                     _tradeHistoryEntries.Add(new TradeHistoryEntryControl(trade)
                     {
                         Parent = _tradeHistoryPanel,
                         Width = buildPanel.ContentRegion.Width,
+                        Visible = visible,
                     });
-
-                    FilterTrades(_filterBox.Text);
                 }
             }
         }
@@ -149,14 +158,15 @@ namespace Kenedia.Modules.OverflowTradingAssist.Views
 
             foreach (var ctrl in _tradeHistoryEntries)
             {
-                bool first = true;
+                var items = ctrl.Trade.Items.Select(e => e?.Item?.Name?.ToLower());
+                bool visible = true;
 
                 foreach (string s in text.Trim().ToLower().Split(' '))
                 {
-                    var items = ctrl.Trade.Items.Select(e => e?.Item?.Name?.ToLower());
-                    ctrl.Visible = (ctrl.Visible || first) && (items.Any(i => i.Contains(s)) || ctrl.Trade.TradePartner.ToLower().Contains(s));
-                    first = false;
+                    visible = visible && (items.Any(i => i.Contains(s)) || ctrl.Trade.TradePartner.ToLower().Contains(s));
                 }
+
+                ctrl.Visible = visible; 
             }
 
             _tradeHistoryPanel?.Invalidate();
