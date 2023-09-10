@@ -371,7 +371,7 @@ namespace Kenedia.Modules.Characters.Models
 
                 for (int i = 1; i < 100; i++)
                 {
-                    DateTime birthDay = Created.AddYears(i).DateTime;
+                    DateTime birthDay = Created.AddDays(365 * i).DateTime;
 
                     if (birthDay <= DateTime.UtcNow)
                     {
@@ -401,7 +401,7 @@ namespace Kenedia.Modules.Characters.Models
             {
                 for (int i = 1; i < 100; i++)
                 {
-                    DateTime birthDay = Created.AddYears(i).DateTime;
+                    DateTime birthDay = Created.AddDays(365 * i).DateTime;
 
                     if((birthDay.Year == DateTime.UtcNow.Year && birthDay >= DateTime.UtcNow) || birthDay.Year == DateTime.UtcNow.Year + 1)
                     {
