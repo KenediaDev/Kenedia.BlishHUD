@@ -6,7 +6,7 @@
     }
   ],
   "dependencies": {
-    "bh.blishhud": ">=1.0.0"
+    "bh.blishhud": ">=1.0.1"
   },
   "description": "A Blish approach to store and share build setups (gear and build) with your friends, guilds and communities. A must have for everyone with a lot of builds!",
   "directories": [ "kenedia" ],
