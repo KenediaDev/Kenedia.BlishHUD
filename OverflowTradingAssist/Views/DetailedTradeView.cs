@@ -1,6 +1,7 @@
 ﻿using Blish_HUD.Content;
 using Blish_HUD.Graphics.UI;
 using Kenedia.Modules.Core.Controls;
+using Kenedia.Modules.OverflowTradingAssist.Controls;
 using Kenedia.Modules.OverflowTradingAssist.Models;
 using Microsoft.Xna.Framework;
 
@@ -9,7 +10,7 @@ namespace Kenedia.Modules.OverflowTradingAssist.Views
     public class DetailedTradeView : View
     {
         private TextBox _tradePartnerTextBox;
-        private NumberBox _amountNumberBox;
+        private CoinControl _amountNumberBox;
         private TextBox _reviewTextBox;
         private TextBox _listingTextBox;
         private ButtonImage _tradeTypeImage;
@@ -32,7 +33,7 @@ namespace Kenedia.Modules.OverflowTradingAssist.Views
             base.Build(buildPanel);
             Blish_HUD.Controls.Container c = buildPanel;
 
-            int width = DetailedTradeWindow.ContentWidth - 25;
+            int width = DetailedTradeWindow.ContentWidth - 10;
 
             _tradePartnerButtonImage = new ButtonImage()
             {
@@ -56,19 +57,19 @@ namespace Kenedia.Modules.OverflowTradingAssist.Views
 
             _tradeAmountButtonImage = new ButtonImage()
             {
-                Location = new(_tradePartnerTextBox.Right + (int)(width * 0.2F), 0),
+                Location = new(_tradePartnerTextBox.Right + (int)(width * 0.15F), 0),
                 Parent = c,
                 Size = new(27),
-                Texture = AsyncTexture2D.FromAssetId(156902),
+                Texture = AsyncTexture2D.FromAssetId(156758),
                 BasicTooltipText = "Trade Amount (in copper)\n1 gold = 10000 copper\n1 silver = 100 copper",
                 Enabled = false,
             };
-            _amountNumberBox = new NumberBox()
+            _amountNumberBox = new()
             {
                 Location = new(_tradeAmountButtonImage.Right, 0),
                 Parent = c,
-                Width = (int)(width * 0.4F) - _tradeAmountButtonImage.Width,
-                Value = (int)_trade.Amount,
+                Width = (int)(width * 0.45F) - _tradeAmountButtonImage.Width,
+                Value = _trade.Amount,
                 Height = _tradePartnerTextBox.Height,
                 ValueChangedAction = (s) => _trade.Amount = s,
             };
@@ -147,10 +148,10 @@ namespace Kenedia.Modules.OverflowTradingAssist.Views
                 ControlPadding = new(5),
             };
 
-            var itemsPanel = new FlowPanel()
+            var itemsPanel = new ItemPanel()
             {
                 Parent = fp,
-                WidthSizingMode = Blish_HUD.Controls.SizingMode.Fill,
+                Width = width,
                 Title = "Items",
                 CanScroll = true,
                 Height = 250,
@@ -159,10 +160,10 @@ namespace Kenedia.Modules.OverflowTradingAssist.Views
                 BorderWidth = new(2),
             };
 
-            var paymentPanel = new FlowPanel()
+            var paymentPanel = new ItemPanel()
             {
                 Parent = fp,
-                WidthSizingMode = Blish_HUD.Controls.SizingMode.Fill,
+                Width = width,
                 Title = "Payment",
                 CanScroll = true,
                 Height = 250,

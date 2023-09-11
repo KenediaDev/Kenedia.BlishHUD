@@ -50,7 +50,7 @@ namespace Kenedia.Modules.OverflowTradingAssist.Views
             if (_trades is not null)
             {
                 Blish_HUD.Controls.Control ctrl = null;
-                double totalTraded = _trades.Sum(e => e.Amount);
+                decimal totalTraded = _trades.Sum(e => e.Amount);
                 var tradeRank = TradeRank.Ranks.FirstOrDefault(e => e.Threshold <= totalTraded && e.Trades <= _trades.Count);
 
                 _headerPanel = new Panel()

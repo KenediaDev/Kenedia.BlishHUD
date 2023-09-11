@@ -170,6 +170,7 @@ namespace Kenedia.Modules.OverflowTradingAssist.Controls
             _amountLabel.Text = string.Format("{0:#g 00s 00c}", Trade.Amount);
             _itemSummaryLabel.Text = $"{Trade.ItemSummary}";
             _tradeImage.Texture = AsyncTexture2D.FromAssetId(Trade.TradeType is TradeType.Buy ? 157326 : Trade.TradeType is TradeType.Sell ? 157328 : 157095);
+            _tradeImage.BasicTooltipText = Trade.TradeType is TradeType.Buy ? "Buy" : Trade.TradeType is TradeType.Sell ? "Sell" : "None";
         }
 
         public int Index { get => _index; set => Common.SetProperty(ref _index, value, OnIndexChanged); }
@@ -187,7 +188,7 @@ namespace Kenedia.Modules.OverflowTradingAssist.Controls
                 Trade,
                 settingsBg,
                 new Rectangle(30, 30, cutSettingsBg.Width + 10, cutSettingsBg.Height),
-                new Rectangle(30 + 46, 35, cutSettingsBg.Width - 46, cutSettingsBg.Height - 15));
+                new Rectangle(30 + 20, 35, cutSettingsBg.Width - 20, cutSettingsBg.Height - 15));
         }
 
         private void ReviewLinkLabel_Click(object sender, MouseEventArgs e)

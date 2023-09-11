@@ -14,7 +14,7 @@ namespace Kenedia.Modules.OverflowTradingAssist.Views
         public static TradeRank FiveThousand = new(50000000, new(185, 192, 236), "Eligible for 5k Trade Rank", 10, OverflowTradingAssist.ModuleInstance.ContentsManager.GetTexture($@"textures\{5000}.png"));
         public static TradeRank NoRank = new(0, new(255, 255, 255), "Eligible for no Trade Rank", 0, AsyncTexture2D.FromAssetId(154982));
 
-        public TradeRank(double threshold, Color color, string name, int trades, AsyncTexture2D texture)
+        public TradeRank(decimal threshold, Color color, string name, int trades, AsyncTexture2D texture)
         {
             Threshold = threshold;
             Color = color;
@@ -23,7 +23,7 @@ namespace Kenedia.Modules.OverflowTradingAssist.Views
             Icon = texture;
         }
 
-        public double Threshold { get; set; }
+        public decimal Threshold { get; set; }
 
         public Color Color { get; set; }
 

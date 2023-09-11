@@ -8,10 +8,10 @@ namespace Kenedia.Modules.OverflowTradingAssist.Views
 {
     public class DetailedTradeWindow : StandardWindow
     {
-        public static int WindowWidth = 700;
+        public static int WindowWidth = 600;
         public static int WindowHeight = 706;
 
-        public static int ContentWidth = WindowWidth - 55;
+        public static int ContentWidth = WindowWidth - 20;
         public static int ContentHeight = WindowHeight - 55;
 
         public DetailedTradeWindow(Trade trade, AsyncTexture2D background, Rectangle windowRegion, Rectangle contentRegion) : base(background, windowRegion, contentRegion)
@@ -36,7 +36,7 @@ namespace Kenedia.Modules.OverflowTradingAssist.Views
 
         private void Trade_TradeSummaryChanged(object sender, Trade e)
         {
-            Name = $"{e.TradePartner}";
+            Name = $"{(string.IsNullOrEmpty(e.TradePartner) ? "New Trade" : e.TradePartner)}";
         }
 
         protected override void DisposeControl()

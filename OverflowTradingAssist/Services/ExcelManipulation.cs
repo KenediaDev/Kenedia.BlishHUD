@@ -193,7 +193,7 @@ namespace Kenedia.Modules.OverflowTradingAssist.Services
                             trades.Add(t = new()
                             {
                                 TradePartner = worksheet.Cells[i, s_tradePartner].Text,
-                                Amount = (double)worksheet.Cells[i, s_tradeAmount].Value,
+                                Amount = decimal.Parse(worksheet.Cells[i, s_tradeAmount].Value.ToString()),
                                 ReviewLink = worksheet.Cells[i, s_reviewLink].Text,
                                 TradeListingLink = worksheet.Cells[i, s_tradeListingLink].Text,
                                 Items = GetItems(worksheet.Cells[i, s_guuid].Text),

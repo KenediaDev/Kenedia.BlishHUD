@@ -14,7 +14,7 @@ namespace Kenedia.Modules.OverflowTradingAssist.Controls
         private readonly Label _itemSummaryLabel;
         private readonly TradeRank _tradeRank;
 
-        public TradeHistoryHeaderControl(string partners, double amount, TradeRank tradeRank)
+        public TradeHistoryHeaderControl(string partners, decimal amount, TradeRank tradeRank)
         {
             _tradeRank = tradeRank;
             var color = _tradeRank?.Color ?? Color.White;

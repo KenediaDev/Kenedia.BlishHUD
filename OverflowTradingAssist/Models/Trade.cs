@@ -25,7 +25,7 @@ namespace Kenedia.Modules.OverflowTradingAssist.Models
     public class Trade
     {
         private string _tradePartner;
-        private double _amount;
+        private decimal _amount;
         private TradeType _tradeType;
 
         public event EventHandler<Trade> TradeSummaryChanged;
@@ -42,7 +42,7 @@ namespace Kenedia.Modules.OverflowTradingAssist.Models
 
         public string TradeListingLink { get; set; }
 
-        public double Amount { get => _amount; set => Common.SetProperty(ref _amount , value, OnAmountChanged); }
+        public decimal Amount { get => _amount; set => Common.SetProperty(ref _amount , value, OnAmountChanged); }
 
         public TradeType TradeType { get => _tradeType; set => Common.SetProperty(ref _tradeType , value, OnTradeTypeChanged); }
 
@@ -56,7 +56,7 @@ namespace Kenedia.Modules.OverflowTradingAssist.Models
             TradeSummaryChanged?.Invoke(this, this);
         }
 
-        private void OnAmountChanged(object sender, ValueChangedEventArgs<double> e)
+        private void OnAmountChanged(object sender, ValueChangedEventArgs<decimal> e)
         {
             TradeSummaryChanged?.Invoke(this, this);
         }

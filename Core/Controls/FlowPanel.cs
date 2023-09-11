@@ -46,7 +46,6 @@ namespace Kenedia.Modules.Core.Controls
         private Rectangle _layoutLeftAccentBounds;
         private Rectangle _layoutRightAccentBounds;
         private Rectangle _layoutLeftAccentSrc;
-        private Rectangle _layoutHeaderBounds;
         private Rectangle _layoutHeaderTextBounds;
         private Rectangle _layoutHeaderIconBounds;
         private Rectangle _layoutAccordionArrowBounds;
@@ -56,6 +55,8 @@ namespace Kenedia.Modules.Core.Controls
         private RectangleDimensions _titleIconPadding = new(3, 3, 5, 3);
         private int _titleBarHeight = 36;
         private bool _resized = false;
+
+        protected Rectangle LayoutHeaderBounds;
 
         public FlowPanel()
         {
@@ -216,17 +217,17 @@ namespace Kenedia.Modules.Core.Controls
             }
 
             ContentRegion = new Rectangle(_contentPadding.Left + num4, _contentPadding.Top + num, _size.X - num4 - num2 - _contentPadding.Horizontal, _size.Y - num - num3 - _contentPadding.Vertical);
-            _layoutHeaderBounds = new Rectangle(num4, 0, Width, num);
-            _layoutHeaderIconBounds = TitleIcon is not null ? new Rectangle(_layoutHeaderBounds.Left + _titleIconPadding.Left, _titleIconPadding.Top, num - _titleIconPadding.Vertical, num - _titleIconPadding.Vertical) : Rectangle.Empty;
+            LayoutHeaderBounds = new Rectangle(num4, 0, Width, num);
+            _layoutHeaderIconBounds = TitleIcon is not null ? new Rectangle(LayoutHeaderBounds.Left + _titleIconPadding.Left, _titleIconPadding.Top, num - _titleIconPadding.Vertical, num - _titleIconPadding.Vertical) : Rectangle.Empty;
 
-            _layoutHeaderTextBounds = new Rectangle(_layoutHeaderIconBounds.Right + _titleIconPadding.Right, 0, _layoutHeaderBounds.Width - _layoutHeaderIconBounds.Width, num);
+            _layoutHeaderTextBounds = new Rectangle(_layoutHeaderIconBounds.Right + _titleIconPadding.Right, 0, LayoutHeaderBounds.Width - _layoutHeaderIconBounds.Width, num);
 
             int arrowSize = num - 4;
 
             _layoutAccordionArrowOrigin = new Vector2(16F, 16F);
-            _layoutAccordionArrowBounds = new Rectangle(_layoutHeaderBounds.Right - arrowSize, (num - arrowSize) / 2, arrowSize, arrowSize).OffsetBy(new(arrowSize / 2, arrowSize / 2));
+            _layoutAccordionArrowBounds = new Rectangle(LayoutHeaderBounds.Right - arrowSize, (num - arrowSize) / 2, arrowSize, arrowSize).OffsetBy(new(arrowSize / 2, arrowSize / 2));
 
-            if (Collapsed && _size.Y > _layoutHeaderBounds.Height && !_resized)
+            if (Collapsed && _size.Y > LayoutHeaderBounds.Height && !_resized)
             {
                 _resized = true;
 
@@ -239,7 +240,7 @@ namespace Kenedia.Modules.Core.Controls
                         return;
                     }
 
-                    Size = new(Width, _layoutHeaderBounds.Height);
+                    Size = new(Width, LayoutHeaderBounds.Height);
                     _resized = false;
                 });
             }
@@ -262,15 +263,15 @@ namespace Kenedia.Modules.Core.Controls
 
             if (!string.IsNullOrEmpty(_title))
             {
-                spriteBatch.DrawOnCtrl(this, _texturePanelHeader, _layoutHeaderBounds);
+                spriteBatch.DrawOnCtrl(this, _texturePanelHeader, LayoutHeaderBounds);
                 if (_canCollapse && _mouseOver && RelativeMousePosition.Y <= 36)
                 {
                     _tooltip.Visible = true;
-                    spriteBatch.DrawOnCtrl(this, _texturePanelHeaderActive, _layoutHeaderBounds);
+                    spriteBatch.DrawOnCtrl(this, _texturePanelHeaderActive, LayoutHeaderBounds);
                 }
                 else
                 {
-                    spriteBatch.DrawOnCtrl(this, _texturePanelHeader, _layoutHeaderBounds);
+                    spriteBatch.DrawOnCtrl(this, _texturePanelHeader, LayoutHeaderBounds);
                 }
 
                 spriteBatch.DrawStringOnCtrl(this, _title, Content.DefaultFont16, _layoutHeaderTextBounds, Color.White);
