@@ -8,6 +8,7 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using Kenedia.Modules.Core.Services;
+using Blish_HUD.Input;
 
 namespace Kenedia.Modules.Core.Controls
 {
@@ -31,9 +32,9 @@ namespace Kenedia.Modules.Core.Controls
         protected override void Paint(SpriteBatch spriteBatch, Rectangle bounds)
         {
             if (_buttonImage is not null)
-                spriteBatch.DrawOnCtrl(this, MouseOver ? _hoveredButton : _buttonImage, bounds, _buttonImage.Bounds, Color.White);
+                spriteBatch.DrawOnCtrl(this, (MouseOver && Enabled) ? _hoveredButton : _buttonImage, bounds, _buttonImage.Bounds, Color.White);
 
-            if (MouseOver)
+            if (MouseOver && Enabled)
             {
 
                 for (int i = 0; i < _frameBounds.Count; i++)
@@ -61,7 +62,7 @@ namespace Kenedia.Modules.Core.Controls
             _textureBounds = new((xOffset / 2) + padding.X, (yOffset / 2) + padding.Y, size.X - (xOffset * 1), size.Y - (yOffset * 1));
             _frameBounds.Clear();
 
-            int frameWidth = Math.Max(2 , (int)(Width * 0.05));
+            int frameWidth = Math.Max(2, (int)(Width * 0.05));
             float stepSize = 0.75F / (frameWidth - 1);
             for (int i = 0; i < frameWidth; i++)
             {
@@ -72,6 +73,7 @@ namespace Kenedia.Modules.Core.Controls
                     Height - (i * 2)), i * stepSize));
             }
         }
+
         protected override void DisposeControl()
         {
             base.DisposeControl();

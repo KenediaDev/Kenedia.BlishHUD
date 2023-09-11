@@ -11,8 +11,7 @@ namespace Kenedia.Modules.BuildsManager.Services
 {
     public class StaticHosting
     {
-        public static string BaseUrl = "https://raw.githubusercontent.com/KenediaDev/Kenedia.BlishHUD/bhud-static/Kenedia.Modules.BuildsManager/";
-        public static string xBaseUrl = "https://bhm.blishhud.com/Kenedia.Modules.BuildsManager/";
+        public static string BaseUrl = "https://bhm.blishhud.com/Kenedia.Modules.BuildsManager/";
 
         public async static Task<StaticVersion> GetStaticVersion()
         {

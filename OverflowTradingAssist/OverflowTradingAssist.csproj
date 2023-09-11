@@ -262,6 +262,7 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Views\DetailedTradeWindow.cs" />
     <Compile Include="Controls\ItemControl.cs" />
     <Compile Include="Controls\ItemSelectable.cs" />
     <Compile Include="Controls\ItemTooltip.cs" />
@@ -280,6 +281,7 @@
       <DependentUpon>strings.resx</DependentUpon>
     </Compile>
     <Compile Include="Services\ExcelManipulation.cs" />
+    <Compile Include="Services\ItemsData.cs" />
     <Compile Include="Services\MailingService.cs" />
     <Compile Include="Services\Settings.cs" />
     <Compile Include="Services\StaticHosting.cs" />

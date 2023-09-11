@@ -107,9 +107,11 @@ namespace Kenedia.Modules.Core.Controls
 
         protected override void OnClick(MouseEventArgs e)
         {
-            base.OnClick(e);
-
-            if (Enabled) ClickAction?.Invoke(e);
+            if (Enabled)
+            {
+                base.OnClick(e);
+                ClickAction?.Invoke(e);
+            }
         }
 
         public override void RecalculateLayout()

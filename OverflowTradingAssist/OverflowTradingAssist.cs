@@ -73,7 +73,7 @@ namespace Kenedia.Modules.OverflowTradingAssist
             Logger.Info($"Starting {Name} v." + Version.BaseVersion());
 
             Data = new(Paths, Gw2ApiManager, () => _notificationBadge, () => _apiSpinner);
-            ExcelManipulation = new(Paths, Gw2ApiManager, () => _notificationBadge, () => _apiSpinner, () => Trades);
+            ExcelManipulation = new(Paths, Gw2ApiManager, () => _notificationBadge, () => _apiSpinner, Trades);
             MailingService = new();
 
             Data.Loaded += Data_Loaded;
@@ -81,7 +81,7 @@ namespace Kenedia.Modules.OverflowTradingAssist
 
         private void Data_Loaded(object sender, EventArgs e)
         {
-            ExcelManipulation.LoadTrades();
+            ExcelManipulation.Load();
         }
 
         protected override async void ReloadKey_Activated(object sender, EventArgs e)
@@ -236,7 +236,7 @@ namespace Kenedia.Modules.OverflowTradingAssist
                     Debug.WriteLine($"Load ExcelManipulation");
                     if(!ExcelManipulation.IsLoaded)
                     {
-                        _ = Task.Run(ExcelManipulation.LoadTrades);
+                        _ = Task.Run(ExcelManipulation.Load);
                         return;
                     }
 

@@ -163,6 +163,10 @@ namespace Kenedia.Modules.Core.Controls
 
         public bool CaptureInput { get; set; } = true;
 
+        public Action OnCollapse { get; set; }
+
+        public Action OnExpand { get; set; }
+
         public override void RecalculateLayout()
         {
             base.RecalculateLayout();
@@ -375,6 +379,18 @@ namespace Kenedia.Modules.Core.Controls
         protected override CaptureType CapturesInput()
         {
             return CaptureInput ? base.CapturesInput() : CaptureType.None;
+        }
+
+        public new void Collapse()
+        {
+            base.Collapse();
+            OnCollapse?.Invoke();
+        }
+
+        public new void Expand()
+        {
+            base.Expand();
+            OnExpand?.Invoke();
         }
     }
 }
