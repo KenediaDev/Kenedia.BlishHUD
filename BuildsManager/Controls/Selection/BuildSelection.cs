@@ -299,15 +299,18 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
 
         private void SpecializationChanged(object sender, Core.Models.DictionaryItemChangedEventArgs<Models.Templates.SpecializationSlotType, DataModels.Professions.Specialization> e)
         {
-            Debug.WriteLine($"SORT THEM SpecializationChanged");
             FilterTemplates();
         }
 
         private void ProfessionChanged(object sender, Core.Models.ValueChangedEventArgs<Gw2Sharp.Models.ProfessionType> e)
         {
-
-            Debug.WriteLine($"SORT THEM ProfessionChanged");
             FilterTemplates();
+        }
+
+        public TemplateSelectable GetFirstTemplateSelectable()
+        {
+            FilterTemplates();
+            return SelectionContent.GetChildrenOfType<TemplateSelectable>().FirstOrDefault(e => e.Visible);
         }
 
         public override void RecalculateLayout()

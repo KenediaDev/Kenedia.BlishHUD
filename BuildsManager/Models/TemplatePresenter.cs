@@ -240,5 +240,10 @@ namespace Kenedia.Modules.BuildsManager.Models
                 Template.Race = race;
             }
         }
+
+        public void InvokeTemplateSwitch()
+        {
+            TemplateChanged?.Invoke(this, new(_template, _template));
+        }
     }
 }

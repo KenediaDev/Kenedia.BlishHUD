@@ -74,7 +74,7 @@ namespace Kenedia.Modules.BuildsManager.Views
             _tabbedRegion.SwitchTab(tab);
 
             TemplatePresenter.NameChanged += TemplatePresenter_NameChanged;
-            //Template = BuildsManager.ModuleInstance?.Templates.FirstOrDefault();
+            SelectFirstTemplate();
         }
 
         private TemplatePresenter TemplatePresenter { get; } = new();
@@ -84,24 +84,15 @@ namespace Kenedia.Modules.BuildsManager.Views
             SubName = e.NewValue;
         }
 
-        public event ValueChangedEventHandler<Template> TemplateChanged;
-
         public Template Template
         {
             get => TemplatePresenter?.Template; set
             {
                 if (TemplatePresenter is null) return;
-                var prev = TemplatePresenter?.Template;
 
-                SubName = value?.Name;
-
-                if (TemplatePresenter.Template != value)
-                {
-                    TemplatePresenter.Template = value ?? new();
-                    TemplatePresenter.Template?.Load();
-
-                    TemplateChanged?.Invoke(this, new(prev, TemplatePresenter.Template));
-                }
+                TemplatePresenter.Template = value ?? new();
+                TemplatePresenter.Template?.Load();
+                SubName = TemplatePresenter.Template?.Name;
             }
         }
 
@@ -125,6 +116,7 @@ namespace Kenedia.Modules.BuildsManager.Views
         public void SelectFirstTemplate()
         {
             _selectionPanel?.SelectFirstTemplate();
+            TemplatePresenter.InvokeTemplateSwitch();
         }
     }
 }

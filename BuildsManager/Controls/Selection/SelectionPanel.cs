@@ -68,17 +68,18 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
                 ZIndex = ZIndex,
             };
 
-            GameService.Gw2Mumble.PlayerCharacter.NameChanged += PlayerCharacter_NameChanged;
-            PlayerCharacter_NameChanged();
+            GameService.Gw2Mumble.PlayerCharacter.NameChanged += ApplyAutoFilter;
+            ApplyAutoFilter();
         }
 
-        private void PlayerCharacter_NameChanged(object sender = null, EventArgs e = null)
+        public void ApplyAutoFilter(object sender = null, EventArgs e = null)
         {
             if (BuildsManager.ModuleInstance?.Settings?.AutoSetFilterProfession?.Value == true)
             {
                 _buildSelection.SetTogglesToPlayerProfession();
-                SelectFirstTemplate();
-            }           
+            }
+
+            SelectFirstTemplate();
         }
 
         public enum SelectionTypes
@@ -196,12 +197,11 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
 
         public void SelectFirstTemplate()
         {
-            if(_buildSelection.Templates.Count == 0)
-                _ = _buildSelection.CreateTemplate(strings.NewTemplate);
-
-            var selectables = _buildSelection.SelectionContainer?.GetChildrenOfType<TemplateSelectable>();
-            if (selectables is not null && MainWindow is not null)
-                MainWindow.Template = selectables.FirstOrDefault(e => e.Visible)?.Template ?? _buildSelection.CreateTemplate(strings.NewTemplate);
+            if(_buildSelection?.GetFirstTemplateSelectable() is TemplateSelectable selectable)
+            {
+                SetTemplateAnchor(selectable);
+                return;
+            }
 
             ResetAnchor();
         }
@@ -211,9 +211,9 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
             SelectionType = SelectionTypes.Templates;
             SetAnchor(anchor);
 
-            if (MainWindow is not null)
+            if (MainWindow is not null && anchor is TemplateSelectable selectable)
             {
-                MainWindow.Template = (anchor as TemplateSelectable)?.Template;
+                MainWindow.Template = selectable?.Template;
             }
         }
 
