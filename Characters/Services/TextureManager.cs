@@ -5,13 +5,6 @@ namespace Kenedia.Modules.Characters.Services
 {
     public class TextureManager
     {
-        private readonly TexturesService _texturesService;
-
-        public TextureManager(TexturesService texturesService)
-        {
-            _texturesService = texturesService;
-        }
-
         public enum ControlTextures
         {
             Separator,
@@ -70,17 +63,17 @@ namespace Kenedia.Modules.Characters.Services
 
         public Texture2D GetBackground(Backgrounds background)
         {
-            return _texturesService.GetTexture(@"textures\backgrounds\" + (int)background + ".png", $"Background {background}");
+            return TexturesService.GetTextureFromRef(@"textures\backgrounds\" + (int)background + ".png", $"Background {background}");
         }
 
         public Texture2D GetIcon(Icons icon)
         {
-            return _texturesService.GetTexture(@"textures\icons\" + (int)icon + ".png", $"Icon {icon}");
+            return TexturesService.GetTextureFromRef(@"textures\icons\" + (int)icon + ".png", $"Icon {icon}");
         }
 
         public Texture2D GetControlTexture(ControlTextures control)
         {
-            return _texturesService.GetTexture(@"textures\controls\" + (int)control + ".png", $"Control {control}");
+            return TexturesService.GetTextureFromRef(@"textures\controls\" + (int)control + ".png", $"Control {control}");
         }
     }
 }

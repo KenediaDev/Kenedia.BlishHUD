@@ -2,6 +2,7 @@
 using Gw2Sharp.WebApi.V2.Models;
 using Kenedia.Modules.Core.Controls;
 using Kenedia.Modules.Core.Extensions;
+using Kenedia.Modules.Core.Models;
 using Kenedia.Modules.OverflowTradingAssist.Models;
 using OfficeOpenXml;
 using System;
@@ -31,6 +32,10 @@ namespace Kenedia.Modules.OverflowTradingAssist.Services
         private readonly Func<NotificationBadge> _notificationBadge;
         private readonly Func<LoadingSpinner> _spinner;
         private readonly Func<List<Trade>> _trades;
+
+        private StatusType _fileStatus;
+        private StatusType _loadTradeStatus;
+        private StatusType _saveTradeStatus;
 
         public ExcelManipulation(Paths paths, Gw2ApiManager gw2ApiManager, Func<NotificationBadge> notificationBadge, Func<LoadingSpinner> spinner, Func<List<Trade>> trades)
         {
@@ -82,17 +87,23 @@ namespace Kenedia.Modules.OverflowTradingAssist.Services
                         }
 
                         IsReady = File.Exists(_paths.RepSheet);
+                        _fileStatus = StatusType.Success;
                         return IsReady;
+                    }
+                    else
+                    {
+                        OverflowTradingAssist.Logger.Warn("Failed to update account name. Account is null.");
                     }
                 }
                 catch (Exception ex)
                 {
                     OverflowTradingAssist.Logger.Warn(ex, "Failed to update subtoken.");
 
+                    _fileStatus = StatusType.Error;
+
                     if (_notificationBadge() is NotificationBadge notificationBadge)
                     {
-                        notificationBadge.SetLocalizedText = () => "Failed to update subtoken.";
-                        notificationBadge.Show();
+                        notificationBadge.AddNotification(new(() => "Failed to update subtoken.", () => _fileStatus == StatusType.Success));
                         return false;
                     }
                 }
@@ -183,23 +194,19 @@ namespace Kenedia.Modules.OverflowTradingAssist.Services
                             });
                         }
 
+                        _loadTradeStatus = StatusType.Success;
                         IsLoaded = true;
-                    }
-                    else
-                    {
-                        // Handle the case where the file doesn't exist
-                        OverflowTradingAssist.Logger.Warn("The Excel file does not exist.");
                     }
                 }
                 catch (Exception ex)
                 {
                     string text = $"Failed to load  trades from Excel file: {ex.Message}";
                     OverflowTradingAssist.Logger.Warn(ex, text);
+                    _loadTradeStatus = StatusType.Error;
 
                     if (_notificationBadge() is NotificationBadge notificationBadge)
                     {
-                        notificationBadge.SetLocalizedText = () => text;
-                        notificationBadge.Show();
+                        notificationBadge.AddNotification(new(() => text, () => _loadTradeStatus == StatusType.Success));
                     }
                 }
             }
@@ -256,11 +263,6 @@ namespace Kenedia.Modules.OverflowTradingAssist.Services
                         // Save the changes to the Excel file
                         package.Save();
 
-                        if (_notificationBadge() is NotificationBadge notificationBadge)
-                        {
-                            notificationBadge.Hide();
-                        }
-
                         trades.Add(trade);
                     }
                     else
@@ -268,16 +270,18 @@ namespace Kenedia.Modules.OverflowTradingAssist.Services
                         // Handle the case where the file doesn't exist
                         Console.WriteLine("The Excel file does not exist.");
                     }
+
+                    _saveTradeStatus = StatusType.Success;
                 }
                 catch (Exception ex)
                 {
                     string text = $"Failed to update Excel file: {ex.Message}";
                     OverflowTradingAssist.Logger.Warn(ex, text);
+                    _saveTradeStatus = StatusType.Error;
 
                     if (_notificationBadge() is NotificationBadge notificationBadge)
                     {
-                        notificationBadge.SetLocalizedText = () => text;
-                        notificationBadge.Show();
+                        notificationBadge.AddNotification(new(() => text, () => _saveTradeStatus == StatusType.Success));
                     }
                 }
             }

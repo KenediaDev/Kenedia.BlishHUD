@@ -197,8 +197,8 @@ namespace Kenedia.Modules.OverflowTradingAssist.Services
                 {
                     if (_notificationBadge?.Invoke() is NotificationBadge badge)
                     {
-                        badge.Show();
-                        badge.SetLocalizedText = () => $"Failed to get the version file. Retry at {DateTime.Now.AddMinutes(3):T}";
+                        var endTime = DateTime.Now.AddMinutes(3);
+                        badge.AddNotification(new($"Failed to get the version file. Retry at {DateTime.Now.AddMinutes(3):T}", () => DateTime.Now >= endTime));
                     }
 
                     spinner?.Hide();
@@ -221,20 +221,16 @@ namespace Kenedia.Modules.OverflowTradingAssist.Services
                 {
                     OverflowTradingAssist.Logger.Info("All data loaded!");
                     Loaded?.Invoke(this, EventArgs.Empty);
-
-                    if (_notificationBadge?.Invoke() is NotificationBadge badge)
-                    {
-                        badge.SetLocalizedText = () => string.Empty;
-                        badge.Hide();
-                    }
                 }
                 else
                 {
                     if (_notificationBadge?.Invoke() is NotificationBadge badge)
                     {
-                        badge.Show();
                         string txt = $"Failed to load some data. Click to retry.{Environment.NewLine}Automatic retry at {DateTime.Now.AddMinutes(3):T}{loadStatus}";
-                        badge.SetLocalizedText = () => txt;
+
+                        var endTime = DateTime.Now.AddMinutes(3);
+                        badge.AddNotification(new(txt, () => DateTime.Now >= endTime));
+
                         OverflowTradingAssist.Logger.Info(txt);
                     }
                 }

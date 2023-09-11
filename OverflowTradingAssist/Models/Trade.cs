@@ -36,6 +36,8 @@ namespace Kenedia.Modules.OverflowTradingAssist.Models
 
         public TradeType TradeType { get; set; }
 
+        public Guid Id { get; set; } = Guid.NewGuid();
+
         public bool IsValidTrade()
         {
             return Items.Count > 0 && !string.IsNullOrEmpty(TradePartner) && !string.IsNullOrEmpty(TradeListingLink) && Amount > 0;

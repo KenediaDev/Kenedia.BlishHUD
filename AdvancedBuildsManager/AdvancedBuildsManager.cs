@@ -24,6 +24,7 @@ using Kenedia.Modules.Core.Res;
 using CornerIcon = Kenedia.Modules.Core.Controls.CornerIcon;
 using LoadingSpinner = Kenedia.Modules.Core.Controls.LoadingSpinner;
 using System.Linq;
+using Kenedia.Modules.Core.Services;
 
 namespace Kenedia.Modules.AdvancedBuildsManager
 {
@@ -253,11 +254,10 @@ namespace Kenedia.Modules.AdvancedBuildsManager
             if (true)
             {
                 MainWindow = new MainWindow(
-                    Services.TexturesService.GetTexture(@"textures\mainwindow_background.png", "mainwindow_background"),
+                    TexturesService.GetTextureFromRef(@"textures\mainwindow_background.png", "mainwindow_background"),
                     new Rectangle(30, 30, Width, Height + 30),
                     new Rectangle(30, 20, Width - 3, Height + 15),
-                    Data,
-                    Services.TexturesService)
+                    Data)
                 {
                     Parent = GameService.Graphics.SpriteScreen,
                     Title = "❤",

@@ -16,6 +16,42 @@ namespace Kenedia.Modules.Core.Extensions
             return matches.All(value => sequence.Contains(value));
         }
 
+        public static void ForEach<T>(this IEnumerable<T> list, Action<T> action)
+        {
+            if (list == null)
+            {
+                throw new ArgumentNullException(nameof(list));
+            }
+
+            if (action == null)
+            {
+                throw new ArgumentNullException(nameof(action));
+            }
+
+            foreach (T item in list)
+            {
+                action(item);
+            }
+        }
+
+        public static void ForEach<T>(this IList<T> list, Action<T> action)
+        {
+            if (list == null)
+            {
+                throw new ArgumentNullException(nameof(list));
+            }
+
+            if (action == null)
+            {
+                throw new ArgumentNullException(nameof(action));
+            }
+
+            foreach (T item in list)
+            {
+                action(item);
+            }
+        }
+
         public static List<List<T>> ChunkBy<T>(this List<T> source, int chunkSize)
         {
             return source

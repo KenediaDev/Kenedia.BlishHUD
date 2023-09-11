@@ -14,9 +14,6 @@ namespace Kenedia.Modules.Core.Controls
     public class ImageButton : Blish_HUD.Controls.Control, ILocalizable
     {
         private Func<string> _setLocalizedTooltip;
-        private readonly AsyncTexture2D _background = AsyncTexture2D.FromAssetId(155983);
-
-        public AsyncTexture2D IconFrame { get; set; } = AsyncTexture2D.FromAssetId(1414041);
 
         public ImageButton()
         {
@@ -71,6 +68,14 @@ namespace Kenedia.Modules.Core.Controls
         {
             base.DisposeControl();
 
+            Texture = null;
+
+            DisabledTexture = null;
+
+            HoveredTexture = null;
+
+            ClickedTexture = null;
+
             GameService.Overlay.UserLocale.SettingChanged -= UserLocale_SettingChanged;
         }
 
@@ -84,13 +89,6 @@ namespace Kenedia.Modules.Core.Controls
 
         protected override void Paint(SpriteBatch spriteBatch, Rectangle bounds)
         {
-            //if (ShowButton)
-            //{
-            //    spriteBatch.DrawOnCtrl(this, _background, bounds, Color.White);
-            //    spriteBatch.DrawFrame(this, bounds.Add(new(2, 2, -4, -4)), Color.White * 0.3F, 2);
-            //    spriteBatch.DrawFrame(this, bounds, Color.Black, 2);
-            //}
-
             AsyncTexture2D texture = GetTexture();
             Color? color = ColorHovered is not null && MouseOver ? ColorHovered : ColorClicked is not null && Clicked ? ColorClicked : ImageColor;
 

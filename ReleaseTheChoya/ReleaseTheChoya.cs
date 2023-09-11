@@ -9,6 +9,7 @@ using Kenedia.Modules.Core.Controls;
 using Kenedia.Modules.Core.Extensions;
 using Kenedia.Modules.Core.Models;
 using Kenedia.Modules.Core.Res;
+using Kenedia.Modules.Core.Services;
 using Kenedia.Modules.Core.Utility;
 using Kenedia.Modules.ReleaseTheChoya.Models;
 using Kenedia.Modules.ReleaseTheChoya.Services;
@@ -93,8 +94,8 @@ namespace Kenedia.Modules.ReleaseTheChoya
             {
                 _cornerIcon = new CornerIcon()
                 {
-                    Icon = Services.TexturesService.GetTexture(@"textures\choya_corner_bg.png", "choya_corner_bg"),
-                    HoverIcon = Services.TexturesService.GetTexture(@"textures\choya_corner_bg_big.png", "choya_corner_bg_big"),
+                    Icon = TexturesService.GetTextureFromRef(@"textures\choya_corner_bg.png", "choya_corner_bg"),
+                    HoverIcon = TexturesService.GetTextureFromRef(@"textures\choya_corner_bg_big.png", "choya_corner_bg_big"),
                     SetLocalizedTooltip = () => string.Format(strings_common.ToggleItem, $"{Name}"),
                     Parent = GameService.Graphics.SpriteScreen,
                     Visible = Settings.ShowCornerIcon.Value,
@@ -212,7 +213,7 @@ namespace Kenedia.Modules.ReleaseTheChoya
 
             var rollingChoya = new RollingChoya(Services.InputDetectionService)
             {
-                ChoyaTexture = Services.TexturesService.GetTexture(textures_common.RollingChoya, nameof(textures_common.RollingChoya)),
+                ChoyaTexture = TexturesService.GetTextureFromRef(textures_common.RollingChoya, nameof(textures_common.RollingChoya)),
                 Parent = GameService.Graphics.SpriteScreen,
                 Size = new(RandomUtil.GetRandom(Settings.ChoyaSize.Value.Start, Settings.ChoyaSize.Value.End)),
                 Steps = RandomUtil.GetRandom(Settings.ChoyaSpeed.Value.Start, Settings.ChoyaSpeed.Value.End),
@@ -262,7 +263,7 @@ namespace Kenedia.Modules.ReleaseTheChoya
 
         public override IView GetSettingsView()
         {
-            return new SettingsView(() => SettingsWindow?.ToggleWindow(), Services.TexturesService);
+            return new SettingsView(() => SettingsWindow?.ToggleWindow());
         }
 
         protected override void LoadGUI()
@@ -276,10 +277,9 @@ namespace Kenedia.Modules.ReleaseTheChoya
                 settingsBg,
                 new Rectangle(30, 30, cutSettingsBg.Width + 10, cutSettingsBg.Height),
                 new Rectangle(30, 35, cutSettingsBg.Width - 5, cutSettingsBg.Height - 15),
-                Settings,
-                Services.TexturesService)
+                Settings)
             {
-                MainWindowEmblem = Services.TexturesService.GetTexture(@"textures\choya_emblem.png", "choya_emblem"),
+                MainWindowEmblem = TexturesService.GetTextureFromRef(@"textures\choya_emblem.png", "choya_emblem"),
                 Parent = GameService.Graphics.SpriteScreen,
                 Title = "❤",
                 Subtitle = "❤",
@@ -293,8 +293,8 @@ namespace Kenedia.Modules.ReleaseTheChoya
             {
                 _cornerIcon = new CornerIcon()
                 {
-                    Icon = Services.TexturesService.GetTexture(@"textures\choya_corner_bg.png", "choya_corner_bg"),
-                    HoverIcon = Services.TexturesService.GetTexture(@"textures\choya_corner_bg_big.png", "choya_corner_bg_big"),
+                    Icon = TexturesService.GetTextureFromRef(@"textures\choya_corner_bg.png", "choya_corner_bg"),
+                    HoverIcon = TexturesService.GetTextureFromRef(@"textures\choya_corner_bg_big.png", "choya_corner_bg_big"),
                     SetLocalizedTooltip = () => string.Format(strings_common.ToggleItem, $"{Name}"),
                     Parent = GameService.Graphics.SpriteScreen,
                     Visible = Settings.ShowCornerIcon.Value,

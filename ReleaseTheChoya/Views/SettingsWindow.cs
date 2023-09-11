@@ -18,12 +18,10 @@ namespace Kenedia.Modules.ReleaseTheChoya.Views
     public class SettingsWindow : BaseSettingsWindow
     {
         private readonly Settings _settings;
-        private readonly TexturesService _texturesService;
 
-        public SettingsWindow(AsyncTexture2D background, Rectangle windowRegion, Rectangle contentRegion, Settings settings, TexturesService texturesService) : base(background, windowRegion, contentRegion)
+        public SettingsWindow(AsyncTexture2D background, Rectangle windowRegion, Rectangle contentRegion, Settings settings) : base(background, windowRegion, contentRegion)
         {
             _settings = settings;
-            _texturesService = texturesService;
             var behaviorPanel = new Panel()
             {
                 Parent = ContentPanel,
@@ -115,7 +113,7 @@ namespace Kenedia.Modules.ReleaseTheChoya.Views
                 HeightSizingMode = SizingMode.AutoSize,
                 ShowBorder = true,
                 CanCollapse = true,
-                TitleIcon = _texturesService.GetTexture(@"textures\choya_corner_bg.png", "choya_corner_bg"),
+                TitleIcon = TexturesService.GetTextureFromRef(@"textures\choya_corner_bg.png", "choya_corner_bg"),
                 SetLocalizedTitle = () => "Choya",
             };
 
@@ -315,14 +313,14 @@ namespace Kenedia.Modules.ReleaseTheChoya.Views
                 ClickAction = () =>
                 {
                     var c = new Choya();
-                    c.Initialize(_settings.StaticChoya, _texturesService.GetTexture(textures_common.RollingChoya, nameof(textures_common.RollingChoya)), staticChoyaContentPanel);
+                    c.Initialize(_settings.StaticChoya, TexturesService.GetTextureFromRef(textures_common.RollingChoya, nameof(textures_common.RollingChoya)), staticChoyaContentPanel);
                     c.ToggleEdit();
                 },
             };
 
             foreach (SettingEntry<Choya> choya in _settings.StaticChoya)
             {
-                choya.Value.Initialize(_settings.StaticChoya, _texturesService.GetTexture(textures_common.RollingChoya, nameof(textures_common.RollingChoya)), staticChoyaContentPanel);
+                choya.Value.Initialize(_settings.StaticChoya, TexturesService.GetTextureFromRef(textures_common.RollingChoya, nameof(textures_common.RollingChoya)), staticChoyaContentPanel);
             }
         }
 

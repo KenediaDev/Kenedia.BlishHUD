@@ -112,5 +112,12 @@ namespace Kenedia.Modules.Core.Controls
                 Size = new Point(10 + (int)sSize.Width, 10 + (int)sSize.Height);
             }
         }
+
+        protected override void DisposeControl()
+        {
+            base.DisposeControl();
+
+            Background = null;
+        }
     }
 }

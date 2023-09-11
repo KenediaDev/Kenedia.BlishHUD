@@ -16,7 +16,6 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Views
     public class MainWindow : StandardWindow
     {
         private readonly Data _data;
-        private readonly TexturesService _texturesService;
         private readonly BuildPage _build;
         private readonly TabbedRegion _tabbedRegion;
         private readonly GearPage _gear;
@@ -25,10 +24,9 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Views
         private readonly SelectionPanel _selectionPanel;
         private Template _template;
 
-        public MainWindow(AsyncTexture2D background, Rectangle windowRegion, Rectangle contentRegion, Data data, TexturesService texturesService) : base(background, windowRegion, contentRegion)
+        public MainWindow(AsyncTexture2D background, Rectangle windowRegion, Rectangle contentRegion, Data data) : base(background, windowRegion, contentRegion)
         {
             _data = data;
-            _texturesService = texturesService;
             _selectionPanel = new()
             {
                 Parent = this,
@@ -51,7 +49,7 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Views
             TabbedRegionTab tab;
 
             _tabbedRegion.AddTab(new TabbedRegionTab(
-                _notes = new AboutPage(_texturesService)
+                _notes = new AboutPage()
                 {
                     HeightSizingMode = Blish_HUD.Controls.SizingMode.Fill,
                     WidthSizingMode = Blish_HUD.Controls.SizingMode.Fill,
@@ -62,14 +60,14 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Views
             });
 
             _tabbedRegion.AddTab(new TabbedRegionTab(
-                _build = new BuildPage(_texturesService))
+                _build = new BuildPage())
             {
                 Header = "Build",
                 Icon = AsyncTexture2D.FromAssetId(156720),
             });
 
             _tabbedRegion.AddTab(tab = new TabbedRegionTab(
-                _gear = new GearPage(_texturesService)
+                _gear = new GearPage()
                 {
                     SelectionPanel = _selectionPanel,
                 })
@@ -79,7 +77,7 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Views
             });
 
             _tabbedRegion.AddTab(new TabbedRegionTab(
-                _rotation = new RotationPage(_texturesService)
+                _rotation = new RotationPage()
                 {
                     HeightSizingMode = Blish_HUD.Controls.SizingMode.Fill,
                     WidthSizingMode = Blish_HUD.Controls.SizingMode.Fill,

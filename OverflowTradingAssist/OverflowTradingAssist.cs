@@ -105,7 +105,8 @@ namespace Kenedia.Modules.OverflowTradingAssist
             //    ExcelManipulation.SaveTrade(trade);
             //}
 
-            ExcelManipulation.LoadTrades();
+            //ExcelManipulation.LoadTrades();
+
         }
 
         protected override async Task LoadAsync()
@@ -224,18 +225,22 @@ namespace Kenedia.Modules.OverflowTradingAssist
                 Visible = Settings?.ShowCornerIcon?.Value ?? false,
                 ClickAction = () =>
                 {
+
+                    Debug.WriteLine($"Load Data");
                     if (!Data.IsLoaded)
                     {
                         _ = Task.Run(() => Data.Load(true));
                         return;
                     }
 
-                    if(!ExcelManipulation.IsReady)
+                    Debug.WriteLine($"Load ExcelManipulation");
+                    if(!ExcelManipulation.IsLoaded)
                     {
-                        _ = Task.Run(ExcelManipulation.EnsureFileExists);
+                        _ = Task.Run(ExcelManipulation.LoadTrades);
                         return;
                     }
 
+                    Debug.WriteLine($"Toggle Window!");
                     MainWindow?.ToggleWindow();
                 }
             };

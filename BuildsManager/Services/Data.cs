@@ -209,8 +209,12 @@ namespace Kenedia.Modules.BuildsManager.Services
                 {
                     if (_notificationBadge?.Invoke() is NotificationBadge badge)
                     {
-                        badge.Show();
-                        badge.SetLocalizedText = () => $"Failed to get the version file. Retry at {DateTime.Now.AddMinutes(3):T}";
+                        var endTime = DateTime.Now.AddMinutes(3);
+                        badge.AddNotification(new()
+                        {
+                            NotificationText = $"Failed to get the version file. Retry at {DateTime.Now.AddMinutes(3):T}",
+                            Condition = () => DateTime.Now >= endTime,
+                        });
                     }
 
                     spinner?.Hide();
@@ -233,20 +237,19 @@ namespace Kenedia.Modules.BuildsManager.Services
                 {
                     BuildsManager.Logger.Info("All data loaded!");
                     Loaded?.Invoke(this, EventArgs.Empty);
-
-                    if (_notificationBadge?.Invoke() is NotificationBadge badge)
-                    {
-                        badge.SetLocalizedText = () => string.Empty;
-                        badge.Hide();
-                    }
                 }
                 else
                 {
                     if (_notificationBadge?.Invoke() is NotificationBadge badge)
                     {
-                        badge.Show();
                         string txt = $"Failed to load some data. Click to retry.{Environment.NewLine}Automatic retry at {DateTime.Now.AddMinutes(3):T}{loadStatus}";
-                        badge.SetLocalizedText = () => txt;
+                        var endTime = DateTime.Now.AddMinutes(3);
+                        badge.AddNotification(new()
+                        {
+                            NotificationText = txt,
+                            Condition = () => DateTime.Now >= endTime,
+                        });
+
                         BuildsManager.Logger.Info(txt);
                     }
                 }

@@ -27,7 +27,6 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
 {
     public class TemplateSelectable : Panel
     {
-        private readonly TexturesService _texturesService;
         private readonly AsyncTexture2D _lineTexture = AsyncTexture2D.FromAssetId(605025);
 
         //private readonly AsyncTexture2D _copyTexture = AsyncTexture2D.FromAssetId(2208345);
@@ -110,9 +109,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
                     _nameEdit.ForeColor = template == null || template == Template ? Color.White : Color.Red;
                 },
             };
-
-            _texturesService = BuildsManager.ModuleInstance.Services.TexturesService;
-
+                        
             _editButton = new()
             {
                 Parent = this,

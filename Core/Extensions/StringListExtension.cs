@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace Kenedia.Modules.Core.Extensions
@@ -15,6 +16,24 @@ namespace Kenedia.Modules.Core.Extensions
             {
                 _ = sb.Append($"{string.Format(enumFormat, i + 1)}{list[i]}");
                 if (i < list.Count - 1)
+                {
+                    _ = sb.Append(separator);
+                }
+            }
+
+            return sb.ToString();
+        }
+        public static string Enumerate(this IEnumerable<string> list, string separator = ", ", string? enumerationFormat = null)
+        {
+            string enumFormat = enumerationFormat ?? "{0}";
+
+            StringBuilder sb = new();
+            int count = list.Count();
+
+            for (int i = 0; i < count; i++)
+            {
+                _ = sb.Append($"{string.Format(enumFormat, i + 1)}{list.ElementAt(i)}");
+                if (i < count - 1)
                 {
                     _ = sb.Append(separator);
                 }

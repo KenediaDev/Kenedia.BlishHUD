@@ -7,6 +7,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
+using Kenedia.Modules.Core.Services;
 
 namespace Kenedia.Modules.Core.Controls
 {
@@ -21,8 +22,8 @@ namespace Kenedia.Modules.Core.Controls
 
         public ButtonImage()
         {
-            _buttonImage = textures_common.ImageButtonBackground.CreateTexture2D();
-            _hoveredButton = textures_common.ImageButtonBackground_Hovered.CreateTexture2D();
+            _buttonImage = TexturesService.GetTextureFromRef(textures_common.ImageButtonBackground, nameof(textures_common.ImageButtonBackground));
+            _hoveredButton = TexturesService.GetTextureFromRef(textures_common.ImageButtonBackground_Hovered, nameof(textures_common.ImageButtonBackground_Hovered));
         }
 
         public Point? TextureSize { get => _textureSize; set => Common.SetProperty(ref _textureSize, value, RecalculateLayout); }
@@ -75,10 +76,7 @@ namespace Kenedia.Modules.Core.Controls
         {
             base.DisposeControl();
 
-            _hoveredButton?.Dispose();
             _hoveredButton = null;
-
-            _buttonImage?.Dispose();
             _buttonImage = null;
         }
     }

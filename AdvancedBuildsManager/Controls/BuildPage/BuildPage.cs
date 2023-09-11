@@ -48,17 +48,14 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Controls.BuildPage
         };
         private readonly FramedImage _specIcon;
         private readonly FramedImage _raceIcon;
-        private readonly TexturesService _texturesService;
         private readonly TextBox _buildCodeBox;
         private readonly ImageButton _copyButton;
 
         private Template _template;
         private ProfessionSpecifics _professionSpecifics;
 
-        public BuildPage(TexturesService texturesService)
+        public BuildPage()
         {
-            _texturesService = texturesService;
-
             ClipsBounds = false;
             WidthSizingMode = SizingMode.Fill;
             HeightSizingMode = SizingMode.AutoSize;
@@ -127,7 +124,7 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Controls.BuildPage
                 Width = Width,
                 TextureSize = new Point(64),
                 ZIndex = 15,
-                Texture = _texturesService.GetTexture(@"textures\races\pact.png", "pact"),
+                Texture = TexturesService.GetTextureFromRef(@"textures\races\pact.png", "pact"),
                 Size = new(80),
             };
 

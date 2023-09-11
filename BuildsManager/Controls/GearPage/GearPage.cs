@@ -24,7 +24,6 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage
 {
     public class GearPage : Blish_HUD.Controls.Container
     {
-        private readonly TexturesService _texturesService;
         private readonly TextBox _gearCodeBox;
         private readonly ImageButton _copyButton;
         private readonly ButtonImage _framedSpecIcon;
@@ -44,9 +43,8 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage
         private readonly DetailedTexture _pvp = new(2229701, 2229702);
         private readonly ProfessionRaceSelection _professionRaceSelection;
 
-        public GearPage(TexturesService _texturesService, TemplatePresenter templatePresenter)
+        public GearPage(TemplatePresenter templatePresenter)
         {
-            this._texturesService = _texturesService;
             TemplatePresenter = templatePresenter;
 
             WidthSizingMode = Blish_HUD.Controls.SizingMode.Fill;

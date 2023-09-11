@@ -13,14 +13,12 @@ namespace Kenedia.Modules.ReleaseTheChoya.Views
     {
         private StandardButton _openSettingsButton;
         private readonly Action _toggleWindow;
-        private readonly TexturesService _texturesService;
         private RollingChoya _choya;
 
 #nullable enable
-        public SettingsView(Action? toggleWindow, TexturesService texturesService)
+        public SettingsView(Action? toggleWindow)
         {
             _toggleWindow = toggleWindow;
-            _texturesService = texturesService;
         }
 #nullable disable
 
@@ -45,7 +43,7 @@ namespace Kenedia.Modules.ReleaseTheChoya.Views
             {
                 Size = new(buildPanel.Height - 75),
                 Parent = p,
-                ChoyaTexture = _texturesService.GetTexture(textures_common.RollingChoya, nameof(textures_common.RollingChoya)),
+                ChoyaTexture = TexturesService.GetTextureFromRef(textures_common.RollingChoya, nameof(textures_common.RollingChoya)),
                 CanMove= true,
                 TravelDistance = new(5, 0),
                 Steps = 360,

@@ -1,7 +1,9 @@
-﻿using Blish_HUD.Content;
+﻿using Blish_HUD;
+using Blish_HUD.Content;
 using Blish_HUD.Input;
 using Kenedia.Modules.Core.Controls;
 using Kenedia.Modules.Core.Extensions;
+using Kenedia.Modules.Core.Views;
 using Kenedia.Modules.OverflowTradingAssist.Controls.GearPage;
 using Kenedia.Modules.OverflowTradingAssist.Models;
 using Microsoft.Xna.Framework;
@@ -16,9 +18,11 @@ using System.Threading.Tasks;
 
 namespace Kenedia.Modules.OverflowTradingAssist.Controls
 {
-    public class TradeItemSummary : FlowPanel
+    public class DetailedTradeView : StandardWindow
     {
-
+        public DetailedTradeView(AsyncTexture2D background, Rectangle windowRegion, Rectangle contentRegion) : base(background, windowRegion, contentRegion)
+        {
+        }
     }
 
     public class TradeHistoryEntryControl : FlowPanel
@@ -34,6 +38,8 @@ namespace Kenedia.Modules.OverflowTradingAssist.Controls
         private readonly Image _tradeImage;
         private readonly Panel _panel;
 
+        private DetailedTradeView _detailedTradeView;
+
         public TradeHistoryEntryControl(Trade trade, Color? color = null)
         {
             color ??= Color.White;
@@ -41,7 +47,7 @@ namespace Kenedia.Modules.OverflowTradingAssist.Controls
 
             FlowDirection = Blish_HUD.Controls.ControlFlowDirection.SingleLeftToRight;
             HeightSizingMode = Blish_HUD.Controls.SizingMode.AutoSize;
-            WidthSizingMode = Blish_HUD.Controls.SizingMode.Fill;
+            //WidthSizingMode = Blish_HUD.Controls.SizingMode.Fill;
 
             _panel = new()
             {
@@ -125,6 +131,19 @@ namespace Kenedia.Modules.OverflowTradingAssist.Controls
                 Texture = AsyncTexture2D.FromAssetId(2175779),
                 HoveredTexture = AsyncTexture2D.FromAssetId(2175781),
                 Size = new(32),
+                ClickAction = (b) =>
+                {
+                    if (_detailedTradeView is null)
+                    {
+                        _detailedTradeView ??= CreateDetailedView();
+                        _detailedTradeView?.Show();
+                    }
+                    else
+                    {
+                        _detailedTradeView?.Dispose();
+                        _detailedTradeView = null;
+                    }
+                }
             };
 
             _delete = new()
@@ -137,6 +156,28 @@ namespace Kenedia.Modules.OverflowTradingAssist.Controls
             };
 
             _isCreated = true;
+        }
+        
+        private DetailedTradeView CreateDetailedView()
+        {
+            var settingsBg = AsyncTexture2D.FromAssetId(155983);
+            Texture2D cutSettingsBg = settingsBg.Texture.GetRegion(0, 0, settingsBg.Width - 100, settingsBg.Height - 390);
+            return new(
+                settingsBg,
+                new Rectangle(30, 30, cutSettingsBg.Width + 10, cutSettingsBg.Height),
+                new Rectangle(30 + 46, 35, cutSettingsBg.Width - 46, cutSettingsBg.Height - 15))
+            {
+                Parent = GameService.Graphics.SpriteScreen,
+                Title = "❤",
+                Subtitle = "❤",
+                SavesPosition = true,
+                Id = $"{Trade.Id} MainWindow",
+                MainWindowEmblem = AsyncTexture2D.FromAssetId(156014),
+                SubWindowEmblem = AsyncTexture2D.FromAssetId(156019),
+                Name = $"{Trade.TradePartner} - {string.Format("{0:#g 00s 00c}", Trade.Amount)}",
+                Width = 400,
+                Height = 500,
+            };
         }
 
         private void ReviewLinkLabel_Click(object sender, MouseEventArgs e)
@@ -162,9 +203,9 @@ namespace Kenedia.Modules.OverflowTradingAssist.Controls
             _panel.Width = ContentRegion.Width - 2;
 
             int width = _panel.ContentRegion.Width - (_delete.Width + _tradeImage.Width + _edit.Width + _tradeListingLinkLabel.Width + _reviewLinkLabel.Width + (5 * 5));
-            int partner = (int)(width * 0.15F);
-            int amount = (int)(width * 0.15F);
-            int itemSummary = (int)(width * 0.70F);
+            int partner = (int)(width * 0.2F);
+            int amount = (int)(width * 0.2F);
+            int itemSummary = (int)(width * 0.60F);
 
             _tradePartnerLabel?.SetLocation(0, 0);
             _tradePartnerLabel?.SetSize(partner, _tradePartnerLabel.Height);
@@ -189,7 +230,7 @@ namespace Kenedia.Modules.OverflowTradingAssist.Controls
 
             _panel?.Children?.DisposeAll();
             _panel?.Dispose();
-
+            _detailedTradeView?.Dispose();
             Trade = null;
         }
     }

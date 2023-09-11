@@ -97,6 +97,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Interfaces\INameAndIcon.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\BaseModule.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\BaseSettingsModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\ConditionalNotification.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\SerializerSettings.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\CustomApiManager.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\DeepObservableDictionary.cs" />
@@ -109,6 +110,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Models\PathCollection.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\ServiceCollection.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\SharedSettingsModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\StatusType.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Res\strings_common.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>

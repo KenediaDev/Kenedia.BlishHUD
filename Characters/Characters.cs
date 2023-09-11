@@ -221,7 +221,7 @@ namespace Kenedia.Modules.Characters
             CharacterSwapping.CharacterSorting = CharacterSorting;
             CharacterSorting.CharacterSwapping = CharacterSwapping;
 
-            TextureManager = new TextureManager(Services.TexturesService);
+            TextureManager = new TextureManager();
             await Data.Load();
 
             if (Settings.LoadCachedAccounts.Value) _ = await LoadCharacters();

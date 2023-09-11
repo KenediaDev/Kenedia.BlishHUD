@@ -22,6 +22,7 @@ using Kenedia.Modules.Core.Controls;
 using System.Text.RegularExpressions;
 using Kenedia.Modules.Core.Res;
 using LoadingSpinner = Kenedia.Modules.Core.Controls.LoadingSpinner;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace Kenedia.Modules.Characters.Services
 {
@@ -36,6 +37,9 @@ namespace Kenedia.Modules.Characters.Services
         private readonly PathCollection _paths;
         private readonly string _accountFilePath;
         private double _lastApiCheck = double.MinValue;
+
+        private StatusType _apiStatus = StatusType.None;
+        private StatusType _mapStatus = StatusType.None;
 
         private CancellationTokenSource _cancellationTokenSource;
 
@@ -135,10 +139,7 @@ namespace Kenedia.Modules.Characters.Services
             var cancellationToken = _cancellationTokenSource.Token;
             _getSpinner?.Invoke()?.Show();
 
-            if (_notificationBadge() is NotificationBadge notificationBadge)
-            {
-                notificationBadge.Visible = false;
-            }
+            NotificationBadge notificationBadge = _notificationBadge();
 
             try
             {
@@ -167,6 +168,7 @@ namespace Kenedia.Modules.Characters.Services
 
                     _callBack?.Invoke(characters);
                     Reset(cancellationToken, !cancellationToken.IsCancellationRequested);
+                    _apiStatus = StatusType.Success;
                     return true;
                 }
                 else
@@ -175,7 +177,10 @@ namespace Kenedia.Modules.Characters.Services
                     {
                         Characters.Logger.Warn(strings.Error_InvalidPermissions);
                         MainWindow?.SendAPIPermissionNotification();
-                        HandleAPIExceptions(new Gw2ApiInvalidPermissionsException());
+                        var text = HandleAPIExceptions(new Gw2ApiInvalidPermissionsException());
+
+                        _apiStatus = StatusType.Error;
+                        notificationBadge?.AddNotification(new(await text, () => _apiStatus == StatusType.Success));
                     }
 
                     Reset(cancellationToken, !cancellationToken.IsCancellationRequested);
@@ -184,10 +189,14 @@ namespace Kenedia.Modules.Characters.Services
             }
             catch (UnexpectedStatusException ex)
             {
-                HandleAPIExceptions(ex);
+
+                var text = HandleAPIExceptions(ex);
                 MainWindow?.SendAPITimeoutNotification();
                 Characters.Logger.Warn(ex, strings.APITimeoutNotification);
                 Reset(cancellationToken, !cancellationToken.IsCancellationRequested);
+                _apiStatus = StatusType.Error;
+                notificationBadge?.AddNotification(new(await text, () => _apiStatus == StatusType.Success));
+
                 return false;
             }
             catch (Exception ex)
@@ -197,7 +206,9 @@ namespace Kenedia.Modules.Characters.Services
                     _logger.Warn(ex, strings.Error_FailedAPIFetch);
                 }
 
-                HandleAPIExceptions(ex);
+                _apiStatus = StatusType.Error;
+                var text = HandleAPIExceptions(ex);
+                notificationBadge?.AddNotification(new(await text, () => _apiStatus == StatusType.Success));
 
                 Reset(cancellationToken, !cancellationToken.IsCancellationRequested);
                 return false;
@@ -217,10 +228,7 @@ namespace Kenedia.Modules.Characters.Services
 
         public async Task GetMaps()
         {
-            if (_notificationBadge() is NotificationBadge notificationBadge)
-            {
-                notificationBadge.Visible = false;
-            }
+            NotificationBadge notificationBadge = _notificationBadge();
 
             try
             {
@@ -239,52 +247,53 @@ namespace Kenedia.Modules.Characters.Services
 
                 string json = JsonConvert.SerializeObject(_maps, SerializerSettings.Default);
                 File.WriteAllText($@"{_paths.ModuleDataPath}\Maps.json", json);
+                _mapStatus = StatusType.Success;
             }
             catch (Exception ex)
             {
                 _logger.Warn($"Failed to fetch armory items.");
                 _logger.Warn($"{ex}");
-                HandleAPIExceptions(ex);
+                var text = HandleAPIExceptions(ex);
+                _mapStatus = StatusType.Error;
+
+                notificationBadge?.AddNotification(new(await text, () => _mapStatus == StatusType.Success));
             }
         }
 
-        private async void HandleAPIExceptions(Exception ex)
+        static string? GetExceptionMessage(Exception ex)
         {
-            if (_notificationBadge() is NotificationBadge notificationBadge)
+            string lineBreakPattern = @"<\/h[0-9]>";
+            string lineBreakReplacement = Environment.NewLine;
+            string result = Regex.Replace(ex?.Message ?? string.Empty, lineBreakPattern, lineBreakReplacement);
+
+            string pattern = @"<[^>]+>";
+            string replacement = "";
+
+            result = Regex.Replace(result, pattern, replacement);
+            return string.IsNullOrEmpty(result) ? null : $"\n\n{result}";
+        }
+
+        private async Task<Func<string>> HandleAPIExceptions(Exception ex)
+        {
+            switch (ex)
             {
-                notificationBadge.Visible = true;
-
-                static string? GetExceptionMessage(Exception ex)
-                {
-                    string lineBreakPattern = @"<\/h[0-9]>";
-                    string lineBreakReplacement = Environment.NewLine;
-                    string result = Regex.Replace(ex.Message ?? string.Empty, lineBreakPattern, lineBreakReplacement);
-
-                    string pattern = @"<[^>]+>";
-                    string replacement = "";
-
-                    result = Regex.Replace(result, pattern, replacement);
-                    return string.IsNullOrEmpty(result) ? null : $"\n\n{result}";
-                }
-
-                switch (ex)
-                {
-                    case Gw2ApiInvalidPermissionsException:
-                        ex = await TestAPI() ?? ex;
-                        break;
-                }
-
-                notificationBadge.SetLocalizedText = ex switch
-                {
-                    ServiceUnavailableException => () => $"{strings_common.GW2API_Unavailable}{GetExceptionMessage(ex)}",
-                    RequestException => () => $"{strings_common.GW2API_RequestFailed}{GetExceptionMessage(ex)}",
-                    RequestException<string> => () => $"{strings_common.GW2API_RequestFailed}{GetExceptionMessage(ex)}",
-                    Gw2ApiInvalidPermissionsException => () => $"{strings.Error_InvalidPermissions}\nIf you have a valid API Key added there are probably issues with the API currently.",
-                    _ => () => $"{GetExceptionMessage(ex)}",
-                };
+                case Gw2ApiInvalidPermissionsException:
+                    ex = await TestAPI() ?? ex;
+                    break;
             }
 
+            Func<string> text = ex switch
+            {
+                ServiceUnavailableException => () => $"{strings_common.GW2API_Unavailable}{GetExceptionMessage(ex)}",
+                RequestException => () => $"{strings_common.GW2API_RequestFailed}{GetExceptionMessage(ex)}",
+                RequestException<string> => () => $"{strings_common.GW2API_RequestFailed}{GetExceptionMessage(ex)}",
+                Gw2ApiInvalidPermissionsException => () => $"{strings.Error_InvalidPermissions}\nIf you have a valid API Key added there are probably issues with the API currently.",
+                _ => () => $"{GetExceptionMessage(ex)}",
+            };
+
             _lastException = ex;
+
+            return text;
         }
 
         private async Task<Exception> TestAPI()

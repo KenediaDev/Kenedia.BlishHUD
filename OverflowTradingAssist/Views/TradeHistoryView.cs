@@ -17,6 +17,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Kenedia.Modules.Core.Res;
 using System.Diagnostics;
+using System.Threading;
 
 namespace Kenedia.Modules.OverflowTradingAssist.Views
 {
@@ -29,6 +30,8 @@ namespace Kenedia.Modules.OverflowTradingAssist.Views
         private Label _itemSummaryLabel;
         private FilterBox _filterBox;
         private FlowPanel _tradeHistoryPanel;
+        private CancellationTokenSource _cts;
+        private Panel _headerPanel;
 
         public TradeHistoryView(Func<List<Trade>> getTrades)
         {
@@ -38,6 +41,8 @@ namespace Kenedia.Modules.OverflowTradingAssist.Views
         protected override void Build(Container buildPanel)
         {
             base.Build(buildPanel);
+            
+            _cts = new();
 
             var trades = _getTrades?.Invoke();
 
@@ -47,7 +52,7 @@ namespace Kenedia.Modules.OverflowTradingAssist.Views
                 double totalTraded = trades.Sum(e => e.Amount);
                 var tradeRank = TradeRank.Ranks.FirstOrDefault(e => e.Threshold <= totalTraded && e.Trades <= trades.Count);
 
-                var headerPanel = new Panel()
+                _headerPanel = new Panel()
                 {
                     Location = new(0, 0),
                     Parent = buildPanel,
@@ -58,15 +63,15 @@ namespace Kenedia.Modules.OverflowTradingAssist.Views
                 };
 
                 int trailing = (32 * 4) + (5 * 4);
-                int width = headerPanel.Width - trailing;
-                int partner = (int)(width * 0.15F);
-                int amount = (int)(width * 0.15F);
-                int itemSummary = (int)(width * 0.70F);
+                int width = _headerPanel.Width - trailing;
+                int partner = (int)(width * 0.2F);
+                int amount = (int)(width * 0.2F);
+                int itemSummary = (int)(width * 0.60F);
 
                 _tradePartnerLabel = new Label()
                 {
                     Text = "Trade Partner",
-                    Parent = headerPanel,
+                    Parent = _headerPanel,
                     Width = partner,
                     Location = new(0, 0),
                     HorizontalAlignment = Blish_HUD.Controls.HorizontalAlignment.Left,
@@ -76,7 +81,7 @@ namespace Kenedia.Modules.OverflowTradingAssist.Views
                 _amountLabel = new Label()
                 {
                     Text = "Amount",
-                    Parent = headerPanel,
+                    Parent = _headerPanel,
                     Width = amount,
                     Location = new(_tradePartnerLabel.Right, _tradePartnerLabel.Top),
                     HorizontalAlignment = Blish_HUD.Controls.HorizontalAlignment.Left,
@@ -86,7 +91,7 @@ namespace Kenedia.Modules.OverflowTradingAssist.Views
                 _itemSummaryLabel = new Label()
                 {
                     Text = "Items",
-                    Parent = headerPanel,
+                    Parent = _headerPanel,
                     Width = itemSummary,
                     Location = new(_amountLabel.Right, _amountLabel.Top),
                     HorizontalAlignment = Blish_HUD.Controls.HorizontalAlignment.Left,
@@ -98,7 +103,7 @@ namespace Kenedia.Modules.OverflowTradingAssist.Views
                                    totalTraded,
                                    tradeRank)
                 {
-                    Parent = headerPanel,
+                    Parent = _headerPanel,
                     Location = new(0, _itemSummaryLabel.Bottom + 5),
                     WidthSizingMode = SizingMode.Fill,
                     BorderWidth = new(0, 0, 0, 6),
@@ -108,14 +113,14 @@ namespace Kenedia.Modules.OverflowTradingAssist.Views
 
                 ctrl = _filterBox = new()
                 {
-                    Parent = headerPanel,
+                    Parent = _headerPanel,
                     Location = new(0, ctrl.Bottom + 5),
                     PlaceholderText = strings_common.Search,
                     FilteringOnEnter = true,
                     FilteringOnTextChange = true,
                     FilteringDelay = 150,
                     PerformFiltering = FilterTrades,
-                    Width = headerPanel.ContentRegion.Width,
+                    Width = _headerPanel.ContentRegion.Width,
                 };
 
                 _tradeHistoryPanel = new()
@@ -129,6 +134,8 @@ namespace Kenedia.Modules.OverflowTradingAssist.Views
                     ControlPadding = new(4),
                     ContentPadding = new(10, 4, 25, 0),
                 };
+
+                width = buildPanel.ContentRegion.Width;
 
                 foreach (var trade in trades)
                 {
@@ -145,9 +152,14 @@ namespace Kenedia.Modules.OverflowTradingAssist.Views
                     _tradeHistoryEntries.Add(new TradeHistoryEntryControl(trade)
                     {
                         Parent = _tradeHistoryPanel,
-                        Width = buildPanel.ContentRegion.Width,
+                        Width = 1110,
                         Visible = visible,
                     });
+
+                    if(_cts.IsCancellationRequested)
+                    {
+                        return;
+                    }
                 }
             }
         }
@@ -176,15 +188,13 @@ namespace Kenedia.Modules.OverflowTradingAssist.Views
         protected override void Unload()
         {
             base.Unload();
-            try
-            {
-                _tradeHistoryEntries?.DisposeAll();
-                _tradeHistoryEntries.Clear();
-            }
-            catch
-            {
+            _cts?.Cancel();
 
-            }
+            _headerPanel?.Children.DisposeAll();
+            _headerPanel?.Dispose();
+
+            _tradeHistoryEntries?.DisposeAll();
+            _tradeHistoryEntries.Clear();
         }
     }
 }

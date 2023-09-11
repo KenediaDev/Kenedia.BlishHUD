@@ -27,6 +27,8 @@ namespace Kenedia.Modules.BuildsManager.Models
             }
         }
 
+
+
         [JsonIgnore]
         public Version Nourishments { get; set; } = new(0, 0, 0);
 

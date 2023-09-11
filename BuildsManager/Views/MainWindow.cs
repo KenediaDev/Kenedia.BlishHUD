@@ -16,17 +16,14 @@ namespace Kenedia.Modules.BuildsManager.Views
 {
     public class MainWindow : StandardWindow
     {
-        private readonly TexturesService _texturesService;
         private readonly BuildPage _build;
         private readonly TabbedRegion _tabbedRegion;
         private readonly GearPage _gear;
         private readonly AboutPage _aboutPage;
         private readonly SelectionPanel _selectionPanel;
 
-        public MainWindow(AsyncTexture2D background, Rectangle windowRegion, Rectangle contentRegion, TexturesService texturesService) : base(background, windowRegion, contentRegion)
+        public MainWindow(AsyncTexture2D background, Rectangle windowRegion, Rectangle contentRegion) : base(background, windowRegion, contentRegion)
         {
-            _texturesService = texturesService;
-
             _selectionPanel = new(TemplatePresenter, this)
             {
                 Parent = this,
@@ -47,7 +44,7 @@ namespace Kenedia.Modules.BuildsManager.Views
             TabbedRegionTab tab;
 
             _tabbedRegion.AddTab(new TabbedRegionTab(
-                _aboutPage = new AboutPage(_texturesService, TemplatePresenter)
+                _aboutPage = new AboutPage(TemplatePresenter)
                 {
                     HeightSizingMode = Blish_HUD.Controls.SizingMode.Fill,
                     WidthSizingMode = Blish_HUD.Controls.SizingMode.Fill,
@@ -58,14 +55,14 @@ namespace Kenedia.Modules.BuildsManager.Views
             });
 
             _tabbedRegion.AddTab(tab = new TabbedRegionTab(
-                _build = new BuildPage(_texturesService, TemplatePresenter))
+                _build = new BuildPage(TemplatePresenter))
             {
                 Header = () => strings.Build,
                 Icon = AsyncTexture2D.FromAssetId(156720),
             });
 
             _tabbedRegion.AddTab(new TabbedRegionTab(
-                _gear = new GearPage(_texturesService, TemplatePresenter)
+                _gear = new GearPage(TemplatePresenter)
                 {
                     SelectionPanel = _selectionPanel,
                 })

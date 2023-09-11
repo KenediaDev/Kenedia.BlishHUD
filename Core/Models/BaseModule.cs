@@ -35,14 +35,14 @@ namespace Kenedia.Modules.Core.Models
         {
             var clientWindowService = new ClientWindowService();
             var sharedSettings = new SharedSettings();
-            var texturesService = new TexturesService(ContentsManager);
             var inputDetectionService = new InputDetectionService();
             var gameState = new GameStateDetectionService(clientWindowService, sharedSettings);
 
-            Services = new(gameState, clientWindowService, sharedSettings, texturesService, inputDetectionService);
+            Services = new(gameState, clientWindowService, sharedSettings, inputDetectionService);
             SharedSettingsView = new SharedSettingsView(sharedSettings, clientWindowService);
                         
             GameService.Overlay.UserLocale.SettingChanged += OnLocaleChanged;
+            TexturesService.Initilize(ContentsManager);
         }
 
         public static string ModuleName => ModuleInstance.Name;

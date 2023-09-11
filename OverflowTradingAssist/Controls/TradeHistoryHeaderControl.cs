@@ -76,9 +76,9 @@ namespace Kenedia.Modules.OverflowTradingAssist.Controls
 
             int trailing = (32 * 4) + (5 * 4);
             int width = Width - trailing;
-            int partner = (int)(width * 0.15F);
-            int amount = (int)(width * 0.15F);
-            int itemSummary = (int)(width * 0.70F);
+            int partner = (int)(width * 0.2F);
+            int amount = (int)(width * 0.2F);
+            int itemSummary = (int)(width * 0.60F);
 
             _tradePartnerLabel?.SetLocation(0, 0);
             _tradePartnerLabel?.SetSize(partner, _tradePartnerLabel.Height);
@@ -88,7 +88,7 @@ namespace Kenedia.Modules.OverflowTradingAssist.Controls
 
             _rankIcon?.SetLocation(_amountLabel.Right, 0);
 
-            _itemSummaryLabel?.SetLocation(_rankIcon.Right, 0);
+            _itemSummaryLabel?.SetLocation(_rankIcon.Right + 10, 0);
             _itemSummaryLabel?.SetSize(itemSummary, _rankIcon.Height);
         }
     }

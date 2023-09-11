@@ -1,4 +1,5 @@
 ﻿using Blish_HUD;
+using Blish_HUD.Content;
 using Blish_HUD.Graphics;
 using Blish_HUD.Modules.Managers;
 using Kenedia.Modules.Core.Extensions;
@@ -11,45 +12,54 @@ using System.Linq;
 
 namespace Kenedia.Modules.Core.Services
 {
-    public class TexturesService : IDisposable
+    public static class TexturesService
     {
-        private readonly Dictionary<string, Texture2D> _loadedTextures = new();
-        private readonly ContentsManager _contentsManager;
-        private bool _isDisposed;
+        private static readonly Dictionary<string, Texture2D> s_loadedTextures = new();
+        private static ContentsManager s_contentsManager;
 
-        public TexturesService(ContentsManager contentsManager)
+        public static void Initilize(ContentsManager contentsManager)
         {
-            _contentsManager = contentsManager;
+            s_contentsManager = contentsManager;
         }
 
-        public void Dispose()
+        public static void Dispose()
         {
-            if (_isDisposed) return;
-            _isDisposed = true;
-
-            if(_loadedTextures.Count > 0) _loadedTextures.Select(e => e.Value).DisposeAll();
-            _loadedTextures.Clear();
+            if (s_loadedTextures.Count > 0) s_loadedTextures.Select(e => e.Value).DisposeAll();
+            s_loadedTextures.Clear();
         }
 
-        public Texture2D GetTexture(string path, string key)
+        public static Texture2D GetTextureFromRef(string path, string key)
         {
-            if (_loadedTextures.ContainsKey(key)) return _loadedTextures[key];
-            Texture2D texture = _contentsManager.GetTexture(path);
+            if (s_contentsManager is not null)
+            {
+                if (s_loadedTextures.ContainsKey(key)) return s_loadedTextures[key];
+                Texture2D texture = s_contentsManager.GetTexture(path);
 
-            _loadedTextures.Add(key, texture);
+                s_loadedTextures.Add(key, texture);
+                return texture;
+            }
+
+            return null;
+        }
+
+        public static Texture2D GetTextureFromRef(Bitmap bitmap, string key)
+        {
+            if (s_loadedTextures.ContainsKey(key)) return s_loadedTextures[key];
+            Texture2D texture;
+            s_loadedTextures.Add(key, texture = bitmap.CreateTexture2D());
             return texture;
         }
 
-        public Texture2D GetTexture(Bitmap bitmap, string key)
+        public static AsyncTexture2D GetTextureFromDisk(string path)
         {
-            if (_loadedTextures.ContainsKey(key)) return _loadedTextures[key];
+            if (s_loadedTextures.ContainsKey(path)) return s_loadedTextures[path];
+            AsyncTexture2D texture = new();
 
-            using GraphicsDeviceContext device = GameService.Graphics.LendGraphicsDeviceContext();
-            using MemoryStream s = new();
-            bitmap.Save(s, System.Drawing.Imaging.ImageFormat.Png);
-            var texture = Texture2D.FromStream(device.GraphicsDevice, s);
+            if (File.Exists(path))
+            {
+                GameService.Graphics.QueueMainThreadRender((graphicsDevice) => texture.SwapTexture(TextureUtil.FromStreamPremultiplied(graphicsDevice, new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))));
+            }
 
-            _loadedTextures.Add(key, texture);
             return texture;
         }
     }

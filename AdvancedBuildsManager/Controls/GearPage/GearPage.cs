@@ -16,7 +16,6 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Controls.GearPage
 {
     public class GearPage : Blish_HUD.Controls.Container
     {
-        private readonly TexturesService _texturesService;
         private readonly TextBox _gearCodeBox;
         private readonly ImageButton _copyButton;
         private readonly Panel _statPanel;
@@ -31,9 +30,8 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Controls.GearPage
         private readonly DetailedTexture _pve = new(2229699, 2229700);
         private readonly DetailedTexture _pvp = new(2229701, 2229702);
 
-        public GearPage(TexturesService _texturesService)
+        public GearPage()
         {
-            this._texturesService = _texturesService;
             WidthSizingMode = Blish_HUD.Controls.SizingMode.Fill;
             HeightSizingMode = Blish_HUD.Controls.SizingMode.Fill;
 

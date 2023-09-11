@@ -40,16 +40,14 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
         private readonly Dictionary<SpecializationSlotType, SpecLine> _specializations;
         private readonly ButtonImage _specIcon;
         private readonly ButtonImage _raceIcon;
-        private readonly TexturesService _texturesService;
         private readonly TextBox _buildCodeBox;
         private readonly ImageButton _copyButton;
 
         private ProfessionSpecifics _professionSpecifics;
         private TemplatePresenter _templatePresenter;
 
-        public BuildPage(TexturesService texturesService, TemplatePresenter templatePresenter)
+        public BuildPage(TemplatePresenter templatePresenter)
         {
-            _texturesService = texturesService;
             TemplatePresenter = templatePresenter;
 
             ClipsBounds = false;
@@ -114,7 +112,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
                 Parent = this,
                 TextureSize = new Point(32),
                 ZIndex = 15,
-                Texture = _texturesService.GetTexture(@"textures\races\none.png", "none"),
+                Texture = TexturesService.GetTextureFromRef(@"textures\races\none.png", "none"),
                 Size = new(40),
             };
 

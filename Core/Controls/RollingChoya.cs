@@ -32,7 +32,7 @@ namespace Kenedia.Modules.Core.Controls
 
         private void InputDetectionService_MouseClicked(object sender, double e)
         {
-            if(ChoyaHunt && _choyaTargeted)
+            if (ChoyaHunt && _choyaTargeted)
             {
                 OnClick(null);
             }
@@ -180,7 +180,8 @@ namespace Kenedia.Modules.Core.Controls
         {
             base.DisposeControl();
 
-            if(InputDetectionService is not null) InputDetectionService.MouseClicked -= InputDetectionService_MouseClicked;
+            ChoyaTexture = null;
+            if (InputDetectionService is not null) InputDetectionService.MouseClicked -= InputDetectionService_MouseClicked;
         }
     }
 }

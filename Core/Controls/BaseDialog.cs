@@ -36,8 +36,8 @@ namespace Kenedia.Modules.Core.Controls
     public class BaseDialog : FramedContainer
     {
         private readonly Panel _modalBackground;
-        private readonly AsyncTexture2D _backgroundImage = AsyncTexture2D.FromAssetId(156003);
-        private readonly AsyncTexture2D _alertImage = AsyncTexture2D.FromAssetId(222246);
+        private AsyncTexture2D _backgroundImage = AsyncTexture2D.FromAssetId(156003);
+        private AsyncTexture2D _alertImage = AsyncTexture2D.FromAssetId(222246);
 
         public string Title { get; private set; }
 
@@ -269,6 +269,8 @@ namespace Kenedia.Modules.Core.Controls
         {
             base.DisposeControl();
 
+            _backgroundImage = null;
+            _alertImage = null;
             _modalBackground?.Dispose();
             GameService.Input.Keyboard.KeyPressed -= Keyboard_KeyPressed;
         }

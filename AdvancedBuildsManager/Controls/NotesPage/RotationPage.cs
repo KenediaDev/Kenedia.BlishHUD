@@ -240,16 +240,13 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Controls.NotesPage
     public class RotationPage : Blish_HUD.Controls.Container
     {
         private readonly bool created = false;
-        private TexturesService _texturesService;
         private readonly Button _addRotation;
         private readonly FlowPanel _contentPanel;
 
         private Template _template;
 
-        public RotationPage(TexturesService texturesService)
-        {
-            _texturesService = texturesService;
-
+        public RotationPage()
+        {            
             _addRotation = new()
             {
                 Parent = this,

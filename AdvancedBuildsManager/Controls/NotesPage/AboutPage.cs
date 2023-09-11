@@ -13,7 +13,6 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Controls.NotesPage
     public class AboutPage : Blish_HUD.Controls.Container
     {
         private readonly Blish_HUD.Controls.MultilineTextBox _noteField;
-        private readonly TexturesService _texturesService;
         private readonly FlowPanel _tagPanel;
         private readonly Label _notesLabel;
         private readonly Label _tagsLabel;
@@ -28,10 +27,8 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Controls.NotesPage
         private Color _disabledColor = Color.Gray;
 
         private Template _template;
-        public AboutPage(TexturesService texturesService)
+        public AboutPage()
         {
-            _texturesService = texturesService;
-
             _tagPanel = new()
             {
                 Parent = this,

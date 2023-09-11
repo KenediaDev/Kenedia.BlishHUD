@@ -14,7 +14,6 @@ namespace Kenedia.Modules.BuildsManager.Controls.AboutPage
     public class AboutPage : Blish_HUD.Controls.Container
     {
         private readonly Blish_HUD.Controls.MultilineTextBox _noteField;
-        private readonly TexturesService _texturesService;
         private readonly FlowPanel _tagPanel;
         private readonly Label _notesLabel;
         private readonly Label _tagsLabel;
@@ -28,9 +27,8 @@ namespace Kenedia.Modules.BuildsManager.Controls.AboutPage
 
         private Color _disabledColor = Color.Gray;
 
-        public AboutPage(TexturesService texturesService, TemplatePresenter _templatePresenter)
+        public AboutPage(TemplatePresenter _templatePresenter)
         {
-            _texturesService = texturesService;
             TemplatePresenter = _templatePresenter;
 
             _tagPanel = new()

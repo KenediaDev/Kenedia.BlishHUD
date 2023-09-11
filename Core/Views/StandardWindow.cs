@@ -193,13 +193,9 @@ namespace Kenedia.Modules.Core.Views
         protected override void DisposeControl()
         {
             base.DisposeControl();
-
             Children.DisposeAll();
 
-            SubWindowEmblem?.Dispose();
             SubWindowEmblem = null;
-
-            MainWindowEmblem?.Dispose();
             MainWindowEmblem = null;
         }
 

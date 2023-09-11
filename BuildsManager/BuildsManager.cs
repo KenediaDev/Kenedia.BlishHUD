@@ -28,6 +28,9 @@ using AnchoredContainer = Kenedia.Modules.Core.Controls.AnchoredContainer;
 using Rectangle = Microsoft.Xna.Framework.Rectangle;
 using Version = SemVer.Version;
 using Kenedia.Modules.BuildsManager.Controls.GearPage.GearSlots;
+using Kenedia.Modules.Core.Services;
+using Kenedia.Modules.BuildsManager.DataModels.Items;
+using System.Collections.Generic;
 
 namespace Kenedia.Modules.BuildsManager
 {
@@ -165,6 +168,15 @@ namespace Kenedia.Modules.BuildsManager
 
             //LoadTemplates();
             base.ReloadKey_Activated(sender, e);
+            //var list = new List<(string name, int id, byte mapid)>();
+
+            //foreach(Relic relic in Data.Relics.Items.Values)
+            //{
+            //    list.Add(new(relic.Name, relic.Id, relic.MappedId));
+            //}
+
+            //string json = JsonConvert.SerializeObject(list, SerializerSettings.Default);
+            //File.WriteAllText($@"{Paths.ModulePath}relics.json", json);
         }
 
         protected override void LoadGUI()
@@ -178,10 +190,9 @@ namespace Kenedia.Modules.BuildsManager
             Logger.Info($"Building UI for {Name}");
 
             MainWindow = new MainWindow(
-                Services.TexturesService.GetTexture(@"textures\mainwindow_background.png", "mainwindow_background"),
+                TexturesService.GetTextureFromRef(@"textures\mainwindow_background.png", "mainwindow_background"),
                 new Rectangle(30, 30, Width, Height + 30),
-                new Rectangle(30, 20, Width - 3, Height + 15),
-                Services.TexturesService)
+                new Rectangle(30, 20, Width - 3, Height + 15))
             {
                 Parent = GameService.Graphics.SpriteScreen,
                 Title = "❤",

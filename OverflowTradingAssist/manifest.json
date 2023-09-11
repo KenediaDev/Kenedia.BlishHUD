@@ -12,14 +12,14 @@
     }
   ],
   "dependencies": {
-    "bh.blishhud": ">=0.0.1"
+    "bh.blishhud": ">=1.0.0"
   },
   "description": "A module to assist you while trading through the 'Overflow Trading Company' discord.",
+  "directories": [ "kenedia" ],
   "manifest_version": 1,
-  "name": "OverflowTradingAssist",
+  "name": "Overflow Trading Assist",
   "namespace": "Kenedia.Modules.OverflowTradingAssist",
   "package": "Kenedia.Modules.OverflowTradingAssist.dll",
   "url": "https://github.com/KenediaDev/Kenedia.BlishHUD",
-  "version": "0.0.1",
-  "directories": [ "kenedia" ]
+  "version": "0.0.1"
 }
