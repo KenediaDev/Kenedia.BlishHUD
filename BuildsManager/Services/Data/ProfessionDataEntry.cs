@@ -57,6 +57,7 @@ namespace Kenedia.Modules.BuildsManager.Services
 
                 if (map.Version > Version)
                 {
+                    Version = map.Version;
                     missing = professionTypes;
                     BuildsManager.Logger.Debug($"The current version does not match the map version. Updating all values for {name}.");
                 }

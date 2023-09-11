@@ -60,6 +60,7 @@ namespace Kenedia.Modules.BuildsManager.Services
 
                 if (map.Version > Version)
                 {
+                    Version = map.Version;
                     missing = raceIds;
                     BuildsManager.Logger.Debug($"The current version does not match the map version. Updating all values for {name}.");
                 }

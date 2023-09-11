@@ -18,16 +18,7 @@ namespace Kenedia.Modules.BuildsManager.Services
     {
         protected bool DataLoaded = false;
 
-        public Version Version
-        {
-            get => Map?.Version; set
-            {
-                if (Map != null)
-                {
-                    Map.Version = value;
-                }
-            }
-        }
+        public Version Version { get; set; } = new(0, 0, 0);
 
         [DataMember]
         [JsonProperty("Version")]

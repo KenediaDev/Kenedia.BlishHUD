@@ -57,6 +57,7 @@ namespace Kenedia.Modules.BuildsManager.Services
 
                 if (map.Version > Version)
                 {
+                    Version = map.Version;
                     fetchIds = fetchIds.Concat(Map.Values.Except(Items.Keys).Except(Map.Ignored.Values));
                     saveRequired = true;
 

@@ -155,7 +155,6 @@ namespace Kenedia.Modules.OverflowTradingAssist.Views
             {
                 Parent = fp,
                 WidthSizingMode = Blish_HUD.Controls.SizingMode.Fill,
-                CanCollapse = true,
                 Title = "Items",
                 CanScroll = true,
                 Height = 250,
@@ -168,28 +167,35 @@ namespace Kenedia.Modules.OverflowTradingAssist.Views
             {
                 Parent = fp,
                 WidthSizingMode = Blish_HUD.Controls.SizingMode.Fill,
-                CanCollapse = true,
                 Title = "Payment",
                 CanScroll = true,
                 Height = 250,
                 BackgroundColor = Color.Black * 0.2F,
                 BorderColor = Color.Black,
                 BorderWidth = new(2),
-                Collapsed = true,
-                OnCollapse = () =>
-                {
-                    Debug.WriteLine($"EXPAND ITEMS");
-                    itemsPanel.Expand();
-                },
-                OnExpand = () =>
-                {
-                    Debug.WriteLine($"COLLAPSE ITEMS");
-                    itemsPanel.Collapse();
-                },
+                //OnCollapse = () =>
+                //{
+                //    Debug.WriteLine($"EXPAND ITEMS");
+                //    itemsPanel.Expand();
+                //},
+                //OnExpand = () =>
+                //{
+                //    Debug.WriteLine($"Collapse ITEMS");
+                //    itemsPanel.Collapse();
+                //},
             };
 
-            itemsPanel.OnCollapse = paymentPanel.Expand;
-            itemsPanel.OnExpand = paymentPanel.Collapse;
+            //itemsPanel.OnCollapse = () =>
+            //{
+            //    Debug.WriteLine($"EXPAND paymentPanel");
+            //    paymentPanel.Expand();
+            //};
+            //itemsPanel.OnExpand = () =>
+            //    {
+            //        Debug.WriteLine($"Collapse paymentPanel");
+            //        paymentPanel.Collapse();
+            //    };
+
         }
 
         private void TradeTypeImage_Click(object sender, Blish_HUD.Input.MouseEventArgs e)
@@ -207,7 +213,7 @@ namespace Kenedia.Modules.OverflowTradingAssist.Views
     public class DetailedTradeWindow : StandardWindow
     {
         public static int WindowWidth = 700;
-        public static int WindowHeight = 500;
+        public static int WindowHeight = 706;
 
         public static int ContentWidth = WindowWidth - 55;
         public static int ContentHeight = WindowHeight - 55;
@@ -223,6 +229,7 @@ namespace Kenedia.Modules.OverflowTradingAssist.Views
             SubWindowEmblem = AsyncTexture2D.FromAssetId(156019);
             Name = $"{trade?.TradePartner}";
             //SubName = $"{trade.Id}";
+
             Width = WindowWidth;
             Height = WindowHeight;
 

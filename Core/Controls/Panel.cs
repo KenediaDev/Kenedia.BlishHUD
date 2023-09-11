@@ -9,6 +9,8 @@ using Microsoft.Xna.Framework;
 using Blish_HUD.Controls;
 using System.Collections.Generic;
 using Kenedia.Modules.Core.Services;
+using System.Diagnostics;
+using Blish_HUD.Input;
 
 namespace Kenedia.Modules.Core.Controls
 {
@@ -166,6 +168,21 @@ namespace Kenedia.Modules.Core.Controls
         public Action OnCollapse { get; set; }
 
         public Action OnExpand { get; set; }
+
+        protected override void OnClick(MouseEventArgs e)
+        {
+            bool collapsed = Collapsed;
+
+            base.OnClick(e);
+
+            if (collapsed != Collapsed)
+            {
+                if (Collapsed)
+                    OnCollapse?.Invoke();
+                else
+                    OnExpand?.Invoke();
+            }
+        }
 
         public override void RecalculateLayout()
         {
@@ -379,18 +396,6 @@ namespace Kenedia.Modules.Core.Controls
         protected override CaptureType CapturesInput()
         {
             return CaptureInput ? base.CapturesInput() : CaptureType.None;
-        }
-
-        public new void Collapse()
-        {
-            base.Collapse();
-            OnCollapse?.Invoke();
-        }
-
-        public new void Expand()
-        {
-            base.Expand();
-            OnExpand?.Invoke();
         }
     }
 }
