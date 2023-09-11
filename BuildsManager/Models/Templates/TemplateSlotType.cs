@@ -26,6 +26,7 @@
         Nourishment,
         Enhancement,
         PowerCore,
-        Relic,
+        PveRelic,
+        PvpRelic,
     }
 }

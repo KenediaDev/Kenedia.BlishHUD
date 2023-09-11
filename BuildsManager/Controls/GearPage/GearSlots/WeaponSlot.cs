@@ -66,7 +66,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage.GearSlots
 
         public Infusion Infusion { get => _infusion; set => Common.SetProperty(ref _infusion, value, OnInfusionChanged); }
 
-        public WeaponSlot OtherHandSlot { get => _otherHandSlot; set => Common.SetProperty(ref _otherHandSlot, value); }
+        public WeaponSlot PairedSlot { get => _otherHandSlot; set => Common.SetProperty(ref _otherHandSlot, value); }
 
         protected override void OnTemplatePresenterChanged(object sender, Core.Models.ValueChangedEventArgs<TemplatePresenter> e)
         {
@@ -466,7 +466,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage.GearSlots
             Sigil = null;
             PvpSigil = null;
             Infusion = null;
-            OtherHandSlot = null;
+            PairedSlot = null;
         }
     }
 }

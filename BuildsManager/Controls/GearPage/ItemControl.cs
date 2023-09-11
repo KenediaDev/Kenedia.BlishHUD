@@ -12,6 +12,7 @@ using Blish_HUD.Input;
 using Microsoft.Xna.Framework.Input;
 using System.Linq;
 using Kenedia.Modules.BuildsManager.Res;
+using Blish_HUD.Controls;
 
 namespace Kenedia.Modules.BuildsManager.Controls.GearPage
 {
@@ -48,6 +49,8 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage
         public Color TextureColor { get => _texture.DrawColor ?? Color.White; set => _texture.DrawColor = value; }
 
         public DetailedTexture Placeholder { get => _placeholder; set => Common.SetProperty(ref _placeholder, value, ApplyPlaceholder); }
+
+        public bool CaptureInput { get; set; } = true;
 
         private void ApplyPlaceholder(object sender, Core.Models.ValueChangedEventArgs<DetailedTexture> e)
         {
@@ -130,6 +133,11 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage
                 _ = await ClipboardUtil.WindowsClipboardService.SetTextAsync(_statTexture.Hovered ? Stat?.Name : Item?.Name);
 
             }
+        }
+
+        protected override CaptureType CapturesInput()
+        {
+            return CaptureInput ? base.CapturesInput() : CaptureType.None;
         }
 
         override protected void DisposeControl()

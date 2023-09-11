@@ -1,4 +1,6 @@
-﻿using Kenedia.Modules.BuildsManager.Models.Templates;
+﻿using Gw2Sharp.WebApi.V2.Models;
+using Kenedia.Modules.BuildsManager.Models.Templates;
+using System.Linq;
 using System.Runtime.Serialization;
 
 namespace Kenedia.Modules.BuildsManager.DataModels.Items
@@ -8,7 +10,12 @@ namespace Kenedia.Modules.BuildsManager.DataModels.Items
     {
         public Relic()
         {
-            TemplateSlot = TemplateSlotType.Relic;
+            TemplateSlot = TemplateSlotType.PveRelic;
+        }
+
+        public override void Apply(Item item)
+        {
+            base.Apply(item);
         }
     }
 }

@@ -16,12 +16,13 @@ using Gw2Sharp.WebApi.V2.Models;
 using File = System.IO.File;
 using Kenedia.Modules.BuildsManager.Res;
 using System.Collections.Generic;
+using Kenedia.Modules.BuildsManager.Models;
 
 namespace Kenedia.Modules.BuildsManager.Services
 {
     public class ItemMappedDataEntry<T> : MappedDataEntry<int, T> where T : BaseItem, new()
     {
-        public async override Task<bool> LoadAndUpdate(string name, Version version, string path, Gw2ApiManager gw2ApiManager, CancellationToken cancellationToken)
+        public async override Task<bool> LoadAndUpdate(string name, ByteIntMap map, string path, Gw2ApiManager gw2ApiManager, CancellationToken cancellationToken)
         {
             try
             {
@@ -37,34 +38,26 @@ namespace Kenedia.Modules.BuildsManager.Services
                     DataLoaded = true;
                 }
 
+                Map = map;
                 Items = loaded?.Items ?? Items;
                 Version = loaded?.Version ?? Version;
 
-                BuildsManager.Logger.Debug($"{name} Version {Version} | version {version}");
+                foreach (int id in Map.Ignored.Values)
+                {
+                    _ = Items.Remove(id);
+                }
+
+                BuildsManager.Logger.Debug($"{name} Version {Version} | version {map.Version}");
 
                 BuildsManager.Logger.Debug($"Check for missing values for {name}");
                 var lang = GameService.Overlay.UserLocale.Value is Locale.Korean or Locale.Chinese ? Locale.English : GameService.Overlay.UserLocale.Value;
                 var fetchIds = Items.Values.Where(item => item.Names[lang] == null)?.Select(e => e.Id);
 
-                bool fetchAll = version > Version;
+                bool fetchAll = map.Version > Version;
 
-                if (version > Version || Map is null)
+                if (map.Version > Version)
                 {
-                    BuildsManager.Logger.Debug($"Get the map for {name}");
-                    Map = await StaticHosting.GetItemMap(name, cancellationToken);
-                    if (cancellationToken.IsCancellationRequested)
-                    {
-                        return false;
-                    }
-
-                    if (Map is null)
-                    {
-                        BuildsManager.Logger.Debug($"Failed to get the map for {name}");
-                        return false;
-                    }
-
-                    Version = Map.Version;
-                    fetchIds = fetchIds.Concat(Map.Values.Except(Items.Keys));
+                    fetchIds = fetchIds.Concat(Map.Values.Except(Items.Keys).Except(Map.Ignored.Values));
                     saveRequired = true;
 
                     if (fetchAll)
@@ -97,6 +90,11 @@ namespace Kenedia.Modules.BuildsManager.Services
                             };
 
                             entryItem?.Apply(item);
+
+                            if (entryItem is not null && entryItem.Type is Core.DataModels.ItemType.Relic)
+                            {
+                                entryItem.TemplateSlot = name is nameof(Data.PvpRelics) ? Models.Templates.TemplateSlotType.PvpRelic : Models.Templates.TemplateSlotType.PveRelic;
+                            }
 
                             if (entryItem is not null && Data.SkinDictionary.TryGetValue(item.Id, out int? assetId) && assetId is not null)
                             {

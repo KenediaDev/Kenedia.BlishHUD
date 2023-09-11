@@ -126,7 +126,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage
                 case ItemType.Armor:
                     if (Item is Armor armor)
                     {
-                        _description.Text = Stat?.Attributes.ToString(armor.AttributeAdjustment);
+                        _description.Text = Stat?.Name + Environment.NewLine + Stat?.Attributes.ToString(armor.AttributeAdjustment);
                         _description.TextColor = Color.Lime;
                     }
                     break;
@@ -134,7 +134,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage
                 case ItemType.Weapon:
                     if (Item is Weapon weapon)
                     {
-                        _description.Text = Stat?.Attributes.ToString(weapon.AttributeAdjustment);
+                        _description.Text = Stat?.Name + Environment.NewLine + Stat?.Attributes.ToString(weapon.AttributeAdjustment);
                         _description.TextColor = Color.Lime;
                     }
                     break;
@@ -143,7 +143,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage
                 case ItemType.Back:
                     if (Item is Trinket trinket)
                     {
-                        _description.Text = Stat?.Attributes.ToString(trinket.AttributeAdjustment);
+                        _description.Text = Stat?.Name + Environment.NewLine + Stat?.Attributes.ToString(trinket.AttributeAdjustment);
                         _description.TextColor = Color.Lime;
                     }
                     break;

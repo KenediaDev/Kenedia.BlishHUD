@@ -11,12 +11,13 @@ using Kenedia.Modules.Core.Extensions;
 using Gw2Sharp.WebApi;
 using System.Threading;
 using Kenedia.Modules.Core.Models;
+using Kenedia.Modules.BuildsManager.Models;
 
 namespace Kenedia.Modules.BuildsManager.Services
 {
     public class PvpAmuletMappedDataEntry : MappedDataEntry<int, PvpAmulet>
     {
-        public async override Task<bool> LoadAndUpdate(string name, Version version, string path, Gw2ApiManager gw2ApiManager, CancellationToken cancellationToken)
+        public async override Task<bool> LoadAndUpdate(string name, ByteIntMap map, string path, Gw2ApiManager gw2ApiManager, CancellationToken cancellationToken)
         {
             try
             {
@@ -32,32 +33,19 @@ namespace Kenedia.Modules.BuildsManager.Services
                     DataLoaded = true;
                 }
 
+                Map = map;
                 Items = loaded?.Items ?? Items;
                 Version = loaded?.Version ?? Version;
 
-                BuildsManager.Logger.Debug($"{name} Version {Version} | version {version}");
+                BuildsManager.Logger.Debug($"{name} Version {Version} | version {map.Version}");
 
                 BuildsManager.Logger.Debug($"Check for missing values for {name}");
                 var lang = GameService.Overlay.UserLocale.Value is Locale.Korean or Locale.Chinese ? Locale.English : GameService.Overlay.UserLocale.Value;
                 var fetchIds = Items.Values.Where(item => item.Names[lang] == null)?.Select(e => e.Id);
 
-                if (version > Version || Map is null)
+                if (map.Version > Version)
                 {
-                    BuildsManager.Logger.Debug($"Get the map for {name}");
-                    Map = await StaticHosting.GetItemMap(name, cancellationToken);
-                    if (cancellationToken.IsCancellationRequested)
-                    {
-                        return false;
-                    }
-
-                    if (Map is null)
-                    {
-                        BuildsManager.Logger.Debug($"Failed to map for {name}");
-                        return false;
-                    }
-
-                    Version = Map.Version;
-                    fetchIds = fetchIds.Concat(Map.Values.Except(Items.Keys));
+                    fetchIds = fetchIds.Concat(Map.Values.Except(Items.Keys).Except(Map.Ignored.Values));
                     saveRequired = true;
                     BuildsManager.Logger.Debug($"The current version does not match the map version. Updating all values for {name}.");
                 }

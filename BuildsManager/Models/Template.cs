@@ -254,7 +254,9 @@ namespace Kenedia.Modules.BuildsManager.Models
 
         public PowerCoreTemplateEntry PowerCore { get; } = new(TemplateSlotType.PowerCore);
 
-        public RelicTemplateEntry Relic { get; } = new(TemplateSlotType.Relic);
+        public PveRelicTemplateEntry PveRelic { get; } = new(TemplateSlotType.PveRelic);
+
+        public PvpRelicTemplateEntry PvpRelic { get; } = new(TemplateSlotType.PvpRelic);
 
         public Dictionary<TemplateSlotType, TemplateEntry> Weapons { get; }
 
@@ -383,11 +385,18 @@ namespace Kenedia.Modules.BuildsManager.Models
                         powerCore.PowerCoreChanged += PowerCore_PowerCoreChanged;
                         break;
 
-                    case TemplateSlotType.Relic:
-                        if (this[slot] is not RelicTemplateEntry relic)
+                    case TemplateSlotType.PveRelic:
+                        if (this[slot] is not PveRelicTemplateEntry pveRelic)
                             continue;
 
-                        relic.RelicChanged += Relic_RelicChanged;
+                        pveRelic.RelicChanged += Relic_RelicChanged;
+                        break;
+
+                    case TemplateSlotType.PvpRelic:
+                        if (this[slot] is not PvpRelicTemplateEntry pvpRelic)
+                            continue;
+
+                        pvpRelic.RelicChanged += Relic_RelicChanged;
                         break;
                 }
             }
@@ -512,11 +521,18 @@ namespace Kenedia.Modules.BuildsManager.Models
                         powerCore.PowerCoreChanged -= PowerCore_PowerCoreChanged;
                         break;
 
-                    case TemplateSlotType.Relic:
-                        if (this[slot] is not RelicTemplateEntry relic)
+                    case TemplateSlotType.PveRelic:
+                        if (this[slot] is not PveRelicTemplateEntry pveRelic)
                             continue;
 
-                        relic.RelicChanged -= Relic_RelicChanged;
+                        pveRelic.RelicChanged -= Relic_RelicChanged;
+                        break;
+
+                    case TemplateSlotType.PvpRelic:
+                        if (this[slot] is not PveRelicTemplateEntry pvpRelic)
+                            continue;
+
+                        pvpRelic.RelicChanged -= Relic_RelicChanged;
                         break;
                 }
             }
@@ -950,8 +966,9 @@ namespace Kenedia.Modules.BuildsManager.Models
                 codeArray = PvpAmulet.GetFromCodeArray(codeArray);
                 codeArray = Nourishment.GetFromCodeArray(codeArray);
                 codeArray = Enhancement.GetFromCodeArray(codeArray);
-                codeArray = Relic.GetFromCodeArray(codeArray);
                 codeArray = PowerCore.GetFromCodeArray(codeArray);
+                codeArray = PveRelic.GetFromCodeArray(codeArray);
+                codeArray = PvpRelic.GetFromCodeArray(codeArray);
 
                 // Enable Events again to become responsive
             }
@@ -1060,8 +1077,9 @@ namespace Kenedia.Modules.BuildsManager.Models
             codeArray = PvpAmulet.AddToCodeArray(codeArray);
             codeArray = Nourishment.AddToCodeArray(codeArray);
             codeArray = Enhancement.AddToCodeArray(codeArray);
-            codeArray = Relic.AddToCodeArray(codeArray);
             codeArray = PowerCore.AddToCodeArray(codeArray);
+            codeArray = PveRelic.AddToCodeArray(codeArray);
+            codeArray = PvpRelic.AddToCodeArray(codeArray);
 
             return $"[&{Convert.ToBase64String(codeArray)}]";
         }

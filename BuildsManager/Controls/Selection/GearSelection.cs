@@ -9,6 +9,7 @@ using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Linq;
 using static Kenedia.Modules.BuildsManager.Controls.Selection.Selectable;
 using static Kenedia.Modules.BuildsManager.DataModels.Professions.Weapon;
@@ -37,7 +38,8 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
         private readonly List<Selectable> _enrichments;
         private readonly List<Selectable> _infusions;
         private readonly List<Selectable> _powerCores;
-        private readonly List<Selectable> _relics;
+        private readonly List<Selectable> _pveRelics;
+        private readonly List<Selectable> _pvpRelics;
 
         public GearSelection(TemplatePresenter templatePresenter)
         {
@@ -55,6 +57,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
                         Parent = SelectionContent,
                         Item = item,
                         Visible = false,
+                        Width = 330,
                         OnClickAction = () =>
                         {
                             if (TemplatePresenter?.Template is not null)
@@ -88,7 +91,8 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
             _enrichments = AddItems<Selectable, Enrichment>(BuildsManager.Data.Enrichments.Values.OrderByDescending(e => e.Rarity).ThenBy(e => e.Name).ThenBy(e => e.Id));
             _infusions = AddItems<Selectable, Infusion>(BuildsManager.Data.Infusions.Values.OrderByDescending(e => e.Rarity).ThenBy(e => e.Name.Length).ThenBy(e => e.Name).ThenBy(e => e.Id));
             _powerCores = AddItems<Selectable, PowerCore>(BuildsManager.Data.PowerCores.Values.OrderByDescending(e => e.Rarity).ThenByDescending(e => e.Name.Length).ThenByDescending(e => e.Name).ThenBy(e => e.Id));
-            _relics = AddItems<Selectable, Relic>(BuildsManager.Data.Relics.Values.OrderByDescending(e => e.Rarity).ThenBy(e => e.Name).ThenBy(e => e.Id));
+            _pveRelics = AddItems<Selectable, Relic>(BuildsManager.Data.PveRelics.Values.OrderByDescending(e => e.Rarity).ThenBy(e => e.Name).ThenBy(e => e.Id));
+            _pvpRelics = AddItems<Selectable, Relic>(BuildsManager.Data.PvpRelics.Values.OrderByDescending(e => e.Rarity).ThenBy(e => e.Name).ThenBy(e => e.Id));
 
             Search.TextChangedAction = (txt) =>
             {
@@ -96,6 +100,8 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
                 PerformFiltering();
             };
 
+            SelectionContent.ControlPadding = new(2);
+            SelectionContent.FlowDirection = Blish_HUD.Controls.ControlFlowDirection.SingleTopToBottom;
             SelectionContent.SetLocation(Search.Left, Search.Bottom + 5);
             TemplatePresenter = templatePresenter;
         }
@@ -412,11 +418,13 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
 
                     break;
 
-                case TemplateSlotType.Relic:
-                    foreach (var item in _relics)
+                case TemplateSlotType.PveRelic:
+                case TemplateSlotType.PvpRelic:
+                    foreach (var item in TemplatePresenter?.IsPve == false ? _pvpRelics : _pveRelics)
                     {
                         item.Visible = MatchingMethod(item.Item);
                     }
+
                     break;
 
                 case TemplateSlotType.PowerCore:
@@ -424,6 +432,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
                     {
                         item.Visible = MatchingMethod(item.Item);
                     }
+
                     break;
 
                 case TemplateSlotType.PvpAmulet:
@@ -443,6 +452,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
                             item.Visible = MatchingMethod(item.Item);
                         }
                     }
+
                     break;
             }
 
@@ -455,6 +465,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
             {
                 item.Visible = false;
                 item.ActiveSlot = ActiveSlot;
+                item.Width = 330;
             }
 
             PerformFiltering();

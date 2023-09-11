@@ -6,6 +6,7 @@ using System.Threading;
 using Kenedia.Modules.BuildsManager.DataModels.Items;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
+using Kenedia.Modules.BuildsManager.Models;
 
 namespace Kenedia.Modules.BuildsManager.Services
 {
@@ -54,7 +55,7 @@ namespace Kenedia.Modules.BuildsManager.Services
             return Items.TryGetValue(key, out value);
         }
 
-        public override async Task<bool> LoadAndUpdate(string name, Version version, string path, Gw2ApiManager gw2ApiManager, CancellationToken cancellationToken)
+        public override async Task<bool> LoadAndUpdate(string name, ByteIntMap map, string path, Gw2ApiManager gw2ApiManager, CancellationToken cancellationToken)
         {
             return await Task.FromResult(DataLoaded);
         }

@@ -19,7 +19,7 @@ namespace Kenedia.Modules.BuildsManager.Extensions
                 TemplateSlotType.Nourishment => GearSubSlotTypeType.Nourishment,
                 TemplateSlotType.Enhancement => GearSubSlotTypeType.Enhancement,
                 TemplateSlotType.PowerCore => GearSubSlotTypeType.PowerCore,
-                TemplateSlotType.Relic => GearSubSlotTypeType.Relic,
+                TemplateSlotType.PveRelic or TemplateSlotType.PvpRelic => GearSubSlotTypeType.Relic,
                 TemplateSlotType.None => GearSubSlotTypeType.None,
                 TemplateSlotType.PvpAmulet => GearSubSlotTypeType.PvpAmulet,
                 _ => GearSubSlotTypeType.None,

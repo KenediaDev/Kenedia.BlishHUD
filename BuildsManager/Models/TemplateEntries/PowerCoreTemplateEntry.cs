@@ -38,9 +38,12 @@ namespace Kenedia.Modules.BuildsManager.TemplateEntries
         {
             int newStartIndex = 1;
 
-            PowerCore = BuildsManager.Data.PowerCores.Values.Where(e => e.MappedId == array[0]).FirstOrDefault();
+            if (array is not null && array.Length > 0)
+            {
+                PowerCore = BuildsManager.Data.PowerCores.Values.Where(e => e.MappedId == array[0]).FirstOrDefault();
+            }
 
-            return GearTemplateCode.RemoveFromStart(array, newStartIndex);
+            return array is not null && array.Length > 0 ? GearTemplateCode.RemoveFromStart(array, newStartIndex) : array;
         }
 
         public void Dispose()

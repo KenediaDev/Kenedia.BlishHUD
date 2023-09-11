@@ -13,6 +13,7 @@ using Kenedia.Modules.Core.Extensions;
 using Kenedia.Modules.Core.Models;
 using Gw2Sharp.WebApi;
 using System.Threading;
+using Kenedia.Modules.BuildsManager.Models;
 
 namespace Kenedia.Modules.BuildsManager.Services
 {
@@ -23,7 +24,7 @@ namespace Kenedia.Modules.BuildsManager.Services
             Items.Add(Races.None, new() { Name = "None", Id = Races.None });
         }
 
-        public async override Task<bool> LoadAndUpdate(string name, Version version, string path, Gw2ApiManager gw2ApiManager, CancellationToken cancellationToken)
+        public async override Task<bool> LoadAndUpdate(string name, ByteIntMap map, string path, Gw2ApiManager gw2ApiManager, CancellationToken cancellationToken)
         {
             try
             {
@@ -39,10 +40,11 @@ namespace Kenedia.Modules.BuildsManager.Services
                     DataLoaded = true;
                 }
 
+                Map = map;
                 Items = loaded?.Items ?? Items;
                 Version = loaded?.Version ?? Version;
 
-                BuildsManager.Logger.Debug($"{name} Version {Version} | version {version}");
+                BuildsManager.Logger.Debug($"{name} Version {Version} | version {map.Version}");
 
                 BuildsManager.Logger.Debug($"Check for missing values for {name}");
                 var raceIds = await gw2ApiManager.Gw2ApiClient.V2.Races.IdsAsync(cancellationToken);
@@ -56,9 +58,8 @@ namespace Kenedia.Modules.BuildsManager.Services
                 var localeMissing = Items.Values.Where(item => item.Names[lang] == null)?.Select(e => $"{e.Id}");
                 var missing = raceIds.Except(Items.Keys.Select(e => $"{e}")).Concat(localeMissing);
 
-                if (version > Version)
+                if (map.Version > Version)
                 {
-                    Version = version;
                     missing = raceIds;
                     BuildsManager.Logger.Debug($"The current version does not match the map version. Updating all values for {name}.");
                 }

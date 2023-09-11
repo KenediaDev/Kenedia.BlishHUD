@@ -62,5 +62,4 @@ namespace Kenedia.Modules.OverflowTradingAssist.Models
             }
         }
     }
-
 }

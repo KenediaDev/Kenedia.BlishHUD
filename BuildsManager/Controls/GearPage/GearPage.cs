@@ -118,14 +118,18 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage
                 {TemplateSlotType.Nourishment, new NourishmentSlot(TemplateSlotType.Nourishment, this, TemplatePresenter)},
                 {TemplateSlotType.Enhancement, new EnhancementSlot(TemplateSlotType.Enhancement, this, TemplatePresenter)},
                 {TemplateSlotType.PowerCore, new PowerCoreSlot(TemplateSlotType.PowerCore, this, TemplatePresenter)},
-                {TemplateSlotType.Relic, new RelicSlot(TemplateSlotType.Relic, this, TemplatePresenter)},
+                {TemplateSlotType.PveRelic, new RelicSlot(TemplateSlotType.PveRelic, this, TemplatePresenter)},
+                {TemplateSlotType.PvpRelic, new RelicSlot(TemplateSlotType.PvpRelic, this, TemplatePresenter)},
             };
 
-            (_templateSlots[TemplateSlotType.MainHand] as WeaponSlot).OtherHandSlot = _templateSlots[TemplateSlotType.OffHand] as WeaponSlot;
-            (_templateSlots[TemplateSlotType.AltMainHand] as WeaponSlot).OtherHandSlot = _templateSlots[TemplateSlotType.AltOffHand] as WeaponSlot;
+            (_templateSlots[TemplateSlotType.MainHand] as WeaponSlot).PairedSlot = _templateSlots[TemplateSlotType.OffHand] as WeaponSlot;
+            (_templateSlots[TemplateSlotType.AltMainHand] as WeaponSlot).PairedSlot = _templateSlots[TemplateSlotType.AltOffHand] as WeaponSlot;
 
-            (_templateSlots[TemplateSlotType.OffHand] as WeaponSlot).OtherHandSlot = _templateSlots[TemplateSlotType.MainHand] as WeaponSlot;
-            (_templateSlots[TemplateSlotType.AltOffHand] as WeaponSlot).OtherHandSlot = _templateSlots[TemplateSlotType.AltMainHand] as WeaponSlot;
+            (_templateSlots[TemplateSlotType.OffHand] as WeaponSlot).PairedSlot = _templateSlots[TemplateSlotType.MainHand] as WeaponSlot;
+            (_templateSlots[TemplateSlotType.AltOffHand] as WeaponSlot).PairedSlot = _templateSlots[TemplateSlotType.AltMainHand] as WeaponSlot;
+
+            (_templateSlots[TemplateSlotType.PveRelic] as RelicSlot).PairedSlot = _templateSlots[TemplateSlotType.PvpRelic] as RelicSlot;
+            (_templateSlots[TemplateSlotType.PvpRelic] as RelicSlot).PairedSlot = _templateSlots[TemplateSlotType.PveRelic] as RelicSlot;
 
             List<GearSlot> armors = new();
             List<GearSlot> weapons = new();
@@ -275,9 +279,10 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage
                 _templateSlots[TemplateSlotType.Nourishment].Location = new(secondColumn, _pve.Bounds.Bottom + 20);
                 _templateSlots[TemplateSlotType.Enhancement].Location = new(secondColumn, _templateSlots[TemplateSlotType.Nourishment].Bottom + 5);
                 _templateSlots[TemplateSlotType.PowerCore].Location = new(secondColumn, _templateSlots[TemplateSlotType.Enhancement].Bottom + 20);
-                _templateSlots[TemplateSlotType.Relic].Location = new(secondColumn, _templateSlots[TemplateSlotType.PowerCore].Bottom + 5);
+                _templateSlots[TemplateSlotType.PveRelic].Location = new(secondColumn, _templateSlots[TemplateSlotType.PowerCore].Bottom + 5);
 
                 _templateSlots[TemplateSlotType.PvpAmulet].Location = new(_templateSlots[TemplateSlotType.Leg].Left, _templateSlots[TemplateSlotType.Leg].Bottom + gearSpacing);
+                _templateSlots[TemplateSlotType.PvpRelic].Location = new(_templateSlots[TemplateSlotType.Hand].Left, _templateSlots[TemplateSlotType.Hand].Bottom + gearSpacing);
 
                 p = _templateSlots[TemplateSlotType.MainHand].Location = new(_templateSlots[TemplateSlotType.Foot].Left, _templateSlots[TemplateSlotType.Foot].Bottom + 15);
                 _templateSlots[TemplateSlotType.OffHand].Location = new(_templateSlots[TemplateSlotType.MainHand].Left + 4, _templateSlots[TemplateSlotType.MainHand].Bottom + 4);
@@ -289,7 +294,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage
                 s = _templateSlots[TemplateSlotType.AltMainHand].Size;
                 _alternateTerrestrialSet.Bounds = new(p.X + (s.Y / 2) - (setSize / 2), p.Y + s.Y - (setSize / 2) + 4, setSize, setSize);
 
-                _templateSlots[TemplateSlotType.Back].Location = new(secondColumn, _templateSlots[TemplateSlotType.Relic].Bottom + 20);
+                _templateSlots[TemplateSlotType.Back].Location = new(secondColumn, _templateSlots[TemplateSlotType.PveRelic].Bottom + 20);
                 _templateSlots[TemplateSlotType.Accessory_1].Location = new(_templateSlots[TemplateSlotType.Back].Right + 3, _templateSlots[TemplateSlotType.Back].Top);
                 _templateSlots[TemplateSlotType.Accessory_2].Location = new(_templateSlots[TemplateSlotType.Accessory_1].Right + 3, _templateSlots[TemplateSlotType.Back].Top);
 
@@ -362,16 +367,22 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage
                 _templateSlots[TemplateSlotType.Nourishment].Item = t.Nourishment.Nourishment;
                 _templateSlots[TemplateSlotType.Enhancement].Item = t.Enhancement.Enhancement;
                 _templateSlots[TemplateSlotType.PowerCore].Item = t.PowerCore.PowerCore;
-                _templateSlots[TemplateSlotType.Relic].Item = t.Relic.Relic;
+                _templateSlots[TemplateSlotType.PveRelic].Item = t.PveRelic.Relic;
+                _templateSlots[TemplateSlotType.PvpRelic].Item = t.PvpRelic.Relic;
             }
 
+            SetVisibility();
+        }
+
+        private void SetVisibility()
+        {
             foreach (var slot in _templateSlots.Values)
             {
                 slot.Visible =
                     (slot.Slot is not TemplateSlotType.AltAquatic || TemplatePresenter.Template.Profession is not ProfessionType.Engineer and not ProfessionType.Elementalist) &&
-                    (TemplatePresenter.IsPve == false
-                    ? slot.Slot is TemplateSlotType.MainHand or TemplateSlotType.AltMainHand or TemplateSlotType.OffHand or TemplateSlotType.AltOffHand or TemplateSlotType.PvpAmulet
-                    : slot.Slot is not TemplateSlotType.PvpAmulet);
+                    TemplatePresenter.IsPvp ?
+                    (slot.Slot is TemplateSlotType.PvpRelic or TemplateSlotType.MainHand or TemplateSlotType.AltMainHand or TemplateSlotType.OffHand or TemplateSlotType.AltOffHand or TemplateSlotType.PvpAmulet) :
+                    slot.Slot is not TemplateSlotType.PvpAmulet and not TemplateSlotType.PvpRelic;
             }
         }
 
@@ -410,14 +421,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage
             {
                 TemplatePresenter.GameMode = TemplatePresenter.IsPve ? GameModeType.PvP : GameModeType.PvE;
 
-                foreach (var slot in _templateSlots.Values)
-                {
-                    slot.Visible =
-                        (slot.Slot is not TemplateSlotType.AltAquatic || TemplatePresenter.Template.Profession is not ProfessionType.Engineer and not ProfessionType.Elementalist) &&
-                        (TemplatePresenter.IsPve == false
-                        ? slot.Slot is TemplateSlotType.MainHand or TemplateSlotType.AltMainHand or TemplateSlotType.OffHand or TemplateSlotType.AltOffHand or TemplateSlotType.PvpAmulet
-                        : slot.Slot is not TemplateSlotType.PvpAmulet);
-                }
+                SetVisibility();
             }
 
             if (_framedSpecIcon?.MouseOver == true)

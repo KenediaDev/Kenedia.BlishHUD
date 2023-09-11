@@ -1,17 +1,22 @@
-﻿using Blish_HUD.Input;
+﻿using Blish_HUD;
+using Blish_HUD.Input;
 using Kenedia.Modules.BuildsManager.Controls.GearPage;
 using Kenedia.Modules.BuildsManager.DataModels.Items;
 using Kenedia.Modules.BuildsManager.Models.Templates;
+using Kenedia.Modules.BuildsManager.Res;
+using Kenedia.Modules.Core.Controls;
+using Kenedia.Modules.Core.Extensions;
 using Kenedia.Modules.Core.Utility;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.ComponentModel;
 
 namespace Kenedia.Modules.BuildsManager.Controls.Selection
 {
-    public class Selectable : Blish_HUD.Controls.Container
+    public class Selectable : Panel
     {
-        private readonly ItemControl _itemControl = new();
+        private readonly ItemControl _itemControl = new() { CaptureInput  = false,};
         private Rectangle _iconBounds;
         private Rectangle _nameBounds;
         private Rectangle _descriptionBounds;
@@ -19,14 +24,23 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
         private Color RarityColor = Color.White;
         private BaseItem _item;
         private SelectableType _type;
+        private Color _fontColor;
 
         public Selectable()
         {
-            Size = new(64, 64);
+            Height = 36;
             BackgroundColor = Color.Black * 0.2F;
+            BorderColor = Color.Black;
+            BorderWidth = new(2);            
 
             _itemControl.Parent = this;
-            _itemControl.Size = new(64);
+            _itemControl.Location = new(BorderWidth.Left, BorderWidth.Top);
+            _itemControl.Size = new(Height - BorderWidth.Vertical);
+
+            Tooltip = new ItemTooltip()
+            {
+                SetLocalizedComment = () => Environment.NewLine + strings.ItemControlClickToCopyItem,
+            };
         }
 
         public enum TargetType
@@ -63,8 +77,10 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
         {
             base.RecalculateLayout();
 
+            _itemControl.Size = new(Height - BorderWidth.Vertical);
+
             _iconBounds = new Rectangle(3, 3, Height - 6, Height - 6);
-            _nameBounds = new Rectangle(_iconBounds.Right + 10, 3, Width - _iconBounds.Right, Content.DefaultFont16.LineHeight * 2);
+            _nameBounds = new Rectangle(_itemControl.Right + 5, 0, Width - _itemControl.Right, Height);
             _descriptionBounds = new Rectangle(_nameBounds.Left, _nameBounds.Bottom + 3, _nameBounds.Width, Height - 3 - _nameBounds.Bottom);
         }
         
@@ -82,7 +98,12 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
         private void SetItem()
         {
             _itemControl.Item = Item;
+            _fontColor = Item?.Rarity.GetColor() ?? Color.White;
 
+            if (Tooltip is ItemTooltip itemTooltip)
+            {
+                itemTooltip.Item = Item;
+            }
             //string txt = Item == null ? null : Item.Name + $" [{Item.Id}] " + (Item.Type == Gw2Sharp.WebApi.V2.Models.ItemType.Weapon ? Environment.NewLine + (Item as Weapon).WeaponType.ToSkillWeapon() : string.Empty);
 
             //if (Item is not null && !string.IsNullOrEmpty(Item.DisplayText))
@@ -91,6 +112,13 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
             //}
 
             //BasicTooltipText = txt;
+        }
+
+        public override void PaintAfterChildren(SpriteBatch spriteBatch, Rectangle bounds)
+        {
+            base.PaintAfterChildren(spriteBatch, bounds);
+
+            spriteBatch.DrawStringOnCtrl(this, Item?.Name, Content.DefaultFont14, _nameBounds, _fontColor, false, Blish_HUD.Controls.HorizontalAlignment.Left, Blish_HUD.Controls.VerticalAlignment.Middle);
         }
 
         protected override void DisposeControl()

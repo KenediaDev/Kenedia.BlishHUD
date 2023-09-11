@@ -5,28 +5,30 @@ using System;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Kenedia.Modules.Core.Models;
+using System.IO;
 
 namespace Kenedia.Modules.BuildsManager.Services
 {
     public class StaticHosting
     {
-        public static string BaseUrl = "https://bhm.blishhud.com/Kenedia.Modules.BuildsManager/";
-        public static string Url = "https://bhm.blishhud.com/Kenedia.Modules.BuildsManager/Version.json";
+        public static string BaseUrl = "https://raw.githubusercontent.com/KenediaDev/Kenedia.BlishHUD/bhud-static/Kenedia.Modules.BuildsManager/";
+        public static string xBaseUrl = "https://bhm.blishhud.com/Kenedia.Modules.BuildsManager/";
 
         public async static Task<StaticVersion> GetStaticVersion()
         {
+            string url = $"{BaseUrl}DataMap.json";
             string content = string.Empty;
             try
             {
                 using var httpClient = new HttpClient();
-                content = await httpClient.GetStringAsync(Url);
+                content = await httpClient.GetStringAsync(url);
 
                 var info = JsonConvert.DeserializeObject<StaticVersion>(content, SerializerSettings.Default);
                 return info;
             }
             catch(Exception ex)
             {
-                BuildsManager.Logger.Warn($"Failed to get versions from {Url}");
+                BuildsManager.Logger.Warn($"Failed to get versions from {url}");
                 BuildsManager.Logger.Warn($"Fetched content: {content}");
                 BuildsManager.Logger.Warn($"{ex}");
             }

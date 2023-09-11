@@ -18,7 +18,16 @@ namespace Kenedia.Modules.BuildsManager.Services
     {
         protected bool DataLoaded = false;
 
-        public Version Version { get; set; } = new(0, 0, 0);
+        public Version Version
+        {
+            get => Map?.Version; set
+            {
+                if (Map != null)
+                {
+                    Map.Version = value;
+                }
+            }
+        }
 
         [DataMember]
         [JsonProperty("Version")]
@@ -35,7 +44,7 @@ namespace Kenedia.Modules.BuildsManager.Services
 
         public ByteIntMap Map { get; set; }
 
-        public virtual Task<bool> LoadAndUpdate(string name, Version version, string path, Gw2ApiManager gw2ApiManager, System.Threading.CancellationToken token)
+        public virtual Task<bool> LoadAndUpdate(string name, ByteIntMap map, string path, Gw2ApiManager gw2ApiManager, System.Threading.CancellationToken token)
         {
             return Task.FromResult(false);
         }

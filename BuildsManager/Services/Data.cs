@@ -150,7 +150,10 @@ namespace Kenedia.Modules.BuildsManager.Services
         public ItemMappedDataEntry<PowerCore> PowerCores { get; } = new();
 
         [EnumeratorMember]
-        public ItemMappedDataEntry<Relic> Relics { get; } = new();
+        public ItemMappedDataEntry<Relic> PveRelics { get; } = new();
+
+        [EnumeratorMember]
+        public ItemMappedDataEntry<Relic> PvpRelics { get; } = new();
 
         [EnumeratorMember]
         public ItemMappedDataEntry<Enhancement> Enhancements { get; } = new();
@@ -230,7 +233,7 @@ namespace Kenedia.Modules.BuildsManager.Services
                     bool success = await map.LoadAndUpdate(name, versions[name], path, _gw2ApiManager, _cancellationTokenSource.Token);
                     failed = failed || !success;
 
-                    loadStatus += $"{Environment.NewLine}{name}: {success} [{map?.Version?.ToString() ?? "0.0.0"} | {versions[name]}] ";
+                    loadStatus += $"{Environment.NewLine}{name}: {success} [{map?.Version?.ToString() ?? "0.0.0"} | {versions[name].Version}] ";
                 }
 
                 if (!failed)

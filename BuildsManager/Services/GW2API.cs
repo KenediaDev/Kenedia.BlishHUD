@@ -171,7 +171,8 @@ namespace Kenedia.Modules.BuildsManager.Services
                 _cancellationTokenSource?.Cancel();
                 _cancellationTokenSource = new CancellationTokenSource();
 
-                var MapCollection = new ByteIntMapCollection(_paths);
+                var version = new SemVer.Version(versionString);
+                var MapCollection = new StaticVersion(version);
                 var raw_itemids = await _gw2ApiManager.Gw2ApiClient.V2.Items.IdsAsync(_cancellationTokenSource.Token);
                 var invalidIds = new List<int>()
                 {
@@ -271,9 +272,10 @@ namespace Kenedia.Modules.BuildsManager.Services
                                         default:
                                             if (item.Type.ToString() == "Mwcc")
                                             {
-                                                maps.Add(MapCollection.Relics);
+                                                if (item.GameTypes.FirstOrDefault(e => e.Value == ItemGameType.Pvp) is not null) maps.Add(MapCollection.PveRelics);
+                                                if (item.GameTypes.FirstOrDefault(e => e.Value == ItemGameType.Pve) is not null) maps.Add(MapCollection.PvpRelics);
                                             }
-                                            else if (item.Type == Gw2Sharp.WebApi.V2.Models.ItemType.PowerCore)
+                                            else if (item.Type == ItemType.PowerCore)
                                             {
                                                 maps.Add(MapCollection.PowerCores);
                                             }
@@ -337,18 +339,7 @@ namespace Kenedia.Modules.BuildsManager.Services
                     }
                 }
 
-                var version = new SemVer.Version(versionString);
-                foreach (var map in MapCollection)
-                {
-                    if (map.Value is not null)
-                        map.Value.Version = version;
-                }
-
-                MapCollection.Save();
-
-                var versionFile = new StaticVersion(version);
-                string json = JsonConvert.SerializeObject(versionFile, SerializerSettings.Default);
-                File.WriteAllText($@"{Paths.ModuleDataPath}itemmap\Version.json", json);
+                MapCollection.Save($@"{Paths.ModuleDataPath}DataMap.json");
             }
             catch
             {

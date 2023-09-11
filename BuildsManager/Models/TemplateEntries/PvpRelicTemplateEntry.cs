@@ -8,13 +8,14 @@ using System;
 
 namespace Kenedia.Modules.BuildsManager.TemplateEntries
 {
-    public class RelicTemplateEntry : TemplateEntry, IDisposable
+    public class PvpRelicTemplateEntry : TemplateEntry, IDisposable
     {
         private bool _isDisposed;
         private Relic _relic;
 
-        public RelicTemplateEntry(TemplateSlotType slot) : base(slot)
+        public PvpRelicTemplateEntry(TemplateSlotType slot) : base(slot)
         {
+
         }
 
         public event EventHandler<ValueChangedEventArgs<Relic>> RelicChanged;
@@ -37,10 +38,12 @@ namespace Kenedia.Modules.BuildsManager.TemplateEntries
         public override byte[] GetFromCodeArray(byte[] array)
         {
             int newStartIndex = 1;
+            if (array is not null && array.Length > 0)
+            {
+                Relic = BuildsManager.Data.PvpRelics.Values.Where(e => e.MappedId == array[0]).FirstOrDefault();
+            }
 
-            Relic = BuildsManager.Data.Relics.Values.Where(e => e.MappedId == array[0]).FirstOrDefault();
-
-            return GearTemplateCode.RemoveFromStart(array, newStartIndex);
+            return array is not null && array.Length > 0 ? GearTemplateCode.RemoveFromStart(array, newStartIndex) : array;
         }
 
         public void Dispose()

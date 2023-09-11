@@ -374,8 +374,9 @@
     <Compile Include="Models\TemplateEntries\BackTemplateEntry.cs" />
     <Compile Include="Models\TemplateEntries\PowerCoreTemplateEntry.cs" />
     <Compile Include="Models\TemplateEntries\NourishmentTemplateEntry.cs" />
+    <Compile Include="Models\TemplateEntries\PvpRelicTemplateEntry.cs" />
     <Compile Include="Models\TemplateEntries\PvpAmuletTemplateEntry.cs" />
-    <Compile Include="Models\TemplateEntries\RelicTemplateEntry.cs" />
+    <Compile Include="Models\TemplateEntries\PveRelicTemplateEntry.cs" />
     <Compile Include="Models\TemplateEntries\RingTemplateEntry.cs" />
     <Compile Include="Models\TemplateEntries\TemplateEntry.cs" />
     <Compile Include="Models\TemplateEntries\EnhancementTemplateEntry.cs" />

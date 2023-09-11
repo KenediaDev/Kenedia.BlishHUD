@@ -13,6 +13,7 @@ using Kenedia.Modules.BuildsManager.Extensions;
 using Kenedia.Modules.BuildsManager.TemplateEntries;
 using static Kenedia.Modules.BuildsManager.Controls.Selection.SelectionPanel;
 using Kenedia.Modules.BuildsManager.Res;
+using System.Diagnostics;
 
 namespace Kenedia.Modules.BuildsManager.Controls.GearPage.GearSlots
 {
@@ -30,6 +31,8 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage.GearSlots
             ItemControl.Placeholder.TextureRegion = new(38, 38, 52, 52);
             ItemColor = Color.White;
         }
+
+        public RelicSlot PairedSlot { get; set; }
 
         public override void RecalculateLayout()
         {
@@ -51,8 +54,14 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage.GearSlots
         {
             base.SetItems(sender, e);
 
-            var relic = TemplatePresenter?.Template?[Slot] as RelicTemplateEntry;
-            Item = relic?.Relic;
+            if (TemplatePresenter?.Template?[Slot] is PveRelicTemplateEntry pveRelic)
+            {
+                Item = pveRelic.Relic;
+            }
+            else if (TemplatePresenter?.Template?[Slot] is PvpRelicTemplateEntry pvpRelic)
+            {
+                Item = pvpRelic.Relic;
+            }
         }
 
         protected override void OnClick(MouseEventArgs e)
@@ -74,8 +83,11 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage.GearSlots
             _relicName = Item?.Name ?? strings.Relic;
             _relicDescription = Item?.Description ?? string.Empty;
 
-            if (TemplatePresenter?.Template[Slot] is RelicTemplateEntry entry)
-                entry.Relic = Item as Relic;
+            if (TemplatePresenter?.Template[Slot] is PveRelicTemplateEntry pveRelic)
+                pveRelic.Relic = Item as Relic;
+
+            if (TemplatePresenter?.Template[Slot] is PvpRelicTemplateEntry pvpRelic)
+                pvpRelic.Relic = Item as Relic;
         }
 
         protected override void CreateSubMenus()
@@ -83,6 +95,27 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage.GearSlots
             base.CreateSubMenus();
 
             CreateSubMenu(() => strings.Reset, () => string.Format(strings.ResetEntry, strings.Relic), () => Item = null);
+        }
+
+        protected override void GameModeChanged(object sender, Core.Models.ValueChangedEventArgs<GameModeType> e)
+        {
+            var a = SelectionPanel?.Anchor;
+
+            if (a is not null && Children?.Contains(a) is true)
+            {
+                if ((e.NewValue is GameModeType.PvP && Slot is TemplateSlotType.PveRelic) || (e.NewValue is GameModeType.PvE && Slot is TemplateSlotType.PvpRelic))
+                {
+                    if (PairedSlot is not null)
+                    {
+                        var b = PairedSlot.AbsoluteBounds;
+                        SelectionPanel?.SetAnchor<Relic>(PairedSlot.ItemControl, new Rectangle(b.Location, Point.Zero).Add(PairedSlot.ItemControl.LocalBounds), SelectionTypes.Items, PairedSlot.Slot, GearSubSlotType.Item, (relic) => Item = relic);
+                    }
+                }
+            }
+            else
+            {
+                base.GameModeChanged(sender, e);
+            }
         }
     }
 }
