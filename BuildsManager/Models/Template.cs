@@ -1349,7 +1349,7 @@ namespace Kenedia.Modules.BuildsManager.Models
         {
             // Check and clean invalid Weapons?
             var wipeWeapons = new List<TemplateSlotType>();
-            var professionWeapons = BuildsManager.Data.Professions[Profession].Weapons.Select(e => e.Value.Type.ToItemWeaponType()).ToList() ?? new();
+            var professionWeapons = BuildsManager.Data.Professions[Profession]?.Weapons.Select(e => e.Value.Type.ToItemWeaponType()).ToList() ?? new();
 
             foreach (var slot in Weapons)
             {

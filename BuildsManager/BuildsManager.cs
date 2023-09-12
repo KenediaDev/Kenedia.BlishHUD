@@ -166,7 +166,7 @@ namespace Kenedia.Modules.BuildsManager
 
             //await GW2API.UpdateMappedIds("0.0.5");
 
-            //LoadTemplates();
+            LoadTemplates();
             base.ReloadKey_Activated(sender, e);
             //var list = new List<(string name, int id, byte mapid)>();
 

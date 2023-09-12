@@ -18,6 +18,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using FlowPanel = Kenedia.Modules.Core.Controls.FlowPanel;
 using Panel = Kenedia.Modules.Core.Controls.Panel;
@@ -273,6 +274,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
         {
             SetSelectionTextures();
             SetProfessionSpecifics();
+            _buildCodeBox.Text = TemplatePresenter?.Template?.ParseBuildCode();
         }
 
         private void TemplatePresenter_TemplateChanged(object sender, Core.Models.ValueChangedEventArgs<Template> e)
