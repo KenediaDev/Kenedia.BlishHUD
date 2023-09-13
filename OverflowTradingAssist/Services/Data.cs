@@ -12,6 +12,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Kenedia.Modules.Core.Controls;
 using Kenedia.Modules.Core.Utility;
+using Kenedia.Modules.Core.Models;
 
 namespace Kenedia.Modules.OverflowTradingAssist.Services
 {
@@ -22,6 +23,8 @@ namespace Kenedia.Modules.OverflowTradingAssist.Services
         private readonly Func<LoadingSpinner> _spinner;
         private readonly Paths _paths;
         private CancellationTokenSource _cancellationTokenSource;
+
+        private StatusType _dataStatus = StatusType.None;
 
         public Data(Paths paths, Gw2ApiManager gw2ApiManager, Func<Core.Controls.NotificationBadge> notificationBadge, Func<LoadingSpinner> spinner)
         {
@@ -91,9 +94,10 @@ namespace Kenedia.Modules.OverflowTradingAssist.Services
                     if (_notificationBadge?.Invoke() is NotificationBadge badge)
                     {
                         var endTime = DateTime.Now.AddMinutes(3);
-                        badge.AddNotification(new($"Failed to get the version file. Retry at {DateTime.Now.AddMinutes(3):T}", () => DateTime.Now >= endTime));
+                        badge.AddNotification(new($"Failed to get the version file. Retry at {DateTime.Now.AddMinutes(3):T}", () => DateTime.Now >= endTime || _dataStatus == StatusType.Success));
                     }
 
+                    _dataStatus = StatusType.Error;
                     spinner?.Hide();
                     return false;
                 }
@@ -114,15 +118,17 @@ namespace Kenedia.Modules.OverflowTradingAssist.Services
                 {
                     OverflowTradingAssist.Logger.Info("All data loaded!");
                     Loaded?.Invoke(this, EventArgs.Empty);
+                    _dataStatus = StatusType.Success;
                 }
                 else
                 {
                     if (_notificationBadge?.Invoke() is NotificationBadge badge)
                     {
+                        _dataStatus = StatusType.Error;
                         string txt = $"Failed to load some data. Click to retry.{Environment.NewLine}Automatic retry at {DateTime.Now.AddMinutes(3):T}{loadStatus}";
 
                         var endTime = DateTime.Now.AddMinutes(3);
-                        badge.AddNotification(new(txt, () => DateTime.Now >= endTime));
+                        badge.AddNotification(new(txt, () => DateTime.Now >= endTime || _dataStatus == StatusType.Success));
 
                         OverflowTradingAssist.Logger.Info(txt);
                     }

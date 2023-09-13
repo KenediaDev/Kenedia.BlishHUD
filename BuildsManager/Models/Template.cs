@@ -149,6 +149,8 @@ namespace Kenedia.Modules.BuildsManager.Models
 
             _savedBuildCode = buildCode;
             _savedGearCode = gearCode;
+
+            SetArmorItems();
         }
 
         public event EventHandler<(TemplateSlotType slot, BaseItem item, Stat stat)> TemplateSlotChanged;

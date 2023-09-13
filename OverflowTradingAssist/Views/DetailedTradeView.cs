@@ -4,6 +4,7 @@ using Kenedia.Modules.Core.Controls;
 using Kenedia.Modules.OverflowTradingAssist.Controls;
 using Kenedia.Modules.OverflowTradingAssist.Models;
 using Microsoft.Xna.Framework;
+using System;
 
 namespace Kenedia.Modules.OverflowTradingAssist.Views
 {
@@ -22,6 +23,8 @@ namespace Kenedia.Modules.OverflowTradingAssist.Views
         private ButtonImage _tradeReviewButtonImage;
 
         private Trade _trade;
+        private ItemPanel _itemsPanel;
+        private ItemPanel _paymentPanel;
 
         public DetailedTradeView(Trade trade)
         {
@@ -148,7 +151,7 @@ namespace Kenedia.Modules.OverflowTradingAssist.Views
                 ControlPadding = new(5),
             };
 
-            var itemsPanel = new ItemPanel()
+            _itemsPanel = new ItemPanel()
             {
                 Parent = fp,
                 Width = width,
@@ -158,9 +161,10 @@ namespace Kenedia.Modules.OverflowTradingAssist.Views
                 BackgroundColor = Color.Black * 0.2F,
                 BorderColor = Color.Black,
                 BorderWidth = new(2),
+                ClickAction = AddItem,
             };
 
-            var paymentPanel = new ItemPanel()
+            _paymentPanel = new ItemPanel()
             {
                 Parent = fp,
                 Width = width,
@@ -170,6 +174,7 @@ namespace Kenedia.Modules.OverflowTradingAssist.Views
                 BackgroundColor = Color.Black * 0.2F,
                 BorderColor = Color.Black,
                 BorderWidth = new(2),
+                ClickAction = AddPayment,
                 //OnCollapse = () =>
                 //{
                 //    Debug.WriteLine($"EXPAND ITEMS");
@@ -193,6 +198,24 @@ namespace Kenedia.Modules.OverflowTradingAssist.Views
             //        paymentPanel.Collapse();
             //    };
 
+        }
+
+        private void AddPayment()
+        {
+            _ = new ItemEntryControl()
+            {
+                Parent = _paymentPanel,
+                Width = _paymentPanel.Width - 25,
+            };
+        }
+
+        private void AddItem()
+        {
+            _ = new ItemEntryControl()
+            {
+                Parent = _itemsPanel,
+                Width = _itemsPanel.Width - 25,
+            };
         }
 
         private void TradeTypeImage_Click(object sender, Blish_HUD.Input.MouseEventArgs e)

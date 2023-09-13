@@ -1,4 +1,5 @@
 ﻿using Blish_HUD.Content;
+using Blish_HUD.Input;
 using Kenedia.Modules.Core.Controls;
 using Kenedia.Modules.Core.Models;
 using Kenedia.Modules.Core.Res;
@@ -33,6 +34,8 @@ namespace Kenedia.Modules.OverflowTradingAssist.Controls
 
         public AsyncTexture2D HoveredTexture { get => _texture.HoveredTexture; set => _texture.HoveredTexture = value; }
 
+        public Action ClickAction { get; set; }
+
         public override void PaintBeforeChildren(SpriteBatch spriteBatch, Rectangle bounds)
         {
             base.PaintBeforeChildren(spriteBatch, bounds);
@@ -53,13 +56,23 @@ namespace Kenedia.Modules.OverflowTradingAssist.Controls
         {
             base.UpdateContainer(gameTime);
 
-            if(_buttonImage.Hovered || _texture.Hovered)
+            if (_buttonImage.Hovered || _texture.Hovered)
             {
                 BasicTooltipText = "Add Item";
             }
             else
             {
                 BasicTooltipText = null;
+            }
+        }
+
+        protected override void OnClick(MouseEventArgs e)
+        {
+            base.OnClick(e);
+
+            if (_buttonImage.Hovered || _texture.Hovered)
+            {
+                ClickAction?.Invoke();
             }
         }
     }

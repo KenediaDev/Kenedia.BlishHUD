@@ -263,6 +263,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controls\CoinControl.cs" />
+    <Compile Include="Controls\ItemEntryControl.cs" />
     <Compile Include="Controls\ItemPanel.cs" />
     <Compile Include="Views\DetailedTradeView.cs" />
     <Compile Include="Views\DetailedTradeWindow.cs" />

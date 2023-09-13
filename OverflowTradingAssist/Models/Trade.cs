@@ -38,13 +38,15 @@ namespace Kenedia.Modules.OverflowTradingAssist.Models
 
         public string TradePartner { get => _tradePartner; set => Common.SetProperty(ref _tradePartner, value, OnTradePartnerChanged); }
 
+        public DateTime Date { get; set; } = DateTime.Now;
+
         public string ReviewLink { get; set; }
 
         public string TradeListingLink { get; set; }
 
-        public decimal Amount { get => _amount; set => Common.SetProperty(ref _amount , value, OnAmountChanged); }
+        public decimal Amount { get => _amount; set => Common.SetProperty(ref _amount, value, OnAmountChanged); }
 
-        public TradeType TradeType { get => _tradeType; set => Common.SetProperty(ref _tradeType , value, OnTradeTypeChanged); }
+        public TradeType TradeType { get => _tradeType; set => Common.SetProperty(ref _tradeType, value, OnTradeTypeChanged); }
 
         public bool IsValidTrade()
         {

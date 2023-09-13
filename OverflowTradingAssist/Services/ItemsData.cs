@@ -103,7 +103,7 @@ namespace Kenedia.Modules.OverflowTradingAssist.Services
                 stopwatch.Stop();
                 OverflowTradingAssist.Logger.Debug($"Loaded {name} in {stopwatch.ElapsedMilliseconds}ms");
 
-                DataLoaded = DataLoaded || Items.Count > 0;
+                DataLoaded = DataLoaded || Items.Count > 0;                
                 return true;
             }
             catch (Exception ex)
