@@ -21,6 +21,9 @@ namespace Kenedia.Modules.OverflowTradingAssist.Controls
 
         public ItemPanel()
         {
+            ContentPadding = new(5);
+            ControlPadding = new(2);
+
             _buttonImage = new()
             {
                 Texture = TexturesService.GetTextureFromRef(textures_common.ImageButtonBackground, nameof(textures_common.ImageButtonBackground)),
@@ -56,14 +59,7 @@ namespace Kenedia.Modules.OverflowTradingAssist.Controls
         {
             base.UpdateContainer(gameTime);
 
-            if (_buttonImage.Hovered || _texture.Hovered)
-            {
-                BasicTooltipText = "Add Item";
-            }
-            else
-            {
-                BasicTooltipText = null;
-            }
+            BasicTooltipText = _buttonImage.Hovered || _texture.Hovered ? "Add Item" : null;
         }
 
         protected override void OnClick(MouseEventArgs e)

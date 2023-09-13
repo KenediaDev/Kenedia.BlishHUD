@@ -5,6 +5,8 @@ using Kenedia.Modules.Core.Utility;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
+using System.ComponentModel;
+using System.Diagnostics;
 
 namespace Kenedia.Modules.OverflowTradingAssist.Controls
 {
@@ -46,7 +48,7 @@ namespace Kenedia.Modules.OverflowTradingAssist.Controls
                 Width = 35,
                 PlaceholderText = "0",
                 HorizontalAlignment = Blish_HUD.Controls.HorizontalAlignment.Right,
-                Text = "0",
+                Text = "0",                
                 TextChangedAction = (s) =>
                 {
                     if (int.TryParse(s.Replace(",", "").Replace(".", ""), out int silver))
@@ -77,6 +79,18 @@ namespace Kenedia.Modules.OverflowTradingAssist.Controls
             _created = true;
 
             Input.Keyboard.KeyPressed += Keyboard_KeyPressed;
+
+            PropertyChanged += CoinControl_PropertyChanged;
+        }
+
+        private void CoinControl_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == nameof(Enabled))
+            {
+                _goldCoinTextBox.Enabled = Enabled;
+                _silverCoinTextBox.Enabled = Enabled;
+                _copperCoinTextBox.Enabled = Enabled;
+            }
         }
 
         private void Keyboard_KeyPressed(object sender, Blish_HUD.Input.KeyboardEventArgs e)
@@ -123,7 +137,7 @@ namespace Kenedia.Modules.OverflowTradingAssist.Controls
         {
             if (decimal.TryParse(_goldCoinTextBox.Text, out decimal gold) && decimal.TryParse(_silverCoinTextBox.Text, out decimal silver) && decimal.TryParse(_copperCoinTextBox.Text, out decimal copper))
             {
-                _value = gold * 10000 + silver * 100 + copper;
+                _value = (gold * 10000) + (silver * 100) + copper;
                 ValueChangedAction?.Invoke(_value);
             }
         }
@@ -135,6 +149,7 @@ namespace Kenedia.Modules.OverflowTradingAssist.Controls
         public override void PaintAfterChildren(SpriteBatch spriteBatch, Rectangle bounds)
         {
             base.PaintAfterChildren(spriteBatch, bounds);
+            RecalculateLayout();
 
             _goldCoin?.Draw(this, spriteBatch);
             _silverCoin?.Draw(this, spriteBatch);

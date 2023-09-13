@@ -41,6 +41,7 @@ namespace Kenedia.Modules.OverflowTradingAssist.Controls
             Trade = trade;
 
             Trade.TradeSummaryChanged += Trade_TradeSummaryChanged;
+            Trade.TotalTradeValueChanged += Trade_TotalTradeValueChanged;
 
             FlowDirection = Blish_HUD.Controls.ControlFlowDirection.SingleLeftToRight;
             HeightSizingMode = Blish_HUD.Controls.SizingMode.AutoSize;
@@ -133,9 +134,9 @@ namespace Kenedia.Modules.OverflowTradingAssist.Controls
             _edit = new()
             {
                 Parent = _panel,
-                SetLocalizedTooltip = () => "Edit Trade",
-                Texture = AsyncTexture2D.FromAssetId(2175779),
-                HoveredTexture = AsyncTexture2D.FromAssetId(2175781),
+                SetLocalizedTooltip = () => "Details",
+                Texture = AsyncTexture2D.FromAssetId(156746),
+                HoveredTexture = AsyncTexture2D.FromAssetId(156747),
                 Size = new(32),
                 ClickAction = (b) =>
                 {
@@ -162,6 +163,11 @@ namespace Kenedia.Modules.OverflowTradingAssist.Controls
             };
 
             _isCreated = true;
+        }
+
+        private void Trade_TotalTradeValueChanged(object sender, decimal e)
+        {
+            _amountLabel.Text = string.Format("{0:#g 00s 00c}", e);
         }
 
         private void Trade_TradeSummaryChanged(object sender, Trade e)

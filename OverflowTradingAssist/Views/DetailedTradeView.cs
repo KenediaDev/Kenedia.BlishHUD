@@ -5,6 +5,8 @@ using Kenedia.Modules.OverflowTradingAssist.Controls;
 using Kenedia.Modules.OverflowTradingAssist.Models;
 using Microsoft.Xna.Framework;
 using System;
+using System.Diagnostics;
+using System.Linq;
 
 namespace Kenedia.Modules.OverflowTradingAssist.Views
 {
@@ -29,6 +31,12 @@ namespace Kenedia.Modules.OverflowTradingAssist.Views
         public DetailedTradeView(Trade trade)
         {
             _trade = trade;
+            _trade.TotalTradeValueChanged += Trade_TotalTradeValueChanged;
+        }
+
+        private void Trade_TotalTradeValueChanged(object sender, decimal e)
+        {
+            _amountNumberBox.Value = e;
         }
 
         protected override void Build(Blish_HUD.Controls.Container buildPanel)
@@ -74,7 +82,8 @@ namespace Kenedia.Modules.OverflowTradingAssist.Views
                 Width = (int)(width * 0.45F) - _tradeAmountButtonImage.Width,
                 Value = _trade.Amount,
                 Height = _tradePartnerTextBox.Height,
-                ValueChangedAction = (s) => _trade.Amount = s,
+                //ValueChangedAction = (s) => _trade.Amount = s,
+                Enabled = false,
             };
 
             _tradeReviewButtonImage = new ButtonImage()
@@ -161,7 +170,7 @@ namespace Kenedia.Modules.OverflowTradingAssist.Views
                 BackgroundColor = Color.Black * 0.2F,
                 BorderColor = Color.Black,
                 BorderWidth = new(2),
-                ClickAction = AddItem,
+                ClickAction = () => AddItem(),
             };
 
             _paymentPanel = new ItemPanel()
@@ -174,53 +183,78 @@ namespace Kenedia.Modules.OverflowTradingAssist.Views
                 BackgroundColor = Color.Black * 0.2F,
                 BorderColor = Color.Black,
                 BorderWidth = new(2),
-                ClickAction = AddPayment,
-                //OnCollapse = () =>
-                //{
-                //    Debug.WriteLine($"EXPAND ITEMS");
-                //    itemsPanel.Expand();
-                //},
-                //OnExpand = () =>
-                //{
-                //    Debug.WriteLine($"Collapse ITEMS");
-                //    itemsPanel.Collapse();
-                //},
+                ClickAction = () => AddPayment(),
             };
 
-            //itemsPanel.OnCollapse = () =>
-            //{
-            //    Debug.WriteLine($"EXPAND paymentPanel");
-            //    paymentPanel.Expand();
-            //};
-            //itemsPanel.OnExpand = () =>
-            //    {
-            //        Debug.WriteLine($"Collapse paymentPanel");
-            //        paymentPanel.Collapse();
-            //    };
+            foreach (var item in _trade.Items ?? Enumerable.Empty<ItemAmount>())
+            {
+                AddItem(item);
+            }
 
+            foreach (var item in _trade.Payment ?? Enumerable.Empty<ItemAmount>())
+            {
+                AddPayment(item);
+            }
         }
 
-        private void AddPayment()
+        private void AddPayment(ItemAmount itemAmount = null)
         {
-            _ = new ItemEntryControl()
+            itemAmount ??= new() { Item = DataModels.Item.Coin};
+
+            _ = new ItemEntryControl(itemAmount)
             {
                 Parent = _paymentPanel,
                 Width = _paymentPanel.Width - 25,
+                ItemAmount = itemAmount,
             };
+
+            itemAmount.ValueChanged += ItemAmount_ValueChanged;
+            itemAmount.DeleteRequested += ItemAmount_DeleteRequested;
+
+            if (_trade.Payment.FirstOrDefault(e => e == itemAmount) is null)
+            {
+                _trade.Payment.Add(itemAmount);
+            }
         }
 
-        private void AddItem()
+        private void AddItem(ItemAmount itemAmount = null)
         {
-            _ = new ItemEntryControl()
+            itemAmount ??= new();
+
+            _ = new ItemEntryControl(itemAmount)
             {
                 Parent = _itemsPanel,
                 Width = _itemsPanel.Width - 25,
+                ItemAmount = itemAmount,
             };
+
+            itemAmount.DeleteRequested += ItemAmount_DeleteRequested;
+            itemAmount.ValueChanged += ItemAmount_ValueChanged;
+
+            if (_trade.Items.FirstOrDefault(e => e == itemAmount) is null)
+            {
+                _trade.Items.Add(itemAmount);
+            }
+        }
+
+        private void ItemAmount_DeleteRequested(object sender, EventArgs e)
+        {
+            if (sender is ItemAmount itemAmount)
+            {
+                itemAmount.DeleteRequested -= ItemAmount_DeleteRequested;
+                itemAmount.ValueChanged -= ItemAmount_ValueChanged;
+                _ = _trade?.Items.Remove(itemAmount);
+            }
+        }
+
+        private void ItemAmount_ValueChanged(object sender, Core.Models.ValueChangedEventArgs<decimal> e)
+        {
+            _amountNumberBox.Value = _trade?.Amount ?? 0;
         }
 
         private void TradeTypeImage_Click(object sender, Blish_HUD.Input.MouseEventArgs e)
         {
-            _tradeTypeDropdown.SelectedItem = _trade.TradeType is TradeType.Buy ? "Sell" : _trade.TradeType is TradeType.Sell ? "Buy" : "None";
+            _tradeTypeDropdown.SelectedItem = _trade.TradeType is TradeType.Sell ? "Buy" : "Sell";
         }
 
         protected override void Unload()

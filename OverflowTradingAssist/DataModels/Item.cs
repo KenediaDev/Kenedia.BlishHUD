@@ -16,6 +16,26 @@ namespace Kenedia.Modules.OverflowTradingAssist.DataModels
     [DataContract]
     public class Item
     {
+        public static Item UnkownItem = new()
+        {
+            Id = 0,
+            Name = "Unknown",
+            Description = "Unknown",
+            AssetId = 960286,
+            Rarity = Gw2Sharp.WebApi.V2.Models.ItemRarity.Unknown,
+            Type = ItemType.Unknown,
+        };
+
+        public static Item Coin = new()
+        {
+            Id = 0,
+            Name = "Raw Gold",
+            Description = "Raw Gold",
+            AssetId = 156904,
+            Rarity = Gw2Sharp.WebApi.V2.Models.ItemRarity.Unknown,
+            Type = ItemType.Unknown,
+        };
+
         private AsyncTexture2D _icon;
 
         public Item()

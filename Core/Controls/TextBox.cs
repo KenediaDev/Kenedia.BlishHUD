@@ -1,4 +1,6 @@
 ﻿using Blish_HUD;
+using Blish_HUD.Controls;
+using Blish_HUD.Input;
 using Gw2Sharp.WebApi;
 using Kenedia.Modules.Core.Interfaces;
 using Kenedia.Modules.Core.Services;
@@ -14,19 +16,19 @@ namespace Kenedia.Modules.Core.Controls
 
         public TextBox()
         {
-            LocalizingService.LocaleChanged  += UserLocale_SettingChanged;
+            LocalizingService.LocaleChanged += UserLocale_SettingChanged;
             TextChanged += OnTextChanged;
             UserLocale_SettingChanged(null, null);
         }
 
-        public Func<string> SetLocalizedText 
+        public Func<string> SetLocalizedText
         {
             get => _setLocalizedText;
             set
             {
                 _setLocalizedText = value;
                 Text = value?.Invoke();
-            } 
+            }
         }
 
         public Func<string> SetLocalizedTooltip
@@ -85,6 +87,18 @@ namespace Kenedia.Modules.Core.Controls
         private void OnTextChanged(object sender, EventArgs e)
         {
             TextChangedAction?.Invoke(Text);
+        }
+
+        protected override void OnClick(MouseEventArgs e)
+        {
+            if (!Enabled) return;
+
+            base.OnClick(e);
+        }
+
+        protected override CaptureType CapturesInput()
+        {
+            return Enabled ? base.CapturesInput() : CaptureType.None;   
         }
     }
 }

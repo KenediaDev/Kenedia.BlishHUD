@@ -8,6 +8,7 @@ using OfficeOpenXml;
 using OfficeOpenXml.LoadFunctions.Params;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Drawing.Text;
 using System.IO;
@@ -147,29 +148,12 @@ namespace Kenedia.Modules.OverflowTradingAssist.Services
                         // Access the worksheets in the Excel package
                         ExcelWorksheet worksheet = package.Workbook.Worksheets[0]; // You can specify the worksheet index or name
 
-                        static List<ItemAmount> GetItems(string items)
+                        static ObservableCollection<ItemAmount> GetItems(string items)
                         {
-                            var list = new List<ItemAmount>();
+                            var list = new ObservableCollection<ItemAmount>();
                             try
                             {
-                                foreach (string sub in items.Split(','))
-                                {
-                                    string[] s = sub.Split('|');
-                                    if (s.Length > 1)
-                                    {
-                                        int amount = int.TryParse(s[0], out int value) ? value : 0;
-                                        var item = int.TryParse(s[1], out int itemId) ? OverflowTradingAssist.Data.Items.Items.FirstOrDefault(i => i.Id == itemId) : null;
 
-                                        if (item is not null)
-                                        {
-                                            list.Add(new()
-                                            {
-                                                Amount = amount,
-                                                Item = item,
-                                            });
-                                        }
-                                    }
-                                }
                             }
                             catch
                             {
@@ -193,12 +177,13 @@ namespace Kenedia.Modules.OverflowTradingAssist.Services
                             trades.Add(t = new()
                             {
                                 TradePartner = worksheet.Cells[i, s_tradePartner].Text,
-                                Amount = decimal.Parse(worksheet.Cells[i, s_tradeAmount].Value.ToString()),
                                 ReviewLink = worksheet.Cells[i, s_reviewLink].Text,
                                 TradeListingLink = worksheet.Cells[i, s_tradeListingLink].Text,
-                                Items = GetItems(worksheet.Cells[i, s_guuid].Text),
                                 Id = Guid.Parse(worksheet.Cells[i, s_guuid].Text),
                             });
+
+                            t.Items.Add(new() { Item = DataModels.Item.UnkownItem, Value = decimal.Parse(worksheet.Cells[i, s_tradeAmount].Value.ToString()) });
+                            t.Payment.Add(new() { Item = DataModels.Item.Coin, Value = decimal.Parse(worksheet.Cells[i, s_tradeAmount].Value.ToString()) });
                         }
 
                         _loadTradeStatus = StatusType.Success;

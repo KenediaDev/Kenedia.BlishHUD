@@ -5,9 +5,11 @@ using Blish_HUD.Input;
 using Gw2Sharp.WebApi;
 using Kenedia.Modules.Core.Interfaces;
 using Kenedia.Modules.Core.Services;
+using Kenedia.Modules.Core.Utility;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
+using System.Diagnostics;
 
 namespace Kenedia.Modules.Core.Controls
 {
@@ -26,6 +28,7 @@ namespace Kenedia.Modules.Core.Controls
         private string _lastText = $"{0}";
         private int _value;
         private Func<string> _setLocalizedTooltip;
+        private bool _showButtons = true;
 
         public NumberBox()
         {
@@ -37,7 +40,7 @@ namespace Kenedia.Modules.Core.Controls
             Width = 100;
             Height = 20;
 
-            LocalizingService.LocaleChanged  += UserLocale_SettingChanged;
+            LocalizingService.LocaleChanged += UserLocale_SettingChanged;
             UserLocale_SettingChanged(null, null);
         }
 
@@ -71,6 +74,8 @@ namespace Kenedia.Modules.Core.Controls
             }
         }
 
+        public bool ShowButtons { get => _showButtons; set => Common.SetProperty(ref _showButtons, value, RecalculateLayout); }
+
         public int Step { get; set; } = 1;
 
         public int MaxValue { get; set; } = int.MaxValue;
@@ -83,10 +88,11 @@ namespace Kenedia.Modules.Core.Controls
 
             int size = Math.Min(Height, Width);
 
-            _addRectangle = new(Width - size, (Height - size) / 2, size, size);
-            _minusRectangle = new(Width - (size * 2), (Height - size) / 2, size, size);
+            _addRectangle = ShowButtons ? new(Width - size, (Height - size) / 2, size, size) : Rectangle.Empty;
+            _minusRectangle = ShowButtons ? new(Width - (size * 2), (Height - size) / 2, size, size) : Rectangle.Empty;
+            int spacing = ShowButtons ? 2 : 0;
 
-            _inputField.Width = Math.Max(0, Width - (size * 2) - 2);
+            _inputField.Width = Math.Max(0, Width - (_addRectangle.Width + _minusRectangle.Width) - spacing);
             _inputField.Height = Height;
         }
 
@@ -94,28 +100,31 @@ namespace Kenedia.Modules.Core.Controls
         {
             base.PaintAfterChildren(spriteBatch, bounds);
 
-            if (_addRectangle.Width > 0 && _addRectangle.Height > 0)
+            if (ShowButtons)
             {
-                spriteBatch.DrawOnCtrl(
+                if (_addRectangle.Width > 0 && _addRectangle.Height > 0)
+                {
+                    spriteBatch.DrawOnCtrl(
+                        this,
+                        _addRectangle.Contains(RelativeMousePosition) ? _addButtonHovered : _addButton,
+                        _addRectangle,
+                        new(6, 6, 20, 20),
+                        Color.White,
+                        0f,
+                        default);
+                }
+
+                if (_minusRectangle.Width > 0 && _minusRectangle.Height > 0)
+                {
+                    spriteBatch.DrawOnCtrl(
                     this,
-                    _addRectangle.Contains(RelativeMousePosition) ? _addButtonHovered : _addButton,
-                    _addRectangle,
+                    _minusRectangle.Contains(RelativeMousePosition) ? _minusButtonHovered : _minusButton,
+                    _minusRectangle,
                     new(6, 6, 20, 20),
                     Color.White,
                     0f,
                     default);
-            }
-
-            if (_minusRectangle.Width > 0 && _minusRectangle.Height > 0)
-            {
-                spriteBatch.DrawOnCtrl(
-                this,
-                _minusRectangle.Contains(RelativeMousePosition) ? _minusButtonHovered : _minusButton,
-                _minusRectangle,
-                new(6, 6, 20, 20),
-                Color.White,
-                0f,
-                default);
+                }
             }
         }
 
