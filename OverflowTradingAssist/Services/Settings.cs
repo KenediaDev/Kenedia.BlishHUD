@@ -17,6 +17,7 @@ namespace Kenedia.Modules.OverflowTradingAssist.Services
 
             ShowCornerIcon = internalSettings.DefineSetting(nameof(ShowCornerIcon), true);
             SheetInitialized = internalSettings.DefineSetting(nameof(SheetInitialized), false);
+            TradesInitialized = internalSettings.DefineSetting(nameof(TradesInitialized), false);
 
             //Temporary
             ToggleWindowKey = settings.DefineSetting(nameof(ToggleWindowKey), new KeyBinding(ModifierKeys.Shift, Keys.B),
@@ -27,6 +28,8 @@ namespace Kenedia.Modules.OverflowTradingAssist.Services
         public SettingEntry<bool> ShowCornerIcon { get; set; }
 
         public SettingEntry<bool> SheetInitialized { get; set; }
+
+        public SettingEntry<bool> TradesInitialized { get; set; }
 
         public SettingEntry<KeyBinding> ToggleWindowKey { get; set; }
     }

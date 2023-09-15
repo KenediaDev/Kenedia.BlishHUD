@@ -267,6 +267,7 @@
     <Compile Include="Controls\ItemPanel.cs" />
     <Compile Include="Models\ItemAmount.cs" />
     <Compile Include="Models\TradeType.cs" />
+    <Compile Include="Services\TradeFileService.cs" />
     <Compile Include="Views\DetailedTradeView.cs" />
     <Compile Include="Views\DetailedTradeWindow.cs" />
     <Compile Include="Controls\ItemControl.cs" />
@@ -286,7 +287,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>strings.resx</DependentUpon>
     </Compile>
-    <Compile Include="Services\ExcelManipulation.cs" />
+    <Compile Include="Services\ExcelService.cs" />
     <Compile Include="Services\ItemsData.cs" />
     <Compile Include="Services\MailingService.cs" />
     <Compile Include="Services\Settings.cs" />

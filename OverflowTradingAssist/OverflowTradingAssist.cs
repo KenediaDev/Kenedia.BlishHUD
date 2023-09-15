@@ -43,7 +43,9 @@ namespace Kenedia.Modules.OverflowTradingAssist
 
         public static Data Data { get; set; }
 
-        public ExcelManipulation ExcelManipulation { get; set; }
+        public ExcelService ExcelService { get; set; }
+
+        public TradeFileService TradeFileService { get; set; }
 
         public MailingService MailingService { get; set; }
 
@@ -73,15 +75,47 @@ namespace Kenedia.Modules.OverflowTradingAssist
             Logger.Info($"Starting {Name} v." + Version.BaseVersion());
 
             Data = new(Paths, Gw2ApiManager, () => _notificationBadge, () => _apiSpinner);
-            ExcelManipulation = new(Paths, Gw2ApiManager, () => _notificationBadge, () => _apiSpinner, Trades);
+
+            ExcelService = new(Paths, Gw2ApiManager, () => _notificationBadge, () => _apiSpinner, Trades);
+            TradeFileService = new(Paths, Gw2ApiManager, () => _notificationBadge, () => _apiSpinner, Trades);
+
             MailingService = new();
 
             Data.Loaded += Data_Loaded;
+            Gw2ApiManager.SubtokenUpdated += Gw2ApiManager_SubtokenUpdated;
+        }
+
+        private void Gw2ApiManager_SubtokenUpdated(object sender, ValueEventArgs<IEnumerable<Gw2Sharp.WebApi.V2.Models.TokenPermission>> e)
+        {
+            if (Data.IsLoaded)
+                LoadTrades();
         }
 
         private void Data_Loaded(object sender, EventArgs e)
         {
-            ExcelManipulation.Load();
+            LoadTrades();
+        }
+
+        private async void LoadTrades()
+        {
+            if (await ExcelService.Load() is List<Trade> excelTrades)
+            {
+                if (await TradeFileService.Load() is List<Trade> jsonTrades)
+                {
+                    var excel = excelTrades.ToDictionary(e => e.Id, e => e);
+                    var json = jsonTrades.ToDictionary(e => e.Id, e => e);
+
+                    foreach (var item in excel)
+                    {
+                        if (json.ContainsKey(item.Key))
+                        {
+                            item.Value.SetDetails(json[item.Key]);
+                        }
+
+                        Trades.Add(item.Value);
+                    }
+                }
+            }
         }
 
         protected override async void ReloadKey_Activated(object sender, EventArgs e)
@@ -112,7 +146,7 @@ namespace Kenedia.Modules.OverflowTradingAssist
         protected override async Task LoadAsync()
         {
             await base.LoadAsync();
-            _ = Task.Run(Data.Load);            
+            _ = Task.Run(Data.Load);
         }
 
         protected override void OnModuleLoaded(EventArgs e)
@@ -144,6 +178,8 @@ namespace Kenedia.Modules.OverflowTradingAssist
             {
                 _tick = gameTime.TotalGameTime.TotalMilliseconds;
 
+                _ = Task.Run(() => ExcelService?.SaveChanges());
+                _ = Task.Run(() => TradeFileService?.SaveChanges());
             }
         }
 
@@ -154,7 +190,7 @@ namespace Kenedia.Modules.OverflowTradingAssist
 
         protected override void LoadGUI()
         {
-            if (!Data.IsLoaded || !ExcelManipulation.IsLoaded) return;
+            if (!Data.IsLoaded || !ExcelService.IsLoaded || !TradeFileService.IsLoaded) return;
 
             base.LoadGUI();
 
@@ -226,17 +262,24 @@ namespace Kenedia.Modules.OverflowTradingAssist
                 ClickAction = () =>
                 {
 
-                    Debug.WriteLine($"Load Data");
                     if (!Data.IsLoaded)
                     {
+                        Debug.WriteLine($"Load Data");
                         _ = Task.Run(() => Data.Load(true));
                         return;
                     }
 
-                    Debug.WriteLine($"Load ExcelManipulation");
-                    if(!ExcelManipulation.IsLoaded)
+                    if (!ExcelService.IsLoaded)
                     {
-                        _ = Task.Run(ExcelManipulation.Load);
+                        Debug.WriteLine($"Load ExcelManipulation");
+                        _ = Task.Run(ExcelService.Load);
+                        return;
+                    }
+
+                    if (!TradeFileService.IsLoaded)
+                    {
+                        Debug.WriteLine($"Load Json");
+                        _ = Task.Run(TradeFileService.Load);
                         return;
                     }
 

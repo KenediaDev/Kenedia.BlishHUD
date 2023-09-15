@@ -3,6 +3,7 @@ using Gw2Sharp.WebApi.V2.Models;
 using Kenedia.Modules.Core.Controls;
 using Kenedia.Modules.Core.Extensions;
 using Kenedia.Modules.Core.Models;
+using Kenedia.Modules.Core.Utility;
 using Kenedia.Modules.OverflowTradingAssist.Models;
 using OfficeOpenXml;
 using OfficeOpenXml.LoadFunctions.Params;
@@ -19,7 +20,7 @@ using File = System.IO.File;
 
 namespace Kenedia.Modules.OverflowTradingAssist.Services
 {
-    public class ExcelManipulation
+    public class ExcelService
     {
         private static readonly int s_tradePartner = 1;
         private static readonly int s_tradeAmount = 2;
@@ -38,32 +39,24 @@ namespace Kenedia.Modules.OverflowTradingAssist.Services
         private StatusType _loadTradeStatus;
         private StatusType _saveTradeStatus;
 
-        public ExcelManipulation(Paths paths, Gw2ApiManager gw2ApiManager, Func<NotificationBadge> notificationBadge, Func<LoadingSpinner> spinner, List<Trade> trades)
+        private double _lastSave = double.MinValue;
+
+        public ExcelService(Paths paths, Gw2ApiManager gw2ApiManager, Func<NotificationBadge> notificationBadge, Func<LoadingSpinner> spinner, List<Trade> trades)
         {
             _paths = paths;
             _gw2ApiManager = gw2ApiManager;
             _notificationBadge = notificationBadge;
             _spinner = spinner;
             _trades = trades;
-            _gw2ApiManager.SubtokenUpdated += Gw2ApiManager_SubtokenUpdated;
 
             ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
         }
 
+        public event EventHandler Loaded;
+
         public bool IsReady { get; private set; }
 
         public bool IsLoaded { get; private set; }
-
-        private async void Gw2ApiManager_SubtokenUpdated(object sender, Blish_HUD.ValueEventArgs<IEnumerable<TokenPermission>> e)
-        {
-            try
-            {
-                _ = await Load();
-            }
-            catch
-            {
-            }
-        }
 
         public async Task<bool> EnsureFileExists()
         {
@@ -119,18 +112,25 @@ namespace Kenedia.Modules.OverflowTradingAssist.Services
 
         public async void Test() { }
 
-        public async Task<bool> Load()
+        public async Task<List<Trade>> Load()
         {
-            return OverflowTradingAssist.ModuleInstance.Settings.SheetInitialized.Value is not true
-                ? (OverflowTradingAssist.ModuleInstance.Settings.SheetInitialized.Value = await InitializeFile())
-                : await LoadTrades();
+            if (!OverflowTradingAssist.ModuleInstance.Settings.SheetInitialized.Value)
+            {
+                if (await InitializeFile() is List<Trade> trades)
+                {
+                    OverflowTradingAssist.ModuleInstance.Settings.SheetInitialized.Value = true;
+                    return trades;
+                }
+            }
+
+            return await LoadTrades();
         }
 
-        public async Task<bool> LoadTrades()
+        public async Task<List<Trade>> LoadTrades()
         {
-            if (_trades is List<Trade> trades && await EnsureFileExists())
+            if (await EnsureFileExists())
             {
-                trades.Clear();
+                var trades = new List<Trade>();
 
                 try
                 {
@@ -173,13 +173,13 @@ namespace Kenedia.Modules.OverflowTradingAssist.Services
                         {
                             Trade t;
                             //Load Trades
-
                             trades.Add(t = new()
                             {
                                 TradePartner = worksheet.Cells[i, s_tradePartner].Text,
                                 ReviewLink = worksheet.Cells[i, s_reviewLink].Text,
                                 TradeListingLink = worksheet.Cells[i, s_tradeListingLink].Text,
-                                Id = Guid.Parse(worksheet.Cells[i, s_guuid].Text),
+                                Id = worksheet.Cells[i, s_guuid].Text is string guid ? Guid.Parse(guid) : Guid.NewGuid(),
+                                Value = decimal.Parse(worksheet.Cells[i, s_tradeAmount].Value.ToString()),
                             });
 
                             t.Items.Add(new() { Item = DataModels.Item.UnkownItem, Value = decimal.Parse(worksheet.Cells[i, s_tradeAmount].Value.ToString()) });
@@ -188,7 +188,7 @@ namespace Kenedia.Modules.OverflowTradingAssist.Services
 
                         _loadTradeStatus = StatusType.Success;
                         IsLoaded = true;
-                        return true;
+                        return trades;
                     }
                 }
                 catch (Exception ex)
@@ -204,7 +204,107 @@ namespace Kenedia.Modules.OverflowTradingAssist.Services
                 }
             }
 
-            return false;
+            return null;
+        }
+
+        public async Task SaveChanges()
+        {
+            if (Common.Now - _lastSave > 1000)
+            {
+                _lastSave = Common.Now;
+
+                if (_trades is List<Trade> trades)
+                {
+                    var tradesToRemove = trades.Where(e => e.ExcelDeleteRequested).ToDictionary(e => e.Id.ToString(), e => e);
+                    var tradesToUpdate = trades.Where(e => e.ExcelSaveRequested).ToDictionary(e => e.Id.ToString(), e => e);
+
+                    if ((tradesToUpdate.Count > 0 || tradesToRemove.Count > 0) && await EnsureFileExists())
+                    {
+                        try
+                        {
+                            // Specify the path to the Excel file
+                            string excelFilePath = _paths.RepSheet; // Replace with your actual file path
+
+                            // Check if the file exists
+                            if (File.Exists(excelFilePath))
+                            {
+                                // Create a FileInfo object for the Excel file
+                                var excelFile = new FileInfo(excelFilePath);
+
+                                // Load the Excel package from the file
+                                using var package = new ExcelPackage(excelFile);
+                                // Access the worksheets in the Excel package
+                                ExcelWorksheet worksheet = package.Workbook.Worksheets[0]; // You can specify the worksheet index or name
+
+                                var rowsToRemove = new List<int>();
+
+                                // Find the first empty row in column A by using LINQ
+                                int row = 1;
+                                while (!string.IsNullOrEmpty(worksheet.Cells[row, 1].Text))
+                                {
+                                    if (worksheet.Cells[row, s_guuid].Value is string guuid)
+                                    {
+                                        if (tradesToRemove.ContainsKey(guuid))
+                                        {
+                                            tradesToRemove[guuid].ExcelDeleteRequested = false;
+                                            tradesToRemove[guuid].ExcelSaveRequested = false;
+
+                                            rowsToRemove.Add(row);
+                                            continue;
+                                        }
+                                        else if (tradesToUpdate.ContainsKey(guuid))
+                                        {
+                                            Trade trade = tradesToUpdate[guuid];
+
+                                            worksheet.Cells[row, s_tradePartner].Value = trade.TradePartner;
+                                            worksheet.Cells[row, s_tradeAmount].Value = trade.ItemValue;
+                                            worksheet.Cells[row, s_ItemSummary].Value = trade.ItemSummary;
+                                            worksheet.Cells[row, s_reviewLink].Value = trade.ReviewLink;
+                                            worksheet.Cells[row, s_tradeListingLink].Value = trade.TradeListingLink;
+                                            worksheet.Cells[row, s_guuid].Value = trade.Id;
+
+                                            trade.ExcelDeleteRequested = false;
+                                            trade.ExcelSaveRequested = false;
+                                        }
+                                    }
+
+                                    row++;
+                                }
+
+                                rowsToRemove.OrderByDescending(e => e).ToList().ForEach(worksheet.DeleteRow);
+
+                                bool unlocked = await FileExtension.WaitForFileUnlock(excelFilePath);
+                                if (!unlocked)
+                                {
+                                    OverflowTradingAssist.Logger.Warn($"File {excelFilePath} is locked. We can't open the file. Please close all applications using it.");
+                                    return;
+                                }
+
+                                // Save the changes to the Excel file
+                                package.Save();
+                            }
+                            else
+                            {
+                                // Handle the case where the file doesn't exist
+                                Console.WriteLine("The Excel file does not exist.");
+                            }
+
+                            _saveTradeStatus = StatusType.Success;
+                        }
+                        catch (Exception ex)
+                        {
+                            string text = $"Failed to update Excel file: {ex.Message}";
+                            OverflowTradingAssist.Logger.Warn(ex, text);
+                            _saveTradeStatus = StatusType.Error;
+
+                            if (_notificationBadge() is NotificationBadge notificationBadge)
+                            {
+                                notificationBadge.AddNotification(new(() => text, () => _saveTradeStatus == StatusType.Success));
+                            }
+                        }
+                    }
+                }
+            }
         }
 
         public async Task SaveTrade(Trade trade)
@@ -245,7 +345,7 @@ namespace Kenedia.Modules.OverflowTradingAssist.Services
 
                         // For example, to add a value in column A of the empty row:
                         worksheet.Cells[lastRowIndex, s_tradePartner].Value = trade.TradePartner;
-                        worksheet.Cells[lastRowIndex, s_tradeAmount].Value = trade.Amount;
+                        worksheet.Cells[lastRowIndex, s_tradeAmount].Value = trade.ItemValue;
                         worksheet.Cells[lastRowIndex, s_ItemSummary].Value = trade.ItemSummary;
                         worksheet.Cells[lastRowIndex, s_reviewLink].Value = trade.ReviewLink;
                         worksheet.Cells[lastRowIndex, s_tradeListingLink].Value = trade.TradeListingLink;
@@ -286,9 +386,9 @@ namespace Kenedia.Modules.OverflowTradingAssist.Services
             }
         }
 
-        public async Task<bool> InitializeFile()
+        public async Task<List<Trade>> InitializeFile()
         {
-            if (await LoadTrades())
+            if (await LoadTrades() is List<Trade> trades)
             {
                 // Check if the file exists
                 if (File.Exists(_paths.RepSheet))
@@ -301,36 +401,34 @@ namespace Kenedia.Modules.OverflowTradingAssist.Services
                     // Access the worksheets in the Excel package
                     ExcelWorksheet worksheet = package.Workbook.Worksheets[0]; // You can specify the worksheet index or name
 
-                    if (_trades is List<Trade> trades)
+                    for (int i = 0; i < trades.Count; i++)
                     {
-                        for (int i = 0; i < trades.Count; i++)
-                        {
-                            Trade trade = trades[i];
+                        Trade trade = trades[i];
 
-                            worksheet.Cells[2 + i, s_tradePartner].Value = trade.TradePartner;
-                            worksheet.Cells[2 + i, s_tradeAmount].Value = trade.Amount;
-                            worksheet.Cells[2 + i, s_ItemSummary].Value = trade.ItemSummary;
-                            worksheet.Cells[2 + i, s_reviewLink].Value = trade.ReviewLink;
-                            worksheet.Cells[2 + i, s_tradeListingLink].Value = trade.TradeListingLink;
-                            worksheet.Cells[2 + i, s_guuid].Value = trade.Id;
-                        }
-
-                        bool unlocked = await FileExtension.WaitForFileUnlock(_paths.RepSheet);
-                        if (!unlocked)
-                        {
-                            OverflowTradingAssist.Logger.Warn($"File {_paths.RepSheet} is locked. We can't access the file to save our trades. Please close all applications using it.");
-                            return false;
-                        }
-
-                        // Save the changes to the Excel file
-                        package.Save();
+                        worksheet.Cells[2 + i, s_tradePartner].Value = trade.TradePartner;
+                        worksheet.Cells[2 + i, s_tradeAmount].Value = trade.ItemValue;
+                        worksheet.Cells[2 + i, s_ItemSummary].Value = trade.ItemSummary;
+                        worksheet.Cells[2 + i, s_reviewLink].Value = trade.ReviewLink;
+                        worksheet.Cells[2 + i, s_tradeListingLink].Value = trade.TradeListingLink;
+                        worksheet.Cells[2 + i, s_guuid].Value = trade.Id;
                     }
 
-                    return true;
+                    bool unlocked = await FileExtension.WaitForFileUnlock(_paths.RepSheet);
+                    if (!unlocked)
+                    {
+                        OverflowTradingAssist.Logger.Warn($"File {_paths.RepSheet} is locked. We can't access the file to save our trades. Please close all applications using it.");
+                        return null;
+                    }
+
+                    // Save the changes to the Excel file
+                    package.Save();
+                    OverflowTradingAssist.ModuleInstance.Settings.SheetInitialized.Value = true;
+
+                    return trades;
                 }
             }
 
-            return false;
+            return null;
         }
     }
 }

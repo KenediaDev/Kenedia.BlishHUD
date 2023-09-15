@@ -32,6 +32,7 @@ namespace Kenedia.Modules.OverflowTradingAssist.Controls
         private readonly ButtonImage _delete;
         private readonly Image _tradeImage;
         private readonly Panel _panel;
+        private readonly FlowPanel _itemsPanel;
         private DetailedTradeWindow _detailedTradeView;
         private int _index;
 
@@ -78,7 +79,7 @@ namespace Kenedia.Modules.OverflowTradingAssist.Controls
             _amountLabel = new()
             {
                 Parent = _panel,
-                Text = string.Format("{0:#g 00s 00c}", Trade.Amount),
+                Text = string.Format("{0:#g 00s 00c}", Trade.ItemValue),
                 Height = 32,
                 VerticalAlignment = Blish_HUD.Controls.VerticalAlignment.Middle,
                 TextColor = (Color)color,
@@ -92,13 +93,12 @@ namespace Kenedia.Modules.OverflowTradingAssist.Controls
                 Size = new(32),
             };
 
-            _itemSummaryLabel = new()
+            _itemsPanel = new()
             {
                 Parent = _panel,
-                Text = $"{Trade.ItemSummary}",
                 Height = 32,
-                VerticalAlignment = Blish_HUD.Controls.VerticalAlignment.Middle,
-                TextColor = (Color)color,
+                FlowDirection = Blish_HUD.Controls.ControlFlowDirection.SingleLeftToRight,
+                ControlPadding = new(2),
             };
 
             _reviewLinkLabel = new()
@@ -143,6 +143,7 @@ namespace Kenedia.Modules.OverflowTradingAssist.Controls
                     if (_detailedTradeView is null)
                     {
                         _detailedTradeView ??= CreateDetailedView();
+                        //_detailedTradeView?.SetLocation((OverflowTradingAssist.ModuleInstance.MainWindow?.Left ?? 100) - DetailedTradeWindow.WindowWidth, OverflowTradingAssist.ModuleInstance.MainWindow?.Top ?? 100);
                         _detailedTradeView?.Show();
                     }
                     else
@@ -162,6 +163,7 @@ namespace Kenedia.Modules.OverflowTradingAssist.Controls
                 Size = new(32),
             };
 
+            SetItems();
             _isCreated = true;
         }
 
@@ -173,10 +175,26 @@ namespace Kenedia.Modules.OverflowTradingAssist.Controls
         private void Trade_TradeSummaryChanged(object sender, Trade e)
         {
             _tradePartnerLabel.Text = Trade.TradePartner;
-            _amountLabel.Text = string.Format("{0:#g 00s 00c}", Trade.Amount);
-            _itemSummaryLabel.Text = $"{Trade.ItemSummary}";
+            _amountLabel.Text = string.Format("{0:#g 00s 00c}", Trade.ItemValue);
+
             _tradeImage.Texture = AsyncTexture2D.FromAssetId(Trade.TradeType is TradeType.Buy ? 157326 : Trade.TradeType is TradeType.Sell ? 157328 : 157095);
             _tradeImage.BasicTooltipText = Trade.TradeType is TradeType.Buy ? "Buy" : Trade.TradeType is TradeType.Sell ? "Sell" : "None";
+            SetItems();
+        }
+
+        private void SetItems()
+        {
+            _itemsPanel?.Children.DisposeAll();
+
+            foreach (var e in Trade.Items)
+            {
+                _ = new ItemControl()
+                {
+                    Parent = _itemsPanel,
+                    Size = new(_itemsPanel.ContentRegion.Height),
+                    Item = e.Item,
+                };
+            }
         }
 
         public int Index { get => _index; set => Common.SetProperty(ref _index, value, OnIndexChanged); }
@@ -236,10 +254,10 @@ namespace Kenedia.Modules.OverflowTradingAssist.Controls
 
             _tradeImage.SetLocation(_amountLabel.Right, 0);
 
-            _itemSummaryLabel?.SetLocation(_tradeImage.Right + 5, 0);
-            _itemSummaryLabel?.SetSize(itemSummary, _itemSummaryLabel.Height);
+            _itemsPanel?.SetLocation(_tradeImage.Right + 5, 0);
+            _itemsPanel?.SetSize(itemSummary, _itemsPanel.Height);
 
-            _reviewLinkLabel?.SetLocation(_itemSummaryLabel.Right + 5, 0);
+            _reviewLinkLabel?.SetLocation(_itemsPanel.Right + 5, 0);
             _tradeListingLinkLabel?.SetLocation(_reviewLinkLabel.Right + 5, 0);
             _edit?.SetLocation(_tradeListingLinkLabel.Right + 5, 0);
             _delete?.SetLocation(_edit.Right + 5, 0);

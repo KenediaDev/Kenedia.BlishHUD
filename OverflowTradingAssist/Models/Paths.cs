@@ -17,5 +17,7 @@ namespace Kenedia.Modules.OverflowTradingAssist.Models
         public string TradeHistory => $@"{BasePath}\{ModuleName}\history\";
 
         public string RepSheet => AccountName is not null ? $@"{AccountPath}{AccountName}_Overflow_Trade_Rep_Template.xlsx" : null;
+
+        public string TradeFile => AccountName is not null ? $@"{AccountPath}{AccountName}_trades.json" : null;
     }
 }

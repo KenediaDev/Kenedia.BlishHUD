@@ -26,6 +26,7 @@ namespace Kenedia.Modules.OverflowTradingAssist.Views
             Name = $"{trade?.TradePartner}";
             //SubName = $"{trade.Id}";
 
+            Location = new(100);
             Width = WindowWidth;
             Height = WindowHeight;
 

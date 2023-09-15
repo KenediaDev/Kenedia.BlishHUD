@@ -80,7 +80,7 @@ namespace Kenedia.Modules.OverflowTradingAssist.Views
                 Location = new(_tradeAmountButtonImage.Right, 0),
                 Parent = c,
                 Width = (int)(width * 0.45F) - _tradeAmountButtonImage.Width,
-                Value = _trade.Amount,
+                Value = _trade.ItemValue,
                 Height = _tradePartnerTextBox.Height,
                 //ValueChangedAction = (s) => _trade.Amount = s,
                 Enabled = false,
@@ -249,7 +249,7 @@ namespace Kenedia.Modules.OverflowTradingAssist.Views
 
         private void ItemAmount_ValueChanged(object sender, Core.Models.ValueChangedEventArgs<decimal> e)
         {
-            _amountNumberBox.Value = _trade?.Amount ?? 0;
+            _amountNumberBox.Value = _trade?.ItemValue ?? 0;
         }
 
         private void TradeTypeImage_Click(object sender, Blish_HUD.Input.MouseEventArgs e)
