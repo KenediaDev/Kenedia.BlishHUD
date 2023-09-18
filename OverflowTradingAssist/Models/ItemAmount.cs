@@ -4,6 +4,7 @@ using Kenedia.Modules.OverflowTradingAssist.DataModels;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 
 namespace Kenedia.Modules.OverflowTradingAssist.Models
@@ -26,7 +27,19 @@ namespace Kenedia.Modules.OverflowTradingAssist.Models
         public Item Item { get => _item; set => Common.SetProperty(ref _item, value, OnItemChanged); }
 
         [JsonProperty("Item")]
-        public int ItemId { get => Item.Id; set => Item = OverflowTradingAssist.Data?.Items?.Items?.FirstOrDefault(e => e.Id == value) ?? Item.UnkownItem; }
+        public int ItemId { get => Item?.Id ?? Item.UnkownItem.Id; set => SetItem(value); }
+
+        private void SetItem(int value)
+        {
+            if (value == 0)
+            {
+                Item = Item.UnkownItem;
+                return;
+            }
+
+            Debug.WriteLine($"Set Item for id: {value}");
+            Item = OverflowTradingAssist.Data?.Items?.Items?.FirstOrDefault(e => e.Id == value) ?? Item.UnkownItem;
+        }
 
         public int Amount { get => _amount; set => Common.SetProperty(ref _amount, value, OnAmountChanged); }
 
@@ -34,7 +47,7 @@ namespace Kenedia.Modules.OverflowTradingAssist.Models
 
         private void OnAmountChanged(object sender, ValueChangedEventArgs<int> e)
         {
-            AmountChanged?.Invoke(this, e);            
+            AmountChanged?.Invoke(this, e);
         }
 
         private void OnItemChanged(object sender, ValueChangedEventArgs<Item> e)

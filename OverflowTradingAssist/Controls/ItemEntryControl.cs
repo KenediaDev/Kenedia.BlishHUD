@@ -13,17 +13,19 @@ namespace Kenedia.Modules.OverflowTradingAssist.Controls
 {
     public class ItemEntryControl : Panel
     {
-        private readonly ItemControl _itemControl;
+        private readonly ItemAmount _itemAmount;
+        private readonly SelectableItemControl _itemControl;
         private readonly Label _itemLabel;
 
         private readonly ButtonImage _effectivePriceButton;
         private readonly CoinControl _effectivePrice;
         private readonly ButtonImage _deleteButton;
         private ItemAmount _item = new();
-        private ItemAmount _itemAmount;
 
         public ItemEntryControl(ItemAmount itemAmount)
         {
+            if (itemAmount is null) return;
+
             _itemAmount = itemAmount;
 
             HeightSizingMode = Blish_HUD.Controls.SizingMode.AutoSize;
@@ -37,6 +39,11 @@ namespace Kenedia.Modules.OverflowTradingAssist.Controls
                 Parent = this,
                 Size = new(30, 30),
                 Location = new(0, 0),
+                OnItemSelected = (item) =>
+                {
+                    ItemAmount.Item = item;
+                    _itemLabel.Text = item?.Name;
+                },
             };
 
             _itemLabel = new()

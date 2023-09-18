@@ -43,7 +43,7 @@ namespace Kenedia.Modules.OverflowTradingAssist.Services
         public void SendMail()
         {
             _updateTimer.Start();
-            NextMail = DateTime.Now.AddSeconds(60);
+            NextMail = DateTime.Now.AddSeconds(6);
         }
     }
 }

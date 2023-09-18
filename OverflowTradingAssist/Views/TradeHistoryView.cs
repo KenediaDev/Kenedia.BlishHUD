@@ -28,6 +28,7 @@ namespace Kenedia.Modules.OverflowTradingAssist.Views
         private Label _tradePartnerLabel;
         private Label _amountLabel;
         private Label _itemSummaryLabel;
+        private TradeHistoryHeaderControl _tradingHeader;
         private FilterBox _filterBox;
         private FlowPanel _tradeHistoryPanel;
         private CancellationTokenSource _cts;
@@ -37,9 +38,35 @@ namespace Kenedia.Modules.OverflowTradingAssist.Views
         {
             _trades = trades;
             _tradeHistoryEntries = tradeHistoryEntries;
+
+            foreach (var trade in _trades)
+            {
+                trade.TradeSummaryChanged += Trade_TradeSummaryChanged;
+                trade.DeleteRequested += Trade_DeleteRequested;
+            }
+        }
+
+        private void Trade_DeleteRequested(object sender, Trade e)
+        {
+            e.TradeSummaryChanged -= Trade_TradeSummaryChanged;
+        }
+
+        private void Trade_TradeSummaryChanged(object sender, Trade e)
+        {
+            UpdateTradingSummary();
         }
 
         public event EventHandler<List<TradeHistoryEntryControl>> TradeHistoryEntriesLoaded;
+
+        private void UpdateTradingSummary()
+        {
+            decimal totalTraded = _trades.Sum(e => e.ItemValue);
+            var tradeRank = TradeRank.Ranks.FirstOrDefault(e => e.Threshold <= totalTraded && e.Trades <= _trades.Count);
+
+            _tradingHeader.TradeRank = tradeRank;
+            _tradingHeader.TotalTraded = totalTraded;
+            _tradingHeader.TotalTrades = _trades?.Count() ?? 0;
+        }
 
         protected override void Build(Container buildPanel)
         {
@@ -60,7 +87,7 @@ namespace Kenedia.Modules.OverflowTradingAssist.Views
                     CanScroll = true,
                     Width = buildPanel.ContentRegion.Width,
                     HeightSizingMode = SizingMode.AutoSize,
-                    ContentPadding = new(10, 4, 25, 0),
+                    ContentPadding = new(0, 0, 25, 0),
                 };
 
                 int trailing = (32 * 4) + (5 * 4);
@@ -99,10 +126,7 @@ namespace Kenedia.Modules.OverflowTradingAssist.Views
                     Font = GameService.Content.DefaultFont16,
                 };
 
-                ctrl = new TradeHistoryHeaderControl(
-                                   $"{_trades.Count()}",
-                                   totalTraded,
-                                   tradeRank)
+                ctrl = _tradingHeader = new TradeHistoryHeaderControl()
                 {
                     Parent = _headerPanel,
                     Location = new(0, _itemSummaryLabel.Bottom + 5),
@@ -133,7 +157,7 @@ namespace Kenedia.Modules.OverflowTradingAssist.Views
                     WidthSizingMode = SizingMode.Fill,
                     HeightSizingMode = SizingMode.Fill,
                     ControlPadding = new(4),
-                    ContentPadding = new(10, 4, 25, 0),
+                    ContentPadding = new(0, 0, 25, 0),
                 };
 
                 width = buildPanel.ContentRegion.Width;
@@ -142,18 +166,22 @@ namespace Kenedia.Modules.OverflowTradingAssist.Views
 
                 if (trades is not null)
                 {
+                    UpdateTradingSummary();
+
                     var missing = trades.Except(_tradeHistoryEntries.Select(e => e.Trade));
 
                     if (missing.Any())
                     {
-                        OverflowTradingAssist.Logger.Info($"Adding {missing.Count()} trades!");
                         foreach (var trade in missing)
                         {
-                            _tradeHistoryEntries.Add(new TradeHistoryEntryControl(trade)
+                            TradeHistoryEntryControl t;
+                            _tradeHistoryEntries.Add(t = new TradeHistoryEntryControl(trade)
                             {
                                 Parent = _tradeHistoryPanel,
-                                Width = 1110,
+                                Width = 1105,
                             });
+
+                            t.DeleteRequested += DeleteRequested;
 
                             if (_cts.IsCancellationRequested)
                             {
@@ -175,7 +203,7 @@ namespace Kenedia.Modules.OverflowTradingAssist.Views
                 foreach (var trade in _tradeHistoryEntries)
                 {
                     trade.Parent = _tradeHistoryPanel;
-                    trade.Width = 1110;
+                    trade.Width = 1105;
 
                     if (_cts.IsCancellationRequested)
                     {
@@ -185,6 +213,16 @@ namespace Kenedia.Modules.OverflowTradingAssist.Views
 
                 _tradeHistoryPanel.CanScroll = true;
             }
+
+            _tradeHistoryPanel.SortChildren<TradeHistoryEntryControl>((a, b) => a.Index.CompareTo(b.Index));
+        }
+
+        private void DeleteRequested(object sender, Trade e)
+        {
+            e.TradeSummaryChanged -= Trade_TradeSummaryChanged;
+            _ = _tradeHistoryEntries.Remove(_tradeHistoryEntries.FirstOrDefault(ctrl => ctrl.Trade == e));
+
+            _tradeHistoryPanel?.Invalidate();
         }
 
         private void FilterTrades(string? text)

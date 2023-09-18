@@ -265,6 +265,7 @@
     <Compile Include="Controls\CoinControl.cs" />
     <Compile Include="Controls\ItemEntryControl.cs" />
     <Compile Include="Controls\ItemPanel.cs" />
+    <Compile Include="Controls\ItemSelection.cs" />
     <Compile Include="Models\ItemAmount.cs" />
     <Compile Include="Models\TradeType.cs" />
     <Compile Include="Services\TradeFileService.cs" />

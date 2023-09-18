@@ -4,6 +4,7 @@ using Kenedia.Modules.Core.Models;
 using Kenedia.Modules.Core.Utility;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using MonoGame.Extended.BitmapFonts;
 using System;
 using System.ComponentModel;
 using System.Diagnostics;
@@ -22,6 +23,7 @@ namespace Kenedia.Modules.OverflowTradingAssist.Controls
 
         private decimal _value;
         private bool _created;
+        private bool _hideBackground = false;
 
         public CoinControl()
         {
@@ -32,6 +34,7 @@ namespace Kenedia.Modules.OverflowTradingAssist.Controls
                 PlaceholderText = "0",
                 HorizontalAlignment = Blish_HUD.Controls.HorizontalAlignment.Right,
                 Text = "0",
+                HideBackground = _hideBackground,
                 TextChangedAction = (s) =>
                 {
                     if (int.TryParse(s.Replace(",", "").Replace(".", ""), out int gold))
@@ -48,7 +51,8 @@ namespace Kenedia.Modules.OverflowTradingAssist.Controls
                 Width = 35,
                 PlaceholderText = "0",
                 HorizontalAlignment = Blish_HUD.Controls.HorizontalAlignment.Right,
-                Text = "0",                
+                Text = "0",
+                HideBackground = _hideBackground,
                 TextChangedAction = (s) =>
                 {
                     if (int.TryParse(s.Replace(",", "").Replace(".", ""), out int silver))
@@ -66,6 +70,7 @@ namespace Kenedia.Modules.OverflowTradingAssist.Controls
                 PlaceholderText = "0",
                 HorizontalAlignment = Blish_HUD.Controls.HorizontalAlignment.Right,
                 Text = "0",
+                HideBackground = _hideBackground,
                 TextChangedAction = (s) =>
                 {
                     if (int.TryParse(s.Replace(",", "").Replace(".", ""), out int copper))
@@ -82,6 +87,14 @@ namespace Kenedia.Modules.OverflowTradingAssist.Controls
 
             PropertyChanged += CoinControl_PropertyChanged;
         }
+
+        public decimal Value { get => _value; internal set => Common.SetProperty(ref _value, value, OnValueChanged); }
+
+        public Action<decimal> ValueChangedAction { get; internal set; }
+
+        public bool HideBackground { get => _hideBackground; internal set => Common.SetProperty(ref _hideBackground, value, OnShowFieldChanged); }
+
+        public BitmapFont Font { get => _goldCoinTextBox.Font; set => _goldCoinTextBox.Font = _silverCoinTextBox.Font = _copperCoinTextBox.Font = value; }
 
         private void CoinControl_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
@@ -142,9 +155,17 @@ namespace Kenedia.Modules.OverflowTradingAssist.Controls
             }
         }
 
-        public decimal Value { get => _value; internal set => Common.SetProperty(ref _value, value, OnValueChanged); }
+        private void OnShowFieldChanged(object sender, ValueChangedEventArgs<bool> e)
+        {
+            if (_goldCoinTextBox is not null)
+                _goldCoinTextBox.HideBackground = e.NewValue;
 
-        public Action<decimal> ValueChangedAction { get; internal set; }
+            if (_silverCoinTextBox is not null)
+                _silverCoinTextBox.HideBackground = e.NewValue;
+
+            if (_copperCoinTextBox is not null)
+                _copperCoinTextBox.HideBackground = e.NewValue;
+        }
 
         public override void PaintAfterChildren(SpriteBatch spriteBatch, Rectangle bounds)
         {

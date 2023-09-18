@@ -16,24 +16,45 @@ namespace Kenedia.Modules.OverflowTradingAssist.Views
 {
     public class MainWindow : TabbedWindow
     {
+        public static int WindowWidth = 1200;
+        public static int WindowHeight = 900;
+
+        public static int ContentWidth = 1130;
+        public static int ContentHeight = 825;
+
         private readonly TradePresenter _tradePresenter = new();
         private readonly MailingService _mailingService;
+        private readonly Func<List<Trade>> _getTrades;
         private Trade _trade;
 
         private List<TradeHistoryEntryControl> _tradeHistoryEntries = new();
         private TradeHistoryView _historyView;
+        private TradeView _tradeView;
 
         public MainWindow(AsyncTexture2D background, Rectangle windowRegion, Rectangle contentRegion, MailingService mailingService, Func<List<Trade>> getTrades) : base(background, windowRegion, contentRegion)
         {
             _mailingService = mailingService;
+            _getTrades = getTrades;
+            Width = WindowWidth;
+            Height = WindowHeight;
 
-            Tabs.Add(new Tab(AsyncTexture2D.FromAssetId(156753), () => new TradeView(_mailingService, _tradePresenter), "Trade"));
+            Tabs.Add(new Tab(AsyncTexture2D.FromAssetId(156753), () =>
+            {
+                if (_tradeView is not null)
+                    _tradeView.TradeAdded -= View_TradeAdded;
+
+                _tradeView = new TradeView(_mailingService, _tradePresenter);
+                _tradeView.TradeAdded += View_TradeAdded;
+
+                return _tradeView;
+            },
+            "Trade"));
             Tabs.Add(new Tab(AsyncTexture2D.FromAssetId(156746), () =>
             {
-                if(_historyView is not null)
+                if (_historyView is not null)
                     _historyView.TradeHistoryEntriesLoaded -= View_TradeHistoryEntriesLoaded;
 
-                _historyView = new TradeHistoryView(getTrades?.Invoke(), _tradeHistoryEntries);
+                _historyView = new TradeHistoryView(_getTrades?.Invoke(), _tradeHistoryEntries);
                 _historyView.TradeHistoryEntriesLoaded += View_TradeHistoryEntriesLoaded;
 
                 return _historyView;
@@ -41,6 +62,17 @@ namespace Kenedia.Modules.OverflowTradingAssist.Views
 
             _mailingService.MailReady += MailingService_MailReady;
             _mailingService.TimeElapsed += MailingService_TimeElapsed;
+        }
+
+        private void View_TradeAdded(object sender, Trade e)
+        {
+            if (_getTrades?.Invoke() is List<Trade> trades)
+            {
+                if (!trades.Contains(e))
+                {
+                    trades.Add(e);
+                }
+            }
         }
 
         private void View_TradeHistoryEntriesLoaded(object sender, List<TradeHistoryEntryControl> e)

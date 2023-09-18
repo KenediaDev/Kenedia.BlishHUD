@@ -1,7 +1,10 @@
 ﻿using Kenedia.Modules.Core.Controls;
 using Kenedia.Modules.Core.Extensions;
+using Kenedia.Modules.Core.Models;
+using Kenedia.Modules.Core.Utility;
 using Kenedia.Modules.OverflowTradingAssist.Views;
 using Microsoft.Xna.Framework;
+using System;
 
 namespace Kenedia.Modules.OverflowTradingAssist.Controls
 {
@@ -12,13 +15,12 @@ namespace Kenedia.Modules.OverflowTradingAssist.Controls
         private readonly Label _tradePartnerLabel;
         private readonly Label _amountLabel;
         private readonly Label _itemSummaryLabel;
-        private readonly TradeRank _tradeRank;
+        private TradeRank _tradeRank = TradeRank.NoRank;
+        private decimal _totalTraded = 0;
+        private int _totalTrades = 0;
 
-        public TradeHistoryHeaderControl(string partners, decimal amount, TradeRank tradeRank)
+        public TradeHistoryHeaderControl()
         {
-            _tradeRank = tradeRank;
-            var color = _tradeRank?.Color ?? Color.White;
-
             HeightSizingMode = Blish_HUD.Controls.SizingMode.Standard;
             WidthSizingMode = Blish_HUD.Controls.SizingMode.Fill;
             BackgroundColor = Color.Black * 0.2F;
@@ -31,7 +33,7 @@ namespace Kenedia.Modules.OverflowTradingAssist.Controls
             _tradePartnerLabel = new Label()
             {
                 Parent = this,
-                Text = partners,
+                Text = "0",
                 Height = ContentRegion.Height,
                 VerticalAlignment = Blish_HUD.Controls.VerticalAlignment.Middle,
                 TextColor = Color.White,
@@ -41,7 +43,7 @@ namespace Kenedia.Modules.OverflowTradingAssist.Controls
             _amountLabel = new Label()
             {
                 Parent = this,
-                Text = string.Format("{0:##g 00s 00c}", amount),
+                Text = string.Format("{0:##g 00s 00c}", 0),
                 VerticalAlignment = Blish_HUD.Controls.VerticalAlignment.Middle,
                 Height = ContentRegion.Height,
                 TextColor = Color.White,
@@ -51,21 +53,42 @@ namespace Kenedia.Modules.OverflowTradingAssist.Controls
             _rankIcon = new Image()
             {
                 Parent = this,
-                Texture = _tradeRank?.Icon,
+                Texture = TradeRank?.Icon,
                 Size = new(ContentRegion.Height),
             };
 
             _itemSummaryLabel = new Label()
             {
                 Parent = this,
-                Text = $"{_tradeRank.Name}",
                 Height = ContentRegion.Height,
                 VerticalAlignment = Blish_HUD.Controls.VerticalAlignment.Middle,
-                TextColor = color,
                 Font = Content.DefaultFont16,
             };
 
             _isCreated = true;
+        }
+
+        public TradeRank TradeRank { get => _tradeRank; set => Common.SetProperty(ref _tradeRank, value, OnTradeRankChanged); }
+
+        public decimal TotalTraded { get => _totalTraded; set => Common.SetProperty(ref _totalTraded, value, OnTotalTradedChanged); }
+
+        public int TotalTrades { get => _totalTrades; set => Common.SetProperty(ref _totalTrades, value, OnTotalTradesChanged); }
+
+        private void OnTotalTradesChanged(object sender, ValueChangedEventArgs<int> e)
+        {
+            _tradePartnerLabel.Text = $"{e.NewValue}";
+        }
+
+        private void OnTradeRankChanged(object sender, ValueChangedEventArgs<TradeRank> e)
+        {
+            _rankIcon.Texture = e.NewValue?.Icon;
+            _itemSummaryLabel.Text = $"{e.NewValue.Name}";
+            _itemSummaryLabel.TextColor = e.NewValue?.Color ?? Color.White;
+        }
+
+        private void OnTotalTradedChanged(object sender, ValueChangedEventArgs<decimal> e)
+        {
+            _amountLabel.Text = string.Format("{0:##g 00s 00c}", e.NewValue);
         }
 
         public override void RecalculateLayout()

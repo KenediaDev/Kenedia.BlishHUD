@@ -140,16 +140,14 @@ namespace Kenedia.Modules.OverflowTradingAssist.Controls
                 Size = new(32),
                 ClickAction = (b) =>
                 {
-                    if (_detailedTradeView is null)
+                    _detailedTradeView ??= CreateDetailedView();
+                    if (_detailedTradeView.Visible)
                     {
-                        _detailedTradeView ??= CreateDetailedView();
-                        //_detailedTradeView?.SetLocation((OverflowTradingAssist.ModuleInstance.MainWindow?.Left ?? 100) - DetailedTradeWindow.WindowWidth, OverflowTradingAssist.ModuleInstance.MainWindow?.Top ?? 100);
-                        _detailedTradeView?.Show();
+                        _detailedTradeView.Hide();
                     }
                     else
                     {
-                        _detailedTradeView?.Dispose();
-                        _detailedTradeView = null;
+                        _detailedTradeView.Show();
                     }
                 }
             };
@@ -161,10 +159,25 @@ namespace Kenedia.Modules.OverflowTradingAssist.Controls
                 Texture = AsyncTexture2D.FromAssetId(156674),
                 HoveredTexture = AsyncTexture2D.FromAssetId(156675),
                 Size = new(32),
+                ClickAction = OnDeleteClick,
             };
 
             SetItems();
             _isCreated = true;
+        }
+
+        public event EventHandler<Trade> DeleteRequested;
+
+        private async void OnDeleteClick(MouseEventArgs args)
+        {
+            var result = await new BaseDialog("Warning", "Are you sure you want to delete this trade?") { DesiredWidth = 300, AutoSize = true }.ShowDialog();
+
+            if (result == DialogResult.OK)
+            {
+                Trade?.RequestDelete();
+                DeleteRequested?.Invoke(this, Trade);
+                Dispose();
+            }
         }
 
         private void Trade_TotalTradeValueChanged(object sender, decimal e)
@@ -174,16 +187,28 @@ namespace Kenedia.Modules.OverflowTradingAssist.Controls
 
         private void Trade_TradeSummaryChanged(object sender, Trade e)
         {
-            _tradePartnerLabel.Text = Trade.TradePartner;
-            _amountLabel.Text = string.Format("{0:#g 00s 00c}", Trade.ItemValue);
+            if (Trade is null)
+                return;
 
-            _tradeImage.Texture = AsyncTexture2D.FromAssetId(Trade.TradeType is TradeType.Buy ? 157326 : Trade.TradeType is TradeType.Sell ? 157328 : 157095);
-            _tradeImage.BasicTooltipText = Trade.TradeType is TradeType.Buy ? "Buy" : Trade.TradeType is TradeType.Sell ? "Sell" : "None";
+            if (_tradePartnerLabel is not null)
+                _tradePartnerLabel.Text = Trade.TradePartner;
+
+            if (_amountLabel is not null)
+                _amountLabel.Text = string.Format("{0:#g 00s 00c}", Trade.ItemValue);
+
+            if (_tradeImage is not null)
+            {
+                _tradeImage.Texture = AsyncTexture2D.FromAssetId(Trade.TradeType is TradeType.Buy ? 157326 : Trade.TradeType is TradeType.Sell ? 157328 : 157095);
+                _tradeImage.BasicTooltipText = Trade.TradeType is TradeType.Buy ? "Bought" : Trade.TradeType is TradeType.Sell ? "Sold" : "None";
+            }
+
             SetItems();
         }
 
         private void SetItems()
         {
+            if (_itemsPanel is null) return;
+
             _itemsPanel?.Children.DisposeAll();
 
             foreach (var e in Trade.Items)

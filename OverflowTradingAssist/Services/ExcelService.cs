@@ -64,6 +64,7 @@ namespace Kenedia.Modules.OverflowTradingAssist.Services
             {
                 try
                 {
+                    Debug.WriteLine($"{nameof(EnsureFileExists)}");
                     var account = await _gw2ApiManager.Gw2ApiClient.V2.Account.GetAsync();
 
                     if (account?.Name is not null)
@@ -134,6 +135,7 @@ namespace Kenedia.Modules.OverflowTradingAssist.Services
 
                 try
                 {
+                    Debug.WriteLine($"{nameof(LoadTrades)}");
                     // Specify the path to the Excel file
                     string excelFilePath = _paths.RepSheet; // Replace with your actual file path
 
@@ -148,21 +150,6 @@ namespace Kenedia.Modules.OverflowTradingAssist.Services
                         // Access the worksheets in the Excel package
                         ExcelWorksheet worksheet = package.Workbook.Worksheets[0]; // You can specify the worksheet index or name
 
-                        static ObservableCollection<ItemAmount> GetItems(string items)
-                        {
-                            var list = new ObservableCollection<ItemAmount>();
-                            try
-                            {
-
-                            }
-                            catch
-                            {
-
-                            }
-
-                            return list;
-                        }
-
                         int lastRowIndex = 1;
                         while (!string.IsNullOrEmpty(worksheet.Cells[lastRowIndex, 1].Text))
                         {
@@ -172,8 +159,9 @@ namespace Kenedia.Modules.OverflowTradingAssist.Services
                         for (int i = 2; i < lastRowIndex; i++)
                         {
                             Trade t;
+
                             //Load Trades
-                            trades.Add(t = new()
+                            trades.Add(t = new(false)
                             {
                                 TradePartner = worksheet.Cells[i, s_tradePartner].Text,
                                 ReviewLink = worksheet.Cells[i, s_reviewLink].Text,
@@ -222,6 +210,10 @@ namespace Kenedia.Modules.OverflowTradingAssist.Services
                     {
                         try
                         {
+                            Debug.WriteLine($"Excel - {nameof(SaveChanges)}");
+                            Debug.WriteLine($"Excel - Remove {tradesToRemove.Count} trades");
+                            Debug.WriteLine($"Excel - Update {tradesToUpdate.Count} trades");
+
                             // Specify the path to the Excel file
                             string excelFilePath = _paths.RepSheet; // Replace with your actual file path
 
@@ -250,7 +242,6 @@ namespace Kenedia.Modules.OverflowTradingAssist.Services
                                             tradesToRemove[guuid].ExcelSaveRequested = false;
 
                                             rowsToRemove.Add(row);
-                                            continue;
                                         }
                                         else if (tradesToUpdate.ContainsKey(guuid))
                                         {
@@ -271,7 +262,11 @@ namespace Kenedia.Modules.OverflowTradingAssist.Services
                                     row++;
                                 }
 
-                                rowsToRemove.OrderByDescending(e => e).ToList().ForEach(worksheet.DeleteRow);
+                                foreach (var rowIndex in rowsToRemove.OrderByDescending(e => e).ToList())
+                                {
+                                    Debug.WriteLine($"Remove row {rowIndex}");
+                                    worksheet.DeleteRow(rowIndex);
+                                }
 
                                 bool unlocked = await FileExtension.WaitForFileUnlock(excelFilePath);
                                 if (!unlocked)
@@ -280,6 +275,7 @@ namespace Kenedia.Modules.OverflowTradingAssist.Services
                                     return;
                                 }
 
+                                trades.ForEach(e => e.ExcelSaveRequested = false);
                                 // Save the changes to the Excel file
                                 package.Save();
                             }
@@ -319,6 +315,7 @@ namespace Kenedia.Modules.OverflowTradingAssist.Services
             {
                 try
                 {
+                    Debug.WriteLine($"{nameof(SaveTrade)}");
                     // Specify the path to the Excel file
                     string excelFilePath = _paths.RepSheet; // Replace with your actual file path
 

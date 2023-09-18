@@ -61,6 +61,7 @@ namespace Kenedia.Modules.OverflowTradingAssist.Services
             {
                 try
                 {
+                    Debug.WriteLine($"{nameof(LoadTrades)}");
                     if (await FileExtension.WaitForFileUnlock(_paths.TradeFile))
                     {
 
@@ -123,6 +124,7 @@ namespace Kenedia.Modules.OverflowTradingAssist.Services
             {
                 try
                 {
+                    Debug.WriteLine($"{nameof(InitializeFile)}");
                     var trades = new List<Trade>();
 
                     foreach (var trade in trades)
@@ -186,9 +188,11 @@ namespace Kenedia.Modules.OverflowTradingAssist.Services
                     {
                         try
                         {
+                            Debug.WriteLine($"Json - {nameof(SaveChanges)}");
+                            Debug.WriteLine($"Json - Remove {tradesToRemove.Count} trades");
+                            Debug.WriteLine($"Json - Update {tradesToUpdate.Count} trades");
+
                             _ = trades.RemoveAll(tradesToRemove.Values.Contains);
-                            tradesToUpdate = trades.Where(e => !e.TradeSaveRequested).ToDictionary(e => e.Id.ToString(), e => e);
-                            trades.ForEach(e => e.SetTradeSaved());
 
                             if (await FileExtension.WaitForFileUnlock(_paths.TradeFile))
                             {
@@ -198,6 +202,7 @@ namespace Kenedia.Modules.OverflowTradingAssist.Services
                                 string txt = $"Saved changes to {_paths.TradeFile}.";
                                 OverflowTradingAssist.Logger.Debug(txt);
 
+                                trades.ForEach(e => e.TradeSaveRequested = false);
                                 _fileStatus = StatusType.Success;
                             }
                             else
@@ -236,6 +241,7 @@ namespace Kenedia.Modules.OverflowTradingAssist.Services
             {
                 try
                 {
+                    Debug.WriteLine($"{nameof(EnsureFilePath)}");
                     var account = await _gw2ApiManager.Gw2ApiClient.V2.Account.GetAsync();
 
                     if (account?.Name is not null)

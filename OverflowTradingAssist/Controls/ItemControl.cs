@@ -7,12 +7,50 @@ using Blish_HUD;
 using System;
 using Blish_HUD.Input;
 using Microsoft.Xna.Framework.Input;
-using System.Linq;
 using Kenedia.Modules.OverflowTradingAssist.DataModels;
 using Kenedia.Modules.OverflowTradingAssist.Res;
+using Blish_HUD.Content;
+using System.Diagnostics;
 
 namespace Kenedia.Modules.OverflowTradingAssist.Controls.GearPage
 {
+
+    public class SelectableItemControl : ItemControl
+    {
+        private ItemSelection _itemSelection;
+
+        public Action<Item> OnItemSelected { get; set; }
+
+        protected override void ApplyItem(object sender, Core.Models.ValueChangedEventArgs<Item> e)
+        {
+            base.ApplyItem(sender, e);
+
+            OnItemSelected?.Invoke(Item);
+        }
+
+        protected override void OnClick(MouseEventArgs e)
+        {
+            base.OnClick(e);
+
+            _itemSelection ??= new()
+            {
+                OnItemSelected = (item) => Item = item,
+                Parent = GameService.Graphics.SpriteScreen,
+                ZIndex = ZIndex + 100,
+            };
+
+            _itemSelection?.SetLocation(AbsoluteBounds.Location.Add(new((int)(Height * 0.66))));
+            _itemSelection?.Show();
+        }
+
+        protected override void DisposeControl()
+        {
+            base.DisposeControl();
+
+            _itemSelection?.Dispose();
+        }
+    }
+
     public class ItemControl : Blish_HUD.Controls.Control
     {
         private readonly DetailedTexture _texture = new();
@@ -38,6 +76,8 @@ namespace Kenedia.Modules.OverflowTradingAssist.Controls.GearPage
             Placeholder = placeholder;
         }
 
+        public Action<Item> OnClicked { get; set; }
+
         public Item Item { get => _item; set => Common.SetProperty(ref _item, value, ApplyItem); }
 
         public Color TextureColor { get => _texture.DrawColor ?? Color.White; set => _texture.DrawColor = value; }
@@ -49,7 +89,7 @@ namespace Kenedia.Modules.OverflowTradingAssist.Controls.GearPage
 
         }
 
-        private void ApplyItem(object sender, Core.Models.ValueChangedEventArgs<Item> e)
+        protected virtual void ApplyItem(object sender, Core.Models.ValueChangedEventArgs<Item> e)
         {
             _frameColor = Item?.Rarity.GetColor() ?? Color.White * 0.15F;
             _texture.Texture = Item?.Icon;
@@ -111,17 +151,25 @@ namespace Kenedia.Modules.OverflowTradingAssist.Controls.GearPage
         {
             base.OnClick(e);
 
-            if (Item != null && Input.Keyboard.ActiveModifiers.HasFlag(ModifierKeys.Ctrl))
+            if (Item != null)
             {
                 try
                 {
-                    _ = await ClipboardUtil.WindowsClipboardService.SetTextAsync(Item.Name);
+                    Debug.WriteLine($"{nameof(OnClick)}");
+                    if (Input.Keyboard.ActiveModifiers.HasFlag(ModifierKeys.Ctrl))
+                    {
+                        _ = await ClipboardUtil.WindowsClipboardService.SetTextAsync(Item.Name);
+                        return;
+                    }
+
+                    OnClicked?.Invoke(Item);
                 }
                 catch
                 {
 
                 }
-           }
+            }
+
         }
 
         override protected void DisposeControl()

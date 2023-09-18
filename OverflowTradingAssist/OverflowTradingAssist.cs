@@ -200,7 +200,7 @@ namespace Kenedia.Modules.OverflowTradingAssist
             MainWindow = new(
                 settingsBg,
                 new Rectangle(30, 30, cutSettingsBg.Width + 10, cutSettingsBg.Height),
-                new Rectangle(30 + 46, 35, cutSettingsBg.Width - 46, cutSettingsBg.Height - 15),
+                new Rectangle(30 + 46 + 14, 35, cutSettingsBg.Width - 46 - 14, cutSettingsBg.Height - 15),
                 MailingService,
                 () => Trades)
             {
@@ -213,8 +213,6 @@ namespace Kenedia.Modules.OverflowTradingAssist
                 MainWindowEmblem = AsyncTexture2D.FromAssetId(156014),
                 SubWindowEmblem = AsyncTexture2D.FromAssetId(156019),
                 Name = Name,
-                Width = 1200,
-                Height = 900,
             };
 
             MainWindow?.Show();
@@ -269,17 +267,9 @@ namespace Kenedia.Modules.OverflowTradingAssist
                         return;
                     }
 
-                    if (!ExcelService.IsLoaded)
+                    if (!ExcelService.IsLoaded || !TradeFileService.IsLoaded)
                     {
-                        Debug.WriteLine($"Load ExcelManipulation");
-                        _ = Task.Run(ExcelService.Load);
-                        return;
-                    }
-
-                    if (!TradeFileService.IsLoaded)
-                    {
-                        Debug.WriteLine($"Load Json");
-                        _ = Task.Run(TradeFileService.Load);
+                        LoadTrades();
                         return;
                     }
 

@@ -7,16 +7,16 @@ namespace Kenedia.Modules.OverflowTradingAssist.Models
 {
     public class TradePresenter
     {
-        private Trade _trade;
+        private Trade _trade = new();
 
         public TradePresenter()
         {
             
         }
 
-        public Trade Trade { get => _trade; set => Common.SetProperty(ref _trade, value, SetupTemplate); }
+        public Trade Trade { get => _trade; set => Common.SetProperty(ref _trade, value, SetupTrade); }
 
-        private void SetupTemplate(object sender, ValueChangedEventArgs<Trade> e)
+        private void SetupTrade(object sender, ValueChangedEventArgs<Trade> e)
         {
             if (e.OldValue != null)
             {

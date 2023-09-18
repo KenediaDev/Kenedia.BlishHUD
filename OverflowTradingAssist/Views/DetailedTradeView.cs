@@ -1,4 +1,5 @@
-﻿using Blish_HUD.Content;
+﻿using Blish_HUD;
+using Blish_HUD.Content;
 using Blish_HUD.Graphics.UI;
 using Kenedia.Modules.Core.Controls;
 using Kenedia.Modules.OverflowTradingAssist.Controls;
@@ -68,22 +69,25 @@ namespace Kenedia.Modules.OverflowTradingAssist.Views
 
             _tradeAmountButtonImage = new ButtonImage()
             {
-                Location = new(_tradePartnerTextBox.Right + (int)(width * 0.15F), 0),
+                Location = new(_tradePartnerTextBox.Right + (int)(width * 0.10F), 0),
                 Parent = c,
                 Size = new(27),
                 Texture = AsyncTexture2D.FromAssetId(156758),
-                BasicTooltipText = "Trade Amount (in copper)\n1 gold = 10000 copper\n1 silver = 100 copper",
                 Enabled = false,
+                Visible = false,
             };
+
             _amountNumberBox = new()
             {
-                Location = new(_tradeAmountButtonImage.Right, 0),
+                Location = new(_tradePartnerTextBox.Right + (int)(width * 0.05F), 0),
                 Parent = c,
-                Width = (int)(width * 0.45F) - _tradeAmountButtonImage.Width,
+                Width = (int)(width * 0.55F),
                 Value = _trade.ItemValue,
                 Height = _tradePartnerTextBox.Height,
                 //ValueChangedAction = (s) => _trade.Amount = s,
                 Enabled = false,
+                HideBackground = true,
+                Font = GameService.Content.DefaultFont16,
             };
 
             _tradeReviewButtonImage = new ButtonImage()
@@ -114,6 +118,7 @@ namespace Kenedia.Modules.OverflowTradingAssist.Views
                 Enabled = false,
                 BasicTooltipText = "Listing Link",
             };
+
             _listingTextBox = new TextBox()
             {
                 Location = new(_tradeListingButtonImage.Right, _tradeListingButtonImage.Top),
@@ -154,7 +159,7 @@ namespace Kenedia.Modules.OverflowTradingAssist.Views
             {
                 Parent = c,
                 WidthSizingMode = Blish_HUD.Controls.SizingMode.Fill,
-                HeightSizingMode = Blish_HUD.Controls.SizingMode.Fill,
+                Height = DetailedTradeWindow.ContentHeight - _tradeTypeImage.Bottom - 55,
                 Location = new(0, _tradeTypeImage.Bottom + 5),
                 FlowDirection = Blish_HUD.Controls.ControlFlowDirection.SingleTopToBottom,
                 ControlPadding = new(5),
@@ -166,7 +171,7 @@ namespace Kenedia.Modules.OverflowTradingAssist.Views
                 Width = width,
                 Title = "Items",
                 CanScroll = true,
-                Height = 250,
+                Height = (fp.Height - (int)fp.ControlPadding.Y) / 2,
                 BackgroundColor = Color.Black * 0.2F,
                 BorderColor = Color.Black,
                 BorderWidth = new(2),
@@ -179,11 +184,31 @@ namespace Kenedia.Modules.OverflowTradingAssist.Views
                 Width = width,
                 Title = "Payment",
                 CanScroll = true,
-                Height = 250,
+                Height = (fp.Height - (int)fp.ControlPadding.Y) / 2,
                 BackgroundColor = Color.Black * 0.2F,
                 BorderColor = Color.Black,
                 BorderWidth = new(2),
                 ClickAction = () => AddPayment(),
+            };
+
+            int buttonWidth = (width - 10) / 2;
+
+            Blish_HUD.Controls.Control ctrl = new Button()
+            {
+                Parent = c,
+                Location = new(0, fp.Bottom + 5),
+                SetLocalizedText = () => "Copy Listing",
+                Width = buttonWidth,
+                ClickAction = SetListing,
+            };
+
+            _ = new Button()
+            {
+                Parent = c,
+                Location = new(ctrl.Right + 10, fp.Bottom + 5),
+                SetLocalizedText = () => "Copy Review",
+                ClickAction = SetReview,
+                Width = buttonWidth,
             };
 
             foreach (var item in _trade.Items ?? Enumerable.Empty<ItemAmount>())
@@ -197,9 +222,64 @@ namespace Kenedia.Modules.OverflowTradingAssist.Views
             }
         }
 
+        private async void SetListing()
+        {
+            try
+            {
+                Debug.WriteLine($"{nameof(SetListing)}");
+                string[] textParts = new string[]
+                {
+                    _trade.TradeType is TradeType.Buy ? "**[WTB]** " : "**[WTS]** ",
+                };
+
+                foreach (var item in _trade.Items ?? Enumerable.Empty<ItemAmount>())
+                {
+                    if (item.Item is not null)
+                        textParts = textParts.Append($"{item.Amount}x {item.Item.Name} [{string.Format("{0:#g 00s 00c}", item.Value)}]{(item.Amount > 1 ? "/ea" : string.Empty)},").ToArray();
+                }
+                textParts[textParts.Length - 1] = (textParts.Last()?.TrimEnd(','));
+
+                textParts = textParts.Append($"{Environment.NewLine}IGN: {OverflowTradingAssist.ModuleInstance.Paths.AccountName}").ToArray();
+
+                _ = await ClipboardUtil.WindowsClipboardService.SetTextAsync(string.Join("", textParts));
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.Message);
+            }
+        }
+
+        private async void SetReview()
+        {
+            try
+            {
+                Debug.WriteLine($"{nameof(SetReview)}");
+                string[] textParts = new string[]
+                {
+                    _trade.TradeType is TradeType.Buy ? "**[Bought]** " : "**[Sold]** ",
+                };
+
+                foreach (var item in _trade.Items ?? Enumerable.Empty<ItemAmount>())
+                {
+                    if (item.Item is not null)
+                        textParts = textParts.Append($"{item.Amount}x {item.Item.Name},").ToArray();
+                }
+
+                textParts[textParts.Length - 1] = (textParts.Last()?.TrimEnd(','));
+                textParts = textParts.Append($" from @{_trade.TradePartner}").ToArray();
+                textParts = textParts.Append($" for a total of {string.Format("{0:#g 00s 00c}", _trade.ItemValue)}").ToArray();
+
+                _ = await ClipboardUtil.WindowsClipboardService.SetTextAsync(string.Join("", textParts));
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.Message);
+            }
+        }
+
         private void AddPayment(ItemAmount itemAmount = null)
         {
-            itemAmount ??= new() { Item = DataModels.Item.Coin};
+            itemAmount ??= new() { Item = DataModels.Item.Coin };
 
             _ = new ItemEntryControl(itemAmount)
             {
