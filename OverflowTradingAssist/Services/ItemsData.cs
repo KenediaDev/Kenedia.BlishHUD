@@ -10,6 +10,8 @@ using Newtonsoft.Json;
 using Blish_HUD;
 using Gw2Sharp.WebApi;
 using Kenedia.Modules.Core.Extensions;
+using System.Collections.Generic;
+using System.Diagnostics;
 
 namespace Kenedia.Modules.OverflowTradingAssist.Services
 {
@@ -36,6 +38,8 @@ namespace Kenedia.Modules.OverflowTradingAssist.Services
                 Items = loaded?.Items ?? Items;
                 Version = loaded?.Version ?? Version;
 
+                EnsureDefaultItems();
+
                 OverflowTradingAssist.Logger.Debug($"{name} Version {Version} | version {version}");
 
                 OverflowTradingAssist.Logger.Debug($"Check for missing values for {name}");
@@ -47,8 +51,8 @@ namespace Kenedia.Modules.OverflowTradingAssist.Services
                 }
 
                 var lang = GameService.Overlay.UserLocale.Value is Locale.Korean or Locale.Chinese ? Locale.English : GameService.Overlay.UserLocale.Value;
-                var localeMissing = Items.Where(item => item.Names[lang] == null)?.Select(e => e.Id);
-                var missing = itemIds.Except(Items.Select(e => e.Id)).Concat(localeMissing);
+                var localeMissing = Items.Where(item => item is not null && item.Names[lang] == null)?.Select(e => e.Id);
+                var missing = itemIds.Except(Items.Where(e => e is not null).Select(e => e.Id)).Concat(localeMissing);
 
                 if (version > Version)
                 {
@@ -99,17 +103,41 @@ namespace Kenedia.Modules.OverflowTradingAssist.Services
                     string json = JsonConvert.SerializeObject(this, SerializerSettings.Default);
                     File.WriteAllText(path, json);
                 }
-                
+
                 stopwatch.Stop();
                 OverflowTradingAssist.Logger.Debug($"Loaded {name} in {stopwatch.ElapsedMilliseconds}ms");
 
-                DataLoaded = DataLoaded || Items.Count > 0;                
+                DataLoaded = DataLoaded || Items.Count > 0;
                 return true;
             }
             catch (Exception ex)
             {
                 OverflowTradingAssist.Logger.Warn(ex, $"Failed to load {name} data.");
                 return false;
+            }
+        }
+
+        private void EnsureDefaultItems()
+        {
+            Items ??= new();
+
+            var items = new List<Item>
+            {
+                Item.UnkownItem,
+                Item.Coin,
+                Item.T6Set,
+                Item.Guild,
+                Item.GuildBank50,
+                Item.GuildBank150,
+                Item.GuildBank250,
+            };
+
+            foreach (var item in items)
+            {
+                if (!Items.Contains(item))
+                {
+                    Items.Add(item);
+                }
             }
         }
     }

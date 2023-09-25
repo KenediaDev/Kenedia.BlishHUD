@@ -162,6 +162,8 @@ namespace Kenedia.Modules.OverflowTradingAssist.Views
                 {
                     _mailingService.SendMail();
                     _mailButton.ImageColor = Color.OrangeRed;
+                    //_mailButton.Texture = AsyncTexture2D.FromAssetId(156732);
+                    //_mailButton.HoveredTexture = AsyncTexture2D.FromAssetId(156732);
                     _mailingService.MailReady += MailingService_MailReady;
                 },
                 SetLocalizedTooltip = () => "Send Mail",
@@ -274,7 +276,6 @@ namespace Kenedia.Modules.OverflowTradingAssist.Views
                 ClickAction = () => AddPayment(),
             };
 
-
             foreach (var item in Trade?.Items ?? Enumerable.Empty<ItemAmount>())
             {
                 AddItem(item);
@@ -290,6 +291,8 @@ namespace Kenedia.Modules.OverflowTradingAssist.Views
 
         private void MailingService_MailReady(object sender, EventArgs e)
         {
+            //_mailButton.Texture = AsyncTexture2D.FromAssetId(156727);
+            //_mailButton.HoveredTexture = AsyncTexture2D.FromAssetId(157106);
             _mailButton.ImageColor = Color.White;
         }
 

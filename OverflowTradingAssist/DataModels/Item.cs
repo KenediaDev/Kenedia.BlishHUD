@@ -28,11 +28,61 @@ namespace Kenedia.Modules.OverflowTradingAssist.DataModels
 
         public static Item Coin = new()
         {
-            Id = 0,
+            Id = -1,
             Name = "Raw Gold",
             Description = "Raw Gold",
             AssetId = 156904,
             Rarity = Gw2Sharp.WebApi.V2.Models.ItemRarity.Unknown,
+            Type = ItemType.Unknown,
+        };
+
+        public static Item T6Set = new()
+        {
+            Id = -2,
+            Name = "T6 Set",
+            Description = "250 of each T6 Material",
+            AssetId = 66950,
+            Rarity = Gw2Sharp.WebApi.V2.Models.ItemRarity.Rare,
+            Type = ItemType.Unknown,
+        };
+
+        public static Item Guild = new()
+        {
+            Id = -3,
+            Name = "Guild",
+            Description = "A GW2 Guild.",
+            AssetId = 156744,
+            Rarity = Gw2Sharp.WebApi.V2.Models.ItemRarity.Masterwork,
+            Type = ItemType.Unknown,
+        };
+
+        public static Item GuildBank50 = new()
+        {
+            Id = -4,
+            Name = "Guild Bank 50 Slot",
+            Description = "Guild Bank with 50 Slot vault.",
+            AssetId = 240682,
+            Rarity = Gw2Sharp.WebApi.V2.Models.ItemRarity.Rare,
+            Type = ItemType.Unknown,
+        };
+
+        public static Item GuildBank150 = new()
+        {
+            Id = -5,
+            Name = "Guild Bank 150 Slot",
+            Description = "Guild Bank with 150 Slot vault.",
+            AssetId = 240682,
+            Rarity = Gw2Sharp.WebApi.V2.Models.ItemRarity.Exotic,
+            Type = ItemType.Unknown,
+        };
+
+        public static Item GuildBank250 = new()
+        {
+            Id = -6,
+            Name = "Guild Bank 250 Slot",
+            Description = "Guild Bank with 250 Slot vault.",
+            AssetId = 240682,
+            Rarity = Gw2Sharp.WebApi.V2.Models.ItemRarity.Ascended,
             Type = ItemType.Unknown,
         };
 

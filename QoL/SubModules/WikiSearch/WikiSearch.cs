@@ -96,7 +96,7 @@ namespace Kenedia.Modules.QoL.SubModules.WikiSearch
         public override void Update(GameTime gameTime)
         {
             if (Enabled)
-                _mouseContainer.Visible = GameService.Input.Keyboard.KeysDown.Contains(Keys.LeftShift);
+                _mouseContainer.Visible = GameService.Input.Keyboard.KeysDown.Contains(Keys.LeftShift) || GameService.Input.Keyboard.KeysDown.Contains(Keys.RightShift);
         }
 
         protected override void Enable()
@@ -153,7 +153,7 @@ namespace Kenedia.Modules.QoL.SubModules.WikiSearch
         {
             if (!Enabled) return;
 
-            if (GameService.Input.Keyboard.KeysDown.Contains(Keys.LeftShift))
+            if (GameService.Input.Keyboard.KeysDown.Contains(Keys.LeftShift) || GameService.Input.Keyboard.KeysDown.Contains(Keys.RightShift))
             {
                 await OpenWikiForItemFromChat();
             }

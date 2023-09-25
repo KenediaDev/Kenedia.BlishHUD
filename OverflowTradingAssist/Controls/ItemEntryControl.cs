@@ -123,6 +123,28 @@ namespace Kenedia.Modules.OverflowTradingAssist.Controls
         public override void RecalculateLayout()
         {
             base.RecalculateLayout();
+
+            int width = ContentRegion.Width;
+            int height = ContentRegion.Height;
+
+            if (_itemControl is not null && _effectivePriceButton is not null && _itemLabel is not null && _effectivePrice is not null && _deleteButton is not null)
+            {
+                _itemControl.Size = new Point(height);
+                _itemControl.Location = new Point(0, 0);
+
+                _effectivePriceButton.Size = new Point(height);
+                _effectivePriceButton.Location = new Point(width - _effectivePriceButton.Width - _effectivePrice.Width - _deleteButton.Width - 7, 0);
+
+                //_effectivePrice.Size = new Point(_effectivePrice.Width, height);
+                _effectivePrice.Location = new Point(_effectivePriceButton.Right, 0);
+
+                _deleteButton.Size = new Point(height);
+                _deleteButton.Location = new Point(width - _deleteButton.Width, 0);
+
+                _itemLabel.Size = new Point(_effectivePriceButton.Left - _itemControl.Right, height);
+                _itemLabel.Location = new(_itemControl.Right + 5, 0);
+            }
+
         }
 
         public override void PaintAfterChildren(SpriteBatch spriteBatch, Rectangle bounds)

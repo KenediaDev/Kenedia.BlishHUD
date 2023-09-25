@@ -233,7 +233,7 @@ namespace Kenedia.Modules.QoL.SubModules.ItemDestruction
         {
             if (Common.Now - _lastAction < 150 || !Enabled) return;
 
-            if (GameService.Input.Keyboard.KeysDown.Contains(Keys.LeftShift))
+            if (GameService.Input.Keyboard.KeysDown.Contains(Keys.LeftShift) || GameService.Input.Keyboard.KeysDown.Contains(Keys.RightShift))
             {
 
                 var _clientWindowService = QoL.ModuleInstance.Services.ClientWindowService;
