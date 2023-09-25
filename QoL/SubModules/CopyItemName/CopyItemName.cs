@@ -130,7 +130,7 @@ namespace Kenedia.Modules.QoL.SubModules.CopyItemName
         public override void Update(GameTime gameTime)
         {
             if (Enabled)
-                _mouseContainer.Visible = GameService.Input.Keyboard.KeysDown.Contains(_modifierToChat.Value.PrimaryKey);
+                _mouseContainer.Visible = GameService.Input.Keyboard.KeysDown.Contains(Keys.LeftShift) || GameService.Input.Keyboard.KeysDown.Contains(Keys.RightShift);
         }
 
         protected override void Disable()
@@ -176,7 +176,7 @@ namespace Kenedia.Modules.QoL.SubModules.CopyItemName
         {
             if (!Enabled) return;
 
-            if (GameService.Input.Keyboard.KeysDown.Contains(_modifierToChat.Value.PrimaryKey))
+            if (GameService.Input.Keyboard.KeysDown.Contains(Keys.LeftShift) || GameService.Input.Keyboard.KeysDown.Contains(Keys.RightShift))
             {
                 var _clientWindowService = QoL.ModuleInstance.Services.ClientWindowService;
                 var _sharedSettings = QoL.ModuleInstance.Services.SharedSettings;
@@ -203,7 +203,8 @@ namespace Kenedia.Modules.QoL.SubModules.CopyItemName
                 await Task.Delay(50);
                 var key = _modifierToChat.Value.PrimaryKey;
 
-                Keyboard.Release((Key)key, true);
+                Keyboard.Release((Key)Keys.LeftShift, true);
+                Keyboard.Release((Key)Keys.RightShift, true);
                 await Task.Delay(5);
 
                 Keyboard.Press(Key.LCONTROL, true);
@@ -252,8 +253,6 @@ namespace Kenedia.Modules.QoL.SubModules.CopyItemName
 
                 if (_disableOnCopy.Value)
                 {
-
-                    Debug.WriteLine($"DISABLE");
                     Disable(); 
                 }
             }
