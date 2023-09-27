@@ -7,9 +7,17 @@ using System;
 using SizingMode = Blish_HUD.Controls.SizingMode;
 using ControlFlowDirection = Blish_HUD.Controls.ControlFlowDirection;
 using Kenedia.Modules.QoL.Res;
+using Kenedia.Modules.Core.Extensions;
 
 namespace Kenedia.Modules.QoL.SubModules.GameResets
 {
+    public enum DateDisplayType
+    {
+        Short,
+        ShortDays,
+        Long,
+    }
+
     public class GameResets : SubModule
     {
         private readonly FlowPanel _container;
@@ -17,9 +25,12 @@ namespace Kenedia.Modules.QoL.SubModules.GameResets
         private readonly IconLabel _serverReset;
         private readonly IconLabel _weeklyReset;
 
+        private SettingEntry<bool> _showTooltips;
         private SettingEntry<bool> _showServerTime;
         private SettingEntry<bool> _showDailyReset;
         private SettingEntry<bool> _showWeeklyReset;
+        private SettingEntry<bool> _showIcons;
+        private SettingEntry<DateDisplayType> _dateDisplay;
 
         public GameResets(SettingCollection settings) : base(settings)
         {
@@ -33,7 +44,7 @@ namespace Kenedia.Modules.QoL.SubModules.GameResets
                 FlowDirection = ControlFlowDirection.SingleBottomToTop,
                 ControlPadding = new Vector2(0, 2),
                 Location = GameService.Graphics.SpriteScreen.LocalBounds.Center,
-                Enabled = false,
+                //Enabled = false,
                 CaptureInput = false,
             });
 
@@ -44,8 +55,8 @@ namespace Kenedia.Modules.QoL.SubModules.GameResets
                 Text = "0 days 00:00:00",
                 BasicTooltipText = "Weekly Reset",
                 AutoSize = true,
-                Enabled = false,
-                CaptureInput = false,
+                //Enabled = false,
+                //CaptureInput = false,
             };
 
             _serverReset = new IconLabel()
@@ -55,25 +66,26 @@ namespace Kenedia.Modules.QoL.SubModules.GameResets
                 Text = "00:00:00",
                 BasicTooltipText = "Server Reset",
                 AutoSize = true,
-                Enabled = false,
-                CaptureInput = false,
+                //Enabled = false,
+                //CaptureInput = false,
             };
 
-            _serverTime = new IconLabel()
+            _serverTime = new IconLabel
             {
                 Parent = _container,
                 Texture = new(517180) { Size = new(GameService.Content.DefaultFont14.LineHeight), TextureRegion = new(4, 4, 24, 24) },
                 Text = "00:00:00",
                 BasicTooltipText = "Server Time",
                 AutoSize = true,
-                Enabled = false,
-                CaptureInput = false,
+                //Enabled = false,
+                //CaptureInput = false,
+                ShowIcon = _serverReset.ShowIcon = _weeklyReset.ShowIcon = _showIcons.Value
             };
-
             SetPositions();
         }
 
         public override SubModuleType SubModuleType => SubModuleType.GameResets;
+
         public override void Load()
         {
             base.Load();
@@ -105,13 +117,30 @@ namespace Kenedia.Modules.QoL.SubModules.GameResets
         {
             base.DefineSettings(settings);
 
+            _showTooltips = settings.DefineSetting(nameof(_showTooltips), true);
             _showServerTime = settings.DefineSetting(nameof(_showServerTime), true);
             _showDailyReset = settings.DefineSetting(nameof(_showDailyReset), true);
             _showWeeklyReset = settings.DefineSetting(nameof(_showWeeklyReset), true);
+            _showIcons = settings.DefineSetting(nameof(_showIcons), true);
+            _dateDisplay = settings.DefineSetting(nameof(_dateDisplay), DateDisplayType.Long);
 
             _showServerTime.SettingChanged += ChangeServerTimeVisibility;
             _showDailyReset.SettingChanged += ChangeServerResetVisibility;
             _showWeeklyReset.SettingChanged += ChangeWeeklyResetVisibility;
+            _showIcons.SettingChanged += ChangeShowIcons;
+            _dateDisplay.SettingChanged += DateDisplay_SettingChanged;
+        }
+
+        private void DateDisplay_SettingChanged(object sender, ValueChangedEventArgs<DateDisplayType> e)
+        {
+            SetTexts();
+        }
+
+        private void ChangeShowIcons(object sender, ValueChangedEventArgs<bool> e)
+        {
+            _serverTime.ShowIcon = e.NewValue;
+            _serverReset.ShowIcon = e.NewValue;
+            _weeklyReset.ShowIcon = e.NewValue;
         }
 
         private void ChangeServerTimeVisibility(object sender, ValueChangedEventArgs<bool> e)
@@ -125,7 +154,7 @@ namespace Kenedia.Modules.QoL.SubModules.GameResets
             _serverReset.Visible = e.NewValue;
             _serverReset.Parent?.Invalidate();
         }
-        
+
         private void ChangeWeeklyResetVisibility(object sender, ValueChangedEventArgs<bool> e)
         {
             _weeklyReset.Visible = e.NewValue;
@@ -158,6 +187,8 @@ namespace Kenedia.Modules.QoL.SubModules.GameResets
         {
             if (!Enabled) return;
             _container.Visible = Enabled && GameService.GameIntegration.Gw2Instance.IsInGame && !GameService.Gw2Mumble.UI.IsMapOpen;
+            _serverTime.Capture = _serverReset.Capture = _weeklyReset.Capture = _container.Capture = _showTooltips.Value ? _container.AbsoluteBounds.Contains(GameService.Input.Mouse.Position) ? Blish_HUD.Controls.CaptureType.DoNotBlock : Blish_HUD.Controls.CaptureType.None : Blish_HUD.Controls.CaptureType.None;
+
             SetTexts();
             SetPositions();
         }
@@ -193,7 +224,12 @@ namespace Kenedia.Modules.QoL.SubModules.GameResets
             _serverTime.Text = string.Format("{0}:{1:00}", now.Hour, now.Minute);
 
             var weeklyReset = w.Subtract(now);
-            _weeklyReset.Text = string.Format("{1:0} {0} {2:00}:{3:00}:{4:00}", strings.Days, weeklyReset.Days, weeklyReset.Hours, weeklyReset.Minutes, weeklyReset.Seconds);
+            _weeklyReset.Text = 
+                _dateDisplay.Value is DateDisplayType.Long ? string.Format("{1:0} {0} {2:00}:{3:00}:{4:00}", strings.Days, weeklyReset.Days, weeklyReset.Hours, weeklyReset.Minutes, weeklyReset.Seconds):
+                _dateDisplay.Value is DateDisplayType.ShortDays ? string.Format("{1:0}{0} {2:00}:{3:00}:{4:00}", strings.Days.Substring(0, 1), weeklyReset.Days, weeklyReset.Hours, weeklyReset.Minutes, weeklyReset.Seconds):
+                weeklyReset.Days > 0
+                                    ? string.Format("{1:0} {0}", strings.Days, weeklyReset.Days)
+                                    : string.Format("{0:00}:{1:00}:{2:00}", weeklyReset.Hours, weeklyReset.Minutes, weeklyReset.Seconds);
 
             var serverReset = t.Subtract(now);
             _serverReset.Text = string.Format("{0:00}:{1:00}:{2:00}", serverReset.Hours, serverReset.Minutes, serverReset.Seconds);
@@ -267,6 +303,37 @@ namespace Kenedia.Modules.QoL.SubModules.GameResets
                 Height = 20,
                 Checked = _showWeeklyReset.Value,
                 CheckedChangedAction = (b) => _showWeeklyReset.Value = b,
+            });
+
+            UI.WrapWithLabel(() => strings.ShowIcons_Name, () => strings.ShowIcons_Tooltip, contentFlowPanel, width - 16, new Checkbox()
+            {
+                Height = 20,
+                Checked = _showIcons.Value,
+                CheckedChangedAction = (b) => _showIcons.Value = b,
+            });
+
+            UI.WrapWithLabel(() => strings.ShowTooltips_Name, () => strings.ShowTooltips_Tooltip, contentFlowPanel, width - 16, new Checkbox()
+            {
+                Height = 20,
+                Checked = _showTooltips.Value,
+                CheckedChangedAction = (b) => _showTooltips.Value = b,
+            });
+
+            UI.WrapWithLabel(() => strings.KeyboardLayout_Name, () => strings.KeyboardLayout_Tooltip, contentFlowPanel, width - 16, new Dropdown()
+            {
+                Location = new(250, 0),
+                Parent = contentFlowPanel,
+                SetLocalizedItems = () =>
+                {
+                    return new()
+                    {
+                        $"{DateDisplayType.Short}".SplitStringOnUppercase(),
+                        $"{DateDisplayType.ShortDays}".SplitStringOnUppercase(),
+                        $"{DateDisplayType.Long}".SplitStringOnUppercase(),
+                    };
+                },
+                SelectedItem = $"{_dateDisplay.Value}".SplitStringOnUppercase(),
+                ValueChangedAction = (b) => _dateDisplay.Value = Enum.TryParse(b.RemoveSpaces(), out DateDisplayType dateType) ? dateType : _dateDisplay.Value,
             });
         }
     }

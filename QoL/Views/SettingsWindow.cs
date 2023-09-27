@@ -13,6 +13,7 @@ using System.Collections.Generic;
 using Kenedia.Modules.QoL.SubModules;
 using Kenedia.Modules.QoL.Services;
 using System;
+using Kenedia.Modules.Core.Models;
 
 namespace Kenedia.Modules.QoL.Views
 {
@@ -107,6 +108,23 @@ namespace Kenedia.Modules.QoL.Views
                 },
                 SelectedItem = $"{_settings.HotbarButtonSorting.Value}".SplitStringOnUppercase(),
                 ValueChangedAction = (b) => _settings.HotbarButtonSorting.Value = Enum.TryParse(b.RemoveSpaces(), out SortType sortType) ? sortType : _settings.HotbarButtonSorting.Value,
+            });
+
+            UI.WrapWithLabel(() => strings.KeyboardLayout_Name, () => strings.KeyboardLayout_Tooltip, contentFlowPanel, ContentRegion.Width - 20 - 16, new Dropdown()
+            {
+                Location = new(250, 0),
+                Parent = contentFlowPanel,
+                SetLocalizedItems = () =>
+                {
+                    return new()
+                    {
+                        $"{KeyboardLayoutType.QWETY}".SplitStringOnUppercase(),
+                        $"{KeyboardLayoutType.AZERTY}".SplitStringOnUppercase(),
+                        $"{KeyboardLayoutType.QWERTZ}".SplitStringOnUppercase(),
+                    };
+                },
+                SelectedItem = $"{_settings.KeyboardLayout.Value}".SplitStringOnUppercase(),
+                ValueChangedAction = (b) => _settings.KeyboardLayout.Value = Enum.TryParse(b.RemoveSpaces(), out KeyboardLayoutType sortType) ? sortType : _settings.KeyboardLayout.Value,
             });
         }
 

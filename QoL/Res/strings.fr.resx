@@ -246,4 +246,22 @@
   <data name="HotbarButtonSorting_Tooltip" xml:space="preserve">
     <value>Ordre des boutons de la barre d'outils</value>
   </data>
+  <data name="KeyboardLayout_Name" xml:space="preserve">
+    <value>Disposition du clavier</value>
+  </data>
+  <data name="KeyboardLayout_Tooltip" xml:space="preserve">
+    <value>Disposition du clavier que vous utilisez</value>
+  </data>
+  <data name="ShowIcons_Name" xml:space="preserve">
+    <value>Afficher les icônes</value>
+  </data>
+  <data name="ShowIcons_Tooltip" xml:space="preserve">
+    <value>Afficher les icônes avant le compte à rebours de la réinitialisation</value>
+  </data>
+  <data name="ShowTooltips_Name" xml:space="preserve">
+    <value>Afficher les infobulles</value>
+  </data>
+  <data name="ShowTooltips_Tooltip" xml:space="preserve">
+    <value>Afficher les infobulles au survol des textes de réinitialisation</value>
+  </data>
 </root>

@@ -246,4 +246,22 @@
   <data name="HotbarButtonSorting_Tooltip" xml:space="preserve">
     <value>Reihenfolge der Schaltflächen der Hotbars</value>
   </data>
+  <data name="KeyboardLayout_Name" xml:space="preserve">
+    <value>Tastatur-Layout</value>
+  </data>
+  <data name="KeyboardLayout_Tooltip" xml:space="preserve">
+    <value>Tastaturlayout, das Sie verwenden</value>
+  </data>
+  <data name="ShowIcons_Name" xml:space="preserve">
+    <value>Icons anzeigen</value>
+  </data>
+  <data name="ShowIcons_Tooltip" xml:space="preserve">
+    <value>Symbole vor dem Rücksetz-Countdown anzeigen</value>
+  </data>
+  <data name="ShowTooltips_Name" xml:space="preserve">
+    <value>Tooltips anzeigen</value>
+  </data>
+  <data name="ShowTooltips_Tooltip" xml:space="preserve">
+    <value>Tooltips anzeigen, wenn der Mauszeiger über die zurückgesetzten Texte bewegt wird</value>
+  </data>
 </root>

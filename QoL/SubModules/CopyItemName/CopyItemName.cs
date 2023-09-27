@@ -14,6 +14,7 @@ using Blish_HUD.Input;
 using Kenedia.Modules.Core.Extensions;
 using Kenedia.Modules.QoL.Res;
 using Kenedia.Modules.Core.Utility;
+using Kenedia.Modules.Core.Models;
 using System.Diagnostics;
 
 namespace Kenedia.Modules.QoL.SubModules.CopyItemName
@@ -200,6 +201,8 @@ namespace Kenedia.Modules.QoL.SubModules.CopyItemName
         {
             try
             {
+                var layout = QoL.ModuleInstance.Settings.KeyboardLayout.Value;
+
                 await Task.Delay(50);
                 var key = _modifierToChat.Value.PrimaryKey;
 
@@ -208,7 +211,12 @@ namespace Kenedia.Modules.QoL.SubModules.CopyItemName
                 await Task.Delay(5);
 
                 Keyboard.Press(Key.LCONTROL, true);
-                Keyboard.Stroke(Key.KEY_A, true);
+                Keyboard.Stroke(
+                    layout switch
+                    {
+                        KeyboardLayoutType.AZERTY => Key.KEY_Q,
+                        _ => Key.KEY_A,
+                    }, true);
                 await Task.Delay(25);
 
                 Keyboard.Stroke(Key.KEY_C, true);

@@ -214,6 +214,24 @@ namespace Kenedia.Modules.QoL.Res {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Keyboard Layout.
+        /// </summary>
+        internal static string KeyboardLayout_Name {
+            get {
+                return ResourceManager.GetString("KeyboardLayout_Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Keyboard Layout you use.
+        /// </summary>
+        internal static string KeyboardLayout_Tooltip {
+            get {
+                return ResourceManager.GetString("KeyboardLayout_Tooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Manual Max Zoom Out.
         /// </summary>
         internal static string ManualZoom_Name {
@@ -322,6 +340,24 @@ namespace Kenedia.Modules.QoL.Res {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Show Icons.
+        /// </summary>
+        internal static string ShowIcons_Name {
+            get {
+                return ResourceManager.GetString("ShowIcons_Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Show Icons before the reset countdown.
+        /// </summary>
+        internal static string ShowIcons_Tooltip {
+            get {
+                return ResourceManager.GetString("ShowIcons_Tooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Show {0} on the hotbar.
         /// </summary>
         internal static string ShowInHotbar_Description {
@@ -354,6 +390,24 @@ namespace Kenedia.Modules.QoL.Res {
         internal static string ShowServerTime_Tooltip {
             get {
                 return ResourceManager.GetString("ShowServerTime_Tooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Show Tooltips.
+        /// </summary>
+        internal static string ShowTooltips_Name {
+            get {
+                return ResourceManager.GetString("ShowTooltips_Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Show Tooltips when hovering the reset texts.
+        /// </summary>
+        internal static string ShowTooltips_Tooltip {
+            get {
+                return ResourceManager.GetString("ShowTooltips_Tooltip", resourceCulture);
             }
         }
         

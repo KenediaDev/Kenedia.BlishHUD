@@ -1,7 +1,7 @@
 ﻿using Blish_HUD.Settings;
 using Kenedia.Modules.Core.Controls;
-using Kenedia.Modules.Core.Models;
 using Microsoft.Xna.Framework;
+using Kenedia.Modules.Core.Models;
 
 namespace Kenedia.Modules.QoL.Services
 {
@@ -19,11 +19,14 @@ namespace Kenedia.Modules.QoL.Services
 
             HotbarExpandDirection = _settings.DefineSetting(nameof(HotbarExpandDirection), ExpandType.LeftToRight);
             HotbarButtonSorting = _settings.DefineSetting(nameof(HotbarButtonSorting), SortType.ActivesFirst);
+            KeyboardLayout = _settings.DefineSetting(nameof(KeyboardLayout), KeyboardLayoutType.QWERTZ);
         }
 
         public SettingEntry<ExpandType> HotbarExpandDirection { get; }
 
         public SettingEntry<SortType> HotbarButtonSorting{ get; }
+
+        public SettingEntry<KeyboardLayoutType> KeyboardLayout { get; }
 
         public SettingEntry<Point> HotbarPosition { get; }
     }

@@ -97,6 +97,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Interfaces\INameAndIcon.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\BaseModule.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\BaseSettingsModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\KeyboardLayoutType.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\ConditionalNotification.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\SerializerSettings.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\CustomApiManager.cs" />

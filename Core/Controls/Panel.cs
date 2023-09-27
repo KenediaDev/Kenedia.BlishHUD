@@ -165,6 +165,8 @@ namespace Kenedia.Modules.Core.Controls
 
         public bool CaptureInput { get; set; } = true;
 
+        public CaptureType? Capture { get; set; }
+
         public Action OnCollapse { get; set; }
 
         public Action OnExpand { get; set; }
@@ -395,7 +397,7 @@ namespace Kenedia.Modules.Core.Controls
 
         protected override CaptureType CapturesInput()
         {
-            return CaptureInput ? base.CapturesInput() : CaptureType.None;
+            return Capture ?? (CaptureInput ? base.CapturesInput() : CaptureType.None);
         }
     }
 }

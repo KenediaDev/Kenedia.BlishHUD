@@ -23,6 +23,7 @@ namespace Kenedia.Modules.Core.Controls
         private DetailedTexture _texture;
         private int _innerPadding = 5;
         private RectangleDimensions _outerPadding = new(2);
+        private bool _showIcon = true;
 
         public string Text { get => _text; set => Common.SetProperty(ref _text, value, RecalculateLayout); }
 
@@ -36,7 +37,11 @@ namespace Kenedia.Modules.Core.Controls
 
         public Color FontColor { get; set; } = Color.White;
 
-        public bool CaptureInput { get; set; } = false;
+        public bool CaptureInput { get; set; } = true;
+
+        public CaptureType? Capture { get; set; } 
+
+        public bool ShowIcon { get => _showIcon; set => Common.SetProperty(ref _showIcon, value, RecalculateLayout); }
 
         public override void RecalculateLayout()
         {
@@ -48,10 +53,10 @@ namespace Kenedia.Modules.Core.Controls
             int imagePadding = Texture is null ? 0 : (Math.Max(Texture.Bounds.Height, (int)size.Height) - p.Vertical - Texture.Bounds.Height) / 2;
             int textPadding = (Math.Max(Texture?.Bounds.Height ?? 0, (int)size.Height) - p.Vertical - (int)size.Height) / 2;
 
-            _iconBounds = Texture is null ? Rectangle.Empty : new Rectangle(p.Left, p.Top + imagePadding, Texture.Bounds.Width, Texture.Bounds.Height);
+            _iconBounds = (!ShowIcon || Texture is null) ? Rectangle.Empty : new Rectangle(p.Left, p.Top + imagePadding, Texture.Bounds.Width, Texture.Bounds.Height);
             _textBounds = new(_iconBounds.Right + InnerPadding, p.Top + textPadding, (int)size.Width, (int)size.Height);
 
-            _totalBounds = new(Point.Zero, 
+            _totalBounds = new(Point.Zero,
                 new(
                     _iconBounds.Width + _textBounds.Width + InnerPadding + p.Right,
                     Math.Max(_iconBounds.Height, _textBounds.Height) + p.Bottom
@@ -89,7 +94,7 @@ namespace Kenedia.Modules.Core.Controls
 
         protected override CaptureType CapturesInput()
         {
-            return CaptureInput ? base.CapturesInput() : CaptureType.None;
+            return Capture ?? (CaptureInput ? base.CapturesInput() : CaptureType.None);
         }
 
         protected override void DisposeControl()

@@ -12,6 +12,7 @@ using System.Threading.Tasks;
 using Blish_HUD.Controls;
 using System.Diagnostics;
 using Blish_HUD.Input;
+using System.Text.RegularExpressions;
 
 namespace Kenedia.Modules.Core.Controls
 {
@@ -165,6 +166,8 @@ namespace Kenedia.Modules.Core.Controls
         public Action OnExpand { get; set; }
 
         public bool CaptureInput { get; set; } = true;
+
+        public CaptureType? Capture { get; set; }
 
         protected override void OnClick(MouseEventArgs e)
         {
@@ -409,7 +412,7 @@ namespace Kenedia.Modules.Core.Controls
 
         protected override CaptureType CapturesInput()
         {
-            return CaptureInput ? base.CapturesInput() : CaptureType.None;
+            return Capture ?? (CaptureInput ? base.CapturesInput() : CaptureType.None);
         }
     }
 }

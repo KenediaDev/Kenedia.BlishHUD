@@ -226,4 +226,22 @@
   <data name="HotbarButtonSorting_Tooltip" xml:space="preserve">
     <value>Order of the hotbars buttons</value>
   </data>
+  <data name="KeyboardLayout_Name" xml:space="preserve">
+    <value>Keyboard Layout</value>
+  </data>
+  <data name="KeyboardLayout_Tooltip" xml:space="preserve">
+    <value>Keyboard Layout you use</value>
+  </data>
+  <data name="ShowIcons_Name" xml:space="preserve">
+    <value>Show Icons</value>
+  </data>
+  <data name="ShowIcons_Tooltip" xml:space="preserve">
+    <value>Show Icons before the reset countdown</value>
+  </data>
+  <data name="ShowTooltips_Name" xml:space="preserve">
+    <value>Show Tooltips</value>
+  </data>
+  <data name="ShowTooltips_Tooltip" xml:space="preserve">
+    <value>Show Tooltips when hovering the reset texts</value>
+  </data>
 </root>

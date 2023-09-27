@@ -15,6 +15,7 @@ using Microsoft.Xna.Framework.Input;
 using Keyboard = Blish_HUD.Controls.Intern.Keyboard;
 using Key = Blish_HUD.Controls.Extern.VirtualKeyShort;
 using Kenedia.Modules.QoL.Res;
+using Kenedia.Modules.Core.Models;
 
 namespace Kenedia.Modules.QoL.SubModules.ItemDestruction
 {
@@ -286,6 +287,8 @@ namespace Kenedia.Modules.QoL.SubModules.ItemDestruction
 
             try
             {
+                var layout = QoL.ModuleInstance.Settings.KeyboardLayout.Value;
+
                 _lastAction = Common.Now;
                 await Task.Delay(50);
 
@@ -293,7 +296,13 @@ namespace Kenedia.Modules.QoL.SubModules.ItemDestruction
                 await Task.Delay(5);
 
                 Keyboard.Press(Key.LCONTROL, true);
-                Keyboard.Stroke(Key.KEY_A, true);
+                Keyboard.Stroke(
+                    layout switch
+                    {
+                        KeyboardLayoutType.AZERTY => Key.KEY_Q,
+                        _ => Key.KEY_A,
+                    }, true);
+
                 await Task.Delay(25);
 
                 Keyboard.Stroke(Key.KEY_C, true);
