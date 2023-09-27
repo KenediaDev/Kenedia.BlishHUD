@@ -264,4 +264,10 @@
   <data name="ShowTooltips_Tooltip" xml:space="preserve">
     <value>Mostrar Tooltips al pasar el ratón sobre los textos de reinicio</value>
   </data>
+  <data name="DateFormat_Name" xml:space="preserve">
+    <value>Formato de fecha</value>
+  </data>
+  <data name="DateFormat_Tooltip" xml:space="preserve">
+    <value>Formato de fecha a utilizar para la puesta a cero semanal.</value>
+  </data>
 </root>

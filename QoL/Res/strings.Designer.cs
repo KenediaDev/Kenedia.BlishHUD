@@ -97,6 +97,24 @@ namespace Kenedia.Modules.QoL.Res {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Date Format.
+        /// </summary>
+        internal static string DateFormat_Name {
+            get {
+                return ResourceManager.GetString("DateFormat_Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Date format to use for the weekly reset..
+        /// </summary>
+        internal static string DateFormat_Tooltip {
+            get {
+                return ResourceManager.GetString("DateFormat_Tooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to days.
         /// </summary>
         internal static string Days {

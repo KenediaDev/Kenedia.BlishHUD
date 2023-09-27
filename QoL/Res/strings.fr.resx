@@ -264,4 +264,10 @@
   <data name="ShowTooltips_Tooltip" xml:space="preserve">
     <value>Afficher les infobulles au survol des textes de réinitialisation</value>
   </data>
+  <data name="DateFormat_Name" xml:space="preserve">
+    <value>Format de la date</value>
+  </data>
+  <data name="DateFormat_Tooltip" xml:space="preserve">
+    <value>Format de date à utiliser pour la remise à zéro hebdomadaire.</value>
+  </data>
 </root>

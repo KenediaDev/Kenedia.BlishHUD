@@ -319,7 +319,7 @@ namespace Kenedia.Modules.QoL.SubModules.GameResets
                 CheckedChangedAction = (b) => _showTooltips.Value = b,
             });
 
-            UI.WrapWithLabel(() => strings.KeyboardLayout_Name, () => strings.KeyboardLayout_Tooltip, contentFlowPanel, width - 16, new Dropdown()
+            UI.WrapWithLabel(() => strings.DateFormat_Name, () => strings.DateFormat_Tooltip, contentFlowPanel, width - 16, new Dropdown()
             {
                 Location = new(250, 0),
                 Parent = contentFlowPanel,

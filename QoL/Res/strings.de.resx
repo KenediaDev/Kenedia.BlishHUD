@@ -264,4 +264,10 @@
   <data name="ShowTooltips_Tooltip" xml:space="preserve">
     <value>Tooltips anzeigen, wenn der Mauszeiger über die zurückgesetzten Texte bewegt wird</value>
   </data>
+  <data name="DateFormat_Name" xml:space="preserve">
+    <value>Datum Format</value>
+  </data>
+  <data name="DateFormat_Tooltip" xml:space="preserve">
+    <value>Datumsformat, das für die wöchentliche Rückstellung verwendet werden soll.</value>
+  </data>
 </root>
