@@ -118,7 +118,7 @@ namespace Kenedia.Modules.QoL.Views
                 {
                     return new()
                     {
-                        $"{KeyboardLayoutType.QWETY}".SplitStringOnUppercase(),
+                        $"{KeyboardLayoutType.QWERTY}".SplitStringOnUppercase(),
                         $"{KeyboardLayoutType.AZERTY}".SplitStringOnUppercase(),
                         $"{KeyboardLayoutType.QWERTZ}".SplitStringOnUppercase(),
                     };
