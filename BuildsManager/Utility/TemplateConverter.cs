@@ -2,9 +2,12 @@
 using Kenedia.Modules.BuildsManager.Models;
 using Kenedia.Modules.BuildsManager.Models.Templates;
 using Kenedia.Modules.Core.DataModels;
+using Kenedia.Modules.Core.Models;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 
 namespace Kenedia.Modules.BuildsManager.Utility
 {
@@ -19,10 +22,18 @@ namespace Kenedia.Modules.BuildsManager.Utility
         {
             // Load the JSON for the Result into a JObject
             JObject jo = JObject.Load(reader);
+            ObservableCollection<string> tags;
 
             // Read the properties which will be used as constructor parameters
-            int? tags = (int?)jo["Tags"];
-            long? encounters = (long?)jo["Encounters"];
+            try
+            {
+               tags = jo["Tags"].ToObject<ObservableCollection<string>>(serializer);
+            }
+            catch
+            {
+                tags = new ObservableCollection<string>();
+            }
+
             string? name = (string?)jo["Name"];
             string? buildCode = (string?)jo["BuildCode"];
             string? gearCode = (string?)jo["GearCode"];
@@ -32,7 +43,7 @@ namespace Kenedia.Modules.BuildsManager.Utility
             int? elitespecId = (int?)jo["EliteSpecializationId"];
 
             // Construct the Result object using the non-default constructor
-            var result = new Template(name, (EncounterFlag)encounters, (TemplateFlag)tags, buildCode, gearCode, description, (Races)(race ?? -1), (ProfessionType)(profession ?? 1), elitespecId ?? 0);
+            var result = new Template(name, buildCode, gearCode, description, tags, (Races)(race ?? -1), (ProfessionType)(profession ?? 1), elitespecId ?? 0);
 
             // (If anything else needs to be populated on the result object, do that here)
 

@@ -1,0 +1,182 @@
+[
+  {
+    "AssetId": 547827,
+    "Name": "Favorite",
+    "TextureRegion": {
+      "X": 4,
+      "Y": 4,
+      "Width": 24,
+      "Height": 24
+    }
+  },
+  {
+    "AssetId": 157085,
+    "Name": "Pve",
+    "TextureRegion": {
+      "X": 0,
+      "Y": 0,
+      "Width": 0,
+      "Height": 0
+    }
+  },
+  {
+    "AssetId": 157119,
+    "Name": "Pvp",
+    "TextureRegion": {
+      "X": -2,
+      "Y": -2,
+      "Width": 36,
+      "Height": 36
+    }
+  },
+  {
+    "AssetId": 255428,
+    "Name": "Wvw",
+    "TextureRegion": {
+      "X": 2,
+      "Y": 2,
+      "Width": 28,
+      "Height": 28
+    }
+  },
+  {
+    "AssetId": 255280,
+    "Name": "OpenWorld",
+    "TextureRegion": {
+      "X": 2,
+      "Y": 2,
+      "Width": 28,
+      "Height": 28
+    }
+  },
+  {
+    "AssetId": 102478,
+    "Name": "Dungeons",
+    "TextureRegion": {
+      "X": -2,
+      "Y": -2,
+      "Width": 36,
+      "Height": 36
+    }
+  },
+  {
+    "AssetId": 514379,
+    "Name": "Fractals",
+    "TextureRegion": {
+      "X": -4,
+      "Y": -4,
+      "Width": 40,
+      "Height": 40
+    }
+  },
+  {
+    "AssetId": 1128644,
+    "Name": "Raids",
+    "TextureRegion": {
+      "X": -2,
+      "Y": -2,
+      "Width": 36,
+      "Height": 36
+    }
+  },
+  {
+    "AssetId": 66722,
+    "Name": "Power",
+    "TextureRegion": {
+      "X": 2,
+      "Y": 2,
+      "Width": 28,
+      "Height": 28
+    }
+  },
+  {
+    "AssetId": 156600,
+    "Name": "Condition",
+    "TextureRegion": {
+      "X": 2,
+      "Y": 2,
+      "Width": 28,
+      "Height": 28
+    }
+  },
+  {
+    "AssetId": 536048,
+    "Name": "Tank",
+    "TextureRegion": {
+      "X": 2,
+      "Y": 2,
+      "Width": 28,
+      "Height": 28
+    }
+  },
+  {
+    "AssetId": 156599,
+    "Name": "Support",
+    "TextureRegion": {
+      "X": 2,
+      "Y": 2,
+      "Width": 28,
+      "Height": 28
+    }
+  },
+  {
+    "AssetId": 536052,
+    "Name": "Heal",
+    "TextureRegion": {
+      "X": 2,
+      "Y": 2,
+      "Width": 28,
+      "Height": 28
+    }
+  },
+  {
+    "AssetId": 1012835,
+    "Name": "Quickness",
+    "TextureRegion": {
+      "X": -4,
+      "Y": -4,
+      "Width": 40,
+      "Height": 40
+    }
+  },
+  {
+    "AssetId": 1938787,
+    "Name": "Alacrity",
+    "TextureRegion": {
+      "X": -4,
+      "Y": -4,
+      "Width": 40,
+      "Height": 40
+    }
+  },
+  {
+    "AssetId": 460029,
+    "Name": "WorldCompletion",
+    "TextureRegion": {
+      "X": -16,
+      "Y": -16,
+      "Width": 160,
+      "Height": 160
+    }
+  },
+  {
+    "AssetId": 993668,
+    "Name": "Leveling",
+    "TextureRegion": {
+      "X": 0,
+      "Y": 0,
+      "Width": 0,
+      "Height": 0
+    }
+  },
+  {
+    "AssetId": 784331,
+    "Name": "Farming",
+    "TextureRegion": {
+      "X": -4,
+      "Y": -4,
+      "Width": 40,
+      "Height": 40
+    }
+  }
+]

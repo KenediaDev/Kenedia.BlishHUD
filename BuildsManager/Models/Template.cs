@@ -21,6 +21,8 @@ using Kenedia.Modules.BuildsManager.DataModels.Items;
 using Kenedia.Modules.BuildsManager.DataModels.Stats;
 using Kenedia.Modules.BuildsManager.Res;
 using System.Diagnostics;
+using System.Runtime.InteropServices;
+using System.Collections.ObjectModel;
 
 namespace Kenedia.Modules.BuildsManager.Models
 {
@@ -33,16 +35,18 @@ namespace Kenedia.Modules.BuildsManager.Models
         private bool _triggerEvents = true;
 
         private Races _race = Races.None;
-        private TemplateFlag _tags = TemplateFlag.None;
-        private EncounterFlag _encounters = EncounterFlag.None;
         private ProfessionType _profession = ProfessionType.Guardian;
 
-        private string _name =  strings.NewTemplate;
+        private string _name = strings.NewTemplate;
         private string _description = string.Empty;
 
         private string _savedBuildCode = string.Empty;
         private string _savedGearCode = string.Empty;
         public Specialization? _savedEliteSpecialization = null;
+
+        [JsonProperty("Tags")]
+        [DataMember]
+        private ObservableCollection<string> _tags;
 
         private CancellationTokenSource? _cancellationTokenSource;
 
@@ -55,10 +59,6 @@ namespace Kenedia.Modules.BuildsManager.Models
         public event EventHandler? LoadedBuildFromCode;
 
         public event ValueChangedEventHandler<string>? NameChanged;
-
-        public event ValueChangedEventHandler<TemplateFlag>? TagsChanged;
-
-        public event ValueChangedEventHandler<EncounterFlag>? EncountersChanged;
 
         public event ValueChangedEventHandler<Races>? RaceChanged;
 
@@ -123,6 +123,7 @@ namespace Kenedia.Modules.BuildsManager.Models
 
             PlayerCharacter player = Blish_HUD.GameService.Gw2Mumble.PlayerCharacter;
             Profession = player?.Profession ?? Profession;
+            _tags = new();
         }
 
         public Template(string? buildCode, string? gearCode) : this()
@@ -131,18 +132,17 @@ namespace Kenedia.Modules.BuildsManager.Models
         }
 
         [JsonConstructor]
-        public Template(string name, EncounterFlag encounters, TemplateFlag tags, string buildCode, string gearCode, string description, Races? race, ProfessionType? profession, int? elitespecId) : this()
+        public Template(string name, string buildCode, string gearCode, string description, ObservableCollection<string> tags, Races? race, ProfessionType? profession, int? elitespecId) : this()
         {
             // Disable Events to prevent unnecessary event triggers during the load
             _triggerEvents = false;
 
             _name = name;
-            _encounters = encounters;
-            _tags = tags;
             _race = race ?? Races.None;
             _profession = profession ?? ProfessionType.Guardian;
             _savedEliteSpecialization = BuildsManager.Data.Professions[Profession]?.Specializations.FirstOrDefault(e => e.Value.Id == elitespecId).Value;
             _description = description;
+            Tags = tags ?? _tags;
 
             // Enable Events again to become responsive
             _triggerEvents = true;
@@ -164,11 +164,7 @@ namespace Kenedia.Modules.BuildsManager.Models
         [DataMember]
         public Races Race { get => _race; set => Common.SetProperty(ref _race, value, OnRaceChanged, _triggerEvents); }
 
-        [DataMember]
-        public TemplateFlag Tags { get => _tags; set => Common.SetProperty(ref _tags, value, OnTagsChanged, _triggerEvents); }
-
-        [DataMember]
-        public EncounterFlag Encounters { get => _encounters; set => Common.SetProperty(ref _encounters, value, OnEncountersChanged, _triggerEvents); }
+        public ObservableCollection<string> Tags { get => _tags; private set => Common.SetProperty(ref _tags, value, OnTagsListChanged); }
 
         [DataMember]
         public string Name { get => _name; set => Common.SetProperty(ref _name, value, OnNameChanged, _triggerEvents); }
@@ -205,6 +201,25 @@ namespace Kenedia.Modules.BuildsManager.Models
         public LegendCollection Legends { get; } = new();
 
         public SpecializationCollection Specializations { get; } = new();
+
+        private void OnTagsListChanged(object sender, ValueChangedEventArgs<ObservableCollection<string>> e)
+        {
+            if (e.NewValue is not null)
+            {
+                e.NewValue.CollectionChanged += NewValue_CollectionChanged;
+            }
+
+            if (e.OldValue is not null)
+            {
+                e.OldValue.CollectionChanged -= NewValue_CollectionChanged;
+            }
+        }
+
+        private void NewValue_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        {
+            if (_triggerEvents)
+                AutoSave();
+        }
         #endregion Build
 
         #region Gear
@@ -542,7 +557,7 @@ namespace Kenedia.Modules.BuildsManager.Models
 
         private void OnNameChanged(object sender, ValueChangedEventArgs<string> e)
         {
-            if(!_triggerEvents)
+            if (!_triggerEvents)
                 return;
 
             AutoSave();
@@ -712,22 +727,6 @@ namespace Kenedia.Modules.BuildsManager.Models
         private void Armor_StatChanged(object sender, ValueChangedEventArgs<Stat> e)
         {
             OnGearChanged(sender, e);
-        }
-
-        private void OnTagsChanged(object sender, ValueChangedEventArgs<TemplateFlag> e)
-        {
-            if (!_triggerEvents) return;
-            TagsChanged?.Invoke(this, e);
-
-            AutoSave();
-        }
-
-        private void OnEncountersChanged(object sender, ValueChangedEventArgs<EncounterFlag> e)
-        {
-            if (!_triggerEvents) return;
-
-            EncountersChanged?.Invoke(this, e);
-            AutoSave();
         }
 
         private async void Spec_TraitsChanged(object sender, EventArgs e)
@@ -1180,7 +1179,7 @@ namespace Kenedia.Modules.BuildsManager.Models
 
             foreach (var spec in Specializations.Values)
             {
-                if(spec !=null)
+                if (spec != null)
                     spec.TraitsChanged -= Spec_TraitsChanged;
             }
         }

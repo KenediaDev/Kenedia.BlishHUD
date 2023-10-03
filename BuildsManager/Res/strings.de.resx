@@ -379,4 +379,10 @@ Der Zweck dieses Codes ist es, die Module Ausrüstungsvorlage leicht mit anderen
   <data name="Accessory" xml:space="preserve">
     <value>Ohrring</value>
   </data>
+  <data name="Rename" xml:space="preserve">
+    <value>Umbenennen</value>
+  </data>
+  <data name="EditTags" xml:space="preserve">
+    <value>Tags bearbeiten</value>
+  </data>
 </root>

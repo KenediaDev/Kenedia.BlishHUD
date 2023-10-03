@@ -109,7 +109,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
                     _nameEdit.ForeColor = template == null || template == Template ? Color.White : Color.Red;
                 },
             };
-                        
+
             _editButton = new()
             {
                 Parent = this,
@@ -119,12 +119,14 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
                 TextureRectangle = new(2, 2, 28, 28),
                 Size = new(20),
                 ClickAction = (m) => ToggleEditMode(!_nameEdit.Visible),
+                SetLocalizedTooltip = () => strings.Rename,
             };
 
             Input.Mouse.LeftMouseButtonPressed += Mouse_LeftMouseButtonPressed;
             SetTooltip();
 
             Menu = new();
+            _ = Menu.AddMenuItem(new ContextMenuItem(() => strings.Rename, () => ToggleEditMode(true)));
             _ = Menu.AddMenuItem(new ContextMenuItem(() => strings.Duplicate, DuplicateTemplate));
             _ = Menu.AddMenuItem(new ContextMenuItem(() => strings.Delete, DeleteTemplate));
 
@@ -169,9 +171,10 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
         {
             string txt = strings.CopyBuildTemplateCode;
 
-            foreach(var c in Children)
+            foreach (var c in Children)
             {
-                c.BasicTooltipText = txt;
+                if(c != _editButton)
+                    c.BasicTooltipText = txt;
             }
 
             BasicTooltipText = txt;
@@ -200,25 +203,8 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
 
                     if (temp is not null) temp.EliteSpecializationChanged -= Template_EliteSpecializationChanged;
                     if (_template is not null) _template.EliteSpecializationChanged += Template_EliteSpecializationChanged;
-
-                    if (temp is not null) temp.EncountersChanged -= Template_EncountersChanged;
-                    if (_template is not null) _template.EncountersChanged += Template_EncountersChanged;
-
-                    if (temp is not null) temp.TagsChanged -= Template_TagsChanged;
-                    if (_template is not null) _template.TagsChanged += Template_TagsChanged;
-
                 }
             }
-        }
-
-        private void Template_TagsChanged(object sender, Core.Models.ValueChangedEventArgs<TemplateFlag> e)
-        {
-            ApplyTemplate();
-        }
-
-        private void Template_EncountersChanged(object sender, Core.Models.ValueChangedEventArgs<EncounterFlag> e)
-        {
-            ApplyTemplate();
         }
 
         private void Template_EliteSpecializationChanged(object sender, Core.Models.ValueChangedEventArgs<DataModels.Professions.Specialization> e)
@@ -473,28 +459,6 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
 
             if (_template is not null)
             {
-                foreach (var flag in _template.Tags.GetFlags())
-                {
-                    if ((TemplateFlag)flag != TemplateFlag.None)
-                    {
-                        TagTexture t;
-                        //_tagTexturess.Add(t = new(((TemplateTag)flag).GetTexture()));
-                        _tagTexturess.Add(t = ((TemplateFlag)flag).GetDetailedTexture());
-                    }
-                }
-
-                foreach (var flag in _template.Encounters.GetFlags())
-                {
-                    if ((EncounterFlag)flag != EncounterFlag.None)
-                    {
-                        TagTexture t;
-                        //_tagTexturess.Add(t = new(((TemplateTag)flag).GetTexture()));
-                        _tagTexturess.Add(t = ((EncounterFlag)flag).GetDetailedTexture());
-                        int pad = t.Texture.Width / 16;
-                        t.TextureRegion = flag is EncounterFlag.NormalMode or EncounterFlag.ChallengeMode ? new(-pad, -pad, t.Texture.Width + (pad * 2), t.Texture.Height + (pad * 2)) : t.TextureRegion;
-                    }
-                }
-
                 RecalculateLayout();
             }
         }

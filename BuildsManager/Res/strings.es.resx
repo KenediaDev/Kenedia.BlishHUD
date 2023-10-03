@@ -379,4 +379,10 @@ El propósito de este código es compartir la Plantilla de Equipo del módulo f�
   <data name="Accessory" xml:space="preserve">
     <value>Accesorio</value>
   </data>
+  <data name="Rename" xml:space="preserve">
+    <value>Cambie el nombre de</value>
+  </data>
+  <data name="EditTags" xml:space="preserve">
+    <value>Editar etiquetas</value>
+  </data>
 </root>

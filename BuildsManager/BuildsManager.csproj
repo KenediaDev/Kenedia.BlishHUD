@@ -255,6 +255,7 @@
     <Reference Include="System.Xml.ReaderWriter" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controls\AboutPage\TagControl.cs" />
     <Compile Include="Controls\BuildPage\BuildPage.cs" />
     <Compile Include="Controls\BuildPage\LegendSelectable.cs" />
     <Compile Include="Controls\BuildPage\LegendSelector.cs" />
@@ -367,6 +368,7 @@
     <Compile Include="Models\BasicItemMap.cs" />
     <Compile Include="Models\Paths.cs" />
     <Compile Include="Models\StaticVersion.cs" />
+    <Compile Include="Models\TemplateTag.cs" />
     <Compile Include="Models\TemplateEntries\AccessoireTemplateEntry.cs" />
     <Compile Include="Models\TemplateEntries\AmuletTemplateEntry.cs" />
     <Compile Include="Models\TemplateEntries\AquaticWeaponTemplateEntry.cs" />
@@ -402,6 +404,7 @@
     <Compile Include="Services\StatMap.cs" />
     <Compile Include="Services\Data\StatMappedDataEntry.cs" />
     <Compile Include="Services\StatMapping.cs" />
+    <Compile Include="Services\TemplateTags.cs" />
     <Compile Include="Utility\GearTemplateCode.cs" />
     <Compile Include="DataModels\Converter\PowerCoreConverter.cs" />
     <Compile Include="Utility\SkillSlotConversion.cs" />
@@ -523,6 +526,7 @@
     <None Include="manifest.json" />
     <None Include="packages.config" />
     <None Include="ref\data\ItemMapping.json" />
+    <None Include="ref\data\TemplateTags.json" />
     <None Include="ref\data\xItemMapping.json" />
     <None Include="ref\data\missing_skills.json" />
     <None Include="ref\data\rune_ids.json" />
