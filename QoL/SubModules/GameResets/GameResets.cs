@@ -8,6 +8,7 @@ using SizingMode = Blish_HUD.Controls.SizingMode;
 using ControlFlowDirection = Blish_HUD.Controls.ControlFlowDirection;
 using Kenedia.Modules.QoL.Res;
 using Kenedia.Modules.Core.Extensions;
+using System.Diagnostics;
 
 namespace Kenedia.Modules.QoL.SubModules.GameResets
 {
@@ -30,7 +31,10 @@ namespace Kenedia.Modules.QoL.SubModules.GameResets
         private SettingEntry<bool> _showDailyReset;
         private SettingEntry<bool> _showWeeklyReset;
         private SettingEntry<bool> _showIcons;
+        private SettingEntry<bool> _autoPosition;
         private SettingEntry<DateDisplayType> _dateDisplay;
+        private SettingEntry<Point> _resetPosition;
+        private bool _editPosition;
 
         public GameResets(SettingCollection settings) : base(settings)
         {
@@ -43,9 +47,10 @@ namespace Kenedia.Modules.QoL.SubModules.GameResets
                 Height = (GameService.Content.DefaultFont14.LineHeight * 3) + (2 * 3),
                 FlowDirection = ControlFlowDirection.SingleBottomToTop,
                 ControlPadding = new Vector2(0, 2),
-                Location = GameService.Graphics.SpriteScreen.LocalBounds.Center,
-                //Enabled = false,
-                CaptureInput = false,
+                Location = _resetPosition.Value,
+
+                CaptureInput = !_autoPosition.Value,
+                CanDrag = !_autoPosition.Value,
             });
 
             _weeklyReset = new IconLabel()
@@ -55,8 +60,6 @@ namespace Kenedia.Modules.QoL.SubModules.GameResets
                 Text = "0 days 00:00:00",
                 BasicTooltipText = "Weekly Reset",
                 AutoSize = true,
-                //Enabled = false,
-                //CaptureInput = false,
             };
 
             _serverReset = new IconLabel()
@@ -66,8 +69,6 @@ namespace Kenedia.Modules.QoL.SubModules.GameResets
                 Text = "00:00:00",
                 BasicTooltipText = "Server Reset",
                 AutoSize = true,
-                //Enabled = false,
-                //CaptureInput = false,
             };
 
             _serverTime = new IconLabel
@@ -77,11 +78,19 @@ namespace Kenedia.Modules.QoL.SubModules.GameResets
                 Text = "00:00:00",
                 BasicTooltipText = "Server Time",
                 AutoSize = true,
-                //Enabled = false,
-                //CaptureInput = false,
                 ShowIcon = _serverReset.ShowIcon = _weeklyReset.ShowIcon = _showIcons.Value
             };
+
             SetPositions();
+            _container.Moved += Container_Moved;
+        }
+
+        private void Container_Moved(object sender, Blish_HUD.Controls.MovedEventArgs e)
+        {
+            if (!_autoPosition.Value)
+            {
+                _resetPosition.Value = _container.Location;
+            }
         }
 
         public override SubModuleType SubModuleType => SubModuleType.GameResets;
@@ -122,13 +131,21 @@ namespace Kenedia.Modules.QoL.SubModules.GameResets
             _showDailyReset = settings.DefineSetting(nameof(_showDailyReset), true);
             _showWeeklyReset = settings.DefineSetting(nameof(_showWeeklyReset), true);
             _showIcons = settings.DefineSetting(nameof(_showIcons), true);
+            _autoPosition = settings.DefineSetting(nameof(_autoPosition), true);
             _dateDisplay = settings.DefineSetting(nameof(_dateDisplay), DateDisplayType.Long);
+            _resetPosition = settings.DefineSetting(nameof(_resetPosition), GameService.Graphics.SpriteScreen.LocalBounds.Center);
 
             _showServerTime.SettingChanged += ChangeServerTimeVisibility;
             _showDailyReset.SettingChanged += ChangeServerResetVisibility;
             _showWeeklyReset.SettingChanged += ChangeWeeklyResetVisibility;
             _showIcons.SettingChanged += ChangeShowIcons;
+            _autoPosition.SettingChanged += AutoPosition_SettingChanged;
             _dateDisplay.SettingChanged += DateDisplay_SettingChanged;
+        }
+
+        private void AutoPosition_SettingChanged(object sender, ValueChangedEventArgs<bool> e)
+        {
+            SetPositions();
         }
 
         private void DateDisplay_SettingChanged(object sender, ValueChangedEventArgs<DateDisplayType> e)
@@ -187,14 +204,17 @@ namespace Kenedia.Modules.QoL.SubModules.GameResets
         {
             if (!Enabled) return;
             _container.Visible = Enabled && GameService.GameIntegration.Gw2Instance.IsInGame && !GameService.Gw2Mumble.UI.IsMapOpen;
-            _serverTime.Capture = _serverReset.Capture = _weeklyReset.Capture = _container.Capture = _showTooltips.Value ? _container.AbsoluteBounds.Contains(GameService.Input.Mouse.Position) ? Blish_HUD.Controls.CaptureType.DoNotBlock : Blish_HUD.Controls.CaptureType.None : Blish_HUD.Controls.CaptureType.None;
+            _serverTime.Capture = _serverReset.Capture = _weeklyReset.Capture = _showTooltips.Value ? _container.AbsoluteBounds.Contains(GameService.Input.Mouse.Position) ? Blish_HUD.Controls.CaptureType.DoNotBlock : Blish_HUD.Controls.CaptureType.None : Blish_HUD.Controls.CaptureType.None;
 
+            _container.Capture = _autoPosition.Value ? _serverTime.Capture : null;
             SetTexts();
             SetPositions();
         }
 
         private void SetPositions()
         {
+            if (!_autoPosition.Value) return;
+
             var s = GameService.Gw2Mumble.UI.CompassSize;
             float scale = s.Height / 362F;
             scale = scale < 0.5 ? scale - 0.3F : scale;
@@ -224,9 +244,9 @@ namespace Kenedia.Modules.QoL.SubModules.GameResets
             _serverTime.Text = string.Format("{0}:{1:00}", now.Hour, now.Minute);
 
             var weeklyReset = w.Subtract(now);
-            _weeklyReset.Text = 
-                _dateDisplay.Value is DateDisplayType.Long ? string.Format("{1:0} {0} {2:00}:{3:00}:{4:00}", strings.Days, weeklyReset.Days, weeklyReset.Hours, weeklyReset.Minutes, weeklyReset.Seconds):
-                _dateDisplay.Value is DateDisplayType.ShortDays ? string.Format("{1:0}{0} {2:00}:{3:00}:{4:00}", strings.Days.Substring(0, 1), weeklyReset.Days, weeklyReset.Hours, weeklyReset.Minutes, weeklyReset.Seconds):
+            _weeklyReset.Text =
+                _dateDisplay.Value is DateDisplayType.Long ? string.Format("{1:0} {0} {2:00}:{3:00}:{4:00}", strings.Days, weeklyReset.Days, weeklyReset.Hours, weeklyReset.Minutes, weeklyReset.Seconds) :
+                _dateDisplay.Value is DateDisplayType.ShortDays ? string.Format("{1:0}{0} {2:00}:{3:00}:{4:00}", strings.Days.Substring(0, 1), weeklyReset.Days, weeklyReset.Hours, weeklyReset.Minutes, weeklyReset.Seconds) :
                 weeklyReset.Days > 0
                                     ? string.Format("{1:0} {0}", strings.Days, weeklyReset.Days)
                                     : string.Format("{0:00}:{1:00}:{2:00}", weeklyReset.Hours, weeklyReset.Minutes, weeklyReset.Seconds);
@@ -310,6 +330,30 @@ namespace Kenedia.Modules.QoL.SubModules.GameResets
                 Height = 20,
                 Checked = _showIcons.Value,
                 CheckedChangedAction = (b) => _showIcons.Value = b,
+            });
+
+            Checkbox autoPosCheckbox = null;
+            Checkbox editPosCheckbox = null;
+
+            UI.WrapWithLabel(() => strings.AutoPosition_Name, () => strings.AutoPosition_Tooltip, contentFlowPanel, width - 16, autoPosCheckbox = new Checkbox()
+            {
+                Height = 20,
+                Checked = _autoPosition.Value,
+                CheckedChangedAction = (b) => { _autoPosition.Value = b; editPosCheckbox.Checked = !b && editPosCheckbox.Checked; },
+            });
+
+            UI.WrapWithLabel(() => strings.EditPosition_Name, () => strings.EditPosition_Tooltip, contentFlowPanel, width - 16, editPosCheckbox = new Checkbox()
+            {
+                Height = 20,
+                Checked = _editPosition,
+                CheckedChangedAction = (b) =>
+                {
+                    _container.CaptureInput = b;
+                    _container.CanDrag = b;
+                    _container.Location = b ? _resetPosition.Value : _container.Location;
+                    autoPosCheckbox.Checked = !b && _autoPosition.Value;
+                    _editPosition = b;
+                },
             });
 
             UI.WrapWithLabel(() => strings.ShowTooltips_Name, () => strings.ShowTooltips_Tooltip, contentFlowPanel, width - 16, new Checkbox()

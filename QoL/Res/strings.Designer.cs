@@ -79,6 +79,24 @@ namespace Kenedia.Modules.QoL.Res {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Auto Position.
+        /// </summary>
+        internal static string AutoPosition_Name {
+            get {
+                return ResourceManager.GetString("AutoPosition_Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Automatically position the resets over the bottom left of the minimap.
+        /// </summary>
+        internal static string AutoPosition_Tooltip {
+            get {
+                return ResourceManager.GetString("AutoPosition_Tooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Crosshair Size.
         /// </summary>
         internal static string CrosshairSize_Name {
@@ -174,6 +192,24 @@ namespace Kenedia.Modules.QoL.Res {
         internal static string DisableOnSearch_Tooltip {
             get {
                 return ResourceManager.GetString("DisableOnSearch_Tooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Edit Position.
+        /// </summary>
+        internal static string EditPosition_Name {
+            get {
+                return ResourceManager.GetString("EditPosition_Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to While checked the resets can be moved.
+        /// </summary>
+        internal static string EditPosition_Tooltip {
+            get {
+                return ResourceManager.GetString("EditPosition_Tooltip", resourceCulture);
             }
         }
         

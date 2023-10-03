@@ -250,4 +250,16 @@
   <data name="DateFormat_Tooltip" xml:space="preserve">
     <value>Date format to use for the weekly reset.</value>
   </data>
+  <data name="AutoPosition_Name" xml:space="preserve">
+    <value>Auto Position</value>
+  </data>
+  <data name="AutoPosition_Tooltip" xml:space="preserve">
+    <value>Automatically position the resets over the bottom left of the minimap</value>
+  </data>
+  <data name="EditPosition_Name" xml:space="preserve">
+    <value>Edit Position</value>
+  </data>
+  <data name="EditPosition_Tooltip" xml:space="preserve">
+    <value>While checked the resets can be moved</value>
+  </data>
 </root>

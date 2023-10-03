@@ -270,4 +270,16 @@
   <data name="DateFormat_Tooltip" xml:space="preserve">
     <value>Formato de fecha a utilizar para la puesta a cero semanal.</value>
   </data>
+  <data name="AutoPosition_Name" xml:space="preserve">
+    <value>Posición automática</value>
+  </data>
+  <data name="AutoPosition_Tooltip" xml:space="preserve">
+    <value>Posicionar automáticamente los reinicios sobre la parte inferior izquierda del minimapa.</value>
+  </data>
+  <data name="EditPosition_Name" xml:space="preserve">
+    <value>Editar posición</value>
+  </data>
+  <data name="EditPosition_Tooltip" xml:space="preserve">
+    <value>Mientras están marcadas, las reinicializaciones se pueden mover</value>
+  </data>
 </root>

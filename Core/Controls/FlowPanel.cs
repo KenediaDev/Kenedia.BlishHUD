@@ -13,6 +13,8 @@ using Blish_HUD.Controls;
 using System.Diagnostics;
 using Blish_HUD.Input;
 using System.Text.RegularExpressions;
+using Microsoft.Xna.Framework.Input;
+using Kenedia.Modules.Core.Extensions;
 
 namespace Kenedia.Modules.Core.Controls
 {
@@ -58,6 +60,10 @@ namespace Kenedia.Modules.Core.Controls
         private bool _resized = false;
 
         protected Rectangle LayoutHeaderBounds;
+
+        private Point _dragStart;
+        private Point _draggingStart;
+        private bool _dragging;
 
         public FlowPanel()
         {
@@ -169,6 +175,8 @@ namespace Kenedia.Modules.Core.Controls
 
         public CaptureType? Capture { get; set; }
 
+        public bool CanDrag { get; set; } = false;
+
         protected override void OnClick(MouseEventArgs e)
         {
             bool collapsed = Collapsed;
@@ -181,6 +189,10 @@ namespace Kenedia.Modules.Core.Controls
                     OnCollapse?.Invoke();
                 else
                     OnExpand?.Invoke();
+            }
+
+            if (CanDrag && (GameService.Input.Mouse.State.LeftButton is ButtonState.Pressed))
+            {
             }
         }
 
@@ -408,6 +420,33 @@ namespace Kenedia.Modules.Core.Controls
                     spriteBatch.DrawOnCtrl(this, ContentService.Textures.Pixel, r.Item1, Rectangle.Empty, (Color)borderColor * r.Item2);
                 }
             }
+        }
+
+        public override void UpdateContainer(GameTime gameTime)
+        {
+            base.UpdateContainer(gameTime);
+
+            _dragging = CanDrag && _dragging && MouseOver;
+
+            if (_dragging)
+            {
+                Location = GameService.Input.Mouse.Position.Add(new Point(-_draggingStart.X, -_draggingStart.Y));
+            }
+        }
+
+        protected override void OnLeftMouseButtonReleased(MouseEventArgs e)
+        {
+            base.OnLeftMouseButtonReleased(e);
+
+            _dragging = false;
+        }
+
+        protected override void OnLeftMouseButtonPressed(MouseEventArgs e)
+        {
+            base.OnLeftMouseButtonPressed(e);
+
+            _dragging = CanDrag;
+            _draggingStart = _dragging ? RelativeMousePosition : Point.Zero;
         }
 
         protected override CaptureType CapturesInput()
