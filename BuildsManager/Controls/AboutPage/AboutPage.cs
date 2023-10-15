@@ -10,6 +10,7 @@ using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 
@@ -22,7 +23,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.AboutPage
         private readonly Label _notesLabel;
         private readonly Label _tagsLabel;
         private readonly ButtonImage _editTags;
-        private readonly FilterBox  _tagFilter;
+        private readonly FilterBox _tagFilter;
 
         private readonly List<(TemplateFlag tag, Image texture, Checkbox checkbox)> _tags = new();
         private readonly List<(EncounterFlag tag, Image texture, Checkbox checkbox)> _encounters = new();
@@ -50,24 +51,33 @@ namespace Kenedia.Modules.BuildsManager.Controls.AboutPage
                 Location = new(0, 10),
             };
 
-            _editTags = new()
-            {
-                Parent = this,
-                Size = new(35),
-                Location = new(_tagsLabel.Right + 5, _tagsLabel.Top),
-                Texture = AsyncTexture2D.FromAssetId(157109),
-                HoveredTexture = AsyncTexture2D.FromAssetId(157110),
-                SetLocalizedTooltip = () => strings.EditTags,
-            };
-
             _tagFilter = new()
             {
                 Parent = this,
                 Location = new(0, _tagsLabel.Bottom + 10),
-                Width = tagSectionWidth,
+                Width = tagSectionWidth - 30,
                 SetLocalizedPlaceholder = () => strings_common.Search,
                 FilteringOnTextChange = true,
                 FilteringOnEnter = true,
+                EnterPressedAction = (txt) =>
+                {
+                    if (!string.IsNullOrEmpty(txt.Trim()))
+                    {
+                        var templateTag = _templateTags.Tags.FirstOrDefault(e => e.Name.ToLower() == txt.ToLower());
+
+                        if (templateTag is null)
+                        {
+                            _templateTags.Add(new TemplateTag() { Name = txt });
+                        }
+                        else
+                        {
+                            var tag =_tagPanel.GetChildrenOfType<TagControl>().FirstOrDefault(e => e.Tag == templateTag);
+                            tag?.SetSelected(!tag.Selected);
+                            _tagFilter.Focused = true;
+                        }
+                    }
+                },
+                TextChangedAction = (txt) => _editTags.Enabled = !string.IsNullOrEmpty(txt.Trim()) && _templateTags.Tags.FirstOrDefault(e => e.Name.ToLower() == txt.ToLower()) is null,
                 PerformFiltering = (txt) =>
                 {
                     string t = txt.ToLower();
@@ -80,6 +90,19 @@ namespace Kenedia.Modules.BuildsManager.Controls.AboutPage
 
                     _tagPanel.Invalidate();
                 }
+            };
+
+            _editTags = new()
+            {
+                Parent = this,
+                Size = new(_tagFilter.Height),
+                Location = new(_tagFilter.Right + 2, _tagFilter.Top),
+                Texture = AsyncTexture2D.FromAssetId(255443),
+                HoveredTexture = AsyncTexture2D.FromAssetId(255297),
+                DisabledTexture = AsyncTexture2D.FromAssetId(255296),
+                SetLocalizedTooltip = () => "Add Tag",
+                Enabled = false,
+                ClickAction = (b) => _templateTags.Add(new TemplateTag() { Name = _tagFilter.Text })
             };
 
             _tagPanel = new()
@@ -95,7 +118,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.AboutPage
                 ShowRightBorder = true,
                 FlowDirection = Blish_HUD.Controls.ControlFlowDirection.SingleTopToBottom,
                 ContentPadding = new(5),
-                CanScroll = true,                
+                CanScroll = true,
             };
 
             _notesLabel = new()

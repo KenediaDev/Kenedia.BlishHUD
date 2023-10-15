@@ -26,7 +26,10 @@ namespace Kenedia.Modules.BuildsManager.Models
         public string Name { get => _name; set => Common.SetProperty(ref _name, value, OnNameChanged); }
 
         [JsonIgnore]
-        public DetailedTexture Icon { get; set; }
+        public DetailedTexture Icon { get; set; } = new(156025)
+        {
+            TextureRegion = new Rectangle(44, 48, 43, 46),
+        };
 
         [JsonIgnore]
         public int AssetId { get => _assetId; set => Common.SetProperty(ref _assetId, value, OnAssetIdChanged); }

@@ -918,6 +918,8 @@ namespace Kenedia.Modules.BuildsManager.Models
                     Skills[SkillSlotType.Active | SkillSlotType.Aquatic | SkillSlotType.Utility_3] = Skill.FromUShort(build.AquaticUtility3SkillPaletteId, build.Profession);
                     Skills[SkillSlotType.Active | SkillSlotType.Aquatic | SkillSlotType.Elite] = Skill.FromUShort(build.AquaticEliteSkillPaletteId, build.Profession);
                 }
+
+                SetArmorItems();
             }
 
             // Enable Events again to become responsive
