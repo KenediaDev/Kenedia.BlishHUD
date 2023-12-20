@@ -9,11 +9,14 @@ using Kenedia.Modules.BuildsManager.Services;
 using Kenedia.Modules.Core.Models;
 using Kenedia.Modules.Core.Attributes;
 using Kenedia.Modules.Core.ContractResolver;
+using SemVer;
 
 namespace Kenedia.Modules.BuildsManager.Models
 {
     public class StaticVersion
     {
+        private Version _version = new(0, 0, 0);
+
         public StaticVersion()
         {
 
@@ -24,6 +27,23 @@ namespace Kenedia.Modules.BuildsManager.Models
             foreach (var property in this)
             {
                 this[property.Key].Version = version;
+            }
+        }
+
+        [JsonIgnore]
+        public Version Version 
+        {
+            set
+            {
+                if(value is Version version && version > _version)
+                {
+                    _version = version;
+
+                    foreach (var property in this)
+                    {
+                        this[property.Key].Version = version;
+                    }
+                }
             }
         }
 
@@ -96,6 +116,14 @@ namespace Kenedia.Modules.BuildsManager.Models
         {
             string json = JsonConvert.SerializeObject(this, SerializerSettings.Default);
             File.WriteAllText(path, json);
+        }
+
+        public static StaticVersion LoadFromFile(Version version, string path)
+        {
+            var staticVersion = JsonConvert.DeserializeObject<StaticVersion>(File.ReadAllText(path), SerializerSettings.Default) ?? new(version);
+            staticVersion.Version = version;
+
+            return staticVersion;   
         }
 
         public ByteIntMap this[string propertyName]

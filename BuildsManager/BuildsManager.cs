@@ -173,8 +173,9 @@ namespace Kenedia.Modules.BuildsManager
             _cancellationTokenSource?.Cancel();
             _cancellationTokenSource = new CancellationTokenSource();
 
-            base.ReloadKey_Activated(sender, e);
+            //base.ReloadKey_Activated(sender, e);
 
+            await GW2API.UpdateMappedIds("0.0.6");
         }
 
         protected override void LoadGUI()
