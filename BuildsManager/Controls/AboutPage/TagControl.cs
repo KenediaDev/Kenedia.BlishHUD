@@ -44,6 +44,8 @@ namespace Kenedia.Modules.BuildsManager.Controls.AboutPage
 
         public int FontPadding { get; set; } = 4;
 
+        public Action OnEditClicked { get; set; }
+
         private void OnFontChanged(object sender, Core.Models.ValueChangedEventArgs<BitmapFont> e)
         {
             _font ??= Content.DefaultFont14;
@@ -109,7 +111,8 @@ namespace Kenedia.Modules.BuildsManager.Controls.AboutPage
 
             if (_editIconBounds.Contains(RelativeMousePosition))
             {
-
+                OnEditClicked?.Invoke();
+                return;
             }
 
             Selected = !Selected;

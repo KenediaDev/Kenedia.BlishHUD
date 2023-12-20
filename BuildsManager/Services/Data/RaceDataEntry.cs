@@ -14,6 +14,7 @@ using Kenedia.Modules.Core.Models;
 using Gw2Sharp.WebApi;
 using System.Threading;
 using Kenedia.Modules.BuildsManager.Models;
+using System.Diagnostics;
 
 namespace Kenedia.Modules.BuildsManager.Services
 {
@@ -56,7 +57,7 @@ namespace Kenedia.Modules.BuildsManager.Services
 
                 var lang = GameService.Overlay.UserLocale.Value is Locale.Korean or Locale.Chinese ? Locale.English : GameService.Overlay.UserLocale.Value;
                 var localeMissing = Items.Values.Where(item => item.Names[lang] == null)?.Select(e => $"{e.Id}");
-                var missing = raceIds.Except(Items.Keys.Select(e => $"{e}")).Concat(localeMissing);
+                var missing = raceIds.Except(Items.Keys.Select(e => $"{e}")).Concat(localeMissing).Except(new string[] {$"{Races.None}"});
 
                 if (map.Version > Version)
                 {
@@ -78,16 +79,25 @@ namespace Kenedia.Modules.BuildsManager.Services
                         return false;
                     }
 
+                    Debug.WriteLine($"STEP 1");
                     foreach (var ids in idSets)
                     {
+
+                        Debug.WriteLine($"Ids: {string.Join(",", ids)}");
                         var items = await gw2ApiManager.Gw2ApiClient.V2.Races.ManyAsync(ids, cancellationToken);
+
+                        Debug.WriteLine($"items {items?.Count}");
                         if (cancellationToken.IsCancellationRequested)
                         {
                             return false;
                         }
 
+
+                        Debug.WriteLine($"Iterate Items");
                         foreach (var item in items)
                         {
+                            Debug.WriteLine($"item {item?.Name}");
+
                             bool exists = Items.Values.TryFind(e => $"{e.Id}" == item.Id, out Race entryItem);
                             entryItem ??= new();
 

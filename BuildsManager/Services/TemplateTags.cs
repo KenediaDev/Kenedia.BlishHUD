@@ -82,5 +82,19 @@ namespace Kenedia.Modules.BuildsManager.Services
 
             return false;
         }
+
+        public async Task Save()
+        {
+            try
+            {
+                string json = JsonConvert.SerializeObject(this, SerializerSettings.Default);
+                File.WriteAllText($@"{_paths.ModulePath}TemplateTags.json", json);
+            }
+            catch (Exception ex)
+            {
+                BuildsManager.Logger.Warn("Failed to save TemplateTags.json");
+                BuildsManager.Logger.Warn($"{ex}");
+            }
+        }
     }
 }

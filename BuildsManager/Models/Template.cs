@@ -46,7 +46,7 @@ namespace Kenedia.Modules.BuildsManager.Models
 
         [JsonProperty("Tags")]
         [DataMember]
-        private ObservableCollection<string> _tags;
+        private UniqueObservableCollection<string> _tags;
 
         private CancellationTokenSource? _cancellationTokenSource;
 
@@ -132,7 +132,7 @@ namespace Kenedia.Modules.BuildsManager.Models
         }
 
         [JsonConstructor]
-        public Template(string name, string buildCode, string gearCode, string description, ObservableCollection<string> tags, Races? race, ProfessionType? profession, int? elitespecId) : this()
+        public Template(string name, string buildCode, string gearCode, string description, UniqueObservableCollection<string> tags, Races? race, ProfessionType? profession, int? elitespecId) : this()
         {
             // Disable Events to prevent unnecessary event triggers during the load
             _triggerEvents = false;
@@ -164,7 +164,7 @@ namespace Kenedia.Modules.BuildsManager.Models
         [DataMember]
         public Races Race { get => _race; set => Common.SetProperty(ref _race, value, OnRaceChanged, _triggerEvents); }
 
-        public ObservableCollection<string> Tags { get => _tags; private set => Common.SetProperty(ref _tags, value, OnTagsListChanged); }
+        public UniqueObservableCollection<string> Tags { get => _tags; private set => Common.SetProperty(ref _tags, value, OnTagsListChanged); }
 
         [DataMember]
         public string Name { get => _name; set => Common.SetProperty(ref _name, value, OnNameChanged, _triggerEvents); }
@@ -202,7 +202,7 @@ namespace Kenedia.Modules.BuildsManager.Models
 
         public SpecializationCollection Specializations { get; } = new();
 
-        private void OnTagsListChanged(object sender, ValueChangedEventArgs<ObservableCollection<string>> e)
+        private void OnTagsListChanged(object sender, ValueChangedEventArgs<UniqueObservableCollection<string>> e)
         {
             if (e.NewValue is not null)
             {

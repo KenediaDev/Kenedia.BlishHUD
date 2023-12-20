@@ -270,6 +270,7 @@
     <Compile Include="SubModules\EnhancedCrosshair\EnhancedCrosshair.cs" />
     <Compile Include="SubModules\ItemDestruction\ItemDestruction.cs" />
     <Compile Include="SubModules\GameResets\GameResets.cs" />
+    <Compile Include="SubModules\SchemanticProcessing\SchemanticProcessing.cs" />
     <Compile Include="SubModules\SkipCutscenes\SkipCutscenes.cs" />
     <Compile Include="SubModules\SubModule.cs" />
     <Compile Include="SubModules\SubModuleType.cs" />

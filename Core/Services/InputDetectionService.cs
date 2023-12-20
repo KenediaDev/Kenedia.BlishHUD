@@ -15,11 +15,11 @@ namespace Kenedia.Modules.Core.Services
         double _lastMouseMove;
         double _lastMouseClick;
         double _lastClickOrKey;
-        private List<Keys> _ignoredKeys = new()
+        private readonly List<Keys> _ignoredKeys = new()
         {
             Keys.None,
         };
-        private List<Keys> _noKeys = new();
+        private readonly List<Keys> _noKeys = new();
 
         private Point _lastMousePosition;
 

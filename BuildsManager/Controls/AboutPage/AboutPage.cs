@@ -1,21 +1,57 @@
-﻿using Blish_HUD.Content;
+﻿using Blish_HUD;
+using Blish_HUD.Content;
 using Kenedia.Modules.BuildsManager.Models;
 using Kenedia.Modules.BuildsManager.Models.Templates;
 using Kenedia.Modules.BuildsManager.Res;
 using Kenedia.Modules.BuildsManager.Services;
+using Kenedia.Modules.BuildsManager.Views;
 using Kenedia.Modules.Core.Controls;
 using Kenedia.Modules.Core.Res;
 using Kenedia.Modules.Core.Services;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
+using System.Xml.Linq;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.TrayNotify;
 
 namespace Kenedia.Modules.BuildsManager.Controls.AboutPage
 {
+    public class MyTooltip : Blish_HUD.Controls.Tooltip
+    {
+        private readonly Label _label;
+
+        public MyTooltip()
+        {
+            _label = new()
+            {
+                Text = "Hello World",
+                Parent = this,
+                Location = new(10, 10),
+                AutoSizeHeight = true,
+                AutoSizeWidth = true,
+                Font = Content.DefaultFont16,
+                TextColor = Color.White,
+            };
+        }
+    }
+
+    public class MyControl : Blish_HUD.Controls.Control
+    {
+        public MyControl()
+        {
+            Tooltip = new MyTooltip();
+        }
+
+        protected override void Paint(SpriteBatch spriteBatch, Rectangle bounds)
+        {
+        }
+    }
+
     public class AboutPage : Blish_HUD.Controls.Container
     {
         private readonly Blish_HUD.Controls.MultilineTextBox _noteField;
@@ -31,6 +67,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.AboutPage
         private readonly TemplateTags _templateTags;
         private int tagSectionWidth;
         private bool _changeBuild = true;
+        private readonly TagEditWindow _tagEditWindow;
 
         private Color _disabledColor = Color.Gray;
 
@@ -40,6 +77,28 @@ namespace Kenedia.Modules.BuildsManager.Controls.AboutPage
             _templateTags = templateTags;
 
             tagSectionWidth = 300;
+
+            int Height = 670;
+            int Width = 915;
+
+            _tagEditWindow = new(
+                TexturesService.GetTextureFromRef(@"textures\mainwindow_background.png", "mainwindow_background"),
+                new Rectangle(30, 30, Width, Height + 30),
+                new Rectangle(40, 40, Width - 3, Height ),
+                templateTags)
+            {
+                Parent = GameService.Graphics.SpriteScreen,
+                Title = "❤",
+                Subtitle = "❤",
+                SavesPosition = true,
+                Id = $"{BuildsManager.ModuleInstance.Name} TagWindow",
+                MainWindowEmblem = AsyncTexture2D.FromAssetId(536043),
+                SubWindowEmblem = AsyncTexture2D.FromAssetId(156031),
+                Name = "Tag Editing",
+                Width = 580,
+                Height = 800,
+                CanResize = true,
+            };
 
             _tagsLabel = new()
             {
@@ -71,7 +130,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.AboutPage
                         }
                         else
                         {
-                            var tag =_tagPanel.GetChildrenOfType<TagControl>().FirstOrDefault(e => e.Tag == templateTag);
+                            var tag = _tagPanel.GetChildrenOfType<TagControl>().FirstOrDefault(e => e.Tag == templateTag);
                             tag?.SetSelected(!tag.Selected);
                             _tagFilter.Focused = true;
                         }
@@ -163,6 +222,10 @@ namespace Kenedia.Modules.BuildsManager.Controls.AboutPage
                     Parent = _tagPanel,
                     Width = tagSectionWidth - _tagPanel.ContentPadding.Horizontal - 20,
                     Tag = tag,
+                    OnEditClicked = () =>
+                    {
+                        _tagEditWindow?.ToggleWindow();
+                    },
                     OnClicked = (selected) =>
                     {
                         if (TemplatePresenter.Template is Template template)
@@ -232,6 +295,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.AboutPage
         {
             base.DisposeControl();
 
+            _tagEditWindow?.Dispose();
             TemplatePresenter.TemplateChanged -= TemplatePresenter_TemplateChanged;
             foreach (var c in Children)
             {

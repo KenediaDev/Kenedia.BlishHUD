@@ -173,19 +173,8 @@ namespace Kenedia.Modules.BuildsManager
             _cancellationTokenSource?.Cancel();
             _cancellationTokenSource = new CancellationTokenSource();
 
-            //await GW2API.UpdateMappedIds("0.0.5");
-
-            //LoadTemplates();
             base.ReloadKey_Activated(sender, e);
-            //var list = new List<(string name, int id, byte mapid)>();
 
-            //foreach(Relic relic in Data.Relics.Items.Values)
-            //{
-            //    list.Add(new(relic.Name, relic.Id, relic.MappedId));
-            //}
-
-            //string json = JsonConvert.SerializeObject(list, SerializerSettings.Default);
-            //File.WriteAllText($@"{Paths.ModulePath}relics.json", json);
         }
 
         protected override void LoadGUI()

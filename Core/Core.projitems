@@ -112,6 +112,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Models\ServiceCollection.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\SharedSettingsModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\StatusType.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\UniqueObservableCollection.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Res\strings_common.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
@@ -131,12 +132,15 @@
     <Compile Include="$(MSBuildThisFileDirectory)Structs\RectangleDimensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Utility\Common.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Utility\Input.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Utility\KeyboardUtil.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Utility\MouseUtil.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Utility\RandomHelper.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Utility\ScreenCapture.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Utility\TextUtil.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Utility\Tweening.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Utility\UI.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Utility\User32Dll.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Utility\WinApi.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Views\BaseSettingsWindow.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Views\BaseTab.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Views\BaseTabbedWindow.cs" />

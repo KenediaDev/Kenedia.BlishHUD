@@ -11,5 +11,6 @@
         WaypointPaste,
         WikiSearch,
         CopyItemName,
+        SchemanticProcessing,
     }
 }

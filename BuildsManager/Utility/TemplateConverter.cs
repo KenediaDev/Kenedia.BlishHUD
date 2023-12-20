@@ -22,16 +22,16 @@ namespace Kenedia.Modules.BuildsManager.Utility
         {
             // Load the JSON for the Result into a JObject
             JObject jo = JObject.Load(reader);
-            ObservableCollection<string> tags;
+            UniqueObservableCollection<string> tags;
 
             // Read the properties which will be used as constructor parameters
             try
             {
-               tags = jo["Tags"].ToObject<ObservableCollection<string>>(serializer);
+               tags = jo["Tags"].ToObject<UniqueObservableCollection<string>>(serializer);
             }
             catch
             {
-                tags = new ObservableCollection<string>();
+                tags = new UniqueObservableCollection<string>();
             }
 
             string? name = (string?)jo["Name"];
