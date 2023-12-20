@@ -79,25 +79,17 @@ namespace Kenedia.Modules.BuildsManager.Services
                         return false;
                     }
 
-                    Debug.WriteLine($"STEP 1");
                     foreach (var ids in idSets)
                     {
-
-                        Debug.WriteLine($"Ids: {string.Join(",", ids)}");
                         var items = await gw2ApiManager.Gw2ApiClient.V2.Races.ManyAsync(ids, cancellationToken);
 
-                        Debug.WriteLine($"items {items?.Count}");
                         if (cancellationToken.IsCancellationRequested)
                         {
                             return false;
                         }
 
-
-                        Debug.WriteLine($"Iterate Items");
                         foreach (var item in items)
                         {
-                            Debug.WriteLine($"item {item?.Name}");
-
                             bool exists = Items.Values.TryFind(e => $"{e.Id}" == item.Id, out Race entryItem);
                             entryItem ??= new();
 
