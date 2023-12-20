@@ -24,14 +24,14 @@
       "21": 80399
     },
     "Ignored": {},
-    "Version": "0.0.6"
+    "Version": "0.0.5"
   },
   "Backs": {
     "Items": {
       "1": 74155
     },
     "Ignored": {},
-    "Version": "0.0.6"
+    "Version": "0.0.5"
   },
   "Enhancements": {
     "Items": {
@@ -113,7 +113,7 @@
       "76": 99845
     },
     "Ignored": {},
-    "Version": "0.0.6"
+    "Version": "0.0.5"
   },
   "Enrichments": {
     "Items": {
@@ -220,7 +220,7 @@
       "80": 87538
     },
     "Ignored": {},
-    "Version": "0.0.6"
+    "Version": "0.0.5"
   },
   "Nourishments": {
     "Items": {
@@ -426,12 +426,12 @@
       "200": 99804
     },
     "Ignored": {},
-    "Version": "0.0.6"
+    "Version": "0.0.5"
   },
   "Pets": {
     "Items": {},
     "Ignored": {},
-    "Version": "0.0.6"
+    "Version": "0.0.5"
   },
   "PowerCores": {
     "Items": {
@@ -447,12 +447,12 @@
       "10": 97339
     },
     "Ignored": {},
-    "Version": "0.0.6"
+    "Version": "0.0.5"
   },
   "Professions": {
     "Items": {},
     "Ignored": {},
-    "Version": "0.0.6"
+    "Version": "0.0.5"
   },
   "PveRunes": {
     "Items": {
@@ -557,7 +557,7 @@
       "99": 89999
     },
     "Ignored": {},
-    "Version": "0.0.6"
+    "Version": "0.0.5"
   },
   "PvpRunes": {
     "Items": {
@@ -646,7 +646,7 @@
       "83": 79983
     },
     "Ignored": {},
-    "Version": "0.0.6"
+    "Version": "0.0.5"
   },
   "PveSigils": {
     "Items": {
@@ -733,7 +733,7 @@
       "81": 91339
     },
     "Ignored": {},
-    "Version": "0.0.6"
+    "Version": "0.0.5"
   },
   "PvpSigils": {
     "Items": {
@@ -800,12 +800,12 @@
       "16": 45
     },
     "Ignored": {},
-    "Version": "0.0.6"
+    "Version": "0.0.5"
   },
   "Races": {
     "Items": {},
     "Ignored": {},
-    "Version": "0.0.6"
+    "Version": "0.0.5"
   },
   "PveRelics": {
     "Items": {
@@ -879,7 +879,7 @@
       "36": 100562,
       "49": 100886
     },
-    "Version": "0.0.6"
+    "Version": "0.0.8"
   },
   "PvpRelics": {
     "Items": {
@@ -946,7 +946,7 @@
       "36": 100562,
       "49": 100886
     },
-    "Version": "0.0.6"
+    "Version": "0.0.7"
   },
   "Stats": {
     "Items": {
@@ -1032,7 +1032,7 @@
       "80": 1686
     },
     "Ignored": {},
-    "Version": "0.0.6"
+    "Version": "0.0.5"
   },
   "Trinkets": {
     "Items": {
@@ -1041,7 +1041,7 @@
       "3": 91234
     },
     "Ignored": {},
-    "Version": "0.0.6"
+    "Version": "0.0.5"
   },
   "Weapons": {
     "Items": {
@@ -1066,6 +1066,6 @@
       "19": 30701
     },
     "Ignored": {},
-    "Version": "0.0.6"
+    "Version": "0.0.5"
   }
 }
