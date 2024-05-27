@@ -533,6 +533,7 @@ namespace Kenedia.Modules.Characters
                 Icon = AsyncTexture2D.FromAssetId(156678),
                 HoverIcon = AsyncTexture2D.FromAssetId(156679),
                 SetLocalizedTooltip = () => string.Format(strings.Toggle, $"{Name}"),
+                Priority = 51294256,
                 Parent = GameService.Graphics.SpriteScreen,
                 Visible = Settings.ShowCornerIcon.Value,
                 ClickAction = () => MainWindow?.ToggleWindow(),
