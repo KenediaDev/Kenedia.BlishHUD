@@ -171,6 +171,8 @@ namespace Kenedia.Modules.Core.Controls
 
         public Action OnExpand { get; set; }
 
+        public Rectangle? TitleTextureRegion { get; set; }
+
         protected override void OnClick(MouseEventArgs e)
         {
             bool collapsed = Collapsed;
@@ -261,7 +263,7 @@ namespace Kenedia.Modules.Core.Controls
                 }
 
                 spriteBatch.DrawStringOnCtrl(this, _title, Content.DefaultFont16, _layoutHeaderTextBounds, Color.White);
-                if (TitleIcon is not null) spriteBatch.DrawOnCtrl(this, TitleIcon, _layoutHeaderIconBounds, TitleIcon.Bounds, Color.White);
+                if (TitleIcon is not null) spriteBatch.DrawOnCtrl(this, TitleIcon, _layoutHeaderIconBounds, TitleTextureRegion ?? TitleIcon.Bounds, Color.White);
                 if (_canCollapse)
                 {
                     spriteBatch.DrawOnCtrl(this, _textureAccordionArrow, _layoutAccordionArrowBounds, null, Color.White, ArrowRotation, _layoutAccordionArrowOrigin);

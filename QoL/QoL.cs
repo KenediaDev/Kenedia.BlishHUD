@@ -12,6 +12,7 @@ using Kenedia.Modules.QoL.SubModules;
 using Kenedia.Modules.QoL.SubModules.CopyItemName;
 using Kenedia.Modules.QoL.SubModules.GameResets;
 using Kenedia.Modules.QoL.SubModules.ItemDestruction;
+using Kenedia.Modules.QoL.SubModules.SchemanticProcessing;
 using Kenedia.Modules.QoL.SubModules.SkipCutscenes;
 using Kenedia.Modules.QoL.SubModules.WaypointPaste;
 using Kenedia.Modules.QoL.SubModules.WikiSearch;
@@ -191,6 +192,7 @@ namespace Kenedia.Modules.QoL
             SubModules.Add(SubModuleType.WikiSearch, new WikiSearch(SettingCollection));
             SubModules.Add(SubModuleType.WaypointPaste, new WaypointPaste(SettingCollection));
             SubModules.Add(SubModuleType.CopyItemName, new CopyItemName(SettingCollection));
+            //SubModules.Add(SubModuleType.SchemanticProcessing, new SchemanticProcessing(SettingCollection));
 
             foreach (var module in SubModules.Values)
             {

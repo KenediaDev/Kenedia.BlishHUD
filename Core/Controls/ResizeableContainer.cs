@@ -42,6 +42,8 @@ namespace Kenedia.Modules.Core.Controls
 
         public bool CanChange { get; set; } = true;
 
+        public bool ShowCenter { get; set; }
+
         public override void UpdateContainer(GameTime gameTime)
         {
             base.UpdateContainer(gameTime);
@@ -93,6 +95,11 @@ namespace Kenedia.Modules.Core.Controls
                     Color.White,
                     0f,
                     default);
+            }
+
+            if (ShowCenter)
+            {
+                spriteBatch.DrawOnCtrl(this, ContentService.Textures.Pixel, new Rectangle((Width / 2) - 2, (Height / 2) - 2, 4, 4), ContentService.Textures.Pixel.Bounds, Color.Red, 0f, default);
             }
         }
 

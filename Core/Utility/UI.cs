@@ -9,11 +9,43 @@ using MonoGame.Extended.BitmapFonts;
 using System;
 using static Blish_HUD.ContentService;
 using Kenedia.Modules.Core.Interfaces;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace Kenedia.Modules.Core.Utility
 {
     public static class UI
     {
+        public static string GetDisplayText(BitmapFont font, string text, int maxWidth, string stringOverflow = "...")
+        {
+            int width = 0;
+            string lastMatchingString = string.Empty;
+            string overflowedString = string.Empty;
+
+            foreach (char c in text)
+            {
+                var ob = font.MeasureString(overflowedString + c.ToString() + stringOverflow);
+
+                if (ob.Width <= maxWidth)
+                {
+                    overflowedString += c;
+                }
+
+                var b = font.MeasureString(c.ToString());
+
+                if (width + b.Width <= maxWidth)
+                {
+                    lastMatchingString += c;
+                    width += (int)b.Width;
+                }
+                else
+                {
+                    return overflowedString + stringOverflow;
+                }
+            }
+
+            return lastMatchingString;
+        }
+
         public static BitmapFont GetFont(FontSize fontSize, FontStyle style)
         {
             return GameService.Content.GetFont(FontFace.Menomonia, fontSize, style);
@@ -76,7 +108,7 @@ namespace Kenedia.Modules.Core.Utility
             {
                 Parent = flowPanel,
                 Height = ctrl.Height,
-                Width = (width - flowPanel.ContentPadding.Horizontal - ((int)flowPanel.ControlPadding.X *2)) / 2,
+                Width = (width - flowPanel.ContentPadding.Horizontal - ((int)flowPanel.ControlPadding.X * 2)) / 2,
                 SetLocalizedText = localizedLabelContent,
                 SetLocalizedTooltip = localizedTooltip,
                 VerticalAlignment = VerticalAlignment.Middle,
@@ -85,7 +117,7 @@ namespace Kenedia.Modules.Core.Utility
             ctrl.Parent = flowPanel;
             ctrl.Width = label.Width;
 
-            if(ctrl is ILocalizable localizable)
+            if (ctrl is ILocalizable localizable)
             {
                 localizable.SetLocalizedTooltip = localizedTooltip;
             }

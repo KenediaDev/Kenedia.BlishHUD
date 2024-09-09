@@ -66,8 +66,10 @@
     <Compile Include="$(MSBuildThisFileDirectory)DataModels\Race.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)DataModels\SkillConnection.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)DataModels\Specializations.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)extensions\ArrayExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\BitMapExtension.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\ItemDescriptionStringExtension.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Extensions\ModifiersKeyExtension.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\RarityExtension.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\CollectionExtension.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\ColorExtension.cs" />
@@ -112,6 +114,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Models\ServiceCollection.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\SharedSettingsModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\StatusType.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\UniqueObservableCollection.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Res\strings_common.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
@@ -129,14 +132,18 @@
     <Compile Include="$(MSBuildThisFileDirectory)Services\TexturesService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Structs\Range.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Structs\RectangleDimensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Utility\KeyboardUtil.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Utility\Common.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Utility\Input.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Utility\KeyboardUtil.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Utility\MouseUtil.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Utility\RandomHelper.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Utility\ScreenCapture.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Utility\TextUtil.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Utility\Tweening.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Utility\UI.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Utility\User32Dll.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Utility\WinApi.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Views\BaseSettingsWindow.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Views\BaseTab.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Views\BaseTabbedWindow.cs" />

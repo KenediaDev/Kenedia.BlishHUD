@@ -262,4 +262,34 @@
   <data name="EditPosition_Tooltip" xml:space="preserve">
     <value>While checked the resets can be moved</value>
   </data>
+  <data name="Language_Name" xml:space="preserve">
+    <value>Wiki Language</value>
+  </data>
+  <data name="Language_Tooltip" xml:space="preserve">
+    <value>Which wiki should be used for the search query?</value>
+  </data>
+  <data name="DefaultWiki" xml:space="preserve">
+    <value>Default Wiki</value>
+  </data>
+  <data name="ShortcutKeybinds" xml:space="preserve">
+    <value>Shortcut Keybinds</value>
+  </data>
+  <data name="SelectAllKeybind_Name" xml:space="preserve">
+    <value>Select All Shortcut</value>
+  </data>
+  <data name="CopyKeybind_Name" xml:space="preserve">
+    <value>Copy Shortcut</value>
+  </data>
+  <data name="PasteKeybind_Name" xml:space="preserve">
+    <value>Paste Shortcut</value>
+  </data>
+  <data name="SelectAllKeybind_Tooltip" xml:space="preserve">
+    <value>Default: Ctrl + A</value>
+  </data>
+  <data name="CopyKeybind_Tooltip" xml:space="preserve">
+    <value>Default: Ctrl + C</value>
+  </data>
+  <data name="PasteKeybind_Tooltip" xml:space="preserve">
+    <value>Default: Ctrl + V</value>
+  </data>
 </root>

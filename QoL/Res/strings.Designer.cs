@@ -97,6 +97,24 @@ namespace Kenedia.Modules.QoL.Res {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Copy Shortcut.
+        /// </summary>
+        internal static string CopyKeybind_Name {
+            get {
+                return ResourceManager.GetString("CopyKeybind_Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Default: Ctrl + C.
+        /// </summary>
+        internal static string CopyKeybind_Tooltip {
+            get {
+                return ResourceManager.GetString("CopyKeybind_Tooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Crosshair Size.
         /// </summary>
         internal static string CrosshairSize_Name {
@@ -138,6 +156,15 @@ namespace Kenedia.Modules.QoL.Res {
         internal static string Days {
             get {
                 return ResourceManager.GetString("Days", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Default Wiki.
+        /// </summary>
+        internal static string DefaultWiki {
+            get {
+                return ResourceManager.GetString("DefaultWiki", resourceCulture);
             }
         }
         
@@ -286,6 +313,24 @@ namespace Kenedia.Modules.QoL.Res {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Wiki Language.
+        /// </summary>
+        internal static string Language_Name {
+            get {
+                return ResourceManager.GetString("Language_Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Which wiki should be used for the search query?.
+        /// </summary>
+        internal static string Language_Tooltip {
+            get {
+                return ResourceManager.GetString("Language_Tooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Manual Max Zoom Out.
         /// </summary>
         internal static string ManualZoom_Name {
@@ -318,6 +363,24 @@ namespace Kenedia.Modules.QoL.Res {
         internal static string ModifierToSendToChat_Tooltip {
             get {
                 return ResourceManager.GetString("ModifierToSendToChat_Tooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Paste Shortcut.
+        /// </summary>
+        internal static string PasteKeybind_Name {
+            get {
+                return ResourceManager.GetString("PasteKeybind_Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Default: Ctrl + V.
+        /// </summary>
+        internal static string PasteKeybind_Tooltip {
+            get {
+                return ResourceManager.GetString("PasteKeybind_Tooltip", resourceCulture);
             }
         }
         
@@ -372,6 +435,33 @@ namespace Kenedia.Modules.QoL.Res {
         internal static string ReturnType_Tooltip {
             get {
                 return ResourceManager.GetString("ReturnType_Tooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Select All Shortcut.
+        /// </summary>
+        internal static string SelectAllKeybind_Name {
+            get {
+                return ResourceManager.GetString("SelectAllKeybind_Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Default: Ctrl + A.
+        /// </summary>
+        internal static string SelectAllKeybind_Tooltip {
+            get {
+                return ResourceManager.GetString("SelectAllKeybind_Tooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Shortcut Keybinds.
+        /// </summary>
+        internal static string ShortcutKeybinds {
+            get {
+                return ResourceManager.GetString("ShortcutKeybinds", resourceCulture);
             }
         }
         

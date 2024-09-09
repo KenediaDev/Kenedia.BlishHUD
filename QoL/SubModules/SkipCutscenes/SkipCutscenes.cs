@@ -25,6 +25,7 @@ namespace Kenedia.Modules.QoL.SubModules.SkipCutscenes
         private readonly Logger _logger = Logger.GetLogger(typeof(SkipCutscenes));
         private CancellationTokenSource _cts;
         private Point _mousePosition;
+        private GameStatusType _loggedInSinceLastCutscene = GameStatusType.Unknown;
 
         private readonly List<int> _introMaps = new()
         {
@@ -125,21 +126,36 @@ namespace Kenedia.Modules.QoL.SubModules.SkipCutscenes
         }
 
         private async void On_GameStateChanged(object sender, GameStateChangedEventArgs e)
-        {            
+        {
             _logger.Info($"Gamestate changed to {e.Status}");
-            switch (e.Status)
+
+            if (Enabled)
             {
-                case GameStatusType.Vista:
-                    if (Enabled) await SkipVista();
-                    break;
+                switch (e.Status)
+                {
+                    case GameStatusType.Vista:
+                        if (_loggedInSinceLastCutscene is GameStatusType.Ingame)
+                        {
+                            _loggedInSinceLastCutscene = GameStatusType.Vista;
+                            await SkipVista();
+                        }
 
-                case GameStatusType.Cutscene:
-                    if (Enabled) await SkipCutscene();
-                    break;
+                        break;
 
-                default:
-                    if (Enabled) Cancel();
-                    break;
+                    case GameStatusType.Cutscene:
+                        if (_loggedInSinceLastCutscene is GameStatusType.Ingame)
+                        {
+                            _loggedInSinceLastCutscene = GameStatusType.Cutscene;
+                            await SkipCutscene();
+                        }
+
+                        break;
+
+                    default:
+                        Cancel();
+                        _loggedInSinceLastCutscene = e.Status;
+                        break;
+                }
             }
         }
 

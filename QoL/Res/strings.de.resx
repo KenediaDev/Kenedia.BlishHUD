@@ -282,4 +282,34 @@
   <data name="EditPosition_Tooltip" xml:space="preserve">
     <value>Während sie markiert sind, können die Rückstellungen verschoben werden</value>
   </data>
+  <data name="Language_Name" xml:space="preserve">
+    <value>Wiki-Sprache</value>
+  </data>
+  <data name="Language_Tooltip" xml:space="preserve">
+    <value>Welches Wiki soll für die Suchanfrage verwendet werden?</value>
+  </data>
+  <data name="DefaultWiki" xml:space="preserve">
+    <value>Standard-Wiki</value>
+  </data>
+  <data name="ShortcutKeybinds" xml:space="preserve">
+    <value>Tastenkombinationen</value>
+  </data>
+  <data name="SelectAllKeybind_Name" xml:space="preserve">
+    <value>Alle auswählen Abkürzung</value>
+  </data>
+  <data name="CopyKeybind_Name" xml:space="preserve">
+    <value>Abkürzung kopieren</value>
+  </data>
+  <data name="PasteKeybind_Name" xml:space="preserve">
+    <value>Abkürzung für Einfügen</value>
+  </data>
+  <data name="SelectAllKeybind_Tooltip" xml:space="preserve">
+    <value>Standard: Strg + A</value>
+  </data>
+  <data name="CopyKeybind_Tooltip" xml:space="preserve">
+    <value>Standard: Strg + C</value>
+  </data>
+  <data name="PasteKeybind_Tooltip" xml:space="preserve">
+    <value>Standard: Strg + V</value>
+  </data>
 </root>

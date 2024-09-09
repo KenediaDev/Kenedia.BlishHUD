@@ -41,8 +41,7 @@ namespace Kenedia.Modules.Core.Services
 
                 IntPtr hWnd = GameService.GameIntegration.Gw2Instance.Gw2WindowHandle;
 
-                RECT newRect = new();
-                if (GetWindowRect(hWnd, ref newRect) && !WindowBounds.Matches(newRect))
+                if (GetWindowRect(hWnd, out RECT newRect) && !WindowBounds.Matches(newRect))
                 {
                     WindowBounds = newRect;
 

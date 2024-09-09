@@ -1,6 +1,9 @@
-﻿using Microsoft.Xna.Framework;
+﻿using Blish_HUD;
+using Microsoft.Xna.Framework;
 using System;
 using Point = Microsoft.Xna.Framework.Point;
+using static Kenedia.Modules.Core.Utility.WindowsUtil.User32Dll;
+using System.Diagnostics;
 
 namespace Kenedia.Modules.Core.Extensions
 {
@@ -39,6 +42,20 @@ namespace Kenedia.Modules.Core.Extensions
         public static string ConvertToString(this Point p)
         {
             return string.Format("X: {0}, Y: {1}", p.X, p.Y);
+        }
+
+        public static Point ClientToScreenPos(this Point p, bool scaleToUi = false)
+        {
+            if (scaleToUi)
+            {
+                p = p.ScaleToUi();
+            }
+
+            var hWnd = GameService.GameIntegration.Gw2Instance.Gw2WindowHandle;
+            var point = new POINT() { X = p.X, Y = p.Y };
+            _ = ClientToScreen(hWnd, ref point);
+
+            return new(point.X, point.Y);
         }
     }
 }
