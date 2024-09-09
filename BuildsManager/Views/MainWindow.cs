@@ -11,6 +11,7 @@ using Kenedia.Modules.BuildsManager.Models;
 using Kenedia.Modules.Core.Models;
 using Kenedia.Modules.BuildsManager.Res;
 using System.Diagnostics;
+using Kenedia.Modules.BuildsManager.Services;
 
 namespace Kenedia.Modules.BuildsManager.Views
 {
@@ -22,7 +23,7 @@ namespace Kenedia.Modules.BuildsManager.Views
         private readonly AboutPage _aboutPage;
         private readonly SelectionPanel _selectionPanel;
 
-        public MainWindow(AsyncTexture2D background, Rectangle windowRegion, Rectangle contentRegion) : base(background, windowRegion, contentRegion)
+        public MainWindow(AsyncTexture2D background, Rectangle windowRegion, Rectangle contentRegion, TemplateTags templateTags) : base(background, windowRegion, contentRegion)
         {
             _selectionPanel = new(TemplatePresenter, this)
             {
@@ -44,7 +45,7 @@ namespace Kenedia.Modules.BuildsManager.Views
             TabbedRegionTab tab;
 
             _tabbedRegion.AddTab(new TabbedRegionTab(
-                _aboutPage = new AboutPage(TemplatePresenter)
+                _aboutPage = new AboutPage(TemplatePresenter, templateTags)
                 {
                     HeightSizingMode = Blish_HUD.Controls.SizingMode.Fill,
                     WidthSizingMode = Blish_HUD.Controls.SizingMode.Fill,

@@ -14,6 +14,7 @@ using Kenedia.Modules.Core.Models;
 using Gw2Sharp.WebApi;
 using System.Threading;
 using Kenedia.Modules.BuildsManager.Models;
+using System.Diagnostics;
 
 namespace Kenedia.Modules.BuildsManager.Services
 {
@@ -56,7 +57,7 @@ namespace Kenedia.Modules.BuildsManager.Services
 
                 var lang = GameService.Overlay.UserLocale.Value is Locale.Korean or Locale.Chinese ? Locale.English : GameService.Overlay.UserLocale.Value;
                 var localeMissing = Items.Values.Where(item => item.Names[lang] == null)?.Select(e => $"{e.Id}");
-                var missing = raceIds.Except(Items.Keys.Select(e => $"{e}")).Concat(localeMissing);
+                var missing = raceIds.Except(Items.Keys.Select(e => $"{e}")).Concat(localeMissing).Except(new string[] {$"{Races.None}"});
 
                 if (map.Version > Version)
                 {
@@ -81,6 +82,7 @@ namespace Kenedia.Modules.BuildsManager.Services
                     foreach (var ids in idSets)
                     {
                         var items = await gw2ApiManager.Gw2ApiClient.V2.Races.ManyAsync(ids, cancellationToken);
+
                         if (cancellationToken.IsCancellationRequested)
                         {
                             return false;

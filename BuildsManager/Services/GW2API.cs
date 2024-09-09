@@ -13,6 +13,8 @@ using System.Threading;
 using Kenedia.Modules.Core.Extensions;
 using Kenedia.Modules.BuildsManager.Models;
 using Kenedia.Modules.Core.Controls;
+using System.Diagnostics;
+using Kenedia.Modules.BuildsManager.Extensions;
 
 namespace Kenedia.Modules.BuildsManager.Services
 {
@@ -172,7 +174,9 @@ namespace Kenedia.Modules.BuildsManager.Services
                 _cancellationTokenSource = new CancellationTokenSource();
 
                 var version = new SemVer.Version(versionString);
-                var MapCollection = new StaticVersion(version);
+                var MapCollection = StaticVersion.LoadFromFile($@"{Paths.ModuleDataPath}DataMap.json");
+                var mapVersions = MapCollection.GetVersions();
+
                 var raw_itemids = await _gw2ApiManager.Gw2ApiClient.V2.Items.IdsAsync(_cancellationTokenSource.Token);
                 var invalidIds = new List<int>()
                 {
@@ -186,7 +190,7 @@ namespace Kenedia.Modules.BuildsManager.Services
 
                 var itemid_lists = raw_itemids.Except(invalidIds).ToList().ChunkBy(200);
                 int count = 0;
-                itemid_lists.Clear();
+
                 foreach (var ids in itemid_lists)
                 {
                     if (_cancellationTokenSource.IsCancellationRequested)
@@ -270,10 +274,10 @@ namespace Kenedia.Modules.BuildsManager.Services
                                             break;
 
                                         default:
-                                            if (item.Type.ToString() == "Mwcc")
+                                            if (item.Type.ToString() == "Relic" || item.Type.ToString() == "Mwcc")
                                             {
-                                                if (item.GameTypes.FirstOrDefault(e => e.Value == ItemGameType.Pvp) is not null) maps.Add(MapCollection.PveRelics);
-                                                if (item.GameTypes.FirstOrDefault(e => e.Value == ItemGameType.Pve) is not null) maps.Add(MapCollection.PvpRelics);
+                                                if (item.GameTypes.FirstOrDefault(e => e.Value == ItemGameType.Pvp) is not null) maps.Add(MapCollection.PvpRelics);
+                                                if (item.GameTypes.FirstOrDefault(e => e.Value == ItemGameType.Pve) is not null) maps.Add(MapCollection.PveRelics);
                                             }
                                             else if (item.Type == ItemType.PowerCore)
                                             {
@@ -289,6 +293,16 @@ namespace Kenedia.Modules.BuildsManager.Services
                                         {
                                             BuildsManager.Logger.Info($"Adding {item.Id} to {item.Type}");
                                             map.Add((byte)(map.Count + 1), item.Id);
+
+                                            if (mapVersions.TryGetValue(map.Name, out SemVer.Version mapVersion))
+                                            {
+                                                if (mapVersion.ToString() == map.Version.ToString())
+                                                {
+                                                    map.Version = map.Version.Increment();
+
+                                                    BuildsManager.Logger.Info($"Updating {item.Type} version from {mapVersion} to {map.Version}");
+                                                }
+                                            }
                                         }
                                     }
                                 }
@@ -339,6 +353,7 @@ namespace Kenedia.Modules.BuildsManager.Services
                     }
                 }
 
+                Debug.WriteLine($@"Save to {Paths.ModuleDataPath}DataMap.json");
                 MapCollection.Save($@"{Paths.ModuleDataPath}DataMap.json");
             }
             catch

@@ -185,7 +185,7 @@ namespace Kenedia.Modules.Characters.Controls
             _buttonContainer = new Panel()
             {
                 Parent = this,
-                Location = new Point(0, _image.Bottom + 5 + 2),
+                Location = new Point(0, _beta.Bottom + 5 + 2),
                 Width = 355,
                 HeightSizingMode = SizingMode.AutoSize,
             };

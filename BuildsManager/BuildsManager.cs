@@ -31,6 +31,8 @@ using Kenedia.Modules.BuildsManager.Controls.GearPage.GearSlots;
 using Kenedia.Modules.Core.Services;
 using Kenedia.Modules.BuildsManager.DataModels.Items;
 using System.Collections.Generic;
+using Kenedia.Modules.BuildsManager.Models.Templates;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.TextBox;
 
 namespace Kenedia.Modules.BuildsManager
 {
@@ -62,6 +64,8 @@ namespace Kenedia.Modules.BuildsManager
 
         public ObservableCollection<Template> Templates { get; private set; } = new();
 
+        public TemplateTags TemplateTags { get; private set; }
+
         public event ValueChangedEventHandler<bool> TemplatesLoadedDone;
 
         private bool _templatesLoaded = false;
@@ -91,6 +95,7 @@ namespace Kenedia.Modules.BuildsManager
 
             Logger.Info($"Starting {Name} v." + Version.BaseVersion());
 
+            TemplateTags = new(ContentsManager, Paths);
             GW2API = new(Gw2ApiManager, () => Data, Paths, () => _notificationBadge);
             Data = new(Paths, Gw2ApiManager, () => _notificationBadge, () => _apiSpinner);
             Data.Loaded += Data_Loaded;
@@ -98,8 +103,8 @@ namespace Kenedia.Modules.BuildsManager
 
         private void Data_Loaded(object sender, EventArgs e)
         {
-            if (!TemplatesLoaded) 
-                LoadTemplates(); 
+            if (!TemplatesLoaded)
+                LoadTemplates();
 
         }
 
@@ -125,8 +130,12 @@ namespace Kenedia.Modules.BuildsManager
         protected override async Task LoadAsync()
         {
             _apiSpinner?.Show();
+
             await base.LoadAsync();
+
+            await TemplateTags.Load();
             _ = await Data.Load();
+            
         }
 
         protected override void OnModuleLoaded(EventArgs e)
@@ -164,19 +173,9 @@ namespace Kenedia.Modules.BuildsManager
             _cancellationTokenSource?.Cancel();
             _cancellationTokenSource = new CancellationTokenSource();
 
-            //await GW2API.UpdateMappedIds("0.0.5");
-
-            //LoadTemplates();
             //base.ReloadKey_Activated(sender, e);
-            //var list = new List<(string name, int id, byte mapid)>();
 
-            //foreach(Relic relic in Data.Relics.Items.Values)
-            //{
-            //    list.Add(new(relic.Name, relic.Id, relic.MappedId));
-            //}
-
-            //string json = JsonConvert.SerializeObject(list, SerializerSettings.Default);
-            //File.WriteAllText($@"{Paths.ModulePath}relics.json", json);
+            await GW2API.UpdateMappedIds("0.0.6");
         }
 
         protected override void LoadGUI()
@@ -192,7 +191,8 @@ namespace Kenedia.Modules.BuildsManager
             MainWindow = new MainWindow(
                 TexturesService.GetTextureFromRef(@"textures\mainwindow_background.png", "mainwindow_background"),
                 new Rectangle(30, 30, Width, Height + 30),
-                new Rectangle(30, 20, Width - 3, Height + 15))
+                new Rectangle(30, 20, Width - 3, Height + 15),
+                TemplateTags)
             {
                 Parent = GameService.Graphics.SpriteScreen,
                 Title = "❤",

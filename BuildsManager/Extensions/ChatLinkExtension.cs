@@ -7,6 +7,13 @@ using Color = Microsoft.Xna.Framework.Color;
 
 namespace Kenedia.Modules.BuildsManager.Extensions
 {
+    public static class VersionExtension
+    {
+        public static SemVer.Version Increment(this SemVer.Version version)
+        {
+            return version = new(version.Major, version.Minor, version.Patch + 1);            
+        }
+    }
     public static class AttributeTypeExtension
     {
         public static string GetDisplayName(this AttributeType attribute)

@@ -313,6 +313,15 @@ namespace Kenedia.Modules.BuildsManager.Res {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Edit Tags.
+        /// </summary>
+        internal static string EditTags {
+            get {
+                return ResourceManager.GetString("EditTags", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Elite Skills.
         /// </summary>
         internal static string EliteSkills {
@@ -616,6 +625,15 @@ namespace Kenedia.Modules.BuildsManager.Res {
         internal static string Relic {
             get {
                 return ResourceManager.GetString("Relic", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Rename.
+        /// </summary>
+        internal static string Rename {
+            get {
+                return ResourceManager.GetString("Rename", resourceCulture);
             }
         }
         

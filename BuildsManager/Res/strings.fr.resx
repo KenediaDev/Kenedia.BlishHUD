@@ -379,4 +379,10 @@ Le but de ce code est de partager facilement le modèle d'équipement du module 
   <data name="Accessory" xml:space="preserve">
     <value>Accessoire</value>
   </data>
+  <data name="Rename" xml:space="preserve">
+    <value>Renommer</value>
+  </data>
+  <data name="EditTags" xml:space="preserve">
+    <value>Modifier les étiquettes</value>
+  </data>
 </root>

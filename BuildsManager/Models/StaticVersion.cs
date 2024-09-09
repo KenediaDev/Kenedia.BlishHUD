@@ -9,11 +9,14 @@ using Kenedia.Modules.BuildsManager.Services;
 using Kenedia.Modules.Core.Models;
 using Kenedia.Modules.Core.Attributes;
 using Kenedia.Modules.Core.ContractResolver;
+using SemVer;
 
 namespace Kenedia.Modules.BuildsManager.Models
 {
     public class StaticVersion
     {
+        private Version _version = new(0, 0, 0);
+
         public StaticVersion()
         {
 
@@ -24,6 +27,23 @@ namespace Kenedia.Modules.BuildsManager.Models
             foreach (var property in this)
             {
                 this[property.Key].Version = version;
+            }
+        }
+
+        [JsonIgnore]
+        public Version Version 
+        {
+            set
+            {
+                if(value is Version version && version > _version)
+                {
+                    _version = version;
+
+                    foreach (var property in this)
+                    {
+                        this[property.Key].Version = version;
+                    }
+                }
             }
         }
 
@@ -98,6 +118,31 @@ namespace Kenedia.Modules.BuildsManager.Models
             File.WriteAllText(path, json);
         }
 
+        public static StaticVersion LoadFromFile(Version version, string path)
+        {
+            var staticVersion = JsonConvert.DeserializeObject<StaticVersion>(File.ReadAllText(path), SerializerSettings.Default) ?? new(version);
+            staticVersion.Version = version;
+
+            foreach (var property in staticVersion)
+            {
+                staticVersion[property.Key].Name = property.Key;
+            }
+
+            return staticVersion;   
+        }
+
+        public static StaticVersion LoadFromFile(string path)
+        {
+            var staticVersion = JsonConvert.DeserializeObject<StaticVersion>(File.ReadAllText(path), SerializerSettings.Default) ?? new();
+
+            foreach (var property in staticVersion)
+            {
+                staticVersion[property.Key].Name = property.Key;
+            }
+
+            return staticVersion;   
+        }
+
         public ByteIntMap this[string propertyName]
         {
             get
@@ -121,6 +166,18 @@ namespace Kenedia.Modules.BuildsManager.Models
                 }
             }
         }
+
+        public Dictionary<string, Version> GetVersions()
+        {
+            var versions = new Dictionary<string, Version>();
+
+            foreach (var property in this)
+            {
+                versions.Add(property.Key, new Version(property.Value.Version.ToString()));
+            }
+
+            return versions;
+        }
     }
 
     public class ByteIntMap
@@ -135,6 +192,9 @@ namespace Kenedia.Modules.BuildsManager.Models
         public Dictionary<byte, int> Items { get; } = new();
 
         public Dictionary<byte, int> Ignored { get; } = new();
+
+        [JsonIgnore]
+        public string Name { get; set; }
 
         [JsonIgnore]
         public Version Version { get; set; } = new(0, 0, 0);

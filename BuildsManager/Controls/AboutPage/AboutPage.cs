@@ -1,81 +1,103 @@
-﻿using Kenedia.Modules.BuildsManager.Models;
+﻿using Blish_HUD;
+using Blish_HUD.Content;
+using Kenedia.Modules.BuildsManager.Models;
 using Kenedia.Modules.BuildsManager.Models.Templates;
 using Kenedia.Modules.BuildsManager.Res;
+using Kenedia.Modules.BuildsManager.Services;
+using Kenedia.Modules.BuildsManager.Views;
 using Kenedia.Modules.Core.Controls;
+using Kenedia.Modules.Core.Res;
 using Kenedia.Modules.Core.Services;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Linq;
+using System.Text;
+using System.Xml.Linq;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.TrayNotify;
 
 namespace Kenedia.Modules.BuildsManager.Controls.AboutPage
 {
+    public class MyTooltip : Blish_HUD.Controls.Tooltip
+    {
+        private readonly Label _label;
+
+        public MyTooltip()
+        {
+            _label = new()
+            {
+                Text = "Hello World",
+                Parent = this,
+                Location = new(10, 10),
+                AutoSizeHeight = true,
+                AutoSizeWidth = true,
+                Font = Content.DefaultFont16,
+                TextColor = Color.White,
+            };
+        }
+    }
+
+    public class MyControl : Blish_HUD.Controls.Control
+    {
+        public MyControl()
+        {
+            Tooltip = new MyTooltip();
+        }
+
+        protected override void Paint(SpriteBatch spriteBatch, Rectangle bounds)
+        {
+        }
+    }
+
     public class AboutPage : Blish_HUD.Controls.Container
     {
         private readonly Blish_HUD.Controls.MultilineTextBox _noteField;
         private readonly FlowPanel _tagPanel;
         private readonly Label _notesLabel;
         private readonly Label _tagsLabel;
-        private readonly Button _clearAll;
-        private readonly Button _setAll;
-        private readonly Button _deleteTemplate;
+        private readonly ButtonImage _editTags;
+        private readonly FilterBox _tagFilter;
+
         private readonly List<(TemplateFlag tag, Image texture, Checkbox checkbox)> _tags = new();
         private readonly List<(EncounterFlag tag, Image texture, Checkbox checkbox)> _encounters = new();
         private readonly bool _created = false;
+        private readonly TemplateTags _templateTags;
+        private int tagSectionWidth;
         private bool _changeBuild = true;
+        private readonly TagEditWindow _tagEditWindow;
 
         private Color _disabledColor = Color.Gray;
 
-        public AboutPage(TemplatePresenter _templatePresenter)
+        public AboutPage(TemplatePresenter _templatePresenter, TemplateTags templateTags)
         {
             TemplatePresenter = _templatePresenter;
+            _templateTags = templateTags;
 
-            _tagPanel = new()
-            {
-                Parent = this,
-                Location = new(0, 75),
-                Width = 250,
-                HeightSizingMode = Blish_HUD.Controls.SizingMode.Fill,
-                ShowBorder = true,
-                ShowRightBorder = true,
-                FlowDirection = Blish_HUD.Controls.ControlFlowDirection.SingleTopToBottom,
-                ContentPadding = new(5),
-                CanScroll = true,
-            };
+            tagSectionWidth = 300;
 
-            _setAll = new()
-            {
-                SetLocalizedText = () => strings.All,
-                Parent = this,
-                Width = (_tagPanel.Width - 5) / 2,
-                Location = new(0, _tagPanel.Top - 25),
-                ClickAction = () =>
-                {
-                    if (TemplatePresenter?.Template is not null)
-                    {
-                        TemplatePresenter.Template.Encounters = (EncounterFlag)Enum.GetValues(typeof(EncounterFlag)).Cast<long>().Sum();
-                        TemplatePresenter.Template.Tags = (TemplateFlag)Enum.GetValues(typeof(TemplateFlag)).Cast<int>().Sum();
-                        ApplyTemplate();
-                    }
-                },
-            };
+            int Height = 670;
+            int Width = 915;
 
-            _clearAll = new()
+            _tagEditWindow = new(
+                TexturesService.GetTextureFromRef(@"textures\mainwindow_background.png", "mainwindow_background"),
+                new Rectangle(30, 30, Width, Height + 30),
+                new Rectangle(40, 40, Width - 3, Height ),
+                templateTags)
             {
-                SetLocalizedText = () => strings.None,
-                Parent = this,
-                Width = (_tagPanel.Width - 5) / 2,
-                Location = new(_setAll.Right + 5, _setAll.Top),
-                ClickAction = () =>
-                {
-                    if (TemplatePresenter?.Template is not null)
-                    {
-                        TemplatePresenter.Template.Encounters = EncounterFlag.None;
-                        TemplatePresenter.Template.Tags = TemplateFlag.None;
-                        ApplyTemplate();
-                    }
-                },
+                Parent = GameService.Graphics.SpriteScreen,
+                Title = "❤",
+                Subtitle = "❤",
+                SavesPosition = true,
+                Id = $"{BuildsManager.ModuleInstance.Name} TagWindow",
+                MainWindowEmblem = AsyncTexture2D.FromAssetId(536043),
+                SubWindowEmblem = AsyncTexture2D.FromAssetId(156031),
+                Name = "Tag Editing",
+                Width = 580,
+                Height = 800,
+                CanResize = true,
             };
 
             _tagsLabel = new()
@@ -83,9 +105,79 @@ namespace Kenedia.Modules.BuildsManager.Controls.AboutPage
                 Parent = this,
                 SetLocalizedText = () => strings.Tags,
                 Font = Content.DefaultFont32,
-                AutoSizeWidth = true,
-                AutoSizeHeight = true,
-                Location = new(_tagPanel.Left + 3, _clearAll.Top - Content.DefaultFont32.LineHeight - 2),
+                Height = 35,
+                Width = tagSectionWidth - 35 - 5,
+                Location = new(0, 10),
+            };
+
+            _tagFilter = new()
+            {
+                Parent = this,
+                Location = new(0, _tagsLabel.Bottom + 10),
+                Width = tagSectionWidth - 30,
+                SetLocalizedPlaceholder = () => strings_common.Search,
+                FilteringOnTextChange = true,
+                FilteringOnEnter = true,
+                EnterPressedAction = (txt) =>
+                {
+                    if (!string.IsNullOrEmpty(txt.Trim()))
+                    {
+                        var templateTag = _templateTags.Tags.FirstOrDefault(e => e.Name.ToLower() == txt.ToLower());
+
+                        if (templateTag is null)
+                        {
+                            _templateTags.Add(new TemplateTag() { Name = txt });
+                        }
+                        else
+                        {
+                            var tag = _tagPanel.GetChildrenOfType<TagControl>().FirstOrDefault(e => e.Tag == templateTag);
+                            tag?.SetSelected(!tag.Selected);
+                            _tagFilter.Focused = true;
+                        }
+                    }
+                },
+                TextChangedAction = (txt) => _editTags.Enabled = !string.IsNullOrEmpty(txt.Trim()) && _templateTags.Tags.FirstOrDefault(e => e.Name.ToLower() == txt.ToLower()) is null,
+                PerformFiltering = (txt) =>
+                {
+                    string t = txt.ToLower();
+                    bool any = string.IsNullOrEmpty(t);
+
+                    foreach (var tag in _tagPanel.GetChildrenOfType<TagControl>())
+                    {
+                        tag.Visible = any || tag.Tag.Name.ToLower().Contains(t);
+                    }
+
+                    _tagPanel.Invalidate();
+                }
+            };
+
+            _editTags = new()
+            {
+                Parent = this,
+                Size = new(_tagFilter.Height),
+                Location = new(_tagFilter.Right + 2, _tagFilter.Top),
+                Texture = AsyncTexture2D.FromAssetId(255443),
+                HoveredTexture = AsyncTexture2D.FromAssetId(255297),
+                DisabledTexture = AsyncTexture2D.FromAssetId(255296),
+                SetLocalizedTooltip = () => "Add Tag",
+                Enabled = false,
+                ClickAction = (b) => _templateTags.Add(new TemplateTag() { Name = _tagFilter.Text })
+            };
+
+            _tagPanel = new()
+            {
+                Parent = this,
+                Location = new(0, _tagFilter.Bottom + 2),
+                Width = tagSectionWidth,
+                HeightSizingMode = Blish_HUD.Controls.SizingMode.Fill,
+                ShowBorder = false,
+                BorderColor = Color.Black,
+                BorderWidth = new(2),
+                BackgroundColor = Color.Black * 0.4F,
+                ShowRightBorder = true,
+                FlowDirection = Blish_HUD.Controls.ControlFlowDirection.SingleTopToBottom,
+                ContentPadding = new(5),
+                CanScroll = true,
             };
 
             _notesLabel = new()
@@ -93,118 +185,63 @@ namespace Kenedia.Modules.BuildsManager.Controls.AboutPage
                 Parent = this,
                 SetLocalizedText = () => strings.Notes,
                 Font = Content.DefaultFont32,
-                AutoSizeWidth = true,
-                AutoSizeHeight = true,
-            };
-
-            _deleteTemplate = new()
-            {
-                Parent = this,
-                SetLocalizedText = () => strings.DeleteTemplate,
-                Width = 150,
-                Location = new(ContentRegion.Right - 155, _tagsLabel.Bottom - 25),
-                ClickAction = () =>
-                {
-                    _ = BuildsManager.ModuleInstance.Templates.Remove(TemplatePresenter?.Template);
-                    _ = TemplatePresenter?.Template.Delete();
-                },
+                Location = new(_tagPanel.Right + 18, _tagsLabel.Top),
+                Size = _tagsLabel.Size,
             };
 
             _noteField = new()
             {
                 Parent = this,
+                Location = new(_tagPanel.Right + 10, _notesLabel.Bottom + 10),
                 HideBackground = false,
             };
 
             _noteField.TextChanged += NoteField_TextChanged;
 
-            foreach (TemplateFlag tag in Enum.GetValues(typeof(TemplateFlag)))
-            {
-                if (tag != TemplateFlag.None)
-                {
-                    FlowPanel p = new()
-                    {
-                        Parent = _tagPanel,
-                        WidthSizingMode = Blish_HUD.Controls.SizingMode.Fill,
-                        HeightSizingMode = Blish_HUD.Controls.SizingMode.AutoSize,
-                        FlowDirection = Blish_HUD.Controls.ControlFlowDirection.SingleLeftToRight,
-                        Height = 30,
-                        ControlPadding = new(5),
-                    };
-
-                    (TemplateFlag tag, Image texture, Checkbox checkbox) t;
-
-                    _tags.Add(t = new(
-                        tag,
-                        new() { Texture = TemplateTagTextures.GetTexture(tag), Parent = p, Size = new(p.Height) },
-                        new()
-                        {
-                            Parent = p,
-                            Text = tag.ToString(),
-                            Height = p.Height,
-                        }
-                        ));
-
-                    t.checkbox.CheckedChangedAction = (isChecked) =>
-                    {
-                        t.checkbox.TextColor = isChecked ? Color.White : _disabledColor;
-                        t.texture.Tint = isChecked ? Color.White : _disabledColor;
-
-                        if (_changeBuild && TemplatePresenter?.Template is not null)
-                        {
-                            TemplatePresenter.Template.Tags = isChecked ? TemplatePresenter.Template.Tags | tag : TemplatePresenter.Template.Tags & ~tag;
-                        }
-                    };
-                }
-            }
-
-            foreach (EncounterFlag tag in Enum.GetValues(typeof(EncounterFlag)))
-            {
-                if (tag != EncounterFlag.None)
-                {
-                    FlowPanel p = new()
-                    {
-                        Parent = _tagPanel,
-                        WidthSizingMode = Blish_HUD.Controls.SizingMode.Fill,
-                        HeightSizingMode = Blish_HUD.Controls.SizingMode.AutoSize,
-                        FlowDirection = Blish_HUD.Controls.ControlFlowDirection.SingleLeftToRight,
-                        Height = 30,
-                        ControlPadding = new(5),
-                    };
-
-                    (EncounterFlag tag, Image texture, Checkbox checkbox) t;
-
-                    _encounters.Add(t = new(
-                        tag,
-                        new()
-                        {
-                            Texture = TemplateTagTextures.GetTexture(tag),
-                            Parent = p,
-                            Size = new(p.Height)
-                        },
-                        new()
-                        {
-                            Parent = p,
-                            Text = tag.ToString(),
-                            Height = p.Height,
-                        }
-                        ));
-
-                    t.checkbox.CheckedChangedAction = async (isChecked) =>
-                    {
-                        t.checkbox.TextColor = isChecked ? Color.White : _disabledColor;
-                        t.texture.Tint = isChecked ? Color.White : _disabledColor;
-
-                        if (_changeBuild && TemplatePresenter?.Template is not null)
-                        {
-                            TemplatePresenter.Template.Encounters = isChecked ? TemplatePresenter.Template.Encounters | tag : TemplatePresenter.Template.Encounters & ~tag;
-                        }
-                    };
-                }
-            }
-
             TemplatePresenter.TemplateChanged += TemplatePresenter_TemplateChanged;
+            _templateTags.TagsChanged += TemplateTags_TagsChanged;
+
+            CreateTagControls();
+
             _created = true;
+        }
+
+        private void TemplateTags_TagsChanged(object sender, TemplateTag e)
+        {
+            CreateTagControls();
+        }
+
+        private void CreateTagControls()
+        {
+            _tagPanel?.ClearChildren();
+
+            foreach (var tag in _templateTags.Tags)
+            {
+                _ = new TagControl()
+                {
+                    Parent = _tagPanel,
+                    Width = tagSectionWidth - _tagPanel.ContentPadding.Horizontal - 20,
+                    Tag = tag,
+                    OnEditClicked = () =>
+                    {
+                        _tagEditWindow?.ToggleWindow();
+                    },
+                    OnClicked = (selected) =>
+                    {
+                        if (TemplatePresenter.Template is Template template)
+                        {
+                            if (selected)
+                            {
+                                template.Tags.Add(tag.Name);
+                            }
+                            else
+                            {
+                                _ = template.Tags.Remove(tag.Name);
+                            }
+                        }
+                    }
+                };
+            }
         }
 
         private void TemplatePresenter_TemplateChanged(object sender, Core.Models.ValueChangedEventArgs<Template> e)
@@ -225,21 +262,14 @@ namespace Kenedia.Modules.BuildsManager.Controls.AboutPage
         private void ApplyTemplate()
         {
             _changeBuild = false;
-            foreach (var tag in _tags)
-            {
-                tag.checkbox.Checked = TemplatePresenter?.Template?.Tags.HasFlag(tag.tag) == true;
-                tag.checkbox.TextColor = tag.checkbox.Checked ? Color.White : _disabledColor;
-                tag.texture.Tint = tag.checkbox.Checked ? Color.White : _disabledColor;
-            }
-
-            foreach (var tag in _encounters)
-            {
-                tag.checkbox.Checked = TemplatePresenter?.Template?.Encounters.HasFlag(tag.tag) == true;
-                tag.checkbox.TextColor = tag.checkbox.Checked ? Color.White : _disabledColor;
-                tag.texture.Tint = tag.checkbox.Checked ? Color.White : _disabledColor;
-            }
 
             _noteField.Text = TemplatePresenter?.Template?.Description;
+
+            foreach (var tag in _tagPanel.GetChildrenOfType<TagControl>())
+            {
+                tag.Selected = TemplatePresenter?.Template?.Tags.Contains(tag.Tag.Name) ?? false;
+            }
+
             _changeBuild = true;
         }
 
@@ -255,18 +285,17 @@ namespace Kenedia.Modules.BuildsManager.Controls.AboutPage
 
             if (_noteField is not null)
             {
-                _notesLabel.Location = new(_tagPanel.Right + 18, 50 - _notesLabel.Font.LineHeight - 2);
-                _noteField.Location = new(_tagPanel.Right + 15, 50);
-                _noteField.Size = new(Width - _tagPanel.Right - 15, Height - 50);
+                //_notesLabel.Location = new(_tagPanel.Right + 18, 50 - _notesLabel.Font.LineHeight - 2);
+                //_noteField.Location = new(_tagPanel.Right + 15, 50);
+                _noteField.Size = new(Width - _tagPanel.Right - 15, Height - _noteField.Top);
             }
-
-            _deleteTemplate.Location = new(ContentRegion.Right - 150, _tagsLabel.Bottom - 25);
         }
 
         protected override void DisposeControl()
         {
             base.DisposeControl();
 
+            _tagEditWindow?.Dispose();
             TemplatePresenter.TemplateChanged -= TemplatePresenter_TemplateChanged;
             foreach (var c in Children)
             {
