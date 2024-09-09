@@ -123,6 +123,23 @@ namespace Kenedia.Modules.BuildsManager.Models
             var staticVersion = JsonConvert.DeserializeObject<StaticVersion>(File.ReadAllText(path), SerializerSettings.Default) ?? new(version);
             staticVersion.Version = version;
 
+            foreach (var property in staticVersion)
+            {
+                staticVersion[property.Key].Name = property.Key;
+            }
+
+            return staticVersion;   
+        }
+
+        public static StaticVersion LoadFromFile(string path)
+        {
+            var staticVersion = JsonConvert.DeserializeObject<StaticVersion>(File.ReadAllText(path), SerializerSettings.Default) ?? new();
+
+            foreach (var property in staticVersion)
+            {
+                staticVersion[property.Key].Name = property.Key;
+            }
+
             return staticVersion;   
         }
 
@@ -149,6 +166,18 @@ namespace Kenedia.Modules.BuildsManager.Models
                 }
             }
         }
+
+        public Dictionary<string, Version> GetVersions()
+        {
+            var versions = new Dictionary<string, Version>();
+
+            foreach (var property in this)
+            {
+                versions.Add(property.Key, new Version(property.Value.Version.ToString()));
+            }
+
+            return versions;
+        }
     }
 
     public class ByteIntMap
@@ -163,6 +192,9 @@ namespace Kenedia.Modules.BuildsManager.Models
         public Dictionary<byte, int> Items { get; } = new();
 
         public Dictionary<byte, int> Ignored { get; } = new();
+
+        [JsonIgnore]
+        public string Name { get; set; }
 
         [JsonIgnore]
         public Version Version { get; set; } = new(0, 0, 0);

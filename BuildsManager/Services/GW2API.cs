@@ -14,6 +14,7 @@ using Kenedia.Modules.Core.Extensions;
 using Kenedia.Modules.BuildsManager.Models;
 using Kenedia.Modules.Core.Controls;
 using System.Diagnostics;
+using Kenedia.Modules.BuildsManager.Extensions;
 
 namespace Kenedia.Modules.BuildsManager.Services
 {
@@ -173,7 +174,8 @@ namespace Kenedia.Modules.BuildsManager.Services
                 _cancellationTokenSource = new CancellationTokenSource();
 
                 var version = new SemVer.Version(versionString);
-                var MapCollection = StaticVersion.LoadFromFile(version, $@"{Paths.ModuleDataPath}DataMap.json");
+                var MapCollection = StaticVersion.LoadFromFile($@"{Paths.ModuleDataPath}DataMap.json");
+                var mapVersions = MapCollection.GetVersions();
 
                 var raw_itemids = await _gw2ApiManager.Gw2ApiClient.V2.Items.IdsAsync(_cancellationTokenSource.Token);
                 var invalidIds = new List<int>()
@@ -291,6 +293,16 @@ namespace Kenedia.Modules.BuildsManager.Services
                                         {
                                             BuildsManager.Logger.Info($"Adding {item.Id} to {item.Type}");
                                             map.Add((byte)(map.Count + 1), item.Id);
+
+                                            if (mapVersions.TryGetValue(map.Name, out SemVer.Version mapVersion))
+                                            {
+                                                if (mapVersion.ToString() == map.Version.ToString())
+                                                {
+                                                    map.Version = map.Version.Increment();
+
+                                                    BuildsManager.Logger.Info($"Updating {item.Type} version from {mapVersion} to {map.Version}");
+                                                }
+                                            }
                                         }
                                     }
                                 }

@@ -192,7 +192,7 @@ namespace Kenedia.Modules.QoL
             SubModules.Add(SubModuleType.WikiSearch, new WikiSearch(SettingCollection));
             SubModules.Add(SubModuleType.WaypointPaste, new WaypointPaste(SettingCollection));
             SubModules.Add(SubModuleType.CopyItemName, new CopyItemName(SettingCollection));
-            SubModules.Add(SubModuleType.SchemanticProcessing, new SchemanticProcessing(SettingCollection));
+            //SubModules.Add(SubModuleType.SchemanticProcessing, new SchemanticProcessing(SettingCollection));
 
             foreach (var module in SubModules.Values)
             {

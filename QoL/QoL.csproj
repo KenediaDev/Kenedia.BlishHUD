@@ -276,6 +276,7 @@
     <Compile Include="SubModules\SubModuleType.cs" />
     <Compile Include="SubModules\SubModuleUI.cs" />
     <Compile Include="SubModules\WaypointPaste\WaypointPaste.cs" />
+    <Compile Include="SubModules\WikiSearch\WikiLocale.cs" />
     <Compile Include="SubModules\WikiSearch\WikiSearch.cs" />
     <Compile Include="SubModules\ZoomOut\ZoomOut.cs" />
     <Compile Include="Views\SettingsView.cs" />

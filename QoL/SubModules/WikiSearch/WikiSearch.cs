@@ -14,6 +14,9 @@ using Blish_HUD.Input;
 using Kenedia.Modules.Core.Extensions;
 using Kenedia.Modules.Core.Utility;
 using Kenedia.Modules.QoL.Res;
+using System.Collections.Generic;
+using System.Diagnostics;
+using static Kenedia.Modules.QoL.SubModules.WikiSearch.WikiLocale;
 
 namespace Kenedia.Modules.QoL.SubModules.WikiSearch
 {
@@ -24,6 +27,7 @@ namespace Kenedia.Modules.QoL.SubModules.WikiSearch
         private SettingEntry<bool> _disableOnRightClick;
         private SettingEntry<bool> _disableOnSearch;
         private SettingEntry<KeyBinding> _modifierToChat;
+        private SettingEntry<Locale> _language;
 
         public WikiSearch(SettingCollection settings) : base(settings)
         {
@@ -123,6 +127,9 @@ namespace Kenedia.Modules.QoL.SubModules.WikiSearch
 
             _modifierToChat = settings.DefineSetting(nameof(_modifierToChat),
                 new KeyBinding(Keys.LeftShift));
+
+            _language = settings.DefineSetting(nameof(_language),
+                Locale.Default);
         }
 
         override public void Load()
@@ -192,7 +199,7 @@ namespace Kenedia.Modules.QoL.SubModules.WikiSearch
                 Keyboard.Stroke(Key.LEFT, true);
                 await Task.Delay(delay);
 
-                bool hasWiki = await ClipboardUtil.WindowsClipboardService.SetTextAsync("/wiki ");
+                bool hasWiki = await ClipboardUtil.WindowsClipboardService.SetTextAsync(GetWikiCommand());
                 if (hasWiki)
                 {
                     Keyboard.Stroke(Key.KEY_V, true);
@@ -221,6 +228,18 @@ namespace Kenedia.Modules.QoL.SubModules.WikiSearch
                 }
             }
             catch { }
+        }
+
+        private string GetWikiCommand()
+        {
+            return _language.Value switch
+            {
+                Locale.English => "/wiki en:",
+                Locale.German => "/wiki de: ",
+                Locale.French => "/wiki fr: ",
+                Locale.Spanish => "/wiki es:",
+                _ => "/wiki "
+            };
         }
 
         public override void CreateSettingsPanel(FlowPanel flowPanel, int width)
@@ -284,6 +303,16 @@ namespace Kenedia.Modules.QoL.SubModules.WikiSearch
                 Height = 20,
                 Checked = _disableOnRightClick.Value,
                 CheckedChangedAction = (b) => _disableOnRightClick.Value = b,
+            });
+
+            Array d = Enum.GetValues(typeof(Locale));
+
+            UI.WrapWithLabel(() => strings.Language_Name, () => strings.Language_Tooltip, contentFlowPanel, width - 16, new Dropdown()
+            {
+                Height = 20,
+                SelectedItem = ToDisplayString(_language.Value),
+                SetLocalizedItems = () => Locales.Values.ToList(),
+                ValueChangedAction = (s) => _language.Value = FromDisplayString(s),
             });
         }
     }

@@ -282,4 +282,34 @@
   <data name="EditPosition_Tooltip" xml:space="preserve">
     <value>Les réinitialisations peuvent être déplacées lorsqu'elles sont vérifiées</value>
   </data>
+  <data name="Language_Name" xml:space="preserve">
+    <value>Langue Wiki</value>
+  </data>
+  <data name="Language_Tooltip" xml:space="preserve">
+    <value>Quel wiki doit être utilisé pour la requête de recherche ?</value>
+  </data>
+  <data name="DefaultWiki" xml:space="preserve">
+    <value>Wiki par défaut</value>
+  </data>
+  <data name="ShortcutKeybinds" xml:space="preserve">
+    <value>Raccourcis clavier</value>
+  </data>
+  <data name="SelectAllKeybind_Name" xml:space="preserve">
+    <value>Raccourci "Tout sélectionner</value>
+  </data>
+  <data name="CopyKeybind_Name" xml:space="preserve">
+    <value>Raccourci de copie</value>
+  </data>
+  <data name="PasteKeybind_Name" xml:space="preserve">
+    <value>Raccourci de collage</value>
+  </data>
+  <data name="SelectAllKeybind_Tooltip" xml:space="preserve">
+    <value>Par défaut : Ctrl + A</value>
+  </data>
+  <data name="CopyKeybind_Tooltip" xml:space="preserve">
+    <value>Par défaut : Ctrl + C</value>
+  </data>
+  <data name="PasteKeybind_Tooltip" xml:space="preserve">
+    <value>Par défaut : Ctrl + V</value>
+  </data>
 </root>
