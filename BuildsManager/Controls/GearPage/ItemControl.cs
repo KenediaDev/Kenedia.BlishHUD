@@ -130,8 +130,12 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage
 
             if (Input.Keyboard.KeysDown.Contains(Keys.LeftControl))
             {
-                _ = await ClipboardUtil.WindowsClipboardService.SetTextAsync(_statTexture.Hovered ? Stat?.Name : Item?.Name);
+                string s = _statTexture.Hovered ? Stat?.Name : Item?.Name;
 
+                if (!string.IsNullOrEmpty(s))
+                {
+                    _ = await ClipboardUtil.WindowsClipboardService.SetTextAsync(s);
+                }
             }
         }
 

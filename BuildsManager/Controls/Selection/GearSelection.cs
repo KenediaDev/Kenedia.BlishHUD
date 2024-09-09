@@ -282,8 +282,8 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
                             {
                                 bool terrainMatch =
                                     (ActiveSlot is TemplateSlotType.AltAquatic or TemplateSlotType.Aquatic) ?
-                                    weapon.Value.Type.IsAquatic() :
-                                    !weapon.Value.Type.IsAquatic();
+                                    weapon.Value.Type.IsAquatic(ActiveSlot) :
+                                    !weapon.Value.Type.IsAquatic(ActiveSlot);
                                 bool wieldMatch = slotIsOffhand ? weapon.Value.Wielded.HasFlag(WieldingFlag.Offhand) : weapon.Value.Wielded.HasFlag(WieldingFlag.Mainhand) || weapon.Value.Wielded.HasFlag(WieldingFlag.TwoHand);
 
                                 // No Elite Spec

@@ -396,7 +396,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage.GearSlots
                 return;
             }
 
-            if (item.WeaponType is ItemWeaponType.Trident or ItemWeaponType.Speargun or ItemWeaponType.Harpoon)
+            if (item.WeaponType is ItemWeaponType.Trident or ItemWeaponType.Speargun)
                 return;
 
             //if (item.WeaponType.IsTwoHanded() && Slot is not TemplateSlotType.MainHand and not TemplateSlotType.AltMainHand)

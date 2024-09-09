@@ -166,16 +166,15 @@ namespace Kenedia.Modules.BuildsManager.Services
             Locale locale = GameService.Overlay.UserLocale.Value;
         }
 
-        public async Task UpdateMappedIds(string versionString)
+        public async Task UpdateMappedIds()
         {
             try
             {
                 _cancellationTokenSource?.Cancel();
                 _cancellationTokenSource = new CancellationTokenSource();
 
-                var version = new SemVer.Version(versionString);
-                var MapCollection = StaticVersion.LoadFromFile($@"{Paths.ModuleDataPath}DataMap.json");
-                var mapVersions = MapCollection.GetVersions();
+                var mapCollection = StaticVersion.LoadFromFile($@"{Paths.ModuleDataPath}DataMap.json");
+                var mapVersions = mapCollection.GetVersions();
 
                 var raw_itemids = await _gw2ApiManager.Gw2ApiClient.V2.Items.IdsAsync(_cancellationTokenSource.Token);
                 var invalidIds = new List<int>()
@@ -183,6 +182,7 @@ namespace Kenedia.Modules.BuildsManager.Services
                     11126, // Corrupted
                     63366, //Nameless Rune
                     90369, // Corrupted
+                    100262, //Relic of Fireworks duplicate
                 };
 
                 if (_cancellationTokenSource.IsCancellationRequested)
@@ -216,19 +216,19 @@ namespace Kenedia.Modules.BuildsManager.Services
                                     switch (item)
                                     {
                                         case ItemArmor armor:
-                                            if (Data.SkinDictionary.ContainsKey(armor.Id)) maps.Add(MapCollection.Armors);
+                                            if (Data.SkinDictionary.ContainsKey(armor.Id)) maps.Add(mapCollection.Armors);
                                             break;
 
                                         case ItemBack back:
-                                            if (Data.SkinDictionary.ContainsKey(back.Id)) maps.Add(MapCollection.Backs);
+                                            if (Data.SkinDictionary.ContainsKey(back.Id)) maps.Add(mapCollection.Backs);
                                             break;
 
                                         case ItemWeapon weapon:
-                                            if (Data.SkinDictionary.ContainsKey(weapon.Id)) maps.Add(MapCollection.Weapons);
+                                            if (Data.SkinDictionary.ContainsKey(weapon.Id)) maps.Add(mapCollection.Weapons);
                                             break;
 
                                         case ItemTrinket trinket:
-                                            if (Data.SkinDictionary.ContainsKey(trinket.Id)) maps.Add(MapCollection.Trinkets);
+                                            if (Data.SkinDictionary.ContainsKey(trinket.Id)) maps.Add(mapCollection.Trinkets);
                                             break;
 
                                         case ItemConsumable consumable:
@@ -236,8 +236,8 @@ namespace Kenedia.Modules.BuildsManager.Services
                                             {
                                                 maps.Add(consumable.Details.Type.Value switch
                                                 {
-                                                    ItemConsumableType.Food => MapCollection.Nourishments,
-                                                    ItemConsumableType.Utility => MapCollection.Enhancements,
+                                                    ItemConsumableType.Food => mapCollection.Nourishments,
+                                                    ItemConsumableType.Utility => mapCollection.Enhancements,
                                                     _ => null,
                                                 });
                                             }
@@ -247,11 +247,11 @@ namespace Kenedia.Modules.BuildsManager.Services
                                         case ItemUpgradeComponent upgrade:
                                             if (upgrade.Details.InfusionUpgradeFlags?.ToList()?.Contains(ItemInfusionFlag.Infusion) == true && _infusions.Contains(upgrade.Id))
                                             {
-                                                maps.Add(MapCollection.Infusions);
+                                                maps.Add(mapCollection.Infusions);
                                             }
                                             else if (upgrade.Details.InfusionUpgradeFlags?.ToList()?.Contains(ItemInfusionFlag.Enrichment) == true)
                                             {
-                                                maps.Add(MapCollection.Enrichments);
+                                                maps.Add(mapCollection.Enrichments);
                                             }
                                             else if (upgrade.Rarity.Value is ItemRarity.Exotic)
                                             {
@@ -260,28 +260,28 @@ namespace Kenedia.Modules.BuildsManager.Services
 
                                                 if (isRune)
                                                 {
-                                                    if (upgrade.GameTypes.FirstOrDefault(e => e.Value == ItemGameType.Pvp) is not null) maps.Add(MapCollection.PvpRunes);
-                                                    if (upgrade.GameTypes.FirstOrDefault(e => e.Value == ItemGameType.Pve) is not null) maps.Add(MapCollection.PveRunes);
+                                                    if (upgrade.GameTypes.FirstOrDefault(e => e.Value == ItemGameType.Pvp) is not null) maps.Add(mapCollection.PvpRunes);
+                                                    if (upgrade.GameTypes.FirstOrDefault(e => e.Value == ItemGameType.Pve) is not null) maps.Add(mapCollection.PveRunes);
                                                 }
 
                                                 if (isSigil)
                                                 {
-                                                    if (upgrade.GameTypes.FirstOrDefault(e => e.Value == ItemGameType.Pvp) is not null) maps.Add(MapCollection.PvpSigils);
-                                                    if (upgrade.GameTypes.FirstOrDefault(e => e.Value == ItemGameType.Pve) is not null) maps.Add(MapCollection.PveSigils);
+                                                    if (upgrade.GameTypes.FirstOrDefault(e => e.Value == ItemGameType.Pvp) is not null) maps.Add(mapCollection.PvpSigils);
+                                                    if (upgrade.GameTypes.FirstOrDefault(e => e.Value == ItemGameType.Pve) is not null) maps.Add(mapCollection.PveSigils);
                                                 }
                                             }
 
                                             break;
 
                                         default:
-                                            if (item.Type.ToString() == "Relic" || item.Type.ToString() == "Mwcc")
+                                            if (item.Type.ToString() is "Relic" or "Mwcc" && item.Rarity == ItemRarity.Exotic)
                                             {
-                                                if (item.GameTypes.FirstOrDefault(e => e.Value == ItemGameType.Pvp) is not null) maps.Add(MapCollection.PvpRelics);
-                                                if (item.GameTypes.FirstOrDefault(e => e.Value == ItemGameType.Pve) is not null) maps.Add(MapCollection.PveRelics);
+                                                if (item.GameTypes.FirstOrDefault(e => e.Value == ItemGameType.Pvp) is not null) maps.Add(mapCollection.PvpRelics);
+                                                if (item.GameTypes.FirstOrDefault(e => e.Value == ItemGameType.Pve) is not null) maps.Add(mapCollection.PveRelics);
                                             }
                                             else if (item.Type == ItemType.PowerCore)
                                             {
-                                                maps.Add(MapCollection.PowerCores);
+                                                maps.Add(mapCollection.PowerCores);
                                             }
 
                                             break;
@@ -331,7 +331,7 @@ namespace Kenedia.Modules.BuildsManager.Services
                 {
                     if (statIds.Contains(e.Id))
                     {
-                        var map = MapCollection.Stats;
+                        var map = mapCollection.Stats;
                         if (map is not null && map.Items.FirstOrDefault(x => x.Value == e.Id) is KeyValuePair<byte, int> sitem && sitem.Value <= 0 && map.Count < byte.MaxValue)
                         {
                             BuildsManager.Logger.Info($"Adding {e.Id} to Stats.");
@@ -345,7 +345,7 @@ namespace Kenedia.Modules.BuildsManager.Services
 
                 foreach (var e in apiAmulets)
                 {
-                    var map = MapCollection.PvpAmulets;
+                    var map = mapCollection.PvpAmulets;
                     if (map is not null && map.Items.FirstOrDefault(x => x.Value == e.Id) is KeyValuePair<byte, int> sitem && sitem.Value <= 0 && map.Count < byte.MaxValue)
                     {
                         BuildsManager.Logger.Info($"Adding {e.Id} to Pvp Amulets.");
@@ -354,7 +354,7 @@ namespace Kenedia.Modules.BuildsManager.Services
                 }
 
                 Debug.WriteLine($@"Save to {Paths.ModuleDataPath}DataMap.json");
-                MapCollection.Save($@"{Paths.ModuleDataPath}DataMap.json");
+                mapCollection.Save($@"{Paths.ModuleDataPath}DataMap.json");
             }
             catch
             {

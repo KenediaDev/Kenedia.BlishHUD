@@ -6,6 +6,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Control = Blish_HUD.Controls.Control;
 using Blish_HUD;
 using System;
+using System.Diagnostics;
 
 namespace Kenedia.Modules.Core.Controls
 {
@@ -23,7 +24,7 @@ namespace Kenedia.Modules.Core.Controls
             Size = new Point(32);
             Parent = Graphics.SpriteScreen;
             ZIndex = int.MaxValue;
-            ClipsBounds = false;
+            ClipsBounds = false;            
         }
 
         public Control Anchor { get => _anchor; set => Common.SetProperty(ref _anchor, value, SetAnchor); }
@@ -40,9 +41,14 @@ namespace Kenedia.Modules.Core.Controls
             return c.Parent is not null && c.Parent.Visible is true && c.Parent.AbsoluteBounds.Contains(b.Center) is true && (c.Parent == Graphics.SpriteScreen || IsDrawn(c.Parent, b));
         }
 
+        protected override Blish_HUD.Controls.CaptureType CapturesInput()
+        {
+            return Blish_HUD.Controls.CaptureType.None;
+        }
+
         private void SetAnchor(object sender, Models.ValueChangedEventArgs<Control> e)
         {
-
+            //Visible = Anchor is not null && Anchor.Visible && IsDrawn(Anchor, AbsoluteBounds) == true;
         }
 
         protected override void Paint(SpriteBatch spriteBatch, Rectangle bounds)

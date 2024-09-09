@@ -161,7 +161,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
                 first = false;
             }
 
-            SelectionContent.SortChildren<StatSelectable>((a, b) => a.Stat.Name.CompareTo(b.Stat.Name));
+            SelectionContent.SortChildren<StatSelectable>((a, b) => a.Stat.Name?.CompareTo(b.Stat?.Name) ?? 0);
         }
 
         protected override void DisposeControl()

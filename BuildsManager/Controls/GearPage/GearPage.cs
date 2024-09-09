@@ -59,11 +59,14 @@ namespace Kenedia.Modules.BuildsManager.Controls.GearPage
                 HoveredTexture = AsyncTexture2D.FromAssetId(2208347),
                 Size = new(26),
                 SetLocalizedTooltip = () => gearCodeDisclaimer,
-                ClickAction = (m) =>
+                ClickAction = async (m) =>
                 {
                     try
                     {
-                        _ = ClipboardUtil.WindowsClipboardService.SetTextAsync(_gearCodeBox.Text);
+                        if (_gearCodeBox.Text is string s && !string.IsNullOrEmpty(s))
+                        {
+                            _ = await ClipboardUtil.WindowsClipboardService.SetTextAsync(s);
+                        }
                     }
                     catch (ArgumentException)
                     {

@@ -70,11 +70,11 @@ namespace Kenedia.Modules.BuildsManager.Extensions
                 : weaponType.ToString() == type.ToString();
         }
 
-        public static bool IsAquatic(this WeaponType weaponType)
+        public static bool IsAquatic(this WeaponType weaponType, TemplateSlotType templateSlotType = TemplateSlotType.Aquatic)
         {
             return weaponType switch
             {
-                WeaponType.Spear => true,
+                WeaponType.Spear => templateSlotType is TemplateSlotType.Aquatic or TemplateSlotType.AltAquatic,
                 WeaponType.Trident => true,
                 WeaponType.Speargun => true,
                 _ => false

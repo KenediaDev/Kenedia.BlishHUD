@@ -20,18 +20,21 @@ namespace Kenedia.Modules.Core.Extensions
     {
         public static bool IsTwoHanded(this ItemWeaponType itemWeaponType)
         {
-            return itemWeaponType is 
-                ItemWeaponType.Greatsword or
-                ItemWeaponType.Hammer or
-                ItemWeaponType.LongBow or
-                ItemWeaponType.Rifle or
-                ItemWeaponType.ShortBow or
-                ItemWeaponType.Staff;
+            return itemWeaponType
+                 is ItemWeaponType.Greatsword
+                 or ItemWeaponType.Hammer
+                 or ItemWeaponType.LongBow
+                 or ItemWeaponType.Rifle
+                 or ItemWeaponType.ShortBow
+                 or ItemWeaponType.Staff
+                 or ItemWeaponType.Harpoon
+                 or ItemWeaponType.Speargun
+                 or ItemWeaponType.Trident;
         }
 
         public static bool IsOneHanded(this ItemWeaponType itemWeaponType)
         {
-            return itemWeaponType is 
+            return itemWeaponType is
                 ItemWeaponType.Axe or
                 ItemWeaponType.Dagger or
                 ItemWeaponType.Mace or
@@ -42,7 +45,7 @@ namespace Kenedia.Modules.Core.Extensions
 
         public static bool IsOffHand(this ItemWeaponType itemWeaponType)
         {
-            return itemWeaponType is 
+            return itemWeaponType is
                 ItemWeaponType.Focus or
                 ItemWeaponType.Shield or
                 ItemWeaponType.Torch or

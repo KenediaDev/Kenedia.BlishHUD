@@ -372,7 +372,11 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
                 try
                 {
                     SetNotification("Build Code copied!", Color.LimeGreen, 350);
-                    _ = await ClipboardUtil.WindowsClipboardService.SetTextAsync(Template?.BuildCode);
+
+                    if (Template?.BuildCode is string s && !string.IsNullOrEmpty(s))
+                    {
+                        _ = await ClipboardUtil.WindowsClipboardService.SetTextAsync(s);
+                    }
                 }
                 catch (Exception)
                 {
