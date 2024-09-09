@@ -14,7 +14,6 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Controls.BuildPage.ProfessionSpe
 {
     public class EngineerSpecifics : ProfessionSpecifics
     {
-        //TODO find and Add Separator Line
         private readonly DetailedTexture _target = new(156812);
         private readonly DetailedTexture _return = new(156816);
         private readonly DetailedTexture _combatState = new(2572084);
@@ -221,7 +220,6 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Controls.BuildPage.ProfessionSpe
             {
                 case (int)SpecializationType.Mechanist:
                     _skills[0].Skill = Template.Terrestrial ? skills[63089] : skills[63210];
-                    //TODO add Mech Skills
 
                     _skills[1].Skill = skills[63334]?.GetEffectiveSkill(Template);
                     _skills[2].Skill = skills[63367]?.GetEffectiveSkill(Template);

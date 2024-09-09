@@ -16,7 +16,6 @@ using Image = Kenedia.Modules.Core.Controls.Image;
 
 namespace Kenedia.Modules.Core.Views
 {
-    //TODO: Check why it isn't saving the offsets
     public class SharedSettingsView : BaseTab
     {
         private NumberBox _topOffsetBox;

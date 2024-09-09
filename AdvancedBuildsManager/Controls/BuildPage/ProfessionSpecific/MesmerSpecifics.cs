@@ -9,7 +9,6 @@ using Kenedia.Modules.AdvancedBuildsManager.DataModels.Professions;
 
 namespace Kenedia.Modules.AdvancedBuildsManager.Controls.BuildPage.ProfessionSpecific
 {
-    //TODO Memser Utility Skills are wonky af
     public class MesmerSpecifics : ProfessionSpecifics
     {
         //156430 One Clone
@@ -23,7 +22,6 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Controls.BuildPage.ProfessionSpe
             new(156429),
         };
 
-        // TODO find and add black separator line
 
         private readonly SkillIcon[] _skills =
         {
