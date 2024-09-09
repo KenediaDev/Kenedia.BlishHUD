@@ -122,7 +122,6 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Controls.BuildPage.ProfessionSpe
         private readonly DetailedTexture _energyBar = new(965677); // 156414 // 965677
         private readonly DetailedTexture _energyDisplay = new(965695);
 
-        //TODO: Implement Masks for Energy 
         private readonly DetailedTexture _energyBarMask = new(965678);
         private readonly DetailedTexture _energy = new(156464); //156414
 

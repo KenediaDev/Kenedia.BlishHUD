@@ -40,8 +40,6 @@ namespace Kenedia.Modules.AdvancedBuildsManager.DataModels.Professions
                 {
                     if(skills.TryGetValue(s.Id, out Skill skill))
                     {
-                        // TODO: Add traited skills
-                        Skills.Add(skill.Id);
                     }
                 }
             }

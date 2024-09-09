@@ -332,7 +332,6 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Controls.BuildPage
                     SpecializationSlot slot = SpecializationSlot.Line_1;
                     BuildSpecialization temp = null;
 
-                    // TODO Figure out why it modifies the collection
                     // tied to removing skills
                     try
                     {

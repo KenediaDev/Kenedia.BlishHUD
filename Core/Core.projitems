@@ -132,6 +132,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Services\TexturesService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Structs\Range.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Structs\RectangleDimensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Utility\KeyboardUtil.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Utility\Common.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Utility\Input.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Utility\KeyboardUtil.cs" />

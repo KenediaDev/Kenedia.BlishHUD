@@ -145,7 +145,6 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Controls.BuildPage
 
             bool ele = Template.Profession == Gw2Sharp.Models.ProfessionType.Elementalist;
 
-            //TODO Ignore Ambush / Stealth skills
             if (Template.GearTemplate.Weapons[GearTemplateSlot.MainHand] is not null)
             {
                 var weapon = Template.GearTemplate.Weapons[GearTemplateSlot.MainHand].Weapon;
