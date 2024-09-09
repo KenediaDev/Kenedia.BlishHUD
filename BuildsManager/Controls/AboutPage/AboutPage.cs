@@ -161,7 +161,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.AboutPage
                 DisabledTexture = AsyncTexture2D.FromAssetId(255296),
                 SetLocalizedTooltip = () => "Add Tag",
                 Enabled = false,
-                ClickAction = (b) => _templateTags.Add(new TemplateTag() { Name = _tagFilter.Text })
+                ClickAction = (b) => _templateTags.Add(new TemplateTag() { Name = string.IsNullOrEmpty(_tagFilter.Text) ? "New Tag" : _tagFilter.Text })
             };
 
             _tagPanel = new()
@@ -222,10 +222,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.AboutPage
                     Parent = _tagPanel,
                     Width = tagSectionWidth - _tagPanel.ContentPadding.Horizontal - 20,
                     Tag = tag,
-                    OnEditClicked = () =>
-                    {
-                        _tagEditWindow?.ToggleWindow();
-                    },
+                    OnEditClicked = () => _tagEditWindow?.ToggleWindow(),
                     OnClicked = (selected) =>
                     {
                         if (TemplatePresenter.Template is Template template)

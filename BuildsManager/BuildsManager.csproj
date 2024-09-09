@@ -421,7 +421,6 @@
     <Compile Include="Models\Templates\SpecializationCollection.cs" />
     <Compile Include="Models\Templates\SpecializationSlotType.cs" />
     <Compile Include="Models\Templates\TemplateFlag.cs" />
-    <Compile Include="Models\Templates\TemplateTagTextures.cs" />
     <Compile Include="Models\Templates\TraitCollection.cs" />
     <Compile Include="Models\Templates\TraitTierType.cs" />
     <Compile Include="Models\Template.cs" />
@@ -434,6 +433,7 @@
     <Compile Include="Utility\StatUtility.cs" />
     <Compile Include="Utility\WeaponTypeConversion.cs" />
     <Compile Include="Views\MainWindow.cs" />
+    <Compile Include="Views\TagEditControl.cs" />
     <Compile Include="Views\TagEditWindow.cs" />
   </ItemGroup>
   <ItemGroup>

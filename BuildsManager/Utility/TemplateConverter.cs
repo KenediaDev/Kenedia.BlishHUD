@@ -31,7 +31,7 @@ namespace Kenedia.Modules.BuildsManager.Utility
             }
             catch
             {
-                tags = new UniqueObservableCollection<string>();
+                tags = [];
             }
 
             string? name = (string?)jo["Name"];

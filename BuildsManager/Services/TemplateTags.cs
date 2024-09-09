@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Kenedia.Modules.BuildsManager.Services
@@ -16,6 +17,7 @@ namespace Kenedia.Modules.BuildsManager.Services
         private readonly ContentsManager _contentsManager;
         private readonly Paths _paths;
 
+        private CancellationTokenSource _tokenSource;
         private List<TemplateTag> _tags;
 
         public TemplateTags(ContentsManager contentsManager, Paths paths)
@@ -55,10 +57,12 @@ namespace Kenedia.Modules.BuildsManager.Services
                 BuildsManager.Logger.Warn("Loaded default TemplateTags.json");
             }
 
-            foreach(var tag in _tags) 
+            foreach (var tag in _tags)
             {
-                tag.Icon = new(tag.AssetId); 
+                tag.Icon = new(tag.AssetId);
             }
+
+
         }
 
         public TemplateTag this[string tagName] => _tags?.FirstOrDefault(x => x.Name == tagName);
@@ -67,16 +71,33 @@ namespace Kenedia.Modules.BuildsManager.Services
         {
             _tags.Add(tag);
 
+            OnTagAdded(tag);
+            OnTagRemoved(tag);
+            OnTagsChanged(tag);
+        }
+
+        private void OnTagAdded(TemplateTag tag)
+        {
             TagAdded?.Invoke(this, tag);
+        }
+
+        private void OnTagsChanged(TemplateTag tag)
+        {
             TagsChanged?.Invoke(this, tag);
+            Task.Run(Save);
+        }
+
+        private void OnTagRemoved(TemplateTag tag)
+        {
+            TagRemoved?.Invoke(this, tag);
         }
 
         public bool Remove(TemplateTag tag)
         {
             if (_tags.Remove(tag))
             {
-                TagRemoved?.Invoke(this, tag);
-                TagsChanged?.Invoke(this, tag);
+                OnTagRemoved(tag);
+                OnTagsChanged(tag);
                 return true;
             }
 
@@ -87,7 +108,14 @@ namespace Kenedia.Modules.BuildsManager.Services
         {
             try
             {
+                _tokenSource?.Cancel();
+                _tokenSource = new();
+
+                await Task.Delay(1000, _tokenSource.Token);
                 string json = JsonConvert.SerializeObject(this, SerializerSettings.Default);
+
+                if (_tokenSource.IsCancellationRequested) return;
+
                 File.WriteAllText($@"{_paths.ModulePath}TemplateTags.json", json);
             }
             catch (Exception ex)

@@ -1,6 +1,7 @@
 ﻿using Kenedia.Modules.Core.Models;
 using Blish_HUD.Content;
 using System;
+using Kenedia.Modules.BuildsManager.Models;
 
 namespace Kenedia.Modules.BuildsManager.Controls.Selection
 {
@@ -10,6 +11,6 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
         {
         }
 
-        public Enum TemplateTag { get; set; }
+        public TemplateTag Tag { get; internal set; }
     }
 }

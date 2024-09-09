@@ -22,6 +22,8 @@ using TextBox = Kenedia.Modules.Core.Controls.TextBox;
 using Kenedia.Modules.BuildsManager.Models;
 using Kenedia.Modules.BuildsManager.Res;
 using Gw2Sharp.WebApi;
+using Kenedia.Modules.BuildsManager.Services;
+using System.Diagnostics;
 
 namespace Kenedia.Modules.BuildsManager.Controls.Selection
 {
@@ -42,7 +44,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
         private readonly bool _created;
         private readonly Label _name;
 
-        private readonly List<TagTexture> _tagTexturess = new();
+        private readonly List<TagTexture> _tagTextures = new();
 
         private Rectangle _separatorBounds;
         private Rectangle _editBounds;
@@ -173,7 +175,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
 
             foreach (var c in Children)
             {
-                if(c != _editButton)
+                if (c != _editButton)
                     c.BasicTooltipText = txt;
             }
 
@@ -203,8 +205,17 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
 
                     if (temp is not null) temp.EliteSpecializationChanged -= Template_EliteSpecializationChanged;
                     if (_template is not null) _template.EliteSpecializationChanged += Template_EliteSpecializationChanged;
+
+                    if (temp is not null) temp.Tags.CollectionChanged -= Tags_CollectionChanged;
+                    if (_template is not null) _template.Tags.CollectionChanged += Tags_CollectionChanged;
                 }
             }
+        }
+
+        private void Tags_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        {
+            SetTagTextures();
+            RecalculateLayout();
         }
 
         private void Template_EliteSpecializationChanged(object sender, Core.Models.ValueChangedEventArgs<DataModels.Professions.Specialization> e)
@@ -261,17 +272,18 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
             }
 
             int amount = 0;
-            for (int i = 0; i < _tagTexturess.Count; i++)
+            for (int i = 0; i < _tagTextures.Count; i++)
             {
-                TagTexture tagTexture = _tagTexturess[i];
+                TagTexture tagTexture = _tagTextures[i];
+
                 if (_tagBounds.Contains(tagTexture.Bounds))
                 {
-                    if (_tagTexturess.Count - amount > 1 && !_tagBounds.Contains(_tagTexturess[i + 1].Bounds))
+                    if (_tagTextures.Count - amount > 1 && !_tagBounds.Contains(_tagTextures[i + 1].Bounds))
                     {
-                        spriteBatch.DrawStringOnCtrl(this, $"+{_tagTexturess.Count - amount}", Content.DefaultFont14, tagTexture.Bounds, Colors.OldLace, false, HorizontalAlignment.Center);
+                        spriteBatch.DrawStringOnCtrl(this, $"+{_tagTextures.Count - amount}", Content.DefaultFont14, tagTexture.Bounds, Colors.OldLace, false, HorizontalAlignment.Center);
                         if (tagTexture.Bounds.Contains(RelativeMousePosition))
                         {
-                            txt = string.Join(Environment.NewLine, _tagTexturess.Skip(amount).Take(_tagTexturess.Count - amount).Select(e => e.TemplateTag.ToString()));
+                            txt = string.Join(Environment.NewLine, _tagTextures.Skip(amount).Take(_tagTextures.Count - amount).Select(e => e.Tag.Name));
                         }
                         break;
                     }
@@ -280,7 +292,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
                         tagTexture.Draw(this, spriteBatch, RelativeMousePosition);
                         if (tagTexture.Hovered)
                         {
-                            txt = tagTexture.TemplateTag.ToString();
+                            txt = tagTexture.Tag.Name;
                         }
                     }
 
@@ -288,7 +300,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
                 }
                 else
                 {
-                    //spriteBatch.DrawStringOnCtrl(this, $"+{_tagTexturess.Count - amount}", Content.DefaultFont14, tagTexture.Bounds, Colors.OldLace, false, Blish_HUD.Controls.HorizontalAlignment.Left);
+                    spriteBatch.DrawStringOnCtrl(this, $"+{_tagTextures.Count - amount}", Content.DefaultFont14, tagTexture.Bounds, Colors.OldLace, false, Blish_HUD.Controls.HorizontalAlignment.Left);
                     break;
                 }
             }
@@ -353,13 +365,15 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
             _editButton?.SetSize(_editBounds.Size.Add(new(-4)));
 
             _tagBounds = new(_leftAccentBorderBounds.Right - 6, _bottomBounds.Top, _rightAccentBorderBounds.Left - (_leftAccentBorderBounds.Right - 10), _bottomBounds.Height);
-            for (int i = 0; i < _tagTexturess.Count; i++)
+            for (int i = 0; i < _tagTextures.Count; i++)
             {
-                TagTexture tagTexture = _tagTexturess[i];
+                TagTexture tagTexture = _tagTextures[i];
+                if (tagTexture?.Tag is not null)
+                {
 
-                tagTexture.Bounds = tagTexture.TemplateTag.GetType() == typeof(EncounterFlag) && tagTexture.TemplateTag is not EncounterFlag.NormalMode and not EncounterFlag.ChallengeMode
-                    ? new(_leftAccentBorderBounds.Right - 6 + (i * (_bottomBounds.Height + 3)), _bottomBounds.Top + 2, _bottomBounds.Height - 4, _bottomBounds.Height - 4)
-                    : new(_leftAccentBorderBounds.Right - 6 + (i * (_bottomBounds.Height + 3)), _bottomBounds.Top, _bottomBounds.Height, _bottomBounds.Height);
+                    Debug.WriteLine($"Tag {tagTexture.Tag.Name}");
+                    tagTexture.Bounds = new(_leftAccentBorderBounds.Right - 6 + (i * (_bottomBounds.Height + 3)), _bottomBounds.Top, _bottomBounds.Height, _bottomBounds.Height);
+                }
             }
         }
 
@@ -400,8 +414,8 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
             _textureVignette?.Dispose();
             _textureCornerButton?.Dispose();
             _textureBottomSectionSeparator?.Dispose();
-            _tagTexturess?.DisposeAll();
-            _tagTexturess?.Clear();
+            _tagTextures?.DisposeAll();
+            _tagTextures?.Clear();
         }
 
         public override void UpdateContainer(GameTime gameTime)
@@ -459,11 +473,37 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
             _raceTexture = BuildsManager.Data.Races.TryGetValue(_template?.Race ?? Races.None, out var race) ? race.Icon : null;
             _specTexture = Template?.EliteSpecialization?.ProfessionIconBig ?? (BuildsManager.Data.Professions.TryGetValue((Gw2Sharp.Models.ProfessionType)Template?.Profession, out var profession) ? profession.IconBig : null);
 
-            _tagTexturess.Clear();
+            SetTagTextures();
 
             if (_template is not null)
             {
                 RecalculateLayout();
+            }
+        }
+
+        private void SetTagTextures()
+        {
+            _tagTextures.Clear();
+
+            if (_template is not null)
+            {
+                var tags = BuildsManager.ModuleInstance.TemplateTags.Tags;
+
+                Point s = new(20);
+                Rectangle r = new(_tagBounds.X, _tagBounds.Y, s.X, s.Y);
+
+                foreach (string t in _template.Tags)
+                {
+                    if (tags.FirstOrDefault(x => x.Name == t) is TemplateTag tag)
+                    {
+                        _tagTextures.Add(new(tag.Icon.Texture)
+                        {
+                            Tag = tag,
+                            Bounds = r = r.Add(s.X, 0, 0, 0),
+                            TextureRegion = tag.TextureRegion ?? Rectangle.Empty,
+                        });
+                    }
+                }
             }
         }
 
