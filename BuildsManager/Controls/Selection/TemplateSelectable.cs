@@ -370,8 +370,6 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
                 TagTexture tagTexture = _tagTextures[i];
                 if (tagTexture?.Tag is not null)
                 {
-
-                    Debug.WriteLine($"Tag {tagTexture.Tag.Name}");
                     tagTexture.Bounds = new(_leftAccentBorderBounds.Right - 6 + (i * (_bottomBounds.Height + 3)), _bottomBounds.Top, _bottomBounds.Height, _bottomBounds.Height);
                 }
             }

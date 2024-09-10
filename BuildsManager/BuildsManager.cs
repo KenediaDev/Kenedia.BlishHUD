@@ -36,6 +36,8 @@ using static System.Windows.Forms.VisualStyles.VisualStyleElement.TextBox;
 
 namespace Kenedia.Modules.BuildsManager
 {
+    //TODO: Check Texture Disposing
+    //TODO: Add tag quick access panel
     [Export(typeof(Module))]
     public class BuildsManager : BaseModule<BuildsManager, MainWindow, Settings, Paths>
     {

@@ -70,6 +70,8 @@ namespace Kenedia.Modules.BuildsManager.Models
 
         public event DictionaryItemChangedEventHandler<LegendSlotType, Legend>? LegendChanged;
 
+        public event DictionaryItemChangedEventHandler<SkillSlotType, Skill> SkillChanged;
+
         public Template()
         {
             Weapons = new()
@@ -284,6 +286,7 @@ namespace Kenedia.Modules.BuildsManager.Models
 
         private void Specializations_EliteSpecChanged(object sender, BuildSpecialization.SpecializationChangedEventArgs e)
         {
+            RemoveInvalidBuildCombinations();
             EliteSpecializationChanged?.Invoke(this, new ValueChangedEventArgs<Specialization>(e.OldSpecialization, e.NewSpecialization));
         }
 
@@ -740,6 +743,8 @@ namespace Kenedia.Modules.BuildsManager.Models
         private async void Skills_ItemChanged(object sender, DictionaryItemChangedEventArgs<SkillSlotType, Skill?> e)
         {
             if (!_triggerEvents) return;
+
+            SkillChanged?.Invoke(this, e);
             BuildChanged?.Invoke(this, e);
 
             await Save();
@@ -827,12 +832,12 @@ namespace Kenedia.Modules.BuildsManager.Models
 
         private async void OnRaceChanged(object sender, ValueChangedEventArgs<Races> e)
         {
+            RemoveInvalidBuildCombinations();
+
             if (Skills.WipeInvalidRacialSkills(Race))
             {
                 BuildChanged?.Invoke(this, e);
             }
-
-            RemoveInvalidBuildCombinations();
 
             if (!_triggerEvents) return;
             RaceChanged?.Invoke(this, e);
@@ -1416,6 +1421,32 @@ namespace Kenedia.Modules.BuildsManager.Models
                     Legends[slot] = null;
 
                     OnLegendChanged(this, new(slot, legend, null));
+                }
+            }
+            else
+            {
+
+                var specIds = Specializations.Values.Select(x => x?.Specialization.Id);
+                var wipeSlots = new List<SkillSlotType>();
+
+                foreach (var s in Skills)
+                {
+                    var skill = s.Value;
+
+                    if (skill?.Specialization is not null and not 0)
+                    {
+                        if (!specIds.Contains(skill.Specialization))
+                        {
+                            //Debug.WriteLine($"{skill?.Name} requires spec {skill?.Specialization} which is not in [{string.Join("," , specIds)}]");
+                            wipeSlots.Add(s.Key);
+                        }
+                    }
+                }
+
+                foreach (var slot in wipeSlots)
+                {
+                    var legend = Skills[slot];
+                    Skills[slot] = null;
                 }
             }
         }

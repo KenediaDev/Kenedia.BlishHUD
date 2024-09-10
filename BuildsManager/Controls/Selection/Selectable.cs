@@ -21,14 +21,14 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
         private Rectangle _nameBounds;
         private Rectangle _descriptionBounds;
 
-        private Color RarityColor = Color.White;
+        private Color _rarityColor = Color.White;
         private BaseItem _item;
         private SelectableType _type;
         private Color _fontColor;
 
         public Selectable()
         {
-            Height = 36;
+            Height = 64;
             BackgroundColor = Color.Black * 0.2F;
             BorderColor = Color.Black;
             BorderWidth = new(2);            

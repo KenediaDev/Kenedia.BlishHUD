@@ -140,7 +140,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
             foreach (string s in txt.Split(' '))
             {
                 string searchTxt = s.Trim().ToLower();
-                bool anyName = searchTxt.IsNullOrEmpty();
+                bool anyName = string.IsNullOrEmpty(searchTxt);
 
                 var validStats = StatChoices ?? new List<int>();
                 bool anyStat = validStats.Count == 0;

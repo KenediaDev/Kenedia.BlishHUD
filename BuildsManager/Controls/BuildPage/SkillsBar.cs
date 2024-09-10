@@ -17,6 +17,7 @@ using Gw2Sharp;
 using System.Text.RegularExpressions;
 using Kenedia.Modules.BuildsManager.Res;
 using Gw2Sharp.Models;
+using System.Diagnostics;
 
 namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
 {
@@ -93,6 +94,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
                 e.OldValue.LoadedBuildFromCode -= OnLoaded;
                 e.OldValue.TemplateChanged -= On_TemplateChanged;
                 e.OldValue.LegendSlotChanged -= On_LegendSlotChanged;
+                e.NewValue.SkillChanged -= On_SkillChanged;
             }
 
             if (e.NewValue is not null)
@@ -104,7 +106,13 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
                 e.NewValue.LoadedBuildFromCode += OnLoaded;
                 e.NewValue.TemplateChanged += On_TemplateChanged;
                 e.NewValue.LegendSlotChanged += On_LegendSlotChanged;
+                e.NewValue.SkillChanged += On_SkillChanged;
             }
+        }
+
+        private void On_SkillChanged(object sender, DictionaryItemChangedEventArgs<SkillSlotType, Skill> e)
+        {
+            SetSkills();
         }
 
         private void On_LegendSlotChanged(object sender, Core.Models.ValueChangedEventArgs<LegendSlotType> e)
