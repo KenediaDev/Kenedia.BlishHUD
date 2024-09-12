@@ -4,6 +4,7 @@ using Kenedia.Modules.Core.Models;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -41,7 +42,7 @@ namespace Kenedia.Modules.BuildsManager.Services
                     string json = File.ReadAllText($@"{_paths.ModulePath}TemplateTags.json");
                     _tags = JsonConvert.DeserializeObject<List<TemplateTag>>(json, SerializerSettings.Default);
                 }
-            }
+        }
             catch (Exception ex)
             {
                 BuildsManager.Logger.Warn("Failed to load TemplateTags.json");
@@ -60,9 +61,29 @@ namespace Kenedia.Modules.BuildsManager.Services
             foreach (var tag in _tags)
             {
                 tag.Icon = new(tag.AssetId);
+                tag.OnTagChanged += OnTagChanged;
             }
 
+            OrderTags();
+        }
 
+        private void OrderTags()
+        {
+            //_tags = [.. _tags.OrderBy(x => x.Group).ThenBy(x => x.Priority).ThenBy(x => x.Name)];
+
+            //OrderTags by group but move those with empty string as group to the end
+            _tags = [.. _tags
+                .OrderBy(x => x.Priority > 0)
+                .ThenBy(x => x.Group == string.Empty)
+                .ThenBy(x => x.Group)
+                .ThenBy(x => x.Priority)
+                .ThenBy(x => x.Name)];
+        }
+
+        private void OnTagChanged()
+        {
+            //Debug.WriteLine($"OnTagChanged");
+            OrderTags();
         }
 
         public TemplateTag this[string tagName] => _tags?.FirstOrDefault(x => x.Name == tagName);
@@ -70,6 +91,7 @@ namespace Kenedia.Modules.BuildsManager.Services
         public void Add(TemplateTag tag)
         {
             _tags.Add(tag);
+            tag.OnTagChanged += OnTagChanged;
 
             OnTagAdded(tag);
             OnTagRemoved(tag);
@@ -96,6 +118,7 @@ namespace Kenedia.Modules.BuildsManager.Services
         {
             if (_tags.Remove(tag))
             {
+                tag.OnTagChanged -= OnTagChanged;
                 OnTagRemoved(tag);
                 OnTagsChanged(tag);
                 return true;
@@ -112,7 +135,7 @@ namespace Kenedia.Modules.BuildsManager.Services
                 _tokenSource = new();
 
                 await Task.Delay(1000, _tokenSource.Token);
-                string json = JsonConvert.SerializeObject(this, SerializerSettings.Default);
+                string json = JsonConvert.SerializeObject(_tags, SerializerSettings.Default);
 
                 if (_tokenSource.IsCancellationRequested) return;
 
@@ -120,8 +143,11 @@ namespace Kenedia.Modules.BuildsManager.Services
             }
             catch (Exception ex)
             {
-                BuildsManager.Logger.Warn("Failed to save TemplateTags.json");
-                BuildsManager.Logger.Warn($"{ex}");
+                if (ex is not TaskCanceledException)
+                {
+                    BuildsManager.Logger.Warn("Failed to save TemplateTags.json");
+                    BuildsManager.Logger.Warn($"{ex}");
+                }
             }
         }
     }

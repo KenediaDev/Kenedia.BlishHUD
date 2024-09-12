@@ -14,6 +14,7 @@ namespace Kenedia.Modules.BuildsManager.Views
     {
         private TemplateTag _tag;
         private readonly (Label label, TextBox textBox) _name;
+        private readonly (Label label, TextBox textBox) _group;
         private readonly (Label label, NumberBox numberBox) _iconId;
 
         private readonly (Label label, NumberBox numberBox) _x;
@@ -21,12 +22,13 @@ namespace Kenedia.Modules.BuildsManager.Views
         private readonly (Label label, NumberBox numberBox) _y;
         private readonly (Label label, NumberBox numberBox) _width;
         private readonly (Label label, NumberBox numberBox) _height;
+        private readonly Button _resetButton;
 
         private readonly Image _icon;
 
         public TagEditControl()
         {
-            Height = 150;
+            Height = 200;
             CanCollapse = true;
             Collapsed = true;
             ContentPadding = new(5);
@@ -77,6 +79,29 @@ namespace Kenedia.Modules.BuildsManager.Views
                     Location = new(0, Content.DefaultFont14.LineHeight + 2),
                     Height = 32,
                     ValueChangedAction = (n) => SetIcon(),
+                });
+
+            _group = new(
+                new()
+                {
+                    Parent = this,
+                    SetLocalizedText = () => "Group",
+                },
+                new()
+                {
+                    Parent = this,
+                    Width = 200,
+                    Height = 32,
+                    SetLocalizedPlaceholder = () => "Group",
+                    Location = new(0, _icon.Bottom + 5 + Content.DefaultFont14.LineHeight + 2),
+                    TextChangedAction = (txt) =>
+                    {
+                        if (!string.IsNullOrEmpty(txt))
+                        {
+                            Tag.Group = txt;
+                            _ = (TemplateTags?.Save());
+                        };
+                    },
                 });
 
             _x = new(
@@ -139,6 +164,14 @@ namespace Kenedia.Modules.BuildsManager.Views
                     ValueChangedAction = (n) => SetIcon(),
                 });
 
+            _resetButton = new()
+            {
+                Parent = this,
+                Text = strings.Reset,
+                Height = 25,
+                ClickAction = () => SetTextureRegionToTextureBounds(Tag.Icon.Texture),
+            };
+
             _created = true;
 
             Menu = new();
@@ -175,6 +208,17 @@ namespace Kenedia.Modules.BuildsManager.Views
             _height.numberBox.Value = r.Height;
         }
 
+        private void SetTextureRegionToTextureBounds(AsyncTexture2D icon)
+        {
+            if (icon is not null)
+            {
+                _x.numberBox.Value = 0;
+                _y.numberBox.Value = 0;
+                _width.numberBox.Value = icon.Width;
+                _height.numberBox.Value = icon.Height;
+            }
+        }
+
         private void SetIcon()
         {
             if (AsyncTexture2D.FromAssetId(_iconId.numberBox.Value) is AsyncTexture2D icon)
@@ -185,10 +229,7 @@ namespace Kenedia.Modules.BuildsManager.Views
 
                 if (icon != _icon.Texture)
                 {
-                    _x.numberBox.Value = 0;
-                    _y.numberBox.Value = 0;
-                    _width.numberBox.Value = icon.Width;
-                    _height.numberBox.Value = icon.Height;
+                    SetTextureRegionToTextureBounds(icon);
                 }
 
                 _icon.Texture = icon;
@@ -221,8 +262,13 @@ namespace Kenedia.Modules.BuildsManager.Views
             _iconId.label.Location = new(_iconId.numberBox.Left, 0);
             _iconId.label.Width = _iconId.numberBox.Width;
 
-            int w = (x - (5 * 4)) / 4;
-            _x.label.Location = new(0, _name.textBox.Bottom + 5);
+            _group.textBox.Width = x - (_iconId.numberBox.Width + _icon.Width + 5);
+            _group.label.Location = new(_group.textBox.Left, _name.textBox.Bottom + 5);
+
+            int amount = 5;
+            int padding = 5;
+            int w = (x - (padding * amount)) / amount;
+            _x.label.Location = new(0, _group.textBox.Bottom + 5);
             _x.label.Width = w;
 
             _x.numberBox.Location = new(_x.label.Left, _x.label.Bottom);
@@ -245,6 +291,9 @@ namespace Kenedia.Modules.BuildsManager.Views
 
             _height.numberBox.Location = new(_height.label.Left, _height.label.Bottom);
             _height.numberBox.Width = w;
+
+            _resetButton.Location = new(_height.numberBox.Right + 5, _height.numberBox.Top);
+            _resetButton.Width = w;
         }
     }
 }

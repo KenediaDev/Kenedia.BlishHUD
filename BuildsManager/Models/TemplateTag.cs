@@ -1,13 +1,8 @@
-﻿using Blish_HUD.Content;
-using Kenedia.Modules.Core.Models;
+﻿using Kenedia.Modules.Core.Models;
 using Kenedia.Modules.Core.Utility;
 using Microsoft.Xna.Framework;
 using Newtonsoft.Json;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Kenedia.Modules.BuildsManager.Models
 {
@@ -21,6 +16,18 @@ namespace Kenedia.Modules.BuildsManager.Models
 
         [JsonProperty("TextureRegion")]
         private Rectangle? _textureRegion;
+
+        [JsonProperty("Priority")]
+        private int _priority = 1;
+
+        [JsonProperty("Group")]
+        private string _group = string.Empty;
+
+        [JsonIgnore]
+        public string Group { get => _group; set => Common.SetProperty(ref _group, value, OnGroupChanged); }
+
+        [JsonIgnore]
+        public int Priority { get => _priority; set => Common.SetProperty(ref _priority, value, OnPriorityChanged); }
 
         [JsonIgnore]
         public string Name { get => _name; set => Common.SetProperty(ref _name, value, OnNameChanged); }
@@ -57,6 +64,15 @@ namespace Kenedia.Modules.BuildsManager.Models
         }
 
         private void OnNameChanged(object sender, ValueChangedEventArgs<string> e)
+        {
+            OnTagChanged?.Invoke();
+        }
+
+        private void OnPriorityChanged(object sender, ValueChangedEventArgs<int> e)
+        {
+            OnTagChanged?.Invoke();
+        }
+        private void OnGroupChanged(object sender, ValueChangedEventArgs<string> e)
         {
             OnTagChanged?.Invoke();
         }

@@ -94,7 +94,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
                 e.OldValue.LoadedBuildFromCode -= OnLoaded;
                 e.OldValue.TemplateChanged -= On_TemplateChanged;
                 e.OldValue.LegendSlotChanged -= On_LegendSlotChanged;
-                e.NewValue.SkillChanged -= On_SkillChanged;
+                e.OldValue.SkillChanged -= On_SkillChanged;
             }
 
             if (e.NewValue is not null)
