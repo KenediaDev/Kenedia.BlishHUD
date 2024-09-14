@@ -26,6 +26,89 @@ using System.Collections.ObjectModel;
 
 namespace Kenedia.Modules.BuildsManager.Models
 {
+
+    public delegate void TemplateChangedEventHandler<T>(object sender, TemplateChangedEventArgs<T> e);
+
+    public class TemplateChangedEventArgs<T> : EventArgs
+    {
+        public TemplateSlots TemplateSlot { get; set; }
+
+        public T Value { get; set; }
+
+        public TemplateChangedEventArgs(TemplateSlots templateSlot, T value)
+        {
+            TemplateSlot = templateSlot;
+            Value = value;
+        }
+    }
+
+    public enum TemplateSlots
+    {
+        None,
+        MainHand,
+        OffHand,
+        Aquatic,
+        AltMainHand,
+        AltOffHand,
+        AltAquatic,
+        Head,
+        Shoulder,
+        Chest,
+        Hand,
+        Leg,
+        Foot,
+        AquaBreather,
+        Amulet,
+        Accessory_1,
+        Accessory_2,
+        Ring_1,
+        Ring_2,
+        Back,
+        PvpAmulet,
+        Nourishment,
+        Enhancement,
+        PowerCore,
+        PveRelic,
+        PvpRelic,
+
+        Profession = 100,
+        Race,
+
+        TerrestrialHeal = 200,
+        TerrestrialUtility1,
+        TerrestrialUtility2,
+        TerrestrialElite,
+        AquaticHeal,
+        AquaticUtility1,
+        AquaticUtility2,
+        AquaticElite,
+
+        TerrestrialPet1,
+        TerrestrialPet2,
+        AquaticPet1,
+        AquaticPet2,
+
+        TerrestrialLegend1,
+        TerrestrialLegend2,
+        AquaticLegend1,
+        AquaticLegend2,
+
+        Specialization1,
+        Specialization1_MinorTrait,
+        Specialization1_MajorTrait,
+        Specialization1_GrandmasterTrait,
+
+        Specialization2,
+        Specialization2_MinorTrait,
+        Specialization2_MajorTrait,
+        Specialization2_GrandmasterTrait,
+
+        Specialization3,
+        Specialization3_MinorTrait,
+        Specialization3_MajorTrait,
+        Specialization3_GrandmasterTrait,
+    }
+
     [DataContract]
     public class Template : IDisposable
     {
@@ -60,7 +143,7 @@ namespace Kenedia.Modules.BuildsManager.Models
 
         public event ValueChangedEventHandler<string>? NameChanged;
 
-        public event ValueChangedEventHandler<Races>? RaceChanged;
+        public event TemplateChangedEventHandler<Races>? RaceChanged;
 
         public event ValueChangedEventHandler<ProfessionType>? ProfessionChanged;
 
@@ -164,7 +247,7 @@ namespace Kenedia.Modules.BuildsManager.Models
         public ProfessionType Profession { get => _profession; set => Common.SetProperty(ref _profession, value, OnProfessionChanged, _triggerEvents); }
 
         [DataMember]
-        public Races Race { get => _race; set => Common.SetProperty(ref _race, value, OnRaceChanged, _triggerEvents); }
+        public Races Race { get => _race; set => SetProperty(ref _race, value, TemplateSlots.Race, OnRaceChanged, _triggerEvents); }
 
         public UniqueObservableCollection<string> Tags { get => _tags; private set => Common.SetProperty(ref _tags, value, OnTagsListChanged); }
 
@@ -203,6 +286,8 @@ namespace Kenedia.Modules.BuildsManager.Models
         public LegendCollection Legends { get; } = new();
 
         public SpecializationCollection Specializations { get; } = new();
+
+        public Specialization? this[SpecializationSlotType slot] => Specializations?[slot]?.Specialization;
 
         private void OnTagsListChanged(object sender, ValueChangedEventArgs<UniqueObservableCollection<string>> e)
         {
@@ -830,7 +915,7 @@ namespace Kenedia.Modules.BuildsManager.Models
             }
         }
 
-        private async void OnRaceChanged(object sender, ValueChangedEventArgs<Races> e)
+        private async void OnRaceChanged(object sender, TemplateChangedEventArgs<Races> e)
         {
             RemoveInvalidBuildCombinations();
 
@@ -1459,6 +1544,23 @@ namespace Kenedia.Modules.BuildsManager.Models
 
             await Save();
         }
+
+        private bool SetProperty<T>(ref T property, T value, TemplateSlots slot, Action<object, TemplateChangedEventArgs<T>> onChanged, bool triggerEvents = true)
+        {
+            var temp = property;
+            if (Common.SetProperty(ref property, value))
+            {
+                if (triggerEvents)
+                {
+                    onChanged?.Invoke(this, new TemplateChangedEventArgs<T>(slot, value));
+                }
+
+                return true;
+            }
+
+            return false;
+        }
+
 #nullable disable
     }
 }
