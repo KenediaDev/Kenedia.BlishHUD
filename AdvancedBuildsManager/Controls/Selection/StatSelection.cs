@@ -66,7 +66,7 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Controls.Selection
         {
             txt ??= Search.Text;
             string searchTxt = txt.Trim().ToLower();
-            bool anyName = searchTxt.IsNullOrEmpty();
+            bool anyName = string.IsNullOrEmpty(searchTxt);
 
             foreach (var skill in _skills)
             {
@@ -235,7 +235,7 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Controls.Selection
         {
             txt ??= Search.Text;
             string searchTxt = txt.Trim().ToLower();
-            bool anyName = searchTxt.IsNullOrEmpty();
+            bool anyName = string.IsNullOrEmpty(searchTxt);
 
             var validStats = TemplateSlot?.Item is not null ? (TemplateSlot?.Item as EquipmentItem).StatChoices : new List<int>();
             bool anyStat = validStats.Count == 0;

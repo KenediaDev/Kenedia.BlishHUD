@@ -77,7 +77,7 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Models.Templates
                 if (item.Skill is not null) code += "[" + item.Repetition + "|" + item.Skill.Id + "]";
             }
 
-            return code.IsNullOrEmpty() ? "" : code.Substring(0, code.Length);
+            return string.IsNullOrEmpty(code) ? "" : code.Substring(0, code.Length);
         }
 
         public void Delete()
