@@ -20,6 +20,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Controls\ButtonImage.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controls\CollapseContainer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controls\ContextMenuItem.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\CornerElements.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controls\FramedImage.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controls\GameItem.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controls\Hotbar.cs" />

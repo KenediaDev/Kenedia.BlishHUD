@@ -4,7 +4,7 @@ using System;
 
 namespace Kenedia.Modules.BuildsManager.Models.Templates
 {
-    public class PetCollection : ObservableDictionary<PetSlotType, Pet>
+    public class PetCollection : ObservableDictionary<PetSlotType, Pet?>
     {
         public PetCollection()
         {

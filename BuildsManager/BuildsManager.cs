@@ -9,13 +9,11 @@ using Kenedia.Modules.BuildsManager.Services;
 using Kenedia.Modules.BuildsManager.Utility;
 using Kenedia.Modules.BuildsManager.Views;
 using Kenedia.Modules.Core.Models;
-using Kenedia.Modules.Core.ContractResolver;
 using Kenedia.Modules.Core.Res;
 using Kenedia.Modules.Core.Utility;
 using Microsoft.Xna.Framework;
 using Newtonsoft.Json;
 using System;
-using System.Collections.ObjectModel;
 using System.ComponentModel.Composition;
 using System.Diagnostics;
 using System.IO;
@@ -25,14 +23,17 @@ using NotificationBadge = Kenedia.Modules.Core.Controls.NotificationBadge;
 using CornerIcon = Kenedia.Modules.Core.Controls.CornerIcon;
 using LoadingSpinner = Kenedia.Modules.Core.Controls.LoadingSpinner;
 using AnchoredContainer = Kenedia.Modules.Core.Controls.AnchoredContainer;
-using Rectangle = Microsoft.Xna.Framework.Rectangle;
 using Version = SemVer.Version;
-using Kenedia.Modules.BuildsManager.Controls.GearPage.GearSlots;
-using Kenedia.Modules.Core.Services;
-using Kenedia.Modules.BuildsManager.DataModels.Items;
+using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.DependencyInjection;
+using Kenedia.Modules.Core.Controls;
+using Kenedia.Modules.BuildsManager.Controls.AboutPage;
+using Kenedia.Modules.BuildsManager.Controls.Selection;
+using Kenedia.Modules.BuildsManager.Controls.GearPage;
+using Kenedia.Modules.BuildsManager.Controls.BuildPage;
 using System.Collections.Generic;
-using Kenedia.Modules.BuildsManager.Models.Templates;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement.TextBox;
+using System.ServiceModel;
+using Blish_HUD.Modules.Managers;
 
 namespace Kenedia.Modules.BuildsManager
 {
@@ -43,11 +44,15 @@ namespace Kenedia.Modules.BuildsManager
     [Export(typeof(Module))]
     public class BuildsManager : BaseModule<BuildsManager, MainWindow, Settings, Paths>
     {
+        public IServiceProvider ServiceProvider { get; private set; }
+
+        public static Data Data { get; private set; }
+
         private double _tick;
         private CancellationTokenSource _cancellationTokenSource;
         private CancellationTokenSource _fileAccessTokenSource;
         private CornerIcon _cornerIcon;
-        private AnchoredContainer _cornerContainer;
+        private CornerIconContainer _cornerContainer;
         private NotificationBadge _notificationBadge;
         private LoadingSpinner _apiSpinner;
 
@@ -59,16 +64,41 @@ namespace Kenedia.Modules.BuildsManager
 
             Services.GameStateDetectionService.Enabled = false;
 
+            Paths = new(DirectoriesManager, Name);
+
+            ConfigureServices();
+
+            Paths = ServiceProvider.GetRequiredService<Paths>();
+            Data = ServiceProvider.GetRequiredService<Data>();
             CreateCornerIcons();
         }
 
-        private GW2API GW2API { get; set; }
+        public void ConfigureServices()
+        {
+            var services = new Microsoft.Extensions.DependencyInjection.ServiceCollection();
 
-        public static Data Data { get; set; }
+            services.AddSingleton(ContentsManager);
+            services.AddSingleton<Paths>(Paths);
 
-        public ObservableCollection<Template> Templates { get; private set; } = new();
+            services.AddSingleton<TemplateCollection>();
+            services.AddSingleton<TemplatePresenter>();
+            services.AddSingleton<TemplateTags>();
+            services.AddSingleton<Data>();
+            services.AddSingleton<GW2API>();
 
-        public TemplateTags TemplateTags { get; private set; }
+            services.AddSingleton(Gw2ApiManager);
+
+
+            services.AddSingleton<MainWindow>();
+            services.AddSingleton<SelectionPanel>();
+            services.AddSingleton<AboutPage>();
+            services.AddSingleton<GearPage>();
+            services.AddSingleton<BuildPage>();
+
+            services.AddSingleton<Module>(this);
+
+            ServiceProvider = services.BuildServiceProvider();
+        }
 
         public event ValueChangedEventHandler<bool> TemplatesLoadedDone;
 
@@ -95,13 +125,9 @@ namespace Kenedia.Modules.BuildsManager
         {
             base.Initialize();
 
-            Paths = new(DirectoriesManager, Name);
 
             Logger.Info($"Starting {Name} v." + Version.BaseVersion());
 
-            TemplateTags = new(ContentsManager, Paths);
-            GW2API = new(Gw2ApiManager, () => Data, Paths, () => _notificationBadge);
-            Data = new(Paths, Gw2ApiManager, () => _notificationBadge, () => _apiSpinner);
             Data.Loaded += Data_Loaded;
         }
 
@@ -114,7 +140,7 @@ namespace Kenedia.Modules.BuildsManager
 
         protected override async void OnLocaleChanged(object sender, Blish_HUD.ValueChangedEventArgs<Locale> e)
         {
-            if (GW2API is null) return;
+            if (ServiceProvider.GetService<GW2API>() is null) return;
 
             if (e.NewValue is not Locale.Korean and not Locale.Chinese)
             {
@@ -137,9 +163,11 @@ namespace Kenedia.Modules.BuildsManager
 
             await base.LoadAsync();
 
-            await TemplateTags.Load();
+            var templateTags = ServiceProvider.GetService<TemplateTags>();
+            await templateTags.Load();
+
             _ = await Data.Load();
-            
+
         }
 
         protected override void OnModuleLoaded(EventArgs e)
@@ -188,29 +216,11 @@ namespace Kenedia.Modules.BuildsManager
             if (!Data.IsLoaded || !TemplatesLoaded) return;
 
             base.LoadGUI();
-            int Height = 670;
-            int Width = 915;
 
             Logger.Info($"Building UI for {Name}");
 
-            MainWindow = new MainWindow(
-                TexturesService.GetTextureFromRef(@"textures\mainwindow_background.png", "mainwindow_background"),
-                new Rectangle(30, 30, Width, Height + 30),
-                new Rectangle(30, 20, Width - 3, Height + 15),
-                TemplateTags)
-            {
-                Parent = GameService.Graphics.SpriteScreen,
-                Title = "❤",
-                Subtitle = "❤",
-                SavesPosition = true,
-                Id = $"{Name} MainWindow",
-                MainWindowEmblem = AsyncTexture2D.FromAssetId(156020),
-                Name = Name,
-                Version = ModuleVersion,
-                Width = 1200,
-                Height = 900,
-            };
-
+            MainWindow = ServiceProvider.GetRequiredService<MainWindow>();
+            
 #if DEBUG
             MainWindow.Show();
 #endif
@@ -226,8 +236,12 @@ namespace Kenedia.Modules.BuildsManager
         protected override void Unload()
         {
             DeleteCornerIcons();
-            Templates?.Clear();
-            Data?.Dispose();
+
+            var templates = ServiceProvider.GetService<TemplateCollection>();
+            templates?.Clear();
+
+            var data = ServiceProvider.GetService<Data>();
+            data?.Dispose();
 
             base.Unload();
         }
@@ -246,6 +260,7 @@ namespace Kenedia.Modules.BuildsManager
 
         private void LoadTemplates()
         {
+            var templates = ServiceProvider.GetService<TemplateCollection>();
             Logger.Info($"LoadTemplates");
 
             _ = Task.Run(() =>
@@ -258,27 +273,27 @@ namespace Kenedia.Modules.BuildsManager
                 {
                     _fileAccessTokenSource?.Cancel();
                     _fileAccessTokenSource = new CancellationTokenSource();
-                    string[] templates = Directory.GetFiles(Paths.TemplatesPath);
+                    string[] templateFiles = Directory.GetFiles(Paths.TemplatesPath);
 
-                    Templates.Clear();
+                    templates.Clear();
 
                     JsonSerializerSettings settings = new();
                     settings.Converters.Add(new TemplateConverter());
 
-                    Logger.Info($"Loading {templates.Length} Templates ...");
-                    foreach (string file in templates)
+                    Logger.Info($"Loading {templateFiles.Length} Templates ...");
+                    foreach (string file in templateFiles)
                     {
                         string fileText = File.ReadAllText(file);
                         var template = JsonConvert.DeserializeObject<Template>(fileText, settings);
 
                         if (template is not null)
                         {
-                            Templates.Add(template);
+                            templates.Add(template);
                         }
                     }
 
                     time.Stop();
-                    Logger.Info($"Time to load {templates.Length} templates {time.ElapsedMilliseconds}ms. {Templates.Count} out of {templates.Length} templates got loaded.");
+                    Logger.Info($"Time to load {templateFiles.Length} templates {time.ElapsedMilliseconds}ms. {templates.Count} out of {templateFiles.Length} templates got loaded.");
                 }
                 catch (Exception ex)
                 {
@@ -304,10 +319,10 @@ namespace Kenedia.Modules.BuildsManager
                 Visible = Settings?.ShowCornerIcon?.Value ?? false,
                 ClickAction = () =>
                 {
-                    if (!Data.IsLoaded)
-                    {
-                        _ = Task.Run(() => Data.Load(true));
-                    }
+                    //if (!Data.IsLoaded)
+                    //{
+                    //    _ = Task.Run(() => Data.Load(true));
+                    //}
 
                     MainWindow?.ToggleWindow();
                 }
@@ -358,7 +373,7 @@ namespace Kenedia.Modules.BuildsManager
 
         private void OnToggleWindowKey(object sender, EventArgs e)
         {
-            if (Control.ActiveControl is not TextBox)
+            if (Control.ActiveControl is not Blish_HUD.Controls.TextBox)
             {
                 MainWindow?.ToggleWindow();
             }

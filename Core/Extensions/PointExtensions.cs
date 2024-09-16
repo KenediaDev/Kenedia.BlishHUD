@@ -3,7 +3,6 @@ using Microsoft.Xna.Framework;
 using System;
 using Point = Microsoft.Xna.Framework.Point;
 using static Kenedia.Modules.Core.Utility.WindowsUtil.User32Dll;
-using System.Diagnostics;
 
 namespace Kenedia.Modules.Core.Extensions
 {

@@ -1,13 +1,10 @@
 ﻿using Gw2Sharp.Models;
 using Kenedia.Modules.BuildsManager.Models;
-using Kenedia.Modules.BuildsManager.Models.Templates;
 using Kenedia.Modules.Core.DataModels;
 using Kenedia.Modules.Core.Models;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
 
 namespace Kenedia.Modules.BuildsManager.Utility
 {

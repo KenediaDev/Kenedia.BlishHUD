@@ -6,6 +6,7 @@ using Gw2Sharp.Models;
 using Kenedia.Modules.BuildsManager.DataModels.Professions;
 using Kenedia.Modules.BuildsManager.Models;
 using Kenedia.Modules.BuildsManager.Models.Templates;
+using Kenedia.Modules.BuildsManager.Services;
 using Kenedia.Modules.Core.Extensions;
 using Kenedia.Modules.Core.Models;
 using Kenedia.Modules.Core.Utility;
@@ -89,9 +90,10 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
         private TemplatePresenter _templatePresenter;
         private readonly List<(Specialization spec, Rectangle bounds)> _specBounds = new();
 
-        public SpecLine(SpecializationSlotType line, TemplatePresenter template)
+        public SpecLine(SpecializationSlotType line, TemplatePresenter template, Data data)
         {
             TemplatePresenter = template;
+            Data = data;
             Tooltip = _traitTooltip = new TraitTooltip();
             _basicTooltip = new()
             {
@@ -137,6 +139,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
         {
             get => _templatePresenter; set => Common.SetProperty(ref _templatePresenter, value, OnTemplatePresenterChanged);
         }
+        public Data Data { get; }
 
         private void OnTemplatePresenterChanged(object sender, Core.Models.ValueChangedEventArgs<TemplatePresenter> e)
         {
@@ -231,7 +234,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
         public void ApplyTemplate()
         {
             PlayerCharacter player = GameService.Gw2Mumble.PlayerCharacter;
-            if (BuildsManager.Data?.Professions?.TryGetValue(TemplatePresenter?.Template?.Profession ?? player?.Profession ?? ProfessionType.Guardian, out Profession profession) != true)
+            if (Data?.Professions?.TryGetValue(TemplatePresenter?.Template?.Profession ?? player?.Profession ?? ProfessionType.Guardian, out Profession profession) != true)
                 return;
 
             int j = 0;

@@ -2,7 +2,6 @@
 using Kenedia.Modules.Core.Utility;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Kenedia.Modules.BuildsManager.Extensions;
 using Kenedia.Modules.BuildsManager.DataModels.Items;
 using Kenedia.Modules.Core.Extensions;
 using Blish_HUD;

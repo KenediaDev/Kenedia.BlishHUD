@@ -13,11 +13,7 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Diagnostics;
 using System.Linq;
-using System.Text;
-using System.Xml.Linq;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement.TrayNotify;
 
 namespace Kenedia.Modules.BuildsManager.Controls.AboutPage
 {
@@ -64,18 +60,19 @@ namespace Kenedia.Modules.BuildsManager.Controls.AboutPage
         private readonly List<(TemplateFlag tag, Image texture, Checkbox checkbox)> _tags = new();
         private readonly List<(EncounterFlag tag, Image texture, Checkbox checkbox)> _encounters = new();
         private readonly bool _created = false;
-        private readonly TemplateTags _templateTags;
         private int tagSectionWidth;
         private bool _changeBuild = true;
         private readonly TagEditWindow _tagEditWindow;
 
         private Color _disabledColor = Color.Gray;
 
-        public AboutPage(TemplatePresenter _templatePresenter, TemplateTags templateTags)
+        public AboutPage(TemplatePresenter templatePresenter, TemplateTags templateTags)
         {
-            TemplatePresenter = _templatePresenter;
-            _templateTags = templateTags;
+            TemplatePresenter = templatePresenter;
+            TemplateTags = templateTags;
 
+            HeightSizingMode = Blish_HUD.Controls.SizingMode.Fill;
+            WidthSizingMode = Blish_HUD.Controls.SizingMode.Fill;
             tagSectionWidth = 300;
 
             int Height = 670;
@@ -84,7 +81,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.AboutPage
             _tagEditWindow = new(
                 TexturesService.GetTextureFromRef(@"textures\mainwindow_background.png", "mainwindow_background"),
                 new Rectangle(30, 30, Width, Height + 30),
-                new Rectangle(40, 40, Width - 3, Height ),
+                new Rectangle(40, 40, Width - 3, Height),
                 templateTags)
             {
                 Parent = GameService.Graphics.SpriteScreen,
@@ -122,11 +119,11 @@ namespace Kenedia.Modules.BuildsManager.Controls.AboutPage
                 {
                     if (!string.IsNullOrEmpty(txt.Trim()))
                     {
-                        var templateTag = _templateTags.Tags.FirstOrDefault(e => e.Name.ToLower() == txt.ToLower());
+                        var templateTag = TemplateTags.Tags.FirstOrDefault(e => e.Name.ToLower() == txt.ToLower());
 
                         if (templateTag is null)
                         {
-                            _templateTags.Add(new TemplateTag() { Name = txt });
+                            TemplateTags.Add(new TemplateTag() { Name = txt });
                         }
                         else
                         {
@@ -136,7 +133,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.AboutPage
                         }
                     }
                 },
-                TextChangedAction = (txt) => _editTags.Enabled = !string.IsNullOrEmpty(txt.Trim()) && _templateTags.Tags.FirstOrDefault(e => e.Name.ToLower() == txt.ToLower()) is null,
+                TextChangedAction = (txt) => _editTags.Enabled = !string.IsNullOrEmpty(txt.Trim()) && TemplateTags.Tags.FirstOrDefault(e => e.Name.ToLower() == txt.ToLower()) is null,
                 PerformFiltering = (txt) =>
                 {
                     string t = txt.ToLower();
@@ -161,7 +158,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.AboutPage
                 DisabledTexture = AsyncTexture2D.FromAssetId(255296),
                 SetLocalizedTooltip = () => "Add Tag",
                 Enabled = false,
-                ClickAction = (b) => _templateTags.Add(new TemplateTag() { Name = string.IsNullOrEmpty(_tagFilter.Text) ? "New Tag" : _tagFilter.Text })
+                ClickAction = (b) => TemplateTags.Add(new TemplateTag() { Name = string.IsNullOrEmpty(_tagFilter.Text) ? "New Tag" : _tagFilter.Text })
             };
 
             _tagPanel = new()
@@ -199,12 +196,14 @@ namespace Kenedia.Modules.BuildsManager.Controls.AboutPage
             _noteField.TextChanged += NoteField_TextChanged;
 
             TemplatePresenter.TemplateChanged += TemplatePresenter_TemplateChanged;
-            _templateTags.TagsChanged += TemplateTags_TagsChanged;
+            TemplateTags.TagsChanged += TemplateTags_TagsChanged;
 
             CreateTagControls();
 
             _created = true;
         }
+
+        public TemplateTags TemplateTags { get; }
 
         private void TemplateTags_TagsChanged(object sender, TemplateTag e)
         {
@@ -215,7 +214,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.AboutPage
         {
             _tagPanel?.ClearChildren();
 
-            foreach (var tag in _templateTags.Tags)
+            foreach (var tag in TemplateTags.Tags)
             {
                 _ = new TagControl()
                 {

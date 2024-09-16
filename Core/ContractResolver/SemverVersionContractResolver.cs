@@ -3,11 +3,9 @@ using Kenedia.Modules.Core.Converter;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Kenedia.Modules.Core.ContractResolver
-{    
+{
     public class SemverVersionContractResolver : DefaultContractResolver
     {
         protected override JsonProperty CreateProperty(System.Reflection.MemberInfo member, MemberSerialization memberSerialization)

@@ -1,8 +1,4 @@
-﻿using Newtonsoft.Json.Serialization;
-using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System;
 
 namespace Kenedia.Modules.Core.Attributes
 {

@@ -2,7 +2,6 @@
 using Kenedia.Modules.Core.DataModels;
 using Blish_HUD.Input;
 using SkillSlot = Gw2Sharp.WebApi.V2.Models.SkillSlot;
-using Kenedia.Modules.BuildsManager.DataModels.Professions;
 using Kenedia.Modules.BuildsManager.Models.Templates;
 using Kenedia.Modules.Core.Extensions;
 using Kenedia.Modules.Core.Models;
@@ -17,7 +16,8 @@ using Gw2Sharp;
 using System.Text.RegularExpressions;
 using Kenedia.Modules.BuildsManager.Res;
 using Gw2Sharp.Models;
-using System.Diagnostics;
+using Kenedia.Modules.BuildsManager.Services;
+using Kenedia.Modules.BuildsManager.DataModels.Professions;
 
 namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
 {
@@ -39,10 +39,11 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
 
         private int _skillSize;
 
-        public SkillsBar(TemplatePresenter templatePresenter)
+        public SkillsBar(TemplatePresenter templatePresenter, Data data)
         {
             TemplatePresenter = templatePresenter;
 
+            Data = data;
             Height = 125;
             ClipsBounds = false;
             ZIndex = int.MaxValue / 2;
@@ -82,6 +83,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
         {
             get => _templatePresenter; set => Common.SetProperty(ref _templatePresenter, value, SetTemplatePresenter);
         }
+        public Data Data { get; }
 
         private void SetTemplatePresenter(object sender, Core.Models.ValueChangedEventArgs<TemplatePresenter> e)
         {
@@ -95,6 +97,11 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
                 e.OldValue.TemplateChanged -= On_TemplateChanged;
                 e.OldValue.LegendSlotChanged -= On_LegendSlotChanged;
                 e.OldValue.SkillChanged -= On_SkillChanged;
+            }
+
+            foreach(var s in _skillIcons)
+            {
+                s.Value.TemplatePresenter = e.NewValue;
             }
 
             if (e.NewValue is not null)
@@ -281,10 +288,10 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
 
             if (TemplatePresenter?.Template?.Profession != ProfessionType.Revenant)
             {
-                var skills = BuildsManager.Data.Professions[TemplatePresenter.Template.Profession].Skills;
+                var skills = Data.Professions[TemplatePresenter.Template.Profession].Skills;
                 var filteredSkills = skills.Where(e => e.Value.PaletteId > 0 && e.Value.Slot is not null && e.Value.Slot == slot && (e.Value.Specialization == 0 || TemplatePresenter.Template.HasSpecialization(e.Value.Specialization))).ToList();
 
-                var racialSkills = TemplatePresenter.Template.Race != Core.DataModels.Races.None ? BuildsManager.Data.Races[TemplatePresenter.Template.Race]?.Skills.Where(e => e.Value.PaletteId > 0 && e.Value.Slot is not null && e.Value.Slot == slot).ToList() : new();
+                var racialSkills = TemplatePresenter.Template.Race != Core.DataModels.Races.None ? Data.Races[TemplatePresenter.Template.Race]?.Skills.Where(e => e.Value.PaletteId > 0 && e.Value.Slot is not null && e.Value.Slot == slot).ToList() : new();
                 if (racialSkills is not null) filteredSkills.AddRange(racialSkills);
 
                 _skillSelector.SetItems(filteredSkills.OrderBy(e => e.Value.Categories).Select(e => e.Value));

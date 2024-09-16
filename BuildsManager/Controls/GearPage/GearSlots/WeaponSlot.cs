@@ -18,7 +18,6 @@ using static Kenedia.Modules.BuildsManager.Controls.Selection.SelectionPanel;
 using System.Linq;
 using ItemWeaponType = Gw2Sharp.WebApi.V2.Models.ItemWeaponType;
 using Kenedia.Modules.BuildsManager.Res;
-using System.Diagnostics;
 
 namespace Kenedia.Modules.BuildsManager.Controls.GearPage.GearSlots
 {

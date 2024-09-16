@@ -3,12 +3,10 @@ using System;
 using System.Linq;
 using System.Threading.Tasks;
 using Version = SemVer.Version;
-using Kenedia.Modules.Core.Models;
 using Kenedia.Modules.BuildsManager.DataModels.Items;
 using Kenedia.Modules.BuildsManager.Models;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
-using Kenedia.Modules.Core.Attributes;
 using Newtonsoft.Json;
 
 namespace Kenedia.Modules.BuildsManager.Services

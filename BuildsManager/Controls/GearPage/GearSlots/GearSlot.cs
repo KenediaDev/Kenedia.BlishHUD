@@ -14,7 +14,6 @@ using Kenedia.Modules.BuildsManager.Controls.Selection;
 using Kenedia.Modules.Core.Controls;
 using Kenedia.Modules.BuildsManager.Extensions;
 using Kenedia.Modules.Core.Models;
-using System.Diagnostics;
 
 namespace Kenedia.Modules.BuildsManager.Controls.GearPage.GearSlots
 {

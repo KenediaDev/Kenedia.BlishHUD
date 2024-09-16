@@ -10,63 +10,61 @@ using Kenedia.Modules.BuildsManager.Controls.Selection;
 using Kenedia.Modules.BuildsManager.Models;
 using Kenedia.Modules.Core.Models;
 using Kenedia.Modules.BuildsManager.Res;
-using System.Diagnostics;
-using Kenedia.Modules.BuildsManager.Services;
+using Blish_HUD;
+using Blish_HUD.Modules;
 
 namespace Kenedia.Modules.BuildsManager.Views
 {
     public class MainWindow : StandardWindow
     {
-        private readonly BuildPage _build;
         private readonly TabbedRegion _tabbedRegion;
-        private readonly GearPage _gear;
-        private readonly AboutPage _aboutPage;
-        private readonly SelectionPanel _selectionPanel;
 
-        public MainWindow(AsyncTexture2D background, Rectangle windowRegion, Rectangle contentRegion, TemplateTags templateTags) : base(background, windowRegion, contentRegion)
+        public MainWindow(Module module, TemplatePresenter templatePresenter, SelectionPanel selectionPanel, AboutPage aboutPage, BuildPage buildPage, GearPage gearPage) : base(
+            TexturesService.GetTextureFromRef(@"textures\mainwindow_background.png", "mainwindow_background"),
+                new Rectangle(30, 30, 915, 670 + 30),
+                new Rectangle(30, 20, 915 - 3, 670 + 15))
         {
-            _selectionPanel = new(TemplatePresenter, this)
-            {
-                Parent = this,
-                Location = new(0, 0),
-                HeightSizingMode = Blish_HUD.Controls.SizingMode.Fill,
-                Width = 375,
-            };
+            TemplatePresenter = templatePresenter;
+            SelectionPanel = selectionPanel;
+            AboutPage = aboutPage;
+            BuildPage = buildPage;
+            GearPage = gearPage;
 
+            selectionPanel.Parent = this;
+
+            Parent = GameService.Graphics.SpriteScreen;
+            Title = "❤";
+            Subtitle = "❤";
+            SavesPosition = true;
+            Id = $"{module.Name} MainWindow";
+            MainWindowEmblem = AsyncTexture2D.FromAssetId(156020);
+            Name = module.Name;
+            Version = module.Version;
+        
             _tabbedRegion = new()
             {
                 Parent = this,
-                Location = new(_selectionPanel.Right + 15, 0),
+                Location = new(selectionPanel.Right + 15, 0),
                 Width = ContentRegion.Width - 144,
                 HeightSizingMode = Blish_HUD.Controls.SizingMode.Fill,
-                OnTabSwitched = _selectionPanel.ResetAnchor,
+                OnTabSwitched = selectionPanel.ResetAnchor,
             };
 
             TabbedRegionTab tab;
 
-            _tabbedRegion.AddTab(new TabbedRegionTab(
-                _aboutPage = new AboutPage(TemplatePresenter, templateTags)
-                {
-                    HeightSizingMode = Blish_HUD.Controls.SizingMode.Fill,
-                    WidthSizingMode = Blish_HUD.Controls.SizingMode.Fill,
-                })
+            _tabbedRegion.AddTab(new TabbedRegionTab(aboutPage)
             {
                 Header = () => strings.About,
                 Icon = AsyncTexture2D.FromAssetId(440023),
             });
 
-            _tabbedRegion.AddTab(tab = new TabbedRegionTab(
-                _build = new BuildPage(TemplatePresenter))
+            _tabbedRegion.AddTab(tab = new TabbedRegionTab(buildPage)
             {
                 Header = () => strings.Build,
                 Icon = AsyncTexture2D.FromAssetId(156720),
             });
 
-            _tabbedRegion.AddTab(new TabbedRegionTab(
-                _gear = new GearPage(TemplatePresenter)
-                {
-                    SelectionPanel = _selectionPanel,
-                })
+            _tabbedRegion.AddTab(new TabbedRegionTab(gearPage)
             {
                 Header = () => strings.Equipment,
                 Icon = AsyncTexture2D.FromAssetId(156714),
@@ -76,11 +74,22 @@ namespace Kenedia.Modules.BuildsManager.Views
 
             TemplatePresenter.NameChanged += TemplatePresenter_NameChanged;
             SelectFirstTemplate();
+
+            Width = 1200;
+            Height = 900;
         }
 
         private TemplatePresenter TemplatePresenter { get; } = new();
 
-        private void TemplatePresenter_NameChanged(object sender, ValueChangedEventArgs<string> e)
+        public SelectionPanel SelectionPanel { get; }
+        
+        public AboutPage AboutPage { get; }
+        
+        public BuildPage BuildPage { get; }
+        
+        public GearPage GearPage { get; }
+
+        private void TemplatePresenter_NameChanged(object sender, Core.Models.ValueChangedEventArgs<string> e)
         {
             SubName = e.NewValue;
         }
@@ -106,17 +115,17 @@ namespace Kenedia.Modules.BuildsManager.Views
         {
             base.DisposeControl();
             _tabbedRegion?.Dispose();
-            _build?.Dispose();
-            _gear?.Dispose();
-            _aboutPage?.Dispose();
-            _selectionPanel?.Dispose();
+            BuildPage?.Dispose();
+            GearPage?.Dispose();
+            AboutPage?.Dispose();
+            SelectionPanel?.Dispose();
 
             TemplatePresenter.Template = null;
         }
 
         public void SelectFirstTemplate()
         {
-            _selectionPanel?.SelectFirstTemplate();
+            SelectionPanel?.SelectFirstTemplate();
             TemplatePresenter.InvokeTemplateSwitch();
         }
     }

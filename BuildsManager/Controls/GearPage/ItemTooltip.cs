@@ -1,7 +1,6 @@
 ﻿using Kenedia.Modules.Core.Utility;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Kenedia.Modules.BuildsManager.Extensions;
 using Kenedia.Modules.BuildsManager.DataModels.Items;
 using Kenedia.Modules.Core.Controls;
 using Kenedia.Modules.Core.Extensions;
@@ -9,7 +8,6 @@ using Blish_HUD;
 using System;
 using ItemType = Kenedia.Modules.Core.DataModels.ItemType;
 using Kenedia.Modules.BuildsManager.DataModels.Stats;
-using System.Linq;
 using Kenedia.Modules.Core.Services;
 using Gw2Sharp.WebApi;
 using Kenedia.Modules.BuildsManager.Res;

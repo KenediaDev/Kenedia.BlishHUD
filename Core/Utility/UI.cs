@@ -9,7 +9,6 @@ using MonoGame.Extended.BitmapFonts;
 using System;
 using static Blish_HUD.ContentService;
 using Kenedia.Modules.Core.Interfaces;
-using Microsoft.Xna.Framework.Graphics;
 
 namespace Kenedia.Modules.Core.Utility
 {

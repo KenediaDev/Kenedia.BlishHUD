@@ -12,7 +12,6 @@ using Kenedia.Modules.Core.Utility;
 using System.Threading;
 using Kenedia.Modules.Core.Controls;
 using Kenedia.Modules.Core.Attributes;
-using static System.Net.Mime.MediaTypeNames;
 
 namespace Kenedia.Modules.BuildsManager.Services
 {
@@ -79,10 +78,14 @@ namespace Kenedia.Modules.BuildsManager.Services
         private CancellationTokenSource _cancellationTokenSource;
         private bool _isDisposed;
 
-        public Data(Paths paths, Gw2ApiManager gw2ApiManager, Func<Core.Controls.NotificationBadge> notificationBadge, Func<LoadingSpinner> spinner)
+        public Data(Paths paths, Gw2ApiManager gw2ApiManager)
         {
             _paths = paths;
             _gw2ApiManager = gw2ApiManager;
+        } 
+
+        public Data(Paths paths, Gw2ApiManager gw2ApiManager, Func<Core.Controls.NotificationBadge> notificationBadge, Func<LoadingSpinner> spinner) :this(paths, gw2ApiManager)
+        {
             _notificationBadge = notificationBadge;
             _spinner = spinner;
         }

@@ -2,7 +2,6 @@ using Blish_HUD.Controls;
 using Blish_HUD.Input;
 using Gw2Sharp.WebApi;
 using Kenedia.Modules.Core.Extensions;
-using Kenedia.Modules.Core.Interfaces;
 using Kenedia.Modules.Core.Models;
 using Kenedia.Modules.Core.Utility;
 using Microsoft.Xna.Framework;
@@ -11,7 +10,6 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
-using System.Diagnostics;
 using System.Linq;
 using Control = Blish_HUD.Controls.Control;
 

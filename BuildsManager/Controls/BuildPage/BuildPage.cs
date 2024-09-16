@@ -9,6 +9,7 @@ using Kenedia.Modules.BuildsManager.DataModels;
 using Kenedia.Modules.BuildsManager.DataModels.Professions;
 using Kenedia.Modules.BuildsManager.Models;
 using Kenedia.Modules.BuildsManager.Models.Templates;
+using Kenedia.Modules.BuildsManager.Services;
 using Kenedia.Modules.Core.Controls;
 using Kenedia.Modules.Core.DataModels;
 using Kenedia.Modules.Core.Models;
@@ -18,7 +19,6 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using FlowPanel = Kenedia.Modules.Core.Controls.FlowPanel;
 using Panel = Kenedia.Modules.Core.Controls.Panel;
@@ -47,10 +47,10 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
         private ProfessionSpecifics _professionSpecifics;
         private TemplatePresenter _templatePresenter;
 
-        public BuildPage(TemplatePresenter templatePresenter)
+        public BuildPage(TemplatePresenter templatePresenter, Data data)
         {
             TemplatePresenter = templatePresenter;
-
+            Data = data;
             ClipsBounds = false;
             WidthSizingMode = SizingMode.Fill;
             HeightSizingMode = SizingMode.AutoSize;
@@ -96,7 +96,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
                 ZIndex = 13,
             };
 
-            _skillbar = new SkillsBar(TemplatePresenter)
+            _skillbar = new SkillsBar(TemplatePresenter, Data)
             {
                 Parent = this,
                 Location = new(5, _professionSpecificsContainer.Bottom),
@@ -143,9 +143,9 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
 
             _specializations = new()
             {
-                {SpecializationSlotType.Line_1,  new SpecLine(SpecializationSlotType.Line_1, TemplatePresenter) { Parent = _specializationsPanel } },
-                {SpecializationSlotType.Line_2,  new SpecLine(SpecializationSlotType.Line_2, TemplatePresenter) { Parent = _specializationsPanel} },
-                {SpecializationSlotType.Line_3,  new SpecLine(SpecializationSlotType.Line_3, TemplatePresenter) { Parent = _specializationsPanel} },
+                {SpecializationSlotType.Line_1,  new SpecLine(SpecializationSlotType.Line_1, TemplatePresenter, Data) { Parent = _specializationsPanel } },
+                {SpecializationSlotType.Line_2,  new SpecLine(SpecializationSlotType.Line_2, TemplatePresenter, Data) { Parent = _specializationsPanel} },
+                {SpecializationSlotType.Line_3,  new SpecLine(SpecializationSlotType.Line_3, TemplatePresenter, Data) { Parent = _specializationsPanel} },
             };
 
             _professionRaceSelection = new()
@@ -160,6 +160,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
         }
 
         public TemplatePresenter TemplatePresenter { get => _templatePresenter; set => Common.SetProperty(ref _templatePresenter, value, OnTemplatePresenterSet); }
+        public Data Data { get; }
 
         private void OnTemplatePresenterSet(object sender, Core.Models.ValueChangedEventArgs<TemplatePresenter> e)
         {
@@ -346,11 +347,11 @@ namespace Kenedia.Modules.BuildsManager.Controls.BuildPage
 
         private void SetSelectionTextures()
         {
-            _specIcon.Texture = TemplatePresenter?.Template?.EliteSpecialization?.ProfessionIconBig ?? (BuildsManager.Data?.Professions?.TryGetValue(TemplatePresenter?.Template?.Profession ?? ProfessionType.Guardian, out Profession professionForIcon) == true ? professionForIcon.IconBig : null);
-            _specIcon.BasicTooltipText =TemplatePresenter?.Template?.EliteSpecialization?.Name ?? (BuildsManager.Data?.Professions?.TryGetValue(TemplatePresenter?.Template?.Profession ?? ProfessionType.Guardian, out Profession professionForName) == true ? professionForName.Name : null);
+            _specIcon.Texture = TemplatePresenter?.Template?.EliteSpecialization?.ProfessionIconBig ?? (Data.Professions?.TryGetValue(TemplatePresenter?.Template?.Profession ?? ProfessionType.Guardian, out Profession professionForIcon) == true ? professionForIcon.IconBig : null);
+            _specIcon.BasicTooltipText =TemplatePresenter?.Template?.EliteSpecialization?.Name ?? (Data.Professions?.TryGetValue(TemplatePresenter?.Template?.Profession ?? ProfessionType.Guardian, out Profession professionForName) == true ? professionForName.Name : null);
 
-            _raceIcon.Texture = BuildsManager.Data?.Races?.TryGetValue(TemplatePresenter?.Template?.Race ?? Races.None, out Race raceIcon) == true ? raceIcon.Icon : null;
-            _raceIcon.BasicTooltipText = BuildsManager.Data?.Races?.TryGetValue(TemplatePresenter?.Template?.Race ?? Races.None, out Race raceName) == true ? raceName.Name : null;
+            _raceIcon.Texture = Data.Races?.TryGetValue(TemplatePresenter?.Template?.Race ?? Races.None, out Race raceIcon) == true ? raceIcon.Icon : null;
+            _raceIcon.BasicTooltipText = Data.Races?.TryGetValue(TemplatePresenter?.Template?.Race ?? Races.None, out Race raceName) == true ? raceName.Name : null;
         }
     }
 }

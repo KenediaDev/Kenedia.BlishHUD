@@ -20,25 +20,32 @@ using Kenedia.Modules.BuildsManager.Utility;
 using Kenedia.Modules.BuildsManager.DataModels.Items;
 using Kenedia.Modules.BuildsManager.DataModels.Stats;
 using Kenedia.Modules.BuildsManager.Res;
-using System.Diagnostics;
-using System.Runtime.InteropServices;
 using System.Collections.ObjectModel;
+using Kenedia.Modules.BuildsManager.Services;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Kenedia.Modules.BuildsManager.Models
 {
+    public class TemplateCollection : ObservableCollection<Template>
+    {
 
-    public delegate void TemplateChangedEventHandler<T>(object sender, TemplateChangedEventArgs<T> e);
+    }
+
+    public delegate void TemplateChangedEventHandler<T>(object sender, TemplateChangedEventArgs<T?> e);
 
     public class TemplateChangedEventArgs<T> : EventArgs
     {
         public TemplateSlots TemplateSlot { get; set; }
 
-        public T Value { get; set; }
+        public T? Value { get; set; }
 
-        public TemplateChangedEventArgs(TemplateSlots templateSlot, T value)
+        public T? OldValue { get; set; }
+
+        public TemplateChangedEventArgs(TemplateSlots templateSlot, T? value, T? oldValue = default)
         {
             TemplateSlot = templateSlot;
             Value = value;
+            OldValue = oldValue;
         }
     }
 
@@ -77,11 +84,24 @@ namespace Kenedia.Modules.BuildsManager.Models
         TerrestrialHeal = 200,
         TerrestrialUtility1,
         TerrestrialUtility2,
+        TerrestrialUtility3,
         TerrestrialElite,
         AquaticHeal,
         AquaticUtility1,
         AquaticUtility2,
+        AquaticUtility3,
         AquaticElite,
+
+        InactiveTerrestrialHeal,
+        InactiveTerrestrialUtility1,
+        InactiveTerrestrialUtility2,
+        InactiveTerrestrialUtility3,
+        InactiveTerrestrialElite,
+        InactiveAquaticHeal,
+        InactiveAquaticUtility1,
+        InactiveAquaticUtility2,
+        InactiveAquaticUtility3,
+        InactiveAquaticElite,
 
         TerrestrialPet1,
         TerrestrialPet2,
@@ -112,6 +132,8 @@ namespace Kenedia.Modules.BuildsManager.Models
     [DataContract]
     public class Template : IDisposable
     {
+        public Data Data { get; } = BuildsManager.ModuleInstance.ServiceProvider.GetRequiredService<Data>();
+
 #nullable enable
         private bool _loaded = false;
         private bool _isDisposed = false;
@@ -133,9 +155,9 @@ namespace Kenedia.Modules.BuildsManager.Models
 
         private CancellationTokenSource? _cancellationTokenSource;
 
-        public event EventHandler? GearChanged;
+        public event EventHandler? GearCodeChanged;
 
-        public event EventHandler? BuildChanged;
+        public event EventHandler? BuildCodeChanged;
 
         public event EventHandler? LoadedGearFromCode;
 
@@ -143,17 +165,104 @@ namespace Kenedia.Modules.BuildsManager.Models
 
         public event ValueChangedEventHandler<string>? NameChanged;
 
-        public event TemplateChangedEventHandler<Races>? RaceChanged;
+        public event ValueChangedEventHandler<Races>? RaceChanged;
 
         public event ValueChangedEventHandler<ProfessionType>? ProfessionChanged;
 
-        public event ValueChangedEventHandler<Specialization>? EliteSpecializationChanged;
+        public event ValueChangedEventHandler<Specialization?>? EliteSpecializationChanged;
 
-        public event DictionaryItemChangedEventHandler<SpecializationSlotType, Specialization>? SpecializationChanged;
+        public event DictionaryItemChangedEventHandler<SpecializationSlotType, Specialization?>? SpecializationChanged;
 
-        public event DictionaryItemChangedEventHandler<LegendSlotType, Legend>? LegendChanged;
+        public event DictionaryItemChangedEventHandler<LegendSlotType, Legend?>? LegendChanged;
 
-        public event DictionaryItemChangedEventHandler<SkillSlotType, Skill> SkillChanged;
+        public event DictionaryItemChangedEventHandler<SkillSlotType, Skill?> SkillChanged;
+
+        public object? this[TemplateSlots slot] => slot switch
+        {
+            TemplateSlots.Profession => Profession,
+            TemplateSlots.Race => Race,
+
+            TemplateSlots.Specialization1 => Specializations[SpecializationSlotType.Line_1]?.Specialization,
+            TemplateSlots.Specialization1_MinorTrait => Specializations[SpecializationSlotType.Line_1]?.Traits[TraitTierType.Adept],
+            TemplateSlots.Specialization1_MajorTrait => Specializations[SpecializationSlotType.Line_1]?.Traits[TraitTierType.Master],
+            TemplateSlots.Specialization1_GrandmasterTrait => Specializations[SpecializationSlotType.Line_1]?.Traits[TraitTierType.GrandMaster],
+
+            TemplateSlots.Specialization2 => Specializations[SpecializationSlotType.Line_2]?.Specialization,
+            TemplateSlots.Specialization2_MinorTrait => Specializations[SpecializationSlotType.Line_2]?.Traits[TraitTierType.Adept],
+            TemplateSlots.Specialization2_MajorTrait => Specializations[SpecializationSlotType.Line_2]?.Traits[TraitTierType.Master],
+            TemplateSlots.Specialization2_GrandmasterTrait => Specializations[SpecializationSlotType.Line_2]?.Traits[TraitTierType.GrandMaster],
+
+            TemplateSlots.Specialization3 => Specializations[SpecializationSlotType.Line_3]?.Specialization,
+            TemplateSlots.Specialization3_MinorTrait => Specializations[SpecializationSlotType.Line_3]?.Traits[TraitTierType.Adept],
+            TemplateSlots.Specialization3_MajorTrait => Specializations[SpecializationSlotType.Line_3]?.Traits[TraitTierType.Master],
+            TemplateSlots.Specialization3_GrandmasterTrait => Specializations[SpecializationSlotType.Line_3]?.Traits[TraitTierType.GrandMaster],
+
+            TemplateSlots.TerrestrialElite => Skills[SkillSlotType.Active | SkillSlotType.Terrestrial | SkillSlotType.Heal],
+            TemplateSlots.TerrestrialHeal => Skills[SkillSlotType.Active | SkillSlotType.Terrestrial | SkillSlotType.Heal],
+            TemplateSlots.TerrestrialUtility1 => Skills[SkillSlotType.Active | SkillSlotType.Terrestrial | SkillSlotType.Utility_1],
+            TemplateSlots.TerrestrialUtility2 => Skills[SkillSlotType.Active | SkillSlotType.Terrestrial | SkillSlotType.Utility_2],
+            TemplateSlots.TerrestrialUtility3 => Skills[SkillSlotType.Active | SkillSlotType.Terrestrial | SkillSlotType.Utility_3],
+
+            TemplateSlots.AquaticElite => Skills[SkillSlotType.Active | SkillSlotType.Aquatic | SkillSlotType.Heal],
+            TemplateSlots.AquaticHeal => Skills[SkillSlotType.Active | SkillSlotType.Aquatic | SkillSlotType.Heal],
+            TemplateSlots.AquaticUtility1 => Skills[SkillSlotType.Active | SkillSlotType.Aquatic | SkillSlotType.Utility_1],
+            TemplateSlots.AquaticUtility2 => Skills[SkillSlotType.Active | SkillSlotType.Aquatic | SkillSlotType.Utility_2],
+            TemplateSlots.AquaticUtility3 => Skills[SkillSlotType.Active | SkillSlotType.Aquatic | SkillSlotType.Utility_3],
+
+            TemplateSlots.InactiveTerrestrialElite => Skills[SkillSlotType.Inactive | SkillSlotType.Terrestrial | SkillSlotType.Heal],
+            TemplateSlots.InactiveTerrestrialHeal => Skills[SkillSlotType.Inactive | SkillSlotType.Terrestrial | SkillSlotType.Heal],
+            TemplateSlots.InactiveTerrestrialUtility1 => Skills[SkillSlotType.Inactive | SkillSlotType.Terrestrial | SkillSlotType.Utility_1],
+            TemplateSlots.InactiveTerrestrialUtility2 => Skills[SkillSlotType.Inactive | SkillSlotType.Terrestrial | SkillSlotType.Utility_2],
+            TemplateSlots.InactiveTerrestrialUtility3 => Skills[SkillSlotType.Inactive | SkillSlotType.Terrestrial | SkillSlotType.Utility_3],
+
+            TemplateSlots.InactiveAquaticElite => Skills[SkillSlotType.Inactive | SkillSlotType.Aquatic | SkillSlotType.Heal],
+            TemplateSlots.InactiveAquaticHeal => Skills[SkillSlotType.Inactive | SkillSlotType.Aquatic | SkillSlotType.Heal],
+            TemplateSlots.InactiveAquaticUtility1 => Skills[SkillSlotType.Inactive | SkillSlotType.Aquatic | SkillSlotType.Utility_1],
+            TemplateSlots.InactiveAquaticUtility2 => Skills[SkillSlotType.Inactive | SkillSlotType.Aquatic | SkillSlotType.Utility_2],
+            TemplateSlots.InactiveAquaticUtility3 => Skills[SkillSlotType.Inactive | SkillSlotType.Aquatic | SkillSlotType.Utility_3],
+
+            TemplateSlots.TerrestrialPet1 => Pets[PetSlotType.Terrestrial_1],
+            TemplateSlots.TerrestrialPet2 => Pets[PetSlotType.Terrestrial_2],
+            TemplateSlots.AquaticPet1 => Pets[PetSlotType.Aquatic_1],
+            TemplateSlots.AquaticPet2 => Pets[PetSlotType.Aquatic_2],
+
+            TemplateSlots.TerrestrialLegend1 => Legends[LegendSlotType.TerrestrialInactive],
+            TemplateSlots.TerrestrialLegend2 => Legends[LegendSlotType.TerrestrialActive],
+            TemplateSlots.AquaticLegend1 => Legends[LegendSlotType.AquaticInactive],
+            TemplateSlots.AquaticLegend2 => Legends[LegendSlotType.AquaticActive],
+
+            TemplateSlots.MainHand => Weapons[TemplateSlotType.MainHand],
+            TemplateSlots.OffHand => Weapons[TemplateSlotType.OffHand],
+            TemplateSlots.Aquatic => Weapons[TemplateSlotType.Aquatic],
+            TemplateSlots.AltMainHand => Weapons[TemplateSlotType.AltMainHand],
+            TemplateSlots.AltOffHand => Weapons[TemplateSlotType.AltOffHand],
+            TemplateSlots.AltAquatic => Weapons[TemplateSlotType.AltAquatic],
+
+            TemplateSlots.Head => Armors[TemplateSlotType.Head],
+            TemplateSlots.Shoulder => Armors[TemplateSlotType.Shoulder],
+            TemplateSlots.Chest => Armors[TemplateSlotType.Chest],
+            TemplateSlots.Hand => Armors[TemplateSlotType.Hand],
+            TemplateSlots.Leg => Armors[TemplateSlotType.Leg],
+            TemplateSlots.Foot => Armors[TemplateSlotType.Foot],
+            TemplateSlots.AquaBreather => Armors[TemplateSlotType.AquaBreather],
+
+            TemplateSlots.Back => Jewellery[TemplateSlotType.Back],
+            TemplateSlots.Amulet => Jewellery[TemplateSlotType.Amulet],
+            TemplateSlots.Accessory_1 => Jewellery[TemplateSlotType.Accessory_1],
+            TemplateSlots.Accessory_2 => Jewellery[TemplateSlotType.Accessory_2],
+            TemplateSlots.Ring_1 => Jewellery[TemplateSlotType.Ring_1],
+            TemplateSlots.Ring_2 => Jewellery[TemplateSlotType.Ring_2],
+
+            TemplateSlots.Nourishment => Jewellery[TemplateSlotType.Nourishment],
+            TemplateSlots.Enhancement => Jewellery[TemplateSlotType.Enhancement],
+            TemplateSlots.PowerCore => Jewellery[TemplateSlotType.PowerCore],
+            TemplateSlots.PveRelic => Jewellery[TemplateSlotType.PveRelic],
+
+            TemplateSlots.PvpAmulet => Jewellery[TemplateSlotType.PvpAmulet],
+            TemplateSlots.PvpRelic => Jewellery[TemplateSlotType.PvpRelic],
+
+            _ => null,
+        };
 
         public Template()
         {
@@ -225,7 +334,7 @@ namespace Kenedia.Modules.BuildsManager.Models
             _name = name;
             _race = race ?? Races.None;
             _profession = profession ?? ProfessionType.Guardian;
-            _savedEliteSpecialization = BuildsManager.Data.Professions[Profession]?.Specializations.FirstOrDefault(e => e.Value.Id == elitespecId).Value;
+            _savedEliteSpecialization = Data.Professions[Profession]?.Specializations.FirstOrDefault(e => e.Value.Id == elitespecId).Value;
             _description = description;
             Tags = tags ?? _tags;
 
@@ -247,7 +356,7 @@ namespace Kenedia.Modules.BuildsManager.Models
         public ProfessionType Profession { get => _profession; set => Common.SetProperty(ref _profession, value, OnProfessionChanged, _triggerEvents); }
 
         [DataMember]
-        public Races Race { get => _race; set => SetProperty(ref _race, value, TemplateSlots.Race, OnRaceChanged, _triggerEvents); }
+        public Races Race { get => _race; set => Common.SetProperty(ref _race, value, OnRaceChanged, _triggerEvents); }
 
         public UniqueObservableCollection<string> Tags { get => _tags; private set => Common.SetProperty(ref _tags, value, OnTagsListChanged); }
 
@@ -657,7 +766,7 @@ namespace Kenedia.Modules.BuildsManager.Models
             if (!_triggerEvents)
                 return;
 
-            GearChanged?.Invoke(this, e);
+            GearCodeChanged?.Invoke(this, e);
 
             await Save();
         }
@@ -821,7 +930,7 @@ namespace Kenedia.Modules.BuildsManager.Models
         {
             if (!_triggerEvents) return;
 
-            BuildChanged?.Invoke(this, e);
+            BuildCodeChanged?.Invoke(this, e);
             await Save();
         }
 
@@ -830,7 +939,7 @@ namespace Kenedia.Modules.BuildsManager.Models
             if (!_triggerEvents) return;
 
             SkillChanged?.Invoke(this, e);
-            BuildChanged?.Invoke(this, e);
+            BuildCodeChanged?.Invoke(this, e);
 
             await Save();
         }
@@ -838,7 +947,7 @@ namespace Kenedia.Modules.BuildsManager.Models
         private async void Pets_ItemChanged(object sender, DictionaryItemChangedEventArgs<PetSlotType, Pet?> e)
         {
             if (!_triggerEvents) return;
-            BuildChanged?.Invoke(this, e);
+            BuildCodeChanged?.Invoke(this, e);
             await Save();
         }
 
@@ -846,14 +955,14 @@ namespace Kenedia.Modules.BuildsManager.Models
         {
             if (!_triggerEvents) return;
 
-            BuildChanged?.Invoke(this, e);
+            BuildCodeChanged?.Invoke(this, e);
             await Save();
         }
 
         private async void Specializations_ItemPropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
             if (!_triggerEvents) return;
-            BuildChanged?.Invoke(this, e);
+            BuildCodeChanged?.Invoke(this, e);
             await Save();
         }
 
@@ -876,7 +985,7 @@ namespace Kenedia.Modules.BuildsManager.Models
             _triggerEvents = temp;
             if (!_triggerEvents) return;
             ProfessionChanged?.Invoke(this, e);
-            BuildChanged?.Invoke(this, e);
+            BuildCodeChanged?.Invoke(this, e);
 
             await Save();
         }
@@ -886,42 +995,42 @@ namespace Kenedia.Modules.BuildsManager.Models
             switch (Profession.GetArmorType())
             {
                 case Gw2Sharp.WebApi.V2.Models.ItemWeightType.Heavy:
-                    AquaBreather.Armor = BuildsManager.Data.Armors[79895];
-                    Head.Armor = BuildsManager.Data.Armors[80384];
-                    Shoulder.Armor = BuildsManager.Data.Armors[80435];
-                    Chest.Armor = BuildsManager.Data.Armors[80254];
-                    Hand.Armor = BuildsManager.Data.Armors[80205];
-                    Leg.Armor = BuildsManager.Data.Armors[80277];
-                    Foot.Armor = BuildsManager.Data.Armors[80557];
+                    AquaBreather.Armor = Data.Armors[79895];
+                    Head.Armor = Data.Armors[80384];
+                    Shoulder.Armor = Data.Armors[80435];
+                    Chest.Armor = Data.Armors[80254];
+                    Hand.Armor = Data.Armors[80205];
+                    Leg.Armor = Data.Armors[80277];
+                    Foot.Armor = Data.Armors[80557];
                     break;
                 case Gw2Sharp.WebApi.V2.Models.ItemWeightType.Medium:
-                    AquaBreather.Armor = BuildsManager.Data.Armors[79838];
-                    Head.Armor = BuildsManager.Data.Armors[80296];
-                    Shoulder.Armor = BuildsManager.Data.Armors[80145];
-                    Chest.Armor = BuildsManager.Data.Armors[80578];
-                    Hand.Armor = BuildsManager.Data.Armors[80161];
-                    Leg.Armor = BuildsManager.Data.Armors[80252];
-                    Foot.Armor = BuildsManager.Data.Armors[80281];
+                    AquaBreather.Armor = Data.Armors[79838];
+                    Head.Armor = Data.Armors[80296];
+                    Shoulder.Armor = Data.Armors[80145];
+                    Chest.Armor = Data.Armors[80578];
+                    Hand.Armor = Data.Armors[80161];
+                    Leg.Armor = Data.Armors[80252];
+                    Foot.Armor = Data.Armors[80281];
                     break;
                 case Gw2Sharp.WebApi.V2.Models.ItemWeightType.Light:
-                    AquaBreather.Armor = BuildsManager.Data.Armors[79873];
-                    Head.Armor = BuildsManager.Data.Armors[80248];
-                    Shoulder.Armor = BuildsManager.Data.Armors[80131];
-                    Chest.Armor = BuildsManager.Data.Armors[80190];
-                    Hand.Armor = BuildsManager.Data.Armors[80111];
-                    Leg.Armor = BuildsManager.Data.Armors[80356];
-                    Foot.Armor = BuildsManager.Data.Armors[80399];
+                    AquaBreather.Armor = Data.Armors[79873];
+                    Head.Armor = Data.Armors[80248];
+                    Shoulder.Armor = Data.Armors[80131];
+                    Chest.Armor = Data.Armors[80190];
+                    Hand.Armor = Data.Armors[80111];
+                    Leg.Armor = Data.Armors[80356];
+                    Foot.Armor = Data.Armors[80399];
                     break;
             }
         }
 
-        private async void OnRaceChanged(object sender, TemplateChangedEventArgs<Races> e)
+        private async void OnRaceChanged(object sender, ValueChangedEventArgs<Races> e)
         {
             RemoveInvalidBuildCombinations();
 
             if (Skills.WipeInvalidRacialSkills(Race))
             {
-                BuildChanged?.Invoke(this, e);
+                BuildCodeChanged?.Invoke(this, e);
             }
 
             if (!_triggerEvents) return;
@@ -1334,7 +1443,7 @@ namespace Kenedia.Modules.BuildsManager.Models
             _loaded = true;
         }
 
-        private async void OnSpecializationChanged(object sender, DictionaryItemChangedEventArgs<SpecializationSlotType, Specialization> e)
+        private async void OnSpecializationChanged(object sender, DictionaryItemChangedEventArgs<SpecializationSlotType, Specialization?> e)
         {
             if (!_triggerEvents) return;
 
@@ -1442,7 +1551,7 @@ namespace Kenedia.Modules.BuildsManager.Models
         {
             // Check and clean invalid Weapons?
             var wipeWeapons = new List<TemplateSlotType>();
-            var professionWeapons = BuildsManager.Data.Professions[Profession]?.Weapons.Select(e => e.Value.Type.ToItemWeaponType()).ToList() ?? new();
+            var professionWeapons = Data.Professions[Profession]?.Weapons.Select(e => e.Value.Type.ToItemWeaponType()).ToList() ?? new();
 
             foreach (var slot in Weapons)
             {
@@ -1545,7 +1654,7 @@ namespace Kenedia.Modules.BuildsManager.Models
             await Save();
         }
 
-        private bool SetProperty<T>(ref T property, T value, TemplateSlots slot, Action<object, TemplateChangedEventArgs<T>> onChanged, bool triggerEvents = true)
+        private bool SetPropertyX<T>(ref T property, T value, TemplateSlots slot, Action<object, TemplateChangedEventArgs<T>> onChanged, bool triggerEvents = true)
         {
             var temp = property;
             if (Common.SetProperty(ref property, value))

@@ -10,11 +10,9 @@ using Kenedia.Modules.BuildsManager.Models;
 using Kenedia.Modules.BuildsManager.DataModels.Items;
 using Blish_HUD.Controls;
 using Kenedia.Modules.Core.Extensions;
-using Kenedia.Modules.BuildsManager.Extensions;
 using Kenedia.Modules.BuildsManager.TemplateEntries;
 using static Kenedia.Modules.BuildsManager.Controls.Selection.SelectionPanel;
 using Kenedia.Modules.BuildsManager.Res;
-using Microsoft.Win32;
 
 namespace Kenedia.Modules.BuildsManager.Controls.GearPage.GearSlots
 {

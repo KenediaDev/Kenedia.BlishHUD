@@ -7,6 +7,20 @@ using System;
 
 namespace Kenedia.Modules.Core.Controls
 {
+    public class CornerIconContainer : AnchoredContainer
+    {
+
+    }
+
+    public class CornerNotificationBadge : NotificationBadge
+    {
+
+    }
+    public class CornerLoadingSpinner : LoadingSpinner
+    {
+
+    }
+
     public class AnchoredContainer : FramedContainer
     {
         private Control _anchor;

@@ -6,8 +6,9 @@ namespace Kenedia.Modules.BuildsManager.Models
 {
     public class Paths : PathCollection
     {
-        public Paths()
+        public Paths() : base()
         {
+            
         }
 
         public Paths(DirectoriesManager directoriesManager, string moduleName) : base(directoriesManager, moduleName)

@@ -6,7 +6,6 @@ using ItemType = Kenedia.Modules.Core.DataModels.ItemType;
 using Kenedia.Modules.Core.Utility;
 using System.Runtime.Serialization;
 using Kenedia.Modules.Core.Extensions;
-using Kenedia.Modules.BuildsManager.Extensions;
 
 namespace Kenedia.Modules.BuildsManager.DataModels.Items
 {

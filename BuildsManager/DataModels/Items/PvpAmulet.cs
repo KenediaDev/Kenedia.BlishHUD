@@ -1,7 +1,6 @@
 ﻿using Gw2Sharp.WebApi.V2.Models;
 using Kenedia.Modules.BuildsManager.Extensions;
 using Kenedia.Modules.BuildsManager.Models.Templates;
-using Kenedia.Modules.Core.Utility;
 using System;
 using System.Collections.Generic;
 using System.Linq;

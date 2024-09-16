@@ -9,7 +9,6 @@ using Kenedia.Modules.Core.Utility;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
-using System.Diagnostics;
 
 namespace Kenedia.Modules.Core.Controls
 {

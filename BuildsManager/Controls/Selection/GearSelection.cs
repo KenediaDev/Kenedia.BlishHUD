@@ -5,15 +5,11 @@ using Kenedia.Modules.BuildsManager.Models.Templates;
 using Kenedia.Modules.Core.Extensions;
 using Kenedia.Modules.Core.Models;
 using Kenedia.Modules.Core.Utility;
-using Microsoft.IdentityModel.Tokens;
-using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Diagnostics;
 using System.Linq;
 using static Kenedia.Modules.BuildsManager.Controls.Selection.Selectable;
 using static Kenedia.Modules.BuildsManager.DataModels.Professions.Weapon;
-using static System.Net.Mime.MediaTypeNames;
 
 namespace Kenedia.Modules.BuildsManager.Controls.Selection
 {

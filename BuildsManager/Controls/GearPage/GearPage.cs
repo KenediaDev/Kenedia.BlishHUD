@@ -4,7 +4,6 @@ using Blish_HUD.Input;
 using Kenedia.Modules.BuildsManager.Models.Templates;
 using Kenedia.Modules.Core.Controls;
 using Kenedia.Modules.Core.Models;
-using Kenedia.Modules.Core.Services;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -18,7 +17,6 @@ using Kenedia.Modules.BuildsManager.Controls.GearPage.GearSlots;
 using Kenedia.Modules.BuildsManager.Extensions;
 using Kenedia.Modules.BuildsManager.Res;
 using Kenedia.Modules.Core.Utility;
-using System.Diagnostics;
 
 namespace Kenedia.Modules.BuildsManager.Controls.GearPage
 {

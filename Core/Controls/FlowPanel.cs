@@ -10,9 +10,7 @@ using System.Collections.Generic;
 using Kenedia.Modules.Core.Services;
 using System.Threading.Tasks;
 using Blish_HUD.Controls;
-using System.Diagnostics;
 using Blish_HUD.Input;
-using System.Text.RegularExpressions;
 using Microsoft.Xna.Framework.Input;
 using Kenedia.Modules.Core.Extensions;
 

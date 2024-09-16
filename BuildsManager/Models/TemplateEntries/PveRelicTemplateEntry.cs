@@ -5,7 +5,6 @@ using Kenedia.Modules.BuildsManager.Utility;
 using Kenedia.Modules.Core.Utility;
 using Kenedia.Modules.Core.Models;
 using System;
-using System.Diagnostics;
 
 namespace Kenedia.Modules.BuildsManager.TemplateEntries
 {

@@ -3,7 +3,6 @@ using Microsoft.Xna.Framework;
 using MonoGame.Extended.BitmapFonts;
 using System;
 using System.Collections.Generic;
-using System.Text;
 using Kenedia.Modules.Core.Controls;
 using Kenedia.Modules.Core.Utility;
 using static Blish_HUD.ContentService;

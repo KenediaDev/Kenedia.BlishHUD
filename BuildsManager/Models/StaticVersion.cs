@@ -3,13 +3,8 @@ using Newtonsoft.Json.Serialization;
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Threading.Tasks;
 using Version = SemVer.Version;
-using Kenedia.Modules.BuildsManager.Services;
 using Kenedia.Modules.Core.Models;
-using Kenedia.Modules.Core.Attributes;
-using Kenedia.Modules.Core.ContractResolver;
-using SemVer;
 
 namespace Kenedia.Modules.BuildsManager.Models
 {

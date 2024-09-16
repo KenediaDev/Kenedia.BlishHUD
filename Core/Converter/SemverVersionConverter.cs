@@ -1,7 +1,5 @@
 ﻿using Newtonsoft.Json;
 using System;
-using System.Collections.Generic;
-using System.Text;
 using Version = SemVer.Version;
 
 namespace Kenedia.Modules.Core.Converter

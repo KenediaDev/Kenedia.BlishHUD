@@ -78,8 +78,8 @@ namespace Kenedia.Modules.BuildsManager.Models
             if (e.OldValue is not null)
             {
                 e.OldValue.RaceChanged -= On_RaceChanged;
-                e.OldValue.BuildChanged -= On_BuildChanged;
-                e.OldValue.GearChanged -= On_GearChanged;
+                e.OldValue.BuildCodeChanged -= On_BuildChanged;
+                e.OldValue.GearCodeChanged -= On_GearChanged;
                 e.OldValue.ProfessionChanged -= On_ProfessionChanged;
                 e.OldValue.EliteSpecializationChanged -= On_EliteSpecializationChanged;
                 e.OldValue.SpecializationChanged -= On_SpecializationChanged;
@@ -103,8 +103,8 @@ namespace Kenedia.Modules.BuildsManager.Models
         private void RegisterEvents(Template template)
         {
             template.RaceChanged += On_RaceChanged;
-            template.BuildChanged += On_BuildChanged;
-            template.GearChanged += On_GearChanged;
+            template.BuildCodeChanged += On_BuildChanged;
+            template.GearCodeChanged += On_GearChanged;
             template.ProfessionChanged += On_ProfessionChanged;
             template.EliteSpecializationChanged += On_EliteSpecializationChanged;
             template.SpecializationChanged += On_SpecializationChanged;

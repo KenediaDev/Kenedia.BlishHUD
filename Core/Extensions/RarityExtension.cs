@@ -1,7 +1,4 @@
 ﻿using Microsoft.Xna.Framework;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using ItemRarity = Gw2Sharp.WebApi.V2.Models.ItemRarity;
 
 namespace Kenedia.Modules.Core.Extensions

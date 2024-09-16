@@ -12,9 +12,8 @@ using Kenedia.Modules.BuildsManager.Views;
 using Kenedia.Modules.BuildsManager.Models;
 using System.Collections.Generic;
 using System.Linq;
-using Kenedia.Modules.BuildsManager.Res;
-using System.Diagnostics;
 using Kenedia.Modules.BuildsManager.Extensions;
+using Kenedia.Modules.BuildsManager.Services;
 
 namespace Kenedia.Modules.BuildsManager.Controls.Selection
 {
@@ -37,14 +36,18 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
         private SelectionTypes _selectionType = SelectionTypes.Templates;
 
         private Control _anchor;
+        private MainWindow _mainWindow;
 
-        public SelectionPanel(TemplatePresenter templatePresenter, MainWindow mainWindow)
+        public SelectionPanel(TemplatePresenter templatePresenter, TemplateCollection templates, TemplateTags templateTags, Data data)
         {
             TemplatePresenter = templatePresenter;
-            MainWindow = mainWindow;
+
+            _pointer = new();
 
             ClipsBounds = false;
-            _pointer = new();
+            Location = new(0, 0);
+            HeightSizingMode = SizingMode.Fill;
+            Width = 375;
 
             _gearSelection = new(TemplatePresenter)
             {
@@ -53,7 +56,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
                 ZIndex = ZIndex,
             };
 
-            _buildSelection = new()
+            _buildSelection = new(templates, templateTags, data)
             {
                 Parent = this,
                 Visible = true,
@@ -93,7 +96,15 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
 
         public TemplatePresenter TemplatePresenter { get; private set; }
 
-        public MainWindow MainWindow { get; set; }
+        public MainWindow MainWindow
+        {
+            get => _mainWindow;
+            set
+            {
+                _mainWindow = value;
+                Parent = _mainWindow;
+            }
+        }
 
         public string Title { get; set; }
 
@@ -127,7 +138,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
 
                 _pointer.Anchor = _anchor =
                         _selectionType == SelectionTypes.Templates ? _mainAnchor :
-                        _subAnchor;                
+                        _subAnchor;
             }
         }
 
@@ -197,7 +208,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
 
         public void SelectFirstTemplate()
         {
-            if(_buildSelection?.GetFirstTemplateSelectable() is TemplateSelectable selectable)
+            if (_buildSelection?.GetFirstTemplateSelectable() is TemplateSelectable selectable)
             {
                 SetTemplateAnchor(selectable);
                 return;
@@ -220,7 +231,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
         public void ResetAnchor()
         {
             SelectionType = SelectionTypes.Templates;
-            SetAnchor(_buildSelection.Templates.FirstOrDefault(e => e.Template == MainWindow.Template));
+            SetAnchor(_buildSelection.TemplateSelectables.FirstOrDefault(e => e.Template == MainWindow.Template));
         }
 
         public override void RecalculateLayout()

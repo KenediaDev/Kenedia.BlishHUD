@@ -7,15 +7,12 @@ using System;
 using System.ComponentModel.Composition;
 using System.Threading.Tasks;
 using Blish_HUD;
-using Kenedia.Modules.Core.ContractResolver;
 using Kenedia.Modules.Core.Views;
 using Blish_HUD.Controls.Extern;
 using Microsoft.Xna.Framework.Input;
 using Blish_HUD.Controls;
 using Blish_HUD.Gw2Mumble;
-using Newtonsoft.Json;
 using Blish_HUD.GameIntegration;
-using System.Diagnostics;
 
 namespace Kenedia.Modules.Core.Models
 {
