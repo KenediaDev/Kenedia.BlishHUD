@@ -173,7 +173,7 @@ namespace Kenedia.Modules.BuildsManager.Models
 
         private void On_SkillChanged(object sender, DictionaryItemChangedEventArgs<SkillSlotType, Skill> e)
         {
-            SkillChanged?.Invoke(sender, e);
+            //SkillChanged?.Invoke(sender, e);
             BuildCodeChanged?.Invoke(sender, e);
         }
 

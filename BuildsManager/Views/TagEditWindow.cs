@@ -1,5 +1,5 @@
 ﻿using Blish_HUD.Content;
-using Kenedia.Modules.BuildsManager.Controls.AboutPage;
+using Kenedia.Modules.BuildsManager.Controls_Old.AboutPage;
 using Kenedia.Modules.BuildsManager.Models;
 using Kenedia.Modules.BuildsManager.Services;
 using Kenedia.Modules.Core.Controls;
