@@ -336,6 +336,7 @@
     <Compile Include="Controls\SkillControl.cs" />
     <Compile Include="Controls\SkillsBar.cs" />
     <Compile Include="Controls\SkillTooltip.cs" />
+    <Compile Include="Controls\SkillTooltipContentControl.cs" />
     <Compile Include="Controls\TabbedRegion.cs" />
     <Compile Include="Controls\TabbedRegionTab.cs" />
     <Compile Include="Controls\Tabs\BuildTab.cs" />
