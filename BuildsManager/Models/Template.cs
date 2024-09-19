@@ -1427,7 +1427,7 @@ namespace Kenedia.Modules.BuildsManager.Models
 
         public void SetSpecialization(SpecializationSlotType slot, Specialization? newSpecialization)
         {
-            TraitSlotTrait[]? traits = null; 
+            TraitSlotTrait[]? traits = null;
             SetSpecialization(slot, newSpecialization, traits);
         }
 
@@ -1438,16 +1438,13 @@ namespace Kenedia.Modules.BuildsManager.Models
                 var previousSpecialization = spec.Specialization;
                 spec.Specialization = newSpecialization;
 
-                if (newSpecialization is not null)
+                if (traits is not null && newSpecialization is not null)
                 {
-                    if (traits is not null)
+                    foreach (var t in traits)
                     {
-                        foreach (var t in traits)
+                        if (t is not null)
                         {
-                            if (t is not null)
-                            {
-                                SetTrait(spec, t.Trait, t.Slot);
-                            }
+                            SetTrait(spec, t.Trait, t.Slot);
                         }
                     }
                 }
@@ -1459,6 +1456,11 @@ namespace Kenedia.Modules.BuildsManager.Models
                     {
                         SetTrait(spec, null, slots[i]);
                     }
+                }
+
+                if (slot is SpecializationSlotType.Line_3)
+                {
+                    _savedEliteSpecialization = newSpecialization;
                 }
 
                 OnSpecializationChanged(this, new(slot, previousSpecialization, newSpecialization));
