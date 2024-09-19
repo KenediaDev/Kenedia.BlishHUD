@@ -34,6 +34,9 @@ using Kenedia.Modules.BuildsManager.Controls_Old.BuildPage;
 using System.Collections.Generic;
 using System.ServiceModel;
 using Blish_HUD.Modules.Managers;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.TextBox;
+using Kenedia.Modules.BuildsManager.Controls.Tabs;
+using System.Linq;
 
 namespace Kenedia.Modules.BuildsManager
 {
@@ -50,7 +53,6 @@ namespace Kenedia.Modules.BuildsManager
 
         private double _tick;
         private CancellationTokenSource _cancellationTokenSource;
-        private CancellationTokenSource _fileAccessTokenSource;
         private CornerIcon _cornerIcon;
         private CornerIconContainer _cornerContainer;
         private NotificationBadge _notificationBadge;
@@ -70,7 +72,9 @@ namespace Kenedia.Modules.BuildsManager
 
             Paths = ServiceProvider.GetRequiredService<Paths>();
             Data = ServiceProvider.GetRequiredService<Data>();
-            CreateCornerIcons();
+            TemplatePresenter = ServiceProvider.GetRequiredService<TemplatePresenter>();
+
+            //CreateCornerIcons();
         }
 
         public void ConfigureServices()
@@ -88,14 +92,18 @@ namespace Kenedia.Modules.BuildsManager
 
             services.AddSingleton(Gw2ApiManager);
 
+            services.AddTransient<MainWindow>();
+            services.AddTransient<SelectionPanel>();
+            services.AddTransient<AboutTab>();
+            services.AddTransient<BuildTab>();
+            services.AddTransient<GearTab>();
 
-            services.AddSingleton<MainWindow>();
-            services.AddSingleton<SelectionPanel>();
-            services.AddSingleton<AboutPage>();
-            services.AddSingleton<GearPage>();
-            services.AddSingleton<BuildPage>();
+            services.AddSingleton<NotificationBadge>();
+            services.AddSingleton<CornerIconContainer>();
+            services.AddSingleton<CornerIcon>();
 
             services.AddSingleton<Module>(this);
+            CreateCornerIcons(services);
 
             ServiceProvider = services.BuildServiceProvider();
         }
@@ -111,7 +119,9 @@ namespace Kenedia.Modules.BuildsManager
             TemplatesLoadedDone?.Invoke(this, e);
         }
 
-        public Template SelectedTemplate => MainWindow?.Template ?? null;
+        public Template? SelectedTemplate => TemplatePresenter.Template;
+
+        public TemplatePresenter TemplatePresenter { get; private set; }
 
         protected override void DefineSettings(SettingCollection settings)
         {
@@ -125,17 +135,19 @@ namespace Kenedia.Modules.BuildsManager
         {
             base.Initialize();
 
-
             Logger.Info($"Starting {Name} v." + Version.BaseVersion());
 
             Data.Loaded += Data_Loaded;
         }
 
-        private void Data_Loaded(object sender, EventArgs e)
+        private async void Data_Loaded(object sender, EventArgs e)
         {
-            if (!TemplatesLoaded)
-                LoadTemplates();
+            Debug.WriteLine($"Data_Loaded");
 
+            if (!TemplatesLoaded)
+                await LoadTemplates();
+
+            LoadGUI();
         }
 
         protected override async void OnLocaleChanged(object sender, Blish_HUD.ValueChangedEventArgs<Locale> e)
@@ -213,6 +225,8 @@ namespace Kenedia.Modules.BuildsManager
 
         protected override void LoadGUI()
         {
+
+            Debug.WriteLine($"TemplatesLoaded: {TemplatesLoaded} Data.IsLoaded : {Data.IsLoaded}");
             if (!Data.IsLoaded || !TemplatesLoaded) return;
 
             base.LoadGUI();
@@ -220,10 +234,15 @@ namespace Kenedia.Modules.BuildsManager
             Logger.Info($"Building UI for {Name}");
 
             MainWindow = ServiceProvider.GetRequiredService<MainWindow>();
-            
+
 #if DEBUG
             MainWindow.Show();
 #endif
+
+            var templates = ServiceProvider.GetRequiredService<TemplateCollection>();
+            templates?.FirstOrDefault()?.Load();
+
+            TemplatePresenter.Template = templates?.FirstOrDefault();
         }
 
         protected override void UnloadGUI()
@@ -250,67 +269,64 @@ namespace Kenedia.Modules.BuildsManager
         {
             if (e.NewValue)
             {
-                CreateCornerIcons();
+                //CreateCornerIcons();
+                _cornerIcon.Parent = _cornerContainer.Parent = GameService.Graphics.SpriteScreen;
             }
             else
             {
-                DeleteCornerIcons();
+                //DeleteCornerIcons();
+
+                _cornerIcon.Parent = _cornerContainer.Parent = null;
             }
         }
 
-        private void LoadTemplates()
+        private async Task LoadTemplates()
         {
             var templates = ServiceProvider.GetService<TemplateCollection>();
             Logger.Info($"LoadTemplates");
 
-            _ = Task.Run(() =>
+            TemplatesLoaded = false;
+            var time = new Stopwatch();
+            time.Start();
+
+            try
             {
-                TemplatesLoaded = false;
-                var time = new Stopwatch();
-                time.Start();
+                string[] templateFiles = Directory.GetFiles(Paths.TemplatesPath);
 
-                try
+                templates.Clear();
+
+                JsonSerializerSettings settings = new();
+                settings.Converters.Add(new TemplateConverter());
+
+                Logger.Info($"Loading {templateFiles.Length} Templates ...");
+                foreach (string file in templateFiles)
                 {
-                    _fileAccessTokenSource?.Cancel();
-                    _fileAccessTokenSource = new CancellationTokenSource();
-                    string[] templateFiles = Directory.GetFiles(Paths.TemplatesPath);
+                    string fileText = File.ReadAllText(file);
+                    var template = JsonConvert.DeserializeObject<Template>(fileText, settings);
 
-                    templates.Clear();
-
-                    JsonSerializerSettings settings = new();
-                    settings.Converters.Add(new TemplateConverter());
-
-                    Logger.Info($"Loading {templateFiles.Length} Templates ...");
-                    foreach (string file in templateFiles)
+                    if (template is not null)
                     {
-                        string fileText = File.ReadAllText(file);
-                        var template = JsonConvert.DeserializeObject<Template>(fileText, settings);
-
-                        if (template is not null)
-                        {
-                            templates.Add(template);
-                        }
+                        templates.Add(template);
                     }
-
-                    time.Stop();
-                    Logger.Info($"Time to load {templateFiles.Length} templates {time.ElapsedMilliseconds}ms. {templates.Count} out of {templateFiles.Length} templates got loaded.");
-                }
-                catch (Exception ex)
-                {
-                    Logger.Warn(ex.Message);
-                    Logger.Warn($"Loading Templates failed!");
                 }
 
-                TemplatesLoaded = true;
-            });
+                time.Stop();
+                Logger.Info($"Time to load {templateFiles.Length} templates {time.ElapsedMilliseconds}ms. {templates.Count} out of {templateFiles.Length} templates got loaded.");
+            }
+            catch (Exception ex)
+            {
+                Logger.Warn(ex.Message);
+                Logger.Warn($"Loading Templates failed!");
+            }
 
+            TemplatesLoaded = true;
         }
 
-        private void CreateCornerIcons()
+        private void CreateCornerIcons(Microsoft.Extensions.DependencyInjection.ServiceCollection serviceCollection)
         {
-            DeleteCornerIcons();
+            //DeleteCornerIcons();
 
-            _cornerIcon = new CornerIcon()
+            _cornerIcon ??= new CornerIcon()
             {
                 Icon = AsyncTexture2D.FromAssetId(156720),
                 HoverIcon = AsyncTexture2D.FromAssetId(156721),
@@ -319,16 +335,22 @@ namespace Kenedia.Modules.BuildsManager
                 Visible = Settings?.ShowCornerIcon?.Value ?? false,
                 ClickAction = () =>
                 {
-                    //if (!Data.IsLoaded)
-                    //{
-                    //    _ = Task.Run(() => Data.Load(true));
-                    //}
+                    if (!Data.IsLoaded)
+                    {
 
+                        Debug.WriteLine($"Data?.IsLoaded: {Data?.IsLoaded}");
+                        _ = Task.Run(() => Data.Load(true));
+                        return;
+                    }
+
+                    Debug.WriteLine($"SHOW WINDOW");
                     MainWindow?.ToggleWindow();
+
+                    Debug.WriteLine($"{MainWindow?.Visible}");
                 }
             };
 
-            _cornerContainer = new()
+            _cornerContainer ??= new()
             {
                 Parent = GameService.Graphics.SpriteScreen,
                 WidthSizingMode = SizingMode.AutoSize,
@@ -339,7 +361,7 @@ namespace Kenedia.Modules.BuildsManager
                 CaptureInput = CaptureType.Filter,
             };
 
-            _notificationBadge = new NotificationBadge()
+            _notificationBadge ??= new NotificationBadge()
             {
                 Location = new(_cornerIcon.Width - 15, 0),
                 Parent = _cornerContainer,
@@ -351,7 +373,7 @@ namespace Kenedia.Modules.BuildsManager
                 Visible = false,
             };
 
-            _apiSpinner = new LoadingSpinner()
+            _apiSpinner ??= new LoadingSpinner()
             {
                 Location = new Point(0, _notificationBadge.Bottom),
                 Parent = _cornerContainer,
@@ -360,6 +382,11 @@ namespace Kenedia.Modules.BuildsManager
                 Visible = false,
                 CaptureInput = null,
             };
+
+            serviceCollection.AddSingleton(_cornerContainer);
+            serviceCollection.AddSingleton(_cornerIcon);
+            serviceCollection.AddSingleton(_notificationBadge);
+            serviceCollection.AddSingleton(_apiSpinner);
         }
 
         private void DeleteCornerIcons()

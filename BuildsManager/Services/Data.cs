@@ -71,21 +71,16 @@ namespace Kenedia.Modules.BuildsManager.Services
                     //{ 0, null },  // Relic
                 };
 
-        private readonly Paths _paths;
-        private readonly Gw2ApiManager _gw2ApiManager;
-        private readonly Func<NotificationBadge> _notificationBadge;
-        private readonly Func<LoadingSpinner> _spinner;
+        private readonly NotificationBadge _notificationBadge;
+        private readonly LoadingSpinner _spinner;
         private CancellationTokenSource _cancellationTokenSource;
         private bool _isDisposed;
 
-        public Data(Paths paths, Gw2ApiManager gw2ApiManager)
+        public Data(Paths paths, Gw2ApiManager gw2ApiManager, NotificationBadge notificationBadge, LoadingSpinner spinner)
         {
-            _paths = paths;
-            _gw2ApiManager = gw2ApiManager;
-        } 
+            Paths = paths;
+            Gw2ApiManager = gw2ApiManager;
 
-        public Data(Paths paths, Gw2ApiManager gw2ApiManager, Func<Core.Controls.NotificationBadge> notificationBadge, Func<LoadingSpinner> spinner) :this(paths, gw2ApiManager)
-        {
             _notificationBadge = notificationBadge;
             _spinner = spinner;
         }
@@ -169,6 +164,8 @@ namespace Kenedia.Modules.BuildsManager.Services
 
         [EnumeratorMember]
         public ItemMappedDataEntry<Enrichment> Enrichments { get; } = new();
+        public Paths Paths { get; }
+        public Gw2ApiManager Gw2ApiManager { get; }
 
         public IEnumerator<(string name, BaseMappedDataEntry map)> GetEnumerator()
         {
@@ -200,7 +197,7 @@ namespace Kenedia.Modules.BuildsManager.Services
                 return false;
             }
 
-            LoadingSpinner spinner = _spinner?.Invoke();
+            LoadingSpinner spinner = _spinner;
             LastLoadAttempt = Common.Now;
 
             BuildsManager.Logger.Info("Loading data");
@@ -213,7 +210,7 @@ namespace Kenedia.Modules.BuildsManager.Services
                 StaticVersion versions = await StaticHosting.GetStaticVersion();
                 if (versions is null)
                 {
-                    if (_notificationBadge?.Invoke() is NotificationBadge badge)
+                    if (_notificationBadge is NotificationBadge badge)
                     {
                         var endTime = DateTime.Now.AddMinutes(3);
                         badge.AddNotification(new()
@@ -232,8 +229,8 @@ namespace Kenedia.Modules.BuildsManager.Services
                 string loadStatus = string.Empty;
                 foreach (var (name, map) in this)
                 {
-                    string path = Path.Combine(_paths.ModuleDataPath, $"{name}.json");
-                    bool success = await map.LoadAndUpdate(name, versions[name], path, _gw2ApiManager, _cancellationTokenSource.Token);
+                    string path = Path.Combine(Paths.ModuleDataPath, $"{name}.json");
+                    bool success = await map.LoadAndUpdate(name, versions[name], path, Gw2ApiManager, _cancellationTokenSource.Token);
                     failed = failed || !success;
 
                     loadStatus += $"{Environment.NewLine}{name}: {success} [{map?.Version?.ToString() ?? "0.0.0"} | {versions[name].Version}] ";
@@ -246,7 +243,7 @@ namespace Kenedia.Modules.BuildsManager.Services
                 }
                 else
                 {
-                    if (_notificationBadge?.Invoke() is NotificationBadge badge)
+                    if (_notificationBadge is NotificationBadge badge)
                     {
                         string txt = $"Failed to load some data. Click to retry.{Environment.NewLine}Automatic retry at {DateTime.Now.AddMinutes(3):T}{loadStatus}";
                         var endTime = DateTime.Now.AddMinutes(3);

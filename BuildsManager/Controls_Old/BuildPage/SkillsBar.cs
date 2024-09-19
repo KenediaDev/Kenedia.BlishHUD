@@ -95,7 +95,7 @@ namespace Kenedia.Modules.BuildsManager.Controls_Old.BuildPage
                 e.OldValue.LoadedBuildFromCode -= OnLoaded;
                 e.OldValue.TemplateChanged -= On_TemplateChanged;
                 e.OldValue.LegendSlotChanged -= On_LegendSlotChanged;
-                e.OldValue.SkillChanged -= On_SkillChanged;
+                e.OldValue.SkillChanged_OLD -= On_SkillChanged;
             }
 
             foreach(var s in _skillIcons)
@@ -112,7 +112,7 @@ namespace Kenedia.Modules.BuildsManager.Controls_Old.BuildPage
                 e.NewValue.LoadedBuildFromCode += OnLoaded;
                 e.NewValue.TemplateChanged += On_TemplateChanged;
                 e.NewValue.LegendSlotChanged += On_LegendSlotChanged;
-                e.NewValue.SkillChanged += On_SkillChanged;
+                e.NewValue.SkillChanged_OLD += On_SkillChanged;
             }
         }
 

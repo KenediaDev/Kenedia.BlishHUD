@@ -28,7 +28,7 @@ namespace Kenedia.Modules.BuildsManager.Controls_Old.Selection
         private readonly Dropdown _sortBehavior;
         private double _lastShown;
 
-        public BuildSelection(TemplateCollection templates, TemplateTags templateTags, Data data)
+        public BuildSelection(TemplateCollection templates, TemplateTags templateTags, Data data, TemplatePresenter templatePresenter)
         {
             _spinner = new()
             {
@@ -101,7 +101,7 @@ namespace Kenedia.Modules.BuildsManager.Controls_Old.Selection
                             {
                                 string code = await ClipboardUtil.WindowsClipboardService.GetTextAsync();
                                 t.LoadFromCode(code);
-                                BuildsManager.ModuleInstance.MainWindow.Template = t;
+                                TemplatePresenter.Template = t;
                             }
                             catch (Exception)
                             {
@@ -128,6 +128,7 @@ namespace Kenedia.Modules.BuildsManager.Controls_Old.Selection
             Templates = templates;
             TemplateTags = templateTags;
             Data = data;
+            TemplatePresenter = templatePresenter;
         }
 
         public List<TemplateSelectable> TemplateSelectables { get; } = new();
@@ -136,6 +137,7 @@ namespace Kenedia.Modules.BuildsManager.Controls_Old.Selection
         public TemplateCollection Templates { get; }
         public TemplateTags TemplateTags { get; }
         public Data Data { get; }
+        public TemplatePresenter TemplatePresenter { get; }
 
         private void SortBehavior_ValueChanged(object sender, Blish_HUD.Controls.ValueChangedEventArgs e)
         {

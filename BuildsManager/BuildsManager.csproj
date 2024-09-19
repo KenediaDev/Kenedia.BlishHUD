@@ -333,6 +333,9 @@
     <Reference Include="System.Xml.ReaderWriter" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controls\SkillControl.cs" />
+    <Compile Include="Controls\SkillsBar.cs" />
+    <Compile Include="Controls\SkillTooltip.cs" />
     <Compile Include="Controls\TabbedRegion.cs" />
     <Compile Include="Controls\TabbedRegionTab.cs" />
     <Compile Include="Controls\Tabs\BuildTab.cs" />
@@ -354,7 +357,14 @@
     <Compile Include="DataModels\Items\PowerCore.cs" />
     <Compile Include="DataModels\Items\PvpAmulet.cs" />
     <Compile Include="DataModels\Items\Relic.cs" />
+    <Compile Include="Extensions\AttributeTypeExtension.cs" />
     <Compile Include="Extensions\GearSubSlotTypeExtension.cs" />
+    <Compile Include="Extensions\GearTemplateSlotExtension.cs" />
+    <Compile Include="Extensions\ItemWeaponTypeExtension.cs" />
+    <Compile Include="Extensions\SkillSlotTypeExtension.cs" />
+    <Compile Include="Extensions\TemplateSlotsExtension.cs" />
+    <Compile Include="Extensions\VersionExtension.cs" />
+    <Compile Include="Extensions\WeaponTypeExtension.cs" />
     <Compile Include="Interfaces\IBaseApiData.cs" />
     <Compile Include="Controls_Old\BuildPage\LegendSlotSkillSlotCollection.cs" />
     <Compile Include="Controls_Old\BuildPage\ProfessionSpecifics.cs" />

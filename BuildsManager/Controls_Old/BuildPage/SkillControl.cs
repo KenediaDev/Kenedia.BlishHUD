@@ -47,12 +47,12 @@ namespace Kenedia.Modules.BuildsManager.Controls_Old.BuildPage
         {
             if (e.OldValue != null)
             {
-                e.OldValue.SkillChanged -= Skill_Changed;
+                e.OldValue.SkillChanged_OLD -= Skill_Changed;
             }
 
             if (e.NewValue != null)
             {
-                e.NewValue.SkillChanged += Skill_Changed;
+                e.NewValue.SkillChanged_OLD += Skill_Changed;
             }
         }
 

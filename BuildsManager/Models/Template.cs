@@ -23,6 +23,10 @@ using Kenedia.Modules.BuildsManager.Res;
 using System.Collections.ObjectModel;
 using Kenedia.Modules.BuildsManager.Services;
 using Microsoft.Extensions.DependencyInjection;
+using Gw2Sharp;
+using Kenedia.Modules.BuildsManager.Extensions;
+using System.Diagnostics;
+using Kenedia.Modules.BuildsManager.DataModels;
 
 namespace Kenedia.Modules.BuildsManager.Models
 {
@@ -129,6 +133,24 @@ namespace Kenedia.Modules.BuildsManager.Models
         Specialization3_GrandmasterTrait,
     }
 
+    public delegate void SkillChangedEventHandler(object sender, SkillChangedEventArgs e);
+
+    public class SkillChangedEventArgs : EventArgs
+    {
+        public SkillChangedEventArgs(SkillSlotType slot, Skill? skill, Skill? oldSkill = default)
+        {
+            Slot = slot;
+            Skill = skill;
+            OldSkill = oldSkill;
+        }
+
+        public SkillSlotType Slot { get; set; }
+
+        public Skill? Skill { get; set; }
+
+        public Skill? OldSkill { get; set; }
+    }
+
     [DataContract]
     public class Template : IDisposable
     {
@@ -175,7 +197,9 @@ namespace Kenedia.Modules.BuildsManager.Models
 
         public event DictionaryItemChangedEventHandler<LegendSlotType, Legend?>? LegendChanged;
 
-        public event DictionaryItemChangedEventHandler<SkillSlotType, Skill?> SkillChanged;
+        public event DictionaryItemChangedEventHandler<SkillSlotType, Skill?> SkillChanged_OLD;
+
+        public event SkillChangedEventHandler SkillChanged;
 
         public object? this[TemplateSlots slot] => slot switch
         {
@@ -197,13 +221,13 @@ namespace Kenedia.Modules.BuildsManager.Models
             TemplateSlots.Specialization3_MajorTrait => Specializations[SpecializationSlotType.Line_3]?.Traits[TraitTierType.Master],
             TemplateSlots.Specialization3_GrandmasterTrait => Specializations[SpecializationSlotType.Line_3]?.Traits[TraitTierType.GrandMaster],
 
-            TemplateSlots.TerrestrialElite => Skills[SkillSlotType.Active | SkillSlotType.Terrestrial | SkillSlotType.Heal],
+            TemplateSlots.TerrestrialElite => Skills[SkillSlotType.Active | SkillSlotType.Terrestrial | SkillSlotType.Elite],
             TemplateSlots.TerrestrialHeal => Skills[SkillSlotType.Active | SkillSlotType.Terrestrial | SkillSlotType.Heal],
             TemplateSlots.TerrestrialUtility1 => Skills[SkillSlotType.Active | SkillSlotType.Terrestrial | SkillSlotType.Utility_1],
             TemplateSlots.TerrestrialUtility2 => Skills[SkillSlotType.Active | SkillSlotType.Terrestrial | SkillSlotType.Utility_2],
             TemplateSlots.TerrestrialUtility3 => Skills[SkillSlotType.Active | SkillSlotType.Terrestrial | SkillSlotType.Utility_3],
 
-            TemplateSlots.AquaticElite => Skills[SkillSlotType.Active | SkillSlotType.Aquatic | SkillSlotType.Heal],
+            TemplateSlots.AquaticElite => Skills[SkillSlotType.Active | SkillSlotType.Aquatic | SkillSlotType.Elite],
             TemplateSlots.AquaticHeal => Skills[SkillSlotType.Active | SkillSlotType.Aquatic | SkillSlotType.Heal],
             TemplateSlots.AquaticUtility1 => Skills[SkillSlotType.Active | SkillSlotType.Aquatic | SkillSlotType.Utility_1],
             TemplateSlots.AquaticUtility2 => Skills[SkillSlotType.Active | SkillSlotType.Aquatic | SkillSlotType.Utility_2],
@@ -215,7 +239,7 @@ namespace Kenedia.Modules.BuildsManager.Models
             TemplateSlots.InactiveTerrestrialUtility2 => Skills[SkillSlotType.Inactive | SkillSlotType.Terrestrial | SkillSlotType.Utility_2],
             TemplateSlots.InactiveTerrestrialUtility3 => Skills[SkillSlotType.Inactive | SkillSlotType.Terrestrial | SkillSlotType.Utility_3],
 
-            TemplateSlots.InactiveAquaticElite => Skills[SkillSlotType.Inactive | SkillSlotType.Aquatic | SkillSlotType.Heal],
+            TemplateSlots.InactiveAquaticElite => Skills[SkillSlotType.Inactive | SkillSlotType.Aquatic | SkillSlotType.Elite],
             TemplateSlots.InactiveAquaticHeal => Skills[SkillSlotType.Inactive | SkillSlotType.Aquatic | SkillSlotType.Heal],
             TemplateSlots.InactiveAquaticUtility1 => Skills[SkillSlotType.Inactive | SkillSlotType.Aquatic | SkillSlotType.Utility_1],
             TemplateSlots.InactiveAquaticUtility2 => Skills[SkillSlotType.Inactive | SkillSlotType.Aquatic | SkillSlotType.Utility_2],
@@ -364,7 +388,7 @@ namespace Kenedia.Modules.BuildsManager.Models
         public string Name { get => _name; set => Common.SetProperty(ref _name, value, OnNameChanged, _triggerEvents); }
 
         [DataMember]
-        public string Description { get => _description; set => Common.SetProperty(ref _description, value, AutoSave, _triggerEvents); }
+        public string Description { get => _description; set => Common.SetProperty(ref _description, value, OnDescriptionChanged, _triggerEvents); }
 
         [DataMember]
         public string? BuildCode
@@ -413,8 +437,8 @@ namespace Kenedia.Modules.BuildsManager.Models
 
         private void NewValue_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
         {
-            if (_triggerEvents)
-                AutoSave();
+            //if (_triggerEvents)
+            //    AutoSave();
         }
         #endregion Build
 
@@ -480,7 +504,7 @@ namespace Kenedia.Modules.BuildsManager.Models
 
         private void Specializations_EliteSpecChanged(object sender, BuildSpecialization.SpecializationChangedEventArgs e)
         {
-            RemoveInvalidBuildCombinations();
+            RemoveInvalidSkillsBasedOnSpec();
             EliteSpecializationChanged?.Invoke(this, new ValueChangedEventArgs<Specialization>(e.OldSpecialization, e.NewSpecialization));
         }
 
@@ -752,12 +776,12 @@ namespace Kenedia.Modules.BuildsManager.Models
             }
         }
 
-        private void OnNameChanged(object sender, ValueChangedEventArgs<string> e)
+        private async void OnNameChanged(object sender, ValueChangedEventArgs<string> e)
         {
             if (!_triggerEvents)
                 return;
 
-            AutoSave();
+            await Save();
             NameChanged?.Invoke(this, e);
         }
 
@@ -766,9 +790,9 @@ namespace Kenedia.Modules.BuildsManager.Models
             if (!_triggerEvents)
                 return;
 
-            GearCodeChanged?.Invoke(this, e);
+            OnGearCodeChanged();
 
-            await Save();
+            //await Save();
         }
 
         private void Relic_RelicChanged(object sender, ValueChangedEventArgs<Relic> e)
@@ -930,16 +954,16 @@ namespace Kenedia.Modules.BuildsManager.Models
         {
             if (!_triggerEvents) return;
 
-            BuildCodeChanged?.Invoke(this, e);
+            OnBuildCodeChanged();
             await Save();
         }
 
         private async void Skills_ItemChanged(object sender, DictionaryItemChangedEventArgs<SkillSlotType, Skill?> e)
         {
-            if (!_triggerEvents) return;
+            //if (!_triggerEvents) return;
 
-            SkillChanged?.Invoke(this, e);
-            BuildCodeChanged?.Invoke(this, e);
+            //SkillChanged_OLD?.Invoke(this, e);
+            //OnBuildCodeChanged();
 
             await Save();
         }
@@ -947,7 +971,7 @@ namespace Kenedia.Modules.BuildsManager.Models
         private async void Pets_ItemChanged(object sender, DictionaryItemChangedEventArgs<PetSlotType, Pet?> e)
         {
             if (!_triggerEvents) return;
-            BuildCodeChanged?.Invoke(this, e);
+            OnBuildCodeChanged();
             await Save();
         }
 
@@ -955,14 +979,14 @@ namespace Kenedia.Modules.BuildsManager.Models
         {
             if (!_triggerEvents) return;
 
-            BuildCodeChanged?.Invoke(this, e);
+            OnBuildCodeChanged();
             await Save();
         }
 
         private async void Specializations_ItemPropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
             if (!_triggerEvents) return;
-            BuildCodeChanged?.Invoke(this, e);
+            OnBuildCodeChanged();
             await Save();
         }
 
@@ -980,12 +1004,12 @@ namespace Kenedia.Modules.BuildsManager.Models
 
             SetArmorItems();
 
-            RemoveInvalidBuildCombinations();
+            RemoveInvalidSkillsBasedOnSpec();
 
             _triggerEvents = temp;
             if (!_triggerEvents) return;
             ProfessionChanged?.Invoke(this, e);
-            BuildCodeChanged?.Invoke(this, e);
+            OnBuildCodeChanged();
 
             await Save();
         }
@@ -1024,18 +1048,12 @@ namespace Kenedia.Modules.BuildsManager.Models
             }
         }
 
-        private async void OnRaceChanged(object sender, ValueChangedEventArgs<Races> e)
+        private void OnRaceChanged(object sender, ValueChangedEventArgs<Races> e)
         {
-            RemoveInvalidBuildCombinations();
-
-            if (Skills.WipeInvalidRacialSkills(Race))
-            {
-                BuildCodeChanged?.Invoke(this, e);
-            }
-
-            if (!_triggerEvents) return;
+            RemoveInvalidSkillsBasedOnRace();
             RaceChanged?.Invoke(this, e);
-            await Save();
+
+            OnBuildCodeChanged();
         }
 
         public void LoadFromCode(string? build = null, string? gear = null)
@@ -1286,10 +1304,8 @@ namespace Kenedia.Modules.BuildsManager.Models
             return $"[&{Convert.ToBase64String(codeArray)}]";
         }
 
-        private async void AutoSave()
+        private async void OnDescriptionChanged()
         {
-            if (!_triggerEvents) return;
-
             await Save();
         }
 
@@ -1426,7 +1442,7 @@ namespace Kenedia.Modules.BuildsManager.Models
                 spec.Traits[TraitTierType.Master] = master;
                 spec.Traits[TraitTierType.GrandMaster] = grandmaster;
 
-                RemoveInvalidBuildCombinations();
+                RemoveInvalidSkillsBasedOnSpec();
                 _triggerEvents = true;
 
                 OnSpecializationChanged(this, new(slot, prev, specialization));
@@ -1471,7 +1487,7 @@ namespace Kenedia.Modules.BuildsManager.Models
                 SetSpecialization(slot2, prevSlot1.Specialization, prevSlot1.Traits[TraitTierType.Adept], prevSlot1.Traits[TraitTierType.Master], prevSlot1.Traits[TraitTierType.GrandMaster]);
                 SetSpecialization(slot1, prevSlot2.Specialization, prevSlot2.Traits[TraitTierType.Adept], prevSlot2.Traits[TraitTierType.Master], prevSlot2.Traits[TraitTierType.GrandMaster]);
 
-                RemoveInvalidBuildCombinations();
+                RemoveInvalidSkillsBasedOnSpec();
                 SpecializationChanged?.Invoke(this, new(slot1, prevSlot1.Specialization, prevSlot2.Specialization));
             }
 
@@ -1594,7 +1610,19 @@ namespace Kenedia.Modules.BuildsManager.Models
             }
         }
 
-        private void RemoveInvalidBuildCombinations()
+        private void RemoveInvalidSkillsBasedOnRace()
+        {
+            //Get all Skill ids from all races which don't match the current race id
+            var invalidSkills = Data.Races.Values.Where(x => x.Id != Race).SelectMany(x => x.Skills.Values.Select(e => e.Id)).ToList();
+            var slotsToWipe = Skills.Where(x => x.Value is not null && invalidSkills.Contains(x.Value.Id)).Select(x => x.Key).ToList();
+
+            foreach (var slot in slotsToWipe)
+            {
+                SelectSkill(slot, null);
+            }
+        }
+
+        private void RemoveInvalidSkillsBasedOnSpec()
         {
             // Check and clean invalid Legends
             if (Profession is ProfessionType.Revenant)
@@ -1631,7 +1659,6 @@ namespace Kenedia.Modules.BuildsManager.Models
                     {
                         if (!specIds.Contains(skill.Specialization))
                         {
-                            //Debug.WriteLine($"{skill?.Name} requires spec {skill?.Specialization} which is not in [{string.Join("," , specIds)}]");
                             wipeSlots.Add(s.Key);
                         }
                     }
@@ -1639,10 +1666,9 @@ namespace Kenedia.Modules.BuildsManager.Models
 
                 foreach (var slot in wipeSlots)
                 {
-                    var legend = Skills[slot];
-                    Skills[slot] = null;
+                    SelectSkill(slot, null);
                 }
-            }
+            }       
         }
 
         private async void OnLegendChanged(object sender, DictionaryItemChangedEventArgs<LegendSlotType, Legend> e)
@@ -1670,6 +1696,45 @@ namespace Kenedia.Modules.BuildsManager.Models
             return false;
         }
 
+        public void SelectSkill(SkillSlotType skillSlot, Skill? skill)
+        {
+            SkillSlotType enviromentState = skillSlot.GetEnviromentState();
+            bool canSelectSkill = skill is null || skillSlot.IsTerrestrial() || !skill?.Flags.HasFlag(SkillFlag.NoUnderwater) is false;
+
+            if (canSelectSkill || Profession == ProfessionType.Revenant)
+            {
+                if (skill is not null && Skills.HasSkill(skill, enviromentState))
+                {
+                    var slot = Skills.GetSkillSlot(skill, enviromentState);
+
+                    Skills[slot] = Skills[skillSlot];
+                    Skills[skillSlot] = Skills[slot];
+                }
+
+                Skills[skillSlot] = skill;
+            }
+
+            OnSkillChanged(skillSlot, skill);
+        }
+
+        private void OnSkillChanged(SkillSlotType skillSlot, Skill? skill)
+        {
+            SkillChanged?.Invoke(this, new(skillSlot, skill));
+        }
+
+        private async void OnBuildCodeChanged()
+        {
+            BuildCodeChanged?.Invoke(this, EventArgs.Empty);
+            await Save();
+        }
+
+        private async void OnGearCodeChanged()
+        {
+            GearCodeChanged?.Invoke(this, EventArgs.Empty);
+            await Save();
+        }
+
+        public Skill? this[SkillSlotType slot] => Skills[slot];
 #nullable disable
     }
 }

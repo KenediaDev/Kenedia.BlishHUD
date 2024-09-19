@@ -14,6 +14,32 @@ namespace Kenedia.Modules.Core.Utility
 {
     public static class UI
     {
+        public static int GetTextHeight(BitmapFont font, string text, int maxWidth)
+        {
+            if (string.IsNullOrEmpty(text))
+                return 0;
+
+            int width = 0;
+            int height = 0;
+
+            foreach (char c in text)
+            {
+                var b = font.MeasureString(c.ToString());
+
+                if (width + b.Width <= maxWidth)
+                {
+                    width += (int)b.Width;
+                }
+                else
+                {
+                    width = (int)b.Width;
+                    height += (int)b.Height;
+                }
+            }
+
+            return height + font.LineHeight;
+        }
+
         public static string GetDisplayText(BitmapFont font, string text, int maxWidth, string stringOverflow = "...")
         {
             int width = 0;

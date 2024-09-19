@@ -27,6 +27,7 @@ namespace Kenedia.Modules.BuildsManager.Views
         {
             TemplatePresenter = templatePresenter;
             SelectionPanel = selectionPanel;
+            Parent = Graphics.SpriteScreen;
 
             AboutTab = aboutTab;
             BuildTab = buildTab;
@@ -34,7 +35,6 @@ namespace Kenedia.Modules.BuildsManager.Views
 
             selectionPanel.Parent = this;
 
-            Parent = GameService.Graphics.SpriteScreen;
             Title = "❤";
             Subtitle = "❤";
             SavesPosition = true;
@@ -54,10 +54,12 @@ namespace Kenedia.Modules.BuildsManager.Views
 
             TabbedRegionTab tab;
 
+            GearTab.Width = BuildTab.Width = AboutTab.Width = ContentRegion.Width - 144;
+
             _tabbedRegion.AddTab(new TabbedRegionTab(AboutTab)
             {
                 Header = () => strings.About,
-                Icon = AsyncTexture2D.FromAssetId(440023),
+                Icon = AsyncTexture2D.FromAssetId(440023),                
             });
 
             _tabbedRegion.AddTab(tab = new TabbedRegionTab(BuildTab)
@@ -84,25 +86,16 @@ namespace Kenedia.Modules.BuildsManager.Views
         private TemplatePresenter TemplatePresenter { get; } = new();
 
         public SelectionPanel SelectionPanel { get; }
+
         public AboutTab AboutTab { get; }
+
         public BuildTab BuildTab { get; }
+
         public GearTab GearTab { get; }
 
         private void TemplatePresenter_NameChanged(object sender, Core.Models.ValueChangedEventArgs<string> e)
         {
             SubName = e.NewValue;
-        }
-
-        public Template Template
-        {
-            get => TemplatePresenter?.Template; set
-            {
-                if (TemplatePresenter is null) return;
-
-                TemplatePresenter.Template = value ?? new();
-                TemplatePresenter.Template?.Load();
-                SubName = TemplatePresenter.Template?.Name;
-            }
         }
 
         public override void RecalculateLayout()

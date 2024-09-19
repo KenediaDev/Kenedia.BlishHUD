@@ -56,7 +56,7 @@ namespace Kenedia.Modules.BuildsManager.Controls_Old.Selection
                 ZIndex = ZIndex,
             };
 
-            _buildSelection = new(templates, templateTags, data)
+            _buildSelection = new(templates, templateTags, data, templatePresenter)
             {
                 Parent = this,
                 Visible = true,
@@ -222,16 +222,16 @@ namespace Kenedia.Modules.BuildsManager.Controls_Old.Selection
             SelectionType = SelectionTypes.Templates;
             SetAnchor(anchor);
 
-            if (MainWindow is not null && anchor is TemplateSelectable selectable)
+            if (anchor is TemplateSelectable selectable)
             {
-                MainWindow.Template = selectable?.Template;
+                TemplatePresenter.Template = selectable?.Template;
             }
         }
 
         public void ResetAnchor()
         {
             SelectionType = SelectionTypes.Templates;
-            SetAnchor(_buildSelection.TemplateSelectables.FirstOrDefault(e => e.Template == MainWindow.Template));
+            SetAnchor(_buildSelection.TemplateSelectables.FirstOrDefault(e => e.Template == TemplatePresenter.Template));
         }
 
         public override void RecalculateLayout()
