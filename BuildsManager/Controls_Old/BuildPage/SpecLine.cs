@@ -396,7 +396,7 @@ namespace Kenedia.Modules.BuildsManager.Controls_Old.BuildPage
                                     }
                                     else
                                     {
-                                        TemplatePresenter.Template.SetSpecialization(Line, spec.spec, null, null, null);
+                                        TemplatePresenter.Template.SetSpecialization(Line, spec.spec);
                                     }
                                 }
                             }

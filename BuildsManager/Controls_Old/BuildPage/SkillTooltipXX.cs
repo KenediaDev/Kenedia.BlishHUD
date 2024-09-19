@@ -12,7 +12,7 @@ using Kenedia.Modules.BuildsManager.Res;
 
 namespace Kenedia.Modules.BuildsManager.Controls_Old.BuildPage
 {
-    public class SkillTooltip : Blish_HUD.Controls.Tooltip
+    public class SkillTooltipXX : Blish_HUD.Controls.Tooltip
     {
         private readonly DetailedTexture _image = new() { TextureRegion = new(14, 14, 100, 100), };
         private readonly Label _title;
@@ -21,7 +21,7 @@ namespace Kenedia.Modules.BuildsManager.Controls_Old.BuildPage
 
         private Skill _skill;
 
-        public SkillTooltip()
+        public SkillTooltipXX()
         {
             WidthSizingMode = Blish_HUD.Controls.SizingMode.AutoSize;
             HeightSizingMode = Blish_HUD.Controls.SizingMode.AutoSize;

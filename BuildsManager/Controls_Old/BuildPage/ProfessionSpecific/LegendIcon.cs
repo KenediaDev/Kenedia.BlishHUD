@@ -1,6 +1,7 @@
 ﻿using Blish_HUD.Controls;
 using Blish_HUD.Input;
 using Gw2Sharp;
+using Kenedia.Modules.BuildsManager.Controls;
 using Kenedia.Modules.BuildsManager.DataModels.Professions;
 using Kenedia.Modules.BuildsManager.Models.Templates;
 using Kenedia.Modules.Core.Models;
@@ -23,7 +24,7 @@ namespace Kenedia.Modules.BuildsManager.Controls_Old.BuildPage.ProfessionSpecifi
 
         public LegendIcon()
         {
-            Tooltip = new SkillTooltip();
+            Tooltip = SkillTooltip = new SkillTooltip();
 
             Size = new(48, 62);
         }
@@ -36,14 +37,12 @@ namespace Kenedia.Modules.BuildsManager.Controls_Old.BuildPage.ProfessionSpecifi
 
         public Action<LegendIcon> RightClickAction { get; set; }
 
+        public SkillTooltip SkillTooltip { get; }
+
         private void ApplyLegend()
         {
             _texture.Texture = Legend?.Swap.Icon;
-
-            if (Tooltip is SkillTooltip tooltip)
-            {
-                tooltip.Skill = Legend?.Swap;
-            }
+            SkillTooltip.Skill = Legend?.Swap;
         }
 
         public override void RecalculateLayout()

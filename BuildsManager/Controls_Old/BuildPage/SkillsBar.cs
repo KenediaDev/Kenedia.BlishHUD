@@ -32,9 +32,9 @@ namespace Kenedia.Modules.BuildsManager.Controls_Old.BuildPage
 
         private readonly SkillControlCollection _skillIcons = new(true);
 
-        private readonly List<SkillControl> _selectableSkills = new();
+        private readonly List<SkillControl_XX> _selectableSkills = new();
 
-        private SkillControl _selectorAnchor;
+        private SkillControl_XX _selectorAnchor;
 
         private int _skillSize;
 
@@ -258,7 +258,7 @@ namespace Kenedia.Modules.BuildsManager.Controls_Old.BuildPage
 
         }
 
-        private void SetSelector(KeyValuePair<SkillSlotType, SkillControl> skillCtrl)
+        private void SetSelector(KeyValuePair<SkillSlotType, SkillControl_XX> skillCtrl)
         {
             _selectorAnchor = skillCtrl.Value;
 

@@ -66,7 +66,6 @@ namespace Kenedia.Modules.BuildsManager.Controls_Old.BuildPage
         protected override void Recalculate(object sender, Core.Models.ValueChangedEventArgs<Point> e)
         {
             base.Recalculate(sender, e);
-
         }
 
         protected override Selectable<Skill> CreateSelectable(Skill item)

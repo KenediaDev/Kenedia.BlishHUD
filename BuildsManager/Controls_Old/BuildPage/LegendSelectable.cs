@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Kenedia.Modules.Core.Models;
 using Gw2Sharp;
 using Kenedia.Modules.BuildsManager.Models.Templates;
+using Kenedia.Modules.BuildsManager.Controls;
 
 namespace Kenedia.Modules.BuildsManager.Controls_Old.BuildPage
 {
@@ -11,9 +12,11 @@ namespace Kenedia.Modules.BuildsManager.Controls_Old.BuildPage
     {
         private readonly DetailedTexture _noAquaticFlagTexture = new(157145) { TextureRegion = new(16, 16, 96, 96), };
 
+        public SkillTooltip SkillTooltip { get; }
+
         public LegendSelectable()
         {
-            Tooltip = new SkillTooltip();
+            Tooltip = SkillTooltip = new SkillTooltip();
         }
 
         public LegendSlotType LegendSlot { get; set; } = LegendSlotType.TerrestrialActive;
@@ -22,10 +25,7 @@ namespace Kenedia.Modules.BuildsManager.Controls_Old.BuildPage
         {
             base.ApplyData(sender, e);
 
-            if (Tooltip is SkillTooltip skillTooltip)
-            {
-                skillTooltip.Skill = e.NewValue.Swap;
-            }
+            SkillTooltip.Skill = e.NewValue.Swap;
         }
 
         public override void RecalculateLayout()

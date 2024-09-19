@@ -16,11 +16,15 @@ using System.Linq;
 using static Blish_HUD.ContentService;
 using Colors = Microsoft.Xna.Framework.Color;
 using Kenedia.Modules.Core.Models;
+using Kenedia.Modules.Core.Utility;
+using System;
 
 namespace Kenedia.Modules.BuildsManager.Controls
 {
-    public class SkillControl : Control
+    public class SkillSlotControl : Control
     {
+        private Skill _skill;
+
         public DetailedTexture Selector { get; } = new(157138, 157140);
 
         public AsyncTexture2D Texture => Skill?.Icon;
@@ -49,12 +53,12 @@ namespace Kenedia.Modules.BuildsManager.Controls
 
         public Rectangle AutoCastTextureRegion { get; } = new(6, 6, 52, 52);
 
-        public SkillControl(SkillSlotType skillSlot, TemplatePresenter templatePresenter)
+        public SkillSlotControl(SkillSlotType skillSlot, TemplatePresenter templatePresenter)
         {
             SkillSlot = skillSlot;
             TemplatePresenter = templatePresenter;
 
-            Tooltip = new SkillTooltip(skillSlot, templatePresenter);
+            Tooltip = SkillTooltip = new SkillTooltip();
             Size = new(64);
 
             TemplatePresenter.TemplateChanged += TemplatePresenter_TemplateChanged;
@@ -70,6 +74,8 @@ namespace Kenedia.Modules.BuildsManager.Controls
         {
             Skill = TemplatePresenter?.Template?[SkillSlot];
         }
+
+        public SkillTooltip SkillTooltip { get; }
 
         public SkillSlotType SkillSlot { get; }
 
@@ -91,7 +97,12 @@ namespace Kenedia.Modules.BuildsManager.Controls
 
         public bool IsSelectorHovered => ShowSelector && SelectorBounds.Contains(RelativeMousePosition);
 
-        public Skill? Skill { get; set; }
+        public Skill? Skill { get => _skill; set => Common.SetProperty(ref _skill, value, OnSkillChanged); }
+
+        private void OnSkillChanged(object sender, Core.Models.ValueChangedEventArgs<Skill> e)
+        {
+            SkillTooltip.Skill = e.NewValue;
+        }
 
         protected override void Paint(SpriteBatch spriteBatch, Rectangle bounds)
         {
@@ -206,11 +217,6 @@ namespace Kenedia.Modules.BuildsManager.Controls
 
             int selectorHeight = 15;
             SkillBounds = new(new(0, selectorHeight - 2), new(Width, Height - selectorHeight));
-        }
-
-        private void SetSkill(Skill skill)
-        {
-
         }
 
         protected override void DisposeControl()

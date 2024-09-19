@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace Kenedia.Modules.BuildsManager.Controls_Old.BuildPage
 {
-    public class SkillControlCollection : Dictionary<SkillSlotType, SkillControl>
+    public class SkillControlCollection : Dictionary<SkillSlotType, SkillControl_XX>
     {
         public SkillControlCollection(bool showSelector = false)
         {

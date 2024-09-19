@@ -30,9 +30,9 @@ namespace Kenedia.Modules.BuildsManager.Controls
         private readonly DetailedTexture _terrestrialTexture = new(1988171);
 
         private readonly SkillSelector _skillSelector;
-        private SkillControl _selectorAnchor;
+        private SkillSlotControl _selectorAnchor;
 
-        public Dictionary<SkillSlotType, SkillControl> Skills { get; } = [];
+        public Dictionary<SkillSlotType, SkillSlotControl> Skills { get; } = [];
 
         public TemplatePresenter TemplatePresenter { get; }
 
@@ -56,7 +56,7 @@ namespace Kenedia.Modules.BuildsManager.Controls
                     foreach (var slot in slots)
                     {
                         var skillSlot = slot | state | enviroment;
-                        Skills[skillSlot] = new SkillControl(skillSlot, templatePresenter) { Parent = this, ShowSelector = true, };
+                        Skills[skillSlot] = new SkillSlotControl(skillSlot, templatePresenter) { Parent = this, ShowSelector = true, };
                     }
                 }
             }
@@ -154,7 +154,7 @@ namespace Kenedia.Modules.BuildsManager.Controls
                 }
             }
         }
-        private void SetSelector(KeyValuePair<SkillSlotType, SkillControl> skillCtrl)
+        private void SetSelector(KeyValuePair<SkillSlotType, SkillSlotControl> skillCtrl)
         {
             _selectorAnchor = skillCtrl.Value;
 

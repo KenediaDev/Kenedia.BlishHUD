@@ -10,15 +10,15 @@ using System;
 
 namespace Kenedia.Modules.BuildsManager.Controls_Old.BuildPage
 {
-    public class SkillControl : Control
+    public class SkillControl_XX : Control
     {
         private readonly SkillIcon _skillIcon = new() { ShowSelector = true };
         private Skill _skill;
         private TemplatePresenter _templatePresenter;
 
-        public SkillControl()
+        public SkillControl_XX()
         {
-            Tooltip = new SkillTooltip();
+            Tooltip = new SkillTooltipXX();
         }
 
         //public Skill Skill { get => _skill; set => Common.SetProperty(ref _skill, value, ApplySkill); }
@@ -68,7 +68,7 @@ namespace Kenedia.Modules.BuildsManager.Controls_Old.BuildPage
         {
             _skillIcon.Skill = Skill;
 
-            if (Tooltip is SkillTooltip tooltip)
+            if (Tooltip is SkillTooltipXX tooltip)
             {
                 tooltip.Skill = Skill;
             }

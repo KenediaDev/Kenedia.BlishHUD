@@ -333,7 +333,7 @@
     <Reference Include="System.Xml.ReaderWriter" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Controls\SkillControl.cs" />
+    <Compile Include="Controls\SkillSlotControl.cs" />
     <Compile Include="Controls\SkillsBar.cs" />
     <Compile Include="Controls\SkillTooltip.cs" />
     <Compile Include="Controls\SkillTooltipContentControl.cs" />
@@ -351,7 +351,7 @@
     <Compile Include="Controls_Old\BuildPage\PetTooltip.cs" />
     <Compile Include="Controls_Old\BuildPage\ProfessionSpecific\LegendIcon.cs" />
     <Compile Include="Controls_Old\BuildPage\Selectable.cs" />
-    <Compile Include="Controls_Old\BuildPage\SkillControl.cs" />
+    <Compile Include="Controls_Old\BuildPage\SkillControl_XX.cs" />
     <Compile Include="Controls_Old\BuildPage\SkillSelectable.cs" />
     <Compile Include="Controls_Old\BuildPage\SkillSelector.cs" />
     <Compile Include="DataModels\Converter\RelicConverter.cs" />
@@ -386,7 +386,7 @@
     <Compile Include="Controls_Old\BuildPage\SkillControlCollection.cs" />
     <Compile Include="Controls_Old\BuildPage\SkillsBar.cs" />
     <Compile Include="Controls_Old\BuildPage\SkillSlotCollection.cs" />
-    <Compile Include="Controls_Old\BuildPage\SkillTooltip.cs" />
+    <Compile Include="Controls_Old\BuildPage\SkillTooltipXX.cs" />
     <Compile Include="Controls_Old\BuildPage\SpecLine.cs" />
     <Compile Include="Controls_Old\BuildPage\TraitIcon.cs" />
     <Compile Include="Controls_Old\BuildPage\TraitTooltip.cs" />
@@ -461,7 +461,11 @@
     <Compile Include="Models\GearArrayIndex.cs" />
     <Compile Include="Models\BasicItemMap.cs" />
     <Compile Include="Models\Paths.cs" />
+    <Compile Include="Models\SkillChangedEventArgs.cs" />
     <Compile Include="Models\StaticVersion.cs" />
+    <Compile Include="Models\TemplateChangedEventArgs.cs" />
+    <Compile Include="Models\TemplateCollection.cs" />
+    <Compile Include="Models\TemplateSlots.cs" />
     <Compile Include="Models\TemplateTag.cs" />
     <Compile Include="Models\TemplateEntries\AccessoireTemplateEntry.cs" />
     <Compile Include="Models\TemplateEntries\AmuletTemplateEntry.cs" />

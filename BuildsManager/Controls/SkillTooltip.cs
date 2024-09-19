@@ -1,11 +1,8 @@
 ﻿using Blish_HUD.Controls;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Kenedia.Modules.BuildsManager.Models.Templates;
-using Kenedia.Modules.BuildsManager.Models;
-using System;
-using System.Diagnostics;
-using MonoGame.Extended.BitmapFonts;
+using Kenedia.Modules.BuildsManager.DataModels.Professions;
+using Kenedia.Modules.Core.Utility;
 
 namespace Kenedia.Modules.BuildsManager.Controls
 {
@@ -13,12 +10,23 @@ namespace Kenedia.Modules.BuildsManager.Controls
     {
         private readonly SkillTooltipContentControl _skillContentControl;
 
-        public SkillTooltip(SkillSlotType skillSlot, TemplatePresenter templatePresenter)
+        public SkillTooltip()
         {
             WidthSizingMode = SizingMode.AutoSize;
             HeightSizingMode = SizingMode.AutoSize;
             AutoSizePadding = new(5);
-            _skillContentControl = new(skillSlot, templatePresenter) { Parent = this };
+            _skillContentControl = new() { Parent = this };
+        }
+
+        public SkillTooltip(Skill skill) : this()
+        {
+            _skillContentControl.Skill = skill;
+        }
+
+        public Skill Skill
+        {
+            get => _skillContentControl.Skill;
+            set => _skillContentControl.Skill = value;
         }
 
         public override void Draw(SpriteBatch spriteBatch, Rectangle drawBounds, Rectangle scissor)

@@ -1,4 +1,5 @@
-﻿using Kenedia.Modules.BuildsManager.DataModels.Professions;
+﻿using Kenedia.Modules.BuildsManager.Controls;
+using Kenedia.Modules.BuildsManager.DataModels.Professions;
 using Kenedia.Modules.Core.DataModels;
 using Kenedia.Modules.Core.Models;
 using Microsoft.Xna.Framework;
@@ -17,7 +18,7 @@ namespace Kenedia.Modules.BuildsManager.Controls_Old.BuildPage
 
         public Enviroment Enviroment { get; set; }
 
-        protected override void ApplyData(object sender, Core.Models.ValueChangedEventArgs<Skill> e)
+        protected override void ApplyData(object sender, ValueChangedEventArgs<Skill> e)
         {
             base.ApplyData(sender, e);
 
