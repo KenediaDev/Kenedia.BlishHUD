@@ -10,9 +10,7 @@ using Kenedia.Modules.Core.Extensions;
 using Kenedia.Modules.Core.Models;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using SkillSlot = Gw2Sharp.WebApi.V2.Models.SkillSlot;
 using System.Text.RegularExpressions;
@@ -186,7 +184,7 @@ namespace Kenedia.Modules.BuildsManager.Controls
             if (TemplatePresenter?.Template?.Profession != ProfessionType.Revenant)
             {
                 var skills = Data.Professions[TemplatePresenter.Template.Profession].Skills;
-                var filteredSkills = skills.Where(e => e.Value.PaletteId > 0 && e.Value.Slot is not null && e.Value.Slot == slot && (e.Value.Specialization == 0 || TemplatePresenter.Template.HasSpecialization(e.Value.Specialization))).ToList();
+                var filteredSkills = skills.Where(e => e.Value.PaletteId > 0 && e.Value.Slot is not null && e.Value.Slot == slot && (e.Value.Specialization == 0 || TemplatePresenter.Template.HasSpecialization(e.Value.Specialization, out _))).ToList();
 
                 var racialSkills = TemplatePresenter.Template.Race != Core.DataModels.Races.None ? Data.Races[TemplatePresenter.Template.Race]?.Skills.Where(e => e.Value.PaletteId > 0 && e.Value.Slot is not null && e.Value.Slot == slot).ToList() : new();
                 if (racialSkills is not null) filteredSkills.AddRange(racialSkills);

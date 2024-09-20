@@ -15,6 +15,7 @@ using Microsoft.Xna.Framework.Graphics;
 using MonoGame.Extended;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using static Blish_HUD.ContentService;
 using Label = Kenedia.Modules.Core.Controls.Label;
@@ -87,13 +88,14 @@ namespace Kenedia.Modules.BuildsManager.Controls_Old.BuildPage
         }
 
         private Rectangle _specSelectorBounds;
-        private TemplatePresenter _templatePresenter;
+
         private readonly List<(Specialization spec, Rectangle bounds)> _specBounds = new();
 
-        public SpecLine(SpecializationSlotType line, TemplatePresenter template, Data data)
+        public SpecLine(SpecializationSlotType line, TemplatePresenter templatePresenter, Data data)
         {
-            TemplatePresenter = template;
+            TemplatePresenter = templatePresenter;
             Data = data;
+
             Tooltip = _traitTooltip = new TraitTooltip();
             _basicTooltip = new()
             {
@@ -106,7 +108,7 @@ namespace Kenedia.Modules.BuildsManager.Controls_Old.BuildPage
                 AutoSizeWidth = true,
             };
 
-            Line = line;
+            SpecializationSlot = line;
             Height = 158;
 
             BackgroundColor = new Color(48, 48, 48);
@@ -116,14 +118,26 @@ namespace Kenedia.Modules.BuildsManager.Controls_Old.BuildPage
             int size = Scale(72);
             int offset = 40;
 
-            for (int i = 0; i < (Line == SpecializationSlotType.Line_3 ? 8 : 5); i++)
+            for (int i = 0; i < (SpecializationSlot == SpecializationSlotType.Line_3 ? 8 : 5); i++)
             {
                 _specBounds.Add(new(null, new(offset, (Height - size) / 2, size, size)));
                 offset += size + Scale(10);
             }
+                        
+            TemplatePresenter.SpecializationChanged += OnSpecializationChanged;
         }
 
-        private string _basicTooltipText { get => _basicTooltipLabel.Text; set => _basicTooltipLabel.Text = value; }
+        private void OnSpecializationChanged(object sender, SpecializationChangedEventArgs e)
+        {
+
+            Debug.WriteLine($"SPEC LINE OnSpecializationChanged");
+            if (e.Slot == SpecializationSlot)
+            {
+                ApplyTemplate();
+            }
+        }
+
+        private new string BasicTooltipText { get => _basicTooltipLabel.Text; set => _basicTooltipLabel.Text = value; }
 
         private void MouseMouseButtonPressed(object sender, MouseEventArgs e)
         {
@@ -135,61 +149,13 @@ namespace Kenedia.Modules.BuildsManager.Controls_Old.BuildPage
 
         public Func<bool> CanInteract { get; set; } = () => true;
 
-        public TemplatePresenter TemplatePresenter
-        {
-            get => _templatePresenter; set => Common.SetProperty(ref _templatePresenter, value, OnTemplatePresenterChanged);
-        }
+        public TemplatePresenter TemplatePresenter { get; }
+
         public Data Data { get; }
 
-        private void OnTemplatePresenterChanged(object sender, Core.Models.ValueChangedEventArgs<TemplatePresenter> e)
-        {
-            if (e.OldValue is not null)
-            {
-                e.OldValue.ProfessionChanged -= OnProfessionChanged;
-                e.OldValue.EliteSpecializationChanged -= BuildTemplate_EliteSpecializationChanged;
-                e.OldValue.SpecializationChanged -= OnSpecializationChanged;
-                e.OldValue.LoadedBuildFromCode -= BuildTemplate_Loaded;
-                e.OldValue.TemplateChanged -= TemplatePresenter_TemplateChanged;
-            }
+        public BuildSpecialization BuildSpecialization => TemplatePresenter?.Template[SpecializationSlot];
 
-            if (e.NewValue is not null)
-            {
-                e.NewValue.ProfessionChanged += OnProfessionChanged; ;
-                e.NewValue.EliteSpecializationChanged += BuildTemplate_EliteSpecializationChanged;
-                e.NewValue.SpecializationChanged += OnSpecializationChanged;
-                e.NewValue.LoadedBuildFromCode += BuildTemplate_Loaded;
-                e.NewValue.TemplateChanged += TemplatePresenter_TemplateChanged;
-            }
-        }
-
-        private void TemplatePresenter_TemplateChanged(object sender, Core.Models.ValueChangedEventArgs<Template> e)
-        {
-            ApplyTemplate();
-        }
-
-        private void OnSpecializationChanged(object sender, DictionaryItemChangedEventArgs<SpecializationSlotType, Specialization> e)
-        {
-            ApplyTemplate();
-        }
-
-        private void BuildTemplate_EliteSpecializationChanged(object sender, Core.Models.ValueChangedEventArgs<Specialization> e)
-        {
-            ApplyTemplate();
-        }
-
-        private void BuildTemplate_Loaded(object sender, EventArgs e)
-        {
-            ApplyTemplate();
-        }
-
-        public BuildSpecialization BuildSpecialization => TemplatePresenter?.Template?.Specializations[Line];
-
-        private void OnProfessionChanged(object sender, Core.Models.ValueChangedEventArgs<ProfessionType> e)
-        {
-            ApplyTemplate();
-        }
-
-        public SpecializationSlotType Line { get; private set; }
+        public SpecializationSlotType SpecializationSlot { get; private set; }
 
         public override void RecalculateLayout()
         {
@@ -233,6 +199,7 @@ namespace Kenedia.Modules.BuildsManager.Controls_Old.BuildPage
 
         public void ApplyTemplate()
         {
+            Debug.WriteLine($"ApplyTemplate {SpecializationSlot}");
             PlayerCharacter player = GameService.Gw2Mumble.PlayerCharacter;
             if (Data?.Professions?.TryGetValue(TemplatePresenter?.Template?.Profession ?? player?.Profession ?? ProfessionType.Guardian, out Profession profession) != true)
                 return;
@@ -240,7 +207,7 @@ namespace Kenedia.Modules.BuildsManager.Controls_Old.BuildPage
             int j = 0;
             foreach (var s in profession.Specializations.Values)
             {
-                if (!s.Elite || Line == SpecializationSlotType.Line_3)
+                if (!s.Elite || SpecializationSlot == SpecializationSlotType.Line_3)
                 {
                     _specBounds[j] = new(s, _specBounds[j].bounds);
                     j++;
@@ -265,11 +232,6 @@ namespace Kenedia.Modules.BuildsManager.Controls_Old.BuildPage
                     _majors[i].Trait = _majorTraits.TryGetValue(i, out Trait trait) ? trait : null;
                     _majors[i].Selected = trait is not null && BuildSpecialization.Traits[trait.Tier] == trait;
                 }
-
-                if (Line == SpecializationSlotType.Line_3 && TemplatePresenter?.Template is not null)
-                {
-                    // Remove invalid skills
-                }
             }
         }
 
@@ -282,7 +244,7 @@ namespace Kenedia.Modules.BuildsManager.Controls_Old.BuildPage
             Point? hoverPos = canInteract ? RelativeMousePosition : null;
 
             //_background.Draw(this, spriteBatch);
-            _basicTooltipText = null;
+            BasicTooltipText = null;
 
             if (BuildSpecialization is not null && BuildSpecialization.Specialization is not null && !SelectorOpen)
             {
@@ -328,9 +290,9 @@ namespace Kenedia.Modules.BuildsManager.Controls_Old.BuildPage
 
             _baseFrame.Draw(this, spriteBatch);
             _selector.Draw(this, spriteBatch, hoverPos, null, null, SelectorOpen ? true : null);
-            if (_selector.Hovered) _basicTooltipText = "Change Specialization";
+            if (_selector.Hovered) BasicTooltipText = "Change Specialization";
             (hasSpec ? _hexagon : _noSpecHexagon).Draw(this, spriteBatch, hoverPos);
-            if (Line == SpecializationSlotType.Line_3) _eliteFrame.Draw(this, spriteBatch);
+            if (SpecializationSlot == SpecializationSlotType.Line_3) _eliteFrame.Draw(this, spriteBatch);
 
             _weaponTrait.Draw(this, spriteBatch, hoverPos, null, null, SelectorOpen ? false : null);
             if (_weaponTrait.Hovered)
@@ -338,11 +300,11 @@ namespace Kenedia.Modules.BuildsManager.Controls_Old.BuildPage
 
             if (SelectorOpen)
             {
-                _basicTooltipText = DrawSelector(spriteBatch, bounds) ?? _basicTooltipText;
+                BasicTooltipText = DrawSelector(spriteBatch, bounds) ?? BasicTooltipText;
             }
 
             Tooltip = SelectorOpen ? _basicTooltip : _traitTooltip;
-            _basicTooltip.Opacity = string.IsNullOrEmpty(_basicTooltipText) ? 0F : 1F;
+            _basicTooltip.Opacity = string.IsNullOrEmpty(BasicTooltipText) ? 0F : 1F;
         }
 
         protected override void OnClick(MouseEventArgs e)
@@ -365,7 +327,7 @@ namespace Kenedia.Modules.BuildsManager.Controls_Old.BuildPage
 
                     if (trait is not null)
                     {
-                        BuildSpecialization.Traits[trait.Trait.Tier] = trait.Selected ? trait.Trait : null;
+                        TemplatePresenter.Template?.SetTrait(SpecializationSlot, trait.Trait, trait.Trait.Tier);
                         return;
                     }
                 }
@@ -382,23 +344,7 @@ namespace Kenedia.Modules.BuildsManager.Controls_Old.BuildPage
                         {
                             if (spec.bounds.Contains(RelativeMousePosition))
                             {
-                                bool hasSpec = TemplatePresenter?.Template?.HasSpecialization(spec.spec) == true;
-                                slot = (SpecializationSlotType)(hasSpec ? TemplatePresenter?.Template?.GetSpecializationSlot(spec.spec) : SpecializationSlotType.Line_1);
-
-                                if (BuildSpecialization is not null && (BuildSpecialization?.Specialization == null || BuildSpecialization.Specialization != spec.spec))
-                                {
-                                    if (hasSpec)
-                                    {
-
-                                        TemplatePresenter.Template.SwapSpecializations(Line, slot);
-                                        SelectorOpen = !SelectorOpen;
-                                        return;
-                                    }
-                                    else
-                                    {
-                                        TemplatePresenter.Template.SetSpecialization(Line, spec.spec);
-                                    }
-                                }
+                                TemplatePresenter.Template.SetSpecialization(SpecializationSlot, spec.spec);
                             }
                         }
                     }
@@ -430,8 +376,6 @@ namespace Kenedia.Modules.BuildsManager.Controls_Old.BuildPage
 
             _minors?.Values?.DisposeAll();
             _majors?.Values?.DisposeAll();
-
-            TemplatePresenter = null;
         }
 
         private int Scale(int input)
@@ -455,7 +399,7 @@ namespace Kenedia.Modules.BuildsManager.Controls_Old.BuildPage
             foreach (var spec in _specBounds)
             {
                 bool hovered = spec.bounds.Contains(RelativeMousePosition);
-                bool hasSpec = TemplatePresenter?.Template?.HasSpecialization(spec.spec) == true;
+                bool hasSpec = TemplatePresenter?.Template?.HasSpecialization(spec.spec, out _) == true;
 
                 if (spec.spec is not null)
                 {

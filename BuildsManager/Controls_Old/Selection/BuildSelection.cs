@@ -232,14 +232,14 @@ namespace Kenedia.Modules.BuildsManager.Controls_Old.Selection
                 };
 
                 template.ProfessionChanged += ProfessionChanged;
-                template.SpecializationChanged += SpecializationChanged;
+                template.SpecializationChanged_OLD += SpecializationChanged;
 
                 if (t is not null)
                 {
                     t.DisposeAction = () =>
                     {
                         template.ProfessionChanged -= ProfessionChanged;
-                        template.SpecializationChanged -= SpecializationChanged;
+                        template.SpecializationChanged_OLD -= SpecializationChanged;
                     };
                 }
 
@@ -287,14 +287,14 @@ namespace Kenedia.Modules.BuildsManager.Controls_Old.Selection
                     ts?.ToggleEditMode(false);
 
                     t.ProfessionChanged += ProfessionChanged;
-                    t.SpecializationChanged += SpecializationChanged;
+                    t.SpecializationChanged_OLD += SpecializationChanged;
 
                     if (ts is not null)
                     {
                         ts.DisposeAction = () =>
                         {
                             t.ProfessionChanged -= ProfessionChanged;
-                            t.SpecializationChanged -= SpecializationChanged;
+                            t.SpecializationChanged_OLD -= SpecializationChanged;
                         };
                     }
 

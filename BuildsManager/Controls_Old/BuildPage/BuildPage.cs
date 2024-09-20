@@ -170,7 +170,7 @@ namespace Kenedia.Modules.BuildsManager.Controls_Old.BuildPage
                 e.OldValue.BuildCodeChanged -= TemplatePresenter_BuildCodeChanged;
                 e.OldValue.ProfessionChanged -= BuildTemplate_ProfessionChanged;
                 e.OldValue.RaceChanged -= TemplatePresenter_RaceChanged;
-                e.OldValue.EliteSpecializationChanged -= BuildTemplate_EliteSpecChanged;
+                e.OldValue.EliteSpecializationChanged_OLD -= BuildTemplate_EliteSpecChanged;
                 e.OldValue.LoadedBuildFromCode -= BuildTemplate_Loaded;
                 e.OldValue.TemplateChanged -= TemplatePresenter_TemplateChanged;
             }
@@ -180,7 +180,7 @@ namespace Kenedia.Modules.BuildsManager.Controls_Old.BuildPage
                 e.NewValue.BuildCodeChanged += TemplatePresenter_BuildCodeChanged;
                 e.NewValue.ProfessionChanged += BuildTemplate_ProfessionChanged;
                 e.NewValue.RaceChanged += TemplatePresenter_RaceChanged;
-                e.NewValue.EliteSpecializationChanged += BuildTemplate_EliteSpecChanged;
+                e.NewValue.EliteSpecializationChanged_OLD += BuildTemplate_EliteSpecChanged;
                 e.NewValue.LoadedBuildFromCode += BuildTemplate_Loaded;
                 e.NewValue.TemplateChanged += TemplatePresenter_TemplateChanged;
             }

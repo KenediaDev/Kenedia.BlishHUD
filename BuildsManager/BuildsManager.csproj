@@ -516,7 +516,7 @@
     <Compile Include="Models\Templates\LegendSlotType.cs" />
     <Compile Include="Models\Templates\PetCollection.cs" />
     <Compile Include="Models\Templates\PetSlotType.cs" />
-    <Compile Include="Models\Templates\SpecializationCollection.cs" />
+    <Compile Include="Models\Templates\Specializations.cs" />
     <Compile Include="Models\Templates\SpecializationSlotType.cs" />
     <Compile Include="Models\Templates\TemplateFlag.cs" />
     <Compile Include="Models\Templates\TraitCollection.cs" />

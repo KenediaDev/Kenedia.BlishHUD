@@ -2,7 +2,6 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Kenedia.Modules.BuildsManager.DataModels.Professions;
-using Kenedia.Modules.Core.Utility;
 
 namespace Kenedia.Modules.BuildsManager.Controls
 {

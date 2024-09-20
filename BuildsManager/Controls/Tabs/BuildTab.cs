@@ -15,14 +15,9 @@ using Kenedia.Modules.Core.Controls;
 using Kenedia.Modules.Core.DataModels;
 using Kenedia.Modules.Core.Models;
 using Kenedia.Modules.Core.Services;
-using Kenedia.Modules.Core.Utility;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Xml;
 using FlowPanel = Kenedia.Modules.Core.Controls.FlowPanel;
 using Panel = Kenedia.Modules.Core.Controls.Panel;
 using TextBox = Kenedia.Modules.Core.Controls.TextBox;
@@ -38,11 +33,15 @@ namespace Kenedia.Modules.BuildsManager.Controls.Tabs
 
         private readonly ProfessionRaceSelection _professionRaceSelection;
         private readonly FlowPanel _specializationsPanel;
+
+        public SpecLine SpecLine1 { get; }
+        public SpecLine SpecLine2 { get; }
+        public SpecLine SpecLine3 { get; }
+
         private readonly Panel _professionSpecificsContainer;
 
         private readonly SkillsBar _skillbar;
         private readonly Dummy _dummy;
-        private readonly Dictionary<SpecializationSlotType, SpecLine> _specializations;
 
         private readonly ButtonImage _specIcon;
         private readonly ButtonImage _raceIcon;
@@ -146,12 +145,11 @@ namespace Kenedia.Modules.BuildsManager.Controls.Tabs
                 ZIndex = 10,
             };
 
-            _specializations = new()
-            {
-                {SpecializationSlotType.Line_1,  new SpecLine(SpecializationSlotType.Line_1, TemplatePresenter, Data) { Parent = _specializationsPanel } },
-                {SpecializationSlotType.Line_2,  new SpecLine(SpecializationSlotType.Line_2, TemplatePresenter, Data) { Parent = _specializationsPanel} },
-                {SpecializationSlotType.Line_3,  new SpecLine(SpecializationSlotType.Line_3, TemplatePresenter, Data) { Parent = _specializationsPanel} },
-            };
+            SpecLine1 = new SpecLine(SpecializationSlotType.Line_1, TemplatePresenter, Data) { Parent = _specializationsPanel };
+
+            SpecLine2 = new SpecLine(SpecializationSlotType.Line_2, TemplatePresenter, Data) { Parent = _specializationsPanel };
+
+            SpecLine3 = new SpecLine(SpecializationSlotType.Line_3, TemplatePresenter, Data) { Parent = _specializationsPanel };
 
             _professionRaceSelection = new()
             {
@@ -167,7 +165,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.Tabs
             TemplatePresenter.BuildCodeChanged += TemplatePresenter_BuildCodeChanged;
             TemplatePresenter.ProfessionChanged += TemplatePresenter_ProfessionChanged;
             TemplatePresenter.RaceChanged += TemplatePresenter_RaceChanged;
-            TemplatePresenter.EliteSpecializationChanged += TemplatePresenter_EliteSpecializationChanged;
+            TemplatePresenter.EliteSpecializationChanged_OLD += TemplatePresenter_EliteSpecializationChanged;
         }
 
         public TemplatePresenter TemplatePresenter { get; }
@@ -222,8 +220,6 @@ namespace Kenedia.Modules.BuildsManager.Controls.Tabs
         protected override void DisposeControl()
         {
             base.DisposeControl();
-
-            //_specializations.ToList().ForEach(l => l.Value.Dispose());
 
             foreach (var c in Children)
             {

@@ -1,16 +1,11 @@
 ﻿using Blish_HUD.Content;
-using Kenedia.Modules.BuildsManager.Controls_Old.BuildPage;
 using Kenedia.Modules.Core.Views;
 using Microsoft.Xna.Framework;
 using Kenedia.Modules.Core.Services;
 using Kenedia.Modules.BuildsManager.Controls_Old;
-using Kenedia.Modules.BuildsManager.Controls_Old.GearPage;
-using Kenedia.Modules.BuildsManager.Controls_Old.AboutPage;
 using Kenedia.Modules.BuildsManager.Controls_Old.Selection;
 using Kenedia.Modules.BuildsManager.Models;
-using Kenedia.Modules.Core.Models;
 using Kenedia.Modules.BuildsManager.Res;
-using Blish_HUD;
 using Blish_HUD.Modules;
 using Kenedia.Modules.BuildsManager.Controls.Tabs;
 

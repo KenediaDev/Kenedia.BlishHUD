@@ -4,6 +4,22 @@ using System;
 
 namespace Kenedia.Modules.BuildsManager.Models
 {
+    public class SpecializationChangedEventArgs : EventArgs
+    {
+        public SpecializationChangedEventArgs(SpecializationSlotType slot, Specialization? specialization, Specialization? oldSpecialization = default)
+        {
+            Slot = slot;
+            Specialization = specialization;
+            OldSpecialization = oldSpecialization;
+        }
+
+        public SpecializationSlotType Slot { get; set; }
+
+        public Specialization? Specialization { get; set; }
+
+        public Specialization? OldSpecialization { get; set; }
+    }
+
     public class SkillChangedEventArgs : EventArgs
     {
         public SkillChangedEventArgs(SkillSlotType slot, Skill? skill, Skill? oldSkill = default)

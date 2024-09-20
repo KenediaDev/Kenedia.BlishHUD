@@ -24,17 +24,9 @@ using CornerIcon = Kenedia.Modules.Core.Controls.CornerIcon;
 using LoadingSpinner = Kenedia.Modules.Core.Controls.LoadingSpinner;
 using AnchoredContainer = Kenedia.Modules.Core.Controls.AnchoredContainer;
 using Version = SemVer.Version;
-using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Kenedia.Modules.Core.Controls;
-using Kenedia.Modules.BuildsManager.Controls_Old.AboutPage;
 using Kenedia.Modules.BuildsManager.Controls_Old.Selection;
-using Kenedia.Modules.BuildsManager.Controls_Old.GearPage;
-using Kenedia.Modules.BuildsManager.Controls_Old.BuildPage;
-using System.Collections.Generic;
-using System.ServiceModel;
-using Blish_HUD.Modules.Managers;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement.TextBox;
 using Kenedia.Modules.BuildsManager.Controls.Tabs;
 using System.Linq;
 

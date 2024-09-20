@@ -1,23 +1,16 @@
 ﻿using Blish_HUD;
 using Blish_HUD.Content;
 using Blish_HUD.Controls;
-using Gw2Sharp.Models;
-using Gw2Sharp;
 using Kenedia.Modules.BuildsManager.DataModels.Professions;
 using Kenedia.Modules.BuildsManager.Extensions;
 using Kenedia.Modules.BuildsManager.Models;
 using Kenedia.Modules.BuildsManager.Models.Templates;
-using Kenedia.Modules.BuildsManager.Services;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using MonoGame.Extended.TextureAtlases;
-using System.Diagnostics;
-using System.Linq;
 using static Blish_HUD.ContentService;
 using Colors = Microsoft.Xna.Framework.Color;
 using Kenedia.Modules.Core.Models;
 using Kenedia.Modules.Core.Utility;
-using System;
 
 namespace Kenedia.Modules.BuildsManager.Controls
 {

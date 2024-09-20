@@ -90,7 +90,7 @@ namespace Kenedia.Modules.BuildsManager.Controls_Old.BuildPage
             {
                 e.OldValue.ProfessionChanged -= Template_ProfessionChanged;
                 e.OldValue.RaceChanged -= Template_RaceChanged;
-                e.OldValue.EliteSpecializationChanged -= BuildTemplate_EliteSpecChanged;
+                e.OldValue.EliteSpecializationChanged_OLD -= BuildTemplate_EliteSpecChanged;
                 e.OldValue.LegendChanged -= On_LegendChanged;
                 e.OldValue.LoadedBuildFromCode -= OnLoaded;
                 e.OldValue.TemplateChanged -= On_TemplateChanged;
@@ -107,7 +107,7 @@ namespace Kenedia.Modules.BuildsManager.Controls_Old.BuildPage
             {
                 e.NewValue.ProfessionChanged += Template_ProfessionChanged;
                 e.NewValue.RaceChanged += Template_RaceChanged;
-                e.NewValue.EliteSpecializationChanged += BuildTemplate_EliteSpecChanged;
+                e.NewValue.EliteSpecializationChanged_OLD += BuildTemplate_EliteSpecChanged;
                 e.NewValue.LegendChanged += On_LegendChanged;
                 e.NewValue.LoadedBuildFromCode += OnLoaded;
                 e.NewValue.TemplateChanged += On_TemplateChanged;
@@ -292,7 +292,7 @@ namespace Kenedia.Modules.BuildsManager.Controls_Old.BuildPage
             if (TemplatePresenter?.Template?.Profession != ProfessionType.Revenant)
             {
                 var skills = Data.Professions[TemplatePresenter.Template.Profession].Skills;
-                var filteredSkills = skills.Where(e => e.Value.PaletteId > 0 && e.Value.Slot is not null && e.Value.Slot == slot && (e.Value.Specialization == 0 || TemplatePresenter.Template.HasSpecialization(e.Value.Specialization))).ToList();
+                var filteredSkills = skills.Where(e => e.Value.PaletteId > 0 && e.Value.Slot is not null && e.Value.Slot == slot && (e.Value.Specialization == 0 || TemplatePresenter.Template.HasSpecialization(e.Value.Specialization, out _))).ToList();
 
                 var racialSkills = TemplatePresenter.Template.Race != Core.DataModels.Races.None ? Data.Races[TemplatePresenter.Template.Race]?.Skills.Where(e => e.Value.PaletteId > 0 && e.Value.Slot is not null && e.Value.Slot == slot).ToList() : new();
                 if (racialSkills is not null) filteredSkills.AddRange(racialSkills);

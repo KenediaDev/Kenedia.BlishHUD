@@ -227,7 +227,7 @@ namespace Kenedia.Modules.BuildsManager.Controls_Old.GearPage
                 e.OldValue.LoadedGearFromCode -= TemplatePresenter_LoadedGearFromCode;
                 e.OldValue.LoadedBuildFromCode -= TemplatePresenter_LoadedBuildFromCode;
                 e.OldValue.ProfessionChanged -= TemplatePresenter_ProfessionChanged;
-                e.OldValue.EliteSpecializationChanged -= TemplatePresenter_EliteSpecializationChanged;
+                e.OldValue.EliteSpecializationChanged_OLD -= TemplatePresenter_EliteSpecializationChanged;
                 e.OldValue.GearCodeChanged -= TemplatePresenter_GearCodeChanged;
             }
 
@@ -237,7 +237,7 @@ namespace Kenedia.Modules.BuildsManager.Controls_Old.GearPage
                 e.NewValue.LoadedGearFromCode += TemplatePresenter_LoadedGearFromCode;
                 e.NewValue.LoadedBuildFromCode += TemplatePresenter_LoadedBuildFromCode;
                 e.NewValue.ProfessionChanged += TemplatePresenter_ProfessionChanged;
-                e.NewValue.EliteSpecializationChanged += TemplatePresenter_EliteSpecializationChanged;
+                e.NewValue.EliteSpecializationChanged_OLD += TemplatePresenter_EliteSpecializationChanged;
                 e.NewValue.GearCodeChanged += TemplatePresenter_GearCodeChanged;
             }
         }

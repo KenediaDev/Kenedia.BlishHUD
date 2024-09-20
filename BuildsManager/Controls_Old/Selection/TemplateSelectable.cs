@@ -205,7 +205,7 @@ namespace Kenedia.Modules.BuildsManager.Controls_Old.Selection
                     if (_template is not null) _template.ProfessionChanged += Template_ProfessionChanged;
 
                     if (temp is not null) temp.EliteSpecializationChanged -= Template_EliteSpecializationChanged;
-                    if (_template is not null) _template.EliteSpecializationChanged += Template_EliteSpecializationChanged;
+                    if (_template is not null) _template.EliteSpecializationChanged += Template_EliteSpecializationChanged; ;
 
                     if (temp is not null) temp.Tags.CollectionChanged -= Tags_CollectionChanged;
                     if (_template is not null) _template.Tags.CollectionChanged += Tags_CollectionChanged;
@@ -223,7 +223,7 @@ namespace Kenedia.Modules.BuildsManager.Controls_Old.Selection
             RecalculateLayout();
         }
 
-        private void Template_EliteSpecializationChanged(object sender, Core.Models.ValueChangedEventArgs<DataModels.Professions.Specialization> e)
+        private void Template_EliteSpecializationChanged(object sender, SpecializationChangedEventArgs e)
         {
             ApplyTemplate();
         }

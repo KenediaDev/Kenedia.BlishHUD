@@ -6,7 +6,6 @@ using Kenedia.Modules.Core.Models;
 using Kenedia.Modules.Core.Utility;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System;
 
 namespace Kenedia.Modules.BuildsManager.Controls_Old.BuildPage
 {

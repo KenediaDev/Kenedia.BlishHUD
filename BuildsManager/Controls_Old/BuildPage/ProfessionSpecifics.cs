@@ -33,7 +33,7 @@ namespace Kenedia.Modules.BuildsManager.Controls_Old.BuildPage
             {
                 e.OldValue.LoadedBuildFromCode -= OnLoaded;
                 e.OldValue.LegendChanged -= OnLegendChanged;
-                e.OldValue.EliteSpecializationChanged -= OnEliteSpecializationChanged;
+                e.OldValue.EliteSpecializationChanged_OLD -= OnEliteSpecializationChanged;
                 e.OldValue.TemplateChanged -= OnTemplateChanged;
             }
 
@@ -41,7 +41,7 @@ namespace Kenedia.Modules.BuildsManager.Controls_Old.BuildPage
             {
                 e.NewValue.LoadedBuildFromCode += OnLoaded;
                 e.NewValue.LegendChanged += OnLegendChanged;
-                e.NewValue.EliteSpecializationChanged += OnEliteSpecializationChanged;
+                e.NewValue.EliteSpecializationChanged_OLD += OnEliteSpecializationChanged;
                 e.NewValue.TemplateChanged += OnTemplateChanged;
             }
         }
