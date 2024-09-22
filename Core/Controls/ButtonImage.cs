@@ -8,7 +8,6 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using Kenedia.Modules.Core.Services;
-using Blish_HUD.Input;
 
 namespace Kenedia.Modules.Core.Controls
 {

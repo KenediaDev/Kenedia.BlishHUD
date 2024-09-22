@@ -1,6 +1,5 @@
 ﻿using Blish_HUD.Content;
 using Kenedia.Modules.BuildsManager.DataModels.Items;
-using Kenedia.Modules.BuildsManager.Extensions;
 using Kenedia.Modules.Core.Models;
 using System;
 using System.Collections.Generic;

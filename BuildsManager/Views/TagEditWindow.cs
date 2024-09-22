@@ -1,5 +1,5 @@
 ﻿using Blish_HUD.Content;
-using Kenedia.Modules.BuildsManager.Controls.AboutPage;
+using Kenedia.Modules.BuildsManager.Controls;
 using Kenedia.Modules.BuildsManager.Models;
 using Kenedia.Modules.BuildsManager.Services;
 using Kenedia.Modules.Core.Controls;
@@ -7,12 +7,7 @@ using Kenedia.Modules.Core.Extensions;
 using Kenedia.Modules.Core.Res;
 using Kenedia.Modules.Core.Views;
 using Microsoft.Xna.Framework;
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Xml.Linq;
 
 namespace Kenedia.Modules.BuildsManager.Views
 {

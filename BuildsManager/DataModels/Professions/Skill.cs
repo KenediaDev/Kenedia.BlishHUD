@@ -71,12 +71,14 @@ namespace Kenedia.Modules.BuildsManager.DataModels.Professions
 
         [DataMember]
         public int IconAssetId { get; set; }
+
         public AsyncTexture2D Icon
         {
             get
             {
                 if (_icon is not null) return _icon;
 
+                //TODO: This creates a deadlock on UI creation ... needs a fix!
                 if (IconAssetId is not 0)
                     _icon = AsyncTexture2D.FromAssetId(IconAssetId);
 

@@ -19,7 +19,7 @@ namespace Kenedia.Modules.Core.Utility
         public static bool SetProperty<T>(ref T property, T newValue, ValueChangedEventHandler<T> OnUpdated, bool triggerOnUpdate = true)
         {
             var temp = property;
-            if (SetProperty(ref property, newValue))
+            if (SetProperty (ref property, newValue))
             {
                 if (triggerOnUpdate) OnUpdated?.Invoke(property, new(temp, newValue));
 

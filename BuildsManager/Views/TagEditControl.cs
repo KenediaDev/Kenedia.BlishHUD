@@ -6,7 +6,6 @@ using Kenedia.Modules.Core.Controls;
 using Kenedia.Modules.Core.Models;
 using Kenedia.Modules.Core.Utility;
 using Microsoft.Xna.Framework;
-using System;
 
 namespace Kenedia.Modules.BuildsManager.Views
 {
@@ -181,7 +180,7 @@ namespace Kenedia.Modules.BuildsManager.Views
 
         private void RemoveTag(TemplateTag tag)
         {
-            BuildsManager.ModuleInstance.TemplateTags.Remove(Tag);
+            TemplateTags.Remove(Tag);
             Dispose();
         }
 

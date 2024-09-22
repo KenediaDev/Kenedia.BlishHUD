@@ -27,7 +27,7 @@ namespace Kenedia.Modules.BuildsManager.TemplateEntries
         public event EventHandler<ValueChangedEventArgs<Infusion>> Infusion2Changed;
         public event EventHandler<ValueChangedEventArgs<Infusion>> Infusion3Changed;
 
-        public Trinket Ring { get; private set; } = BuildsManager.Data.Trinkets.TryGetValue(91234, out Trinket ring) ? ring : null;
+        public Trinket Ring { get; private set; } = BuildsManager.Data?.Trinkets.TryGetValue(91234, out Trinket ring) is true ? ring : null;
 
         public Infusion Infusion1 { get => _infusion1; set => Common.SetProperty(ref _infusion1, value, OnInfusion1Changed); }
 

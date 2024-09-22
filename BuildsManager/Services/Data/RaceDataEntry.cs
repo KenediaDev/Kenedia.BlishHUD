@@ -8,13 +8,11 @@ using System;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-using Version = SemVer.Version;
 using Kenedia.Modules.Core.Extensions;
 using Kenedia.Modules.Core.Models;
 using Gw2Sharp.WebApi;
 using System.Threading;
 using Kenedia.Modules.BuildsManager.Models;
-using System.Diagnostics;
 
 namespace Kenedia.Modules.BuildsManager.Services
 {

@@ -3,6 +3,7 @@ using Kenedia.Modules.BuildsManager.DataModels.Items;
 using Kenedia.Modules.BuildsManager.DataModels.Professions;
 using Kenedia.Modules.BuildsManager.DataModels.Stats;
 using Kenedia.Modules.BuildsManager.Models.Templates;
+using Kenedia.Modules.BuildsManager.Services;
 using Kenedia.Modules.Core.DataModels;
 using Kenedia.Modules.Core.Models;
 using Kenedia.Modules.Core.Utility;
@@ -12,15 +13,17 @@ namespace Kenedia.Modules.BuildsManager.Models
 {
     public class TemplatePresenter
     {
-        private Template _template = new();
+        private Template _template;
         private GameModeType _gameMode = GameModeType.PvE;
         private AttunementType _mainAttunement = AttunementType.Fire;
         private AttunementType _altAttunement = AttunementType.Fire;
         private LegendSlotType _legendSlot = LegendSlotType.TerrestrialActive;
 
-        public TemplatePresenter()
+        public TemplatePresenter(TemplateFactory templateFactory)
         {
-            RegisterEvents(_template);
+            TemplateFactory = templateFactory;
+
+            Template = TemplateFactory.CreateTemplate("DummyTemplate");
         }
 
         public event EventHandler LoadedGearFromCode;
@@ -49,21 +52,40 @@ namespace Kenedia.Modules.BuildsManager.Models
 
         public event ValueChangedEventHandler<Races> RaceChanged;
 
-        public event DictionaryItemChangedEventHandler<SkillSlotType, Skill> SkillChanged;
+        public event DictionaryItemChangedEventHandler<SkillSlotType, Skill> SkillChanged_OLD;
 
-        public event ValueChangedEventHandler<Specialization> EliteSpecializationChanged;
+        public event ValueChangedEventHandler<Specialization> EliteSpecializationChanged_OLD;
 
         public event DictionaryItemChangedEventHandler<LegendSlotType, Legend> LegendChanged;
 
-        public event DictionaryItemChangedEventHandler<SpecializationSlotType, Specialization> SpecializationChanged;
+        public event DictionaryItemChangedEventHandler<SpecializationSlotType, Specialization> SpecializationChanged_OLD;
 
-        public Template Template { get => _template; set => Common.SetProperty(ref _template, value, On_TemplateChanged); }
+        //REWORKED
+
+        public event SkillChangedEventHandler SkillChanged;
+
+        public event TraitChangedEventHandler TraitChanged;
+
+        public event SpecializationChangedEventHandler SpecializationChanged;
+
+        public event SpecializationChangedEventHandler EliteSpecializationChanged;
+
+        public Template Template
+        {
+            get => _template; private set => Common.SetProperty(ref _template, value, On_TemplateChanged);
+        }
+
+        public void SetTemplate(Template? template)
+        {
+            template ??= TemplateFactory.CreateTemplate();
+            Template = template;
+        }
 
         public AttunementType MainAttunement { get => _mainAttunement; set => Common.SetProperty(ref _mainAttunement, value, On_AttunementChanged); }
 
         public AttunementType AltAttunement { get => _altAttunement; set => Common.SetProperty(ref _altAttunement, value, On_AttunementChanged); }
 
-        public LegendSlotType LegendSlot { get => _legendSlot; set => Common.SetProperty(ref _legendSlot, value, On_LegendSlotChanged); }
+        public LegendSlotType LegendSlot { get => _legendSlot; set => Common.SetProperty(ref _legendSlot, value, OnLegendSlotChanged); }
 
         public GameModeType GameMode { get => _gameMode; set => Common.SetProperty(ref _gameMode, value, On_GameModeChanged); }
 
@@ -73,24 +95,33 @@ namespace Kenedia.Modules.BuildsManager.Models
 
         public bool IsWvw => GameMode == GameModeType.WvW;
 
+        public TemplateFactory TemplateFactory { get; }
+
         private void On_TemplateChanged(object sender, ValueChangedEventArgs<Template> e)
         {
             if (e.OldValue is not null)
             {
                 e.OldValue.RaceChanged -= On_RaceChanged;
-                e.OldValue.BuildChanged -= On_BuildChanged;
-                e.OldValue.GearChanged -= On_GearChanged;
+                e.OldValue.BuildCodeChanged -= On_BuildChanged;
+                e.OldValue.GearCodeChanged -= On_GearChanged;
                 e.OldValue.ProfessionChanged -= On_ProfessionChanged;
-                e.OldValue.EliteSpecializationChanged -= On_EliteSpecializationChanged;
-                e.OldValue.SpecializationChanged -= On_SpecializationChanged;
+                e.OldValue.SpecializationChanged_OLD -= On_SpecializationChanged;
                 e.OldValue.LegendChanged -= On_LegendChanged;
-                e.OldValue.SkillChanged -= On_SkillChanged;
+                e.OldValue.SkillChanged_OLD -= On_SkillChanged_OLD;
 
                 e.OldValue.LoadedBuildFromCode -= On_LoadedBuildFromCode;
                 e.OldValue.LoadedGearFromCode -= On_LoadedGearFromCode;
 
                 e.OldValue.NameChanged -= On_NameChanged;
+
+                //REWORKED STUFF
+                e.OldValue.SkillChanged -= OnSkillChanged;
+                e.OldValue.TraitChanged -= OnTraitChanged;
+                e.OldValue.EliteSpecializationChanged -= OnEliteSpecializationChanged;
+                e.OldValue.SpecializationChanged -= OnSpecializationChanged;
             }
+
+            e.NewValue?.Load();
 
             if (e.NewValue is not null)
             {
@@ -102,20 +133,47 @@ namespace Kenedia.Modules.BuildsManager.Models
 
         private void RegisterEvents(Template template)
         {
+            if (template is null) return;
+
             template.RaceChanged += On_RaceChanged;
-            template.BuildChanged += On_BuildChanged;
-            template.GearChanged += On_GearChanged;
+            template.BuildCodeChanged += On_BuildChanged;
+            template.GearCodeChanged += On_GearChanged;
             template.ProfessionChanged += On_ProfessionChanged;
-            template.EliteSpecializationChanged += On_EliteSpecializationChanged;
-            template.SpecializationChanged += On_SpecializationChanged;
+            template.SpecializationChanged_OLD += On_SpecializationChanged;
             template.LegendChanged += On_LegendChanged;
-            template.SkillChanged += On_SkillChanged;
+            template.SkillChanged_OLD += On_SkillChanged_OLD;
 
             template.LoadedBuildFromCode += On_LoadedBuildFromCode;
             template.LoadedGearFromCode += On_LoadedGearFromCode;
 
             template.NameChanged += On_NameChanged;
             template.TemplateSlotChanged += Template_TemplateSlotChanged;
+
+            //REWORKED STUFF
+            template.SkillChanged += OnSkillChanged;
+            template.TraitChanged += OnTraitChanged;
+            template.SpecializationChanged += OnSpecializationChanged;
+            template.EliteSpecializationChanged += OnEliteSpecializationChanged;
+        }
+
+        private void OnEliteSpecializationChanged(object sender, SpecializationChangedEventArgs e)
+        {
+            EliteSpecializationChanged?.Invoke(sender, e);
+        }
+
+        private void OnSpecializationChanged(object sender, SpecializationChangedEventArgs e)
+        {
+            SpecializationChanged?.Invoke(sender, e);
+        }
+
+        private void OnTraitChanged(object sender, TraitChangedEventArgs e)
+        {
+            TraitChanged?.Invoke(sender, e);
+        }
+
+        private void OnSkillChanged(object sender, SkillChangedEventArgs e)
+        {
+            SkillChanged?.Invoke(sender, e);
         }
 
         private void Template_TemplateSlotChanged(object sender, (TemplateSlotType slot, BaseItem item, Stat stat) e)
@@ -155,7 +213,7 @@ namespace Kenedia.Modules.BuildsManager.Models
 
         private void On_EliteSpecializationChanged(object sender, ValueChangedEventArgs<Specialization> e)
         {
-            EliteSpecializationChanged?.Invoke(sender, e);
+            EliteSpecializationChanged_OLD?.Invoke(sender, e);
             BuildCodeChanged?.Invoke(sender, e);
         }
 
@@ -167,13 +225,13 @@ namespace Kenedia.Modules.BuildsManager.Models
 
         private void On_SpecializationChanged(object sender, DictionaryItemChangedEventArgs<SpecializationSlotType, Specialization> e)
         {
-            SpecializationChanged?.Invoke(sender, e);
+            SpecializationChanged_OLD?.Invoke(sender, e);
             BuildCodeChanged?.Invoke(sender, e);
         }
 
-        private void On_SkillChanged(object sender, DictionaryItemChangedEventArgs<SkillSlotType, Skill> e)
+        private void On_SkillChanged_OLD(object sender, DictionaryItemChangedEventArgs<SkillSlotType, Skill> e)
         {
-            SkillChanged?.Invoke(sender, e);
+            //SkillChanged?.Invoke(sender, e);
             BuildCodeChanged?.Invoke(sender, e);
         }
 
@@ -189,7 +247,7 @@ namespace Kenedia.Modules.BuildsManager.Models
             BuildCodeChanged?.Invoke(sender, e);
         }
 
-        private void On_LegendSlotChanged(object sender, ValueChangedEventArgs<LegendSlotType> e)
+        private void OnLegendSlotChanged(object sender, ValueChangedEventArgs<LegendSlotType> e)
         {
             LegendSlotChanged?.Invoke(sender, e);
         }
@@ -214,33 +272,14 @@ namespace Kenedia.Modules.BuildsManager.Models
             On_AttunementChanged(this, new(_altAttunement, _mainAttunement));
         }
 
-        public void SwapLegend(LegendSlotType? legendSlot = null)
+        public void SwapLegend()
         {
-            legendSlot ??= LegendSlot is LegendSlotType.AquaticActive or LegendSlotType.TerrestrialActive ? LegendSlotType.TerrestrialInactive : LegendSlotType.TerrestrialActive;
-            LegendSlotType slot = legendSlot is LegendSlotType.AquaticActive or LegendSlotType.TerrestrialActive ? LegendSlotType.TerrestrialActive : LegendSlotType.TerrestrialInactive;
-
-            if (_legendSlot.Equals(slot)) return;
-
-            var oldLegend = LegendSlot;
-            _legendSlot = slot;
-
-            On_LegendSlotChanged(this, new(oldLegend, _legendSlot));
-        }
-
-        public void SetProfession(ProfessionType profession)
-        {
-            if (Template is not null)
+            LegendSlot = LegendSlot switch
             {
-                Template.Profession = profession;
-            }
-        }
-
-        public void SetRace(Races race)
-        {
-            if (Template is not null)
-            {
-                Template.Race = race;
-            }
+                LegendSlotType.TerrestrialActive or LegendSlotType.AquaticActive => LegendSlotType.TerrestrialInactive,
+                LegendSlotType.TerrestrialInactive or LegendSlotType.AquaticInactive => LegendSlotType.TerrestrialActive,
+                _ => LegendSlotType.TerrestrialActive,
+            };
         }
 
         public void InvokeTemplateSwitch()

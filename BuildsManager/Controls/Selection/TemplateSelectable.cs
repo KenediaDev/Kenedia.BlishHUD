@@ -4,7 +4,6 @@ using Microsoft.Xna.Framework.Graphics;
 using System.Collections.Generic;
 using Kenedia.Modules.Core.Extensions;
 using Blish_HUD.Content;
-using Kenedia.Modules.BuildsManager.Models.Templates;
 using System.Linq;
 using Blish_HUD.Input;
 using Blish_HUD;
@@ -23,7 +22,6 @@ using Kenedia.Modules.BuildsManager.Models;
 using Kenedia.Modules.BuildsManager.Res;
 using Gw2Sharp.WebApi;
 using Kenedia.Modules.BuildsManager.Services;
-using System.Diagnostics;
 
 namespace Kenedia.Modules.BuildsManager.Controls.Selection
 {
@@ -64,8 +62,14 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
         private AsyncTexture2D _raceTexture;
         private AsyncTexture2D _specTexture;
 
-        public TemplateSelectable()
+        public TemplateSelectable(TemplatePresenter templatePresenter, TemplateCollection templates, Data data, TemplateTags templateTags, TemplateFactory templateFactory)
         {
+            Data = data;
+            Templates = templates;
+            TemplateTags = templateTags;
+            TemplateFactory = templateFactory;
+            TemplatePresenter = templatePresenter;
+
             Height = 85;
 
             BorderWidth = new(3);
@@ -90,7 +94,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
                 EnterPressedAction = (txt) =>
                 {
                     string moddedtxt = txt.Trim().ToLower();
-                    var template = BuildsManager.ModuleInstance.Templates.Where(e => e.Name.ToLower() == moddedtxt).FirstOrDefault();
+                    var template = Templates.Where(e => e.Name.ToLower() == moddedtxt).FirstOrDefault();
 
                     if (template == null || template == Template)
                     {
@@ -107,7 +111,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
                 {
                     txt = txt.Trim().ToLower();
 
-                    var template = BuildsManager.ModuleInstance.Templates.Where(e => e.Name.ToLower() == txt).FirstOrDefault();
+                    var template = Templates.Where(e => e.Name.ToLower() == txt).FirstOrDefault();
                     _nameEdit.ForeColor = template == null || template == Template ? Color.White : Color.Red;
                 },
             };
@@ -150,7 +154,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
 
             if (result == DialogResult.OK)
             {
-                _ = BuildsManager.ModuleInstance.Templates.Remove(Template);
+                _ = Templates.Remove(Template);
                 _ = Template?.Delete();
             }
         }
@@ -159,9 +163,9 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
         {
             Template t;
             string name = $"{Template?.Name ?? strings.NewTemplate} - {strings.Copy}";
-            if (BuildsManager.ModuleInstance.Templates.Where(e => e.Name == name).Count() == 0)
+            if (Templates.Where(e => e.Name == name).Count() == 0)
             {
-                BuildsManager.ModuleInstance.Templates.Add(t = new(Template?.BuildCode, Template?.GearCode) { Name = name });
+                Templates.Add(t = TemplateFactory.CreateTemplate(name, Template?.BuildCode, Template?.GearCode));
             }
             else
             {
@@ -204,7 +208,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
                     if (_template is not null) _template.ProfessionChanged += Template_ProfessionChanged;
 
                     if (temp is not null) temp.EliteSpecializationChanged -= Template_EliteSpecializationChanged;
-                    if (_template is not null) _template.EliteSpecializationChanged += Template_EliteSpecializationChanged;
+                    if (_template is not null) _template.EliteSpecializationChanged += Template_EliteSpecializationChanged; ;
 
                     if (temp is not null) temp.Tags.CollectionChanged -= Tags_CollectionChanged;
                     if (_template is not null) _template.Tags.CollectionChanged += Tags_CollectionChanged;
@@ -212,13 +216,19 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
             }
         }
 
+        public TemplatePresenter TemplatePresenter { get; }
+        public TemplateCollection Templates { get; }
+        public Data Data { get; }
+        public TemplateTags TemplateTags { get; }
+        public TemplateFactory TemplateFactory { get; }
+
         private void Tags_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
         {
             SetTagTextures();
             RecalculateLayout();
         }
 
-        private void Template_EliteSpecializationChanged(object sender, Core.Models.ValueChangedEventArgs<DataModels.Professions.Specialization> e)
+        private void Template_EliteSpecializationChanged(object sender, SpecializationChangedEventArgs e)
         {
             ApplyTemplate();
         }
@@ -235,7 +245,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
 
         private void Template_RaceChanged(object sender, Core.Models.ValueChangedEventArgs<Races> e)
         {
-            _raceTexture = BuildsManager.Data.Races.TryGetValue(_template?.Race ?? Races.None, out var race) ? race.Icon : null;
+            _raceTexture = Data.Races.TryGetValue(_template?.Race ?? Races.None, out var race) ? race.Icon : null;
         }
 
         public void ToggleEditMode(bool enable)
@@ -397,8 +407,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
                 return;
             }
 
-            Template?.Load();
-            OnClickAction?.Invoke();
+            TemplatePresenter.SetTemplate(Template);
         }
 
         protected override void DisposeControl()
@@ -468,8 +477,8 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
         private void ApplyTemplate()
         {
             _name.Text = _template?.Name;
-            _raceTexture = BuildsManager.Data.Races.TryGetValue(_template?.Race ?? Races.None, out var race) ? race.Icon : null;
-            _specTexture = Template?.EliteSpecialization?.ProfessionIconBig ?? (BuildsManager.Data.Professions.TryGetValue((Gw2Sharp.Models.ProfessionType)Template?.Profession, out var profession) ? profession.IconBig : null);
+            _raceTexture = Data.Races.TryGetValue(_template?.Race ?? Races.None, out var race) ? race.Icon : null;
+            _specTexture = Template?.EliteSpecialization?.ProfessionIconBig ?? (Data.Professions.TryGetValue((Gw2Sharp.Models.ProfessionType)Template?.Profession, out var profession) ? profession.IconBig : null);
 
             SetTagTextures();
 
@@ -485,7 +494,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
 
             if (_template is not null)
             {
-                var tags = BuildsManager.ModuleInstance.TemplateTags.Tags;
+                var tags = TemplateTags.Tags;
 
                 Point s = new(20);
                 Rectangle r = new(_tagBounds.X, _tagBounds.Y, s.X, s.Y);

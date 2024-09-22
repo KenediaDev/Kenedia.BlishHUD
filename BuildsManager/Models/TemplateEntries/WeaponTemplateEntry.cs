@@ -9,7 +9,6 @@ using Kenedia.Modules.BuildsManager.Utility;
 using Kenedia.Modules.Core.Utility;
 using Kenedia.Modules.Core.Models;
 using Kenedia.Modules.Core.Extensions;
-using System.Diagnostics;
 
 namespace Kenedia.Modules.BuildsManager.TemplateEntries
 {

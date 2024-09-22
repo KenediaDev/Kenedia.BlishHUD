@@ -1,17 +1,36 @@
 ﻿using Kenedia.Modules.BuildsManager.DataModels.Professions;
-using Kenedia.Modules.Core.Models;
 using System;
+using System.Collections;
+using System.Collections.Generic;
 
 namespace Kenedia.Modules.BuildsManager.Models.Templates
 {
-    public class TraitCollection : ObservableDictionary<TraitTierType, Trait>
+    public class TraitCollection : IEnumerable<Trait?>
     {
-        public TraitCollection()
+        public Trait? Adept { get; set; }
+
+        public Trait? Master { get; set; }
+
+        public Trait? GrandMaster { get; set; }
+
+        public Trait? this[TraitTierType slot] => slot switch
         {
-            foreach (TraitTierType e in Enum.GetValues(typeof(TraitTierType)))
-            {
-                Add(e, null);
-            }
+            TraitTierType.Adept => Adept,
+            TraitTierType.Master => Master,
+            TraitTierType.GrandMaster => GrandMaster,
+            _ => throw new ArgumentOutOfRangeException(nameof(slot), slot, null)
+        };
+
+        public IEnumerator<Trait?> GetEnumerator()
+        {
+            yield return Adept;
+            yield return Master;
+            yield return GrandMaster;
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return GetEnumerator();
         }
     }
 }

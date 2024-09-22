@@ -1,7 +1,6 @@
 ﻿using Blish_HUD.Modules.Managers;
 using Newtonsoft.Json;
 using System.Threading.Tasks;
-using Version = SemVer.Version;
 using System.Threading;
 using Kenedia.Modules.BuildsManager.DataModels.Items;
 using System.Collections.Generic;

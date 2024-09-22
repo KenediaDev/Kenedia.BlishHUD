@@ -4,10 +4,8 @@ using Kenedia.Modules.Core.Models;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -82,7 +80,6 @@ namespace Kenedia.Modules.BuildsManager.Services
 
         private void OnTagChanged()
         {
-            //Debug.WriteLine($"OnTagChanged");
             OrderTags();
         }
 

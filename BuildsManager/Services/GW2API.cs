@@ -3,17 +3,14 @@ using Blish_HUD.Modules.Managers;
 using Gw2Sharp.WebApi;
 using Gw2Sharp.WebApi.V2.Models;
 using Kenedia.Modules.Core.Models;
-using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using File = System.IO.File;
 using System.Threading;
 using Kenedia.Modules.Core.Extensions;
 using Kenedia.Modules.BuildsManager.Models;
 using Kenedia.Modules.Core.Controls;
-using System.Diagnostics;
 using Kenedia.Modules.BuildsManager.Extensions;
 
 namespace Kenedia.Modules.BuildsManager.Services
@@ -21,10 +18,7 @@ namespace Kenedia.Modules.BuildsManager.Services
     public class GW2API
     {
         private readonly Logger _logger = Logger.GetLogger(typeof(GW2API));
-        private readonly Gw2ApiManager _gw2ApiManager;
-        private readonly Func<Data> _getData;
-        private readonly Paths _paths;
-        private readonly Func<NotificationBadge> _notificationBadge;
+
         private CancellationTokenSource _cancellationTokenSource;
         private Exception _lastException = null;
 
@@ -121,17 +115,21 @@ namespace Kenedia.Modules.BuildsManager.Services
             //87504, //Swim-Speed Infusion +30
         };
 
-        public GW2API(Gw2ApiManager gw2ApiManager, Func<Data> getData, Paths paths, Func<NotificationBadge> notificationBadge)
+        public GW2API(Gw2ApiManager gw2ApiManager, Data data, Paths paths, NotificationBadge notificationBadge)
         {
-            _gw2ApiManager = gw2ApiManager;
-            _getData = getData;
-            _paths = paths;
-            _notificationBadge = notificationBadge;
+
+            Gw2ApiManager = gw2ApiManager;
+            Data = data;
+            Paths = paths;
+            NotificationBadge = notificationBadge;
         }
 
-        private Data Data => _getData?.Invoke();
+        public Gw2ApiManager Gw2ApiManager { get; }
 
-        public PathCollection Paths => _paths;
+        private Data Data { get; }
+
+        public Paths Paths { get; }
+        public NotificationBadge NotificationBadge { get; }
 
         public void Cancel()
         {
@@ -158,7 +156,7 @@ namespace Kenedia.Modules.BuildsManager.Services
 
             LocalizedString state = new();
 
-            if (_notificationBadge() is NotificationBadge notificationBadge)
+            if (NotificationBadge is NotificationBadge notificationBadge)
             {
                 notificationBadge.Visible = false;
             }
@@ -176,7 +174,7 @@ namespace Kenedia.Modules.BuildsManager.Services
                 var mapCollection = StaticVersion.LoadFromFile($@"{Paths.ModuleDataPath}DataMap.json");
                 var mapVersions = mapCollection.GetVersions();
 
-                var raw_itemids = await _gw2ApiManager.Gw2ApiClient.V2.Items.IdsAsync(_cancellationTokenSource.Token);
+                var raw_itemids = await Gw2ApiManager.Gw2ApiClient.V2.Items.IdsAsync(_cancellationTokenSource.Token);
                 var invalidIds = new List<int>()
                 {
                     11126, // Corrupted
@@ -205,7 +203,7 @@ namespace Kenedia.Modules.BuildsManager.Services
 
                         try
                         {
-                            items = await _gw2ApiManager.Gw2ApiClient.V2.Items.ManyAsync(ids, _cancellationTokenSource.Token);
+                            items = await Gw2ApiManager.Gw2ApiClient.V2.Items.ManyAsync(ids, _cancellationTokenSource.Token);
 
                             foreach (var item in items)
                             {
@@ -320,11 +318,11 @@ namespace Kenedia.Modules.BuildsManager.Services
                     }
                 }
 
-                var ring = (ItemTrinket)await _gw2ApiManager.Gw2ApiClient.V2.Items.GetAsync(91234, _cancellationTokenSource.Token);
-                var legyWeapon = (ItemWeapon)await _gw2ApiManager.Gw2ApiClient.V2.Items.GetAsync(30698, _cancellationTokenSource.Token);
+                var ring = (ItemTrinket)await Gw2ApiManager.Gw2ApiClient.V2.Items.GetAsync(91234, _cancellationTokenSource.Token);
+                var legyWeapon = (ItemWeapon)await Gw2ApiManager.Gw2ApiClient.V2.Items.GetAsync(30698, _cancellationTokenSource.Token);
                 var statIds = ring.Details.StatChoices.Concat(legyWeapon.Details.StatChoices);
 
-                var apiStats = await _gw2ApiManager.Gw2ApiClient.V2.Itemstats.AllAsync(_cancellationTokenSource.Token);
+                var apiStats = await Gw2ApiManager.Gw2ApiClient.V2.Itemstats.AllAsync(_cancellationTokenSource.Token);
                 if (_cancellationTokenSource.IsCancellationRequested) return;
 
                 foreach (var e in apiStats)
@@ -340,7 +338,7 @@ namespace Kenedia.Modules.BuildsManager.Services
                     }
                 }
 
-                var apiAmulets = await _gw2ApiManager.Gw2ApiClient.V2.Pvp.Amulets.AllAsync(_cancellationTokenSource.Token);
+                var apiAmulets = await Gw2ApiManager.Gw2ApiClient.V2.Pvp.Amulets.AllAsync(_cancellationTokenSource.Token);
                 if (_cancellationTokenSource.IsCancellationRequested) return;
 
                 foreach (var e in apiAmulets)
@@ -353,7 +351,7 @@ namespace Kenedia.Modules.BuildsManager.Services
                     }
                 }
 
-                Debug.WriteLine($@"Save to {Paths.ModuleDataPath}DataMap.json");
+                BuildsManager.Logger.Info($@"Save to {Paths.ModuleDataPath}DataMap.json");
                 mapCollection.Save($@"{Paths.ModuleDataPath}DataMap.json");
             }
             catch

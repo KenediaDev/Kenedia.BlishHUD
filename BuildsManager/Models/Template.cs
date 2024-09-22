@@ -20,19 +20,32 @@ using Kenedia.Modules.BuildsManager.Utility;
 using Kenedia.Modules.BuildsManager.DataModels.Items;
 using Kenedia.Modules.BuildsManager.DataModels.Stats;
 using Kenedia.Modules.BuildsManager.Res;
-using System.Diagnostics;
-using System.Runtime.InteropServices;
-using System.Collections.ObjectModel;
+using Kenedia.Modules.BuildsManager.Services;
+using Gw2Sharp;
+using Kenedia.Modules.BuildsManager.Extensions;
+using System.Timers;
 
 namespace Kenedia.Modules.BuildsManager.Models
 {
+
+    public delegate void TemplateChangedEventHandler<T>(object sender, TemplateChangedEventArgs<T?> e);
+
+    public delegate void SkillChangedEventHandler(object sender, SkillChangedEventArgs e);
+
+    public delegate void TraitChangedEventHandler(object sender, TraitChangedEventArgs e);
+
+    public delegate void SpecializationChangedEventHandler(object sender, SpecializationChangedEventArgs e);
+
     [DataContract]
     public class Template : IDisposable
     {
+        private readonly System.Timers.Timer _timer;
+
+        public Data Data { get; } = BuildsManager.Data;
+
 #nullable enable
         private bool _loaded = false;
         private bool _isDisposed = false;
-        private bool _triggerEvents = true;
 
         private Races _race = Races.None;
         private ProfessionType _profession = ProfessionType.Guardian;
@@ -42,7 +55,8 @@ namespace Kenedia.Modules.BuildsManager.Models
 
         private string _savedBuildCode = string.Empty;
         private string _savedGearCode = string.Empty;
-        public Specialization? _savedEliteSpecialization = null;
+
+        public Specialization? SavedEliteSpecialization { get; private set; } = null;
 
         [JsonProperty("Tags")]
         [DataMember]
@@ -50,9 +64,12 @@ namespace Kenedia.Modules.BuildsManager.Models
 
         private CancellationTokenSource? _cancellationTokenSource;
 
-        public event EventHandler? GearChanged;
+        private bool _saveRequested;
+        private List<BuildSpecialization> _specializations;
 
-        public event EventHandler? BuildChanged;
+        public event EventHandler? GearCodeChanged;
+
+        public event EventHandler? BuildCodeChanged;
 
         public event EventHandler? LoadedGearFromCode;
 
@@ -64,16 +81,28 @@ namespace Kenedia.Modules.BuildsManager.Models
 
         public event ValueChangedEventHandler<ProfessionType>? ProfessionChanged;
 
-        public event ValueChangedEventHandler<Specialization>? EliteSpecializationChanged;
+        public event DictionaryItemChangedEventHandler<SpecializationSlotType, Specialization?>? SpecializationChanged_OLD;
 
-        public event DictionaryItemChangedEventHandler<SpecializationSlotType, Specialization>? SpecializationChanged;
+        public event DictionaryItemChangedEventHandler<LegendSlotType, Legend?>? LegendChanged;
 
-        public event DictionaryItemChangedEventHandler<LegendSlotType, Legend>? LegendChanged;
+        public event DictionaryItemChangedEventHandler<SkillSlotType, Skill?>? SkillChanged_OLD;
 
-        public event DictionaryItemChangedEventHandler<SkillSlotType, Skill> SkillChanged;
+        public event EventHandler<(TemplateSlotType slot, BaseItem item, Stat stat)>? TemplateSlotChanged;
 
-        public Template()
+        //REWORKED
+        public event SkillChangedEventHandler? SkillChanged;
+
+        public event TraitChangedEventHandler? TraitChanged;
+
+        public event SpecializationChangedEventHandler? SpecializationChanged;
+
+        public event SpecializationChangedEventHandler? EliteSpecializationChanged;
+
+        public Template(Data data)
         {
+            _timer = new(1000);
+            _timer.Elapsed += OnTimerElapsed;
+
             Weapons = new()
                 {
                 {TemplateSlotType.MainHand, MainHand },
@@ -104,16 +133,8 @@ namespace Kenedia.Modules.BuildsManager.Models
                 {TemplateSlotType.AltAquatic, AltAquatic},
                 };
 
-            Specializations.EliteSpecChanged += Specializations_EliteSpecChanged;
-            Specializations.ItemPropertyChanged += Specializations_ItemPropertyChanged;
-            Legends.ItemChanged += Legends_ItemChanged;
             Pets.ItemChanged += Pets_ItemChanged;
             Skills.ItemChanged += Skills_ItemChanged;
-
-            foreach (var spec in Specializations.Values)
-            {
-                spec.TraitsChanged += Spec_TraitsChanged;
-            }
 
             MainHand.PairedWeapon = OffHand;
             OffHand.PairedWeapon = MainHand;
@@ -125,29 +146,23 @@ namespace Kenedia.Modules.BuildsManager.Models
 
             PlayerCharacter player = Blish_HUD.GameService.Gw2Mumble.PlayerCharacter;
             Profession = player?.Profession ?? Profession;
-            _tags = new();
+            _tags = [];
         }
 
-        public Template(string? buildCode, string? gearCode) : this()
+        public Template(Data data, string? buildCode, string? gearCode) : this(data)
         {
             LoadFromCode(buildCode, gearCode);
         }
 
         [JsonConstructor]
-        public Template(string name, string buildCode, string gearCode, string description, UniqueObservableCollection<string> tags, Races? race, ProfessionType? profession, int? elitespecId) : this()
+        public Template(Data data, string name, string buildCode, string gearCode, string description, UniqueObservableCollection<string> tags, Races? race, ProfessionType? profession, int? elitespecId) : this(data)
         {
-            // Disable Events to prevent unnecessary event triggers during the load
-            _triggerEvents = false;
-
             _name = name;
             _race = race ?? Races.None;
             _profession = profession ?? ProfessionType.Guardian;
-            _savedEliteSpecialization = BuildsManager.Data.Professions[Profession]?.Specializations.FirstOrDefault(e => e.Value.Id == elitespecId).Value;
+            SavedEliteSpecialization = Data.Professions[Profession]?.Specializations.FirstOrDefault(e => e.Value.Id == elitespecId).Value;
             _description = description;
             Tags = tags ?? _tags;
-
-            // Enable Events again to become responsive
-            _triggerEvents = true;
 
             _savedBuildCode = buildCode;
             _savedGearCode = gearCode;
@@ -155,24 +170,40 @@ namespace Kenedia.Modules.BuildsManager.Models
             SetArmorItems();
         }
 
-        public event EventHandler<(TemplateSlotType slot, BaseItem item, Stat stat)> TemplateSlotChanged;
+        private async void OnTimerElapsed(object sender, ElapsedEventArgs e)
+        {
+            if (_saveRequested)
+            {
+                _timer.Stop();
+
+                await Save();
+            }
+        }
+
+        private void RequestSave()
+        {
+            _saveRequested = true;
+
+            _timer.Stop();
+            _timer.Start();
+        }
 
         #region General Template 
         public string FilePath => @$"{BuildsManager.ModuleInstance.Paths.TemplatesPath}{Common.MakeValidFileName(Name.Trim())}.json";
 
         [DataMember]
-        public ProfessionType Profession { get => _profession; set => Common.SetProperty(ref _profession, value, OnProfessionChanged, _triggerEvents); }
+        public ProfessionType Profession { get => _profession; private set => Common.SetProperty(ref _profession, value, OnProfessionChanged); }
 
         [DataMember]
-        public Races Race { get => _race; set => Common.SetProperty(ref _race, value, OnRaceChanged, _triggerEvents); }
+        public Races Race { get => _race; private set => Common.SetProperty(ref _race, value, OnRaceChanged, TriggerEvents); }
 
         public UniqueObservableCollection<string> Tags { get => _tags; private set => Common.SetProperty(ref _tags, value, OnTagsListChanged); }
 
         [DataMember]
-        public string Name { get => _name; set => Common.SetProperty(ref _name, value, OnNameChanged, _triggerEvents); }
+        public string Name { get => _name; set => Common.SetProperty(ref _name, value, OnNameChanged, TriggerEvents); }
 
         [DataMember]
-        public string Description { get => _description; set => Common.SetProperty(ref _description, value, AutoSave, _triggerEvents); }
+        public string Description { get => _description; set => Common.SetProperty(ref _description, value, OnDescriptionChanged, TriggerEvents); }
 
         [DataMember]
         public string? BuildCode
@@ -192,9 +223,9 @@ namespace Kenedia.Modules.BuildsManager.Models
         #region Build
 
         [DataMember]
-        public int? EliteSpecializationId => Specializations?[SpecializationSlotType.Line_3]?.Specialization?.Id ?? _savedEliteSpecialization?.Id;
+        public int? EliteSpecializationId => Specializations.Specialization3.Specialization?.Id ?? SavedEliteSpecialization?.Id;
 
-        public Specialization? EliteSpecialization => Specializations?[SpecializationSlotType.Line_3]?.Specialization ?? _savedEliteSpecialization;
+        public Specialization? EliteSpecialization => Specializations.Specialization3?.Specialization ?? SavedEliteSpecialization;
 
         public PetCollection Pets { get; } = new();
 
@@ -202,25 +233,35 @@ namespace Kenedia.Modules.BuildsManager.Models
 
         public LegendCollection Legends { get; } = new();
 
-        public SpecializationCollection Specializations { get; } = new();
+        public Specializations Specializations { get; } = new();
+
+        public BuildSpecialization? this[SpecializationSlotType slot] => slot switch
+        {
+            SpecializationSlotType.Line_1 => Specializations.Specialization1,
+            SpecializationSlotType.Line_2 => Specializations.Specialization2,
+            SpecializationSlotType.Line_3 => Specializations.Specialization3,
+            _ => null,
+        };
 
         private void OnTagsListChanged(object sender, ValueChangedEventArgs<UniqueObservableCollection<string>> e)
         {
             if (e.NewValue is not null)
             {
-                e.NewValue.CollectionChanged += NewValue_CollectionChanged;
+                e.NewValue.CollectionChanged += Tags_CollectionChanged;
             }
 
             if (e.OldValue is not null)
             {
-                e.OldValue.CollectionChanged -= NewValue_CollectionChanged;
+                e.OldValue.CollectionChanged -= Tags_CollectionChanged;
             }
         }
 
-        private void NewValue_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        private void Tags_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
         {
-            if (_triggerEvents)
-                AutoSave();
+            if (!TriggerEvents)
+                return;
+
+            RequestSave();
         }
         #endregion Build
 
@@ -282,13 +323,10 @@ namespace Kenedia.Modules.BuildsManager.Models
         public Dictionary<TemplateSlotType, TemplateEntry> Armors { get; }
 
         public Dictionary<TemplateSlotType, TemplateEntry> Jewellery { get; }
-        #endregion
 
-        private void Specializations_EliteSpecChanged(object sender, BuildSpecialization.SpecializationChangedEventArgs e)
-        {
-            RemoveInvalidBuildCombinations();
-            EliteSpecializationChanged?.Invoke(this, new ValueChangedEventArgs<Specialization>(e.OldSpecialization, e.NewSpecialization));
-        }
+        public bool TriggerEvents { get; set; } = false;
+
+        #endregion
 
         private void RegisterGearListeners()
         {
@@ -560,21 +598,21 @@ namespace Kenedia.Modules.BuildsManager.Models
 
         private void OnNameChanged(object sender, ValueChangedEventArgs<string> e)
         {
-            if (!_triggerEvents)
+            if (!TriggerEvents)
                 return;
 
-            AutoSave();
+            RequestSave();
             NameChanged?.Invoke(this, e);
         }
 
-        private async void OnGearChanged(object sender, EventArgs e)
+        private void OnGearChanged(object sender, EventArgs e)
         {
-            if (!_triggerEvents)
+            if (!TriggerEvents)
                 return;
 
-            GearChanged?.Invoke(this, e);
+            OnGearCodeChanged();
 
-            await Save();
+            RequestSave();
         }
 
         private void Relic_RelicChanged(object sender, ValueChangedEventArgs<Relic> e)
@@ -732,136 +770,141 @@ namespace Kenedia.Modules.BuildsManager.Models
             OnGearChanged(sender, e);
         }
 
-        private async void Spec_TraitsChanged(object sender, EventArgs e)
+        private void Spec_TraitsChanged(object sender, EventArgs e)
         {
-            if (!_triggerEvents) return;
+            if (!TriggerEvents)
+                return;
 
-            BuildChanged?.Invoke(this, e);
-            await Save();
+            OnBuildCodeChanged();
+            RequestSave();
         }
 
-        private async void Skills_ItemChanged(object sender, DictionaryItemChangedEventArgs<SkillSlotType, Skill?> e)
+        private void Skills_ItemChanged(object sender, DictionaryItemChangedEventArgs<SkillSlotType, Skill?> e)
         {
-            if (!_triggerEvents) return;
+            if (!TriggerEvents)
+                return;
 
-            SkillChanged?.Invoke(this, e);
-            BuildChanged?.Invoke(this, e);
+            //SkillChanged_OLD?.Invoke(this, e);
+            //OnBuildCodeChanged();
 
-            await Save();
+            RequestSave();
         }
 
-        private async void Pets_ItemChanged(object sender, DictionaryItemChangedEventArgs<PetSlotType, Pet?> e)
+        private void Pets_ItemChanged(object sender, DictionaryItemChangedEventArgs<PetSlotType, Pet?> e)
         {
-            if (!_triggerEvents) return;
-            BuildChanged?.Invoke(this, e);
-            await Save();
+            if (!TriggerEvents)
+                return;
+
+            OnBuildCodeChanged();
+            RequestSave();
         }
 
-        private async void Legends_ItemChanged(object sender, DictionaryItemChangedEventArgs<LegendSlotType, Legend?> e)
+        private void Legends_ItemChanged(object sender, DictionaryItemChangedEventArgs<LegendSlotType, Legend?> e)
         {
-            if (!_triggerEvents) return;
+            if (!TriggerEvents)
+                return;
 
-            BuildChanged?.Invoke(this, e);
-            await Save();
+            OnBuildCodeChanged();
+            RequestSave();
         }
 
-        private async void Specializations_ItemPropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        private void Specializations_ItemPropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
-            if (!_triggerEvents) return;
-            BuildChanged?.Invoke(this, e);
-            await Save();
+            if (!TriggerEvents)
+                return;
+
+            OnBuildCodeChanged();
+            RequestSave();
         }
 
-        private async void OnProfessionChanged(object sender, ValueChangedEventArgs<ProfessionType> e)
+        public void SetProfession(ProfessionType profession)
         {
-            bool temp = _triggerEvents;
+            Profession = profession;
 
-            _triggerEvents = false;
-            _ = Skills.WipeSkills(Race);
-            Specializations.Wipe();
+            SetSpecialization(SpecializationSlotType.Line_1, null);
+            SetSpecialization(SpecializationSlotType.Line_2, null);
+            SetSpecialization(SpecializationSlotType.Line_3, null);
+
             Pets.Wipe();
             Legends.Wipe();
 
-            _savedEliteSpecialization = null;
+            SavedEliteSpecialization = null;
+            RemoveInvalidSkillsBasedOnSpec();
+        }
 
+        private void OnProfessionChanged(object sender, ValueChangedEventArgs<ProfessionType> e)
+        {
             SetArmorItems();
 
-            RemoveInvalidBuildCombinations();
+            if (!TriggerEvents)
+                return;
 
-            _triggerEvents = temp;
-            if (!_triggerEvents) return;
             ProfessionChanged?.Invoke(this, e);
-            BuildChanged?.Invoke(this, e);
-
-            await Save();
+            OnBuildCodeChanged();
         }
 
         private void SetArmorItems()
         {
+            if (Data is null) return;
+
             switch (Profession.GetArmorType())
             {
                 case Gw2Sharp.WebApi.V2.Models.ItemWeightType.Heavy:
-                    AquaBreather.Armor = BuildsManager.Data.Armors[79895];
-                    Head.Armor = BuildsManager.Data.Armors[80384];
-                    Shoulder.Armor = BuildsManager.Data.Armors[80435];
-                    Chest.Armor = BuildsManager.Data.Armors[80254];
-                    Hand.Armor = BuildsManager.Data.Armors[80205];
-                    Leg.Armor = BuildsManager.Data.Armors[80277];
-                    Foot.Armor = BuildsManager.Data.Armors[80557];
+                    AquaBreather.Armor = Data.Armors[79895];
+                    Head.Armor = Data.Armors[80384];
+                    Shoulder.Armor = Data.Armors[80435];
+                    Chest.Armor = Data.Armors[80254];
+                    Hand.Armor = Data.Armors[80205];
+                    Leg.Armor = Data.Armors[80277];
+                    Foot.Armor = Data.Armors[80557];
                     break;
                 case Gw2Sharp.WebApi.V2.Models.ItemWeightType.Medium:
-                    AquaBreather.Armor = BuildsManager.Data.Armors[79838];
-                    Head.Armor = BuildsManager.Data.Armors[80296];
-                    Shoulder.Armor = BuildsManager.Data.Armors[80145];
-                    Chest.Armor = BuildsManager.Data.Armors[80578];
-                    Hand.Armor = BuildsManager.Data.Armors[80161];
-                    Leg.Armor = BuildsManager.Data.Armors[80252];
-                    Foot.Armor = BuildsManager.Data.Armors[80281];
+                    AquaBreather.Armor = Data.Armors[79838];
+                    Head.Armor = Data.Armors[80296];
+                    Shoulder.Armor = Data.Armors[80145];
+                    Chest.Armor = Data.Armors[80578];
+                    Hand.Armor = Data.Armors[80161];
+                    Leg.Armor = Data.Armors[80252];
+                    Foot.Armor = Data.Armors[80281];
                     break;
                 case Gw2Sharp.WebApi.V2.Models.ItemWeightType.Light:
-                    AquaBreather.Armor = BuildsManager.Data.Armors[79873];
-                    Head.Armor = BuildsManager.Data.Armors[80248];
-                    Shoulder.Armor = BuildsManager.Data.Armors[80131];
-                    Chest.Armor = BuildsManager.Data.Armors[80190];
-                    Hand.Armor = BuildsManager.Data.Armors[80111];
-                    Leg.Armor = BuildsManager.Data.Armors[80356];
-                    Foot.Armor = BuildsManager.Data.Armors[80399];
+                    AquaBreather.Armor = Data.Armors[79873];
+                    Head.Armor = Data.Armors[80248];
+                    Shoulder.Armor = Data.Armors[80131];
+                    Chest.Armor = Data.Armors[80190];
+                    Hand.Armor = Data.Armors[80111];
+                    Leg.Armor = Data.Armors[80356];
+                    Foot.Armor = Data.Armors[80399];
                     break;
             }
         }
 
-        private async void OnRaceChanged(object sender, ValueChangedEventArgs<Races> e)
+        private void OnRaceChanged(object sender, ValueChangedEventArgs<Races> e)
         {
-            RemoveInvalidBuildCombinations();
+            RemoveInvalidSkillsBasedOnRace();
 
-            if (Skills.WipeInvalidRacialSkills(Race))
-            {
-                BuildChanged?.Invoke(this, e);
-            }
+            if (!TriggerEvents)
+                return;
 
-            if (!_triggerEvents) return;
             RaceChanged?.Invoke(this, e);
-            await Save();
+            OnBuildCodeChanged();
         }
 
-        public void LoadFromCode(string? build = null, string? gear = null)
+        public void LoadFromCode(string? build = null, string? gear = null, bool save = false)
         {
             if (build is not null)
             {
-                LoadBuildFromCode(build);
+                LoadBuildFromCode(build, save);
             }
 
             if (gear is not null)
             {
-                LoadGearFromCode(gear);
+                LoadGearFromCode(gear, save);
             }
         }
 
-        public async void LoadBuildFromCode(string? code, bool save = false)
+        public void LoadBuildFromCode(string? code, bool save = false)
         {
-            // Disable Events to prevent unnecessary event triggers during the load
-            _triggerEvents = false;
-
             if (code is not null && Gw2ChatLink.TryParse(code, out IGw2ChatLink? chatlink))
             {
                 BuildChatLink build = new();
@@ -869,9 +912,9 @@ namespace Kenedia.Modules.BuildsManager.Models
 
                 Profession = build.Profession;
 
-                Specializations.LoadFromCode(build.Profession, SpecializationSlotType.Line_1, build.Specialization1Id, build.Specialization1Trait1Index, build.Specialization1Trait2Index, build.Specialization1Trait3Index);
-                Specializations.LoadFromCode(build.Profession, SpecializationSlotType.Line_2, build.Specialization2Id, build.Specialization2Trait1Index, build.Specialization2Trait2Index, build.Specialization2Trait3Index);
-                Specializations.LoadFromCode(build.Profession, SpecializationSlotType.Line_3, build.Specialization3Id, build.Specialization3Trait1Index, build.Specialization3Trait2Index, build.Specialization3Trait3Index);
+                LoadSpecializationFromCode(build.Profession, SpecializationSlotType.Line_1, build.Specialization1Id, build.Specialization1Trait1Index, build.Specialization1Trait2Index, build.Specialization1Trait3Index);
+                LoadSpecializationFromCode(build.Profession, SpecializationSlotType.Line_2, build.Specialization2Id, build.Specialization2Trait1Index, build.Specialization2Trait2Index, build.Specialization2Trait3Index);
+                LoadSpecializationFromCode(build.Profession, SpecializationSlotType.Line_3, build.Specialization3Id, build.Specialization3Trait1Index, build.Specialization3Trait2Index, build.Specialization3Trait3Index);
 
                 if (Profession == ProfessionType.Ranger)
                 {
@@ -880,68 +923,67 @@ namespace Kenedia.Modules.BuildsManager.Models
 
                 if (Profession == ProfessionType.Revenant)
                 {
-                    Legends[LegendSlotType.TerrestrialInactive] = Legend.FromByte(build.RevenantInactiveTerrestrialLegend);
+                    SetLegend(LegendSlotType.TerrestrialInactive, Legend.FromByte(build.RevenantInactiveTerrestrialLegend));
+                    SetSkill(SkillSlotType.Inactive | SkillSlotType.Terrestrial | SkillSlotType.Heal, Legend.FromByte(build.RevenantInactiveTerrestrialLegend)?.Heal);
+                    SetSkill(SkillSlotType.Inactive | SkillSlotType.Terrestrial | SkillSlotType.Utility_1, Legend.SkillFromUShort(build.RevenantInactiveTerrestrialUtility1SkillPaletteId, Legends[LegendSlotType.TerrestrialInactive]));
+                    SetSkill(SkillSlotType.Inactive | SkillSlotType.Terrestrial | SkillSlotType.Utility_2, Legend.SkillFromUShort(build.RevenantInactiveTerrestrialUtility2SkillPaletteId, Legends[LegendSlotType.TerrestrialInactive]));
+                    SetSkill(SkillSlotType.Inactive | SkillSlotType.Terrestrial | SkillSlotType.Utility_3, Legend.SkillFromUShort(build.RevenantInactiveTerrestrialUtility3SkillPaletteId, Legends[LegendSlotType.TerrestrialInactive]));
+                    SetSkill(SkillSlotType.Inactive | SkillSlotType.Terrestrial | SkillSlotType.Elite, Legend.FromByte(build.RevenantInactiveTerrestrialLegend)?.Elite);
 
-                    Skills[SkillSlotType.Inactive | SkillSlotType.Terrestrial | SkillSlotType.Heal] = Legend.FromByte(build.RevenantInactiveTerrestrialLegend)?.Heal;
-                    Skills[SkillSlotType.Inactive | SkillSlotType.Terrestrial | SkillSlotType.Utility_1] = Legend.SkillFromUShort(build.RevenantInactiveTerrestrialUtility1SkillPaletteId, Legends[LegendSlotType.TerrestrialInactive]);
-                    Skills[SkillSlotType.Inactive | SkillSlotType.Terrestrial | SkillSlotType.Utility_2] = Legend.SkillFromUShort(build.RevenantInactiveTerrestrialUtility2SkillPaletteId, Legends[LegendSlotType.TerrestrialInactive]);
-                    Skills[SkillSlotType.Inactive | SkillSlotType.Terrestrial | SkillSlotType.Utility_3] = Legend.SkillFromUShort(build.RevenantInactiveTerrestrialUtility3SkillPaletteId, Legends[LegendSlotType.TerrestrialInactive]);
-                    Skills[SkillSlotType.Inactive | SkillSlotType.Terrestrial | SkillSlotType.Elite] = Legend.FromByte(build.RevenantInactiveTerrestrialLegend)?.Elite;
+                    SetLegend(LegendSlotType.AquaticInactive, Legend.FromByte(build.RevenantInactiveAquaticLegend));
+                    SetSkill(SkillSlotType.Inactive | SkillSlotType.Aquatic | SkillSlotType.Heal, Legend.FromByte(build.RevenantInactiveAquaticLegend)?.Heal);
+                    SetSkill(SkillSlotType.Inactive | SkillSlotType.Aquatic | SkillSlotType.Utility_1, Legend.SkillFromUShort(build.RevenantInactiveAquaticUtility1SkillPaletteId, Legends[LegendSlotType.AquaticInactive]));
+                    SetSkill(SkillSlotType.Inactive | SkillSlotType.Aquatic | SkillSlotType.Utility_2, Legend.SkillFromUShort(build.RevenantInactiveAquaticUtility2SkillPaletteId, Legends[LegendSlotType.AquaticInactive]));
+                    SetSkill(SkillSlotType.Inactive | SkillSlotType.Aquatic | SkillSlotType.Utility_3, Legend.SkillFromUShort(build.RevenantInactiveAquaticUtility3SkillPaletteId, Legends[LegendSlotType.AquaticInactive]));
+                    SetSkill(SkillSlotType.Inactive | SkillSlotType.Aquatic | SkillSlotType.Elite, Legend.FromByte(build.RevenantInactiveAquaticLegend)?.Elite);
 
-                    Legends[LegendSlotType.AquaticInactive] = Legend.FromByte(build.RevenantInactiveAquaticLegend);
-                    Skills[SkillSlotType.Inactive | SkillSlotType.Aquatic | SkillSlotType.Heal] = Legend.FromByte(build.RevenantInactiveAquaticLegend)?.Heal;
-                    Skills[SkillSlotType.Inactive | SkillSlotType.Aquatic | SkillSlotType.Utility_1] = Legend.SkillFromUShort(build.RevenantInactiveAquaticUtility1SkillPaletteId, Legends[LegendSlotType.AquaticInactive]);
-                    Skills[SkillSlotType.Inactive | SkillSlotType.Aquatic | SkillSlotType.Utility_2] = Legend.SkillFromUShort(build.RevenantInactiveAquaticUtility2SkillPaletteId, Legends[LegendSlotType.AquaticInactive]);
-                    Skills[SkillSlotType.Inactive | SkillSlotType.Aquatic | SkillSlotType.Utility_3] = Legend.SkillFromUShort(build.RevenantInactiveAquaticUtility3SkillPaletteId, Legends[LegendSlotType.AquaticInactive]);
-                    Skills[SkillSlotType.Inactive | SkillSlotType.Aquatic | SkillSlotType.Elite] = Legend.FromByte(build.RevenantInactiveAquaticLegend)?.Elite;
+                    SetLegend(LegendSlotType.TerrestrialActive, Legend.FromByte(build.RevenantActiveTerrestrialLegend));
+                    SetSkill(SkillSlotType.Active | SkillSlotType.Terrestrial | SkillSlotType.Heal, Legend.SkillFromUShort(build.TerrestrialHealingSkillPaletteId, Legends[LegendSlotType.TerrestrialActive]));
+                    SetSkill(SkillSlotType.Active | SkillSlotType.Terrestrial | SkillSlotType.Utility_1, Legend.SkillFromUShort(build.TerrestrialUtility1SkillPaletteId, Legends[LegendSlotType.TerrestrialActive]));
+                    SetSkill(SkillSlotType.Active | SkillSlotType.Terrestrial | SkillSlotType.Utility_2, Legend.SkillFromUShort(build.TerrestrialUtility2SkillPaletteId, Legends[LegendSlotType.TerrestrialActive]));
+                    SetSkill(SkillSlotType.Active | SkillSlotType.Terrestrial | SkillSlotType.Utility_3, Legend.SkillFromUShort(build.TerrestrialUtility3SkillPaletteId, Legends[LegendSlotType.TerrestrialActive]));
+                    SetSkill(SkillSlotType.Active | SkillSlotType.Terrestrial | SkillSlotType.Elite, Legend.SkillFromUShort(build.TerrestrialEliteSkillPaletteId, Legends[LegendSlotType.TerrestrialActive]));
 
-                    Legends[LegendSlotType.TerrestrialActive] = Legend.FromByte(build.RevenantActiveTerrestrialLegend);
-                    Skills[SkillSlotType.Active | SkillSlotType.Terrestrial | SkillSlotType.Heal] = Legend.SkillFromUShort(build.TerrestrialHealingSkillPaletteId, Legends[LegendSlotType.TerrestrialActive]);
-                    Skills[SkillSlotType.Active | SkillSlotType.Terrestrial | SkillSlotType.Utility_1] = Legend.SkillFromUShort(build.TerrestrialUtility1SkillPaletteId, Legends[LegendSlotType.TerrestrialActive]);
-                    Skills[SkillSlotType.Active | SkillSlotType.Terrestrial | SkillSlotType.Utility_2] = Legend.SkillFromUShort(build.TerrestrialUtility2SkillPaletteId, Legends[LegendSlotType.TerrestrialActive]);
-                    Skills[SkillSlotType.Active | SkillSlotType.Terrestrial | SkillSlotType.Utility_3] = Legend.SkillFromUShort(build.TerrestrialUtility3SkillPaletteId, Legends[LegendSlotType.TerrestrialActive]);
-                    Skills[SkillSlotType.Active | SkillSlotType.Terrestrial | SkillSlotType.Elite] = Legend.SkillFromUShort(build.TerrestrialEliteSkillPaletteId, Legends[LegendSlotType.TerrestrialActive]);
-
-                    Legends[LegendSlotType.AquaticActive] = Legend.FromByte(build.RevenantActiveAquaticLegend);
-                    Skills[SkillSlotType.Active | SkillSlotType.Aquatic | SkillSlotType.Heal] = Legend.SkillFromUShort(build.AquaticHealingSkillPaletteId, Legends[LegendSlotType.AquaticActive]);
-                    Skills[SkillSlotType.Active | SkillSlotType.Aquatic | SkillSlotType.Utility_1] = Legend.SkillFromUShort(build.AquaticUtility1SkillPaletteId, Legends[LegendSlotType.AquaticActive]);
-                    Skills[SkillSlotType.Active | SkillSlotType.Aquatic | SkillSlotType.Utility_2] = Legend.SkillFromUShort(build.AquaticUtility2SkillPaletteId, Legends[LegendSlotType.AquaticActive]);
-                    Skills[SkillSlotType.Active | SkillSlotType.Aquatic | SkillSlotType.Utility_3] = Legend.SkillFromUShort(build.AquaticUtility3SkillPaletteId, Legends[LegendSlotType.AquaticActive]);
-                    Skills[SkillSlotType.Active | SkillSlotType.Aquatic | SkillSlotType.Elite] = Legend.SkillFromUShort(build.AquaticEliteSkillPaletteId, Legends[LegendSlotType.AquaticActive]);
+                    SetLegend(LegendSlotType.AquaticActive, Legend.FromByte(build.RevenantActiveAquaticLegend));
+                    SetSkill(SkillSlotType.Active | SkillSlotType.Aquatic | SkillSlotType.Heal, Legend.SkillFromUShort(build.AquaticHealingSkillPaletteId, Legends[LegendSlotType.AquaticActive]));
+                    SetSkill(SkillSlotType.Active | SkillSlotType.Aquatic | SkillSlotType.Utility_1, Legend.SkillFromUShort(build.AquaticUtility1SkillPaletteId, Legends[LegendSlotType.AquaticActive]));
+                    SetSkill(SkillSlotType.Active | SkillSlotType.Aquatic | SkillSlotType.Utility_2, Legend.SkillFromUShort(build.AquaticUtility2SkillPaletteId, Legends[LegendSlotType.AquaticActive]));
+                    SetSkill(SkillSlotType.Active | SkillSlotType.Aquatic | SkillSlotType.Utility_3, Legend.SkillFromUShort(build.AquaticUtility3SkillPaletteId, Legends[LegendSlotType.AquaticActive]));
+                    SetSkill(SkillSlotType.Active | SkillSlotType.Aquatic | SkillSlotType.Elite, Legend.SkillFromUShort(build.AquaticEliteSkillPaletteId, Legends[LegendSlotType.AquaticActive]));
                 }
                 else
                 {
-                    Skills[SkillSlotType.Active | SkillSlotType.Terrestrial | SkillSlotType.Heal] = Skill.FromUShort(build.TerrestrialHealingSkillPaletteId, build.Profession);
-                    Skills[SkillSlotType.Active | SkillSlotType.Terrestrial | SkillSlotType.Utility_1] = Skill.FromUShort(build.TerrestrialUtility1SkillPaletteId, build.Profession);
-                    Skills[SkillSlotType.Active | SkillSlotType.Terrestrial | SkillSlotType.Utility_2] = Skill.FromUShort(build.TerrestrialUtility2SkillPaletteId, build.Profession);
-                    Skills[SkillSlotType.Active | SkillSlotType.Terrestrial | SkillSlotType.Utility_3] = Skill.FromUShort(build.TerrestrialUtility3SkillPaletteId, build.Profession);
-                    Skills[SkillSlotType.Active | SkillSlotType.Terrestrial | SkillSlotType.Elite] = Skill.FromUShort(build.TerrestrialEliteSkillPaletteId, build.Profession);
+                    SetSkill(SkillSlotType.Active | SkillSlotType.Terrestrial | SkillSlotType.Heal, Skill.FromUShort(build.TerrestrialHealingSkillPaletteId, build.Profession));
+                    SetSkill(SkillSlotType.Active | SkillSlotType.Terrestrial | SkillSlotType.Utility_1, Skill.FromUShort(build.TerrestrialUtility1SkillPaletteId, build.Profession));
+                    SetSkill(SkillSlotType.Active | SkillSlotType.Terrestrial | SkillSlotType.Utility_2, Skill.FromUShort(build.TerrestrialUtility2SkillPaletteId, build.Profession));
+                    SetSkill(SkillSlotType.Active | SkillSlotType.Terrestrial | SkillSlotType.Utility_3, Skill.FromUShort(build.TerrestrialUtility3SkillPaletteId, build.Profession));
+                    SetSkill(SkillSlotType.Active | SkillSlotType.Terrestrial | SkillSlotType.Elite, Skill.FromUShort(build.TerrestrialEliteSkillPaletteId, build.Profession));
 
-                    Skills[SkillSlotType.Active | SkillSlotType.Aquatic | SkillSlotType.Heal] = Skill.FromUShort(build.AquaticHealingSkillPaletteId, build.Profession);
-                    Skills[SkillSlotType.Active | SkillSlotType.Aquatic | SkillSlotType.Utility_1] = Skill.FromUShort(build.AquaticUtility1SkillPaletteId, build.Profession);
-                    Skills[SkillSlotType.Active | SkillSlotType.Aquatic | SkillSlotType.Utility_2] = Skill.FromUShort(build.AquaticUtility2SkillPaletteId, build.Profession);
-                    Skills[SkillSlotType.Active | SkillSlotType.Aquatic | SkillSlotType.Utility_3] = Skill.FromUShort(build.AquaticUtility3SkillPaletteId, build.Profession);
-                    Skills[SkillSlotType.Active | SkillSlotType.Aquatic | SkillSlotType.Elite] = Skill.FromUShort(build.AquaticEliteSkillPaletteId, build.Profession);
+                    SetSkill(SkillSlotType.Active | SkillSlotType.Aquatic | SkillSlotType.Heal, Skill.FromUShort(build.AquaticHealingSkillPaletteId, build.Profession));
+                    SetSkill(SkillSlotType.Active | SkillSlotType.Aquatic | SkillSlotType.Utility_1, Skill.FromUShort(build.AquaticUtility1SkillPaletteId, build.Profession));
+                    SetSkill(SkillSlotType.Active | SkillSlotType.Aquatic | SkillSlotType.Utility_2, Skill.FromUShort(build.AquaticUtility2SkillPaletteId, build.Profession));
+                    SetSkill(SkillSlotType.Active | SkillSlotType.Aquatic | SkillSlotType.Utility_3, Skill.FromUShort(build.AquaticUtility3SkillPaletteId, build.Profession));
+                    SetSkill(SkillSlotType.Active | SkillSlotType.Aquatic | SkillSlotType.Elite, Skill.FromUShort(build.AquaticEliteSkillPaletteId, build.Profession));
                 }
 
                 SetArmorItems();
             }
 
-            // Enable Events again to become responsive
-            _triggerEvents = true;
-
-            LoadedBuildFromCode?.Invoke(this, null);
+            OnBuildLoadedFromCode();
 
             if (save)
             {
-                await Save();
+                RequestSave();
             }
+        }
+
+        private void OnBuildLoadedFromCode()
+        {
+            LoadedBuildFromCode?.Invoke(this, null);
         }
 
         public async void LoadGearFromCode(string? code, bool save = false)
         {
-            // Disable Events to prevent unnecessary event triggers during the load
-            _triggerEvents = false;
             if (code == null) return;
 
             try
@@ -983,14 +1025,17 @@ namespace Kenedia.Modules.BuildsManager.Models
             catch { }
 
             RemoveInvalidGearCombinations();
-            _triggerEvents = true;
-
-            LoadedGearFromCode?.Invoke(this, null);
+            OnGearLoadedFromCode();
 
             if (save)
             {
-                await Save();
+                RequestSave();
             }
+        }
+
+        private void OnGearLoadedFromCode()
+        {
+            LoadedGearFromCode?.Invoke(this, null);
         }
 
         public string? ParseBuildCode()
@@ -1003,20 +1048,20 @@ namespace Kenedia.Modules.BuildsManager.Models
                 RangerTerrestrialPet1Id = Pets.GetPetByte(PetSlotType.Terrestrial_1),
                 RangerTerrestrialPet2Id = Pets.GetPetByte(PetSlotType.Terrestrial_2),
 
-                Specialization1Id = Specializations.GetSpecializationByte(SpecializationSlotType.Line_1),
-                Specialization1Trait1Index = Specializations.GetTraitByte(TraitTierType.Adept, Specializations[SpecializationSlotType.Line_1]),
-                Specialization1Trait2Index = Specializations.GetTraitByte(TraitTierType.Master, Specializations[SpecializationSlotType.Line_1]),
-                Specialization1Trait3Index = Specializations.GetTraitByte(TraitTierType.GrandMaster, Specializations[SpecializationSlotType.Line_1]),
+                Specialization1Id = Specializations.Specialization1.GetSpecializationByte(),
+                Specialization1Trait1Index = Specializations.Specialization1.GetTraitByte(TraitTierType.Adept),
+                Specialization1Trait2Index = Specializations.Specialization1.GetTraitByte(TraitTierType.Master),
+                Specialization1Trait3Index = Specializations.Specialization1.GetTraitByte(TraitTierType.GrandMaster),
 
-                Specialization2Id = Specializations.GetSpecializationByte(SpecializationSlotType.Line_2),
-                Specialization2Trait1Index = Specializations.GetTraitByte(TraitTierType.Adept, Specializations[SpecializationSlotType.Line_2]),
-                Specialization2Trait2Index = Specializations.GetTraitByte(TraitTierType.Master, Specializations[SpecializationSlotType.Line_2]),
-                Specialization2Trait3Index = Specializations.GetTraitByte(TraitTierType.GrandMaster, Specializations[SpecializationSlotType.Line_2]),
+                Specialization2Id = Specializations.Specialization2.GetSpecializationByte(),
+                Specialization2Trait1Index = Specializations.Specialization2.GetTraitByte(TraitTierType.Adept),
+                Specialization2Trait2Index = Specializations.Specialization2.GetTraitByte(TraitTierType.Master),
+                Specialization2Trait3Index = Specializations.Specialization2.GetTraitByte(TraitTierType.GrandMaster),
 
-                Specialization3Id = Specializations.GetSpecializationByte(SpecializationSlotType.Line_3),
-                Specialization3Trait1Index = Specializations.GetTraitByte(TraitTierType.Adept, Specializations[SpecializationSlotType.Line_3]),
-                Specialization3Trait2Index = Specializations.GetTraitByte(TraitTierType.Master, Specializations[SpecializationSlotType.Line_3]),
-                Specialization3Trait3Index = Specializations.GetTraitByte(TraitTierType.GrandMaster, Specializations[SpecializationSlotType.Line_3]),
+                Specialization3Id = Specializations.Specialization3.GetSpecializationByte(),
+                Specialization3Trait1Index = Specializations.Specialization3.GetTraitByte(TraitTierType.Adept),
+                Specialization3Trait2Index = Specializations.Specialization3.GetTraitByte(TraitTierType.Master),
+                Specialization3Trait3Index = Specializations.Specialization3.GetTraitByte(TraitTierType.GrandMaster),
             };
 
             if (Profession == ProfessionType.Revenant)
@@ -1092,14 +1137,15 @@ namespace Kenedia.Modules.BuildsManager.Models
             return $"[&{Convert.ToBase64String(codeArray)}]";
         }
 
-        private async void AutoSave()
+        private void OnDescriptionChanged()
         {
-            if (!_triggerEvents) return;
+            if (!TriggerEvents)
+                return;
 
-            await Save();
+            RequestSave();
         }
 
-        public async Task Save(int timeToWait = 500)
+        public async Task Save(int timeToWait = 1000)
         {
             if (!_loaded) return;
 
@@ -1115,7 +1161,12 @@ namespace Kenedia.Modules.BuildsManager.Models
                     if (!Directory.Exists(path)) _ = Directory.CreateDirectory(path);
 
                     string json = JsonConvert.SerializeObject(this, SerializerSettings.Default);
-                    File.WriteAllText($@"{path}\{Common.MakeValidFileName(Name.Trim())}.json", json);
+                    string filePath = $@"{path}\{Common.MakeValidFileName(Name.Trim())}.json";
+
+                    File.WriteAllText(filePath, json);
+                    BuildsManager.Logger.Debug($"Saved {Name} in {filePath}");
+                    _saveRequested = false;
+                    _timer.Stop();
                 }
             }
             catch (Exception ex)
@@ -1145,7 +1196,7 @@ namespace Kenedia.Modules.BuildsManager.Models
 
             Name = name;
 
-            await Save();
+            RequestSave();
             return true;
         }
 
@@ -1174,69 +1225,11 @@ namespace Kenedia.Modules.BuildsManager.Models
         {
             if (_isDisposed) return;
             _isDisposed = true;
-            _triggerEvents = false;
 
             UnRegisterGearListeners();
 
-            Specializations.EliteSpecChanged -= Specializations_EliteSpecChanged;
-            Specializations.ItemPropertyChanged -= Specializations_ItemPropertyChanged;
-            Legends.ItemChanged -= Legends_ItemChanged;
             Pets.ItemChanged -= Pets_ItemChanged;
             Skills.ItemChanged -= Skills_ItemChanged;
-
-            foreach (var spec in Specializations.Values)
-            {
-                if (spec != null)
-                    spec.TraitsChanged -= Spec_TraitsChanged;
-            }
-        }
-
-        public bool HasSpecialization(Specialization specialization)
-        {
-            foreach (var spec in Specializations)
-            {
-                if (spec.Value?.Specialization == specialization) return true;
-            }
-
-            return false;
-        }
-
-        public bool HasSpecialization(int specializationId)
-        {
-            foreach (var spec in Specializations)
-            {
-                if (spec.Value?.Specialization?.Id == specializationId) return true;
-            }
-
-            return false;
-        }
-
-        public SpecializationSlotType? GetSpecializationSlot(Specialization specialization)
-        {
-            foreach (var spec in Specializations)
-            {
-                if (spec.Value?.Specialization == specialization) return spec.Key;
-            }
-
-            return null;
-        }
-
-        public void SetSpecialization(SpecializationSlotType slot, Specialization? specialization = null, Trait? adept = null, Trait? master = null, Trait? grandmaster = null)
-        {
-            if (Specializations.TryGetValue(slot, out var spec) && spec is not null)
-            {
-                _triggerEvents = false;
-                var prev = spec.Specialization;
-                spec.Specialization = specialization;
-                spec.Traits[TraitTierType.Adept] = adept;
-                spec.Traits[TraitTierType.Master] = master;
-                spec.Traits[TraitTierType.GrandMaster] = grandmaster;
-
-                RemoveInvalidBuildCombinations();
-                _triggerEvents = true;
-
-                OnSpecializationChanged(this, new(slot, prev, specialization));
-            }
         }
 
         public void Load()
@@ -1249,79 +1242,221 @@ namespace Kenedia.Modules.BuildsManager.Models
             _loaded = true;
         }
 
-        private async void OnSpecializationChanged(object sender, DictionaryItemChangedEventArgs<SpecializationSlotType, Specialization> e)
+        private void LoadSpecializationFromCode(ProfessionType profession, SpecializationSlotType slot, byte specId, byte adept, byte master, byte grandMaster)
         {
-            if (!_triggerEvents) return;
+            var buildSpecialization = slot switch
+            {
+                SpecializationSlotType.Line_1 => Specializations.Specialization1,
+                SpecializationSlotType.Line_2 => Specializations.Specialization2,
+                SpecializationSlotType.Line_3 => Specializations.Specialization3,
+                _ => null
+            };
+
+            if (buildSpecialization is not null)
+            {
+                SetSpecialization(slot, Specialization.FromByte(specId, profession));
+                SetTrait(buildSpecialization, Trait.FromByte(adept, buildSpecialization.Specialization, TraitTierType.Adept), TraitTierType.Adept);
+                SetTrait(buildSpecialization, Trait.FromByte(master, buildSpecialization.Specialization, TraitTierType.Master), TraitTierType.Master);
+                SetTrait(buildSpecialization, Trait.FromByte(grandMaster, buildSpecialization.Specialization, TraitTierType.GrandMaster), TraitTierType.GrandMaster);
+            }
+        }
+
+        private void OnSpecializationChanged(object sender, SpecializationChangedEventArgs e)
+        {
+            if (!TriggerEvents) return;
 
             SpecializationChanged?.Invoke(sender, e);
 
-            await Save();
-        }
-
-        public void SwapSpecializations(SpecializationSlotType slot1, SpecializationSlotType slot2)
-        {
-            _triggerEvents = false;
-
-            if (Specializations is not null)
+            if (e.Slot == SpecializationSlotType.Line_3)
             {
-                var prevSlot1 = new BuildSpecialization() { Specialization = Specializations?[slot1]?.Specialization?.Elite == true && slot2 != SpecializationSlotType.Line_3 ? null : Specializations?[slot1]?.Specialization };
-                prevSlot1.Traits[TraitTierType.Adept] = prevSlot1.Specialization is not null ? Specializations?[slot1]?.Traits[TraitTierType.Adept] : null;
-                prevSlot1.Traits[TraitTierType.Master] = prevSlot1.Specialization is not null ? Specializations?[slot1]?.Traits[TraitTierType.Master] : null;
-                prevSlot1.Traits[TraitTierType.GrandMaster] = prevSlot1.Specialization is not null ? Specializations?[slot1]?.Traits[TraitTierType.GrandMaster] : null;
-
-                var prevSlot2 = new BuildSpecialization() { Specialization = Specializations?[slot2]?.Specialization?.Elite == true && slot1 != SpecializationSlotType.Line_3 ? null : Specializations?[slot2]?.Specialization };
-                prevSlot2.Traits[TraitTierType.Adept] = prevSlot2.Specialization is not null ? Specializations?[slot2]?.Traits[TraitTierType.Adept] : null;
-                prevSlot2.Traits[TraitTierType.Master] = prevSlot2.Specialization is not null ? Specializations?[slot2]?.Traits[TraitTierType.Master] : null;
-                prevSlot2.Traits[TraitTierType.GrandMaster] = prevSlot2.Specialization is not null ? Specializations?[slot2]?.Traits[TraitTierType.GrandMaster] : null;
-
-                SetSpecialization(slot2, prevSlot1.Specialization, prevSlot1.Traits[TraitTierType.Adept], prevSlot1.Traits[TraitTierType.Master], prevSlot1.Traits[TraitTierType.GrandMaster]);
-                SetSpecialization(slot1, prevSlot2.Specialization, prevSlot2.Traits[TraitTierType.Adept], prevSlot2.Traits[TraitTierType.Master], prevSlot2.Traits[TraitTierType.GrandMaster]);
-
-                RemoveInvalidBuildCombinations();
-                SpecializationChanged?.Invoke(this, new(slot1, prevSlot1.Specialization, prevSlot2.Specialization));
+                RemoveInvalidSkillsBasedOnSpec();
+                EliteSpecializationChanged?.Invoke(sender, e);
             }
 
-            _triggerEvents = true;
+            OnBuildCodeChanged();
         }
 
-        public void SetLegend(Legend legend, LegendSlotType slot)
+        public bool HasSpecialization(int? id, out BuildSpecialization slot)
         {
-            _triggerEvents = false;
+            if (id is not null)
+            {
+                foreach (var spec in Specializations)
+                {
+                    if (spec.Specialization?.Id == id)
+                    {
+                        slot = spec;
+                        return true;
+                    }
+                }
+            }
+
+            slot = null!;
+            return false;
+
+        }
+
+        public bool HasSpecialization(Specialization? specialization, out BuildSpecialization slot)
+        {
+            return HasSpecialization(specialization?.Id, out slot);
+        }
+
+        public void SetSpecialization(SpecializationSlotType slot, Specialization? specialization)
+        {
+            if (this?[slot] is BuildSpecialization newSpecline)
+            {
+                if (HasSpecialization(specialization, out var currentSpecline))
+                {
+                    if (currentSpecline.SpecializationSlot != slot)
+                    {
+                        var currentSpecialization = newSpecline.Specialization?.Elite is true && currentSpecline.SpecializationSlot != SpecializationSlotType.Line_3 ? null : newSpecline.Specialization;
+                        var newSpecialization = currentSpecline.Specialization?.Elite is true && newSpecline.SpecializationSlot != SpecializationSlotType.Line_3 ? null : currentSpecline.Specialization;
+
+                        var currentTraits = newSpecline.Traits.ToArray();
+                        var newTraits = currentSpecline.Traits.ToArray();
+
+                        newSpecline.Specialization = newSpecialization;
+                        SetTrait(newSpecline, newTraits[0], TraitTierType.Adept);
+                        SetTrait(newSpecline, newTraits[1], TraitTierType.Master);
+                        SetTrait(newSpecline, newTraits[2], TraitTierType.GrandMaster);
+
+                        currentSpecline.Specialization = currentSpecialization;
+                        SetTrait(currentSpecline, currentTraits[0], TraitTierType.Adept);
+                        SetTrait(currentSpecline, currentTraits[1], TraitTierType.Master);
+                        SetTrait(currentSpecline, currentTraits[2], TraitTierType.GrandMaster);
+
+                        OnSpecializationChanged(this, new(currentSpecline.SpecializationSlot, newSpecialization, currentSpecialization));
+                        OnSpecializationChanged(this, new(newSpecline.SpecializationSlot, currentSpecialization, newSpecialization));
+
+                        return;
+                    }
+                }
+
+                var previousSpecialization = newSpecline.Specialization;
+                newSpecline.Specialization = specialization;
+
+                if (slot is SpecializationSlotType.Line_3)
+                {
+                    SavedEliteSpecialization = specialization;
+                }
+
+                SetTrait(currentSpecline, null, TraitTierType.Adept);
+                SetTrait(currentSpecline, null, TraitTierType.Master);
+                SetTrait(currentSpecline, null, TraitTierType.GrandMaster);
+
+                OnSpecializationChanged(this, new(slot, previousSpecialization, specialization));
+            }
+        }
+
+        public void SetTrait(SpecializationSlotType spec, Trait? trait, TraitTierType tier)
+        {
+            if (this[spec] is BuildSpecialization buildSpec)
+            {
+                SetTrait(buildSpec, trait, tier);
+            }
+        }
+
+        public void SetTrait(BuildSpecialization spec, Trait? trait, TraitTierType tier)
+        {
+            if (spec is null) return;
+
+            Trait? previousTrait = null;
+
+            switch (tier)
+            {
+                case TraitTierType.Adept:
+                    previousTrait = spec.Traits.Adept;
+                    spec.Traits.Adept = trait;
+                    break;
+
+                case TraitTierType.Master:
+                    previousTrait = spec.Traits.Master;
+                    spec.Traits.Master = trait;
+                    break;
+
+                case TraitTierType.GrandMaster:
+                    previousTrait = spec.Traits.GrandMaster;
+                    spec.Traits.GrandMaster = trait;
+                    break;
+            }
+
+            OnTraitChanged(new(spec.SpecializationSlot, tier, previousTrait, trait));
+        }
+
+        private void OnTraitChanged(TraitChangedEventArgs e)
+        {
+            TraitChanged?.Invoke(this, e);
+            OnBuildCodeChanged();
+        }
+
+        public void SetLegend(LegendSlotType slot, Legend? legend)
+        {
             SkillSlotType state = SkillSlotType.Active;
+            SkillSlotType otherState = SkillSlotType.Active;
+
             SkillSlotType enviroment = SkillSlotType.Terrestrial;
 
             switch (slot)
             {
                 case LegendSlotType.AquaticActive:
                     state = SkillSlotType.Active;
+                    otherState = SkillSlotType.Inactive;
                     enviroment = SkillSlotType.Aquatic;
                     break;
 
                 case LegendSlotType.AquaticInactive:
                     state = SkillSlotType.Inactive;
+                    otherState = SkillSlotType.Active;
                     enviroment = SkillSlotType.Aquatic;
                     break;
 
                 case LegendSlotType.TerrestrialActive:
                     state = SkillSlotType.Active;
+                    otherState = SkillSlotType.Inactive;
                     enviroment = SkillSlotType.Terrestrial;
                     break;
 
                 case LegendSlotType.TerrestrialInactive:
                     state = SkillSlotType.Inactive;
+                    otherState = SkillSlotType.Active;
                     enviroment = SkillSlotType.Terrestrial;
                     break;
             };
 
-            Skills[state | enviroment | SkillSlotType.Heal] = legend?.Heal;
-            Skills[state | enviroment | SkillSlotType.Elite] = legend?.Elite;
-
-            List<int?> paletteIds = new()
+            LegendSlotType otherSlot = slot switch
             {
+                LegendSlotType.AquaticActive => LegendSlotType.AquaticInactive,
+                LegendSlotType.AquaticInactive => LegendSlotType.AquaticActive,
+                LegendSlotType.TerrestrialActive => LegendSlotType.TerrestrialInactive,
+                LegendSlotType.TerrestrialInactive => LegendSlotType.TerrestrialActive,
+                _ => LegendSlotType.TerrestrialActive
+            };
+
+            Legend otherLegend = Legends[otherSlot];
+
+            if (otherLegend?.Id == legend?.Id)
+            {
+                Legends.SetLegend(otherSlot, Legends[slot]);
+                SetLegendSkills(otherState, enviroment, Legends[otherSlot]);
+            }
+
+            var temp = Legends[slot];
+            Legends.SetLegend(slot, legend);
+            SetLegendSkills(state, enviroment, legend);
+
+            LegendChanged?.Invoke(this, new(slot, temp, legend));
+        }
+
+        private void SetLegendSkills(SkillSlotType state , SkillSlotType enviroment, Legend? legend)
+        {
+            SetSkill(state | enviroment | SkillSlotType.Heal, legend?.Heal);
+            SetSkill(state | enviroment | SkillSlotType.Elite, legend?.Elite);
+
+            List<int?> paletteIds =
+            [
                  Skills[state | enviroment | SkillSlotType.Utility_1]?.PaletteId,
                  Skills[state | enviroment | SkillSlotType.Utility_2]?.PaletteId,
                  Skills[state | enviroment | SkillSlotType.Utility_3]?.PaletteId,
-            };
+            ];
 
             List<int?> ids = new() { 4614, 4651, 4564 };
             int?[] missingIds = ids.Except(paletteIds).ToArray();
@@ -1331,7 +1466,8 @@ namespace Kenedia.Modules.BuildsManager.Models
             {
                 SkillSlotType skillSlot = state | enviroment | array[i];
                 int? paletteId = Skills[skillSlot]?.PaletteId;
-                Skills[skillSlot] = paletteId is not null ? Legend.SkillFromUShort((ushort)paletteId.Value, legend) : null;
+
+                SetSkill(skillSlot, paletteId is not null ? Legend.SkillFromUShort((ushort)paletteId.Value, legend) : null);
             }
 
             for (int j = 0; j < missingIds.Length; j++)
@@ -1341,23 +1477,26 @@ namespace Kenedia.Modules.BuildsManager.Models
                     SkillSlotType skillSlot = state | enviroment | array[i];
                     if (Skills[skillSlot] == null)
                     {
-                        Skills[skillSlot] ??= Legend.SkillFromUShort((ushort)missingIds[j], legend);
+                        SetSkill(skillSlot, Skills[skillSlot] ?? Legend.SkillFromUShort((ushort)missingIds[j], legend));
                         break;
                     }
                 }
             }
+        }
 
-            _triggerEvents = true;
-            var temp = Legends[slot];
-            Legends[slot] = legend;
-            LegendChanged?.Invoke(this, new(slot, temp, legend));
+        private void OnLegendChanged(object sender, DictionaryItemChangedEventArgs<LegendSlotType, Legend?> e)
+        {
+            if (!TriggerEvents) return;
+
+            LegendChanged?.Invoke(sender, e);
+            OnBuildCodeChanged();
         }
 
         private void RemoveInvalidGearCombinations()
         {
             // Check and clean invalid Weapons?
             var wipeWeapons = new List<TemplateSlotType>();
-            var professionWeapons = BuildsManager.Data.Professions[Profession]?.Weapons.Select(e => e.Value.Type.ToItemWeaponType()).ToList() ?? new();
+            var professionWeapons = Data.Professions[Profession]?.Weapons.Select(e => e.Value.Type.ToItemWeaponType()).ToList() ?? new();
 
             foreach (var slot in Weapons)
             {
@@ -1400,7 +1539,19 @@ namespace Kenedia.Modules.BuildsManager.Models
             }
         }
 
-        private void RemoveInvalidBuildCombinations()
+        private void RemoveInvalidSkillsBasedOnRace()
+        {
+            //Get all Skill ids from all races which don't match the current race id
+            var invalidSkills = Data.Races.Values.Where(x => x.Id != Race).SelectMany(x => x.Skills.Values.Select(e => e.Id)).ToList();
+            var slotsToWipe = Skills.Where(x => x.Value is not null && invalidSkills.Contains(x.Value.Id)).Select(x => x.Key).ToList();
+
+            foreach (var slot in slotsToWipe)
+            {
+                SetSkill(slot, null);
+            }
+        }
+
+        private void RemoveInvalidSkillsBasedOnSpec()
         {
             // Check and clean invalid Legends
             if (Profession is ProfessionType.Revenant)
@@ -1409,16 +1560,16 @@ namespace Kenedia.Modules.BuildsManager.Models
 
                 foreach (var legend in Legends)
                 {
-                    if (legend.Value is not null && legend.Value?.Specialization != 0 && legend.Value?.Specialization != EliteSpecialization?.Id)
+                    if (legend is not null && legend?.Specialization != 0 && legend?.Specialization != EliteSpecialization?.Id)
                     {
-                        wipeLegends.Add(legend.Key);
+                        wipeLegends.Add(Legends[legend]);
                     }
                 }
 
                 foreach (var slot in wipeLegends)
                 {
                     var legend = Legends[slot];
-                    Legends[slot] = null;
+                    SetLegend(slot, null);
 
                     OnLegendChanged(this, new(slot, legend, null));
                 }
@@ -1426,39 +1577,82 @@ namespace Kenedia.Modules.BuildsManager.Models
             else
             {
 
-                var specIds = Specializations.Values.Select(x => x?.Specialization.Id);
+                var specIds = Specializations.Where(x => x != null).Select(x => x?.Specialization?.Id);
                 var wipeSlots = new List<SkillSlotType>();
 
                 foreach (var s in Skills)
                 {
                     var skill = s.Value;
+                    bool profMatch = skill?.Professions.Contains(Profession) is true;
+                    bool specMatch = skill?.Specialization is null or 0 || (skill?.Specialization is int specId && specIds.Contains(specId));
+                    bool isRacial = Data?.Races[Race].Skills.Any(x => x.Value.Id == s.Value?.Id) is true;
 
-                    if (skill?.Specialization is not null and not 0)
+                    if ((!profMatch || !specMatch) && !isRacial)
                     {
-                        if (!specIds.Contains(skill.Specialization))
-                        {
-                            //Debug.WriteLine($"{skill?.Name} requires spec {skill?.Specialization} which is not in [{string.Join("," , specIds)}]");
-                            wipeSlots.Add(s.Key);
-                        }
+                        wipeSlots.Add(s.Key);
                     }
                 }
 
                 foreach (var slot in wipeSlots)
                 {
-                    var legend = Skills[slot];
-                    Skills[slot] = null;
+                    SetSkill(slot, null);
                 }
             }
         }
 
-        private async void OnLegendChanged(object sender, DictionaryItemChangedEventArgs<LegendSlotType, Legend> e)
+        public void SetSkill(SkillSlotType skillSlot, Skill? skill)
         {
-            if (!_triggerEvents) return;
+            SkillSlotType enviromentState = skillSlot.GetEnviromentState();
+            bool canSelectSkill = skill is null || skillSlot.IsTerrestrial() || !skill?.Flags.HasFlag(SkillFlag.NoUnderwater) is true;
 
-            LegendChanged?.Invoke(sender, e);
+            if (canSelectSkill || Profession == ProfessionType.Revenant)
+            {
+                if (skill is not null && Skills.HasSkill(skill, enviromentState))
+                {
+                    var slot = Skills.GetSkillSlot(skill, enviromentState);
 
-            await Save();
+                    Skills[slot] = Skills[skillSlot];
+                    Skills[skillSlot] = Skills[slot];
+                }
+
+                Skills[skillSlot] = skill;
+            }
+
+            OnSkillChanged(skillSlot, skill);
         }
+
+        private void OnSkillChanged(SkillSlotType skillSlot, Skill? skill)
+        {
+            if (!TriggerEvents) return;
+
+            SkillChanged?.Invoke(this, new(skillSlot, skill));
+            OnBuildCodeChanged();
+        }
+
+        private void OnBuildCodeChanged()
+        {
+            if (!TriggerEvents)
+                return;
+
+            BuildCodeChanged?.Invoke(this, EventArgs.Empty);
+            RequestSave();
+        }
+
+        private void OnGearCodeChanged()
+        {
+            if (!TriggerEvents)
+                return;
+
+            GearCodeChanged?.Invoke(this, EventArgs.Empty);
+            RequestSave();
+        }
+
+        public void SetRace(Races race)
+        {
+            Race = race;
+        }
+
+        public Skill? this[SkillSlotType slot] => Skills[slot];
 #nullable disable
     }
 }

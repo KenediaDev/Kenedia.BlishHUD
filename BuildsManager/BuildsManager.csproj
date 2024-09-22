@@ -68,6 +68,87 @@
     <Reference Include="Microsoft.Bcl.AsyncInterfaces, Version=8.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Bcl.AsyncInterfaces.8.0.0\lib\net462\Microsoft.Bcl.AsyncInterfaces.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.Extensions.Configuration, Version=8.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.Configuration.8.0.0\lib\net462\Microsoft.Extensions.Configuration.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Configuration.Abstractions, Version=8.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.Configuration.Abstractions.8.0.0\lib\net462\Microsoft.Extensions.Configuration.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Configuration.Binder, Version=8.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.Configuration.Binder.8.0.0\lib\net462\Microsoft.Extensions.Configuration.Binder.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Configuration.CommandLine, Version=8.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.Configuration.CommandLine.8.0.0\lib\net462\Microsoft.Extensions.Configuration.CommandLine.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Configuration.EnvironmentVariables, Version=8.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.Configuration.EnvironmentVariables.8.0.0\lib\net462\Microsoft.Extensions.Configuration.EnvironmentVariables.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Configuration.FileExtensions, Version=8.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.Configuration.FileExtensions.8.0.0\lib\net462\Microsoft.Extensions.Configuration.FileExtensions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Configuration.Json, Version=8.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.Configuration.Json.8.0.0\lib\net462\Microsoft.Extensions.Configuration.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Configuration.UserSecrets, Version=8.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.Configuration.UserSecrets.8.0.0\lib\net462\Microsoft.Extensions.Configuration.UserSecrets.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.DependencyInjection, Version=8.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.DependencyInjection.8.0.0\lib\net462\Microsoft.Extensions.DependencyInjection.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.DependencyInjection.Abstractions, Version=8.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.DependencyInjection.Abstractions.8.0.0\lib\net462\Microsoft.Extensions.DependencyInjection.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Diagnostics, Version=8.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.Diagnostics.8.0.0\lib\net462\Microsoft.Extensions.Diagnostics.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Diagnostics.Abstractions, Version=8.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.Diagnostics.Abstractions.8.0.0\lib\net462\Microsoft.Extensions.Diagnostics.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.FileProviders.Abstractions, Version=8.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.FileProviders.Abstractions.8.0.0\lib\net462\Microsoft.Extensions.FileProviders.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.FileProviders.Physical, Version=8.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.FileProviders.Physical.8.0.0\lib\net462\Microsoft.Extensions.FileProviders.Physical.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.FileSystemGlobbing, Version=8.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.FileSystemGlobbing.8.0.0\lib\net462\Microsoft.Extensions.FileSystemGlobbing.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Hosting, Version=8.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.Hosting.8.0.0\lib\net462\Microsoft.Extensions.Hosting.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Hosting.Abstractions, Version=8.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.Hosting.Abstractions.8.0.0\lib\net462\Microsoft.Extensions.Hosting.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Logging, Version=8.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.Logging.8.0.0\lib\net462\Microsoft.Extensions.Logging.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Logging.Abstractions, Version=8.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.Logging.Abstractions.8.0.0\lib\net462\Microsoft.Extensions.Logging.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Logging.Configuration, Version=8.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.Logging.Configuration.8.0.0\lib\net462\Microsoft.Extensions.Logging.Configuration.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Logging.Console, Version=8.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.Logging.Console.8.0.0\lib\net462\Microsoft.Extensions.Logging.Console.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Logging.Debug, Version=8.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.Logging.Debug.8.0.0\lib\net462\Microsoft.Extensions.Logging.Debug.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Logging.EventLog, Version=8.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.Logging.EventLog.8.0.0\lib\net462\Microsoft.Extensions.Logging.EventLog.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Logging.EventSource, Version=8.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.Logging.EventSource.8.0.0\lib\net462\Microsoft.Extensions.Logging.EventSource.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Options, Version=8.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.Options.8.0.0\lib\net462\Microsoft.Extensions.Options.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Options.ConfigurationExtensions, Version=8.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.Options.ConfigurationExtensions.8.0.0\lib\net462\Microsoft.Extensions.Options.ConfigurationExtensions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Primitives, Version=8.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.Primitives.8.0.0\lib\net462\Microsoft.Extensions.Primitives.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.IdentityModel.Abstractions, Version=8.0.2.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.IdentityModel.Abstractions.8.0.2\lib\net472\Microsoft.IdentityModel.Abstractions.dll</HintPath>
     </Reference>
@@ -164,9 +245,13 @@
       <Private>False</Private>
     </Reference>
     <Reference Include="System.ComponentModel.Composition" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Console" />
     <Reference Include="System.Core" />
     <Reference Include="System.Design" />
+    <Reference Include="System.Diagnostics.DiagnosticSource, Version=8.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Diagnostics.DiagnosticSource.8.0.0\lib\net462\System.Diagnostics.DiagnosticSource.dll</HintPath>
+    </Reference>
     <Reference Include="System.Diagnostics.Tracing" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Drawing.Common, Version=7.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
@@ -248,81 +333,85 @@
     <Reference Include="System.Xml.ReaderWriter" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Controls\AboutPage\TagControl.cs" />
-    <Compile Include="Controls\BuildPage\BuildPage.cs" />
-    <Compile Include="Controls\BuildPage\LegendSelectable.cs" />
-    <Compile Include="Controls\BuildPage\LegendSelector.cs" />
-    <Compile Include="Controls\BuildPage\PetSelectable.cs" />
-    <Compile Include="Controls\BuildPage\PetSelector.cs" />
-    <Compile Include="Controls\BuildPage\PetTooltip.cs" />
-    <Compile Include="Controls\BuildPage\ProfessionSpecific\LegendIcon.cs" />
-    <Compile Include="Controls\BuildPage\Selectable.cs" />
-    <Compile Include="Controls\BuildPage\SkillControl.cs" />
-    <Compile Include="Controls\BuildPage\SkillSelectable.cs" />
-    <Compile Include="Controls\BuildPage\SkillSelector.cs" />
+    <Compile Include="Controls\PetControl.cs" />
+    <Compile Include="Controls\SkillSlotControl.cs" />
+    <Compile Include="Controls\SkillsBar.cs" />
+    <Compile Include="Controls\SkillTooltip.cs" />
+    <Compile Include="Controls\SkillTooltipContentControl.cs" />
+    <Compile Include="Controls\TabbedRegion.cs" />
+    <Compile Include="Controls\TabbedRegionTab.cs" />
+    <Compile Include="Controls\Tabs\BuildTab.cs" />
+    <Compile Include="Controls\TagControl.cs" />
+    <Compile Include="Controls\Selectables\LegendSelectable.cs" />
+    <Compile Include="Controls\Selectables\LegendSelector.cs" />
+    <Compile Include="Controls\Selectables\PetSelectable.cs" />
+    <Compile Include="Controls\Selectables\PetSelector.cs" />
+    <Compile Include="Controls\PetTooltip.cs" />
+    <Compile Include="Controls\LegendIcon.cs" />
+    <Compile Include="Controls\Selectables\Selectable.cs" />
+    <Compile Include="Controls\Selectables\SkillSelectable.cs" />
+    <Compile Include="Controls\Selectables\SkillSelector.cs" />
     <Compile Include="DataModels\Converter\RelicConverter.cs" />
     <Compile Include="DataModels\Items\PowerCore.cs" />
     <Compile Include="DataModels\Items\PvpAmulet.cs" />
     <Compile Include="DataModels\Items\Relic.cs" />
+    <Compile Include="Extensions\AttributeTypeExtension.cs" />
     <Compile Include="Extensions\GearSubSlotTypeExtension.cs" />
+    <Compile Include="Extensions\GearTemplateSlotExtension.cs" />
+    <Compile Include="Extensions\ItemWeaponTypeExtension.cs" />
+    <Compile Include="Extensions\SkillSlotTypeExtension.cs" />
+    <Compile Include="Extensions\TemplateSlotsExtension.cs" />
+    <Compile Include="Extensions\VersionExtension.cs" />
+    <Compile Include="Extensions\WeaponTypeExtension.cs" />
     <Compile Include="Interfaces\IBaseApiData.cs" />
-    <Compile Include="Controls\BuildPage\LegendSlotSkillSlotCollection.cs" />
-    <Compile Include="Controls\BuildPage\ProfessionSpecifics.cs" />
-    <Compile Include="Controls\BuildPage\ProfessionSpecific\ElementalistSpecifics.cs" />
-    <Compile Include="Controls\BuildPage\ProfessionSpecific\EngineerSpecifics.cs" />
-    <Compile Include="Controls\BuildPage\ProfessionSpecific\GuardianSpecifics.cs" />
-    <Compile Include="Controls\BuildPage\ProfessionSpecific\MesmerSpecifics.cs" />
-    <Compile Include="Controls\BuildPage\ProfessionSpecific\NecromancerSpecifics.cs" />
-    <Compile Include="Controls\BuildPage\ProfessionSpecific\PetIcon.cs" />
-    <Compile Include="Controls\BuildPage\ProfessionSpecific\RangerSpecifics.cs" />
-    <Compile Include="Controls\BuildPage\ProfessionSpecific\RevenantSpecifics.cs" />
-    <Compile Include="Controls\BuildPage\ProfessionSpecific\ThiefSpecifics.cs" />
-    <Compile Include="Controls\BuildPage\ProfessionSpecific\WarriorSpecifics.cs" />
-    <Compile Include="Controls\BuildPage\SelectableSkillIconCollection.cs" />
-    <Compile Include="Controls\BuildPage\SelectableType.cs" />
-    <Compile Include="Controls\BuildPage\Selector.cs" />
-    <Compile Include="Controls\BuildPage\SkillIcon.cs" />
-    <Compile Include="Controls\BuildPage\SkillControlCollection.cs" />
-    <Compile Include="Controls\BuildPage\SkillsBar.cs" />
-    <Compile Include="Controls\BuildPage\SkillSlotCollection.cs" />
-    <Compile Include="Controls\BuildPage\SkillTooltip.cs" />
-    <Compile Include="Controls\BuildPage\SpecLine.cs" />
-    <Compile Include="Controls\BuildPage\TraitIcon.cs" />
-    <Compile Include="Controls\BuildPage\TraitTooltip.cs" />
-    <Compile Include="Controls\BuildPage\WeaponSkillIconCollection.cs" />
-    <Compile Include="Controls\GearPage\GearSlots\AccessoireSlot.cs" />
-    <Compile Include="Controls\GearPage\GearSlots\AmuletSlot.cs" />
-    <Compile Include="Controls\GearPage\GearSlots\AquaticWeaponSlot.cs" />
-    <Compile Include="Controls\GearPage\GearSlots\ArmorSlot.cs" />
-    <Compile Include="Controls\GearPage\GearSlots\BackSlot.cs" />
-    <Compile Include="Controls\GearPage\GearSlots\GearSlot.cs" />
-    <Compile Include="Controls\GearPage\GearSlots\PowerCoreSlot.cs" />
-    <Compile Include="Controls\GearPage\GearSlots\NourishmentSlot.cs" />
-    <Compile Include="Controls\GearPage\GearSlots\PvpAmuletSlot.cs" />
-    <Compile Include="Controls\GearPage\GearSlots\RelicSlot.cs" />
-    <Compile Include="Controls\GearPage\GearSlots\RingSlot.cs" />
-    <Compile Include="Controls\GearPage\GearSlots\EnhancementSlot.cs" />
-    <Compile Include="Controls\GearPage\GearSlots\WeaponSlot.cs" />
-    <Compile Include="Controls\GearPage\ItemControl.cs" />
-    <Compile Include="Controls\GearPage\ItemTexture.cs" />
-    <Compile Include="Controls\AboutPage\AboutPage.cs" />
-    <Compile Include="Controls\GearPage\ItemTooltip.cs" />
+    <Compile Include="Controls\ProfessionSpecific\ProfessionSpecifics.cs" />
+    <Compile Include="Controls\ProfessionSpecific\ElementalistSpecifics.cs" />
+    <Compile Include="Controls\ProfessionSpecific\EngineerSpecifics.cs" />
+    <Compile Include="Controls\ProfessionSpecific\GuardianSpecifics.cs" />
+    <Compile Include="Controls\ProfessionSpecific\MesmerSpecifics.cs" />
+    <Compile Include="Controls\ProfessionSpecific\NecromancerSpecifics.cs" />
+    <Compile Include="Controls\PetIcon.cs" />
+    <Compile Include="Controls\ProfessionSpecific\RangerSpecifics.cs" />
+    <Compile Include="Controls\ProfessionSpecific\RevenantSpecifics.cs" />
+    <Compile Include="Controls\ProfessionSpecific\ThiefSpecifics.cs" />
+    <Compile Include="Controls\ProfessionSpecific\WarriorSpecifics.cs" />
+    <Compile Include="Controls\Selectables\SelectableType.cs" />
+    <Compile Include="Controls\Selectables\Selector.cs" />
+    <Compile Include="Controls\SkillIcon.cs" />
+    <Compile Include="Controls\SpecLine.cs" />
+    <Compile Include="Controls\TraitIcon.cs" />
+    <Compile Include="Controls\TraitTooltip.cs" />
+    <Compile Include="Controls\GearSlots\AccessoireSlot.cs" />
+    <Compile Include="Controls\GearSlots\AmuletSlot.cs" />
+    <Compile Include="Controls\GearSlots\AquaticWeaponSlot.cs" />
+    <Compile Include="Controls\GearSlots\ArmorSlot.cs" />
+    <Compile Include="Controls\GearSlots\BackSlot.cs" />
+    <Compile Include="Controls\GearSlots\GearSlot.cs" />
+    <Compile Include="Controls\GearSlots\PowerCoreSlot.cs" />
+    <Compile Include="Controls\GearSlots\NourishmentSlot.cs" />
+    <Compile Include="Controls\GearSlots\PvpAmuletSlot.cs" />
+    <Compile Include="Controls\GearSlots\RelicSlot.cs" />
+    <Compile Include="Controls\GearSlots\RingSlot.cs" />
+    <Compile Include="Controls\GearSlots\EnhancementSlot.cs" />
+    <Compile Include="Controls\GearSlots\WeaponSlot.cs" />
+    <Compile Include="Controls\ItemControl.cs" />
+    <Compile Include="Controls\ItemTexture.cs" />
+    <Compile Include="Controls\Tabs\AboutTab.cs" />
+    <Compile Include="Controls\ItemTooltip.cs" />
     <Compile Include="Controls\Selection\AttributeToggle.cs" />
     <Compile Include="Controls\Selection\BaseSelection.cs" />
     <Compile Include="Controls\Selection\BuildSelection.cs" />
-    <Compile Include="Controls\GearPage\GearPage.cs" />
+    <Compile Include="Controls\Tabs\GearTab.cs" />
     <Compile Include="Controls\Selection\GearSelection.cs" />
     <Compile Include="Controls\Selection\ProfessionRaceSelectable.cs" />
     <Compile Include="Controls\Selection\ProfessionRaceSelection.cs" />
     <Compile Include="Controls\Selection\ProfessionToggle.cs" />
-    <Compile Include="Controls\Selection\Selectable.cs" />
+    <Compile Include="Controls\Selection\SelectionPanelSelectable.cs" />
     <Compile Include="Controls\Selection\SelectionPanel.cs" />
     <Compile Include="Controls\Selection\StatSelectable.cs" />
     <Compile Include="Controls\Selection\StatSelection.cs" />
     <Compile Include="Controls\Selection\TagTexture.cs" />
     <Compile Include="Controls\Selection\TemplateSelectable.cs" />
-    <Compile Include="Controls\TabbedRegion.cs" />
-    <Compile Include="Controls\TabbedRegionTab.cs" />
     <Compile Include="DataModels\Items\BaseItem.cs" />
     <Compile Include="DataModels\Items\BonusStat.cs" />
     <Compile Include="DataModels\Items\BonusType.cs" />
@@ -360,7 +449,12 @@
     <Compile Include="Models\GearArrayIndex.cs" />
     <Compile Include="Models\BasicItemMap.cs" />
     <Compile Include="Models\Paths.cs" />
+    <Compile Include="Models\SkillChangedEventArgs.cs" />
     <Compile Include="Models\StaticVersion.cs" />
+    <Compile Include="Models\TemplateChangedEventArgs.cs" />
+    <Compile Include="Models\TemplateCollection.cs" />
+    <Compile Include="Models\TemplateSlots.cs" />
+    <Compile Include="Models\Templates\SelectionTypes.cs" />
     <Compile Include="Models\TemplateTag.cs" />
     <Compile Include="Models\TemplateEntries\AccessoireTemplateEntry.cs" />
     <Compile Include="Models\TemplateEntries\AmuletTemplateEntry.cs" />
@@ -397,6 +491,7 @@
     <Compile Include="Services\StatMap.cs" />
     <Compile Include="Services\Data\StatMappedDataEntry.cs" />
     <Compile Include="Services\StatMapping.cs" />
+    <Compile Include="Services\TemplateFactory.cs" />
     <Compile Include="Services\TemplateTags.cs" />
     <Compile Include="Utility\GearTemplateCode.cs" />
     <Compile Include="DataModels\Converter\PowerCoreConverter.cs" />
@@ -411,7 +506,7 @@
     <Compile Include="Models\Templates\LegendSlotType.cs" />
     <Compile Include="Models\Templates\PetCollection.cs" />
     <Compile Include="Models\Templates\PetSlotType.cs" />
-    <Compile Include="Models\Templates\SpecializationCollection.cs" />
+    <Compile Include="Models\Templates\Specializations.cs" />
     <Compile Include="Models\Templates\SpecializationSlotType.cs" />
     <Compile Include="Models\Templates\TemplateFlag.cs" />
     <Compile Include="Models\Templates\TraitCollection.cs" />

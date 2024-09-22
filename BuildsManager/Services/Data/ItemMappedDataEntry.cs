@@ -2,11 +2,9 @@
 using Blish_HUD.Modules.Managers;
 using Newtonsoft.Json;
 using System;
-using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Kenedia.Modules.BuildsManager.DataModels.Items;
-using Version = SemVer.Version;
 using Kenedia.Modules.Core.Extensions;
 using Kenedia.Modules.Core.Models;
 using Gw2Sharp.WebApi;

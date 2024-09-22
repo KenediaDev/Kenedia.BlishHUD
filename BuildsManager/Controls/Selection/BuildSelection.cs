@@ -16,7 +16,7 @@ using Kenedia.Modules.BuildsManager.Models;
 using Kenedia.Modules.BuildsManager.Res;
 using Kenedia.Modules.Core.Services;
 using Gw2Sharp.WebApi;
-using System.Diagnostics;
+using Kenedia.Modules.BuildsManager.Services;
 
 namespace Kenedia.Modules.BuildsManager.Controls.Selection
 {
@@ -28,8 +28,14 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
         private readonly Dropdown _sortBehavior;
         private double _lastShown;
 
-        public BuildSelection()
+        public BuildSelection(TemplateCollection templates, TemplateTags templateTags, Data data, TemplatePresenter templatePresenter, TemplateFactory templateFactory)
         {
+            Data = data;
+            Templates = templates;
+            TemplateTags = templateTags;
+            TemplateFactory = templateFactory;
+            TemplatePresenter = templatePresenter;
+
             _spinner = new()
             {
                 Parent = this,
@@ -100,8 +106,11 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
                             try
                             {
                                 string code = await ClipboardUtil.WindowsClipboardService.GetTextAsync();
+
+                                BuildsManager.Logger.Debug($"Load template from clipboard code: {code}");
                                 t.LoadFromCode(code);
-                                BuildsManager.ModuleInstance.MainWindow.Template = t;
+
+                                TemplatePresenter.SetTemplate(t);
                             }
                             catch (Exception)
                             {
@@ -109,7 +118,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
                             }
 
                             TemplateSelectable ts = null;
-                            SelectionPanel?.SetTemplateAnchor(ts = Templates.FirstOrDefault(e => e.Template == t));
+                            SelectionPanel?.SetTemplateAnchor(ts = TemplateSelectables.FirstOrDefault(e => e.Template == t));
                             ts?.ToggleEditMode(true);
                             FilterTemplates();
                         }
@@ -120,16 +129,21 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
             Search.TextChangedAction = (txt) => _addBuildsButton.BasicTooltipText = string.IsNullOrEmpty(txt) ? strings.CreateNewTemplate : string.Format(strings.CreateNewTemplateName, txt);
 
             BuildsManager.ModuleInstance.TemplatesLoadedDone += ModuleInstance_TemplatesLoadedDone; ;
-            BuildsManager.ModuleInstance.Templates.CollectionChanged += Templates_CollectionChanged;
+            templates.CollectionChanged += Templates_CollectionChanged;
 
             LocalizingService.LocaleChanged += LocalizingService_LocaleChanged;
 
             Templates_CollectionChanged(this, null);
         }
 
-        public List<TemplateSelectable> Templates { get; } = new();
+        public List<TemplateSelectable> TemplateSelectables { get; } = new();
 
         public SelectionPanel SelectionPanel { get; set; }
+        public TemplateCollection Templates { get; }
+        public TemplateTags TemplateTags { get; }
+        public Data Data { get; }
+        public TemplatePresenter TemplatePresenter { get; }
+        public TemplateFactory TemplateFactory { get; }
 
         private void SortBehavior_ValueChanged(object sender, Blish_HUD.Controls.ValueChangedEventArgs e)
         {
@@ -160,7 +174,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
             bool anyProfession = !_specIcons.Any(e => e.Checked);
             var professions = _specIcons.Where(e => e.Checked).Select(e => e.Profession);
 
-            foreach (var template in Templates)
+            foreach (var template in TemplateSelectables)
             {
                 template.Visible =
                     (anyProfession || professions.Contains(template.Template.Profession)) &&
@@ -188,14 +202,14 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
 
         private void Templates_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
         {
-            if (!BuildsManager.ModuleInstance?.TemplatesLoaded == true)
+            if (!BuildsManager.ModuleInstance.TemplatesLoaded == true)
             {
                 if (!_spinner.Visible)
                 {
                     _spinner.Show();
                     _spinner.Location = SelectionPanel.LocalBounds.Center.Add(_spinner.Size.Scale(-0.5));
-                    Templates.DisposeAll();
-                    Templates.Clear();
+                    TemplateSelectables.DisposeAll();
+                    TemplateSelectables.Clear();
                 }
 
                 return;
@@ -205,17 +219,17 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
                 _spinner.Hide();
             }
 
-            bool firstLoad = Templates.Count == 0 && (BuildsManager.ModuleInstance?.Templates?.Count ?? 0) != 0;
-            var templates = Templates.Select(e => e.Template);
-            var removedTemplates = templates.Except(BuildsManager.ModuleInstance?.Templates ?? new());
-            var addedTemplates = BuildsManager.ModuleInstance?.Templates?.Except(templates);
+            bool firstLoad = TemplateSelectables.Count == 0 && (Templates?.Count ?? 0) != 0;
+            var templates = TemplateSelectables.Select(e => e.Template);
+            var removedTemplates = templates.Except(Templates ?? new());
+            var addedTemplates = Templates?.Except(templates);
             TemplateSelectable targetTemplate = null;
 
             if (addedTemplates == null) return;
 
             foreach (var template in addedTemplates)
             {
-                TemplateSelectable t = new()
+                TemplateSelectable t = new(TemplatePresenter, Templates, Data, TemplateTags, TemplateFactory)
                 {
                     Parent = SelectionContent,
                     Template = template,
@@ -224,16 +238,8 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
                 };
 
                 template.ProfessionChanged += ProfessionChanged;
-                template.SpecializationChanged += SpecializationChanged;
+                template.SpecializationChanged_OLD += SpecializationChanged;
 
-                if (t is not null)
-                {
-                    t.DisposeAction = () =>
-                    {
-                        template.ProfessionChanged -= ProfessionChanged;
-                        template.SpecializationChanged -= SpecializationChanged;
-                    };
-                }
 
                 t.OnClickAction = () => SelectionPanel?.SetTemplateAnchor(t);
                 if (!firstLoad)
@@ -243,15 +249,15 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
                     targetTemplate = t;
                 }
 
-                Templates.Add(t);
+                TemplateSelectables.Add(t);
             }
 
-            for (int i = Templates.Count - 1; i >= 0; i--)
+            for (int i = TemplateSelectables.Count - 1; i >= 0; i--)
             {
-                var template = Templates[i];
+                var template = TemplateSelectables[i];
                 if (removedTemplates.Contains(template.Template))
                 {
-                    _ = Templates.Remove(template);
+                    _ = TemplateSelectables.Remove(template);
                     template.Dispose();
                 }
             }
@@ -270,23 +276,23 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
             {
                 string newName = i == 0 ? name : $"{name} #{i}";
 
-                if (BuildsManager.ModuleInstance.Templates.Where(e => e.Name == newName)?.FirstOrDefault() is not Template template)
+                if (Templates.Where(e => e.Name == newName)?.FirstOrDefault() is not Template template)
                 {
                     TemplateSelectable ts = null;
                     Template t;
-                    BuildsManager.ModuleInstance.Templates.Add(t = new() { Name = newName });
-                    SelectionPanel?.SetTemplateAnchor(ts = Templates.FirstOrDefault(e => e.Template == t));
+                    Templates.Add(t = TemplateFactory.CreateTemplate(name));
+                    SelectionPanel?.SetTemplateAnchor(ts = TemplateSelectables.FirstOrDefault(e => e.Template == t));
                     ts?.ToggleEditMode(false);
 
                     t.ProfessionChanged += ProfessionChanged;
-                    t.SpecializationChanged += SpecializationChanged;
+                    t.SpecializationChanged_OLD += SpecializationChanged;
 
                     if (ts is not null)
                     {
                         ts.DisposeAction = () =>
                         {
                             t.ProfessionChanged -= ProfessionChanged;
-                            t.SpecializationChanged -= SpecializationChanged;
+                            t.SpecializationChanged_OLD -= SpecializationChanged;
                         };
                     }
 
@@ -330,7 +336,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
         {
             base.OnSelectionContent_Resized(sender, e);
 
-            foreach (var template in Templates)
+            foreach (var template in TemplateSelectables)
             {
                 template.Width = SelectionContent.Width - 35;
             }
@@ -383,12 +389,12 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
             _sortBehavior?.Dispose();
 
             BuildsManager.ModuleInstance.TemplatesLoadedDone -= ModuleInstance_TemplatesLoadedDone; ;
-            BuildsManager.ModuleInstance.Templates.CollectionChanged -= Templates_CollectionChanged;
+            Templates.CollectionChanged -= Templates_CollectionChanged;
             Templates_CollectionChanged(this, null);
 
             LocalizingService.LocaleChanged -= LocalizingService_LocaleChanged;
 
-            Templates.Clear();
+            TemplateSelectables.Clear();
         }
     }
 }

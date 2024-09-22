@@ -215,8 +215,6 @@ namespace Kenedia.Modules.Core.Services
 
                     _lastTick = gameTime.TotalGameTime.TotalMilliseconds;
 
-                    //Debug.WriteLine($"screenChanging {screenChanging.IsLeftChanging} | {screenChanging.IsRightChanging}");
-
                     // All Changing => Vista
                     bool vista = sC.AreAllChanging;
 
@@ -355,13 +353,6 @@ namespace Kenedia.Modules.Core.Services
                 IsSpinnerChanging = (loadingspinner = CompareImagesMSE(_spinnerImages = CaptureRegion(_spinnerImages, _spinnerMask, ScreenRegionType.LoadingSpinner))) < spinner_threshold,
                 IsCenterChanging = (center = CompareImagesMSE(_centerImages = CaptureRegion(_centerImages, _centerMask, ScreenRegionType.Center))) < threshold
             };
-
-            //Debug.WriteLine($"Top Left        : {changes.IsTopLeftChanging} | {topLeft}");
-            //Debug.WriteLine($"Top Right       : {changes.IsTopRightChanging} | {topRight}");
-            //Debug.WriteLine($"Bottom Left     : {changes.IsBottomLeftChanging} | {bottomLeft}");
-            //Debug.WriteLine($"Bottom Right    : {changes.IsBottomRightChanging} | {bottomRight}");
-            //Debug.WriteLine($"Loading Spinner : {changes.IsSpinnerChanging} | {loadingspinner}");
-            //Debug.WriteLine($"Center          : {changes.IsCenterChanging} | {center}");
 
             return changes;
         }

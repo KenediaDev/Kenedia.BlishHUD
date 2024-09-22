@@ -16,10 +16,9 @@ namespace Kenedia.Modules.Core.Models
             get => _accountName;
             set => Common.SetProperty(ref _accountName, value, AddAccountFolder, !string.IsNullOrEmpty(value));
         }
-
         public PathCollection()
         {
-
+            
         }
 
         public PathCollection(DirectoriesManager directoriesManager, string moduleName)

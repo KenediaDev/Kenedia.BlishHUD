@@ -1,6 +1,5 @@
 ﻿using Gw2Sharp.WebApi.V2.Models;
 using Kenedia.Modules.BuildsManager.Models.Templates;
-using System.Linq;
 using System.Runtime.Serialization;
 
 namespace Kenedia.Modules.BuildsManager.DataModels.Items

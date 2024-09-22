@@ -9,6 +9,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
     public class AttributeToggle : ImageToggle
     {
         private AttributeType _attribute;
+
         public AttributeToggle()
         {
             ImageColor = Color.Gray * 0.5F;

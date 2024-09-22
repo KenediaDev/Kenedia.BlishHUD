@@ -8,7 +8,6 @@ using System.IO;
 using System.Linq;
 using Kenedia.Modules.Core.Models;
 using System.Threading.Tasks;
-using Version = SemVer.Version;
 using Kenedia.Modules.Core.Extensions;
 using Gw2Sharp.WebApi;
 using System.Threading;

@@ -1,11 +1,9 @@
 ﻿using Kenedia.Modules.BuildsManager.Models;
-using NAudio.MediaFoundation;
 using Newtonsoft.Json;
 using System;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Kenedia.Modules.Core.Models;
-using System.IO;
 
 namespace Kenedia.Modules.BuildsManager.Services
 {
