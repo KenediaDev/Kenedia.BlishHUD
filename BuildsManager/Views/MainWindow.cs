@@ -8,6 +8,7 @@ using Kenedia.Modules.BuildsManager.Models;
 using Kenedia.Modules.BuildsManager.Res;
 using Blish_HUD.Modules;
 using Kenedia.Modules.BuildsManager.Controls.Tabs;
+using Kenedia.Modules.BuildsManager.Services;
 
 namespace Kenedia.Modules.BuildsManager.Views
 {
@@ -15,20 +16,20 @@ namespace Kenedia.Modules.BuildsManager.Views
     {
         private readonly TabbedRegion _tabbedRegion;
 
-        public MainWindow(Module module, TemplatePresenter templatePresenter, SelectionPanel selectionPanel, AboutTab aboutTab, BuildTab buildTab, GearTab gearTab) : base(
+        public MainWindow(Module module, TemplatePresenter templatePresenter, TemplateCollection templates, TemplateTags templateTags, Data data) : base(
             TexturesService.GetTextureFromRef(@"textures\mainwindow_background.png", "mainwindow_background"),
                 new Rectangle(30, 30, 915, 670 + 30),
                 new Rectangle(30, 20, 915 - 3, 670 + 15))
         {
             TemplatePresenter = templatePresenter;
-            SelectionPanel = selectionPanel;
             Parent = Graphics.SpriteScreen;
 
-            AboutTab = aboutTab;
-            BuildTab = buildTab;
-            GearTab = gearTab;
+            AboutTab = new(TemplatePresenter);
+            //BuildTab = new(TemplatePresenter, data);
+            GearTab = new(TemplatePresenter);
 
-            selectionPanel.Parent = this;
+            //SelectionPanel = new(TemplatePresenter, templates, templateTags, data);
+            //SelectionPanel.Parent = this;
 
             Title = "❤";
             Subtitle = "❤";
@@ -37,31 +38,31 @@ namespace Kenedia.Modules.BuildsManager.Views
             MainWindowEmblem = AsyncTexture2D.FromAssetId(156020);
             Name = module.Name;
             Version = module.Version;
-        
+
             _tabbedRegion = new()
             {
                 Parent = this,
-                Location = new(selectionPanel.Right + 15, 0),
+                Location = new(375 + 15, 0),
                 Width = ContentRegion.Width - 144,
                 HeightSizingMode = Blish_HUD.Controls.SizingMode.Fill,
-                OnTabSwitched = selectionPanel.ResetAnchor,
+                OnTabSwitched = () => SelectionPanel?.ResetAnchor(),
             };
 
             TabbedRegionTab tab;
-
-            GearTab.Width = BuildTab.Width = AboutTab.Width = ContentRegion.Width - 144;
+            //BuildTab.Width = ContentRegion.Width - 144;
+            GearTab.Width = AboutTab.Width = ContentRegion.Width - 144;
 
             _tabbedRegion.AddTab(new TabbedRegionTab(AboutTab)
             {
                 Header = () => strings.About,
-                Icon = AsyncTexture2D.FromAssetId(440023),                
+                Icon = AsyncTexture2D.FromAssetId(440023),
             });
 
-            _tabbedRegion.AddTab(tab = new TabbedRegionTab(BuildTab)
-            {
-                Header = () => strings.Build,
-                Icon = AsyncTexture2D.FromAssetId(156720),
-            });
+            //_tabbedRegion.AddTab(tab = new TabbedRegionTab(BuildTab)
+            //{
+            //    Header = () => strings.Build,
+            //    Icon = AsyncTexture2D.FromAssetId(156720),
+            //});
 
             _tabbedRegion.AddTab(new TabbedRegionTab(GearTab)
             {
@@ -69,7 +70,7 @@ namespace Kenedia.Modules.BuildsManager.Views
                 Icon = AsyncTexture2D.FromAssetId(156714),
             });
 
-            _tabbedRegion.SwitchTab(tab);
+            //_tabbedRegion.SwitchTab(tab);
 
             TemplatePresenter.NameChanged += TemplatePresenter_NameChanged;
 

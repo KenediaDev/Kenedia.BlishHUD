@@ -33,89 +33,6 @@ using Blish_HUD.Modules.Managers;
 
 namespace Kenedia.Modules.BuildsManager
 {
-    public class ServiceProviderProxy
-    {
-        private BuildsManager _module;
-
-        public BuildsManager Module
-        {
-            get => _module; set
-            {
-                _module = value;
-
-                if (value is null) throw new NotImplementedException("MODULE VALUE IS NULL");
-
-                BuildsManager.Data = Data ??= new(value.Paths, value.Gw2ApiManager, null, null);
-                TemplatePresenter = new();
-            }
-        }
-
-        public TemplatePresenter TemplatePresenter { get; private set; } 
-
-        public TemplateCollection TemplateCollection { get; } = new();
-
-        public TemplateTags TemplateTags { get; private set; }
-
-        public Data Data { get; private set; }
-
-        public GW2API GW2API { get; private set; }
-
-        public ServiceProviderProxy()
-        {
-
-        }
-
-        public T GetService<T>()
-        {
-            var serviceType = typeof(T);
-
-            switch (serviceType)
-            {
-                case Type t when t == typeof(BuildsManager):
-                case Type tt when tt == typeof(Module):
-                    return (T)(object)Module;
-
-                case Type t when t == typeof(Paths):
-                    return (T)(object)Module.Paths;
-
-                case Type t when t == typeof(ContentsManager):
-                    return (T)(object)Module.ContentsManager;
-
-                case Type t when t == typeof(TemplateCollection):
-                    return (T)(object)TemplateCollection;
-
-                case Type t when t == typeof(TemplatePresenter):
-                    return (T)(object)TemplatePresenter;
-
-                case Type t when t == typeof(TemplateTags):
-                    TemplateTags ??= new(Module.ContentsManager, Module.Paths);
-                    return (T)(object)TemplateTags;
-
-                case Type t when t == typeof(Data):
-                    Data ??= new(Module.Paths, Module.Gw2ApiManager, null, null);
-                    return (T)(object)Data;
-
-                case Type t when t == typeof(GW2API):
-                    Data ??= new(Module.Paths, Module.Gw2ApiManager, null, null);
-                    GW2API ??= new(Module.Gw2ApiManager, Data, Module.Paths, null);
-
-                    return (T)(object)GW2API;
-
-                case Type t when t == typeof(MainWindow):
-                    Data ??= new(Module.Paths, Module.Gw2ApiManager, null, null);
-
-                    var buildTab = new BuildTab(TemplatePresenter, Data);
-                    var gearTab = new GearTab(TemplatePresenter);
-                    var aboutTab = new AboutTab(TemplatePresenter);
-                    var selectionPanel = new SelectionPanel(TemplatePresenter, TemplateCollection, TemplateTags, Data);
-
-                    return (T)(object)new MainWindow(Module, TemplatePresenter, selectionPanel, aboutTab, buildTab, gearTab);
-            }
-
-            return (T)(object)null;
-        }
-    }
-
     //TODO: Check Texture Disposing
     //TODO: Add tag quick access panel
     //TODO: Tag ordering
@@ -123,8 +40,6 @@ namespace Kenedia.Modules.BuildsManager
     [Export(typeof(Module))]
     public class BuildsManager : BaseModule<BuildsManager, MainWindow, Settings, Paths>
     {
-        public ServiceProviderProxy ServiceProvider { get; private set; }
-
         public static Data Data { get; set; }
 
         private double _tick;
@@ -143,42 +58,13 @@ namespace Kenedia.Modules.BuildsManager
             Services.GameStateDetectionService.Enabled = false;
 
             Paths = new(DirectoriesManager, Name);
-            ServiceProvider = new ServiceProviderProxy()
-            {
-                Module = this,
-            };
+            Data ??= new(Paths, Gw2ApiManager, null, null);
+            GW2API = new GW2API(Gw2ApiManager, Data, Paths, null);
+            TemplateTags = new TemplateTags(ContentsManager, Paths);
+            Templates = new TemplateCollection();
+            TemplatePresenter = new();
 
-            //Data = ServiceProvider.GetService<Data>();
-            TemplatePresenter = ServiceProvider.GetService<TemplatePresenter>();
-
-            //CreateCornerIcons();
-        }
-
-        public void ConfigureServices()
-        {
-            var services = new Microsoft.Extensions.DependencyInjection.ServiceCollection();
-
-            //services.AddSingleton(ContentsManager);
-            //services.AddSingleton<Paths>(Paths);
-
-            //services.AddSingleton<TemplateCollection>();
-            //services.AddSingleton<TemplatePresenter>();
-            //services.AddSingleton<TemplateTags>();
-            //services.AddSingleton<Data>();
-            //services.AddSingleton<GW2API>();
-
-            //services.AddSingleton(Gw2ApiManager);
-
-            //services.AddTransient<MainWindow>();
-            //services.AddTransient<SelectionPanel>();
-            //services.AddTransient<AboutTab>();
-            //services.AddTransient<BuildTab>();
-            //services.AddTransient<GearTab>();
-
-            //services.AddSingleton<Module>(this);
             CreateCornerIcons();
-
-            //services.BuildServiceProvider();
         }
 
         public event ValueChangedEventHandler<bool> TemplatesLoadedDone;
@@ -194,7 +80,10 @@ namespace Kenedia.Modules.BuildsManager
 
         public Template? SelectedTemplate => TemplatePresenter.Template;
 
+        public GW2API GW2API { get; private set; }
+        public TemplateTags TemplateTags { get; }
         public TemplatePresenter TemplatePresenter { get; private set; }
+        public TemplateCollection Templates { get; private set; }
 
         protected override void DefineSettings(SettingCollection settings)
         {
@@ -225,7 +114,7 @@ namespace Kenedia.Modules.BuildsManager
 
         protected override async void OnLocaleChanged(object sender, Blish_HUD.ValueChangedEventArgs<Locale> e)
         {
-            if (ServiceProvider.GetService<GW2API>() is null) return;
+            if (GW2API is null) return;
 
             if (e.NewValue is not Locale.Korean and not Locale.Chinese)
             {
@@ -248,7 +137,7 @@ namespace Kenedia.Modules.BuildsManager
 
             await base.LoadAsync();
 
-            var templateTags = ServiceProvider.GetService<TemplateTags>();
+            var templateTags = TemplateTags;
             await templateTags.Load();
 
             _ = await Data.Load();
@@ -298,24 +187,22 @@ namespace Kenedia.Modules.BuildsManager
 
         protected override void LoadGUI()
         {
-
             Debug.WriteLine($"TemplatesLoaded: {TemplatesLoaded} Data.IsLoaded : {Data.IsLoaded}");
+
             if (!Data.IsLoaded || !TemplatesLoaded) return;
 
             base.LoadGUI();
 
             Logger.Info($"Building UI for {Name}");
 
-            MainWindow = ServiceProvider.GetService<MainWindow>();
+            MainWindow = new MainWindow(this, TemplatePresenter, Templates, TemplateTags, Data);
 
 #if DEBUG
             MainWindow.Show();
 #endif
 
-            var templates = ServiceProvider.GetService<TemplateCollection>();
-            templates?.FirstOrDefault()?.Load();
-
-            //TemplatePresenter.Template = templates?.FirstOrDefault();
+            //Templates?.FirstOrDefault()?.Load();
+            //TemplatePresenter.Template = Templates?.FirstOrDefault();
         }
 
         protected override void UnloadGUI()
@@ -329,11 +216,8 @@ namespace Kenedia.Modules.BuildsManager
         {
             DeleteCornerIcons();
 
-            var templates = ServiceProvider.GetService<TemplateCollection>();
-            templates?.Clear();
-
-            var data = ServiceProvider.GetService<Data>();
-            data?.Dispose();
+            Templates.Clear();
+            Data.Dispose();
 
             base.Unload();
         }
@@ -355,7 +239,6 @@ namespace Kenedia.Modules.BuildsManager
 
         private async Task LoadTemplates()
         {
-            var templates = ServiceProvider.GetService<TemplateCollection>();
             Logger.Info($"LoadTemplates");
 
             TemplatesLoaded = false;
@@ -366,7 +249,7 @@ namespace Kenedia.Modules.BuildsManager
             {
                 string[] templateFiles = Directory.GetFiles(Paths.TemplatesPath);
 
-                templates.Clear();
+                Templates.Clear();
 
                 JsonSerializerSettings settings = new();
                 settings.Converters.Add(new TemplateConverter());
@@ -379,12 +262,12 @@ namespace Kenedia.Modules.BuildsManager
 
                     if (template is not null)
                     {
-                        templates.Add(template);
+                        Templates.Add(template);
                     }
                 }
 
                 time.Stop();
-                Logger.Info($"Time to load {templateFiles.Length} templates {time.ElapsedMilliseconds}ms. {templates.Count} out of {templateFiles.Length} templates got loaded.");
+                Logger.Info($"Time to load {templateFiles.Length} templates {time.ElapsedMilliseconds}ms. {Templates.Count} out of {templateFiles.Length} templates got loaded.");
             }
             catch (Exception ex)
             {
