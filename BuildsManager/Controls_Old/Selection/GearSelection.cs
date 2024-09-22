@@ -15,64 +15,78 @@ namespace Kenedia.Modules.BuildsManager.Controls_Old.Selection
 {
     public class GearSelection : BaseSelection
     {
-        private readonly List<Selectable> _selectables = new();
+        private List<Selectable> _selectables = new();
         private TemplateSlotType _activeSlot;
         private GearSubSlotType _subSlotType;
         private string _filterText = string.Empty;
         private TemplatePresenter _templatePresenter;
-        private readonly List<Selectable> _armors;
-        private readonly List<Selectable> _trinkets;
-        private readonly List<Selectable> _backs;
-        private readonly List<Selectable> _weapons;
-        private readonly List<Selectable> _pvpAmulets;
-        private readonly List<Selectable> _pveSigils;
-        private readonly List<Selectable> _pvpSigils;
-        private readonly List<Selectable> _pveRunes;
-        private readonly List<Selectable> _pvpRunes;
-        private readonly List<Selectable> _nourishment;
-        private readonly List<Selectable> _utilites;
-        private readonly List<Selectable> _enrichments;
-        private readonly List<Selectable> _infusions;
-        private readonly List<Selectable> _powerCores;
-        private readonly List<Selectable> _pveRelics;
-        private readonly List<Selectable> _pvpRelics;
+        private List<Selectable> _armors;
+        private List<Selectable> _trinkets;
+        private List<Selectable> _backs;
+        private List<Selectable> _weapons;
+        private List<Selectable> _pvpAmulets;
+        private List<Selectable> _pveSigils;
+        private List<Selectable> _pvpSigils;
+        private List<Selectable> _pveRunes;
+        private List<Selectable> _pvpRunes;
+        private List<Selectable> _nourishment;
+        private List<Selectable> _utilites;
+        private List<Selectable> _enrichments;
+        private List<Selectable> _infusions;
+        private List<Selectable> _powerCores;
+        private List<Selectable> _pveRelics;
+        private List<Selectable> _pvpRelics;
 
         public GearSelection(TemplatePresenter templatePresenter)
         {
-            List<S> AddItems<S, T>(IOrderedEnumerable<T> items)
+            Search.TextChangedAction = (txt) =>
+            {
+                _filterText = txt.Trim().ToLower();
+                PerformFiltering();
+            };
+
+            SelectionContent.ControlPadding = new(2);
+            SelectionContent.FlowDirection = Blish_HUD.Controls.ControlFlowDirection.SingleTopToBottom;
+            SelectionContent.SetLocation(Search.Left, Search.Bottom + 5);
+            TemplatePresenter = templatePresenter;
+        }
+
+        private List<S> AddItems<S, T>(IOrderedEnumerable<T> items)
                 where T : BaseItem
                 where S : Selectable, new()
+        {
+            List<S> list = new();
+            S entry;
+
+            foreach (var item in items)
             {
-                List<S> list = new();
-                S entry;
-
-                foreach (var item in items)
+                _selectables.Add(entry = new()
                 {
-                    _selectables.Add(entry = new()
+                    Parent = SelectionContent,
+                    Item = item,
+                    Visible = false,
+                    Width = 330,
+                    OnClickAction = () =>
                     {
-                        Parent = SelectionContent,
-                        Item = item,
-                        Visible = false,
-                        Width = 330,
-                        OnClickAction = () =>
+                        if (TemplatePresenter?.Template is not null)
                         {
-                            if (TemplatePresenter?.Template is not null)
-                            {
-                                OnClickAction(item);
-                            }
-                        },
-                        Type =
-                            item is Rune ? SelectableType.Rune :
-                            item is Sigil ? SelectableType.Sigil :
-                            item is Infusion ? SelectableType.Infusion :
-                            SelectableType.None,
-                    });
-                    list.Add(entry);
-                }
-
-                return list;
+                            OnClickAction(item);
+                        }
+                    },
+                    Type =
+                        item is Rune ? SelectableType.Rune :
+                        item is Sigil ? SelectableType.Sigil :
+                        item is Infusion ? SelectableType.Infusion :
+                        SelectableType.None,
+                });
+                list.Add(entry);
             }
 
+            return list;
+        }
+
+        public void LoadItems()
+        {
             _armors = AddItems<Selectable, Armor>(BuildsManager.Data.Armors.Values.OrderByDescending(e => e.Rarity).ThenBy(e => e.Id));
             _trinkets = AddItems<Selectable, Trinket>(BuildsManager.Data.Trinkets.Values.OrderByDescending(e => e.Rarity).ThenBy(e => e.Id));
             _backs = AddItems<Selectable, Trinket>(BuildsManager.Data.Backs.Values.OrderByDescending(e => e.Rarity).ThenBy(e => e.Id));
@@ -89,17 +103,6 @@ namespace Kenedia.Modules.BuildsManager.Controls_Old.Selection
             _powerCores = AddItems<Selectable, PowerCore>(BuildsManager.Data.PowerCores.Values.OrderByDescending(e => e.Rarity).ThenByDescending(e => e.Name.Length).ThenByDescending(e => e.Name).ThenBy(e => e.Id));
             _pveRelics = AddItems<Selectable, Relic>(BuildsManager.Data.PveRelics.Values.OrderByDescending(e => e.Rarity).ThenBy(e => e.Name).ThenBy(e => e.Id));
             _pvpRelics = AddItems<Selectable, Relic>(BuildsManager.Data.PvpRelics.Values.OrderByDescending(e => e.Rarity).ThenBy(e => e.Name).ThenBy(e => e.Id));
-
-            Search.TextChangedAction = (txt) =>
-            {
-                _filterText = txt.Trim().ToLower();
-                PerformFiltering();
-            };
-
-            SelectionContent.ControlPadding = new(2);
-            SelectionContent.FlowDirection = Blish_HUD.Controls.ControlFlowDirection.SingleTopToBottom;
-            SelectionContent.SetLocation(Search.Left, Search.Bottom + 5);
-            TemplatePresenter = templatePresenter;
         }
 
         public TemplatePresenter TemplatePresenter { get => _templatePresenter; private set => Common.SetProperty(ref _templatePresenter, value, OnTemplatePresenterChanged); }

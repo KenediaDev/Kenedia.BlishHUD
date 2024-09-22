@@ -17,6 +17,7 @@ using Kenedia.Modules.BuildsManager.Controls_Old.GearPage.GearSlots;
 using Kenedia.Modules.BuildsManager.Extensions;
 using Kenedia.Modules.BuildsManager.Res;
 using Kenedia.Modules.Core.Utility;
+using System.Diagnostics;
 
 namespace Kenedia.Modules.BuildsManager.Controls_Old.GearPage
 {
@@ -43,6 +44,8 @@ namespace Kenedia.Modules.BuildsManager.Controls_Old.GearPage
 
         public GearPage(TemplatePresenter templatePresenter)
         {
+            throw new NotImplementedException($"CREATING {nameof(GearPage)}");
+
             TemplatePresenter = templatePresenter;
 
             WidthSizingMode = Blish_HUD.Controls.SizingMode.Fill;

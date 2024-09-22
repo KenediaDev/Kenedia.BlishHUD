@@ -59,6 +59,7 @@ namespace Kenedia.Modules.BuildsManager.DataModels.Items
 
         [DataMember]
         public int AssetId { get; set; }
+
         public AsyncTexture2D Icon
         {
             get
@@ -74,6 +75,7 @@ namespace Kenedia.Modules.BuildsManager.DataModels.Items
 
         [DataMember]
         public LocalizedString Names { get; protected set; } = new();
+
         public string Name
         {
             get => Names.Text;

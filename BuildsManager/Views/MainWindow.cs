@@ -72,7 +72,6 @@ namespace Kenedia.Modules.BuildsManager.Views
             _tabbedRegion.SwitchTab(tab);
 
             TemplatePresenter.NameChanged += TemplatePresenter_NameChanged;
-            SelectFirstTemplate();
 
             Width = 1200;
             Height = 900;
@@ -108,12 +107,6 @@ namespace Kenedia.Modules.BuildsManager.Views
             SelectionPanel?.Dispose();
 
             TemplatePresenter.Template = null;
-        }
-
-        public void SelectFirstTemplate()
-        {
-            SelectionPanel?.SelectFirstTemplate();
-            TemplatePresenter.InvokeTemplateSwitch();
         }
     }
 }

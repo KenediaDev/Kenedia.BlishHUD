@@ -50,13 +50,12 @@ namespace Kenedia.Modules.BuildsManager.Models
         }
     }
 
-
     [DataContract]
     public class Template : IDisposable
     {
         private readonly System.Timers.Timer _timer;
 
-        public Data Data { get; } = BuildsManager.ModuleInstance.ServiceProvider.GetRequiredService<Data>();
+        public Data Data { get; } = BuildsManager.Data;
 
 #nullable enable
         private bool _loaded = false;

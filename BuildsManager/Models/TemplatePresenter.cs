@@ -116,6 +116,8 @@ namespace Kenedia.Modules.BuildsManager.Models
 
         private void RegisterEvents(Template template)
         {
+            if (template is null) return;
+
             template.RaceChanged += On_RaceChanged;
             template.BuildCodeChanged += On_BuildChanged;
             template.GearCodeChanged += On_GearChanged;
