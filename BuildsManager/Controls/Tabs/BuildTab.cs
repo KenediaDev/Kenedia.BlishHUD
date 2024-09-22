@@ -165,7 +165,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.Tabs
             TemplatePresenter.BuildCodeChanged += TemplatePresenter_BuildCodeChanged;
             TemplatePresenter.ProfessionChanged += TemplatePresenter_ProfessionChanged;
             TemplatePresenter.RaceChanged += TemplatePresenter_RaceChanged;
-            TemplatePresenter.EliteSpecializationChanged_OLD += TemplatePresenter_EliteSpecializationChanged;
+            TemplatePresenter.EliteSpecializationChanged += TemplatePresenter_EliteSpecializationChanged;
         }
 
         public TemplatePresenter TemplatePresenter { get; }
@@ -257,10 +257,11 @@ namespace Kenedia.Modules.BuildsManager.Controls.Tabs
         {
             SetSelectionTextures();
             SetProfessionSpecifics();
+
             _buildCodeBox.Text = TemplatePresenter?.Template?.ParseBuildCode();
         }
 
-        private void TemplatePresenter_EliteSpecializationChanged(object sender, Core.Models.ValueChangedEventArgs<Specialization> e)
+        private void TemplatePresenter_EliteSpecializationChanged(object sender, SpecializationChangedEventArgs e)
         {
             SetSpecIcons();
             SetProfessionSpecifics();

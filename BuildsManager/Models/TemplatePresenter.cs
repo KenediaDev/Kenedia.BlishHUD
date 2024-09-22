@@ -103,8 +103,11 @@ namespace Kenedia.Modules.BuildsManager.Models
                 //REWORKED STUFF
                 e.OldValue.SkillChanged -= OnSkillChanged;
                 e.OldValue.TraitChanged -= OnTraitChanged;
+                e.OldValue.EliteSpecializationChanged -= OnEliteSpecializationChanged;
                 e.OldValue.SpecializationChanged -= OnSpecializationChanged;
             }
+
+            e.NewValue?.Load();
 
             if (e.NewValue is not null)
             {

@@ -40,6 +40,8 @@ namespace Kenedia.Modules.BuildsManager
     [Export(typeof(Module))]
     public class BuildsManager : BaseModule<BuildsManager, MainWindow, Settings, Paths>
     {
+        public IServiceProvider ServiceProvider { get; private set; }
+
         public static Data Data { get; set; }
 
         private double _tick;
@@ -57,14 +59,40 @@ namespace Kenedia.Modules.BuildsManager
 
             Services.GameStateDetectionService.Enabled = false;
 
-            Paths = new(DirectoriesManager, Name);
-            Data ??= new(Paths, Gw2ApiManager, null, null);
-            GW2API = new GW2API(Gw2ApiManager, Data, Paths, null);
-            TemplateTags = new TemplateTags(ContentsManager, Paths);
-            Templates = new TemplateCollection();
-            TemplatePresenter = new();
+            ConfigureServices();
+        }
 
-            CreateCornerIcons();
+        private void ConfigureServices()
+        {
+            var services = new Microsoft.Extensions.DependencyInjection.ServiceCollection();
+
+            services.AddSingleton(Gw2ApiManager);
+            services.AddSingleton(ContentsManager);
+            services.AddSingleton<Module>(this);
+            services.AddSingleton<BuildsManager>(this);
+            services.AddSingleton<Paths>(Paths = new(DirectoriesManager, Name));
+
+            services.AddSingleton<TemplateCollection>();
+            services.AddSingleton<TemplatePresenter>();
+            services.AddSingleton<TemplateTags>();
+            services.AddSingleton<Data>();
+            services.AddSingleton<GW2API>();
+
+            services.AddTransient<MainWindow>();
+            services.AddTransient<SelectionPanel>();
+            services.AddTransient<AboutTab>();
+            services.AddTransient<BuildTab>();
+            services.AddTransient<GearTab>();
+
+            CreateCornerIcons(services);
+            ServiceProvider = services.BuildServiceProvider();
+
+            Templates = ServiceProvider.GetRequiredService<TemplateCollection>();
+            TemplatePresenter = ServiceProvider.GetRequiredService<TemplatePresenter>();
+            TemplateTags = ServiceProvider.GetRequiredService<TemplateTags>();
+            Data = ServiceProvider.GetRequiredService<Data>();
+            GW2API = ServiceProvider.GetRequiredService<GW2API>();
+
         }
 
         public event ValueChangedEventHandler<bool> TemplatesLoadedDone;
@@ -81,7 +109,7 @@ namespace Kenedia.Modules.BuildsManager
         public Template? SelectedTemplate => TemplatePresenter.Template;
 
         public GW2API GW2API { get; private set; }
-        public TemplateTags TemplateTags { get; }
+        public TemplateTags TemplateTags { get; private set; }
         public TemplatePresenter TemplatePresenter { get; private set; }
         public TemplateCollection Templates { get; private set; }
 
@@ -193,14 +221,15 @@ namespace Kenedia.Modules.BuildsManager
 
             Logger.Info($"Building UI for {Name}");
 
-            MainWindow = new MainWindow(this, TemplatePresenter, Templates, TemplateTags, Data);
+            MainWindow = ServiceProvider.GetRequiredService<MainWindow>();
 
 #if DEBUG
             MainWindow.Show();
 #endif
 
-            //Templates?.FirstOrDefault()?.Load();
-            //TemplatePresenter.Template = Templates?.FirstOrDefault();
+            TemplatePresenter.Template = Templates?.FirstOrDefault();
+
+            Debug.WriteLine($"Selected Template {Templates.FirstOrDefault()?.Name}");
         }
 
         protected override void UnloadGUI()
@@ -276,7 +305,7 @@ namespace Kenedia.Modules.BuildsManager
             TemplatesLoaded = true;
         }
 
-        private void CreateCornerIcons()
+        private void CreateCornerIcons(IServiceCollection serviceCollection)
         {
             DeleteCornerIcons();
 
@@ -337,10 +366,10 @@ namespace Kenedia.Modules.BuildsManager
                 CaptureInput = null,
             };
 
-            //serviceCollection.AddSingleton(_cornerContainer);
-            //serviceCollection.AddSingleton(_cornerIcon);
-            //serviceCollection.AddSingleton(_notificationBadge);
-            //serviceCollection.AddSingleton(_apiSpinner);
+            serviceCollection.AddSingleton(_cornerContainer);
+            serviceCollection.AddSingleton(_cornerIcon);
+            serviceCollection.AddSingleton(_notificationBadge);
+            serviceCollection.AddSingleton(_apiSpinner);
         }
 
         private void DeleteCornerIcons()

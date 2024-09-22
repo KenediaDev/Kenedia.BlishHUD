@@ -20,7 +20,6 @@ namespace Kenedia.Modules.BuildsManager.Services
     {
         private readonly Logger _logger = Logger.GetLogger(typeof(GW2API));
 
-        private readonly Func<NotificationBadge> _notificationBadge;
         private CancellationTokenSource _cancellationTokenSource;
         private Exception _lastException = null;
 
@@ -117,13 +116,13 @@ namespace Kenedia.Modules.BuildsManager.Services
             //87504, //Swim-Speed Infusion +30
         };
 
-        public GW2API(Gw2ApiManager gw2ApiManager, Data data, Paths paths, Func<NotificationBadge> notificationBadge)
+        public GW2API(Gw2ApiManager gw2ApiManager, Data data, Paths paths, NotificationBadge notificationBadge)
         {
-            _notificationBadge = notificationBadge;
 
             Gw2ApiManager = gw2ApiManager;
             Data = data;
             Paths = paths;
+            NotificationBadge = notificationBadge;
         }
 
         public Gw2ApiManager Gw2ApiManager { get; }
@@ -131,6 +130,7 @@ namespace Kenedia.Modules.BuildsManager.Services
         private Data Data { get; }
 
         public Paths Paths { get; }
+        public NotificationBadge NotificationBadge { get; }
 
         public void Cancel()
         {
@@ -157,7 +157,7 @@ namespace Kenedia.Modules.BuildsManager.Services
 
             LocalizedString state = new();
 
-            if (_notificationBadge() is NotificationBadge notificationBadge)
+            if (NotificationBadge is NotificationBadge notificationBadge)
             {
                 notificationBadge.Visible = false;
             }

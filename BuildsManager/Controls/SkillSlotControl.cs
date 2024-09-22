@@ -11,6 +11,17 @@ using static Blish_HUD.ContentService;
 using Colors = Microsoft.Xna.Framework.Color;
 using Kenedia.Modules.Core.Models;
 using Kenedia.Modules.Core.Utility;
+using Kenedia.Modules.BuildsManager.Controls_Old.BuildPage;
+using Blish_HUD.Input;
+using System;
+using Kenedia.Modules.BuildsManager.Res;
+using System.Diagnostics;
+using System.Text.RegularExpressions;
+using Kenedia.Modules.Core.DataModels;
+using Gw2Sharp.Models;
+using System.Collections.Generic;
+using System.Linq;
+using Kenedia.Modules.BuildsManager.Services;
 
 namespace Kenedia.Modules.BuildsManager.Controls
 {
@@ -46,10 +57,12 @@ namespace Kenedia.Modules.BuildsManager.Controls
 
         public Rectangle AutoCastTextureRegion { get; } = new(6, 6, 52, 52);
 
-        public SkillSlotControl(SkillSlotType skillSlot, TemplatePresenter templatePresenter)
+        public SkillSlotControl(SkillSlotType skillSlot, TemplatePresenter templatePresenter, Data data, SkillSelector skillSelector)
         {
             SkillSlot = skillSlot;
             TemplatePresenter = templatePresenter;
+            Data = data;
+            SkillSelector = skillSelector;
 
             Tooltip = SkillTooltip = new SkillTooltip();
             Size = new(64);
@@ -73,7 +86,8 @@ namespace Kenedia.Modules.BuildsManager.Controls
         public SkillSlotType SkillSlot { get; }
 
         public TemplatePresenter TemplatePresenter { get; }
-
+        public Data Data { get; }
+        public SkillSelector SkillSelector { get; }
         public Vector2 Origin { get; private set; } = Vector2.Zero;
 
         public float Rotation { get; private set; } = 0F;
@@ -111,11 +125,6 @@ namespace Kenedia.Modules.BuildsManager.Controls
                 color,
                 Rotation,
                 Origin);
-            }
-
-            if (ShowSelector)
-            {
-                Selector.Draw(this, spriteBatch, RelativeMousePosition);
             }
 
             bool hovered = MouseOver && SkillBounds.Contains(RelativeMousePosition);
@@ -198,10 +207,10 @@ namespace Kenedia.Modules.BuildsManager.Controls
                     (Vector2)Origin);
             }
 
-            //if (ShowSelector)
-            //{
-            //    Selector.Draw(ctrl, spriteBatch, mousePos);
-            //}
+            if (ShowSelector)
+            {
+                Selector.Draw(this, spriteBatch, RelativeMousePosition);
+            }
         }
 
         public override void RecalculateLayout()
@@ -218,5 +227,98 @@ namespace Kenedia.Modules.BuildsManager.Controls
 
             Tooltip?.Dispose();
         }
+
+        protected override void OnClick(MouseEventArgs e)
+        {
+            base.OnClick(e);
+            SetSelector();
+        }
+
+        protected override void OnRightMouseButtonPressed(MouseEventArgs e)
+        {
+            base.OnRightMouseButtonPressed(e);
+            SetSelector();
+        }
+
+        private void SetSelector()
+        {
+            SkillSelector.Anchor = this;
+            SkillSelector.AnchorOffset = new(-2, 10);
+            SkillSelector.ZIndex = ZIndex + 100;
+            SkillSelector.SelectedItem = Skill;
+
+            var slot = SkillSlot;
+
+            slot &= ~(SkillSlotType.Aquatic | SkillSlotType.Inactive | SkillSlotType.Terrestrial | SkillSlotType.Active);
+            SkillSelector.Label = strings.ResourceManager.GetString($"{Regex.Replace($"{slot.ToString().Trim()}", @"[_0-9]", "")}Skills");
+            SkillSelector.Enviroment = SkillSlot.HasFlag(SkillSlotType.Aquatic) ? Enviroment.Aquatic : Enviroment.Terrestrial;
+            SkillSelector.OnClickAction = (skill) =>
+            {
+                TemplatePresenter?.Template.SelectSkill(SkillSlot, skill);
+                SkillSelector.Hide();
+            };
+
+            GetSelectableSkills(SkillSlot);
+            SkillSelector.Show();
+        }
+
+        private void GetSelectableSkills(SkillSlotType skillSlot)
+        {
+            Debug.WriteLine($"{skillSlot}");
+            Debug.WriteLine($"PROFESSION: {TemplatePresenter?.Template?.Profession}");
+
+            if (TemplatePresenter?.Template?.Profession is null)
+                return;
+
+            var slot = skillSlot.HasFlag(SkillSlotType.Utility_1) ? Gw2Sharp.WebApi.V2.Models.SkillSlot.Utility :
+            skillSlot.HasFlag(SkillSlotType.Utility_2) ? Gw2Sharp.WebApi.V2.Models.SkillSlot.Utility :
+            skillSlot.HasFlag(SkillSlotType.Utility_3) ? Gw2Sharp.WebApi.V2.Models.SkillSlot.Utility :
+            skillSlot.HasFlag(SkillSlotType.Heal) ? Gw2Sharp.WebApi.V2.Models.SkillSlot.Heal :
+            Gw2Sharp.WebApi.V2.Models.SkillSlot.Elite;
+
+            if (TemplatePresenter?.Template?.Profession != ProfessionType.Revenant)
+            {
+                var skills = Data.Professions[TemplatePresenter.Template.Profession].Skills;
+                var filteredSkills = skills.Where(e => e.Value.PaletteId > 0 && e.Value.Slot is not null && e.Value.Slot == slot && (e.Value.Specialization == 0 || TemplatePresenter.Template.HasSpecialization(e.Value.Specialization, out _))).ToList();
+
+                var racialSkills = TemplatePresenter.Template.Race != Core.DataModels.Races.None ? Data.Races[TemplatePresenter.Template.Race]?.Skills.Where(e => e.Value.PaletteId > 0 && e.Value.Slot is not null && e.Value.Slot == slot).ToList() : new();
+                if (racialSkills is not null) filteredSkills.AddRange(racialSkills);
+
+                SkillSelector.SetItems(filteredSkills.OrderBy(e => e.Value.Categories).Select(e => e.Value));
+            }
+            else
+            {
+                List<Skill> filteredSkills = new();
+                LegendSlotType legendSlot = skillSlot.GetEnviromentState() switch
+                {
+                    SkillSlotType.Active | SkillSlotType.Aquatic => LegendSlotType.AquaticActive,
+                    SkillSlotType.Inactive | SkillSlotType.Aquatic => LegendSlotType.AquaticInactive,
+                    SkillSlotType.Active | SkillSlotType.Terrestrial => LegendSlotType.TerrestrialActive,
+                    SkillSlotType.Inactive | SkillSlotType.Terrestrial => LegendSlotType.TerrestrialInactive,
+                    _ => LegendSlotType.TerrestrialActive,
+                };
+
+                var skills = TemplatePresenter.Template?.Legends[legendSlot];
+
+                if (skills is not null)
+                {
+                    switch (slot)
+                    {
+                        case Gw2Sharp.WebApi.V2.Models.SkillSlot.Heal:
+                            filteredSkills.Add(skills.Heal);
+                            break;
+                        case Gw2Sharp.WebApi.V2.Models.SkillSlot.Elite:
+                            filteredSkills.Add(skills.Elite);
+                            break;
+                        case Gw2Sharp.WebApi.V2.Models.SkillSlot.Utility:
+                            filteredSkills.AddRange(skills.Utilities.Select(e => e.Value));
+                            break;
+                    }
+                }
+
+                SkillSelector.SetItems(filteredSkills);
+            }
+        }
+
     }
 }

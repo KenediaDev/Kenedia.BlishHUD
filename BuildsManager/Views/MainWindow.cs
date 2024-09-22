@@ -16,7 +16,7 @@ namespace Kenedia.Modules.BuildsManager.Views
     {
         private readonly TabbedRegion _tabbedRegion;
 
-        public MainWindow(Module module, TemplatePresenter templatePresenter, TemplateCollection templates, TemplateTags templateTags, Data data) : base(
+        public MainWindow(Module module, TemplatePresenter templatePresenter, SelectionPanel selectionPanel, AboutTab aboutTab, BuildTab buildTab, GearTab gearTab) : base(
             TexturesService.GetTextureFromRef(@"textures\mainwindow_background.png", "mainwindow_background"),
                 new Rectangle(30, 30, 915, 670 + 30),
                 new Rectangle(30, 20, 915 - 3, 670 + 15))
@@ -24,11 +24,11 @@ namespace Kenedia.Modules.BuildsManager.Views
             TemplatePresenter = templatePresenter;
             Parent = Graphics.SpriteScreen;
 
-            AboutTab = new(TemplatePresenter);
-            BuildTab = new(TemplatePresenter, data);
-            GearTab = new(TemplatePresenter);
+            AboutTab = aboutTab;
+            BuildTab = buildTab;
+            GearTab = gearTab;
 
-            SelectionPanel = new(TemplatePresenter, templates, templateTags, data);
+            SelectionPanel = selectionPanel;
             SelectionPanel.Parent = this;
 
             Title = "❤";
@@ -72,13 +72,17 @@ namespace Kenedia.Modules.BuildsManager.Views
 
             _tabbedRegion.SwitchTab(tab);
 
+            TemplatePresenter.TemplateChanged += TemplatePresenter_TemplateChanged;
             TemplatePresenter.NameChanged += TemplatePresenter_NameChanged;
 
             Width = 1200;
             Height = 900;
         }
 
-        private TemplatePresenter TemplatePresenter { get; } = new();
+        private void TemplatePresenter_TemplateChanged(object sender, Core.Models.ValueChangedEventArgs<Template> e)
+        {
+            SubName = e.NewValue?.Name;
+        }
 
         public SelectionPanel SelectionPanel { get; }
 
@@ -87,6 +91,7 @@ namespace Kenedia.Modules.BuildsManager.Views
         public BuildTab BuildTab { get; }
 
         public GearTab GearTab { get; }
+        public TemplatePresenter TemplatePresenter { get; }
 
         private void TemplatePresenter_NameChanged(object sender, Core.Models.ValueChangedEventArgs<string> e)
         {

@@ -17,6 +17,7 @@ using System.Text.RegularExpressions;
 using Kenedia.Modules.BuildsManager.Services;
 using Kenedia.Modules.BuildsManager.DataModels.Professions;
 using Blish_HUD.Input;
+using System.Diagnostics;
 
 namespace Kenedia.Modules.BuildsManager.Controls
 {
@@ -43,6 +44,12 @@ namespace Kenedia.Modules.BuildsManager.Controls
             Height = 80;
             Width = 500;
 
+            _skillSelector = new()
+            {
+                Parent = Graphics.SpriteScreen,
+                Visible = false,
+            };
+
             var enviroments = new[] { SkillSlotType.Terrestrial, SkillSlotType.Aquatic };
             var states = new[] { SkillSlotType.Active, SkillSlotType.Inactive };
             var slots = new[] { SkillSlotType.Heal, SkillSlotType.Utility_1, SkillSlotType.Utility_2, SkillSlotType.Utility_3, SkillSlotType.Elite };
@@ -54,22 +61,10 @@ namespace Kenedia.Modules.BuildsManager.Controls
                     foreach (var slot in slots)
                     {
                         var skillSlot = slot | state | enviroment;
-                        Skills[skillSlot] = new SkillSlotControl(skillSlot, templatePresenter) { Parent = this, ShowSelector = true, };
+                        Skills[skillSlot] = new SkillSlotControl(skillSlot, templatePresenter, data, _skillSelector) { Parent = this, ShowSelector = true, };
                     }
                 }
             }
-
-            _skillSelector = new()
-            {
-                Parent = Graphics.SpriteScreen,
-                Visible = false,
-                OnClickAction = (skill) =>
-                {
-                    TemplatePresenter?.Template.SelectSkill(_selectorAnchor.SkillSlot, skill);
-                    _skillSelector?.Hide();
-                    return;
-                }
-            };
 
             TemplatePresenter.ProfessionChanged += TemplatePresenter_ProfessionChanged;
             TemplatePresenter.TemplateChanged += TemplatePresenter_TemplateChanged;
@@ -125,104 +120,6 @@ namespace Kenedia.Modules.BuildsManager.Controls
 
             _terrestrialTexture.Draw(this, spriteBatch, RelativeMousePosition, Color.White);
             _aquaticTexture.Draw(this, spriteBatch, RelativeMousePosition, Color.White);
-        }
-
-        protected override void OnRightMouseButtonPressed(MouseEventArgs e)
-        {
-            base.OnRightMouseButtonPressed(e);
-
-            foreach (var skillIcon in Skills)
-            {
-                if (skillIcon.Value.MouseOver)
-                {
-                    SetSelector(skillIcon);
-                }
-            }
-        }
-
-        protected override void OnClick(MouseEventArgs e)
-        {
-            base.OnClick(e);
-
-            foreach (var skillIcon in Skills)
-            {
-                if (skillIcon.Value.IsSelectorHovered)
-                {
-                    SetSelector(skillIcon);
-                }
-            }
-        }
-        private void SetSelector(KeyValuePair<SkillSlotType, SkillSlotControl> skillCtrl)
-        {
-            _selectorAnchor = skillCtrl.Value;
-
-            _skillSelector.Anchor = skillCtrl.Value;
-            _skillSelector.AnchorOffset = new(-2, 10);
-            _skillSelector.ZIndex = ZIndex + 100;
-            _skillSelector.SelectedItem = skillCtrl.Value.Skill;
-
-            var slot = skillCtrl.Key;
-
-            slot &= ~(SkillSlotType.Aquatic | SkillSlotType.Inactive | SkillSlotType.Terrestrial | SkillSlotType.Active);
-            _skillSelector.Label = strings.ResourceManager.GetString($"{Regex.Replace($"{slot.ToString().Trim()}", @"[_0-9]", "")}Skills");
-            _skillSelector.Enviroment = skillCtrl.Key.HasFlag(SkillSlotType.Aquatic) ? Enviroment.Aquatic : Enviroment.Terrestrial;
-
-            GetSelectableSkills(skillCtrl.Key);
-        }
-
-        private void GetSelectableSkills(SkillSlotType skillSlot)
-        {
-            if (TemplatePresenter?.Template?.Profession is null)
-                return;
-
-            var slot = skillSlot.HasFlag(SkillSlotType.Utility_1) ? SkillSlot.Utility :
-            skillSlot.HasFlag(SkillSlotType.Utility_2) ? SkillSlot.Utility :
-            skillSlot.HasFlag(SkillSlotType.Utility_3) ? SkillSlot.Utility :
-            skillSlot.HasFlag(SkillSlotType.Heal) ? SkillSlot.Heal :
-            SkillSlot.Elite;
-
-            if (TemplatePresenter?.Template?.Profession != ProfessionType.Revenant)
-            {
-                var skills = Data.Professions[TemplatePresenter.Template.Profession].Skills;
-                var filteredSkills = skills.Where(e => e.Value.PaletteId > 0 && e.Value.Slot is not null && e.Value.Slot == slot && (e.Value.Specialization == 0 || TemplatePresenter.Template.HasSpecialization(e.Value.Specialization, out _))).ToList();
-
-                var racialSkills = TemplatePresenter.Template.Race != Core.DataModels.Races.None ? Data.Races[TemplatePresenter.Template.Race]?.Skills.Where(e => e.Value.PaletteId > 0 && e.Value.Slot is not null && e.Value.Slot == slot).ToList() : new();
-                if (racialSkills is not null) filteredSkills.AddRange(racialSkills);
-
-                _skillSelector.SetItems(filteredSkills.OrderBy(e => e.Value.Categories).Select(e => e.Value));
-            }
-            else
-            {
-                List<Skill> filteredSkills = new();
-                LegendSlotType legendSlot = skillSlot.GetEnviromentState() switch
-                {
-                    SkillSlotType.Active | SkillSlotType.Aquatic => LegendSlotType.AquaticActive,
-                    SkillSlotType.Inactive | SkillSlotType.Aquatic => LegendSlotType.AquaticInactive,
-                    SkillSlotType.Active | SkillSlotType.Terrestrial => LegendSlotType.TerrestrialActive,
-                    SkillSlotType.Inactive | SkillSlotType.Terrestrial => LegendSlotType.TerrestrialInactive,
-                    _ => LegendSlotType.TerrestrialActive,
-                };
-
-                var skills = TemplatePresenter.Template?.Legends[legendSlot];
-
-                if (skills is not null)
-                {
-                    switch (slot)
-                    {
-                        case SkillSlot.Heal:
-                            filteredSkills.Add(skills.Heal);
-                            break;
-                        case SkillSlot.Elite:
-                            filteredSkills.Add(skills.Elite);
-                            break;
-                        case SkillSlot.Utility:
-                            filteredSkills.AddRange(skills.Utilities.Select(e => e.Value));
-                            break;
-                    }
-                }
-
-                _skillSelector.SetItems(filteredSkills);
-            }
         }
 
         protected override void DisposeControl()

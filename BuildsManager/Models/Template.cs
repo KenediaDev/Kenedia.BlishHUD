@@ -852,6 +852,8 @@ namespace Kenedia.Modules.BuildsManager.Models
 
         private void SetArmorItems()
         {
+            if (Data is null) return;
+
             switch (Profession.GetArmorType())
             {
                 case Gw2Sharp.WebApi.V2.Models.ItemWeightType.Heavy:
@@ -1286,7 +1288,7 @@ namespace Kenedia.Modules.BuildsManager.Models
                 EliteSpecializationChanged?.Invoke(sender, e);
             }
 
-            RequestSave();
+            OnBuildCodeChanged();
         }
 
         public bool HasSpecialization(int? id, out BuildSpecialization slot)
@@ -1360,7 +1362,6 @@ namespace Kenedia.Modules.BuildsManager.Models
             }
         }
 
-
         public void SetTrait(SpecializationSlotType spec, Trait? trait, TraitTierType tier)
         {
             if (this[spec] is BuildSpecialization buildSpec)
@@ -1371,6 +1372,8 @@ namespace Kenedia.Modules.BuildsManager.Models
 
         public void SetTrait(BuildSpecialization spec, Trait? trait, TraitTierType tier)
         {
+            if (spec is null) return;
+
             Trait? previousTrait = null;
             
             switch (tier)
@@ -1397,6 +1400,7 @@ namespace Kenedia.Modules.BuildsManager.Models
         private void OnTraitChanged(TraitChangedEventArgs e)
         {
             TraitChanged?.Invoke(this, e);
+            OnBuildCodeChanged();
         }
 
         public void SetLegend(Legend legend, LegendSlotType slot)
@@ -1561,7 +1565,7 @@ namespace Kenedia.Modules.BuildsManager.Models
                     var skill = s.Value;
                     bool profMatch = skill?.Professions.Contains(Profession) is true;
                     bool specMatch = skill?.Specialization is null or 0 || (skill?.Specialization is int specId && specIds.Contains(specId));
-                    bool isRacial = Data.Races[Race].Skills.Any(x => x.Value.Id == s.Value?.Id);
+                    bool isRacial = Data?.Races[Race].Skills.Any(x => x.Value.Id == s.Value?.Id) is true;
 
                     if ((!profMatch || !specMatch) && !isRacial)
                     {
@@ -1581,7 +1585,7 @@ namespace Kenedia.Modules.BuildsManager.Models
             if (!_triggerEvents) return;
 
             LegendChanged?.Invoke(sender, e);
-            RequestSave();
+            OnBuildCodeChanged();
         }
 
         public void SelectSkill(SkillSlotType skillSlot, Skill? skill)
@@ -1610,6 +1614,7 @@ namespace Kenedia.Modules.BuildsManager.Models
             if (!_triggerEvents) return;
 
             SkillChanged?.Invoke(this, new(skillSlot, skill));
+            OnBuildCodeChanged();
         }
 
         private void OnBuildCodeChanged()

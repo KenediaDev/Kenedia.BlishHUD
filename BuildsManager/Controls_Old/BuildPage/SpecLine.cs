@@ -125,6 +125,12 @@ namespace Kenedia.Modules.BuildsManager.Controls_Old.BuildPage
             }
                         
             TemplatePresenter.SpecializationChanged += OnSpecializationChanged;
+            TemplatePresenter.TemplateChanged += TemplatePresenter_TemplateChanged;
+        }
+
+        private void TemplatePresenter_TemplateChanged(object sender, Core.Models.ValueChangedEventArgs<Template> e)
+        {
+            ApplyTemplate();
         }
 
         private void OnSpecializationChanged(object sender, SpecializationChangedEventArgs e)
