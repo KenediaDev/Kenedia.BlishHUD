@@ -25,11 +25,11 @@ namespace Kenedia.Modules.BuildsManager.Views
             Parent = Graphics.SpriteScreen;
 
             AboutTab = new(TemplatePresenter);
-            //BuildTab = new(TemplatePresenter, data);
+            BuildTab = new(TemplatePresenter, data);
             GearTab = new(TemplatePresenter);
 
-            //SelectionPanel = new(TemplatePresenter, templates, templateTags, data);
-            //SelectionPanel.Parent = this;
+            SelectionPanel = new(TemplatePresenter, templates, templateTags, data);
+            SelectionPanel.Parent = this;
 
             Title = "❤";
             Subtitle = "❤";
@@ -49,7 +49,7 @@ namespace Kenedia.Modules.BuildsManager.Views
             };
 
             TabbedRegionTab tab;
-            //BuildTab.Width = ContentRegion.Width - 144;
+            BuildTab.Width = ContentRegion.Width - 144;
             GearTab.Width = AboutTab.Width = ContentRegion.Width - 144;
 
             _tabbedRegion.AddTab(new TabbedRegionTab(AboutTab)
@@ -58,11 +58,11 @@ namespace Kenedia.Modules.BuildsManager.Views
                 Icon = AsyncTexture2D.FromAssetId(440023),
             });
 
-            //_tabbedRegion.AddTab(tab = new TabbedRegionTab(BuildTab)
-            //{
-            //    Header = () => strings.Build,
-            //    Icon = AsyncTexture2D.FromAssetId(156720),
-            //});
+            _tabbedRegion.AddTab(tab = new TabbedRegionTab(BuildTab)
+            {
+                Header = () => strings.Build,
+                Icon = AsyncTexture2D.FromAssetId(156720),
+            });
 
             _tabbedRegion.AddTab(new TabbedRegionTab(GearTab)
             {
@@ -70,7 +70,7 @@ namespace Kenedia.Modules.BuildsManager.Views
                 Icon = AsyncTexture2D.FromAssetId(156714),
             });
 
-            //_tabbedRegion.SwitchTab(tab);
+            _tabbedRegion.SwitchTab(tab);
 
             TemplatePresenter.NameChanged += TemplatePresenter_NameChanged;
 
