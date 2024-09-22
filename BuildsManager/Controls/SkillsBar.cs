@@ -1,23 +1,15 @@
 ﻿using Blish_HUD.Controls;
 using Gw2Sharp.Models;
-using Kenedia.Modules.BuildsManager.Controls_Old.BuildPage;
 using Kenedia.Modules.BuildsManager.Extensions;
 using Kenedia.Modules.BuildsManager.Models;
 using Kenedia.Modules.BuildsManager.Models.Templates;
-using Kenedia.Modules.BuildsManager.Res;
-using Kenedia.Modules.Core.DataModels;
 using Kenedia.Modules.Core.Extensions;
 using Kenedia.Modules.Core.Models;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System.Collections.Generic;
-using System.Linq;
-using SkillSlot = Gw2Sharp.WebApi.V2.Models.SkillSlot;
-using System.Text.RegularExpressions;
 using Kenedia.Modules.BuildsManager.Services;
-using Kenedia.Modules.BuildsManager.DataModels.Professions;
-using Blish_HUD.Input;
-using System.Diagnostics;
+using Kenedia.Modules.BuildsManager.Controls.Selectables;
 
 namespace Kenedia.Modules.BuildsManager.Controls
 {

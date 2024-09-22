@@ -11,17 +11,15 @@ using static Blish_HUD.ContentService;
 using Colors = Microsoft.Xna.Framework.Color;
 using Kenedia.Modules.Core.Models;
 using Kenedia.Modules.Core.Utility;
-using Kenedia.Modules.BuildsManager.Controls_Old.BuildPage;
 using Blish_HUD.Input;
-using System;
 using Kenedia.Modules.BuildsManager.Res;
-using System.Diagnostics;
 using System.Text.RegularExpressions;
 using Kenedia.Modules.Core.DataModels;
 using Gw2Sharp.Models;
 using System.Collections.Generic;
 using System.Linq;
 using Kenedia.Modules.BuildsManager.Services;
+using Kenedia.Modules.BuildsManager.Controls.Selectables;
 
 namespace Kenedia.Modules.BuildsManager.Controls
 {
@@ -254,7 +252,7 @@ namespace Kenedia.Modules.BuildsManager.Controls
             SkillSelector.Enviroment = SkillSlot.HasFlag(SkillSlotType.Aquatic) ? Enviroment.Aquatic : Enviroment.Terrestrial;
             SkillSelector.OnClickAction = (skill) =>
             {
-                TemplatePresenter?.Template.SelectSkill(SkillSlot, skill);
+                TemplatePresenter?.Template.SetSkill(SkillSlot, skill);
                 SkillSelector.Hide();
             };
 
@@ -264,10 +262,7 @@ namespace Kenedia.Modules.BuildsManager.Controls
 
         private void GetSelectableSkills(SkillSlotType skillSlot)
         {
-            Debug.WriteLine($"{skillSlot}");
-            Debug.WriteLine($"PROFESSION: {TemplatePresenter?.Template?.Profession}");
-
-            if (TemplatePresenter?.Template?.Profession is null)
+            if (TemplatePresenter?.Template?.Profession is null or 0)
                 return;
 
             var slot = skillSlot.HasFlag(SkillSlotType.Utility_1) ? Gw2Sharp.WebApi.V2.Models.SkillSlot.Utility :

@@ -3,9 +3,8 @@ using Blish_HUD.Content;
 using Blish_HUD.Controls;
 using Blish_HUD.Input;
 using Gw2Sharp.Models;
-using Kenedia.Modules.BuildsManager.Controls_Old.BuildPage;
-using Kenedia.Modules.BuildsManager.Controls_Old.BuildPage.ProfessionSpecific;
-using Kenedia.Modules.BuildsManager.Controls_Old.Selection;
+using Kenedia.Modules.BuildsManager.Controls.ProfessionSpecific;
+using Kenedia.Modules.BuildsManager.Controls.Selection;
 using Kenedia.Modules.BuildsManager.DataModels;
 using Kenedia.Modules.BuildsManager.DataModels.Professions;
 using Kenedia.Modules.BuildsManager.Models;
@@ -236,7 +235,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.Tabs
                 _professionRaceSelection.Visible = true;
                 _professionRaceSelection.Type = ProfessionRaceSelection.SelectionType.Profession;
                 _professionRaceSelection.Location = RelativeMousePosition;
-                _professionRaceSelection.OnClickAction = (value) => TemplatePresenter?.SetProfession((ProfessionType)value);
+                _professionRaceSelection.OnClickAction = (value) => TemplatePresenter?.Template?.SetProfession((ProfessionType)value);
             }
 
             if (_raceIcon?.MouseOver == true)
@@ -244,7 +243,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.Tabs
                 _professionRaceSelection.Visible = true;
                 _professionRaceSelection.Type = ProfessionRaceSelection.SelectionType.Race;
                 _professionRaceSelection.Location = RelativeMousePosition;
-                _professionRaceSelection.OnClickAction = (value) => TemplatePresenter.SetRace((Races)value);
+                _professionRaceSelection.OnClickAction = (value) => TemplatePresenter.Template?.SetRace((Races)value);
             }
         }
 

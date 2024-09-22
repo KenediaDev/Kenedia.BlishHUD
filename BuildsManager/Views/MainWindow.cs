@@ -2,13 +2,12 @@
 using Kenedia.Modules.Core.Views;
 using Microsoft.Xna.Framework;
 using Kenedia.Modules.Core.Services;
-using Kenedia.Modules.BuildsManager.Controls_Old;
-using Kenedia.Modules.BuildsManager.Controls_Old.Selection;
 using Kenedia.Modules.BuildsManager.Models;
 using Kenedia.Modules.BuildsManager.Res;
 using Blish_HUD.Modules;
 using Kenedia.Modules.BuildsManager.Controls.Tabs;
-using Kenedia.Modules.BuildsManager.Services;
+using Kenedia.Modules.BuildsManager.Controls;
+using Kenedia.Modules.BuildsManager.Controls.Selection;
 
 namespace Kenedia.Modules.BuildsManager.Views
 {
@@ -111,8 +110,6 @@ namespace Kenedia.Modules.BuildsManager.Views
             GearTab?.Dispose();
             AboutTab?.Dispose();
             SelectionPanel?.Dispose();
-
-            TemplatePresenter.Template = null;
         }
     }
 }

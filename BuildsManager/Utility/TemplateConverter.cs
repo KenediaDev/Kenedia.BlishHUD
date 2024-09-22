@@ -11,9 +11,9 @@ namespace Kenedia.Modules.BuildsManager.Utility
 {
     public class TemplateConverter : JsonConverter
     {
-        public TemplateConverter(Data data)
+        public TemplateConverter(TemplateFactory templateFactory)
         {
-            Data = data;
+            TemplateFactory = templateFactory;
         }
 
         public override bool CanConvert(Type objectType)
@@ -23,11 +23,9 @@ namespace Kenedia.Modules.BuildsManager.Utility
 
         public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
         {
-            // Load the JSON for the Result into a JObject
-            JObject jo = JObject.Load(reader);
+            var jo = JObject.Load(reader);
             UniqueObservableCollection<string> tags;
 
-            // Read the properties which will be used as constructor parameters
             try
             {
                tags = jo["Tags"].ToObject<UniqueObservableCollection<string>>(serializer);
@@ -45,21 +43,14 @@ namespace Kenedia.Modules.BuildsManager.Utility
             int? profession = (int?)jo["Profession"];
             int? elitespecId = (int?)jo["EliteSpecializationId"];
 
-            // Construct the Result object using the non-default constructor
-            var result = new Template(name, buildCode, gearCode, description, tags, (Races)(race ?? -1), (ProfessionType)(profession ?? 1), elitespecId ?? 0, Data);
+            var result = TemplateFactory.CreateTemplate(name, buildCode, gearCode, description, tags, (Races)(race ?? -1), (ProfessionType)(profession ?? 1), elitespecId ?? 0);
 
-            // (If anything else needs to be populated on the result object, do that here)
-
-            // Return the result
             return result;
         }
 
-        public override bool CanWrite
-        {
-            get { return false; }
-        }
+        public override bool CanWrite => false;
 
-        public Data Data { get; }
+        public TemplateFactory TemplateFactory { get; }
 
         public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
         {

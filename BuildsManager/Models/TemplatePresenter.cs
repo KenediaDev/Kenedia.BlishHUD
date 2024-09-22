@@ -3,6 +3,7 @@ using Kenedia.Modules.BuildsManager.DataModels.Items;
 using Kenedia.Modules.BuildsManager.DataModels.Professions;
 using Kenedia.Modules.BuildsManager.DataModels.Stats;
 using Kenedia.Modules.BuildsManager.Models.Templates;
+using Kenedia.Modules.BuildsManager.Services;
 using Kenedia.Modules.Core.DataModels;
 using Kenedia.Modules.Core.Models;
 using Kenedia.Modules.Core.Utility;
@@ -18,9 +19,11 @@ namespace Kenedia.Modules.BuildsManager.Models
         private AttunementType _altAttunement = AttunementType.Fire;
         private LegendSlotType _legendSlot = LegendSlotType.TerrestrialActive;
 
-        public TemplatePresenter(Template template)
+        public TemplatePresenter(TemplateFactory templateFactory)
         {
-            Template = template;
+            TemplateFactory = templateFactory;
+
+            Template = TemplateFactory.CreateTemplate("DummyTemplate");
         }
 
         public event EventHandler LoadedGearFromCode;
@@ -67,13 +70,22 @@ namespace Kenedia.Modules.BuildsManager.Models
 
         public event SpecializationChangedEventHandler EliteSpecializationChanged;
 
-        public Template Template { get => _template; set => Common.SetProperty(ref _template, value, On_TemplateChanged); }
+        public Template Template
+        {
+            get => _template; private set => Common.SetProperty(ref _template, value, On_TemplateChanged);
+        }
+
+        public void SetTemplate(Template? template)
+        {
+            template ??= TemplateFactory.CreateTemplate();
+            Template = template;
+        }
 
         public AttunementType MainAttunement { get => _mainAttunement; set => Common.SetProperty(ref _mainAttunement, value, On_AttunementChanged); }
 
         public AttunementType AltAttunement { get => _altAttunement; set => Common.SetProperty(ref _altAttunement, value, On_AttunementChanged); }
 
-        public LegendSlotType LegendSlot { get => _legendSlot; set => Common.SetProperty(ref _legendSlot, value, On_LegendSlotChanged); }
+        public LegendSlotType LegendSlot { get => _legendSlot; set => Common.SetProperty(ref _legendSlot, value, OnLegendSlotChanged); }
 
         public GameModeType GameMode { get => _gameMode; set => Common.SetProperty(ref _gameMode, value, On_GameModeChanged); }
 
@@ -82,6 +94,8 @@ namespace Kenedia.Modules.BuildsManager.Models
         public bool IsPvp => GameMode == GameModeType.PvP;
 
         public bool IsWvw => GameMode == GameModeType.WvW;
+
+        public TemplateFactory TemplateFactory { get; }
 
         private void On_TemplateChanged(object sender, ValueChangedEventArgs<Template> e)
         {
@@ -233,7 +247,7 @@ namespace Kenedia.Modules.BuildsManager.Models
             BuildCodeChanged?.Invoke(sender, e);
         }
 
-        private void On_LegendSlotChanged(object sender, ValueChangedEventArgs<LegendSlotType> e)
+        private void OnLegendSlotChanged(object sender, ValueChangedEventArgs<LegendSlotType> e)
         {
             LegendSlotChanged?.Invoke(sender, e);
         }
@@ -258,33 +272,14 @@ namespace Kenedia.Modules.BuildsManager.Models
             On_AttunementChanged(this, new(_altAttunement, _mainAttunement));
         }
 
-        public void SwapLegend(LegendSlotType? legendSlot = null)
+        public void SwapLegend()
         {
-            legendSlot ??= LegendSlot is LegendSlotType.AquaticActive or LegendSlotType.TerrestrialActive ? LegendSlotType.TerrestrialInactive : LegendSlotType.TerrestrialActive;
-            LegendSlotType slot = legendSlot is LegendSlotType.AquaticActive or LegendSlotType.TerrestrialActive ? LegendSlotType.TerrestrialActive : LegendSlotType.TerrestrialInactive;
-
-            if (_legendSlot.Equals(slot)) return;
-
-            var oldLegend = LegendSlot;
-            _legendSlot = slot;
-
-            On_LegendSlotChanged(this, new(oldLegend, _legendSlot));
-        }
-
-        public void SetProfession(ProfessionType profession)
-        {
-            if (Template is not null)
+            LegendSlot = LegendSlot switch
             {
-                Template.Profession = profession;
-            }
-        }
-
-        public void SetRace(Races race)
-        {
-            if (Template is not null)
-            {
-                Template.Race = race;
-            }
+                LegendSlotType.TerrestrialActive or LegendSlotType.AquaticActive => LegendSlotType.TerrestrialInactive,
+                LegendSlotType.TerrestrialInactive or LegendSlotType.AquaticInactive => LegendSlotType.TerrestrialActive,
+                _ => LegendSlotType.TerrestrialActive,
+            };
         }
 
         public void InvokeTemplateSwitch()

@@ -26,10 +26,9 @@ using AnchoredContainer = Kenedia.Modules.Core.Controls.AnchoredContainer;
 using Version = SemVer.Version;
 using Microsoft.Extensions.DependencyInjection;
 using Kenedia.Modules.Core.Controls;
-using Kenedia.Modules.BuildsManager.Controls_Old.Selection;
 using Kenedia.Modules.BuildsManager.Controls.Tabs;
 using System.Linq;
-using Blish_HUD.Modules.Managers;
+using Kenedia.Modules.BuildsManager.Controls.Selection;
 
 namespace Kenedia.Modules.BuildsManager
 {
@@ -78,13 +77,14 @@ namespace Kenedia.Modules.BuildsManager
             services.AddSingleton<Data>();
             services.AddSingleton<GW2API>();
 
-            services.AddTransient<MainWindow>();
-            services.AddTransient<SelectionPanel>();
-            services.AddTransient<AboutTab>();
-            services.AddTransient<BuildTab>();
-            services.AddTransient<GearTab>();
+            services.AddScoped<MainWindow>();
+            services.AddScoped<SelectionPanel>();
+            services.AddScoped<AboutTab>();
+            services.AddScoped<BuildTab>();
+            services.AddScoped<GearTab>();
 
-            services.AddTransient<Template>();
+            services.AddTransient<TemplateFactory>();
+            services.AddTransient<TemplateConverter>();
 
             CreateCornerIcons(services);
             ServiceProvider = services.BuildServiceProvider();
@@ -134,8 +134,6 @@ namespace Kenedia.Modules.BuildsManager
 
         private async void Data_Loaded(object sender, EventArgs e)
         {
-            Debug.WriteLine($"Data_Loaded");
-
             if (!TemplatesLoaded)
                 await LoadTemplates();
         }
@@ -215,23 +213,19 @@ namespace Kenedia.Modules.BuildsManager
 
         protected override void LoadGUI()
         {
-            Debug.WriteLine($"TemplatesLoaded: {TemplatesLoaded} Data.IsLoaded : {Data.IsLoaded}");
-
             if (!Data.IsLoaded || !TemplatesLoaded) return;
 
             base.LoadGUI();
 
             Logger.Info($"Building UI for {Name}");
-
-            MainWindow = ServiceProvider.GetRequiredService<MainWindow>();
+            var scope = ServiceProvider.CreateScope();
+            MainWindow = scope.ServiceProvider.GetRequiredService<MainWindow>();
 
 #if DEBUG
             MainWindow.Show();
 #endif
 
-            TemplatePresenter.Template = Templates?.FirstOrDefault();
-
-            Debug.WriteLine($"Selected Template {Templates.FirstOrDefault()?.Name}");
+            TemplatePresenter.SetTemplate(Templates?.FirstOrDefault());
         }
 
         protected override void UnloadGUI()
@@ -281,18 +275,22 @@ namespace Kenedia.Modules.BuildsManager
                 Templates.Clear();
 
                 JsonSerializerSettings settings = new();
-                settings.Converters.Add(new TemplateConverter(Data));
+                settings.Converters.Add(ServiceProvider.GetService<TemplateConverter>());
 
                 Logger.Info($"Loading {templateFiles.Length} Templates ...");
                 foreach (string file in templateFiles)
                 {
-                    string fileText = File.ReadAllText(file);
-                    var template = JsonConvert.DeserializeObject<Template>(fileText, settings);
+                    //Read files async and create templates 
+                    using StreamReader reader = new(file);
+                    string json = await reader.ReadToEndAsync();
 
-                    if (template is not null)
-                    {
-                        Templates.Add(template);
-                    }
+                    Template template = JsonConvert.DeserializeObject<Template>(json, settings);
+                    Templates.Add(template);
+                }
+
+                if (Templates.Count == 0)
+                {
+                    Templates.Add(ServiceProvider.GetService<TemplateFactory>().CreateTemplate());
                 }
 
                 time.Stop();
@@ -322,16 +320,11 @@ namespace Kenedia.Modules.BuildsManager
                 {
                     if (!Data.IsLoaded)
                     {
-
-                        Debug.WriteLine($"Data?.IsLoaded: {Data?.IsLoaded}");
                         _ = Task.Run(() => Data.Load(true));
                         return;
                     }
 
-                    Debug.WriteLine($"SHOW WINDOW");
                     MainWindow?.ToggleWindow();
-
-                    Debug.WriteLine($"{MainWindow?.Visible}");
                 }
             };
 

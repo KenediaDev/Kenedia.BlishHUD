@@ -80,7 +80,6 @@ namespace Kenedia.Modules.BuildsManager.Services
 
         private void OnTagChanged()
         {
-            //Debug.WriteLine($"OnTagChanged");
             OrderTags();
         }
 

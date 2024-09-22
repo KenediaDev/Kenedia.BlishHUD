@@ -11,7 +11,6 @@ using System.Threading;
 using Kenedia.Modules.Core.Extensions;
 using Kenedia.Modules.BuildsManager.Models;
 using Kenedia.Modules.Core.Controls;
-using System.Diagnostics;
 using Kenedia.Modules.BuildsManager.Extensions;
 
 namespace Kenedia.Modules.BuildsManager.Services
@@ -352,7 +351,7 @@ namespace Kenedia.Modules.BuildsManager.Services
                     }
                 }
 
-                Debug.WriteLine($@"Save to {Paths.ModuleDataPath}DataMap.json");
+                BuildsManager.Logger.Info($@"Save to {Paths.ModuleDataPath}DataMap.json");
                 mapCollection.Save($@"{Paths.ModuleDataPath}DataMap.json");
             }
             catch
