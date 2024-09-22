@@ -37,19 +37,6 @@ namespace Kenedia.Modules.BuildsManager.Models
 
     public delegate void SpecializationChangedEventHandler(object sender, SpecializationChangedEventArgs e);
 
-    public class TraitSlotTrait
-    {
-        public Trait Trait { get; set; }
-
-        public TraitTierType Slot { get; set; }
-
-        public TraitSlotTrait(Trait trait, TraitTierType slot)
-        {
-            Trait = trait;
-            Slot = slot;
-        }
-    }
-
     [DataContract]
     public class Template : IDisposable
     {
@@ -70,7 +57,8 @@ namespace Kenedia.Modules.BuildsManager.Models
 
         private string _savedBuildCode = string.Empty;
         private string _savedGearCode = string.Empty;
-        public Specialization? _savedEliteSpecialization = null;
+
+        public Specialization? SavedEliteSpecialization { get; private set; } = null;
 
         [JsonProperty("Tags")]
         [DataMember]
@@ -95,23 +83,22 @@ namespace Kenedia.Modules.BuildsManager.Models
 
         public event ValueChangedEventHandler<ProfessionType>? ProfessionChanged;
 
-
         public event DictionaryItemChangedEventHandler<SpecializationSlotType, Specialization?>? SpecializationChanged_OLD;
 
         public event DictionaryItemChangedEventHandler<LegendSlotType, Legend?>? LegendChanged;
 
-        public event DictionaryItemChangedEventHandler<SkillSlotType, Skill?> SkillChanged_OLD;
+        public event DictionaryItemChangedEventHandler<SkillSlotType, Skill?>? SkillChanged_OLD;
 
         //REWORKED
-        public event SkillChangedEventHandler SkillChanged;
+        public event SkillChangedEventHandler? SkillChanged;
 
-        public event TraitChangedEventHandler TraitChanged;
+        public event TraitChangedEventHandler? TraitChanged;
 
-        public event SpecializationChangedEventHandler SpecializationChanged;
+        public event SpecializationChangedEventHandler? SpecializationChanged;
 
-        public event SpecializationChangedEventHandler EliteSpecializationChanged;
+        public event SpecializationChangedEventHandler? EliteSpecializationChanged;
 
-        public Template()
+        public Template(Data data)
         {
             _timer = new(1000);
             _timer.Elapsed += OnTimerElapsed;
@@ -181,13 +168,13 @@ namespace Kenedia.Modules.BuildsManager.Models
             _timer.Start();
         }
 
-        public Template(string? buildCode, string? gearCode) : this()
+        public Template(string? buildCode, string? gearCode, Data data) : this(data)
         {
             LoadFromCode(buildCode, gearCode);
         }
 
         [JsonConstructor]
-        public Template(string name, string buildCode, string gearCode, string description, UniqueObservableCollection<string> tags, Races? race, ProfessionType? profession, int? elitespecId) : this()
+        public Template(string name, string buildCode, string gearCode, string description, UniqueObservableCollection<string> tags, Races? race, ProfessionType? profession, int? elitespecId, Data data) : this(data)
         {
             // Disable Events to prevent unnecessary event triggers during the load
             _triggerEvents = false;
@@ -195,7 +182,7 @@ namespace Kenedia.Modules.BuildsManager.Models
             _name = name;
             _race = race ?? Races.None;
             _profession = profession ?? ProfessionType.Guardian;
-            _savedEliteSpecialization = Data.Professions[Profession]?.Specializations.FirstOrDefault(e => e.Value.Id == elitespecId).Value;
+            SavedEliteSpecialization = Data.Professions[Profession]?.Specializations.FirstOrDefault(e => e.Value.Id == elitespecId).Value;
             _description = description;
             Tags = tags ?? _tags;
 
@@ -208,7 +195,7 @@ namespace Kenedia.Modules.BuildsManager.Models
             SetArmorItems();
         }
 
-        public event EventHandler<(TemplateSlotType slot, BaseItem item, Stat stat)> TemplateSlotChanged;
+        public event EventHandler<(TemplateSlotType slot, BaseItem item, Stat stat)>? TemplateSlotChanged;
 
         #region General Template 
         public string FilePath => @$"{BuildsManager.ModuleInstance.Paths.TemplatesPath}{Common.MakeValidFileName(Name.Trim())}.json";
@@ -245,9 +232,9 @@ namespace Kenedia.Modules.BuildsManager.Models
         #region Build
 
         [DataMember]
-        public int? EliteSpecializationId => Specializations.Specialization3.Specialization?.Id ?? _savedEliteSpecialization?.Id;
+        public int? EliteSpecializationId => Specializations.Specialization3.Specialization?.Id ?? SavedEliteSpecialization?.Id;
 
-        public Specialization? EliteSpecialization => Specializations.Specialization3?.Specialization ?? _savedEliteSpecialization;
+        public Specialization? EliteSpecialization => Specializations.Specialization3?.Specialization ?? SavedEliteSpecialization;
 
         public PetCollection Pets { get; } = new();
 
@@ -838,7 +825,7 @@ namespace Kenedia.Modules.BuildsManager.Models
             Pets.Wipe();
             Legends.Wipe();
 
-            _savedEliteSpecialization = null;
+            SavedEliteSpecialization = null;
 
             SetArmorItems();
 
@@ -1351,7 +1338,7 @@ namespace Kenedia.Modules.BuildsManager.Models
 
                 if (slot is SpecializationSlotType.Line_3)
                 {
-                    _savedEliteSpecialization = specialization;
+                    SavedEliteSpecialization = specialization;
                 }
 
                 SetTrait(currentSpecline, null, TraitTierType.Adept);

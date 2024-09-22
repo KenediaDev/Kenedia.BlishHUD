@@ -282,7 +282,7 @@ namespace Kenedia.Modules.BuildsManager.Controls_Old.Selection
                 {
                     TemplateSelectable ts = null;
                     Template t;
-                    Templates.Add(t = new() { Name = newName });
+                    Templates.Add(t = new(Data) { Name = newName });
                     SelectionPanel?.SetTemplateAnchor(ts = TemplateSelectables.FirstOrDefault(e => e.Template == t));
                     ts?.ToggleEditMode(false);
 

@@ -12,15 +12,15 @@ namespace Kenedia.Modules.BuildsManager.Models
 {
     public class TemplatePresenter
     {
-        private Template _template = new();
+        private Template _template;
         private GameModeType _gameMode = GameModeType.PvE;
         private AttunementType _mainAttunement = AttunementType.Fire;
         private AttunementType _altAttunement = AttunementType.Fire;
         private LegendSlotType _legendSlot = LegendSlotType.TerrestrialActive;
 
-        public TemplatePresenter()
+        public TemplatePresenter(Template template)
         {
-            RegisterEvents(_template);
+            Template = template;
         }
 
         public event EventHandler LoadedGearFromCode;

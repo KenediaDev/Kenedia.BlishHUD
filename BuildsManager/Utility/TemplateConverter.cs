@@ -1,5 +1,6 @@
 ﻿using Gw2Sharp.Models;
 using Kenedia.Modules.BuildsManager.Models;
+using Kenedia.Modules.BuildsManager.Services;
 using Kenedia.Modules.Core.DataModels;
 using Kenedia.Modules.Core.Models;
 using Newtonsoft.Json;
@@ -10,6 +11,11 @@ namespace Kenedia.Modules.BuildsManager.Utility
 {
     public class TemplateConverter : JsonConverter
     {
+        public TemplateConverter(Data data)
+        {
+            Data = data;
+        }
+
         public override bool CanConvert(Type objectType)
         {
             return objectType == typeof(Template);
@@ -40,7 +46,7 @@ namespace Kenedia.Modules.BuildsManager.Utility
             int? elitespecId = (int?)jo["EliteSpecializationId"];
 
             // Construct the Result object using the non-default constructor
-            var result = new Template(name, buildCode, gearCode, description, tags, (Races)(race ?? -1), (ProfessionType)(profession ?? 1), elitespecId ?? 0);
+            var result = new Template(name, buildCode, gearCode, description, tags, (Races)(race ?? -1), (ProfessionType)(profession ?? 1), elitespecId ?? 0, Data);
 
             // (If anything else needs to be populated on the result object, do that here)
 
@@ -52,6 +58,8 @@ namespace Kenedia.Modules.BuildsManager.Utility
         {
             get { return false; }
         }
+
+        public Data Data { get; }
 
         public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
         {

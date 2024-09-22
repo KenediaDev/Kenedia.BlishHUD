@@ -84,13 +84,15 @@ namespace Kenedia.Modules.BuildsManager
             services.AddTransient<BuildTab>();
             services.AddTransient<GearTab>();
 
+            services.AddTransient<Template>();
+
             CreateCornerIcons(services);
             ServiceProvider = services.BuildServiceProvider();
 
+            Data = ServiceProvider.GetRequiredService<Data>();
             Templates = ServiceProvider.GetRequiredService<TemplateCollection>();
             TemplatePresenter = ServiceProvider.GetRequiredService<TemplatePresenter>();
             TemplateTags = ServiceProvider.GetRequiredService<TemplateTags>();
-            Data = ServiceProvider.GetRequiredService<Data>();
             GW2API = ServiceProvider.GetRequiredService<GW2API>();
 
         }
@@ -279,7 +281,7 @@ namespace Kenedia.Modules.BuildsManager
                 Templates.Clear();
 
                 JsonSerializerSettings settings = new();
-                settings.Converters.Add(new TemplateConverter());
+                settings.Converters.Add(new TemplateConverter(Data));
 
                 Logger.Info($"Loading {templateFiles.Length} Templates ...");
                 foreach (string file in templateFiles)

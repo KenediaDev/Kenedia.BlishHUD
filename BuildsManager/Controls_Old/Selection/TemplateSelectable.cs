@@ -162,7 +162,7 @@ namespace Kenedia.Modules.BuildsManager.Controls_Old.Selection
             string name = $"{Template?.Name ?? strings.NewTemplate} - {strings.Copy}";
             if (Templates.Where(e => e.Name == name).Count() == 0)
             {
-                Templates.Add(t = new(Template?.BuildCode, Template?.GearCode) { Name = name });
+                Templates.Add(t = new(Template?.BuildCode, Template?.GearCode, Data) { Name = name });
             }
             else
             {
