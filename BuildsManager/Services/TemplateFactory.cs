@@ -18,7 +18,7 @@ namespace Kenedia.Modules.BuildsManager.Services
         {
             var t = new Template(Data);
 
-            if (!string.IsNullOrEmpty(name))
+            if (name is not null)
             {
                 t.Name = name;
             }

@@ -6,7 +6,6 @@ using System.Runtime.CompilerServices;
 
 namespace Kenedia.Modules.Core.Models
 {
-#nullable enable
     public delegate void DictionaryItemChangedEventHandler<TKey, TValue>(object sender, DictionaryItemChangedEventArgs<TKey, TValue> e);
 
     public delegate void ValueChangedEventHandler<T>(object sender, ValueChangedEventArgs<T> e);
@@ -23,9 +22,7 @@ namespace Kenedia.Modules.Core.Models
 
         public TValue? NewValue { get; set; }
     }
-#nullable disable
 
-#nullable enable
     public class DictionaryItemChangedEventArgs<TKey, TValue> : EventArgs
     {
         public DictionaryItemChangedEventArgs(TKey key, TValue? oldValue, TValue? newValue)
@@ -41,7 +38,6 @@ namespace Kenedia.Modules.Core.Models
 
         public TKey Key { get; set; }
     }
-#nullable disable
 
     public class DeepObservableDictionary<TKey, TValue> : Dictionary<TKey, TValue>, IDisposable
         where TValue : INotifyPropertyChanged

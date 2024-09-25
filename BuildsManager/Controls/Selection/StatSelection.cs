@@ -13,8 +13,8 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
 {
     public class StatSelection : BaseSelection
     {
-        private readonly List<AttributeToggle> _statIcons = new();
-        private readonly List<StatSelectable> _stats = new();
+        private readonly List<AttributeToggle> _statIcons = [];
+        private readonly List<StatSelectable> _stats = [];
         private readonly bool _created;
         private IReadOnlyList<int> _statChoices;
         private double _attributeAdjustments;

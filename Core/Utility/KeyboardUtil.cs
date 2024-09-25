@@ -50,13 +50,13 @@ namespace Kenedia.Modules.Core.Utility
             internal UIntPtr _dwExtraInfo;
         }
 
-        private static readonly List<int> s_extendedKeys = new() {
+        private static readonly List<int> s_extendedKeys = [
             0x2D, 0x24, 0x22,
             0x2E, 0x23, 0x21,
             0xA5, 0xA1, 0xA3,
             0x26, 0x28, 0x25,
             0x27, 0x90, 0x2A
-        };
+        ];
 
         [DllImport("USER32.dll")]
         private static extern short GetKeyState(uint vk);

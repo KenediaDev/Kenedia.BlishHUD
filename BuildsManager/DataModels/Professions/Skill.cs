@@ -46,7 +46,7 @@ namespace Kenedia.Modules.BuildsManager.DataModels.Professions
         }
 
         [DataMember]
-        public LocalizedString Names { get; protected set; } = new();
+        public LocalizedString Names { get; protected set; } = [];
 
         public string Name
         {
@@ -64,7 +64,7 @@ namespace Kenedia.Modules.BuildsManager.DataModels.Professions
         public int Specialization { get; set; }
 
         [DataMember]
-        public List<ProfessionType> Professions { get; set; } = new();
+        public List<ProfessionType> Professions { get; set; } = [];
 
         [DataMember]
         public int PaletteId { get; set; }
@@ -90,7 +90,7 @@ namespace Kenedia.Modules.BuildsManager.DataModels.Professions
         public string ChatLink { get; set; }
 
         [DataMember]
-        public LocalizedString Descriptions { get; protected set; } = new();
+        public LocalizedString Descriptions { get; protected set; } = [];
 
         public string Description
         {

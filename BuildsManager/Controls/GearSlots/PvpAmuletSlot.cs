@@ -54,13 +54,15 @@ namespace Kenedia.Modules.BuildsManager.Controls_Old.GearPage.GearSlots
             //spriteBatch.DrawStringOnCtrl(this, ItemTexture?.Item?.Name ?? "Pvp Amulet", Content.DefaultFont16, _titleBounds, ItemTexture?.Item?.Rarity.GetColor() ?? Color.White * 0.5F);
         }
 
-        protected override void SetItems(object sender, EventArgs e)
+        protected override void SetItem(object sender, TemplateSlotChangedEventArgs e)
         {
-            base.SetItems(sender, e);
+            base.SetItem(sender, e);
 
-            var armor = TemplatePresenter?.Template?[Slot] as PvpAmuletTemplateEntry;
-
-            Rune = armor?.Rune;
+            if (TemplatePresenter?.Template?[Slot] is PvpAmuletTemplateEntry pvpAmulet)
+            {
+                Rune = pvpAmulet?.Rune;
+                Item = pvpAmulet?.PvpAmulet;
+            }
         }
 
         protected override void OnClick(MouseEventArgs e)
@@ -71,12 +73,12 @@ namespace Kenedia.Modules.BuildsManager.Controls_Old.GearPage.GearSlots
 
             if (ItemControl.MouseOver)
             {
-                SelectionPanel?.SetAnchor<PvpAmulet>(ItemControl, new Rectangle(a.Location, Point.Zero).Add(ItemControl.LocalBounds), SelectionTypes.Items, Slot, GearSubSlotType.Item, (pvpAmulet) => Item = pvpAmulet);
+                SelectionPanel?.SetAnchor<PvpAmulet>(ItemControl, new Rectangle(a.Location, Point.Zero).Add(ItemControl.LocalBounds), SelectionTypes.Items, Slot, GearSubSlotType.Item, (pvpAmulet) => TemplatePresenter.Template?.SetItem(Slot, TemplateSubSlotType.Item, pvpAmulet));
             }
 
             if (_runeControl.MouseOver)
             {
-                SelectionPanel?.SetAnchor<Rune>(_runeControl, new Rectangle(a.Location, Point.Zero).Add(_runeControl.LocalBounds), SelectionTypes.Items, Slot, GearSubSlotType.Rune, (rune) => Rune = rune);
+                SelectionPanel?.SetAnchor<Rune>(_runeControl, new Rectangle(a.Location, Point.Zero).Add(_runeControl.LocalBounds), SelectionTypes.Items, Slot, GearSubSlotType.Rune, (rune) => TemplatePresenter.Template?.SetItem(Slot, TemplateSubSlotType.Rune, rune));
             }
         }
 
@@ -86,29 +88,18 @@ namespace Kenedia.Modules.BuildsManager.Controls_Old.GearPage.GearSlots
 
             CreateSubMenu(() => strings.Reset, () => string.Format(strings.ResetEntry, $"{strings.Amulet} {strings.And} {strings.Rune}"), () =>
             {
-                Item = null;
-                Rune = null;
-            }, new()
-            {
-                new(() => strings.Amulet,() => string.Format(strings.ResetEntry, strings.Amulet),() => Item = null),
-                new(() => strings.Rune,() => string.Format(strings.ResetEntry, strings.Rune),() => Rune = null),
-            });
+                TemplatePresenter?.Template.SetItem<PvpAmulet>(Slot, TemplateSubSlotType.Item, null);
+                TemplatePresenter?.Template.SetItem<Rune>(Slot, TemplateSubSlotType.Rune, null);
+            },
+            [
+                new(() => strings.Amulet,() => string.Format(strings.ResetEntry, strings.Amulet),() => TemplatePresenter?.Template.SetItem<PvpAmulet>(Slot, TemplateSubSlotType.Item, null)),
+                new(() => strings.Rune,() => string.Format(strings.ResetEntry, strings.Rune),() => TemplatePresenter?.Template.SetItem<Rune>(Slot, TemplateSubSlotType.Rune, null)),
+            ]);
         }
 
         private void OnRuneChanged(object sender, Core.Models.ValueChangedEventArgs<Rune> e)
         {
             _runeControl.Item = Rune;
-
-            if (TemplatePresenter?.Template[Slot] is PvpAmuletTemplateEntry entry)
-                entry.Rune = Rune;
-        }
-
-        protected override void OnItemChanged(object sender, Core.Models.ValueChangedEventArgs<BaseItem> e)
-        {
-            base.OnItemChanged(sender, e);
-
-            if (TemplatePresenter?.Template[Slot] is PvpAmuletTemplateEntry entry)
-                entry.PvpAmulet = Item as PvpAmulet;
         }
 
         protected override void DisposeControl()

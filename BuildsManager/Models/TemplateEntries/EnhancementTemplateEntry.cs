@@ -4,25 +4,29 @@ using Kenedia.Modules.Core.Utility;
 using Kenedia.Modules.Core.Models;
 using System.Linq;
 using System;
+using Kenedia.Modules.BuildsManager.DataModels.Items;
 
 namespace Kenedia.Modules.BuildsManager.TemplateEntries
 {
     public class EnhancementTemplateEntry : TemplateEntry, IDisposable
     {
         private bool _isDisposed;
-        private DataModels.Items.Enhancement _utility;
+        private Enhancement _enhancement;
 
         public EnhancementTemplateEntry(TemplateSlotType slot) : base(slot)
         {
         }
 
-        public event EventHandler<ValueChangedEventArgs<DataModels.Items.Enhancement>> UtilityChanged;
+        public Enhancement Enhancement { get => _enhancement; private set => Common.SetProperty(ref _enhancement, value); }
 
-        public DataModels.Items.Enhancement Enhancement { get => _utility; set => Common.SetProperty(ref _utility, value, OnUtilityChanged); }
-
-        private void OnUtilityChanged(object sender, ValueChangedEventArgs<DataModels.Items.Enhancement> e)
+        protected override void OnItemChanged(object sender, ValueChangedEventArgs<BaseItem> e)
         {
-            UtilityChanged?.Invoke(this, e);
+            base.OnItemChanged(sender, e);
+
+            if (e.NewValue is Enhancement enhancement)
+            {
+                Enhancement = enhancement;
+            }
         }
 
         public override byte[] AddToCodeArray(byte[] array)
@@ -51,6 +55,30 @@ namespace Kenedia.Modules.BuildsManager.TemplateEntries
             _isDisposed = true;
 
             Enhancement = null;
+        }
+
+        public override bool SetValue(TemplateSlotType slot, TemplateSubSlotType subSlot, object obj)
+        {
+            if (subSlot == TemplateSubSlotType.Item)
+            {
+                if (obj?.Equals(Item) is true)
+                {
+                    return false;
+                }
+
+                if (obj is null)
+                {
+                    Item = null;
+                    return true;
+                }
+                else if(obj is Enhancement enhancement)
+                {
+                    Item = enhancement;
+                    return true;
+                }
+            }
+
+            return false;
         }
     }
 }

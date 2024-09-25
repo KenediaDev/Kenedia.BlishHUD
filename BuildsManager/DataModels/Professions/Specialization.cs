@@ -74,7 +74,7 @@ namespace Kenedia.Modules.BuildsManager.DataModels.Professions
         public ProfessionType Profession { get; set; }
 
         [DataMember]
-        public LocalizedString Names { get; protected set; } = new();
+        public LocalizedString Names { get; protected set; } = [];
 
         public string Name
         {
@@ -144,10 +144,10 @@ namespace Kenedia.Modules.BuildsManager.DataModels.Professions
         }
 
         [DataMember]
-        public Dictionary<int, Trait> MinorTraits { get; } = new();
+        public Dictionary<int, Trait> MinorTraits { get; } = [];
 
         [DataMember]
-        public Dictionary<int, Trait> MajorTraits { get; } = new();
+        public Dictionary<int, Trait> MajorTraits { get; } = [];
 
         [DataMember]
         public Trait WeaponTrait { get; set; }

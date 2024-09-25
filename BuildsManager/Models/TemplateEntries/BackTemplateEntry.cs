@@ -6,10 +6,11 @@ using Kenedia.Modules.BuildsManager.Utility;
 using Kenedia.Modules.Core.Utility;
 using Kenedia.Modules.Core.Models;
 using System;
+using Kenedia.Modules.BuildsManager.Interfaces;
 
 namespace Kenedia.Modules.BuildsManager.TemplateEntries
 {
-    public class BackTemplateEntry : TemplateEntry, IDisposable
+    public class BackTemplateEntry : TemplateEntry, IDisposable, IStatTemplateEntry, IDoubleInfusionTemplateEntry
     {
         private bool _isDisposed;
         private Stat _stat;
@@ -20,31 +21,22 @@ namespace Kenedia.Modules.BuildsManager.TemplateEntries
         {
         }
 
-        public event EventHandler<ValueChangedEventArgs<Stat>> StatChanged;
-        public event EventHandler<ValueChangedEventArgs<Infusion>> Infusion1Changed;
-        public event EventHandler<ValueChangedEventArgs<Infusion>> Infusion2Changed;
-
-        public Stat Stat { get => _stat; set => Common.SetProperty(ref _stat, value, OnStatChanged); }
+        public Stat Stat { get => _stat; private set => Common.SetProperty(ref _stat, value); }
 
         public Trinket Back { get; private set; } = BuildsManager.Data?.Backs?.TryGetValue(74155, out Trinket back) is true ? back : null;
 
-        public Infusion Infusion1 { get => _infusion1; set => Common.SetProperty(ref _infusion1, value, OnInfusion1Changed); }
+        public Infusion Infusion1 { get => _infusion1; private set => Common.SetProperty(ref _infusion1, value); }
 
-        public Infusion Infusion2 { get => _infusion2; set => Common.SetProperty(ref _infusion2, value, OnInfusion2Changed); }
+        public Infusion Infusion2 { get => _infusion2; private set => Common.SetProperty(ref _infusion2, value); }
 
-        private void OnStatChanged(object sender, ValueChangedEventArgs<Stat> e)
+        protected override void OnItemChanged(object sender, ValueChangedEventArgs<BaseItem> e)
         {
-            StatChanged?.Invoke(this, e);
-        }
+            base.OnItemChanged(sender, e);
 
-        private void OnInfusion1Changed(object sender, ValueChangedEventArgs<Infusion> e)
-        {
-            Infusion1Changed?.Invoke(this, e);
-        }
-
-        private void OnInfusion2Changed(object sender, ValueChangedEventArgs<Infusion> e)
-        {
-            Infusion2Changed?.Invoke(this, e);
+            if (e.NewValue is Trinket trinket)
+            {
+                Back = trinket;
+            }
         }
 
         public override byte[] AddToCodeArray(byte[] array)
@@ -80,6 +72,70 @@ namespace Kenedia.Modules.BuildsManager.TemplateEntries
             Infusion1 = null;
             Infusion2 = null;
             Back = null;
+        }
+
+        public override bool SetValue(TemplateSlotType slot, TemplateSubSlotType subSlot, object obj)
+        {
+            if (subSlot is TemplateSubSlotType.Item)
+            {
+                //Do nothing
+            }
+            else if (subSlot is TemplateSubSlotType.Stat)
+            {
+                if (obj?.Equals(Stat) is true)
+                {
+                    return false;
+                }
+
+                if (obj is null)
+                {
+                    Stat = null;
+                    return true;
+                }
+                else if (obj is Stat stat)
+                {
+                    Stat = stat;
+                    return true;
+                }
+            }
+            else if (subSlot is TemplateSubSlotType.Infusion1)
+            {
+                if (obj?.Equals(Infusion1) is true)
+                {
+                    return false;
+                }
+
+                if (obj is null)
+                {
+                    Infusion1 = null;
+                    return true;
+                }
+                else if (obj is Infusion infusion)
+                {
+                    Infusion1 = infusion;
+                    return true;
+                }
+            }
+            else if (subSlot is TemplateSubSlotType.Infusion2)
+            {
+                if (obj?.Equals(Infusion2) is true)
+                {
+                    return false;
+                }
+
+                if (obj is null)
+                {
+                    Infusion2 = null;
+                    return true;
+                }
+                else if (obj is Infusion infusion)
+                {
+                    Infusion2 = infusion;
+                    return true;
+                }
+            }
+
+            return false;
         }
     }
 }

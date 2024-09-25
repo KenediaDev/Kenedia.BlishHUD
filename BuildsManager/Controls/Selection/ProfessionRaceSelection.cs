@@ -13,8 +13,8 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
 {
     public class ProfessionRaceSelection : BaseSelection
     {
-        private readonly List<ProfessionRaceSelectable> _races = new();
-        private readonly List<ProfessionRaceSelectable> _professions = new();
+        private readonly List<ProfessionRaceSelectable> _races = [];
+        private readonly List<ProfessionRaceSelectable> _professions = [];
 
         private SelectionType _type = SelectionType.Race;
 

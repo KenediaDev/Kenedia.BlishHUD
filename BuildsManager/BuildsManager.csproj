@@ -10,6 +10,7 @@
     <RootNamespace>Kenedia.Modules.BuildsManager</RootNamespace>
     <AssemblyName>Kenedia.Modules.BuildsManager</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <Nullable>enable</Nullable>
     <LangVersion>latest</LangVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
@@ -360,7 +361,7 @@
     <Compile Include="Extensions\GearTemplateSlotExtension.cs" />
     <Compile Include="Extensions\ItemWeaponTypeExtension.cs" />
     <Compile Include="Extensions\SkillSlotTypeExtension.cs" />
-    <Compile Include="Extensions\TemplateSlotsExtension.cs" />
+    <Compile Include="Extensions\TemplateSlotTypeExtension.cs" />
     <Compile Include="Extensions\VersionExtension.cs" />
     <Compile Include="Extensions\WeaponTypeExtension.cs" />
     <Compile Include="Interfaces\IBaseApiData.cs" />
@@ -448,12 +449,12 @@
     <Compile Include="Models\GameModeType.cs" />
     <Compile Include="Models\GearArrayIndex.cs" />
     <Compile Include="Models\BasicItemMap.cs" />
+    <Compile Include="Models\LegendChangedEventArgs.cs" />
+    <Compile Include="Models\TemplateSlotChangedEventArgs.cs" />
     <Compile Include="Models\Paths.cs" />
     <Compile Include="Models\SkillChangedEventArgs.cs" />
     <Compile Include="Models\StaticVersion.cs" />
-    <Compile Include="Models\TemplateChangedEventArgs.cs" />
     <Compile Include="Models\TemplateCollection.cs" />
-    <Compile Include="Models\TemplateSlots.cs" />
     <Compile Include="Models\Templates\SelectionTypes.cs" />
     <Compile Include="Models\TemplateTag.cs" />
     <Compile Include="Models\TemplateEntries\AccessoireTemplateEntry.cs" />

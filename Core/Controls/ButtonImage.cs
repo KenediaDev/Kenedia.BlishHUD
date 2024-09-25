@@ -13,7 +13,7 @@ namespace Kenedia.Modules.Core.Controls
 {
     public class ButtonImage : ImageButton
     {
-        private readonly List<(Rectangle bounds, float alpha)> _frameBounds = new();
+        private readonly List<(Rectangle bounds, float alpha)> _frameBounds = [];
         private Rectangle _textureBounds;
         private Point? _textureSize;
 

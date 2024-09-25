@@ -27,7 +27,7 @@ namespace Kenedia.Modules.BuildsManager.Services
         }
 
         [DataMember]
-        public Dictionary<string, object> Items { get; set; } = new();
+        public Dictionary<string, object> Items { get; set; } = [];
 
         public bool IsLoaded => DataLoaded;
 

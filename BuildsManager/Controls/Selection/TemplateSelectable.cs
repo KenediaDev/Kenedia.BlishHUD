@@ -42,7 +42,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
         private readonly bool _created;
         private readonly Label _name;
 
-        private readonly List<TagTexture> _tagTextures = new();
+        private readonly List<TagTexture> _tagTextures = [];
 
         private Rectangle _separatorBounds;
         private Rectangle _editBounds;
@@ -200,9 +200,6 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
                 {
                     if (temp is not null) temp.RaceChanged -= Template_RaceChanged;
                     if (_template is not null) _template.RaceChanged += Template_RaceChanged;
-
-                    if (temp is not null) temp.LoadedBuildFromCode -= Template_LoadedBuildFromCode;
-                    if (_template is not null) _template.LoadedBuildFromCode += Template_LoadedBuildFromCode;
 
                     if (temp is not null) temp.ProfessionChanged -= Template_ProfessionChanged;
                     if (_template is not null) _template.ProfessionChanged += Template_ProfessionChanged;

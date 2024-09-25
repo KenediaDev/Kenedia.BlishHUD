@@ -33,18 +33,16 @@ namespace Kenedia.Modules.BuildsManager.Controls_Old.GearPage.GearSlots
             HoverDrawColor = Color.White,
         };
 
-        private readonly DetailedTexture _statTexture = new() { };
+        private Rectangle _sigil1Bounds;
+        private Rectangle _sigil2Bounds;
+        private Rectangle _infusion1Bounds;
+        private Rectangle _infusion2Bounds;
 
         private Stat _stat;
         private Sigil _sigil1;
         private Sigil _sigil2;
         private Infusion _infusion1;
         private Infusion _infusion2;
-
-        private Rectangle _sigil1Bounds;
-        private Rectangle _sigil2Bounds;
-        private Rectangle _infusion1Bounds;
-        private Rectangle _infusion2Bounds;
 
         public AquaticWeaponSlot(TemplateSlotType gearSlot, Container parent, TemplatePresenter templatePresenter, Controls.Selection.SelectionPanel selectionPanel) : base(gearSlot, parent, templatePresenter, selectionPanel)
         {
@@ -69,66 +67,24 @@ namespace Kenedia.Modules.BuildsManager.Controls_Old.GearPage.GearSlots
 
         private void SetGroupStat(Stat stat = null, bool overrideExisting = false)
         {
-            foreach (var slot in SlotGroup)
-            {
-                if (slot.Slot is TemplateSlotType.Aquatic or TemplateSlotType.AltAquatic)
-                {
-                    (slot as AquaticWeaponSlot).Stat = overrideExisting ? stat : (slot as AquaticWeaponSlot).Stat ?? stat;
-                }
-                else
-                {
-                    (slot as WeaponSlot).Stat = overrideExisting ? stat : (slot as WeaponSlot).Stat ?? stat;
-                }
-            }
+            TemplatePresenter.Template?.SetGroup(Slot, TemplateSubSlotType.Stat, stat, overrideExisting);
         }
 
+        //TODO: Handle second sigil
         private void SetGroupSigil(Sigil sigil = null, bool overrideExisting = false)
         {
-            foreach (var slot in SlotGroup)
-            {
-                if (slot.Slot is TemplateSlotType.Aquatic or TemplateSlotType.AltAquatic)
-                {
-                    (slot as AquaticWeaponSlot).Sigil1 = overrideExisting ? sigil : (slot as AquaticWeaponSlot).Sigil1 ?? sigil;
-                    (slot as AquaticWeaponSlot).Sigil2 = overrideExisting ? sigil : (slot as AquaticWeaponSlot).Sigil2 ?? sigil;
-                }
-                else
-                {
-                    (slot as WeaponSlot).Sigil = overrideExisting ? sigil : (slot as WeaponSlot).Sigil ?? sigil;
-                }
-            }
+            TemplatePresenter.Template?.SetGroup(Slot, TemplateSubSlotType.Sigil1, sigil, overrideExisting);
         }
 
+        //TODO: Handle second infusion
         private void SetGroupInfusion(Infusion infusion = null, bool overrideExisting = false)
         {
-            foreach (var slot in SlotGroup)
-            {
-                if (slot.Slot is TemplateSlotType.Aquatic or TemplateSlotType.AltAquatic)
-                {
-                    (slot as AquaticWeaponSlot).Infusion1 = overrideExisting ? infusion : (slot as AquaticWeaponSlot).Infusion1 ?? infusion;
-                    (slot as AquaticWeaponSlot).Infusion2 = overrideExisting ? infusion : (slot as AquaticWeaponSlot).Infusion2 ?? infusion;
-                }
-                else
-                {
-                    (slot as WeaponSlot).Infusion = overrideExisting ? infusion : (slot as WeaponSlot).Infusion ?? infusion;
-                }
-            }
+            TemplatePresenter.Template?.SetGroup(Slot, TemplateSubSlotType.Infusion1, infusion, overrideExisting);
         }
 
         private void SetGroupWeapon(Weapon item = null, bool overrideExisting = false)
         {
-            foreach (var slot in SlotGroup)
-            {
-                if (slot.Slot is TemplateSlotType.Aquatic or TemplateSlotType.AltAquatic)
-                {
-                    if (overrideExisting || (slot as AquaticWeaponSlot).Item == null)
-                        (slot as AquaticWeaponSlot).SelectWeapon(item);
-                }
-                else
-                {
-                    if (overrideExisting || (slot as WeaponSlot).Item == null)
-                        (slot as WeaponSlot).SelectWeapon(item);
-                }
-            }
+            TemplatePresenter.Template?.SetGroup(Slot, TemplateSubSlotType.Item, item, overrideExisting);
         }
 
         public override void RecalculateLayout()
@@ -157,18 +113,6 @@ namespace Kenedia.Modules.BuildsManager.Controls_Old.GearPage.GearSlots
             _infusion2Bounds = new(x + upgradeWidth, _infusion1Control.Top, upgradeWidth, _infusion1Control.Height);
         }
 
-        public void SelectWeapon(Weapon item)
-        {
-            if (item == null || item.WeaponType is ItemWeaponType.Harpoon or ItemWeaponType.Speargun or ItemWeaponType.Trident)
-            {
-                if (TemplatePresenter?.Template[Slot] is AquaticWeaponTemplateEntry entry)
-                {
-                    entry.Weapon = item;
-                    Item = item;
-                }
-            }
-        }
-
         public override void PaintAfterChildren(SpriteBatch spriteBatch, Rectangle bounds)
         {
             base.PaintAfterChildren(spriteBatch, bounds);
@@ -185,18 +129,20 @@ namespace Kenedia.Modules.BuildsManager.Controls_Old.GearPage.GearSlots
             }
         }
 
-        protected override void SetItems(object sender, EventArgs e)
+        protected override void SetItem(object sender, TemplateSlotChangedEventArgs e)
         {
-            base.SetItems(sender, e);
+            base.SetItem(sender, e);
 
-            var aquaticWeapon = TemplatePresenter?.Template?[Slot] as AquaticWeaponTemplateEntry;
+            if (TemplatePresenter?.Template?[Slot] is AquaticWeaponTemplateEntry aquaticWeapon)
+            {
+                Item = aquaticWeapon.Item;
+                Infusion1 = aquaticWeapon?.Infusion1;
+                Infusion2 = aquaticWeapon?.Infusion2;
+                Sigil1 = aquaticWeapon?.Sigil1;
+                Sigil2 = aquaticWeapon?.Sigil2;
 
-            Infusion1 = aquaticWeapon?.Infusion1;
-            Infusion2 = aquaticWeapon?.Infusion2;
-            Sigil1 = aquaticWeapon?.Sigil1;
-            Sigil2 = aquaticWeapon?.Sigil2;
-
-            Stat = aquaticWeapon?.Stat;
+                Stat = aquaticWeapon?.Stat;
+            }
         }
 
         protected override void OnClick(MouseEventArgs e)
@@ -207,34 +153,35 @@ namespace Kenedia.Modules.BuildsManager.Controls_Old.GearPage.GearSlots
 
             if (ItemControl.MouseOver)
             {
-                SelectionPanel?.SetAnchor<Stat>(ItemControl, new Rectangle(a.Location, Point.Zero).Add(ItemControl.LocalBounds), SelectionTypes.Stats, Slot, GearSubSlotType.None, (stat) => Stat = stat,
-                (TemplatePresenter?.Template[Slot] as AquaticWeaponTemplateEntry).Weapon?.StatChoices ?? BuildsManager.Data.Weapons.Values.FirstOrDefault()?.StatChoices,
-                (TemplatePresenter?.Template[Slot] as AquaticWeaponTemplateEntry).Weapon?.AttributeAdjustment);
+                SelectionPanel?.SetAnchor<Stat>(ItemControl, new Rectangle(a.Location, Point.Zero).Add(ItemControl.LocalBounds), SelectionTypes.Stats, Slot, GearSubSlotType.None,
+                    (stat) => TemplatePresenter?.Template?.SetItem(Slot, TemplateSubSlotType.Stat, stat),
+                    (TemplatePresenter?.Template[Slot] as AquaticWeaponTemplateEntry).Weapon?.StatChoices ?? BuildsManager.Data.Weapons.Values.FirstOrDefault()?.StatChoices,
+                    (TemplatePresenter?.Template[Slot] as AquaticWeaponTemplateEntry).Weapon?.AttributeAdjustment);
             }
 
             if (_sigil1Control.MouseOver)
             {
-                SelectionPanel?.SetAnchor<Sigil>(_sigil1Control, new Rectangle(a.Location, Point.Zero).Add(_sigil1Control.LocalBounds), SelectionTypes.Items, Slot, GearSubSlotType.Sigil, (sigil) => Sigil1 = sigil);
-            }
-
-            if (_infusion1Control.MouseOver)
-            {
-                SelectionPanel?.SetAnchor<Infusion>(_infusion1Control, new Rectangle(a.Location, Point.Zero).Add(_infusion1Control.LocalBounds), SelectionTypes.Items, Slot, GearSubSlotType.Infusion, (infusion) => Infusion1 = infusion);
+                SelectionPanel?.SetAnchor<Sigil>(_sigil1Control, new Rectangle(a.Location, Point.Zero).Add(_sigil1Control.LocalBounds), SelectionTypes.Items, Slot, GearSubSlotType.Sigil, (sigil) => TemplatePresenter.Template?.SetItem(Slot, TemplateSubSlotType.Sigil1, sigil));
             }
 
             if (_sigil2Control.MouseOver)
             {
-                SelectionPanel?.SetAnchor<Sigil>(_sigil2Control, new Rectangle(a.Location, Point.Zero).Add(_sigil2Control.LocalBounds), SelectionTypes.Items, Slot, GearSubSlotType.Sigil, (sigil) => Sigil2 = sigil);
+                SelectionPanel?.SetAnchor<Sigil>(_sigil2Control, new Rectangle(a.Location, Point.Zero).Add(_sigil2Control.LocalBounds), SelectionTypes.Items, Slot, GearSubSlotType.Sigil, (sigil) => TemplatePresenter.Template?.SetItem(Slot, TemplateSubSlotType.Sigil2, sigil));
+            }
+
+            if (_infusion1Control.MouseOver)
+            {
+                SelectionPanel?.SetAnchor<Infusion>(_infusion1Control, new Rectangle(a.Location, Point.Zero).Add(_infusion1Control.LocalBounds), SelectionTypes.Items, Slot, GearSubSlotType.Infusion, (infusion) => TemplatePresenter.Template?.SetItem(Slot, TemplateSubSlotType.Infusion1, infusion));
             }
 
             if (_infusion2Control.MouseOver)
             {
-                SelectionPanel?.SetAnchor<Infusion>(_infusion2Control, new Rectangle(a.Location, Point.Zero).Add(_infusion2Control.LocalBounds), SelectionTypes.Items, Slot, GearSubSlotType.Infusion, (infusion) => Infusion2 = infusion);
+                SelectionPanel?.SetAnchor<Infusion>(_infusion2Control, new Rectangle(a.Location, Point.Zero).Add(_infusion2Control.LocalBounds), SelectionTypes.Items, Slot, GearSubSlotType.Infusion, (infusion) => TemplatePresenter.Template?.SetItem(Slot, TemplateSubSlotType.Infusion2, infusion));
             }
 
             if (_changeWeaponTexture.Hovered)
             {
-                SelectionPanel?.SetAnchor<Weapon>(this, new Rectangle(a.Location, Point.Zero).Add(ItemControl.LocalBounds), SelectionTypes.Items, Slot, GearSubSlotType.Item, (item) => Item = item);
+                SelectionPanel?.SetAnchor<Weapon>(this, new Rectangle(a.Location, Point.Zero).Add(ItemControl.LocalBounds), SelectionTypes.Items, Slot, GearSubSlotType.Item, (item) => TemplatePresenter.Template?.SetItem(Slot, TemplateSubSlotType.Item, item));
             }
         }
 
@@ -244,39 +191,39 @@ namespace Kenedia.Modules.BuildsManager.Controls_Old.GearPage.GearSlots
 
             CreateSubMenu(() => strings.Reset, () => string.Format(strings.ResetEntry, $"{strings.Weapon}, {strings.Stat}, {strings.Sigils} {strings.And} {strings.Infusions}"), () =>
             {
-                Stat = null;
-                Sigil1 = null;
-                Sigil2 = null;
-                Infusion1 = null;
-                Infusion2 = null;
-                SelectWeapon(null);
-            }, new()
-            {
-                new(() => strings.Weapon, () => string.Format(strings.ResetEntry, strings.Weapon), () => Item = null ),
-                new(() => strings.Stat, () => string.Format(strings.ResetEntry, strings.Stat), () => Stat = null ),
+                TemplatePresenter?.Template.SetItem<Weapon>(Slot, TemplateSubSlotType.Item, null);
+                TemplatePresenter?.Template.SetItem<Stat>(Slot, TemplateSubSlotType.Stat, null);
+                TemplatePresenter?.Template.SetItem<Sigil>(Slot, TemplateSubSlotType.Sigil1, null);
+                TemplatePresenter?.Template.SetItem<Sigil>(Slot, TemplateSubSlotType.Sigil2, null);
+                TemplatePresenter?.Template.SetItem<Infusion>(Slot, TemplateSubSlotType.Infusion1, null);
+                TemplatePresenter?.Template.SetItem<Infusion>(Slot, TemplateSubSlotType.Infusion2, null);
+            },
+            [
+                new(() => strings.Weapon, () => string.Format(strings.ResetEntry, strings.Weapon), () => TemplatePresenter?.Template.SetItem<Weapon>(Slot, TemplateSubSlotType.Item, null)),
+                new(() => strings.Stat, () => string.Format(strings.ResetEntry, strings.Stat), () => TemplatePresenter?.Template.SetItem<Stat>(Slot, TemplateSubSlotType.Stat, null)),
                 new(() => strings.Sigil, () => string.Format(strings.ResetEntry, strings.Sigils), () => {
-                    Sigil1 = null;
-                    Sigil2 = null;
+                    TemplatePresenter?.Template.SetItem<Sigil>(Slot, TemplateSubSlotType.Sigil1, null);
+                    TemplatePresenter?.Template.SetItem<Sigil>(Slot, TemplateSubSlotType.Sigil2, null);
                 }),
                 new(() => strings.Infusions, () => string.Format(strings.ResetEntry, strings.Weapon), () => {
-                    Infusion1 = null;
-                    Infusion2 = null;
+                    TemplatePresenter?.Template.SetItem<Infusion>(Slot, TemplateSubSlotType.Infusion1, null);
+                    TemplatePresenter?.Template.SetItem<Infusion>(Slot, TemplateSubSlotType.Infusion2, null);
                 } ),
-                });
+                ]);
 
-            CreateSubMenu(() => strings.Fill, () => string.Format(strings.FillEntry, $"{strings.Weapon}, {strings.Stat}, {strings.Sigils} {strings.And} {strings.Infusions} {strings.EmptyWeaponSlots}"), () => 
+            CreateSubMenu(() => strings.Fill, () => string.Format(strings.FillEntry, $"{strings.Weapon}, {strings.Stat}, {strings.Sigils} {strings.And} {strings.Infusions} {strings.EmptyWeaponSlots}"), () =>
             {
                 SetGroupWeapon(Item as Weapon, false);
                 SetGroupStat(Stat, false);
                 SetGroupSigil(Sigil1, false);
                 SetGroupInfusion(Infusion1, false);
-            }, new()
-            {
+            },
+            [
                 new(() => strings.Weapon, () => string.Format(strings.FillEntry, $"{strings.Weapon} {strings.EmptyWeaponSlots}"), () => SetGroupWeapon(Item as Weapon, false)),
                 new(() => strings.Stat, () => string.Format(strings.FillEntry, $"{strings.Stat} {strings.EmptyWeaponSlots}"), () => SetGroupStat(Stat, false)),
                 new(() => strings.Sigil, () => string.Format(strings.FillEntry, $"{strings.Sigils} {strings.EmptyWeaponSlots}"), () => SetGroupSigil(Sigil1, false)),
                 new(() => strings.Infusions, () => string.Format(strings.FillEntry, $"{strings.Infusions} {strings.EmptyWeaponSlots}"), () => SetGroupInfusion(Infusion1, false)),
-                });
+                ]);
 
             CreateSubMenu(() => strings.Override, () => string.Format(strings.OverrideEntry, $"{strings.Weapon}, {strings.Stat}, {strings.Sigils} {strings.And} {strings.Infusions} {strings.WeaponSlots}"), () =>
             {
@@ -284,13 +231,13 @@ namespace Kenedia.Modules.BuildsManager.Controls_Old.GearPage.GearSlots
                 SetGroupStat(Stat, true);
                 SetGroupSigil(Sigil1, true);
                 SetGroupInfusion(Infusion1, true);
-            }, new()
-            {
+            },
+            [
                 new(() => strings.Weapon, () => string.Format(strings.OverrideEntry, $"{strings.Weapons} {strings.WeaponSlots}"), () => SetGroupWeapon(Item as Weapon, true)),
                 new(() => strings.Stat, () => string.Format(strings.OverrideEntry, $"{strings.Stat} {strings.WeaponSlots}"), () => SetGroupStat(Stat, true)),
                 new(() => strings.Sigil, () => string.Format(strings.FillEntry, $"{strings.Sigils} {strings.WeaponSlots}"), () => SetGroupSigil(Sigil1, true)),
                 new(() => strings.Infusions, () => string.Format(strings.OverrideEntry, $"{strings.Infusions} {strings.WeaponSlots}"), () => SetGroupInfusion(Infusion1, true)),
-                });
+                ]);
 
             CreateSubMenu(() => string.Format(strings.ResetAll, strings.Weapons), () => string.Format(strings.ResetEntry, $"{strings.Weapons}, {strings.Stats} , {strings.Sigils} {strings.And} {strings.Infusions} {strings.WeaponSlots}"), () =>
             {
@@ -298,62 +245,38 @@ namespace Kenedia.Modules.BuildsManager.Controls_Old.GearPage.GearSlots
                 SetGroupStat(null, true);
                 SetGroupSigil(null, true);
                 SetGroupInfusion(null, true);
-            }, new()
-            {
+            },
+            [
                 new(() => strings.Weapons, () => string.Format(strings.ResetAll, $"{strings.Weapons} {strings.WeaponSlots}"), () => SetGroupWeapon(null, true)),
                 new(() => strings.Stats, () => string.Format(strings.ResetAll, $"{strings.Stats} {strings.WeaponSlots}"), () => SetGroupStat(null, true)),
                 new(() => strings.Sigils, () => string.Format(strings.ResetAll, $"{strings.Sigils} {strings.WeaponSlots}"), () => SetGroupSigil(null, true)),
                 new(() => strings.Infusions, () => string.Format(strings.ResetAll, $"{strings.Infusions} {strings.WeaponSlots}"), () => SetGroupInfusion(null, true) ),
-                });
-        }
-
-        protected override void OnItemChanged(object sender, Core.Models.ValueChangedEventArgs<BaseItem> e)
-        {
-            base.OnItemChanged(sender, e);
-
-            if (TemplatePresenter?.Template[Slot] is AquaticWeaponTemplateEntry entry)
-                entry.Weapon = Item as Weapon;
+                ]);
         }
 
         private void OnStatChanged(object sender, Core.Models.ValueChangedEventArgs<Stat> e)
         {
-            _statTexture.Texture = Stat?.Icon;
             ItemControl.Stat = Stat;
-
-            if (TemplatePresenter?.Template[Slot] is AquaticWeaponTemplateEntry entry)
-                entry.Stat = Stat;
         }
 
         private void OnSigil2Changed(object sender, Core.Models.ValueChangedEventArgs<Sigil> e)
         {
             _sigil2Control.Item = Sigil2;
-
-            if (TemplatePresenter?.Template[Slot] is AquaticWeaponTemplateEntry entry)
-                entry.Sigil2 = Sigil2;
         }
 
         private void OnSigil1Changed(object sender, Core.Models.ValueChangedEventArgs<Sigil> e)
         {
             _sigil1Control.Item = Sigil1;
-
-            if (TemplatePresenter?.Template[Slot] is AquaticWeaponTemplateEntry entry)
-                entry.Sigil1 = Sigil1;
         }
 
         private void OnInfusion1Changed(object sender, Core.Models.ValueChangedEventArgs<Infusion> e)
         {
             _infusion1Control.Item = Infusion1;
-
-            if (TemplatePresenter?.Template[Slot] is AquaticWeaponTemplateEntry entry)
-                entry.Infusion1 = Infusion1;
         }
 
         private void OnInfusion2Changed(object sender, Core.Models.ValueChangedEventArgs<Infusion> e)
         {
             _infusion2Control.Item = Infusion2;
-
-            if (TemplatePresenter?.Template[Slot] is AquaticWeaponTemplateEntry entry)
-                entry.Infusion2 = Infusion2;
         }
 
         protected override void DisposeControl()

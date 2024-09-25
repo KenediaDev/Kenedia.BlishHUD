@@ -29,7 +29,7 @@ namespace Kenedia.Modules.Core.Views
 
         private readonly Rectangle _standardTabBounds;
 
-        private readonly Dictionary<BaseTab, Rectangle> _tabRegions = new();
+        private readonly Dictionary<BaseTab, Rectangle> _tabRegions = [];
 
         private Rectangle _layoutTopTabBarBounds;
         private Rectangle _layoutBottomTabBarBounds;
@@ -40,7 +40,7 @@ namespace Kenedia.Modules.Core.Views
         private Rectangle _layoutTopSplitLineSourceBounds;
         private Rectangle _layoutBottomSplitLineSourceBounds;
 
-        private List<BaseTab> _tabs = new();
+        private List<BaseTab> _tabs = [];
         private Texture2D _background;
         private Texture2D _tabBarBackground;
 

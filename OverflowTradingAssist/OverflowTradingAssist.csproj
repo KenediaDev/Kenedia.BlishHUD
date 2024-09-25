@@ -10,6 +10,7 @@
     <RootNamespace>Kenedia.Modules.OverflowTradingAssist</RootNamespace>
     <AssemblyName>Kenedia.Modules.OverflowTradingAssist</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <Nullable>enable</Nullable>
     <LangVersion>latest</LangVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>

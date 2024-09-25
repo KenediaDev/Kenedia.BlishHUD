@@ -28,7 +28,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.Tabs
 
         private Rectangle _headerBounds;
 
-        private Dictionary<TemplateSlotType, GearSlot> _templateSlots = new();
+        private Dictionary<TemplateSlotType, GearSlot> _templateSlots = [];
 
         private TemplatePresenter _templatePresenter;
         private readonly DetailedTexture _terrestrialSet = new(156323);
@@ -132,9 +132,9 @@ namespace Kenedia.Modules.BuildsManager.Controls.Tabs
             (_templateSlots[TemplateSlotType.PveRelic] as RelicSlot).PairedSlot = _templateSlots[TemplateSlotType.PvpRelic] as RelicSlot;
             (_templateSlots[TemplateSlotType.PvpRelic] as RelicSlot).PairedSlot = _templateSlots[TemplateSlotType.PveRelic] as RelicSlot;
 
-            List<GearSlot> armors = new();
-            List<GearSlot> weapons = new();
-            List<GearSlot> jewellery = new();
+            List<GearSlot> armors = [];
+            List<GearSlot> weapons = [];
+            List<GearSlot> jewellery = [];
 
             foreach (var slot in _templateSlots.Values)
             {
@@ -198,11 +198,6 @@ namespace Kenedia.Modules.BuildsManager.Controls.Tabs
             ApplyTemplate();
         }
 
-        private void TemplatePresenter_LoadedGearFromCode(object sender, EventArgs e)
-        {
-            ApplyTemplate();
-        }
-
         public TemplatePresenter TemplatePresenter { get => _templatePresenter; private set => Common.SetProperty(ref _templatePresenter, value, OnTemplatePresenterChanged); }
         public SelectionPanel SelectionPanel { get; }
 
@@ -211,8 +206,6 @@ namespace Kenedia.Modules.BuildsManager.Controls.Tabs
             if (e.OldValue is not null)
             {
                 e.OldValue.TemplateChanged -= TemplatePresenter_TemplateChanged;
-                e.OldValue.LoadedGearFromCode -= TemplatePresenter_LoadedGearFromCode;
-                e.OldValue.LoadedBuildFromCode -= TemplatePresenter_LoadedBuildFromCode;
                 e.OldValue.ProfessionChanged -= TemplatePresenter_ProfessionChanged;
                 e.OldValue.EliteSpecializationChanged_OLD -= TemplatePresenter_EliteSpecializationChanged;
                 e.OldValue.GearCodeChanged -= TemplatePresenter_GearCodeChanged;
@@ -221,17 +214,10 @@ namespace Kenedia.Modules.BuildsManager.Controls.Tabs
             if (e.NewValue is not null)
             {
                 e.NewValue.TemplateChanged += TemplatePresenter_TemplateChanged;
-                e.NewValue.LoadedGearFromCode += TemplatePresenter_LoadedGearFromCode;
-                e.NewValue.LoadedBuildFromCode += TemplatePresenter_LoadedBuildFromCode;
                 e.NewValue.ProfessionChanged += TemplatePresenter_ProfessionChanged;
                 e.NewValue.EliteSpecializationChanged_OLD += TemplatePresenter_EliteSpecializationChanged;
                 e.NewValue.GearCodeChanged += TemplatePresenter_GearCodeChanged;
             }
-        }
-
-        private void TemplatePresenter_LoadedBuildFromCode(object sender, EventArgs e)
-        {
-            ApplyTemplate();
         }
 
         public override void RecalculateLayout()

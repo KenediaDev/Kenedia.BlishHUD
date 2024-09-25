@@ -16,7 +16,7 @@ namespace Kenedia.Modules.BuildsManager.Services
             _settings = settings;
             SettingCollection internalSettings = settings.AddSubCollection("Internal", false, false);
 
-            ShowCornerIcon = internalSettings.DefineSetting(nameof(ShowCornerIcon), true);
+            ShowCornerIcon = settings.DefineSetting(nameof(ShowCornerIcon), true);
             AutoSetFilterProfession = settings.DefineSetting(nameof(AutoSetFilterProfession), false, () => strings.AutoSetProfession_Name, () => strings.AutoSetProfession_Tooltip);
 
             //Temporary

@@ -8,10 +8,11 @@ using ItemWeaponType = Gw2Sharp.WebApi.V2.Models.ItemWeaponType;
 using Kenedia.Modules.BuildsManager.Utility;
 using Kenedia.Modules.Core.Utility;
 using Kenedia.Modules.Core.Models;
+using Kenedia.Modules.BuildsManager.Interfaces;
 
 namespace Kenedia.Modules.BuildsManager.TemplateEntries
 {
-    public class AquaticWeaponTemplateEntry : TemplateEntry, IDisposable
+    public class AquaticWeaponTemplateEntry : TemplateEntry, IDisposable, IStatTemplateEntry, IDoubleSigilTemplateEntry, IDoubleInfusionTemplateEntry, IWeaponTemplateEntry
     {
         private bool _isDisposed;
         private Weapon _weapon;
@@ -25,53 +26,26 @@ namespace Kenedia.Modules.BuildsManager.TemplateEntries
         {
         }
 
-        public event EventHandler<ValueChangedEventArgs<Stat>> StatChanged;
-        public event EventHandler<ValueChangedEventArgs<Weapon>> WeaponChanged;
-        public event EventHandler<ValueChangedEventArgs<Sigil>> Sigil1Changed;
-        public event EventHandler<ValueChangedEventArgs<Sigil>> Sigil2Changed;
-        public event EventHandler<ValueChangedEventArgs<Infusion>> Infusion1Changed;
-        public event EventHandler<ValueChangedEventArgs<Infusion>> Infusion2Changed;
+        public Weapon Weapon { get => _weapon; private set => Common.SetProperty(ref _weapon, value); }
 
-        public Weapon Weapon { get => _weapon; set => Common.SetProperty(ref _weapon, value, OnWeaponChanged); }
+        public Sigil Sigil1 { get => _sigil1; private set => Common.SetProperty(ref _sigil1, value); }
 
-        public Sigil Sigil1 { get => _sigil1; set => Common.SetProperty(ref _sigil1, value, OnSigil1Changed); }
+        public Sigil Sigil2 { get => _sigil2; private set => Common.SetProperty(ref _sigil2, value); }
 
-        public Sigil Sigil2 { get => _sigil2; set => Common.SetProperty(ref _sigil2, value, OnSigil2Changed); }
+        public Infusion Infusion1 { get => _infusion1; private set => Common.SetProperty(ref _infusion1, value); }
 
-        public Infusion Infusion1 { get => _infusion1; set => Common.SetProperty(ref _infusion1, value, OnInfusion1Changed); }
+        public Infusion Infusion2 { get => _infusion2; private set => Common.SetProperty(ref _infusion2, value); }
 
-        public Infusion Infusion2 { get => _infusion2; set => Common.SetProperty(ref _infusion2, value, OnInfusion2Changed); }
+        public Stat Stat { get => _stat; private set => Common.SetProperty(ref _stat, value); }
 
-        public Stat Stat { get => _stat; set => Common.SetProperty(ref _stat, value, OnStatChanged); }
-
-        private void OnSigil1Changed(object sender, ValueChangedEventArgs<Sigil> e)
+        protected override void OnItemChanged(object sender, ValueChangedEventArgs<BaseItem> e)
         {
-            Sigil1Changed?.Invoke(sender, e);
-        }
+            base.OnItemChanged(sender, e);
 
-        private void OnSigil2Changed(object sender, ValueChangedEventArgs<Sigil> e)
-        {
-            Sigil2Changed?.Invoke(sender, e);
-        }
-
-        private void OnInfusion1Changed(object sender, ValueChangedEventArgs<Infusion> e)
-        {
-            Infusion1Changed?.Invoke(sender, e);
-        }
-
-        private void OnInfusion2Changed(object sender, ValueChangedEventArgs<Infusion> e)
-        {
-            Infusion2Changed?.Invoke(sender, e);
-        }
-
-        private void OnStatChanged(object sender, ValueChangedEventArgs<Stat> e)
-        {
-            StatChanged?.Invoke(sender, e);
-        }
-
-        private void OnWeaponChanged(object sender, ValueChangedEventArgs<Weapon> e)
-        {
-            WeaponChanged?.Invoke(sender, e);
+            if (e.NewValue is Weapon weapon)
+            {
+                Weapon = weapon;
+            }
         }
 
         public override byte[] AddToCodeArray(byte[] array)
@@ -106,7 +80,7 @@ namespace Kenedia.Modules.BuildsManager.TemplateEntries
 
         public void Dispose()
         {
-            if(_isDisposed) return;
+            if (_isDisposed) return;
             _isDisposed = true;
 
             Weapon = null;
@@ -115,6 +89,120 @@ namespace Kenedia.Modules.BuildsManager.TemplateEntries
             Sigil2 = null;
             Infusion1 = null;
             Infusion2 = null;
+        }
+
+        public override bool SetValue(TemplateSlotType slot, TemplateSubSlotType subSlot, object obj)
+        {
+            if (subSlot == TemplateSubSlotType.Item)
+            {
+                if (obj?.Equals(Item) is true)
+                {
+                    return false;
+                }
+
+                if (obj is null)
+                {
+                    Item = null;
+                    return true;
+                }
+                else if (obj is Weapon weapon)
+                {
+                    Item = weapon;
+                    return true;
+                }
+            }
+            else if (subSlot is TemplateSubSlotType.Stat)
+            {
+                if (obj?.Equals(Stat) is true)
+                {
+                    return false;
+                }
+
+                if (obj is null)
+                {
+                    Stat = null;
+                    return true;
+                }
+                else if (obj is Stat stat)
+                {
+                    Stat = stat;
+                    return true;
+                }
+            }
+            else if (subSlot == TemplateSubSlotType.Sigil1)
+            {
+                if (obj?.Equals(Sigil1) is true)
+                {
+                    return false;
+                }
+
+                if (obj is null)
+                {
+                    Sigil1 = null;
+                    return true;
+                }
+                else if (obj is Sigil sigil)
+                {
+                    Sigil1 = sigil;
+                    return true;
+                }
+            }
+            else if (subSlot == TemplateSubSlotType.Sigil2)
+            {
+                if (obj?.Equals(Sigil2) is true)
+                {
+                    return false;
+                }
+
+                if (obj is null)
+                {
+                    Sigil2 = null;
+                    return true;
+                }
+                else if (obj is Sigil sigil)
+                {
+                    Sigil2 = sigil;
+                    return true;
+                }
+            }
+            else if (subSlot == TemplateSubSlotType.Infusion1)
+            {
+                if (obj?.Equals(Infusion1) is true)
+                {
+                    return false;
+                }
+
+                if (obj is null)
+                {
+                    Infusion1 = null;
+                    return true;
+                }
+                else if (obj is Infusion infusion)
+                {
+                    Infusion1 = infusion;
+                    return true;
+                }
+            }
+            else if (subSlot == TemplateSubSlotType.Infusion2)
+            {
+                if (obj?.Equals(Infusion2) is true)
+                {
+                    return false;
+                }
+
+                if (obj is null)
+                {
+                    Infusion2 = null;
+                    return true;
+                }
+                else if (obj is Infusion infusion)
+                {
+                    Infusion2 = infusion;
+                    return true;
+                }
+            }
+
+            return false;
         }
     }
 }

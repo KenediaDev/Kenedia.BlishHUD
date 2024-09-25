@@ -15,7 +15,7 @@ namespace Kenedia.Modules.BuildsManager.DataModels.Items
         public ItemConsumableType Type { get; set; }
 
         [DataMember]
-        public LocalizedString Names { get; protected set; } = new();
+        public LocalizedString Names { get; protected set; } = [];
         public string Name
         {
             get => Names.Text;
@@ -23,7 +23,7 @@ namespace Kenedia.Modules.BuildsManager.DataModels.Items
         }
 
         [DataMember]
-        public LocalizedString DisplayTexts { get; protected set; } = new();
+        public LocalizedString DisplayTexts { get; protected set; } = [];
         public string DisplayText
         {
             get => DisplayTexts.Text;
@@ -31,7 +31,7 @@ namespace Kenedia.Modules.BuildsManager.DataModels.Items
         }
 
         [DataMember]
-        public LocalizedString Descriptions { get; protected set; } = new();
+        public LocalizedString Descriptions { get; protected set; } = [];
         public string Description
         {
             get => Descriptions.Text.InterpretItemDescription();

@@ -73,7 +73,7 @@ namespace Kenedia.Modules.BuildsManager.DataModels.Stats
         public string DisplayAttributes => Attributes.ToString(0);
 
         [DataMember]
-        public StatAttributes Attributes { get; set; } = new();
+        public StatAttributes Attributes { get; set; } = [];
 
         [DataMember]
         public int Id { get; set; }
@@ -82,7 +82,7 @@ namespace Kenedia.Modules.BuildsManager.DataModels.Stats
         public byte MappedId { get; set; }
 
         [DataMember]
-        public LocalizedString Names { get; protected set; } = new();
+        public LocalizedString Names { get; protected set; } = [];
         public string Name
         {
             get => Names.Text;

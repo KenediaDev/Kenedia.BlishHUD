@@ -5,10 +5,11 @@ using Kenedia.Modules.BuildsManager.Utility;
 using Kenedia.Modules.Core.Utility;
 using Kenedia.Modules.Core.Models;
 using System;
+using Kenedia.Modules.BuildsManager.Interfaces;
 
 namespace Kenedia.Modules.BuildsManager.TemplateEntries
 {
-    public class PvpAmuletTemplateEntry : TemplateEntry, IDisposable
+    public class PvpAmuletTemplateEntry : TemplateEntry, IDisposable, IRuneTemplateEntry
     {
         private bool _isDisposed;
         private PvpAmulet _pvpAmulet;
@@ -18,21 +19,18 @@ namespace Kenedia.Modules.BuildsManager.TemplateEntries
         {
         }
 
-        public event EventHandler<ValueChangedEventArgs<PvpAmulet>> PvpAmuletChanged;
-        public event EventHandler<ValueChangedEventArgs<Rune>> RuneChanged;
+        public PvpAmulet PvpAmulet { get => _pvpAmulet; private set => Common.SetProperty(ref _pvpAmulet, value); }
 
-        public PvpAmulet PvpAmulet { get => _pvpAmulet; set => Common.SetProperty(ref _pvpAmulet, value, OnPvpAmuletChanged); }
+        public Rune Rune { get => _rune; private set => Common.SetProperty(ref _rune, value); }
 
-        public Rune Rune{ get => _rune; set => Common.SetProperty(ref _rune, value, OnRuneChanged); }
-
-        private void OnPvpAmuletChanged(object sender, ValueChangedEventArgs<PvpAmulet> e)
+        override protected void OnItemChanged(object sender, ValueChangedEventArgs<BaseItem> e)
         {
-            PvpAmuletChanged?.Invoke(sender, e);
-        }
+            base.OnItemChanged(sender, e);
 
-        private void OnRuneChanged(object sender, ValueChangedEventArgs<Rune> e)
-        {
-            RuneChanged?.Invoke(sender, e);
+            if (e.NewValue is PvpAmulet pvpAmulet)
+            {
+                PvpAmulet = pvpAmulet;
+            }
         }
 
         public override byte[] AddToCodeArray(byte[] array)
@@ -64,6 +62,48 @@ namespace Kenedia.Modules.BuildsManager.TemplateEntries
 
             PvpAmulet = null;
             Rune = null;
+        }
+
+        public override bool SetValue(TemplateSlotType slot, TemplateSubSlotType subSlot, object obj)
+        {
+            if (subSlot == TemplateSubSlotType.Item)
+            {
+                if (obj?.Equals(Item) is true)
+                {
+                    return false;
+                }
+
+                if (obj is null)
+                {
+                    Item = null;
+                    return true;
+                }
+                else if (obj is PvpAmulet pvpAmulet)
+                {
+                    Item = pvpAmulet;
+                    return true;
+                }
+            }
+            else if (subSlot == TemplateSubSlotType.Rune)
+            {
+                if (obj?.Equals(Rune) is true)
+                {
+                    return false;
+                }
+
+                if (obj is null)
+                {
+                    Rune = null;
+                    return true;
+                }
+                else if (obj is Rune rune)
+                {
+                    Rune = rune;
+                    return true;
+                }
+            }
+
+            return false;
         }
     }
 }

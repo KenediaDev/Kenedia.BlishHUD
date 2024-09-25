@@ -17,7 +17,7 @@ namespace Kenedia.Modules.Core.Controls
 {
     public class NotificationBadge : Control
     {
-        private readonly List<ConditionalNotification> _removeNotifications = new();
+        private readonly List<ConditionalNotification> _removeNotifications = [];
         private DetailedTexture _badge = new(222246);
         private Control _anchor;
         private float _opcacity = 1f;
@@ -37,7 +37,7 @@ namespace Kenedia.Modules.Core.Controls
 
         public CaptureType? CaptureInput { get; set; } = null;
 
-        public ObservableCollection<ConditionalNotification> Notifications { get; } = new();
+        public ObservableCollection<ConditionalNotification> Notifications { get; } = [];
 
         public float HoveredOpacity { get; set; } = 1f;
 

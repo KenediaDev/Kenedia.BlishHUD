@@ -15,7 +15,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
 {
     public class GearSelection : BaseSelection
     {
-        private List<SelectionPanelSelectable> _selectables = new();
+        private List<SelectionPanelSelectable> _selectables = [];
         private TemplateSlotType _activeSlot;
         private GearSubSlotType _subSlotType;
         private string _filterText = string.Empty;
@@ -58,7 +58,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
                 where T : BaseItem
                 where S : SelectionPanelSelectable, new()
         {
-            List<S> list = new();
+            List<S> list = [];
             S entry;
 
             foreach (var item in items)

@@ -12,7 +12,7 @@ namespace Kenedia.Modules.BuildsManager.Services
     public class MappedDataEntry<Key, T> : BaseMappedDataEntry where T : IDataMember, new()
     {
         [DataMember]
-        public new Dictionary<Key, T> Items { get; protected set; } = new();
+        public new Dictionary<Key, T> Items { get; protected set; } = [];
 
         public T this[Key key]
         {

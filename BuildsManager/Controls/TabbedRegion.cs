@@ -20,7 +20,7 @@ namespace Kenedia.Modules.BuildsManager.Controls
         private readonly AsyncTexture2D _separator = AsyncTexture2D.FromAssetId(156055);
         private readonly Panel _contentPanel;
         private TabbedRegionTab _activeTab;
-        private ObservableCollection<TabbedRegionTab> _tabs = new();
+        private ObservableCollection<TabbedRegionTab> _tabs = [];
 
         private Rectangle _contentRegion;
         private Rectangle _headerRegion;

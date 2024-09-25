@@ -68,8 +68,8 @@ namespace Kenedia.Modules.BuildsManager.Controls
 
         private double _scale = 647 / (double)135;
 
-        private Dictionary<int, Trait> _minorsTraits = new();
-        private Dictionary<int, Trait> _majorTraits = new();
+        private Dictionary<int, Trait> _minorsTraits = [];
+        private Dictionary<int, Trait> _majorTraits = [];
 
         private bool _selectorOpen = false;
         private readonly TraitTooltip _traitTooltip;
@@ -88,7 +88,7 @@ namespace Kenedia.Modules.BuildsManager.Controls
 
         private Rectangle _specSelectorBounds;
 
-        private readonly List<(Specialization spec, Rectangle bounds)> _specBounds = new();
+        private readonly List<(Specialization spec, Rectangle bounds)> _specBounds = [];
 
         public SpecLine(SpecializationSlotType line, TemplatePresenter templatePresenter, Data data)
         {

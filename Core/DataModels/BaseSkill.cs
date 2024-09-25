@@ -37,7 +37,7 @@ namespace Kenedia.Modules.Core.DataModels
         public int Id { get; set; }
 
         [DataMember]
-        public LocalizedString Names { get; protected set; } = new();
+        public LocalizedString Names { get; protected set; } = [];
 
         public string Name
         {
@@ -46,7 +46,7 @@ namespace Kenedia.Modules.Core.DataModels
         }
 
         [DataMember]
-        public LocalizedString Descriptions { get; protected set; } = new();
+        public LocalizedString Descriptions { get; protected set; } = [];
 
         public string Description
         {
@@ -55,7 +55,7 @@ namespace Kenedia.Modules.Core.DataModels
         }
 
         [DataMember]
-        public List<string> Professions { get; set; } = new();
+        public List<string> Professions { get; set; } = [];
 
         [DataMember]
         public int? AssetId { get; set; }

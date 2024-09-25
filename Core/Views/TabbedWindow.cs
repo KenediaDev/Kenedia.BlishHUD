@@ -27,7 +27,7 @@ namespace Kenedia.Modules.Core.Views
         protected BitmapFont VersionFont = Content.DefaultFont14;
         private SemVer.Version _version;
         private string _subName;
-        private readonly List<AnchoredContainer> _attachedContainers = new();
+        private readonly List<AnchoredContainer> _attachedContainers = [];
 
         public TabbedWindow(AsyncTexture2D background, Rectangle windowRegion, Rectangle contentRegion) : base(background, windowRegion, contentRegion)
         {
@@ -67,12 +67,12 @@ namespace Kenedia.Modules.Core.Views
 
             if (!string.IsNullOrEmpty(Name))
             {
-                List<BitmapFont> fontList = new()
-                {
+                List<BitmapFont> fontList =
+                [
                     Content.DefaultFont32,
                     Content.DefaultFont18,
                     Content.DefaultFont16,
-                };
+                ];
 
                 foreach (BitmapFont font in fontList)
                 {

@@ -10,6 +10,7 @@
     <RootNamespace>Kenedia.Modules.FashionManager</RootNamespace>
     <AssemblyName>Kenedia.Modules.FashionManager</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <Nullable>enable</Nullable>
     <LangVersion>latest</LangVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>

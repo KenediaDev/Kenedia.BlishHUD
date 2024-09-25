@@ -17,10 +17,10 @@ namespace Kenedia.Modules.Core.Controls
 {
     public class FramedContainer : Container, ILocalizable
     {
-        private readonly List<(Rectangle, float)> _leftBorders = new();
-        private readonly List<(Rectangle, float)> _topBorders = new();
-        private readonly List<(Rectangle, float)> _rightBorders = new();
-        private readonly List<(Rectangle, float)> _bottomBorders = new();
+        private readonly List<(Rectangle, float)> _leftBorders = [];
+        private readonly List<(Rectangle, float)> _topBorders = [];
+        private readonly List<(Rectangle, float)> _rightBorders = [];
+        private readonly List<(Rectangle, float)> _bottomBorders = [];
 
         private Func<string> _setLocalizedTooltip;
         protected DateTime LastInteraction;

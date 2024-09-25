@@ -109,7 +109,7 @@ namespace Kenedia.Modules.BuildsManager.Models.Templates
         public bool WipeInvalidRacialSkills(Races race)
         {
             bool wiped = false;
-            List<int> invalidIds = new();
+            List<int> invalidIds = [];
             foreach (Races r in Enum.GetValues(typeof(Races)))
             {
                 if (r is not Races.None && r != race && BuildsManager.Data.Races.TryGetValue(r, out Race skillRace))
@@ -145,41 +145,6 @@ namespace Kenedia.Modules.BuildsManager.Models.Templates
             }
 
             return wiped;
-        }
-
-        internal void SetSkill(TemplateSlots templateSlots, Skill skill)
-        {
-            this[FromTemplateSlot(templateSlots)] = skill;
-        }
-
-        private SkillSlotType FromTemplateSlot(TemplateSlots slot)
-        {
-            return slot switch
-            {
-                TemplateSlots.TerrestrialHeal => SkillSlotType.Active | SkillSlotType.Terrestrial | SkillSlotType.Heal,
-                TemplateSlots.TerrestrialUtility1 => SkillSlotType.Active | SkillSlotType.Terrestrial | SkillSlotType.Utility_1,
-                TemplateSlots.TerrestrialUtility2 => SkillSlotType.Active | SkillSlotType.Terrestrial | SkillSlotType.Utility_2,
-                TemplateSlots.TerrestrialUtility3 => SkillSlotType.Active | SkillSlotType.Terrestrial | SkillSlotType.Utility_3,
-                TemplateSlots.TerrestrialElite => SkillSlotType.Active | SkillSlotType.Terrestrial | SkillSlotType.Elite,
-
-                TemplateSlots.AquaticHeal => SkillSlotType.Active | SkillSlotType.Aquatic | SkillSlotType.Heal,
-                TemplateSlots.AquaticUtility1 => SkillSlotType.Active | SkillSlotType.Aquatic | SkillSlotType.Utility_1,
-                TemplateSlots.AquaticUtility2 => SkillSlotType.Active | SkillSlotType.Aquatic | SkillSlotType.Utility_2,
-                TemplateSlots.AquaticUtility3 => SkillSlotType.Active | SkillSlotType.Aquatic | SkillSlotType.Utility_3,
-                TemplateSlots.AquaticElite => SkillSlotType.Active | SkillSlotType.Aquatic | SkillSlotType.Elite,
-
-                TemplateSlots.InactiveTerrestrialHeal => SkillSlotType.Inactive | SkillSlotType.Aquatic | SkillSlotType.Heal,
-                TemplateSlots.InactiveTerrestrialUtility1 => SkillSlotType.Inactive | SkillSlotType.Aquatic | SkillSlotType.Utility_1,
-                TemplateSlots.InactiveTerrestrialUtility2 => SkillSlotType.Inactive | SkillSlotType.Aquatic | SkillSlotType.Utility_2,
-                TemplateSlots.InactiveTerrestrialUtility3 => SkillSlotType.Inactive | SkillSlotType.Aquatic | SkillSlotType.Utility_3,
-                TemplateSlots.InactiveTerrestrialElite => SkillSlotType.Inactive | SkillSlotType.Aquatic | SkillSlotType.Elite,
-
-                TemplateSlots.InactiveAquaticHeal => SkillSlotType.Inactive | SkillSlotType.Terrestrial | SkillSlotType.Heal,
-                TemplateSlots.InactiveAquaticUtility1 => SkillSlotType.Inactive | SkillSlotType.Terrestrial | SkillSlotType.Utility_1,
-                TemplateSlots.InactiveAquaticUtility2 => SkillSlotType.Inactive | SkillSlotType.Terrestrial | SkillSlotType.Utility_2,
-                TemplateSlots.InactiveAquaticUtility3 => SkillSlotType.Inactive | SkillSlotType.Terrestrial | SkillSlotType.Utility_3,
-                TemplateSlots.InactiveAquaticElite => SkillSlotType.Inactive | SkillSlotType.Terrestrial | SkillSlotType.Elite,
-            };
         }
     }
 }

@@ -29,7 +29,6 @@ namespace Kenedia.Modules.BuildsManager.Controls.ProfessionSpecific
         {
             if (e.OldValue is not null)
             {
-                e.OldValue.LoadedBuildFromCode -= OnLoaded;
                 e.OldValue.LegendChanged -= OnLegendChanged;
                 e.OldValue.EliteSpecializationChanged_OLD -= OnEliteSpecializationChanged;
                 e.OldValue.TemplateChanged -= OnTemplateChanged;
@@ -37,7 +36,6 @@ namespace Kenedia.Modules.BuildsManager.Controls.ProfessionSpecific
 
             if (e.NewValue is not null)
             {
-                e.NewValue.LoadedBuildFromCode += OnLoaded;
                 e.NewValue.LegendChanged += OnLegendChanged;
                 e.NewValue.EliteSpecializationChanged_OLD += OnEliteSpecializationChanged;
                 e.NewValue.TemplateChanged += OnTemplateChanged;
@@ -59,7 +57,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.ProfessionSpecific
             ApplyTemplate();
         }
 
-        private void OnLegendChanged(object sender, DictionaryItemChangedEventArgs<LegendSlotType, DataModels.Professions.Legend> e)
+        private void OnLegendChanged(object sender, LegendChangedEventArgs e)
         {
             ApplyTemplate();
         }

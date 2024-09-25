@@ -26,7 +26,7 @@ namespace Kenedia.Modules.Core.DataModels
         }
 
         [DataMember]
-        public LocalizedString Names { get; } = new();
+        public LocalizedString Names { get; } = [];
         public string Name
         {
             get => Names.Text;

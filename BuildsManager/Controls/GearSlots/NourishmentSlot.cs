@@ -50,31 +50,24 @@ namespace Kenedia.Modules.BuildsManager.Controls_Old.GearPage.GearSlots
 
             if (ItemControl.MouseOver)
             {
-                SelectionPanel?.SetAnchor<Nourishment>(ItemControl, new Rectangle(a.Location, Point.Zero).Add(ItemControl.LocalBounds), SelectionTypes.Items, Slot, GearSubSlotType.Item, (nourishment) => Item = nourishment);
+                SelectionPanel?.SetAnchor<Nourishment>(ItemControl, new Rectangle(a.Location, Point.Zero).Add(ItemControl.LocalBounds), SelectionTypes.Items, Slot, GearSubSlotType.Item, (nourishment) => TemplatePresenter.Template?.SetItem(Slot, TemplateSubSlotType.Item, nourishment));
+
             }
         }
 
-        protected override void SetItems(object sender, EventArgs e)
+        protected override void SetItem(object sender, TemplateSlotChangedEventArgs e)
         {
-            base.SetItems(sender, e);
-
-            var nourishment = TemplatePresenter?.Template?[Slot] as NourishmentTemplateEntry;
-            Item = nourishment?.Nourishment;
-        }
-
-        protected override void OnItemChanged(object sender, Core.Models.ValueChangedEventArgs<BaseItem> e)
-        {
-            base.OnItemChanged(sender, e);
-
-            if (TemplatePresenter?.Template[Slot] is NourishmentTemplateEntry entry)
-                entry.Nourishment = Item as Nourishment;
+            if (TemplatePresenter?.Template?[Slot] is NourishmentTemplateEntry nourishment)
+            {
+                Item = nourishment.Item;
+            }
         }
 
         protected override void CreateSubMenus()
         {
             base.CreateSubMenus();
 
-            CreateSubMenu(() => strings.Reset, () => string.Format(strings.ResetEntry, strings.Nourishment), () => Item = null);
+            CreateSubMenu(() => strings.Reset, () => string.Format(strings.ResetEntry, strings.Nourishment), () => TemplatePresenter?.Template?.SetItem<Nourishment>(Slot, TemplateSubSlotType.Item, null));
         }
     }
 }

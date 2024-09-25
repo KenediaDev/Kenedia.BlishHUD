@@ -9,7 +9,7 @@ namespace Kenedia.Modules.BuildsManager.DataModels.Items
     public class RuneBonuses
     {
         [DataMember]
-        public Dictionary<int, LocalizedString> LocalizedBonuses { get; private set; } = new();
+        public Dictionary<int, LocalizedString> LocalizedBonuses { get; private set; } = [];
 
         public string this[int key]
         {
@@ -18,7 +18,7 @@ namespace Kenedia.Modules.BuildsManager.DataModels.Items
             {
                 if (!LocalizedBonuses.ContainsKey(key))
                 {
-                    LocalizedBonuses[key] = new();
+                    LocalizedBonuses[key] = [];
                 }
 
                 LocalizedBonuses[key].Text = value;

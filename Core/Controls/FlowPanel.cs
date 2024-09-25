@@ -19,10 +19,10 @@ namespace Kenedia.Modules.Core.Controls
 
     public class FlowPanel : Blish_HUD.Controls.FlowPanel, ILocalizable
     {
-        private readonly List<(Rectangle, float)> _leftBorders = new();
-        private readonly List<(Rectangle, float)> _topBorders = new();
-        private readonly List<(Rectangle, float)> _rightBorders = new();
-        private readonly List<(Rectangle, float)> _bottomBorders = new();
+        private readonly List<(Rectangle, float)> _leftBorders = [];
+        private readonly List<(Rectangle, float)> _topBorders = [];
+        private readonly List<(Rectangle, float)> _rightBorders = [];
+        private readonly List<(Rectangle, float)> _bottomBorders = [];
 
         private readonly AsyncTexture2D _texturePanelHeader = AsyncTexture2D.FromAssetId(1032325);
         private readonly AsyncTexture2D _texturePanelHeaderActive = AsyncTexture2D.FromAssetId(1032324);

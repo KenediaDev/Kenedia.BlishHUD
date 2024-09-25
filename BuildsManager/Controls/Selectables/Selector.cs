@@ -105,11 +105,11 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selectables
 
         public SelectableType Type { get; set; } = SelectableType.None;
 
-        public List<T> Items { get; } = new();
+        public List<T> Items { get; } = [];
 
         public T SelectedItem { get => _selectedItem; set => Common.SetProperty(ref _selectedItem, value, ApplySelected); }
 
-        public List<Selectable<T>> Controls { get; } = new();
+        public List<Selectable<T>> Controls { get; } = [];
 
         public Action<T> OnClickAction { get => _onClickAction; set => Common.SetProperty(ref _onClickAction, value, ApplyAction); }
 

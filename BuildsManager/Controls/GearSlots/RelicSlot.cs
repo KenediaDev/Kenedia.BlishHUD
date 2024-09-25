@@ -47,9 +47,9 @@ namespace Kenedia.Modules.BuildsManager.Controls_Old.GearPage.GearSlots
             spriteBatch.DrawStringOnCtrl(this, _relicDescription, Content.DefaultFont12, _statBounds, Color.White, false, HorizontalAlignment.Left, VerticalAlignment.Top);
         }
 
-        protected override void SetItems(object sender, EventArgs e)
+        protected override void SetItem(object sender, TemplateSlotChangedEventArgs e)
         {
-            base.SetItems(sender, e);
+            base.SetItem(sender, e);
 
             if (TemplatePresenter?.Template?[Slot] is PveRelicTemplateEntry pveRelic)
             {
@@ -69,29 +69,15 @@ namespace Kenedia.Modules.BuildsManager.Controls_Old.GearPage.GearSlots
 
             if (ItemControl.MouseOver)
             {
-                SelectionPanel?.SetAnchor<Relic>(ItemControl, new Rectangle(a.Location, Point.Zero).Add(ItemControl.LocalBounds), SelectionTypes.Items, Slot, GearSubSlotType.Item, (relic) => Item = relic);
+                SelectionPanel?.SetAnchor<Relic>(ItemControl, new Rectangle(a.Location, Point.Zero).Add(ItemControl.LocalBounds), SelectionTypes.Items, Slot, GearSubSlotType.Item, (relic) => TemplatePresenter.Template?.SetItem(Slot, TemplateSubSlotType.Item, relic));
             }
-        }
-
-        protected override void OnItemChanged(object sender, Core.Models.ValueChangedEventArgs<BaseItem> e)
-        {
-            base.OnItemChanged(sender, e);
-
-            _relicName = Item?.Name ?? strings.Relic;
-            _relicDescription = Item?.Description ?? string.Empty;
-
-            if (TemplatePresenter?.Template[Slot] is PveRelicTemplateEntry pveRelic)
-                pveRelic.Relic = Item as Relic;
-
-            if (TemplatePresenter?.Template[Slot] is PvpRelicTemplateEntry pvpRelic)
-                pvpRelic.Relic = Item as Relic;
         }
 
         protected override void CreateSubMenus()
         {
             base.CreateSubMenus();
 
-            CreateSubMenu(() => strings.Reset, () => string.Format(strings.ResetEntry, strings.Relic), () => Item = null);
+            CreateSubMenu(() => strings.Reset, () => string.Format(strings.ResetEntry, strings.Relic), () => TemplatePresenter?.Template?.SetItem<Relic>(Slot, TemplateSubSlotType.Item, null));
         }
 
         protected override void GameModeChanged(object sender, Core.Models.ValueChangedEventArgs<GameModeType> e)
@@ -105,7 +91,7 @@ namespace Kenedia.Modules.BuildsManager.Controls_Old.GearPage.GearSlots
                     if (PairedSlot is not null)
                     {
                         var b = PairedSlot.AbsoluteBounds;
-                        SelectionPanel?.SetAnchor<Relic>(PairedSlot.ItemControl, new Rectangle(b.Location, Point.Zero).Add(PairedSlot.ItemControl.LocalBounds), SelectionTypes.Items, PairedSlot.Slot, GearSubSlotType.Item, (relic) => Item = relic);
+                        SelectionPanel?.SetAnchor<Relic>(PairedSlot.ItemControl, new Rectangle(b.Location, Point.Zero).Add(PairedSlot.ItemControl.LocalBounds), SelectionTypes.Items, PairedSlot.Slot, GearSubSlotType.Item, (relic) => TemplatePresenter.Template?.SetItem(PairedSlot.Slot, TemplateSubSlotType.Item, relic));
                     }
                 }
             }

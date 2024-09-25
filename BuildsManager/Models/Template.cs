@@ -24,11 +24,13 @@ using Kenedia.Modules.BuildsManager.Services;
 using Gw2Sharp;
 using Kenedia.Modules.BuildsManager.Extensions;
 using System.Timers;
+using Kenedia.Modules.BuildsManager.Controls_Old.GearPage.GearSlots;
+using Kenedia.Modules.BuildsManager.Interfaces;
+using System.IdentityModel.Protocols.WSTrust;
+using System.Diagnostics;
 
 namespace Kenedia.Modules.BuildsManager.Models
 {
-
-    public delegate void TemplateChangedEventHandler<T>(object sender, TemplateChangedEventArgs<T?> e);
 
     public delegate void SkillChangedEventHandler(object sender, SkillChangedEventArgs e);
 
@@ -36,14 +38,17 @@ namespace Kenedia.Modules.BuildsManager.Models
 
     public delegate void SpecializationChangedEventHandler(object sender, SpecializationChangedEventArgs e);
 
+    public delegate void TemplateSlotChangedEventHandler(object sender, TemplateSlotChangedEventArgs e);
+
+    public delegate void LegendChangedEventHandler(object sender, LegendChangedEventArgs e);
+
     [DataContract]
     public class Template : IDisposable
     {
         private readonly System.Timers.Timer _timer;
 
-        public Data Data { get; } = BuildsManager.Data;
+        public Data Data { get; }
 
-#nullable enable
         private bool _loaded = false;
         private bool _isDisposed = false;
 
@@ -55,8 +60,6 @@ namespace Kenedia.Modules.BuildsManager.Models
 
         private string _savedBuildCode = string.Empty;
         private string _savedGearCode = string.Empty;
-
-        public Specialization? SavedEliteSpecialization { get; private set; } = null;
 
         [JsonProperty("Tags")]
         [DataMember]
@@ -71,25 +74,8 @@ namespace Kenedia.Modules.BuildsManager.Models
 
         public event EventHandler? BuildCodeChanged;
 
-        public event EventHandler? LoadedGearFromCode;
-
-        public event EventHandler? LoadedBuildFromCode;
-
         public event ValueChangedEventHandler<string>? NameChanged;
 
-        public event ValueChangedEventHandler<Races>? RaceChanged;
-
-        public event ValueChangedEventHandler<ProfessionType>? ProfessionChanged;
-
-        public event DictionaryItemChangedEventHandler<SpecializationSlotType, Specialization?>? SpecializationChanged_OLD;
-
-        public event DictionaryItemChangedEventHandler<LegendSlotType, Legend?>? LegendChanged;
-
-        public event DictionaryItemChangedEventHandler<SkillSlotType, Skill?>? SkillChanged_OLD;
-
-        public event EventHandler<(TemplateSlotType slot, BaseItem item, Stat stat)>? TemplateSlotChanged;
-
-        //REWORKED
         public event SkillChangedEventHandler? SkillChanged;
 
         public event TraitChangedEventHandler? TraitChanged;
@@ -98,8 +84,18 @@ namespace Kenedia.Modules.BuildsManager.Models
 
         public event SpecializationChangedEventHandler? EliteSpecializationChanged;
 
+        public event LegendChangedEventHandler? LegendChanged;
+
+        public event ValueChangedEventHandler<ProfessionType>? ProfessionChanged;
+
+        public event ValueChangedEventHandler<Races>? RaceChanged;
+
+        public event TemplateSlotChangedEventHandler? TemplateSlotChanged;
+
         public Template(Data data)
         {
+            Data = data;
+
             _timer = new(1000);
             _timer.Elapsed += OnTimerElapsed;
 
@@ -113,36 +109,14 @@ namespace Kenedia.Modules.BuildsManager.Models
                 {TemplateSlotType.AltAquatic, AltAquatic},
                 };
 
-            Armors = new()
-                {
-                {TemplateSlotType.MainHand, MainHand },
-                {TemplateSlotType.OffHand, OffHand },
-                {TemplateSlotType.Aquatic, Aquatic},
-                {TemplateSlotType.AltMainHand, AltMainHand},
-                {TemplateSlotType.AltOffHand, AltOffHand },
-                {TemplateSlotType.AltAquatic, AltAquatic},
-                };
-
-            Jewellery = new()
-                {
-                {TemplateSlotType.MainHand, MainHand },
-                {TemplateSlotType.OffHand, OffHand },
-                {TemplateSlotType.Aquatic, Aquatic},
-                {TemplateSlotType.AltMainHand, AltMainHand},
-                {TemplateSlotType.AltOffHand, AltOffHand },
-                {TemplateSlotType.AltAquatic, AltAquatic},
-                };
-
             Pets.ItemChanged += Pets_ItemChanged;
-            Skills.ItemChanged += Skills_ItemChanged;
+            //Skills.ItemChanged += Skills_ItemChanged;
 
             MainHand.PairedWeapon = OffHand;
             OffHand.PairedWeapon = MainHand;
 
             AltMainHand.PairedWeapon = AltOffHand;
             AltOffHand.PairedWeapon = AltMainHand;
-
-            RegisterGearListeners();
 
             PlayerCharacter player = Blish_HUD.GameService.Gw2Mumble.PlayerCharacter;
             Profession = player?.Profession ?? Profession;
@@ -170,40 +144,23 @@ namespace Kenedia.Modules.BuildsManager.Models
             SetArmorItems();
         }
 
-        private async void OnTimerElapsed(object sender, ElapsedEventArgs e)
-        {
-            if (_saveRequested)
-            {
-                _timer.Stop();
+        public Specialization? SavedEliteSpecialization { get; private set; } = null;
 
-                await Save();
-            }
-        }
-
-        private void RequestSave()
-        {
-            _saveRequested = true;
-
-            _timer.Stop();
-            _timer.Start();
-        }
-
-        #region General Template 
         public string FilePath => @$"{BuildsManager.ModuleInstance.Paths.TemplatesPath}{Common.MakeValidFileName(Name.Trim())}.json";
 
         [DataMember]
         public ProfessionType Profession { get => _profession; private set => Common.SetProperty(ref _profession, value, OnProfessionChanged); }
 
         [DataMember]
-        public Races Race { get => _race; private set => Common.SetProperty(ref _race, value, OnRaceChanged, TriggerEvents); }
+        public Races Race { get => _race; private set => Common.SetProperty(ref _race, value, OnRaceChanged); }
 
         public UniqueObservableCollection<string> Tags { get => _tags; private set => Common.SetProperty(ref _tags, value, OnTagsListChanged); }
 
         [DataMember]
-        public string Name { get => _name; set => Common.SetProperty(ref _name, value, OnNameChanged, TriggerEvents); }
+        public string Name { get => _name; set => Common.SetProperty(ref _name, value, OnNameChanged); }
 
         [DataMember]
-        public string Description { get => _description; set => Common.SetProperty(ref _description, value, OnDescriptionChanged, TriggerEvents); }
+        public string Description { get => _description; set => Common.SetProperty(ref _description, value, OnDescriptionChanged); }
 
         [DataMember]
         public string? BuildCode
@@ -218,18 +175,15 @@ namespace Kenedia.Modules.BuildsManager.Models
             set => LoadGearFromCode(value);
             get => !_loaded ? _savedGearCode : ParseGearCode();
         }
-        #endregion General Template
-
-        #region Build
 
         [DataMember]
         public int? EliteSpecializationId => Specializations.Specialization3.Specialization?.Id ?? SavedEliteSpecialization?.Id;
 
         public Specialization? EliteSpecialization => Specializations.Specialization3?.Specialization ?? SavedEliteSpecialization;
 
-        public PetCollection Pets { get; } = new();
+        public PetCollection Pets { get; } = [];
 
-        public SkillCollection Skills { get; } = new();
+        public SkillCollection Skills { get; } = [];
 
         public LegendCollection Legends { get; } = new();
 
@@ -243,29 +197,6 @@ namespace Kenedia.Modules.BuildsManager.Models
             _ => null,
         };
 
-        private void OnTagsListChanged(object sender, ValueChangedEventArgs<UniqueObservableCollection<string>> e)
-        {
-            if (e.NewValue is not null)
-            {
-                e.NewValue.CollectionChanged += Tags_CollectionChanged;
-            }
-
-            if (e.OldValue is not null)
-            {
-                e.OldValue.CollectionChanged -= Tags_CollectionChanged;
-            }
-        }
-
-        private void Tags_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
-        {
-            if (!TriggerEvents)
-                return;
-
-            RequestSave();
-        }
-        #endregion Build
-
-        #region Gear
         public TemplateEntry? this[TemplateSlotType slot] => slot == TemplateSlotType.None ? null : (TemplateEntry)GetType().GetProperty(slot.ToString()).GetValue(this);
 
         public ArmorTemplateEntry Head { get; } = new(TemplateSlotType.Head);
@@ -320,498 +251,92 @@ namespace Kenedia.Modules.BuildsManager.Models
 
         public Dictionary<TemplateSlotType, TemplateEntry> Weapons { get; }
 
-        public Dictionary<TemplateSlotType, TemplateEntry> Armors { get; }
-
-        public Dictionary<TemplateSlotType, TemplateEntry> Jewellery { get; }
-
         public bool TriggerEvents { get; set; } = false;
 
-        #endregion
-
-        private void RegisterGearListeners()
+        private async void OnTimerElapsed(object sender, ElapsedEventArgs e)
         {
-            foreach (TemplateSlotType slot in Enum.GetValues(typeof(TemplateSlotType)))
+            if (_saveRequested)
             {
-                switch (slot)
-                {
-                    case TemplateSlotType.Head:
-                    case TemplateSlotType.Shoulder:
-                    case TemplateSlotType.Chest:
-                    case TemplateSlotType.Hand:
-                    case TemplateSlotType.Leg:
-                    case TemplateSlotType.Foot:
-                    case TemplateSlotType.AquaBreather:
-                        if (this[slot] is not ArmorTemplateEntry armor)
-                            continue;
+                _timer.Stop();
 
-                        armor.StatChanged += Armor_StatChanged;
-                        armor.RuneChanged += Armor_RuneChanged;
-                        armor.InfusionChanged += Armor_InfusionChanged;
-                        break;
-
-                    case TemplateSlotType.MainHand:
-                    case TemplateSlotType.OffHand:
-                    case TemplateSlotType.AltMainHand:
-                    case TemplateSlotType.AltOffHand:
-                        if (this[slot] is not WeaponTemplateEntry weapon)
-                            continue;
-
-                        weapon.StatChanged += Weapon_StatChanged;
-                        weapon.SigilChanged += Weapon_SigilChanged;
-                        weapon.InfusionChanged += Weapon_InfusionChanged;
-                        weapon.WeaponChanged += Weapon_WeaponChanged;
-                        weapon.TemplateSlotChanged += Weapon_TemplateSlotChanged;
-
-                        break;
-
-                    case TemplateSlotType.Aquatic:
-                    case TemplateSlotType.AltAquatic:
-                        if (this[slot] is not AquaticWeaponTemplateEntry aqua)
-                            continue;
-
-                        aqua.StatChanged += Aqua_StatChanged;
-                        aqua.Sigil1Changed += Aqua_Sigil1Changed;
-                        aqua.Sigil2Changed += Aqua_Sigil2Changed;
-                        aqua.WeaponChanged += Aqua_WeaponChanged;
-                        aqua.Infusion1Changed += Aqua_Infusion1Changed;
-                        aqua.Infusion2Changed += Aqua_Infusion2Changed;
-
-                        break;
-
-                    case TemplateSlotType.Amulet:
-                        if (this[slot] is not AmuletTemplateEntry amulet)
-                            continue;
-
-                        amulet.StatChanged += Amulet_StatChanged;
-                        amulet.EnrichmentChanged += Amulet_EnrichmentChanged;
-                        break;
-
-                    case TemplateSlotType.Ring_1:
-                    case TemplateSlotType.Ring_2:
-                        if (this[slot] is not RingTemplateEntry ring)
-                            continue;
-
-                        ring.StatChanged += Ring_StatChanged;
-                        ring.Infusion1Changed += Ring_Infusion1Changed;
-                        ring.Infusion2Changed += Ring_Infusion2Changed;
-                        ring.Infusion3Changed += Ring_Infusion3Changed;
-                        break;
-
-                    case TemplateSlotType.Accessory_1:
-                    case TemplateSlotType.Accessory_2:
-                        if (this[slot] is not AccessoireTemplateEntry accessory)
-                            continue;
-
-                        accessory.StatChanged += Accessory_StatChanged;
-                        accessory.InfusionChanged += Accessory_InfusionChanged;
-                        break;
-                    case TemplateSlotType.Back:
-                        if (this[slot] is not BackTemplateEntry back)
-                            continue;
-
-                        back.StatChanged += Back_StatChanged;
-                        back.Infusion1Changed += Back_Infusion1Changed;
-                        back.Infusion2Changed += Back_Infusion2Changed;
-                        break;
-
-                    case TemplateSlotType.PvpAmulet:
-                        if (this[slot] is not PvpAmuletTemplateEntry pvpAmulet)
-                            continue;
-
-                        pvpAmulet.PvpAmuletChanged += PvpAmulet_PvpAmuletChanged;
-                        pvpAmulet.RuneChanged += PvpAmulet_RuneChanged;
-                        break;
-
-                    case TemplateSlotType.Nourishment:
-                        if (this[slot] is not NourishmentTemplateEntry nourishment)
-                            continue;
-
-                        nourishment.NourishmentChanged += Nourishment_NourishmentChanged;
-                        break;
-
-                    case TemplateSlotType.Enhancement:
-                        if (this[slot] is not EnhancementTemplateEntry utility)
-                            continue;
-
-                        utility.UtilityChanged += Utility_UtilityChanged;
-                        break;
-
-                    case TemplateSlotType.PowerCore:
-                        if (this[slot] is not PowerCoreTemplateEntry powerCore)
-                            continue;
-
-                        powerCore.PowerCoreChanged += PowerCore_PowerCoreChanged;
-                        break;
-
-                    case TemplateSlotType.PveRelic:
-                        if (this[slot] is not PveRelicTemplateEntry pveRelic)
-                            continue;
-
-                        pveRelic.RelicChanged += Relic_RelicChanged;
-                        break;
-
-                    case TemplateSlotType.PvpRelic:
-                        if (this[slot] is not PvpRelicTemplateEntry pvpRelic)
-                            continue;
-
-                        pvpRelic.RelicChanged += Relic_RelicChanged;
-                        break;
-                }
+                await Save();
             }
         }
 
-        private void Weapon_TemplateSlotChanged(object sender, (TemplateSlotType slot, BaseItem item, Stat stat) e)
+        private void RequestSave()
         {
-            TemplateSlotChanged?.Invoke(this, e);
+            _saveRequested = !string.IsNullOrEmpty(Name);
+
+            if (_saveRequested)
+            {
+                _timer.Stop();
+                _timer.Start();
+            }
         }
 
-        private void UnRegisterGearListeners()
+        private void OnTagsListChanged(object sender, ValueChangedEventArgs<UniqueObservableCollection<string>> e)
         {
-            foreach (TemplateSlotType slot in Enum.GetValues(typeof(TemplateSlotType)))
+            if (e.NewValue is not null)
             {
-                switch (slot)
-                {
-                    case TemplateSlotType.Head:
-                    case TemplateSlotType.Shoulder:
-                    case TemplateSlotType.Chest:
-                    case TemplateSlotType.Hand:
-                    case TemplateSlotType.Leg:
-                    case TemplateSlotType.Foot:
-                    case TemplateSlotType.AquaBreather:
-                        if (this[slot] is not ArmorTemplateEntry armor)
-                            continue;
-
-                        armor.StatChanged -= Armor_StatChanged;
-                        armor.RuneChanged -= Armor_RuneChanged;
-                        armor.InfusionChanged -= Armor_InfusionChanged;
-                        break;
-
-                    case TemplateSlotType.MainHand:
-                    case TemplateSlotType.OffHand:
-                    case TemplateSlotType.AltMainHand:
-                    case TemplateSlotType.AltOffHand:
-                        if (this[slot] is not WeaponTemplateEntry weapon)
-                            continue;
-
-                        weapon.StatChanged -= Weapon_StatChanged;
-                        weapon.SigilChanged -= Weapon_SigilChanged;
-                        weapon.InfusionChanged -= Weapon_InfusionChanged;
-                        weapon.WeaponChanged -= Weapon_WeaponChanged;
-
-                        break;
-
-                    case TemplateSlotType.Aquatic:
-                    case TemplateSlotType.AltAquatic:
-                        if (this[slot] is not AquaticWeaponTemplateEntry aqua)
-                            continue;
-
-                        aqua.StatChanged -= Aqua_StatChanged;
-                        aqua.Sigil1Changed -= Aqua_Sigil1Changed;
-                        aqua.Sigil2Changed -= Aqua_Sigil2Changed;
-                        aqua.WeaponChanged -= Aqua_WeaponChanged;
-                        aqua.Infusion1Changed -= Aqua_Infusion1Changed;
-                        aqua.Infusion2Changed -= Aqua_Infusion2Changed;
-
-                        break;
-
-                    case TemplateSlotType.Amulet:
-                        if (this[slot] is not AmuletTemplateEntry amulet)
-                            continue;
-
-                        amulet.StatChanged -= Amulet_StatChanged;
-                        amulet.EnrichmentChanged -= Amulet_EnrichmentChanged;
-                        break;
-
-                    case TemplateSlotType.Ring_1:
-                    case TemplateSlotType.Ring_2:
-                        if (this[slot] is not RingTemplateEntry ring)
-                            continue;
-
-                        ring.StatChanged -= Ring_StatChanged;
-                        ring.Infusion1Changed -= Ring_Infusion1Changed;
-                        ring.Infusion2Changed -= Ring_Infusion2Changed;
-                        ring.Infusion3Changed -= Ring_Infusion3Changed;
-                        break;
-
-                    case TemplateSlotType.Accessory_1:
-                    case TemplateSlotType.Accessory_2:
-                        if (this[slot] is not AccessoireTemplateEntry accessory)
-                            continue;
-
-                        accessory.StatChanged -= Accessory_StatChanged;
-                        accessory.InfusionChanged -= Accessory_InfusionChanged;
-                        break;
-                    case TemplateSlotType.Back:
-                        if (this[slot] is not BackTemplateEntry back)
-                            continue;
-
-                        back.StatChanged -= Back_StatChanged;
-                        back.Infusion1Changed -= Back_Infusion1Changed;
-                        back.Infusion2Changed -= Back_Infusion2Changed;
-                        break;
-
-                    case TemplateSlotType.PvpAmulet:
-                        if (this[slot] is not PvpAmuletTemplateEntry pvpAmulet)
-                            continue;
-
-                        pvpAmulet.PvpAmuletChanged -= PvpAmulet_PvpAmuletChanged;
-                        pvpAmulet.RuneChanged -= PvpAmulet_RuneChanged;
-                        break;
-
-                    case TemplateSlotType.Nourishment:
-                        if (this[slot] is not NourishmentTemplateEntry nourishment)
-                            continue;
-
-                        nourishment.NourishmentChanged -= Nourishment_NourishmentChanged;
-                        break;
-
-                    case TemplateSlotType.Enhancement:
-                        if (this[slot] is not EnhancementTemplateEntry utility)
-                            continue;
-
-                        utility.UtilityChanged -= Utility_UtilityChanged;
-                        break;
-
-                    case TemplateSlotType.PowerCore:
-                        if (this[slot] is not PowerCoreTemplateEntry powerCore)
-                            continue;
-
-                        powerCore.PowerCoreChanged -= PowerCore_PowerCoreChanged;
-                        break;
-
-                    case TemplateSlotType.PveRelic:
-                        if (this[slot] is not PveRelicTemplateEntry pveRelic)
-                            continue;
-
-                        pveRelic.RelicChanged -= Relic_RelicChanged;
-                        break;
-
-                    case TemplateSlotType.PvpRelic:
-                        if (this[slot] is not PveRelicTemplateEntry pvpRelic)
-                            continue;
-
-                        pvpRelic.RelicChanged -= Relic_RelicChanged;
-                        break;
-                }
+                e.NewValue.CollectionChanged += Tags_CollectionChanged;
             }
+
+            if (e.OldValue is not null)
+            {
+                e.OldValue.CollectionChanged -= Tags_CollectionChanged;
+            }
+        }
+
+        private void Tags_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        {
+            //if (!TriggerEvents)
+            //    return;
+
+            RequestSave();
         }
 
         private void OnNameChanged(object sender, ValueChangedEventArgs<string> e)
         {
-            if (!TriggerEvents)
-                return;
+            //if (!TriggerEvents)
+            //    return;
 
             RequestSave();
             NameChanged?.Invoke(this, e);
         }
 
-        private void OnGearChanged(object sender, EventArgs e)
+        private void OnGearChanged(object sender, TemplateSlotChangedEventArgs e)
         {
-            if (!TriggerEvents)
-                return;
+            //if (!TriggerEvents)
+            //    return;
 
+            TemplateSlotChanged?.Invoke(sender, e);
             OnGearCodeChanged();
 
             RequestSave();
         }
 
-        private void Relic_RelicChanged(object sender, ValueChangedEventArgs<Relic> e)
+        public void SetItem<T>(TemplateSlotType slot, TemplateSubSlotType subSlot, T obj)
         {
-            OnGearChanged(sender, e);
-        }
+            TemplateEntry entry = this[slot];
 
-        private void PowerCore_PowerCoreChanged(object sender, ValueChangedEventArgs<PowerCore> e)
-        {
-            OnGearChanged(sender, e);
-        }
+            Debug.WriteLine($"SET ITEM {typeof(T)} to {slot} {subSlot} {obj} ");
 
-        private void Utility_UtilityChanged(object sender, ValueChangedEventArgs<DataModels.Items.Enhancement> e)
-        {
-            OnGearChanged(sender, e);
-        }
+            if (entry.SetValue(slot, subSlot, obj))
+            {
 
-        private void Nourishment_NourishmentChanged(object sender, ValueChangedEventArgs<Nourishment> e)
-        {
-            OnGearChanged(sender, e);
-        }
-
-        private void PvpAmulet_RuneChanged(object sender, ValueChangedEventArgs<Rune> e)
-        {
-            OnGearChanged(sender, e);
-        }
-
-        private void PvpAmulet_PvpAmuletChanged(object sender, ValueChangedEventArgs<PvpAmulet> e)
-        {
-            OnGearChanged(sender, e);
-        }
-
-        private void Back_Infusion2Changed(object sender, ValueChangedEventArgs<Infusion> e)
-        {
-            OnGearChanged(sender, e);
-        }
-
-        private void Back_Infusion1Changed(object sender, ValueChangedEventArgs<Infusion> e)
-        {
-            OnGearChanged(sender, e);
-        }
-
-        private void Back_StatChanged(object sender, ValueChangedEventArgs<Stat> e)
-        {
-            OnGearChanged(sender, e);
-        }
-
-        private void Accessory_InfusionChanged(object sender, ValueChangedEventArgs<Infusion> e)
-        {
-            OnGearChanged(sender, e);
-        }
-
-        private void Accessory_StatChanged(object sender, ValueChangedEventArgs<Stat> e)
-        {
-            OnGearChanged(sender, e);
-        }
-
-        private void Ring_Infusion3Changed(object sender, ValueChangedEventArgs<Infusion> e)
-        {
-            OnGearChanged(sender, e);
-        }
-
-        private void Ring_Infusion2Changed(object sender, ValueChangedEventArgs<Infusion> e)
-        {
-            OnGearChanged(sender, e);
-        }
-
-        private void Ring_Infusion1Changed(object sender, ValueChangedEventArgs<Infusion> e)
-        {
-            OnGearChanged(sender, e);
-        }
-
-        private void Ring_StatChanged(object sender, ValueChangedEventArgs<Stat> e)
-        {
-            OnGearChanged(sender, e);
-        }
-
-        private void Amulet_EnrichmentChanged(object sender, ValueChangedEventArgs<Enrichment> e)
-        {
-            OnGearChanged(sender, e);
-        }
-
-        private void Amulet_StatChanged(object sender, ValueChangedEventArgs<Stat> e)
-        {
-            OnGearChanged(sender, e);
-        }
-
-        private void Aqua_Infusion2Changed(object sender, ValueChangedEventArgs<Infusion> e)
-        {
-            OnGearChanged(sender, e);
-        }
-
-        private void Aqua_Infusion1Changed(object sender, ValueChangedEventArgs<Infusion> e)
-        {
-            OnGearChanged(sender, e);
-        }
-
-        private void Aqua_WeaponChanged(object sender, ValueChangedEventArgs<DataModels.Items.Weapon> e)
-        {
-            OnGearChanged(sender, e);
-        }
-
-        private void Aqua_Sigil2Changed(object sender, ValueChangedEventArgs<Sigil> e)
-        {
-            OnGearChanged(sender, e);
-        }
-
-        private void Aqua_Sigil1Changed(object sender, ValueChangedEventArgs<Sigil> e)
-        {
-            OnGearChanged(sender, e);
-        }
-
-        private void Aqua_StatChanged(object sender, ValueChangedEventArgs<Stat> e)
-        {
-            OnGearChanged(sender, e);
-        }
-
-        private void Weapon_WeaponChanged(object sender, ValueChangedEventArgs<DataModels.Items.Weapon> e)
-        {
-            OnGearChanged(sender, e);
-        }
-
-        private void Weapon_InfusionChanged(object sender, ValueChangedEventArgs<Infusion> e)
-        {
-            OnGearChanged(sender, e);
-        }
-
-        private void Weapon_SigilChanged(object sender, ValueChangedEventArgs<Sigil> e)
-        {
-            OnGearChanged(sender, e);
-        }
-
-        private void Weapon_StatChanged(object sender, ValueChangedEventArgs<Stat> e)
-        {
-            OnGearChanged(sender, e);
-        }
-
-        private void Armor_ItemChanged(object sender, ValueChangedEventArgs<Trinket> e)
-        {
-            OnGearChanged(sender, e);
-        }
-
-        private void Armor_InfusionChanged(object sender, ValueChangedEventArgs<Infusion> e)
-        {
-            OnGearChanged(sender, e);
-        }
-
-        private void Armor_RuneChanged(object sender, ValueChangedEventArgs<Rune> e)
-        {
-            OnGearChanged(sender, e);
-        }
-
-        private void Armor_StatChanged(object sender, ValueChangedEventArgs<Stat> e)
-        {
-            OnGearChanged(sender, e);
-        }
-
-        private void Spec_TraitsChanged(object sender, EventArgs e)
-        {
-            if (!TriggerEvents)
-                return;
-
-            OnBuildCodeChanged();
-            RequestSave();
-        }
-
-        private void Skills_ItemChanged(object sender, DictionaryItemChangedEventArgs<SkillSlotType, Skill?> e)
-        {
-            if (!TriggerEvents)
-                return;
-
-            //SkillChanged_OLD?.Invoke(this, e);
-            //OnBuildCodeChanged();
-
-            RequestSave();
+                Debug.WriteLine($"SetValue: TRUE");
+                OnGearChanged(entry, new TemplateSlotChangedEventArgs(slot, subSlot, obj));
+            }
+            else
+            {
+                Debug.WriteLine($"SetValue: FALSE");
+            }
         }
 
         private void Pets_ItemChanged(object sender, DictionaryItemChangedEventArgs<PetSlotType, Pet?> e)
         {
-            if (!TriggerEvents)
-                return;
-
-            OnBuildCodeChanged();
-            RequestSave();
-        }
-
-        private void Legends_ItemChanged(object sender, DictionaryItemChangedEventArgs<LegendSlotType, Legend?> e)
-        {
-            if (!TriggerEvents)
-                return;
-
-            OnBuildCodeChanged();
-            RequestSave();
-        }
-
-        private void Specializations_ItemPropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
-        {
-            if (!TriggerEvents)
-                return;
+            //if (!TriggerEvents)
+            //    return;
 
             OnBuildCodeChanged();
             RequestSave();
@@ -836,8 +361,8 @@ namespace Kenedia.Modules.BuildsManager.Models
         {
             SetArmorItems();
 
-            if (!TriggerEvents)
-                return;
+            //if (!TriggerEvents)
+            //    return;
 
             ProfessionChanged?.Invoke(this, e);
             OnBuildCodeChanged();
@@ -850,31 +375,33 @@ namespace Kenedia.Modules.BuildsManager.Models
             switch (Profession.GetArmorType())
             {
                 case Gw2Sharp.WebApi.V2.Models.ItemWeightType.Heavy:
-                    AquaBreather.Armor = Data.Armors[79895];
-                    Head.Armor = Data.Armors[80384];
-                    Shoulder.Armor = Data.Armors[80435];
-                    Chest.Armor = Data.Armors[80254];
-                    Hand.Armor = Data.Armors[80205];
-                    Leg.Armor = Data.Armors[80277];
-                    Foot.Armor = Data.Armors[80557];
+                    AquaBreather.SetValue(TemplateSlotType.AquaBreather, TemplateSubSlotType.Item, Data.Armors[79895]);
+                    Head.SetValue(TemplateSlotType.Head, TemplateSubSlotType.Item, Data.Armors[80384]);
+                    Shoulder.SetValue(TemplateSlotType.Shoulder, TemplateSubSlotType.Item, Data.Armors[80435]);
+                    Chest.SetValue(TemplateSlotType.Chest, TemplateSubSlotType.Item, Data.Armors[80254]);
+                    Hand.SetValue(TemplateSlotType.Hand, TemplateSubSlotType.Item, Data.Armors[80205]);
+                    Leg.SetValue(TemplateSlotType.Leg, TemplateSubSlotType.Item, Data.Armors[80277]);
+                    Foot.SetValue(TemplateSlotType.Foot, TemplateSubSlotType.Item, Data.Armors[80557]);
                     break;
+
                 case Gw2Sharp.WebApi.V2.Models.ItemWeightType.Medium:
-                    AquaBreather.Armor = Data.Armors[79838];
-                    Head.Armor = Data.Armors[80296];
-                    Shoulder.Armor = Data.Armors[80145];
-                    Chest.Armor = Data.Armors[80578];
-                    Hand.Armor = Data.Armors[80161];
-                    Leg.Armor = Data.Armors[80252];
-                    Foot.Armor = Data.Armors[80281];
+                    AquaBreather.SetValue(TemplateSlotType.AquaBreather, TemplateSubSlotType.Item, Data.Armors[79838]);
+                    Head.SetValue(TemplateSlotType.Head, TemplateSubSlotType.Item, Data.Armors[80296]);
+                    Shoulder.SetValue(TemplateSlotType.Shoulder, TemplateSubSlotType.Item, Data.Armors[80145]);
+                    Chest.SetValue(TemplateSlotType.Chest, TemplateSubSlotType.Item, Data.Armors[80578]);
+                    Hand.SetValue(TemplateSlotType.Hand, TemplateSubSlotType.Item, Data.Armors[80161]);
+                    Leg.SetValue(TemplateSlotType.Leg, TemplateSubSlotType.Item, Data.Armors[80252]);
+                    Foot.SetValue(TemplateSlotType.Foot, TemplateSubSlotType.Item, Data.Armors[80281]);
                     break;
+
                 case Gw2Sharp.WebApi.V2.Models.ItemWeightType.Light:
-                    AquaBreather.Armor = Data.Armors[79873];
-                    Head.Armor = Data.Armors[80248];
-                    Shoulder.Armor = Data.Armors[80131];
-                    Chest.Armor = Data.Armors[80190];
-                    Hand.Armor = Data.Armors[80111];
-                    Leg.Armor = Data.Armors[80356];
-                    Foot.Armor = Data.Armors[80399];
+                    AquaBreather.SetValue(TemplateSlotType.AquaBreather, TemplateSubSlotType.Item, Data.Armors[79873]);
+                    Head.SetValue(TemplateSlotType.Head, TemplateSubSlotType.Item, Data.Armors[80248]);
+                    Shoulder.SetValue(TemplateSlotType.Shoulder, TemplateSubSlotType.Item, Data.Armors[80131]);
+                    Chest.SetValue(TemplateSlotType.Chest, TemplateSubSlotType.Item, Data.Armors[80190]);
+                    Hand.SetValue(TemplateSlotType.Hand, TemplateSubSlotType.Item, Data.Armors[80111]);
+                    Leg.SetValue(TemplateSlotType.Leg, TemplateSubSlotType.Item, Data.Armors[80356]);
+                    Foot.SetValue(TemplateSlotType.Foot, TemplateSubSlotType.Item, Data.Armors[80399]);
                     break;
             }
         }
@@ -883,8 +410,8 @@ namespace Kenedia.Modules.BuildsManager.Models
         {
             RemoveInvalidSkillsBasedOnRace();
 
-            if (!TriggerEvents)
-                return;
+            //if (!TriggerEvents)
+            //    return;
 
             RaceChanged?.Invoke(this, e);
             OnBuildCodeChanged();
@@ -969,20 +496,13 @@ namespace Kenedia.Modules.BuildsManager.Models
                 SetArmorItems();
             }
 
-            OnBuildLoadedFromCode();
-
             if (save)
             {
                 RequestSave();
             }
         }
 
-        private void OnBuildLoadedFromCode()
-        {
-            LoadedBuildFromCode?.Invoke(this, null);
-        }
-
-        public async void LoadGearFromCode(string? code, bool save = false)
+        public void LoadGearFromCode(string? code, bool save = false)
         {
             if (code == null) return;
 
@@ -1025,17 +545,11 @@ namespace Kenedia.Modules.BuildsManager.Models
             catch { }
 
             RemoveInvalidGearCombinations();
-            OnGearLoadedFromCode();
 
             if (save)
             {
                 RequestSave();
             }
-        }
-
-        private void OnGearLoadedFromCode()
-        {
-            LoadedGearFromCode?.Invoke(this, null);
         }
 
         public string? ParseBuildCode()
@@ -1139,8 +653,8 @@ namespace Kenedia.Modules.BuildsManager.Models
 
         private void OnDescriptionChanged()
         {
-            if (!TriggerEvents)
-                return;
+            //if (!TriggerEvents)
+            //    return;
 
             RequestSave();
         }
@@ -1226,10 +740,8 @@ namespace Kenedia.Modules.BuildsManager.Models
             if (_isDisposed) return;
             _isDisposed = true;
 
-            UnRegisterGearListeners();
-
             Pets.ItemChanged -= Pets_ItemChanged;
-            Skills.ItemChanged -= Skills_ItemChanged;
+            //Skills.ItemChanged -= Skills_ItemChanged;
         }
 
         public void Load()
@@ -1263,7 +775,7 @@ namespace Kenedia.Modules.BuildsManager.Models
 
         private void OnSpecializationChanged(object sender, SpecializationChangedEventArgs e)
         {
-            if (!TriggerEvents) return;
+            //if (!TriggerEvents) return;
 
             SpecializationChanged?.Invoke(sender, e);
 
@@ -1446,7 +958,7 @@ namespace Kenedia.Modules.BuildsManager.Models
             LegendChanged?.Invoke(this, new(slot, temp, legend));
         }
 
-        private void SetLegendSkills(SkillSlotType state , SkillSlotType enviroment, Legend? legend)
+        private void SetLegendSkills(SkillSlotType state, SkillSlotType enviroment, Legend? legend)
         {
             SetSkill(state | enviroment | SkillSlotType.Heal, legend?.Heal);
             SetSkill(state | enviroment | SkillSlotType.Elite, legend?.Elite);
@@ -1458,7 +970,7 @@ namespace Kenedia.Modules.BuildsManager.Models
                  Skills[state | enviroment | SkillSlotType.Utility_3]?.PaletteId,
             ];
 
-            List<int?> ids = new() { 4614, 4651, 4564 };
+            List<int?> ids = [4614, 4651, 4564];
             int?[] missingIds = ids.Except(paletteIds).ToArray();
 
             var array = new SkillSlotType[] { SkillSlotType.Utility_1, SkillSlotType.Utility_2, SkillSlotType.Utility_3 };
@@ -1484,9 +996,9 @@ namespace Kenedia.Modules.BuildsManager.Models
             }
         }
 
-        private void OnLegendChanged(object sender, DictionaryItemChangedEventArgs<LegendSlotType, Legend?> e)
+        private void OnLegendChanged(object sender, LegendChangedEventArgs e)
         {
-            if (!TriggerEvents) return;
+            //if (!TriggerEvents) return;
 
             LegendChanged?.Invoke(sender, e);
             OnBuildCodeChanged();
@@ -1496,7 +1008,7 @@ namespace Kenedia.Modules.BuildsManager.Models
         {
             // Check and clean invalid Weapons?
             var wipeWeapons = new List<TemplateSlotType>();
-            var professionWeapons = Data.Professions[Profession]?.Weapons.Select(e => e.Value.Type.ToItemWeaponType()).ToList() ?? new();
+            var professionWeapons = Data.Professions[Profession]?.Weapons.Select(e => e.Value.Type.ToItemWeaponType()).ToList() ?? [];
 
             foreach (var slot in Weapons)
             {
@@ -1525,7 +1037,7 @@ namespace Kenedia.Modules.BuildsManager.Models
                     if (Weapons[slot] is WeaponTemplateEntry weapon)
                     {
                         BuildsManager.Logger.Info($"Remove {weapon.Weapon?.Name} because we can not wield it with our current profession.");
-                        weapon.Weapon = null;
+                        weapon.SetValue(slot, TemplateSubSlotType.Item, null);
                     }
                 }
                 else
@@ -1533,7 +1045,7 @@ namespace Kenedia.Modules.BuildsManager.Models
                     if (Weapons[slot] is AquaticWeaponTemplateEntry weapon)
                     {
                         BuildsManager.Logger.Info($"Remove {weapon.Weapon?.Name} because we can not wield it with our current profession.");
-                        weapon.Weapon = null;
+                        weapon.SetValue(slot, TemplateSubSlotType.Item, null);
                     }
                 }
             }
@@ -1623,7 +1135,7 @@ namespace Kenedia.Modules.BuildsManager.Models
 
         private void OnSkillChanged(SkillSlotType skillSlot, Skill? skill)
         {
-            if (!TriggerEvents) return;
+            //if (!TriggerEvents) return;
 
             SkillChanged?.Invoke(this, new(skillSlot, skill));
             OnBuildCodeChanged();
@@ -1631,7 +1143,7 @@ namespace Kenedia.Modules.BuildsManager.Models
 
         private void OnBuildCodeChanged()
         {
-            if (!TriggerEvents)
+            //if (!TriggerEvents)
                 return;
 
             BuildCodeChanged?.Invoke(this, EventArgs.Empty);
@@ -1640,7 +1152,7 @@ namespace Kenedia.Modules.BuildsManager.Models
 
         private void OnGearCodeChanged()
         {
-            if (!TriggerEvents)
+            //if (!TriggerEvents)
                 return;
 
             GearCodeChanged?.Invoke(this, EventArgs.Empty);
@@ -1652,7 +1164,223 @@ namespace Kenedia.Modules.BuildsManager.Models
             Race = race;
         }
 
+        public void SetGroup<T>(TemplateSlotType templateSlot, TemplateSubSlotType subSlot, T obj, bool overrideExisting)
+        {
+            var slots = templateSlot.GetGroup();
+
+            switch (subSlot)
+            {
+                case TemplateSubSlotType.Item:
+                    if(obj is null)
+                    {
+                        SetWeapons(subSlot, null, overrideExisting, slots);
+                        break;
+                    }
+                    else if (obj is DataModels.Items.Weapon weapon)
+                    {
+                        SetWeapons(subSlot, weapon, overrideExisting, slots);
+                        break;
+                    }
+                    else if (obj is BaseItem item)
+                    {
+                        foreach (var slot in slots)
+                        {
+                            if (this[slot] is IItemTemplateEntry entry)
+                            {
+                                SetItem(slot, subSlot, overrideExisting ? item : entry?.Item ?? item);
+                            }
+                        }
+                    }
+
+                    break;
+
+                case TemplateSubSlotType.Stat:
+                    if (obj is null)
+                    {
+                        foreach (var slot in slots)
+                        {
+                            if (this[slot] is IStatTemplateEntry entry)
+                            {
+                                SetItem(slot, subSlot, overrideExisting ? null : entry?.Stat ?? null);
+                            }
+                        }
+                    }
+                    else if (obj is Stat stat)
+                    {
+                        foreach (var slot in slots)
+                        {
+                            if (this[slot] is IStatTemplateEntry entry)
+                            {
+                                SetItem(slot, subSlot, overrideExisting ? stat : entry?.Stat ?? stat);
+                            }
+                        }
+                    }
+
+                    break;
+
+                case TemplateSubSlotType.Rune:
+                    if (obj is null)
+                    {
+                        foreach (var slot in slots)
+                        {
+                            if (this[slot] is IRuneTemplateEntry entry)
+                            {
+                                SetItem(slot, subSlot, overrideExisting ? null : entry?.Rune ?? null);
+                            }
+                        }
+                    }
+                    else if (obj is Rune rune)
+                    {
+                        foreach (var slot in slots)
+                        {
+                            if (this[slot] is IRuneTemplateEntry entry)
+                            {
+                                SetItem(slot, subSlot, overrideExisting ? rune : entry?.Rune ?? rune);
+                            }
+                        }
+                    }
+
+                    break;
+
+                case TemplateSubSlotType.Sigil1:
+                    if (obj is null)
+                    {
+                        SetAllSigils(subSlot, null, overrideExisting, slots);
+                    }
+                    else if (obj is Sigil sigil1)
+                    {
+                        SetAllSigils(subSlot, sigil1, overrideExisting, slots);
+                    }
+
+                    break;
+
+                case TemplateSubSlotType.Sigil2:
+                    if (obj is null)
+                    {
+                        SetAllSigils(subSlot, null, overrideExisting, slots);
+                    }
+                    else if (obj is Sigil sigil2)
+                    {
+                        SetAllSigils(subSlot, sigil2, overrideExisting, slots);
+                    }
+
+                    break;
+
+                case TemplateSubSlotType.PvpSigil:
+                    if (obj is null)
+                    {
+                        foreach (var slot in slots)
+                        {
+                            if (this[slot] is IPvpSigilTemplateEntry entry)
+                            {
+                                SetItem(slot, subSlot, overrideExisting ? null : entry?.PvpSigil ?? null);
+                            }
+                        }
+                    }
+                    else if (obj is Sigil sigil)
+                    {
+                        foreach (var slot in slots)
+                        {
+                            if (this[slot] is IPvpSigilTemplateEntry entry)
+                            {
+                                SetItem(slot, subSlot, overrideExisting ? sigil : entry?.PvpSigil ?? sigil);
+                            }
+                        }
+                    }
+
+                    break;
+
+                case TemplateSubSlotType.Infusion1:
+                    if (obj is null)
+                    {
+                        SetAllInfusions(subSlot, null, overrideExisting, slots);
+                    }
+                    else if (obj is Infusion infusion1)
+                    {
+                        SetAllInfusions(subSlot, infusion1, overrideExisting, slots);
+                    }
+
+                    break;
+
+                case TemplateSubSlotType.Infusion2:
+                    if (obj is null)
+                    {
+                        SetAllInfusions(subSlot, null, overrideExisting, slots);
+                    }
+                    else if (obj is Infusion infusion2)
+                    {
+                        SetAllInfusions(subSlot, infusion2, overrideExisting, slots);
+                    }
+
+                    break;
+
+                case TemplateSubSlotType.Infusion3:
+                    if (obj is null)
+                    {
+                        SetAllInfusions(subSlot, null, overrideExisting, slots);
+                    }
+                    else if (obj is Infusion infusion3)
+                    {
+                        SetAllInfusions(subSlot, infusion3, overrideExisting, slots);
+                    }
+
+                    break;
+            }
+
+            void SetWeapons(TemplateSubSlotType subSlot, DataModels.Items.Weapon? weapon, bool overrideExisting, TemplateSlotType[] slots)
+            {
+                foreach (var slot in slots)
+                {
+                    if (this[slot] is IWeaponTemplateEntry entry)
+                    {
+                        SetItem(slot, subSlot, overrideExisting ? weapon : entry?.Weapon ?? weapon);
+                    }
+                }
+            }
+
+            void SetAllSigils(TemplateSubSlotType subSlot, Sigil? sigil, bool overrideExisting, TemplateSlotType[] slots)
+            {
+                foreach (var slot in slots)
+                {
+                    switch (this[slot])
+                    {
+                        case IDoubleSigilTemplateEntry entry:
+                            SetItem(slot, subSlot, overrideExisting ? sigil : entry?.Sigil1 ?? sigil);
+                            SetItem(slot, subSlot, overrideExisting ? sigil : entry?.Sigil2 ?? sigil);
+                            break;
+
+                        case ISingleSigilTemplateEntry entry:
+                            SetItem(slot, subSlot, overrideExisting ? sigil : entry?.Sigil1 ?? sigil);
+                            break;
+                    }
+                }
+            }
+
+            void SetAllInfusions(TemplateSubSlotType subSlot, Infusion? infusion, bool overrideExisting, TemplateSlotType[] slots)
+            {
+                foreach (var slot in slots)
+                {
+                    switch (this[slot])
+                    {
+                        case ITripleInfusionTemplateEntry entry:
+                            SetItem(slot, subSlot, overrideExisting ? infusion : entry?.Infusion1 ?? infusion);
+                            SetItem(slot, subSlot, overrideExisting ? infusion : entry?.Infusion2 ?? infusion);
+                            SetItem(slot, subSlot, overrideExisting ? infusion : entry?.Infusion3 ?? infusion);
+                            break;
+
+                        case IDoubleInfusionTemplateEntry entry:
+                            SetItem(slot, subSlot, overrideExisting ? infusion : entry?.Infusion1 ?? infusion);
+                            SetItem(slot, subSlot, overrideExisting ? infusion : entry?.Infusion2 ?? infusion);
+                            break;
+
+                        case ISingleInfusionTemplateEntry entry:
+                            SetItem(slot, subSlot, overrideExisting ? infusion : entry?.Infusion1 ?? infusion);
+                            break;
+                    }
+                }
+            }
+        }
+
         public Skill? this[SkillSlotType slot] => Skills[slot];
-#nullable disable
     }
 }

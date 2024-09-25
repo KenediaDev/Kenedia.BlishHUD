@@ -14,8 +14,8 @@ namespace Kenedia.Modules.Core.Extensions
 
         public static bool IsPvpMap(this CurrentMap map)
         {
-            List<int> pvpMaps = new()
-            {
+            List<int> pvpMaps =
+            [
                 549,
                 1305,
                 1171,
@@ -31,22 +31,22 @@ namespace Kenedia.Modules.Core.Extensions
                 1328,
                 1275,
                 1200,
-            };
+            ];
 
             return pvpMaps.Contains(map.Id);
         }
 
         public static bool IsWvWMap(this CurrentMap map)
         {
-            List<int> wvwpMaps = new()
-            {
+            List<int> wvwpMaps =
+            [
                 38,
                 95,
                 96,
                 1099,
                 899,
                 968,
-            };
+            ];
 
             return wvwpMaps.Contains(map.Id);
         }

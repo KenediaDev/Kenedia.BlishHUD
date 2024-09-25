@@ -37,7 +37,7 @@ namespace Kenedia.Modules.Core.Extensions
             Point first = new(-1, -1);
             Point last = new(-1, -1);
 
-            List<List<Point>> imageMap = new();
+            List<List<Point>> imageMap = [];
 
             for (int i = 0; i < b.Width; i++)
             {
@@ -104,7 +104,7 @@ namespace Kenedia.Modules.Core.Extensions
             Point first = new(-1, -1);
             Point last = new(-1, -1);
 
-            List<(Point, Color)> imageMap = new();
+            List<(Point, Color)> imageMap = [];
 
             int emptyInRow = 0;
             for (int i = 0; i < b.Width; i++)
@@ -174,7 +174,7 @@ namespace Kenedia.Modules.Core.Extensions
             Point first = new(-1, -1);
             Point last = new(-1, -1);
 
-            List<(Point, Color)> imageMap = new();
+            List<(Point, Color)> imageMap = [];
 
             int emptyInRow = 0;
             for (int i = 0; i < b.Width; i++)

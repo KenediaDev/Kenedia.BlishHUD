@@ -25,7 +25,7 @@ namespace Kenedia.Modules.BuildsManager.DataModels.Items
         {
             get
             {
-                List<(int amount, string text)> result = new();
+                List<(int amount, string text)> result = [];
 
                 if (Attributes.Power is not null)
                 {

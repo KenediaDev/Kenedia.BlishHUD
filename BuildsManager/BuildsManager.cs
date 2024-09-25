@@ -45,10 +45,6 @@ namespace Kenedia.Modules.BuildsManager
 
         private double _tick;
         private CancellationTokenSource _cancellationTokenSource;
-        private CornerIcon _cornerIcon;
-        private CornerIconContainer _cornerContainer;
-        private NotificationBadge _notificationBadge;
-        private LoadingSpinner _apiSpinner;
 
         [ImportingConstructor]
         public BuildsManager([Import("ModuleParameters")] ModuleParameters moduleParameters) : base(moduleParameters)
@@ -83,10 +79,14 @@ namespace Kenedia.Modules.BuildsManager
             services.AddScoped<BuildTab>();
             services.AddScoped<GearTab>();
 
+            services.AddSingleton<Func<CornerIcon>>(() => CornerIcon);
+            services.AddSingleton<Func<LoadingSpinner>>(() => LoadingSpinner);
+            services.AddSingleton<Func<NotificationBadge>>(() => NotificationBadge);
+            services.AddSingleton<Func<CornerIconContainer>>(() => CornerContainer);
+
             services.AddTransient<TemplateFactory>();
             services.AddTransient<TemplateConverter>();
 
-            CreateCornerIcons(services);
             ServiceProvider = services.BuildServiceProvider();
 
             Data = ServiceProvider.GetRequiredService<Data>();
@@ -111,9 +111,20 @@ namespace Kenedia.Modules.BuildsManager
         public Template? SelectedTemplate => TemplatePresenter.Template;
 
         public GW2API GW2API { get; private set; }
+
         public TemplateTags TemplateTags { get; private set; }
+
         public TemplatePresenter TemplatePresenter { get; private set; }
+
         public TemplateCollection Templates { get; private set; }
+
+        public CornerIcon CornerIcon { get; private set; }
+
+        public CornerIconContainer CornerContainer { get; private set; }
+
+        public LoadingSpinner LoadingSpinner { get; private set; }
+
+        public NotificationBadge NotificationBadge { get; private set; }
 
         protected override void DefineSettings(SettingCollection settings)
         {
@@ -144,14 +155,7 @@ namespace Kenedia.Modules.BuildsManager
 
             if (e.NewValue is not Locale.Korean and not Locale.Chinese)
             {
-                bool success = await Data.Load();
-
-                if (!success)
-                {
-                    //Set Failed Notification
-                    //_notificationBadge.Show();
-                    //_notificationBadge.SetLocalizedText = () => $"There was an issue when loading the Data for {e.NewValue} Localization.";
-                }
+                bool _ = await Data.Load();
 
                 base.OnLocaleChanged(sender, e);
             }
@@ -159,7 +163,7 @@ namespace Kenedia.Modules.BuildsManager
 
         protected override async Task LoadAsync()
         {
-            _apiSpinner?.Show();
+            LoadingSpinner?.Show();
 
             await base.LoadAsync();
 
@@ -249,14 +253,11 @@ namespace Kenedia.Modules.BuildsManager
         {
             if (e.NewValue)
             {
-                //CreateCornerIcons();
-                _cornerIcon.Parent = _cornerContainer.Parent = GameService.Graphics.SpriteScreen;
+                CreateCornerIcons();
             }
             else
             {
-                //DeleteCornerIcons();
-
-                _cornerIcon.Parent = _cornerContainer.Parent = null;
+                DeleteCornerIcons();
             }
         }
 
@@ -305,11 +306,11 @@ namespace Kenedia.Modules.BuildsManager
             TemplatesLoaded = true;
         }
 
-        private void CreateCornerIcons(IServiceCollection serviceCollection)
+        private void CreateCornerIcons()
         {
             DeleteCornerIcons();
 
-            _cornerIcon ??= new CornerIcon()
+            CornerIcon ??= new CornerIcon()
             {
                 Icon = AsyncTexture2D.FromAssetId(156720),
                 HoverIcon = AsyncTexture2D.FromAssetId(156721),
@@ -328,52 +329,47 @@ namespace Kenedia.Modules.BuildsManager
                 }
             };
 
-            _cornerContainer ??= new()
+            CornerContainer ??= new CornerIconContainer()
             {
                 Parent = GameService.Graphics.SpriteScreen,
                 WidthSizingMode = SizingMode.AutoSize,
                 HeightSizingMode = SizingMode.AutoSize,
-                Anchor = _cornerIcon,
+                Anchor = CornerIcon,
                 AnchorPosition = AnchoredContainer.AnchorPos.Bottom,
-                RelativePosition = new(0, -_cornerIcon.Height / 2),
+                RelativePosition = new(0, -CornerIcon.Height / 2),
                 CaptureInput = CaptureType.Filter,
             };
 
-            _notificationBadge ??= new NotificationBadge()
+            NotificationBadge ??= new NotificationBadge()
             {
-                Location = new(_cornerIcon.Width - 15, 0),
-                Parent = _cornerContainer,
+                Location = new(CornerIcon.Width - 15, 0),
+                Parent = CornerContainer,
                 Size = new(20),
                 Opacity = 0.6f,
                 HoveredOpacity = 1f,
                 CaptureInput = CaptureType.Filter,
-                Anchor = _cornerIcon,
+                Anchor = CornerIcon,
                 Visible = false,
             };
 
-            _apiSpinner ??= new LoadingSpinner()
+            LoadingSpinner ??= new LoadingSpinner()
             {
-                Location = new Point(0, _notificationBadge.Bottom),
-                Parent = _cornerContainer,
-                Size = _cornerIcon.Size,
+                Location = new Point(0, NotificationBadge.Bottom),
+                Parent = CornerContainer,
+                Size = CornerIcon.Size,
                 BasicTooltipText = strings_common.FetchingApiData,
                 Visible = false,
                 CaptureInput = null,
             };
-
-            serviceCollection.AddSingleton(_cornerContainer);
-            serviceCollection.AddSingleton(_cornerIcon);
-            serviceCollection.AddSingleton(_notificationBadge);
-            serviceCollection.AddSingleton(_apiSpinner);
         }
 
         private void DeleteCornerIcons()
         {
-            _cornerIcon?.Dispose();
-            _cornerIcon = null;
+            CornerIcon?.Dispose();
+            CornerIcon = null;
 
-            _cornerContainer?.Dispose();
-            _cornerContainer = null;
+            CornerContainer?.Dispose();
+            CornerContainer = null;
         }
 
         private void OnToggleWindowKey(object sender, EventArgs e)

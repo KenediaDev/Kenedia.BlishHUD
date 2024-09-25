@@ -22,7 +22,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
 {
     public class BuildSelection : BaseSelection
     {
-        private readonly List<ProfessionToggle> _specIcons = new();
+        private readonly List<ProfessionToggle> _specIcons = [];
         private readonly ImageButton _addBuildsButton;
         private readonly LoadingSpinner _spinner;
         private readonly Dropdown _sortBehavior;
@@ -136,7 +136,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
             Templates_CollectionChanged(this, null);
         }
 
-        public List<TemplateSelectable> TemplateSelectables { get; } = new();
+        public List<TemplateSelectable> TemplateSelectables { get; } = [];
 
         public SelectionPanel SelectionPanel { get; set; }
         public TemplateCollection Templates { get; }
@@ -221,7 +221,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
 
             bool firstLoad = TemplateSelectables.Count == 0 && (Templates?.Count ?? 0) != 0;
             var templates = TemplateSelectables.Select(e => e.Template);
-            var removedTemplates = templates.Except(Templates ?? new());
+            var removedTemplates = templates.Except(Templates ?? []);
             var addedTemplates = Templates?.Except(templates);
             TemplateSelectable targetTemplate = null;
 
@@ -238,8 +238,6 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
                 };
 
                 template.ProfessionChanged += ProfessionChanged;
-                template.SpecializationChanged_OLD += SpecializationChanged;
-
 
                 t.OnClickAction = () => SelectionPanel?.SetTemplateAnchor(t);
                 if (!firstLoad)
@@ -285,14 +283,12 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
                     ts?.ToggleEditMode(false);
 
                     t.ProfessionChanged += ProfessionChanged;
-                    t.SpecializationChanged_OLD += SpecializationChanged;
 
                     if (ts is not null)
                     {
                         ts.DisposeAction = () =>
                         {
                             t.ProfessionChanged -= ProfessionChanged;
-                            t.SpecializationChanged_OLD -= SpecializationChanged;
                         };
                     }
 

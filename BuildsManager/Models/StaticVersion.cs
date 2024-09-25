@@ -184,9 +184,9 @@ namespace Kenedia.Modules.BuildsManager.Models
             Version = version;
         }
 
-        public Dictionary<byte, int> Items { get; } = new();
+        public Dictionary<byte, int> Items { get; } = [];
 
-        public Dictionary<byte, int> Ignored { get; } = new();
+        public Dictionary<byte, int> Ignored { get; } = [];
 
         [JsonIgnore]
         public string Name { get; set; }

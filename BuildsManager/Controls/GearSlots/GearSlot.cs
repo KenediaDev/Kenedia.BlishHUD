@@ -14,6 +14,7 @@ using Kenedia.Modules.Core.Controls;
 using Kenedia.Modules.BuildsManager.Extensions;
 using Kenedia.Modules.Core.Models;
 using Kenedia.Modules.BuildsManager.Controls.Selection;
+using System.Diagnostics;
 
 namespace Kenedia.Modules.BuildsManager.Controls_Old.GearPage.GearSlots
 {
@@ -43,15 +44,8 @@ namespace Kenedia.Modules.BuildsManager.Controls_Old.GearPage.GearSlots
                 {
                     var oldItem = ItemControl.Item;
                     ItemControl.Item = value;
-
-                    OnItemChanged(this, new ValueChangedEventArgs<BaseItem>(oldItem, value));
                 }
             }
-        }
-
-        protected virtual void OnItemChanged(object sender, ValueChangedEventArgs<BaseItem> e)
-        {
-            ItemChanged?.Invoke(sender, e);
         }
 
         public TemplateSlotType Slot { get => _slot; set => Common.SetProperty(ref _slot, value, ApplySlot); }
@@ -86,16 +80,22 @@ namespace Kenedia.Modules.BuildsManager.Controls_Old.GearPage.GearSlots
         {
             if (e.OldValue is not null)
             {
-                e.OldValue.LoadedGearFromCode -= SetItems;
-                e.OldValue.TemplateChanged -= SetItems;
                 e.OldValue.GameModeChanged -= GameModeChanged;
+                e.OldValue.TemplateSlotChanged -= TemplateSlotChanged;
             }
 
             if (e.NewValue is not null)
             {
-                e.NewValue.LoadedGearFromCode += SetItems;
-                e.NewValue.TemplateChanged += SetItems;
                 e.NewValue.GameModeChanged += GameModeChanged;
+                e.NewValue.TemplateSlotChanged += TemplateSlotChanged;
+            }
+        }
+
+        private void TemplateSlotChanged(object sender, TemplateSlotChangedEventArgs e)
+        {
+            if (e.Slot == Slot)
+            {
+                SetItem(sender, e);
             }
         }
 
@@ -177,7 +177,7 @@ namespace Kenedia.Modules.BuildsManager.Controls_Old.GearPage.GearSlots
             //ItemTexture.Bounds = new(0, 0, size, size);
         }
 
-        protected virtual void SetItems(object sender, EventArgs e)
+        protected virtual void SetItem(object sender, TemplateSlotChangedEventArgs e)
         {
         }
 

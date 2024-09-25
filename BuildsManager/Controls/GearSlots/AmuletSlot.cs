@@ -11,6 +11,7 @@ using Kenedia.Modules.BuildsManager.DataModels.Items;
 using Kenedia.Modules.Core.Extensions;
 using Kenedia.Modules.BuildsManager.TemplateEntries;
 using Kenedia.Modules.BuildsManager.Res;
+using System.Linq;
 
 namespace Kenedia.Modules.BuildsManager.Controls_Old.GearPage.GearSlots
 {
@@ -41,14 +42,15 @@ namespace Kenedia.Modules.BuildsManager.Controls_Old.GearPage.GearSlots
             _enrichmentControl.SetBounds(new(ItemControl.LocalBounds.Right + 1, ItemControl.LocalBounds.Top, infusionSize, infusionSize));
         }
 
-        protected override void SetItems(object sender, EventArgs e)
+        protected override void SetItem(object sender, TemplateSlotChangedEventArgs e)
         {
-            base.SetItems(sender, e);
+            base.SetItem(sender, e);
 
-            var amulet = TemplatePresenter?.Template?[Slot] as AmuletTemplateEntry;
-
-            Enrichment = amulet?.Enrichment;
-            Stat = amulet?.Stat;
+            if (TemplatePresenter?.Template?[Slot] is AmuletTemplateEntry amulet)
+            {
+                Enrichment = amulet?.Enrichment;
+                Stat = amulet?.Stat;
+            }
         }
 
         protected override void OnClick(MouseEventArgs e)
@@ -59,15 +61,15 @@ namespace Kenedia.Modules.BuildsManager.Controls_Old.GearPage.GearSlots
 
             if (ItemControl.MouseOver)
             {
-                SelectionPanel?.SetAnchor<Stat>(ItemControl, new Rectangle(a.Location, Point.Zero).Add(ItemControl.LocalBounds), SelectionTypes.Stats, Slot, GearSubSlotType.None, (stat) =>
-                Stat = stat,
+                SelectionPanel?.SetAnchor<Stat>(ItemControl, new Rectangle(a.Location, Point.Zero).Add(ItemControl.LocalBounds), SelectionTypes.Stats, Slot, GearSubSlotType.None,
+                (stat) => TemplatePresenter?.Template?.SetItem(Slot, TemplateSubSlotType.Stat, stat),
                 (TemplatePresenter?.Template[Slot] as AmuletTemplateEntry).Amulet?.StatChoices,
                 (TemplatePresenter?.Template[Slot] as AmuletTemplateEntry).Amulet?.AttributeAdjustment);
             }
 
             if (_enrichmentControl.MouseOver)
             {
-                SelectionPanel?.SetAnchor<Enrichment>(_enrichmentControl, new Rectangle(a.Location, Point.Zero).Add(_enrichmentControl.LocalBounds), SelectionTypes.Items, Slot, GearSubSlotType.Enrichment, (enrichment) => Enrichment = enrichment);
+                SelectionPanel?.SetAnchor<Enrichment>(_enrichmentControl, new Rectangle(a.Location, Point.Zero).Add(_enrichmentControl.LocalBounds), SelectionTypes.Items, Slot, GearSubSlotType.Enrichment, (enrichment) => TemplatePresenter?.Template?.SetItem(Slot, TemplateSubSlotType.Enrichment, enrichment));
             }
         }
 
@@ -77,68 +79,43 @@ namespace Kenedia.Modules.BuildsManager.Controls_Old.GearPage.GearSlots
 
             CreateSubMenu(() => strings.Reset, () => string.Format(strings.ResetEntry, $"{strings.Stat} {strings.And} {strings.Enrichment}"), () =>
             {
-                Stat = null;
-                Enrichment = null;
-            }, new()
-            {
-                new(() => strings.Stat, () => string.Format(strings.ResetEntry, strings.Stat), () => Stat = null ),
-                new(() => strings.Enrichment, () => string.Format(strings.ResetEntry, strings.Enrichment), () => Enrichment = null )});
+                TemplatePresenter?.Template.SetItem<Stat>(Slot, TemplateSubSlotType.Stat, null);
+                TemplatePresenter?.Template.SetItem<Enrichment>(Slot, TemplateSubSlotType.Enrichment, null);
+            },
+            [
+                new(() => strings.Stat, () => string.Format(strings.ResetEntry, strings.Stat), () => TemplatePresenter?.Template.SetItem<Stat>(Slot, TemplateSubSlotType.Stat, null)),
+                new(() => strings.Enrichment, () => string.Format(strings.ResetEntry, strings.Enrichment), () => TemplatePresenter?.Template.SetItem<Enrichment>(Slot, TemplateSubSlotType.Enrichment, null)),
+            ]);
 
-            CreateSubMenu(() => strings.Fill, () => string.Format(strings.FillEntry, $"{strings.Stat} {strings.EmptyJewellerySlots}"), () => SetGroupStat(Stat, false), new()
-            {
+            CreateSubMenu(() => strings.Fill, () => string.Format(strings.FillEntry, $"{strings.Stat} {strings.EmptyJewellerySlots}"), () => SetGroupStat(Stat, false),
+            [
                 new(() => strings.Stat, () => string.Format(strings.FillEntry, $"{strings.Stat} {strings.EmptyJewellerySlots}"), () => SetGroupStat(Stat, false)),
-                });
+            ]);
 
-            CreateSubMenu(() => strings.Override, () => string.Format(strings.Override, $"{strings.Stat} {strings.JewellerySlots}"), () => SetGroupStat(Stat, true), new()
-            {
+            CreateSubMenu(() => strings.Override, () => string.Format(strings.Override, $"{strings.Stat} {strings.JewellerySlots}"), () => SetGroupStat(Stat, true),
+            [
                 new(() => strings.Stat, () => string.Format(strings.OverrideEntry, $"{strings.Stat} {strings.JewellerySlots}"), () => SetGroupStat(Stat, true)),
-                });
+            ]);
 
-            CreateSubMenu(() => string.Format(strings.ResetAll, strings.Jewellery), () => string.Format(strings.ResetEntry, $"{strings.Stats} {strings.And} {strings.Infusions} {strings.JewellerySlots}"), () => SetGroupStat(null, true), new()
-            {
+            CreateSubMenu(() => string.Format(strings.ResetAll, strings.Jewellery), () => string.Format(strings.ResetEntry, $"{strings.Stats} {strings.And} {strings.Infusions} {strings.JewellerySlots}"), () => SetGroupStat(null, true),
+            [
                 new(() => strings.Stats, () => string.Format(strings.ResetAll, $"{strings.Stats} {strings.JewellerySlots}"), () => SetGroupStat(null, true)),
-                });
+            ]);
         }
 
-        private void SetGroupStat(Stat stat, bool overrideExisting)
+        private void SetGroupStat(Stat stat = null, bool overrideExisting = false)
         {
-            foreach (var slot in SlotGroup)
-            {
-                switch (slot)
-                {
-                    case AccessoireSlot accessoire:
-                        accessoire.Stat = overrideExisting ? stat : accessoire.Stat ?? stat;
-                        break;
-
-                    case BackSlot back:
-                        back.Stat = overrideExisting ? stat : back.Stat ?? stat;
-                        break;
-
-                    case RingSlot ring:
-                        ring.Stat = overrideExisting ? stat : ring.Stat ?? stat;
-                        break;
-
-                    case AmuletSlot amulet:
-                        amulet.Stat = overrideExisting ? stat : amulet.Stat ?? stat;
-                        break;
-                }
-            }
+            TemplatePresenter.Template?.SetGroup(Slot, TemplateSubSlotType.Stat, stat, overrideExisting);
         }
 
         private void OnEnrichmentChanged(object sender, Core.Models.ValueChangedEventArgs<Enrichment> e)
         {
             _enrichmentControl.Item = Enrichment;
-
-            if (TemplatePresenter?.Template[Slot] is AmuletTemplateEntry entry)
-                entry.Enrichment = Enrichment;
         }
 
         private void OnStatChanged(object sender, Core.Models.ValueChangedEventArgs<Stat> e)
         {
             ItemControl.Stat = Stat;
-
-            if (TemplatePresenter?.Template[Slot] is AmuletTemplateEntry entry)
-                entry.Stat = Stat;
         }
 
         protected override void DisposeControl()

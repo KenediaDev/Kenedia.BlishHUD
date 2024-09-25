@@ -23,18 +23,14 @@ namespace Kenedia.Modules.BuildsManager.Models
         {
             TemplateFactory = templateFactory;
 
-            Template = TemplateFactory.CreateTemplate("DummyTemplate");
+            Template = TemplateFactory.CreateTemplate(string.Empty);
         }
-
-        public event EventHandler LoadedGearFromCode;
-
-        public event EventHandler LoadedBuildFromCode;
 
         public event EventHandler BuildCodeChanged;
 
         public event EventHandler GearCodeChanged;
 
-        public event EventHandler<(TemplateSlotType slot, BaseItem item, Stat stat)> TemplateSlotChanged;
+        public event TemplateSlotChangedEventHandler? TemplateSlotChanged;
 
         public event ValueChangedEventHandler<string> NameChanged;
 
@@ -56,9 +52,7 @@ namespace Kenedia.Modules.BuildsManager.Models
 
         public event ValueChangedEventHandler<Specialization> EliteSpecializationChanged_OLD;
 
-        public event DictionaryItemChangedEventHandler<LegendSlotType, Legend> LegendChanged;
-
-        public event DictionaryItemChangedEventHandler<SpecializationSlotType, Specialization> SpecializationChanged_OLD;
+        public event LegendChangedEventHandler? LegendChanged;
 
         //REWORKED
 
@@ -105,16 +99,12 @@ namespace Kenedia.Modules.BuildsManager.Models
                 e.OldValue.BuildCodeChanged -= On_BuildChanged;
                 e.OldValue.GearCodeChanged -= On_GearChanged;
                 e.OldValue.ProfessionChanged -= On_ProfessionChanged;
-                e.OldValue.SpecializationChanged_OLD -= On_SpecializationChanged;
                 e.OldValue.LegendChanged -= On_LegendChanged;
-                e.OldValue.SkillChanged_OLD -= On_SkillChanged_OLD;
-
-                e.OldValue.LoadedBuildFromCode -= On_LoadedBuildFromCode;
-                e.OldValue.LoadedGearFromCode -= On_LoadedGearFromCode;
 
                 e.OldValue.NameChanged -= On_NameChanged;
 
                 //REWORKED STUFF
+                e.OldValue.TemplateSlotChanged -= OnTemplateSlotChanged;
                 e.OldValue.SkillChanged -= OnSkillChanged;
                 e.OldValue.TraitChanged -= OnTraitChanged;
                 e.OldValue.EliteSpecializationChanged -= OnEliteSpecializationChanged;
@@ -139,21 +129,21 @@ namespace Kenedia.Modules.BuildsManager.Models
             template.BuildCodeChanged += On_BuildChanged;
             template.GearCodeChanged += On_GearChanged;
             template.ProfessionChanged += On_ProfessionChanged;
-            template.SpecializationChanged_OLD += On_SpecializationChanged;
             template.LegendChanged += On_LegendChanged;
-            template.SkillChanged_OLD += On_SkillChanged_OLD;
-
-            template.LoadedBuildFromCode += On_LoadedBuildFromCode;
-            template.LoadedGearFromCode += On_LoadedGearFromCode;
 
             template.NameChanged += On_NameChanged;
-            template.TemplateSlotChanged += Template_TemplateSlotChanged;
 
             //REWORKED STUFF
+            template.TemplateSlotChanged += OnTemplateSlotChanged;
             template.SkillChanged += OnSkillChanged;
             template.TraitChanged += OnTraitChanged;
             template.SpecializationChanged += OnSpecializationChanged;
             template.EliteSpecializationChanged += OnEliteSpecializationChanged;
+        }
+
+        private void OnTemplateSlotChanged(object sender, TemplateSlotChangedEventArgs e)
+        {
+            TemplateSlotChanged?.Invoke(sender, e);
         }
 
         private void OnEliteSpecializationChanged(object sender, SpecializationChangedEventArgs e)
@@ -176,11 +166,6 @@ namespace Kenedia.Modules.BuildsManager.Models
             SkillChanged?.Invoke(sender, e);
         }
 
-        private void Template_TemplateSlotChanged(object sender, (TemplateSlotType slot, BaseItem item, Stat stat) e)
-        {
-            TemplateSlotChanged?.Invoke(sender, e);
-        }
-
         private void On_NameChanged(object sender, ValueChangedEventArgs<string> e)
         {
             NameChanged?.Invoke(sender, e);
@@ -189,16 +174,6 @@ namespace Kenedia.Modules.BuildsManager.Models
         private void On_GearChanged(object sender, EventArgs e)
         {
             GearCodeChanged?.Invoke(sender, e);
-        }
-
-        private void On_LoadedGearFromCode(object sender, EventArgs e)
-        {
-            LoadedGearFromCode?.Invoke(sender, e);
-        }
-
-        private void On_LoadedBuildFromCode(object sender, EventArgs e)
-        {
-            LoadedBuildFromCode?.Invoke(sender, e);
         }
 
         private void On_RaceChanged(object sender, ValueChangedEventArgs<Races> e)
@@ -217,27 +192,9 @@ namespace Kenedia.Modules.BuildsManager.Models
             BuildCodeChanged?.Invoke(sender, e);
         }
 
-        private void On_LegendChanged(object sender, DictionaryItemChangedEventArgs<LegendSlotType, Legend> e)
+        private void On_LegendChanged(object sender, LegendChangedEventArgs e)
         {
             LegendChanged?.Invoke(sender, e);
-            BuildCodeChanged?.Invoke(sender, e);
-        }
-
-        private void On_SpecializationChanged(object sender, DictionaryItemChangedEventArgs<SpecializationSlotType, Specialization> e)
-        {
-            SpecializationChanged_OLD?.Invoke(sender, e);
-            BuildCodeChanged?.Invoke(sender, e);
-        }
-
-        private void On_SkillChanged_OLD(object sender, DictionaryItemChangedEventArgs<SkillSlotType, Skill> e)
-        {
-            //SkillChanged?.Invoke(sender, e);
-            BuildCodeChanged?.Invoke(sender, e);
-        }
-
-        private void On_PetChanged(object sender, DictionaryItemChangedEventArgs<PetSlotType, Pet> e)
-        {
-            PetChanged?.Invoke(sender, e);
             BuildCodeChanged?.Invoke(sender, e);
         }
 

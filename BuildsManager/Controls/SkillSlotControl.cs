@@ -276,14 +276,14 @@ namespace Kenedia.Modules.BuildsManager.Controls
                 var skills = Data.Professions[TemplatePresenter.Template.Profession].Skills;
                 var filteredSkills = skills.Where(e => e.Value.PaletteId > 0 && e.Value.Slot is not null && e.Value.Slot == slot && (e.Value.Specialization == 0 || TemplatePresenter.Template.HasSpecialization(e.Value.Specialization, out _))).ToList();
 
-                var racialSkills = TemplatePresenter.Template.Race != Core.DataModels.Races.None ? Data.Races[TemplatePresenter.Template.Race]?.Skills.Where(e => e.Value.PaletteId > 0 && e.Value.Slot is not null && e.Value.Slot == slot).ToList() : new();
+                var racialSkills = TemplatePresenter.Template.Race != Core.DataModels.Races.None ? Data.Races[TemplatePresenter.Template.Race]?.Skills.Where(e => e.Value.PaletteId > 0 && e.Value.Slot is not null && e.Value.Slot == slot).ToList() : [];
                 if (racialSkills is not null) filteredSkills.AddRange(racialSkills);
 
                 SkillSelector.SetItems(filteredSkills.OrderBy(e => e.Value.Categories).Select(e => e.Value));
             }
             else
             {
-                List<Skill> filteredSkills = new();
+                List<Skill> filteredSkills = [];
                 LegendSlotType legendSlot = skillSlot.GetEnviromentState() switch
                 {
                     SkillSlotType.Active | SkillSlotType.Aquatic => LegendSlotType.AquaticActive,

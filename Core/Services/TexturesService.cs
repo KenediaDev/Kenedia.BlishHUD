@@ -12,7 +12,7 @@ namespace Kenedia.Modules.Core.Services
 {
     public static class TexturesService
     {
-        private static readonly Dictionary<string, Texture2D> s_loadedTextures = new();
+        private static readonly Dictionary<string, Texture2D> s_loadedTextures = [];
         private static ContentsManager s_contentsManager;
 
         public static void Initilize(ContentsManager contentsManager)

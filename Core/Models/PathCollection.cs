@@ -4,7 +4,6 @@ using System.IO;
 
 namespace Kenedia.Modules.Core.Models
 {
-#nullable enable
     public class PathCollection
     {
         protected readonly string? ModuleName = null;
@@ -57,5 +56,4 @@ namespace Kenedia.Modules.Core.Models
             }
         }
     }
-#nullable disable
 }

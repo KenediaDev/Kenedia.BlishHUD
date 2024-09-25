@@ -6,7 +6,6 @@ using System.Runtime.CompilerServices;
 
 namespace Kenedia.Modules.Core.Models
 {
-#nullable enable
     public class NotifyPropertyChangedDictionary<TKey, TValue> : Dictionary<TKey, TValue?>, IDisposable
         where TValue : INotifyPropertyChanged
         where TKey : notnull
@@ -101,9 +100,7 @@ namespace Kenedia.Modules.Core.Models
 
         }
     }
-#nullable disable
 
-#nullable enable
     public class ObservableDictionary<TKey, TValue> : Dictionary<TKey, TValue?>
     {
         public new TValue? this[TKey key]
@@ -163,5 +160,5 @@ namespace Kenedia.Modules.Core.Models
             }
         }
     }
-#nullable disable
+
 }

@@ -20,7 +20,7 @@ namespace Kenedia.Modules.Core.Models
         public Version Version { get; set; } = new(0, 0, 0);
 
         [DataMember]
-        public Dictionary<string, object> Items { get; set; } = new();
+        public Dictionary<string, object> Items { get; set; } = [];
 
         public bool IsLoaded => DataLoaded;
 
@@ -49,7 +49,7 @@ namespace Kenedia.Modules.Core.Models
     public class DataEntry<Key, T> : BaseDataEntry
     {
         [DataMember]
-        public new Dictionary<Key, T> Items { get; protected set; } = new();
+        public new Dictionary<Key, T> Items { get; protected set; } = [];
 
         public T this[Key key]
         {
@@ -100,7 +100,7 @@ namespace Kenedia.Modules.Core.Models
     public class DataEntry<T> : BaseDataEntry
     {
         [DataMember]
-        public new List<T> Items { get; protected set; } = new();
+        public new List<T> Items { get; protected set; } = [];
 
         public T this[int key]
         {

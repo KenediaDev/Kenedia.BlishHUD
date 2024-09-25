@@ -17,13 +17,16 @@ namespace Kenedia.Modules.BuildsManager.TemplateEntries
         {
         }
 
-        public event EventHandler<ValueChangedEventArgs<Nourishment>> NourishmentChanged;
+        public Nourishment Nourishment { get => _nourishment; private set => Common.SetProperty(ref _nourishment, value); }
 
-        public Nourishment Nourishment { get => _nourishment; set => Common.SetProperty(ref _nourishment, value, OnNourishmentChanged); }
-
-        private void OnNourishmentChanged(object sender, ValueChangedEventArgs<Nourishment> e)
+        protected override void OnItemChanged(object sender, ValueChangedEventArgs<BaseItem> e)
         {
-            NourishmentChanged?.Invoke(sender, e);
+            base.OnItemChanged(sender, e);
+
+            if (e.NewValue is Nourishment nourishment)
+            {
+                Nourishment = nourishment;
+            }
         }
 
         public override byte[] AddToCodeArray(byte[] array)
@@ -52,6 +55,30 @@ namespace Kenedia.Modules.BuildsManager.TemplateEntries
             _isDisposed = true;
 
             Nourishment = null;
+        }
+
+        public override bool SetValue(TemplateSlotType slot, TemplateSubSlotType subSlot, object obj)
+        {
+            if (subSlot == TemplateSubSlotType.Item)
+            {
+                if (obj?.Equals(Item) is true)
+                {
+                    return false;
+                }
+
+                if (obj is null)
+                {
+                    Item = null;
+                    return true;
+                }
+                else if (obj is Nourishment nourishment)
+                {
+                    Item = nourishment;
+                    return true;
+                }
+            }
+
+            return false;
         }
     }
 }

@@ -17,13 +17,16 @@ namespace Kenedia.Modules.BuildsManager.TemplateEntries
         {
         }
 
-        public event EventHandler<ValueChangedEventArgs<PowerCore>> PowerCoreChanged;
+        public PowerCore PowerCore { get => _powerCore; private set => Common.SetProperty(ref _powerCore, value); }
 
-        public PowerCore PowerCore { get => _powerCore; set => Common.SetProperty(ref _powerCore, value, OnPowerCoreChanged); }
-
-        private void OnPowerCoreChanged(object sender, ValueChangedEventArgs<PowerCore> e)
+        protected override void OnItemChanged(object sender, ValueChangedEventArgs<BaseItem> e)
         {
-            PowerCoreChanged?.Invoke(sender, e);
+            base.OnItemChanged(sender, e);
+
+            if (e.NewValue is PowerCore powerCore)
+            {
+                PowerCore = powerCore;
+            }
         }
 
         public override byte[] AddToCodeArray(byte[] array)
@@ -48,10 +51,33 @@ namespace Kenedia.Modules.BuildsManager.TemplateEntries
 
         public void Dispose()
         {
-            if(_isDisposed) return;
+            if (_isDisposed) return;
             _isDisposed = true;
 
             PowerCore = null;
+        }
+
+        public override bool SetValue(TemplateSlotType slot, TemplateSubSlotType subSlot, object obj)
+        {
+            if (subSlot == TemplateSubSlotType.Item)
+            {
+                if (obj?.Equals(Item) is true)
+                {
+                    return false;
+                }
+
+                if (obj is null)
+                {
+                    Item = null;
+                    return true;
+                }
+                else if (obj is PowerCore powerCore)
+                {
+                    Item = powerCore;
+                }
+            }
+
+            return false;
         }
     }
 }

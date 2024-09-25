@@ -96,7 +96,7 @@ namespace Kenedia.Modules.Core.Services
             BorderWidth = new(2),
         };
 
-        private readonly List<GameStatusType> _gameStatuses = new();
+        private readonly List<GameStatusType> _gameStatuses = [];
 
         private GameStatusType _gameStatus = GameStatusType.None;
 

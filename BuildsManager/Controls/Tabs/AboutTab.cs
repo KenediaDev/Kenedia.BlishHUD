@@ -25,8 +25,8 @@ namespace Kenedia.Modules.BuildsManager.Controls.Tabs
         private readonly ButtonImage _editTags;
         private readonly FilterBox _tagFilter;
 
-        private readonly List<(TemplateFlag tag, Image texture, Checkbox checkbox)> _tags = new();
-        private readonly List<(EncounterFlag tag, Image texture, Checkbox checkbox)> _encounters = new();
+        private readonly List<(TemplateFlag tag, Image texture, Checkbox checkbox)> _tags = [];
+        private readonly List<(EncounterFlag tag, Image texture, Checkbox checkbox)> _encounters = [];
         private readonly bool _created = false;
         private int tagSectionWidth;
         private bool _changeBuild = true;

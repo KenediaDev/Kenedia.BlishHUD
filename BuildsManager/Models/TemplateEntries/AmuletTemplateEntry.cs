@@ -6,10 +6,11 @@ using Kenedia.Modules.BuildsManager.Utility;
 using System;
 using Kenedia.Modules.Core.Utility;
 using Kenedia.Modules.Core.Models;
+using Kenedia.Modules.BuildsManager.Interfaces;
 
 namespace Kenedia.Modules.BuildsManager.TemplateEntries
 {
-    public class AmuletTemplateEntry : TemplateEntry, IDisposable
+    public class AmuletTemplateEntry : TemplateEntry, IDisposable, IEnrichmentTemplateEntry, IStatTemplateEntry
     {
         private bool _isDisposed;
         private Stat _stat;
@@ -24,18 +25,18 @@ namespace Kenedia.Modules.BuildsManager.TemplateEntries
 
         public Trinket Amulet { get; private set; } = BuildsManager.Data?.Trinkets?.TryGetValue(92991, out Trinket accessoire) is true ? accessoire : null;
 
-        public Stat Stat { get => _stat; set => Common.SetProperty(ref _stat, value, OnStatChanged); }
+        public Stat Stat { get => _stat; private set => Common.SetProperty(ref _stat, value); }
 
-        public Enrichment Enrichment { get => _enrichment; set => Common.SetProperty(ref _enrichment, value, OnEnrichmentChanged); }
+        public Enrichment Enrichment { get => _enrichment; private set => Common.SetProperty(ref _enrichment, value); }
 
-        private void OnEnrichmentChanged(object sender, ValueChangedEventArgs<Enrichment> e)
+        protected override void OnItemChanged(object sender, ValueChangedEventArgs<BaseItem> e)
         {
-            EnrichmentChanged?.Invoke(this, e);
-        }
+            base.OnItemChanged(sender, e);
 
-        private void OnStatChanged(object sender, ValueChangedEventArgs<Stat> e)
-        {
-            StatChanged?.Invoke(this, e);
+            if (e.NewValue is Trinket trinket)
+            {
+                Amulet = trinket;
+            }
         }
 
         public override byte[] AddToCodeArray(byte[] array)
@@ -69,6 +70,53 @@ namespace Kenedia.Modules.BuildsManager.TemplateEntries
             Stat = null;
             Enrichment = null;
             Amulet = null;
+        }
+
+        public override bool SetValue(TemplateSlotType slot, TemplateSubSlotType subSlot, object obj)
+        {
+
+            if (subSlot == TemplateSubSlotType.Item)
+            {
+                //Do nothing
+            }
+            else if (subSlot == TemplateSubSlotType.Stat)
+            {
+                if (obj?.Equals(Stat) is true)
+                {
+                    return false;
+                }
+
+                if (obj is null)
+                {
+                    Stat = null;
+                    return true;
+                }
+                else if (obj is Stat stat)
+                {
+                    Stat = stat;
+                    return true;
+                }
+            }
+            else if (subSlot == TemplateSubSlotType.Infusion1)
+            {
+                if (obj?.Equals(Enrichment) is true)
+                {
+                    return false;
+                }
+
+                if (obj is null)
+                {
+                    Enrichment = null;
+                    return true;
+                }
+                else if (obj is Enrichment enrichment)
+                {
+                    Enrichment = enrichment;
+                    return true;
+                }
+            }
+
+            return false;
         }
     }
 }

@@ -49,16 +49,17 @@ namespace Kenedia.Modules.BuildsManager.Controls_Old.GearPage.GearSlots
             _infusion2Control.SetBounds(new(ItemControl.LocalBounds.Right + 2, ItemControl.LocalBounds.Top + ((infusionSize + 2) * 1), infusionSize, infusionSize));
         }
 
-        protected override void SetItems(object sender, EventArgs e)
+        protected override void SetItem(object sender, TemplateSlotChangedEventArgs e)
         {
-            base.SetItems(sender, e);
+            base.SetItem(sender, e);
 
-            var armor = TemplatePresenter?.Template?[Slot] as BackTemplateEntry;
+            if (TemplatePresenter?.Template?[Slot] is BackTemplateEntry back)
+            {
+                Infusion1 = back?.Infusion1;
+                Infusion2 = back?.Infusion2;
 
-            Infusion1 = armor?.Infusion1;
-            Infusion2 = armor?.Infusion2;
-
-            Stat = armor?.Stat;
+                Stat = back?.Stat;
+            }
         }
 
         protected override void OnClick(MouseEventArgs e)
@@ -69,19 +70,20 @@ namespace Kenedia.Modules.BuildsManager.Controls_Old.GearPage.GearSlots
 
             if (ItemControl.MouseOver)
             {
-                SelectionPanel?.SetAnchor<Stat>(ItemControl, new Rectangle(a.Location, Point.Zero).Add(ItemControl.LocalBounds), SelectionTypes.Stats, Slot, GearSubSlotType.None, (stat) => Stat = stat, 
+                SelectionPanel?.SetAnchor<Stat>(ItemControl, new Rectangle(a.Location, Point.Zero).Add(ItemControl.LocalBounds), SelectionTypes.Stats, Slot, GearSubSlotType.None,
+                    (stat) => TemplatePresenter?.Template?.SetItem(Slot, TemplateSubSlotType.Stat, stat),
                     (TemplatePresenter?.Template[Slot] as BackTemplateEntry).Back?.StatChoices,
                     (TemplatePresenter?.Template[Slot] as BackTemplateEntry).Back?.AttributeAdjustment);
             }
 
             if (_infusion1Control.MouseOver)
             {
-                SelectionPanel?.SetAnchor<Infusion>(_infusion1Control, new Rectangle(a.Location, Point.Zero).Add(_infusion1Control.LocalBounds), SelectionTypes.Items, Slot, GearSubSlotType.Infusion, (infusion) => Infusion1 = infusion);
+                SelectionPanel?.SetAnchor<Infusion>(_infusion1Control, new Rectangle(a.Location, Point.Zero).Add(_infusion1Control.LocalBounds), SelectionTypes.Items, Slot, GearSubSlotType.Infusion, (infusion) => TemplatePresenter?.Template?.SetItem(Slot, TemplateSubSlotType.Infusion1, infusion));
             }
 
             if (_infusion2Control.MouseOver)
             {
-                SelectionPanel?.SetAnchor<Infusion>(_infusion2Control, new Rectangle(a.Location, Point.Zero).Add(_infusion2Control.LocalBounds), SelectionTypes.Items, Slot, GearSubSlotType.Infusion, (infusion) => Infusion2 = infusion);
+                SelectionPanel?.SetAnchor<Infusion>(_infusion2Control, new Rectangle(a.Location, Point.Zero).Add(_infusion2Control.LocalBounds), SelectionTypes.Items, Slot, GearSubSlotType.Infusion, (infusion) => TemplatePresenter?.Template?.SetItem(Slot, TemplateSubSlotType.Infusion2, infusion));
             }
         }
 
@@ -91,120 +93,72 @@ namespace Kenedia.Modules.BuildsManager.Controls_Old.GearPage.GearSlots
 
             CreateSubMenu(() => strings.Reset, () => string.Format(strings.ResetEntry, $"{strings.Stat} {strings.And} {strings.Infusions}"), () =>
             {
-                Stat = null;
-                Infusion1 = null;
-                Infusion2 = null;
-            }, new()
-            {
-                new(() => strings.Stat,() => string.Format(strings.ResetEntry, strings.Stat),() => Stat = null),
+                TemplatePresenter?.Template.SetItem<Stat>(Slot, TemplateSubSlotType.Stat, null);
+                TemplatePresenter?.Template.SetItem<Infusion>(Slot, TemplateSubSlotType.Infusion1, null);
+                TemplatePresenter?.Template.SetItem<Infusion>(Slot, TemplateSubSlotType.Infusion2, null);
+            },
+            [
+                new(() => strings.Stat,() => string.Format(strings.ResetEntry, strings.Stat),() => TemplatePresenter?.Template.SetItem<Stat>(Slot, TemplateSubSlotType.Stat, null)),
                 new(() => strings.Infusions,() => string.Format(strings.ResetEntry, strings.Infusions),() => {
-                Infusion1 = null;
-                Infusion2 = null;
+                    TemplatePresenter?.Template.SetItem<Infusion>(Slot, TemplateSubSlotType.Infusion1, null);
+                    TemplatePresenter?.Template.SetItem<Infusion>(Slot, TemplateSubSlotType.Infusion2, null);
                 }),
-            });
+            ]);
 
             CreateSubMenu(() => strings.Fill, () => string.Format(strings.FillEntry, $"{strings.Stat} {strings.And} {strings.Infusions} {strings.EmptyJewellerySlots}"), () =>
             {
                 SetGroupStat(Stat, false);
                 SetGroupInfusion(Infusion1, false);
-            }, new()
-            {
+            },
+            [
                 new(() => strings.Stat, () => string.Format(strings.FillEntry, $"{strings.Stat} {strings.EmptyJewellerySlots}"), () => SetGroupStat(Stat, false)),
                 new(() => strings.Infusions, () => string.Format(strings.FillEntry, $"{strings.Infusions} {strings.EmptyJewellerySlots}"), () => SetGroupInfusion(Infusion1, false)),
-                });
+                ]);
 
             CreateSubMenu(() => strings.Override, () => string.Format(strings.OverrideEntry, $"{strings.Stat} {strings.And} {strings.Infusions} {strings.JewellerySlots}"), () =>
             {
                 SetGroupStat(Stat, true);
                 SetGroupInfusion(Infusion1, true);
-            }, new()
-            {
+            },
+            [
                 new(() => strings.Stat, () => string.Format(strings.OverrideEntry, $"{strings.Stat} {strings.JewellerySlots}"), () => SetGroupStat(Stat, true)),
                 new(() => strings.Infusions, () => string.Format(strings.OverrideEntry, $"{strings.Infusions} {strings.JewellerySlots}"), () => SetGroupInfusion(Infusion1, true)),
-                });
+                ]);
 
             CreateSubMenu(() => string.Format(strings.ResetAll, strings.Jewellery), () => string.Format(strings.ResetEntry, $"{strings.Stats} {strings.And} {strings.Infusions} {strings.JewellerySlots}"), () =>
             {
                 SetGroupStat(null, true);
                 SetGroupInfusion(null, true);
-            }, new()
-            {
+            },
+            [
                 new(() => strings.Stats,() => string.Format(strings.ResetEntry, $"{strings.Stats} {strings.JewellerySlots}"),() => SetGroupStat(null, true)),
                 new(() => strings.Infusions,() => string.Format(strings.ResetEntry, $"{strings.Infusions} {strings.JewellerySlots}"),() => SetGroupInfusion(null, true)),
-            });
+            ]);
         }
 
-        private void SetGroupStat(Stat stat, bool overrideExisting)
+        private void SetGroupStat(Stat stat = null, bool overrideExisting = false)
         {
-            foreach (var slot in SlotGroup)
-            {
-                switch (slot)
-                {
-                    case AccessoireSlot accessoire:
-                        accessoire.Stat = overrideExisting ? stat : accessoire.Stat ?? stat;
-                        break;
-
-                    case BackSlot back:
-                        back.Stat = overrideExisting ? stat : back.Stat ?? stat;
-                        break;
-
-                    case RingSlot ring:
-                        ring.Stat = overrideExisting ? stat : ring.Stat ?? stat;
-                        break;
-
-                    case AmuletSlot amulet:
-                        amulet.Stat = overrideExisting ? stat : amulet.Stat ?? stat;
-                        break;
-                }
-            }
+            TemplatePresenter.Template?.SetGroup(Slot, TemplateSubSlotType.Stat, stat, overrideExisting);
         }
 
-        private void SetGroupInfusion(Infusion infusion, bool overrideExisting)
+        private void SetGroupInfusion(Infusion infusion = null, bool overrideExisting = false)
         {
-            foreach (var slot in SlotGroup)
-            {
-                switch (slot)
-                {
-                    case AccessoireSlot accessoire:
-                        accessoire.Infusion = overrideExisting ? infusion : accessoire.Infusion ?? infusion;
-                        break;
-
-                    case BackSlot back:
-                        back.Infusion1 = overrideExisting ? infusion : back.Infusion1 ?? infusion;
-                        back.Infusion2 = overrideExisting ? infusion : back.Infusion2 ?? infusion;
-                        break;
-
-                    case RingSlot ring:
-                        ring.Infusion1 = overrideExisting ? infusion : ring.Infusion1 ?? infusion;
-                        ring.Infusion2 = overrideExisting ? infusion : ring.Infusion2 ?? infusion;
-                        ring.Infusion3 = overrideExisting ? infusion : ring.Infusion3 ?? infusion;
-                        break;
-                }
-            }
+            TemplatePresenter.Template?.SetGroup(Slot, TemplateSubSlotType.Infusion1, infusion, overrideExisting);
         }
 
         private void OnStatChanged(object sender, Core.Models.ValueChangedEventArgs<Stat> e)
         {
             ItemControl.Stat = Stat;
-
-            if (TemplatePresenter?.Template[Slot] is BackTemplateEntry entry)
-                entry.Stat = Stat;
         }
 
         private void OnInfusion2Changed(object sender, Core.Models.ValueChangedEventArgs<Infusion> e)
         {
             _infusion2Control.Item = Infusion2;
-
-            if (TemplatePresenter?.Template[Slot] is BackTemplateEntry entry)
-                entry.Infusion2 = Infusion2;
         }
 
         private void OnInfusion1Changed(object sender, Core.Models.ValueChangedEventArgs<Infusion> e)
         {
             _infusion1Control.Item = Infusion1;
-
-            if (TemplatePresenter?.Template[Slot] is BackTemplateEntry entry)
-                entry.Infusion1 = Infusion1;
         }
 
         protected override void DisposeControl()

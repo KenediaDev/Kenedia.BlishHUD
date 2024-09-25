@@ -29,7 +29,7 @@ namespace Kenedia.Modules.BuildsManager.Services
         public event EventHandler<TemplateTag> TagAdded;
         public event EventHandler<TemplateTag> TagRemoved;
 
-        public IReadOnlyList<TemplateTag> Tags => _tags ?? new();
+        public IReadOnlyList<TemplateTag> Tags => _tags ?? [];
 
         public async Task Load()
         {

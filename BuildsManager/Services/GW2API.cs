@@ -22,8 +22,8 @@ namespace Kenedia.Modules.BuildsManager.Services
         private CancellationTokenSource _cancellationTokenSource;
         private Exception _lastException = null;
 
-        private readonly List<int> _infusions = new()
-        {
+        private readonly List<int> _infusions =
+        [
             39336, //Mighty Infusion
             39335, //Precise Infusion
             39337, //Malign Infusion
@@ -113,23 +113,31 @@ namespace Kenedia.Modules.BuildsManager.Services
             //87504, //Swim-Speed Infusion +28
             //87504, //Swim-Speed Infusion +29
             //87504, //Swim-Speed Infusion +30
-        };
+        ];
 
-        public GW2API(Gw2ApiManager gw2ApiManager, Data data, Paths paths, NotificationBadge notificationBadge)
+        private Func<NotificationBadge> _getNotificationBadge;
+        private Func<LoadingSpinner> _getSpinner;
+
+        public GW2API(Gw2ApiManager gw2ApiManager, Data data, Paths paths, Func<NotificationBadge> notificationBadge, Func<LoadingSpinner> spinner)
         {
 
             Gw2ApiManager = gw2ApiManager;
             Data = data;
             Paths = paths;
-            NotificationBadge = notificationBadge;
+
+            _getNotificationBadge = notificationBadge;
+            _getSpinner = spinner;
         }
+
+        public NotificationBadge NotificationBadge => _getNotificationBadge?.Invoke() is NotificationBadge badge ? badge : null;
+
+        public LoadingSpinner Spinner => _getSpinner?.Invoke() is LoadingSpinner spinner ? spinner : null;
 
         public Gw2ApiManager Gw2ApiManager { get; }
 
         private Data Data { get; }
 
         public Paths Paths { get; }
-        public NotificationBadge NotificationBadge { get; }
 
         public void Cancel()
         {
@@ -154,7 +162,7 @@ namespace Kenedia.Modules.BuildsManager.Services
 
             _logger.Info($"{nameof(UpdateData)}: Fetch data ...");
 
-            LocalizedString state = new();
+            LocalizedString state = [];
 
             if (NotificationBadge is NotificationBadge notificationBadge)
             {
@@ -209,7 +217,7 @@ namespace Kenedia.Modules.BuildsManager.Services
                             {
                                 try
                                 {
-                                    List<ByteIntMap> maps = new();
+                                    List<ByteIntMap> maps = [];
 
                                     switch (item)
                                     {

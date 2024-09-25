@@ -15,7 +15,7 @@ namespace Kenedia.Modules.BuildsManager.DataModels.Items
         }
 
         [DataMember]
-        public List<BonusStat> Bonuses { get; set; } = new();
+        public List<BonusStat> Bonuses { get; set; } = [];
 
         [DataMember]
         public ConsumableDetails Details { get; set; } = new();        

@@ -6,11 +6,12 @@ using Kenedia.Modules.BuildsManager.Utility;
 using Kenedia.Modules.Core.Utility;
 using Kenedia.Modules.Core.Models;
 using System;
+using Kenedia.Modules.BuildsManager.Interfaces;
 
 namespace Kenedia.Modules.BuildsManager.TemplateEntries
 {
     public class 
-        RingTemplateEntry : TemplateEntry, IDisposable
+        RingTemplateEntry : TemplateEntry, IDisposable, ITripleInfusionTemplateEntry, IStatTemplateEntry
     {
         private bool _isDisposed;
         private Infusion _infusion1;
@@ -22,39 +23,24 @@ namespace Kenedia.Modules.BuildsManager.TemplateEntries
         {
         }
 
-        public event EventHandler<ValueChangedEventArgs<Stat>> StatChanged;
-        public event EventHandler<ValueChangedEventArgs<Infusion>> Infusion1Changed;
-        public event EventHandler<ValueChangedEventArgs<Infusion>> Infusion2Changed;
-        public event EventHandler<ValueChangedEventArgs<Infusion>> Infusion3Changed;
-
         public Trinket Ring { get; private set; } = BuildsManager.Data?.Trinkets.TryGetValue(91234, out Trinket ring) is true ? ring : null;
 
-        public Infusion Infusion1 { get => _infusion1; set => Common.SetProperty(ref _infusion1, value, OnInfusion1Changed); }
+        public Infusion Infusion1 { get => _infusion1; private set => Common.SetProperty(ref _infusion1, value); }
 
-        public Infusion Infusion2 { get=> _infusion2; set => Common.SetProperty(ref _infusion2, value, OnInfusion2Changed); }
+        public Infusion Infusion2 { get=> _infusion2; private set => Common.SetProperty(ref _infusion2, value); }
 
-        public Infusion Infusion3 { get => _infusion3; set => Common.SetProperty(ref _infusion3, value, OnInfusion3Changed); }
+        public Infusion Infusion3 { get => _infusion3; private set => Common.SetProperty(ref _infusion3, value); }
 
-        public Stat Stat { get => _stat; set => Common.SetProperty(ref _stat, value, OnStatChanged); }
+        public Stat Stat { get => _stat; private set => Common.SetProperty(ref _stat, value); }
 
-        private void OnInfusion1Changed(object sender, ValueChangedEventArgs<Infusion> e)
+        protected override void OnItemChanged(object sender, ValueChangedEventArgs<BaseItem> e)
         {
-            Infusion1Changed?.Invoke(this, e);
-        }
+            base.OnItemChanged(sender, e);
 
-        private void OnInfusion2Changed(object sender, ValueChangedEventArgs<Infusion> e)
-        {
-            Infusion2Changed?.Invoke(this, e);
-        }
-
-        private void OnInfusion3Changed(object sender, ValueChangedEventArgs<Infusion> e)
-        {
-            Infusion3Changed?.Invoke(this, e);
-        }
-
-        private void OnStatChanged(object sender, ValueChangedEventArgs<Stat> e)
-        {
-            StatChanged?.Invoke(this, e);
+            if (e.NewValue is Trinket trinket)
+            {
+                Ring = trinket;
+            }
         }
 
         public override byte[] AddToCodeArray(byte[] array)
@@ -89,10 +75,92 @@ namespace Kenedia.Modules.BuildsManager.TemplateEntries
             _isDisposed = true;
             
             Ring = null;
-            StatChanged = null;
-            Infusion1Changed = null;
-            Infusion2Changed = null;
-            Infusion3Changed = null;
+            Infusion1 = null;
+            Infusion2 = null;
+            Infusion3 = null;
+            Stat = null;
+        }
+
+        public override bool SetValue(TemplateSlotType slot, TemplateSubSlotType subSlot, object obj)
+        {
+            if (subSlot == TemplateSubSlotType.Item)
+            {
+                //Do nothing
+            }
+            else if (subSlot == TemplateSubSlotType.Stat)
+            {
+                if (obj?.Equals(Stat) is true)
+                {
+                    return false;
+                }
+
+                if (obj is null)
+                {
+                    Stat = null;
+                    return true;
+                }
+                else if (obj is Stat stat)
+                {
+                    Stat = stat;
+                    return true;
+                }
+            }
+            else if (subSlot == TemplateSubSlotType.Infusion1)
+            {
+                if (obj?.Equals(Infusion1) is true)
+                {
+                    return false;
+                }
+
+                if (obj is null)
+                {
+                    Infusion1 = null;
+                    return true;
+                }
+                else if (obj is Infusion infusion)
+                {
+                    Infusion1 = infusion;
+                    return true;
+                }
+            }
+            else if (subSlot == TemplateSubSlotType.Infusion2)
+            {
+                if (obj?.Equals(Infusion2) is true)
+                {
+                    return false;
+                }
+
+                if (obj is null)
+                {
+                    Infusion2 = null;
+                    return true;
+                }
+                else if (obj is Infusion infusion)
+                {
+                    Infusion2 = infusion;
+                    return true;
+                }
+            }
+            else if (subSlot == TemplateSubSlotType.Infusion3)
+            {
+                if (obj?.Equals(Infusion3) is true)
+                {
+                    return false;
+                }
+
+                if (obj is null)
+                {
+                    Infusion3 = null;
+                    return true;
+                }
+                else if (obj is Infusion infusion)
+                {
+                    Infusion3 = infusion;
+                    return true;
+                }
+            }
+
+            return false;
         }
     }
 }

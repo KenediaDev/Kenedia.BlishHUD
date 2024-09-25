@@ -35,7 +35,7 @@ namespace Kenedia.Modules.Core.Controls
 
         private event EventHandler TabRemoved;
 
-        public List<PanelTab> Tabs { get; } = new();
+        public List<PanelTab> Tabs { get; } = [];
 
         public PanelTab ActiveTab
         {

@@ -1,5 +1,20 @@
 ﻿namespace Kenedia.Modules.BuildsManager.Models.Templates
 {
+    public enum TemplateSubSlotType
+    {
+        Item,
+        Stat,
+        Rune,
+        Sigil1,
+        Sigil2,
+        PvpSigil,
+        //PvpSigil2,
+        Infusion1,
+        Infusion2,
+        Infusion3,
+        Enrichment,
+    }
+
     public enum TemplateSlotType
     {
         None = -1,

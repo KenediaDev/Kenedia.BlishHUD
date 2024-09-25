@@ -71,18 +71,23 @@ namespace Kenedia.Modules.BuildsManager.Services
                     //{ 0, null },  // Relic
                 };
 
-        private readonly NotificationBadge _notificationBadge;
-        private readonly LoadingSpinner _spinner;
+        private readonly Func<NotificationBadge> _getNotificationBadge;
+        private readonly Func<LoadingSpinner> _getSpinner;
+
+        public NotificationBadge NotificationBadge => _getNotificationBadge?.Invoke() is NotificationBadge badge ? badge : null;
+
+        public LoadingSpinner Spinner => _getSpinner?.Invoke() is LoadingSpinner spinner ? spinner : null;
+
         private CancellationTokenSource _cancellationTokenSource;
         private bool _isDisposed;
 
-        public Data(Paths paths, Gw2ApiManager gw2ApiManager, NotificationBadge notificationBadge, LoadingSpinner spinner)
+        public Data(Paths paths, Gw2ApiManager gw2ApiManager, Func<NotificationBadge> notificationBadge, Func<LoadingSpinner> spinner)
         {
             Paths = paths;
             Gw2ApiManager = gw2ApiManager;
 
-            _notificationBadge = notificationBadge;
-            _spinner = spinner;
+            _getNotificationBadge = notificationBadge;
+            _getSpinner = spinner;
         }
 
         public event EventHandler Loaded;
@@ -197,7 +202,7 @@ namespace Kenedia.Modules.BuildsManager.Services
                 return false;
             }
 
-            LoadingSpinner spinner = _spinner;
+            LoadingSpinner spinner = Spinner;
             LastLoadAttempt = Common.Now;
 
             BuildsManager.Logger.Info("Loading data");
@@ -210,7 +215,7 @@ namespace Kenedia.Modules.BuildsManager.Services
                 StaticVersion versions = await StaticHosting.GetStaticVersion();
                 if (versions is null)
                 {
-                    if (_notificationBadge is NotificationBadge badge)
+                    if (NotificationBadge is NotificationBadge badge)
                     {
                         var endTime = DateTime.Now.AddMinutes(3);
                         badge.AddNotification(new()
@@ -243,7 +248,7 @@ namespace Kenedia.Modules.BuildsManager.Services
                 }
                 else
                 {
-                    if (_notificationBadge is NotificationBadge badge)
+                    if (NotificationBadge is NotificationBadge badge)
                     {
                         string txt = $"Failed to load some data. Click to retry.{Environment.NewLine}Automatic retry at {DateTime.Now.AddMinutes(3):T}{loadStatus}";
                         var endTime = DateTime.Now.AddMinutes(3);

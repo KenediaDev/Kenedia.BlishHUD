@@ -42,20 +42,12 @@ namespace Kenedia.Modules.BuildsManager.Controls_Old.GearPage.GearSlots
             spriteBatch.DrawStringOnCtrl(this, (ItemControl?.Item as DataModels.Items.Enhancement)?.Details.Description ?? ItemControl?.Item?.Description, Content.DefaultFont12, _statBounds, Color.White, false, HorizontalAlignment.Left, VerticalAlignment.Top);
         }
 
-        protected override void OnItemChanged(object sender, Core.Models.ValueChangedEventArgs<BaseItem> e)
+        protected override void SetItem(object sender, TemplateSlotChangedEventArgs e)
         {
-            base.OnItemChanged(sender, e);
-
-            if (TemplatePresenter?.Template[Slot] is EnhancementTemplateEntry entry)
-                entry.Enhancement = Item as Enhancement;
-        }
-
-        protected override void SetItems(object sender, EventArgs e)
-        {
-            base.SetItems(sender, e);
-
-            var enhancement = TemplatePresenter?.Template?[Slot] as EnhancementTemplateEntry;
-            Item = enhancement?.Enhancement;
+            if (TemplatePresenter?.Template?[Slot] is EnhancementTemplateEntry enhancement)
+            {
+                Item = enhancement.Item;
+            }
         }
 
         protected override void OnClick(MouseEventArgs e)
@@ -66,7 +58,7 @@ namespace Kenedia.Modules.BuildsManager.Controls_Old.GearPage.GearSlots
 
             if (ItemControl.MouseOver)
             {
-                SelectionPanel?.SetAnchor<Enhancement>(ItemControl, new Rectangle(a.Location, Point.Zero).Add(ItemControl.LocalBounds), SelectionTypes.Items, Slot, GearSubSlotType.Item, (enhancement) => Item = enhancement);
+                SelectionPanel?.SetAnchor<Enhancement>(ItemControl, new Rectangle(a.Location, Point.Zero).Add(ItemControl.LocalBounds), SelectionTypes.Items, Slot, GearSubSlotType.Item, (enhancement) => TemplatePresenter.Template?.SetItem(Slot, TemplateSubSlotType.Item, enhancement));
             }
         }
 
@@ -74,7 +66,7 @@ namespace Kenedia.Modules.BuildsManager.Controls_Old.GearPage.GearSlots
         {
             base.CreateSubMenus();
 
-            CreateSubMenu(() => strings.Reset, () => string.Format(strings.ResetEntry, strings.Enhancement), () => Item = null);
+            CreateSubMenu(() => strings.Reset, () => string.Format(strings.ResetEntry, strings.Enhancement), () => TemplatePresenter?.Template?.SetItem<Enhancement>(Slot, TemplateSubSlotType.Item, null));
         }
     }
 }

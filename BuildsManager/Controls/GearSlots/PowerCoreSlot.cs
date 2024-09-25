@@ -47,14 +47,16 @@ namespace Kenedia.Modules.BuildsManager.Controls_Old.GearPage.GearSlots
             spriteBatch.DrawStringOnCtrl(this, _powerCoreDescription, Content.DefaultFont12, _statBounds, Color.White, false, HorizontalAlignment.Left, VerticalAlignment.Top);
         }
 
-        protected override void SetItems(object sender, EventArgs e)
+        protected override void SetItem(object sender, TemplateSlotChangedEventArgs e)
         {
-            base.SetItems(sender, e);
+            base.SetItem(sender, e);
 
-            var powerCore = TemplatePresenter?.Template?[Slot] as PowerCoreTemplateEntry;
-            Item = powerCore?.PowerCore;
-            _powerCoreName = powerCore?.PowerCore?.Name ?? strings.PowerCore;
-            _powerCoreDescription = powerCore?.PowerCore?.Description ?? string.Empty;
+            if (TemplatePresenter?.Template?[Slot] is PowerCoreTemplateEntry powerCore)
+            {
+                Item = powerCore.Item;
+                _powerCoreName = powerCore?.PowerCore?.Name ?? strings.PowerCore;
+                _powerCoreDescription = powerCore?.PowerCore?.Description ?? string.Empty;
+            }
         }
 
         protected override void OnClick(MouseEventArgs e)
@@ -65,26 +67,15 @@ namespace Kenedia.Modules.BuildsManager.Controls_Old.GearPage.GearSlots
 
             if (ItemControl.MouseOver)
             {
-                SelectionPanel?.SetAnchor<PowerCore>(ItemControl, new Rectangle(a.Location, Point.Zero).Add(ItemControl.LocalBounds), SelectionTypes.Items, Slot, GearSubSlotType.Item, (powerCores) => Item = powerCores);
+                SelectionPanel?.SetAnchor<PowerCore>(ItemControl, new Rectangle(a.Location, Point.Zero).Add(ItemControl.LocalBounds), SelectionTypes.Items, Slot, GearSubSlotType.Item, (powerCore) => TemplatePresenter.Template?.SetItem(Slot, TemplateSubSlotType.Item, powerCore));
             }
-        }
-
-        protected override void OnItemChanged(object sender, Core.Models.ValueChangedEventArgs<BaseItem> e)
-        {
-            base.OnItemChanged(sender, e);
-
-            _powerCoreName = Item?.Name ?? strings.PowerCore;
-            _powerCoreDescription = Item?.Description ?? string.Empty;
-
-            if (TemplatePresenter?.Template[Slot] is PowerCoreTemplateEntry entry)
-                entry.PowerCore = Item as PowerCore;
         }
 
         protected override void CreateSubMenus()
         {
             base.CreateSubMenus();
 
-            CreateSubMenu(() => strings.Reset, () => string.Format(strings.ResetEntry, strings.PowerCore), () => Item = null);
+            CreateSubMenu(() => strings.Reset, () => string.Format(strings.ResetEntry, strings.PowerCore), () => TemplatePresenter?.Template?.SetItem<PowerCore>(Slot, TemplateSubSlotType.Item, null));
         }
     }
 }

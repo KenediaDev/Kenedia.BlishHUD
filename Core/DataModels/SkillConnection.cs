@@ -32,29 +32,29 @@ namespace Kenedia.Modules.Core.DataModels
             
             if(c.Chain is not null)
             {
-                Chain = new()
-                {
+                Chain =
+                [
                     c.Chain.First,
                     c.Chain.Second,
                     c.Chain.Third,
                     c.Chain.Fourth,
                     c.Chain.Fifth,
-                };
+                ];
 
                 _ = Chain.RemoveAll(e => e == null);
             }
 
             if(c.FlipSkills is not null)
             {
-                FlipSkills = new()
-                {
+                FlipSkills =
+                [
                     c.FlipSkills.Default,
                     c.FlipSkills.State1,
                     c.FlipSkills.State2,
                     c.FlipSkills.State3,
                     c.FlipSkills.State4,
                     c.FlipSkills.State5,
-                };
+                ];
 
                 _ = FlipSkills.RemoveAll(e => e == null);
             }
@@ -97,7 +97,7 @@ namespace Kenedia.Modules.Core.DataModels
         public Pets Pets { get; set; }
         public Traited Traited { get; set; }
         public Transform Transform { get; set; }
-        public List<ProfessionType> Professions { get; set; } = new();
+        public List<ProfessionType> Professions { get; set; } = [];
     }
 
     public class BaseConnectionProperty

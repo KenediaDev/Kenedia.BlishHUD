@@ -9,17 +9,19 @@ using Kenedia.Modules.BuildsManager.Utility;
 using Kenedia.Modules.Core.Utility;
 using Kenedia.Modules.Core.Models;
 using Kenedia.Modules.Core.Extensions;
+using Kenedia.Modules.BuildsManager.Interfaces;
+using System.Diagnostics;
 
 namespace Kenedia.Modules.BuildsManager.TemplateEntries
 {
 
-    public class WeaponTemplateEntry : TemplateEntry, IDisposable
+    public class WeaponTemplateEntry : TemplateEntry, IDisposable, IWeaponTemplateEntry, IStatTemplateEntry, ISingleSigilTemplateEntry, IPvpSigilTemplateEntry, ISingleInfusionTemplateEntry
     {
         private bool _isDisposed;
         private Weapon _weapon;
-        private Sigil _sigil;
+        private Sigil _sigil1;
         private Sigil _pvpSigil;
-        private Infusion _infusion;
+        private Infusion _infusion1;
         private Stat _stat;
         private WeaponTemplateEntry _pairedWeapon;
 
@@ -27,113 +29,33 @@ namespace Kenedia.Modules.BuildsManager.TemplateEntries
         {
         }
 
-        // All properties shall be created by the following pattern:
-        // public Armor Armor { get => _armor; set => Common.SetProperty(ref _armor, value, OnArmorChanged); }
-        // if required generate a field for the property
-        // if required generate a EventHandler like this:
-        // public event EventHandler<ValueChangedEventArgs<Armor>> ArmorChanged;
-        // if required generate a method like this:
-        // private void OnArmorChanged(object sender, ValueChangedEventArgs<Armor> e)
-        // {
-        //     ArmorChanged?.Invoke(this, e);
-        // }
+        public Weapon Weapon { get => _weapon; private set => Common.SetProperty(ref _weapon, value); }
 
-        public event EventHandler<(TemplateSlotType slot, BaseItem item, Stat stat)> TemplateSlotChanged;
-        public event EventHandler<ValueChangedEventArgs<Weapon>> WeaponChanged;
-        public event EventHandler<ValueChangedEventArgs<Sigil>> SigilChanged;
-        public event EventHandler<ValueChangedEventArgs<Sigil>> PvpSigilChanged;
-        public event EventHandler<ValueChangedEventArgs<Infusion>> InfusionChanged;
-        public event EventHandler<ValueChangedEventArgs<Stat>> StatChanged;
+        public Sigil Sigil1 { get => _sigil1; private set => Common.SetProperty(ref _sigil1, value); }
 
-        public Weapon Weapon { get => _weapon; set => Common.SetProperty(ref _weapon, value, OnWeaponChanged); }
+        public Sigil PvpSigil { get => _pvpSigil; private set => Common.SetProperty(ref _pvpSigil, value); }
 
-        public Sigil Sigil { get => _sigil; set => Common.SetProperty(ref _sigil, value, OnSigilChanged); }
+        public Infusion Infusion1 { get => _infusion1; private set => Common.SetProperty(ref _infusion1, value); }
 
-        public Sigil PvpSigil { get => _pvpSigil; set => Common.SetProperty(ref _pvpSigil, value, OnPvpSigilChanged); }
+        public Stat Stat { get => _stat; private set => Common.SetProperty(ref _stat, value); }
 
-        public Infusion Infusion { get => _infusion; set => Common.SetProperty(ref _infusion, value, OnInfusionChanged); }
+        public WeaponTemplateEntry PairedWeapon { get => _pairedWeapon; set => Common.SetProperty(ref _pairedWeapon, value); }
 
-        public Stat Stat { get => _stat; set => Common.SetProperty(ref _stat, value, OnStatChanged); }
-
-        public WeaponTemplateEntry PairedWeapon { get => _pairedWeapon; set => Common.SetProperty(ref _pairedWeapon, value, SetPairedWeapon); }
-
-        private void SetPairedWeapon(object sender, ValueChangedEventArgs<WeaponTemplateEntry> e)
+        protected override void OnItemChanged(object sender, ValueChangedEventArgs<BaseItem> e)
         {
-            if (e.OldValue != null)
+            base.OnItemChanged(sender, e);
+
+            Debug.WriteLine($"OnItemChanged {e.NewValue}");
+            if (e.NewValue is null)
             {
-                e.OldValue.WeaponChanged -= OnPairedWeaponChanged;
-                e.OldValue.StatChanged -= OnPairedStatChanged;
+                Weapon = null;
             }
-
-            if (e.NewValue != null)
+            else if (e.NewValue is Weapon weapon)
             {
-                e.NewValue.WeaponChanged += OnPairedWeaponChanged;
-                e.NewValue.StatChanged += OnPairedStatChanged;
+
+                Debug.WriteLine($"weapon {weapon?.Name}");
+                Weapon = weapon;
             }
-        }
-
-        private void OnPairedStatChanged(object sender, ValueChangedEventArgs<Stat> e)
-        {
-            if (PairedWeapon is not null)
-            {
-                if (PairedWeapon.Slot is TemplateSlotType.MainHand or TemplateSlotType.AltMainHand)
-                {
-                    if (PairedWeapon.Weapon is not null && PairedWeapon.Weapon.WeaponType.IsTwoHanded())
-                    {
-                        Stat = PairedWeapon.Stat;
-                    }
-                    else if (Weapon is not null && Weapon.WeaponType.IsTwoHanded())
-                    {
-
-                    }
-                }
-            }
-        }
-
-        private void OnPairedWeaponChanged(object sender, ValueChangedEventArgs<Weapon> e)
-        {
-            if (PairedWeapon is not null)
-            {
-                if (PairedWeapon.Slot is TemplateSlotType.MainHand or TemplateSlotType.AltMainHand)
-                {
-                    if (PairedWeapon.Weapon is not null && PairedWeapon.Weapon.WeaponType.IsTwoHanded())
-                    {
-                        Weapon = PairedWeapon.Weapon;
-                        Stat = PairedWeapon.Stat;
-                    }
-                    else if (Weapon is not null && Weapon.WeaponType.IsTwoHanded())
-                    {
-                        Weapon = null;
-                    }
-                }
-            }
-        }
-
-        private void OnWeaponChanged(object sender, ValueChangedEventArgs<Weapon> e)
-        {
-            WeaponChanged?.Invoke(this, e);
-            TemplateSlotChanged?.Invoke(this, (Slot, e.NewValue, Stat));
-        }
-
-        private void OnSigilChanged(object sender, ValueChangedEventArgs<Sigil> e)
-        {
-            SigilChanged?.Invoke(this, e);
-        }
-
-        private void OnPvpSigilChanged(object sender, ValueChangedEventArgs<Sigil> e)
-        {
-            PvpSigilChanged?.Invoke(this, e);
-        }
-
-        private void OnInfusionChanged(object sender, ValueChangedEventArgs<Infusion> e)
-        {
-            InfusionChanged?.Invoke(this, e);
-        }
-
-        private void OnStatChanged(object sender, ValueChangedEventArgs<Stat> e)
-        {
-            StatChanged?.Invoke(this, e);
-            TemplateSlotChanged?.Invoke(this, (Slot, Weapon, e.NewValue));
         }
 
         public override byte[] AddToCodeArray(byte[] array)
@@ -142,9 +64,9 @@ namespace Kenedia.Modules.BuildsManager.TemplateEntries
             {
                 (byte)(Weapon?.WeaponType ?? ItemWeaponType.Unknown),
                 Stat ?.MappedId ?? 0,
-                Sigil ?.MappedId ?? 0,
+                Sigil1 ?.MappedId ?? 0,
                 PvpSigil ?.MappedId ?? 0,
-                Infusion ?.MappedId ?? 0,
+                Infusion1 ?.MappedId ?? 0,
             }).ToArray();
         }
 
@@ -156,9 +78,9 @@ namespace Kenedia.Modules.BuildsManager.TemplateEntries
             {
                 Weapon = Enum.TryParse($"{array[0]}", out ItemWeaponType weaponType) ? BuildsManager.Data.Weapons.Values.Where(e => e.WeaponType == weaponType).FirstOrDefault() : null;
                 Stat = BuildsManager.Data.Stats.Items.Where(e => e.Value.MappedId == array[1]).FirstOrDefault().Value;
-                Sigil = BuildsManager.Data.PveSigils.Items.Where(e => e.Value.MappedId == array[2]).FirstOrDefault().Value;
+                Sigil1 = BuildsManager.Data.PveSigils.Items.Where(e => e.Value.MappedId == array[2]).FirstOrDefault().Value;
                 PvpSigil = BuildsManager.Data.PvpSigils.Items.Where(e => e.Value.MappedId == array[3]).FirstOrDefault().Value;
-                Infusion = BuildsManager.Data.Infusions.Items.Where(e => e.Value.MappedId == array[4]).FirstOrDefault().Value;
+                Infusion1 = BuildsManager.Data.Infusions.Items.Where(e => e.Value.MappedId == array[4]).FirstOrDefault().Value;
             }
 
             return array is not null && array.Length > 0 ? GearTemplateCode.RemoveFromStart(array, newStartIndex) : array;
@@ -170,10 +92,107 @@ namespace Kenedia.Modules.BuildsManager.TemplateEntries
             _isDisposed = true;
 
             Weapon = null;
-            Sigil = null;
+            Sigil1 = null;
             PvpSigil = null;
-            Infusion = null;
+            Infusion1 = null;
             Stat = null;
+        }
+
+        public override bool SetValue(TemplateSlotType slot, TemplateSubSlotType subSlot, object obj)
+        {
+            if (subSlot == TemplateSubSlotType.Item)
+            {
+                if (obj?.Equals(Item) is true)
+                {
+                    return false;
+                }
+
+                if (obj is null)
+                {
+                    Item = null;
+                    return true;
+                }
+                else if (obj is Weapon weapon)
+                {
+                    Item = weapon;
+                    return true;
+                }
+            }
+
+            else if (subSlot is TemplateSubSlotType.Stat)
+            {
+                if (obj?.Equals(Stat) is true)
+                {
+                    return false;
+                }
+
+                if (obj is null)
+                {
+                    Stat = null;
+                    return true;
+                }
+                else if (obj is Stat stat)
+                {
+                    Stat = stat;
+                    return true;
+                }
+            }
+            else if (subSlot == TemplateSubSlotType.Sigil1)
+            {
+                if (obj?.Equals(Sigil1) is true)
+                {
+                    return false;
+                }
+
+                if (obj is null)
+                {
+                    Sigil1 = null;
+                    return true;
+                }
+                else if (obj is Sigil sigil)
+                {
+                    Sigil1 = sigil;
+                    return true;
+                }
+            }
+            else if (subSlot == TemplateSubSlotType.PvpSigil)
+            {
+                if (obj?.Equals(PvpSigil) is true)
+                {
+                    return false;
+                }
+
+                if (obj is null)
+                {
+                    PvpSigil = null;
+                    return true;
+                }
+                else if (obj is Sigil sigil)
+                {
+                    PvpSigil = sigil;
+                    return true;
+                }
+            }
+            else if (subSlot == TemplateSubSlotType.Infusion1)
+            {
+                if (obj?.Equals(Infusion1) is true)
+                {
+                    return false;
+                }
+
+                if (obj is null)
+                {
+                    Infusion1 = null;
+                    return true;
+                }
+                else if (obj is Infusion infusion)
+                {
+                    Infusion1 = infusion;
+                    return true;
+                }
+            }
+
+            return false;
         }
     }
 }
