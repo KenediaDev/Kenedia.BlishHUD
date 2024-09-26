@@ -40,7 +40,7 @@ namespace Kenedia.Modules.BuildsManager.Models
 
         public event ValueChangedEventHandler<GameModeType> GameModeChanged;
 
-        public event ValueChangedEventHandler<AttunementType> AttunementChanged;
+        public event AttunementChangedEventHandler AttunementChanged;
 
         public event DictionaryItemChangedEventHandler<PetSlotType, Pet> PetChanged;
 
@@ -75,9 +75,9 @@ namespace Kenedia.Modules.BuildsManager.Models
             Template = template;
         }
 
-        public AttunementType MainAttunement { get => _mainAttunement; set => Common.SetProperty(ref _mainAttunement, value, On_AttunementChanged); }
+        public AttunementType MainAttunement { get => _mainAttunement; private set => Common.SetProperty(ref _mainAttunement, value); }
 
-        public AttunementType AltAttunement { get => _altAttunement; set => Common.SetProperty(ref _altAttunement, value, On_AttunementChanged); }
+        public AttunementType AltAttunement { get => _altAttunement; private set => Common.SetProperty(ref _altAttunement, value); }
 
         public LegendSlotType LegendSlot { get => _legendSlot; set => Common.SetProperty(ref _legendSlot, value, OnLegendSlotChanged); }
 
@@ -149,6 +149,7 @@ namespace Kenedia.Modules.BuildsManager.Models
         private void OnEliteSpecializationChanged(object sender, SpecializationChangedEventArgs e)
         {
             EliteSpecializationChanged?.Invoke(sender, e);
+            SetAttunement(MainAttunement);
         }
 
         private void OnSpecializationChanged(object sender, SpecializationChangedEventArgs e)
@@ -214,19 +215,26 @@ namespace Kenedia.Modules.BuildsManager.Models
             GameModeChanged?.Invoke(sender, e);
         }
 
-        private void On_AttunementChanged(object sender, ValueChangedEventArgs<AttunementType> e)
+        private void OnAttunementChanged(object sender, AttunementChangedEventArgs e)
         {
             AttunementChanged?.Invoke(sender, e);
         }
 
-        public void SetAttunmenemt(AttunementType attunement)
+        public void SetAttunement(AttunementType attunement)
         {
-            if (_mainAttunement.Equals(attunement)) return;
+            var slot = MainAttunement != attunement ? AttunementSlotType.Main
+                : AltAttunement != attunement ? AttunementSlotType.Alt:
+                AttunementSlotType.Main;
 
-            _altAttunement = _mainAttunement;
-            _mainAttunement = attunement;
+            if (MainAttunement != attunement || AltAttunement != attunement)
+            {
+                var previous = MainAttunement;
 
-            On_AttunementChanged(this, new(_altAttunement, _mainAttunement));
+                MainAttunement = attunement;
+                AltAttunement = Template.EliteSpecializationId == (int)SpecializationType.Weaver ? previous : AttunementType.None;
+
+                OnAttunementChanged(this, new(slot, previous, attunement));
+            }
         }
 
         public void SwapLegend()

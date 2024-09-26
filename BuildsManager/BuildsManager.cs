@@ -95,6 +95,7 @@ namespace Kenedia.Modules.BuildsManager
             TemplateTags = ServiceProvider.GetRequiredService<TemplateTags>();
             GW2API = ServiceProvider.GetRequiredService<GW2API>();
 
+            CreateCornerIcons();
         }
 
         public event ValueChangedEventHandler<bool> TemplatesLoadedDone;

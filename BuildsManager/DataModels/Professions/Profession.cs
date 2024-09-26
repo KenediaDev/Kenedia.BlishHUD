@@ -369,6 +369,21 @@ namespace Kenedia.Modules.BuildsManager.DataModels.Professions
                 var skills = apiSkills.Where(skill => prof.Skills.FirstOrDefault(e => e.Id == skill.Id) is not null || weaponSkills.FirstOrDefault(e => e.Id == skill.Id) is not null);
                 skills = skills.Concat(apiSkills.Where(e => e.Professions.Count <= 2 && e.Professions.Contains($"{professionType}")).ToList()).Distinct();
 
+                var traitIds = apiSpecializations.Where(e => e.Profession == $"{professionType}").SelectMany(x => x.MajorTraits);
+                if (traitIds.Any())
+                {
+                    var traitSkills = apiTraits.Where(e => traitIds.Contains(e.Id) && e.Skills is not null).SelectMany(e => e.Skills).Select(x => x.Id).ToList();
+
+                    if (traitSkills.Count > 0)
+                    {
+                        var traitedSkills = apiSkills.Where(e => traitSkills.Contains(e.Id)).ToList();
+                        if (traitedSkills.Count > 0)
+                        {
+                            skills = skills.Concat(traitedSkills).Distinct();
+                        }
+                    }
+                }
+
                 foreach (var apiSkill in skills)
                 {
                     bool exists = Skills.TryGetValue(apiSkill.Id, out Skill skill);

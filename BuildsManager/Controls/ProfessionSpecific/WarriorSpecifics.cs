@@ -32,7 +32,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.ProfessionSpecific
             new(2492047),
         };
 
-        private readonly SkillIcon[] _skills = {
+        protected override SkillIcon[] Skills { get; } = {
             new(),
             new(),
         };
@@ -54,8 +54,8 @@ namespace Kenedia.Modules.BuildsManager.Controls.ProfessionSpecific
                     {
                         _charges[i].Bounds = new(xOffset + 90 + 1 + (i * 17), 57, 12, 24);
                     }
-                    _skills[0].Bounds = new(xOffset, 56, 42, 42);
-                    _skills[1].Bounds = new(xOffset + 44, 56, 42, 42);
+                    Skills[0].Bounds = new(xOffset, 56, 42, 42);
+                    Skills[1].Bounds = new(xOffset + 44, 56, 42, 42);
                     _barBackground.Bounds = new(xOffset + 90, 83, 165, 14);
 
                     break;
@@ -73,8 +73,8 @@ namespace Kenedia.Modules.BuildsManager.Controls.ProfessionSpecific
                     _adrenalin3.Bounds = new(xOffset + 3, 80, 163, 14);
                     _adrenalin3.TextureRegion = new(0, 25, 217, 14);
 
-                    _skills[0].Bounds = new(xOffset + 211, 56, 42, 42);
-                    _skills[1].Bounds = new(xOffset + 211 - 45, 56, 42, 42);
+                    Skills[0].Bounds = new(xOffset + 211, 56, 42, 42);
+                    Skills[1].Bounds = new(xOffset + 211 - 45, 56, 42, 42);
                     break;
 
                 case (int)SpecializationType.Spellbreaker:
@@ -87,8 +87,8 @@ namespace Kenedia.Modules.BuildsManager.Controls.ProfessionSpecific
                     _adrenalin2.Bounds = new(xOffset + 3, 80, 163, 14);
                     _adrenalin2.TextureRegion = new(0, 25, 145, 14);
 
-                    _skills[0].Bounds = new(xOffset + 211, 56, 42, 42);
-                    _skills[1].Bounds = new(xOffset + 211 - 45, 56, 42, 42);
+                    Skills[0].Bounds = new(xOffset + 211, 56, 42, 42);
+                    Skills[1].Bounds = new(xOffset + 211 - 45, 56, 42, 42);
                     break;
 
                 default:
@@ -104,7 +104,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.ProfessionSpecific
                     _adrenalin3.Bounds = new(xOffset + 3, 80, 208, 14);
                     _adrenalin3.TextureRegion = new(0, 25, 217, 14);
 
-                    _skills[0].Bounds = new(xOffset + 211, 56, 42, 42);
+                    Skills[0].Bounds = new(xOffset + 211, 56, 42, 42);
                     break;
             }
         }
@@ -116,8 +116,8 @@ namespace Kenedia.Modules.BuildsManager.Controls.ProfessionSpecific
             {
                 case (int)SpecializationType.Bladesworn:
                     _barBackground.Draw(this, spriteBatch);
-                    _skills[0].Draw(this, spriteBatch, RelativeMousePosition);
-                    _skills[1].Draw(this, spriteBatch, RelativeMousePosition);
+                    Skills[0].Draw(this, spriteBatch, RelativeMousePosition);
+                    Skills[1].Draw(this, spriteBatch, RelativeMousePosition);
 
                     for (int i = 0; i < _charges.Length; i++)
                     {
@@ -127,16 +127,16 @@ namespace Kenedia.Modules.BuildsManager.Controls.ProfessionSpecific
                     break;
 
                 case (int)SpecializationType.Spellbreaker:
-                    _skills[0].Draw(this, spriteBatch, RelativeMousePosition);
-                    _skills[1].Draw(this, spriteBatch, RelativeMousePosition);
+                    Skills[0].Draw(this, spriteBatch, RelativeMousePosition);
+                    Skills[1].Draw(this, spriteBatch, RelativeMousePosition);
                     _emptyAdrenalin.Draw(this, spriteBatch);
                     _adrenalin1.Draw(this, spriteBatch);
                     _adrenalin2.Draw(this, spriteBatch);
                     break;
 
                 case (int)SpecializationType.Berserker:
-                    _skills[0].Draw(this, spriteBatch, RelativeMousePosition);
-                    _skills[1].Draw(this, spriteBatch, RelativeMousePosition);
+                    Skills[0].Draw(this, spriteBatch, RelativeMousePosition);
+                    Skills[1].Draw(this, spriteBatch, RelativeMousePosition);
                     _emptyAdrenalin.Draw(this, spriteBatch);
                     _adrenalin1.Draw(this, spriteBatch);
                     _adrenalin2.Draw(this, spriteBatch);
@@ -144,7 +144,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.ProfessionSpecific
                     break;
 
                 default:
-                    _skills[0].Draw(this, spriteBatch, RelativeMousePosition);
+                    Skills[0].Draw(this, spriteBatch, RelativeMousePosition);
                     _emptyAdrenalin.Draw(this, spriteBatch);
                     _adrenalin1.Draw(this, spriteBatch);
                     _adrenalin2.Draw(this, spriteBatch);
@@ -187,13 +187,13 @@ namespace Kenedia.Modules.BuildsManager.Controls.ProfessionSpecific
 
             if (TemplatePresenter.Template.EliteSpecialization?.Id is (int) SpecializationType.Spellbreaker or (int) SpecializationType.Berserker)
             {
-                _skills[0].Skill = GetSkill(SkillSlot.Profession2);
-                _skills[1].Skill = GetSkill(SkillSlot.Profession1);
+                Skills[0].Skill = GetSkill(SkillSlot.Profession2);
+                Skills[1].Skill = GetSkill(SkillSlot.Profession1);
             }
             else
             {
-                _skills[0].Skill = GetSkill(SkillSlot.Profession1);
-                _skills[1].Skill = GetSkill(SkillSlot.Profession2);
+                Skills[0].Skill = GetSkill(SkillSlot.Profession1);
+                Skills[1].Skill = GetSkill(SkillSlot.Profession2);
             }
         }
     }

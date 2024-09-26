@@ -8,6 +8,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System.Linq;
 using Kenedia.Modules.BuildsManager.Models;
+using Blish_HUD.Content;
 
 namespace Kenedia.Modules.BuildsManager.Controls.ProfessionSpecific
 {
@@ -26,8 +27,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.ProfessionSpecific
         private readonly DetailedTexture _lifeForce = new(156436);
         private readonly DetailedTexture _shades = new(1636744);
 
-        private readonly SkillIcon[] _skills =
-        {
+        protected override SkillIcon[] Skills { get; } = {
             new(),
             new(),
             new(),
@@ -52,12 +52,12 @@ namespace Kenedia.Modules.BuildsManager.Controls.ProfessionSpecific
                     _shades.TextureRegion = new(0, 2, _shades.Texture.Width, _shades.Texture.Height - 4);
 
                     // Shade
-                    _skills[0].Bounds = new(xOffset + 10, 25, 42, 42);
+                    Skills[0].Bounds = new(xOffset + 10, 25, 42, 42);
 
                     //Shade Skills
-                    for (int i = 1; i < _skills.Length; i++)
+                    for (int i = 1; i < Skills.Length; i++)
                     {
-                        _skills[i].Bounds = new(xOffset + 54 + (i * 39), 28, 36, 36);
+                        Skills[i].Bounds = new(xOffset + 54 + (i * 39), 28, 36, 36);
                     }
 
                     _lifeForceBarBackground.Bounds = new(xOffset + 10, 75, 250, 20);
@@ -68,14 +68,14 @@ namespace Kenedia.Modules.BuildsManager.Controls.ProfessionSpecific
                 case (int)SpecializationType.Harbinger:
                     _lifeForceBarBackground.Bounds = new(xOffset + 10, 70, 205, 20);
                     _lifeForceBar.Bounds = new(xOffset + 11, 71, 203, 18);
-                    _skills[0].Bounds = new(xOffset + 215, 55, 42, 42);
+                    Skills[0].Bounds = new(xOffset + 215, 55, 42, 42);
                     break;
 
                 default:
                     _lifeForceBarBackground.Bounds = new(xOffset + 10, 70, 205, 20);
                     _lifeForce.Bounds = new(xOffset + 10, 70, 205, 20);
                     _lifeForce.TextureRegion = new(1, 42, _lifeForce.Texture.Width - 30, _lifeForce.Texture.Height - 49);
-                    _skills[0].Bounds = new(xOffset + 215, 55, 42, 42);
+                    Skills[0].Bounds = new(xOffset + 215, 55, 42, 42);
                     break;
             }
         }
@@ -90,9 +90,9 @@ namespace Kenedia.Modules.BuildsManager.Controls.ProfessionSpecific
                     _lifeForceBarBackground.Draw(this, spriteBatch);
                     _lifeForceScourge.Draw(this, spriteBatch, null, Color.LightGray * 0.7F);
 
-                    for (int i = 0; i < _skills.Length; i++)
+                    for (int i = 0; i < Skills.Length; i++)
                     {
-                        _skills[i].Draw(this, spriteBatch, RelativeMousePosition);
+                        Skills[i].Draw(this, spriteBatch, RelativeMousePosition);
                     }
 
                     spriteBatch.DrawStringOnCtrl(this, "100%", Content.DefaultFont12, _lifeForceScourge.Bounds, Color.White, false, HorizontalAlignment.Center, VerticalAlignment.Middle);
@@ -101,14 +101,14 @@ namespace Kenedia.Modules.BuildsManager.Controls.ProfessionSpecific
                 case (int)SpecializationType.Harbinger:
                     _lifeForceBarBackground.Draw(this, spriteBatch);
                     _lifeForceBar.Draw(this, spriteBatch, null, Color.LightGray * 0.7F);
-                    _skills[0].Draw(this, spriteBatch, RelativeMousePosition);
+                    Skills[0].Draw(this, spriteBatch, RelativeMousePosition);
                     spriteBatch.DrawStringOnCtrl(this, "100%", Content.DefaultFont12, _lifeForceBar.Bounds, Color.White, false, HorizontalAlignment.Center, VerticalAlignment.Middle);
                     break;
 
                 default:
                     _lifeForceBarBackground.Draw(this, spriteBatch);
                     _lifeForce.Draw(this, spriteBatch, null, Color.LightGray * 0.7F);
-                    _skills[0].Draw(this, spriteBatch, RelativeMousePosition);
+                    Skills[0].Draw(this, spriteBatch, RelativeMousePosition);
                     spriteBatch.DrawStringOnCtrl(this, "100%", Content.DefaultFont12, _lifeForce.Bounds, Color.White, false, HorizontalAlignment.Center, VerticalAlignment.Middle);
                     break;
             }
@@ -141,23 +141,28 @@ namespace Kenedia.Modules.BuildsManager.Controls.ProfessionSpecific
             switch (TemplatePresenter.Template.EliteSpecialization?.Id)
             {
                 case (int)SpecializationType.Scourge:
-                    _skills[0].Skill = GetSkill(SkillSlot.Profession1);
-                    _skills[1].Skill = GetSkill(SkillSlot.Profession2);
-                    _skills[2].Skill = GetSkill(SkillSlot.Profession3);
-                    _skills[3].Skill = GetSkill(SkillSlot.Profession4);
-                    _skills[4].Skill = GetSkill(SkillSlot.Profession5);
+                    Skills[0].Skill = GetSkill(SkillSlot.Profession1);
+                    Skills[1].Skill = GetSkill(SkillSlot.Profession2);
+                    Skills[2].Skill = GetSkill(SkillSlot.Profession3);
+                    Skills[3].Skill = GetSkill(SkillSlot.Profession4);
+
+
+                    _shades.Texture = TemplatePresenter.Template.Specializations.Specialization3.Traits.GrandMaster?.Id == 2112 ?  AsyncTexture2D.FromAssetId(1636742) : AsyncTexture2D.FromAssetId(1636744);
+
+                    int masterSkill = TemplatePresenter.Template.Specializations.Specialization3.Traits.Master?.Skills?.FirstOrDefault() ?? 0;
+                    Skills[4].Skill = skills.Values.FirstOrDefault(e => e.Id == masterSkill) ?? GetSkill(SkillSlot.Profession5);
                     break;
 
                 case (int)SpecializationType.Harbinger:
-                    _skills[0].Skill = skills.Values.FirstOrDefault(e => e.Id == 62567);
+                    Skills[0].Skill = skills.Values.FirstOrDefault(e => e.Id == 62567);
                     break;
 
                 case (int)SpecializationType.Reaper:
-                    _skills[0].Skill = skills.Values.FirstOrDefault(e => e.Id == 30792);
+                    Skills[0].Skill = skills.Values.FirstOrDefault(e => e.Id == 30792);
                     break;
 
                 default:
-                    _skills[0].Skill = GetSkill(SkillSlot.Profession1);
+                    Skills[0].Skill = GetSkill(SkillSlot.Profession1);
                     break;
             }
         }

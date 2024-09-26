@@ -36,7 +36,8 @@ namespace Kenedia.Modules.BuildsManager.Controls.ProfessionSpecific
 
         private readonly DetailedTexture _pagesBackground = new(1636722);
         private readonly DetailedTexture _pages = new(1636728);
-        private readonly SkillIcon[] _skills = {
+
+        protected override SkillIcon[] Skills { get; } = {
             new(),
             new(),
             new(),
@@ -57,17 +58,17 @@ namespace Kenedia.Modules.BuildsManager.Controls.ProfessionSpecific
                 case (int)SpecializationType.Firebrand:
                     _pagesBackground.Bounds = new(xOffset + 10, 50, 256, 64);
                     _pages.Bounds = new(xOffset + 125, 50, 140, 44);
-                    for (int i = 0; i < _skills.Length; i++)
+                    for (int i = 0; i < Skills.Length; i++)
                     {
-                        _skills[i].Bounds = new(xOffset + 3 + (i * 40), 53, 38, 38);
+                        Skills[i].Bounds = new(xOffset + 3 + (i * 40), 53, 38, 38);
                     }
 
                     break;
 
                 default:
-                    for (int i = 0; i < _skills.Length; i++)
+                    for (int i = 0; i < Skills.Length; i++)
                     {
-                        _skills[i].Bounds = new(xOffset + 100 + (i * 42), 56, 42, 42);
+                        Skills[i].Bounds = new(xOffset + 100 + (i * 42), 56, 42, 42);
                     }
 
                     break;
@@ -86,9 +87,9 @@ namespace Kenedia.Modules.BuildsManager.Controls.ProfessionSpecific
                     break;
             }
 
-            for (int i = 0; i < _skills.Length; i++)
+            for (int i = 0; i < Skills.Length; i++)
             {
-                _skills[i].Draw(this, spriteBatch);
+                Skills[i].Draw(this, spriteBatch, RelativeMousePosition);
             }
         }
 
@@ -120,9 +121,9 @@ namespace Kenedia.Modules.BuildsManager.Controls.ProfessionSpecific
                 return skill;
             }
 
-            _skills[0].Skill = GetSkill(SkillSlot.Profession1);
-            _skills[1].Skill = GetSkill(SkillSlot.Profession2);
-            _skills[2].Skill = GetSkill(SkillSlot.Profession3);
+            Skills[0].Skill = GetSkill(SkillSlot.Profession1);
+            Skills[1].Skill = GetSkill(SkillSlot.Profession2);
+            Skills[2].Skill = GetSkill(SkillSlot.Profession3);
         }
     }
 }

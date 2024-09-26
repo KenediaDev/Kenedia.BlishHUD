@@ -42,7 +42,11 @@ namespace Kenedia.Modules.BuildsManager.Controls.ProfessionSpecific
             {
                 Parent = Graphics.SpriteScreen,
                 Visible = false,
-                OnClickAction = (legend) => TemplatePresenter.Template?.SetLegend(_selectedLegendSlot, legend),
+                OnClickAction = (legend) =>
+                {
+                    TemplatePresenter.Template?.SetLegend(_selectedLegendSlot, legend);
+                    _legendSelector.Hide();
+                }
             };
 
             foreach (var c in _legends.Values)

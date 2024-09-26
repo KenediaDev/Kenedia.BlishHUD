@@ -31,17 +31,6 @@ using System.Diagnostics;
 
 namespace Kenedia.Modules.BuildsManager.Models
 {
-
-    public delegate void SkillChangedEventHandler(object sender, SkillChangedEventArgs e);
-
-    public delegate void TraitChangedEventHandler(object sender, TraitChangedEventArgs e);
-
-    public delegate void SpecializationChangedEventHandler(object sender, SpecializationChangedEventArgs e);
-
-    public delegate void TemplateSlotChangedEventHandler(object sender, TemplateSlotChangedEventArgs e);
-
-    public delegate void LegendChangedEventHandler(object sender, LegendChangedEventArgs e);
-
     [DataContract]
     public class Template : IDisposable
     {
@@ -74,7 +63,13 @@ namespace Kenedia.Modules.BuildsManager.Models
 
         public event EventHandler? BuildCodeChanged;
 
+        public event ValueChangedEventHandler<Races>? RaceChanged;
+
         public event ValueChangedEventHandler<string>? NameChanged;
+
+        public event ValueChangedEventHandler<ProfessionType>? ProfessionChanged;
+
+        public event PetChangedEventHandler? PetChanged;
 
         public event SkillChangedEventHandler? SkillChanged;
 
@@ -85,10 +80,6 @@ namespace Kenedia.Modules.BuildsManager.Models
         public event SpecializationChangedEventHandler? EliteSpecializationChanged;
 
         public event LegendChangedEventHandler? LegendChanged;
-
-        public event ValueChangedEventHandler<ProfessionType>? ProfessionChanged;
-
-        public event ValueChangedEventHandler<Races>? RaceChanged;
 
         public event TemplateSlotChangedEventHandler? TemplateSlotChanged;
 
@@ -109,7 +100,7 @@ namespace Kenedia.Modules.BuildsManager.Models
                 {TemplateSlotType.AltAquatic, AltAquatic},
                 };
 
-            Pets.ItemChanged += Pets_ItemChanged;
+            //Pets.ItemChanged += Pets_ItemChanged;
             //Skills.ItemChanged += Skills_ItemChanged;
 
             MainHand.PairedWeapon = OffHand;
@@ -181,7 +172,7 @@ namespace Kenedia.Modules.BuildsManager.Models
 
         public Specialization? EliteSpecialization => Specializations.Specialization3?.Specialization ?? SavedEliteSpecialization;
 
-        public PetCollection Pets { get; } = [];
+        public Templates.RangerPets Pets { get; } = [];
 
         public SkillCollection Skills { get; } = [];
 
@@ -289,26 +280,17 @@ namespace Kenedia.Modules.BuildsManager.Models
 
         private void Tags_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
         {
-            //if (!TriggerEvents)
-            //    return;
-
             RequestSave();
         }
 
         private void OnNameChanged(object sender, ValueChangedEventArgs<string> e)
         {
-            //if (!TriggerEvents)
-            //    return;
-
             RequestSave();
             NameChanged?.Invoke(this, e);
         }
 
         private void OnGearChanged(object sender, TemplateSlotChangedEventArgs e)
         {
-            //if (!TriggerEvents)
-            //    return;
-
             TemplateSlotChanged?.Invoke(sender, e);
             OnGearCodeChanged();
 
@@ -333,15 +315,6 @@ namespace Kenedia.Modules.BuildsManager.Models
             }
         }
 
-        private void Pets_ItemChanged(object sender, DictionaryItemChangedEventArgs<PetSlotType, Pet?> e)
-        {
-            //if (!TriggerEvents)
-            //    return;
-
-            OnBuildCodeChanged();
-            RequestSave();
-        }
-
         public void SetProfession(ProfessionType profession)
         {
             Profession = profession;
@@ -360,9 +333,6 @@ namespace Kenedia.Modules.BuildsManager.Models
         private void OnProfessionChanged(object sender, ValueChangedEventArgs<ProfessionType> e)
         {
             SetArmorItems();
-
-            //if (!TriggerEvents)
-            //    return;
 
             ProfessionChanged?.Invoke(this, e);
             OnBuildCodeChanged();
@@ -409,9 +379,6 @@ namespace Kenedia.Modules.BuildsManager.Models
         private void OnRaceChanged(object sender, ValueChangedEventArgs<Races> e)
         {
             RemoveInvalidSkillsBasedOnRace();
-
-            //if (!TriggerEvents)
-            //    return;
 
             RaceChanged?.Invoke(this, e);
             OnBuildCodeChanged();
@@ -653,9 +620,6 @@ namespace Kenedia.Modules.BuildsManager.Models
 
         private void OnDescriptionChanged()
         {
-            //if (!TriggerEvents)
-            //    return;
-
             RequestSave();
         }
 
@@ -739,9 +703,6 @@ namespace Kenedia.Modules.BuildsManager.Models
         {
             if (_isDisposed) return;
             _isDisposed = true;
-
-            Pets.ItemChanged -= Pets_ItemChanged;
-            //Skills.ItemChanged -= Skills_ItemChanged;
         }
 
         public void Load()
@@ -775,8 +736,6 @@ namespace Kenedia.Modules.BuildsManager.Models
 
         private void OnSpecializationChanged(object sender, SpecializationChangedEventArgs e)
         {
-            //if (!TriggerEvents) return;
-
             SpecializationChanged?.Invoke(sender, e);
 
             if (e.Slot == SpecializationSlotType.Line_3)
@@ -998,8 +957,6 @@ namespace Kenedia.Modules.BuildsManager.Models
 
         private void OnLegendChanged(object sender, LegendChangedEventArgs e)
         {
-            //if (!TriggerEvents) return;
-
             LegendChanged?.Invoke(sender, e);
             OnBuildCodeChanged();
         }
@@ -1135,26 +1092,33 @@ namespace Kenedia.Modules.BuildsManager.Models
 
         private void OnSkillChanged(SkillSlotType skillSlot, Skill? skill)
         {
-            //if (!TriggerEvents) return;
-
             SkillChanged?.Invoke(this, new(skillSlot, skill));
             OnBuildCodeChanged();
         }
 
+        public void SetPet(PetSlotType slot, Pet pet)
+        {
+            var oldpet = Pets[slot];
+
+            if (Pets.SetPet(slot, pet))
+            {
+                OnPetChanged(new(slot, pet, oldpet));
+            }
+        }
+
+        private void OnPetChanged(PetChangedEventArgs e)
+        {
+            PetChanged?.Invoke(this, e);
+        }
+
         private void OnBuildCodeChanged()
         {
-            //if (!TriggerEvents)
-                return;
-
             BuildCodeChanged?.Invoke(this, EventArgs.Empty);
             RequestSave();
         }
 
         private void OnGearCodeChanged()
         {
-            //if (!TriggerEvents)
-                return;
-
             GearCodeChanged?.Invoke(this, EventArgs.Empty);
             RequestSave();
         }
@@ -1171,7 +1135,7 @@ namespace Kenedia.Modules.BuildsManager.Models
             switch (subSlot)
             {
                 case TemplateSubSlotType.Item:
-                    if(obj is null)
+                    if (obj is null)
                     {
                         SetWeapons(subSlot, null, overrideExisting, slots);
                         break;

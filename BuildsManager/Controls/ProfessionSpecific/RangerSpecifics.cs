@@ -24,6 +24,14 @@ namespace Kenedia.Modules.BuildsManager.Controls.ProfessionSpecific
         private Point _petSize = new(120);
         private PetControl _selectorAnchor;
 
+        protected override SkillIcon[] Skills { get; } = {
+            new(),
+            new(),
+            new(),
+            new(),
+            new(),
+        };
+
         public RangerSpecifics(TemplatePresenter template) : base(template)
         {
             foreach (var pet in _pets)
@@ -50,7 +58,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.ProfessionSpecific
                     if (TemplatePresenter.Template.Pets[otherSlot] != pet)
                     {
                         _selectorAnchor.Pet = pet;
-                        TemplatePresenter.Template.Pets[_selectorAnchor.PetSlot] = pet;
+                        TemplatePresenter.Template.SetPet(_selectorAnchor.PetSlot, pet);
                     };
 
                     _petSelector?.Hide();
@@ -109,6 +117,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.ProfessionSpecific
         protected override void ApplyTemplate()
         {
             base.ApplyTemplate();
+
             if (TemplatePresenter is not null)
             {
                 foreach (var pet in _pets.Values)

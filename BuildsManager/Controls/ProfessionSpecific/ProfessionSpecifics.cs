@@ -4,6 +4,10 @@ using Kenedia.Modules.Core.Utility;
 using Kenedia.Modules.BuildsManager.Models;
 using Kenedia.Modules.Core.Models;
 using System;
+using System.Linq;
+using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework;
+using Blish_HUD.Input;
 
 namespace Kenedia.Modules.BuildsManager.Controls.ProfessionSpecific
 {
@@ -11,14 +15,19 @@ namespace Kenedia.Modules.BuildsManager.Controls.ProfessionSpecific
     {
         private TemplatePresenter _templatePresenter;
 
+        protected virtual SkillIcon[] Skills { get; } = Array.Empty<SkillIcon>();
+
         public ProfessionSpecifics(TemplatePresenter template)
         {
             TemplatePresenter = template;
             ClipsBounds = false;
             ZIndex = int.MaxValue / 2;
 
+            Tooltip = SkillTooltip = new();
             ApplyTemplate();
         }
+
+        protected SkillTooltip SkillTooltip { get; }
 
         public TemplatePresenter TemplatePresenter
         {
@@ -30,19 +39,33 @@ namespace Kenedia.Modules.BuildsManager.Controls.ProfessionSpecific
             if (e.OldValue is not null)
             {
                 e.OldValue.LegendChanged -= OnLegendChanged;
-                e.OldValue.EliteSpecializationChanged_OLD -= OnEliteSpecializationChanged;
+                e.OldValue.EliteSpecializationChanged -= OnEliteSpecializationChanged;
                 e.OldValue.TemplateChanged -= OnTemplateChanged;
+                e.OldValue.TraitChanged -= OnTraitChanged;
+                e.OldValue.SkillChanged -= OnSkillChanged;
             }
 
             if (e.NewValue is not null)
             {
                 e.NewValue.LegendChanged += OnLegendChanged;
-                e.NewValue.EliteSpecializationChanged_OLD += OnEliteSpecializationChanged;
+                e.NewValue.EliteSpecializationChanged += OnEliteSpecializationChanged;
                 e.NewValue.TemplateChanged += OnTemplateChanged;
+                e.NewValue.TraitChanged += OnTraitChanged;
+                e.NewValue.SkillChanged += OnSkillChanged;
             }
         }
 
-        private void OnEliteSpecializationChanged(object sender, ValueChangedEventArgs<DataModels.Professions.Specialization> e)
+        private void OnSkillChanged(object sender, SkillChangedEventArgs e)
+        {
+            ApplyTemplate();
+        }
+
+        private void OnTraitChanged(object sender, TraitChangedEventArgs e)
+        {
+            ApplyTemplate();
+        }
+
+        private void OnEliteSpecializationChanged(object sender, SpecializationChangedEventArgs e)
         {
             ApplyTemplate();
         }
@@ -64,17 +87,25 @@ namespace Kenedia.Modules.BuildsManager.Controls.ProfessionSpecific
 
         protected virtual void ApplyTemplate()
         {
-            if(TemplatePresenter?.Template is null)
-            {
-                return;
-            }
+            SetTooltipSkill();
+        }
 
-            RecalculateLayout();
+        protected override void OnMouseMoved(MouseEventArgs e)
+        {
+            base.OnMouseMoved(e);
+
+            SetTooltipSkill();
         }
 
         protected override void DisposeControl()
         {
             base.DisposeControl();
+            TemplatePresenter = null;
+        }
+
+        protected void SetTooltipSkill()
+        {
+            SkillTooltip.Skill = Skills.FirstOrDefault(x => x.Hovered)?.Skill;
         }
     }
 }

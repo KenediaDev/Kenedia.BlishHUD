@@ -17,8 +17,8 @@ namespace Kenedia.Modules.BuildsManager.Controls.ProfessionSpecific
         //_noInitiative 156439
         private readonly DetailedTexture _barBackground = new(1636710); // black background?
         private readonly DetailedTexture _specterBar = new(2468316);
-        private readonly SkillIcon[] _skills =
-        {
+
+        protected override SkillIcon[] Skills { get; } = {
             new(),
             new(),
         };
@@ -58,8 +58,8 @@ namespace Kenedia.Modules.BuildsManager.Controls.ProfessionSpecific
                         _initiative[i].Bounds = new(xOffset + 90 + (i * 18), 55 - (i % 2 * 13), 26, 26);
                     }
 
-                    _skills[0].Bounds = new(xOffset + 3, 50, 42, 42);
-                    _skills[1].Bounds = new(xOffset + 3 + 45, 50, 42, 42);
+                    Skills[0].Bounds = new(xOffset + 3, 50, 42, 42);
+                    Skills[1].Bounds = new(xOffset + 3 + 45, 50, 42, 42);
                     _barBackground.Bounds = new(xOffset + 90, 80, 170, 12);
                     _specterBar.Bounds = new(xOffset + 91, 81, 168, 10);
                     break;
@@ -70,7 +70,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.ProfessionSpecific
                         _initiative[i].Bounds = new(xOffset + 90 + (i * 13), 63 - (i % 2 * 13), 26, 26);
                     }
 
-                    _skills[0].Bounds = new(xOffset + 3, 50, 42, 42);
+                    Skills[0].Bounds = new(xOffset + 3, 50, 42, 42);
                     break;
             }
         }
@@ -81,7 +81,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.ProfessionSpecific
             switch (TemplatePresenter.Template.EliteSpecialization?.Id)
             {
                 case (int)SpecializationType.Specter:
-                    _skills[1].Draw(this, spriteBatch, RelativeMousePosition);
+                    Skills[1].Draw(this, spriteBatch, RelativeMousePosition);
                     _barBackground.Draw(this, spriteBatch);
                     _specterBar.Draw(this, spriteBatch);
 
@@ -101,7 +101,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.ProfessionSpecific
                     break;
             }
 
-            _skills[0].Draw(this, spriteBatch, RelativeMousePosition);
+            Skills[0].Draw(this, spriteBatch, RelativeMousePosition);
         }
 
         protected override void ApplyTemplate()
@@ -135,8 +135,8 @@ namespace Kenedia.Modules.BuildsManager.Controls.ProfessionSpecific
                     break;
             }
 
-            _skills[0].Skill = GetSkill(SkillSlot.Profession1);
-            _skills[1].Skill = GetSkill(SkillSlot.Profession2);
+            Skills[0].Skill = GetSkill(SkillSlot.Profession1);
+            Skills[1].Skill = GetSkill(SkillSlot.Profession2);
         }
     }
 }

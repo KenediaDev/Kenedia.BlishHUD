@@ -25,8 +25,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.ProfessionSpecific
 
         // TODO find and add black separator line
 
-        private readonly SkillIcon[] _skills =
-        {
+        protected override SkillIcon[] Skills { get; } = {
             new(),
             new(),
             new(),
@@ -65,9 +64,9 @@ namespace Kenedia.Modules.BuildsManager.Controls.ProfessionSpecific
                     break;
             }
 
-            for (int i = 0; i < _skills.Length; i++)
+            for (int i = 0; i < Skills.Length; i++)
             {
-                var skill = _skills[i];
+                var skill = Skills[i];
                 skill.Bounds = new(xOffset + (i == 4 ? 10 : 0) + 42 + (i * 46), 52, 42, 42);
             }
         }
@@ -86,7 +85,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.ProfessionSpecific
 
                     for (int i = 0; i < 5; i++)
                     {
-                        var skill = _skills[i];
+                        var skill = Skills[i];
                         skill.Draw(this, spriteBatch, RelativeMousePosition);
                     }
 
@@ -101,7 +100,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.ProfessionSpecific
 
                     for (int i = 0; i < 5; i++)
                     {
-                        var skill = _skills[i];
+                        var skill = Skills[i];
                         skill.Draw(this, spriteBatch, RelativeMousePosition);
                     }
 
@@ -116,7 +115,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.ProfessionSpecific
 
                     for (int i = 0; i < 4; i++)
                     {
-                        var skill = _skills[i];
+                        var skill = Skills[i];
                         skill.Draw(this, spriteBatch, RelativeMousePosition);
                     }
 
@@ -144,11 +143,11 @@ namespace Kenedia.Modules.BuildsManager.Controls.ProfessionSpecific
                 return skill;
             }
 
-            _skills[0].Skill = GetSkill(SkillSlot.Profession1);
-            _skills[1].Skill = GetSkill(SkillSlot.Profession2);
-            _skills[2].Skill = GetSkill(SkillSlot.Profession3);
-            _skills[3].Skill = GetSkill(SkillSlot.Profession4);
-            _skills[4].Skill = GetSkill(SkillSlot.Profession5);
+            Skills[0].Skill = GetSkill(SkillSlot.Profession1);
+            Skills[1].Skill = GetSkill(SkillSlot.Profession2);
+            Skills[2].Skill = GetSkill(SkillSlot.Profession3);
+            Skills[3].Skill = GetSkill(SkillSlot.Profession4);
+            Skills[4].Skill = GetSkill(SkillSlot.Profession5);
         }
     }
 }

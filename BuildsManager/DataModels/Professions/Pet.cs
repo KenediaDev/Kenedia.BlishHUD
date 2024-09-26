@@ -90,7 +90,8 @@ namespace Kenedia.Modules.BuildsManager.DataModels.Professions
             {
                 if (_selectedIcon is not null) return _selectedIcon;
 
-                _selectedIcon = AsyncTexture2D.FromAssetId(IconAssetId + 1);
+                int assetId = IconAssetId == 52565 ? 1769874 : IconAssetId + 1;
+                _selectedIcon = AsyncTexture2D.FromAssetId(assetId);
                 return _selectedIcon;
             }
         }

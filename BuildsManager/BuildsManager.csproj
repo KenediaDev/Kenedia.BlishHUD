@@ -505,7 +505,7 @@
     <Compile Include="Models\Templates\GearSubSlotType.cs" />
     <Compile Include="Models\Templates\LegendCollection.cs" />
     <Compile Include="Models\Templates\LegendSlotType.cs" />
-    <Compile Include="Models\Templates\PetCollection.cs" />
+    <Compile Include="Models\Templates\RangerPets.cs" />
     <Compile Include="Models\Templates\PetSlotType.cs" />
     <Compile Include="Models\Templates\Specializations.cs" />
     <Compile Include="Models\Templates\SpecializationSlotType.cs" />
