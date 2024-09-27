@@ -503,6 +503,15 @@ namespace Kenedia.Modules.BuildsManager.Res {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Last Modified: {0}.
+        /// </summary>
+        internal static string LastModified {
+            get {
+                return ResourceManager.GetString("LastModified", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to No data available through the GW2 API from ArenaNet..
         /// </summary>
         internal static string MissingInfoFromAPI {

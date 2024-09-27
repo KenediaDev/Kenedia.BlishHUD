@@ -23,6 +23,8 @@ namespace Kenedia.Modules.BuildsManager.Models
         [JsonProperty("Group")]
         private string _group = string.Empty;
 
+        public event EventHandler<TemplateTag>? TagChanged;
+
         [JsonIgnore]
         public string Group { get => _group; set => Common.SetProperty(ref _group, value, OnGroupChanged); }
 
@@ -44,15 +46,12 @@ namespace Kenedia.Modules.BuildsManager.Models
         [JsonIgnore]
         public Rectangle? TextureRegion { get => _textureRegion; set => Common.SetProperty(ref _textureRegion, value, OnTextureRegionChanged); }
 
-        [JsonIgnore]
-        public Action OnTagChanged { get; set; }
-
         private void OnAssetIdChanged(object sender, ValueChangedEventArgs<int> e)
         {
             Icon = new(e.NewValue);
             Icon.TextureRegion = TextureRegion ?? Icon.Texture?.Bounds ?? Rectangle.Empty;
 
-            OnTagChanged?.Invoke();
+            TagChanged?.Invoke(this, this);
         }
 
         private void OnTextureRegionChanged(object sender, ValueChangedEventArgs<Rectangle?> e)
@@ -60,21 +59,22 @@ namespace Kenedia.Modules.BuildsManager.Models
             if (Icon is not null)
                 Icon.TextureRegion = e.NewValue ?? Icon.Texture?.Bounds ?? Rectangle.Empty;
 
-            OnTagChanged?.Invoke();
+            TagChanged?.Invoke(this, this);
         }
 
         private void OnNameChanged(object sender, ValueChangedEventArgs<string> e)
         {
-            OnTagChanged?.Invoke();
+            TagChanged?.Invoke(this, this);
         }
 
         private void OnPriorityChanged(object sender, ValueChangedEventArgs<int> e)
         {
-            OnTagChanged?.Invoke();
+            TagChanged?.Invoke(this, this);
         }
+
         private void OnGroupChanged(object sender, ValueChangedEventArgs<string> e)
         {
-            OnTagChanged?.Invoke();
+            TagChanged?.Invoke(this, this);
         }
     }
 }

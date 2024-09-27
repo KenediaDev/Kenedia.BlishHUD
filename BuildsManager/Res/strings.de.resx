@@ -385,4 +385,7 @@ Der Zweck dieses Codes ist es, die Module Ausrüstungsvorlage leicht mit anderen
   <data name="EditTags" xml:space="preserve">
     <value>Tags bearbeiten</value>
   </data>
+  <data name="LastModified" xml:space="preserve">
+    <value>Zuletzt geändert: {0}</value>
+  </data>
 </root>

@@ -146,7 +146,6 @@ namespace Kenedia.Modules.BuildsManager.Controls.ProfessionSpecific
                     Skills[2].Skill = GetSkill(SkillSlot.Profession3);
                     Skills[3].Skill = GetSkill(SkillSlot.Profession4);
 
-
                     _shades.Texture = TemplatePresenter.Template.Specializations.Specialization3.Traits.GrandMaster?.Id == 2112 ?  AsyncTexture2D.FromAssetId(1636742) : AsyncTexture2D.FromAssetId(1636744);
 
                     int masterSkill = TemplatePresenter.Template.Specializations.Specialization3.Traits.Master?.Skills?.FirstOrDefault() ?? 0;

@@ -5,6 +5,9 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Kenedia.Modules.BuildsManager.DataModels.Professions;
 using Kenedia.Modules.BuildsManager.Models;
+using System.Linq;
+using static Kenedia.Modules.BuildsManager.DataModels.Professions.Weapon;
+using System;
 
 namespace Kenedia.Modules.BuildsManager.Controls.ProfessionSpecific
 {
@@ -165,22 +168,43 @@ namespace Kenedia.Modules.BuildsManager.Controls.ProfessionSpecific
             {
                 Skill skill = null;
                 bool spellbreaker = TemplatePresenter.Template.EliteSpecialization?.Id == (int)SpecializationType.Spellbreaker;
-                bool berserker = TemplatePresenter.Template.EliteSpecialization?.Id == (int)SpecializationType.Berserker;
+                bool bladesworn = TemplatePresenter.Template.EliteSpecialization?.Id == (int)SpecializationType.Bladesworn;
+
                 if (spellbreaker && slot == SkillSlot.Profession2)
                 {
                     return skills[44165];
                 }
 
-                //foreach (var item in skills.Values.Where(
-                //    e => e.Slot == slot &&                     
-                //    e.WeaponType is not null && ((!spellbreaker && e.WeaponType == Weapon.WeaponType.None) || e.WeaponType == (BuildPage.Terrestrial ? TemplatePresenter.GearTemplate.Weapons[GearTemplateSlot.MainHand].Weapon : TemplatePresenter.GearTemplate.Weapons[GearTemplateSlot.Aquatic].Weapon))))
-                //{
-                //    skill ??= item.Specialization == TemplatePresenter.EliteSpecialization?.Id || item.Specialization == 0 ? item : skill;
-                //    if (!berserker && item.Specialization == TemplatePresenter.EliteSpecialization?.Id && skill.Specialization == 0)
-                //    {
-                //        skill = item;
-                //    }
-                //}
+                var slotSkills = skills.Values.Where(e => e.Slot == slot);
+
+                if (!bladesworn && slot is SkillSlot.Profession1)
+                {
+                    string typeString = TemplatePresenter.Template?.MainHand?.Weapon?.WeaponType.ToString();
+
+                    if (!string.IsNullOrEmpty(typeString))
+                    {
+                        var weapon = (WeaponType)Enum.Parse(typeof(WeaponType), TemplatePresenter.Template?.MainHand?.Weapon?.WeaponType.ToString());
+
+                        if (weapon is not WeaponType.Unknown)
+                        {
+                            var weaponSkills = slotSkills.Where(x => x.Specialization == TemplatePresenter?.Template?.EliteSpecialization?.Id || x.Specialization == 0).Where(x => x.WeaponType is null || x.WeaponType == weapon).OrderBy(x => x.Specialization == 0);
+
+                            foreach (var item in weaponSkills)
+                            {
+                                skill ??= item.Specialization == TemplatePresenter?.Template?.EliteSpecialization?.Id || item.Specialization == 0 ? item : skill;
+                            }
+                        }
+                    }
+                }
+                else
+                {
+                    var eliteSpecSkills = (TemplatePresenter?.Template?.EliteSpecialization?.Id ?? 0) != 0 ? slotSkills.Where(x => x.Specialization == TemplatePresenter?.Template?.EliteSpecialization?.Id) : [];
+
+                    foreach (var item in eliteSpecSkills)
+                    {
+                        skill ??= item.Specialization == TemplatePresenter?.Template?.EliteSpecialization?.Id || item.Specialization == 0 ? item : skill;
+                    }
+                }
 
                 return skill;
             }

@@ -10,6 +10,8 @@ using Gw2Sharp.WebApi;
 using Kenedia.Modules.Core.Extensions;
 using static Blish_HUD.ContentService;
 using Kenedia.Modules.Core.Utility;
+using Kenedia.Modules.Core.Interfaces;
+using System;
 
 namespace Kenedia.Modules.BuildsManager.Controls
 {
@@ -27,6 +29,7 @@ namespace Kenedia.Modules.BuildsManager.Controls
             _image.Bounds = new(4, 4, 48, 48);
 
             LocalizingService.LocaleChanged += UserLocale_SettingChanged;
+            UserLocale_SettingChanged(null, null);
 
             Width = 300;
         }
@@ -76,11 +79,6 @@ namespace Kenedia.Modules.BuildsManager.Controls
 
         public Rectangle DescriptionBounds { get; private set; }
 
-        private void UserLocale_SettingChanged(object sender, Blish_HUD.ValueChangedEventArgs<Locale> e)
-        {
-            SetSkill(Skill);
-        }
-
         public override void Draw(SpriteBatch spriteBatch, Rectangle drawBounds, Rectangle scissor)
         {
             if (string.IsNullOrEmpty(Title) || string.IsNullOrEmpty(Id))
@@ -113,6 +111,11 @@ namespace Kenedia.Modules.BuildsManager.Controls
             spriteBatch.DrawStringOnCtrl(this, Title, Content.DefaultFont18, TitleBounds, TitleColor);
             spriteBatch.DrawStringOnCtrl(this, Id, Content.DefaultFont12, IdBounds, Color.White);
             spriteBatch.DrawStringOnCtrl(this, Description, Content.DefaultFont14, DescriptionBounds, Color.White, true, HorizontalAlignment.Left, VerticalAlignment.Top);
+        }
+
+        public void UserLocale_SettingChanged(object sender, Blish_HUD.ValueChangedEventArgs<Locale> e)
+        {
+            SetSkill(Skill);
         }
     }
 }

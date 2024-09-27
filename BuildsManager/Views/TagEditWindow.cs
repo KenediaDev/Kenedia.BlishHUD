@@ -6,24 +6,27 @@ using Kenedia.Modules.Core.Controls;
 using Kenedia.Modules.Core.Extensions;
 using Kenedia.Modules.Core.Res;
 using Kenedia.Modules.Core.Views;
+using Microsoft.Extensions.Options;
 using Microsoft.Xna.Framework;
+using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 
 namespace Kenedia.Modules.BuildsManager.Views
 {
     public class TagEditWindow : StandardWindow
     {
-        private readonly TemplateTags _templateTags;
-
         private FilterBox _tagFilter;
         private FlowPanel _tagPanel;
+        private List<TagEditControl> _tagEditControls = [];
         private readonly ButtonImage _editTags;
+
+        private Dictionary<FlowPanel, List<TagEditControl>> _tagControls = [];
+        private FlowPanel _ungroupedPanel;
 
         public TagEditWindow(AsyncTexture2D background, Rectangle windowRegion, Rectangle contentRegion, TemplateTags templateTags) : base(background, windowRegion, contentRegion)
         {
-            _templateTags = templateTags;
-
-            _templateTags.TagsChanged += TemplateTags_TagsChanged;
+            TemplateTags = templateTags;
 
             _tagFilter = new()
             {
@@ -37,11 +40,11 @@ namespace Kenedia.Modules.BuildsManager.Views
                 {
                     if (!string.IsNullOrEmpty(txt.Trim()))
                     {
-                        var templateTag = _templateTags.Tags.FirstOrDefault(e => e.Name.ToLower() == txt.ToLower());
+                        var templateTag = TemplateTags.FirstOrDefault(e => e.Name.ToLower() == txt.ToLower());
 
                         if (templateTag is null)
                         {
-                            _templateTags.Add(new TemplateTag() { Name = txt });
+                            TemplateTags.Add(new TemplateTag() { Name = txt });
                         }
                         else
                         {
@@ -49,7 +52,7 @@ namespace Kenedia.Modules.BuildsManager.Views
                         }
                     }
                 },
-                TextChangedAction = (txt) => _editTags.Enabled = !string.IsNullOrEmpty(txt.Trim()) && _templateTags.Tags.FirstOrDefault(e => e.Name.ToLower() == txt.ToLower()) is null,
+                TextChangedAction = (txt) => _editTags.Enabled = !string.IsNullOrEmpty(txt.Trim()) && TemplateTags.FirstOrDefault(e => e.Name.ToLower() == txt.ToLower()) is null,
                 PerformFiltering = (txt) =>
                 {
                     string t = txt.ToLower();
@@ -74,7 +77,7 @@ namespace Kenedia.Modules.BuildsManager.Views
                 DisabledTexture = AsyncTexture2D.FromAssetId(255296),
                 SetLocalizedTooltip = () => "Add Tag",
                 Enabled = true,
-                ClickAction = (b) => _templateTags.Add(new TemplateTag() { Name = string.IsNullOrEmpty(_tagFilter.Text) ? "New Tag" : _tagFilter.Text })
+                ClickAction = (b) => TemplateTags.Add(new TemplateTag() { Name = string.IsNullOrEmpty(_tagFilter.Text) ? "New Tag" : _tagFilter.Text })
             };
 
             _tagPanel = new()
@@ -90,10 +93,100 @@ namespace Kenedia.Modules.BuildsManager.Views
                 ShowRightBorder = true,
                 FlowDirection = Blish_HUD.Controls.ControlFlowDirection.SingleTopToBottom,
                 ContentPadding = new(5),
+                ControlPadding = new(0, 5),
                 CanScroll = true,
             };
 
             CreateTagControls();
+
+            TemplateTags.TagAdded += TemplateTags_TagAdded;
+            TemplateTags.TagAdded += TemplateTags_TagRemoved;
+            TemplateTags = templateTags;
+        }
+        public TemplateTags TemplateTags { get; }
+
+        private void TemplateTags_TagRemoved(object sender, TemplateTag e)
+        {
+            RemoveTemplateTag(e);
+        }
+
+        private void TemplateTags_TagAdded(object sender, TemplateTag e)
+        {
+            AddTemplateTag(e);
+        }
+
+        private int SortTagControls(TagEditControl x, TagEditControl y)
+        {
+            return x.Tag.Priority.CompareTo(y.Tag.Priority) == 0 ? x.Tag.Name.CompareTo(y.Tag.Name) : x.Tag.Priority.CompareTo(y.Tag.Priority);
+        }
+
+        private void RemoveTemplateTag(TemplateTag e)
+        {
+            TagEditControl tagControl = null;
+            var p = _tagControls.FirstOrDefault(x => x.Value.Any(x => x.Tag == e));
+
+            var panel = p.Key;
+            tagControl = p.Value.FirstOrDefault(x => x.Tag == e);
+
+            tagControl?.Dispose();
+            _tagControls[panel].Remove(tagControl);
+
+            if (!_tagControls[panel].Any())
+            {
+                _tagControls.Remove(panel);
+                panel.Dispose();
+
+                _tagPanel.SortChildren<FlowPanel>((x, y) => x.Title.CompareTo(y.Title));
+            }
+            else
+            {
+                panel.SortChildren<TagEditControl>(SortTagControls);
+            }
+        }
+
+        private void AddTemplateTag(TemplateTag e)
+        {
+            var panel = _tagControls.Keys.FirstOrDefault(x => x.Title == e.Group);
+
+            panel ??= !string.IsNullOrEmpty(e.Group)
+                    ? new FlowPanel()
+                    {
+                        Title = e.Group,
+                        Parent = _tagPanel,
+                        Width = _tagPanel.Width - 25,
+                        WidthSizingMode = Blish_HUD.Controls.SizingMode.Standard,
+                        HeightSizingMode = Blish_HUD.Controls.SizingMode.AutoSize,
+                        AutoSizePadding = new(0, 2),
+                        OuterControlPadding = new(25, 0),
+                        CanCollapse = true,
+                    }
+                    : (_ungroupedPanel ??= new FlowPanel()
+                    {
+                        Title = "Not Grouped",
+                        Parent = _tagPanel,
+                        Width = _tagPanel.Width - 25,
+                        WidthSizingMode = Blish_HUD.Controls.SizingMode.Standard,
+                        HeightSizingMode = Blish_HUD.Controls.SizingMode.AutoSize,
+                        AutoSizePadding = new(0, 2),
+                        OuterControlPadding = new(25, 0),
+                        CanCollapse = true,
+                    });
+
+            if (!_tagControls.ContainsKey(panel))
+            {
+                _tagControls.Add(panel, []);
+                _tagPanel.SortChildren<FlowPanel>((x, y) => x.Title.CompareTo(y.Title));
+            }
+
+            _tagControls[panel].Add(new TagEditControl()
+            {
+                Parent = panel,
+                Tag = e,
+                Width = panel.Width - 25,
+                TemplateTags = TemplateTags,
+            });
+
+            panel.SortChildren<TagEditControl>(SortTagControls);
         }
 
         protected override void OnResized(Blish_HUD.Controls.ResizedEventArgs e)
@@ -108,35 +201,41 @@ namespace Kenedia.Modules.BuildsManager.Views
             ResizeTagControls();
         }
 
+        public void ToggleWindow(TemplateTag tag)
+        {
+            Show();
+
+            var tagControls = new List<TagEditControl>(_tagPanel.GetChildrenOfType<TagEditControl>());
+            tagControls.AddRange(_tagPanel.GetChildrenOfType<FlowPanel>().SelectMany(x => x.GetChildrenOfType<TagEditControl>()));
+
+            foreach (var t in tagControls)
+            {
+                t.Collapsed = t.Tag != tag;
+            }
+        }
+
         private void ResizeTagControls()
         {
-            if (_tagPanel?.Children?.OfType<TagEditControl>() is var tags && tags?.Any() is true)
+            if (_tagPanel is null) return;
+
+            var tagControls = new List<TagEditControl>(_tagPanel.GetChildrenOfType<TagEditControl>());
+            tagControls.AddRange(_tagPanel.GetChildrenOfType<FlowPanel>().SelectMany(x => x.GetChildrenOfType<TagEditControl>()));
+
+            foreach (var tag in tagControls)
             {
-                foreach (var tag in tags)
+                if (tag.Parent is FlowPanel fp)
                 {
-                    tag.Width = _tagPanel.Width - 25;
+                    fp.Width = _tagPanel.Width - 25;
+                    tag.Width = fp.Width - 25;
                 }
             }
         }
 
-        private void TemplateTags_TagsChanged(object sender, Models.TemplateTag e)
-        {
-            CreateTagControls();
-        }
-
         private void CreateTagControls()
         {
-            _tagPanel?.ClearChildren();
-
-            foreach (var tag in _templateTags.Tags)
+            foreach (var tag in TemplateTags)
             {
-                _ = new TagEditControl()
-                {
-                    Parent = _tagPanel,
-                    Tag = tag,
-                    Width = _tagPanel.Width - 25,
-                    TemplateTags = _templateTags,
-                };
+                AddTemplateTag(tag);
             }
         }
     }

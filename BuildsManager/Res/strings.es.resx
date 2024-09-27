@@ -385,4 +385,7 @@ El propósito de este código es compartir la Plantilla de Equipo del módulo f�
   <data name="EditTags" xml:space="preserve">
     <value>Editar etiquetas</value>
   </data>
+  <data name="LastModified" xml:space="preserve">
+    <value>Última modificación: {0}</value>
+  </data>
 </root>

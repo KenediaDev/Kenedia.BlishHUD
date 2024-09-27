@@ -385,4 +385,7 @@ Le but de ce code est de partager facilement le modèle d'équipement du module 
   <data name="EditTags" xml:space="preserve">
     <value>Modifier les étiquettes</value>
   </data>
+  <data name="LastModified" xml:space="preserve">
+    <value>Dernière modification : {0}</value>
+  </data>
 </root>

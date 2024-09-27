@@ -4,35 +4,51 @@ using Kenedia.Modules.Core.Models;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Timers;
 
 namespace Kenedia.Modules.BuildsManager.Services
 {
-    public class TemplateTags
+    public class TemplateTags : IEnumerable<TemplateTag>
     {
+        private readonly System.Timers.Timer _timer;
         private readonly ContentsManager _contentsManager;
         private readonly Paths _paths;
 
         private CancellationTokenSource _tokenSource;
         private List<TemplateTag> _tags;
+        private bool _saveRequested;
 
         public TemplateTags(ContentsManager contentsManager, Paths paths)
         {
             _contentsManager = contentsManager;
             _paths = paths;
+
+            _timer = new(1000);
+            _timer.Elapsed += OnTimerElapsed;
         }
 
-        public event EventHandler<TemplateTag> TagsChanged;
+        public event EventHandler<TemplateTag> TagChanged;
         public event EventHandler<TemplateTag> TagAdded;
         public event EventHandler<TemplateTag> TagRemoved;
 
-        public IReadOnlyList<TemplateTag> Tags => _tags ?? [];
+        private async void OnTimerElapsed(object sender, ElapsedEventArgs e)
+        {
+            if (_saveRequested)
+            {
+                _timer.Stop();
+
+                await Save();
+            }
+        }
 
         public async Task Load()
         {
+            Debug.WriteLine($"LOAD TAGS");
             try
             {
                 if (File.Exists($@"{_paths.ModulePath}TemplateTags.json"))
@@ -40,7 +56,7 @@ namespace Kenedia.Modules.BuildsManager.Services
                     string json = File.ReadAllText($@"{_paths.ModulePath}TemplateTags.json");
                     _tags = JsonConvert.DeserializeObject<List<TemplateTag>>(json, SerializerSettings.Default);
                 }
-        }
+            }
             catch (Exception ex)
             {
                 BuildsManager.Logger.Warn("Failed to load TemplateTags.json");
@@ -59,17 +75,19 @@ namespace Kenedia.Modules.BuildsManager.Services
             foreach (var tag in _tags)
             {
                 tag.Icon = new(tag.AssetId);
-                tag.OnTagChanged += OnTagChanged;
+                tag.TagChanged += Tag_TagChanged;
             }
 
             OrderTags();
         }
 
+        private void Tag_TagChanged(object sender, TemplateTag e)
+        {
+            OnTagChanged(e);
+        }
+
         private void OrderTags()
         {
-            //_tags = [.. _tags.OrderBy(x => x.Group).ThenBy(x => x.Priority).ThenBy(x => x.Name)];
-
-            //OrderTags by group but move those with empty string as group to the end
             _tags = [.. _tags
                 .OrderBy(x => x.Priority > 0)
                 .ThenBy(x => x.Group == string.Empty)
@@ -78,54 +96,62 @@ namespace Kenedia.Modules.BuildsManager.Services
                 .ThenBy(x => x.Name)];
         }
 
-        private void OnTagChanged()
+        private void OnTagChanged(TemplateTag tag)
         {
             OrderTags();
+            TagChanged?.Invoke(this, tag);
+            RequestSave();
         }
-
-        public TemplateTag this[string tagName] => _tags?.FirstOrDefault(x => x.Name == tagName);
 
         public void Add(TemplateTag tag)
         {
+            if (_tags.Any(t => t.Name == tag.Name)) return;
+
             _tags.Add(tag);
-            tag.OnTagChanged += OnTagChanged;
+            tag.TagChanged += Tag_TagChanged;
 
             OnTagAdded(tag);
-            OnTagRemoved(tag);
-            OnTagsChanged(tag);
         }
 
         private void OnTagAdded(TemplateTag tag)
         {
             TagAdded?.Invoke(this, tag);
-        }
-
-        private void OnTagsChanged(TemplateTag tag)
-        {
-            TagsChanged?.Invoke(this, tag);
-            Task.Run(Save);
+            RequestSave();
         }
 
         private void OnTagRemoved(TemplateTag tag)
         {
             TagRemoved?.Invoke(this, tag);
+            RequestSave();
         }
 
         public bool Remove(TemplateTag tag)
         {
             if (_tags.Remove(tag))
             {
-                tag.OnTagChanged -= OnTagChanged;
+                tag.TagChanged -= Tag_TagChanged;
                 OnTagRemoved(tag);
-                OnTagsChanged(tag);
                 return true;
             }
 
             return false;
         }
 
+        private void RequestSave()
+        {
+            _saveRequested = true;
+
+            if (_saveRequested)
+            {
+                _timer.Stop();
+                _timer.Start();
+            }
+        }
+
         public async Task Save()
         {
+
+            Debug.WriteLine($"SAVE TAGS");
             try
             {
                 _tokenSource?.Cancel();
@@ -146,6 +172,16 @@ namespace Kenedia.Modules.BuildsManager.Services
                     BuildsManager.Logger.Warn($"{ex}");
                 }
             }
+        }
+
+        public IEnumerator<TemplateTag> GetEnumerator()
+        {
+            return _tags.GetEnumerator();
+        }
+
+        System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
+        {
+            return GetEnumerator();
         }
     }
 }

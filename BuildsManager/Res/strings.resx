@@ -385,4 +385,7 @@ The purpose of this code is to share the modules Equipment Template easily with 
   <data name="EditTags" xml:space="preserve">
     <value>Edit Tags</value>
   </data>
+  <data name="LastModified" xml:space="preserve">
+    <value>Last Modified: {0}</value>
+  </data>
 </root>

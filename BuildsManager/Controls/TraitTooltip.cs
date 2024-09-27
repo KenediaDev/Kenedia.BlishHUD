@@ -9,10 +9,12 @@ using Microsoft.Xna.Framework.Graphics;
 using static Blish_HUD.ContentService;
 using Kenedia.Modules.Core.Services;
 using Kenedia.Modules.BuildsManager.Res;
+using Kenedia.Modules.Core.Interfaces;
+using System;
 
 namespace Kenedia.Modules.BuildsManager.Controls
 {
-    public class TraitTooltip : Blish_HUD.Controls.Tooltip
+    public class TraitTooltip : Blish_HUD.Controls.Tooltip, ILocalizable
     {
         private readonly DetailedTexture _image = new() { TextureRegion = new(14, 14, 100, 100), };
         private readonly Label _title;
@@ -64,6 +66,8 @@ namespace Kenedia.Modules.BuildsManager.Controls
 
         public Trait Trait { get => _trait; set => Common.SetProperty(ref _trait, value, ApplyTrait); }
 
+        public Func<string> SetLocalizedTooltip { get; set; }
+
         private void ApplyTrait(object sender, ValueChangedEventArgs<Trait> e)
         {
             _title.TextColor = Colors.Chardonnay;
@@ -80,7 +84,7 @@ namespace Kenedia.Modules.BuildsManager.Controls
             }
         }
 
-        private void UserLocale_SettingChanged(object sender, Blish_HUD.ValueChangedEventArgs<Locale> e)
+        public void UserLocale_SettingChanged(object sender, Blish_HUD.ValueChangedEventArgs<Locale> e)
         {
             ApplyTrait(this, null);
         }

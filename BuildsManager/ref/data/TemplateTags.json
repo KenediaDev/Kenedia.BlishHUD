@@ -1,54 +1,15 @@
 [
   {
-    "Priority": 0,
     "AssetId": 547827,
-    "Name": "Favorite",
+    "Name": "Favorites",
     "TextureRegion": {
       "X": 4,
       "Y": 4,
       "Width": 24,
       "Height": 24
-    }
-  },
-  {
-    "AssetId": 157085,
-    "Name": "Pve",
-    "TextureRegion": {
-      "X": 0,
-      "Y": 0,
-      "Width": 32,
-      "Height": 32
-    }
-  },
-  {
-    "AssetId": 157119,
-    "Name": "Pvp",
-    "TextureRegion": {
-      "X": -2,
-      "Y": -2,
-      "Width": 36,
-      "Height": 36
-    }
-  },
-  {
-    "AssetId": 255428,
-    "Name": "Wvw",
-    "TextureRegion": {
-      "X": 2,
-      "Y": 2,
-      "Width": 28,
-      "Height": 28
-    }
-  },
-  {
-    "AssetId": 255280,
-    "Name": "OpenWorld",
-    "TextureRegion": {
-      "X": 2,
-      "Y": 2,
-      "Width": 28,
-      "Height": 28
-    }
+    },
+    "Priority": 0,
+    "Group": ""
   },
   {
     "AssetId": 102478,
@@ -58,117 +19,9 @@
       "Y": -2,
       "Width": 36,
       "Height": 36
-    }
-  },
-  {
-    "AssetId": 514379,
-    "Name": "Fractals",
-    "TextureRegion": {
-      "X": -4,
-      "Y": -4,
-      "Width": 40,
-      "Height": 40
-    }
-  },
-  {
-    "AssetId": 1128644,
-    "Name": "Raids",
-    "TextureRegion": {
-      "X": -2,
-      "Y": -2,
-      "Width": 36,
-      "Height": 36
-    }
-  },
-  {
-    "AssetId": 66722,
-    "Name": "Power",
-    "TextureRegion": {
-      "X": 2,
-      "Y": 2,
-      "Width": 28,
-      "Height": 28
-    }
-  },
-  {
-    "AssetId": 156600,
-    "Name": "Condition",
-    "TextureRegion": {
-      "X": 2,
-      "Y": 2,
-      "Width": 28,
-      "Height": 28
-    }
-  },
-  {
-    "AssetId": 536048,
-    "Name": "Tank",
-    "TextureRegion": {
-      "X": 2,
-      "Y": 2,
-      "Width": 28,
-      "Height": 28
-    }
-  },
-  {
-    "AssetId": 156599,
-    "Name": "Support",
-    "TextureRegion": {
-      "X": 2,
-      "Y": 2,
-      "Width": 28,
-      "Height": 28
-    }
-  },
-  {
-    "AssetId": 536052,
-    "Name": "Heal",
-    "TextureRegion": {
-      "X": 2,
-      "Y": 2,
-      "Width": 28,
-      "Height": 28
-    }
-  },
-  {
-    "AssetId": 1012835,
-    "Name": "Quickness",
-    "TextureRegion": {
-      "X": -4,
-      "Y": -4,
-      "Width": 40,
-      "Height": 40
-    }
-  },
-  {
-    "AssetId": 1938787,
-    "Name": "Alacrity",
-    "TextureRegion": {
-      "X": -4,
-      "Y": -4,
-      "Width": 40,
-      "Height": 40
-    }
-  },
-  {
-    "AssetId": 460029,
-    "Name": "WorldCompletion",
-    "TextureRegion": {
-      "X": -16,
-      "Y": -16,
-      "Width": 160,
-      "Height": 160
-    }
-  },
-  {
-    "AssetId": 993668,
-    "Name": "Leveling",
-    "TextureRegion": {
-      "X": 0,
-      "Y": 0,
-      "Width": 32,
-      "Height": 32
-    }
+    },
+    "Priority": 1,
+    "Group": "Content Type"
   },
   {
     "AssetId": 784331,
@@ -178,6 +31,200 @@
       "Y": -4,
       "Width": 40,
       "Height": 40
-    }
+    },
+    "Priority": 1,
+    "Group": "Content Type"
+  },
+  {
+    "AssetId": 514379,
+    "Name": "Fractals",
+    "TextureRegion": {
+      "X": -4,
+      "Y": -4,
+      "Width": 40,
+      "Height": 40
+    },
+    "Priority": 1,
+    "Group": "Content Type"
+  },
+  {
+    "AssetId": 993668,
+    "Name": "Leveling",
+    "TextureRegion": {
+      "X": 0,
+      "Y": 0,
+      "Width": 32,
+      "Height": 32
+    },
+    "Priority": 1,
+    "Group": "Content Type"
+  },
+  {
+    "AssetId": 255280,
+    "Name": "OpenWorld",
+    "TextureRegion": {
+      "X": 2,
+      "Y": 2,
+      "Width": 28,
+      "Height": 28
+    },
+    "Priority": 1,
+    "Group": "Content Type"
+  },
+  {
+    "AssetId": 157085,
+    "Name": "Pve",
+    "TextureRegion": {
+      "X": 0,
+      "Y": 0,
+      "Width": 32,
+      "Height": 32
+    },
+    "Priority": 1,
+    "Group": "Game Mode"
+  },
+  {
+    "AssetId": 157119,
+    "Name": "Pvp",
+    "TextureRegion": {
+      "X": -2,
+      "Y": -2,
+      "Width": 36,
+      "Height": 36
+    },
+    "Priority": 1,
+    "Group": "Game Mode"
+  },
+  {
+    "AssetId": 255428,
+    "Name": "Wvw",
+    "TextureRegion": {
+      "X": 0,
+      "Y": 0,
+      "Width": 32,
+      "Height": 32
+    },
+    "Priority": 1,
+    "Group": "Game Mode"
+  },
+  {
+    "AssetId": 1938787,
+    "Name": "Alacrity",
+    "TextureRegion": {
+      "X": -4,
+      "Y": -4,
+      "Width": 40,
+      "Height": 40
+    },
+    "Priority": 1,
+    "Group": "Roles"
+  },
+  {
+    "AssetId": 156600,
+    "Name": "Condition",
+    "TextureRegion": {
+      "X": 2,
+      "Y": 2,
+      "Width": 28,
+      "Height": 28
+    },
+    "Priority": 1,
+    "Group": "Damage Type"
+  },
+  {
+    "AssetId": 536052,
+    "Name": "Heal",
+    "TextureRegion": {
+      "X": 2,
+      "Y": 2,
+      "Width": 28,
+      "Height": 28
+    },
+    "Priority": 1,
+    "Group": "Roles"
+  },
+  {
+    "AssetId": 66722,
+    "Name": "Power",
+    "TextureRegion": {
+      "X": 2,
+      "Y": 2,
+      "Width": 28,
+      "Height": 28
+    },
+    "Priority": 1,
+    "Group": "Damage Type"
+  },
+  {
+    "AssetId": 1012835,
+    "Name": "Quickness",
+    "TextureRegion": {
+      "X": -4,
+      "Y": -4,
+      "Width": 40,
+      "Height": 40
+    },
+    "Priority": 1,
+    "Group": "Roles"
+  },
+  {
+    "AssetId": 156599,
+    "Name": "Support",
+    "TextureRegion": {
+      "X": 2,
+      "Y": 2,
+      "Width": 28,
+      "Height": 28
+    },
+    "Priority": 1,
+    "Group": "Roles"
+  },
+  {
+    "AssetId": 536048,
+    "Name": "Tank",
+    "TextureRegion": {
+      "X": 2,
+      "Y": 2,
+      "Width": 28,
+      "Height": 28
+    },
+    "Priority": 1,
+    "Group": "Roles"
+  },
+  {
+    "AssetId": 156602,
+    "Name": "Hybrid",
+    "TextureRegion": {
+      "X": 2,
+      "Y": 2,
+      "Width": 28,
+      "Height": 28
+    },
+    "Priority": 1,
+    "Group": "Damage Type"
+  },
+  {
+    "AssetId": 1128644,
+    "Name": "Raids",
+    "TextureRegion": {
+      "X": -2,
+      "Y": -2,
+      "Width": 36,
+      "Height": 36
+    },
+    "Priority": 1,
+    "Group": "Content Type"
+  },
+  {
+    "AssetId": 460029,
+    "Name": "WorldCompletion",
+    "TextureRegion": {
+      "X": -16,
+      "Y": -16,
+      "Width": 160,
+      "Height": 160
+    },
+    "Priority": 1,
+    "Group": "Content Type"
   }
 ]

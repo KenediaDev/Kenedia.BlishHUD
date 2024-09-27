@@ -2,6 +2,9 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Kenedia.Modules.BuildsManager.DataModels.Professions;
+using Kenedia.Modules.Core.Interfaces;
+using Kenedia.Modules.Core.Services;
+using System;
 
 namespace Kenedia.Modules.BuildsManager.Controls
 {
@@ -39,7 +42,6 @@ namespace Kenedia.Modules.BuildsManager.Controls
         protected override void DisposeControl()
         {
             base.DisposeControl();
-
             _skillContentControl?.Dispose();
         }
     }

@@ -134,6 +134,16 @@ namespace Kenedia.Modules.BuildsManager.Controls.ProfessionSpecific
             Skill GetSkill(SkillSlot slot)
             {
                 Skill skill = null;
+                var slotSkills = skills.Values.Where(e => e.Slot == slot);
+                var eliteSpecSkills = (TemplatePresenter?.Template?.EliteSpecialization?.Id  ?? 0 )!= 0 ? slotSkills.Where(x => x.Specialization == TemplatePresenter?.Template?.EliteSpecialization?.Id) : [];
+
+                foreach (var item in eliteSpecSkills)
+                {
+                    skill ??= item.Specialization == TemplatePresenter?.Template?.EliteSpecialization?.Id || item.Specialization == 0 ? item : skill;
+                }
+
+                if (skill is not null)
+                    return skill;
 
                 foreach(var item in skills.Values.Where(e => e.Slot == slot))
                 {

@@ -67,6 +67,8 @@ namespace Kenedia.Modules.BuildsManager.Models
 
         public event ValueChangedEventHandler<string>? NameChanged;
 
+        public event ValueChangedEventHandler<DateTime>? LastModifiedChanged;
+
         public event ValueChangedEventHandler<ProfessionType>? ProfessionChanged;
 
         public event PetChangedEventHandler? PetChanged;
@@ -82,6 +84,10 @@ namespace Kenedia.Modules.BuildsManager.Models
         public event LegendChangedEventHandler? LegendChanged;
 
         public event TemplateSlotChangedEventHandler? TemplateSlotChanged;
+
+        [JsonProperty("LastModified")]
+        [DataMember]
+        private DateTime _lastModified = DateTime.Now;
 
         public Template(Data data)
         {
@@ -244,6 +250,13 @@ namespace Kenedia.Modules.BuildsManager.Models
 
         public bool TriggerEvents { get; set; } = false;
 
+        public DateTime LastModified { get => _lastModified; set => Common.SetProperty(ref _lastModified , value, OnLastModifiedChanged); }
+
+        private void OnLastModifiedChanged(object sender, ValueChangedEventArgs<DateTime> e)
+        {
+            LastModifiedChanged?.Invoke(this, e);
+        }
+
         private async void OnTimerElapsed(object sender, ElapsedEventArgs e)
         {
             if (_saveRequested)
@@ -256,6 +269,7 @@ namespace Kenedia.Modules.BuildsManager.Models
 
         private void RequestSave()
         {
+            LastModified = DateTime.Now;
             _saveRequested = !string.IsNullOrEmpty(Name);
 
             if (_saveRequested)

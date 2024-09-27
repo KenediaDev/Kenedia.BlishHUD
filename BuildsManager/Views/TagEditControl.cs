@@ -6,6 +6,8 @@ using Kenedia.Modules.Core.Controls;
 using Kenedia.Modules.Core.Models;
 using Kenedia.Modules.Core.Utility;
 using Microsoft.Xna.Framework;
+using System;
+using System.Diagnostics;
 
 namespace Kenedia.Modules.BuildsManager.Views
 {
@@ -51,7 +53,6 @@ namespace Kenedia.Modules.BuildsManager.Views
                         {
                             Tag.Name = txt;
                             Title = txt;
-                            _ = (TemplateTags?.Save());
                         };
                     },
                 });
@@ -98,7 +99,6 @@ namespace Kenedia.Modules.BuildsManager.Views
                         if (!string.IsNullOrEmpty(txt))
                         {
                             Tag.Group = txt;
-                            _ = (TemplateTags?.Save());
                         };
                     },
                 });
@@ -190,16 +190,35 @@ namespace Kenedia.Modules.BuildsManager.Views
 
         private void OnTagChanged(object sender, ValueChangedEventArgs<TemplateTag> e)
         {
-            Title = e.NewValue?.Name;
-            TitleIcon = e.NewValue?.Icon?.Texture;
+            TemplateTag tag = e.NewValue;
 
-            var r = e.NewValue?.TextureRegion ?? e.NewValue?.Icon?.Bounds ?? Rectangle.Empty;
+            if (tag is not null)
+            {
+                tag.TagChanged += Tag_TagChanged;
+                ApplyTag(tag);
+            }
+        }
+
+        private void Tag_TagChanged(object sender, TemplateTag e)
+        {
+            ApplyTag(e);
+        }
+
+        private void ApplyTag(TemplateTag tag)
+        {
+
+            Debug.WriteLine($"APPLY TAG {tag}");
+            Title = tag?.Name;
+            TitleIcon = tag?.Icon?.Texture;
+
+            var r = tag?.TextureRegion ?? tag?.Icon?.Bounds ?? Rectangle.Empty;
             _icon.SourceRectangle = r;
             TitleTextureRegion = r;
 
-            _name.textBox.Text = e.NewValue?.Name;
-            _icon.Texture = e.NewValue?.Icon?.Texture;
-            _iconId.numberBox.Value = e.NewValue?.AssetId ?? 0;
+            _group.textBox.Text = tag?.Group;
+            _name.textBox.Text = tag?.Name;
+            _icon.Texture = tag?.Icon?.Texture;
+            _iconId.numberBox.Value = tag?.AssetId ?? 0;
 
             _x.numberBox.Value = r.X;
             _y.numberBox.Value = r.Y;
@@ -237,8 +256,6 @@ namespace Kenedia.Modules.BuildsManager.Views
                 Tag.AssetId = _iconId.numberBox.Value;
                 Tag.Icon.Texture = icon;
                 TitleTextureRegion = Tag.TextureRegion = _icon.SourceRectangle;
-
-                _ = (TemplateTags?.Save());
             }
         }
 

@@ -58,12 +58,17 @@ namespace Kenedia.Modules.BuildsManager.Controls
         {
             if (e.NewValue is not null)
             {
-                e.NewValue.OnTagChanged = ApplyTag;
+                e.NewValue.TagChanged += NewValue_TemplateChanged;
                 ApplyTag();
             }
         }
 
-        private void ApplyTag()
+        private void NewValue_TemplateChanged(object sender, TemplateTag e)
+        {
+            ApplyTag(e);
+        }
+
+        private void ApplyTag(TemplateTag tag = null)
         {
             int height = Font.LineHeight;
             _iconBounds = new(FontPadding, FontPadding, height, height);

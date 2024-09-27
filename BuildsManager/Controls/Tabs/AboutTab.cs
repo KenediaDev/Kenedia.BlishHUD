@@ -12,6 +12,7 @@ using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Linq;
 
 namespace Kenedia.Modules.BuildsManager.Controls.Tabs
@@ -33,6 +34,9 @@ namespace Kenedia.Modules.BuildsManager.Controls.Tabs
         private readonly TagEditWindow _tagEditWindow;
 
         private Color _disabledColor = Color.Gray;
+
+        private Dictionary<FlowPanel, List<TagControl>> _tagControls = [];
+        private FlowPanel _ungroupedPanel;
 
         public AboutTab(TemplatePresenter templatePresenter, TemplateTags templateTags)
         {
@@ -87,7 +91,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.Tabs
                 {
                     if (!string.IsNullOrEmpty(txt.Trim()))
                     {
-                        var templateTag = TemplateTags.Tags.FirstOrDefault(e => e.Name.ToLower() == txt.ToLower());
+                        var templateTag = TemplateTags.FirstOrDefault(e => e.Name.ToLower() == txt.ToLower());
 
                         if (templateTag is null)
                         {
@@ -101,7 +105,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.Tabs
                         }
                     }
                 },
-                TextChangedAction = (txt) => _editTags.Enabled = !string.IsNullOrEmpty(txt.Trim()) && TemplateTags.Tags.FirstOrDefault(e => e.Name.ToLower() == txt.ToLower()) is null,
+                TextChangedAction = (txt) => _editTags.Enabled = !string.IsNullOrEmpty(txt.Trim()) && TemplateTags.FirstOrDefault(e => e.Name.ToLower() == txt.ToLower()) is null,
                 PerformFiltering = (txt) =>
                 {
                     string t = txt.ToLower();
@@ -164,47 +168,242 @@ namespace Kenedia.Modules.BuildsManager.Controls.Tabs
             _noteField.TextChanged += NoteField_TextChanged;
 
             TemplatePresenter.TemplateChanged += TemplatePresenter_TemplateChanged;
-            TemplateTags.TagsChanged += TemplateTags_TagsChanged;
+
+            TemplateTags.TagAdded += TemplateTags_TagAdded;
+            TemplateTags.TagRemoved += TemplateTags_TagRemoved;
+            TemplateTags.TagChanged += TemplateTags_TagChanged;
+
+            _tagPanel.ChildAdded += TagPanel_ChildsChanged;
+            _tagPanel.ChildRemoved += TagPanel_ChildsChanged;
 
             CreateTagControls();
 
             _created = true;
         }
 
+        private void TagPanel_ChildsChanged(object sender, Blish_HUD.Controls.ChildChangedEventArgs e)
+        {
+            if (sender is FlowPanel p)
+            {
+                p.SortChildren<FlowPanel>((x, y) => x.Title == "Not Grouped" ? -1 : x.Title.CompareTo(y.Title));
+            }
+        }
+
+        private void TemplateTags_TagChanged(object sender, TemplateTag e)
+        {
+            Debug.WriteLine($"{e.Name} changed!");
+            List<FlowPanel> flowPanelsToDelete = [];
+
+            foreach (var t in _tagControls)
+            {
+                if (t.Value.FirstOrDefault(x => x.Tag == e) is var control && control is not null)
+                {
+                    var panel = t.Key;
+
+                    control.Parent = null;
+                    panel.Children.Remove(control);
+
+                    if (panel.Children.Where(x => x != control).Count() <= 0)
+                    {
+                        flowPanelsToDelete.Add(panel);
+                        panel.Dispose();
+                    }
+
+                    var p = GetPanel(e.Group);
+
+                    control.Parent = p;
+                    p.Children.Add(control);
+                    p.SortChildren<TagControl>(SortTagControls);
+                }
+            }
+
+            if (flowPanelsToDelete.Count > 0)
+            {
+                foreach (var t in flowPanelsToDelete)
+                {
+                    _tagControls.Remove(t);
+                }
+            }
+
+            return;
+            var pp = GetPanel(e.Group);
+
+            var tagControls = new List<TagControl>();
+            if (tagControls.FirstOrDefault(x => x.Tag == e) is var tagControl && tagControl is not null)
+            {
+                if (tagControl.Parent is FlowPanel panel && panel != pp)
+                {
+                    tagControl.Parent = null;
+                    panel.Children.Remove(tagControl);
+
+                    if (panel.Children.Where(x => x != tagControl).Count() <= 0)
+                    {
+                        _tagControls.Remove(panel);
+                        panel.Dispose();
+                    }
+                }
+
+                Debug.WriteLine($"GET GROUP FOR {e.Group}");
+
+                Debug.WriteLine($"Panel: {pp.Title}");
+
+                tagControl.Parent = pp;
+                pp.Children.Add(tagControl);
+                //p.Invalidate();
+
+                _tagPanel.Invalidate();
+                pp.SortChildren<TagControl>(SortTagControls);
+
+                RemoveEmptyPanels(pp);
+            }
+        }
+
+        public FlowPanel GetPanel(string title)
+        {
+            FlowPanel panel = null;
+
+            if (!string.IsNullOrEmpty(title))
+            {
+                if (_tagControls.Keys.FirstOrDefault(x => x.Title == title) is FlowPanel p)
+                {
+                    panel = p;
+                }
+
+                panel ??= new FlowPanel()
+                {
+                    Title = title,
+                    Parent = _tagPanel,
+                    Width = _tagPanel.Width - 25,
+                    WidthSizingMode = Blish_HUD.Controls.SizingMode.Standard,
+                    HeightSizingMode = Blish_HUD.Controls.SizingMode.AutoSize,
+                    AutoSizePadding = new(0, 2),
+                    OuterControlPadding = new(25, 0),
+                    CanCollapse = true,
+                };
+            }
+
+            panel ??= _ungroupedPanel ??= new FlowPanel()
+            {
+                Title = "Not Grouped",
+                Parent = _tagPanel,
+                Width = _tagPanel.Width - 25,
+                WidthSizingMode = Blish_HUD.Controls.SizingMode.Standard,
+                HeightSizingMode = Blish_HUD.Controls.SizingMode.AutoSize,
+                AutoSizePadding = new(0, 2),
+                OuterControlPadding = new(25, 0),
+                CanCollapse = true,
+            };
+
+            if (!_tagControls.ContainsKey(panel))
+            {
+                _tagControls.Add(panel, []);
+                _tagPanel.SortChildren<FlowPanel>((x, y) => x.Title == "Not Grouped" ? -1 : x.Title.CompareTo(y.Title));
+            }
+            else
+            {
+                Debug.WriteLine($"{panel.Title} exists!");
+            }
+
+            return panel;
+        }
+
         public TemplateTags TemplateTags { get; }
 
-        private void TemplateTags_TagsChanged(object sender, TemplateTag e)
+        private void RemoveEmptyPanels(FlowPanel? fp = null)
         {
-            CreateTagControls();
+            return;
+
+            var panels = _tagControls.Keys.ToList();
+
+            foreach (var p in panels)
+            {
+                if (p == fp) continue;
+
+                if (!p.Children.Any())
+                {
+                    _tagControls.Remove(p);
+                    p.Dispose();
+                }
+            }
+        }
+
+        private void TemplateTags_TagRemoved(object sender, TemplateTag e)
+        {
+            RemoveTemplateTag(e);
+        }
+
+        private void TemplateTags_TagAdded(object sender, TemplateTag e)
+        {
+            AddTemplateTag(e);
+        }
+
+        private void RemoveTemplateTag(TemplateTag e)
+        {
+            return;
+            TagControl tagControl = null;
+            var p = _tagControls.FirstOrDefault(x => x.Value.Any(x => x.Tag == e));
+
+            var panel = p.Key;
+            tagControl = p.Value.FirstOrDefault(x => x.Tag == e);
+
+            tagControl?.Dispose();
+            _tagControls[panel].Remove(tagControl);
+
+            if (panel.Children.Any())
+            {
+                panel.SortChildren<TagControl>(SortTagControls);
+            }
+
+
+            Debug.WriteLine($"RemoveTemplateTag");
+            //RemoveEmptyPanels();
+        }
+
+        private void AddTemplateTag(TemplateTag e)
+        {
+            Debug.WriteLine($"Adding tag : {e.Name}");
+            var panel = GetPanel(e.Group);
+
+            Debug.WriteLine($"panel: {panel?.Title}");
+            Debug.WriteLine($"{panel?.Title} has {_tagControls[panel].Count}");
+
+            _tagControls[panel].Add(new TagControl()
+            {
+                Parent = panel,
+                Tag = e,
+                Width = panel.Width - 25,
+                OnEditClicked = () => _tagEditWindow?.ToggleWindow(e),
+                OnClicked = (selected) =>
+                {
+                    if (TemplatePresenter.Template is Template template)
+                    {
+                        if (selected)
+                        {
+                            template.Tags.Add(e.Name);
+                        }
+                        else
+                        {
+                            _ = template.Tags.Remove(e.Name);
+                        }
+                    }
+                }
+            });
+
+            Debug.WriteLine($"{panel?.Title} has now {_tagControls[panel].Count}");
+
+            panel.SortChildren<TagControl>(SortTagControls);
+        }
+
+        private int SortTagControls(TagControl x, TagControl y)
+        {
+            return x.Tag.Priority.CompareTo(y.Tag.Priority) == 0 ? x.Tag.Name.CompareTo(y.Tag.Name) : x.Tag.Priority.CompareTo(y.Tag.Priority);
         }
 
         private void CreateTagControls()
         {
-            _tagPanel?.ClearChildren();
-
-            foreach (var tag in TemplateTags.Tags)
+            foreach (var t in TemplateTags)
             {
-                _ = new TagControl()
-                {
-                    Parent = _tagPanel,
-                    Width = tagSectionWidth - _tagPanel.ContentPadding.Horizontal - 20,
-                    Tag = tag,
-                    OnEditClicked = () => _tagEditWindow?.ToggleWindow(),
-                    OnClicked = (selected) =>
-                    {
-                        if (TemplatePresenter.Template is Template template)
-                        {
-                            if (selected)
-                            {
-                                template.Tags.Add(tag.Name);
-                            }
-                            else
-                            {
-                                _ = template.Tags.Remove(tag.Name);
-                            }
-                        }
-                    }
-                };
+                AddTemplateTag(t);
             }
         }
 
@@ -229,7 +428,10 @@ namespace Kenedia.Modules.BuildsManager.Controls.Tabs
 
             _noteField.Text = TemplatePresenter?.Template?.Description;
 
-            foreach (var tag in _tagPanel.GetChildrenOfType<TagControl>())
+            var tagControls = new List<TagControl>(_tagPanel.GetChildrenOfType<TagControl>());
+            tagControls.AddRange(_tagPanel.GetChildrenOfType<FlowPanel>().SelectMany(x => x.GetChildrenOfType<TagControl>()));
+
+            foreach (var tag in tagControls)
             {
                 tag.Selected = TemplatePresenter?.Template?.Tags.Contains(tag.Tag.Name) ?? false;
             }

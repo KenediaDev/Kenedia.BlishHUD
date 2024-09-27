@@ -12,6 +12,8 @@ using Kenedia.Modules.Core.Utility;
 using System.Threading;
 using Kenedia.Modules.Core.Controls;
 using Kenedia.Modules.Core.Attributes;
+using Gw2Sharp.WebApi;
+using Gw2Sharp.WebApi.V2.Models;
 
 namespace Kenedia.Modules.BuildsManager.Services
 {
@@ -110,6 +112,8 @@ namespace Kenedia.Modules.BuildsManager.Services
 
         public double LastLoadAttempt { get; private set; } = double.MinValue;
 
+        public List<Locale> LoadedLocales => Professions.Values.FirstOrDefault()?.Names.Where(x => !string.IsNullOrEmpty(x.Value)).Select(x => x.Key).ToList();
+
         [EnumeratorMember]
         public ProfessionDataEntry Professions { get; } = new();
 
@@ -169,7 +173,9 @@ namespace Kenedia.Modules.BuildsManager.Services
 
         [EnumeratorMember]
         public ItemMappedDataEntry<Enrichment> Enrichments { get; } = new();
+
         public Paths Paths { get; }
+
         public Gw2ApiManager Gw2ApiManager { get; }
 
         public IEnumerator<(string name, BaseMappedDataEntry map)> GetEnumerator()
@@ -192,6 +198,11 @@ namespace Kenedia.Modules.BuildsManager.Services
             }
 
             return await Load();
+        }
+
+        public async Task<bool>Load(Locale locale)
+        {
+            return await Load(!LoadedLocales.Contains(locale));
         }
 
         public async Task<bool> Load()

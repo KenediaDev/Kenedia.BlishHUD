@@ -36,11 +36,13 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
         private readonly AsyncTexture2D _textureBottomSectionSeparator = AsyncTexture2D.FromAssetId(157218);
 
         private readonly BitmapFont _nameFont = Content.DefaultFont14;
+        private readonly BitmapFont _lastModifiedFont = UI.GetFont(FontSize.Size11, FontStyle.Regular);
         private readonly BitmapFont _notificationFont = UI.GetFont(FontSize.Size14, FontStyle.Regular);
         private readonly ImageButton _editButton;
         private readonly TextBox _nameEdit;
         private readonly bool _created;
         private readonly Label _name;
+        private readonly Label _lastModified;
 
         private readonly List<TagTexture> _tagTextures = [];
 
@@ -81,6 +83,16 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
                 Height = _nameFont.LineHeight,
                 Font = _nameFont,
                 WrapText = true,
+                VerticalAlignment = VerticalAlignment.Middle,
+            };
+
+            _lastModified = new()
+            {
+                Parent = this,
+                Height = _lastModifiedFont.LineHeight,
+                Font = _lastModifiedFont,
+                TextColor = Color.White * 0.7F,
+                WrapText = false,
                 VerticalAlignment = VerticalAlignment.Middle,
             };
 
@@ -196,6 +208,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
             set
             {
                 var temp = _template;
+
                 if (Common.SetProperty(ref _template, value, ApplyTemplate))
                 {
                     if (temp is not null) temp.RaceChanged -= Template_RaceChanged;
@@ -209,15 +222,32 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
 
                     if (temp is not null) temp.Tags.CollectionChanged -= Tags_CollectionChanged;
                     if (_template is not null) _template.Tags.CollectionChanged += Tags_CollectionChanged;
+
+                    if (temp is not null) temp.LastModifiedChanged -= Template_LastModifiedChanged;
+                    if (_template is not null) _template.LastModifiedChanged += Template_LastModifiedChanged;
                 }
             }
         }
 
         public TemplatePresenter TemplatePresenter { get; }
+
         public TemplateCollection Templates { get; }
+
         public Data Data { get; }
+
         public TemplateTags TemplateTags { get; }
+
         public TemplateFactory TemplateFactory { get; }
+
+        private void Template_LastModifiedChanged(object sender, Core.Models.ValueChangedEventArgs<DateTime> e)
+        {
+            SetLastModifiedText(e.NewValue);
+        }
+
+        private void SetLastModifiedText(DateTime date)
+        {
+            _lastModified.SetLocalizedText= () => string.Format(strings.LastModified, date.ToString("g"));
+        }
 
         private void Tags_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
         {
@@ -345,18 +375,20 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
             if (!_created) return;
 
             var contentBounds = new Rectangle(ContentRegion.Left + 2, ContentRegion.Top + 2, ContentRegion.Width - 4, ContentRegion.Height - 4);
-
             _vignetteBounds = new(contentBounds.Left, contentBounds.Top, 55, 55);
-            _name?.SetLocation(new(_vignetteBounds.Right + 5, contentBounds.Top));
-            _name?.SetSize(new(contentBounds.Width - _vignetteBounds.Width - 5, _vignetteBounds.Height));
+            _name?.SetLocation(new(_vignetteBounds.Right + 5, contentBounds.Top + 2));
+            _name?.SetSize(new(contentBounds.Width - _vignetteBounds.Width - 5, _vignetteBounds.Height - _lastModifiedFont.LineHeight - _name.Top));
 
-            _nameEdit?.SetLocation(new(_vignetteBounds.Right + 5, contentBounds.Top));
-            _nameEdit?.SetSize(new(contentBounds.Width - _vignetteBounds.Width - 5, _vignetteBounds.Height));
+            _nameEdit?.SetLocation(_name.Location);
+            _nameEdit?.SetSize(_name.Size);
+
+            _lastModified?.SetLocation(new(_name.Left, _name.Bottom));
+            _lastModified?.SetSize(new(contentBounds.Width - _vignetteBounds.Width - 5, _lastModifiedFont.LineHeight));
 
             //_separatorBounds = new(ContentRegion.Width / 2, _name.Bottom + 5, 16, ContentRegion.Width - 12);
-            _separatorBounds = new(2, _name.Bottom - 4, contentBounds.Width, 8);
+            _separatorBounds = new(2, _vignetteBounds.Bottom - 2, contentBounds.Width, 8);
 
-            _bottomBounds = new(_separatorBounds.Left, _name.Bottom + 1, _separatorBounds.Width, ContentRegion.Height - 4 - _name.Bottom);
+            _bottomBounds = new(_separatorBounds.Left, _vignetteBounds.Bottom + 1, _separatorBounds.Width, ContentRegion.Height - 4 - _vignetteBounds.Bottom);
             _editBounds = new(_bottomBounds.Right - _bottomBounds.Height, _bottomBounds.Top, _bottomBounds.Height, _bottomBounds.Height);
             _specBounds = _vignetteBounds.Add(2, 2, -4, -4);
 
@@ -476,7 +508,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
             _name.Text = _template?.Name;
             _raceTexture = Data.Races.TryGetValue(_template?.Race ?? Races.None, out var race) ? race.Icon : null;
             _specTexture = Template?.EliteSpecialization?.ProfessionIconBig ?? (Data.Professions.TryGetValue((Gw2Sharp.Models.ProfessionType)Template?.Profession, out var profession) ? profession.IconBig : null);
-
+            SetLastModifiedText(_template.LastModified);
             SetTagTextures();
 
             if (_template is not null)
@@ -491,14 +523,12 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
 
             if (_template is not null)
             {
-                var tags = TemplateTags.Tags;
-
                 Point s = new(20);
                 Rectangle r = new(_tagBounds.X, _tagBounds.Y, s.X, s.Y);
 
                 foreach (string t in _template.Tags)
                 {
-                    if (tags.FirstOrDefault(x => x.Name == t) is TemplateTag tag)
+                    if (TemplateTags.FirstOrDefault(x => x.Name == t) is TemplateTag tag)
                     {
                         _tagTextures.Add(new(tag.Icon.Texture)
                         {

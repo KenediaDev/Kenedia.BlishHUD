@@ -156,10 +156,13 @@ namespace Kenedia.Modules.BuildsManager
 
             if (e.NewValue is not Locale.Korean and not Locale.Chinese)
             {
-                bool _ = await Data.Load();
-
-                base.OnLocaleChanged(sender, e);
+                if (!Data.LoadedLocales.Contains(e.NewValue))
+                {
+                    bool _ = await Data.Load(e.NewValue);
+                }
             }
+
+            base.OnLocaleChanged(sender, e);
         }
 
         protected override async Task LoadAsync()
