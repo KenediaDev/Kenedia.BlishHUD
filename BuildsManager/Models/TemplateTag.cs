@@ -3,6 +3,7 @@ using Kenedia.Modules.Core.Utility;
 using Microsoft.Xna.Framework;
 using Newtonsoft.Json;
 using System;
+using System.ComponentModel;
 
 namespace Kenedia.Modules.BuildsManager.Models
 {
@@ -23,7 +24,7 @@ namespace Kenedia.Modules.BuildsManager.Models
         [JsonProperty("Group")]
         private string _group = string.Empty;
 
-        public event EventHandler<TemplateTag>? TagChanged;
+        public event PropertyChangedEventHandler? PropertyChanged;
 
         [JsonIgnore]
         public string Group { get => _group; set => Common.SetProperty(ref _group, value, OnGroupChanged); }
@@ -51,7 +52,7 @@ namespace Kenedia.Modules.BuildsManager.Models
             Icon = new(e.NewValue);
             Icon.TextureRegion = TextureRegion ?? Icon.Texture?.Bounds ?? Rectangle.Empty;
 
-            TagChanged?.Invoke(this, this);
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(AssetId)));
         }
 
         private void OnTextureRegionChanged(object sender, ValueChangedEventArgs<Rectangle?> e)
@@ -59,22 +60,22 @@ namespace Kenedia.Modules.BuildsManager.Models
             if (Icon is not null)
                 Icon.TextureRegion = e.NewValue ?? Icon.Texture?.Bounds ?? Rectangle.Empty;
 
-            TagChanged?.Invoke(this, this);
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(TextureRegion)));
         }
 
         private void OnNameChanged(object sender, ValueChangedEventArgs<string> e)
         {
-            TagChanged?.Invoke(this, this);
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Name)));
         }
 
         private void OnPriorityChanged(object sender, ValueChangedEventArgs<int> e)
         {
-            TagChanged?.Invoke(this, this);
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Priority)));
         }
 
         private void OnGroupChanged(object sender, ValueChangedEventArgs<string> e)
         {
-            TagChanged?.Invoke(this, this);
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Group)));
         }
     }
 }

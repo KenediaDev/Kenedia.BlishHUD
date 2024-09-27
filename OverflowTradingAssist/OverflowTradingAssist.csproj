@@ -39,8 +39,8 @@
       <HintPath>..\packages\AsyncClipboardService.1.7.1\lib\net45\AsyncClipboardService.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="Blish HUD, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\BlishHUD.1.0.0\lib\net472\Blish HUD.exe</HintPath>
+    <Reference Include="Blish HUD, Version=1.2.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\BlishHUD.1.2.0\lib\net472\Blish HUD.exe</HintPath>
     </Reference>
     <Reference Include="EPPlus, Version=7.3.1.0, Culture=neutral, PublicKeyToken=ea159fdaa78159a1, processorArchitecture=MSIL">
       <HintPath>..\packages\EPPlus.7.3.1\lib\net462\EPPlus.dll</HintPath>
@@ -413,7 +413,7 @@
       <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
     </PropertyGroup>
     <Error Condition="!Exists('..\packages\MonoGame.Framework.WindowsDX.3.8.0.1641\build\MonoGame.Framework.WindowsDX.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\MonoGame.Framework.WindowsDX.3.8.0.1641\build\MonoGame.Framework.WindowsDX.targets'))" />
-    <Error Condition="!Exists('..\packages\BlishHUD.1.0.0\build\BlishHUD.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\BlishHUD.1.0.0\build\BlishHUD.targets'))" />
+    <Error Condition="!Exists('..\packages\BlishHUD.1.2.0\build\BlishHUD.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\BlishHUD.1.2.0\build\BlishHUD.targets'))" />
   </Target>
-  <Import Project="..\packages\BlishHUD.1.0.0\build\BlishHUD.targets" Condition="Exists('..\packages\BlishHUD.1.0.0\build\BlishHUD.targets')" />
+  <Import Project="..\packages\BlishHUD.1.2.0\build\BlishHUD.targets" Condition="Exists('..\packages\BlishHUD.1.2.0\build\BlishHUD.targets')" />
 </Project>

@@ -1,4 +1,6 @@
-﻿using Blish_HUD.Content;
+﻿using Blish_HUD;
+using Blish_HUD.Content;
+using Blish_HUD.Input;
 using Kenedia.Modules.BuildsManager.Controls;
 using Kenedia.Modules.BuildsManager.Models;
 using Kenedia.Modules.BuildsManager.Services;
@@ -23,6 +25,9 @@ namespace Kenedia.Modules.BuildsManager.Views
 
         private Dictionary<FlowPanel, List<TagEditControl>> _tagControls = [];
         private FlowPanel _ungroupedPanel;
+
+        private Blish_HUD.Controls.Container _startPanel = null;
+        private TagEditControl _draggingTagEditControl = null;
 
         public TagEditWindow(AsyncTexture2D background, Rectangle windowRegion, Rectangle contentRegion, TemplateTags templateTags) : base(background, windowRegion, contentRegion)
         {
@@ -97,13 +102,69 @@ namespace Kenedia.Modules.BuildsManager.Views
                 CanScroll = true,
             };
 
-            CreateTagControls();
-
             TemplateTags.TagAdded += TemplateTags_TagAdded;
-            TemplateTags.TagAdded += TemplateTags_TagRemoved;
-            TemplateTags = templateTags;
+            TemplateTags.TagRemoved += TemplateTags_TagRemoved;
+
+            _tagPanel.ChildAdded += TagPanel_ChildsChanged;
+            _tagPanel.ChildRemoved += TagPanel_ChildsChanged;
+
+            CreateTagControls();
         }
+
         public TemplateTags TemplateTags { get; }
+
+        public FlowPanel GetPanel(string title)
+        {
+            FlowPanel panel = null;
+
+            if (!string.IsNullOrEmpty(title))
+            {
+                if (_tagControls.Keys.FirstOrDefault(x => x.Title == title) is FlowPanel p)
+                {
+                    panel = p;
+                }
+
+                panel ??= new FlowPanel()
+                {
+                    Title = title,
+                    Parent = _tagPanel,
+                    Width = _tagPanel.Width - 25,
+                    WidthSizingMode = Blish_HUD.Controls.SizingMode.Standard,
+                    HeightSizingMode = Blish_HUD.Controls.SizingMode.AutoSize,
+                    AutoSizePadding = new(0, 2),
+                    OuterControlPadding = new(25, 0),
+                    CanCollapse = true,
+                };
+            }
+
+            panel ??= _ungroupedPanel ??= new FlowPanel()
+            {
+                Title = "Not Grouped",
+                Parent = _tagPanel,
+                Width = _tagPanel.Width - 25,
+                WidthSizingMode = Blish_HUD.Controls.SizingMode.Standard,
+                HeightSizingMode = Blish_HUD.Controls.SizingMode.AutoSize,
+                AutoSizePadding = new(0, 2),
+                OuterControlPadding = new(25, 0),
+                CanCollapse = true,
+            };
+
+            if (!_tagControls.ContainsKey(panel))
+            {
+                _tagControls.Add(panel, []);
+                _tagPanel.SortChildren<FlowPanel>((x, y) => x.Title == "Not Grouped" ? -1 : x.Title.CompareTo(y.Title));
+            }
+
+            return panel;
+        }
+
+        private void TagPanel_ChildsChanged(object sender, Blish_HUD.Controls.ChildChangedEventArgs e)
+        {
+            if (sender is FlowPanel p)
+            {
+                p.SortChildren<FlowPanel>((x, y) => x.Title == "Not Grouped" ? -1 : x.Title.CompareTo(y.Title));
+            }
+        }
 
         private void TemplateTags_TagRemoved(object sender, TemplateTag e)
         {
@@ -177,8 +238,8 @@ namespace Kenedia.Modules.BuildsManager.Views
                 _tagControls.Add(panel, []);
                 _tagPanel.SortChildren<FlowPanel>((x, y) => x.Title.CompareTo(y.Title));
             }
-
-            _tagControls[panel].Add(new TagEditControl()
+            TagEditControl t;
+            _tagControls[panel].Add(t = new TagEditControl()
             {
                 Parent = panel,
                 Tag = e,
@@ -186,7 +247,35 @@ namespace Kenedia.Modules.BuildsManager.Views
                 TemplateTags = TemplateTags,
             });
 
+            t.LeftMouseButtonPressed += TagEditControl_LeftMouseButtonPressed;
             panel.SortChildren<TagEditControl>(SortTagControls);
+        }
+
+        private void TagEditControl_LeftMouseButtonPressed(object sender, Blish_HUD.Input.MouseEventArgs e)
+        {
+            if (sender is TagEditControl control)
+            {
+                StartDrag(control);
+            }
+        }
+
+        //TODO: Implement drag and drop
+        private void StartDrag(TagEditControl tagEditControl)
+        {
+            _draggingTagEditControl = tagEditControl;
+            _startPanel = tagEditControl.Parent;
+
+            //_draggingTagEditControl.Parent = this;
+        }
+
+        protected override void OnMouseMoved(MouseEventArgs e)
+        {
+            base.OnMouseMoved(e);
+
+            if (GameService.Input.Mouse.State.LeftButton == Microsoft.Xna.Framework.Input.ButtonState.Pressed)
+            {
+                //_draggingTagEditControl.Location = GameService.Input.Mouse.Position;
+            }
         }
 
         protected override void OnResized(Blish_HUD.Controls.ResizedEventArgs e)
@@ -201,7 +290,7 @@ namespace Kenedia.Modules.BuildsManager.Views
             ResizeTagControls();
         }
 
-        public void ToggleWindow(TemplateTag tag)
+        public void Show(TemplateTag tag)
         {
             Show();
 

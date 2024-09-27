@@ -103,7 +103,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)Models\KeyboardLayoutType.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\ConditionalNotification.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\SerializerSettings.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Models\CustomApiManager.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\DeepObservableDictionary.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\DetailedTexture.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\GameStateChangedEventArgs.cs" />

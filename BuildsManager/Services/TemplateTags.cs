@@ -4,6 +4,7 @@ using Kenedia.Modules.Core.Models;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -32,7 +33,7 @@ namespace Kenedia.Modules.BuildsManager.Services
             _timer.Elapsed += OnTimerElapsed;
         }
 
-        public event EventHandler<TemplateTag> TagChanged;
+        public event PropertyChangedEventHandler TagChanged;
         public event EventHandler<TemplateTag> TagAdded;
         public event EventHandler<TemplateTag> TagRemoved;
 
@@ -75,15 +76,26 @@ namespace Kenedia.Modules.BuildsManager.Services
             foreach (var tag in _tags)
             {
                 tag.Icon = new(tag.AssetId);
-                tag.TagChanged += Tag_TagChanged;
+                tag.PropertyChanged += Tag_PropertyChanged;
             }
 
             OrderTags();
         }
 
-        private void Tag_TagChanged(object sender, TemplateTag e)
+        private void Tag_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            OnTagChanged(e);
+            if (sender is TemplateTag tag)
+            {
+                OnTagChanged(tag, e);
+            }
+        }
+
+        private void Tag_TagChanged(object sender, PropertyChangedEventArgs e)
+        {
+            if (sender is TemplateTag tag)
+            {
+                OnTagChanged(tag, e);
+            }
         }
 
         private void OrderTags()
@@ -96,10 +108,10 @@ namespace Kenedia.Modules.BuildsManager.Services
                 .ThenBy(x => x.Name)];
         }
 
-        private void OnTagChanged(TemplateTag tag)
+        private void OnTagChanged(TemplateTag tag, PropertyChangedEventArgs e)
         {
             OrderTags();
-            TagChanged?.Invoke(this, tag);
+            TagChanged?.Invoke(tag, e);
             RequestSave();
         }
 
@@ -108,7 +120,7 @@ namespace Kenedia.Modules.BuildsManager.Services
             if (_tags.Any(t => t.Name == tag.Name)) return;
 
             _tags.Add(tag);
-            tag.TagChanged += Tag_TagChanged;
+            tag.PropertyChanged += Tag_TagChanged;
 
             OnTagAdded(tag);
         }
@@ -129,7 +141,7 @@ namespace Kenedia.Modules.BuildsManager.Services
         {
             if (_tags.Remove(tag))
             {
-                tag.TagChanged -= Tag_TagChanged;
+                tag.PropertyChanged -= Tag_TagChanged;
                 OnTagRemoved(tag);
                 return true;
             }
@@ -150,8 +162,6 @@ namespace Kenedia.Modules.BuildsManager.Services
 
         public async Task Save()
         {
-
-            Debug.WriteLine($"SAVE TAGS");
             try
             {
                 _tokenSource?.Cancel();

@@ -8,6 +8,7 @@ using Kenedia.Modules.Core.Utility;
 using Blish_HUD.Content;
 using MonoGame.Extended.BitmapFonts;
 using Blish_HUD.Input;
+using System.ComponentModel;
 
 namespace Kenedia.Modules.BuildsManager.Controls
 {
@@ -58,14 +59,17 @@ namespace Kenedia.Modules.BuildsManager.Controls
         {
             if (e.NewValue is not null)
             {
-                e.NewValue.TagChanged += NewValue_TemplateChanged;
+                e.NewValue.PropertyChanged += NewValue_TemplateChanged;
                 ApplyTag();
             }
         }
 
-        private void NewValue_TemplateChanged(object sender, TemplateTag e)
+        private void NewValue_TemplateChanged(object sender, PropertyChangedEventArgs e)
         {
-            ApplyTag(e);
+            if (sender is TemplateTag t)
+            {
+                ApplyTag(t);
+            }
         }
 
         private void ApplyTag(TemplateTag tag = null)

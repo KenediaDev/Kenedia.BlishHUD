@@ -8,6 +8,7 @@ using Kenedia.Modules.BuildsManager.Views;
 using Kenedia.Modules.Core.Controls;
 using Kenedia.Modules.Core.Res;
 using Kenedia.Modules.Core.Services;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
@@ -31,17 +32,17 @@ namespace Kenedia.Modules.BuildsManager.Controls.Tabs
         private readonly bool _created = false;
         private int tagSectionWidth;
         private bool _changeBuild = true;
-        private readonly TagEditWindow _tagEditWindow;
 
         private Color _disabledColor = Color.Gray;
 
         private Dictionary<FlowPanel, List<TagControl>> _tagControls = [];
         private FlowPanel _ungroupedPanel;
 
-        public AboutTab(TemplatePresenter templatePresenter, TemplateTags templateTags)
+        public AboutTab(TemplatePresenter templatePresenter, TemplateTags templateTags, TagEditWindowFactory tagEditWindowFactory)
         {
             TemplatePresenter = templatePresenter;
             TemplateTags = templateTags;
+            TagEditWindowFactory = tagEditWindowFactory;
 
             HeightSizingMode = Blish_HUD.Controls.SizingMode.Fill;
             WidthSizingMode = Blish_HUD.Controls.SizingMode.Fill;
@@ -49,25 +50,6 @@ namespace Kenedia.Modules.BuildsManager.Controls.Tabs
 
             int Height = 670;
             int Width = 915;
-
-            _tagEditWindow = new(
-                TexturesService.GetTextureFromRef(@"textures\mainwindow_background.png", "mainwindow_background"),
-                new Rectangle(30, 30, Width, Height + 30),
-                new Rectangle(40, 40, Width - 3, Height),
-                templateTags)
-            {
-                Parent = GameService.Graphics.SpriteScreen,
-                Title = "❤",
-                Subtitle = "❤",
-                SavesPosition = true,
-                Id = $"{BuildsManager.ModuleInstance.Name} TagWindow",
-                MainWindowEmblem = AsyncTexture2D.FromAssetId(536043),
-                SubWindowEmblem = AsyncTexture2D.FromAssetId(156031),
-                Name = "Tag Editing",
-                Width = 580,
-                Height = 800,
-                CanResize = true,
-            };
 
             _tagsLabel = new()
             {
@@ -181,6 +163,9 @@ namespace Kenedia.Modules.BuildsManager.Controls.Tabs
             _created = true;
         }
 
+        public TemplateTags TemplateTags { get; }
+        public TagEditWindowFactory TagEditWindowFactory { get; }
+
         private void TagPanel_ChildsChanged(object sender, Blish_HUD.Controls.ChildChangedEventArgs e)
         {
             if (sender is FlowPanel p)
@@ -189,72 +174,55 @@ namespace Kenedia.Modules.BuildsManager.Controls.Tabs
             }
         }
 
-        private void TemplateTags_TagChanged(object sender, TemplateTag e)
+        private void TemplateTags_TagChanged(object sender, PropertyChangedEventArgs e)
         {
-            Debug.WriteLine($"{e.Name} changed!");
-            List<FlowPanel> flowPanelsToDelete = [];
-
-            foreach (var t in _tagControls)
+            if (sender is TemplateTag tag)
             {
-                if (t.Value.FirstOrDefault(x => x.Tag == e) is var control && control is not null)
+                switch (e.PropertyName)
                 {
-                    var panel = t.Key;
+                    case nameof(TemplateTag.Name):
+                        {
+                            var p = GetPanel(tag.Group);
+                            p.SortChildren<TagControl>(SortTagControls);
+                            break;
+                        }
 
-                    control.Parent = null;
-                    panel.Children.Remove(control);
+                    case nameof(TemplateTag.Group):
+                        List<FlowPanel> flowPanelsToDelete = [];
 
-                    if (panel.Children.Where(x => x != control).Count() <= 0)
-                    {
-                        flowPanelsToDelete.Add(panel);
-                        panel.Dispose();
-                    }
+                        foreach (var t in _tagControls)
+                        {
+                            if (t.Value.FirstOrDefault(x => x.Tag == tag) is var control && control is not null)
+                            {
+                                var p = GetPanel(tag.Group);
+                                control.Parent = p;
+                                p.Children.Add(control);
+                                p.SortChildren<TagControl>(SortTagControls);
+                                _tagControls[p].Add(control);
 
-                    var p = GetPanel(e.Group);
+                                var panel = t.Key;
+                                _tagControls[panel].Remove(control);
+                                panel.Children.Remove(control);
 
-                    control.Parent = p;
-                    p.Children.Add(control);
-                    p.SortChildren<TagControl>(SortTagControls);
+                                if (panel.Children.Where(x => x != control).Count() <= 0)
+                                {
+                                    flowPanelsToDelete.Add(panel);
+                                    panel.Dispose();
+                                }
+
+                                break;
+                            }
+                        }
+
+                        if (flowPanelsToDelete.Count > 0)
+                        {
+                            foreach (var t in flowPanelsToDelete)
+                            {
+                                _tagControls.Remove(t);
+                            }
+                        }
+                        break;
                 }
-            }
-
-            if (flowPanelsToDelete.Count > 0)
-            {
-                foreach (var t in flowPanelsToDelete)
-                {
-                    _tagControls.Remove(t);
-                }
-            }
-
-            return;
-            var pp = GetPanel(e.Group);
-
-            var tagControls = new List<TagControl>();
-            if (tagControls.FirstOrDefault(x => x.Tag == e) is var tagControl && tagControl is not null)
-            {
-                if (tagControl.Parent is FlowPanel panel && panel != pp)
-                {
-                    tagControl.Parent = null;
-                    panel.Children.Remove(tagControl);
-
-                    if (panel.Children.Where(x => x != tagControl).Count() <= 0)
-                    {
-                        _tagControls.Remove(panel);
-                        panel.Dispose();
-                    }
-                }
-
-                Debug.WriteLine($"GET GROUP FOR {e.Group}");
-
-                Debug.WriteLine($"Panel: {pp.Title}");
-
-                tagControl.Parent = pp;
-                pp.Children.Add(tagControl);
-                //p.Invalidate();
-
-                _tagPanel.Invalidate();
-                pp.SortChildren<TagControl>(SortTagControls);
-
-                RemoveEmptyPanels(pp);
             }
         }
 
@@ -299,20 +267,12 @@ namespace Kenedia.Modules.BuildsManager.Controls.Tabs
                 _tagControls.Add(panel, []);
                 _tagPanel.SortChildren<FlowPanel>((x, y) => x.Title == "Not Grouped" ? -1 : x.Title.CompareTo(y.Title));
             }
-            else
-            {
-                Debug.WriteLine($"{panel.Title} exists!");
-            }
 
             return panel;
         }
 
-        public TemplateTags TemplateTags { get; }
-
         private void RemoveEmptyPanels(FlowPanel? fp = null)
         {
-            return;
-
             var panels = _tagControls.Keys.ToList();
 
             foreach (var p in panels)
@@ -339,7 +299,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.Tabs
 
         private void RemoveTemplateTag(TemplateTag e)
         {
-            return;
+
             TagControl tagControl = null;
             var p = _tagControls.FirstOrDefault(x => x.Value.Any(x => x.Tag == e));
 
@@ -354,9 +314,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.Tabs
                 panel.SortChildren<TagControl>(SortTagControls);
             }
 
-
-            Debug.WriteLine($"RemoveTemplateTag");
-            //RemoveEmptyPanels();
+            RemoveEmptyPanels();
         }
 
         private void AddTemplateTag(TemplateTag e)
@@ -372,7 +330,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.Tabs
                 Parent = panel,
                 Tag = e,
                 Width = panel.Width - 25,
-                OnEditClicked = () => _tagEditWindow?.ToggleWindow(e),
+                OnEditClicked = () => TagEditWindowFactory.ShowEditWindow(e),
                 OnClicked = (selected) =>
                 {
                     if (TemplatePresenter.Template is Template template)
@@ -461,7 +419,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.Tabs
         {
             base.DisposeControl();
 
-            _tagEditWindow?.Dispose();
+            TagEditWindowFactory.DisposeEditWindow();
             TemplatePresenter.TemplateChanged -= TemplatePresenter_TemplateChanged;
             foreach (var c in Children)
             {

@@ -7,6 +7,7 @@ using Kenedia.Modules.Core.Models;
 using Kenedia.Modules.Core.Utility;
 using Microsoft.Xna.Framework;
 using System;
+using System.ComponentModel;
 using System.Diagnostics;
 
 namespace Kenedia.Modules.BuildsManager.Views
@@ -24,6 +25,7 @@ namespace Kenedia.Modules.BuildsManager.Views
         private readonly (Label label, NumberBox numberBox) _width;
         private readonly (Label label, NumberBox numberBox) _height;
         private readonly Button _resetButton;
+        private readonly Button _deleteButton;
 
         private readonly Image _icon;
 
@@ -171,6 +173,14 @@ namespace Kenedia.Modules.BuildsManager.Views
                 ClickAction = () => SetTextureRegionToTextureBounds(Tag.Icon.Texture),
             };
 
+            _deleteButton = new()
+            {
+                Parent = this,
+                Text = strings.Delete,
+                Height = 25,
+                ClickAction = () => RemoveTag(Tag),
+            };
+
             _created = true;
 
             Menu = new();
@@ -194,20 +204,21 @@ namespace Kenedia.Modules.BuildsManager.Views
 
             if (tag is not null)
             {
-                tag.TagChanged += Tag_TagChanged;
+                tag.PropertyChanged += Tag_TagChanged;
                 ApplyTag(tag);
             }
         }
 
-        private void Tag_TagChanged(object sender, TemplateTag e)
+        private void Tag_TagChanged(object sender, PropertyChangedEventArgs e)
         {
-            ApplyTag(e);
+            if (sender is TemplateTag tag)
+            {
+                ApplyTag(tag);
+            }
         }
 
         private void ApplyTag(TemplateTag tag)
         {
-
-            Debug.WriteLine($"APPLY TAG {tag}");
             Title = tag?.Name;
             TitleIcon = tag?.Icon?.Texture;
 
@@ -310,6 +321,9 @@ namespace Kenedia.Modules.BuildsManager.Views
 
             _resetButton.Location = new(_height.numberBox.Right + 5, _height.numberBox.Top);
             _resetButton.Width = w;
+
+            _deleteButton.Location = new(_height.numberBox.Right + 5, _group.textBox.Top);
+            _deleteButton.Width = w;
         }
     }
 }
