@@ -6,7 +6,7 @@
     }
   ],
   "dependencies": {
-    "bh.blishhud": ">=1.0.1"
+    "bh.blishhud": ">=1.2.0"
   },
   "description": "A Blish approach to store and share build setups (gear and build) with your friends, guilds and communities. A must have for everyone with a lot of builds!",
   "directories": [ "kenedia" ],
@@ -16,5 +16,5 @@
   "namespace": "Kenedia.Modules.BuildsManager",
   "package": "Kenedia.Modules.BuildsManager.dll",
   "url": "https://github.com/KenediaDev/Kenedia.BlishHUD",
-  "version": "0.4.17-Beta"
+  "version": "0.4.18-Beta"
 }
