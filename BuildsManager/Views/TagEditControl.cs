@@ -1,8 +1,10 @@
 ﻿using Blish_HUD.Content;
+using Blish_HUD.Input;
 using Kenedia.Modules.BuildsManager.Models;
 using Kenedia.Modules.BuildsManager.Res;
 using Kenedia.Modules.BuildsManager.Services;
 using Kenedia.Modules.Core.Controls;
+using Kenedia.Modules.Core.Extensions;
 using Kenedia.Modules.Core.Models;
 using Kenedia.Modules.Core.Utility;
 using Microsoft.Xna.Framework;
@@ -18,6 +20,7 @@ namespace Kenedia.Modules.BuildsManager.Views
         private readonly (Label label, TextBox textBox) _name;
         private readonly (Label label, TextBox textBox) _group;
         private readonly (Label label, NumberBox numberBox) _iconId;
+        private readonly (Label label, NumberBox numberBox) _priority;
 
         private readonly (Label label, NumberBox numberBox) _x;
         private readonly bool _created;
@@ -28,6 +31,10 @@ namespace Kenedia.Modules.BuildsManager.Views
         private readonly Button _deleteButton;
 
         private readonly Image _icon;
+
+        private Blish_HUD.Controls.Container? _draggingStartParent;
+        private Point _draggingStart;
+        private bool _dragging;
 
         public TagEditControl()
         {
@@ -81,6 +88,23 @@ namespace Kenedia.Modules.BuildsManager.Views
                     Location = new(0, Content.DefaultFont14.LineHeight + 2),
                     Height = 32,
                     ValueChangedAction = (n) => SetIcon(),
+                });
+
+            _priority = new(
+                new()
+                {
+                    Parent = this,
+                    SetLocalizedText = () => "Priority",
+                },
+                new()
+                {
+                    Parent = this,
+                    Width = 100,
+                    ShowButtons = true,
+                    MinValue = 0,
+                    Location = new(0, _icon.Bottom + 5 + Content.DefaultFont14.LineHeight + 2),
+                    Height = 32,
+                    ValueChangedAction = (n) => SetPriority(),
                 });
 
             _group = new(
@@ -179,6 +203,7 @@ namespace Kenedia.Modules.BuildsManager.Views
                 Text = strings.Delete,
                 Height = 25,
                 ClickAction = () => RemoveTag(Tag),
+                Visible = false,
             };
 
             _created = true;
@@ -186,6 +211,11 @@ namespace Kenedia.Modules.BuildsManager.Views
             Menu = new();
             _ = Menu.AddMenuItem(new ContextMenuItem(() => strings.Delete, () => RemoveTag(Tag)));
 
+        }
+
+        private void SetPriority()
+        {
+            Tag.Priority = _priority.numberBox.Value;
         }
 
         private void RemoveTag(TemplateTag tag)
@@ -219,13 +249,14 @@ namespace Kenedia.Modules.BuildsManager.Views
 
         private void ApplyTag(TemplateTag tag)
         {
-            Title = tag?.Name;
+            Title = tag?.Name + $" [Priority: {tag?.Priority}]";
             TitleIcon = tag?.Icon?.Texture;
 
             var r = tag?.TextureRegion ?? tag?.Icon?.Bounds ?? Rectangle.Empty;
             _icon.SourceRectangle = r;
             TitleTextureRegion = r;
 
+            _priority.numberBox.Value = tag?.Priority ?? 1;
             _group.textBox.Text = tag?.Group;
             _name.textBox.Text = tag?.Name;
             _icon.Texture = tag?.Icon?.Texture;
@@ -292,6 +323,10 @@ namespace Kenedia.Modules.BuildsManager.Views
             _group.textBox.Width = x - (_iconId.numberBox.Width + _icon.Width + 5);
             _group.label.Location = new(_group.textBox.Left, _name.textBox.Bottom + 5);
 
+            _priority.label.Location = new(_icon.Left, _group.label.Top);
+            _priority.numberBox.Location = new(_icon.Left, _group.textBox.Top);
+            _priority.numberBox.Width = _priority.label.Width = _iconId.numberBox.Width + _icon.Width + 3;
+
             int amount = 5;
             int padding = 5;
             int w = (x - (padding * amount)) / amount;
@@ -324,6 +359,51 @@ namespace Kenedia.Modules.BuildsManager.Views
 
             _deleteButton.Location = new(_height.numberBox.Right + 5, _group.textBox.Top);
             _deleteButton.Width = w;
+        }
+
+        public override void UpdateContainer(GameTime gameTime)
+        {
+            base.UpdateContainer(gameTime);
+
+            _dragging = _dragging && MouseOver;
+
+            if (_dragging)
+            {
+                Location = Input.Mouse.Position.Add(new Point(-_draggingStart.X, -_draggingStart.Y));
+            }
+        }
+
+        protected override void OnLeftMouseButtonReleased(MouseEventArgs e)
+        {
+            base.OnLeftMouseButtonReleased(e);
+
+            if (_dragging)
+            {
+                _dragging = false;
+            }
+        }
+
+        protected override void OnLeftMouseButtonPressed(MouseEventArgs e)
+        {
+            base.OnLeftMouseButtonPressed(e);
+            //StartDrag();
+        }
+
+        private void StartDrag()
+        {
+            var iconBounds = new Rectangle(base.ContentRegion.Left, 0, 36, 36);
+
+            if (iconBounds.Contains(RelativeMousePosition))
+            {
+                _dragging = true;
+                _draggingStart = _dragging ? RelativeMousePosition : Point.Zero;
+                _draggingStartParent ??= Parent;
+
+                Parent = Graphics.SpriteScreen;
+                Location = Graphics.SpriteScreen.RelativeMousePosition;
+
+                ZIndex = (Parent?.ZIndex ?? 100) + 100;
+            }
         }
     }
 }

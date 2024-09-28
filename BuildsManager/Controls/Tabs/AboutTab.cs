@@ -168,10 +168,12 @@ namespace Kenedia.Modules.BuildsManager.Controls.Tabs
 
         private void TagPanel_ChildsChanged(object sender, Blish_HUD.Controls.ChildChangedEventArgs e)
         {
-            if (sender is FlowPanel p)
-            {
-                p.SortChildren<FlowPanel>((x, y) => x.Title == "Not Grouped" ? -1 : x.Title.CompareTo(y.Title));
-            }
+            SortPanels();
+        }
+
+        private void SortPanels()
+        {
+            _tagPanel.SortChildren<FlowPanel>((x, y) => x == _ungroupedPanel ? -1 : x.Title.CompareTo(y.Title));
         }
 
         private void TemplateTags_TagChanged(object sender, PropertyChangedEventArgs e)
@@ -180,6 +182,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.Tabs
             {
                 switch (e.PropertyName)
                 {
+                    case nameof(TemplateTag.Priority):
                     case nameof(TemplateTag.Name):
                         {
                             var p = GetPanel(tag.Group);
@@ -265,7 +268,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.Tabs
             if (!_tagControls.ContainsKey(panel))
             {
                 _tagControls.Add(panel, []);
-                _tagPanel.SortChildren<FlowPanel>((x, y) => x.Title == "Not Grouped" ? -1 : x.Title.CompareTo(y.Title));
+                SortPanels();
             }
 
             return panel;
@@ -318,12 +321,8 @@ namespace Kenedia.Modules.BuildsManager.Controls.Tabs
         }
 
         private void AddTemplateTag(TemplateTag e)
-        {
-            Debug.WriteLine($"Adding tag : {e.Name}");
+        {            
             var panel = GetPanel(e.Group);
-
-            Debug.WriteLine($"panel: {panel?.Title}");
-            Debug.WriteLine($"{panel?.Title} has {_tagControls[panel].Count}");
 
             _tagControls[panel].Add(new TagControl()
             {
@@ -347,8 +346,8 @@ namespace Kenedia.Modules.BuildsManager.Controls.Tabs
                 }
             });
 
-            Debug.WriteLine($"{panel?.Title} has now {_tagControls[panel].Count}");
 
+            SortPanels();
             panel.SortChildren<TagControl>(SortTagControls);
         }
 
@@ -363,6 +362,8 @@ namespace Kenedia.Modules.BuildsManager.Controls.Tabs
             {
                 AddTemplateTag(t);
             }
+
+            SortPanels();
         }
 
         private void TemplatePresenter_TemplateChanged(object sender, Core.Models.ValueChangedEventArgs<Template> e)

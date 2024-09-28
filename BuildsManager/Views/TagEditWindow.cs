@@ -26,7 +26,7 @@ namespace Kenedia.Modules.BuildsManager.Views
         private Dictionary<FlowPanel, List<TagEditControl>> _tagControls = [];
         private FlowPanel _ungroupedPanel;
 
-        private Blish_HUD.Controls.Container _startPanel = null;
+        private FlowPanel _startPanel = null;
         private TagEditControl _draggingTagEditControl = null;
 
         public TagEditWindow(AsyncTexture2D background, Rectangle windowRegion, Rectangle contentRegion, TemplateTags templateTags) : base(background, windowRegion, contentRegion)
@@ -247,25 +247,7 @@ namespace Kenedia.Modules.BuildsManager.Views
                 TemplateTags = TemplateTags,
             });
 
-            t.LeftMouseButtonPressed += TagEditControl_LeftMouseButtonPressed;
             panel.SortChildren<TagEditControl>(SortTagControls);
-        }
-
-        private void TagEditControl_LeftMouseButtonPressed(object sender, Blish_HUD.Input.MouseEventArgs e)
-        {
-            if (sender is TagEditControl control)
-            {
-                StartDrag(control);
-            }
-        }
-
-        //TODO: Implement drag and drop
-        private void StartDrag(TagEditControl tagEditControl)
-        {
-            _draggingTagEditControl = tagEditControl;
-            _startPanel = tagEditControl.Parent;
-
-            //_draggingTagEditControl.Parent = this;
         }
 
         protected override void OnMouseMoved(MouseEventArgs e)
@@ -325,6 +307,52 @@ namespace Kenedia.Modules.BuildsManager.Views
             foreach (var tag in TemplateTags)
             {
                 AddTemplateTag(tag);
+            }
+        }
+
+        public override void UpdateContainer(GameTime gameTime)
+        {
+            base.UpdateContainer(gameTime);
+
+            //SetNewGroupFromDragging();
+        }
+
+        private void SetNewGroupFromDragging()
+        {
+            if (_draggingTagEditControl is not null)
+            {
+
+                Debug.WriteLine($"_draggingTagEditControl {_draggingTagEditControl.Tag.Name}");
+                if (Input.Mouse.State.LeftButton == Microsoft.Xna.Framework.Input.ButtonState.Released)
+                {
+
+                    FlowPanel p = null;
+                    foreach (var s in _tagControls.Keys)
+                    {
+                        if (s.AbsoluteBounds.Contains(_draggingTagEditControl.Location)) ;
+                        {
+                            p = s;
+                            break;
+                        }
+                    }
+
+
+                    Debug.WriteLine($"SET GROUP to {p?.Title}");
+
+                    if (p is not null)
+                    {
+                        _draggingTagEditControl.Tag.Group = p.Title;
+                    }
+                    else if (_startPanel is not null)
+                    {
+                        _draggingTagEditControl.Tag.Group = _startPanel.Title != "Not Grouped" ? _startPanel.Title : string.Empty;
+                    }
+
+
+                    Debug.WriteLine($"new group {_draggingTagEditControl.Tag.Group}");
+                    _draggingTagEditControl = null;
+                    _startPanel = null;
+                }
             }
         }
     }

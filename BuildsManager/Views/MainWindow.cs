@@ -51,13 +51,13 @@ namespace Kenedia.Modules.BuildsManager.Views
             BuildTab.Width = ContentRegion.Width - 144;
             GearTab.Width = AboutTab.Width = ContentRegion.Width - 144;
 
-            _tabbedRegion.AddTab(new TabbedRegionTab(AboutTab)
+            _tabbedRegion.AddTab(tab = new TabbedRegionTab(AboutTab)
             {
                 Header = () => strings.About,
                 Icon = AsyncTexture2D.FromAssetId(440023),
             });
 
-            _tabbedRegion.AddTab(tab = new TabbedRegionTab(BuildTab)
+            _tabbedRegion.AddTab(new TabbedRegionTab(BuildTab)
             {
                 Header = () => strings.Build,
                 Icon = AsyncTexture2D.FromAssetId(156720),
