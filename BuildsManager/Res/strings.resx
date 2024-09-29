@@ -388,4 +388,28 @@ The purpose of this code is to share the modules Equipment Template easily with 
   <data name="LastModified" xml:space="preserve">
     <value>Last Modified: {0}</value>
   </data>
+  <data name="GroupNotDefined" xml:space="preserve">
+    <value>Group not defined</value>
+  </data>
+  <data name="Group" xml:space="preserve">
+    <value>Group</value>
+  </data>
+  <data name="AssetId" xml:space="preserve">
+    <value>Asset Id</value>
+  </data>
+  <data name="Priority" xml:space="preserve">
+    <value>Priority</value>
+  </data>
+  <data name="TagName" xml:space="preserve">
+    <value>Tag Name</value>
+  </data>
+  <data name="Width" xml:space="preserve">
+    <value>Width</value>
+  </data>
+  <data name="Height" xml:space="preserve">
+    <value>Height</value>
+  </data>
+  <data name="AddTag" xml:space="preserve">
+    <value>Add Tag</value>
+  </data>
 </root>

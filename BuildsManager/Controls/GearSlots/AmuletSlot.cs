@@ -42,9 +42,16 @@ namespace Kenedia.Modules.BuildsManager.Controls_Old.GearPage.GearSlots
             _enrichmentControl.SetBounds(new(ItemControl.LocalBounds.Right + 1, ItemControl.LocalBounds.Top, infusionSize, infusionSize));
         }
 
-        protected override void SetItem(object sender, TemplateSlotChangedEventArgs e)
+        protected override void SetItemToSlotControl(object sender, TemplateSlotChangedEventArgs e)
         {
-            base.SetItem(sender, e);
+            base.SetItemToSlotControl(sender, e);
+
+            SetItemFromTemplate();
+        }
+
+        protected override void SetItemFromTemplate()
+        {
+            base.SetItemFromTemplate();
 
             if (TemplatePresenter?.Template?[Slot] is AmuletTemplateEntry amulet)
             {
@@ -97,15 +104,27 @@ namespace Kenedia.Modules.BuildsManager.Controls_Old.GearPage.GearSlots
                 new(() => strings.Stat, () => string.Format(strings.OverrideEntry, $"{strings.Stat} {strings.JewellerySlots}"), () => SetGroupStat(Stat, true)),
             ]);
 
-            CreateSubMenu(() => string.Format(strings.ResetAll, strings.Jewellery), () => string.Format(strings.ResetEntry, $"{strings.Stats} {strings.And} {strings.Infusions} {strings.JewellerySlots}"), () => SetGroupStat(null, true),
+            CreateSubMenu(() => string.Format(strings.ResetAll, strings.Jewellery), () => string.Format(strings.ResetEntry, $"{strings.Stats}, {strings.Enrichment} {strings.And} {strings.Infusions} {strings.JewellerySlots}"), () =>
+            {
+                SetGroupStat(null, true);
+                SetGroupInfusion(null, true);
+                TemplatePresenter.Template?.SetGroup<Enrichment>(Slot, TemplateSubSlotType.Enrichment, null, true);
+            },
             [
-                new(() => strings.Stats, () => string.Format(strings.ResetAll, $"{strings.Stats} {strings.JewellerySlots}"), () => SetGroupStat(null, true)),
+                new(() => strings.Stats,() => string.Format(strings.ResetEntry, $"{strings.Stats} {strings.JewellerySlots}"),() => SetGroupStat(null, true)),
+                new(() => strings.Infusions,() => string.Format(strings.ResetEntry, $"{strings.Infusions} {strings.JewellerySlots}"),() => SetGroupInfusion(null, true)),
+                new(() => strings.Enrichment,() => string.Format(strings.ResetEntry, $"{strings.Enrichment} {strings.JewellerySlots}"),() => TemplatePresenter.Template?.SetGroup<Enrichment>(Slot, TemplateSubSlotType.Enrichment, null, true)),
             ]);
         }
 
         private void SetGroupStat(Stat stat = null, bool overrideExisting = false)
         {
             TemplatePresenter.Template?.SetGroup(Slot, TemplateSubSlotType.Stat, stat, overrideExisting);
+        }
+
+        private void SetGroupInfusion(Infusion infusion = null, bool overrideExisting = false)
+        {
+            TemplatePresenter.Template?.SetGroup(Slot, TemplateSubSlotType.Infusion1, infusion, overrideExisting);
         }
 
         private void OnEnrichmentChanged(object sender, Core.Models.ValueChangedEventArgs<Enrichment> e)

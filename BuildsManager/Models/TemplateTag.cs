@@ -1,4 +1,5 @@
-﻿using Kenedia.Modules.Core.Models;
+﻿using Kenedia.Modules.BuildsManager.Res;
+using Kenedia.Modules.Core.Models;
 using Kenedia.Modules.Core.Utility;
 using Microsoft.Xna.Framework;
 using Newtonsoft.Json;
@@ -9,11 +10,15 @@ namespace Kenedia.Modules.BuildsManager.Models
 {
     public class TemplateTag
     {
+        public static string DefaultGroup => strings.GroupNotDefined;
+
+        public static string DefaultName => strings.NewTemplate;
+
         [JsonProperty("AssetId")]
         private int _assetId = 156025;
 
         [JsonProperty("Name")]
-        private string _name = "Custom Tag";
+        private string _name = DefaultName;
 
         [JsonProperty("TextureRegion")]
         private Rectangle? _textureRegion;

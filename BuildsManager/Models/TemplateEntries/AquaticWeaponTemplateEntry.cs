@@ -42,7 +42,11 @@ namespace Kenedia.Modules.BuildsManager.TemplateEntries
         {
             base.OnItemChanged(sender, e);
 
-            if (e.NewValue is Weapon weapon)
+            if (e.NewValue is null)
+            {
+                Weapon = null;
+            }
+            else if (e.NewValue is Weapon weapon)
             {
                 Weapon = weapon;
             }
@@ -103,6 +107,7 @@ namespace Kenedia.Modules.BuildsManager.TemplateEntries
                 if (obj is null)
                 {
                     Item = null;
+
                     return true;
                 }
                 else if (obj is Weapon weapon)

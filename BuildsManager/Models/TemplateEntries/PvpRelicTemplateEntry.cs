@@ -24,7 +24,11 @@ namespace Kenedia.Modules.BuildsManager.TemplateEntries
         {
             base.OnItemChanged(sender, e);
 
-            if (e.NewValue is Relic relic)
+            if (e.NewValue is null)
+            {
+                Relic = null;
+            }
+            else if (e.NewValue is Relic relic)
             {
                 Relic = relic;
             }

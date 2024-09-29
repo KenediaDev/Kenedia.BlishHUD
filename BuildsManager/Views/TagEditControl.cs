@@ -47,14 +47,14 @@ namespace Kenedia.Modules.BuildsManager.Views
                 new()
                 {
                     Parent = this,
-                    SetLocalizedText = () => "Tag Text",
+                    SetLocalizedText = () => strings.TagName,
                 },
                 new()
                 {
                     Parent = this,
                     Width = 200,
                     Height = 32,
-                    SetLocalizedPlaceholder = () => "Name",
+                    SetLocalizedPlaceholder = () => strings.TagName,
                     Location = new(0, Content.DefaultFont14.LineHeight + 2),
                     TextChangedAction = (txt) =>
                     {
@@ -78,7 +78,7 @@ namespace Kenedia.Modules.BuildsManager.Views
                 new()
                 {
                     Parent = this,
-                    SetLocalizedText = () => "Asset Id",
+                    SetLocalizedText = () => strings.AssetId,
                 },
                 new()
                 {
@@ -94,7 +94,7 @@ namespace Kenedia.Modules.BuildsManager.Views
                 new()
                 {
                     Parent = this,
-                    SetLocalizedText = () => "Priority",
+                    SetLocalizedText = () => strings.Priority,
                 },
                 new()
                 {
@@ -111,14 +111,14 @@ namespace Kenedia.Modules.BuildsManager.Views
                 new()
                 {
                     Parent = this,
-                    SetLocalizedText = () => "Group",
+                    SetLocalizedText = () => strings.Group,
                 },
                 new()
                 {
                     Parent = this,
                     Width = 200,
                     Height = 32,
-                    SetLocalizedPlaceholder = () => "Group",
+                    SetLocalizedPlaceholder = () => strings.Group,
                     Location = new(0, _icon.Bottom + 5 + Content.DefaultFont14.LineHeight + 2),
                     TextChangedAction = (txt) =>
                     {
@@ -163,7 +163,7 @@ namespace Kenedia.Modules.BuildsManager.Views
                 new()
                 {
                     Parent = this,
-                    SetLocalizedText = () => "Width",
+                    SetLocalizedText = () => strings.Width,
                     HorizontalAlignment = Blish_HUD.Controls.HorizontalAlignment.Center,
                 },
                 new()
@@ -178,7 +178,7 @@ namespace Kenedia.Modules.BuildsManager.Views
                 new()
                 {
                     Parent = this,
-                    SetLocalizedText = () => "Height",
+                    SetLocalizedText = () => strings.Height,
                     HorizontalAlignment = Blish_HUD.Controls.HorizontalAlignment.Center,
                 },
                 new()
@@ -249,7 +249,7 @@ namespace Kenedia.Modules.BuildsManager.Views
 
         private void ApplyTag(TemplateTag tag)
         {
-            Title = tag?.Name + $" [Priority: {tag?.Priority}]";
+            Title = tag?.Name + $" [{strings.Priority}: {tag?.Priority}]";
             TitleIcon = tag?.Icon?.Texture;
 
             var r = tag?.TextureRegion ?? tag?.Icon?.Bounds ?? Rectangle.Empty;

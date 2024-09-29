@@ -47,9 +47,16 @@ namespace Kenedia.Modules.BuildsManager.Controls_Old.GearPage.GearSlots
             spriteBatch.DrawStringOnCtrl(this, _powerCoreDescription, Content.DefaultFont12, _statBounds, Color.White, false, HorizontalAlignment.Left, VerticalAlignment.Top);
         }
 
-        protected override void SetItem(object sender, TemplateSlotChangedEventArgs e)
+        protected override void SetItemToSlotControl(object sender, TemplateSlotChangedEventArgs e)
         {
-            base.SetItem(sender, e);
+            base.SetItemToSlotControl(sender, e);
+
+            SetItemFromTemplate();
+        }
+
+        protected override void SetItemFromTemplate()
+        {
+            base.SetItemFromTemplate();
 
             if (TemplatePresenter?.Template?[Slot] is PowerCoreTemplateEntry powerCore)
             {

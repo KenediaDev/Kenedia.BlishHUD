@@ -388,4 +388,28 @@ El propósito de este código es compartir la Plantilla de Equipo del módulo f�
   <data name="LastModified" xml:space="preserve">
     <value>Última modificación: {0}</value>
   </data>
+  <data name="GroupNotDefined" xml:space="preserve">
+    <value>Grupo no definido</value>
+  </data>
+  <data name="Group" xml:space="preserve">
+    <value>Grupo</value>
+  </data>
+  <data name="AssetId" xml:space="preserve">
+    <value>Id de activo</value>
+  </data>
+  <data name="Priority" xml:space="preserve">
+    <value>Prioridad</value>
+  </data>
+  <data name="TagName" xml:space="preserve">
+    <value>Nombre de la etiqueta</value>
+  </data>
+  <data name="Width" xml:space="preserve">
+    <value>Anchura</value>
+  </data>
+  <data name="Height" xml:space="preserve">
+    <value>Altura</value>
+  </data>
+  <data name="AddTag" xml:space="preserve">
+    <value>Añadir etiqueta</value>
+  </data>
 </root>

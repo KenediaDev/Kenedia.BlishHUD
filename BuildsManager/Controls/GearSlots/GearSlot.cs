@@ -82,20 +82,27 @@ namespace Kenedia.Modules.BuildsManager.Controls_Old.GearPage.GearSlots
             {
                 e.OldValue.GameModeChanged -= GameModeChanged;
                 e.OldValue.TemplateSlotChanged -= TemplateSlotChanged;
+                e.OldValue.TemplateChanged -= TemplateChanged;
             }
 
             if (e.NewValue is not null)
             {
                 e.NewValue.GameModeChanged += GameModeChanged;
                 e.NewValue.TemplateSlotChanged += TemplateSlotChanged;
+                e.NewValue.TemplateChanged += TemplateChanged;
             }
+        }
+
+        private void TemplateChanged(object sender, ValueChangedEventArgs<Template> e)
+        {
+            SetItemFromTemplate();
         }
 
         private void TemplateSlotChanged(object sender, TemplateSlotChangedEventArgs e)
         {
             if (e.Slot == Slot)
             {
-                SetItem(sender, e);
+                SetItemToSlotControl(sender, e);
             }
         }
 
@@ -177,7 +184,11 @@ namespace Kenedia.Modules.BuildsManager.Controls_Old.GearPage.GearSlots
             //ItemTexture.Bounds = new(0, 0, size, size);
         }
 
-        protected virtual void SetItem(object sender, TemplateSlotChangedEventArgs e)
+        protected virtual void SetItemToSlotControl(object sender, TemplateSlotChangedEventArgs e)
+        {
+        }
+
+        protected virtual void SetItemFromTemplate()
         {
         }
 

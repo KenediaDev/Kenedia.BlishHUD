@@ -49,7 +49,6 @@ namespace Kenedia.Modules.BuildsManager.Services
 
         public async Task Load()
         {
-            Debug.WriteLine($"LOAD TAGS");
             try
             {
                 if (File.Exists($@"{_paths.ModulePath}TemplateTags.json"))

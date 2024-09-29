@@ -388,4 +388,28 @@ Le but de ce code est de partager facilement le modèle d'équipement du module 
   <data name="LastModified" xml:space="preserve">
     <value>Dernière modification : {0}</value>
   </data>
+  <data name="GroupNotDefined" xml:space="preserve">
+    <value>Groupe non défini</value>
+  </data>
+  <data name="Group" xml:space="preserve">
+    <value>Groupe</value>
+  </data>
+  <data name="AssetId" xml:space="preserve">
+    <value>Identité de l'actif</value>
+  </data>
+  <data name="Priority" xml:space="preserve">
+    <value>Priorité</value>
+  </data>
+  <data name="TagName" xml:space="preserve">
+    <value>Nom de l'étiquette</value>
+  </data>
+  <data name="Width" xml:space="preserve">
+    <value>Largeur</value>
+  </data>
+  <data name="Height" xml:space="preserve">
+    <value>Hauteur</value>
+  </data>
+  <data name="AddTag" xml:space="preserve">
+    <value>Ajouter une étiquette</value>
+  </data>
 </root>

@@ -55,8 +55,16 @@ namespace Kenedia.Modules.BuildsManager.Controls_Old.GearPage.GearSlots
             }
         }
 
-        protected override void SetItem(object sender, TemplateSlotChangedEventArgs e)
+        protected override void SetItemToSlotControl(object sender, TemplateSlotChangedEventArgs e)
         {
+            base.SetItemToSlotControl(sender, e);
+
+            SetItemFromTemplate();
+        }
+
+        protected override void SetItemFromTemplate()
+        {
+            base.SetItemFromTemplate();
             if (TemplatePresenter?.Template?[Slot] is NourishmentTemplateEntry nourishment)
             {
                 Item = nourishment.Item;

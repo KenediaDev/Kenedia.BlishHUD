@@ -23,7 +23,11 @@ namespace Kenedia.Modules.BuildsManager.TemplateEntries
         {
             base.OnItemChanged(sender, e);
 
-            if (e.NewValue is PowerCore powerCore)
+            if (e.NewValue is null)
+            {
+                PowerCore = null;
+            }
+            else if (e.NewValue is PowerCore powerCore)
             {
                 PowerCore = powerCore;
             }
@@ -74,6 +78,7 @@ namespace Kenedia.Modules.BuildsManager.TemplateEntries
                 else if (obj is PowerCore powerCore)
                 {
                     Item = powerCore;
+                    return true;
                 }
             }
 

@@ -45,15 +45,12 @@ namespace Kenedia.Modules.BuildsManager.TemplateEntries
         {
             base.OnItemChanged(sender, e);
 
-            Debug.WriteLine($"OnItemChanged {e.NewValue}");
             if (e.NewValue is null)
             {
                 Weapon = null;
             }
             else if (e.NewValue is Weapon weapon)
             {
-
-                Debug.WriteLine($"weapon {weapon?.Name}");
                 Weapon = weapon;
             }
         }

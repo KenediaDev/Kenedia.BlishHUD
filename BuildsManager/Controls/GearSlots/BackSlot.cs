@@ -49,9 +49,16 @@ namespace Kenedia.Modules.BuildsManager.Controls_Old.GearPage.GearSlots
             _infusion2Control.SetBounds(new(ItemControl.LocalBounds.Right + 2, ItemControl.LocalBounds.Top + ((infusionSize + 2) * 1), infusionSize, infusionSize));
         }
 
-        protected override void SetItem(object sender, TemplateSlotChangedEventArgs e)
+        protected override void SetItemToSlotControl(object sender, TemplateSlotChangedEventArgs e)
         {
-            base.SetItem(sender, e);
+            base.SetItemToSlotControl(sender, e);
+
+            SetItemFromTemplate();
+        }
+
+        protected override void SetItemFromTemplate()
+        {
+            base.SetItemFromTemplate();
 
             if (TemplatePresenter?.Template?[Slot] is BackTemplateEntry back)
             {
@@ -125,14 +132,16 @@ namespace Kenedia.Modules.BuildsManager.Controls_Old.GearPage.GearSlots
                 new(() => strings.Infusions, () => string.Format(strings.OverrideEntry, $"{strings.Infusions} {strings.JewellerySlots}"), () => SetGroupInfusion(Infusion1, true)),
                 ]);
 
-            CreateSubMenu(() => string.Format(strings.ResetAll, strings.Jewellery), () => string.Format(strings.ResetEntry, $"{strings.Stats} {strings.And} {strings.Infusions} {strings.JewellerySlots}"), () =>
+            CreateSubMenu(() => string.Format(strings.ResetAll, strings.Jewellery), () => string.Format(strings.ResetEntry, $"{strings.Stats}, {strings.Enrichment} {strings.And} {strings.Infusions} {strings.JewellerySlots}"), () =>
             {
                 SetGroupStat(null, true);
                 SetGroupInfusion(null, true);
+                TemplatePresenter.Template?.SetGroup<Enrichment>(Slot, TemplateSubSlotType.Enrichment, null, true);
             },
             [
                 new(() => strings.Stats,() => string.Format(strings.ResetEntry, $"{strings.Stats} {strings.JewellerySlots}"),() => SetGroupStat(null, true)),
                 new(() => strings.Infusions,() => string.Format(strings.ResetEntry, $"{strings.Infusions} {strings.JewellerySlots}"),() => SetGroupInfusion(null, true)),
+                new(() => strings.Enrichment,() => string.Format(strings.ResetEntry, $"{strings.Enrichment} {strings.JewellerySlots}"),() => TemplatePresenter.Template?.SetGroup<Enrichment>(Slot, TemplateSubSlotType.Enrichment, null, true)),
             ]);
         }
 

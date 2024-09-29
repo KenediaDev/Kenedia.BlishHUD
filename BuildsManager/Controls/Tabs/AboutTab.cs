@@ -110,9 +110,9 @@ namespace Kenedia.Modules.BuildsManager.Controls.Tabs
                 Texture = AsyncTexture2D.FromAssetId(255443),
                 HoveredTexture = AsyncTexture2D.FromAssetId(255297),
                 DisabledTexture = AsyncTexture2D.FromAssetId(255296),
-                SetLocalizedTooltip = () => "Add Tag",
+                SetLocalizedTooltip = () => strings.AddTag,
                 Enabled = false,
-                ClickAction = (b) => TemplateTags.Add(new TemplateTag() { Name = string.IsNullOrEmpty(_tagFilter.Text) ? "New Tag" : _tagFilter.Text })
+                ClickAction = (b) => TemplateTags.Add(new TemplateTag() { Name = string.IsNullOrEmpty(_tagFilter.Text) ? TemplateTag.DefaultName : _tagFilter.Text })
             };
 
             _tagPanel = new()
@@ -255,7 +255,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.Tabs
 
             panel ??= _ungroupedPanel ??= new FlowPanel()
             {
-                Title = "Not Grouped",
+                Title = TemplateTag.DefaultGroup,
                 Parent = _tagPanel,
                 Width = _tagPanel.Width - 25,
                 WidthSizingMode = Blish_HUD.Controls.SizingMode.Standard,
@@ -345,7 +345,6 @@ namespace Kenedia.Modules.BuildsManager.Controls.Tabs
                     }
                 }
             });
-
 
             SortPanels();
             panel.SortChildren<TagControl>(SortTagControls);

@@ -17,6 +17,7 @@ using Kenedia.Modules.Core.Services;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
+using System.Diagnostics;
 using FlowPanel = Kenedia.Modules.Core.Controls.FlowPanel;
 using Panel = Kenedia.Modules.Core.Controls.Panel;
 using TextBox = Kenedia.Modules.Core.Controls.TextBox;
@@ -55,8 +56,6 @@ namespace Kenedia.Modules.BuildsManager.Controls.Tabs
             Data = data;
 
             ClipsBounds = false;
-            //WidthSizingMode = SizingMode.Fill;
-            HeightSizingMode = SizingMode.Fill;
 
             _copyButton = new()
             {
@@ -136,7 +135,8 @@ namespace Kenedia.Modules.BuildsManager.Controls.Tabs
             {
                 Parent = this,
                 Location = new(0, _dummy.Bottom),
-                WidthSizingMode = SizingMode.Fill,
+                //WidthSizingMode = SizingMode.Fill,
+                Width = 767,
                 HeightSizingMode = SizingMode.AutoSize,
                 ControlPadding = new(1),
                 BackgroundColor = Color.Black * 0.8F,
@@ -158,13 +158,15 @@ namespace Kenedia.Modules.BuildsManager.Controls.Tabs
                 ZIndex = 16,
             };
 
-            SetSelectionTextures();
-
             TemplatePresenter.TemplateChanged += TemplatePresenter_TemplateChanged;
             TemplatePresenter.BuildCodeChanged += TemplatePresenter_BuildCodeChanged;
             TemplatePresenter.ProfessionChanged += TemplatePresenter_ProfessionChanged;
             TemplatePresenter.RaceChanged += TemplatePresenter_RaceChanged;
             TemplatePresenter.EliteSpecializationChanged += TemplatePresenter_EliteSpecializationChanged;
+
+            WidthSizingMode = SizingMode.Fill;
+            HeightSizingMode = SizingMode.Fill;
+            SetSelectionTextures();
         }
 
         public TemplatePresenter TemplatePresenter { get; }
@@ -205,6 +207,11 @@ namespace Kenedia.Modules.BuildsManager.Controls.Tabs
                     _professionSpecifics.Height = _professionSpecificsContainer.Height;
                 }
             }
+        }
+
+        public override void UpdateContainer(GameTime gameTime)
+        {
+            base.UpdateContainer(gameTime);
         }
 
         public override void PaintBeforeChildren(SpriteBatch spriteBatch, Rectangle bounds)

@@ -33,7 +33,11 @@ namespace Kenedia.Modules.BuildsManager.TemplateEntries
         {
             base.OnItemChanged(sender, e);
 
-            if (e.NewValue is Trinket trinket)
+            if (e.NewValue is null)
+            {
+                Amulet = null;
+            }
+            else if (e.NewValue is Trinket trinket)
             {
                 Amulet = trinket;
             }
@@ -97,7 +101,7 @@ namespace Kenedia.Modules.BuildsManager.TemplateEntries
                     return true;
                 }
             }
-            else if (subSlot == TemplateSubSlotType.Infusion1)
+            else if (subSlot == TemplateSubSlotType.Enrichment)
             {
                 if (obj?.Equals(Enrichment) is true)
                 {

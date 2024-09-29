@@ -28,6 +28,7 @@ using Kenedia.Modules.BuildsManager.Controls_Old.GearPage.GearSlots;
 using Kenedia.Modules.BuildsManager.Interfaces;
 using System.IdentityModel.Protocols.WSTrust;
 using System.Diagnostics;
+using System.Runtime.CompilerServices;
 
 namespace Kenedia.Modules.BuildsManager.Models
 {
@@ -38,7 +39,6 @@ namespace Kenedia.Modules.BuildsManager.Models
 
         public Data Data { get; }
 
-        private bool _loaded = false;
         private bool _isDisposed = false;
 
         private Races _race = Races.None;
@@ -100,9 +100,9 @@ namespace Kenedia.Modules.BuildsManager.Models
                 {
                 {TemplateSlotType.MainHand, MainHand },
                 {TemplateSlotType.OffHand, OffHand },
-                {TemplateSlotType.Aquatic, Aquatic},
                 {TemplateSlotType.AltMainHand, AltMainHand},
                 {TemplateSlotType.AltOffHand, AltOffHand },
+                {TemplateSlotType.Aquatic, Aquatic},
                 {TemplateSlotType.AltAquatic, AltAquatic},
                 };
 
@@ -117,7 +117,9 @@ namespace Kenedia.Modules.BuildsManager.Models
 
             PlayerCharacter player = Blish_HUD.GameService.Gw2Mumble.PlayerCharacter;
             Profession = player?.Profession ?? Profession;
-            _tags = [];
+            Tags = [];
+
+            Tags.CollectionChanged += Tags_CollectionChanged;
         }
 
         public Template(Data data, string? buildCode, string? gearCode) : this(data)
@@ -163,14 +165,14 @@ namespace Kenedia.Modules.BuildsManager.Models
         public string? BuildCode
         {
             set => LoadBuildFromCode(value);
-            get => !_loaded ? _savedBuildCode : ParseBuildCode();
+            get => !Loaded ? _savedBuildCode : ParseBuildCode();
         }
 
         [DataMember]
         public string? GearCode
         {
             set => LoadGearFromCode(value);
-            get => !_loaded ? _savedGearCode : ParseGearCode();
+            get => !Loaded ? _savedGearCode : ParseGearCode();
         }
 
         [DataMember]
@@ -248,9 +250,11 @@ namespace Kenedia.Modules.BuildsManager.Models
 
         public Dictionary<TemplateSlotType, TemplateEntry> Weapons { get; }
 
-        public bool TriggerEvents { get; set; } = false;
+        public bool TriggerAutoSave { get; set; } = false;
 
-        public DateTime LastModified { get => _lastModified; set => Common.SetProperty(ref _lastModified , value, OnLastModifiedChanged); }
+        public DateTime LastModified { get => _lastModified; set => Common.SetProperty(ref _lastModified, value, OnLastModifiedChanged); }
+
+        public bool Loaded { get; set; }
 
         private void OnLastModifiedChanged(object sender, ValueChangedEventArgs<DateTime> e)
         {
@@ -267,10 +271,9 @@ namespace Kenedia.Modules.BuildsManager.Models
             }
         }
 
-        private void RequestSave()
+        private void RequestSave([CallerMemberName] string name = "unkown")
         {
-            LastModified = DateTime.Now;
-            _saveRequested = !string.IsNullOrEmpty(Name);
+            _saveRequested = !string.IsNullOrEmpty(Name) && TriggerAutoSave && Loaded;
 
             if (_saveRequested)
             {
@@ -315,17 +318,9 @@ namespace Kenedia.Modules.BuildsManager.Models
         {
             TemplateEntry entry = this[slot];
 
-            Debug.WriteLine($"SET ITEM {typeof(T)} to {slot} {subSlot} {obj} ");
-
             if (entry.SetValue(slot, subSlot, obj))
             {
-
-                Debug.WriteLine($"SetValue: TRUE");
                 OnGearChanged(entry, new TemplateSlotChangedEventArgs(slot, subSlot, obj));
-            }
-            else
-            {
-                Debug.WriteLine($"SetValue: FALSE");
             }
         }
 
@@ -485,47 +480,10 @@ namespace Kenedia.Modules.BuildsManager.Models
 
         public void LoadGearFromCode(string? code, bool save = false)
         {
-            if (code == null) return;
-
-            try
-            {
-                byte[] codeArray = Convert.FromBase64String(GearTemplateCode.PrepareBase64String(code));
-
-                codeArray = MainHand.GetFromCodeArray(codeArray);
-                codeArray = OffHand.GetFromCodeArray(codeArray);
-                codeArray = AltMainHand.GetFromCodeArray(codeArray);
-                codeArray = AltOffHand.GetFromCodeArray(codeArray);
-
-                codeArray = Head.GetFromCodeArray(codeArray);
-                codeArray = Shoulder.GetFromCodeArray(codeArray);
-                codeArray = Chest.GetFromCodeArray(codeArray);
-                codeArray = Hand.GetFromCodeArray(codeArray);
-                codeArray = Leg.GetFromCodeArray(codeArray);
-                codeArray = Foot.GetFromCodeArray(codeArray);
-
-                codeArray = Back.GetFromCodeArray(codeArray);
-                codeArray = Amulet.GetFromCodeArray(codeArray);
-                codeArray = Accessory_1.GetFromCodeArray(codeArray);
-                codeArray = Accessory_2.GetFromCodeArray(codeArray);
-                codeArray = Ring_1.GetFromCodeArray(codeArray);
-                codeArray = Ring_2.GetFromCodeArray(codeArray);
-
-                codeArray = AquaBreather.GetFromCodeArray(codeArray);
-                codeArray = Aquatic.GetFromCodeArray(codeArray);
-                codeArray = AltAquatic.GetFromCodeArray(codeArray);
-
-                codeArray = PvpAmulet.GetFromCodeArray(codeArray);
-                codeArray = Nourishment.GetFromCodeArray(codeArray);
-                codeArray = Enhancement.GetFromCodeArray(codeArray);
-                codeArray = PowerCore.GetFromCodeArray(codeArray);
-                codeArray = PveRelic.GetFromCodeArray(codeArray);
-                codeArray = PvpRelic.GetFromCodeArray(codeArray);
-
-                // Enable Events again to become responsive
-            }
-            catch { }
+            GearChatCode.LoadTemplateFromChatCode(this, code);
 
             RemoveInvalidGearCombinations();
+            OnGearCodeChanged();
 
             if (save)
             {
@@ -597,39 +555,7 @@ namespace Kenedia.Modules.BuildsManager.Models
 
         public string? ParseGearCode()
         {
-            byte[] codeArray = new byte[0];
-
-            codeArray = MainHand.AddToCodeArray(codeArray);
-            codeArray = OffHand.AddToCodeArray(codeArray);
-            codeArray = AltMainHand.AddToCodeArray(codeArray);
-            codeArray = AltOffHand.AddToCodeArray(codeArray);
-
-            codeArray = Head.AddToCodeArray(codeArray);
-            codeArray = Shoulder.AddToCodeArray(codeArray);
-            codeArray = Chest.AddToCodeArray(codeArray);
-            codeArray = Hand.AddToCodeArray(codeArray);
-            codeArray = Leg.AddToCodeArray(codeArray);
-            codeArray = Foot.AddToCodeArray(codeArray);
-
-            codeArray = Back.AddToCodeArray(codeArray);
-            codeArray = Amulet.AddToCodeArray(codeArray);
-            codeArray = Accessory_1.AddToCodeArray(codeArray);
-            codeArray = Accessory_2.AddToCodeArray(codeArray);
-            codeArray = Ring_1.AddToCodeArray(codeArray);
-            codeArray = Ring_2.AddToCodeArray(codeArray);
-
-            codeArray = AquaBreather.AddToCodeArray(codeArray);
-            codeArray = Aquatic.AddToCodeArray(codeArray);
-            codeArray = AltAquatic.AddToCodeArray(codeArray);
-
-            codeArray = PvpAmulet.AddToCodeArray(codeArray);
-            codeArray = Nourishment.AddToCodeArray(codeArray);
-            codeArray = Enhancement.AddToCodeArray(codeArray);
-            codeArray = PowerCore.AddToCodeArray(codeArray);
-            codeArray = PveRelic.AddToCodeArray(codeArray);
-            codeArray = PvpRelic.AddToCodeArray(codeArray);
-
-            return $"[&{Convert.ToBase64String(codeArray)}]";
+            return GearChatCode.GetGearChatCode(this);
         }
 
         private void OnDescriptionChanged()
@@ -639,7 +565,7 @@ namespace Kenedia.Modules.BuildsManager.Models
 
         public async Task Save(int timeToWait = 1000)
         {
-            if (!_loaded) return;
+            if (!Loaded) return;
 
             _cancellationTokenSource?.Cancel();
             _cancellationTokenSource = new CancellationTokenSource();
@@ -721,12 +647,12 @@ namespace Kenedia.Modules.BuildsManager.Models
 
         public void Load()
         {
-            if (_loaded) return;
+            if (Loaded) return;
 
             GearCode = _savedGearCode;
             BuildCode = _savedBuildCode;
 
-            _loaded = true;
+            Loaded = true;
         }
 
         private void LoadSpecializationFromCode(ProfessionType profession, SpecializationSlotType slot, byte specId, byte adept, byte master, byte grandMaster)
@@ -1007,16 +933,16 @@ namespace Kenedia.Modules.BuildsManager.Models
                 {
                     if (Weapons[slot] is WeaponTemplateEntry weapon)
                     {
-                        BuildsManager.Logger.Info($"Remove {weapon.Weapon?.Name} because we can not wield it with our current profession.");
-                        weapon.SetValue(slot, TemplateSubSlotType.Item, null);
+                        BuildsManager.Logger.Info($"Remove {weapon.Weapon?.Name} because we can not wield it with our current profession '{Profession}'.");
+                        SetItem<DataModels.Items.Weapon>(slot, TemplateSubSlotType.Item, null);
                     }
                 }
                 else
                 {
                     if (Weapons[slot] is AquaticWeaponTemplateEntry weapon)
                     {
-                        BuildsManager.Logger.Info($"Remove {weapon.Weapon?.Name} because we can not wield it with our current profession.");
-                        weapon.SetValue(slot, TemplateSubSlotType.Item, null);
+                        BuildsManager.Logger.Info($"Remove {weapon.Weapon?.Name} because we can not wield it with our current profession '{Profession}'.");
+                        SetItem<DataModels.Items.Weapon>(slot, TemplateSubSlotType.Item, null);
                     }
                 }
             }
@@ -1303,6 +1229,23 @@ namespace Kenedia.Modules.BuildsManager.Models
                     }
 
                     break;
+
+                case TemplateSubSlotType.Enrichment:
+                    foreach (var slot in slots)
+                    {
+                        if (this[slot] is IEnrichmentTemplateEntry entry)
+                        {
+                            if (obj is null)
+                            {
+                                SetItem(slot, subSlot, overrideExisting ? null : entry?.Enrichment ?? null);
+                            }
+                            else if (obj is Enrichment enrichment)
+                            {
+                                SetItem(slot, subSlot, overrideExisting ? enrichment : entry?.Enrichment ?? enrichment);
+                            }
+                        }
+                    }
+                    break;
             }
 
             void SetWeapons(TemplateSubSlotType subSlot, DataModels.Items.Weapon? weapon, bool overrideExisting, TemplateSlotType[] slots)
@@ -1341,18 +1284,18 @@ namespace Kenedia.Modules.BuildsManager.Models
                     switch (this[slot])
                     {
                         case ITripleInfusionTemplateEntry entry:
-                            SetItem(slot, subSlot, overrideExisting ? infusion : entry?.Infusion1 ?? infusion);
-                            SetItem(slot, subSlot, overrideExisting ? infusion : entry?.Infusion2 ?? infusion);
-                            SetItem(slot, subSlot, overrideExisting ? infusion : entry?.Infusion3 ?? infusion);
+                            SetItem(slot, TemplateSubSlotType.Infusion1, overrideExisting ? infusion : entry?.Infusion1 ?? infusion);
+                            SetItem(slot, TemplateSubSlotType.Infusion2, overrideExisting ? infusion : entry?.Infusion2 ?? infusion);
+                            SetItem(slot, TemplateSubSlotType.Infusion3, overrideExisting ? infusion : entry?.Infusion3 ?? infusion);
                             break;
 
                         case IDoubleInfusionTemplateEntry entry:
-                            SetItem(slot, subSlot, overrideExisting ? infusion : entry?.Infusion1 ?? infusion);
-                            SetItem(slot, subSlot, overrideExisting ? infusion : entry?.Infusion2 ?? infusion);
+                            SetItem(slot, TemplateSubSlotType.Infusion1, overrideExisting ? infusion : entry?.Infusion1 ?? infusion);
+                            SetItem(slot, TemplateSubSlotType.Infusion2, overrideExisting ? infusion : entry?.Infusion2 ?? infusion);
                             break;
 
                         case ISingleInfusionTemplateEntry entry:
-                            SetItem(slot, subSlot, overrideExisting ? infusion : entry?.Infusion1 ?? infusion);
+                            SetItem(slot, TemplateSubSlotType.Infusion1, overrideExisting ? infusion : entry?.Infusion1 ?? infusion);
                             break;
                     }
                 }

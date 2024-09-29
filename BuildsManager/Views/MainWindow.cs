@@ -8,6 +8,7 @@ using Blish_HUD.Modules;
 using Kenedia.Modules.BuildsManager.Controls.Tabs;
 using Kenedia.Modules.BuildsManager.Controls;
 using Kenedia.Modules.BuildsManager.Controls.Selection;
+using System.Diagnostics;
 
 namespace Kenedia.Modules.BuildsManager.Views
 {
@@ -48,8 +49,6 @@ namespace Kenedia.Modules.BuildsManager.Views
             };
 
             TabbedRegionTab tab;
-            BuildTab.Width = ContentRegion.Width - 144;
-            GearTab.Width = AboutTab.Width = ContentRegion.Width - 144;
 
             _tabbedRegion.AddTab(tab = new TabbedRegionTab(AboutTab)
             {
@@ -71,11 +70,14 @@ namespace Kenedia.Modules.BuildsManager.Views
 
             _tabbedRegion.SwitchTab(tab);
 
-            TemplatePresenter.TemplateChanged += TemplatePresenter_TemplateChanged;
-            TemplatePresenter.NameChanged += TemplatePresenter_NameChanged;
-
             Width = 1200;
             Height = 900;
+
+            //BuildTab.Width = ContentRegion.Width - 144;
+            BuildTab.Width = GearTab.Width = AboutTab.Width = ContentRegion.Width - 144;
+
+            TemplatePresenter.TemplateChanged += TemplatePresenter_TemplateChanged;
+            TemplatePresenter.NameChanged += TemplatePresenter_NameChanged;
         }
 
         private void TemplatePresenter_TemplateChanged(object sender, Core.Models.ValueChangedEventArgs<Template> e)
@@ -90,6 +92,7 @@ namespace Kenedia.Modules.BuildsManager.Views
         public BuildTab BuildTab { get; }
 
         public GearTab GearTab { get; }
+
         public TemplatePresenter TemplatePresenter { get; }
 
         private void TemplatePresenter_NameChanged(object sender, Core.Models.ValueChangedEventArgs<string> e)

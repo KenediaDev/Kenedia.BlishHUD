@@ -15,6 +15,7 @@ using Microsoft.Xna.Framework.Graphics;
 using MonoGame.Extended;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using static Blish_HUD.ContentService;
 using Label = Kenedia.Modules.Core.Controls.Label;
@@ -380,6 +381,10 @@ namespace Kenedia.Modules.BuildsManager.Controls
 
             Input.Mouse.LeftMouseButtonPressed -= MouseMouseButtonPressed;
             Input.Mouse.RightMouseButtonPressed -= MouseMouseButtonPressed;
+
+            TemplatePresenter.SpecializationChanged -= OnSpecializationChanged;
+            TemplatePresenter.TemplateChanged -= TemplatePresenter_TemplateChanged;
+            TemplatePresenter.TraitChanged -= TemplatePresenter_TraitChanged;
 
             _baseFrame?.Dispose();
             _eliteFrame?.Dispose();

@@ -2,6 +2,7 @@
 {
     public enum TemplateSubSlotType
     {
+        All,
         Item,
         Stat,
         Rune,

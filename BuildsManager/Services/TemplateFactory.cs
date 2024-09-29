@@ -24,7 +24,8 @@ namespace Kenedia.Modules.BuildsManager.Services
                 t.Name = name;
             }
 
-            t.TriggerEvents = true;
+            t.TriggerAutoSave = true;
+            t.Loaded = true;
 
             return t;
         }
@@ -33,7 +34,7 @@ namespace Kenedia.Modules.BuildsManager.Services
         {
             var t = new Template(Data, buildCode, gearCode)
             {
-                TriggerEvents = true
+                TriggerAutoSave = true
             };
 
             return t;
@@ -48,7 +49,7 @@ namespace Kenedia.Modules.BuildsManager.Services
                 t.Name = name;
             }
 
-            t.TriggerEvents = true;
+            t.TriggerAutoSave = true;
             return t;
 
         }
@@ -58,7 +59,7 @@ namespace Kenedia.Modules.BuildsManager.Services
             var t = new Template(Data, name, buildCode, gearCode, description, tags, race, profession, elitespecId)
             {
                 LastModified = lastModified ?? DateTime.Now,
-                TriggerEvents = true,
+                TriggerAutoSave = true,
             };
           
             return t;

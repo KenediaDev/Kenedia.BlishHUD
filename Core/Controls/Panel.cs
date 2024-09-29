@@ -310,7 +310,7 @@ namespace Kenedia.Modules.Core.Controls
             }
         }
 
-        public void UserLocale_SettingChanged(object sender, ValueChangedEventArgs<Locale> e)
+        public virtual void UserLocale_SettingChanged(object sender, ValueChangedEventArgs<Locale> e)
         {
             if (SetLocalizedTooltip is not null) BasicTooltipText = SetLocalizedTooltip?.Invoke();
             if (SetLocalizedTitle is not null) Title = SetLocalizedTitle?.Invoke();

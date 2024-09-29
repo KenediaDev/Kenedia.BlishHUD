@@ -27,7 +27,11 @@ namespace Kenedia.Modules.BuildsManager.TemplateEntries
         {
             base.OnItemChanged(sender, e);
 
-            if (e.NewValue is PvpAmulet pvpAmulet)
+            if (e.NewValue is null)
+            {
+                PvpAmulet = null;
+            }
+            else if (e.NewValue is PvpAmulet pvpAmulet)
             {
                 PvpAmulet = pvpAmulet;
             }

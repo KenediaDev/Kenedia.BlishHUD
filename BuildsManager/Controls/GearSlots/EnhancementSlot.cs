@@ -42,8 +42,17 @@ namespace Kenedia.Modules.BuildsManager.Controls_Old.GearPage.GearSlots
             spriteBatch.DrawStringOnCtrl(this, (ItemControl?.Item as DataModels.Items.Enhancement)?.Details.Description ?? ItemControl?.Item?.Description, Content.DefaultFont12, _statBounds, Color.White, false, HorizontalAlignment.Left, VerticalAlignment.Top);
         }
 
-        protected override void SetItem(object sender, TemplateSlotChangedEventArgs e)
+        protected override void SetItemToSlotControl(object sender, TemplateSlotChangedEventArgs e)
         {
+            base.SetItemToSlotControl(sender, e);
+
+            SetItemFromTemplate();
+        }
+
+        protected override void SetItemFromTemplate()
+        {
+            base.SetItemFromTemplate();
+
             if (TemplatePresenter?.Template?[Slot] is EnhancementTemplateEntry enhancement)
             {
                 Item = enhancement.Item;

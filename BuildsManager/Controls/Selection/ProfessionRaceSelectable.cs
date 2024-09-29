@@ -8,6 +8,9 @@ using System.ComponentModel;
 using static Blish_HUD.ContentService;
 using Gw2Sharp.Models;
 using Kenedia.Modules.Core.DataModels;
+using Kenedia.Modules.Core.Services;
+using Blish_HUD;
+using Gw2Sharp.WebApi;
 
 namespace Kenedia.Modules.BuildsManager.Controls.Selection
 {
@@ -67,6 +70,12 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
             set => Common.SetProperty(ref _selectionType, value, () => Value = null);
         }
 
+        public override void UserLocale_SettingChanged(object sender, ValueChangedEventArgs<Locale> e)
+        {
+            base.UserLocale_SettingChanged(sender, e);
+
+        }
+
         private void SetValue(object sender, PropertyChangedEventArgs e)
         {
             if (Value == null)
@@ -81,17 +90,19 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
                 case ProfessionRaceSelection.SelectionType.Profession:
                     if (BuildsManager.Data.Professions.TryGetValue((ProfessionType)Value, out var profession))
                     {
-                        _name.Text = profession.Name;
+                        _name.SetLocalizedText = () => profession?.Name;
                         _icon.Texture = profession.IconBig;
                     }
+
                     break;
 
                 case ProfessionRaceSelection.SelectionType.Race:
                     if (BuildsManager.Data.Races.TryGetValue((Races)Value, out var race))
                     {
-                        _name.Text = race.Name;
+                        _name.SetLocalizedText = () => race?.Name;
                         _icon.Texture = race.Icon;
                     }
+
                     break;
             }
         }

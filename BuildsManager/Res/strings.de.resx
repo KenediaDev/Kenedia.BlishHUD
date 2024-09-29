@@ -388,4 +388,28 @@ Der Zweck dieses Codes ist es, die Module Ausrüstungsvorlage leicht mit anderen
   <data name="LastModified" xml:space="preserve">
     <value>Zuletzt geändert: {0}</value>
   </data>
+  <data name="GroupNotDefined" xml:space="preserve">
+    <value>Gruppe nicht definiert</value>
+  </data>
+  <data name="Group" xml:space="preserve">
+    <value>Gruppe</value>
+  </data>
+  <data name="AssetId" xml:space="preserve">
+    <value>Asset-Kennung</value>
+  </data>
+  <data name="Priority" xml:space="preserve">
+    <value>Priorität</value>
+  </data>
+  <data name="TagName" xml:space="preserve">
+    <value>Tag Name</value>
+  </data>
+  <data name="Width" xml:space="preserve">
+    <value>Breite</value>
+  </data>
+  <data name="Height" xml:space="preserve">
+    <value>Höhe</value>
+  </data>
+  <data name="AddTag" xml:space="preserve">
+    <value>Tag hinzufügen</value>
+  </data>
 </root>

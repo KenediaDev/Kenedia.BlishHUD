@@ -217,6 +217,9 @@ namespace Kenedia.Modules.BuildsManager
 
             base.ReloadKey_Activated(sender, e);
 
+            TemplatePresenter.SetTemplate(ServiceProvider.GetService<TemplateFactory>().CreateTemplate());
+            TemplatePresenter.SetTemplate(Templates.FirstOrDefault());
+
             //await LoadAsync();
             //await GW2API.UpdateMappedIds();
         }

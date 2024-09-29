@@ -180,16 +180,20 @@ namespace Kenedia.Modules.BuildsManager.Controls_Old.GearPage.GearSlots
             }
         }
 
-        protected override void SetItem(object sender, TemplateSlotChangedEventArgs e)
+        protected override void SetItemToSlotControl(object sender, TemplateSlotChangedEventArgs e)
         {
-            base.SetItem(sender, e);
+            base.SetItemToSlotControl(sender, e);
 
+            SetItemFromTemplate();
+        }
 
-            Debug.WriteLine($"SetItem {TemplatePresenter?.Template?[Slot]}");
+        protected override void SetItemFromTemplate()
+        {
+            base.SetItemFromTemplate();
+
             if (TemplatePresenter?.Template?[Slot] is WeaponTemplateEntry weapon)
             {
-                Debug.WriteLine($"TemplatePresenter Slot {Slot} is a WeaponTemplateEntry");
-                Item = weapon?.Item;
+                Item = weapon?.Weapon;
                 Infusion = weapon?.Infusion1;
                 Sigil = weapon?.Sigil1;
                 PvpSigil = weapon?.PvpSigil;
@@ -240,10 +244,11 @@ namespace Kenedia.Modules.BuildsManager.Controls_Old.GearPage.GearSlots
 
             CreateSubMenu(() => strings.Reset, () => string.Format(strings.ResetEntry, $"{strings.Weapon}, {strings.Stat}, {strings.Sigils} {strings.And} {strings.Infusion}"), () =>
             {
+                TemplatePresenter?.Template.SetItem<Weapon>(Slot, TemplateSubSlotType.Item, null);
                 TemplatePresenter?.Template.SetItem<Stat>(Slot, TemplateSubSlotType.Stat, null);
+                TemplatePresenter?.Template.SetItem<Sigil>(Slot, TemplateSubSlotType.Sigil1, null);
                 TemplatePresenter?.Template.SetItem<Sigil>(Slot, TemplateSubSlotType.PvpSigil, null);
                 TemplatePresenter?.Template.SetItem<Infusion>(Slot, TemplateSubSlotType.Infusion1, null);
-                TemplatePresenter?.Template.SetItem<Weapon>(Slot, TemplateSubSlotType.Item, null);
             },
             [
                 new(() => strings.Weapon, () => string.Format(strings.ResetEntry, strings.Weapon), () => TemplatePresenter?.Template.SetItem<Weapon>(Slot, TemplateSubSlotType.Item, null)),

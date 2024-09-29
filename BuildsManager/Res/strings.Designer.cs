@@ -88,6 +88,15 @@ namespace Kenedia.Modules.BuildsManager.Res {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Add Tag.
+        /// </summary>
+        internal static string AddTag {
+            get {
+                return ResourceManager.GetString("AddTag", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Agony Resistance.
         /// </summary>
         internal static string AgonyResistance {
@@ -156,6 +165,15 @@ namespace Kenedia.Modules.BuildsManager.Res {
         internal static string ArmorSlots {
             get {
                 return ResourceManager.GetString("ArmorSlots", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Asset Id.
+        /// </summary>
+        internal static string AssetId {
+            get {
+                return ResourceManager.GetString("AssetId", resourceCulture);
             }
         }
         
@@ -413,6 +431,24 @@ namespace Kenedia.Modules.BuildsManager.Res {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Group.
+        /// </summary>
+        internal static string Group {
+            get {
+                return ResourceManager.GetString("Group", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Group not defined.
+        /// </summary>
+        internal static string GroupNotDefined {
+            get {
+                return ResourceManager.GetString("GroupNotDefined", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Healing Power.
         /// </summary>
         internal static string Healing {
@@ -427,6 +463,15 @@ namespace Kenedia.Modules.BuildsManager.Res {
         internal static string HealSkills {
             get {
                 return ResourceManager.GetString("HealSkills", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Height.
+        /// </summary>
+        internal static string Height {
+            get {
+                return ResourceManager.GetString("Height", resourceCulture);
             }
         }
         
@@ -611,6 +656,15 @@ namespace Kenedia.Modules.BuildsManager.Res {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Priority.
+        /// </summary>
+        internal static string Priority {
+            get {
+                return ResourceManager.GetString("Priority", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to PvP Sigil.
         /// </summary>
         internal static string PvpSigil {
@@ -773,6 +827,15 @@ namespace Kenedia.Modules.BuildsManager.Res {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Tag Name.
+        /// </summary>
+        internal static string TagName {
+            get {
+                return ResourceManager.GetString("TagName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Tags.
         /// </summary>
         internal static string Tags {
@@ -868,6 +931,15 @@ namespace Kenedia.Modules.BuildsManager.Res {
         internal static string WeaponSlots {
             get {
                 return ResourceManager.GetString("WeaponSlots", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Width.
+        /// </summary>
+        internal static string Width {
+            get {
+                return ResourceManager.GetString("Width", resourceCulture);
             }
         }
     }

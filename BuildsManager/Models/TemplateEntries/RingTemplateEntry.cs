@@ -37,7 +37,11 @@ namespace Kenedia.Modules.BuildsManager.TemplateEntries
         {
             base.OnItemChanged(sender, e);
 
-            if (e.NewValue is Trinket trinket)
+            if (e.NewValue is null)
+            {
+                Ring = null;
+            }
+            else if (e.NewValue is Trinket trinket)
             {
                 Ring = trinket;
             }

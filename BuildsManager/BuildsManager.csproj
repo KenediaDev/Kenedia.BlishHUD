@@ -494,6 +494,7 @@
     <Compile Include="Services\TagEditWindowFactory.cs" />
     <Compile Include="Services\TemplateFactory.cs" />
     <Compile Include="Services\TemplateTags.cs" />
+    <Compile Include="Utility\GearChatCode.cs" />
     <Compile Include="Utility\GearTemplateCode.cs" />
     <Compile Include="DataModels\Converter\PowerCoreConverter.cs" />
     <Compile Include="Utility\SkillSlotConversion.cs" />

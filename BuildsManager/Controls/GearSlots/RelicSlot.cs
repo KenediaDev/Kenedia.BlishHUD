@@ -47,17 +47,29 @@ namespace Kenedia.Modules.BuildsManager.Controls_Old.GearPage.GearSlots
             spriteBatch.DrawStringOnCtrl(this, _relicDescription, Content.DefaultFont12, _statBounds, Color.White, false, HorizontalAlignment.Left, VerticalAlignment.Top);
         }
 
-        protected override void SetItem(object sender, TemplateSlotChangedEventArgs e)
+        protected override void SetItemToSlotControl(object sender, TemplateSlotChangedEventArgs e)
         {
-            base.SetItem(sender, e);
+            base.SetItemToSlotControl(sender, e);
+
+            SetItemFromTemplate();
+        }
+
+        protected override void SetItemFromTemplate()
+        {
+            base.SetItemFromTemplate();
 
             if (TemplatePresenter?.Template?[Slot] is PveRelicTemplateEntry pveRelic)
             {
                 Item = pveRelic.Relic;
+                _relicName = pveRelic?.Relic?.Name;
+                _relicDescription = pveRelic?.Relic?.Description;
             }
             else if (TemplatePresenter?.Template?[Slot] is PvpRelicTemplateEntry pvpRelic)
             {
                 Item = pvpRelic.Relic;
+
+                _relicName = pvpRelic?.Relic?.Name;
+                _relicDescription = pvpRelic?.Relic?.Description;
             }
         }
 

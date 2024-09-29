@@ -23,7 +23,11 @@ namespace Kenedia.Modules.BuildsManager.TemplateEntries
         {
             base.OnItemChanged(sender, e);
 
-            if (e.NewValue is Nourishment nourishment)
+            if (e.NewValue is null)
+            {
+                Nourishment = null;
+            }
+            else if (e.NewValue is Nourishment nourishment)
             {
                 Nourishment = nourishment;
             }

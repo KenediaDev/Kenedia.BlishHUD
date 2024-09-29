@@ -3,6 +3,7 @@ using Blish_HUD.Content;
 using Blish_HUD.Input;
 using Kenedia.Modules.BuildsManager.Controls;
 using Kenedia.Modules.BuildsManager.Models;
+using Kenedia.Modules.BuildsManager.Res;
 using Kenedia.Modules.BuildsManager.Services;
 using Kenedia.Modules.Core.Controls;
 using Kenedia.Modules.Core.Extensions;
@@ -80,9 +81,9 @@ namespace Kenedia.Modules.BuildsManager.Views
                 Texture = AsyncTexture2D.FromAssetId(255443),
                 HoveredTexture = AsyncTexture2D.FromAssetId(255297),
                 DisabledTexture = AsyncTexture2D.FromAssetId(255296),
-                SetLocalizedTooltip = () => "Add Tag",
+                SetLocalizedTooltip = () => strings.AddTag,
                 Enabled = true,
-                ClickAction = (b) => TemplateTags.Add(new TemplateTag() { Name = string.IsNullOrEmpty(_tagFilter.Text) ? "New Tag" : _tagFilter.Text })
+                ClickAction = (b) => TemplateTags.Add(new TemplateTag() { Name = string.IsNullOrEmpty(_tagFilter.Text) ? TemplateTag.DefaultName : _tagFilter.Text })
             };
 
             _tagPanel = new()
@@ -139,7 +140,7 @@ namespace Kenedia.Modules.BuildsManager.Views
 
             panel ??= _ungroupedPanel ??= new FlowPanel()
             {
-                Title = "Not Grouped",
+                Title = TemplateTag.DefaultGroup,
                 Parent = _tagPanel,
                 Width = _tagPanel.Width - 25,
                 WidthSizingMode = Blish_HUD.Controls.SizingMode.Standard,
@@ -152,7 +153,7 @@ namespace Kenedia.Modules.BuildsManager.Views
             if (!_tagControls.ContainsKey(panel))
             {
                 _tagControls.Add(panel, []);
-                _tagPanel.SortChildren<FlowPanel>((x, y) => x.Title == "Not Grouped" ? -1 : x.Title.CompareTo(y.Title));
+                _tagPanel.SortChildren<FlowPanel>((x, y) => x.Title == TemplateTag.DefaultGroup ? -1 : x.Title.CompareTo(y.Title));
             }
 
             return panel;
@@ -162,7 +163,7 @@ namespace Kenedia.Modules.BuildsManager.Views
         {
             if (sender is FlowPanel p)
             {
-                p.SortChildren<FlowPanel>((x, y) => x.Title == "Not Grouped" ? -1 : x.Title.CompareTo(y.Title));
+                p.SortChildren<FlowPanel>((x, y) => x.Title == TemplateTag.DefaultGroup ? -1 : x.Title.CompareTo(y.Title));
             }
         }
 
@@ -223,7 +224,7 @@ namespace Kenedia.Modules.BuildsManager.Views
                     }
                     : (_ungroupedPanel ??= new FlowPanel()
                     {
-                        Title = "Not Grouped",
+                        Title = TemplateTag.DefaultGroup,
                         Parent = _tagPanel,
                         Width = _tagPanel.Width - 25,
                         WidthSizingMode = Blish_HUD.Controls.SizingMode.Standard,
@@ -321,8 +322,6 @@ namespace Kenedia.Modules.BuildsManager.Views
         {
             if (_draggingTagEditControl is not null)
             {
-
-                Debug.WriteLine($"_draggingTagEditControl {_draggingTagEditControl.Tag.Name}");
                 if (Input.Mouse.State.LeftButton == Microsoft.Xna.Framework.Input.ButtonState.Released)
                 {
 
@@ -336,20 +335,15 @@ namespace Kenedia.Modules.BuildsManager.Views
                         }
                     }
 
-
-                    Debug.WriteLine($"SET GROUP to {p?.Title}");
-
                     if (p is not null)
                     {
                         _draggingTagEditControl.Tag.Group = p.Title;
                     }
                     else if (_startPanel is not null)
                     {
-                        _draggingTagEditControl.Tag.Group = _startPanel.Title != "Not Grouped" ? _startPanel.Title : string.Empty;
+                        _draggingTagEditControl.Tag.Group = _startPanel.Title != TemplateTag.DefaultGroup ? _startPanel.Title : string.Empty;
                     }
 
-
-                    Debug.WriteLine($"new group {_draggingTagEditControl.Tag.Group}");
                     _draggingTagEditControl = null;
                     _startPanel = null;
                 }
