@@ -9,7 +9,6 @@ using Kenedia.Modules.BuildsManager.Models;
 
 namespace Kenedia.Modules.BuildsManager.Controls.ProfessionSpecific
 {
-    //TODO Memser Utility Skills are wonky af
     public class MesmerSpecifics : ProfessionSpecifics
     {
         //156430 One Clone

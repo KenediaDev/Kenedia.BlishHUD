@@ -353,8 +353,6 @@ namespace Kenedia.Modules.BuildsManager.Controls
                     SpecializationSlotType slot = SpecializationSlotType.Line_1;
                     BuildSpecialization temp = null;
 
-                    // TODO Figure out why it modifies the collection
-                    // tied to removing skills
                     try
                     {
                         foreach (var spec in _specBounds.ToList())

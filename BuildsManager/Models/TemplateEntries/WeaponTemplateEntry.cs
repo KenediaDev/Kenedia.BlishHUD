@@ -11,6 +11,7 @@ using Kenedia.Modules.Core.Models;
 using Kenedia.Modules.Core.Extensions;
 using Kenedia.Modules.BuildsManager.Interfaces;
 using System.Diagnostics;
+using Kenedia.Modules.BuildsManager.Extensions;
 
 namespace Kenedia.Modules.BuildsManager.TemplateEntries
 {

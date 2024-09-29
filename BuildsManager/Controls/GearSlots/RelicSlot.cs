@@ -61,14 +61,14 @@ namespace Kenedia.Modules.BuildsManager.Controls_Old.GearPage.GearSlots
             if (TemplatePresenter?.Template?[Slot] is PveRelicTemplateEntry pveRelic)
             {
                 Item = pveRelic.Relic;
-                _relicName = pveRelic?.Relic?.Name;
+                _relicName = pveRelic?.Relic?.Name ?? strings.Relic;
                 _relicDescription = pveRelic?.Relic?.Description;
             }
             else if (TemplatePresenter?.Template?[Slot] is PvpRelicTemplateEntry pvpRelic)
             {
                 Item = pvpRelic.Relic;
 
-                _relicName = pvpRelic?.Relic?.Name;
+                _relicName = pvpRelic?.Relic?.Name ?? strings.Relic;
                 _relicDescription = pvpRelic?.Relic?.Description;
             }
         }

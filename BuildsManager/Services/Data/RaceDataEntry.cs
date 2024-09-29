@@ -18,16 +18,15 @@ namespace Kenedia.Modules.BuildsManager.Services
 {
     public class RaceDataEntry : MappedDataEntry<Races, Race>
     {
-        //TODO: Check how to set to race selection
         public RaceDataEntry()
         {
             Race race = null;
             Items.Add(Races.None, race = new() { Id = Races.None });
 
-            race.Names[Locale.English] =  "None";
-            race.Names[Locale.German] = "Keine";
-            race.Names[Locale.French] = "Aucun";
-            race.Names[Locale.Spanish] = "Ninguno";
+            race.Names[Locale.English] =  "Any Race";
+            race.Names[Locale.German] = "Jede Rasse";
+            race.Names[Locale.French] = "Toute race";
+            race.Names[Locale.Spanish] = "Cualquier raza";
         }
 
         public async override Task<bool> LoadAndUpdate(string name, ByteIntMap map, string path, Gw2ApiManager gw2ApiManager, CancellationToken cancellationToken)

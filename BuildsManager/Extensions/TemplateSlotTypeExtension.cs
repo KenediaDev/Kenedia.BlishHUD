@@ -19,5 +19,27 @@ namespace Kenedia.Modules.BuildsManager.Extensions
                 _ => [],
             };
         }
+
+        public static TemplateSlotType[] GetWeaponGroup(this TemplateSlotType slot)
+        {
+            return slot switch
+            {
+                TemplateSlotType.Aquatic or TemplateSlotType.AltAquatic => [TemplateSlotType.Aquatic, TemplateSlotType.AltAquatic],
+                TemplateSlotType.MainHand or TemplateSlotType.OffHand or TemplateSlotType.AltMainHand or TemplateSlotType.AltOffHand => [TemplateSlotType.MainHand, TemplateSlotType.AltMainHand, TemplateSlotType.OffHand, TemplateSlotType.AltOffHand],
+
+            };
+        }
+
+        public static TemplateSlotType[] GetSigilGroup(this TemplateSubSlotType subSlot, bool reset = false)
+        {
+            return reset
+                ? ([TemplateSlotType.MainHand, TemplateSlotType.AltMainHand, TemplateSlotType.Aquatic, TemplateSlotType.AltAquatic, TemplateSlotType.OffHand, TemplateSlotType.AltOffHand])
+                : subSlot switch
+            {
+                TemplateSubSlotType.Sigil1 => [TemplateSlotType.MainHand, TemplateSlotType.AltMainHand, TemplateSlotType.Aquatic, TemplateSlotType.AltAquatic],
+                TemplateSubSlotType.Sigil2 => [TemplateSlotType.OffHand, TemplateSlotType.AltOffHand, TemplateSlotType.Aquatic, TemplateSlotType.AltAquatic],
+                _ => [],
+            };
+        }
     }
 }

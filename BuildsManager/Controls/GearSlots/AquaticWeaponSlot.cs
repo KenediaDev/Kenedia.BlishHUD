@@ -70,13 +70,11 @@ namespace Kenedia.Modules.BuildsManager.Controls_Old.GearPage.GearSlots
             TemplatePresenter.Template?.SetGroup(Slot, TemplateSubSlotType.Stat, stat, overrideExisting);
         }
 
-        //TODO: Handle second sigil
         private void SetGroupSigil(Sigil sigil = null, bool overrideExisting = false)
         {
             TemplatePresenter.Template?.SetGroup(Slot, TemplateSubSlotType.Sigil1, sigil, overrideExisting);
         }
 
-        //TODO: Handle second infusion
         private void SetGroupInfusion(Infusion infusion = null, bool overrideExisting = false)
         {
             TemplatePresenter.Template?.SetGroup(Slot, TemplateSubSlotType.Infusion1, infusion, overrideExisting);

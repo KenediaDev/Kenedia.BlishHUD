@@ -320,7 +320,49 @@ namespace Kenedia.Modules.BuildsManager.Models
 
             if (entry.SetValue(slot, subSlot, obj))
             {
+                if (subSlot is TemplateSubSlotType.Item && slot.IsWeapon() && obj is DataModels.Items.Weapon weapon)
+                {
+                    SetWeapon(slot, subSlot, weapon);
+                }
+
                 OnGearChanged(entry, new TemplateSlotChangedEventArgs(slot, subSlot, obj));
+            }
+        }
+
+        private void SetWeapon(TemplateSlotType slot, TemplateSubSlotType subSlot, DataModels.Items.Weapon? weapon)
+        {
+            if (slot.GetOffhand() is TemplateSlotType offhand)
+            {
+                if (this[offhand] is WeaponTemplateEntry offhandEntry)
+                {
+                    if (weapon?.WeaponType.IsTwoHanded() is true)
+                    {
+                        if (offhandEntry.SetValue(offhand, subSlot, weapon))
+                        {
+                            OnGearChanged(offhandEntry, new TemplateSlotChangedEventArgs(offhand, subSlot, weapon));
+                        }
+                    }
+                    else if (offhandEntry.Weapon?.WeaponType.IsTwoHanded() is true)
+                    {
+                        if (weapon?.WeaponType.IsOneHanded() is true)
+                        {
+                            if (offhandEntry.SetValue(offhand, subSlot, null))
+                            {
+                                OnGearChanged(offhandEntry, new TemplateSlotChangedEventArgs(offhand, subSlot, weapon));
+                            }
+                        }
+                    }
+                }
+            }
+            else if (slot.IsOffhand() && slot.GetMainHand() is TemplateSlotType mainHand)
+            {
+                if (weapon?.WeaponType.IsOneHanded() is true && this[mainHand] is WeaponTemplateEntry mainHandEntry && mainHandEntry.Weapon?.WeaponType.IsTwoHanded() is true)
+                {
+                    if (mainHandEntry.SetValue(mainHand, subSlot, null))
+                    {
+                        OnGearChanged(mainHandEntry, new TemplateSlotChangedEventArgs(mainHand, subSlot, weapon));
+                    }
+                }
             }
         }
 
@@ -1077,12 +1119,12 @@ namespace Kenedia.Modules.BuildsManager.Models
                 case TemplateSubSlotType.Item:
                     if (obj is null)
                     {
-                        SetWeapons(subSlot, null, overrideExisting, slots);
+                        SetWeapons(null, overrideExisting, slots);
                         break;
                     }
                     else if (obj is DataModels.Items.Weapon weapon)
                     {
-                        SetWeapons(subSlot, weapon, overrideExisting, slots);
+                        SetWeapons(weapon, overrideExisting, templateSlot.GetWeaponGroup());
                         break;
                     }
                     else if (obj is BaseItem item)
@@ -1147,26 +1189,9 @@ namespace Kenedia.Modules.BuildsManager.Models
                     break;
 
                 case TemplateSubSlotType.Sigil1:
-                    if (obj is null)
-                    {
-                        SetAllSigils(subSlot, null, overrideExisting, slots);
-                    }
-                    else if (obj is Sigil sigil1)
-                    {
-                        SetAllSigils(subSlot, sigil1, overrideExisting, slots);
-                    }
-
-                    break;
-
                 case TemplateSubSlotType.Sigil2:
-                    if (obj is null)
-                    {
-                        SetAllSigils(subSlot, null, overrideExisting, slots);
-                    }
-                    else if (obj is Sigil sigil2)
-                    {
-                        SetAllSigils(subSlot, sigil2, overrideExisting, slots);
-                    }
+
+                    SetSigils(templateSlot, overrideExisting, obj);
 
                     break;
 
@@ -1181,13 +1206,13 @@ namespace Kenedia.Modules.BuildsManager.Models
                             }
                         }
                     }
-                    else if (obj is Sigil sigil)
+                    else if (obj is Sigil pvpSigil)
                     {
                         foreach (var slot in slots)
                         {
                             if (this[slot] is IPvpSigilTemplateEntry entry)
                             {
-                                SetItem(slot, subSlot, overrideExisting ? sigil : entry?.PvpSigil ?? sigil);
+                                SetItem(slot, subSlot, overrideExisting ? pvpSigil : entry?.PvpSigil ?? pvpSigil);
                             }
                         }
                     }
@@ -1248,30 +1273,55 @@ namespace Kenedia.Modules.BuildsManager.Models
                     break;
             }
 
-            void SetWeapons(TemplateSubSlotType subSlot, DataModels.Items.Weapon? weapon, bool overrideExisting, TemplateSlotType[] slots)
+            void SetWeapons(DataModels.Items.Weapon? weapon, bool overrideExisting, TemplateSlotType[] slots)
             {
-                foreach (var slot in slots)
+                if (templateSlot.IsAquatic())
                 {
-                    if (this[slot] is IWeaponTemplateEntry entry)
+                    foreach (var slot in slots)
                     {
-                        SetItem(slot, subSlot, overrideExisting ? weapon : entry?.Weapon ?? weapon);
+                        if (this[slot] is IWeaponTemplateEntry entry)
+                        {
+                            SetItem(slot, TemplateSubSlotType.Item, overrideExisting ? weapon : entry?.Weapon ?? weapon);
+                        }
+                    }
+                }
+                else if (weapon?.WeaponType.IsTwoHanded() is true)
+                {
+                    slots = [TemplateSlotType.MainHand, TemplateSlotType.AltMainHand];
+
+                    foreach (var slot in slots)
+                    {
+                        if (this[slot] is IWeaponTemplateEntry entry)
+                        {
+                            SetItem(slot, TemplateSubSlotType.Item, overrideExisting ? weapon : entry?.Weapon ?? weapon);
+                        }
+                    }
+                }
+                else
+                {
+                    foreach (var slot in slots)
+                    {
+                        if (this[slot] is IWeaponTemplateEntry entry)
+                        {
+                            SetItem(slot, TemplateSubSlotType.Item, overrideExisting ? weapon : entry?.Weapon ?? weapon);
+                        }
                     }
                 }
             }
 
-            void SetAllSigils(TemplateSubSlotType subSlot, Sigil? sigil, bool overrideExisting, TemplateSlotType[] slots)
+            void SetAllSigils(TemplateSubSlotType subSlot, Sigil? inputSigil, bool overrideExisting, TemplateSlotType[] slots)
             {
                 foreach (var slot in slots)
                 {
                     switch (this[slot])
                     {
                         case IDoubleSigilTemplateEntry entry:
-                            SetItem(slot, subSlot, overrideExisting ? sigil : entry?.Sigil1 ?? sigil);
-                            SetItem(slot, subSlot, overrideExisting ? sigil : entry?.Sigil2 ?? sigil);
+                            var sigil = overrideExisting ? inputSigil : (subSlot is TemplateSubSlotType.Sigil1 ? entry?.Sigil1 : entry.Sigil2) ?? inputSigil;
+                            SetItem(slot, subSlot, sigil);
                             break;
 
                         case ISingleSigilTemplateEntry entry:
-                            SetItem(slot, subSlot, overrideExisting ? sigil : entry?.Sigil1 ?? sigil);
+                            SetItem(slot, subSlot, overrideExisting ? inputSigil : entry?.Sigil1 ?? inputSigil);
                             break;
                     }
                 }
@@ -1299,6 +1349,50 @@ namespace Kenedia.Modules.BuildsManager.Models
                             break;
                     }
                 }
+            }
+        }
+
+        void SetSigils(TemplateSlotType templateSlot, bool overrideExisting, object obj)
+        {
+            var sigilSlots = templateSlot.GetGroup();
+            Sigil sigil1 = obj is null ? null :
+                templateSlot switch
+                {
+                    TemplateSlotType.MainHand => (this[TemplateSlotType.MainHand] as ISingleSigilTemplateEntry).Sigil1,
+                    TemplateSlotType.OffHand => (this[TemplateSlotType.OffHand] as ISingleSigilTemplateEntry).Sigil1,
+                    TemplateSlotType.AltMainHand => (this[TemplateSlotType.AltMainHand] as ISingleSigilTemplateEntry).Sigil1,
+                    TemplateSlotType.AltOffHand => (this[TemplateSlotType.AltOffHand] as ISingleSigilTemplateEntry).Sigil1,
+                    TemplateSlotType.Aquatic => (this[TemplateSlotType.Aquatic] as IDoubleSigilTemplateEntry).Sigil1,
+                    TemplateSlotType.AltAquatic => (this[TemplateSlotType.AltAquatic] as IDoubleSigilTemplateEntry).Sigil1,
+                    _ => null
+                };
+
+            Sigil sigil2 = obj is null ? null :
+                templateSlot switch
+                {
+                    TemplateSlotType.MainHand => (this[TemplateSlotType.OffHand] as ISingleSigilTemplateEntry).Sigil1,
+                    TemplateSlotType.OffHand => (this[TemplateSlotType.OffHand] as ISingleSigilTemplateEntry).Sigil1,
+                    TemplateSlotType.AltMainHand => (this[TemplateSlotType.AltOffHand] as ISingleSigilTemplateEntry).Sigil1,
+                    TemplateSlotType.AltOffHand => (this[TemplateSlotType.AltOffHand] as ISingleSigilTemplateEntry).Sigil1,
+                    TemplateSlotType.Aquatic => (this[TemplateSlotType.Aquatic] as IDoubleSigilTemplateEntry).Sigil2,
+                    TemplateSlotType.AltAquatic => (this[TemplateSlotType.AltAquatic] as IDoubleSigilTemplateEntry).Sigil2,
+                    _ => null
+                };
+
+            SetSigils(overrideExisting, sigil1, sigil2);
+
+            void SetSigils(bool overrideExisting, Sigil sigil1, Sigil sigil2)
+            {
+                SetItem(TemplateSlotType.MainHand, TemplateSubSlotType.Sigil1, overrideExisting ? sigil1 : (this[TemplateSlotType.MainHand] as ISingleSigilTemplateEntry).Sigil1 ?? sigil1);
+                SetItem(TemplateSlotType.OffHand, TemplateSubSlotType.Sigil1, overrideExisting ? sigil2 : (this[TemplateSlotType.OffHand] as ISingleSigilTemplateEntry).Sigil1 ?? sigil2);
+                SetItem(TemplateSlotType.AltMainHand, TemplateSubSlotType.Sigil1, overrideExisting ? sigil1 : (this[TemplateSlotType.AltMainHand] as ISingleSigilTemplateEntry).Sigil1 ?? sigil1);
+                SetItem(TemplateSlotType.AltOffHand, TemplateSubSlotType.Sigil1, overrideExisting ? sigil2 : (this[TemplateSlotType.AltOffHand] as ISingleSigilTemplateEntry).Sigil1 ?? sigil2);
+
+                SetItem(TemplateSlotType.Aquatic, TemplateSubSlotType.Sigil1, overrideExisting ? sigil1 : (this[TemplateSlotType.Aquatic] as ISingleSigilTemplateEntry).Sigil1 ?? sigil1);
+                SetItem(TemplateSlotType.Aquatic, TemplateSubSlotType.Sigil2, overrideExisting ? sigil2 : (this[TemplateSlotType.Aquatic] as IDoubleSigilTemplateEntry).Sigil2 ?? sigil2);
+
+                SetItem(TemplateSlotType.AltAquatic, TemplateSubSlotType.Sigil1, overrideExisting ? sigil1 : (this[TemplateSlotType.AltAquatic] as ISingleSigilTemplateEntry).Sigil1 ?? sigil1);
+                SetItem(TemplateSlotType.AltAquatic, TemplateSubSlotType.Sigil2, overrideExisting ? sigil2 : (this[TemplateSlotType.AltAquatic] as IDoubleSigilTemplateEntry).Sigil2 ?? sigil2);
             }
         }
 

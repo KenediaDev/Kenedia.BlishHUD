@@ -34,8 +34,6 @@ namespace Kenedia.Modules.BuildsManager
 {
     //TODO: Check Texture Disposing
     //TODO: Add tag quick access panel
-    //TODO: Tag ordering
-    //TODO: Fix the absurd amount of events and UI rebuilds
     [Export(typeof(Module))]
     public class BuildsManager : BaseModule<BuildsManager, MainWindow, Settings, Paths>
     {
