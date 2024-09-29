@@ -9,11 +9,38 @@ using MonoGame.Extended.BitmapFonts;
 using System;
 using static Blish_HUD.ContentService;
 using Kenedia.Modules.Core.Interfaces;
+using System.Linq;
 
 namespace Kenedia.Modules.Core.Utility
 {
     public static class UI
     {
+        public static void ScrollToChild(this FlowPanel panel, Control child)
+        {
+            ScrollToChild((Container)panel, child);
+        }
+
+        public static void ScrollToChild(this Panel panel, Control child)
+        {
+            ScrollToChild((Container)panel, child);
+        }
+
+        public static void ScrollToChild(this Container panel, Control child)
+        {
+            if (!panel.Children.Contains(child))
+                return;
+
+            var scrollbar = panel.Parent.Children.OfType<Scrollbar>().FirstOrDefault(s => s.AssociatedContainer == panel);
+
+            if (scrollbar == null)
+                return;
+
+            if (child.Location.Y == 0)
+                scrollbar.ScrollDistance = 0f;
+            else
+                scrollbar.ScrollDistance = (float)child.Location.Y / (float)(panel.Children.Max(c => c.Bottom) - scrollbar.Size.Y);
+        }
+
         public static int GetTextHeight(BitmapFont font, string text, int maxWidth)
         {
             if (string.IsNullOrEmpty(text))
