@@ -101,8 +101,6 @@ namespace Kenedia.Modules.BuildsManager.Services
         {
             _groups = [.. _groups
                 .OrderBy(x => x.Priority > 0)
-                .ThenBy(x => x.Group == string.Empty)
-                .ThenBy(x => x.Group)
                 .ThenBy(x => x.Priority)
                 .ThenBy(x => x.Name)];
         }

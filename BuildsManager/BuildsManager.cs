@@ -68,11 +68,11 @@ namespace Kenedia.Modules.BuildsManager
             services.AddSingleton<TemplateCollection>();
             services.AddSingleton<TemplatePresenter>();
             services.AddSingleton<TemplateTags>();
+            services.AddSingleton<TagGroups>();
             services.AddSingleton<Data>();
             services.AddSingleton<GW2API>();
 
-            services.AddSingleton<TagEditWindowFactory>();
-
+            services.AddScoped<TagEditWindow>();
             services.AddScoped<MainWindow>();
             services.AddScoped<SelectionPanel>();
             services.AddScoped<AboutTab>();
@@ -170,6 +170,9 @@ namespace Kenedia.Modules.BuildsManager
             LoadingSpinner?.Show();
 
             await base.LoadAsync();
+
+            var templateGroups = ServiceProvider.GetService<TagGroups>();
+            await templateGroups.Load();
 
             var templateTags = TemplateTags;
             await templateTags.Load();

@@ -13,11 +13,11 @@ using System.Threading.Tasks;
 
 namespace Kenedia.Modules.BuildsManager.Services
 {
-    public class TagEditWindowFactory
+    public class TagEditWindowXFactory
     {
-        public TagEditWindow? TagEditWindow { get; private set; } = null;
+        public TagEditWindowX? TagEditWindow { get; private set; } = null;
 
-        public TagEditWindowFactory(TemplateTags templateTags)
+        public TagEditWindowXFactory(TemplateTags templateTags)
         {
             TemplateTags = templateTags;
         }
@@ -39,7 +39,7 @@ namespace Kenedia.Modules.BuildsManager.Services
             int Width = 915;
             bool isNew = TagEditWindow == null;
 
-            TagEditWindow ??= new TagEditWindow(
+            TagEditWindow ??= new TagEditWindowX(
                 TexturesService.GetTextureFromRef(@"textures\mainwindow_background.png", "mainwindow_background"),
                 new Rectangle(30, 30, Width, Height + 30),
                 new Rectangle(40, 40, Width - 3, Height),
@@ -66,7 +66,7 @@ namespace Kenedia.Modules.BuildsManager.Services
 
         private void Window_Hidden(object sender, EventArgs e)
         {
-            if (sender is TagEditWindow window)
+            if (sender is TagEditWindowX window)
             {
                 window.Dispose();
                 TagEditWindow = null;

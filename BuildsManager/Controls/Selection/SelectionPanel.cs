@@ -14,6 +14,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Kenedia.Modules.BuildsManager.Extensions;
 using Kenedia.Modules.BuildsManager.Services;
+using Kenedia.Modules.Core.Controls;
 
 namespace Kenedia.Modules.BuildsManager.Controls.Selection
 {
@@ -29,8 +30,6 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
         private readonly DetailedTexture _backButton = new(784268);
         private Control? _subAnchor;
         private Control? _mainAnchor;
-        private Core.Controls.Pointer _pointer;
-
         private Rectangle _backBounds;
         private Rectangle _backTextBounds;
         private SelectionTypes _selectionType = SelectionTypes.Templates;
@@ -42,7 +41,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
         {
             TemplatePresenter = templatePresenter;
 
-            _pointer = new();
+            Pointer = new();
 
             ClipsBounds = false;
             Location = new(0, 0);
@@ -93,8 +92,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
             get => _mainWindow;
             set
             {
-                _mainWindow = value;
-                Parent = _mainWindow;
+                Parent = _mainWindow = value;                
             }
         }
 
@@ -128,14 +126,15 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
                     _subAnchor = value;
                 }
 
-                _pointer.Anchor = _anchor =
+                Pointer.Anchor = _anchor =
                         _selectionType == SelectionTypes.Templates ? _mainAnchor :
                         _subAnchor;
             }
         }
 
         public GearSubSlotType SubSlotType { get; private set; }
-        
+        public Pointer Pointer { get; set; }
+
         private void TemplatePresenter_TemplateChanged(object sender, Core.Models.ValueChangedEventArgs<Template> e)
         {
             SetTemplateAnchor(_buildSelection.TemplateSelectables.FirstOrDefault(x => x.Template == e.NewValue));
@@ -305,7 +304,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
         {
             base.DisposeControl();
 
-            _pointer?.Dispose();
+            Pointer?.Dispose();
             _backButton?.Dispose();
         }
     }

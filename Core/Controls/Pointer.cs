@@ -6,6 +6,8 @@ using Microsoft.Xna.Framework.Graphics;
 using Control = Blish_HUD.Controls.Control;
 using Blish_HUD;
 using System;
+using Blish_HUD.Controls;
+using System.Diagnostics;
 
 namespace Kenedia.Modules.Core.Controls
 {
@@ -17,12 +19,13 @@ namespace Kenedia.Modules.Core.Controls
 
         private Rectangle _anchorDrawBounds;
         private Control _anchor;
+        private WindowBase2 _container;
 
         public Pointer()
         {
             Size = new Point(32);
             Parent = Graphics.SpriteScreen;
-            ZIndex = int.MaxValue;
+            //ZIndex = int.MaxValue;
             ClipsBounds = false;            
         }
 

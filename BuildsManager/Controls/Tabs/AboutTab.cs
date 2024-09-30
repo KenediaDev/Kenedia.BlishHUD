@@ -38,11 +38,11 @@ namespace Kenedia.Modules.BuildsManager.Controls.Tabs
         private Dictionary<FlowPanel, List<TagControl>> _tagControls = [];
         private FlowPanel _ungroupedPanel;
 
-        public AboutTab(TemplatePresenter templatePresenter, TemplateTags templateTags, TagEditWindowFactory tagEditWindowFactory)
+        public AboutTab(TemplatePresenter templatePresenter, TemplateTags templateTags, TagEditWindow tagEditWindow)
         {
             TemplatePresenter = templatePresenter;
             TemplateTags = templateTags;
-            TagEditWindowFactory = tagEditWindowFactory;
+            TagEditWindow = tagEditWindow;
 
             HeightSizingMode = Blish_HUD.Controls.SizingMode.Fill;
             WidthSizingMode = Blish_HUD.Controls.SizingMode.Fill;
@@ -164,7 +164,8 @@ namespace Kenedia.Modules.BuildsManager.Controls.Tabs
         }
 
         public TemplateTags TemplateTags { get; }
-        public TagEditWindowFactory TagEditWindowFactory { get; }
+
+        public TagEditWindow TagEditWindow { get; }
 
         private void TagPanel_ChildsChanged(object sender, Blish_HUD.Controls.ChildChangedEventArgs e)
         {
@@ -329,7 +330,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.Tabs
                 Parent = panel,
                 Tag = e,
                 Width = panel.Width - 25,
-                OnEditClicked = () => TagEditWindowFactory.ShowEditWindow(e),
+                OnEditClicked = () => TagEditWindow.Show(e),
                 OnClicked = (selected) =>
                 {
                     if (TemplatePresenter.Template is Template template)
@@ -419,7 +420,6 @@ namespace Kenedia.Modules.BuildsManager.Controls.Tabs
         {
             base.DisposeControl();
 
-            TagEditWindowFactory.DisposeEditWindow();
             TemplatePresenter.TemplateChanged -= TemplatePresenter_TemplateChanged;
             foreach (var c in Children)
             {

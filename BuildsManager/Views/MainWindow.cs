@@ -29,7 +29,7 @@ namespace Kenedia.Modules.BuildsManager.Views
             GearTab = gearTab;
 
             SelectionPanel = selectionPanel;
-            SelectionPanel.Parent = this;
+            SelectionPanel.MainWindow = this;
 
             Title = "❤";
             Subtitle = "❤";
@@ -103,6 +103,14 @@ namespace Kenedia.Modules.BuildsManager.Views
         public override void RecalculateLayout()
         {
             base.RecalculateLayout();
+        }
+
+        public override void UpdateContainer(GameTime gameTime)
+        {
+            base.UpdateContainer(gameTime);
+
+            if (SelectionPanel is not null)
+                SelectionPanel.Pointer.ZIndex = ZIndex + 1;
         }
 
         protected override void DisposeControl()

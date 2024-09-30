@@ -526,7 +526,10 @@
     <Compile Include="Utility\WeaponTypeConversion.cs" />
     <Compile Include="Views\MainWindow.cs" />
     <Compile Include="Views\TagEditControl.cs" />
+    <Compile Include="Views\TagEditView.cs" />
     <Compile Include="Views\TagEditWindow.cs" />
+    <Compile Include="Views\TagEditWindowX.cs" />
+    <Compile Include="Views\TagGroupView.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
