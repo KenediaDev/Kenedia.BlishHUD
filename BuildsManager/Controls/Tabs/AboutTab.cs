@@ -38,11 +38,12 @@ namespace Kenedia.Modules.BuildsManager.Controls.Tabs
         private Dictionary<FlowPanel, List<TagControl>> _tagControls = [];
         private FlowPanel _ungroupedPanel;
 
-        public AboutTab(TemplatePresenter templatePresenter, TemplateTags templateTags, TagEditWindow tagEditWindow)
+        public AboutTab(TemplatePresenter templatePresenter, TemplateTags templateTags, TagEditWindow tagEditWindow, TagGroups tagGroups)
         {
             TemplatePresenter = templatePresenter;
             TemplateTags = templateTags;
             TagEditWindow = tagEditWindow;
+            TagGroups = tagGroups;
 
             HeightSizingMode = Blish_HUD.Controls.SizingMode.Fill;
             WidthSizingMode = Blish_HUD.Controls.SizingMode.Fill;
@@ -166,6 +167,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.Tabs
         public TemplateTags TemplateTags { get; }
 
         public TagEditWindow TagEditWindow { get; }
+        public TagGroups TagGroups { get; }
 
         private void TagPanel_ChildsChanged(object sender, Blish_HUD.Controls.ChildChangedEventArgs e)
         {
@@ -358,7 +360,26 @@ namespace Kenedia.Modules.BuildsManager.Controls.Tabs
 
         private void CreateTagControls()
         {
-            foreach (var t in TemplateTags)
+            var groupOrder = TagGroups.OrderBy(x => x.Priority).ThenBy(x => x.Name);
+            var grouped = TemplateTags.GroupBy(x => x.Group);
+            List<string> added = [];
+
+            foreach (var g in groupOrder)
+            {
+                var panel = GetPanel(g.Name);
+
+                if (grouped.FirstOrDefault( x => x.Key == g.Name) is var group && group is not null)
+                {
+                    foreach (var t in group)
+                    {
+                        AddTemplateTag(t);
+                    }
+
+                    added.Add(g.Name);
+                }
+            }
+
+            foreach (var t in TemplateTags.Where(x => !added.Contains(x.Group)))
             {
                 AddTemplateTag(t);
             }

@@ -31,6 +31,14 @@ namespace Kenedia.Modules.BuildsManager.Models
                 
         }
 
+        public TagGroup(string name) : this()
+        {
+            if (!string.IsNullOrEmpty(name))
+            {
+                Name = name;
+            }            
+        }
+
         [JsonIgnore]
         public int Priority { get => _priority; set => Common.SetProperty(ref _priority, value, OnPriorityChanged); }
 

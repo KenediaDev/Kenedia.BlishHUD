@@ -24,10 +24,13 @@ namespace Kenedia.Modules.BuildsManager.Services
         private List<TemplateTag> _tags;
         private bool _saveRequested;
 
-        public TemplateTags(ContentsManager contentsManager, Paths paths)
+        public TagGroups TagGroups { get; }
+
+        public TemplateTags(ContentsManager contentsManager, Paths paths, TagGroups tagGroups)
         {
             _contentsManager = contentsManager;
             _paths = paths;
+            TagGroups = tagGroups;
 
             _timer = new(1000);
             _timer.Elapsed += OnTimerElapsed;

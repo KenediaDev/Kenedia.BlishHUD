@@ -334,6 +334,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controls\PetControl.cs" />
+    <Compile Include="Controls\Selection\Selectable.cs" />
     <Compile Include="Controls\SkillSlotControl.cs" />
     <Compile Include="Controls\SkillsBar.cs" />
     <Compile Include="Controls\SkillTooltip.cs" />

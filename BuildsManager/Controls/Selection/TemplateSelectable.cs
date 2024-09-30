@@ -246,7 +246,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
 
         private void SetLastModifiedText(DateTime date)
         {
-            _lastModified.SetLocalizedText= () => string.Format(strings.LastModified, date.ToString("g"));
+            _lastModified.SetLocalizedText = () => string.Format(strings.LastModified, date.ToString("g"));
         }
 
         private void Tags_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
