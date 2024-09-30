@@ -265,24 +265,28 @@ namespace Kenedia.Modules.BuildsManager.Utility
             template.SetItem(template.MainHand.Slot, TemplateSubSlotType.Item, Enum.TryParse($"{array[(byte)TemplateBytePosition.MainHandWeaponType]}", out ItemWeaponType mainHandWeaponType) ? BuildsManager.Data.Weapons.Values.Where(e => e.WeaponType == mainHandWeaponType).FirstOrDefault() : null);
             template.SetItem(template.MainHand.Slot, TemplateSubSlotType.Stat, BuildsManager.Data.Stats.Items.Where(e => e.Value.MappedId == array[(byte)TemplateBytePosition.MainHandStat]).FirstOrDefault().Value);
             template.SetItem(template.MainHand.Slot, TemplateSubSlotType.Sigil1, BuildsManager.Data.PveSigils.Items.Where(e => e.Value.MappedId == array[(byte)TemplateBytePosition.MainHandSigil1]).FirstOrDefault().Value);
+            template.SetItem(template.MainHand.Slot, TemplateSubSlotType.Infusion1, BuildsManager.Data.Infusions.Items.Where(e => e.Value.MappedId == array[(byte)TemplateBytePosition.MainHandInfusion1]).FirstOrDefault().Value);
             template.SetItem(template.MainHand.Slot, TemplateSubSlotType.PvpSigil, BuildsManager.Data.PvpSigils.Items.Where(e => e.Value.MappedId == array[(byte)TemplateBytePosition.MainHandPvpSigil]).FirstOrDefault().Value);
 
             // OffHand
             template.SetItem(template.OffHand.Slot, TemplateSubSlotType.Item, Enum.TryParse($"{array[(byte)TemplateBytePosition.OffHandWeaponType]}", out ItemWeaponType offHandWeaponType) ? BuildsManager.Data.Weapons.Values.Where(e => e.WeaponType == offHandWeaponType).FirstOrDefault() : null);
             template.SetItem(template.OffHand.Slot, TemplateSubSlotType.Stat, BuildsManager.Data.Stats.Items.Where(e => e.Value.MappedId == array[(byte)TemplateBytePosition.OffHandStat]).FirstOrDefault().Value);
             template.SetItem(template.OffHand.Slot, TemplateSubSlotType.Sigil1, BuildsManager.Data.PveSigils.Items.Where(e => e.Value.MappedId == array[(byte)TemplateBytePosition.OffHandSigil1]).FirstOrDefault().Value);
+            template.SetItem(template.OffHand.Slot, TemplateSubSlotType.Infusion1, BuildsManager.Data.Infusions.Items.Where(e => e.Value.MappedId == array[(byte)TemplateBytePosition.OffHandInfusion1]).FirstOrDefault().Value);
             template.SetItem(template.OffHand.Slot, TemplateSubSlotType.PvpSigil, BuildsManager.Data.PvpSigils.Items.Where(e => e.Value.MappedId == array[(byte)TemplateBytePosition.OffHandPvpSigil]).FirstOrDefault().Value);
 
             //AltMainHand
             template.SetItem(template.AltMainHand.Slot, TemplateSubSlotType.Item, Enum.TryParse($"{array[(byte)TemplateBytePosition.AltMainHandWeaponType]}", out ItemWeaponType altMainHandWeaponType) ? BuildsManager.Data.Weapons.Values.Where(e => e.WeaponType == altMainHandWeaponType).FirstOrDefault() : null);
             template.SetItem(template.AltMainHand.Slot, TemplateSubSlotType.Stat, BuildsManager.Data.Stats.Items.Where(e => e.Value.MappedId == array[(byte)TemplateBytePosition.AltMainHandStat]).FirstOrDefault().Value);
             template.SetItem(template.AltMainHand.Slot, TemplateSubSlotType.Sigil1, BuildsManager.Data.PveSigils.Items.Where(e => e.Value.MappedId == array[(byte)TemplateBytePosition.AltMainHandSigil1]).FirstOrDefault().Value);
+            template.SetItem(template.AltMainHand.Slot, TemplateSubSlotType.Infusion1, BuildsManager.Data.Infusions.Items.Where(e => e.Value.MappedId == array[(byte)TemplateBytePosition.AltMainHandInfusion1]).FirstOrDefault().Value);
             template.SetItem(template.AltMainHand.Slot, TemplateSubSlotType.PvpSigil, BuildsManager.Data.PvpSigils.Items.Where(e => e.Value.MappedId == array[(byte)TemplateBytePosition.AltMainHandPvpSigil]).FirstOrDefault().Value);
 
             //AltOffHand
             template.SetItem(template.AltOffHand.Slot, TemplateSubSlotType.Item, Enum.TryParse($"{array[(byte)TemplateBytePosition.AltOffHandWeaponType]}", out ItemWeaponType altOffHandWeaponType) ? BuildsManager.Data.Weapons.Values.Where(e => e.WeaponType == altOffHandWeaponType).FirstOrDefault() : null);
             template.SetItem(template.AltOffHand.Slot, TemplateSubSlotType.Stat, BuildsManager.Data.Stats.Items.Where(e => e.Value.MappedId == array[(byte)TemplateBytePosition.AltOffHandStat]).FirstOrDefault().Value);
             template.SetItem(template.AltOffHand.Slot, TemplateSubSlotType.Sigil1, BuildsManager.Data.PveSigils.Items.Where(e => e.Value.MappedId == array[(byte)TemplateBytePosition.AltOffHandSigil1]).FirstOrDefault().Value);
+            template.SetItem(template.AltOffHand.Slot, TemplateSubSlotType.Infusion1, BuildsManager.Data.Infusions.Items.Where(e => e.Value.MappedId == array[(byte)TemplateBytePosition.AltOffHandInfusion1]).FirstOrDefault().Value);
             template.SetItem(template.AltOffHand.Slot, TemplateSubSlotType.PvpSigil, BuildsManager.Data.PvpSigils.Items.Where(e => e.Value.MappedId == array[(byte)TemplateBytePosition.AltOffHandPvpSigil]).FirstOrDefault().Value);
 
             //Head
@@ -353,11 +357,17 @@ namespace Kenedia.Modules.BuildsManager.Utility
             template.SetItem(template.Aquatic.Slot, TemplateSubSlotType.Item, Enum.TryParse($"{array[(byte)TemplateBytePosition.AquaticWeaponType]}", out ItemWeaponType aquaticWeaponType) ? BuildsManager.Data.Weapons.Values.Where(e => e.WeaponType == aquaticWeaponType).FirstOrDefault() : null);
             template.SetItem(template.Aquatic.Slot, TemplateSubSlotType.Stat, BuildsManager.Data.Stats.Items.Where(e => e.Value.MappedId == array[(byte)TemplateBytePosition.AquaticStat]).FirstOrDefault().Value);
             template.SetItem(template.Aquatic.Slot, TemplateSubSlotType.Sigil1, BuildsManager.Data.PveSigils.Items.Where(e => e.Value.MappedId == array[(byte)TemplateBytePosition.AquaticSigil1]).FirstOrDefault().Value);
+            template.SetItem(template.Aquatic.Slot, TemplateSubSlotType.Sigil2, BuildsManager.Data.PveSigils.Items.Where(e => e.Value.MappedId == array[(byte)TemplateBytePosition.AquaticSigil2]).FirstOrDefault().Value);
+            template.SetItem(template.Aquatic.Slot, TemplateSubSlotType.Infusion1, BuildsManager.Data.Infusions.Items.Where(e => e.Value.MappedId == array[(byte)TemplateBytePosition.AquaticInfusion1]).FirstOrDefault().Value);
+            template.SetItem(template.Aquatic.Slot, TemplateSubSlotType.Infusion2, BuildsManager.Data.Infusions.Items.Where(e => e.Value.MappedId == array[(byte)TemplateBytePosition.AquaticInfusion2]).FirstOrDefault().Value);
 
             //AltAquatic
             template.SetItem(template.AltAquatic.Slot, TemplateSubSlotType.Item, Enum.TryParse($"{array[(byte)TemplateBytePosition.AltAquaticWeaponType]}", out ItemWeaponType altAquaticWeaponType) ? BuildsManager.Data.Weapons.Values.Where(e => e.WeaponType == altAquaticWeaponType).FirstOrDefault() : null);
             template.SetItem(template.AltAquatic.Slot, TemplateSubSlotType.Stat, BuildsManager.Data.Stats.Items.Where(e => e.Value.MappedId == array[(byte)TemplateBytePosition.AltAquaticStat]).FirstOrDefault().Value);
             template.SetItem(template.AltAquatic.Slot, TemplateSubSlotType.Sigil1, BuildsManager.Data.PveSigils.Items.Where(e => e.Value.MappedId == array[(byte)TemplateBytePosition.AltAquaticSigil1]).FirstOrDefault().Value);
+            template.SetItem(template.AltAquatic.Slot, TemplateSubSlotType.Sigil2, BuildsManager.Data.PveSigils.Items.Where(e => e.Value.MappedId == array[(byte)TemplateBytePosition.AltAquaticSigil2]).FirstOrDefault().Value);
+            template.SetItem(template.AltAquatic.Slot, TemplateSubSlotType.Infusion1, BuildsManager.Data.Infusions.Items.Where(e => e.Value.MappedId == array[(byte)TemplateBytePosition.AltAquaticInfusion1]).FirstOrDefault().Value);
+            template.SetItem(template.AltAquatic.Slot, TemplateSubSlotType.Infusion2, BuildsManager.Data.Infusions.Items.Where(e => e.Value.MappedId == array[(byte)TemplateBytePosition.AltAquaticInfusion2]).FirstOrDefault().Value);
 
             //PvpAmulet
             template.SetItem(template.PvpAmulet.Slot, TemplateSubSlotType.Item, BuildsManager.Data.PvpAmulets.Items.Where(e => e.Value.MappedId == array[(byte)TemplateBytePosition.PvpAmulet]).FirstOrDefault().Value);
