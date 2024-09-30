@@ -164,9 +164,9 @@ namespace Kenedia.Modules.BuildsManager.Controls.ProfessionSpecific
             var skills = BuildsManager.Data?.Professions?[Gw2Sharp.Models.ProfessionType.Warrior]?.Skills;
             if (skills is null) return;
 
-            Skill GetSkill(SkillSlot slot)
+            Skill? GetSkill(SkillSlot slot)
             {
-                Skill skill = null;
+                Skill? skill = null;
                 bool spellbreaker = TemplatePresenter.Template.EliteSpecialization?.Id == (int)SpecializationType.Spellbreaker;
                 bool bladesworn = TemplatePresenter.Template.EliteSpecialization?.Id == (int)SpecializationType.Bladesworn;
 

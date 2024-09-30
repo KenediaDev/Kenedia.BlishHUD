@@ -21,7 +21,6 @@ namespace Kenedia.Modules.BuildsManager.Controls
         private readonly DetailedTexture _terrestrialTexture = new(1988171);
 
         private readonly SkillSelector _skillSelector;
-        private SkillSlotControl _selectorAnchor;
 
         public Dictionary<SkillSlotType, SkillSlotControl> Skills { get; } = [];
 

@@ -20,7 +20,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selectables
 
         public LegendSlotType LegendSlot { get; set; } = LegendSlotType.TerrestrialActive;
 
-        protected override void ApplyData(object sender, Core.Models.ValueChangedEventArgs<Legend> e)
+        protected override void ApplyData(object sender, ValueChangedEventArgs<Legend?> e)
         {
             base.ApplyData(sender, e);
 

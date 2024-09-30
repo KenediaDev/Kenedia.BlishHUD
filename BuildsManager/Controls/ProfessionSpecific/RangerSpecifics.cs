@@ -22,7 +22,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.ProfessionSpecific
             {PetSlotType.Aquatic_2, new() { PetSlot = PetSlotType.Aquatic_2 }},
         };
         private Point _petSize = new(120);
-        private PetControl _selectorAnchor;
+        private PetControl? _selectorAnchor;
 
         protected override SkillIcon[] Skills { get; } = {
             new(),

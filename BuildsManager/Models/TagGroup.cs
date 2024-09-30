@@ -3,14 +3,14 @@ using Kenedia.Modules.Core.Models;
 using Kenedia.Modules.Core.Utility;
 using Microsoft.Xna.Framework;
 using Newtonsoft.Json;
-using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 
 namespace Kenedia.Modules.BuildsManager.Models
 {
-    public class TemplateTag
+    public class TagGroup
     {
-        public static string DefaultName => strings.NewTemplate;
+        public static string DefaultName => strings.GroupNotDefined;
 
         [JsonProperty("AssetId")]
         private int _assetId = 156025;
@@ -24,18 +24,12 @@ namespace Kenedia.Modules.BuildsManager.Models
         [JsonProperty("Priority")]
         private int _priority = 1;
 
-        [JsonProperty("Group")]
-        private string _group = string.Empty;
-
         public event PropertyChangedEventHandler? PropertyChanged;
 
-        public TemplateTag()
+        public TagGroup()
         {
                 
         }
-
-        [JsonIgnore]
-        public string Group { get => _group; set => Common.SetProperty(ref _group, value, OnGroupChanged); }
 
         [JsonIgnore]
         public int Priority { get => _priority; set => Common.SetProperty(ref _priority, value, OnPriorityChanged); }
@@ -81,9 +75,5 @@ namespace Kenedia.Modules.BuildsManager.Models
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Priority)));
         }
 
-        private void OnGroupChanged(object sender, ValueChangedEventArgs<string> e)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Group)));
-        }
     }
 }

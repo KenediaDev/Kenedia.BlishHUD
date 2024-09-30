@@ -15,7 +15,7 @@ namespace Kenedia.Modules.BuildsManager.Controls
         private readonly AsyncTexture2D _paw = AsyncTexture2D.FromAssetId(156797);
         private readonly AsyncTexture2D _pawPressed = AsyncTexture2D.FromAssetId(156796);
 
-        private Pet _pet;
+        private Pet? _pet;
 
         public PetIcon()
         {
@@ -26,7 +26,7 @@ namespace Kenedia.Modules.BuildsManager.Controls
 
         public Rectangle PawRegion { get; set; }
 
-        public Pet Pet { get => _pet; set => Common.SetProperty(ref _pet, value, ApplyPet); }
+        public Pet? Pet { get => _pet; set => Common.SetProperty(ref _pet, value, ApplyPet); }
 
         private void ApplyPet()
         {

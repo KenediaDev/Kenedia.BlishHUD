@@ -123,12 +123,6 @@ namespace Kenedia.Modules.BuildsManager.Controls.Tabs
                 {TemplateSlotType.PvpRelic, new RelicSlot(TemplateSlotType.PvpRelic, this, TemplatePresenter, SelectionPanel)},
             };
 
-            (_templateSlots[TemplateSlotType.MainHand] as WeaponSlot).PairedSlot = _templateSlots[TemplateSlotType.OffHand] as WeaponSlot;
-            (_templateSlots[TemplateSlotType.AltMainHand] as WeaponSlot).PairedSlot = _templateSlots[TemplateSlotType.AltOffHand] as WeaponSlot;
-
-            (_templateSlots[TemplateSlotType.OffHand] as WeaponSlot).PairedSlot = _templateSlots[TemplateSlotType.MainHand] as WeaponSlot;
-            (_templateSlots[TemplateSlotType.AltOffHand] as WeaponSlot).PairedSlot = _templateSlots[TemplateSlotType.AltMainHand] as WeaponSlot;
-
             (_templateSlots[TemplateSlotType.PveRelic] as RelicSlot).PairedSlot = _templateSlots[TemplateSlotType.PvpRelic] as RelicSlot;
             (_templateSlots[TemplateSlotType.PvpRelic] as RelicSlot).PairedSlot = _templateSlots[TemplateSlotType.PveRelic] as RelicSlot;
 

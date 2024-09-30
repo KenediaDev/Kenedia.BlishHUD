@@ -19,8 +19,8 @@ namespace Kenedia.Modules.BuildsManager.Controls_Old.GearPage.GearSlots
     {
         private readonly ItemControl _enrichmentControl = new(new() { TextureRegion = new(38, 38, 52, 52) });
 
-        private Stat _stat;
-        private Enrichment _enrichment;
+        private Stat _stat = null;
+        private Enrichment _enrichment = null;
 
         public AmuletSlot(TemplateSlotType gearSlot, Container parent, TemplatePresenter templatePresenter, Controls.Selection.SelectionPanel selectionPanel) : base(gearSlot, parent, templatePresenter, selectionPanel)
         {

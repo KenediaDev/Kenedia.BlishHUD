@@ -12,7 +12,7 @@ namespace Kenedia.Modules.BuildsManager.Controls_Old.GearPage
 {
     public class ItemTexture : DetailedTexture
     {
-        private BaseItem _item;
+        private BaseItem? _item;
         private Color _frameColor;
 
         public ItemTexture()
@@ -24,7 +24,7 @@ namespace Kenedia.Modules.BuildsManager.Controls_Old.GearPage
             Parent = parent;
         }
 
-        public BaseItem Item { get => _item; set => Common.SetProperty(ref _item, value, ApplyItem); }
+        public BaseItem? Item { get => _item; set => Common.SetProperty(ref _item, value, ApplyItem); }
 
         public Container Parent { get; set; }
 

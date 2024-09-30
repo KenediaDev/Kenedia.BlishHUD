@@ -155,9 +155,9 @@ namespace Kenedia.Modules.BuildsManager.Controls.ProfessionSpecific
             var skills = BuildsManager.Data?.Professions?[Gw2Sharp.Models.ProfessionType.Elementalist]?.Skills;
             if (skills is null) return;
 
-            Skill GetSkill(SkillSlot slot)
+            Skill? GetSkill(SkillSlot slot)
             {
-                Skill skill = null;
+                Skill? skill = null;
 
                 foreach (var item in skills.Values.Where(e => e.Slot == slot))
                 {

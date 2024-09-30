@@ -18,7 +18,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selectables
 {
     public class Selector<T> : FlowPanel where T : IBaseApiData
     {
-        private Control _anchor;
+        private Control? _anchor;
         private readonly Label _label;
         private Point _selectableSize = new(64);
         private Action<T> _onClickAction;

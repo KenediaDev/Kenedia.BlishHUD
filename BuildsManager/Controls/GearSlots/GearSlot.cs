@@ -68,8 +68,6 @@ namespace Kenedia.Modules.BuildsManager.Controls_Old.GearPage.GearSlots
 
         }
 
-        public event ValueChangedEventHandler<BaseItem> ItemChanged;
-
         public SelectionPanel SelectionPanel { get; }
 
         public List<GearSlot> SlotGroup { get; set; }

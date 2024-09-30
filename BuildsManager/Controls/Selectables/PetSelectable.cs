@@ -32,7 +32,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selectables
                 spriteBatch.DrawOnCtrl(this, _highlight.Texture, _textureBounds, TextureRegion, Color.White);
         }
 
-        protected override void ApplyData(object sender, Core.Models.ValueChangedEventArgs<Pet> e)
+        protected override void ApplyData(object sender, Core.Models.ValueChangedEventArgs<Pet?> e)
         {
             base.ApplyData(sender, e);
 

@@ -16,7 +16,7 @@ namespace Kenedia.Modules.BuildsManager.Controls
         private readonly DetailedTexture _selector = new(157138, 157140);
         private readonly DetailedTexture _petTexture = new() { TextureRegion = new(16, 16, 200, 200), };
         private readonly DetailedTexture _emptySlotTexture = new(157154) { TextureRegion = new(14, 14, 100, 100) };
-        private Pet _pet;
+        private Pet? _pet;
 
         public PetControl()
         {
@@ -25,7 +25,7 @@ namespace Kenedia.Modules.BuildsManager.Controls
 
         public PetSlotType PetSlot { get; set; }
 
-        public Pet Pet { get => _pet; set => Common.SetProperty(ref _pet, value, ApplyPet); }
+        public Pet? Pet { get => _pet; set => Common.SetProperty(ref _pet, value, ApplyPet); }
 
         public Action<PetControl> LeftClickAction { get; set; }
 

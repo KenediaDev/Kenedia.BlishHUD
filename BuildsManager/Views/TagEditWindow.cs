@@ -140,7 +140,7 @@ namespace Kenedia.Modules.BuildsManager.Views
 
             panel ??= _ungroupedPanel ??= new FlowPanel()
             {
-                Title = TemplateTag.DefaultGroup,
+                Title = TagGroup.DefaultName,
                 Parent = _tagPanel,
                 Width = _tagPanel.Width - 25,
                 WidthSizingMode = Blish_HUD.Controls.SizingMode.Standard,
@@ -153,7 +153,7 @@ namespace Kenedia.Modules.BuildsManager.Views
             if (!_tagControls.ContainsKey(panel))
             {
                 _tagControls.Add(panel, []);
-                _tagPanel.SortChildren<FlowPanel>((x, y) => x.Title == TemplateTag.DefaultGroup ? -1 : x.Title.CompareTo(y.Title));
+                _tagPanel.SortChildren<FlowPanel>((x, y) => x.Title == TagGroup.DefaultName ? -1 : x.Title.CompareTo(y.Title));
             }
 
             return panel;
@@ -163,7 +163,7 @@ namespace Kenedia.Modules.BuildsManager.Views
         {
             if (sender is FlowPanel p)
             {
-                p.SortChildren<FlowPanel>((x, y) => x.Title == TemplateTag.DefaultGroup ? -1 : x.Title.CompareTo(y.Title));
+                p.SortChildren<FlowPanel>((x, y) => x.Title == TagGroup.DefaultName ? -1 : x.Title.CompareTo(y.Title));
             }
         }
 
@@ -224,7 +224,7 @@ namespace Kenedia.Modules.BuildsManager.Views
                     }
                     : (_ungroupedPanel ??= new FlowPanel()
                     {
-                        Title = TemplateTag.DefaultGroup,
+                        Title = TagGroup.DefaultName,
                         Parent = _tagPanel,
                         Width = _tagPanel.Width - 25,
                         WidthSizingMode = Blish_HUD.Controls.SizingMode.Standard,
@@ -341,7 +341,7 @@ namespace Kenedia.Modules.BuildsManager.Views
                     }
                     else if (_startPanel is not null)
                     {
-                        _draggingTagEditControl.Tag.Group = _startPanel.Title != TemplateTag.DefaultGroup ? _startPanel.Title : string.Empty;
+                        _draggingTagEditControl.Tag.Group = _startPanel.Title != TagGroup.DefaultName ? _startPanel.Title : string.Empty;
                     }
 
                     _draggingTagEditControl = null;

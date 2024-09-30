@@ -73,7 +73,6 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selectables
             if (ContentPanel is not null && HeaderPanel is not null)
             {
                 ContentPanel.ContentPadding = new(8);
-                int p = 10;
                 Rectangle r = new(Point.Zero, new(ContentPanel.Width, SelectableSize.Y + 10));
                 HeaderPanel?.SetBounds(r);
 

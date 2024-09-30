@@ -20,7 +20,7 @@ namespace Kenedia.Modules.BuildsManager.Controls_Old.GearPage.GearSlots
         private Rectangle _titleBounds;
         private readonly ItemControl _runeControl = new(new(784323) { TextureRegion = new(38, 38, 52, 52) });
 
-        private Rune _rune;
+        private Rune? _rune;
         private Rectangle _runeBounds;
 
         public PvpAmuletSlot(TemplateSlotType gearSlot, Container parent, TemplatePresenter templatePresenter, Controls.Selection.SelectionPanel selectionPanel) : base(gearSlot, parent, templatePresenter, selectionPanel)
@@ -29,7 +29,7 @@ namespace Kenedia.Modules.BuildsManager.Controls_Old.GearPage.GearSlots
             ClipsBounds = false;
         }
 
-        public Rune Rune { get => _rune; set => Common.SetProperty(ref _rune, value, OnRuneChanged); }
+        public Rune? Rune { get => _rune; set => Common.SetProperty(ref _rune, value, OnRuneChanged); }
 
         public override void RecalculateLayout()
         {

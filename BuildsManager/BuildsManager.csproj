@@ -449,6 +449,7 @@
     <Compile Include="Models\GearArrayIndex.cs" />
     <Compile Include="Models\BasicItemMap.cs" />
     <Compile Include="Models\LegendChangedEventArgs.cs" />
+    <Compile Include="Models\TagGroup.cs" />
     <Compile Include="Models\TemplateSlotChangedEventArgs.cs" />
     <Compile Include="Models\Paths.cs" />
     <Compile Include="Models\SkillChangedEventArgs.cs" />
@@ -492,6 +493,7 @@
     <Compile Include="Services\Data\StatMappedDataEntry.cs" />
     <Compile Include="Services\StatMapping.cs" />
     <Compile Include="Services\TagEditWindowFactory.cs" />
+    <Compile Include="Services\TagGroups.cs" />
     <Compile Include="Services\TemplateFactory.cs" />
     <Compile Include="Services\TemplateTags.cs" />
     <Compile Include="Utility\GearChatCode.cs" />

@@ -42,7 +42,6 @@ namespace Kenedia.Modules.BuildsManager.Controls_Old.GearPage.GearSlots
         private Rectangle _sigilBounds;
         private Rectangle _pvpSigilBounds;
         private Rectangle _infusionBounds;
-        private WeaponSlot _otherHandSlot;
 
         public WeaponSlot(TemplateSlotType gearSlot, Container parent, TemplatePresenter templatePresenter, Controls.Selection.SelectionPanel selectionPanel) : base(gearSlot, parent, templatePresenter, selectionPanel)
         {
@@ -61,8 +60,6 @@ namespace Kenedia.Modules.BuildsManager.Controls_Old.GearPage.GearSlots
         public Sigil PvpSigil { get => _pvpSigil; set => Common.SetProperty(ref _pvpSigil, value, OnPvpSigilChanged); }
 
         public Infusion Infusion { get => _infusion; set => Common.SetProperty(ref _infusion, value, OnInfusionChanged); }
-
-        public WeaponSlot PairedSlot { get => _otherHandSlot; set => Common.SetProperty(ref _otherHandSlot, value); }
 
         private void AdjustForOtherSlot()
         {
@@ -335,7 +332,6 @@ namespace Kenedia.Modules.BuildsManager.Controls_Old.GearPage.GearSlots
             Sigil = null;
             PvpSigil = null;
             Infusion = null;
-            PairedSlot = null;
         }
     }
 }

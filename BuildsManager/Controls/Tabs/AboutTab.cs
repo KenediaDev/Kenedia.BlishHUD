@@ -255,7 +255,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.Tabs
 
             panel ??= _ungroupedPanel ??= new FlowPanel()
             {
-                Title = TemplateTag.DefaultGroup,
+                Title = TagGroup.DefaultName,
                 Parent = _tagPanel,
                 Width = _tagPanel.Width - 25,
                 WidthSizingMode = Blish_HUD.Controls.SizingMode.Standard,

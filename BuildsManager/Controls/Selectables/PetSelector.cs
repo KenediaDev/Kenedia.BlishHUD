@@ -53,7 +53,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selectables
                 ContentPanel.ContentPadding = new(8);
                 int p = 4;
                 Rectangle r = new(Point.Zero, new(ContentPanel.Width - (p * 4), SelectableSize.Y + 20));
-                HeaderPanel?.SetBounds(r);
+                HeaderPanel.SetBounds(r);
 
                 int pad = 40;
                 _selectingFrame.Bounds = new(-pad - (pad / 5), 0, HeaderPanel.Width + (pad * 3), HeaderPanel.Height + (pad / 10));

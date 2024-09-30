@@ -27,15 +27,15 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
         private readonly StatSelection _statSelection;
 
         private readonly DetailedTexture _backButton = new(784268);
-        private Control _subAnchor;
-        private Control _mainAnchor;
+        private Control? _subAnchor;
+        private Control? _mainAnchor;
         private Core.Controls.Pointer _pointer;
 
         private Rectangle _backBounds;
         private Rectangle _backTextBounds;
         private SelectionTypes _selectionType = SelectionTypes.Templates;
 
-        private Control _anchor;
+        private Control? _anchor;
         private MainWindow _mainWindow;
 
         public SelectionPanel(TemplatePresenter templatePresenter, TemplateCollection templates, TemplateTags templateTags, Data data, TemplateFactory templateFactory)

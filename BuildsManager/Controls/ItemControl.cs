@@ -21,8 +21,8 @@ namespace Kenedia.Modules.BuildsManager.Controls_Old.GearPage
         private readonly DetailedTexture _statTexture = new() { };
 
         private DetailedTexture _placeholder = new();
-        private BaseItem _item;
-        private Stat _stat;
+        private BaseItem? _item;
+        private Stat? _stat;
         private int _frameThickness = 2;
         private Color _frameColor = Color.White * 0.15F;
 
@@ -41,9 +41,9 @@ namespace Kenedia.Modules.BuildsManager.Controls_Old.GearPage
 
         public bool ShowStat { get; set; } = true;
 
-        public BaseItem Item { get => _item; set => Common.SetProperty(ref _item, value, ApplyItem); }
+        public BaseItem? Item { get => _item; set => Common.SetProperty(ref _item, value, ApplyItem); }
 
-        public Stat Stat { get => _stat; set => Common.SetProperty(ref _stat, value, ApplyStat); }
+        public Stat? Stat { get => _stat; set => Common.SetProperty(ref _stat, value, ApplyStat); }
 
         public Color TextureColor { get => _texture.DrawColor ?? Color.White; set => _texture.DrawColor = value; }
 

@@ -13,7 +13,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.ProfessionSpecific
 {
     public abstract class ProfessionSpecifics : Panel
     {
-        private TemplatePresenter _templatePresenter;
+        private TemplatePresenter? _templatePresenter;
 
         protected virtual SkillIcon[] Skills { get; } = Array.Empty<SkillIcon>();
 

@@ -20,8 +20,8 @@ namespace Kenedia.Modules.BuildsManager.Controls_Old.GearPage.GearSlots
     {
         private readonly ItemControl _infusionControl = new(new() { TextureRegion = new(38, 38, 52, 52) });
 
-        private Stat _stat;
-        private Infusion _infusion;
+        private Stat? _stat;
+        private Infusion? _infusion;
 
         public AccessoireSlot(TemplateSlotType gearSlot, Container parent, TemplatePresenter templatePresenter, SelectionPanel selectionPanel) : base(gearSlot, parent, templatePresenter, selectionPanel)
         {
