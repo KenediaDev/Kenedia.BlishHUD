@@ -57,6 +57,8 @@ namespace Kenedia.Modules.BuildsManager.Models
         [JsonIgnore]
         public Rectangle? TextureRegion { get => _textureRegion; set => Common.SetProperty(ref _textureRegion, value, OnTextureRegionChanged); }
 
+        public static TagGroup Empty { get; internal set; } = new();
+
         private void OnAssetIdChanged(object sender, ValueChangedEventArgs<int> e)
         {
             Icon = new(e.NewValue);

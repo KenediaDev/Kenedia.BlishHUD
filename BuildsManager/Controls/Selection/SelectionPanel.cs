@@ -44,7 +44,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
             Pointer = new();
 
             ClipsBounds = false;
-            Location = new(0, 0);
+            //Location = new(0, 0);
             HeightSizingMode = SizingMode.Fill;
             Width = 375;
 
@@ -92,7 +92,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
             get => _mainWindow;
             set
             {
-                Parent = _mainWindow = value;                
+                _mainWindow = value;                
             }
         }
 

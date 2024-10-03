@@ -39,11 +39,10 @@ namespace Kenedia.Modules.BuildsManager.Controls.Tabs
         private Dictionary<FlowPanel, List<TagControl>> _tagControls = [];
         private FlowPanel _ungroupedPanel;
 
-        public AboutTab(TemplatePresenter templatePresenter, TemplateTags templateTags, TagEditWindow tagEditWindow, TagGroups tagGroups)
+        public AboutTab(TemplatePresenter templatePresenter, TemplateTags templateTags, TagGroups tagGroups)
         {
             TemplatePresenter = templatePresenter;
             TemplateTags = templateTags;
-            TagEditWindow = tagEditWindow;
             TagGroups = tagGroups;
 
             HeightSizingMode = Blish_HUD.Controls.SizingMode.Fill;
@@ -167,7 +166,6 @@ namespace Kenedia.Modules.BuildsManager.Controls.Tabs
 
         public TemplateTags TemplateTags { get; }
 
-        public TagEditWindow TagEditWindow { get; }
         public TagGroups TagGroups { get; }
 
         private void TagPanel_ChildsChanged(object sender, Blish_HUD.Controls.ChildChangedEventArgs e)
@@ -196,7 +194,9 @@ namespace Kenedia.Modules.BuildsManager.Controls.Tabs
                     case nameof(TemplateTag.Name):
                         {
                             var p = GetPanel(tag.Group);
-                            p.SortChildren<TagControl>(SortTagControls);
+                            var comparer = new TemplateTagComparer(TagGroups);
+                            
+                                p.SortChildren<TagControl>(SortTagControls);
                             break;
                         }
 
@@ -339,7 +339,13 @@ namespace Kenedia.Modules.BuildsManager.Controls.Tabs
                 Parent = panel,
                 Tag = e,
                 Width = panel.Width - 25,
-                OnEditClicked = () => TagEditWindow.Show(e),
+                OnEditClicked = () =>
+                {
+                    if (MainWindow is null) return;
+
+                    MainWindow.SelectedTab = MainWindow.TagEditViewTab;
+                    MainWindow.TagEditView.SetTagToEdit(e);
+                },
                 OnClicked = (selected) =>
                 {
                     if (TemplatePresenter.Template is Template template)
@@ -362,7 +368,8 @@ namespace Kenedia.Modules.BuildsManager.Controls.Tabs
 
         private int SortTagControls(TagControl x, TagControl y)
         {
-            return x.Tag.Priority.CompareTo(y.Tag.Priority) == 0 ? x.Tag.Name.CompareTo(y.Tag.Name) : x.Tag.Priority.CompareTo(y.Tag.Priority);
+            var comparer = new TemplateTagComparer(TagGroups);
+            return comparer.Compare(x.Tag, y.Tag);
         }
 
         private void CreateTagControls()
@@ -389,6 +396,8 @@ namespace Kenedia.Modules.BuildsManager.Controls.Tabs
         }
 
         public TemplatePresenter TemplatePresenter { get; private set; }
+
+        public MainWindow MainWindow { get; internal set; }
 
         private void NoteField_TextChanged(object sender, EventArgs e)
         {
@@ -443,7 +452,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.Tabs
                 c?.Dispose();
             }
 
-            TagEditWindow?.Dispose();
+            //TagEditWindow?.Dispose();
         }
     }
 }

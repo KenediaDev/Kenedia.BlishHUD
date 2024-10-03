@@ -78,6 +78,7 @@ namespace Kenedia.Modules.BuildsManager
             services.AddScoped<AboutTab>();
             services.AddScoped<BuildTab>();
             services.AddScoped<GearTab>();
+            services.AddScoped<QuickFiltersPanel>();
 
             services.AddSingleton<Func<CornerIcon>>(() => CornerIcon);
             services.AddSingleton<Func<LoadingSpinner>>(() => LoadingSpinner);

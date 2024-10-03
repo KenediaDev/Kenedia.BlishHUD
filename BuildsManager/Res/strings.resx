@@ -412,4 +412,7 @@ The purpose of this code is to share the modules Equipment Template easily with 
   <data name="AddTag" xml:space="preserve">
     <value>Add Tag</value>
   </data>
+  <data name="Templates" xml:space="preserve">
+    <value>Templates</value>
+  </data>
 </root>

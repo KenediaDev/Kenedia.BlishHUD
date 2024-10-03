@@ -526,12 +526,20 @@
     <Compile Include="Utility\StatUtility.cs" />
     <Compile Include="Utility\TemplateTagComparer.cs" />
     <Compile Include="Utility\WeaponTypeConversion.cs" />
+    <Compile Include="Views\GroupEditPanel.cs" />
+    <Compile Include="Views\GroupSelectable.cs" />
     <Compile Include="Views\MainWindow.cs" />
+    <Compile Include="Views\QuickFiltersPanel.cs" />
     <Compile Include="Views\TagEditControl.cs" />
+    <Compile Include="Views\TagEditPanel.cs" />
     <Compile Include="Views\TagEditView.cs" />
     <Compile Include="Views\TagEditWindow.cs" />
     <Compile Include="Views\TagEditWindowX.cs" />
+    <Compile Include="Views\TagGroupPanel.cs" />
     <Compile Include="Views\TagGroupView.cs" />
+    <Compile Include="Views\TagSelectable.cs" />
+    <Compile Include="Views\TagToggle.cs" />
+    <Compile Include="Views\TemplateView.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

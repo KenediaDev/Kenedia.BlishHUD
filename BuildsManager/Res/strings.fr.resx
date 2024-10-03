@@ -412,4 +412,7 @@ Le but de ce code est de partager facilement le modèle d'équipement du module 
   <data name="AddTag" xml:space="preserve">
     <value>Ajouter une étiquette</value>
   </data>
+  <data name="Templates" xml:space="preserve">
+    <value>Modèles</value>
+  </data>
 </root>

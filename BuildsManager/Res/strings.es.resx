@@ -412,4 +412,7 @@ El propósito de este código es compartir la Plantilla de Equipo del módulo f�
   <data name="AddTag" xml:space="preserve">
     <value>Añadir etiqueta</value>
   </data>
+  <data name="Templates" xml:space="preserve">
+    <value>Plantillas</value>
+  </data>
 </root>
