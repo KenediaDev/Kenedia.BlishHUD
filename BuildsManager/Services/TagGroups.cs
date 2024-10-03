@@ -11,6 +11,8 @@ using System.Threading.Tasks;
 using System.Threading;
 using System.Timers;
 using Kenedia.Modules.Core.Models;
+using System.Diagnostics;
+using Kenedia.Modules.BuildsManager.Utility;
 
 namespace Kenedia.Modules.BuildsManager.Services
 {
@@ -21,7 +23,7 @@ namespace Kenedia.Modules.BuildsManager.Services
         private readonly Paths _paths;
 
         private CancellationTokenSource _tokenSource;
-        private List<TagGroup> _groups = [];
+        private List<TagGroup> _groups;
         private bool _saveRequested;
 
         public TagGroups(ContentsManager contentsManager, Paths paths)
@@ -33,9 +35,9 @@ namespace Kenedia.Modules.BuildsManager.Services
             _timer.Elapsed += OnTimerElapsed;
         }
 
-        public event PropertyChangedEventHandler TagChanged;
-        public event EventHandler<TagGroup> TagAdded;
-        public event EventHandler<TagGroup> TagRemoved;
+        public event PropertyChangedEventHandler GroupChanged;
+        public event EventHandler<TagGroup> GroupAdded;
+        public event EventHandler<TagGroup> GroupRemoved;
 
         private async void OnTimerElapsed(object sender, ElapsedEventArgs e)
         {
@@ -49,21 +51,24 @@ namespace Kenedia.Modules.BuildsManager.Services
 
         public async Task Load()
         {
-            try
+
+            if (File.Exists($@"{_paths.ModulePath}TagGroups.json"))
             {
-                if (File.Exists($@"{_paths.ModulePath}TagGroups.json"))
+                try
                 {
-                    string json = File.ReadAllText($@"{_paths.ModulePath}TagGroups.json");
-                    _groups = JsonConvert.DeserializeObject<List<TagGroup>>(json, SerializerSettings.Default);
+                    if (File.Exists($@"{_paths.ModulePath}TagGroups.json"))
+                    {
+                        string json = File.ReadAllText($@"{_paths.ModulePath}TagGroups.json");
+                        _groups = JsonConvert.DeserializeObject<List<TagGroup>>(json, SerializerSettings.Default);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    BuildsManager.Logger.Warn("Failed to load TagGroups.json");
+                    BuildsManager.Logger.Warn($"{ex}");
                 }
             }
-            catch (Exception ex)
-            {
-                BuildsManager.Logger.Warn("Failed to load TagGroups.json");
-                BuildsManager.Logger.Warn($"{ex}");
-            }
-
-            if (_groups is null)
+            else
             {
                 string json = await new StreamReader(_contentsManager.GetFileStream(@"data\TagGroups.json")).ReadToEndAsync();
                 _groups = JsonConvert.DeserializeObject<List<TagGroup>>(json, SerializerSettings.Default);
@@ -77,8 +82,6 @@ namespace Kenedia.Modules.BuildsManager.Services
                 tag.Icon = new(tag.AssetId);
                 tag.PropertyChanged += Tag_PropertyChanged;
             }
-
-            OrderTags();
         }
 
         private void Tag_PropertyChanged(object sender, PropertyChangedEventArgs e)
@@ -97,24 +100,18 @@ namespace Kenedia.Modules.BuildsManager.Services
             }
         }
 
-        private void OrderTags()
-        {
-            _groups = [.. _groups
-                .OrderBy(x => x.Priority > 0)
-                .ThenBy(x => x.Priority)
-                .ThenBy(x => x.Name)];
-        }
-
         private void OnTagChanged(TagGroup tag, PropertyChangedEventArgs e)
         {
-            OrderTags();
-            TagChanged?.Invoke(tag, e);
+            GroupChanged?.Invoke(tag, e);
             RequestSave();
         }
 
         public void Add(TagGroup tag)
         {
-            if (_groups.Any(t => t.Name == tag.Name)) return;
+            if (_groups.Any(t => t.Name == tag.Name))
+            {
+                return;
+            }
 
             _groups.Add(tag);
             tag.PropertyChanged += Tag_TagChanged;
@@ -124,13 +121,13 @@ namespace Kenedia.Modules.BuildsManager.Services
 
         private void OnTagAdded(TagGroup tag)
         {
-            TagAdded?.Invoke(this, tag);
+            GroupAdded?.Invoke(this, tag);
             RequestSave();
         }
 
         private void OnTagRemoved(TagGroup tag)
         {
-            TagRemoved?.Invoke(this, tag);
+            GroupRemoved?.Invoke(this, tag);
             RequestSave();
         }
 
@@ -183,6 +180,8 @@ namespace Kenedia.Modules.BuildsManager.Services
 
         public IEnumerator<TagGroup> GetEnumerator()
         {
+            _groups.Sort(TemplateTagComparer.CompareGroups);
+
             return _groups.GetEnumerator();
         }
 

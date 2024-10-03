@@ -1,0 +1,57 @@
+[
+  {
+    "AssetId": 157119,
+    "Name": "General",
+    "TextureRegion": {
+      "X": 0,
+      "Y": 0,
+      "Width": 32,
+      "Height": 32
+    },
+    "Priority": -1
+  },
+  {
+    "AssetId": 157119,
+    "Name": "Game Mode",
+    "TextureRegion": {
+      "X": 0,
+      "Y": 0,
+      "Width": 32,
+      "Height": 32
+    },
+    "Priority": 0
+  },
+  {
+    "AssetId": 1012835,
+    "Name": "Roles",
+    "TextureRegion": {
+      "X": 0,
+      "Y": 0,
+      "Width": 32,
+      "Height": 32
+    },
+    "Priority": 1
+  },
+  {
+    "AssetId": 66722,
+    "Name": "Damage Type",
+    "TextureRegion": {
+      "X": 0,
+      "Y": 0,
+      "Width": 32,
+      "Height": 32
+    },
+    "Priority": 2
+  },
+  {
+    "AssetId": 1128644,
+    "Name": "Content Type",
+    "TextureRegion": {
+      "X": 0,
+      "Y": 0,
+      "Width": 32,
+      "Height": 32
+    },
+    "Priority": 3
+  }
+]

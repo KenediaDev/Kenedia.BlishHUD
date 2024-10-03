@@ -115,6 +115,8 @@ namespace Kenedia.Modules.BuildsManager.Views
 
         protected override void DisposeControl()
         {
+            Hide();
+
             base.DisposeControl();
             _tabbedRegion?.Dispose();
             BuildTab?.Dispose();

@@ -4,6 +4,7 @@ using Kenedia.Modules.BuildsManager.Models;
 using Kenedia.Modules.BuildsManager.Models.Templates;
 using Kenedia.Modules.BuildsManager.Res;
 using Kenedia.Modules.BuildsManager.Services;
+using Kenedia.Modules.BuildsManager.Utility;
 using Kenedia.Modules.BuildsManager.Views;
 using Kenedia.Modules.Core.Controls;
 using Kenedia.Modules.Core.Res;
@@ -176,7 +177,13 @@ namespace Kenedia.Modules.BuildsManager.Controls.Tabs
 
         private void SortPanels()
         {
-            _tagPanel.SortChildren<FlowPanel>((x, y) => x == _ungroupedPanel ? -1 : x.Title.CompareTo(y.Title));
+            _tagPanel.SortChildren<FlowPanel>((x, y) =>
+            {
+                var a = TagGroups.FirstOrDefault(group => group.Name == x.Title);
+                var b = TagGroups.FirstOrDefault(group => group.Name == y.Title);
+
+                return TemplateTagComparer.CompareGroups(a, b);
+            });
         }
 
         private void TemplateTags_TagChanged(object sender, PropertyChangedEventArgs e)
@@ -360,28 +367,17 @@ namespace Kenedia.Modules.BuildsManager.Controls.Tabs
 
         private void CreateTagControls()
         {
-            var groupOrder = TagGroups.OrderBy(x => x.Priority).ThenBy(x => x.Name);
-            var grouped = TemplateTags.GroupBy(x => x.Group);
+            var tags = TemplateTags.ToList();
+            tags.Sort(new TemplateTagComparer(TagGroups));
             List<string> added = [];
 
-            foreach (var g in groupOrder)
+            foreach (var tag in tags)
             {
-                var panel = GetPanel(g.Name);
+                var panel = GetPanel(tag.Group);
 
-                if (grouped.FirstOrDefault( x => x.Key == g.Name) is var group && group is not null)
-                {
-                    foreach (var t in group)
-                    {
-                        AddTemplateTag(t);
-                    }
+                AddTemplateTag(tag);
 
-                    added.Add(g.Name);
-                }
-            }
-
-            foreach (var t in TemplateTags.Where(x => !added.Contains(x.Group)))
-            {
-                AddTemplateTag(t);
+                added.Add(tag.Name);
             }
 
             SortPanels();
@@ -446,6 +442,8 @@ namespace Kenedia.Modules.BuildsManager.Controls.Tabs
             {
                 c?.Dispose();
             }
+
+            TagEditWindow?.Dispose();
         }
     }
 }

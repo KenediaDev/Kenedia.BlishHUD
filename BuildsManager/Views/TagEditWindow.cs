@@ -7,8 +7,10 @@ using Kenedia.Modules.Core.Services;
 using Kenedia.Modules.Core.Views;
 using Microsoft.Extensions.Options;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Diagnostics;
+using System.Linq;
 
 namespace Kenedia.Modules.BuildsManager.Views
 {
@@ -32,8 +34,8 @@ namespace Kenedia.Modules.BuildsManager.Views
             SavesSize = true;
             CanResize = true;
 
-            Tabs.Add(TagEditViewTab = new Blish_HUD.Controls.Tab(AsyncTexture2D.FromAssetId(156674), () => new TagEditView(TemplateTags, TagGroups), strings.Tags));
-            Tabs.Add(TagGroupViewTab = new Blish_HUD.Controls.Tab(AsyncTexture2D.FromAssetId(1342334), () => new TagGroupView(TagGroups), strings.Group));
+            Tabs.Add(TagEditViewTab = new Blish_HUD.Controls.Tab(AsyncTexture2D.FromAssetId(156025), () => new TagEditView(TemplateTags, TagGroups), strings.Tags));
+            Tabs.Add(TagGroupViewTab = new Blish_HUD.Controls.Tab(AsyncTexture2D.FromAssetId(578844), () => new TagGroupView(TagGroups), strings.Group));
         }
 
         public TemplateTags TemplateTags { get; }
@@ -68,6 +70,13 @@ namespace Kenedia.Modules.BuildsManager.Views
             base.OnTabChanged(e);
 
             Subtitle = e.NewValue == TagEditViewTab ? strings.Tags : strings.Group;
+        }
+
+        protected override void DisposeControl()
+        {
+            Hide();
+
+            base.DisposeControl();
         }
     }
 }

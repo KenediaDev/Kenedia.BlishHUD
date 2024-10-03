@@ -6,6 +6,7 @@ using Kenedia.Modules.BuildsManager.Controls;
 using Kenedia.Modules.BuildsManager.Models;
 using Kenedia.Modules.BuildsManager.Res;
 using Kenedia.Modules.BuildsManager.Services;
+using Kenedia.Modules.BuildsManager.Utility;
 using Kenedia.Modules.Core.Controls;
 using Kenedia.Modules.Core.Extensions;
 using Kenedia.Modules.Core.Res;
@@ -27,6 +28,8 @@ namespace Kenedia.Modules.BuildsManager.Views
 {
     public class GroupSelectable : Selectable<TagGroup>
     {
+        protected Rectangle PriorityTextBounds;
+
         public TagGroup Group => Item;
 
         public TagGroups TagGroups { get; }
@@ -41,12 +44,24 @@ namespace Kenedia.Modules.BuildsManager.Views
 
         protected override void DrawItem(SpriteBatch spriteBatch, Rectangle bounds)
         {
-            if (Group.Icon.Texture is not null)
-            {
-                spriteBatch.DrawOnCtrl(this, Group.Icon.Texture, IconBounds);
-            }
+            //if (Group.Icon.Texture is not null)
+            //{
+            //    spriteBatch.DrawOnCtrl(this, Group.Icon.Texture, IconBounds);
+            //}
 
-            spriteBatch.DrawStringOnCtrl(this, Group.Name, Content.DefaultFont14, TextBounds, Color.White, false, Blish_HUD.Controls.HorizontalAlignment.Left, Blish_HUD.Controls.VerticalAlignment.Middle);
+            spriteBatch.DrawStringOnCtrl(this, string.Format("{1}", Group.Priority, Group.Name), Content.DefaultFont14, TextBounds, Color.White, false, Blish_HUD.Controls.HorizontalAlignment.Left, Blish_HUD.Controls.VerticalAlignment.Middle);
+            spriteBatch.DrawStringOnCtrl(this, string.Format("{0}", Group.Priority), Content.DefaultFont12, PriorityTextBounds, Color.Gray, false, Blish_HUD.Controls.HorizontalAlignment.Right, Blish_HUD.Controls.VerticalAlignment.Middle);
+        }
+
+        public override void RecalculateLayout()
+        {
+            base.RecalculateLayout();
+
+            int padding = Height - (Content.DefaultFont14.LineHeight + 3 + Content.DefaultFont12.LineHeight);
+            ContentBounds = new(5, padding / 2, Width - 30, Height - padding);
+
+            PriorityTextBounds = new(Width - 5, ContentBounds.Top + 5, Content.DefaultFont12.LetterSpacing * 2, Content.DefaultFont12.LineHeight);
+            TextBounds = new(ContentBounds.Left, ContentBounds.Top, ContentBounds.Width - 5 - PriorityTextBounds.Width, ContentBounds.Height);
         }
 
         private void RemoveTag(TagGroup group)
@@ -74,6 +89,8 @@ namespace Kenedia.Modules.BuildsManager.Views
         private Blish_HUD.Controls.Container? _draggingStartParent;
         private Point _draggingStart;
         private bool _dragging;
+
+        private bool _loading;
 
         public GroupEditPanel(TagGroups tagGroups)
         {
@@ -108,6 +125,7 @@ namespace Kenedia.Modules.BuildsManager.Views
                 Size = new(32),
                 Location = new(0, Content.DefaultFont14.LineHeight + 2),
                 BackgroundColor = Color.Black * 0.4F,
+                Visible = false,
             };
 
             _iconId = new(
@@ -115,6 +133,7 @@ namespace Kenedia.Modules.BuildsManager.Views
                 {
                     Parent = this,
                     SetLocalizedText = () => strings.AssetId,
+                    Visible = false,
                 },
                 new()
                 {
@@ -124,6 +143,7 @@ namespace Kenedia.Modules.BuildsManager.Views
                     Location = new(0, Content.DefaultFont14.LineHeight + 2),
                     Height = 32,
                     ValueChangedAction = (n) => SetIcon(),
+                    Visible = false,
                 });
 
             _priority = new(
@@ -137,7 +157,6 @@ namespace Kenedia.Modules.BuildsManager.Views
                     Parent = this,
                     Width = 100,
                     ShowButtons = true,
-                    MinValue = 0,
                     Location = new(0, _icon.Bottom + 25 + Content.DefaultFont14.LineHeight + 2),
                     Height = 32,
                     ValueChangedAction = (n) => SetPriority(),
@@ -149,13 +168,15 @@ namespace Kenedia.Modules.BuildsManager.Views
                     Parent = this,
                     SetLocalizedText = () => "X",
                     HorizontalAlignment = Blish_HUD.Controls.HorizontalAlignment.Center,
+                    Visible = false,
                 },
                 new()
                 {
                     Parent = this,
                     ShowButtons = false,
                     Height = 25,
-                    ValueChangedAction = (n) => SetIcon(),
+                    ValueChangedAction = (n) => SetTextureRegion(),
+                    Visible = false,
                 });
 
             _y = new(
@@ -164,13 +185,15 @@ namespace Kenedia.Modules.BuildsManager.Views
                     Parent = this,
                     SetLocalizedText = () => "Y",
                     HorizontalAlignment = Blish_HUD.Controls.HorizontalAlignment.Center,
+                    Visible = false,
                 },
                 new()
                 {
                     Parent = this,
                     ShowButtons = false,
                     Height = 25,
-                    ValueChangedAction = (n) => SetIcon(),
+                    ValueChangedAction = (n) => SetTextureRegion(),
+                    Visible = false,
                 });
 
             _width = new(
@@ -179,13 +202,15 @@ namespace Kenedia.Modules.BuildsManager.Views
                     Parent = this,
                     SetLocalizedText = () => strings.Width,
                     HorizontalAlignment = Blish_HUD.Controls.HorizontalAlignment.Center,
+                    Visible = false,
                 },
                 new()
                 {
                     Parent = this,
                     ShowButtons = false,
                     Height = 25,
-                    ValueChangedAction = (n) => SetIcon(),
+                    ValueChangedAction = (n) => SetTextureRegion(),
+                    Visible = false,
                 });
 
             _height = new(
@@ -194,13 +219,15 @@ namespace Kenedia.Modules.BuildsManager.Views
                     Parent = this,
                     SetLocalizedText = () => strings.Height,
                     HorizontalAlignment = Blish_HUD.Controls.HorizontalAlignment.Center,
+                    Visible = false,
                 },
                 new()
                 {
                     Parent = this,
                     ShowButtons = false,
                     Height = 25,
-                    ValueChangedAction = (n) => SetIcon(),
+                    ValueChangedAction = (n) => SetTextureRegion(),
+                    Visible = false,
                 });
 
             _resetButton = new()
@@ -209,6 +236,7 @@ namespace Kenedia.Modules.BuildsManager.Views
                 Text = strings.Reset,
                 Height = 25,
                 ClickAction = () => SetTextureRegionToTextureBounds(Group.Icon.Texture),
+                Visible = false,
             };
 
             _created = true;
@@ -217,9 +245,10 @@ namespace Kenedia.Modules.BuildsManager.Views
             _ = Menu.AddMenuItem(new ContextMenuItem(() => strings.Delete, () => RemoveTag(Group)));
         }
 
-        private void SetPriority()
+        private void SetTextureRegion()
         {
-            Group.Priority = _priority.numberBox.Value;
+            if (_loading) return;
+            Group.TextureRegion = new(_x.numberBox.Value, _y.numberBox.Value, _width.numberBox.Value, _height.numberBox.Value);
         }
 
         private void RemoveTag(TagGroup group)
@@ -235,16 +264,24 @@ namespace Kenedia.Modules.BuildsManager.Views
 
         private void OnTagChanged(object sender, Core.Models.ValueChangedEventArgs<TagGroup> e)
         {
-            TagGroup group = e.NewValue;
+            TagGroup group;
 
+            group = e.OldValue;
             if (group is not null)
             {
-                group.PropertyChanged += Tag_TagChanged;
-                ApplyTag(group);
+                group.PropertyChanged -= Group_TagChanged;
             }
+
+            group = e.NewValue;
+            if (group is not null)
+            {
+                group.PropertyChanged += Group_TagChanged;
+            }
+
+            ApplyTag(group);
         }
 
-        private void Tag_TagChanged(object sender, PropertyChangedEventArgs e)
+        private void Group_TagChanged(object sender, PropertyChangedEventArgs e)
         {
             if (sender is TagGroup group)
             {
@@ -252,8 +289,10 @@ namespace Kenedia.Modules.BuildsManager.Views
             }
         }
 
-        private void ApplyTag(TagGroup group)
+        private void ApplyTag(TagGroup? group)
         {
+            _loading = true;
+
             var r = group?.TextureRegion ?? group?.Icon?.Bounds ?? Rectangle.Empty;
             _icon.SourceRectangle = r;
 
@@ -266,6 +305,8 @@ namespace Kenedia.Modules.BuildsManager.Views
             _y.numberBox.Value = r.Y;
             _width.numberBox.Value = r.Width;
             _height.numberBox.Value = r.Height;
+
+            _loading = false;
         }
 
         private void SetTextureRegionToTextureBounds(AsyncTexture2D icon)
@@ -279,8 +320,17 @@ namespace Kenedia.Modules.BuildsManager.Views
             }
         }
 
+        private void SetPriority()
+        {
+            if (_loading) return;
+
+            Group.Priority = _priority.numberBox.Value;
+        }
+
         private void SetIcon()
         {
+            if (_loading) return;
+
             if (AsyncTexture2D.FromAssetId(_iconId.numberBox.Value) is AsyncTexture2D icon)
             {
                 _icon.SourceRectangle = icon != _icon.Texture
@@ -369,25 +419,28 @@ namespace Kenedia.Modules.BuildsManager.Views
 
         public GroupSelectable SelectedGroup { get; set; }
 
+        public Blish_HUD.Controls.Container BuildPanel { get; private set; }
+
         public TagGroups TagGroups { get; }
 
         override protected void Build(Blish_HUD.Controls.Container buildPanel)
         {
             base.Build(buildPanel);
+            BuildPanel = buildPanel;
 
             _filterBox = new()
             {
-                Parent = buildPanel,
+                Parent = BuildPanel,
                 Location = new(50, 0),
-                Width = buildPanel.Width - 75 - 27,
+                Width = BuildPanel.Width - 75 - 27,
                 SetLocalizedPlaceholder = () => strings_common.Search,
                 FilteringOnTextChange = true,
-                PerformFiltering = FilterTags,
+                PerformFiltering = FilterGroups,
             };
 
             _addButton = new()
             {
-                Parent = buildPanel,
+                Parent = BuildPanel,
                 Location = new(_filterBox.Right + 2, _filterBox.Top),
                 Texture = AsyncTexture2D.FromAssetId(155902),
                 DisabledTexture = AsyncTexture2D.FromAssetId(155903),
@@ -400,10 +453,10 @@ namespace Kenedia.Modules.BuildsManager.Views
 
             _groupsPanel = new()
             {
-                Parent = buildPanel,
+                Parent = BuildPanel,
                 Location = new(50, _filterBox.Bottom + 5),
                 ContentPadding = new(5, 5, 0, 0),
-                Width = (buildPanel.Width - 75) / 3,
+                Width = (BuildPanel.Width - 75) / 3,
                 BorderColor = Color.Black,
                 BorderWidth = new Core.Structs.RectangleDimensions(2),
                 BackgroundColor = Color.Black * 0.5F,
@@ -416,11 +469,11 @@ namespace Kenedia.Modules.BuildsManager.Views
             {
                 Location = new(_groupsPanel.Right + 5, _filterBox.Bottom + 5),
                 CanScroll = true,
-                Parent = buildPanel,
+                Parent = BuildPanel,
                 BorderColor = Color.Black,
                 BorderWidth = new Core.Structs.RectangleDimensions(2),
                 BackgroundColor = Color.Black * 0.5F,
-                Width = buildPanel.Width - 75 - (_groupsPanel.Width + 5),
+                Width = BuildPanel.Width - 75 - (_groupsPanel.Width + 5),
                 HeightSizingMode = Blish_HUD.Controls.SizingMode.Fill,
             };
 
@@ -429,11 +482,11 @@ namespace Kenedia.Modules.BuildsManager.Views
                 AddGroup(g);
             }
 
-            TagGroups.TagAdded += TagGroups_TagAdded;
-            TagGroups.TagRemoved += TagGroups_TagRemoved;
-            TagGroups.TagChanged += TagGroups_TagChanged;
+            TagGroups.GroupAdded += TagGroups_TagAdded;
+            TagGroups.GroupRemoved += TagGroups_TagRemoved;
+            TagGroups.GroupChanged += TagGroups_TagChanged;
 
-            buildPanel.Resized += BuildPanel_Resized;
+            BuildPanel.Resized += BuildPanel_Resized;
         }
 
         private void BuildPanel_Resized(object sender, Blish_HUD.Controls.ResizedEventArgs e)
@@ -450,27 +503,38 @@ namespace Kenedia.Modules.BuildsManager.Views
                 _addButton.Location = new(_filterBox.Right + 2, _filterBox.Top);
         }
 
-        private void FilterTags(string obj)
+        private void FilterGroups(string? obj = null)
         {
+            obj ??= _filterBox.Text ?? string.Empty;
+
             _groupsPanel.SuspendLayout();
 
             obj = obj.ToLowerInvariant();
+            bool isEmpty = string.IsNullOrEmpty(obj);
 
             foreach (var g in _groupSelectables)
             {
-                g.Visible = g.Group.Name.ToLowerInvariant().Contains(obj);
+                g.Visible = isEmpty || g.Group.Name.ToLowerInvariant().Contains(obj);
             }
 
             _groupsPanel.ResumeLayout();
             _groupsPanel.Invalidate();
+            SortSelectables();
+        }
+
+        private void SortSelectables()
+        {
+            _groupsPanel.SortChildren<GroupSelectable>((a, b) => TemplateTagComparer.CompareGroups(a.Group, b.Group));
         }
 
         private void AddGroup(TagGroup g)
         {
             _groupSelectables.Add(new(g, _groupsPanel, TagGroups)
             {
-                OnClickAction = SetGroupToEdit,                
+                OnClickAction = SetGroupToEdit,
             });
+
+            FilterGroups();
         }
 
         private void SetGroupToEdit(TagGroup group)
@@ -486,7 +550,7 @@ namespace Kenedia.Modules.BuildsManager.Views
 
         private void TagGroups_TagChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
-
+            FilterGroups();
         }
 
         private void TagGroups_TagRemoved(object sender, TagGroup e)
@@ -497,12 +561,25 @@ namespace Kenedia.Modules.BuildsManager.Views
             {
                 _groupSelectables.Remove(group);
                 group.Dispose();
+
+                FilterGroups();
             }
         }
 
         private void TagGroups_TagAdded(object sender, TagGroup e)
         {
             AddGroup(e);
+        }
+
+        protected override void Unload()
+        {
+            base.Unload();
+
+            TagGroups.GroupAdded -= TagGroups_TagAdded;
+            TagGroups.GroupRemoved -= TagGroups_TagRemoved;
+            TagGroups.GroupChanged -= TagGroups_TagChanged;
+
+            BuildPanel.Resized -= BuildPanel_Resized;
         }
     }
 }

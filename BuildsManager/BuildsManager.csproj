@@ -524,6 +524,7 @@
     <Compile Include="Models\ItemMapping.cs" />
     <Compile Include="Services\Settings.cs" />
     <Compile Include="Utility\StatUtility.cs" />
+    <Compile Include="Utility\TemplateTagComparer.cs" />
     <Compile Include="Utility\WeaponTypeConversion.cs" />
     <Compile Include="Views\MainWindow.cs" />
     <Compile Include="Views\TagEditControl.cs" />
@@ -623,6 +624,7 @@
     <None Include="manifest.json" />
     <None Include="packages.config" />
     <None Include="ref\data\ItemMapping.json" />
+    <None Include="ref\data\TagGroups.json" />
     <None Include="ref\data\TemplateTags.json" />
     <None Include="ref\data\xItemMapping.json" />
     <None Include="ref\data\missing_skills.json" />

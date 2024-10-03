@@ -1,5 +1,6 @@
 ﻿using Blish_HUD.Modules.Managers;
 using Kenedia.Modules.BuildsManager.Models;
+using Kenedia.Modules.BuildsManager.Utility;
 using Kenedia.Modules.Core.Models;
 using Newtonsoft.Json;
 using System;
@@ -34,6 +35,19 @@ namespace Kenedia.Modules.BuildsManager.Services
 
             _timer = new(1000);
             _timer.Elapsed += OnTimerElapsed;
+
+            TagGroups.GroupRemoved += TagGroups_TagRemoved;
+        }
+
+        private void TagGroups_TagRemoved(object sender, TagGroup e)
+        {
+            foreach (var tag in _tags)
+            {
+                if (tag.Group == e.Name)
+                {
+                    tag.Group = string.Empty;
+                }
+            }
         }
 
         public event PropertyChangedEventHandler TagChanged;
@@ -52,21 +66,23 @@ namespace Kenedia.Modules.BuildsManager.Services
 
         public async Task Load()
         {
-            try
+            if (File.Exists($@"{_paths.ModulePath}TemplateTags.json"))
             {
-                if (File.Exists($@"{_paths.ModulePath}TemplateTags.json"))
+                try
                 {
-                    string json = File.ReadAllText($@"{_paths.ModulePath}TemplateTags.json");
-                    _tags = JsonConvert.DeserializeObject<List<TemplateTag>>(json, SerializerSettings.Default);
+                    if (File.Exists($@"{_paths.ModulePath}TemplateTags.json"))
+                    {
+                        string json = File.ReadAllText($@"{_paths.ModulePath}TemplateTags.json");
+                        _tags = JsonConvert.DeserializeObject<List<TemplateTag>>(json, SerializerSettings.Default);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    BuildsManager.Logger.Warn("Failed to load TemplateTags.json");
+                    BuildsManager.Logger.Warn($"{ex}");
                 }
             }
-            catch (Exception ex)
-            {
-                BuildsManager.Logger.Warn("Failed to load TemplateTags.json");
-                BuildsManager.Logger.Warn($"{ex}");
-            }
-
-            if (_tags is null)
+            else
             {
                 string json = await new StreamReader(_contentsManager.GetFileStream(@"data\TemplateTags.json")).ReadToEndAsync();
                 _tags = JsonConvert.DeserializeObject<List<TemplateTag>>(json, SerializerSettings.Default);
@@ -80,8 +96,6 @@ namespace Kenedia.Modules.BuildsManager.Services
                 tag.Icon = new(tag.AssetId);
                 tag.PropertyChanged += Tag_PropertyChanged;
             }
-
-            OrderTags();
         }
 
         private void Tag_PropertyChanged(object sender, PropertyChangedEventArgs e)
@@ -100,19 +114,8 @@ namespace Kenedia.Modules.BuildsManager.Services
             }
         }
 
-        private void OrderTags()
-        {
-            _tags = [.. _tags
-                .OrderBy(x => x.Priority > 0)
-                .ThenBy(x => x.Group == string.Empty)
-                .ThenBy(x => x.Group)
-                .ThenBy(x => x.Priority)
-                .ThenBy(x => x.Name)];
-        }
-
         private void OnTagChanged(TemplateTag tag, PropertyChangedEventArgs e)
         {
-            OrderTags();
             TagChanged?.Invoke(tag, e);
             RequestSave();
         }
@@ -188,6 +191,8 @@ namespace Kenedia.Modules.BuildsManager.Services
 
         public IEnumerator<TemplateTag> GetEnumerator()
         {
+            _tags.Sort(new TemplateTagComparer(TagGroups));
+
             return _tags.GetEnumerator();
         }
 

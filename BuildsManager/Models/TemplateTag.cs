@@ -5,6 +5,7 @@ using Microsoft.Xna.Framework;
 using Newtonsoft.Json;
 using System;
 using System.ComponentModel;
+using System.Diagnostics;
 
 namespace Kenedia.Modules.BuildsManager.Models
 {
@@ -19,7 +20,7 @@ namespace Kenedia.Modules.BuildsManager.Models
         private string _name = DefaultName;
 
         [JsonProperty("TextureRegion")]
-        private Rectangle? _textureRegion;
+        private Rectangle? _textureRegion = new(36, 36, 64, 64);
 
         [JsonProperty("Priority")]
         private int _priority = 1;
@@ -32,6 +33,14 @@ namespace Kenedia.Modules.BuildsManager.Models
         public TemplateTag()
         {
                 
+        }
+
+        public TemplateTag(string name)
+        {
+            if (!string.IsNullOrEmpty(name))
+            {
+                _name = name;
+            }            
         }
 
         [JsonIgnore]

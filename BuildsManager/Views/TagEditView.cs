@@ -3,9 +3,11 @@ using Blish_HUD.Content;
 using Blish_HUD.Graphics.UI;
 using Blish_HUD.Input;
 using Kenedia.Modules.BuildsManager.Controls;
+using Kenedia.Modules.BuildsManager.Controls.Selection;
 using Kenedia.Modules.BuildsManager.Models;
 using Kenedia.Modules.BuildsManager.Res;
 using Kenedia.Modules.BuildsManager.Services;
+using Kenedia.Modules.BuildsManager.Utility;
 using Kenedia.Modules.Core.Controls;
 using Kenedia.Modules.Core.Extensions;
 using Kenedia.Modules.Core.Res;
@@ -15,6 +17,7 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -23,20 +26,41 @@ namespace Kenedia.Modules.BuildsManager.Views
 {
     public class TagSelectable : Selectable<TemplateTag>
     {
+        protected Rectangle PriorityTextBounds;
+        protected Rectangle GroupTextBounds;
+
         public TemplateTag Tag => Item;
 
         public TemplateTags TemplateTags { get; }
 
         public TagSelectable(TemplateTag tag, Blish_HUD.Controls.Container parent, TemplateTags templateTags) : base(tag, parent)
         {
+            TemplateTags = templateTags;
+
+            Height = 40;
+
             Menu = new();
             _ = Menu.AddMenuItem(new ContextMenuItem(() => strings.Delete, () => RemoveTag(Tag)));
-            TemplateTags = templateTags;
         }
 
         private void RemoveTag(TemplateTag tag)
         {
             TemplateTags.Remove(Tag);
+        }
+
+        public override void RecalculateLayout()
+        {
+            base.RecalculateLayout();
+
+            int padding = Height - (Content.DefaultFont14.LineHeight + 3 + Content.DefaultFont12.LineHeight);
+            ContentBounds = new(5, padding / 2, Width - 30, Height - padding);
+
+            IconBounds = new(ContentBounds.Left, ContentBounds.Top + ((ContentBounds.Height - 25) / 2), 25, 25);
+
+            PriorityTextBounds = new(Width - 5, ContentBounds.Top, Content.DefaultFont12.LetterSpacing * 2, Content.DefaultFont12.LineHeight);
+
+            TextBounds = new(IconBounds.Right + 5, ContentBounds.Top, ContentBounds.Width - IconBounds.Width - 5, Content.DefaultFont14.LineHeight);
+            GroupTextBounds = new(IconBounds.Right + 5, ContentBounds.Bottom - Content.DefaultFont14.LineHeight, ContentBounds.Width - IconBounds.Width - 5, Content.DefaultFont12.LineHeight);
         }
 
         protected override void DrawItem(SpriteBatch spriteBatch, Rectangle bounds)
@@ -46,7 +70,9 @@ namespace Kenedia.Modules.BuildsManager.Views
                 spriteBatch.DrawOnCtrl(this, Tag.Icon.Texture, IconBounds);
             }
 
-            spriteBatch.DrawStringOnCtrl(this, Tag.Name, Content.DefaultFont14, TextBounds, Color.White, false, Blish_HUD.Controls.HorizontalAlignment.Left, Blish_HUD.Controls.VerticalAlignment.Middle);
+            spriteBatch.DrawStringOnCtrl(this, string.Format("{1}", Tag.Priority, Tag.Name), Content.DefaultFont14, TextBounds, Color.White, false, Blish_HUD.Controls.HorizontalAlignment.Left, Blish_HUD.Controls.VerticalAlignment.Middle);
+            spriteBatch.DrawStringOnCtrl(this, string.Format("{0}", string.IsNullOrEmpty(Tag.Group) ? TagGroup.DefaultName : Tag.Group), Content.DefaultFont12, GroupTextBounds, Color.Gray, false, Blish_HUD.Controls.HorizontalAlignment.Left, Blish_HUD.Controls.VerticalAlignment.Middle);
+            spriteBatch.DrawStringOnCtrl(this, string.Format("{0}", Tag.Priority), Content.DefaultFont12, PriorityTextBounds, Color.Gray, false, Blish_HUD.Controls.HorizontalAlignment.Right, Blish_HUD.Controls.VerticalAlignment.Middle);
         }
     }
 
@@ -71,6 +97,8 @@ namespace Kenedia.Modules.BuildsManager.Views
         private Blish_HUD.Controls.Container? _draggingStartParent;
         private Point _draggingStart;
         private bool _dragging;
+
+        private bool _loading;
 
         public TagEditPanel(TagGroups tagGroups)
         {
@@ -152,13 +180,7 @@ namespace Kenedia.Modules.BuildsManager.Views
                     Width = 200,
                     Height = 32,
                     Location = new(0, _icon.Bottom + 25 + Content.DefaultFont14.LineHeight + 2),
-                    ValueChangedAction = (txt) =>
-                    {
-                        if (!string.IsNullOrEmpty(txt) && Tag is not null)
-                        {
-                            Tag.Group = txt;
-                        };
-                    },
+                    ValueChangedAction = SetGroup,
                 });
 
             _x = new(
@@ -173,7 +195,7 @@ namespace Kenedia.Modules.BuildsManager.Views
                     Parent = this,
                     ShowButtons = false,
                     Height = 25,
-                    ValueChangedAction = (n) => SetIcon(),
+                    ValueChangedAction = (n) => SetTextureRegion(),
                 });
 
             _y = new(
@@ -188,7 +210,7 @@ namespace Kenedia.Modules.BuildsManager.Views
                     Parent = this,
                     ShowButtons = false,
                     Height = 25,
-                    ValueChangedAction = (n) => SetIcon(),
+                    ValueChangedAction = (n) => SetTextureRegion(),
                 });
 
             _width = new(
@@ -203,7 +225,7 @@ namespace Kenedia.Modules.BuildsManager.Views
                     Parent = this,
                     ShowButtons = false,
                     Height = 25,
-                    ValueChangedAction = (n) => SetIcon(),
+                    ValueChangedAction = (n) => SetTextureRegion(),
                 });
 
             _height = new(
@@ -218,7 +240,7 @@ namespace Kenedia.Modules.BuildsManager.Views
                     Parent = this,
                     ShowButtons = false,
                     Height = 25,
-                    ValueChangedAction = (n) => SetIcon(),
+                    ValueChangedAction = (n) => SetTextureRegion(),
                 });
 
             _resetButton = new()
@@ -251,8 +273,21 @@ namespace Kenedia.Modules.BuildsManager.Views
             }
         }
 
+        private void SetGroup(string txt)
+        {
+            if (_loading || Tag is null) return;
+            Tag.Group = txt;
+        }
+
+        private void SetTextureRegion()
+        {
+            if (_loading || Tag is null) return;
+            Tag.TextureRegion = new(_x.numberBox.Value, _y.numberBox.Value, _width.numberBox.Value, _height.numberBox.Value);
+        }
+
         private void SetPriority()
         {
+            if (_loading || Tag is null) return;
             Tag.Priority = _priority.numberBox.Value;
         }
 
@@ -269,13 +304,21 @@ namespace Kenedia.Modules.BuildsManager.Views
 
         private void OnTagChanged(object sender, Core.Models.ValueChangedEventArgs<TemplateTag> e)
         {
-            TemplateTag tag = e.NewValue;
+            TemplateTag tag;
 
+            tag = e.OldValue;
+            if (tag is not null)
+            {
+                tag.PropertyChanged -= Tag_TagChanged;
+            }
+
+            tag = e.NewValue;
             if (tag is not null)
             {
                 tag.PropertyChanged += Tag_TagChanged;
-                ApplyTag(tag);
             }
+
+            ApplyTag(tag);
         }
 
         private void Tag_TagChanged(object sender, PropertyChangedEventArgs e)
@@ -286,8 +329,10 @@ namespace Kenedia.Modules.BuildsManager.Views
             }
         }
 
-        private void ApplyTag(TemplateTag tag)
+        private void ApplyTag(TemplateTag? tag)
         {
+            _loading = true;
+
             var r = tag?.TextureRegion ?? tag?.Icon?.Bounds ?? Rectangle.Empty;
             _icon.SourceRectangle = r;
 
@@ -301,10 +346,14 @@ namespace Kenedia.Modules.BuildsManager.Views
             _y.numberBox.Value = r.Y;
             _width.numberBox.Value = r.Width;
             _height.numberBox.Value = r.Height;
+
+            _loading = false;
         }
 
         private void SetTextureRegionToTextureBounds(AsyncTexture2D icon)
         {
+            if (_loading) return;
+
             if (icon is not null)
             {
                 _x.numberBox.Value = 0;
@@ -316,6 +365,8 @@ namespace Kenedia.Modules.BuildsManager.Views
 
         private void SetIcon()
         {
+            if (_loading) return;
+
             if (AsyncTexture2D.FromAssetId(_iconId.numberBox.Value) is AsyncTexture2D icon)
             {
                 _icon.SourceRectangle = icon != _icon.Texture
@@ -415,15 +466,18 @@ namespace Kenedia.Modules.BuildsManager.Views
 
         public TagSelectable SelectedTag { get; set; }
 
+        public Blish_HUD.Controls.Container BuildPanel { get; private set; }
+
         protected override void Build(Blish_HUD.Controls.Container buildPanel)
         {
             base.Build(buildPanel);
+            BuildPanel = buildPanel;
 
             _filterBox = new()
             {
-                Parent = buildPanel,
+                Parent = BuildPanel,
                 Location = new(50, 0),
-                Width = buildPanel.Width - 75 - 27,
+                Width = BuildPanel.Width - 75 - 27,
                 SetLocalizedPlaceholder = () => strings_common.Search,
                 FilteringOnTextChange = true,
                 PerformFiltering = FilterTags,
@@ -431,23 +485,23 @@ namespace Kenedia.Modules.BuildsManager.Views
 
             _addButton = new()
             {
-                Parent = buildPanel,
+                Parent = BuildPanel,
                 Location = new(_filterBox.Right + 2, _filterBox.Top),
                 Texture = AsyncTexture2D.FromAssetId(155902),
                 DisabledTexture = AsyncTexture2D.FromAssetId(155903),
                 HoveredTexture = AsyncTexture2D.FromAssetId(155904),
                 TextureRectangle = new(2, 2, 28, 28),
                 Size = new Point(_filterBox.Height),
-                ClickAction = (m) => TagGroups.Add(new(_filterBox.Text)),
+                ClickAction = (m) => TemplateTags.Add(new(_filterBox.Text)),
                 SetLocalizedTooltip = () => strings.AddTag,
             };
 
             _tagsPanel = new()
             {
-                Parent = buildPanel,
+                Parent = BuildPanel,
                 Location = new(50, _filterBox.Bottom + 5),
                 ContentPadding = new(5, 5, 0, 0),
-                Width = (buildPanel.Width - 75) / 3,
+                Width = (BuildPanel.Width - 75) / 3,
                 BorderColor = Color.Black,
                 BorderWidth = new Core.Structs.RectangleDimensions(2),
                 BackgroundColor = Color.Black * 0.5F,
@@ -460,11 +514,11 @@ namespace Kenedia.Modules.BuildsManager.Views
             {
                 Location = new(_tagsPanel.Right + 5, _filterBox.Bottom + 5),
                 CanScroll = true,
-                Parent = buildPanel,
+                Parent = BuildPanel,
                 BorderColor = Color.Black,
                 BorderWidth = new Core.Structs.RectangleDimensions(2),
                 BackgroundColor = Color.Black * 0.5F,
-                Width = buildPanel.Width - 75 - (_tagsPanel.Width + 5),
+                Width = BuildPanel.Width - 75 - (_tagsPanel.Width + 5),
                 HeightSizingMode = Blish_HUD.Controls.SizingMode.Fill,
             };
 
@@ -473,11 +527,11 @@ namespace Kenedia.Modules.BuildsManager.Views
                 AddTag(g);
             }
 
-            TemplateTags.TagAdded += TagGroups_TagAdded;
-            TemplateTags.TagRemoved += TagGroups_TagRemoved;
-            TemplateTags.TagChanged += TagGroups_TagChanged;
+            TemplateTags.TagAdded += TemplateTags_TagAdded;
+            TemplateTags.TagRemoved += TemplateTags_TagRemoved;
+            TemplateTags.TagChanged += TemplateTags_TagChanged;
 
-            buildPanel.Resized += BuildPanel_Resized;
+            BuildPanel.Resized += BuildPanel_Resized;
         }
 
         private void BuildPanel_Resized(object sender, Blish_HUD.Controls.ResizedEventArgs e)
@@ -494,8 +548,9 @@ namespace Kenedia.Modules.BuildsManager.Views
                 _addButton.Location = new(_filterBox.Right + 2, _filterBox.Top);
         }
 
-        private void FilterTags(string obj)
+        private void FilterTags(string? obj = null)
         {
+            obj ??= _filterBox.Text ?? string.Empty;
             _tagsPanel.SuspendLayout();
 
             obj = obj.ToLowerInvariant();
@@ -507,6 +562,14 @@ namespace Kenedia.Modules.BuildsManager.Views
 
             _tagsPanel.ResumeLayout();
             _tagsPanel.Invalidate();
+
+            SortSelectables();
+        }
+
+        private void SortSelectables()
+        {
+            var comparerer = new TemplateTagComparer(TagGroups);
+            _tagsPanel.SortChildren<TagSelectable>((a, b) => comparerer.Compare(a.Tag, b.Tag));
         }
 
         private void AddTag(TemplateTag g)
@@ -528,12 +591,12 @@ namespace Kenedia.Modules.BuildsManager.Views
             }
         }
 
-        private void TagGroups_TagChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        private void TemplateTags_TagChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
-
+            FilterTags();
         }
 
-        private void TagGroups_TagRemoved(object sender, TemplateTag e)
+        private void TemplateTags_TagRemoved(object sender, TemplateTag e)
         {
             var group = _tagSelectables.FirstOrDefault(x => x.Tag == e);
 
@@ -541,12 +604,26 @@ namespace Kenedia.Modules.BuildsManager.Views
             {
                 _tagSelectables.Remove(group);
                 group.Dispose();
+
+                FilterTags();
             }
         }
 
-        private void TagGroups_TagAdded(object sender, TemplateTag e)
+        private void TemplateTags_TagAdded(object sender, TemplateTag e)
         {
             AddTag(e);
+            FilterTags();
+        }
+
+        protected override void Unload()
+        {
+            base.Unload();
+
+            TemplateTags.TagAdded -= TemplateTags_TagAdded;
+            TemplateTags.TagRemoved -= TemplateTags_TagRemoved;
+            TemplateTags.TagChanged -= TemplateTags_TagChanged;
+
+            BuildPanel.Resized -= BuildPanel_Resized;
         }
     }
 }
