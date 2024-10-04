@@ -10,11 +10,21 @@ using Kenedia.Modules.BuildsManager.Controls;
 using Kenedia.Modules.BuildsManager.Controls.Selection;
 using System.Diagnostics;
 using Kenedia.Modules.BuildsManager.Services;
+using Blish_HUD.Input;
+using Kenedia.Modules.Core.Extensions;
+using static Blish_HUD.ContentService;
+using Microsoft.Xna.Framework.Graphics;
+using Kenedia.Modules.Core.Models;
 
 namespace Kenedia.Modules.BuildsManager.Views
 {
     public class MainWindow : TabbedWindow
     {
+        private DetailedTexture _quickFilterToggle = new(440021)
+        {
+            HoverDrawColor = Color.White,
+            DrawColor = Color.White * 0.5F,
+        };
         private readonly TabbedRegion _tabbedRegion;
 
         public MainWindow(Module module, TemplatePresenter templatePresenter, TemplateTags templateTags, TagGroups tagGroups, SelectionPanel selectionPanel, AboutTab aboutTab, BuildTab buildTab, GearTab gearTab, QuickFiltersPanel quickFiltersPanel) : base(
@@ -47,7 +57,8 @@ namespace Kenedia.Modules.BuildsManager.Views
             TemplatePresenter.NameChanged += TemplatePresenter_NameChanged;
 
             Tabs.Add(TemplateViewTab = new Blish_HUD.Controls.Tab(AsyncTexture2D.FromAssetId(156720), () => TemplateView = new TemplateView(this, selectionPanel, aboutTab, buildTab, gearTab, quickFiltersPanel), strings.Templates));
-            Tabs.Add(TagEditViewTab = new Blish_HUD.Controls.Tab(AsyncTexture2D.FromAssetId(440021), () => TagEditView = new TagEditView(templateTags, tagGroups), strings.Tags));
+
+            Tabs.Add(TagEditViewTab = new Blish_HUD.Controls.Tab(AsyncTexture2D.FromAssetId(156025), () => TagEditView = new TagEditView(templateTags, tagGroups), strings.Tags));
             Tabs.Add(TagGroupViewTab = new Blish_HUD.Controls.Tab(AsyncTexture2D.FromAssetId(578844), () => TagGroupView = new TagGroupView(tagGroups), strings.Group));
         }
 
@@ -83,7 +94,11 @@ namespace Kenedia.Modules.BuildsManager.Views
         protected override void OnTabChanged(Blish_HUD.ValueChangedEventArgs<Blish_HUD.Controls.Tab> e)
         {
             base.OnTabChanged(e);
-            QuickFiltersPanel.Visible = e.NewValue == TemplateViewTab;
+
+            if (e.NewValue != TemplateViewTab)
+            {
+                //QuickFiltersPanel?.Hide();
+            }
 
             SubName =
                 e.NewValue == TemplateViewTab ? TemplatePresenter?.Template?.Name :
@@ -97,15 +112,52 @@ namespace Kenedia.Modules.BuildsManager.Views
             SubName = e.NewValue;
         }
 
+        protected override void OnClick(MouseEventArgs e)
+        {
+            int index = 1;
+
+            int TAB_VERTICALOFFSET = 40 + 40;
+            int TAB_HEIGHT = 50;
+            int TAB_Width = 84;
+
+            Rectangle b = new(0, TAB_VERTICALOFFSET + (TAB_HEIGHT * index), TAB_Width, TAB_HEIGHT);
+
+            if (_quickFilterToggle.Bounds.Contains(RelativeMousePosition))
+            {
+                QuickFiltersPanel.ToggleVisibility();
+            }
+            else
+            {
+                base.OnClick(e);
+            }
+        }
+
         public override void UpdateContainer(GameTime gameTime)
         {
             base.UpdateContainer(gameTime);
 
             if (SelectionPanel is not null)
-                SelectionPanel.Pointer.ZIndex = ZIndex + 1;
+                SelectionPanel.Pointer.ZIndex = ZIndex + (ActiveWindow == this ? 1 : 0);
 
             if (QuickFiltersPanel is not null)
-                QuickFiltersPanel.ZIndex = ZIndex + 1;
+                QuickFiltersPanel.ZIndex = ZIndex;
+        }
+
+        public override void RecalculateLayout()
+        {
+            base.RecalculateLayout();
+
+            _quickFilterToggle.Bounds = new(8, 45, 32, 32);
+        }
+
+        public override void PaintBeforeChildren(SpriteBatch spriteBatch, Rectangle bounds)
+        {
+            base.PaintBeforeChildren(spriteBatch, bounds);
+
+            _quickFilterToggle.Draw(this, spriteBatch, RelativeMousePosition, null, null, QuickFiltersPanel.Visible);
+
+            if (_quickFilterToggle.Hovered)
+                BasicTooltipText = strings.ToggleQuickFilters;
         }
 
         public override void Hide()

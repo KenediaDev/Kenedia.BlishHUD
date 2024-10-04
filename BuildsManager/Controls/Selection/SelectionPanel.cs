@@ -24,7 +24,8 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
         //Back Button Arrow 784268
 
         private readonly GearSelection _gearSelection;
-        private readonly BuildSelection _buildSelection;
+        public BuildSelection BuildSelection { get; }
+
         private readonly StatSelection _statSelection;
 
         private readonly DetailedTexture _backButton = new(784268);
@@ -55,7 +56,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
                 ZIndex = ZIndex,
             };
 
-            _buildSelection = new(templates, templateTags, data, templatePresenter, templateFactory)
+            BuildSelection = new(templates, templateTags, data, templatePresenter, templateFactory)
             {
                 Parent = this,
                 Visible = true,
@@ -77,11 +78,6 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
 
         public void ApplyAutoFilter(object sender = null, EventArgs e = null)
         {
-            if (BuildsManager.ModuleInstance?.Settings?.AutoSetFilterProfession?.Value == true)
-            {
-                _buildSelection.SetTogglesToPlayerProfession();
-            }
-
             SelectFirstTemplate();
         }
 
@@ -105,7 +101,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
                 if (Common.SetProperty(ref _selectionType, value))
                 {
                     _gearSelection.Visible = _selectionType == SelectionTypes.Items;
-                    _buildSelection.Visible = _selectionType == SelectionTypes.Templates;
+                    BuildSelection.Visible = _selectionType == SelectionTypes.Templates;
                     _statSelection.Visible = _selectionType == SelectionTypes.Stats;
                 }
             }
@@ -137,7 +133,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
 
         private void TemplatePresenter_TemplateChanged(object sender, Core.Models.ValueChangedEventArgs<Template> e)
         {
-            SetTemplateAnchor(_buildSelection.TemplateSelectables.FirstOrDefault(x => x.Template == e.NewValue));
+            SetTemplateAnchor(BuildSelection.TemplateSelectables.FirstOrDefault(x => x.Template == e.NewValue));
         }
 
         private void SetAnchor(Control anchor, Rectangle? anchorBounds = null)
@@ -190,7 +186,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
                         break;
 
                     case SelectionTypes.Templates:
-                        _buildSelection.OnClickAction = (obj) =>
+                        BuildSelection.OnClickAction = (obj) =>
                         {
                             if (obj is T item)
                             {
@@ -204,7 +200,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
 
         public void SelectFirstTemplate()
         {
-            if (_buildSelection?.GetFirstTemplateSelectable() is TemplateSelectable selectable)
+            if (BuildSelection?.GetFirstTemplateSelectable() is TemplateSelectable selectable)
             {
                 SetTemplateAnchor(selectable);
                 return;
@@ -222,7 +218,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
         public void ResetAnchor()
         {
             SelectionType = SelectionTypes.Templates;
-            SetAnchor(_buildSelection.TemplateSelectables.FirstOrDefault(e => e.Template == TemplatePresenter.Template));
+            SetAnchor(BuildSelection.TemplateSelectables.FirstOrDefault(e => e.Template == TemplatePresenter.Template));
         }
 
         public override void RecalculateLayout()
@@ -235,7 +231,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
 
             if (_gearSelection is not null) _gearSelection.Location = new(10, _backBounds.Bottom + 10);
             if (_statSelection is not null) _statSelection.Location = new(10, _backBounds.Bottom + 10);
-            if (_buildSelection is not null) _buildSelection.Location = new(10, 10);
+            if (BuildSelection is not null) BuildSelection.Location = new(10, 10);
         }
 
         public override void PaintBeforeChildren(SpriteBatch spriteBatch, Rectangle bounds)

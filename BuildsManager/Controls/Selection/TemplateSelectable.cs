@@ -151,6 +151,19 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
             _created = true;
 
             LocalizingService.LocaleChanged += LocalizingService_OnLocaleChanged;
+
+            templateTags.TagChanged += TemplateTags_TagChanged;
+            templateTags.TagRemoved += TemplateTags_TagRemoved;            
+        }
+
+        private void TemplateTags_TagRemoved(object sender, TemplateTag e)
+        {
+            SetTagTextures();
+        }
+
+        private void TemplateTags_TagChanged(object sender, PropertyChangedEventArgs e)
+        {
+            SetTagTextures();
         }
 
         public Action DisposeAction { get; set; }
@@ -444,6 +457,8 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
             base.DisposeControl();
 
             Input.Mouse.LeftMouseButtonPressed -= Mouse_LeftMouseButtonPressed;
+            TemplateTags.TagRemoved -= TemplateTags_TagRemoved;
+            TemplateTags.TagChanged -= TemplateTags_TagChanged;
 
             DisposeAction?.Invoke();
             _lineTexture?.Dispose();

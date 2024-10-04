@@ -69,7 +69,7 @@ namespace Kenedia.Modules.Core.Models
                 rotation ??= 0F;
 
                 Hovered = mousePos is not null && Bounds.Contains((Point)mousePos);
-                color ??= (Hovered && HoverDrawColor is not null ? HoverDrawColor : DrawColor) ?? Color.White;
+                color ??= ((forceHover == true || Hovered) && HoverDrawColor is not null ? HoverDrawColor : DrawColor) ?? Color.White;
 
                 if (Texture is not null)
                 {

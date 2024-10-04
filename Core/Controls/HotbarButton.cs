@@ -57,7 +57,6 @@ namespace Kenedia.Modules.Core.Controls
 
         protected override void Paint(SpriteBatch spriteBatch, Rectangle bounds)
         {
-            RecalculateLayout();
             Icon?.Draw(this, spriteBatch, RelativeMousePosition);
 
             (Checked ? _active : _inactive).Draw(this, spriteBatch);

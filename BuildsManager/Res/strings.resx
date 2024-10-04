@@ -415,4 +415,13 @@ The purpose of this code is to share the modules Equipment Template easily with 
   <data name="Templates" xml:space="preserve">
     <value>Templates</value>
   </data>
+  <data name="ToggleQuickFilters" xml:space="preserve">
+    <value>Toggle Quick Filters</value>
+  </data>
+  <data name="Filters" xml:space="preserve">
+    <value>Filters</value>
+  </data>
+  <data name="Specializations" xml:space="preserve">
+    <value>Specializations</value>
+  </data>
 </root>

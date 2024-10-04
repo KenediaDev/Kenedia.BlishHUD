@@ -156,7 +156,9 @@ namespace Kenedia.Modules.BuildsManager.Views
         public void SetTagToEdit(TemplateTag tag)
         {
             SelectedTag = _tagSelectables.FirstOrDefault(x => x.Tag == tag);
-            _editPanel.Tag = tag;
+
+            if (_editPanel is not null)
+                _editPanel.Tag = tag;
 
             foreach (var g in _tagSelectables)
             {

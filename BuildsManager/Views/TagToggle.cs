@@ -4,25 +4,89 @@ using System;
 using Microsoft.Xna.Framework.Graphics;
 using Blish_HUD.Input;
 using Blish_HUD;
+using static Blish_HUD.ContentService;
+using Blish_HUD.Content;
+using Kenedia.Modules.Core.Extensions;
+using Kenedia.Modules.Core.Services;
+using Gw2Sharp.WebApi;
+using System.Diagnostics;
 
 namespace Kenedia.Modules.BuildsManager.Views
 {
     public class TagToggle : Blish_HUD.Controls.Control
     {
-        public TagToggle()
+        public static int TagHeight = 25;
+
+        private AsyncTexture2D _textureEnabled;
+        private AsyncTexture2D _textureDisabled;
+        private Func<string> _setLocalizedTooltip;
+
+        public bool Selected { get; set; }
+
+        public TagToggle(TemplateTag tag)
         {
-            Size = new(25);
+            Size = new(TagHeight);
+            Tag = tag;
+
+            Tag.PropertyChanged += Tag_PropertyChanged;
+            Tag.Icon.Texture.TextureSwapped += Texture_TextureSwapped;
+
+            BasicTooltipText = Tag.Name;
+            _textureEnabled = Tag.Icon.Texture;
+            _textureDisabled = Tag.Icon.Texture.Texture.ToGrayScaledPalettable();
+
+            LocalizingService.LocaleChanged += UserLocale_SettingChanged;
+            UserLocale_SettingChanged(null, null);
         }
 
-        public TemplateTag Tag { get; internal set; }
+        private void Texture_TextureSwapped(object sender, ValueChangedEventArgs<Texture2D> e)
+        {
+            _textureEnabled = Tag.Icon.Texture;
+            _textureDisabled = Tag.Icon.Texture.Texture.ToGrayScaledPalettable();
+        }
+
+        public Func<string> SetLocalizedTooltip
+        {
+            get => _setLocalizedTooltip;
+            set
+            {
+                _setLocalizedTooltip = value;
+
+                if (value is not null)
+                    BasicTooltipText = value?.Invoke();
+            }
+        }
+
+        public void UserLocale_SettingChanged(object sender, ValueChangedEventArgs<Locale> e)
+        {
+            if (SetLocalizedTooltip is not null)
+                BasicTooltipText = SetLocalizedTooltip?.Invoke();
+        }
+
+        private void Tag_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            switch (e.PropertyName)
+            {
+                case nameof(TemplateTag.Name):
+                    BasicTooltipText = Tag.Name;
+                    break;
+
+                case nameof(TemplateTag.AssetId):
+                    _textureEnabled = Tag.Icon.Texture;
+                    _textureDisabled = Tag.Icon.Texture.Texture.ToGrayScaledPalettable();
+                    break;
+            }
+        }
+
+        public TemplateTag Tag { get; private set; }
 
         public Action<TemplateTag> OnClicked { get; internal set; }
 
         protected override void Paint(SpriteBatch spriteBatch, Rectangle bounds)
         {
-            if (Tag is not null && Tag.Icon is not null && Tag.Icon.Texture is var texture)
+            if ((Selected ? _textureEnabled : _textureDisabled) is AsyncTexture2D texture)
             {
-                spriteBatch.DrawOnCtrl(this, texture, bounds);
+                spriteBatch.DrawOnCtrl(this, texture, bounds, Selected ? Color.White : Color.Gray * 0.5F);
             }
         }
 
@@ -31,7 +95,18 @@ namespace Kenedia.Modules.BuildsManager.Views
             base.OnClick(e);
 
             if (OnClicked is not null)
+            {
                 OnClicked(Tag);
+            }
+
+            Selected = !Selected;
+        }
+
+        protected override void DisposeControl()
+        {
+            base.DisposeControl();
+
+            LocalizingService.LocaleChanged -= UserLocale_SettingChanged;
         }
     }
 }

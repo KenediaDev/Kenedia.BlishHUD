@@ -17,12 +17,12 @@ using Kenedia.Modules.BuildsManager.Res;
 using Kenedia.Modules.Core.Services;
 using Gw2Sharp.WebApi;
 using Kenedia.Modules.BuildsManager.Services;
+using System.Diagnostics;
 
 namespace Kenedia.Modules.BuildsManager.Controls.Selection
 {
     public class BuildSelection : BaseSelection
     {
-        private readonly List<ProfessionToggle> _specIcons = [];
         private readonly ImageButton _addBuildsButton;
         private readonly LoadingSpinner _spinner;
         private readonly Dropdown _sortBehavior;
@@ -46,13 +46,13 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
             _sortBehavior = new()
             {
                 Parent = this,
-                Location = new(0, 30),
+                Location = new(0, 0),
             };
             _sortBehavior.Items.Add(strings.SortyByProfession);
             _sortBehavior.Items.Add(strings.SortByName);
             _sortBehavior.ValueChanged += SortBehavior_ValueChanged;
 
-            Search.Location = new(2, 60);
+            Search.Location = new(2, _sortBehavior.Bottom + 5);
             SelectionContent.Location = new(0, Search.Bottom + 5);
 
             Search.PerformFiltering = (txt) => FilterTemplates();
@@ -62,27 +62,6 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
             Point start = new(0, 0);
 
             PlayerCharacter player = GameService.Gw2Mumble.PlayerCharacter;
-
-            foreach (var prof in BuildsManager.Data.Professions.Values)
-            {
-                int j = 0;
-                _specIcons.Add(new()
-                {
-                    Parent = this,
-                    Texture = prof.Icon,
-                    Location = new(start.X + (i * (size + 16)), start.Y + (j * size)),
-                    Size = new(size, size),
-                    ImageColor = Color.Gray * 0.5F,
-                    ActiveColor = Color.White,
-                    Profession = prof.Id,
-                    OnCheckChanged = (isChecked) => FilterTemplates(),
-                    Checked = false,
-                    //Checked = prof.Id == player?.Profession,
-                    TextureRectangle = new(4, 4, 24, 24),
-                });
-
-                i++;
-            }
 
             _addBuildsButton = new()
             {
@@ -139,11 +118,20 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
         public List<TemplateSelectable> TemplateSelectables { get; } = [];
 
         public SelectionPanel SelectionPanel { get; set; }
+
         public TemplateCollection Templates { get; }
+
         public TemplateTags TemplateTags { get; }
+
         public Data Data { get; }
+
         public TemplatePresenter TemplatePresenter { get; }
+
         public TemplateFactory TemplateFactory { get; }
+
+        public List<KeyValuePair<string, List<Func<Template, bool>>>> FilterQueries { get; } = [];
+
+        public List<Func<Template, bool>> SpecializationFilterQueries { get; } = [];
 
         private void SortBehavior_ValueChanged(object sender, Blish_HUD.Controls.ValueChangedEventArgs e)
         {
@@ -161,24 +149,17 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
             Templates_CollectionChanged(sender, null);
         }
 
-        public void SetTogglesToPlayerProfession()
-        {
-            _specIcons.ForEach(c => c.Checked = c.Profession == GameService.Gw2Mumble.PlayerCharacter.Profession);
-            FilterTemplates();
-        }
-
-        private void FilterTemplates()
+        public void FilterTemplates()
         {
             string lowerTxt = Search.Text?.Trim().ToLower();
             bool anyName = string.IsNullOrEmpty(lowerTxt);
-            bool anyProfession = !_specIcons.Any(e => e.Checked);
-            var professions = _specIcons.Where(e => e.Checked).Select(e => e.Profession);
+            bool anyProfession = true;
 
             foreach (var template in TemplateSelectables)
             {
-                template.Visible =
-                    (anyProfession || professions.Contains(template.Template.Profession)) &&
-                    (anyName || template.Template.Name.ToLower().Contains(lowerTxt));
+                bool filterQueriesMatches = FilterQueries.Count == 0 || FilterQueries.All(x => x.Value.Count == 0 || x.Value.Any(x => x(template.Template)));
+                bool specMatches = SpecializationFilterQueries.Count == 0 || SpecializationFilterQueries.Any(x => x(template.Template));
+                template.Visible = filterQueriesMatches && specMatches;
             }
 
             if (_sortBehavior.SelectedItem == strings.SortyByProfession)
@@ -188,12 +169,11 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
                     int prof = a.Template.Profession.CompareTo(b.Template.Profession);
                     int name = a.Template.Name.CompareTo(b.Template.Name);
 
-                    return prof == 0 ? prof + name : prof;
+                    return prof == 0 ? name : prof;
                 });
             }
-            if (_sortBehavior.SelectedItem == strings.SortByName) SelectionContent.SortChildren<TemplateSelectable>((a, b) => a.Template.Name.CompareTo(b.Template.Name));
 
-            //SelectionContent.Invalidate();
+            if (_sortBehavior.SelectedItem == strings.SortByName) SelectionContent.SortChildren<TemplateSelectable>((a, b) => a.Template.Name.CompareTo(b.Template.Name));
         }
 
         private void ModuleInstance_SelectedTemplateChanged(object sender, EventArgs e)
@@ -358,11 +338,6 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
             base.OnHidden(e);
 
             _sortBehavior.Enabled = false;
-
-            foreach (var icon in _specIcons)
-            {
-                icon.Enabled = false;
-            }
         }
 
         public override void UpdateContainer(GameTime gameTime)
@@ -372,10 +347,6 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
             if (!_sortBehavior.Enabled)
             {
                 _sortBehavior.Enabled = _sortBehavior.Enabled || Common.Now - _lastShown >= 5;
-                foreach (var icon in _specIcons)
-                {
-                    icon.Enabled = _sortBehavior.Enabled || Common.Now - _lastShown >= 5;
-                }
             }
         }
 

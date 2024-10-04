@@ -35,8 +35,14 @@ namespace Kenedia.Modules.BuildsManager.Utility
             var xGroup = TagGroups.FirstOrDefault(group => group.Name == x.Group);
             var yGroup = TagGroups.FirstOrDefault(group => group.Name == y.Group);
 
+            int grp = xGroup is not null && yGroup is not null ? CompareGroups(xGroup, yGroup) : 0;
+            int tag = CompareTags(x, y);
+
+            int result = grp == 0 ? tag : grp;
+
             //Compare Groups first then compare tags
-            return xGroup is null && yGroup is null ? CompareTags(x, y) : xGroup is null ? 1 : yGroup is null ? -1 : CompareGroups(xGroup, yGroup);
+            //return xGroup is null && yGroup is null ? CompareTags(x, y) : xGroup is null ? 1 : yGroup is null ? -1 : CompareGroups(xGroup, yGroup);
+            return result;
         }
     }
 }

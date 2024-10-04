@@ -97,8 +97,6 @@ namespace Kenedia.Modules.Core.Controls
 
         protected override void Paint(SpriteBatch spriteBatch, Rectangle bounds)
         {
-            RecalculateLayout();
-
             if (_enabled)
             {
                 spriteBatch.DrawOnCtrl(this, _textureButtonIdle, new Rectangle(3, 3, _size.X - 6, _size.Y - 5), new Rectangle(AnimationState * 350, 0, 350, 20), !SelectedTint || Selected ? Color.White : new Color(175, 175, 175));

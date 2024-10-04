@@ -431,6 +431,15 @@ namespace Kenedia.Modules.BuildsManager.Res {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Filters.
+        /// </summary>
+        internal static string Filters {
+            get {
+                return ResourceManager.GetString("Filters", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Group.
         /// </summary>
         internal static string Group {
@@ -809,6 +818,15 @@ namespace Kenedia.Modules.BuildsManager.Res {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Specializations.
+        /// </summary>
+        internal static string Specializations {
+            get {
+                return ResourceManager.GetString("Specializations", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Stat.
         /// </summary>
         internal static string Stat {
@@ -868,6 +886,15 @@ namespace Kenedia.Modules.BuildsManager.Res {
         internal static string TerrestrialPets {
             get {
                 return ResourceManager.GetString("TerrestrialPets", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Toggle Quick Filters.
+        /// </summary>
+        internal static string ToggleQuickFilters {
+            get {
+                return ResourceManager.GetString("ToggleQuickFilters", resourceCulture);
             }
         }
         

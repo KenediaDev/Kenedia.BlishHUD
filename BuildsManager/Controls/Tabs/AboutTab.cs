@@ -30,6 +30,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.Tabs
 
         private readonly List<(TemplateFlag tag, Image texture, Checkbox checkbox)> _tags = [];
         private readonly List<(EncounterFlag tag, Image texture, Checkbox checkbox)> _encounters = [];
+        private readonly TemplateTagComparer _comparer;
         private readonly bool _created = false;
         private int tagSectionWidth;
         private bool _changeBuild = true;
@@ -45,12 +46,11 @@ namespace Kenedia.Modules.BuildsManager.Controls.Tabs
             TemplateTags = templateTags;
             TagGroups = tagGroups;
 
+            _comparer = new TemplateTagComparer(TagGroups);
+
             HeightSizingMode = Blish_HUD.Controls.SizingMode.Fill;
             WidthSizingMode = Blish_HUD.Controls.SizingMode.Fill;
             tagSectionWidth = 300;
-
-            int Height = 670;
-            int Width = 915;
 
             _tagsLabel = new()
             {
@@ -368,8 +368,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.Tabs
 
         private int SortTagControls(TagControl x, TagControl y)
         {
-            var comparer = new TemplateTagComparer(TagGroups);
-            return comparer.Compare(x.Tag, y.Tag);
+            return _comparer.Compare(x.Tag, y.Tag);
         }
 
         private void CreateTagControls()
