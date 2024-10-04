@@ -416,12 +416,17 @@ The purpose of this code is to share the modules Equipment Template easily with 
     <value>Templates</value>
   </data>
   <data name="ToggleQuickFilters" xml:space="preserve">
-    <value>Toggle Quick Filters</value>
+    <value>Toggle Quick Filters Window</value>
   </data>
   <data name="Filters" xml:space="preserve">
     <value>Filters</value>
   </data>
   <data name="Specializations" xml:space="preserve">
     <value>Specializations</value>
+  </data>
+  <data name="AddNewTemplateWithClipboard" xml:space="preserve">
+    <value>Add a new template
+
+If you have any valid build code in your clipboard the build will load from the code</value>
   </data>
 </root>

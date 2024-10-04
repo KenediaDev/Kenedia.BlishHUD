@@ -415,4 +415,18 @@ Le but de ce code est de partager facilement le modèle d'équipement du module 
   <data name="Templates" xml:space="preserve">
     <value>Modèles</value>
   </data>
+  <data name="ToggleQuickFilters" xml:space="preserve">
+    <value>Fenêtre des filtres rapides</value>
+  </data>
+  <data name="Filters" xml:space="preserve">
+    <value>Filtres</value>
+  </data>
+  <data name="Specializations" xml:space="preserve">
+    <value>Spécialisations</value>
+  </data>
+  <data name="AddNewTemplateWithClipboard" xml:space="preserve">
+    <value>Ajouter un nouveau modèle
+
+Si vous avez un code de construction valide dans votre presse-papiers, la construction sera chargée à partir de ce code.</value>
+  </data>
 </root>

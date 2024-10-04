@@ -415,4 +415,18 @@ El propósito de este código es compartir la Plantilla de Equipo del módulo f�
   <data name="Templates" xml:space="preserve">
     <value>Plantillas</value>
   </data>
+  <data name="ToggleQuickFilters" xml:space="preserve">
+    <value>Ventana de filtros rápidos</value>
+  </data>
+  <data name="Filters" xml:space="preserve">
+    <value>Filtros</value>
+  </data>
+  <data name="Specializations" xml:space="preserve">
+    <value>Especializaciones</value>
+  </data>
+  <data name="AddNewTemplateWithClipboard" xml:space="preserve">
+    <value>Añadir una nueva plantilla
+
+Si tiene algún código de compilación válido en el portapapeles, la compilación se cargará desde el código.</value>
+  </data>
 </root>

@@ -71,6 +71,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
                 DisabledTexture = AsyncTexture2D.FromAssetId(155903),
                 HoveredTexture = AsyncTexture2D.FromAssetId(155904),
                 TextureRectangle = new(2, 2, 28, 28),
+                SetLocalizedTooltip = () => strings.AddNewTemplateWithClipboard,
                 ClickAction = (m) =>
                 {
                     _ = Task.Run(async () =>

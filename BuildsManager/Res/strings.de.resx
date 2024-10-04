@@ -415,4 +415,18 @@ Der Zweck dieses Codes ist es, die Module Ausrüstungsvorlage leicht mit anderen
   <data name="Templates" xml:space="preserve">
     <value>Vorlagen</value>
   </data>
+  <data name="ToggleQuickFilters" xml:space="preserve">
+    <value>Schnellfilter Fenster umschalten</value>
+  </data>
+  <data name="Filters" xml:space="preserve">
+    <value>Filter</value>
+  </data>
+  <data name="Specializations" xml:space="preserve">
+    <value>Spezialisierungen</value>
+  </data>
+  <data name="AddNewTemplateWithClipboard" xml:space="preserve">
+    <value>Eine neue Vorlage hinzufügen
+
+Wenn Sie einen gültigen Build-Code in Ihrer Zwischenablage haben, wird der Build von diesem Code geladen</value>
+  </data>
 </root>

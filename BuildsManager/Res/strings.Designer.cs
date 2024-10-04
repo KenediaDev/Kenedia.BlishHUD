@@ -88,6 +88,17 @@ namespace Kenedia.Modules.BuildsManager.Res {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Add a new template
+        ///
+        ///If you have any valid build code in your clipboard the build will load from the code.
+        /// </summary>
+        internal static string AddNewTemplateWithClipboard {
+            get {
+                return ResourceManager.GetString("AddNewTemplateWithClipboard", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Add Tag.
         /// </summary>
         internal static string AddTag {
@@ -890,7 +901,7 @@ namespace Kenedia.Modules.BuildsManager.Res {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Toggle Quick Filters.
+        ///   Looks up a localized string similar to Toggle Quick Filters Window.
         /// </summary>
         internal static string ToggleQuickFilters {
             get {
