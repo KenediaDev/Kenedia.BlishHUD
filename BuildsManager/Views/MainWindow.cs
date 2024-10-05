@@ -15,6 +15,7 @@ using Kenedia.Modules.Core.Extensions;
 using static Blish_HUD.ContentService;
 using Microsoft.Xna.Framework.Graphics;
 using Kenedia.Modules.Core.Models;
+using Kenedia.Modules.Core.Res;
 
 namespace Kenedia.Modules.BuildsManager.Views
 {
@@ -27,10 +28,10 @@ namespace Kenedia.Modules.BuildsManager.Views
         };
         private readonly TabbedRegion _tabbedRegion;
 
-        public MainWindow(Module module, TemplatePresenter templatePresenter, TemplateTags templateTags, TagGroups tagGroups, SelectionPanel selectionPanel, AboutTab aboutTab, BuildTab buildTab, GearTab gearTab, QuickFiltersPanel quickFiltersPanel) : base(
+        public MainWindow(Module module, TemplatePresenter templatePresenter, TemplateTags templateTags, TagGroups tagGroups, SelectionPanel selectionPanel, AboutTab aboutTab, BuildTab buildTab, GearTab gearTab, QuickFiltersPanel quickFiltersPanel, Settings settings) : base(
             TexturesService.GetTextureFromRef(@"textures\mainwindow_background.png", "mainwindow_background"),
-                new Rectangle(30, 30, 915, 670 + 30),
-                new Rectangle(40, 20, 915 - 13, 670 + 15))
+                new Rectangle(30, 30, 915, 665 + 0),
+                new Rectangle(40, 20, 915 - 20, 665))
         {
             TemplatePresenter = templatePresenter;
             Parent = Graphics.SpriteScreen;
@@ -57,9 +58,8 @@ namespace Kenedia.Modules.BuildsManager.Views
             TemplatePresenter.NameChanged += TemplatePresenter_NameChanged;
 
             Tabs.Add(TemplateViewTab = new Blish_HUD.Controls.Tab(AsyncTexture2D.FromAssetId(156720), () => TemplateView = new TemplateView(this, selectionPanel, aboutTab, buildTab, gearTab, quickFiltersPanel), strings.Templates));
-
             Tabs.Add(TagEditViewTab = new Blish_HUD.Controls.Tab(AsyncTexture2D.FromAssetId(156025), () => TagEditView = new TagEditView(templateTags, tagGroups), strings.Tags));
-            Tabs.Add(TagGroupViewTab = new Blish_HUD.Controls.Tab(AsyncTexture2D.FromAssetId(578844), () => TagGroupView = new TagGroupView(tagGroups), strings.Group));
+            Tabs.Add(SettingsViewTab = new Blish_HUD.Controls.Tab(AsyncTexture2D.FromAssetId(157109), () => SettingsView = new SettingsView(settings), strings_common.Settings));
         }
 
         private void TemplatePresenter_TemplateChanged(object sender, Core.Models.ValueChangedEventArgs<Template> e)
@@ -75,10 +75,6 @@ namespace Kenedia.Modules.BuildsManager.Views
 
         public TagEditView TagEditView { get; private set; }
 
-        public Blish_HUD.Controls.Tab TagGroupViewTab { get; }
-
-        public TagGroupView TagGroupView { get; private set; }
-
         public SelectionPanel SelectionPanel { get; }
 
         public AboutTab AboutTab { get; }
@@ -90,6 +86,9 @@ namespace Kenedia.Modules.BuildsManager.Views
         public QuickFiltersPanel QuickFiltersPanel { get; }
 
         public TemplatePresenter TemplatePresenter { get; }
+        public Blish_HUD.Controls.Tab SettingsViewTab { get; private set; }
+
+        public SettingsView SettingsView { get; private set; }
 
         protected override void OnTabChanged(Blish_HUD.ValueChangedEventArgs<Blish_HUD.Controls.Tab> e)
         {
@@ -102,8 +101,8 @@ namespace Kenedia.Modules.BuildsManager.Views
 
             SubName =
                 e.NewValue == TemplateViewTab ? TemplatePresenter?.Template?.Name :
+                e.NewValue == SettingsViewTab ? strings_common.Settings :
                 e.NewValue == TagEditViewTab ? strings.Tags :
-                e.NewValue == TagGroupViewTab ? strings.Group :
                 string.Empty;
         }
 

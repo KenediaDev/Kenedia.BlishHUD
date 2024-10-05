@@ -1,4 +1,5 @@
-﻿using Blish_HUD.Content;
+﻿using Blish_HUD;
+using Blish_HUD.Content;
 using Blish_HUD.Graphics.UI;
 using Blish_HUD.Input;
 using Kenedia.Modules.BuildsManager.Controls.Selection;
@@ -10,22 +11,32 @@ using Kenedia.Modules.Core.Controls;
 using Kenedia.Modules.Core.Extensions;
 using Kenedia.Modules.Core.Res;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Content;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static Blish_HUD.ContentService;
 
 namespace Kenedia.Modules.BuildsManager.Views
 {
     public class TagEditView : View
     {
         private FlowPanel _tagsPanel;
-        private TagEditPanel _editPanel;
-        private FilterBox _filterBox;
-        private ImageButton _addButton;
+        private TagEditPanel _tagEditPanel;
+        private FilterBox _tagFilterBox;
+        private ImageButton _tagAddButton;
         private List<TagSelectable> _tagSelectables = [];
+
+        private FlowPanel _groupsPanel;
+        private GroupEditPanel _groupEditPanel;
+        private FilterBox _groupFilterBox;
+        private ImageButton _groupAddButton;
+        private List<GroupSelectable> _groupSelectables = [];
+        private Panel _tagsParent;
+        private Panel _groupParent;
 
         public TagEditView(TemplateTags templateTags, TagGroups tagGroups)
         {
@@ -39,42 +50,101 @@ namespace Kenedia.Modules.BuildsManager.Views
 
         public TagSelectable SelectedTag { get; set; }
 
-        public Blish_HUD.Controls.Container BuildPanel { get; private set; }
+        public GroupSelectable SelectedGroup { get; set; }
 
         protected override void Build(Blish_HUD.Controls.Container buildPanel)
         {
             base.Build(buildPanel);
-            BuildPanel = buildPanel;
+            int width = buildPanel.Size.X;
 
-            _filterBox = new()
+            _tagsParent = new Panel()
             {
-                Parent = BuildPanel,
-                Location = new(50, 0),
-                Width = BuildPanel.Width - 75 - 27,
-                SetLocalizedPlaceholder = () => strings_common.Search,
-                FilteringOnTextChange = true,
-                PerformFiltering = FilterTags,
+                Parent = buildPanel,
+                HeightSizingMode = Blish_HUD.Controls.SizingMode.Fill,
+                Width = width / 3 * 2,
             };
 
-            _addButton = new()
+            _groupParent = new Panel()
             {
-                Parent = BuildPanel,
-                Location = new(_filterBox.Right + 2, _filterBox.Top),
+                Parent = buildPanel,
+                HeightSizingMode = Blish_HUD.Controls.SizingMode.Fill,
+                Width = width / 3,
+                Location = new Point(_tagsParent.Right, _tagsParent.Top).Add(new(0, 0)),
+            };
+
+            BuildTagView(_tagsParent);
+            BuildGroupView(_groupParent);
+
+            buildPanel.Resized += BuildPanel_Resized;
+        }
+
+        private void BuildPanel_Resized(object sender, Blish_HUD.Controls.ResizedEventArgs e)
+        {
+            int width = e.CurrentSize.X;
+            return;
+
+            if (_tagsParent is not null)
+            {
+                _tagsParent.Width = (width - 0) / 2;
+            }
+
+            if (_groupParent is not null)
+            {
+                _groupParent.Width = (width - 0) / 2;
+                _groupParent.Location = _tagsParent.Location.Add(new(0, 0));
+            }
+        }
+
+        private void BuildGroupView(Blish_HUD.Controls.Container buildPanel)
+        {
+           var lbl = new Label()
+            {
+                Parent = buildPanel,
+                Location = new(0, 0),
+                SetLocalizedText = () => strings.Groups,
+                Font = GameService.Content.DefaultFont18,
+                Height = GameService.Content.DefaultFont18.LineHeight + 2,
+                AutoSizeWidth = true,
+            };
+
+            var sep = new Separator()
+            {
+                Parent = buildPanel,
+                Location = new Point(lbl.LocalBounds.X, lbl.LocalBounds.Bottom).Add(new(0, 2)),
+                Width = buildPanel.Width - 25,
+                Height = 2,
+                Color = Color.White * 0.8F,
+            };
+
+            _groupFilterBox = new()
+            {
+                Parent = buildPanel,
+                Location = new Point(sep.LocalBounds.X, sep.LocalBounds.Bottom).Add(new(0, 10)),
+                Width = buildPanel.Width - 50,
+                SetLocalizedPlaceholder = () => strings_common.Search,
+                FilteringOnTextChange = true,
+                PerformFiltering = FilterGroups,
+            };
+
+            _groupAddButton = new()
+            {
+                Parent = buildPanel,
+                Location = new(_groupFilterBox.Right + 2, _groupFilterBox.Top),
                 Texture = AsyncTexture2D.FromAssetId(155902),
                 DisabledTexture = AsyncTexture2D.FromAssetId(155903),
                 HoveredTexture = AsyncTexture2D.FromAssetId(155904),
                 TextureRectangle = new(2, 2, 28, 28),
-                Size = new Point(_filterBox.Height),
-                ClickAction = (m) => TemplateTags.Add(new(_filterBox.Text)),
-                SetLocalizedTooltip = () => strings.AddTag,
+                Size = new Point(_groupFilterBox.Height),
+                ClickAction = (m) => TagGroups.Add(new(_groupFilterBox.Text)),
+                SetLocalizedTooltip = () => strings.AddGroup,
             };
 
-            _tagsPanel = new()
+            _groupsPanel = new()
             {
-                Parent = BuildPanel,
-                Location = new(50, _filterBox.Bottom + 5),
+                Parent = buildPanel,
+                Location = new(_groupFilterBox.Left, _groupFilterBox.Bottom + 5),
                 ContentPadding = new(5, 5, 0, 0),
-                Width = (BuildPanel.Width - 75) / 3,
+                Width = buildPanel.Width / 2,
                 BorderColor = Color.Black,
                 BorderWidth = new Core.Structs.RectangleDimensions(2),
                 BackgroundColor = Color.Black * 0.5F,
@@ -83,15 +153,116 @@ namespace Kenedia.Modules.BuildsManager.Views
                 ControlPadding = new(0, 2)
             };
 
-            _editPanel = new TagEditPanel(TagGroups)
+            _groupEditPanel = new GroupEditPanel(TagGroups)
             {
-                Location = new(_tagsPanel.Right + 5, _filterBox.Bottom + 5),
+                Location = new(_groupsPanel.Right + 5, _groupFilterBox.Bottom + 5),
                 CanScroll = true,
-                Parent = BuildPanel,
+                Parent = buildPanel,
                 BorderColor = Color.Black,
                 BorderWidth = new Core.Structs.RectangleDimensions(2),
                 BackgroundColor = Color.Black * 0.5F,
-                Width = BuildPanel.Width - 75 - (_tagsPanel.Width + 5),
+                Width = buildPanel.Width - (_groupsPanel.Right + 27),
+                HeightSizingMode = Blish_HUD.Controls.SizingMode.Fill,
+            };
+
+            foreach (var g in TagGroups)
+            {
+                AddGroup(g);
+            }
+
+            TagGroups.GroupAdded += TagGroups_TagAdded;
+            TagGroups.GroupRemoved += TagGroups_TagRemoved;
+            TagGroups.GroupChanged += TagGroups_TagChanged;
+
+            buildPanel.Resized += GroupBuildPanel_Resized;
+        }
+
+        private void FilterGroups(string? obj = null)
+        {
+            obj ??= _groupFilterBox.Text ?? string.Empty;
+
+            _groupsPanel.SuspendLayout();
+
+            obj = obj.ToLowerInvariant();
+            bool isEmpty = string.IsNullOrEmpty(obj);
+
+            foreach (var g in _groupSelectables)
+            {
+                g.Visible = isEmpty || g.Group.Name.ToLowerInvariant().Contains(obj);
+            }
+
+            _groupsPanel.ResumeLayout();
+            _groupsPanel.Invalidate();
+            SortSelectables();
+        }
+
+        private void BuildTagView(Blish_HUD.Controls.Container buildPanel)
+        {
+            var lbl = new Label()
+            {
+                Parent = buildPanel,
+                Location = new(50, 0),
+                SetLocalizedText = () => strings.Tags,
+                Font = GameService.Content.DefaultFont18,
+                Height = GameService.Content.DefaultFont18.LineHeight + 2,
+                AutoSizeWidth = true,
+            };
+
+            var sep = new Separator()
+            {
+                Parent = buildPanel,
+                Location = new Point(lbl.LocalBounds.X, lbl.LocalBounds.Bottom).Add(new(0, 2)),
+                Width = buildPanel.Width - 75,
+                Height = 2,
+                Color = Color.White * 0.8F,
+            };
+
+            _tagFilterBox = new()
+            {
+                Parent = buildPanel,
+                Location = new Point(sep.LocalBounds.X, sep.LocalBounds.Bottom).Add(new(0, 10)),
+                Width = buildPanel.Width - 75 - 27,
+                SetLocalizedPlaceholder = () => strings_common.Search,
+                FilteringOnTextChange = true,
+                PerformFiltering = FilterTags,
+            };
+
+            _tagAddButton = new()
+            {
+                Parent = buildPanel,
+                Location = new(_tagFilterBox.Right + 2, _tagFilterBox.Top),
+                Texture = AsyncTexture2D.FromAssetId(155902),
+                DisabledTexture = AsyncTexture2D.FromAssetId(155903),
+                HoveredTexture = AsyncTexture2D.FromAssetId(155904),
+                TextureRectangle = new(2, 2, 28, 28),
+                Size = new Point(_tagFilterBox.Height),
+                ClickAction = (m) => TemplateTags.Add(new(_tagFilterBox.Text)),
+                SetLocalizedTooltip = () => strings.AddTag,
+            };
+
+            _tagsPanel = new()
+            {
+                Parent = buildPanel,
+                Location = new(50, _tagFilterBox.Bottom + 5),
+                ContentPadding = new(5, 5, 0, 0),
+                Width = (buildPanel.Width - 75) / 3,
+                BorderColor = Color.Black,
+                BorderWidth = new Core.Structs.RectangleDimensions(2),
+                BackgroundColor = Color.Black * 0.5F,
+                CanScroll = true,
+                HeightSizingMode = Blish_HUD.Controls.SizingMode.Fill,
+                ControlPadding = new(0, 2)
+            };
+
+            _tagEditPanel = new TagEditPanel(TagGroups)
+            {
+                Location = new(_tagsPanel.Right + 5, _tagFilterBox.Bottom + 5),
+                CanScroll = true,
+                Parent = buildPanel,
+                BorderColor = Color.Black,
+                BorderWidth = new Core.Structs.RectangleDimensions(2),
+                BackgroundColor = Color.Black * 0.5F,
+                Width = buildPanel.Width - 75 - (_tagsPanel.Width + 5),
                 HeightSizingMode = Blish_HUD.Controls.SizingMode.Fill,
             };
 
@@ -104,26 +275,42 @@ namespace Kenedia.Modules.BuildsManager.Views
             TemplateTags.TagRemoved += TemplateTags_TagRemoved;
             TemplateTags.TagChanged += TemplateTags_TagChanged;
 
-            BuildPanel.Resized += BuildPanel_Resized;
+            buildPanel.Resized += TagBuildPanel_Resized;
         }
 
-        private void BuildPanel_Resized(object sender, Blish_HUD.Controls.ResizedEventArgs e)
+        private void GroupBuildPanel_Resized(object sender, Blish_HUD.Controls.ResizedEventArgs e)
         {
             var b = e.CurrentSize;
+            return;
 
-            if (_filterBox is not null)
-                _filterBox.Width = b.X - 75 - 27;
+            if (_groupFilterBox is not null)
+                _groupFilterBox.Width = b.X - 75 - 27;
 
-            if (_editPanel is not null)
-                _editPanel.Width = b.X - 75 - (_tagsPanel.Width + 5);
+            if (_tagEditPanel is not null)
+                _tagEditPanel.Width = b.X - 75 - (_tagsPanel.Width + 5);
 
-            if (_addButton is not null)
-                _addButton.Location = new(_filterBox.Right + 2, _filterBox.Top);
+            if (_tagAddButton is not null)
+                _tagAddButton.Location = new(_tagFilterBox.Right + 2, _tagFilterBox.Top);
+        }
+
+        private void TagBuildPanel_Resized(object sender, Blish_HUD.Controls.ResizedEventArgs e)
+        {
+            var b = e.CurrentSize;
+            return;
+
+            if (_tagFilterBox is not null)
+                _tagFilterBox.Width = b.X - 75 - 27;
+
+            if (_tagEditPanel is not null)
+                _tagEditPanel.Width = b.X - 75 - (_tagsPanel.Width + 5);
+
+            if (_tagAddButton is not null)
+                _tagAddButton.Location = new(_tagFilterBox.Right + 2, _tagFilterBox.Top);
         }
 
         private void FilterTags(string? obj = null)
         {
-            obj ??= _filterBox.Text ?? string.Empty;
+            obj ??= _tagFilterBox.Text ?? string.Empty;
             _tagsPanel.SuspendLayout();
 
             obj = obj.ToLowerInvariant();
@@ -157,8 +344,8 @@ namespace Kenedia.Modules.BuildsManager.Views
         {
             SelectedTag = _tagSelectables.FirstOrDefault(x => x.Tag == tag);
 
-            if (_editPanel is not null)
-                _editPanel.Tag = tag;
+            if (_tagEditPanel is not null)
+                _tagEditPanel.Tag = tag;
 
             foreach (var g in _tagSelectables)
             {
@@ -190,6 +377,50 @@ namespace Kenedia.Modules.BuildsManager.Views
             FilterTags();
         }
 
+        private void TagGroups_TagChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            FilterGroups();
+        }
+
+        private void TagGroups_TagRemoved(object sender, TagGroup e)
+        {
+            var group = _groupSelectables.FirstOrDefault(x => x.Group == e);
+
+            if (group is not null)
+            {
+                _groupSelectables.Remove(group);
+                group.Dispose();
+
+                FilterGroups();
+            }
+        }
+
+        private void TagGroups_TagAdded(object sender, TagGroup e)
+        {
+            AddGroup(e);
+        }
+
+        private void AddGroup(TagGroup g)
+        {
+            _groupSelectables.Add(new(g, _groupsPanel, TagGroups)
+            {
+                OnClickAction = SetGroupToEdit,
+            });
+
+            FilterGroups();
+        }
+
+        private void SetGroupToEdit(TagGroup group)
+        {
+            SelectedGroup = _groupSelectables.FirstOrDefault(x => x.Group == group);
+            _groupEditPanel.Group = group;
+
+            foreach (var g in _groupSelectables)
+            {
+                g.Selected = g == SelectedGroup;
+            }
+        }
+
         protected override void Unload()
         {
             base.Unload();
@@ -198,7 +429,8 @@ namespace Kenedia.Modules.BuildsManager.Views
             TemplateTags.TagRemoved -= TemplateTags_TagRemoved;
             TemplateTags.TagChanged -= TemplateTags_TagChanged;
 
-            BuildPanel.Resized -= BuildPanel_Resized;
+            _tagsParent.Resized -= TagBuildPanel_Resized;
+            _groupParent.Resized -= GroupBuildPanel_Resized;
         }
     }
 }

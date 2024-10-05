@@ -10,6 +10,7 @@ using Kenedia.Modules.Core.Extensions;
 using Kenedia.Modules.Core.Services;
 using Gw2Sharp.WebApi;
 using System.Diagnostics;
+using Kenedia.Modules.Core.Utility;
 
 namespace Kenedia.Modules.BuildsManager.Views
 {
@@ -20,8 +21,9 @@ namespace Kenedia.Modules.BuildsManager.Views
         private AsyncTexture2D _textureEnabled;
         private AsyncTexture2D _textureDisabled;
         private Func<string> _setLocalizedTooltip;
+        private bool _selected;
 
-        public bool Selected { get; set; }
+        public bool Selected { get => _selected; set => Common.SetProperty(ref _selected , value, OnSelected); }
 
         public TagToggle(TemplateTag tag)
         {
@@ -80,7 +82,7 @@ namespace Kenedia.Modules.BuildsManager.Views
 
         public TemplateTag Tag { get; private set; }
 
-        public Action<TemplateTag> OnClicked { get; internal set; }
+        public Action<TemplateTag> OnSelectedChanged { get; internal set; }
 
         protected override void Paint(SpriteBatch spriteBatch, Rectangle bounds)
         {
@@ -94,12 +96,15 @@ namespace Kenedia.Modules.BuildsManager.Views
         {
             base.OnClick(e);
 
-            if (OnClicked is not null)
-            {
-                OnClicked(Tag);
-            }
-
             Selected = !Selected;
+        }
+
+        private void OnSelected(object sender, Core.Models.ValueChangedEventArgs<bool> e)
+        {
+            if (OnSelectedChanged is not null)
+            {
+                OnSelectedChanged(Tag);
+            }
         }
 
         protected override void DisposeControl()

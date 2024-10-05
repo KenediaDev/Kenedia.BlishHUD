@@ -88,6 +88,15 @@ namespace Kenedia.Modules.BuildsManager.Res {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Add Group.
+        /// </summary>
+        internal static string AddGroup {
+            get {
+                return ResourceManager.GetString("AddGroup", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Add a new template
         ///
         ///If you have any valid build code in your clipboard the build will load from the code.
@@ -189,7 +198,25 @@ namespace Kenedia.Modules.BuildsManager.Res {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Auto Set Filter.
+        ///   Looks up a localized string similar to Auto set Specialization Filter.
+        /// </summary>
+        internal static string AutoSetFilterSpecialization_Name {
+            get {
+                return ResourceManager.GetString("AutoSetFilterSpecialization_Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Automatically set the a filter to the current specialization on specialization change.
+        /// </summary>
+        internal static string AutoSetFilterSpecialization_Tooltip {
+            get {
+                return ResourceManager.GetString("AutoSetFilterSpecialization_Tooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Auto set Profession Filter.
         /// </summary>
         internal static string AutoSetProfession_Name {
             get {
@@ -198,7 +225,7 @@ namespace Kenedia.Modules.BuildsManager.Res {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Automatically set the profession filter to the current profession on profession change.
+        ///   Looks up a localized string similar to Automatically set a filter to the current profession on profession change.
         /// </summary>
         internal static string AutoSetProfession_Tooltip {
             get {
@@ -424,6 +451,24 @@ namespace Kenedia.Modules.BuildsManager.Res {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Fade Quick Filter.
+        /// </summary>
+        internal static string FadeQuickFiltersPanel_Name {
+            get {
+                return ResourceManager.GetString("FadeQuickFiltersPanel_Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Fade the Quick Filter Panel after a certain amount inactivity.
+        /// </summary>
+        internal static string FadeQuickFiltersPanel_Tooltip {
+            get {
+                return ResourceManager.GetString("FadeQuickFiltersPanel_Tooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Fill.
         /// </summary>
         internal static string Fill {
@@ -460,11 +505,29 @@ namespace Kenedia.Modules.BuildsManager.Res {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Group Name.
+        /// </summary>
+        internal static string GroupName {
+            get {
+                return ResourceManager.GetString("GroupName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Group not defined.
         /// </summary>
         internal static string GroupNotDefined {
             get {
                 return ResourceManager.GetString("GroupNotDefined", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Groups.
+        /// </summary>
+        internal static string Groups {
+            get {
+                return ResourceManager.GetString("Groups", resourceCulture);
             }
         }
         
@@ -699,6 +762,42 @@ namespace Kenedia.Modules.BuildsManager.Res {
         internal static string PvpSigils {
             get {
                 return ResourceManager.GetString("PvpSigils", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Fade Quick Filter after {0} s.
+        /// </summary>
+        internal static string QuickFiltersPanelFadeDelay_Name {
+            get {
+                return ResourceManager.GetString("QuickFiltersPanelFadeDelay_Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Fade the Quick Filter Panel after {0} ms.
+        /// </summary>
+        internal static string QuickFiltersPanelFadeDelay_Tooltip {
+            get {
+                return ResourceManager.GetString("QuickFiltersPanelFadeDelay_Tooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Fade Duration {0} ms.
+        /// </summary>
+        internal static string QuickFiltersPanelFadeDuration_Name {
+            get {
+                return ResourceManager.GetString("QuickFiltersPanelFadeDuration_Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Duration of the fading of the Quick Filter Panel.
+        /// </summary>
+        internal static string QuickFiltersPanelFadeDuration_Tooltip {
+            get {
+                return ResourceManager.GetString("QuickFiltersPanelFadeDuration_Tooltip", resourceCulture);
             }
         }
         

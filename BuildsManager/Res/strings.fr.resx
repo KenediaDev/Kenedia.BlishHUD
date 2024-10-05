@@ -334,12 +334,6 @@ Le but de ce code est de partager facilement le modèle d'équipement du module 
   <data name="Stats" xml:space="preserve">
     <value>Valeurs</value>
   </data>
-  <data name="AutoSetProfession_Name" xml:space="preserve">
-    <value>Filtre à réglage automatique</value>
-  </data>
-  <data name="AutoSetProfession_Tooltip" xml:space="preserve">
-    <value>Définir automatiquement le filtre de la profession sur la profession actuelle lors d'un changement de profession</value>
-  </data>
   <data name="MissingInfoFromAPI" xml:space="preserve">
     <value>Aucune donnée n'est disponible via l'API GW2 d'ArenaNet.</value>
   </data>
@@ -428,5 +422,44 @@ Le but de ce code est de partager facilement le modèle d'équipement du module 
     <value>Ajouter un nouveau modèle
 
 Si vous avez un code de construction valide dans votre presse-papiers, la construction sera chargée à partir de ce code.</value>
+  </data>
+  <data name="Groups" xml:space="preserve">
+    <value>Groupes</value>
+  </data>
+  <data name="AddGroup" xml:space="preserve">
+    <value>Ajouter un groupe</value>
+  </data>
+  <data name="GroupName" xml:space="preserve">
+    <value>Nom du groupe</value>
+  </data>
+  <data name="AutoSetProfession_Name" xml:space="preserve">
+    <value>Réglage automatique du filtre professionnel</value>
+  </data>
+  <data name="AutoSetProfession_Tooltip" xml:space="preserve">
+    <value>Définir automatiquement un filtre sur la profession actuelle en cas de changement de profession</value>
+  </data>
+  <data name="AutoSetFilterSpecialization_Tooltip" xml:space="preserve">
+    <value>Définir automatiquement le filtre en fonction de la spécialisation actuelle en cas de changement de spécialisation</value>
+  </data>
+  <data name="AutoSetFilterSpecialization_Name" xml:space="preserve">
+    <value>Réglage automatique du filtre de spécialisation</value>
+  </data>
+  <data name="FadeQuickFiltersPanel_Name" xml:space="preserve">
+    <value>Fade Quick Filter</value>
+  </data>
+  <data name="FadeQuickFiltersPanel_Tooltip" xml:space="preserve">
+    <value>La fenêtre de filtre rapide s'estompe après un certain temps d'inactivité.</value>
+  </data>
+  <data name="QuickFiltersPanelFadeDelay_Name" xml:space="preserve">
+    <value>Filtre rapide en fondu après {0} s</value>
+  </data>
+  <data name="QuickFiltersPanelFadeDelay_Tooltip" xml:space="preserve">
+    <value>Fondu du panneau de filtre rapide après {0} ms</value>
+  </data>
+  <data name="QuickFiltersPanelFadeDuration_Name" xml:space="preserve">
+    <value>Durée du fondu {0} ms</value>
+  </data>
+  <data name="QuickFiltersPanelFadeDuration_Tooltip" xml:space="preserve">
+    <value>Durée de la décoloration du panneau de filtre rapide</value>
   </data>
 </root>

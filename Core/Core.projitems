@@ -51,6 +51,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Controls\Panel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controls\PanelTab.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controls\ResizeableContainer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\Separator.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controls\TabbedPanel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controls\TabButton.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controls\Tag.cs" />

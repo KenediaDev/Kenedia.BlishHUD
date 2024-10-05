@@ -24,19 +24,21 @@ namespace Kenedia.Modules.BuildsManager.Views
 {
     public class QuickFiltersPanel : AnchoredContainer
     {
-        private int SpecializationHeight = 270;
+        private int _specializationHeight = 270;
         private Rectangle _textBounds = Rectangle.Empty;
         private readonly DetailedTexture _headerSeparator = new(605022);
         private readonly FlowPanel _tagPanel;
         private readonly Button _resetButton;
         private Dictionary<TagGroupPanel, List<TagToggle>> _tagControls = [];
         private TagGroupPanel _ungroupedPanel;
+        private List<TagToggle> _specToggles = [];
 
-        public QuickFiltersPanel(TemplateTags templateTags, TagGroups tagGroups, SelectionPanel selectionPanel)
+        public QuickFiltersPanel(TemplateTags templateTags, TagGroups tagGroups, SelectionPanel selectionPanel, Settings settings)
         {
             TemplateTags = templateTags;
             TagGroups = tagGroups;
             SelectionPanel = selectionPanel;
+            Settings = settings;
 
             Parent = Graphics.SpriteScreen;
             Width = 205;
@@ -83,14 +85,75 @@ namespace Kenedia.Modules.BuildsManager.Views
                 SetLocalizedText = () => string.Format(strings.ResetAll, strings.Filters),
                 Width = 192,
                 Parent = fp,
+                ClickAction = () =>
+                {
+                    _specToggles.ForEach(x => x.Selected = false);
+                    _tagControls.SelectMany(x => x.Value).ForEach(x => x.Selected = false);
+                },
             };
 
             CreateTagControls();
-
-            FadeOut = true;
-            FadeDelay = 2500;
             FadeSteps = 150;
-            FadeDuration = 250;
+
+            GameService.Gw2Mumble.PlayerCharacter.SpecializationChanged += PlayerCharacter_SpecializationChanged;
+            Settings.QuickFiltersPanelFade.SettingChanged += QuickFiltersPanelFade_SettingChanged;
+            Settings.QuickFiltersPanelFadeDelay.SettingChanged += QuickFiltersPanelFadeDelay_SettingChanged;
+            Settings.QuickFiltersPanelFadeDuration.SettingChanged += QuickFiltersPanelFadeDuration_SettingChanged;
+
+            ApplySettings();
+        }
+
+        private void QuickFiltersPanelFadeDelay_SettingChanged(object sender, Blish_HUD.ValueChangedEventArgs<double> e)
+        {
+            ApplySettings();
+        }
+
+        private void QuickFiltersPanelFade_SettingChanged(object sender, Blish_HUD.ValueChangedEventArgs<bool> e)
+        {
+            ApplySettings();
+        }
+
+        private void QuickFiltersPanelFadeDuration_SettingChanged(object sender, Blish_HUD.ValueChangedEventArgs<double> e)
+        {
+            ApplySettings();
+        }
+
+        private void ApplySettings()
+        {
+            FadeOut = Settings.QuickFiltersPanelFade.Value;
+            FadeDelay = Settings.QuickFiltersPanelFadeDelay.Value * 1000;
+            FadeDuration = Settings.QuickFiltersPanelFadeDuration.Value;
+        }
+
+        private void PlayerCharacter_SpecializationChanged(object sender, ValueEventArgs<int> e)
+        {
+            var professionType = GameService.Gw2Mumble.PlayerCharacter.Profession;
+
+            if (BuildsManager.Data.Professions.TryGetValue(professionType, out var profession))
+            {
+                foreach (var t in _specToggles)
+                {
+                    t.Selected = false;
+                }
+
+                if (Settings.AutoSetFilterProfession?.Value is true)
+                {
+
+                    if (_specToggles.FirstOrDefault(x => x.Tag?.Name == profession.Name) is TagToggle toggle)
+                    {
+                        toggle.Selected = true;
+                    }
+                }
+
+                if (Settings.AutoSetFilterSpecialization?.Value is true)
+                {
+
+                    if (profession.Specializations.Values.FirstOrDefault(x => x.Id == e.Value) is var spec && spec is not null && _specToggles.FirstOrDefault(x => x.Tag?.Name == spec.Name) is TagToggle specToggle)
+                    {
+                        specToggle.Selected = true;
+                    }
+                }
+            }
         }
 
         private void TemplateTags_TagRemoved(object sender, TemplateTag e)
@@ -161,6 +224,8 @@ namespace Kenedia.Modules.BuildsManager.Views
         public TagGroups TagGroups { get; }
 
         public SelectionPanel SelectionPanel { get; }
+
+        public Settings Settings { get; }
 
         public override void RecalculateLayout()
         {
@@ -265,7 +330,7 @@ namespace Kenedia.Modules.BuildsManager.Views
             var t = new TagToggle(e)
             {
                 Parent = panel,
-                OnClicked = a,
+                OnSelectedChanged = a,
             };
 
             if (_tagControls.ContainsKey(panel))
@@ -306,7 +371,7 @@ namespace Kenedia.Modules.BuildsManager.Views
 
         private void SetHeightToTags()
         {
-            int height = SpecializationHeight;
+            int height = _specializationHeight;
 
             foreach (var t in _tagControls)
             {
@@ -383,13 +448,13 @@ namespace Kenedia.Modules.BuildsManager.Views
                 FlowDirection = Blish_HUD.Controls.ControlFlowDirection.LeftToRight,
                 WidthSizingMode = Blish_HUD.Controls.SizingMode.Fill,
                 HeightSizingMode = Blish_HUD.Controls.SizingMode.Standard,
-                Height = SpecializationHeight,
+                Height = _specializationHeight,
                 AutoSizePadding = new(0, 2),
                 ControlPadding = new(21, 2),
             };
 
             TagToggle toggle;
-            List<TagToggle> tagToggles = [];
+            _specToggles.Clear();
 
             int prio;
             foreach (var p in BuildsManager.Data.Professions.Values)
@@ -401,7 +466,7 @@ namespace Kenedia.Modules.BuildsManager.Views
                     return t.Profession == p.Id;
                 }
 
-                tagToggles.Add(toggle = AddTemplateTag(new TemplateTag()
+                _specToggles.Add(toggle = AddTemplateTag(new TemplateTag()
                 {
                     Name = p.Name,
                     Group = strings.Specializations,
@@ -433,7 +498,7 @@ namespace Kenedia.Modules.BuildsManager.Views
                             return t.EliteSpecializationId == s.Id;
                         }
 
-                        tagToggles.Add(toggle = AddTemplateTag(new TemplateTag()
+                        _specToggles.Add(toggle = AddTemplateTag(new TemplateTag()
                         {
                             Name = s.Name,
                             Group = strings.Specializations,

@@ -42,6 +42,11 @@ namespace Kenedia.Modules.BuildsManager.Views
         override protected void Build(Blish_HUD.Controls.Container buildPanel)
         {
             base.Build(buildPanel);
+            BuildGroupView(buildPanel);
+        }
+
+        private void BuildGroupView(Blish_HUD.Controls.Container buildPanel)
+        {
             BuildPanel = buildPanel;
 
             _filterBox = new()

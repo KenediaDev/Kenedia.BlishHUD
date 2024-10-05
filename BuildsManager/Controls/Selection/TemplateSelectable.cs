@@ -252,14 +252,14 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
 
         public TemplateFactory TemplateFactory { get; }
 
-        private void Template_LastModifiedChanged(object sender, Core.Models.ValueChangedEventArgs<DateTime> e)
+        private void Template_LastModifiedChanged(object sender, Core.Models.ValueChangedEventArgs<string> e)
         {
             SetLastModifiedText(e.NewValue);
         }
 
-        private void SetLastModifiedText(DateTime date)
+        private void SetLastModifiedText(string date)
         {
-            _lastModified.SetLocalizedText = () => string.Format(strings.LastModified, date.ToString("g"));
+            _lastModified.SetLocalizedText = () => string.Format(strings.LastModified, date);
         }
 
         private void Tags_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)

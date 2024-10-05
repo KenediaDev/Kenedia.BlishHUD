@@ -40,14 +40,14 @@ namespace Kenedia.Modules.BuildsManager.Views
                 new()
                 {
                     Parent = this,
-                    SetLocalizedText = () => strings.TagName,
+                    SetLocalizedText = () => strings.GroupName,
                 },
                 new()
                 {
                     Parent = this,
                     Width = 200,
                     Height = 32,
-                    SetLocalizedPlaceholder = () => strings.TagName,
+                    SetLocalizedPlaceholder = () => strings.GroupName,
                     Location = new(0, Content.DefaultFont14.LineHeight + 2),
                     TextChangedAction = (txt) =>
                     {
@@ -297,7 +297,7 @@ namespace Kenedia.Modules.BuildsManager.Views
             int x = ContentRegion.Width;
             int y = ContentRegion.Height;
 
-            _name.textBox.Width = x - (_iconId.numberBox.Width + _icon.Width + 5);
+            _name.textBox.Width = x;
             _name.label.Location = new(_name.textBox.Left, 0);
             _name.label.Width = _name.textBox.Width;
 
@@ -309,7 +309,7 @@ namespace Kenedia.Modules.BuildsManager.Views
 
             _priority.label.Location = new(_name.textBox.Left, _name.textBox.Bottom + 25);
             _priority.numberBox.Location = new(_name.textBox.Left, _priority.label.Bottom + 3);
-            _priority.numberBox.Width = _priority.label.Width = _iconId.numberBox.Width + _icon.Width + 3;
+            _priority.numberBox.Width = _priority.label.Width = _name.textBox.Width;
 
             int amount = 5;
             int padding = 5;

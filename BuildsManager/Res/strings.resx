@@ -338,10 +338,10 @@ The purpose of this code is to share the modules Equipment Template easily with 
     <value>of all weapon slots</value>
   </data>
   <data name="AutoSetProfession_Name" xml:space="preserve">
-    <value>Auto Set Filter</value>
+    <value>Auto set Profession Filter</value>
   </data>
   <data name="AutoSetProfession_Tooltip" xml:space="preserve">
-    <value>Automatically set the profession filter to the current profession on profession change</value>
+    <value>Automatically set a filter to the current profession on profession change</value>
   </data>
   <data name="MissingInfoFromAPI" xml:space="preserve">
     <value>No data available through the GW2 API from ArenaNet.</value>
@@ -428,5 +428,38 @@ The purpose of this code is to share the modules Equipment Template easily with 
     <value>Add a new template
 
 If you have any valid build code in your clipboard the build will load from the code</value>
+  </data>
+  <data name="Groups" xml:space="preserve">
+    <value>Groups</value>
+  </data>
+  <data name="AddGroup" xml:space="preserve">
+    <value>Add Group</value>
+  </data>
+  <data name="GroupName" xml:space="preserve">
+    <value>Group Name</value>
+  </data>
+  <data name="AutoSetFilterSpecialization_Tooltip" xml:space="preserve">
+    <value>Automatically set the a filter to the current specialization on specialization change</value>
+  </data>
+  <data name="AutoSetFilterSpecialization_Name" xml:space="preserve">
+    <value>Auto set Specialization Filter</value>
+  </data>
+  <data name="FadeQuickFiltersPanel_Name" xml:space="preserve">
+    <value>Fade Quick Filter</value>
+  </data>
+  <data name="FadeQuickFiltersPanel_Tooltip" xml:space="preserve">
+    <value>Fade the Quick Filter Panel after a certain amount inactivity</value>
+  </data>
+  <data name="QuickFiltersPanelFadeDelay_Name" xml:space="preserve">
+    <value>Fade Quick Filter after {0} s</value>
+  </data>
+  <data name="QuickFiltersPanelFadeDelay_Tooltip" xml:space="preserve">
+    <value>Fade the Quick Filter Panel after {0} ms</value>
+  </data>
+  <data name="QuickFiltersPanelFadeDuration_Name" xml:space="preserve">
+    <value>Fade Duration {0} ms</value>
+  </data>
+  <data name="QuickFiltersPanelFadeDuration_Tooltip" xml:space="preserve">
+    <value>Duration of the fading of the Quick Filter Panel</value>
   </data>
 </root>

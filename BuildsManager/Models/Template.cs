@@ -67,7 +67,7 @@ namespace Kenedia.Modules.BuildsManager.Models
 
         public event ValueChangedEventHandler<string>? NameChanged;
 
-        public event ValueChangedEventHandler<DateTime>? LastModifiedChanged;
+        public event ValueChangedEventHandler<string>? LastModifiedChanged;
 
         public event ValueChangedEventHandler<ProfessionType>? ProfessionChanged;
 
@@ -87,7 +87,7 @@ namespace Kenedia.Modules.BuildsManager.Models
 
         [JsonProperty("LastModified")]
         [DataMember]
-        private DateTime _lastModified = DateTime.Now;
+        private string _lastModified = DateTime.Now.ToString("d");
 
         public Template(Data data)
         {
@@ -252,11 +252,11 @@ namespace Kenedia.Modules.BuildsManager.Models
 
         public bool TriggerAutoSave { get; set; } = false;
 
-        public DateTime LastModified { get => _lastModified; set => Common.SetProperty(ref _lastModified, value, OnLastModifiedChanged); }
+        public string LastModified { get => _lastModified; set => Common.SetProperty(ref _lastModified, value, OnLastModifiedChanged); }
 
         public bool Loaded { get; set; }
 
-        private void OnLastModifiedChanged(object sender, ValueChangedEventArgs<DateTime> e)
+        private void OnLastModifiedChanged(object sender, ValueChangedEventArgs<string> e)
         {
             LastModifiedChanged?.Invoke(this, e);
         }

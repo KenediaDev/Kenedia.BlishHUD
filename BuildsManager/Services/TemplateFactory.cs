@@ -54,11 +54,11 @@ namespace Kenedia.Modules.BuildsManager.Services
 
         }
 
-        public Template CreateTemplate(string name, string buildCode, string gearCode, string description, UniqueObservableCollection<string> tags, Races? race, ProfessionType? profession, int? elitespecId, DateTime? lastModified)
+        public Template CreateTemplate(string name, string buildCode, string gearCode, string description, UniqueObservableCollection<string> tags, Races? race, ProfessionType? profession, int? elitespecId, string? lastModified)
         {
             var t = new Template(Data, name, buildCode, gearCode, description, tags, race, profession, elitespecId)
             {
-                LastModified = lastModified ?? DateTime.Now,
+                LastModified = lastModified ?? DateTime.Now.ToString(),
                 TriggerAutoSave = true,
             };
           

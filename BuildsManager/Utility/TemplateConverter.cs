@@ -42,7 +42,7 @@ namespace Kenedia.Modules.BuildsManager.Utility
             int? race = (int?)jo["Race"];
             int? profession = (int?)jo["Profession"];
             int? elitespecId = (int?)jo["EliteSpecializationId"];
-            var lastModified = (DateTime?)jo["LastModified"];
+            string? lastModified = (string?)jo["LastModified"];
 
             var result = TemplateFactory.CreateTemplate(name, buildCode, gearCode, description, tags, (Races)(race ?? -1), (ProfessionType)(profession ?? 1), elitespecId ?? 0, lastModified);
 

@@ -29,6 +29,8 @@ using Kenedia.Modules.Core.Controls;
 using Kenedia.Modules.BuildsManager.Controls.Tabs;
 using System.Linq;
 using Kenedia.Modules.BuildsManager.Controls.Selection;
+using Blish_HUD.Graphics.UI;
+using Kenedia.Modules.Core.Extensions;
 
 namespace Kenedia.Modules.BuildsManager
 {
@@ -71,6 +73,7 @@ namespace Kenedia.Modules.BuildsManager
             services.AddSingleton<TagGroups>();
             services.AddSingleton<Data>();
             services.AddSingleton<GW2API>();
+            services.AddSingleton<Settings>();
 
             services.AddScoped<TagEditWindow>();
             services.AddScoped<MainWindow>();
@@ -95,6 +98,7 @@ namespace Kenedia.Modules.BuildsManager
             TemplatePresenter = ServiceProvider.GetRequiredService<TemplatePresenter>();
             TemplateTags = ServiceProvider.GetRequiredService<TemplateTags>();
             GW2API = ServiceProvider.GetRequiredService<GW2API>();
+            Settings = ServiceProvider.GetRequiredService<Settings>();
 
             CreateCornerIcons();
         }
@@ -132,7 +136,7 @@ namespace Kenedia.Modules.BuildsManager
         {
             base.DefineSettings(settings);
 
-            Settings = new Settings(settings);
+            Settings.SettingCollection = settings;
             Settings.ShowCornerIcon.SettingChanged += ShowCornerIcon_SettingChanged;
         }
 
@@ -149,6 +153,19 @@ namespace Kenedia.Modules.BuildsManager
         {
             if (!TemplatesLoaded)
                 await LoadTemplates();
+        }
+
+        public override IView GetSettingsView()
+        {
+            return new BlishSettingsView(() =>
+            {
+                if (!MainWindow.IsVisible())
+                {
+                    MainWindow.Show();
+                }
+
+                MainWindow.SelectedTab = MainWindow.SettingsViewTab;
+            });
         }
 
         protected override async void OnLocaleChanged(object sender, Blish_HUD.ValueChangedEventArgs<Locale> e)

@@ -334,12 +334,6 @@ El propósito de este código es compartir la Plantilla de Equipo del módulo f�
   <data name="Stats" xml:space="preserve">
     <value>Valores</value>
   </data>
-  <data name="AutoSetProfession_Name" xml:space="preserve">
-    <value>Filtro de ajuste automático</value>
-  </data>
-  <data name="AutoSetProfession_Tooltip" xml:space="preserve">
-    <value>Ajustar automáticamente el filtro de profesión a la profesión actual al cambiar de profesión.</value>
-  </data>
   <data name="MissingInfoFromAPI" xml:space="preserve">
     <value>No hay datos disponibles a través de la API de GW2 de ArenaNet.</value>
   </data>
@@ -428,5 +422,44 @@ El propósito de este código es compartir la Plantilla de Equipo del módulo f�
     <value>Añadir una nueva plantilla
 
 Si tiene algún código de compilación válido en el portapapeles, la compilación se cargará desde el código.</value>
+  </data>
+  <data name="Groups" xml:space="preserve">
+    <value>Grupos</value>
+  </data>
+  <data name="AddGroup" xml:space="preserve">
+    <value>Añadir grupo</value>
+  </data>
+  <data name="GroupName" xml:space="preserve">
+    <value>Nombre del grupo</value>
+  </data>
+  <data name="AutoSetProfession_Name" xml:space="preserve">
+    <value>Auto set Profession Filtro</value>
+  </data>
+  <data name="AutoSetProfession_Tooltip" xml:space="preserve">
+    <value>Fijar automáticamente un filtro a la profesión actual al cambiar de profesión</value>
+  </data>
+  <data name="AutoSetFilterSpecialization_Tooltip" xml:space="preserve">
+    <value>Ajustar automáticamente un filtro a la especialización actual al cambiar de especialización</value>
+  </data>
+  <data name="AutoSetFilterSpecialization_Name" xml:space="preserve">
+    <value>Filtro de especialización autoajustable</value>
+  </data>
+  <data name="FadeQuickFiltersPanel_Name" xml:space="preserve">
+    <value>Filtro rápido Fade</value>
+  </data>
+  <data name="FadeQuickFiltersPanel_Tooltip" xml:space="preserve">
+    <value>Desvanecer el panel de filtro rápido después de una cierta cantidad de inactividad</value>
+  </data>
+  <data name="QuickFiltersPanelFadeDelay_Name" xml:space="preserve">
+    <value>Desvanecer filtro rápido después de {0} s</value>
+  </data>
+  <data name="QuickFiltersPanelFadeDelay_Tooltip" xml:space="preserve">
+    <value>Desvanecer el panel de filtro rápido después de {0} ms</value>
+  </data>
+  <data name="QuickFiltersPanelFadeDuration_Name" xml:space="preserve">
+    <value>Duración del fundido {0} ms</value>
+  </data>
+  <data name="QuickFiltersPanelFadeDuration_Tooltip" xml:space="preserve">
+    <value>Duración del desvanecimiento del panel de filtro rápido</value>
   </data>
 </root>

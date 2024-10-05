@@ -334,12 +334,6 @@ Der Zweck dieses Codes ist es, die Module Ausrüstungsvorlage leicht mit anderen
   <data name="WeaponSlots" xml:space="preserve">
     <value>aller Waffenfelder</value>
   </data>
-  <data name="AutoSetProfession_Name" xml:space="preserve">
-    <value>Automatisch eingestellter Filter</value>
-  </data>
-  <data name="AutoSetProfession_Tooltip" xml:space="preserve">
-    <value>Automatisches Setzen des Klassenfilters auf die aktuelle Klasse beim Klassenwechsel</value>
-  </data>
   <data name="MissingInfoFromAPI" xml:space="preserve">
     <value>Über die GW2-API von ArenaNet sind keine Daten verfügbar.</value>
   </data>
@@ -428,5 +422,44 @@ Der Zweck dieses Codes ist es, die Module Ausrüstungsvorlage leicht mit anderen
     <value>Eine neue Vorlage hinzufügen
 
 Wenn Sie einen gültigen Build-Code in Ihrer Zwischenablage haben, wird der Build von diesem Code geladen</value>
+  </data>
+  <data name="Groups" xml:space="preserve">
+    <value>Gruppen</value>
+  </data>
+  <data name="AddGroup" xml:space="preserve">
+    <value>Gruppe hinzufügen</value>
+  </data>
+  <data name="GroupName" xml:space="preserve">
+    <value>Name der Gruppe</value>
+  </data>
+  <data name="AutoSetProfession_Name" xml:space="preserve">
+    <value>Automatisch eingestellter Klassenfilter</value>
+  </data>
+  <data name="AutoSetProfession_Tooltip" xml:space="preserve">
+    <value>Automatisches Setzen eines Filters auf den aktuellen Beruf bei Berufswechsel</value>
+  </data>
+  <data name="AutoSetFilterSpecialization_Tooltip" xml:space="preserve">
+    <value>Automatisches Setzen eines Filters auf die aktuelle Spezialisierung bei einem Spezialisierungswechsel</value>
+  </data>
+  <data name="AutoSetFilterSpecialization_Name" xml:space="preserve">
+    <value>Automatisch eingestellter Spezialisierungsfilter</value>
+  </data>
+  <data name="FadeQuickFiltersPanel_Name" xml:space="preserve">
+    <value>Schnellfilter ausblenden</value>
+  </data>
+  <data name="FadeQuickFiltersPanel_Tooltip" xml:space="preserve">
+    <value>Ausblenden der Schnellfilterleiste nach einer bestimmten Zeit der Inaktivität</value>
+  </data>
+  <data name="QuickFiltersPanelFadeDelay_Name" xml:space="preserve">
+    <value>Schnellfilter ausblenden nach {0} s</value>
+  </data>
+  <data name="QuickFiltersPanelFadeDelay_Tooltip" xml:space="preserve">
+    <value>Ausblenden der Schnellfilterleiste nach {0} ms</value>
+  </data>
+  <data name="QuickFiltersPanelFadeDuration_Name" xml:space="preserve">
+    <value>Überblenddauer {0} ms</value>
+  </data>
+  <data name="QuickFiltersPanelFadeDuration_Tooltip" xml:space="preserve">
+    <value>Dauer der Ausblendung des Schnellfilter-Panels</value>
   </data>
 </root>

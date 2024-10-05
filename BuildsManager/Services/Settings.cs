@@ -4,23 +4,35 @@ using Kenedia.Modules.Core.Models;
 using Kenedia.Modules.Core.Res;
 using Microsoft.Xna.Framework.Input;
 using Kenedia.Modules.BuildsManager.Res;
+using Kenedia.Modules.Core.Utility;
+using System;
 
 namespace Kenedia.Modules.BuildsManager.Services
 {
     public class Settings : BaseSettingsModel
     {
-        private readonly SettingCollection _settings;
+        private SettingCollection _settingCollection;
 
-        public Settings(SettingCollection settings)
+        public Settings()
         {
-            _settings = settings;
+
+        }
+
+        private void InitializeSettings(SettingCollection settings)
+        {
+            SettingCollection = settings;
             SettingCollection internalSettings = settings.AddSubCollection("Internal", false, false);
 
-            ShowCornerIcon = settings.DefineSetting(nameof(ShowCornerIcon), true);
-            AutoSetFilterProfession = settings.DefineSetting(nameof(AutoSetFilterProfession), false, () => strings.AutoSetProfession_Name, () => strings.AutoSetProfession_Tooltip);
+            ShowCornerIcon = internalSettings.DefineSetting(nameof(ShowCornerIcon), true);
+            QuickFiltersPanelFade = internalSettings.DefineSetting(nameof(QuickFiltersPanelFade), true);
+            QuickFiltersPanelFadeDuration = internalSettings.DefineSetting(nameof(QuickFiltersPanelFadeDuration), 1000.00);
+            QuickFiltersPanelFadeDelay = internalSettings.DefineSetting(nameof(QuickFiltersPanelFadeDelay), 5000.00);
+
+            AutoSetFilterProfession = internalSettings.DefineSetting(nameof(AutoSetFilterProfession), false, () => strings.AutoSetProfession_Name, () => strings.AutoSetProfession_Tooltip);
+            AutoSetFilterSpecialization = internalSettings.DefineSetting(nameof(AutoSetFilterSpecialization), false, () => strings.AutoSetFilterSpecialization_Name, () => strings.AutoSetFilterSpecialization_Tooltip);
 
             //Temporary
-            ToggleWindowKey = settings.DefineSetting(nameof(ToggleWindowKey), new KeyBinding(ModifierKeys.Shift, Keys.B), 
+            ToggleWindowKey = internalSettings.DefineSetting(nameof(ToggleWindowKey), new KeyBinding(ModifierKeys.Shift, Keys.B),
                 () => string.Format(strings_common.ToggleItem, BuildsManager.ModuleName),
                 () => string.Format(strings_common.ToggleItem, BuildsManager.ModuleName));
         }
@@ -29,6 +41,26 @@ namespace Kenedia.Modules.BuildsManager.Services
 
         public SettingEntry<bool> AutoSetFilterProfession { get; set; }
 
+        public SettingEntry<bool> AutoSetFilterSpecialization { get; private set; }
+
+        public SettingEntry<double> QuickFiltersPanelFadeDelay { get; private set; }
+
+        public SettingEntry<double> QuickFiltersPanelFadeDuration { get; private set; }
+
         public SettingEntry<KeyBinding> ToggleWindowKey { get; set; }
+
+        public SettingCollection SettingCollection { get => _settingCollection; set => Common.SetProperty(ref _settingCollection, value, OnSettingCollectionChanged); }
+
+        public SettingEntry<bool> QuickFiltersPanelFade { get; private set; }
+
+        private void OnSettingCollectionChanged(object sender, ValueChangedEventArgs<SettingCollection> e)
+        {
+            if (e.NewValue == null)
+            {
+                return;
+            }
+
+            InitializeSettings(e.NewValue);
+        }
     }
 }

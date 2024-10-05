@@ -198,12 +198,40 @@ namespace Kenedia.Modules.BuildsManager.Views
             Menu = new();
             _ = Menu.AddMenuItem(new ContextMenuItem(() => strings.Delete, () => RemoveTag(Tag)));
 
+            SetGroupDropdownItems();
+
+            TagGroups.GroupAdded += TagGroups_GroupAdded;
+            TagGroups.GroupChanged += TagGroups_GroupChanged;
+            TagGroups.GroupRemoved += TagGroups_GroupRemoved;
+        }
+
+        private void SetGroupDropdownItems()
+        {
+            _group.textBox.Items.Clear();
+
             _group.textBox.Items.Add(string.Empty);
 
-            foreach (var group in tagGroups)
+            foreach (var group in TagGroups)
             {
                 _group.textBox.Items.Add(group.Name);
             }
+
+            _group.textBox.SelectedItem = Tag?.Group;
+        }
+
+        private void TagGroups_GroupRemoved(object sender, TagGroup e)
+        {
+            SetGroupDropdownItems();
+        }
+
+        private void TagGroups_GroupChanged(object sender, PropertyChangedEventArgs e)
+        {
+            SetGroupDropdownItems();
+        }
+
+        private void TagGroups_GroupAdded(object sender, TagGroup e)
+        {
+            SetGroupDropdownItems();
         }
 
         private void SetGroup(string txt)

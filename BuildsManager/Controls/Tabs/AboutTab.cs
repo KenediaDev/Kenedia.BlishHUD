@@ -21,8 +21,10 @@ namespace Kenedia.Modules.BuildsManager.Controls.Tabs
 {
     public class AboutTab : Blish_HUD.Controls.Container
     {
+        private readonly TextBox _modifiedField;
         private readonly Blish_HUD.Controls.MultilineTextBox _noteField;
         private readonly FlowPanel _tagPanel;
+        private readonly Label _modifiedLabel;
         private readonly Label _notesLabel;
         private readonly Label _tagsLabel;
         private readonly ButtonImage _editTags;
@@ -149,6 +151,22 @@ namespace Kenedia.Modules.BuildsManager.Controls.Tabs
             };
 
             _noteField.TextChanged += NoteField_TextChanged;
+
+            _modifiedLabel = new()
+            {
+                Parent = this,
+                SetLocalizedText = () => string.Format(strings.LastModified, string.Empty),
+                Font = Content.DefaultFont16,
+                Location = new(_tagPanel.Right + 18, _noteField.Bottom  + 5),
+                Size = _tagsLabel.Size,
+            };
+
+            _modifiedField = new()
+            {
+                Parent = this,
+                Location = new(_modifiedLabel.Right + 10, _modifiedLabel.Top),
+                HideBackground = false,
+            };
 
             TemplatePresenter.TemplateChanged += TemplatePresenter_TemplateChanged;
 
@@ -410,6 +428,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.Tabs
         {
             _changeBuild = false;
 
+            _modifiedField.Text = TemplatePresenter?.Template?.LastModified;
             _noteField.Text = TemplatePresenter?.Template?.Description;
 
             var tagControls = new List<TagControl>(_tagPanel.GetChildrenOfType<TagControl>());
@@ -437,7 +456,11 @@ namespace Kenedia.Modules.BuildsManager.Controls.Tabs
             {
                 //_notesLabel.Location = new(_tagPanel.Right + 18, 50 - _notesLabel.Font.LineHeight - 2);
                 //_noteField.Location = new(_tagPanel.Right + 15, 50);
-                _noteField.Size = new(Width - _tagPanel.Right - 15, Height - _noteField.Top);
+                _noteField.Size = new(Width - _tagPanel.Right - 15, Height - _noteField.Top - _modifiedField.Height - 5);
+
+                _modifiedLabel.Location = new(_tagPanel.Right + 18, _noteField.Bottom);
+                _modifiedField.Location = new(_modifiedLabel.Right + 10, _modifiedLabel.Top + 5 );
+                _modifiedField.Size = new(Width - _modifiedField.Left - 5, _modifiedField.Font.LineHeight + 5);
             }
         }
 
