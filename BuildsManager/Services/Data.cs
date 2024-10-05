@@ -14,6 +14,7 @@ using Kenedia.Modules.Core.Controls;
 using Kenedia.Modules.Core.Attributes;
 using Gw2Sharp.WebApi;
 using Gw2Sharp.WebApi.V2.Models;
+using System.Diagnostics;
 
 namespace Kenedia.Modules.BuildsManager.Services
 {
@@ -200,7 +201,7 @@ namespace Kenedia.Modules.BuildsManager.Services
             return await Load();
         }
 
-        public async Task<bool>Load(Locale locale)
+        public async Task<bool> Load(Locale locale)
         {
             return await Load(!LoadedLocales.Contains(locale));
         }
@@ -245,11 +246,19 @@ namespace Kenedia.Modules.BuildsManager.Services
                 string loadStatus = string.Empty;
                 foreach (var (name, map) in this)
                 {
+                    if (_cancellationTokenSource.IsCancellationRequested)
+                    {
+                        return false;
+                    }
+
                     string path = Path.Combine(Paths.ModuleDataPath, $"{name}.json");
                     bool success = await map.LoadAndUpdate(name, versions[name], path, Gw2ApiManager, _cancellationTokenSource.Token);
                     failed = failed || !success;
 
-                    loadStatus += $"{Environment.NewLine}{name}: {success} [{map?.Version?.ToString() ?? "0.0.0"} | {versions[name].Version}] ";
+                    if (failed)
+                    {
+                        loadStatus += $"{Environment.NewLine}{name}: {success} [{map?.Version?.ToString() ?? "0.0.0"} | {versions[name].Version}] ";
+                    }
                 }
 
                 if (!failed)

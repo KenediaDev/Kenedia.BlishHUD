@@ -215,7 +215,6 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
 
             if (SelectionContent.OfType<TemplateSelectable>().FirstOrDefault(x => x.Visible) is TemplateSelectable t)
             {
-                Debug.WriteLine($"SWITCH TO {t.Template.Name}");
                 TemplatePresenter.SetTemplate(t.Template);
             }
         }

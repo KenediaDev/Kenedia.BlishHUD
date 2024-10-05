@@ -343,6 +343,7 @@ namespace Kenedia.Modules.BuildsManager
                 HoverIcon = AsyncTexture2D.FromAssetId(156721),
                 SetLocalizedTooltip = () => string.Format(strings_common.ToggleItem, $"{Name}"),
                 Parent = GameService.Graphics.SpriteScreen,
+                Priority = 51294257,
                 Visible = Settings?.ShowCornerIcon?.Value ?? false,
                 ClickAction = () =>
                 {
