@@ -167,7 +167,11 @@ namespace Kenedia.Modules.BuildsManager.Controls.Tabs
 
             WidthSizingMode = SizingMode.Fill;
             HeightSizingMode = SizingMode.Fill;
+
             SetSelectionTextures();
+            SetProfessionSpecifics();
+
+            _buildCodeBox.Text = TemplatePresenter?.Template?.ParseBuildCode();
         }
 
         public TemplatePresenter TemplatePresenter { get; }
@@ -267,7 +271,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.Tabs
         private void TemplatePresenter_TemplateChanged(object sender, Core.Models.ValueChangedEventArgs<Template> e)
         {
             SetSelectionTextures();
-            SetProfessionSpecifics();
+            SetProfessionSpecifics();            
 
             _buildCodeBox.Text = TemplatePresenter?.Template?.ParseBuildCode();
         }

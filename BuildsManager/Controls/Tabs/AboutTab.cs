@@ -187,6 +187,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.Tabs
             _tagPanel.ChildRemoved += TagPanel_ChildsChanged;
 
             CreateTagControls();
+            ApplyTemplate();
 
             _created = true;
         }

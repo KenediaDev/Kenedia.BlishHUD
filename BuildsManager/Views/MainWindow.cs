@@ -127,7 +127,7 @@ namespace Kenedia.Modules.BuildsManager.Views
                 QuickFiltersPanel.Show();
             }
 
-            SelectionPanel.BuildSelection.FilterTemplates();
+            //SelectionPanel.BuildSelection.FilterTemplates();
         }
 
         protected override void OnClick(MouseEventArgs e)

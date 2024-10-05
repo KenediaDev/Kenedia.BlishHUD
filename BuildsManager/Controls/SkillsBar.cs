@@ -60,6 +60,7 @@ namespace Kenedia.Modules.BuildsManager.Controls
             TemplatePresenter.ProfessionChanged += TemplatePresenter_ProfessionChanged;
             TemplatePresenter.TemplateChanged += TemplatePresenter_TemplateChanged;
             TemplatePresenter.LegendSlotChanged += TemplatePresenter_LegendSlotChanged;
+            SetSkillsVisibility();
         }
 
         private void TemplatePresenter_LegendSlotChanged(object sender, ValueChangedEventArgs<LegendSlotType> e)

@@ -66,6 +66,7 @@ namespace Kenedia.Modules.BuildsManager.Controls_Old.GearPage.GearSlots
 
             ItemControl.Parent = this;
 
+            SetItemFromTemplate();
         }
 
         public SelectionPanel SelectionPanel { get; }

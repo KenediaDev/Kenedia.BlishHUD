@@ -215,7 +215,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
 
             var current = TemplateSelectables.FirstOrDefault(x => x.Template == TemplatePresenter.Template);
             
-            if (current?.IsVisible() is not true && SelectionContent.OfType<TemplateSelectable>().FirstOrDefault(x => x.Visible) is TemplateSelectable t)
+            if (current?.Visible is not true && SelectionContent.OfType<TemplateSelectable>().FirstOrDefault(x => x.Visible) is TemplateSelectable t)
             {
                 TemplatePresenter.SetTemplate(t.Template);
             }

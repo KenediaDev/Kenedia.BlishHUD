@@ -67,6 +67,8 @@ namespace Kenedia.Modules.BuildsManager.Controls
 
             TemplatePresenter.TemplateChanged += TemplatePresenter_TemplateChanged;
             TemplatePresenter.SkillChanged += TemplatePresenter_SkillChanged;
+
+            Skill = TemplatePresenter?.Template?[SkillSlot];
         }
 
         private void TemplatePresenter_TemplateChanged(object sender, Core.Models.ValueChangedEventArgs<Template> e)
