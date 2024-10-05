@@ -111,5 +111,11 @@
   <ItemGroup>
     <None Include="Textures\ImageButtonBackground_Hovered.png" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Textures\Tag.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Textures\Tag_Hovered.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

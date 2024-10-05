@@ -92,7 +92,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.Tabs
             _professionSpecificsContainer = new()
             {
                 Parent = this,
-                Location = new(0, _buildCodeBox.Bottom + 15),
+                Location = new(0, _buildCodeBox.Bottom + 25),
                 Width = 500,
                 Height = 100,
                 ZIndex = 13,
@@ -101,7 +101,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.Tabs
             _skillbar = new(templatePresenter, data)
             {
                 Parent = this,
-                Location = new(5, _professionSpecificsContainer.Bottom + 10),
+                Location = new(5, _professionSpecificsContainer.Bottom + 15),
                 Width = 500,
                 ZIndex = 12,
             };
@@ -136,7 +136,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.Tabs
                 Parent = this,
                 Location = new(0, _dummy.Bottom),
                 //WidthSizingMode = SizingMode.Fill,
-                Width = 767,
+                Width = 800,
                 HeightSizingMode = SizingMode.AutoSize,
                 ControlPadding = new(1),
                 BackgroundColor = Color.Black * 0.8F,
@@ -188,14 +188,13 @@ namespace Kenedia.Modules.BuildsManager.Controls.Tabs
                 _specsBackground.Bounds = new(0, _dummy.Bottom - 55, Width + 15, _dummy.Height + _specializationsPanel.Height + 34);
                 _specsBackground.TextureRegion = new(0, 0, 650, 450);
 
-                _specIcon.Location = new(_specializationsPanel.Width - _specIcon.Width - 8, _professionSpecificsContainer.Top + 8);
-
+                _specIcon.Location = new(_specializationsPanel.Width - _specIcon.Width - 8, _professionSpecificsContainer.Top);
                 _raceIcon.Location = new(_specializationsPanel.Width - _raceIcon.Width - 8, _specIcon.Bottom + 4);
 
-                _skillsBackground.Bounds = new(0, 40, Width, 210);
-                _skillsBackground.TextureRegion = new(20, 20, Width - 100, 210);
+                _skillsBackground.Bounds = new(0, 40, Width, 230);
+                _skillsBackground.TextureRegion = new(20, 20, Width - 100, 220);
 
-                _skillsBackgroundTopBorder.Bounds = new(_professionSpecificsContainer.Left - 5, 20, _professionSpecificsContainer.Width / 2, 22);
+                _skillsBackgroundTopBorder.Bounds = new(_skillsBackground.Bounds.Left - 5, _skillsBackground.Bounds.Top - 20, _professionSpecificsContainer.Width / 2, 22);
                 _skillsBackgroundTopBorder.TextureRegion = new(35, 5, _professionSpecificsContainer.Width / 2, 22);
 
                 _skillsBackgroundBottomBorder.Bounds = new(0, _skillsBackground.Bounds.Bottom - 4, Width, 22);

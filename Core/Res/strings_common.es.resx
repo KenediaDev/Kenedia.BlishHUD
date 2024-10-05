@@ -168,9 +168,6 @@
   <data name="ShowCornerIcon" xml:space="preserve">
     <value>Mostrar icono de esquina para {0}</value>
   </data>
-  <data name="ShowCornerIcon_ttp" xml:space="preserve">
-    <value>Muestra un botón con un icono en la parte superior izquierda de la pantalla.</value>
-  </data>
   <data name="Edit" xml:space="preserve">
     <value>Editar</value>
   </data>
@@ -194,5 +191,26 @@
   </data>
   <data name="SharedSettings" xml:space="preserve">
     <value>Ajustes compartidos</value>
+  </data>
+  <data name="General" xml:space="preserve">
+    <value>General</value>
+  </data>
+  <data name="Default" xml:space="preserve">
+    <value>Por defecto</value>
+  </data>
+  <data name="ShowCornerIcon_ttp" xml:space="preserve">
+    <value>Muestra un botón con un icono en la parte superior izquierda de la pantalla para alternar la ventana de {0}.</value>
+  </data>
+  <data name="Window" xml:space="preserve">
+    <value>Ventana</value>
+  </data>
+  <data name="Add" xml:space="preserve">
+    <value>Añadir</value>
+  </data>
+  <data name="AddItem" xml:space="preserve">
+    <value>Añade {0}</value>
+  </data>
+  <data name="Delete" xml:space="preserve">
+    <value>Borrar</value>
   </data>
 </root>

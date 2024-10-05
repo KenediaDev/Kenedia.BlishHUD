@@ -109,7 +109,7 @@ namespace Kenedia.Modules.BuildsManager.Controls
             };
 
             SpecializationSlot = line;
-            Height = 158;
+            Height = 165;
 
             BackgroundColor = new Color(48, 48, 48);
             Input.Mouse.LeftMouseButtonPressed += MouseMouseButtonPressed;

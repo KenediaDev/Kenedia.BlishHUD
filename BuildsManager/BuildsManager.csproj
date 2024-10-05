@@ -456,6 +456,7 @@
     <Compile Include="Models\SkillChangedEventArgs.cs" />
     <Compile Include="Models\StaticVersion.cs" />
     <Compile Include="Models\TemplateCollection.cs" />
+    <Compile Include="Models\TemplateSortBehavior.cs" />
     <Compile Include="Models\Templates\SelectionTypes.cs" />
     <Compile Include="Models\TemplateTag.cs" />
     <Compile Include="Models\TemplateEntries\AccessoireTemplateEntry.cs" />

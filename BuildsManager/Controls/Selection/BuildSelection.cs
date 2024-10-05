@@ -47,10 +47,26 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
             {
                 Parent = this,
                 Location = new(0, 0),
+                ValueChangedAction = (s) =>
+                {
+                    BuildsManager.ModuleInstance.Settings.SortBehavior.Value = GetSortBehaviorFromString(s);
+                    FilterTemplates();
+                },
+                SetLocalizedItems = () =>
+                {
+                    if (_sortBehavior is not null)
+                    {
+                        _sortBehavior.SelectedItem = GetSortBehaviorString(BuildsManager.ModuleInstance.Settings.SortBehavior.Value);
+                    }
+
+                    return
+                    [
+                        GetSortBehaviorString(TemplateSortBehavior.ByProfession),
+                        GetSortBehaviorString(TemplateSortBehavior.ByName),
+                    ];
+                },
+                SelectedItem = GetSortBehaviorString(BuildsManager.ModuleInstance.Settings.SortBehavior.Value),
             };
-            _sortBehavior.Items.Add(strings.SortyByProfession);
-            _sortBehavior.Items.Add(strings.SortByName);
-            _sortBehavior.ValueChanged += SortBehavior_ValueChanged;
 
             Search.Location = new(2, _sortBehavior.Bottom + 5);
             SelectionContent.Location = new(0, Search.Bottom + 5);
@@ -116,6 +132,23 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
             Templates_CollectionChanged(this, null);
         }
 
+        private TemplateSortBehavior GetSortBehaviorFromString(string s)
+        {
+            return s == strings.SortyByProfession ? TemplateSortBehavior.ByProfession
+                : s == strings.SortByName ? TemplateSortBehavior.ByName
+                : TemplateSortBehavior.ByProfession;
+        }
+
+        private string GetSortBehaviorString(TemplateSortBehavior templateSortBehavior)
+        {
+            return templateSortBehavior switch
+            {
+                TemplateSortBehavior.ByProfession => strings.SortyByProfession,
+                TemplateSortBehavior.ByName => strings.SortByName,
+                _ => string.Empty,
+            };
+        }
+
         public List<TemplateSelectable> TemplateSelectables { get; } = [];
 
         public SelectionPanel SelectionPanel { get; set; }
@@ -154,16 +187,17 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
         {
             string lowerTxt = Search.Text?.Trim().ToLower();
             bool anyName = string.IsNullOrEmpty(lowerTxt);
-            bool anyProfession = true;
 
             foreach (var template in TemplateSelectables)
             {
                 bool filterQueriesMatches = FilterQueries.Count == 0 || FilterQueries.All(x => x.Value.Count == 0 || x.Value.Any(x => x(template.Template)));
                 bool specMatches = SpecializationFilterQueries.Count == 0 || SpecializationFilterQueries.Any(x => x(template.Template));
-                template.Visible = filterQueriesMatches && specMatches;
+                bool nameMatches = anyName || template.Template.Name.ToLower().Contains(lowerTxt);
+
+                template.Visible = filterQueriesMatches && specMatches && nameMatches;
             }
 
-            if (_sortBehavior.SelectedItem == strings.SortyByProfession)
+            if (BuildsManager.ModuleInstance.Settings.SortBehavior.Value is TemplateSortBehavior.ByProfession)
             {
                 SelectionContent.SortChildren<TemplateSelectable>((a, b) =>
                 {
@@ -174,11 +208,16 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
                 });
             }
 
-            if (_sortBehavior.SelectedItem == strings.SortByName) SelectionContent.SortChildren<TemplateSelectable>((a, b) => a.Template.Name.CompareTo(b.Template.Name));
-        }
+            if (BuildsManager.ModuleInstance.Settings.SortBehavior.Value is TemplateSortBehavior.ByName)
+            {
+                SelectionContent.SortChildren<TemplateSelectable>((a, b) => a.Template.Name.CompareTo(b.Template.Name));
+            }
 
-        private void ModuleInstance_SelectedTemplateChanged(object sender, EventArgs e)
-        {
+            if (SelectionContent.OfType<TemplateSelectable>().FirstOrDefault(x => x.Visible) is TemplateSelectable t)
+            {
+                Debug.WriteLine($"SWITCH TO {t.Template.Name}");
+                TemplatePresenter.SetTemplate(t.Template);
+            }
         }
 
         private void Templates_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)

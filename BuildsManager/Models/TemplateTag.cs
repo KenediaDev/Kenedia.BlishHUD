@@ -1,5 +1,7 @@
 ﻿using Kenedia.Modules.BuildsManager.Res;
 using Kenedia.Modules.Core.Models;
+using Kenedia.Modules.Core.Res;
+using Kenedia.Modules.Core.Services;
 using Kenedia.Modules.Core.Utility;
 using Microsoft.Xna.Framework;
 using Newtonsoft.Json;
@@ -20,7 +22,7 @@ namespace Kenedia.Modules.BuildsManager.Models
         private string _name = DefaultName;
 
         [JsonProperty("TextureRegion")]
-        private Rectangle? _textureRegion = new(36, 36, 64, 64);
+        private Rectangle? _textureRegion = new(0, 0, 32, 32);
 
         [JsonProperty("Priority")]
         private int _priority = 1;
@@ -53,9 +55,9 @@ namespace Kenedia.Modules.BuildsManager.Models
         public string Name { get => _name; set => Common.SetProperty(ref _name, value, OnNameChanged); }
 
         [JsonIgnore]
-        public DetailedTexture Icon { get; set; } = new(156025)
+        public DetailedTexture Icon { get; set; } = new(TexturesService.GetTextureFromRef(textures_common.Tag, nameof(textures_common.Tag)))
         {
-            TextureRegion = new Rectangle(44, 48, 43, 46),
+
         };
 
         [JsonIgnore]

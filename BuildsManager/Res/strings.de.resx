@@ -462,4 +462,16 @@ Wenn Sie einen gültigen Build-Code in Ihrer Zwischenablage haben, wird der Buil
   <data name="QuickFiltersPanelFadeDuration_Tooltip" xml:space="preserve">
     <value>Dauer der Ausblendung des Schnellfilter-Panels</value>
   </data>
+  <data name="ShowQuickFilterPanelOnWindowOpen_Name" xml:space="preserve">
+    <value>Schnellfilter mit Fenster öffnen</value>
+  </data>
+  <data name="ShowQuickFilterPanelOnWindowOpen_Tooltip" xml:space="preserve">
+    <value>Öffnen Sie die Schnellfilterleiste, wenn das Fenster geöffnet ist</value>
+  </data>
+  <data name="ShowQuickFilterPanelOnTabOpen_Name" xml:space="preserve">
+    <value>Schnellfilter mit Registerkarte Vorlage öffnen</value>
+  </data>
+  <data name="ShowQuickFilterPanelOnTabOpen_Tooltip" xml:space="preserve">
+    <value>Öffnen Sie den Schnellfilterbereich, wenn die Registerkarte "Vorlage" ausgewählt wird.</value>
+  </data>
 </root>

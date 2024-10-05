@@ -462,4 +462,16 @@ Si vous avez un code de construction valide dans votre presse-papiers, la constr
   <data name="QuickFiltersPanelFadeDuration_Tooltip" xml:space="preserve">
     <value>Durée de la décoloration du panneau de filtre rapide</value>
   </data>
+  <data name="ShowQuickFilterPanelOnWindowOpen_Name" xml:space="preserve">
+    <value>Ouvrir le filtre rapide avec la fenêtre</value>
+  </data>
+  <data name="ShowQuickFilterPanelOnWindowOpen_Tooltip" xml:space="preserve">
+    <value>Ouvrir le panneau de filtre rapide lors de l'ouverture de la fenêtre</value>
+  </data>
+  <data name="ShowQuickFilterPanelOnTabOpen_Name" xml:space="preserve">
+    <value>Ouvrir le filtre rapide avec l'onglet modèle</value>
+  </data>
+  <data name="ShowQuickFilterPanelOnTabOpen_Tooltip" xml:space="preserve">
+    <value>Ouvrir le panneau de filtre rapide chaque fois que l'onglet du modèle est sélectionné</value>
+  </data>
 </root>

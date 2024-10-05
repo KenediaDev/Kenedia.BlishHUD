@@ -101,6 +101,7 @@ namespace Kenedia.Modules.BuildsManager.Views
             Settings.QuickFiltersPanelFadeDuration.SettingChanged += QuickFiltersPanelFadeDuration_SettingChanged;
 
             ApplySettings();
+            SetAutoFilters(GameService.Gw2Mumble.PlayerCharacter?.Specialization ?? 0);
         }
 
         private void QuickFiltersPanelFadeDelay_SettingChanged(object sender, Blish_HUD.ValueChangedEventArgs<double> e)
@@ -127,6 +128,11 @@ namespace Kenedia.Modules.BuildsManager.Views
 
         private void PlayerCharacter_SpecializationChanged(object sender, ValueEventArgs<int> e)
         {
+            SetAutoFilters(e.Value);
+        }
+
+        private void SetAutoFilters(int e)
+        {
             var professionType = GameService.Gw2Mumble.PlayerCharacter.Profession;
 
             if (BuildsManager.Data.Professions.TryGetValue(professionType, out var profession))
@@ -148,7 +154,7 @@ namespace Kenedia.Modules.BuildsManager.Views
                 if (Settings.AutoSetFilterSpecialization?.Value is true)
                 {
 
-                    if (profession.Specializations.Values.FirstOrDefault(x => x.Id == e.Value) is var spec && spec is not null && _specToggles.FirstOrDefault(x => x.Tag?.Name == spec.Name) is TagToggle specToggle)
+                    if (profession.Specializations.Values.FirstOrDefault(x => x.Id == e) is var spec && spec is not null && _specToggles.FirstOrDefault(x => x.Tag?.Name == spec.Name) is TagToggle specToggle)
                     {
                         specToggle.Selected = true;
                     }

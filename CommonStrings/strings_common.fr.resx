@@ -168,9 +168,6 @@
   <data name="ShowCornerIcon" xml:space="preserve">
     <value>Afficher l'icône de coin pour {0}</value>
   </data>
-  <data name="ShowCornerIcon_ttp" xml:space="preserve">
-    <value>Affiche un bouton d'icône en haut à gauche de l'écran.</value>
-  </data>
   <data name="Edit" xml:space="preserve">
     <value>Modifier</value>
   </data>
@@ -194,5 +191,26 @@
   </data>
   <data name="SharedSettings" xml:space="preserve">
     <value>Paramètres partagés</value>
+  </data>
+  <data name="General" xml:space="preserve">
+    <value>Général</value>
+  </data>
+  <data name="Default" xml:space="preserve">
+    <value>Défaut</value>
+  </data>
+  <data name="ShowCornerIcon_ttp" xml:space="preserve">
+    <value>Affiche un bouton en haut à gauche de l'écran pour faire basculer la fenêtre de {0}.</value>
+  </data>
+  <data name="Window" xml:space="preserve">
+    <value>Fenêtre</value>
+  </data>
+  <data name="Add" xml:space="preserve">
+    <value>Ajouter</value>
+  </data>
+  <data name="AddItem" xml:space="preserve">
+    <value>Ajouter {0}</value>
+  </data>
+  <data name="Delete" xml:space="preserve">
+    <value>Supprimer</value>
   </data>
 </root>

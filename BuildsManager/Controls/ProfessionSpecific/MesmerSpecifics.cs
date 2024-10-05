@@ -6,6 +6,8 @@ using Microsoft.Xna.Framework.Graphics;
 using System.Linq;
 using Kenedia.Modules.BuildsManager.DataModels.Professions;
 using Kenedia.Modules.BuildsManager.Models;
+using Blish_HUD;
+using static Blish_HUD.ContentService;
 
 namespace Kenedia.Modules.BuildsManager.Controls.ProfessionSpecific
 {
@@ -22,8 +24,6 @@ namespace Kenedia.Modules.BuildsManager.Controls.ProfessionSpecific
             new(156429),
         };
 
-        // TODO find and add black separator line
-
         protected override SkillIcon[] Skills { get; } = {
             new(),
             new(),
@@ -36,6 +36,8 @@ namespace Kenedia.Modules.BuildsManager.Controls.ProfessionSpecific
         {
 
         }
+
+        private Rectangle _separatorBounds;
 
         public override void RecalculateLayout()
         {
@@ -68,6 +70,9 @@ namespace Kenedia.Modules.BuildsManager.Controls.ProfessionSpecific
                 var skill = Skills[i];
                 skill.Bounds = new(xOffset + (i == 4 ? 10 : 0) + 42 + (i * 46), 52, 42, 42);
             }
+
+            var p = Skills[3].Bounds;
+            _separatorBounds = new(p.Right + 6, p.Y, 2, p.Height);
         }
 
         public override void PaintAfterChildren(SpriteBatch spriteBatch, Rectangle bounds)
@@ -88,6 +93,8 @@ namespace Kenedia.Modules.BuildsManager.Controls.ProfessionSpecific
                         skill.Draw(this, spriteBatch, RelativeMousePosition);
                     }
 
+                    spriteBatch.DrawOnCtrl(this, Textures.Pixel, _separatorBounds, Color.Black);
+
                     break;
 
                 case (int)SpecializationType.Chronomancer:
@@ -103,6 +110,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.ProfessionSpecific
                         skill.Draw(this, spriteBatch, RelativeMousePosition);
                     }
 
+                    spriteBatch.DrawOnCtrl(this, Textures.Pixel, _separatorBounds, Color.Black);
                     break;
 
                 default:

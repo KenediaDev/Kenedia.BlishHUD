@@ -17,6 +17,9 @@ using Kenedia.Modules.BuildsManager.Extensions;
 using Kenedia.Modules.BuildsManager.Res;
 using Kenedia.Modules.Core.Utility;
 using Kenedia.Modules.BuildsManager.Controls.Selection;
+using Kenedia.Modules.Core.Services;
+using Kenedia.Modules.Core.DataModels;
+using Kenedia.Modules.BuildsManager.DataModels;
 
 namespace Kenedia.Modules.BuildsManager.Controls.Tabs
 {
@@ -25,6 +28,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.Tabs
         private readonly TextBox _gearCodeBox;
         private readonly ImageButton _copyButton;
         private readonly ButtonImage _framedSpecIcon;
+        private readonly ButtonImage _raceIcon;
 
         private Rectangle _headerBounds;
 
@@ -88,6 +92,15 @@ namespace Kenedia.Modules.BuildsManager.Controls.Tabs
             _framedSpecIcon = new()
             {
                 Parent = this,
+            };
+
+            _raceIcon = new()
+            {
+                Parent = this,
+                TextureSize = new Point(32),
+                ZIndex = 15,
+                Texture = TexturesService.GetTextureFromRef(@"textures\races\none.png", "none"),
+                Size = new(40),
             };
 
             _templateSlots = new()
@@ -177,11 +190,6 @@ namespace Kenedia.Modules.BuildsManager.Controls.Tabs
             _gearCodeBox.Text = TemplatePresenter?.Template?.GearCode;
         }
 
-        private void TemplatePresenter_EliteSpecializationChanged(object sender, Core.Models.ValueChangedEventArgs<DataModels.Professions.Specialization> e)
-        {
-
-        }
-
         private void TemplatePresenter_ProfessionChanged(object sender, Core.Models.ValueChangedEventArgs<ProfessionType> e)
         {
             ApplyTemplate();
@@ -201,7 +209,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.Tabs
             {
                 e.OldValue.TemplateChanged -= TemplatePresenter_TemplateChanged;
                 e.OldValue.ProfessionChanged -= TemplatePresenter_ProfessionChanged;
-                e.OldValue.EliteSpecializationChanged_OLD -= TemplatePresenter_EliteSpecializationChanged;
+                e.OldValue.RaceChanged -= TemplatePresenter_RaceChanged;
                 e.OldValue.GearCodeChanged -= TemplatePresenter_GearCodeChanged;
             }
 
@@ -209,9 +217,14 @@ namespace Kenedia.Modules.BuildsManager.Controls.Tabs
             {
                 e.NewValue.TemplateChanged += TemplatePresenter_TemplateChanged;
                 e.NewValue.ProfessionChanged += TemplatePresenter_ProfessionChanged;
-                e.NewValue.EliteSpecializationChanged_OLD += TemplatePresenter_EliteSpecializationChanged;
+                e.NewValue.RaceChanged += TemplatePresenter_RaceChanged;
                 e.NewValue.GearCodeChanged += TemplatePresenter_GearCodeChanged;
             }
+        }
+
+        private void TemplatePresenter_RaceChanged(object sender, Core.Models.ValueChangedEventArgs<Races> e)
+        {
+            SetRaceIcon();
         }
 
         public override void RecalculateLayout()
@@ -231,13 +244,16 @@ namespace Kenedia.Modules.BuildsManager.Controls.Tabs
 
                 _headerBounds = new(0, _copyButton.Top, 300, _copyButton.Height);
 
-                _pve.Bounds = new(secondColumn, _headerBounds.Bottom + 5, 64, 64);
-                _pvp.Bounds = new(secondColumn, _headerBounds.Bottom + 5, 64, 64);
+                _framedSpecIcon.Size = new(40);
+                _framedSpecIcon.Location = new(Right - _framedSpecIcon.Width - 13, _headerBounds.Bottom + 26);
 
-                _framedSpecIcon.Location = new(secondColumn + 270 - 45, _headerBounds.Bottom + 5);
-                _framedSpecIcon.Size = new(64, 64);
+                _raceIcon.Size = new(40);
+                _raceIcon.Location = new(_framedSpecIcon.Left, _framedSpecIcon.Bottom + 4);
 
-                _templateSlots[TemplateSlotType.Head].Location = new(0, _gearCodeBox.Bottom + 5);
+                _pve.Bounds = new(_framedSpecIcon.Left - _pve.Size.X - 10, _framedSpecIcon.Top, 64, 64);
+                _pvp.Bounds = new(_framedSpecIcon.Left - _pve.Size.X - 10, _framedSpecIcon.Top, 64, 64);
+
+                _templateSlots[TemplateSlotType.Head].Location = new(0, _gearCodeBox.Bottom + 25);
                 _templateSlots[TemplateSlotType.Shoulder].Location = new(_templateSlots[TemplateSlotType.Head].Left, _templateSlots[TemplateSlotType.Head].Bottom + gearSpacing);
                 _templateSlots[TemplateSlotType.Chest].Location = new(_templateSlots[TemplateSlotType.Shoulder].Left, _templateSlots[TemplateSlotType.Shoulder].Bottom + gearSpacing);
                 _templateSlots[TemplateSlotType.Hand].Location = new(_templateSlots[TemplateSlotType.Chest].Left, _templateSlots[TemplateSlotType.Chest].Bottom + gearSpacing);
@@ -287,6 +303,8 @@ namespace Kenedia.Modules.BuildsManager.Controls.Tabs
 
             if (TemplatePresenter?.Template is not null && TemplatePresenter?.Template?.Profession is not null && BuildsManager.Data?.Professions?.ContainsKey(TemplatePresenter?.Template?.Profession ?? ProfessionType.Guardian) == true)
             {
+                SetRaceIcon();
+
                 _framedSpecIcon.Texture = TemplatePresenter.Template.EliteSpecialization?.ProfessionIconBig ??
                     BuildsManager.Data.Professions[TemplatePresenter.Template.Profession].IconBig;
 
@@ -342,6 +360,12 @@ namespace Kenedia.Modules.BuildsManager.Controls.Tabs
             SetVisibility();
         }
 
+        private void SetRaceIcon()
+        {
+            _raceIcon.Texture = BuildsManager.Data.Races?.TryGetValue(TemplatePresenter?.Template?.Race ?? Races.None, out Race raceIcon) == true ? raceIcon.Icon : null;
+            _raceIcon.BasicTooltipText = BuildsManager.Data.Races?.TryGetValue(TemplatePresenter?.Template?.Race ?? Races.None, out Race raceName) == true ? raceName.Name : null;
+        }
+
         private void SetVisibility()
         {
             foreach (var slot in _templateSlots.Values)
@@ -358,6 +382,10 @@ namespace Kenedia.Modules.BuildsManager.Controls.Tabs
         {
             base.PaintBeforeChildren(spriteBatch, bounds);
 
+            if (TemplatePresenter.Template is not null)
+            {
+                (TemplatePresenter.IsPve ? _pve : _pvp).Draw(this, spriteBatch, RelativeMousePosition);
+            }
         }
 
         public override void PaintAfterChildren(SpriteBatch spriteBatch, Rectangle bounds)
@@ -366,8 +394,6 @@ namespace Kenedia.Modules.BuildsManager.Controls.Tabs
 
             if (TemplatePresenter.Template is not null)
             {
-                (TemplatePresenter.IsPve ? _pve : _pvp).Draw(this, spriteBatch, RelativeMousePosition);
-
                 _terrestrialSet.Draw(this, spriteBatch);
                 _alternateTerrestrialSet.Draw(this, spriteBatch);
 
@@ -375,7 +401,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.Tabs
                 {
                     _aquaticSet.Draw(this, spriteBatch);
 
-                    if(_templateSlots[TemplateSlotType.AltAquatic].Visible)
+                    if (_templateSlots[TemplateSlotType.AltAquatic].Visible)
                         _alternateAquaticSet.Draw(this, spriteBatch);
                 }
             }
@@ -383,13 +409,12 @@ namespace Kenedia.Modules.BuildsManager.Controls.Tabs
 
         protected override void OnClick(MouseEventArgs e)
         {
-            base.OnClick(e);
 
             if ((TemplatePresenter.Template is not null && TemplatePresenter.IsPve ? _pve : _pvp).Hovered)
             {
                 TemplatePresenter.GameMode = TemplatePresenter.IsPve ? GameModeType.PvP : GameModeType.PvE;
-
                 SetVisibility();
+                return;
             }
 
             if (_framedSpecIcon?.MouseOver == true)
@@ -398,7 +423,18 @@ namespace Kenedia.Modules.BuildsManager.Controls.Tabs
                 _professionRaceSelection.Type = ProfessionRaceSelection.SelectionType.Profession;
                 _professionRaceSelection.Location = RelativeMousePosition;
                 _professionRaceSelection.OnClickAction = (value) => TemplatePresenter?.Template?.SetProfession((ProfessionType)value);
+                _professionRaceSelection.ZIndex = ZIndex + 10;
             }
+            else if (_raceIcon?.MouseOver == true)
+            {
+                _professionRaceSelection.Visible = true;
+                _professionRaceSelection.Type = ProfessionRaceSelection.SelectionType.Race;
+                _professionRaceSelection.Location = RelativeMousePosition;
+                _professionRaceSelection.OnClickAction = (value) => TemplatePresenter?.Template?.SetRace((Races)value);
+                _professionRaceSelection.ZIndex = ZIndex + 10;
+            }
+
+            base.OnClick(e);
         }
 
         private void TemplateChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)

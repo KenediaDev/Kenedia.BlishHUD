@@ -155,10 +155,11 @@ namespace Kenedia.Modules.BuildsManager.Controls.Tabs
             _modifiedLabel = new()
             {
                 Parent = this,
-                SetLocalizedText = () => string.Format(strings.LastModified, string.Empty),
+                SetLocalizedText = () => string.Format(strings.LastModified, string.Empty).Substring(0, strings.LastModified.Length - 5),
                 Font = Content.DefaultFont16,
                 Location = new(_tagPanel.Right + 18, _noteField.Bottom  + 5),
-                Size = _tagsLabel.Size,
+                Size = _notesLabel.Size,
+                HorizontalAlignment = Blish_HUD.Controls.HorizontalAlignment.Right,
             };
 
             _modifiedField = new()
@@ -166,6 +167,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.Tabs
                 Parent = this,
                 Location = new(_modifiedLabel.Right + 10, _modifiedLabel.Top),
                 HideBackground = false,
+                TextChangedAction = (s) => TemplatePresenter.Template.LastModified = s,
             };
 
             TemplatePresenter.TemplateChanged += TemplatePresenter_TemplateChanged;

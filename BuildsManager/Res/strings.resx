@@ -462,4 +462,16 @@ If you have any valid build code in your clipboard the build will load from the 
   <data name="QuickFiltersPanelFadeDuration_Tooltip" xml:space="preserve">
     <value>Duration of the fading of the Quick Filter Panel</value>
   </data>
+  <data name="ShowQuickFilterPanelOnWindowOpen_Name" xml:space="preserve">
+    <value>Open Quick Filter with window</value>
+  </data>
+  <data name="ShowQuickFilterPanelOnWindowOpen_Tooltip" xml:space="preserve">
+    <value>Open the Quick Filter Panel when the window is opened</value>
+  </data>
+  <data name="ShowQuickFilterPanelOnTabOpen_Name" xml:space="preserve">
+    <value>Open Quick Filter with template tab</value>
+  </data>
+  <data name="ShowQuickFilterPanelOnTabOpen_Tooltip" xml:space="preserve">
+    <value>Open the Quick Filter Panel whenever the template tab gets selected</value>
+  </data>
 </root>

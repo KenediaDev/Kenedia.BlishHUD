@@ -259,6 +259,7 @@ namespace Kenedia.Modules.BuildsManager.Models
         private void OnLastModifiedChanged(object sender, ValueChangedEventArgs<string> e)
         {
             LastModifiedChanged?.Invoke(this, e);
+            RequestSave();
         }
 
         private async void OnTimerElapsed(object sender, ElapsedEventArgs e)
@@ -384,6 +385,7 @@ namespace Kenedia.Modules.BuildsManager.Models
         private void OnProfessionChanged(object sender, ValueChangedEventArgs<ProfessionType> e)
         {
             SetArmorItems();
+            RemoveInvalidGearCombinations();
 
             ProfessionChanged?.Invoke(this, e);
             OnBuildCodeChanged();

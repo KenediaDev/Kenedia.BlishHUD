@@ -35,7 +35,6 @@ using Kenedia.Modules.Core.Extensions;
 namespace Kenedia.Modules.BuildsManager
 {
     //TODO: Check Texture Disposing
-    //TODO: Add tag quick access panel
     [Export(typeof(Module))]
     public class BuildsManager : BaseModule<BuildsManager, MainWindow, Settings, Paths>
     {

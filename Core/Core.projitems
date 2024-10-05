@@ -164,7 +164,6 @@
     <EmbeddedResource Include="$(MSBuildThisFileDirectory)Res\textures_common.resx">
       <LastGenOutput>textures_common.Designer.cs</LastGenOutput>
       <Generator>ResXFileCodeGenerator</Generator>
-      <SubType>Designer</SubType>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

@@ -462,4 +462,16 @@ Si tiene algún código de compilación válido en el portapapeles, la compilaci
   <data name="QuickFiltersPanelFadeDuration_Tooltip" xml:space="preserve">
     <value>Duración del desvanecimiento del panel de filtro rápido</value>
   </data>
+  <data name="ShowQuickFilterPanelOnWindowOpen_Name" xml:space="preserve">
+    <value>Abrir filtro rápido con ventana</value>
+  </data>
+  <data name="ShowQuickFilterPanelOnWindowOpen_Tooltip" xml:space="preserve">
+    <value>Abrir el panel de filtro rápido al abrir la ventana</value>
+  </data>
+  <data name="ShowQuickFilterPanelOnTabOpen_Name" xml:space="preserve">
+    <value>Abrir el filtro rápido con la pestaña de plantilla</value>
+  </data>
+  <data name="ShowQuickFilterPanelOnTabOpen_Tooltip" xml:space="preserve">
+    <value>Abrir el panel de filtro rápido siempre que se seleccione la pestaña de plantilla</value>
+  </data>
 </root>

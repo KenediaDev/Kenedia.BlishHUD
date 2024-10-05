@@ -61,6 +61,24 @@ namespace Kenedia.Modules.Core.Res {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Add.
+        /// </summary>
+        internal static string Add {
+            get {
+                return ResourceManager.GetString("Add", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Add {0}.
+        /// </summary>
+        internal static string AddItem {
+            get {
+                return ResourceManager.GetString("AddItem", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Bottom Left Corner.
         /// </summary>
         internal static string BottomLeftCorner {
@@ -84,6 +102,24 @@ namespace Kenedia.Modules.Core.Res {
         internal static string BottomRightCorner {
             get {
                 return ResourceManager.GetString("BottomRightCorner", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Default.
+        /// </summary>
+        internal static string Default {
+            get {
+                return ResourceManager.GetString("Default", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Delete.
+        /// </summary>
+        internal static string Delete {
+            get {
+                return ResourceManager.GetString("Delete", resourceCulture);
             }
         }
         
@@ -120,6 +156,15 @@ namespace Kenedia.Modules.Core.Res {
         internal static string FetchingApiData {
             get {
                 return ResourceManager.GetString("FetchingApiData", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to General.
+        /// </summary>
+        internal static string General {
+            get {
+                return ResourceManager.GetString("General", resourceCulture);
             }
         }
         
@@ -233,7 +278,7 @@ namespace Kenedia.Modules.Core.Res {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Shows a icon button in the top left of the screen..
+        ///   Looks up a localized string similar to Shows a icon button in the top left of the screen to toggle the window of {0}..
         /// </summary>
         internal static string ShowCornerIcon_ttp {
             get {
@@ -283,6 +328,15 @@ namespace Kenedia.Modules.Core.Res {
         internal static string TopRightCorner {
             get {
                 return ResourceManager.GetString("TopRightCorner", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Window.
+        /// </summary>
+        internal static string Window {
+            get {
+                return ResourceManager.GetString("Window", resourceCulture);
             }
         }
         

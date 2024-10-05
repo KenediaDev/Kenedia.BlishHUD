@@ -16,6 +16,7 @@ using static Blish_HUD.ContentService;
 using Microsoft.Xna.Framework.Graphics;
 using Kenedia.Modules.Core.Models;
 using Kenedia.Modules.Core.Res;
+using System;
 
 namespace Kenedia.Modules.BuildsManager.Views
 {
@@ -40,6 +41,7 @@ namespace Kenedia.Modules.BuildsManager.Views
             BuildTab = buildTab;
             GearTab = gearTab;
             QuickFiltersPanel = quickFiltersPanel;
+            Settings = settings;
             SelectionPanel = selectionPanel;
             AboutTab.MainWindow = SelectionPanel.MainWindow = this;
 
@@ -58,7 +60,7 @@ namespace Kenedia.Modules.BuildsManager.Views
             TemplatePresenter.NameChanged += TemplatePresenter_NameChanged;
 
             Tabs.Add(TemplateViewTab = new Blish_HUD.Controls.Tab(AsyncTexture2D.FromAssetId(156720), () => TemplateView = new TemplateView(this, selectionPanel, aboutTab, buildTab, gearTab, quickFiltersPanel), strings.Templates));
-            Tabs.Add(TagEditViewTab = new Blish_HUD.Controls.Tab(AsyncTexture2D.FromAssetId(156025), () => TagEditView = new TagEditView(templateTags, tagGroups), strings.Tags));
+            Tabs.Add(TagEditViewTab = new Blish_HUD.Controls.Tab(TexturesService.GetTextureFromRef(textures_common.Tag, nameof(textures_common.Tag)), () => TagEditView = new TagEditView(templateTags, tagGroups), strings.Tags));
             Tabs.Add(SettingsViewTab = new Blish_HUD.Controls.Tab(AsyncTexture2D.FromAssetId(157109), () => SettingsView = new SettingsView(settings), strings_common.Settings));
         }
 
@@ -84,8 +86,10 @@ namespace Kenedia.Modules.BuildsManager.Views
         public GearTab GearTab { get; }
 
         public QuickFiltersPanel QuickFiltersPanel { get; }
+        public Settings Settings { get; }
 
         public TemplatePresenter TemplatePresenter { get; }
+
         public Blish_HUD.Controls.Tab SettingsViewTab { get; private set; }
 
         public SettingsView SettingsView { get; private set; }
@@ -94,9 +98,12 @@ namespace Kenedia.Modules.BuildsManager.Views
         {
             base.OnTabChanged(e);
 
-            if (e.NewValue != TemplateViewTab)
+            if (e.NewValue == TemplateViewTab)
             {
-                //QuickFiltersPanel?.Hide();
+                if (Settings.ShowQuickFilterPanelOnTabOpen.Value)
+                {
+                    QuickFiltersPanel.Show();
+                }
             }
 
             SubName =
@@ -109,6 +116,16 @@ namespace Kenedia.Modules.BuildsManager.Views
         private void TemplatePresenter_NameChanged(object sender, Core.Models.ValueChangedEventArgs<string> e)
         {
             SubName = e.NewValue;
+        }
+
+        protected override void OnShown(EventArgs e)
+        {
+            base.OnShown(e);
+
+            if (Settings.ShowQuickFilterPanelOnWindowOpen.Value)
+            {
+                QuickFiltersPanel.Show();
+            }
         }
 
         protected override void OnClick(MouseEventArgs e)

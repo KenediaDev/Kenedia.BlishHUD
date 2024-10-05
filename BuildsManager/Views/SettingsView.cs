@@ -171,6 +171,30 @@ namespace Kenedia.Modules.BuildsManager.Views
                     fadeDurationLabel.UserLocale_SettingChanged(null, null);
                 },
             };
+
+            _ = new Dummy()
+            {
+                Height = 10,
+                Parent = fp
+            };
+
+            _ = new Checkbox()
+            {
+                Parent = fp,
+                Checked = Settings.ShowQuickFilterPanelOnWindowOpen.Value,
+                CheckedChangedAction = (b) => Settings.ShowQuickFilterPanelOnWindowOpen.Value = b,
+                SetLocalizedText = () => strings.ShowQuickFilterPanelOnWindowOpen_Name,
+                SetLocalizedTooltip = () => strings.ShowQuickFilterPanelOnWindowOpen_Tooltip,
+            };
+
+            _ = new Checkbox()
+            {
+                Parent = fp,
+                Checked = Settings.ShowQuickFilterPanelOnTabOpen.Value,
+                CheckedChangedAction = (b) => Settings.ShowQuickFilterPanelOnTabOpen.Value = b,
+                SetLocalizedText = () => strings.ShowQuickFilterPanelOnTabOpen_Name,
+                SetLocalizedTooltip = () => strings.ShowQuickFilterPanelOnTabOpen_Tooltip,
+            };
         }
     }
 }

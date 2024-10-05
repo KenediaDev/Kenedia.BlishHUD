@@ -173,7 +173,7 @@
     <value>Show Corner Icon for {0}</value>
   </data>
   <data name="ShowCornerIcon_ttp" xml:space="preserve">
-    <value>Shows a icon button in the top left of the screen.</value>
+    <value>Shows a icon button in the top left of the screen to toggle the window of {0}.</value>
   </data>
   <data name="Edit" xml:space="preserve">
     <value>Edit</value>
@@ -198,5 +198,23 @@
   </data>
   <data name="SharedSettings" xml:space="preserve">
     <value>Shared Settings</value>
+  </data>
+  <data name="General" xml:space="preserve">
+    <value>General</value>
+  </data>
+  <data name="Default" xml:space="preserve">
+    <value>Default</value>
+  </data>
+  <data name="Window" xml:space="preserve">
+    <value>Window</value>
+  </data>
+  <data name="Add" xml:space="preserve">
+    <value>Add</value>
+  </data>
+  <data name="AddItem" xml:space="preserve">
+    <value>Add {0}</value>
+  </data>
+  <data name="Delete" xml:space="preserve">
+    <value>Delete</value>
   </data>
 </root>

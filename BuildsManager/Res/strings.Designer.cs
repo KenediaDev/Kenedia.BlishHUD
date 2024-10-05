@@ -874,6 +874,42 @@ namespace Kenedia.Modules.BuildsManager.Res {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Open Quick Filter with template tab.
+        /// </summary>
+        internal static string ShowQuickFilterPanelOnTabOpen_Name {
+            get {
+                return ResourceManager.GetString("ShowQuickFilterPanelOnTabOpen_Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Open the Quick Filter Panel whenever the template tab gets selected.
+        /// </summary>
+        internal static string ShowQuickFilterPanelOnTabOpen_Tooltip {
+            get {
+                return ResourceManager.GetString("ShowQuickFilterPanelOnTabOpen_Tooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Open Quick Filter with window.
+        /// </summary>
+        internal static string ShowQuickFilterPanelOnWindowOpen_Name {
+            get {
+                return ResourceManager.GetString("ShowQuickFilterPanelOnWindowOpen_Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Open the Quick Filter Panel when the window is opened.
+        /// </summary>
+        internal static string ShowQuickFilterPanelOnWindowOpen_Tooltip {
+            get {
+                return ResourceManager.GetString("ShowQuickFilterPanelOnWindowOpen_Tooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Sigil.
         /// </summary>
         internal static string Sigil {

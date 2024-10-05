@@ -15,7 +15,6 @@ namespace Kenedia.Modules.BuildsManager.Controls.ProfessionSpecific
 {
     public class EngineerSpecifics : ProfessionSpecifics
     {
-        //TODO find and Add Separator Line
         private readonly DetailedTexture _target = new(156812);
         private readonly DetailedTexture _return = new(156816);
         private readonly DetailedTexture _combatState = new(2572084);
@@ -27,6 +26,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.ProfessionSpecific
         private readonly DetailedTexture _energyBg = new(1636718);
         private readonly DetailedTexture _energy = new(1636719);
         private readonly DetailedTexture _overheat = new(1636720);
+        private Rectangle _separatorBounds;
 
         protected override SkillIcon[] Skills { get; } = {
             new(),
@@ -95,6 +95,9 @@ namespace Kenedia.Modules.BuildsManager.Controls.ProfessionSpecific
             {
                 Skills[4].TextureRegion = new(6, 6, 51, 51);
             }
+
+            var p = Skills[3].Bounds;
+            _separatorBounds = new(p.Right + 6, p.Y, 2, p.Height);
         }
 
         public override void PaintAfterChildren(SpriteBatch spriteBatch, Rectangle bounds)
@@ -113,15 +116,11 @@ namespace Kenedia.Modules.BuildsManager.Controls.ProfessionSpecific
                     _overheat.Draw(this, spriteBatch);
                     _energy.Draw(this, spriteBatch);
 
+                    spriteBatch.DrawOnCtrl(this, Textures.Pixel, _separatorBounds, Color.Black);
+
                     break;
 
                 case (int)SpecializationType.Mechanist:
-                    if (false)
-                    {
-                        Skills[0].Draw(this, spriteBatch, RelativeMousePosition);
-                        return;
-                    }
-
                     _target.Draw(this, spriteBatch);
                     _return.Draw(this, spriteBatch);
                     _combatState.Draw(this, spriteBatch);

@@ -6,6 +6,7 @@ using Microsoft.Xna.Framework.Input;
 using Kenedia.Modules.BuildsManager.Res;
 using Kenedia.Modules.Core.Utility;
 using System;
+using Kenedia.Modules.BuildsManager.Models;
 
 namespace Kenedia.Modules.BuildsManager.Services
 {
@@ -23,6 +24,10 @@ namespace Kenedia.Modules.BuildsManager.Services
             SettingCollection = settings;
             SettingCollection internalSettings = settings.AddSubCollection("Internal", false, false);
 
+            SortBehavior = internalSettings.DefineSetting(nameof(SortBehavior), TemplateSortBehavior.ByProfession);
+            ShowQuickFilterPanelOnWindowOpen = internalSettings.DefineSetting(nameof(ShowQuickFilterPanelOnWindowOpen), false);
+            ShowQuickFilterPanelOnTabOpen = internalSettings.DefineSetting(nameof(ShowQuickFilterPanelOnTabOpen), true);
+
             ShowCornerIcon = internalSettings.DefineSetting(nameof(ShowCornerIcon), true);
             QuickFiltersPanelFade = internalSettings.DefineSetting(nameof(QuickFiltersPanelFade), true);
             QuickFiltersPanelFadeDuration = internalSettings.DefineSetting(nameof(QuickFiltersPanelFadeDuration), 1000.00);
@@ -37,7 +42,13 @@ namespace Kenedia.Modules.BuildsManager.Services
                 () => string.Format(strings_common.ToggleItem, BuildsManager.ModuleName));
         }
 
+        public SettingEntry<TemplateSortBehavior> SortBehavior{ get; set; }
+
         public SettingEntry<bool> ShowCornerIcon { get; set; }
+
+        public SettingEntry<bool> ShowQuickFilterPanelOnTabOpen { get; set; }
+
+        public SettingEntry<bool> ShowQuickFilterPanelOnWindowOpen { get; set; }
 
         public SettingEntry<bool> AutoSetFilterProfession { get; set; }
 
