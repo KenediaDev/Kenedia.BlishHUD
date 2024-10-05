@@ -183,7 +183,7 @@ namespace Kenedia.Modules.BuildsManager.Controls
 
         public Data Data { get; }
 
-        public BuildSpecialization BuildSpecialization => TemplatePresenter?.Template[SpecializationSlot];
+        public BuildSpecialization? BuildSpecialization => TemplatePresenter?.Template?[SpecializationSlot];
 
         public SpecializationSlotType SpecializationSlot { get; private set; }
 

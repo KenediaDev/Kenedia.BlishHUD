@@ -301,63 +301,65 @@ namespace Kenedia.Modules.BuildsManager.Controls.Tabs
         {
             _gearCodeBox.Text = TemplatePresenter?.Template?.ParseGearCode();
 
-            if (TemplatePresenter?.Template is not null && TemplatePresenter?.Template?.Profession is not null && BuildsManager.Data?.Professions?.ContainsKey(TemplatePresenter?.Template?.Profession ?? ProfessionType.Guardian) == true)
+            var professionType = TemplatePresenter?.Template?.Profession ?? GameService.Gw2Mumble.PlayerCharacter?.Profession ?? ProfessionType.Guardian;
+            SetRaceIcon();
+            SetSpecIcon(professionType);
+
+            switch (professionType.GetArmorType())
             {
-                SetRaceIcon();
-
-                _framedSpecIcon.Texture = TemplatePresenter.Template.EliteSpecialization?.ProfessionIconBig ??
-                    BuildsManager.Data.Professions[TemplatePresenter.Template.Profession].IconBig;
-
-                switch (TemplatePresenter.Template.Profession.GetArmorType())
-                {
-                    case ItemWeightType.Heavy:
-                        _templateSlots[TemplateSlotType.AquaBreather].Item = BuildsManager.Data.Armors[79895];
-                        _templateSlots[TemplateSlotType.Head].Item = BuildsManager.Data.Armors[80384];
-                        _templateSlots[TemplateSlotType.Shoulder].Item = BuildsManager.Data.Armors[80435];
-                        _templateSlots[TemplateSlotType.Chest].Item = BuildsManager.Data.Armors[80254];
-                        _templateSlots[TemplateSlotType.Hand].Item = BuildsManager.Data.Armors[80205];
-                        _templateSlots[TemplateSlotType.Leg].Item = BuildsManager.Data.Armors[80277];
-                        _templateSlots[TemplateSlotType.Foot].Item = BuildsManager.Data.Armors[80557];
-                        break;
-                    case ItemWeightType.Medium:
-                        _templateSlots[TemplateSlotType.AquaBreather].Item = BuildsManager.Data.Armors[79838];
-                        _templateSlots[TemplateSlotType.Head].Item = BuildsManager.Data.Armors[80296];
-                        _templateSlots[TemplateSlotType.Shoulder].Item = BuildsManager.Data.Armors[80145];
-                        _templateSlots[TemplateSlotType.Chest].Item = BuildsManager.Data.Armors[80578];
-                        _templateSlots[TemplateSlotType.Hand].Item = BuildsManager.Data.Armors[80161];
-                        _templateSlots[TemplateSlotType.Leg].Item = BuildsManager.Data.Armors[80252];
-                        _templateSlots[TemplateSlotType.Foot].Item = BuildsManager.Data.Armors[80281];
-                        break;
-                    case ItemWeightType.Light:
-                        _templateSlots[TemplateSlotType.AquaBreather].Item = BuildsManager.Data.Armors[79873];
-                        _templateSlots[TemplateSlotType.Head].Item = BuildsManager.Data.Armors[80248];
-                        _templateSlots[TemplateSlotType.Shoulder].Item = BuildsManager.Data.Armors[80131];
-                        _templateSlots[TemplateSlotType.Chest].Item = BuildsManager.Data.Armors[80190];
-                        _templateSlots[TemplateSlotType.Hand].Item = BuildsManager.Data.Armors[80111];
-                        _templateSlots[TemplateSlotType.Leg].Item = BuildsManager.Data.Armors[80356];
-                        _templateSlots[TemplateSlotType.Foot].Item = BuildsManager.Data.Armors[80399];
-                        break;
-                }
-
-                var t = TemplatePresenter.Template;
-                _templateSlots[TemplateSlotType.MainHand].Item = t.MainHand.Weapon;
-                _templateSlots[TemplateSlotType.OffHand].Item = t.OffHand.Weapon;
-                _templateSlots[TemplateSlotType.Aquatic].Item = t.Aquatic.Weapon;
-
-                _templateSlots[TemplateSlotType.AltMainHand].Item = t.AltMainHand.Weapon;
-                _templateSlots[TemplateSlotType.AltOffHand].Item = t.AltOffHand.Weapon;
-                _templateSlots[TemplateSlotType.AltAquatic].Item = t.AltAquatic.Weapon;
-
-                _templateSlots[TemplateSlotType.PvpAmulet].Item = t.PvpAmulet.PvpAmulet;
-
-                _templateSlots[TemplateSlotType.Nourishment].Item = t.Nourishment.Nourishment;
-                _templateSlots[TemplateSlotType.Enhancement].Item = t.Enhancement.Enhancement;
-                _templateSlots[TemplateSlotType.PowerCore].Item = t.PowerCore.PowerCore;
-                _templateSlots[TemplateSlotType.PveRelic].Item = t.PveRelic.Relic;
-                _templateSlots[TemplateSlotType.PvpRelic].Item = t.PvpRelic.Relic;
+                case ItemWeightType.Heavy:
+                    _templateSlots[TemplateSlotType.AquaBreather].Item = BuildsManager.Data.Armors[79895];
+                    _templateSlots[TemplateSlotType.Head].Item = BuildsManager.Data.Armors[80384];
+                    _templateSlots[TemplateSlotType.Shoulder].Item = BuildsManager.Data.Armors[80435];
+                    _templateSlots[TemplateSlotType.Chest].Item = BuildsManager.Data.Armors[80254];
+                    _templateSlots[TemplateSlotType.Hand].Item = BuildsManager.Data.Armors[80205];
+                    _templateSlots[TemplateSlotType.Leg].Item = BuildsManager.Data.Armors[80277];
+                    _templateSlots[TemplateSlotType.Foot].Item = BuildsManager.Data.Armors[80557];
+                    break;
+                case ItemWeightType.Medium:
+                    _templateSlots[TemplateSlotType.AquaBreather].Item = BuildsManager.Data.Armors[79838];
+                    _templateSlots[TemplateSlotType.Head].Item = BuildsManager.Data.Armors[80296];
+                    _templateSlots[TemplateSlotType.Shoulder].Item = BuildsManager.Data.Armors[80145];
+                    _templateSlots[TemplateSlotType.Chest].Item = BuildsManager.Data.Armors[80578];
+                    _templateSlots[TemplateSlotType.Hand].Item = BuildsManager.Data.Armors[80161];
+                    _templateSlots[TemplateSlotType.Leg].Item = BuildsManager.Data.Armors[80252];
+                    _templateSlots[TemplateSlotType.Foot].Item = BuildsManager.Data.Armors[80281];
+                    break;
+                case ItemWeightType.Light:
+                    _templateSlots[TemplateSlotType.AquaBreather].Item = BuildsManager.Data.Armors[79873];
+                    _templateSlots[TemplateSlotType.Head].Item = BuildsManager.Data.Armors[80248];
+                    _templateSlots[TemplateSlotType.Shoulder].Item = BuildsManager.Data.Armors[80131];
+                    _templateSlots[TemplateSlotType.Chest].Item = BuildsManager.Data.Armors[80190];
+                    _templateSlots[TemplateSlotType.Hand].Item = BuildsManager.Data.Armors[80111];
+                    _templateSlots[TemplateSlotType.Leg].Item = BuildsManager.Data.Armors[80356];
+                    _templateSlots[TemplateSlotType.Foot].Item = BuildsManager.Data.Armors[80399];
+                    break;
             }
 
+            var t = TemplatePresenter.Template;
+            _templateSlots[TemplateSlotType.MainHand].Item = t?.MainHand.Weapon;
+            _templateSlots[TemplateSlotType.OffHand].Item = t?.OffHand.Weapon;
+            _templateSlots[TemplateSlotType.Aquatic].Item = t?.Aquatic.Weapon;
+
+            _templateSlots[TemplateSlotType.AltMainHand].Item = t?.AltMainHand.Weapon;
+            _templateSlots[TemplateSlotType.AltOffHand].Item = t?.AltOffHand.Weapon;
+            _templateSlots[TemplateSlotType.AltAquatic].Item = t?.AltAquatic.Weapon;
+
+            _templateSlots[TemplateSlotType.PvpAmulet].Item = t?.PvpAmulet.PvpAmulet;
+
+            _templateSlots[TemplateSlotType.Nourishment].Item = t?.Nourishment.Nourishment;
+            _templateSlots[TemplateSlotType.Enhancement].Item = t?.Enhancement.Enhancement;
+            _templateSlots[TemplateSlotType.PowerCore].Item = t?.PowerCore.PowerCore;
+            _templateSlots[TemplateSlotType.PveRelic].Item = t?.PveRelic.Relic;
+            _templateSlots[TemplateSlotType.PvpRelic].Item = t?.PvpRelic.Relic;
+
             SetVisibility();
+        }
+
+        private void SetSpecIcon(ProfessionType professionType)
+        {
+            _framedSpecIcon.Texture = TemplatePresenter.Template?.EliteSpecialization?.ProfessionIconBig ??
+                BuildsManager.Data.Professions[professionType].IconBig;
         }
 
         private void SetRaceIcon()
@@ -371,11 +373,16 @@ namespace Kenedia.Modules.BuildsManager.Controls.Tabs
             foreach (var slot in _templateSlots.Values)
             {
                 slot.Visible =
-                    (slot.Slot is not TemplateSlotType.AltAquatic || TemplatePresenter.Template.Profession is not ProfessionType.Engineer and not ProfessionType.Elementalist) &&
+                    (slot.Slot is not TemplateSlotType.AltAquatic || TemplatePresenter.Template?.Profession is not ProfessionType.Engineer and not ProfessionType.Elementalist) &&
                     TemplatePresenter.IsPvp ?
                     (slot.Slot is TemplateSlotType.PvpRelic or TemplateSlotType.MainHand or TemplateSlotType.AltMainHand or TemplateSlotType.OffHand or TemplateSlotType.AltOffHand or TemplateSlotType.PvpAmulet) :
                     slot.Slot is not TemplateSlotType.PvpAmulet and not TemplateSlotType.PvpRelic;
             }
+        }
+
+        public override void Draw(SpriteBatch spriteBatch, Rectangle drawBounds, Rectangle scissor)
+        {
+            base.Draw(spriteBatch, drawBounds, scissor);
         }
 
         public override void PaintBeforeChildren(SpriteBatch spriteBatch, Rectangle bounds)

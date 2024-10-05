@@ -11,6 +11,7 @@ using Kenedia.Modules.Core.Res;
 using Kenedia.Modules.Core.Services;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -157,7 +158,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.Tabs
                 Parent = this,
                 SetLocalizedText = () => string.Format(strings.LastModified, string.Empty).Substring(0, strings.LastModified.Length - 5),
                 Font = Content.DefaultFont16,
-                Location = new(_tagPanel.Right + 18, _noteField.Bottom  + 5),
+                Location = new(_tagPanel.Right + 18, _noteField.Bottom + 5),
                 Size = _notesLabel.Size,
                 HorizontalAlignment = Blish_HUD.Controls.HorizontalAlignment.Right,
             };
@@ -167,7 +168,13 @@ namespace Kenedia.Modules.BuildsManager.Controls.Tabs
                 Parent = this,
                 Location = new(_modifiedLabel.Right + 10, _modifiedLabel.Top),
                 HideBackground = false,
-                TextChangedAction = (s) => TemplatePresenter.Template.LastModified = s,
+                TextChangedAction = (s) =>
+                {
+                    if (TemplatePresenter.Template is not null)
+                    {
+                        TemplatePresenter.Template.LastModified = s;
+                    }
+                },
             };
 
             TemplatePresenter.TemplateChanged += TemplatePresenter_TemplateChanged;
@@ -187,6 +194,11 @@ namespace Kenedia.Modules.BuildsManager.Controls.Tabs
         public TemplateTags TemplateTags { get; }
 
         public TagGroups TagGroups { get; }
+
+        public override void Draw(SpriteBatch spriteBatch, Rectangle drawBounds, Rectangle scissor)
+        {
+            base.Draw(spriteBatch, drawBounds, scissor);
+        }
 
         private void TagPanel_ChildsChanged(object sender, Blish_HUD.Controls.ChildChangedEventArgs e)
         {
@@ -215,8 +227,8 @@ namespace Kenedia.Modules.BuildsManager.Controls.Tabs
                         {
                             var p = GetPanel(tag.Group);
                             var comparer = new TemplateTagComparer(TagGroups);
-                            
-                                p.SortChildren<TagControl>(SortTagControls);
+
+                            p.SortChildren<TagControl>(SortTagControls);
                             break;
                         }
 
@@ -351,7 +363,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.Tabs
         }
 
         private void AddTemplateTag(TemplateTag e)
-        {            
+        {
             var panel = GetPanel(e.Group);
 
             _tagControls[panel].Add(new TagControl()
@@ -420,7 +432,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.Tabs
 
         private void NoteField_TextChanged(object sender, EventArgs e)
         {
-            if (_changeBuild)
+            if (_changeBuild && TemplatePresenter.Template is not null)
             {
                 TemplatePresenter.Template.Description = _noteField.Text;
             }
@@ -461,7 +473,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.Tabs
                 _noteField.Size = new(Width - _tagPanel.Right - 15, Height - _noteField.Top - _modifiedField.Height - 5);
 
                 _modifiedLabel.Location = new(_tagPanel.Right + 18, _noteField.Bottom);
-                _modifiedField.Location = new(_modifiedLabel.Right + 10, _modifiedLabel.Top + 5 );
+                _modifiedField.Location = new(_modifiedLabel.Right + 10, _modifiedLabel.Top + 5);
                 _modifiedField.Size = new(Width - _modifiedField.Left - 5, _modifiedField.Font.LineHeight + 5);
             }
         }

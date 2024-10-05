@@ -9,6 +9,7 @@ using Kenedia.Modules.BuildsManager.DataModels;
 using Kenedia.Modules.BuildsManager.DataModels.Professions;
 using Kenedia.Modules.BuildsManager.Models;
 using Kenedia.Modules.BuildsManager.Models.Templates;
+using Kenedia.Modules.BuildsManager.Res;
 using Kenedia.Modules.BuildsManager.Services;
 using Kenedia.Modules.Core.Controls;
 using Kenedia.Modules.Core.DataModels;
@@ -172,6 +173,11 @@ namespace Kenedia.Modules.BuildsManager.Controls.Tabs
         public TemplatePresenter TemplatePresenter { get; }
 
         public Data Data { get; }
+
+        public override void Draw(SpriteBatch spriteBatch, Rectangle drawBounds, Rectangle scissor)
+        {
+            base.Draw(spriteBatch, drawBounds, scissor);
+        }
 
         public override void RecalculateLayout()
         {

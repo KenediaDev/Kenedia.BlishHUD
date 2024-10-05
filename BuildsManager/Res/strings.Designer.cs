@@ -324,6 +324,15 @@ namespace Kenedia.Modules.BuildsManager.Res {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Create a template to start or paste a build code.
+        /// </summary>
+        internal static string CreateTemplateToStart {
+            get {
+                return ResourceManager.GetString("CreateTemplateToStart", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Ferocity.
         /// </summary>
         internal static string CritDamage {
