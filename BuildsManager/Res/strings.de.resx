@@ -474,4 +474,13 @@ Wenn Sie einen gültigen Build-Code in Ihrer Zwischenablage haben, wird der Buil
   <data name="ShowQuickFilterPanelOnTabOpen_Tooltip" xml:space="preserve">
     <value>Öffnen Sie den Schnellfilterbereich, wenn die Registerkarte "Vorlage" ausgewählt wird.</value>
   </data>
+  <data name="CreateTemplateToStart" xml:space="preserve">
+    <value>Erstellen Sie eine Vorlage, um einen Build -Code zu starten oder einfügen</value>
+  </data>
+  <data name="SelectTagToEdit" xml:space="preserve">
+    <value>Wählen Sie ein Tag zum Bearbeiten aus</value>
+  </data>
+  <data name="SelectGroupToEdit" xml:space="preserve">
+    <value>Wählen Sie eine Gruppe zum Bearbeiten aus</value>
+  </data>
 </root>

@@ -74,5 +74,6 @@ namespace Kenedia.Modules.Core.Extensions
             // Right
             spriteBatch.DrawOnCtrl(ctrl, Textures.Pixel, new Rectangle(_selectorBounds.Right - border.Right, _selectorBounds.Top, border.Right, _selectorBounds.Height), Rectangle.Empty, borderColor * 0.8f);
         }
+
     }
 }

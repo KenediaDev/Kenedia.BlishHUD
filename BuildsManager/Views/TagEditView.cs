@@ -175,6 +175,9 @@ namespace Kenedia.Modules.BuildsManager.Views
             TagGroups.GroupChanged += TagGroups_TagChanged;
 
             buildPanel.Resized += GroupBuildPanel_Resized;
+
+            var selectable = _groupsPanel.OfType<GroupSelectable>().FirstOrDefault(x => x.Visible);
+            SetGroupToEdit(selectable.Group);
         }
 
         private void FilterGroups(string? obj = null)
@@ -276,6 +279,9 @@ namespace Kenedia.Modules.BuildsManager.Views
             TemplateTags.TagChanged += TemplateTags_TagChanged;
 
             buildPanel.Resized += TagBuildPanel_Resized;
+
+            var selectable = _tagsPanel.OfType<TagSelectable>().FirstOrDefault(x => x.Visible);
+            SetTagToEdit(selectable.Tag);
         }
 
         private void GroupBuildPanel_Resized(object sender, Blish_HUD.Controls.ResizedEventArgs e)
@@ -340,7 +346,7 @@ namespace Kenedia.Modules.BuildsManager.Views
             });
         }
 
-        public void SetTagToEdit(TemplateTag tag)
+        public void SetTagToEdit(TemplateTag? tag)
         {
             SelectedTag = _tagSelectables.FirstOrDefault(x => x.Tag == tag);
 

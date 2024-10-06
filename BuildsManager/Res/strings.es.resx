@@ -474,4 +474,13 @@ Si tiene algún código de compilación válido en el portapapeles, la compilaci
   <data name="ShowQuickFilterPanelOnTabOpen_Tooltip" xml:space="preserve">
     <value>Abrir el panel de filtro rápido siempre que se seleccione la pestaña de plantilla</value>
   </data>
+  <data name="CreateTemplateToStart" xml:space="preserve">
+    <value>Cree una plantilla para iniciar o pegar un código de compilación</value>
+  </data>
+  <data name="SelectTagToEdit" xml:space="preserve">
+    <value>Seleccione una etiqueta para editar</value>
+  </data>
+  <data name="SelectGroupToEdit" xml:space="preserve">
+    <value>Seleccione un grupo para editar</value>
+  </data>
 </root>

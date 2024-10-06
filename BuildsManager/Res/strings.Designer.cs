@@ -883,6 +883,24 @@ namespace Kenedia.Modules.BuildsManager.Res {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Select a group to edit.
+        /// </summary>
+        internal static string SelectGroupToEdit {
+            get {
+                return ResourceManager.GetString("SelectGroupToEdit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Select a tag to edit.
+        /// </summary>
+        internal static string SelectTagToEdit {
+            get {
+                return ResourceManager.GetString("SelectTagToEdit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Open Quick Filter with template tab.
         /// </summary>
         internal static string ShowQuickFilterPanelOnTabOpen_Name {

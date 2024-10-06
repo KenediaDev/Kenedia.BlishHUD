@@ -474,4 +474,13 @@ Si vous avez un code de construction valide dans votre presse-papiers, la constr
   <data name="ShowQuickFilterPanelOnTabOpen_Tooltip" xml:space="preserve">
     <value>Ouvrir le panneau de filtre rapide chaque fois que l'onglet du modèle est sélectionné</value>
   </data>
+  <data name="CreateTemplateToStart" xml:space="preserve">
+    <value>Créez un modèle pour démarrer ou coller un code de construction</value>
+  </data>
+  <data name="SelectTagToEdit" xml:space="preserve">
+    <value>Sélectionnez une balise à modifier</value>
+  </data>
+  <data name="SelectGroupToEdit" xml:space="preserve">
+    <value>Sélectionnez un groupe pour modifier</value>
+  </data>
 </root>

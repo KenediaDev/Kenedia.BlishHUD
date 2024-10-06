@@ -3,6 +3,7 @@ using Blish_HUD.Modules;
 using Blish_HUD.Settings;
 using Kenedia.Modules.Core.Models;
 using Kenedia.Modules.FashionManager.Models;
+using Kenedia.Modules.FashionManager.Utility;
 using Kenedia.Modules.FashionManager.Views;
 using Microsoft.Xna.Framework;
 using Newtonsoft.Json;
@@ -27,6 +28,8 @@ namespace Kenedia.Modules.FashionManager
         public FashionManager([Import("ModuleParameters")] ModuleParameters moduleParameters) : base(moduleParameters)
         {
             ModuleInstance = this;
+
+
         }
 
         public static FashionTemplate FashionTemplate { get; private set; } = new();
@@ -49,14 +52,16 @@ namespace Kenedia.Modules.FashionManager
 
         protected override async void ReloadKey_Activated(object sender, EventArgs e)
         {
-            Logger.Debug($"ReloadKey_Activated: {Name}");
-            base.ReloadKey_Activated(sender, e);
+            //Logger.Debug($"ReloadKey_Activated: {Name}");
+            //base.ReloadKey_Activated(sender, e);
 
-            FashionTemplate.Name ??= "Test";
+            //FashionTemplate.Name ??= "Test";
 
-            FashionTemplate.Name = "My Template";
+            //FashionTemplate.Name = "My Template";
 
-            LoadTemplates();
+            //LoadTemplates();
+
+            Debug.WriteLine($"{FashionChatCode.ParseChatCode(new())}");
         }
 
         protected override async Task LoadAsync()

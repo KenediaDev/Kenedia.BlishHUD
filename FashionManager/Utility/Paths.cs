@@ -1,7 +1,7 @@
 ﻿using Kenedia.Modules.Core.Models;
 using System.IO;
 
-namespace Kenedia.Modules.FashionManager.Models
+namespace Kenedia.Modules.FashionManager.Utility
 {
     public class Paths : PathCollection
     {

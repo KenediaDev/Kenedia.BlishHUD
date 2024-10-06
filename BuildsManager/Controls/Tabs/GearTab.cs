@@ -19,6 +19,8 @@ using Kenedia.Modules.Core.Utility;
 using Kenedia.Modules.BuildsManager.Controls.Selection;
 using Kenedia.Modules.Core.Services;
 using Kenedia.Modules.Core.DataModels;
+using Kenedia.Modules.BuildsManager.Services;
+using Kenedia.Modules.BuildsManager.DataModels.Professions;
 using Kenedia.Modules.BuildsManager.DataModels;
 
 namespace Kenedia.Modules.BuildsManager.Controls.Tabs
@@ -44,10 +46,11 @@ namespace Kenedia.Modules.BuildsManager.Controls.Tabs
         private readonly DetailedTexture _pvp = new(2229701, 2229702);
         private readonly ProfessionRaceSelection _professionRaceSelection;
 
-        public GearTab(TemplatePresenter templatePresenter, SelectionPanel selectionPanel)
+        public GearTab(TemplatePresenter templatePresenter, SelectionPanel selectionPanel, Data data)
         {
             TemplatePresenter = templatePresenter;
             SelectionPanel = selectionPanel;
+            Data = data;
 
             WidthSizingMode = Blish_HUD.Controls.SizingMode.Fill;
             HeightSizingMode = Blish_HUD.Controls.SizingMode.Fill;
@@ -202,6 +205,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.Tabs
 
         public TemplatePresenter TemplatePresenter { get => _templatePresenter; private set => Common.SetProperty(ref _templatePresenter, value, OnTemplatePresenterChanged); }
         public SelectionPanel SelectionPanel { get; }
+        public Data Data { get; }
 
         private void OnTemplatePresenterChanged(object sender, Core.Models.ValueChangedEventArgs<TemplatePresenter> e)
         {
@@ -308,31 +312,31 @@ namespace Kenedia.Modules.BuildsManager.Controls.Tabs
             switch (professionType.GetArmorType())
             {
                 case ItemWeightType.Heavy:
-                    _templateSlots[TemplateSlotType.AquaBreather].Item = BuildsManager.Data.Armors[79895];
-                    _templateSlots[TemplateSlotType.Head].Item = BuildsManager.Data.Armors[80384];
-                    _templateSlots[TemplateSlotType.Shoulder].Item = BuildsManager.Data.Armors[80435];
-                    _templateSlots[TemplateSlotType.Chest].Item = BuildsManager.Data.Armors[80254];
-                    _templateSlots[TemplateSlotType.Hand].Item = BuildsManager.Data.Armors[80205];
-                    _templateSlots[TemplateSlotType.Leg].Item = BuildsManager.Data.Armors[80277];
-                    _templateSlots[TemplateSlotType.Foot].Item = BuildsManager.Data.Armors[80557];
+                    _templateSlots[TemplateSlotType.AquaBreather].Item = Data.Armors[79895];
+                    _templateSlots[TemplateSlotType.Head].Item = Data.Armors[80384];
+                    _templateSlots[TemplateSlotType.Shoulder].Item = Data.Armors[80435];
+                    _templateSlots[TemplateSlotType.Chest].Item = Data.Armors[80254];
+                    _templateSlots[TemplateSlotType.Hand].Item = Data.Armors[80205];
+                    _templateSlots[TemplateSlotType.Leg].Item = Data.Armors[80277];
+                    _templateSlots[TemplateSlotType.Foot].Item = Data.Armors[80557];
                     break;
                 case ItemWeightType.Medium:
-                    _templateSlots[TemplateSlotType.AquaBreather].Item = BuildsManager.Data.Armors[79838];
-                    _templateSlots[TemplateSlotType.Head].Item = BuildsManager.Data.Armors[80296];
-                    _templateSlots[TemplateSlotType.Shoulder].Item = BuildsManager.Data.Armors[80145];
-                    _templateSlots[TemplateSlotType.Chest].Item = BuildsManager.Data.Armors[80578];
-                    _templateSlots[TemplateSlotType.Hand].Item = BuildsManager.Data.Armors[80161];
-                    _templateSlots[TemplateSlotType.Leg].Item = BuildsManager.Data.Armors[80252];
-                    _templateSlots[TemplateSlotType.Foot].Item = BuildsManager.Data.Armors[80281];
+                    _templateSlots[TemplateSlotType.AquaBreather].Item = Data.Armors[79838];
+                    _templateSlots[TemplateSlotType.Head].Item = Data.Armors[80296];
+                    _templateSlots[TemplateSlotType.Shoulder].Item = Data.Armors[80145];
+                    _templateSlots[TemplateSlotType.Chest].Item = Data.Armors[80578];
+                    _templateSlots[TemplateSlotType.Hand].Item = Data.Armors[80161];
+                    _templateSlots[TemplateSlotType.Leg].Item = Data.Armors[80252];
+                    _templateSlots[TemplateSlotType.Foot].Item = Data.Armors[80281];
                     break;
                 case ItemWeightType.Light:
-                    _templateSlots[TemplateSlotType.AquaBreather].Item = BuildsManager.Data.Armors[79873];
-                    _templateSlots[TemplateSlotType.Head].Item = BuildsManager.Data.Armors[80248];
-                    _templateSlots[TemplateSlotType.Shoulder].Item = BuildsManager.Data.Armors[80131];
-                    _templateSlots[TemplateSlotType.Chest].Item = BuildsManager.Data.Armors[80190];
-                    _templateSlots[TemplateSlotType.Hand].Item = BuildsManager.Data.Armors[80111];
-                    _templateSlots[TemplateSlotType.Leg].Item = BuildsManager.Data.Armors[80356];
-                    _templateSlots[TemplateSlotType.Foot].Item = BuildsManager.Data.Armors[80399];
+                    _templateSlots[TemplateSlotType.AquaBreather].Item = Data.Armors[79873];
+                    _templateSlots[TemplateSlotType.Head].Item = Data.Armors[80248];
+                    _templateSlots[TemplateSlotType.Shoulder].Item = Data.Armors[80131];
+                    _templateSlots[TemplateSlotType.Chest].Item = Data.Armors[80190];
+                    _templateSlots[TemplateSlotType.Hand].Item = Data.Armors[80111];
+                    _templateSlots[TemplateSlotType.Leg].Item = Data.Armors[80356];
+                    _templateSlots[TemplateSlotType.Foot].Item = Data.Armors[80399];
                     break;
             }
 
@@ -358,14 +362,14 @@ namespace Kenedia.Modules.BuildsManager.Controls.Tabs
 
         private void SetSpecIcon(ProfessionType professionType)
         {
-            _framedSpecIcon.Texture = TemplatePresenter.Template?.EliteSpecialization?.ProfessionIconBig ??
-                BuildsManager.Data.Professions[professionType].IconBig;
+            _framedSpecIcon.Texture = TemplatePresenter?.Template?.EliteSpecialization?.ProfessionIconBig ?? (Data.Professions?.TryGetValue(TemplatePresenter?.Template?.Profession ?? ProfessionType.Guardian, out Profession professionForIcon) == true ? professionForIcon.IconBig : null);
+            _framedSpecIcon.BasicTooltipText = TemplatePresenter?.Template?.EliteSpecialization?.Name ?? (Data.Professions?.TryGetValue(TemplatePresenter?.Template?.Profession ?? ProfessionType.Guardian, out Profession professionForName) == true ? professionForName.Name : null);
         }
 
         private void SetRaceIcon()
         {
-            _raceIcon.Texture = BuildsManager.Data.Races?.TryGetValue(TemplatePresenter?.Template?.Race ?? Races.None, out Race raceIcon) == true ? raceIcon.Icon : null;
-            _raceIcon.BasicTooltipText = BuildsManager.Data.Races?.TryGetValue(TemplatePresenter?.Template?.Race ?? Races.None, out Race raceName) == true ? raceName.Name : null;
+            _raceIcon.Texture = Data.Races?.TryGetValue(TemplatePresenter?.Template?.Race ?? Races.None, out Race raceIcon) == true ? raceIcon.Icon : null;
+            _raceIcon.BasicTooltipText = Data.Races?.TryGetValue(TemplatePresenter?.Template?.Race ?? Races.None, out Race raceName) == true ? raceName.Name : null;
         }
 
         private void SetVisibility()

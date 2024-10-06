@@ -477,4 +477,10 @@ If you have any valid build code in your clipboard the build will load from the 
   <data name="CreateTemplateToStart" xml:space="preserve">
     <value>Create a template to start or paste a build code</value>
   </data>
+  <data name="SelectTagToEdit" xml:space="preserve">
+    <value>Select a tag to edit</value>
+  </data>
+  <data name="SelectGroupToEdit" xml:space="preserve">
+    <value>Select a group to edit</value>
+  </data>
 </root>

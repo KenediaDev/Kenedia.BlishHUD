@@ -1,11 +1,16 @@
-﻿using Blish_HUD.Content;
+﻿using Blish_HUD;
+using Blish_HUD.Content;
 using Kenedia.Modules.BuildsManager.Models;
 using Kenedia.Modules.BuildsManager.Res;
 using Kenedia.Modules.BuildsManager.Services;
 using Kenedia.Modules.Core.Controls;
+using Kenedia.Modules.Core.Extensions;
 using Kenedia.Modules.Core.Utility;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using MonoGame.Extended;
 using System.ComponentModel;
+using static Blish_HUD.ContentService;
 
 namespace Kenedia.Modules.BuildsManager.Views
 {
@@ -51,7 +56,7 @@ namespace Kenedia.Modules.BuildsManager.Views
                     Location = new(0, Content.DefaultFont14.LineHeight + 2),
                     TextChangedAction = (txt) =>
                     {
-                        if (!string.IsNullOrEmpty(txt))
+                        if (!string.IsNullOrEmpty(txt) && Group is not null)
                         {
                             Group.Name = txt;
                         };
@@ -174,7 +179,7 @@ namespace Kenedia.Modules.BuildsManager.Views
                 Parent = this,
                 Text = strings.Reset,
                 Height = 25,
-                ClickAction = () => SetTextureRegionToTextureBounds(Group.Icon.Texture),
+                ClickAction = () => SetTextureRegionToTextureBounds(Group?.Icon?.Texture),
                 Visible = false,
             };
 
@@ -182,11 +187,13 @@ namespace Kenedia.Modules.BuildsManager.Views
 
             Menu = new();
             _ = Menu.AddMenuItem(new ContextMenuItem(() => strings.Delete, () => RemoveTag(Group)));
+
+            ApplyGroup();
         }
 
         private void SetTextureRegion()
         {
-            if (_loading) return;
+            if (_loading || Group is null) return;
             Group.TextureRegion = new(_x.numberBox.Value, _y.numberBox.Value, _width.numberBox.Value, _height.numberBox.Value);
         }
 
@@ -217,33 +224,46 @@ namespace Kenedia.Modules.BuildsManager.Views
                 group.PropertyChanged += Group_TagChanged;
             }
 
-            ApplyTag(group);
+            ApplyGroup(group);
         }
 
         private void Group_TagChanged(object sender, PropertyChangedEventArgs e)
         {
             if (sender is TagGroup group)
             {
-                ApplyTag(group);
+                ApplyGroup(group);
             }
         }
 
-        private void ApplyTag(TagGroup? group)
+        private void ApplyGroup(TagGroup? group = null)
         {
             _loading = true;
 
+            bool hasGroup = group is not null;
             var r = group?.TextureRegion ?? group?.Icon?.Bounds ?? Rectangle.Empty;
             _icon.SourceRectangle = r;
 
             _priority.numberBox.Value = group?.Priority ?? 1;
+            _priority.numberBox.Enabled = hasGroup;
+
             _name.textBox.Text = group?.Name;
+            _name.textBox.Enabled = hasGroup;
+
             _icon.Texture = group?.Icon?.Texture;
             _iconId.numberBox.Value = group?.AssetId ?? 0;
+            _iconId.numberBox.Enabled = hasGroup;
 
             _x.numberBox.Value = r.X;
+            _x.numberBox.Enabled = hasGroup;
+
             _y.numberBox.Value = r.Y;
+            _y.numberBox.Enabled = hasGroup;
+
             _width.numberBox.Value = r.Width;
+            _width.numberBox.Enabled = hasGroup;
+
             _height.numberBox.Value = r.Height;
+            _height.numberBox.Enabled = hasGroup;
 
             _loading = false;
         }
@@ -261,14 +281,14 @@ namespace Kenedia.Modules.BuildsManager.Views
 
         private void SetPriority()
         {
-            if (_loading) return;
+            if (_loading || Group is null) return;
 
             Group.Priority = _priority.numberBox.Value;
         }
 
         private void SetIcon()
         {
-            if (_loading) return;
+            if (_loading || Group is null) return;
 
             if (AsyncTexture2D.FromAssetId(_iconId.numberBox.Value) is AsyncTexture2D icon)
             {
@@ -340,6 +360,32 @@ namespace Kenedia.Modules.BuildsManager.Views
 
             _resetButton.Location = new(_height.numberBox.Right + 5, _height.numberBox.Top);
             _resetButton.Width = w;
+        }
+        
+        public override void Draw(SpriteBatch spriteBatch, Rectangle drawBounds, Rectangle scissor)
+        {
+            if (Group is null)
+            {
+                Rectangle scissorRectangle = Rectangle.Intersect(scissor, AbsoluteBounds.WithPadding(_padding)).ScaleBy(Graphics.UIScaleMultiplier);
+                spriteBatch.GraphicsDevice.ScissorRectangle = scissorRectangle;
+                EffectBehind?.Draw(spriteBatch, drawBounds);
+                spriteBatch.Begin(SpriteBatchParameters);
+
+                var r = drawBounds;
+                spriteBatch.FillRectangle(AbsoluteBounds, BackgroundColor ?? Color.Black * 0.5F);
+                spriteBatch.DrawStringOnCtrl(this, strings.SelectGroupToEdit, Content.DefaultFont18, r, Color.White, false, Blish_HUD.Controls.HorizontalAlignment.Center, Blish_HUD.Controls.VerticalAlignment.Middle);
+                spriteBatch.End();
+            }
+            else
+            {
+                base.Draw(spriteBatch, drawBounds, scissor);
+            }
+        }
+
+        public override void PaintBeforeChildren(SpriteBatch spriteBatch, Rectangle bounds)
+        {
+            base.PaintBeforeChildren(spriteBatch, bounds);
+
         }
     }
 }

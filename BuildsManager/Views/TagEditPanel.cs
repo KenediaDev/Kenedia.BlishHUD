@@ -1,10 +1,13 @@
-﻿using Blish_HUD.Content;
+﻿using Blish_HUD;
+using Blish_HUD.Content;
 using Kenedia.Modules.BuildsManager.Models;
 using Kenedia.Modules.BuildsManager.Res;
 using Kenedia.Modules.BuildsManager.Services;
 using Kenedia.Modules.Core.Controls;
 using Kenedia.Modules.Core.Utility;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using MonoGame.Extended;
 using System.ComponentModel;
 
 namespace Kenedia.Modules.BuildsManager.Views
@@ -53,7 +56,7 @@ namespace Kenedia.Modules.BuildsManager.Views
                     Location = new(0, Content.DefaultFont14.LineHeight + 2),
                     TextChangedAction = (txt) =>
                     {
-                        if (!string.IsNullOrEmpty(txt))
+                        if (!string.IsNullOrEmpty(txt) && Tag is not null)
                         {
                             Tag.Name = txt;
                         };
@@ -181,7 +184,7 @@ namespace Kenedia.Modules.BuildsManager.Views
                 Parent = this,
                 Text = strings.Reset,
                 Height = 25,
-                ClickAction = () => SetTextureRegionToTextureBounds(Tag.Icon.Texture),
+                ClickAction = () => SetTextureRegionToTextureBounds(Tag?.Icon?.Texture),
             };
 
             _deleteButton = new()
@@ -203,6 +206,8 @@ namespace Kenedia.Modules.BuildsManager.Views
             TagGroups.GroupAdded += TagGroups_GroupAdded;
             TagGroups.GroupChanged += TagGroups_GroupChanged;
             TagGroups.GroupRemoved += TagGroups_GroupRemoved;
+
+            ApplyTag();
         }
 
         private void SetGroupDropdownItems()
@@ -274,6 +279,7 @@ namespace Kenedia.Modules.BuildsManager.Views
             }
 
             tag = e.NewValue;
+
             if (tag is not null)
             {
                 tag.PropertyChanged += Tag_TagChanged;
@@ -290,23 +296,39 @@ namespace Kenedia.Modules.BuildsManager.Views
             }
         }
 
-        private void ApplyTag(TemplateTag? tag)
+        private void ApplyTag(TemplateTag? tag = null)
         {
             _loading = true;
 
+            bool hasTag = tag is not null;
             var r = tag?.TextureRegion ?? tag?.Icon?.Bounds ?? Rectangle.Empty;
             _icon.SourceRectangle = r;
 
             _priority.numberBox.Value = tag?.Priority ?? 1;
+            _priority.numberBox.Enabled = hasTag;
+
             _group.textBox.SelectedItem = tag?.Group;
+            _group.textBox.Enabled = hasTag;
+
             _name.textBox.Text = tag?.Name;
+            _name.textBox.Enabled = hasTag;
+
             _icon.Texture = tag?.Icon?.Texture;
+
             _iconId.numberBox.Value = tag?.AssetId ?? 0;
+            _iconId.numberBox.Enabled = hasTag;
 
             _x.numberBox.Value = r.X;
+            _x.numberBox.Enabled = hasTag;
+
             _y.numberBox.Value = r.Y;
+            _y.numberBox.Enabled = hasTag;
+
             _width.numberBox.Value = r.Width;
+            _width.numberBox.Enabled = hasTag;
+
             _height.numberBox.Value = r.Height;
+            _height.numberBox.Enabled = hasTag;
 
             _loading = false;
         }
@@ -326,7 +348,7 @@ namespace Kenedia.Modules.BuildsManager.Views
 
         private void SetIcon()
         {
-            if (_loading) return;
+            if (_loading || Tag is null) return;
 
             if (AsyncTexture2D.FromAssetId(_iconId.numberBox.Value) is AsyncTexture2D icon)
             {
@@ -404,6 +426,33 @@ namespace Kenedia.Modules.BuildsManager.Views
 
             _deleteButton.Location = new(_height.numberBox.Right + 5, _group.textBox.Top);
             _deleteButton.Width = w;
+        }
+
+        public override void Draw(SpriteBatch spriteBatch, Rectangle drawBounds, Rectangle scissor)
+        {
+
+            if (Tag is null)
+            {
+                Rectangle scissorRectangle = Rectangle.Intersect(scissor, AbsoluteBounds.WithPadding(_padding)).ScaleBy(Graphics.UIScaleMultiplier);
+                spriteBatch.GraphicsDevice.ScissorRectangle = scissorRectangle;
+                EffectBehind?.Draw(spriteBatch, drawBounds);
+                spriteBatch.Begin(SpriteBatchParameters);
+
+                var r = drawBounds;
+                spriteBatch.FillRectangle(AbsoluteBounds, BackgroundColor ?? Color.Black * 0.5F);
+                spriteBatch.DrawStringOnCtrl(this, strings.SelectTagToEdit, Content.DefaultFont18, r, Color.White, false, Blish_HUD.Controls.HorizontalAlignment.Center, Blish_HUD.Controls.VerticalAlignment.Middle);
+                spriteBatch.End();
+            }
+            else
+            {
+                base.Draw(spriteBatch, drawBounds, scissor);
+            }
+        }
+
+        public override void PaintBeforeChildren(SpriteBatch spriteBatch, Rectangle bounds)
+        {
+            base.PaintBeforeChildren(spriteBatch, bounds);
+
         }
     }
 }
