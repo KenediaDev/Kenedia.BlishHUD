@@ -53,7 +53,7 @@ namespace Kenedia.Modules.BuildsManager.Controls
             set => SwitchTab(value);
         }
 
-        public List<Container> Tabs => _tabs.ToList().Select(e => e.Container).ToList();
+        public ObservableCollection<TabbedRegionTab> Tabs => _tabs;
 
         public BitmapFont HeaderFont
         {
@@ -92,7 +92,6 @@ namespace Kenedia.Modules.BuildsManager.Controls
 
         public void SwitchTab(TabbedRegionTab tab)
         {
-            OnTabSwitched?.Invoke();
 
             if (tab is not null)
             {
@@ -107,6 +106,7 @@ namespace Kenedia.Modules.BuildsManager.Controls
                 item.Container.Visible = item.IsActive;
             }
 
+            OnTabSwitched?.Invoke();
             RecalculateLayout();
         }
 

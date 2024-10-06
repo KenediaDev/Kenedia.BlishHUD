@@ -74,8 +74,8 @@ namespace Kenedia.Modules.BuildsManager
             services.AddSingleton<GW2API>();
             services.AddSingleton<Settings>();
 
-            services.AddScoped<TagEditWindow>();
             services.AddScoped<MainWindow>();
+            services.AddScoped<MainWindowPresenter>();
             services.AddScoped<SelectionPanel>();
             services.AddScoped<AboutTab>();
             services.AddScoped<BuildTab>();

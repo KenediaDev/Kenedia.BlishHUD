@@ -483,4 +483,7 @@ Si vous avez un code de construction valide dans votre presse-papiers, la constr
   <data name="SelectGroupToEdit" xml:space="preserve">
     <value>Sélectionnez un groupe pour modifier</value>
   </data>
+  <data name="SortByModified" xml:space="preserve">
+    <value>Trier par dernier modifié</value>
+  </data>
 </root>

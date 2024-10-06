@@ -494,7 +494,6 @@
     <Compile Include="Services\StatMap.cs" />
     <Compile Include="Services\Data\StatMappedDataEntry.cs" />
     <Compile Include="Services\StatMapping.cs" />
-    <Compile Include="Services\TagEditWindowFactory.cs" />
     <Compile Include="Services\TagGroups.cs" />
     <Compile Include="Services\TemplateFactory.cs" />
     <Compile Include="Services\TemplateTags.cs" />
@@ -536,8 +535,6 @@
     <Compile Include="Views\TagEditControl.cs" />
     <Compile Include="Views\TagEditPanel.cs" />
     <Compile Include="Views\TagEditView.cs" />
-    <Compile Include="Views\TagEditWindow.cs" />
-    <Compile Include="Views\TagEditWindowX.cs" />
     <Compile Include="Views\TagGroupPanel.cs" />
     <Compile Include="Views\TagGroupView.cs" />
     <Compile Include="Views\TagSelectable.cs" />

@@ -483,4 +483,7 @@ Si tiene algún código de compilación válido en el portapapeles, la compilaci
   <data name="SelectGroupToEdit" xml:space="preserve">
     <value>Seleccione un grupo para editar</value>
   </data>
+  <data name="SortByModified" xml:space="preserve">
+    <value>Ordenar por último modificado</value>
+  </data>
 </root>

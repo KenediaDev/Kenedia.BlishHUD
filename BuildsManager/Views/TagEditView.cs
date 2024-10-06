@@ -38,15 +38,18 @@ namespace Kenedia.Modules.BuildsManager.Views
         private Panel _tagsParent;
         private Panel _groupParent;
 
-        public TagEditView(TemplateTags templateTags, TagGroups tagGroups)
+        public TagEditView(TemplateTags templateTags, TagGroups tagGroups, MainWindowPresenter mainWindowPresenter)
         {
             TemplateTags = templateTags;
             TagGroups = tagGroups;
+            MainWindowPresenter = mainWindowPresenter;
         }
 
         public TemplateTags TemplateTags { get; }
 
         public TagGroups TagGroups { get; }
+
+        public MainWindowPresenter MainWindowPresenter { get; }
 
         public TagSelectable SelectedTag { get; set; }
 
@@ -176,8 +179,8 @@ namespace Kenedia.Modules.BuildsManager.Views
 
             buildPanel.Resized += GroupBuildPanel_Resized;
 
-            var selectable = _groupsPanel.OfType<GroupSelectable>().FirstOrDefault(x => x.Visible);
-            SetGroupToEdit(selectable.Group);
+            var group = MainWindowPresenter.SelectedGroup ?? _tagsPanel.OfType<GroupSelectable>().FirstOrDefault(x => x.Visible)?.Group;
+            SetGroupToEdit(group);
         }
 
         private void FilterGroups(string? obj = null)
@@ -280,8 +283,8 @@ namespace Kenedia.Modules.BuildsManager.Views
 
             buildPanel.Resized += TagBuildPanel_Resized;
 
-            var selectable = _tagsPanel.OfType<TagSelectable>().FirstOrDefault(x => x.Visible);
-            SetTagToEdit(selectable.Tag);
+            var tag = MainWindowPresenter.SelectedTag  ?? _tagsPanel.OfType<TagSelectable>().FirstOrDefault(x => x.Visible)?.Tag;
+            SetTagToEdit(tag);
         }
 
         private void GroupBuildPanel_Resized(object sender, Blish_HUD.Controls.ResizedEventArgs e)
@@ -357,6 +360,8 @@ namespace Kenedia.Modules.BuildsManager.Views
             {
                 g.Selected = g == SelectedTag;
             }
+
+            MainWindowPresenter.SelectedTag = tag;
         }
 
         private void TemplateTags_TagChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
@@ -425,6 +430,8 @@ namespace Kenedia.Modules.BuildsManager.Views
             {
                 g.Selected = g == SelectedGroup;
             }
+
+            MainWindowPresenter.SelectedGroup = group;
         }
 
         protected override void Unload()

@@ -973,6 +973,15 @@ namespace Kenedia.Modules.BuildsManager.Res {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Sort by Last Modified.
+        /// </summary>
+        internal static string SortByModified {
+            get {
+                return ResourceManager.GetString("SortByModified", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Sort by name.
         /// </summary>
         internal static string SortByName {

@@ -483,4 +483,7 @@ If you have any valid build code in your clipboard the build will load from the 
   <data name="SelectGroupToEdit" xml:space="preserve">
     <value>Select a group to edit</value>
   </data>
+  <data name="SortByModified" xml:space="preserve">
+    <value>Sort by Last Modified</value>
+  </data>
 </root>

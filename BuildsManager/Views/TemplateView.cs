@@ -4,6 +4,8 @@ using Kenedia.Modules.BuildsManager.Controls.Tabs;
 using Kenedia.Modules.BuildsManager.Controls;
 using Kenedia.Modules.BuildsManager.Controls.Selection;
 using Kenedia.Modules.Core.Controls;
+using System.Linq;
+using System;
 
 namespace Kenedia.Modules.BuildsManager.Views
 {
@@ -11,12 +13,13 @@ namespace Kenedia.Modules.BuildsManager.Views
     {
         private TabbedRegion _tabbedRegion;
 
-        public TemplateView(MainWindow mainWindow, SelectionPanel selectionPanel, AboutTab aboutTab, BuildTab buildTab, GearTab gearTab, QuickFiltersPanel quickFiltersPanel)
+        public TemplateView(MainWindow mainWindow, SelectionPanel selectionPanel, AboutTab aboutTab, BuildTab buildTab, GearTab gearTab, QuickFiltersPanel quickFiltersPanel, MainWindowPresenter mainWindowPresenter)
         {
             AboutTab = aboutTab;
             BuildTab = buildTab;
             GearTab = gearTab;
             QuickFiltersPanel = quickFiltersPanel;
+            MainWindowPresenter = mainWindowPresenter;
             MainWindow = mainWindow;
             SelectionPanel = selectionPanel;
 
@@ -34,7 +37,10 @@ namespace Kenedia.Modules.BuildsManager.Views
         public BuildTab BuildTab { get; }
 
         public GearTab GearTab { get; }
+
         public QuickFiltersPanel QuickFiltersPanel { get; }
+
+        public MainWindowPresenter MainWindowPresenter { get; }
 
         protected override void Build(Blish_HUD.Controls.Container buildPanel)
         {
@@ -71,9 +77,28 @@ namespace Kenedia.Modules.BuildsManager.Views
                 Icon = AsyncTexture2D.FromAssetId(156714),
             });
 
+            Blish_HUD.Controls.Container presenterTab =  
+                MainWindowPresenter.SelectedTemplateTabType == typeof(AboutTab) ? AboutTab 
+                : MainWindowPresenter.SelectedTemplateTabType == typeof(BuildTab) ? BuildTab
+                : MainWindowPresenter.SelectedTemplateTabType == typeof(GearTab) ? GearTab 
+                : null;
+
+            tab = _tabbedRegion.Tabs.FirstOrDefault(x => x.Container == presenterTab) ?? tab;
             _tabbedRegion.SwitchTab(tab);
+            _tabbedRegion.OnTabSwitched += OnTabSwitched;
 
             BuildTab.Width = GearTab.Width = AboutTab.Width = buildPanel.ContentRegion.Width - 144;
+        }
+
+        private void OnTabSwitched()
+        {
+            MainWindowPresenter.SelectedTemplateTabType = _tabbedRegion.ActiveTab switch
+            {
+                TabbedRegionTab tab when tab.Container == AboutTab => typeof(AboutTab),
+                TabbedRegionTab tab when tab.Container == BuildTab => typeof(BuildTab),
+                TabbedRegionTab tab when tab.Container == GearTab => typeof(GearTab),
+                _ => null
+            };
         }
     }
 }

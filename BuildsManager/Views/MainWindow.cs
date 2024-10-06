@@ -17,9 +17,21 @@ using Microsoft.Xna.Framework.Graphics;
 using Kenedia.Modules.Core.Models;
 using Kenedia.Modules.Core.Res;
 using System;
+using Blish_HUD.Graphics.UI;
 
 namespace Kenedia.Modules.BuildsManager.Views
 {
+    public class MainWindowPresenter
+    {
+        public Type? SelectedTabType { get; set; }
+
+        public Type? SelectedTemplateTabType { get; set; }
+
+        public TagGroup? SelectedGroup { get; set; }
+
+        public TemplateTag? SelectedTag { get; set; }
+    }
+
     public class MainWindow : TabbedWindow
     {
         private DetailedTexture _quickFilterToggle = new(440021)
@@ -29,11 +41,12 @@ namespace Kenedia.Modules.BuildsManager.Views
         };
         private readonly TabbedRegion _tabbedRegion;
 
-        public MainWindow(Module module, TemplatePresenter templatePresenter, TemplateTags templateTags, TagGroups tagGroups, SelectionPanel selectionPanel, AboutTab aboutTab, BuildTab buildTab, GearTab gearTab, QuickFiltersPanel quickFiltersPanel, Settings settings) : base(
+        public MainWindow(Module module, MainWindowPresenter mainWindowPresenter, TemplatePresenter templatePresenter, TemplateTags templateTags, TagGroups tagGroups, SelectionPanel selectionPanel, AboutTab aboutTab, BuildTab buildTab, GearTab gearTab, QuickFiltersPanel quickFiltersPanel, Settings settings) : base(
             TexturesService.GetTextureFromRef(@"textures\mainwindow_background.png", "mainwindow_background"),
                 new Rectangle(30, 30, 915, 665 + 0),
                 new Rectangle(40, 20, 915 - 20, 665))
         {
+            MainWindowPresenter = mainWindowPresenter;
             TemplatePresenter = templatePresenter;
             Parent = Graphics.SpriteScreen;
 
@@ -59,8 +72,8 @@ namespace Kenedia.Modules.BuildsManager.Views
             TemplatePresenter.TemplateChanged += TemplatePresenter_TemplateChanged;
             TemplatePresenter.NameChanged += TemplatePresenter_NameChanged;
 
-            Tabs.Add(TemplateViewTab = new Blish_HUD.Controls.Tab(AsyncTexture2D.FromAssetId(156720), () => TemplateView = new TemplateView(this, selectionPanel, aboutTab, buildTab, gearTab, quickFiltersPanel), strings.Templates));
-            Tabs.Add(TagEditViewTab = new Blish_HUD.Controls.Tab(TexturesService.GetTextureFromRef(textures_common.Tag, nameof(textures_common.Tag)), () => TagEditView = new TagEditView(templateTags, tagGroups), strings.Tags));
+            Tabs.Add(TemplateViewTab = new Blish_HUD.Controls.Tab(AsyncTexture2D.FromAssetId(156720), () => TemplateView = new TemplateView(this, selectionPanel, aboutTab, buildTab, gearTab, quickFiltersPanel, MainWindowPresenter), strings.Templates));
+            Tabs.Add(TagEditViewTab = new Blish_HUD.Controls.Tab(TexturesService.GetTextureFromRef(textures_common.Tag, nameof(textures_common.Tag)), () => TagEditView = new TagEditView(templateTags, tagGroups, MainWindowPresenter), strings.Tags));
             Tabs.Add(SettingsViewTab = new Blish_HUD.Controls.Tab(AsyncTexture2D.FromAssetId(157109), () => SettingsView = new SettingsView(settings), strings_common.Settings));
         }
 
@@ -86,7 +99,9 @@ namespace Kenedia.Modules.BuildsManager.Views
         public GearTab GearTab { get; }
 
         public QuickFiltersPanel QuickFiltersPanel { get; }
+
         public Settings Settings { get; }
+        public MainWindowPresenter MainWindowPresenter { get; }
 
         public TemplatePresenter TemplatePresenter { get; }
 
@@ -105,6 +120,14 @@ namespace Kenedia.Modules.BuildsManager.Views
                     QuickFiltersPanel.Show();
                 }
             }
+
+            MainWindowPresenter.SelectedTabType = e.NewValue switch
+            {
+                Blish_HUD.Controls.Tab tab when tab == TemplateViewTab => typeof(TemplateView),
+                Blish_HUD.Controls.Tab tab when tab == TagEditViewTab => typeof(TagEditView),
+                Blish_HUD.Controls.Tab tab when tab == SettingsViewTab => typeof(SettingsView),
+                _ => null
+            };
 
             SubName =
                 e.NewValue == TemplateViewTab ? TemplatePresenter?.Template?.Name :

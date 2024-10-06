@@ -483,4 +483,7 @@ Wenn Sie einen gültigen Build-Code in Ihrer Zwischenablage haben, wird der Buil
   <data name="SelectGroupToEdit" xml:space="preserve">
     <value>Wählen Sie eine Gruppe zum Bearbeiten aus</value>
   </data>
+  <data name="SortByModified" xml:space="preserve">
+    <value>Sortieren nach "Zuletzt geändert"</value>
+  </data>
 </root>
