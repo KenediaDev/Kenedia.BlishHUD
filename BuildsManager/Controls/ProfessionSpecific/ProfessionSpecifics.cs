@@ -13,45 +13,33 @@ namespace Kenedia.Modules.BuildsManager.Controls.ProfessionSpecific
 {
     public abstract class ProfessionSpecifics : Panel
     {
-        private TemplatePresenter? _templatePresenter;
-
         protected virtual SkillIcon[] Skills { get; } = Array.Empty<SkillIcon>();
 
-        public ProfessionSpecifics(TemplatePresenter template)
+        public ProfessionSpecifics(TemplatePresenter templatePresenter)
         {
-            TemplatePresenter = template;
+            TemplatePresenter = templatePresenter;
             ClipsBounds = false;
             ZIndex = int.MaxValue / 2;
 
             Tooltip = SkillTooltip = new();
+
+            SetTemplatePresenter();
             ApplyTemplate();
         }
 
         protected SkillTooltip SkillTooltip { get; }
 
-        public TemplatePresenter TemplatePresenter
-        {
-            get => _templatePresenter; set => Common.SetProperty(ref _templatePresenter, value, SetTemplatePresenter);
-        }
+        public TemplatePresenter TemplatePresenter { get; }
 
-        private void SetTemplatePresenter(object sender, ValueChangedEventArgs<TemplatePresenter> e)
+        private void SetTemplatePresenter()
         {
-            if (e.OldValue is not null)
+            if (TemplatePresenter is not null)
             {
-                e.OldValue.LegendChanged -= OnLegendChanged;
-                e.OldValue.EliteSpecializationChanged -= OnEliteSpecializationChanged;
-                e.OldValue.TemplateChanged -= OnTemplateChanged;
-                e.OldValue.TraitChanged -= OnTraitChanged;
-                e.OldValue.SkillChanged -= OnSkillChanged;
-            }
-
-            if (e.NewValue is not null)
-            {
-                e.NewValue.LegendChanged += OnLegendChanged;
-                e.NewValue.EliteSpecializationChanged += OnEliteSpecializationChanged;
-                e.NewValue.TemplateChanged += OnTemplateChanged;
-                e.NewValue.TraitChanged += OnTraitChanged;
-                e.NewValue.SkillChanged += OnSkillChanged;
+                TemplatePresenter.LegendChanged += OnLegendChanged;
+                TemplatePresenter.EliteSpecializationChanged += OnEliteSpecializationChanged;
+                TemplatePresenter.TemplateChanged += OnTemplateChanged;
+                TemplatePresenter.TraitChanged += OnTraitChanged;
+                TemplatePresenter.SkillChanged += OnSkillChanged;
             }
         }
 
@@ -100,7 +88,15 @@ namespace Kenedia.Modules.BuildsManager.Controls.ProfessionSpecific
         protected override void DisposeControl()
         {
             base.DisposeControl();
-            TemplatePresenter = null;
+
+            if (TemplatePresenter is not null)
+            {
+                TemplatePresenter.LegendChanged -= OnLegendChanged;
+                TemplatePresenter.EliteSpecializationChanged -= OnEliteSpecializationChanged;
+                TemplatePresenter.TemplateChanged -= OnTemplateChanged;
+                TemplatePresenter.TraitChanged -= OnTraitChanged;
+                TemplatePresenter.SkillChanged -= OnSkillChanged;
+            }
         }
 
         protected void SetTooltipSkill()

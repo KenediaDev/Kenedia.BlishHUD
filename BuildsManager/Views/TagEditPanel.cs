@@ -229,7 +229,7 @@ namespace Kenedia.Modules.BuildsManager.Views
             SetGroupDropdownItems();
         }
 
-        private void TagGroups_GroupChanged(object sender, PropertyChangedEventArgs e)
+        private void TagGroups_GroupChanged(object sender, PropertyAndValueChangedEventArgs e)
         {
             SetGroupDropdownItems();
         }

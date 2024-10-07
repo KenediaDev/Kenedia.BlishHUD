@@ -187,10 +187,12 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
         private void DuplicateTemplate()
         {
             Template t;
-            string name = $"{Template?.Name ?? strings.NewTemplate} - {strings.Copy}";
+            string name = Templates.GetNewName($"{Template?.Name ?? strings.NewTemplate} - {strings.Copy}");
+
             if (Templates.Where(e => e.Name == name).Count() == 0)
             {
                 Templates.Add(t = TemplateFactory.CreateTemplate(name, Template?.BuildCode, Template?.GearCode));
+                t.RequestSave();
             }
             else
             {

@@ -169,7 +169,7 @@ namespace Kenedia.Modules.BuildsManager.Views
             }
         }
 
-        private void TagGroups_TagChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        private void TagGroups_TagChanged(object sender, PropertyAndValueChangedEventArgs e)
         {
             FilterGroups();
         }

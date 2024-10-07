@@ -227,7 +227,7 @@ namespace Kenedia.Modules.BuildsManager.Views
             ApplyGroup(group);
         }
 
-        private void Group_TagChanged(object sender, PropertyChangedEventArgs e)
+        private void Group_TagChanged(object sender, PropertyAndValueChangedEventArgs e)
         {
             if (sender is TagGroup group)
             {

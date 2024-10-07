@@ -1,4 +1,5 @@
 ﻿using Kenedia.Modules.BuildsManager.Res;
+using Kenedia.Modules.BuildsManager.Services;
 using Kenedia.Modules.Core.Models;
 using Kenedia.Modules.Core.Utility;
 using Microsoft.Xna.Framework;
@@ -24,7 +25,7 @@ namespace Kenedia.Modules.BuildsManager.Models
         [JsonProperty("Priority")]
         private int _priority = 1;
 
-        public event PropertyChangedEventHandler? PropertyChanged;
+        public event PropertyAndValueChangedEventHandler? PropertyChanged;
 
         public TagGroup()
         {
@@ -64,7 +65,7 @@ namespace Kenedia.Modules.BuildsManager.Models
             Icon = new(e.NewValue);
             Icon.TextureRegion = TextureRegion ?? Icon.Texture?.Bounds ?? Rectangle.Empty;
 
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(AssetId)));
+            PropertyChanged?.Invoke(this, new PropertyAndValueChangedEventArgs(nameof(AssetId), e.OldValue, e.NewValue));
         }
 
         private void OnTextureRegionChanged(object sender, ValueChangedEventArgs<Rectangle?> e)
@@ -72,17 +73,17 @@ namespace Kenedia.Modules.BuildsManager.Models
             if (Icon is not null)
                 Icon.TextureRegion = e.NewValue ?? Icon.Texture?.Bounds ?? Rectangle.Empty;
 
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(TextureRegion)));
+            PropertyChanged?.Invoke(this, new PropertyAndValueChangedEventArgs(nameof(TextureRegion), e.OldValue, e.NewValue));
         }
 
         private void OnNameChanged(object sender, ValueChangedEventArgs<string> e)
         {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Name)));
+            PropertyChanged?.Invoke(this, new PropertyAndValueChangedEventArgs(nameof(Name), e.OldValue, e.NewValue));
         }
 
         private void OnPriorityChanged(object sender, ValueChangedEventArgs<int> e)
         {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Priority)));
+            PropertyChanged?.Invoke(this, new PropertyAndValueChangedEventArgs(nameof(Priority), e.OldValue, e.NewValue));
         }
 
     }

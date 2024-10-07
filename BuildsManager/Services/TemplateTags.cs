@@ -37,11 +37,32 @@ namespace Kenedia.Modules.BuildsManager.Services
             _timer.Elapsed += OnTimerElapsed;
 
             TagGroups.GroupRemoved += TagGroups_TagRemoved;
+            TagGroups.GroupChanged += TagGroups_GroupChanged;
+        }
+
+        private void TagGroups_GroupChanged(object sender, PropertyAndValueChangedEventArgs e)
+        {
+            if (sender is TagGroup tagGroup && e.PropertyName == nameof(TagGroup.Name))
+            {
+                string oldGroup = e.OldValue is string old ? old : string.Empty;
+                string newGroup = e.NewValue is string newgrp ? newgrp : string.Empty;
+
+                List<TemplateTag> tags = [.. _tags];
+                foreach (TemplateTag tag in tags)
+                {
+                    if (tag.Group == oldGroup)
+                    {
+                        tag.Group = newGroup;
+                    }
+                }
+            }
         }
 
         private void TagGroups_TagRemoved(object sender, TagGroup e)
         {
-            foreach (var tag in _tags)
+            List<TemplateTag> tags = [.. _tags];
+
+            foreach (var tag in tags)
             {
                 if (tag.Group == e.Name)
                 {

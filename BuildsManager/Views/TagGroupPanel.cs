@@ -30,7 +30,17 @@ namespace Kenedia.Modules.BuildsManager.Views
             Parent = container;
 
             OuterControlPadding = new(4, OuterControlPaddingY);
-            ControlPadding = new(ControlPaddingY, ControlPaddingY);            
+            ControlPadding = new(ControlPaddingY, ControlPaddingY);
+
+            TagGroup.PropertyChanged += TagGroup_PropertyChanged;
+        }
+
+        private void TagGroup_PropertyChanged(object sender, Services.PropertyAndValueChangedEventArgs e)
+        {
+            if (e.PropertyName == nameof(TagGroup.Name) && e.NewValue is string newTitle)
+            {
+
+            }
         }
 
         public TagGroup TagGroup { get; }

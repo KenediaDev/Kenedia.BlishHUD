@@ -16,6 +16,24 @@ using Kenedia.Modules.BuildsManager.Utility;
 
 namespace Kenedia.Modules.BuildsManager.Services
 {
+    public class PropertyAndValueChangedEventArgs: EventArgs
+    {
+        public string PropertyName { get; set; }
+
+        public object OldValue { get; set; }
+
+        public object NewValue { get; set; }
+
+        public PropertyAndValueChangedEventArgs(string propertyName, object oldValue, object newValue)
+        {
+            PropertyName = propertyName;
+            OldValue = oldValue;
+            NewValue = newValue;
+        }
+    }
+
+    public delegate void PropertyAndValueChangedEventHandler (object sender, PropertyAndValueChangedEventArgs e);
+
     public class TagGroups : IEnumerable<TagGroup>
     {
         private readonly System.Timers.Timer _timer;
@@ -35,7 +53,7 @@ namespace Kenedia.Modules.BuildsManager.Services
             _timer.Elapsed += OnTimerElapsed;
         }
 
-        public event PropertyChangedEventHandler GroupChanged;
+        public event PropertyAndValueChangedEventHandler GroupChanged;
         public event EventHandler<TagGroup> GroupAdded;
         public event EventHandler<TagGroup> GroupRemoved;
 
@@ -84,7 +102,7 @@ namespace Kenedia.Modules.BuildsManager.Services
             }
         }
 
-        private void Tag_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        private void Tag_PropertyChanged(object sender, PropertyAndValueChangedEventArgs e)
         {
             if (sender is TagGroup tag)
             {
@@ -92,7 +110,7 @@ namespace Kenedia.Modules.BuildsManager.Services
             }
         }
 
-        private void Tag_TagChanged(object sender, PropertyChangedEventArgs e)
+        private void Tag_TagChanged(object sender, PropertyAndValueChangedEventArgs e)
         {
             if (sender is TagGroup tag)
             {
@@ -100,7 +118,7 @@ namespace Kenedia.Modules.BuildsManager.Services
             }
         }
 
-        private void OnTagChanged(TagGroup tag, PropertyChangedEventArgs e)
+        private void OnTagChanged(TagGroup tag, PropertyAndValueChangedEventArgs e)
         {
             GroupChanged?.Invoke(tag, e);
             RequestSave();

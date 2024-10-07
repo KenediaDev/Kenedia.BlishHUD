@@ -462,8 +462,6 @@ namespace Kenedia.Modules.BuildsManager.Controls.Tabs
 
             _pve?.Dispose();
             _pvp?.Dispose();
-
-            TemplatePresenter = null;
         }
     }
 }

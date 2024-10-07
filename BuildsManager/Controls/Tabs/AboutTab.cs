@@ -28,7 +28,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.Tabs
         private readonly Label _modifiedLabel;
         private readonly Label _notesLabel;
         private readonly Label _tagsLabel;
-        private readonly ButtonImage _editTags;
+        private readonly ButtonImage _addTag;
         private readonly FilterBox _tagFilter;
 
         private readonly List<(TemplateFlag tag, Image texture, Checkbox checkbox)> _tags = [];
@@ -91,22 +91,11 @@ namespace Kenedia.Modules.BuildsManager.Controls.Tabs
                         }
                     }
                 },
-                TextChangedAction = (txt) => _editTags.Enabled = !string.IsNullOrEmpty(txt.Trim()) && TemplateTags.FirstOrDefault(e => e.Name.ToLower() == txt.ToLower()) is null,
-                PerformFiltering = (txt) =>
-                {
-                    string t = txt.ToLower();
-                    bool any = string.IsNullOrEmpty(t);
-
-                    foreach (var tag in _tagPanel.GetChildrenOfType<TagControl>())
-                    {
-                        tag.Visible = any || tag.Tag.Name.ToLower().Contains(t);
-                    }
-
-                    _tagPanel.Invalidate();
-                }
+                TextChangedAction = (txt) => _addTag.Enabled = !string.IsNullOrEmpty(txt.Trim()) && TemplateTags.FirstOrDefault(e => e.Name.ToLower() == txt.ToLower()) is null,
+                PerformFiltering = FilterTags,
             };
 
-            _editTags = new()
+            _addTag = new()
             {
                 Parent = this,
                 Size = new(_tagFilter.Height),
@@ -196,6 +185,29 @@ namespace Kenedia.Modules.BuildsManager.Controls.Tabs
             _created = true;
         }
 
+        private void FilterTags(string txt)
+        {
+            string t = txt.ToLower();
+            bool any = string.IsNullOrEmpty(t);
+            var tagControls = _tagControls.SelectMany(x => x.Value);
+
+            foreach (var p in _tagControls)
+            {
+                foreach (var tag in p.Value)
+                {
+                    string tagName = tag.Tag.Name.ToLower();
+                    string groupName = tag.Tag.Group.ToLower();
+
+                    tag.Visible = any || tag.Tag.Name.ToLower().Contains(t) || tag.Tag.Group.ToLower().Contains(t);
+                }
+
+                p.Key.Visible = p.Value.Any(x => x.Visible);
+                p.Key.Invalidate();
+            }
+
+            _tagPanel.Invalidate();
+        }
+
         private void TagGroups_GroupAdded(object sender, TagGroup e)
         {
             SortPanels();
@@ -206,7 +218,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.Tabs
             SortPanels();
         }
 
-        private void TagGroups_GroupChanged(object sender, PropertyChangedEventArgs e)
+        private void TagGroups_GroupChanged(object sender, PropertyAndValueChangedEventArgs e)
         {
             SortPanels();
         }
@@ -259,17 +271,24 @@ namespace Kenedia.Modules.BuildsManager.Controls.Tabs
                         {
                             if (t.Value.FirstOrDefault(x => x.Tag == tag) is var control && control is not null)
                             {
+                                var panel = t.Key;
                                 var p = GetPanel(tag.Group);
+
+                                if (panel == p)
+                                {
+                                    SortPanels();
+                                    return;
+                                }
+
                                 control.Parent = p;
                                 p.Children.Add(control);
                                 p.SortChildren<TagControl>(SortTagControls);
                                 _tagControls[p].Add(control);
 
-                                var panel = t.Key;
                                 _tagControls[panel].Remove(control);
                                 panel.Children.Remove(control);
 
-                                if (panel.Children.Where(x => x != control).Count() <= 0)
+                                if (panel != _ungroupedPanel && panel.Children.Where(x => x != control).Count() <= 0)
                                 {
                                     flowPanelsToDelete.Add(panel);
                                     panel.Dispose();
@@ -313,6 +332,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.Tabs
                     OuterControlPadding = new(25, 0),
                     CanCollapse = true,
                 };
+
             }
 
             panel ??= _ungroupedPanel ??= new FlowPanel()
@@ -336,13 +356,16 @@ namespace Kenedia.Modules.BuildsManager.Controls.Tabs
             return panel;
         }
 
-        private void RemoveEmptyPanels(FlowPanel? fp = null)
+        private void RemoveEmptyPanels()
         {
             var panels = _tagControls.Keys.ToList();
 
             foreach (var p in panels)
             {
-                if (p == fp) continue;
+                if (p == _ungroupedPanel)
+                {
+                    continue;
+                }
 
                 if (!p.Children.Any())
                 {
@@ -364,7 +387,6 @@ namespace Kenedia.Modules.BuildsManager.Controls.Tabs
 
         private void RemoveTemplateTag(TemplateTag e)
         {
-
             TagControl tagControl = null;
             var p = _tagControls.FirstOrDefault(x => x.Value.Any(x => x.Tag == e));
 
@@ -377,7 +399,14 @@ namespace Kenedia.Modules.BuildsManager.Controls.Tabs
             if (panel.Children.Any())
             {
                 panel.SortChildren<TagControl>(SortTagControls);
+                panel.Visible = panel.Children.OfType<TagControl>().Any(x => x.Visible);
             }
+            else
+            {
+                panel.Visible = panel.Children.OfType<TagControl>().Any(x => x.Visible);
+            }
+
+            Debug.WriteLine($"PANEL {panel.Title} is visible: {panel.Visible}");
 
             RemoveEmptyPanels();
         }

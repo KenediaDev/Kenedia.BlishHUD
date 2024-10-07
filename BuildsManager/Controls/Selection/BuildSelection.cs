@@ -18,13 +18,13 @@ using Kenedia.Modules.Core.Services;
 using Gw2Sharp.WebApi;
 using Kenedia.Modules.BuildsManager.Services;
 using System.Diagnostics;
+using System.Collections.Specialized;
 
 namespace Kenedia.Modules.BuildsManager.Controls.Selection
 {
     public class BuildSelection : BaseSelection
     {
         private readonly ImageButton _addBuildsButton;
-        private readonly LoadingSpinner _spinner;
         private readonly Dropdown _sortBehavior;
         private double _lastShown;
 
@@ -35,13 +35,6 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
             TemplateTags = templateTags;
             TemplateFactory = templateFactory;
             TemplatePresenter = templatePresenter;
-
-            _spinner = new()
-            {
-                Parent = this,
-                Location = SelectionContent.LocalBounds.Center,
-                Size = new(64),
-            };
 
             _sortBehavior = new()
             {
@@ -93,47 +86,51 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
                 SetLocalizedTooltip = () => strings.AddNewTemplateWithClipboard,
                 ClickAction = (m) =>
                 {
-                    _ = Task.Run(async () =>
-                    {
-                        string name = string.IsNullOrEmpty(Search.Text) ? strings.NewTemplate : Search.Text;
-                        var t = CreateTemplate(name);
-
-                        if (t is not null)
-                        {
-                            Search.Text = null;
-
-                            try
-                            {
-                                string code = await ClipboardUtil.WindowsClipboardService.GetTextAsync();
-
-                                BuildsManager.Logger.Debug($"Load template from clipboard code: {code}");
-                                t.LoadFromCode(code);
-
-                                TemplatePresenter.SetTemplate(t);
-                            }
-                            catch (Exception)
-                            {
-
-                            }
-
-                            TemplateSelectable ts = null;
-                            SelectionPanel?.SetTemplateAnchor(ts = TemplateSelectables.FirstOrDefault(e => e.Template == t));
-                            ts?.ToggleEditMode(true);
-                            FilterTemplates();
-                        }
-                    });
+                    AddNewTemplate();
                 },
             };
 
             Search.TextChangedAction = (txt) => _addBuildsButton.BasicTooltipText = string.IsNullOrEmpty(txt) ? strings.CreateNewTemplate : string.Format(strings.CreateNewTemplateName, txt);
 
-            BuildsManager.ModuleInstance.TemplatesLoadedDone += ModuleInstance_TemplatesLoadedDone;
-            templates.CollectionChanged += Templates_CollectionChanged;
-
             LocalizingService.LocaleChanged += LocalizingService_LocaleChanged;
 
-            Templates_CollectionChanged(this, null);
+            Templates.CollectionChanged += Templates_CollectionChanged;
             Templates.TemplateChanged += Templates_TemplateChanged;
+
+            AddTemplateSelectable(true, [.. Templates]);
+        }
+
+        private void AddNewTemplate()
+        {
+            _ = Task.Run(async () =>
+            {
+                string name = string.IsNullOrEmpty(Search.Text) ? strings.NewTemplate : Search.Text;
+
+                var t = CreateTemplate(Templates.GetNewName(name));
+
+                if (t is not null)
+                {
+
+                    try
+                    {
+                        string code = await ClipboardUtil.WindowsClipboardService.GetTextAsync();
+
+                        BuildsManager.Logger.Debug($"Load template from clipboard code: {code}");
+                        t.LoadFromCode(code);
+                    }
+                    catch (Exception)
+                    {
+
+                    }
+
+                    TemplateSelectable ts = null;
+                    SelectionPanel?.SetTemplateAnchor(ts = TemplateSelectables.FirstOrDefault(e => e.Template == t));
+                    ts?.ToggleEditMode(true);
+
+                    Search.Text = null;
+                    //FilterTemplates();
+                }
+            });
         }
 
         private void Templates_TemplateChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
@@ -189,11 +186,6 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
             _sortBehavior.Items[1] = strings.SortByName;
         }
 
-        private void ModuleInstance_TemplatesLoadedDone(object sender, Core.Models.ValueChangedEventArgs<bool> e)
-        {
-            Templates_CollectionChanged(sender, null);
-        }
-
         public void FilterTemplates()
         {
             string lowerTxt = Search.Text?.Trim().ToLower();
@@ -211,16 +203,17 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
             SortTemplates();
 
             var current = TemplateSelectables.FirstOrDefault(x => x.Template == TemplatePresenter.Template);
-            
-            if (current?.Visible is not true && SelectionContent.OfType<TemplateSelectable>().FirstOrDefault(x => x.Visible) is TemplateSelectable t)
+
+            if (current?.Visible is not true)
             {
-                TemplatePresenter.SetTemplate(t.Template);
+                var newTemplate = SelectionContent.OfType<TemplateSelectable>().FirstOrDefault(x => x.Visible) is TemplateSelectable t ? t : null;
+                TemplatePresenter.SetTemplate(newTemplate?.Template);
             }
         }
 
         private void SortTemplates()
         {
-            switch(BuildsManager.ModuleInstance.Settings.SortBehavior.Value)
+            switch (BuildsManager.ModuleInstance.Settings.SortBehavior.Value)
             {
                 case TemplateSortBehavior.ByProfession:
                     SelectionContent.SortChildren<TemplateSelectable>((a, b) =>
@@ -237,7 +230,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
                     break;
 
                 case TemplateSortBehavior.ByModified:
-                    SelectionContent.SortChildren<TemplateSelectable>((a, b) => 
+                    SelectionContent.SortChildren<TemplateSelectable>((a, b) =>
                     {
                         int lastModified = a.Template.LastModified.CompareTo(b.Template.LastModified);
                         int name = a.Template.Name.CompareTo(b.Template.Name);
@@ -251,30 +244,55 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
 
         private void Templates_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
         {
-            if (!BuildsManager.ModuleInstance.TemplatesLoaded == true)
-            {
-                if (!_spinner.Visible)
-                {
-                    _spinner.Show();
-                    _spinner.Location = SelectionPanel.LocalBounds.Center.Add(_spinner.Size.Scale(-0.5));
-                    TemplateSelectables.DisposeAll();
-                    TemplateSelectables.Clear();
-                }
+            var templates = TemplateSelectables.Select(e => e.Template);
 
+            if (e.Action == NotifyCollectionChangedAction.Remove)
+            {
+                var removedTemplates = e.OldItems?.OfType<Template>()?.ToList();
+                RemoveTemplateSelectable(removedTemplates);
+
+                if (Templates.Count > 0)
+                {
+                    FilterTemplates();
+                    return;
+                }
+                else
+                {
+                    CreateTemplate(strings.NewTemplate);
+                    return;
+                }
+            }
+            else if (e.Action == NotifyCollectionChangedAction.Add)
+            {
+                bool firstLoad = TemplateSelectables.Count == 0 && (Templates?.Count ?? 0) != 0;
+                var addedTemplates = e.NewItems?.OfType<Template>()?.ToList();
+
+                AddTemplateSelectable(firstLoad, addedTemplates);
+
+                FilterTemplates();
                 return;
             }
-            else
+        }
+
+        private void RemoveTemplateSelectable(List<Template> removedTemplates)
+        {
+            if (removedTemplates is null || !removedTemplates.Any()) return;
+
+            for (int i = TemplateSelectables.Count - 1; i >= 0; i--)
             {
-                _spinner.Hide();
+                var template = TemplateSelectables[i];
+
+                if (removedTemplates.Contains(template.Template))
+                {
+                    _ = TemplateSelectables.Remove(template);
+                    template.Dispose();
+                }
             }
+        }
 
-            bool firstLoad = TemplateSelectables.Count == 0 && (Templates?.Count ?? 0) != 0;
-            var templates = TemplateSelectables.Select(e => e.Template);
-            var removedTemplates = templates.Except(Templates ?? []);
-            var addedTemplates = Templates?.Except(templates);
-            TemplateSelectable targetTemplate = null;
-
-            if (addedTemplates == null) return;
+        private void AddTemplateSelectable(bool firstLoad, List<Template> addedTemplates)
+        {
+            if (addedTemplates == null || !addedTemplates.Any()) return;
 
             foreach (var template in addedTemplates)
             {
@@ -289,27 +307,16 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
                 template.ProfessionChanged += ProfessionChanged;
 
                 t.OnClickAction = () => SelectionPanel?.SetTemplateAnchor(t);
+
                 if (!firstLoad)
                 {
                     SelectionPanel?.SetTemplateAnchor(t);
+                    TemplatePresenter.SetTemplate(t.Template);
                     t.ToggleEditMode(true);
-                    targetTemplate = t;
                 }
 
                 TemplateSelectables.Add(t);
             }
-
-            for (int i = TemplateSelectables.Count - 1; i >= 0; i--)
-            {
-                var template = TemplateSelectables[i];
-                if (removedTemplates.Contains(template.Template))
-                {
-                    _ = TemplateSelectables.Remove(template);
-                    template.Dispose();
-                }
-            }
-
-            FilterTemplates();
         }
 
         public override void PaintAfterChildren(SpriteBatch spriteBatch, Rectangle bounds)
@@ -331,6 +338,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
                     SelectionPanel?.SetTemplateAnchor(ts = TemplateSelectables.FirstOrDefault(e => e.Template == t));
                     ts?.ToggleEditMode(false);
 
+                    TemplatePresenter.SetTemplate(t);
                     t.ProfessionChanged += ProfessionChanged;
 
                     if (ts is not null)
@@ -424,9 +432,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
             base.DisposeControl();
             _sortBehavior?.Dispose();
 
-            BuildsManager.ModuleInstance.TemplatesLoadedDone -= ModuleInstance_TemplatesLoadedDone; ;
             Templates.CollectionChanged -= Templates_CollectionChanged;
-            Templates_CollectionChanged(this, null);
 
             LocalizingService.LocaleChanged -= LocalizingService_LocaleChanged;
 

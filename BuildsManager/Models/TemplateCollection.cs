@@ -4,7 +4,9 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 using System.ComponentModel;
+using System.Linq;
 
 namespace Kenedia.Modules.BuildsManager.Models
 {
@@ -13,12 +15,17 @@ namespace Kenedia.Modules.BuildsManager.Models
     {
         private ObservableCollection<Template> _templates = [];
 
-        public System.Collections.Specialized.NotifyCollectionChangedEventHandler? CollectionChanged;
+        public NotifyCollectionChangedEventHandler? CollectionChanged;
         public event PropertyChangedEventHandler? TemplateChanged;
 
         public TemplateCollection()
         {
-            _templates.CollectionChanged += CollectionChanged;
+            _templates.CollectionChanged += OnCollectionChanged;
+        }
+
+        private void OnCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        {
+            CollectionChanged?.Invoke(sender, e);
         }
 
         public void Add(Template template)
@@ -79,6 +86,26 @@ namespace Kenedia.Modules.BuildsManager.Models
         IEnumerator IEnumerable.GetEnumerator()
         {
             return GetEnumerator();
+        }
+
+        public string GetNewName(string name)
+        {
+            if(_templates.All(t => t.Name != name))
+            {
+                return name;
+            }
+
+            for (int i = 1; i < int.MaxValue; i++)
+            {
+                string newName = $"{name} ({i})";
+
+                if (_templates.All(t => t.Name != newName))
+                {
+                    return newName;
+                }
+            }
+
+            return name;
         }
     }
 }

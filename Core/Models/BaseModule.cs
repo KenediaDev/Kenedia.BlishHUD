@@ -36,7 +36,6 @@ namespace Kenedia.Modules.Core.Models
         {
 
             GameService.Overlay.UserLocale.SettingChanged += OnLocaleChanged;
-            TexturesService.Initilize(ContentsManager);
 
             SetupServices();
         }
@@ -99,6 +98,8 @@ namespace Kenedia.Modules.Core.Models
 
             Paths =  serviceProvider.GetRequiredService<ModulePaths>();
             Settings =  serviceProvider.GetRequiredService<ModuleSettings>();
+
+            TexturesService.Initilize(ContentsManager);
         }
 
         public static string ModuleName => ModuleInstance.Name;

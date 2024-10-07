@@ -205,8 +205,9 @@ namespace Kenedia.Modules.BuildsManager.Controls_Old.GearPage.GearSlots
             base.OnClick(e);
 
             var a = AbsoluteBounds;
+            var entry = Slot.IsOffhand() ? TemplatePresenter?.Template?[Slot] is WeaponTemplateEntry weapon ? weapon : null : null;
 
-            if (ItemControl.MouseOver && TemplatePresenter.IsPve)
+            if (ItemControl.MouseOver && TemplatePresenter.IsPve && entry?.Weapon?.WeaponType.IsTwoHanded() is not true)
             {
                 SelectionPanel?.SetAnchor<Stat>(ItemControl, new Rectangle(a.Location, Point.Zero).Add(ItemControl.LocalBounds), SelectionTypes.Stats, Slot, GearSubSlotType.None,
                     (stat) => TemplatePresenter?.Template?.SetItem(Slot, TemplateSubSlotType.Stat, stat),

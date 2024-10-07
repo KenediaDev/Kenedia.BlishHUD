@@ -326,7 +326,7 @@ namespace Kenedia.Modules.BuildsManager.Views
 
             foreach (var g in _tagSelectables)
             {
-                g.Visible = g.Tag.Name.ToLowerInvariant().Contains(obj);
+                g.Visible = g.Tag.Name.ToLowerInvariant().Contains(obj) || g.Tag.Group.ToLowerInvariant().Contains(obj);
             }
 
             _tagsPanel.ResumeLayout();
@@ -389,7 +389,7 @@ namespace Kenedia.Modules.BuildsManager.Views
             FilterTags();
         }
 
-        private void TagGroups_TagChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        private void TagGroups_TagChanged(object sender, PropertyAndValueChangedEventArgs e)
         {
             FilterGroups();
         }

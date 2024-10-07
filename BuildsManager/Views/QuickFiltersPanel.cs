@@ -19,6 +19,8 @@ using Kenedia.Modules.Core.Services;
 using Gw2Sharp.WebApi;
 using Kenedia.Modules.BuildsManager.Controls;
 using System.Diagnostics;
+using System.Collections.Specialized;
+using System.IO;
 
 namespace Kenedia.Modules.BuildsManager.Views
 {
@@ -31,10 +33,12 @@ namespace Kenedia.Modules.BuildsManager.Views
         private readonly Button _resetButton;
         private Dictionary<TagGroupPanel, List<TagToggle>> _tagControls = [];
         private TagGroupPanel _ungroupedPanel;
+        private TagGroupPanel _specPanel;
         private List<TagToggle> _specToggles = [];
 
-        public QuickFiltersPanel(TemplateTags templateTags, TagGroups tagGroups, SelectionPanel selectionPanel, Settings settings)
+        public QuickFiltersPanel(TemplateCollection templates, TemplateTags templateTags, TagGroups tagGroups, SelectionPanel selectionPanel, Settings settings)
         {
+            Templates = templates;
             TemplateTags = templateTags;
             TagGroups = tagGroups;
             SelectionPanel = selectionPanel;
@@ -81,11 +85,7 @@ namespace Kenedia.Modules.BuildsManager.Views
                 SetLocalizedText = () => string.Format(strings.ResetAll, strings.Filters),
                 Width = 192,
                 Parent = fp,
-                ClickAction = () =>
-                {
-                    _specToggles.ForEach(x => x.Selected = false);
-                    _tagControls.SelectMany(x => x.Value).ForEach(x => x.Selected = false);
-                },
+                ClickAction = ResetAllToggles,
             };
 
             CreateTagControls();
@@ -106,17 +106,34 @@ namespace Kenedia.Modules.BuildsManager.Views
             TemplateTags.TagAdded += TemplateTags_TagAdded;
             TemplateTags.TagRemoved += TemplateTags_TagRemoved;
             TemplateTags.TagChanged += TemplateTags_TagChanged;
+
+            Templates.CollectionChanged += Templates_CollectionChanged;
+
+            GameService.Graphics.QueueMainThreadRender((graphicsDevice) => SortPanels());
+            SetHeightToTags();
         }
 
-        private void TagGroups_GroupChanged(object sender, PropertyChangedEventArgs e)
+        private void ResetAllToggles()
+        {
+            _specToggles.ForEach(x => x.Selected = false);
+            _tagControls.SelectMany(x => x.Value).ForEach(x => x.Selected = false);
+        }
+
+        private void Templates_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        {
+            if (e?.Action is NotifyCollectionChangedAction.Add)
+            {
+                ResetAllToggles();
+            }
+        }
+
+        private void TagGroups_GroupChanged(object sender, PropertyAndValueChangedEventArgs e)
         {
             SortPanels();
         }
 
         private void TagGroups_GroupRemoved(object sender, TagGroup e)
         {
-            //var p = _tagControls.FirstOrDefault(x => x.Key.TagGroup == e);
-
             SortPanels();
         }
 
@@ -214,17 +231,24 @@ namespace Kenedia.Modules.BuildsManager.Views
                         {
                             if (t.Value.FirstOrDefault(x => x.Tag == tag) is var control && control is not null)
                             {
+                                var panel = t.Key;
                                 var p = GetPanel(tag.Group);
+
+                                if (panel == p)
+                                {
+                                    SortPanels();
+                                    return;
+                                }
+
                                 control.Parent = p;
                                 p.Children.Add(control);
                                 p.SortChildren<TagToggle>(SortTagControls);
                                 _tagControls[p].Add(control);
 
-                                var panel = t.Key;
                                 _tagControls[panel].Remove(control);
                                 panel.Children.Remove(control);
 
-                                if (panel.Children.Where(x => x != control).Count() <= 0)
+                                if (panel != _ungroupedPanel && panel.Children.Where(x => x != control).Count() <= 0)
                                 {
                                     flowPanelsToDelete.Add(panel);
                                     panel.Dispose();
@@ -241,10 +265,15 @@ namespace Kenedia.Modules.BuildsManager.Views
                                 _tagControls.Remove(t);
                             }
                         }
+
+                        SortPanels();
                         break;
                 }
+
             }
         }
+
+        public TemplateCollection Templates { get; }
 
         public TemplateTags TemplateTags { get; }
 
@@ -276,22 +305,24 @@ namespace Kenedia.Modules.BuildsManager.Views
             spriteBatch.DrawCenteredRotationOnCtrl(this, _headerSeparator.Texture, _headerSeparator.Bounds, _headerSeparator.TextureRegion, Color.White, 1.56F, false, false);
         }
 
-        public TagGroupPanel GetPanel(string title)
+        public TagGroupPanel GetPanel(string groupName)
         {
             TagGroupPanel panel = null;
 
-            if (!string.IsNullOrEmpty(title))
+            if (!string.IsNullOrEmpty(groupName))
             {
-                if (_tagControls.Keys.FirstOrDefault(x => x.TagGroup.Name == title) is TagGroupPanel p)
-                {
-                    panel = p;
-                }
+                var tagGroup = TagGroups.FirstOrDefault(x => x.Name == groupName);
 
-                if (TagGroups.FirstOrDefault(x => x.Name == title) is var groupName && groupName is not null)
+                if (tagGroup is not null)
                 {
-                    panel ??= new TagGroupPanel(groupName, _tagPanel)
+                    if (_tagControls.Keys.FirstOrDefault(x => x.TagGroup == tagGroup) is TagGroupPanel p)
                     {
-                        //Title = title,
+                        panel = p;
+                    }
+
+                    panel ??= new TagGroupPanel(tagGroup, _tagPanel)
+                    {
+                        //Title = groupName,
                         //Width = _tagPanel.Width - 25,
                         WidthSizingMode = Blish_HUD.Controls.SizingMode.Fill,
                         HeightSizingMode = Blish_HUD.Controls.SizingMode.AutoSize,
@@ -385,20 +416,32 @@ namespace Kenedia.Modules.BuildsManager.Views
 
         private void SortPanels()
         {
-            SetHeightToTags();
-
             _tagPanel.SortChildren<TagGroupPanel>((x, y) =>
             {
+                if (x == _ungroupedPanel)
+                {
+                    return y == _specPanel ? -1 : 1;
+                }
+
+                if (x == _specPanel)
+                {
+                    return y == _ungroupedPanel ? 1 : -1;
+                }
+
                 var a = TagGroups.FirstOrDefault(group => group == x.TagGroup);
                 var b = TagGroups.FirstOrDefault(group => group == y.TagGroup);
 
                 return TemplateTagComparer.CompareGroups(a, b);
             });
+
+            SetHeightToTags();
+
+            GameService.Graphics.QueueMainThreadRender((graphicsDevice) => SetHeightToTags());
         }
 
         private void SetHeightToTags()
         {
-            int height = _specializationHeight;
+            int height = _specializationHeight + 15;
 
             foreach (var t in _tagControls)
             {
@@ -406,10 +449,13 @@ namespace Kenedia.Modules.BuildsManager.Views
                     continue;
 
                 int rows = (int)Math.Ceiling(t.Value.Count / 6d);
-                height += (rows * TagToggle.TagHeight) + ((rows - 1) * TagGroupPanel.ControlPaddingY) + TagGroupPanel.OuterControlPaddingY + (int)_tagPanel.ControlPadding.Y;
+                int rowHeight = t.Key.Height <= 20 ? (rows * TagToggle.TagHeight) + ((rows - 1) * TagGroupPanel.ControlPaddingY) + TagGroupPanel.OuterControlPaddingY + (int)_tagPanel.ControlPadding.Y : t.Key.Height + (int)_tagPanel.ControlPadding.Y;
+                //height += (rows * TagToggle.TagHeight) + ((rows - 1) * TagGroupPanel.ControlPaddingY) + TagGroupPanel.OuterControlPaddingY + (int)_tagPanel.ControlPadding.Y;
+                //height += t.Key.Height + (int)_tagPanel.ControlPadding.Y;
+                height += rowHeight;
             }
 
-            _tagPanel.Height = height - (int)_tagPanel.ControlPadding.Y - 5;
+            _tagPanel.Height = height;
             Height = _tagPanel.Height + 30 + 30 + _tagPanel.ContentPadding.Vertical;
         }
 
@@ -470,7 +516,7 @@ namespace Kenedia.Modules.BuildsManager.Views
                 added.Add(tag.Name);
             }
 
-            TagGroupPanel specs = new(new TagGroup(strings.Specializations), _tagPanel)
+            _specPanel = new(new TagGroup(strings.Specializations), _tagPanel)
             {
                 FlowDirection = Blish_HUD.Controls.ControlFlowDirection.LeftToRight,
                 WidthSizingMode = Blish_HUD.Controls.SizingMode.Fill,
@@ -499,7 +545,7 @@ namespace Kenedia.Modules.BuildsManager.Views
                     Group = strings.Specializations,
                     AssetId = p.IconAssetId,
                     Priority = prio,
-                }, specs, (x) =>
+                }, _specPanel, (x) =>
                 {
                     if (SelectionPanel.BuildSelection.SpecializationFilterQueries.Contains(isProfession))
                     {
@@ -531,7 +577,7 @@ namespace Kenedia.Modules.BuildsManager.Views
                             Group = strings.Specializations,
                             AssetId = s.ProfessionIconAssetId ?? 0,
                             Priority = prio + s.Id,
-                        }, specs, (x) =>
+                        }, _specPanel, (x) =>
                         {
                             if (SelectionPanel.BuildSelection.SpecializationFilterQueries.Contains(isSpecialization))
                             {

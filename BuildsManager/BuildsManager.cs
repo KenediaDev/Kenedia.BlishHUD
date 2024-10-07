@@ -57,11 +57,7 @@ namespace Kenedia.Modules.BuildsManager
         {
             base.DefineServices(services);
 
-            services.AddSingleton(Gw2ApiManager);
-            services.AddSingleton(ContentsManager);
-            services.AddSingleton<Module>(this);
             services.AddSingleton<BuildsManager>(this);
-            services.AddSingleton<Paths>(Paths = new(DirectoriesManager, Name));
 
             services.AddSingleton<TemplateCollection>();
             services.AddSingleton<TemplatePresenter>();
@@ -87,26 +83,25 @@ namespace Kenedia.Modules.BuildsManager
             services.AddTransient<TemplateFactory>();
             services.AddTransient<TemplateConverter>();
 
+            return services;
+        }
+
+        protected override void AssignServiceInstaces(IServiceProvider serviceProvider)
+        {
+            base.AssignServiceInstaces(serviceProvider);
+
             Data = ServiceProvider.GetRequiredService<Data>();
             Templates = ServiceProvider.GetRequiredService<TemplateCollection>();
             TemplatePresenter = ServiceProvider.GetRequiredService<TemplatePresenter>();
             TemplateTags = ServiceProvider.GetRequiredService<TemplateTags>();
             GW2API = ServiceProvider.GetRequiredService<GW2API>();
-            Settings = ServiceProvider.GetRequiredService<Settings>();
-
-            return services;
         }
 
-        public event ValueChangedEventHandler<bool> TemplatesLoadedDone;
+        //public event ValueChangedEventHandler<bool> TemplatesLoadedDone;
 
         private bool _templatesLoaded = false;
 
-        public bool TemplatesLoaded { get => _templatesLoaded; private set => Common.SetProperty(ref _templatesLoaded, value, OnTemplatesLoaded, value); }
-
-        private void OnTemplatesLoaded(object sender, Core.Models.ValueChangedEventArgs<bool> e)
-        {
-            TemplatesLoadedDone?.Invoke(this, e);
-        }
+        public bool TemplatesLoaded { get => _templatesLoaded; private set => Common.SetProperty(ref _templatesLoaded, value); }
 
         public Template? SelectedTemplate => TemplatePresenter.Template;
 
@@ -229,13 +224,18 @@ namespace Kenedia.Modules.BuildsManager
             _cancellationTokenSource?.Cancel();
             _cancellationTokenSource = new CancellationTokenSource();
 
-            base.ReloadKey_Activated(sender, e);
-
             //TemplatePresenter.SetTemplate(ServiceProvider.GetService<TemplateFactory>().CreateTemplate());
             //TemplatePresenter.SetTemplate(Templates.FirstOrDefault());
 
             //await LoadAsync();
             //await GW2API.UpdateMappedIds();
+
+            //await TemplateTags.Load();
+
+            //var templateGroups = ServiceProvider.GetService<TagGroups>();
+            //await templateGroups.Load();
+
+            base.ReloadKey_Activated(sender, e);
         }
 
         protected override void LoadGUI()

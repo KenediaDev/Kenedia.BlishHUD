@@ -216,7 +216,6 @@ namespace Kenedia.Modules.BuildsManager.Controls_Old.GearPage.GearSlots
         {
             base.DisposeControl();
 
-            TemplatePresenter = null;
             ItemControl?.Dispose();
         }
     }
