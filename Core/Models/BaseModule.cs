@@ -13,6 +13,7 @@ using Microsoft.Xna.Framework.Input;
 using Blish_HUD.Controls;
 using Blish_HUD.Gw2Mumble;
 using Blish_HUD.GameIntegration;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Kenedia.Modules.Core.Models
 {
@@ -22,24 +23,82 @@ namespace Kenedia.Modules.Core.Models
         where ModuleSettings : BaseSettingsModel
         where ModulePaths : PathCollection, new()
     {
-        public static readonly Logger Logger = Logger.GetLogger<ModuleType>();
+        public static Logger Logger = Logger.GetLogger<ModuleType>();
+
+        public StaticHosting StaticHosting { get; private set; }
+
         protected bool HasGUI = false;
         protected bool AutoLoadGUI = true;
         protected bool IsGUICreated = false;
 
-        protected BaseModule([Import("ModuleParameters")] ModuleParameters moduleParameters) 
+        protected BaseModule([Import("ModuleParameters")] ModuleParameters moduleParameters)
             : base(moduleParameters)
         {
-            var clientWindowService = new ClientWindowService();
-            var sharedSettings = new SharedSettings();
-            var inputDetectionService = new InputDetectionService();
-            var gameState = new GameStateDetectionService(clientWindowService, sharedSettings);
 
-            Services = new(gameState, clientWindowService, sharedSettings, inputDetectionService);
-            SharedSettingsView = new SharedSettingsView(sharedSettings, clientWindowService);
-                        
             GameService.Overlay.UserLocale.SettingChanged += OnLocaleChanged;
             TexturesService.Initilize(ContentsManager);
+
+            SetupServices();
+        }
+
+        private void SetupServices()
+        {
+            var services = new ServiceCollection();
+            DefineServices(services);
+            ServiceProvider = services.BuildServiceProvider();
+
+            AssignServiceInstaces(ServiceProvider);
+        }
+
+        /// <summary>
+        /// Register all services for the module
+        /// </summary>
+        /// <param name="services"></param>
+        /// <returns></returns>
+        protected virtual ServiceCollection DefineServices(ServiceCollection services)
+        {
+            services.AddSingleton<Module>(this);
+            services.AddSingleton<ModuleWindow>();
+            services.AddSingleton<ModuleSettings>();
+            services.AddSingleton<ModulePaths>();
+
+            services.AddSingleton<ContentsManager>(ModuleParameters.ContentsManager);
+            services.AddSingleton<SettingsManager>(ModuleParameters.SettingsManager);
+            services.AddSingleton<Gw2ApiManager>(ModuleParameters.Gw2ApiManager);
+            services.AddSingleton<DirectoriesManager>(ModuleParameters.DirectoriesManager);
+            services.AddSingleton<Logger>(Logger);
+
+            services.AddSingleton<StaticHosting>();
+            services.AddSingleton<ClientWindowService>();
+            services.AddSingleton<SharedSettings>();
+            services.AddSingleton<InputDetectionService>();
+            services.AddSingleton<GameStateDetectionService>();
+
+            services.AddSingleton<SharedSettingsView>();
+            services.AddSingleton<CoreServiceCollection>();
+
+            //services.AddSingleton<TexturesService>();
+
+            return services;
+        }
+
+        /// <summary>
+        /// Assign all necessary service instances to the module
+        /// </summary>
+        /// <param name="serviceProvider"></param>
+        protected virtual void AssignServiceInstaces(IServiceProvider serviceProvider)
+        {
+            CoreServices = serviceProvider.GetRequiredService<CoreServiceCollection>();
+            SharedSettingsView = serviceProvider.GetRequiredService<SharedSettingsView>();  
+            ContentsManager = serviceProvider.GetRequiredService<ContentsManager>();
+            DirectoriesManager = serviceProvider.GetRequiredService<DirectoriesManager>();
+            Gw2ApiManager = serviceProvider.GetRequiredService<Gw2ApiManager>();
+            SettingsManager = serviceProvider.GetRequiredService<SettingsManager>();
+            Logger = serviceProvider.GetRequiredService<Logger>();
+            StaticHosting = serviceProvider.GetRequiredService<StaticHosting>();
+
+            Paths =  serviceProvider.GetRequiredService<ModulePaths>();
+            Settings =  serviceProvider.GetRequiredService<ModuleSettings>();
         }
 
         public static string ModuleName => ModuleInstance.Name;
@@ -54,17 +113,17 @@ namespace Kenedia.Modules.Core.Models
 
         public SettingCollection SettingCollection { get; private set; }
 
-        public ServiceCollection Services { get; private set; }
+        public CoreServiceCollection CoreServices { get; private set; }
 
         public SharedSettingsView SharedSettingsView { get; private set; }
 
-        public SettingsManager SettingsManager => ModuleParameters.SettingsManager;
+        public SettingsManager SettingsManager { get; private set; }
 
-        public ContentsManager ContentsManager => ModuleParameters.ContentsManager;
+        public ContentsManager ContentsManager { get; private set; }
 
-        public DirectoriesManager DirectoriesManager => ModuleParameters.DirectoriesManager;
+        public DirectoriesManager DirectoriesManager { get; private set; }
 
-        public Gw2ApiManager Gw2ApiManager => ModuleParameters.Gw2ApiManager;
+        public Gw2ApiManager Gw2ApiManager { get; private set; }
 
         public ModuleWindow MainWindow { get; protected set; }
 
@@ -73,6 +132,8 @@ namespace Kenedia.Modules.Core.Models
         public ModuleSettings Settings { get; protected set; }
 
         protected SettingEntry<Blish_HUD.Input.KeyBinding> ReloadKey { get; set; }
+
+        public IServiceProvider ServiceProvider { get; private set; }
 
         protected override void Initialize()
         {
@@ -103,7 +164,7 @@ namespace Kenedia.Modules.Core.Models
             await base.LoadAsync();
 
             // Load Global Settings
-            await Services.SharedSettings.Load(Paths.SharedSettingsPath);
+            await CoreServices.SharedSettings.Load(Paths.SharedSettingsPath);
         }
 
         protected virtual void OnLocaleChanged(object sender, Blish_HUD.ValueChangedEventArgs<Gw2Sharp.WebApi.Locale> eventArgs)
@@ -143,9 +204,9 @@ namespace Kenedia.Modules.Core.Models
         {
             base.Update(gameTime);
 
-            Services.GameStateDetectionService.Run(gameTime);
-            Services.ClientWindowService.Run(gameTime);
-            Services.InputDetectionService.Run(gameTime);
+            CoreServices.GameStateDetectionService.Run(gameTime);
+            CoreServices.ClientWindowService.Run(gameTime);
+            CoreServices.InputDetectionService.Run(gameTime);
 
             if (HasGUI && !IsGUICreated && AutoLoadGUI)
             {
@@ -162,7 +223,7 @@ namespace Kenedia.Modules.Core.Models
         {
             UnloadGUI();
 
-            Services?.Dispose();
+            CoreServices?.Dispose();
             GameService.Overlay.UserLocale.SettingChanged -= OnLocaleChanged;
 
 #if DEBUG

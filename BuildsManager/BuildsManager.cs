@@ -38,8 +38,6 @@ namespace Kenedia.Modules.BuildsManager
     [Export(typeof(Module))]
     public class BuildsManager : BaseModule<BuildsManager, MainWindow, Settings, Paths>
     {
-        public IServiceProvider ServiceProvider { get; private set; }
-
         public static Data Data { get; set; }
 
         private double _tick;
@@ -51,14 +49,13 @@ namespace Kenedia.Modules.BuildsManager
             ModuleInstance = this;
             HasGUI = true;
 
-            Services.GameStateDetectionService.Enabled = false;
+            CoreServices.GameStateDetectionService.Enabled = false;
 
-            ConfigureServices();
         }
 
-        private void ConfigureServices()
+        protected override ServiceCollection DefineServices(ServiceCollection services)
         {
-            var services = new Microsoft.Extensions.DependencyInjection.ServiceCollection();
+            base.DefineServices(services);
 
             services.AddSingleton(Gw2ApiManager);
             services.AddSingleton(ContentsManager);
@@ -90,8 +87,6 @@ namespace Kenedia.Modules.BuildsManager
             services.AddTransient<TemplateFactory>();
             services.AddTransient<TemplateConverter>();
 
-            ServiceProvider = services.BuildServiceProvider();
-
             Data = ServiceProvider.GetRequiredService<Data>();
             Templates = ServiceProvider.GetRequiredService<TemplateCollection>();
             TemplatePresenter = ServiceProvider.GetRequiredService<TemplatePresenter>();
@@ -99,7 +94,7 @@ namespace Kenedia.Modules.BuildsManager
             GW2API = ServiceProvider.GetRequiredService<GW2API>();
             Settings = ServiceProvider.GetRequiredService<Settings>();
 
-            CreateCornerIcons();
+            return services;
         }
 
         public event ValueChangedEventHandler<bool> TemplatesLoadedDone;
@@ -143,6 +138,7 @@ namespace Kenedia.Modules.BuildsManager
         {
             base.Initialize();
 
+            CreateCornerIcons();
             Logger.Info($"Starting {Name} v." + Version.BaseVersion());
 
             Data.Loaded += Data_Loaded;

@@ -203,20 +203,20 @@ namespace Kenedia.Modules.Characters
             Settings.ShowCornerIcon.SettingChanged += ShowCornerIcon_SettingChanged;
             Settings.UseBetaGamestate.SettingChanged += UseBetaGamestate_SettingChanged;
 
-            Services.GameStateDetectionService.Enabled = Settings.UseBetaGamestate.Value;
+            CoreServices.GameStateDetectionService.Enabled = Settings.UseBetaGamestate.Value;
         }
 
         private void UseBetaGamestate_SettingChanged(object sender, Blish_HUD.ValueChangedEventArgs<bool> e)
         {
-            Services.GameStateDetectionService.Enabled = e.NewValue;
+            CoreServices.GameStateDetectionService.Enabled = e.NewValue;
         }
 
         protected override async Task LoadAsync()
         {
             await base.LoadAsync();
 
-            CharacterSwapping = new(Settings, Services.GameStateDetectionService, CharacterModels);
-            CharacterSorting = new(Settings, Services.GameStateDetectionService, CharacterModels);
+            CharacterSwapping = new(Settings, CoreServices.GameStateDetectionService, CharacterModels);
+            CharacterSorting = new(Settings, CoreServices.GameStateDetectionService, CharacterModels);
 
             CharacterSwapping.CharacterSorting = CharacterSorting;
             CharacterSorting.CharacterSwapping = CharacterSwapping;
@@ -248,7 +248,7 @@ namespace Kenedia.Modules.Characters
             }
 
             CharacterModels.CollectionChanged += OnCharacterCollectionChanged;
-            Services.InputDetectionService.ClickedOrKey += InputDetectionService_ClickedOrKey;
+            CoreServices.InputDetectionService.ClickedOrKey += InputDetectionService_ClickedOrKey;
         }
 
         private void GW2APIHandler_AccountChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
@@ -280,7 +280,7 @@ namespace Kenedia.Modules.Characters
                 PlayerCharacter player = GameService.Gw2Mumble.PlayerCharacter;
 
                 string name = player is not null ? player.Name : string.Empty;
-                bool charSelection = Settings.UseBetaGamestate.Value ? Services.GameStateDetectionService.IsCharacterSelection : !GameService.GameIntegration.Gw2Instance.IsInGame;
+                bool charSelection = Settings.UseBetaGamestate.Value ? CoreServices.GameStateDetectionService.IsCharacterSelection : !GameService.GameIntegration.Gw2Instance.IsInGame;
 
                 CurrentCharacterModel = !charSelection ? CharacterModels.FirstOrDefault(e => e.Name == name) : null;
 
@@ -321,7 +321,7 @@ namespace Kenedia.Modules.Characters
 
             CharacterModels.CollectionChanged -= OnCharacterCollectionChanged;
             Tags.CollectionChanged -= Tags_CollectionChanged;
-            Services.ClientWindowService.ResolutionChanged -= ClientWindowService_ResolutionChanged;
+            CoreServices.ClientWindowService.ResolutionChanged -= ClientWindowService_ResolutionChanged;
 
             base.Unload();
         }
@@ -335,7 +335,7 @@ namespace Kenedia.Modules.Characters
                 ZIndex = int.MaxValue / 2
             };
 
-            PotraitCapture = new PotraitCapture(Services.ClientWindowService, Services.SharedSettings, TextureManager)
+            PotraitCapture = new PotraitCapture(CoreServices.ClientWindowService, CoreServices.SharedSettings, TextureManager)
             {
                 Parent = GameService.Graphics.SpriteScreen,
                 Visible = false,
@@ -343,7 +343,7 @@ namespace Kenedia.Modules.Characters
                 AccountImagePath = () => AccountImagesPath,
             };
 
-            OCR = new(Services.ClientWindowService, Services.SharedSettings, Settings, Paths.ModulePath, CharacterModels);
+            OCR = new(CoreServices.ClientWindowService, CoreServices.SharedSettings, Settings, Paths.ModulePath, CharacterModels);
             RunIndicator = new(CharacterSorting, CharacterSwapping, Settings.ShowStatusWindow, TextureManager, Settings.ShowChoyaSpinner);
 
             var settingsBg = AsyncTexture2D.FromAssetId(155997);
@@ -425,7 +425,7 @@ namespace Kenedia.Modules.Characters
             CharacterSorting.OCR = OCR;
             CharacterSorting.UpdateCharacterList = MainWindow.PerformFiltering;
 
-            Services.ClientWindowService.ResolutionChanged += ClientWindowService_ResolutionChanged;
+            CoreServices.ClientWindowService.ResolutionChanged += ClientWindowService_ResolutionChanged;
 
             GW2APIHandler.MainWindow = MainWindow;
         }

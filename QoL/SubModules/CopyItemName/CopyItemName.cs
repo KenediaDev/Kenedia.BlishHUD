@@ -179,8 +179,8 @@ namespace Kenedia.Modules.QoL.SubModules.CopyItemName
 
             if (GameService.Input.Keyboard.KeysDown.Contains(Keys.LeftShift) || GameService.Input.Keyboard.KeysDown.Contains(Keys.RightShift))
             {
-                var _clientWindowService = QoL.ModuleInstance.Services.ClientWindowService;
-                var _sharedSettings = QoL.ModuleInstance.Services.SharedSettings;
+                var _clientWindowService = QoL.ModuleInstance.CoreServices.ClientWindowService;
+                var _sharedSettings = QoL.ModuleInstance.CoreServices.SharedSettings;
 
                 var wndBounds = _clientWindowService.WindowBounds;
 

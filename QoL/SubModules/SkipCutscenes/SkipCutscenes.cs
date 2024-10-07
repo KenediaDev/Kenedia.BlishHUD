@@ -192,13 +192,13 @@ namespace Kenedia.Modules.QoL.SubModules.SkipCutscenes
                 if (_cts is null || _cts.Token.IsCancellationRequested) return;
 
                 _logger.Info($"We are still in the cutscene lets try with mouse.");
-                var pos = QoL.ModuleInstance.Services.ClientWindowService.WindowBounds;
+                var pos = QoL.ModuleInstance.CoreServices.ClientWindowService.WindowBounds;
                 var p = new Point(pos.Right - 50, pos.Bottom - 35);
                 var m = GameService.Input.Mouse.Position;
                 double factor = GameService.Graphics.UIScaleMultiplier;
 
                 bool windowed = GameService.GameIntegration.GfxSettings.ScreenMode == Blish_HUD.GameIntegration.GfxSettings.ScreenModeSetting.Windowed;
-                RectangleDimensions offset = windowed ? QoL.ModuleInstance.Services.SharedSettings.WindowOffset : new(0);
+                RectangleDimensions offset = windowed ? QoL.ModuleInstance.CoreServices.SharedSettings.WindowOffset : new(0);
 
                 _mousePosition = new(pos.Left + (int)(m.X * factor) + offset.Left, pos.Top + offset.Top + (int)(m.Y * factor));
 

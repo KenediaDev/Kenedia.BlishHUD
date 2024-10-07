@@ -179,6 +179,10 @@ namespace Kenedia.Modules.BuildsManager.Controls.Tabs
 
             TemplatePresenter.TemplateChanged += TemplatePresenter_TemplateChanged;
 
+            TagGroups.GroupChanged += TagGroups_GroupChanged;
+            TagGroups.GroupAdded += TagGroups_GroupAdded;
+            TagGroups.GroupRemoved += TagGroups_GroupRemoved;
+
             TemplateTags.TagAdded += TemplateTags_TagAdded;
             TemplateTags.TagRemoved += TemplateTags_TagRemoved;
             TemplateTags.TagChanged += TemplateTags_TagChanged;
@@ -190,6 +194,21 @@ namespace Kenedia.Modules.BuildsManager.Controls.Tabs
             ApplyTemplate();
 
             _created = true;
+        }
+
+        private void TagGroups_GroupAdded(object sender, TagGroup e)
+        {
+            SortPanels();
+        }
+
+        private void TagGroups_GroupRemoved(object sender, TagGroup e)
+        {
+            SortPanels();
+        }
+
+        private void TagGroups_GroupChanged(object sender, PropertyChangedEventArgs e)
+        {
+            SortPanels();
         }
 
         public TemplateTags TemplateTags { get; }
@@ -484,6 +503,18 @@ namespace Kenedia.Modules.BuildsManager.Controls.Tabs
             base.DisposeControl();
 
             TemplatePresenter.TemplateChanged -= TemplatePresenter_TemplateChanged;
+
+            _tagPanel.ChildAdded -= TagPanel_ChildsChanged;
+            _tagPanel.ChildRemoved -= TagPanel_ChildsChanged;
+
+            TagGroups.GroupChanged -= TagGroups_GroupChanged;
+            TagGroups.GroupAdded -= TagGroups_GroupAdded;
+            TagGroups.GroupRemoved -= TagGroups_GroupRemoved;
+
+            TemplateTags.TagAdded -= TemplateTags_TagAdded;
+            TemplateTags.TagRemoved -= TemplateTags_TagRemoved;
+            TemplateTags.TagChanged -= TemplateTags_TagChanged;
+
             foreach (var c in Children)
             {
                 c?.Dispose();

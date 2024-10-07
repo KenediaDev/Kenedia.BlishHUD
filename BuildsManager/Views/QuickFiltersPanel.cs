@@ -56,10 +56,6 @@ namespace Kenedia.Modules.BuildsManager.Views
             BorderWidth = new(2);
             Visible = false;
 
-            TemplateTags.TagAdded += TemplateTags_TagAdded;
-            TemplateTags.TagRemoved += TemplateTags_TagRemoved;
-            TemplateTags.TagChanged += TemplateTags_TagChanged;
-
             var fp = new FlowPanel()
             {
                 Parent = this,
@@ -102,6 +98,31 @@ namespace Kenedia.Modules.BuildsManager.Views
 
             ApplySettings();
             SetAutoFilters(GameService.Gw2Mumble.PlayerCharacter?.Specialization ?? 0);
+
+            TagGroups.GroupAdded += TagGroups_GroupAdded;
+            TagGroups.GroupRemoved += TagGroups_GroupRemoved;
+            TagGroups.GroupChanged += TagGroups_GroupChanged;
+
+            TemplateTags.TagAdded += TemplateTags_TagAdded;
+            TemplateTags.TagRemoved += TemplateTags_TagRemoved;
+            TemplateTags.TagChanged += TemplateTags_TagChanged;
+        }
+
+        private void TagGroups_GroupChanged(object sender, PropertyChangedEventArgs e)
+        {
+            SortPanels();
+        }
+
+        private void TagGroups_GroupRemoved(object sender, TagGroup e)
+        {
+            //var p = _tagControls.FirstOrDefault(x => x.Key.TagGroup == e);
+
+            SortPanels();
+        }
+
+        private void TagGroups_GroupAdded(object sender, TagGroup e)
+        {
+            SortPanels();
         }
 
         private void QuickFiltersPanelFadeDelay_SettingChanged(object sender, Blish_HUD.ValueChangedEventArgs<double> e)
@@ -364,15 +385,15 @@ namespace Kenedia.Modules.BuildsManager.Views
 
         private void SortPanels()
         {
+            SetHeightToTags();
+
             _tagPanel.SortChildren<TagGroupPanel>((x, y) =>
             {
-                var a = TagGroups.FirstOrDefault(group => group.Name == x.Title);
-                var b = TagGroups.FirstOrDefault(group => group.Name == y.Title);
+                var a = TagGroups.FirstOrDefault(group => group == x.TagGroup);
+                var b = TagGroups.FirstOrDefault(group => group == y.TagGroup);
 
                 return TemplateTagComparer.CompareGroups(a, b);
             });
-
-            SetHeightToTags();
         }
 
         private void SetHeightToTags()

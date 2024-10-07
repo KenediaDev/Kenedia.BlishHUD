@@ -100,7 +100,7 @@ namespace Kenedia.Modules.QoL.SubModules.GameResets
             base.Load();
             GameService.Gw2Mumble.UI.CompassSizeChanged += UI_CompassSizeChanged;
             GameService.Gw2Mumble.UI.IsCompassTopRightChanged += UI_IsCompassTopRightChanged;
-            QoL.ModuleInstance.Services.ClientWindowService.ResolutionChanged += ClientWindowService_ResolutionChanged;
+            QoL.ModuleInstance.CoreServices.ClientWindowService.ResolutionChanged += ClientWindowService_ResolutionChanged;
         }
 
         private void ClientWindowService_ResolutionChanged(object sender, ValueChangedEventArgs<Point> e)
@@ -115,7 +115,7 @@ namespace Kenedia.Modules.QoL.SubModules.GameResets
             GameService.Gw2Mumble.UI.IsCompassTopRightChanged -= UI_IsCompassTopRightChanged;
 
             if (QoL.ModuleInstance is not null)
-                QoL.ModuleInstance.Services.ClientWindowService.ResolutionChanged -= ClientWindowService_ResolutionChanged;
+                QoL.ModuleInstance.CoreServices.ClientWindowService.ResolutionChanged -= ClientWindowService_ResolutionChanged;
 
             _showServerTime.SettingChanged -= ChangeServerTimeVisibility;
             _showDailyReset.SettingChanged -= ChangeServerResetVisibility;

@@ -2,14 +2,19 @@
 using Blish_HUD.Content;
 using Blish_HUD.Modules.Managers;
 using Kenedia.Modules.Core.Extensions;
+using Kenedia.Modules.Core.Models;
 using Microsoft.Xna.Framework.Graphics;
+using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Net.Http;
+using System.Threading.Tasks;
 
 namespace Kenedia.Modules.Core.Services
-{
+{    
     public static class TexturesService
     {
         private static readonly Dictionary<string, Texture2D> s_loadedTextures = [];

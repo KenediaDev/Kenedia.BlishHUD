@@ -47,7 +47,7 @@ namespace Kenedia.Modules.QoL.SubModules.EnhancedCrosshair
             _crosshairSize.Value = new(84);
             _crosshair.Texture = AsyncTexture2D.FromAssetId(1058519);
             _crosshair.Opacity = 0.5f;
-            var r = QoL.ModuleInstance.Services.ClientWindowService.WindowBounds;
+            var r = QoL.ModuleInstance.CoreServices.ClientWindowService.WindowBounds;
             var p = GameService.Graphics.SpriteScreen.AbsoluteBounds;
             _crosshair.Size = _crosshairSize.Value;
             _crosshair.Location = p.Center.Add(new(-_crosshairSize.Value.X / 2, -_crosshairSize.Value.Y / 2));

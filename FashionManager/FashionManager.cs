@@ -3,8 +3,10 @@ using Blish_HUD.Modules;
 using Blish_HUD.Settings;
 using Kenedia.Modules.Core.Models;
 using Kenedia.Modules.FashionManager.Models;
+using Kenedia.Modules.FashionManager.Services;
 using Kenedia.Modules.FashionManager.Utility;
 using Kenedia.Modules.FashionManager.Views;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Xna.Framework;
 using Newtonsoft.Json;
 using System;
@@ -29,11 +31,19 @@ namespace Kenedia.Modules.FashionManager
         {
             ModuleInstance = this;
 
-
         }
 
         public static FashionTemplate FashionTemplate { get; private set; } = new();
+
         public bool TemplatesLoaded { get; private set; }
+
+        protected override ServiceCollection DefineServices(ServiceCollection services)
+        {
+            services.AddSingleton<FashionTemplateFactory>();
+            services.AddSingleton<Data>();
+
+            return base.DefineServices(services);
+        }
 
         protected override void DefineSettings(SettingCollection settings)
         {
@@ -44,7 +54,6 @@ namespace Kenedia.Modules.FashionManager
         protected override void Initialize()
         {
             base.Initialize();
-            Paths = new(DirectoriesManager, Name);
 
             HasGUI = false;
             Logger.Info($"Starting {Name} v." + Version.BaseVersion());
@@ -52,7 +61,7 @@ namespace Kenedia.Modules.FashionManager
 
         protected override async void ReloadKey_Activated(object sender, EventArgs e)
         {
-            //Logger.Debug($"ReloadKey_Activated: {Name}");
+            Logger.Debug($"ReloadKey_Activated: {Name}");
             //base.ReloadKey_Activated(sender, e);
 
             //FashionTemplate.Name ??= "Test";
@@ -61,7 +70,10 @@ namespace Kenedia.Modules.FashionManager
 
             //LoadTemplates();
 
-            Debug.WriteLine($"{FashionChatCode.ParseChatCode(new())}");
+            //Debug.WriteLine($"{FashionChatCode.ParseChatCode(new())}");
+
+            var data = ServiceProvider.GetRequiredService<Data>();
+            await data.LoadDataFromGw2ApiAsync();
         }
 
         protected override async Task LoadAsync()

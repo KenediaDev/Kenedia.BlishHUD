@@ -1,0 +1,195 @@
+syntax = "proto3";
+
+package fashion.v1;
+
+// This approach defines every unique equipment type
+// with exactly the right numbers of dyes and infusions
+
+message Armor {
+  uint32 skin = 1;
+  uint32 dye_1 = 2;
+  uint32 dye_2 = 3; // dye channels 2 through 4 may not be set
+  uint32 dye_3 = 4;
+  uint32 dye_4 = 5;
+  uint32 infusion = 6;
+}
+
+message Weapon {
+  uint32 skin = 1;
+  uint32 infusion_1 = 2;
+}
+
+message AquaticWeapon {
+  uint32 skin = 1;
+  uint32 infusion_1 = 2;
+  uint32 infusion_2 = 3;
+}
+
+message Back {
+  uint32 skin = 1; // for legendaries
+  uint32 dye_1 = 2;
+  uint32 dye_2 = 3; // dye channels 2 through 4 may not be set
+  uint32 dye_3 = 4;
+  uint32 dye_4 = 5;
+  uint32 infusion_1 = 6; // Amulet, rings, accessories
+}
+
+message Amulet {
+  uint32 skin = 1; // for legendaries
+  uint32 enrichment = 2; // Amulet, rings, accessories
+}
+
+message Accessory {
+  uint32 skin = 1; // for legendaries
+  uint32 infusion_1 = 2; // Amulet, rings, accessories
+}
+
+message Ring {
+  uint32 skin = 1;
+  uint32 infusion_1 = 2;
+  uint32 infusion_2 = 3;
+  uint32 infusion_3 = 4;
+}
+
+message Mount
+{
+	uint32 skin = 1;
+	uint32 dye_1 = 2;
+	uint32 dye_2 = 3;
+	uint32 dye_3 = 4;
+	uint32 dye_4 = 5;
+}
+
+message GatheringTool
+{
+	uint32 skin = 1;
+}
+
+message Glider
+{
+	uint32 skin = 1;
+	uint32 dye_1 = 2;
+	uint32 dye_2 = 3;
+	uint32 dye_3 = 4;
+	uint32 dye_4 = 5;
+}
+
+message Miniature
+{
+	uint32 skin = 1;
+}
+
+message Skiff
+{
+	uint32 skin = 1;
+	uint32 dye_1 = 2;
+	uint32 dye_2 = 3;
+	uint32 dye_3 = 4;
+	uint32 dye_4 = 5;
+}
+
+message JadeBot
+{
+	uint32 skin = 1;
+}
+
+message Outfit
+{
+	uint32 skin = 1;
+	uint32 dye_1 = 2;
+	uint32 dye_2 = 3;
+	uint32 dye_3 = 4;
+	uint32 dye_4 = 5;
+}
+
+message MailCarrier
+{
+	uint32 skin = 1;
+}
+
+message Finisher
+{
+	uint32 skin = 1;
+}
+
+message Chair
+{
+	uint32 skin = 1;
+}
+
+
+message Instrument
+{
+	uint32 skin = 1;
+}
+
+message HeldItem
+{
+	uint32 skin = 1;
+}
+
+message Toy
+{
+	uint32 skin = 1;
+}
+
+message Tonic
+{
+	uint32 skin = 1;
+}
+
+message FishingRod
+{
+	uint32 skin = 1;
+}
+
+message Fashion {
+	Armor Head = 1;
+	Armor Shoulders = 2;
+	Armor Chest = 3;
+	Armor Gloves = 4;
+	Armor Legs = 5;
+	Armor Boots = 6;
+	Armor AquaBreather = 7;
+	Weapon MainHand = 8;
+	Weapon OffHand = 9;
+	AquaticWeapon AquaticWeapon = 10;
+	Weapon AltMainHand = 11;
+	Weapon AltOffHand= 12;
+	AquaticWeapon AltAquaticWeapon = 13;
+	Back Back = 14;
+	Jewelry Amulet = 15;
+	Jewelry Accessory_1 = 16;
+	Jewelry Accessory_2 = 17;
+	Jewelry Ring_1 = 18;
+	Jewelry Ring_2 = 19;
+	
+	GatheringTool MiningTool = 20;
+	GatheringTool LoggingTool = 21;
+	GatheringTool HarvestingTool = 22;
+	
+	Glider Glider = 23;
+	Outfit Outfit = 24;
+
+	Mount Raptor = 25;
+	Mount Skimmer = 26;
+	Mount Jackal = 27;
+	Mount Springer = 28;
+	Mount Griffon = 29;
+	Mount Warclaw = 30;
+	Mount Turtle = 31;
+	Mount Beetle = 32;
+
+	Miniature Miniature = 33;
+	Skiff Skiff = 34;
+
+	JadeBot JadeBot = 35;
+	MailCarrier MailCarrier = 36;
+	Finisher Finisher = 37;
+	Chair Chair = 38;
+	Instrument Instrument = 39;
+	HeldItem HeldItem = 40;
+	Toy Toy = 41;
+	Tonic Tonic = 42;
+	FishingRod FishingRod = 43;
+}

@@ -57,11 +57,20 @@
     <Reference Include="Gapotchenko.FX.Threading, Version=2022.2.7.4096, Culture=neutral, PublicKeyToken=a750ee378eaf756f, processorArchitecture=MSIL">
       <HintPath>..\packages\Gapotchenko.FX.Threading.2022.2.7\lib\net472\Gapotchenko.FX.Threading.dll</HintPath>
     </Reference>
+    <Reference Include="Google.Protobuf, Version=3.28.2.0, Culture=neutral, PublicKeyToken=a7d26565bac4d604, processorArchitecture=MSIL">
+      <HintPath>..\packages\Google.Protobuf.3.28.2\lib\net45\Google.Protobuf.dll</HintPath>
+    </Reference>
     <Reference Include="Gw2Sharp, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Gw2Sharp.1.7.4\lib\netstandard2.0\Gw2Sharp.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Bcl.AsyncInterfaces, Version=8.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Bcl.AsyncInterfaces.8.0.0\lib\net462\Microsoft.Bcl.AsyncInterfaces.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.DependencyInjection, Version=8.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.DependencyInjection.8.0.0\lib\net462\Microsoft.Extensions.DependencyInjection.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.DependencyInjection.Abstractions, Version=8.0.0.1, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.DependencyInjection.Abstractions.8.0.1\lib\net462\Microsoft.Extensions.DependencyInjection.Abstractions.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.IdentityModel.Abstractions, Version=8.0.2.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.IdentityModel.Abstractions.8.0.2\lib\net472\Microsoft.IdentityModel.Abstractions.dll</HintPath>
@@ -346,6 +355,8 @@
     <Compile Include="Models\FashionSlot.cs" />
     <Compile Include="Models\FashionTemplate.cs" />
     <Compile Include="Models\FashionTemplateArmorChanged.cs" />
+    <Compile Include="Models\Proto\FashionProto.cs" />
+    <Compile Include="Services\Data.cs" />
     <Compile Include="Services\FashionTemplateFactory.cs" />
     <Compile Include="Utility\FashionChatCode.cs" />
     <Compile Include="Utility\FashionTemplateConverter.cs" />
@@ -450,10 +461,10 @@
     <None Include="Content\bin\Windows\Content\fonts\newkrytan\newkrytan-12-regular_1.xnb" />
     <None Include="manifest.json" />
     <None Include="packages.config" />
+    <None Include="ref\fashion.proto" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="DataModels\" />
-    <Folder Include="ref\" />
     <Folder Include="Res\" />
   </ItemGroup>
   <Import Project="..\Core\Core.projitems" Label="Shared" />

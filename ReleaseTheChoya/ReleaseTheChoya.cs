@@ -127,14 +127,14 @@ namespace Kenedia.Modules.ReleaseTheChoya
         {
             base.OnModuleLoaded(e);
 
-            Services.InputDetectionService.Interacted += InputDetectionService_Interacted;
+            CoreServices.InputDetectionService.Interacted += InputDetectionService_Interacted;
         }
 
         private void InputDetectionService_Interacted(object sender, double e)
         {
             double now = Common.Now;
 
-            bool idle = Settings.ShowWhenIdle.Value && now - Services.InputDetectionService.LastInteraction >= (Settings.IdleDelay.Value * 1000);
+            bool idle = Settings.ShowWhenIdle.Value && now - CoreServices.InputDetectionService.LastInteraction >= (Settings.IdleDelay.Value * 1000);
             bool noMove = Settings.ShowWhenStandingStill.Value && now - _lastMoveTick >= (Settings.NoMoveDelay.Value * 1000);
 
             if (!idle && !noMove)
@@ -158,7 +158,7 @@ namespace Kenedia.Modules.ReleaseTheChoya
                     _lastMoveTick = now;
                 }
 
-                bool idle = Settings.ShowWhenIdle.Value && now - Services.InputDetectionService.LastInteraction >= (Settings.IdleDelay.Value * 1000);
+                bool idle = Settings.ShowWhenIdle.Value && now - CoreServices.InputDetectionService.LastInteraction >= (Settings.IdleDelay.Value * 1000);
                 bool noMove = Settings.ShowWhenStandingStill.Value && now - _lastMoveTick >= (Settings.NoMoveDelay.Value * 1000);
                 bool canReleaseChoyas = (Settings.ShowRandomly.Value || idle || noMove) && (!Settings.AvoidCombat.Value || !GameService.Gw2Mumble.PlayerCharacter.IsInCombat);
 
@@ -211,7 +211,7 @@ namespace Kenedia.Modules.ReleaseTheChoya
                 t = travelDistance();
             }
 
-            var rollingChoya = new RollingChoya(Services.InputDetectionService)
+            var rollingChoya = new RollingChoya(CoreServices.InputDetectionService)
             {
                 ChoyaTexture = TexturesService.GetTextureFromRef(textures_common.RollingChoya, nameof(textures_common.RollingChoya)),
                 Parent = GameService.Graphics.SpriteScreen,
@@ -342,7 +342,7 @@ namespace Kenedia.Modules.ReleaseTheChoya
             Settings.ChoyaDelay.SettingChanged -= ChoyaDelay_SettingChanged;
             Settings.ChoyaIdleDelay.SettingChanged -= ChoyaDelay_SettingChanged;
 
-            Services.InputDetectionService.Interacted -= InputDetectionService_Interacted;
+            CoreServices.InputDetectionService.Interacted -= InputDetectionService_Interacted;
         }
     }
 }

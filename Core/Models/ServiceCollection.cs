@@ -3,11 +3,11 @@ using System;
 
 namespace Kenedia.Modules.Core.Models
 {
-    public class ServiceCollection : IDisposable
+    public class CoreServiceCollection : IDisposable
     {
         private bool _isDisposed;
 
-        public ServiceCollection(GameStateDetectionService gameState, ClientWindowService clientWindowService, SharedSettings sharedSettings, InputDetectionService inputDetectionService)
+        public CoreServiceCollection(GameStateDetectionService gameState, ClientWindowService clientWindowService, SharedSettings sharedSettings, InputDetectionService inputDetectionService)
         {
             GameStateDetectionService = gameState;
             ClientWindowService = clientWindowService;

@@ -130,6 +130,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Services\InputDetectionService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\LocalizingService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\SharedSettings.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)services\StaticHosting.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\TexturesService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Structs\Range.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Structs\RectangleDimensions.cs" />

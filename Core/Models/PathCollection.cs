@@ -1,4 +1,5 @@
-﻿using Blish_HUD.Modules.Managers;
+﻿using Blish_HUD.Modules;
+using Blish_HUD.Modules.Managers;
 using Kenedia.Modules.Core.Utility;
 using System.IO;
 
@@ -15,15 +16,16 @@ namespace Kenedia.Modules.Core.Models
             get => _accountName;
             set => Common.SetProperty(ref _accountName, value, AddAccountFolder, !string.IsNullOrEmpty(value));
         }
+
         public PathCollection()
         {
             
         }
 
-        public PathCollection(DirectoriesManager directoriesManager, string moduleName)
+        public PathCollection(DirectoriesManager directoriesManager, Module module)
         {
             DirectoriesManager = directoriesManager;
-            ModuleName = moduleName.Replace(' ', '_').ToLower();
+            ModuleName = module.Name.Replace(' ', '_').ToLower();
 
             BasePath = DirectoriesManager.GetFullDirectoryPath("kenedia");
 

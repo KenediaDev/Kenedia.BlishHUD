@@ -100,7 +100,7 @@ namespace Kenedia.Modules.BuildsManager.Views
 
         private void BuildGroupView(Blish_HUD.Controls.Container buildPanel)
         {
-           var lbl = new Label()
+            var lbl = new Label()
             {
                 Parent = buildPanel,
                 Location = new(0, 0),
@@ -283,7 +283,7 @@ namespace Kenedia.Modules.BuildsManager.Views
 
             buildPanel.Resized += TagBuildPanel_Resized;
 
-            var tag = MainWindowPresenter.SelectedTag  ?? _tagsPanel.OfType<TagSelectable>().FirstOrDefault(x => x.Visible)?.Tag;
+            var tag = MainWindowPresenter.SelectedTag ?? _tagsPanel.OfType<TagSelectable>().FirstOrDefault(x => x.Visible)?.Tag;
             SetTagToEdit(tag);
         }
 
@@ -339,6 +339,7 @@ namespace Kenedia.Modules.BuildsManager.Views
         {
             var comparerer = new TemplateTagComparer(TagGroups);
             _tagsPanel.SortChildren<TagSelectable>((a, b) => comparerer.Compare(a.Tag, b.Tag));
+            _groupsPanel.SortChildren<GroupSelectable>((a, b) => TemplateTagComparer.CompareGroups(a.Group, b.Group));
         }
 
         private void AddTag(TemplateTag g)
