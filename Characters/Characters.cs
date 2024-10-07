@@ -66,7 +66,6 @@ namespace Kenedia.Modules.Characters
         public Characters([Import("ModuleParameters")] ModuleParameters moduleParameters)
             : base(moduleParameters)
         {
-            ModuleInstance = this;
             HasGUI = true;
         }
 
@@ -150,8 +149,6 @@ namespace Kenedia.Modules.Characters
         {
             base.Initialize();
 
-            Paths = new PathCollection(DirectoriesManager, Name);
-
             Logger.Info($"Starting {Name} v." + ModuleVersion);
 
             JsonConvert.DefaultSettings = () => new JsonSerializerSettings
@@ -199,7 +196,6 @@ namespace Kenedia.Modules.Characters
         {
             base.DefineSettings(settings);
 
-            Settings = new Settings(settings);
             Settings.ShowCornerIcon.SettingChanged += ShowCornerIcon_SettingChanged;
             Settings.UseBetaGamestate.SettingChanged += UseBetaGamestate_SettingChanged;
 

@@ -54,7 +54,6 @@ namespace Kenedia.Modules.OverflowTradingAssist
         [ImportingConstructor]
         public OverflowTradingAssist([Import("ModuleParameters")] ModuleParameters moduleParameters) : base(moduleParameters)
         {
-            ModuleInstance = this;
             HasGUI = true;
 
             CreateCornerIcons();
@@ -64,14 +63,12 @@ namespace Kenedia.Modules.OverflowTradingAssist
         {
             base.DefineSettings(settings);
 
-            Settings = new Settings(settings);
             Settings.ShowCornerIcon.SettingChanged += ShowCornerIcon_SettingChanged;
         }
 
         protected override void Initialize()
         {
             base.Initialize();
-            Paths = new(DirectoriesManager, Name);
             Logger.Info($"Starting {Name} v." + Version.BaseVersion());
 
             Data = new(Paths, Gw2ApiManager, () => _notificationBadge, () => _apiSpinner);

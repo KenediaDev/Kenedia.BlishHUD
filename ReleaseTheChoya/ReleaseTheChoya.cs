@@ -43,7 +43,6 @@ namespace Kenedia.Modules.ReleaseTheChoya
         [ImportingConstructor]
         public ReleaseTheChoya([Import("ModuleParameters")] ModuleParameters moduleParameters) : base(moduleParameters)
         {
-            ModuleInstance = this;
             HasGUI = true;
         }
 
@@ -51,7 +50,6 @@ namespace Kenedia.Modules.ReleaseTheChoya
         {
             base.DefineSettings(settings);
 
-            Settings = new Settings(settings);
             Settings.ChoyaDelay.SettingChanged += ChoyaDelay_SettingChanged;
             Settings.ChoyaIdleDelay.SettingChanged += ChoyaDelay_SettingChanged;
             Settings.ShowCornerIcon.SettingChanged += ShowCornerIcon_SettingChanged;
@@ -114,7 +112,6 @@ namespace Kenedia.Modules.ReleaseTheChoya
         {
             base.Initialize();
 
-            Paths = new PathCollection(DirectoriesManager, Name);
             Logger.Info($"Starting {Name} v." + Version.BaseVersion());
         }
 

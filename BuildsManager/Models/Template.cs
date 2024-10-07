@@ -337,7 +337,7 @@ namespace Kenedia.Modules.BuildsManager.Models
                 return;
             }
 
-            if (slot.GetOffhand() is TemplateSlotType offhand)
+            if (slot.GetOffhand() is TemplateSlotType offhand && slot.IsMainHand())
             {
                 if (this[slot] is WeaponTemplateEntry mainHand)
                 {
@@ -355,7 +355,7 @@ namespace Kenedia.Modules.BuildsManager.Models
                                 OnGearChanged(offhandEntry, new TemplateSlotChangedEventArgs(offhand, subSlot, obj));
                             }
                         }
-                        else if (obj is Stat && mainHand.Weapon.WeaponType.IsTwoHanded())
+                        else if (obj is Stat && mainHand.Weapon?.WeaponType.IsTwoHanded() is true)
                         {
                             if (offhandEntry.SetValue(offhand, subSlot, obj))
                             {
@@ -364,7 +364,7 @@ namespace Kenedia.Modules.BuildsManager.Models
                         }
                         else if (offhandEntry.Weapon?.WeaponType.IsTwoHanded() is true)
                         {
-                            if (obj is DataModels.Items.Weapon newWeapon && newWeapon?.WeaponType.IsOneHanded() is true)
+                            if (obj is null || (obj is DataModels.Items.Weapon newWeapon && newWeapon?.WeaponType.IsOneHanded() is true))
                             {
                                 if (offhandEntry.SetValue(offhand, subSlot, null))
                                 {

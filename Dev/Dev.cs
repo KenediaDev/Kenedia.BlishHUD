@@ -27,7 +27,7 @@ namespace Kenedia.Modules.Dev
         [ImportingConstructor]
         public Dev([Import("ModuleParameters")] ModuleParameters moduleParameters) : base(moduleParameters)
         {
-            ModuleInstance = this;
+
         }
 
         protected override void DefineSettings(SettingCollection settings)
@@ -39,7 +39,6 @@ namespace Kenedia.Modules.Dev
         protected override void Initialize()
         {
             base.Initialize();
-            Paths = new(DirectoriesManager, Name);
 
             HasGUI = false;
             Logger.Info($"Starting {Name} v." + Version.BaseVersion());

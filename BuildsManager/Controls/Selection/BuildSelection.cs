@@ -127,7 +127,9 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
                     SelectionPanel?.SetTemplateAnchor(ts = TemplateSelectables.FirstOrDefault(e => e.Template == t));
                     ts?.ToggleEditMode(true);
 
-                    Search.Text = null;
+                    Search.Text = t.Name;
+
+                    //Search.Text = null;
                     //FilterTemplates();
                 }
             });
@@ -196,8 +198,9 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
                 bool filterQueriesMatches = FilterQueries.Count == 0 || FilterQueries.All(x => x.Value.Count == 0 || x.Value.Any(x => x(template.Template)));
                 bool specMatches = SpecializationFilterQueries.Count == 0 || SpecializationFilterQueries.Any(x => x(template.Template));
                 bool nameMatches = anyName || template.Template.Name.ToLower().Contains(lowerTxt);
+                bool lastModifiedMatch = template.Template.LastModified.ToLower().Contains(lowerTxt);
 
-                template.Visible = filterQueriesMatches && specMatches && nameMatches;
+                template.Visible = filterQueriesMatches && specMatches && (nameMatches || lastModifiedMatch);
             }
 
             SortTemplates();

@@ -29,7 +29,6 @@ namespace Kenedia.Modules.FashionManager
         [ImportingConstructor]
         public FashionManager([Import("ModuleParameters")] ModuleParameters moduleParameters) : base(moduleParameters)
         {
-            ModuleInstance = this;
 
         }
 

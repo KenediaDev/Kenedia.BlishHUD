@@ -1,4 +1,5 @@
-﻿using Kenedia.Modules.Core.Models;
+﻿using Blish_HUD.Modules;
+using Kenedia.Modules.Core.Models;
 using System.IO;
 
 namespace Kenedia.Modules.OverflowTradingAssist.Models
@@ -9,7 +10,7 @@ namespace Kenedia.Modules.OverflowTradingAssist.Models
         {
         }
 
-        public Paths(Blish_HUD.Modules.Managers.DirectoriesManager directoriesManager, string moduleName) : base(directoriesManager, moduleName)
+        public Paths(Blish_HUD.Modules.Managers.DirectoriesManager directoriesManager, Module module) : base(directoriesManager, module)
         {
             if (!Directory.Exists(TradeHistory)) _ = Directory.CreateDirectory(TradeHistory);
         }

@@ -40,7 +40,6 @@ namespace Kenedia.Modules.AdvancedBuildsManager
         [ImportingConstructor]
         public AdvancedBuildsManager([Import("ModuleParameters")] ModuleParameters moduleParameters) : base(moduleParameters)
         {
-            ModuleInstance = this;
             HasGUI = true;
         }
 
@@ -69,7 +68,6 @@ namespace Kenedia.Modules.AdvancedBuildsManager
         {
             base.DefineSettings(settings);
 
-            Settings = new Settings(settings);
             Settings.ShowCornerIcon.SettingChanged += ShowCornerIcon_SettingChanged; ;
         }
 
@@ -88,14 +86,6 @@ namespace Kenedia.Modules.AdvancedBuildsManager
         protected override void Initialize()
         {
             base.Initialize();
-
-            Paths = new(DirectoriesManager, Name);
-
-            JsonConvert.DefaultSettings = () => new JsonSerializerSettings
-            {
-                Formatting = Formatting.Indented,
-                NullValueHandling = NullValueHandling.Ignore,
-            };
 
             Logger.Info($"Starting {Name} v." + Version.BaseVersion());
             Data = new(ContentsManager, Paths);

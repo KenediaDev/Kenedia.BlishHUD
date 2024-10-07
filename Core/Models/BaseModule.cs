@@ -14,6 +14,7 @@ using Blish_HUD.Controls;
 using Blish_HUD.Gw2Mumble;
 using Blish_HUD.GameIntegration;
 using Microsoft.Extensions.DependencyInjection;
+using Newtonsoft.Json;
 
 namespace Kenedia.Modules.Core.Models
 {
@@ -34,8 +35,14 @@ namespace Kenedia.Modules.Core.Models
         protected BaseModule([Import("ModuleParameters")] ModuleParameters moduleParameters)
             : base(moduleParameters)
         {
-
+            ModuleInstance = this as ModuleType;
             GameService.Overlay.UserLocale.SettingChanged += OnLocaleChanged;
+
+            JsonConvert.DefaultSettings = () => new JsonSerializerSettings
+            {
+                Formatting = Formatting.Indented,
+                NullValueHandling = NullValueHandling.Ignore,
+            };
 
             SetupServices();
         }
@@ -104,13 +111,13 @@ namespace Kenedia.Modules.Core.Models
 
         public static string ModuleName => ModuleInstance.Name;
 
-        public static ModuleType ModuleInstance { get; protected set; }
+        public static ModuleType ModuleInstance { get; private set; }
 
         public static VirtualKeyShort[] ModKeyMapping { get; private set; }
 
         public SemVer.Version ModuleVersion { get; private set; }
 
-        public ModulePaths Paths { get; protected set; }
+        public ModulePaths Paths { get; private set; }
 
         public SettingCollection SettingCollection { get; private set; }
 
@@ -130,7 +137,7 @@ namespace Kenedia.Modules.Core.Models
 
         public BaseSettingsWindow SettingsWindow { get; protected set; }
 
-        public ModuleSettings Settings { get; protected set; }
+        public ModuleSettings Settings { get; private set; }
 
         protected SettingEntry<Blish_HUD.Input.KeyBinding> ReloadKey { get; set; }
 

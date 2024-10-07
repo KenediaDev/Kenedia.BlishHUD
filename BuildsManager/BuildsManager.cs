@@ -46,11 +46,9 @@ namespace Kenedia.Modules.BuildsManager
         [ImportingConstructor]
         public BuildsManager([Import("ModuleParameters")] ModuleParameters moduleParameters) : base(moduleParameters)
         {
-            ModuleInstance = this;
             HasGUI = true;
 
             CoreServices.GameStateDetectionService.Enabled = false;
-
         }
 
         protected override ServiceCollection DefineServices(ServiceCollection services)

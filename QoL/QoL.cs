@@ -35,7 +35,6 @@ namespace Kenedia.Modules.QoL
         [ImportingConstructor]
         public QoL([Import("ModuleParameters")] ModuleParameters moduleParameters) : base(moduleParameters)
         {
-            ModuleInstance = this;
             HasGUI = true;
             AutoLoadGUI = true;
         }
@@ -48,10 +47,8 @@ namespace Kenedia.Modules.QoL
         {
             base.DefineSettings(settings);
 
-            Settings = new Settings(settings);
             Settings.HotbarExpandDirection.SettingChanged += HotbarExpandDirection_SettingChanged;
             Settings.HotbarButtonSorting.SettingChanged += HotbarButtonSorting_SettingChanged;
-
         }
 
         private void HotbarButtonSorting_SettingChanged(object sender, Blish_HUD.ValueChangedEventArgs<SortType> e)
@@ -74,7 +71,6 @@ namespace Kenedia.Modules.QoL
         protected override void Initialize()
         {
             base.Initialize();
-            Paths = new PathCollection(DirectoriesManager, Name);
 
             Logger.Info($"Starting {Name} v." + Version.BaseVersion());
 
