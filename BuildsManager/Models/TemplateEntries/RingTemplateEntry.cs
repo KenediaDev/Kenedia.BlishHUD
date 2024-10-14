@@ -7,6 +7,7 @@ using Kenedia.Modules.Core.Utility;
 using Kenedia.Modules.Core.Models;
 using System;
 using Kenedia.Modules.BuildsManager.Interfaces;
+using Kenedia.Modules.BuildsManager.Services;
 
 namespace Kenedia.Modules.BuildsManager.TemplateEntries
 {
@@ -19,11 +20,18 @@ namespace Kenedia.Modules.BuildsManager.TemplateEntries
         private Infusion _infusion3;
         private Stat _stat;
 
-        public RingTemplateEntry(TemplateSlotType slot) : base(slot)
+        public RingTemplateEntry(TemplateSlotType slot, Data data) : base(slot, data)
         {
         }
 
-        public Trinket Ring { get; private set; } = BuildsManager.Data?.Trinkets.TryGetValue(91234, out Trinket ring) is true ? ring : null;
+        override protected void OnDataLoaded()
+        {
+            base.OnDataLoaded();
+
+            Ring = Data?.Trinkets.TryGetValue(91234, out Trinket ring) is true ? ring : null;
+        }
+
+        public Trinket Ring { get; private set; }
 
         public Infusion Infusion1 { get => _infusion1; private set => Common.SetProperty(ref _infusion1, value); }
 
@@ -45,32 +53,6 @@ namespace Kenedia.Modules.BuildsManager.TemplateEntries
             {
                 Ring = trinket;
             }
-        }
-
-        public override byte[] AddToCodeArray(byte[] array)
-        {
-            return array.Concat(new byte[]
-            {
-                Stat ?.MappedId ?? 0,
-                Infusion1 ?.MappedId ?? 0,
-                Infusion2 ?.MappedId ?? 0,
-                Infusion3 ?.MappedId ?? 0,
-            }).ToArray();
-        }
-
-        public override byte[] GetFromCodeArray(byte[] array)
-        {
-            int newStartIndex = 4;
-
-            if (array is not null && array.Length > 0)
-            {
-                Stat = BuildsManager.Data.Stats.Items.Where(e => e.Value.MappedId == array[0]).FirstOrDefault().Value;
-                Infusion1 = BuildsManager.Data.Infusions.Items.Where(e => e.Value.MappedId == array[1]).FirstOrDefault().Value;
-                Infusion2 = BuildsManager.Data.Infusions.Items.Where(e => e.Value.MappedId == array[2]).FirstOrDefault().Value;
-                Infusion3 = BuildsManager.Data.Infusions.Items.Where(e => e.Value.MappedId == array[3]).FirstOrDefault().Value;
-            }
-
-            return array is not null && array.Length > 0 ? GearTemplateCode.RemoveFromStart(array, newStartIndex) : array;
         }
 
         public void Dispose()

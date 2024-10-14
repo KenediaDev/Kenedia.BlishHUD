@@ -2,6 +2,7 @@
 using Gw2Sharp.WebApi.V2.Models;
 using Kenedia.Modules.BuildsManager.Models;
 using Kenedia.Modules.BuildsManager.Models.Templates;
+using Kenedia.Modules.BuildsManager.Services;
 using Kenedia.Modules.BuildsManager.TemplateEntries;
 using System;
 using System.Diagnostics;
@@ -253,7 +254,7 @@ namespace Kenedia.Modules.BuildsManager.Utility
             return $"[&{Convert.ToBase64String([.. codeArray])}]";
         }
 
-        public static void LoadTemplateFromChatCode(Template template, string? chatCode)
+        public static void LoadTemplateFromChatCode(Template template, string? chatCode, Data data)
         {
             if (string.IsNullOrEmpty(chatCode))
             {
@@ -271,131 +272,131 @@ namespace Kenedia.Modules.BuildsManager.Utility
                 }
 
                 // MainHand
-                template.SetItem(template.MainHand.Slot, TemplateSubSlotType.Item, Enum.TryParse($"{GetByte(TemplateBytePosition.MainHandWeaponType)}", out ItemWeaponType mainHandWeaponType) ? BuildsManager.Data.Weapons.Values.Where(e => e.WeaponType == mainHandWeaponType).FirstOrDefault() : null);
-                template.SetItem(template.MainHand.Slot, TemplateSubSlotType.Stat, BuildsManager.Data.Stats.Items.Where(e => e.Value.MappedId == GetByte(TemplateBytePosition.MainHandStat)).FirstOrDefault().Value);
-                template.SetItem(template.MainHand.Slot, TemplateSubSlotType.Sigil1, BuildsManager.Data.PveSigils.Items.Where(e => e.Value.MappedId == GetByte(TemplateBytePosition.MainHandSigil1)).FirstOrDefault().Value);
-                template.SetItem(template.MainHand.Slot, TemplateSubSlotType.Infusion1, BuildsManager.Data.Infusions.Items.Where(e => e.Value.MappedId == GetByte(TemplateBytePosition.MainHandInfusion1)).FirstOrDefault().Value);
-                template.SetItem(template.MainHand.Slot, TemplateSubSlotType.PvpSigil, BuildsManager.Data.PvpSigils.Items.Where(e => e.Value.MappedId == GetByte(TemplateBytePosition.MainHandPvpSigil)).FirstOrDefault().Value);
+                template.SetItem(template.MainHand.Slot, TemplateSubSlotType.Item, Enum.TryParse($"{GetByte(TemplateBytePosition.MainHandWeaponType)}", out ItemWeaponType mainHandWeaponType) ? data.Weapons.Values.Where(e => e.WeaponType == mainHandWeaponType).FirstOrDefault() : null);
+                template.SetItem(template.MainHand.Slot, TemplateSubSlotType.Stat, data.Stats.Items.Where(e => e.Value.MappedId == GetByte(TemplateBytePosition.MainHandStat)).FirstOrDefault().Value);
+                template.SetItem(template.MainHand.Slot, TemplateSubSlotType.Sigil1, data.PveSigils.Items.Where(e => e.Value.MappedId == GetByte(TemplateBytePosition.MainHandSigil1)).FirstOrDefault().Value);
+                template.SetItem(template.MainHand.Slot, TemplateSubSlotType.Infusion1, data.Infusions.Items.Where(e => e.Value.MappedId == GetByte(TemplateBytePosition.MainHandInfusion1)).FirstOrDefault().Value);
+                template.SetItem(template.MainHand.Slot, TemplateSubSlotType.PvpSigil, data.PvpSigils.Items.Where(e => e.Value.MappedId == GetByte(TemplateBytePosition.MainHandPvpSigil)).FirstOrDefault().Value);
 
                 // OffHand
-                template.SetItem(template.OffHand.Slot, TemplateSubSlotType.Item, Enum.TryParse($"{GetByte(TemplateBytePosition.OffHandWeaponType)}", out ItemWeaponType offHandWeaponType) ? BuildsManager.Data.Weapons.Values.Where(e => e.WeaponType == offHandWeaponType).FirstOrDefault() : null);
-                template.SetItem(template.OffHand.Slot, TemplateSubSlotType.Stat, BuildsManager.Data.Stats.Items.Where(e => e.Value.MappedId == GetByte(TemplateBytePosition.OffHandStat)).FirstOrDefault().Value);
-                template.SetItem(template.OffHand.Slot, TemplateSubSlotType.Sigil1, BuildsManager.Data.PveSigils.Items.Where(e => e.Value.MappedId == GetByte(TemplateBytePosition.OffHandSigil1)).FirstOrDefault().Value);
-                template.SetItem(template.OffHand.Slot, TemplateSubSlotType.Infusion1, BuildsManager.Data.Infusions.Items.Where(e => e.Value.MappedId == GetByte(TemplateBytePosition.OffHandInfusion1)).FirstOrDefault().Value);
-                template.SetItem(template.OffHand.Slot, TemplateSubSlotType.PvpSigil, BuildsManager.Data.PvpSigils.Items.Where(e => e.Value.MappedId == GetByte(TemplateBytePosition.OffHandPvpSigil)).FirstOrDefault().Value);
+                template.SetItem(template.OffHand.Slot, TemplateSubSlotType.Item, Enum.TryParse($"{GetByte(TemplateBytePosition.OffHandWeaponType)}", out ItemWeaponType offHandWeaponType) ? data.Weapons.Values.Where(e => e.WeaponType == offHandWeaponType).FirstOrDefault() : null);
+                template.SetItem(template.OffHand.Slot, TemplateSubSlotType.Stat, data.Stats.Items.Where(e => e.Value.MappedId == GetByte(TemplateBytePosition.OffHandStat)).FirstOrDefault().Value);
+                template.SetItem(template.OffHand.Slot, TemplateSubSlotType.Sigil1, data.PveSigils.Items.Where(e => e.Value.MappedId == GetByte(TemplateBytePosition.OffHandSigil1)).FirstOrDefault().Value);
+                template.SetItem(template.OffHand.Slot, TemplateSubSlotType.Infusion1, data.Infusions.Items.Where(e => e.Value.MappedId == GetByte(TemplateBytePosition.OffHandInfusion1)).FirstOrDefault().Value);
+                template.SetItem(template.OffHand.Slot, TemplateSubSlotType.PvpSigil, data.PvpSigils.Items.Where(e => e.Value.MappedId == GetByte(TemplateBytePosition.OffHandPvpSigil)).FirstOrDefault().Value);
 
                 //AltMainHand
-                template.SetItem(template.AltMainHand.Slot, TemplateSubSlotType.Item, Enum.TryParse($"{GetByte(TemplateBytePosition.AltMainHandWeaponType)}", out ItemWeaponType altMainHandWeaponType) ? BuildsManager.Data.Weapons.Values.Where(e => e.WeaponType == altMainHandWeaponType).FirstOrDefault() : null);
-                template.SetItem(template.AltMainHand.Slot, TemplateSubSlotType.Stat, BuildsManager.Data.Stats.Items.Where(e => e.Value.MappedId == GetByte(TemplateBytePosition.AltMainHandStat)).FirstOrDefault().Value);
-                template.SetItem(template.AltMainHand.Slot, TemplateSubSlotType.Sigil1, BuildsManager.Data.PveSigils.Items.Where(e => e.Value.MappedId == GetByte(TemplateBytePosition.AltMainHandSigil1)).FirstOrDefault().Value);
-                template.SetItem(template.AltMainHand.Slot, TemplateSubSlotType.Infusion1, BuildsManager.Data.Infusions.Items.Where(e => e.Value.MappedId == GetByte(TemplateBytePosition.AltMainHandInfusion1)).FirstOrDefault().Value);
-                template.SetItem(template.AltMainHand.Slot, TemplateSubSlotType.PvpSigil, BuildsManager.Data.PvpSigils.Items.Where(e => e.Value.MappedId == GetByte(TemplateBytePosition.AltMainHandPvpSigil)).FirstOrDefault().Value);
+                template.SetItem(template.AltMainHand.Slot, TemplateSubSlotType.Item, Enum.TryParse($"{GetByte(TemplateBytePosition.AltMainHandWeaponType)}", out ItemWeaponType altMainHandWeaponType) ? data.Weapons.Values.Where(e => e.WeaponType == altMainHandWeaponType).FirstOrDefault() : null);
+                template.SetItem(template.AltMainHand.Slot, TemplateSubSlotType.Stat, data.Stats.Items.Where(e => e.Value.MappedId == GetByte(TemplateBytePosition.AltMainHandStat)).FirstOrDefault().Value);
+                template.SetItem(template.AltMainHand.Slot, TemplateSubSlotType.Sigil1, data.PveSigils.Items.Where(e => e.Value.MappedId == GetByte(TemplateBytePosition.AltMainHandSigil1)).FirstOrDefault().Value);
+                template.SetItem(template.AltMainHand.Slot, TemplateSubSlotType.Infusion1, data.Infusions.Items.Where(e => e.Value.MappedId == GetByte(TemplateBytePosition.AltMainHandInfusion1)).FirstOrDefault().Value);
+                template.SetItem(template.AltMainHand.Slot, TemplateSubSlotType.PvpSigil, data.PvpSigils.Items.Where(e => e.Value.MappedId == GetByte(TemplateBytePosition.AltMainHandPvpSigil)).FirstOrDefault().Value);
 
                 //AltOffHand
-                template.SetItem(template.AltOffHand.Slot, TemplateSubSlotType.Item, Enum.TryParse($"{GetByte(TemplateBytePosition.AltOffHandWeaponType)}", out ItemWeaponType altOffHandWeaponType) ? BuildsManager.Data.Weapons.Values.Where(e => e.WeaponType == altOffHandWeaponType).FirstOrDefault() : null);
-                template.SetItem(template.AltOffHand.Slot, TemplateSubSlotType.Stat, BuildsManager.Data.Stats.Items.Where(e => e.Value.MappedId == GetByte(TemplateBytePosition.AltOffHandStat)).FirstOrDefault().Value);
-                template.SetItem(template.AltOffHand.Slot, TemplateSubSlotType.Sigil1, BuildsManager.Data.PveSigils.Items.Where(e => e.Value.MappedId == GetByte(TemplateBytePosition.AltOffHandSigil1)).FirstOrDefault().Value);
-                template.SetItem(template.AltOffHand.Slot, TemplateSubSlotType.Infusion1, BuildsManager.Data.Infusions.Items.Where(e => e.Value.MappedId == GetByte(TemplateBytePosition.AltOffHandInfusion1)).FirstOrDefault().Value);
-                template.SetItem(template.AltOffHand.Slot, TemplateSubSlotType.PvpSigil, BuildsManager.Data.PvpSigils.Items.Where(e => e.Value.MappedId == GetByte(TemplateBytePosition.AltOffHandPvpSigil)).FirstOrDefault().Value);
+                template.SetItem(template.AltOffHand.Slot, TemplateSubSlotType.Item, Enum.TryParse($"{GetByte(TemplateBytePosition.AltOffHandWeaponType)}", out ItemWeaponType altOffHandWeaponType) ? data.Weapons.Values.Where(e => e.WeaponType == altOffHandWeaponType).FirstOrDefault() : null);
+                template.SetItem(template.AltOffHand.Slot, TemplateSubSlotType.Stat, data.Stats.Items.Where(e => e.Value.MappedId == GetByte(TemplateBytePosition.AltOffHandStat)).FirstOrDefault().Value);
+                template.SetItem(template.AltOffHand.Slot, TemplateSubSlotType.Sigil1, data.PveSigils.Items.Where(e => e.Value.MappedId == GetByte(TemplateBytePosition.AltOffHandSigil1)).FirstOrDefault().Value);
+                template.SetItem(template.AltOffHand.Slot, TemplateSubSlotType.Infusion1, data.Infusions.Items.Where(e => e.Value.MappedId == GetByte(TemplateBytePosition.AltOffHandInfusion1)).FirstOrDefault().Value);
+                template.SetItem(template.AltOffHand.Slot, TemplateSubSlotType.PvpSigil, data.PvpSigils.Items.Where(e => e.Value.MappedId == GetByte(TemplateBytePosition.AltOffHandPvpSigil)).FirstOrDefault().Value);
 
                 //Head
-                template.SetItem(template.Head.Slot, TemplateSubSlotType.Stat, BuildsManager.Data.Stats.Items.Where(e => e.Value.MappedId == GetByte(TemplateBytePosition.HeadStat)).FirstOrDefault().Value);
-                template.SetItem(template.Head.Slot, TemplateSubSlotType.Rune, BuildsManager.Data.PveRunes.Items.Where(e => e.Value.MappedId == GetByte(TemplateBytePosition.HeadRune)).FirstOrDefault().Value);
-                template.SetItem(template.Head.Slot, TemplateSubSlotType.Infusion1, BuildsManager.Data.Infusions.Items.Where(e => e.Value.MappedId == GetByte(TemplateBytePosition.HeadInfusion1)).FirstOrDefault().Value);
+                template.SetItem(template.Head.Slot, TemplateSubSlotType.Stat, data.Stats.Items.Where(e => e.Value.MappedId == GetByte(TemplateBytePosition.HeadStat)).FirstOrDefault().Value);
+                template.SetItem(template.Head.Slot, TemplateSubSlotType.Rune, data.PveRunes.Items.Where(e => e.Value.MappedId == GetByte(TemplateBytePosition.HeadRune)).FirstOrDefault().Value);
+                template.SetItem(template.Head.Slot, TemplateSubSlotType.Infusion1, data.Infusions.Items.Where(e => e.Value.MappedId == GetByte(TemplateBytePosition.HeadInfusion1)).FirstOrDefault().Value);
 
                 //Shoulder
-                template.SetItem(template.Shoulder.Slot, TemplateSubSlotType.Stat, BuildsManager.Data.Stats.Items.Where(e => e.Value.MappedId == GetByte(TemplateBytePosition.ShoulderStat)).FirstOrDefault().Value);
-                template.SetItem(template.Shoulder.Slot, TemplateSubSlotType.Rune, BuildsManager.Data.PveRunes.Items.Where(e => e.Value.MappedId == GetByte(TemplateBytePosition.ShoulderRune)).FirstOrDefault().Value);
-                template.SetItem(template.Shoulder.Slot, TemplateSubSlotType.Infusion1, BuildsManager.Data.Infusions.Items.Where(e => e.Value.MappedId == GetByte(TemplateBytePosition.ShoulderInfusion1)).FirstOrDefault().Value);
+                template.SetItem(template.Shoulder.Slot, TemplateSubSlotType.Stat, data.Stats.Items.Where(e => e.Value.MappedId == GetByte(TemplateBytePosition.ShoulderStat)).FirstOrDefault().Value);
+                template.SetItem(template.Shoulder.Slot, TemplateSubSlotType.Rune, data.PveRunes.Items.Where(e => e.Value.MappedId == GetByte(TemplateBytePosition.ShoulderRune)).FirstOrDefault().Value);
+                template.SetItem(template.Shoulder.Slot, TemplateSubSlotType.Infusion1, data.Infusions.Items.Where(e => e.Value.MappedId == GetByte(TemplateBytePosition.ShoulderInfusion1)).FirstOrDefault().Value);
 
                 //Chest
-                template.SetItem(template.Chest.Slot, TemplateSubSlotType.Stat, BuildsManager.Data.Stats.Items.Where(e => e.Value.MappedId == GetByte(TemplateBytePosition.ChestStat)).FirstOrDefault().Value);
-                template.SetItem(template.Chest.Slot, TemplateSubSlotType.Rune, BuildsManager.Data.PveRunes.Items.Where(e => e.Value.MappedId == GetByte(TemplateBytePosition.ChestRune)).FirstOrDefault().Value);
-                template.SetItem(template.Chest.Slot, TemplateSubSlotType.Infusion1, BuildsManager.Data.Infusions.Items.Where(e => e.Value.MappedId == GetByte(TemplateBytePosition.ChestInfusion1)).FirstOrDefault().Value);
+                template.SetItem(template.Chest.Slot, TemplateSubSlotType.Stat, data.Stats.Items.Where(e => e.Value.MappedId == GetByte(TemplateBytePosition.ChestStat)).FirstOrDefault().Value);
+                template.SetItem(template.Chest.Slot, TemplateSubSlotType.Rune, data.PveRunes.Items.Where(e => e.Value.MappedId == GetByte(TemplateBytePosition.ChestRune)).FirstOrDefault().Value);
+                template.SetItem(template.Chest.Slot, TemplateSubSlotType.Infusion1, data.Infusions.Items.Where(e => e.Value.MappedId == GetByte(TemplateBytePosition.ChestInfusion1)).FirstOrDefault().Value);
 
                 //Hand
-                template.SetItem(template.Hand.Slot, TemplateSubSlotType.Stat, BuildsManager.Data.Stats.Items.Where(e => e.Value.MappedId == GetByte(TemplateBytePosition.HandStat)).FirstOrDefault().Value);
-                template.SetItem(template.Hand.Slot, TemplateSubSlotType.Rune, BuildsManager.Data.PveRunes.Items.Where(e => e.Value.MappedId == GetByte(TemplateBytePosition.HandRune)).FirstOrDefault().Value);
-                template.SetItem(template.Hand.Slot, TemplateSubSlotType.Infusion1, BuildsManager.Data.Infusions.Items.Where(e => e.Value.MappedId == GetByte(TemplateBytePosition.HandInfusion1)).FirstOrDefault().Value);
+                template.SetItem(template.Hand.Slot, TemplateSubSlotType.Stat, data.Stats.Items.Where(e => e.Value.MappedId == GetByte(TemplateBytePosition.HandStat)).FirstOrDefault().Value);
+                template.SetItem(template.Hand.Slot, TemplateSubSlotType.Rune, data.PveRunes.Items.Where(e => e.Value.MappedId == GetByte(TemplateBytePosition.HandRune)).FirstOrDefault().Value);
+                template.SetItem(template.Hand.Slot, TemplateSubSlotType.Infusion1, data.Infusions.Items.Where(e => e.Value.MappedId == GetByte(TemplateBytePosition.HandInfusion1)).FirstOrDefault().Value);
 
                 //Leg
-                template.SetItem(template.Leg.Slot, TemplateSubSlotType.Stat, BuildsManager.Data.Stats.Items.Where(e => e.Value.MappedId == GetByte(TemplateBytePosition.LegStat)).FirstOrDefault().Value);
-                template.SetItem(template.Leg.Slot, TemplateSubSlotType.Rune, BuildsManager.Data.PveRunes.Items.Where(e => e.Value.MappedId == GetByte(TemplateBytePosition.LegRune)).FirstOrDefault().Value);
-                template.SetItem(template.Leg.Slot, TemplateSubSlotType.Infusion1, BuildsManager.Data.Infusions.Items.Where(e => e.Value.MappedId == GetByte(TemplateBytePosition.LegInfusion1)).FirstOrDefault().Value);
+                template.SetItem(template.Leg.Slot, TemplateSubSlotType.Stat, data.Stats.Items.Where(e => e.Value.MappedId == GetByte(TemplateBytePosition.LegStat)).FirstOrDefault().Value);
+                template.SetItem(template.Leg.Slot, TemplateSubSlotType.Rune, data.PveRunes.Items.Where(e => e.Value.MappedId == GetByte(TemplateBytePosition.LegRune)).FirstOrDefault().Value);
+                template.SetItem(template.Leg.Slot, TemplateSubSlotType.Infusion1, data.Infusions.Items.Where(e => e.Value.MappedId == GetByte(TemplateBytePosition.LegInfusion1)).FirstOrDefault().Value);
 
                 //Foot
-                template.SetItem(template.Foot.Slot, TemplateSubSlotType.Stat, BuildsManager.Data.Stats.Items.Where(e => e.Value.MappedId == GetByte(TemplateBytePosition.FootStat)).FirstOrDefault().Value);
-                template.SetItem(template.Foot.Slot, TemplateSubSlotType.Rune, BuildsManager.Data.PveRunes.Items.Where(e => e.Value.MappedId == GetByte(TemplateBytePosition.FootRune)).FirstOrDefault().Value);
-                template.SetItem(template.Foot.Slot, TemplateSubSlotType.Infusion1, BuildsManager.Data.Infusions.Items.Where(e => e.Value.MappedId == GetByte(TemplateBytePosition.FootInfusion1)).FirstOrDefault().Value);
+                template.SetItem(template.Foot.Slot, TemplateSubSlotType.Stat, data.Stats.Items.Where(e => e.Value.MappedId == GetByte(TemplateBytePosition.FootStat)).FirstOrDefault().Value);
+                template.SetItem(template.Foot.Slot, TemplateSubSlotType.Rune, data.PveRunes.Items.Where(e => e.Value.MappedId == GetByte(TemplateBytePosition.FootRune)).FirstOrDefault().Value);
+                template.SetItem(template.Foot.Slot, TemplateSubSlotType.Infusion1, data.Infusions.Items.Where(e => e.Value.MappedId == GetByte(TemplateBytePosition.FootInfusion1)).FirstOrDefault().Value);
 
                 //Back
-                template.SetItem(template.Back.Slot, TemplateSubSlotType.Stat, BuildsManager.Data.Stats.Items.Where(e => e.Value.MappedId == GetByte(TemplateBytePosition.BackStat)).FirstOrDefault().Value);
-                template.SetItem(template.Back.Slot, TemplateSubSlotType.Infusion1, BuildsManager.Data.Infusions.Items.Where(e => e.Value.MappedId == GetByte(TemplateBytePosition.BackInfusion1)).FirstOrDefault().Value);
-                template.SetItem(template.Back.Slot, TemplateSubSlotType.Infusion2, BuildsManager.Data.Infusions.Items.Where(e => e.Value.MappedId == GetByte(TemplateBytePosition.BackInfusion2)).FirstOrDefault().Value);
+                template.SetItem(template.Back.Slot, TemplateSubSlotType.Stat, data.Stats.Items.Where(e => e.Value.MappedId == GetByte(TemplateBytePosition.BackStat)).FirstOrDefault().Value);
+                template.SetItem(template.Back.Slot, TemplateSubSlotType.Infusion1, data.Infusions.Items.Where(e => e.Value.MappedId == GetByte(TemplateBytePosition.BackInfusion1)).FirstOrDefault().Value);
+                template.SetItem(template.Back.Slot, TemplateSubSlotType.Infusion2, data.Infusions.Items.Where(e => e.Value.MappedId == GetByte(TemplateBytePosition.BackInfusion2)).FirstOrDefault().Value);
 
                 //Amulet
-                template.SetItem(template.Amulet.Slot, TemplateSubSlotType.Stat, BuildsManager.Data.Stats.Items.Where(e => e.Value.MappedId == GetByte(TemplateBytePosition.AmuletStat)).FirstOrDefault().Value);
-                template.SetItem(template.Amulet.Slot, TemplateSubSlotType.Enrichment, BuildsManager.Data.Enrichments.Items.Where(e => e.Value.MappedId == GetByte(TemplateBytePosition.AmuletEnrichment)).FirstOrDefault().Value);
+                template.SetItem(template.Amulet.Slot, TemplateSubSlotType.Stat, data.Stats.Items.Where(e => e.Value.MappedId == GetByte(TemplateBytePosition.AmuletStat)).FirstOrDefault().Value);
+                template.SetItem(template.Amulet.Slot, TemplateSubSlotType.Enrichment, data.Enrichments.Items.Where(e => e.Value.MappedId == GetByte(TemplateBytePosition.AmuletEnrichment)).FirstOrDefault().Value);
 
                 //Accessory_1
-                template.SetItem(template.Accessory_1.Slot, TemplateSubSlotType.Stat, BuildsManager.Data.Stats.Items.Where(e => e.Value.MappedId == GetByte(TemplateBytePosition.Accessory1Stat)).FirstOrDefault().Value);
-                template.SetItem(template.Accessory_1.Slot, TemplateSubSlotType.Infusion1, BuildsManager.Data.Infusions.Items.Where(e => e.Value.MappedId == GetByte(TemplateBytePosition.Accessory1Infusion1)).FirstOrDefault().Value);
+                template.SetItem(template.Accessory_1.Slot, TemplateSubSlotType.Stat, data.Stats.Items.Where(e => e.Value.MappedId == GetByte(TemplateBytePosition.Accessory1Stat)).FirstOrDefault().Value);
+                template.SetItem(template.Accessory_1.Slot, TemplateSubSlotType.Infusion1, data.Infusions.Items.Where(e => e.Value.MappedId == GetByte(TemplateBytePosition.Accessory1Infusion1)).FirstOrDefault().Value);
 
                 //Accessory_2
-                template.SetItem(template.Accessory_2.Slot, TemplateSubSlotType.Stat, BuildsManager.Data.Stats.Items.Where(e => e.Value.MappedId == GetByte(TemplateBytePosition.Accessory2Stat)).FirstOrDefault().Value);
-                template.SetItem(template.Accessory_2.Slot, TemplateSubSlotType.Infusion1, BuildsManager.Data.Infusions.Items.Where(e => e.Value.MappedId == GetByte(TemplateBytePosition.Accessory2Infusion1)).FirstOrDefault().Value);
+                template.SetItem(template.Accessory_2.Slot, TemplateSubSlotType.Stat, data.Stats.Items.Where(e => e.Value.MappedId == GetByte(TemplateBytePosition.Accessory2Stat)).FirstOrDefault().Value);
+                template.SetItem(template.Accessory_2.Slot, TemplateSubSlotType.Infusion1, data.Infusions.Items.Where(e => e.Value.MappedId == GetByte(TemplateBytePosition.Accessory2Infusion1)).FirstOrDefault().Value);
 
                 //Ring_1
-                template.SetItem(template.Ring_1.Slot, TemplateSubSlotType.Stat, BuildsManager.Data.Stats.Items.Where(e => e.Value.MappedId == GetByte(TemplateBytePosition.Ring1Stat)).FirstOrDefault().Value);
-                template.SetItem(template.Ring_1.Slot, TemplateSubSlotType.Infusion1, BuildsManager.Data.Infusions.Items.Where(e => e.Value.MappedId == GetByte(TemplateBytePosition.Ring1Infusion1)).FirstOrDefault().Value);
-                template.SetItem(template.Ring_1.Slot, TemplateSubSlotType.Infusion2, BuildsManager.Data.Infusions.Items.Where(e => e.Value.MappedId == GetByte(TemplateBytePosition.Ring1Infusion2)).FirstOrDefault().Value);
-                template.SetItem(template.Ring_1.Slot, TemplateSubSlotType.Infusion3, BuildsManager.Data.Infusions.Items.Where(e => e.Value.MappedId == GetByte(TemplateBytePosition.Ring1Infusion3)).FirstOrDefault().Value);
+                template.SetItem(template.Ring_1.Slot, TemplateSubSlotType.Stat, data.Stats.Items.Where(e => e.Value.MappedId == GetByte(TemplateBytePosition.Ring1Stat)).FirstOrDefault().Value);
+                template.SetItem(template.Ring_1.Slot, TemplateSubSlotType.Infusion1, data.Infusions.Items.Where(e => e.Value.MappedId == GetByte(TemplateBytePosition.Ring1Infusion1)).FirstOrDefault().Value);
+                template.SetItem(template.Ring_1.Slot, TemplateSubSlotType.Infusion2, data.Infusions.Items.Where(e => e.Value.MappedId == GetByte(TemplateBytePosition.Ring1Infusion2)).FirstOrDefault().Value);
+                template.SetItem(template.Ring_1.Slot, TemplateSubSlotType.Infusion3, data.Infusions.Items.Where(e => e.Value.MappedId == GetByte(TemplateBytePosition.Ring1Infusion3)).FirstOrDefault().Value);
 
                 //Ring_2
-                template.SetItem(template.Ring_2.Slot, TemplateSubSlotType.Stat, BuildsManager.Data.Stats.Items.Where(e => e.Value.MappedId == GetByte(TemplateBytePosition.Ring2Stat)).FirstOrDefault().Value);
-                template.SetItem(template.Ring_2.Slot, TemplateSubSlotType.Infusion1, BuildsManager.Data.Infusions.Items.Where(e => e.Value.MappedId == GetByte(TemplateBytePosition.Ring2Infusion1)).FirstOrDefault().Value);
-                template.SetItem(template.Ring_2.Slot, TemplateSubSlotType.Infusion2, BuildsManager.Data.Infusions.Items.Where(e => e.Value.MappedId == GetByte(TemplateBytePosition.Ring2Infusion2)).FirstOrDefault().Value);
-                template.SetItem(template.Ring_2.Slot, TemplateSubSlotType.Infusion3, BuildsManager.Data.Infusions.Items.Where(e => e.Value.MappedId == GetByte(TemplateBytePosition.Ring2Infusion3)).FirstOrDefault().Value);
+                template.SetItem(template.Ring_2.Slot, TemplateSubSlotType.Stat, data.Stats.Items.Where(e => e.Value.MappedId == GetByte(TemplateBytePosition.Ring2Stat)).FirstOrDefault().Value);
+                template.SetItem(template.Ring_2.Slot, TemplateSubSlotType.Infusion1, data.Infusions.Items.Where(e => e.Value.MappedId == GetByte(TemplateBytePosition.Ring2Infusion1)).FirstOrDefault().Value);
+                template.SetItem(template.Ring_2.Slot, TemplateSubSlotType.Infusion2, data.Infusions.Items.Where(e => e.Value.MappedId == GetByte(TemplateBytePosition.Ring2Infusion2)).FirstOrDefault().Value);
+                template.SetItem(template.Ring_2.Slot, TemplateSubSlotType.Infusion3, data.Infusions.Items.Where(e => e.Value.MappedId == GetByte(TemplateBytePosition.Ring2Infusion3)).FirstOrDefault().Value);
 
                 //AquaBreather
-                template.SetItem(template.AquaBreather.Slot, TemplateSubSlotType.Stat, BuildsManager.Data.Stats.Items.Where(e => e.Value.MappedId == GetByte(TemplateBytePosition.AquaBreatherStat)).FirstOrDefault().Value);
-                template.SetItem(template.AquaBreather.Slot, TemplateSubSlotType.Rune, BuildsManager.Data.PveRunes.Items.Where(e => e.Value.MappedId == GetByte(TemplateBytePosition.AquaBreatherRune)).FirstOrDefault().Value);
-                template.SetItem(template.AquaBreather.Slot, TemplateSubSlotType.Infusion1, BuildsManager.Data.Infusions.Items.Where(e => e.Value.MappedId == GetByte(TemplateBytePosition.AquaBreatherInfusion1)).FirstOrDefault().Value);
+                template.SetItem(template.AquaBreather.Slot, TemplateSubSlotType.Stat, data.Stats.Items.Where(e => e.Value.MappedId == GetByte(TemplateBytePosition.AquaBreatherStat)).FirstOrDefault().Value);
+                template.SetItem(template.AquaBreather.Slot, TemplateSubSlotType.Rune, data.PveRunes.Items.Where(e => e.Value.MappedId == GetByte(TemplateBytePosition.AquaBreatherRune)).FirstOrDefault().Value);
+                template.SetItem(template.AquaBreather.Slot, TemplateSubSlotType.Infusion1, data.Infusions.Items.Where(e => e.Value.MappedId == GetByte(TemplateBytePosition.AquaBreatherInfusion1)).FirstOrDefault().Value);
 
                 //Aquatic
-                template.SetItem(template.Aquatic.Slot, TemplateSubSlotType.Item, Enum.TryParse($"{GetByte(TemplateBytePosition.AquaticWeaponType)}", out ItemWeaponType aquaticWeaponType) ? BuildsManager.Data.Weapons.Values.Where(e => e.WeaponType == aquaticWeaponType).FirstOrDefault() : null);
-                template.SetItem(template.Aquatic.Slot, TemplateSubSlotType.Stat, BuildsManager.Data.Stats.Items.Where(e => e.Value.MappedId == GetByte(TemplateBytePosition.AquaticStat)).FirstOrDefault().Value);
-                template.SetItem(template.Aquatic.Slot, TemplateSubSlotType.Sigil1, BuildsManager.Data.PveSigils.Items.Where(e => e.Value.MappedId == GetByte(TemplateBytePosition.AquaticSigil1)).FirstOrDefault().Value);
-                template.SetItem(template.Aquatic.Slot, TemplateSubSlotType.Sigil2, BuildsManager.Data.PveSigils.Items.Where(e => e.Value.MappedId == GetByte(TemplateBytePosition.AquaticSigil2)).FirstOrDefault().Value);
-                template.SetItem(template.Aquatic.Slot, TemplateSubSlotType.Infusion1, BuildsManager.Data.Infusions.Items.Where(e => e.Value.MappedId == GetByte(TemplateBytePosition.AquaticInfusion1)).FirstOrDefault().Value);
-                template.SetItem(template.Aquatic.Slot, TemplateSubSlotType.Infusion2, BuildsManager.Data.Infusions.Items.Where(e => e.Value.MappedId == GetByte(TemplateBytePosition.AquaticInfusion2)).FirstOrDefault().Value);
+                template.SetItem(template.Aquatic.Slot, TemplateSubSlotType.Item, Enum.TryParse($"{GetByte(TemplateBytePosition.AquaticWeaponType)}", out ItemWeaponType aquaticWeaponType) ? data.Weapons.Values.Where(e => e.WeaponType == aquaticWeaponType).FirstOrDefault() : null);
+                template.SetItem(template.Aquatic.Slot, TemplateSubSlotType.Stat, data.Stats.Items.Where(e => e.Value.MappedId == GetByte(TemplateBytePosition.AquaticStat)).FirstOrDefault().Value);
+                template.SetItem(template.Aquatic.Slot, TemplateSubSlotType.Sigil1, data.PveSigils.Items.Where(e => e.Value.MappedId == GetByte(TemplateBytePosition.AquaticSigil1)).FirstOrDefault().Value);
+                template.SetItem(template.Aquatic.Slot, TemplateSubSlotType.Sigil2, data.PveSigils.Items.Where(e => e.Value.MappedId == GetByte(TemplateBytePosition.AquaticSigil2)).FirstOrDefault().Value);
+                template.SetItem(template.Aquatic.Slot, TemplateSubSlotType.Infusion1, data.Infusions.Items.Where(e => e.Value.MappedId == GetByte(TemplateBytePosition.AquaticInfusion1)).FirstOrDefault().Value);
+                template.SetItem(template.Aquatic.Slot, TemplateSubSlotType.Infusion2, data.Infusions.Items.Where(e => e.Value.MappedId == GetByte(TemplateBytePosition.AquaticInfusion2)).FirstOrDefault().Value);
 
                 //AltAquatic
-                template.SetItem(template.AltAquatic.Slot, TemplateSubSlotType.Item, Enum.TryParse($"{GetByte(TemplateBytePosition.AltAquaticWeaponType)}", out ItemWeaponType altAquaticWeaponType) ? BuildsManager.Data.Weapons.Values.Where(e => e.WeaponType == altAquaticWeaponType).FirstOrDefault() : null);
-                template.SetItem(template.AltAquatic.Slot, TemplateSubSlotType.Stat, BuildsManager.Data.Stats.Items.Where(e => e.Value.MappedId == GetByte(TemplateBytePosition.AltAquaticStat)).FirstOrDefault().Value);
-                template.SetItem(template.AltAquatic.Slot, TemplateSubSlotType.Sigil1, BuildsManager.Data.PveSigils.Items.Where(e => e.Value.MappedId == GetByte(TemplateBytePosition.AltAquaticSigil1)).FirstOrDefault().Value);
-                template.SetItem(template.AltAquatic.Slot, TemplateSubSlotType.Sigil2, BuildsManager.Data.PveSigils.Items.Where(e => e.Value.MappedId == GetByte(TemplateBytePosition.AltAquaticSigil2)).FirstOrDefault().Value);
-                template.SetItem(template.AltAquatic.Slot, TemplateSubSlotType.Infusion1, BuildsManager.Data.Infusions.Items.Where(e => e.Value.MappedId == GetByte(TemplateBytePosition.AltAquaticInfusion1)).FirstOrDefault().Value);
-                template.SetItem(template.AltAquatic.Slot, TemplateSubSlotType.Infusion2, BuildsManager.Data.Infusions.Items.Where(e => e.Value.MappedId == GetByte(TemplateBytePosition.AltAquaticInfusion2)).FirstOrDefault().Value);
+                template.SetItem(template.AltAquatic.Slot, TemplateSubSlotType.Item, Enum.TryParse($"{GetByte(TemplateBytePosition.AltAquaticWeaponType)}", out ItemWeaponType altAquaticWeaponType) ? data.Weapons.Values.Where(e => e.WeaponType == altAquaticWeaponType).FirstOrDefault() : null);
+                template.SetItem(template.AltAquatic.Slot, TemplateSubSlotType.Stat, data.Stats.Items.Where(e => e.Value.MappedId == GetByte(TemplateBytePosition.AltAquaticStat)).FirstOrDefault().Value);
+                template.SetItem(template.AltAquatic.Slot, TemplateSubSlotType.Sigil1, data.PveSigils.Items.Where(e => e.Value.MappedId == GetByte(TemplateBytePosition.AltAquaticSigil1)).FirstOrDefault().Value);
+                template.SetItem(template.AltAquatic.Slot, TemplateSubSlotType.Sigil2, data.PveSigils.Items.Where(e => e.Value.MappedId == GetByte(TemplateBytePosition.AltAquaticSigil2)).FirstOrDefault().Value);
+                template.SetItem(template.AltAquatic.Slot, TemplateSubSlotType.Infusion1, data.Infusions.Items.Where(e => e.Value.MappedId == GetByte(TemplateBytePosition.AltAquaticInfusion1)).FirstOrDefault().Value);
+                template.SetItem(template.AltAquatic.Slot, TemplateSubSlotType.Infusion2, data.Infusions.Items.Where(e => e.Value.MappedId == GetByte(TemplateBytePosition.AltAquaticInfusion2)).FirstOrDefault().Value);
 
                 //PvpAmulet
-                template.SetItem(template.PvpAmulet.Slot, TemplateSubSlotType.Item, BuildsManager.Data.PvpAmulets.Items.Where(e => e.Value.MappedId == GetByte(TemplateBytePosition.PvpAmulet)).FirstOrDefault().Value);
-                template.SetItem(template.PvpAmulet.Slot, TemplateSubSlotType.Rune, BuildsManager.Data.PvpRunes.Items.Where(e => e.Value.MappedId == GetByte(TemplateBytePosition.PvpAmuletRune)).FirstOrDefault().Value);
+                template.SetItem(template.PvpAmulet.Slot, TemplateSubSlotType.Item, data.PvpAmulets.Items.Where(e => e.Value.MappedId == GetByte(TemplateBytePosition.PvpAmulet)).FirstOrDefault().Value);
+                template.SetItem(template.PvpAmulet.Slot, TemplateSubSlotType.Rune, data.PvpRunes.Items.Where(e => e.Value.MappedId == GetByte(TemplateBytePosition.PvpAmuletRune)).FirstOrDefault().Value);
 
                 //Nourishment
-                template.SetItem(template.Nourishment.Slot, TemplateSubSlotType.Item, BuildsManager.Data.Nourishments.Items.Where(e => e.Value.MappedId == GetByte(TemplateBytePosition.Nourishment)).FirstOrDefault().Value);
+                template.SetItem(template.Nourishment.Slot, TemplateSubSlotType.Item, data.Nourishments.Items.Where(e => e.Value.MappedId == GetByte(TemplateBytePosition.Nourishment)).FirstOrDefault().Value);
 
                 //Enhancement
-                template.SetItem(template.Enhancement.Slot, TemplateSubSlotType.Item, BuildsManager.Data.Enhancements.Items.Where(e => e.Value.MappedId == GetByte(TemplateBytePosition.Enhancement)).FirstOrDefault().Value);
+                template.SetItem(template.Enhancement.Slot, TemplateSubSlotType.Item, data.Enhancements.Items.Where(e => e.Value.MappedId == GetByte(TemplateBytePosition.Enhancement)).FirstOrDefault().Value);
 
                 //PowerCore
-                template.SetItem(template.PowerCore.Slot, TemplateSubSlotType.Item, BuildsManager.Data.PowerCores.Items.Where(e => e.Value.MappedId == GetByte(TemplateBytePosition.PowerCore)).FirstOrDefault().Value);
+                template.SetItem(template.PowerCore.Slot, TemplateSubSlotType.Item, data.PowerCores.Items.Where(e => e.Value.MappedId == GetByte(TemplateBytePosition.PowerCore)).FirstOrDefault().Value);
 
                 //PveRelic
-                template.SetItem(template.PveRelic.Slot, TemplateSubSlotType.Item, BuildsManager.Data.PveRelics.Items.Where(e => e.Value.MappedId == GetByte(TemplateBytePosition.PveRelic)).FirstOrDefault().Value);
+                template.SetItem(template.PveRelic.Slot, TemplateSubSlotType.Item, data.PveRelics.Items.Where(e => e.Value.MappedId == GetByte(TemplateBytePosition.PveRelic)).FirstOrDefault().Value);
 
                 //PvpRelic
-                template.SetItem(template.PvpRelic.Slot, TemplateSubSlotType.Item, BuildsManager.Data.PvpRelics.Items.Where(e => e.Value.MappedId == GetByte(TemplateBytePosition.PvpRelic)).FirstOrDefault().Value);
+                template.SetItem(template.PvpRelic.Slot, TemplateSubSlotType.Item, data.PvpRelics.Items.Where(e => e.Value.MappedId == GetByte(TemplateBytePosition.PvpRelic)).FirstOrDefault().Value);
             }
             catch (FormatException)
             {

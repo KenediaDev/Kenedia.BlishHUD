@@ -8,6 +8,7 @@ using System;
 using System.ComponentModel;
 using Gw2Sharp.Models;
 using Kenedia.Modules.Core.DataModels;
+using Kenedia.Modules.BuildsManager.Services;
 
 namespace Kenedia.Modules.BuildsManager.Controls.Selection
 {
@@ -18,8 +19,10 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
 
         private SelectionType _type = SelectionType.Race;
 
-        public ProfessionRaceSelection()
+        public ProfessionRaceSelection(Data data)
         {
+            Data = data;
+
             ProfessionRaceSelectable ctrl;
             Search.Dispose();
 
@@ -39,7 +42,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
 
             foreach (Races race in Enum.GetValues(typeof(Races)))
             {
-                _races.Add(ctrl = new()
+                _races.Add(ctrl = new(data)
                 {
                     Parent = SelectionContent,
                     SelectionType = SelectionType.Race,
@@ -50,7 +53,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
 
             foreach (ProfessionType profession in Enum.GetValues(typeof(ProfessionType)))
             {
-                _professions.Add(ctrl = new()
+                _professions.Add(ctrl = new(data)
                 {
                     Parent = SelectionContent,
                     SelectionType = SelectionType.Profession,
@@ -80,6 +83,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
             get => _type;
             set => Common.SetProperty(ref _type, value, OnTypeChanged);
         }
+        public Data Data { get; }
 
         private void OnTypeChanged(object sender, PropertyChangedEventArgs e)
         {

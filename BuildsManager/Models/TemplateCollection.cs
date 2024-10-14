@@ -1,12 +1,19 @@
-﻿using Gw2Sharp.Models;
+﻿using Blish_HUD;
+using Gw2Sharp.Models;
+using Kenedia.Modules.BuildsManager.Services;
+using Kenedia.Modules.BuildsManager.Utility;
 using Kenedia.Modules.Core.Models;
+using Newtonsoft.Json;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.ComponentModel;
+using System.Diagnostics;
+using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace Kenedia.Modules.BuildsManager.Models
 {
@@ -18,8 +25,16 @@ namespace Kenedia.Modules.BuildsManager.Models
         public NotifyCollectionChangedEventHandler? CollectionChanged;
         public event PropertyChangedEventHandler? TemplateChanged;
 
-        public TemplateCollection()
+        public event EventHandler? Loaded;
+
+        public bool IsLoaded { get; private set; }
+
+        public TemplateCollection(Logger logger, Paths paths, TemplateFactory templateFactory, TemplateConverter templateConverter)
         {
+            Logger = logger;
+            Paths = paths;
+            TemplateFactory = templateFactory;
+            TemplateConverter = templateConverter;
             _templates.CollectionChanged += OnCollectionChanged;
         }
 
@@ -42,12 +57,12 @@ namespace Kenedia.Modules.BuildsManager.Models
             template.ProfessionChanged += Template_ProfessionChanged;
         }
 
-        private void Template_ProfessionChanged(object sender, ValueChangedEventArgs<ProfessionType> e)
+        private void Template_ProfessionChanged(object sender, Core.Models.ValueChangedEventArgs<ProfessionType> e)
         {
             TemplateChanged?.Invoke(sender, new PropertyChangedEventArgs(nameof(Template.Profession)));
         }
 
-        private void Template_NameChanged(object sender, ValueChangedEventArgs<string> e)
+        private void Template_NameChanged(object sender, Core.Models.ValueChangedEventArgs<string> e)
         {
             TemplateChanged?.Invoke(sender, new PropertyChangedEventArgs(nameof(Template.Name)));
         }
@@ -78,6 +93,14 @@ namespace Kenedia.Modules.BuildsManager.Models
 
         public int Count => _templates.Count;
 
+        public Logger Logger { get; }
+
+        public Paths Paths { get; }
+
+        public TemplateFactory TemplateFactory { get; }
+
+        public TemplateConverter TemplateConverter { get; }
+
         public IEnumerator<Template> GetEnumerator()
         {
             return _templates.GetEnumerator();
@@ -106,6 +129,55 @@ namespace Kenedia.Modules.BuildsManager.Models
             }
 
             return name;
+        }
+
+        public async Task Load()
+        {
+            Logger.Info($"LoadTemplates");
+            IsLoaded = false;
+            _templates.CollectionChanged -= OnCollectionChanged;
+
+            var time = new Stopwatch();
+            time.Start();
+
+            try
+            {
+                string[] templateFiles = Directory.GetFiles(Paths.TemplatesPath);
+
+                _templates.Clear();
+
+                JsonSerializerSettings settings = new();
+                settings.Converters.Add(TemplateConverter);
+
+                Logger.Info($"Loading {templateFiles.Length} Templates ...");
+                foreach (string file in templateFiles)
+                {
+                    //Read files async and create templates 
+                    using StreamReader reader = new(file);
+                    string json = await reader.ReadToEndAsync();
+
+                    Template template = JsonConvert.DeserializeObject<Template>(json, settings);
+                    _templates.Add(template);
+                }
+
+                if (_templates.Count == 0)
+                {
+                    _templates.Add(TemplateFactory.CreateTemplate());
+                }
+
+                time.Stop();
+                Logger.Info($"Time to load {templateFiles.Length} templates {time.ElapsedMilliseconds}ms. {_templates.Count} out of {templateFiles.Length} templates got loaded.");
+            }
+            catch (Exception ex)
+            {
+                Logger.Warn(ex.Message);
+                Logger.Warn($"Loading Templates failed!");
+            }
+
+            _templates.CollectionChanged += OnCollectionChanged;
+
+            IsLoaded = true;
+            Loaded?.Invoke(this, EventArgs.Empty);
         }
     }
 }

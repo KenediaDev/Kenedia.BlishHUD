@@ -22,10 +22,14 @@ namespace Kenedia.Modules.BuildsManager.Services
         private readonly Paths _paths;
 
         private CancellationTokenSource _tokenSource;
-        private List<TemplateTag> _tags;
+        private List<TemplateTag> _tags = [];
         private bool _saveRequested;
 
+        public event EventHandler? Loaded;
+
         public TagGroups TagGroups { get; }
+
+        public bool IsLoaded { get; private set; }
 
         public TemplateTags(ContentsManager contentsManager, Paths paths, TagGroups tagGroups)
         {
@@ -117,6 +121,9 @@ namespace Kenedia.Modules.BuildsManager.Services
                 tag.Icon = new(tag.AssetId);
                 tag.PropertyChanged += Tag_PropertyChanged;
             }
+
+            IsLoaded = true;
+            Loaded?.Invoke(this, EventArgs.Empty);
         }
 
         private void Tag_PropertyChanged(object sender, PropertyChangedEventArgs e)

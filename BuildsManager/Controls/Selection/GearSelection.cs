@@ -2,6 +2,7 @@
 using Kenedia.Modules.BuildsManager.Extensions;
 using Kenedia.Modules.BuildsManager.Models;
 using Kenedia.Modules.BuildsManager.Models.Templates;
+using Kenedia.Modules.BuildsManager.Services;
 using Kenedia.Modules.Core.Extensions;
 using Kenedia.Modules.Core.Models;
 using Kenedia.Modules.Core.Utility;
@@ -37,9 +38,10 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
         private List<SelectionPanelSelectable> _pveRelics;
         private List<SelectionPanelSelectable> _pvpRelics;
 
-        public GearSelection(TemplatePresenter templatePresenter)
+        public GearSelection(TemplatePresenter templatePresenter, Data data)
         {
             TemplatePresenter = templatePresenter;
+            Data = data;
 
             Search.TextChangedAction = (txt) =>
             {
@@ -51,22 +53,27 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
             SelectionContent.FlowDirection = Blish_HUD.Controls.ControlFlowDirection.SingleTopToBottom;
             SelectionContent.SetLocation(Search.Left, Search.Bottom + 5);
 
-            _armors = AddItems<SelectionPanelSelectable, Armor>(BuildsManager.Data.Armors.Values.OrderByDescending(e => e.Rarity).ThenBy(e => e.Id));
-            _trinkets = AddItems<SelectionPanelSelectable, Trinket>(BuildsManager.Data.Trinkets.Values.OrderByDescending(e => e.Rarity).ThenBy(e => e.Id));
-            _backs = AddItems<SelectionPanelSelectable, Trinket>(BuildsManager.Data.Backs.Values.OrderByDescending(e => e.Rarity).ThenBy(e => e.Id));
-            _weapons = AddItems<SelectionPanelSelectable, Weapon>(BuildsManager.Data.Weapons.Values.OrderBy(e => e.WeaponType).ThenByDescending(e => e.Rarity).ThenBy(e => e.Id));
-            _pvpAmulets = AddItems<SelectionPanelSelectable, PvpAmulet>(BuildsManager.Data.PvpAmulets.Values.OrderBy(e => e.Name).ThenBy(e => e.Id));
-            _pveSigils = AddItems<SelectionPanelSelectable, Sigil>(BuildsManager.Data.PveSigils.Values.OrderByDescending(e => e.Rarity).ThenBy(e => e.Name).ThenBy(e => e.Id));
-            _pvpSigils = AddItems<SelectionPanelSelectable, Sigil>(BuildsManager.Data.PvpSigils.Values.OrderByDescending(e => e.Rarity).ThenBy(e => e.Name).ThenBy(e => e.Id));
-            _pveRunes = AddItems<SelectionPanelSelectable, Rune>(BuildsManager.Data.PveRunes.Values.OrderByDescending(e => e.Rarity).ThenBy(e => e.Name).ThenBy(e => e.Id));
-            _pvpRunes = AddItems<SelectionPanelSelectable, Rune>(BuildsManager.Data.PvpRunes.Values.OrderByDescending(e => e.Rarity).ThenBy(e => e.Name).ThenBy(e => e.Id));
-            _nourishment = AddItems<SelectionPanelSelectable, Nourishment>(BuildsManager.Data.Nourishments.Values.OrderByDescending(e => e.Rarity).ThenBy(e => e.Name).ThenBy(e => e.Id));
-            _utilites = AddItems<SelectionPanelSelectable, Enhancement>(BuildsManager.Data.Enhancements.Values.OrderBy(e => e.Name).ThenBy(e => e.Id));
-            _enrichments = AddItems<SelectionPanelSelectable, Enrichment>(BuildsManager.Data.Enrichments.Values.OrderByDescending(e => e.Rarity).ThenBy(e => e.Name).ThenBy(e => e.Id));
-            _infusions = AddItems<SelectionPanelSelectable, Infusion>(BuildsManager.Data.Infusions.Values.OrderByDescending(e => e.Rarity).ThenBy(e => e.Name.Length).ThenBy(e => e.Name).ThenBy(e => e.Id));
-            _powerCores = AddItems<SelectionPanelSelectable, PowerCore>(BuildsManager.Data.PowerCores.Values.OrderByDescending(e => e.Rarity).ThenByDescending(e => e.Name.Length).ThenByDescending(e => e.Name).ThenBy(e => e.Id));
-            _pveRelics = AddItems<SelectionPanelSelectable, Relic>(BuildsManager.Data.PveRelics.Values.OrderByDescending(e => e.Rarity).ThenBy(e => e.Name).ThenBy(e => e.Id));
-            _pvpRelics = AddItems<SelectionPanelSelectable, Relic>(BuildsManager.Data.PvpRelics.Values.OrderByDescending(e => e.Rarity).ThenBy(e => e.Name).ThenBy(e => e.Id));
+            Data.Loaded += Data_Loaded;
+        }
+
+        private void Data_Loaded(object sender, System.EventArgs e)
+        {
+            _armors = AddItems<SelectionPanelSelectable, Armor>(Data.Armors.Values.OrderByDescending(e => e.Rarity).ThenBy(e => e.Id));
+            _trinkets = AddItems<SelectionPanelSelectable, Trinket>(Data.Trinkets.Values.OrderByDescending(e => e.Rarity).ThenBy(e => e.Id));
+            _backs = AddItems<SelectionPanelSelectable, Trinket>(Data.Backs.Values.OrderByDescending(e => e.Rarity).ThenBy(e => e.Id));
+            _weapons = AddItems<SelectionPanelSelectable, Weapon>(Data.Weapons.Values.OrderBy(e => e.WeaponType).ThenByDescending(e => e.Rarity).ThenBy(e => e.Id));
+            _pvpAmulets = AddItems<SelectionPanelSelectable, PvpAmulet>(Data.PvpAmulets.Values.OrderBy(e => e.Name).ThenBy(e => e.Id));
+            _pveSigils = AddItems<SelectionPanelSelectable, Sigil>(Data.PveSigils.Values.OrderByDescending(e => e.Rarity).ThenBy(e => e.Name).ThenBy(e => e.Id));
+            _pvpSigils = AddItems<SelectionPanelSelectable, Sigil>(Data.PvpSigils.Values.OrderByDescending(e => e.Rarity).ThenBy(e => e.Name).ThenBy(e => e.Id));
+            _pveRunes = AddItems<SelectionPanelSelectable, Rune>(Data.PveRunes.Values.OrderByDescending(e => e.Rarity).ThenBy(e => e.Name).ThenBy(e => e.Id));
+            _pvpRunes = AddItems<SelectionPanelSelectable, Rune>(Data.PvpRunes.Values.OrderByDescending(e => e.Rarity).ThenBy(e => e.Name).ThenBy(e => e.Id));
+            _nourishment = AddItems<SelectionPanelSelectable, Nourishment>(Data.Nourishments.Values.OrderByDescending(e => e.Rarity).ThenBy(e => e.Name).ThenBy(e => e.Id));
+            _utilites = AddItems<SelectionPanelSelectable, Enhancement>(Data.Enhancements.Values.OrderBy(e => e.Name).ThenBy(e => e.Id));
+            _enrichments = AddItems<SelectionPanelSelectable, Enrichment>(Data.Enrichments.Values.OrderByDescending(e => e.Rarity).ThenBy(e => e.Name).ThenBy(e => e.Id));
+            _infusions = AddItems<SelectionPanelSelectable, Infusion>(Data.Infusions.Values.OrderByDescending(e => e.Rarity).ThenBy(e => e.Name.Length).ThenBy(e => e.Name).ThenBy(e => e.Id));
+            _powerCores = AddItems<SelectionPanelSelectable, PowerCore>(Data.PowerCores.Values.OrderByDescending(e => e.Rarity).ThenByDescending(e => e.Name.Length).ThenByDescending(e => e.Name).ThenBy(e => e.Id));
+            _pveRelics = AddItems<SelectionPanelSelectable, Relic>(Data.PveRelics.Values.OrderByDescending(e => e.Rarity).ThenBy(e => e.Name).ThenBy(e => e.Id));
+            _pvpRelics = AddItems<SelectionPanelSelectable, Relic>(Data.PvpRelics.Values.OrderByDescending(e => e.Rarity).ThenBy(e => e.Name).ThenBy(e => e.Id));
         }
 
         private List<S> AddItems<S, T>(IOrderedEnumerable<T> items)
@@ -104,7 +111,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
         }
 
         public TemplatePresenter TemplatePresenter { get => _templatePresenter; private set => Common.SetProperty(ref _templatePresenter, value, OnTemplatePresenterChanged); }
-
+        public Data Data { get; }
         public TemplateSlotType ActiveSlot { get => _activeSlot; set => Common.SetProperty(ref _activeSlot, value, ApplySlot); }
 
         public GearSubSlotType SubSlotType { get => _subSlotType; set => Common.SetProperty(ref _subSlotType, value, ApplySubSlot); }
@@ -273,7 +280,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
                         {
                             bool weaponMatch = true;
 
-                            var weapon = BuildsManager.Data.Professions[TemplatePresenter?.Template.Profession ?? Gw2Sharp.Models.ProfessionType.Guardian].Weapons.Where(e => (item.Item as Weapon).WeaponType.IsWeaponType(e.Value.Type)).FirstOrDefault();
+                            var weapon = Data.Professions[TemplatePresenter?.Template.Profession ?? Gw2Sharp.Models.ProfessionType.Guardian].Weapons.Where(e => (item.Item as Weapon).WeaponType.IsWeaponType(e.Value.Type)).FirstOrDefault();
 
                             if (weapon.Value is not null)
                             {

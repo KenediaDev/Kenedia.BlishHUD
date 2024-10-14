@@ -8,11 +8,15 @@ namespace Kenedia.Modules.OverflowTradingAssist.Services
 {
     public class Settings : BaseSettingsModel
     {
-        private readonly SettingCollection _settings;
-
-        public Settings(SettingCollection settings)
+        
+        public Settings(SettingCollection settings) : base(settings)
         {
-            _settings = settings;
+        }
+
+        protected override void InitializeSettings(SettingCollection settings)
+        {
+            base.InitializeSettings(settings);
+
             SettingCollection internalSettings = settings.AddSubCollection("Internal", false, false);
 
             ShowCornerIcon = internalSettings.DefineSetting(nameof(ShowCornerIcon), true);

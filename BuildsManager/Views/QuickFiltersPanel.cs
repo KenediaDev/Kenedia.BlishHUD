@@ -36,13 +36,14 @@ namespace Kenedia.Modules.BuildsManager.Views
         private TagGroupPanel _specPanel;
         private List<TagToggle> _specToggles = [];
 
-        public QuickFiltersPanel(TemplateCollection templates, TemplateTags templateTags, TagGroups tagGroups, SelectionPanel selectionPanel, Settings settings)
+        public QuickFiltersPanel(TemplateCollection templates, TemplateTags templateTags, TagGroups tagGroups, SelectionPanel selectionPanel, Settings settings, Data data)
         {
             Templates = templates;
             TemplateTags = templateTags;
             TagGroups = tagGroups;
             SelectionPanel = selectionPanel;
             Settings = settings;
+            Data = data;
 
             Parent = Graphics.SpriteScreen;
             Width = 205;
@@ -88,7 +89,6 @@ namespace Kenedia.Modules.BuildsManager.Views
                 ClickAction = ResetAllToggles,
             };
 
-            CreateTagControls();
             FadeSteps = 150;
 
             GameService.Gw2Mumble.PlayerCharacter.SpecializationChanged += PlayerCharacter_SpecializationChanged;
@@ -111,6 +111,30 @@ namespace Kenedia.Modules.BuildsManager.Views
 
             GameService.Graphics.QueueMainThreadRender((graphicsDevice) => SortPanels());
             SetHeightToTags();
+
+            TemplateTags.Loaded += TemplateTags_Loaded;
+
+            if (TemplateTags.IsLoaded)
+            {
+                CreateTagControls();
+            }
+
+            Data.Loaded += Data_Loaded;
+
+            if (Data.IsLoaded)
+            {
+                CreateSpecToggles();
+            }
+        }
+
+        private void Data_Loaded(object sender, EventArgs e)
+        {
+            CreateSpecToggles();
+        }
+
+        private void TemplateTags_Loaded(object sender, EventArgs e)
+        {
+            CreateTagControls();
         }
 
         private void ResetAllToggles()
@@ -173,7 +197,7 @@ namespace Kenedia.Modules.BuildsManager.Views
         {
             var professionType = GameService.Gw2Mumble.PlayerCharacter.Profession;
 
-            if (BuildsManager.Data.Professions.TryGetValue(professionType, out var profession))
+            if (Data.Professions.TryGetValue(professionType, out var profession))
             {
                 foreach (var t in _specToggles)
                 {
@@ -282,6 +306,7 @@ namespace Kenedia.Modules.BuildsManager.Views
         public SelectionPanel SelectionPanel { get; }
 
         public Settings Settings { get; }
+        public Data Data { get; }
 
         public override void RecalculateLayout()
         {
@@ -516,6 +541,12 @@ namespace Kenedia.Modules.BuildsManager.Views
                 added.Add(tag.Name);
             }
 
+            SortPanels();
+        }
+
+        private void CreateSpecToggles()
+        {
+
             _specPanel = new(new TagGroup(strings.Specializations), _tagPanel)
             {
                 FlowDirection = Blish_HUD.Controls.ControlFlowDirection.LeftToRight,
@@ -530,7 +561,7 @@ namespace Kenedia.Modules.BuildsManager.Views
             _specToggles.Clear();
 
             int prio;
-            foreach (var p in BuildsManager.Data.Professions.Values)
+            foreach (var p in Data.Professions.Values)
             {
                 prio = ((int)p.Id) * 100;
 

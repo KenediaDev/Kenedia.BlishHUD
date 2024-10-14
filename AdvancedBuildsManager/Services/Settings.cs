@@ -8,17 +8,20 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Services
 {
     public class Settings : BaseSettingsModel
     {
-        private readonly SettingCollection _settings;
-
-        public Settings(SettingCollection settings)
+        public Settings(SettingCollection settings) : base(settings)
         {
-            _settings = settings;
+        }
+
+        protected override void InitializeSettings(SettingCollection settings)
+        {
+            base.InitializeSettings(settings);
+
             SettingCollection internalSettings = settings.AddSubCollection("Internal", false, false);
 
             ShowCornerIcon = internalSettings.DefineSetting(nameof(ShowCornerIcon), true);
 
             //Temporary
-            ToggleWindowKey = settings.DefineSetting(nameof(ToggleWindowKey), new KeyBinding(ModifierKeys.Shift, Keys.B), 
+            ToggleWindowKey = settings.DefineSetting(nameof(ToggleWindowKey), new KeyBinding(ModifierKeys.Shift, Keys.B),
                 () => string.Format(strings_common.ToggleItem, AdvancedBuildsManager.ModuleName),
                 () => string.Format(strings_common.ToggleItem, AdvancedBuildsManager.ModuleName));
         }

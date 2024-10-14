@@ -9,6 +9,7 @@ using Microsoft.Xna.Framework.Graphics;
 using System.Linq;
 using Kenedia.Modules.BuildsManager.Models;
 using Blish_HUD.Content;
+using Kenedia.Modules.BuildsManager.Services;
 
 namespace Kenedia.Modules.BuildsManager.Controls.ProfessionSpecific
 {
@@ -35,7 +36,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.ProfessionSpecific
             new(),
         };
 
-        public NecromancerSpecifics(TemplatePresenter template) : base(template)
+        public NecromancerSpecifics(TemplatePresenter template, Data data) : base(template, data)
         {
 
         }
@@ -117,9 +118,11 @@ namespace Kenedia.Modules.BuildsManager.Controls.ProfessionSpecific
         protected override void ApplyTemplate()
         {
             if (TemplatePresenter?.Template is null) return;
+            if (!Data.IsLoaded) return;
+
             base.ApplyTemplate();
 
-            var skills = BuildsManager.Data?.Professions?[Gw2Sharp.Models.ProfessionType.Necromancer]?.Skills;
+            var skills = Data?.Professions?[Gw2Sharp.Models.ProfessionType.Necromancer]?.Skills;
             if (skills is null) return;
 
             Skill? GetSkill(SkillSlot slot)

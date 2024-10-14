@@ -7,6 +7,7 @@ using System;
 using Kenedia.Modules.Core.Utility;
 using Kenedia.Modules.Core.Models;
 using Kenedia.Modules.BuildsManager.Interfaces;
+using Kenedia.Modules.BuildsManager.Services;
 
 namespace Kenedia.Modules.BuildsManager.TemplateEntries
 {
@@ -18,7 +19,7 @@ namespace Kenedia.Modules.BuildsManager.TemplateEntries
         private Rune _rune;
         private Armor _armor;
 
-        public ArmorTemplateEntry(TemplateSlotType slot) : base(slot)
+        public ArmorTemplateEntry(TemplateSlotType slot, Data data) : base(slot, data)
         {
         }
 
@@ -42,30 +43,6 @@ namespace Kenedia.Modules.BuildsManager.TemplateEntries
             {
                 Armor = armor;
             }
-        }
-
-        public override byte[] AddToCodeArray(byte[] array)
-        {
-            return array.Concat(new byte[]
-            {
-                Stat?.MappedId ?? 0,
-                Rune ?.MappedId ?? 0,
-                Infusion1 ?.MappedId ?? 0,
-            }).ToArray();
-        }
-
-        public override byte[] GetFromCodeArray(byte[] array)
-        {
-            int newStartIndex = 3;
-
-            if (array is not null && array.Length > 0)
-            {
-                Stat = BuildsManager.Data.Stats.Items.Where(e => e.Value.MappedId == array[0]).FirstOrDefault().Value;
-                Rune = BuildsManager.Data.PveRunes.Items.Where(e => e.Value.MappedId == array[1]).FirstOrDefault().Value;
-                Infusion1 = BuildsManager.Data.Infusions.Items.Where(e => e.Value.MappedId == array[2]).FirstOrDefault().Value;
-            }
-
-            return array is not null && array.Length > 0 ? GearTemplateCode.RemoveFromStart(array, newStartIndex) : array;
         }
 
         public void Dispose()

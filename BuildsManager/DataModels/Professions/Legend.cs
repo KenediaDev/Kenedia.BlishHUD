@@ -8,6 +8,7 @@ using Kenedia.Modules.BuildsManager.Interfaces;
 using Blish_HUD.Content;
 using Gw2Sharp.WebApi.V2;
 using System.Linq;
+using Kenedia.Modules.BuildsManager.Services;
 
 namespace Kenedia.Modules.BuildsManager.DataModels.Professions
 {
@@ -19,11 +20,6 @@ namespace Kenedia.Modules.BuildsManager.DataModels.Professions
         public Legend()
         {
 
-        }
-
-        public Legend(APILegend legend, Dictionary<int, Skill> skills)
-        {
-            Apply(legend, skills);
         }
 
         public static (int, int, int, int, int, int) LegendaryAllianceLuxonIds { get; } = new(62891, 62719, 62832, 62962, 62878, 62942);

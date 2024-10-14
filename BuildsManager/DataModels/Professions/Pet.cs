@@ -2,6 +2,7 @@
 using Gw2Sharp.WebApi.V2;
 using Gw2Sharp.WebApi.V2.Models;
 using Kenedia.Modules.BuildsManager.Interfaces;
+using Kenedia.Modules.BuildsManager.Services;
 using Kenedia.Modules.Core.DataModels;
 using Kenedia.Modules.Core.Extensions;
 using Kenedia.Modules.Core.Models;

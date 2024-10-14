@@ -11,6 +11,7 @@ using Blish_HUD.Input;
 using Kenedia.Modules.BuildsManager.Models;
 using System.Diagnostics;
 using System;
+using Kenedia.Modules.BuildsManager.Services;
 
 namespace Kenedia.Modules.BuildsManager.Controls.ProfessionSpecific
 {
@@ -37,7 +38,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.ProfessionSpecific
         private Rectangle _catalystEnergy;
         private Color _catalystEnergyColor;
 
-        public ElementalistSpecifics(TemplatePresenter template) : base(template)
+        public ElementalistSpecifics(TemplatePresenter template, Data data) : base(template, data)
         {
             template.AttunementChanged += AttunementChanged;
         }
@@ -150,9 +151,11 @@ namespace Kenedia.Modules.BuildsManager.Controls.ProfessionSpecific
         protected override void ApplyTemplate()
         {
             if (TemplatePresenter?.Template is null) return;
+            if (!Data.IsLoaded) return;
+
             base.ApplyTemplate();
 
-            var skills = BuildsManager.Data?.Professions?[Gw2Sharp.Models.ProfessionType.Elementalist]?.Skills;
+            var skills = Data?.Professions?[Gw2Sharp.Models.ProfessionType.Elementalist]?.Skills;
             if (skills is null) return;
 
             Skill? GetSkill(SkillSlot slot)

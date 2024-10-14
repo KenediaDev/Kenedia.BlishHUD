@@ -8,30 +8,32 @@ namespace Kenedia.Modules.ReleaseTheChoya.Services
 {
     public class Settings : BaseSettingsModel
     {
-        private readonly SettingCollection _settings;
-
-        public Settings(SettingCollection s)
+        public Settings(SettingCollection s) : base(s)
         {
-            _settings = s;
-            ChoyaDelay = s.DefineSetting(nameof(ChoyaDelay), new Range(30, 90));
-            ChoyaIdleDelay = s.DefineSetting(nameof(ChoyaIdleDelay), new Range(125, 1500));
-            ChoyaSpeed = s.DefineSetting(nameof(ChoyaSpeed), new Range(64, 720));
-            ChoyaTravelDistance = s.DefineSetting(nameof(ChoyaTravelDistance), new Range(4, 30));
-            ChoyaSize = s.DefineSetting(nameof(ChoyaSize), new Range(64, 512));
+        }
+        protected override void InitializeSettings(SettingCollection settings)
+        {
+            base.InitializeSettings(settings);
 
-            IdleDelay = s.DefineSetting(nameof(IdleDelay), 15);
-            NoMoveDelay = s.DefineSetting(nameof(NoMoveDelay), 15);
+            ChoyaDelay = settings.DefineSetting(nameof(ChoyaDelay), new Range(30, 90));
+            ChoyaIdleDelay = settings.DefineSetting(nameof(ChoyaIdleDelay), new Range(125, 1500));
+            ChoyaSpeed = settings.DefineSetting(nameof(ChoyaSpeed), new Range(64, 720));
+            ChoyaTravelDistance = settings.DefineSetting(nameof(ChoyaTravelDistance), new Range(4, 30));
+            ChoyaSize = settings.DefineSetting(nameof(ChoyaSize), new Range(64, 512));
 
-            ShowWhenStandingStill = s.DefineSetting(nameof(ShowWhenStandingStill), true);
-            ShowRandomly = s.DefineSetting(nameof(ShowRandomly), true);
-            ShowWhenIdle = s.DefineSetting(nameof(ShowWhenIdle), true);
-            AvoidCombat = s.DefineSetting(nameof(AvoidCombat), true);
-            ShowCornerIcon = s.DefineSetting(nameof(ShowCornerIcon), true);
+            IdleDelay = settings.DefineSetting(nameof(IdleDelay), 15);
+            NoMoveDelay = settings.DefineSetting(nameof(NoMoveDelay), 15);
 
-            SpawnChoyaKey = s.DefineSetting(nameof(SpawnChoyaKey), new KeyBinding(Keys.None));
-            ToggleChoyaHunt = s.DefineSetting(nameof(ToggleChoyaHunt), new KeyBinding(Keys.None));
+            ShowWhenStandingStill = settings.DefineSetting(nameof(ShowWhenStandingStill), true);
+            ShowRandomly = settings.DefineSetting(nameof(ShowRandomly), true);
+            ShowWhenIdle = settings.DefineSetting(nameof(ShowWhenIdle), true);
+            AvoidCombat = settings.DefineSetting(nameof(AvoidCombat), true);
+            ShowCornerIcon = settings.DefineSetting(nameof(ShowCornerIcon), true);
 
-            StaticChoya = s.AddSubCollection(nameof(StaticChoya));
+            SpawnChoyaKey = settings.DefineSetting(nameof(SpawnChoyaKey), new KeyBinding(Keys.None));
+            ToggleChoyaHunt = settings.DefineSetting(nameof(ToggleChoyaHunt), new KeyBinding(Keys.None));
+
+            StaticChoya = settings.AddSubCollection(nameof(StaticChoya));
         }
 
         public SettingCollection StaticChoya;

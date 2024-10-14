@@ -35,7 +35,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.Tabs
         private readonly List<(EncounterFlag tag, Image texture, Checkbox checkbox)> _encounters = [];
         private readonly TemplateTagComparer _comparer;
         private readonly bool _created = false;
-        private int tagSectionWidth;
+        private int _tagSectionWidth;
         private bool _changeBuild = true;
 
         private Color _disabledColor = Color.Gray;
@@ -53,7 +53,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.Tabs
 
             HeightSizingMode = Blish_HUD.Controls.SizingMode.Fill;
             WidthSizingMode = Blish_HUD.Controls.SizingMode.Fill;
-            tagSectionWidth = 300;
+            _tagSectionWidth = 300;
 
             _tagsLabel = new()
             {
@@ -61,7 +61,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.Tabs
                 SetLocalizedText = () => strings.Tags,
                 Font = Content.DefaultFont32,
                 Height = 35,
-                Width = tagSectionWidth - 35 - 5,
+                Width = _tagSectionWidth - 35 - 5,
                 Location = new(0, 10),
             };
 
@@ -69,7 +69,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.Tabs
             {
                 Parent = this,
                 Location = new(0, _tagsLabel.Bottom + 10),
-                Width = tagSectionWidth - 30,
+                Width = _tagSectionWidth - 30,
                 SetLocalizedPlaceholder = () => strings_common.Search,
                 FilteringOnTextChange = true,
                 FilteringOnEnter = true,
@@ -112,7 +112,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.Tabs
             {
                 Parent = this,
                 Location = new(0, _tagFilter.Bottom + 2),
-                Width = tagSectionWidth,
+                Width = _tagSectionWidth,
                 HeightSizingMode = Blish_HUD.Controls.SizingMode.Fill,
                 ShowBorder = false,
                 BorderColor = Color.Black,
@@ -179,10 +179,21 @@ namespace Kenedia.Modules.BuildsManager.Controls.Tabs
             _tagPanel.ChildAdded += TagPanel_ChildsChanged;
             _tagPanel.ChildRemoved += TagPanel_ChildsChanged;
 
-            CreateTagControls();
+            TemplateTags.Loaded += TemplateTags_Loaded;
+
+            if (TemplateTags.IsLoaded)
+            {
+                CreateTagControls();
+            }
+
             ApplyTemplate();
 
             _created = true;
+        }
+
+        private void TemplateTags_Loaded(object sender, EventArgs e)
+        {
+            CreateTagControls();
         }
 
         private void FilterTags(string txt)

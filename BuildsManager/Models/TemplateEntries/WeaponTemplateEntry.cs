@@ -12,6 +12,7 @@ using Kenedia.Modules.Core.Extensions;
 using Kenedia.Modules.BuildsManager.Interfaces;
 using System.Diagnostics;
 using Kenedia.Modules.BuildsManager.Extensions;
+using Kenedia.Modules.BuildsManager.Services;
 
 namespace Kenedia.Modules.BuildsManager.TemplateEntries
 {
@@ -26,7 +27,7 @@ namespace Kenedia.Modules.BuildsManager.TemplateEntries
         private Stat _stat;
         private WeaponTemplateEntry _pairedWeapon;
 
-        public WeaponTemplateEntry(TemplateSlotType slot) : base(slot)
+        public WeaponTemplateEntry(TemplateSlotType slot, Data data) : base(slot, data)
         {
         }
 
@@ -54,34 +55,6 @@ namespace Kenedia.Modules.BuildsManager.TemplateEntries
             {
                 Weapon = weapon;
             }
-        }
-
-        public override byte[] AddToCodeArray(byte[] array)
-        {
-            return array.Concat(new byte[]
-            {
-                (byte)(Weapon?.WeaponType ?? ItemWeaponType.Unknown),
-                Stat ?.MappedId ?? 0,
-                Sigil1 ?.MappedId ?? 0,
-                PvpSigil ?.MappedId ?? 0,
-                Infusion1 ?.MappedId ?? 0,
-            }).ToArray();
-        }
-
-        public override byte[] GetFromCodeArray(byte[] array)
-        {
-            int newStartIndex = 5;
-
-            if (array is not null && array.Length > 0)
-            {
-                Weapon = Enum.TryParse($"{array[0]}", out ItemWeaponType weaponType) ? BuildsManager.Data.Weapons.Values.Where(e => e.WeaponType == weaponType).FirstOrDefault() : null;
-                Stat = BuildsManager.Data.Stats.Items.Where(e => e.Value.MappedId == array[1]).FirstOrDefault().Value;
-                Sigil1 = BuildsManager.Data.PveSigils.Items.Where(e => e.Value.MappedId == array[2]).FirstOrDefault().Value;
-                PvpSigil = BuildsManager.Data.PvpSigils.Items.Where(e => e.Value.MappedId == array[3]).FirstOrDefault().Value;
-                Infusion1 = BuildsManager.Data.Infusions.Items.Where(e => e.Value.MappedId == array[4]).FirstOrDefault().Value;
-            }
-
-            return array is not null && array.Length > 0 ? GearTemplateCode.RemoveFromStart(array, newStartIndex) : array;
         }
 
         public void Dispose()

@@ -8,6 +8,7 @@ using System.Runtime.Serialization;
 using APISpecialization = Gw2Sharp.WebApi.V2.Models.Specialization;
 using Kenedia.Modules.Core.Extensions;
 using System.Linq;
+using Kenedia.Modules.BuildsManager.Services;
 
 namespace Kenedia.Modules.BuildsManager.DataModels.Professions
 {
@@ -152,9 +153,9 @@ namespace Kenedia.Modules.BuildsManager.DataModels.Professions
         [DataMember]
         public Trait WeaponTrait { get; set; }
 
-        public static Specialization FromByte(byte spezializationId, ProfessionType profession)
+        public static Specialization FromByte(byte spezializationId, ProfessionType profession, Data data)
         {
-            return BuildsManager.Data.Professions?[profession]?.Specializations.TryGetValue(spezializationId, out Specialization specialization) == true ? specialization : null;
+            return data.Professions?[profession]?.Specializations.TryGetValue(spezializationId, out Specialization specialization) == true ? specialization : null;
         }
 
         public void Dispose()

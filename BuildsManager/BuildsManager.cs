@@ -47,6 +47,7 @@ namespace Kenedia.Modules.BuildsManager
         public BuildsManager([Import("ModuleParameters")] ModuleParameters moduleParameters) : base(moduleParameters)
         {
             HasGUI = true;
+            AutoLoadGUI = false;
 
             CoreServices.GameStateDetectionService.Enabled = false;
         }
@@ -133,13 +134,7 @@ namespace Kenedia.Modules.BuildsManager
             CreateCornerIcons();
             Logger.Info($"Starting {Name} v." + Version.BaseVersion());
 
-            Data.Loaded += Data_Loaded;
-        }
-
-        private async void Data_Loaded(object sender, EventArgs e)
-        {
-            if (!TemplatesLoaded)
-                await LoadTemplates();
+            LoadGUI();
         }
 
         public override IView GetSettingsView()
@@ -181,6 +176,8 @@ namespace Kenedia.Modules.BuildsManager
 
             var templateTags = TemplateTags;
             await templateTags.Load();
+
+            await Templates.Load();
 
             _ = await Data.Load();
 
@@ -237,8 +234,6 @@ namespace Kenedia.Modules.BuildsManager
 
         protected override void LoadGUI()
         {
-            if (!Data.IsLoaded || !TemplatesLoaded) return;
-
             base.LoadGUI();
 
             Logger.Info($"Building UI for {Name}");
@@ -283,47 +278,6 @@ namespace Kenedia.Modules.BuildsManager
 
         private async Task LoadTemplates()
         {
-            Logger.Info($"LoadTemplates");
-
-            TemplatesLoaded = false;
-            var time = new Stopwatch();
-            time.Start();
-
-            try
-            {
-                string[] templateFiles = Directory.GetFiles(Paths.TemplatesPath);
-
-                Templates.Clear();
-
-                JsonSerializerSettings settings = new();
-                settings.Converters.Add(ServiceProvider.GetService<TemplateConverter>());
-
-                Logger.Info($"Loading {templateFiles.Length} Templates ...");
-                foreach (string file in templateFiles)
-                {
-                    //Read files async and create templates 
-                    using StreamReader reader = new(file);
-                    string json = await reader.ReadToEndAsync();
-
-                    Template template = JsonConvert.DeserializeObject<Template>(json, settings);
-                    Templates.Add(template);
-                }
-
-                if (Templates.Count == 0)
-                {
-                    Templates.Add(ServiceProvider.GetService<TemplateFactory>().CreateTemplate());
-                }
-
-                time.Stop();
-                Logger.Info($"Time to load {templateFiles.Length} templates {time.ElapsedMilliseconds}ms. {Templates.Count} out of {templateFiles.Length} templates got loaded.");
-            }
-            catch (Exception ex)
-            {
-                Logger.Warn(ex.Message);
-                Logger.Warn($"Loading Templates failed!");
-            }
-
-            TemplatesLoaded = true;
         }
 
         private void CreateCornerIcons()

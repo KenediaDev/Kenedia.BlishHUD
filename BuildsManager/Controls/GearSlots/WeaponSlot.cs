@@ -18,6 +18,7 @@ using System.Linq;
 using ItemWeaponType = Gw2Sharp.WebApi.V2.Models.ItemWeaponType;
 using Kenedia.Modules.BuildsManager.Res;
 using System.Diagnostics;
+using Kenedia.Modules.BuildsManager.Services;
 
 namespace Kenedia.Modules.BuildsManager.Controls_Old.GearPage.GearSlots
 {
@@ -43,14 +44,14 @@ namespace Kenedia.Modules.BuildsManager.Controls_Old.GearPage.GearSlots
         private Rectangle _pvpSigilBounds;
         private Rectangle _infusionBounds;
 
-        public WeaponSlot(TemplateSlotType gearSlot, Container parent, TemplatePresenter templatePresenter, Controls.Selection.SelectionPanel selectionPanel) : base(gearSlot, parent, templatePresenter, selectionPanel)
+        public WeaponSlot(TemplateSlotType gearSlot, Container parent, TemplatePresenter templatePresenter, Controls.Selection.SelectionPanel selectionPanel, Data data) 
+            : base(gearSlot, parent, templatePresenter, selectionPanel, data)
         {
             _infusionControl.Placeholder.Texture = BuildsManager.ModuleInstance.ContentsManager.GetTexture(@"textures\infusionslot.png");
 
             _sigilControl.Parent = this;
             _pvpSigilControl.Parent = this;
             _infusionControl.Parent = this;
-
         }
 
         public Stat Stat { get => _stat; set => Common.SetProperty(ref _stat, value, OnStatChanged); }
@@ -211,7 +212,7 @@ namespace Kenedia.Modules.BuildsManager.Controls_Old.GearPage.GearSlots
             {
                 SelectionPanel?.SetAnchor<Stat>(ItemControl, new Rectangle(a.Location, Point.Zero).Add(ItemControl.LocalBounds), SelectionTypes.Stats, Slot, GearSubSlotType.None,
                     (stat) => TemplatePresenter?.Template?.SetItem(Slot, TemplateSubSlotType.Stat, stat),
-                    (TemplatePresenter?.Template[Slot] as WeaponTemplateEntry).Weapon?.StatChoices ?? BuildsManager.Data.Weapons.Values.FirstOrDefault()?.StatChoices,
+                    (TemplatePresenter?.Template[Slot] as WeaponTemplateEntry).Weapon?.StatChoices ?? Data.Weapons.Values.FirstOrDefault()?.StatChoices ?? [],
                     (TemplatePresenter?.Template[Slot] as WeaponTemplateEntry).Weapon?.AttributeAdjustment);
             }
 

@@ -8,6 +8,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System.Linq;
 using Kenedia.Modules.BuildsManager.Models;
+using Kenedia.Modules.BuildsManager.Services;
 
 namespace Kenedia.Modules.BuildsManager.Controls.ProfessionSpecific
 {
@@ -39,7 +40,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.ProfessionSpecific
             new(156440),
         };
 
-        public ThiefSpecifics(TemplatePresenter template) : base(template)
+        public ThiefSpecifics(TemplatePresenter template, Data data) : base(template, data)
         {
 
         }
@@ -107,9 +108,11 @@ namespace Kenedia.Modules.BuildsManager.Controls.ProfessionSpecific
         protected override void ApplyTemplate()
         {
             if (TemplatePresenter?.Template is null) return;
+            if (!Data.IsLoaded) return;
+
             base.ApplyTemplate();
 
-            var skills = BuildsManager.Data?.Professions?[Gw2Sharp.Models.ProfessionType.Thief]?.Skills;
+            var skills = Data?.Professions?[Gw2Sharp.Models.ProfessionType.Thief]?.Skills;
             if (skills is null) return;
 
             Skill? GetSkill(SkillSlot slot)

@@ -17,10 +17,15 @@ namespace Kenedia.Modules.Characters.Services
     public class Settings : BaseSettingsModel
     {
         private readonly ObservableCollection<SettingEntry> _appearanceSettings = new();
-        private readonly SettingCollection _settings;
 
-        public Settings(SettingCollection settings)
+        public Settings(SettingCollection settings) : base(settings)        
         {
+        }
+
+        protected override void InitializeSettings(SettingCollection settings)
+        {
+            base.InitializeSettings(settings);
+
             SettingCollection internalSettings = settings.AddSubCollection("Internal", false, false);
             Version = internalSettings.DefineSetting(nameof(Version), new SemVer.Version("0.0.0"));
             LogoutKey = internalSettings.DefineSetting(nameof(LogoutKey), new KeyBinding(Keys.F12));
@@ -114,7 +119,6 @@ namespace Kenedia.Modules.Characters.Services
 
             _appearanceSettings.ItemAdded += AppearanceSettings_ItemAdded;
             _appearanceSettings.ItemRemoved += AppearanceSettings_ItemRemoved;
-            _settings = settings;
         }
 
         public event EventHandler AppearanceSettingChanged;
@@ -170,45 +174,45 @@ namespace Kenedia.Modules.Characters.Services
 
         public SettingCollection AccountSettings { get; private set; }
 
-        public SettingEntry<Dictionary<string, ShowCheckPair>> DisplayToggles { get; set; }
+        public SettingEntry<Dictionary<string, ShowCheckPair>> DisplayToggles { get; private set; }
 
-        public SettingEntry<bool> DebugMode { get; set; }
+        public SettingEntry<bool> DebugMode { get; private set; }
 
-        public SettingEntry<bool> PinSideMenus { get; set; }
+        public SettingEntry<bool> PinSideMenus { get; private set; }
 
-        public SettingEntry<bool> IncludeBetaCharacters { get; set; }
+        public SettingEntry<bool> IncludeBetaCharacters { get; private set; }
 
-        public SettingEntry<bool> CloseWindowOnSwap { get; set; }
+        public SettingEntry<bool> CloseWindowOnSwap { get; private set; }
 
-        public SettingEntry<bool> FilterDiacriticsInsensitive { get; set; }
+        public SettingEntry<bool> FilterDiacriticsInsensitive { get; private set; }
 
-        public SettingEntry<bool> ShowRandomButton { get; set; }
+        public SettingEntry<bool> ShowRandomButton { get; private set; }
 
-        public SettingEntry<bool> ShowLastButton { get; set; }
+        public SettingEntry<bool> ShowLastButton { get; private set; }
 
-        public SettingEntry<bool> ShowCornerIcon { get; set; }
+        public SettingEntry<bool> ShowCornerIcon { get; private set; }
 
         public Point CurrentWindowSize => WindowSize.Value;
 
-        public SettingEntry<Point> WindowSize { get; set; }
+        public SettingEntry<Point> WindowSize { get; private set; }
 
-        public SettingEntry<RectangleDimensions> WindowOffset { get; set; }
+        public SettingEntry<RectangleDimensions> WindowOffset { get; private set; }
 
-        public SettingEntry<bool> ShowStatusWindow { get; set; }
+        public SettingEntry<bool> ShowStatusWindow { get; private set; }
 
-        public SettingEntry<bool> ShowChoyaSpinner { get; set; }
+        public SettingEntry<bool> ShowChoyaSpinner { get; private set; }
 
-        public SettingEntry<bool> AutoSortCharacters { get; set; }
+        public SettingEntry<bool> AutoSortCharacters { get; private set; }
 
-        public SettingEntry<bool> CancelOnlyOnESC { get; set; }
+        public SettingEntry<bool> CancelOnlyOnESC { get; private set; }
 
-        public SettingEntry<bool> AutomaticCharacterDelete { get; }
+        public SettingEntry<bool> AutomaticCharacterDelete { get; private set; }
 
-        public SettingEntry<bool> ShowNotifications { get; }
+        public SettingEntry<bool> ShowNotifications { get; private set; }
 
-        public SettingEntry<bool> UseOCR { get; set; }
+        public SettingEntry<bool> UseOCR { get; private set; }
 
-        public SettingEntry<bool> WindowedMode { get; set; }
+        public SettingEntry<bool> WindowedMode { get; private set; }
 
         public string OCRKey
         {
@@ -231,99 +235,99 @@ namespace Kenedia.Modules.Characters.Services
             }
         }
 
-        public SettingEntry<Rectangle> OCRRegion { get; set; }
+        public SettingEntry<Rectangle> OCRRegion { get; private set; }
 
-        public SettingEntry<Dictionary<string, Rectangle>> OCRRegions { get; set; }
+        public SettingEntry<Dictionary<string, Rectangle>> OCRRegions { get; private set; }
 
-        public SettingEntry<bool> EnableRadialMenu { get; set; }
+        public SettingEntry<bool> EnableRadialMenu { get; private set; }
 
-        public SettingEntry<bool> Radial_UseProfessionIconsColor { get; set; }
+        public SettingEntry<bool> Radial_UseProfessionIconsColor { get; private set; }
 
-        public SettingEntry<bool> Radial_UseProfessionIcons { get; set; }
+        public SettingEntry<bool> Radial_UseProfessionIcons { get; private set; }
 
-        public SettingEntry<bool> Radial_ShowAdvancedTooltip { get; set; }
+        public SettingEntry<bool> Radial_ShowAdvancedTooltip { get; private set; }
 
-        public SettingEntry<bool> Radial_UseProfessionColor { get; set; }
+        public SettingEntry<bool> Radial_UseProfessionColor { get; private set; }
 
-        public SettingEntry<bool> UseCharacterIconsOnRadial { get; set; }
+        public SettingEntry<bool> UseCharacterIconsOnRadial { get; private set; }
 
-        public SettingEntry<float> Radial_Scale { get; set; }
+        public SettingEntry<float> Radial_Scale { get; private set; }
 
-        public SettingEntry<Color> Radial_IdleColor { get; set; }
+        public SettingEntry<Color> Radial_IdleColor { get; private set; }
 
-        public SettingEntry<Color> Radial_IdleBorderColor { get; set; }
+        public SettingEntry<Color> Radial_IdleBorderColor { get; private set; }
 
-        public SettingEntry<Color> Radial_HoveredBorderColor { get; set; }
+        public SettingEntry<Color> Radial_HoveredBorderColor { get; private set; }
 
-        public SettingEntry<Color> Radial_HoveredColor { get; set; }
+        public SettingEntry<Color> Radial_HoveredColor { get; private set; }
 
-        public SettingEntry<bool> UseBetaGamestate { get; set; }
+        public SettingEntry<bool> UseBetaGamestate { get; private set; }
 
-        public SettingEntry<bool> CharacterPanelFixedWidth { get; set; }
+        public SettingEntry<bool> CharacterPanelFixedWidth { get; private set; }
 
-        public SettingEntry<int> CharacterPanelWidth { get; set; }
+        public SettingEntry<int> CharacterPanelWidth { get; private set; }
 
-        public SettingEntry<int> OCRNoPixelColumns { get; set; }
+        public SettingEntry<int> OCRNoPixelColumns { get; private set; }
 
-        public SettingEntry<int> CustomCharacterIconSize { get; set; }
+        public SettingEntry<int> CustomCharacterIconSize { get; private set; }
 
-        public SettingEntry<int> CustomCharacterFontSize { get; set; }
+        public SettingEntry<int> CustomCharacterFontSize { get; private set; }
 
-        public SettingEntry<int> CustomCharacterNameFontSize { get; set; }
+        public SettingEntry<int> CustomCharacterNameFontSize { get; private set; }
 
-        public SettingEntry<PanelSizes> PanelSize { get; set; }
+        public SettingEntry<PanelSizes> PanelSize { get; private set; }
 
-        public SettingEntry<CharacterPanelLayout> PanelLayout { get; set; }
+        public SettingEntry<CharacterPanelLayout> PanelLayout { get; private set; }
 
-        public SettingEntry<bool> ShowDetailedTooltip { get; set; }
+        public SettingEntry<bool> ShowDetailedTooltip { get; private set; }
 
-        public SettingEntry<MatchingBehavior> ResultMatchingBehavior { get; set; }
+        public SettingEntry<MatchingBehavior> ResultMatchingBehavior { get; private set; }
 
-        public SettingEntry<FilterBehavior> ResultFilterBehavior { get; set; }
+        public SettingEntry<FilterBehavior> ResultFilterBehavior { get; private set; }
 
-        public SettingEntry<SortBy> SortType { get; set; }
+        public SettingEntry<SortBy> SortType { get; private set; }
 
-        public SettingEntry<SortDirection> SortOrder { get; set; }
+        public SettingEntry<SortDirection> SortOrder { get; private set; }
 
-        public SettingEntry<KeyBinding> LogoutKey { get; set; }
+        public SettingEntry<KeyBinding> LogoutKey { get; private set; }
 
-        public SettingEntry<KeyBinding> ShortcutKey { get; set; }
+        public SettingEntry<KeyBinding> ShortcutKey { get; private set; }
 
-        public SettingEntry<KeyBinding> RadialKey { get; }
+        public SettingEntry<KeyBinding> RadialKey { get; private set; }
 
-        public SettingEntry<KeyBinding> InventoryKey { get; }
+        public SettingEntry<KeyBinding> InventoryKey { get; private set; }
 
-        public SettingEntry<KeyBinding> MailKey { get; }
+        public SettingEntry<KeyBinding> MailKey { get; private set; }
 
-        public SettingEntry<bool> OnlyEnterOnExact { get; set; }
+        public SettingEntry<bool> OnlyEnterOnExact { get; private set; }
 
-        public SettingEntry<bool> EnterOnSwap { get; set; }
+        public SettingEntry<bool> EnterOnSwap { get; private set; }
 
-        public SettingEntry<bool> OpenInventoryOnEnter { get; set; }
+        public SettingEntry<bool> OpenInventoryOnEnter { get; private set; }
 
-        public SettingEntry<bool> DoubleClickToEnter { get; set; }
+        public SettingEntry<bool> DoubleClickToEnter { get; private set; }
 
-        public SettingEntry<bool> EnterToLogin { get; set; }
+        public SettingEntry<bool> EnterToLogin { get; private set; }
 
-        public SettingEntry<int> CheckDistance { get; set; }
+        public SettingEntry<int> CheckDistance { get; private set; }
 
-        public SettingEntry<int> SwapDelay { get; set; }
+        public SettingEntry<int> SwapDelay { get; private set; }
 
-        public SettingEntry<int> KeyDelay { get; set; }
+        public SettingEntry<int> KeyDelay { get; private set; }
 
-        public SettingEntry<int> FilterDelay { get; set; }
+        public SettingEntry<int> FilterDelay { get; private set; }
 
-        public SettingEntry<int> OCR_ColorThreshold { get; set; }
+        public SettingEntry<int> OCR_ColorThreshold { get; private set; }
 
-        public SettingEntry<bool> FilterAsOne { get; set; }
+        public SettingEntry<bool> FilterAsOne { get; private set; }
 
-        public SettingEntry<bool> LoadCachedAccounts { get; set; }
+        public SettingEntry<bool> LoadCachedAccounts { get; private set; }
 
-        public SettingEntry<bool> OpenSidemenuOnSearch { get; set; }
+        public SettingEntry<bool> OpenSidemenuOnSearch { get; private set; }
 
-        public SettingEntry<SemVer.Version> Version { get; set; }
+        public SettingEntry<SemVer.Version> Version { get; private set; }
 
-        public SettingEntry<SemVer.Version> ImportVersion { get; set; }
+        public SettingEntry<SemVer.Version> ImportVersion { get; private set; }
 
         public SettingEntry<bool> FocusSearchOnShow { get; private set; }
 
@@ -357,7 +361,7 @@ namespace Kenedia.Modules.Characters.Services
 
         public void LoadAccountSettings(string accountName)
         {
-            AccountSettings = _settings.AddSubCollection(accountName, false, false);
+            AccountSettings = SettingCollection.AddSubCollection(accountName, false, false);
             ImportVersion = AccountSettings.DefineSetting(nameof(ImportVersion), new SemVer.Version("0.0.0"));
         }
     }

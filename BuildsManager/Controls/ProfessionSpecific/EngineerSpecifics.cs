@@ -2,6 +2,7 @@
 using Blish_HUD.Controls;
 using Kenedia.Modules.BuildsManager.DataModels.Professions;
 using Kenedia.Modules.BuildsManager.Models;
+using Kenedia.Modules.BuildsManager.Services;
 using Kenedia.Modules.Core.DataModels;
 using Kenedia.Modules.Core.Models;
 using Microsoft.Xna.Framework;
@@ -37,7 +38,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.ProfessionSpecific
             new(),
         };
 
-        public EngineerSpecifics(TemplatePresenter template) : base(template)
+        public EngineerSpecifics(TemplatePresenter template, Data data) : base(template, data)
         {
             template.SkillChanged += Template_SkillChanged;
         }
@@ -163,9 +164,11 @@ namespace Kenedia.Modules.BuildsManager.Controls.ProfessionSpecific
         protected override void ApplyTemplate()
         {
             if (TemplatePresenter?.Template is null) return;
+            if (!Data.IsLoaded) return;
+
             base.ApplyTemplate();
 
-            var skills = BuildsManager.Data?.Professions?[Gw2Sharp.Models.ProfessionType.Engineer]?.Skills;
+            var skills = Data?.Professions?[Gw2Sharp.Models.ProfessionType.Engineer]?.Skills;
             if (skills is null) return;
 
             Skill GetSkill(SkillSlot slot)

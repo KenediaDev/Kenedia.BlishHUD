@@ -8,6 +8,7 @@ using Kenedia.Modules.BuildsManager.Models;
 using System.Linq;
 using static Kenedia.Modules.BuildsManager.DataModels.Professions.Weapon;
 using System;
+using Kenedia.Modules.BuildsManager.Services;
 
 namespace Kenedia.Modules.BuildsManager.Controls.ProfessionSpecific
 {
@@ -40,7 +41,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.ProfessionSpecific
             new(),
         };
 
-        public WarriorSpecifics(TemplatePresenter template) : base(template)
+        public WarriorSpecifics(TemplatePresenter template, Data data) : base(template, data)
         {
 
         }
@@ -159,9 +160,11 @@ namespace Kenedia.Modules.BuildsManager.Controls.ProfessionSpecific
         protected override void ApplyTemplate()
         {
             if (TemplatePresenter?.Template is null) return;
+            if (!Data.IsLoaded) return;
+
             base.ApplyTemplate();
 
-            var skills = BuildsManager.Data?.Professions?[Gw2Sharp.Models.ProfessionType.Warrior]?.Skills;
+            var skills = Data?.Professions?[Gw2Sharp.Models.ProfessionType.Warrior]?.Skills;
             if (skills is null) return;
 
             Skill? GetSkill(SkillSlot slot)

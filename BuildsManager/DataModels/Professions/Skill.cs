@@ -137,9 +137,9 @@ namespace Kenedia.Modules.BuildsManager.DataModels.Professions
             TraitedFacts = skill.TraitedFacts?.ToList();
         }
 
-        internal static Skill FromUShort(ushort id, ProfessionType profession)
+        internal static Skill FromUShort(ushort id, ProfessionType profession, Services.Data data)
         {
-            foreach (var race in BuildsManager.Data.Races.Items)
+            foreach (var race in data.Races.Items)
             {
                 var skill = race.Value.Skills.Where(e => e.Value.PaletteId == id).FirstOrDefault();
                 if (skill.Value is not null)
@@ -149,9 +149,9 @@ namespace Kenedia.Modules.BuildsManager.DataModels.Professions
             }
 
             int skillid = 0;
-            bool hasSkill = BuildsManager.Data.Professions?[profession]?.SkillsByPalette.TryGetValue((int)id, out skillid) == true;
+            bool hasSkill = data.Professions?[profession]?.SkillsByPalette.TryGetValue((int)id, out skillid) == true;
 
-            return hasSkill ? BuildsManager.Data.Professions?[profession]?.Skills[skillid] : null;
+            return hasSkill ? data.Professions?[profession]?.Skills[skillid] : null;
         }
 
         public static int GetRevPaletteId(int id)

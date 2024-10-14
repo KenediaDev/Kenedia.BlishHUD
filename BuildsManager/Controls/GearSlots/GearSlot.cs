@@ -15,6 +15,7 @@ using Kenedia.Modules.BuildsManager.Extensions;
 using Kenedia.Modules.Core.Models;
 using Kenedia.Modules.BuildsManager.Controls.Selection;
 using System.Diagnostics;
+using Kenedia.Modules.BuildsManager.Services;
 
 namespace Kenedia.Modules.BuildsManager.Controls_Old.GearPage.GearSlots
 {
@@ -50,10 +51,11 @@ namespace Kenedia.Modules.BuildsManager.Controls_Old.GearPage.GearSlots
 
         public TemplateSlotType Slot { get => _slot; set => Common.SetProperty(ref _slot, value, ApplySlot); }
 
-        public GearSlot(TemplateSlotType gearSlot, Container parent, TemplatePresenter templatePresenter, SelectionPanel selectionPanel)
+        public GearSlot(TemplateSlotType gearSlot, Container parent, TemplatePresenter templatePresenter, SelectionPanel selectionPanel, Data data)
         {
             TemplatePresenter = templatePresenter;
             SelectionPanel = selectionPanel;
+            Data = data;
 
             Slot = gearSlot;
             Parent = parent;
@@ -67,10 +69,27 @@ namespace Kenedia.Modules.BuildsManager.Controls_Old.GearPage.GearSlots
             ItemControl.Parent = this;
 
             SetItemFromTemplate();
+
+            Data.Loaded += Data_Loaded;
+
+            if (Data.IsLoaded)
+            {
+                OnDataLoaded();
+            }
+        }
+
+        private void Data_Loaded(object sender, EventArgs e)
+        {
+            OnDataLoaded();
+        }
+
+        protected virtual void OnDataLoaded()
+        {
+
         }
 
         public SelectionPanel SelectionPanel { get; }
-
+        public Data Data { get; }
         public List<GearSlot> SlotGroup { get; set; }
 
         protected TemplatePresenter TemplatePresenter { get => _templatePresenter; private set => Common.SetProperty(ref _templatePresenter, value, OnTemplatePresenterChanged); }

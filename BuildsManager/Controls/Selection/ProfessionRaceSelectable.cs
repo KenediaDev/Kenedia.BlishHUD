@@ -11,6 +11,7 @@ using Kenedia.Modules.Core.DataModels;
 using Kenedia.Modules.Core.Services;
 using Blish_HUD;
 using Gw2Sharp.WebApi;
+using Kenedia.Modules.BuildsManager.Services;
 
 namespace Kenedia.Modules.BuildsManager.Controls.Selection
 {
@@ -23,8 +24,10 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
         private Enum _value = ProfessionType.Guardian;
         private ProfessionRaceSelection.SelectionType _selectionType = ProfessionRaceSelection.SelectionType.Profession;
 
-        public ProfessionRaceSelectable()
+        public ProfessionRaceSelectable(Data data)
         {
+            Data = data;
+
             HeightSizingMode = Blish_HUD.Controls.SizingMode.AutoSize;
             BorderWidth = new(2);
             BorderColor = Color.Black;
@@ -70,6 +73,8 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
             set => Common.SetProperty(ref _selectionType, value, () => Value = null);
         }
 
+        public Data Data { get; }
+
         public override void UserLocale_SettingChanged(object sender, ValueChangedEventArgs<Locale> e)
         {
             base.UserLocale_SettingChanged(sender, e);
@@ -88,7 +93,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
             switch (SelectionType)
             {
                 case ProfessionRaceSelection.SelectionType.Profession:
-                    if (BuildsManager.Data.Professions.TryGetValue((ProfessionType)Value, out var profession))
+                    if (Data.Professions.TryGetValue((ProfessionType)Value, out var profession))
                     {
                         _name.SetLocalizedText = () => profession?.Name;
                         _icon.Texture = profession.IconBig;
@@ -97,7 +102,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
                     break;
 
                 case ProfessionRaceSelection.SelectionType.Race:
-                    if (BuildsManager.Data.Races.TryGetValue((Races)Value, out var race))
+                    if (Data.Races.TryGetValue((Races)Value, out var race))
                     {
                         _name.SetLocalizedText = () => race?.Name;
                         _icon.Texture = race.Icon;

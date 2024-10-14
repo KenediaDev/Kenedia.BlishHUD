@@ -49,7 +49,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
             HeightSizingMode = SizingMode.Fill;
             Width = 375;
 
-            _gearSelection = new(TemplatePresenter)
+            _gearSelection = new(TemplatePresenter, data)
             {
                 Parent = this,
                 Visible = false,
@@ -64,7 +64,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
                 ZIndex = ZIndex,
             };
 
-            _statSelection = new(TemplatePresenter)
+            _statSelection = new(TemplatePresenter, data)
             {
                 Parent = this,
                 Visible = false,

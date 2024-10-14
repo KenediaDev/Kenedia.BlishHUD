@@ -13,6 +13,7 @@ using Kenedia.Modules.BuildsManager.TemplateEntries;
 using Kenedia.Modules.BuildsManager.Res;
 using Kenedia.Modules.BuildsManager.Controls.Selection;
 using System.Linq;
+using Kenedia.Modules.BuildsManager.Services;
 
 namespace Kenedia.Modules.BuildsManager.Controls_Old.GearPage.GearSlots
 {
@@ -23,12 +24,18 @@ namespace Kenedia.Modules.BuildsManager.Controls_Old.GearPage.GearSlots
         private Stat? _stat;
         private Infusion? _infusion;
 
-        public AccessoireSlot(TemplateSlotType gearSlot, Container parent, TemplatePresenter templatePresenter, SelectionPanel selectionPanel) : base(gearSlot, parent, templatePresenter, selectionPanel)
+        public AccessoireSlot(TemplateSlotType gearSlot, Container parent, TemplatePresenter templatePresenter, SelectionPanel selectionPanel, Data data) 
+            : base(gearSlot, parent, templatePresenter, selectionPanel, data)
         {
             _infusionControl.Placeholder.Texture = BuildsManager.ModuleInstance.ContentsManager.GetTexture(@"textures\infusionslot.png");
-            ItemControl.Item = BuildsManager.Data.Trinkets[81908];
-
             _infusionControl.Parent = this;
+
+        }
+
+        protected override void OnDataLoaded()
+        {
+            base.OnDataLoaded();
+            ItemControl.Item = Data.Trinkets[81908];
         }
 
         public Stat Stat { get => _stat; set => Common.SetProperty(ref _stat, value, OnStatChanged); }

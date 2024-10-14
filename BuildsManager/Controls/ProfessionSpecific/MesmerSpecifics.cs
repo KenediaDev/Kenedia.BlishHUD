@@ -8,6 +8,7 @@ using Kenedia.Modules.BuildsManager.DataModels.Professions;
 using Kenedia.Modules.BuildsManager.Models;
 using Blish_HUD;
 using static Blish_HUD.ContentService;
+using Kenedia.Modules.BuildsManager.Services;
 
 namespace Kenedia.Modules.BuildsManager.Controls.ProfessionSpecific
 {
@@ -32,7 +33,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.ProfessionSpecific
             new(),
         };
 
-        public MesmerSpecifics(TemplatePresenter template) : base(template)
+        public MesmerSpecifics(TemplatePresenter template, Data data) : base(template, data)
         {
 
         }
@@ -133,9 +134,11 @@ namespace Kenedia.Modules.BuildsManager.Controls.ProfessionSpecific
         protected override void ApplyTemplate()
         {
             if (TemplatePresenter?.Template is null) return;
+            if (!Data.IsLoaded) return;
+
             base.ApplyTemplate();
 
-            var skills = BuildsManager.Data?.Professions?[Gw2Sharp.Models.ProfessionType.Mesmer]?.Skills;
+            var skills = Data?.Professions?[Gw2Sharp.Models.ProfessionType.Mesmer]?.Skills;
             if (skills is null) return;
 
             Skill GetSkill(SkillSlot slot)

@@ -5,6 +5,7 @@ using Kenedia.Modules.Core.Models;
 using System.Linq;
 using System;
 using Kenedia.Modules.BuildsManager.DataModels.Items;
+using Kenedia.Modules.BuildsManager.Services;
 
 namespace Kenedia.Modules.BuildsManager.TemplateEntries
 {
@@ -13,7 +14,7 @@ namespace Kenedia.Modules.BuildsManager.TemplateEntries
         private bool _isDisposed;
         private Enhancement _enhancement;
 
-        public EnhancementTemplateEntry(TemplateSlotType slot) : base(slot)
+        public EnhancementTemplateEntry(TemplateSlotType slot, Data data) : base(slot, data)
         {
         }
 
@@ -31,26 +32,6 @@ namespace Kenedia.Modules.BuildsManager.TemplateEntries
             {
                 Enhancement = enhancement;
             }
-        }
-
-        public override byte[] AddToCodeArray(byte[] array)
-        {
-            return array.Concat(new byte[]
-            {
-                Enhancement ?.MappedId ?? 0,
-            }).ToArray();
-        }
-
-        public override byte[] GetFromCodeArray(byte[] array)
-        {
-            int newStartIndex = 1;
-
-            if (array is not null && array.Length > 0)
-            {
-                Enhancement = BuildsManager.Data.Enhancements.Items.Values.Where(e => e.MappedId == array[0]).FirstOrDefault();
-            }
-
-            return array is not null && array.Length > 0 ? GearTemplateCode.RemoveFromStart(array, newStartIndex) : array;
         }
 
         public void Dispose()

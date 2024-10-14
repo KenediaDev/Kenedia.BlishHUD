@@ -7,6 +7,7 @@ using System;
 using Kenedia.Modules.Core.Utility;
 using Kenedia.Modules.Core.Models;
 using Kenedia.Modules.BuildsManager.Interfaces;
+using Kenedia.Modules.BuildsManager.Services;
 
 namespace Kenedia.Modules.BuildsManager.TemplateEntries
 {
@@ -16,15 +17,22 @@ namespace Kenedia.Modules.BuildsManager.TemplateEntries
         private Stat _stat;
         private Enrichment _enrichment;
 
-        public AmuletTemplateEntry(TemplateSlotType slot) : base(slot)
+        public AmuletTemplateEntry(TemplateSlotType slot, Data data) : base(slot, data)
         {
         }
 
         public event EventHandler<ValueChangedEventArgs<Enrichment>> EnrichmentChanged;
         public event EventHandler<ValueChangedEventArgs<Stat>> StatChanged;
 
-        public Trinket Amulet { get; private set; } = BuildsManager.Data?.Trinkets?.TryGetValue(92991, out Trinket accessoire) is true ? accessoire : null;
+        protected override void OnDataLoaded()
+        {
+            base.OnDataLoaded();
 
+            Amulet = Data?.Trinkets?.TryGetValue(92991, out Trinket accessoire) is true ? accessoire : null;
+        }
+
+        public Trinket Amulet { get; private set; } 
+        
         public Stat Stat { get => _stat; private set => Common.SetProperty(ref _stat, value); }
 
         public Enrichment Enrichment { get => _enrichment; private set => Common.SetProperty(ref _enrichment, value); }
@@ -41,28 +49,6 @@ namespace Kenedia.Modules.BuildsManager.TemplateEntries
             {
                 Amulet = trinket;
             }
-        }
-
-        public override byte[] AddToCodeArray(byte[] array)
-        {
-            return array.Concat(new byte[]
-            {
-                Stat?.MappedId ?? 0,
-                Enrichment ?.MappedId ?? 0,
-            }).ToArray();
-        }
-
-        public override byte[] GetFromCodeArray(byte[] array)
-        {
-            int newStartIndex = 2;
-
-            if (array is not null && array.Length > 0)
-            {
-                Stat = BuildsManager.Data.Stats.Items.Where(e => e.Value.MappedId == array[0]).FirstOrDefault().Value;
-                Enrichment = BuildsManager.Data.Enrichments.Items.Where(e => e.Value.MappedId == array[1]).FirstOrDefault().Value;
-            }
-
-            return array is not null && array.Length > 0 ? GearTemplateCode.RemoveFromStart(array, newStartIndex) : array;
         }
 
         public void Dispose()

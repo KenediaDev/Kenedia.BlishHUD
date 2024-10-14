@@ -8,6 +8,7 @@ using System.Linq;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
 using Blish_HUD.Input;
+using Kenedia.Modules.BuildsManager.Services;
 
 namespace Kenedia.Modules.BuildsManager.Controls.ProfessionSpecific
 {
@@ -15,21 +16,34 @@ namespace Kenedia.Modules.BuildsManager.Controls.ProfessionSpecific
     {
         protected virtual SkillIcon[] Skills { get; } = Array.Empty<SkillIcon>();
 
-        public ProfessionSpecifics(TemplatePresenter templatePresenter)
+        public ProfessionSpecifics(TemplatePresenter templatePresenter, Services.Data data)
         {
             TemplatePresenter = templatePresenter;
+            Data = data;
             ClipsBounds = false;
             ZIndex = int.MaxValue / 2;
 
             Tooltip = SkillTooltip = new();
 
             SetTemplatePresenter();
+
+            Data.Loaded += Data_Loaded;
+        }
+
+        private void Data_Loaded(object sender, EventArgs e)
+        {
+            OnDataLoaded();
+        }
+
+        protected virtual void OnDataLoaded()
+        {
             ApplyTemplate();
         }
 
         protected SkillTooltip SkillTooltip { get; }
 
         public TemplatePresenter TemplatePresenter { get; }
+        public Data Data { get; }
 
         private void SetTemplatePresenter()
         {

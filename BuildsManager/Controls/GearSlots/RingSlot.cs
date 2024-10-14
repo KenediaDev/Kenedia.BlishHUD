@@ -11,6 +11,7 @@ using Kenedia.Modules.BuildsManager.DataModels.Items;
 using Kenedia.Modules.Core.Extensions;
 using Kenedia.Modules.BuildsManager.TemplateEntries;
 using Kenedia.Modules.BuildsManager.Res;
+using Kenedia.Modules.BuildsManager.Services;
 
 namespace Kenedia.Modules.BuildsManager.Controls_Old.GearPage.GearSlots
 {
@@ -26,16 +27,22 @@ namespace Kenedia.Modules.BuildsManager.Controls_Old.GearPage.GearSlots
         private Infusion? _infusion2;
         private Infusion? _infusion3;
 
-        public RingSlot(TemplateSlotType gearSlot, Container parent, TemplatePresenter templatePresenter, Controls.Selection.SelectionPanel selectionPanel) : base(gearSlot, parent, templatePresenter, selectionPanel)
+        public RingSlot(TemplateSlotType gearSlot, Container parent, TemplatePresenter templatePresenter, Controls.Selection.SelectionPanel selectionPanel, Data data)
+            : base(gearSlot, parent, templatePresenter, selectionPanel, data)
         {
             _infusion1Control.Placeholder.Texture = BuildsManager.ModuleInstance.ContentsManager.GetTexture(@"textures\infusionslot.png");
             _infusion2Control.Placeholder.Texture = BuildsManager.ModuleInstance.ContentsManager.GetTexture(@"textures\infusionslot.png");
             _infusion3Control.Placeholder.Texture = BuildsManager.ModuleInstance.ContentsManager.GetTexture(@"textures\infusionslot.png");
-            ItemControl.Item = BuildsManager.Data.Trinkets[91234];
 
             _infusion1Control.Parent = this;
             _infusion2Control.Parent = this;
             _infusion3Control.Parent = this;
+        }
+
+        protected override void OnDataLoaded()
+        {
+            base.OnDataLoaded();
+            ItemControl.Item = Data.Trinkets[91234];
         }
 
         public Stat? Stat { get => _stat; set => Common.SetProperty(ref _stat, value, OnStatChanged); }

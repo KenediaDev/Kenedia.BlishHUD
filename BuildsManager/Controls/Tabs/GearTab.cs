@@ -108,35 +108,35 @@ namespace Kenedia.Modules.BuildsManager.Controls.Tabs
 
             _templateSlots = new()
             {
-                {TemplateSlotType.Head, new ArmorSlot(TemplateSlotType.Head, this, TemplatePresenter, SelectionPanel)},
-                {TemplateSlotType.Shoulder, new ArmorSlot(TemplateSlotType.Shoulder, this, TemplatePresenter, SelectionPanel)},
-                {TemplateSlotType.Chest, new ArmorSlot(TemplateSlotType.Chest, this, TemplatePresenter, SelectionPanel)},
-                {TemplateSlotType.Hand, new ArmorSlot(TemplateSlotType.Hand, this, TemplatePresenter, SelectionPanel)},
-                {TemplateSlotType.Leg, new ArmorSlot(TemplateSlotType.Leg, this, TemplatePresenter, SelectionPanel)},
-                {TemplateSlotType.Foot, new ArmorSlot(TemplateSlotType.Foot, this, TemplatePresenter, SelectionPanel)},
+                {TemplateSlotType.Head, new ArmorSlot(TemplateSlotType.Head, this, TemplatePresenter, SelectionPanel, Data)},
+                {TemplateSlotType.Shoulder, new ArmorSlot(TemplateSlotType.Shoulder, this, TemplatePresenter, SelectionPanel, Data)},
+                {TemplateSlotType.Chest, new ArmorSlot(TemplateSlotType.Chest, this, TemplatePresenter, SelectionPanel, Data)},
+                {TemplateSlotType.Hand, new ArmorSlot(TemplateSlotType.Hand, this, TemplatePresenter, SelectionPanel, Data)},
+                {TemplateSlotType.Leg, new ArmorSlot(TemplateSlotType.Leg, this, TemplatePresenter, SelectionPanel, Data)},
+                {TemplateSlotType.Foot, new ArmorSlot(TemplateSlotType.Foot, this, TemplatePresenter, SelectionPanel, Data)},
 
-                {TemplateSlotType.MainHand, new WeaponSlot(TemplateSlotType.MainHand, this, TemplatePresenter, SelectionPanel)},
-                {TemplateSlotType.OffHand, new WeaponSlot(TemplateSlotType.OffHand, this, TemplatePresenter, SelectionPanel){ Height = 55 }},
-                {TemplateSlotType.AltMainHand, new WeaponSlot(TemplateSlotType.AltMainHand, this, TemplatePresenter, SelectionPanel)},
-                {TemplateSlotType.AltOffHand, new WeaponSlot(TemplateSlotType.AltOffHand, this, TemplatePresenter, SelectionPanel){ Height = 55 }},
+                {TemplateSlotType.MainHand, new WeaponSlot(TemplateSlotType.MainHand, this, TemplatePresenter, SelectionPanel, Data)},
+                {TemplateSlotType.OffHand, new WeaponSlot(TemplateSlotType.OffHand, this, TemplatePresenter, SelectionPanel, Data){ Height = 55 }},
+                {TemplateSlotType.AltMainHand, new WeaponSlot(TemplateSlotType.AltMainHand, this, TemplatePresenter, SelectionPanel, Data)},
+                {TemplateSlotType.AltOffHand, new WeaponSlot(TemplateSlotType.AltOffHand, this, TemplatePresenter, SelectionPanel, Data){ Height = 55 }},
 
-                {TemplateSlotType.AquaBreather, new ArmorSlot(TemplateSlotType.AquaBreather, this, TemplatePresenter, SelectionPanel){ Height = 55 }},
-                {TemplateSlotType.Aquatic, new AquaticWeaponSlot(TemplateSlotType.Aquatic, this, TemplatePresenter, SelectionPanel){ Height = 55 }},
-                {TemplateSlotType.AltAquatic, new AquaticWeaponSlot(TemplateSlotType.AltAquatic, this, TemplatePresenter, SelectionPanel){ Height = 55 }},
+                {TemplateSlotType.AquaBreather, new ArmorSlot(TemplateSlotType.AquaBreather, this, TemplatePresenter, SelectionPanel, Data){ Height = 55 }},
+                {TemplateSlotType.Aquatic, new AquaticWeaponSlot(TemplateSlotType.Aquatic, this, TemplatePresenter, SelectionPanel, Data){ Height = 55 }},
+                {TemplateSlotType.AltAquatic, new AquaticWeaponSlot(TemplateSlotType.AltAquatic, this, TemplatePresenter, SelectionPanel, Data){ Height = 55 }},
 
-                {TemplateSlotType.Back, new BackSlot(TemplateSlotType.Back, this, TemplatePresenter, SelectionPanel){ Width = 85}},
-                {TemplateSlotType.Amulet, new AmuletSlot(TemplateSlotType.Amulet, this, TemplatePresenter, SelectionPanel){ Width = 85}},
-                {TemplateSlotType.Ring_1, new RingSlot(TemplateSlotType.Ring_1, this, TemplatePresenter, SelectionPanel){ Width = 85}},
-                {TemplateSlotType.Ring_2, new RingSlot(TemplateSlotType.Ring_2, this, TemplatePresenter, SelectionPanel){ Width = 85}},
-                {TemplateSlotType.Accessory_1, new AccessoireSlot(TemplateSlotType.Accessory_1, this, TemplatePresenter, SelectionPanel){ Width = 85}},
-                {TemplateSlotType.Accessory_2, new AccessoireSlot(TemplateSlotType.Accessory_2, this, TemplatePresenter, SelectionPanel){ Width = 85}},
+                {TemplateSlotType.Back, new BackSlot(TemplateSlotType.Back, this, TemplatePresenter, SelectionPanel, Data){ Width = 85}},
+                {TemplateSlotType.Amulet, new AmuletSlot(TemplateSlotType.Amulet, this, TemplatePresenter, SelectionPanel, Data){ Width = 85}},
+                {TemplateSlotType.Ring_1, new RingSlot(TemplateSlotType.Ring_1, this, TemplatePresenter, SelectionPanel, Data){ Width = 85}},
+                {TemplateSlotType.Ring_2, new RingSlot(TemplateSlotType.Ring_2, this, TemplatePresenter, SelectionPanel, Data){ Width = 85}},
+                {TemplateSlotType.Accessory_1, new AccessoireSlot(TemplateSlotType.Accessory_1, this, TemplatePresenter, SelectionPanel, Data){ Width = 85}},
+                {TemplateSlotType.Accessory_2, new AccessoireSlot(TemplateSlotType.Accessory_2, this, TemplatePresenter, SelectionPanel, Data){ Width = 85}},
 
-                {TemplateSlotType.PvpAmulet, new PvpAmuletSlot(TemplateSlotType.PvpAmulet, this, TemplatePresenter, SelectionPanel) {Visible = false } },
-                {TemplateSlotType.Nourishment, new NourishmentSlot(TemplateSlotType.Nourishment, this, TemplatePresenter, SelectionPanel)},
-                {TemplateSlotType.Enhancement, new EnhancementSlot(TemplateSlotType.Enhancement, this, TemplatePresenter, SelectionPanel)},
-                {TemplateSlotType.PowerCore, new PowerCoreSlot(TemplateSlotType.PowerCore, this, TemplatePresenter, SelectionPanel)},
-                {TemplateSlotType.PveRelic, new RelicSlot(TemplateSlotType.PveRelic, this, TemplatePresenter, SelectionPanel)},
-                {TemplateSlotType.PvpRelic, new RelicSlot(TemplateSlotType.PvpRelic, this, TemplatePresenter, SelectionPanel)},
+                {TemplateSlotType.PvpAmulet, new PvpAmuletSlot(TemplateSlotType.PvpAmulet, this, TemplatePresenter, SelectionPanel, Data) {Visible = false } },
+                {TemplateSlotType.Nourishment, new NourishmentSlot(TemplateSlotType.Nourishment, this, TemplatePresenter, SelectionPanel, Data)},
+                {TemplateSlotType.Enhancement, new EnhancementSlot(TemplateSlotType.Enhancement, this, TemplatePresenter, SelectionPanel, Data)},
+                {TemplateSlotType.PowerCore, new PowerCoreSlot(TemplateSlotType.PowerCore, this, TemplatePresenter, SelectionPanel, Data)},
+                {TemplateSlotType.PveRelic, new RelicSlot(TemplateSlotType.PveRelic, this, TemplatePresenter, SelectionPanel, Data)},
+                {TemplateSlotType.PvpRelic, new RelicSlot(TemplateSlotType.PvpRelic, this, TemplatePresenter, SelectionPanel, Data)},
             };
 
             (_templateSlots[TemplateSlotType.PveRelic] as RelicSlot).PairedSlot = _templateSlots[TemplateSlotType.PvpRelic] as RelicSlot;
@@ -177,7 +177,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.Tabs
                 jewelrySlot.SlotGroup = jewellery;
             }
 
-            _professionRaceSelection = new()
+            _professionRaceSelection = new(data)
             {
                 Parent = this,
                 Visible = false,

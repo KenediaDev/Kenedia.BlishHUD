@@ -98,6 +98,15 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
             Templates.CollectionChanged += Templates_CollectionChanged;
             Templates.TemplateChanged += Templates_TemplateChanged;
 
+            Templates.Loaded += Templates_Loaded;
+            if (Templates.IsLoaded)
+            {
+                AddTemplateSelectable(true, [.. Templates]);
+            }
+        }
+
+        private void Templates_Loaded(object sender, EventArgs e)
+        {
             AddTemplateSelectable(true, [.. Templates]);
         }
 

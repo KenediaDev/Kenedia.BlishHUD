@@ -3,6 +3,7 @@ using Kenedia.Modules.BuildsManager.Controls.Selectables;
 using Kenedia.Modules.BuildsManager.Models;
 using Kenedia.Modules.BuildsManager.Models.Templates;
 using Kenedia.Modules.BuildsManager.Res;
+using Kenedia.Modules.BuildsManager.Services;
 using Kenedia.Modules.Core.DataModels;
 using Kenedia.Modules.Core.Extensions;
 using Microsoft.Xna.Framework;
@@ -32,7 +33,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.ProfessionSpecific
             new(),
         };
 
-        public RangerSpecifics(TemplatePresenter template) : base(template)
+        public RangerSpecifics(TemplatePresenter template, Data data) : base(template, data)
         {
             foreach (var pet in _pets)
             {
@@ -133,7 +134,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.ProfessionSpecific
             {
                 var flag = _selectorAnchor.PetSlot is PetSlotType.Terrestrial_1 or PetSlotType.Terrestrial_2 ? Enviroment.Terrestrial : Enviroment.Aquatic;
 
-                _petSelector.SetItems(BuildsManager.Data.Pets.Values.Where(e => e.Enviroment.HasFlag(flag)).OrderBy(e => e.Order));
+                _petSelector.SetItems(Data.Pets.Values.Where(e => e.Enviroment.HasFlag(flag)).OrderBy(e => e.Order));
             }
         }
 

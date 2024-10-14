@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Kenedia.Modules.BuildsManager.DataModels.Professions;
 using Kenedia.Modules.BuildsManager.Models;
+using Kenedia.Modules.BuildsManager.Services;
 
 namespace Kenedia.Modules.BuildsManager.Controls.ProfessionSpecific
 {
@@ -43,7 +44,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.ProfessionSpecific
             new(),
         };
 
-        public GuardianSpecifics(TemplatePresenter template) : base(template)
+        public GuardianSpecifics(TemplatePresenter template, Data data) : base(template, data)
         {
         }
 
@@ -96,10 +97,11 @@ namespace Kenedia.Modules.BuildsManager.Controls.ProfessionSpecific
         protected override void ApplyTemplate()
         {
             if(TemplatePresenter?.Template is null) return;
+            if (!Data.IsLoaded) return;
 
             base.ApplyTemplate();
 
-            var skills = BuildsManager.Data?.Professions?[Gw2Sharp.Models.ProfessionType.Guardian]?.Skills;
+            var skills = Data?.Professions?[Gw2Sharp.Models.ProfessionType.Guardian]?.Skills;
             if (skills is null) return;
 
             Skill? GetSkill(SkillSlot slot)

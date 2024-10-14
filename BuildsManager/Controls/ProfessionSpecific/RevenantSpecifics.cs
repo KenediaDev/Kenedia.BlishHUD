@@ -5,6 +5,7 @@ using Kenedia.Modules.BuildsManager.Controls.Selectables;
 using Kenedia.Modules.BuildsManager.Models;
 using Kenedia.Modules.BuildsManager.Models.Templates;
 using Kenedia.Modules.BuildsManager.Res;
+using Kenedia.Modules.BuildsManager.Services;
 using Kenedia.Modules.Core.Controls;
 using Kenedia.Modules.Core.Extensions;
 using Microsoft.Xna.Framework;
@@ -36,7 +37,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.ProfessionSpecific
 
         public ImageButton TerrestrialSwapButton { get; }
 
-        public RevenantSpecifics(TemplatePresenter template) : base(template)
+        public RevenantSpecifics(TemplatePresenter template, Data data) : base(template, data)
         {
             _legendSelector = new()
             {
@@ -144,6 +145,8 @@ namespace Kenedia.Modules.BuildsManager.Controls.ProfessionSpecific
         protected override void ApplyTemplate()
         {
             if (TemplatePresenter?.Template is null) return;
+            if (!Data.IsLoaded) return;
+
             base.ApplyTemplate();
 
             foreach (LegendSlotType slot in Enum.GetValues(typeof(LegendSlotType)))
@@ -187,9 +190,11 @@ namespace Kenedia.Modules.BuildsManager.Controls.ProfessionSpecific
 
         private void GetSelectableLegends(LegendSlotType legendSlot)
         {
+            if (!Data.IsLoaded) return;
+
             _selectedLegendSlot = legendSlot;
 
-            var legends = BuildsManager.Data.Professions[Gw2Sharp.Models.ProfessionType.Revenant].Legends.Where(e =>
+            var legends = Data.Professions[Gw2Sharp.Models.ProfessionType.Revenant].Legends.Where(e =>
             e.Value.Specialization == 0 || e.Value.Specialization == TemplatePresenter.Template.EliteSpecialization?.Id).Select(e => e.Value);
             _legendSelector.SetItems(legends);
         }

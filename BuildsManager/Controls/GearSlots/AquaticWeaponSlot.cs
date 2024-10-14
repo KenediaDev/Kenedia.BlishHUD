@@ -16,6 +16,7 @@ using Kenedia.Modules.BuildsManager.TemplateEntries;
 using ItemWeaponType = Gw2Sharp.WebApi.V2.Models.ItemWeaponType;
 using Kenedia.Modules.BuildsManager.Res;
 using System.Linq;
+using Kenedia.Modules.BuildsManager.Services;
 
 namespace Kenedia.Modules.BuildsManager.Controls_Old.GearPage.GearSlots
 {
@@ -44,7 +45,8 @@ namespace Kenedia.Modules.BuildsManager.Controls_Old.GearPage.GearSlots
         private Infusion _infusion1;
         private Infusion _infusion2;
 
-        public AquaticWeaponSlot(TemplateSlotType gearSlot, Container parent, TemplatePresenter templatePresenter, Controls.Selection.SelectionPanel selectionPanel) : base(gearSlot, parent, templatePresenter, selectionPanel)
+        public AquaticWeaponSlot(TemplateSlotType gearSlot, Container parent, TemplatePresenter templatePresenter, Controls.Selection.SelectionPanel selectionPanel, Data data)
+            : base(gearSlot, parent, templatePresenter, selectionPanel, data)
         {
             _infusion1Control.Placeholder.Texture = BuildsManager.ModuleInstance.ContentsManager.GetTexture(@"textures\infusionslot.png");
             _infusion2Control.Placeholder.Texture = BuildsManager.ModuleInstance.ContentsManager.GetTexture(@"textures\infusionslot.png");
@@ -159,7 +161,7 @@ namespace Kenedia.Modules.BuildsManager.Controls_Old.GearPage.GearSlots
             {
                 SelectionPanel?.SetAnchor<Stat>(ItemControl, new Rectangle(a.Location, Point.Zero).Add(ItemControl.LocalBounds), SelectionTypes.Stats, Slot, GearSubSlotType.None,
                     (stat) => TemplatePresenter?.Template?.SetItem(Slot, TemplateSubSlotType.Stat, stat),
-                    (TemplatePresenter?.Template[Slot] as AquaticWeaponTemplateEntry).Weapon?.StatChoices ?? BuildsManager.Data.Weapons.Values.FirstOrDefault()?.StatChoices,
+                    (TemplatePresenter?.Template[Slot] as AquaticWeaponTemplateEntry).Weapon?.StatChoices ?? Data.Weapons.Values.FirstOrDefault()?.StatChoices ?? [],
                     (TemplatePresenter?.Template[Slot] as AquaticWeaponTemplateEntry).Weapon?.AttributeAdjustment);
             }
 

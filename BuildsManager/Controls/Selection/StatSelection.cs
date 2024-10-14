@@ -1,5 +1,6 @@
 ﻿using Kenedia.Modules.BuildsManager.Extensions;
 using Kenedia.Modules.BuildsManager.Models;
+using Kenedia.Modules.BuildsManager.Services;
 using Kenedia.Modules.Core.Extensions;
 using Kenedia.Modules.Core.Models;
 using Kenedia.Modules.Core.Utility;
@@ -19,11 +20,33 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
         private IReadOnlyList<int> _statChoices;
         private double _attributeAdjustments;
 
-        public StatSelection(TemplatePresenter templatePresenter)
+        public StatSelection(TemplatePresenter templatePresenter, Data data)
         {
             TemplatePresenter = templatePresenter;
-            AttributeToggle t;
-            int i = 0;
+            Data = data;
+
+            Search.PerformFiltering = FilterStats;
+            Search.SetLocation(Search.Left, Search.Top + 30);
+
+            SelectionContent.SetLocation(Search.Left, Search.Bottom + 5);
+
+            FilterStats();
+
+            _created = true;
+            Data.Loaded += Data_Loaded;
+
+            CreateStatSelectables();
+        }
+
+        private void Data_Loaded(object sender, EventArgs e)
+        {
+            CreateStatSelectables();
+        }
+
+        private void CreateStatSelectables()
+        {
+            if (_stats.Count > 0) return;
+
             int size = 25;
             Point start = new(0, 0);
 
@@ -39,6 +62,9 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
                 AttributeType.ConditionDuration,
                 AttributeType.BoonDuration,
             };
+
+            AttributeToggle t;
+            int i = 0;
 
             foreach (AttributeType stat in stats)
             {
@@ -61,7 +87,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
             }
 
             StatSelectable selectable;
-            foreach (var stat in BuildsManager.Data.Stats.Items)
+            foreach (var stat in Data.Stats.Items)
             {
                 _stats.Add(selectable = new()
                 {
@@ -77,18 +103,11 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
                     },
                 });
             }
-
-            Search.PerformFiltering = FilterStats;
-            Search.SetLocation(Search.Left, Search.Top + 30);
-
-            SelectionContent.SetLocation(Search.Left, Search.Bottom + 5);
-
-            FilterStats();
-
-            _created = true;
         }
 
         public TemplatePresenter TemplatePresenter { get; }
+
+        public Data Data { get; }
 
         public IReadOnlyList<int> StatChoices { get => _statChoices; set => Common.SetProperty(ref _statChoices, value, OnStatChoicesChanged); }
 

@@ -12,6 +12,7 @@ using Blish_HUD.Controls;
 using Kenedia.Modules.Core.Extensions;
 using Kenedia.Modules.BuildsManager.TemplateEntries;
 using Kenedia.Modules.BuildsManager.Res;
+using Kenedia.Modules.BuildsManager.Services;
 
 namespace Kenedia.Modules.BuildsManager.Controls_Old.GearPage.GearSlots
 {
@@ -23,7 +24,8 @@ namespace Kenedia.Modules.BuildsManager.Controls_Old.GearPage.GearSlots
         private string _powerCoreName = strings.PowerCore;
         private string _powerCoreDescription;
 
-        public PowerCoreSlot(TemplateSlotType gearSlot, Container parent, TemplatePresenter templatePresenter, Controls.Selection.SelectionPanel selectionPanel) : base(gearSlot, parent, templatePresenter, selectionPanel)
+        public PowerCoreSlot(TemplateSlotType gearSlot, Container parent, TemplatePresenter templatePresenter, Controls.Selection.SelectionPanel selectionPanel, Data data) 
+            : base(gearSlot, parent, templatePresenter, selectionPanel, data)
         {
             ItemControl.Placeholder.Texture = AsyncTexture2D.FromAssetId(2630946);
             ItemControl.Placeholder.TextureRegion = new(38, 38, 52, 52);
