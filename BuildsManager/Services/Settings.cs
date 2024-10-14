@@ -12,16 +12,14 @@ namespace Kenedia.Modules.BuildsManager.Services
 {
     public class Settings : BaseSettingsModel
     {
-        private SettingCollection _settingCollection;
-
-        public Settings()
+        public Settings(SettingCollection settingCollection) : base(settingCollection)
         {
 
         }
 
-        private void InitializeSettings(SettingCollection settings)
+        protected override void InitializeSettings(SettingCollection settings)
         {
-            SettingCollection = settings;
+            base.InitializeSettings(settings);
             SettingCollection internalSettings = settings.AddSubCollection("Internal", false, false);
 
             SortBehavior = internalSettings.DefineSetting(nameof(SortBehavior), TemplateSortBehavior.ByProfession);
@@ -60,18 +58,6 @@ namespace Kenedia.Modules.BuildsManager.Services
 
         public SettingEntry<KeyBinding> ToggleWindowKey { get; set; }
 
-        public SettingCollection SettingCollection { get => _settingCollection; set => Common.SetProperty(ref _settingCollection, value, OnSettingCollectionChanged); }
-
         public SettingEntry<bool> QuickFiltersPanelFade { get; private set; }
-
-        private void OnSettingCollectionChanged(object sender, ValueChangedEventArgs<SettingCollection> e)
-        {
-            if (e.NewValue == null)
-            {
-                return;
-            }
-
-            InitializeSettings(e.NewValue);
-        }
     }
 }

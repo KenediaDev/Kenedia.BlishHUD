@@ -10,9 +10,9 @@ namespace Kenedia.Modules.QoL.Services
         private readonly SettingCollection _settings;
         private readonly SettingCollection _internal_settings;
 
-        public Settings(SettingCollection settings)
+        public Settings(SettingCollection settingCollection) : base(settingCollection)
         {
-            _settings = settings;
+            _settings = settingCollection;
 
             _internal_settings = _settings.AddSubCollection("Internal");
             HotbarPosition = _internal_settings.DefineSetting(nameof(HotbarPosition), new Point(0, 32));

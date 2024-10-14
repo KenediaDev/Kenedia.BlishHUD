@@ -352,6 +352,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="FashionManager.cs" />
+    <Compile Include="Models\DataLoadProgress.cs" />
+    <Compile Include="Models\DataLoadReport.cs" />
     <Compile Include="Models\FashionSlot.cs" />
     <Compile Include="Models\FashionTemplate.cs" />
     <Compile Include="Models\FashionTemplateArmorChanged.cs" />

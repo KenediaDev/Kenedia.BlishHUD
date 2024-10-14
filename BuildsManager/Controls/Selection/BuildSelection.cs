@@ -28,12 +28,13 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
         private readonly Dropdown _sortBehavior;
         private double _lastShown;
 
-        public BuildSelection(TemplateCollection templates, TemplateTags templateTags, Data data, TemplatePresenter templatePresenter, TemplateFactory templateFactory)
+        public BuildSelection(TemplateCollection templates, TemplateTags templateTags, Data data, TemplatePresenter templatePresenter, TemplateFactory templateFactory, Settings settings)
         {
             Data = data;
             Templates = templates;
             TemplateTags = templateTags;
             TemplateFactory = templateFactory;
+            Settings = settings;
             TemplatePresenter = templatePresenter;
 
             _sortBehavior = new()
@@ -44,14 +45,14 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
                 {
                     if (_sortBehavior is null) return;
 
-                    BuildsManager.ModuleInstance.Settings.SortBehavior.Value = GetSortBehaviorFromString(s);
+                    Settings.SortBehavior.Value = GetSortBehaviorFromString(s);
                     FilterTemplates();
                 },
                 SetLocalizedItems = () =>
                 {
                     if (_sortBehavior is not null)
                     {
-                        _sortBehavior.SelectedItem = GetSortBehaviorString(BuildsManager.ModuleInstance.Settings.SortBehavior.Value);
+                        _sortBehavior.SelectedItem = GetSortBehaviorString(Settings.SortBehavior.Value);
                     }
 
                     return
@@ -61,7 +62,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
                         GetSortBehaviorString(TemplateSortBehavior.ByModified),
                     ];
                 },
-                SelectedItem = GetSortBehaviorString(BuildsManager.ModuleInstance.Settings.SortBehavior.Value),
+                SelectedItem = GetSortBehaviorString(Settings.SortBehavior.Value),
             };
 
             Search.Location = new(2, _sortBehavior.Bottom + 5);
@@ -172,7 +173,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
         public TemplatePresenter TemplatePresenter { get; }
 
         public TemplateFactory TemplateFactory { get; }
-
+        public Settings Settings { get; }
         public List<KeyValuePair<string, List<Func<Template, bool>>>> FilterQueries { get; } = [];
 
         public List<Func<Template, bool>> SpecializationFilterQueries { get; } = [];
@@ -216,7 +217,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
 
         private void SortTemplates()
         {
-            switch (BuildsManager.ModuleInstance.Settings.SortBehavior.Value)
+            switch (Settings.SortBehavior.Value)
             {
                 case TemplateSortBehavior.ByProfession:
                     SelectionContent.SortChildren<TemplateSelectable>((a, b) =>

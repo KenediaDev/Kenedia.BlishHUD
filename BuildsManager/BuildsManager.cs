@@ -123,7 +123,6 @@ namespace Kenedia.Modules.BuildsManager
         {
             base.DefineSettings(settings);
 
-            Settings.SettingCollection = settings;
             Settings.ShowCornerIcon.SettingChanged += ShowCornerIcon_SettingChanged;
         }
 

@@ -38,7 +38,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
         private Control? _anchor;
         private MainWindow _mainWindow;
 
-        public SelectionPanel(TemplatePresenter templatePresenter, TemplateCollection templates, TemplateTags templateTags, Data data, TemplateFactory templateFactory)
+        public SelectionPanel(TemplatePresenter templatePresenter, TemplateCollection templates, TemplateTags templateTags, Data data, TemplateFactory templateFactory, Settings settings)
         {
             TemplatePresenter = templatePresenter;
 
@@ -56,7 +56,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
                 ZIndex = ZIndex,
             };
 
-            BuildSelection = new(templates, templateTags, data, templatePresenter, templateFactory)
+            BuildSelection = new(templates, templateTags, data, templatePresenter, templateFactory, settings)
             {
                 Parent = this,
                 Visible = true,

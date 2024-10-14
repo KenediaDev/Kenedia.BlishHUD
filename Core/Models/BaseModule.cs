@@ -67,7 +67,8 @@ namespace Kenedia.Modules.Core.Models
             services.AddSingleton<ModuleWindow>();
             services.AddSingleton<ModuleSettings>();
             services.AddSingleton<ModulePaths>();
-
+            
+            services.AddSingleton<SettingCollection>(ModuleParameters.SettingsManager.ModuleSettings);
             services.AddSingleton<ContentsManager>(ModuleParameters.ContentsManager);
             services.AddSingleton<SettingsManager>(ModuleParameters.SettingsManager);
             services.AddSingleton<Gw2ApiManager>(ModuleParameters.Gw2ApiManager);

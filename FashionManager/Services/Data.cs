@@ -12,6 +12,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Runtime.Serialization;
 using System.ServiceModel.Channels;
 using System.Text;
 using System.Threading;
@@ -20,30 +21,33 @@ using File = System.IO.File;
 
 namespace Kenedia.Modules.FashionManager.Services
 {
-    public class DataLoadReport
+    public class Color : Gw2Sharp.WebApi.V2.Models.Color
     {
-        public DataLoadReport(string message, int currentCount, int maxCount, double percent)
+
+        [DataMember]
+        public LocalizedString Names { get; protected set; } = [];
+
+        public new string Name
         {
-            Message = message;
-            Percent = Math.Round(percent, 4);
-            MaxCount = maxCount;
-            CurrentCount = currentCount;
+            get => Names.Text;
+            set => Names.Text = value;
         }
 
-        public string Message { get; }
-
-        public double Percent { get; }
-
-        public int MaxCount { get; }
-
-        public int CurrentCount { get; }
-    }
-
-    public class DataLoadProgress : IProgress<DataLoadReport>
-    {
-        public void Report(DataLoadReport report)
+        public Color()
         {
-            Debug.WriteLine($"{report.Message} | {report.CurrentCount} / {report.MaxCount} | {report.Percent} ");
+        }
+
+        public Color(Gw2Sharp.WebApi.V2.Models.Color color)
+        {
+            Id = color.Id;
+            Name = color.Name;
+            BaseRgb = color.BaseRgb;
+            Cloth = color.Cloth;
+            Leather = color.Leather;
+            Metal = color.Metal;
+            Fur = color.Fur;
+            Item = color.Item;
+            Categories = color.Categories;
         }
     }
 
@@ -168,7 +172,7 @@ namespace Kenedia.Modules.FashionManager.Services
 
                 if (colorChunk is not null)
                 {
-                    colors.AddRange(colorChunk);
+                    colors.AddRange(colorChunk.Select(x => new Color(x)));
                 }
             }
 

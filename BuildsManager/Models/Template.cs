@@ -1391,9 +1391,9 @@ namespace Kenedia.Modules.BuildsManager.Models
                 templateSlot switch
                 {
                     TemplateSlotType.MainHand => (this[TemplateSlotType.MainHand] as ISingleSigilTemplateEntry).Sigil1,
-                    TemplateSlotType.OffHand => (this[TemplateSlotType.OffHand] as ISingleSigilTemplateEntry).Sigil1,
+                    TemplateSlotType.OffHand => (this[TemplateSlotType.MainHand] as ISingleSigilTemplateEntry).Sigil1,
                     TemplateSlotType.AltMainHand => (this[TemplateSlotType.AltMainHand] as ISingleSigilTemplateEntry).Sigil1,
-                    TemplateSlotType.AltOffHand => (this[TemplateSlotType.AltOffHand] as ISingleSigilTemplateEntry).Sigil1,
+                    TemplateSlotType.AltOffHand => (this[TemplateSlotType.AltMainHand] as ISingleSigilTemplateEntry).Sigil1,
                     TemplateSlotType.Aquatic => (this[TemplateSlotType.Aquatic] as IDoubleSigilTemplateEntry).Sigil1,
                     TemplateSlotType.AltAquatic => (this[TemplateSlotType.AltAquatic] as IDoubleSigilTemplateEntry).Sigil1,
                     _ => null
