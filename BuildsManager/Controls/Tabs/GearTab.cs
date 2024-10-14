@@ -22,6 +22,9 @@ using Kenedia.Modules.Core.DataModels;
 using Kenedia.Modules.BuildsManager.Services;
 using Kenedia.Modules.BuildsManager.DataModels.Professions;
 using Kenedia.Modules.BuildsManager.DataModels;
+using MonoGame.Extended;
+using Blish_HUD.Controls;
+using TextBox = Kenedia.Modules.Core.Controls.TextBox;
 
 namespace Kenedia.Modules.BuildsManager.Controls.Tabs
 {
@@ -204,7 +207,9 @@ namespace Kenedia.Modules.BuildsManager.Controls.Tabs
         }
 
         public TemplatePresenter TemplatePresenter { get => _templatePresenter; private set => Common.SetProperty(ref _templatePresenter, value, OnTemplatePresenterChanged); }
+
         public SelectionPanel SelectionPanel { get; }
+
         public Data Data { get; }
 
         private void OnTemplatePresenterChanged(object sender, Core.Models.ValueChangedEventArgs<TemplatePresenter> e)
@@ -386,7 +391,23 @@ namespace Kenedia.Modules.BuildsManager.Controls.Tabs
 
         public override void Draw(SpriteBatch spriteBatch, Rectangle drawBounds, Rectangle scissor)
         {
-            base.Draw(spriteBatch, drawBounds, scissor);
+            if (Data.IsLoaded)
+            {
+                base.Draw(spriteBatch, drawBounds, scissor);
+            }
+            else
+            {
+                Rectangle scissorRectangle = Rectangle.Intersect(scissor, AbsoluteBounds.WithPadding(_padding)).ScaleBy(Graphics.UIScaleMultiplier);
+                spriteBatch.GraphicsDevice.ScissorRectangle = scissorRectangle;
+                EffectBehind?.Draw(spriteBatch, drawBounds);
+                spriteBatch.Begin(SpriteBatchParameters);
+
+                Rectangle r = new(drawBounds.Center.X - 32, drawBounds.Center.Y, 64, 64);
+                Rectangle tR = new(drawBounds.X, r.Bottom + 10, drawBounds.Width, Content.DefaultFont16.LineHeight);
+                LoadingSpinnerUtil.DrawLoadingSpinner(this, spriteBatch, r);
+                spriteBatch.DrawStringOnCtrl(this, "Loading Data. Please wait.", Content.DefaultFont16, tR, Color.White, false, HorizontalAlignment.Center, VerticalAlignment.Middle);
+                spriteBatch.End();
+            }
         }
 
         public override void PaintBeforeChildren(SpriteBatch spriteBatch, Rectangle bounds)

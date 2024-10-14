@@ -15,6 +15,7 @@ using Kenedia.Modules.Core.Attributes;
 using Gw2Sharp.WebApi;
 using Gw2Sharp.WebApi.V2.Models;
 using System.Diagnostics;
+using Blish_HUD;
 
 namespace Kenedia.Modules.BuildsManager.Services
 {
@@ -214,6 +215,8 @@ namespace Kenedia.Modules.BuildsManager.Services
                 return false;
             }
 
+            await Task.Delay(5000);
+
             LoadingSpinner spinner = Spinner;
             LastLoadAttempt = Common.Now;
 
@@ -264,7 +267,7 @@ namespace Kenedia.Modules.BuildsManager.Services
                 if (!failed)
                 {
                     BuildsManager.Logger.Info("All data loaded!");
-                    Loaded?.Invoke(this, EventArgs.Empty);
+                    GameService.Graphics.QueueMainThreadRender((graphicsDevice) => Loaded?.Invoke(this, EventArgs.Empty));
                 }
                 else
                 {

@@ -41,6 +41,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
         public SelectionPanel(TemplatePresenter templatePresenter, TemplateCollection templates, TemplateTags templateTags, Data data, TemplateFactory templateFactory, Settings settings)
         {
             TemplatePresenter = templatePresenter;
+            Data = data;
 
             Pointer = new();
 
@@ -82,6 +83,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
         }
 
         public TemplatePresenter TemplatePresenter { get; private set; }
+        public Data Data { get; }
 
         public MainWindow MainWindow
         {
@@ -129,6 +131,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
         }
 
         public GearSubSlotType SubSlotType { get; private set; }
+
         public Pointer Pointer { get; set; }
 
         private void TemplatePresenter_TemplateChanged(object sender, Core.Models.ValueChangedEventArgs<Template> e)
@@ -152,6 +155,8 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
                 switch (SelectionType)
                 {
                     case SelectionTypes.Items:
+                        if (!Data.IsLoaded) return;
+
                         if (((TemplateSlotType)slot).GetGroupType() != _gearSelection.ActiveSlot.GetGroupType())
                         {
                             _gearSelection.Search.Text = string.Empty;
@@ -174,6 +179,8 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
                         break;
 
                     case SelectionTypes.Stats:
+                        if (!Data.IsLoaded) return;
+
                         _statSelection.OnClickAction = (obj) =>
                         {
                             if (obj is T stat)

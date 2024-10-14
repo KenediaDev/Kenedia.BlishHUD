@@ -15,6 +15,7 @@ using Kenedia.Modules.BuildsManager.TemplateEntries;
 using Kenedia.Modules.BuildsManager.Res;
 using System.Diagnostics;
 using Kenedia.Modules.BuildsManager.Services;
+using System.Linq;
 
 namespace Kenedia.Modules.BuildsManager.Controls_Old.GearPage.GearSlots
 {
@@ -101,7 +102,7 @@ namespace Kenedia.Modules.BuildsManager.Controls_Old.GearPage.GearSlots
             {
                 SelectionPanel?.SetAnchor<Stat>(ItemControl, new Rectangle(a.Location, Point.Zero).Add(ItemControl.LocalBounds), SelectionTypes.Stats, Slot, GearSubSlotType.None,
                 (stat) => TemplatePresenter?.Template?.SetItem(Slot, TemplateSubSlotType.Stat, stat),
-                (TemplatePresenter?.Template[Slot] as ArmorTemplateEntry).Armor?.StatChoices,
+                (TemplatePresenter?.Template[Slot] as ArmorTemplateEntry).Armor?.StatChoices ?? Data.Armors?.Items?.Values?.FirstOrDefault()?.StatChoices ?? [],
                 (TemplatePresenter?.Template[Slot] as ArmorTemplateEntry).Armor?.AttributeAdjustment);
             }
 

@@ -85,10 +85,6 @@ namespace Kenedia.Modules.BuildsManager.Controls_Old.GearPage.GearSlots
 
             if (ItemControl.MouseOver)
             {
-
-                Debug.WriteLine($"STAT CHOICES");
-
-                Debug.WriteLine($"{TemplatePresenter?.Template[Slot]?.Item}");
                 SelectionPanel?.SetAnchor<Stat>(ItemControl, new Rectangle(a.Location, Point.Zero).Add(ItemControl.LocalBounds), SelectionTypes.Stats, Slot, GearSubSlotType.None,
                     (stat) => TemplatePresenter?.Template?.SetItem(Slot, TemplateSubSlotType.Stat, stat),
                     (TemplatePresenter?.Template[Slot] as BackTemplateEntry).Back?.StatChoices,

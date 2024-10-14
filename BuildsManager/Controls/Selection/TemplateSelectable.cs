@@ -22,6 +22,7 @@ using Kenedia.Modules.BuildsManager.Models;
 using Kenedia.Modules.BuildsManager.Res;
 using Gw2Sharp.WebApi;
 using Kenedia.Modules.BuildsManager.Services;
+using System.Diagnostics;
 
 namespace Kenedia.Modules.BuildsManager.Controls.Selection
 {
@@ -153,7 +154,19 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
             LocalizingService.LocaleChanged += LocalizingService_OnLocaleChanged;
 
             templateTags.TagChanged += TemplateTags_TagChanged;
-            templateTags.TagRemoved += TemplateTags_TagRemoved;            
+            templateTags.TagRemoved += TemplateTags_TagRemoved;
+
+            if (Data.IsLoaded)
+            {
+                ApplyTemplate();
+            }
+
+            Data.Loaded += Data_Loaded;
+        }
+
+        private void Data_Loaded(object sender, EventArgs e)
+        {
+            ApplyTemplate();
         }
 
         private void TemplateTags_TagRemoved(object sender, TemplateTag e)
@@ -525,6 +538,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
             _name.Text = _template?.Name;
             _raceTexture = Data.Races.TryGetValue(_template?.Race ?? Races.None, out var race) ? race.Icon : null;
             _specTexture = Template?.EliteSpecialization?.ProfessionIconBig ?? (Data.Professions.TryGetValue((Gw2Sharp.Models.ProfessionType)Template?.Profession, out var profession) ? profession.IconBig : null);
+
             SetLastModifiedText(_template.LastModified);
             SetTagTextures();
 

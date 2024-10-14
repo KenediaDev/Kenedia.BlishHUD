@@ -20,11 +20,18 @@ namespace Kenedia.Modules.BuildsManager.Models
         private AttunementType _altAttunement = AttunementType.Fire;
         private LegendSlotType _legendSlot = LegendSlotType.TerrestrialActive;
 
-        public TemplatePresenter(TemplateFactory templateFactory)
+        public TemplatePresenter(TemplateFactory templateFactory, Data data)
         {
             TemplateFactory = templateFactory;
-
+            Data = data;
             Template = TemplateFactory.CreateTemplate(string.Empty);
+
+            Data.Loaded += Data_Loaded;
+        }
+
+        private void Data_Loaded(object sender, EventArgs e)
+        {
+            On_TemplateChanged(this, new(Template, Template));
         }
 
         public event EventHandler BuildCodeChanged;
@@ -91,6 +98,7 @@ namespace Kenedia.Modules.BuildsManager.Models
         public bool IsWvw => GameMode == GameModeType.WvW;
 
         public TemplateFactory TemplateFactory { get; }
+        public Data Data { get; }
 
         private void On_TemplateChanged(object sender, ValueChangedEventArgs<Template> e)
         {

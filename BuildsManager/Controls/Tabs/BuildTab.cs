@@ -180,7 +180,23 @@ namespace Kenedia.Modules.BuildsManager.Controls.Tabs
 
         public override void Draw(SpriteBatch spriteBatch, Rectangle drawBounds, Rectangle scissor)
         {
-            base.Draw(spriteBatch, drawBounds, scissor);
+            if (Data.IsLoaded)
+            {
+                base.Draw(spriteBatch, drawBounds, scissor);
+            }
+            else
+            {
+                Rectangle scissorRectangle = Rectangle.Intersect(scissor, AbsoluteBounds.WithPadding(_padding)).ScaleBy(Graphics.UIScaleMultiplier);
+                spriteBatch.GraphicsDevice.ScissorRectangle = scissorRectangle;
+                EffectBehind?.Draw(spriteBatch, drawBounds);
+                spriteBatch.Begin(SpriteBatchParameters);
+
+                Rectangle r = new(drawBounds.Center.X - 32, drawBounds.Center.Y, 64, 64);
+                Rectangle tR = new(drawBounds.X, r.Bottom + 10, drawBounds.Width, Content.DefaultFont16.LineHeight);
+                LoadingSpinnerUtil.DrawLoadingSpinner(this, spriteBatch, r);
+                spriteBatch.DrawStringOnCtrl(this, "Loading Data. Please wait.", Content.DefaultFont16, tR, Color.White, false, HorizontalAlignment.Center, VerticalAlignment.Middle);
+                spriteBatch.End();
+            }
         }
 
         public override void RecalculateLayout()

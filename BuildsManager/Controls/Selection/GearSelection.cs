@@ -21,22 +21,22 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
         private GearSubSlotType _subSlotType;
         private string _filterText = string.Empty;
         private TemplatePresenter _templatePresenter;
-        private List<SelectionPanelSelectable> _armors;
-        private List<SelectionPanelSelectable> _trinkets;
-        private List<SelectionPanelSelectable> _backs;
-        private List<SelectionPanelSelectable> _weapons;
-        private List<SelectionPanelSelectable> _pvpAmulets;
-        private List<SelectionPanelSelectable> _pveSigils;
-        private List<SelectionPanelSelectable> _pvpSigils;
-        private List<SelectionPanelSelectable> _pveRunes;
-        private List<SelectionPanelSelectable> _pvpRunes;
-        private List<SelectionPanelSelectable> _nourishment;
-        private List<SelectionPanelSelectable> _utilites;
-        private List<SelectionPanelSelectable> _enrichments;
-        private List<SelectionPanelSelectable> _infusions;
-        private List<SelectionPanelSelectable> _powerCores;
-        private List<SelectionPanelSelectable> _pveRelics;
-        private List<SelectionPanelSelectable> _pvpRelics;
+        private List<SelectionPanelSelectable> _armors = [];
+        private List<SelectionPanelSelectable> _trinkets = [];
+        private List<SelectionPanelSelectable> _backs = [];
+        private List<SelectionPanelSelectable> _weapons = [];
+        private List<SelectionPanelSelectable> _pvpAmulets = [];
+        private List<SelectionPanelSelectable> _pveSigils = [];
+        private List<SelectionPanelSelectable> _pvpSigils = [];
+        private List<SelectionPanelSelectable> _pveRunes = [];
+        private List<SelectionPanelSelectable> _pvpRunes = [];
+        private List<SelectionPanelSelectable> _nourishment = [];
+        private List<SelectionPanelSelectable> _utilites = [];
+        private List<SelectionPanelSelectable> _enrichments = [];
+        private List<SelectionPanelSelectable> _infusions = [];
+        private List<SelectionPanelSelectable> _powerCores = [];
+        private List<SelectionPanelSelectable> _pveRelics = [];
+        private List<SelectionPanelSelectable> _pvpRelics = [];
 
         public GearSelection(TemplatePresenter templatePresenter, Data data)
         {
@@ -112,6 +112,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
 
         public TemplatePresenter TemplatePresenter { get => _templatePresenter; private set => Common.SetProperty(ref _templatePresenter, value, OnTemplatePresenterChanged); }
         public Data Data { get; }
+
         public TemplateSlotType ActiveSlot { get => _activeSlot; set => Common.SetProperty(ref _activeSlot, value, ApplySlot); }
 
         public GearSubSlotType SubSlotType { get => _subSlotType; set => Common.SetProperty(ref _subSlotType, value, ApplySubSlot); }

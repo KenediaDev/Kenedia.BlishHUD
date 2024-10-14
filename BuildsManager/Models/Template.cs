@@ -154,12 +154,12 @@ namespace Kenedia.Modules.BuildsManager.Models
         }
 
         [JsonConstructor]
-        public Template(Data data, string name, string buildCode, string gearCode, string description, UniqueObservableCollection<string> tags, Races? race, ProfessionType? profession, int? elitespecId) : this(data)
+        public Template(Data data, string name, string buildCode, string gearCode, string description, UniqueObservableCollection<string> tags, Races? race, ProfessionType? profession, int elitespecId) : this(data)
         {
+            EliteSpecializationId = elitespecId;
             _name = name;
             _race = race ?? Races.None;
             _profession = profession ?? ProfessionType.Guardian;
-            SavedEliteSpecialization = Data.Professions[Profession]?.Specializations.FirstOrDefault(e => e.Value.Id == elitespecId).Value;
             _description = description;
             Tags = tags ?? _tags;
 
@@ -167,9 +167,24 @@ namespace Kenedia.Modules.BuildsManager.Models
             _savedGearCode = gearCode;
 
             SetArmorItems();
+
+            if (Data.IsLoaded)
+            {
+
+            }
+
+            Data.Loaded += Data_Loaded;
         }
 
-        public Specialization? SavedEliteSpecialization { get; private set; } = null;
+        private void Data_Loaded(object sender, EventArgs e)
+        {
+            ApplyData();
+        }
+
+        private void ApplyData()
+        {
+            EliteSpecializationChanged?.Invoke(this, new(SpecializationSlotType.Line_3, EliteSpecialization, null));
+        }
 
         public string FilePath => @$"{BuildsManager.ModuleInstance.Paths.TemplatesPath}{Common.MakeValidFileName(Name.Trim())}.json";
 
@@ -202,11 +217,11 @@ namespace Kenedia.Modules.BuildsManager.Models
         }
 
         [DataMember]
-        public int? EliteSpecializationId => Specializations.Specialization3.Specialization?.Id ?? SavedEliteSpecialization?.Id;
+        public int EliteSpecializationId { get; set; }
 
-        public Specialization? EliteSpecialization => Specializations.Specialization3?.Specialization ?? SavedEliteSpecialization;
+        public Specialization? EliteSpecialization => (Data.Professions.TryGetValue(Profession, out var prof) && prof.Specializations.TryGetValue(EliteSpecializationId, out var spec) ? spec : null) ?? null;
 
-        public Templates.RangerPets Pets { get; } = [];
+        public RangerPets Pets { get; } = [];
 
         public SkillCollection Skills { get; } = [];
 
@@ -232,7 +247,7 @@ namespace Kenedia.Modules.BuildsManager.Models
 
         public ArmorTemplateEntry Hand { get; }
 
-        public ArmorTemplateEntry Leg { get; } 
+        public ArmorTemplateEntry Leg { get; }
 
         public ArmorTemplateEntry Foot { get; }
 
@@ -434,7 +449,6 @@ namespace Kenedia.Modules.BuildsManager.Models
             Pets.Wipe();
             Legends.Wipe();
 
-            SavedEliteSpecialization = null;
             RemoveInvalidSkillsBasedOnSpec();
         }
 
@@ -508,7 +522,7 @@ namespace Kenedia.Modules.BuildsManager.Models
 
         public void LoadBuildFromCode(string? code, bool save = false)
         {
-            if (code is not null && Gw2ChatLink.TryParse(code, out IGw2ChatLink? chatlink))
+            if (code is not null && Gw2ChatLink.TryParse(code, out IGw2ChatLink? chatlink) && Data.IsLoaded)
             {
                 BuildChatLink build = new();
                 build.Parse(chatlink.ToArray());
@@ -580,6 +594,9 @@ namespace Kenedia.Modules.BuildsManager.Models
 
         public void LoadGearFromCode(string? code, bool save = false)
         {
+            if (!Data.IsLoaded)
+                return;
+
             GearChatCode.LoadTemplateFromChatCode(this, code, Data);
 
             RemoveInvalidGearCombinations();
@@ -752,7 +769,7 @@ namespace Kenedia.Modules.BuildsManager.Models
             GearCode = _savedGearCode;
             BuildCode = _savedBuildCode;
 
-            Loaded = true;
+            Loaded = Data.IsLoaded;
         }
 
         private void LoadSpecializationFromCode(ProfessionType profession, SpecializationSlotType slot, byte specId, byte adept, byte master, byte grandMaster)
@@ -847,7 +864,7 @@ namespace Kenedia.Modules.BuildsManager.Models
 
                 if (slot is SpecializationSlotType.Line_3)
                 {
-                    SavedEliteSpecialization = specialization;
+                    EliteSpecializationId = specialization?.Id ?? 0;
                 }
 
                 SetTrait(currentSpecline, null, TraitTierType.Adept);

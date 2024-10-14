@@ -28,6 +28,11 @@ namespace Kenedia.Modules.BuildsManager.Controls.ProfessionSpecific
             SetTemplatePresenter();
 
             Data.Loaded += Data_Loaded;
+
+            if (Data.IsLoaded)
+            {
+                OnDataLoaded();
+            }
         }
 
         private void Data_Loaded(object sender, EventArgs e)
@@ -43,6 +48,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.ProfessionSpecific
         protected SkillTooltip SkillTooltip { get; }
 
         public TemplatePresenter TemplatePresenter { get; }
+
         public Data Data { get; }
 
         private void SetTemplatePresenter()

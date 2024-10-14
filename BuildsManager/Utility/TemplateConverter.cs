@@ -41,10 +41,10 @@ namespace Kenedia.Modules.BuildsManager.Utility
             string? description = (string?)jo["Description"];
             int? race = (int?)jo["Race"];
             int? profession = (int?)jo["Profession"];
-            int? elitespecId = (int?)jo["EliteSpecializationId"];
+            int elitespecId = (int?)jo["EliteSpecializationId"] ?? 0;
             string? lastModified = (string?)jo["LastModified"];
 
-            var result = TemplateFactory.CreateTemplate(name, buildCode, gearCode, description, tags, (Races)(race ?? -1), (ProfessionType)(profession ?? 1), elitespecId ?? 0, lastModified);
+            var result = TemplateFactory.CreateTemplate(name, buildCode, gearCode, description, tags, (Races)(race ?? -1), (ProfessionType)(profession ?? 1), elitespecId, lastModified);
 
             return result;
         }

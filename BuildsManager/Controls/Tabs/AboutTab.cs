@@ -417,8 +417,6 @@ namespace Kenedia.Modules.BuildsManager.Controls.Tabs
                 panel.Visible = panel.Children.OfType<TagControl>().Any(x => x.Visible);
             }
 
-            Debug.WriteLine($"PANEL {panel.Title} is visible: {panel.Visible}");
-
             RemoveEmptyPanels();
         }
 

@@ -41,7 +41,7 @@ namespace Kenedia.Modules.BuildsManager.Services
         private readonly Paths _paths;
 
         private CancellationTokenSource _tokenSource;
-        private List<TagGroup> _groups;
+        private List<TagGroup> _groups = [];
         private bool _saveRequested;
 
         public TagGroups(ContentsManager contentsManager, Paths paths)

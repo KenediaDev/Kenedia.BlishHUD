@@ -26,6 +26,7 @@ namespace Kenedia.Modules.BuildsManager.Views
             QuickFiltersPanel.Anchor = mainWindow;
             QuickFiltersPanel.AnchorPosition = AnchoredContainer.AnchorPos.Left;
             QuickFiltersPanel.RelativePosition = new(0, 50, 0, 0);
+            
         }
 
         public MainWindow MainWindow { get; }
@@ -65,7 +66,7 @@ namespace Kenedia.Modules.BuildsManager.Views
                 Icon = AsyncTexture2D.FromAssetId(440023),
             });
 
-            _tabbedRegion.AddTab(new TabbedRegionTab(BuildTab)
+            _tabbedRegion.AddTab(tab = new TabbedRegionTab(BuildTab)
             {
                 Header = () => strings.Build,
                 Icon = AsyncTexture2D.FromAssetId(156720),
