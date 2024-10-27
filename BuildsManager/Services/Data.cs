@@ -215,8 +215,6 @@ namespace Kenedia.Modules.BuildsManager.Services
                 return false;
             }
 
-            await Task.Delay(5000);
-
             LoadingSpinner spinner = Spinner;
             LastLoadAttempt = Common.Now;
 

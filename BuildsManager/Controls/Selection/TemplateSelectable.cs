@@ -272,9 +272,9 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
             SetLastModifiedText(e.NewValue);
         }
 
-        private void SetLastModifiedText(string date)
+        private void SetLastModifiedText(string? date)
         {
-            _lastModified.SetLocalizedText = () => string.Format(strings.LastModified, date);
+            _lastModified.SetLocalizedText = () => string.Format(strings.LastModified, date ?? string.Empty);
         }
 
         private void Tags_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
@@ -535,14 +535,14 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
 
         private void ApplyTemplate()
         {
-            _name.Text = _template?.Name;
-            _raceTexture = Data.Races.TryGetValue(_template?.Race ?? Races.None, out var race) ? race.Icon : null;
-            _specTexture = Template?.EliteSpecialization?.ProfessionIconBig ?? (Data.Professions.TryGetValue((Gw2Sharp.Models.ProfessionType)Template?.Profession, out var profession) ? profession.IconBig : null);
+            _name.Text = Template?.Name;
+            _raceTexture = Data.Races.TryGetValue(Template?.Race ?? Races.None, out var race) ? race.Icon : null;
+            _specTexture = Template is not null  ? (Template?.EliteSpecialization?.ProfessionIconBig ?? (Data.Professions.TryGetValue((Gw2Sharp.Models.ProfessionType)Template?.Profession, out var profession) ? profession.IconBig : null)) : null;
 
-            SetLastModifiedText(_template.LastModified);
+            SetLastModifiedText(Template.LastModified);
             SetTagTextures();
 
-            if (_template is not null)
+            if (Template is not null)
             {
                 RecalculateLayout();
             }

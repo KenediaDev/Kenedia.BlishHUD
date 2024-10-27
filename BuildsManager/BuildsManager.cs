@@ -81,7 +81,7 @@ namespace Kenedia.Modules.BuildsManager
 
             services.AddTransient<TemplateFactory>();
             services.AddTransient<TemplateConverter>();
-
+            
             return services;
         }
 
