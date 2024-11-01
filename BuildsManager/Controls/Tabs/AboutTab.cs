@@ -7,6 +7,7 @@ using Kenedia.Modules.BuildsManager.Services;
 using Kenedia.Modules.BuildsManager.Utility;
 using Kenedia.Modules.BuildsManager.Views;
 using Kenedia.Modules.Core.Controls;
+using Kenedia.Modules.Core.Extensions;
 using Kenedia.Modules.Core.Res;
 using Kenedia.Modules.Core.Services;
 using Microsoft.Extensions.DependencyInjection;
@@ -36,6 +37,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.Tabs
         private readonly TemplateTagComparer _comparer;
         private readonly bool _created = false;
         private int _tagSectionWidth;
+        private Blocker _blocker;
         private bool _changeBuild = true;
 
         private Color _disabledColor = Color.Gray;
@@ -54,6 +56,15 @@ namespace Kenedia.Modules.BuildsManager.Controls.Tabs
             HeightSizingMode = Blish_HUD.Controls.SizingMode.Fill;
             WidthSizingMode = Blish_HUD.Controls.SizingMode.Fill;
             _tagSectionWidth = 300;
+
+            _blocker = new()
+            {
+                Parent = this,
+                CoveredControl = this,
+                BackgroundColor = Color.Black * 0.5F,         
+                BorderWidth = 3,
+                Text = "Select a Template to view its details.",
+            };
 
             _tagsLabel = new()
             {
@@ -241,6 +252,11 @@ namespace Kenedia.Modules.BuildsManager.Controls.Tabs
         public override void Draw(SpriteBatch spriteBatch, Rectangle drawBounds, Rectangle scissor)
         {
             base.Draw(spriteBatch, drawBounds, scissor);
+        }
+
+        public override void PaintAfterChildren(SpriteBatch spriteBatch, Rectangle bounds)
+        {
+            base.PaintAfterChildren(spriteBatch, bounds);
         }
 
         private void TagPanel_ChildsChanged(object sender, Blish_HUD.Controls.ChildChangedEventArgs e)
@@ -499,9 +515,13 @@ namespace Kenedia.Modules.BuildsManager.Controls.Tabs
         private void ApplyTemplate()
         {
             _changeBuild = false;
+            _blocker.Visible = TemplatePresenter.Template == Template.Empty;
 
             _modifiedField.Text = TemplatePresenter?.Template?.LastModified;
             _noteField.Text = TemplatePresenter?.Template?.Description;
+
+            _modifiedField.Enabled = TemplatePresenter.Template != Template.Empty;
+            _noteField.Enabled = TemplatePresenter.Template != Template.Empty;
 
             var tagControls = new List<TagControl>(_tagPanel.GetChildrenOfType<TagControl>());
             tagControls.AddRange(_tagPanel.GetChildrenOfType<FlowPanel>().SelectMany(x => x.GetChildrenOfType<TagControl>()));
@@ -509,6 +529,12 @@ namespace Kenedia.Modules.BuildsManager.Controls.Tabs
             foreach (var tag in tagControls)
             {
                 tag.Selected = TemplatePresenter?.Template?.Tags.Contains(tag.Tag.Name) ?? false;
+                tag.Enabled = TemplatePresenter.Template != Template.Empty;
+            }
+
+            foreach(var c in Children)
+            {
+                c.Enabled = TemplatePresenter.Template != Template.Empty;
             }
 
             _changeBuild = true;

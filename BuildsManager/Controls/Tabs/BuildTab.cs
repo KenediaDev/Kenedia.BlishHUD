@@ -47,6 +47,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.Tabs
         private readonly ButtonImage _specIcon;
         private readonly ButtonImage _raceIcon;
         private readonly TextBox _buildCodeBox;
+        private readonly Blocker _blocker;
         private readonly ImageButton _copyButton;
 
         private ProfessionSpecifics _professionSpecifics;
@@ -57,6 +58,15 @@ namespace Kenedia.Modules.BuildsManager.Controls.Tabs
             Data = data;
 
             ClipsBounds = false;
+
+            _blocker = new Blocker()
+            {
+                Parent = this,
+                CoveredControl = this,
+                BackgroundColor = Color.Black * 0.5F,
+                BorderWidth = 3,
+                Text = "Select a Template to view its details.",
+            };
 
             _copyButton = new()
             {
@@ -290,6 +300,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.Tabs
             SetProfessionSpecifics();            
 
             _buildCodeBox.Text = TemplatePresenter?.Template?.ParseBuildCode();
+            _blocker.Visible = TemplatePresenter.Template == Template.Empty;
         }
 
         private void TemplatePresenter_EliteSpecializationChanged(object sender, SpecializationChangedEventArgs e)
@@ -313,7 +324,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.Tabs
         {
             _professionSpecifics?.Dispose();
 
-            if (TemplatePresenter?.Template is not null)
+            if (TemplatePresenter?.Template is not null && TemplatePresenter.Template != Template.Empty)
             {
                 switch (TemplatePresenter?.Template.Profession)
                 {

@@ -13,6 +13,7 @@ using Kenedia.Modules.BuildsManager.TemplateEntries;
 using Kenedia.Modules.BuildsManager.Res;
 using Kenedia.Modules.BuildsManager.Services;
 using System.Diagnostics;
+using System.Linq;
 
 namespace Kenedia.Modules.BuildsManager.Controls_Old.GearPage.GearSlots
 {
@@ -75,20 +76,24 @@ namespace Kenedia.Modules.BuildsManager.Controls_Old.GearPage.GearSlots
 
                 Stat = back?.Stat;
             }
+            else
+            {
+                Infusion1 = null;
+                Infusion2 = null;
+                Stat = null;
+            }
         }
 
-        protected override void OnClick(MouseEventArgs e)
+        protected override void SetAnchor()
         {
-            base.OnClick(e);
-
             var a = AbsoluteBounds;
 
             if (ItemControl.MouseOver)
             {
                 SelectionPanel?.SetAnchor<Stat>(ItemControl, new Rectangle(a.Location, Point.Zero).Add(ItemControl.LocalBounds), SelectionTypes.Stats, Slot, GearSubSlotType.None,
                     (stat) => TemplatePresenter?.Template?.SetItem(Slot, TemplateSubSlotType.Stat, stat),
-                    (TemplatePresenter?.Template[Slot] as BackTemplateEntry).Back?.StatChoices,
-                    (TemplatePresenter?.Template[Slot] as BackTemplateEntry).Back?.AttributeAdjustment);
+                    (TemplatePresenter?.Template[Slot] as BackTemplateEntry)?.Back?.StatChoices ?? Data.Backs?.Values?.FirstOrDefault()?.StatChoices ?? [],
+                    (TemplatePresenter?.Template[Slot] as BackTemplateEntry)?.Back?.AttributeAdjustment);
             }
 
             if (_infusion1Control.MouseOver)

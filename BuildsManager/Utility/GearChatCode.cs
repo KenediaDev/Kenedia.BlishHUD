@@ -120,136 +120,139 @@ namespace Kenedia.Modules.BuildsManager.Utility
         }
 
         public static string GetGearChatCode(Template template)
-        {
+        {            
             //Create code array with all TemplateBytePosition
             byte[] codeArray = new byte[77];
 
-            // MainHand
-            codeArray[(byte)TemplateBytePosition.MainHandWeaponType] = (byte)(template.MainHand.Weapon?.WeaponType ?? ItemWeaponType.Unknown);
-            codeArray[(byte)TemplateBytePosition.MainHandStat] = template.MainHand.Stat?.MappedId ?? 0;
-            codeArray[(byte)TemplateBytePosition.MainHandSigil1] = template.MainHand.Sigil1?.MappedId ?? 0;
-            codeArray[(byte)TemplateBytePosition.MainHandPvpSigil] = template.MainHand.PvpSigil?.MappedId ?? 0;
-            codeArray[(byte)TemplateBytePosition.MainHandInfusion1] = template.MainHand.Infusion1?.MappedId ?? 0;
+            if (template != Template.Empty)
+            {
+                // MainHand
+                codeArray[(byte)TemplateBytePosition.MainHandWeaponType] = (byte)(template.MainHand.Weapon?.WeaponType ?? ItemWeaponType.Unknown);
+                codeArray[(byte)TemplateBytePosition.MainHandStat] = template.MainHand.Stat?.MappedId ?? 0;
+                codeArray[(byte)TemplateBytePosition.MainHandSigil1] = template.MainHand.Sigil1?.MappedId ?? 0;
+                codeArray[(byte)TemplateBytePosition.MainHandPvpSigil] = template.MainHand.PvpSigil?.MappedId ?? 0;
+                codeArray[(byte)TemplateBytePosition.MainHandInfusion1] = template.MainHand.Infusion1?.MappedId ?? 0;
 
-            // OffHand
-            codeArray[(byte)TemplateBytePosition.OffHandWeaponType] = (byte)(template.OffHand.Weapon?.WeaponType ?? ItemWeaponType.Unknown);
-            codeArray[(byte)TemplateBytePosition.OffHandStat] = template.OffHand.Stat?.MappedId ?? 0;
-            codeArray[(byte)TemplateBytePosition.OffHandSigil1] = template.OffHand.Sigil1?.MappedId ?? 0;
-            codeArray[(byte)TemplateBytePosition.OffHandPvpSigil] = template.OffHand.PvpSigil?.MappedId ?? 0;
-            codeArray[(byte)TemplateBytePosition.OffHandInfusion1] = template.OffHand.Infusion1?.MappedId ?? 0;
+                // OffHand
+                codeArray[(byte)TemplateBytePosition.OffHandWeaponType] = (byte)(template.OffHand.Weapon?.WeaponType ?? ItemWeaponType.Unknown);
+                codeArray[(byte)TemplateBytePosition.OffHandStat] = template.OffHand.Stat?.MappedId ?? 0;
+                codeArray[(byte)TemplateBytePosition.OffHandSigil1] = template.OffHand.Sigil1?.MappedId ?? 0;
+                codeArray[(byte)TemplateBytePosition.OffHandPvpSigil] = template.OffHand.PvpSigil?.MappedId ?? 0;
+                codeArray[(byte)TemplateBytePosition.OffHandInfusion1] = template.OffHand.Infusion1?.MappedId ?? 0;
 
-            //AltMainHand
-            codeArray[(byte)TemplateBytePosition.AltMainHandWeaponType] = (byte)(template.AltMainHand.Weapon?.WeaponType ?? ItemWeaponType.Unknown);
-            codeArray[(byte)TemplateBytePosition.AltMainHandStat] = template.AltMainHand.Stat?.MappedId ?? 0;
-            codeArray[(byte)TemplateBytePosition.AltMainHandSigil1] = template.AltMainHand.Sigil1?.MappedId ?? 0;
-            codeArray[(byte)TemplateBytePosition.AltMainHandPvpSigil] = template.AltMainHand.PvpSigil?.MappedId ?? 0;
-            codeArray[(byte)TemplateBytePosition.AltMainHandInfusion1] = template.AltMainHand.Infusion1?.MappedId ?? 0;
+                //AltMainHand
+                codeArray[(byte)TemplateBytePosition.AltMainHandWeaponType] = (byte)(template.AltMainHand.Weapon?.WeaponType ?? ItemWeaponType.Unknown);
+                codeArray[(byte)TemplateBytePosition.AltMainHandStat] = template.AltMainHand.Stat?.MappedId ?? 0;
+                codeArray[(byte)TemplateBytePosition.AltMainHandSigil1] = template.AltMainHand.Sigil1?.MappedId ?? 0;
+                codeArray[(byte)TemplateBytePosition.AltMainHandPvpSigil] = template.AltMainHand.PvpSigil?.MappedId ?? 0;
+                codeArray[(byte)TemplateBytePosition.AltMainHandInfusion1] = template.AltMainHand.Infusion1?.MappedId ?? 0;
 
-            //AltOffHand
-            codeArray[(byte)TemplateBytePosition.AltOffHandWeaponType] = (byte)(template.AltOffHand.Weapon?.WeaponType ?? ItemWeaponType.Unknown);
-            codeArray[(byte)TemplateBytePosition.AltOffHandStat] = template.AltOffHand.Stat?.MappedId ?? 0;
-            codeArray[(byte)TemplateBytePosition.AltOffHandSigil1] = template.AltOffHand.Sigil1?.MappedId ?? 0;
-            codeArray[(byte)TemplateBytePosition.AltOffHandPvpSigil] = template.AltOffHand.PvpSigil?.MappedId ?? 0;
-            codeArray[(byte)TemplateBytePosition.AltOffHandInfusion1] = template.AltOffHand.Infusion1?.MappedId ?? 0;
+                //AltOffHand
+                codeArray[(byte)TemplateBytePosition.AltOffHandWeaponType] = (byte)(template.AltOffHand.Weapon?.WeaponType ?? ItemWeaponType.Unknown);
+                codeArray[(byte)TemplateBytePosition.AltOffHandStat] = template.AltOffHand.Stat?.MappedId ?? 0;
+                codeArray[(byte)TemplateBytePosition.AltOffHandSigil1] = template.AltOffHand.Sigil1?.MappedId ?? 0;
+                codeArray[(byte)TemplateBytePosition.AltOffHandPvpSigil] = template.AltOffHand.PvpSigil?.MappedId ?? 0;
+                codeArray[(byte)TemplateBytePosition.AltOffHandInfusion1] = template.AltOffHand.Infusion1?.MappedId ?? 0;
 
-            //Head
-            codeArray[(byte)TemplateBytePosition.HeadStat] = template.Head.Stat?.MappedId ?? 0;
-            codeArray[(byte)TemplateBytePosition.HeadRune] = template.Head.Rune?.MappedId ?? 0;
-            codeArray[(byte)TemplateBytePosition.HeadInfusion1] = template.Head.Infusion1?.MappedId ?? 0;
+                //Head
+                codeArray[(byte)TemplateBytePosition.HeadStat] = template.Head.Stat?.MappedId ?? 0;
+                codeArray[(byte)TemplateBytePosition.HeadRune] = template.Head.Rune?.MappedId ?? 0;
+                codeArray[(byte)TemplateBytePosition.HeadInfusion1] = template.Head.Infusion1?.MappedId ?? 0;
 
-            //Shoulder
-            codeArray[(byte)TemplateBytePosition.ShoulderStat] = template.Shoulder.Stat?.MappedId ?? 0;
-            codeArray[(byte)TemplateBytePosition.ShoulderRune] = template.Shoulder.Rune?.MappedId ?? 0;
-            codeArray[(byte)TemplateBytePosition.ShoulderInfusion1] = template.Shoulder.Infusion1?.MappedId ?? 0;
+                //Shoulder
+                codeArray[(byte)TemplateBytePosition.ShoulderStat] = template.Shoulder.Stat?.MappedId ?? 0;
+                codeArray[(byte)TemplateBytePosition.ShoulderRune] = template.Shoulder.Rune?.MappedId ?? 0;
+                codeArray[(byte)TemplateBytePosition.ShoulderInfusion1] = template.Shoulder.Infusion1?.MappedId ?? 0;
 
-            //Chest
-            codeArray[(byte)TemplateBytePosition.ChestStat] = template.Chest.Stat?.MappedId ?? 0;
-            codeArray[(byte)TemplateBytePosition.ChestRune] = template.Chest.Rune?.MappedId ?? 0;
-            codeArray[(byte)TemplateBytePosition.ChestInfusion1] = template.Chest.Infusion1?.MappedId ?? 0;
+                //Chest
+                codeArray[(byte)TemplateBytePosition.ChestStat] = template.Chest.Stat?.MappedId ?? 0;
+                codeArray[(byte)TemplateBytePosition.ChestRune] = template.Chest.Rune?.MappedId ?? 0;
+                codeArray[(byte)TemplateBytePosition.ChestInfusion1] = template.Chest.Infusion1?.MappedId ?? 0;
 
-            //Hand
-            codeArray[(byte)TemplateBytePosition.HandStat] = template.Hand.Stat?.MappedId ?? 0;
-            codeArray[(byte)TemplateBytePosition.HandRune] = template.Hand.Rune?.MappedId ?? 0;
-            codeArray[(byte)TemplateBytePosition.HandInfusion1] = template.Hand.Infusion1?.MappedId ?? 0;
+                //Hand
+                codeArray[(byte)TemplateBytePosition.HandStat] = template.Hand.Stat?.MappedId ?? 0;
+                codeArray[(byte)TemplateBytePosition.HandRune] = template.Hand.Rune?.MappedId ?? 0;
+                codeArray[(byte)TemplateBytePosition.HandInfusion1] = template.Hand.Infusion1?.MappedId ?? 0;
 
-            //Leg
-            codeArray[(byte)TemplateBytePosition.LegStat] = template.Leg.Stat?.MappedId ?? 0;
-            codeArray[(byte)TemplateBytePosition.LegRune] = template.Leg.Rune?.MappedId ?? 0;
-            codeArray[(byte)TemplateBytePosition.LegInfusion1] = template.Leg.Infusion1?.MappedId ?? 0;
+                //Leg
+                codeArray[(byte)TemplateBytePosition.LegStat] = template.Leg.Stat?.MappedId ?? 0;
+                codeArray[(byte)TemplateBytePosition.LegRune] = template.Leg.Rune?.MappedId ?? 0;
+                codeArray[(byte)TemplateBytePosition.LegInfusion1] = template.Leg.Infusion1?.MappedId ?? 0;
 
-            //Foot
-            codeArray[(byte)TemplateBytePosition.FootStat] = template.Foot.Stat?.MappedId ?? 0;
-            codeArray[(byte)TemplateBytePosition.FootRune] = template.Foot.Rune?.MappedId ?? 0;
-            codeArray[(byte)TemplateBytePosition.FootInfusion1] = template.Foot.Infusion1?.MappedId ?? 0;
+                //Foot
+                codeArray[(byte)TemplateBytePosition.FootStat] = template.Foot.Stat?.MappedId ?? 0;
+                codeArray[(byte)TemplateBytePosition.FootRune] = template.Foot.Rune?.MappedId ?? 0;
+                codeArray[(byte)TemplateBytePosition.FootInfusion1] = template.Foot.Infusion1?.MappedId ?? 0;
 
-            //Back
-            codeArray[(byte)TemplateBytePosition.BackStat] = template.Back.Stat?.MappedId ?? 0;
-            codeArray[(byte)TemplateBytePosition.BackInfusion1] = template.Back.Infusion1?.MappedId ?? 0;
-            codeArray[(byte)TemplateBytePosition.BackInfusion2] = template.Back.Infusion2?.MappedId ?? 0;
+                //Back
+                codeArray[(byte)TemplateBytePosition.BackStat] = template.Back.Stat?.MappedId ?? 0;
+                codeArray[(byte)TemplateBytePosition.BackInfusion1] = template.Back.Infusion1?.MappedId ?? 0;
+                codeArray[(byte)TemplateBytePosition.BackInfusion2] = template.Back.Infusion2?.MappedId ?? 0;
 
-            //Amulet
-            codeArray[(byte)TemplateBytePosition.AmuletStat] = template.Amulet.Stat?.MappedId ?? 0;
-            codeArray[(byte)TemplateBytePosition.AmuletEnrichment] = template.Amulet.Enrichment?.MappedId ?? 0;
+                //Amulet
+                codeArray[(byte)TemplateBytePosition.AmuletStat] = template.Amulet.Stat?.MappedId ?? 0;
+                codeArray[(byte)TemplateBytePosition.AmuletEnrichment] = template.Amulet.Enrichment?.MappedId ?? 0;
 
-            //Accessory_1
-            codeArray[(byte)TemplateBytePosition.Accessory1Stat] = template.Accessory_1.Stat?.MappedId ?? 0;
-            codeArray[(byte)TemplateBytePosition.Accessory1Infusion1] = template.Accessory_1.Infusion1?.MappedId ?? 0;
+                //Accessory_1
+                codeArray[(byte)TemplateBytePosition.Accessory1Stat] = template.Accessory_1.Stat?.MappedId ?? 0;
+                codeArray[(byte)TemplateBytePosition.Accessory1Infusion1] = template.Accessory_1.Infusion1?.MappedId ?? 0;
 
-            //Accessory_2   
-            codeArray[(byte)TemplateBytePosition.Accessory2Stat] = template.Accessory_2.Stat?.MappedId ?? 0;
-            codeArray[(byte)TemplateBytePosition.Accessory2Infusion1] = template.Accessory_2.Infusion1?.MappedId ?? 0;
+                //Accessory_2   
+                codeArray[(byte)TemplateBytePosition.Accessory2Stat] = template.Accessory_2.Stat?.MappedId ?? 0;
+                codeArray[(byte)TemplateBytePosition.Accessory2Infusion1] = template.Accessory_2.Infusion1?.MappedId ?? 0;
 
-            //Ring_1
-            codeArray[(byte)TemplateBytePosition.Ring1Stat] = template.Ring_1.Stat?.MappedId ?? 0;
-            codeArray[(byte)TemplateBytePosition.Ring1Infusion1] = template.Ring_1.Infusion1?.MappedId ?? 0;
-            codeArray[(byte)TemplateBytePosition.Ring1Infusion2] = template.Ring_1.Infusion2?.MappedId ?? 0;
-            codeArray[(byte)TemplateBytePosition.Ring1Infusion3] = template.Ring_1.Infusion3?.MappedId ?? 0;
+                //Ring_1
+                codeArray[(byte)TemplateBytePosition.Ring1Stat] = template.Ring_1.Stat?.MappedId ?? 0;
+                codeArray[(byte)TemplateBytePosition.Ring1Infusion1] = template.Ring_1.Infusion1?.MappedId ?? 0;
+                codeArray[(byte)TemplateBytePosition.Ring1Infusion2] = template.Ring_1.Infusion2?.MappedId ?? 0;
+                codeArray[(byte)TemplateBytePosition.Ring1Infusion3] = template.Ring_1.Infusion3?.MappedId ?? 0;
 
-            //Ring_2
-            codeArray[(byte)TemplateBytePosition.Ring2Stat] = template.Ring_2.Stat?.MappedId ?? 0;
-            codeArray[(byte)TemplateBytePosition.Ring2Infusion1] = template.Ring_2.Infusion1?.MappedId ?? 0;
-            codeArray[(byte)TemplateBytePosition.Ring2Infusion2] = template.Ring_2.Infusion2?.MappedId ?? 0;
-            codeArray[(byte)TemplateBytePosition.Ring2Infusion3] = template.Ring_2.Infusion3?.MappedId ?? 0;
+                //Ring_2
+                codeArray[(byte)TemplateBytePosition.Ring2Stat] = template.Ring_2.Stat?.MappedId ?? 0;
+                codeArray[(byte)TemplateBytePosition.Ring2Infusion1] = template.Ring_2.Infusion1?.MappedId ?? 0;
+                codeArray[(byte)TemplateBytePosition.Ring2Infusion2] = template.Ring_2.Infusion2?.MappedId ?? 0;
+                codeArray[(byte)TemplateBytePosition.Ring2Infusion3] = template.Ring_2.Infusion3?.MappedId ?? 0;
 
-            //AquaBreather
-            codeArray[(byte)TemplateBytePosition.AquaBreatherStat] = template.AquaBreather.Stat?.MappedId ?? 0;
-            codeArray[(byte)TemplateBytePosition.AquaBreatherRune] = template.AquaBreather.Rune?.MappedId ?? 0;
-            codeArray[(byte)TemplateBytePosition.AquaBreatherInfusion1] = template.AquaBreather.Infusion1?.MappedId ?? 0;
+                //AquaBreather
+                codeArray[(byte)TemplateBytePosition.AquaBreatherStat] = template.AquaBreather.Stat?.MappedId ?? 0;
+                codeArray[(byte)TemplateBytePosition.AquaBreatherRune] = template.AquaBreather.Rune?.MappedId ?? 0;
+                codeArray[(byte)TemplateBytePosition.AquaBreatherInfusion1] = template.AquaBreather.Infusion1?.MappedId ?? 0;
 
-            //Aquatic
-            codeArray[(byte)TemplateBytePosition.AquaticWeaponType] = (byte)(template.Aquatic.Weapon?.WeaponType ?? ItemWeaponType.Unknown);
-            codeArray[(byte)TemplateBytePosition.AquaticStat] = template.Aquatic.Stat?.MappedId ?? 0;
-            codeArray[(byte)TemplateBytePosition.AquaticSigil1] = template.Aquatic.Sigil1?.MappedId ?? 0;
-            codeArray[(byte)TemplateBytePosition.AquaticSigil2] = template.Aquatic.Sigil2?.MappedId ?? 0;
-            codeArray[(byte)TemplateBytePosition.AquaticInfusion1] = template.Aquatic.Infusion1?.MappedId ?? 0;
-            codeArray[(byte)TemplateBytePosition.AquaticInfusion2] = template.Aquatic.Infusion2?.MappedId ?? 0;
+                //Aquatic
+                codeArray[(byte)TemplateBytePosition.AquaticWeaponType] = (byte)(template.Aquatic.Weapon?.WeaponType ?? ItemWeaponType.Unknown);
+                codeArray[(byte)TemplateBytePosition.AquaticStat] = template.Aquatic.Stat?.MappedId ?? 0;
+                codeArray[(byte)TemplateBytePosition.AquaticSigil1] = template.Aquatic.Sigil1?.MappedId ?? 0;
+                codeArray[(byte)TemplateBytePosition.AquaticSigil2] = template.Aquatic.Sigil2?.MappedId ?? 0;
+                codeArray[(byte)TemplateBytePosition.AquaticInfusion1] = template.Aquatic.Infusion1?.MappedId ?? 0;
+                codeArray[(byte)TemplateBytePosition.AquaticInfusion2] = template.Aquatic.Infusion2?.MappedId ?? 0;
 
-            //AltAquatic
-            codeArray[(byte)TemplateBytePosition.AltAquaticWeaponType] = (byte)(template.AltAquatic.Weapon?.WeaponType ?? ItemWeaponType.Unknown);
-            codeArray[(byte)TemplateBytePosition.AltAquaticStat] = template.AltAquatic.Stat?.MappedId ?? 0;
-            codeArray[(byte)TemplateBytePosition.AltAquaticSigil1] = template.AltAquatic.Sigil1?.MappedId ?? 0;
-            codeArray[(byte)TemplateBytePosition.AltAquaticSigil2] = template.AltAquatic.Sigil2?.MappedId ?? 0;
-            codeArray[(byte)TemplateBytePosition.AltAquaticInfusion1] = template.AltAquatic.Infusion1?.MappedId ?? 0;
-            codeArray[(byte)TemplateBytePosition.AltAquaticInfusion2] = template.AltAquatic.Infusion2?.MappedId ?? 0;
+                //AltAquatic
+                codeArray[(byte)TemplateBytePosition.AltAquaticWeaponType] = (byte)(template.AltAquatic.Weapon?.WeaponType ?? ItemWeaponType.Unknown);
+                codeArray[(byte)TemplateBytePosition.AltAquaticStat] = template.AltAquatic.Stat?.MappedId ?? 0;
+                codeArray[(byte)TemplateBytePosition.AltAquaticSigil1] = template.AltAquatic.Sigil1?.MappedId ?? 0;
+                codeArray[(byte)TemplateBytePosition.AltAquaticSigil2] = template.AltAquatic.Sigil2?.MappedId ?? 0;
+                codeArray[(byte)TemplateBytePosition.AltAquaticInfusion1] = template.AltAquatic.Infusion1?.MappedId ?? 0;
+                codeArray[(byte)TemplateBytePosition.AltAquaticInfusion2] = template.AltAquatic.Infusion2?.MappedId ?? 0;
 
-            //PvpAmulet
-            codeArray[(byte)TemplateBytePosition.PvpAmulet] = template.PvpAmulet.PvpAmulet?.MappedId ?? 0;
-            codeArray[(byte)TemplateBytePosition.PvpAmuletRune] = template.PvpAmulet.Rune?.MappedId ?? 0;
+                //PvpAmulet
+                codeArray[(byte)TemplateBytePosition.PvpAmulet] = template.PvpAmulet.PvpAmulet?.MappedId ?? 0;
+                codeArray[(byte)TemplateBytePosition.PvpAmuletRune] = template.PvpAmulet.Rune?.MappedId ?? 0;
 
-            //Nourishment
-            codeArray[(byte)TemplateBytePosition.Nourishment] = template.Nourishment.Nourishment?.MappedId ?? 0;
+                //Nourishment
+                codeArray[(byte)TemplateBytePosition.Nourishment] = template.Nourishment.Nourishment?.MappedId ?? 0;
 
-            //Enhancement
-            codeArray[(byte)TemplateBytePosition.Enhancement] = template.Enhancement.Enhancement?.MappedId ?? 0;
+                //Enhancement
+                codeArray[(byte)TemplateBytePosition.Enhancement] = template.Enhancement.Enhancement?.MappedId ?? 0;
 
-            //PowerCore
-            codeArray[(byte)TemplateBytePosition.PowerCore] = template.PowerCore.PowerCore?.MappedId ?? 0;
+                //PowerCore
+                codeArray[(byte)TemplateBytePosition.PowerCore] = template.PowerCore.PowerCore?.MappedId ?? 0;
 
-            //PveRelic
-            codeArray[(byte)TemplateBytePosition.PveRelic] = template.PveRelic.Relic?.MappedId ?? 0;
+                //PveRelic
+                codeArray[(byte)TemplateBytePosition.PveRelic] = template.PveRelic.Relic?.MappedId ?? 0;
 
-            //PvpRelic
-            codeArray[(byte)TemplateBytePosition.PvpRelic] = template.PvpRelic.Relic?.MappedId ?? 0;
+                //PvpRelic
+                codeArray[(byte)TemplateBytePosition.PvpRelic] = template.PvpRelic.Relic?.MappedId ?? 0;
+            }
 
             return $"[&{Convert.ToBase64String([.. codeArray])}]";
         }

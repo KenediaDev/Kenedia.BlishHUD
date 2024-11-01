@@ -539,7 +539,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
             _raceTexture = Data.Races.TryGetValue(Template?.Race ?? Races.None, out var race) ? race.Icon : null;
             _specTexture = Template is not null  ? (Template?.EliteSpecialization?.ProfessionIconBig ?? (Data.Professions.TryGetValue((Gw2Sharp.Models.ProfessionType)Template?.Profession, out var profession) ? profession.IconBig : null)) : null;
 
-            SetLastModifiedText(Template.LastModified);
+            SetLastModifiedText(Template?.LastModified);
             SetTagTextures();
 
             if (Template is not null)

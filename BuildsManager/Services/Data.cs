@@ -13,8 +13,6 @@ using System.Threading;
 using Kenedia.Modules.Core.Controls;
 using Kenedia.Modules.Core.Attributes;
 using Gw2Sharp.WebApi;
-using Gw2Sharp.WebApi.V2.Models;
-using System.Diagnostics;
 using Blish_HUD;
 
 namespace Kenedia.Modules.BuildsManager.Services

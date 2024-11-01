@@ -79,7 +79,7 @@ namespace Kenedia.Modules.BuildsManager.Models
 
         public void SetTemplate(Template? template)
         {
-            template ??= TemplateFactory.CreateTemplate();
+            template ??= Template.Empty;
             Template = template;
         }
 

@@ -74,10 +74,8 @@ namespace Kenedia.Modules.BuildsManager.Controls_Old.GearPage.GearSlots
             }
         }
 
-        protected override void OnClick(MouseEventArgs e)
+        protected override void SetAnchor()
         {
-            base.OnClick(e);
-
             var a = AbsoluteBounds;
 
             if (ItemControl.MouseOver)

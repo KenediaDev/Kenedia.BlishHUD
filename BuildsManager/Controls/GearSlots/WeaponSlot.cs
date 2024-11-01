@@ -199,11 +199,18 @@ namespace Kenedia.Modules.BuildsManager.Controls_Old.GearPage.GearSlots
 
                 AdjustForOtherSlot();
             }
+            else
+            {
+                Item = null;
+                Infusion = null;
+                Sigil = null;
+                PvpSigil = null;
+                Stat = null;
+            }
         }
 
-        protected override void OnClick(MouseEventArgs e)
+        protected override void SetAnchor()
         {
-            base.OnClick(e);
 
             var a = AbsoluteBounds;
             var entry = Slot.IsOffhand() ? TemplatePresenter?.Template?[Slot] is WeaponTemplateEntry weapon ? weapon : null : null;
@@ -212,8 +219,8 @@ namespace Kenedia.Modules.BuildsManager.Controls_Old.GearPage.GearSlots
             {
                 SelectionPanel?.SetAnchor<Stat>(ItemControl, new Rectangle(a.Location, Point.Zero).Add(ItemControl.LocalBounds), SelectionTypes.Stats, Slot, GearSubSlotType.None,
                     (stat) => TemplatePresenter?.Template?.SetItem(Slot, TemplateSubSlotType.Stat, stat),
-                    (TemplatePresenter?.Template[Slot] as WeaponTemplateEntry).Weapon?.StatChoices ?? Data.Weapons.Values.FirstOrDefault()?.StatChoices ?? [],
-                    (TemplatePresenter?.Template[Slot] as WeaponTemplateEntry).Weapon?.AttributeAdjustment);
+                    (TemplatePresenter?.Template[Slot] as WeaponTemplateEntry)?.Weapon?.StatChoices ?? Data.Weapons.Values.FirstOrDefault()?.StatChoices ?? [],
+                    (TemplatePresenter?.Template[Slot] as WeaponTemplateEntry)?.Weapon?.AttributeAdjustment);
             }
 
             if (_pvpSigilControl.MouseOver)

@@ -52,9 +52,22 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
             };
 
             _created = true;
-            SetValue(this, null);
 
             Input.Mouse.LeftMouseButtonPressed += Mouse_LeftMouseButtonPressed;
+
+            if (Data.IsLoaded)
+            {
+                SetValue(this, null);
+            }
+            else
+            {
+                Data.Loaded += Data_Loaded;
+            }
+        }
+
+        private void Data_Loaded(object sender, EventArgs e)
+        {
+            SetValue(this, null);
         }
 
         private void Mouse_LeftMouseButtonPressed(object sender, MouseEventArgs e)

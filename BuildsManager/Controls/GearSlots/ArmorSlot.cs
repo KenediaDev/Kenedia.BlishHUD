@@ -90,20 +90,24 @@ namespace Kenedia.Modules.BuildsManager.Controls_Old.GearPage.GearSlots
                 Rune = armor?.Rune;
                 Stat = armor?.Stat;
             }
+            else
+            {
+                Infusion = null;
+                Rune = null;
+                Stat = null;
+            }
         }
 
-        protected override void OnClick(MouseEventArgs e)
+        protected override void SetAnchor()
         {
-            base.OnClick(e);
-
             var a = AbsoluteBounds;
 
             if (ItemControl.MouseOver)
             {
                 SelectionPanel?.SetAnchor<Stat>(ItemControl, new Rectangle(a.Location, Point.Zero).Add(ItemControl.LocalBounds), SelectionTypes.Stats, Slot, GearSubSlotType.None,
                 (stat) => TemplatePresenter?.Template?.SetItem(Slot, TemplateSubSlotType.Stat, stat),
-                (TemplatePresenter?.Template[Slot] as ArmorTemplateEntry).Armor?.StatChoices ?? Data.Armors?.Items?.Values?.FirstOrDefault()?.StatChoices ?? [],
-                (TemplatePresenter?.Template[Slot] as ArmorTemplateEntry).Armor?.AttributeAdjustment);
+                (TemplatePresenter?.Template[Slot] as ArmorTemplateEntry)?.Armor?.StatChoices ?? Data.Armors?.Items?.Values?.FirstOrDefault()?.StatChoices ?? [],
+                (TemplatePresenter?.Template[Slot] as ArmorTemplateEntry)?.Armor?.AttributeAdjustment);
             }
 
             if (_runeControl.MouseOver)

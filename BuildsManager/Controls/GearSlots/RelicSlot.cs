@@ -73,11 +73,15 @@ namespace Kenedia.Modules.BuildsManager.Controls_Old.GearPage.GearSlots
                 _relicName = pvpRelic?.Relic?.Name ?? strings.Relic;
                 _relicDescription = pvpRelic?.Relic?.Description;
             }
+            else
+            {
+                _relicName = strings.Relic;
+                _relicDescription = string.Empty;
+            }
         }
 
-        protected override void OnClick(MouseEventArgs e)
+        protected override void SetAnchor()
         {
-            base.OnClick(e);
 
             var a = AbsoluteBounds;
 

@@ -149,12 +149,19 @@ namespace Kenedia.Modules.BuildsManager.Controls_Old.GearPage.GearSlots
 
                 Stat = aquaticWeapon?.Stat;
             }
+            else
+            {
+                Item = null;
+                Infusion1 = null;
+                Infusion2 = null;
+                Sigil1 = null;
+                Sigil2 = null;
+                Stat = null;
+            }
         }
 
-        protected override void OnClick(MouseEventArgs e)
+        protected override void SetAnchor()
         {
-            base.OnClick(e);
-
             var a = AbsoluteBounds;
 
             if (ItemControl.MouseOver)

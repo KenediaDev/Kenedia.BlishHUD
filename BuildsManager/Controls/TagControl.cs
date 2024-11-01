@@ -97,12 +97,13 @@ namespace Kenedia.Modules.BuildsManager.Controls
 
         protected override void Paint(SpriteBatch spriteBatch, Rectangle bounds)
         {
-            spriteBatch.DrawOnCtrl(this, ContentService.Textures.Pixel, bounds, MouseOver ? HoverColor : Selected ? ActiveColor : DisabledColor);
+            if (Enabled)
+                spriteBatch.DrawOnCtrl(this, ContentService.Textures.Pixel, bounds, MouseOver ? HoverColor : Selected ? ActiveColor : DisabledColor);
 
             if (Tag?.Icon?.Texture is AsyncTexture2D texture)
                 spriteBatch.DrawOnCtrl(this, texture, _iconBounds, Tag.Icon.TextureRegion, Color.White);
 
-            if (MouseOver)
+            if (MouseOver && Enabled)
                 spriteBatch.DrawOnCtrl(this, _editIcon, _editIconBounds, _editIconTextureRegion, Color.White);
 
             spriteBatch.DrawStringOnCtrl(this, _displayText, Font, _textBounds, Color.White);

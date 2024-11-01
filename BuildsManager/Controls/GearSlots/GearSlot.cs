@@ -19,7 +19,7 @@ using Kenedia.Modules.BuildsManager.Services;
 
 namespace Kenedia.Modules.BuildsManager.Controls_Old.GearPage.GearSlots
 {
-    public class GearSlot : Container
+    public abstract class GearSlot : Container
     {
         private TemplateSlotType _slot = TemplateSlotType.None;
 
@@ -142,10 +142,16 @@ namespace Kenedia.Modules.BuildsManager.Controls_Old.GearPage.GearSlots
 
         protected override void OnClick(MouseEventArgs e)
         {
-            base.OnClick(e);
+            if (TemplatePresenter.Template == Template.Empty)
+            {
+                return;
+            }
 
-            //ClickAction?.Invoke();
+            base.OnClick(e);
+            SetAnchor();
         }
+
+        protected abstract void SetAnchor();
 
         protected virtual void ApplySlot()
         {

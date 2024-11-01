@@ -35,6 +35,8 @@ namespace Kenedia.Modules.BuildsManager.Models
     [DataContract]
     public class Template : IDisposable
     {
+        public static Template Empty { get; } = new();
+
         private readonly System.Timers.Timer _timer;
 
         public Data Data { get; }
@@ -52,7 +54,7 @@ namespace Kenedia.Modules.BuildsManager.Models
 
         [JsonProperty("Tags")]
         [DataMember]
-        private UniqueObservableCollection<string> _tags;
+        private UniqueObservableCollection<string> _tags = [];
 
         private CancellationTokenSource? _cancellationTokenSource;
 
@@ -88,6 +90,15 @@ namespace Kenedia.Modules.BuildsManager.Models
         [JsonProperty("LastModified")]
         [DataMember]
         private string _lastModified = DateTime.Now.ToString("d");
+
+        /// <summary>
+        /// Static Instance Only
+        /// </summary>
+        private Template()
+        {
+            Name = string.Empty;
+            TriggerAutoSave = false;
+        }
 
         public Template(Data data)
         {
@@ -143,8 +154,6 @@ namespace Kenedia.Modules.BuildsManager.Models
 
             PlayerCharacter player = Blish_HUD.GameService.Gw2Mumble.PlayerCharacter;
             Profession = player?.Profession ?? Profession;
-            Tags = [];
-
             Tags.CollectionChanged += Tags_CollectionChanged;
         }
 
@@ -219,7 +228,7 @@ namespace Kenedia.Modules.BuildsManager.Models
         [DataMember]
         public int EliteSpecializationId { get; set; }
 
-        public Specialization? EliteSpecialization => (Data.Professions.TryGetValue(Profession, out var prof) && prof.Specializations.TryGetValue(EliteSpecializationId, out var spec) ? spec : null) ?? null;
+        public Specialization? EliteSpecialization => (Data?.Professions.TryGetValue(Profession, out var prof) is true && prof.Specializations.TryGetValue(EliteSpecializationId, out var spec) ? spec : null) ?? null;
 
         public RangerPets Pets { get; } = [];
 
@@ -594,7 +603,7 @@ namespace Kenedia.Modules.BuildsManager.Models
 
         public void LoadGearFromCode(string? code, bool save = false)
         {
-            if (!Data.IsLoaded)
+            if (Data?.IsLoaded is not true)
                 return;
 
             GearChatCode.LoadTemplateFromChatCode(this, code, Data);
@@ -769,7 +778,7 @@ namespace Kenedia.Modules.BuildsManager.Models
             GearCode = _savedGearCode;
             BuildCode = _savedBuildCode;
 
-            Loaded = Data.IsLoaded;
+            Loaded = Data?.IsLoaded is true;
         }
 
         private void LoadSpecializationFromCode(ProfessionType profession, SpecializationSlotType slot, byte specId, byte adept, byte master, byte grandMaster)

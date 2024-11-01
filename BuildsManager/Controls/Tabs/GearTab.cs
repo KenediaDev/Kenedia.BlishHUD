@@ -25,6 +25,7 @@ using Kenedia.Modules.BuildsManager.DataModels;
 using MonoGame.Extended;
 using Blish_HUD.Controls;
 using TextBox = Kenedia.Modules.Core.Controls.TextBox;
+using System.Diagnostics;
 
 namespace Kenedia.Modules.BuildsManager.Controls.Tabs
 {
@@ -40,6 +41,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.Tabs
         private Dictionary<TemplateSlotType, GearSlot> _templateSlots = [];
 
         private TemplatePresenter _templatePresenter;
+        private Blocker _blocker;
         private readonly DetailedTexture _terrestrialSet = new(156323);
         private readonly DetailedTexture _alternateTerrestrialSet = new(156324);
         private readonly DetailedTexture _aquaticSet = new(156325);
@@ -57,6 +59,15 @@ namespace Kenedia.Modules.BuildsManager.Controls.Tabs
 
             WidthSizingMode = Blish_HUD.Controls.SizingMode.Fill;
             HeightSizingMode = Blish_HUD.Controls.SizingMode.Fill;
+
+            _blocker = new Blocker()
+            {
+                Parent = this,
+                CoveredControl = this,
+                BackgroundColor = Color.Black * 0.5F,
+                BorderWidth = 3,
+                Text = "Select a Template to view its details.",
+            };
 
             string gearCodeDisclaimer = strings.EquipmentCodeDisclaimer;
             _copyButton = new()
@@ -308,6 +319,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.Tabs
 
         public void ApplyTemplate()
         {
+            _blocker.Visible = TemplatePresenter.Template == Template.Empty;
             _gearCodeBox.Text = TemplatePresenter?.Template?.ParseGearCode();
 
             var professionType = TemplatePresenter?.Template?.Profession ?? GameService.Gw2Mumble.PlayerCharacter?.Profession ?? ProfessionType.Guardian;
@@ -346,21 +358,22 @@ namespace Kenedia.Modules.BuildsManager.Controls.Tabs
             }
 
             var t = TemplatePresenter.Template;
-            _templateSlots[TemplateSlotType.MainHand].Item = t?.MainHand.Weapon;
-            _templateSlots[TemplateSlotType.OffHand].Item = t?.OffHand.Weapon;
-            _templateSlots[TemplateSlotType.Aquatic].Item = t?.Aquatic.Weapon;
 
-            _templateSlots[TemplateSlotType.AltMainHand].Item = t?.AltMainHand.Weapon;
-            _templateSlots[TemplateSlotType.AltOffHand].Item = t?.AltOffHand.Weapon;
-            _templateSlots[TemplateSlotType.AltAquatic].Item = t?.AltAquatic.Weapon;
+            _templateSlots[TemplateSlotType.MainHand].Item = t?.MainHand?.Weapon;
+            _templateSlots[TemplateSlotType.OffHand].Item = t?.OffHand?.Weapon;
+            _templateSlots[TemplateSlotType.Aquatic].Item = t?.Aquatic?.Weapon;
 
-            _templateSlots[TemplateSlotType.PvpAmulet].Item = t?.PvpAmulet.PvpAmulet;
+            _templateSlots[TemplateSlotType.AltMainHand].Item = t?.AltMainHand?.Weapon;
+            _templateSlots[TemplateSlotType.AltOffHand].Item = t?.AltOffHand?.Weapon;
+            _templateSlots[TemplateSlotType.AltAquatic].Item = t?.AltAquatic?.Weapon;
 
-            _templateSlots[TemplateSlotType.Nourishment].Item = t?.Nourishment.Nourishment;
-            _templateSlots[TemplateSlotType.Enhancement].Item = t?.Enhancement.Enhancement;
-            _templateSlots[TemplateSlotType.PowerCore].Item = t?.PowerCore.PowerCore;
-            _templateSlots[TemplateSlotType.PveRelic].Item = t?.PveRelic.Relic;
-            _templateSlots[TemplateSlotType.PvpRelic].Item = t?.PvpRelic.Relic;
+            _templateSlots[TemplateSlotType.PvpAmulet].Item = t?.PvpAmulet?.PvpAmulet;
+
+            _templateSlots[TemplateSlotType.Nourishment].Item = t?.Nourishment?.Nourishment;
+            _templateSlots[TemplateSlotType.Enhancement].Item = t?.Enhancement?.Enhancement;
+            _templateSlots[TemplateSlotType.PowerCore].Item = t?.PowerCore?.PowerCore;
+            _templateSlots[TemplateSlotType.PveRelic].Item = t?.PveRelic?.Relic;
+            _templateSlots[TemplateSlotType.PvpRelic].Item = t?.PvpRelic?.Relic;
 
             SetVisibility();
         }
@@ -405,7 +418,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.Tabs
                 Rectangle r = new(drawBounds.Center.X - 32, drawBounds.Center.Y, 64, 64);
                 Rectangle tR = new(drawBounds.X, r.Bottom + 10, drawBounds.Width, Content.DefaultFont16.LineHeight);
                 LoadingSpinnerUtil.DrawLoadingSpinner(this, spriteBatch, r);
-                spriteBatch.DrawStringOnCtrl(this, "Loading Data. Please wait.", Content.DefaultFont16, tR, Color.White, false, HorizontalAlignment.Center, VerticalAlignment.Middle);
+                spriteBatch.DrawStringOnCtrl(this, !Data.IsLoaded ? "Loading Data. Please wait." : "Select or create a template", Content.DefaultFont16, tR, Color.White, false, HorizontalAlignment.Center, VerticalAlignment.Middle);
                 spriteBatch.End();
             }
         }

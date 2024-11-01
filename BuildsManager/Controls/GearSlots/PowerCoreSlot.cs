@@ -66,12 +66,15 @@ namespace Kenedia.Modules.BuildsManager.Controls_Old.GearPage.GearSlots
                 _powerCoreName = powerCore?.PowerCore?.Name ?? strings.PowerCore;
                 _powerCoreDescription = powerCore?.PowerCore?.Description ?? string.Empty;
             }
+            else
+            {
+                _powerCoreName = strings.PowerCore;
+                _powerCoreDescription = string.Empty;
+            }
         }
 
-        protected override void OnClick(MouseEventArgs e)
+        protected override void SetAnchor()
         {
-            base.OnClick(e);
-
             var a = AbsoluteBounds;
 
             if (ItemControl.MouseOver)

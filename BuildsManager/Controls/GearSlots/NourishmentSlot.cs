@@ -44,10 +44,8 @@ namespace Kenedia.Modules.BuildsManager.Controls_Old.GearPage.GearSlots
             spriteBatch.DrawStringOnCtrl(this, (ItemControl?.Item as Nourishment)?.Details.Description ?? ItemControl?.Item?.Description, Content.DefaultFont12, _statBounds, Color.White, false, HorizontalAlignment.Left, VerticalAlignment.Top);
         }
 
-        protected override void OnClick(MouseEventArgs e)
+        protected override void SetAnchor()
         {
-            base.OnClick(e);
-
             var a = AbsoluteBounds;
 
             if (ItemControl.MouseOver)

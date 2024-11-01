@@ -67,20 +67,23 @@ namespace Kenedia.Modules.BuildsManager.Controls_Old.GearPage.GearSlots
                 Infusion = accessoire?.Infusion1;
                 Stat = accessoire?.Stat;
             }
+            else
+            {
+                Infusion = null;
+                Stat = null;
+            }
         }
 
-        protected override void OnClick(MouseEventArgs e)
+        protected override void SetAnchor()
         {
-            base.OnClick(e);
-
             var a = AbsoluteBounds;
 
             if (ItemControl.MouseOver)
             {
                 SelectionPanel?.SetAnchor<Stat>(ItemControl, new Rectangle(a.Location, Point.Zero).Add(ItemControl.LocalBounds), SelectionTypes.Stats, Slot, GearSubSlotType.None,
                     (stat) => TemplatePresenter?.Template?.SetItem(Slot, TemplateSubSlotType.Stat, stat),
-                    (TemplatePresenter?.Template[Slot] as AccessoireTemplateEntry).Accessoire?.StatChoices,
-                    (TemplatePresenter?.Template[Slot] as AccessoireTemplateEntry).Accessoire?.AttributeAdjustment);
+                    (TemplatePresenter?.Template[Slot] as AccessoireTemplateEntry)?.Accessoire?.StatChoices ?? Data.Trinkets?[81908]?.StatChoices ?? [],
+                    (TemplatePresenter?.Template[Slot] as AccessoireTemplateEntry)?.Accessoire?.AttributeAdjustment);
             }
 
             if (_infusionControl.MouseOver)

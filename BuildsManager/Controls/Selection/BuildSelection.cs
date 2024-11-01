@@ -182,7 +182,9 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
         public TemplatePresenter TemplatePresenter { get; }
 
         public TemplateFactory TemplateFactory { get; }
+
         public Settings Settings { get; }
+
         public List<KeyValuePair<string, List<Func<Template, bool>>>> FilterQueries { get; } = [];
 
         public List<Func<Template, bool>> SpecializationFilterQueries { get; } = [];

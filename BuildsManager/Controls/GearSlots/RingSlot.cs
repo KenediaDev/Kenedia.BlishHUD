@@ -81,11 +81,17 @@ namespace Kenedia.Modules.BuildsManager.Controls_Old.GearPage.GearSlots
                 Infusion3 = ring?.Infusion3;
                 Stat = ring?.Stat;
             }
+            else
+            {
+                Infusion1 = null;
+                Infusion2 = null;
+                Infusion3 = null;
+                Stat = null;
+            }
         }
 
-        protected override void OnClick(MouseEventArgs e)
+        protected override void SetAnchor()
         {
-            base.OnClick(e);
 
             var a = AbsoluteBounds;
 
@@ -93,8 +99,8 @@ namespace Kenedia.Modules.BuildsManager.Controls_Old.GearPage.GearSlots
             {
                 SelectionPanel?.SetAnchor<Stat>(ItemControl, new Rectangle(a.Location, Point.Zero).Add(ItemControl.LocalBounds), SelectionTypes.Stats, Slot, GearSubSlotType.None,
                     (stat) => TemplatePresenter?.Template?.SetItem(Slot, TemplateSubSlotType.Stat, stat),
-                    (TemplatePresenter?.Template[Slot] as RingTemplateEntry).Ring?.StatChoices,
-                    (TemplatePresenter?.Template[Slot] as RingTemplateEntry).Ring?.AttributeAdjustment);
+                    (TemplatePresenter?.Template[Slot] as RingTemplateEntry)?.Ring?.StatChoices ?? Data.Trinkets?[91234]?.StatChoices ?? [],
+                    (TemplatePresenter?.Template[Slot] as RingTemplateEntry)?.Ring?.AttributeAdjustment);
             }
 
             if (_infusion1Control.MouseOver)
