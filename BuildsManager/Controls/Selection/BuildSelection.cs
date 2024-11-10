@@ -192,8 +192,6 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
 
         public Settings Settings { get; }
 
-        public QuickFiltersPanel QuickFiltersPanel { get; }
-
         public List<KeyValuePair<string, List<Func<Template, bool>>>> FilterQueries { get; } = [];
 
         public List<Func<Template, bool>> SpecializationFilterQueries { get; } = [];

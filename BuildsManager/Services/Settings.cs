@@ -31,8 +31,8 @@ namespace Kenedia.Modules.BuildsManager.Services
 
             ShowCornerIcon = internalSettings.DefineSetting(nameof(ShowCornerIcon), true);
             RequireVisibleTemplate = internalSettings.DefineSetting(nameof(RequireVisibleTemplate), true);
-            SetFilterOnTemplateCreate = internalSettings.DefineSetting(nameof(SetFilterOnTemplateCreate), true);
-            ResetFilterOnTemplateCreate = internalSettings.DefineSetting(nameof(ResetFilterOnTemplateCreate), false);
+            SetFilterOnTemplateCreate = internalSettings.DefineSetting(nameof(SetFilterOnTemplateCreate), false);
+            ResetFilterOnTemplateCreate = internalSettings.DefineSetting(nameof(ResetFilterOnTemplateCreate), true);
 
             QuickFiltersPanelFade = internalSettings.DefineSetting(nameof(QuickFiltersPanelFade), true);
             QuickFiltersPanelFadeDuration = internalSettings.DefineSetting(nameof(QuickFiltersPanelFadeDuration), 1000.00);

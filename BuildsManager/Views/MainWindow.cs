@@ -120,7 +120,7 @@ namespace Kenedia.Modules.BuildsManager.Views
 
             if (e.NewValue == TemplateViewTab)
             {
-                if (Settings.ShowQuickFilterPanelOnTabOpen.Value)
+                if (Settings.ShowQuickFilterPanelOnTabOpen.Value && Visible)
                 {
                     QuickFiltersPanel.Show();
                 }
@@ -161,7 +161,7 @@ namespace Kenedia.Modules.BuildsManager.Views
             base.OnShown(e);
             Location = Settings.MainWindowLocation.Value;
 
-            if (Settings.ShowQuickFilterPanelOnWindowOpen.Value)
+            if (Settings.ShowQuickFilterPanelOnWindowOpen.Value && Visible)
             {
                 QuickFiltersPanel.Show();
             }
