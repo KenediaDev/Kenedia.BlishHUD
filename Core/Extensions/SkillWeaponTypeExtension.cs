@@ -52,6 +52,12 @@ namespace Kenedia.Modules.Core.Extensions
                 ItemWeaponType.Warhorn;
         }
 
+        public static bool IsMainHand(this ItemWeaponType itemWeaponType)
+        {
+            return itemWeaponType is
+                ItemWeaponType.Scepter;
+        }
+
         public static SkillWeaponType ToSkillWeapon(this ItemWeaponType itemWeaponType)
         {
             string enumName =

@@ -43,6 +43,7 @@ using System.Threading;
 using NotificationBadge = Kenedia.Modules.Core.Controls.NotificationBadge;
 using AnchoredContainer = Kenedia.Modules.Core.Controls.AnchoredContainer;
 
+//TODO Fetch API Data on Version change, eventually use static hosting
 // TODO if character name is in multiple accounts -> don't load
 namespace Kenedia.Modules.Characters
 {

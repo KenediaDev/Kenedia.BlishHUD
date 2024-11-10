@@ -829,6 +829,24 @@ namespace Kenedia.Modules.BuildsManager.Res {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Require Templates to be visible to be selected.
+        /// </summary>
+        internal static string RequireVisibleTemplate {
+            get {
+                return ResourceManager.GetString("RequireVisibleTemplate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Require Templates to be visible to be selected. Without beeing visible no template will be selected..
+        /// </summary>
+        internal static string RequireVisibleTemplate_Tooltip {
+            get {
+                return ResourceManager.GetString("RequireVisibleTemplate_Tooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Reset.
         /// </summary>
         internal static string Reset {
@@ -852,6 +870,24 @@ namespace Kenedia.Modules.BuildsManager.Res {
         internal static string ResetEntry {
             get {
                 return ResourceManager.GetString("ResetEntry", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Reset the filters on template creation.
+        /// </summary>
+        internal static string ResetFilterOnTemplateCreate {
+            get {
+                return ResourceManager.GetString("ResetFilterOnTemplateCreate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to When creating a new template, reset the filters for templates.
+        /// </summary>
+        internal static string ResetFilterOnTemplateCreate_Tooltip {
+            get {
+                return ResourceManager.GetString("ResetFilterOnTemplateCreate_Tooltip", resourceCulture);
             }
         }
         
@@ -897,6 +933,24 @@ namespace Kenedia.Modules.BuildsManager.Res {
         internal static string SelectTagToEdit {
             get {
                 return ResourceManager.GetString("SelectTagToEdit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Set the filter text to the new template name.
+        /// </summary>
+        internal static string SetFilterOnTemplateCreate {
+            get {
+                return ResourceManager.GetString("SetFilterOnTemplateCreate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to When creating a new template, set the filter text to the new template name.
+        /// </summary>
+        internal static string SetFilterOnTemplateCreate_Tooltip {
+            get {
+                return ResourceManager.GetString("SetFilterOnTemplateCreate_Tooltip", resourceCulture);
             }
         }
         

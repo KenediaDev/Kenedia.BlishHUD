@@ -48,7 +48,6 @@ namespace Kenedia.Modules.BuildsManager.Views
         {
             MainWindowPresenter = mainWindowPresenter;
             TemplatePresenter = templatePresenter;
-            Parent = Graphics.SpriteScreen;
 
             AboutTab = aboutTab;
             BuildTab = buildTab;
@@ -60,14 +59,19 @@ namespace Kenedia.Modules.BuildsManager.Views
 
             Title = "❤";
             Subtitle = "❤";
-            SavesPosition = true;
-            Id = $"{module.Name} MainWindow";
+            Id = $"BuildsManager_MainWindow";
             MainWindowEmblem = AsyncTexture2D.FromAssetId(156020);
             Name = module.Name;
             Version = module.Version;
 
+            SavesPosition = false;
+            SavesSize = false;
+
             Width = 1250;
             Height = 900;
+            Location = Settings.MainWindowLocation.Value;
+
+            Parent = Graphics.SpriteScreen;
 
             TemplatePresenter.TemplateChanged += TemplatePresenter_TemplateChanged;
             TemplatePresenter.NameChanged += TemplatePresenter_NameChanged;
@@ -101,6 +105,7 @@ namespace Kenedia.Modules.BuildsManager.Views
         public QuickFiltersPanel QuickFiltersPanel { get; }
 
         public Settings Settings { get; }
+
         public MainWindowPresenter MainWindowPresenter { get; }
 
         public TemplatePresenter TemplatePresenter { get; }
@@ -141,9 +146,20 @@ namespace Kenedia.Modules.BuildsManager.Views
             SubName = e.NewValue;
         }
 
+        protected override void OnMoved(Blish_HUD.Controls.MovedEventArgs e)
+        {
+            base.OnMoved(e);
+
+            if (Visible && ViewState is Blish_HUD.Controls.ViewState.Loaded)
+            {
+                Settings.MainWindowLocation.Value = Location;
+            }
+        }
+
         protected override void OnShown(EventArgs e)
         {
             base.OnShown(e);
+            Location = Settings.MainWindowLocation.Value;
 
             if (Settings.ShowQuickFilterPanelOnWindowOpen.Value)
             {

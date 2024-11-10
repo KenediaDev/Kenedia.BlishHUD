@@ -7,6 +7,7 @@ using Kenedia.Modules.BuildsManager.Res;
 using Kenedia.Modules.Core.Utility;
 using System;
 using Kenedia.Modules.BuildsManager.Models;
+using Microsoft.Xna.Framework;
 
 namespace Kenedia.Modules.BuildsManager.Services
 {
@@ -22,11 +23,17 @@ namespace Kenedia.Modules.BuildsManager.Services
             base.InitializeSettings(settings);
             SettingCollection internalSettings = settings.AddSubCollection("Internal", false, false);
 
+            MainWindowLocation = internalSettings.DefineSetting(nameof(MainWindowLocation), new Point(100, 100));
+
             SortBehavior = internalSettings.DefineSetting(nameof(SortBehavior), TemplateSortBehavior.ByProfession);
             ShowQuickFilterPanelOnWindowOpen = internalSettings.DefineSetting(nameof(ShowQuickFilterPanelOnWindowOpen), false);
             ShowQuickFilterPanelOnTabOpen = internalSettings.DefineSetting(nameof(ShowQuickFilterPanelOnTabOpen), true);
 
             ShowCornerIcon = internalSettings.DefineSetting(nameof(ShowCornerIcon), true);
+            RequireVisibleTemplate = internalSettings.DefineSetting(nameof(RequireVisibleTemplate), true);
+            SetFilterOnTemplateCreate = internalSettings.DefineSetting(nameof(SetFilterOnTemplateCreate), true);
+            ResetFilterOnTemplateCreate = internalSettings.DefineSetting(nameof(ResetFilterOnTemplateCreate), false);
+
             QuickFiltersPanelFade = internalSettings.DefineSetting(nameof(QuickFiltersPanelFade), true);
             QuickFiltersPanelFadeDuration = internalSettings.DefineSetting(nameof(QuickFiltersPanelFadeDuration), 1000.00);
             QuickFiltersPanelFadeDelay = internalSettings.DefineSetting(nameof(QuickFiltersPanelFadeDelay), 5000.00);
@@ -40,9 +47,17 @@ namespace Kenedia.Modules.BuildsManager.Services
                 () => string.Format(strings_common.ToggleItem, BuildsManager.ModuleName));
         }
 
-        public SettingEntry<TemplateSortBehavior> SortBehavior{ get; set; }
+        public SettingEntry<TemplateSortBehavior> SortBehavior { get; set; }
+
+        public SettingEntry<Point> MainWindowLocation { get; set; }
 
         public SettingEntry<bool> ShowCornerIcon { get; set; }
+
+        public SettingEntry<bool> SetFilterOnTemplateCreate { get; set; }
+
+        public SettingEntry<bool> ResetFilterOnTemplateCreate { get; set; }
+
+        public SettingEntry<bool> RequireVisibleTemplate { get; set; }
 
         public SettingEntry<bool> ShowQuickFilterPanelOnTabOpen { get; set; }
 

@@ -70,6 +70,50 @@ namespace Kenedia.Modules.BuildsManager.Views
                 SetLocalizedTooltip = () => strings_common.ShowCornerIcon_ttp,
             };
 
+            _ = new Checkbox()
+            {
+                Parent = fp,
+                Checked = Settings.RequireVisibleTemplate.Value,
+                CheckedChangedAction = (b) => Settings.RequireVisibleTemplate.Value = b,
+                SetLocalizedText = () => string.Format(strings.RequireVisibleTemplate, BuildsManager.ModuleName),
+                SetLocalizedTooltip = () => strings.RequireVisibleTemplate_Tooltip,
+            };
+
+           var setFilterOnTemplateCreate = new Checkbox()
+            {
+                Parent = fp,
+                Checked = Settings.SetFilterOnTemplateCreate.Value,                
+                SetLocalizedText = () => string.Format(strings.SetFilterOnTemplateCreate, BuildsManager.ModuleName),
+                SetLocalizedTooltip = () => strings.SetFilterOnTemplateCreate_Tooltip,
+            };
+
+            var resetFilterOnTemplateCreate = new Checkbox()
+            {
+                Parent = fp,
+                Checked = Settings.ResetFilterOnTemplateCreate.Value,
+                SetLocalizedText = () => string.Format(strings.ResetFilterOnTemplateCreate, BuildsManager.ModuleName),
+                SetLocalizedTooltip = () => strings.ResetFilterOnTemplateCreate_Tooltip,
+            };
+
+            setFilterOnTemplateCreate.CheckedChangedAction = (b) =>
+            {
+                Settings.SetFilterOnTemplateCreate.Value = b;
+
+                if (Settings.ResetFilterOnTemplateCreate.Value && b)
+                {
+                    resetFilterOnTemplateCreate.Checked = false;
+                }
+            };
+            resetFilterOnTemplateCreate.CheckedChangedAction = (b) =>
+            {
+                Settings.ResetFilterOnTemplateCreate.Value = b;
+
+                if (Settings.SetFilterOnTemplateCreate.Value && b)
+                {
+                    setFilterOnTemplateCreate.Checked = false;
+                }
+            };
+
             _ = new KeybindingAssigner()
             {
                 Parent = fp,

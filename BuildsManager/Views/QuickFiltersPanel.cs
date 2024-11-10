@@ -147,7 +147,14 @@ namespace Kenedia.Modules.BuildsManager.Views
         {
             if (e?.Action is NotifyCollectionChangedAction.Add)
             {
-                ResetAllToggles();
+                if (Settings.ResetFilterOnTemplateCreate.Value)
+                {
+                    ResetAllToggles();
+                }
+                else
+                {
+
+                }
             }
         }
 

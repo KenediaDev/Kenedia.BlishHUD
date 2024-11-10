@@ -446,6 +446,12 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
         {
             base.OnClick(e);
 
+            if (_name.MouseOver && e.IsDoubleClick)
+            {
+                ToggleEditMode(true);
+                return;
+            }
+
             if (Input.Keyboard.KeysDown.Contains(Microsoft.Xna.Framework.Input.Keys.LeftControl))
             {
                 try
@@ -579,6 +585,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
                 ToggleEditMode(false);
                 SetName();
             }
+
         }
 
         private void TemplateChanged(object sender, PropertyChangedEventArgs e)

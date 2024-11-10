@@ -14,7 +14,7 @@ namespace Kenedia.Modules.BuildsManager.Models
 {
     public class TemplatePresenter
     {
-        private Template _template;
+        private Template _template = Template.Empty;
         private GameModeType _gameMode = GameModeType.PvE;
         private AttunementType _mainAttunement = AttunementType.Fire;
         private AttunementType _altAttunement = AttunementType.Fire;
@@ -24,7 +24,6 @@ namespace Kenedia.Modules.BuildsManager.Models
         {
             TemplateFactory = templateFactory;
             Data = data;
-            Template = TemplateFactory.CreateTemplate(string.Empty);
 
             Data.Loaded += Data_Loaded;
         }

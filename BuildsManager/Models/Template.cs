@@ -1381,6 +1381,18 @@ namespace Kenedia.Modules.BuildsManager.Models
                         }
                     }
                 }
+                else if (weapon?.WeaponType.IsMainHand() is true)
+                {
+                    slots = [TemplateSlotType.MainHand, TemplateSlotType.AltMainHand];
+
+                    foreach (var slot in slots)
+                    {
+                        if (this[slot] is IWeaponTemplateEntry entry)
+                        {
+                            SetItem(slot, TemplateSubSlotType.Item, overrideExisting ? weapon : entry?.Weapon ?? weapon);
+                        }
+                    }
+                }
                 else
                 {
                     foreach (var slot in slots)

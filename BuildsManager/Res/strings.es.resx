@@ -486,4 +486,22 @@ Si tiene algún código de compilación válido en el portapapeles, la compilaci
   <data name="SortByModified" xml:space="preserve">
     <value>Ordenar por último modificado</value>
   </data>
+  <data name="RequireVisibleTemplate" xml:space="preserve">
+    <value>Requerir que las Plantillas sean visibles para ser seleccionadas</value>
+  </data>
+  <data name="RequireVisibleTemplate_Tooltip" xml:space="preserve">
+    <value>Requiere que las plantillas sean visibles para ser seleccionadas. Si no están visibles, no se seleccionará ninguna plantilla.</value>
+  </data>
+  <data name="SetFilterOnTemplateCreate" xml:space="preserve">
+    <value>Establece el texto del filtro con el nuevo nombre de la plantilla</value>
+  </data>
+  <data name="SetFilterOnTemplateCreate_Tooltip" xml:space="preserve">
+    <value>Al crear una nueva plantilla, establezca el texto del filtro con el nombre de la nueva plantilla</value>
+  </data>
+  <data name="ResetFilterOnTemplateCreate" xml:space="preserve">
+    <value>Restablecer los filtros en la creación de plantillas</value>
+  </data>
+  <data name="ResetFilterOnTemplateCreate_Tooltip" xml:space="preserve">
+    <value>Al crear una nueva plantilla, restablezca los filtros para plantillas</value>
+  </data>
 </root>

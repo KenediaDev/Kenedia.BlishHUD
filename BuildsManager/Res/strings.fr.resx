@@ -486,4 +486,22 @@ Si vous avez un code de construction valide dans votre presse-papiers, la constr
   <data name="SortByModified" xml:space="preserve">
     <value>Trier par dernier modifié</value>
   </data>
+  <data name="RequireVisibleTemplate" xml:space="preserve">
+    <value>Les modèles doivent être visibles pour être sélectionnés</value>
+  </data>
+  <data name="RequireVisibleTemplate_Tooltip" xml:space="preserve">
+    <value>Exiger que les modèles soient visibles pour être sélectionnés. S'ils ne sont pas visibles, aucun modèle ne sera sélectionné.</value>
+  </data>
+  <data name="SetFilterOnTemplateCreate" xml:space="preserve">
+    <value>Fixer le texte du filtre au nouveau nom du modèle</value>
+  </data>
+  <data name="SetFilterOnTemplateCreate_Tooltip" xml:space="preserve">
+    <value>Lors de la création d'un nouveau modèle, le texte du filtre est remplacé par le nom du nouveau modèle.</value>
+  </data>
+  <data name="ResetFilterOnTemplateCreate" xml:space="preserve">
+    <value>Réinitialiser les filtres lors de la création d'un modèle</value>
+  </data>
+  <data name="ResetFilterOnTemplateCreate_Tooltip" xml:space="preserve">
+    <value>Lors de la création d'un nouveau modèle, réinitialiser les filtres pour les modèles</value>
+  </data>
 </root>

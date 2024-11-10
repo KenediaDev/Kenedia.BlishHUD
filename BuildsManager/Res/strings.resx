@@ -486,4 +486,22 @@ If you have any valid build code in your clipboard the build will load from the 
   <data name="SortByModified" xml:space="preserve">
     <value>Sort by Last Modified</value>
   </data>
+  <data name="RequireVisibleTemplate" xml:space="preserve">
+    <value>Require Templates to be visible to be selected</value>
+  </data>
+  <data name="RequireVisibleTemplate_Tooltip" xml:space="preserve">
+    <value>Require Templates to be visible to be selected. Without beeing visible no template will be selected.</value>
+  </data>
+  <data name="SetFilterOnTemplateCreate" xml:space="preserve">
+    <value>Set the filter text to the new template name</value>
+  </data>
+  <data name="SetFilterOnTemplateCreate_Tooltip" xml:space="preserve">
+    <value>When creating a new template, set the filter text to the new template name</value>
+  </data>
+  <data name="ResetFilterOnTemplateCreate" xml:space="preserve">
+    <value>Reset the filters on template creation</value>
+  </data>
+  <data name="ResetFilterOnTemplateCreate_Tooltip" xml:space="preserve">
+    <value>When creating a new template, reset the filters for templates</value>
+  </data>
 </root>

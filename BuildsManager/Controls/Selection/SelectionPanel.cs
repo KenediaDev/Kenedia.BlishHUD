@@ -42,7 +42,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
         {
             TemplatePresenter = templatePresenter;
             Data = data;
-
+            Settings = settings;
             Pointer = new();
 
             ClipsBounds = false;
@@ -83,7 +83,10 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
         }
 
         public TemplatePresenter TemplatePresenter { get; private set; }
+
         public Data Data { get; }
+
+        public Settings Settings { get; }
 
         public MainWindow MainWindow
         {

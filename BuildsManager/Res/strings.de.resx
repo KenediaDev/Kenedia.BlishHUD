@@ -486,4 +486,22 @@ Wenn Sie einen gültigen Build-Code in Ihrer Zwischenablage haben, wird der Buil
   <data name="SortByModified" xml:space="preserve">
     <value>Sortieren nach "Zuletzt geändert"</value>
   </data>
+  <data name="RequireVisibleTemplate" xml:space="preserve">
+    <value>Vorlagen müssen sichtbar sein, um ausgewählt zu werden</value>
+  </data>
+  <data name="RequireVisibleTemplate_Tooltip" xml:space="preserve">
+    <value>Vorlagen müssen sichtbar sein, damit sie ausgewählt werden können. Wenn sie nicht sichtbar sind, kann keine Vorlage ausgewählt werden.</value>
+  </data>
+  <data name="SetFilterOnTemplateCreate" xml:space="preserve">
+    <value>Setzen Sie den Filtertext auf den neuen Vorlagennamen</value>
+  </data>
+  <data name="SetFilterOnTemplateCreate_Tooltip" xml:space="preserve">
+    <value>Wenn Sie eine neue Vorlage erstellen, setzen Sie den Filtertext auf den Namen der neuen Vorlage</value>
+  </data>
+  <data name="ResetFilterOnTemplateCreate" xml:space="preserve">
+    <value>Zurücksetzen der Filter bei der Vorlagenerstellung</value>
+  </data>
+  <data name="ResetFilterOnTemplateCreate_Tooltip" xml:space="preserve">
+    <value>Setzen Sie beim Erstellen einer neuen Vorlage die Filter für Vorlagen zurück</value>
+  </data>
 </root>
