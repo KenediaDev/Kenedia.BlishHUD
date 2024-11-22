@@ -38,6 +38,7 @@ namespace Kenedia.Modules.BuildsManager
     [Export(typeof(Module))]
     public class BuildsManager : BaseModule<BuildsManager, MainWindow, Settings, Paths>
     {
+        public static int MainThread = System.Threading.Thread.CurrentThread.ManagedThreadId;
         public static Data Data { get; set; }
 
         private double _tick;
@@ -81,7 +82,7 @@ namespace Kenedia.Modules.BuildsManager
 
             services.AddTransient<TemplateFactory>();
             services.AddTransient<TemplateConverter>();
-            
+
             return services;
         }
 

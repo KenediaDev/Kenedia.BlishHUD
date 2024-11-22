@@ -491,8 +491,8 @@ namespace Kenedia.Modules.BuildsManager.Controls.Tabs
         {
             base.DisposeControl();
 
-            _templateSlots?.Values?.DisposeAll();
-            _templateSlots?.Clear();
+            //_templateSlots?.Values?.DisposeAll();
+            //_templateSlots?.Clear();
 
             _pve?.Dispose();
             _pvp?.Dispose();

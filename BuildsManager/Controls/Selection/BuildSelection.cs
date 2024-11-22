@@ -113,26 +113,30 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
 
         private void AddNewTemplate()
         {
+            //Get Clipboard text async then create a new template on main thread
+
             _ = Task.Run(async () =>
             {
-                string name = string.IsNullOrEmpty(Search.Text) ? strings.NewTemplate : Search.Text;
+                string code = await ClipboardUtil.WindowsClipboardService.GetTextAsync();
 
-                var t = CreateTemplate(Templates.GetNewName(name));
-
-                if (t is not null)
+                GameService.Graphics.QueueMainThreadRender((graphicsDevice) =>
                 {
+                    string name = string.IsNullOrEmpty(Search.Text) ? strings.NewTemplate : Search.Text;
+                    var t = CreateTemplate(Templates.GetNewName(name));
 
-                    try
+                    if (!string.IsNullOrEmpty(code))
                     {
-                        string code = await ClipboardUtil.WindowsClipboardService.GetTextAsync();
+                        try
+                        {
+                            BuildsManager.Logger.Debug($"Load template from clipboard code: {code}");
+                            t.LoadFromCode(code);
+                        }
+                        catch (Exception)
+                        {
 
-                        BuildsManager.Logger.Debug($"Load template from clipboard code: {code}");
-                        t.LoadFromCode(code);
+                        }
                     }
-                    catch (Exception)
-                    {
 
-                    }
 
                     TemplateSelectable ts = null;
                     SelectionPanel?.SetTemplateAnchor(ts = TemplateSelectables.FirstOrDefault(e => e.Template == t));
@@ -146,9 +150,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
                     {
                         Search.Text = null;
                     }
-
-                    //FilterTemplates();
-                }
+                });
             });
         }
 
@@ -228,7 +230,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
 
             if ((current?.Visible is not true && Settings.RequireVisibleTemplate.Value) || current?.Template == Template.Empty)
             {
-                var newTemplate = SelectionContent.OfType<TemplateSelectable>().FirstOrDefault(x => x.Visible) is TemplateSelectable t ? t : null;                
+                var newTemplate = SelectionContent.OfType<TemplateSelectable>().FirstOrDefault(x => x.Visible) is TemplateSelectable t ? t : null;
                 TemplatePresenter.SetTemplate(newTemplate?.Template);
             }
         }
