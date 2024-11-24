@@ -69,6 +69,6 @@ namespace Kenedia.Modules.BuildsManager.Interfaces
         public string Name { get; set; }
         public string Description { get; set; }
         public int Id { get; set; }
-        public AsyncTexture2D Icon { get; }
+        //public AsyncTexture2D Icon { get; }
     }
 }

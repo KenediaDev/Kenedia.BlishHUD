@@ -48,7 +48,7 @@ namespace Kenedia.Modules.BuildsManager.DataModels.Professions
 
         public string Description { get => Swap?.Description; set { if (Swap is not null) Swap.Description = value; } }
 
-        public AsyncTexture2D Icon => Swap?.Icon;
+        //public AsyncTexture2D Icon => Swap?.Icon;
 
         internal void ApplyLanguage(KeyValuePair<int, Legend> leg)
         {

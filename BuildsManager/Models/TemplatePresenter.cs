@@ -97,6 +97,7 @@ namespace Kenedia.Modules.BuildsManager.Models
         public bool IsWvw => GameMode == GameModeType.WvW;
 
         public TemplateFactory TemplateFactory { get; }
+
         public Data Data { get; }
 
         private void On_TemplateChanged(object sender, ValueChangedEventArgs<Template> e)

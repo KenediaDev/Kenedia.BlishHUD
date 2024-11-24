@@ -12,6 +12,8 @@ using Microsoft.Xna.Framework.Input;
 using System.Linq;
 using Kenedia.Modules.BuildsManager.Res;
 using Blish_HUD.Controls;
+using Blish_HUD.Content;
+using Kenedia.Modules.Core.Services;
 
 namespace Kenedia.Modules.BuildsManager.Controls_Old.GearPage
 {
@@ -58,7 +60,7 @@ namespace Kenedia.Modules.BuildsManager.Controls_Old.GearPage
 
         private void ApplyStat(object sender, Core.Models.ValueChangedEventArgs<Stat> e)
         {
-            _statTexture.Texture = Stat?.Icon;
+            _statTexture.Texture = TexturesService.GetTextureFromRef(Stat?.IconPath);
 
             if (Tooltip is ItemTooltip itemTooltip)
                 itemTooltip.Stat = Stat;
@@ -67,12 +69,12 @@ namespace Kenedia.Modules.BuildsManager.Controls_Old.GearPage
         private void ApplyItem(object sender, Core.Models.ValueChangedEventArgs<BaseItem> e)
         {
             _frameColor = Item?.Rarity.GetColor() ?? Color.White * 0.15F;
-            _texture.Texture = Item?.Icon;
+            _texture.Texture = TexturesService.GetAsyncTexture(Item?.AssetId);
 
-            if (Item is BaseItem item && item.Icon != null)
+            if (TexturesService.GetAsyncTexture(Item?.AssetId) is var icon && icon is not null)
             {
-                int padding = item.Icon.Width / 16;
-                _texture.TextureRegion = new(padding, padding, Item.Icon.Width - (padding * 2), Item.Icon.Height - (padding * 2));
+                int padding = icon.Width / 16;
+                _texture.TextureRegion = new(padding, padding, icon.Width - (padding * 2), icon.Height - (padding * 2));
             }
 
             if (Tooltip is ItemTooltip itemTooltip)

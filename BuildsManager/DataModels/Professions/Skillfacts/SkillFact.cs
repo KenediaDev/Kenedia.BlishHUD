@@ -159,7 +159,7 @@ namespace Kenedia.Modules.BuildsManager.DataModels.Professions
 
         [DataMember]
         public int IconAssetId { get; set; }
-        public AsyncTexture2D Icon
+        private AsyncTexture2D Icon
         {
             get
             {

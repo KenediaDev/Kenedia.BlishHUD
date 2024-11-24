@@ -15,6 +15,7 @@ using Kenedia.Modules.Core.Controls;
 using Kenedia.Modules.Core.DataModels;
 using Kenedia.Modules.Core.Models;
 using Kenedia.Modules.Core.Services;
+using Kenedia.Modules.Core.Utility;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -374,13 +375,13 @@ namespace Kenedia.Modules.BuildsManager.Controls.Tabs
 
         private void SetRaceIcons()
         {
-            _raceIcon.Texture = Data.Races?.TryGetValue(TemplatePresenter?.Template?.Race ?? Races.None, out Race raceIcon) == true ? raceIcon.Icon : null;
+            _raceIcon.Texture = Data.Races?.TryGetValue(TemplatePresenter?.Template?.Race ?? Races.None, out Race raceIcon) == true ? TexturesService.GetTextureFromRef(raceIcon.IconPath) : null;
             _raceIcon.BasicTooltipText = Data.Races?.TryGetValue(TemplatePresenter?.Template?.Race ?? Races.None, out Race raceName) == true ? raceName.Name : null;
         }
 
         private void SetSpecIcons()
         {
-            _specIcon.Texture = TemplatePresenter?.Template?.EliteSpecialization?.ProfessionIconBig ?? (Data.Professions?.TryGetValue(TemplatePresenter?.Template?.Profession ?? ProfessionType.Guardian, out Profession professionForIcon) == true ? professionForIcon.IconBig : null);
+            _specIcon.Texture = TexturesService.GetAsyncTexture(TemplatePresenter?.Template?.EliteSpecialization?.ProfessionIconBigAssetId) ?? (Data.Professions?.TryGetValue(TemplatePresenter?.Template?.Profession ?? ProfessionType.Guardian, out Profession professionForIcon) == true ? TexturesService.GetAsyncTexture(professionForIcon.IconBigAssetId) : null);
             _specIcon.BasicTooltipText = TemplatePresenter?.Template?.EliteSpecialization?.Name ?? (Data.Professions?.TryGetValue(TemplatePresenter?.Template?.Profession ?? ProfessionType.Guardian, out Profession professionForName) == true ? professionForName.Name : null);
         }
     }

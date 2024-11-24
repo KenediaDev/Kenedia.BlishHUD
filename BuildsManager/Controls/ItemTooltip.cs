@@ -150,16 +150,16 @@ namespace Kenedia.Modules.BuildsManager.Controls_Old.GearPage
 
         private void ApplyItem(object sender, Core.Models.ValueChangedEventArgs<BaseItem> e)
         {
-            _image.Texture = Item?.Icon;
+            _image.Texture = TexturesService.GetAsyncTexture(Item?.AssetId);
             _frameColor = Item?.Rarity.GetColor() ?? Color.Transparent;
             _title.Text = Item?.Name;
             _id.Text = $"{strings.ItemId}: {Item?.Id}";
             _title.TextColor = Item?.Rarity.GetColor() ?? Color.White;
 
-            if (Item is BaseItem item && item.Icon != null)
+            if (_image.Texture != null)
             {
-                int padding = item.Icon.Width / 16;
-                _image.SourceRectangle = new(padding, padding, Item.Icon.Width - (padding * 2), Item.Icon.Height - (padding * 2));
+                int padding = _image.Texture.Width / 16;
+                _image.SourceRectangle = new(padding, padding, _image.Texture.Width - (padding * 2), _image.Texture.Height - (padding * 2));
             }
 
             switch (Item?.Type)

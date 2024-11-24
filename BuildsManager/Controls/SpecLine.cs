@@ -1,4 +1,5 @@
 ﻿using Blish_HUD;
+using Blish_HUD.Content;
 using Blish_HUD.Controls;
 using Blish_HUD.Gw2Mumble;
 using Blish_HUD.Input;
@@ -9,6 +10,7 @@ using Kenedia.Modules.BuildsManager.Models.Templates;
 using Kenedia.Modules.BuildsManager.Services;
 using Kenedia.Modules.Core.Extensions;
 using Kenedia.Modules.Core.Models;
+using Kenedia.Modules.Core.Services;
 using Kenedia.Modules.Core.Utility;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -19,6 +21,7 @@ using System.Diagnostics;
 using System.Linq;
 using static Blish_HUD.ContentService;
 using Label = Kenedia.Modules.Core.Controls.Label;
+using UI = Kenedia.Modules.Core.Utility.UI;
 
 namespace Kenedia.Modules.BuildsManager.Controls
 {
@@ -89,7 +92,7 @@ namespace Kenedia.Modules.BuildsManager.Controls
 
         private Rectangle _specSelectorBounds;
 
-        private readonly List<(Specialization spec, Rectangle bounds)> _specBounds = [];
+        private readonly List<(Specialization spec, Rectangle bounds, AsyncTexture2D texture)> _specBounds = [];
 
         public SpecLine(SpecializationSlotType line, TemplatePresenter templatePresenter, Data data)
         {
@@ -120,7 +123,7 @@ namespace Kenedia.Modules.BuildsManager.Controls
 
             for (int i = 0; i < (SpecializationSlot == SpecializationSlotType.Line_3 ? 8 : 5); i++)
             {
-                _specBounds.Add(new(null, new(offset, (Height - size) / 2, size, size)));
+                _specBounds.Add(new(null, new(offset, (Height - size) / 2, size, size), null));
                 offset += size + Scale(10);
             }
 
@@ -243,13 +246,13 @@ namespace Kenedia.Modules.BuildsManager.Controls
             {
                 if (!s.Elite || SpecializationSlot == SpecializationSlotType.Line_3)
                 {
-                    _specBounds[j] = new(s, _specBounds[j].bounds);
+                    _specBounds[j] = new(s, _specBounds[j].bounds, TexturesService.GetAsyncTexture(s.IconAssetId));
                     j++;
                 }
             }
 
-            _weaponTrait.Texture = BuildSpecialization?.Specialization?.WeaponTrait?.Icon;
-            _specializationBackground.Texture = BuildSpecialization?.Specialization?.Background;
+            _weaponTrait.Texture = TexturesService.GetAsyncTexture(BuildSpecialization?.Specialization?.WeaponTrait?.IconAssetId);
+            _specializationBackground.Texture = TexturesService.GetAsyncTexture(BuildSpecialization?.Specialization?.BackgroundAssetId);
 
             UpdateTraitsForSpecialization();
         }
@@ -424,11 +427,13 @@ namespace Kenedia.Modules.BuildsManager.Controls
 
                 if (spec.spec is not null)
                 {
+                    var specIcon = spec.texture;
+
                     spriteBatch.DrawOnCtrl(
                     this,
-                    spec.spec.Icon,
+                    specIcon,
                     spec.bounds,
-                    spec.spec.Icon.Bounds,
+                    specIcon?.Bounds ?? Rectangle.Empty,
                     hasSpec ? Colors.Chardonnay : hovered ? Color.White : Color.White * 0.8F,
                     0F,
                     Vector2.Zero);
@@ -439,9 +444,9 @@ namespace Kenedia.Modules.BuildsManager.Controls
                     {
                         spriteBatch.DrawOnCtrl(
                         this,
-                        spec.spec.Icon,
+                        specIcon,
                         spec.bounds,
-                        spec.spec.Icon.Bounds.Add(-4, -4, 8, 8),
+                        specIcon?.Bounds.Add(-4, -4, 8, 8) ?? Rectangle.Empty,
                         Color.Black * 0.7F,
                         0F,
                         Vector2.Zero);

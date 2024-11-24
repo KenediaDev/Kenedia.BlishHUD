@@ -20,6 +20,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Kenedia.Modules.BuildsManager.Services;
 using Kenedia.Modules.BuildsManager.Controls.Selectables;
+using Kenedia.Modules.Core.Services;
 
 namespace Kenedia.Modules.BuildsManager.Controls
 {
@@ -29,7 +30,7 @@ namespace Kenedia.Modules.BuildsManager.Controls
 
         public DetailedTexture Selector { get; } = new(157138, 157140);
 
-        public AsyncTexture2D Texture => Skill?.Icon;
+        public AsyncTexture2D Texture => TexturesService.GetAsyncTexture(Skill?.IconAssetId);
 
         public AsyncTexture2D HoveredFrameTexture { get; } = AsyncTexture2D.FromAssetId(157143);
 

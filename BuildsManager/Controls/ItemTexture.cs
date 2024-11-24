@@ -7,6 +7,7 @@ using System;
 using Kenedia.Modules.Core.Extensions;
 using Kenedia.Modules.BuildsManager.DataModels.Items;
 using Blish_HUD.Controls;
+using Kenedia.Modules.Core.Services;
 
 namespace Kenedia.Modules.BuildsManager.Controls_Old.GearPage
 {
@@ -31,7 +32,7 @@ namespace Kenedia.Modules.BuildsManager.Controls_Old.GearPage
         private void ApplyItem()
         {
             _frameColor = Item is not null ? (Color)Item?.Rarity.GetColor() : Color.White * 0.5F;
-            Texture = Item?.Icon;
+            Texture = TexturesService.GetAsyncTexture(Item?.AssetId);
         }
 
         public void Draw(Control ctrl, SpriteBatch spriteBatch, Point? mousePos = null, Color? color = null)

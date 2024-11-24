@@ -77,10 +77,13 @@ namespace Kenedia.Modules.BuildsManager.Controls
 
             if (Trait is not null)
             {
-                _image.Texture = Trait.Icon;
+                _image.Texture = TexturesService.GetAsyncTexture(Trait.IconAssetId);
 
-                int padding = (Trait.Icon?.Width ?? 0) / 16;
-                _image.TextureRegion = new(padding, padding, Trait.Icon.Width - (padding * 2), Trait.Icon.Height - (padding * 2));
+                if (_image.Texture is not null)
+                {
+                    int padding = _image.Texture.Width / 16;
+                    _image.TextureRegion = new(padding, padding, _image.Texture.Width - (padding * 2), _image.Texture.Height - (padding * 2));
+                }
             }
         }
 

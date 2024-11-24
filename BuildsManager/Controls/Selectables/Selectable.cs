@@ -8,6 +8,7 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 using Blish_HUD;
 using Blish_HUD.Input;
+using Kenedia.Modules.Core.Services;
 
 namespace Kenedia.Modules.BuildsManager.Controls.Selectables
 {
@@ -44,20 +45,24 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selectables
             switch (Data)
             {
                 case Legend legend:
+                    var legendIcon = TexturesService.GetAsyncTexture(legend.Swap.IconAssetId);
+
                     Type = SelectableType.Legend;
                     //TextureRegion = new(14, 14, 100, 100);
-                    int lPadding = (int)(legend.Icon.Width * 0.109375);
-                    TextureRegion = new(lPadding, lPadding, legend.Icon.Width - (lPadding * 2), legend.Icon.Height - (lPadding * 2));
-                    Texture = legend.Icon;
+                    int lPadding = (int)(legendIcon.Width * 0.109375);
+                    TextureRegion = new(lPadding, lPadding, legendIcon.Width - (lPadding * 2), legendIcon.Height - (lPadding * 2));
+                    Texture = legendIcon;
                     ClipsBounds = true;
 
                     break;
                 case Skill skill:
+                    var skillIcon = TexturesService.GetAsyncTexture(skill.IconAssetId);
+
                     Type = SelectableType.Skill;
                     //TextureRegion = new(14, 14, 100, 100);
-                    int sPadding = (int)(skill.Icon.Width * 0.109375);
-                    TextureRegion = new(sPadding, sPadding, skill.Icon.Width - (sPadding * 2), skill.Icon.Height - (sPadding * 2));
-                    Texture = skill.Icon;
+                    int sPadding = (int)(skillIcon.Width * 0.109375);
+                    TextureRegion = new(sPadding, sPadding, skillIcon.Width - (sPadding * 2), skillIcon.Height - (sPadding * 2));
+                    Texture = skillIcon;
                     ClipsBounds = true;
 
                     break;

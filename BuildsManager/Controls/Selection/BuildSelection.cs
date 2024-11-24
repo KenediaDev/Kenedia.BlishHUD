@@ -118,6 +118,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
             _ = Task.Run(async () =>
             {
                 string code = await ClipboardUtil.WindowsClipboardService.GetTextAsync();
+                code = code.Trim();
 
                 GameService.Graphics.QueueMainThreadRender((graphicsDevice) =>
                 {

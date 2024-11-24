@@ -65,5 +65,35 @@ namespace Kenedia.Modules.Core.Services
 
             return texture;
         }
+
+        public static AsyncTexture2D GetAsyncTexture(int? id = 0)
+        {
+            int assetId = id ?? 0;
+
+            if (assetId is not 0 && AsyncTexture2D.TryFromAssetId(assetId, out var texture))
+            {
+                return texture;
+            }
+
+            return null;
+        }
+
+        public static AsyncTexture2D GetTextureFromRef(string path)
+        {
+            if (string.IsNullOrEmpty(path))
+            {
+                return ContentService.Textures.Error;
+            }
+
+            string key = Path.GetFileNameWithoutExtension(path);
+
+            if (string.IsNullOrEmpty(key))
+            {
+                return ContentService.Textures.Error;
+            }
+
+
+            return GetTextureFromRef(path, key);
+        }
     }
 }

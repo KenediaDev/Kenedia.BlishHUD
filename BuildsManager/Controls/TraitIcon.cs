@@ -1,5 +1,6 @@
 ﻿using Kenedia.Modules.BuildsManager.DataModels.Professions;
 using Kenedia.Modules.Core.Models;
+using Kenedia.Modules.Core.Services;
 using Kenedia.Modules.Core.Utility;
 
 namespace Kenedia.Modules.BuildsManager.Controls
@@ -18,12 +19,12 @@ namespace Kenedia.Modules.BuildsManager.Controls
 
         private void ApplyTrait()
         {
-            Texture = Trait?.Icon;
+            Texture = TexturesService.GetAsyncTexture(Trait?.IconAssetId);
 
-            if (Trait is not null && Trait.Icon is not null)
+            if (Trait is not null && Texture is not null)
             {
-                int padding = Trait.Icon.Width / 16;
-                TextureRegion = new(padding, padding, Trait.Icon.Width - (padding * 2), Trait.Icon.Height - (padding * 2));
+                int padding = Texture.Width / 16;
+                TextureRegion = new(padding, padding, Texture.Width - (padding * 2), Texture.Height - (padding * 2));
             }
         }
 

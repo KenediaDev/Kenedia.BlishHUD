@@ -109,7 +109,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
                     if (Data.Professions.TryGetValue((ProfessionType)Value, out var profession))
                     {
                         _name.SetLocalizedText = () => profession?.Name;
-                        _icon.Texture = profession.IconBig;
+                        _icon.Texture = TexturesService.GetAsyncTexture(profession?.IconBigAssetId);
                     }
 
                     break;
@@ -118,7 +118,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
                     if (Data.Races.TryGetValue((Races)Value, out var race))
                     {
                         _name.SetLocalizedText = () => race?.Name;
-                        _icon.Texture = race.Icon;
+                        _icon.Texture = BuildsManager.ModuleInstance.ContentsManager.GetTexture(race?.IconPath);
                     }
 
                     break;

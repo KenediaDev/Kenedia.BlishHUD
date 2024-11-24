@@ -10,11 +10,15 @@ using System;
 using static Blish_HUD.ContentService;
 using Kenedia.Modules.Core.Interfaces;
 using System.Linq;
+using Blish_HUD.Content;
+using Blish_HUD.Modules.Managers;
 
 namespace Kenedia.Modules.Core.Utility
 {
     public static class UI
     {
+        public static ContentsManager ContentsManager { get; set; }
+
         public static void ScrollToChild(this FlowPanel panel, Control child)
         {
             ScrollToChild((Container)panel, child);

@@ -59,7 +59,9 @@ namespace Kenedia.Modules.BuildsManager.DataModels
         [DataMember]
         public Dictionary<int, Skill> Skills { get; } = [];
 
-        public AsyncTexture2D Icon
+        public string IconPath => $@"textures\races\{Id.ToString().ToLower()}.png";
+
+        private AsyncTexture2D Icon
         {
             get
             {

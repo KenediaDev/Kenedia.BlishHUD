@@ -85,7 +85,7 @@ namespace Kenedia.Modules.BuildsManager.DataModels.Professions
 
         [DataMember]
         public int IconAssetId { get; set; }
-        public AsyncTexture2D Icon
+        private AsyncTexture2D Icon
         {
             get
             {
@@ -100,7 +100,8 @@ namespace Kenedia.Modules.BuildsManager.DataModels.Professions
 
         [DataMember]
         public int BackgroundAssetId { get; set; }
-        public AsyncTexture2D Background
+
+        private AsyncTexture2D Background
         {
             get
             {
@@ -115,7 +116,8 @@ namespace Kenedia.Modules.BuildsManager.DataModels.Professions
 
         [DataMember]
         public int? ProfessionIconAssetId { get; set; }
-        public AsyncTexture2D ProfessionIcon
+
+        private AsyncTexture2D ProfessionIcon
         {
             get
             {
@@ -131,7 +133,8 @@ namespace Kenedia.Modules.BuildsManager.DataModels.Professions
 
         [DataMember]
         public int? ProfessionIconBigAssetId { get; set; }
-        public AsyncTexture2D ProfessionIconBig
+
+        private AsyncTexture2D ProfessionIconBig
         {
             get
             {

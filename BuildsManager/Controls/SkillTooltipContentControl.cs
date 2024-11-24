@@ -60,7 +60,7 @@ namespace Kenedia.Modules.BuildsManager.Controls
             Title = skill?.Name;
             Id = $"{strings.SkillId}: {skill?.Id}";
             Description = skill?.Description.InterpretItemDescription();
-            _image.Texture = skill?.Icon;
+            _image.Texture = TexturesService.GetAsyncTexture(skill?.IconAssetId);
 
             Height = _image.Bounds.Bottom + 10 + UI.GetTextHeight(Content.DefaultFont14, Description, Width);
 

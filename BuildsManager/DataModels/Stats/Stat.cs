@@ -92,7 +92,9 @@ namespace Kenedia.Modules.BuildsManager.DataModels.Stats
         [DataMember]
         public int AssetId { get; set; }
 
-        public AsyncTexture2D Icon
+        public string IconPath => $@"textures\equipment_stats\{AssetId}.png";
+
+        private AsyncTexture2D Icon
         {
             get
             {
