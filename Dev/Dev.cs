@@ -1,8 +1,10 @@
 ﻿using Blish_HUD;
+using Blish_HUD.Content;
 using Blish_HUD.Modules;
 using Blish_HUD.Modules.Managers;
 using Blish_HUD.Settings;
 using Gw2Sharp.WebApi.V2.Models;
+using Kenedia.Modules.Core.Controls;
 using Kenedia.Modules.Core.Models;
 using Kenedia.Modules.Core.Views;
 using Microsoft.Xna.Framework;
@@ -50,7 +52,6 @@ namespace Kenedia.Modules.Dev
 
             base.ReloadKey_Activated(sender, e);
 
-            await TestAPI();
         }
 
         private async Task TestAPI()
@@ -106,6 +107,26 @@ namespace Kenedia.Modules.Dev
         protected override void LoadGUI()
         {
             base.LoadGUI();
+            var r = new Microsoft.Xna.Framework.Rectangle(50, 50, 900, 625);
+
+            MainWindow = new StandardWindow(AsyncTexture2D.FromAssetId(155985), r, r)
+            {
+                Title = "Dev",
+                CanResize = true,
+                ZIndex = int.MaxValue,
+                Location = new(100, 100),
+                Parent = GameService.Graphics.SpriteScreen,
+            };
+
+            var toggle = new ToggleControl()
+            {
+                Parent = MainWindow,
+                TextLeft = "Homestead",
+                TextRight = "Guild Hall",
+                Width = 250,
+            };
+
+            MainWindow.Show();
         }
 
         protected override void UnloadGUI()

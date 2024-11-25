@@ -133,4 +133,13 @@
   <data name="Tag_Hovered" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>Textures\Tag_Hovered.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="ToggleAreaLeft" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Textures\ToggleAreaLeft.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ToggleAreaMid" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Textures\ToggleAreaMid.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ToggleAreaRight" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Textures\ToggleAreaRight.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
 </root>

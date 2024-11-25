@@ -118,5 +118,14 @@
   <ItemGroup>
     <None Include="Textures\Tag_Hovered.png" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Textures\ToggleAreaLeft.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Textures\ToggleAreaMid.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Textures\ToggleAreaRight.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

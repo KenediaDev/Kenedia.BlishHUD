@@ -3,6 +3,8 @@ using Blish_HUD.Controls;
 using Kenedia.Modules.Core.Structs;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using MonoGame.Extended;
+using System;
 using static Blish_HUD.ContentService;
 
 namespace Kenedia.Modules.Core.Extensions
@@ -49,7 +51,7 @@ namespace Kenedia.Modules.Core.Extensions
             spriteBatch.DrawOnCtrl(ctrl, Textures.Pixel, new Rectangle(_selectorBounds.Left + width, _selectorBounds.Top, _selectorBounds.Width - (width * 2), width), Rectangle.Empty, borderColor * 0.8f);
 
             // Bottom
-            spriteBatch.DrawOnCtrl(ctrl, Textures.Pixel, new Rectangle(_selectorBounds.Left  + width, _selectorBounds.Bottom - width, _selectorBounds.Width - (width * 2), width), Rectangle.Empty, borderColor * 0.8f);
+            spriteBatch.DrawOnCtrl(ctrl, Textures.Pixel, new Rectangle(_selectorBounds.Left + width, _selectorBounds.Bottom - width, _selectorBounds.Width - (width * 2), width), Rectangle.Empty, borderColor * 0.8f);
 
             // Left
             spriteBatch.DrawOnCtrl(ctrl, Textures.Pixel, new Rectangle(_selectorBounds.Left, _selectorBounds.Top, width, _selectorBounds.Height), Rectangle.Empty, borderColor * 0.8f);
@@ -66,7 +68,7 @@ namespace Kenedia.Modules.Core.Extensions
             spriteBatch.DrawOnCtrl(ctrl, Textures.Pixel, new Rectangle(_selectorBounds.Left + border.Left, _selectorBounds.Top, _selectorBounds.Width - border.Horizontal, border.Top), Rectangle.Empty, borderColor * 0.8f);
 
             // Bottom
-            spriteBatch.DrawOnCtrl(ctrl, Textures.Pixel, new Rectangle(_selectorBounds.Left  + border.Left, _selectorBounds.Bottom - border.Bottom, _selectorBounds.Width - border.Horizontal, border.Bottom), Rectangle.Empty, borderColor * 0.8f);
+            spriteBatch.DrawOnCtrl(ctrl, Textures.Pixel, new Rectangle(_selectorBounds.Left + border.Left, _selectorBounds.Bottom - border.Bottom, _selectorBounds.Width - border.Horizontal, border.Bottom), Rectangle.Empty, borderColor * 0.8f);
 
             // Left
             spriteBatch.DrawOnCtrl(ctrl, Textures.Pixel, new Rectangle(_selectorBounds.Left, _selectorBounds.Top, border.Left, _selectorBounds.Height), Rectangle.Empty, borderColor * 0.8f);
@@ -75,5 +77,29 @@ namespace Kenedia.Modules.Core.Extensions
             spriteBatch.DrawOnCtrl(ctrl, Textures.Pixel, new Rectangle(_selectorBounds.Right - border.Right, _selectorBounds.Top, border.Right, _selectorBounds.Height), Rectangle.Empty, borderColor * 0.8f);
         }
 
+        public static void DrawHalfCircleOnCtrl(this SpriteBatch spriteBatch, Control ctrl, Rectangle destinationRectangle, float radius, int sides, Color color, float thickness = 1f, float layerDepth = 0.0f)
+        {
+            var tDest = destinationRectangle.ToBounds(ctrl.AbsoluteBounds);
+            spriteBatch.DrawPolygon(new Vector2(tDest.X, tDest.Y), CreateHalfCircle((double)radius, sides), color, thickness, layerDepth);
+        }
+
+        // Adapted from the CreateCircle function in MonoGame.Extended.ShapeExtensions 
+        private static Vector2[] CreateHalfCircle(double radius, int sides, float rotation = 0)
+        {
+            var halfCircle = new Vector2[sides + 1];
+            double angleStep = Math.PI / sides;
+            double currentAngle = MathHelper.ToRadians(rotation);
+
+            for (int i = 0; i <= sides; i++)
+            {
+                halfCircle[i] = new Vector2(
+                    (float)(radius * Math.Cos(currentAngle)),
+                    (float)(radius * Math.Sin(currentAngle))
+                );
+                currentAngle += angleStep;
+            }
+
+            return halfCircle;
+        }
     }
 }
