@@ -458,16 +458,17 @@ namespace Kenedia.Modules.Characters.Views
                 return matchAll && results.Count(e => e == true) >= strings.Count;
             }
 
-            foreach ((CharacterCard ctrl, bool toggleResult, bool stringsResult, bool tagsResult, bool betaResult) in from CharacterCard ctrl in CharactersPanel.Children
+            foreach ((CharacterCard ctrl, bool toggleResult, bool stringsResult, bool tagsResult, bool showResult, bool betaResult) in from CharacterCard ctrl in CharactersPanel.Children
                                                                                                      let c = ctrl.Character
                                                                                                      where c is not null
                                                                                                      let toggleResult = toggleFilters.Count == 0 || (include == FilterResult(c))
                                                                                                      let stringsResult = stringFilters.Count == 0 || (include == StringFilterResult(c))
                                                                                                      let tagsResult = tagFilters.Count == 0 || (include == TagResult(c))
+                                                                                                     let showResult = toggleFilters.Where(e => e.Value.IsEnabled).Select(e => e.Key).Contains("Hidden") || c.Show
                                                                                                      let betaResult = (_data.StaticInfo.IsBeta && c.Beta) || toggleFilters.Where(e => e.Value.IsEnabled).Select(e => e.Key).Contains("Hidden") || !c.Beta
-                                                                                                     select (ctrl, toggleResult, stringsResult, tagsResult, betaResult))
+                                                                                                     select (ctrl, toggleResult, stringsResult, tagsResult, showResult, betaResult))
             {
-                ctrl.Visible = toggleResult && stringsResult && tagsResult && betaResult;
+                ctrl.Visible = toggleResult && stringsResult && tagsResult && showResult && betaResult;
             }
 
             SortCharacters();
