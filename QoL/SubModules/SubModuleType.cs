@@ -12,5 +12,6 @@
         WikiSearch,
         CopyItemName,
         SchemanticProcessing,
+        AutoSniff,
     }
 }

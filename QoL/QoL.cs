@@ -6,9 +6,11 @@ using Blish_HUD.Modules;
 using Blish_HUD.Settings;
 using Kenedia.Modules.Core.Controls;
 using Kenedia.Modules.Core.Models;
+using Kenedia.Modules.Core.Services;
 using Kenedia.Modules.QoL.Controls;
 using Kenedia.Modules.QoL.Services;
 using Kenedia.Modules.QoL.SubModules;
+using Kenedia.Modules.QoL.SubModules.AutoSniff;
 using Kenedia.Modules.QoL.SubModules.CopyItemName;
 using Kenedia.Modules.QoL.SubModules.GameResets;
 using Kenedia.Modules.QoL.SubModules.ItemDestruction;
@@ -18,6 +20,7 @@ using Kenedia.Modules.QoL.SubModules.WaypointPaste;
 using Kenedia.Modules.QoL.SubModules.WikiSearch;
 using Kenedia.Modules.QoL.SubModules.ZoomOut;
 using Kenedia.Modules.QoL.Views;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -40,6 +43,8 @@ namespace Kenedia.Modules.QoL
         }
 
         public ModuleHotbar Hotbar { get; set; }
+
+        public ClientWindowService ClientWindowService { get; } = new();
 
         public Dictionary<SubModuleType, SubModule> SubModules { get; } = new();
 
@@ -75,6 +80,23 @@ namespace Kenedia.Modules.QoL
             Logger.Info($"Starting {Name} v." + Version.BaseVersion());
 
             LoadSubModules();
+        }
+
+        protected override ServiceCollection DefineServices(ServiceCollection services)
+        {
+            var serviceCollection =  base.DefineServices(services);
+
+            services.AddSingleton<GameResets>();
+            services.AddSingleton<ZoomOut>();
+            services.AddSingleton<SkipCutscenes>();
+            services.AddSingleton<ItemDestruction>();
+            services.AddSingleton<WikiSearch>();
+            services.AddSingleton<WaypointPaste>();
+            services.AddSingleton<CopyItemName>();
+            services.AddSingleton<SchemanticProcessing>();
+            services.AddSingleton<AutoSniff>();
+
+            return serviceCollection;
         }
 
         protected override async Task LoadAsync()
@@ -181,14 +203,16 @@ namespace Kenedia.Modules.QoL
 
         private void LoadSubModules()
         {
-            SubModules.Add(SubModuleType.GameResets, new GameResets(SettingCollection));
-            SubModules.Add(SubModuleType.ZoomOut, new ZoomOut(SettingCollection));
-            SubModules.Add(SubModuleType.SkipCutscenes, new SkipCutscenes(SettingCollection, CoreServices.GameStateDetectionService));
-            SubModules.Add(SubModuleType.ItemDestruction, new ItemDestruction(SettingCollection));
-            SubModules.Add(SubModuleType.WikiSearch, new WikiSearch(SettingCollection));
-            SubModules.Add(SubModuleType.WaypointPaste, new WaypointPaste(SettingCollection));
-            SubModules.Add(SubModuleType.CopyItemName, new CopyItemName(SettingCollection));
-            //SubModules.Add(SubModuleType.SchemanticProcessing, new SchemanticProcessing(SettingCollection));
+
+            SubModules.Add(SubModuleType.GameResets, ServiceProvider.GetRequiredService<GameResets>());
+            SubModules.Add(SubModuleType.ZoomOut, ServiceProvider.GetRequiredService<ZoomOut>());
+            SubModules.Add(SubModuleType.SkipCutscenes, ServiceProvider.GetRequiredService<SkipCutscenes>());
+            SubModules.Add(SubModuleType.ItemDestruction, ServiceProvider.GetRequiredService<ItemDestruction>());
+            SubModules.Add(SubModuleType.WikiSearch, ServiceProvider.GetRequiredService<WikiSearch>());
+            SubModules.Add(SubModuleType.WaypointPaste, ServiceProvider.GetRequiredService<WaypointPaste>());
+            SubModules.Add(SubModuleType.CopyItemName, ServiceProvider.GetRequiredService<CopyItemName>());
+            SubModules.Add(SubModuleType.SchemanticProcessing, ServiceProvider.GetRequiredService<SchemanticProcessing>());
+            SubModules.Add(SubModuleType.AutoSniff, ServiceProvider.GetRequiredService<AutoSniff>());
 
             foreach (var module in SubModules.Values)
             {

@@ -4,11 +4,14 @@ using System.Linq;
 using Bitmap = System.Drawing.Bitmap;
 using Point = System.Drawing.Point;
 using Color = System.Drawing.Color;
+using System.Drawing;
 
 namespace Kenedia.Modules.Core.Extensions
 {
     public static class BitMapExtension
     {
+        public static Rectangle SinglePixelRectangle { get; } = new Rectangle(0, 0, 1, 1);
+
         public static Bitmap ToBlackWhite(this Bitmap b, float colorThreshold = 0.5f)
         {
             var black = Color.FromArgb(255, 0, 0, 0);
@@ -258,6 +261,20 @@ namespace Kenedia.Modules.Core.Extensions
             }
 
             return (b, filled / total >= threshold, filled / total);
+        }
+
+        public static Color GetAverageColor(this Bitmap bitmap)
+        {
+            //Get all pixel colors in the bitmap and get the average color
+            var bmp = new Bitmap(1, 1);
+
+            using (var g = Graphics.FromImage(bmp))
+            {
+                g.DrawImage(bitmap, SinglePixelRectangle);
+            }
+
+            var color = bmp.GetPixel(0, 0);
+            return color;
         }
     }
 }

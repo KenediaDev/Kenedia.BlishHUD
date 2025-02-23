@@ -1,12 +1,24 @@
 ﻿using Blish_HUD;
 using Blish_HUD.Controls;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace Kenedia.Modules.Core.Extensions
 {
     public static class ControlExtensions
     {
-        static bool IsParentSetAndVisible(this Control ctrl)
+        public static bool SetTexture(this Image image, Texture2D texture2D)
+        {
+            if (image is not null)
+            {
+                image.Texture = texture2D;
+                return true;
+            }
+
+            return false;
+        }
+
+        public static bool IsParentSetAndVisible(this Control ctrl)
         {
             return ctrl?.Parent?.Visible is true
                 && (ctrl.Parent == GameService.Graphics.SpriteScreen || IsParentSetAndVisible(ctrl.Parent));

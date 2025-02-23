@@ -24,7 +24,7 @@ namespace Kenedia.Modules.QoL.SubModules
         private Func<string> _localizedDescription;
 
         protected SettingCollection Settings;
-        protected SubModuleUI UI_Elements = new();
+        protected SubModuleUI UI_Elements = [];
 
         public SubModule(SettingCollection settings)
         {
