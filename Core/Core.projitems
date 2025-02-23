@@ -151,6 +151,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Views\BaseSettingsWindow.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Views\BaseTab.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Views\BaseTabbedWindow.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Views\BaseView.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Views\SharedSettingsView.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Views\StandardWindow.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Views\TabbedWindow.cs" />

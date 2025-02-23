@@ -13,6 +13,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Diagnostics;
+using System.IdentityModel;
 using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
@@ -24,12 +25,14 @@ namespace Kenedia.Modules.FashionManager
     {
         private double _tick;
         private CancellationTokenSource _fileAccessTokenSource;
-        private readonly List<FashionTemplate> _fashionTemplates = new();
+        private readonly List<FashionTemplate> _fashionTemplates = [];
 
         [ImportingConstructor]
         public FashionManager([Import("ModuleParameters")] ModuleParameters moduleParameters) : base(moduleParameters)
         {
-
+            HasGUI = true;
+            AutoLoadGUI = true;
+            
         }
 
         public static FashionTemplate FashionTemplate { get; private set; } = new();
@@ -38,8 +41,11 @@ namespace Kenedia.Modules.FashionManager
 
         protected override ServiceCollection DefineServices(ServiceCollection services)
         {
+            services.AddSingleton<Module>(this);
             services.AddSingleton<FashionTemplateFactory>();
             services.AddSingleton<Data>();
+
+            services.AddScoped<MainWindow>();
 
             return base.DefineServices(services);
         }
@@ -54,25 +60,14 @@ namespace Kenedia.Modules.FashionManager
         {
             base.Initialize();
 
-            HasGUI = false;
             Logger.Info($"Starting {Name} v." + Version.BaseVersion());
         }
 
         protected override async void ReloadKey_Activated(object sender, EventArgs e)
         {
             Logger.Debug($"ReloadKey_Activated: {Name}");
-            //base.ReloadKey_Activated(sender, e);
-
-            //FashionTemplate.Name ??= "Test";
-
-            //FashionTemplate.Name = "My Template";
-
-            //LoadTemplates();
-
-            //Debug.WriteLine($"{FashionChatCode.ParseChatCode(new())}");
-
-            var data = ServiceProvider.GetRequiredService<Data>();
-            await data.LoadDataFromGw2ApiAsync();
+            base.ReloadKey_Activated(sender, e);
+            await Task.CompletedTask;
         }
 
         protected override async Task LoadAsync()
@@ -152,6 +147,12 @@ namespace Kenedia.Modules.FashionManager
         protected override void LoadGUI()
         {
             base.LoadGUI();
+
+            Logger.Info($"Building UI for {Name}");
+            var scope = ServiceProvider.CreateScope();
+            MainWindow = scope.ServiceProvider.GetRequiredService<MainWindow>();
+
+            MainWindow.Show();
         }
 
         protected override void UnloadGUI()

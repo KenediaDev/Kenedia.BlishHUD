@@ -122,6 +122,11 @@ namespace Kenedia.Modules.Core.Views
 
         public override void PaintAfterChildren(SpriteBatch spriteBatch, Rectangle bounds)
         {
+            if(spriteBatch is null) return;
+
+            if (SelectedTab is null) return;
+            if (WindowBackground is null) return;
+
             base.PaintAfterChildren(spriteBatch, bounds);
 
             if (MainWindowEmblem is not null)
