@@ -297,6 +297,9 @@
     <Compile Include="Models\TagList.cs" />
     <Compile Include="OCR\OCR.cs" />
     <Compile Include="Models\SearchFilterCollection.cs" />
+    <Compile Include="Services\CharactersApiService.cs" />
+    <Compile Include="Services\CharactersContext.cs" />
+    <Compile Include="Services\ContextManager.cs" />
     <Compile Include="Views\OCRView.cs" />
     <Compile Include="OCR\OCR_TrainDisplay.cs" />
     <Compile Include="Res\strings.Designer.cs">

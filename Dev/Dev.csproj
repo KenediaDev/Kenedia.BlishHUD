@@ -345,7 +345,12 @@
     <Folder Include="Res\" />
     <Folder Include="Views\" />
   </ItemGroup>
-  <Import Project="..\Core\Core.projitems" Label="Shared" />
+  <ItemGroup>
+    <ProjectReference Include="..\Characters\Characters.csproj">
+      <Project>{f4f19db2-f367-435c-afb6-1f363827c134}</Project>
+      <Name>Characters</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\MonoGame.Framework.WindowsDX.3.8.0.1641\build\MonoGame.Framework.WindowsDX.targets" Condition="Exists('..\packages\MonoGame.Framework.WindowsDX.3.8.0.1641\build\MonoGame.Framework.WindowsDX.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

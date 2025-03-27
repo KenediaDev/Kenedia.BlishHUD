@@ -11,6 +11,7 @@
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)Attributes\JsonSemverVersionAttribute.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Attributes\EnumeratorMemberAttribute.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Contexts\BaseContext.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ContractResolver\SemverVersionContractResolver.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controls\AnchoredContainer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controls\BaseDialog.cs" />
@@ -97,6 +98,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\StringListExtension.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\Texture2DExtension.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\WaitHandleExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Helpers\AsyncHelper.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Interfaces\ICheckable.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Interfaces\IFontControl.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Interfaces\ILocalizable.cs" />

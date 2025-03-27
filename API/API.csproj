@@ -1,0 +1,10 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.1</TargetFramework>
+    <Nullable>enable</Nullable>
+    <RootNamespace>Kenedia.BlishHUD.$(MSBuildProjectName.Replace(" ", "_"))</RootNamespace>
+    <AssemblyName>Kenedia.BlishHUD.$(MSBuildProjectName)</AssemblyName>
+  </PropertyGroup>
+
+</Project>

@@ -4,7 +4,9 @@ using Blish_HUD.Modules;
 using Blish_HUD.Modules.Managers;
 using Blish_HUD.Settings;
 using Gw2Sharp.WebApi.V2.Models;
+using Kenedia.Modules.Characters.Services;
 using Kenedia.Modules.Core.Controls;
+using Kenedia.Modules.Core.Helpers;
 using Kenedia.Modules.Core.Models;
 using Kenedia.Modules.Core.Views;
 using Microsoft.Xna.Framework;
@@ -50,8 +52,20 @@ namespace Kenedia.Modules.Dev
         {
             Logger.Debug($"ReloadKey_Activated: {Name}");
 
-            base.ReloadKey_Activated(sender, e);
+            //base.ReloadKey_Activated(sender, e);
 
+            var context = GameService.Contexts.GetContext<CharactersContext>();
+
+            if (context is not null)
+            {
+                Logger.Debug($"CONTEXT FOUND! REQUEST SWITCH!");
+                await context.SwitchCharacter("Test");
+                Logger.Debug($"SWITCH SEEMS TO BE COMPLETED?");
+            }
+            else
+            {
+                Logger.Debug($"CONTEXT NOT FOUND!");
+            }
         }
 
         private async Task TestAPI()

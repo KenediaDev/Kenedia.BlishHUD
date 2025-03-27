@@ -42,6 +42,7 @@ using System.Collections.Specialized;
 using System.Threading;
 using NotificationBadge = Kenedia.Modules.Core.Controls.NotificationBadge;
 using AnchoredContainer = Kenedia.Modules.Core.Controls.AnchoredContainer;
+using Microsoft.Extensions.DependencyInjection;
 
 //TODO Fetch API Data on Version change, eventually use static hosting
 // TODO if character name is in multiple accounts -> don't load
@@ -94,6 +95,7 @@ namespace Kenedia.Modules.Characters
 
         private Character_Model _currentCharacterModel;
         private CancellationTokenSource _characterFileTokenSource;
+        private CharactersApiService CharactersApiService;
 
         public Character_Model CurrentCharacterModel
         {
@@ -133,6 +135,18 @@ namespace Kenedia.Modules.Characters
         public string AccountImagesPath => $@"{Paths.AccountPath}images\";
 
         public GW2API_Handler GW2APIHandler { get; private set; }
+
+        protected override ServiceCollection DefineServices(ServiceCollection services)
+        {
+            services.AddSingleton<CharactersApiService>();
+            services.AddSingleton<ContextManager>();
+            services.AddSingleton<CharactersContext>();
+            services.AddSingleton<CharacterSwapping>();
+            services.AddSingleton<CharacterSorting>();
+            services.AddSingleton(CharacterModels);
+
+            return base.DefineServices(services);
+        }
 
         public override IView GetSettingsView()
         {
@@ -212,8 +226,13 @@ namespace Kenedia.Modules.Characters
         {
             await base.LoadAsync();
 
-            CharacterSwapping = new(Settings, CoreServices.GameStateDetectionService, CharacterModels);
-            CharacterSorting = new(Settings, CoreServices.GameStateDetectionService, CharacterModels);
+            GameService.Contexts.RegisterContext(ServiceProvider.GetRequiredService<CharactersContext>());
+
+            CharactersApiService = new CharactersApiService();
+            CharactersApiService.Start();
+
+            CharacterSwapping = ServiceProvider.GetRequiredService<CharacterSwapping>();
+            CharacterSorting = ServiceProvider.GetRequiredService<CharacterSorting>();
 
             CharacterSwapping.CharacterSorting = CharacterSorting;
             CharacterSorting.CharacterSwapping = CharacterSwapping;
@@ -496,11 +515,12 @@ namespace Kenedia.Modules.Characters
         {
             Logger.Debug($"ReloadKey_Activated: {Name}");
 
-            base.ReloadKey_Activated(sender, e);
-            CreateCornerIcons();
-            GameService.Graphics.SpriteScreen.Visible = true;
-            MainWindow?.ToggleWindow();
-            SettingsWindow?.ToggleWindow();
+            //base.ReloadKey_Activated(sender, e);
+            //CreateCornerIcons();
+            //GameService.Graphics.SpriteScreen.Visible = true;
+            //MainWindow?.ToggleWindow();
+            //SettingsWindow?.ToggleWindow();
+
         }
 
         private void OnCharacterCollectionChanged(object sender, EventArgs e)
