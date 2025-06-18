@@ -41,5 +41,10 @@ namespace Kenedia.Modules.Core.Structs
 
         [JsonIgnore]
         public int Horizontal => Left + Right;
+
+        public override string ToString()
+        {
+            return $"Left: {Left}, Top: {Top}, Right: {Right}, Bottom: {Bottom}, Vertical: {Vertical}, Horizontal: {Horizontal}";
+        }
     }
 }

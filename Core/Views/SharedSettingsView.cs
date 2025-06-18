@@ -13,6 +13,8 @@ using Color = Microsoft.Xna.Framework.Color;
 using FlowPanel = Kenedia.Modules.Core.Controls.FlowPanel;
 using Label = Kenedia.Modules.Core.Controls.Label;
 using Image = Kenedia.Modules.Core.Controls.Image;
+using System;
+using System.Diagnostics;
 
 namespace Kenedia.Modules.Core.Views
 {
@@ -37,6 +39,18 @@ namespace Kenedia.Modules.Core.Views
             Icon = AsyncTexture2D.FromAssetId(156736);
             Name = strings_common.GeneralSettings;
             Priority = 0;
+
+            SharedSettings.PropertyChanged += SharedSettings_PropertyChanged;
+        }
+
+        private void SharedSettings_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            switch (e.PropertyName)
+            {
+                case nameof(SharedSettings.WindowOffset):
+                    ApplyOffsets();
+                    break;
+            }
         }
 
         public SharedSettings SharedSettings { get; }
@@ -117,7 +131,7 @@ namespace Kenedia.Modules.Core.Views
                 MaxValue = 50,
                 Value = SharedSettings.WindowOffset.Top,
                 SetLocalizedTooltip = () => strings_common.TopOffset,
-                ValueChangedAction = (num) => UpdateOffset(),
+                ValueChangedAction = (num) => SetWindowOffset(),
             };
 
             pp = new FlowPanel()
@@ -142,7 +156,7 @@ namespace Kenedia.Modules.Core.Views
                 MaxValue = 50,
                 Value = SharedSettings.WindowOffset.Left,
                 SetLocalizedTooltip = () => strings_common.LeftOffset,
-                ValueChangedAction = (num) => UpdateOffset(),
+                ValueChangedAction = (num) => SetWindowOffset(),
             };
 
             pp = new FlowPanel()
@@ -167,7 +181,7 @@ namespace Kenedia.Modules.Core.Views
                 MaxValue = 50,
                 Value = SharedSettings.WindowOffset.Bottom,
                 SetLocalizedTooltip = () => strings_common.BottomOffset,
-                ValueChangedAction = (num) => UpdateOffset(),
+                ValueChangedAction = (num) => SetWindowOffset(),
             };
 
             pp = new FlowPanel()
@@ -192,7 +206,7 @@ namespace Kenedia.Modules.Core.Views
                 MaxValue = 50,
                 Value = SharedSettings.WindowOffset.Right,
                 SetLocalizedTooltip = () => strings_common.RightOffset,
-                ValueChangedAction = (num) => UpdateOffset(),
+                ValueChangedAction = (num) => SetWindowOffset(),
             };
 
             var subCP = new FlowPanel()
@@ -277,16 +291,35 @@ namespace Kenedia.Modules.Core.Views
                 Size = new(100, _rightOffsetBox.Height * 2),
                 SetLocalizedTooltip = () => strings_common.BottomRightCorner,
             };
-
             #endregion
         }
 
-        public void UpdateOffset()
+        private void ApplyOffsets()
+        {         
+            if (_leftOffsetBox is not null)
+            {
+                _leftOffsetBox.Value = SharedSettings.WindowOffset.Left;
+                _topOffsetBox.Value = SharedSettings.WindowOffset.Top;
+                _rightOffsetBox.Value = SharedSettings.WindowOffset.Right;
+                _bottomOffsetBox.Value = SharedSettings.WindowOffset.Bottom;
+
+                SetWindowOffsetImages();
+            }
+        }
+
+        public void SetWindowOffset()
         {
             if (_leftOffsetBox is not null)
             {
                 SharedSettings.WindowOffset = new(_leftOffsetBox.Value, _topOffsetBox.Value, _rightOffsetBox.Value, _bottomOffsetBox.Value);
+                SetWindowOffsetImages();
+            }
+        }
 
+        public void SetWindowOffsetImages()
+        {
+            if (_leftOffsetBox is not null)
+            {
                 SetTopLeftImage();
                 SetTopRightImage();
 

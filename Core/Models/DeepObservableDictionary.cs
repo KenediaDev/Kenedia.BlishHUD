@@ -12,11 +12,14 @@ namespace Kenedia.Modules.Core.Models
 
     public class ValueChangedEventArgs<TValue> : EventArgs
     {
-        public ValueChangedEventArgs(TValue? oldValue, TValue? newValue)
+        public ValueChangedEventArgs(TValue? oldValue, TValue? newValue, string? propertyName = null)
         {
+            PropertyName = propertyName ?? string.Empty;
             OldValue = oldValue;
             NewValue = newValue;
         }
+
+        public string PropertyName { get; set; } = string.Empty;
 
         public TValue? OldValue { get; set; }
 

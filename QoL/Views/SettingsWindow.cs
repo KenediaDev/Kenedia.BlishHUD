@@ -163,7 +163,7 @@ namespace Kenedia.Modules.QoL.Views
 
                 if (GameService.GameIntegration.Gw2Instance.Gw2HasFocus)
                 {
-                    _sharedSettingsView?.UpdateOffset();
+                    _sharedSettingsView?.SetWindowOffsetImages();
                 }
             }
         }
