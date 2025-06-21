@@ -93,8 +93,8 @@ namespace Kenedia.Modules.QoL
             services.AddSingleton<WikiSearch>();
             services.AddSingleton<WaypointPaste>();
             services.AddSingleton<CopyItemName>();
-            services.AddSingleton<SchemanticProcessing>();
-            services.AddSingleton<AutoSniff>();
+            //services.AddSingleton<SchemanticProcessing>();
+            //services.AddSingleton<AutoSniff>();
 
             return serviceCollection;
         }
@@ -211,8 +211,8 @@ namespace Kenedia.Modules.QoL
             SubModules.Add(SubModuleType.WikiSearch, ServiceProvider.GetRequiredService<WikiSearch>());
             SubModules.Add(SubModuleType.WaypointPaste, ServiceProvider.GetRequiredService<WaypointPaste>());
             SubModules.Add(SubModuleType.CopyItemName, ServiceProvider.GetRequiredService<CopyItemName>());
-            SubModules.Add(SubModuleType.SchemanticProcessing, ServiceProvider.GetRequiredService<SchemanticProcessing>());
-            SubModules.Add(SubModuleType.AutoSniff, ServiceProvider.GetRequiredService<AutoSniff>());
+            //SubModules.Add(SubModuleType.SchemanticProcessing, ServiceProvider.GetRequiredService<SchemanticProcessing>());
+            //SubModules.Add(SubModuleType.AutoSniff, ServiceProvider.GetRequiredService<AutoSniff>());
 
             foreach (var module in SubModules.Values)
             {
