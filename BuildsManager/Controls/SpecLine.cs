@@ -15,6 +15,7 @@ using Kenedia.Modules.Core.Utility;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MonoGame.Extended;
+using SharpDX.MediaFoundation;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -27,6 +28,9 @@ namespace Kenedia.Modules.BuildsManager.Controls
 {
     public class SpecLine : Control
     {
+        public static int Specializations = 0;
+        public static int EliteSpecializations = 0;
+
         private readonly double _ratio = 647 / (double)135;
         private readonly DetailedTexture _baseFrame = new(993595)
         {
@@ -98,6 +102,7 @@ namespace Kenedia.Modules.BuildsManager.Controls
         {
             TemplatePresenter = templatePresenter;
             Data = data;
+            Data.Loaded += Data_Loaded;
 
             Tooltip = _traitTooltip = new TraitTooltip();
             _basicTooltip = new()
@@ -115,23 +120,52 @@ namespace Kenedia.Modules.BuildsManager.Controls
             Height = 165;
 
             BackgroundColor = new Color(48, 48, 48);
+            if (Data.IsLoaded)
+            {
+                Data_Loaded(this, EventArgs.Empty);
+            }
+
             Input.Mouse.LeftMouseButtonPressed += MouseMouseButtonPressed;
             Input.Mouse.RightMouseButtonPressed += MouseMouseButtonPressed;
-
-            int size = Scale(72);
-            int offset = 40;
-
-            for (int i = 0; i < (SpecializationSlot == SpecializationSlotType.Line_3 ? 8 : 5); i++)
-            {
-                _specBounds.Add(new(null, new(offset, (Height - size) / 2, size, size), null));
-                offset += size + Scale(10);
-            }
 
             TemplatePresenter.SpecializationChanged += OnSpecializationChanged;
             TemplatePresenter.TemplateChanged += TemplatePresenter_TemplateChanged;
             TemplatePresenter.TraitChanged += TemplatePresenter_TraitChanged;
 
-            SetSpecialization();
+            for (int i = 0; i < 20; i++)
+            {
+                _specBounds.Add(new(null, new(0, 0, 0, 0), null));
+            }
+        }
+
+        private void Data_Loaded(object sender, EventArgs e)
+        {
+            _specBounds.Clear();
+            EliteSpecializations = EliteSpecializations > 0 ? EliteSpecializations : Data.Professions[ProfessionType.Guardian].Specializations.Count(e => e.Value.Elite);
+            Specializations = Specializations > 0 ? Specializations : Data.Professions[ProfessionType.Guardian].Specializations.Count - EliteSpecializations;
+
+            int size = Scale(60);
+            int offset = 40;
+
+            int common_row_y = SpecializationSlot == SpecializationSlotType.Line_3 ? (Height - ((size * 2))) / 2 : (Height - size) / 2;
+            int elite_row_y = ((Height - ((size * 2))) / 2) + size;
+
+            for (int i = 0; i < Specializations; i++)
+            {
+                _specBounds.Add(new(null, new(offset, common_row_y, size, size), null));
+                offset += size + Scale(10);
+            }
+
+            if (SpecializationSlot == SpecializationSlotType.Line_3)
+            {
+                offset = 40 + (size / 2);
+
+                for (int i = 0; i < EliteSpecializations; i++)
+                {
+                    _specBounds.Add(new(null, new(offset, elite_row_y, size, size), null));
+                    offset += size + Scale(10);
+                }
+            }
         }
 
         private void TemplatePresenter_TraitChanged(object sender, TraitChangedEventArgs e)

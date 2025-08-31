@@ -11,13 +11,16 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selectables
     public class PetSelector : Selector<Pet>
     {
         private readonly DetailedTexture _selectingFrame = new(157147);
-        private readonly DetailedTexture _selectedPet = new() { TextureRegion = new(16, 16, 200, 200) };
+        private readonly DetailedTexture _selectedPet = new(156794) { TextureRegion = new(16, 16, 200, 200) };
+        private readonly DetailedTexture _highlight = new(156844) { TextureRegion = new(16, 16, 200, 200) };
 
         public PetSelector()
         {
             ContentPanel.BorderWidth = new(2, 0, 2, 2);
             SelectableSize = new(64);
-            SelectablePerRow = 6;
+            SelectablePerRow = 9;
+            FlowPanel.ContentPadding = new(20, 0);
+            FlowPanel.ControlPadding = new(10);
         }
 
         public override void PaintBeforeChildren(SpriteBatch spriteBatch, Rectangle bounds)
@@ -35,6 +38,10 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selectables
             spriteBatch.DrawCenteredRotationOnCtrl(this, _selectingFrame.Texture, _selectingFrame.Bounds, _selectingFrame.TextureRegion, Color.White, 0.0F, true, true);
 
             _selectedPet.Draw(this, spriteBatch, null, Color.White);
+
+            if (_highlight.Bounds.Contains((Point)RelativeMousePosition))
+                _highlight.Draw(this, spriteBatch);
+
             //spriteBatch.DrawFrame(this, _blockInputRegion, Color.Red, 2);
         }
 
@@ -68,6 +75,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selectables
                 pad = 16;
                 var pos = BlockInputRegion.Center;
                 _selectedPet.Bounds = new(pos.X - 64, pos.Y - 60 - pad, 120, 120);
+                _highlight.Bounds = new(pos.X - 64, pos.Y - 60 - pad, 120, 120);
             }
 
             if (false && FlowPanel is not null)

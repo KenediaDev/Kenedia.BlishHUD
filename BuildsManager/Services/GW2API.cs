@@ -212,6 +212,7 @@ namespace Kenedia.Modules.BuildsManager.Services
                         try
                         {
                             items = await Gw2ApiManager.Gw2ApiClient.V2.Items.ManyAsync(ids, _cancellationTokenSource.Token);
+                            if (_cancellationTokenSource.IsCancellationRequested) return;
 
                             foreach (var item in items)
                             {
@@ -326,12 +327,23 @@ namespace Kenedia.Modules.BuildsManager.Services
                     }
                 }
 
-                var ring = (ItemTrinket)await Gw2ApiManager.Gw2ApiClient.V2.Items.GetAsync(91234, _cancellationTokenSource.Token);
-                var legyWeapon = (ItemWeapon)await Gw2ApiManager.Gw2ApiClient.V2.Items.GetAsync(30698, _cancellationTokenSource.Token);
-                var statIds = ring.Details.StatChoices.Concat(legyWeapon.Details.StatChoices);
+                if (_cancellationTokenSource.IsCancellationRequested)
+                    return;
 
+                var ring = (ItemTrinket)await Gw2ApiManager.Gw2ApiClient.V2.Items.GetAsync(91234, _cancellationTokenSource.Token);
+
+                if (_cancellationTokenSource.IsCancellationRequested)
+                    return;
+
+                var legyWeapon = (ItemWeapon)await Gw2ApiManager.Gw2ApiClient.V2.Items.GetAsync(30698, _cancellationTokenSource.Token);
+
+                if (_cancellationTokenSource.IsCancellationRequested)
+                    return;
+
+                var statIds = ring.Details.StatChoices.Concat(legyWeapon.Details.StatChoices);
                 var apiStats = await Gw2ApiManager.Gw2ApiClient.V2.Itemstats.AllAsync(_cancellationTokenSource.Token);
-                if (_cancellationTokenSource.IsCancellationRequested) return;
+                if (_cancellationTokenSource.IsCancellationRequested)
+                    return;
 
                 foreach (var e in apiStats)
                 {
@@ -347,7 +359,8 @@ namespace Kenedia.Modules.BuildsManager.Services
                 }
 
                 var apiAmulets = await Gw2ApiManager.Gw2ApiClient.V2.Pvp.Amulets.AllAsync(_cancellationTokenSource.Token);
-                if (_cancellationTokenSource.IsCancellationRequested) return;
+                if (_cancellationTokenSource.IsCancellationRequested)
+                    return;
 
                 foreach (var e in apiAmulets)
                 {

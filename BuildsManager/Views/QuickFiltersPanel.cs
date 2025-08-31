@@ -1,26 +1,28 @@
-﻿using Blish_HUD.Content;
-using Microsoft.Xna.Framework;
-using Kenedia.Modules.BuildsManager.Models;
-using Kenedia.Modules.BuildsManager.Services;
-using Kenedia.Modules.Core.Controls;
-using System.ComponentModel;
-using System.Collections.Generic;
-using System.Linq;
-using Kenedia.Modules.BuildsManager.Utility;
-using Kenedia.Modules.BuildsManager.Res;
-using Kenedia.Modules.Core.Models;
-using Microsoft.Xna.Framework.Graphics;
-using Blish_HUD;
-using Kenedia.Modules.Core.Extensions;
-using SharpDX.Direct3D9;
-using System;
-using Kenedia.Modules.BuildsManager.Controls.Selection;
-using Kenedia.Modules.Core.Services;
+﻿using Blish_HUD;
+using Blish_HUD.Content;
+using Gw2Sharp.Models;
 using Gw2Sharp.WebApi;
 using Kenedia.Modules.BuildsManager.Controls;
-using System.Diagnostics;
+using Kenedia.Modules.BuildsManager.Controls.Selection;
+using Kenedia.Modules.BuildsManager.Models;
+using Kenedia.Modules.BuildsManager.Models.Templates;
+using Kenedia.Modules.BuildsManager.Res;
+using Kenedia.Modules.BuildsManager.Services;
+using Kenedia.Modules.BuildsManager.Utility;
+using Kenedia.Modules.Core.Controls;
+using Kenedia.Modules.Core.Extensions;
+using Kenedia.Modules.Core.Models;
+using Kenedia.Modules.Core.Services;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using SharpDX.Direct3D9;
+using System;
+using System.Collections.Generic;
 using System.Collections.Specialized;
+using System.ComponentModel;
+using System.Diagnostics;
 using System.IO;
+using System.Linq;
 
 namespace Kenedia.Modules.BuildsManager.Views
 {
@@ -125,6 +127,11 @@ namespace Kenedia.Modules.BuildsManager.Views
             {
                 CreateSpecToggles();
             }
+        }
+
+        protected override void OnShown(EventArgs e)
+        {
+            base.OnShown(e);
         }
 
         private void Data_Loaded(object sender, EventArgs e)
@@ -313,6 +320,7 @@ namespace Kenedia.Modules.BuildsManager.Views
         public SelectionPanel SelectionPanel { get; }
 
         public Settings Settings { get; }
+
         public Data Data { get; }
 
         public override void RecalculateLayout()
@@ -450,16 +458,15 @@ namespace Kenedia.Modules.BuildsManager.Views
         {
             _tagPanel.SortChildren<TagGroupPanel>((x, y) =>
             {
-                if (x == _ungroupedPanel)
-                {
-                    return y == _specPanel ? -1 : 1;
-                }
+                // --- Handle spec panel: always comes first ---
+                if (x == _specPanel && y != _specPanel) return -1; // x before y
+                if (y == _specPanel && x != _specPanel) return 1;  // y before x
 
-                if (x == _specPanel)
-                {
-                    return y == _ungroupedPanel ? 1 : -1;
-                }
+                // --- Handle ungrouped panel: always comes last ---
+                if (x == _ungroupedPanel && y != _ungroupedPanel) return 1;  // x after y
+                if (y == _ungroupedPanel && x != _ungroupedPanel) return -1; // y after x
 
+                // --- Normal comparison for all other groups ---
                 var a = TagGroups.FirstOrDefault(group => group == x.TagGroup);
                 var b = TagGroups.FirstOrDefault(group => group == y.TagGroup);
 
@@ -553,7 +560,6 @@ namespace Kenedia.Modules.BuildsManager.Views
 
         private void CreateSpecToggles()
         {
-
             _specPanel = new(new TagGroup(strings.Specializations), _tagPanel)
             {
                 FlowDirection = Blish_HUD.Controls.ControlFlowDirection.LeftToRight,
@@ -561,16 +567,27 @@ namespace Kenedia.Modules.BuildsManager.Views
                 HeightSizingMode = Blish_HUD.Controls.SizingMode.Standard,
                 Height = _specializationHeight,
                 AutoSizePadding = new(0, 2),
-                ControlPadding = new(21, 2),
+                ControlPadding = new(15, 2),
             };
 
             TagToggle toggle;
             _specToggles.Clear();
 
+            int eliteSpecializations = Data.Professions[ProfessionType.Guardian].Specializations.Count(e => e.Value.Elite);
+            int specializations = Data.Professions[ProfessionType.Guardian].Specializations.Count - eliteSpecializations;
+
+            Width = 10 + ((eliteSpecializations + 1) * 42);
+            _resetButton.Width = Width - 13;
+
             int prio;
             foreach (var p in Data.Professions.Values)
             {
                 prio = ((int)p.Id) * 100;
+
+                if (p is null)
+                {
+                    continue;
+                }
 
                 bool isProfession(Template t)
                 {
@@ -601,6 +618,11 @@ namespace Kenedia.Modules.BuildsManager.Views
 
                 foreach (var s in p.Specializations.Values)
                 {
+                    if (p is null)
+                    {
+                        continue;
+                    }
+
                     if (s.Elite)
                     {
 

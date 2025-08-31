@@ -1,40 +1,42 @@
 ﻿using Blish_HUD;
 using Blish_HUD.Content;
 using Blish_HUD.Controls;
+using Blish_HUD.Graphics.UI;
 using Blish_HUD.Modules;
 using Blish_HUD.Settings;
 using Gw2Sharp.WebApi;
+using Kenedia.Modules.BuildsManager.Controls.Selection;
+using Kenedia.Modules.BuildsManager.Controls.Tabs;
 using Kenedia.Modules.BuildsManager.Models;
 using Kenedia.Modules.BuildsManager.Services;
 using Kenedia.Modules.BuildsManager.Utility;
 using Kenedia.Modules.BuildsManager.Views;
+using Kenedia.Modules.Core.Controls;
+using Kenedia.Modules.Core.Extensions;
 using Kenedia.Modules.Core.Models;
 using Kenedia.Modules.Core.Res;
 using Kenedia.Modules.Core.Utility;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Xna.Framework;
 using Newtonsoft.Json;
 using System;
+using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using NotificationBadge = Kenedia.Modules.Core.Controls.NotificationBadge;
+using AnchoredContainer = Kenedia.Modules.Core.Controls.AnchoredContainer;
 using CornerIcon = Kenedia.Modules.Core.Controls.CornerIcon;
 using LoadingSpinner = Kenedia.Modules.Core.Controls.LoadingSpinner;
-using AnchoredContainer = Kenedia.Modules.Core.Controls.AnchoredContainer;
+using NotificationBadge = Kenedia.Modules.Core.Controls.NotificationBadge;
 using Version = SemVer.Version;
-using Microsoft.Extensions.DependencyInjection;
-using Kenedia.Modules.Core.Controls;
-using Kenedia.Modules.BuildsManager.Controls.Tabs;
-using System.Linq;
-using Kenedia.Modules.BuildsManager.Controls.Selection;
-using Blish_HUD.Graphics.UI;
-using Kenedia.Modules.Core.Extensions;
 
 namespace Kenedia.Modules.BuildsManager
 {
     //TODO: Check Texture Disposing
+    //TODO: Check Adding new Templates without clipboard text
     [Export(typeof(Module))]
     public class BuildsManager : BaseModule<BuildsManager, MainWindow, Settings, Paths>
     {
@@ -229,6 +231,21 @@ namespace Kenedia.Modules.BuildsManager
 
             //var templateGroups = ServiceProvider.GetService<TagGroups>();
             //await templateGroups.Load();
+            List<int> _aquaticPets = [
+            1, 5, 6, 7, 9, 11, 12, 18, 19, 20, 21, 23, 24, 25, 26, 27, 40, 41, 42, 43, 45, 47, 63,
+            ];
+
+            List<int> _terrestrialPets = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 44, 45, 46, 47, 48, 51, 52, 54, 55, 57, 59, 61, 63, 64, 65, 66, 67, 68, 69, 70, 71];
+
+            string clipboard_text = "";
+            foreach (var p in Data.Pets.Values)
+            {
+                if (_terrestrialPets.Contains(p.Id))
+                {
+                    clipboard_text += $"Pets.{p.Names[Locale.English].Replace("Juvenile", "").Replace(" ", "")},\n";
+                }
+            }
+            await ClipboardUtil.WindowsClipboardService.SetTextAsync(clipboard_text);
 
             base.ReloadKey_Activated(sender, e);
         }
@@ -242,7 +259,8 @@ namespace Kenedia.Modules.BuildsManager
             MainWindow = scope.ServiceProvider.GetRequiredService<MainWindow>();
 
 #if DEBUG
-            //MainWindow.Show();
+            MainWindow.SetLocation(100, 100);
+            MainWindow.Show();
 #endif
 
             //TemplatePresenter.SetTemplate(Templates?.FirstOrDefault());
@@ -326,6 +344,7 @@ namespace Kenedia.Modules.BuildsManager
                 CaptureInput = CaptureType.Filter,
                 Anchor = CornerIcon,
                 Visible = false,
+                ClickAction = async () => _ = await Data.Load(true)
             };
 
             LoadingSpinner ??= new LoadingSpinner()
