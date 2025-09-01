@@ -1043,4 +1043,10 @@ Chemin d'accès au fichier 'tesseract.dll' : {0}</value>
   <data name="DebugMode_Tooltip" xml:space="preserve">
     <value>Activer le mode de débogage pour fournir plus d'informations à travers le journal blish</value>
   </data>
+  <data name="Radial_CenterScreen" xml:space="preserve">
+    <value>Menu central</value>
+  </data>
+  <data name="Radial_CenterScreen_Tooltip" xml:space="preserve">
+    <value>Toujours centrer le menu radial au centre de la fenêtre de jeu</value>
+  </data>
 </root>

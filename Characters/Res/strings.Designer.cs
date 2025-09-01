@@ -1900,6 +1900,24 @@ namespace Kenedia.Modules.Characters.Res {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Center Menu.
+        /// </summary>
+        internal static string Radial_CenterScreen {
+            get {
+                return ResourceManager.GetString("Radial_CenterScreen", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Always center the radial menu in the games window center.
+        /// </summary>
+        internal static string Radial_CenterScreen_Tooltip {
+            get {
+                return ResourceManager.GetString("Radial_CenterScreen_Tooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Active Section Color.
         /// </summary>
         internal static string Radial_HoveredBackgroundColor {

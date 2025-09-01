@@ -349,7 +349,8 @@ namespace Kenedia.Modules.Characters
             RadialMenu = new RadialMenu(Settings, CharacterModels, GameService.Graphics.SpriteScreen, () => CurrentCharacterModel, Data, TextureManager)
             {
                 Visible = false,
-                ZIndex = int.MaxValue / 2
+                ZIndex = int.MaxValue / 2,
+                Size = new((int)(GameService.Graphics.SpriteScreen.Width * 0.6F), (int)(GameService.Graphics.SpriteScreen.Height * 0.6F))
             };
 
             PotraitCapture = new PotraitCapture(CoreServices.ClientWindowService, CoreServices.SharedSettings, TextureManager)
@@ -479,9 +480,24 @@ namespace Kenedia.Modules.Characters
 
         private void RadialMenuToggle(object sender, EventArgs e)
         {
-            if (Settings.EnableRadialMenu.Value && RadialMenu?.HasDisplayedCharacters() == true)
+            if (Settings.EnableRadialMenu.Value && RadialMenu is not null)
             {
-                _ = (RadialMenu?.ToggleVisibility());
+                if (!RadialMenu.Visible)
+                {
+                    RadialMenu.SetDisplayedCharacters();
+                }
+
+                if (RadialMenu.HasDisplayedCharacters())
+                {
+                    var p = Settings.Radial_CenterScreen.Value ? GameService.Graphics.SpriteScreen.LocalBounds.Center : GameService.Graphics.SpriteScreen.RelativeMousePosition;
+
+                    RadialMenu.SetGraphicDevice();
+                    float size = Math.Min(GameService.Graphics.SpriteScreen.Width, GameService.Graphics.SpriteScreen.Height) * Settings.Radial_Scale.Value;
+                    RadialMenu.Size = new((int)size, (int)size);
+                    RadialMenu.SetCenter(new(p.X, p.Y));
+
+                    _ = (RadialMenu?.ToggleVisibility());
+                }
             }
         }
 

@@ -252,7 +252,13 @@ namespace Kenedia.Modules.Characters.Models
                     ? specialization.Name
                     : ProfessionName;
 
+        public AsyncTexture2D SimpleProfessionIcon => _data is not null && _data.Professions.TryGetValue(Profession, out Data.Profession profession) ? profession.Icon : null;
+
         public AsyncTexture2D ProfessionIcon => _data is not null && _data.Professions.TryGetValue(Profession, out Data.Profession profession) ? profession.IconBig : null;
+
+        public AsyncTexture2D SimpleSpecializationIcon => _data is not null && Specialization != SpecializationType.None && Enum.IsDefined(typeof(SpecializationType), Specialization) && _data.Specializations.TryGetValue(Specialization, out Data.Specialization specialization)
+                    ? specialization.Icon.Texture
+                    : SimpleProfessionIcon;
 
         public AsyncTexture2D SpecializationIcon => _data is not null && Specialization != SpecializationType.None && Enum.IsDefined(typeof(SpecializationType), Specialization) && _data.Specializations.TryGetValue(Specialization, out Data.Specialization specialization)
                     ? specialization.IconBig

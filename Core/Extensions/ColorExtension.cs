@@ -1,6 +1,7 @@
 ﻿using Gw2Sharp.Models;
 using Microsoft.Xna.Framework;
 using System;
+using System.Collections.Generic;
 
 namespace Kenedia.Modules.Core.Extensions
 {
@@ -122,10 +123,24 @@ namespace Kenedia.Modules.Core.Extensions
             };
         }
 
+        public static Gw2Sharp.WebApi.V2.Models.Color ToApiColor(this Color col)
+        {
+            return new Gw2Sharp.WebApi.V2.Models.Color() 
+            {
+                BaseRgb = [
+                    col.R,
+                    col.G,
+                    col.B,
+                    col.A,
+                    ],
+            };
+        }
         public static string ToHex(this Color col)
         {
-            var c = System.Drawing.Color.FromArgb(col.A, col.R, col.G, col.B);
-            return string.Format("#{0:X2}{1:X2}{2:X2}{3:X2}", col.A, col.R, col.G, col.B); //System.Drawing.ColorTranslator.ToHtml(c);
+            //var c = System.Drawing.Color.FromArgb(col.A, col.R, col.G, col.B);
+            //return string.Format("#{0:X2}{1:X2}{2:X2}{3:X2}", col.A, col.R, col.G, col.B); //System.Drawing.ColorTranslator.ToHtml(c);
+            return $"#{col.A:X2}{col.R:X2}{col.G:X2}{col.B:X2}";
+
         }
 
         public static bool ColorFromHex(this string col, out Color outColor)

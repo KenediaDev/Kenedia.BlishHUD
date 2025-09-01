@@ -1045,4 +1045,10 @@ Pfad zur 'tesseract.dll': {0}</value>
   <data name="DebugMode_Tooltip" xml:space="preserve">
     <value>Aktivieren Sie den Debug-Modus, um mehr Informationen über das Blish-Protokoll zu erhalten</value>
   </data>
+  <data name="Radial_CenterScreen" xml:space="preserve">
+    <value>Menü zentrieren</value>
+  </data>
+  <data name="Radial_CenterScreen_Tooltip" xml:space="preserve">
+    <value>Zentrieren Sie das Radialmenü immer in der Mitte des Spielfensters</value>
+  </data>
 </root>

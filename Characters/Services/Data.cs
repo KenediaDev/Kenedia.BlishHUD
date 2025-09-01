@@ -1126,8 +1126,8 @@ namespace Kenedia.Modules.Characters.Services
             {
                 if (e.NewValue is not null)
                 {
-                    Icon.TextureSwapped -= Icon_TextureSwapped;                    
-                    _icon = IconBig.Texture.Duplicate().GetRegion(new Rectangle(5, 5, Icon.Width - 10, Icon.Height - 10));
+                    Icon.TextureSwapped -= Icon_TextureSwapped;
+                    _icon = Icon.Texture.Duplicate();
                 }
             }
         }

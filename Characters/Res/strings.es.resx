@@ -1043,4 +1043,10 @@ Ruta a 'tesseract.dll': {0}</value>
   <data name="DebugMode_Tooltip" xml:space="preserve">
     <value>Activar el modo de depuración para proporcionar más información a través del blish log</value>
   </data>
+  <data name="Radial_CenterScreen" xml:space="preserve">
+    <value>Menú central</value>
+  </data>
+  <data name="Radial_CenterScreen_Tooltip" xml:space="preserve">
+    <value>Centrar siempre el menú radial en el centro de la ventana de juegos</value>
+  </data>
 </root>

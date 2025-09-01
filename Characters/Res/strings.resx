@@ -1043,4 +1043,10 @@ Path to the 'tesseract.dll': {0}</value>
   <data name="DebugMode_Tooltip" xml:space="preserve">
     <value>Enable the debug mode to provide more information through the blish log</value>
   </data>
+  <data name="Radial_CenterScreen" xml:space="preserve">
+    <value>Center Menu</value>
+  </data>
+  <data name="Radial_CenterScreen_Tooltip" xml:space="preserve">
+    <value>Always center the radial menu in the games window center</value>
+  </data>
 </root>

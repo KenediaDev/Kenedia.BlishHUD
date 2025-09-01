@@ -19,6 +19,7 @@ using Label = Kenedia.Modules.Core.Controls.Label;
 using Panel = Kenedia.Modules.Core.Controls.Panel;
 using TextBox = Kenedia.Modules.Core.Controls.TextBox;
 using TrackBar = Kenedia.Modules.Core.Controls.TrackBar;
+using ColorPicker = Kenedia.Modules.Core.Controls.ColorPicker;
 
 namespace Kenedia.Modules.Characters.Views
 {
@@ -145,6 +146,15 @@ namespace Kenedia.Modules.Characters.Views
                 CheckedChangedAction = (b) => _settings.Radial_UseProfessionIconsColor.Value = b,
             };
 
+            _ = new Checkbox()
+            {
+                Parent = settingsFlowPanel,
+                SetLocalizedText = () => strings.Radial_CenterScreen,
+                SetLocalizedTooltip = () => strings.Radial_CenterScreen_Tooltip,
+                Checked = _settings.Radial_CenterScreen.Value,
+                CheckedChangedAction = (b) => _settings.Radial_CenterScreen.Value = b,
+            };
+
             var subP = new Panel()
             {
                 Parent = settingsFlowPanel,
@@ -174,6 +184,10 @@ namespace Kenedia.Modules.Characters.Views
                 Location = new Point(250, 0),
             };
 
+            int color_box_numbers = 4;
+            int color_box_padding = 5;
+            int color_box_width = (ContentRegion.Width - 17 - 250 - (color_box_padding * (color_box_numbers + 2))) / color_box_numbers;
+
             subP = new Panel()
             {
                 Parent = settingsFlowPanel,
@@ -185,67 +199,26 @@ namespace Kenedia.Modules.Characters.Views
             {
                 Parent = subP,
                 AutoSizeWidth = true,
-                Location = new(30, 0),
+                Location = new(0, 0),
                 SetLocalizedText = () => strings.Radial_IdleBackgroundColor,
             };
-            var idleBackgroundPreview = new Panel()
-            {
-                Parent = subP,
-                Location = new(0, 0),
-                Size = new(20),
-                BackgroundColor = _settings.Radial_IdleColor.Value,
-            };
-            _ = new TextBox()
+
+            var radial_SliceBackgroundStart = new ColorPicker()
             {
                 Parent = subP,
                 Location = new(250, 0),
-                Text = _settings.Radial_IdleColor.Value.ToHex(),
-                Width = ContentRegion.Width - 20 - 250,
-                TextChangedAction = (t) =>
-                {
-                    if (t.ColorFromHex(out Color c))
-                    {
-                        _settings.Radial_IdleColor.Value = c;
-                        idleBackgroundPreview.BackgroundColor = c;
-                    }
-                }
+                Width = ContentRegion.Width - 30 - 250,
+                SelectedColor = _settings.Radial_SliceBackground.Value.Start,
+                OnColorChangedAction = (color) => _settings.Radial_SliceBackground.Value = new(color, _settings.Radial_SliceBackground.Value.End)
             };
 
-            subP = new Panel()
-            {
-                Parent = settingsFlowPanel,
-                Width = ContentRegion.Width - 20,
-                HeightSizingMode = SizingMode.AutoSize,
-            };
-
-            var idleBorderLabel = new Label()
+            var radial_SliceBackgroundEnd = new ColorPicker()
             {
                 Parent = subP,
-                AutoSizeWidth = true,
-                Location = new(30, 0),
-                SetLocalizedText = () => strings.Radial_IdleBorderColor,
-            };
-            var idleBorderPreview = new Panel()
-            {
-                Parent = subP,
-                Location = new(0, 0),
-                Size = new(20),
-                BackgroundColor = _settings.Radial_IdleBorderColor.Value,
-            };
-            _ = new TextBox()
-            {
-                Parent = subP,
-                Location = new(250, 0),
-                Text = _settings.Radial_IdleBorderColor.Value.ToHex(),
-                Width = ContentRegion.Width - 20 - 250,
-                TextChangedAction = (t) =>
-                {
-                    if (t.ColorFromHex(out Color c))
-                    {
-                        _settings.Radial_IdleBorderColor.Value = c;
-                        idleBorderPreview.BackgroundColor = c;
-                    }
-                }
+                Location = new(250, 25),
+                Width = ContentRegion.Width - 30 - 250,
+                SelectedColor = _settings.Radial_SliceBackground.Value.End,
+                OnColorChangedAction = (color) => _settings.Radial_SliceBackground.Value = new(_settings.Radial_SliceBackground.Value.Start, color)
             };
 
             subP = new Panel()
@@ -259,67 +232,26 @@ namespace Kenedia.Modules.Characters.Views
             {
                 Parent = subP,
                 AutoSizeWidth = true,
-                Location = new(30, 0),
+                Location = new(0, 0),
                 SetLocalizedText = () => strings.Radial_HoveredBackgroundColor,
             };
-            var activeBackgroundPreview = new Panel()
-            {
-                Parent = subP,
-                Location = new(0, 0),
-                Size = new(20),
-                BackgroundColor = _settings.Radial_HoveredColor.Value,
-            };
-            _ = new TextBox()
+
+            var radial_SliceHighlightStart = new ColorPicker()
             {
                 Parent = subP,
                 Location = new(250, 0),
-                Text = _settings.Radial_HoveredColor.Value.ToHex(),
-                Width = ContentRegion.Width - 20 - 250,
-                TextChangedAction = (t) =>
-                {
-                    if (t.ColorFromHex(out Color c))
-                    {
-                        _settings.Radial_HoveredColor.Value = c;
-                        activeBackgroundPreview.BackgroundColor = c;
-                    }
-                }
+                Width = ContentRegion.Width - 30 - 250,
+                SelectedColor = _settings.Radial_SliceHighlight.Value.Start,
+                OnColorChangedAction = (color) => _settings.Radial_SliceHighlight.Value = new(color, _settings.Radial_SliceHighlight.Value.End)
             };
 
-            subP = new Panel()
-            {
-                Parent = settingsFlowPanel,
-                Width = ContentRegion.Width - 20,
-                HeightSizingMode = SizingMode.AutoSize,
-            };
-
-            var activeBorderLabel = new Label()
+            var radial_SliceHighlightEnd = new ColorPicker()
             {
                 Parent = subP,
-                AutoSizeWidth = true,
-                Location = new(30, 0),
-                SetLocalizedText = () => strings.Radial_HoveredBorderColor,
-            };
-            var activeBorderPreview = new Panel()
-            {
-                Parent = subP,
-                Location = new(0, 0),
-                Size = new(20),
-                BackgroundColor = _settings.Radial_HoveredBorderColor.Value,
-            };
-            _ = new TextBox()
-            {
-                Parent = subP,
-                Location = new(250, 0),
-                Text = _settings.Radial_HoveredBorderColor.Value.ToHex(),
-                Width = ContentRegion.Width - 20 - 250,
-                TextChangedAction = (t) =>
-                {
-                    if (t.ColorFromHex(out Color c))
-                    {
-                        _settings.Radial_HoveredBorderColor.Value = c;
-                        activeBorderPreview.BackgroundColor = c;
-                    }
-                }
+                Location = new(250, 25),
+                Width = ContentRegion.Width - 30 - 250,
+                SelectedColor = _settings.Radial_SliceHighlight.Value.End,
+                OnColorChangedAction = (color) => _settings.Radial_SliceHighlight.Value = new(_settings.Radial_SliceHighlight.Value.Start, color)
             };
         }
 

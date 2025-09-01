@@ -154,7 +154,7 @@ namespace Kenedia.Modules.Dev
             };
 
             RadialMenu.SetSize(new Point(800, 800));
-            RadialMenu.SetCenter(new Point(1200, 100));
+            RadialMenu.SetCenter(GameService.Graphics.SpriteScreen.RelativeMousePosition);
             RadialMenu.Show();
         }
 

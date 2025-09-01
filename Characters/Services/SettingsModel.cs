@@ -47,11 +47,10 @@ namespace Kenedia.Modules.Characters.Services
             DebugMode = internalSettings.DefineSetting(nameof(DebugMode), true);
 
             EnableRadialMenu = internalSettings.DefineSetting(nameof(EnableRadialMenu), true);
+            Radial_CenterScreen = internalSettings.DefineSetting(nameof(Radial_CenterScreen), true);
             Radial_Scale = internalSettings.DefineSetting(nameof(Radial_Scale), 0.66F);
-            Radial_HoveredBorderColor = internalSettings.DefineSetting(nameof(Radial_HoveredBorderColor), ContentService.Colors.ColonialWhite);
-            Radial_HoveredColor = internalSettings.DefineSetting(nameof(Radial_HoveredBorderColor), ContentService.Colors.ColonialWhite * 0.8F);
-            Radial_IdleColor = internalSettings.DefineSetting(nameof(Radial_IdleColor), Color.Black * 0.8F);
-            Radial_IdleBorderColor = internalSettings.DefineSetting(nameof(Radial_IdleBorderColor), ContentService.Colors.ColonialWhite);
+            Radial_SliceBackground = internalSettings.DefineSetting(nameof(Radial_SliceBackground), new ColorGradient(Color.Black * 0.5F));
+            Radial_SliceHighlight = internalSettings.DefineSetting(nameof(Radial_SliceHighlight), new ColorGradient(ContentService.Colors.ColonialWhite * 0.5F));
             Radial_UseProfessionColor = internalSettings.DefineSetting(nameof(Radial_UseProfessionColor), false);
             Radial_UseProfessionIcons = internalSettings.DefineSetting(nameof(Radial_UseProfessionIcons), false);
             Radial_UseProfessionIconsColor = internalSettings.DefineSetting(nameof(Radial_UseProfessionIconsColor), false);
@@ -253,13 +252,11 @@ namespace Kenedia.Modules.Characters.Services
 
         public SettingEntry<float> Radial_Scale { get; private set; }
 
-        public SettingEntry<Color> Radial_IdleColor { get; private set; }
+        public SettingEntry<bool> Radial_CenterScreen { get; private set; }
 
-        public SettingEntry<Color> Radial_IdleBorderColor { get; private set; }
+        public SettingEntry<ColorGradient> Radial_SliceBackground { get; private set; }
 
-        public SettingEntry<Color> Radial_HoveredBorderColor { get; private set; }
-
-        public SettingEntry<Color> Radial_HoveredColor { get; private set; }
+        public SettingEntry<ColorGradient> Radial_SliceHighlight { get; private set; }
 
         public SettingEntry<bool> UseBetaGamestate { get; private set; }
 

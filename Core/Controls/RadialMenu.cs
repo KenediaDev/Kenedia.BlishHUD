@@ -23,32 +23,44 @@ namespace Kenedia.Modules.Core.Controls
     /// slice-specific highlighting when hovered or clicked.</remarks>
     public class RadialMenu : Control
     {
-        private GraphicsDevice _graphicsDevice;
-        private BasicEffect _effect;
-        private float _dpiScale;
-        private Vector2 _center;
-        private Vector2 _mouse_pos;
-        private int _radius;
         private AsyncTexture2D _texture = AsyncTexture2D.FromAssetId(102804); // Set your icon texture here
 
         public RadialMenu()
         {
-            _graphicsDevice = GameService.Graphics.LendGraphicsDeviceContext().GraphicsDevice;
-            _effect = new BasicEffect(_graphicsDevice)
+            SetGraphicDevice();
+        }
+
+        public void SetGraphicDevice()
+        {
+            GraphicsDevice = GameService.Graphics.LendGraphicsDeviceContext().GraphicsDevice;
+            Effect = new BasicEffect(GraphicsDevice)
             {
                 VertexColorEnabled = true,
                 Projection = Matrix.CreateOrthographicOffCenter
                (
-                   0, _graphicsDevice.Viewport.Width,
-                   _graphicsDevice.Viewport.Height, 0,
+                   0, GraphicsDevice.Viewport.Width,
+                   GraphicsDevice.Viewport.Height, 0,
                    0, 1
                )
             };
 
-            _dpiScale = _graphicsDevice.PresentationParameters.BackBufferWidth
+            DpiScale = GraphicsDevice.PresentationParameters.BackBufferWidth
                 / (float)GameService.Graphics.SpriteScreen.Size.X;
 
+            Radius = (int)(Math.Min(Width, Height) / 2 * DpiScale);
         }
+
+        public BasicEffect Effect { get; protected set; }
+
+        public GraphicsDevice GraphicsDevice { get; protected set; }
+
+        public float DpiScale { get; protected set; }
+
+        public Vector2 Center { get; protected set; }
+
+        public Vector2 MousePos { get; protected set; }
+
+        public int Radius { get; protected set; }
 
         /// <summary>
         /// Defines the number of slices the radial menu is divided into.
@@ -64,16 +76,6 @@ namespace Kenedia.Modules.Core.Controls
         /// Gets or sets the highlight gradient used when a slice is hovered over or selected.
         /// </summary>
         public ColorGradient SliceHighlight { get; set; } = new(Colors.ColonialWhite * 0.5F);
-
-        /// <summary>
-        /// Gets or sets the gradient used to render the inner border of a slice.
-        /// </summary>
-        public ColorGradient SliceInnerBorder { get; set; } = new(Color.Black * 0.7F);
-
-        /// <summary>
-        /// Gets or sets the gradient used to render the border of the donut shape.
-        /// </summary>
-        public ColorGradient DonutBorder { get; set; } = new(Color.Gray);
 
         /// <summary>
         /// Gets or sets a value indicating whether the inner border should be displayed.
@@ -124,7 +126,7 @@ namespace Kenedia.Modules.Core.Controls
             base.OnResized(e);
 
             /// Radius for the slices is half the smaller dimension, scaled for DPI
-            _radius = (int)(Math.Min(Width, Height) / 2 * _dpiScale);
+            Radius = (int)(Math.Min(Width, Height) / 2 * DpiScale);
         }
 
         protected override void OnClick(MouseEventArgs e)
@@ -141,8 +143,8 @@ namespace Kenedia.Modules.Core.Controls
                 float endAngle = startOffset + (i + 1) * angleStep;
                 float midAngle = (startAngle + endAngle) / 2f;
 
-                // Mouse position relative to center
-                Vector2 dir = _mouse_pos - _center;
+                // Mouse position relative to Center
+                Vector2 dir = MousePos - Center;
                 float distance = dir.Length();
 
                 // Mouse angle (0 = right), we rotate by -startOffset so slice 0 starts at top
@@ -153,7 +155,7 @@ namespace Kenedia.Modules.Core.Controls
                 float sliceStart = i * angleStep;
                 float sliceEnd = (i + 1) * angleStep;
 
-                bool contains_mouse = distance <= _radius && angle >= sliceStart && angle <= sliceEnd;
+                bool contains_mouse = distance <= Radius && angle >= sliceStart && angle <= sliceEnd;
 
                 if (contains_mouse)
                 {
@@ -178,7 +180,7 @@ namespace Kenedia.Modules.Core.Controls
         /// </summary>
         /// <param name="spriteBatch"></param>
         /// <param name="contains_mouse"></param>
-        /// <param name="center"></param>
+        /// <param name="Center"></param>
         /// <param name="midAngle"></param>
         /// <param name="iconRadius"></param>
         /// <param name="sliceIndex"></param>
@@ -186,13 +188,10 @@ namespace Kenedia.Modules.Core.Controls
         {
             // Icon
             float iconSize = 64; // Set your desired icon size here
-            float icon_radius = (_radius + iconRadius) / 2f;
             float scale = iconSize / (float)_texture.Width;
 
-            Vector2 relativeCenter = center / _dpiScale - (_texture.Bounds.Size.ToVector2() * scale / 2);
-            Vector2 iconCenter = relativeCenter + (new Vector2((float)Math.Cos(midAngle), (float)Math.Sin(midAngle)) * icon_radius);
-
-            spriteBatch.Draw(_texture, iconCenter, _texture.Bounds, Color.White, 0, Vector2.Zero, scale, SpriteEffects.None, 1);
+            Vector2 relativeCenter = center / DpiScale - (_texture.Bounds.Size.ToVector2() * scale / 2);
+            spriteBatch.Draw(_texture, relativeCenter, _texture.Bounds, Color.White, 0, Vector2.Zero, scale, SpriteEffects.None, 1);
 
             if (contains_mouse)
             {
@@ -202,20 +201,20 @@ namespace Kenedia.Modules.Core.Controls
 
         public void SetCenter(Point position)
         {
-            this.SetLocation(position.X, position.Y);
+            this.SetLocation(position.X - (Width / 2), position.Y - (Height / 2));
 
-            var p = position.ToVector2() * _dpiScale;
-            var absBounds = this.AbsoluteBounds.Center.ToVector2() * _dpiScale;
-            _center = new Vector2(absBounds.X, absBounds.Y);
+            var p = position.ToVector2() * DpiScale;
+            var absBounds = this.AbsoluteBounds.Center.ToVector2() * DpiScale;
+            Center = new Vector2(absBounds.X, absBounds.Y);
         }
 
         protected override void Paint(SpriteBatch spriteBatch, Rectangle bounds)
         {
-            _mouse_pos = GameService.Input.Mouse.Position.ToVector2() * _dpiScale;
-            DrawRadialMenu(spriteBatch, _center);
+            MousePos = GameService.Input.Mouse.Position.ToVector2() * DpiScale;
+            DrawRadialMenu(spriteBatch);
         }
 
-        private void DrawRadialMenu(SpriteBatch spriteBatch, Vector2 center)
+        private void DrawRadialMenu(SpriteBatch spriteBatch)
         {
             if (Slices == 0) return;
             // Angle per slice
@@ -229,8 +228,8 @@ namespace Kenedia.Modules.Core.Controls
                 float endAngle = startOffset + (i + 1) * angleStep;
                 float midAngle = (startAngle + endAngle) / 2f;
 
-                // Mouse position relative to center
-                Vector2 dir = _mouse_pos - center;
+                // Mouse position relative to Center
+                Vector2 dir = MousePos - Center;
                 float distance = dir.Length();
 
                 // Mouse angle (0 = right), we rotate by -startOffset so slice 0 starts at top
@@ -241,36 +240,36 @@ namespace Kenedia.Modules.Core.Controls
                 float sliceStart = i * angleStep;
                 float sliceEnd = (i + 1) * angleStep;
 
-                bool contains_mouse = distance <= _radius && angle >= sliceStart && angle <= sliceEnd && !any_contains_mouse;
+                bool contains_mouse = distance <= Radius && angle >= sliceStart && angle <= sliceEnd && !any_contains_mouse;
                 any_contains_mouse |= contains_mouse;
 
-                // Colors
-                var borderColor = contains_mouse ? SliceInnerBorder.Start : Color.Transparent;
-                var outerBorderColor = Color.Gray;
-
-                var slice_background = contains_mouse ? SliceHighlight : SliceBackground;
-                var backgroundGradientStart = contains_mouse ? SliceHighlight.Start : SliceBackground.Start;
-                var backgroundGradientStop = contains_mouse ? SliceHighlight.End : SliceBackground.End;
+                var slice_background = GetSliceColors(i, contains_mouse);
 
                 // Draw the slice
-                float inner_radius = _radius * DonutHolePercent; // adjust for donut thickness
+                float innerRadius = Radius * DonutHolePercent; // adjust for donut thickness
+                var slice_center = Center + (new Vector2((float)Math.Cos(midAngle), (float)Math.Sin(midAngle)) * (innerRadius + (Radius - innerRadius) / 2f));
 
-                DrawGradientDonutSlice(center, _radius, startAngle, endAngle, backgroundGradientStart, backgroundGradientStop, DonutHolePercent, FadePercent, OuterBorderThickness, InerBorderThickness);
-                DrawSliceContent(spriteBatch, contains_mouse, center, midAngle, (inner_radius + _radius) / 2f, i);
+                DrawGradientDonutSlice(startAngle, endAngle, slice_background.Start, slice_background.End, DonutHolePercent, FadePercent, OuterBorderThickness, InerBorderThickness);
+                DrawSliceContent(spriteBatch, contains_mouse, slice_center, midAngle, innerRadius, i);
             }
         }
 
-        private void DrawRadialBorder(Vector2 center, float innerR, float outerR, float angle, float thickness, Color color)
+        protected virtual ColorGradient GetSliceColors(int index, bool contains_mouse)
+        {
+            return contains_mouse ? SliceHighlight : SliceBackground;
+        }
+
+        private void DrawRadialBorder(Vector2 Center, float innerR, float outerR, float angle, float thickness, Color color)
         {
             var verts = new List<VertexPositionColor>();
 
             Vector2 dir = new Vector2((float)Math.Cos(angle), (float)Math.Sin(angle));
             Vector2 normal = new Vector2(-dir.Y, dir.X) * thickness;
 
-            Vector2 i1 = center + dir * innerR - normal;
-            Vector2 i2 = center + dir * innerR + normal;
-            Vector2 o1 = center + dir * outerR - normal;
-            Vector2 o2 = center + dir * outerR + normal;
+            Vector2 i1 = Center + dir * innerR - normal;
+            Vector2 i2 = Center + dir * innerR + normal;
+            Vector2 o1 = Center + dir * outerR - normal;
+            Vector2 o2 = Center + dir * outerR + normal;
 
             verts.Add(new VertexPositionColor(new Vector3(i1, 0), color));
             verts.Add(new VertexPositionColor(new Vector3(o1, 0), Color.Transparent));
@@ -280,23 +279,23 @@ namespace Kenedia.Modules.Core.Controls
             verts.Add(new VertexPositionColor(new Vector3(o2, 0), Color.Transparent));
             verts.Add(new VertexPositionColor(new Vector3(i2, 0), color));
 
-            foreach (var pass in _effect.CurrentTechnique.Passes)
+            foreach (var pass in Effect.CurrentTechnique.Passes)
             {
                 pass.Apply();
-                _graphicsDevice.DrawUserPrimitives(PrimitiveType.TriangleList, verts.ToArray(), 0, verts.Count / 3);
+                GraphicsDevice.DrawUserPrimitives(PrimitiveType.TriangleList, verts.ToArray(), 0, verts.Count / 3);
             }
         }
 
-        private void DrawGradientDonutSlice(Vector2 center, float radius, float startAngle, float endAngle, Color solidColor, Color edgeFadeColor, float clearPercent = 0.20f, float fadePercent = 0.20f, float outerBorderThickness = 5f, float innerBorderThickness = 5f, int segments = 48)
+        private void DrawGradientDonutSlice(float startAngle, float endAngle, Color solidColor, Color edgeFadeColor, float clearPercent = 0.20f, float fadePercent = 0.20f, float outerBorderThickness = 5f, float innerBorderThickness = 5f, int segments = 48)
         {
-            if (_graphicsDevice == null || _effect == null || segments < 2) return;
+            if (GraphicsDevice == null || Effect == null || segments < 2) return;
 
             clearPercent = MathHelper.Clamp(clearPercent, 0f, 0.95f);
             fadePercent = MathHelper.Clamp(fadePercent, 0f, 1f);
 
-            float clearRadius = radius * clearPercent;
-            float solidRadius = radius * (1f - fadePercent);
-            float fadeRadius = radius;
+            float clearRadius = Radius * clearPercent;
+            float solidRadius = Radius * (1f - fadePercent);
+            float fadeRadius = Radius;
 
             if (solidRadius < clearRadius)
                 solidRadius = clearRadius;
@@ -314,10 +313,10 @@ namespace Kenedia.Modules.Core.Controls
                 float a1 = startAngle + i * angleStep;
                 float a2 = a1 + angleStep;
 
-                Vector2 i1 = center + new Vector2((float)Math.Cos(a1), (float)Math.Sin(a1)) * clearRadius;
-                Vector2 o1 = center + new Vector2((float)Math.Cos(a1), (float)Math.Sin(a1)) * solidRadius;
-                Vector2 i2 = center + new Vector2((float)Math.Cos(a2), (float)Math.Sin(a2)) * clearRadius;
-                Vector2 o2 = center + new Vector2((float)Math.Cos(a2), (float)Math.Sin(a2)) * solidRadius;
+                Vector2 i1 = Center + new Vector2((float)Math.Cos(a1), (float)Math.Sin(a1)) * clearRadius;
+                Vector2 o1 = Center + new Vector2((float)Math.Cos(a1), (float)Math.Sin(a1)) * solidRadius;
+                Vector2 i2 = Center + new Vector2((float)Math.Cos(a2), (float)Math.Sin(a2)) * clearRadius;
+                Vector2 o2 = Center + new Vector2((float)Math.Cos(a2), (float)Math.Sin(a2)) * solidRadius;
 
                 solidVerts[idx++] = new VertexPositionColor(new Vector3(i1, 0), solidColor);
                 solidVerts[idx++] = new VertexPositionColor(new Vector3(o1, 0), solidColor);
@@ -328,10 +327,10 @@ namespace Kenedia.Modules.Core.Controls
                 solidVerts[idx++] = new VertexPositionColor(new Vector3(i2, 0), solidColor);
             }
 
-            foreach (var pass in _effect.CurrentTechnique.Passes)
+            foreach (var pass in Effect.CurrentTechnique.Passes)
             {
                 pass.Apply();
-                _graphicsDevice.DrawUserPrimitives(PrimitiveType.TriangleList, solidVerts, 0, segments * 2);
+                GraphicsDevice.DrawUserPrimitives(PrimitiveType.TriangleList, solidVerts, 0, segments * 2);
             }
 
             // -------------------------------------
@@ -347,10 +346,10 @@ namespace Kenedia.Modules.Core.Controls
                     float a1 = startAngle + i * angleStep;
                     float a2 = a1 + angleStep;
 
-                    Vector2 i1 = center + new Vector2((float)Math.Cos(a1), (float)Math.Sin(a1)) * solidRadius;
-                    Vector2 o1 = center + new Vector2((float)Math.Cos(a1), (float)Math.Sin(a1)) * fadeRadius;
-                    Vector2 i2 = center + new Vector2((float)Math.Cos(a2), (float)Math.Sin(a2)) * solidRadius;
-                    Vector2 o2 = center + new Vector2((float)Math.Cos(a2), (float)Math.Sin(a2)) * fadeRadius;
+                    Vector2 i1 = Center + new Vector2((float)Math.Cos(a1), (float)Math.Sin(a1)) * solidRadius;
+                    Vector2 o1 = Center + new Vector2((float)Math.Cos(a1), (float)Math.Sin(a1)) * fadeRadius;
+                    Vector2 i2 = Center + new Vector2((float)Math.Cos(a2), (float)Math.Sin(a2)) * solidRadius;
+                    Vector2 o2 = Center + new Vector2((float)Math.Cos(a2), (float)Math.Sin(a2)) * fadeRadius;
 
                     fadeVerts[idx++] = new VertexPositionColor(new Vector3(i1, 0), solidColor);
                     fadeVerts[idx++] = new VertexPositionColor(new Vector3(o1, 0), edgeFadeColor);
@@ -361,10 +360,10 @@ namespace Kenedia.Modules.Core.Controls
                     fadeVerts[idx++] = new VertexPositionColor(new Vector3(i2, 0), solidColor);
                 }
 
-                foreach (var pass in _effect.CurrentTechnique.Passes)
+                foreach (var pass in Effect.CurrentTechnique.Passes)
                 {
                     pass.Apply();
-                    _graphicsDevice.DrawUserPrimitives(PrimitiveType.TriangleList, fadeVerts, 0, segments * 2);
+                    GraphicsDevice.DrawUserPrimitives(PrimitiveType.TriangleList, fadeVerts, 0, segments * 2);
                 }
             }
 
@@ -376,18 +375,18 @@ namespace Kenedia.Modules.Core.Controls
                 var borderVerts = new VertexPositionColor[segments * 6];
                 idx = 0;
 
-                float innerBorderR = radius - outerBorderThickness;
-                float outerBorderR = radius;
+                float innerBorderR = Radius - outerBorderThickness;
+                float outerBorderR = Radius;
 
                 for (int i = 0; i < segments; i++)
                 {
                     float a1 = startAngle + i * angleStep;
                     float a2 = a1 + angleStep;
 
-                    Vector2 i1 = center + new Vector2((float)Math.Cos(a1), (float)Math.Sin(a1)) * innerBorderR;
-                    Vector2 o1 = center + new Vector2((float)Math.Cos(a1), (float)Math.Sin(a1)) * outerBorderR;
-                    Vector2 i2 = center + new Vector2((float)Math.Cos(a2), (float)Math.Sin(a2)) * innerBorderR;
-                    Vector2 o2 = center + new Vector2((float)Math.Cos(a2), (float)Math.Sin(a2)) * outerBorderR;
+                    Vector2 i1 = Center + new Vector2((float)Math.Cos(a1), (float)Math.Sin(a1)) * innerBorderR;
+                    Vector2 o1 = Center + new Vector2((float)Math.Cos(a1), (float)Math.Sin(a1)) * outerBorderR;
+                    Vector2 i2 = Center + new Vector2((float)Math.Cos(a2), (float)Math.Sin(a2)) * innerBorderR;
+                    Vector2 o2 = Center + new Vector2((float)Math.Cos(a2), (float)Math.Sin(a2)) * outerBorderR;
 
                     borderVerts[idx++] = new VertexPositionColor(new Vector3(i1, 0), solidColor);
                     borderVerts[idx++] = new VertexPositionColor(new Vector3(o1, 0), edgeFadeColor);
@@ -398,10 +397,10 @@ namespace Kenedia.Modules.Core.Controls
                     borderVerts[idx++] = new VertexPositionColor(new Vector3(i2, 0), solidColor);
                 }
 
-                foreach (var pass in _effect.CurrentTechnique.Passes)
+                foreach (var pass in Effect.CurrentTechnique.Passes)
                 {
                     pass.Apply();
-                    _graphicsDevice.DrawUserPrimitives(PrimitiveType.TriangleList, borderVerts, 0, segments * 2);
+                    GraphicsDevice.DrawUserPrimitives(PrimitiveType.TriangleList, borderVerts, 0, segments * 2);
                 }
             }
 
@@ -421,10 +420,10 @@ namespace Kenedia.Modules.Core.Controls
                     float a1 = startAngle + i * angleStep;
                     float a2 = a1 + angleStep;
 
-                    Vector2 i1 = center + new Vector2((float)Math.Cos(a1), (float)Math.Sin(a1)) * innerBorderR;
-                    Vector2 o1 = center + new Vector2((float)Math.Cos(a1), (float)Math.Sin(a1)) * outerBorderR;
-                    Vector2 i2 = center + new Vector2((float)Math.Cos(a2), (float)Math.Sin(a2)) * innerBorderR;
-                    Vector2 o2 = center + new Vector2((float)Math.Cos(a2), (float)Math.Sin(a2)) * outerBorderR;
+                    Vector2 i1 = Center + new Vector2((float)Math.Cos(a1), (float)Math.Sin(a1)) * innerBorderR;
+                    Vector2 o1 = Center + new Vector2((float)Math.Cos(a1), (float)Math.Sin(a1)) * outerBorderR;
+                    Vector2 i2 = Center + new Vector2((float)Math.Cos(a2), (float)Math.Sin(a2)) * innerBorderR;
+                    Vector2 o2 = Center + new Vector2((float)Math.Cos(a2), (float)Math.Sin(a2)) * outerBorderR;
 
                     borderVerts[idx++] = new VertexPositionColor(new Vector3(i1, 0), solidColor);  // fades inward
                     borderVerts[idx++] = new VertexPositionColor(new Vector3(o1, 0), solidColor);
@@ -435,17 +434,17 @@ namespace Kenedia.Modules.Core.Controls
                     borderVerts[idx++] = new VertexPositionColor(new Vector3(i2, 0), solidColor);
                 }
 
-                foreach (var pass in _effect.CurrentTechnique.Passes)
+                foreach (var pass in Effect.CurrentTechnique.Passes)
                 {
                     pass.Apply();
-                    _graphicsDevice.DrawUserPrimitives(PrimitiveType.TriangleList, borderVerts, 0, segments * 2);
+                    GraphicsDevice.DrawUserPrimitives(PrimitiveType.TriangleList, borderVerts, 0, segments * 2);
                 }
             }
 
             if (ShowSliceBorder)
             {
-                DrawRadialBorder(center, clearRadius + (ShowInnerBorder ? innerBorderThickness : 0F), fadeRadius, startAngle, SliceBorderThickness, solidColor);
-                DrawRadialBorder(center, clearRadius + (ShowInnerBorder ? innerBorderThickness : 0F), fadeRadius, endAngle, SliceBorderThickness, solidColor);
+                DrawRadialBorder(Center, clearRadius + (ShowInnerBorder ? innerBorderThickness : 0F), fadeRadius, startAngle, SliceBorderThickness, solidColor);
+                DrawRadialBorder(Center, clearRadius + (ShowInnerBorder ? innerBorderThickness : 0F), fadeRadius, endAngle, SliceBorderThickness, solidColor);
             }
         }
     }
