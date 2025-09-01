@@ -43,6 +43,7 @@ using System.Threading;
 using NotificationBadge = Kenedia.Modules.Core.Controls.NotificationBadge;
 using AnchoredContainer = Kenedia.Modules.Core.Controls.AnchoredContainer;
 using Microsoft.Extensions.DependencyInjection;
+using System.Diagnostics;
 
 //TODO Fetch API Data on Version change, eventually use static hosting
 // TODO if character name is in multiple accounts -> don't load
@@ -478,7 +479,10 @@ namespace Kenedia.Modules.Characters
 
         private void RadialMenuToggle(object sender, EventArgs e)
         {
-            if (Settings.EnableRadialMenu.Value && RadialMenu?.HasDisplayedCharacters() == true) _ = (RadialMenu?.ToggleVisibility());
+            if (Settings.EnableRadialMenu.Value && RadialMenu?.HasDisplayedCharacters() == true)
+            {
+                _ = (RadialMenu?.ToggleVisibility());
+            }
         }
 
         private void CurrentCharacterModel_Updated(object sender, EventArgs e)
@@ -515,7 +519,7 @@ namespace Kenedia.Modules.Characters
         {
             Logger.Debug($"ReloadKey_Activated: {Name}");
 
-            //base.ReloadKey_Activated(sender, e);
+            base.ReloadKey_Activated(sender, e);
             //CreateCornerIcons();
             //GameService.Graphics.SpriteScreen.Visible = true;
             //MainWindow?.ToggleWindow();

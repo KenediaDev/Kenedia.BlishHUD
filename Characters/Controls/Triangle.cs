@@ -44,6 +44,33 @@ namespace Kenedia.Modules.Characters.Controls
                 };
         }
 
+        public bool PointInTriangle(Vector2 p)
+        {
+            // Compute vectors
+            var v0 = Point3 - Point1;
+            var v1 = Point2 - Point1;
+            var v2 = p - Point1;
+
+            // Compute dot products
+            float dot00 = Vector2.Dot(v0, v0);
+            float dot01 = Vector2.Dot(v0, v1);
+            float dot02 = Vector2.Dot(v0, v2);
+            float dot11 = Vector2.Dot(v1, v1);
+            float dot12 = Vector2.Dot(v1, v2);
+
+            // Compute barycentric coordinates
+            float denom = (dot00 * dot11) - (dot01 * dot01);
+            if (Math.Abs(denom) < float.Epsilon)
+                return false; // Triangle is degenerate
+
+            float invDenom = 1f / denom;
+            float u = ((dot11 * dot02) - (dot01 * dot12)) * invDenom;
+            float v = ((dot00 * dot12) - (dot01 * dot02)) * invDenom;
+
+            // Check if point is in triangle
+            return (u >= 0) && (v >= 0) && (u + v <= 1);
+        }
+
         public bool Contains(Vector2 pt)
         {
             float d1, d2, d3;

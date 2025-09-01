@@ -1,6 +1,7 @@
 ﻿using Blish_HUD;
 using Blish_HUD.Content;
 using Blish_HUD.Controls;
+using Blish_HUD.Controls.Intern;
 using Blish_HUD.Input;
 using Kenedia.Modules.Characters.Extensions;
 using Kenedia.Modules.Characters.Models;
@@ -8,11 +9,14 @@ using Kenedia.Modules.Characters.Services;
 using Kenedia.Modules.Core.Extensions;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
 using MonoGame.Extended;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Linq;
+using static System.Collections.Specialized.BitVector32;
 using Color = Microsoft.Xna.Framework.Color;
 using Point = Microsoft.Xna.Framework.Point;
 using Rectangle = Microsoft.Xna.Framework.Rectangle;
@@ -32,9 +36,11 @@ namespace Kenedia.Modules.Characters.Controls
         private int _iconSize;
 
         private readonly List<RadialMenuSection> _sections = new();
-        private RadialMenuSection? _selected;
+        private Character_Model? _selected;
 
-        private Point _center;
+        private Vector2 _center;
+        private GraphicsDevice _graphicsDevice;
+        private BasicEffect _effect;
 
         public RadialMenu(Settings settings, ObservableCollection<Character_Model> characters, Container parent, Func<Character_Model> currentCharacter, Data data, TextureManager textureManager)
         {
@@ -52,6 +58,8 @@ namespace Kenedia.Modules.Characters.Controls
                 Visible = false,
             };
 
+            BackgroundColor = Color.Transparent;
+
             foreach (Character_Model c in _characters)
             {
                 c.Updated += Character_Updated;
@@ -59,6 +67,18 @@ namespace Kenedia.Modules.Characters.Controls
 
             Parent.Resized += Parent_Resized;
             Input.Keyboard.KeyPressed += Keyboard_KeyPressed;
+
+            _graphicsDevice = GameService.Graphics.LendGraphicsDeviceContext().GraphicsDevice;
+            _effect = new BasicEffect(_graphicsDevice)
+            {
+                VertexColorEnabled = true,
+                Projection = Matrix.CreateOrthographicOffCenter
+               (
+                   0, _graphicsDevice.Viewport.Width,
+                   _graphicsDevice.Viewport.Height, 0,
+                   0, 1
+               )
+            };
         }
 
         public bool HasDisplayedCharacters()
@@ -99,7 +119,6 @@ namespace Kenedia.Modules.Characters.Controls
 
                 _sections.Clear();
 
-                _center = RelativeMousePosition;
                 int amount = _displayedCharacters.Count;
                 double adiv = Math.PI * 2 / amount;
 
@@ -138,7 +157,7 @@ namespace Kenedia.Modules.Characters.Controls
                 else
                 {
                     var points = new List<Vector2>();
-                    var c = _center.ToVector2();
+                    var c = _center;
 
                     for (int i = 0; i < amount; i++)
                     {
@@ -173,12 +192,26 @@ namespace Kenedia.Modules.Characters.Controls
                     }
                 }
             }
+
+            if (_graphicsDevice is null)
+            {
+                return;
+            }
+
+            var dpiScale = _graphicsDevice.PresentationParameters.BackBufferWidth
+               / (float)GameService.Graphics.SpriteScreen.Size.X;
+
+            var mouse = GameService.Input.Mouse.Position.ToVector2() * dpiScale;
+            var absBounds = this.AbsoluteBounds;
+            _center = new Vector2(mouse.X - absBounds.X, mouse.Y - absBounds.Y);
         }
 
         protected override void OnMouseMoved(MouseEventArgs e)
         {
             base.OnMouseMoved(e);
-            _selected = null;
+
+            //_selected = null;
+            //_tooltip.Character = null;
         }
 
         public override void DoUpdate(GameTime gameTime)
@@ -193,98 +226,191 @@ namespace Kenedia.Modules.Characters.Controls
 
         protected override void Paint(SpriteBatch spriteBatch, Rectangle bounds)
         {
-            var mouse = RelativeMousePosition.ToVector2();
-            var txt = string.Empty;
+            DrawRadialMenu2(spriteBatch, bounds);
+        }
 
-            foreach (var section in _sections)
+        private void DrawRadialMenu2(SpriteBatch spriteBatch, Rectangle bounds)
+        {
+            _tooltip.Hide();
+
+            float dpiScale = _graphicsDevice.PresentationParameters.BackBufferWidth
+               / (float)GameService.Graphics.SpriteScreen.Size.X;
+
+            var mouse = GameService.Input.Mouse.Position.ToVector2() * dpiScale;
+          
+
+            float radius = Height * _settings.Radial_Scale.Value / 2;
+
+            int count = _displayedCharacters.Count;
+            if (count == 0) return;
+
+            // Angle per slice
+            float angleStep = MathHelper.TwoPi / count;
+
+            for (int i = 0; i < count; i++)
             {
-                _selected ??= section.Triangle.Contains(mouse) ? section : null;
+                var character = _displayedCharacters[i];
 
-                if (RelativeMousePosition == _center || _selected is not null || !section.Triangle.Contains(mouse))
+                // Calculate slice angles
+                float startAngle = i * angleStep;
+                float endAngle = startAngle + angleStep;
+                float midAngle = (startAngle + endAngle) / 2f;
+
+                // Convert mouse position to polar relative to _center
+                Vector2 dir = mouse - _center;
+                float distance = dir.Length();
+                float angle = (float)Math.Atan2(dir.Y, dir.X);
+                if (angle < 0) angle += MathHelper.TwoPi;
+
+                // Check if mouse is inside slice
+                bool contains_mouse = distance <= radius && angle >= startAngle && angle <= endAngle;
+
+                // Colors
+                var lineColor = _settings.Radial_UseProfessionColor.Value
+                    ? character.Profession.GetData(_data.Professions).Color * 0.7f
+                    : _settings.Radial_IdleColor.Value;
+                var borderColor =( contains_mouse ? _settings.Radial_HoveredBorderColor.Value : _settings.Radial_IdleBorderColor.Value) * 0.5F;
+                var backgroundColor = (contains_mouse ? _settings.Radial_HoveredColor.Value : _settings.Radial_IdleColor.Value) * 0.8F;
+
+                // Draw the slice
+                float innerRadius = radius * 0.5f; // adjust for donut thickness
+
+                DrawSlice(_center, radius, startAngle, endAngle, backgroundColor);
+                DrawBorder(_center, radius, startAngle, endAngle, _settings.Radial_IdleColor.Value * 1.5F);
+
+                if (contains_mouse)
                 {
-                    if (section.Lines is not null)
-                    {
-                        foreach (var line in section.Lines)
-                        {
-                            spriteBatch.DrawLine(section.Triangle.Point3, new(line.X, line.Y), _settings.Radial_UseProfessionColor.Value ? section.Character.Profession.GetData(_data.Professions).Color * 0.7f : _settings.Radial_IdleColor.Value);
-                        }
-
-                        spriteBatch.DrawPolygon(Vector2.Zero, section.Triangle.ToVectorList(), _settings.Radial_IdleBorderColor.Value, 1);
-                    }
-                    else if (section.Rectangle != null)
-                    {
-
-                        spriteBatch.DrawOnCtrl(
-                            this,
-                            ContentService.Textures.Pixel,
-                            section.Rectangle,
-                            Rectangle.Empty,
-                            _settings.Radial_IdleColor.Value,
-                            0f,
-                            default);
-                    }
-
-                    spriteBatch.DrawOnCtrl(
-                        this,
-                        _settings.Radial_UseProfessionIcons.Value ? section.Character.ProfessionIcon : section.Character.Icon,
-                        section.IconRectangle,
-                        _settings.Radial_UseProfessionIcons.Value ? section.Character.ProfessionIcon.Bounds : section.Character.Icon.Bounds,
-                        _settings.Radial_UseProfessionIconsColor.Value ? section.Character.Profession.GetData(_data.Professions).Color : Color.White,
-                        0f,
-                        default);
+                    DrawSliceBorder(_center, innerRadius, radius, startAngle, endAngle, borderColor);
                 }
-            }
 
-            if (_selected is not null)
-            {
-                if (_settings.Radial_ShowAdvancedTooltip.Value)
+                var texture = _settings.Radial_UseProfessionIcons.Value ? character.ProfessionIcon : character.Icon;
+
+                // Icon
+                float iconRadius = (radius + innerRadius) / 2f;
+                float scale = _iconSize / (float)texture.Width;
+
+                Vector2 relativeCenter = _center / dpiScale - (texture.Bounds.Size.ToVector2() * scale / 2);
+                Vector2 iconCenter = relativeCenter + (new Vector2((float)Math.Cos(midAngle), (float)Math.Sin(midAngle)) * iconRadius);
+
+                spriteBatch.Draw(texture, iconCenter, texture.Bounds, Color.White, 0, Vector2.Zero, scale, SpriteEffects.None, 1);
+
+                if (contains_mouse)
                 {
-                    _tooltip.Character = _selected.Character;
-                    _tooltip.Show();
+                    if (_settings.Radial_ShowAdvancedTooltip.Value)
+                    {
+                        _selected = character;
+                        _tooltip.Character = character;
+                        _tooltip.Show();
+                    }
+                    else
+                    {
+                        BasicTooltipText = character.Name;
+                    }
                 }
                 else
                 {
-                    txt = _selected.Character.Name;
+
                 }
-
-                if (_selected.Lines is not null)
-                {
-                    foreach (var line in _selected.Lines)
-                    {
-                        spriteBatch.DrawLine(_selected.Triangle.Point3, new(line.X, line.Y), _settings.Radial_UseProfessionColor.Value ? _selected.Character.Profession.GetData(_data.Professions).Color : _settings.Radial_HoveredColor.Value);
-                    }
-
-                    spriteBatch.DrawPolygon(Vector2.Zero, _selected.Triangle.ToVectorList(), _settings.Radial_HoveredBorderColor.Value, 1);
-                }
-                else if (_selected.Rectangle != null)
-                {
-
-                    spriteBatch.DrawOnCtrl(
-                        this,
-                        ContentService.Textures.Pixel,
-                        _selected.Rectangle,
-                        Rectangle.Empty,
-                        _settings.Radial_HoveredColor.Value,
-                        0f,
-                        default);
-                }
-
-                spriteBatch.DrawOnCtrl(
-                    this,
-                    _settings.Radial_UseProfessionIcons.Value ? _selected.Character.ProfessionIcon : _selected.Character.Icon,
-                    _selected.IconRectangle,
-                    _settings.Radial_UseProfessionIcons.Value ? _selected.Character.ProfessionIcon.Bounds : _selected.Character.Icon.Bounds,
-                    _settings.Radial_UseProfessionIconsColor.Value ? _selected.Character.Profession.GetData(_data.Professions).Color : Color.White,
-                    0f,
-                    default);
             }
-            else
+        }
+
+        private void DrawBorder(Vector2 center, float radius, float startAngle, float endAngle, Color color, int segments = 30)
+        {
+            if (_graphicsDevice == null || _effect == null) return;
+
+            // Clamp segments
+            segments = Math.Max(2, segments);
+
+            float angleStep = (endAngle - startAngle) / segments;
+            VertexPositionColor[] vertices = new VertexPositionColor[segments + 1];
+
+            for (int i = 0; i <= segments; i++)
             {
-                _tooltip.Character = null;
-                _tooltip.Hide();
+                float angle = startAngle + i * angleStep;
+                Vector2 pos = center + new Vector2((float)Math.Cos(angle), (float)Math.Sin(angle)) * radius;
+                vertices[i] = new VertexPositionColor(new Vector3(pos, 0), color);
             }
 
-            if (!_settings.Radial_ShowAdvancedTooltip.Value) BasicTooltipText = txt;
+            foreach (var pass in _effect.CurrentTechnique.Passes)
+            {
+                pass.Apply();
+                _graphicsDevice.DrawUserPrimitives(PrimitiveType.LineStrip, vertices, 0, segments);
+            }
+        }
+
+        private void DrawSliceBorder(Vector2 center, float innerRadius, float outerRadius, float startAngle, float endAngle, Color color, int segments = 30)
+        {
+            if (_graphicsDevice == null || _effect == null) return;
+
+            segments = Math.Max(2, segments);
+            float angleStep = (endAngle - startAngle) / segments;
+
+            // Outer arc vertices
+            var outerVertices = new VertexPositionColor[segments + 1];
+            for (int i = 0; i <= segments; i++)
+            {
+                float angle = startAngle + i * angleStep;
+                Vector2 pos = center + new Vector2((float)Math.Cos(angle), (float)Math.Sin(angle)) * outerRadius;
+                outerVertices[i] = new VertexPositionColor(new Vector3(pos, 0), color);
+            }
+
+            // Inner arc vertices
+            VertexPositionColor[] innerVertices = new VertexPositionColor[segments + 1];
+            for (int i = 0; i <= segments; i++)
+            {
+                float angle = startAngle + i * angleStep;
+                Vector2 pos = center + new Vector2((float)Math.Cos(angle), (float)Math.Sin(angle)) * innerRadius;
+                innerVertices[i] = new VertexPositionColor(new Vector3(pos, 0), color);
+            }
+
+            foreach (var pass in _effect.CurrentTechnique.Passes)
+            {
+                pass.Apply();
+
+                // Draw outer arc
+                //_graphicsDevice.DrawUserPrimitives(PrimitiveType.LineStrip, outerVertices, 0, segments);
+
+                // Draw inner arc
+                //_graphicsDevice.DrawUserPrimitives(PrimitiveType.LineStrip, innerVertices, 0, segments);
+
+                // Draw radial lines at start and end
+                _graphicsDevice.DrawUserPrimitives(PrimitiveType.LineList, new[]
+                {
+            new VertexPositionColor(new Vector3(center, 0), color),
+            new VertexPositionColor(new Vector3(center + new Vector2((float)Math.Cos(startAngle), (float)Math.Sin(startAngle)) * outerRadius, 0), color),
+
+            new VertexPositionColor(new Vector3(center, 0), color),
+            new VertexPositionColor(new Vector3(center + new Vector2((float)Math.Cos(endAngle), (float)Math.Sin(endAngle)) * outerRadius, 0), color),
+        }, 0, 2);
+            }
+        }
+
+        private void DrawSlice(Vector2 center, float radius, float startAngle, float endAngle, Color color, int segments = 30)
+        {
+            float angleStep = (endAngle - startAngle) / segments;
+
+            // Each triangle = 3 vertices, we have `segments` triangles
+            var vertices = new VertexPositionColor[segments * 3];
+
+            for (int i = 0; i < segments; i++)
+            {
+                float angle1 = startAngle + (i * angleStep);
+                float angle2 = startAngle + ((i + 1) * angleStep);
+
+                Vector2 p1 = center + (new Vector2((float)Math.Cos(angle1), (float)Math.Sin(angle1)) * radius);
+                Vector2 p2 = center + (new Vector2((float)Math.Cos(angle2), (float)Math.Sin(angle2)) * radius);
+
+                // Build triangle: center → p1 → p2
+                vertices[(i * 3) + 0] = new VertexPositionColor(new Vector3(center, 0), color);
+                vertices[(i * 3) + 1] = new VertexPositionColor(new Vector3(p1, 0), color);
+                vertices[(i * 3) + 2] = new VertexPositionColor(new Vector3(p2, 0), color);
+            }
+
+            foreach (var pass in _effect.CurrentTechnique.Passes)
+            {
+                pass.Apply();
+                _graphicsDevice.DrawUserPrimitives(PrimitiveType.TriangleList, vertices, 0, segments);
+            }
         }
 
         protected override async void OnClick(MouseEventArgs e)
@@ -297,7 +423,7 @@ namespace Kenedia.Modules.Characters.Controls
 
                 if(await ExtendedInputService.WaitForNoKeyPressed())
                 {
-                    _selected?.Character.Swap();
+                    _selected.Swap();
                 }
             }
         }
