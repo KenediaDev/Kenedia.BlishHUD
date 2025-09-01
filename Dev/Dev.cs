@@ -6,6 +6,7 @@ using Blish_HUD.Settings;
 using Gw2Sharp.WebApi.V2.Models;
 using Kenedia.Modules.Characters.Services;
 using Kenedia.Modules.Core.Controls;
+using Kenedia.Modules.Core.Extensions;
 using Kenedia.Modules.Core.Helpers;
 using Kenedia.Modules.Core.Models;
 using Kenedia.Modules.Core.Views;
@@ -27,6 +28,8 @@ namespace Kenedia.Modules.Dev
         private readonly Dictionary<int, Map> _maps = new();
 
         public static List<Skill> Skills { get; private set; } = new();
+
+        public static RadialMenu RadialMenu { get; private set; }
 
         [ImportingConstructor]
         public Dev([Import("ModuleParameters")] ModuleParameters moduleParameters) : base(moduleParameters)
@@ -52,20 +55,8 @@ namespace Kenedia.Modules.Dev
         {
             Logger.Debug($"ReloadKey_Activated: {Name}");
 
-            //base.ReloadKey_Activated(sender, e);
+            base.ReloadKey_Activated(sender, e);
 
-            var context = GameService.Contexts.GetContext<CharactersContext>();
-
-            if (context is not null)
-            {
-                Logger.Debug($"CONTEXT FOUND! REQUEST SWITCH!");
-                await context.SwitchCharacter("Test");
-                Logger.Debug($"SWITCH SEEMS TO BE COMPLETED?");
-            }
-            else
-            {
-                Logger.Debug($"CONTEXT NOT FOUND!");
-            }
         }
 
         private async Task TestAPI()
@@ -141,12 +132,37 @@ namespace Kenedia.Modules.Dev
             };
 
             MainWindow.Show();
+
+            var base_color = new Microsoft.Xna.Framework.Color(172, 117, 74);
+            var highlight_color = new Microsoft.Xna.Framework.Color(245, 175, 106);
+
+            base_color = Microsoft.Xna.Framework.Color.Black;
+
+            RadialMenu = new RadialMenu()
+            {
+                Parent = GameService.Graphics.SpriteScreen,
+                Visible = true,
+                ZIndex = int.MaxValue,
+                //SliceInnerBorder = new(base_color * 0.7F),
+                //SliceBackground = new(base_color * 0.5F),
+                //SliceHighlight = new(highlight_color * 0.5F),
+                //ShowOuterBorder = false,
+                //ShowInnerBorder = true,
+                //ShowSliceBorder = true,
+                DonutHolePercent = 0.5F,
+                //FadePercent = 0.2F,
+            };
+
+            RadialMenu.SetSize(new Point(800, 800));
+            RadialMenu.SetCenter(new Point(1200, 100));
+            RadialMenu.Show();
         }
 
         protected override void UnloadGUI()
         {
             base.UnloadGUI();
 
+            RadialMenu?.Dispose();
             MainWindow?.Dispose();
         }
     }
