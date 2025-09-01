@@ -137,6 +137,8 @@ namespace Kenedia.Modules.Core.Controls
             set => Common.SetProperty(ref _selected_Color, value, ApplyColor);
         }
 
+        public Color MultipliedSelectedColor => Color.FromNonPremultiplied(R, G, B, A);
+
         private void ApplyColor(object sender, ValueChangedEventArgs<Color> e)
         {
             if (e.NewValue is Color col)
