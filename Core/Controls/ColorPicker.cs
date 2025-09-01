@@ -13,7 +13,7 @@ namespace Kenedia.Modules.Core.Controls
 {
     public class ColorPicker : Panel
     {
-        private readonly Panel _idleBackgroundPreview;
+        private readonly Panel _color_Preview;
         private readonly NumberBox _red_box;
         private readonly NumberBox _green_box;
         private readonly NumberBox _blue_box;
@@ -28,18 +28,20 @@ namespace Kenedia.Modules.Core.Controls
 
         public ColorPicker()
         {
-            _idleBackgroundPreview = new Panel()
+            _color_Preview = new Panel()
             {
                 Parent = this,
                 Location = new(0, 0),
                 Size = new(20),
-                BackgroundColor = Color.Transparent
+                BorderWidth = new(2),
+                BorderColor = Color.Black,
+                BackgroundColor = Color.FromNonPremultiplied(R, G, B, A),
             };
 
             _red_box = new NumberBox()
             {
                 Parent = this,
-                Location = new(_idleBackgroundPreview.Right + 5, 0),
+                Location = new(_color_Preview.Right + 5, 0),
                 Value = R,
                 MinValue = 0,
                 MaxValue = 255,
@@ -160,7 +162,7 @@ namespace Kenedia.Modules.Core.Controls
             _green_box.Value = G;
             _alpha_box.Value = A;
 
-            _idleBackgroundPreview.BackgroundColor = Color.FromNonPremultiplied(R, G, B, A);
+            _color_Preview.BackgroundColor = Color.FromNonPremultiplied(R, G, B, A);
         }
 
         private void SetColor(object sender, ValueChangedEventArgs<int> e)
@@ -183,10 +185,10 @@ namespace Kenedia.Modules.Core.Controls
             int number_of_boxes = 4;
             int input_width = (ContentRegion.Width - preview_width - padding - (padding * (number_of_boxes - 1))) / number_of_boxes;
 
-            _idleBackgroundPreview?.SetLocation(0, 0);
-            _idleBackgroundPreview?.SetSize(preview_width, preview_width);
+            _color_Preview?.SetLocation(0, 0);
+            _color_Preview?.SetSize(preview_width, preview_width);
 
-            int red_x = (_idleBackgroundPreview?.Right ?? 0) + padding;
+            int red_x = (_color_Preview?.Right ?? 0) + padding;
             _red_box?.SetLocation(red_x, 0);
             _red_box?.SetSize(input_width);
 

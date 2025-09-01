@@ -186,7 +186,7 @@ namespace Kenedia.Modules.Characters.Views
 
             int color_box_numbers = 4;
             int color_box_padding = 5;
-            int color_box_width = (ContentRegion.Width - 17 - 250 - (color_box_padding * (color_box_numbers + 2))) / color_box_numbers;
+            int color_box_width = (ContentRegion.Width - 37 - 250);
 
             subP = new Panel()
             {
@@ -207,7 +207,7 @@ namespace Kenedia.Modules.Characters.Views
             {
                 Parent = subP,
                 Location = new(250, 0),
-                Width = ContentRegion.Width - 30 - 250,
+                Width = color_box_width,
                 SelectedColor = _settings.Radial_SliceBackground.Value.Start,
                 OnColorChangedAction = (color) => _settings.Radial_SliceBackground.Value = new(color, _settings.Radial_SliceBackground.Value.End)
             };
@@ -216,7 +216,7 @@ namespace Kenedia.Modules.Characters.Views
             {
                 Parent = subP,
                 Location = new(250, 25),
-                Width = ContentRegion.Width - 30 - 250,
+                Width = color_box_width,
                 SelectedColor = _settings.Radial_SliceBackground.Value.End,
                 OnColorChangedAction = (color) => _settings.Radial_SliceBackground.Value = new(_settings.Radial_SliceBackground.Value.Start, color)
             };
@@ -246,7 +246,7 @@ namespace Kenedia.Modules.Characters.Views
             {
                 Parent = subP,
                 Location = new(250, 0),
-                Width = ContentRegion.Width - 30 - 250,
+                Width = color_box_width,
                 SelectedColor = _settings.Radial_SliceHighlight.Value.Start,
                 OnColorChangedAction = (color) => _settings.Radial_SliceHighlight.Value = new(color, _settings.Radial_SliceHighlight.Value.End)
             };
@@ -255,7 +255,7 @@ namespace Kenedia.Modules.Characters.Views
             {
                 Parent = subP,
                 Location = new(250, 25),
-                Width = ContentRegion.Width - 30 - 250,
+                Width = color_box_width,
                 SelectedColor = _settings.Radial_SliceHighlight.Value.End,
                 OnColorChangedAction = (color) => _settings.Radial_SliceHighlight.Value = new(_settings.Radial_SliceHighlight.Value.Start, color)
             };
