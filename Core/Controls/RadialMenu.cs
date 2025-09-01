@@ -249,7 +249,7 @@ namespace Kenedia.Modules.Core.Controls
                 float innerRadius = Radius * DonutHolePercent; // adjust for donut thickness
                 var slice_center = Center + (new Vector2((float)Math.Cos(midAngle), (float)Math.Sin(midAngle)) * (innerRadius + (Radius - innerRadius) / 2f));
 
-                DrawGradientDonutSlice(startAngle, endAngle, slice_background.Start, slice_background.End, DonutHolePercent, FadePercent, OuterBorderThickness, InerBorderThickness);
+                DrawGradientDonutSlice(startAngle, endAngle, slice_background.Start * (slice_background.Start.A / 255F), slice_background.End * (slice_background.End.A / 255F), DonutHolePercent, FadePercent, OuterBorderThickness, InerBorderThickness);
                 DrawSliceContent(spriteBatch, contains_mouse, slice_center, midAngle, innerRadius, i);
             }
         }

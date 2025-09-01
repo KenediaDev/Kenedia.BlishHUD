@@ -158,7 +158,7 @@ namespace Kenedia.Modules.Core.Controls
             _green_box.Value = G;
             _alpha_box.Value = A;
 
-            _idleBackgroundPreview.BackgroundColor = SelectedColor;
+            _idleBackgroundPreview.BackgroundColor = Color.FromNonPremultiplied(R, G, B, A);
         }
 
         private void SetColor(object sender, ValueChangedEventArgs<int> e)

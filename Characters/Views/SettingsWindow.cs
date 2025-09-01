@@ -221,6 +221,12 @@ namespace Kenedia.Modules.Characters.Views
                 OnColorChangedAction = (color) => _settings.Radial_SliceBackground.Value = new(_settings.Radial_SliceBackground.Value.Start, color)
             };
 
+            _ = new Dummy()
+            {
+                Parent = settingsFlowPanel,
+                Height = 10,
+            };
+
             subP = new Panel()
             {
                 Parent = settingsFlowPanel,
