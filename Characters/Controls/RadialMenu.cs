@@ -376,12 +376,12 @@ namespace Kenedia.Modules.Characters.Controls
                 // Draw radial lines at start and end
                 _graphicsDevice.DrawUserPrimitives(PrimitiveType.LineList, new[]
                 {
-            new VertexPositionColor(new Vector3(center, 0), color),
-            new VertexPositionColor(new Vector3(center + new Vector2((float)Math.Cos(startAngle), (float)Math.Sin(startAngle)) * outerRadius, 0), color),
+                    new VertexPositionColor(new Vector3(center, 0), color),
+                    new VertexPositionColor(new Vector3(center + new Vector2((float)Math.Cos(startAngle), (float)Math.Sin(startAngle)) * outerRadius, 0), color),
 
-            new VertexPositionColor(new Vector3(center, 0), color),
-            new VertexPositionColor(new Vector3(center + new Vector2((float)Math.Cos(endAngle), (float)Math.Sin(endAngle)) * outerRadius, 0), color),
-        }, 0, 2);
+                    new VertexPositionColor(new Vector3(center, 0), color),
+                    new VertexPositionColor(new Vector3(center + new Vector2((float)Math.Cos(endAngle), (float)Math.Sin(endAngle)) * outerRadius, 0), color),
+                }, 0, 2);
             }
         }
 
