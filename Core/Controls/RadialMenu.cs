@@ -32,27 +32,13 @@ namespace Kenedia.Modules.Core.Controls
 
         public void SetGraphicDevice()
         {
-            GraphicsDevice = GameService.Graphics.LendGraphicsDeviceContext().GraphicsDevice;
-            Effect = new BasicEffect(GraphicsDevice)
-            {
-                VertexColorEnabled = true,
-                Projection = Matrix.CreateOrthographicOffCenter
-               (
-                   0, GraphicsDevice.Viewport.Width,
-                   GraphicsDevice.Viewport.Height, 0,
-                   0, 1
-               )
-            };
+            using var gdc = GameService.Graphics.LendGraphicsDeviceContext();
 
-            DpiScale = GraphicsDevice.PresentationParameters.BackBufferWidth
+            DpiScale = gdc.GraphicsDevice.PresentationParameters.BackBufferWidth
                 / (float)GameService.Graphics.SpriteScreen.Size.X;
 
             Radius = (int)(Math.Min(Width, Height) / 2 * DpiScale);
         }
-
-        public BasicEffect Effect { get; protected set; }
-
-        public GraphicsDevice GraphicsDevice { get; protected set; }
 
         public float DpiScale { get; protected set; }
 
@@ -259,7 +245,7 @@ namespace Kenedia.Modules.Core.Controls
             return contains_mouse ? SliceHighlight : SliceBackground;
         }
 
-        private void DrawRadialBorder(Vector2 Center, float innerR, float outerR, float angle, float thickness, Color color)
+        private void DrawRadialBorder(GraphicsDevice GraphicsDevice, BasicEffect Effect, Vector2 Center, float innerR, float outerR, float angle, float thickness, Color color)
         {
             var verts = new List<VertexPositionColor>();
 
@@ -288,7 +274,20 @@ namespace Kenedia.Modules.Core.Controls
 
         private void DrawGradientDonutSlice(float startAngle, float endAngle, Color solidColor, Color edgeFadeColor, float clearPercent = 0.20f, float fadePercent = 0.20f, float outerBorderThickness = 5f, float innerBorderThickness = 5f, int segments = 48)
         {
-            if (GraphicsDevice == null || Effect == null || segments < 2) return;
+            using var gdc = GameService.Graphics.LendGraphicsDeviceContext();
+            var graphicsDevice = gdc.GraphicsDevice;
+            var effect = new BasicEffect(graphicsDevice)
+            {
+                VertexColorEnabled = true,
+                Projection = Matrix.CreateOrthographicOffCenter
+               (
+                   0, graphicsDevice.Viewport.Width,
+                   graphicsDevice.Viewport.Height, 0,
+                   0, 1
+               )
+            };
+
+            if (graphicsDevice == null || effect == null || segments < 2) return;
 
             clearPercent = MathHelper.Clamp(clearPercent, 0f, 0.95f);
             fadePercent = MathHelper.Clamp(fadePercent, 0f, 1f);
@@ -327,10 +326,10 @@ namespace Kenedia.Modules.Core.Controls
                 solidVerts[idx++] = new VertexPositionColor(new Vector3(i2, 0), solidColor);
             }
 
-            foreach (var pass in Effect.CurrentTechnique.Passes)
+            foreach (var pass in effect.CurrentTechnique.Passes)
             {
                 pass.Apply();
-                GraphicsDevice.DrawUserPrimitives(PrimitiveType.TriangleList, solidVerts, 0, segments * 2);
+                graphicsDevice.DrawUserPrimitives(PrimitiveType.TriangleList, solidVerts, 0, segments * 2);
             }
 
             // -------------------------------------
@@ -360,10 +359,10 @@ namespace Kenedia.Modules.Core.Controls
                     fadeVerts[idx++] = new VertexPositionColor(new Vector3(i2, 0), solidColor);
                 }
 
-                foreach (var pass in Effect.CurrentTechnique.Passes)
+                foreach (var pass in effect.CurrentTechnique.Passes)
                 {
                     pass.Apply();
-                    GraphicsDevice.DrawUserPrimitives(PrimitiveType.TriangleList, fadeVerts, 0, segments * 2);
+                    graphicsDevice.DrawUserPrimitives(PrimitiveType.TriangleList, fadeVerts, 0, segments * 2);
                 }
             }
 
@@ -397,10 +396,10 @@ namespace Kenedia.Modules.Core.Controls
                     borderVerts[idx++] = new VertexPositionColor(new Vector3(i2, 0), solidColor);
                 }
 
-                foreach (var pass in Effect.CurrentTechnique.Passes)
+                foreach (var pass in effect.CurrentTechnique.Passes)
                 {
                     pass.Apply();
-                    GraphicsDevice.DrawUserPrimitives(PrimitiveType.TriangleList, borderVerts, 0, segments * 2);
+                    graphicsDevice.DrawUserPrimitives(PrimitiveType.TriangleList, borderVerts, 0, segments * 2);
                 }
             }
 
@@ -434,17 +433,17 @@ namespace Kenedia.Modules.Core.Controls
                     borderVerts[idx++] = new VertexPositionColor(new Vector3(i2, 0), solidColor);
                 }
 
-                foreach (var pass in Effect.CurrentTechnique.Passes)
+                foreach (var pass in effect.CurrentTechnique.Passes)
                 {
                     pass.Apply();
-                    GraphicsDevice.DrawUserPrimitives(PrimitiveType.TriangleList, borderVerts, 0, segments * 2);
+                    graphicsDevice.DrawUserPrimitives(PrimitiveType.TriangleList, borderVerts, 0, segments * 2);
                 }
             }
 
             if (ShowSliceBorder)
             {
-                DrawRadialBorder(Center, clearRadius + (ShowInnerBorder ? innerBorderThickness : 0F), fadeRadius, startAngle, SliceBorderThickness, solidColor);
-                DrawRadialBorder(Center, clearRadius + (ShowInnerBorder ? innerBorderThickness : 0F), fadeRadius, endAngle, SliceBorderThickness, solidColor);
+                DrawRadialBorder(graphicsDevice, effect, Center, clearRadius + (ShowInnerBorder ? innerBorderThickness : 0F), fadeRadius, startAngle, SliceBorderThickness, solidColor);
+                DrawRadialBorder(graphicsDevice, effect, Center, clearRadius + (ShowInnerBorder ? innerBorderThickness : 0F), fadeRadius, endAngle, SliceBorderThickness, solidColor);
             }
         }
     }
