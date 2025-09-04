@@ -42,12 +42,11 @@ namespace Kenedia.Modules.Characters.Services
 
         private bool _ignoreOCR;
 
-        public CharacterSwapping(Settings settings, GameStateDetectionService gameState, ObservableCollection<Character_Model> characterModels, CharactersApiService charactersApiService)
+        public CharacterSwapping(Settings settings, GameStateDetectionService gameState, ObservableCollection<Character_Model> characterModels)
         {
             _settings = settings;
             _gameState = gameState;
             _rawCharacterModels = characterModels;
-            CharactersApiService = charactersApiService;
         }
 
         public OCR OCR { get; set; }
@@ -85,8 +84,6 @@ namespace Kenedia.Modules.Characters.Services
         public Character_Model Character { get; set; }
 
         private List<Character_Model> CharacterModels => Characters.ModuleInstance.Data.StaticInfo.IsBeta ? _rawCharacterModels.ToList() : _rawCharacterModels.Where(e => !e.Beta).ToList();
-
-        public CharactersApiService CharactersApiService { get; }
 
         private bool IsTaskCanceled(CancellationToken cancellationToken)
         {

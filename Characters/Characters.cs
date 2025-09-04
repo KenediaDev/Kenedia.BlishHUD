@@ -96,7 +96,6 @@ namespace Kenedia.Modules.Characters
 
         private Character_Model _currentCharacterModel;
         private CancellationTokenSource _characterFileTokenSource;
-        private CharactersApiService CharactersApiService;
 
         public Character_Model CurrentCharacterModel
         {
@@ -139,7 +138,6 @@ namespace Kenedia.Modules.Characters
 
         protected override ServiceCollection DefineServices(ServiceCollection services)
         {
-            services.AddSingleton<CharactersApiService>();
             services.AddSingleton<ContextManager>();
             services.AddSingleton<CharactersContext>();
             services.AddSingleton<CharacterSwapping>();
@@ -227,10 +225,11 @@ namespace Kenedia.Modules.Characters
         {
             await base.LoadAsync();
 
-            GameService.Contexts.RegisterContext(ServiceProvider.GetRequiredService<CharactersContext>());
-
-            CharactersApiService = new CharactersApiService();
-            CharactersApiService.Start();
+            var context = GameService.Contexts.GetContext<CharactersContext>();
+            if (context is null)
+            {
+                GameService.Contexts.RegisterContext(ServiceProvider.GetRequiredService<CharactersContext>());
+            }
 
             CharacterSwapping = ServiceProvider.GetRequiredService<CharacterSwapping>();
             CharacterSorting = ServiceProvider.GetRequiredService<CharacterSorting>();
