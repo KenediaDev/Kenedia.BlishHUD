@@ -3,18 +3,22 @@ using Kenedia.Modules.BuildsManager.Res;
 using Kenedia.Modules.BuildsManager.Services;
 using Kenedia.Modules.Core.Controls;
 using Kenedia.Modules.Core.Res;
+using System.Threading.Tasks;
 
 namespace Kenedia.Modules.BuildsManager.Views
 {
     public class SettingsView : View
     {
 
-        public SettingsView(Settings settings)
+        public SettingsView(Settings settings, Data data)
         {
             Settings = settings;
+            Data = data;
         }
 
         public Settings Settings { get; }
+
+        public Data Data { get; }
 
         protected override void Build(Blish_HUD.Controls.Container buildPanel)
         {
@@ -79,10 +83,10 @@ namespace Kenedia.Modules.BuildsManager.Views
                 SetLocalizedTooltip = () => strings.RequireVisibleTemplate_Tooltip,
             };
 
-           var setFilterOnTemplateCreate = new Checkbox()
+            var setFilterOnTemplateCreate = new Checkbox()
             {
                 Parent = fp,
-                Checked = Settings.SetFilterOnTemplateCreate.Value,                
+                Checked = Settings.SetFilterOnTemplateCreate.Value,
                 SetLocalizedText = () => string.Format(strings.SetFilterOnTemplateCreate, BuildsManager.ModuleName),
                 SetLocalizedTooltip = () => strings.SetFilterOnTemplateCreate_Tooltip,
             };
@@ -175,7 +179,7 @@ namespace Kenedia.Modules.BuildsManager.Views
                 Parent = subP,
                 MinValue = 0,
                 MaxValue = 240,
-                SmallStep  = false,                
+                SmallStep = false,
                 Value = (float)(Settings.QuickFiltersPanelFadeDelay.Value / 0.25),
                 Width = 300,
                 ValueChangedAction = (num) =>
@@ -238,6 +242,27 @@ namespace Kenedia.Modules.BuildsManager.Views
                 CheckedChangedAction = (b) => Settings.ShowQuickFilterPanelOnTabOpen.Value = b,
                 SetLocalizedText = () => strings.ShowQuickFilterPanelOnTabOpen_Name,
                 SetLocalizedTooltip = () => strings.ShowQuickFilterPanelOnTabOpen_Tooltip,
+            };
+
+            fp = new FlowPanel()
+            {
+                Title = "Data Handling",
+                Parent = p,
+                WidthSizingMode = Blish_HUD.Controls.SizingMode.Fill,
+                HeightSizingMode = Blish_HUD.Controls.SizingMode.AutoSize,
+                AutoSizePadding = new(0, 20),
+                ContentPadding = new(10, 10),
+                ControlPadding = new(10, 5),
+                FlowDirection = Blish_HUD.Controls.ControlFlowDirection.TopToBottom,
+            };
+
+            _ = new Button()
+            {
+                Parent = fp,
+                Width = 200,
+                Height = 30,
+                SetLocalizedText = () => "Check for updated data",
+                ClickAction = async () => await Data.Load(true),
             };
         }
     }

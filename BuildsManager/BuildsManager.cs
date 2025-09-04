@@ -259,8 +259,8 @@ namespace Kenedia.Modules.BuildsManager
             MainWindow = scope.ServiceProvider.GetRequiredService<MainWindow>();
 
 #if DEBUG
-            MainWindow.SetLocation(100, 100);
-            MainWindow.Show();
+            //MainWindow.SetLocation(100, 100);
+            //MainWindow.Show();
 #endif
 
             //TemplatePresenter.SetTemplate(Templates?.FirstOrDefault());

@@ -41,7 +41,7 @@ namespace Kenedia.Modules.BuildsManager.Views
         };
         private readonly TabbedRegion _tabbedRegion;
 
-        public MainWindow(Module module, MainWindowPresenter mainWindowPresenter, TemplatePresenter templatePresenter, TemplateTags templateTags, TagGroups tagGroups, SelectionPanel selectionPanel, AboutTab aboutTab, BuildTab buildTab, GearTab gearTab, QuickFiltersPanel quickFiltersPanel, Settings settings) : base(
+        public MainWindow(Module module, MainWindowPresenter mainWindowPresenter, TemplatePresenter templatePresenter, TemplateTags templateTags, TagGroups tagGroups, SelectionPanel selectionPanel, AboutTab aboutTab, BuildTab buildTab, GearTab gearTab, QuickFiltersPanel quickFiltersPanel, Settings settings, Data data) : base(
             TexturesService.GetTextureFromRef(@"textures\mainwindow_background.png", "mainwindow_background"),
                 new Rectangle(30, 30, 915, 665 + 0),
                 new Rectangle(40, 20, 915 - 20, 665))
@@ -78,7 +78,7 @@ namespace Kenedia.Modules.BuildsManager.Views
 
             Tabs.Add(TemplateViewTab = new Blish_HUD.Controls.Tab(AsyncTexture2D.FromAssetId(156720), () => TemplateView = new TemplateView(this, selectionPanel, aboutTab, buildTab, gearTab, quickFiltersPanel, MainWindowPresenter), strings.Templates));
             Tabs.Add(TagEditViewTab = new Blish_HUD.Controls.Tab(TexturesService.GetTextureFromRef(textures_common.Tag, nameof(textures_common.Tag)), () => TagEditView = new TagEditView(templateTags, tagGroups, MainWindowPresenter), strings.Tags));
-            Tabs.Add(SettingsViewTab = new Blish_HUD.Controls.Tab(AsyncTexture2D.FromAssetId(157109), () => SettingsView = new SettingsView(settings), strings_common.Settings));
+            Tabs.Add(SettingsViewTab = new Blish_HUD.Controls.Tab(AsyncTexture2D.FromAssetId(157109), () => SettingsView = new SettingsView(settings, data), strings_common.Settings));
         }
 
         private void TemplatePresenter_TemplateChanged(object sender, Core.Models.ValueChangedEventArgs<Template> e)

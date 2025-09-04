@@ -45,7 +45,10 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
 
         private void CreateStatSelectables()
         {
-            if (_stats.Count > 0) return;
+            //if (_stats.Count > 0) return;
+
+            _stats.Clear();
+            _statIcons.Clear();
 
             int size = 25;
             Point start = new(0, 0);

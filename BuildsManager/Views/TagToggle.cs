@@ -28,6 +28,13 @@ namespace Kenedia.Modules.BuildsManager.Views
         public TagToggle(TemplateTag tag)
         {
             Size = new(TagHeight);
+
+            if (tag is null)
+            {
+                Logger.GetLogger(typeof(BuildsManager)).Error("TagToggle created with null tag.");
+                throw new ArgumentNullException(nameof(tag));
+            }
+
             Tag = tag;
 
             Tag.PropertyChanged += Tag_PropertyChanged;

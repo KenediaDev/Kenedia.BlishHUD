@@ -396,6 +396,11 @@ namespace Kenedia.Modules.BuildsManager.Views
 
         private TagToggle AddTemplateTag(TemplateTag e, TagGroupPanel? parent = null, Action<TemplateTag>? action = null)
         {
+            if (e is null || string.IsNullOrEmpty(e.Name) || _tagControls.SelectMany(x => x.Value).Any(x => x.Tag == e))
+            {
+                return null;
+            }
+
             var panel = parent ?? GetPanel(e.Group);
 
             bool hasTag(Template t)
@@ -560,6 +565,9 @@ namespace Kenedia.Modules.BuildsManager.Views
 
         private void CreateSpecToggles()
         {
+            _specPanel?.ClearChildren();
+            _specPanel?.Dispose();
+
             _specPanel = new(new TagGroup(strings.Specializations), _tagPanel)
             {
                 FlowDirection = Blish_HUD.Controls.ControlFlowDirection.LeftToRight,
@@ -594,7 +602,7 @@ namespace Kenedia.Modules.BuildsManager.Views
                     return t.Profession == p.Id;
                 }
 
-                _specToggles.Add(toggle = AddTemplateTag(new TemplateTag()
+                toggle = AddTemplateTag(new TemplateTag()
                 {
                     Name = p.Name,
                     Group = strings.Specializations,
@@ -612,9 +620,13 @@ namespace Kenedia.Modules.BuildsManager.Views
                     }
 
                     SelectionPanel.BuildSelection.FilterTemplates();
-                }));
+                });
 
-                toggle.SetLocalizedTooltip = () => p.Name;
+                if (toggle is not null)
+                {
+                    _specToggles.Add(toggle);
+                    toggle.SetLocalizedTooltip = () => p.Name;
+                }
 
                 foreach (var s in p.Specializations.Values)
                 {
@@ -631,7 +643,7 @@ namespace Kenedia.Modules.BuildsManager.Views
                             return t.EliteSpecializationId == s.Id;
                         }
 
-                        _specToggles.Add(toggle = AddTemplateTag(new TemplateTag()
+                        toggle = AddTemplateTag(new TemplateTag()
                         {
                             Name = s.Name,
                             Group = strings.Specializations,
@@ -649,9 +661,13 @@ namespace Kenedia.Modules.BuildsManager.Views
                             }
 
                             SelectionPanel.BuildSelection.FilterTemplates();
-                        }));
+                        });
 
-                        toggle.SetLocalizedTooltip = () => s.Name;
+                        if (toggle is not null)
+                        {
+                            _specToggles.Add(toggle);
+                            toggle.SetLocalizedTooltip = () => s.Name;
+                        }
                     }
                 }
             }

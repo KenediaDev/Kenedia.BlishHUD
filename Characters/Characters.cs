@@ -540,7 +540,6 @@ namespace Kenedia.Modules.Characters
             //GameService.Graphics.SpriteScreen.Visible = true;
             //MainWindow?.ToggleWindow();
             //SettingsWindow?.ToggleWindow();
-
         }
 
         private void OnCharacterCollectionChanged(object sender, EventArgs e)

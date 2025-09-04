@@ -58,6 +58,23 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
 
         private void Data_Loaded(object sender, System.EventArgs e)
         {
+            _armors.Clear();
+            _trinkets.Clear();
+            _backs.Clear();
+            _weapons.Clear();
+            _pvpAmulets.Clear();
+            _pveSigils.Clear();
+            _pvpSigils.Clear();
+            _pveRunes.Clear();
+            _pvpRunes.Clear();
+            _nourishment.Clear();
+            _utilites.Clear();
+            _enrichments.Clear();
+            _infusions.Clear();
+            _powerCores.Clear();
+            _pveRelics.Clear();
+            _pvpRelics.Clear();
+
             _armors = AddItems<SelectionPanelSelectable, Armor>(Data.Armors.Values.OrderByDescending(e => e.Rarity).ThenBy(e => e.Id));
             _trinkets = AddItems<SelectionPanelSelectable, Trinket>(Data.Trinkets.Values.OrderByDescending(e => e.Rarity).ThenBy(e => e.Id));
             _backs = AddItems<SelectionPanelSelectable, Trinket>(Data.Backs.Values.OrderByDescending(e => e.Rarity).ThenBy(e => e.Id));
