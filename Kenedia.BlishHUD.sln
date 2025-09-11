@@ -82,7 +82,6 @@ Global
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {94085438-920A-4295-B0FF-07143DAE4052}
-		RESX_Rules = {"EnabledRules":["StringFormat","WhiteSpaceLead","WhiteSpaceTail"]}
 	EndGlobalSection
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		Core\Core.projitems*{1470ba39-b2f7-496f-8a51-b2084ed58ce8}*SharedItemsImports = 4

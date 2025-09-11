@@ -401,6 +401,12 @@ namespace Kenedia.Modules.BuildsManager.Views
                 return null;
             }
 
+            if (e?.Icon?.Texture is null)
+            {
+                BuildsManager.Logger.Warn($"Tag '{e.Name}' in Group {e.Group} has no icon.");
+                return null;
+            }
+
             var panel = parent ?? GetPanel(e.Group);
 
             bool hasTag(Template t)
@@ -410,6 +416,13 @@ namespace Kenedia.Modules.BuildsManager.Views
 
             Action<TemplateTag> a = action ?? new Action<TemplateTag>((x) =>
             {
+                if (e?.Icon?.Texture is null)
+                {
+                    BuildsManager.Logger.Warn($"[OnSelectedChanged]: Tag '{e.Name}' in Group '{e.Group}' has no icon.");
+                    BuildsManager.Logger.Warn($"{e?.ToJson()}");
+                    return;
+                }
+
                 if (!SelectionPanel.BuildSelection.FilterQueries.Any(x => x.Key == e.Group))
                 {
                     SelectionPanel.BuildSelection.FilterQueries.Add(new KeyValuePair<string, List<Func<Template, bool>>>(e.Group, []));

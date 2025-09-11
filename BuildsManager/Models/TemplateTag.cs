@@ -96,5 +96,18 @@ namespace Kenedia.Modules.BuildsManager.Models
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Group)));
         }
+
+        public string ToJson()
+        {
+            try
+            {
+                return JsonConvert.SerializeObject(this);
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex);
+                return string.Empty;
+            }
+        }
     }
 }

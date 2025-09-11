@@ -97,6 +97,20 @@ namespace Kenedia.Modules.BuildsManager
             TemplatePresenter = ServiceProvider.GetRequiredService<TemplatePresenter>();
             TemplateTags = ServiceProvider.GetRequiredService<TemplateTags>();
             GW2API = ServiceProvider.GetRequiredService<GW2API>();
+
+            Data.Loaded += Data_Loaded;
+        }
+
+        private async void Data_Loaded(object sender, EventArgs e)
+        {
+            var templateGroups = ServiceProvider.GetService<TagGroups>();
+            await templateGroups.Load();
+
+            var templateTags = TemplateTags;
+            await templateTags.Load();
+
+            await Templates.Load();
+
         }
 
         //public event ValueChangedEventHandler<bool> TemplatesLoadedDone;
@@ -173,14 +187,6 @@ namespace Kenedia.Modules.BuildsManager
             LoadingSpinner?.Show();
 
             await base.LoadAsync();
-
-            var templateGroups = ServiceProvider.GetService<TagGroups>();
-            await templateGroups.Load();
-
-            var templateTags = TemplateTags;
-            await templateTags.Load();
-
-            await Templates.Load();
 
             _ = await Data.Load();
 

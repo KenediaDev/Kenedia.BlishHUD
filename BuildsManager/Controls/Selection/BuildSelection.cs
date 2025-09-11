@@ -212,27 +212,34 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
 
         public void FilterTemplates()
         {
-            string lowerTxt = Search.Text?.Trim().ToLower();
-            bool anyName = string.IsNullOrEmpty(lowerTxt);
-
-            foreach (var template in TemplateSelectables)
+            try
             {
-                bool filterQueriesMatches = FilterQueries.Count == 0 || FilterQueries.All(x => x.Value.Count == 0 || x.Value.Any(x => x(template.Template)));
-                bool specMatches = SpecializationFilterQueries.Count == 0 || SpecializationFilterQueries.Any(x => x(template.Template));
-                bool nameMatches = anyName || template.Template.Name.ToLower().Contains(lowerTxt);
-                bool lastModifiedMatch = template.Template.LastModified.ToLower().Contains(lowerTxt);
+                string lowerTxt = Search.Text?.Trim().ToLower();
+                bool anyName = string.IsNullOrEmpty(lowerTxt);
 
-                template.Visible = filterQueriesMatches && specMatches && (nameMatches || lastModifiedMatch);
+                foreach (var template in TemplateSelectables)
+                {
+                    bool filterQueriesMatches = FilterQueries.Count == 0 || FilterQueries.All(x => x.Value.Count == 0 || x.Value.Any(x => x(template.Template)));
+                    bool specMatches = SpecializationFilterQueries.Count == 0 || SpecializationFilterQueries.Any(x => x(template.Template));
+                    bool nameMatches = anyName || template.Template.Name.ToLower().Contains(lowerTxt);
+                    bool lastModifiedMatch = template.Template.LastModified.ToLower().Contains(lowerTxt);
+
+                    template.Visible = filterQueriesMatches && specMatches && (nameMatches || lastModifiedMatch);
+                }
+
+                SortTemplates();
+
+                var current = TemplateSelectables.FirstOrDefault(x => x.Template == TemplatePresenter.Template);
+
+                if ((current?.Visible is not true && Settings.RequireVisibleTemplate.Value) || current?.Template == Template.Empty)
+                {
+                    var newTemplate = SelectionContent.OfType<TemplateSelectable>().FirstOrDefault(x => x.Visible) is TemplateSelectable t ? t : null;
+                    TemplatePresenter.SetTemplate(newTemplate?.Template);
+                }
             }
-
-            SortTemplates();
-
-            var current = TemplateSelectables.FirstOrDefault(x => x.Template == TemplatePresenter.Template);
-
-            if ((current?.Visible is not true && Settings.RequireVisibleTemplate.Value) || current?.Template == Template.Empty)
+            catch (Exception ex)
             {
-                var newTemplate = SelectionContent.OfType<TemplateSelectable>().FirstOrDefault(x => x.Visible) is TemplateSelectable t ? t : null;
-                TemplatePresenter.SetTemplate(newTemplate?.Template);
+                BuildsManager.Logger.Debug(ex, "Error while filtering templates");
             }
         }
 
