@@ -3,6 +3,7 @@ using Gw2Sharp.Models;
 using Gw2Sharp.WebApi.V2;
 using Gw2Sharp.WebApi.V2.Models;
 using Kenedia.Modules.BuildsManager.DataModels.Items;
+using Kenedia.Modules.BuildsManager.Models;
 using Kenedia.Modules.Core.DataModels;
 using Kenedia.Modules.Core.Extensions;
 using Kenedia.Modules.Core.Models;
@@ -74,7 +75,7 @@ namespace Kenedia.Modules.BuildsManager.DataModels.Professions
         public LocalizedString Names { get; protected set; } = [];
 
         [DataMember]
-        public Dictionary<int, Skill> Skills { get; set; } = [];
+        public SkillDictionary Skills { get; set; } = [];
 
         [DataMember]
         public Dictionary<int, Legend> Legends { get; set; }

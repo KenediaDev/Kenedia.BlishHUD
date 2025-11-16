@@ -12,6 +12,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using static Blish_HUD.ContentService;
 
@@ -168,9 +169,11 @@ namespace Kenedia.Modules.BuildsManager.Controls.ProfessionSpecific
 
         protected override void DisposeControl()
         {
-            base.DisposeControl();
 
+            TemplatePresenter.LegendSlotChanged -= TemplatePresenter_LegendSlotChanged;
             _legendSelector?.Dispose();
+
+            base.DisposeControl();
         }
 
         private LegendSlotType GetOtherSlot(LegendSlotType? slot = null)

@@ -1,34 +1,36 @@
-﻿using Gw2Sharp.ChatLinks;
-using ProfessionType = Gw2Sharp.Models.ProfessionType;
+﻿using Blish_HUD.Gw2Mumble;
+using Gw2BuildTemplates;
+using Gw2Sharp;
+using Gw2Sharp.ChatLinks;
+using Kenedia.Modules.BuildsManager.Controls_Old.GearPage.GearSlots;
+using Kenedia.Modules.BuildsManager.DataModels.Items;
 using Kenedia.Modules.BuildsManager.DataModels.Professions;
+using Kenedia.Modules.BuildsManager.DataModels.Stats;
+using Kenedia.Modules.BuildsManager.Extensions;
+using Kenedia.Modules.BuildsManager.Interfaces;
 using Kenedia.Modules.BuildsManager.Models.Templates;
+using Kenedia.Modules.BuildsManager.Res;
+using Kenedia.Modules.BuildsManager.Services;
+using Kenedia.Modules.BuildsManager.TemplateEntries;
+using Kenedia.Modules.BuildsManager.Utility;
 using Kenedia.Modules.Core.DataModels;
 using Kenedia.Modules.Core.Extensions;
 using Kenedia.Modules.Core.Models;
 using Kenedia.Modules.Core.Utility;
 using Newtonsoft.Json;
 using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.IdentityModel.Protocols.WSTrust;
 using System.IO;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Runtime.Serialization;
 using System.Threading;
 using System.Threading.Tasks;
-using Kenedia.Modules.BuildsManager.TemplateEntries;
-using System.Collections.Generic;
-using Blish_HUD.Gw2Mumble;
-using Kenedia.Modules.BuildsManager.Utility;
-using Kenedia.Modules.BuildsManager.DataModels.Items;
-using Kenedia.Modules.BuildsManager.DataModels.Stats;
-using Kenedia.Modules.BuildsManager.Res;
-using Kenedia.Modules.BuildsManager.Services;
-using Gw2Sharp;
-using Kenedia.Modules.BuildsManager.Extensions;
 using System.Timers;
-using Kenedia.Modules.BuildsManager.Controls_Old.GearPage.GearSlots;
-using Kenedia.Modules.BuildsManager.Interfaces;
-using System.IdentityModel.Protocols.WSTrust;
-using System.Diagnostics;
-using System.Runtime.CompilerServices;
+using ItemWeaponType = Gw2Sharp.WebApi.V2.Models.ItemWeaponType;
+using ProfessionType = Gw2Sharp.Models.ProfessionType;
 
 namespace Kenedia.Modules.BuildsManager.Models
 {
@@ -298,6 +300,10 @@ namespace Kenedia.Modules.BuildsManager.Models
 
         public PvpRelicTemplateEntry PvpRelic { get; }
 
+        public List<TemplateWeaponType> SelectedWeapons { get; set; } = [];
+
+        public List<uint> SkillOverrides { get; set; } = [];
+
         public Dictionary<TemplateSlotType, TemplateEntry> Weapons { get; }
 
         public bool TriggerAutoSave { get; set; } = false;
@@ -531,71 +537,79 @@ namespace Kenedia.Modules.BuildsManager.Models
 
         public void LoadBuildFromCode(string? code, bool save = false)
         {
-            if (code is not null && Gw2ChatLink.TryParse(code, out IGw2ChatLink? chatlink) && Data.IsLoaded)
+            if (Data?.IsLoaded is not true)
+                return;
+
+            if (code is not null && Gw2BuildCodec.TryDecode(code, out var build))
             {
-                BuildChatLink build = new();
-                build.Parse(chatlink.ToArray());
+                Loaded = false;
 
                 Profession = build.Profession;
 
-                LoadSpecializationFromCode(build.Profession, SpecializationSlotType.Line_1, build.Specialization1Id, build.Specialization1Trait1Index, build.Specialization1Trait2Index, build.Specialization1Trait3Index);
-                LoadSpecializationFromCode(build.Profession, SpecializationSlotType.Line_2, build.Specialization2Id, build.Specialization2Trait1Index, build.Specialization2Trait2Index, build.Specialization2Trait3Index);
-                LoadSpecializationFromCode(build.Profession, SpecializationSlotType.Line_3, build.Specialization3Id, build.Specialization3Trait1Index, build.Specialization3Trait2Index, build.Specialization3Trait3Index);
+                LoadSpecializationFromCode(build.Profession, SpecializationSlotType.Line_1, build.Specializations[0].SpecializationId, build.Specializations[0].Trait1, build.Specializations[0].Trait2, build.Specializations[0].Trait3);
+                LoadSpecializationFromCode(build.Profession, SpecializationSlotType.Line_2, build.Specializations[1].SpecializationId, build.Specializations[1].Trait1, build.Specializations[1].Trait2, build.Specializations[1].Trait3);
+                LoadSpecializationFromCode(build.Profession, SpecializationSlotType.Line_3, build.Specializations[2].SpecializationId, build.Specializations[2].Trait1, build.Specializations[2].Trait2, build.Specializations[2].Trait3);
 
                 if (Profession == ProfessionType.Ranger)
                 {
-                    Pets.LoadFromCode(build.RangerTerrestrialPet1Id, build.RangerTerrestrialPet2Id, build.RangerAquaticPet1Id, build.RangerAquaticPet2Id);
+                    Pets.LoadFromCode(build.RangerPets.Terrestrial1, build.RangerPets.Terrestrial2, build.RangerPets.Aquatic1, build.RangerPets.Aquatic2);
                 }
 
                 if (Profession == ProfessionType.Revenant)
                 {
-                    SetLegend(LegendSlotType.TerrestrialInactive, Legend.FromByte(build.RevenantInactiveTerrestrialLegend));
-                    SetSkill(SkillSlotType.Inactive | SkillSlotType.Terrestrial | SkillSlotType.Heal, Legend.FromByte(build.RevenantInactiveTerrestrialLegend)?.Heal);
-                    SetSkill(SkillSlotType.Inactive | SkillSlotType.Terrestrial | SkillSlotType.Utility_1, Legend.SkillFromUShort(build.RevenantInactiveTerrestrialUtility1SkillPaletteId, Legends[LegendSlotType.TerrestrialInactive]));
-                    SetSkill(SkillSlotType.Inactive | SkillSlotType.Terrestrial | SkillSlotType.Utility_2, Legend.SkillFromUShort(build.RevenantInactiveTerrestrialUtility2SkillPaletteId, Legends[LegendSlotType.TerrestrialInactive]));
-                    SetSkill(SkillSlotType.Inactive | SkillSlotType.Terrestrial | SkillSlotType.Utility_3, Legend.SkillFromUShort(build.RevenantInactiveTerrestrialUtility3SkillPaletteId, Legends[LegendSlotType.TerrestrialInactive]));
-                    SetSkill(SkillSlotType.Inactive | SkillSlotType.Terrestrial | SkillSlotType.Elite, Legend.FromByte(build.RevenantInactiveTerrestrialLegend)?.Elite);
+                    Legends.TerrestrialInactive = Legend.FromByte(build.RevenantLegends.TerrestrialLegend2);
+                    SetSkill(SkillSlotType.Inactive | SkillSlotType.Terrestrial | SkillSlotType.Heal, Legend.FromByte(build.RevenantLegends.TerrestrialLegend2)?.Heal);
+                    SetSkill(SkillSlotType.Inactive | SkillSlotType.Terrestrial | SkillSlotType.Utility_1, Legend.SkillFromUShort(build.RevenantLegends.InactiveTerrestrial1, Legends[LegendSlotType.TerrestrialInactive]));
+                    SetSkill(SkillSlotType.Inactive | SkillSlotType.Terrestrial | SkillSlotType.Utility_2, Legend.SkillFromUShort(build.RevenantLegends.InactiveTerrestrial2, Legends[LegendSlotType.TerrestrialInactive]));
+                    SetSkill(SkillSlotType.Inactive | SkillSlotType.Terrestrial | SkillSlotType.Utility_3, Legend.SkillFromUShort(build.RevenantLegends.InactiveTerrestrial3, Legends[LegendSlotType.TerrestrialInactive]));
+                    SetSkill(SkillSlotType.Inactive | SkillSlotType.Terrestrial | SkillSlotType.Elite, Legend.FromByte(build.RevenantLegends.TerrestrialLegend2)?.Elite);
 
-                    SetLegend(LegendSlotType.AquaticInactive, Legend.FromByte(build.RevenantInactiveAquaticLegend));
-                    SetSkill(SkillSlotType.Inactive | SkillSlotType.Aquatic | SkillSlotType.Heal, Legend.FromByte(build.RevenantInactiveAquaticLegend)?.Heal);
-                    SetSkill(SkillSlotType.Inactive | SkillSlotType.Aquatic | SkillSlotType.Utility_1, Legend.SkillFromUShort(build.RevenantInactiveAquaticUtility1SkillPaletteId, Legends[LegendSlotType.AquaticInactive]));
-                    SetSkill(SkillSlotType.Inactive | SkillSlotType.Aquatic | SkillSlotType.Utility_2, Legend.SkillFromUShort(build.RevenantInactiveAquaticUtility2SkillPaletteId, Legends[LegendSlotType.AquaticInactive]));
-                    SetSkill(SkillSlotType.Inactive | SkillSlotType.Aquatic | SkillSlotType.Utility_3, Legend.SkillFromUShort(build.RevenantInactiveAquaticUtility3SkillPaletteId, Legends[LegendSlotType.AquaticInactive]));
-                    SetSkill(SkillSlotType.Inactive | SkillSlotType.Aquatic | SkillSlotType.Elite, Legend.FromByte(build.RevenantInactiveAquaticLegend)?.Elite);
+                    Legends.AquaticInactive = Legend.FromByte(build.RevenantLegends.AquaticLegend2);
+                    SetSkill(SkillSlotType.Inactive | SkillSlotType.Aquatic | SkillSlotType.Heal, Legend.FromByte(build.RevenantLegends.AquaticLegend2)?.Heal);
+                    SetSkill(SkillSlotType.Inactive | SkillSlotType.Aquatic | SkillSlotType.Utility_1, Legend.SkillFromUShort(build.RevenantLegends.InactiveAquatic1, Legends[LegendSlotType.AquaticInactive]));
+                    SetSkill(SkillSlotType.Inactive | SkillSlotType.Aquatic | SkillSlotType.Utility_2, Legend.SkillFromUShort(build.RevenantLegends.InactiveAquatic2, Legends[LegendSlotType.AquaticInactive]));
+                    SetSkill(SkillSlotType.Inactive | SkillSlotType.Aquatic | SkillSlotType.Utility_3, Legend.SkillFromUShort(build.RevenantLegends.InactiveAquatic3, Legends[LegendSlotType.AquaticInactive]));
+                    SetSkill(SkillSlotType.Inactive | SkillSlotType.Aquatic | SkillSlotType.Elite, Legend.FromByte(build.RevenantLegends.AquaticLegend2)?.Elite);
 
-                    SetLegend(LegendSlotType.TerrestrialActive, Legend.FromByte(build.RevenantActiveTerrestrialLegend));
-                    SetSkill(SkillSlotType.Active | SkillSlotType.Terrestrial | SkillSlotType.Heal, Legend.SkillFromUShort(build.TerrestrialHealingSkillPaletteId, Legends[LegendSlotType.TerrestrialActive]));
-                    SetSkill(SkillSlotType.Active | SkillSlotType.Terrestrial | SkillSlotType.Utility_1, Legend.SkillFromUShort(build.TerrestrialUtility1SkillPaletteId, Legends[LegendSlotType.TerrestrialActive]));
-                    SetSkill(SkillSlotType.Active | SkillSlotType.Terrestrial | SkillSlotType.Utility_2, Legend.SkillFromUShort(build.TerrestrialUtility2SkillPaletteId, Legends[LegendSlotType.TerrestrialActive]));
-                    SetSkill(SkillSlotType.Active | SkillSlotType.Terrestrial | SkillSlotType.Utility_3, Legend.SkillFromUShort(build.TerrestrialUtility3SkillPaletteId, Legends[LegendSlotType.TerrestrialActive]));
-                    SetSkill(SkillSlotType.Active | SkillSlotType.Terrestrial | SkillSlotType.Elite, Legend.SkillFromUShort(build.TerrestrialEliteSkillPaletteId, Legends[LegendSlotType.TerrestrialActive]));
+                    Legends.TerrestrialActive = Legend.FromByte(build.RevenantLegends.TerrestrialLegend1);
+                    SetSkill(SkillSlotType.Active | SkillSlotType.Terrestrial | SkillSlotType.Heal, Skill.FromUShort(build.TerrestrialHeal, build.Profession, Data));
+                    SetSkill(SkillSlotType.Active | SkillSlotType.Terrestrial | SkillSlotType.Utility_1, Skill.FromUShort(build.TerrestrialUtility1, build.Profession, Data));
+                    SetSkill(SkillSlotType.Active | SkillSlotType.Terrestrial | SkillSlotType.Utility_2, Skill.FromUShort(build.TerrestrialUtility2, build.Profession, Data));
+                    SetSkill(SkillSlotType.Active | SkillSlotType.Terrestrial | SkillSlotType.Utility_3, Skill.FromUShort(build.TerrestrialUtility3, build.Profession, Data));
+                    SetSkill(SkillSlotType.Active | SkillSlotType.Terrestrial | SkillSlotType.Elite, Skill.FromUShort(build.TerrestrialElite, build.Profession, Data));
 
-                    SetLegend(LegendSlotType.AquaticActive, Legend.FromByte(build.RevenantActiveAquaticLegend));
-                    SetSkill(SkillSlotType.Active | SkillSlotType.Aquatic | SkillSlotType.Heal, Legend.SkillFromUShort(build.AquaticHealingSkillPaletteId, Legends[LegendSlotType.AquaticActive]));
-                    SetSkill(SkillSlotType.Active | SkillSlotType.Aquatic | SkillSlotType.Utility_1, Legend.SkillFromUShort(build.AquaticUtility1SkillPaletteId, Legends[LegendSlotType.AquaticActive]));
-                    SetSkill(SkillSlotType.Active | SkillSlotType.Aquatic | SkillSlotType.Utility_2, Legend.SkillFromUShort(build.AquaticUtility2SkillPaletteId, Legends[LegendSlotType.AquaticActive]));
-                    SetSkill(SkillSlotType.Active | SkillSlotType.Aquatic | SkillSlotType.Utility_3, Legend.SkillFromUShort(build.AquaticUtility3SkillPaletteId, Legends[LegendSlotType.AquaticActive]));
-                    SetSkill(SkillSlotType.Active | SkillSlotType.Aquatic | SkillSlotType.Elite, Legend.SkillFromUShort(build.AquaticEliteSkillPaletteId, Legends[LegendSlotType.AquaticActive]));
+                    Legends.AquaticActive = Legend.FromByte(build.RevenantLegends.AquaticLegend1);
+                    SetSkill(SkillSlotType.Active | SkillSlotType.Aquatic | SkillSlotType.Heal, Skill.FromUShort(build.AquaticHeal, build.Profession, Data));
+                    SetSkill(SkillSlotType.Active | SkillSlotType.Aquatic | SkillSlotType.Utility_1, Skill.FromUShort(build.AquaticUtility1, build.Profession, Data));
+                    SetSkill(SkillSlotType.Active | SkillSlotType.Aquatic | SkillSlotType.Utility_2, Skill.FromUShort(build.AquaticUtility2, build.Profession, Data));
+                    SetSkill(SkillSlotType.Active | SkillSlotType.Aquatic | SkillSlotType.Utility_3, Skill.FromUShort(build.AquaticUtility3, build.Profession, Data));
+                    SetSkill(SkillSlotType.Active | SkillSlotType.Aquatic | SkillSlotType.Elite, Skill.FromUShort(build.AquaticElite, build.Profession, Data));
                 }
                 else
                 {
                     //Fixed Elite Mortar Kit for Engineer
-                    ushort eliteSkillId = (ushort)(build.TerrestrialEliteSkillPaletteId is 4857 ? 408 : build.TerrestrialEliteSkillPaletteId);
+                    ushort eliteSkillId = (ushort)(build.TerrestrialElite is 4857 ? 408 : build.TerrestrialElite);
 
-                    SetSkill(SkillSlotType.Active | SkillSlotType.Terrestrial | SkillSlotType.Heal, Skill.FromUShort(build.TerrestrialHealingSkillPaletteId, build.Profession, Data));
-                    SetSkill(SkillSlotType.Active | SkillSlotType.Terrestrial | SkillSlotType.Utility_1, Skill.FromUShort(build.TerrestrialUtility1SkillPaletteId, build.Profession, Data));
-                    SetSkill(SkillSlotType.Active | SkillSlotType.Terrestrial | SkillSlotType.Utility_2, Skill.FromUShort(build.TerrestrialUtility2SkillPaletteId, build.Profession, Data));
-                    SetSkill(SkillSlotType.Active | SkillSlotType.Terrestrial | SkillSlotType.Utility_3, Skill.FromUShort(build.TerrestrialUtility3SkillPaletteId, build.Profession, Data));
+                    SetSkill(SkillSlotType.Active | SkillSlotType.Terrestrial | SkillSlotType.Heal, Skill.FromUShort(build.TerrestrialHeal, build.Profession, Data));
+                    SetSkill(SkillSlotType.Active | SkillSlotType.Terrestrial | SkillSlotType.Utility_1, Skill.FromUShort(build.TerrestrialUtility1, build.Profession, Data));
+                    SetSkill(SkillSlotType.Active | SkillSlotType.Terrestrial | SkillSlotType.Utility_2, Skill.FromUShort(build.TerrestrialUtility2, build.Profession, Data));
+                    SetSkill(SkillSlotType.Active | SkillSlotType.Terrestrial | SkillSlotType.Utility_3, Skill.FromUShort(build.TerrestrialUtility3, build.Profession, Data));
                     SetSkill(SkillSlotType.Active | SkillSlotType.Terrestrial | SkillSlotType.Elite, Skill.FromUShort(eliteSkillId, build.Profession, Data));
 
-                    SetSkill(SkillSlotType.Active | SkillSlotType.Aquatic | SkillSlotType.Heal, Skill.FromUShort(build.AquaticHealingSkillPaletteId, build.Profession, Data));
-                    SetSkill(SkillSlotType.Active | SkillSlotType.Aquatic | SkillSlotType.Utility_1, Skill.FromUShort(build.AquaticUtility1SkillPaletteId, build.Profession, Data));
-                    SetSkill(SkillSlotType.Active | SkillSlotType.Aquatic | SkillSlotType.Utility_2, Skill.FromUShort(build.AquaticUtility2SkillPaletteId, build.Profession, Data));
-                    SetSkill(SkillSlotType.Active | SkillSlotType.Aquatic | SkillSlotType.Utility_3, Skill.FromUShort(build.AquaticUtility3SkillPaletteId, build.Profession, Data));
-                    SetSkill(SkillSlotType.Active | SkillSlotType.Aquatic | SkillSlotType.Elite, Skill.FromUShort(build.AquaticEliteSkillPaletteId, build.Profession, Data));
+                    SetSkill(SkillSlotType.Active | SkillSlotType.Aquatic | SkillSlotType.Heal, Skill.FromUShort(build.AquaticHeal, build.Profession, Data));
+                    SetSkill(SkillSlotType.Active | SkillSlotType.Aquatic | SkillSlotType.Utility_1, Skill.FromUShort(build.AquaticUtility1, build.Profession, Data));
+                    SetSkill(SkillSlotType.Active | SkillSlotType.Aquatic | SkillSlotType.Utility_2, Skill.FromUShort(build.AquaticUtility2, build.Profession, Data));
+                    SetSkill(SkillSlotType.Active | SkillSlotType.Aquatic | SkillSlotType.Utility_3, Skill.FromUShort(build.AquaticUtility3, build.Profession, Data));
+                    SetSkill(SkillSlotType.Active | SkillSlotType.Aquatic | SkillSlotType.Elite, Skill.FromUShort(build.AquaticElite, build.Profession, Data));
                 }
 
+                SelectedWeapons = build.SelectedWeapons;
+                SkillOverrides = build.SkillOverrides;
+
                 SetArmorItems();
+
+                Loaded = true;
+                OnBuildCodeChanged();
             }
 
             if (save)
@@ -622,67 +636,77 @@ namespace Kenedia.Modules.BuildsManager.Models
 
         public string? ParseBuildCode()
         {
-            BuildChatLink build = new()
+            var buildtemplate = new BuildTemplate
             {
-                Profession = Profession,
-                RangerAquaticPet1Id = (byte)(Profession is ProfessionType.Ranger ? Pets.GetPetByte(PetSlotType.Aquatic_1) : 0),
-                RangerAquaticPet2Id = (byte)(Profession is ProfessionType.Ranger ? Pets.GetPetByte(PetSlotType.Aquatic_2) : 0),
-                RangerTerrestrialPet1Id = (byte)(Profession is ProfessionType.Ranger ? Pets.GetPetByte(PetSlotType.Terrestrial_1) : 0),
-                RangerTerrestrialPet2Id = (byte)(Profession is ProfessionType.Ranger ? Pets.GetPetByte(PetSlotType.Terrestrial_2) : 0),
+                Profession = Profession
+            };
 
-                Specialization1Id = Specializations.Specialization1.GetSpecializationByte(),
-                Specialization1Trait1Index = Specializations.Specialization1.GetTraitByte(TraitTierType.Adept),
-                Specialization1Trait2Index = Specializations.Specialization1.GetTraitByte(TraitTierType.Master),
-                Specialization1Trait3Index = Specializations.Specialization1.GetTraitByte(TraitTierType.GrandMaster),
+            buildtemplate.Specializations[0] = new()
+            {
+                SpecializationId = Specializations.Specialization1.GetSpecializationByte(),
+                Trait1 = Specializations.Specialization1.GetTraitByte(TraitTierType.Adept),
+                Trait2 = Specializations.Specialization1.GetTraitByte(TraitTierType.Master),
+                Trait3 = Specializations.Specialization1.GetTraitByte(TraitTierType.GrandMaster),
+            };
 
-                Specialization2Id = Specializations.Specialization2.GetSpecializationByte(),
-                Specialization2Trait1Index = Specializations.Specialization2.GetTraitByte(TraitTierType.Adept),
-                Specialization2Trait2Index = Specializations.Specialization2.GetTraitByte(TraitTierType.Master),
-                Specialization2Trait3Index = Specializations.Specialization2.GetTraitByte(TraitTierType.GrandMaster),
+            buildtemplate.Specializations[1] = new()
+            {
+                SpecializationId = Specializations.Specialization2.GetSpecializationByte(),
+                Trait1 = Specializations.Specialization2.GetTraitByte(TraitTierType.Adept),
+                Trait2 = Specializations.Specialization2.GetTraitByte(TraitTierType.Master),
+                Trait3 = Specializations.Specialization2.GetTraitByte(TraitTierType.GrandMaster),
+            };
 
-                Specialization3Id = Specializations.Specialization3.GetSpecializationByte(),
-                Specialization3Trait1Index = Specializations.Specialization3.GetTraitByte(TraitTierType.Adept),
-                Specialization3Trait2Index = Specializations.Specialization3.GetTraitByte(TraitTierType.Master),
-                Specialization3Trait3Index = Specializations.Specialization3.GetTraitByte(TraitTierType.GrandMaster),
+            buildtemplate.Specializations[2] = new()
+            {
+                SpecializationId = Specializations.Specialization3.GetSpecializationByte(),
+                Trait1 = Specializations.Specialization3.GetTraitByte(TraitTierType.Adept),
+                Trait2 = Specializations.Specialization3.GetTraitByte(TraitTierType.Master),
+                Trait3 = Specializations.Specialization3.GetTraitByte(TraitTierType.GrandMaster),
+            };
+
+            buildtemplate.RangerPets = new()
+            {
+                Terrestrial1 = (byte)(Profession is ProfessionType.Ranger ? Pets.GetPetByte(PetSlotType.Terrestrial_1) : 0),
+                Terrestrial2 = (byte)(Profession is ProfessionType.Ranger ? Pets.GetPetByte(PetSlotType.Terrestrial_2) : 0),
+                Aquatic1 = (byte)(Profession is ProfessionType.Ranger ? Pets.GetPetByte(PetSlotType.Aquatic_1) : 0),
+                Aquatic2 = (byte)(Profession is ProfessionType.Ranger ? Pets.GetPetByte(PetSlotType.Aquatic_2) : 0),
             };
 
             if (Profession == ProfessionType.Revenant)
             {
-                build.RevenantActiveTerrestrialLegend = Legends.GetLegendByte(LegendSlotType.TerrestrialActive);
-                build.RevenantInactiveTerrestrialLegend = Legends.GetLegendByte(LegendSlotType.TerrestrialInactive);
-                build.RevenantInactiveTerrestrialUtility1SkillPaletteId = Skills.GetPaletteId(SkillSlotType.Inactive | SkillSlotType.Terrestrial | SkillSlotType.Utility_1);
-                build.RevenantInactiveTerrestrialUtility2SkillPaletteId = Skills.GetPaletteId(SkillSlotType.Inactive | SkillSlotType.Terrestrial | SkillSlotType.Utility_2);
-                build.RevenantInactiveTerrestrialUtility3SkillPaletteId = Skills.GetPaletteId(SkillSlotType.Inactive | SkillSlotType.Terrestrial | SkillSlotType.Utility_3);
-
-                build.RevenantActiveAquaticLegend = Legends.GetLegendByte(LegendSlotType.AquaticActive);
-                build.RevenantInactiveAquaticLegend = Legends.GetLegendByte(LegendSlotType.AquaticInactive);
-
-                build.RevenantInactiveAquaticUtility1SkillPaletteId = Skills.GetPaletteId(SkillSlotType.Inactive | SkillSlotType.Aquatic | SkillSlotType.Utility_1);
-                build.RevenantInactiveAquaticUtility2SkillPaletteId = Skills.GetPaletteId(SkillSlotType.Inactive | SkillSlotType.Aquatic | SkillSlotType.Utility_2);
-                build.RevenantInactiveAquaticUtility3SkillPaletteId = Skills.GetPaletteId(SkillSlotType.Inactive | SkillSlotType.Aquatic | SkillSlotType.Utility_3);
+                buildtemplate.RevenantLegends = new()
+                {
+                    TerrestrialLegend1 = Legends.GetLegendByte(LegendSlotType.TerrestrialActive),
+                    TerrestrialLegend2 = Legends.GetLegendByte(LegendSlotType.TerrestrialInactive),
+                    InactiveTerrestrial1 = Skills.GetPaletteId(SkillSlotType.Inactive | SkillSlotType.Terrestrial | SkillSlotType.Utility_1),
+                    InactiveTerrestrial2 = Skills.GetPaletteId(SkillSlotType.Inactive | SkillSlotType.Terrestrial | SkillSlotType.Utility_2),
+                    InactiveTerrestrial3 = Skills.GetPaletteId(SkillSlotType.Inactive | SkillSlotType.Terrestrial | SkillSlotType.Utility_3),
+                    AquaticLegend1 = Legends.GetLegendByte(LegendSlotType.AquaticActive),
+                    AquaticLegend2 = Legends.GetLegendByte(LegendSlotType.AquaticInactive),
+                    InactiveAquatic1 = Skills.GetPaletteId(SkillSlotType.Inactive | SkillSlotType.Aquatic | SkillSlotType.Utility_1),
+                    InactiveAquatic2 = Skills.GetPaletteId(SkillSlotType.Inactive | SkillSlotType.Aquatic | SkillSlotType.Utility_2),
+                    InactiveAquatic3 = Skills.GetPaletteId(SkillSlotType.Inactive | SkillSlotType.Aquatic | SkillSlotType.Utility_3),
+                };
             }
 
-            ushort eliteSkillId = (ushort)(Skills.GetPaletteId(SkillSlotType.Active | SkillSlotType.Terrestrial | SkillSlotType.Elite) is ushort skillid && skillid == 408 ? 4857 : skillid);
+                buildtemplate.TerrestrialHeal = Skills.GetPaletteId(SkillSlotType.Active | SkillSlotType.Terrestrial | SkillSlotType.Heal);
+                buildtemplate.TerrestrialUtility1 = Skills.GetPaletteId(SkillSlotType.Active | SkillSlotType.Terrestrial | SkillSlotType.Utility_1);
+                buildtemplate.TerrestrialUtility2 = Skills.GetPaletteId(SkillSlotType.Active | SkillSlotType.Terrestrial | SkillSlotType.Utility_2);
+                buildtemplate.TerrestrialUtility3 = Skills.GetPaletteId(SkillSlotType.Active | SkillSlotType.Terrestrial | SkillSlotType.Utility_3);
+                buildtemplate.TerrestrialElite = Skills.GetPaletteId(SkillSlotType.Active | SkillSlotType.Terrestrial | SkillSlotType.Elite);
 
-            build.TerrestrialHealingSkillPaletteId = Skills.GetPaletteId(SkillSlotType.Active | SkillSlotType.Terrestrial | SkillSlotType.Heal);
-            build.TerrestrialUtility1SkillPaletteId = Skills.GetPaletteId(SkillSlotType.Active | SkillSlotType.Terrestrial | SkillSlotType.Utility_1);
-            build.TerrestrialUtility2SkillPaletteId = Skills.GetPaletteId(SkillSlotType.Active | SkillSlotType.Terrestrial | SkillSlotType.Utility_2);
-            build.TerrestrialUtility3SkillPaletteId = Skills.GetPaletteId(SkillSlotType.Active | SkillSlotType.Terrestrial | SkillSlotType.Utility_3);
-            build.TerrestrialEliteSkillPaletteId = eliteSkillId;
+                buildtemplate.AquaticHeal = Skills.GetPaletteId(SkillSlotType.Active | SkillSlotType.Aquatic | SkillSlotType.Heal);
+                buildtemplate.AquaticUtility1 = Skills.GetPaletteId(SkillSlotType.Active | SkillSlotType.Aquatic | SkillSlotType.Utility_1);
+                buildtemplate.AquaticUtility2 = Skills.GetPaletteId(SkillSlotType.Active | SkillSlotType.Aquatic | SkillSlotType.Utility_2);
+                buildtemplate.AquaticUtility3 = Skills.GetPaletteId(SkillSlotType.Active | SkillSlotType.Aquatic | SkillSlotType.Utility_3);
+                buildtemplate.AquaticElite = Skills.GetPaletteId(SkillSlotType.Active | SkillSlotType.Aquatic | SkillSlotType.Elite);
 
-            build.AquaticHealingSkillPaletteId = Skills.GetPaletteId(SkillSlotType.Active | SkillSlotType.Aquatic | SkillSlotType.Heal);
-            build.AquaticUtility1SkillPaletteId = Skills.GetPaletteId(SkillSlotType.Active | SkillSlotType.Aquatic | SkillSlotType.Utility_1);
-            build.AquaticUtility2SkillPaletteId = Skills.GetPaletteId(SkillSlotType.Active | SkillSlotType.Aquatic | SkillSlotType.Utility_2);
-            build.AquaticUtility3SkillPaletteId = Skills.GetPaletteId(SkillSlotType.Active | SkillSlotType.Aquatic | SkillSlotType.Utility_3);
-            build.AquaticEliteSkillPaletteId = Skills.GetPaletteId(SkillSlotType.Active | SkillSlotType.Aquatic | SkillSlotType.Elite);
 
-            byte[] bytes = build.ToArray();
+            buildtemplate.SelectedWeapons = SelectedWeapons;
+            buildtemplate.SkillOverrides = SkillOverrides;
 
-            build.Parse(bytes.Concat(new byte[] { 0, 0 }).ToArray());
-            string code = build.ToString();
-
-            //Add AAA= before the last 2 characters =] to match the ingame codes
-            return code.Insert(code.Length - 2, "AAA=");
+            return Gw2BuildCodec.TryEncode(buildtemplate, out string code) ? code : null;
         }
 
         public string? ParseGearCode()
@@ -789,6 +813,8 @@ namespace Kenedia.Modules.BuildsManager.Models
 
         private void LoadSpecializationFromCode(ProfessionType profession, SpecializationSlotType slot, byte specId, byte adept, byte master, byte grandMaster)
         {
+            if (Data is null) return;
+
             var buildSpecialization = slot switch
             {
                 SpecializationSlotType.Line_1 => Specializations.Specialization1,
@@ -935,7 +961,6 @@ namespace Kenedia.Modules.BuildsManager.Models
         {
             SkillSlotType state = SkillSlotType.Active;
             SkillSlotType otherState = SkillSlotType.Active;
-
             SkillSlotType enviroment = SkillSlotType.Terrestrial;
 
             switch (slot)
@@ -1035,6 +1060,9 @@ namespace Kenedia.Modules.BuildsManager.Models
 
         private void RemoveInvalidGearCombinations()
         {
+            if (Data?.IsLoaded is not true)
+                return;
+
             // Check and clean invalid Weapons?
             var wipeWeapons = new List<TemplateSlotType>();
             var professionWeapons = Data.Professions[Profession]?.Weapons.Select(e => e.Value.Type.ToItemWeaponType()).ToList() ?? [];
@@ -1185,6 +1213,8 @@ namespace Kenedia.Modules.BuildsManager.Models
 
         private void OnBuildCodeChanged()
         {
+            if (!Loaded) return;
+
             BuildCodeChanged?.Invoke(this, EventArgs.Empty);
             RequestSave();
         }

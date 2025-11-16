@@ -1,23 +1,30 @@
-﻿using SkillSlot = Gw2Sharp.WebApi.V2.Models.SkillSlot;
+﻿using Blish_HUD;
+using Blish_HUD.Input;
 using Kenedia.Modules.BuildsManager.DataModels.Professions;
+using Kenedia.Modules.BuildsManager.Models;
+using Kenedia.Modules.BuildsManager.Services;
+using Kenedia.Modules.Core.DataModels;
+using Kenedia.Modules.Core.Extensions;
 using Kenedia.Modules.Core.Models;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System.Linq;
-using Kenedia.Modules.Core.DataModels;
-using Blish_HUD;
-using static Blish_HUD.ContentService;
-using Blish_HUD.Input;
-using Kenedia.Modules.BuildsManager.Models;
-using System.Diagnostics;
 using System;
-using Kenedia.Modules.BuildsManager.Services;
+using System.Diagnostics;
+using System.Linq;
+using static Blish_HUD.ContentService;
+using SkillSlot = Gw2Sharp.WebApi.V2.Models.SkillSlot;
 
 namespace Kenedia.Modules.BuildsManager.Controls.ProfessionSpecific
 {
     public class ElementalistSpecifics : ProfessionSpecifics
     {
+        public DetailedTexture Selector { get; } = new(157138, 157140);
+
         private readonly DetailedTexture _catalistSeparator = new(2492046);
+        private readonly DetailedTexture _evokerBackground = new(3680660);
+        private readonly DetailedTexture _evokerInnerRingBackground = new(3680673);
+        private readonly DetailedTexture _evokerRingBackground = new(3680673);
+        private readonly DetailedTexture _evokerRing = new(3680672);
 
         protected override SkillIcon[] Skills { get; } = {
             new(),
@@ -84,10 +91,30 @@ namespace Kenedia.Modules.BuildsManager.Controls.ProfessionSpecific
                     main ? new(lastRect.Right + 6, 49, 40, 40) :
                     secondary ? new(lastRect.Right + 6, 51, 35, 35) :
                     new(lastRect.Right + 4 + (i == 4 ? 20 : 0), i == 4 ? 52 : 54, i == 4 ? 38 : 34, i == 4 ? 38 : 34);
-                lastRect = skill.Bounds;
 
                 if (i == 4)
                     _catalystEnergy = new(skill.Bounds.Left, skill.Bounds.Top - 4, skill.Bounds.Width, 4);
+
+                switch (TemplatePresenter.Template.EliteSpecialization?.Id)
+                {
+                    case (int)SpecializationType.Evoker:
+
+
+                        // Evoker
+                        if (i == 4)
+                        {
+                            skill.Bounds = new(lastRect.Right + 4 + 20, 55 , 34, 34);
+                            Selector.Bounds = new(skill.Bounds.Left, skill.Bounds.Top - 8, skill.Bounds.Width, 10);
+                        }
+
+                        _evokerBackground.Bounds = new(lastRect.Right + 4, 40, 116, 58);
+                        _evokerRingBackground.Bounds = new(lastRect.Right + 4, 40, 116, 58);
+                        _evokerRing.Bounds = new(lastRect.Right + 4, 40, 116, 58);
+
+                        break;
+                }
+
+                lastRect = skill.Bounds;
             }
         }
 
@@ -115,9 +142,24 @@ namespace Kenedia.Modules.BuildsManager.Controls.ProfessionSpecific
         public override void PaintAfterChildren(SpriteBatch spriteBatch, Rectangle bounds)
         {
             base.PaintAfterChildren(spriteBatch, bounds);
+            RecalculateLayout();
 
             switch (TemplatePresenter.Template.EliteSpecialization?.Id)
             {
+                case (int)SpecializationType.Evoker:
+                    _evokerBackground.Draw(this, spriteBatch);
+                    _evokerRingBackground.Draw(this, spriteBatch, color:Color.Orange);
+                    _evokerRing.Draw(this, spriteBatch);
+
+                    foreach (var skill in Skills)
+                    {
+                        skill.Draw(this, spriteBatch, RelativeMousePosition);
+                    }
+
+                    Selector.Draw(this, spriteBatch, RelativeMousePosition);
+
+                    break;
+
                 case (int)SpecializationType.Catalyst:
                     for (int i = 0; i < 4; i++)
                     {
@@ -174,12 +216,26 @@ namespace Kenedia.Modules.BuildsManager.Controls.ProfessionSpecific
             Skills[1].Skill = TemplatePresenter.Template.EliteSpecialization?.Id == (int)SpecializationType.Tempest && TemplatePresenter.MainAttunement == AttunementType.Water ? skills.Values.FirstOrDefault(e => e.Id == 29415) : GetSkill(SkillSlot.Profession2);
             Skills[2].Skill = TemplatePresenter.Template.EliteSpecialization?.Id == (int)SpecializationType.Tempest && TemplatePresenter.MainAttunement == AttunementType.Air ? skills.Values.FirstOrDefault(e => e.Id == 29719) : GetSkill(SkillSlot.Profession3);
             Skills[3].Skill = TemplatePresenter.Template.EliteSpecialization?.Id == (int)SpecializationType.Tempest && TemplatePresenter.MainAttunement == AttunementType.Earth ? skills.Values.FirstOrDefault(e => e.Id == 29618) : GetSkill(SkillSlot.Profession4);
-            Skills[4].Skill =
-                TemplatePresenter.MainAttunement == AttunementType.Fire ? skills.Values.FirstOrDefault(e => e.Id == 62813) :
-                TemplatePresenter.MainAttunement == AttunementType.Water ? skills.Values.FirstOrDefault(e => e.Id == 62723) :
-                TemplatePresenter.MainAttunement == AttunementType.Air ? skills.Values.FirstOrDefault(e => e.Id == 62940) :
-                TemplatePresenter.MainAttunement == AttunementType.Earth ? skills.Values.FirstOrDefault(e => e.Id == 62837) :
-                null;
+
+            switch(TemplatePresenter.Template.EliteSpecialization?.Id)
+            {
+                case (int)SpecializationType.Evoker:
+                    Skills[4].Skill = skills.Get(76643);
+                    break;
+
+                case (int)SpecializationType.Catalyst:
+                    Skills[4].Skill =
+                        TemplatePresenter.MainAttunement == AttunementType.Fire ? skills.Get(62813) :
+                        TemplatePresenter.MainAttunement == AttunementType.Water ? skills.Get(62723) :
+                        TemplatePresenter.MainAttunement == AttunementType.Air ? skills.Get(62940) :
+                        TemplatePresenter.MainAttunement == AttunementType.Earth ? skills.Get(62837) :
+                        null;
+                    break;
+
+                default:
+                    Skills[4].Skill = null;
+                    break;
+            }
 
             _catalystEnergyColor =
                 TemplatePresenter.MainAttunement == AttunementType.Fire ? _backgrounds[0].color :
@@ -188,7 +244,15 @@ namespace Kenedia.Modules.BuildsManager.Controls.ProfessionSpecific
                 TemplatePresenter.MainAttunement == AttunementType.Earth ? _backgrounds[3].color :
                 Color.Black;
 
+            
+
             RecalculateLayout();
+        }
+
+        protected override void DisposeControl()
+        {
+            TemplatePresenter.AttunementChanged -= AttunementChanged;
+            base.DisposeControl();
         }
     }
 }

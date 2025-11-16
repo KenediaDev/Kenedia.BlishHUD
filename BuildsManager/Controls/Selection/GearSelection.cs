@@ -297,6 +297,10 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
                         foreach (var item in _weapons)
                         {
                             bool weaponMatch = true;
+                            if (item.Item is not Weapon)
+                            {
+                                continue;
+                            }
 
                             var weapon = Data.Professions[TemplatePresenter?.Template.Profession ?? Gw2Sharp.Models.ProfessionType.Guardian].Weapons.Where(e => (item.Item as Weapon).WeaponType.IsWeaponType(e.Value.Type)).FirstOrDefault();
 

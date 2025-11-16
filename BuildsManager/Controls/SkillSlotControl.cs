@@ -87,8 +87,11 @@ namespace Kenedia.Modules.BuildsManager.Controls
         public SkillSlotType SkillSlot { get; }
 
         public TemplatePresenter TemplatePresenter { get; }
+
         public Data Data { get; }
+
         public SkillSelector SkillSelector { get; }
+
         public Vector2 Origin { get; private set; } = Vector2.Zero;
 
         public float Rotation { get; private set; } = 0F;

@@ -143,14 +143,7 @@ namespace Kenedia.Modules.Dev
                 Parent = GameService.Graphics.SpriteScreen,
                 Visible = true,
                 ZIndex = int.MaxValue,
-                //SliceInnerBorder = new(base_color * 0.7F),
-                //SliceBackground = new(base_color * 0.5F),
-                //SliceHighlight = new(highlight_color * 0.5F),
-                //ShowOuterBorder = false,
-                //ShowInnerBorder = true,
-                //ShowSliceBorder = true,
                 DonutHolePercent = 0.5F,
-                //FadePercent = 0.2F,
             };
 
             RadialMenu.SetSize(new Point(800, 800));

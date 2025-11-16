@@ -95,6 +95,9 @@ namespace Kenedia.Modules.BuildsManager.Controls.ProfessionSpecific
 
         protected virtual void ApplyTemplate()
         {
+            if (TemplatePresenter?.Template?.Loaded != true)
+                return;
+
             SetTooltipSkill();
         }
 
@@ -117,6 +120,8 @@ namespace Kenedia.Modules.BuildsManager.Controls.ProfessionSpecific
                 TemplatePresenter.TraitChanged -= OnTraitChanged;
                 TemplatePresenter.SkillChanged -= OnSkillChanged;
             }
+
+            Data.Loaded -= Data_Loaded;
         }
 
         protected void SetTooltipSkill()

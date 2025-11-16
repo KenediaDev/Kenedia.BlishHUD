@@ -84,6 +84,76 @@ namespace Kenedia.Modules.BuildsManager.DataModels.Professions
             Spinegazer = 69,
             Warclaw = 70,
             JanthiriBee = 71,
+            RaptorSwiftwing = 72,
+        }
+
+        private enum PetOrder
+        {
+            BlueMoa,
+            WhiteMoa,
+            PinkMoa,
+            BlackMoa,
+            RedMoa,
+            BrownBear,
+            Murellow,
+            BlackBear,
+            PolarBear,
+            Arctodus,
+            JungleStalker,
+            Lynx,
+            SnowLeopard,
+            Jaguar,
+            Tiger,
+            WhiteTiger,
+            Cheetah,
+            SandLion,
+            Warclaw,
+            Bristleback,
+            SiegeTurtle,
+            KrytanDrakehound,
+            AlpineWolf,
+            FernHound,
+            Hyena,
+            Wolf,
+            SalamanderDrake,
+            MarshDrake,
+            IceDrake,
+            RiverDrake,
+            ReefDrake,
+            CarrionDevourer,
+            WhiptailDevourer,
+            LashtailDevourer,
+            Shark,
+            ArmorFish,
+            RedJellyfish,
+            BlueJellyfish,
+            RainbowJellyfish,
+            Raven,
+            Owl,
+            Eagle,
+            WhiteRaven,
+            Hawk,
+            Phoenix,
+            RaptorSwiftwing,
+            Jacaranda,
+            ForestSpider,
+            JungleSpider,
+            CaveSpider,
+            BlackWidowSpider,
+            Boar,
+            Warthog,
+            Siamoth,
+            Wallow,
+            Pig,
+            RockGazelle,
+            ElectricWyvern,
+            FireWyvern,
+            Smokescale,
+            FangedIboga,
+            AetherHunter,
+            SkyChakStriker,
+            Spinegazer,
+            JanthiriBee,
         }
 
         private bool _isDisposed;
@@ -173,6 +243,7 @@ namespace Kenedia.Modules.BuildsManager.DataModels.Professions
             Pets.Spinegazer,
             Pets.Warclaw,
             Pets.JanthiriBee,
+            Pets.RaptorSwiftwing,
         ];
 
         private AsyncTexture2D _icon;
@@ -306,34 +377,11 @@ namespace Kenedia.Modules.BuildsManager.DataModels.Professions
             var pet_enum = (Pets)pet.Id;
             bool aquatic = _aquaticPets.Contains(pet_enum);
             bool terrestrial = _terrestrialPets.Contains(pet_enum);
-            Enviroment = (terrestrial ? Enviroment.Terrestrial : 0) | (aquatic ? Enviroment.Aquatic : 0);
+            Enviroment  = 
+                !terrestrial && !aquatic ? (Enviroment.Terrestrial | Enviroment.Aquatic) :
+                (terrestrial ? Enviroment.Terrestrial : 0) | (aquatic ? Enviroment.Aquatic : 0);
 
-            var petOrder = new List<int>()
-            {
-                13, 14, 15, 16, 17,
-                5, 20, 23, 24, 25,
-                1, 3, 9, 11, 47, 63,
-                54,
-                55,
-                70,
-                52,
-                66,
-                4, 8, 22, 28, 29,
-                7, 12, 18, 19, 45,
-                6, 26, 27,
-                10, 30, 31, 32, 44, 65,
-                57,
-                33, 34, 35, 36,
-                2, 37, 38, 64, 39,
-                59,
-                48, 51,
-                46,
-                61,
-                21, 40,42, 41,43,
-                67,68,69,71
-            };
-
-            Order = petOrder.IndexOf(pet.Id);
+            Order = Enum.TryParse(pet_enum.ToString(), out PetOrder parsedOrder) ? (int)parsedOrder : int.MaxValue;
 
             ApplyLanguage(pet);
         }

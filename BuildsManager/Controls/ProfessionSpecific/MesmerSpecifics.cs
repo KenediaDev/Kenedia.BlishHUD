@@ -1,14 +1,14 @@
-﻿using SkillSlot = Gw2Sharp.WebApi.V2.Models.SkillSlot;
+﻿using Blish_HUD;
+using Kenedia.Modules.BuildsManager.DataModels.Professions;
+using Kenedia.Modules.BuildsManager.Models;
+using Kenedia.Modules.BuildsManager.Services;
 using Kenedia.Modules.Core.DataModels;
 using Kenedia.Modules.Core.Models;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System.Linq;
-using Kenedia.Modules.BuildsManager.DataModels.Professions;
-using Kenedia.Modules.BuildsManager.Models;
-using Blish_HUD;
 using static Blish_HUD.ContentService;
-using Kenedia.Modules.BuildsManager.Services;
+using SkillSlot = Gw2Sharp.WebApi.V2.Models.SkillSlot;
 
 namespace Kenedia.Modules.BuildsManager.Controls.ProfessionSpecific
 {
@@ -25,6 +25,24 @@ namespace Kenedia.Modules.BuildsManager.Controls.ProfessionSpecific
             new(156429),
         };
 
+        private readonly DetailedTexture _notesRegionBackground = new(3680685);
+
+        private readonly DetailedTexture[] _notes = {
+            new(3680686),
+            new(3680688),
+            new(3680690),
+        };
+
+        private readonly DetailedTexture[] _notesBackground = {
+            new(3680687),
+            new(3680689),
+            new(3680691),
+        };
+
+        private Color _notesColor = new(198, 100, 231);
+
+        private Rectangle _separatorBounds;
+
         protected override SkillIcon[] Skills { get; } = {
             new(),
             new(),
@@ -38,8 +56,6 @@ namespace Kenedia.Modules.BuildsManager.Controls.ProfessionSpecific
 
         }
 
-        private Rectangle _separatorBounds;
-
         public override void RecalculateLayout()
         {
             base.RecalculateLayout();
@@ -48,6 +64,19 @@ namespace Kenedia.Modules.BuildsManager.Controls.ProfessionSpecific
 
             switch (TemplatePresenter?.Template?.EliteSpecialization?.Id)
             {
+                case (int)SpecializationType.Troubadour:
+                    _notesRegionBackground.Bounds = new(xOffset + 85, 0, 125, 42);
+
+                    _notesBackground[0].Bounds = new(xOffset + 95, 6, 36, 36);
+                    _notes[0].Bounds = new(xOffset + 95, 6, 36, 36);
+
+                    _notesBackground[1].Bounds = new(xOffset + 135, 0, 36, 36);
+                    _notes[1].Bounds = new(xOffset + 135, 0, 36, 36);
+
+                    _notesBackground[2].Bounds = new(xOffset + 165, 2, 36, 36);
+                    _notes[2].Bounds = new(xOffset + 165, 2, 36, 36);
+
+                    break;
                 case (int)SpecializationType.Virtuoso:
                     for (int i = 0; i < _clones.Length; i++)
                     {
@@ -79,8 +108,31 @@ namespace Kenedia.Modules.BuildsManager.Controls.ProfessionSpecific
         public override void PaintAfterChildren(SpriteBatch spriteBatch, Rectangle bounds)
         {
             base.PaintAfterChildren(spriteBatch, bounds);
+
             switch (TemplatePresenter.Template.EliteSpecialization?.Id)
             {
+                case (int)SpecializationType.Troubadour:
+                    _notesRegionBackground.Draw(this, spriteBatch);
+
+                    foreach (var noteBg in _notesBackground)
+                    {
+                        noteBg.Draw(this, spriteBatch, color: Color.Black);
+                    }
+
+                    foreach (var note in _notes)
+                    {
+                        note.Draw(this, spriteBatch, color: _notesColor);
+                    }
+
+                    for (int i = 0; i < 5; i++)
+                    {
+                        var skill = Skills[i];
+                        skill.Draw(this, spriteBatch, RelativeMousePosition);
+                    }
+
+                    spriteBatch.DrawOnCtrl(this, Textures.Pixel, _separatorBounds, Color.Black);
+                    break;
+
                 case (int)SpecializationType.Virtuoso:
                     for (int i = 0; i < _clones.Length; i++)
                     {
@@ -168,6 +220,13 @@ namespace Kenedia.Modules.BuildsManager.Controls.ProfessionSpecific
             Skills[2].Skill = GetSkill(SkillSlot.Profession3);
             Skills[3].Skill = GetSkill(SkillSlot.Profession4);
             Skills[4].Skill = GetSkill(SkillSlot.Profession5);
+
+            switch (TemplatePresenter.Template.EliteSpecialization?.Id)
+            {
+                case (int)SpecializationType.Troubadour:
+                    Skills[4].Skill = skills.Get(76931);
+                    break;
+            }
         }
     }
 }

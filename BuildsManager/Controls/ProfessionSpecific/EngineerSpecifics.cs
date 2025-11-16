@@ -16,9 +16,55 @@ namespace Kenedia.Modules.BuildsManager.Controls.ProfessionSpecific
 {
     public class EngineerSpecifics : ProfessionSpecifics
     {
+        private readonly DetailedTexture[] _protocols = 
+            [
+                // Obliterate
+                new(3680130)
+                {
+                    TextureRegion = new(14, 14, 100, 100),
+                },
+                // Shred
+                new(3680134)
+                {
+                    TextureRegion = new(14, 14, 100, 100),
+                },
+                // Demolish
+                new(3680128)
+                {
+                    TextureRegion = new(14, 14, 100, 100),
+                },
+                // Protect
+                new(3680132)
+                {
+                    TextureRegion = new(14, 14, 100, 100),
+                },
+                // Cleanse
+                new(3680127)
+                {
+                    TextureRegion = new(14, 14, 100, 100),
+                },
+                // Thorns
+                new(3680135)
+                {
+                    TextureRegion = new(14, 14, 100, 100),
+                },
+                // Pierce
+                new(3680131)
+                {
+                    TextureRegion = new(14, 14, 100, 100),
+                },
+            ];
+
         private readonly DetailedTexture _target = new(156812);
         private readonly DetailedTexture _return = new(156816);
         private readonly DetailedTexture _combatState = new(2572084);
+
+        private DetailedTexture[] _selectors =
+        {
+            new(157138, 157140),
+            new(157138, 157140),
+            new(157138, 157140),
+        };
 
         private Color _healthColor = new(162, 17, 11);
         private Rectangle _healthRectangle;
@@ -87,6 +133,11 @@ namespace Kenedia.Modules.BuildsManager.Controls.ProfessionSpecific
                     for (int i = 0; i < 5; i++)
                     {
                         Skills[i].Bounds = new(xOffset + 30 + (i * 44), 55, 42, 42);
+                        
+                        if (i is > 0 and < 4)
+                        {
+                            _selectors[i - 1].Bounds = new(Skills[i].Bounds.Left, Skills[i].Bounds.Top - 8, Skills[i].Bounds.Width, 10);
+                        }
                     }
 
                     break;
@@ -149,6 +200,19 @@ namespace Kenedia.Modules.BuildsManager.Controls.ProfessionSpecific
                     spriteBatch.DrawOnCtrl(this, Textures.Pixel, new Rectangle(b.Right - 1, b.Top, 1, b.Height), Rectangle.Empty, borderColor * 0.6f);
 
                     spriteBatch.DrawStringOnCtrl(this, "100%", GameService.Content.DefaultFont14, _healthRectangle, Color.White, false, HorizontalAlignment.Center, VerticalAlignment.Middle);
+                    break;
+
+                case (int)SpecializationType.Amalgam:
+                    for (int i = 0; i < 5; i++)
+                    {
+                        Skills[i].Draw(this, spriteBatch, RelativeMousePosition);
+                    }
+
+                    foreach (var selector in _selectors)
+                    {
+                        selector.Draw(this, spriteBatch, RelativeMousePosition);
+                    }
+
                     break;
 
                 default:
@@ -237,8 +301,19 @@ namespace Kenedia.Modules.BuildsManager.Controls.ProfessionSpecific
 
             switch (TemplatePresenter.Template.EliteSpecialization?.Id)
             {
+                case (int)SpecializationType.Amalgam:
+                    Skills[0].Skill = GetToolbeltSkill(SkillSlot.Profession1);
+                    Skills[1].Skill = null;
+                    Skills[1].Texture = _protocols[0].Texture;
+                    Skills[2].Skill =null; 
+                    Skills[2].Texture = _protocols[1].Texture;
+                    Skills[3].Skill = null;
+                    Skills[3].Texture = _protocols[2].Texture;
+                    Skills[4].Skill = skills.Get(76642);
+                    break;
+
                 case (int)SpecializationType.Mechanist:
-                    Skills[0].Skill = Enviroment == Enviroment.Terrestrial ? skills[63089] : skills[63210];
+                    Skills[0].Skill = Enviroment == Enviroment.Terrestrial ? skills.Get(63089) : skills.Get(63210);
 
                     int adeptSkill = TemplatePresenter.Template.Specializations.Specialization3.Traits.Adept?.Skills?.FirstOrDefault() ?? 0;
                     int masterSkill = TemplatePresenter.Template.Specializations.Specialization3.Traits.Master?.Skills?.FirstOrDefault() ?? 0;
@@ -251,25 +326,35 @@ namespace Kenedia.Modules.BuildsManager.Controls.ProfessionSpecific
                     break;
 
                 case (int)SpecializationType.Scrapper:
+                    Skills[0].Skill = GetToolbeltSkill(SkillSlot.Profession1);
+                    Skills[1].Skill = GetToolbeltSkill(SkillSlot.Profession2);
+                    Skills[2].Skill = GetToolbeltSkill(SkillSlot.Profession3);
+                    Skills[3].Skill = GetToolbeltSkill(SkillSlot.Profession4);
                     Skills[4].Skill = skills.Values.FirstOrDefault(e => e.Id == 56920);
                     break;
 
                 case (int)SpecializationType.Holosmith:
+                    Skills[0].Skill = GetToolbeltSkill(SkillSlot.Profession1);
+                    Skills[1].Skill = GetToolbeltSkill(SkillSlot.Profession2);
+                    Skills[2].Skill = GetToolbeltSkill(SkillSlot.Profession3);
+                    Skills[3].Skill = GetToolbeltSkill(SkillSlot.Profession4);
                     Skills[4].Skill = skills.Values.FirstOrDefault(e => e.Id == 42938);
                     break;
 
                 default:
+                    Skills[0].Skill = GetToolbeltSkill(SkillSlot.Profession1);
+                    Skills[1].Skill = GetToolbeltSkill(SkillSlot.Profession2);
+                    Skills[2].Skill = GetToolbeltSkill(SkillSlot.Profession3);
+                    Skills[3].Skill = GetToolbeltSkill(SkillSlot.Profession4);
                     Skills[4].Skill = GetToolbeltSkill(SkillSlot.Profession5);
                     break;
             }
+        }
 
-            if (TemplatePresenter.Template.EliteSpecialization?.Id != (int)SpecializationType.Mechanist)
-            {
-                Skills[0].Skill = GetToolbeltSkill(SkillSlot.Profession1);
-                Skills[1].Skill = GetToolbeltSkill(SkillSlot.Profession2);
-                Skills[2].Skill = GetToolbeltSkill(SkillSlot.Profession3);
-                Skills[3].Skill = GetToolbeltSkill(SkillSlot.Profession4);
-            }
+        protected override void DisposeControl()
+        {
+            base.DisposeControl();
+            TemplatePresenter.SkillChanged -= Template_SkillChanged;
         }
     }
 }

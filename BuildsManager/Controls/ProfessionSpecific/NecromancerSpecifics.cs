@@ -72,6 +72,19 @@ namespace Kenedia.Modules.BuildsManager.Controls.ProfessionSpecific
                     Skills[0].Bounds = new(xOffset + 215, 55, 42, 42);
                     break;
 
+                case (int)SpecializationType.Ritualist:
+                    _lifeForceBarBackground.Bounds = new(xOffset - 10, 75, 255, 20);
+                    _lifeForce.Bounds = new(xOffset - 10, 75, 255, 20);
+                    _lifeForce.TextureRegion = new(1, 42, _lifeForce.Texture.Width - 30, _lifeForce.Texture.Height - 49);
+
+                    for (int i = 1; i < 4; i++)
+                    {
+                        Skills[i].Bounds = new(xOffset + 54 + (i * 39), 28, 36, 36);
+                    }
+
+                    Skills[0].Bounds = new(_lifeForce.Bounds.Left - 1, 28 - 6, 48, 48);
+                    break;
+
                 default:
                     _lifeForceBarBackground.Bounds = new(xOffset + 10, 70, 205, 20);
                     _lifeForce.Bounds = new(xOffset + 10, 70, 205, 20);
@@ -104,6 +117,18 @@ namespace Kenedia.Modules.BuildsManager.Controls.ProfessionSpecific
                     _lifeForceBar.Draw(this, spriteBatch, null, Color.LightGray * 0.7F);
                     Skills[0].Draw(this, spriteBatch, RelativeMousePosition);
                     spriteBatch.DrawStringOnCtrl(this, "100%", Content.DefaultFont12, _lifeForceBar.Bounds, Color.White, false, HorizontalAlignment.Center, VerticalAlignment.Middle);
+                    break;
+
+                case (int)SpecializationType.Ritualist:
+                    _lifeForceBarBackground.Draw(this, spriteBatch);
+                    _lifeForce.Draw(this, spriteBatch, null, Color.LightGray * 0.7F);
+                    spriteBatch.DrawStringOnCtrl(this, "100%", Content.DefaultFont12, _lifeForce.Bounds, Color.White, false, HorizontalAlignment.Center, VerticalAlignment.Middle);
+
+                    for (int i = 0; i < 4; i++)
+                    {
+                        Skills[i].Draw(this, spriteBatch, RelativeMousePosition);
+                    }
+
                     break;
 
                 default:
@@ -152,15 +177,23 @@ namespace Kenedia.Modules.BuildsManager.Controls.ProfessionSpecific
                     _shades.Texture = TemplatePresenter.Template.Specializations.Specialization3.Traits.GrandMaster?.Id == 2112 ?  AsyncTexture2D.FromAssetId(1636742) : AsyncTexture2D.FromAssetId(1636744);
 
                     int masterSkill = TemplatePresenter.Template.Specializations.Specialization3.Traits.Master?.Skills?.FirstOrDefault() ?? 0;
-                    Skills[4].Skill = skills.Values.FirstOrDefault(e => e.Id == masterSkill) ?? GetSkill(SkillSlot.Profession5);
+                    Skills[4].Skill = skills.TryGetValue( masterSkill, out var scourgeMasterSkill) ? scourgeMasterSkill : GetSkill(SkillSlot.Profession5);
                     break;
 
                 case (int)SpecializationType.Harbinger:
-                    Skills[0].Skill = skills.Values.FirstOrDefault(e => e.Id == 62567);
+                    Skills[0].Skill = skills.TryGetValue(62567, out var harbingerSkill) ? harbingerSkill : null;
                     break;
 
                 case (int)SpecializationType.Reaper:
-                    Skills[0].Skill = skills.Values.FirstOrDefault(e => e.Id == 30792);
+                    Skills[0].Skill = skills.TryGetValue(30792, out var reaperSkill) ? reaperSkill : null;
+                    break;
+
+                case(int)SpecializationType.Ritualist:
+                    Skills[0].Skill = skills.TryGetValue(77238, out var ritualistSkill) ? ritualistSkill : null;
+                    Skills[1].Skill = skills.TryGetValue(77003, out var ritualistSkill2) ? ritualistSkill2 : null;
+                    Skills[2].Skill = skills.TryGetValue(76732, out var ritualistSkill3) ? ritualistSkill3 : null;
+                    Skills[3].Skill = skills.TryGetValue(76602, out var ritualistSkill4) ? ritualistSkill4 : null;
+
                     break;
 
                 default:

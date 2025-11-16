@@ -4,6 +4,7 @@ using Blish_HUD.Controls;
 using Blish_HUD.Graphics.UI;
 using Blish_HUD.Modules;
 using Blish_HUD.Settings;
+using Gw2BuildTemplates;
 using Gw2Sharp.WebApi;
 using Kenedia.Modules.BuildsManager.Controls.Selection;
 using Kenedia.Modules.BuildsManager.Controls.Tabs;
@@ -41,6 +42,7 @@ namespace Kenedia.Modules.BuildsManager
     public class BuildsManager : BaseModule<BuildsManager, MainWindow, Settings, Paths>
     {
         public static int MainThread = System.Threading.Thread.CurrentThread.ManagedThreadId;
+
         public static Data Data { get; set; }
 
         private double _tick;
@@ -230,30 +232,15 @@ namespace Kenedia.Modules.BuildsManager
             //TemplatePresenter.SetTemplate(ServiceProvider.GetService<TemplateFactory>().CreateTemplate());
             //TemplatePresenter.SetTemplate(Templates.FirstOrDefault());
 
-            //await LoadAsync();
+            await LoadAsync();
             //await GW2API.UpdateMappedIds();
 
             //await TemplateTags.Load();
 
             //var templateGroups = ServiceProvider.GetService<TagGroups>();
             //await templateGroups.Load();
-            List<int> _aquaticPets = [
-            1, 5, 6, 7, 9, 11, 12, 18, 19, 20, 21, 23, 24, 25, 26, 27, 40, 41, 42, 43, 45, 47, 63,
-            ];
 
-            List<int> _terrestrialPets = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 44, 45, 46, 47, 48, 51, 52, 54, 55, 57, 59, 61, 63, 64, 65, 66, 67, 68, 69, 70, 71];
-
-            string clipboard_text = "";
-            foreach (var p in Data.Pets.Values)
-            {
-                if (_terrestrialPets.Contains(p.Id))
-                {
-                    clipboard_text += $"Pets.{p.Names[Locale.English].Replace("Juvenile", "").Replace(" ", "")},\n";
-                }
-            }
-            await ClipboardUtil.WindowsClipboardService.SetTextAsync(clipboard_text);
-
-            base.ReloadKey_Activated(sender, e);
+            //base.ReloadKey_Activated(sender, e);
         }
 
         protected override void LoadGUI()
