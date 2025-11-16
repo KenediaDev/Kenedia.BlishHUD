@@ -1,5 +1,5 @@
 ﻿using Gw2Sharp.Models;
-using Kenedia.Modules.Characters.Enums;
+using Kenedia.Modules.Core.DataModels;
 using System.Collections.Generic;
 using static Kenedia.Modules.Characters.Services.Data;
 

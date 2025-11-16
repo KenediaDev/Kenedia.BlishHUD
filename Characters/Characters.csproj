@@ -284,7 +284,6 @@
     <Compile Include="Controls\SideMenu\SideMenuBehaviours.cs" />
     <Compile Include="Controls\SideMenu\SideMenuToggles.cs" />
     <Compile Include="Controls\Tag.cs" />
-    <Compile Include="Enums\SpecializationType.cs" />
     <Compile Include="Extensions\FilterTagListExtension.cs" />
     <Compile Include="Extensions\Gw2SharpExtension.cs" />
     <Compile Include="Extensions\CustomEnumExtension.cs" />

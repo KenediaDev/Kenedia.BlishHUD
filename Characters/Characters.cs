@@ -8,7 +8,6 @@ using Blish_HUD.Settings;
 using Blish_HUD.Controls;
 using Gw2Sharp.WebApi.V2.Models;
 using Kenedia.Modules.Characters.Controls;
-using Kenedia.Modules.Characters.Enums;
 using Kenedia.Modules.Characters.Models;
 using Kenedia.Modules.Characters.Services;
 using Kenedia.Modules.Characters.Views;
@@ -44,6 +43,7 @@ using NotificationBadge = Kenedia.Modules.Core.Controls.NotificationBadge;
 using AnchoredContainer = Kenedia.Modules.Core.Controls.AnchoredContainer;
 using Microsoft.Extensions.DependencyInjection;
 using System.Diagnostics;
+using Kenedia.Modules.Core.DataModels;
 
 //TODO Fetch API Data on Version change, eventually use static hosting
 // TODO if character name is in multiple accounts -> don't load

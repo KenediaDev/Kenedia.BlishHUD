@@ -4,7 +4,6 @@ using Blish_HUD.Controls;
 using Blish_HUD.Gw2Mumble;
 using Gw2Sharp.Models;
 using Gw2Sharp.WebApi.V2.Models;
-using Kenedia.Modules.Characters.Enums;
 using Kenedia.Modules.Characters.Res;
 using Kenedia.Modules.Characters.Services;
 using Kenedia.Modules.Core.Extensions;
@@ -18,6 +17,7 @@ using System.Runtime.Serialization;
 using static Kenedia.Modules.Characters.Services.Data;
 using Map = Kenedia.Modules.Core.DataModels.Map;
 using File = System.IO.File;
+using Kenedia.Modules.Core.DataModels;
 
 namespace Kenedia.Modules.Characters.Models
 {

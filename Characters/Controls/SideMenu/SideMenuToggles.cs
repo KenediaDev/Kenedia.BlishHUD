@@ -2,7 +2,6 @@
 using Blish_HUD.Content;
 using Blish_HUD.Controls;
 using Kenedia.Modules.Characters.Res;
-using Kenedia.Modules.Characters.Enums;
 using Kenedia.Modules.Characters.Models;
 using Kenedia.Modules.Characters.Services;
 using Kenedia.Modules.Core.Controls;
@@ -12,6 +11,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using FlowPanel = Kenedia.Modules.Core.Controls.FlowPanel;
+using Kenedia.Modules.Core.DataModels;
 
 namespace Kenedia.Modules.Characters.Controls.SideMenu
 {
@@ -203,7 +203,7 @@ namespace Kenedia.Modules.Characters.Controls.SideMenu
                 specToggles.Add(new(t, () => t.BasicTooltipText = specialization.Value.Name));
             }
 
-            for (int i = 0; i < 3; i++)
+            for (int i = 0; i < 4; i++)
             {
                 foreach (KeyValuePair<Gw2Sharp.Models.ProfessionType, Data.Profession> p in profs)
                 {
