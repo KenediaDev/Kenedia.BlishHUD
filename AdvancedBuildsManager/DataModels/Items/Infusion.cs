@@ -10,14 +10,14 @@ namespace Kenedia.Modules.AdvancedBuildsManager.DataModels.Items
     public class Infusion : BaseItem
     {
         [DataMember]
-        public LocalizedString Bonuses { get; set; } = new();
+        public LocalizedString Bonuses { get; set; } = [];
         public string Bonus
         {
             get => Bonuses.Text;
             set => Bonuses.Text = value;
         }
 
-        public List<BonusStat> Attributes { get; set; } = new();
+        public List<BonusStat> Attributes { get; set; } = [];
 
         public override void Apply(Item item)
         {

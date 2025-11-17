@@ -17,10 +17,10 @@ namespace Kenedia.Modules.Characters.Controls.SideMenu
 {
     public class SideMenuToggles : FlowTab, ILocalizable
     {
-        private readonly List<Tag> _tags = new();
+        private readonly List<Tag> _tags = [];
         private readonly FlowPanel _toggleFlowPanel;
         private readonly TagFlowPanel _tagFlowPanel;
-        private readonly List<KeyValuePair<ImageColorToggle, Action>> _toggles = new();
+        private readonly List<KeyValuePair<ImageColorToggle, Action>> _toggles = [];
         private readonly TextureManager _textureManager;
         private readonly SearchFilterCollection _tagFilters;
         private readonly SearchFilterCollection _searchFilters;
@@ -190,7 +190,7 @@ namespace Kenedia.Modules.Characters.Controls.SideMenu
                 _toggles.Add(new(t, () => t.BasicTooltipText = profession.Value.Name));
             }
 
-            List<KeyValuePair<ImageColorToggle, Action>> specToggles = new();
+            List<KeyValuePair<ImageColorToggle, Action>> specToggles = [];
             foreach (KeyValuePair<SpecializationType, Data.Specialization> specialization in _data.Specializations)
             {
                 var t = new ImageColorToggle((b) => action(b, specialization.Value.Name))

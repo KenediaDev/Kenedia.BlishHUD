@@ -55,7 +55,7 @@ namespace Kenedia.Modules.AdvancedBuildsManager.DataModels.Professions
         public int Specialization { get; set; }
 
         [DataMember]
-        public LocalizedString Names { get; protected set; } = new();
+        public LocalizedString Names { get; protected set; } = [];
 
         public string Name
         {
@@ -64,7 +64,7 @@ namespace Kenedia.Modules.AdvancedBuildsManager.DataModels.Professions
         }
 
         [DataMember]
-        public LocalizedString Descriptions { get; protected set; } = new();
+        public LocalizedString Descriptions { get; protected set; } = [];
 
         public string Description
         {
@@ -102,7 +102,7 @@ namespace Kenedia.Modules.AdvancedBuildsManager.DataModels.Professions
         public List<TraitFact> TraitedFacts { get; private set; }
 
         [DataMember]
-        public List<int> Skills = new();
+        public List<int> Skills = [];
 
         public void SetLiveAPI(APITrait trait)
         {

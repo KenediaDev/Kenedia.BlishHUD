@@ -39,8 +39,8 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Controls.Selection
         private readonly bool _created;
         private readonly Label _name;
 
-        private readonly List<Tag> _tags = new();
-        private readonly List<TagTexture> _tagTexturess = new();
+        private readonly List<Tag> _tags = [];
+        private readonly List<TagTexture> _tagTexturess = [];
 
         private Rectangle _separatorBounds;
         private Rectangle _editBounds;

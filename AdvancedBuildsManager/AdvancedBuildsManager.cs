@@ -58,7 +58,7 @@ namespace Kenedia.Modules.AdvancedBuildsManager
 
         public static Data Data { get; set; }
 
-        public ObservableCollection<Template> Templates { get; private set; } = new();
+        public ObservableCollection<Template> Templates { get; private set; } = [];
 
         public SkillConnectionEditor SkillConnectionEditor { get; set; }
 

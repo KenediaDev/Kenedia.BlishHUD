@@ -20,13 +20,13 @@ namespace Kenedia.Modules.BuildsManager.Services
 {
     public class ItemMappedDataEntry<T> : MappedDataEntry<int, T> where T : BaseItem, new()
     {
-        public async override Task<bool> LoadAndUpdate(string name, ByteIntMap map, string path, Gw2ApiManager gw2ApiManager, CancellationToken cancellationToken)
+        private List<int> _pendingIds = [];
+
+        public async Task<List<int>> LoadAndGetPending(string name, ByteIntMap map, string path)
         {
             try
             {
-                bool saveRequired = false;
                 MappedDataEntry<int, T> loaded = null;
-                BuildsManager.Logger.Debug($"Load and if required update {name}");
 
                 if (!DataLoaded && File.Exists(path))
                 {
@@ -40,38 +40,60 @@ namespace Kenedia.Modules.BuildsManager.Services
                 Items = loaded?.Items ?? Items;
                 Version = loaded?.Version ?? Version;
 
+                BuildsManager.Logger.Debug($"{name} Current Version: {Version} | Required Version: {map.Version}");
+
                 foreach (int id in Map.Ignored.Values)
                 {
                     _ = Items.Remove(id);
                 }
 
-                BuildsManager.Logger.Debug($"{name} Version {Version} | version {map.Version}");
-
-                BuildsManager.Logger.Debug($"Check for missing values for {name}");
                 var lang = GameService.Overlay.UserLocale.Value is Locale.Korean or Locale.Chinese ? Locale.English : GameService.Overlay.UserLocale.Value;
-                var fetchIds = Items.Values.Where(item => item.Names[lang] == null)?.Select(e => e.Id);
 
-                bool fetchAll = map.Version > Version;
+                _pendingIds = [];
 
-                if (map.Version > Version)
+                switch (map.Version > Version)
                 {
-                    Version = map.Version;
-                    fetchIds = fetchIds.Concat(Map.Values.Except(Items.Keys).Except(Map.Ignored.Values));
-                    saveRequired = true;
-
-                    if (fetchAll)
+                    case true:
                         BuildsManager.Logger.Debug($"The current version does not match the map version. Updating all values for {name}.");
+                        Version = map.Version;
+                        _pendingIds = [.. _pendingIds, .. Map.Values.Except(Items.Keys).Except(Map.Ignored.Values)];
+                        break;
+
+                    case false:
+                        _pendingIds = [.. Items.Values.Where(item => item.Names[lang] == null)?.Select(e => e.Id)];
+                        break;
                 }
 
-                if (fetchIds.Count() > 0)
+                if (_pendingIds.Count > 0)
                 {
-                    var idSets = fetchIds.ToList().ChunkBy(200);
+                    BuildsManager.Logger.Debug($"A total of {_pendingIds.Count} {name} need to be fetched.");
+                    return _pendingIds;
+                }
+
+                return [];
+            }
+            catch (Exception ex)
+            {
+                BuildsManager.Logger.Warn(ex, $"Failed to load {name} data.");
+                return [];
+            }
+        }
+
+        public async override Task<bool> LoadAndUpdate(string name, ByteIntMap map, string path, Gw2ApiManager gw2ApiManager, CancellationToken cancellationToken)
+        {
+            try
+            {
+                bool saveRequired = _pendingIds.Count > 0;
+               
+                if (_pendingIds.Count > 0)
+                {
+                    var idSets = _pendingIds.ChunkBy(200);
 
                     var legyArmorHelmet = await gw2ApiManager.Gw2ApiClient.V2.Items.GetAsync(80384, cancellationToken);
                     var statChoices = (legyArmorHelmet is ItemArmor armor) ? armor.Details.StatChoices : new List<int>();
 
                     saveRequired = saveRequired || idSets.Count > 0;
-                    BuildsManager.Logger.Debug($"Fetch a total of {fetchIds.Count()} {name} in {idSets.Count} sets.");
+                    BuildsManager.Logger.Debug($"Fetch a total of {_pendingIds.Count} {name} in {idSets.Count} sets.");
                     foreach (var ids in idSets)
                     {
                         var items = await gw2ApiManager.Gw2ApiClient.V2.Items.ManyAsync(ids, cancellationToken);

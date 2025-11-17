@@ -4,18 +4,18 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Models
 {
     public class ItemMapping
     {
-        public List<ItemMap> Nourishments = new();
-        public List<ItemMap> Utilities = new();
-        public List<ItemMap> PveRunes = new();
-        public List<ItemMap> PvpRunes = new();
-        public List<ItemMap> PveSigils = new();
-        public List<ItemMap> PvpSigils = new();
-        public List<ItemMap> Infusions = new();
-        public List<ItemMap> Enrichments = new();
-        public List<ItemMap> Trinkets = new();
-        public List<ItemMap> Backs = new();
-        public List<ItemMap> Weapons = new();
-        public List<ItemMap> Armors = new();
-        public List<ItemMap> PowerCore = new();
+        public List<ItemMap> Nourishments = [];
+        public List<ItemMap> Utilities = [];
+        public List<ItemMap> PveRunes = [];
+        public List<ItemMap> PvpRunes = [];
+        public List<ItemMap> PveSigils = [];
+        public List<ItemMap> PvpSigils = [];
+        public List<ItemMap> Infusions = [];
+        public List<ItemMap> Enrichments = [];
+        public List<ItemMap> Trinkets = [];
+        public List<ItemMap> Backs = [];
+        public List<ItemMap> Weapons = [];
+        public List<ItemMap> Armors = [];
+        public List<ItemMap> PowerCore = [];
     }
 }

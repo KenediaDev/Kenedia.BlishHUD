@@ -25,9 +25,9 @@ namespace Kenedia.Modules.Dev
     public class Dev : BaseModule<Dev, StandardWindow, BaseSettingsModel, PathCollection>
     {
         private double _tick;
-        private readonly Dictionary<int, Map> _maps = new();
+        private readonly Dictionary<int, Map> _maps = [];
 
-        public static List<Skill> Skills { get; private set; } = new();
+        public static List<Skill> Skills { get; private set; } = [];
 
         public static RadialMenu RadialMenu { get; private set; }
 

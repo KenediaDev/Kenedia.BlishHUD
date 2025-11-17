@@ -36,12 +36,12 @@ namespace Kenedia.Modules.Characters.Controls
 
         public List<Vector2> ToVectorList()
         {
-            return new List<Vector2>()
-                {
+            return
+                [
                     Point1,
                     Point2,
                     Point3,
-                };
+                ];
         }
 
         public bool PointInTriangle(Vector2 p)

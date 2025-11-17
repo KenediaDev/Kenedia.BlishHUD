@@ -156,10 +156,7 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Models.Templates
             { TemplateFlag.Farming, AsyncTexture2D.FromAssetId(784331) },
         };
 
-        private static readonly Dictionary<EncounterFlag, Rectangle> s_encounterTexturesRegions = new()
-        {
-
-        };
+        private static readonly Dictionary<EncounterFlag, Rectangle> s_encounterTexturesRegions = [];
 
         private static readonly Dictionary<TemplateFlag, Rectangle> s_tagTextureRegions = new()
         {
@@ -245,7 +242,7 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Models.Templates
         //[DataMember]
         //public string Id { get => _id; set => Common.SetProperty(ref _id, value, Changed); }
 
-        public ObservableList<string> TextTags { get; private set; } = new();
+        public ObservableList<string> TextTags { get; private set; } = [];
 
         [DataMember]
         public TemplateFlag Tags { get => _tags; set => Common.SetProperty(ref _tags, value, TemplateChanged); }
@@ -368,7 +365,7 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Models.Templates
 
         public BuildTemplate BuildTemplate { get; } = new();
 
-        public GearTemplate GearTemplate { get; } = new();
+        public GearTemplate GearTemplate { get; } = [];
 
         public RotationTemplate RotationTemplate { get; } = new();
 
@@ -377,7 +374,7 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Models.Templates
         public string FilePath => @$"{AdvancedBuildsManager.ModuleInstance.Paths.TemplatesPath}{Common.MakeValidFileName(Name.Trim())}.json";
 
         [DataMember]
-        public Dictionary<string, string> RotationCodes { get; set; } = new();
+        public Dictionary<string, string> RotationCodes { get; set; } = [];
 
         public SkillCollection GetActiveSkills()
         {

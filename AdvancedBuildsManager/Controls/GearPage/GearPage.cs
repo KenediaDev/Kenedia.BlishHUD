@@ -23,7 +23,7 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Controls.GearPage
 
         private Template _template;
         private Rectangle _headerBounds;
-        private Dictionary<GearTemplateSlot, BaseSlotControl> _slots = new();
+        private Dictionary<GearTemplateSlot, BaseSlotControl> _slots = [];
 
         private FramedImage _framedSpecIcon;
         private SelectionPanel _selectionPanel;

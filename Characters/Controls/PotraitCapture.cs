@@ -24,7 +24,7 @@ namespace Kenedia.Modules.Characters.Controls
 {
     public class PotraitCapture : Container
     {
-        private readonly List<FramedMaskedRegion> _characterPotraitFrames = new();
+        private readonly List<FramedMaskedRegion> _characterPotraitFrames = [];
         private readonly ClientWindowService _clientWindowService;
         private readonly SharedSettings _sharedSettings;
 

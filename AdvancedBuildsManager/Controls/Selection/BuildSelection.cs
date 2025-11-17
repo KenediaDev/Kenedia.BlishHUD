@@ -125,8 +125,8 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Controls.Selection
     public class ProfessionRaceSelection : BaseSelection
     {
         private SelectionType _type = SelectionType.Race;
-        private List<ProfessionRaceSelectable> _races = new();
-        private List<ProfessionRaceSelectable> _professions = new();
+        private List<ProfessionRaceSelectable> _races = [];
+        private List<ProfessionRaceSelectable> _professions = [];
 
         public ProfessionRaceSelection()
         {
@@ -223,9 +223,9 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Controls.Selection
 
     public class BuildSelection : BaseSelection
     {
-        private readonly List<ProfessionToggle> _specIcons = new();
+        private readonly List<ProfessionToggle> _specIcons = [];
         private readonly ImageButton _addBuildsButton;
-        private readonly List<TemplateSelectable> _templates = new();
+        private readonly List<TemplateSelectable> _templates = [];
 
         private readonly Dropdown _sortBehavior;
         private double _lastShown;

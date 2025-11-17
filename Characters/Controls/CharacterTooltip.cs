@@ -30,7 +30,7 @@ namespace Kenedia.Modules.Characters.Controls
         private readonly Data _data;
         private Point _textureOffset = new(25, 25);
         private Character_Model _character;
-        private readonly List<Tag> _tags = new();
+        private readonly List<Tag> _tags = [];
 
         public CharacterTooltip(Func<Character_Model> currentCharacter, TextureManager textureManager, Data data, Settings settings)
         {

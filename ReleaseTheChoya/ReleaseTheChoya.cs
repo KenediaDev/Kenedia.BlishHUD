@@ -33,11 +33,11 @@ namespace Kenedia.Modules.ReleaseTheChoya
         private double _choyaHuntTick;
         private Vector3 _lastPlayerPos;
         private CornerIcon _cornerIcon;
-        private readonly List<Control> _idleChoya = new();
-        private readonly List<Control> _randomChoya = new();
-        private readonly List<Control> _persistentChoya = new();
-        private readonly List<Control> _staticChoya = new();
-        private readonly List<Control> _huntingChoya = new();
+        private readonly List<Control> _idleChoya = [];
+        private readonly List<Control> _randomChoya = [];
+        private readonly List<Control> _persistentChoya = [];
+        private readonly List<Control> _staticChoya = [];
+        private readonly List<Control> _huntingChoya = [];
         private bool _choyaHuntActive = false;
 
         [ImportingConstructor]

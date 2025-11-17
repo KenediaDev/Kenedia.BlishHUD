@@ -57,7 +57,7 @@ namespace Kenedia.Modules.AdvancedBuildsManager.DataModels.Professions
         public int Id { get; set; }
 
         [DataMember]
-        public Dictionary<int, Skill> Utilities { get; set; } = new();
+        public Dictionary<int, Skill> Utilities { get; set; } = [];
 
         [DataMember]
         public Skill Heal { get; set; }

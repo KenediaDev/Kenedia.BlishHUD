@@ -15,7 +15,7 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Controls.SkillConnectionEdit
         private readonly ImageButton _addButton;
         private Pets _item;
         private bool _canSave = true;
-        private readonly Dictionary<int, (Label, PetControl)> _controls = new();
+        private readonly Dictionary<int, (Label, PetControl)> _controls = [];
         private readonly PetSelector _selector;
 
         private OldSkillConnection _skillConnection;
@@ -83,7 +83,7 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Controls.SkillConnectionEdit
 
             temp.Item2.OnChangedAction = (id) =>
             {
-                Item ??= new();
+                Item ??= [];
 
                 if (!Item.Contains(id))
                 {

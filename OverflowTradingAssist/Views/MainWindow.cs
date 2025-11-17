@@ -27,7 +27,7 @@ namespace Kenedia.Modules.OverflowTradingAssist.Views
         private readonly Func<List<Trade>> _getTrades;
         private Trade _trade;
 
-        private List<TradeHistoryEntryControl> _tradeHistoryEntries = new();
+        private List<TradeHistoryEntryControl> _tradeHistoryEntries = [];
         private TradeHistoryView _historyView;
         private TradeView _tradeView;
 

@@ -27,22 +27,22 @@ namespace Kenedia.Modules.QoL.SubModules.SkipCutscenes
         private Point _mousePosition;
         private GameStatusType _loggedInSinceLastCutscene = GameStatusType.Unknown;
 
-        private readonly List<int> _introMaps = new()
-        {
+        private readonly List<int> _introMaps =
+        [
             573, //Queensdale
             458, //Plains of Ashford
             138, //Wayfarer Foothills
             379, //Caledon Forest
             432 //Metrica Province
-        };
+        ];
 
-        private readonly List<int> _starterMaps = new(){
+        private readonly List<int> _starterMaps = [
             15, //Queensdale
             19, //Plains of Ashford
             28, //Wayfarer Foothills
             34, //Caledon Forest
             35 //Metrica Province
-        };
+        ];
         private readonly GameStateDetectionService _gameStateDetectionService;
 
         public SkipCutscenes(SettingCollection settings, GameStateDetectionService gameStateDetectionService) : base(settings)

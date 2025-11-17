@@ -148,8 +148,8 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Controls.Selection
 
     public class GearSelection : BaseSelection
     {
-        private readonly Dictionary<GearTemplateSlot, List<Selectable>> _selectablesPerSlot = new();
-        private readonly List<Selectable> _selectables = new();
+        private readonly Dictionary<GearTemplateSlot, List<Selectable>> _selectablesPerSlot = [];
+        private readonly List<Selectable> _selectables = [];
         private GearTemplateSlot _activeSlot;
         private GearSubSlotType _subSlotType;
         private Template _template;

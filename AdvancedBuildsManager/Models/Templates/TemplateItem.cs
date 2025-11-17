@@ -15,7 +15,7 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Models.Templates
 
         public WeaponType? Weapon { get; set; }
 
-        public UpgradeCollection Upgrades { get; set; } = new();
+        public UpgradeCollection Upgrades { get; set; } = [];
 
         public string ToCode(GearTemplateSlot slot)
         {

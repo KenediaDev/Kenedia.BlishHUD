@@ -36,7 +36,7 @@ namespace Kenedia.Modules.Characters.Services
             _paths = paths;
         }
 
-        public Dictionary<int, Map> Maps { get; private set; } = new();
+        public Dictionary<int, Map> Maps { get; private set; } = [];
 
         public Dictionary<int, CraftingProfession> CrafingProfessions { get; } = new()
         {
@@ -1215,7 +1215,7 @@ namespace Kenedia.Modules.Characters.Services
 
             public int MaxRating { get; set; }
 
-            public Dictionary<Locale, string> Names { get; set; } = new Dictionary<Locale, string>();
+            public Dictionary<Locale, string> Names { get; set; } = [];
 
             public string Name
             {
@@ -1272,7 +1272,7 @@ namespace Kenedia.Modules.Characters.Services
                 }
             }
 
-            public Dictionary<Locale, string> Names { get; set; } = new Dictionary<Locale, string>();
+            public Dictionary<Locale, string> Names { get; set; } = [];
 
             public string Name
             {
@@ -1315,7 +1315,7 @@ namespace Kenedia.Modules.Characters.Services
 
             public AsyncTexture2D IconBig { get; set; }
 
-            public Dictionary<Locale, string> Names { get; set; } = new Dictionary<Locale, string>();
+            public Dictionary<Locale, string> Names { get; set; } = [];
 
             public string Name
             {
@@ -1334,7 +1334,7 @@ namespace Kenedia.Modules.Characters.Services
 
             public string APIId { get; set; }
 
-            public Dictionary<Locale, string> Names { get; set; } = new Dictionary<Locale, string>();
+            public Dictionary<Locale, string> Names { get; set; } = [];
 
             public string Name
             {

@@ -19,7 +19,7 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Controls.SkillConnectionEdit
     {
         protected readonly FilterBox Filter;
         protected readonly FlowPanel SelectionPanel;
-        private Dictionary<int, EntryType> _items = new();
+        private Dictionary<int, EntryType> _items = [];
         protected CancellationTokenSource CancellationTokenSource;
 
         public Selector()

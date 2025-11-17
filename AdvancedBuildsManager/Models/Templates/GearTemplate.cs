@@ -146,7 +146,7 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Models.Templates
         private Infusion _infusion2;
         private Infusion _infusion3;
 
-        private ObservableList<int> _infusionIds = new();
+        private ObservableList<int> _infusionIds = [];
 
         public JewelleryEntry()
         {
@@ -218,7 +218,7 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Models.Templates
             }
         }
 
-        private ObservableList<int> _enrichmentIds = new();
+        private ObservableList<int> _enrichmentIds = [];
 
         public ObservableList<int> EnrichmentIds
         {
@@ -264,16 +264,16 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Models.Templates
 
             EnrichmentIds = Slot switch
             {
-                GearTemplateSlot.Amulet => new() { -1 },
+                GearTemplateSlot.Amulet => [-1],
                 _ => null,
             };
 
             InfusionIds = Slot switch
             {
-                GearTemplateSlot.Ring_1 or GearTemplateSlot.Ring_2 => new() { -1, -1, -1, },
-                GearTemplateSlot.Back or GearTemplateSlot.Aquatic or GearTemplateSlot.AltAquatic => new() { -1, -1 },
+                GearTemplateSlot.Ring_1 or GearTemplateSlot.Ring_2 => [-1, -1, -1,],
+                GearTemplateSlot.Back or GearTemplateSlot.Aquatic or GearTemplateSlot.AltAquatic => [-1, -1],
                 GearTemplateSlot.Amulet => null,
-                _ => new() { -1 },
+                _ => [-1],
             };
         }
 
@@ -376,7 +376,7 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Models.Templates
         private WeaponType _weapon = WeaponType.Unknown;
         private Sigil _sigil;
         private Sigil _pvpSigil;
-        private ObservableList<int> _sigilIds = new();
+        private ObservableList<int> _sigilIds = [];
         private Sigil _sigil2;
 
         public WeaponEntry()
@@ -457,8 +457,8 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Models.Templates
 
             SigilIds = Slot switch
             {
-                GearTemplateSlot.Aquatic or GearTemplateSlot.AltAquatic => new() { -1, -1 },
-                _ => new() { -1, -1, },
+                GearTemplateSlot.Aquatic or GearTemplateSlot.AltAquatic => [-1, -1],
+                _ => [-1, -1,],
             };
         }
 
@@ -536,7 +536,7 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Models.Templates
     public class ArmorEntry : JewelleryEntry
     {
         private Rune _rune;
-        private ObservableList<int> _runeIds = new() { -1 };
+        private ObservableList<int> _runeIds = [-1];
 
         public ArmorEntry()
         {
@@ -637,7 +637,7 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Models.Templates
         {
             foreach (GearTemplateEntryType type in Enum.GetValues(typeof(GearTemplateEntryType)))
             {
-                Add(type, new());
+                Add(type, []);
             }
 
             foreach (GearTemplateSlot slot in Enum.GetValues(typeof(GearTemplateSlot)))

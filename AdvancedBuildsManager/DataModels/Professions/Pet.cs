@@ -45,7 +45,7 @@ namespace Kenedia.Modules.AdvancedBuildsManager.DataModels.Professions
         public int Id { get; set; }
 
         [DataMember]
-        public LocalizedString Names { get; protected set; } = new();
+        public LocalizedString Names { get; protected set; } = [];
 
         public string Name
         {
@@ -54,7 +54,7 @@ namespace Kenedia.Modules.AdvancedBuildsManager.DataModels.Professions
         }
 
         [DataMember]
-        public LocalizedString Descriptions { get; protected set; } = new();
+        public LocalizedString Descriptions { get; protected set; } = [];
 
         public string Description
         {
@@ -76,7 +76,7 @@ namespace Kenedia.Modules.AdvancedBuildsManager.DataModels.Professions
         }
 
         [DataMember]
-        public Dictionary<int, Skill> Skills { get; set; } = new();
+        public Dictionary<int, Skill> Skills { get; set; } = [];
 
         public static Pet FromByte(byte id)
         {

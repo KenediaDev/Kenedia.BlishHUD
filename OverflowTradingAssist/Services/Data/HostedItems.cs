@@ -23,7 +23,7 @@ namespace Kenedia.Modules.OverflowTradingAssist.DataEntries
             Version = version;
         }
 
-        public List<T> Items { get; } = new();
+        public List<T> Items { get; } = [];
 
         [JsonSemverVersion]
         public Version Version { get; set; } = new(0, 0, 0);

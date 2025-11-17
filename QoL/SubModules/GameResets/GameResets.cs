@@ -369,12 +369,12 @@ namespace Kenedia.Modules.QoL.SubModules.GameResets
                 Parent = contentFlowPanel,
                 SetLocalizedItems = () =>
                 {
-                    return new()
-                    {
+                    return
+                    [
                         $"{DateDisplayType.Short}".SplitStringOnUppercase(),
                         $"{DateDisplayType.ShortDays}".SplitStringOnUppercase(),
                         $"{DateDisplayType.Long}".SplitStringOnUppercase(),
-                    };
+                    ];
                 },
                 SelectedItem = $"{_dateDisplay.Value}".SplitStringOnUppercase(),
                 ValueChangedAction = (b) => _dateDisplay.Value = Enum.TryParse(b.RemoveSpaces(), out DateDisplayType dateType) ? dateType : _dateDisplay.Value,

@@ -159,7 +159,7 @@ namespace Kenedia.Modules.Characters.Models
         }
 
         [DataMember]
-        public List<CharacterCrafting> Crafting { get; } = new List<CharacterCrafting>();
+        public List<CharacterCrafting> Crafting { get; } = [];
 
         public List<KeyValuePair<int, CraftingProfession>> CraftingDisciplines
         {
@@ -307,7 +307,7 @@ namespace Kenedia.Modules.Characters.Models
         }
 
         [DataMember]
-        public TagList Tags { get; private set; } = new TagList();
+        public TagList Tags { get; private set; } = [];
 
         [DataMember]
         public int Position

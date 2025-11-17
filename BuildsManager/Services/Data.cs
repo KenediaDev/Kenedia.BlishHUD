@@ -14,10 +14,12 @@ using Kenedia.Modules.Core.Controls;
 using Kenedia.Modules.Core.Attributes;
 using Gw2Sharp.WebApi;
 using Blish_HUD;
+using Kenedia.Modules.Core.Extensions;
+using System.Collections;
 
 namespace Kenedia.Modules.BuildsManager.Services
 {
-    public class Data : IDisposable
+    public class Data: IDisposable, IEnumerable<(string name, BaseMappedDataEntry map)>, IEnumerable
     {
         public static readonly Dictionary<int, int?> SkinDictionary = new()
                 {
@@ -181,13 +183,21 @@ namespace Kenedia.Modules.BuildsManager.Services
         public IEnumerator<(string name, BaseMappedDataEntry map)> GetEnumerator()
         {
             var propertiesToEnumerate = GetType()
-                .GetProperties()
-                .Where(property => property.GetCustomAttribute<EnumeratorMemberAttribute>() != null);
+                .GetProperties(BindingFlags.Public | BindingFlags.Instance)
+                .Where(p => p.GetCustomAttribute<EnumeratorMemberAttribute>() != null);
 
             foreach (var property in propertiesToEnumerate)
             {
-                yield return (property.Name, property.GetValue(this) as BaseMappedDataEntry);
+                var value = property.GetValue(this) as BaseMappedDataEntry;
+                if (value != null)
+                    yield return (property.Name, value);
             }
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            // Forward non-generic enumerator to the generic one
+            return GetEnumerator();
         }
 
         public async Task<bool> Load(bool force)
@@ -240,6 +250,42 @@ namespace Kenedia.Modules.BuildsManager.Services
                     return false;
                 }
 
+                List<int> itemIds = [];
+                foreach (var (name, map) in this)
+                {
+                    if (map.GetType().IsGenericType && map.GetType().GetGenericTypeDefinition() == typeof(ItemMappedDataEntry<>))
+                    {
+                        var innerType = map.GetType().GetGenericArguments()[0];
+
+                        if (typeof(BaseItem).IsAssignableFrom(innerType))
+                        {
+                            dynamic dynMap = map;
+                            var ids = await dynMap.LoadAndGetPending(
+                                name,
+                                versions[name],
+                                Path.Combine(Paths.ModuleDataPath, $"{name}.json")
+                            );
+
+                            itemIds = ids is List<int> idList ? [.. itemIds.Union(idList)] : itemIds;
+                        }
+                    }
+                }
+
+                var idSets = itemIds.ToList().ChunkBy(200);
+                BuildsManager.Logger.Info($"Pre-Fetching {itemIds.Count} items from API...");
+                int count = 0;
+                foreach (var idSet in idSets)
+                {
+                    if (_cancellationTokenSource.IsCancellationRequested)
+                    {
+                        return false;
+                    }
+
+                    count += idSet.Count;
+                    BuildsManager.Logger.Info($"Fetching {count}/{itemIds.Count} items...");
+                    await Gw2ApiManager.Gw2ApiClient.V2.Items.ManyAsync(idSet);
+                }
+
                 bool failed = false;
 
                 string loadStatus = string.Empty;
@@ -274,7 +320,7 @@ namespace Kenedia.Modules.BuildsManager.Services
                         badge.AddNotification(new()
                         {
                             NotificationText = txt,
-                            Condition = () => DateTime.Now >= endTime,
+                            Condition = () => DateTime.Now >= endTime || IsLoaded,
                         });
 
                         BuildsManager.Logger.Info(txt);

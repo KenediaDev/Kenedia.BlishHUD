@@ -41,7 +41,7 @@ namespace Kenedia.Modules.Characters.Controls
         private List<Character_Model> _displayedCharacters;
         private int _iconSize;
 
-        private readonly List<RadialMenuSection> _sections = new();
+        private readonly List<RadialMenuSection> _sections = [];
         private Character_Model? _selected;
 
         private Vector2 _center;

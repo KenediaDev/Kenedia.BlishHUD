@@ -14,7 +14,7 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Controls.SkillConnectionEdit
     {
         private T _item;
         private bool _canSave = true;
-        private readonly Dictionary<string, (Label, SkillControl)> _controls = new();
+        private readonly Dictionary<string, (Label, SkillControl)> _controls = [];
         private readonly SkillSelector _selector;
 
         private OldSkillConnection _skillConnection;

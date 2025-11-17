@@ -50,10 +50,10 @@ namespace Kenedia.Modules.AdvancedBuildsManager.DataModels.Professions
         public int IconBigAssetId { get; set; }
 
         [DataMember]
-        public Dictionary<int, Specialization> Specializations { get; set; } = new();
+        public Dictionary<int, Specialization> Specializations { get; set; } = [];
 
         [DataMember]
-        public Dictionary<WeaponType, Weapon> Weapons { get; set; } = new();
+        public Dictionary<WeaponType, Weapon> Weapons { get; set; } = [];
 
         public string Name
         {
@@ -62,10 +62,10 @@ namespace Kenedia.Modules.AdvancedBuildsManager.DataModels.Professions
         }
 
         [DataMember]
-        public LocalizedString Names { get; protected set; } = new();
+        public LocalizedString Names { get; protected set; } = [];
 
         [DataMember]
-        public Dictionary<int, Skill> Skills { get; set; } = new();
+        public Dictionary<int, Skill> Skills { get; set; } = [];
 
         [DataMember]
         public Dictionary<int, Legend> Legends { get; set; }
@@ -148,7 +148,7 @@ namespace Kenedia.Modules.AdvancedBuildsManager.DataModels.Professions
 
                 List<int> getIds(Skill skill, List<int> result = null)
                 {
-                    result ??= new List<int>();
+                    result ??= [];
 
                     if (skill == null) return result;
 
@@ -281,7 +281,7 @@ namespace Kenedia.Modules.AdvancedBuildsManager.DataModels.Professions
 
                 if (professionType == ProfessionType.Revenant)
                 {
-                    Legends ??= new();
+                    Legends ??= [];
 
                     foreach (var leg in legends)
                     {

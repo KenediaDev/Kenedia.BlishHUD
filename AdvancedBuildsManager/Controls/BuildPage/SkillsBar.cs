@@ -23,27 +23,27 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Controls.BuildPage
         private readonly DetailedTexture _aquaticTexture = new(1988170);
         private readonly DetailedTexture _terrestrialTexture = new(1988171);
 
-        private readonly List<DetailedTexture> _selectors = new()
-        {
+        private readonly List<DetailedTexture> _selectors =
+        [
             new(157138, 157140),
             new(157138, 157140),
             new(157138, 157140),
             new(157138, 157140),
             new(157138, 157140),
-        };
+        ];
 
         private Template _template;
-        private readonly WeaponSkillIconCollection _terrestrialWeaponSkills = new();
-        private readonly WeaponSkillIconCollection _terrestrialInactiveWeaponSkills = new();
-        private readonly WeaponSkillIconCollection _aquaticWeaponSkills = new();
-        private readonly WeaponSkillIconCollection _aquaticInactiveWeaponSkills = new();
+        private readonly WeaponSkillIconCollection _terrestrialWeaponSkills = [];
+        private readonly WeaponSkillIconCollection _terrestrialInactiveWeaponSkills = [];
+        private readonly WeaponSkillIconCollection _aquaticWeaponSkills = [];
+        private readonly WeaponSkillIconCollection _aquaticInactiveWeaponSkills = [];
 
-        private readonly SkillIconCollection _aquaticSkills = new();
-        private readonly SkillIconCollection _inactiveAquaticSkills = new();
-        private readonly SkillIconCollection _terrestrialSkills = new();
-        private readonly SkillIconCollection _inactiveTerrestrialSkills = new();
+        private readonly SkillIconCollection _aquaticSkills = [];
+        private readonly SkillIconCollection _inactiveAquaticSkills = [];
+        private readonly SkillIconCollection _terrestrialSkills = [];
+        private readonly SkillIconCollection _inactiveTerrestrialSkills = [];
 
-        private readonly SelectableSkillIconCollection _selectableSkills = new();
+        private readonly SelectableSkillIconCollection _selectableSkills = [];
         private SkillSlot _selectedSkillSlot;
         private Rectangle _selectorBounds;
         private SkillIcon _selectorAnchor;
@@ -594,7 +594,7 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Controls.BuildPage
 
                     //var filteredSkills = skills.Where(e => e.Value.PaletteId > 0 && e.Value.Slot is not null && e.Value.Slot == skillType && e.Value.Categories is not null && (e.Value.Specialization == 0 || Template.BuildTemplate.HasSpecialization(e.Value.Specialization))).OrderBy(e => e.Value.Categories is not null ? e.Value.Categories[0] : SkillCategory.None).ToList();
                     var filteredSkills = skills.Where(e => e.Value.PaletteId > 0 && e.Value.Slot is not null && e.Value.Slot == skillType && (e.Value.Specialization == 0 || Template.BuildTemplate.HasSpecialization(e.Value.Specialization))).ToList();
-                    var racialSkills = Template.Race != Core.DataModels.Races.None ? AdvancedBuildsManager.Data.Races[Template.Race]?.Skills.Where(e => e.Value.PaletteId > 0 && e.Value.Slot is not null && e.Value.Slot == skillType).ToList() : new();
+                    var racialSkills = Template.Race != Core.DataModels.Races.None ? AdvancedBuildsManager.Data.Races[Template.Race]?.Skills.Where(e => e.Value.PaletteId > 0 && e.Value.Slot is not null && e.Value.Slot == skillType).ToList() : [];
                     if (racialSkills is not null) filteredSkills.AddRange(racialSkills);
 
                     //filteredSkills.Sort((a, b) => a.Value.Categories.CompareTo(b.Value.Categories));
@@ -620,7 +620,7 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Controls.BuildPage
                 else
                 {
                     var skills = Template.BuildTemplate.Legends[Template.LegendSlot];
-                    List<Skill> filteredSkills = new();
+                    List<Skill> filteredSkills = [];
                     switch (skillType)
                     {
                         case SkillSlot.Heal:

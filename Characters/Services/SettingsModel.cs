@@ -16,7 +16,7 @@ namespace Kenedia.Modules.Characters.Services
 {
     public class Settings : BaseSettingsModel
     {
-        private readonly ObservableCollection<SettingEntry> _appearanceSettings = new();
+        private readonly ObservableCollection<SettingEntry> _appearanceSettings = [];
 
         public Settings(SettingCollection settings) : base(settings)        
         {

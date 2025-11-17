@@ -132,7 +132,7 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Controls.BuildPage.ProfessionSpe
         private readonly LegendIcon _legend1 = new() { LegendSlot = LegendSlot.TerrestrialActive };
         private readonly LegendIcon _legend2 = new() { LegendSlot = LegendSlot.TerrestrialInactive };
         private readonly int _legendSize = 48;
-        private List<LegendIcon> _selectableLegends = new();
+        private List<LegendIcon> _selectableLegends = [];
 
         private LegendSlot _selectedLegendSlot;
         private Rectangle _selectorBounds;

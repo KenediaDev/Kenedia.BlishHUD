@@ -79,7 +79,7 @@ namespace Kenedia.Modules.Characters.Services
         {
             try
             {
-                List<AccountSummary> accounts = new();
+                List<AccountSummary> accounts = [];
                 AccountSummary accountEntry;
 
                 if (File.Exists(_accountFilePath))
@@ -91,7 +91,7 @@ namespace Kenedia.Modules.Characters.Services
                     if (accountEntry is not null)
                     {
                         accountEntry.AccountName = account.Name;
-                        accountEntry.CharacterNames = new();
+                        accountEntry.CharacterNames = [];
                         characters.ToList().ForEach(c => accountEntry.CharacterNames.Add(c.Name));
                     }
                     else
@@ -99,7 +99,7 @@ namespace Kenedia.Modules.Characters.Services
                         accounts.Add(accountEntry = new()
                         {
                             AccountName = account.Name,
-                            CharacterNames = new(),
+                            CharacterNames = [],
                         });
                         characters.ToList().ForEach(c => accountEntry.CharacterNames.Add(c.Name));
                     }
@@ -109,7 +109,7 @@ namespace Kenedia.Modules.Characters.Services
                     accounts.Add(accountEntry = new()
                     {
                         AccountName = account.Name,
-                        CharacterNames = new(),
+                        CharacterNames = [],
                     });
                     characters.ToList().ForEach(c => accountEntry.CharacterNames.Add(c.Name));
                 }

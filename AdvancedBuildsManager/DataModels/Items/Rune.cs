@@ -16,7 +16,7 @@ namespace Kenedia.Modules.AdvancedBuildsManager.DataModels.Items
         }
 
         [DataMember]
-        public List<BonusStat> Bonuses { get; set; } = new();
+        public List<BonusStat> Bonuses { get; set; } = [];
 
         [DataMember]
         public RuneBonuses BonusDescriptions { get; set; } = new();

@@ -15,7 +15,7 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Views
 {
     public class SkillConnectionEditor : StandardWindow
     {
-        private Dictionary<int, OldSkillConnection> _connections = new();
+        private Dictionary<int, OldSkillConnection> _connections = [];
         private ProfessionType? _profession = ProfessionType.Guardian;
         private readonly EditingControl _connectionEdit;
         private readonly SkillSelector _selector;

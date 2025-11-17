@@ -119,7 +119,7 @@ namespace Kenedia.Modules.OverflowTradingAssist.Services
 
         private void EnsureDefaultItems()
         {
-            Items ??= new();
+            Items ??= [];
 
             var items = new List<Item>
             {

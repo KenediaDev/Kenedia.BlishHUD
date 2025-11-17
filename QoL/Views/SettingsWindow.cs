@@ -82,13 +82,13 @@ namespace Kenedia.Modules.QoL.Views
                 Parent = contentFlowPanel,
                 SetLocalizedItems = () =>
                 {
-                    return new()
-                    {
+                    return
+                    [
                         $"{ExpandType.LeftToRight}".SplitStringOnUppercase(),
                         $"{ExpandType.RightToLeft}".SplitStringOnUppercase(),
                         $"{ExpandType.TopToBottom}".SplitStringOnUppercase(),
                         $"{ExpandType.BottomToTop}".SplitStringOnUppercase(),
-                    };
+                    ];
                 },
                 SelectedItem = $"{_settings.HotbarExpandDirection.Value}".SplitStringOnUppercase(),
                 ValueChangedAction = (b) => _settings.HotbarExpandDirection.Value = Enum.TryParse(b.RemoveSpaces(), out ExpandType expandType) ? expandType : _settings.HotbarExpandDirection.Value,
@@ -100,11 +100,11 @@ namespace Kenedia.Modules.QoL.Views
                 Parent = contentFlowPanel,
                 SetLocalizedItems = () =>
                 {
-                    return new()
-                    {
+                    return
+                    [
                         $"{SortType.ActivesFirst}".SplitStringOnUppercase(),
                         $"{SortType.ByModuleName}".SplitStringOnUppercase(),
-                    };
+                    ];
                 },
                 SelectedItem = $"{_settings.HotbarButtonSorting.Value}".SplitStringOnUppercase(),
                 ValueChangedAction = (b) => _settings.HotbarButtonSorting.Value = Enum.TryParse(b.RemoveSpaces(), out SortType sortType) ? sortType : _settings.HotbarButtonSorting.Value,
@@ -116,12 +116,12 @@ namespace Kenedia.Modules.QoL.Views
                 Parent = contentFlowPanel,
                 SetLocalizedItems = () =>
                 {
-                    return new()
-                    {
+                    return
+                    [
                         $"{KeyboardLayoutType.QWERTY}".SplitStringOnUppercase(),
                         $"{KeyboardLayoutType.AZERTY}".SplitStringOnUppercase(),
                         $"{KeyboardLayoutType.QWERTZ}".SplitStringOnUppercase(),
-                    };
+                    ];
                 },
                 SelectedItem = $"{_settings.KeyboardLayout.Value}".SplitStringOnUppercase(),
                 ValueChangedAction = (b) => _settings.KeyboardLayout.Value = Enum.TryParse(b.RemoveSpaces(), out KeyboardLayoutType sortType) ? sortType : _settings.KeyboardLayout.Value,

@@ -174,9 +174,9 @@ namespace Kenedia.Modules.OverflowTradingAssist.Models
 
         public Guid Id { get; set; } = Guid.NewGuid();
 
-        public ObservableCollection<ItemAmount> Items { get; } = new();
+        public ObservableCollection<ItemAmount> Items { get; } = [];
 
-        public ObservableCollection<ItemAmount> Payment { get; } = new();
+        public ObservableCollection<ItemAmount> Payment { get; } = [];
 
         [JsonIgnore]
         public string ItemSummary => string.Join(", ", Items.Select(e => $"{e.Amount} x  {e.Item?.Name ?? Item.UnkownItem.Name}"));

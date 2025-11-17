@@ -46,7 +46,7 @@ namespace Kenedia.Modules.QoL
 
         public ClientWindowService ClientWindowService { get; } = new();
 
-        public Dictionary<SubModuleType, SubModule> SubModules { get; } = new();
+        public Dictionary<SubModuleType, SubModule> SubModules { get; } = [];
 
         protected override void DefineSettings(SettingCollection settings)
         {

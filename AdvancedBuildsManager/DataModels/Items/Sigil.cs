@@ -16,7 +16,7 @@ namespace Kenedia.Modules.AdvancedBuildsManager.DataModels.Items
         }
 
         [DataMember]
-        public LocalizedString Buffs { get; protected set; } = new();
+        public LocalizedString Buffs { get; protected set; } = [];
         public string Buff
         {
             get => Buffs.Text;

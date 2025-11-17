@@ -7,7 +7,7 @@ namespace Kenedia.Modules.Characters.Extensions
     {
         public static List<FilterTag> CreateFilterTagList(this List<string> strings)
         {
-            List<FilterTag> list = new();
+            List<FilterTag> list = [];
             foreach (string s in strings)
             {
                 list.Add(new FilterTag()

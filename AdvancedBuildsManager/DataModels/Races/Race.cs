@@ -56,10 +56,10 @@ namespace Kenedia.Modules.AdvancedBuildsManager.DataModels
         }
 
         [DataMember]
-        public LocalizedString Names { get; protected set; } = new();
+        public LocalizedString Names { get; protected set; } = [];
 
         [DataMember]
-        public Dictionary<int, Skill> Skills { get; } = new();
+        public Dictionary<int, Skill> Skills { get; } = [];
 
         public AsyncTexture2D Icon
         {

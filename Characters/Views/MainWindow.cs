@@ -277,7 +277,7 @@ namespace Kenedia.Modules.Characters.Views
             ContentPanel.Invalidate();
         }
 
-        public List<Character_Model> LoadedModels { get; } = new();
+        public List<Character_Model> LoadedModels { get; } = [];
 
         private List<Character_Model> CharacterModels => _rawCharacterModels.ToList();
 
@@ -326,7 +326,7 @@ namespace Kenedia.Modules.Characters.Views
             _clearButton.Location = new Point(_filterBox.LocalBounds.Right - 25, _filterBox.LocalBounds.Top + 8);
         }
 
-        public List<CharacterCard> CharacterCards { get; } = new();
+        public List<CharacterCard> CharacterCards { get; } = [];
 
         public CharacterEdit CharacterEdit { get; set; }
 
@@ -346,7 +346,7 @@ namespace Kenedia.Modules.Characters.Views
             Regex regex = _settings.FilterAsOne.Value ? new("^(?!\\s*$).+") : new(@"\w+|""[\w\s]*""");
             var strings = regex.Matches(_filterBox.Text.Trim().ToLower()).Cast<Match>().ToList();
 
-            List<string> textStrings = new();
+            List<string> textStrings = [];
 
             var stringFilters = new List<KeyValuePair<string, SearchFilter<Character_Model>>>();
 

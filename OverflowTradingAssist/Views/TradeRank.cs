@@ -33,8 +33,8 @@ namespace Kenedia.Modules.OverflowTradingAssist.Views
 
         public AsyncTexture2D Icon { get; set; }
 
-        public static List<TradeRank> Ranks = new()
-        {
+        public static List<TradeRank> Ranks =
+        [
             OneMillion,
             FiveHundredThousand,
             OneHundredThousand,
@@ -42,6 +42,6 @@ namespace Kenedia.Modules.OverflowTradingAssist.Views
             TwentyFiveThousand,
             FiveThousand,
             NoRank,
-        };
+        ];
     }
 }

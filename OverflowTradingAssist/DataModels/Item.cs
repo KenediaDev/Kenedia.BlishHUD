@@ -126,7 +126,7 @@ namespace Kenedia.Modules.OverflowTradingAssist.DataModels
         }
 
         [DataMember]
-        public LocalizedString Names { get; protected set; } = new();
+        public LocalizedString Names { get; protected set; } = [];
         public string Name
         {
             get => Names.Text;
@@ -134,7 +134,7 @@ namespace Kenedia.Modules.OverflowTradingAssist.DataModels
         }
 
         [DataMember]
-        public LocalizedString Descriptions { get; protected set; } = new();
+        public LocalizedString Descriptions { get; protected set; } = [];
         public string Description
         {
             get => Descriptions.Text;

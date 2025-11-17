@@ -72,11 +72,11 @@ namespace Kenedia.Modules.Characters
             HasGUI = true;
         }
 
-        public SearchFilterCollection SearchFilters { get; } = new();
+        public SearchFilterCollection SearchFilters { get; } = [];
 
-        public SearchFilterCollection TagFilters { get; } = new();
+        public SearchFilterCollection TagFilters { get; } = [];
 
-        public TagList Tags { get; } = new();
+        public Models.TagList Tags { get; } = [];
 
         public CharacterSwapping CharacterSwapping { get; private set; }
 
@@ -92,7 +92,7 @@ namespace Kenedia.Modules.Characters
 
         public TextureManager TextureManager { get; private set; }
 
-        public ObservableCollection<Character_Model> CharacterModels { get; } = new();
+        public ObservableCollection<Character_Model> CharacterModels { get; } = [];
 
         private Character_Model _currentCharacterModel;
         private CancellationTokenSource _characterFileTokenSource;

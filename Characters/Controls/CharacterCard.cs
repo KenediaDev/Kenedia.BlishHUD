@@ -166,7 +166,7 @@ namespace Kenedia.Modules.Characters.Controls
 
         public bool IsDraggingTarget { get; set; } = false;
 
-        public List<CharacterCard> AttachedCards { get; set; } = new();
+        public List<CharacterCard> AttachedCards { get; set; } = [];
 
         public BitmapFont NameFont { get; set; } = GameService.Content.DefaultFont14;
 

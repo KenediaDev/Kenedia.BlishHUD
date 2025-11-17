@@ -16,8 +16,8 @@ namespace Kenedia.Modules.Characters.Controls.SideMenu
 {
     public class SideMenuBehaviors : FlowTab, ILocalizable
     {
-        private readonly List<KeyValuePair<string, DisplayCheckToggle>> _toggles = new()
-        {
+        private readonly List<KeyValuePair<string, DisplayCheckToggle>> _toggles =
+        [
             new( "Name", null),
             new( "Level", null),
             new( "Race", null),
@@ -31,7 +31,7 @@ namespace Kenedia.Modules.Characters.Controls.SideMenu
             new( "OnlyMaxCrafting", null),
             new( "CustomIndex", null),
             new( "Tags", null),
-        };
+        ];
         private readonly Panel _separator;
         private readonly Dropdown _orderDropdown;
         private readonly Dropdown _flowDropdown;

@@ -23,8 +23,8 @@ namespace Kenedia.Modules.OverflowTradingAssist.Views
 {
     public class TradeHistoryView : View
     {
-        private readonly List<TradeHistoryEntryControl> _tradeHistoryEntries = new();
-        private readonly List<Trade> _trades = new();
+        private readonly List<TradeHistoryEntryControl> _tradeHistoryEntries = [];
+        private readonly List<Trade> _trades = [];
         private Label _tradePartnerLabel;
         private Label _amountLabel;
         private Label _itemSummaryLabel;

@@ -696,13 +696,13 @@ namespace Kenedia.Modules.Characters.Views
                 Parent = subP,
                 SetLocalizedItems = () =>
                 {
-                    return new()
-                    {
+                    return
+                    [
                         strings.Small,
                         strings.Normal,
                         strings.Large,
                         strings.Custom,
-                    };
+                    ];
                 },
                 SelectedItem = _settings.PanelSize.Value.GetPanelSize(),
                 ValueChangedAction = (b) => _settings.PanelSize.Value = b.GetPanelSize(),
@@ -729,12 +729,12 @@ namespace Kenedia.Modules.Characters.Views
                 Location = new(250, 0),
                 SetLocalizedItems = () =>
                 {
-                    return new()
-                    {
+                    return
+                    [
                         strings.OnlyText,
                         strings.OnlyIcons,
                         strings.TextAndIcon,
-                    };
+                    ];
                 },
                 SelectedItem = _settings.PanelLayout.Value.GetPanelLayout(),
                 ValueChangedAction = (b) => _settings.PanelLayout.Value = b.GetPanelLayout(),

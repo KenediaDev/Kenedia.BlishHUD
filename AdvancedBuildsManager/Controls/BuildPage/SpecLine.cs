@@ -65,12 +65,12 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Controls.BuildPage
 
         private double _scale = 647 / (double)135;
 
-        private Dictionary<int, Trait> _minorsTraits = new();
-        private Dictionary<int, Trait> _majorTraits = new();
+        private Dictionary<int, Trait> _minorsTraits = [];
+        private Dictionary<int, Trait> _majorTraits = [];
         private bool _selectorOpen = false;
         private Rectangle _specSelectorBounds;
         private Template _template;
-        private readonly List<(Specialization spec, Rectangle bounds)> _specBounds = new();
+        private readonly List<(Specialization spec, Rectangle bounds)> _specBounds = [];
 
         public SpecLine(SpecializationSlot line)
         {

@@ -189,6 +189,7 @@ namespace Kenedia.Modules.Core.Controls
                 return;
             }
 
+            notification.ConditionMatched += Notification_ConditionMatched;
             Notifications.Add(notification);
         }
     }

@@ -5,7 +5,7 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Controls.Selection
 {
     public class ItemIdSelection : BaseSelection
     {
-        private Dictionary<GearTemplateSlot, List<Selectable>> Selectables = new();
+        private Dictionary<GearTemplateSlot, List<Selectable>> Selectables = [];
 
         public ItemIdSelection()
         {

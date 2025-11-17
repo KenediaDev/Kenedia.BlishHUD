@@ -97,7 +97,7 @@ namespace Kenedia.Modules.QoL.SubModules.SchemanticProcessing
             { UiSize.Large , 58},
             { UiSize.Larger , 56},
         };
-        private readonly List<ClickContainer> _slots = new();
+        private readonly List<ClickContainer> _slots = [];
         private readonly FlowPanel _slotGrid;
 
         [DllImport("user32.dll")]

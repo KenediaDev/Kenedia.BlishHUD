@@ -16,7 +16,7 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Controls.Selection
     public class SkillSelection : BaseSelection
     {
         private Template _template;
-        private readonly List<SkillSelectable> _skills = new();
+        private readonly List<SkillSelectable> _skills = [];
 
         public Template Template
         {
@@ -109,8 +109,8 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Controls.Selection
 
     public class StatSelection : BaseSelection
     {
-        private readonly List<AttributeToggle> _statIcons = new();
-        private readonly List<StatSelectable> _stats = new();
+        private readonly List<AttributeToggle> _statIcons = [];
+        private readonly List<StatSelectable> _stats = [];
         private readonly bool _created;
 
         private Template _template;

@@ -116,7 +116,7 @@ namespace Kenedia.Modules.AdvancedBuildsManager.DataModels.Professions
         public WieldingFlag? SpecializationWielded { get; set; }
 
         [DataMember]
-        public List<int> Skills { get; set; } = new();
+        public List<int> Skills { get; set; } = [];
 
         public void ApplyLanguage(Dictionary<int, Skill> skills)
         {

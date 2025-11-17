@@ -34,7 +34,7 @@ namespace Kenedia.Modules.Characters.Controls
         private readonly IconLabel _ageLabel;
         private readonly IconLabel _customIndex;
         private Character_Model _character;
-        private readonly List<Tag> _tags = new();
+        private readonly List<Tag> _tags = [];
         private readonly bool _created;
 
         private TextureManager _textureManager;
@@ -144,8 +144,8 @@ namespace Kenedia.Modules.Characters.Controls
                 Visible = false,
             };
 
-            DataControls = new()
-            {
+            DataControls =
+            [
                 _nameLabel,
                 _customIndex,
                 _levelLabel,
@@ -158,7 +158,7 @@ namespace Kenedia.Modules.Characters.Controls
                 _lastLoginLabel,
                 _craftingControl,
                 TagPanel,
-            };
+            ];
 
             LocalizingService.LocaleChanged += UserLocale_SettingChanged;
             UserLocale_SettingChanged(null, null);
@@ -179,7 +179,7 @@ namespace Kenedia.Modules.Characters.Controls
             set => Common.SetProperty(ref _character, value);
         }
 
-        public List<Control> DataControls { get; } = new();
+        public List<Control> DataControls { get; } = [];
 
         public Data Data
         {

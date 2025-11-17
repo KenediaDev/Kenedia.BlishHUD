@@ -7,9 +7,9 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Controls.BuildPage
     {
         public SelectableSkillIconCollection()
         {
-            Add(SkillSlot.Heal, new());
-            Add(SkillSlot.Utility, new());
-            Add(SkillSlot.Elite, new());
+            Add(SkillSlot.Heal, []);
+            Add(SkillSlot.Utility, []);
+            Add(SkillSlot.Elite, []);
         }
     }
 }

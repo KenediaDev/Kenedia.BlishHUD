@@ -61,25 +61,25 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Models.Templates
             OnChanged(sender, e);
         }
 
-        public Dictionary<BuildSkillSlot, Skill> Test { get; } = new();
+        public Dictionary<BuildSkillSlot, Skill> Test { get; } = [];
 
-        public ObservableDictionary<BuildSkillSlot, Skill> ObservableTest{ get; } = new();
+        public ObservableDictionary<BuildSkillSlot, Skill> ObservableTest{ get; } = [];
 
-        public SkillCollection SkillCollectionTest { get; } = new();
+        public SkillCollection SkillCollectionTest { get; } = [];
 
-        public SkillCollection TerrestrialSkills { get; } = new();
+        public SkillCollection TerrestrialSkills { get; } = [];
 
-        public SkillCollection InactiveTerrestrialSkills { get; } = new();
+        public SkillCollection InactiveTerrestrialSkills { get; } = [];
 
-        public SkillCollection AquaticSkills { get; } = new();
+        public SkillCollection AquaticSkills { get; } = [];
 
-        public SkillCollection InactiveAquaticSkills { get; } = new();
+        public SkillCollection InactiveAquaticSkills { get; } = [];
 
-        public LegendCollection Legends { get; } = new();
+        public LegendCollection Legends { get; } = [];
 
-        public PetCollection Pets { get; } = new();
+        public PetCollection Pets { get; } = [];
 
-        public SpecializationCollection Specializations { get; } = new();
+        public SpecializationCollection Specializations { get; } = [];
 
         public string ParseBuildCode()
         {
@@ -312,14 +312,14 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Models.Templates
             skills[BuildSkillSlot.Heal] = legend?.Heal;
             skills[BuildSkillSlot.Elite] = legend?.Elite;
 
-            List<int?> paletteIds = new()
-            {
+            List<int?> paletteIds =
+            [
                  skills[BuildSkillSlot.Utility_1]?.PaletteId,
                  skills[BuildSkillSlot.Utility_2]?.PaletteId,
                  skills[BuildSkillSlot.Utility_3]?.PaletteId,
-            };
+            ];
 
-            List<int?> ids = new() { 4614, 4651, 4564 };
+            List<int?> ids = [4614, 4651, 4564];
 
             for (int i = 1; i < 3 + 1; i++)
             {

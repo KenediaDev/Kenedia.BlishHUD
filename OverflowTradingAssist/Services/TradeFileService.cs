@@ -86,7 +86,7 @@ namespace Kenedia.Modules.OverflowTradingAssist.Services
                             _fileStatus = StatusType.Success;
                         }
 
-                        return new List<Trade>();
+                        return [];
                     }
                     else
                     {

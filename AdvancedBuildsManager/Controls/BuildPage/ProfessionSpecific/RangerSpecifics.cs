@@ -16,8 +16,8 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Controls.BuildPage.ProfessionSpe
 {
     public class RangerSpecifics : ProfessionSpecifics
     {
-        private readonly List<int> _aquaticPets = new() { 1, 5, 6, 7, 9, 11, 12, 18, 19, 20, 21, 23, 24, 25, 26, 27, 40, 41, 42, 43, 45, 47, 63, };
-        private readonly List<int> _terrestrialPets = new() { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 44, 45, 46, 47, 48, 51, 52, 54, 55, 57, 59, 61, 63, 64, 65, 66 };
+        private readonly List<int> _aquaticPets = [1, 5, 6, 7, 9, 11, 12, 18, 19, 20, 21, 23, 24, 25, 26, 27, 40, 41, 42, 43, 45, 47, 63,];
+        private readonly List<int> _terrestrialPets = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 44, 45, 46, 47, 48, 51, 52, 54, 55, 57, 59, 61, 63, 64, 65, 66];
         private readonly DetailedTexture _stow = new(156800);
         private readonly DetailedTexture _swap = new(156587, 156588);
         private readonly DetailedTexture _target = new(156812);
@@ -35,7 +35,7 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Controls.BuildPage.ProfessionSpe
         private Color _healthColor = new(162, 17, 11);
         private Rectangle _healthRectangle;
         private Rectangle _slotRectangle;
-        private readonly List<PetIcon> _selectablePets = new();
+        private readonly List<PetIcon> _selectablePets = [];
         private Point _petSize = new(120);
         private PetIcon _selectorAnchor;
         private Rectangle _selectorBounds;

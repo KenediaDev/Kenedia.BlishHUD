@@ -137,7 +137,7 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Models.Templates
         public event PropertyChangedEventHandler PropertyChanged;
 
         [DataMember]
-        public ObservableCollection<Rotation> Rotations { get; set; } = new();
+        public ObservableCollection<Rotation> Rotations { get; set; } = [];
 
         public RotationTemplate()
         {

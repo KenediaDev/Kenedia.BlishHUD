@@ -21,7 +21,7 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Models.Templates
 
         public Specialization Specialization { get => _specialization; set => Common.SetProperty(ref _specialization, value, PropertyChanged); }
 
-        public TraitCollection Traits { get; } = new();
+        public TraitCollection Traits { get; } = [];
 
         private void Traits_CollectionChanged(object sender, PropertyChangedEventArgs e)
         {

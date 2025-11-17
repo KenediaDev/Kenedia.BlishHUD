@@ -49,7 +49,7 @@ namespace Kenedia.Modules.OverflowTradingAssist
 
         public MailingService MailingService { get; set; }
 
-        public List<Trade> Trades { get; } = new();
+        public List<Trade> Trades { get; } = [];
 
         [ImportingConstructor]
         public OverflowTradingAssist([Import("ModuleParameters")] ModuleParameters moduleParameters) : base(moduleParameters)

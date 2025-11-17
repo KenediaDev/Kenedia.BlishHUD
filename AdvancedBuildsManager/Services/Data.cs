@@ -46,55 +46,55 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Services
             _paths = paths;
         }
 
-        public Dictionary<int, OldSkillConnection> OldConnections { get; set; } = new();
+        public Dictionary<int, OldSkillConnection> OldConnections { get; set; } = [];
 
         public ItemMapping ItemMap { get; set; } = new();
 
-        public StatMapping StatMap { get; set; } = new();
+        public StatMapping StatMap { get; set; } = [];
 
-        public Dictionary<int, SkillConnection> SkillConnections { get; set; } = new();
+        public Dictionary<int, SkillConnection> SkillConnections { get; set; } = [];
 
-        public Dictionary<int, BaseSkill> BaseSkills { get; set; } = new();
+        public Dictionary<int, BaseSkill> BaseSkills { get; set; } = [];
 
-        public Dictionary<int, BaseSkill> MissingSkills { get; set; } = new();
+        public Dictionary<int, BaseSkill> MissingSkills { get; set; } = [];
 
-        public Dictionary<int, Armor> Armors { get; private set; } = new();
+        public Dictionary<int, Armor> Armors { get; private set; } = [];
 
-        public Dictionary<int, Trinket> Trinkets { get; private set; } = new();
+        public Dictionary<int, Trinket> Trinkets { get; private set; } = [];
 
-        public Dictionary<int, DataModels.Items.Weapon> Weapons { get; private set; } = new();
+        public Dictionary<int, DataModels.Items.Weapon> Weapons { get; private set; } = [];
 
-        public Dictionary<ProfessionType, Profession> Professions { get; private set; } = new();
+        public Dictionary<ProfessionType, Profession> Professions { get; private set; } = [];
 
-        public Dictionary<Races, Race> Races { get; private set; } = new();
+        public Dictionary<Races, Race> Races { get; private set; } = [];
 
-        public Dictionary<int, Stat> Stats { get; private set; } = new();
+        public Dictionary<int, Stat> Stats { get; private set; } = [];
 
-        public Dictionary<int, Pet> Pets { get; private set; } = new();
+        public Dictionary<int, Pet> Pets { get; private set; } = [];
 
-        public Dictionary<int, int> PaletteBySkills { get; private set; } = new();
+        public Dictionary<int, int> PaletteBySkills { get; private set; } = [];
 
-        public List<KeyValuePair<int, int>> SkillsByPalette { get; private set; } = new();
+        public List<KeyValuePair<int, int>> SkillsByPalette { get; private set; } = [];
 
         public bool IsLoaded => Armors.Count > 0 && Professions.Count > 0 && Stats.Count > 0 && Pets.Count > 0 && Races.Count > 0 && SkillConnections.Count > 0;
 
-        public Dictionary<int, Trinket> Backs { get; private set; } = new();
+        public Dictionary<int, Trinket> Backs { get; private set; } = [];
 
-        public Dictionary<int, Sigil> PvpSigils { get; private set; } = new();
+        public Dictionary<int, Sigil> PvpSigils { get; private set; } = [];
 
-        public Dictionary<int, Sigil> PveSigils { get; private set; } = new();
+        public Dictionary<int, Sigil> PveSigils { get; private set; } = [];
 
-        public Dictionary<int, Rune> PvpRunes { get; private set; } = new();
+        public Dictionary<int, Rune> PvpRunes { get; private set; } = [];
 
-        public Dictionary<int, Rune> PveRunes { get; private set; } = new();
+        public Dictionary<int, Rune> PveRunes { get; private set; } = [];
 
-        public Dictionary<int, DataModels.Items.Utility> Utilities { get; private set; } = new();
+        public Dictionary<int, DataModels.Items.Utility> Utilities { get; private set; } = [];
 
-        public Dictionary<int, Nourishment> Nourishments { get; private set; } = new();
+        public Dictionary<int, Nourishment> Nourishments { get; private set; } = [];
 
-        public Dictionary<int, Infusion> Infusions { get; private set; } = new();
+        public Dictionary<int, Infusion> Infusions { get; private set; } = [];
 
-        public Dictionary<int, Enrichment> Enrichments { get; private set; } = new();
+        public Dictionary<int, Enrichment> Enrichments { get; private set; } = [];
 
         public bool TryGetItemsFor<T>(GearTemplateSlot slot, out Dictionary<int, T> dict) where T : BaseItem
         {

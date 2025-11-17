@@ -371,7 +371,7 @@ namespace Kenedia.Modules.Characters.Controls
     public class NotificationPanel : FlowPanel
     {
         private readonly ObservableCollection<Character_Model> _characters;
-        private readonly List<(Character_Model character, CharacterDeletedNotification control)> _markedCharacters = new();
+        private readonly List<(Character_Model character, CharacterDeletedNotification control)> _markedCharacters = [];
 
         public NotificationPanel(ObservableCollection<Character_Model> characters) : base()
         {

@@ -149,7 +149,7 @@ namespace Kenedia.Modules.AdvancedBuildsManager.DataModels.Professions
         public SkillFactType Type { get; }
 
         [DataMember]
-        public LocalizedString Texts { get; protected set; } = new();
+        public LocalizedString Texts { get; protected set; } = [];
 
         public string Text
         {

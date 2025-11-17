@@ -226,7 +226,7 @@ namespace Kenedia.Modules.BuildsManager.Controls_Old.GearPage.GearSlots
 
             var menuGroup = Menu.AddMenuItem(new ContextMenuItem(menuGroupName, menuGroupAction, menuGroupTooltip)).Submenu = new();
 
-            foreach (var (text, tooltip, action) in menuItems ?? new())
+            foreach (var (text, tooltip, action) in menuItems ?? [])
             {
                 _ = menuGroup.AddMenuItem(new ContextMenuItem(text, action, tooltip));
             }

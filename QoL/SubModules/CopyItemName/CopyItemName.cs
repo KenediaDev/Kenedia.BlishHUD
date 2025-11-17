@@ -339,12 +339,12 @@ namespace Kenedia.Modules.QoL.SubModules.CopyItemName
                 Parent = contentFlowPanel,
                 SetLocalizedItems = () =>
                 {
-                    return new()
-                    {
+                    return
+                    [
                         $"{ReturnType.Name}".SplitStringOnUppercase(),
                         $"{ReturnType.AmountName}".SplitStringOnUppercase(),
                         $"{ReturnType.BracketAmountName}".SplitStringOnUppercase(),
-                    };
+                    ];
                 },
                 SelectedItem = $"{_returnType.Value}",
                 ValueChangedAction = (b) => _returnType.Value = Enum.TryParse(b.RemoveSpaces(), out ReturnType returnType) ? returnType : _returnType.Value,

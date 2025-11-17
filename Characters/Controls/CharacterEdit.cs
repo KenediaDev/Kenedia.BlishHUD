@@ -32,7 +32,7 @@ namespace Kenedia.Modules.Characters.Controls
         private readonly AsyncTexture2D _presentTextureOpen = AsyncTexture2D.FromAssetId(593865);
         private readonly ImageButton _delete;
 
-        private readonly List<Tag> _tags = new();
+        private readonly List<Tag> _tags = [];
 
         private readonly ImageButton _closeButton;
         private readonly Panel _tagContainer;
@@ -50,13 +50,13 @@ namespace Kenedia.Modules.Characters.Controls
         private readonly Button _openFolder;
         private readonly Panel _imagePanelParent;
         private readonly FlowPanel _imagePanel;
-        private readonly TagList _allTags;
+        private readonly Models.TagList _allTags;
         private readonly Settings _settings;
         private readonly Action _refreshCharacters;
         private Character_Model _character;
         private ImageButton _noImgButton;
 
-        public CharacterEdit(TextureManager tM, Action togglePotrait, Func<string> accountPath, TagList allTags, Settings settings, Action refreshCharacters)
+        public CharacterEdit(TextureManager tM, Action togglePotrait, Func<string> accountPath, Models.TagList allTags, Settings settings, Action refreshCharacters)
         {
             AccountImagePath = accountPath;
             _allTags = allTags;

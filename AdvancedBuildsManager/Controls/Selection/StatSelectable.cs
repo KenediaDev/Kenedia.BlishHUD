@@ -198,10 +198,12 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Controls.Selection
 
         private void ApplyAll_Click(object sender, MouseEventArgs e)
         {
-            List<GearTemplateEntry> slots = new();
-            slots.AddRange(Template?.GearTemplate?.Armors.Values.Cast<GearTemplateEntry>());
-            slots.AddRange(Template?.GearTemplate?.Weapons.Values.Cast<GearTemplateEntry>());
-            slots.AddRange(Template?.GearTemplate?.Jewellery.Values.Cast<GearTemplateEntry>());
+            List<GearTemplateEntry> slots =
+            [
+                .. Template?.GearTemplate?.Armors.Values.Cast<GearTemplateEntry>(),
+                .. Template?.GearTemplate?.Weapons.Values.Cast<GearTemplateEntry>(),
+                .. Template?.GearTemplate?.Jewellery.Values.Cast<GearTemplateEntry>(),
+            ];
 
             foreach (var slot in slots)
             {

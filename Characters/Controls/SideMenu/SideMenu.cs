@@ -17,7 +17,7 @@ namespace Kenedia.Modules.Characters.Controls.SideMenu
     public class SideMenu : TabbedPanel, ILocalizable
     {
         private readonly Panel _headerPanel;
-        private readonly List<Control> _buttons = new();
+        private readonly List<Control> _buttons = [];
         private ImageButton _closeButton;
         private ImageToggleButton _pinButton;
         private ImageButton _ocrButton;

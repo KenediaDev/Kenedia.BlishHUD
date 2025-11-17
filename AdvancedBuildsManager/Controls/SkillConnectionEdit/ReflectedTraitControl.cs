@@ -14,7 +14,7 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Controls.SkillConnectionEdit
         private readonly ImageButton _addButton;
         private Traited _item;
         private bool _canSave = true;
-        private readonly Dictionary<int, (Label, TraitControl, SkillControl)> _controls = new();
+        private readonly Dictionary<int, (Label, TraitControl, SkillControl)> _controls = [];
         private readonly TraitSelector _traitSelector;
         private readonly SkillSelector _skillSelector;
 
@@ -81,7 +81,7 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Controls.SkillConnectionEdit
             int skillid = traitPair.Key;
             int traitid = traitPair.Value;
 
-            Item ??= new();
+            Item ??= [];
 
             if (Item.ContainsKey(traitid)) return;
 

@@ -67,7 +67,7 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Services
 
             _logger.Info($"{nameof(UpdateData)}: Fetch data ...");
 
-            LocalizedString state = new();
+            LocalizedString state = [];
 
             Locale locale = GameService.Overlay.UserLocale.Value;
             await GetItems(_cancellationTokenSource.Token);
@@ -353,7 +353,7 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Services
             {
                 if (targetSkill == null) return null;
 
-                ids ??= new();
+                ids ??= [];
                 ids.Add(targetSkill.Id);
 
                 if (targetSkill.NextChain is not null)
@@ -379,7 +379,7 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Services
             {
                 if (targetSkill == null) return null;
 
-                ids ??= new List<int>();
+                ids ??= [];
                 ids.Add(targetSkill.Id);
 
                 if (targetSkill.NextChain is not null)
@@ -401,7 +401,7 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Services
                 };
             }
 
-            AdvancedBuildsManager.Data.OldConnections = new Dictionary<int, OldSkillConnection>();
+            AdvancedBuildsManager.Data.OldConnections = [];
             foreach (var skill in skills)
             {
                 if (skill.Type != SkillType.Monster && skill.Professions.Count > 0)
@@ -462,7 +462,7 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Services
                                 var trait = traits.Find(e => e.Id == t.RequiresTrait);
                                 if (trait is not null && trait.Skills is not null)
                                 {
-                                    connection.Traited ??= new();
+                                    connection.Traited ??= [];
                                     foreach (int s in trait.Skills.Select(e => e.Id).ToList())
                                     {
                                         connection.Traited[s] = trait.Id;
