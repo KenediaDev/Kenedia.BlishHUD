@@ -94,6 +94,7 @@ namespace Kenedia.Modules.Characters
         public void Dispose()
         {
             if (_isDisposed) return;
+            _ocrApi.Dispose();
 
             _isDisposed = true;
             _view?.Dispose();

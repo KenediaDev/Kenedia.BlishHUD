@@ -1,13 +1,8 @@
 ﻿using Kenedia.Modules.OverflowTradingAssist.DataEntries;
 using Kenedia.Modules.OverflowTradingAssist.Models;
 using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net.Http;
-using System.Text;
 using System.Threading.Tasks;
-using Version = SemVer.Version;
 using Kenedia.Modules.Core.Models;
 
 namespace Kenedia.Modules.OverflowTradingAssist.Services

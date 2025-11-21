@@ -1,9 +1,7 @@
 ﻿using Blish_HUD;
 using Blish_HUD.Contexts;
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Text;
 
 namespace Kenedia.Modules.Core.Contexts
 {

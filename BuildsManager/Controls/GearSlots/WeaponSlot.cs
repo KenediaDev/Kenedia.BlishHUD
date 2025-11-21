@@ -6,7 +6,6 @@ using Kenedia.Modules.BuildsManager.Models.Templates;
 using Kenedia.Modules.Core.Utility;
 using Kenedia.Modules.Core.Models;
 using Blish_HUD;
-using Blish_HUD.Input;
 using Kenedia.Modules.BuildsManager.DataModels.Stats;
 using Kenedia.Modules.BuildsManager.Models;
 using Kenedia.Modules.BuildsManager.DataModels.Items;
@@ -15,9 +14,7 @@ using Kenedia.Modules.Core.Extensions;
 using Kenedia.Modules.BuildsManager.Extensions;
 using Kenedia.Modules.BuildsManager.TemplateEntries;
 using System.Linq;
-using ItemWeaponType = Gw2Sharp.WebApi.V2.Models.ItemWeaponType;
 using Kenedia.Modules.BuildsManager.Res;
-using System.Diagnostics;
 using Kenedia.Modules.BuildsManager.Services;
 
 namespace Kenedia.Modules.BuildsManager.Controls_Old.GearPage.GearSlots

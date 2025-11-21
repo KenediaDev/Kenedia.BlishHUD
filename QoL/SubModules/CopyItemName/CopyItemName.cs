@@ -15,7 +15,6 @@ using Kenedia.Modules.Core.Extensions;
 using Kenedia.Modules.QoL.Res;
 using Kenedia.Modules.Core.Utility;
 using Kenedia.Modules.Core.Models;
-using System.Diagnostics;
 
 namespace Kenedia.Modules.QoL.SubModules.CopyItemName
 {

@@ -1,8 +1,5 @@
 ﻿using Blish_HUD.Controls;
 using Blish_HUD.Graphics.UI;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Kenedia.Modules.Core.Views
 {

@@ -2,18 +2,11 @@
 using Blish_HUD.Content;
 using Blish_HUD.Controls;
 using Blish_HUD.Input;
-using Kenedia.Modules.Core.Extensions;
 using Kenedia.Modules.Core.Res;
 using Kenedia.Modules.Core.Services;
-using Kenedia.Modules.Core.Utility;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using MonoGame.Extended;
 using MonoGame.Extended.BitmapFonts;
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Text;
 using static Blish_HUD.ContentService;
 
 namespace Kenedia.Modules.Core.Controls

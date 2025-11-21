@@ -1,14 +1,11 @@
 ﻿using Gw2Sharp.Models;
-using Kenedia.Modules.BuildsManager.DataModels.Items;
 using Kenedia.Modules.BuildsManager.DataModels.Professions;
-using Kenedia.Modules.BuildsManager.DataModels.Stats;
 using Kenedia.Modules.BuildsManager.Models.Templates;
 using Kenedia.Modules.BuildsManager.Services;
 using Kenedia.Modules.Core.DataModels;
 using Kenedia.Modules.Core.Models;
 using Kenedia.Modules.Core.Utility;
 using System;
-using System.Diagnostics;
 
 namespace Kenedia.Modules.BuildsManager.Models
 {

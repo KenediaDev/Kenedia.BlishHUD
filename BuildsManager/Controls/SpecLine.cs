@@ -15,14 +15,11 @@ using Kenedia.Modules.Core.Utility;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MonoGame.Extended;
-using SharpDX.MediaFoundation;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using static Blish_HUD.ContentService;
 using Label = Kenedia.Modules.Core.Controls.Label;
-using UI = Kenedia.Modules.Core.Utility.UI;
 
 namespace Kenedia.Modules.BuildsManager.Controls
 {

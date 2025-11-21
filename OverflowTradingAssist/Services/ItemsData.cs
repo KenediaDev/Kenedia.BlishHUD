@@ -11,7 +11,6 @@ using Blish_HUD;
 using Gw2Sharp.WebApi;
 using Kenedia.Modules.Core.Extensions;
 using System.Collections.Generic;
-using System.Diagnostics;
 
 namespace Kenedia.Modules.OverflowTradingAssist.Services
 {

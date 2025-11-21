@@ -6,17 +6,12 @@ using Blish_HUD.Graphics.UI;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Kenedia.Modules.OverflowTradingAssist.Models;
 using Kenedia.Modules.Core.Extensions;
 using Kenedia.Modules.OverflowTradingAssist.Controls;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement.TextBox;
 using Blish_HUD;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using Kenedia.Modules.Core.Res;
-using System.Diagnostics;
 using System.Threading;
 
 namespace Kenedia.Modules.OverflowTradingAssist.Views

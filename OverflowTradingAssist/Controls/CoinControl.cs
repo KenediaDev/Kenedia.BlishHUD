@@ -7,7 +7,6 @@ using Microsoft.Xna.Framework.Graphics;
 using MonoGame.Extended.BitmapFonts;
 using System;
 using System.ComponentModel;
-using System.Diagnostics;
 
 namespace Kenedia.Modules.OverflowTradingAssist.Controls
 {

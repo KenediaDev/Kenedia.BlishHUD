@@ -10,8 +10,6 @@ using Gw2Sharp.WebApi;
 using Kenedia.Modules.Core.Extensions;
 using static Blish_HUD.ContentService;
 using Kenedia.Modules.Core.Utility;
-using Kenedia.Modules.Core.Interfaces;
-using System;
 
 namespace Kenedia.Modules.BuildsManager.Controls
 {

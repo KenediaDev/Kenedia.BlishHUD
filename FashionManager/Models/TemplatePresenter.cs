@@ -1,6 +1,4 @@
-﻿using Gw2Sharp.WebApi.V2.Models;
-using System;
-using Kenedia.Modules.Core.Models;
+﻿using Kenedia.Modules.Core.Models;
 using Kenedia.Modules.Core.Utility;
 using Kenedia.Modules.FashionManager.Services;
 

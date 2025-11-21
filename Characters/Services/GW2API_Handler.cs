@@ -22,7 +22,6 @@ using Kenedia.Modules.Core.Controls;
 using System.Text.RegularExpressions;
 using Kenedia.Modules.Core.Res;
 using LoadingSpinner = Kenedia.Modules.Core.Controls.LoadingSpinner;
-using static System.Net.Mime.MediaTypeNames;
 
 namespace Kenedia.Modules.Characters.Services
 {

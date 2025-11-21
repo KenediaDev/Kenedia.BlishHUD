@@ -42,7 +42,6 @@ using System.Threading;
 using NotificationBadge = Kenedia.Modules.Core.Controls.NotificationBadge;
 using AnchoredContainer = Kenedia.Modules.Core.Controls.AnchoredContainer;
 using Microsoft.Extensions.DependencyInjection;
-using System.Diagnostics;
 using Kenedia.Modules.Core.DataModels;
 
 //TODO Fetch API Data on Version change, eventually use static hosting
@@ -325,7 +324,7 @@ namespace Kenedia.Modules.Characters
             {
                 _ticks.Save = 0;
 
-                SaveCharacterList();
+                _ = SaveCharacterList();
                 _saveCharacters = false;
             }
         }
@@ -338,6 +337,7 @@ namespace Kenedia.Modules.Characters
             CharacterModels.CollectionChanged -= OnCharacterCollectionChanged;
             Tags.CollectionChanged -= Tags_CollectionChanged;
             CoreServices.ClientWindowService.ResolutionChanged -= ClientWindowService_ResolutionChanged;
+            OCR.Dispose();
 
             base.Unload();
         }

@@ -1,10 +1,5 @@
 ﻿using Blish_HUD.Content;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Runtime.Serialization;
-using System.Text;
-using System.Threading.Tasks;
 using Kenedia.Modules.Core.Extensions;
 using Kenedia.Modules.Core.Models;
 using ApiItem = Gw2Sharp.WebApi.V2.Models.Item;

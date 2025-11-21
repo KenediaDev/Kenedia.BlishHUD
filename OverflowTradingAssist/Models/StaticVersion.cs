@@ -1,6 +1,5 @@
 ﻿using Kenedia.Modules.Core.Attributes;
 using Kenedia.Modules.Core.Models;
-using Kenedia.Modules.Core.ContractResolver;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;

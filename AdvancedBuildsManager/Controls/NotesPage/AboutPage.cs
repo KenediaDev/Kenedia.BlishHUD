@@ -1,6 +1,5 @@
 ﻿using Kenedia.Modules.AdvancedBuildsManager.Models.Templates;
 using Kenedia.Modules.Core.Controls;
-using Kenedia.Modules.Core.Services;
 using Kenedia.Modules.Core.Utility;
 using Microsoft.Xna.Framework;
 using System;

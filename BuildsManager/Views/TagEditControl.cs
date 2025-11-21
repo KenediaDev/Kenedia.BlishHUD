@@ -10,7 +10,6 @@ using Kenedia.Modules.Core.Utility;
 using Microsoft.Xna.Framework;
 using System;
 using System.ComponentModel;
-using System.Diagnostics;
 
 namespace Kenedia.Modules.BuildsManager.Views
 {

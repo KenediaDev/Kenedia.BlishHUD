@@ -1,8 +1,6 @@
 ﻿using Blish_HUD.Gw2Mumble;
 using Gw2BuildTemplates;
 using Gw2Sharp;
-using Gw2Sharp.ChatLinks;
-using Kenedia.Modules.BuildsManager.Controls_Old.GearPage.GearSlots;
 using Kenedia.Modules.BuildsManager.DataModels.Items;
 using Kenedia.Modules.BuildsManager.DataModels.Professions;
 using Kenedia.Modules.BuildsManager.DataModels.Stats;
@@ -20,8 +18,6 @@ using Kenedia.Modules.Core.Utility;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.IdentityModel.Protocols.WSTrust;
 using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
@@ -29,7 +25,6 @@ using System.Runtime.Serialization;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Timers;
-using ItemWeaponType = Gw2Sharp.WebApi.V2.Models.ItemWeaponType;
 using ProfessionType = Gw2Sharp.Models.ProfessionType;
 
 namespace Kenedia.Modules.BuildsManager.Models

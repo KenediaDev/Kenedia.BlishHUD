@@ -5,7 +5,6 @@ using Kenedia.Modules.AdvancedBuildsManager.Services;
 using Kenedia.Modules.Core.Utility;
 using Kenedia.Modules.Core.Views;
 using Microsoft.Xna.Framework;
-using Kenedia.Modules.Core.Services;
 using Kenedia.Modules.AdvancedBuildsManager.Controls;
 using Kenedia.Modules.AdvancedBuildsManager.Controls.GearPage;
 using Kenedia.Modules.AdvancedBuildsManager.Controls.NotesPage;

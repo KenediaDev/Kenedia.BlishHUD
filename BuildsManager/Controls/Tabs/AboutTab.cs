@@ -1,5 +1,4 @@
-﻿using Blish_HUD;
-using Blish_HUD.Content;
+﻿using Blish_HUD.Content;
 using Kenedia.Modules.BuildsManager.Models;
 using Kenedia.Modules.BuildsManager.Models.Templates;
 using Kenedia.Modules.BuildsManager.Res;
@@ -9,14 +8,11 @@ using Kenedia.Modules.BuildsManager.Views;
 using Kenedia.Modules.Core.Controls;
 using Kenedia.Modules.Core.Extensions;
 using Kenedia.Modules.Core.Res;
-using Kenedia.Modules.Core.Services;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Diagnostics;
 using System.Linq;
 
 namespace Kenedia.Modules.BuildsManager.Controls.Tabs

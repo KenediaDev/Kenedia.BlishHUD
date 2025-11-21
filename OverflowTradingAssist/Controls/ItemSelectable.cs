@@ -3,12 +3,6 @@ using Kenedia.Modules.Core.Models;
 using Kenedia.Modules.Core.Utility;
 using Kenedia.Modules.OverflowTradingAssist.Controls.GearPage;
 using Kenedia.Modules.OverflowTradingAssist.DataModels;
-using SharpDX.WIC;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Kenedia.Modules.OverflowTradingAssist.Controls
 {

@@ -2,7 +2,6 @@
 using Gw2Sharp.WebApi.V2.Models;
 using Kenedia.Modules.AdvancedBuildsManager.Models.Templates;
 using static Kenedia.Modules.AdvancedBuildsManager.DataModels.Professions.Weapon;
-using Color = Microsoft.Xna.Framework.Color;
 
 namespace Kenedia.Modules.AdvancedBuildsManager.Extensions
 {

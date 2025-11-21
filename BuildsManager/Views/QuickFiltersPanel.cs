@@ -2,26 +2,20 @@
 using Blish_HUD.Content;
 using Gw2Sharp.Models;
 using Gw2Sharp.WebApi;
-using Kenedia.Modules.BuildsManager.Controls;
 using Kenedia.Modules.BuildsManager.Controls.Selection;
 using Kenedia.Modules.BuildsManager.Models;
-using Kenedia.Modules.BuildsManager.Models.Templates;
 using Kenedia.Modules.BuildsManager.Res;
 using Kenedia.Modules.BuildsManager.Services;
 using Kenedia.Modules.BuildsManager.Utility;
 using Kenedia.Modules.Core.Controls;
 using Kenedia.Modules.Core.Extensions;
 using Kenedia.Modules.Core.Models;
-using Kenedia.Modules.Core.Services;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using SharpDX.Direct3D9;
 using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.ComponentModel;
-using System.Diagnostics;
-using System.IO;
 using System.Linq;
 
 namespace Kenedia.Modules.BuildsManager.Views

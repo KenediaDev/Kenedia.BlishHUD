@@ -1,15 +1,9 @@
-﻿using Blish_HUD.Modules.Managers;
-using Kenedia.Modules.Core.Attributes;
+﻿using Kenedia.Modules.Core.Attributes;
 using Kenedia.Modules.Core.Models;
-using Kenedia.Modules.Core.ContractResolver;
 using Newtonsoft.Json;
-using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
 using Version = SemVer.Version;
 
 namespace Kenedia.Modules.OverflowTradingAssist.DataEntries

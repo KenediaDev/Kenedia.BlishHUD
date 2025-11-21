@@ -12,7 +12,6 @@ using Microsoft.Xna.Framework.Input;
 using System.Linq;
 using Kenedia.Modules.BuildsManager.Res;
 using Blish_HUD.Controls;
-using Blish_HUD.Content;
 using Kenedia.Modules.Core.Services;
 
 namespace Kenedia.Modules.BuildsManager.Controls_Old.GearPage

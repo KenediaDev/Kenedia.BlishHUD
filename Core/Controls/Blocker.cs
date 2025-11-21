@@ -7,7 +7,6 @@ using Microsoft.Xna.Framework.Graphics;
 using MonoGame.Extended.BitmapFonts;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using Rectangle = Microsoft.Xna.Framework.Rectangle;
 
 namespace Kenedia.Modules.Core.Controls

@@ -4,8 +4,6 @@ using Kenedia.Modules.Core.Models;
 using Kenedia.Modules.Core.Utility;
 using Microsoft.Xna.Framework;
 using Newtonsoft.Json;
-using System.Collections.Generic;
-using System.ComponentModel;
 
 namespace Kenedia.Modules.BuildsManager.Models
 {

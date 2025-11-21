@@ -8,7 +8,6 @@ using Kenedia.Modules.BuildsManager.Models;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
 using Newtonsoft.Json;
-using Gw2Sharp.WebApi.V2.Clients;
 
 namespace Kenedia.Modules.BuildsManager.Services
 {

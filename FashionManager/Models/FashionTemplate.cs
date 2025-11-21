@@ -2,8 +2,6 @@
 using System;
 using Kenedia.Modules.Core.Utility;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Newtonsoft.Json;
 using System.IO;
 using System.Threading;
@@ -11,9 +9,6 @@ using Blish_HUD.Content;
 using Blish_HUD;
 using System.Runtime.Serialization;
 using Kenedia.Modules.Core.DataModels;
-using Kenedia.Modules.Core.Models;
-using System.Diagnostics;
-using DirectoryExtension = Kenedia.Modules.Core.Extensions.DirectoryExtension;
 using System.Collections.ObjectModel;
 using Kenedia.Modules.FashionManager.Utility;
 

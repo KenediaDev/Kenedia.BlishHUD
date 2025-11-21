@@ -4,7 +4,6 @@ using Microsoft.Xna.Framework;
 using Kenedia.Modules.BuildsManager.Models.Templates;
 using Kenedia.Modules.Core.Utility;
 using Blish_HUD;
-using Blish_HUD.Input;
 using Kenedia.Modules.BuildsManager.DataModels.Stats;
 using Kenedia.Modules.BuildsManager.Models;
 using Kenedia.Modules.BuildsManager.DataModels.Items;

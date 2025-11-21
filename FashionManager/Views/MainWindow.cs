@@ -3,7 +3,6 @@ using Blish_HUD.Controls;
 using Blish_HUD.Modules;
 using Kenedia.Modules.Core.Extensions;
 using Kenedia.Modules.Core.Services;
-using Kenedia.Modules.Core.Views;
 using Microsoft.Xna.Framework;
 using System.Diagnostics;
 using TabbedWindow = Kenedia.Modules.Core.Views.TabbedWindow;

@@ -1,5 +1,4 @@
 ﻿using Kenedia.Modules.BuildsManager.DataModels.Professions;
-using Kenedia.Modules.Core.Models;
 using System;
 using System.Collections;
 using System.Collections.Generic;

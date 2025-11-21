@@ -17,9 +17,7 @@ using Kenedia.Modules.BuildsManager.Res;
 using Kenedia.Modules.Core.Services;
 using Gw2Sharp.WebApi;
 using Kenedia.Modules.BuildsManager.Services;
-using System.Diagnostics;
 using System.Collections.Specialized;
-using Kenedia.Modules.BuildsManager.Views;
 
 namespace Kenedia.Modules.BuildsManager.Controls.Selection
 {

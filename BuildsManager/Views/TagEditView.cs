@@ -1,8 +1,6 @@
 ﻿using Blish_HUD;
 using Blish_HUD.Content;
 using Blish_HUD.Graphics.UI;
-using Blish_HUD.Input;
-using Kenedia.Modules.BuildsManager.Controls.Selection;
 using Kenedia.Modules.BuildsManager.Models;
 using Kenedia.Modules.BuildsManager.Res;
 using Kenedia.Modules.BuildsManager.Services;
@@ -11,14 +9,9 @@ using Kenedia.Modules.Core.Controls;
 using Kenedia.Modules.Core.Extensions;
 using Kenedia.Modules.Core.Res;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Content;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using static Blish_HUD.ContentService;
 
 namespace Kenedia.Modules.BuildsManager.Views
 {

@@ -1,7 +1,6 @@
 ﻿using Gw2Sharp.Models;
 using Microsoft.Xna.Framework;
 using System;
-using System.Collections.Generic;
 
 namespace Kenedia.Modules.Core.Extensions
 {

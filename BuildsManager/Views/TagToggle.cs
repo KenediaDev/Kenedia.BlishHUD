@@ -4,12 +4,10 @@ using System;
 using Microsoft.Xna.Framework.Graphics;
 using Blish_HUD.Input;
 using Blish_HUD;
-using static Blish_HUD.ContentService;
 using Blish_HUD.Content;
 using Kenedia.Modules.Core.Extensions;
 using Kenedia.Modules.Core.Services;
 using Gw2Sharp.WebApi;
-using System.Diagnostics;
 using Kenedia.Modules.Core.Utility;
 
 namespace Kenedia.Modules.BuildsManager.Views

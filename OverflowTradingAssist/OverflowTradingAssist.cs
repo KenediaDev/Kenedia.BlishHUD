@@ -3,19 +3,15 @@ using Blish_HUD.Content;
 using Blish_HUD.Modules;
 using Blish_HUD.Settings;
 using Kenedia.Modules.Core.Models;
-using Kenedia.Modules.Core.Controls;
 using Kenedia.Modules.OverflowTradingAssist.Services;
 using Kenedia.Modules.OverflowTradingAssist.Models;
 using Kenedia.Modules.OverflowTradingAssist.Views;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Diagnostics;
-using System.IO;
-using System.Threading;
 using System.Threading.Tasks;
 using Blish_HUD.Controls;
 using Kenedia.Modules.Core.Res;
@@ -26,7 +22,6 @@ using AnchoredContainer = Kenedia.Modules.Core.Controls.AnchoredContainer;
 using Rectangle = Microsoft.Xna.Framework.Rectangle;
 using Version = SemVer.Version;
 using TextBox = Kenedia.Modules.Core.Controls.TextBox;
-using Kenedia.Modules.OverflowTradingAssist.DataEntries;
 using System.Linq;
 
 namespace Kenedia.Modules.OverflowTradingAssist

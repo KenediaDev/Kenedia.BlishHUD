@@ -4,7 +4,6 @@ using Kenedia.Modules.Core.Models;
 using Kenedia.Modules.Core.Utility;
 using Kenedia.Modules.OverflowTradingAssist.Views;
 using Microsoft.Xna.Framework;
-using System;
 
 namespace Kenedia.Modules.OverflowTradingAssist.Controls
 {

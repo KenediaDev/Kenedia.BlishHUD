@@ -1,5 +1,4 @@
-﻿using Blish_HUD.Content;
-using Kenedia.Modules.BuildsManager.DataModels.Items;
+﻿using Kenedia.Modules.BuildsManager.DataModels.Items;
 using Kenedia.Modules.BuildsManager.DataModels.Stats;
 
 namespace Kenedia.Modules.BuildsManager.Interfaces

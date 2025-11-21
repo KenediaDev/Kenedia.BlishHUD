@@ -14,8 +14,6 @@ using Blish_HUD.Input;
 using Kenedia.Modules.Core.Extensions;
 using Kenedia.Modules.Core.Utility;
 using Kenedia.Modules.QoL.Res;
-using System.Collections.Generic;
-using System.Diagnostics;
 using static Kenedia.Modules.QoL.SubModules.WikiSearch.WikiLocale;
 
 namespace Kenedia.Modules.QoL.SubModules.WikiSearch

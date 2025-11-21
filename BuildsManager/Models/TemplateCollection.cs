@@ -2,7 +2,6 @@
 using Gw2Sharp.Models;
 using Kenedia.Modules.BuildsManager.Services;
 using Kenedia.Modules.BuildsManager.Utility;
-using Kenedia.Modules.Core.Models;
 using Newtonsoft.Json;
 using System;
 using System.Collections;

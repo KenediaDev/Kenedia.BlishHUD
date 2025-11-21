@@ -7,7 +7,6 @@ using Kenedia.Modules.Core.DataModels;
 using Kenedia.Modules.Core.Models;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System.Collections;
 using System.Linq;
 using static Blish_HUD.ContentService;
 using SkillSlot = Gw2Sharp.WebApi.V2.Models.SkillSlot;

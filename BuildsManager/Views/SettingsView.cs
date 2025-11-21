@@ -3,7 +3,6 @@ using Kenedia.Modules.BuildsManager.Res;
 using Kenedia.Modules.BuildsManager.Services;
 using Kenedia.Modules.Core.Controls;
 using Kenedia.Modules.Core.Res;
-using System.Threading.Tasks;
 
 namespace Kenedia.Modules.BuildsManager.Views
 {

@@ -1,14 +1,9 @@
-﻿using Blish_HUD;
-using Gw2Sharp.WebApi.V2.Models;
+﻿using Gw2Sharp.WebApi.V2.Models;
 using Kenedia.Modules.BuildsManager.Models;
 using Kenedia.Modules.BuildsManager.Models.Templates;
 using Kenedia.Modules.BuildsManager.Services;
-using Kenedia.Modules.BuildsManager.TemplateEntries;
 using System;
-using System.Diagnostics;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Kenedia.Modules.BuildsManager.Utility
 {

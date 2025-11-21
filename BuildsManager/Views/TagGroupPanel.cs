@@ -6,7 +6,6 @@ using static Blish_HUD.ContentService;
 using Kenedia.Modules.Core.Extensions;
 using MonoGame.Extended;
 using Blish_HUD.Controls;
-using System.Diagnostics;
 using MonoGame.Extended.BitmapFonts;
 
 namespace Kenedia.Modules.BuildsManager.Views

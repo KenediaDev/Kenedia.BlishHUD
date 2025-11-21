@@ -1,14 +1,11 @@
 ﻿using Kenedia.Modules.BuildsManager.Models.Templates;
-using System.Linq;
 using Kenedia.Modules.BuildsManager.DataModels.Items;
 using Kenedia.Modules.BuildsManager.DataModels.Stats;
-using Kenedia.Modules.BuildsManager.Utility;
 using Kenedia.Modules.Core.Utility;
 using Kenedia.Modules.Core.Models;
 using System;
 using Kenedia.Modules.BuildsManager.Interfaces;
 using Kenedia.Modules.BuildsManager.Services;
-using System.Diagnostics;
 
 namespace Kenedia.Modules.BuildsManager.TemplateEntries
 {

@@ -6,7 +6,6 @@ using Kenedia.Modules.Characters.Res;
 using Kenedia.Modules.Characters.Extensions;
 using Kenedia.Modules.Characters.Services;
 using Kenedia.Modules.Core.Controls;
-using Kenedia.Modules.Core.Extensions;
 using Kenedia.Modules.Core.Views;
 using Microsoft.Xna.Framework;
 using System;
@@ -17,7 +16,6 @@ using FlowPanel = Kenedia.Modules.Core.Controls.FlowPanel;
 using KeybindingAssigner = Kenedia.Modules.Core.Controls.KeybindingAssigner;
 using Label = Kenedia.Modules.Core.Controls.Label;
 using Panel = Kenedia.Modules.Core.Controls.Panel;
-using TextBox = Kenedia.Modules.Core.Controls.TextBox;
 using TrackBar = Kenedia.Modules.Core.Controls.TrackBar;
 using ColorPicker = Kenedia.Modules.Core.Controls.ColorPicker;
 

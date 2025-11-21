@@ -1,10 +1,6 @@
-﻿using Kenedia.Modules.BuildsManager.DataModels;
-using Kenedia.Modules.BuildsManager.DataModels.Professions;
-using Kenedia.Modules.Core.DataModels;
+﻿using Kenedia.Modules.BuildsManager.DataModels.Professions;
 using Kenedia.Modules.Core.Models;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace Kenedia.Modules.BuildsManager.Models.Templates
 {

@@ -14,7 +14,6 @@ using static Blish_HUD.ContentService;
 using Panel = Kenedia.Modules.Core.Controls.Panel;
 using Label = Kenedia.Modules.Core.Controls.Label;
 using Kenedia.Modules.Core.DataModels;
-using Kenedia.Modules.Core.Services;
 using System;
 using System.ComponentModel;
 using Blish_HUD.Controls;

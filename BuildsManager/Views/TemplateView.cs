@@ -5,7 +5,6 @@ using Kenedia.Modules.BuildsManager.Controls;
 using Kenedia.Modules.BuildsManager.Controls.Selection;
 using Kenedia.Modules.Core.Controls;
 using System.Linq;
-using System;
 
 namespace Kenedia.Modules.BuildsManager.Views
 {

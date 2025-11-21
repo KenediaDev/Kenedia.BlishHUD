@@ -9,7 +9,6 @@ using Blish_HUD.Input;
 using Microsoft.Xna.Framework.Input;
 using Kenedia.Modules.OverflowTradingAssist.DataModels;
 using Kenedia.Modules.OverflowTradingAssist.Res;
-using Blish_HUD.Content;
 using System.Diagnostics;
 
 namespace Kenedia.Modules.OverflowTradingAssist.Controls.GearPage

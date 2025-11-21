@@ -1,13 +1,8 @@
-﻿using Blish_HUD.Controls;
-using Kenedia.Modules.Core.Extensions;
+﻿using Kenedia.Modules.Core.Extensions;
 using Kenedia.Modules.Core.Models;
 using Kenedia.Modules.Core.Utility;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Text;
 
 namespace Kenedia.Modules.Core.Controls
 {

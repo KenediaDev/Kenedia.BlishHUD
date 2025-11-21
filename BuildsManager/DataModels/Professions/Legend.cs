@@ -5,10 +5,8 @@ using System.Runtime.Serialization;
 using APILegend = Gw2Sharp.WebApi.V2.Models.Legend;
 using Kenedia.Modules.Core.Extensions;
 using Kenedia.Modules.BuildsManager.Interfaces;
-using Blish_HUD.Content;
 using Gw2Sharp.WebApi.V2;
 using System.Linq;
-using Kenedia.Modules.BuildsManager.Services;
 
 namespace Kenedia.Modules.BuildsManager.DataModels.Professions
 {

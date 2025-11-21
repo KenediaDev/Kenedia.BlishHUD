@@ -7,7 +7,6 @@ using Control = Blish_HUD.Controls.Control;
 using Blish_HUD;
 using System;
 using Blish_HUD.Controls;
-using System.Diagnostics;
 
 namespace Kenedia.Modules.Core.Controls
 {

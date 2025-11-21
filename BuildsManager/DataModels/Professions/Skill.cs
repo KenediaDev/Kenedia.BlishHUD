@@ -1,16 +1,12 @@
-﻿using Blish_HUD;
-using Blish_HUD.Content;
+﻿using Blish_HUD.Content;
 using Gw2Sharp;
 using Gw2Sharp.Models;
 using Kenedia.Modules.BuildsManager.Interfaces;
 using Kenedia.Modules.Core.DataModels;
 using Kenedia.Modules.Core.Models;
 using Kenedia.Modules.Core.Utility;
-using Microsoft.Extensions.Logging;
-using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Runtime.Serialization;
 using static Kenedia.Modules.BuildsManager.DataModels.Professions.Weapon;

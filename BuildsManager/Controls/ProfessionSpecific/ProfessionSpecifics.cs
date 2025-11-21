@@ -1,12 +1,8 @@
 ﻿using Blish_HUD.Controls;
-using Kenedia.Modules.BuildsManager.Models.Templates;
-using Kenedia.Modules.Core.Utility;
 using Kenedia.Modules.BuildsManager.Models;
 using Kenedia.Modules.Core.Models;
 using System;
 using System.Linq;
-using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework;
 using Blish_HUD.Input;
 using Kenedia.Modules.BuildsManager.Services;
 

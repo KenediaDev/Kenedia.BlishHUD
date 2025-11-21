@@ -3,7 +3,6 @@ using Kenedia.Modules.AdvancedBuildsManager.Extensions;
 using Kenedia.Modules.AdvancedBuildsManager.Models.Templates;
 using Kenedia.Modules.Core.Extensions;
 using Kenedia.Modules.Core.Utility;
-using Microsoft.IdentityModel.Tokens;
 using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;

@@ -1,6 +1,4 @@
-﻿using Microsoft.Xna.Framework;
-
-namespace Kenedia.Modules.Core.Structs
+﻿namespace Kenedia.Modules.Core.Structs
 {
     public struct Range
     {

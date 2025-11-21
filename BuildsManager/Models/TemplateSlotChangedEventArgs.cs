@@ -1,7 +1,5 @@
 ﻿using Kenedia.Modules.BuildsManager.Models.Templates;
 using System;
-using Kenedia.Modules.BuildsManager.DataModels.Items;
-using Kenedia.Modules.BuildsManager.DataModels.Stats;
 
 namespace Kenedia.Modules.BuildsManager.Models
 {

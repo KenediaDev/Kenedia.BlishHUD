@@ -1,5 +1,4 @@
 ﻿using Kenedia.BlishHUD.API.Requests;
-using System;
 
 namespace Kenedia.BlishHUD.API
 {

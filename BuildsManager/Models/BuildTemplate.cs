@@ -2,9 +2,7 @@
 using Gw2Sharp.WebApi.V2.Models;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
-using System.Text;
 
 namespace Gw2BuildTemplates
 {

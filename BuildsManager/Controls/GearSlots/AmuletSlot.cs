@@ -4,14 +4,12 @@ using Microsoft.Xna.Framework;
 using Kenedia.Modules.BuildsManager.Models.Templates;
 using Kenedia.Modules.Core.Utility;
 using Blish_HUD;
-using Blish_HUD.Input;
 using Kenedia.Modules.BuildsManager.DataModels.Stats;
 using Kenedia.Modules.BuildsManager.Models;
 using Kenedia.Modules.BuildsManager.DataModels.Items;
 using Kenedia.Modules.Core.Extensions;
 using Kenedia.Modules.BuildsManager.TemplateEntries;
 using Kenedia.Modules.BuildsManager.Res;
-using System.Linq;
 using Kenedia.Modules.BuildsManager.Services;
 
 namespace Kenedia.Modules.BuildsManager.Controls_Old.GearPage.GearSlots

@@ -1,7 +1,6 @@
 ﻿using Blish_HUD.Content;
 using Kenedia.Modules.AdvancedBuildsManager.DataModels.Professions;
 using Kenedia.Modules.Core.Utility;
-using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;

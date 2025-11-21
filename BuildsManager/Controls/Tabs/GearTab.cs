@@ -22,10 +22,8 @@ using Kenedia.Modules.Core.DataModels;
 using Kenedia.Modules.BuildsManager.Services;
 using Kenedia.Modules.BuildsManager.DataModels.Professions;
 using Kenedia.Modules.BuildsManager.DataModels;
-using MonoGame.Extended;
 using Blish_HUD.Controls;
 using TextBox = Kenedia.Modules.Core.Controls.TextBox;
-using System.Diagnostics;
 
 namespace Kenedia.Modules.BuildsManager.Controls.Tabs
 {

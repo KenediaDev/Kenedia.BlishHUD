@@ -13,8 +13,8 @@ using Microsoft.Xna.Framework.Input;
 using Blish_HUD.Controls;
 using Blish_HUD.Gw2Mumble;
 using Blish_HUD.GameIntegration;
-using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Kenedia.Modules.Core.Models
 {

@@ -6,24 +6,18 @@ using Kenedia.Modules.Core.Utility;
 using Kenedia.Modules.Core.Controls;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
-using System;
 using Kenedia.Modules.Core.Extensions;
 using SizingMode = Blish_HUD.Controls.SizingMode;
 using ControlFlowDirection = Blish_HUD.Controls.ControlFlowDirection;
 using Kenedia.Modules.Core.Services;
 using System.Drawing;
-using Color = Microsoft.Xna.Framework.Color;
 using Point = Microsoft.Xna.Framework.Point;
 using Rectangle = Microsoft.Xna.Framework.Rectangle;
 using Microsoft.Xna.Framework.Graphics;
 using System.IO;
 using System.Diagnostics;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Blish_HUD.Controls.Extern;
 using InputKeyboard = Blish_HUD.Controls.Intern.Keyboard;
-using InputMouse = Blish_HUD.Controls.Intern.Mouse;
 
 namespace Kenedia.Modules.QoL.SubModules.AutoSniff
 {

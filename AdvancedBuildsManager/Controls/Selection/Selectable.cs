@@ -1,7 +1,6 @@
 ﻿using Blish_HUD;
 using Blish_HUD.Input;
 using Kenedia.Modules.AdvancedBuildsManager.DataModels.Items;
-using Kenedia.Modules.AdvancedBuildsManager.Extensions;
 using Kenedia.Modules.AdvancedBuildsManager.Models.Templates;
 using Kenedia.Modules.Core.Extensions;
 using Kenedia.Modules.Core.Utility;
