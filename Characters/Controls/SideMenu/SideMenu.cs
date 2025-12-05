@@ -5,10 +5,13 @@ using Blish_HUD.Input;
 using Kenedia.Modules.Characters.Res;
 using Kenedia.Modules.Characters.Services;
 using Kenedia.Modules.Core.Controls;
+using Kenedia.Modules.Core.DataModels;
 using Kenedia.Modules.Core.Interfaces;
 using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Xml.Linq;
 using Panel = Kenedia.Modules.Core.Controls.Panel;
 using TabbedPanel = Kenedia.Modules.Core.Controls.TabbedPanel;
 
@@ -32,7 +35,7 @@ namespace Kenedia.Modules.Characters.Controls.SideMenu
         private readonly Action _togglePotrait;
         private readonly Action _refreshAPI;
 
-        public SideMenu(Action toggleOCR, Action togglePotrait, Action refreshAPI, TextureManager textureManager, Settings settings, CharacterSorting characterSorting)
+        public SideMenu(Action toggleOCR, Action togglePotrait, Action refreshAPI, TextureManager textureManager, Settings settings, CharacterSorting characterSorting, Data data)
         {
             _textureManager = textureManager;
             _toggleOCR = toggleOCR;
@@ -59,7 +62,11 @@ namespace Kenedia.Modules.Characters.Controls.SideMenu
             TabsButtonPanel.Location = new Point(0, _headerPanel.Bottom);
             CreateHeaderButtons();
 
+            int eliteSpecializationsCount = data.Specializations.Values.Where(x => x.Profession == Gw2Sharp.Models.ProfessionType.Guardian).Count();       
+            int cols = 1 + 1 + eliteSpecializationsCount + 1 + 1;
+
             Width = 250;
+            Width = (cols * 35) + 5;
             //Height = 415;
             HeightSizingMode = SizingMode.AutoSize;
 
