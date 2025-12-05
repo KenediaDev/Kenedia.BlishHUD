@@ -87,13 +87,15 @@ namespace Kenedia.Modules.BuildsManager.Services
         private CancellationTokenSource _cancellationTokenSource;
         private bool _isDisposed;
 
-        public Data(Paths paths, Gw2ApiManager gw2ApiManager, Func<NotificationBadge> notificationBadge, Func<LoadingSpinner> spinner)
+        public Data(Paths paths, Gw2ApiManager gw2ApiManager, Func<NotificationBadge> notificationBadge, Func<LoadingSpinner> spinner, StaticHosting staticHosting)
         {
             Paths = paths;
             Gw2ApiManager = gw2ApiManager;
+            StaticHosting = staticHosting;
+            
 
-            _getNotificationBadge = notificationBadge;
             _getSpinner = spinner;
+            _getNotificationBadge = notificationBadge;
         }
 
         public event EventHandler Loaded;
@@ -181,6 +183,8 @@ namespace Kenedia.Modules.BuildsManager.Services
         public Paths Paths { get; }
 
         public Gw2ApiManager Gw2ApiManager { get; }
+
+        public StaticHosting StaticHosting { get; }
 
         public IEnumerator<(string name, BaseMappedDataEntry map)> GetEnumerator()
         {

@@ -35,7 +35,7 @@ namespace Kenedia.Modules.BuildsManager
     //TODO: Check Texture Disposing
     //TODO: Check Adding new Templates without clipboard text
     [Export(typeof(Module))]
-    public class BuildsManager : BaseModule<BuildsManager, MainWindow, Settings, Paths>
+    public class BuildsManager : BaseModule<BuildsManager, MainWindow, Settings, Paths, StaticHosting>
     {
         public static int MainThread = System.Threading.Thread.CurrentThread.ManagedThreadId;
 
