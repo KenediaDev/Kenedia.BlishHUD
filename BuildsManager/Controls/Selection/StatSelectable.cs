@@ -100,7 +100,9 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
         {
             _name.SetLocalizedText = () => _stat?.Name;
             _statSummary.SetLocalizedText = () => _stat?.Attributes.ToString(AttributeAdjustment);
-            _icon.Texture = TexturesService.GetTextureFromRef(_stat?.IconPath);
+            
+            _icon.Texture = _stat?.Icon.Texture;
+            _icon.SourceRectangle = _stat?.Icon.TextureRegion ?? Rectangle.Empty;
         }
 
         private void OnMultiplierChanged()

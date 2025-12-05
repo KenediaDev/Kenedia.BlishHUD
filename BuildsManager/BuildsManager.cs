@@ -7,6 +7,7 @@ using Blish_HUD.Settings;
 using Gw2Sharp.WebApi;
 using Kenedia.Modules.BuildsManager.Controls.Selection;
 using Kenedia.Modules.BuildsManager.Controls.Tabs;
+using Kenedia.Modules.BuildsManager.DataModels.Stats;
 using Kenedia.Modules.BuildsManager.Models;
 using Kenedia.Modules.BuildsManager.Services;
 using Kenedia.Modules.BuildsManager.Utility;
@@ -18,6 +19,7 @@ using Kenedia.Modules.Core.Res;
 using Kenedia.Modules.Core.Utility;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Xna.Framework;
+using Newtonsoft.Json;
 using System;
 using System.ComponentModel.Composition;
 using System.Threading;
@@ -223,10 +225,19 @@ namespace Kenedia.Modules.BuildsManager
             _cancellationTokenSource?.Cancel();
             _cancellationTokenSource = new CancellationTokenSource();
 
+
+
+            var statinfo = new StaticStats();
+            statinfo.TextureMapInfo = Stat.StatTextureMap;
+            statinfo.ImageUrl = "https://img.gw2skills.net/editor/UI/profile-icons-44x44.v3.png";   
+            string json = JsonConvert.SerializeObject(statinfo);
+            System.IO.File.WriteAllText(@"C:\Users\lasse\Downloads\Stats.json", json);
+
+
             //TemplatePresenter.SetTemplate(ServiceProvider.GetService<TemplateFactory>().CreateTemplate());
             //TemplatePresenter.SetTemplate(Templates.FirstOrDefault());
 
-            await LoadAsync();
+            //await LoadAsync();
             //await GW2API.UpdateMappedIds();
 
             //await TemplateTags.Load();

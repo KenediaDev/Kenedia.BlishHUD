@@ -11,6 +11,26 @@ namespace Kenedia.Modules.BuildsManager.Services
     {
         public static string BaseUrl = "https://bhm.blishhud.com/Kenedia.Modules.BuildsManager/";
 
+        public async static Task<StaticStats> GetStaticStats()
+        {
+            string url = $"{BaseUrl}Stats.json";
+            string content = string.Empty;
+            try
+            {
+                using var httpClient = new HttpClient();
+                content = await httpClient.GetStringAsync(url);
+                var info = JsonConvert.DeserializeObject<StaticStats>(content, SerializerSettings.Default);
+                return info;
+            }
+            catch(Exception ex)
+            {
+                BuildsManager.Logger.Warn($"Failed to get stats from {url}");
+                BuildsManager.Logger.Warn($"Fetched content: {content}");
+                BuildsManager.Logger.Warn($"{ex}");
+            }
+            return new StaticStats();
+        }
+
         public async static Task<StaticVersion> GetStaticVersion()
         {
             string url = $"{BaseUrl}DataMap.json";

@@ -59,7 +59,8 @@ namespace Kenedia.Modules.BuildsManager.Controls_Old.GearPage
 
         private void ApplyStat(object sender, Core.Models.ValueChangedEventArgs<Stat> e)
         {
-            _statTexture.Texture = TexturesService.GetTextureFromRef(Stat?.IconPath);
+            _statTexture.Texture = Stat?.Icon.Texture;
+            _statTexture.TextureRegion = Stat?.Icon.TextureRegion ?? Rectangle.Empty;
 
             if (Tooltip is ItemTooltip itemTooltip)
                 itemTooltip.Stat = Stat;

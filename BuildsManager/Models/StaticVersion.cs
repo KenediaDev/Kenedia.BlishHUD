@@ -5,9 +5,27 @@ using System.Collections.Generic;
 using System.IO;
 using Version = SemVer.Version;
 using Kenedia.Modules.Core.Models;
+using static Kenedia.Modules.BuildsManager.DataModels.Stats.Stat;
 
 namespace Kenedia.Modules.BuildsManager.Models
 {
+    public class StaticStats
+    {
+        public List<StatTextureMapInfo> TextureMapInfo { get; set; }
+
+        public string ImageUrl { get; set; }
+
+        [JsonIgnore]
+        public Version Version { get; set; } = new(0, 0, 0);
+
+        [JsonProperty("Version")]
+        private string VersionString
+        {
+            get => Version.ToString();
+            set => Version = new Version(value);
+        }
+    }
+
     public class StaticVersion
     {
         private Version _version = new(0, 0, 0);

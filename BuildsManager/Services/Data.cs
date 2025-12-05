@@ -16,6 +16,8 @@ using Gw2Sharp.WebApi;
 using Blish_HUD;
 using Kenedia.Modules.Core.Extensions;
 using System.Collections;
+using Newtonsoft.Json;
+using Kenedia.Modules.BuildsManager.DataModels.Stats;
 
 namespace Kenedia.Modules.BuildsManager.Services
 {
@@ -250,7 +252,47 @@ namespace Kenedia.Modules.BuildsManager.Services
                     return false;
                 }
 
-                List<int> itemIds = [];
+                var stats = await StaticHosting.GetStaticStats();
+                BuildsManager.Logger.Info($"Latest static stats version: {stats?.Version?.ToString()}");
+                if (stats is null)
+                {
+                    BuildsManager.Logger.Info("Failed to get the stats file.");
+                    if (NotificationBadge is NotificationBadge badge)
+                    {
+                        var endTime = DateTime.Now.AddMinutes(3);
+                        badge.AddNotification(new()
+                        {
+                            NotificationText = $"Failed to get the stats file. Retry at {DateTime.Now.AddMinutes(3):T}",
+                            Condition = () => DateTime.Now >= endTime,
+                        });
+                    }
+
+                    spinner?.Hide();
+                    return false;
+                }
+                else
+                {
+                    BuildsManager.Logger.Info($"Latest static stats version: {stats.Version}");
+                    var localStats = File.Exists(Path.Combine(Paths.ModuleDataPath, "static_stats.json")) ? JsonConvert.DeserializeObject<StaticStats>(File.ReadAllText(Path.Combine(Paths.ModuleDataPath, "static_stats.json"))) : null;
+                    if (localStats is null || localStats.Version < stats.Version)
+                    {
+                        BuildsManager.Logger.Info("Updating local static stats file...");
+                        File.WriteAllText(Path.Combine(Paths.ModuleDataPath, "static_stats.json"), JsonConvert.SerializeObject(stats, Formatting.Indented));
+
+                        //Download image from stats.ImageUrl
+                        string url = stats.ImageUrl;
+                        using var client = new System.Net.Http.HttpClient();
+
+                        BuildsManager.Logger.Info($"Downloading stat map image from {url}...");
+                        byte[] data = await client.GetByteArrayAsync(url);
+                        File.WriteAllBytes(Path.Combine(Paths.ModuleDataPath, "stat_map.png"), data);
+                    }
+
+                    BuildsManager.Logger.Info("Apply stat texture map...");
+                    Stat.StatTextureMap = stats.TextureMapInfo;
+                }
+
+                    List<int> itemIds = [];
                 foreach (var (name, map) in this)
                 {
                     if (map.GetType().IsGenericType && map.GetType().GetGenericTypeDefinition() == typeof(ItemMappedDataEntry<>))
