@@ -27,7 +27,7 @@ using System.Linq;
 namespace Kenedia.Modules.OverflowTradingAssist
 {
     [Export(typeof(Module))]
-    public class OverflowTradingAssist : BaseModule<OverflowTradingAssist, MainWindow, Settings, Paths>
+    public class OverflowTradingAssist : BaseModule<OverflowTradingAssist, MainWindow, Settings, Paths, StaticHosting>
     {
         private double _tick;
 

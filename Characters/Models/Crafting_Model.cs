@@ -1,8 +1,10 @@
-﻿namespace Kenedia.Modules.Characters.Models
+﻿using Gw2Sharp.WebApi.V2.Models;
+
+namespace Kenedia.Modules.Characters.Models
 {
     public class CharacterCrafting
     {
-        public int Id { get; set; }
+        public CraftingDisciplineType Id { get; set; }
 
         public int Rating { get; set; }
 

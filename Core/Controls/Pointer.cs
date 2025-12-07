@@ -17,7 +17,6 @@ namespace Kenedia.Modules.Core.Controls
         private float _animationStart = 0f;
 
         private Rectangle _anchorDrawBounds;
-        private Control _anchor;
         private WindowBase2 _container;
 
         public Pointer()
@@ -28,7 +27,7 @@ namespace Kenedia.Modules.Core.Controls
             ClipsBounds = false;            
         }
 
-        public Control Anchor { get => _anchor; set => Common.SetProperty(ref _anchor, value, SetAnchor); }
+        public Control Anchor { get; set => Common.SetProperty(ref field, value, SetAnchor); }
 
         public float BounceDistance { get; set; } = 0.25F;
 

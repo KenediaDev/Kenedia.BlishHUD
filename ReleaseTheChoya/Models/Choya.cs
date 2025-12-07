@@ -15,8 +15,6 @@ namespace Kenedia.Modules.ReleaseTheChoya.Models
     {
         private SettingEntry<Choya> _setting;
         private bool _isDisposed;
-        private string _name = "New Choya";
-        private int _steps = 360;
         private Vector2 _travelDistance = new(4, 2);
         private Rectangle _bounds = new(50, 50, 96, 96);
         private Panel _panel;
@@ -29,7 +27,6 @@ namespace Kenedia.Modules.ReleaseTheChoya.Models
         private (Label, NumberBox) _stepsControls;
         private (Label, NumberBox, NumberBox) _travelDistanceControls;
         private Checkbox _canMoveControl;
-        private bool _canMove;
 
         [DataMember]
         public string Id { get; set; }
@@ -37,16 +34,16 @@ namespace Kenedia.Modules.ReleaseTheChoya.Models
         [DataMember]
         public string Name
         {
-            get => _name;
-            set => Common.SetProperty(ref _name, value, UpdateSetting);
-        }
+            get;
+            set => Common.SetProperty(ref field, value, UpdateSetting);
+        } = "New Choya";
 
         [DataMember]
         public int Steps
         {
-            get => _steps;
-            set => Common.SetProperty(ref _steps, value, UpdateSetting);
-        }
+            get;
+            set => Common.SetProperty(ref field, value, UpdateSetting);
+        } = 360;
 
         [DataMember]
         public Vector2 TravelDistance
@@ -65,8 +62,8 @@ namespace Kenedia.Modules.ReleaseTheChoya.Models
         [DataMember]
         public bool CanMove
         {
-            get => _canMove;
-            set => Common.SetProperty(ref _canMove, value, UpdateSetting);
+            get;
+            set => Common.SetProperty(ref field, value, UpdateSetting);
         }
 
         public SettingCollection StaticChoya { get; private set; }

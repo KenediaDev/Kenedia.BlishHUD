@@ -9,9 +9,6 @@ namespace Kenedia.Modules.Core.Controls
 {
     public class KeybindingAssigner : Blish_HUD.Controls.KeybindingAssigner, ILocalizable
     {
-        private Func<string> _setLocalizedKeyBindingName;
-        private Func<string> _setLocalizedTooltip;
-
         public KeybindingAssigner()
         {
             LocalizingService.LocaleChanged  += UserLocale_SettingChanged;
@@ -26,20 +23,20 @@ namespace Kenedia.Modules.Core.Controls
 
         public Func<string> SetLocalizedKeyBindingName 
         {
-            get => _setLocalizedKeyBindingName;
+            get;
             set 
             {
-                _setLocalizedKeyBindingName = value;
+                field = value;
                 KeyBindingName = value?.Invoke();
             } 
         }
 
         public Func<string> SetLocalizedTooltip
         {
-            get => _setLocalizedTooltip;
+            get;
             set
             {
-                _setLocalizedTooltip = value;
+                field = value;
                 BasicTooltipText = value?.Invoke();
             }
         }

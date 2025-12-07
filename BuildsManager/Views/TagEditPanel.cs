@@ -14,7 +14,6 @@ namespace Kenedia.Modules.BuildsManager.Views
 {
     public class TagEditPanel : Panel
     {
-        private TemplateTag _tag;
         private readonly (Label label, TextBox textBox) _name;
         private readonly (Label label, Dropdown textBox) _group;
         private readonly (Label label, NumberBox numberBox) _iconId;
@@ -262,7 +261,7 @@ namespace Kenedia.Modules.BuildsManager.Views
             TemplateTags.Remove(Tag);
         }
 
-        public TemplateTag Tag { get => _tag; set => Common.SetProperty(ref _tag, value, OnTagChanged); }
+        public TemplateTag Tag { get; set => Common.SetProperty(ref field, value, OnTagChanged); }
 
         public TemplateTags TemplateTags { get; set; }
 

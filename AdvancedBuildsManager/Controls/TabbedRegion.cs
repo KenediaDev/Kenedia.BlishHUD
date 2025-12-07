@@ -18,13 +18,10 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Controls
     {
         private readonly DetailedTexture _inactiveHeader = new(2200567);
         private readonly DetailedTexture _activeHeader = new(2200566);
-        private AsyncTexture2D _icon;
         private RectangleDimensions _padding = new(5, 2);
         private Rectangle _bounds;
         private Rectangle _iconBounds;
         private Rectangle _textBounds;
-        private string _header;
-        private BitmapFont _font = GameService.Content.DefaultFont18;
 
         public TabbedRegionTab(Container container)
         {
@@ -35,11 +32,7 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Controls
 
         public bool IsActive { get; set; }
 
-        public string Header
-        {
-            get { return _header; }
-            set { _header = value; }
-        }
+        public string Header { get; set; }
 
         public Rectangle Bounds
         {
@@ -58,17 +51,17 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Controls
             return Bounds.Contains(p);
         }
 
-        public AsyncTexture2D Icon { get => _icon; set => _icon = value; }
-        public BitmapFont Font { get => _font; set => _font = value; }
+        public AsyncTexture2D Icon { get; set; }
+        public BitmapFont Font { get; set; } = GameService.Content.DefaultFont18;
 
         public void DrawHeader(Control ctrl, SpriteBatch spriteBatch, Point mousePos)
         {
             Color color = IsActive ? Color.White : Color.White * (IsHovered(mousePos) ? 0.9F : 0.6F);
             (!IsActive ? _activeHeader : _inactiveHeader).Draw(ctrl, spriteBatch, mousePos, color);
 
-            if (!string.IsNullOrEmpty(_header))
+            if (!string.IsNullOrEmpty(Header))
             {
-                spriteBatch.DrawStringOnCtrl(ctrl, _header, _font, _textBounds, Color.White);
+                spriteBatch.DrawStringOnCtrl(ctrl, Header, Font, _textBounds, Color.White);
             }
 
             if (Icon is not null)
@@ -97,7 +90,6 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Controls
         private Rectangle _headerRegion;
         private RectangleDimensions _headerPading = new(0, 8);
         private RectangleDimensions _contentPadding = new(0, 4);
-        private BitmapFont _headerFont = Content.DefaultFont18;
 
         public TabbedRegion()
         {
@@ -128,15 +120,15 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Controls
 
         public BitmapFont HeaderFont
         {
-            get => _headerFont; set
+            get; set
             {
-                _headerFont = value ?? Content.DefaultFont18;
+                field = value ?? Content.DefaultFont18;
                 foreach (var tab in _tabs)
                 {
-                    tab.Font = _headerFont;
+                    tab.Font = field;
                 }
             }
-        }
+        } = Content.DefaultFont18;
 
         public RectangleDimensions ContentPadding { get => _contentPadding; set => _contentPadding = value; }
 

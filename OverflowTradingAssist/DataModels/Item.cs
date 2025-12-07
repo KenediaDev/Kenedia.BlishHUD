@@ -81,8 +81,6 @@ namespace Kenedia.Modules.OverflowTradingAssist.DataModels
             Type = ItemType.Unknown,
         };
 
-        private AsyncTexture2D _icon;
-
         public Item()
         {
 
@@ -111,12 +109,12 @@ namespace Kenedia.Modules.OverflowTradingAssist.DataModels
         {
             get
             {
-                if (_icon is not null) return _icon;
+                if (field is not null) return field;
 
                 if (AssetId is not 0)
-                    _icon = AsyncTexture2D.FromAssetId(AssetId);
+                    field = AsyncTexture2D.FromAssetId(AssetId);
 
-                return _icon;
+                return field;
             }
         }
 

@@ -15,13 +15,11 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Views
 {
     public class SkillConnectionEditor : StandardWindow
     {
-        private Dictionary<int, OldSkillConnection> _connections = [];
-        private ProfessionType? _profession = ProfessionType.Guardian;
         private readonly EditingControl _connectionEdit;
         private readonly SkillSelector _selector;
         private readonly Dropdown _specialization;
 
-        public Dictionary<int, OldSkillConnection> Connections { get => _connections; set => Common.SetProperty(ref _connections, value, CreateUI); }
+        public Dictionary<int, OldSkillConnection> Connections { get; set => Common.SetProperty(ref field, value, CreateUI); } = [];
 
         public SkillConnectionEditor(AsyncTexture2D background, Rectangle windowRegion, Rectangle contentRegion) : base(background, windowRegion, contentRegion)
         {
@@ -68,7 +66,7 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Views
 
         public event EventHandler<ProfessionType?> ProfessionChanged;
 
-        public ProfessionType? Profession { get => _profession; private set => Common.SetProperty(ref _profession, value, OnProfessionChanged); }
+        public ProfessionType? Profession { get; private set => Common.SetProperty(ref field, value, OnProfessionChanged); } = ProfessionType.Guardian;
 
         private void OnProfessionChanged()
         {

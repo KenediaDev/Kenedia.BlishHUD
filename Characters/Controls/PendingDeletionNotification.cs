@@ -294,14 +294,13 @@ namespace Kenedia.Modules.Characters.Controls
         {
             TextureRegion = new(4, 4, 24, 24)
         };
-        private Character_Model _markedCharacter;
 
         public CharacterDeletedNotification()
         {
             NotificationType = NotificationType.CharacterDeleted;
         }
 
-        public Character_Model MarkedCharacter { get => _markedCharacter; set => Common.SetProperty(ref _markedCharacter, value, RecalculateLayout); }
+        public Character_Model MarkedCharacter { get; set => Common.SetProperty(ref field, value, RecalculateLayout); }
 
         public override void RecalculateLayout()
         {

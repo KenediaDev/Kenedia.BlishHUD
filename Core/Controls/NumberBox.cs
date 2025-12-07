@@ -26,8 +26,6 @@ namespace Kenedia.Modules.Core.Controls
         private Rectangle _minusRectangle;
         private string _lastText = $"{0}";
         private int _value;
-        private Func<string> _setLocalizedTooltip;
-        private bool _showButtons = true;
 
         public NumberBox()
         {
@@ -49,10 +47,10 @@ namespace Kenedia.Modules.Core.Controls
 
         public new Func<string> SetLocalizedTooltip
         {
-            get => _setLocalizedTooltip;
+            get;
             set
             {
-                _setLocalizedTooltip = value;
+                field = value;
                 BasicTooltipText = value?.Invoke();
             }
         }
@@ -73,7 +71,7 @@ namespace Kenedia.Modules.Core.Controls
             }
         }
 
-        public bool ShowButtons { get => _showButtons; set => Common.SetProperty(ref _showButtons, value, RecalculateLayout); }
+        public bool ShowButtons { get; set => Common.SetProperty(ref field, value, RecalculateLayout); } = true;
 
         public int Step { get; set; } = 1;
 

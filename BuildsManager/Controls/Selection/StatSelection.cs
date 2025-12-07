@@ -17,8 +17,6 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
         private readonly List<AttributeToggle> _statIcons = [];
         private readonly List<StatSelectable> _stats = [];
         private readonly bool _created;
-        private IReadOnlyList<int> _statChoices;
-        private double _attributeAdjustments;
 
         public StatSelection(TemplatePresenter templatePresenter, Data data)
         {
@@ -112,9 +110,9 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
 
         public Data Data { get; }
 
-        public IReadOnlyList<int> StatChoices { get => _statChoices; set => Common.SetProperty(ref _statChoices, value, OnStatChoicesChanged); }
+        public IReadOnlyList<int> StatChoices { get; set => Common.SetProperty(ref field, value, OnStatChoicesChanged); }
 
-        public double AttributeAdjustments { get => _attributeAdjustments; set => Common.SetProperty(ref _attributeAdjustments, value, OnAttributeAdjustmentsChanged); }
+        public double AttributeAdjustments { get; set => Common.SetProperty(ref field, value, OnAttributeAdjustmentsChanged); }
 
         private void OnAttributeAdjustmentsChanged(object sender, ValueChangedEventArgs<double> e)
         {

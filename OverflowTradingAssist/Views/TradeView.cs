@@ -27,7 +27,6 @@ namespace Kenedia.Modules.OverflowTradingAssist.Views
         private TextBox _listingTextBox;
         private ButtonImage _mailButton;
         private ButtonImage _tradeTypeImage;
-        private TradePresenter _tradePresenter;
         private Dropdown _tradeTypeDropdown;
         private ItemPanel _itemsPanel;
         private ItemPanel _paymentPanel;
@@ -38,7 +37,7 @@ namespace Kenedia.Modules.OverflowTradingAssist.Views
             TradePresenter = _tradePresenter;
         }
 
-        public TradePresenter TradePresenter { get => _tradePresenter; private set => Common.SetProperty(ref _tradePresenter, value, ApplyTrade); }
+        public TradePresenter TradePresenter { get; private set => Common.SetProperty(ref field, value, ApplyTrade); }
 
         public Trade Trade => TradePresenter?.Trade;
 
@@ -73,7 +72,7 @@ namespace Kenedia.Modules.OverflowTradingAssist.Views
                 Parent = c,
                 Width = (int)(width * 0.435F) - _tradePartnerButtonImage.Width,
                 PlaceholderText = "Trade Partner",
-                Text = _tradePresenter?.Trade?.TradePartner,
+                Text = TradePresenter?.Trade?.TradePartner,
                 TextChangedAction = (s) =>
                 {
                     if (TradePresenter?.Trade is not null)

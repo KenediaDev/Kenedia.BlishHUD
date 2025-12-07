@@ -12,9 +12,6 @@ namespace Kenedia.Modules.Characters.Controls
 {
     public class IconLabel : Control, IFontControl
     {
-        private AsyncTexture2D _icon;
-        private BitmapFont _font = GameService.Content.DefaultFont14;
-        private string _text;
         private Rectangle _iconRectangle = Rectangle.Empty;
         private Rectangle _textRectangle = Rectangle.Empty;
 
@@ -22,10 +19,10 @@ namespace Kenedia.Modules.Characters.Controls
 
         public string Text
         {
-            get => _text;
+            get;
             set
             {
-                _text = value;
+                field = value;
                 UpdateLayout();
             }
         }
@@ -34,10 +31,10 @@ namespace Kenedia.Modules.Characters.Controls
 
         public AsyncTexture2D Icon
         {
-            get => _icon;
+            get;
             set
             {
-                _icon = value;
+                field = value;
                 if (value is not null)
                 {
                     UpdateLayout();
@@ -47,16 +44,16 @@ namespace Kenedia.Modules.Characters.Controls
 
         public BitmapFont Font
         {
-            get => _font;
+            get;
             set
             {
-                _font = value;
+                field = value;
                 if (value is not null)
                 {
                     UpdateLayout();
                 }
             }
-        }
+        } = GameService.Content.DefaultFont14;
 
         public bool AutoSizeWidth { get; set; }
 

@@ -29,7 +29,6 @@ namespace Kenedia.Modules.Characters.Controls
         private readonly TextureManager _textureManager;
         private readonly Data _data;
         private Point _textureOffset = new(25, 25);
-        private Character_Model _character;
         private readonly List<Tag> _tags = [];
 
         public CharacterTooltip(Func<Character_Model> currentCharacter, TextureManager textureManager, Data data, Settings settings)
@@ -79,16 +78,16 @@ namespace Kenedia.Modules.Characters.Controls
 
         public Character_Model Character
         {
-            get => _character;
+            get;
             set
             {
                 _infoLabels.Character = value;
 
-                var temp = _character;
-                if (Common.SetProperty(ref _character, value))
+                var temp = field;
+                if (Common.SetProperty(ref field, value))
                 {
                     if (temp is not null) temp.Updated -= Character_Updated;
-                    if (_character is not null) _character.Updated += Character_Updated;
+                    if (field is not null) field.Updated += Character_Updated;
                 }
             }
         }
@@ -139,7 +138,7 @@ namespace Kenedia.Modules.Characters.Controls
         {
             base.DisposeControl();
 
-            if (_character is not null) _character.Updated -= Character_Updated;
+            if (Character is not null) Character.Updated -= Character_Updated;
         }
     }
 }

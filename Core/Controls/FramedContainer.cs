@@ -21,17 +21,10 @@ namespace Kenedia.Modules.Core.Controls
         private readonly List<(Rectangle, float)> _topBorders = [];
         private readonly List<(Rectangle, float)> _rightBorders = [];
         private readonly List<(Rectangle, float)> _bottomBorders = [];
-
-        private Func<string> _setLocalizedTooltip;
         protected DateTime LastInteraction;
-        private bool _fadeOut = false;
         private double _fadeTickDuration = 0;
         private double _fadeTick = 0;
-        private double _fadeDelay = 2500;
-        private double _fadeDuration = 500;
         private double _fadePerMs = 0;
-        private int _fadeSteps = 200;
-
         private Rectangle _backgroundBounds = Rectangle.Empty;
 
         public FramedContainer()
@@ -46,43 +39,43 @@ namespace Kenedia.Modules.Core.Controls
 
         public bool FadeOut
         {
-            get => _fadeOut;
+            get;
             set
             {
-                _fadeOut = value;
+                field = value;
                 Opacity = 1F;
             }
-        }
+        } = false;
 
         public double FadeDelay
         {
-            get => _fadeDelay;
+            get;
             set
             {
-                _fadeDelay = value;
+                field = value;
                 RecalculateFading();
             }
-        }
+        } = 2500;
 
         public double FadeDuration
         {
-            get => _fadeDuration;
+            get;
             set
             {
-                _fadeDuration = value;
+                field = value;
                 RecalculateFading();
             }
-        }
+        } = 500;
 
         public int FadeSteps
         {
-            get => _fadeSteps;
+            get;
             set
             {
-                _fadeSteps = value;
+                field = value;
                 RecalculateFading();
             }
-        }
+        } = 200;
 
         public RectangleDimensions BorderWidth
         {
@@ -121,10 +114,10 @@ namespace Kenedia.Modules.Core.Controls
 
         public Func<string> SetLocalizedTooltip
         {
-            get => _setLocalizedTooltip;
+            get;
             set
             {
-                _setLocalizedTooltip = value;
+                field = value;
                 BasicTooltipText = value?.Invoke();
             }
         }

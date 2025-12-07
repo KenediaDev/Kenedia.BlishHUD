@@ -8,8 +8,6 @@ namespace Kenedia.Modules.Core.Controls
     {
         private AsyncTexture2D _icon;
         private Rectangle _textureRectangle = Rectangle.Empty;
-        private bool _active;
-        private string _name;
 
         public PanelTab()
         {
@@ -53,20 +51,20 @@ namespace Kenedia.Modules.Core.Controls
 
         public string Name
         {
-            get => _name;
+            get;
             set
             {
-                _name = value;
+                field = value;
                 TabButton.BasicTooltipText = value;
             }
         }
 
         public bool Active
         {
-            get => _active;
+            get;
             set
             {
-                _active = value;
+                field = value;
                 TabButton.Active = value;
 
                 if (value)

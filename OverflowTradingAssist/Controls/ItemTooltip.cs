@@ -19,12 +19,7 @@ namespace Kenedia.Modules.OverflowTradingAssist.Controls.GearPage
         private readonly Label _id;
         private readonly Label _description;
         private readonly Label _commentLabel;
-
-        private Item _item;
-        private string _comment;
-
         private Color _frameColor = Color.Transparent;
-        private Func<string> _setLocalizedComment;
 
         public ItemTooltip()
         {
@@ -83,11 +78,11 @@ namespace Kenedia.Modules.OverflowTradingAssist.Controls.GearPage
             LocalizingService.LocaleChanged += UserLocale_SettingChanged;
         }
 
-        public Item Item { get => _item; set => Common.SetProperty(ref _item, value, ApplyItem); }
+        public Item Item { get; set => Common.SetProperty(ref field, value, ApplyItem); }
 
-        public string Comment { get => _comment; set => Common.SetProperty(ref _comment, value, ApplyComment); }
+        public string Comment { get; set => Common.SetProperty(ref field, value, ApplyComment); }
 
-        public Func<string> SetLocalizedComment { get => _setLocalizedComment; set => Common.SetProperty(ref _setLocalizedComment, value, ApplyLocalizedComment); }
+        public Func<string> SetLocalizedComment { get; set => Common.SetProperty(ref field, value, ApplyLocalizedComment); }
 
         private void ApplyLocalizedComment(object sender, Core.Models.ValueChangedEventArgs<Func<string>> e)
         {

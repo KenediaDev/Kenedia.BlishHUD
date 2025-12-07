@@ -22,7 +22,6 @@ namespace Kenedia.Modules.OverflowTradingAssist.Controls
 
         private decimal _value;
         private bool _created;
-        private bool _hideBackground = false;
 
         public CoinControl()
         {
@@ -33,7 +32,7 @@ namespace Kenedia.Modules.OverflowTradingAssist.Controls
                 PlaceholderText = "0",
                 HorizontalAlignment = Blish_HUD.Controls.HorizontalAlignment.Right,
                 Text = "0",
-                HideBackground = _hideBackground,
+                HideBackground = HideBackground,
                 TextChangedAction = (s) =>
                 {
                     if (int.TryParse(s.Replace(",", "").Replace(".", ""), out int gold))
@@ -51,7 +50,7 @@ namespace Kenedia.Modules.OverflowTradingAssist.Controls
                 PlaceholderText = "0",
                 HorizontalAlignment = Blish_HUD.Controls.HorizontalAlignment.Right,
                 Text = "0",
-                HideBackground = _hideBackground,
+                HideBackground = HideBackground,
                 TextChangedAction = (s) =>
                 {
                     if (int.TryParse(s.Replace(",", "").Replace(".", ""), out int silver))
@@ -69,7 +68,7 @@ namespace Kenedia.Modules.OverflowTradingAssist.Controls
                 PlaceholderText = "0",
                 HorizontalAlignment = Blish_HUD.Controls.HorizontalAlignment.Right,
                 Text = "0",
-                HideBackground = _hideBackground,
+                HideBackground = HideBackground,
                 TextChangedAction = (s) =>
                 {
                     if (int.TryParse(s.Replace(",", "").Replace(".", ""), out int copper))
@@ -91,7 +90,7 @@ namespace Kenedia.Modules.OverflowTradingAssist.Controls
 
         public Action<decimal> ValueChangedAction { get; internal set; }
 
-        public bool HideBackground { get => _hideBackground; internal set => Common.SetProperty(ref _hideBackground, value, OnShowFieldChanged); }
+        public bool HideBackground { get; internal set => Common.SetProperty(ref field, value, OnShowFieldChanged); } = false;
 
         public BitmapFont Font { get => _goldCoinTextBox.Font; set => _goldCoinTextBox.Font = _silverCoinTextBox.Font = _copperCoinTextBox.Font = value; }
 

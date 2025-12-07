@@ -11,16 +11,14 @@ namespace Kenedia.Modules.BuildsManager.TemplateEntries
     public class PvpAmuletTemplateEntry : TemplateEntry, IDisposable, IRuneTemplateEntry
     {
         private bool _isDisposed;
-        private PvpAmulet _pvpAmulet;
-        private Rune _rune;
 
         public PvpAmuletTemplateEntry(TemplateSlotType slot, Data data) : base(slot, data)
         {
         }
 
-        public PvpAmulet PvpAmulet { get => _pvpAmulet; private set => Common.SetProperty(ref _pvpAmulet, value); }
+        public PvpAmulet PvpAmulet { get; private set => Common.SetProperty(ref field, value); }
 
-        public Rune Rune { get => _rune; private set => Common.SetProperty(ref _rune, value); }
+        public Rune Rune { get; private set => Common.SetProperty(ref field, value); }
 
         override protected void OnItemChanged(object sender, ValueChangedEventArgs<BaseItem> e)
         {

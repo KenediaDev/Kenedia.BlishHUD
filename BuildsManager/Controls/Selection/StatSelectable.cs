@@ -22,9 +22,6 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
         private readonly Label _name;
         private readonly Label _statSummary;
 
-        private double _attributeAdjustment;
-        private Stat _stat;
-
         public StatSelectable()
         {
             HeightSizingMode = Blish_HUD.Controls.SizingMode.AutoSize;
@@ -68,9 +65,9 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
             OnClickAction?.Invoke();
         }
 
-        public Stat Stat { get => _stat; set => Common.SetProperty(ref _stat, value, OnStatChanged); }
+        public Stat Stat { get; set => Common.SetProperty(ref field, value, OnStatChanged); }
 
-        public double AttributeAdjustment { get => _attributeAdjustment; set => Common.SetProperty(ref _attributeAdjustment, value, OnMultiplierChanged); }
+        public double AttributeAdjustment { get; set => Common.SetProperty(ref field, value, OnMultiplierChanged); }
 
         public Action OnClickAction { get; set; }
 
@@ -98,16 +95,16 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
 
         private void OnStatChanged()
         {
-            _name.SetLocalizedText = () => _stat?.Name;
-            _statSummary.SetLocalizedText = () => _stat?.Attributes.ToString(AttributeAdjustment);
+            _name.SetLocalizedText = () => Stat?.Name;
+            _statSummary.SetLocalizedText = () => Stat?.Attributes.ToString(AttributeAdjustment);
             
-            _icon.Texture = _stat?.Icon.Texture;
-            _icon.SourceRectangle = _stat?.Icon.TextureRegion ?? Rectangle.Empty;
+            _icon.Texture = Stat?.Icon.Texture;
+            _icon.SourceRectangle = Stat?.Icon.TextureRegion ?? Rectangle.Empty;
         }
 
         private void OnMultiplierChanged()
         {
-            _statSummary.SetLocalizedText = () => _stat?.Attributes.ToString(AttributeAdjustment);
+            _statSummary.SetLocalizedText = () => Stat?.Attributes.ToString(AttributeAdjustment);
         }
 
         protected override void DisposeControl()

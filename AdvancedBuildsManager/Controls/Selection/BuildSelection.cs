@@ -26,9 +26,6 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Controls.Selection
         private readonly Image _icon;
         private readonly Label _name;
 
-        private Enum _value = ProfessionType.Guardian;
-        private ProfessionRaceSelection.SelectionType _selectionType = ProfessionRaceSelection.SelectionType.Profession;
-
         public ProfessionRaceSelectable()
         {
             HeightSizingMode = Blish_HUD.Controls.SizingMode.AutoSize;
@@ -66,15 +63,15 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Controls.Selection
                 OnClickAction?.Invoke(Value);
         }
 
-        public Enum Value { get => _value; set => Common.SetProperty(ref _value, value, SetValue); }
+        public Enum Value { get; set => Common.SetProperty(ref field, value, SetValue); } = ProfessionType.Guardian;
 
         public Action<Enum> OnClickAction { get; set; }
 
         public ProfessionRaceSelection.SelectionType SelectionType
         {
-            get => _selectionType;
-            set => Common.SetProperty(ref _selectionType, value, () => Value = null);
-        }
+            get;
+            set => Common.SetProperty(ref field, value, () => Value = null);
+        } = ProfessionRaceSelection.SelectionType.Profession;
 
         private void SetValue(object sender, PropertyChangedEventArgs e)
         {
@@ -124,7 +121,6 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Controls.Selection
 
     public class ProfessionRaceSelection : BaseSelection
     {
-        private SelectionType _type = SelectionType.Race;
         private List<ProfessionRaceSelectable> _races = [];
         private List<ProfessionRaceSelectable> _professions = [];
 
@@ -187,9 +183,9 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Controls.Selection
 
         public SelectionType Type
         {
-            get => _type;
-            set => Common.SetProperty(ref _type, value, OnTypeChanged);
-        }
+            get;
+            set => Common.SetProperty(ref field, value, OnTypeChanged);
+        } = SelectionType.Race;
 
         public Action<Enum> OnClickAction { get; set; }
 

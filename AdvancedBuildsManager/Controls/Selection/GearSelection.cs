@@ -150,9 +150,6 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Controls.Selection
     {
         private readonly Dictionary<GearTemplateSlot, List<Selectable>> _selectablesPerSlot = [];
         private readonly List<Selectable> _selectables = [];
-        private GearTemplateSlot _activeSlot;
-        private GearSubSlotType _subSlotType;
-        private Template _template;
         private string _filterText;
         private readonly List<Selectable> _armors;
         private readonly List<Selectable> _trinkets;
@@ -263,10 +260,10 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Controls.Selection
 
         public Template Template
         {
-            get => _template; set
+            get; set
             {
-                var temp = _template;
-                if (Common.SetProperty(ref _template, value, ApplyTemplate))
+                var temp = field;
+                if (Common.SetProperty(ref field, value, ApplyTemplate))
                 {
                     foreach (var slot in _selectables)
                     {
@@ -275,8 +272,8 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Controls.Selection
 
                     if (temp is not null) temp.PropertyChanged -= TemplateChanged;
                     if (temp is not null) temp.ProfessionChanged -= Template_ProfessionChanged;
-                    if (_template is not null) _template.PropertyChanged += TemplateChanged;
-                    if (_template is not null) _template.ProfessionChanged += Template_ProfessionChanged;
+                    if (field is not null) field.PropertyChanged += TemplateChanged;
+                    if (field is not null) field.ProfessionChanged += Template_ProfessionChanged;
                 }
             }
         }
@@ -307,9 +304,9 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Controls.Selection
             return item.Name == null || string.IsNullOrEmpty(_filterText) || item.Name.ToLower().Contains(_filterText);
         }
 
-        public GearTemplateSlot ActiveSlot { get => _activeSlot; set => Common.SetProperty(ref _activeSlot, value, ApplySlot); }
+        public GearTemplateSlot ActiveSlot { get; set => Common.SetProperty(ref field, value, ApplySlot); }
 
-        public GearSubSlotType SubSlotType { get => _subSlotType; set => Common.SetProperty(ref _subSlotType, value, ApplySubSlot); }
+        public GearSubSlotType SubSlotType { get; set => Common.SetProperty(ref field, value, ApplySubSlot); }
 
         private void ApplySubSlot(object sender, PropertyChangedEventArgs e)
         {

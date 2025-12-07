@@ -31,8 +31,6 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Controls.BuildPage
             new(157138, 157140),
             new(157138, 157140),
         ];
-
-        private Template _template;
         private readonly WeaponSkillIconCollection _terrestrialWeaponSkills = [];
         private readonly WeaponSkillIconCollection _terrestrialInactiveWeaponSkills = [];
         private readonly WeaponSkillIconCollection _aquaticWeaponSkills = [];
@@ -47,8 +45,6 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Controls.BuildPage
         private SkillSlot _selectedSkillSlot;
         private Rectangle _selectorBounds;
         private SkillIcon _selectorAnchor;
-
-        private bool _selectorOpen = false;
         private double _lastOpen;
         private int _skillSize;
 
@@ -72,7 +68,7 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Controls.BuildPage
         {
             get
             {
-                bool hovered = _selectorOpen && _selectorBounds.Contains(RelativeMousePosition);
+                bool hovered = SeletorOpen && _selectorBounds.Contains(RelativeMousePosition);
                 hovered = hovered || AbsoluteBounds.Contains(Input.Mouse.Position);
 
                 return hovered;
@@ -84,19 +80,19 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Controls.BuildPage
             get
             {
                 double timeSince = Common.Now - _lastOpen;
-                return _selectorOpen || timeSince <= 200;
+                return SeletorOpen || timeSince <= 200;
             }
         }
 
         public Template Template
         {
-            get => _template; set
+            get; set
             {
-                var temp = _template;
-                if (Common.SetProperty(ref _template, value, ApplyTemplate))
+                var temp = field;
+                if (Common.SetProperty(ref field, value, ApplyTemplate))
                 {
                     if (temp is not null) temp.PropertyChanged -= TemplateChanged;
-                    if (_template is not null) _template.PropertyChanged += TemplateChanged;
+                    if (field is not null) field.PropertyChanged += TemplateChanged;
                 }
             }
         }
@@ -108,17 +104,17 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Controls.BuildPage
 
         private bool SeletorOpen
         {
-            get => _selectorOpen;
+            get;
             set
             {
-                if (AnyHovered || _selectorOpen)
+                if (AnyHovered || field)
                 {
                     _lastOpen = Common.Now;
                 }
 
-                _selectorOpen = value;
+                field = value;
             }
-        }
+        } = false;
 
         public void ApplyTemplate()
         {

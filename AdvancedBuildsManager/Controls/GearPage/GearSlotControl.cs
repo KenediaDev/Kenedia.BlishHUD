@@ -904,9 +904,6 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Controls.GearPage
 
     public class BaseSlotControl : Control
     {
-        private GearTemplateSlot _gearSlot = GearTemplateSlot.None;
-        private Template _template;
-
         protected readonly DetailedTexture Icon = new() { TextureRegion = new(37, 37, 54, 54) };
         protected readonly ItemTexture Item = new() { };
 
@@ -921,10 +918,7 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Controls.GearPage
         protected BitmapFont UpgradeFont = Content.DefaultFont18;
         protected BitmapFont InfusionFont = Content.DefaultFont12;
 
-        private BaseTemplateEntry _templateSlot;
-        private Stat _stat;
-
-        public GearTemplateSlot GearSlot { get => _gearSlot; set => Common.SetProperty(ref _gearSlot, value, ApplySlot); }
+        public GearTemplateSlot GearSlot { get; set => Common.SetProperty(ref field, value, ApplySlot); } = GearTemplateSlot.None;
 
         public BaseSlotControl()
         {
@@ -944,29 +938,29 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Controls.GearPage
 
         public Template Template
         {
-            get => _template; set
+            get; set
             {
-                var temp = _template;
-                if (Common.SetProperty(ref _template, value, ApplyTemplate))
+                var temp = field;
+                if (Common.SetProperty(ref field, value, ApplyTemplate))
                 {
                     if (temp is not null) temp.PropertyChanged -= TemplateChanged;
-                    if (_template is not null) _template.PropertyChanged += TemplateChanged;
+                    if (field is not null) field.PropertyChanged += TemplateChanged;
                 }
             }
         }
 
         public BaseTemplateEntry TemplateSlot
         {
-            get => _templateSlot;
+            get;
             set
             {
-                var temp = _templateSlot;
-                if (Common.SetProperty(ref _templateSlot, value))
+                var temp = field;
+                if (Common.SetProperty(ref field, value))
                 {
                     if (temp is not null) temp.PropertyChanged -= SlotChanged;
-                    if (_templateSlot is not null)
+                    if (field is not null)
                     {
-                        _templateSlot.PropertyChanged += SlotChanged;
+                        field.PropertyChanged += SlotChanged;
                     }
 
                     SlotChanged(this, new(nameof(TemplateSlot)));
@@ -980,7 +974,7 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Controls.GearPage
 
         public SelectionPanel SelectionPanel { get; set; }
 
-        public Stat Stat { get => _stat; set => Common.SetProperty(ref _stat, value, OnStatChanged); }
+        public Stat Stat { get; set => Common.SetProperty(ref field, value, OnStatChanged); }
 
         protected virtual void OnStatChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {

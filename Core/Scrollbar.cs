@@ -41,13 +41,12 @@ namespace Kenedia.Modules.Core.Controls
             Bar
         };
 
-        private ClickFocus _scrollFocus;
         private ClickFocus ScrollFocus
         {
-            get => _scrollFocus;
+            get;
             set
             {
-                _scrollFocus = value;
+                field = value;
                 HandleClickScroll(true);
             }
         }
@@ -57,7 +56,7 @@ namespace Kenedia.Modules.Core.Controls
         private float _targetScrollDistance;
         private float TargetScrollDistance
         {
-            get => _targetScrollDistanceAnim == null ? _scrollDistance : _targetScrollDistance;
+            get => _targetScrollDistanceAnim == null ? ScrollDistance : _targetScrollDistance;
             set
             {
                 float aVal = MathHelper.Clamp(value, 0f, 1f);
@@ -68,34 +67,32 @@ namespace Kenedia.Modules.Core.Controls
             }
         }
 
-        private float _scrollDistance = 0f;
         public float ScrollDistance
         {
-            get => _scrollDistance;
+            get;
             set
             {
-                if (SetProperty(ref _scrollDistance, MathHelper.Clamp(value, 0f, 1f), true))
+                if (SetProperty(ref field, MathHelper.Clamp(value, 0f, 1f), true))
                 {
-                    _targetScrollDistance = _scrollDistance;
+                    _targetScrollDistance = field;
                 }
 
                 UpdateAssocContainer();
             }
-        }
+        } = 0f;
 
-        private int _scrollbarHeight = s_min_length;
         private int ScrollbarHeight
         {
-            get => _scrollbarHeight;
+            get;
             set
             {
-                if (!SetProperty(ref _scrollbarHeight, value, true)) return;
+                if (!SetProperty(ref field, value, true)) return;
 
                 // Reclamps the scrolling content
                 RecalculateScrollbarSize();
                 UpdateAssocContainer();
             }
-        }
+        } = s_min_length;
 
         private double _scrollbarPercent = 1.0;
 

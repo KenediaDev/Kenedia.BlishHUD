@@ -13,10 +13,6 @@ namespace Kenedia.Modules.BuildsManager.TemplateEntries
         RingTemplateEntry : TemplateEntry, IDisposable, ITripleInfusionTemplateEntry, IStatTemplateEntry
     {
         private bool _isDisposed;
-        private Infusion _infusion1;
-        private Infusion _infusion2;
-        private Infusion _infusion3;
-        private Stat _stat;
 
         public RingTemplateEntry(TemplateSlotType slot, Data data) : base(slot, data)
         {
@@ -31,13 +27,13 @@ namespace Kenedia.Modules.BuildsManager.TemplateEntries
 
         public Trinket Ring { get; private set; }
 
-        public Infusion Infusion1 { get => _infusion1; private set => Common.SetProperty(ref _infusion1, value); }
+        public Infusion Infusion1 { get; private set => Common.SetProperty(ref field, value); }
 
-        public Infusion Infusion2 { get=> _infusion2; private set => Common.SetProperty(ref _infusion2, value); }
+        public Infusion Infusion2 { get; private set => Common.SetProperty(ref field, value); }
 
-        public Infusion Infusion3 { get => _infusion3; private set => Common.SetProperty(ref _infusion3, value); }
+        public Infusion Infusion3 { get; private set => Common.SetProperty(ref field, value); }
 
-        public Stat Stat { get => _stat; private set => Common.SetProperty(ref _stat, value); }
+        public Stat Stat { get; private set => Common.SetProperty(ref field, value); }
 
         protected override void OnItemChanged(object sender, ValueChangedEventArgs<BaseItem> e)
         {

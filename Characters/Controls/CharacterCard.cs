@@ -56,8 +56,6 @@ namespace Kenedia.Modules.Characters.Controls
 
         private int _cogSize;
         private int _iconSize;
-
-        private Character_Model _character;
         private readonly TextureManager _textureManager;
         private readonly Data _data;
         private readonly MainWindow _mainWindow;
@@ -110,7 +108,7 @@ namespace Kenedia.Modules.Characters.Controls
 
             Size = card.Size;
 
-            Character = card._character;
+            Character = card.Character;
             _infoLabels.TextureManager = _textureManager;
             _infoLabels.Data = _data;
             _infoLabels.Settings = _settings;
@@ -186,11 +184,11 @@ namespace Kenedia.Modules.Characters.Controls
 
         public Character_Model Character
         {
-            get => _character;
+            get;
             set
             {
-                var temp = _character;
-                if (Common.SetProperty(ref _character, value))
+                var temp = field;
+                if (Common.SetProperty(ref field, value))
                 {
                     if (temp is not null)
                     {
@@ -198,10 +196,10 @@ namespace Kenedia.Modules.Characters.Controls
                         temp.Updated -= ApplyCharacter;
                     }
 
-                    if (_character is not null)
+                    if (field is not null)
                     {
-                        _character.Deleted += CharacterDeleted;
-                        _character.Updated += ApplyCharacter;
+                        field.Deleted += CharacterDeleted;
+                        field.Updated += ApplyCharacter;
                     }
                 }
 
@@ -675,9 +673,9 @@ namespace Kenedia.Modules.Characters.Controls
             base.DisposeControl();
 
             _textTooltip.Shown -= TextTooltip_Shown;
-            if (_character is not null)
+            if (Character is not null)
             {
-                _character.Deleted -= CharacterDeleted;
+                Character.Deleted -= CharacterDeleted;
             }
 
             _infoLabels?.Dispose();

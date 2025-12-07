@@ -20,10 +20,6 @@ namespace Kenedia.Modules.BuildsManager.Controls_Old.GearPage
     {
         private readonly DetailedTexture _texture = new();
         private readonly DetailedTexture _statTexture = new() { };
-
-        private DetailedTexture _placeholder = new();
-        private BaseItem? _item;
-        private Stat? _stat;
         private int _frameThickness = 2;
         private Color _frameColor = Color.White * 0.15F;
 
@@ -42,13 +38,13 @@ namespace Kenedia.Modules.BuildsManager.Controls_Old.GearPage
 
         public bool ShowStat { get; set; } = true;
 
-        public BaseItem? Item { get => _item; set => Common.SetProperty(ref _item, value, ApplyItem); }
+        public BaseItem? Item { get; set => Common.SetProperty(ref field, value, ApplyItem); }
 
-        public Stat? Stat { get => _stat; set => Common.SetProperty(ref _stat, value, ApplyStat); }
+        public Stat? Stat { get; set => Common.SetProperty(ref field, value, ApplyStat); }
 
         public Color TextureColor { get => _texture.DrawColor ?? Color.White; set => _texture.DrawColor = value; }
 
-        public DetailedTexture Placeholder { get => _placeholder; set => Common.SetProperty(ref _placeholder, value, ApplyPlaceholder); }
+        public DetailedTexture Placeholder { get; set => Common.SetProperty(ref field, value, ApplyPlaceholder); } = new();
 
         public bool CaptureInput { get; set; } = true;
 
@@ -98,14 +94,14 @@ namespace Kenedia.Modules.BuildsManager.Controls_Old.GearPage
 
             _statTexture.Bounds = new(_texture.Bounds.Center.Add(new Point(-padding, -padding)), new((size - (padding * 2)) / 2));
             _texture.Bounds = new(_frameThickness, _frameThickness, Width - (_frameThickness * 2), Height - (_frameThickness * 2));
-            _placeholder.Bounds = new(_frameThickness, _frameThickness, Width - (_frameThickness * 2), Height - (_frameThickness * 2));
+            Placeholder.Bounds = new(_frameThickness, _frameThickness, Width - (_frameThickness * 2), Height - (_frameThickness * 2));
         }
 
         protected override void Paint(SpriteBatch spriteBatch, Rectangle bounds)
         {
             if (Item == null)
             {
-                _placeholder.Draw(this, spriteBatch, RelativeMousePosition, TextureColor);
+                Placeholder.Draw(this, spriteBatch, RelativeMousePosition, TextureColor);
             }
             else
             {
@@ -151,7 +147,7 @@ namespace Kenedia.Modules.BuildsManager.Controls_Old.GearPage
             Stat = null;
             _texture?.Dispose();
             _statTexture?.Dispose();
-            _placeholder?.Dispose();
+            Placeholder?.Dispose();
             base.DisposeControl();
         }
     }

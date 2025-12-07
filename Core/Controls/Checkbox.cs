@@ -11,9 +11,6 @@ namespace Kenedia.Modules.Core.Controls
 {
     public class Checkbox : Blish_HUD.Controls.Checkbox, ILocalizable
     {
-        private Func<string> _setLocalizedTooltip;
-        private Func<string> _setLocalizedText;
-
         public Checkbox()
         {
              
@@ -23,20 +20,20 @@ namespace Kenedia.Modules.Core.Controls
 
         public Func<string> SetLocalizedText
         {
-            get => _setLocalizedText;
+            get;
             set
             {
-                _setLocalizedText = value;
+                field = value;
                 Text = value?.Invoke();
             }
         }
 
         public Func<string> SetLocalizedTooltip
         {
-            get => _setLocalizedTooltip;
+            get;
             set
             {
-                _setLocalizedTooltip = value;
+                field = value;
                 BasicTooltipText = value?.Invoke();
             }
         }

@@ -16,15 +16,13 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Models.Templates
 {
     public class BaseTemplateEntry : INotifyPropertyChanged
     {
-        private GearTemplateSlot _slot = (GearTemplateSlot)(-2);
         private int _mappedId = -1;
-        private BaseItem _item;
 
         public GearTemplateEntryType Type { get; set; }
 
-        public GearTemplateSlot Slot { get => _slot; set => Common.SetProperty(ref _slot, value, OnSlotApply); }
+        public GearTemplateSlot Slot { get; set => Common.SetProperty(ref field, value, OnSlotApply); } = (GearTemplateSlot)(-2);
 
-        public BaseItem Item { get => _item; set => Common.SetProperty(ref _item, value, OnItemChanged); }
+        public BaseItem Item { get; set => Common.SetProperty(ref field, value, OnItemChanged); }
 
         public int MappedId
         {
@@ -32,7 +30,7 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Models.Templates
             {
                 if (Common.SetProperty(ref _mappedId, value, OnPropertyChanged))
                 {
-                    Item = AdvancedBuildsManager.Data.TryGetItemsFor<BaseItem>(_slot, out var items) ? items.Values.Where(e => e.MappedId == _mappedId).FirstOrDefault() : null;
+                    Item = AdvancedBuildsManager.Data.TryGetItemsFor<BaseItem>(Slot, out var items) ? items.Values.Where(e => e.MappedId == _mappedId).FirstOrDefault() : null;
                 }
             }
         }
@@ -42,9 +40,9 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Models.Templates
         public virtual void OnSlotApply()
         {
             Type =
-                _slot.IsArmor() ? GearTemplateEntryType.Armor :
-                _slot.IsWeapon() ? GearTemplateEntryType.Weapon :
-                _slot.IsJewellery() ? GearTemplateEntryType.Equipment :
+                Slot.IsArmor() ? GearTemplateEntryType.Armor :
+                Slot.IsWeapon() ? GearTemplateEntryType.Weapon :
+                Slot.IsJewellery() ? GearTemplateEntryType.Equipment :
                 GearTemplateEntryType.None;
         }
 
@@ -83,12 +81,9 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Models.Templates
 
     public class GearTemplateEntry : BaseTemplateEntry
     {
-        private Stat _stat;
-        private ItemRarity _itemRarity;
+        public Stat Stat { get; set => Common.SetProperty(ref field, value, OnPropertyChanged); }
 
-        public Stat Stat { get => _stat; set => Common.SetProperty(ref _stat, value, OnPropertyChanged); }
-
-        public ItemRarity ItemRarity { get => _itemRarity; set => Common.SetProperty(ref _itemRarity, value, OnRarityChanged); }
+        public ItemRarity ItemRarity { get; set => Common.SetProperty(ref field, value, OnRarityChanged); }
 
         private void OnRarityChanged(object sender, PropertyChangedEventArgs e)
         {
@@ -146,36 +141,34 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Models.Templates
         private Infusion _infusion2;
         private Infusion _infusion3;
 
-        private ObservableList<int> _infusionIds = [];
-
         public JewelleryEntry()
         {
-            _enrichmentIds.PropertyChanged += EnrichmentIds_Changed;
+            EnrichmentIds.PropertyChanged += EnrichmentIds_Changed;
         }
 
         public ObservableList<int> InfusionIds
         {
-            get => _infusionIds;
+            get;
             set
             {
-                var temp = _infusionIds;
-                if (Common.SetProperty(ref _infusionIds, value))
+                var temp = field;
+                if (Common.SetProperty(ref field, value))
                 {
                     if (temp is not null) temp.PropertyChanged -= InfusionIds_Changed;
-                    if (_infusionIds is not null)
+                    if (field is not null)
                     {
-                        _infusionIds.PropertyChanged += InfusionIds_Changed;
+                        field.PropertyChanged += InfusionIds_Changed;
                         OnPropertyChanged(this, new(nameof(InfusionIds)));
                     }
                 }
             }
-        }
+        } = [];
 
         private void InfusionIds_Changed(object sender, PropertyChangedEventArgs e)
         {
-            if (_infusionIds is not null && _infusionIds.Count > 0) _infusion = AdvancedBuildsManager.Data.Infusions.Values.Where(e => e.MappedId == _infusionIds[0]).FirstOrDefault();
-            if (_infusionIds is not null && _infusionIds.Count > 1) _infusion2 = AdvancedBuildsManager.Data.Infusions.Values.Where(e => e.MappedId == _infusionIds[1]).FirstOrDefault();
-            if (_infusionIds is not null && _infusionIds.Count > 2) _infusion3 = AdvancedBuildsManager.Data.Infusions.Values.Where(e => e.MappedId == _infusionIds[2]).FirstOrDefault();
+            if (InfusionIds is not null && InfusionIds.Count > 0) _infusion = AdvancedBuildsManager.Data.Infusions.Values.Where(e => e.MappedId == InfusionIds[0]).FirstOrDefault();
+            if (InfusionIds is not null && InfusionIds.Count > 1) _infusion2 = AdvancedBuildsManager.Data.Infusions.Values.Where(e => e.MappedId == InfusionIds[1]).FirstOrDefault();
+            if (InfusionIds is not null && InfusionIds.Count > 2) _infusion3 = AdvancedBuildsManager.Data.Infusions.Values.Where(e => e.MappedId == InfusionIds[2]).FirstOrDefault();
 
             OnPropertyChanged(sender, e);
         }
@@ -218,30 +211,28 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Models.Templates
             }
         }
 
-        private ObservableList<int> _enrichmentIds = [];
-
         public ObservableList<int> EnrichmentIds
         {
-            get => _enrichmentIds;
+            get;
             set
             {
-                var temp = _enrichmentIds;
-                if (Common.SetProperty(ref _enrichmentIds, value))
+                var temp = field;
+                if (Common.SetProperty(ref field, value))
                 {
                     if (temp is not null) temp.PropertyChanged -= EnrichmentIds_Changed;
-                    if (_enrichmentIds is not null)
+                    if (field is not null)
                     {
-                        _enrichmentIds.PropertyChanged += EnrichmentIds_Changed;
+                        field.PropertyChanged += EnrichmentIds_Changed;
                         OnPropertyChanged(this, new(nameof(EnrichmentIds)));
                     }
                 }
             }
-        }
+        } = [];
 
         private void EnrichmentIds_Changed(object sender, PropertyChangedEventArgs e)
         {
-            if (_enrichmentIds is not null && _enrichmentIds.Count > 0)
-                _enrichment = AdvancedBuildsManager.Data.Enrichments.Values.Where(e => e.MappedId == _enrichmentIds[0]).FirstOrDefault();
+            if (EnrichmentIds is not null && EnrichmentIds.Count > 0)
+                _enrichment = AdvancedBuildsManager.Data.Enrichments.Values.Where(e => e.MappedId == EnrichmentIds[0]).FirstOrDefault();
 
             OnPropertyChanged(sender, e);
         }
@@ -373,10 +364,8 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Models.Templates
 
     public class WeaponEntry : JewelleryEntry
     {
-        private WeaponType _weapon = WeaponType.Unknown;
         private Sigil _sigil;
         private Sigil _pvpSigil;
-        private ObservableList<int> _sigilIds = [];
         private Sigil _sigil2;
 
         public WeaponEntry()
@@ -385,31 +374,31 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Models.Templates
 
         private void SigilIds_Changed(object sender, PropertyChangedEventArgs e)
         {
-            if (_sigilIds is not null && _sigilIds.Count > 0) _sigil = AdvancedBuildsManager.Data.PveSigils.Values.Where(e => e.MappedId == _sigilIds[0]).FirstOrDefault();
-            if (_sigilIds is not null && _sigilIds.Count > 1 && Slot is not GearTemplateSlot.Aquatic and not GearTemplateSlot.AltAquatic) _pvpSigil = AdvancedBuildsManager.Data.PvpSigils.Values.Where(e => e.MappedId == _sigilIds[1]).FirstOrDefault();
-            if (_sigilIds is not null && _sigilIds.Count > 1 && Slot is GearTemplateSlot.Aquatic or GearTemplateSlot.AltAquatic) _sigil2 = AdvancedBuildsManager.Data.PveSigils.Values.Where(e => e.MappedId == _sigilIds[1]).FirstOrDefault();
+            if (SigilIds is not null && SigilIds.Count > 0) _sigil = AdvancedBuildsManager.Data.PveSigils.Values.Where(e => e.MappedId == SigilIds[0]).FirstOrDefault();
+            if (SigilIds is not null && SigilIds.Count > 1 && Slot is not GearTemplateSlot.Aquatic and not GearTemplateSlot.AltAquatic) _pvpSigil = AdvancedBuildsManager.Data.PvpSigils.Values.Where(e => e.MappedId == SigilIds[1]).FirstOrDefault();
+            if (SigilIds is not null && SigilIds.Count > 1 && Slot is GearTemplateSlot.Aquatic or GearTemplateSlot.AltAquatic) _sigil2 = AdvancedBuildsManager.Data.PveSigils.Values.Where(e => e.MappedId == SigilIds[1]).FirstOrDefault();
 
             OnPropertyChanged(sender, e);
         }
 
         public ObservableList<int> SigilIds
         {
-            get => _sigilIds;
+            get;
             set
             {
-                var temp = _sigilIds;
-                if (Common.SetProperty(ref _sigilIds, value))
+                var temp = field;
+                if (Common.SetProperty(ref field, value))
                 {
                     if (temp is not null) temp.PropertyChanged -= SigilIds_Changed;
-                    if (_sigilIds is not null)
+                    if (field is not null)
                     {
-                        _sigilIds.PropertyChanged += SigilIds_Changed;
+                        field.PropertyChanged += SigilIds_Changed;
                     }
                 }
             }
-        }
+        } = [];
 
-        public WeaponType Weapon { get => _weapon; set => Common.SetProperty(ref _weapon, value, OnPropertyChanged); }
+        public WeaponType Weapon { get; set => Common.SetProperty(ref field, value, OnPropertyChanged); } = WeaponType.Unknown;
 
         public Sigil Sigil
         {
@@ -417,7 +406,7 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Models.Templates
             {
                 if (Common.SetProperty(ref _sigil, value))
                 {
-                    _sigilIds[0] = _sigil?.MappedId ?? -1;
+                    SigilIds[0] = _sigil?.MappedId ?? -1;
                 }
             }
         }
@@ -426,9 +415,9 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Models.Templates
         {
             get => _sigil2; set
             {
-                if (_sigilIds.Count > 1 && Common.SetProperty(ref _sigil2, value))
+                if (SigilIds.Count > 1 && Common.SetProperty(ref _sigil2, value))
                 {
-                    _sigilIds[1] = _sigil2?.MappedId ?? -1;
+                    SigilIds[1] = _sigil2?.MappedId ?? -1;
                 }
             }
         }
@@ -439,7 +428,7 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Models.Templates
             {
                 if (Common.SetProperty(ref _pvpSigil, value))
                 {
-                    _sigilIds[0] = _pvpSigil?.MappedId ?? -1;
+                    SigilIds[0] = _pvpSigil?.MappedId ?? -1;
                 }
             }
         }
@@ -536,33 +525,32 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Models.Templates
     public class ArmorEntry : JewelleryEntry
     {
         private Rune _rune;
-        private ObservableList<int> _runeIds = [-1];
 
         public ArmorEntry()
         {
-            _runeIds.PropertyChanged += RuneIds_Changed;
+            RuneIds.PropertyChanged += RuneIds_Changed;
         }
 
         public ObservableList<int> RuneIds
         {
-            get => _runeIds;
+            get;
             set
             {
-                var temp = _runeIds;
-                if (Common.SetProperty(ref _runeIds, value))
+                var temp = field;
+                if (Common.SetProperty(ref field, value))
                 {
                     if (temp is not null) temp.PropertyChanged -= RuneIds_Changed;
-                    if (_runeIds is not null)
+                    if (field is not null)
                     {
-                        _runeIds.PropertyChanged += RuneIds_Changed;
+                        field.PropertyChanged += RuneIds_Changed;
                     }
                 }
             }
-        }
+        } = [-1];
 
         private void RuneIds_Changed(object sender, PropertyChangedEventArgs e)
         {
-            if (_runeIds is not null && _runeIds.Count > 0) _rune = AdvancedBuildsManager.Data.PveRunes.Values.Where(e => e.MappedId == _runeIds[0]).FirstOrDefault();
+            if (RuneIds is not null && RuneIds.Count > 0) _rune = AdvancedBuildsManager.Data.PveRunes.Values.Where(e => e.MappedId == RuneIds[0]).FirstOrDefault();
 
             OnPropertyChanged(sender, e);
         }
@@ -573,7 +561,7 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Models.Templates
             {
                 if (Common.SetProperty(ref _rune, value))
                 {
-                    _runeIds[0] = _rune?.MappedId ?? -1;
+                    RuneIds[0] = _rune?.MappedId ?? -1;
                 }
             }
         }

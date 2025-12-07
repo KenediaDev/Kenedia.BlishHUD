@@ -69,18 +69,16 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Controls.Selection
         private readonly Label _name;
         private readonly Label _skillSummary;
 
-        private Skill _skill;
-
-        public Skill Skill { get => _skill; set => Common.SetProperty(ref _skill, value, OnSkillChanged); }
+        public Skill Skill { get; set => Common.SetProperty(ref field, value, OnSkillChanged); }
 
         public Func<RotationElement> GetRotationElement { get; set; }
 
         private void OnSkillChanged()
         {
-            _name.Text = _skill?.Name;
-            _skillSummary.Text = _skill?.Description;
+            _name.Text = Skill?.Name;
+            _skillSummary.Text = Skill?.Description;
 
-            _icon.Texture = _skill?.Icon;
+            _icon.Texture = Skill?.Icon;
 
             OnPropertyChanged(nameof(Skill));
         }
@@ -129,9 +127,6 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Controls.Selection
         private readonly Image _icon;
         private readonly Label _name;
         private readonly Label _statSummary;
-
-        private double _attributeAdjustment;
-        private Stat _stat;
 
         public StatSelectable()
         {
@@ -211,9 +206,9 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Controls.Selection
             }
         }
 
-        public Stat Stat { get => _stat; set => Common.SetProperty(ref _stat, value, OnStatChanged); }
+        public Stat Stat { get; set => Common.SetProperty(ref field, value, OnStatChanged); }
 
-        public double AttributeAdjustment { get => _attributeAdjustment; set => Common.SetProperty(ref _attributeAdjustment, value, OnMultiplierChanged); }
+        public double AttributeAdjustment { get; set => Common.SetProperty(ref field, value, OnMultiplierChanged); }
 
         public BaseTemplateEntry ActiveTemplateSlot { get; set; }
 
@@ -243,14 +238,14 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Controls.Selection
 
         private void OnStatChanged()
         {
-            _name.Text = _stat?.Name;
-            _statSummary.Text = string.Join(Environment.NewLine, _stat?.Attributes.Values.Where(e => e is not null).Select(e => $"+ {Math.Round(e.Value + (e.Multiplier * _attributeAdjustment))} {e.Id.GetDisplayName()}"));
-            _icon.Texture = _stat?.Icon;
+            _name.Text = Stat?.Name;
+            _statSummary.Text = string.Join(Environment.NewLine, Stat?.Attributes.Values.Where(e => e is not null).Select(e => $"+ {Math.Round(e.Value + (e.Multiplier * AttributeAdjustment))} {e.Id.GetDisplayName()}"));
+            _icon.Texture = Stat?.Icon;
         }
 
         private void OnMultiplierChanged()
         {
-            _statSummary.Text = string.Join(Environment.NewLine, _stat?.Attributes.Values.Where(e => e is not null).Select(e => $"+ {Math.Round(e.Value + (e.Multiplier * _attributeAdjustment))} {e.Id.GetDisplayName()}"));
+            _statSummary.Text = string.Join(Environment.NewLine, Stat?.Attributes.Values.Where(e => e is not null).Select(e => $"+ {Math.Round(e.Value + (e.Multiplier * AttributeAdjustment))} {e.Id.GetDisplayName()}"));
         }
     }
 }

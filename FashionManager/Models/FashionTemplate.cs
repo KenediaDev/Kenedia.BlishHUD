@@ -19,8 +19,6 @@ namespace Kenedia.Modules.FashionManager.Models
     public class FashionTemplate
     {
         private bool _triggerEvents = true;
-
-        private AsyncTexture2D _thumbnail;
         private string _fashionCode;
         private string _name;
         private string _thumbnailFileName;
@@ -28,7 +26,6 @@ namespace Kenedia.Modules.FashionManager.Models
         private SkinBack _back;
         private Races _races = Races.None;
         private Gender _gender = Gender.Unknown;
-        private ObservableCollection<AsyncTexture2D> _gallery;
 
         public FashionTemplate()
         {
@@ -94,13 +91,15 @@ namespace Kenedia.Modules.FashionManager.Models
         {
             get
             {
-                if (_thumbnail is null && System.IO.File.Exists($"{DirectoryPath}{ThumbnailFileName}"))
+                if (field is null && System.IO.File.Exists($"{DirectoryPath}{ThumbnailFileName}"))
                 {
-                    GameService.Graphics.QueueMainThreadRender((graphicsDevice) => _thumbnail = TextureUtil.FromStreamPremultiplied(graphicsDevice, new FileStream(DirectoryPath + ThumbnailFileName, FileMode.Open, FileAccess.Read, FileShare.ReadWrite)));
+                    GameService.Graphics.QueueMainThreadRender((graphicsDevice) => field = TextureUtil.FromStreamPremultiplied(graphicsDevice, new FileStream(DirectoryPath + ThumbnailFileName, FileMode.Open, FileAccess.Read, FileShare.ReadWrite)));
                 }
 
-                return _thumbnail;
+                return field;
             }
+
+            private set;
         }
 
         [DataMember]
@@ -110,18 +109,18 @@ namespace Kenedia.Modules.FashionManager.Models
         {
             get
             {
-                if (_gallery is null)
+                if (field is null)
                 {
-                    _gallery = [];
+                    field = [];
 
                     foreach (string fileName in GalleryPaths)
                     {
                         if (System.IO.File.Exists($"{DirectoryPath}{fileName}"))
-                            GameService.Graphics.QueueMainThreadRender((graphicsDevice) => _gallery.Add(TextureUtil.FromStreamPremultiplied(graphicsDevice, new FileStream(DirectoryPath + fileName, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))));
+                            GameService.Graphics.QueueMainThreadRender((graphicsDevice) => field.Add(TextureUtil.FromStreamPremultiplied(graphicsDevice, new FileStream(DirectoryPath + fileName, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))));
                     }
                 }
 
-                return _gallery;
+                return field;
             }
         }
     }

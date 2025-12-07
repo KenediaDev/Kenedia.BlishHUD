@@ -33,13 +33,8 @@ namespace Kenedia.Modules.Characters.Controls
         private readonly IconLabel _nextBirthdayLabel;
         private readonly IconLabel _ageLabel;
         private readonly IconLabel _customIndex;
-        private Character_Model _character;
         private readonly List<Tag> _tags = [];
         private readonly bool _created;
-
-        private TextureManager _textureManager;
-        private Data _data;
-        private Settings _settings;
 
         public CharacterLabels(FlowPanel parent)
         {
@@ -175,28 +170,28 @@ namespace Kenedia.Modules.Characters.Controls
 
         public Character_Model Character
         {
-            get => _character;
-            set => Common.SetProperty(ref _character, value);
+            get;
+            set => Common.SetProperty(ref field, value);
         }
 
         public List<Control> DataControls { get; } = [];
 
         public Data Data
         {
-            get => _data;
-            set => Common.SetProperty(ref _data, value, OnDataChanged);
+            get;
+            set => Common.SetProperty(ref field, value, OnDataChanged);
         }
 
         public Settings Settings
         {
-            get => _settings;
+            get;
             set
             {
-                var temp = _settings;
-                if (Common.SetProperty(ref _settings, value, OnSettingsChanged))
+                var temp = field;
+                if (Common.SetProperty(ref field, value, OnSettingsChanged))
                 {
                     if (temp is not null) { temp.AppearanceSettingChanged -= Settings_AppearanceSettingChanged; }
-                    if (_settings is not null) { _settings.AppearanceSettingChanged += Settings_AppearanceSettingChanged; }
+                    if (field is not null) { field.AppearanceSettingChanged += Settings_AppearanceSettingChanged; }
                 }
             }
         }
@@ -208,9 +203,9 @@ namespace Kenedia.Modules.Characters.Controls
 
         private void OnSettingsChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
-            _craftingControl.Settings = _settings;
+            _craftingControl.Settings = Settings;
 
-            if (_settings is not null)
+            if (Settings is not null)
             {
                 RecalculateBounds();
             }
@@ -218,13 +213,13 @@ namespace Kenedia.Modules.Characters.Controls
 
         private void OnDataChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
-            _craftingControl.Data = _data;
+            _craftingControl.Data = Data;
         }
 
         public TextureManager TextureManager
         {
-            get => _textureManager;
-            set => Common.SetProperty(ref _textureManager, value, OnTextureManagerAdded);
+            get;
+            set => Common.SetProperty(ref field, value, OnTextureManagerAdded);
         }
 
         public Func<Character_Model> CurrentCharacter { get; set; }
@@ -233,7 +228,7 @@ namespace Kenedia.Modules.Characters.Controls
 
         private void OnTextureManagerAdded(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
-            if (_genderLabel is not null) _genderLabel.Icon = _textureManager?.GetIcon(TextureManager.Icons.Gender);
+            if (_genderLabel is not null) _genderLabel.Icon = TextureManager?.GetIcon(TextureManager.Icons.Gender);
         }
 
         public void RecalculateBounds()
@@ -264,12 +259,17 @@ namespace Kenedia.Modules.Characters.Controls
                 _professionLabel.TextureRectangle = _professionLabel.Icon.Width == 32 ? new Rectangle(2, 2, 28, 28) : new Rectangle(4, 4, 56, 56);
             }
 
-            _genderLabel.Text = Character.Gender.ToString();
+            _genderLabel.Text = Character.Gender switch
+            {
+                Gw2Sharp.WebApi.V2.Models.Gender.Male => strings.Male,
+                Gw2Sharp.WebApi.V2.Models.Gender.Female => strings.Female,
+                _ => strings.Unknown,
+            };
 
-            _raceLabel.Text = _data.Races[Character.Race].Name;
-            _raceLabel.Icon = _data.Races[Character.Race].Icon;
+            _raceLabel.Text = Data.Races[Character.Race].Name;
+            _raceLabel.Icon = Data.Races[Character.Race].Icon;
 
-            _mapLabel.Text = _data.GetMapById(Character.Map).Name;
+            _mapLabel.Text = Data.GetMapById(Character.Map).Name;
             _customIndex.Text = string.Format(strings.CustomIndex + " {0}", Character.Index);
 
             var tagLlist = _tags.Select(e => e.Text);
@@ -315,8 +315,8 @@ namespace Kenedia.Modules.Characters.Controls
 
         public void UpdateDataControlsVisibility(bool tooltip = false)
         {
-            if (_settings == null) return;
-            var settings = _settings.DisplayToggles.Value;
+            if (Settings == null) return;
+            var settings = Settings.DisplayToggles.Value;
 
             NameFont = GetFont(true);
             Font = GetFont();
@@ -370,9 +370,9 @@ namespace Kenedia.Modules.Characters.Controls
         private BitmapFont GetFont(bool nameFont = false)
         {
             FontSize fontSize = FontSize.Size8;
-            if (_settings == null) return GameService.Content.DefaultFont12;
+            if (Settings == null) return GameService.Content.DefaultFont12;
 
-            switch (_settings.PanelSize.Value)
+            switch (Settings.PanelSize.Value)
             {
                 case PanelSizes.Small:
                     fontSize = nameFont ? FontSize.Size16 : FontSize.Size12;
@@ -387,7 +387,7 @@ namespace Kenedia.Modules.Characters.Controls
                     break;
 
                 case PanelSizes.Custom:
-                    fontSize = nameFont ? (FontSize)_settings.CustomCharacterNameFontSize.Value : (FontSize)_settings.CustomCharacterFontSize.Value;
+                    fontSize = nameFont ? (FontSize)Settings.CustomCharacterNameFontSize.Value : (FontSize)Settings.CustomCharacterFontSize.Value;
                     break;
             }
 
@@ -417,7 +417,7 @@ namespace Kenedia.Modules.Characters.Controls
 
             if (Character is not null && _ageLabel.Visible)
             {
-                _ageLabel.Text = string.Format("{1} ({0} Years)", Character.Age, Character.Created.Date.ToString("d"));
+                _ageLabel.Text = string.Format("{1} ({0} {2})", Character.Age, Character.Created.Date.ToString("d"), strings.Years);
             }
 
             if (_created && Parent?.Visible == true)

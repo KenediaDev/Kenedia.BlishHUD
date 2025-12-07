@@ -8,9 +8,6 @@ namespace Kenedia.Modules.Core.Controls
 {
     public class Label : Blish_HUD.Controls.Label, ILocalizable
     {
-        private Func<string>? _setLocalizedText;
-        private Func<string>? _setLocalizedTooltip;
-
         public Label()
         {
             LocalizingService.LocaleChanged  += UserLocale_SettingChanged;
@@ -19,20 +16,20 @@ namespace Kenedia.Modules.Core.Controls
 
         public Func<string>? SetLocalizedText 
         {
-            get => _setLocalizedText;
+            get;
             set
             {
-                _setLocalizedText = value;
+                field = value;
                 Text = value?.Invoke();
             } 
         }
 
         public Func<string>? SetLocalizedTooltip
         {
-            get => _setLocalizedTooltip;
+            get;
             set
             {
-                _setLocalizedTooltip = value;
+                field = value;
                 BasicTooltipText = value?.Invoke();
             }
         }

@@ -53,10 +53,6 @@ namespace Kenedia.Modules.OverflowTradingAssist.Controls.GearPage
     public class ItemControl : Blish_HUD.Controls.Control
     {
         private readonly DetailedTexture _texture = new();
-
-        private DetailedTexture _placeholder = new();
-        private Item _item;
-
         private int _frameThickness = 2;
         private Color _frameColor = Color.White * 0.15F;
         private Rectangle _frameRectangle;
@@ -77,11 +73,11 @@ namespace Kenedia.Modules.OverflowTradingAssist.Controls.GearPage
 
         public Action<Item> OnClicked { get; set; }
 
-        public Item Item { get => _item; set => Common.SetProperty(ref _item, value, ApplyItem); }
+        public Item Item { get; set => Common.SetProperty(ref field, value, ApplyItem); }
 
         public Color TextureColor { get => _texture.DrawColor ?? Color.White; set => _texture.DrawColor = value; }
 
-        public DetailedTexture Placeholder { get => _placeholder; set => Common.SetProperty(ref _placeholder, value, ApplyPlaceholder); }
+        public DetailedTexture Placeholder { get; set => Common.SetProperty(ref field, value, ApplyPlaceholder); } = new();
 
         private void ApplyPlaceholder(object sender, Core.Models.ValueChangedEventArgs<DetailedTexture> e)
         {
@@ -119,7 +115,7 @@ namespace Kenedia.Modules.OverflowTradingAssist.Controls.GearPage
             _frameThickness = CalculateFrameThickness();
 
             _texture.Bounds = new(_frameThickness, _frameThickness, Height - (_frameThickness * 2), Height - (_frameThickness * 2));
-            _placeholder.Bounds = new(_frameThickness, _frameThickness, Height - (_frameThickness * 2), Height - (_frameThickness * 2));
+            Placeholder.Bounds = new(_frameThickness, _frameThickness, Height - (_frameThickness * 2), Height - (_frameThickness * 2));
             _frameRectangle = new(0, 0, Height, Height);
             _nameRectanlge = new(_texture.Bounds.Right + 15, 0, Width - _texture.Bounds.Right + 15, Height);
         }
@@ -128,7 +124,7 @@ namespace Kenedia.Modules.OverflowTradingAssist.Controls.GearPage
         {
             if (Item == null)
             {
-                _placeholder.Draw(this, spriteBatch, RelativeMousePosition, TextureColor);
+                Placeholder.Draw(this, spriteBatch, RelativeMousePosition, TextureColor);
             }
             else
             {
@@ -175,7 +171,7 @@ namespace Kenedia.Modules.OverflowTradingAssist.Controls.GearPage
         {
             Item = null;
             _texture?.Dispose();
-            _placeholder?.Dispose();
+            Placeholder?.Dispose();
             base.DisposeControl();
         }
     }

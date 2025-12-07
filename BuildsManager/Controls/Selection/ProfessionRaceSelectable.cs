@@ -21,9 +21,6 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
         private readonly Image _icon;
         private readonly Label _name;
 
-        private Enum _value = ProfessionType.Guardian;
-        private ProfessionRaceSelection.SelectionType _selectionType = ProfessionRaceSelection.SelectionType.Profession;
-
         public ProfessionRaceSelectable(Data data)
         {
             Data = data;
@@ -76,15 +73,15 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
                 OnClickAction?.Invoke(Value);
         }
 
-        public Enum Value { get => _value; set => Common.SetProperty(ref _value, value, SetValue); }
+        public Enum Value { get; set => Common.SetProperty(ref field, value, SetValue); } = ProfessionType.Guardian;
 
         public Action<Enum> OnClickAction { get; set; }
 
         public ProfessionRaceSelection.SelectionType SelectionType
         {
-            get => _selectionType;
-            set => Common.SetProperty(ref _selectionType, value, () => Value = null);
-        }
+            get;
+            set => Common.SetProperty(ref field, value, () => Value = null);
+        } = ProfessionRaceSelection.SelectionType.Profession;
 
         public Data Data { get; }
 

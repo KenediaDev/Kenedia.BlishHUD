@@ -1,13 +1,14 @@
 ﻿using Blish_HUD.Modules.Managers;
-using System;
-using System.Linq;
-using System.Threading.Tasks;
-using Version = SemVer.Version;
 using Kenedia.Modules.BuildsManager.DataModels.Items;
 using Kenedia.Modules.BuildsManager.Models;
-using System.Collections.Generic;
-using System.Runtime.Serialization;
+using Kenedia.Modules.Core.Converter;
 using Newtonsoft.Json;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Runtime.Serialization;
+using System.Threading.Tasks;
+using Version = SemVer.Version;
 
 namespace Kenedia.Modules.BuildsManager.Services
 {
@@ -16,15 +17,9 @@ namespace Kenedia.Modules.BuildsManager.Services
     {
         protected bool DataLoaded = false;
 
-        public Version Version { get; set; } = new(0, 0, 0);
-
         [DataMember]
-        [JsonProperty("Version")]
-        public string VersionString
-        {
-            get => Version.ToString();
-            set => Version = new Version(value);
-        }
+        [JsonConverter(typeof(SemverVersionConverter))]
+        public Version Version { get; set; } = new(0, 0, 0);
 
         [DataMember]
         public Dictionary<string, object> Items { get; set; } = [];

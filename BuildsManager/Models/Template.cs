@@ -48,11 +48,6 @@ namespace Kenedia.Modules.BuildsManager.Models
 
         private string _savedBuildCode = string.Empty;
         private string _savedGearCode = string.Empty;
-
-        [JsonProperty("Tags")]
-        [DataMember]
-        private UniqueObservableCollection<string> _tags = [];
-
         private CancellationTokenSource? _cancellationTokenSource;
 
         private bool _saveRequested;
@@ -83,10 +78,6 @@ namespace Kenedia.Modules.BuildsManager.Models
         public event LegendChangedEventHandler? LegendChanged;
 
         public event TemplateSlotChangedEventHandler? TemplateSlotChanged;
-
-        [JsonProperty("LastModified")]
-        [DataMember]
-        private string _lastModified = DateTime.Now.ToString("d");
 
         /// <summary>
         /// Static Instance Only
@@ -167,7 +158,7 @@ namespace Kenedia.Modules.BuildsManager.Models
             _race = race ?? Races.None;
             _profession = profession ?? ProfessionType.Guardian;
             _description = description;
-            Tags = tags ?? _tags;
+            Tags = tags ?? Tags;
 
             _savedBuildCode = buildCode;
             _savedGearCode = gearCode;
@@ -200,7 +191,9 @@ namespace Kenedia.Modules.BuildsManager.Models
         [DataMember]
         public Races Race { get => _race; private set => Common.SetProperty(ref _race, value, OnRaceChanged); }
 
-        public UniqueObservableCollection<string> Tags { get => _tags; private set => Common.SetProperty(ref _tags, value, OnTagsListChanged); }
+        [field: JsonProperty("Tags")]
+        [field: DataMember]
+        public UniqueObservableCollection<string> Tags { get; private set => Common.SetProperty(ref field, value, OnTagsListChanged); } = [];
 
         [DataMember]
         public string Name { get => _name; set => Common.SetProperty(ref _name, value, OnNameChanged); }
@@ -303,7 +296,9 @@ namespace Kenedia.Modules.BuildsManager.Models
 
         public bool TriggerAutoSave { get; set; } = false;
 
-        public string LastModified { get => _lastModified; set => Common.SetProperty(ref _lastModified, value, OnLastModifiedChanged); }
+        [field: JsonProperty("LastModified")]
+        [field: DataMember]
+        public string LastModified { get; set => Common.SetProperty(ref field, value, OnLastModifiedChanged); } = DateTime.Now.ToString("d");
 
         public bool Loaded { get; set; }
 

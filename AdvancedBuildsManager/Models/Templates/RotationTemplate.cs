@@ -11,25 +11,22 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Models.Templates
 {
     public class RotationElement : INotifyPropertyChanged
     {
-        private Skill _skill;
-        private int _repetition = 1;
-
         public Skill Skill
         {
-            get => _skill;
-            set => Common.SetProperty(ref _skill, value, PropertyChanged);
+            get;
+            set => Common.SetProperty(ref field, value, PropertyChanged);
         }
 
         public int Repetition
         {
-            get => _repetition; set
+            get; set
             {
                 if (value > 0)
                 {
-                    _ = Common.SetProperty(ref _repetition, value, PropertyChanged);
+                    _ = Common.SetProperty(ref field, value, PropertyChanged);
                 }
             }
-        }
+        } = 1;
 
         public string DisplayText => Skill?.Name + (Repetition > 1 ? " x " + Repetition.ToString() : string.Empty);
 

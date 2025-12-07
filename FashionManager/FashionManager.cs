@@ -2,6 +2,7 @@
 using Blish_HUD.Modules;
 using Blish_HUD.Settings;
 using Kenedia.Modules.Core.Models;
+using Kenedia.Modules.Core.Services;
 using Kenedia.Modules.FashionManager.Models;
 using Kenedia.Modules.FashionManager.Services;
 using Kenedia.Modules.FashionManager.Utility;
@@ -20,7 +21,7 @@ using System.Threading.Tasks;
 namespace Kenedia.Modules.FashionManager
 {
     [Export(typeof(Module))]
-    public class FashionManager : BaseModule<FashionManager, MainWindow, BaseSettingsModel, Paths>
+    public class FashionManager : BaseModule<FashionManager, MainWindow, BaseSettingsModel, Paths, StaticHosting>
     {
         private double _tick;
         private CancellationTokenSource _fileAccessTokenSource;

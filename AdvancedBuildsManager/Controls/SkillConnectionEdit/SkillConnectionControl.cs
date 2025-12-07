@@ -14,12 +14,10 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Controls.SkillConnectionEdit
         protected Rectangle? TextureRegion;
         private Rectangle _idBounds;
         private Rectangle _nameBounds;
-        private OldSkillConnection _skillConnection;
-        private object _entry;
 
-        public OldSkillConnection SkillConnection { get => _skillConnection; set => Common.SetProperty(ref _skillConnection, value, ApplyConnection); }
+        public OldSkillConnection SkillConnection { get; set => Common.SetProperty(ref field, value, ApplyConnection); }
 
-        public object Entry { get => _entry; set => Common.SetProperty(ref _entry, value, ApplyItem); }
+        public object Entry { get; set => Common.SetProperty(ref field, value, ApplyItem); }
 
         public string Name { get; set; }
 

@@ -20,7 +20,6 @@ namespace Kenedia.Modules.BuildsManager.Controls
         private Rectangle _bounds;
         private Rectangle _iconBounds;
         private Rectangle _textBounds;
-        private Func<string> _header;
         private string _title;
 
         public TabbedRegionTab(Container container)
@@ -40,7 +39,7 @@ namespace Kenedia.Modules.BuildsManager.Controls
 
         public bool IsActive { get; set; }
 
-        public Func<string> Header { get => _header; set { _header = value; _title = value?.Invoke(); } }
+        public Func<string> Header { get; set { field = value; _title = value?.Invoke(); } }
 
         public Rectangle Bounds
         {

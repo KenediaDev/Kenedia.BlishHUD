@@ -35,7 +35,7 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Controls.Selection
 
         private Rectangle AnchorDrawBounds
         {
-            get => _selectionType switch
+            get => SelectionType switch
             {
                 SelectionTypes.Templates => _mainAnchorDrawBounds,
                 _ => _subAnchorDrawBounds
@@ -43,7 +43,7 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Controls.Selection
 
             set
             {
-                if (_selectionType == SelectionTypes.Templates)
+                if (SelectionType == SelectionTypes.Templates)
                 {
                     _mainAnchorDrawBounds = value;
                 }
@@ -53,7 +53,7 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Controls.Selection
                 }
 
                 _anchorDrawBounds =
-                    _selectionType == SelectionTypes.Templates ? _mainAnchorDrawBounds :
+                    SelectionType == SelectionTypes.Templates ? _mainAnchorDrawBounds :
                     _subAnchorDrawBounds;
             }
         }
@@ -63,9 +63,6 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Controls.Selection
 
         private Rectangle _backBounds;
         private Rectangle _backTextBounds;
-        private Template _template;
-        private SelectionTypes _selectionType = SelectionTypes.Templates;
-
         float _animationStart = 0f;
         private Control _anchor;
         private Rectangle _anchorDrawBounds;
@@ -113,34 +110,34 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Controls.Selection
 
         public Template Template
         {
-            get => _template; set
+            get; set
             {
-                var temp = _template;
-                if (Common.SetProperty(ref _template, value, ApplyTemplate))
+                var temp = field;
+                if (Common.SetProperty(ref field, value, ApplyTemplate))
                 {
                     if (temp is not null) temp.PropertyChanged -= TemplateChanged;
-                    if (_template is not null) _template.PropertyChanged += TemplateChanged;
+                    if (field is not null) field.PropertyChanged += TemplateChanged;
                 }
             }
         }
 
         public SelectionTypes SelectionType
         {
-            get => _selectionType; set
+            get; set
             {
-                if (Common.SetProperty(ref _selectionType, value))
+                if (Common.SetProperty(ref field, value))
                 {
-                    _gearSelection.Visible = _selectionType == SelectionTypes.Items;
-                    _buildSelection.Visible = _selectionType == SelectionTypes.Templates;
-                    _statSelection.Visible = _selectionType == SelectionTypes.Stats;
-                    _skillSelection.Visible = _selectionType == SelectionTypes.Skills;
+                    _gearSelection.Visible = field == SelectionTypes.Items;
+                    _buildSelection.Visible = field == SelectionTypes.Templates;
+                    _statSelection.Visible = field == SelectionTypes.Stats;
+                    _skillSelection.Visible = field == SelectionTypes.Skills;
                 }
             }
-        }
+        } = SelectionTypes.Templates;
 
         private Control Anchor
         {
-            get => _selectionType switch
+            get => SelectionType switch
             {
                 SelectionTypes.Templates => _mainAnchor,
                 _ => _subAnchor
@@ -148,7 +145,7 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Controls.Selection
 
             set
             {
-                if (_selectionType == SelectionTypes.Templates)
+                if (SelectionType == SelectionTypes.Templates)
                 {
                     _mainAnchor = value;
                 }
@@ -158,7 +155,7 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Controls.Selection
                 }
 
                 _anchor =
-                        _selectionType == SelectionTypes.Templates ? _mainAnchor :
+                        SelectionType == SelectionTypes.Templates ? _mainAnchor :
                         _subAnchor;
             }
         }
@@ -320,7 +317,7 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Controls.Selection
 
             if (Anchor is not null)
             {
-                if (_selectionType is SelectionTypes.Stats or SelectionTypes.Items && _backBounds.Contains(RelativeMousePosition))
+                if (SelectionType is SelectionTypes.Stats or SelectionTypes.Items && _backBounds.Contains(RelativeMousePosition))
                 {
                     ResetAnchor();
                 }

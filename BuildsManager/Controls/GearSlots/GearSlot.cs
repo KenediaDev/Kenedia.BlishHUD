@@ -20,8 +20,6 @@ namespace Kenedia.Modules.BuildsManager.Controls_Old.GearPage.GearSlots
 {
     public abstract class GearSlot : Container
     {
-        private TemplateSlotType _slot = TemplateSlotType.None;
-
         protected int MaxTextLength = 52;
         protected Color StatColor = Color.White;
         protected Color UpgradeColor = Color.Orange;
@@ -31,8 +29,6 @@ namespace Kenedia.Modules.BuildsManager.Controls_Old.GearPage.GearSlots
         protected BitmapFont StatFont = Content.DefaultFont16;
         protected BitmapFont UpgradeFont = Content.DefaultFont18;
         protected BitmapFont InfusionFont = Content.DefaultFont12;
-
-        private TemplatePresenter _templatePresenter;
 
         protected ItemControl ItemControl { get; } = new();
 
@@ -48,7 +44,7 @@ namespace Kenedia.Modules.BuildsManager.Controls_Old.GearPage.GearSlots
             }
         }
 
-        public TemplateSlotType Slot { get => _slot; set => Common.SetProperty(ref _slot, value, ApplySlot); }
+        public TemplateSlotType Slot { get; set => Common.SetProperty(ref field, value, ApplySlot); } = TemplateSlotType.None;
 
         public GearSlot(TemplateSlotType gearSlot, Container parent, TemplatePresenter templatePresenter, SelectionPanel selectionPanel, Data data)
         {
@@ -91,7 +87,7 @@ namespace Kenedia.Modules.BuildsManager.Controls_Old.GearPage.GearSlots
         public Data Data { get; }
         public List<GearSlot> SlotGroup { get; set; }
 
-        protected TemplatePresenter TemplatePresenter { get => _templatePresenter; private set => Common.SetProperty(ref _templatePresenter, value, OnTemplatePresenterChanged); }
+        protected TemplatePresenter TemplatePresenter { get; private set => Common.SetProperty(ref field, value, OnTemplatePresenterChanged); }
 
         protected virtual void OnTemplatePresenterChanged(object sender, ValueChangedEventArgs<TemplatePresenter> e)
         {

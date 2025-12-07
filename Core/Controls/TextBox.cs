@@ -10,10 +10,6 @@ namespace Kenedia.Modules.Core.Controls
 {
     public class TextBox : Blish_HUD.Controls.TextBox, ILocalizable
     {
-        private Func<string> _setLocalizedText;
-        private Func<string> _setLocalizedTooltip;
-        private Func<string> _setLocalizedPlaceholder;
-
         public TextBox()
         {
             LocalizingService.LocaleChanged += UserLocale_SettingChanged;
@@ -23,30 +19,30 @@ namespace Kenedia.Modules.Core.Controls
 
         public Func<string> SetLocalizedText
         {
-            get => _setLocalizedText;
+            get;
             set
             {
-                _setLocalizedText = value;
+                field = value;
                 Text = value?.Invoke();
             }
         }
 
         public Func<string> SetLocalizedTooltip
         {
-            get => _setLocalizedTooltip;
+            get;
             set
             {
-                _setLocalizedTooltip = value;
+                field = value;
                 BasicTooltipText = value?.Invoke();
             }
         }
 
         public Func<string> SetLocalizedPlaceholder
         {
-            get => _setLocalizedPlaceholder;
+            get;
             set
             {
-                _setLocalizedPlaceholder = value;
+                field = value;
                 PlaceholderText = value?.Invoke();
             }
         }

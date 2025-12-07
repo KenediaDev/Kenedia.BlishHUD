@@ -45,7 +45,6 @@ namespace Kenedia.Modules.Core.Views
         private Texture2D _tabBarBackground;
 
         private int _selectedTabIndex = -1;
-        private int _hoveredTabIndex = 0;
 
         public BaseTabbedWindow()
         {
@@ -87,9 +86,9 @@ namespace Kenedia.Modules.Core.Views
 
         private int HoveredTabIndex
         {
-            get => _hoveredTabIndex;
-            set => SetProperty(ref _hoveredTabIndex, value);
-        }
+            get;
+            set => SetProperty(ref field, value);
+        } = 0;
 
         public override void RecalculateLayout()
         {

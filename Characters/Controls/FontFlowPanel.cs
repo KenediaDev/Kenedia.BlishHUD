@@ -8,16 +8,14 @@ namespace Kenedia.Modules.Characters.Controls
 {
     public class FontFlowPanel : FlowPanel, IFontControl
     {
-        private BitmapFont _font;
-
         public BitmapFont Font
         {
-            get => _font;
+            get;
             set
             {
-                if (_font != value && value is not null)
+                if (field != value && value is not null)
                 {
-                    _font = value;
+                    field = value;
                     OnFontChanged();
                 }
             }

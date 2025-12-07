@@ -16,23 +16,22 @@ namespace Kenedia.Modules.Characters.Controls
         private static Color s_defaultColorInActive = new(175, 175, 175, 255);
         private Rectangle _textureRectangle = Rectangle.Empty;
         private Texture2D _grayScaleTexture;
-        private AsyncTexture2D _texture;
 
         public bool UseGrayScale { get; set; } = true;
 
         public AsyncTexture2D Texture
         {
-            get => _texture;
+            get;
             set
             {
-                var temp = _texture; 
-                if(Common.SetProperty(ref _texture, value))
+                var temp = field; 
+                if(Common.SetProperty(ref field, value))
                 {
                     if(temp is not null) temp.TextureSwapped -= Texture_TextureSwapped;
-                    if(_texture is not null) _texture.TextureSwapped += Texture_TextureSwapped;
-                    if (_texture is not null)
+                    if(field is not null) field.TextureSwapped += Texture_TextureSwapped;
+                    if (field is not null)
                     {
-                        _grayScaleTexture = _texture.Texture.ToGrayScaledPalettable();
+                        _grayScaleTexture = field.Texture.ToGrayScaledPalettable();
                     }
                 }
             }
@@ -99,13 +98,13 @@ namespace Kenedia.Modules.Characters.Controls
 
         protected override void Paint(SpriteBatch spriteBatch, Rectangle bounds)
         {
-            if (_texture is not null)
+            if (Texture is not null)
             {
                 spriteBatch.DrawOnCtrl(
                     this,
-                    UseGrayScale && !Active && !MouseOver ? _grayScaleTexture : _texture,
+                    UseGrayScale && !Active && !MouseOver ? _grayScaleTexture : Texture,
                     SizeRectangle != Rectangle.Empty ? SizeRectangle : bounds,
-                    _textureRectangle == Rectangle.Empty ? _texture.Bounds : _textureRectangle,
+                    _textureRectangle == Rectangle.Empty ? Texture.Bounds : _textureRectangle,
                     Active ? ColorActive : MouseOver ? ColorHovered : ColorInActive * (UseGrayScale ? 0.5f : Alpha),
                     0f,
                     default);
@@ -114,8 +113,8 @@ namespace Kenedia.Modules.Characters.Controls
 
         private void Texture_TextureSwapped(object sender, ValueChangedEventArgs<Texture2D> e)
         {
-            _grayScaleTexture = _texture.Texture.ToGrayScaledPalettable();
-            _texture.TextureSwapped -= Texture_TextureSwapped;
+            _grayScaleTexture = Texture.Texture.ToGrayScaledPalettable();
+            Texture.TextureSwapped -= Texture_TextureSwapped;
         }
     }
 }

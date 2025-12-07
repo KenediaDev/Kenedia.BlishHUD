@@ -15,7 +15,6 @@ namespace Kenedia.Modules.BuildsManager.Controls
     public class TagControl : Control
     {
         private AsyncTexture2D _editIcon = AsyncTexture2D.FromAssetId(157109);
-        private TemplateTag _tag;
         private string _displayText = string.Empty;
         private Rectangle _bounds;
         private Rectangle _iconBounds;
@@ -29,7 +28,7 @@ namespace Kenedia.Modules.BuildsManager.Controls
             Height = Font.LineHeight + (FontPadding * 2);
         }
 
-        public TemplateTag Tag { get => _tag; set => Common.SetProperty(ref _tag, value, OnTagChanged); }
+        public TemplateTag Tag { get; set => Common.SetProperty(ref field, value, OnTagChanged); }
 
         public BitmapFont Font { get => _font; set => Common.SetProperty(ref _font, value, OnFontChanged); }
 

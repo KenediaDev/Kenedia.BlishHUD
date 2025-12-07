@@ -7,9 +7,6 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Models.Templates
 {
     public class BuildSpecialization : INotifyPropertyChanged
     {
-        private int _index;
-        private Specialization _specialization;
-
         public BuildSpecialization()
         {
             Traits.CollectionChanged += Traits_CollectionChanged;
@@ -17,9 +14,9 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Models.Templates
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public int Index { get => _index; set => Common.SetProperty(ref _index, value, PropertyChanged); }
+        public int Index { get; set => Common.SetProperty(ref field, value, PropertyChanged); }
 
-        public Specialization Specialization { get => _specialization; set => Common.SetProperty(ref _specialization, value, PropertyChanged); }
+        public Specialization Specialization { get; set => Common.SetProperty(ref field, value, PropertyChanged); }
 
         public TraitCollection Traits { get; } = [];
 

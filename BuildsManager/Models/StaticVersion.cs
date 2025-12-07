@@ -1,11 +1,12 @@
-﻿using Newtonsoft.Json;
+﻿using Kenedia.Modules.Core.Converter;
+using Kenedia.Modules.Core.Models;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using System;
 using System.Collections.Generic;
 using System.IO;
-using Version = SemVer.Version;
-using Kenedia.Modules.Core.Models;
 using static Kenedia.Modules.BuildsManager.DataModels.Stats.Stat;
+using Version = SemVer.Version;
 
 namespace Kenedia.Modules.BuildsManager.Models
 {
@@ -15,15 +16,8 @@ namespace Kenedia.Modules.BuildsManager.Models
 
         public string ImageUrl { get; set; }
 
-        [JsonIgnore]
+        [JsonConverter(typeof(SemverVersionConverter))]
         public Version Version { get; set; } = new(0, 0, 0);
-
-        [JsonProperty("Version")]
-        private string VersionString
-        {
-            get => Version.ToString();
-            set => Version = new Version(value);
-        }
     }
 
     public class StaticVersion
@@ -209,15 +203,8 @@ namespace Kenedia.Modules.BuildsManager.Models
         [JsonIgnore]
         public string Name { get; set; }
 
-        [JsonIgnore]
+        [JsonConverter(typeof(SemverVersionConverter))]
         public Version Version { get; set; } = new(0, 0, 0);
-
-        [JsonProperty("Version")]
-        private string VersionString
-        {
-            get => Version.ToString();
-            set => Version = new Version(value);
-        }
 
         public int this[byte key]
         {

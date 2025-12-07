@@ -17,10 +17,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
     public class GearSelection : BaseSelection
     {
         private List<SelectionPanelSelectable> _selectables = [];
-        private TemplateSlotType _activeSlot;
-        private GearSubSlotType _subSlotType;
         private string _filterText = string.Empty;
-        private TemplatePresenter _templatePresenter;
         private List<SelectionPanelSelectable> _armors = [];
         private List<SelectionPanelSelectable> _trinkets = [];
         private List<SelectionPanelSelectable> _backs = [];
@@ -127,12 +124,12 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
             return list;
         }
 
-        public TemplatePresenter TemplatePresenter { get => _templatePresenter; private set => Common.SetProperty(ref _templatePresenter, value, OnTemplatePresenterChanged); }
+        public TemplatePresenter TemplatePresenter { get; private set => Common.SetProperty(ref field, value, OnTemplatePresenterChanged); }
         public Data Data { get; }
 
-        public TemplateSlotType ActiveSlot { get => _activeSlot; set => Common.SetProperty(ref _activeSlot, value, ApplySlot); }
+        public TemplateSlotType ActiveSlot { get; set => Common.SetProperty(ref field, value, ApplySlot); }
 
-        public GearSubSlotType SubSlotType { get => _subSlotType; set => Common.SetProperty(ref _subSlotType, value, ApplySubSlot); }
+        public GearSubSlotType SubSlotType { get; set => Common.SetProperty(ref field, value, ApplySubSlot); }
 
         private void OnTemplatePresenterChanged(object sender, ValueChangedEventArgs<TemplatePresenter> e)
         {

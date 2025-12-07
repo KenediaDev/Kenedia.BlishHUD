@@ -6,8 +6,6 @@ namespace Kenedia.Modules.FashionManager.Models
 {
     public class TemplatePresenter
     {
-        private FashionTemplate _template;
-
         public TemplatePresenter(FashionTemplateFactory fashionTemplateFactory)
         {
             FashionTemplateFactory = fashionTemplateFactory;
@@ -15,11 +13,11 @@ namespace Kenedia.Modules.FashionManager.Models
 
         public FashionTemplate Template
         {
-            get => _template; set
+            get; set
             {
                 value ??= FashionTemplateFactory.CreateFashionTemplate();
 
-                if (Common.SetProperty(ref _template, value))
+                if (Common.SetProperty(ref field, value))
                 {
                     SetupTemplate(this, new ValueChangedEventArgs<FashionTemplate>(null, value));
                 }

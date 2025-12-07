@@ -20,7 +20,6 @@ namespace Kenedia.Modules.BuildsManager.Controls
         private readonly Label _title;
         private readonly Label _id;
         private readonly Label _description;
-        private Skill _skill;
 
         public SkillTooltipContentControl()
         {
@@ -39,10 +38,10 @@ namespace Kenedia.Modules.BuildsManager.Controls
 
         public Skill Skill
         {
-            get => _skill;
+            get;
             set
             {
-                Common.SetProperty(ref _skill, value, SetSkill);
+                Common.SetProperty(ref field, value, SetSkill);
             }
         }
 

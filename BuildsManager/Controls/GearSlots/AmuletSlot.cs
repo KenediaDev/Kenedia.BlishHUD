@@ -18,9 +18,6 @@ namespace Kenedia.Modules.BuildsManager.Controls_Old.GearPage.GearSlots
     {
         private readonly ItemControl _enrichmentControl = new(new() { TextureRegion = new(38, 38, 52, 52) });
 
-        private Stat _stat = null;
-        private Enrichment _enrichment = null;
-
         public AmuletSlot(TemplateSlotType gearSlot, Container parent, TemplatePresenter templatePresenter, Controls.Selection.SelectionPanel selectionPanel, Data data) 
             : base(gearSlot, parent, templatePresenter, selectionPanel, data)
         {
@@ -34,9 +31,9 @@ namespace Kenedia.Modules.BuildsManager.Controls_Old.GearPage.GearSlots
             ItemControl.Item = Data.Trinkets[92991];
         }
 
-        public Stat Stat { get => _stat; set => Common.SetProperty(ref _stat, value, OnStatChanged); }
+        public Stat Stat { get; set => Common.SetProperty(ref field, value, OnStatChanged); } = null;
 
-        public Enrichment Enrichment { get => _enrichment; set => Common.SetProperty(ref _enrichment, value, OnEnrichmentChanged); }
+        public Enrichment Enrichment { get; set => Common.SetProperty(ref field, value, OnEnrichmentChanged); } = null;
 
         public override void RecalculateLayout()
         {

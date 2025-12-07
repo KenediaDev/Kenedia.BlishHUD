@@ -15,9 +15,6 @@ namespace Kenedia.Modules.AdvancedBuildsManager.DataModels.Professions
     [DataContract]
     public class Profession
     {
-        private AsyncTexture2D _icon;
-        private AsyncTexture2D _iconBig;
-
         [DataMember]
         public ProfessionType Id { get; set; }
 
@@ -25,10 +22,10 @@ namespace Kenedia.Modules.AdvancedBuildsManager.DataModels.Professions
         {
             get
             {
-                if (_icon is not null) return _icon;
+                if (field is not null) return field;
 
-                _icon = AsyncTexture2D.FromAssetId(IconAssetId);
-                return _icon;
+                field = AsyncTexture2D.FromAssetId(IconAssetId);
+                return field;
             }
         }
 
@@ -36,10 +33,10 @@ namespace Kenedia.Modules.AdvancedBuildsManager.DataModels.Professions
         {
             get
             {
-                if (_iconBig is not null) return _iconBig;
+                if (field is not null) return field;
 
-                _iconBig = AsyncTexture2D.FromAssetId(IconBigAssetId);
-                return _iconBig;
+                field = AsyncTexture2D.FromAssetId(IconBigAssetId);
+                return field;
             }
         }
 

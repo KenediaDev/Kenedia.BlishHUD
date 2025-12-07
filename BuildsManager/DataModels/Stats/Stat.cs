@@ -91,7 +91,7 @@ namespace Kenedia.Modules.BuildsManager.DataModels.Stats
                 return field;
             }
 
-            set;
+            set => field = value;
         }
 
         public StatTextureMapInfo TextureInfo

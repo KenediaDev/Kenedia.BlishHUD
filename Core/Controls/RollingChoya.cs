@@ -14,7 +14,6 @@ namespace Kenedia.Modules.Core.Controls
         private double _start;
         private float _xOffset;
         private float _yOffset;
-        private bool _canMove = true;
         private Rectangle _movementBounds = Rectangle.Empty;
         private Point _startPoint = Point.Zero;
         private bool _choyaTargeted;
@@ -68,16 +67,16 @@ namespace Kenedia.Modules.Core.Controls
 
         public bool CanMove
         {
-            get => _canMove;
+            get;
             set
             {
-                if (_canMove != value)
+                if (field != value)
                 {
-                    _canMove = value;
+                    field = value;
                     ResetPosition();
                 }
             }
-        }
+        } = true;
 
         public AsyncTexture2D ChoyaTexture { get; set; }
 

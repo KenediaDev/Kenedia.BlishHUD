@@ -12,8 +12,6 @@ namespace Kenedia.Modules.BuildsManager.TemplateEntries
     public class AccessoireTemplateEntry : TemplateEntry, IDisposable, ISingleInfusionTemplateEntry, IStatTemplateEntry
     {
         private bool _isDisposed;
-        private Stat _stat;
-        private Infusion _infusion;
 
         public AccessoireTemplateEntry(TemplateSlotType slot, Data data) : base(slot, data)
         {
@@ -28,9 +26,9 @@ namespace Kenedia.Modules.BuildsManager.TemplateEntries
 
         public Trinket Accessoire { get; private set; }
 
-        public Stat Stat { get => _stat; private set => Common.SetProperty(ref _stat, value); }
+        public Stat Stat { get; private set => Common.SetProperty(ref field, value); }
 
-        public Infusion Infusion1 { get => _infusion; private set => Common.SetProperty(ref _infusion, value); }
+        public Infusion Infusion1 { get; private set => Common.SetProperty(ref field, value); }
 
         protected override void OnItemChanged(object sender, ValueChangedEventArgs<BaseItem> e)
         {

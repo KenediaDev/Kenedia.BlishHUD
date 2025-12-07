@@ -14,15 +14,14 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Controls.Selection
 {
     public class SkillSelection : BaseSelection
     {
-        private Template _template;
         private readonly List<SkillSelectable> _skills = [];
 
         public Template Template
         {
-            get => _template; set
+            get; set
             {
-                var temp = _template;
-                if (Common.SetProperty(ref _template, value, ApplyTemplate))
+                var temp = field;
+                if (Common.SetProperty(ref field, value, ApplyTemplate))
                 {
                     foreach (var skill in _skills)
                     {
@@ -30,7 +29,7 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Controls.Selection
                     }
 
                     if (temp is not null) temp.PropertyChanged -= TemplateChanged;
-                    if (_template is not null) _template.PropertyChanged += TemplateChanged;
+                    if (field is not null) field.PropertyChanged += TemplateChanged;
                 }
             }
         }
@@ -112,9 +111,6 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Controls.Selection
         private readonly List<StatSelectable> _stats = [];
         private readonly bool _created;
 
-        private Template _template;
-        private BaseTemplateEntry _templateSlot;
-
         public StatSelection()
         {
             AttributeToggle t;
@@ -178,10 +174,10 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Controls.Selection
 
         public Template Template
         {
-            get => _template; set
+            get; set
             {
-                var temp = _template;
-                if (Common.SetProperty(ref _template, value, ApplyTemplate))
+                var temp = field;
+                if (Common.SetProperty(ref field, value, ApplyTemplate))
                 {
                     foreach (var stat in _stats)
                     {
@@ -189,15 +185,15 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Controls.Selection
                     }
 
                     if (temp is not null) temp.PropertyChanged -= TemplateChanged;
-                    if (_template is not null) _template.PropertyChanged += TemplateChanged;
+                    if (field is not null) field.PropertyChanged += TemplateChanged;
                 }
             }
         }
 
         public BaseTemplateEntry TemplateSlot
         {
-            get => _templateSlot;
-            set => Common.SetProperty(ref _templateSlot, value, () =>
+            get;
+            set => Common.SetProperty(ref field, value, () =>
             {
                 FilterStats(null);
 
@@ -206,7 +202,7 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Controls.Selection
                 foreach (var stat in _stats)
                 {
                     stat.ActiveTemplateSlot = value;
-                    stat.AttributeAdjustment = _templateSlot?.Item is not null ? ((_templateSlot?.Item as EquipmentItem).AttributeAdjustment + exoticTrinkets) : 0;
+                    stat.AttributeAdjustment = field?.Item is not null ? ((field?.Item as EquipmentItem).AttributeAdjustment + exoticTrinkets) : 0;
                 }
             });
         }

@@ -53,7 +53,6 @@ namespace Kenedia.Modules.Characters.Controls
         private readonly Models.TagList _allTags;
         private readonly Settings _settings;
         private readonly Action _refreshCharacters;
-        private Character_Model _character;
         private ImageButton _noImgButton;
 
         public CharacterEdit(TextureManager tM, Action togglePotrait, Func<string> accountPath, Models.TagList allTags, Settings settings, Action refreshCharacters)
@@ -310,9 +309,9 @@ namespace Kenedia.Modules.Characters.Controls
 
         public Character_Model Character
         {
-            get => _character; set
+            get; set
             {
-                _character = value;
+                field = value;
                 ApplyCharacter();
             }
         }
@@ -506,7 +505,7 @@ namespace Kenedia.Modules.Characters.Controls
 
                 foreach (Tag t in _tags)
                 {
-                    t.SetActive(_character.Tags.Contains(t.Text));
+                    t.SetActive(Character.Tags.Contains(t.Text));
                 }
 
                 if (_noImgButton is not null)
@@ -538,13 +537,13 @@ namespace Kenedia.Modules.Characters.Controls
         {
             var tag = (Tag)sender;
 
-            if (tag.Active && !_character.Tags.Contains(tag.Text))
+            if (tag.Active && !Character.Tags.Contains(tag.Text))
             {
-                _character.AddTag(tag.Text);
+                Character.AddTag(tag.Text);
             }
             else
             {
-                _character.RemoveTag(tag.Text);
+                Character.RemoveTag(tag.Text);
             }
         }
 

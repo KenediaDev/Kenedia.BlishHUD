@@ -50,8 +50,6 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Controls.BuildPage
         private readonly FramedImage _raceIcon;
         private readonly TextBox _buildCodeBox;
         private readonly ImageButton _copyButton;
-
-        private Template _template;
         private ProfessionSpecifics _professionSpecifics;
 
         public BuildPage()
@@ -168,13 +166,13 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Controls.BuildPage
 
         public Template Template
         {
-            get => _template; set
+            get; set
             {
-                var temp = _template;
-                if (Common.SetProperty(ref _template, value, ApplyTemplate))
+                var temp = field;
+                if (Common.SetProperty(ref field, value, ApplyTemplate))
                 {
                     if (temp is not null) temp.PropertyChanged -= TemplateChanged;
-                    if (_template is not null) _template.PropertyChanged += TemplateChanged;
+                    if (field is not null) field.PropertyChanged += TemplateChanged;
                 }
             }
         }

@@ -19,7 +19,6 @@ namespace Kenedia.Modules.Characters.Controls
 
         //private readonly AsyncTexture2D _craftingIcon = AsyncTexture2D.FromAssetId(866130);
 
-        private BitmapFont _font = GameService.Content.DefaultFont14;
 
         public CraftingControl()
         {
@@ -39,16 +38,16 @@ namespace Kenedia.Modules.Characters.Controls
 
         public BitmapFont Font
         {
-            get => _font;
+            get;
             set
             {
-                _font = value;
+                field = value;
                 if (value is not null)
                 {
                     Width = Height + 4 + (int)value.MeasureString(strings.NoCraftingProfession).Width;
                 }
             }
-        }
+        } = GameService.Content.DefaultFont14;
 
         public string Text { get; set; }
 
@@ -68,12 +67,12 @@ namespace Kenedia.Modules.Characters.Controls
             bool craftingDisplayed = false;
             if (Character is not null && Character.Crafting.Count > 0 && Settings is not null && Data is not null)
             {
-                System.Collections.Generic.Dictionary<int, CraftingProfession> craftingDictionary = Data.CrafingProfessions;
+                var craftingDictionary = Data.CraftingProfessions;
 
                 int i = 0;
                 foreach (CharacterCrafting crafting in Character.Crafting)
                 {
-                    _ = craftingDictionary.TryGetValue(crafting.Id, out CraftingProfession craftingProfession);
+                    _ = craftingDictionary.TryGetValue(crafting.Id, out Models.CraftingProfession craftingProfession);
                     if (craftingProfession is not null)
                     {
                         Text = "NA";

@@ -38,7 +38,6 @@ namespace Kenedia.Modules.Core.Controls
         private readonly int _itemPadding = 4;
 
         private bool _resizeBarPending;
-        private bool _expandBar;
         private Point _dragStart;
         private bool _dragging;
 
@@ -47,10 +46,6 @@ namespace Kenedia.Modules.Core.Controls
         private Point _delta;
 
         private Rectangle _expanderBackgroundBounds;
-
-        private ExpandType _expandType = ExpandType.LeftToRight;
-        private SortType _sortType = SortType.ActivesFirst;
-
         protected readonly FlowPanel ItemsPanel;
 
         //517181 | 517182 Arrow up
@@ -87,11 +82,11 @@ namespace Kenedia.Modules.Core.Controls
             _ = Menu.AddMenuItem(new ContextMenuItem(() => strings_common.OpenSettings, () => OpenSettingsAction?.Invoke()));
         }
 
-        public ExpandType ExpandType { get => _expandType; set => Common.SetProperty(ref _expandType, value, OnExpandTypeChanged); }
+        public ExpandType ExpandType { get; set => Common.SetProperty(ref field, value, OnExpandTypeChanged); } = ExpandType.LeftToRight;
 
-        public SortType SortType { get => _sortType; set => Common.SetProperty(ref _sortType, value, OnSortTypeCanged); }
+        public SortType SortType { get; set => Common.SetProperty(ref field, value, OnSortTypeCanged); } = SortType.ActivesFirst;
 
-        public bool ExpandBar { get => _expandBar; set => Common.SetProperty(ref _expandBar, value, OnExpandChanged); }
+        public bool ExpandBar { get; set => Common.SetProperty(ref field, value, OnExpandChanged); }
 
         public ModifierKeys MoveModifier { get; set; } = ModifierKeys.Alt;
 

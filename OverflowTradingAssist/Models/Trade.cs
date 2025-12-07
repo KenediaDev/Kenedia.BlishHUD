@@ -90,10 +90,6 @@ namespace Kenedia.Modules.OverflowTradingAssist.Models
     public class Trade
     {
         private bool _fireEvents = true;
-        private string _tradePartner;
-        private TradeType _tradeType;
-        private string _tradeListingLink;
-        private string _reviewLink;
 
         public Trade()
         {
@@ -181,13 +177,13 @@ namespace Kenedia.Modules.OverflowTradingAssist.Models
         [JsonIgnore]
         public string PaymentSummary => string.Join(", ", Payment.Select(e => $"{e.Amount} x  {e.Item?.Name ?? Item.UnkownItem.Name}"));
 
-        public string TradePartner { get => _tradePartner; set => Common.SetProperty(ref _tradePartner, value, OnTradePartnerChanged); }
+        public string TradePartner { get; set => Common.SetProperty(ref field, value, OnTradePartnerChanged); }
 
         public DateTime Date { get; set; } = DateTime.Now;
 
-        public string ReviewLink { get => _reviewLink; set => Common.SetProperty(ref _reviewLink, value, OnReviewChanged); }
+        public string ReviewLink { get; set => Common.SetProperty(ref field, value, OnReviewChanged); }
 
-        public string TradeListingLink { get => _tradeListingLink; set => Common.SetProperty(ref _tradeListingLink, value, OnListingChanged); }
+        public string TradeListingLink { get; set => Common.SetProperty(ref field, value, OnListingChanged); }
 
         [JsonIgnore]
         public decimal ItemValue => Items?.Sum(e => e.Amount * e.Value) ?? 0;
@@ -198,7 +194,7 @@ namespace Kenedia.Modules.OverflowTradingAssist.Models
         [JsonIgnore]
         public decimal Value { get; set; }
 
-        public TradeType TradeType { get => _tradeType; set => Common.SetProperty(ref _tradeType, value, OnTradeTypeChanged); }
+        public TradeType TradeType { get; set => Common.SetProperty(ref field, value, OnTradeTypeChanged); }
 
         [JsonIgnore]
         public bool ExcelSaveRequested { get; set; }

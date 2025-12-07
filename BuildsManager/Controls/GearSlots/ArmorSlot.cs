@@ -21,11 +21,6 @@ namespace Kenedia.Modules.BuildsManager.Controls_Old.GearPage.GearSlots
     {
         private readonly ItemControl _runeControl = new(new(784323) { TextureRegion = new(38, 38, 52, 52) });
         private readonly ItemControl _infusionControl = new(new() { TextureRegion = new(38, 38, 52, 52) });
-
-        private Stat? _stat;
-        private Rune? _rune;
-        private Infusion? _infusion;
-
         private Rectangle _runeBounds;
         private Rectangle _infusionBounds;
 
@@ -38,11 +33,11 @@ namespace Kenedia.Modules.BuildsManager.Controls_Old.GearPage.GearSlots
             _infusionControl.Parent = this;
         }
 
-        public Stat? Stat { get => _stat; set => Common.SetProperty(ref _stat, value, OnStatChanged); }
+        public Stat? Stat { get; set => Common.SetProperty(ref field, value, OnStatChanged); }
 
-        public Rune? Rune { get => _rune; set => Common.SetProperty(ref _rune, value, OnRuneChanged); }
+        public Rune? Rune { get; set => Common.SetProperty(ref field, value, OnRuneChanged); }
 
-        public Infusion? Infusion { get => _infusion; set => Common.SetProperty(ref _infusion, value, OnInfusionChanged); }
+        public Infusion? Infusion { get; set => Common.SetProperty(ref field, value, OnInfusionChanged); }
 
         public override void RecalculateLayout()
         {

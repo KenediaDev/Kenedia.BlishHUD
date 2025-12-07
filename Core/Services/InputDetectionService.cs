@@ -9,12 +9,6 @@ namespace Kenedia.Modules.Core.Services
 {
     public class InputDetectionService
     {
-        double _lastInteraction;
-        double _lastKeyInteraction;
-        double _lastMouseInteraction;
-        double _lastMouseMove;
-        double _lastMouseClick;
-        double _lastClickOrKey;
         private readonly List<Keys> _ignoredKeys =
         [
             Keys.None,
@@ -39,12 +33,12 @@ namespace Kenedia.Modules.Core.Services
 
         public double LastInteraction
         {
-            get => _lastInteraction;
+            get;
             set
             {
-                if (_lastInteraction != value)
+                if (field != value)
                 {
-                    _lastInteraction = value;
+                    field = value;
                     Interacted?.Invoke(this, value);
                 }
             }
@@ -52,12 +46,12 @@ namespace Kenedia.Modules.Core.Services
 
         public double LastKeyInteraction
         {
-            get => _lastKeyInteraction;
+            get;
             set
             {
-                if (_lastKeyInteraction != value)
+                if (field != value)
                 {
-                    _lastKeyInteraction = value;
+                    field = value;
                     KeyInteracted?.Invoke(this, value);
                 }
             }
@@ -65,12 +59,12 @@ namespace Kenedia.Modules.Core.Services
 
         public double LastMouseInteraction
         {
-            get => _lastMouseInteraction;
+            get;
             set
             {
-                if (_lastMouseInteraction != value)
+                if (field != value)
                 {
-                    _lastMouseInteraction = value;
+                    field = value;
                     MouseInteracted?.Invoke(this, value);
                 }
             }
@@ -78,12 +72,12 @@ namespace Kenedia.Modules.Core.Services
 
         public double LastMouseMove
         {
-            get => _lastMouseMove;
+            get;
             set
             {
-                if (_lastMouseMove != value)
+                if (field != value)
                 {
-                    _lastMouseMove = value;
+                    field = value;
                     MouseMoved?.Invoke(this, value);
                 }
             }
@@ -91,12 +85,12 @@ namespace Kenedia.Modules.Core.Services
 
         public double LastMouseClick
         {
-            get => _lastMouseClick;
+            get;
             set
             {
-                if (_lastMouseClick != value)
+                if (field != value)
                 {
-                    _lastMouseClick = value;
+                    field = value;
                     MouseClicked?.Invoke(this, value);
                 }
             }
@@ -104,12 +98,12 @@ namespace Kenedia.Modules.Core.Services
 
         public double LastClickOrKey 
         {
-            get => _lastClickOrKey;
+            get;
             set
             {
-                if(_lastClickOrKey != value)
+                if(field != value)
                 {
-                    _lastClickOrKey = value;
+                    field = value;
                     ClickedOrKey?.Invoke(this, value);
                 }
             }

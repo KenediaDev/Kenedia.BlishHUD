@@ -10,14 +10,13 @@ namespace Kenedia.Modules.BuildsManager.TemplateEntries
     public class PveRelicTemplateEntry : TemplateEntry, IDisposable
     {
         private bool _isDisposed;
-        private Relic _relic;
 
         public PveRelicTemplateEntry(TemplateSlotType slot, Data data) : base(slot, data)
         {
 
         }
 
-        public Relic Relic { get => _relic; private set => Common.SetProperty(ref _relic, value); }
+        public Relic Relic { get; private set => Common.SetProperty(ref field, value); }
 
         protected override void OnItemChanged(object sender, ValueChangedEventArgs<BaseItem> e)
         {

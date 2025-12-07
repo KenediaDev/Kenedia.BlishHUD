@@ -51,7 +51,6 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Controls.Selection
         private Rectangle _bottomBounds;
         private Rectangle _vignetteBounds;
         private Rectangle _tagBounds;
-        private Template _template;
         private double _animationStart;
         private double _animationDuration = 1500;
         private float _animationOpacityStep = 1;
@@ -173,14 +172,14 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Controls.Selection
 
         public Template Template
         {
-            get => _template;
+            get;
             set
             {
-                var temp = _template;
-                if (Common.SetProperty(ref _template, value, ApplyTemplate))
+                var temp = field;
+                if (Common.SetProperty(ref field, value, ApplyTemplate))
                 {
                     if (temp is not null) temp.PropertyChanged -= TemplateChanged;
-                    if (_template is not null) _template.PropertyChanged += TemplateChanged;
+                    if (field is not null) field.PropertyChanged += TemplateChanged;
                 }
             }
         }
@@ -265,7 +264,7 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Controls.Selection
             spriteBatch.DrawOnCtrl(this, Textures.Pixel, new(ContentRegion.X, ContentRegion.Bottom - 28, ContentRegion.Width, 28), Rectangle.Empty, Color.Black * 0.3F);
 
             base.PaintBeforeChildren(spriteBatch, bounds);
-            bool isActive = AdvancedBuildsManager.ModuleInstance.SelectedTemplate == _template;
+            bool isActive = AdvancedBuildsManager.ModuleInstance.SelectedTemplate == Template;
             spriteBatch.DrawFrame(this, bounds, isActive ? Colors.ColonialWhite : Color.Transparent, 2);
 
             spriteBatch.DrawOnCtrl(this, _textureBottomSectionSeparator, _separatorBounds, _textureBottomSectionSeparator.Bounds, Color.Black, 0F, Vector2.Zero);
@@ -347,7 +346,7 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Controls.Selection
 
                 return;
             }
-            AdvancedBuildsManager.ModuleInstance.SelectedTemplate = _template;
+            AdvancedBuildsManager.ModuleInstance.SelectedTemplate = Template;
             OnClickAction?.Invoke();
         }
 
@@ -356,7 +355,7 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Controls.Selection
             base.DisposeControl();
 
             Input.Mouse.LeftMouseButtonPressed -= Mouse_LeftMouseButtonPressed;
-            if (_template is not null) _template.PropertyChanged -= TemplateChanged;
+            if (Template is not null) Template.PropertyChanged -= TemplateChanged;
         }
 
         public override void UpdateContainer(GameTime gameTime)
@@ -403,22 +402,22 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Controls.Selection
             _name.WrapText = true;
             _name.HorizontalAlignment = HorizontalAlignment.Left;
             _name.Opacity = 1F;
-            _name.Text = _template.Name;
+            _name.Text = Template.Name;
 
             _animationRunning = false;
         }
 
         private void ApplyTemplate()
         {
-            _name.Text = _template?.Name;
-            _raceTexture = AdvancedBuildsManager.Data.Races.TryGetValue(_template?.Race ?? Races.None, out var race) ? race.Icon : null;
+            _name.Text = Template?.Name;
+            _raceTexture = AdvancedBuildsManager.Data.Races.TryGetValue(Template?.Race ?? Races.None, out var race) ? race.Icon : null;
             _specTexture = Template?.EliteSpecialization?.ProfessionIconBig ?? (AdvancedBuildsManager.Data.Professions.TryGetValue((Gw2Sharp.Models.ProfessionType)Template?.Profession, out var profession) ? profession.IconBig : null);
 
             _tagTexturess.Clear();
 
-            if (_template is not null)
+            if (Template is not null)
             {
-                foreach (var flag in _template.Tags.GetFlags())
+                foreach (var flag in Template.Tags.GetFlags())
                 {
                     if ((TemplateFlag)flag != TemplateFlag.None)
                     {
@@ -428,7 +427,7 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Controls.Selection
                     }
                 }
 
-                foreach (var flag in _template.Encounters.GetFlags())
+                foreach (var flag in Template.Encounters.GetFlags())
                 {
                     if ((EncounterFlag)flag != EncounterFlag.None)
                     {

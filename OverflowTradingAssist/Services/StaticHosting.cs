@@ -4,14 +4,19 @@ using Newtonsoft.Json;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Kenedia.Modules.Core.Models;
+using Blish_HUD;
 
 namespace Kenedia.Modules.OverflowTradingAssist.Services
 {
-    public class StaticHosting
+    public class StaticHosting : Core.Services.StaticHosting
     {
-        public static string BaseUrl = "https://github.com/KenediaDev/Kenedia.BlishHUD/tree/bhud-static/Kenedia.Modules.OverflowTradingAssist/";
+        public override string BaseUrl { get; } = "https://github.com/KenediaDev/Kenedia.BlishHUD/tree/bhud-static/Kenedia.Modules.OverflowTradingAssist/";
 
-        public async static Task<StaticVersion> GetStaticVersion()
+        public StaticHosting(Logger logger) : base(logger)
+        {
+        }
+
+        public async Task<StaticVersion> GetStaticVersion()
         {
             string url = $"{BaseUrl}{"Version"}.json";
 
@@ -31,7 +36,7 @@ namespace Kenedia.Modules.OverflowTradingAssist.Services
             return new StaticVersion();
         }
 
-        public async static Task<HostedItems<int>> GetItemMap(string fileName, System.Threading.CancellationToken cancellationToken)
+        public async Task<HostedItems<int>> GetItemMap(string fileName, System.Threading.CancellationToken cancellationToken)
         {
             string url = $"{BaseUrl}{fileName}.json";
 

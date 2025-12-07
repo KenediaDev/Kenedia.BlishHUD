@@ -19,17 +19,14 @@ namespace Kenedia.Modules.BuildsManager.Controls
         private readonly AsyncTexture2D _separator = AsyncTexture2D.FromAssetId(156055);
         private readonly Panel _contentPanel;
         private TabbedRegionTab _activeTab;
-        private ObservableCollection<TabbedRegionTab> _tabs = [];
-
         private Rectangle _contentRegion;
         private Rectangle _headerRegion;
         private RectangleDimensions _headerPading = new(0, 8);
         private RectangleDimensions _contentPadding = new(0, 4);
-        private BitmapFont _headerFont = Content.DefaultFont18;
 
         public TabbedRegion()
         {
-            _tabs.CollectionChanged += Tab_CollectionChanged;
+            Tabs.CollectionChanged += Tab_CollectionChanged;
             _contentPanel = new()
             {
                 Parent = this,
@@ -40,7 +37,7 @@ namespace Kenedia.Modules.BuildsManager.Controls
         {
             if (_activeTab == null)
             {
-                SwitchTab(_tabs.FirstOrDefault());
+                SwitchTab(Tabs.FirstOrDefault());
             }
 
             RecalculateLayout();
@@ -52,19 +49,16 @@ namespace Kenedia.Modules.BuildsManager.Controls
             set => SwitchTab(value);
         }
 
-        public ObservableCollection<TabbedRegionTab> Tabs => _tabs;
+        public ObservableCollection<TabbedRegionTab> Tabs { get; } = [];
 
-        public BitmapFont HeaderFont
-        {
-            get => _headerFont; set
+        public BitmapFont HeaderFont { get; set
             {
-                _headerFont = value ?? Content.DefaultFont18;
-                foreach (var tab in _tabs)
+                field = value ?? Content.DefaultFont18;
+                foreach (var tab in Tabs)
                 {
-                    tab.Font = _headerFont;
+                    tab.Font = field;
                 }
-            }
-        }
+            } } = Content.DefaultFont18;
 
         public RectangleDimensions ContentPadding { get => _contentPadding; set => _contentPadding = value; }
 
@@ -75,18 +69,18 @@ namespace Kenedia.Modules.BuildsManager.Controls
             tab.Container.Visible = false;
             tab.Container.Parent = _contentPanel;
 
-            _tabs.Add(tab);
+            Tabs.Add(tab);
         }
 
         public void AddTab(Container tab)
         {
 
-            _tabs.Add(new(tab));
+            Tabs.Add(new(tab));
         }
 
         public void RemoveTab(Container tab)
         {
-            _ = _tabs.ToList().RemoveAll(e => e.Container == tab);
+            _ = Tabs.ToList().RemoveAll(e => e.Container == tab);
         }
 
         public void SwitchTab(TabbedRegionTab tab)
@@ -99,7 +93,7 @@ namespace Kenedia.Modules.BuildsManager.Controls
                 _activeTab.Container?.Invalidate();
             }
 
-            foreach (var item in _tabs)
+            foreach (var item in Tabs)
             {
                 item.IsActive = item == _activeTab;
                 item.Container.Visible = item.IsActive;
@@ -122,20 +116,20 @@ namespace Kenedia.Modules.BuildsManager.Controls
                 _contentPanel.Size = _contentRegion.Size;
             }
 
-            int tabHeaderWidth = Width / Math.Max(1, _tabs.Count);
+            int tabHeaderWidth = Width / Math.Max(1, Tabs.Count);
 
-            for (int i = 0; i < _tabs.Count; i++)
+            for (int i = 0; i < Tabs.Count; i++)
             {
-                _tabs[i].Bounds = new(_headerRegion.Left + (i * tabHeaderWidth), _headerRegion.Top, tabHeaderWidth, _headerRegion.Height);
+                Tabs[i].Bounds = new(_headerRegion.Left + (i * tabHeaderWidth), _headerRegion.Top, tabHeaderWidth, _headerRegion.Height);
             }
         }
 
         public override void PaintBeforeChildren(SpriteBatch spriteBatch, Rectangle bounds)
         {
             base.PaintBeforeChildren(spriteBatch, bounds);
-            for (int i = 0; i < _tabs.Count; i++)
+            for (int i = 0; i < Tabs.Count; i++)
             {
-                _tabs[i].DrawHeader(this, spriteBatch, RelativeMousePosition);
+                Tabs[i].DrawHeader(this, spriteBatch, RelativeMousePosition);
             }
             spriteBatch.DrawOnCtrl(this, _separator, new Rectangle(_headerRegion.Left, _headerRegion.Bottom - 9, _headerRegion.Width, 16), Color.Black);
         }
@@ -144,11 +138,11 @@ namespace Kenedia.Modules.BuildsManager.Controls
         {
             base.OnClick(e);
 
-            for (int i = 0; i < _tabs.Count; i++)
+            for (int i = 0; i < Tabs.Count; i++)
             {
-                if (_tabs[i].IsHovered(RelativeMousePosition))
+                if (Tabs[i].IsHovered(RelativeMousePosition))
                 {
-                    SwitchTab(_tabs[i]);
+                    SwitchTab(Tabs[i]);
                     break;
                 }
             }
@@ -158,7 +152,7 @@ namespace Kenedia.Modules.BuildsManager.Controls
         {
             base.DisposeControl();
 
-            _tabs.CollectionChanged -= Tab_CollectionChanged;
+            Tabs.CollectionChanged -= Tab_CollectionChanged;
         }
     }
 }

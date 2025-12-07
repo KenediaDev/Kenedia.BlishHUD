@@ -113,9 +113,8 @@ namespace Kenedia.Modules.BuildsManager
 
         //public event ValueChangedEventHandler<bool> TemplatesLoadedDone;
 
-        private bool _templatesLoaded = false;
 
-        public bool TemplatesLoaded { get => _templatesLoaded; private set => Common.SetProperty(ref _templatesLoaded, value); }
+        public bool TemplatesLoaded { get; private set => Common.SetProperty(ref field, value); } = false;
 
         public Template? SelectedTemplate => TemplatePresenter.Template;
 

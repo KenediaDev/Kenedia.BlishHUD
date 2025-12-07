@@ -18,12 +18,8 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selectables
 {
     public class Selector<T> : FlowPanel where T : IBaseApiData
     {
-        private Control? _anchor;
         private readonly Label _label;
         private Point _selectableSize = new(64);
-        private Action<T> _onClickAction;
-        private T _selectedItem;
-        private int _selectablePerRow = 4;
         private Point _anchorOffset;
         protected readonly Panel HeaderPanel;
         protected readonly Panel ContentPanel;
@@ -107,17 +103,17 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selectables
 
         public List<T> Items { get; } = [];
 
-        public T SelectedItem { get => _selectedItem; set => Common.SetProperty(ref _selectedItem, value, ApplySelected); }
+        public T SelectedItem { get; set => Common.SetProperty(ref field, value, ApplySelected); }
 
         public List<Selectable<T>> Controls { get; } = [];
 
-        public Action<T> OnClickAction { get => _onClickAction; set => Common.SetProperty(ref _onClickAction, value, ApplyAction); }
+        public Action<T> OnClickAction { get; set => Common.SetProperty(ref field, value, ApplyAction); }
 
-        public int SelectablePerRow { get => _selectablePerRow; set => Common.SetProperty(ref _selectablePerRow, value, RecalculateLayout); }
+        public int SelectablePerRow { get; set => Common.SetProperty(ref field, value, RecalculateLayout); } = 4;
 
         public Point SelectableSize { get => _selectableSize; set => Common.SetProperty(ref _selectableSize, value, Recalculate); }
 
-        public Control Anchor { get => _anchor; set => Common.SetProperty(ref _anchor, value, RecalculateLayout); }
+        public Control Anchor { get; set => Common.SetProperty(ref field, value, RecalculateLayout); }
 
         public Point AnchorOffset { get => _anchorOffset; set => Common.SetProperty(ref _anchorOffset, value, RecalculateLayout); }
 

@@ -14,8 +14,6 @@ namespace Kenedia.Modules.BuildsManager.Controls
 {
     public class LegendIcon : Control
     {
-        private Legend? _legend;
-
         private readonly DetailedTexture _selector = new(157138, 157140);
         private readonly DetailedTexture _fallBackTexture = new(157154);
         private readonly DetailedTexture _hoveredFrameTexture = new(157143) { TextureRegion = new(8, 8, 112, 112), };
@@ -29,7 +27,7 @@ namespace Kenedia.Modules.BuildsManager.Controls
             Size = new(48, 62);
         }
 
-        public Legend? Legend { get => _legend; set => Common.SetProperty(ref _legend, value, ApplyLegend); }
+        public Legend? Legend { get; set => Common.SetProperty(ref field, value, ApplyLegend); }
 
         public LegendSlotType LegendSlot { get; set; }
 

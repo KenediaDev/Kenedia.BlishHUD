@@ -12,12 +12,9 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Controls.SkillConnectionEdit
     public class ReflectedSkillControl<T> : FlowPanel
         where T : BaseConnectionProperty, new()
     {
-        private T _item;
         private bool _canSave = true;
         private readonly Dictionary<string, (Label, SkillControl)> _controls = [];
         private readonly SkillSelector _selector;
-
-        private OldSkillConnection _skillConnection;
 
         public ReflectedSkillControl(string title, SkillSelector selector)
         {
@@ -72,11 +69,11 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Controls.SkillConnectionEdit
 
         public OldSkillConnection SkillConnection
         {
-            get => _skillConnection;
-            set => Common.SetProperty(ref _skillConnection, value, OnConnectionChanged);
+            get;
+            set => Common.SetProperty(ref field, value, OnConnectionChanged);
         }
 
-        public T Item { get => _item; set => Common.SetProperty(ref _item, value, ApplyItem); }
+        public T Item { get; set => Common.SetProperty(ref field, value, ApplyItem); }
 
         private void ApplyItem()
         {

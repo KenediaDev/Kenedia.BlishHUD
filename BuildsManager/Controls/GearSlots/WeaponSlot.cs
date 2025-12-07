@@ -31,12 +31,6 @@ namespace Kenedia.Modules.BuildsManager.Controls_Old.GearPage.GearSlots
         private readonly ItemControl _sigilControl = new(new(784324) { TextureRegion = new(38, 38, 52, 52) });
         private readonly ItemControl _pvpSigilControl = new(new(784324) { TextureRegion = new(38, 38, 52, 52) }) { Visible = false };
         private readonly ItemControl _infusionControl = new(new() { TextureRegion = new(38, 38, 52, 52) });
-
-        private Stat _stat;
-        private Sigil _sigil;
-        private Sigil _pvpSigil;
-        private Infusion _infusion;
-
         private Rectangle _sigilBounds;
         private Rectangle _pvpSigilBounds;
         private Rectangle _infusionBounds;
@@ -51,13 +45,13 @@ namespace Kenedia.Modules.BuildsManager.Controls_Old.GearPage.GearSlots
             _infusionControl.Parent = this;
         }
 
-        public Stat Stat { get => _stat; set => Common.SetProperty(ref _stat, value, OnStatChanged); }
+        public Stat Stat { get; set => Common.SetProperty(ref field, value, OnStatChanged); }
 
-        public Sigil Sigil { get => _sigil; set => Common.SetProperty(ref _sigil, value, OnSigilChanged); }
+        public Sigil Sigil { get; set => Common.SetProperty(ref field, value, OnSigilChanged); }
 
-        public Sigil PvpSigil { get => _pvpSigil; set => Common.SetProperty(ref _pvpSigil, value, OnPvpSigilChanged); }
+        public Sigil PvpSigil { get; set => Common.SetProperty(ref field, value, OnPvpSigilChanged); }
 
-        public Infusion Infusion { get => _infusion; set => Common.SetProperty(ref _infusion, value, OnInfusionChanged); }
+        public Infusion Infusion { get; set => Common.SetProperty(ref field, value, OnInfusionChanged); }
 
         private void AdjustForOtherSlot()
         {

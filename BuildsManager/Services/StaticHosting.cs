@@ -36,7 +36,7 @@ namespace Kenedia.Modules.BuildsManager.Services
         {
             try
             {
-                var info =await GetStaticContent<StaticVersion>("DataMap.json");
+                var info = await GetStaticContent<StaticVersion>("DataMap.json");
                 return info;
             }
             catch(Exception ex)

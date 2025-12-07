@@ -33,7 +33,6 @@ namespace Kenedia.Modules.AdvancedBuildsManager
     {
         private double _tick;
         private CancellationTokenSource _cancellationTokenSource;
-        private Template _selectedTemplate = new();
         private CornerIcon _cornerIcon;
         private LoadingSpinner _apiSpinner;
 
@@ -47,14 +46,14 @@ namespace Kenedia.Modules.AdvancedBuildsManager
 
         public Template SelectedTemplate
         {
-            get => _selectedTemplate; set
+            get; set
             {
-                if (Common.SetProperty(ref _selectedTemplate, value ?? new(), SelectedTemplateSwitched))
+                if (Common.SetProperty(ref field, value ?? new(), SelectedTemplateSwitched))
                 {
 
                 }
             }
-        }
+        } = new();
 
         public static Data Data { get; set; }
 

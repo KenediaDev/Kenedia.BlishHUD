@@ -15,7 +15,6 @@ namespace Kenedia.Modules.Characters.Controls
     {
         private readonly Action<bool> _onChanged;
         private bool _clicked;
-        private Func<string> _setLocalizedTooltip;
 
         public ImageToggleButton()
         {
@@ -55,10 +54,10 @@ namespace Kenedia.Modules.Characters.Controls
 
         public Func<string> SetLocalizedTooltip
         {
-            get => _setLocalizedTooltip;
+            get;
             set
             {
-                _setLocalizedTooltip = value;
+                field = value;
                 BasicTooltipText = value?.Invoke();
             }
         }

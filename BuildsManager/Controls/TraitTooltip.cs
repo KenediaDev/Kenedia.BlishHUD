@@ -21,8 +21,6 @@ namespace Kenedia.Modules.BuildsManager.Controls
         private readonly Label _id;
         private readonly Label _description;
 
-        private Trait _trait;
-
         public TraitTooltip()
         {
             WidthSizingMode = Blish_HUD.Controls.SizingMode.AutoSize;
@@ -64,7 +62,7 @@ namespace Kenedia.Modules.BuildsManager.Controls
             LocalizingService.LocaleChanged += UserLocale_SettingChanged;
         }
 
-        public Trait Trait { get => _trait; set => Common.SetProperty(ref _trait, value, ApplyTrait); }
+        public Trait Trait { get; set => Common.SetProperty(ref field, value, ApplyTrait); }
 
         public Func<string> SetLocalizedTooltip { get; set; }
 

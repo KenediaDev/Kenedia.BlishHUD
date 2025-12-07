@@ -33,10 +33,6 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
         private Control? _mainAnchor;
         private Rectangle _backBounds;
         private Rectangle _backTextBounds;
-        private SelectionTypes _selectionType = SelectionTypes.Templates;
-
-        private Control? _anchor;
-        private MainWindow _mainWindow;
 
         public SelectionPanel(TemplatePresenter templatePresenter, TemplateCollection templates, TemplateTags templateTags, Data data, TemplateFactory templateFactory, Settings settings)
         {
@@ -88,37 +84,23 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
 
         public Settings Settings { get; }
 
-        public MainWindow MainWindow
-        {
-            get => _mainWindow;
-            set
-            {
-                _mainWindow = value;                
-            }
-        }
+        public MainWindow MainWindow { get; set; }
 
         public string Title { get; set; }
 
-        public SelectionTypes SelectionType
-        {
-            get => _selectionType; set
+        public SelectionTypes SelectionType { get; set
             {
-                if (Common.SetProperty(ref _selectionType, value))
+                if (Common.SetProperty(ref field, value))
                 {
-                    _gearSelection.Visible = _selectionType == SelectionTypes.Items;
-                    BuildSelection.Visible = _selectionType == SelectionTypes.Templates;
-                    _statSelection.Visible = _selectionType == SelectionTypes.Stats;
+                    _gearSelection.Visible = field == SelectionTypes.Items;
+                    BuildSelection.Visible = field == SelectionTypes.Templates;
+                    _statSelection.Visible = field == SelectionTypes.Stats;
                 }
-            }
-        }
+            } } = SelectionTypes.Templates;
 
-        public Control Anchor
-        {
-            get => _anchor;
-
-            private set
+        public Control Anchor { get; private set
             {
-                if (_selectionType == SelectionTypes.Templates)
+                if (SelectionType == SelectionTypes.Templates)
                 {
                     _mainAnchor = value;
                 }
@@ -127,11 +109,10 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
                     _subAnchor = value;
                 }
 
-                Pointer.Anchor = _anchor =
-                        _selectionType == SelectionTypes.Templates ? _mainAnchor :
+                Pointer.Anchor = field =
+                        SelectionType == SelectionTypes.Templates ? _mainAnchor :
                         _subAnchor;
-            }
-        }
+            } }
 
         public GearSubSlotType SubSlotType { get; private set; }
 
@@ -277,7 +258,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
 
             if (Anchor is not null)
             {
-                if (_selectionType is SelectionTypes.Stats or SelectionTypes.Items && _backBounds.Contains(RelativeMousePosition))
+                if (SelectionType is SelectionTypes.Stats or SelectionTypes.Items && _backBounds.Contains(RelativeMousePosition))
                 {
                     ResetAnchor();
                 }

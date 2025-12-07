@@ -33,6 +33,18 @@ namespace Kenedia.Modules.Core.Models
             set => SetText(value);
         }
 
+        public new void Add(Locale key, string value)
+        {
+            if (!ContainsKey(key))
+            {
+                base.Add(key, value);
+            }
+            else
+            {
+                this[key] = value;
+            }
+        }
+
         private void SetText(string value, Locale? lang = null)
         {
             lang ??= Blish_HUD.GameService.Overlay.UserLocale.Value;

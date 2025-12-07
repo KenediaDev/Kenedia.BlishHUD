@@ -20,9 +20,6 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Controls.SkillConnectionEdit
         };
 
         private readonly DetailedTexture _delete = new(2175783, 2175784);
-
-        private Pet _pet;
-
         private Rectangle _nameBounds;
         private Rectangle _idBounds;
 
@@ -40,7 +37,7 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Controls.SkillConnectionEdit
             }
         }
 
-        public Pet Pet { get => _pet; set => Common.SetProperty(ref _pet, value, ApplyPet); }
+        public Pet Pet { get; set => Common.SetProperty(ref field, value, ApplyPet); }
 
         public Action<PetEntryControl> OnClickAction { get; set; }
 

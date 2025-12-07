@@ -5,14 +5,12 @@ namespace Kenedia.Modules.OverflowTradingAssist.Models
 {
     public class TradePresenter
     {
-        private Trade _trade = new();
-
         public TradePresenter()
         {
             
         }
 
-        public Trade Trade { get => _trade; set => Common.SetProperty(ref _trade, value, SetupTrade); }
+        public Trade Trade { get; set => Common.SetProperty(ref field, value, SetupTrade); } = new();
 
         private void SetupTrade(object sender, ValueChangedEventArgs<Trade> e)
         {

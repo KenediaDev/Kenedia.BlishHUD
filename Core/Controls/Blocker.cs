@@ -20,12 +20,10 @@ namespace Kenedia.Modules.Core.Controls
 
         }
 
-        private Control _coveredControl;
-
         public Control CoveredControl
         {
-            get { return _coveredControl; }
-            set => Common.SetProperty(ref _coveredControl, value, OnCoveredControlChanged);
+            get;
+            set => Common.SetProperty(ref field, value, OnCoveredControlChanged);
         }
 
         private void OnCoveredControlChanged(object sender, Models.ValueChangedEventArgs<Control> e)

@@ -8,8 +8,6 @@ namespace Kenedia.Modules.Core.Controls
 {
     public class TrackBar : Blish_HUD.Controls.TrackBar, ILocalizable
     {
-        private Func<string> _setLocalizedTooltip;
-
         public TrackBar()
         {
             LocalizingService.LocaleChanged  += UserLocale_SettingChanged;
@@ -19,10 +17,10 @@ namespace Kenedia.Modules.Core.Controls
 
         public Func<string> SetLocalizedTooltip
         {
-            get => _setLocalizedTooltip;
+            get;
             set
             {
-                _setLocalizedTooltip = value;
+                field = value;
                 BasicTooltipText = value?.Invoke();
             }
         }

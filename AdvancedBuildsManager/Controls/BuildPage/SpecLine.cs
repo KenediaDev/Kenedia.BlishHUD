@@ -69,7 +69,6 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Controls.BuildPage
         private Dictionary<int, Trait> _majorTraits = [];
         private bool _selectorOpen = false;
         private Rectangle _specSelectorBounds;
-        private Template _template;
         private readonly List<(Specialization spec, Rectangle bounds)> _specBounds = [];
 
         public SpecLine(SpecializationSlot line)
@@ -105,16 +104,16 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Controls.BuildPage
 
         public Template Template
         {
-            get => _template; set
+            get; set
             {
-                var temp = _template;
-                if (Common.SetProperty(ref _template, value, SelectedTemplateChanged))
+                var temp = field;
+                if (Common.SetProperty(ref field, value, SelectedTemplateChanged))
                 {
                     if (temp is not null) temp.PropertyChanged -= OnProfessionChanged;
                     if (temp is not null) temp.PropertyChanged -= ApplyTemplate;
 
-                    if (_template is not null) _template.PropertyChanged += OnProfessionChanged;
-                    if (_template is not null) _template.PropertyChanged += ApplyTemplate;
+                    if (field is not null) field.PropertyChanged += OnProfessionChanged;
+                    if (field is not null) field.PropertyChanged += ApplyTemplate;
                 }
             }
         }

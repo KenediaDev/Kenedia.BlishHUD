@@ -12,7 +12,6 @@ namespace Kenedia.Modules.Core.Controls
 {
     public class Image : Blish_HUD.Controls.Image, ILocalizable
     {
-        private Func<string> _setLocalizedTooltip;
         private Color? _defaultBackgroundColor;
         private Color? _hoveredBackgroundColor;
 
@@ -40,10 +39,10 @@ namespace Kenedia.Modules.Core.Controls
 
         public Func<string> SetLocalizedTooltip
         {
-            get => _setLocalizedTooltip;
+            get;
             set
             {
-                _setLocalizedTooltip = value;
+                field = value;
                 BasicTooltipText = value?.Invoke();
             }
         }

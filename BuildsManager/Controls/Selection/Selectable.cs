@@ -13,7 +13,6 @@ namespace Kenedia.Modules.BuildsManager.Controls
         protected Rectangle ContentBounds;
         protected Rectangle IconBounds;
         protected Rectangle TextBounds;
-        private bool _selected;
 
         public Selectable(T item, Blish_HUD.Controls.Container parent)
         {
@@ -34,7 +33,7 @@ namespace Kenedia.Modules.BuildsManager.Controls
 
         public Action<T>? OnClickAction { get; set; } = null;
 
-        public bool Selected { get => _selected; set => Common.SetProperty(ref _selected, value, OnSelectedChanged); }
+        public bool Selected { get; set => Common.SetProperty(ref field, value, OnSelectedChanged); }
 
         private void OnSelectedChanged(object sender, Core.Models.ValueChangedEventArgs<bool> e)
         {

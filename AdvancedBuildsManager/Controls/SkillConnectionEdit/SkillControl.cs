@@ -21,9 +21,6 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Controls.SkillConnectionEdit
         };
 
         private readonly DetailedTexture _delete = new(2175783, 2175784);
-
-        private BaseSkill _skill;
-
         private Rectangle _nameBounds;
         private Rectangle _idBounds;
 
@@ -41,12 +38,12 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Controls.SkillConnectionEdit
             }
         }
 
-        public BaseSkill Skill { get => _skill; 
+        public BaseSkill Skill { get; 
             set 
             {
-                int? prev = _skill?.Id;
+                int? prev = field?.Id;
 
-                if(Common.SetProperty(ref _skill, value, ApplySkill))
+                if(Common.SetProperty(ref field, value, ApplySkill))
                 {
                     OnChangedAction?.Invoke(prev, Skill?.Id);
                 }

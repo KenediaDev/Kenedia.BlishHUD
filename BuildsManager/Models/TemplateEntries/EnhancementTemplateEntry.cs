@@ -10,13 +10,12 @@ namespace Kenedia.Modules.BuildsManager.TemplateEntries
     public class EnhancementTemplateEntry : TemplateEntry, IDisposable
     {
         private bool _isDisposed;
-        private Enhancement _enhancement;
 
         public EnhancementTemplateEntry(TemplateSlotType slot, Data data) : base(slot, data)
         {
         }
 
-        public Enhancement Enhancement { get => _enhancement; private set => Common.SetProperty(ref _enhancement, value); }
+        public Enhancement Enhancement { get; private set => Common.SetProperty(ref field, value); }
 
         protected override void OnItemChanged(object sender, ValueChangedEventArgs<BaseItem> e)
         {

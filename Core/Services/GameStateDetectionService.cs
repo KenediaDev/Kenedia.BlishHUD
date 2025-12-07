@@ -97,9 +97,6 @@ namespace Kenedia.Modules.Core.Services
         };
 
         private readonly List<GameStatusType> _gameStatuses = [];
-
-        private GameStatusType _gameStatus = GameStatusType.None;
-
         private (Bitmap lastImage, Bitmap newImage) _bottomLeftImages = new(null, null);
         private (Bitmap lastImage, Bitmap newImage) _bottomRightImages = new(null, null);
         private (Bitmap lastImage, Bitmap newImage) _topRightImages = new(null, null);
@@ -132,21 +129,21 @@ namespace Kenedia.Modules.Core.Services
 
         public GameStatusType GameStatus
         {
-            get => _gameStatus;
+            get;
             private set
             {
-                if (_gameStatus != value)
+                if (field != value)
                 {
-                    OldStatus = _gameStatus;
-                    _gameStatus = value;
+                    OldStatus = field;
+                    field = value;
 
                     var eventArgs = new GameStateChangedEventArgs()
                     {
                         OldStatus = OldStatus,
-                        Status = _gameStatus,
+                        Status = field,
                     };
 
-                    switch (_gameStatus)
+                    switch (field)
                     {
                         case GameStatusType.Ingame:
                             ChangedToIngame?.Invoke(GameStatus, eventArgs);
@@ -172,7 +169,7 @@ namespace Kenedia.Modules.Core.Services
                     GameStateChanged?.Invoke(GameStatus, eventArgs);
                 }
             }
-        }
+        } = GameStatusType.None;
 
         public bool IsIngame => GameStatus == GameStatusType.Ingame;
 

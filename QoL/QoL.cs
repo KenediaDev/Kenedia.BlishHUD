@@ -29,7 +29,7 @@ using System.Threading.Tasks;
 namespace Kenedia.Modules.QoL
 {
     [Export(typeof(Module))]
-    public class QoL : BaseModule<QoL, StandardWindow, Settings, PathCollection>
+    public class QoL : BaseModule<QoL, StandardWindow, Settings, PathCollection, StaticHosting>
     {
         private double _tick;
 

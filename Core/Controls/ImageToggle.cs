@@ -15,12 +15,8 @@ namespace Kenedia.Modules.Core.Controls
         private readonly AsyncTexture2D _exTexture = AsyncTexture2D.FromAssetId(784262);
 
         private bool _clicked;
-        private Action<bool> _onCheckChanged;
-
         private Rectangle _xTextureRectangle;
         private Rectangle _xDrawRectangle;
-        private bool _checked;
-        private Func<string> _setLocalizedTooltip;
 
         public ImageToggle()
         {
@@ -37,10 +33,10 @@ namespace Kenedia.Modules.Core.Controls
 
         public Func<string> SetLocalizedTooltip
         {
-            get => _setLocalizedTooltip;
+            get;
             set
             {
-                _setLocalizedTooltip = value;
+                field = value;
                 BasicTooltipText = value?.Invoke();
             }
         }
@@ -65,23 +61,23 @@ namespace Kenedia.Modules.Core.Controls
 
         public bool Checked
         {
-            get => _checked;
+            get;
             set
             {
-                _checked = value;
+                field = value;
                 OnCheckedChanged();
             }
         }
 
         public Action<bool> OnCheckChanged
         {
-            get => _onCheckChanged;
-            set => Common.SetProperty(ref _onCheckChanged, value);
+            get;
+            set => Common.SetProperty(ref field, value);
         }
 
         private void OnCheckedChanged()
         {
-            CheckedChanged?.Invoke(this, new(_checked));
+            CheckedChanged?.Invoke(this, new(Checked));
         }
 
         private AsyncTexture2D GetTexture()

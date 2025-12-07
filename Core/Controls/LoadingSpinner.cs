@@ -9,8 +9,6 @@ namespace Kenedia.Modules.Core.Controls
 {
     public class LoadingSpinner : Blish_HUD.Controls.LoadingSpinner, ILocalizable
     {
-        private Func<string> _setLocalizedTooltip;
-
         public LoadingSpinner()
         {
             LocalizingService.LocaleChanged  += UserLocale_SettingChanged;
@@ -19,10 +17,10 @@ namespace Kenedia.Modules.Core.Controls
 
         public Func<string> SetLocalizedTooltip
         {
-            get => _setLocalizedTooltip;
+            get;
             set
             {
-                _setLocalizedTooltip = value;
+                field = value;
                 BasicTooltipText = value?.Invoke();
             }
         }

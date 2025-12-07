@@ -26,8 +26,6 @@ namespace Kenedia.Modules.BuildsManager.Controls
 {
     public class SkillSlotControl : Control
     {
-        private Skill _skill;
-
         public DetailedTexture Selector { get; } = new(157138, 157140);
 
         public AsyncTexture2D Texture => TexturesService.GetAsyncTexture(Skill?.IconAssetId);
@@ -108,7 +106,7 @@ namespace Kenedia.Modules.BuildsManager.Controls
 
         public bool IsSelectorHovered => ShowSelector && SelectorBounds.Contains(RelativeMousePosition);
 
-        public Skill? Skill { get => _skill; set => Common.SetProperty(ref _skill, value, OnSkillChanged); }
+        public Skill? Skill { get; set => Common.SetProperty(ref field, value, OnSkillChanged); }
 
         private void OnSkillChanged(object sender, Core.Models.ValueChangedEventArgs<Skill> e)
         {

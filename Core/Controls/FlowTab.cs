@@ -9,15 +9,14 @@ namespace Kenedia.Modules.Core.Controls
 {
     public class FlowTab : PanelTab
     {
-        private ControlFlowDirection _flowDirection = ControlFlowDirection.LeftToRight;
         private Vector2 _outerControlPadding = Vector2.Zero;
         private Vector2 _controlPadding = Vector2.Zero;
 
         public ControlFlowDirection FlowDirection
         {
-            get => _flowDirection;
-            set => SetProperty(ref _flowDirection, value, true);
-        }
+            get;
+            set => SetProperty(ref field, value, true);
+        } = ControlFlowDirection.LeftToRight;
 
         public Vector2 ControlPadding
         {
@@ -41,7 +40,7 @@ namespace Kenedia.Modules.Core.Controls
         {
             IEnumerable<Control> filteredChildren = allChildren.Where(c => c.GetType() != typeof(Scrollbar) && c.Visible);
 
-            switch (_flowDirection)
+            switch (FlowDirection)
             {
                 case ControlFlowDirection.LeftToRight:
                     ReflowChildLayoutLeftToRight(filteredChildren);

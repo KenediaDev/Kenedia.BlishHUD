@@ -38,9 +38,9 @@ namespace Kenedia.Modules.Characters.Models
         private int _map = 0;
 
         private Gender _gender;
-        private RaceType _race;
+        private Races _race;
         private ProfessionType _profession;
-        private SpecializationType _specialization;
+        private int _specialization;
         private DateTimeOffset _created;
         private DateTime _lastModified;
         private DateTime _lastLogin;
@@ -50,9 +50,6 @@ namespace Kenedia.Modules.Characters.Models
         private int _index;
         private bool _showOnRadial = false;
         private bool _hadBirthday;
-        private bool _isCurrentCharacter;
-        private bool _markedAsDeleted;
-        private DateTime _nextBirthday;
         private bool _beta;
 
         public Character_Model()
@@ -71,9 +68,9 @@ namespace Kenedia.Modules.Characters.Models
             _level = character.Level;
             //_beta = _beta || character.Flags.ToList().Contains(CharacterFlag.Beta);
 
-            _race = (RaceType)Enum.Parse(typeof(RaceType), character.Race);
+            _race = (Races)Enum.Parse(typeof(RaceType), character.Race);
             _profession = (ProfessionType)Enum.Parse(typeof(ProfessionType), character.Profession);
-            _specialization = SpecializationType.None;
+            _specialization = (int)SpecializationType.None;
 
             _created = character.Created;
             _lastModified = character.LastModified.UtcDateTime;
@@ -84,7 +81,7 @@ namespace Kenedia.Modules.Characters.Models
             {
                 Crafting.Add(new()
                 {
-                    Id = (int)disc.Discipline.Value,
+                    Id = disc.Discipline.Value,
                     Rating = disc.Rating,
                     Active = disc.Active,
                 });
@@ -128,7 +125,7 @@ namespace Kenedia.Modules.Characters.Models
 
         public event EventHandler Deleted;
 
-        public bool IsCurrentCharacter { get => _isCurrentCharacter; set => SetProperty(ref _isCurrentCharacter, value); }
+        public bool IsCurrentCharacter { get; set => SetProperty(ref field, value); }
 
         [DataMember]
         public bool Beta
@@ -170,7 +167,7 @@ namespace Kenedia.Modules.Characters.Models
                 {
                     foreach (CharacterCrafting crafting in Crafting)
                     {
-                        CraftingProfession craftingProf = _data.CrafingProfessions.Where(e => e.Value.Id == crafting.Id)?.FirstOrDefault().Value;
+                        CraftingProfession craftingProf = _data.CraftingProfessions.Where(e => e.Value.Id == crafting.Id)?.FirstOrDefault().Value;
 
                         if (craftingProf is not null)
                         {
@@ -184,7 +181,7 @@ namespace Kenedia.Modules.Characters.Models
         }
 
         [DataMember]
-        public RaceType Race
+        public Races Race
         {
             get => _race;
             set => SetProperty(ref _race, value);
@@ -198,7 +195,7 @@ namespace Kenedia.Modules.Characters.Models
         }
 
         [DataMember]
-        public SpecializationType Specialization
+        public int Specialization
         {
             get => _specialization;
             set => SetProperty(ref _specialization, value);
@@ -244,23 +241,23 @@ namespace Kenedia.Modules.Characters.Models
 
         public string MapName => _data is not null && _data.Maps.TryGetValue(Map, out Map map) ? map.Name : string.Empty;
 
-        public string RaceName => _data is not null && _data.Races.TryGetValue(Race, out Data.Race race) ? race.Name : "Unkown Race";
+        public string RaceName => _data is not null && _data.Races.TryGetValue(Race, out Race race) ? race.Name : "Unkown Race";
 
-        public string ProfessionName => _data is not null && _data.Professions.TryGetValue(Profession, out Data.Profession profession) ? profession.Name : "Data not loaded.";
+        public string ProfessionName => _data is not null && _data.Professions.TryGetValue(Profession, out Profession profession) ? profession.Name : "Data not loaded.";
 
-        public string SpecializationName => _data is not null && Specialization != SpecializationType.None && Enum.IsDefined(typeof(SpecializationType), Specialization) && _data.Specializations.TryGetValue(Specialization, out Data.Specialization specialization)
+        public string SpecializationName => _data is not null && Specialization != (int)SpecializationType.None && Enum.IsDefined(typeof(SpecializationType), Specialization) && _data.Specializations.TryGetValue(Specialization, out Specialization specialization)
                     ? specialization.Name
                     : ProfessionName;
 
-        public AsyncTexture2D SimpleProfessionIcon => _data is not null && _data.Professions.TryGetValue(Profession, out Data.Profession profession) ? profession.Icon : null;
+        public AsyncTexture2D SimpleProfessionIcon => _data is not null && _data.Professions.TryGetValue(Profession, out Profession profession) ? profession.Icon : null;
 
-        public AsyncTexture2D ProfessionIcon => _data is not null && _data.Professions.TryGetValue(Profession, out Data.Profession profession) ? profession.IconBig : null;
+        public AsyncTexture2D ProfessionIcon => _data is not null && _data.Professions.TryGetValue(Profession, out Profession profession) ? profession.IconBig : null;
 
-        public AsyncTexture2D SimpleSpecializationIcon => _data is not null && Specialization != SpecializationType.None && Enum.IsDefined(typeof(SpecializationType), Specialization) && _data.Specializations.TryGetValue(Specialization, out Data.Specialization specialization)
+        public AsyncTexture2D SimpleSpecializationIcon => _data is not null && Specialization != (int)SpecializationType.None && Enum.IsDefined(typeof(SpecializationType), Specialization) && _data.Specializations.TryGetValue(Specialization, out Specialization specialization)
                     ? specialization.Icon.Texture
                     : SimpleProfessionIcon;
 
-        public AsyncTexture2D SpecializationIcon => _data is not null && Specialization != SpecializationType.None && Enum.IsDefined(typeof(SpecializationType), Specialization) && _data.Specializations.TryGetValue(Specialization, out Data.Specialization specialization)
+        public AsyncTexture2D SpecializationIcon => _data is not null && Specialization != (int)SpecializationType.None && Enum.IsDefined(typeof(SpecializationType), Specialization) && _data.Specializations.TryGetValue(Specialization, out Specialization specialization)
                     ? specialization.IconBig
                     : ProfessionIcon;
 
@@ -302,8 +299,8 @@ namespace Kenedia.Modules.Characters.Models
         [DataMember]
         public bool MarkedAsDeleted
         {
-            get => _markedAsDeleted;
-            set => SetProperty(ref _markedAsDeleted, value);
+            get;
+            set => SetProperty(ref field, value);
         }
 
         [DataMember]
@@ -411,12 +408,12 @@ namespace Kenedia.Modules.Characters.Models
 
                     if((birthDay.Year == DateTime.UtcNow.Year && birthDay >= DateTime.UtcNow) || birthDay.Year == DateTime.UtcNow.Year + 1)
                     {
-                        _nextBirthday = birthDay;
-                        return _nextBirthday;
+                        field = birthDay;
+                        return field;
                     }
                 }
 
-                return _nextBirthday;
+                return field;
             }
         }
 
@@ -540,7 +537,7 @@ namespace Kenedia.Modules.Characters.Models
             
             if (character is not null && character.Name == Name)
             {
-                Specialization = (SpecializationType)character.Specialization;
+                Specialization = character.Specialization;
                 Map = GameService.Gw2Mumble.CurrentMap.IsCommonMap() ? GameService.Gw2Mumble.CurrentMap.Id : Map;
                 LastLogin = DateTime.UtcNow;
             }
@@ -553,7 +550,7 @@ namespace Kenedia.Modules.Characters.Models
 
             //_beta = _beta || character.Flags.ToList().Contains(CharacterFlag.Beta);
 
-            _race = (RaceType)Enum.Parse(typeof(RaceType), character.Race);
+            _race = (Races)Enum.Parse(typeof(Races), character.Race);
             _profession = (ProfessionType)Enum.Parse(typeof(ProfessionType), character.Profession);
 
             _created = character.Created;
@@ -563,10 +560,10 @@ namespace Kenedia.Modules.Characters.Models
 
             foreach (CharacterCraftingDiscipline disc in character.Crafting.ToList())
             {
-                CharacterCrafting craft = Crafting.Find(e => e.Id == (int)disc.Discipline.Value);
+                CharacterCrafting craft = Crafting.Find(e => e.Id == disc.Discipline.Value);
                 bool craftFound = craft is not null;
                 craft ??= new();
-                craft.Id = (int)disc.Discipline.Value;
+                craft.Id = disc.Discipline.Value;
                 craft.Rating = disc.Rating;
                 craft.Active = disc.Active;
 

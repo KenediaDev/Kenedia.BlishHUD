@@ -14,9 +14,6 @@ namespace Kenedia.Modules.OverflowTradingAssist.Controls
         private readonly Label _tradePartnerLabel;
         private readonly Label _amountLabel;
         private readonly Label _itemSummaryLabel;
-        private TradeRank _tradeRank = TradeRank.NoRank;
-        private decimal _totalTraded = 0;
-        private int _totalTrades = 0;
 
         public TradeHistoryHeaderControl()
         {
@@ -67,11 +64,11 @@ namespace Kenedia.Modules.OverflowTradingAssist.Controls
             _isCreated = true;
         }
 
-        public TradeRank TradeRank { get => _tradeRank; set => Common.SetProperty(ref _tradeRank, value, OnTradeRankChanged); }
+        public TradeRank TradeRank { get; set => Common.SetProperty(ref field, value, OnTradeRankChanged); } = TradeRank.NoRank;
 
-        public decimal TotalTraded { get => _totalTraded; set => Common.SetProperty(ref _totalTraded, value, OnTotalTradedChanged); }
+        public decimal TotalTraded { get; set => Common.SetProperty(ref field, value, OnTotalTradedChanged); } = 0;
 
-        public int TotalTrades { get => _totalTrades; set => Common.SetProperty(ref _totalTrades, value, OnTotalTradesChanged); }
+        public int TotalTrades { get; set => Common.SetProperty(ref field, value, OnTotalTradesChanged); } = 0;
 
         private void OnTotalTradesChanged(object sender, ValueChangedEventArgs<int> e)
         {

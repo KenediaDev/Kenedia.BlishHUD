@@ -19,9 +19,6 @@ namespace Kenedia.Modules.Core.Controls
     {
         private readonly List<ConditionalNotification> _removeNotifications = [];
         private DetailedTexture _badge = new(222246);
-        private Control _anchor;
-        private float _opcacity = 1f;
-
         private double _lastChecked;
         private bool _deleting = false;
 
@@ -43,17 +40,17 @@ namespace Kenedia.Modules.Core.Controls
 
         public new float Opacity
         {
-            get => _opcacity; set
+            get; set
             {
-                _opcacity = value;
+                field = value;
                 SetOpacity();
             }
-        }
+        } = 1f;
 
         public Control Anchor
         {
-            get => _anchor;
-            set => Common.SetProperty(ref _anchor, value, OnAnchorChanged);
+            get;
+            set => Common.SetProperty(ref field, value, OnAnchorChanged);
         }
 
         public Action ClickAction { get; set; }
