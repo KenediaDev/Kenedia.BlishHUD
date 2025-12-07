@@ -7,6 +7,7 @@ using Gw2Sharp.WebApi.V2.Models;
 using Kenedia.Modules.Core.Controls;
 using Kenedia.Modules.Core.Extensions;
 using Kenedia.Modules.Core.Models;
+using Kenedia.Modules.Core.Services;
 using Kenedia.Modules.Core.Views;
 using Microsoft.Xna.Framework;
 using Newtonsoft.Json;
@@ -20,7 +21,7 @@ using Map = Kenedia.Modules.Core.DataModels.Map;
 namespace Kenedia.Modules.Dev
 {
     [Export(typeof(Module))]
-    public class Dev : BaseModule<Dev, StandardWindow, BaseSettingsModel, PathCollection>
+    public class Dev : BaseModule<Dev, StandardWindow, BaseSettingsModel, PathCollection, StaticHosting>
     {
         private double _tick;
         private readonly Dictionary<int, Map> _maps = [];

@@ -23,6 +23,7 @@ using Rectangle = Microsoft.Xna.Framework.Rectangle;
 using Version = SemVer.Version;
 using TextBox = Kenedia.Modules.Core.Controls.TextBox;
 using System.Linq;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Kenedia.Modules.OverflowTradingAssist
 {
@@ -54,6 +55,32 @@ namespace Kenedia.Modules.OverflowTradingAssist
             CreateCornerIcons();
         }
 
+        protected override ServiceCollection DefineServices(ServiceCollection services)
+        {
+            services.AddSingleton(_notificationBadge);
+            services.AddSingleton(_apiSpinner);
+
+            services.AddSingleton<Data>();
+            services.AddSingleton<ExcelService>();
+            services.AddSingleton<TradeFileService>();
+            services.AddSingleton<MailingService>();
+
+            return base.DefineServices(services);
+        }
+
+        protected override void AssignServiceInstaces(IServiceProvider serviceProvider)
+        {
+            base.AssignServiceInstaces(serviceProvider);
+
+            Data = serviceProvider.GetRequiredService<Data>();
+            ExcelService = serviceProvider.GetRequiredService<ExcelService>();
+            TradeFileService = serviceProvider.GetRequiredService<TradeFileService>();
+            MailingService = serviceProvider.GetRequiredService<MailingService>();
+
+            Data.Loaded += Data_Loaded;
+            Gw2ApiManager.SubtokenUpdated += Gw2ApiManager_SubtokenUpdated;
+        }
+
         protected override void DefineSettings(SettingCollection settings)
         {
             base.DefineSettings(settings);
@@ -65,16 +92,6 @@ namespace Kenedia.Modules.OverflowTradingAssist
         {
             base.Initialize();
             Logger.Info($"Starting {Name} v." + Version.BaseVersion());
-
-            Data = new(Paths, Gw2ApiManager, () => _notificationBadge, () => _apiSpinner);
-
-            ExcelService = new(Paths, Gw2ApiManager, () => _notificationBadge, () => _apiSpinner, Trades);
-            TradeFileService = new(Paths, Gw2ApiManager, () => _notificationBadge, () => _apiSpinner, Trades);
-
-            MailingService = new();
-
-            Data.Loaded += Data_Loaded;
-            Gw2ApiManager.SubtokenUpdated += Gw2ApiManager_SubtokenUpdated;
         }
 
         private void Gw2ApiManager_SubtokenUpdated(object sender, ValueEventArgs<IEnumerable<Gw2Sharp.WebApi.V2.Models.TokenPermission>> e)

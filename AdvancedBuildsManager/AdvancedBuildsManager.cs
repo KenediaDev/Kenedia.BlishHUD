@@ -29,7 +29,7 @@ using Kenedia.Modules.Core.Services;
 namespace Kenedia.Modules.AdvancedBuildsManager
 {
     [Export(typeof(Module))]
-    public class AdvancedBuildsManager : BaseModule<AdvancedBuildsManager, MainWindow, Settings, Paths>
+    public class AdvancedBuildsManager : BaseModule<AdvancedBuildsManager, MainWindow, Settings, Paths, StaticHosting>
     {
         private double _tick;
         private CancellationTokenSource _cancellationTokenSource;
