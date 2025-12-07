@@ -20,7 +20,7 @@ namespace Kenedia.Modules.Characters.Controls.SideMenu
         private readonly List<Tag> _tags = [];
         private readonly FlowPanel _toggleFlowPanel;
         private readonly TagFlowPanel _tagFlowPanel;
-        private readonly List<KeyValuePair<ImageColorToggle, Action>> _toggles = [];
+        private readonly List<ImageColorToggle> _toggles = [];
         private readonly TextureManager _textureManager;
         private readonly SearchFilterCollection _tagFilters;
         private readonly SearchFilterCollection _searchFilters;
@@ -66,15 +66,13 @@ namespace Kenedia.Modules.Characters.Controls.SideMenu
             CreateToggles();
             CreateTags();
 
-            GameService.Overlay.UserLocale.SettingChanged += OnLanguageChanged;
             _allTags.CollectionChanged += Tags_CollectionChanged;
-            OnLanguageChanged();
         }
 
         public void ResetToggles()
         {
             _tags.ForEach(t => t.SetActive(false));
-            _toggles.ForEach(t => t.Key.Active = false);
+            _toggles.ForEach(t => t.Active = false);
 
             foreach (KeyValuePair<string, SearchFilter<Character_Model>> t in _searchFilters)
             {
@@ -151,6 +149,8 @@ namespace Kenedia.Modules.Characters.Controls.SideMenu
 
         private void CreateToggles()
         {
+
+            System.Diagnostics.Debug.WriteLine($"CREATE TOGGLES CALLED");
             void action(bool active, string entry)
             {
                 _searchFilters[entry].IsEnabled = active;
@@ -158,10 +158,10 @@ namespace Kenedia.Modules.Characters.Controls.SideMenu
             }
 
             var profs = _data.Professions.ToDictionary(entry => entry.Key, entry => entry.Value);
-            profs = profs.OrderBy(e => e.Value.WeightClass).ThenBy(e => e.Value.APIId).ToDictionary(e => e.Key, e => e.Value);
+            profs = profs.OrderBy(e => e.Value.WeightClass).ThenBy(e => e.Value.Id).ToDictionary(e => e.Key, e => e.Value);
 
             // Profession All Specs
-            foreach (KeyValuePair<Gw2Sharp.Models.ProfessionType, Data.Profession> profession in profs)
+            foreach (var profession in profs)
             {
                 var t = new ImageColorToggle((b) => action(b, $"Core {profession.Value.Name}"))
                 {
@@ -171,44 +171,43 @@ namespace Kenedia.Modules.Characters.Controls.SideMenu
                     ColorHovered = profession.Value.Color,
                     ColorInActive = profession.Value.Color * 0.5f,
                     Active = _searchFilters[$"Core {profession.Value.Name}"].IsEnabled,
-                    BasicTooltipText = $"Core {profession.Value.Name}",
+                    SetLocalizedTooltip = () => $"Core {profession.Value.Name}",
                     Alpha = 0.7f,
                 };
 
-                KeyValuePair<ImageColorToggle, Action> tt = new (t, () => t.BasicTooltipText = $"Core {profession.Value.Name}");
-                _toggles.Add(tt);
+                _toggles.Add(t);
             }
 
-            foreach (KeyValuePair<Gw2Sharp.Models.ProfessionType, Data.Profession> profession in profs)
+            foreach (var profession in profs)
             {
                 var t = new ImageColorToggle((b) => action(b, profession.Value.Name))
                 {
                     Texture = profession.Value.IconBig,
                     Active = _searchFilters[profession.Value.Name].IsEnabled,
-                    BasicTooltipText = profession.Value.Name,                    
+                    SetLocalizedTooltip = () => profession.Value.Name,
                 };
-                _toggles.Add(new(t, () => t.BasicTooltipText = profession.Value.Name));
+                _toggles.Add(t);
             }
 
-            List<KeyValuePair<ImageColorToggle, Action>> specToggles = [];
-            foreach (KeyValuePair<SpecializationType, Data.Specialization> specialization in _data.Specializations)
+            List<ImageColorToggle> specToggles = [];
+            foreach (var specialization in _data.Specializations)
             {
                 var t = new ImageColorToggle((b) => action(b, specialization.Value.Name))
                 {
                     Texture = specialization.Value.IconBig,
                     Profession = specialization.Value.Profession,
                     Active = _searchFilters[specialization.Value.Name].IsEnabled,
-                    BasicTooltipText = specialization.Value.Name,
+                    SetLocalizedTooltip = () => specialization.Value.Name,
                 };
-                specToggles.Add(new(t, () => t.BasicTooltipText = specialization.Value.Name));
+                specToggles.Add(t);
             }
 
             for (int i = 0; i < 4; i++)
             {
-                foreach (KeyValuePair<Gw2Sharp.Models.ProfessionType, Data.Profession> p in profs)
+                foreach (var p in profs)
                 {
-                    KeyValuePair<ImageColorToggle, Action> t = specToggles.Find(e => p.Key == e.Key.Profession && !_toggles.Contains(e));
-                    if (t.Key is not null)
+                    var t = specToggles.Find(e => p.Key == e.Profession && !_toggles.Contains(e));
+                    if (t is not null)
                     {
                         _toggles.Add(t);
                     }
@@ -216,9 +215,8 @@ namespace Kenedia.Modules.Characters.Controls.SideMenu
             }
 
             // Crafting Professions
-            foreach (KeyValuePair<int, Data.CraftingProfession> crafting in _data.CrafingProfessions)
+            foreach (var crafting in _data.CraftingProfessions)
             {
-
                 if (crafting.Key > 0)
                 {
                     ImageColorToggle img = new((b) => action(b, crafting.Value.Name))
@@ -228,9 +226,9 @@ namespace Kenedia.Modules.Characters.Controls.SideMenu
                         TextureRectangle = crafting.Key > 0 ? new Rectangle(8, 7, 17, 19) : new Rectangle(4, 4, 24, 24),
                         SizeRectangle = new Rectangle(4, 4, 20, 20),
                         Active = _searchFilters[crafting.Value.Name].IsEnabled,
-                        BasicTooltipText = crafting.Value.Name,
+                        SetLocalizedTooltip = () => crafting.Value.Name,
                     };
-                    _toggles.Add(new(img, () => img.BasicTooltipText = crafting.Value.Name));
+                    _toggles.Add(img);
                 }
             }
 
@@ -239,29 +237,31 @@ namespace Kenedia.Modules.Characters.Controls.SideMenu
                 Texture = AsyncTexture2D.FromAssetId(605021),
                 UseGrayScale = true,
                 TextureRectangle = new Rectangle(4, 4, 24, 24),
-                BasicTooltipText = strings.ShowHidden_Tooltip,
+                SetLocalizedTooltip = () => strings.ShowHidden_Tooltip,
             };
-            _toggles.Add(new(hidden, () => hidden.BasicTooltipText = strings.ShowHidden_Tooltip));
+            _toggles.Add(hidden);
 
             var birthday = new ImageColorToggle((b) => action(b, "Birthday"))
             {
                 Texture = AsyncTexture2D.FromAssetId(593864),
                 UseGrayScale = true,
                 TextureRectangle = new Rectangle(1, 0, 30, 32),
-                BasicTooltipText = strings.Show_Birthday_Tooltip,
+                SetLocalizedTooltip = () => strings.Show_Birthday_Tooltip,
             };
-            _toggles.Add(new(birthday, () => birthday.BasicTooltipText = strings.Show_Birthday_Tooltip));
+            _toggles.Add(birthday);
 
-            foreach (KeyValuePair<Gw2Sharp.Models.RaceType, Data.Race> race in _data.Races)
+            foreach (var race in _data.Races.Values)
             {
-                var t = new ImageColorToggle((b) => action(b, race.Value.Name))
+                if (race.Id == Races.None) continue;
+
+                var t = new ImageColorToggle((b) => action(b, race.Name))
                 {
-                    Texture = race.Value.Icon,
+                    Texture = race.Icon,
                     UseGrayScale = true,
-                    BasicTooltipText = race.Value.Name 
+                    SetLocalizedTooltip = () => race.Name
                 };
 
-                _toggles.Add(new(t, () => t.BasicTooltipText = race.Value.Name));
+                _toggles.Add(t);
             }
 
             var male = new ImageColorToggle((b) => action(b, "Male"))
@@ -269,31 +269,26 @@ namespace Kenedia.Modules.Characters.Controls.SideMenu
                 Texture = _textureManager.GetIcon(TextureManager.Icons.Male),
                 UseGrayScale = true,
                 TextureRectangle = new Rectangle(1, 0, 30, 32),
-                BasicTooltipText = strings.Show_Birthday_Tooltip,
+                SetLocalizedTooltip = () => strings.Male,
             };
-            _toggles.Add(new(male, () => male.BasicTooltipText = strings.Male));
+            _toggles.Add(male);
 
             var female = new ImageColorToggle((b) => action(b, "Female"))
             {
                 Texture = _textureManager.GetIcon(TextureManager.Icons.Female),
                 UseGrayScale = true,
                 TextureRectangle = new Rectangle(1, 0, 30, 32),
-                BasicTooltipText = strings.Show_Birthday_Tooltip,
+                SetLocalizedTooltip = () => strings.Female,
             };
-            _toggles.Add(new(female, () => female.BasicTooltipText = strings.Female));
+            _toggles.Add(female);
 
             int j = 0;
-            foreach (KeyValuePair<ImageColorToggle, Action> t in _toggles)
+            foreach (var t in _toggles)
             {
                 j++;
-                t.Key.Parent = _toggleFlowPanel;
-                t.Key.Size = new Point(29, 29);
+                t.Parent = _toggleFlowPanel;
+                t.Size = new Point(29, 29);
             }
-        }
-
-        public void OnLanguageChanged(object s = null, EventArgs e = null)
-        {
-            _toggles.ForEach(t => t.Value.Invoke());
         }
 
         public void OnTogglesChanged(object s = null, EventArgs e = null)
@@ -304,7 +299,6 @@ namespace Kenedia.Modules.Characters.Controls.SideMenu
         protected override void DisposeControl()
         {
             base.DisposeControl();
-            GameService.Overlay.UserLocale.SettingChanged -= OnLanguageChanged;
             _allTags.CollectionChanged -= Tags_CollectionChanged;
 
             _tagFilters.Clear();

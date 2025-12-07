@@ -22,8 +22,6 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
         private Rectangle _descriptionBounds;
 
         private Color _rarityColor = Color.White;
-        private BaseItem _item;
-        private SelectableType _type;
         private Color _fontColor;
 
         public SelectionPanelSelectable()
@@ -61,13 +59,13 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
             Stat
         }
 
-        public SelectableType Type { get => _type; set => Common.SetProperty(ref _type , value, OnTypeChanged); }
+        public SelectableType Type { get; set => Common.SetProperty(ref field , value, OnTypeChanged); }
 
         public Action OnClickAction { get; set; }
 
         public TemplateSlotType TemplateSlot { get; set; }
 
-        public BaseItem Item { get => _item; set => Common.SetProperty(ref _item, value, SetItem); }
+        public BaseItem Item { get; set => Common.SetProperty(ref field, value, SetItem); }
 
         public TemplateSlotType ActiveSlot { get; set; }
 

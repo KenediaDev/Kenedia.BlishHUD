@@ -67,18 +67,16 @@ namespace Kenedia.Modules.Characters.Services
 
         public event EventHandler StatusChanged;
 
-        private string _status;
-
         private SwappingState _state = SwappingState.None;
 
         public string Status
         {
             set
             {
-                _status = value;
+                field = value;
                 StatusChanged?.Invoke(null, EventArgs.Empty);
             }
-            get => _status;
+            get;
         }
 
         public Character_Model Character { get; set; }

@@ -15,7 +15,6 @@ namespace Kenedia.Modules.Core.Controls
     {
         protected bool _canCollapse = true;
         private Glide.Tween _collapseAnim;
-        private string _title;
         protected bool _showBorder;
         protected bool _collapsed;
 
@@ -45,7 +44,6 @@ namespace Kenedia.Modules.Core.Controls
         private RectangleDimensions _contentPadding = new(0);
 
         private RectangleDimensions _titleIconPadding = new(3, 3, 5, 3);
-        private int _titleBarHeight = 36;
 
         [JsonIgnore] public float ArrowRotation { get; set; } = 0f;
         [JsonIgnore] public float AccentOpacity { get; set; } = 1f;
@@ -66,13 +64,13 @@ namespace Kenedia.Modules.Core.Controls
 
         public int TitleBarHeight
         {
-            get => _titleBarHeight;
+            get;
             set
             {
-                _titleBarHeight = value;
+                field = value;
                 RecalculateLayout();
             }
-        }
+        } = 36;
 
         public RectangleDimensions ContentPadding
         {
@@ -84,8 +82,6 @@ namespace Kenedia.Modules.Core.Controls
             }
         }
 
-        private Func<string> _setLocalizedTitleTooltip;
-
         public string TitleTooltipText
         {
             get => _tooltip.Text;
@@ -94,35 +90,35 @@ namespace Kenedia.Modules.Core.Controls
 
         public Func<string> SetLocalizedTooltip
         {
-            get => _setLocalizedTooltip;
+            get;
             set
             {
-                _setLocalizedTooltip = value;
+                field = value;
                 BasicTooltipText = value?.Invoke();
             }
         }
 
         public Func<string> SetLocalizedTitleTooltip
         {
-            get => _setLocalizedTitleTooltip;
+            get;
             set
             {
-                _setLocalizedTitleTooltip = value;
+                field = value;
                 TitleTooltipText = value?.Invoke();
             }
         }
 
         public Func<string> SetLocalizedTitle
         {
-            get => _setLocalizedTitle;
+            get;
             set
             {
-                _setLocalizedTitle = value;
+                field = value;
                 Title = value?.Invoke();
             }
         }
 
-        public string Title { get => _title; set => Common.SetProperty(ref _title, value, RecalculateLayout); }
+        public string Title { get; set => Common.SetProperty(ref field, value, RecalculateLayout); }
 
         public AsyncTexture2D TitleIcon { get; set; }
 
@@ -153,7 +149,7 @@ namespace Kenedia.Modules.Core.Controls
             _ = SetProperty(ref _collapsed, false);
 
             var bounds = SizeDeterminingChild is not null ? ControlUtil.GetControlBounds(new Control[] { SizeDeterminingChild }) : Point.Zero;
-            int height = MaxSize != Point.Zero ? Math.Min(MaxSize.Y, bounds.Y + ContentPadding.Vertical + _titleBarHeight) : bounds.Y + ContentPadding.Vertical + _titleBarHeight;
+            int height = MaxSize != Point.Zero ? Math.Min(MaxSize.Y, bounds.Y + ContentPadding.Vertical + TitleBarHeight) : bounds.Y + ContentPadding.Vertical + TitleBarHeight;
 
             _collapseAnim = Animation.Tweener
                                      .Tween(this,
@@ -167,8 +163,6 @@ namespace Kenedia.Modules.Core.Controls
                                      .Ease(Glide.Ease.QuadOut);
         }
 
-        private Func<string> _setLocalizedTitle;
-        private Func<string> _setLocalizedTooltip;
         private Control _sizeDeterminingChild;
         private Rectangle _panelBounds;
 
@@ -190,7 +184,7 @@ namespace Kenedia.Modules.Core.Controls
                                      .Tween(this,
                                             new
                                             {
-                                                Height = _titleBarHeight,
+                                                Height = TitleBarHeight,
                                                 ArrowRotation = -MathHelper.PiOver2,
                                                 AccentOpacity = 0f,
                                             },
@@ -244,8 +238,8 @@ namespace Kenedia.Modules.Core.Controls
         private void SetHeight()
         {
             var bounds = _sizeDeterminingChild is not null ? ControlUtil.GetControlBounds(new Control[] { _sizeDeterminingChild }) : Point.Zero;
-            int height = MaxSize != Point.Zero ? Math.Min(MaxSize.Y, bounds.Y + ContentPadding.Vertical + _titleBarHeight) : bounds.Y + ContentPadding.Vertical + _titleBarHeight;
-            Height = Collapsed ? _titleBarHeight : height;
+            int height = MaxSize != Point.Zero ? Math.Min(MaxSize.Y, bounds.Y + ContentPadding.Vertical + TitleBarHeight) : bounds.Y + ContentPadding.Vertical + TitleBarHeight;
+            Height = Collapsed ? TitleBarHeight : height;
         }
 
         protected override void OnClick(MouseEventArgs e)
@@ -269,7 +263,7 @@ namespace Kenedia.Modules.Core.Controls
         {
             base.RecalculateLayout();
 
-            int num = (!string.IsNullOrEmpty(_title) || TitleIcon is not null) ? _titleBarHeight : 0;
+            int num = (!string.IsNullOrEmpty(Title) || TitleIcon is not null) ? TitleBarHeight : 0;
             int num2 = 0;
             int num3 = 0;
             int num4 = 0;
@@ -304,7 +298,7 @@ namespace Kenedia.Modules.Core.Controls
         {
             _tooltip.Visible = false;
 
-            if (!string.IsNullOrEmpty(_title))
+            if (!string.IsNullOrEmpty(Title))
             {
                 spriteBatch.DrawOnCtrl(this, _texturePanelHeader, _layoutHeaderBounds);
                 if (_canCollapse && _mouseOver && RelativeMousePosition.Y <= 36)
@@ -317,7 +311,7 @@ namespace Kenedia.Modules.Core.Controls
                     spriteBatch.DrawOnCtrl(this, _texturePanelHeader, _layoutHeaderBounds);
                 }
 
-                spriteBatch.DrawStringOnCtrl(this, _title, Content.DefaultFont16, _layoutHeaderTextBounds, Color.White);
+                spriteBatch.DrawStringOnCtrl(this, Title, Content.DefaultFont16, _layoutHeaderTextBounds, Color.White);
                 if (TitleIcon is not null) spriteBatch.DrawOnCtrl(this, TitleIcon, _layoutHeaderIconBounds, TitleIcon.Bounds, Color.White);
                 if (_canCollapse)
                 {

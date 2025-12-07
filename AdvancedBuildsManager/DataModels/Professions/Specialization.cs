@@ -12,11 +12,6 @@ namespace Kenedia.Modules.AdvancedBuildsManager.DataModels.Professions
     [DataContract]
     public class Specialization
     {
-        private AsyncTexture2D _icon;
-        private AsyncTexture2D _background;
-        private AsyncTexture2D _profession_icon;
-        private AsyncTexture2D _profession_icon_big;
-
         public Specialization()
         {
 
@@ -95,10 +90,10 @@ namespace Kenedia.Modules.AdvancedBuildsManager.DataModels.Professions
         {
             get
             {
-                if (_icon is not null) return _icon;
+                if (field is not null) return field;
 
-                _icon = AsyncTexture2D.FromAssetId(IconAssetId);
-                return _icon;
+                field = AsyncTexture2D.FromAssetId(IconAssetId);
+                return field;
             }
         }
 
@@ -108,10 +103,10 @@ namespace Kenedia.Modules.AdvancedBuildsManager.DataModels.Professions
         {
             get
             {
-                if (_background is not null) return _background;
+                if (field is not null) return field;
 
-                _background = AsyncTexture2D.FromAssetId(BackgroundAssetId);
-                return _background;
+                field = AsyncTexture2D.FromAssetId(BackgroundAssetId);
+                return field;
             }
         }
 
@@ -121,13 +116,13 @@ namespace Kenedia.Modules.AdvancedBuildsManager.DataModels.Professions
         {
             get
             {
-                if (_profession_icon is not null) return _profession_icon;
+                if (field is not null) return field;
 
                 if (ProfessionIconAssetId is not null)
                 {
-                    _profession_icon = AsyncTexture2D.FromAssetId((int)ProfessionIconAssetId);
+                    field = AsyncTexture2D.FromAssetId((int)ProfessionIconAssetId);
                 }
-                return _profession_icon;
+                return field;
             }
         }
 
@@ -137,12 +132,12 @@ namespace Kenedia.Modules.AdvancedBuildsManager.DataModels.Professions
         {
             get
             {
-                if (_profession_icon_big is not null) return _profession_icon_big;
+                if (field is not null) return field;
                 if(ProfessionIconBigAssetId is not null)
                 {
-                    _profession_icon_big = AsyncTexture2D.FromAssetId((int)ProfessionIconBigAssetId);
+                    field = AsyncTexture2D.FromAssetId((int)ProfessionIconBigAssetId);
                 }
-                return _profession_icon_big;
+                return field;
             }
         }
 

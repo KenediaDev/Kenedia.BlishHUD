@@ -24,12 +24,13 @@ namespace Kenedia.Modules.OverflowTradingAssist.Services
 
         private StatusType _dataStatus = StatusType.None;
 
-        public Data(Paths paths, Gw2ApiManager gw2ApiManager, Func<Core.Controls.NotificationBadge> notificationBadge, Func<LoadingSpinner> spinner)
+        public Data(Paths paths, Gw2ApiManager gw2ApiManager, Func<Core.Controls.NotificationBadge> notificationBadge, Func<LoadingSpinner> spinner, StaticHosting staticHosting)
         {
             _paths = paths;
             _gw2ApiManager = gw2ApiManager;
             _notificationBadge = notificationBadge;
             _spinner = spinner;
+            StaticHosting = staticHosting;
         }
 
         public event EventHandler Loaded;
@@ -54,6 +55,7 @@ namespace Kenedia.Modules.OverflowTradingAssist.Services
         }
 
         public double LastLoadAttempt { get; private set; } = double.MinValue;
+        public StaticHosting StaticHosting { get; }
 
         public IEnumerator<(string name, ItemsData map)> GetEnumerator()
         {

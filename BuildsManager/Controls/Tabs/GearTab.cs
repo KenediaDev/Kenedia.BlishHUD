@@ -37,8 +37,6 @@ namespace Kenedia.Modules.BuildsManager.Controls.Tabs
         private Rectangle _headerBounds;
 
         private Dictionary<TemplateSlotType, GearSlot> _templateSlots = [];
-
-        private TemplatePresenter _templatePresenter;
         private Blocker _blocker;
         private readonly DetailedTexture _terrestrialSet = new(156323);
         private readonly DetailedTexture _alternateTerrestrialSet = new(156324);
@@ -215,7 +213,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.Tabs
             ApplyTemplate();
         }
 
-        public TemplatePresenter TemplatePresenter { get => _templatePresenter; private set => Common.SetProperty(ref _templatePresenter, value, OnTemplatePresenterChanged); }
+        public TemplatePresenter TemplatePresenter { get; private set => Common.SetProperty(ref field, value, OnTemplatePresenterChanged); }
 
         public SelectionPanel SelectionPanel { get; }
 

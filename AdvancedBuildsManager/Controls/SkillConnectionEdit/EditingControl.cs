@@ -22,14 +22,11 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Controls.SkillConnectionEdit
         private readonly SkillSelector _skillSelector;
         private readonly PetSelector _petSelector;
         private readonly TraitSelector _traitSelector;
-
-        private Dictionary<int, OldSkillConnection> _connections;
         private readonly FlowPanel _contentPanel;
         private readonly FlowPanel _infosPanel;
         private readonly FlowPanel _singleSkillsPanel;
 
         private double _created = 0;
-        private OldSkillConnection _skillConnection;
         private (Label, Checkbox) _terrestrialFlag;
         private (Label, Checkbox) _aquaticFlag;
         private (Label, Dropdown) _weapon;
@@ -154,11 +151,11 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Controls.SkillConnectionEdit
 
         public BaseSkill Skill { get; set; }
 
-        public OldSkillConnection SkillConnection { get => _skillConnection; set => Common.SetProperty(ref _skillConnection, value, ApplySkill); }
+        public OldSkillConnection SkillConnection { get; set => Common.SetProperty(ref field, value, ApplySkill); }
 
         public Action OnChangedAction { get; set; }
 
-        public Dictionary<int, OldSkillConnection> Connections { get => _connections; set => Common.SetProperty(ref _connections, value, ApplyConnections); }
+        public Dictionary<int, OldSkillConnection> Connections { get; set => Common.SetProperty(ref field, value, ApplyConnections); }
 
         private void ApplyConnections()
         {

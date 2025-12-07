@@ -14,8 +14,6 @@ namespace Kenedia.Modules.Core.Controls
     {
         private readonly AsyncTexture2D _texturePanelHeader = AsyncTexture2D.FromAssetId(1032325);
         private Rectangle _titleBounds = Rectangle.Empty;
-        private Func<string> _setLocalizedTitle;
-        private Func<string> _setLocalizedTooltip;
 
         public BitmapFont Font { get; set; } = Content.DefaultFont16;
 
@@ -23,20 +21,20 @@ namespace Kenedia.Modules.Core.Controls
 
         public Func<string> SetLocalizedTooltip
         {
-            get => _setLocalizedTooltip;
+            get;
             set
             {
-                _setLocalizedTooltip = value;
+                field = value;
                 BasicTooltipText = value?.Invoke();
             }
         }
 
         public Func<string> SetLocalizedTitle
         {
-            get => _setLocalizedTitle;
+            get;
             set
             {
-                _setLocalizedTitle = value;
+                field = value;
                 Title = value?.Invoke();
             }
         }

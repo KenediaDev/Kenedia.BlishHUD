@@ -49,7 +49,7 @@ using Kenedia.Modules.Core.DataModels;
 namespace Kenedia.Modules.Characters
 {
     [Export(typeof(Module))]
-    public class Characters : BaseModule<Characters, MainWindow, Settings, PathCollection>
+    public class Characters : BaseModule<Characters, MainWindow, Settings, PathCollection, StaticHosting>
     {
         public readonly ResourceManager RM = new("Kenedia.Modules.Characters.Res.strings", System.Reflection.Assembly.GetExecutingAssembly());
 
@@ -69,6 +69,7 @@ namespace Kenedia.Modules.Characters
             : base(moduleParameters)
         {
             HasGUI = true;
+            AutoLoadGUI = false;
         }
 
         public SearchFilterCollection SearchFilters { get; } = [];
@@ -93,29 +94,28 @@ namespace Kenedia.Modules.Characters
 
         public ObservableCollection<Character_Model> CharacterModels { get; } = [];
 
-        private Character_Model _currentCharacterModel;
         private CancellationTokenSource _characterFileTokenSource;
 
         public Character_Model CurrentCharacterModel
         {
-            get => _currentCharacterModel;
+            get;
             private set
             {
-                if (_currentCharacterModel != value)
+                if (field != value)
                 {
-                    if (_currentCharacterModel is not null)
+                    if (field is not null)
                     {
-                        _currentCharacterModel.Updated -= CurrentCharacterModel_Updated;
-                        _currentCharacterModel.IsCurrentCharacter = false;
+                        field.Updated -= CurrentCharacterModel_Updated;
+                        field.IsCurrentCharacter = false;
                     }
 
-                    _currentCharacterModel = value;
+                    field = value;
 
-                    if (_currentCharacterModel is not null)
+                    if (field is not null)
                     {
-                        _currentCharacterModel.Updated += CurrentCharacterModel_Updated;
-                        _currentCharacterModel.UpdateCharacter();
-                        _currentCharacterModel.IsCurrentCharacter = true;
+                        field.Updated += CurrentCharacterModel_Updated;
+                        field.UpdateCharacter();
+                        field.IsCurrentCharacter = true;
 
                         MainWindow?.SortCharacters();
                     }
@@ -137,6 +137,9 @@ namespace Kenedia.Modules.Characters
 
         protected override ServiceCollection DefineServices(ServiceCollection services)
         {
+            services.AddSingleton<Data>();
+            services.AddSingleton<OCR>();
+
             services.AddSingleton<ContextManager>();
             services.AddSingleton<CharactersContext>();
             services.AddSingleton<CharacterSwapping>();
@@ -146,6 +149,18 @@ namespace Kenedia.Modules.Characters
             return base.DefineServices(services);
         }
 
+        protected override void AssignServiceInstaces(IServiceProvider serviceProvider)
+        {
+            base.AssignServiceInstaces(serviceProvider);
+
+            Data = serviceProvider.GetRequiredService<Data>();
+            OCR = serviceProvider.GetRequiredService<OCR>();
+
+            GW2APIHandler = new GW2API_Handler(Gw2ApiManager, AddOrUpdateCharacters, () => ApiSpinner, Paths, Data, () => _notificationBadge);
+            GW2APIHandler.AccountChanged += GW2APIHandler_AccountChanged;
+            Gw2ApiManager.SubtokenUpdated += Gw2ApiManager_SubtokenUpdated;
+        }
+
         public override IView GetSettingsView()
         {
             return new SettingsView(() => SettingsWindow?.ToggleWindow());
@@ -153,8 +168,7 @@ namespace Kenedia.Modules.Characters
 
         protected override async void OnLocaleChanged(object sender, Blish_HUD.ValueChangedEventArgs<Locale> eventArgs)
         {
-            await GW2APIHandler.FetchLocale(eventArgs?.NewValue, !_mapsUpdated);
-            _mapsUpdated = true;
+            await Data.UpdateLocale(eventArgs);
             base.OnLocaleChanged(sender, eventArgs);
         }
 
@@ -169,8 +183,6 @@ namespace Kenedia.Modules.Characters
                 Formatting = Formatting.Indented,
                 NullValueHandling = NullValueHandling.Ignore,
             };
-
-            Data = new Data(ContentsManager, Paths);
 
             GlobalAccountsPath = Paths.ModulePath + @"\accounts.json";
 
@@ -189,8 +201,6 @@ namespace Kenedia.Modules.Characters
                 _ = source.Seek(0, SeekOrigin.Begin);
                 source.CopyTo(target);
             }
-
-            CreateToggleCategories();
 
             Settings.ShortcutKey.Value.Enabled = true;
             Settings.ShortcutKey.Value.Activated += ShortcutWindowToggle;
@@ -237,11 +247,18 @@ namespace Kenedia.Modules.Characters
             CharacterSorting.CharacterSwapping = CharacterSwapping;
 
             TextureManager = new TextureManager();
+
+            Data.Loaded += Data_Loaded;
             await Data.Load();
 
             if (Settings.LoadCachedAccounts.Value) _ = await LoadCharacters();
+            Data.BetaStateChanged += StaticInfo_BetaStateChanged;
+        }
 
-            Data.StaticInfo.BetaStateChanged += StaticInfo_BetaStateChanged;
+        private void Data_Loaded(object sender, bool e)
+        {
+            CreateToggleCategories();
+            LoadGUI();
         }
 
         private void StaticInfo_BetaStateChanged(object sender, bool e)
@@ -252,10 +269,6 @@ namespace Kenedia.Modules.Characters
         protected override void OnModuleLoaded(EventArgs e)
         {
             base.OnModuleLoaded(e);
-
-            GW2APIHandler = new GW2API_Handler(Gw2ApiManager, AddOrUpdateCharacters, () => ApiSpinner, Paths, Data, () => _notificationBadge);
-            GW2APIHandler.AccountChanged += GW2APIHandler_AccountChanged;
-            Gw2ApiManager.SubtokenUpdated += Gw2ApiManager_SubtokenUpdated;
 
             if (Settings.ShowCornerIcon.Value)
             {
@@ -310,7 +323,7 @@ namespace Kenedia.Modules.Characters
                     CurrentCharacterModel?.UpdateCharacter(player);
                 }
 
-                Data?.StaticInfo?.CheckBeta();
+                Data?.Update();
             }
 
             if (_ticks.APIUpdate > 300)
@@ -338,6 +351,7 @@ namespace Kenedia.Modules.Characters
             Tags.CollectionChanged -= Tags_CollectionChanged;
             CoreServices.ClientWindowService.ResolutionChanged -= ClientWindowService_ResolutionChanged;
             OCR.Dispose();
+            Data?.Dispose();
 
             base.Unload();
         }
@@ -345,6 +359,7 @@ namespace Kenedia.Modules.Characters
         protected override void LoadGUI()
         {
             base.LoadGUI();
+
             RadialMenu = new RadialMenu(Settings, CharacterModels, GameService.Graphics.SpriteScreen, () => CurrentCharacterModel, Data, TextureManager)
             {
                 Visible = false,
@@ -360,7 +375,6 @@ namespace Kenedia.Modules.Characters
                 AccountImagePath = () => AccountImagesPath,
             };
 
-            OCR = new(CoreServices.ClientWindowService, CoreServices.SharedSettings, Settings, Paths.ModulePath, CharacterModels);
             RunIndicator = new(CharacterSorting, CharacterSwapping, Settings.ShowStatusWindow, TextureManager, Settings.ShowChoyaSpinner);
 
             var settingsBg = AsyncTexture2D.FromAssetId(155997);
@@ -633,25 +647,26 @@ namespace Kenedia.Modules.Characters
         {
             var filters = new List<SearchFilter<Character_Model>>();
 
-            foreach (KeyValuePair<ProfessionType, Data.Profession> e in Data.Professions)
+            foreach (var e in Data.Professions)
             {
-                SearchFilters.Add(e.Value.Name, new((c) => Settings.DisplayToggles.Value["Profession"].Check && c.Profession == e.Key));
+                SearchFilters.Add(e.Value.Name, new((c) => Settings.DisplayToggles.Value["Profession"]?.Check == true && c.Profession == e.Key));
                 SearchFilters.Add($"Core {e.Value.Name}", new((c) => Settings.DisplayToggles.Value["Profession"].Check && c.Profession == e.Key));
             }
 
-            foreach (KeyValuePair<SpecializationType, Data.Specialization> e in Data.Specializations)
+            foreach (var e in Data.Specializations)
             {
-                SearchFilters.Add(e.Value.Name, new((c) => Settings.DisplayToggles.Value["Profession"].Check && c.Specialization == e.Key));
+                SearchFilters.Add(e.Value.Name, new((c) => Settings.DisplayToggles.Value["Profession"]?.Check == true && c.Specialization == e.Key));
             }
 
-            foreach (KeyValuePair<int, Data.CraftingProfession> e in Data.CrafingProfessions)
+            foreach (var e in Data.CraftingProfessions)
             {
                 SearchFilters.Add(e.Value.Name, new((c) => c.Crafting.Find(p => Settings.DisplayToggles.Value["CraftingProfession"].Check && p.Id == e.Value.Id && (!Settings.DisplayToggles.Value["OnlyMaxCrafting"].Check || p.Rating >= e.Value.MaxRating)) is not null));
             }
 
-            foreach (KeyValuePair<RaceType, Data.Race> e in Data.Races)
+            foreach (var e in Data.Races)
             {
-                SearchFilters.Add(e.Value.Name, new((c) => Settings.DisplayToggles.Value["Race"].Check && c.Race == e.Key));
+                if (e.Value.Id == Races.None) continue;
+                SearchFilters.Add(e.Value.Name, new((c) => Settings.DisplayToggles.Value["Race"]?.Check == true && c.Race == e.Key));
             }
 
             SearchFilters.Add("Birthday", new((c) => c.HasBirthdayPresent));

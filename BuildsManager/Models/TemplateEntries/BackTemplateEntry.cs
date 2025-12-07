@@ -12,9 +12,6 @@ namespace Kenedia.Modules.BuildsManager.TemplateEntries
     public class BackTemplateEntry : TemplateEntry, IDisposable, IStatTemplateEntry, IDoubleInfusionTemplateEntry
     {
         private bool _isDisposed;
-        private Stat _stat;
-        private Infusion _infusion1;
-        private Infusion _infusion2;
 
         public BackTemplateEntry(TemplateSlotType slot, Data data) : base(slot, data)
         {
@@ -27,13 +24,13 @@ namespace Kenedia.Modules.BuildsManager.TemplateEntries
             Back = Data?.Backs?.TryGetValue(74155, out Trinket back) is true ? back : null;
         }
 
-        public Stat Stat { get => _stat; private set => Common.SetProperty(ref _stat, value); }
+        public Stat Stat { get; private set => Common.SetProperty(ref field, value); }
 
         public Trinket Back { get; private set; }
 
-        public Infusion Infusion1 { get => _infusion1; private set => Common.SetProperty(ref _infusion1, value); }
+        public Infusion Infusion1 { get; private set => Common.SetProperty(ref field, value); }
 
-        public Infusion Infusion2 { get => _infusion2; private set => Common.SetProperty(ref _infusion2, value); }
+        public Infusion Infusion2 { get; private set => Common.SetProperty(ref field, value); }
 
         protected override void OnItemChanged(object sender, ValueChangedEventArgs<BaseItem> e)
         {

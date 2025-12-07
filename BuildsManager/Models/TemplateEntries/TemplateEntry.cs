@@ -10,8 +10,6 @@ namespace Kenedia.Modules.BuildsManager.TemplateEntries
 {
     public abstract class TemplateEntry : IItemTemplateEntry
     {
-        private BaseItem _item;
-
         public TemplateEntry(TemplateSlotType slot, Data data)
         {
             Slot = slot;
@@ -39,7 +37,7 @@ namespace Kenedia.Modules.BuildsManager.TemplateEntries
 
         public Data Data { get; }
 
-        public BaseItem Item { get => _item; set => Common.SetProperty(ref _item, value, OnItemChanged); }
+        public BaseItem Item { get; set => Common.SetProperty(ref field, value, OnItemChanged); }
 
         protected virtual void OnItemChanged(object sender, ValueChangedEventArgs<BaseItem> e)
         {

@@ -20,7 +20,6 @@ namespace Kenedia.Modules.BuildsManager.DataModels.Professions
     public class Skill : IDisposable, IBaseApiData
     {
         private bool _isDisposed;
-        private AsyncTexture2D _icon;
 
         public Skill() { }
 
@@ -76,18 +75,20 @@ namespace Kenedia.Modules.BuildsManager.DataModels.Professions
         {
             get
             {
-                if (_icon is not null) return _icon;
+                if (field is not null) return field;
 
                 if (IconAssetId is not 0)
                 {
                     if (BuildsManager.MainThread == System.Threading.Thread.CurrentThread.ManagedThreadId)
                     {
-                        _icon = AsyncTexture2D.FromAssetId(IconAssetId);
+                        field = AsyncTexture2D.FromAssetId(IconAssetId);
                     }
                 }
 
-                return _icon;
+                return field;
             }
+
+            set;
         }
 
         [DataMember]
@@ -193,7 +194,7 @@ namespace Kenedia.Modules.BuildsManager.DataModels.Professions
             if (_isDisposed) return;
             _isDisposed = true;
 
-            _icon = null;
+            Icon = null;
         }
 
         internal void Apply(APISkill skill)

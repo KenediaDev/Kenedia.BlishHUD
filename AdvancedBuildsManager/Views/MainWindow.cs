@@ -21,7 +21,6 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Views
         private readonly AboutPage _notes;
         private readonly RotationPage _rotation;
         private readonly SelectionPanel _selectionPanel;
-        private Template _template;
 
         public MainWindow(AsyncTexture2D background, Rectangle windowRegion, Rectangle contentRegion, Data data) : base(background, windowRegion, contentRegion)
         {
@@ -92,7 +91,7 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Views
 
         public Template Template
         {
-            get => _template; set => Common.SetProperty(ref _template, value, ApplyTemplate);
+            get; set => Common.SetProperty(ref field, value, ApplyTemplate);
         }
 
         public override void RecalculateLayout()
@@ -107,11 +106,11 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Views
 
         private void ApplyTemplate()
         {
-            _build.Template = _template;
-            _gear.Template = _template;
-            _notes.Template = _template;
-            _rotation.Template = _template;
-            _selectionPanel.Template = _template;
+            _build.Template = Template;
+            _gear.Template = Template;
+            _notes.Template = Template;
+            _rotation.Template = Template;
+            _selectionPanel.Template = Template;
         }
 
         protected override void DisposeControl()

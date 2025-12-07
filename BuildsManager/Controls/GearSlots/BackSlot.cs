@@ -20,10 +20,6 @@ namespace Kenedia.Modules.BuildsManager.Controls_Old.GearPage.GearSlots
         private readonly ItemControl _infusion1Control = new(new() { TextureRegion = new(38, 38, 52, 52) });
         private readonly ItemControl _infusion2Control = new(new() { TextureRegion = new(38, 38, 52, 52) });
 
-        private Stat? _stat;
-        private Infusion? _infusion1;
-        private Infusion? _infusion2;
-
         public BackSlot(TemplateSlotType gearSlot, Container parent, TemplatePresenter templatePresenter, Controls.Selection.SelectionPanel selectionPanel, Data data)
             : base(gearSlot, parent, templatePresenter, selectionPanel, data)
         {
@@ -40,11 +36,11 @@ namespace Kenedia.Modules.BuildsManager.Controls_Old.GearPage.GearSlots
             ItemControl.Item = Data.Backs[74155];
         }
 
-        public Stat? Stat { get => _stat; set => Common.SetProperty(ref _stat, value, OnStatChanged); }
+        public Stat? Stat { get; set => Common.SetProperty(ref field, value, OnStatChanged); }
 
-        public Infusion? Infusion1 { get => _infusion1; set => Common.SetProperty(ref _infusion1, value, OnInfusion1Changed); }
+        public Infusion? Infusion1 { get; set => Common.SetProperty(ref field, value, OnInfusion1Changed); }
 
-        public Infusion? Infusion2 { get => _infusion2; set => Common.SetProperty(ref _infusion2, value, OnInfusion2Changed); }
+        public Infusion? Infusion2 { get; set => Common.SetProperty(ref field, value, OnInfusion2Changed); }
 
         public override void RecalculateLayout()
         {

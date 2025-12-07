@@ -17,8 +17,6 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
         private readonly List<ProfessionRaceSelectable> _races = [];
         private readonly List<ProfessionRaceSelectable> _professions = [];
 
-        private SelectionType _type = SelectionType.Race;
-
         public ProfessionRaceSelection(Data data)
         {
             Data = data;
@@ -80,9 +78,9 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
 
         public SelectionType Type
         {
-            get => _type;
-            set => Common.SetProperty(ref _type, value, OnTypeChanged);
-        }
+            get;
+            set => Common.SetProperty(ref field, value, OnTypeChanged);
+        } = SelectionType.Race;
         public Data Data { get; }
 
         private void OnTypeChanged(object sender, PropertyChangedEventArgs e)

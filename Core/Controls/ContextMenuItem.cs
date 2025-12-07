@@ -10,9 +10,6 @@ namespace Kenedia.Modules.Core.Controls
 {
     public class ContextMenuItem : ContextMenuStripItem, ILocalizable
     {
-        private Func<string> _setLocalizedText;
-        private Func<string> _setLocalizedTooltip;
-
         public ContextMenuItem()
         {
             LocalizingService.LocaleChanged += UserLocale_SettingChanged;
@@ -39,20 +36,20 @@ namespace Kenedia.Modules.Core.Controls
 
         public Func<string> SetLocalizedTooltip
         {
-            get => _setLocalizedTooltip;
+            get;
             set
             {
-                _setLocalizedTooltip = value;
+                field = value;
                 BasicTooltipText = value?.Invoke();
             }
         }
 
         public Func<string> SetLocalizedText
         {
-            get => _setLocalizedText;
+            get;
             set
             {
-                _setLocalizedText = value;
+                field = value;
                 Text = value?.Invoke();
             }
         }

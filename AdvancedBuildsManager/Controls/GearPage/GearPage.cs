@@ -19,13 +19,10 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Controls.GearPage
         private readonly ImageButton _copyButton;
         private readonly Panel _statPanel;
         private readonly StatSummary _stats;
-
-        private Template _template;
         private Rectangle _headerBounds;
         private Dictionary<GearTemplateSlot, BaseSlotControl> _slots = [];
 
         private FramedImage _framedSpecIcon;
-        private SelectionPanel _selectionPanel;
         private readonly DetailedTexture _pve = new(2229699, 2229700);
         private readonly DetailedTexture _pvp = new(2229701, 2229702);
 
@@ -142,31 +139,31 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Controls.GearPage
 
         public Template Template
         {
-            get => _template; set
+            get; set
             {
-                var temp = _template;
-                if (Common.SetProperty(ref _template, value, ApplyTemplate))
+                var temp = field;
+                if (Common.SetProperty(ref field, value, ApplyTemplate))
                 {
                     if (temp is not null) temp.PropertyChanged -= TemplateChanged;
 
-                    _stats.Template = _template;
+                    _stats.Template = field;
 
                     foreach (var slot in _slots)
                     {
-                        slot.Value.Template = _template;
+                        slot.Value.Template = field;
                     }
 
-                    if (_template is not null) _template.PropertyChanged += TemplateChanged;
+                    if (field is not null) field.PropertyChanged += TemplateChanged;
                 }
             }
         }
 
         public SelectionPanel SelectionPanel
         {
-            get => _selectionPanel; set
+            get; set
             {
-                if (_selectionPanel == value) return;
-                _selectionPanel = value;
+                if (field == value) return;
+                field = value;
 
                 foreach (var slot in _slots.Values)
                 {
@@ -237,10 +234,10 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Controls.GearPage
         {
             _gearCodeBox.Text = Template?.GearTemplate?.ParseGearCode();
 
-            if (_template is not null && AdvancedBuildsManager.Data.Professions.ContainsKey(_template.Profession))
+            if (Template is not null && AdvancedBuildsManager.Data.Professions.ContainsKey(Template.Profession))
             {
-                _framedSpecIcon.Texture = _template.EliteSpecialization?.ProfessionIconBig ??
-                    AdvancedBuildsManager.Data.Professions[_template.Profession].IconBig;
+                _framedSpecIcon.Texture = Template.EliteSpecialization?.ProfessionIconBig ??
+                    AdvancedBuildsManager.Data.Professions[Template.Profession].IconBig;
             }
 
             foreach (var slot in _slots.Values)

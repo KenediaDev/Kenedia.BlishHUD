@@ -9,13 +9,12 @@ namespace Kenedia.Modules.Core.Models
     {
         protected readonly string? ModuleName = null;
         protected readonly DirectoriesManager DirectoriesManager;
-        private string? _accountName = null;
 
         public string? AccountName
         {
-            get => _accountName;
-            set => Common.SetProperty(ref _accountName, value, AddAccountFolder, !string.IsNullOrEmpty(value));
-        }
+            get;
+            set => Common.SetProperty(ref field, value, AddAccountFolder, !string.IsNullOrEmpty(value));
+        } = null;
 
         public PathCollection()
         {
@@ -48,7 +47,7 @@ namespace Kenedia.Modules.Core.Models
 
         public string SharedSettingsPath => $@"{BasePath}\shared_settings.json";
 
-        public string? AccountPath => _accountName is not null ? $@"{ModulePath}{AccountName}\" : null;
+        public string? AccountPath => AccountName is not null ? $@"{ModulePath}{AccountName}\" : null;
 
         private void AddAccountFolder()
         {

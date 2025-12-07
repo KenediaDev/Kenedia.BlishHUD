@@ -21,13 +21,7 @@ namespace Kenedia.Modules.BuildsManager.Controls_Old.GearPage
         private readonly Label _id;
         private readonly Label _description;
         private readonly Label _commentLabel;
-
-        private BaseItem? _item;
-        private Stat? _stat;
-        private string _comment;
-
         private Color _frameColor = Color.Transparent;
-        private Func<string> _setLocalizedComment;
 
         public ItemTooltip()
         {
@@ -86,13 +80,13 @@ namespace Kenedia.Modules.BuildsManager.Controls_Old.GearPage
             LocalizingService.LocaleChanged += UserLocale_SettingChanged;
         }
 
-        public BaseItem? Item { get => _item; set => Common.SetProperty(ref _item, value, ApplyItem); }
+        public BaseItem? Item { get; set => Common.SetProperty(ref field, value, ApplyItem); }
 
-        public Stat? Stat { get => _stat; set => Common.SetProperty(ref _stat, value, ApplyStat); }
+        public Stat? Stat { get; set => Common.SetProperty(ref field, value, ApplyStat); }
 
-        public string Comment { get => _comment; set => Common.SetProperty(ref _comment, value, ApplyComment); }
+        public string Comment { get; set => Common.SetProperty(ref field, value, ApplyComment); }
 
-        public Func<string> SetLocalizedComment { get => _setLocalizedComment; set => Common.SetProperty(ref _setLocalizedComment, value, ApplyLocalizedComment); }
+        public Func<string> SetLocalizedComment { get; set => Common.SetProperty(ref field, value, ApplyLocalizedComment); }
 
         private void ApplyLocalizedComment(object sender, Core.Models.ValueChangedEventArgs<Func<string>> e)
         {

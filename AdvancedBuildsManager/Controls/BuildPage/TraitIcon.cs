@@ -6,13 +6,11 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Controls.BuildPage
 {
     public class TraitIcon : DetailedTexture
     {
-        private Trait _trait;
-        
         public TraitIcon()
         {
         }
 
-        public Trait Trait { get => _trait; set => Common.SetProperty(ref _trait, value, ApplyTrait); }
+        public Trait Trait { get; set => Common.SetProperty(ref field, value, ApplyTrait); }
 
         public bool Selected { get; set; }
 

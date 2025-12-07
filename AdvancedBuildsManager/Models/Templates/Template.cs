@@ -214,10 +214,6 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Models.Templates
     public class Template : INotifyPropertyChanged
     {
         private ProfessionType _profession;
-        private string _description;
-        private string _name = "New Template";
-        private AttunementType _mainAttunement = AttunementType.Fire;
-        private AttunementType _altAttunement = AttunementType.Earth;
         private LegendSlot _legendSlot = LegendSlot.TerrestrialActive;
         private bool loaded = true;
 
@@ -245,16 +241,16 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Models.Templates
         public ObservableList<string> TextTags { get; private set; } = [];
 
         [DataMember]
-        public TemplateFlag Tags { get => _tags; set => Common.SetProperty(ref _tags, value, TemplateChanged); }
+        public TemplateFlag Tags { get; set => Common.SetProperty(ref field, value, TemplateChanged); }
 
         [DataMember]
-        public EncounterFlag Encounters { get => _encounters; set => Common.SetProperty(ref _encounters, value, TemplateChanged); }
+        public EncounterFlag Encounters { get; set => Common.SetProperty(ref field, value, TemplateChanged); }
 
         [DataMember]
-        public string Name { get => _name; set => Common.SetProperty(ref _name, value, TemplateChanged); }
+        public string Name { get; set => Common.SetProperty(ref field, value, TemplateChanged); } = "New Template";
 
         [DataMember]
-        public string Description { get => _description; set => Common.SetProperty(ref _description, value, TemplateChanged); }
+        public string Description { get; set => Common.SetProperty(ref field, value, TemplateChanged); }
 
         [DataMember]
         public string GearCode
@@ -287,14 +283,10 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Models.Templates
         }
 
         [DataMember]
-        public Races Race { get => _race; set => Common.SetProperty(ref _race, value, TemplateChanged); }
+        public Races Race { get; set => Common.SetProperty(ref field, value, TemplateChanged); } = Races.None;
 
-        private bool _pvE = true;
         private CancellationTokenSource _cancellationTokenSource;
         private CancellationTokenSource _eventCancellationTokenSource;
-        private TemplateFlag _tags;
-        private EncounterFlag _encounters;
-        private Races _race = Races.None;
 
         private string Gearcode
         {
@@ -320,9 +312,9 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Models.Templates
 
         public Specialization EliteSpecialization => BuildTemplate?.Specializations[SpecializationSlot.Line_3]?.Specialization?.Elite == true ? BuildTemplate.Specializations[SpecializationSlot.Line_3].Specialization : null;
 
-        public AttunementType MainAttunement { get => _mainAttunement; set => Common.SetProperty(ref _mainAttunement, value, TemplateChanged); }
+        public AttunementType MainAttunement { get; set => Common.SetProperty(ref field, value, TemplateChanged); } = AttunementType.Fire;
 
-        public AttunementType AltAttunement { get => _altAttunement; set => Common.SetProperty(ref _altAttunement, value, TemplateChanged); }
+        public AttunementType AltAttunement { get; set => Common.SetProperty(ref field, value, TemplateChanged); } = AttunementType.Earth;
 
         public bool Terrestrial
         {
@@ -369,7 +361,7 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Models.Templates
 
         public RotationTemplate RotationTemplate { get; } = new();
 
-        public bool PvE { get => _pvE; internal set => Common.SetProperty(ref _pvE, value, TemplateChanged); }
+        public bool PvE { get; internal set => Common.SetProperty(ref field, value, TemplateChanged); } = true;
 
         public string FilePath => @$"{AdvancedBuildsManager.ModuleInstance.Paths.TemplatesPath}{Common.MakeValidFileName(Name.Trim())}.json";
 

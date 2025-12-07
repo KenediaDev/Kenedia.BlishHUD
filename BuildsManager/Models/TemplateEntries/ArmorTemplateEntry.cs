@@ -12,22 +12,18 @@ namespace Kenedia.Modules.BuildsManager.TemplateEntries
     public class ArmorTemplateEntry : TemplateEntry, IDisposable, IStatTemplateEntry, IRuneTemplateEntry, ISingleInfusionTemplateEntry, IArmorTemplateEntry
     {
         private bool _isDisposed;
-        private Stat _stat;
-        private Infusion _infusion1;
-        private Rune _rune;
-        private Armor _armor;
 
         public ArmorTemplateEntry(TemplateSlotType slot, Data data) : base(slot, data)
         {
         }
 
-        public Armor Armor { get => _armor; private set => Common.SetProperty(ref _armor, value); }
+        public Armor Armor { get; private set => Common.SetProperty(ref field, value); }
 
-        public Rune Rune { get => _rune; private set => Common.SetProperty(ref _rune, value); }
+        public Rune Rune { get; private set => Common.SetProperty(ref field, value); }
 
-        public Infusion Infusion1 { get => _infusion1; private set => Common.SetProperty(ref _infusion1, value); }
+        public Infusion Infusion1 { get; private set => Common.SetProperty(ref field, value); }
 
-        public Stat Stat { get => _stat; private set => Common.SetProperty(ref _stat, value); }
+        public Stat Stat { get; private set => Common.SetProperty(ref field, value); }
 
         protected override void OnItemChanged(object sender, ValueChangedEventArgs<BaseItem> e)
         {

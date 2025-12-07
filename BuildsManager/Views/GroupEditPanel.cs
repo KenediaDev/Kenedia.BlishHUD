@@ -13,7 +13,6 @@ namespace Kenedia.Modules.BuildsManager.Views
 {
     public class GroupEditPanel : Panel
     {
-        private TagGroup _group;
         private readonly (Label label, TextBox textBox) _name;
         private readonly (Label label, NumberBox numberBox) _iconId;
         private readonly (Label label, NumberBox numberBox) _priority;
@@ -199,7 +198,7 @@ namespace Kenedia.Modules.BuildsManager.Views
             TagGroups.Remove(group);
         }
 
-        public TagGroup Group { get => _group; set => Common.SetProperty(ref _group, value, OnTagChanged); }
+        public TagGroup Group { get; set => Common.SetProperty(ref field, value, OnTagChanged); }
 
         public TemplateTags TemplateTags { get; set; }
 

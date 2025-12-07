@@ -16,10 +16,6 @@ namespace Kenedia.Modules.BuildsManager.DataModels.Professions
     public class Specialization : IDisposable
     {
         private bool _isDisposed;
-        private AsyncTexture2D _icon;
-        private AsyncTexture2D _background;
-        private AsyncTexture2D _profession_icon;
-        private AsyncTexture2D _profession_icon_big;
 
         public Specialization()
         {
@@ -89,13 +85,15 @@ namespace Kenedia.Modules.BuildsManager.DataModels.Professions
         {
             get
             {
-                if (_icon is not null) return _icon;
+                if (field is not null) return field;
 
                 if (IconAssetId is not 0)
-                    _icon = AsyncTexture2D.FromAssetId(IconAssetId);
+                    field = AsyncTexture2D.FromAssetId(IconAssetId);
 
-                return _icon;
+                return field;
             }
+
+            set;
         }
 
         [DataMember]
@@ -105,13 +103,15 @@ namespace Kenedia.Modules.BuildsManager.DataModels.Professions
         {
             get
             {
-                if (_background is not null) return _background;
+                if (field is not null) return field;
 
                 if (BackgroundAssetId is not 0)
-                    _background = AsyncTexture2D.FromAssetId(BackgroundAssetId);
+                    field = AsyncTexture2D.FromAssetId(BackgroundAssetId);
 
-                return _background;
+                return field;
             }
+
+            set;
         }
 
         [DataMember]
@@ -121,14 +121,16 @@ namespace Kenedia.Modules.BuildsManager.DataModels.Professions
         {
             get
             {
-                if (_profession_icon is not null) return _profession_icon;
+                if (field is not null) return field;
 
                 if (ProfessionIconAssetId is not null and not 0)
                 {
-                    _profession_icon = AsyncTexture2D.FromAssetId((int)ProfessionIconAssetId);
+                    field = AsyncTexture2D.FromAssetId((int)ProfessionIconAssetId);
                 }
-                return _profession_icon;
+                return field;
             }
+
+            set;
         }
 
         [DataMember]
@@ -138,13 +140,15 @@ namespace Kenedia.Modules.BuildsManager.DataModels.Professions
         {
             get
             {
-                if (_profession_icon_big is not null) return _profession_icon_big;
+                if (field is not null) return field;
                 if (ProfessionIconBigAssetId is not null and not 0)
                 {
-                    _profession_icon_big = AsyncTexture2D.FromAssetId((int)ProfessionIconBigAssetId);
+                    field = AsyncTexture2D.FromAssetId((int)ProfessionIconBigAssetId);
                 }
-                return _profession_icon_big;
+                return field;
             }
+
+            set;
         }
 
         [DataMember]
@@ -166,10 +170,10 @@ namespace Kenedia.Modules.BuildsManager.DataModels.Professions
             if (_isDisposed) return;
             _isDisposed = true;
 
-            _icon = null;
-            _background = null;
-            _profession_icon = null;
-            _profession_icon_big = null;
+            Icon = null;
+            Background = null;
+            ProfessionIcon = null;
+            ProfessionIconBig = null;
 
             WeaponTrait?.Dispose();
             WeaponTrait = null;

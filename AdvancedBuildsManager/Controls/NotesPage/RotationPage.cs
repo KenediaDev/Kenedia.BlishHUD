@@ -13,7 +13,6 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Controls.NotesPage
 {
     public class RotationElementControl : Panel
     {
-        private RotationElement _rotationElement = new();
         private readonly Image _skillImage;
         private readonly Label _skillText;
 
@@ -47,14 +46,14 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Controls.NotesPage
             //_ = Menu.AddMenuItem(new ContextMenuItem(() => "Down", null));
             _ = Menu.AddMenuItem(new ContextMenuItem(() => "Delete", Delete));
             _ = Menu.AddMenuItem(new ContextMenuItem(() => "Reset", Reset));
-            _ = Menu.AddMenuItem(new ContextMenuItem(() => "Repeat More", () => _rotationElement.Repetition++));
-            _ = Menu.AddMenuItem(new ContextMenuItem(() => "Repeat Less", () => _rotationElement.Repetition--));
+            _ = Menu.AddMenuItem(new ContextMenuItem(() => "Repeat More", () => RotationElement.Repetition++));
+            _ = Menu.AddMenuItem(new ContextMenuItem(() => "Repeat Less", () => RotationElement.Repetition--));
         }
 
         private void Reset()
         {
-            _rotationElement.Skill = null;
-            _rotationElement.Repetition = 1;
+            RotationElement.Skill = null;
+            RotationElement.Repetition = 1;
         }
 
         private void Delete()
@@ -65,17 +64,17 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Controls.NotesPage
 
         public RotationElement RotationElement
         {
-            get => _rotationElement; set
+            get; set
             {
-                var temp = _rotationElement;
+                var temp = field;
 
-                if (Common.SetProperty(ref _rotationElement, value, SetElement))
+                if (Common.SetProperty(ref field, value, SetElement))
                 {
                     if (temp is not null) temp.PropertyChanged -= RotationElement_PropertyChanged;
-                    if (_rotationElement is not null) _rotationElement.PropertyChanged += RotationElement_PropertyChanged;
+                    if (field is not null) field.PropertyChanged += RotationElement_PropertyChanged;
                 }
             }
-        }
+        } = new();
 
         public Rotation Rotation { get; set; }
 
@@ -105,7 +104,6 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Controls.NotesPage
         private readonly TextBox _headerEditBox;
         private readonly ImageButton _addSkill;
         private readonly FlowPanel _flowPanel;
-        private Rotation _rotation;
 
         public SelectionPanel SelectionPanel { get; set; }
 
@@ -221,7 +219,7 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Controls.NotesPage
             }
         }
 
-        public Rotation Rotation { get => _rotation; set => Common.SetProperty(ref _rotation, value, ApplyRotation); }
+        public Rotation Rotation { get; set => Common.SetProperty(ref field, value, ApplyRotation); }
 
         private void ApplyRotation(object sender, PropertyChangedEventArgs e)
         {
@@ -241,8 +239,6 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Controls.NotesPage
         private readonly bool created = false;
         private readonly Button _addRotation;
         private readonly FlowPanel _contentPanel;
-
-        private Template _template;
 
         public RotationPage()
         {            
@@ -270,13 +266,13 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Controls.NotesPage
 
         public Template Template
         {
-            get => _template; set
+            get; set
             {
-                var temp = _template;
-                if (Common.SetProperty(ref _template, value, ApplyTemplate))
+                var temp = field;
+                if (Common.SetProperty(ref field, value, ApplyTemplate))
                 {
                     if (temp is not null) temp.PropertyChanged -= TemplateChanged;
-                    if (_template is not null) _template.PropertyChanged += TemplateChanged;
+                    if (field is not null) field.PropertyChanged += TemplateChanged;
                 }
             }
         }
@@ -300,7 +296,7 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Controls.NotesPage
         {
             _contentPanel.ClearChildren();
 
-            foreach (Rotation rotation in _template?.RotationTemplate?.Rotations)
+            foreach (Rotation rotation in Template?.RotationTemplate?.Rotations)
             {
                 AddRotationPanel(rotation);
             }
@@ -322,7 +318,7 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Controls.NotesPage
         {
             base.DisposeControl();
 
-            if (_template is not null) _template.PropertyChanged -= TemplateChanged;
+            if (Template is not null) Template.PropertyChanged -= TemplateChanged;
         }
     }
 }

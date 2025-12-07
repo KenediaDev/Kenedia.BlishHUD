@@ -20,7 +20,6 @@ namespace Kenedia.Modules.OverflowTradingAssist.Controls
         private readonly ButtonImage _effectivePriceButton;
         private readonly CoinControl _effectivePrice;
         private readonly ButtonImage _deleteButton;
-        private ItemAmount _item = new();
 
         public ItemEntryControl(ItemAmount itemAmount)
         {
@@ -111,7 +110,7 @@ namespace Kenedia.Modules.OverflowTradingAssist.Controls
             }
         }
 
-        public ItemAmount ItemAmount { get => _item; set => Common.SetProperty(ref _item, value, OnItemChanged); }
+        public ItemAmount ItemAmount { get; set => Common.SetProperty(ref field, value, OnItemChanged); } = new();
 
         private void OnItemChanged(object sender, ValueChangedEventArgs<ItemAmount> e)
         {
@@ -165,7 +164,6 @@ namespace Kenedia.Modules.OverflowTradingAssist.Controls
         private CoinControl _itemPrice;
         private CoinControl _effectivePrice;
         private NumberBox _rateBox;
-        private Item _item;
 
         public ItemExEntryControl()
         {
@@ -281,7 +279,7 @@ namespace Kenedia.Modules.OverflowTradingAssist.Controls
             }
         }
 
-        public Item Item { get => _item; set => Common.SetProperty(ref _item, value, OnItemChanged); }
+        public Item Item { get; set => Common.SetProperty(ref field, value, OnItemChanged); }
 
         private void OnItemChanged(object sender, ValueChangedEventArgs<Item> e)
         {

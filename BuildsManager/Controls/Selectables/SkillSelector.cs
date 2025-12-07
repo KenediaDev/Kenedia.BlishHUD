@@ -13,7 +13,6 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selectables
     public class SkillSelector : Selector<Skill>
     {
         private readonly DetailedTexture _selectingFrame = new(157147);
-        private Enviroment _enviroment;
 
         public SkillSelector()
         {
@@ -22,7 +21,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selectables
             SelectableSize = new(56);
         }
 
-        public Enviroment Enviroment { get => _enviroment; set => Common.SetProperty(ref _enviroment, value, OnEnviromentChanged); }
+        public Enviroment Enviroment { get; set => Common.SetProperty(ref field, value, OnEnviromentChanged); }
 
         private void OnEnviromentChanged(object sender, Core.Models.ValueChangedEventArgs<Enviroment> e)
         {

@@ -13,7 +13,6 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Controls.GearPage
 {
     public class StatSummary : Blish_HUD.Controls.Control
     {
-        private Template _template;
         private readonly bool _created;
 
         private readonly DetailedTexture _texturePanelHeader = new(1032325);
@@ -55,13 +54,13 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Controls.GearPage
 
         public Template Template
         {
-            get => _template; set
+            get; set
             {
-                var temp = _template;
-                if (Common.SetProperty(ref _template, value, ApplyTemplate))
+                var temp = field;
+                if (Common.SetProperty(ref field, value, ApplyTemplate))
                 {
                     if (temp is not null) temp.PropertyChanged -= TemplateChanged;
-                    if (_template is not null) _template.PropertyChanged += TemplateChanged;
+                    if (field is not null) field.PropertyChanged += TemplateChanged;
                 }
             }
         }

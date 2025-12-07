@@ -18,15 +18,14 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace Kenedia.Modules.Core.Models
 {
-    public abstract class BaseModule<ModuleType, ModuleWindow, ModuleSettings, ModulePaths> : Module
+    public abstract class BaseModule<ModuleType, ModuleWindow, ModuleSettings, ModulePaths, ModuleStaticHosting> : Module
         where ModuleType : Module
         where ModuleWindow : Container
         where ModuleSettings : BaseSettingsModel
         where ModulePaths : PathCollection, new()
+        where ModuleStaticHosting : StaticHosting
     {
         public static Logger Logger = Logger.GetLogger<ModuleType>();
-
-        public StaticHosting StaticHosting { get; private set; }
 
         protected bool HasGUI = false;
         protected bool AutoLoadGUI = true;
@@ -65,8 +64,15 @@ namespace Kenedia.Modules.Core.Models
         {
             services.AddSingleton<Module>(this);
             services.AddSingleton<ModuleWindow>();
+
             services.AddSingleton<ModuleSettings>();
+            services.AddSingleton<BaseSettingsModel, ModuleSettings>();
+
             services.AddSingleton<ModulePaths>();
+            services.AddSingleton<PathCollection, ModulePaths>();
+
+            services.AddSingleton<ModuleStaticHosting>();
+            services.AddSingleton<StaticHosting, ModuleStaticHosting>();
             
             services.AddSingleton<SettingCollection>(ModuleParameters.SettingsManager.ModuleSettings);
             services.AddSingleton<ContentsManager>(ModuleParameters.ContentsManager);
@@ -102,8 +108,8 @@ namespace Kenedia.Modules.Core.Models
             Gw2ApiManager = serviceProvider.GetRequiredService<Gw2ApiManager>();
             SettingsManager = serviceProvider.GetRequiredService<SettingsManager>();
             Logger = serviceProvider.GetRequiredService<Logger>();
-            StaticHosting = serviceProvider.GetRequiredService<StaticHosting>();
 
+            StaticHosting = serviceProvider.GetRequiredService<ModuleStaticHosting>();
             Paths =  serviceProvider.GetRequiredService<ModulePaths>();
             Settings =  serviceProvider.GetRequiredService<ModuleSettings>();
 
@@ -139,6 +145,8 @@ namespace Kenedia.Modules.Core.Models
         public BaseSettingsWindow SettingsWindow { get; protected set; }
 
         public ModuleSettings Settings { get; private set; }
+
+        public ModuleStaticHosting StaticHosting { get; private set; }
 
         protected SettingEntry<Blish_HUD.Input.KeyBinding> ReloadKey { get; set; }
 

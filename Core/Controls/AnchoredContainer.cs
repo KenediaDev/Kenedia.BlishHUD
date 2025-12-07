@@ -23,8 +23,6 @@ namespace Kenedia.Modules.Core.Controls
 
     public class AnchoredContainer : FramedContainer
     {
-        private Control _anchor;
-
         public enum AnchorPos
         {
             None,
@@ -39,8 +37,8 @@ namespace Kenedia.Modules.Core.Controls
         public CaptureType? CaptureInput { get; set; } = null;
 
         public Control Anchor {
-            get => _anchor;
-            set => Common.SetProperty(ref _anchor, value, OnAnchorChanged);
+            get;
+            set => Common.SetProperty(ref field, value, OnAnchorChanged);
         }
 
         private void OnAnchorChanged(object sender, Models.ValueChangedEventArgs<Control> e)

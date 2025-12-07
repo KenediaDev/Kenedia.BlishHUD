@@ -21,8 +21,6 @@ namespace Kenedia.Modules.BuildsManager.DataModels.Professions
     public class Profession : IDisposable, IDataMember
     {
         private bool _isDisposed;
-        private AsyncTexture2D _icon;
-        private AsyncTexture2D _iconBig;
 
         [DataMember]
         public ProfessionType Id { get; set; }
@@ -31,26 +29,30 @@ namespace Kenedia.Modules.BuildsManager.DataModels.Professions
         {
             get
             {
-                if (_icon is not null) return _icon;
+                if (field is not null) return field;
 
                 if (IconAssetId is not 0)
-                    _icon = AsyncTexture2D.FromAssetId(IconAssetId);
+                    field = AsyncTexture2D.FromAssetId(IconAssetId);
 
-                return _icon;
+                return field;
             }
+
+            set;
         }
 
         private AsyncTexture2D IconBig
         {
             get
             {
-                if (_iconBig is not null) return _iconBig;
+                if (field is not null) return field;
 
                 if (IconBigAssetId is not 0)
-                    _iconBig = AsyncTexture2D.FromAssetId(IconBigAssetId);
+                    field = AsyncTexture2D.FromAssetId(IconBigAssetId);
 
-                return _iconBig;
+                return field;
             }
+
+            set;
         }
 
         [DataMember]
@@ -88,8 +90,8 @@ namespace Kenedia.Modules.BuildsManager.DataModels.Professions
             if (_isDisposed) return;
             _isDisposed = true;
 
-            _icon = null;
-            _iconBig = null;
+            Icon = null;
+            IconBig = null;
 
             Skills?.Values.DisposeAll();
             Skills?.Clear();

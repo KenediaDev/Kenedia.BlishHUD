@@ -269,6 +269,7 @@
     <Compile Include="Controls\RadialMenuSection.cs" />
     <Compile Include="Controls\TagFlowPanel.cs" />
     <Compile Include="Controls\Triangle.cs" />
+    <Compile Include="Models\CraftingProfession.cs" />
     <Compile Include="Models\FilterEntry.cs" />
     <Compile Include="Controls\FilterTag.cs" />
     <Compile Include="Controls\FontFlowPanel.cs" />
@@ -285,19 +286,22 @@
     <Compile Include="Controls\SideMenu\SideMenuToggles.cs" />
     <Compile Include="Controls\Tag.cs" />
     <Compile Include="Extensions\FilterTagListExtension.cs" />
-    <Compile Include="Extensions\Gw2SharpExtension.cs" />
     <Compile Include="Extensions\CustomEnumExtension.cs" />
     <Compile Include="Models\AccountSummary.cs" />
     <Compile Include="Models\Character_Model.cs" />
     <Compile Include="Models\Crafting_Model.cs" />
     <Compile Include="Models\OldCharacterModel.cs" />
+    <Compile Include="Models\Profession.cs" />
+    <Compile Include="Models\Race.cs" />
     <Compile Include="Models\ShowCheckPair.cs" />
+    <Compile Include="Models\Specialization.cs" />
     <Compile Include="Models\StaticInfo.cs" />
     <Compile Include="Models\TagList.cs" />
     <Compile Include="OCR\OCR.cs" />
     <Compile Include="Models\SearchFilterCollection.cs" />
     <Compile Include="Services\CharactersContext.cs" />
     <Compile Include="Services\ContextManager.cs" />
+    <Compile Include="Services\StaticHosting.cs" />
     <Compile Include="Views\OCRView.cs" />
     <Compile Include="OCR\OCR_TrainDisplay.cs" />
     <Compile Include="Res\strings.Designer.cs">
@@ -414,7 +418,6 @@
     <None Include="ref\data\professions.json" />
     <None Include="ref\data\races.json" />
     <None Include="ref\data\specialization.json" />
-    <None Include="StaticHosting\static_info.json" />
     <None Include="tessdata\configs\config.cfg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

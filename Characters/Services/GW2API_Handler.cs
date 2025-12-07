@@ -57,16 +57,15 @@ namespace Kenedia.Modules.Characters.Services
 
         public event PropertyChangedEventHandler AccountChanged;
 
-        private Account _account;
         private Exception _lastException;
 
         public Account Account
         {
-            get => _account;
+            get;
             set
             {
-                var temp = _account;
-                if (Common.SetProperty(ref _account, value, AccountChanged))
+                var temp = field;
+                if (Common.SetProperty(ref field, value, AccountChanged))
                 {
                     _paths.AccountName = value?.Name;
                     Characters.Logger.Info($"Account changed from {temp?.Name ?? "No Account"} to {value?.Name ?? "No Account"}!");
@@ -211,51 +210,6 @@ namespace Kenedia.Modules.Characters.Services
 
                 Reset(cancellationToken, !cancellationToken.IsCancellationRequested);
                 return false;
-            }
-        }
-
-        public async Task FetchLocale(Locale? locale = null, bool force = false)
-        {
-            locale ??= GameService.Overlay.UserLocale.Value;
-
-            if (force || _data.Maps.Count == 0 || !_data.Maps.FirstOrDefault().Value.Names.TryGetValue((Locale)locale, out string name) || string.IsNullOrEmpty(name))
-            {
-                Characters.Logger.Info($"No data for {(Locale)locale} loaded yet. Fetching new data from the API.");
-                await GetMaps();
-            }
-        }
-
-        public async Task GetMaps()
-        {
-            NotificationBadge notificationBadge = _notificationBadge();
-
-            try
-            {
-                var _maps = _data.Maps;
-                var maps = await _gw2ApiManager.Gw2ApiClient.V2.Maps.AllAsync();
-
-                foreach (var m in maps)
-                {
-                    bool exists = _maps.TryGetValue(m.Id, out Map map);
-
-                    map ??= new Map(m);
-                    map.Name = m.Name;
-
-                    if (!exists) _maps.Add(m.Id, map);
-                }
-
-                string json = JsonConvert.SerializeObject(_maps, SerializerSettings.Default);
-                File.WriteAllText($@"{_paths.ModuleDataPath}\Maps.json", json);
-                _mapStatus = StatusType.Success;
-            }
-            catch (Exception ex)
-            {
-                _logger.Warn($"Failed to fetch armory items.");
-                _logger.Warn($"{ex}");
-                var text = HandleAPIExceptions(ex);
-                _mapStatus = StatusType.Error;
-
-                notificationBadge?.AddNotification(new(await text, () => _mapStatus == StatusType.Success));
             }
         }
 

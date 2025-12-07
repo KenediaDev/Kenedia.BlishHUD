@@ -15,8 +15,6 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selectables
     public class Selectable<IBaseApiData> : Blish_HUD.Controls.Control
     {
         private Rectangle _textureBounds;
-        private IBaseApiData? _data;
-
         protected AsyncTexture2D? Texture;
 
         public Selectable()
@@ -24,7 +22,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selectables
             Size = new Point(64);
         }
 
-        public IBaseApiData? Data { get => _data; set => Common.SetProperty(ref _data, value, ApplyData); }
+        public IBaseApiData? Data { get; set => Common.SetProperty(ref field, value, ApplyData); }
 
         public SelectableType Type { get; private set; }
 

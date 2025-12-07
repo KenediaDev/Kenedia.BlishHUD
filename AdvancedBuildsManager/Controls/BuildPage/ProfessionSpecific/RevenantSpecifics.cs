@@ -19,7 +19,6 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Controls.BuildPage.ProfessionSpe
 {
     public class LegendIcon : DetailedTexture
     {
-        private Legend _legend;
         private readonly AsyncTexture2D _hoveredFrameTexture = AsyncTexture2D.FromAssetId(157143);
         private readonly AsyncTexture2D _noAquaticFlagTexture = AsyncTexture2D.FromAssetId(157145);
         private Rectangle _noAquaticFlagTextureRegion;
@@ -33,7 +32,7 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Controls.BuildPage.ProfessionSpe
             FallBackTexture = AsyncTexture2D.FromAssetId(157154);
         }
 
-        public Legend Legend { get => _legend; set => Common.SetProperty(ref _legend, value, ApplyLegend); }
+        public Legend Legend { get; set => Common.SetProperty(ref field, value, ApplyLegend); }
 
         public LegendSlot LegendSlot { get; set; }
 

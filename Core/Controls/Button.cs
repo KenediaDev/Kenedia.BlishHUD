@@ -16,9 +16,6 @@ namespace Kenedia.Modules.Core.Controls
         private Texture2D _textureButtonIdle = Content.GetTexture("common/button-states");
         private Texture2D _textureButtonBorder = Content.GetTexture("button-border");
 
-        private Func<string> _setLocalizedText;
-        private Func<string> _setLocalizedTooltip;
-
         public Button()
         {            
             LocalizingService.LocaleChanged += UserLocale_SettingChanged;
@@ -29,20 +26,20 @@ namespace Kenedia.Modules.Core.Controls
 
         public Func<string> SetLocalizedText
         {
-            get => _setLocalizedText;
+            get;
             set
             {
-                _setLocalizedText = value;
+                field = value;
                 Text = value?.Invoke();
             }
         }
 
         public Func<string> SetLocalizedTooltip
         {
-            get => _setLocalizedTooltip;
+            get;
             set
             {
-                _setLocalizedTooltip = value;
+                field = value;
                 BasicTooltipText = value?.Invoke();
             }
         }

@@ -15,8 +15,6 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Controls.BuildPage.ProfessionSpe
         private readonly AsyncTexture2D _paw = AsyncTexture2D.FromAssetId(156797);
         private readonly AsyncTexture2D _pawPressed = AsyncTexture2D.FromAssetId(156796);
 
-        private Pet _pet;
-
         public PetIcon()
         {
             FallBackTexture = AsyncTexture2D.FromAssetId(156797);
@@ -26,7 +24,7 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Controls.BuildPage.ProfessionSpe
 
         public Rectangle PawRegion { get; set; }
 
-        public Pet Pet { get => _pet; set => Common.SetProperty(ref _pet, value, ApplyPet); }
+        public Pet Pet { get; set => Common.SetProperty(ref field, value, ApplyPet); }
 
         private void ApplyPet()
         {

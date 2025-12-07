@@ -9,8 +9,6 @@ namespace Kenedia.Modules.Core.Controls
 {
     public class CornerIcon : Blish_HUD.Controls.CornerIcon, ILocalizable
     {
-        private Func<string> _setLocalizedTooltip;
-
         public CornerIcon()
         {
             LocalizingService.LocaleChanged  += UserLocale_SettingChanged;
@@ -20,10 +18,10 @@ namespace Kenedia.Modules.Core.Controls
 
         public Func<string> SetLocalizedTooltip
         {
-            get => _setLocalizedTooltip;
+            get;
             set
             {
-                _setLocalizedTooltip = value;
+                field = value;
                 BasicTooltipText = value?.Invoke();
             }
         }

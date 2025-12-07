@@ -12,8 +12,6 @@ namespace Kenedia.Modules.BuildsManager.TemplateEntries
     public class AmuletTemplateEntry : TemplateEntry, IDisposable, IEnrichmentTemplateEntry, IStatTemplateEntry
     {
         private bool _isDisposed;
-        private Stat _stat;
-        private Enrichment _enrichment;
 
         public AmuletTemplateEntry(TemplateSlotType slot, Data data) : base(slot, data)
         {
@@ -31,9 +29,9 @@ namespace Kenedia.Modules.BuildsManager.TemplateEntries
 
         public Trinket Amulet { get; private set; } 
         
-        public Stat Stat { get => _stat; private set => Common.SetProperty(ref _stat, value); }
+        public Stat Stat { get; private set => Common.SetProperty(ref field, value); }
 
-        public Enrichment Enrichment { get => _enrichment; private set => Common.SetProperty(ref _enrichment, value); }
+        public Enrichment Enrichment { get; private set => Common.SetProperty(ref field, value); }
 
         protected override void OnItemChanged(object sender, ValueChangedEventArgs<BaseItem> e)
         {

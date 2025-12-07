@@ -18,9 +18,6 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Controls.SkillConnectionEdit
             FallBackTexture = AsyncTexture2D.FromAssetId(157154),
             TextureRegion = new(4, 4, 58, 58),
         };
-
-        private Trait _trait;
-
         private Rectangle _nameBounds;
         private Rectangle _idBounds;
 
@@ -40,7 +37,7 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Controls.SkillConnectionEdit
             }
         }
 
-        public Trait Trait { get => _trait; set => Common.SetProperty(ref _trait, value, ApplyTrait); }
+        public Trait Trait { get; set => Common.SetProperty(ref field, value, ApplyTrait); }
 
         public Action<int?> OnIconAction { get; set; }
 

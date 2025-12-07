@@ -13,30 +13,26 @@ namespace Kenedia.Modules.Characters.Controls
 {
     public class BasicTooltip : Control
     {
-        private BitmapFont _font = GameService.Content.DefaultFont14;
-
-        private string _text;
-
         public Rectangle TextureRectangle { get; set; } = new Rectangle(40, 25, 250, 250);
 
         public AsyncTexture2D Background { get; set; } = AsyncTexture2D.FromAssetId(156003);
 
         public BitmapFont Font
         {
-            get => _font;
+            get;
             set
             {
-                _font = value;
+                field = value;
                 UpdateLayout();
             }
-        }
+        } = GameService.Content.DefaultFont14;
 
         public string Text
         {
-            get => _text;
+            get;
             set
             {
-                _text = value;
+                field = value;
                 if (value == null)
                 {
                     Hide();

@@ -19,8 +19,6 @@ namespace Kenedia.Modules.BuildsManager.Controls
         private readonly Label _id;
         private readonly Label _description;
 
-        private Pet? _pet;
-
         public PetTooltip()
         {
             WidthSizingMode = Blish_HUD.Controls.SizingMode.AutoSize;
@@ -62,7 +60,7 @@ namespace Kenedia.Modules.BuildsManager.Controls
             LocalizingService.LocaleChanged += UserLocale_SettingChanged;
         }
 
-        public Pet? Pet { get => _pet; set => Common.SetProperty(ref _pet, value, ApplyPet); }
+        public Pet? Pet { get; set => Common.SetProperty(ref field, value, ApplyPet); }
 
         private void ApplyPet(object sender, ValueChangedEventArgs<Pet> e)
         {

@@ -4,6 +4,7 @@ using Kenedia.Modules.Characters.Models;
 using Kenedia.Modules.Characters.Services;
 using Kenedia.Modules.Characters.Views;
 using Kenedia.Modules.Core.Extensions;
+using Kenedia.Modules.Core.Models;
 using Kenedia.Modules.Core.Services;
 using Kenedia.Modules.Core.Utility;
 using Microsoft.Xna.Framework.Graphics;
@@ -35,9 +36,8 @@ namespace Kenedia.Modules.Characters
         private readonly Color _ignoredColor = Color.FromArgb(255, 100, 100, 100);
 
         private bool _isDisposed = false;
-        private MainWindow _mainWindow;
 
-        public MainWindow MainWindow { get => _mainWindow; set => Common.SetProperty(ref _mainWindow, value, MainWindowChanged); }
+        public MainWindow MainWindow { get; set => Common.SetProperty(ref field, value, MainWindowChanged); }
 
         public Texture2D SourceTexture { get; private set; }
 
@@ -53,7 +53,7 @@ namespace Kenedia.Modules.Characters
 
         public string PathToEngine => OcrApi.PathToEngine;
 
-        public OCR(ClientWindowService clientWindowService, SharedSettings sharedSettings, Settings settings, string basePath, ObservableCollection<Character_Model> characterModels)
+        public OCR(ClientWindowService clientWindowService, SharedSettings sharedSettings, Settings settings, PathCollection paths, ObservableCollection<Character_Model> characterModels)
         {
             _clientWindowService = clientWindowService;
             _sharedSettings = sharedSettings;
@@ -62,11 +62,11 @@ namespace Kenedia.Modules.Characters
 
             try
             {
-                string path = basePath + @"tesseract.dll";
+                string path = paths.ModulePath + @"tesseract.dll";
                 OcrApi.PathToEngine = path;
                 Characters.Logger.Info($"Set Path to Tesseract Engine: {OcrApi.PathToEngine}. File exists: {File.Exists(path)}");
                 _ocrApi = OcrApi.Create();
-                _ocrApi.Init(basePath, "gw2");
+                _ocrApi.Init(paths.ModulePath, "gw2");
                 IsLoaded = true;
             }
             catch (Exception ex)

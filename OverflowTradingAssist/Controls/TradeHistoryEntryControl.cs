@@ -29,7 +29,6 @@ namespace Kenedia.Modules.OverflowTradingAssist.Controls
         private readonly Panel _panel;
         private readonly FlowPanel _itemsPanel;
         private DetailedTradeWindow _detailedTradeView;
-        private int _index;
 
         public TradeHistoryEntryControl(Trade trade, Color? color = null)
         {
@@ -217,7 +216,7 @@ namespace Kenedia.Modules.OverflowTradingAssist.Controls
             }
         }
 
-        public int Index { get => _index; set => Common.SetProperty(ref _index, value, OnIndexChanged); }
+        public int Index { get; set => Common.SetProperty(ref field, value, OnIndexChanged); }
 
         private void OnIndexChanged(object sender, Core.Models.ValueChangedEventArgs<int> e)
         {

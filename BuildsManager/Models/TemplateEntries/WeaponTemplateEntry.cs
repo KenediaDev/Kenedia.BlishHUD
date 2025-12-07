@@ -14,28 +14,22 @@ namespace Kenedia.Modules.BuildsManager.TemplateEntries
     public class WeaponTemplateEntry : TemplateEntry, IDisposable, IWeaponTemplateEntry, IStatTemplateEntry, ISingleSigilTemplateEntry, IPvpSigilTemplateEntry, ISingleInfusionTemplateEntry
     {
         private bool _isDisposed;
-        private Weapon _weapon;
-        private Sigil _sigil1;
-        private Sigil _pvpSigil;
-        private Infusion _infusion1;
-        private Stat _stat;
-        private WeaponTemplateEntry _pairedWeapon;
 
         public WeaponTemplateEntry(TemplateSlotType slot, Data data) : base(slot, data)
         {
         }
 
-        public Weapon Weapon { get => _weapon; private set => Common.SetProperty(ref _weapon, value); }
+        public Weapon Weapon { get; private set => Common.SetProperty(ref field, value); }
 
-        public Sigil Sigil1 { get => _sigil1; private set => Common.SetProperty(ref _sigil1, value); }
+        public Sigil Sigil1 { get; private set => Common.SetProperty(ref field, value); }
 
-        public Sigil PvpSigil { get => _pvpSigil; private set => Common.SetProperty(ref _pvpSigil, value); }
+        public Sigil PvpSigil { get; private set => Common.SetProperty(ref field, value); }
 
-        public Infusion Infusion1 { get => _infusion1; private set => Common.SetProperty(ref _infusion1, value); }
+        public Infusion Infusion1 { get; private set => Common.SetProperty(ref field, value); }
 
-        public Stat Stat { get => _stat; private set => Common.SetProperty(ref _stat, value); }
+        public Stat Stat { get; private set => Common.SetProperty(ref field, value); }
 
-        public WeaponTemplateEntry PairedWeapon { get => _pairedWeapon; set => Common.SetProperty(ref _pairedWeapon, value); }
+        public WeaponTemplateEntry PairedWeapon { get; set => Common.SetProperty(ref field, value); }
 
         protected override void OnItemChanged(object sender, ValueChangedEventArgs<BaseItem> e)
         {

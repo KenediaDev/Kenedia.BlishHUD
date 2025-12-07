@@ -13,8 +13,6 @@ namespace Kenedia.Modules.Core.Controls
 {
     public class ImageButton : Blish_HUD.Controls.Control, ILocalizable
     {
-        private Func<string> _setLocalizedTooltip;
-
         public ImageButton()
         {
             LocalizingService.LocaleChanged += UserLocale_SettingChanged;
@@ -51,10 +49,10 @@ namespace Kenedia.Modules.Core.Controls
 
         public Func<string> SetLocalizedTooltip
         {
-            get => _setLocalizedTooltip;
+            get;
             set
             {
-                _setLocalizedTooltip = value;
+                field = value;
                 BasicTooltipText = value?.Invoke();
             }
         }

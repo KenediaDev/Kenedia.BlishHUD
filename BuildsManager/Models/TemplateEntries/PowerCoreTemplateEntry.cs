@@ -10,13 +10,12 @@ namespace Kenedia.Modules.BuildsManager.TemplateEntries
     public class PowerCoreTemplateEntry : TemplateEntry, IDisposable
     {
         private bool _isDisposed;
-        private PowerCore _powerCore;
 
         public PowerCoreTemplateEntry(TemplateSlotType slot, Data data) : base(slot, data)
         {
         }
 
-        public PowerCore PowerCore { get => _powerCore; private set => Common.SetProperty(ref _powerCore, value); }
+        public PowerCore PowerCore { get; private set => Common.SetProperty(ref field, value); }
 
         protected override void OnItemChanged(object sender, ValueChangedEventArgs<BaseItem> e)
         {

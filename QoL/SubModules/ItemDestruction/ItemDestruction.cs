@@ -28,7 +28,6 @@ namespace Kenedia.Modules.QoL.SubModules.ItemDestruction
 
         private double _lastAction;
         private double _tick;
-        private ItemDestructionState _state = ItemDestructionState.Disabled;
         private string _copiedText;
 
         private SettingEntry<bool> _disableOnRightClick;
@@ -114,7 +113,7 @@ namespace Kenedia.Modules.QoL.SubModules.ItemDestruction
             Destroyed,
         }
 
-        private ItemDestructionState State { get => _state; set => Common.SetProperty(ref _state, value, OnStateSwitched); }
+        private ItemDestructionState State { get; set => Common.SetProperty(ref field, value, OnStateSwitched); } = ItemDestructionState.Disabled;
 
         public override SubModuleType SubModuleType => SubModuleType.ItemDestruction;
 

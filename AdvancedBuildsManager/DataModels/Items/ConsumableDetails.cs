@@ -7,8 +7,6 @@ namespace Kenedia.Modules.AdvancedBuildsManager.DataModels.Items
     [DataContract]
     public class ConsumableDetails
     {
-        private AsyncTexture2D _icon;
-
         [DataMember]
         public string? Name { get; set; }
 
@@ -27,10 +25,10 @@ namespace Kenedia.Modules.AdvancedBuildsManager.DataModels.Items
         {
             get
             {
-                if (_icon is not null) return _icon;
+                if (field is not null) return field;
 
-                _icon = AsyncTexture2D.FromAssetId(AssetId);
-                return _icon;
+                field = AsyncTexture2D.FromAssetId(AssetId);
+                return field;
             }
         }
     }

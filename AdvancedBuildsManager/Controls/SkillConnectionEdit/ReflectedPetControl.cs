@@ -13,12 +13,9 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Controls.SkillConnectionEdit
     public class ReflectedPetControl : FlowPanel
     {
         private readonly ImageButton _addButton;
-        private Pets _item;
         private bool _canSave = true;
         private readonly Dictionary<int, (Label, PetControl)> _controls = [];
         private readonly PetSelector _selector;
-
-        private OldSkillConnection _skillConnection;
 
         public ReflectedPetControl(string title, PetSelector selector)
         {
@@ -52,11 +49,11 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Controls.SkillConnectionEdit
 
         public OldSkillConnection SkillConnection
         {
-            get => _skillConnection;
-            set => Common.SetProperty(ref _skillConnection, value, OnConnectionChanged);
+            get;
+            set => Common.SetProperty(ref field, value, OnConnectionChanged);
         }
 
-        public Pets Item { get => _item; set => Common.SetProperty(ref _item, value, ApplyItem); }
+        public Pets Item { get; set => Common.SetProperty(ref field, value, ApplyItem); }
 
         private void ApplyItem()
         {

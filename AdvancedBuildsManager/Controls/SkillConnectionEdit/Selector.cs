@@ -19,7 +19,6 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Controls.SkillConnectionEdit
     {
         protected readonly FilterBox Filter;
         protected readonly FlowPanel SelectionPanel;
-        private Dictionary<int, EntryType> _items = [];
         protected CancellationTokenSource CancellationTokenSource;
 
         public Selector()
@@ -80,7 +79,7 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Controls.SkillConnectionEdit
 
         public CtrlType Target { get; set; }
 
-        public Dictionary<int, EntryType> Items { get => _items; set => Common.SetProperty(ref _items, value, ApplyItems); }
+        public Dictionary<int, EntryType> Items { get; set => Common.SetProperty(ref field, value, ApplyItems); } = [];
 
         protected override void OnShown(EventArgs e)
         {

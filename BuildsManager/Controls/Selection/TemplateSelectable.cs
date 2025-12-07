@@ -56,7 +56,6 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
         private Rectangle _bottomBounds;
         private Rectangle _vignetteBounds;
         private Rectangle _tagBounds;
-        private Template _template;
         private double _animationStart;
         private double _animationDuration = 1500;
         private float _animationOpacityStep = 1;
@@ -231,27 +230,27 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
 
         public Template Template
         {
-            get => _template;
+            get;
             set
             {
-                var temp = _template;
+                var temp = field;
 
-                if (Common.SetProperty(ref _template, value, ApplyTemplate))
+                if (Common.SetProperty(ref field, value, ApplyTemplate))
                 {
                     if (temp is not null) temp.RaceChanged -= Template_RaceChanged;
-                    if (_template is not null) _template.RaceChanged += Template_RaceChanged;
+                    if (field is not null) field.RaceChanged += Template_RaceChanged;
 
                     if (temp is not null) temp.ProfessionChanged -= Template_ProfessionChanged;
-                    if (_template is not null) _template.ProfessionChanged += Template_ProfessionChanged;
+                    if (field is not null) field.ProfessionChanged += Template_ProfessionChanged;
 
                     if (temp is not null) temp.EliteSpecializationChanged -= Template_EliteSpecializationChanged;
-                    if (_template is not null) _template.EliteSpecializationChanged += Template_EliteSpecializationChanged; ;
+                    if (field is not null) field.EliteSpecializationChanged += Template_EliteSpecializationChanged; ;
 
                     if (temp is not null) temp.Tags.CollectionChanged -= Tags_CollectionChanged;
-                    if (_template is not null) _template.Tags.CollectionChanged += Tags_CollectionChanged;
+                    if (field is not null) field.Tags.CollectionChanged += Tags_CollectionChanged;
 
                     if (temp is not null) temp.LastModifiedChanged -= Template_LastModifiedChanged;
-                    if (_template is not null) _template.LastModifiedChanged += Template_LastModifiedChanged;
+                    if (field is not null) field.LastModifiedChanged += Template_LastModifiedChanged;
                 }
             }
         }
@@ -299,7 +298,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
 
         private void Template_RaceChanged(object sender, Core.Models.ValueChangedEventArgs<Races> e)
         {
-            _raceTexture = Data.Races.TryGetValue(_template?.Race ?? Races.None, out var race) ? TexturesService.GetTextureFromRef(race.IconPath) : null;
+            _raceTexture = Data.Races.TryGetValue(Template?.Race ?? Races.None, out var race) ? TexturesService.GetTextureFromRef(race.IconPath) : null;
         }
 
         public void ToggleEditMode(bool enable)
@@ -382,7 +381,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
             spriteBatch.DrawOnCtrl(this, Textures.Pixel, new(ContentRegion.X, ContentRegion.Bottom - 28, ContentRegion.Width, 28), Rectangle.Empty, Color.Black * 0.3F);
 
             base.PaintBeforeChildren(spriteBatch, bounds);
-            bool isActive = BuildsManager.ModuleInstance.SelectedTemplate == _template;
+            bool isActive = BuildsManager.ModuleInstance.SelectedTemplate == Template;
             spriteBatch.DrawFrame(this, bounds, isActive ? Colors.ColonialWhite : Color.Transparent, 2);
 
             spriteBatch.DrawOnCtrl(this, _textureBottomSectionSeparator, _separatorBounds, _textureBottomSectionSeparator.Bounds, Color.Black, 0F, Vector2.Zero);
@@ -533,7 +532,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
             _name.WrapText = true;
             _name.HorizontalAlignment = HorizontalAlignment.Left;
             _name.Opacity = 1F;
-            _name.Text = _template.Name;
+            _name.Text = Template.Name;
 
             _animationRunning = false;
         }
@@ -557,12 +556,12 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
         {
             _tagTextures.Clear();
 
-            if (_template is not null)
+            if (Template is not null)
             {
                 Point s = new(20);
                 Rectangle r = new(_tagBounds.X, _tagBounds.Y, s.X, s.Y);
 
-                foreach (string t in _template.Tags)
+                foreach (string t in Template.Tags)
                 {
                     if (TemplateTags.FirstOrDefault(x => x.Name == t) is TemplateTag tag)
                     {

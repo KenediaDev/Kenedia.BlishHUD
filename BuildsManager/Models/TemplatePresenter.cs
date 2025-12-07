@@ -11,12 +11,6 @@ namespace Kenedia.Modules.BuildsManager.Models
 {
     public class TemplatePresenter
     {
-        private Template _template = Template.Empty;
-        private GameModeType _gameMode = GameModeType.PvE;
-        private AttunementType _mainAttunement = AttunementType.Fire;
-        private AttunementType _altAttunement = AttunementType.Fire;
-        private LegendSlotType _legendSlot = LegendSlotType.TerrestrialActive;
-
         public TemplatePresenter(TemplateFactory templateFactory, Data data)
         {
             TemplateFactory = templateFactory;
@@ -70,8 +64,8 @@ namespace Kenedia.Modules.BuildsManager.Models
 
         public Template Template
         {
-            get => _template; private set => Common.SetProperty(ref _template, value, On_TemplateChanged);
-        }
+            get; private set => Common.SetProperty(ref field, value, On_TemplateChanged);
+        } = Template.Empty;
 
         public void SetTemplate(Template? template)
         {
@@ -79,13 +73,13 @@ namespace Kenedia.Modules.BuildsManager.Models
             Template = template;
         }
 
-        public AttunementType MainAttunement { get => _mainAttunement; private set => Common.SetProperty(ref _mainAttunement, value); }
+        public AttunementType MainAttunement { get; private set => Common.SetProperty(ref field, value); } = AttunementType.Fire;
 
-        public AttunementType AltAttunement { get => _altAttunement; private set => Common.SetProperty(ref _altAttunement, value); }
+        public AttunementType AltAttunement { get; private set => Common.SetProperty(ref field, value); } = AttunementType.Fire;
 
-        public LegendSlotType LegendSlot { get => _legendSlot; set => Common.SetProperty(ref _legendSlot, value, OnLegendSlotChanged); }
+        public LegendSlotType LegendSlot { get; set => Common.SetProperty(ref field, value, OnLegendSlotChanged); } = LegendSlotType.TerrestrialActive;
 
-        public GameModeType GameMode { get => _gameMode; set => Common.SetProperty(ref _gameMode, value, On_GameModeChanged); }
+        public GameModeType GameMode { get; set => Common.SetProperty(ref field, value, On_GameModeChanged); } = GameModeType.PvE;
 
         public bool IsPve => GameMode == GameModeType.PvE;
 
@@ -255,7 +249,7 @@ namespace Kenedia.Modules.BuildsManager.Models
 
         public void InvokeTemplateSwitch()
         {
-            TemplateChanged?.Invoke(this, new(_template, _template));
+            TemplateChanged?.Invoke(this, new(Template, Template));
         }
     }
 }

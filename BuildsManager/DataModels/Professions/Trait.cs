@@ -15,7 +15,6 @@ namespace Kenedia.Modules.BuildsManager.DataModels.Professions
     public class Trait : IDisposable
     {
         private bool _isDisposed;
-        private AsyncTexture2D _icon;
 
         public Trait()
         {
@@ -62,13 +61,15 @@ namespace Kenedia.Modules.BuildsManager.DataModels.Professions
         {
             get
             {
-                if (_icon is not null) return _icon;
+                if (field is not null) return field;
 
                 if (IconAssetId is not 0)
-                    _icon = AsyncTexture2D.FromAssetId(IconAssetId);
+                    field = AsyncTexture2D.FromAssetId(IconAssetId);
 
-                return _icon;
+                return field;
             }
+
+            set;
         }
 
         [DataMember]
@@ -103,7 +104,7 @@ namespace Kenedia.Modules.BuildsManager.DataModels.Professions
             if(_isDisposed) return;
             _isDisposed = true;
 
-            _icon = null;
+            Icon = null;
         }
 
         internal void Apply(APITrait trait)

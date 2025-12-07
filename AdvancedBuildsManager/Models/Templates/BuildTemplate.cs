@@ -18,7 +18,6 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Models.Templates
     {
         private bool _isDisposed = false;
         private bool _loading = false;
-        private ProfessionType _profession;
         private CancellationTokenSource _eventCancellationTokenSource;
 
         public BuildTemplate()
@@ -43,7 +42,7 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Models.Templates
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public ProfessionType Profession { get => _profession; set => Common.SetProperty(ref _profession, value, OnProfessionChanged); }
+        public ProfessionType Profession { get; set => Common.SetProperty(ref field, value, OnProfessionChanged); }
 
         private void OnProfessionChanged(object sender, PropertyChangedEventArgs e)
         {

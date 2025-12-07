@@ -10,7 +10,6 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Controls.GearPage
 {
     public class OLDJadeBotControl : Blish_HUD.Controls.Control
     {
-        private Template _template;
         private readonly DetailedTexture _jadebotcore = new(2630946) { TextureRegion = new(36, 36, 56, 56) };
         private readonly DetailedTexture _identifier = new(436368) { };
 
@@ -21,13 +20,13 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Controls.GearPage
 
         public Template Template
         {
-            get => _template; set
+            get; set
             {
-                var temp = _template;
-                if (Common.SetProperty(ref _template, value, ApplyTemplate))
+                var temp = field;
+                if (Common.SetProperty(ref field, value, ApplyTemplate))
                 {
                     if (temp is not null) temp.PropertyChanged -= TemplateChanged;
-                    if (_template is not null) _template.PropertyChanged += TemplateChanged;
+                    if (field is not null) field.PropertyChanged += TemplateChanged;
                 }
             }
         }

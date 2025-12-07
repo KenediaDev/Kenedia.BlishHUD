@@ -35,7 +35,7 @@ namespace Kenedia.Modules.BuildsManager
     //TODO: Check Texture Disposing
     //TODO: Check Adding new Templates without clipboard text
     [Export(typeof(Module))]
-    public class BuildsManager : BaseModule<BuildsManager, MainWindow, Settings, Paths>
+    public class BuildsManager : BaseModule<BuildsManager, MainWindow, Settings, Paths, StaticHosting>
     {
         public static int MainThread = System.Threading.Thread.CurrentThread.ManagedThreadId;
 
@@ -113,9 +113,8 @@ namespace Kenedia.Modules.BuildsManager
 
         //public event ValueChangedEventHandler<bool> TemplatesLoadedDone;
 
-        private bool _templatesLoaded = false;
 
-        public bool TemplatesLoaded { get => _templatesLoaded; private set => Common.SetProperty(ref _templatesLoaded, value); }
+        public bool TemplatesLoaded { get; private set => Common.SetProperty(ref field, value); } = false;
 
         public Template? SelectedTemplate => TemplatePresenter.Template;
 

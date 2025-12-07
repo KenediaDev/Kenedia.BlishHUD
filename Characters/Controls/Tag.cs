@@ -25,7 +25,6 @@ namespace Kenedia.Modules.Characters.Controls
 
         private Color _disabledColor = new(156, 156, 156);
         private Texture2D _disabledBackground;
-        private AsyncTexture2D _background;
 
         public Tag()
         {
@@ -120,14 +119,14 @@ namespace Kenedia.Modules.Characters.Controls
 
         public AsyncTexture2D Background
         {
-            get => _background;
+            get;
             set
             {
-                _background = value;
+                field = value;
                 if (value is not null)
                 {
                     CreateDisabledBackground(null, null);
-                    _background.TextureSwapped += CreateDisabledBackground;
+                    field.TextureSwapped += CreateDisabledBackground;
                 }
             }
         }
@@ -162,9 +161,9 @@ namespace Kenedia.Modules.Characters.Controls
 
         public override void PaintBeforeChildren(SpriteBatch spriteBatch, Rectangle bounds)
         {
-            if (_background is not null)
+            if (Background is not null)
             {
-                AsyncTexture2D texture = Active ? _background : _disabledBackground is not null ? _disabledBackground : _background;
+                AsyncTexture2D texture = Active ? Background : _disabledBackground is not null ? _disabledBackground : Background;
 
                 spriteBatch.DrawOnCtrl(this, texture, bounds, bounds, Active ? Color.White * 0.98f : _disabledColor * 0.8f);
             }
@@ -212,8 +211,8 @@ namespace Kenedia.Modules.Characters.Controls
 
         private void CreateDisabledBackground(object sender, ValueChangedEventArgs<Texture2D> e)
         {
-            _disabledBackground = _background.Texture.ToGrayScaledPalettable();
-            _background.TextureSwapped -= CreateDisabledBackground;
+            _disabledBackground = Background.Texture.ToGrayScaledPalettable();
+            Background.TextureSwapped -= CreateDisabledBackground;
         }
     }
 }

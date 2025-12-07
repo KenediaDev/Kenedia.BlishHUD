@@ -18,10 +18,8 @@ namespace Kenedia.Modules.BuildsManager.Views
 
         private AsyncTexture2D _textureEnabled;
         private AsyncTexture2D _textureDisabled;
-        private Func<string> _setLocalizedTooltip;
-        private bool _selected;
 
-        public bool Selected { get => _selected; set => Common.SetProperty(ref _selected , value, OnSelected); }
+        public bool Selected { get; set => Common.SetProperty(ref field , value, OnSelected); }
 
         public TagToggle(TemplateTag tag)
         {
@@ -54,10 +52,10 @@ namespace Kenedia.Modules.BuildsManager.Views
 
         public Func<string> SetLocalizedTooltip
         {
-            get => _setLocalizedTooltip;
+            get;
             set
             {
-                _setLocalizedTooltip = value;
+                field = value;
 
                 if (value is not null)
                     BasicTooltipText = value?.Invoke();

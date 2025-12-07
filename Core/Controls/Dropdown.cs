@@ -11,9 +11,6 @@ namespace Kenedia.Modules.Core.Controls
 {
     public class Dropdown : Blish_HUD.Controls.Dropdown, ILocalizable
     {
-        private Func<List<string>> _setLocalizedItems;
-        private Func<string> _setLocalizedTooltip;
-
         public Dropdown()
         {
             LocalizingService.LocaleChanged  += UserLocale_SettingChanged;
@@ -22,20 +19,20 @@ namespace Kenedia.Modules.Core.Controls
 
         public Func<List<string>> SetLocalizedItems
         {
-            get => _setLocalizedItems;
+            get;
             set
             {
-                _setLocalizedItems = value;
+                field = value;
                 UserLocale_SettingChanged(null, null);
             }
         }
 
         public Func<string> SetLocalizedTooltip
         {
-            get => _setLocalizedTooltip;
+            get;
             set
             {
-                _setLocalizedTooltip = value;
+                field = value;
                 BasicTooltipText = value?.Invoke();
             }
         }

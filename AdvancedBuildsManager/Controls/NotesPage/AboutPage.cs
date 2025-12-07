@@ -25,7 +25,6 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Controls.NotesPage
 
         private Color _disabledColor = Color.Gray;
 
-        private Template _template;
         public AboutPage()
         {
             _tagPanel = new()
@@ -212,13 +211,13 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Controls.NotesPage
 
         public Template Template
         {
-            get => _template; set
+            get; set
             {
-                var temp = _template;
-                if (Common.SetProperty(ref _template, value, ApplyTemplate))
+                var temp = field;
+                if (Common.SetProperty(ref field, value, ApplyTemplate))
                 {
                     if (temp is not null) temp.PropertyChanged -= TemplateChanged;
-                    if (_template is not null) _template.PropertyChanged += TemplateChanged;
+                    if (field is not null) field.PropertyChanged += TemplateChanged;
                 }
             }
         }
@@ -268,7 +267,7 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Controls.NotesPage
         {
             base.DisposeControl();
 
-            if (_template is not null) _template.PropertyChanged -= TemplateChanged;
+            if (Template is not null) Template.PropertyChanged -= TemplateChanged;
         }
     }
 }

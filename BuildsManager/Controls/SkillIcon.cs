@@ -18,7 +18,6 @@ namespace Kenedia.Modules.BuildsManager.Controls
     {
         private readonly AsyncTexture2D _noAquaticFlagTexture = AsyncTexture2D.FromAssetId(157145);
         private Rectangle _noAquaticFlagTextureRegion;
-        private Skill _skill;
 
         public SkillIcon()
         {
@@ -32,7 +31,7 @@ namespace Kenedia.Modules.BuildsManager.Controls
             _noAquaticFlagTextureRegion = new(16, 16, 96, 96);
         }
 
-        public Skill Skill { get => _skill; set => Common.SetProperty(ref _skill, value, ApplySkill); }
+        public Skill Skill { get; set => Common.SetProperty(ref field, value, ApplySkill); }
 
         public AsyncTexture2D HoveredFrameTexture { get; private set; }
 

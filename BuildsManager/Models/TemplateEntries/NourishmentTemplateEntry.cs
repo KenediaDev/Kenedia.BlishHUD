@@ -10,13 +10,12 @@ namespace Kenedia.Modules.BuildsManager.TemplateEntries
     public class NourishmentTemplateEntry : TemplateEntry, IDisposable
     {
         private bool _isDisposed;
-        private Nourishment _nourishment;
 
         public NourishmentTemplateEntry(TemplateSlotType slot, Data data) : base(slot, data)
         {
         }
 
-        public Nourishment Nourishment { get => _nourishment; private set => Common.SetProperty(ref _nourishment, value); }
+        public Nourishment Nourishment { get; private set => Common.SetProperty(ref field, value); }
 
         protected override void OnItemChanged(object sender, ValueChangedEventArgs<BaseItem> e)
         {

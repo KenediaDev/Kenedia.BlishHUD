@@ -25,8 +25,6 @@ namespace Kenedia.Modules.OverflowTradingAssist.Views
         private readonly TradePresenter _tradePresenter = new();
         private readonly MailingService _mailingService;
         private readonly Func<List<Trade>> _getTrades;
-        private Trade _trade;
-
         private List<TradeHistoryEntryControl> _tradeHistoryEntries = [];
         private TradeHistoryView _historyView;
         private TradeView _tradeView;
@@ -80,7 +78,7 @@ namespace Kenedia.Modules.OverflowTradingAssist.Views
             _tradeHistoryEntries = e;
         }
 
-        public Trade Trade { get => _trade; set => Common.SetProperty(ref _trade, value, ApplyTrade); }
+        public Trade Trade { get; set => Common.SetProperty(ref field, value, ApplyTrade); }
 
         private void ApplyTrade(object sender, ValueChangedEventArgs<Trade> e)
         {

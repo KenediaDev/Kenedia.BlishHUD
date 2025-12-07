@@ -100,6 +100,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\StringListExtension.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\Texture2DExtension.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\WaitHandleExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)helpers\AssetIdHelper.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Helpers\AsyncHelper.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Interfaces\ICheckable.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Interfaces\IFontControl.cs" />
@@ -122,6 +123,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Models\SharedSettingsModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\StatusType.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\UniqueObservableCollection.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\VersionedDictionary.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Res\strings_common.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>

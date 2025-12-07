@@ -12,8 +12,6 @@ namespace Kenedia.Modules.Core.DataModels
     [DataContract]
     public class BaseSkill
     {
-        private AsyncTexture2D _icon;
-
         public BaseSkill()
         {
 
@@ -64,11 +62,13 @@ namespace Kenedia.Modules.Core.DataModels
         {
             get
             {
-                if (_icon is not null || AssetId == null) return _icon;
+                if (field is not null || AssetId == null) return field;
 
-                _icon = AsyncTexture2D.FromAssetId((int)AssetId);
-                return _icon;
+                field = AsyncTexture2D.FromAssetId((int)AssetId);
+                return field;
             }
+
+            private set;
         }
     }
 }

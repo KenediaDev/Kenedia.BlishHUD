@@ -16,8 +16,6 @@ namespace Kenedia.Modules.BuildsManager.DataModels.Items
     [DataContract]
     public class BaseItem : IDataMember
     {
-        private AsyncTexture2D _icon;
-
         public BaseItem()
         {
 
@@ -64,12 +62,12 @@ namespace Kenedia.Modules.BuildsManager.DataModels.Items
         {
             get
             {
-                if (_icon is not null) return _icon;
+                if (field is not null) return field;
 
                 if (AssetId is not 0)
-                    _icon = AsyncTexture2D.FromAssetId(AssetId);
+                    field = AsyncTexture2D.FromAssetId(AssetId);
 
-                return _icon;
+                return field;
             }
         }
 

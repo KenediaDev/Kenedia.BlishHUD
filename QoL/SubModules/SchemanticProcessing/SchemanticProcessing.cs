@@ -23,8 +23,6 @@ namespace Kenedia.Modules.QoL.SubModules.SchemanticProcessing
 {
     public class ClickContainer : Panel
     {
-        private bool _selected = false;
-
         public ClickContainer()
         {
             BorderColor = Colors.ColonialWhite * 0.5F;
@@ -33,7 +31,7 @@ namespace Kenedia.Modules.QoL.SubModules.SchemanticProcessing
 
         public bool ShowCenter { get; set; } = true;
 
-        public bool Selected { get => _selected; set => Common.SetProperty(ref _selected, value, OnSelectedChanged); }
+        public bool Selected { get; set => Common.SetProperty(ref field, value, OnSelectedChanged); } = false;
 
         public Color CenterColor { get; private set; } = Colors.ColonialWhite * 0.5F;
 

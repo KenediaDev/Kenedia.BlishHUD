@@ -13,28 +13,22 @@ namespace Kenedia.Modules.BuildsManager.TemplateEntries
     public class AquaticWeaponTemplateEntry : TemplateEntry, IDisposable, IStatTemplateEntry, IDoubleSigilTemplateEntry, IDoubleInfusionTemplateEntry, IWeaponTemplateEntry
     {
         private bool _isDisposed;
-        private Weapon _weapon;
-        private Sigil _sigil1;
-        private Sigil _sigil2;
-        private Infusion _infusion1;
-        private Infusion _infusion2;
-        private Stat _stat;
 
         public AquaticWeaponTemplateEntry(TemplateSlotType slot, Data data) : base(slot, data)
         {
         }
 
-        public Weapon Weapon { get => _weapon; private set => Common.SetProperty(ref _weapon, value); }
+        public Weapon Weapon { get; private set => Common.SetProperty(ref field, value); }
 
-        public Sigil Sigil1 { get => _sigil1; private set => Common.SetProperty(ref _sigil1, value); }
+        public Sigil Sigil1 { get; private set => Common.SetProperty(ref field, value); }
 
-        public Sigil Sigil2 { get => _sigil2; private set => Common.SetProperty(ref _sigil2, value); }
+        public Sigil Sigil2 { get; private set => Common.SetProperty(ref field, value); }
 
-        public Infusion Infusion1 { get => _infusion1; private set => Common.SetProperty(ref _infusion1, value); }
+        public Infusion Infusion1 { get; private set => Common.SetProperty(ref field, value); }
 
-        public Infusion Infusion2 { get => _infusion2; private set => Common.SetProperty(ref _infusion2, value); }
+        public Infusion Infusion2 { get; private set => Common.SetProperty(ref field, value); }
 
-        public Stat Stat { get => _stat; private set => Common.SetProperty(ref _stat, value); }
+        public Stat Stat { get; private set => Common.SetProperty(ref field, value); }
 
         protected override void OnItemChanged(object sender, ValueChangedEventArgs<BaseItem> e)
         {

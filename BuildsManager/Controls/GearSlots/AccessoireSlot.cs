@@ -19,9 +19,6 @@ namespace Kenedia.Modules.BuildsManager.Controls_Old.GearPage.GearSlots
     {
         private readonly ItemControl _infusionControl = new(new() { TextureRegion = new(38, 38, 52, 52) });
 
-        private Stat? _stat;
-        private Infusion? _infusion;
-
         public AccessoireSlot(TemplateSlotType gearSlot, Container parent, TemplatePresenter templatePresenter, SelectionPanel selectionPanel, Data data) 
             : base(gearSlot, parent, templatePresenter, selectionPanel, data)
         {
@@ -36,9 +33,9 @@ namespace Kenedia.Modules.BuildsManager.Controls_Old.GearPage.GearSlots
             ItemControl.Item = Data.Trinkets[81908];
         }
 
-        public Stat Stat { get => _stat; set => Common.SetProperty(ref _stat, value, OnStatChanged); }
+        public Stat Stat { get; set => Common.SetProperty(ref field, value, OnStatChanged); }
 
-        public Infusion Infusion { get => _infusion; set => Common.SetProperty(ref _infusion, value, OnInfusionChanged); }
+        public Infusion Infusion { get; set => Common.SetProperty(ref field, value, OnInfusionChanged); }
 
         public override void RecalculateLayout()
         {

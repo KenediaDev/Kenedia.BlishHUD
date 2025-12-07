@@ -13,8 +13,6 @@ namespace Kenedia.Modules.AdvancedBuildsManager.DataModels.Professions
     [DataContract]
     public class Trait
     {
-        private AsyncTexture2D _icon;
-
         public Trait()
         {
         }
@@ -81,10 +79,10 @@ namespace Kenedia.Modules.AdvancedBuildsManager.DataModels.Professions
         {
             get
             {
-                if (_icon is not null) return _icon;
+                if (field is not null) return field;
 
-                _icon = AsyncTexture2D.FromAssetId(IconAssetId);
-                return _icon;
+                field = AsyncTexture2D.FromAssetId(IconAssetId);
+                return field;
             }
         }
 

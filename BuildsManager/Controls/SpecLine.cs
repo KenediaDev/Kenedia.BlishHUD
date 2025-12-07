@@ -75,13 +75,11 @@ namespace Kenedia.Modules.BuildsManager.Controls
 
         private Dictionary<int, Trait> _minorsTraits = [];
         private Dictionary<int, Trait> _majorTraits = [];
-
-        private bool _selectorOpen = false;
         private readonly TraitTooltip _traitTooltip;
         private readonly Tooltip _basicTooltip;
         private readonly Label _basicTooltipLabel;
 
-        public bool SelectorOpen { get => _selectorOpen; set => Common.SetProperty(ref _selectorOpen, value, OnSelectorToggled); }
+        public bool SelectorOpen { get; set => Common.SetProperty(ref field, value, OnSelectorToggled); } = false;
 
         private void OnSelectorToggled(object sender, Core.Models.ValueChangedEventArgs<bool> e)
         {

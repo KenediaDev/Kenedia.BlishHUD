@@ -26,7 +26,6 @@ namespace Kenedia.Modules.Characters.Services
 
     public class CharacterSorting
     {
-        private string _status;
         private readonly Settings _settings;
         private readonly GameStateDetectionService _gameState;
         private readonly ObservableCollection<Character_Model> _rawCharacterModels;
@@ -35,21 +34,20 @@ namespace Kenedia.Modules.Characters.Services
         private List<Character_Model> _models;
         private SortingState _state;
         private string _lastName;
-        private int _noNameChange = 0;
 
         [SuppressMessage("CodeQuality", "IDE0052:Remove unread private members", Justification = "<Pending>")]
         private int NoNameChange
         {
-            get => _noNameChange;
+            get;
             set
             {
-                _noNameChange = value;
-                if (_noNameChange > 0)
+                field = value;
+                if (field > 0)
                 {
-                    Status = string.Format(strings.FixCharacter_NoChange, _noNameChange);
+                    Status = string.Format(strings.FixCharacter_NoChange, field);
                 }
 
-                if (_noNameChange >= 2)
+                if (field >= 2)
                 {
                     _state = SortingState.Done;
                     Status = strings.Status_Done;
@@ -57,7 +55,7 @@ namespace Kenedia.Modules.Characters.Services
                     Completed?.Invoke(null, null);
                 }
             }
-        }
+        } = 0;
 
         private int _currentIndex = 0;
 
@@ -85,10 +83,10 @@ namespace Kenedia.Modules.Characters.Services
         {
             set
             {
-                _status = value;
+                field = value;
                 StatusChanged?.Invoke(null, EventArgs.Empty);
             }
-            get => _status;
+            get;
         }
 
         public bool Cancel()

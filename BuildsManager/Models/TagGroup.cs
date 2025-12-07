@@ -11,17 +11,8 @@ namespace Kenedia.Modules.BuildsManager.Models
     {
         public static string DefaultName => strings.GroupNotDefined;
 
-        [JsonProperty("AssetId")]
-        private int _assetId = 156025;
-
-        [JsonProperty("Name")]
-        private string _name = DefaultName;
-
         [JsonProperty("TextureRegion")]
         private Rectangle? _textureRegion;
-
-        [JsonProperty("Priority")]
-        private int _priority = 1;
 
         public event PropertyAndValueChangedEventHandler? PropertyChanged;
 
@@ -38,11 +29,13 @@ namespace Kenedia.Modules.BuildsManager.Models
             }            
         }
 
+        [field: JsonProperty("Priority")]
         [JsonIgnore]
-        public int Priority { get => _priority; set => Common.SetProperty(ref _priority, value, OnPriorityChanged); }
+        public int Priority { get; set => Common.SetProperty(ref field, value, OnPriorityChanged); } = 1;
 
+        [field: JsonProperty("Name")]
         [JsonIgnore]
-        public string Name { get => _name; set => Common.SetProperty(ref _name, value, OnNameChanged); }
+        public string Name { get; set => Common.SetProperty(ref field, value, OnNameChanged); } = DefaultName;
 
         [JsonIgnore]
         public DetailedTexture Icon { get; set; } = new(156025)
@@ -50,8 +43,9 @@ namespace Kenedia.Modules.BuildsManager.Models
             TextureRegion = new Rectangle(44, 48, 43, 46),
         };
 
+        [field: JsonProperty("AssetId")]
         [JsonIgnore]
-        public int AssetId { get => _assetId; set => Common.SetProperty(ref _assetId, value, OnAssetIdChanged); }
+        public int AssetId { get; set => Common.SetProperty(ref field, value, OnAssetIdChanged); } = 156025;
 
         [JsonIgnore]
         public Rectangle? TextureRegion { get => _textureRegion; set => Common.SetProperty(ref _textureRegion, value, OnTextureRegionChanged); }

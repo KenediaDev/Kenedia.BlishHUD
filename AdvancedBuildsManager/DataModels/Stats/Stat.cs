@@ -50,8 +50,6 @@ namespace Kenedia.Modules.AdvancedBuildsManager.DataModels.Stats
     [DataContract]
     public class Stat
     {
-        private AsyncTexture2D _icon;
-
         public Stat()
         {
         }
@@ -85,10 +83,10 @@ namespace Kenedia.Modules.AdvancedBuildsManager.DataModels.Stats
         {
             get
             {
-                if (_icon is not null) return _icon;
+                if (field is not null) return field;
 
-                _icon = TryGetTextureId(out int? textureId) ? AdvancedBuildsManager.ModuleInstance.ContentsManager.GetTexture($@"textures\equipment_stats\{textureId}.png") : AsyncTexture2D.FromAssetId(156021);
-                return _icon;
+                field = TryGetTextureId(out int? textureId) ? AdvancedBuildsManager.ModuleInstance.ContentsManager.GetTexture($@"textures\equipment_stats\{textureId}.png") : AsyncTexture2D.FromAssetId(156021);
+                return field;
             }
         }
 

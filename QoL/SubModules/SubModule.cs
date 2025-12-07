@@ -19,10 +19,6 @@ namespace Kenedia.Modules.QoL.SubModules
 
         private bool _loaded;
         private bool _unloaded;
-        private bool _enabled;
-        private Func<string> _localizedName;
-        private Func<string> _localizedDescription;
-
         protected SettingCollection Settings;
         protected SubModuleUI UI_Elements = [];
 
@@ -53,11 +49,11 @@ namespace Kenedia.Modules.QoL.SubModules
 
         public abstract SubModuleType SubModuleType { get; }
 
-        public bool Enabled { get => _enabled; set => Common.SetProperty(ref _enabled, value, OnEnabledChanged); }
+        public bool Enabled { get; set => Common.SetProperty(ref field, value, OnEnabledChanged); }
 
-        public Func<string> LocalizedName { get => _localizedName; set => Common.SetProperty(ref _localizedName, value); }
+        public Func<string> LocalizedName { get; set => Common.SetProperty(ref field, value); }
 
-        public Func<string> LocalizedDescription { get => _localizedDescription; set => Common.SetProperty(ref _localizedDescription, value); }
+        public Func<string> LocalizedDescription { get; set => Common.SetProperty(ref field, value); }
 
         public ModuleButton ToggleControl { get; }
 

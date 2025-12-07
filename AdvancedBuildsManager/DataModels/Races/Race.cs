@@ -12,9 +12,6 @@ namespace Kenedia.Modules.AdvancedBuildsManager.DataModels
     [DataContract]
     public class Race
     {
-        private AsyncTexture2D _icon;
-        private AsyncTexture2D _hoveredIcon;
-
         public Race()
         {
 
@@ -65,10 +62,10 @@ namespace Kenedia.Modules.AdvancedBuildsManager.DataModels
         {
             get
             {
-                if (_icon is not null) return _icon;
+                if (field is not null) return field;
 
-                _icon = AdvancedBuildsManager.ModuleInstance.ContentsManager.GetTexture($@"textures\races\{Id.ToString().ToLower()}.png");
-                return _icon;
+                field = AdvancedBuildsManager.ModuleInstance.ContentsManager.GetTexture($@"textures\races\{Id.ToString().ToLower()}.png");
+                return field;
             }
         }
 
@@ -76,10 +73,10 @@ namespace Kenedia.Modules.AdvancedBuildsManager.DataModels
         {
             get
             {
-                if (_hoveredIcon is not null) return _hoveredIcon;
+                if (field is not null) return field;
 
-                _hoveredIcon = AdvancedBuildsManager.ModuleInstance.ContentsManager.GetTexture($@"textures\races\{Id.ToString().ToLower()}_hovered.png");
-                return _hoveredIcon;
+                field = AdvancedBuildsManager.ModuleInstance.ContentsManager.GetTexture($@"textures\races\{Id.ToString().ToLower()}_hovered.png");
+                return field;
             }
         }
 

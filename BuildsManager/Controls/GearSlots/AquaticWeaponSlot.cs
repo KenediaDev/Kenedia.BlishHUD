@@ -37,12 +37,6 @@ namespace Kenedia.Modules.BuildsManager.Controls_Old.GearPage.GearSlots
         private Rectangle _infusion1Bounds;
         private Rectangle _infusion2Bounds;
 
-        private Stat _stat;
-        private Sigil _sigil1;
-        private Sigil _sigil2;
-        private Infusion _infusion1;
-        private Infusion _infusion2;
-
         public AquaticWeaponSlot(TemplateSlotType gearSlot, Container parent, TemplatePresenter templatePresenter, Controls.Selection.SelectionPanel selectionPanel, Data data)
             : base(gearSlot, parent, templatePresenter, selectionPanel, data)
         {
@@ -55,15 +49,15 @@ namespace Kenedia.Modules.BuildsManager.Controls_Old.GearPage.GearSlots
             _infusion2Control.Parent = this;
         }
 
-        public Stat Stat { get => _stat; set => Common.SetProperty(ref _stat, value, OnStatChanged); }
+        public Stat Stat { get; set => Common.SetProperty(ref field, value, OnStatChanged); }
 
-        public Sigil Sigil1 { get => _sigil1; set => Common.SetProperty(ref _sigil1, value, OnSigil1Changed); }
+        public Sigil Sigil1 { get; set => Common.SetProperty(ref field, value, OnSigil1Changed); }
 
-        public Sigil Sigil2 { get => _sigil2; set => Common.SetProperty(ref _sigil2, value, OnSigil2Changed); }
+        public Sigil Sigil2 { get; set => Common.SetProperty(ref field, value, OnSigil2Changed); }
 
-        public Infusion Infusion1 { get => _infusion1; set => Common.SetProperty(ref _infusion1, value, OnInfusion1Changed); }
+        public Infusion Infusion1 { get; set => Common.SetProperty(ref field, value, OnInfusion1Changed); }
 
-        public Infusion Infusion2 { get => _infusion2; set => Common.SetProperty(ref _infusion2, value, OnInfusion2Changed); }
+        public Infusion Infusion2 { get; set => Common.SetProperty(ref field, value, OnInfusion2Changed); }
 
         private void SetGroupStat(Stat stat = null, bool overrideExisting = false)
         {

@@ -245,9 +245,6 @@ namespace Kenedia.Modules.BuildsManager.DataModels.Professions
             Pets.RaptorSwiftwing,
         ];
 
-        private AsyncTexture2D _icon;
-        private AsyncTexture2D _selectedIcon;
-
         public Pet()
         {
 
@@ -300,24 +297,28 @@ namespace Kenedia.Modules.BuildsManager.DataModels.Professions
         {
             get
             {
-                if (_icon is not null) return _icon;
+                if (field is not null) return field;
 
                 if (IconAssetId is not 0)
-                    _icon = AsyncTexture2D.FromAssetId(IconAssetId);
+                    field = AsyncTexture2D.FromAssetId(IconAssetId);
 
-                return _icon;
+                return field;
             }
+
+            private set;
         }
         public AsyncTexture2D SelectedIcon
         {
             get
             {
-                if (_selectedIcon is not null) return _selectedIcon;
+                if (field is not null) return field;
 
                 int assetId = IconAssetId == 52565 ? 1769874 : IconAssetId + 1;
-                _selectedIcon = AsyncTexture2D.FromAssetId(assetId);
-                return _selectedIcon;
+                field = AsyncTexture2D.FromAssetId(assetId);
+                return field;
             }
+
+            private set;
         }
 
         [DataMember]
@@ -361,8 +362,8 @@ namespace Kenedia.Modules.BuildsManager.DataModels.Professions
             if (_isDisposed) return;
 
             _isDisposed = true;
-            _icon = null;
-            _selectedIcon = null;
+            Icon = null;
+            SelectedIcon = null;
 
             Skills?.Values?.DisposeAll();
             Skills?.Clear();

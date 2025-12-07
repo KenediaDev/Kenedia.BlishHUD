@@ -9,7 +9,6 @@ namespace Kenedia.Modules.OverflowTradingAssist.Controls
     public class ItemSelectable : Panel
     {
         private readonly ItemControl _itemControl;
-        private Item _item;
 
         public ItemSelectable()
         {
@@ -21,7 +20,7 @@ namespace Kenedia.Modules.OverflowTradingAssist.Controls
             };
         }
 
-        public Item Item { get => _item; set => Common.SetProperty(ref _item, value, ApplyItem);}
+        public Item Item { get; set => Common.SetProperty(ref field, value, ApplyItem);}
 
         private void ApplyItem(object sender, ValueChangedEventArgs<Item> e)
         {

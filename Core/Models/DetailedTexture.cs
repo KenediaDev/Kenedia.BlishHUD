@@ -11,9 +11,6 @@ namespace Kenedia.Modules.Core.Models
     public class DetailedTexture : IDisposable
     {
         private bool _isDisposed;
-        private AsyncTexture2D _texture;
-        private AsyncTexture2D _hoveredTexture;
-        private AsyncTexture2D _fallbackTexture;
 
         public DetailedTexture()
         {
@@ -37,11 +34,11 @@ namespace Kenedia.Modules.Core.Models
 
         public bool Hovered { get; protected set; }
 
-        public AsyncTexture2D Texture { get => _texture; set => Common.SetProperty(ref _texture, value, () => ApplyBounds(), value is not null); }
+        public AsyncTexture2D Texture { get; set => Common.SetProperty(ref field, value, () => ApplyBounds(), value is not null); }
 
-        public AsyncTexture2D HoveredTexture { get => _hoveredTexture; set => Common.SetProperty(ref _hoveredTexture, value, () => ApplyBounds(), value is not null); }
+        public AsyncTexture2D HoveredTexture { get; set => Common.SetProperty(ref field, value, () => ApplyBounds(), value is not null); }
 
-        public AsyncTexture2D FallBackTexture { get => _fallbackTexture; set => Common.SetProperty(ref _fallbackTexture, value, () => ApplyBounds(), value is not null); }
+        public AsyncTexture2D FallBackTexture { get; set => Common.SetProperty(ref field, value, () => ApplyBounds(), value is not null); }
 
         public Rectangle TextureRegion { get; set; }
 

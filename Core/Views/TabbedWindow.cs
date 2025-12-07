@@ -23,10 +23,7 @@ namespace Kenedia.Modules.Core.Views
         private Rectangle _titleTextRegion;
         private Rectangle _titleRectangle;
         private Rectangle _versionRectangle;
-        private string _name;
         protected BitmapFont VersionFont = Content.DefaultFont14;
-        private SemVer.Version _version;
-        private string _subName;
         private readonly List<AnchoredContainer> _attachedContainers = [];
 
         public TabbedWindow(AsyncTexture2D background, Rectangle windowRegion, Rectangle contentRegion) : base(background, windowRegion, contentRegion)
@@ -35,11 +32,11 @@ namespace Kenedia.Modules.Core.Views
 
         public bool IsActive => ActiveWindow == this;
 
-        public SemVer.Version Version { get => _version; set => Common.SetProperty(ref _version, value, RecalculateLayout); }
+        public SemVer.Version Version { get; set => Common.SetProperty(ref field, value, RecalculateLayout); }
 
-        public string Name { get => _name; set => Common.SetProperty(ref _name, value, RecalculateLayout); }
+        public string Name { get; set => Common.SetProperty(ref field, value, RecalculateLayout); }
 
-        public string SubName { get => _subName; set => Common.SetProperty(ref _subName, value, RecalculateLayout); }
+        public string SubName { get; set => Common.SetProperty(ref field, value, RecalculateLayout); }
 
         public AsyncTexture2D MainWindowEmblem { get; set; }
 

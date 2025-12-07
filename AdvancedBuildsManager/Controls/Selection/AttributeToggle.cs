@@ -8,7 +8,6 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Controls.Selection
 {
     public class AttributeToggle : ImageToggle
     {
-        private AttributeType _attribute;
         public AttributeToggle()
         {
             ImageColor = Color.Gray * 0.5F;
@@ -16,11 +15,11 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Controls.Selection
             TextureRectangle = new(4, 4, 24, 24);
         }
 
-        public AttributeType Attribute { get => _attribute; set => Common.SetProperty(ref _attribute, value, OnAttributeChanged); }
+        public AttributeType Attribute { get; set => Common.SetProperty(ref field, value, OnAttributeChanged); }
 
         private void OnAttributeChanged()
         {
-            Texture = _attribute switch
+            Texture = Attribute switch
             {
                 AttributeType.Power => AsyncTexture2D.FromAssetId(66722),
                 AttributeType.Toughness => AsyncTexture2D.FromAssetId(156612),

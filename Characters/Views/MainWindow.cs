@@ -370,7 +370,7 @@ namespace Kenedia.Modules.Characters.Views
                 {
                     stringFilters.Add(new("CraftingProfession", new((c) =>
                     {
-                        foreach (KeyValuePair<int, Data.CraftingProfession> craft in c.CraftingDisciplines)
+                        foreach (KeyValuePair<int, CraftingProfession> craft in c.CraftingDisciplines)
                         {
                             if (!_settings.DisplayToggles.Value["OnlyMaxCrafting"].Check || craft.Key == craft.Value.MaxRating)
                             {

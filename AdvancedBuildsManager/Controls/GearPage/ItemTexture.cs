@@ -12,10 +12,9 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Controls.GearPage
 {
     public class ItemTexture : DetailedTexture
     {
-        private BaseItem _item;
         private Color _frameColor;
 
-        public BaseItem Item { get => _item; set => Common.SetProperty(ref _item, value, ApplyItem); }
+        public BaseItem Item { get; set => Common.SetProperty(ref field, value, ApplyItem); }
 
         private void ApplyItem()
         {

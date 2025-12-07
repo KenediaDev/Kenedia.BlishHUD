@@ -15,7 +15,6 @@ namespace Kenedia.Modules.Core.Controls
         private readonly DetailedTexture _inactive = new(102538);
 
         public int Index;
-        private bool _checked;
 
         public event EventHandler<Blish_HUD.Controls.CheckChangedEvent> CheckedChanged;
 
@@ -26,7 +25,7 @@ namespace Kenedia.Modules.Core.Controls
 
         public DetailedTexture Icon { get; set; }
 
-        public bool Checked { get => _checked; set => Common.SetProperty(ref _checked, value, On_CheckChanged); }
+        public bool Checked { get; set => Common.SetProperty(ref field, value, On_CheckChanged); }
 
         public Action<bool> OnCheckChanged { get; set; }
 

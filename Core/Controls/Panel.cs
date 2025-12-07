@@ -32,10 +32,6 @@ namespace Kenedia.Modules.Core.Controls
             ZIndex = int.MaxValue / 2,
             Visible = false,
         };
-
-        private Func<string> _setLocalizedTitleTooltip;
-        private Func<string> _setLocalizedTooltip;
-        private Func<string> _setLocalizedTitle;
         private Vector2 _layoutAccordionArrowOrigin;
         private Rectangle _layoutTopLeftAccentBounds;
         private Rectangle _layoutBottomRightAccentBounds;
@@ -52,7 +48,6 @@ namespace Kenedia.Modules.Core.Controls
         private RectangleDimensions _borderWidth = new(0);
         private Rectangle _backgroundBounds;
         private RectangleDimensions _titleIconPadding = new(3, 3, 5, 3);
-        private int _titleBarHeight = 36;
 
         public string BasicTitleTooltipText { get; set; }
 
@@ -118,13 +113,13 @@ namespace Kenedia.Modules.Core.Controls
 
         public int TitleBarHeight
         {
-            get => _titleBarHeight;
+            get;
             set
             {
-                _titleBarHeight = value;
+                field = value;
                 RecalculateLayout();
             }
-        }
+        } = 36;
 
         public string TitleTooltipText
         {
@@ -134,30 +129,30 @@ namespace Kenedia.Modules.Core.Controls
 
         public Func<string> SetLocalizedTooltip
         {
-            get => _setLocalizedTooltip;
+            get;
             set
             {
-                _setLocalizedTooltip = value;
+                field = value;
                 BasicTooltipText = value?.Invoke();
             }
         }
 
         public Func<string> SetLocalizedTitleTooltip
         {
-            get => _setLocalizedTitleTooltip;
+            get;
             set
             {
-                _setLocalizedTitleTooltip = value;
+                field = value;
                 TitleTooltipText = value?.Invoke();
             }
         }
 
         public Func<string> SetLocalizedTitle
         {
-            get => _setLocalizedTitle;
+            get;
             set
             {
-                _setLocalizedTitle = value;
+                field = value;
                 Title = value?.Invoke();
             }
         }
@@ -203,7 +198,7 @@ namespace Kenedia.Modules.Core.Controls
                 Width - Math.Max(BorderWidth.Horizontal - 4, 0),
                 Height - Math.Max(BorderWidth.Vertical - 4, 0));
 
-            int num = (!string.IsNullOrEmpty(_title)) ? _titleBarHeight : 0;
+            int num = (!string.IsNullOrEmpty(_title)) ? TitleBarHeight : 0;
             int num2 = 0;
             int num3 = 0;
             int num4 = 0;
