@@ -68,9 +68,9 @@ namespace Kenedia.Modules.Characters.Models
             _level = character.Level;
             //_beta = _beta || character.Flags.ToList().Contains(CharacterFlag.Beta);
 
-            _race = (Races)Enum.Parse(typeof(RaceType), character.Race);
-            _profession = (ProfessionType)Enum.Parse(typeof(ProfessionType), character.Profession);
-            _specialization = (int)SpecializationType.None;
+            _race = Enum.TryParse(character.Race, out Races race) ? race : Races.None;
+            _profession = Enum.TryParse(character.Profession, out ProfessionType profession) ? profession : ProfessionType.Guardian;
+            _specialization = 0;
 
             _created = character.Created;
             _lastModified = character.LastModified.UtcDateTime;

@@ -43,6 +43,7 @@ using NotificationBadge = Kenedia.Modules.Core.Controls.NotificationBadge;
 using AnchoredContainer = Kenedia.Modules.Core.Controls.AnchoredContainer;
 using Microsoft.Extensions.DependencyInjection;
 using Kenedia.Modules.Core.DataModels;
+using Characters.Views;
 
 //TODO Fetch API Data on Version change, eventually use static hosting
 // TODO if character name is in multiple accounts -> don't load
@@ -186,22 +187,7 @@ namespace Kenedia.Modules.Characters
 
             GlobalAccountsPath = Paths.ModulePath + @"\accounts.json";
 
-            if (!File.Exists(Paths.ModulePath + @"\gw2.traineddata") || Settings.Version.Value != ModuleVersion)
-            {
-                using Stream target = File.Create(Paths.ModulePath + @"\gw2.traineddata");
-                Stream source = ContentsManager.GetFileStream(@"data\gw2.traineddata");
-                _ = source.Seek(0, SeekOrigin.Begin);
-                source.CopyTo(target);
-            }
-
-            if (!File.Exists(Paths.ModulePath + @"\tesseract.dll") || Settings.Version.Value != ModuleVersion)
-            {
-                using Stream target = File.Create(Paths.ModulePath + @"\tesseract.dll");
-                Stream source = ContentsManager.GetFileStream(@"data\tesseract.dll");
-                _ = source.Seek(0, SeekOrigin.Begin);
-                source.CopyTo(target);
-            }
-
+            Settings.LoadAccountSettings(Paths.AccountName);
             Settings.ShortcutKey.Value.Enabled = true;
             Settings.ShortcutKey.Value.Activated += ShortcutWindowToggle;
 
@@ -360,6 +346,13 @@ namespace Kenedia.Modules.Characters
         {
             base.LoadGUI();
 
+            OCR.OcrView = new OCRView(Settings, OCR)
+            {
+                Parent = GameService.Graphics.SpriteScreen,
+                ZIndex = (int.MaxValue / 2) - 1,
+                Visible = false,
+            };
+
             RadialMenu = new RadialMenu(Settings, CharacterModels, GameService.Graphics.SpriteScreen, () => CurrentCharacterModel, Data, TextureManager)
             {
                 Visible = false,
@@ -474,7 +467,6 @@ namespace Kenedia.Modules.Characters
             SettingsWindow?.Dispose();
             MainWindow?.Dispose();
             PotraitCapture?.Dispose();
-            OCR?.Dispose();
             RunIndicator?.Dispose();
         }
 

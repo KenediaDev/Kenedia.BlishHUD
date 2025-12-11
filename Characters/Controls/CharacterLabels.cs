@@ -17,6 +17,7 @@ using FlowPanel = Kenedia.Modules.Core.Controls.FlowPanel;
 using Rectangle = Microsoft.Xna.Framework.Rectangle;
 using Gw2Sharp.WebApi;
 using Kenedia.Modules.Core.Services;
+using Kenedia.Modules.Core.DataModels;
 
 namespace Kenedia.Modules.Characters.Controls
 {
@@ -246,6 +247,8 @@ namespace Kenedia.Modules.Characters.Controls
         public void UpdateCharacterInfo()
         {
             if (Character == null) return;
+            if (Data?.IsLoaded != true) return;
+            if (Character.Race == Races.None) return;
 
             _nameLabel.Text = Character.Name;
 
@@ -266,8 +269,8 @@ namespace Kenedia.Modules.Characters.Controls
                 _ => strings.Unknown,
             };
 
-            _raceLabel.Text = Data.Races[Character.Race].Name;
-            _raceLabel.Icon = Data.Races[Character.Race].Icon;
+            _raceLabel.Text = Data.Races.TryGetValue(Character.Race, out Race race) ? race.Name : strings.Unknown;
+            _raceLabel.Icon = Data.Races.TryGetValue(Character.Race, out race) ? race.Icon : null;
 
             _mapLabel.Text = Data.GetMapById(Character.Map).Name;
             _customIndex.Text = string.Format(strings.CustomIndex + " {0}", Character.Index);

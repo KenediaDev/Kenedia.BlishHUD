@@ -18,6 +18,7 @@ using Microsoft.Xna.Framework;
 using Kenedia.Modules.Characters;
 using Kenedia.Modules.Core.Extensions;
 using Image = Kenedia.Modules.Core.Controls.Image;
+using System.Diagnostics;
 
 namespace Characters.Views
 {
@@ -370,6 +371,8 @@ namespace Characters.Views
                 Size = _settings.ActiveOCRRegion.Size,
                 BorderColor = ContentService.Colors.ColonialWhite,
                 ShowResizeOnlyOnMouseOver = true,
+                Width = Width,
+                Height = 50,
                 MaxSize = new(Width, 100),
                 BorderWidth = new(2),
                 ZIndex = int.MaxValue - 1,
@@ -441,7 +444,7 @@ namespace Characters.Views
                 _sizeSet = true;
 
                 _ocrRegionContainer.Location = _settings.ActiveOCRRegion.Location.Add(new(-_ocrRegionContainer.BorderWidth.Left, -_ocrRegionContainer.BorderWidth.Top));
-                _ocrRegionContainer.Size = _settings.ActiveOCRRegion.Size.Add(new(_ocrRegionContainer.BorderWidth.Horizontal, _ocrRegionContainer.BorderWidth.Vertical));
+                _ocrRegionContainer.Size = _settings.ActiveOCRRegion.Size.Add(new(_ocrRegionContainer.BorderWidth.Horizontal, _ocrRegionContainer.BorderWidth.Vertical));                
             }
         }
 
@@ -460,7 +463,7 @@ namespace Characters.Views
 
                     string result = await _ocr.Read(true);
 
-                    if (result is not null)
+                    if (result is not null && _ocr.SourceTexture is not null)
                     {
                         _sourceImage.Texture = _ocr.SourceTexture;
                         _sourceImage.Size = _ocr.SourceTexture.Bounds.Size;

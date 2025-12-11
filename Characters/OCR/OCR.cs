@@ -1,8 +1,11 @@
 ﻿using Blish_HUD;
+using Blish_HUD.Modules;
+using Blish_HUD.Modules.Managers;
 using Characters.Views;
 using Kenedia.Modules.Characters.Models;
 using Kenedia.Modules.Characters.Services;
 using Kenedia.Modules.Characters.Views;
+using Kenedia.Modules.Core.DataModels;
 using Kenedia.Modules.Core.Extensions;
 using Kenedia.Modules.Core.Models;
 using Kenedia.Modules.Core.Services;
@@ -13,6 +16,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Globalization;
 using System.IO;
 using System.Linq;
@@ -24,18 +28,18 @@ namespace Kenedia.Modules.Characters
 {
     public class OCR : IDisposable
     {
-        private readonly OCRView _view;
         private readonly OcrApi _ocrApi;
 
         private readonly ClientWindowService _clientWindowService;
         private readonly SharedSettings _sharedSettings;
-        private readonly Settings _settings;
         private readonly ObservableCollection<Character_Model> _characterModels;
 
         private readonly Color _spacingColor = Color.FromArgb(255, 200, 200, 200);
         private readonly Color _ignoredColor = Color.FromArgb(255, 100, 100, 100);
 
         private bool _isDisposed = false;
+
+        public OCRView OcrView { get; set; }
 
         public MainWindow MainWindow { get; set => Common.SetProperty(ref field, value, MainWindowChanged); }
 
@@ -53,12 +57,17 @@ namespace Kenedia.Modules.Characters
 
         public string PathToEngine => OcrApi.PathToEngine;
 
-        public OCR(ClientWindowService clientWindowService, SharedSettings sharedSettings, Settings settings, PathCollection paths, ObservableCollection<Character_Model> characterModels)
+        public OCR(ClientWindowService clientWindowService, SharedSettings sharedSettings, Settings settings, PathCollection paths, ObservableCollection<Character_Model> characterModels, ContentsManager contentsManager, Module module)
         {
             _clientWindowService = clientWindowService;
             _sharedSettings = sharedSettings;
-            _settings = settings;
+            Settings = settings;
+            Paths = paths;
             _characterModels = characterModels;
+            ContentsManager = contentsManager;
+            Module = module;
+
+            EnsureTesseractExists();
 
             try
             {
@@ -68,6 +77,8 @@ namespace Kenedia.Modules.Characters
                 _ocrApi = OcrApi.Create();
                 _ocrApi.Init(paths.ModulePath, "gw2");
                 IsLoaded = true;
+
+                Characters.Logger.Info($"OcrApi Instance created successfully. OCR is useable. {paths.ModulePath}");
             }
             catch (Exception ex)
             {
@@ -76,33 +87,56 @@ namespace Kenedia.Modules.Characters
 
                 MainWindow?.SendTesseractFailedNotification(PathToEngine);
             }
-
-            _view = new(_settings, this)
-            {
-                Parent = GameService.Graphics.SpriteScreen,
-                ZIndex = (int.MaxValue / 2) - 1,
-                Visible = false,
-            };
         }
+
+        public Settings Settings { get; }
 
         private int CustomThreshold
         {
-            get => _settings.OCRNoPixelColumns.Value;
-            set => _settings.OCRNoPixelColumns.Value = value;
+            get => Settings.OCRNoPixelColumns.Value;
+            set => Settings.OCRNoPixelColumns.Value = value;
         }
+        public PathCollection Paths { get; }
+
+        public ContentsManager ContentsManager { get; }
+
+        public Module Module { get; }
 
         public void Dispose()
         {
             if (_isDisposed) return;
+
             _ocrApi.Dispose();
 
             _isDisposed = true;
-            _view?.Dispose();
+            OcrView?.Dispose();
             CleanedTexture?.Dispose();
             SourceTexture?.Dispose();
         }
 
 #nullable enable
+
+        private void EnsureTesseractExists()
+        {
+            var module_version = Module.Version;
+
+            if (!File.Exists(Paths.ModulePath + @"\gw2.traineddata") || Settings.Version.Value != module_version)
+            {
+                using Stream target = File.Create(Paths.ModulePath + @"\gw2.traineddata");
+                Stream source = ContentsManager.GetFileStream(@"data\gw2.traineddata");
+                _ = source.Seek(0, SeekOrigin.Begin);
+                source.CopyTo(target);
+            }
+
+            if (!File.Exists(Paths.ModulePath + @"\tesseract.dll") || Settings.Version.Value != module_version)
+            {
+                using Stream target = File.Create(Paths.ModulePath + @"\tesseract.dll");
+                Stream source = ContentsManager.GetFileStream(@"data\tesseract.dll");
+                _ = source.Seek(0, SeekOrigin.Begin);
+                source.CopyTo(target);
+            }
+        }
+
         public async Task<string?> Read(bool show = false)
         {
             string? finalText = null;
@@ -111,7 +145,7 @@ namespace Kenedia.Modules.Characters
             {
                 try
                 {
-                    if (!show) _view.EnableMaskedRegion();
+                    if (!show) OcrView?.EnableMaskedRegion();
                     await Task.Delay(5);
 
                     var wndBounds = _clientWindowService.WindowBounds;
@@ -120,7 +154,7 @@ namespace Kenedia.Modules.Characters
                     Point p = windowed ? new(_sharedSettings.WindowOffset.Left, _sharedSettings.WindowOffset.Top) : Point.Zero;
 
                     double factor = GameService.Graphics.UIScaleMultiplier;
-                    Point size = new((int)(_settings.ActiveOCRRegion.Width * factor), (int)(_settings.ActiveOCRRegion.Height * factor));
+                    Point size = new((int)(Settings.ActiveOCRRegion.Width * factor), (int)(Settings.ActiveOCRRegion.Height * factor));
 
                     using (System.Drawing.Bitmap bitmap = new(size.X, size.Y))
                     {
@@ -131,8 +165,8 @@ namespace Kenedia.Modules.Characters
                             int left = wndBounds.Left + p.X;
                             int top = wndBounds.Top + p.Y;
 
-                            int x = (int)Math.Ceiling(_settings.ActiveOCRRegion.Left * factor);
-                            int y = (int)Math.Ceiling(_settings.ActiveOCRRegion.Top * factor);
+                            int x = (int)Math.Ceiling(Settings.ActiveOCRRegion.Left * factor);
+                            int y = (int)Math.Ceiling(Settings.ActiveOCRRegion.Top * factor);
 
                             g.CopyFromScreen(new System.Drawing.Point(left + x, top + y), System.Drawing.Point.Empty, new System.Drawing.Size(size.X, size.Y));
 
@@ -154,7 +188,7 @@ namespace Kenedia.Modules.Characters
                                 for (int j = 0; j < bitmap.Height; j++)
                                 {
                                     Color oc = bitmap.GetPixel(i, j);
-                                    int threshold = _settings.OCR_ColorThreshold.Value;
+                                    int threshold = Settings.OCR_ColorThreshold.Value;
 
                                     if (oc.R >= threshold && oc.G >= threshold && oc.B >= threshold && emptyPixelRow < CustomThreshold)
                                     {
@@ -258,7 +292,7 @@ namespace Kenedia.Modules.Characters
                         ReadResult = finalText;
                     }
 
-                    if (!show) _view.DisableMaskedRegion();
+                    if (!show) OcrView.DisableMaskedRegion();
 
                     return finalText;
                 }
@@ -294,7 +328,7 @@ namespace Kenedia.Modules.Characters
 
         public void ToggleContainer()
         {
-            _view?.ToggleContainer();
+            OcrView?.ToggleContainer();
         }
 
         private void MainWindowChanged(object sender, PropertyChangedEventArgs e)

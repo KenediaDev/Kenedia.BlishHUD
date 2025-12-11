@@ -231,8 +231,11 @@ namespace Kenedia.Modules.Characters.Controls
         protected override void OnHidden(EventArgs e)
         {
             base.OnHidden(e);
-            _tooltip.Character = null;
-            _tooltip.Hide();
+            if (_tooltip is not null)
+            {
+                _tooltip.Character = null;
+                _tooltip.Hide();
+            }
         }
 
         protected override void DisposeControl()
