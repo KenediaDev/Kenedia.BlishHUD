@@ -5,7 +5,7 @@ namespace Kenedia.Modules.Characters.Models
 {
     public class SearchFilterCollection : Dictionary<string, SearchFilter<Character_Model>>
     {
-        public new void AddOrUpdate(string key, SearchFilter<Character_Model> value)
+        public void AddOrUpdate(string key, SearchFilter<Character_Model> value)
         {
             if (!ContainsKey(key))
             {
