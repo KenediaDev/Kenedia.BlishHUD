@@ -139,7 +139,7 @@ namespace Kenedia.Modules.Characters.Controls.SideMenu
                         _onFilterChanged?.Invoke();
                     };
 
-                    if(!_tagFilters.ContainsKey(tag)) _tagFilters.Add(tag, new((c) => c.Tags.Contains(tag), false));
+                    if(!_tagFilters.ContainsKey(tag)) _tagFilters.AddOrUpdate(tag, new((c) => c.Tags.Contains(tag), false));
                     t.SetActive(false);
                 }
 
@@ -149,8 +149,6 @@ namespace Kenedia.Modules.Characters.Controls.SideMenu
 
         private void CreateToggles()
         {
-
-            System.Diagnostics.Debug.WriteLine($"CREATE TOGGLES CALLED");
             void action(bool active, string entry)
             {
                 _searchFilters[entry].IsEnabled = active;

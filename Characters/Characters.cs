@@ -637,34 +637,34 @@ namespace Kenedia.Modules.Characters
 
         private void CreateToggleCategories()
         {
-            var filters = new List<SearchFilter<Character_Model>>();
-
             foreach (var e in Data.Professions)
             {
-                SearchFilters.Add(e.Value.Name, new((c) => Settings.DisplayToggles.Value["Profession"]?.Check == true && c.Profession == e.Key));
-                SearchFilters.Add($"Core {e.Value.Name}", new((c) => Settings.DisplayToggles.Value["Profession"].Check && c.Profession == e.Key));
+                SearchFilters.AddOrUpdate(e.Value.Name, new((c) => Settings.DisplayToggles.Value["Profession"]?.Check == true && c.Profession == e.Key));
+                SearchFilters.AddOrUpdate($"Core {e.Value.Name}", new((c) => Settings.DisplayToggles.Value["Profession"].Check && c.Profession == e.Key));
             }
 
             foreach (var e in Data.Specializations)
             {
-                SearchFilters.Add(e.Value.Name, new((c) => Settings.DisplayToggles.Value["Profession"]?.Check == true && c.Specialization == e.Key));
+                if (e.Value.Id == (int)SpecializationType.None) continue;
+                SearchFilters.AddOrUpdate(e.Value.Name, new((c) => Settings.DisplayToggles.Value["Profession"]?.Check == true && c.Specialization == e.Key));
             }
 
             foreach (var e in Data.CraftingProfessions)
             {
-                SearchFilters.Add(e.Value.Name, new((c) => c.Crafting.Find(p => Settings.DisplayToggles.Value["CraftingProfession"].Check && p.Id == e.Value.Id && (!Settings.DisplayToggles.Value["OnlyMaxCrafting"].Check || p.Rating >= e.Value.MaxRating)) is not null));
+                if (e.Value.Id == CraftingDisciplineType.Unknown) continue;
+                SearchFilters.AddOrUpdate(e.Value.Name, new((c) => c.Crafting.Find(p => Settings.DisplayToggles.Value["CraftingProfession"].Check && p.Id == e.Value.Id && (!Settings.DisplayToggles.Value["OnlyMaxCrafting"].Check || p.Rating >= e.Value.MaxRating)) is not null));
             }
 
             foreach (var e in Data.Races)
             {
                 if (e.Value.Id == Races.None) continue;
-                SearchFilters.Add(e.Value.Name, new((c) => Settings.DisplayToggles.Value["Race"]?.Check == true && c.Race == e.Key));
+                SearchFilters.AddOrUpdate(e.Value.Name, new((c) => Settings.DisplayToggles.Value["Race"]?.Check == true && c.Race == e.Key));
             }
 
-            SearchFilters.Add("Birthday", new((c) => c.HasBirthdayPresent));
-            SearchFilters.Add("Hidden", new((c) => !c.Show || (!Data.StaticInfo.IsBeta && c.Beta)));
-            SearchFilters.Add("Female", new((c) => c.Gender == Gender.Female));
-            SearchFilters.Add("Male", new((c) => c.Gender == Gender.Male));
+            SearchFilters.AddOrUpdate("Birthday", new((c) => c.HasBirthdayPresent));
+            SearchFilters.AddOrUpdate("Hidden", new((c) => !c.Show || (!Data.StaticInfo.IsBeta && c.Beta)));
+            SearchFilters.AddOrUpdate("Female", new((c) => c.Gender == Gender.Female));
+            SearchFilters.AddOrUpdate("Male", new((c) => c.Gender == Gender.Male));
         }
 
         private async void AddOrUpdateCharacters(IApiV2ObjectList<Character> characters)
