@@ -78,11 +78,11 @@ namespace Kenedia.Modules.OverflowTradingAssist.Controls.GearPage
             LocalizingService.LocaleChanged += UserLocale_SettingChanged;
         }
 
-        public Item Item { get; set => Common.SetProperty(ref field, value, ApplyItem); }
+        public Item Item { get; set => Common.SetProperty(field, value, v => field = v, ApplyItem); }
 
-        public string Comment { get; set => Common.SetProperty(ref field, value, ApplyComment); }
+        public string Comment { get; set => Common.SetProperty(field, value, v => field = v, ApplyComment); }
 
-        public Func<string> SetLocalizedComment { get; set => Common.SetProperty(ref field, value, ApplyLocalizedComment); }
+        public Func<string> SetLocalizedComment { get; set => Common.SetProperty(field, value, v => field = v, ApplyLocalizedComment); }
 
         private void ApplyLocalizedComment(object sender, Core.Models.ValueChangedEventArgs<Func<string>> e)
         {

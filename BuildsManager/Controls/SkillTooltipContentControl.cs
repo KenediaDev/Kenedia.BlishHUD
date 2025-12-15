@@ -41,7 +41,7 @@ namespace Kenedia.Modules.BuildsManager.Controls
             get;
             set
             {
-                Common.SetProperty(ref field, value, SetSkill);
+                Common.SetProperty(field, value, v => field = v, SetSkill);
             }
         }
 

@@ -124,12 +124,12 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
             return list;
         }
 
-        public TemplatePresenter TemplatePresenter { get; private set => Common.SetProperty(ref field, value, OnTemplatePresenterChanged); }
+        public TemplatePresenter TemplatePresenter { get; private set => Common.SetProperty(field, value, v => field = v, OnTemplatePresenterChanged); }
         public Data Data { get; }
 
-        public TemplateSlotType ActiveSlot { get; set => Common.SetProperty(ref field, value, ApplySlot); }
+        public TemplateSlotType ActiveSlot { get; set => Common.SetProperty(field, value, v => field = v, ApplySlot); }
 
-        public GearSubSlotType SubSlotType { get; set => Common.SetProperty(ref field, value, ApplySubSlot); }
+        public GearSubSlotType SubSlotType { get; set => Common.SetProperty(field, value, v => field = v, ApplySubSlot); }
 
         private void OnTemplatePresenterChanged(object sender, ValueChangedEventArgs<TemplatePresenter> e)
         {

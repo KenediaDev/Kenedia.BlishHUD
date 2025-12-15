@@ -68,7 +68,7 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Controls.NotesPage
             {
                 var temp = field;
 
-                if (Common.SetProperty(ref field, value, SetElement))
+                if (Common.SetProperty(field, value, v => field = v, SetElement))
                 {
                     if (temp is not null) temp.PropertyChanged -= RotationElement_PropertyChanged;
                     if (field is not null) field.PropertyChanged += RotationElement_PropertyChanged;
@@ -219,7 +219,7 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Controls.NotesPage
             }
         }
 
-        public Rotation Rotation { get; set => Common.SetProperty(ref field, value, ApplyRotation); }
+        public Rotation Rotation { get; set => Common.SetProperty(field, value, v => field = v, ApplyRotation); }
 
         private void ApplyRotation(object sender, PropertyChangedEventArgs e)
         {
@@ -269,7 +269,7 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Controls.NotesPage
             get; set
             {
                 var temp = field;
-                if (Common.SetProperty(ref field, value, ApplyTemplate))
+                if (Common.SetProperty(field, value, v => field = v, ApplyTemplate))
                 {
                     if (temp is not null) temp.PropertyChanged -= TemplateChanged;
                     if (field is not null) field.PropertyChanged += TemplateChanged;

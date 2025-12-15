@@ -918,7 +918,7 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Controls.GearPage
         protected BitmapFont UpgradeFont = Content.DefaultFont18;
         protected BitmapFont InfusionFont = Content.DefaultFont12;
 
-        public GearTemplateSlot GearSlot { get; set => Common.SetProperty(ref field, value, ApplySlot); } = GearTemplateSlot.None;
+        public GearTemplateSlot GearSlot { get; set => Common.SetProperty(field, value, v => field = v, ApplySlot); } = GearTemplateSlot.None;
 
         public BaseSlotControl()
         {
@@ -941,7 +941,7 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Controls.GearPage
             get; set
             {
                 var temp = field;
-                if (Common.SetProperty(ref field, value, ApplyTemplate))
+                if (Common.SetProperty(field, value, v => field = v, ApplyTemplate))
                 {
                     if (temp is not null) temp.PropertyChanged -= TemplateChanged;
                     if (field is not null) field.PropertyChanged += TemplateChanged;
@@ -974,7 +974,7 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Controls.GearPage
 
         public SelectionPanel SelectionPanel { get; set; }
 
-        public Stat Stat { get; set => Common.SetProperty(ref field, value, OnStatChanged); }
+        public Stat Stat { get; set => Common.SetProperty(field, value, v => field = v, OnStatChanged); }
 
         protected virtual void OnStatChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {

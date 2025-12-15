@@ -110,9 +110,9 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
 
         public Data Data { get; }
 
-        public IReadOnlyList<int> StatChoices { get; set => Common.SetProperty(ref field, value, OnStatChoicesChanged); }
+        public IReadOnlyList<int> StatChoices { get; set => Common.SetProperty(field, value, v => field = v, OnStatChoicesChanged); }
 
-        public double AttributeAdjustments { get; set => Common.SetProperty(ref field, value, OnAttributeAdjustmentsChanged); }
+        public double AttributeAdjustments { get; set => Common.SetProperty(field, value, v => field = v, OnAttributeAdjustmentsChanged); }
 
         private void OnAttributeAdjustmentsChanged(object sender, ValueChangedEventArgs<double> e)
         {

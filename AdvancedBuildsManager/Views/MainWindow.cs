@@ -91,7 +91,7 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Views
 
         public Template Template
         {
-            get; set => Common.SetProperty(ref field, value, ApplyTemplate);
+            get; set => Common.SetProperty(field, value, v => field = v, ApplyTemplate);
         }
 
         public override void RecalculateLayout()

@@ -69,7 +69,7 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Controls.Selection
         private readonly Label _name;
         private readonly Label _skillSummary;
 
-        public Skill Skill { get; set => Common.SetProperty(ref field, value, OnSkillChanged); }
+        public Skill Skill { get; set => Common.SetProperty(field, value, v => field = v, OnSkillChanged); }
 
         public Func<RotationElement> GetRotationElement { get; set; }
 
@@ -206,9 +206,9 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Controls.Selection
             }
         }
 
-        public Stat Stat { get; set => Common.SetProperty(ref field, value, OnStatChanged); }
+        public Stat Stat { get; set => Common.SetProperty(field, value, v => field = v, OnStatChanged); }
 
-        public double AttributeAdjustment { get; set => Common.SetProperty(ref field, value, OnMultiplierChanged); }
+        public double AttributeAdjustment { get; set => Common.SetProperty(field, value, v => field = v, OnMultiplierChanged); }
 
         public BaseTemplateEntry ActiveTemplateSlot { get; set; }
 

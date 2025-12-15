@@ -70,10 +70,10 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Controls.SkillConnectionEdit
         public OldSkillConnection SkillConnection
         {
             get;
-            set => Common.SetProperty(ref field, value, OnConnectionChanged);
+            set => Common.SetProperty(field, value, v => field = v, OnConnectionChanged);
         }
 
-        public T Item { get; set => Common.SetProperty(ref field, value, ApplyItem); }
+        public T Item { get; set => Common.SetProperty(field, value, v => field = v, ApplyItem); }
 
         private void ApplyItem()
         {

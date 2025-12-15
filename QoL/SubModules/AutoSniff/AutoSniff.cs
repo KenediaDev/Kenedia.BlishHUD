@@ -55,8 +55,6 @@ namespace Kenedia.Modules.QoL.SubModules.AutoSniff
                 //_capturedImageControl.Location = new Point(1950, 1635);
                 _capturedImageControl.Location = new Point(1990, 1595);
                 _capturedImageControl.Size = new Point(40);
-
-                //Debug.WriteLine($"{_capturedImageControl.Location.ClientToScreenPos()}");
             }
 
             if (!Mumble.Info.IsGameFocused || Mumble.UI.IsTextInputFocused || !GameService.GameIntegration.Gw2Instance.IsInGame || gameTime.TotalGameTime.TotalMilliseconds - _ticks < _threshold)
@@ -75,8 +73,6 @@ namespace Kenedia.Modules.QoL.SubModules.AutoSniff
 
             double delay = _threshold * 0.5;
             _ticks = gameTime.TotalGameTime.TotalMilliseconds + delay;
-
-            //Debug.WriteLine($"{_threshold - delay} Until next tick");
         }
 
         private bool IsMounted()
@@ -116,7 +112,6 @@ namespace Kenedia.Modules.QoL.SubModules.AutoSniff
             _capturedImageControl?.SetTexture(MountSlotTexture);
 
             System.Drawing.Color color = bitmap.GetAverageColor();
-            //Debug.WriteLine($"Mount Slot Texture Color {color.R}, {color.G}, {color.B} | {(color.R + color.B + color.G) / 3}");
             int avg = (color.R + color.B + color.G) / 3;
 
             WasMounted = avg is 26;
@@ -161,7 +156,6 @@ namespace Kenedia.Modules.QoL.SubModules.AutoSniff
             _capturedImageControl?.SetTexture(SlotTexture);
 
             System.Drawing.Color color = bitmap.GetAverageColor();
-            //Debug.WriteLine($"Skill#2 Slot Texture Color {color.R}, {color.G}, {color.B} | {(color.R + color.B + color.G) / 3}");
             int avg = (color.R + color.B + color.G) / 3;
 
             return avg is 119 or 172;
@@ -174,7 +168,6 @@ namespace Kenedia.Modules.QoL.SubModules.AutoSniff
                 //GameService.Gw2Mumble.PlayerCharacter.UseSkill(_sniffSkillKey.Value);
                 if(IsSkillReady())
                 {
-                    Debug.WriteLine($"SNIFF SNIFF");
                     InputKeyboard.Stroke((VirtualKeyShort)_sniffSkillKey.Value.PrimaryKey);
                     return true;
                 }

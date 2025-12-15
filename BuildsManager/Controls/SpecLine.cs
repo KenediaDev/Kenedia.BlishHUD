@@ -79,7 +79,7 @@ namespace Kenedia.Modules.BuildsManager.Controls
         private readonly Tooltip _basicTooltip;
         private readonly Label _basicTooltipLabel;
 
-        public bool SelectorOpen { get; set => Common.SetProperty(ref field, value, OnSelectorToggled); } = false;
+        public bool SelectorOpen { get; set => Common.SetProperty(field, value, v => field = v, OnSelectorToggled); } = false;
 
         private void OnSelectorToggled(object sender, Core.Models.ValueChangedEventArgs<bool> e)
         {

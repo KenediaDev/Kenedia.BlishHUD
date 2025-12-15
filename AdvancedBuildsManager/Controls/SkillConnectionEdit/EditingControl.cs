@@ -151,11 +151,11 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Controls.SkillConnectionEdit
 
         public BaseSkill Skill { get; set; }
 
-        public OldSkillConnection SkillConnection { get; set => Common.SetProperty(ref field, value, ApplySkill); }
+        public OldSkillConnection SkillConnection { get; set => Common.SetProperty(field, value, v => field = v, ApplySkill); }
 
         public Action OnChangedAction { get; set; }
 
-        public Dictionary<int, OldSkillConnection> Connections { get; set => Common.SetProperty(ref field, value, ApplyConnections); }
+        public Dictionary<int, OldSkillConnection> Connections { get; set => Common.SetProperty(field, value, v => field = v, ApplyConnections); }
 
         private void ApplyConnections()
         {

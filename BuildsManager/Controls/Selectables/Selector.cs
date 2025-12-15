@@ -103,17 +103,17 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selectables
 
         public List<T> Items { get; } = [];
 
-        public T SelectedItem { get; set => Common.SetProperty(ref field, value, ApplySelected); }
+        public T SelectedItem { get; set => Common.SetProperty(field, value, v => field = v, ApplySelected); }
 
         public List<Selectable<T>> Controls { get; } = [];
 
-        public Action<T> OnClickAction { get; set => Common.SetProperty(ref field, value, ApplyAction); }
+        public Action<T> OnClickAction { get; set => Common.SetProperty(field, value, v => field = v, ApplyAction); }
 
-        public int SelectablePerRow { get; set => Common.SetProperty(ref field, value, RecalculateLayout); } = 4;
+        public int SelectablePerRow { get; set => Common.SetProperty(field, value, v => field = v, RecalculateLayout); } = 4;
 
         public Point SelectableSize { get => _selectableSize; set => Common.SetProperty(ref _selectableSize, value, Recalculate); }
 
-        public Control Anchor { get; set => Common.SetProperty(ref field, value, RecalculateLayout); }
+        public Control Anchor { get; set => Common.SetProperty(field, value, v => field = v, RecalculateLayout); }
 
         public Point AnchorOffset { get => _anchorOffset; set => Common.SetProperty(ref _anchorOffset, value, RecalculateLayout); }
 

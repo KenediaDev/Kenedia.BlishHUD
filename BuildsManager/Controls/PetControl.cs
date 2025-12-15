@@ -25,7 +25,7 @@ namespace Kenedia.Modules.BuildsManager.Controls
 
         public PetSlotType PetSlot { get; set; }
 
-        public Pet? Pet { get; set => Common.SetProperty(ref field, value, ApplyPet); }
+        public Pet? Pet { get; set => Common.SetProperty(field, value, v => field = v, ApplyPet); }
 
         public Action<PetControl> LeftClickAction { get; set; }
 

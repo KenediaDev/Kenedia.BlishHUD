@@ -21,7 +21,7 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Controls.Selection
             get; set
             {
                 var temp = field;
-                if (Common.SetProperty(ref field, value, ApplyTemplate))
+                if (Common.SetProperty(field, value, v => field = v, ApplyTemplate))
                 {
                     foreach (var skill in _skills)
                     {
@@ -177,7 +177,7 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Controls.Selection
             get; set
             {
                 var temp = field;
-                if (Common.SetProperty(ref field, value, ApplyTemplate))
+                if (Common.SetProperty(field, value, v => field = v, ApplyTemplate))
                 {
                     foreach (var stat in _stats)
                     {
@@ -193,7 +193,7 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Controls.Selection
         public BaseTemplateEntry TemplateSlot
         {
             get;
-            set => Common.SetProperty(ref field, value, () =>
+            set => Common.SetProperty(field, value, v => field = v, () =>
             {
                 FilterStats(null);
 

@@ -213,7 +213,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.Tabs
             ApplyTemplate();
         }
 
-        public TemplatePresenter TemplatePresenter { get; private set => Common.SetProperty(ref field, value, OnTemplatePresenterChanged); }
+        public TemplatePresenter TemplatePresenter { get; private set => Common.SetProperty(field, value, v => field = v, OnTemplatePresenterChanged); }
 
         public SelectionPanel SelectionPanel { get; }
 

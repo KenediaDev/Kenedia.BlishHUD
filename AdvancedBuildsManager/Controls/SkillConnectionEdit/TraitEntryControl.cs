@@ -9,7 +9,7 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Controls.SkillConnectionEdit
 {
     public class TraitEntryControl : BaseConnectionControl
     {
-        public Trait Trait { get; set => Common.SetProperty(ref field, value, ApplyItem); }
+        public Trait Trait { get; set => Common.SetProperty(field, value, v => field = v, ApplyItem); }
 
         public Action<TraitEntryControl> OnClickAction { get; set; }
 

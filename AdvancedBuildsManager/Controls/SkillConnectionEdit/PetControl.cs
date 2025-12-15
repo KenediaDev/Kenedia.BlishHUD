@@ -37,7 +37,7 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Controls.SkillConnectionEdit
             }
         }
 
-        public Pet Pet { get; set => Common.SetProperty(ref field, value, ApplyPet); }
+        public Pet Pet { get; set => Common.SetProperty(field, value, v => field = v, ApplyPet); }
 
         public Action<PetEntryControl> OnClickAction { get; set; }
 

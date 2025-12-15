@@ -65,7 +65,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
 
         public TemplateSlotType TemplateSlot { get; set; }
 
-        public BaseItem Item { get; set => Common.SetProperty(ref field, value, SetItem); }
+        public BaseItem Item { get; set => Common.SetProperty(field, value, v => field = v, SetItem); }
 
         public TemplateSlotType ActiveSlot { get; set; }
 

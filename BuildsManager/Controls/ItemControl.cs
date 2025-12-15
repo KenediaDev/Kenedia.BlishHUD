@@ -38,13 +38,13 @@ namespace Kenedia.Modules.BuildsManager.Controls_Old.GearPage
 
         public bool ShowStat { get; set; } = true;
 
-        public BaseItem? Item { get; set => Common.SetProperty(ref field, value, ApplyItem); }
+        public BaseItem? Item { get; set => Common.SetProperty(field, value, v => field = v, ApplyItem); }
 
-        public Stat? Stat { get; set => Common.SetProperty(ref field, value, ApplyStat); }
+        public Stat? Stat { get; set => Common.SetProperty(field, value, v => field = v, ApplyStat); }
 
         public Color TextureColor { get => _texture.DrawColor ?? Color.White; set => _texture.DrawColor = value; }
 
-        public DetailedTexture Placeholder { get; set => Common.SetProperty(ref field, value, ApplyPlaceholder); } = new();
+        public DetailedTexture Placeholder { get; set => Common.SetProperty(field, value, v => field = v, ApplyPlaceholder); } = new();
 
         public bool CaptureInput { get; set; } = true;
 

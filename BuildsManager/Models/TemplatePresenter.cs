@@ -64,7 +64,7 @@ namespace Kenedia.Modules.BuildsManager.Models
 
         public Template Template
         {
-            get; private set => Common.SetProperty(ref field, value, On_TemplateChanged);
+            get; private set => Common.SetProperty(field, value, v => field = v, On_TemplateChanged);
         } = Template.Empty;
 
         public void SetTemplate(Template? template)
@@ -77,9 +77,9 @@ namespace Kenedia.Modules.BuildsManager.Models
 
         public AttunementType AltAttunement { get; private set => Common.SetProperty(ref field, value); } = AttunementType.Fire;
 
-        public LegendSlotType LegendSlot { get; set => Common.SetProperty(ref field, value, OnLegendSlotChanged); } = LegendSlotType.TerrestrialActive;
+        public LegendSlotType LegendSlot { get; set => Common.SetProperty(field, value, v => field = v, OnLegendSlotChanged); } = LegendSlotType.TerrestrialActive;
 
-        public GameModeType GameMode { get; set => Common.SetProperty(ref field, value, On_GameModeChanged); } = GameModeType.PvE;
+        public GameModeType GameMode { get; set => Common.SetProperty(field, value, v => field = v, On_GameModeChanged); } = GameModeType.PvE;
 
         public bool IsPve => GameMode == GameModeType.PvE;
 

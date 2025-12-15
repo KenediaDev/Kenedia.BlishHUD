@@ -13,7 +13,7 @@ namespace Kenedia.Modules.Core.Models
         public string? AccountName
         {
             get;
-            set => Common.SetProperty(ref field, value, AddAccountFolder, !string.IsNullOrEmpty(value));
+            set => Common.SetProperty(field, value, v => field = v, AddAccountFolder, !string.IsNullOrEmpty(value));
         } = null;
 
         public PathCollection()

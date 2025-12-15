@@ -64,11 +64,11 @@ namespace Kenedia.Modules.OverflowTradingAssist.Controls
             _isCreated = true;
         }
 
-        public TradeRank TradeRank { get; set => Common.SetProperty(ref field, value, OnTradeRankChanged); } = TradeRank.NoRank;
+        public TradeRank TradeRank { get; set => Common.SetProperty(field, value, v => field = v, OnTradeRankChanged); } = TradeRank.NoRank;
 
-        public decimal TotalTraded { get; set => Common.SetProperty(ref field, value, OnTotalTradedChanged); } = 0;
+        public decimal TotalTraded { get; set => Common.SetProperty(field, value, v => field = v, OnTotalTradedChanged); } = 0;
 
-        public int TotalTrades { get; set => Common.SetProperty(ref field, value, OnTotalTradesChanged); } = 0;
+        public int TotalTrades { get; set => Common.SetProperty(field, value, v => field = v, OnTotalTradesChanged); } = 0;
 
         private void OnTotalTradesChanged(object sender, ValueChangedEventArgs<int> e)
         {

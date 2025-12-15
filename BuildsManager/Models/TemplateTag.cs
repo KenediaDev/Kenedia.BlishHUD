@@ -36,26 +36,20 @@ namespace Kenedia.Modules.BuildsManager.Models
             }            
         }
 
-        [field: JsonProperty("Group")]
-        [JsonIgnore]
-        public string Group { get; set => Common.SetProperty(ref field, value, OnGroupChanged); } = string.Empty;
+        public string Group { get; set => Common.SetProperty(field, value, v => field = v, OnGroupChanged); } = string.Empty;
 
-        [field: JsonProperty("Priority")]
-        [JsonIgnore]
-        public int Priority { get; set => Common.SetProperty(ref field, value, OnPriorityChanged); } = 1;
+        public int Priority { get; set => Common.SetProperty(field, value, v => field = v, OnPriorityChanged); } = 1;
 
         [JsonIgnore]
         public string Name { get => _name; set => Common.SetProperty(ref _name, value, OnNameChanged); }
 
         [JsonIgnore]
-        public DetailedTexture Icon { get; set; } = new(TexturesService.GetTextureFromRef(textures_common.Tag, nameof(textures_common.Tag)))
+        public DetailedTexture Icon { get; set; } = new(156025)
         {
-
+            TextureRegion = new(32, 32, 64, 64)
         };
 
-        [field: JsonProperty("AssetId")]
-        [JsonIgnore]
-        public int AssetId { get; set => Common.SetProperty(ref field, value, OnAssetIdChanged); } = 156025;
+        public int AssetId { get; set => Common.SetProperty(field, value, v => field = v, OnAssetIdChanged); } = 156025;
 
         [JsonIgnore]
         public Rectangle? TextureRegion { get => _textureRegion; set => Common.SetProperty(ref _textureRegion, value, OnTextureRegionChanged); }
@@ -66,12 +60,12 @@ namespace Kenedia.Modules.BuildsManager.Models
             Icon.TextureRegion = TextureRegion ?? Icon.Texture?.Bounds ?? Rectangle.Empty;
 
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(AssetId)));
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Icon)));
         }
 
         private void OnTextureRegionChanged(object sender, ValueChangedEventArgs<Rectangle?> e)
         {
-            if (Icon is not null)
-                Icon.TextureRegion = e.NewValue ?? Icon.Texture?.Bounds ?? Rectangle.Empty;
+            Icon?.TextureRegion = e.NewValue ?? Icon.Texture?.Bounds ?? Rectangle.Empty;
 
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(TextureRegion)));
         }

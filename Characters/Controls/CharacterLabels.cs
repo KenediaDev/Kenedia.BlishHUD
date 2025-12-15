@@ -180,7 +180,7 @@ namespace Kenedia.Modules.Characters.Controls
         public Data Data
         {
             get;
-            set => Common.SetProperty(ref field, value, OnDataChanged);
+            set => Common.SetProperty(field, value, v => field = v, OnDataChanged);
         }
 
         public Settings Settings
@@ -189,7 +189,7 @@ namespace Kenedia.Modules.Characters.Controls
             set
             {
                 var temp = field;
-                if (Common.SetProperty(ref field, value, OnSettingsChanged))
+                if (Common.SetProperty(field, value, v => field = v, OnSettingsChanged))
                 {
                     if (temp is not null) { temp.AppearanceSettingChanged -= Settings_AppearanceSettingChanged; }
                     if (field is not null) { field.AppearanceSettingChanged += Settings_AppearanceSettingChanged; }
@@ -220,7 +220,7 @@ namespace Kenedia.Modules.Characters.Controls
         public TextureManager TextureManager
         {
             get;
-            set => Common.SetProperty(ref field, value, OnTextureManagerAdded);
+            set => Common.SetProperty(field, value, v => field = v, OnTextureManagerAdded);
         }
 
         public Func<Character_Model> CurrentCharacter { get; set; }

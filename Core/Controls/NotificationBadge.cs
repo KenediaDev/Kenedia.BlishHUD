@@ -50,7 +50,7 @@ namespace Kenedia.Modules.Core.Controls
         public Control Anchor
         {
             get;
-            set => Common.SetProperty(ref field, value, OnAnchorChanged);
+            set => Common.SetProperty(field, value, v => field = v, OnAnchorChanged);
         }
 
         public Action ClickAction { get; set; }

@@ -10,7 +10,7 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Controls.BuildPage
         {
         }
 
-        public Trait Trait { get; set => Common.SetProperty(ref field, value, ApplyTrait); }
+        public Trait Trait { get; set => Common.SetProperty(field, value, v => field = v, ApplyTrait); }
 
         public bool Selected { get; set; }
 

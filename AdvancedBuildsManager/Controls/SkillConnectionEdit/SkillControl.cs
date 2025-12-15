@@ -43,7 +43,7 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Controls.SkillConnectionEdit
             {
                 int? prev = field?.Id;
 
-                if(Common.SetProperty(ref field, value, ApplySkill))
+                if(Common.SetProperty(field, value, v => field = v, ApplySkill))
                 {
                     OnChangedAction?.Invoke(prev, Skill?.Id);
                 }

@@ -33,7 +33,7 @@ namespace Kenedia.Modules.BuildsManager.Controls
 
         public Action<T>? OnClickAction { get; set; } = null;
 
-        public bool Selected { get; set => Common.SetProperty(ref field, value, OnSelectedChanged); }
+        public bool Selected { get; set => Common.SetProperty(field, value, v => field = v, OnSelectedChanged); }
 
         private void OnSelectedChanged(object sender, Core.Models.ValueChangedEventArgs<bool> e)
         {

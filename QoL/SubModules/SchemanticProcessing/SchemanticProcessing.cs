@@ -31,7 +31,7 @@ namespace Kenedia.Modules.QoL.SubModules.SchemanticProcessing
 
         public bool ShowCenter { get; set; } = true;
 
-        public bool Selected { get; set => Common.SetProperty(ref field, value, OnSelectedChanged); } = false;
+        public bool Selected { get; set => Common.SetProperty(field, value, v => field = v, OnSelectedChanged); } = false;
 
         public Color CenterColor { get; private set; } = Colors.ColonialWhite * 0.5F;
 

@@ -31,7 +31,7 @@ namespace Kenedia.Modules.BuildsManager.Controls
             _noAquaticFlagTextureRegion = new(16, 16, 96, 96);
         }
 
-        public Skill Skill { get; set => Common.SetProperty(ref field, value, ApplySkill); }
+        public Skill Skill { get; set => Common.SetProperty(field, value, v => field = v, ApplySkill); }
 
         public AsyncTexture2D HoveredFrameTexture { get; private set; }
 

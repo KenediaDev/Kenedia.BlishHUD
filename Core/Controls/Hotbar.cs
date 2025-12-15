@@ -82,11 +82,11 @@ namespace Kenedia.Modules.Core.Controls
             _ = Menu.AddMenuItem(new ContextMenuItem(() => strings_common.OpenSettings, () => OpenSettingsAction?.Invoke()));
         }
 
-        public ExpandType ExpandType { get; set => Common.SetProperty(ref field, value, OnExpandTypeChanged); } = ExpandType.LeftToRight;
+        public ExpandType ExpandType { get; set => Common.SetProperty(field, value, v => field = v, OnExpandTypeChanged); } = ExpandType.LeftToRight;
 
-        public SortType SortType { get; set => Common.SetProperty(ref field, value, OnSortTypeCanged); } = SortType.ActivesFirst;
+        public SortType SortType { get; set => Common.SetProperty(field, value, v => field = v, OnSortTypeCanged); } = SortType.ActivesFirst;
 
-        public bool ExpandBar { get; set => Common.SetProperty(ref field, value, OnExpandChanged); }
+        public bool ExpandBar { get; set => Common.SetProperty(field, value, v => field = v, OnExpandChanged); }
 
         public ModifierKeys MoveModifier { get; set; } = ModifierKeys.Alt;
 

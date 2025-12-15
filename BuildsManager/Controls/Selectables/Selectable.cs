@@ -22,7 +22,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selectables
             Size = new Point(64);
         }
 
-        public IBaseApiData? Data { get; set => Common.SetProperty(ref field, value, ApplyData); }
+        public IBaseApiData? Data { get; set => Common.SetProperty(field, value, v => field = v, ApplyData); }
 
         public SelectableType Type { get; private set; }
 

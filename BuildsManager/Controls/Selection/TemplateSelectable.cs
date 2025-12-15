@@ -235,7 +235,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
             {
                 var temp = field;
 
-                if (Common.SetProperty(ref field, value, ApplyTemplate))
+                if (Common.SetProperty(field, value, v => field = v, ApplyTemplate))
                 {
                     if (temp is not null) temp.RaceChanged -= Template_RaceChanged;
                     if (field is not null) field.RaceChanged += Template_RaceChanged;

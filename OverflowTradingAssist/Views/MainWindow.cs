@@ -78,7 +78,7 @@ namespace Kenedia.Modules.OverflowTradingAssist.Views
             _tradeHistoryEntries = e;
         }
 
-        public Trade Trade { get; set => Common.SetProperty(ref field, value, ApplyTrade); }
+        public Trade Trade { get; set => Common.SetProperty(field, value, v => field = v, ApplyTrade); }
 
         private void ApplyTrade(object sender, ValueChangedEventArgs<Trade> e)
         {

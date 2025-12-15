@@ -65,7 +65,7 @@ namespace Kenedia.Modules.Characters.Services
             set
             {
                 var temp = field;
-                if (Common.SetProperty(ref field, value, AccountChanged))
+                if (Common.SetProperty(field, value, v => field = v, AccountChanged))
                 {
                     _paths.AccountName = value?.Name;
                     Characters.Logger.Info($"Account changed from {temp?.Name ?? "No Account"} to {value?.Name ?? "No Account"}!");

@@ -49,7 +49,7 @@ namespace Kenedia.Modules.QoL.SubModules
 
         public abstract SubModuleType SubModuleType { get; }
 
-        public bool Enabled { get; set => Common.SetProperty(ref field, value, OnEnabledChanged); }
+        public bool Enabled { get; set => Common.SetProperty(field, value, v => field = v, OnEnabledChanged); }
 
         public Func<string> LocalizedName { get; set => Common.SetProperty(ref field, value); }
 

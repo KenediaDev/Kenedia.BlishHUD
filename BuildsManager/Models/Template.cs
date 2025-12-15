@@ -193,7 +193,7 @@ namespace Kenedia.Modules.BuildsManager.Models
 
         [field: JsonProperty("Tags")]
         [field: DataMember]
-        public UniqueObservableCollection<string> Tags { get; private set => Common.SetProperty(ref field, value, OnTagsListChanged); } = [];
+        public UniqueObservableCollection<string> Tags { get; private set => Common.SetProperty(field, value, v => field = v, OnTagsListChanged); } = [];
 
         [DataMember]
         public string Name { get => _name; set => Common.SetProperty(ref _name, value, OnNameChanged); }
@@ -298,7 +298,7 @@ namespace Kenedia.Modules.BuildsManager.Models
 
         [field: JsonProperty("LastModified")]
         [field: DataMember]
-        public string LastModified { get; set => Common.SetProperty(ref field, value, OnLastModifiedChanged); } = DateTime.Now.ToString("d");
+        public string LastModified { get; set => Common.SetProperty(field, value, v => field = v, OnLastModifiedChanged); } = DateTime.Now.ToString("d");
 
         public bool Loaded { get; set; }
 

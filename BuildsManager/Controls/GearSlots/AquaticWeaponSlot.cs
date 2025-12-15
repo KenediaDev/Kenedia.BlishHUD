@@ -49,15 +49,15 @@ namespace Kenedia.Modules.BuildsManager.Controls_Old.GearPage.GearSlots
             _infusion2Control.Parent = this;
         }
 
-        public Stat Stat { get; set => Common.SetProperty(ref field, value, OnStatChanged); }
+        public Stat Stat { get; set => Common.SetProperty(field, value, v => field = v, OnStatChanged); }
 
-        public Sigil Sigil1 { get; set => Common.SetProperty(ref field, value, OnSigil1Changed); }
+        public Sigil Sigil1 { get; set => Common.SetProperty(field, value, v => field = v, OnSigil1Changed); }
 
-        public Sigil Sigil2 { get; set => Common.SetProperty(ref field, value, OnSigil2Changed); }
+        public Sigil Sigil2 { get; set => Common.SetProperty(field, value, v => field = v, OnSigil2Changed); }
 
-        public Infusion Infusion1 { get; set => Common.SetProperty(ref field, value, OnInfusion1Changed); }
+        public Infusion Infusion1 { get; set => Common.SetProperty(field, value, v => field = v, OnInfusion1Changed); }
 
-        public Infusion Infusion2 { get; set => Common.SetProperty(ref field, value, OnInfusion2Changed); }
+        public Infusion Infusion2 { get; set => Common.SetProperty(field, value, v => field = v, OnInfusion2Changed); }
 
         private void SetGroupStat(Stat stat = null, bool overrideExisting = false)
         {

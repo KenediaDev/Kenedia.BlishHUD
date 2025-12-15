@@ -879,7 +879,6 @@ namespace Kenedia.Modules.FashionManager.Services
 
         public async Task<bool> LoadDataFromGw2ApiAsync()
         {
-            Debug.WriteLine($"LoadDataFromGw2ApiAsync");
 
             _tokenSource?.Cancel();
             _tokenSource = new CancellationTokenSource();

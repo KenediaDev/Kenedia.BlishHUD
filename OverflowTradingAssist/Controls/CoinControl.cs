@@ -90,7 +90,7 @@ namespace Kenedia.Modules.OverflowTradingAssist.Controls
 
         public Action<decimal> ValueChangedAction { get; internal set; }
 
-        public bool HideBackground { get; internal set => Common.SetProperty(ref field, value, OnShowFieldChanged); } = false;
+        public bool HideBackground { get; internal set => Common.SetProperty(field, value, v => field = v, OnShowFieldChanged); } = false;
 
         public BitmapFont Font { get => _goldCoinTextBox.Font; set => _goldCoinTextBox.Font = _silverCoinTextBox.Font = _copperCoinTextBox.Font = value; }
 

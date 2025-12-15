@@ -20,9 +20,9 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Models.Templates
 
         public GearTemplateEntryType Type { get; set; }
 
-        public GearTemplateSlot Slot { get; set => Common.SetProperty(ref field, value, OnSlotApply); } = (GearTemplateSlot)(-2);
+        public GearTemplateSlot Slot { get; set => Common.SetProperty(field, value, v => field = v, OnSlotApply); } = (GearTemplateSlot)(-2);
 
-        public BaseItem Item { get; set => Common.SetProperty(ref field, value, OnItemChanged); }
+        public BaseItem Item { get; set => Common.SetProperty(field, value, v => field = v, OnItemChanged); }
 
         public int MappedId
         {
@@ -81,9 +81,9 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Models.Templates
 
     public class GearTemplateEntry : BaseTemplateEntry
     {
-        public Stat Stat { get; set => Common.SetProperty(ref field, value, OnPropertyChanged); }
+        public Stat Stat { get; set => Common.SetProperty(field, value, v => field = v, OnPropertyChanged); }
 
-        public ItemRarity ItemRarity { get; set => Common.SetProperty(ref field, value, OnRarityChanged); }
+        public ItemRarity ItemRarity { get; set => Common.SetProperty(field, value, v => field = v, OnRarityChanged); }
 
         private void OnRarityChanged(object sender, PropertyChangedEventArgs e)
         {
@@ -398,7 +398,7 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Models.Templates
             }
         } = [];
 
-        public WeaponType Weapon { get; set => Common.SetProperty(ref field, value, OnPropertyChanged); } = WeaponType.Unknown;
+        public WeaponType Weapon { get; set => Common.SetProperty(field, value, v => field = v, OnPropertyChanged); } = WeaponType.Unknown;
 
         public Sigil Sigil
         {

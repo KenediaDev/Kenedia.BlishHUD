@@ -32,11 +32,11 @@ namespace Kenedia.Modules.Core.Views
 
         public bool IsActive => ActiveWindow == this;
 
-        public SemVer.Version Version { get; set => Common.SetProperty(ref field, value, RecalculateLayout); }
+        public SemVer.Version Version { get; set => Common.SetProperty(field, value, v => field = v, RecalculateLayout); }
 
-        public string Name { get; set => Common.SetProperty(ref field, value, RecalculateLayout); }
+        public string Name { get; set => Common.SetProperty(field, value, v => field = v, RecalculateLayout); }
 
-        public string SubName { get; set => Common.SetProperty(ref field, value, RecalculateLayout); }
+        public string SubName { get; set => Common.SetProperty(field, value, v => field = v, RecalculateLayout); }
 
         public AsyncTexture2D MainWindowEmblem { get; set; }
 

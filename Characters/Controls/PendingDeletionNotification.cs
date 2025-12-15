@@ -300,7 +300,7 @@ namespace Kenedia.Modules.Characters.Controls
             NotificationType = NotificationType.CharacterDeleted;
         }
 
-        public Character_Model MarkedCharacter { get; set => Common.SetProperty(ref field, value, RecalculateLayout); }
+        public Character_Model MarkedCharacter { get; set => Common.SetProperty(field, value, v => field = v, RecalculateLayout); }
 
         public override void RecalculateLayout()
         {

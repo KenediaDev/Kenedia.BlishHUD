@@ -261,7 +261,7 @@ namespace Kenedia.Modules.BuildsManager.Views
             TemplateTags.Remove(Tag);
         }
 
-        public TemplateTag Tag { get; set => Common.SetProperty(ref field, value, OnTagChanged); }
+        public TemplateTag Tag { get; set => Common.SetProperty(field, value, v => field = v, OnTagChanged); }
 
         public TemplateTags TemplateTags { get; set; }
 

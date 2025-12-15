@@ -37,7 +37,7 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Controls.SkillConnectionEdit
             }
         }
 
-        public Trait Trait { get; set => Common.SetProperty(ref field, value, ApplyTrait); }
+        public Trait Trait { get; set => Common.SetProperty(field, value, v => field = v, ApplyTrait); }
 
         public Action<int?> OnIconAction { get; set; }
 

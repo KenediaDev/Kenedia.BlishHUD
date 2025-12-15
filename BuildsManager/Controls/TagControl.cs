@@ -9,6 +9,7 @@ using Blish_HUD.Content;
 using MonoGame.Extended.BitmapFonts;
 using Blish_HUD.Input;
 using System.ComponentModel;
+using System.Diagnostics;
 
 namespace Kenedia.Modules.BuildsManager.Controls
 {
@@ -21,16 +22,15 @@ namespace Kenedia.Modules.BuildsManager.Controls
         private Rectangle _editIconBounds;
         private Rectangle _editIconTextureRegion;
         private Rectangle _textBounds;
-        private BitmapFont _font = Content.DefaultFont14;
 
         public TagControl()
         {
             Height = Font.LineHeight + (FontPadding * 2);
         }
 
-        public TemplateTag Tag { get; set => Common.SetProperty(ref field, value, OnTagChanged); }
+        public TemplateTag Tag { get; set => Common.SetProperty(field, value, v => field = v, OnTagChanged); } = null;
 
-        public BitmapFont Font { get => _font; set => Common.SetProperty(ref _font, value, OnFontChanged); }
+        public BitmapFont Font { get; set => Common.SetProperty(field, value, v => field = v, OnFontChanged); } = Content.DefaultFont14;
 
         public bool Selected { get; set; }
 
@@ -48,7 +48,7 @@ namespace Kenedia.Modules.BuildsManager.Controls
 
         private void OnFontChanged(object sender, Core.Models.ValueChangedEventArgs<BitmapFont> e)
         {
-            _font ??= Content.DefaultFont14;
+            Font ??= Content.DefaultFont14;
             Height = Font.LineHeight + (FontPadding * 2);
 
             ApplyTag();
@@ -100,7 +100,9 @@ namespace Kenedia.Modules.BuildsManager.Controls
                 spriteBatch.DrawOnCtrl(this, ContentService.Textures.Pixel, bounds, MouseOver ? HoverColor : Selected ? ActiveColor : DisabledColor);
 
             if (Tag?.Icon?.Texture is AsyncTexture2D texture)
+            {
                 spriteBatch.DrawOnCtrl(this, texture, _iconBounds, Tag.Icon.TextureRegion, Color.White);
+            }
 
             if (MouseOver && Enabled)
                 spriteBatch.DrawOnCtrl(this, _editIcon, _editIconBounds, _editIconTextureRegion, Color.White);

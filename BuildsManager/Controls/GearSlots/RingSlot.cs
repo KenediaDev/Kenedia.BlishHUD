@@ -38,13 +38,13 @@ namespace Kenedia.Modules.BuildsManager.Controls_Old.GearPage.GearSlots
             ItemControl.Item = Data.Trinkets[91234];
         }
 
-        public Stat? Stat { get; set => Common.SetProperty(ref field, value, OnStatChanged); }
+        public Stat? Stat { get; set => Common.SetProperty(field, value, v => field = v, OnStatChanged); }
 
-        public Infusion? Infusion1 { get; set => Common.SetProperty(ref field, value, OnInfusion1Changed); }
+        public Infusion? Infusion1 { get; set => Common.SetProperty(field, value, v => field = v, OnInfusion1Changed); }
 
-        public Infusion? Infusion2 { get; set => Common.SetProperty(ref field, value, OnInfusion2Changed); }
+        public Infusion? Infusion2 { get; set => Common.SetProperty(field, value, v => field = v, OnInfusion2Changed); }
 
-        public Infusion? Infusion3 { get; set => Common.SetProperty(ref field, value, OnInfusion3Changed); }
+        public Infusion? Infusion3 { get; set => Common.SetProperty(field, value, v => field = v, OnInfusion3Changed); }
 
         public override void RecalculateLayout()
         {

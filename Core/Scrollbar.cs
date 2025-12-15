@@ -3,6 +3,7 @@ using Blish_HUD;
 using Blish_HUD.Controls;
 using Blish_HUD.Input;
 using Glide;
+using Kenedia.Modules.Core.Utility;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MonoGame.Extended.TextureAtlases;
@@ -86,9 +87,10 @@ namespace Kenedia.Modules.Core.Controls
             get;
             set
             {
-                if (!SetProperty(ref field, value, true)) return;
+                if (!Common.SetProperty(field, value, v => field = v)) return;
 
                 // Reclamps the scrolling content
+                Invalidate();
                 RecalculateScrollbarSize();
                 UpdateAssocContainer();
             }

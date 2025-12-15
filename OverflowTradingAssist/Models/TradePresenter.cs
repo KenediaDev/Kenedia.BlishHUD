@@ -10,7 +10,7 @@ namespace Kenedia.Modules.OverflowTradingAssist.Models
             
         }
 
-        public Trade Trade { get; set => Common.SetProperty(ref field, value, SetupTrade); } = new();
+        public Trade Trade { get; set => Common.SetProperty(field, value, v => field = v, SetupTrade); } = new();
 
         private void SetupTrade(object sender, ValueChangedEventArgs<Trade> e)
         {

@@ -198,7 +198,7 @@ namespace Kenedia.Modules.BuildsManager.Views
             TagGroups.Remove(group);
         }
 
-        public TagGroup Group { get; set => Common.SetProperty(ref field, value, OnTagChanged); }
+        public TagGroup Group { get; set => Common.SetProperty(field, value, v => field = v, OnTagChanged); }
 
         public TemplateTags TemplateTags { get; set; }
 

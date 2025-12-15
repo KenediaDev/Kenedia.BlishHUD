@@ -60,7 +60,7 @@ namespace Kenedia.Modules.BuildsManager.Controls
             LocalizingService.LocaleChanged += UserLocale_SettingChanged;
         }
 
-        public Pet? Pet { get; set => Common.SetProperty(ref field, value, ApplyPet); }
+        public Pet? Pet { get; set => Common.SetProperty(field, value, v => field = v, ApplyPet); }
 
         private void ApplyPet(object sender, ValueChangedEventArgs<Pet> e)
         {

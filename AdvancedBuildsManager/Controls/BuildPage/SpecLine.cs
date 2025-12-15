@@ -107,7 +107,7 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Controls.BuildPage
             get; set
             {
                 var temp = field;
-                if (Common.SetProperty(ref field, value, SelectedTemplateChanged))
+                if (Common.SetProperty(field, value, v => field = v, SelectedTemplateChanged))
                 {
                     if (temp is not null) temp.PropertyChanged -= OnProfessionChanged;
                     if (temp is not null) temp.PropertyChanged -= ApplyTemplate;

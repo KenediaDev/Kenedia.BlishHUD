@@ -19,7 +19,7 @@ namespace Kenedia.Modules.OverflowTradingAssist.Models
         public event EventHandler DeleteRequested;
 
         [JsonIgnore]
-        public Item Item { get; set => Common.SetProperty(ref field, value, OnItemChanged); } = Item.UnkownItem;
+        public Item Item { get; set => Common.SetProperty(field, value, v => field = v, OnItemChanged); } = Item.UnkownItem;
 
         [JsonProperty("Item")]
         public int ItemId { get => Item?.Id ?? Item.UnkownItem.Id; set => SetItem(value); }
@@ -36,9 +36,9 @@ namespace Kenedia.Modules.OverflowTradingAssist.Models
             Item = OverflowTradingAssist.Data?.Items?.Items?.FirstOrDefault(e => e.Id == value) ?? Item.UnkownItem;
         }
 
-        public int Amount { get; set => Common.SetProperty(ref field, value, OnAmountChanged); } = 1;
+        public int Amount { get; set => Common.SetProperty(field, value, v => field = v, OnAmountChanged); } = 1;
 
-        public decimal Value { get; set => Common.SetProperty(ref field, value, OnValueChanged); } = 0;
+        public decimal Value { get; set => Common.SetProperty(field, value, v => field = v, OnValueChanged); } = 0;
 
         private void OnAmountChanged(object sender, ValueChangedEventArgs<int> e)
         {

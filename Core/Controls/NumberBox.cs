@@ -71,7 +71,7 @@ namespace Kenedia.Modules.Core.Controls
             }
         }
 
-        public bool ShowButtons { get; set => Common.SetProperty(ref field, value, RecalculateLayout); } = true;
+        public bool ShowButtons { get; set => Common.SetProperty(field, value, v => field = v, RecalculateLayout); } = true;
 
         public int Step { get; set; } = 1;
 

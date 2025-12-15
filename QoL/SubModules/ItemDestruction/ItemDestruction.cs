@@ -113,7 +113,7 @@ namespace Kenedia.Modules.QoL.SubModules.ItemDestruction
             Destroyed,
         }
 
-        private ItemDestructionState State { get; set => Common.SetProperty(ref field, value, OnStateSwitched); } = ItemDestructionState.Disabled;
+        private ItemDestructionState State { get; set => Common.SetProperty(field, value, v => field = v, OnStateSwitched); } = ItemDestructionState.Disabled;
 
         public override SubModuleType SubModuleType => SubModuleType.ItemDestruction;
 

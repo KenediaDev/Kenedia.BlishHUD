@@ -80,13 +80,13 @@ namespace Kenedia.Modules.BuildsManager.Controls_Old.GearPage
             LocalizingService.LocaleChanged += UserLocale_SettingChanged;
         }
 
-        public BaseItem? Item { get; set => Common.SetProperty(ref field, value, ApplyItem); }
+        public BaseItem? Item { get; set => Common.SetProperty(field, value, v => field = v, ApplyItem); }
 
-        public Stat? Stat { get; set => Common.SetProperty(ref field, value, ApplyStat); }
+        public Stat? Stat { get; set => Common.SetProperty(field, value, v => field = v, ApplyStat); }
 
-        public string Comment { get; set => Common.SetProperty(ref field, value, ApplyComment); }
+        public string Comment { get; set => Common.SetProperty(field, value, v => field = v, ApplyComment); }
 
-        public Func<string> SetLocalizedComment { get; set => Common.SetProperty(ref field, value, ApplyLocalizedComment); }
+        public Func<string> SetLocalizedComment { get; set => Common.SetProperty(field, value, v => field = v, ApplyLocalizedComment); }
 
         private void ApplyLocalizedComment(object sender, Core.Models.ValueChangedEventArgs<Func<string>> e)
         {

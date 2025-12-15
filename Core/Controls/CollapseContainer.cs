@@ -118,7 +118,7 @@ namespace Kenedia.Modules.Core.Controls
             }
         }
 
-        public string Title { get; set => Common.SetProperty(ref field, value, RecalculateLayout); }
+        public string Title { get; set => Common.SetProperty(field, value, v => field = v, RecalculateLayout); }
 
         public AsyncTexture2D TitleIcon { get; set; }
 

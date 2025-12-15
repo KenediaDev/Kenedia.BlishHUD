@@ -79,7 +79,7 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Controls.SkillConnectionEdit
 
         public CtrlType Target { get; set; }
 
-        public Dictionary<int, EntryType> Items { get; set => Common.SetProperty(ref field, value, ApplyItems); } = [];
+        public Dictionary<int, EntryType> Items { get; set => Common.SetProperty(field, value, v => field = v, ApplyItems); } = [];
 
         protected override void OnShown(EventArgs e)
         {

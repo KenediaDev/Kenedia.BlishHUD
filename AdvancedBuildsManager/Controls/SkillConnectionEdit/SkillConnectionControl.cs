@@ -15,9 +15,9 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Controls.SkillConnectionEdit
         private Rectangle _idBounds;
         private Rectangle _nameBounds;
 
-        public OldSkillConnection SkillConnection { get; set => Common.SetProperty(ref field, value, ApplyConnection); }
+        public OldSkillConnection SkillConnection { get; set => Common.SetProperty(field, value, v => field = v, ApplyConnection); }
 
-        public object Entry { get; set => Common.SetProperty(ref field, value, ApplyItem); }
+        public object Entry { get; set => Common.SetProperty(field, value, v => field = v, ApplyItem); }
 
         public string Name { get; set; }
 

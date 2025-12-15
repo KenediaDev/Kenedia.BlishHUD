@@ -551,7 +551,6 @@ namespace Kenedia.Modules.Characters.Controls
         {
             var result = await new BaseDialog("Delete Character", $"Are you sure to delete {Character?.Name}?").ShowDialog();
 
-            Debug.WriteLine($"CONFIRM DELETE: {result}");
             if (result == DialogResult.OK)
             {
                 Character?.Delete();

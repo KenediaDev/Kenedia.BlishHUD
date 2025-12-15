@@ -216,7 +216,7 @@ namespace Kenedia.Modules.OverflowTradingAssist.Controls
             }
         }
 
-        public int Index { get; set => Common.SetProperty(ref field, value, OnIndexChanged); }
+        public int Index { get; set => Common.SetProperty(field, value, v => field = v, OnIndexChanged); }
 
         private void OnIndexChanged(object sender, Core.Models.ValueChangedEventArgs<int> e)
         {

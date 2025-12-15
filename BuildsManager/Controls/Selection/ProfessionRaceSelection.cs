@@ -79,7 +79,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
         public SelectionType Type
         {
             get;
-            set => Common.SetProperty(ref field, value, OnTypeChanged);
+            set => Common.SetProperty(field, value, v => field = v, OnTypeChanged);
         } = SelectionType.Race;
         public Data Data { get; }
 

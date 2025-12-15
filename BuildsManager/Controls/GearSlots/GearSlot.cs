@@ -44,7 +44,7 @@ namespace Kenedia.Modules.BuildsManager.Controls_Old.GearPage.GearSlots
             }
         }
 
-        public TemplateSlotType Slot { get; set => Common.SetProperty(ref field, value, ApplySlot); } = TemplateSlotType.None;
+        public TemplateSlotType Slot { get; set => Common.SetProperty(field, value, v => field = v, ApplySlot); } = TemplateSlotType.None;
 
         public GearSlot(TemplateSlotType gearSlot, Container parent, TemplatePresenter templatePresenter, SelectionPanel selectionPanel, Data data)
         {
@@ -87,7 +87,7 @@ namespace Kenedia.Modules.BuildsManager.Controls_Old.GearPage.GearSlots
         public Data Data { get; }
         public List<GearSlot> SlotGroup { get; set; }
 
-        protected TemplatePresenter TemplatePresenter { get; private set => Common.SetProperty(ref field, value, OnTemplatePresenterChanged); }
+        protected TemplatePresenter TemplatePresenter { get; private set => Common.SetProperty(field, value, v => field = v, OnTemplatePresenterChanged); }
 
         protected virtual void OnTemplatePresenterChanged(object sender, ValueChangedEventArgs<TemplatePresenter> e)
         {

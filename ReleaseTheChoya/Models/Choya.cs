@@ -35,14 +35,14 @@ namespace Kenedia.Modules.ReleaseTheChoya.Models
         public string Name
         {
             get;
-            set => Common.SetProperty(ref field, value, UpdateSetting);
+            set => Common.SetProperty(field, value, v => field = v, UpdateSetting);
         } = "New Choya";
 
         [DataMember]
         public int Steps
         {
             get;
-            set => Common.SetProperty(ref field, value, UpdateSetting);
+            set => Common.SetProperty(field, value, v => field = v, UpdateSetting);
         } = 360;
 
         [DataMember]
@@ -63,7 +63,7 @@ namespace Kenedia.Modules.ReleaseTheChoya.Models
         public bool CanMove
         {
             get;
-            set => Common.SetProperty(ref field, value, UpdateSetting);
+            set => Common.SetProperty(field, value, v => field = v, UpdateSetting);
         }
 
         public SettingCollection StaticChoya { get; private set; }

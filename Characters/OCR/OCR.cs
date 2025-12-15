@@ -41,7 +41,7 @@ namespace Kenedia.Modules.Characters
 
         public OCRView OcrView { get; set; }
 
-        public MainWindow MainWindow { get; set => Common.SetProperty(ref field, value, MainWindowChanged); }
+        public MainWindow MainWindow { get; set => Common.SetProperty(field, value, v => field = v, MainWindowChanged); }
 
         public Texture2D SourceTexture { get; private set; }
 

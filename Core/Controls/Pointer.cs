@@ -27,7 +27,7 @@ namespace Kenedia.Modules.Core.Controls
             ClipsBounds = false;            
         }
 
-        public Control Anchor { get; set => Common.SetProperty(ref field, value, SetAnchor); }
+        public Control Anchor { get; set => Common.SetProperty(field, value, v => field = v, SetAnchor); }
 
         public float BounceDistance { get; set; } = 0.25F;
 

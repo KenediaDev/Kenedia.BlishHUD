@@ -20,15 +20,15 @@ namespace Kenedia.Modules.Core.Controls
         public bool AutoSize;
         private RectangleDimensions _outerPadding = new(2);
 
-        public string Text { get; set => Common.SetProperty(ref field, value, RecalculateLayout); } = string.Empty;
+        public string Text { get; set => Common.SetProperty(field, value, v => field = v, RecalculateLayout); } = string.Empty;
 
-        public DetailedTexture Texture { get; set => Common.SetProperty(ref field, value, RecalculateLayout); }
+        public DetailedTexture Texture { get; set => Common.SetProperty(field, value, v => field = v, RecalculateLayout); }
 
         public RectangleDimensions OuterPadding { get => _outerPadding; set => Common.SetProperty(ref _outerPadding, value, RecalculateLayout); }
 
-        public int InnerPadding { get; set => Common.SetProperty(ref field, value, RecalculateLayout); } = 5;
+        public int InnerPadding { get; set => Common.SetProperty(field, value, v => field = v, RecalculateLayout); } = 5;
 
-        public BitmapFont Font { get; set => Common.SetProperty(ref field, value, RecalculateLayout); } = GameService.Content.DefaultFont14;
+        public BitmapFont Font { get; set => Common.SetProperty(field, value, v => field = v, RecalculateLayout); } = GameService.Content.DefaultFont14;
 
         public Color FontColor { get; set; } = Color.White;
 
@@ -36,7 +36,7 @@ namespace Kenedia.Modules.Core.Controls
 
         public CaptureType? Capture { get; set; } 
 
-        public bool ShowIcon { get; set => Common.SetProperty(ref field, value, RecalculateLayout); } = true;
+        public bool ShowIcon { get; set => Common.SetProperty(field, value, v => field = v, RecalculateLayout); } = true;
 
         public override void RecalculateLayout()
         {

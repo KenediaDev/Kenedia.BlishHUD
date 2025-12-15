@@ -6,6 +6,7 @@ using Kenedia.Modules.Core.Models;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
+using System.Windows.Forms;
 
 namespace Kenedia.Modules.BuildsManager.Utility
 {
@@ -24,11 +25,14 @@ namespace Kenedia.Modules.BuildsManager.Utility
         public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
         {
             var jo = JObject.Load(reader);
-            UniqueObservableCollection<string> tags;
+            UniqueObservableCollection<string> tags = [];
 
             try
             {
-               tags = jo["Tags"].ToObject<UniqueObservableCollection<string>>(serializer);
+                if (jo.TryGetValue("Tags", StringComparison.OrdinalIgnoreCase, out JToken? tagToken) && tagToken is not null)
+                {
+                    tags = tagToken.ToObject<UniqueObservableCollection<string>>(serializer);
+                }
             }
             catch
             {

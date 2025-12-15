@@ -34,11 +34,11 @@ namespace Kenedia.Modules.Core.Models
 
         public bool Hovered { get; protected set; }
 
-        public AsyncTexture2D Texture { get; set => Common.SetProperty(ref field, value, () => ApplyBounds(), value is not null); }
+        public AsyncTexture2D Texture { get; set => Common.SetProperty(field, value, v => field = v,  () => ApplyBounds(), value is not null); }
 
-        public AsyncTexture2D HoveredTexture { get; set => Common.SetProperty(ref field, value, () => ApplyBounds(), value is not null); }
+        public AsyncTexture2D HoveredTexture { get; set => Common.SetProperty(field, value, v => field = v, () => ApplyBounds(), value is not null); }
 
-        public AsyncTexture2D FallBackTexture { get; set => Common.SetProperty(ref field, value, () => ApplyBounds(), value is not null); }
+        public AsyncTexture2D FallBackTexture { get; set => Common.SetProperty(field, value, v => field = v, () => ApplyBounds(), value is not null); }
 
         public Rectangle TextureRegion { get; set; }
 

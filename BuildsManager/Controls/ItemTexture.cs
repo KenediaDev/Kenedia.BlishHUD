@@ -24,7 +24,7 @@ namespace Kenedia.Modules.BuildsManager.Controls_Old.GearPage
             Parent = parent;
         }
 
-        public BaseItem? Item { get; set => Common.SetProperty(ref field, value, ApplyItem); }
+        public BaseItem? Item { get; set => Common.SetProperty(field, value, v => field = v, ApplyItem); }
 
         public Container Parent { get; set; }
 

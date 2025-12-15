@@ -73,14 +73,14 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
                 OnClickAction?.Invoke(Value);
         }
 
-        public Enum Value { get; set => Common.SetProperty(ref field, value, SetValue); } = ProfessionType.Guardian;
+        public Enum Value { get; set => Common.SetProperty(field, value, v => field = v, SetValue); } = ProfessionType.Guardian;
 
         public Action<Enum> OnClickAction { get; set; }
 
         public ProfessionRaceSelection.SelectionType SelectionType
         {
             get;
-            set => Common.SetProperty(ref field, value, () => Value = null);
+            set => Common.SetProperty(field, value, v => field = v, () => Value = null);
         } = ProfessionRaceSelection.SelectionType.Profession;
 
         public Data Data { get; }

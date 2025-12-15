@@ -177,13 +177,13 @@ namespace Kenedia.Modules.OverflowTradingAssist.Models
         [JsonIgnore]
         public string PaymentSummary => string.Join(", ", Payment.Select(e => $"{e.Amount} x  {e.Item?.Name ?? Item.UnkownItem.Name}"));
 
-        public string TradePartner { get; set => Common.SetProperty(ref field, value, OnTradePartnerChanged); }
+        public string TradePartner { get; set => Common.SetProperty(field, value, v => field = v, OnTradePartnerChanged); }
 
         public DateTime Date { get; set; } = DateTime.Now;
 
-        public string ReviewLink { get; set => Common.SetProperty(ref field, value, OnReviewChanged); }
+        public string ReviewLink { get; set => Common.SetProperty(field, value, v => field = v, OnReviewChanged); }
 
-        public string TradeListingLink { get; set => Common.SetProperty(ref field, value, OnListingChanged); }
+        public string TradeListingLink { get; set => Common.SetProperty(field, value, v => field = v, OnListingChanged); }
 
         [JsonIgnore]
         public decimal ItemValue => Items?.Sum(e => e.Amount * e.Value) ?? 0;
@@ -194,7 +194,7 @@ namespace Kenedia.Modules.OverflowTradingAssist.Models
         [JsonIgnore]
         public decimal Value { get; set; }
 
-        public TradeType TradeType { get; set => Common.SetProperty(ref field, value, OnTradeTypeChanged); }
+        public TradeType TradeType { get; set => Common.SetProperty(field, value, v => field = v, OnTradeTypeChanged); }
 
         [JsonIgnore]
         public bool ExcelSaveRequested { get; set; }

@@ -31,9 +31,9 @@ namespace Kenedia.Modules.BuildsManager.Controls_Old.GearPage.GearSlots
             ItemControl.Item = Data.Trinkets[92991];
         }
 
-        public Stat Stat { get; set => Common.SetProperty(ref field, value, OnStatChanged); } = null;
+        public Stat Stat { get; set => Common.SetProperty(field, value, v => field = v, OnStatChanged); } = null;
 
-        public Enrichment Enrichment { get; set => Common.SetProperty(ref field, value, OnEnrichmentChanged); } = null;
+        public Enrichment Enrichment { get; set => Common.SetProperty(field, value, v => field = v, OnEnrichmentChanged); } = null;
 
         public override void RecalculateLayout()
         {

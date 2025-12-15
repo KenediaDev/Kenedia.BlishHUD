@@ -1,4 +1,6 @@
 ﻿using Blish_HUD.Controls;
+using Kenedia.Modules.Core.Models;
+using Kenedia.Modules.Core.Utility;
 using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
@@ -15,8 +17,13 @@ namespace Kenedia.Modules.Core.Controls
         public ControlFlowDirection FlowDirection
         {
             get;
-            set => SetProperty(ref field, value, true);
+            set => Common.SetProperty(field, value, v => field = v, OnFlowDirectionChanged);
         } = ControlFlowDirection.LeftToRight;
+
+        private void OnFlowDirectionChanged(object sender, ValueChangedEventArgs<ControlFlowDirection> e)
+        {
+            OnPropertyChanged(nameof(FlowDirection), true);
+        }
 
         public Vector2 ControlPadding
         {

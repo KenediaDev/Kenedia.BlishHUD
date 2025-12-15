@@ -263,7 +263,7 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Controls.Selection
             get; set
             {
                 var temp = field;
-                if (Common.SetProperty(ref field, value, ApplyTemplate))
+                if (Common.SetProperty(field, value, v => field = v, ApplyTemplate))
                 {
                     foreach (var slot in _selectables)
                     {
@@ -304,9 +304,9 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Controls.Selection
             return item.Name == null || string.IsNullOrEmpty(_filterText) || item.Name.ToLower().Contains(_filterText);
         }
 
-        public GearTemplateSlot ActiveSlot { get; set => Common.SetProperty(ref field, value, ApplySlot); }
+        public GearTemplateSlot ActiveSlot { get; set => Common.SetProperty(field, value, v => field = v, ApplySlot); }
 
-        public GearSubSlotType SubSlotType { get; set => Common.SetProperty(ref field, value, ApplySubSlot); }
+        public GearSubSlotType SubSlotType { get; set => Common.SetProperty(field, value, v => field = v, ApplySubSlot); }
 
         private void ApplySubSlot(object sender, PropertyChangedEventArgs e)
         {

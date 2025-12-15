@@ -65,9 +65,9 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
             OnClickAction?.Invoke();
         }
 
-        public Stat Stat { get; set => Common.SetProperty(ref field, value, OnStatChanged); }
+        public Stat Stat { get; set => Common.SetProperty(field, value, v => field = v, OnStatChanged); }
 
-        public double AttributeAdjustment { get; set => Common.SetProperty(ref field, value, OnMultiplierChanged); }
+        public double AttributeAdjustment { get; set => Common.SetProperty(field, value, v => field = v, OnMultiplierChanged); }
 
         public Action OnClickAction { get; set; }
 

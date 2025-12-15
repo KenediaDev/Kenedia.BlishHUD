@@ -32,7 +32,7 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Controls.BuildPage.ProfessionSpe
             FallBackTexture = AsyncTexture2D.FromAssetId(157154);
         }
 
-        public Legend Legend { get; set => Common.SetProperty(ref field, value, ApplyLegend); }
+        public Legend Legend { get; set => Common.SetProperty(field, value, v => field = v, ApplyLegend); }
 
         public LegendSlot LegendSlot { get; set; }
 

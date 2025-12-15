@@ -24,7 +24,7 @@ namespace Kenedia.Modules.BuildsManager.Controls
 
         public Rectangle PawRegion { get; set; }
 
-        public Pet? Pet { get; set => Common.SetProperty(ref field, value, ApplyPet); }
+        public Pet? Pet { get; set => Common.SetProperty(field, value, v => field = v, ApplyPet); }
 
         private void ApplyPet()
         {

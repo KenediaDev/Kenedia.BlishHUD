@@ -42,7 +42,7 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Models.Templates
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public ProfessionType Profession { get; set => Common.SetProperty(ref field, value, OnProfessionChanged); }
+        public ProfessionType Profession { get; set => Common.SetProperty(field, value, v => field = v, OnProfessionChanged); }
 
         private void OnProfessionChanged(object sender, PropertyChangedEventArgs e)
         {

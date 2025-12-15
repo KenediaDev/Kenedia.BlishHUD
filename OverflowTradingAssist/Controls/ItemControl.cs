@@ -73,11 +73,11 @@ namespace Kenedia.Modules.OverflowTradingAssist.Controls.GearPage
 
         public Action<Item> OnClicked { get; set; }
 
-        public Item Item { get; set => Common.SetProperty(ref field, value, ApplyItem); }
+        public Item Item { get; set => Common.SetProperty(field, value, v => field = v, ApplyItem); }
 
         public Color TextureColor { get => _texture.DrawColor ?? Color.White; set => _texture.DrawColor = value; }
 
-        public DetailedTexture Placeholder { get; set => Common.SetProperty(ref field, value, ApplyPlaceholder); } = new();
+        public DetailedTexture Placeholder { get; set => Common.SetProperty(field, value, v => field = v, ApplyPlaceholder); } = new();
 
         private void ApplyPlaceholder(object sender, Core.Models.ValueChangedEventArgs<DetailedTexture> e)
         {

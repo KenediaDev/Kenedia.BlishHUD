@@ -31,11 +31,11 @@ namespace Kenedia.Modules.BuildsManager.Models
 
         [field: JsonProperty("Priority")]
         [JsonIgnore]
-        public int Priority { get; set => Common.SetProperty(ref field, value, OnPriorityChanged); } = 1;
+        public int Priority { get; set => Common.SetProperty(field, value, v => field = v, OnPriorityChanged); } = 1;
 
         [field: JsonProperty("Name")]
         [JsonIgnore]
-        public string Name { get; set => Common.SetProperty(ref field, value, OnNameChanged); } = DefaultName;
+        public string Name { get; set => Common.SetProperty(field, value, v => field = v, OnNameChanged); } = DefaultName;
 
         [JsonIgnore]
         public DetailedTexture Icon { get; set; } = new(156025)
@@ -45,7 +45,7 @@ namespace Kenedia.Modules.BuildsManager.Models
 
         [field: JsonProperty("AssetId")]
         [JsonIgnore]
-        public int AssetId { get; set => Common.SetProperty(ref field, value, OnAssetIdChanged); } = 156025;
+        public int AssetId { get; set => Common.SetProperty(field, value, v => field = v, OnAssetIdChanged); } = 156025;
 
         [JsonIgnore]
         public Rectangle? TextureRegion { get => _textureRegion; set => Common.SetProperty(ref _textureRegion, value, OnTextureRegionChanged); }

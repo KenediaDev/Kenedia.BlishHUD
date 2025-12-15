@@ -33,11 +33,11 @@ namespace Kenedia.Modules.BuildsManager.Controls_Old.GearPage.GearSlots
             _infusionControl.Parent = this;
         }
 
-        public Stat? Stat { get; set => Common.SetProperty(ref field, value, OnStatChanged); }
+        public Stat? Stat { get; set => Common.SetProperty(field, value, v => field = v, OnStatChanged); }
 
-        public Rune? Rune { get; set => Common.SetProperty(ref field, value, OnRuneChanged); }
+        public Rune? Rune { get; set => Common.SetProperty(field, value, v => field = v, OnRuneChanged); }
 
-        public Infusion? Infusion { get; set => Common.SetProperty(ref field, value, OnInfusionChanged); }
+        public Infusion? Infusion { get; set => Common.SetProperty(field, value, v => field = v, OnInfusionChanged); }
 
         public override void RecalculateLayout()
         {

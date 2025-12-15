@@ -14,7 +14,7 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Models.Templates
         public Skill Skill
         {
             get;
-            set => Common.SetProperty(ref field, value, PropertyChanged);
+            set => Common.SetProperty(field, value, v => field = v, PropertyChanged);
         }
 
         public int Repetition
@@ -23,7 +23,7 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Models.Templates
             {
                 if (value > 0)
                 {
-                    _ = Common.SetProperty(ref field, value, PropertyChanged);
+                    _ = Common.SetProperty(field, value, v => field = v, PropertyChanged);
                 }
             }
         } = 1;

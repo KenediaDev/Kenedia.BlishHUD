@@ -45,13 +45,13 @@ namespace Kenedia.Modules.BuildsManager.Controls_Old.GearPage.GearSlots
             _infusionControl.Parent = this;
         }
 
-        public Stat Stat { get; set => Common.SetProperty(ref field, value, OnStatChanged); }
+        public Stat Stat { get; set => Common.SetProperty(field, value, v => field = v, OnStatChanged); }
 
-        public Sigil Sigil { get; set => Common.SetProperty(ref field, value, OnSigilChanged); }
+        public Sigil Sigil { get; set => Common.SetProperty(field, value, v => field = v, OnSigilChanged); }
 
-        public Sigil PvpSigil { get; set => Common.SetProperty(ref field, value, OnPvpSigilChanged); }
+        public Sigil PvpSigil { get; set => Common.SetProperty(field, value, v => field = v, OnPvpSigilChanged); }
 
-        public Infusion Infusion { get; set => Common.SetProperty(ref field, value, OnInfusionChanged); }
+        public Infusion Infusion { get; set => Common.SetProperty(field, value, v => field = v, OnInfusionChanged); }
 
         private void AdjustForOtherSlot()
         {

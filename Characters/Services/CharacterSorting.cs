@@ -270,7 +270,6 @@ namespace Kenedia.Modules.Characters.Services
             if(string.IsNullOrEmpty(name))
             {
                 (string, int, int, int, bool) match = GetBestMatch(name);
-                Debug.WriteLine($"Best Match for {_currentIndex} is {match.Item1} with {match.Item2} string edits and {match.Item3} list index distance for a total of {match.Item4} differences.");
 
                 //Character_Model c = s_models.Find(e => e.Name == name);
                 Character_Model c = _models.Find(e => e.Name == match.Item1);

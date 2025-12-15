@@ -14,9 +14,9 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Models.Templates
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public int Index { get; set => Common.SetProperty(ref field, value, PropertyChanged); }
+        public int Index { get; set => Common.SetProperty(field, value, v => field = v, PropertyChanged); }
 
-        public Specialization Specialization { get; set => Common.SetProperty(ref field, value, PropertyChanged); }
+        public Specialization Specialization { get; set => Common.SetProperty(field, value, v => field = v, PropertyChanged); }
 
         public TraitCollection Traits { get; } = [];
 

@@ -110,7 +110,7 @@ namespace Kenedia.Modules.OverflowTradingAssist.Controls
             }
         }
 
-        public ItemAmount ItemAmount { get; set => Common.SetProperty(ref field, value, OnItemChanged); } = new();
+        public ItemAmount ItemAmount { get; set => Common.SetProperty(field, value, v => field = v, OnItemChanged); } = new();
 
         private void OnItemChanged(object sender, ValueChangedEventArgs<ItemAmount> e)
         {
@@ -279,7 +279,7 @@ namespace Kenedia.Modules.OverflowTradingAssist.Controls
             }
         }
 
-        public Item Item { get; set => Common.SetProperty(ref field, value, OnItemChanged); }
+        public Item Item { get; set => Common.SetProperty(field, value, v => field = v, OnItemChanged); }
 
         private void OnItemChanged(object sender, ValueChangedEventArgs<Item> e)
         {

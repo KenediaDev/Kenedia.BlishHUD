@@ -62,7 +62,7 @@ namespace Kenedia.Modules.BuildsManager.Controls
             LocalizingService.LocaleChanged += UserLocale_SettingChanged;
         }
 
-        public Trait Trait { get; set => Common.SetProperty(ref field, value, ApplyTrait); }
+        public Trait Trait { get; set => Common.SetProperty(field, value, v => field = v, ApplyTrait); }
 
         public Func<string> SetLocalizedTooltip { get; set; }
 

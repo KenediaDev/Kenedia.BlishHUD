@@ -25,7 +25,7 @@ namespace Kenedia.Modules.Core.Controls
 
         public DetailedTexture Icon { get; set; }
 
-        public bool Checked { get; set => Common.SetProperty(ref field, value, On_CheckChanged); }
+        public bool Checked { get; set => Common.SetProperty(field, value, v => field = v, On_CheckChanged); }
 
         public Action<bool> OnCheckChanged { get; set; }
 

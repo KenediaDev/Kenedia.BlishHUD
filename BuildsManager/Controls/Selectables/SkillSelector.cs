@@ -21,7 +21,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selectables
             SelectableSize = new(56);
         }
 
-        public Enviroment Enviroment { get; set => Common.SetProperty(ref field, value, OnEnviromentChanged); }
+        public Enviroment Enviroment { get; set => Common.SetProperty(field, value, v => field = v, OnEnviromentChanged); }
 
         private void OnEnviromentChanged(object sender, Core.Models.ValueChangedEventArgs<Enviroment> e)
         {

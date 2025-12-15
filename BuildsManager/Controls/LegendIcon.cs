@@ -27,7 +27,7 @@ namespace Kenedia.Modules.BuildsManager.Controls
             Size = new(48, 62);
         }
 
-        public Legend? Legend { get; set => Common.SetProperty(ref field, value, ApplyLegend); }
+        public Legend? Legend { get; set => Common.SetProperty(field, value, v => field = v, ApplyLegend); }
 
         public LegendSlotType LegendSlot { get; set; }
 

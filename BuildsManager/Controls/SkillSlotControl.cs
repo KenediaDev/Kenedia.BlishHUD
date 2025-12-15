@@ -106,7 +106,7 @@ namespace Kenedia.Modules.BuildsManager.Controls
 
         public bool IsSelectorHovered => ShowSelector && SelectorBounds.Contains(RelativeMousePosition);
 
-        public Skill? Skill { get; set => Common.SetProperty(ref field, value, OnSkillChanged); }
+        public Skill? Skill { get; set => Common.SetProperty(field, value, v => field = v, OnSkillChanged); }
 
         private void OnSkillChanged(object sender, Core.Models.ValueChangedEventArgs<Skill> e)
         {

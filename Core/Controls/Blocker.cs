@@ -23,7 +23,7 @@ namespace Kenedia.Modules.Core.Controls
         public Control CoveredControl
         {
             get;
-            set => Common.SetProperty(ref field, value, OnCoveredControlChanged);
+            set => Common.SetProperty(field, value, v => field = v, OnCoveredControlChanged);
         }
 
         private void OnCoveredControlChanged(object sender, Models.ValueChangedEventArgs<Control> e)

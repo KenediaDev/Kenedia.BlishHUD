@@ -15,7 +15,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
             TextureRectangle = new(4, 4, 24, 24);
         }
 
-        public AttributeType Attribute { get; set => Common.SetProperty(ref field, value, OnAttributeChanged); }
+        public AttributeType Attribute { get; set => Common.SetProperty(field, value, v => field = v, OnAttributeChanged); }
 
         private void OnAttributeChanged()
         {

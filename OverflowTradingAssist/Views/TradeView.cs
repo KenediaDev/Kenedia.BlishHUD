@@ -37,7 +37,7 @@ namespace Kenedia.Modules.OverflowTradingAssist.Views
             TradePresenter = _tradePresenter;
         }
 
-        public TradePresenter TradePresenter { get; private set => Common.SetProperty(ref field, value, ApplyTrade); }
+        public TradePresenter TradePresenter { get; private set => Common.SetProperty(field, value, v => field = v, ApplyTrade); }
 
         public Trade Trade => TradePresenter?.Trade;
 

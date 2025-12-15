@@ -20,7 +20,7 @@ namespace Kenedia.Modules.OverflowTradingAssist.Controls
             };
         }
 
-        public Item Item { get; set => Common.SetProperty(ref field, value, ApplyItem);}
+        public Item Item { get; set => Common.SetProperty(field, value, v => field = v, ApplyItem);}
 
         private void ApplyItem(object sender, ValueChangedEventArgs<Item> e)
         {

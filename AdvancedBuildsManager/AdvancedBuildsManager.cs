@@ -48,7 +48,7 @@ namespace Kenedia.Modules.AdvancedBuildsManager
         {
             get; set
             {
-                if (Common.SetProperty(ref field, value ?? new(), SelectedTemplateSwitched))
+                if (Common.SetProperty(field, value ?? new(), v => field = v, SelectedTemplateSwitched))
                 {
 
                 }
@@ -199,7 +199,6 @@ namespace Kenedia.Modules.AdvancedBuildsManager
                 _tick = gameTime.TotalGameTime.TotalMilliseconds;
 
                 //var attribute = typeof(Gw2Client).Assembly.GetCustomAttributes(typeof(System.Reflection.AssemblyFileVersionAttribute), true).FirstOrDefault();
-                //Debug.WriteLine($"{((System.Reflection.AssemblyFileVersionAttribute)attribute).Version.ToString()}");
             }
         }
 

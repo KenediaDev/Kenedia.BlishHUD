@@ -37,7 +37,7 @@ namespace Kenedia.Modules.BuildsManager.TemplateEntries
 
         public Data Data { get; }
 
-        public BaseItem Item { get; set => Common.SetProperty(ref field, value, OnItemChanged); }
+        public BaseItem Item { get; set => Common.SetProperty(field, value, v => field = v, OnItemChanged); }
 
         protected virtual void OnItemChanged(object sender, ValueChangedEventArgs<BaseItem> e)
         {

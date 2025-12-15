@@ -14,7 +14,7 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Controls.GearPage
     {
         private Color _frameColor;
 
-        public BaseItem Item { get; set => Common.SetProperty(ref field, value, ApplyItem); }
+        public BaseItem Item { get; set => Common.SetProperty(field, value, v => field = v, ApplyItem); }
 
         private void ApplyItem()
         {

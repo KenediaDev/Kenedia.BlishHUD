@@ -28,7 +28,7 @@ namespace Kenedia.Modules.BuildsManager.Controls_Old.GearPage.GearSlots
             ClipsBounds = false;
         }
 
-        public Rune? Rune { get; set => Common.SetProperty(ref field, value, OnRuneChanged); }
+        public Rune? Rune { get; set => Common.SetProperty(field, value, v => field = v, OnRuneChanged); }
 
         public override void RecalculateLayout()
         {

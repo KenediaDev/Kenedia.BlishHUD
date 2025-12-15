@@ -142,7 +142,7 @@ namespace Kenedia.Modules.AdvancedBuildsManager.Controls.GearPage
             get; set
             {
                 var temp = field;
-                if (Common.SetProperty(ref field, value, ApplyTemplate))
+                if (Common.SetProperty(field, value, v => field = v, ApplyTemplate))
                 {
                     if (temp is not null) temp.PropertyChanged -= TemplateChanged;
 
