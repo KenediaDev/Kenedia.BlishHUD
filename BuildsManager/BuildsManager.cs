@@ -108,7 +108,6 @@ namespace Kenedia.Modules.BuildsManager
             await templateTags.Load();
 
             await Templates.Load();
-
         }
 
         //public event ValueChangedEventHandler<bool> TemplatesLoadedDone;
@@ -223,8 +222,6 @@ namespace Kenedia.Modules.BuildsManager
             Logger.Debug($"ReloadKey_Activated: {Name}");
             _cancellationTokenSource?.Cancel();
             _cancellationTokenSource = new CancellationTokenSource();
-
-
 
             var statinfo = new StaticStats();
             statinfo.TextureMapInfo = Stat.StatTextureMap;

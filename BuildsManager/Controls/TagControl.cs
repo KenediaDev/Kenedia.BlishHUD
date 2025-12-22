@@ -101,7 +101,7 @@ namespace Kenedia.Modules.BuildsManager.Controls
 
             if (Tag?.Icon?.Texture is AsyncTexture2D texture)
             {
-                spriteBatch.DrawOnCtrl(this, texture, _iconBounds, Tag.Icon.TextureRegion, Color.White);
+                spriteBatch.DrawOnCtrl(this, texture, _iconBounds, Tag.TextureRegion, Color.White);
             }
 
             if (MouseOver && Enabled)

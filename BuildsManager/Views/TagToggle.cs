@@ -91,7 +91,7 @@ namespace Kenedia.Modules.BuildsManager.Views
         {
             if ((Selected ? _textureEnabled : _textureDisabled) is AsyncTexture2D texture)
             {
-                spriteBatch.DrawOnCtrl(this, texture, bounds, Selected ? Color.White : Color.Gray * 0.5F);
+                spriteBatch.DrawOnCtrl(this, texture, bounds, Tag.TextureRegion, Selected ? Color.White : Color.Gray * 0.5F);
             }
         }
 

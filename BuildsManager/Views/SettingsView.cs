@@ -261,7 +261,7 @@ namespace Kenedia.Modules.BuildsManager.Views
                 Width = 200,
                 Height = 30,
                 SetLocalizedText = () => "Check for updated data",
-                ClickAction = async () => await Data.Load(true),
+                ClickAction = async () => await Data.Load(true, false),
             };
         }
     }

@@ -11,9 +11,6 @@ namespace Kenedia.Modules.BuildsManager.Models
     {
         public static string DefaultName => strings.GroupNotDefined;
 
-        [JsonProperty("TextureRegion")]
-        private Rectangle? _textureRegion;
-
         public event PropertyAndValueChangedEventHandler? PropertyChanged;
 
         public TagGroup()
@@ -29,12 +26,8 @@ namespace Kenedia.Modules.BuildsManager.Models
             }            
         }
 
-        [field: JsonProperty("Priority")]
-        [JsonIgnore]
         public int Priority { get; set => Common.SetProperty(field, value, v => field = v, OnPriorityChanged); } = 1;
 
-        [field: JsonProperty("Name")]
-        [JsonIgnore]
         public string Name { get; set => Common.SetProperty(field, value, v => field = v, OnNameChanged); } = DefaultName;
 
         [JsonIgnore]
@@ -43,12 +36,9 @@ namespace Kenedia.Modules.BuildsManager.Models
             TextureRegion = new Rectangle(44, 48, 43, 46),
         };
 
-        [field: JsonProperty("AssetId")]
-        [JsonIgnore]
         public int AssetId { get; set => Common.SetProperty(field, value, v => field = v, OnAssetIdChanged); } = 156025;
 
-        [JsonIgnore]
-        public Rectangle? TextureRegion { get => _textureRegion; set => Common.SetProperty(ref _textureRegion, value, OnTextureRegionChanged); }
+        public Rectangle? TextureRegion { get; set => Common.SetProperty(field, value, v => field = v, OnTextureRegionChanged); }
 
         public static TagGroup Empty { get; internal set; } = new();
 

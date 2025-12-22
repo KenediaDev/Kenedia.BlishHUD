@@ -191,8 +191,7 @@ namespace Kenedia.Modules.BuildsManager.Models
         [DataMember]
         public Races Race { get => _race; private set => Common.SetProperty(ref _race, value, OnRaceChanged); }
 
-        [field: JsonProperty("Tags")]
-        [field: DataMember]
+        [DataMember]
         public UniqueObservableCollection<string> Tags { get; private set => Common.SetProperty(field, value, v => field = v, OnTagsListChanged); } = [];
 
         [DataMember]
@@ -296,8 +295,7 @@ namespace Kenedia.Modules.BuildsManager.Models
 
         public bool TriggerAutoSave { get; set; } = false;
 
-        [field: JsonProperty("LastModified")]
-        [field: DataMember]
+        [DataMember]
         public string LastModified { get; set => Common.SetProperty(field, value, v => field = v, OnLastModifiedChanged); } = DateTime.Now.ToString("d");
 
         public bool Loaded { get; set; }

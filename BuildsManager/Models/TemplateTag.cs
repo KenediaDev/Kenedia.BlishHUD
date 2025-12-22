@@ -15,12 +15,6 @@ namespace Kenedia.Modules.BuildsManager.Models
     {
         public static string DefaultName => strings.NewTemplate;
 
-        [JsonProperty("Name")]
-        private string _name = DefaultName;
-
-        [JsonProperty("TextureRegion")]
-        private Rectangle? _textureRegion = new(0, 0, 32, 32);
-
         public event PropertyChangedEventHandler? PropertyChanged;
 
         public TemplateTag()
@@ -32,7 +26,7 @@ namespace Kenedia.Modules.BuildsManager.Models
         {
             if (!string.IsNullOrEmpty(name))
             {
-                _name = name;
+                Name = name;
             }            
         }
 
@@ -40,8 +34,7 @@ namespace Kenedia.Modules.BuildsManager.Models
 
         public int Priority { get; set => Common.SetProperty(field, value, v => field = v, OnPriorityChanged); } = 1;
 
-        [JsonIgnore]
-        public string Name { get => _name; set => Common.SetProperty(ref _name, value, OnNameChanged); }
+        public string Name { get; set => Common.SetProperty(field, value, v => field = v, OnNameChanged); } = DefaultName;
 
         [JsonIgnore]
         public DetailedTexture Icon { get; set; } = new(156025)
@@ -51,8 +44,7 @@ namespace Kenedia.Modules.BuildsManager.Models
 
         public int AssetId { get; set => Common.SetProperty(field, value, v => field = v, OnAssetIdChanged); } = 156025;
 
-        [JsonIgnore]
-        public Rectangle? TextureRegion { get => _textureRegion; set => Common.SetProperty(ref _textureRegion, value, OnTextureRegionChanged); }
+        public Rectangle? TextureRegion { get; set => Common.SetProperty(field, value, v => field = v, OnTextureRegionChanged); }
 
         private void OnAssetIdChanged(object sender, ValueChangedEventArgs<int> e)
         {

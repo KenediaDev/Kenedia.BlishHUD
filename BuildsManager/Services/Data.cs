@@ -206,22 +206,27 @@ namespace Kenedia.Modules.BuildsManager.Services
             return GetEnumerator();
         }
 
-        public async Task<bool> Load(bool force)
+        public async Task<bool> Load(bool force, bool raiseEvent)
         {
             if (force)
             {
                 LastLoadAttempt = double.MinValue;
             }
 
-            return await Load();
+            return await Load(raiseEvent);
         }
 
         public async Task<bool> Load(Locale locale)
         {
-            return await Load(!LoadedLocales.Contains(locale));
+            return await Load(!LoadedLocales.Contains(locale), false);
         }
 
         public async Task<bool> Load()
+       {
+            return await Load(true);
+        }
+    
+        public async Task<bool> Load(bool raiseEvent = true)
         {
             // Don't try to load more than once every 3 minutes
             if (Common.Now - LastLoadAttempt <= 180000)
@@ -355,7 +360,10 @@ namespace Kenedia.Modules.BuildsManager.Services
                 if (!failed)
                 {
                     BuildsManager.Logger.Info("All data loaded!");
-                    GameService.Graphics.QueueMainThreadRender((graphicsDevice) => Loaded?.Invoke(this, EventArgs.Empty));
+                    if (raiseEvent)
+                    {
+                        GameService.Graphics.QueueMainThreadRender((graphicsDevice) => Loaded?.Invoke(this, EventArgs.Empty));
+                    }
                 }
                 else
                 {

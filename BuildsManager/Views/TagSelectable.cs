@@ -52,7 +52,8 @@ namespace Kenedia.Modules.BuildsManager.Views
         {
             if (Tag.Icon.Texture is not null)
             {
-                spriteBatch.DrawOnCtrl(this, Tag.Icon.Texture, IconBounds);
+                //Tag.Icon.Draw(this, spriteBatch);
+                spriteBatch.DrawOnCtrl(this, Tag.Icon.Texture, IconBounds, Tag.TextureRegion);
             }
 
             spriteBatch.DrawStringOnCtrl(this, string.Format("{1}", Tag.Priority, Tag.Name), Content.DefaultFont14, TextBounds, Color.White, false, Blish_HUD.Controls.HorizontalAlignment.Left, Blish_HUD.Controls.VerticalAlignment.Middle);
