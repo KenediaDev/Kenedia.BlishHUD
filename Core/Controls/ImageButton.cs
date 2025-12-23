@@ -27,7 +27,7 @@ namespace Kenedia.Modules.Core.Controls
 
         public Color? ColorClicked { get; set; }
 
-        public Color? ImageColor { get; set; } = Microsoft.Xna.Framework.Color.White;
+        public Color? ImageColor { get; set; } = Color.White;
 
         public Rectangle? SizeRectangle { get; set; }
 

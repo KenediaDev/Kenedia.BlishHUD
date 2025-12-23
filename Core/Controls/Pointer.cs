@@ -43,7 +43,7 @@ namespace Kenedia.Modules.Core.Controls
 
         protected override Blish_HUD.Controls.CaptureType CapturesInput()
         {
-            return Blish_HUD.Controls.CaptureType.None;
+            return CaptureType.None;
         }
 
         private void SetAnchor(object sender, Models.ValueChangedEventArgs<Control> e)

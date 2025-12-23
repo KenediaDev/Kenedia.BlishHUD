@@ -2,6 +2,7 @@
 using Blish_HUD.Content;
 using Gw2Sharp.Models;
 using Gw2Sharp.WebApi;
+using Kenedia.Modules.BuildsManager.Controls;
 using Kenedia.Modules.BuildsManager.Controls.Selection;
 using Kenedia.Modules.BuildsManager.Models;
 using Kenedia.Modules.BuildsManager.Res;
@@ -554,6 +555,19 @@ namespace Kenedia.Modules.BuildsManager.Views
 
         private void CreateTagControls()
         {
+            foreach (var panel in _tagControls.Keys)
+            {
+                foreach (var child in panel.Children.ToList())
+                {
+                    child?.Dispose();
+                }
+
+                panel.ClearChildren();
+                panel.Dispose();
+            }
+
+            _tagControls.Clear();
+
             var tags = TemplateTags.ToList();
             tags.Sort(new TemplateTagComparer(TagGroups));
             List<string> added = [];

@@ -1,0 +1,574 @@
+{
+  "Items": {
+    "4": {
+      "Attributes": {
+        "Power": 900,
+        "Precision": 1200,
+        "CritDamage": 900
+      },
+      "Type": 20,
+      "TemplateSlot": 19,
+      "Id": 4,
+      "MappedId": 1,
+      "Rarity": 2,
+      "AssetId": 455602,
+      "Names": {
+        "English": "Assassin Amulet",
+        "Spanish": "Amuleto de asesino",
+        "German": "Meucheler-Amulett",
+        "French": "Amulette assassine"
+      },
+      "DisplayTexts": {
+        "English": "Assassin Amulet",
+        "Spanish": "Amuleto de asesino",
+        "German": "Meucheler-Amulett",
+        "French": "Amulette assassine"
+      },
+      "Descriptions": {
+        "English": null,
+        "Spanish": null,
+        "German": null,
+        "French": null
+      }
+    },
+    "8": {
+      "Attributes": {
+        "Power": 1200,
+        "Precision": 900,
+        "CritDamage": 900
+      },
+      "Type": 20,
+      "TemplateSlot": 19,
+      "Id": 8,
+      "MappedId": 2,
+      "Rarity": 2,
+      "AssetId": 63600,
+      "Names": {
+        "English": "Berserker Amulet",
+        "Spanish": "Amuleto de berserker",
+        "German": "Berserker-Amulett",
+        "French": "Amulette berserker"
+      },
+      "DisplayTexts": {
+        "English": "Berserker Amulet",
+        "Spanish": "Amuleto de berserker",
+        "German": "Berserker-Amulett",
+        "French": "Amulette berserker"
+      },
+      "Descriptions": {
+        "English": null,
+        "Spanish": null,
+        "German": null,
+        "French": null
+      }
+    },
+    "9": {
+      "Attributes": {
+        "Power": 900,
+        "Vitality": 900,
+        "ConditionDamage": 1200
+      },
+      "Type": 20,
+      "TemplateSlot": 19,
+      "Id": 9,
+      "MappedId": 3,
+      "Rarity": 2,
+      "AssetId": 63595,
+      "Names": {
+        "English": "Carrion Amulet",
+        "Spanish": "Amuleto de carroñero",
+        "German": "Faulendes Amulett",
+        "French": "Amulette nécrophage"
+      },
+      "DisplayTexts": {
+        "English": "Carrion Amulet",
+        "Spanish": "Amuleto de carroñero",
+        "German": "Faulendes Amulett",
+        "French": "Amulette nécrophage"
+      },
+      "Descriptions": {
+        "English": null,
+        "Spanish": null,
+        "German": null,
+        "French": null
+      }
+    },
+    "13": {
+      "Attributes": {
+        "Precision": 900,
+        "Toughness": 900,
+        "ConditionDamage": 1200
+      },
+      "Type": 20,
+      "TemplateSlot": 19,
+      "Id": 13,
+      "MappedId": 4,
+      "Rarity": 2,
+      "AssetId": 220642,
+      "Names": {
+        "English": "Rabid Amulet",
+        "Spanish": "Amuleto de rabioso",
+        "German": "Tollwütiges Amulett",
+        "French": "Amulette enragée"
+      },
+      "DisplayTexts": {
+        "English": "Rabid Amulet",
+        "Spanish": "Amuleto de rabioso",
+        "German": "Tollwütiges Amulett",
+        "French": "Amulette enragée"
+      },
+      "Descriptions": {
+        "English": null,
+        "Spanish": null,
+        "German": null,
+        "French": null
+      }
+    },
+    "14": {
+      "Attributes": {
+        "Power": 900,
+        "Precision": 1200,
+        "ConditionDamage": 900
+      },
+      "Type": 20,
+      "TemplateSlot": 19,
+      "Id": 14,
+      "MappedId": 5,
+      "Rarity": 2,
+      "AssetId": 220655,
+      "Names": {
+        "English": "Rampager Amulet",
+        "Spanish": "Amuleto de violento",
+        "German": "Wüter-Amulett",
+        "French": "Amulette saccageuse"
+      },
+      "DisplayTexts": {
+        "English": "Rampager Amulet",
+        "Spanish": "Amuleto de violento",
+        "German": "Wüter-Amulett",
+        "French": "Amulette saccageuse"
+      },
+      "Descriptions": {
+        "English": null,
+        "Spanish": null,
+        "German": null,
+        "French": null
+      }
+    },
+    "18": {
+      "Attributes": {
+        "Power": 1200,
+        "CritDamage": 900,
+        "Vitality": 900
+      },
+      "Type": 20,
+      "TemplateSlot": 19,
+      "Id": 18,
+      "MappedId": 6,
+      "Rarity": 2,
+      "AssetId": 66230,
+      "Names": {
+        "English": "Valkyrie Amulet",
+        "Spanish": "Amuleto de valquiria",
+        "German": "Walküren-Amulett",
+        "French": "Amulette valkyrienne"
+      },
+      "DisplayTexts": {
+        "English": "Valkyrie Amulet",
+        "Spanish": "Amuleto de valquiria",
+        "German": "Walküren-Amulett",
+        "French": "Amulette valkyrienne"
+      },
+      "Descriptions": {
+        "English": null,
+        "Spanish": null,
+        "German": null,
+        "French": null
+      }
+    },
+    "20": {
+      "Attributes": {
+        "Power": 1000,
+        "Precision": 1000,
+        "CritDamage": 500,
+        "Vitality": 500
+      },
+      "Type": 20,
+      "TemplateSlot": 19,
+      "Id": 20,
+      "MappedId": 7,
+      "Rarity": 2,
+      "AssetId": 1010501,
+      "Names": {
+        "English": "Marauder Amulet",
+        "Spanish": "Amuleto de salteador",
+        "German": "Marodeur-Amulett",
+        "French": "Amulette maraudeuse"
+      },
+      "DisplayTexts": {
+        "English": "Marauder Amulet",
+        "Spanish": "Amuleto de salteador",
+        "German": "Marodeur-Amulett",
+        "French": "Amulette maraudeuse"
+      },
+      "Descriptions": {
+        "English": null,
+        "Spanish": null,
+        "German": null,
+        "French": null
+      }
+    },
+    "22": {
+      "Attributes": {
+        "Power": 900,
+        "Precision": 900,
+        "ConditionDamage": 1200
+      },
+      "Type": 20,
+      "TemplateSlot": 19,
+      "Id": 22,
+      "MappedId": 8,
+      "Rarity": 2,
+      "AssetId": 222394,
+      "Names": {
+        "English": "Sinister Amulet",
+        "Spanish": "Amuleto siniestro",
+        "German": "Finsteres Amulett",
+        "French": "Amulette sinistre"
+      },
+      "DisplayTexts": {
+        "English": "Sinister Amulet",
+        "Spanish": "Amuleto siniestro",
+        "German": "Finsteres Amulett",
+        "French": "Amulette sinistre"
+      },
+      "Descriptions": {
+        "English": null,
+        "Spanish": null,
+        "German": null,
+        "French": null
+      }
+    },
+    "30": {
+      "Attributes": {
+        "Power": 1000,
+        "Precision": 1000,
+        "Toughness": 400,
+        "Vitality": 400
+      },
+      "Type": 20,
+      "TemplateSlot": 19,
+      "Id": 30,
+      "MappedId": 9,
+      "Rarity": 2,
+      "AssetId": 1341199,
+      "Names": {
+        "English": "Paladin Amulet",
+        "Spanish": "Amuleto del paladín",
+        "German": "Paladin-Amulett",
+        "French": "Amulette de paladin"
+      },
+      "DisplayTexts": {
+        "English": "Paladin Amulet",
+        "Spanish": "Amuleto del paladín",
+        "German": "Paladin-Amulett",
+        "French": "Amulette de paladin"
+      },
+      "Descriptions": {
+        "English": null,
+        "Spanish": null,
+        "German": null,
+        "French": null
+      }
+    },
+    "31": {
+      "Attributes": {
+        "Power": 1000,
+        "Vitality": 500,
+        "ConditionDamage": 1000,
+        "Healing": 500
+      },
+      "Type": 20,
+      "TemplateSlot": 19,
+      "Id": 31,
+      "MappedId": 10,
+      "Rarity": 2,
+      "AssetId": 1341200,
+      "Names": {
+        "English": "Sage Amulet",
+        "Spanish": "Amuleto del sabio",
+        "German": "Weisen-Amulett",
+        "French": "Amulette de sage"
+      },
+      "DisplayTexts": {
+        "English": "Sage Amulet",
+        "Spanish": "Amuleto del sabio",
+        "German": "Weisen-Amulett",
+        "French": "Amulette de sage"
+      },
+      "Descriptions": {
+        "English": null,
+        "Spanish": null,
+        "German": null,
+        "French": null
+      }
+    },
+    "34": {
+      "Attributes": {
+        "Power": 1000,
+        "Precision": 1000,
+        "CritDamage": 500,
+        "Toughness": 500
+      },
+      "Type": 20,
+      "TemplateSlot": 19,
+      "Id": 34,
+      "MappedId": 11,
+      "Rarity": 2,
+      "AssetId": 1423719,
+      "Names": {
+        "English": "Demolisher Amulet",
+        "Spanish": "Amuleto del demoledor",
+        "German": "Demolierer-Amulett",
+        "French": "Amulette démolisseuse"
+      },
+      "DisplayTexts": {
+        "English": "Demolisher Amulet",
+        "Spanish": "Amuleto del demoledor",
+        "German": "Demolierer-Amulett",
+        "French": "Amulette démolisseuse"
+      },
+      "Descriptions": {
+        "English": null,
+        "Spanish": null,
+        "German": null,
+        "French": null
+      }
+    },
+    "35": {
+      "Attributes": {
+        "Power": 1000,
+        "Precision": 1000,
+        "CritDamage": 500,
+        "ConditionDamage": 500
+      },
+      "Type": 20,
+      "TemplateSlot": 19,
+      "Id": 35,
+      "MappedId": 12,
+      "Rarity": 2,
+      "AssetId": 1423720,
+      "Names": {
+        "English": "Destroyer Amulet",
+        "Spanish": "Amuleto del destructor",
+        "German": "Zerstörer-Amulett",
+        "French": "Amulette destructrice"
+      },
+      "DisplayTexts": {
+        "English": "Destroyer Amulet",
+        "Spanish": "Amuleto del destructor",
+        "German": "Zerstörer-Amulett",
+        "French": "Amulette destructrice"
+      },
+      "Descriptions": {
+        "English": null,
+        "Spanish": null,
+        "German": null,
+        "French": null
+      }
+    },
+    "40": {
+      "Attributes": {
+        "Power": 1000,
+        "Precision": 500,
+        "Vitality": 500,
+        "ConditionDamage": 1000
+      },
+      "Type": 20,
+      "TemplateSlot": 19,
+      "Id": 40,
+      "MappedId": 13,
+      "Rarity": 2,
+      "AssetId": 1876172,
+      "Names": {
+        "English": "Wizard Amulet",
+        "Spanish": "Amuleto de brujo",
+        "German": "Zauberer-Amulett",
+        "French": "Amulette de sorcier"
+      },
+      "DisplayTexts": {
+        "English": "Wizard Amulet",
+        "Spanish": "Amuleto de brujo",
+        "German": "Zauberer-Amulett",
+        "French": "Amulette de sorcier"
+      },
+      "Descriptions": {
+        "English": null,
+        "Spanish": null,
+        "German": null,
+        "French": null
+      }
+    },
+    "41": {
+      "Attributes": {
+        "Power": 1000,
+        "Precision": 1000,
+        "Vitality": 500,
+        "Healing": 500
+      },
+      "Type": 20,
+      "TemplateSlot": 19,
+      "Id": 41,
+      "MappedId": 14,
+      "Rarity": 2,
+      "AssetId": 1876167,
+      "Names": {
+        "English": "Avatar Amulet",
+        "Spanish": "Amuleto de avatar",
+        "German": "Avatar-Amulett",
+        "French": "Amulette d'avatar"
+      },
+      "DisplayTexts": {
+        "English": "Avatar Amulet",
+        "Spanish": "Amuleto de avatar",
+        "German": "Avatar-Amulett",
+        "French": "Amulette d'avatar"
+      },
+      "Descriptions": {
+        "English": null,
+        "Spanish": null,
+        "German": null,
+        "French": null
+      }
+    },
+    "43": {
+      "Attributes": {
+        "Power": 1000,
+        "Precision": 500,
+        "CritDamage": 500,
+        "ConditionDamage": 1000
+      },
+      "Type": 20,
+      "TemplateSlot": 19,
+      "Id": 43,
+      "MappedId": 15,
+      "Rarity": 2,
+      "AssetId": 1876168,
+      "Names": {
+        "English": "Grieving Amulet",
+        "Spanish": "Amuleto de afligido",
+        "German": "Trauerndes Amulett",
+        "French": "Amulette de deuil"
+      },
+      "DisplayTexts": {
+        "English": "Grieving Amulet",
+        "Spanish": "Amuleto de afligido",
+        "German": "Trauerndes Amulett",
+        "French": "Amulette de deuil"
+      },
+      "Descriptions": {
+        "English": null,
+        "Spanish": null,
+        "German": null,
+        "French": null
+      }
+    },
+    "45": {
+      "Attributes": {
+        "Power": 1000,
+        "Precision": 1000,
+        "Vitality": 500,
+        "ConditionDamage": 500
+      },
+      "Type": 20,
+      "TemplateSlot": 19,
+      "Id": 45,
+      "MappedId": 16,
+      "Rarity": 2,
+      "AssetId": 1876171,
+      "Names": {
+        "English": "Swashbuckler Amulet",
+        "Spanish": "Amuleto de espadachín",
+        "German": "Säbelrassler-Amulett",
+        "French": "Amulette du bretteur"
+      },
+      "DisplayTexts": {
+        "English": "Swashbuckler Amulet",
+        "Spanish": "Amuleto de espadachín",
+        "German": "Säbelrassler-Amulett",
+        "French": "Amulette du bretteur"
+      },
+      "Descriptions": {
+        "English": null,
+        "Spanish": null,
+        "German": null,
+        "French": null
+      }
+    },
+    "51": {
+      "Attributes": {
+        "Power": 1000,
+        "Precision": 1000,
+        "CritDamage": 500,
+        "Healing": 500
+      },
+      "Type": 20,
+      "TemplateSlot": 19,
+      "Id": 51,
+      "MappedId": 17,
+      "Rarity": 2,
+      "AssetId": 3331826,
+      "Names": {
+        "English": "Heretic Amulet",
+        "Spanish": "Amuleto hereje",
+        "German": "Ketzer-Amulett",
+        "French": "Amulette hérétique"
+      },
+      "DisplayTexts": {
+        "English": "Heretic Amulet",
+        "Spanish": "Amuleto hereje",
+        "German": "Ketzer-Amulett",
+        "French": "Amulette hérétique"
+      },
+      "Descriptions": {
+        "English": null,
+        "Spanish": null,
+        "German": null,
+        "French": null
+      }
+    },
+    "52": {
+      "Attributes": {
+        "Power": 1000,
+        "Precision": 500,
+        "Toughness": 500,
+        "ConditionDamage": 1000
+      },
+      "Type": 20,
+      "TemplateSlot": 19,
+      "Id": 52,
+      "MappedId": 18,
+      "Rarity": 2,
+      "AssetId": 1876170,
+      "Names": {
+        "English": "Tyrant Amulet",
+        "Spanish": "Amuleto tirano",
+        "German": "Tyrannen-Amulett",
+        "French": "Amulette de tyran"
+      },
+      "DisplayTexts": {
+        "English": "Tyrant Amulet",
+        "Spanish": "Amuleto tirano",
+        "German": "Tyrannen-Amulett",
+        "French": "Amulette de tyran"
+      },
+      "Descriptions": {
+        "English": null,
+        "Spanish": null,
+        "German": null,
+        "French": null
+      }
+    }
+  },
+  "Version": "0.0.5"
+}

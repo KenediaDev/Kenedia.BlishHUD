@@ -37,7 +37,7 @@ namespace Kenedia.Modules.BuildsManager
     [Export(typeof(Module))]
     public class BuildsManager : BaseModule<BuildsManager, MainWindow, Settings, Paths, StaticHosting>
     {
-        public static int MainThread = System.Threading.Thread.CurrentThread.ManagedThreadId;
+        public static int MainThread = Thread.CurrentThread.ManagedThreadId;
 
         public static Data Data { get; set; }
 
@@ -101,17 +101,9 @@ namespace Kenedia.Modules.BuildsManager
 
         private async void Data_Loaded(object sender, EventArgs e)
         {
-            var templateGroups = ServiceProvider.GetService<TagGroups>();
-            await templateGroups.Load();
-
-            var templateTags = TemplateTags;
-            await templateTags.Load();
-
-            await Templates.Load();
         }
 
         //public event ValueChangedEventHandler<bool> TemplatesLoadedDone;
-
 
         public bool TemplatesLoaded { get; private set => Common.SetProperty(ref field, value); } = false;
 
@@ -169,10 +161,7 @@ namespace Kenedia.Modules.BuildsManager
 
             if (e.NewValue is not Locale.Korean and not Locale.Chinese)
             {
-                if (!Data.LoadedLocales.Contains(e.NewValue))
-                {
-                    bool _ = await Data.Load(e.NewValue);
-                }
+                bool _ = await Data.Load(e.NewValue);
             }
 
             base.OnLocaleChanged(sender, e);
@@ -183,6 +172,14 @@ namespace Kenedia.Modules.BuildsManager
             LoadingSpinner?.Show();
 
             await base.LoadAsync();
+
+            var templateGroups = ServiceProvider.GetService<TagGroups>();
+            await templateGroups.Load();
+
+            var templateTags = TemplateTags;
+            await templateTags.Load();
+
+            await Templates.Load();
 
             _ = await Data.Load();
 

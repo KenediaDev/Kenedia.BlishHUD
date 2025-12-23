@@ -1,0 +1,361 @@
+{
+  "TextureMapInfo": [
+    {
+      "Name": "Berserker",
+      "Ids": [
+        584,
+        161
+      ],
+      "Position": 1
+    },
+    {
+      "Name": "Soldier",
+      "Ids": [
+        586,
+        162
+      ],
+      "Position": 2
+    },
+    {
+      "Name": "Valkyrie",
+      "Ids": [
+        1119,
+        157
+      ],
+      "Position": 3
+    },
+    {
+      "Name": "Captain",
+      "Ids": [
+        660
+      ],
+      "Position": 4
+    },
+    {
+      "Name": "Rampager",
+      "Ids": [
+        658,
+        159
+      ],
+      "Position": 5
+    },
+    {
+      "Name": "Knight",
+      "Ids": [
+        158,
+        657
+      ],
+      "Position": 6
+    },
+    {
+      "Name": "Cavalier",
+      "Ids": [
+        583,
+        616
+      ],
+      "Position": 7
+    },
+    {
+      "Name": "Giver",
+      "Ids": [
+        628,
+        1430
+      ],
+      "Position": 8
+    },
+    {
+      "Name": "Shaman",
+      "Ids": [
+        153,
+        1097
+      ],
+      "Position": 9
+    },
+    {
+      "Name": "Carrion",
+      "Ids": [
+        160,
+        1038
+      ],
+      "Position": 10
+    },
+    {
+      "Name": "Rabid",
+      "Ids": [
+        585,
+        154
+      ],
+      "Position": 11
+    },
+    {
+      "Name": "Unknown Snowflake",
+      "Ids": [],
+      "Position": 12
+    },
+    {
+      "Name": "Cleric",
+      "Ids": [
+        155,
+        656
+      ],
+      "Position": 13
+    },
+    {
+      "Name": "Magi",
+      "Ids": [
+        1037,
+        156
+      ],
+      "Position": 14
+    },
+    {
+      "Name": "Apothecary",
+      "Ids": [
+        605,
+        659
+      ],
+      "Position": 15
+    },
+    {
+      "Name": "Trailblazer",
+      "Ids": [
+        1115,
+        1085
+      ],
+      "Position": 16
+    },
+    {
+      "Name": "Wanderer",
+      "Ids": [
+        1162,
+        1140
+      ],
+      "Position": 17
+    },
+    {
+      "Name": "Minstrel",
+      "Ids": [
+        1123,
+        1134
+      ],
+      "Position": 18
+    },
+    {
+      "Name": "Celestial",
+      "Ids": [
+        559,
+        588
+      ],
+      "Position": 19
+    },
+    {
+      "Name": "Berserker + Valkyrie",
+      "Ids": [
+        591
+      ],
+      "Position": 20
+    },
+    {
+      "Name": "Dire + Rabid",
+      "Ids": [
+        581
+      ],
+      "Position": 21
+    },
+    {
+      "Name": "Rabid + Apothecary",
+      "Ids": [
+        592
+      ],
+      "Position": 22
+    },
+    {
+      "Name": "Viper",
+      "Ids": [
+        1130,
+        1153
+      ],
+      "Position": 23
+    },
+    {
+      "Name": "Sentinel",
+      "Ids": [
+        1035,
+        686
+      ],
+      "Position": 24
+    },
+    {
+      "Name": "Settler",
+      "Ids": [
+        700,
+        690
+      ],
+      "Position": 25
+    },
+    {
+      "Name": "Assassin",
+      "Ids": [
+        753,
+        1128
+      ],
+      "Position": 26
+    },
+    {
+      "Name": "Dire",
+      "Ids": [
+        1114,
+        754
+      ],
+      "Position": 27
+    },
+    {
+      "Name": "Zealot",
+      "Ids": [
+        799,
+        1163
+      ],
+      "Position": 28
+    },
+    {
+      "Name": "Nomad",
+      "Ids": [
+        1026,
+        1066
+      ],
+      "Position": 29
+    },
+    {
+      "Name": "Sinister",
+      "Ids": [
+        1064,
+        1067
+      ],
+      "Position": 30
+    },
+    {
+      "Name": "Vigilant",
+      "Ids": [
+        1139,
+        1118
+      ],
+      "Position": 31
+    },
+    {
+      "Name": "Marauder",
+      "Ids": [
+        1145,
+        1111
+      ],
+      "Position": 32
+    },
+    {
+      "Name": "Crusader",
+      "Ids": [
+        1098,
+        1109
+      ],
+      "Position": 33
+    },
+    {
+      "Name": "Commander",
+      "Ids": [
+        1125,
+        1131
+      ],
+      "Position": 34
+    },
+    {
+      "Name": "Seraph",
+      "Ids": [
+        1220,
+        1222
+      ],
+      "Position": 35
+    },
+    {
+      "Name": "Marshal",
+      "Ids": [
+        1337,
+        1364
+      ],
+      "Position": 36
+    },
+    {
+      "Name": "Grieving",
+      "Ids": [
+        1329,
+        1344
+      ],
+      "Position": 37
+    },
+    {
+      "Name": "Unknown Skull",
+      "Ids": [],
+      "Position": 38
+    },
+    {
+      "Name": "Unknown Foot",
+      "Ids": [],
+      "Position": 39
+    },
+    {
+      "Name": "Harrier",
+      "Ids": [
+        1363,
+        1345
+      ],
+      "Position": 40
+    },
+    {
+      "Name": "Bringer",
+      "Ids": [
+        1436,
+        1032
+      ],
+      "Position": 41
+    },
+    {
+      "Name": "Plaguedoctor",
+      "Ids": [
+        1486,
+        1559
+      ],
+      "Position": 42
+    },
+    {
+      "Name": "Diviner",
+      "Ids": [
+        1556,
+        1538
+      ],
+      "Position": 43
+    },
+    {
+      "Name": "Ritualist",
+      "Ids": [
+        1686,
+        1694
+      ],
+      "Position": 44
+    },
+    {
+      "Name": "Dragon",
+      "Ids": [
+        1681,
+        1697
+      ],
+      "Position": 45
+    },
+    {
+      "Name": "Demolisher",
+      "Ids": [
+        1826,
+        1827
+      ],
+      "Position": 46
+    }
+  ],
+  "ImageUrl": "https://img.gw2skills.net/editor/UI/profile-icons-44x44.v3.png",
+  "Version": "0.0.1"
+}

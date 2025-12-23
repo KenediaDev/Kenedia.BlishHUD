@@ -1,0 +1,2454 @@
+{
+  "Items": {
+    "584": {
+      "Attributes": {
+        "Power": {
+          "Multiplier": 0.35,
+          "Id": 7,
+          "Value": 32
+        },
+        "Precision": {
+          "Multiplier": 0.25,
+          "Id": 8,
+          "Value": 18
+        },
+        "CritDamage": {
+          "Multiplier": 0.25,
+          "Id": 5,
+          "Value": 18
+        }
+      },
+      "Id": 584,
+      "MappedId": 1,
+      "Names": {
+        "English": "Berserker's",
+        "Spanish": "de berserker",
+        "German": "Berserkerhafter",
+        "French": "berserker"
+      }
+    },
+    "656": {
+      "Attributes": {
+        "Power": {
+          "Multiplier": 0.25,
+          "Id": 7,
+          "Value": 18
+        },
+        "Toughness": {
+          "Multiplier": 0.25,
+          "Id": 9,
+          "Value": 18
+        },
+        "Healing": {
+          "Multiplier": 0.35,
+          "Id": 6,
+          "Value": 32
+        }
+      },
+      "Id": 656,
+      "MappedId": 2,
+      "Names": {
+        "English": "Cleric's",
+        "Spanish": "de clérigo",
+        "German": "Klerikaler",
+        "French": "clérical"
+      }
+    },
+    "658": {
+      "Attributes": {
+        "Power": {
+          "Multiplier": 0.25,
+          "Id": 7,
+          "Value": 18
+        },
+        "Precision": {
+          "Multiplier": 0.35,
+          "Id": 8,
+          "Value": 32
+        },
+        "ConditionDamage": {
+          "Multiplier": 0.25,
+          "Id": 3,
+          "Value": 18
+        }
+      },
+      "Id": 658,
+      "MappedId": 3,
+      "Names": {
+        "English": "Rampager's",
+        "Spanish": "de violento",
+        "German": "Wütender",
+        "French": "saccageur"
+      }
+    },
+    "1119": {
+      "Attributes": {
+        "Power": {
+          "Multiplier": 0.35,
+          "Id": 7,
+          "Value": 32
+        },
+        "Vitality": {
+          "Multiplier": 0.25,
+          "Id": 10,
+          "Value": 18
+        },
+        "CritDamage": {
+          "Multiplier": 0.25,
+          "Id": 5,
+          "Value": 18
+        }
+      },
+      "Id": 1119,
+      "MappedId": 4,
+      "Names": {
+        "English": "Valkyrie",
+        "Spanish": "de valquiria",
+        "German": "Walkürischer",
+        "French": "valkyrien"
+      }
+    },
+    "657": {
+      "Attributes": {
+        "Power": {
+          "Multiplier": 0.25,
+          "Id": 7,
+          "Value": 18
+        },
+        "Precision": {
+          "Multiplier": 0.25,
+          "Id": 8,
+          "Value": 18
+        },
+        "Toughness": {
+          "Multiplier": 0.35,
+          "Id": 9,
+          "Value": 32
+        }
+      },
+      "Id": 657,
+      "MappedId": 5,
+      "Names": {
+        "English": "Knight's",
+        "Spanish": "de caballero",
+        "German": "Ritterlicher",
+        "French": "chevaleresque"
+      }
+    },
+    "1038": {
+      "Attributes": {
+        "Power": {
+          "Multiplier": 0.25,
+          "Id": 7,
+          "Value": 18
+        },
+        "Vitality": {
+          "Multiplier": 0.25,
+          "Id": 10,
+          "Value": 18
+        },
+        "ConditionDamage": {
+          "Multiplier": 0.35,
+          "Id": 3,
+          "Value": 32
+        }
+      },
+      "Id": 1038,
+      "MappedId": 6,
+      "Names": {
+        "English": "Carrion",
+        "Spanish": "carroñero",
+        "German": "Faulender",
+        "French": "nécrophage"
+      }
+    },
+    "1097": {
+      "Attributes": {
+        "Vitality": {
+          "Multiplier": 0.35,
+          "Id": 10,
+          "Value": 32
+        },
+        "Healing": {
+          "Multiplier": 0.25,
+          "Id": 6,
+          "Value": 18
+        },
+        "ConditionDamage": {
+          "Multiplier": 0.25,
+          "Id": 3,
+          "Value": 18
+        }
+      },
+      "Id": 1097,
+      "MappedId": 7,
+      "Names": {
+        "English": "Shaman's",
+        "Spanish": "de chamán",
+        "German": "Schamanischer",
+        "French": "chamanique"
+      }
+    },
+    "659": {
+      "Attributes": {
+        "Toughness": {
+          "Multiplier": 0.25,
+          "Id": 9,
+          "Value": 18
+        },
+        "Healing": {
+          "Multiplier": 0.35,
+          "Id": 6,
+          "Value": 32
+        },
+        "ConditionDamage": {
+          "Multiplier": 0.25,
+          "Id": 3,
+          "Value": 18
+        }
+      },
+      "Id": 659,
+      "MappedId": 8,
+      "Names": {
+        "English": "Apothecary's",
+        "Spanish": "de boticario",
+        "German": "Arzneikundlerischer",
+        "French": "officinal"
+      }
+    },
+    "690": {
+      "Attributes": {
+        "Toughness": {
+          "Multiplier": 0.35,
+          "Id": 9,
+          "Value": 32
+        },
+        "Healing": {
+          "Multiplier": 0.25,
+          "Id": 6,
+          "Value": 18
+        },
+        "ConditionDamage": {
+          "Multiplier": 0.25,
+          "Id": 3,
+          "Value": 18
+        }
+      },
+      "Id": 690,
+      "MappedId": 9,
+      "Names": {
+        "English": "Settler's",
+        "Spanish": "de colono",
+        "German": "Siedelnder",
+        "French": "colonisateur"
+      }
+    },
+    "583": {
+      "Attributes": {
+        "Power": {
+          "Multiplier": 0.25,
+          "Id": 7,
+          "Value": 18
+        },
+        "Toughness": {
+          "Multiplier": 0.35,
+          "Id": 9,
+          "Value": 32
+        },
+        "CritDamage": {
+          "Multiplier": 0.25,
+          "Id": 5,
+          "Value": 18
+        }
+      },
+      "Id": 583,
+      "MappedId": 10,
+      "Names": {
+        "English": "Cavalier's",
+        "Spanish": "de jinete",
+        "German": "Kavaliermäßiger",
+        "French": "cavalier"
+      }
+    },
+    "585": {
+      "Attributes": {
+        "Precision": {
+          "Multiplier": 0.25,
+          "Id": 8,
+          "Value": 18
+        },
+        "Toughness": {
+          "Multiplier": 0.25,
+          "Id": 9,
+          "Value": 18
+        },
+        "ConditionDamage": {
+          "Multiplier": 0.35,
+          "Id": 3,
+          "Value": 32
+        }
+      },
+      "Id": 585,
+      "MappedId": 11,
+      "Names": {
+        "English": "Rabid",
+        "Spanish": "de rabioso",
+        "German": "Tollwütiger",
+        "French": "enragé"
+      }
+    },
+    "1037": {
+      "Attributes": {
+        "Precision": {
+          "Multiplier": 0.25,
+          "Id": 8,
+          "Value": 18
+        },
+        "Vitality": {
+          "Multiplier": 0.25,
+          "Id": 10,
+          "Value": 18
+        },
+        "Healing": {
+          "Multiplier": 0.35,
+          "Id": 6,
+          "Value": 32
+        }
+      },
+      "Id": 1037,
+      "MappedId": 12,
+      "Names": {
+        "English": "Magi's",
+        "Spanish": "de magi",
+        "German": "Magischer",
+        "French": "mage"
+      }
+    },
+    "586": {
+      "Attributes": {
+        "Power": {
+          "Multiplier": 0.35,
+          "Id": 7,
+          "Value": 32
+        },
+        "Toughness": {
+          "Multiplier": 0.25,
+          "Id": 9,
+          "Value": 18
+        },
+        "Vitality": {
+          "Multiplier": 0.25,
+          "Id": 10,
+          "Value": 18
+        }
+      },
+      "Id": 586,
+      "MappedId": 13,
+      "Names": {
+        "English": "Soldier's",
+        "Spanish": "de soldado",
+        "German": "Soldatischer",
+        "French": "militaire"
+      }
+    },
+    "1035": {
+      "Attributes": {
+        "Power": {
+          "Multiplier": 0.25,
+          "Id": 7,
+          "Value": 18
+        },
+        "Toughness": {
+          "Multiplier": 0.25,
+          "Id": 9,
+          "Value": 18
+        },
+        "Vitality": {
+          "Multiplier": 0.35,
+          "Id": 10,
+          "Value": 32
+        }
+      },
+      "Id": 1035,
+      "MappedId": 14,
+      "Names": {
+        "English": "Sentinel's",
+        "Spanish": "de centinela",
+        "German": "Wachender",
+        "French": "sentinelle"
+      }
+    },
+    "588": {
+      "Attributes": {
+        "Power": {
+          "Multiplier": 0.165,
+          "Id": 7,
+          "Value": 13
+        },
+        "Precision": {
+          "Multiplier": 0.165,
+          "Id": 8,
+          "Value": 13
+        },
+        "Toughness": {
+          "Multiplier": 0.165,
+          "Id": 9,
+          "Value": 13
+        },
+        "Vitality": {
+          "Multiplier": 0.165,
+          "Id": 10,
+          "Value": 13
+        },
+        "CritDamage": {
+          "Multiplier": 0.165,
+          "Id": 5,
+          "Value": 13
+        },
+        "Healing": {
+          "Multiplier": 0.165,
+          "Id": 6,
+          "Value": 13
+        },
+        "ConditionDamage": {
+          "Multiplier": 0.165,
+          "Id": 3,
+          "Value": 13
+        },
+        "BoonDuration": {
+          "Multiplier": 0.165,
+          "Id": 2,
+          "Value": 13
+        },
+        "ConditionDuration": {
+          "Multiplier": 0.165,
+          "Id": 4,
+          "Value": 13
+        }
+      },
+      "Id": 588,
+      "MappedId": 15,
+      "Names": {
+        "English": "Celestial",
+        "Spanish": "celestial",
+        "German": "Himmlischer",
+        "French": "Céleste"
+      }
+    },
+    "1114": {
+      "Attributes": {
+        "Toughness": {
+          "Multiplier": 0.25,
+          "Id": 9,
+          "Value": 18
+        },
+        "Vitality": {
+          "Multiplier": 0.25,
+          "Id": 10,
+          "Value": 18
+        },
+        "ConditionDamage": {
+          "Multiplier": 0.35,
+          "Id": 3,
+          "Value": 32
+        }
+      },
+      "Id": 1114,
+      "MappedId": 16,
+      "Names": {
+        "English": "Dire",
+        "Spanish": "nefasto",
+        "German": "Grausamer",
+        "French": "sanguinaire"
+      }
+    },
+    "1128": {
+      "Attributes": {
+        "Power": {
+          "Multiplier": 0.25,
+          "Id": 7,
+          "Value": 18
+        },
+        "Precision": {
+          "Multiplier": 0.35,
+          "Id": 8,
+          "Value": 32
+        },
+        "CritDamage": {
+          "Multiplier": 0.25,
+          "Id": 5,
+          "Value": 18
+        }
+      },
+      "Id": 1128,
+      "MappedId": 17,
+      "Names": {
+        "English": "Assassin's",
+        "Spanish": "de asesino",
+        "German": "Meuchelnder",
+        "French": "assassin"
+      }
+    },
+    "1163": {
+      "Attributes": {
+        "Power": {
+          "Multiplier": 0.35,
+          "Id": 7,
+          "Value": 32
+        },
+        "Precision": {
+          "Multiplier": 0.25,
+          "Id": 8,
+          "Value": 18
+        },
+        "Healing": {
+          "Multiplier": 0.25,
+          "Id": 6,
+          "Value": 18
+        }
+      },
+      "Id": 1163,
+      "MappedId": 18,
+      "Names": {
+        "English": "Zealot's",
+        "Spanish": "de zelote",
+        "German": "Eifernder",
+        "French": "zélote"
+      }
+    },
+    "1066": {
+      "Attributes": {
+        "Toughness": {
+          "Multiplier": 0.35,
+          "Id": 9,
+          "Value": 32
+        },
+        "Vitality": {
+          "Multiplier": 0.25,
+          "Id": 10,
+          "Value": 18
+        },
+        "Healing": {
+          "Multiplier": 0.25,
+          "Id": 6,
+          "Value": 18
+        }
+      },
+      "Id": 1066,
+      "MappedId": 19,
+      "Names": {
+        "English": "Nomad's",
+        "Spanish": "de nómada",
+        "German": "Nomadischer",
+        "French": "nomade"
+      }
+    },
+    "1064": {
+      "Attributes": {
+        "Power": {
+          "Multiplier": 0.25,
+          "Id": 7,
+          "Value": 18
+        },
+        "Precision": {
+          "Multiplier": 0.25,
+          "Id": 8,
+          "Value": 18
+        },
+        "ConditionDamage": {
+          "Multiplier": 0.35,
+          "Id": 3,
+          "Value": 32
+        }
+      },
+      "Id": 1064,
+      "MappedId": 20,
+      "Names": {
+        "English": "Sinister",
+        "Spanish": "siniestro",
+        "German": "Finsterer",
+        "French": "sinistre"
+      }
+    },
+    "660": {
+      "Attributes": {
+        "Power": {
+          "Multiplier": 0.25,
+          "Id": 7,
+          "Value": 18
+        },
+        "Precision": {
+          "Multiplier": 0.35,
+          "Id": 8,
+          "Value": 32
+        },
+        "Toughness": {
+          "Multiplier": 0.25,
+          "Id": 9,
+          "Value": 18
+        }
+      },
+      "Id": 660,
+      "MappedId": 21,
+      "Names": {
+        "English": "Captain's",
+        "Spanish": "de capitán",
+        "German": "Hauptmännischer",
+        "French": "martial"
+      }
+    },
+    "1430": {
+      "Attributes": {
+        "Toughness": {
+          "Multiplier": 0.35,
+          "Id": 9,
+          "Value": 32
+        },
+        "Healing": {
+          "Multiplier": 0.25,
+          "Id": 6,
+          "Value": 18
+        },
+        "BoonDuration": {
+          "Multiplier": 0.25,
+          "Id": 2,
+          "Value": 18
+        }
+      },
+      "Id": 1430,
+      "MappedId": 22,
+      "Names": {
+        "English": "Giver's",
+        "Spanish": "de donador",
+        "German": "Spendabler",
+        "French": "bienfaiteur"
+      }
+    },
+    "1436": {
+      "Attributes": {
+        "Precision": {
+          "Multiplier": 0.25,
+          "Id": 8,
+          "Value": 18
+        },
+        "Vitality": {
+          "Multiplier": 0.25,
+          "Id": 10,
+          "Value": 18
+        },
+        "ConditionDuration": {
+          "Multiplier": 0.35,
+          "Id": 4,
+          "Value": 32
+        }
+      },
+      "Id": 1436,
+      "MappedId": 23,
+      "Names": {
+        "English": "Bringer's",
+        "Spanish": "de repartidor",
+        "German": "Bringender",
+        "French": "du pourvoyeur"
+      }
+    },
+    "591": {
+      "Attributes": {
+        "Power": {
+          "Multiplier": 0.35,
+          "Id": 7,
+          "Value": 32
+        },
+        "Precision": {
+          "Multiplier": 0.25,
+          "Id": 8,
+          "Value": 0
+        },
+        "Vitality": {
+          "Multiplier": 0.0,
+          "Id": 10,
+          "Value": 18
+        },
+        "CritDamage": {
+          "Multiplier": 0.25,
+          "Id": 5,
+          "Value": 18
+        }
+      },
+      "Id": 591,
+      "MappedId": 24,
+      "Names": {
+        "English": "Berserker's and Valkyrie",
+        "Spanish": "de berserker y de valquiria",
+        "German": "Berserkerhafter und Walkürischer",
+        "French": "berserker et valkyrien"
+      }
+    },
+    "581": {
+      "Attributes": {
+        "Precision": {
+          "Multiplier": 0.0,
+          "Id": 8,
+          "Value": 18
+        },
+        "Toughness": {
+          "Multiplier": 0.25,
+          "Id": 9,
+          "Value": 18
+        },
+        "Vitality": {
+          "Multiplier": 0.25,
+          "Id": 10,
+          "Value": 0
+        },
+        "ConditionDamage": {
+          "Multiplier": 0.35,
+          "Id": 3,
+          "Value": 32
+        }
+      },
+      "Id": 581,
+      "MappedId": 25,
+      "Names": {
+        "English": "Dire and Rabid",
+        "Spanish": "nefasto de rabioso",
+        "German": "Grausamer und Tollwütiger",
+        "French": "sanguinaire et enragé"
+      }
+    },
+    "592": {
+      "Attributes": {
+        "Precision": {
+          "Multiplier": 0.25,
+          "Id": 8,
+          "Value": 0
+        },
+        "Toughness": {
+          "Multiplier": 0.25,
+          "Id": 9,
+          "Value": 18
+        },
+        "Healing": {
+          "Multiplier": 0.0,
+          "Id": 6,
+          "Value": 32
+        },
+        "ConditionDamage": {
+          "Multiplier": 0.35,
+          "Id": 3,
+          "Value": 18
+        }
+      },
+      "Id": 592,
+      "MappedId": 26,
+      "Names": {
+        "English": "Rabid and Apothecary's",
+        "Spanish": "de rabioso y de boticario",
+        "German": "Tollwütiger und Arzneikundlerischer",
+        "French": "enragé et officinal"
+      }
+    },
+    "1145": {
+      "Attributes": {
+        "Power": {
+          "Multiplier": 0.3,
+          "Id": 7,
+          "Value": 25
+        },
+        "Precision": {
+          "Multiplier": 0.3,
+          "Id": 8,
+          "Value": 25
+        },
+        "Vitality": {
+          "Multiplier": 0.165,
+          "Id": 10,
+          "Value": 12
+        },
+        "CritDamage": {
+          "Multiplier": 0.165,
+          "Id": 5,
+          "Value": 12
+        }
+      },
+      "Id": 1145,
+      "MappedId": 27,
+      "Names": {
+        "English": "Marauder",
+        "Spanish": "de salteador",
+        "German": "Marodierender",
+        "French": "maraudeur"
+      }
+    },
+    "1098": {
+      "Attributes": {
+        "Power": {
+          "Multiplier": 0.3,
+          "Id": 7,
+          "Value": 25
+        },
+        "Toughness": {
+          "Multiplier": 0.3,
+          "Id": 9,
+          "Value": 25
+        },
+        "CritDamage": {
+          "Multiplier": 0.165,
+          "Id": 5,
+          "Value": 12
+        },
+        "Healing": {
+          "Multiplier": 0.165,
+          "Id": 6,
+          "Value": 12
+        }
+      },
+      "Id": 1098,
+      "MappedId": 28,
+      "Names": {
+        "English": "Crusader",
+        "Spanish": "de cruzado",
+        "German": "Reckenhafter",
+        "French": "croisé"
+      }
+    },
+    "1134": {
+      "Attributes": {
+        "Toughness": {
+          "Multiplier": 0.3,
+          "Id": 9,
+          "Value": 25
+        },
+        "Vitality": {
+          "Multiplier": 0.165,
+          "Id": 10,
+          "Value": 12
+        },
+        "Healing": {
+          "Multiplier": 0.3,
+          "Id": 6,
+          "Value": 25
+        },
+        "BoonDuration": {
+          "Multiplier": 0.165,
+          "Id": 2,
+          "Value": 12
+        }
+      },
+      "Id": 1134,
+      "MappedId": 29,
+      "Names": {
+        "English": "Minstrel's",
+        "Spanish": "de juglar",
+        "German": "Minnesängerischer",
+        "French": "ménestrel"
+      }
+    },
+    "1162": {
+      "Attributes": {
+        "Power": {
+          "Multiplier": 0.3,
+          "Id": 7,
+          "Value": 25
+        },
+        "Toughness": {
+          "Multiplier": 0.165,
+          "Id": 9,
+          "Value": 12
+        },
+        "Vitality": {
+          "Multiplier": 0.3,
+          "Id": 10,
+          "Value": 25
+        },
+        "BoonDuration": {
+          "Multiplier": 0.165,
+          "Id": 2,
+          "Value": 12
+        }
+      },
+      "Id": 1162,
+      "MappedId": 30,
+      "Names": {
+        "English": "Wanderer's",
+        "Spanish": "de peregrino",
+        "German": "Wandersmännischer",
+        "French": "voyageur"
+      }
+    },
+    "1115": {
+      "Attributes": {
+        "Toughness": {
+          "Multiplier": 0.3,
+          "Id": 9,
+          "Value": 25
+        },
+        "Vitality": {
+          "Multiplier": 0.165,
+          "Id": 10,
+          "Value": 12
+        },
+        "ConditionDamage": {
+          "Multiplier": 0.3,
+          "Id": 3,
+          "Value": 25
+        },
+        "ConditionDuration": {
+          "Multiplier": 0.165,
+          "Id": 4,
+          "Value": 12
+        }
+      },
+      "Id": 1115,
+      "MappedId": 31,
+      "Names": {
+        "English": "Trailblazer's",
+        "Spanish": "de expedicionario",
+        "German": "Wegweisender",
+        "French": "de pionnier"
+      }
+    },
+    "1130": {
+      "Attributes": {
+        "Power": {
+          "Multiplier": 0.3,
+          "Id": 7,
+          "Value": 25
+        },
+        "Precision": {
+          "Multiplier": 0.165,
+          "Id": 8,
+          "Value": 12
+        },
+        "ConditionDamage": {
+          "Multiplier": 0.3,
+          "Id": 3,
+          "Value": 25
+        },
+        "ConditionDuration": {
+          "Multiplier": 0.165,
+          "Id": 4,
+          "Value": 12
+        }
+      },
+      "Id": 1130,
+      "MappedId": 32,
+      "Names": {
+        "English": "Viper's",
+        "Spanish": "de víbora",
+        "German": "Viperhafter",
+        "French": "vipérin"
+      }
+    },
+    "1139": {
+      "Attributes": {
+        "Power": {
+          "Multiplier": 0.3,
+          "Id": 7,
+          "Value": 25
+        },
+        "Toughness": {
+          "Multiplier": 0.3,
+          "Id": 9,
+          "Value": 25
+        },
+        "BoonDuration": {
+          "Multiplier": 0.165,
+          "Id": 2,
+          "Value": 12
+        },
+        "ConditionDuration": {
+          "Multiplier": 0.165,
+          "Id": 4,
+          "Value": 12
+        }
+      },
+      "Id": 1139,
+      "MappedId": 33,
+      "Names": {
+        "English": "Vigilant",
+        "Spanish": "de vigilante",
+        "German": "Wachsamer",
+        "French": "vigilant"
+      }
+    },
+    "1125": {
+      "Attributes": {
+        "Power": {
+          "Multiplier": 0.3,
+          "Id": 7,
+          "Value": 25
+        },
+        "Precision": {
+          "Multiplier": 0.3,
+          "Id": 8,
+          "Value": 25
+        },
+        "Toughness": {
+          "Multiplier": 0.165,
+          "Id": 9,
+          "Value": 12
+        },
+        "BoonDuration": {
+          "Multiplier": 0.165,
+          "Id": 2,
+          "Value": 12
+        }
+      },
+      "Id": 1125,
+      "MappedId": 34,
+      "Names": {
+        "English": "Commander's",
+        "Spanish": "de comandante",
+        "German": "Kommandierender",
+        "French": "commandant"
+      }
+    },
+    "1220": {
+      "Attributes": {
+        "Precision": {
+          "Multiplier": 0.3,
+          "Id": 8,
+          "Value": 25
+        },
+        "Healing": {
+          "Multiplier": 0.165,
+          "Id": 6,
+          "Value": 12
+        },
+        "ConditionDamage": {
+          "Multiplier": 0.3,
+          "Id": 3,
+          "Value": 25
+        },
+        "BoonDuration": {
+          "Multiplier": 0.165,
+          "Id": 2,
+          "Value": 12
+        }
+      },
+      "Id": 1220,
+      "MappedId": 35,
+      "Names": {
+        "English": "Seraph",
+        "Spanish": "de serafín",
+        "German": "Seraphischer",
+        "French": "Séraphin"
+      }
+    },
+    "1329": {
+      "Attributes": {
+        "Power": {
+          "Multiplier": 0.3,
+          "Id": 7,
+          "Value": 25
+        },
+        "Precision": {
+          "Multiplier": 0.165,
+          "Id": 8,
+          "Value": 12
+        },
+        "CritDamage": {
+          "Multiplier": 0.165,
+          "Id": 5,
+          "Value": 12
+        },
+        "ConditionDamage": {
+          "Multiplier": 0.3,
+          "Id": 3,
+          "Value": 25
+        }
+      },
+      "Id": 1329,
+      "MappedId": 36,
+      "Names": {
+        "English": "Grieving",
+        "Spanish": "de afligido",
+        "German": "Trauernder",
+        "French": "Deuil"
+      }
+    },
+    "1345": {
+      "Attributes": {
+        "Power": {
+          "Multiplier": 0.35,
+          "Id": 7,
+          "Value": 32
+        },
+        "Healing": {
+          "Multiplier": 0.25,
+          "Id": 6,
+          "Value": 18
+        },
+        "BoonDuration": {
+          "Multiplier": 0.25,
+          "Id": 2,
+          "Value": 18
+        }
+      },
+      "Id": 1345,
+      "MappedId": 37,
+      "Names": {
+        "English": "Harrier's",
+        "Spanish": "de hostigador",
+        "German": "Verheerender",
+        "French": "du circaète"
+      }
+    },
+    "1337": {
+      "Attributes": {
+        "Power": {
+          "Multiplier": 0.3,
+          "Id": 7,
+          "Value": 25
+        },
+        "Precision": {
+          "Multiplier": 0.165,
+          "Id": 8,
+          "Value": 12
+        },
+        "Healing": {
+          "Multiplier": 0.3,
+          "Id": 6,
+          "Value": 25
+        },
+        "ConditionDamage": {
+          "Multiplier": 0.165,
+          "Id": 3,
+          "Value": 12
+        }
+      },
+      "Id": 1337,
+      "MappedId": 38,
+      "Names": {
+        "English": "Marshal's",
+        "Spanish": "de mariscal",
+        "German": "Marschallischer",
+        "French": "de maréchal"
+      }
+    },
+    "1486": {
+      "Attributes": {
+        "Vitality": {
+          "Multiplier": 0.3,
+          "Id": 10,
+          "Value": 25
+        },
+        "Healing": {
+          "Multiplier": 0.165,
+          "Id": 6,
+          "Value": 12
+        },
+        "ConditionDamage": {
+          "Multiplier": 0.3,
+          "Id": 3,
+          "Value": 25
+        },
+        "BoonDuration": {
+          "Multiplier": 0.165,
+          "Id": 2,
+          "Value": 12
+        }
+      },
+      "Id": 1486,
+      "MappedId": 39,
+      "Names": {
+        "English": "Plaguedoctor's",
+        "Spanish": "de médico de la plaga",
+        "German": "Seuchenärztlicher",
+        "French": "de médecin du Fléau"
+      }
+    },
+    "1538": {
+      "Attributes": {
+        "Power": {
+          "Multiplier": 0.3,
+          "Id": 7,
+          "Value": 25
+        },
+        "Precision": {
+          "Multiplier": 0.165,
+          "Id": 8,
+          "Value": 12
+        },
+        "CritDamage": {
+          "Multiplier": 0.165,
+          "Id": 5,
+          "Value": 12
+        },
+        "BoonDuration": {
+          "Multiplier": 0.3,
+          "Id": 2,
+          "Value": 25
+        }
+      },
+      "Id": 1538,
+      "MappedId": 40,
+      "Names": {
+        "English": "Diviner's",
+        "Spanish": "de adivino",
+        "German": "Wahrsagerischer",
+        "French": "devin"
+      }
+    },
+    "1697": {
+      "Attributes": {
+        "Power": {
+          "Multiplier": 0.3,
+          "Id": 7,
+          "Value": 25
+        },
+        "Precision": {
+          "Multiplier": 0.165,
+          "Id": 8,
+          "Value": 12
+        },
+        "Vitality": {
+          "Multiplier": 0.165,
+          "Id": 10,
+          "Value": 12
+        },
+        "CritDamage": {
+          "Multiplier": 0.3,
+          "Id": 5,
+          "Value": 25
+        }
+      },
+      "Id": 1697,
+      "MappedId": 41,
+      "Names": {
+        "English": "Dragon's",
+        "Spanish": "de dragón",
+        "German": "Drachen-",
+        "French": "draconique"
+      }
+    },
+    "1694": {
+      "Attributes": {
+        "Vitality": {
+          "Multiplier": 0.3,
+          "Id": 10,
+          "Value": 25
+        },
+        "ConditionDamage": {
+          "Multiplier": 0.3,
+          "Id": 3,
+          "Value": 25
+        },
+        "BoonDuration": {
+          "Multiplier": 0.165,
+          "Id": 2,
+          "Value": 12
+        },
+        "ConditionDuration": {
+          "Multiplier": 0.165,
+          "Id": 4,
+          "Value": 12
+        }
+      },
+      "Id": 1694,
+      "MappedId": 42,
+      "Names": {
+        "English": "Ritualist's",
+        "Spanish": "de ritualista",
+        "German": "Ritualisten-",
+        "French": "ritualiste"
+      }
+    },
+    "161": {
+      "Attributes": {
+        "Power": {
+          "Multiplier": 0.35,
+          "Id": 7,
+          "Value": 0
+        },
+        "Precision": {
+          "Multiplier": 0.25,
+          "Id": 8,
+          "Value": 0
+        },
+        "CritDamage": {
+          "Multiplier": 0.25,
+          "Id": 5,
+          "Value": 0
+        }
+      },
+      "Id": 161,
+      "MappedId": 43,
+      "Names": {
+        "English": "Berserker's",
+        "Spanish": "de berserker",
+        "German": "Berserkerhafter",
+        "French": "berserker"
+      }
+    },
+    "155": {
+      "Attributes": {
+        "Power": {
+          "Multiplier": 0.25,
+          "Id": 7,
+          "Value": 0
+        },
+        "Toughness": {
+          "Multiplier": 0.25,
+          "Id": 9,
+          "Value": 0
+        },
+        "Healing": {
+          "Multiplier": 0.35,
+          "Id": 6,
+          "Value": 0
+        }
+      },
+      "Id": 155,
+      "MappedId": 44,
+      "Names": {
+        "English": "Cleric's",
+        "Spanish": "de clérigo",
+        "German": "Klerikaler",
+        "French": "clérical"
+      }
+    },
+    "159": {
+      "Attributes": {
+        "Power": {
+          "Multiplier": 0.25,
+          "Id": 7,
+          "Value": 0
+        },
+        "Precision": {
+          "Multiplier": 0.35,
+          "Id": 8,
+          "Value": 0
+        },
+        "ConditionDamage": {
+          "Multiplier": 0.25,
+          "Id": 3,
+          "Value": 0
+        }
+      },
+      "Id": 159,
+      "MappedId": 45,
+      "Names": {
+        "English": "Rampager's",
+        "Spanish": "de violento",
+        "German": "Wütender",
+        "French": "saccageur"
+      }
+    },
+    "157": {
+      "Attributes": {
+        "Power": {
+          "Multiplier": 0.35,
+          "Id": 7,
+          "Value": 0
+        },
+        "Vitality": {
+          "Multiplier": 0.25,
+          "Id": 10,
+          "Value": 0
+        },
+        "CritDamage": {
+          "Multiplier": 0.25,
+          "Id": 5,
+          "Value": 0
+        }
+      },
+      "Id": 157,
+      "MappedId": 46,
+      "Names": {
+        "English": "Valkyrie",
+        "Spanish": "de valquiria",
+        "German": "Walkürischer",
+        "French": "valkyrien"
+      }
+    },
+    "158": {
+      "Attributes": {
+        "Power": {
+          "Multiplier": 0.25,
+          "Id": 7,
+          "Value": 0
+        },
+        "Precision": {
+          "Multiplier": 0.25,
+          "Id": 8,
+          "Value": 0
+        },
+        "Toughness": {
+          "Multiplier": 0.35,
+          "Id": 9,
+          "Value": 0
+        }
+      },
+      "Id": 158,
+      "MappedId": 47,
+      "Names": {
+        "English": "Knight's",
+        "Spanish": "de caballero",
+        "German": "Ritterlicher",
+        "French": "chevaleresque"
+      }
+    },
+    "160": {
+      "Attributes": {
+        "Power": {
+          "Multiplier": 0.25,
+          "Id": 7,
+          "Value": 0
+        },
+        "Vitality": {
+          "Multiplier": 0.25,
+          "Id": 10,
+          "Value": 0
+        },
+        "ConditionDamage": {
+          "Multiplier": 0.35,
+          "Id": 3,
+          "Value": 0
+        }
+      },
+      "Id": 160,
+      "MappedId": 48,
+      "Names": {
+        "English": "Carrion",
+        "Spanish": "carroñero",
+        "German": "Faulender",
+        "French": "nécrophage"
+      }
+    },
+    "153": {
+      "Attributes": {
+        "Vitality": {
+          "Multiplier": 0.35,
+          "Id": 10,
+          "Value": 0
+        },
+        "Healing": {
+          "Multiplier": 0.25,
+          "Id": 6,
+          "Value": 0
+        },
+        "ConditionDamage": {
+          "Multiplier": 0.25,
+          "Id": 3,
+          "Value": 0
+        }
+      },
+      "Id": 153,
+      "MappedId": 49,
+      "Names": {
+        "English": "Shaman's",
+        "Spanish": "de chamán",
+        "German": "Schamanischer",
+        "French": "chamanique"
+      }
+    },
+    "605": {
+      "Attributes": {
+        "Toughness": {
+          "Multiplier": 0.25,
+          "Id": 9,
+          "Value": 0
+        },
+        "Healing": {
+          "Multiplier": 0.35,
+          "Id": 6,
+          "Value": 0
+        },
+        "ConditionDamage": {
+          "Multiplier": 0.25,
+          "Id": 3,
+          "Value": 0
+        }
+      },
+      "Id": 605,
+      "MappedId": 50,
+      "Names": {
+        "English": "Apothecary's",
+        "Spanish": "de boticario",
+        "German": "Arzneikundlerischer",
+        "French": "officinal"
+      }
+    },
+    "700": {
+      "Attributes": {
+        "Toughness": {
+          "Multiplier": 0.35,
+          "Id": 9,
+          "Value": 0
+        },
+        "Healing": {
+          "Multiplier": 0.25,
+          "Id": 6,
+          "Value": 0
+        },
+        "ConditionDamage": {
+          "Multiplier": 0.25,
+          "Id": 3,
+          "Value": 0
+        }
+      },
+      "Id": 700,
+      "MappedId": 51,
+      "Names": {
+        "English": "Settler's",
+        "Spanish": "de colono",
+        "German": "Siedelnder",
+        "French": "colonisateur"
+      }
+    },
+    "616": {
+      "Attributes": {
+        "Power": {
+          "Multiplier": 0.25,
+          "Id": 7,
+          "Value": 0
+        },
+        "Toughness": {
+          "Multiplier": 0.35,
+          "Id": 9,
+          "Value": 0
+        },
+        "CritDamage": {
+          "Multiplier": 0.25,
+          "Id": 5,
+          "Value": 0
+        }
+      },
+      "Id": 616,
+      "MappedId": 52,
+      "Names": {
+        "English": "Cavalier's",
+        "Spanish": "de jinete",
+        "German": "Kavaliermäßiger",
+        "French": "cavalier"
+      }
+    },
+    "154": {
+      "Attributes": {
+        "Precision": {
+          "Multiplier": 0.25,
+          "Id": 8,
+          "Value": 0
+        },
+        "Toughness": {
+          "Multiplier": 0.25,
+          "Id": 9,
+          "Value": 0
+        },
+        "ConditionDamage": {
+          "Multiplier": 0.35,
+          "Id": 3,
+          "Value": 0
+        }
+      },
+      "Id": 154,
+      "MappedId": 53,
+      "Names": {
+        "English": "Rabid",
+        "Spanish": "de rabioso",
+        "German": "Tollwütiger",
+        "French": "enragé"
+      }
+    },
+    "156": {
+      "Attributes": {
+        "Precision": {
+          "Multiplier": 0.25,
+          "Id": 8,
+          "Value": 0
+        },
+        "Vitality": {
+          "Multiplier": 0.25,
+          "Id": 10,
+          "Value": 0
+        },
+        "Healing": {
+          "Multiplier": 0.35,
+          "Id": 6,
+          "Value": 0
+        }
+      },
+      "Id": 156,
+      "MappedId": 54,
+      "Names": {
+        "English": "Magi's",
+        "Spanish": "de magi",
+        "German": "Magischer",
+        "French": "mage"
+      }
+    },
+    "162": {
+      "Attributes": {
+        "Power": {
+          "Multiplier": 0.35,
+          "Id": 7,
+          "Value": 0
+        },
+        "Toughness": {
+          "Multiplier": 0.25,
+          "Id": 9,
+          "Value": 0
+        },
+        "Vitality": {
+          "Multiplier": 0.25,
+          "Id": 10,
+          "Value": 0
+        }
+      },
+      "Id": 162,
+      "MappedId": 55,
+      "Names": {
+        "English": "Soldier's",
+        "Spanish": "de soldado",
+        "German": "Soldatischer",
+        "French": "militaire"
+      }
+    },
+    "686": {
+      "Attributes": {
+        "Power": {
+          "Multiplier": 0.25,
+          "Id": 7,
+          "Value": 0
+        },
+        "Toughness": {
+          "Multiplier": 0.25,
+          "Id": 9,
+          "Value": 0
+        },
+        "Vitality": {
+          "Multiplier": 0.35,
+          "Id": 10,
+          "Value": 0
+        }
+      },
+      "Id": 686,
+      "MappedId": 56,
+      "Names": {
+        "English": "Sentinel's",
+        "Spanish": "de centinela",
+        "German": "Wachender",
+        "French": "sentinelle"
+      }
+    },
+    "559": {
+      "Attributes": {
+        "Power": {
+          "Multiplier": 0.165,
+          "Id": 7,
+          "Value": 0
+        },
+        "Precision": {
+          "Multiplier": 0.165,
+          "Id": 8,
+          "Value": 0
+        },
+        "Toughness": {
+          "Multiplier": 0.165,
+          "Id": 9,
+          "Value": 0
+        },
+        "Vitality": {
+          "Multiplier": 0.165,
+          "Id": 10,
+          "Value": 0
+        },
+        "CritDamage": {
+          "Multiplier": 0.165,
+          "Id": 5,
+          "Value": 0
+        },
+        "Healing": {
+          "Multiplier": 0.165,
+          "Id": 6,
+          "Value": 0
+        },
+        "ConditionDamage": {
+          "Multiplier": 0.165,
+          "Id": 3,
+          "Value": 0
+        },
+        "BoonDuration": {
+          "Multiplier": 0.165,
+          "Id": 2,
+          "Value": 0
+        },
+        "ConditionDuration": {
+          "Multiplier": 0.165,
+          "Id": 4,
+          "Value": 0
+        }
+      },
+      "Id": 559,
+      "MappedId": 57,
+      "Names": {
+        "English": "Celestial",
+        "Spanish": "celestial",
+        "German": "Himmlischer",
+        "French": "céleste"
+      }
+    },
+    "754": {
+      "Attributes": {
+        "Toughness": {
+          "Multiplier": 0.25,
+          "Id": 9,
+          "Value": 0
+        },
+        "Vitality": {
+          "Multiplier": 0.25,
+          "Id": 10,
+          "Value": 0
+        },
+        "ConditionDamage": {
+          "Multiplier": 0.35,
+          "Id": 3,
+          "Value": 0
+        }
+      },
+      "Id": 754,
+      "MappedId": 58,
+      "Names": {
+        "English": "Dire",
+        "Spanish": "nefasto",
+        "German": "Grausamer",
+        "French": "sanguinaire"
+      }
+    },
+    "753": {
+      "Attributes": {
+        "Power": {
+          "Multiplier": 0.25,
+          "Id": 7,
+          "Value": 0
+        },
+        "Precision": {
+          "Multiplier": 0.35,
+          "Id": 8,
+          "Value": 0
+        },
+        "CritDamage": {
+          "Multiplier": 0.25,
+          "Id": 5,
+          "Value": 0
+        }
+      },
+      "Id": 753,
+      "MappedId": 59,
+      "Names": {
+        "English": "Assassin's",
+        "Spanish": "de asesino",
+        "German": "Meuchelnder",
+        "French": "assassin"
+      }
+    },
+    "799": {
+      "Attributes": {
+        "Power": {
+          "Multiplier": 0.35,
+          "Id": 7,
+          "Value": 0
+        },
+        "Precision": {
+          "Multiplier": 0.25,
+          "Id": 8,
+          "Value": 0
+        },
+        "Healing": {
+          "Multiplier": 0.25,
+          "Id": 6,
+          "Value": 0
+        }
+      },
+      "Id": 799,
+      "MappedId": 60,
+      "Names": {
+        "English": "Zealot's",
+        "Spanish": "de zelote",
+        "German": "Eifernder",
+        "French": "zélote"
+      }
+    },
+    "1026": {
+      "Attributes": {
+        "Toughness": {
+          "Multiplier": 0.35,
+          "Id": 9,
+          "Value": 0
+        },
+        "Vitality": {
+          "Multiplier": 0.25,
+          "Id": 10,
+          "Value": 0
+        },
+        "Healing": {
+          "Multiplier": 0.25,
+          "Id": 6,
+          "Value": 0
+        }
+      },
+      "Id": 1026,
+      "MappedId": 61,
+      "Names": {
+        "English": "Nomad's",
+        "Spanish": "de nómada",
+        "German": "Nomadischer",
+        "French": "nomade"
+      }
+    },
+    "1067": {
+      "Attributes": {
+        "Power": {
+          "Multiplier": 0.25,
+          "Id": 7,
+          "Value": 0
+        },
+        "Precision": {
+          "Multiplier": 0.25,
+          "Id": 8,
+          "Value": 0
+        },
+        "ConditionDamage": {
+          "Multiplier": 0.35,
+          "Id": 3,
+          "Value": 0
+        }
+      },
+      "Id": 1067,
+      "MappedId": 62,
+      "Names": {
+        "English": "Sinister",
+        "Spanish": "siniestro",
+        "German": "Finsterer",
+        "French": "sinistre"
+      }
+    },
+    "628": {
+      "Attributes": {
+        "Toughness": {
+          "Multiplier": 0.35,
+          "Id": 9,
+          "Value": 0
+        },
+        "Healing": {
+          "Multiplier": 0.25,
+          "Id": 6,
+          "Value": 0
+        },
+        "BoonDuration": {
+          "Multiplier": 0.25,
+          "Id": 2,
+          "Value": 0
+        }
+      },
+      "Id": 628,
+      "MappedId": 63,
+      "Names": {
+        "English": "Giver's",
+        "Spanish": "de donador",
+        "German": "Spendabler",
+        "French": "bienfaiteur"
+      }
+    },
+    "1032": {
+      "Attributes": {
+        "Precision": {
+          "Multiplier": 0.25,
+          "Id": 8,
+          "Value": 0
+        },
+        "Vitality": {
+          "Multiplier": 0.25,
+          "Id": 10,
+          "Value": 0
+        },
+        "ConditionDuration": {
+          "Multiplier": 0.35,
+          "Id": 4,
+          "Value": 0
+        }
+      },
+      "Id": 1032,
+      "MappedId": 64,
+      "Names": {
+        "English": "Bringer's",
+        "Spanish": "de repartidor",
+        "German": "Bringender",
+        "French": "du pourvoyeur"
+      }
+    },
+    "1111": {
+      "Attributes": {
+        "Power": {
+          "Multiplier": 0.3,
+          "Id": 7,
+          "Value": 0
+        },
+        "Precision": {
+          "Multiplier": 0.3,
+          "Id": 8,
+          "Value": 0
+        },
+        "Vitality": {
+          "Multiplier": 0.165,
+          "Id": 10,
+          "Value": 0
+        },
+        "CritDamage": {
+          "Multiplier": 0.165,
+          "Id": 5,
+          "Value": 0
+        }
+      },
+      "Id": 1111,
+      "MappedId": 65,
+      "Names": {
+        "English": "Marauder",
+        "Spanish": "de salteador",
+        "German": "Marodierender",
+        "French": "maraudeur"
+      }
+    },
+    "1109": {
+      "Attributes": {
+        "Power": {
+          "Multiplier": 0.3,
+          "Id": 7,
+          "Value": 0
+        },
+        "Toughness": {
+          "Multiplier": 0.3,
+          "Id": 9,
+          "Value": 0
+        },
+        "CritDamage": {
+          "Multiplier": 0.165,
+          "Id": 5,
+          "Value": 0
+        },
+        "Healing": {
+          "Multiplier": 0.165,
+          "Id": 6,
+          "Value": 0
+        }
+      },
+      "Id": 1109,
+      "MappedId": 66,
+      "Names": {
+        "English": "Crusader",
+        "Spanish": "de cruzado",
+        "German": "Reckenhafter",
+        "French": "croisé"
+      }
+    },
+    "1123": {
+      "Attributes": {
+        "Toughness": {
+          "Multiplier": 0.3,
+          "Id": 9,
+          "Value": 0
+        },
+        "Vitality": {
+          "Multiplier": 0.165,
+          "Id": 10,
+          "Value": 0
+        },
+        "Healing": {
+          "Multiplier": 0.3,
+          "Id": 6,
+          "Value": 0
+        },
+        "BoonDuration": {
+          "Multiplier": 0.165,
+          "Id": 2,
+          "Value": 0
+        }
+      },
+      "Id": 1123,
+      "MappedId": 67,
+      "Names": {
+        "English": "Minstrel's",
+        "Spanish": "de juglar",
+        "German": "Minnesängerischer",
+        "French": "ménestrel"
+      }
+    },
+    "1140": {
+      "Attributes": {
+        "Power": {
+          "Multiplier": 0.3,
+          "Id": 7,
+          "Value": 0
+        },
+        "Toughness": {
+          "Multiplier": 0.165,
+          "Id": 9,
+          "Value": 0
+        },
+        "Vitality": {
+          "Multiplier": 0.3,
+          "Id": 10,
+          "Value": 0
+        },
+        "BoonDuration": {
+          "Multiplier": 0.165,
+          "Id": 2,
+          "Value": 0
+        }
+      },
+      "Id": 1140,
+      "MappedId": 68,
+      "Names": {
+        "English": "Wanderer's",
+        "Spanish": "de peregrino",
+        "German": "Wandersmännischer",
+        "French": "voyageur"
+      }
+    },
+    "1085": {
+      "Attributes": {
+        "Toughness": {
+          "Multiplier": 0.3,
+          "Id": 9,
+          "Value": 0
+        },
+        "Vitality": {
+          "Multiplier": 0.165,
+          "Id": 10,
+          "Value": 0
+        },
+        "ConditionDamage": {
+          "Multiplier": 0.3,
+          "Id": 3,
+          "Value": 0
+        },
+        "ConditionDuration": {
+          "Multiplier": 0.165,
+          "Id": 4,
+          "Value": 0
+        }
+      },
+      "Id": 1085,
+      "MappedId": 69,
+      "Names": {
+        "English": "Trailblazer's",
+        "Spanish": "de expedicionario",
+        "German": "Wegweisender",
+        "French": "de pionnier"
+      }
+    },
+    "1153": {
+      "Attributes": {
+        "Power": {
+          "Multiplier": 0.3,
+          "Id": 7,
+          "Value": 0
+        },
+        "Precision": {
+          "Multiplier": 0.165,
+          "Id": 8,
+          "Value": 0
+        },
+        "ConditionDamage": {
+          "Multiplier": 0.3,
+          "Id": 3,
+          "Value": 0
+        },
+        "ConditionDuration": {
+          "Multiplier": 0.165,
+          "Id": 4,
+          "Value": 0
+        }
+      },
+      "Id": 1153,
+      "MappedId": 70,
+      "Names": {
+        "English": "Viper's",
+        "Spanish": "de víbora",
+        "German": "Viperhafter",
+        "French": "vipérin"
+      }
+    },
+    "1118": {
+      "Attributes": {
+        "Power": {
+          "Multiplier": 0.3,
+          "Id": 7,
+          "Value": 0
+        },
+        "Toughness": {
+          "Multiplier": 0.3,
+          "Id": 9,
+          "Value": 0
+        },
+        "BoonDuration": {
+          "Multiplier": 0.165,
+          "Id": 2,
+          "Value": 0
+        },
+        "ConditionDuration": {
+          "Multiplier": 0.165,
+          "Id": 4,
+          "Value": 0
+        }
+      },
+      "Id": 1118,
+      "MappedId": 71,
+      "Names": {
+        "English": "Vigilant",
+        "Spanish": "de vigilante",
+        "German": "Wachsamer",
+        "French": "vigilant"
+      }
+    },
+    "1131": {
+      "Attributes": {
+        "Power": {
+          "Multiplier": 0.3,
+          "Id": 7,
+          "Value": 0
+        },
+        "Precision": {
+          "Multiplier": 0.3,
+          "Id": 8,
+          "Value": 0
+        },
+        "Toughness": {
+          "Multiplier": 0.165,
+          "Id": 9,
+          "Value": 0
+        },
+        "BoonDuration": {
+          "Multiplier": 0.165,
+          "Id": 2,
+          "Value": 0
+        }
+      },
+      "Id": 1131,
+      "MappedId": 72,
+      "Names": {
+        "English": "Commander's",
+        "Spanish": "de comandante",
+        "German": "Kommandierender",
+        "French": "commandant"
+      }
+    },
+    "1222": {
+      "Attributes": {
+        "Precision": {
+          "Multiplier": 0.3,
+          "Id": 8,
+          "Value": 0
+        },
+        "Healing": {
+          "Multiplier": 0.165,
+          "Id": 6,
+          "Value": 0
+        },
+        "ConditionDamage": {
+          "Multiplier": 0.3,
+          "Id": 3,
+          "Value": 0
+        },
+        "BoonDuration": {
+          "Multiplier": 0.165,
+          "Id": 2,
+          "Value": 0
+        }
+      },
+      "Id": 1222,
+      "MappedId": 73,
+      "Names": {
+        "English": "Seraph",
+        "Spanish": "Serafín",
+        "German": "Seraphischer",
+        "French": "séraphin"
+      }
+    },
+    "1344": {
+      "Attributes": {
+        "Power": {
+          "Multiplier": 0.3,
+          "Id": 7,
+          "Value": 0
+        },
+        "Precision": {
+          "Multiplier": 0.165,
+          "Id": 8,
+          "Value": 0
+        },
+        "CritDamage": {
+          "Multiplier": 0.165,
+          "Id": 5,
+          "Value": 0
+        },
+        "ConditionDamage": {
+          "Multiplier": 0.3,
+          "Id": 3,
+          "Value": 0
+        }
+      },
+      "Id": 1344,
+      "MappedId": 74,
+      "Names": {
+        "English": "Grieving",
+        "Spanish": "de afligido",
+        "German": "Trauernder",
+        "French": "Deuil"
+      }
+    },
+    "1363": {
+      "Attributes": {
+        "Power": {
+          "Multiplier": 0.35,
+          "Id": 7,
+          "Value": 0
+        },
+        "Healing": {
+          "Multiplier": 0.25,
+          "Id": 6,
+          "Value": 0
+        },
+        "BoonDuration": {
+          "Multiplier": 0.25,
+          "Id": 2,
+          "Value": 0
+        }
+      },
+      "Id": 1363,
+      "MappedId": 75,
+      "Names": {
+        "English": "Harrier's",
+        "Spanish": "de hostigador",
+        "German": "Verheerender",
+        "French": "du circaète"
+      }
+    },
+    "1364": {
+      "Attributes": {
+        "Power": {
+          "Multiplier": 0.3,
+          "Id": 7,
+          "Value": 0
+        },
+        "Precision": {
+          "Multiplier": 0.165,
+          "Id": 8,
+          "Value": 0
+        },
+        "Healing": {
+          "Multiplier": 0.3,
+          "Id": 6,
+          "Value": 0
+        },
+        "ConditionDamage": {
+          "Multiplier": 0.165,
+          "Id": 3,
+          "Value": 0
+        }
+      },
+      "Id": 1364,
+      "MappedId": 76,
+      "Names": {
+        "English": "Marshal's",
+        "Spanish": "de mariscal",
+        "German": "Marschallischer",
+        "French": "de maréchal"
+      }
+    },
+    "1559": {
+      "Attributes": {
+        "Vitality": {
+          "Multiplier": 0.3,
+          "Id": 10,
+          "Value": 0
+        },
+        "Healing": {
+          "Multiplier": 0.165,
+          "Id": 6,
+          "Value": 0
+        },
+        "ConditionDamage": {
+          "Multiplier": 0.3,
+          "Id": 3,
+          "Value": 0
+        },
+        "BoonDuration": {
+          "Multiplier": 0.165,
+          "Id": 2,
+          "Value": 0
+        }
+      },
+      "Id": 1559,
+      "MappedId": 77,
+      "Names": {
+        "English": "Plaguedoctor's",
+        "Spanish": "de médico de la plaga",
+        "German": "Seuchenärztlicher",
+        "French": "de médecin du Fléau"
+      }
+    },
+    "1556": {
+      "Attributes": {
+        "Power": {
+          "Multiplier": 0.3,
+          "Id": 7,
+          "Value": 0
+        },
+        "Precision": {
+          "Multiplier": 0.165,
+          "Id": 8,
+          "Value": 0
+        },
+        "CritDamage": {
+          "Multiplier": 0.165,
+          "Id": 5,
+          "Value": 0
+        },
+        "BoonDuration": {
+          "Multiplier": 0.3,
+          "Id": 2,
+          "Value": 0
+        }
+      },
+      "Id": 1556,
+      "MappedId": 78,
+      "Names": {
+        "English": "Diviner's",
+        "Spanish": "de adivino",
+        "German": "Wahrsagerischer",
+        "French": "devin"
+      }
+    },
+    "1681": {
+      "Attributes": {
+        "Power": {
+          "Multiplier": 0.3,
+          "Id": 7,
+          "Value": 0
+        },
+        "Precision": {
+          "Multiplier": 0.165,
+          "Id": 8,
+          "Value": 0
+        },
+        "Vitality": {
+          "Multiplier": 0.165,
+          "Id": 10,
+          "Value": 0
+        },
+        "CritDamage": {
+          "Multiplier": 0.3,
+          "Id": 5,
+          "Value": 0
+        }
+      },
+      "Id": 1681,
+      "MappedId": 79,
+      "Names": {
+        "English": "Dragon's",
+        "Spanish": "de dragón",
+        "German": "Drachen-",
+        "French": "draconique"
+      }
+    },
+    "1686": {
+      "Attributes": {
+        "Vitality": {
+          "Multiplier": 0.3,
+          "Id": 10,
+          "Value": 0
+        },
+        "ConditionDamage": {
+          "Multiplier": 0.3,
+          "Id": 3,
+          "Value": 0
+        },
+        "BoonDuration": {
+          "Multiplier": 0.165,
+          "Id": 2,
+          "Value": 0
+        },
+        "ConditionDuration": {
+          "Multiplier": 0.165,
+          "Id": 4,
+          "Value": 0
+        }
+      },
+      "Id": 1686,
+      "MappedId": 80,
+      "Names": {
+        "English": "Ritualist's",
+        "Spanish": "de ritualista",
+        "German": "Ritualisten-",
+        "French": "ritualiste"
+      }
+    },
+    "1826": {
+      "Attributes": {
+        "Power": {
+          "Multiplier": 0.3,
+          "Id": 7,
+          "Value": 0
+        },
+        "Precision": {
+          "Multiplier": 0.3,
+          "Id": 8,
+          "Value": 0
+        },
+        "Toughness": {
+          "Multiplier": 0.165,
+          "Id": 9,
+          "Value": 0
+        },
+        "CritDamage": {
+          "Multiplier": 0.165,
+          "Id": 5,
+          "Value": 0
+        }
+      },
+      "Id": 1826,
+      "MappedId": 81,
+      "Names": {
+        "English": "Demolisher's",
+        "Spanish": "De demolición",
+        "German": "Demolierers",
+        "French": "du démolisseur"
+      }
+    },
+    "1827": {
+      "Attributes": {
+        "Power": {
+          "Multiplier": 0.3,
+          "Id": 7,
+          "Value": 25
+        },
+        "Precision": {
+          "Multiplier": 0.3,
+          "Id": 8,
+          "Value": 25
+        },
+        "Toughness": {
+          "Multiplier": 0.165,
+          "Id": 9,
+          "Value": 12
+        },
+        "CritDamage": {
+          "Multiplier": 0.165,
+          "Id": 5,
+          "Value": 12
+        }
+      },
+      "Id": 1827,
+      "MappedId": 82,
+      "Names": {
+        "English": "Demolisher's",
+        "Spanish": "De demolición",
+        "German": "Demolierers",
+        "French": "du démolisseur"
+      }
+    }
+  },
+  "Version": "0.0.5"
+}

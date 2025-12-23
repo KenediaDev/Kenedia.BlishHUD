@@ -1,0 +1,3932 @@
+{
+  "Items": {
+    "8485": {
+      "Bonuses": [],
+      "Details": {
+        "Type": 0,
+        "Names": {
+          "English": "Enhancement",
+          "Spanish": "Mejora",
+          "German": "Verbesserung",
+          "French": "Amélioration"
+        },
+        "DisplayTexts": {
+          "English": null,
+          "Spanish": null,
+          "German": null,
+          "French": null
+        },
+        "Descriptions": {
+          "English": "+10% Damage vs. Undead\n-10% Damage from Undead\n+10% Experience from Kills",
+          "Spanish": "+10 % de daño contra muertos vivientes\n-10 % de daño recibido de muertos vivientes\n+10 % de experiencia al matar",
+          "German": "+10 % Schaden gg. Untote\n-10 % Schaden von Untoten\n+10 % Erfahrung für besiegte Gegner",
+          "French": "Dégâts contre les morts-vivants +10%\nDégâts subis contre les morts-vivants -10%\nExpérience à chaque ennemi tué +10%"
+        },
+        "DurationMs": 7200000,
+        "AssetId": 0
+      },
+      "Type": 4,
+      "TemplateSlot": 21,
+      "Id": 8485,
+      "MappedId": 1,
+      "Rarity": 5,
+      "Chatlink": "[&AgElIQAA]",
+      "AssetId": 222682,
+      "Names": {
+        "English": "Extended Potion of Undead Slaying",
+        "Spanish": "Poción de masacre de muertos vivientes extendida",
+        "German": "Verlängerter Trank der Untoten-Vernichtung",
+        "French": "Potion de massacre de morts-vivants prolongée"
+      },
+      "DisplayTexts": {
+        "English": "Extended Potion of Undead Slaying",
+        "Spanish": "Poción de masacre de muertos vivientes extendida",
+        "German": "Verlängerter Trank der Untoten-Vernichtung",
+        "French": "Potion de massacre de morts-vivants prolongée"
+      },
+      "Descriptions": {
+        "English": null,
+        "Spanish": null,
+        "German": null,
+        "French": null
+      }
+    },
+    "8486": {
+      "Bonuses": [],
+      "Details": {
+        "Type": 0,
+        "Names": {
+          "English": "Enhancement",
+          "Spanish": "Mejora",
+          "German": "Verbesserung",
+          "French": "Amélioration"
+        },
+        "DisplayTexts": {
+          "English": null,
+          "Spanish": null,
+          "German": null,
+          "French": null
+        },
+        "Descriptions": {
+          "English": "+10% Damage vs. Nightmare Court\n-10% Damage from Nightmare Court\n+10% Experience from Kills",
+          "Spanish": "+10 % de daño contra la Corte de la Pesadilla\n-10 % de daño recibido de la Corte de la Pesadilla\n+10 % de experiencia al matar",
+          "German": "+10 % Schaden gg. Albtraumhof\n-10 % Schaden vom Albtraumhof\n+10 % Erfahrung für besiegte Gegner",
+          "French": "Dégâts contre la Cour des Cauchemars +10%\nDégâts subis contre la Cour des Cauchemars -10%\nExpérience à chaque ennemi tué +10%"
+        },
+        "DurationMs": 7200000,
+        "AssetId": 0
+      },
+      "Type": 4,
+      "TemplateSlot": 21,
+      "Id": 8486,
+      "MappedId": 2,
+      "Rarity": 5,
+      "Chatlink": "[&AgEmIQAA]",
+      "AssetId": 222666,
+      "Names": {
+        "English": "Extended Potion of Nightmare Court Slaying",
+        "Spanish": "Poción de masacre de la Corte de la Pesadilla extendida",
+        "German": "Verlängerter Trank der Albtraumhof-Vernichtung",
+        "French": "Potion de massacre des Cauchemars prolongée"
+      },
+      "DisplayTexts": {
+        "English": "Extended Potion of Nightmare Court Slaying",
+        "Spanish": "Poción de masacre de la Corte de la Pesadilla extendida",
+        "German": "Verlängerter Trank der Albtraumhof-Vernichtung",
+        "French": "Potion de massacre des Cauchemars prolongée"
+      },
+      "Descriptions": {
+        "English": null,
+        "Spanish": null,
+        "German": null,
+        "French": null
+      }
+    },
+    "8487": {
+      "Bonuses": [],
+      "Details": {
+        "Type": 0,
+        "Names": {
+          "English": "Enhancement",
+          "Spanish": "Mejora",
+          "German": "Verbesserung",
+          "French": "Amélioration"
+        },
+        "DisplayTexts": {
+          "English": null,
+          "Spanish": null,
+          "German": null,
+          "French": null
+        },
+        "Descriptions": {
+          "English": "+10% Damage vs. Sons of Svanir\n-10% Damage from Sons of Svanir\n+10% Experience from Kills",
+          "Spanish": "+10 % de daño contra los Hijos de Svanir\n-10 % de daño recibido de los Hijos de Svanir\n+10 % de experiencia al matar",
+          "German": "+10 % Schaden gg. Söhne Svanirs\n-10 % Schaden von Söhnen Svanirs\n+10 % Erfahrung für besiegte Gegner",
+          "French": "Dégâts contre les Fils de Svanir +10%\nDégâts subis contre les Fils de Svanir -10%\nExpérience à chaque ennemi tué +10%"
+        },
+        "DurationMs": 7200000,
+        "AssetId": 0
+      },
+      "Type": 4,
+      "TemplateSlot": 21,
+      "Id": 8487,
+      "MappedId": 3,
+      "Rarity": 5,
+      "Chatlink": "[&AgEnIQAA]",
+      "AssetId": 63229,
+      "Names": {
+        "English": "Extended Potion of Sons of Svanir Slaying",
+        "Spanish": "Poción de masacre de los Hijos de Svanir extendida",
+        "German": "Verlängerter Trank der Svanir-Vernichtung",
+        "French": "Potion de massacre de Fils de Svanir prolongée"
+      },
+      "DisplayTexts": {
+        "English": "Extended Potion of Sons of Svanir Slaying",
+        "Spanish": "Poción de masacre de los Hijos de Svanir extendida",
+        "German": "Verlängerter Trank der Svanir-Vernichtung",
+        "French": "Potion de massacre de Fils de Svanir prolongée"
+      },
+      "Descriptions": {
+        "English": null,
+        "Spanish": null,
+        "German": null,
+        "French": null
+      }
+    },
+    "8488": {
+      "Bonuses": [],
+      "Details": {
+        "Type": 0,
+        "Names": {
+          "English": "Enhancement",
+          "Spanish": "Mejora",
+          "German": "Verbesserung",
+          "French": "Amélioration"
+        },
+        "DisplayTexts": {
+          "English": null,
+          "Spanish": null,
+          "German": null,
+          "French": null
+        },
+        "Descriptions": {
+          "English": "+10% Damage vs. Outlaws\n-10% Damage from Outlaws\n+10% Experience from Kills",
+          "Spanish": "+10 % de daño contra proscritos\n-10 % de daño recibido de proscritos\n+10 % de experiencia al matar",
+          "German": "+10 % Schaden gg. Gesetzlose\n-10 % Schaden von Gesetzlosen\n+10 % Erfahrung für besiegte Gegner",
+          "French": "Dégâts contre les hors-la-loi +10%\nDégâts subis contre les hors-la-loi -10%\nExpérience à chaque ennemi tué +10%"
+        },
+        "DurationMs": 7200000,
+        "AssetId": 0
+      },
+      "Type": 4,
+      "TemplateSlot": 21,
+      "Id": 8488,
+      "MappedId": 4,
+      "Rarity": 5,
+      "Chatlink": "[&AgEoIQAA]",
+      "AssetId": 220452,
+      "Names": {
+        "English": "Extended Potion of Outlaw Slaying",
+        "Spanish": "Poción de masacre de proscritos extendida",
+        "German": "Verlängerter Trank der Gesetzlosen-Vernichtung",
+        "French": "Potion de massacre de hors-la-loi prolongée"
+      },
+      "DisplayTexts": {
+        "English": "Extended Potion of Outlaw Slaying",
+        "Spanish": "Poción de masacre de proscritos extendida",
+        "German": "Verlängerter Trank der Gesetzlosen-Vernichtung",
+        "French": "Potion de massacre de hors-la-loi prolongée"
+      },
+      "Descriptions": {
+        "English": null,
+        "Spanish": null,
+        "German": null,
+        "French": null
+      }
+    },
+    "8489": {
+      "Bonuses": [],
+      "Details": {
+        "Type": 0,
+        "Names": {
+          "English": "Enhancement",
+          "Spanish": "Mejora",
+          "German": "Verbesserung",
+          "French": "Amélioration"
+        },
+        "DisplayTexts": {
+          "English": null,
+          "Spanish": null,
+          "German": null,
+          "French": null
+        },
+        "Descriptions": {
+          "English": "+10% Damage vs. Flame Legion\n-10% Damage from Flame Legion\n+10% Experience from Kills",
+          "Spanish": "+10 % de daño contra la Legión de la Llama\n-10 % de daño recibido de la Legión de la Llama\n+10 % de experiencia al matar",
+          "German": "+10 % Schaden gg. Flammen-Legion\n-10 % Schaden von der Flammen-Legion\n+10 % Erfahrung für besiegte Gegner",
+          "French": "Dégâts contre la Légion de la Flamme +10%\nDégâts subis contre la Légion de la Flamme -10%\nExpérience à chaque ennemi tué +10%"
+        },
+        "DurationMs": 7200000,
+        "AssetId": 0
+      },
+      "Type": 4,
+      "TemplateSlot": 21,
+      "Id": 8489,
+      "MappedId": 5,
+      "Rarity": 5,
+      "Chatlink": "[&AgEpIQAA]",
+      "AssetId": 222674,
+      "Names": {
+        "English": "Extended Potion of Flame Legion Slaying",
+        "Spanish": "Poción de masacre de la Legión de la Llama extendida",
+        "German": "Verlängerter Trank der Flammen-Legion-Vernichtung",
+        "French": "Potion de massacre de la Légion de la Flamme prolongée"
+      },
+      "DisplayTexts": {
+        "English": "Extended Potion of Flame Legion Slaying",
+        "Spanish": "Poción de masacre de la Legión de la Llama extendida",
+        "German": "Verlängerter Trank der Flammen-Legion-Vernichtung",
+        "French": "Potion de massacre de la Légion de la Flamme prolongée"
+      },
+      "Descriptions": {
+        "English": null,
+        "Spanish": null,
+        "German": null,
+        "French": null
+      }
+    },
+    "8490": {
+      "Bonuses": [],
+      "Details": {
+        "Type": 0,
+        "Names": {
+          "English": "Enhancement",
+          "Spanish": "Mejora",
+          "German": "Verbesserung",
+          "French": "Amélioration"
+        },
+        "DisplayTexts": {
+          "English": null,
+          "Spanish": null,
+          "German": null,
+          "French": null
+        },
+        "Descriptions": {
+          "English": "+10% Damage vs. Inquest\n-10% Damage from Inquest\n+10% Experience from Kills",
+          "Spanish": "+10 % de daño contra la Inquisa\n-10 % de daño recibido de la Inquisa\n+10 % de experiencia al matar",
+          "German": "+10 % Schaden gg. Inquestur\n-10 % Schaden von der Inquestur\n+10 % Erfahrung für besiegte Gegner",
+          "French": "Dégâts contre l'Enqueste +10%\nDégâts subis contre l'Enqueste -10%\nExpérience à chaque ennemi tué +10%"
+        },
+        "DurationMs": 7200000,
+        "AssetId": 0
+      },
+      "Type": 4,
+      "TemplateSlot": 21,
+      "Id": 8490,
+      "MappedId": 6,
+      "Rarity": 5,
+      "Chatlink": "[&AgEqIQAA]",
+      "AssetId": 222670,
+      "Names": {
+        "English": "Extended Potion of Inquest Slaying",
+        "Spanish": "Poción de masacre de la Inquisa extendida",
+        "German": "Verlängerter Trank der Inquestur-Vernichtung",
+        "French": "Potion de massacre de l'Enqueste prolongée"
+      },
+      "DisplayTexts": {
+        "English": "Extended Potion of Inquest Slaying",
+        "Spanish": "Poción de masacre de la Inquisa extendida",
+        "German": "Verlängerter Trank der Inquestur-Vernichtung",
+        "French": "Potion de massacre de l'Enqueste prolongée"
+      },
+      "Descriptions": {
+        "English": null,
+        "Spanish": null,
+        "German": null,
+        "French": null
+      }
+    },
+    "8492": {
+      "Bonuses": [],
+      "Details": {
+        "Type": 0,
+        "Names": {
+          "English": "Enhancement",
+          "Spanish": "Mejora",
+          "German": "Verbesserung",
+          "French": "Amélioration"
+        },
+        "DisplayTexts": {
+          "English": null,
+          "Spanish": null,
+          "German": null,
+          "French": null
+        },
+        "Descriptions": {
+          "English": "+10% Damage vs. Dredge\n-10% Damage from Dredge\n+10% Experience from Kills",
+          "Spanish": "+10 % de daño contra draga\n-10 % de daño recibido de draga\n+10 % de experiencia al matar",
+          "German": "+10 % Schaden gg. Schaufler\n-10 % Schaden von Schauflern\n+10 % Erfahrung für besiegte Gegner",
+          "French": "Dégâts contre les Draguerres +10%\nDégâts subis contre les Draguerres -10%\nExpérience à chaque ennemi tué +10%"
+        },
+        "DurationMs": 7200000,
+        "AssetId": 0
+      },
+      "Type": 4,
+      "TemplateSlot": 21,
+      "Id": 8492,
+      "MappedId": 7,
+      "Rarity": 5,
+      "Chatlink": "[&AgEsIQAA]",
+      "AssetId": 222676,
+      "Names": {
+        "English": "Extended Potion of Dredge Slaying",
+        "Spanish": "Poción de masacre de draga extendida",
+        "German": "Verlängerter Trank der Schaufler-Vernichtung",
+        "French": "Potion de massacre de Draguerres prolongée"
+      },
+      "DisplayTexts": {
+        "English": "Extended Potion of Dredge Slaying",
+        "Spanish": "Poción de masacre de draga extendida",
+        "German": "Verlängerter Trank der Schaufler-Vernichtung",
+        "French": "Potion de massacre de Draguerres prolongée"
+      },
+      "Descriptions": {
+        "English": null,
+        "Spanish": null,
+        "German": null,
+        "French": null
+      }
+    },
+    "8493": {
+      "Bonuses": [],
+      "Details": {
+        "Type": 0,
+        "Names": {
+          "English": "Enhancement",
+          "Spanish": "Mejora",
+          "German": "Verbesserung",
+          "French": "Amélioration"
+        },
+        "DisplayTexts": {
+          "English": null,
+          "Spanish": null,
+          "German": null,
+          "French": null
+        },
+        "Descriptions": {
+          "English": "+10% Damage vs. Ghosts\n-10% Damage from Ghosts\n+10% Experience from Kills",
+          "Spanish": "+10 % de daño contra fantasmas\n-10 % de daño recibido de fantasmas\n+10 % de experiencia al matar",
+          "German": "+10 % Schaden gg. Geister\n-10 % Schaden von Geistern\n+10 % Erfahrung für besiegte Gegner",
+          "French": "Dégâts contre les fantômes +10%\nDégâts subis contre les fantômes -10%\nExpérience à chaque ennemi tué +10%"
+        },
+        "DurationMs": 7200000,
+        "AssetId": 0
+      },
+      "Type": 4,
+      "TemplateSlot": 21,
+      "Id": 8493,
+      "MappedId": 8,
+      "Rarity": 5,
+      "Chatlink": "[&AgEtIQAA]",
+      "AssetId": 63247,
+      "Names": {
+        "English": "Extended Potion of Ghost Slaying",
+        "Spanish": "Poción de masacre de fantasmas extendida",
+        "German": "Verlängerter Trank der Geister-Vernichtung",
+        "French": "Potion de massacre de fantômes prolongée"
+      },
+      "DisplayTexts": {
+        "English": "Extended Potion of Ghost Slaying",
+        "Spanish": "Poción de masacre de fantasmas extendida",
+        "German": "Verlängerter Trank der Geister-Vernichtung",
+        "French": "Potion de massacre de fantômes prolongée"
+      },
+      "Descriptions": {
+        "English": null,
+        "Spanish": null,
+        "German": null,
+        "French": null
+      }
+    },
+    "8879": {
+      "Bonuses": [],
+      "Details": {
+        "Type": 0,
+        "Names": {
+          "English": "Enhancement",
+          "Spanish": "Mejora",
+          "German": "Verbesserung",
+          "French": "Amélioration"
+        },
+        "DisplayTexts": {
+          "English": null,
+          "Spanish": null,
+          "German": null,
+          "French": null
+        },
+        "Descriptions": {
+          "English": "+10% Damage vs. Flame Legion\n-10% Damage from Flame Legion\n+10% Experience from Kills",
+          "Spanish": "+10 % de daño contra la Legión de la Llama\n-10 % de daño recibido de la Legión de la Llama\n+10 % de experiencia al matar",
+          "German": "+10 % Schaden gg. Flammen-Legion\n-10 % Schaden von der Flammen-Legion\n+10 % Erfahrung für besiegte Gegner",
+          "French": "Dégâts contre la Légion de la Flamme +10%\nDégâts subis contre la Légion de la Flamme -10%\nExpérience à chaque ennemi tué +10%"
+        },
+        "DurationMs": 3600000,
+        "AssetId": 0
+      },
+      "Type": 4,
+      "TemplateSlot": 21,
+      "Id": 8879,
+      "MappedId": 9,
+      "Rarity": 3,
+      "Chatlink": "[&AgGvIgAA]",
+      "AssetId": 222674,
+      "Names": {
+        "English": "Powerful Potion of Flame Legion Slaying",
+        "Spanish": "Poción de masacre de la Legión de la Llama poderosa",
+        "German": "Kraftvoller Trank der Flammen-Legion-Vernichtung",
+        "French": "Potion de massacre de la Légion de la Flamme efficace"
+      },
+      "DisplayTexts": {
+        "English": "Powerful Potion of Flame Legion Slaying",
+        "Spanish": "Poción de masacre de la Legión de la Llama poderosa",
+        "German": "Kraftvoller Trank der Flammen-Legion-Vernichtung",
+        "French": "Potion de massacre de la Légion de la Flamme efficace"
+      },
+      "Descriptions": {
+        "English": null,
+        "Spanish": null,
+        "German": null,
+        "French": null
+      }
+    },
+    "8880": {
+      "Bonuses": [],
+      "Details": {
+        "Type": 0,
+        "Names": {
+          "English": "Enhancement",
+          "Spanish": "Mejora",
+          "German": "Verbesserung",
+          "French": "Amélioration"
+        },
+        "DisplayTexts": {
+          "English": null,
+          "Spanish": null,
+          "German": null,
+          "French": null
+        },
+        "Descriptions": {
+          "English": "+10% Damage vs. Centaur\n-10% Damage from Centaur\n+10% Experience from Kills",
+          "Spanish": "+10 % de daño contra centauros\n-10 % de daño recibido de centauros\n+10 % de experiencia al matar",
+          "German": "+10 % Schaden gg. Zentauren\n-10 % Schaden von Zentauren\n+10 % Erfahrung für besiegte Gegner",
+          "French": "Dégâts contre les Centaures +10%\nDégâts subis contre les Centaures -10%\nExpérience à chaque ennemi tué +10%"
+        },
+        "DurationMs": 3600000,
+        "AssetId": 0
+      },
+      "Type": 4,
+      "TemplateSlot": 21,
+      "Id": 8880,
+      "MappedId": 10,
+      "Rarity": 3,
+      "Chatlink": "[&AgGwIgAA]",
+      "AssetId": 222686,
+      "Names": {
+        "English": "Powerful Potion of Centaur Slaying",
+        "Spanish": "Poción de masacre de centauros poderosa",
+        "German": "Kraftvoller Trank der Zentauren-Vernichtung",
+        "French": "Potion de massacre de Centaures efficace"
+      },
+      "DisplayTexts": {
+        "English": "Powerful Potion of Centaur Slaying",
+        "Spanish": "Poción de masacre de centauros poderosa",
+        "German": "Kraftvoller Trank der Zentauren-Vernichtung",
+        "French": "Potion de massacre de Centaures efficace"
+      },
+      "Descriptions": {
+        "English": null,
+        "Spanish": null,
+        "German": null,
+        "French": null
+      }
+    },
+    "8881": {
+      "Bonuses": [],
+      "Details": {
+        "Type": 0,
+        "Names": {
+          "English": "Enhancement",
+          "Spanish": "Mejora",
+          "German": "Verbesserung",
+          "French": "Amélioration"
+        },
+        "DisplayTexts": {
+          "English": null,
+          "Spanish": null,
+          "German": null,
+          "French": null
+        },
+        "Descriptions": {
+          "English": "+10% Damage vs. Outlaws\n-10% Damage from Outlaws\n+10% Experience from Kills",
+          "Spanish": "+10 % de daño contra proscritos\n-10 % de daño recibido de proscritos\n+10 % de experiencia al matar",
+          "German": "+10 % Schaden gg. Gesetzlose\n-10 % Schaden von Gesetzlosen\n+10 % Erfahrung für besiegte Gegner",
+          "French": "Dégâts contre les hors-la-loi +10%\nDégâts subis contre les hors-la-loi -10%\nExpérience à chaque ennemi tué +10%"
+        },
+        "DurationMs": 3600000,
+        "AssetId": 0
+      },
+      "Type": 4,
+      "TemplateSlot": 21,
+      "Id": 8881,
+      "MappedId": 11,
+      "Rarity": 3,
+      "Chatlink": "[&AgGxIgAA]",
+      "AssetId": 220452,
+      "Names": {
+        "English": "Powerful Potion of Outlaw Slaying",
+        "Spanish": "Poción de masacre de proscritos poderosa",
+        "German": "Kraftvoller Trank der Gesetzlosen-Vernichtung",
+        "French": "Potion de massacre de hors-la-loi efficace"
+      },
+      "DisplayTexts": {
+        "English": "Powerful Potion of Outlaw Slaying",
+        "Spanish": "Poción de masacre de proscritos poderosa",
+        "German": "Kraftvoller Trank der Gesetzlosen-Vernichtung",
+        "French": "Potion de massacre de hors-la-loi efficace"
+      },
+      "Descriptions": {
+        "English": null,
+        "Spanish": null,
+        "German": null,
+        "French": null
+      }
+    },
+    "8882": {
+      "Bonuses": [],
+      "Details": {
+        "Type": 0,
+        "Names": {
+          "English": "Enhancement",
+          "Spanish": "Mejora",
+          "German": "Verbesserung",
+          "French": "Amélioration"
+        },
+        "DisplayTexts": {
+          "English": null,
+          "Spanish": null,
+          "German": null,
+          "French": null
+        },
+        "Descriptions": {
+          "English": "+10% Damage vs. Nightmare Court\n-10% Damage from Nightmare Court\n+10% Experience from Kills",
+          "Spanish": "+10 % de daño contra la Corte de la Pesadilla\n-10 % de daño recibido de la Corte de la Pesadilla\n+10 % de experiencia al matar",
+          "German": "+10 % Schaden gg. Albtraumhof\n-10 % Schaden vom Albtraumhof\n+10 % Erfahrung für besiegte Gegner",
+          "French": "Dégâts contre la Cour des Cauchemars +10%\nDégâts subis contre la Cour des Cauchemars -10%\nExpérience à chaque ennemi tué +10%"
+        },
+        "DurationMs": 3600000,
+        "AssetId": 0
+      },
+      "Type": 4,
+      "TemplateSlot": 21,
+      "Id": 8882,
+      "MappedId": 12,
+      "Rarity": 3,
+      "Chatlink": "[&AgGyIgAA]",
+      "AssetId": 222666,
+      "Names": {
+        "English": "Powerful Potion of Nightmare Court Slaying",
+        "Spanish": "Poción de masacre de la Corte de la Pesadilla poderosa",
+        "German": "Kraftvoller Trank der Albtraumhof-Vernichtung",
+        "French": "Potion de massacre de la Cour des Cauchemars efficace"
+      },
+      "DisplayTexts": {
+        "English": "Powerful Potion of Nightmare Court Slaying",
+        "Spanish": "Poción de masacre de la Corte de la Pesadilla poderosa",
+        "German": "Kraftvoller Trank der Albtraumhof-Vernichtung",
+        "French": "Potion de massacre de la Cour des Cauchemars efficace"
+      },
+      "Descriptions": {
+        "English": null,
+        "Spanish": null,
+        "German": null,
+        "French": null
+      }
+    },
+    "8883": {
+      "Bonuses": [],
+      "Details": {
+        "Type": 0,
+        "Names": {
+          "English": "Enhancement",
+          "Spanish": "Mejora",
+          "German": "Verbesserung",
+          "French": "Amélioration"
+        },
+        "DisplayTexts": {
+          "English": null,
+          "Spanish": null,
+          "German": null,
+          "French": null
+        },
+        "Descriptions": {
+          "English": "+10% Damage vs. Sons of Svanir\n-10% Damage from Sons of Svanir\n+10% Experience from Kills",
+          "Spanish": "+10 % de daño contra los Hijos de Svanir\n-10 % de daño recibido de los Hijos de Svanir\n+10 % de experiencia al matar",
+          "German": "+10 % Schaden gg. Söhne Svanirs\n-10 % Schaden von Söhnen Svanirs\n+10 % Erfahrung für besiegte Gegner",
+          "French": "Dégâts contre les Fils de Svanir +10%\nDégâts subis contre les Fils de Svanir -10%\nExpérience à chaque ennemi tué +10%"
+        },
+        "DurationMs": 3600000,
+        "AssetId": 0
+      },
+      "Type": 4,
+      "TemplateSlot": 21,
+      "Id": 8883,
+      "MappedId": 13,
+      "Rarity": 3,
+      "Chatlink": "[&AgGzIgAA]",
+      "AssetId": 63170,
+      "Names": {
+        "English": "Powerful Potion of Sons of Svanir Slaying",
+        "Spanish": "Poción de masacre de los Hijos de Svanir poderosa",
+        "German": "Kraftvoller Trank der Svanir-Vernichtung",
+        "French": "Potion de massacre de Fils de Svanir efficace"
+      },
+      "DisplayTexts": {
+        "English": "Powerful Potion of Sons of Svanir Slaying",
+        "Spanish": "Poción de masacre de los Hijos de Svanir poderosa",
+        "German": "Kraftvoller Trank der Svanir-Vernichtung",
+        "French": "Potion de massacre de Fils de Svanir efficace"
+      },
+      "Descriptions": {
+        "English": null,
+        "Spanish": null,
+        "German": null,
+        "French": null
+      }
+    },
+    "8884": {
+      "Bonuses": [],
+      "Details": {
+        "Type": 0,
+        "Names": {
+          "English": "Enhancement",
+          "Spanish": "Mejora",
+          "German": "Verbesserung",
+          "French": "Amélioration"
+        },
+        "DisplayTexts": {
+          "English": null,
+          "Spanish": null,
+          "German": null,
+          "French": null
+        },
+        "Descriptions": {
+          "English": "+10% Damage vs. Destroyers\n-10% Damage from Destroyers\n+10% Experience from Kills",
+          "Spanish": "+10 % de daño contra destructores\n-10 % de daño recibido de destructores\n+10 % de experiencia al matar",
+          "German": "+10 % Schaden gg. Zerstörer\n-10 % Schaden von Zerstörern\n+10 % Erfahrung für besiegte Gegner",
+          "French": "Dégâts contre les destructeurs +10%\nDégâts subis contre les destructeurs -10%\nExpérience à chaque ennemi tué +10%"
+        },
+        "DurationMs": 3600000,
+        "AssetId": 0
+      },
+      "Type": 4,
+      "TemplateSlot": 21,
+      "Id": 8884,
+      "MappedId": 14,
+      "Rarity": 3,
+      "Chatlink": "[&AgG0IgAA]",
+      "AssetId": 222684,
+      "Names": {
+        "English": "Powerful Potion of Destroyer Slaying",
+        "Spanish": "Poción de masacre de destructores poderosa",
+        "German": "Kraftvoller Trank der Zerstörer-Vernichtung",
+        "French": "Potion de massacre de destructeurs efficace"
+      },
+      "DisplayTexts": {
+        "English": "Powerful Potion of Destroyer Slaying",
+        "Spanish": "Poción de masacre de destructores poderosa",
+        "German": "Kraftvoller Trank der Zerstörer-Vernichtung",
+        "French": "Potion de massacre de destructeurs efficace"
+      },
+      "Descriptions": {
+        "English": null,
+        "Spanish": null,
+        "German": null,
+        "French": null
+      }
+    },
+    "8885": {
+      "Bonuses": [],
+      "Details": {
+        "Type": 0,
+        "Names": {
+          "English": "Enhancement",
+          "Spanish": "Mejora",
+          "German": "Verbesserung",
+          "French": "Amélioration"
+        },
+        "DisplayTexts": {
+          "English": null,
+          "Spanish": null,
+          "German": null,
+          "French": null
+        },
+        "Descriptions": {
+          "English": "+10% Damage vs. Elementals\n-10% Damage from Elementals\n+10% Experience from Kills",
+          "Spanish": "+10 % de daño contra elementales\n-10 % de daño recibido de elementales\n+10 % de experiencia al matar",
+          "German": "+10 % Schaden gg. Elementare\n-10 % Schaden von Elementaren\n+10 % Erfahrung für besiegte Gegner",
+          "French": "Dégâts contre les élémentaires +10%\nDégâts subis contre les élémentaires -10%\nExpérience à chaque ennemi tué +10%"
+        },
+        "DurationMs": 3600000,
+        "AssetId": 0
+      },
+      "Type": 4,
+      "TemplateSlot": 21,
+      "Id": 8885,
+      "MappedId": 15,
+      "Rarity": 3,
+      "Chatlink": "[&AgG1IgAA]",
+      "AssetId": 222672,
+      "Names": {
+        "English": "Powerful Potion of Elemental Slaying",
+        "Spanish": "Poción de masacre de elementales poderosa",
+        "German": "Kraftvoller Trank der Elementar-Vernichtung",
+        "French": "Potion de massacre d'élémentaires efficace"
+      },
+      "DisplayTexts": {
+        "English": "Powerful Potion of Elemental Slaying",
+        "Spanish": "Poción de masacre de elementales poderosa",
+        "German": "Kraftvoller Trank der Elementar-Vernichtung",
+        "French": "Potion de massacre d'élémentaires efficace"
+      },
+      "Descriptions": {
+        "English": null,
+        "Spanish": null,
+        "German": null,
+        "French": null
+      }
+    },
+    "8886": {
+      "Bonuses": [],
+      "Details": {
+        "Type": 0,
+        "Names": {
+          "English": "Enhancement",
+          "Spanish": "Mejora",
+          "German": "Verbesserung",
+          "French": "Amélioration"
+        },
+        "DisplayTexts": {
+          "English": null,
+          "Spanish": null,
+          "German": null,
+          "French": null
+        },
+        "Descriptions": {
+          "English": "+10% Damage vs. Demons, Kryptis, and Titanspawn\n-10% Damage from Demons, Kryptis, and Titanspawn\n+10% Experience from Kills",
+          "Spanish": "+10 % de daño contra demonios, kryptis y prole del titán\n-10 % de daño recibido de demonios, kryptis y prole del titán\n+10 % de experiencia al matar",
+          "German": "+10 % Schaden gg. Dämonen, Kryptis und Titanenbrut\n-10 % Schaden von Dämonen, Kryptis und Titanenbrut\n+10 % Erfahrung für besiegte Gegner",
+          "French": "Dégâts contre les démons, Kryptis et rejetons de Titan +10%\nDégâts subis contre les démons, Kryptis et rejetons de Titan -10%\nExpérience à chaque ennemi tué +10%"
+        },
+        "DurationMs": 3600000,
+        "AssetId": 0
+      },
+      "Type": 4,
+      "TemplateSlot": 21,
+      "Id": 8886,
+      "MappedId": 16,
+      "Rarity": 3,
+      "Chatlink": "[&AgG2IgAA]",
+      "AssetId": 222720,
+      "Names": {
+        "English": "Powerful Potion of Demon Slaying",
+        "Spanish": "Poción de masacre de demonios poderosa",
+        "German": "Kraftvoller Trank der Dämonen-Vernichtung",
+        "French": "Potion de massacre de démons efficace"
+      },
+      "DisplayTexts": {
+        "English": "Powerful Potion of Demon Slaying",
+        "Spanish": "Poción de masacre de demonios poderosa",
+        "German": "Kraftvoller Trank der Dämonen-Vernichtung",
+        "French": "Potion de massacre de démons efficace"
+      },
+      "Descriptions": {
+        "English": null,
+        "Spanish": null,
+        "German": null,
+        "French": null
+      }
+    },
+    "8887": {
+      "Bonuses": [],
+      "Details": {
+        "Type": 0,
+        "Names": {
+          "English": "Enhancement",
+          "Spanish": "Mejora",
+          "German": "Verbesserung",
+          "French": "Amélioration"
+        },
+        "DisplayTexts": {
+          "English": null,
+          "Spanish": null,
+          "German": null,
+          "French": null
+        },
+        "Descriptions": {
+          "English": "+10% Damage vs. Inquest\n-10% Damage from Inquest\n+10% Experience from Kills",
+          "Spanish": "+10 % de daño contra la Inquisa\n-10 % de daño recibido de la Inquisa\n+10 % de experiencia al matar",
+          "German": "+10 % Schaden gg. Inquestur\n-10 % Schaden von der Inquestur\n+10 % Erfahrung für besiegte Gegner",
+          "French": "Dégâts contre l'Enqueste +10%\nDégâts subis contre l'Enqueste -10%\nExpérience à chaque ennemi tué +10%"
+        },
+        "DurationMs": 3600000,
+        "AssetId": 0
+      },
+      "Type": 4,
+      "TemplateSlot": 21,
+      "Id": 8887,
+      "MappedId": 17,
+      "Rarity": 3,
+      "Chatlink": "[&AgG3IgAA]",
+      "AssetId": 222670,
+      "Names": {
+        "English": "Powerful Potion of Inquest Slaying",
+        "Spanish": "Poción de masacre de la Inquisa poderosa",
+        "German": "Kraftvoller Trank der Inquestur-Vernichtung",
+        "French": "Potion de massacre de l'Enqueste efficace"
+      },
+      "DisplayTexts": {
+        "English": "Powerful Potion of Inquest Slaying",
+        "Spanish": "Poción de masacre de la Inquisa poderosa",
+        "German": "Kraftvoller Trank der Inquestur-Vernichtung",
+        "French": "Potion de massacre de l'Enqueste efficace"
+      },
+      "Descriptions": {
+        "English": null,
+        "Spanish": null,
+        "German": null,
+        "French": null
+      }
+    },
+    "8888": {
+      "Bonuses": [],
+      "Details": {
+        "Type": 0,
+        "Names": {
+          "English": "Enhancement",
+          "Spanish": "Mejora",
+          "German": "Verbesserung",
+          "French": "Amélioration"
+        },
+        "DisplayTexts": {
+          "English": null,
+          "Spanish": null,
+          "German": null,
+          "French": null
+        },
+        "Descriptions": {
+          "English": "+10% Damage vs. Ogres\n-10% Damage from Ogres\n+10% Experience from Kills",
+          "Spanish": "+10 % de daño contra ogros\n-10 % de daño recibido de ogros\n+10 % de experiencia al matar",
+          "German": "+10 % Schaden gg. Oger\n-10 % Schaden von Ogern\n+10 % Erfahrung für besiegte Gegner",
+          "French": "Dégâts contre les Ogres +10%\nDégâts subis contre les Ogres -10%\nExpérience à chaque ennemi tué +10%"
+        },
+        "DurationMs": 3600000,
+        "AssetId": 0
+      },
+      "Type": 4,
+      "TemplateSlot": 21,
+      "Id": 8888,
+      "MappedId": 18,
+      "Rarity": 3,
+      "Chatlink": "[&AgG4IgAA]",
+      "AssetId": 222680,
+      "Names": {
+        "English": "Powerful Potion of Ogre Slaying",
+        "Spanish": "Poción de masacre de ogros poderosa",
+        "German": "Kraftvoller Trank der Oger-Vernichtung",
+        "French": "Potion de massacre d'Ogres efficace"
+      },
+      "DisplayTexts": {
+        "English": "Powerful Potion of Ogre Slaying",
+        "Spanish": "Poción de masacre de ogros poderosa",
+        "German": "Kraftvoller Trank der Oger-Vernichtung",
+        "French": "Potion de massacre d'Ogres efficace"
+      },
+      "Descriptions": {
+        "English": null,
+        "Spanish": null,
+        "German": null,
+        "French": null
+      }
+    },
+    "8889": {
+      "Bonuses": [],
+      "Details": {
+        "Type": 0,
+        "Names": {
+          "English": "Enhancement",
+          "Spanish": "Mejora",
+          "German": "Verbesserung",
+          "French": "Amélioration"
+        },
+        "DisplayTexts": {
+          "English": null,
+          "Spanish": null,
+          "German": null,
+          "French": null
+        },
+        "Descriptions": {
+          "English": "+10% Damage vs. Ice Brood\n-10% Damage from Ice Brood\n+10% Experience from Kills",
+          "Spanish": "+10 % de daño contra progelie\n-10 % de daño recibido de progelie\n+10 % de experiencia al matar",
+          "German": "+10 % Schaden gg. Eisbrut\n-10 % Schaden von der Eisbrut\n+10 % Erfahrung für besiegte Gegner",
+          "French": "Dégâts contre les couvegivres +10%\nDégâts subis contre les couvegivres -10%\nExpérience à chaque ennemi tué +10%"
+        },
+        "DurationMs": 3600000,
+        "AssetId": 0
+      },
+      "Type": 4,
+      "TemplateSlot": 21,
+      "Id": 8889,
+      "MappedId": 19,
+      "Rarity": 3,
+      "Chatlink": "[&AgG5IgAA]",
+      "AssetId": 63229,
+      "Names": {
+        "English": "Powerful Potion of Ice Brood Slaying",
+        "Spanish": "Poción de masacre de progelie poderosa",
+        "German": "Kraftvoller Trank der Eisbrut-Vernichtung",
+        "French": "Potion de massacre de couvegivres efficace"
+      },
+      "DisplayTexts": {
+        "English": "Powerful Potion of Ice Brood Slaying",
+        "Spanish": "Poción de masacre de progelie poderosa",
+        "German": "Kraftvoller Trank der Eisbrut-Vernichtung",
+        "French": "Potion de massacre de couvegivres efficace"
+      },
+      "Descriptions": {
+        "English": null,
+        "Spanish": null,
+        "German": null,
+        "French": null
+      }
+    },
+    "8890": {
+      "Bonuses": [],
+      "Details": {
+        "Type": 0,
+        "Names": {
+          "English": "Enhancement",
+          "Spanish": "Mejora",
+          "German": "Verbesserung",
+          "French": "Amélioration"
+        },
+        "DisplayTexts": {
+          "English": null,
+          "Spanish": null,
+          "German": null,
+          "French": null
+        },
+        "Descriptions": {
+          "English": "+10% Damage vs. Grawl\n-10% Damage from Grawl\n+10% Experience from Kills",
+          "Spanish": "+10 % de daño contra grawl\n-10 % de daño recibido de grawl\n+10 % de experiencia al matar",
+          "German": "+10 % Schaden gg. Grawle\n-10 % Schaden von Grawlen\n+10 % Erfahrung für besiegte Gegner",
+          "French": "Dégâts contre les Grawls +10%\nDégâts subis contre les Grawls -10%\nExpérience à chaque ennemi tué +10%"
+        },
+        "DurationMs": 3600000,
+        "AssetId": 0
+      },
+      "Type": 4,
+      "TemplateSlot": 21,
+      "Id": 8890,
+      "MappedId": 20,
+      "Rarity": 3,
+      "Chatlink": "[&AgG6IgAA]",
+      "AssetId": 222668,
+      "Names": {
+        "English": "Powerful Potion of Grawl Slaying",
+        "Spanish": "Poción de masacre de grawl poderosa",
+        "German": "Kraftvoller Trank der Grawl-Vernichtung",
+        "French": "Potion de massacre de Grawls efficace"
+      },
+      "DisplayTexts": {
+        "English": "Powerful Potion of Grawl Slaying",
+        "Spanish": "Poción de masacre de grawl poderosa",
+        "German": "Kraftvoller Trank der Grawl-Vernichtung",
+        "French": "Potion de massacre de Grawls efficace"
+      },
+      "Descriptions": {
+        "English": null,
+        "Spanish": null,
+        "German": null,
+        "French": null
+      }
+    },
+    "8891": {
+      "Bonuses": [],
+      "Details": {
+        "Type": 0,
+        "Names": {
+          "English": "Enhancement",
+          "Spanish": "Mejora",
+          "German": "Verbesserung",
+          "French": "Amélioration"
+        },
+        "DisplayTexts": {
+          "English": null,
+          "Spanish": null,
+          "German": null,
+          "French": null
+        },
+        "Descriptions": {
+          "English": "+10% Damage vs. Krait\n-10% Damage from Krait\n+10% Experience from Kills",
+          "Spanish": "+10 % de daño contra krait\n-10 % de daño recibido de krait\n+10 % de experiencia al matar",
+          "German": "+10 % Schaden gg. Krait\n-10 % Schaden von Krait\n+10 % Erfahrung für besiegte Gegner",
+          "French": "Dégâts contre les Kraits +10%\nDégâts subis contre les Kraits -10%\nExpérience à chaque ennemi tué +10%"
+        },
+        "DurationMs": 3600000,
+        "AssetId": 0
+      },
+      "Type": 4,
+      "TemplateSlot": 21,
+      "Id": 8891,
+      "MappedId": 21,
+      "Rarity": 3,
+      "Chatlink": "[&AgG7IgAA]",
+      "AssetId": 222678,
+      "Names": {
+        "English": "Powerful Potion of Krait Slaying",
+        "Spanish": "Poción de masacre de krait poderosa",
+        "German": "Kraftvoller Trank der Krait-Vernichtung",
+        "French": "Potion de massacre de Kraits efficace"
+      },
+      "DisplayTexts": {
+        "English": "Powerful Potion of Krait Slaying",
+        "Spanish": "Poción de masacre de krait poderosa",
+        "German": "Kraftvoller Trank der Krait-Vernichtung",
+        "French": "Potion de massacre de Kraits efficace"
+      },
+      "Descriptions": {
+        "English": null,
+        "Spanish": null,
+        "German": null,
+        "French": null
+      }
+    },
+    "8892": {
+      "Bonuses": [],
+      "Details": {
+        "Type": 0,
+        "Names": {
+          "English": "Enhancement",
+          "Spanish": "Mejora",
+          "German": "Verbesserung",
+          "French": "Amélioration"
+        },
+        "DisplayTexts": {
+          "English": null,
+          "Spanish": null,
+          "German": null,
+          "French": null
+        },
+        "Descriptions": {
+          "English": "+10% Damage vs. Dredge\n-10% Damage from Dredge\n+10% Experience from Kills",
+          "Spanish": "+10 % de daño contra draga\n-10 % de daño recibido de draga\n+10 % de experiencia al matar",
+          "German": "+10 % Schaden gg. Schaufler\n-10 % Schaden von Schauflern\n+10 % Erfahrung für besiegte Gegner",
+          "French": "Dégâts contre les Draguerres +10%\nDégâts subis contre les Draguerres -10%\nExpérience à chaque ennemi tué +10%"
+        },
+        "DurationMs": 3600000,
+        "AssetId": 0
+      },
+      "Type": 4,
+      "TemplateSlot": 21,
+      "Id": 8892,
+      "MappedId": 22,
+      "Rarity": 3,
+      "Chatlink": "[&AgG8IgAA]",
+      "AssetId": 222676,
+      "Names": {
+        "English": "Powerful Potion of Dredge Slaying",
+        "Spanish": "Poción de masacre de draga poderosa",
+        "German": "Kraftvoller Trank der Schaufler-Vernichtung",
+        "French": "Potion de massacre de Draguerres efficace"
+      },
+      "DisplayTexts": {
+        "English": "Powerful Potion of Dredge Slaying",
+        "Spanish": "Poción de masacre de draga poderosa",
+        "German": "Kraftvoller Trank der Schaufler-Vernichtung",
+        "French": "Potion de massacre de Draguerres efficace"
+      },
+      "Descriptions": {
+        "English": null,
+        "Spanish": null,
+        "German": null,
+        "French": null
+      }
+    },
+    "8893": {
+      "Bonuses": [],
+      "Details": {
+        "Type": 0,
+        "Names": {
+          "English": "Enhancement",
+          "Spanish": "Mejora",
+          "German": "Verbesserung",
+          "French": "Amélioration"
+        },
+        "DisplayTexts": {
+          "English": null,
+          "Spanish": null,
+          "German": null,
+          "French": null
+        },
+        "Descriptions": {
+          "English": "+10% Damage vs. Undead\n-10% Damage from Undead\n+10% Experience from Kills",
+          "Spanish": "+10 % de daño contra muertos vivientes\n-10 % de daño recibido de muertos vivientes\n+10 % de experiencia al matar",
+          "German": "+10 % Schaden gg. Untote\n-10 % Schaden von Untoten\n+10 % Erfahrung für besiegte Gegner",
+          "French": "Dégâts contre les morts-vivants +10%\nDégâts subis contre les morts-vivants -10%\nExpérience à chaque ennemi tué +10%"
+        },
+        "DurationMs": 3600000,
+        "AssetId": 0
+      },
+      "Type": 4,
+      "TemplateSlot": 21,
+      "Id": 8893,
+      "MappedId": 23,
+      "Rarity": 3,
+      "Chatlink": "[&AgG9IgAA]",
+      "AssetId": 222682,
+      "Names": {
+        "English": "Powerful Potion of Undead Slaying",
+        "Spanish": "Poción de masacre de muertos vivientes poderosa",
+        "German": "Kraftvoller Trank der Untoten-Vernichtung",
+        "French": "Potion de massacre de morts-vivants efficace"
+      },
+      "DisplayTexts": {
+        "English": "Powerful Potion of Undead Slaying",
+        "Spanish": "Poción de masacre de muertos vivientes poderosa",
+        "German": "Kraftvoller Trank der Untoten-Vernichtung",
+        "French": "Potion de massacre de morts-vivants efficace"
+      },
+      "Descriptions": {
+        "English": null,
+        "Spanish": null,
+        "German": null,
+        "French": null
+      }
+    },
+    "9443": {
+      "Bonuses": [],
+      "Details": {
+        "Type": 0,
+        "Names": {
+          "English": "Enhancement",
+          "Spanish": "Mejora",
+          "German": "Verbesserung",
+          "French": "Amélioration"
+        },
+        "DisplayTexts": {
+          "English": null,
+          "Spanish": null,
+          "German": null,
+          "French": null
+        },
+        "Descriptions": {
+          "English": "Gain Power Equal to 3% of Your Precision\nGain Power Equal to 6% of Your Ferocity\n+10% Experience from Kills",
+          "Spanish": "Ganas potencia igual al 3 % de tu precisión\nGanas potencia igual al 6 % de tu ferocidad\n+10 % de experiencia al matar",
+          "German": "Erhaltet Kraft entsprechend 3 % Eurer Präzision\nErhaltet Kraft entsprechend 6 % Eurer Wildheit\n+10 % Erfahrung für besiegte Gegner",
+          "French": "Confère Puissance à hauteur de 3% de votre Précision\nConfère Puissance à hauteur de 6% de votre Férocité\nExpérience à chaque ennemi tué +10%"
+        },
+        "DurationMs": 1800000,
+        "AssetId": 0
+      },
+      "Type": 4,
+      "TemplateSlot": 21,
+      "Id": 9443,
+      "MappedId": 24,
+      "Rarity": 3,
+      "Chatlink": "[&AgHjJAAA]",
+      "AssetId": 219361,
+      "Names": {
+        "English": "Superior Sharpening Stone",
+        "Spanish": "Piedra de afilar superior",
+        "German": "Überlegener Wetzstein",
+        "French": "Pierre à affûter supérieure"
+      },
+      "DisplayTexts": {
+        "English": "Superior Sharpening Stone",
+        "Spanish": "Piedra de afilar superior",
+        "German": "Überlegener Wetzstein",
+        "French": "Pierre à affûter supérieure"
+      },
+      "Descriptions": {
+        "English": null,
+        "Spanish": null,
+        "German": null,
+        "French": null
+      }
+    },
+    "9461": {
+      "Bonuses": [],
+      "Details": {
+        "Type": 0,
+        "Names": {
+          "English": "Enhancement",
+          "Spanish": "Mejora",
+          "German": "Verbesserung",
+          "French": "Amélioration"
+        },
+        "DisplayTexts": {
+          "English": null,
+          "Spanish": null,
+          "German": null,
+          "French": null
+        },
+        "Descriptions": {
+          "English": "Gain Concentration Equal to 3% of Your Precision\nGain Concentration Equal to 6% of Your Healing Power\n+10% Experience from Kills",
+          "Spanish": "Ganas concentración igual al 3 % de tu precisión\nGanas concentración igual al 6 % de tu poder de curación\n+10 % de experiencia al matar",
+          "German": "Erhaltet Konzentration entsprechend 3 % Eurer Präzision\nErhaltet Konzentration entsprechend 6 % Eurer Heilkraft\n+10 % Erfahrung für besiegte Gegner",
+          "French": "Confère Concentration à hauteur de 3% de votre Précision\nConfère Concentration à hauteur de 6% de votre Guérison\n Expérience à chaque ennemi tué +10%"
+        },
+        "DurationMs": 1800000,
+        "AssetId": 0
+      },
+      "Type": 4,
+      "TemplateSlot": 21,
+      "Id": 9461,
+      "MappedId": 25,
+      "Rarity": 3,
+      "Chatlink": "[&AgH1JAAA]",
+      "AssetId": 219367,
+      "Names": {
+        "English": "Master Maintenance Oil",
+        "Spanish": "Aceite de mantenimiento maestro",
+        "German": "Meister-Wartungsöl",
+        "French": "Huile de maintenance de maître"
+      },
+      "DisplayTexts": {
+        "English": "Master Maintenance Oil",
+        "Spanish": "Aceite de mantenimiento maestro",
+        "German": "Meister-Wartungsöl",
+        "French": "Huile de maintenance de maître"
+      },
+      "Descriptions": {
+        "English": null,
+        "Spanish": null,
+        "German": null,
+        "French": null
+      }
+    },
+    "9476": {
+      "Bonuses": [],
+      "Details": {
+        "Type": 0,
+        "Names": {
+          "English": "Enhancement",
+          "Spanish": "Mejora",
+          "German": "Verbesserung",
+          "French": "Amélioration"
+        },
+        "DisplayTexts": {
+          "English": null,
+          "Spanish": null,
+          "German": null,
+          "French": null
+        },
+        "Descriptions": {
+          "English": "Gain Condition Damage Equal to 3% of Your Precision\nGain Condition Damage Equal to 8% of Your Expertise\n+10% Experience from Kills",
+          "Spanish": "Ganas daño de condición igual al 3 % de tu precisión\nGanas daño de condición igual al 8 % de tu pericia\n+10 % de experiencia al matar",
+          "German": "Erhaltet Zustandsschaden entsprechend 3 % Eurer Präzision\nErhaltet Zustandsschaden entsprechend 8 % Eurer Fachkenntnis\n+10 % Erfahrung für besiegte Gegner",
+          "French": "Confère des Dégâts par altération à hauteur de 3% de votre Précision\nConfère des Dégâts par altération à hauteur de 8% de votre Expertise\nExpérience à chaque ennemi tué +10%"
+        },
+        "DurationMs": 1800000,
+        "AssetId": 0
+      },
+      "Type": 4,
+      "TemplateSlot": 21,
+      "Id": 9476,
+      "MappedId": 26,
+      "Rarity": 3,
+      "Chatlink": "[&AgEEJQAA]",
+      "AssetId": 219373,
+      "Names": {
+        "English": "Master Tuning Crystal",
+        "Spanish": "Cristal de sintonía maestro",
+        "German": "Meister-Abstimmkristall",
+        "French": "Cristal d'harmonisation de maître"
+      },
+      "DisplayTexts": {
+        "English": "Master Tuning Crystal",
+        "Spanish": "Cristal de sintonía maestro",
+        "German": "Meister-Abstimmkristall",
+        "French": "Cristal d'harmonisation de maître"
+      },
+      "Descriptions": {
+        "English": null,
+        "Spanish": null,
+        "German": null,
+        "French": null
+      }
+    },
+    "36092": {
+      "Bonuses": [],
+      "Details": {
+        "Type": 0,
+        "Names": {
+          "English": "Enhancement",
+          "Spanish": "Mejora",
+          "German": "Verbesserung",
+          "French": "Amélioration"
+        },
+        "DisplayTexts": {
+          "English": null,
+          "Spanish": null,
+          "German": null,
+          "French": null
+        },
+        "Descriptions": {
+          "English": "+10% Damage vs. Halloween Creatures\n-10% Damage from Halloween Creatures\n+10% Experience from Kills",
+          "Spanish": "+10 % de daño contra criaturas de Halloween\n-10 % de daño recibido de criaturas de Halloween\n+10 % de experiencia al matar",
+          "German": "+10 % Schaden gg. Halloween-Kreaturen\n-10 % Schaden von Halloween-Kreaturen\n+10 % Erfahrung für besiegte Gegner",
+          "French": "Dégâts contre les créatures d'Halloween +10%\nDégâts subis contre les créatures d'Halloween -10%\nExpérience à chaque ennemi tué +10%"
+        },
+        "DurationMs": 3600000,
+        "AssetId": 0
+      },
+      "Type": 4,
+      "TemplateSlot": 21,
+      "Id": 36092,
+      "MappedId": 27,
+      "Rarity": 3,
+      "Chatlink": "[&AgH8jAAA]",
+      "AssetId": 222690,
+      "Names": {
+        "English": "Powerful Potion of Halloween Slaying",
+        "Spanish": "Poción de masacre de Halloween poderosa",
+        "German": "Kraftvoller Trank der Halloween-Vernichtung",
+        "French": "Potion du massacre d'Halloween efficace"
+      },
+      "DisplayTexts": {
+        "English": "Powerful Potion of Halloween Slaying",
+        "Spanish": "Poción de masacre de Halloween poderosa",
+        "German": "Kraftvoller Trank der Halloween-Vernichtung",
+        "French": "Potion du massacre d'Halloween efficace"
+      },
+      "Descriptions": {
+        "English": null,
+        "Spanish": null,
+        "German": null,
+        "French": null
+      }
+    },
+    "42427": {
+      "Bonuses": [],
+      "Details": {
+        "Type": 0,
+        "Names": {
+          "English": "Enhancement",
+          "Spanish": "Mejora",
+          "German": "Verbesserung",
+          "French": "Amélioration"
+        },
+        "DisplayTexts": {
+          "English": null,
+          "Spanish": null,
+          "German": null,
+          "French": null
+        },
+        "Descriptions": {
+          "English": "+8% Damage vs. Karka\n-6% Damage from Karka\n+10% Experience from Kills",
+          "Spanish": "+8 % de daño contra karka\n-6 % de daño recibido de karka\n+10 % de experiencia al matar",
+          "German": "+8 % Schaden gg. Karka\n-6 % Schaden von Karka\n+10 % Erfahrung für besiegte Gegner",
+          "French": "Dégâts contre les karkas +8%\nDégâts subis contre les karkas -6%\nExpérience à chaque ennemi tué +10%"
+        },
+        "DurationMs": 3600000,
+        "AssetId": 0
+      },
+      "Type": 4,
+      "TemplateSlot": 21,
+      "Id": 42427,
+      "MappedId": 28,
+      "Rarity": 3,
+      "Chatlink": "[&AgG7pQAA]",
+      "AssetId": 222670,
+      "Names": {
+        "English": "Potion Of Karka Slaying",
+        "Spanish": "Poción de masacre de karka",
+        "German": "Trank der Karka-Vernichtung",
+        "French": "Potion de massacre de karkas"
+      },
+      "DisplayTexts": {
+        "English": "Potion Of Karka Slaying",
+        "Spanish": "Poción de masacre de karka",
+        "German": "Trank der Karka-Vernichtung",
+        "French": "Potion de massacre de karkas"
+      },
+      "Descriptions": {
+        "English": "<c=@flavor>Developed by the Consortium for the good of all.</c>",
+        "Spanish": "<c=@flavor>Desarrollado por el Consorcio para el bien de todos.</c>",
+        "German": "<c=@flavor>Zum Wohle aller vom Konsortium entwickelt.</c>",
+        "French": "<c=@flavor>Développée par le Consortium, pour le bien de tous.</c>"
+      }
+    },
+    "42428": {
+      "Bonuses": [],
+      "Details": {
+        "Type": 0,
+        "Names": {
+          "English": "Enhancement",
+          "Spanish": "Mejora",
+          "German": "Verbesserung",
+          "French": "Amélioration"
+        },
+        "DisplayTexts": {
+          "English": null,
+          "Spanish": null,
+          "German": null,
+          "French": null
+        },
+        "Descriptions": {
+          "English": "+150 toughness",
+          "Spanish": "+150 de dureza",
+          "German": "+150 Zähigkeit",
+          "French": "Robustesse +150"
+        },
+        "DurationMs": 3600000,
+        "AssetId": 0
+      },
+      "Type": 4,
+      "TemplateSlot": 21,
+      "Id": 42428,
+      "MappedId": 29,
+      "Rarity": 3,
+      "Chatlink": "[&AgG8pQAA]",
+      "AssetId": 222670,
+      "Names": {
+        "English": "Potion Of Karka Toughness",
+        "Spanish": "Poción de dureza de karka",
+        "German": "Trank der Karka-Zähigkeit",
+        "French": "Potion de robustesse de karkas"
+      },
+      "DisplayTexts": {
+        "English": "Potion Of Karka Toughness",
+        "Spanish": "Poción de dureza de karka",
+        "German": "Trank der Karka-Zähigkeit",
+        "French": "Potion de robustesse de karkas"
+      },
+      "Descriptions": {
+        "English": "<c=@flavor>Developed by the Consortium for the good of all.</c>",
+        "Spanish": "<c=@flavor>Desarrollado por el Consorcio para el bien de todos.</c>",
+        "German": "<c=@flavor>Zum Wohle aller vom Konsortium entwickelt.</c>",
+        "French": "<c=@flavor>Développée par le Consortium, pour le bien de tous.</c>"
+      }
+    },
+    "43449": {
+      "Bonuses": [],
+      "Details": {
+        "Type": 0,
+        "Names": {
+          "English": "Enhancement",
+          "Spanish": "Mejora",
+          "German": "Verbesserung",
+          "French": "Amélioration"
+        },
+        "DisplayTexts": {
+          "English": null,
+          "Spanish": null,
+          "German": null,
+          "French": null
+        },
+        "Descriptions": {
+          "English": "Gain Condition Damage Equal to 3% of Your Precision\nGain Condition Damage Equal to 8% of Your Expertise\n+10% Experience from Kills",
+          "Spanish": "Ganas daño de condición igual al 3 % de tu precisión\nGanas daño de condición igual al 8 % de tu pericia\n+10 % de experiencia al matar",
+          "German": "Erhaltet Zustandsschaden entsprechend 3 % Eurer Präzision\nErhaltet Zustandsschaden entsprechend 8 % Eurer Fachkenntnis\n+10 % Erfahrung für besiegte Gegner",
+          "French": "Confère des Dégâts par altération à hauteur de 3% de votre Précision\nConfère des Dégâts par altération à hauteur de 8% de votre Expertise\nExpérience à chaque ennemi tué +10%"
+        },
+        "DurationMs": 3600000,
+        "AssetId": 0
+      },
+      "Type": 4,
+      "TemplateSlot": 21,
+      "Id": 43449,
+      "MappedId": 30,
+      "Rarity": 3,
+      "Chatlink": "[&AgG5qQAA]",
+      "AssetId": 219373,
+      "Names": {
+        "English": "Potent Master Tuning Crystal",
+        "Spanish": "Cristal de sintonía de maestro potente",
+        "German": "Wirkungsvoller Meister-Abstimmkristall",
+        "French": "Cristal d'harmonisation de maître absolu"
+      },
+      "DisplayTexts": {
+        "English": "Potent Master Tuning Crystal",
+        "Spanish": "Cristal de sintonía de maestro potente",
+        "German": "Wirkungsvoller Meister-Abstimmkristall",
+        "French": "Cristal d'harmonisation de maître absolu"
+      },
+      "Descriptions": {
+        "English": null,
+        "Spanish": null,
+        "German": null,
+        "French": null
+      }
+    },
+    "43450": {
+      "Bonuses": [],
+      "Details": {
+        "Type": 0,
+        "Names": {
+          "English": "Enhancement",
+          "Spanish": "Mejora",
+          "German": "Verbesserung",
+          "French": "Amélioration"
+        },
+        "DisplayTexts": {
+          "English": null,
+          "Spanish": null,
+          "German": null,
+          "French": null
+        },
+        "Descriptions": {
+          "English": "Gain Concentration Equal to 3% of Your Precision\nGain Concentration Equal to 6% of Your Healing Power\n+10% Experience from Kills",
+          "Spanish": "Ganas concentración igual al 3 % de tu precisión\nGanas concentración igual al 6 % de tu poder de curación\n+10 % de experiencia al matar",
+          "German": "Erhaltet Konzentration entsprechend 3 % Eurer Präzision\nErhaltet Konzentration entsprechend 6 % Eurer Heilkraft\n+10 % Erfahrung für besiegte Gegner",
+          "French": "Confère Concentration à hauteur de 3% de votre Précision\nConfère Concentration à hauteur de 6% de votre Guérison\n Expérience à chaque ennemi tué +10%"
+        },
+        "DurationMs": 3600000,
+        "AssetId": 0
+      },
+      "Type": 4,
+      "TemplateSlot": 21,
+      "Id": 43450,
+      "MappedId": 31,
+      "Rarity": 3,
+      "Chatlink": "[&AgG6qQAA]",
+      "AssetId": 219367,
+      "Names": {
+        "English": "Potent Master Maintenance Oil",
+        "Spanish": "Aceite de mantenimiento de maestro potente",
+        "German": "Wirkungsvolles Meister-Wartungsöl",
+        "French": "Huile de maintenance de maître absolue"
+      },
+      "DisplayTexts": {
+        "English": "Potent Master Maintenance Oil",
+        "Spanish": "Aceite de mantenimiento de maestro potente",
+        "German": "Wirkungsvolles Meister-Wartungsöl",
+        "French": "Huile de maintenance de maître absolue"
+      },
+      "Descriptions": {
+        "English": null,
+        "Spanish": null,
+        "German": null,
+        "French": null
+      }
+    },
+    "43451": {
+      "Bonuses": [],
+      "Details": {
+        "Type": 0,
+        "Names": {
+          "English": "Enhancement",
+          "Spanish": "Mejora",
+          "German": "Verbesserung",
+          "French": "Amélioration"
+        },
+        "DisplayTexts": {
+          "English": null,
+          "Spanish": null,
+          "German": null,
+          "French": null
+        },
+        "Descriptions": {
+          "English": "Gain Power Equal to 3% of Your Precision\nGain Power Equal to 6% of Your Ferocity\n+10% Experience from Kills",
+          "Spanish": "Ganas potencia igual al 3 % de tu precisión\nGanas potencia igual al 6 % de tu ferocidad\n+10 % de experiencia al matar",
+          "German": "Erhaltet Kraft entsprechend 3 % Eurer Präzision\nErhaltet Kraft entsprechend 6 % Eurer Wildheit\n+10 % Erfahrung für besiegte Gegner",
+          "French": "Confère Puissance à hauteur de 3% de votre Précision\nConfère Puissance à hauteur de 6% de votre Férocité\nExpérience à chaque ennemi tué +10%"
+        },
+        "DurationMs": 3600000,
+        "AssetId": 0
+      },
+      "Type": 4,
+      "TemplateSlot": 21,
+      "Id": 43451,
+      "MappedId": 32,
+      "Rarity": 3,
+      "Chatlink": "[&AgG7qQAA]",
+      "AssetId": 219361,
+      "Names": {
+        "English": "Potent Superior Sharpening Stone",
+        "Spanish": "Piedra de afilar superior potente",
+        "German": "Wirkungsvoller überlegener Wetzstein",
+        "French": "Pierre à affûter supérieure absolue"
+      },
+      "DisplayTexts": {
+        "English": "Potent Superior Sharpening Stone",
+        "Spanish": "Piedra de afilar superior potente",
+        "German": "Wirkungsvoller überlegener Wetzstein",
+        "French": "Pierre à affûter supérieure absolue"
+      },
+      "Descriptions": {
+        "English": null,
+        "Spanish": null,
+        "German": null,
+        "French": null
+      }
+    },
+    "48915": {
+      "Bonuses": [],
+      "Details": {
+        "Type": 0,
+        "Names": {
+          "English": "Enhancement",
+          "Spanish": "Mejora",
+          "German": "Verbesserung",
+          "French": "Amélioration"
+        },
+        "DisplayTexts": {
+          "English": null,
+          "Spanish": null,
+          "German": null,
+          "French": null
+        },
+        "Descriptions": {
+          "English": "Gain Power Equal to 6% of Your Condition Damage\nGain Power Equal to 8% of Your Expertise\n+10% Experience from Kills",
+          "Spanish": "Ganas potencia igual al 6 % de tu daño de condición\nGanas potencia igual al 8 % de tu pericia\n+10 % de experiencia al matar",
+          "German": "Erhaltet Kraft entsprechend 6 % Eures Zustandsschadens\nErhaltet Kraft entsprechend 8 % Eurer Fachkenntnis\n+10 % Erfahrung für besiegte Gegner",
+          "French": "Confère Puissance à hauteur de 6% de vos Dégâts par altération\nConfère Puissance à hauteur de 8% de votre Vitalité\nExpérience à chaque ennemi tué +10%"
+        },
+        "DurationMs": 1800000,
+        "AssetId": 0
+      },
+      "Type": 4,
+      "TemplateSlot": 21,
+      "Id": 48915,
+      "MappedId": 33,
+      "Rarity": 3,
+      "Chatlink": "[&AgETvwAA]",
+      "AssetId": 665779,
+      "Names": {
+        "English": "Toxic Sharpening Stone",
+        "Spanish": "Piedra de afilar tóxica",
+        "German": "Toxischer Wetzstein",
+        "French": "Pierre à affûter toxique"
+      },
+      "DisplayTexts": {
+        "English": "Toxic Sharpening Stone",
+        "Spanish": "Piedra de afilar tóxica",
+        "German": "Toxischer Wetzstein",
+        "French": "Pierre à affûter toxique"
+      },
+      "Descriptions": {
+        "English": null,
+        "Spanish": null,
+        "German": null,
+        "French": null
+      }
+    },
+    "48916": {
+      "Bonuses": [],
+      "Details": {
+        "Type": 0,
+        "Names": {
+          "English": "Enhancement",
+          "Spanish": "Mejora",
+          "German": "Verbesserung",
+          "French": "Amélioration"
+        },
+        "DisplayTexts": {
+          "English": null,
+          "Spanish": null,
+          "German": null,
+          "French": null
+        },
+        "Descriptions": {
+          "English": "Gain Concentration Equal to 3% of Your Power\nGain Concentration Equal to 6% of Your Condition Damage\n+10% Experience from Kills",
+          "Spanish": "Ganas concentración igual al 3 % de tu potencia\nGanas concentración igual al 6 % de tu daño de condición\n+10 % de experiencia al matar",
+          "German": "Erhaltet Konzentration entsprechend 3 % Eurer Kraft\nErhaltet Konzentration entsprechend 6 % Eures Zustandsschadens\n+10 % Erfahrung für besiegte Gegner",
+          "French": "Confère Concentration à hauteur de 3% de votre Puissance\nConfère Concentration à hauteur de 6% de vos dégâts par altération\nExpérience à chaque ennemi tué +10%"
+        },
+        "DurationMs": 1800000,
+        "AssetId": 0
+      },
+      "Type": 4,
+      "TemplateSlot": 21,
+      "Id": 48916,
+      "MappedId": 34,
+      "Rarity": 3,
+      "Chatlink": "[&AgEUvwAA]",
+      "AssetId": 665780,
+      "Names": {
+        "English": "Toxic Maintenance Oil",
+        "Spanish": "Aceite de mantenimiento tóxico",
+        "German": "Toxisches Wartungsöl",
+        "French": "Huile de maintenance toxique"
+      },
+      "DisplayTexts": {
+        "English": "Toxic Maintenance Oil",
+        "Spanish": "Aceite de mantenimiento tóxico",
+        "German": "Toxisches Wartungsöl",
+        "French": "Huile de maintenance toxique"
+      },
+      "Descriptions": {
+        "English": null,
+        "Spanish": null,
+        "German": null,
+        "French": null
+      }
+    },
+    "48917": {
+      "Bonuses": [],
+      "Details": {
+        "Type": 0,
+        "Names": {
+          "English": "Enhancement",
+          "Spanish": "Mejora",
+          "German": "Verbesserung",
+          "French": "Amélioration"
+        },
+        "DisplayTexts": {
+          "English": null,
+          "Spanish": null,
+          "German": null,
+          "French": null
+        },
+        "Descriptions": {
+          "English": "Gain Condition Damage Equal to 3% of Your Power\nGain Condition Damage Equal to 3% of Your Precision\n+10% Experience from Kills",
+          "Spanish": "Ganas daño de condición igual al 3 % de tu potencia\nGanas daño de condición igual al 3 % de tu precisión\n+10 % de experiencia al matar",
+          "German": "Erhaltet Zustandsschaden entsprechend 3 % Eurer Kraft\nErhaltet Zustandsschaden entsprechend 3 % Eurer Präzision\n+10 % Erfahrung für besiegte Gegner",
+          "French": "Confère des Dégâts par altération à hauteur de 3% de votre Puissance\nConfère des Dégâts par altération à hauteur de 3% de votre Précision\nExpérience à chaque ennemi tué +10%"
+        },
+        "DurationMs": 1800000,
+        "AssetId": 0
+      },
+      "Type": 4,
+      "TemplateSlot": 21,
+      "Id": 48917,
+      "MappedId": 35,
+      "Rarity": 3,
+      "Chatlink": "[&AgEVvwAA]",
+      "AssetId": 665781,
+      "Names": {
+        "English": "Toxic Tuning Crystal",
+        "Spanish": "Cristal de sintonía tóxico",
+        "German": "Toxischer Abstimmkristall",
+        "French": "Cristal d'harmonisation toxique"
+      },
+      "DisplayTexts": {
+        "English": "Toxic Tuning Crystal",
+        "Spanish": "Cristal de sintonía tóxico",
+        "German": "Toxischer Abstimmkristall",
+        "French": "Cristal d'harmonisation toxique"
+      },
+      "Descriptions": {
+        "English": null,
+        "Spanish": null,
+        "German": null,
+        "French": null
+      }
+    },
+    "50082": {
+      "Bonuses": [],
+      "Details": {
+        "Type": 0,
+        "Names": {
+          "English": "Enhancement",
+          "Spanish": "Mejora",
+          "German": "Verbesserung",
+          "French": "Amélioration"
+        },
+        "DisplayTexts": {
+          "English": null,
+          "Spanish": null,
+          "German": null,
+          "French": null
+        },
+        "Descriptions": {
+          "English": "+10% damage vs. Toxic Alliance, Watchwork, Aetherblade, and Molten Alliance\n-10% damage from Toxic Alliance, Watchwork, Aetherblade, and Molten Alliance\n+15% Experience from kills",
+          "Spanish": "+10 % de daño contra la Alianza Tóxica, mecanismos, los Filoetéreos y la Alianza Fundida\n-10 % de daño recibido de la Alianza Tóxica, mecanismos, los Filoetéreos y la Alianza Fundida\n+15 % de experiencia al matar",
+          "German": "+10 % Schaden gg. Toxische Allianz, Uhrwerke, Ätherklingen und Feurige Allianz\n-10 % Schaden von Toxischer Allianz, Uhrwerken, Ätherklingen und Feuriger Allianz\n+15 % Erfahrung für besiegte Gegner",
+          "French": "Dégâts contre l'Alliance toxique, les ennemis mécaniques, les Etherlames et l'Alliance de la Fusion +10% \nDégâts subis contre l'Alliance toxique, les ennemis mécaniques, les Etherlames et l'Alliance de la Fusion -10% \nExpérience à chaque ennemi tué +15%"
+        },
+        "DurationMs": 3600000,
+        "AssetId": 0
+      },
+      "Type": 4,
+      "TemplateSlot": 21,
+      "Id": 50082,
+      "MappedId": 36,
+      "Rarity": 3,
+      "Chatlink": "[&AgGiwwAA]",
+      "AssetId": 222720,
+      "Names": {
+        "English": "Powerful Potion of Slaying Scarlet's Armies",
+        "Spanish": "Poción de la matanza del ejército de Scarlet",
+        "German": "Kraftvoller Trank der Vernichtung von Scarlets Armee",
+        "French": "Potion de massacre des armées de Scarlet efficace"
+      },
+      "DisplayTexts": {
+        "English": "Powerful Potion of Slaying Scarlet's Armies",
+        "Spanish": "Poción de la matanza del ejército de Scarlet",
+        "German": "Kraftvoller Trank der Vernichtung von Scarlets Armee",
+        "French": "Potion de massacre des armées de Scarlet efficace"
+      },
+      "Descriptions": {
+        "English": null,
+        "Spanish": null,
+        "German": null,
+        "French": null
+      }
+    },
+    "67183": {
+      "Bonuses": [],
+      "Details": {
+        "Type": 0,
+        "Names": {
+          "English": "Enhancement",
+          "Spanish": "Mejora",
+          "German": "Verbesserung",
+          "French": "Amélioration"
+        },
+        "DisplayTexts": {
+          "English": null,
+          "Spanish": null,
+          "German": null,
+          "French": null
+        },
+        "Descriptions": {
+          "English": "Gain Power Equal to 3% of Your Precision\nGain Power Equal to 6% of Your Ferocity\n+10% Experience from Kills",
+          "Spanish": "Ganas potencia igual al 3 % de tu precisión\nGanas potencia igual al 6 % de tu ferocidad\n+10 % de experiencia al matar",
+          "German": "Erhaltet Kraft entsprechend 3 % Eurer Präzision\nErhaltet Kraft entsprechend 6 % Eurer Wildheit\n+10 % Erfahrung für besiegte Gegner",
+          "French": "Confère Puissance à hauteur de 3% de votre Précision\nConfère Puissance à hauteur de 6% de votre Férocité\nExpérience à chaque ennemi tué +10%"
+        },
+        "DurationMs": 2700000,
+        "AssetId": 0
+      },
+      "Type": 4,
+      "TemplateSlot": 21,
+      "Id": 67183,
+      "MappedId": 37,
+      "Rarity": 4,
+      "Chatlink": "[&AgFvBgEA]",
+      "AssetId": 219361,
+      "Names": {
+        "English": "Ogre Sharpening Stone",
+        "Spanish": "Piedra de afilar de ogro",
+        "German": "Oger-Wetzstein",
+        "French": "Pierre à affûter ogre"
+      },
+      "DisplayTexts": {
+        "English": "Ogre Sharpening Stone",
+        "Spanish": "Piedra de afilar de ogro",
+        "German": "Oger-Wetzstein",
+        "French": "Pierre à affûter ogre"
+      },
+      "Descriptions": {
+        "English": null,
+        "Spanish": null,
+        "German": null,
+        "French": null
+      }
+    },
+    "67184": {
+      "Bonuses": [],
+      "Details": {
+        "Type": 0,
+        "Names": {
+          "English": "Enhancement",
+          "Spanish": "Mejora",
+          "German": "Verbesserung",
+          "French": "Amélioration"
+        },
+        "DisplayTexts": {
+          "English": null,
+          "Spanish": null,
+          "German": null,
+          "French": null
+        },
+        "Descriptions": {
+          "English": "Gain Concentration Equal to 3% of Your Precision\nGain Concentration Equal to 6% of Your Healing Power\n+10% Experience from Kills",
+          "Spanish": "Ganas concentración igual al 3 % de tu precisión\nGanas concentración igual al 6 % de tu poder de curación\n+10 % de experiencia al matar",
+          "German": "Erhaltet Konzentration entsprechend 3 % Eurer Präzision\nErhaltet Konzentration entsprechend 6 % Eurer Heilkraft\n+10 % Erfahrung für besiegte Gegner",
+          "French": "Confère Concentration à hauteur de 3% de votre Précision\nConfère Concentration à hauteur de 6% de votre Guérison\n Expérience à chaque ennemi tué +10%"
+        },
+        "DurationMs": 2700000,
+        "AssetId": 0
+      },
+      "Type": 4,
+      "TemplateSlot": 21,
+      "Id": 67184,
+      "MappedId": 38,
+      "Rarity": 4,
+      "Chatlink": "[&AgFwBgEA]",
+      "AssetId": 219367,
+      "Names": {
+        "English": "Hylek Maintenance Oil",
+        "Spanish": "Aceite de mantenimiento hylek",
+        "German": "Hylek-Wartungsöl",
+        "French": "Huile de maintenance hylek"
+      },
+      "DisplayTexts": {
+        "English": "Hylek Maintenance Oil",
+        "Spanish": "Aceite de mantenimiento hylek",
+        "German": "Hylek-Wartungsöl",
+        "French": "Huile de maintenance hylek"
+      },
+      "Descriptions": {
+        "English": null,
+        "Spanish": null,
+        "German": null,
+        "French": null
+      }
+    },
+    "67185": {
+      "Bonuses": [],
+      "Details": {
+        "Type": 0,
+        "Names": {
+          "English": "Enhancement",
+          "Spanish": "Mejora",
+          "German": "Verbesserung",
+          "French": "Amélioration"
+        },
+        "DisplayTexts": {
+          "English": null,
+          "Spanish": null,
+          "German": null,
+          "French": null
+        },
+        "Descriptions": {
+          "English": "Gain Condition Damage Equal to 3% of Your Precision\nGain Condition Damage Equal to 8% of Your Expertise\n+10% Experience from Kills",
+          "Spanish": "Ganas daño de condición igual al 3 % de tu precisión\nGanas daño de condición igual al 8 % de tu pericia\n+10 % de experiencia al matar",
+          "German": "Erhaltet Zustandsschaden entsprechend 3 % Eurer Präzision\nErhaltet Zustandsschaden entsprechend 8 % Eurer Fachkenntnis\n+10 % Erfahrung für besiegte Gegner",
+          "French": "Confère des Dégâts par altération à hauteur de 3% de votre Précision\nConfère des Dégâts par altération à hauteur de 8% de votre Expertise\nExpérience à chaque ennemi tué +10%"
+        },
+        "DurationMs": 2700000,
+        "AssetId": 0
+      },
+      "Type": 4,
+      "TemplateSlot": 21,
+      "Id": 67185,
+      "MappedId": 39,
+      "Rarity": 4,
+      "Chatlink": "[&AgFxBgEA]",
+      "AssetId": 219373,
+      "Names": {
+        "English": "Krait Tuning Crystal",
+        "Spanish": "Cristal de sintonía krait",
+        "German": "Krait-Abstimmkristall",
+        "French": "Cristal d'harmonisation krait"
+      },
+      "DisplayTexts": {
+        "English": "Krait Tuning Crystal",
+        "Spanish": "Cristal de sintonía krait",
+        "German": "Krait-Abstimmkristall",
+        "French": "Cristal d'harmonisation krait"
+      },
+      "Descriptions": {
+        "English": null,
+        "Spanish": null,
+        "German": null,
+        "French": null
+      }
+    },
+    "67367": {
+      "Bonuses": [],
+      "Details": {
+        "Type": 0,
+        "Names": {
+          "English": "Ghoul's Blessing",
+          "Spanish": "Bendición de necrófago",
+          "German": "Segen des Ghuls",
+          "French": "Bénédiction de la goule"
+        },
+        "DisplayTexts": {
+          "English": null,
+          "Spanish": null,
+          "German": null,
+          "French": null
+        },
+        "Descriptions": {
+          "English": "Reviving an ally grants Ghoul's Grasp to both you and your revived ally.\nGhoul's Grasp increases condition damage, precision, and toughness.\n+10% Experience from Kills\n+30% Magic Find",
+          "Spanish": "Revivir a un aliado os otorga Aferramiento de necrófago tanto a ti como al aliado revivido.\nAferramiento de necrófago aumenta el daño de condición, la precisión y la dureza.\n+10 % de experiencia al matar\n+30 % de hallazgo mágico",
+          "German": "Beim Wiederbeleben eines Verbündeten erhaltet Ihr und dieser Verbündete Ghul-Griff.\nGhul-Griff erhöht Zustandsschaden, Präzision und Zähigkeit.\n+10 % Erfahrung für besiegte Gegner\n+30 % Magisches Gespür",
+          "French": "Ranimer un allié vous confère Poigne de la goule à tous les deux.\nPoigne de la goule augmente les Dégâts par altération, la Précision et la Robustesse.\nExpérience à chaque ennemi tué +10%\nDécouverte de magie +30%"
+        },
+        "DurationMs": 1800000,
+        "AssetId": 0
+      },
+      "Type": 4,
+      "TemplateSlot": 21,
+      "Id": 67367,
+      "MappedId": 40,
+      "Rarity": 4,
+      "Chatlink": "[&AgEnBwEA]",
+      "AssetId": 888372,
+      "Names": {
+        "English": "Lump of Crystallized Nougat",
+        "Spanish": "Trozo de guirlache cristalizado",
+        "German": "Kristallisierter Nougatbrocken",
+        "French": "Morceau de nougat cristallisé"
+      },
+      "DisplayTexts": {
+        "English": "Lump of Crystallized Nougat",
+        "Spanish": "Trozo de guirlache cristalizado",
+        "German": "Kristallisierter Nougatbrocken",
+        "French": "Morceau de nougat cristallisé"
+      },
+      "Descriptions": {
+        "English": null,
+        "Spanish": null,
+        "German": null,
+        "French": null
+      }
+    },
+    "67368": {
+      "Bonuses": [],
+      "Details": {
+        "Type": 0,
+        "Names": {
+          "English": "Feline Blessing",
+          "Spanish": "Bendición felina",
+          "German": "Segen der Katze",
+          "French": "Bénédiction féline"
+        },
+        "DisplayTexts": {
+          "English": null,
+          "Spanish": null,
+          "German": null,
+          "French": null
+        },
+        "Descriptions": {
+          "English": "Reviving an ally grants Feline Fury to both you and your revived ally.\nFeline Fury increases all attributes by a small amount.\n+10% Experience from Kills\n+30% Magic Find",
+          "Spanish": "Revivir a un aliado os otorga furia Felina tanto a ti como al aliado revivido.\nfuria Felina aumenta todos los atributos en una pequeña parte.\n+10 % de experiencia al matar\n+30 % de hallazgo mágico",
+          "German": "Beim Wiederbeleben eines Verbündeten erhaltet Ihr und dieser Verbündete Katzenhafte Wut.\nKatzenhafte Wut erhöht alle Attribute ein wenig.\n+10 % Erfahrung für besiegte Gegner\n+30 % Magisches Gespür",
+          "French": "Ranimer un allié vous confère Fureur féline à tous les deux.\nFureur féline augmente légèrement toutes les caractéristiques.\nExpérience à chaque ennemi tué +10%\nDécouverte de magie +30%"
+        },
+        "DurationMs": 1800000,
+        "AssetId": 0
+      },
+      "Type": 4,
+      "TemplateSlot": 21,
+      "Id": 67368,
+      "MappedId": 41,
+      "Rarity": 4,
+      "Chatlink": "[&AgEoBwEA]",
+      "AssetId": 888373,
+      "Names": {
+        "English": "Sharpening Skull",
+        "Spanish": "Calavera de afilar",
+        "German": "Wetzschädel",
+        "French": "Crâne à affûter"
+      },
+      "DisplayTexts": {
+        "English": "Sharpening Skull",
+        "Spanish": "Calavera de afilar",
+        "German": "Wetzschädel",
+        "French": "Crâne à affûter"
+      },
+      "Descriptions": {
+        "English": null,
+        "Spanish": null,
+        "German": null,
+        "French": null
+      }
+    },
+    "67371": {
+      "Bonuses": [],
+      "Details": {
+        "Type": 0,
+        "Names": {
+          "English": "Pumpkin's Blessing",
+          "Spanish": "Bendición de calabaza",
+          "German": "Segen des Kürbisses",
+          "French": "Bénédiction de la citrouille"
+        },
+        "DisplayTexts": {
+          "English": null,
+          "Spanish": null,
+          "German": null,
+          "French": null
+        },
+        "Descriptions": {
+          "English": "Reviving an ally grants Pumpkin Prowess to both you and your revived ally.\nPumpkin Prowess increases power, toughness, and vitality.\n+10% Experience from Kills\n+30% Magic Find",
+          "Spanish": "Revivir a un aliado os otorga Destreza de calabaza tanto a ti como al aliado revivido.\nDestreza de calabaza aumenta la potencia, la dureza y la vitalidad.\n+10 % de experiencia al matar\n+30 % de hallazgo mágico",
+          "German": "Beim Wiederbeleben eines Verbündeten erhaltet Ihr und dieser Verbündete Kürbistalent.\nKürbistalent erhöht Kraft, Zähigkeit und Vitalität.\n+10 % Erfahrung für besiegte Gegner\n+30 % Magisches Gespür",
+          "French": "Ranimer un allié vous confère Prouesse de la citrouille à tous les deux.\nProuesse de la citrouille augmente la Puissance, la Robustesse et la Vitalité.\nExpérience à chaque ennemi tué +10%\nDécouverte de magie +30%"
+        },
+        "DurationMs": 1800000,
+        "AssetId": 0
+      },
+      "Type": 4,
+      "TemplateSlot": 21,
+      "Id": 67371,
+      "MappedId": 42,
+      "Rarity": 4,
+      "Chatlink": "[&AgErBwEA]",
+      "AssetId": 888375,
+      "Names": {
+        "English": "Flask of Pumpkin Oil",
+        "Spanish": "Frasco de aceite de calabaza",
+        "German": "Flasche mit Kürbisöl",
+        "French": "Flasque d'huile de citrouille"
+      },
+      "DisplayTexts": {
+        "English": "Flask of Pumpkin Oil",
+        "Spanish": "Frasco de aceite de calabaza",
+        "German": "Flasche mit Kürbisöl",
+        "French": "Flasque d'huile de citrouille"
+      },
+      "Descriptions": {
+        "English": null,
+        "Spanish": null,
+        "German": null,
+        "French": null
+      }
+    },
+    "67522": {
+      "Bonuses": [],
+      "Details": {
+        "Type": 0,
+        "Names": {
+          "English": "Enhancement",
+          "Spanish": "Mejora",
+          "German": "Verbesserung",
+          "French": "Amélioration"
+        },
+        "DisplayTexts": {
+          "English": null,
+          "Spanish": null,
+          "German": null,
+          "French": null
+        },
+        "Descriptions": {
+          "English": "Gain Condition Damage Equal to 6% of Your Healing Power\nGain Condition Damage Equal to 8% of Your Concentration\n+10% Experience from Kills",
+          "Spanish": "Ganas daño de condición igual al 6 % de tu poder de curación\nGanas daño de condición igual al 8 % de tu concentración\n+10 % de experiencia al matar",
+          "German": "Erhaltet Zustandsschaden entsprechend 6 % Eurer Heilkraft\nErhaltet Zustandsschaden entsprechend 8 % Eurer Konzentration\n+10 % Erfahrung für besiegte Gegner",
+          "French": "Confère des Dégâts par altération à hauteur de 6% de votre Guérison\nConfère des Dégâts par altération à hauteur de 8% de votre Concentration\nExpérience à chaque ennemi tué +10%"
+        },
+        "DurationMs": 1800000,
+        "AssetId": 0
+      },
+      "Type": 4,
+      "TemplateSlot": 21,
+      "Id": 67522,
+      "MappedId": 43,
+      "Rarity": 4,
+      "Chatlink": "[&AgHCBwEA]",
+      "AssetId": 219373,
+      "Names": {
+        "English": "Bountiful Tuning Crystal",
+        "Spanish": "Cristal de sintonía abundante",
+        "German": "Ertragreicher Abstimmkristall",
+        "French": "Cristal d'harmonisation somptueux"
+      },
+      "DisplayTexts": {
+        "English": "Bountiful Tuning Crystal",
+        "Spanish": "Cristal de sintonía abundante",
+        "German": "Ertragreicher Abstimmkristall",
+        "French": "Cristal d'harmonisation somptueux"
+      },
+      "Descriptions": {
+        "English": null,
+        "Spanish": null,
+        "German": null,
+        "French": null
+      }
+    },
+    "67524": {
+      "Bonuses": [],
+      "Details": {
+        "Type": 0,
+        "Names": {
+          "English": "Enhancement",
+          "Spanish": "Mejora",
+          "German": "Verbesserung",
+          "French": "Amélioration"
+        },
+        "DisplayTexts": {
+          "English": null,
+          "Spanish": null,
+          "German": null,
+          "French": null
+        },
+        "Descriptions": {
+          "English": "Gain Condition Damage Equal to 3% of Your Precision\nGain Expertise Equal to 3% of Your Precision\n+10% Experience from kills",
+          "Spanish": "Ganas daño de condición igual al 3 % de tu precisión\nGanas pericia igual al 3 % de tu precisión\n+10 % de experiencia al matar",
+          "German": "Erhaltet Zustandsschaden entsprechend 3 % Eurer Präzision\nErhaltet Fachkenntnis entsprechend 3 % Eurer Präzision\n+10 % Erfahrung für besiegte Gegner",
+          "French": "Confère des Dégâts par altération à hauteur de 3% de votre Précision\nConfère Expertise à hauteur de 3% de votre Précision\nExpérience à chaque ennemi tué +10%"
+        },
+        "DurationMs": 1800000,
+        "AssetId": 0
+      },
+      "Type": 4,
+      "TemplateSlot": 21,
+      "Id": 67524,
+      "MappedId": 44,
+      "Rarity": 4,
+      "Chatlink": "[&AgHEBwEA]",
+      "AssetId": 219373,
+      "Names": {
+        "English": "Furious Tuning Crystal",
+        "Spanish": "Cristal de sintonía furioso",
+        "German": "Furioser Abstimmkristall",
+        "French": "Cristal d'harmonisation impétueux"
+      },
+      "DisplayTexts": {
+        "English": "Furious Tuning Crystal",
+        "Spanish": "Cristal de sintonía furioso",
+        "German": "Furioser Abstimmkristall",
+        "French": "Cristal d'harmonisation impétueux"
+      },
+      "Descriptions": {
+        "English": null,
+        "Spanish": null,
+        "German": null,
+        "French": null
+      }
+    },
+    "67528": {
+      "Bonuses": [],
+      "Details": {
+        "Type": 0,
+        "Names": {
+          "English": "Enhancement",
+          "Spanish": "Mejora",
+          "German": "Verbesserung",
+          "French": "Amélioration"
+        },
+        "DisplayTexts": {
+          "English": null,
+          "Spanish": null,
+          "German": null,
+          "French": null
+        },
+        "Descriptions": {
+          "English": "Gain 0.6% Increased Healing to Other Allies for Every 100 Healing Power\nGain 0.8% Increased Healing to Other Allies for Every 100 Concentration\n+10% Experience from Kills",
+          "Spanish": "Ganas un 0,6 % de aumento de curación a otros aliados por cada 100 de poder de curación\nGanas un 0,8 % de aumento de curación a otros aliados por cada 100 de concentración\n+10 % de experiencia al matar",
+          "German": "Erhaltet 0,6 % Zuwachs für Heilung an andere Verbündete pro 100 Heilkraft\nErhaltet 0,8 % Zuwachs für Heilung an andere Verbündete pro 100 Konzentration\n+10 % Erfahrung für besiegte Gegner",
+          "French": "Les soins conférés aux autres alliés augmentent de 0,6% tous les 100 points de Guérison.\nLes soins conférés aux autres alliés augmentent de 0,8% tous les 100 points de Concentration.\nExpérience à chaque ennemi tué +10%"
+        },
+        "DurationMs": 1800000,
+        "AssetId": 0
+      },
+      "Type": 4,
+      "TemplateSlot": 21,
+      "Id": 67528,
+      "MappedId": 45,
+      "Rarity": 4,
+      "Chatlink": "[&AgHIBwEA]",
+      "AssetId": 219367,
+      "Names": {
+        "English": "Bountiful Maintenance Oil",
+        "Spanish": "Aceite de mantenimiento abundante",
+        "German": "Ertragreiches Wartungsöl",
+        "French": "Huile de maintenance somptueuse"
+      },
+      "DisplayTexts": {
+        "English": "Bountiful Maintenance Oil",
+        "Spanish": "Aceite de mantenimiento abundante",
+        "German": "Ertragreiches Wartungsöl",
+        "French": "Huile de maintenance somptueuse"
+      },
+      "Descriptions": {
+        "English": null,
+        "Spanish": null,
+        "German": null,
+        "French": null
+      }
+    },
+    "67529": {
+      "Bonuses": [],
+      "Details": {
+        "Type": 0,
+        "Names": {
+          "English": "Enhancement",
+          "Spanish": "Mejora",
+          "German": "Verbesserung",
+          "French": "Amélioration"
+        },
+        "DisplayTexts": {
+          "English": null,
+          "Spanish": null,
+          "German": null,
+          "French": null
+        },
+        "Descriptions": {
+          "English": "Gain Concentration Equal to 3% of Your Precision\nGain Healing Power Equal to 3% of Your Precision\n+10% Experience from Kills",
+          "Spanish": "Ganas concentración igual al 3 % de tu precisión\nGanas poder de curación al 3 % de tu precisión\n+10 % de experiencia al matar",
+          "German": "Erhaltet Konzentration entsprechend 3 % Eurer Präzision\nErhaltet Heilkraft entsprechend 3 % Eurer Präzision\n+10 % Erfahrung für besiegte Gegner",
+          "French": "Confère Concentration à hauteur de 3% de votre Précision\nConfère Guérison à hauteur de 3% de votre Précision\n Expérience à chaque ennemi tué +10%"
+        },
+        "DurationMs": 1800000,
+        "AssetId": 0
+      },
+      "Type": 4,
+      "TemplateSlot": 21,
+      "Id": 67529,
+      "MappedId": 46,
+      "Rarity": 4,
+      "Chatlink": "[&AgHJBwEA]",
+      "AssetId": 219367,
+      "Names": {
+        "English": "Furious Maintenance Oil",
+        "Spanish": "Aceite de mantenimiento furioso",
+        "German": "Furioses Wartungsöl",
+        "French": "Huile de maintenance impétueuse"
+      },
+      "DisplayTexts": {
+        "English": "Furious Maintenance Oil",
+        "Spanish": "Aceite de mantenimiento furioso",
+        "German": "Furioses Wartungsöl",
+        "French": "Huile de maintenance impétueuse"
+      },
+      "Descriptions": {
+        "English": null,
+        "Spanish": null,
+        "German": null,
+        "French": null
+      }
+    },
+    "67530": {
+      "Bonuses": [],
+      "Details": {
+        "Type": 0,
+        "Names": {
+          "English": "Enhancement",
+          "Spanish": "Mejora",
+          "German": "Verbesserung",
+          "French": "Amélioration"
+        },
+        "DisplayTexts": {
+          "English": null,
+          "Spanish": null,
+          "German": null,
+          "French": null
+        },
+        "Descriptions": {
+          "English": "Gain Power Equal to 3% of Your Precision\nGain Ferocity Equal to 3% of Your Precision\n+10% Experience from Kills",
+          "Spanish": "Ganas potencia igual al 3 % de tu precisión\nGanas ferocidad igual al 3 % de tu precisión\n+10 % de experiencia al matar",
+          "German": "Erhaltet Kraft entsprechend 3 % Eurer Präzision\nErhaltet Wildheit entsprechend 3 % Eurer Präzision\n+10 % Erfahrung für besiegte Gegner",
+          "French": "Confère Puissance à hauteur de 3% de votre Précision\nConfère Férocité à hauteur de 3% de votre Précision\nExpérience à chaque ennemi tué +10%"
+        },
+        "DurationMs": 1800000,
+        "AssetId": 0
+      },
+      "Type": 4,
+      "TemplateSlot": 21,
+      "Id": 67530,
+      "MappedId": 47,
+      "Rarity": 4,
+      "Chatlink": "[&AgHKBwEA]",
+      "AssetId": 219361,
+      "Names": {
+        "English": "Furious Sharpening Stone",
+        "Spanish": "Piedra de afilar furiosa",
+        "German": "Furioser Wetzstein",
+        "French": "Pierre à affûter impétueuse"
+      },
+      "DisplayTexts": {
+        "English": "Furious Sharpening Stone",
+        "Spanish": "Piedra de afilar furiosa",
+        "German": "Furioser Wetzstein",
+        "French": "Pierre à affûter impétueuse"
+      },
+      "Descriptions": {
+        "English": null,
+        "Spanish": null,
+        "German": null,
+        "French": null
+      }
+    },
+    "67531": {
+      "Bonuses": [],
+      "Details": {
+        "Type": 0,
+        "Names": {
+          "English": "Enhancement",
+          "Spanish": "Mejora",
+          "German": "Verbesserung",
+          "French": "Amélioration"
+        },
+        "DisplayTexts": {
+          "English": null,
+          "Spanish": null,
+          "German": null,
+          "French": null
+        },
+        "Descriptions": {
+          "English": "Gain Power Equal to 6% of Your Healing Power\nGain Power Equal to 8% of Your Concentration\n+10% Experience from Kills",
+          "Spanish": "Ganas potencia igual al 6 % de tu poder de curación\nGanas potencia igual al 8 % de tu concentración\n+10 % de experiencia al matar",
+          "German": "Erhaltet Kraft entsprechend 6 % Eurer Heilkraft\nErhaltet Kraft entsprechend 8 % Eurer Konzentration\n+10 % Erfahrung für besiegte Gegner",
+          "French": "Confère Puissance à hauteur de 6% de votre Guérison\nConfère Puissance à hauteur de 8% de votre Concentration\nExpérience à chaque ennemi tué +10%"
+        },
+        "DurationMs": 1800000,
+        "AssetId": 0
+      },
+      "Type": 4,
+      "TemplateSlot": 21,
+      "Id": 67531,
+      "MappedId": 48,
+      "Rarity": 4,
+      "Chatlink": "[&AgHLBwEA]",
+      "AssetId": 219361,
+      "Names": {
+        "English": "Bountiful Sharpening Stone",
+        "Spanish": "Piedra de afilar abundante",
+        "German": "Ertragreicher Wetzstein",
+        "French": "Pierre à affûter somptueuse"
+      },
+      "DisplayTexts": {
+        "English": "Bountiful Sharpening Stone",
+        "Spanish": "Piedra de afilar abundante",
+        "German": "Ertragreicher Wetzstein",
+        "French": "Pierre à affûter somptueuse"
+      },
+      "Descriptions": {
+        "English": null,
+        "Spanish": null,
+        "German": null,
+        "French": null
+      }
+    },
+    "71691": {
+      "Bonuses": [],
+      "Details": {
+        "Type": 0,
+        "Names": {
+          "English": "Enhancement",
+          "Spanish": "Mejora",
+          "German": "Verbesserung",
+          "French": "Amélioration"
+        },
+        "DisplayTexts": {
+          "English": null,
+          "Spanish": null,
+          "German": null,
+          "French": null
+        },
+        "Descriptions": {
+          "English": "Gain 25% Increased Movement Speed\n+10% Experience from Kills",
+          "Spanish": "Ganas un 25 % de velocidad de movimiento\n+10 % de experiencia al matar",
+          "German": "Erhaltet um 25 % erhöhte Bewegungsgeschwindigkeit\n+10 % Erfahrung für besiegte Gegner",
+          "French": "Vitesse de déplacement augmentée de 25%\nExpérience à chaque ennemi tué +10%"
+        },
+        "DurationMs": 1800000,
+        "AssetId": 0
+      },
+      "Type": 4,
+      "TemplateSlot": 21,
+      "Id": 71691,
+      "MappedId": 49,
+      "Rarity": 3,
+      "Chatlink": "[&AgELGAEA]",
+      "AssetId": 849353,
+      "Names": {
+        "English": "Writ of Masterful Speed",
+        "Spanish": "Mandato de velocidad magistral",
+        "German": "Schrift über meisterhafte Geschwindigkeit",
+        "French": "Écrit sur la Vitesse magistrale"
+      },
+      "DisplayTexts": {
+        "English": "Writ of Masterful Speed",
+        "Spanish": "Mandato de velocidad magistral",
+        "German": "Schrift über meisterhafte Geschwindigkeit",
+        "French": "Écrit sur la Vitesse magistrale"
+      },
+      "Descriptions": {
+        "English": null,
+        "Spanish": null,
+        "German": null,
+        "French": null
+      }
+    },
+    "72510": {
+      "Bonuses": [],
+      "Details": {
+        "Type": 0,
+        "Names": {
+          "English": "Enhancement",
+          "Spanish": "Mejora",
+          "German": "Verbesserung",
+          "French": "Amélioration"
+        },
+        "DisplayTexts": {
+          "English": null,
+          "Spanish": null,
+          "German": null,
+          "French": null
+        },
+        "Descriptions": {
+          "English": "Gain 200 Condition Damage When Health Is above 90%\n+10% Experience from Kills",
+          "Spanish": "Ganas 200 de daño de condición cuando tu salud supera el 90 %\n+10 % de experiencia al matar",
+          "German": "Erhaltet 200 Zustandsschaden, wenn Lebenspunkte über 90 %\n+10 % Erfahrung für besiegte Gegner",
+          "French": "Dégâts par altération lorsque votre santé est supérieure à 90% +200\nExpérience à chaque ennemi tué +10%"
+        },
+        "DurationMs": 1800000,
+        "AssetId": 0
+      },
+      "Type": 4,
+      "TemplateSlot": 21,
+      "Id": 72510,
+      "MappedId": 50,
+      "Rarity": 3,
+      "Chatlink": "[&AgE+GwEA]",
+      "AssetId": 1201888,
+      "Names": {
+        "English": "Writ of Masterful Malice",
+        "Spanish": "Mandato de malicia magistral",
+        "German": "Schrift über meisterhafte Bosheit",
+        "French": "Écrit sur la Malice magistrale"
+      },
+      "DisplayTexts": {
+        "English": "Writ of Masterful Malice",
+        "Spanish": "Mandato de malicia magistral",
+        "German": "Schrift über meisterhafte Bosheit",
+        "French": "Écrit sur la Malice magistrale"
+      },
+      "Descriptions": {
+        "English": null,
+        "Spanish": null,
+        "German": null,
+        "French": null
+      }
+    },
+    "72532": {
+      "Bonuses": [],
+      "Details": {
+        "Type": 0,
+        "Names": {
+          "English": "Enhancement",
+          "Spanish": "Mejora",
+          "German": "Verbesserung",
+          "French": "Amélioration"
+        },
+        "DisplayTexts": {
+          "English": null,
+          "Spanish": null,
+          "German": null,
+          "French": null
+        },
+        "Descriptions": {
+          "English": "Gain 25% Increased Movement Speed\n+10% Experience from Kills",
+          "Spanish": "Ganas un 25 % de velocidad de movimiento\n+10 % de experiencia al matar",
+          "German": "Erhaltet um 25 % erhöhte Bewegungsgeschwindigkeit\n+10 % Erfahrung für besiegte Gegner",
+          "French": "Vitesse de déplacement augmentée de 25%\nExpérience à chaque ennemi tué +10%"
+        },
+        "DurationMs": 3600000,
+        "AssetId": 0
+      },
+      "Type": 4,
+      "TemplateSlot": 21,
+      "Id": 72532,
+      "MappedId": 51,
+      "Rarity": 3,
+      "Chatlink": "[&AgFUGwEA]",
+      "AssetId": 1201966,
+      "Names": {
+        "English": "Thesis on Studied Speed",
+        "Spanish": "Tesis sobre velocidad estudiada",
+        "German": "Abhandlung über studierte Geschwindigkeit",
+        "French": "Thèse sur la Vitesse étudiée"
+      },
+      "DisplayTexts": {
+        "English": "Thesis on Studied Speed",
+        "Spanish": "Tesis sobre velocidad estudiada",
+        "German": "Abhandlung über studierte Geschwindigkeit",
+        "French": "Thèse sur la Vitesse étudiée"
+      },
+      "Descriptions": {
+        "English": "Thesis: Double-click to set out a tome to share with anyone in the area. Stays active for 5 minutes.",
+        "Spanish": "Tesis: haz doble clic para colocar un tomo y compartirlo en la zona. Permanece activo durante 5 minutos.",
+        "German": "Abhandlung: Doppelklicken, um einen Folianten auszuwählen, der mit jedem in der Umgebung geteilt werden soll. Bleibt 5 Minuten lang aktiv.",
+        "French": "Thèse : double-cliquez pour choisir un tome à partager avec toutes les personnes de la zone. La thèse reste active pendant 5 minutes."
+      }
+    },
+    "73191": {
+      "Bonuses": [],
+      "Details": {
+        "Type": 0,
+        "Names": {
+          "English": "Enhancement",
+          "Spanish": "Mejora",
+          "German": "Verbesserung",
+          "French": "Amélioration"
+        },
+        "DisplayTexts": {
+          "English": null,
+          "Spanish": null,
+          "German": null,
+          "French": null
+        },
+        "Descriptions": {
+          "English": "Gain 200 Power When Health above 90%\n+10% Experience from Kills",
+          "Spanish": "Ganas 200 de potencia cuando tu salud supera el 90 %\n+10 % de experiencia al matar",
+          "German": "Erhaltet 200 Kraft, wenn Lebenspunkte über 90 %\n+10 % Erfahrung für besiegte Gegner",
+          "French": "Puissance quand votre santé est supérieure à 90% +200\nExpérience à chaque ennemi tué +10%"
+        },
+        "DurationMs": 1800000,
+        "AssetId": 0
+      },
+      "Type": 4,
+      "TemplateSlot": 21,
+      "Id": 73191,
+      "MappedId": 52,
+      "Rarity": 3,
+      "Chatlink": "[&AgHnHQEA]",
+      "AssetId": 1201925,
+      "Names": {
+        "English": "Writ of Masterful Strength",
+        "Spanish": "Mandato de fuerza magistral",
+        "German": "Schrift über meisterhafte Stärke",
+        "French": "Écrit sur la Force magistrale"
+      },
+      "DisplayTexts": {
+        "English": "Writ of Masterful Strength",
+        "Spanish": "Mandato de fuerza magistral",
+        "German": "Schrift über meisterhafte Stärke",
+        "French": "Écrit sur la Force magistrale"
+      },
+      "Descriptions": {
+        "English": null,
+        "Spanish": null,
+        "German": null,
+        "French": null
+      }
+    },
+    "76599": {
+      "Bonuses": [],
+      "Details": {
+        "Type": 0,
+        "Names": {
+          "English": "Enhancement",
+          "Spanish": "Mejora",
+          "German": "Verbesserung",
+          "French": "Amélioration"
+        },
+        "DisplayTexts": {
+          "English": null,
+          "Spanish": null,
+          "German": null,
+          "French": null
+        },
+        "Descriptions": {
+          "English": "Gain 200 Precision When Health above 90%\n+10% Experience from Kills",
+          "Spanish": "Ganas 200 de precisión cuando tu salud supera el 90 %\n+10 % de experiencia al matar",
+          "German": "Erhaltet 200 Präzision, wenn Lebenspunkte über 90 %\n+10 % Erfahrung für besiegte Gegner",
+          "French": "Précision quand votre santé est supérieure à 90% +200\nExpérience à chaque ennemi tué +10%"
+        },
+        "DurationMs": 3600000,
+        "AssetId": 0
+      },
+      "Type": 4,
+      "TemplateSlot": 21,
+      "Id": 76599,
+      "MappedId": 53,
+      "Rarity": 3,
+      "Chatlink": "[&AgE3KwEA]",
+      "AssetId": 1201965,
+      "Names": {
+        "English": "Thesis on Masterful Accuracy",
+        "Spanish": "Tesis sobre precisión magistral",
+        "German": "Abhandlung über meisterhafte Treffsicherheit",
+        "French": "Thèse sur l'Exactitude magistrale"
+      },
+      "DisplayTexts": {
+        "English": "Thesis on Masterful Accuracy",
+        "Spanish": "Tesis sobre precisión magistral",
+        "German": "Abhandlung über meisterhafte Treffsicherheit",
+        "French": "Thèse sur l'Exactitude magistrale"
+      },
+      "Descriptions": {
+        "English": "Thesis: Double-click to set out a tome to share with anyone in the area. Stays active for 5 minutes.",
+        "Spanish": "Tesis: haz doble clic para colocar un tomo y compartirlo en la zona. Permanece activo durante 5 minutos.",
+        "German": "Abhandlung: Doppelklicken, um einen Folianten auszuwählen, der mit jedem in der Umgebung geteilt werden soll. Bleibt 5 Minuten lang aktiv.",
+        "French": "Thèse : double-cliquez pour choisir un tome à partager avec toutes les personnes de la zone. La thèse reste active pendant 5 minutes."
+      }
+    },
+    "76738": {
+      "Bonuses": [],
+      "Details": {
+        "Type": 0,
+        "Names": {
+          "English": "Enhancement",
+          "Spanish": "Mejora",
+          "German": "Verbesserung",
+          "French": "Amélioration"
+        },
+        "DisplayTexts": {
+          "English": null,
+          "Spanish": null,
+          "German": null,
+          "French": null
+        },
+        "Descriptions": {
+          "English": "Gain 200 Condition Damage When Health Is above 90%\n+10% Experience from Kills",
+          "Spanish": "Ganas 200 de daño de condición cuando tu salud supera el 90 %\n+10 % de experiencia al matar",
+          "German": "Erhaltet 200 Zustandsschaden, wenn Lebenspunkte über 90 %\n+10 % Erfahrung für besiegte Gegner",
+          "French": "Dégâts par altération lorsque votre santé est supérieure à 90% +200\nExpérience à chaque ennemi tué +10%"
+        },
+        "DurationMs": 3600000,
+        "AssetId": 0
+      },
+      "Type": 4,
+      "TemplateSlot": 21,
+      "Id": 76738,
+      "MappedId": 54,
+      "Rarity": 3,
+      "Chatlink": "[&AgHCKwEA]",
+      "AssetId": 1201964,
+      "Names": {
+        "English": "Thesis on Masterful Malice",
+        "Spanish": "Tesis sobre malicia magistral",
+        "German": "Abhandlung über meisterhafte Bosheit",
+        "French": "Thèse sur la Malice magistrale"
+      },
+      "DisplayTexts": {
+        "English": "Thesis on Masterful Malice",
+        "Spanish": "Tesis sobre malicia magistral",
+        "German": "Abhandlung über meisterhafte Bosheit",
+        "French": "Thèse sur la Malice magistrale"
+      },
+      "Descriptions": {
+        "English": "Thesis: Double-click to set out a tome to share with anyone in the area. Stays active for 5 minutes.",
+        "Spanish": "Tesis: haz doble clic para colocar un tomo y compartirlo en la zona. Permanece activo durante 5 minutos.",
+        "German": "Abhandlung: Doppelklicken, um einen Folianten auszuwählen, der mit jedem in der Umgebung geteilt werden soll. Bleibt 5 Minuten lang aktiv.",
+        "French": "Thèse : double-cliquez pour choisir un tome à partager avec toutes les personnes de la zone. La thèse reste active pendant 5 minutes."
+      }
+    },
+    "76833": {
+      "Bonuses": [],
+      "Details": {
+        "Type": 0,
+        "Names": {
+          "English": "Enhancement",
+          "Spanish": "Mejora",
+          "German": "Verbesserung",
+          "French": "Amélioration"
+        },
+        "DisplayTexts": {
+          "English": null,
+          "Spanish": null,
+          "German": null,
+          "French": null
+        },
+        "Descriptions": {
+          "English": "Gain 200 Precision When Health above 90%\n+10% Experience from Kills",
+          "Spanish": "Ganas 200 de precisión cuando tu salud supera el 90 %\n+10 % de experiencia al matar",
+          "German": "Erhaltet 200 Präzision, wenn Lebenspunkte über 90 %\n+10 % Erfahrung für besiegte Gegner",
+          "French": "Précision quand votre santé est supérieure à 90% +200\nExpérience à chaque ennemi tué +10%"
+        },
+        "DurationMs": 1800000,
+        "AssetId": 0
+      },
+      "Type": 4,
+      "TemplateSlot": 21,
+      "Id": 76833,
+      "MappedId": 55,
+      "Rarity": 3,
+      "Chatlink": "[&AgEhLAEA]",
+      "AssetId": 1201930,
+      "Names": {
+        "English": "Writ of Masterful Accuracy",
+        "Spanish": "Mandato de precisión magistral",
+        "German": "Schrift über meisterhafte Treffsicherheit",
+        "French": "Écrit sur l'Exactitude magistrale"
+      },
+      "DisplayTexts": {
+        "English": "Writ of Masterful Accuracy",
+        "Spanish": "Mandato de precisión magistral",
+        "German": "Schrift über meisterhafte Treffsicherheit",
+        "French": "Écrit sur l'Exactitude magistrale"
+      },
+      "Descriptions": {
+        "English": null,
+        "Spanish": null,
+        "German": null,
+        "French": null
+      }
+    },
+    "77146": {
+      "Bonuses": [],
+      "Details": {
+        "Type": 0,
+        "Names": {
+          "English": "Enhancement",
+          "Spanish": "Mejora",
+          "German": "Verbesserung",
+          "French": "Amélioration"
+        },
+        "DisplayTexts": {
+          "English": null,
+          "Spanish": null,
+          "German": null,
+          "French": null
+        },
+        "Descriptions": {
+          "English": "Gain 200 Power When Health above 90%\n+10% Experience from Kills",
+          "Spanish": "Ganas 200 de potencia cuando tu salud supera el 90 %\n+10 % de experiencia al matar",
+          "German": "Erhaltet 200 Kraft, wenn Lebenspunkte über 90 %\n+10 % Erfahrung für besiegte Gegner",
+          "French": "Puissance quand votre santé est supérieure à 90% +200\nExpérience à chaque ennemi tué +10%"
+        },
+        "DurationMs": 3600000,
+        "AssetId": 0
+      },
+      "Type": 4,
+      "TemplateSlot": 21,
+      "Id": 77146,
+      "MappedId": 56,
+      "Rarity": 3,
+      "Chatlink": "[&AgFaLQEA]",
+      "AssetId": 1201967,
+      "Names": {
+        "English": "Thesis on Masterful Strength",
+        "Spanish": "Tesis sobre fuerza magistral",
+        "German": "Abhandlung über meisterhafte Stärke",
+        "French": "Thèse sur la Force magistrale"
+      },
+      "DisplayTexts": {
+        "English": "Thesis on Masterful Strength",
+        "Spanish": "Tesis sobre fuerza magistral",
+        "German": "Abhandlung über meisterhafte Stärke",
+        "French": "Thèse sur la Force magistrale"
+      },
+      "Descriptions": {
+        "English": "Thesis: Double-click to set out a tome to share with anyone in the area. Stays active for 5 minutes.",
+        "Spanish": "Tesis: haz doble clic para colocar un tomo y compartirlo en la zona. Permanece activo durante 5 minutos.",
+        "German": "Abhandlung: Doppelklicken, um einen Folianten auszuwählen, der mit jedem in der Umgebung geteilt werden soll. Bleibt 5 Minuten lang aktiv.",
+        "French": "Thèse : double-cliquez pour choisir un tome à partager avec toutes les personnes de la zone. La thèse reste active pendant 5 minutes."
+      }
+    },
+    "77567": {
+      "Bonuses": [],
+      "Details": {
+        "Type": 0,
+        "Names": {
+          "English": "Enhancement",
+          "Spanish": "Mejora",
+          "German": "Verbesserung",
+          "French": "Amélioration"
+        },
+        "DisplayTexts": {
+          "English": null,
+          "Spanish": null,
+          "German": null,
+          "French": null
+        },
+        "Descriptions": {
+          "English": "Gain Condition Damage Equal to 3% of Your Precision\nGain Condition Damage Equal to 8% of Your Expertise\n+10% Experience from Kills\n+10% Karma Bonus",
+          "Spanish": "Ganas daño de condición igual al 3 % de tu precisión\nGanas daño de condición igual al 8 % de tu pericia\n+10 % de experiencia al matar\n+10 % de bonificación de karma",
+          "German": "Erhaltet Zustandsschaden entsprechend 3 % Eurer Präzision\nErhaltet Zustandsschaden entsprechend 8 % Eurer Fachkenntnis\n+10 % Erfahrung für besiegte Gegner\n+10 % Karmabonus",
+          "French": "Confère des Dégâts par altération à hauteur de 3% de votre Précision\nConfère des Dégâts par altération à hauteur de 8% de votre Expertise\nExpérience à chaque ennemi tué +10%\nBonus de karma +10%"
+        },
+        "DurationMs": 1800000,
+        "AssetId": 0
+      },
+      "Type": 4,
+      "TemplateSlot": 21,
+      "Id": 77567,
+      "MappedId": 57,
+      "Rarity": 3,
+      "Chatlink": "[&AgH/LgEA]",
+      "AssetId": 1322537,
+      "Names": {
+        "English": "Tuning Icicle",
+        "Spanish": "Carámbano de sintonía",
+        "German": "Abstimmungs-Eiszapfen",
+        "French": "Stalactite d'harmonisation"
+      },
+      "DisplayTexts": {
+        "English": "Tuning Icicle",
+        "Spanish": "Carámbano de sintonía",
+        "German": "Abstimmungs-Eiszapfen",
+        "French": "Stalactite d'harmonisation"
+      },
+      "Descriptions": {
+        "English": null,
+        "Spanish": null,
+        "German": null,
+        "French": null
+      }
+    },
+    "77569": {
+      "Bonuses": [],
+      "Details": {
+        "Type": 0,
+        "Names": {
+          "English": "Enhancement",
+          "Spanish": "Mejora",
+          "German": "Verbesserung",
+          "French": "Amélioration"
+        },
+        "DisplayTexts": {
+          "English": null,
+          "Spanish": null,
+          "German": null,
+          "French": null
+        },
+        "Descriptions": {
+          "English": "Gain Power Equal to 3% of Your Precision\nGain Power Equal to 6% of Your Ferocity\n+10% Experience from Kills\n+10% Karma Bonus",
+          "Spanish": "Ganas potencia igual al 3 % de tu precisión\nGanas potencia igual al 6 % de tu ferocidad\n+10 % de experiencia al matar\n+10 % de bonificación de karma",
+          "German": "Erhaltet Kraft entsprechend 3 % Eurer Präzision\nErhaltet Kraft entsprechend 6 % Eurer Wildheit\n+10 % Erfahrung für besiegte Gegner\n+10 % Karmabonus",
+          "French": "Confère de la Puissance à hauteur de 3% de votre Précision\nConfère de la Puissance à hauteur de 6% de votre Férocité\nExpérience à chaque ennemi tué +10%\nBonus de karma +10%"
+        },
+        "DurationMs": 1800000,
+        "AssetId": 0
+      },
+      "Type": 4,
+      "TemplateSlot": 21,
+      "Id": 77569,
+      "MappedId": 58,
+      "Rarity": 3,
+      "Chatlink": "[&AgEBLwEA]",
+      "AssetId": 1322539,
+      "Names": {
+        "English": "Tin of Fruitcake",
+        "Spanish": "Pastel de frutas en lata",
+        "German": "Kuchenform mit Früchtekuchen",
+        "French": "Boîte de cake aux fruits"
+      },
+      "DisplayTexts": {
+        "English": "Tin of Fruitcake",
+        "Spanish": "Pastel de frutas en lata",
+        "German": "Kuchenform mit Früchtekuchen",
+        "French": "Boîte de cake aux fruits"
+      },
+      "Descriptions": {
+        "English": null,
+        "Spanish": null,
+        "German": null,
+        "French": null
+      }
+    },
+    "77632": {
+      "Bonuses": [],
+      "Details": {
+        "Type": 0,
+        "Names": {
+          "English": "Enhancement",
+          "Spanish": "Mejora",
+          "German": "Verbesserung",
+          "French": "Amélioration"
+        },
+        "DisplayTexts": {
+          "English": null,
+          "Spanish": null,
+          "German": null,
+          "French": null
+        },
+        "Descriptions": {
+          "English": "Gain Concentration Equal to 3% of Your Precision\nGain Concentration Equal to 6% of Your Healing Power\n+10% Experience from Kills\n+10% Karma Bonus",
+          "Spanish": "Ganas concentración igual al 3 % de tu precisión\nGanas concentración igual al 6 % de tu poder de curación\n+10 % de experiencia al matar\n+10 % de bonificación de karma",
+          "German": "Erhaltet Konzentration entsprechend 3 % Eurer Präzision\nErhaltet Konzentration entsprechend 6 % Eurer Heilkraft\n+10 % Erfahrung für besiegte Gegner\n+10 % Karmabonus",
+          "French": "Confère Concentration à hauteur de 3% de votre Précision\nConfère Concentration à hauteur de 6% de votre Guérison\n Expérience à chaque ennemi tué +10%\nBonus de karma 10%"
+        },
+        "DurationMs": 1800000,
+        "AssetId": 0
+      },
+      "Type": 4,
+      "TemplateSlot": 21,
+      "Id": 77632,
+      "MappedId": 59,
+      "Rarity": 3,
+      "Chatlink": "[&AgFALwEA]",
+      "AssetId": 1322538,
+      "Names": {
+        "English": "Peppermint Oil",
+        "Spanish": "Aceite mentolado",
+        "German": "Pfefferminzöl",
+        "French": "Huile à la menthe poivrée"
+      },
+      "DisplayTexts": {
+        "English": "Peppermint Oil",
+        "Spanish": "Aceite mentolado",
+        "German": "Pfefferminzöl",
+        "French": "Huile à la menthe poivrée"
+      },
+      "Descriptions": {
+        "English": null,
+        "Spanish": null,
+        "German": null,
+        "French": null
+      }
+    },
+    "78305": {
+      "Bonuses": [],
+      "Details": {
+        "Type": 0,
+        "Names": {
+          "English": "Enhancement",
+          "Spanish": "Mejora",
+          "German": "Verbesserung",
+          "French": "Amélioration"
+        },
+        "DisplayTexts": {
+          "English": null,
+          "Spanish": null,
+          "German": null,
+          "French": null
+        },
+        "Descriptions": {
+          "English": "Gain Power Equal to 3% of Your Precision\nGain Power Equal to 6% of Your Ferocity\n+10% Experience from Kills",
+          "Spanish": "Ganas potencia igual al 3 % de tu precisión\nGanas potencia igual al 6 % de tu ferocidad\n+10 % de experiencia al matar",
+          "German": "Erhaltet Kraft entsprechend 3 % Eurer Präzision\nErhaltet Kraft entsprechend 6 % Eurer Wildheit\n+10 % Erfahrung für besiegte Gegner",
+          "French": "Confère Puissance à hauteur de 3% de votre Précision\nConfère Puissance à hauteur de 6% de votre Férocité\nExpérience à chaque ennemi tué +10%"
+        },
+        "DurationMs": 1800000,
+        "AssetId": 0
+      },
+      "Type": 4,
+      "TemplateSlot": 21,
+      "Id": 78305,
+      "MappedId": 60,
+      "Rarity": 3,
+      "Chatlink": "[&AgHhMQEA]",
+      "AssetId": 219361,
+      "Names": {
+        "English": "Superior Sharpening Stone",
+        "Spanish": "Piedra de afilar superior",
+        "German": "Überlegener Wetzstein",
+        "French": "Pierre à affûter supérieure"
+      },
+      "DisplayTexts": {
+        "English": "Superior Sharpening Stone",
+        "Spanish": "Piedra de afilar superior",
+        "German": "Überlegener Wetzstein",
+        "French": "Pierre à affûter supérieure"
+      },
+      "Descriptions": {
+        "English": null,
+        "Spanish": null,
+        "German": null,
+        "French": null
+      }
+    },
+    "81034": {
+      "Bonuses": [],
+      "Details": {
+        "Type": 0,
+        "Names": {
+          "English": "Enhancement",
+          "Spanish": "Mejora",
+          "German": "Verbesserung",
+          "French": "Amélioration"
+        },
+        "DisplayTexts": {
+          "English": null,
+          "Spanish": null,
+          "German": null,
+          "French": null
+        },
+        "Descriptions": {
+          "English": "Gain Power Equal to 3% of Your Vitality\nGain Power Equal to 3% of Your Toughness\n+10% Experience from Kills",
+          "Spanish": "Ganas potencia igual al 3 % de tu vitalidad\nGanas potencia igual al 3 % de tu dureza\n+10 % de experiencia al matar",
+          "German": "Erhaltet Kraft entsprechend 3 % Eurer Vitalität\nErhaltet Kraft entsprechend 3 % Eurer Zähigkeit\n+10 % Erfahrung für besiegte Gegner",
+          "French": "Confère Puissance à hauteur de 3% de votre Vitalité\nConfère Puissance à hauteur de 3% de votre Robustesse\nExpérience à chaque ennemi tué +10%"
+        },
+        "DurationMs": 1800000,
+        "AssetId": 0
+      },
+      "Type": 4,
+      "TemplateSlot": 21,
+      "Id": 81034,
+      "MappedId": 61,
+      "Rarity": 4,
+      "Chatlink": "[&AgGKPAEA]",
+      "AssetId": 1676613,
+      "Names": {
+        "English": "Magnanimous Sharpening Stone",
+        "Spanish": "Piedra de afilar magnánima",
+        "German": "Großherziger Wetzstein",
+        "French": "Pierre à affûter magnanime"
+      },
+      "DisplayTexts": {
+        "English": "Magnanimous Sharpening Stone",
+        "Spanish": "Piedra de afilar magnánima",
+        "German": "Großherziger Wetzstein",
+        "French": "Pierre à affûter magnanime"
+      },
+      "Descriptions": {
+        "English": null,
+        "Spanish": null,
+        "German": null,
+        "French": null
+      }
+    },
+    "81079": {
+      "Bonuses": [],
+      "Details": {
+        "Type": 0,
+        "Names": {
+          "English": "Enhancement",
+          "Spanish": "Mejora",
+          "German": "Verbesserung",
+          "French": "Amélioration"
+        },
+        "DisplayTexts": {
+          "English": null,
+          "Spanish": null,
+          "German": null,
+          "French": null
+        },
+        "Descriptions": {
+          "English": "Gain Condition Damage Equal to 3% of Your Vitality\nGain Condition Damage Equal to 3% of Your Toughness\n+10% Experience from Kills",
+          "Spanish": "Ganas daño de condición igual al 3 % de tu vitalidad\nGanas daño de condición igual al 3 % de tu dureza\n+10 % de experiencia al matar",
+          "German": "Erhaltet Zustandsschaden entsprechend 3 % Eurer Vitalität\nErhaltet Zustandsschaden entsprechend 3 % Eurer Zähigkeit\n+10 % Erfahrung für besiegte Gegner",
+          "French": "Confère des Dégâts par altération à hauteur de 3% de votre Vitalité\nConfère des Dégâts par altération à hauteur de 3% de votre Robustesse\nExpérience à chaque ennemi tué +10%"
+        },
+        "DurationMs": 1800000,
+        "AssetId": 0
+      },
+      "Type": 4,
+      "TemplateSlot": 21,
+      "Id": 81079,
+      "MappedId": 62,
+      "Rarity": 4,
+      "Chatlink": "[&AgG3PAEA]",
+      "AssetId": 1676541,
+      "Names": {
+        "English": "Magnanimous Tuning Crystal",
+        "Spanish": "Cristal de sintonía magnánimo",
+        "German": "Großherziger Abstimmkristall",
+        "French": "Cristal d'harmonisation magnanime"
+      },
+      "DisplayTexts": {
+        "English": "Magnanimous Tuning Crystal",
+        "Spanish": "Cristal de sintonía magnánimo",
+        "German": "Großherziger Abstimmkristall",
+        "French": "Cristal d'harmonisation magnanime"
+      },
+      "Descriptions": {
+        "English": null,
+        "Spanish": null,
+        "German": null,
+        "French": null
+      }
+    },
+    "81157": {
+      "Bonuses": [],
+      "Details": {
+        "Type": 0,
+        "Names": {
+          "English": "Enhancement",
+          "Spanish": "Mejora",
+          "German": "Verbesserung",
+          "French": "Amélioration"
+        },
+        "DisplayTexts": {
+          "English": null,
+          "Spanish": null,
+          "German": null,
+          "French": null
+        },
+        "Descriptions": {
+          "English": "Gain Concentration Equal to 3% of Your Vitality\nGain Concentration Equal to 3% of Your Toughness\n+10% Experience from Kills",
+          "Spanish": "Ganas concentración igual al 3 % de tu vitalidad\nGanas concentración igual al 3 % de tu dureza\n+10 % de experiencia al matar",
+          "German": "Erhaltet Konzentration entsprechend 3 % Eurer Vitalität\nErhaltet Konzentration entsprechend 3 % Eurer Zähigkeit\n+10 % Erfahrung für besiegte Gegner",
+          "French": "Confère Concentration à hauteur de 3% de votre Vitalité\nConfère Concentration à hauteur de 3% de votre Robustesse\nExpérience à chaque ennemi tué +10%"
+        },
+        "DurationMs": 1800000,
+        "AssetId": 0
+      },
+      "Type": 4,
+      "TemplateSlot": 21,
+      "Id": 81157,
+      "MappedId": 63,
+      "Rarity": 4,
+      "Chatlink": "[&AgEFPQEA]",
+      "AssetId": 1676607,
+      "Names": {
+        "English": "Magnanimous Maintenance Oil",
+        "Spanish": "Aceite de mantenimiento magnánimo",
+        "German": "Großherziges Wartungsöl",
+        "French": "Huile de maintenance magnanime"
+      },
+      "DisplayTexts": {
+        "English": "Magnanimous Maintenance Oil",
+        "Spanish": "Aceite de mantenimiento magnánimo",
+        "German": "Großherziges Wartungsöl",
+        "French": "Huile de maintenance magnanime"
+      },
+      "Descriptions": {
+        "English": null,
+        "Spanish": null,
+        "German": null,
+        "French": null
+      }
+    },
+    "86016": {
+      "Bonuses": [],
+      "Details": {
+        "Type": 0,
+        "Names": {
+          "English": "Enhancement",
+          "Spanish": "Mejora",
+          "German": "Verbesserung",
+          "French": "Amélioration"
+        },
+        "DisplayTexts": {
+          "English": null,
+          "Spanish": null,
+          "German": null,
+          "French": null
+        },
+        "Descriptions": {
+          "English": "Gain Concentration Equal to 3% of Your Toughness\nGain Expertise Equal to 3% of Your Toughness\n+10% Experience from Kills",
+          "Spanish": "Ganas concentración igual al 3 % de tu dureza\nGanas pericia igual al 3 % de tu dureza\n+10 % de experiencia al matar",
+          "German": "Erhaltet Konzentration entsprechend 3 % Eurer Zähigkeit\nErhaltet Fachkenntnis entsprechend 3 % Eurer Zähigkeit\n+10 % Erfahrung für besiegte Gegner",
+          "French": "Confère Concentration à hauteur de 3% de votre Robustesse\nConfère Expertise à hauteur de 3% de votre Robustesse\nExpérience à chaque ennemi tué +10%"
+        },
+        "DurationMs": 1800000,
+        "AssetId": 0
+      },
+      "Type": 4,
+      "TemplateSlot": 21,
+      "Id": 86016,
+      "MappedId": 64,
+      "Rarity": 4,
+      "Chatlink": "[&AgEAUAEA]",
+      "AssetId": 1676607,
+      "Names": {
+        "English": "Corsair Maintenance Oil",
+        "Spanish": "Aceite de mantenimiento corsario",
+        "German": "Korsaren-Wartungsöl",
+        "French": "Huile de maintenance de corsaire"
+      },
+      "DisplayTexts": {
+        "English": "Corsair Maintenance Oil",
+        "Spanish": "Aceite de mantenimiento corsario",
+        "German": "Korsaren-Wartungsöl",
+        "French": "Huile de maintenance de corsaire"
+      },
+      "Descriptions": {
+        "English": null,
+        "Spanish": null,
+        "German": null,
+        "French": null
+      }
+    },
+    "86287": {
+      "Bonuses": [],
+      "Details": {
+        "Type": 0,
+        "Names": {
+          "English": "Enhancement",
+          "Spanish": "Mejora",
+          "German": "Verbesserung",
+          "French": "Amélioration"
+        },
+        "DisplayTexts": {
+          "English": null,
+          "Spanish": null,
+          "German": null,
+          "French": null
+        },
+        "Descriptions": {
+          "English": "Gain Condition Damage Equal to 3% of Your Toughness\nGain Expertise Equal to 3% of Your Toughness\n+10% Experience from Kills",
+          "Spanish": "Ganas daño de condición igual al 3 % de tu dureza\nGanas pericia igual al 3 % de tu dureza\n+10 % de experiencia al matar",
+          "German": "Erhaltet Zustandsschaden entsprechend 3 % Eurer Zähigkeit\nErhaltet Fachkenntnis entsprechend 3 % Eurer Zähigkeit\n+10 % Erfahrung für besiegte Gegner",
+          "French": "Confère des Dégâts par altération à hauteur de 3% de votre Robustesse\nConfère Expertise à hauteur de 3% de votre Robustesse\nExpérience à chaque ennemi tué +10%"
+        },
+        "DurationMs": 1800000,
+        "AssetId": 0
+      },
+      "Type": 4,
+      "TemplateSlot": 21,
+      "Id": 86287,
+      "MappedId": 65,
+      "Rarity": 4,
+      "Chatlink": "[&AgEPUQEA]",
+      "AssetId": 1894775,
+      "Names": {
+        "English": "Corsair Tuning Crystal",
+        "Spanish": "Cristal de sintonía corsario",
+        "German": "Korsaren-Abstimmkristall",
+        "French": "Cristal d'harmonisation de corsaire"
+      },
+      "DisplayTexts": {
+        "English": "Corsair Tuning Crystal",
+        "Spanish": "Cristal de sintonía corsario",
+        "German": "Korsaren-Abstimmkristall",
+        "French": "Cristal d'harmonisation de corsaire"
+      },
+      "Descriptions": {
+        "English": null,
+        "Spanish": null,
+        "German": null,
+        "French": null
+      }
+    },
+    "86378": {
+      "Bonuses": [],
+      "Details": {
+        "Type": 0,
+        "Names": {
+          "English": "Enhancement",
+          "Spanish": "Mejora",
+          "German": "Verbesserung",
+          "French": "Amélioration"
+        },
+        "DisplayTexts": {
+          "English": null,
+          "Spanish": null,
+          "German": null,
+          "French": null
+        },
+        "Descriptions": {
+          "English": "Gain Power Equal to 3% of Your Toughness\nGain Expertise Equal to 3% of Your Toughness\n+10% Experience from Kills",
+          "Spanish": "Ganas potencia igual al 3 % de tu dureza\nGanas pericia igual al 3 % de tu dureza\n+10 % de experiencia al matar",
+          "German": "Erhaltet Kraft entsprechend 3 % Eurer Zähigkeit\nErhaltet Fachkenntnis entsprechend 3 % Eurer Zähigkeit\n+10 % Erfahrung für besiegte Gegner",
+          "French": "Confère Puissance à hauteur de 3% de votre Robustesse\nConfère Expertise à hauteur de 3% de votre Robustesse\nExpérience à chaque ennemi tué +10%"
+        },
+        "DurationMs": 1800000,
+        "AssetId": 0
+      },
+      "Type": 4,
+      "TemplateSlot": 21,
+      "Id": 86378,
+      "MappedId": 66,
+      "Rarity": 4,
+      "Chatlink": "[&AgFqUQEA]",
+      "AssetId": 1895026,
+      "Names": {
+        "English": "Corsair Sharpening Stone",
+        "Spanish": "Piedra de afilar corsaria",
+        "German": "Korsaren-Wetzstein",
+        "French": "Pierre à affûter de corsaire"
+      },
+      "DisplayTexts": {
+        "English": "Corsair Sharpening Stone",
+        "Spanish": "Piedra de afilar corsaria",
+        "German": "Korsaren-Wetzstein",
+        "French": "Pierre à affûter de corsaire"
+      },
+      "Descriptions": {
+        "English": null,
+        "Spanish": null,
+        "German": null,
+        "French": null
+      }
+    },
+    "87329": {
+      "Bonuses": [],
+      "Details": {
+        "Type": 0,
+        "Names": {
+          "English": "Enhancement",
+          "Spanish": "Mejora",
+          "German": "Verbesserung",
+          "French": "Amélioration"
+        },
+        "DisplayTexts": {
+          "English": null,
+          "Spanish": null,
+          "German": null,
+          "French": null
+        },
+        "Descriptions": {
+          "English": "Gain Healing Power Equal to 8% of Your Concentration\nGain Concentration Equal to 3% of Your Precision\n+10% Experience from Kills",
+          "Spanish": "Ganas poder de curación igual al 8 % de tu concentración\nGanas concentración igual al 3 % de tu precisión\n+10 % de experiencia al matar",
+          "German": "Erhaltet Heilkraft entsprechend 8 % Eurer Konzentration\nErhaltet Konzentration entsprechend 3 % Eurer Präzision\n+10 % Erfahrung für besiegte Gegner",
+          "French": "Confère Guérison à hauteur de 8% de votre Concentration\nConfère Concentration à hauteur de 3% de votre Précision\nExpérience à chaque ennemi tué +10%"
+        },
+        "DurationMs": 1800000,
+        "AssetId": 0
+      },
+      "Type": 4,
+      "TemplateSlot": 21,
+      "Id": 87329,
+      "MappedId": 67,
+      "Rarity": 4,
+      "Chatlink": "[&AgEhVQEA]",
+      "AssetId": 1964003,
+      "Names": {
+        "English": "Holographic Super Drumstick",
+        "Spanish": "Supermuslo de pollo holográfico",
+        "German": "Holografische Super-Hähnchenkeule",
+        "French": "Super pilon holographique"
+      },
+      "DisplayTexts": {
+        "English": "Holographic Super Drumstick",
+        "Spanish": "Supermuslo de pollo holográfico",
+        "German": "Holografische Super-Hähnchenkeule",
+        "French": "Super pilon holographique"
+      },
+      "Descriptions": {
+        "English": null,
+        "Spanish": null,
+        "German": null,
+        "French": null
+      }
+    },
+    "87336": {
+      "Bonuses": [],
+      "Details": {
+        "Type": 0,
+        "Names": {
+          "English": "Enhancement",
+          "Spanish": "Mejora",
+          "German": "Verbesserung",
+          "French": "Amélioration"
+        },
+        "DisplayTexts": {
+          "English": null,
+          "Spanish": null,
+          "German": null,
+          "French": null
+        },
+        "Descriptions": {
+          "English": "Gain Condition Damage Equal to 8% of Your Concentration\nGain Concentration Equal to 3% of Your Precision\n+10% Experience from Kills",
+          "Spanish": "Ganas daño de condición igual al 8 % de tu concentración\nGanas concentración igual al 3 % de tu precisión\n+10 % de experiencia al matar",
+          "German": "Erhaltet Zustandsschaden entsprechend 8 % Eurer Konzentration\nErhaltet Konzentration entsprechend 3 % Eurer Präzision\n+10 % Erfahrung für besiegte Gegner",
+          "French": "Confère des Dégâts par altération à hauteur de 8% de votre Concentration\nConfère Concentration à hauteur de 3% de votre Précision\nExpérience à chaque ennemi tué +10%"
+        },
+        "DurationMs": 1800000,
+        "AssetId": 0
+      },
+      "Type": 4,
+      "TemplateSlot": 21,
+      "Id": 87336,
+      "MappedId": 68,
+      "Rarity": 4,
+      "Chatlink": "[&AgEoVQEA]",
+      "AssetId": 1964005,
+      "Names": {
+        "English": "Holographic Super Apple",
+        "Spanish": "Supermanzana holográfica",
+        "German": "Holografischer Super-Apfel",
+        "French": "Super pomme holographique"
+      },
+      "DisplayTexts": {
+        "English": "Holographic Super Apple",
+        "Spanish": "Supermanzana holográfica",
+        "German": "Holografischer Super-Apfel",
+        "French": "Super pomme holographique"
+      },
+      "Descriptions": {
+        "English": null,
+        "Spanish": null,
+        "German": null,
+        "French": null
+      }
+    },
+    "87358": {
+      "Bonuses": [],
+      "Details": {
+        "Type": 0,
+        "Names": {
+          "English": "Enhancement",
+          "Spanish": "Mejora",
+          "German": "Verbesserung",
+          "French": "Amélioration"
+        },
+        "DisplayTexts": {
+          "English": null,
+          "Spanish": null,
+          "German": null,
+          "French": null
+        },
+        "Descriptions": {
+          "English": "Gain Power Equal to 8% of Your Concentration\nGain Concentration Equal to 3% of Your Precision\n+10% Experience from Kills",
+          "Spanish": "Ganas potencia igual al 8 % de tu concentración\nGanas concentración igual al 3 % de tu precisión\n+10 % de experiencia al matar",
+          "German": "Erhaltet Kraft entsprechend 8 % Eurer Konzentration\nErhaltet Konzentration entsprechend 3 % Eurer Präzision\n+10 % Erfahrung für besiegte Gegner",
+          "French": "Confère Puissance à hauteur de 8% de votre Concentration\nConfère Concentration à hauteur de 3% de votre Précision\nExpérience à chaque ennemi tué +10%"
+        },
+        "DurationMs": 1800000,
+        "AssetId": 0
+      },
+      "Type": 4,
+      "TemplateSlot": 21,
+      "Id": 87358,
+      "MappedId": 69,
+      "Rarity": 4,
+      "Chatlink": "[&AgE+VQEA]",
+      "AssetId": 1964002,
+      "Names": {
+        "English": "Holographic Super Cheese",
+        "Spanish": "Superqueso holográfico",
+        "German": "Holografischer Super-Käse",
+        "French": "Super fromage holographique"
+      },
+      "DisplayTexts": {
+        "English": "Holographic Super Cheese",
+        "Spanish": "Superqueso holográfico",
+        "German": "Holografischer Super-Käse",
+        "French": "Super fromage holographique"
+      },
+      "Descriptions": {
+        "English": null,
+        "Spanish": null,
+        "German": null,
+        "French": null
+      }
+    },
+    "89157": {
+      "Bonuses": [],
+      "Details": {
+        "Type": 0,
+        "Names": {
+          "English": "Enhancement",
+          "Spanish": "Mejora",
+          "German": "Verbesserung",
+          "French": "Amélioration"
+        },
+        "DisplayTexts": {
+          "English": null,
+          "Spanish": null,
+          "German": null,
+          "French": null
+        },
+        "Descriptions": {
+          "English": "Gain Concentration Equal to 6% of Your Condition Damage\nGain Concentration Equal to 3% of Your Precision\n+10% Experience from Kills",
+          "Spanish": "Ganas concentración igual al 6 % de tu daño de condición\n\nGanas concentración igual al 3 % de tu precisión\n\n+10 % de experiencia al matar",
+          "German": "Erhaltet Konzentration entsprechend 6 % Eures Zustandsschadens\n\nErhaltet Konzentration entsprechend 3 % Eurer Präzision\n\n+10 % Erfahrung für besiegte Gegner",
+          "French": "Confère Concentration à hauteur de 6% de vos dégâts par altération\n\nConfère Concentration à hauteur de 3% de votre Précision\n\nExpérience à chaque ennemi tué +10%"
+        },
+        "DurationMs": 1800000,
+        "AssetId": 0
+      },
+      "Type": 4,
+      "TemplateSlot": 21,
+      "Id": 89157,
+      "MappedId": 70,
+      "Rarity": 4,
+      "Chatlink": "[&AgFFXAEA]",
+      "AssetId": 2063491,
+      "Names": {
+        "English": "Enhanced Lucent Oil",
+        "Spanish": "Aceite luminoso mejorado",
+        "German": "Verbessertes schillerndes Öl",
+        "French": "Huile luisante améliorée"
+      },
+      "DisplayTexts": {
+        "English": "Enhanced Lucent Oil",
+        "Spanish": "Aceite luminoso mejorado",
+        "German": "Verbessertes schillerndes Öl",
+        "French": "Huile luisante améliorée"
+      },
+      "Descriptions": {
+        "English": null,
+        "Spanish": null,
+        "German": null,
+        "French": null
+      }
+    },
+    "89203": {
+      "Bonuses": [],
+      "Details": {
+        "Type": 0,
+        "Names": {
+          "English": "Enhancement",
+          "Spanish": "Mejora",
+          "German": "Verbesserung",
+          "French": "Amélioration"
+        },
+        "DisplayTexts": {
+          "English": null,
+          "Spanish": null,
+          "German": null,
+          "French": null
+        },
+        "Descriptions": {
+          "English": "Gain Concentration Equal to 3% of Your Power\nGain Concentration Equal to 3% of Your Precision\n+10% Experience from Kills",
+          "Spanish": "Ganas concentración igual al 3 % de tu potencia\n\nGanas concentración igual al 3 % de tu precisión\n\n+10 % de experiencia al matar",
+          "German": "Erhaltet Konzentration entsprechend 3 % Eurer Kraft\n\nErhaltet Konzentration entsprechend 3 % Eurer Präzision\n\n+10 % Erfahrung für besiegte Gegner",
+          "French": "Confère Concentration à hauteur de 3% de votre Puissance\n\nConfère Concentration à hauteur de 3% de votre Précision\n\nExpérience à chaque ennemi tué +10%"
+        },
+        "DurationMs": 1800000,
+        "AssetId": 0
+      },
+      "Type": 4,
+      "TemplateSlot": 21,
+      "Id": 89203,
+      "MappedId": 71,
+      "Rarity": 4,
+      "Chatlink": "[&AgFzXAEA]",
+      "AssetId": 2063492,
+      "Names": {
+        "English": "Potent Lucent Oil",
+        "Spanish": "Aceite luminoso potente",
+        "German": "Wirkungsvolles schillerndes Öl",
+        "French": "Huile luisante absolue"
+      },
+      "DisplayTexts": {
+        "English": "Potent Lucent Oil",
+        "Spanish": "Aceite luminoso potente",
+        "German": "Wirkungsvolles schillerndes Öl",
+        "French": "Huile luisante absolue"
+      },
+      "Descriptions": {
+        "English": null,
+        "Spanish": null,
+        "German": null,
+        "French": null
+      }
+    },
+    "89461": {
+      "Bonuses": [],
+      "Details": {
+        "Type": 0,
+        "Names": {
+          "English": "Branded-Slaying Enhancement",
+          "Spanish": "Mejora de asesinato de marcados",
+          "German": "Gebrandmarkten-Vernichtungs-Verbesserung",
+          "French": "Amélioration d'élimination de stigmatisés"
+        },
+        "DisplayTexts": {
+          "English": null,
+          "Spanish": null,
+          "German": null,
+          "French": null
+        },
+        "Descriptions": {
+          "English": "+10% Increased Damage to Branded Foes in Thunderhead Peaks\n+10% Experience from Kills",
+          "Spanish": "+10 % de daño aumentado a los enemigos marcados en los Picos del Trueno.\n+10 % de experiencia al matar",
+          "German": "+10 % erhöhter Schaden Gebrandmarkter Gegner in den Donnerkopf-Gipfeln\n+10 % Erfahrung für besiegte Gegner",
+          "French": "Dégâts contre les ennemis stigmatisés +10% aux Pics de Chef-Tonnerre\nExpérience à chaque ennemi tué +10%"
+        },
+        "DurationMs": 1800000,
+        "AssetId": 0
+      },
+      "Type": 4,
+      "TemplateSlot": 21,
+      "Id": 89461,
+      "MappedId": 72,
+      "Rarity": 3,
+      "Chatlink": "[&AgF1XQEA]",
+      "AssetId": 2083241,
+      "Names": {
+        "English": "Dragon Crystal Potion",
+        "Spanish": "Poción de cristal del dragón",
+        "German": "Drachenkristall-Trank",
+        "French": "Potion de cristal du dragon"
+      },
+      "DisplayTexts": {
+        "English": "Dragon Crystal Potion",
+        "Spanish": "Poción de cristal del dragón",
+        "German": "Drachenkristall-Trank",
+        "French": "Potion de cristal du dragon"
+      },
+      "Descriptions": {
+        "English": "Increases the damage dealt to Branded opponents in Thunderhead Peaks.",
+        "Spanish": "Aumenta el daño infligido a los enemigos marcados en los Picos del Trueno.",
+        "German": "Erhöht den Schaden, den Gebrandmarkte Gegner in den Donnerkopf-Gipfeln erleiden.",
+        "French": "Augmente les dégâts infligés aux adversaires stigmatisés des Pics de Chef-Tonnerre."
+      }
+    },
+    "91289": {
+      "Bonuses": [],
+      "Details": {
+        "Type": 0,
+        "Names": {
+          "English": "Enhancement",
+          "Spanish": "Mejora",
+          "German": "Verbesserung",
+          "French": "Amélioration"
+        },
+        "DisplayTexts": {
+          "English": null,
+          "Spanish": null,
+          "German": null,
+          "French": null
+        },
+        "Descriptions": {
+          "English": "+10% Damage vs. Branded\n-10% Damage from Branded\n+10% Experience from Kills",
+          "Spanish": "+10 % de daño contra marcados\n\n-10 % de daño recibido de marcados\n\n+10 % de experiencia al matar",
+          "German": "+10 % Schaden gg. Gebrandmarkte\n\n-10 % Schaden von Gebrandmarkten\n\n+10 % Erfahrung für besiegte Gegner",
+          "French": "Dégâts contre les créatures stigmatisées +10%\n\nDégâts subis contre les créatures stigmatisées -10%\n\nExpérience à chaque ennemi tué +10%"
+        },
+        "DurationMs": 3600000,
+        "AssetId": 0
+      },
+      "Type": 4,
+      "TemplateSlot": 21,
+      "Id": 91289,
+      "MappedId": 73,
+      "Rarity": 3,
+      "Chatlink": "[&AgGZZAEA]",
+      "AssetId": 222716,
+      "Names": {
+        "English": "Powerful Potion of Branded Slaying",
+        "Spanish": "Poción de masacre de marcados poderosa",
+        "German": "Kraftvoller Trank der Gebrandmarkten-Vernichtung",
+        "French": "Potion de massacre de créatures stigmatisées efficace"
+      },
+      "DisplayTexts": {
+        "English": "Powerful Potion of Branded Slaying",
+        "Spanish": "Poción de masacre de marcados poderosa",
+        "German": "Kraftvoller Trank der Gebrandmarkten-Vernichtung",
+        "French": "Potion de massacre de créatures stigmatisées efficace"
+      },
+      "Descriptions": {
+        "English": null,
+        "Spanish": null,
+        "German": null,
+        "French": null
+      }
+    },
+    "91350": {
+      "Bonuses": [],
+      "Details": {
+        "Type": 0,
+        "Names": {
+          "English": "Enhancement",
+          "Spanish": "Mejora",
+          "German": "Verbesserung",
+          "French": "Amélioration"
+        },
+        "DisplayTexts": {
+          "English": null,
+          "Spanish": null,
+          "German": null,
+          "French": null
+        },
+        "Descriptions": {
+          "English": "+10% Damage vs. Mordrem\n-10% Damage from Mordrem\n+10% Experience from Kills",
+          "Spanish": "+10 % de daño contra mordrem\n\n-10 % de daño recibido de mordrem\n\n+10 % de experiencia al matar",
+          "German": "+10 % Schaden gg. Mordrem\n\n-10 % Schaden von Mordrem\n\n+10 % Erfahrung für besiegte Gegner",
+          "French": "Dégâts contre les mordrems +10%\n\nDégâts subis contre les mordrems -10%\n\nExpérience à chaque ennemi tué +10%"
+        },
+        "DurationMs": 3600000,
+        "AssetId": 0
+      },
+      "Type": 4,
+      "TemplateSlot": 21,
+      "Id": 91350,
+      "MappedId": 74,
+      "Rarity": 3,
+      "Chatlink": "[&AgHWZAEA]",
+      "AssetId": 222712,
+      "Names": {
+        "English": "Powerful Potion of Mordrem Slaying",
+        "Spanish": "Poción de masacre de mordrem poderosa",
+        "German": "Kraftvoller Trank der Mordrem-Vernichtung",
+        "French": "Potion de massacre de mordrems efficace"
+      },
+      "DisplayTexts": {
+        "English": "Powerful Potion of Mordrem Slaying",
+        "Spanish": "Poción de masacre de mordrem poderosa",
+        "German": "Kraftvoller Trank der Mordrem-Vernichtung",
+        "French": "Potion de massacre de mordrems efficace"
+      },
+      "Descriptions": {
+        "English": null,
+        "Spanish": null,
+        "German": null,
+        "French": null
+      }
+    },
+    "99842": {
+      "Bonuses": [],
+      "Details": {
+        "Type": 0,
+        "Names": {
+          "English": "Enhancement",
+          "Spanish": "Mejora",
+          "German": "Verbesserung",
+          "French": "Amélioration"
+        },
+        "DisplayTexts": {
+          "English": null,
+          "Spanish": null,
+          "German": null,
+          "French": null
+        },
+        "Descriptions": {
+          "English": "Gain 0.6% Increased Healing to Other Allies for Every 100 Healing Power\nGain 0.8% Increased Healing to Other Allies for Every 100 Concentration\n+10% Experience from Kills",
+          "Spanish": "Ganas un 0,6 % de aumento de curación a otros aliados por cada 100 de poder de curación\nGanas un 0,8 % de aumento de curación a otros aliados por cada 100 de concentración\n+10 % de experiencia al matar",
+          "German": "Erhaltet 0,6 % Zuwachs für Heilung an andere Verbündete pro 100 Heilkraft\nErhaltet 0,8 % Zuwachs für Heilung an andere Verbündete pro 100 Konzentration\n+10 % Erfahrung für besiegte Gegner",
+          "French": "Les soins conférés aux autres alliés augmentent de 0,6% tous les 100 points de Guérison.\nLes soins conférés aux autres alliés augmentent de 0,8% tous les 100 points de Concentration.\nExpérience à chaque ennemi tué +10%"
+        },
+        "DurationMs": 1800000,
+        "AssetId": 0
+      },
+      "Type": 4,
+      "TemplateSlot": 21,
+      "Id": 99842,
+      "MappedId": 75,
+      "Rarity": 4,
+      "Chatlink": "[&AgEChgEA]",
+      "AssetId": 219367,
+      "Names": {
+        "English": "Mist-Infused Maintenance Oil",
+        "Spanish": "Aceite de mantenimiento infundido de Niebla",
+        "German": "Nebelinfundiertes Wartungsöl",
+        "French": "Huile de maintenance infusée des Brumes"
+      },
+      "DisplayTexts": {
+        "English": "Mist-Infused Maintenance Oil",
+        "Spanish": "Aceite de mantenimiento infundido de Niebla",
+        "German": "Nebelinfundiertes Wartungsöl",
+        "French": "Huile de maintenance infusée des Brumes"
+      },
+      "Descriptions": {
+        "English": "This mist-laced bottle cannot be destroyed by means of salvage.",
+        "Spanish": "Esta botella atada con Niebla no se puede destruir mediante reciclaje.",
+        "German": "Diese vom Nebel befallene Flasche kann nicht durch Zerlegung zerstört werden.",
+        "French": "Cette bouteille infusée des Brumes ne peut pas être détruite en la recyclant."
+      }
+    },
+    "99845": {
+      "Bonuses": [],
+      "Details": {
+        "Type": 0,
+        "Names": {
+          "English": "Enhancement",
+          "Spanish": "Mejora",
+          "German": "Verbesserung",
+          "French": "Amélioration"
+        },
+        "DisplayTexts": {
+          "English": null,
+          "Spanish": null,
+          "German": null,
+          "French": null
+        },
+        "Descriptions": {
+          "English": "Gain Power Equal to 3% of Your Precision\nGain Power Equal to 6% of Your Ferocity\n+10% Experience from Kills",
+          "Spanish": "Ganas potencia igual al 3 % de tu precisión\nGanas potencia igual al 6 % de tu ferocidad\n+10 % de experiencia al matar",
+          "German": "Erhaltet Kraft entsprechend 3 % Eurer Präzision\nErhaltet Kraft entsprechend 6 % Eurer Wildheit\n+10 % Erfahrung für besiegte Gegner",
+          "French": "Confère Puissance à hauteur de 3% de votre Précision\nConfère Puissance à hauteur de 6% de votre Férocité\nExpérience à chaque ennemi tué +10%"
+        },
+        "DurationMs": 1800000,
+        "AssetId": 0
+      },
+      "Type": 4,
+      "TemplateSlot": 21,
+      "Id": 99845,
+      "MappedId": 76,
+      "Rarity": 3,
+      "Chatlink": "[&AgEFhgEA]",
+      "AssetId": 219361,
+      "Names": {
+        "English": "Mist-Infused Sharpening Stone",
+        "Spanish": "Piedra de afilar infundida de Niebla",
+        "German": "Nebelinfundierter Wetzstein",
+        "French": "Pierre à affûter infusée des Brumes"
+      },
+      "DisplayTexts": {
+        "English": "Mist-Infused Sharpening Stone",
+        "Spanish": "Piedra de afilar infundida de Niebla",
+        "German": "Nebelinfundierter Wetzstein",
+        "French": "Pierre à affûter infusée des Brumes"
+      },
+      "Descriptions": {
+        "English": "These mist-laced stones cannot be destroyed by means of salvage.",
+        "Spanish": "Estas piedras atadas con Niebla no se pueden destruir mediante reciclaje.",
+        "German": "Diese vom Nebel befallenen Steine können nicht durch Zerlegung zerstört werden.",
+        "French": "Ces pierres infusées des Brumes ne peuvent pas être détruites en les recyclant."
+      }
+    },
+    "102135": {
+      "Bonuses": [],
+      "Details": {
+        "Type": 0,
+        "Names": {
+          "English": "Enhancement",
+          "Spanish": "Mejora",
+          "German": "Verbesserung",
+          "French": "Amélioration"
+        },
+        "DisplayTexts": {
+          "English": null,
+          "Spanish": null,
+          "German": null,
+          "French": null
+        },
+        "Descriptions": {
+          "English": "Gain Condition Damage Equal to 3% of Your Precision\nGain Condition Damage Equal to 8% of Your Expertise\n+10% Experience from Kills",
+          "Spanish": "Ganas daño de condición igual al 3 % de tu precisión\nGanas daño de condición igual al 8 % de tu pericia\n+10 % de experiencia al matar",
+          "German": "Erhaltet Zustandsschaden entsprechend 3 % Eurer Präzision\nErhaltet Zustandsschaden entsprechend 8 % Eurer Fachkenntnis\n+10 % Erfahrung für besiegte Gegner",
+          "French": "Confère des Dégâts par altération à hauteur de 3% de votre Précision\nConfère des Dégâts par altération à hauteur de 8% de votre Expertise\nExpérience à chaque ennemi tué +10%"
+        },
+        "DurationMs": 1800000,
+        "AssetId": 0
+      },
+      "Type": 4,
+      "TemplateSlot": 21,
+      "Id": 102135,
+      "MappedId": 77,
+      "Rarity": 3,
+      "Chatlink": "[&AgH3jgEA]",
+      "AssetId": 219373,
+      "Names": {
+        "English": "Mist-Infused Master Tuning Crystal",
+        "Spanish": "Cristal de sintonía de maestro infundido de Niebla",
+        "German": "Nebelinfundierter Meister-Abstimmkristall",
+        "French": "Cristal d'harmonisation de maître infusé des Brumes"
+      },
+      "DisplayTexts": {
+        "English": "Mist-Infused Master Tuning Crystal",
+        "Spanish": "Cristal de sintonía de maestro infundido de Niebla",
+        "German": "Nebelinfundierter Meister-Abstimmkristall",
+        "French": "Cristal d'harmonisation de maître infusé des Brumes"
+      },
+      "Descriptions": {
+        "English": "This mist-laced crystal cannot be destroyed by means of salvage.",
+        "Spanish": "Este cristal atado con Niebla no se puede destruir mediante reciclaje.",
+        "German": "Dieser vom Nebel befallene Kristall kann nicht durch Zerlegung zerstört werden.",
+        "French": "Ce cristal infusé des Brumes ne peut pas être détruit en le recyclant."
+      }
+    }
+  },
+  "Version": "0.0.6"
+}

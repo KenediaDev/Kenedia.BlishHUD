@@ -106,6 +106,9 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
 
         private void Templates_Loaded(object sender, EventArgs e)
         {
+            TemplateSelectables?.DisposeAll();
+            TemplateSelectables?.Clear();
+
             AddTemplateSelectable(true, [.. Templates]);
         }
 

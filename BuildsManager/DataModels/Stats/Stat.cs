@@ -18,6 +18,8 @@ namespace Kenedia.Modules.BuildsManager.DataModels.Stats
     [DataContract]
     public class Stat : IDisposable, IDataMember
     {
+        private static DetailedTexture s_placeHolder = new(440025);
+
         public class StatTextureMapInfo
         {
             private Point _startOffset = new(8, 8);
@@ -83,10 +85,12 @@ namespace Kenedia.Modules.BuildsManager.DataModels.Stats
         {
             get
             {
+                if (TextureInfo == null) return s_placeHolder;
+
                 field ??= new(TexturesService.GetTextureFromDisk(Path.Combine(BuildsManager.Data.Paths.ModuleDataPath, "stat_map.png")))
-                    {
-                        TextureRegion = TextureInfo.TextureRectangle
-                    };
+                {
+                    TextureRegion = TextureInfo.TextureRectangle
+                };
 
                 return field;
             }

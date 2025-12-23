@@ -24,8 +24,8 @@ namespace Kenedia.Modules.BuildsManager.Views
         public TagGroupPanel(TagGroup tagGroup, Container container)
         {
             TagGroup = tagGroup;
-            FlowDirection = Blish_HUD.Controls.ControlFlowDirection.LeftToRight;
-            WidthSizingMode = Blish_HUD.Controls.SizingMode.Fill;
+            FlowDirection = ControlFlowDirection.LeftToRight;
+            WidthSizingMode = SizingMode.Fill;
             Parent = container;
 
             OuterControlPadding = new(4, OuterControlPaddingY);

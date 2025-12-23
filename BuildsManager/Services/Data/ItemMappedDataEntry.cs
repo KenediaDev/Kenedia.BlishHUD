@@ -1,20 +1,21 @@
 ﻿using Blish_HUD;
 using Blish_HUD.Modules.Managers;
-using Newtonsoft.Json;
-using System;
-using System.Linq;
-using System.Threading.Tasks;
+using Gw2Sharp.Models;
+using Gw2Sharp.WebApi;
+using Gw2Sharp.WebApi.V2.Models;
 using Kenedia.Modules.BuildsManager.DataModels.Items;
+using Kenedia.Modules.BuildsManager.Models;
+using Kenedia.Modules.BuildsManager.Res;
 using Kenedia.Modules.Core.Extensions;
 using Kenedia.Modules.Core.Models;
-using Gw2Sharp.WebApi;
 using Kenedia.Modules.Core.Utility;
-using System.Threading;
-using Gw2Sharp.WebApi.V2.Models;
-using File = System.IO.File;
-using Kenedia.Modules.BuildsManager.Res;
+using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
-using Kenedia.Modules.BuildsManager.Models;
+using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
+using File = System.IO.File;
 
 namespace Kenedia.Modules.BuildsManager.Services
 {
@@ -22,82 +23,76 @@ namespace Kenedia.Modules.BuildsManager.Services
     {
         private List<int> _pendingIds = [];
 
-        public async Task<List<int>> LoadAndGetPending(string name, ByteIntMap map, string path)
+        public override async Task<bool> LoadCached(string name, string path, CancellationToken token)
         {
-            try
+            if (token.IsCancellationRequested)
             {
-                MappedDataEntry<int, T> loaded = null;
+                return false;
+            }
 
-                if (!DataLoaded && File.Exists(path))
+            if (!File.Exists(path))
+            {
+                BuildsManager.Logger.Debug($"No local data for {name} found at '{System.IO.Path.GetFileName(path)}'");
+                return false;
+            }
+
+            BuildsManager.Logger.Debug($"Loading local data for {name} from '{System.IO.Path.GetFileName(path)}'");
+
+            if (File.Exists(path))
+            {
+                string json = File.ReadAllText(path);
+                if (token.IsCancellationRequested)
                 {
-                    BuildsManager.Logger.Debug($"Load {name}.json");
-                    string json = File.ReadAllText(path);
-                    loaded = JsonConvert.DeserializeObject<MappedDataEntry<int, T>>(json, SerializerSettings.Default);
+                    return false;
+                }
+
+                var loaded = JsonConvert.DeserializeObject<MappedDataEntry<int, T>>(json, SerializerSettings.Default);
+                if (loaded != null)
+                {
+                    Map = loaded.Map;
+                    Items = loaded.Items;
+                    Version = loaded.Version;
                     DataLoaded = true;
+                    BuildsManager.Logger.Debug($"Loaded local data for {name} with {Items.Count} entries. Version {Version}");
+                    return true;
                 }
-
-                Map = map;
-                Items = loaded?.Items ?? Items;
-                Version = loaded?.Version ?? Version;
-
-                BuildsManager.Logger.Debug($"{name} Current Version: {Version} | Required Version: {map.Version}");
-
-                foreach (int id in Map.Ignored.Values)
-                {
-                    _ = Items.Remove(id);
-                }
-
-                var lang = GameService.Overlay.UserLocale.Value is Locale.Korean or Locale.Chinese ? Locale.English : GameService.Overlay.UserLocale.Value;
-
-                _pendingIds = [];
-
-                switch (map.Version > Version)
-                {
-                    case true:
-                        BuildsManager.Logger.Debug($"The current version does not match the map version. Updating all values for {name}.");
-                        Version = map.Version;
-                        _pendingIds = [.. _pendingIds, .. Map.Values.Except(Items.Keys).Except(Map.Ignored.Values)];
-                        break;
-
-                    case false:
-                        _pendingIds = [.. Items.Values.Where(item => item.Names[lang] == null)?.Select(e => e.Id)];
-                        break;
-                }
-
-                if (_pendingIds.Count > 0)
-                {
-                    BuildsManager.Logger.Debug($"A total of {_pendingIds.Count} {name} need to be fetched.");
-                    return _pendingIds;
-                }
-
-                return [];
             }
-            catch (Exception ex)
-            {
-                BuildsManager.Logger.Warn(ex, $"Failed to load {name} data.");
-                return [];
-            }
+
+            return false;
         }
 
-        public async override Task<bool> LoadAndUpdate(string name, ByteIntMap map, string path, Gw2ApiManager gw2ApiManager, CancellationToken cancellationToken)
+        public override async Task<(bool, List<object>)> IsIncomplete(string name, ByteIntMap map, string path, Gw2ApiManager gw2ApiManager, CancellationToken token)
+        {
+            Map = map;
+            var lang = GameService.Overlay.UserLocale.Value is Locale.Korean or Locale.Chinese ? Locale.English : GameService.Overlay.UserLocale.Value;
+            var missing = map.Version > Version ? map.Items.Values : Map.Items.Values.Where(id => !Items.TryGetValue(id, out var entry) || entry.Names[lang] is null);
+
+            return (missing.Any(), missing.Cast<object>().ToList());
+        }
+
+        public override async Task<bool> Update(string name, ByteIntMap map, string path, Gw2ApiManager gw2ApiManager, CancellationToken token)
         {
             try
             {
-                bool saveRequired = _pendingIds.Count > 0;
-               
-                if (_pendingIds.Count > 0)
+                if (token.IsCancellationRequested)
                 {
-                    var idSets = _pendingIds.ChunkBy(200);
+                    return false;
+                }
 
-                    var legyArmorHelmet = await gw2ApiManager.Gw2ApiClient.V2.Items.GetAsync(80384, cancellationToken);
-                    var statChoices = (legyArmorHelmet is ItemArmor armor) ? armor.Details.StatChoices : new List<int>();
+                
+                var (_, missing) = await IsIncomplete(name, map, path, gw2ApiManager, token);
 
-                    saveRequired = saveRequired || idSets.Count > 0;
-                    BuildsManager.Logger.Debug($"Fetch a total of {_pendingIds.Count} {name} in {idSets.Count} sets.");
+                if (missing.Any() && missing.All(e => e is int))
+                {
+                    var idSets = missing.Cast<int>().ToList().ChunkBy(200);
+                    BuildsManager.Logger.Debug($"{name} updating {missing.Count()} entries in {idSets.Count} sets.");
+
+                    var legyArmorHelmet = await gw2ApiManager.Gw2ApiClient.V2.Items.GetAsync(80384, token);
+                    var statChoices = (legyArmorHelmet is ItemArmor armor) ? armor.Details.StatChoices : [];
                     foreach (var ids in idSets)
                     {
-                        var items = await gw2ApiManager.Gw2ApiClient.V2.Items.ManyAsync(ids, cancellationToken);
-                        if (cancellationToken.IsCancellationRequested)
+                        var items = await gw2ApiManager.Gw2ApiClient.V2.Items.ManyAsync(ids, token);
+                        if (token.IsCancellationRequested)
                         {
                             return false;
                         }
@@ -152,23 +147,22 @@ namespace Kenedia.Modules.BuildsManager.Services
                                 Items.Add(item.Id, entryItem);
                         }
                     }
-                }
 
-                if (saveRequired)
-                {
-                    BuildsManager.Logger.Debug($"Saving {name}.json");
+                    Version = map.Version;
+                    BuildsManager.Logger.Debug($"Saving updated {name} data with {missing.Count()} updated entries. Version {Version}");
                     string json = JsonConvert.SerializeObject(this, SerializerSettings.Default);
                     File.WriteAllText(path, json);
-                }
+                    DataLoaded = true;
 
-                DataLoaded = DataLoaded || Items.Count > 0;
-                return true;
+                    return true;
+                }
             }
             catch (Exception ex)
             {
-                BuildsManager.Logger.Warn(ex, $"Failed to load {name} data.");
-                return false;
+                BuildsManager.Logger.Warn(ex, $"Failed to update {name} data.");
             }
+
+            return false;
         }
     }
 }

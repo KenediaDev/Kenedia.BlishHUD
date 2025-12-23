@@ -363,7 +363,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selection
                 }
                 else
                 {
-                    spriteBatch.DrawStringOnCtrl(this, $"+{_tagTextures.Count - amount}", Content.DefaultFont14, tagTexture.Bounds, Colors.OldLace, false, Blish_HUD.Controls.HorizontalAlignment.Left);
+                    spriteBatch.DrawStringOnCtrl(this, $"+{_tagTextures.Count - amount}", Content.DefaultFont14, tagTexture.Bounds, Colors.OldLace, false, HorizontalAlignment.Left);
                     break;
                 }
             }

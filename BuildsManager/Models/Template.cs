@@ -49,8 +49,6 @@ namespace Kenedia.Modules.BuildsManager.Models
         private string _savedBuildCode = string.Empty;
         private string _savedGearCode = string.Empty;
         private CancellationTokenSource? _cancellationTokenSource;
-
-        private bool _saveRequested;
         private List<BuildSpecialization> _specializations;
 
         public event EventHandler? GearCodeChanged;
@@ -300,6 +298,8 @@ namespace Kenedia.Modules.BuildsManager.Models
 
         public bool Loaded { get; set; }
 
+        public bool SaveRequested { get; set; }
+
         private void OnLastModifiedChanged(object sender, ValueChangedEventArgs<string> e)
         {
             LastModifiedChanged?.Invoke(this, e);
@@ -308,7 +308,7 @@ namespace Kenedia.Modules.BuildsManager.Models
 
         private async void OnTimerElapsed(object sender, ElapsedEventArgs e)
         {
-            if (_saveRequested)
+            if (SaveRequested)
             {
                 _timer.Stop();
 
@@ -318,9 +318,9 @@ namespace Kenedia.Modules.BuildsManager.Models
 
         public void RequestSave([CallerMemberName] string name = "unkown")
         {
-            _saveRequested = !string.IsNullOrEmpty(Name) && TriggerAutoSave && Loaded;
+            SaveRequested = !string.IsNullOrEmpty(Name) && TriggerAutoSave && Loaded;
 
-            if (_saveRequested)
+            if (SaveRequested)
             {
                 _timer.Stop();
                 _timer.Start();
@@ -727,7 +727,7 @@ namespace Kenedia.Modules.BuildsManager.Models
 
                     File.WriteAllText(filePath, json);
                     BuildsManager.Logger.Debug($"Saved {Name} in {filePath}");
-                    _saveRequested = false;
+                    SaveRequested = false;
                     _timer.Stop();
                 }
             }

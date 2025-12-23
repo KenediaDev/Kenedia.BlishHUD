@@ -1,16 +1,54 @@
 ﻿using Blish_HUD.Modules.Managers;
-using Newtonsoft.Json;
-using System.Threading.Tasks;
-using System.Threading;
 using Kenedia.Modules.BuildsManager.DataModels.Items;
-using System.Collections.Generic;
-using System.Runtime.Serialization;
 using Kenedia.Modules.BuildsManager.Models;
+using Newtonsoft.Json;
+using System;
+using System.Collections.Concurrent;
+using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
+using System.Runtime.Serialization;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Kenedia.Modules.BuildsManager.Services
 {
+    public static class MappedDataReflection
+    {
+        private static readonly ConcurrentDictionary<Type, PropertyInfo[]> s_cache = new();
+
+        public static PropertyInfo[] GetMappedEntries(Type dataType)
+        {
+            return s_cache.GetOrAdd(dataType, static type =>
+            {
+                return type
+                    .GetProperties(BindingFlags.Instance | BindingFlags.Public)
+                    .Where(p =>
+                        p.PropertyType.IsGenericType &&
+                        IsMappedDataEntry(p.PropertyType))
+                    .ToArray();
+            });
+        }
+
+        private static bool IsMappedDataEntry(Type type)
+        {
+            while (type != null)
+            {
+                if (type.IsGenericType &&
+                    type.GetGenericTypeDefinition() == typeof(MappedDataEntry<,>))
+                    return true;
+
+                type = type.BaseType;
+            }
+
+            return false;
+        }
+    }
+
     public class MappedDataEntry<Key, T> : BaseMappedDataEntry where T : IDataMember, new()
     {
+        protected List<Key>? Ids { get; set; } = null;
+
         [DataMember]
         public new Dictionary<Key, T> Items { get; protected set; } = [];
 
@@ -52,11 +90,6 @@ namespace Kenedia.Modules.BuildsManager.Services
         public bool TryGetValue(Key key, out T value)
         {
             return Items.TryGetValue(key, out value);
-        }
-
-        public override async Task<bool> LoadAndUpdate(string name, ByteIntMap map, string path, Gw2ApiManager gw2ApiManager, CancellationToken cancellationToken)
-        {
-            return await Task.FromResult(DataLoaded);
         }
     }
 }

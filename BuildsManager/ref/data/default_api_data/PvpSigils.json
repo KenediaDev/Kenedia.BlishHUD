@@ -1,0 +1,1919 @@
+{
+  "Items": {
+    "21121": {
+      "Buffs": {
+        "English": "Increase Inflicted Bleeding Duration: 25%",
+        "Spanish": "Aumenta la duración de hemorragia infligida un 25 %.",
+        "German": "Erhöht die zugefügte Blutungsdauer: 25 %",
+        "French": "Augmente de 25% la durée de Saignement infligé."
+      },
+      "Type": 14,
+      "TemplateSlot": -1,
+      "Id": 21121,
+      "MappedId": 1,
+      "Rarity": 6,
+      "Chatlink": "[&AgGBUgAA]",
+      "AssetId": 220658,
+      "Names": {
+        "English": "Sigil of Agony",
+        "Spanish": "Sello de agonía",
+        "German": "Sigill der Qual",
+        "French": "Cachet d'agonie"
+      },
+      "DisplayTexts": {
+        "English": "Sigil of Agony",
+        "Spanish": "Sello de agonía",
+        "German": "Sigill der Qual",
+        "French": "agonie"
+      },
+      "Descriptions": {
+        "English": null,
+        "Spanish": null,
+        "German": null,
+        "French": null
+      }
+    },
+    "21122": {
+      "Buffs": {
+        "English": "Increase Inflicted Burning Duration: 25%",
+        "Spanish": "Aumenta la duración de quemadura infligida un 25 %.",
+        "German": "Erhöht die zugefügte Brenndauer: 25 %",
+        "French": "Augmente la durée de Brûlure infligée de 25%."
+      },
+      "Type": 14,
+      "TemplateSlot": -1,
+      "Id": 21122,
+      "MappedId": 2,
+      "Rarity": 6,
+      "Chatlink": "[&AgGCUgAA]",
+      "AssetId": 220659,
+      "Names": {
+        "English": "Sigil of Smoldering",
+        "Spanish": "Sello de ardor",
+        "German": "Sigill der Glut",
+        "French": "Cachet de consumation"
+      },
+      "DisplayTexts": {
+        "English": "Sigil of Smoldering",
+        "Spanish": "Sello de ardor",
+        "German": "Sigill der Glut",
+        "French": "Cachet de consumation"
+      },
+      "Descriptions": {
+        "English": null,
+        "Spanish": null,
+        "German": null,
+        "French": null
+      }
+    },
+    "21127": {
+      "Buffs": {
+        "English": "Increase Inflicted Poison Duration: 25%",
+        "Spanish": "Aumenta la duración de veneno infligido un 25 %.",
+        "German": "Erhöht die zugefügte Giftdauer: 25 %",
+        "French": "Augmente de 25% la durée d'Empoisonnement infligé."
+      },
+      "Type": 14,
+      "TemplateSlot": -1,
+      "Id": 21127,
+      "MappedId": 3,
+      "Rarity": 6,
+      "Chatlink": "[&AgGHUgAA]",
+      "AssetId": 220664,
+      "Names": {
+        "English": "Sigil of Venom",
+        "Spanish": "Sello de veneno",
+        "German": "Sigill des Giftes",
+        "French": "Cachet de venin"
+      },
+      "DisplayTexts": {
+        "English": "Sigil of Venom",
+        "Spanish": "Sello de veneno",
+        "German": "Sigill des Giftes",
+        "French": "Cachet de venin"
+      },
+      "Descriptions": {
+        "English": null,
+        "Spanish": null,
+        "German": null,
+        "French": null
+      }
+    },
+    "21129": {
+      "Buffs": {
+        "English": "Increase Inflicted Vulnerability Duration: 25%",
+        "Spanish": "Aumenta la duración de vulnerabilidad infligida un 25 %.",
+        "German": "Erhöht die zugefügte Verwundbarkeitsdauer: 25 %",
+        "French": "Augmente de 25% la durée de Vulnérabilité infligée."
+      },
+      "Type": 14,
+      "TemplateSlot": -1,
+      "Id": 21129,
+      "MappedId": 4,
+      "Rarity": 6,
+      "Chatlink": "[&AgGJUgAA]",
+      "AssetId": 220666,
+      "Names": {
+        "English": "Sigil of Peril",
+        "Spanish": "Sello de peligro",
+        "German": "Sigill der Gefahr",
+        "French": "Cachet de péril"
+      },
+      "DisplayTexts": {
+        "English": "Sigil of Peril",
+        "Spanish": "Sello de peligro",
+        "German": "Sigill der Gefahr",
+        "French": "Cachet de péril"
+      },
+      "Descriptions": {
+        "English": null,
+        "Spanish": null,
+        "German": null,
+        "French": null
+      }
+    },
+    "21133": {
+      "Buffs": {
+        "English": "Gain a charge of +10 healing each time you kill a foe, five charges if you kill an enemy player. <c=@reminder>(Max 25 stacks; ends on down.)</c> <br><c=@reminder>(Only one attribute-stacking sigil can be active at a time.)</c>",
+        "Spanish": "Gana una carga de +10 de curación cada vez que matas a un enemigo, y cinco cargas si matas a un jugador enemigo. <c=@reminder>(Máximo 25 acumulaciones; acaba cuando te han abatido).</c><br><c=@reminder>(Solo puede haber activo un sello de acumulación de atributos a la vez).</c>",
+        "German": "Erhaltet eine Ladung von +10 Heilung für jeden besiegten Gegner und fünf Ladungen für jeden besiegten feindlichen Spieler. <c=@reminder>(Maximal 25 Stapel und endet bei Angeschlagen.)</c> <br><c=@reminder>(Es kann jeweils nur ein Attribute stapelndes Sigill aktiv sein.)</c>",
+        "French": "Vous obtenez une charge qui augmente de +10 votre Guérison à chaque ennemi tué, et cinq charges si vous tuez un joueur ennemi <c=@reminder>(25 charges maximum, effet annulé lorsque vous êtes à terre).</c><br><c=@reminder>(Un seul cachet à capacité cumulable peut être actif à la fois)</c>"
+      },
+      "Type": 14,
+      "TemplateSlot": -1,
+      "Id": 21133,
+      "MappedId": 5,
+      "Rarity": 6,
+      "Chatlink": "[&AgGNUgAA]",
+      "AssetId": 220670,
+      "Names": {
+        "English": "Sigil of Life",
+        "Spanish": "Sello de vida",
+        "German": "Sigill des Lebens",
+        "French": "Cachet de vie"
+      },
+      "DisplayTexts": {
+        "English": "Sigil of Life",
+        "Spanish": "Sello de vida",
+        "German": "Sigill des Lebens",
+        "French": "Cachet de vie"
+      },
+      "Descriptions": {
+        "English": null,
+        "Spanish": null,
+        "German": null,
+        "French": null
+      }
+    },
+    "21141": {
+      "Buffs": {
+        "English": "Inflict bleeding for 6 seconds upon critically hitting a foe. <br><c=@reminder>(Cooldown: 2 Seconds)</c>",
+        "Spanish": "Infliges hemorragia durante 6 segundos al conseguir un impacto crítico contra un enemigo. <br><c=@reminder>(Recarga: 2 segundos)</c>",
+        "German": "Verursacht bei einem kritischen Treffer gegen einen Feind 6 Sekunden lang Blutung. <br><c=@reminder>(Erholzeit: 2 Sekunden)</c>",
+        "French": "Vous infligez Saignement pendant 6 secondes lorsque vous infligez un coup critique à un ennemi. <br><c=@reminder>(Temps de recharge : 2 secondes)</c>"
+      },
+      "Type": 14,
+      "TemplateSlot": -1,
+      "Id": 21141,
+      "MappedId": 6,
+      "Rarity": 6,
+      "Chatlink": "[&AgGVUgAA]",
+      "AssetId": 220677,
+      "Names": {
+        "English": "Sigil of Earth",
+        "Spanish": "Sello de tierra",
+        "German": "Sigill der Erde",
+        "French": "Cachet de terre"
+      },
+      "DisplayTexts": {
+        "English": "Sigil of Earth",
+        "Spanish": "Sello de tierra",
+        "German": "Sigill der Erde",
+        "French": "Cachet de terre"
+      },
+      "Descriptions": {
+        "English": null,
+        "Spanish": null,
+        "German": null,
+        "French": null
+      }
+    },
+    "21147": {
+      "Buffs": {
+        "English": "On Hit: Inflict Vulnerability (10 seconds)<br><c=@reminder>(Cooldown: 2 seconds)</c>",
+        "Spanish": "Al impactar: inflige vulnerabilidad (10 segundos)<br><c=@reminder>(Recarga: 2 segundos)</c>",
+        "German": "Bei Treffer: Fügt Verwundbarkeit zu (10 Sekunden)<br><c=@reminder>(Erholzeit: 2 s)</c>",
+        "French": "Au toucher : infligez Vulnérabilité pendant 10 secondes.<br><c=@reminder>(Temps de recharge : 2 secondes)</c>"
+      },
+      "Type": 14,
+      "TemplateSlot": -1,
+      "Id": 21147,
+      "MappedId": 7,
+      "Rarity": 6,
+      "Chatlink": "[&AgGbUgAA]",
+      "AssetId": 1691873,
+      "Names": {
+        "English": "Sigil of Fallibility",
+        "Spanish": "Sello de falibilidad",
+        "German": "Sigill der Fehlbarkeit",
+        "French": "Cachet de faillibilité"
+      },
+      "DisplayTexts": {
+        "English": "Sigil of Fallibility",
+        "Spanish": "Sello de falibilidad",
+        "German": "Sigill der Fehlbarkeit",
+        "French": "Cachet de faillibilité"
+      },
+      "Descriptions": {
+        "English": null,
+        "Spanish": null,
+        "German": null,
+        "French": null
+      }
+    },
+    "21149": {
+      "Buffs": {
+        "English": "Your next three attacks after swapping to this weapon while in combat have a 100% critical chance. <c=@reminder>(Cooldown: 9 Seconds)</c>",
+        "Spanish": "Tienes un 100 % de probabilidad de daño crítico en los siguientes tres ataques tras cambiar a esta arma durante el combate. <c=@reminder>(Recarga: 9 segundos)</c>",
+        "German": "Eure nächsten drei Angriffe haben eine Chance auf kritische Treffer von 100 %, wenn Ihr im Kampf zu dieser Waffe wechselt. (Erholzeit: 9s)",
+        "French": "Vos trois prochaines attaques auront 100% de chance d'infliger un coup critique si vous changez d'arme en combat pour équiper celle-ci<br><c=@reminder>(Temps de recharge : 9 secondes).</c>"
+      },
+      "Type": 14,
+      "TemplateSlot": -1,
+      "Id": 21149,
+      "MappedId": 8,
+      "Rarity": 6,
+      "Chatlink": "[&AgGdUgAA]",
+      "AssetId": 220685,
+      "Names": {
+        "English": "Sigil of Intelligence",
+        "Spanish": "Sello de inteligencia",
+        "German": "Sigill der Intelligenz",
+        "French": "Cachet d'intelligence"
+      },
+      "DisplayTexts": {
+        "English": "Sigil of Intelligence",
+        "Spanish": "Sello de inteligencia",
+        "German": "Sigill der Intelligenz",
+        "French": "intelligence"
+      },
+      "Descriptions": {
+        "English": null,
+        "Spanish": null,
+        "German": null,
+        "French": null
+      }
+    },
+    "21150": {
+      "Buffs": {
+        "English": "Your next attack after you swap to this weapon while in combat inflicts poison for 5 seconds.<br><c=@reminder>(Cooldown: 9 seconds)</c>",
+        "Spanish": "Tu siguiente ataque inflige veneno durante 5 segundos tras cambiar a esta arma durante el combate.<br><c=@reminder>(Recarga: 9 segundos)</c>",
+        "German": "Euer nächster Angriff fügt für 5 Sekunden Gift zu, wenn Ihr im Kampf zu dieser Waffe wechselt.<br><c=@reminder>(Erholzeit: 9 Sekunden)</c>",
+        "French": "Votre prochaine attaque infligera Empoisonnement pendant 5 secondes si vous changez d'arme en combat pour équiper celle-ci.<br><c=@reminder>(Temps de recharge : 9 secondes)</c>"
+      },
+      "Type": 14,
+      "TemplateSlot": -1,
+      "Id": 21150,
+      "MappedId": 9,
+      "Rarity": 6,
+      "Chatlink": "[&AgGeUgAA]",
+      "AssetId": 220686,
+      "Names": {
+        "English": "Sigil of Doom",
+        "Spanish": "Sello de condena",
+        "German": "Sigill der Verdammnis",
+        "French": "Cachet de malédiction"
+      },
+      "DisplayTexts": {
+        "English": "Sigil of Doom",
+        "Spanish": "Sello de condena",
+        "German": "Sigill der Verdammnis",
+        "French": "Cachet de malédiction"
+      },
+      "Descriptions": {
+        "English": null,
+        "Spanish": null,
+        "German": null,
+        "French": null
+      }
+    },
+    "21152": {
+      "Buffs": {
+        "English": "Gain 25% of your endurance when you swap to this weapon while in combat. <c=@reminder>(Cooldown: 9 Seconds)</c>",
+        "Spanish": "Gana un 25 % de tu aguante al cambiar a esta arma durante el combate. <c=@reminder>(Recarga: 9 segundos)</c>",
+        "German": "Erhaltet 25 % Eurer Ausdauer, wenn Ihr im Kampf zu dieser Waffe wechselt. <c=@reminder>(Erholzeit: 9 Sekunden)</c>",
+        "French": "Régénère 25% de votre endurance si vous changez d'arme en combat pour équiper celle-ci. <c=@reminder>(Temps de recharge : 9 secondes)</c>"
+      },
+      "Type": 14,
+      "TemplateSlot": -1,
+      "Id": 21152,
+      "MappedId": 10,
+      "Rarity": 6,
+      "Chatlink": "[&AgGgUgAA]",
+      "AssetId": 220688,
+      "Names": {
+        "English": "Sigil of Energy",
+        "Spanish": "Sello de energía",
+        "German": "Sigill der Energie",
+        "French": "Cachet d'énergie"
+      },
+      "DisplayTexts": {
+        "English": "Sigil of Energy",
+        "Spanish": "Sello de energía",
+        "German": "Sigill der Energie",
+        "French": "énergie"
+      },
+      "Descriptions": {
+        "English": null,
+        "Spanish": null,
+        "German": null,
+        "French": null
+      }
+    },
+    "21155": {
+      "Buffs": {
+        "English": "Gain 4 stacks of might (5 seconds) when you swap to this weapon while in combat. <c=@reminder>(Cooldown: 9 seconds)</c>",
+        "Spanish": "Ganas 4 acumulaciones de poder (5 segundos) cuando cambias a esta arma en combate. <c=@reminder>(Recarga: 9 segundos)</c>",
+        "German": "Erhaltet 4 Stapel Macht (5 Sekunden), wenn Ihr im Kampf zu dieser Waffe wechselt. <c=@reminder>(Erholzeit: 9 Sekunden)</c>",
+        "French": "Vous obtenez 4 charges de Pouvoir pendant 5 secondes si vous changez d'arme en combat pour équiper celle-ci. <c=@reminder>(Temps de recharge : 9 secondes)</c>"
+      },
+      "Type": 14,
+      "TemplateSlot": -1,
+      "Id": 21155,
+      "MappedId": 11,
+      "Rarity": 6,
+      "Chatlink": "[&AgGjUgAA]",
+      "AssetId": 220691,
+      "Names": {
+        "English": "Sigil of Battle",
+        "Spanish": "Sello de batalla",
+        "German": "Sigill des Kampfes",
+        "French": "Cachet de combat"
+      },
+      "DisplayTexts": {
+        "English": "Sigil of Battle",
+        "Spanish": "Sello de batalla",
+        "German": "Sigill des Kampfes",
+        "French": "Cachet de combat"
+      },
+      "Descriptions": {
+        "English": null,
+        "Spanish": null,
+        "German": null,
+        "French": null
+      }
+    },
+    "70890": {
+      "Buffs": {
+        "English": "Gain 5 seconds of swiftness and 1 second of quickness when you swap to this weapon while in combat.<br><c=@reminder>(Cooldown: 18 seconds)</c>",
+        "Spanish": "Ganas 5 segundos de celeridad y un segundo de rapidez cuando cambias a esta arma durante el combate.<br><c=@reminder>(Recarga: 18 segundos)</c>",
+        "German": "Erhaltet 5 Sekunden Eile und 1 Sekunde Schnelligkeit, wenn Ihr im Kampf zu dieser Waffe wechselt.<br><c=@reminder>(Erholzeit: 18 Sekunden)</c>",
+        "French": "Vous obtenez Rapidité pendant 5 secondes et Célérité pendant 1 seconde si vous changez d'arme en combat pour équiper celle-ci.<br><c=@reminder>(Temps de recharge : 18 secondes)</c>"
+      },
+      "Type": 14,
+      "TemplateSlot": -1,
+      "Id": 70890,
+      "MappedId": 12,
+      "Rarity": 6,
+      "Chatlink": "[&AgHqFAEA]",
+      "AssetId": 1201534,
+      "Names": {
+        "English": "Sigil of Agility",
+        "Spanish": "Sello de agilidad",
+        "German": "Sigill der Beweglichkeit",
+        "French": "Cachet d'agilité"
+      },
+      "DisplayTexts": {
+        "English": "Sigil of Agility",
+        "Spanish": "Sello de agilidad",
+        "German": "Sigill der Beweglichkeit",
+        "French": "agilité"
+      },
+      "Descriptions": {
+        "English": null,
+        "Spanish": null,
+        "German": null,
+        "French": null
+      }
+    },
+    "81207": {
+      "Buffs": {
+        "English": "On hit, remove a boon.<br><c=@reminder>(Cooldown: 10 seconds)</c>",
+        "Spanish": "Al impactar elimina una bendición.<br><c=@reminder>(Recarga: 10 segundos)</c>",
+        "German": "Entfernt bei einem Treffer einen Segen.<br><c=@reminder>(Erholzeit: 10 s)</c>",
+        "French": "Au toucher : supprimez un avantage.<br><c=@reminder>(Temps de recharge : 10 secondes)</c>"
+      },
+      "Type": 14,
+      "TemplateSlot": -1,
+      "Id": 81207,
+      "MappedId": 13,
+      "Rarity": 6,
+      "Chatlink": "[&AgE3PQEA]",
+      "AssetId": 1691879,
+      "Names": {
+        "English": "Sigil of Revocation",
+        "Spanish": "Sello de revocación",
+        "German": "Sigill des Widerrufs",
+        "French": "Cachet de révocation"
+      },
+      "DisplayTexts": {
+        "English": "Sigil of Revocation",
+        "Spanish": "Sello de revocación",
+        "German": "Sigill des Widerrufs",
+        "French": "Cachet de révocation"
+      },
+      "Descriptions": {
+        "English": null,
+        "Spanish": null,
+        "German": null,
+        "French": null
+      }
+    },
+    "81209": {
+      "Buffs": {
+        "English": "Deal 5% extra damage to movement-impaired foes.",
+        "Spanish": "Infliges un 5 % de daño adicional a objetivos cuyo movimiento está limitado.",
+        "German": "Fügt bewegungseingeschränkten Zielen 5 % zusätzlichen Schaden zu.",
+        "French": "Inflige 5% de dégâts supplémentaires aux ennemis victimes d'altérations de mouvement."
+      },
+      "Type": 14,
+      "TemplateSlot": -1,
+      "Id": 81209,
+      "MappedId": 14,
+      "Rarity": 6,
+      "Chatlink": "[&AgE5PQEA]",
+      "AssetId": 1691876,
+      "Names": {
+        "English": "Sigil of Opportunity",
+        "Spanish": "Sello de oportunidad",
+        "German": "Sigill der Gelegenheit",
+        "French": "Cachet d'opportunité"
+      },
+      "DisplayTexts": {
+        "English": "Sigil of Opportunity",
+        "Spanish": "Sello de oportunidad",
+        "German": "Sigill der Gelegenheit",
+        "French": "opportunité"
+      },
+      "Descriptions": {
+        "English": null,
+        "Spanish": null,
+        "German": null,
+        "French": null
+      }
+    },
+    "81221": {
+      "Buffs": {
+        "English": "Gain might when interrupting a foe. <c=@reminder>(Cooldown: 3 seconds)</c>",
+        "Spanish": "Ganas poder al interrumpir a un enemigo. <c=@reminder>(Recarga: 3 segundos)</c>",
+        "German": "Erhaltet Macht, wenn Ihr einen Gegner unterbrecht. <c=@reminder>(Erholzeit: 3 s)</c>",
+        "French": "Vous obtenez Pouvoir quand vous interrompez un ennemi. <c=@reminder>(Temps de recharge : 3 secondes)</c>"
+      },
+      "Type": 14,
+      "TemplateSlot": -1,
+      "Id": 81221,
+      "MappedId": 15,
+      "Rarity": 6,
+      "Chatlink": "[&AgFFPQEA]",
+      "AssetId": 1201530,
+      "Names": {
+        "English": "Sigil of Ruthlessness",
+        "Spanish": "Sello de inclemencia",
+        "German": "Sigill der Skrupellosigkeit",
+        "French": "Cachet de bestialité"
+      },
+      "DisplayTexts": {
+        "English": "Sigil of Ruthlessness",
+        "Spanish": "Sello de inclemencia",
+        "German": "Sigill der Skrupellosigkeit",
+        "French": "Cachet de bestialité"
+      },
+      "Descriptions": {
+        "English": null,
+        "Spanish": null,
+        "German": null,
+        "French": null
+      }
+    },
+    "81222": {
+      "Buffs": {
+        "English": "On hit gain might for 10 seconds.<br><c=@reminder>(Cooldown: 2 seconds)</c>",
+        "Spanish": "Al impactar ganas poder durante 10 segundos.<br><c=@reminder>(Recarga: 2 segundos)</c>",
+        "German": "Erhaltet bei einem Treffer Macht für 10 Sekunden.<br><c=@reminder>(Erholzeit: 2 s)</c>",
+        "French": "Au toucher : obtenez Pouvoir pendant 10 secondes.<br><c=@reminder>(Temps de recharge : 2 secondes)</c>"
+      },
+      "Type": 14,
+      "TemplateSlot": -1,
+      "Id": 81222,
+      "MappedId": 16,
+      "Rarity": 6,
+      "Chatlink": "[&AgFGPQEA]",
+      "AssetId": 1691868,
+      "Names": {
+        "English": "Sigil of Courage",
+        "Spanish": "Sello de coraje",
+        "German": "Sigill der Tapferkeit",
+        "French": "Cachet de courage"
+      },
+      "DisplayTexts": {
+        "English": "Sigil of Courage",
+        "Spanish": "Sello de coraje",
+        "German": "Sigill der Tapferkeit",
+        "French": "Cachet de courage"
+      },
+      "Descriptions": {
+        "English": null,
+        "Spanish": null,
+        "German": null,
+        "French": null
+      }
+    },
+    "81227": {
+      "Buffs": {
+        "English": "On hit remove a condition.<br><c=@reminder>(Cooldown: 10 seconds)</c>",
+        "Spanish": "Al impactar elimina una condición.<br><c=@reminder>(Recarga: 10 segundos)</c>",
+        "German": "Entfernt bei einem Treffer einen Zustand.<br><c=@reminder>(Erholzeit: 10 s)</c>",
+        "French": "Au toucher : dissipez une altération.<br><c=@reminder>(Temps de recharge : 10 secondes)</c>"
+      },
+      "Type": 14,
+      "TemplateSlot": -1,
+      "Id": 81227,
+      "MappedId": 17,
+      "Rarity": 6,
+      "Chatlink": "[&AgFLPQEA]",
+      "AssetId": 1691877,
+      "Names": {
+        "English": "Sigil of Purging",
+        "Spanish": "Sello de purga",
+        "German": "Sigill der Säuberung",
+        "French": "Cachet de purge"
+      },
+      "DisplayTexts": {
+        "English": "Sigil of Purging",
+        "Spanish": "Sello de purga",
+        "German": "Sigill der Säuberung",
+        "French": "Cachet de purge"
+      },
+      "Descriptions": {
+        "English": null,
+        "Spanish": null,
+        "German": null,
+        "French": null
+      }
+    },
+    "81233": {
+      "Buffs": {
+        "English": "Your next attack after swapping to this weapon while in combat will remove 2 boons from your target.<c=@reminder>(Cooldown: 18 seconds)</c>",
+        "Spanish": "Elimina 2 bendiciones de tu objetivo en el siguiente ataque tras cambiar a esta arma durante el combate.<c=@reminder>(Recarga: 18 segundos)</c>",
+        "German": "Euer nächster Angriff entfernt 2 Segen von Eurem Ziel, wenn Ihr im Kampf zu dieser Waffe wechselt. <c=@reminder>(Erholzeit: 18 s)</c>",
+        "French": "Votre prochaine attaque retirera 2 avantages à votre cible si vous changez d'arme en combat pour équiper celle-ci. <c=@reminder>(Temps de recharge : 18 secondes)</c>"
+      },
+      "Type": 14,
+      "TemplateSlot": -1,
+      "Id": 81233,
+      "MappedId": 18,
+      "Rarity": 6,
+      "Chatlink": "[&AgFRPQEA]",
+      "AssetId": 1691864,
+      "Names": {
+        "English": "Sigil of Annulment",
+        "Spanish": "Sello de anulación",
+        "German": "Sigill der Annullierung",
+        "French": "Cachet d'annulation"
+      },
+      "DisplayTexts": {
+        "English": "Sigil of Annulment",
+        "Spanish": "Sello de anulación",
+        "German": "Sigill der Annullierung",
+        "French": "annulation"
+      },
+      "Descriptions": {
+        "English": null,
+        "Spanish": null,
+        "German": null,
+        "French": null
+      }
+    },
+    "81234": {
+      "Buffs": {
+        "English": "Increase Inflicted Torment Duration: 25%",
+        "Spanish": "Aumenta la duración de tormento infligido un 25 %.",
+        "German": "Erhöht die zugefügte Peindauer: 25 %",
+        "French": "Augmente de 25% la durée de Tourment infligé."
+      },
+      "Type": 14,
+      "TemplateSlot": -1,
+      "Id": 81234,
+      "MappedId": 19,
+      "Rarity": 6,
+      "Chatlink": "[&AgFSPQEA]",
+      "AssetId": 1691875,
+      "Names": {
+        "English": "Sigil of Misery",
+        "Spanish": "Sello de miseria",
+        "German": "Sigill des Elends",
+        "French": "Cachet de misère"
+      },
+      "DisplayTexts": {
+        "English": "Sigil of Misery",
+        "Spanish": "Sello de miseria",
+        "German": "Sigill des Elends",
+        "French": "Cachet de misère"
+      },
+      "Descriptions": {
+        "English": null,
+        "Spanish": null,
+        "German": null,
+        "French": null
+      }
+    },
+    "81235": {
+      "Buffs": {
+        "English": "Increase Inflicted Confusion Duration: 25%",
+        "Spanish": "Aumenta la duración de confusión infligida un 25 %.",
+        "German": "Erhöht die zugefügte Konfusionsdauer: 25 %",
+        "French": "Augmente de 25% la durée de Confusion infligée."
+      },
+      "Type": 14,
+      "TemplateSlot": -1,
+      "Id": 81235,
+      "MappedId": 20,
+      "Rarity": 6,
+      "Chatlink": "[&AgFTPQEA]",
+      "AssetId": 1691867,
+      "Names": {
+        "English": "Sigil of Confusion",
+        "Spanish": "Sello de confusión",
+        "German": "Sigill der Konfusion",
+        "French": "Cachet de confusion"
+      },
+      "DisplayTexts": {
+        "English": "Sigil of Confusion",
+        "Spanish": "Sello de confusión",
+        "German": "Sigill der Konfusion",
+        "French": "Cachet de confusion"
+      },
+      "Descriptions": {
+        "English": null,
+        "Spanish": null,
+        "German": null,
+        "French": null
+      }
+    },
+    "81237": {
+      "Buffs": {
+        "English": "+30% Stun Duration, +3% Damage against Stunned Foes",
+        "Spanish": "+30 % de duración de aturdimiento. +3 % de daño contra enemigos aturdidos",
+        "German": "+30 % Betäubungsdauer, +3 % Schaden bei betäubten Gegnern",
+        "French": "Durée d'Étourdissement +30%, dégâts contre les ennemis étourdis +3%"
+      },
+      "Type": 14,
+      "TemplateSlot": -1,
+      "Id": 81237,
+      "MappedId": 21,
+      "Rarity": 6,
+      "Chatlink": "[&AgFVPQEA]",
+      "AssetId": 1691880,
+      "Names": {
+        "English": "Sigil of Savagery",
+        "Spanish": "Sello de salvajismo",
+        "German": "Sigill der Wildheit",
+        "French": "Cachet de sauvagerie"
+      },
+      "DisplayTexts": {
+        "English": "Sigil of Savagery",
+        "Spanish": "Sello de salvajismo",
+        "German": "Sigill der Wildheit",
+        "French": "Cachet de sauvagerie"
+      },
+      "Descriptions": {
+        "English": null,
+        "Spanish": null,
+        "German": null,
+        "French": null
+      }
+    },
+    "81238": {
+      "Buffs": {
+        "English": "Gain 5 seconds of swiftness and 1 second of quickness when you swap to this weapon while in combat.<br><c=@reminder>(Cooldown: 18 seconds)</c>",
+        "Spanish": "Ganas 5 segundos de celeridad y un segundo de rapidez cuando cambias a esta arma durante el combate.<br><c=@reminder>(Recarga: 18 segundos)</c>",
+        "German": "Erhaltet 5 Sekunden Eile und 1 Sekunde Schnelligkeit, wenn Ihr im Kampf zu dieser Waffe wechselt.<br><c=@reminder>(Erholzeit: 18 Sekunden)</c>",
+        "French": "Vous obtenez Rapidité pendant 5 secondes et Célérité pendant 1 seconde si vous changez d'arme en combat pour équiper celle-ci.<br><c=@reminder>(Temps de recharge : 18 secondes)</c>"
+      },
+      "Type": 14,
+      "TemplateSlot": -1,
+      "Id": 81238,
+      "MappedId": 22,
+      "Rarity": 6,
+      "Chatlink": "[&AgFWPQEA]",
+      "AssetId": 1201534,
+      "Names": {
+        "English": "Sigil of Agility",
+        "Spanish": "Sello de agilidad",
+        "German": "Sigill der Beweglichkeit",
+        "French": "Cachet d'agilité"
+      },
+      "DisplayTexts": {
+        "English": "Sigil of Agility",
+        "Spanish": "Sello de agilidad",
+        "German": "Sigill der Beweglichkeit",
+        "French": "agilité"
+      },
+      "Descriptions": {
+        "English": null,
+        "Spanish": null,
+        "German": null,
+        "French": null
+      }
+    },
+    "81239": {
+      "Buffs": {
+        "English": "Cripple nearby foes when swapping to this weapon while in combat.<br><c=@reminder>(Cooldown: 9 seconds)</c>",
+        "Spanish": "Incapacita a los enemigos cercanos tras cambiar a esta arma durante el combate.<br><c=@reminder>(Recarga: 9 segundos)</c>",
+        "German": "Verkrüppelt Gegner in der Nähe, wenn Ihr im Kampf zu dieser Waffe wechselt.<br><c=@reminder>(Erholzeit: 9 Sekunden)</c>",
+        "French": "Vous infligez Infirmité aux ennemis à proximité si vous changez d'arme en combat pour équiper celle-ci.<br><c=@reminder>(Temps de recharge : 9 secondes)</c>"
+      },
+      "Type": 14,
+      "TemplateSlot": -1,
+      "Id": 81239,
+      "MappedId": 23,
+      "Rarity": 6,
+      "Chatlink": "[&AgFXPQEA]",
+      "AssetId": 1691882,
+      "Names": {
+        "English": "Sigil of Stagnation",
+        "Spanish": "Sello de estancamiento",
+        "German": "Sigill der Stagnation",
+        "French": "Cachet de stagnation"
+      },
+      "DisplayTexts": {
+        "English": "Sigil of Stagnation",
+        "Spanish": "Sello de estancamiento",
+        "German": "Sigill der Stagnation",
+        "French": "Cachet de stagnation"
+      },
+      "Descriptions": {
+        "English": null,
+        "Spanish": null,
+        "German": null,
+        "French": null
+      }
+    },
+    "81244": {
+      "Buffs": {
+        "English": "Deal 5% extra damage to targets more than 500 distance away.",
+        "Spanish": "Infliges un 5 % de daño adicional a objetivos que se encuentran a más de 500 de distancia.",
+        "German": "Fügt Zielen, die weiter entfernt sind als 500, 5 % zusätzlichen Schaden zu.",
+        "French": "Inflige 5% de dégâts supplémentaires aux cibles à une distance de plus de 500."
+      },
+      "Type": 14,
+      "TemplateSlot": -1,
+      "Id": 81244,
+      "MappedId": 24,
+      "Rarity": 6,
+      "Chatlink": "[&AgFcPQEA]",
+      "AssetId": 1691881,
+      "Names": {
+        "English": "Sigil of Separation",
+        "Spanish": "Sello de separación",
+        "German": "Sigill der Trennung",
+        "French": "Cachet de séparation"
+      },
+      "DisplayTexts": {
+        "English": "Sigil of Separation",
+        "Spanish": "Sello de separación",
+        "German": "Sigill der Trennung",
+        "French": "Cachet de séparation"
+      },
+      "Descriptions": {
+        "English": null,
+        "Spanish": null,
+        "German": null,
+        "French": null
+      }
+    },
+    "81245": {
+      "Buffs": {
+        "English": "Deal 5% extra damage to targets below 50% health.",
+        "Spanish": "Infliges un 5 % de daño adicional a objetivos cuya salud está por debajo del 50 %.",
+        "German": "Fügt Zielen mit weniger als 50 % Lebenspunkten 5 % zusätzlichen Schaden zu.",
+        "French": "Inflige 5% de dégâts supplémentaires aux cibles ayant moins de 50% de santé."
+      },
+      "Type": 14,
+      "TemplateSlot": -1,
+      "Id": 81245,
+      "MappedId": 25,
+      "Rarity": 6,
+      "Chatlink": "[&AgFdPQEA]",
+      "AssetId": 1691871,
+      "Names": {
+        "English": "Sigil of Exploitation",
+        "Spanish": "Sello de explotación",
+        "German": "Sigill der Ausbeutung",
+        "French": "Cachet d'exploitation"
+      },
+      "DisplayTexts": {
+        "English": "Sigil of Exploitation",
+        "Spanish": "Sello de explotación",
+        "German": "Sigill der Ausbeutung",
+        "French": "exploitation"
+      },
+      "Descriptions": {
+        "English": null,
+        "Spanish": null,
+        "German": null,
+        "French": null
+      }
+    },
+    "81254": {
+      "Buffs": {
+        "English": "Remove 1 condition when you swap to this weapon while in combat. <c=@reminder>(Cooldown: 9 Seconds)</c>",
+        "Spanish": "Eliminas una condición tras cambiar a esta arma durante el combate. <c=@reminder>(Recarga: 9 segundos)</c>",
+        "German": "Entfernt einen Zustand, wenn Ihr im Kampf zu dieser Waffe wechselt. <c=@reminder>(Erholzeit: 9 s)</c>",
+        "French": "Dissipe une altération si vous changez d'arme en combat pour équiper celle-ci <c=@reminder>(Temps de recharge : 9 secondes).</c>"
+      },
+      "Type": 14,
+      "TemplateSlot": -1,
+      "Id": 81254,
+      "MappedId": 26,
+      "Rarity": 6,
+      "Chatlink": "[&AgFmPQEA]",
+      "AssetId": 1691865,
+      "Names": {
+        "English": "Sigil of Cleansing",
+        "Spanish": "Sello de purificación",
+        "German": "Sigill der Reinigung",
+        "French": "Cachet de purification"
+      },
+      "DisplayTexts": {
+        "English": "Sigil of Cleansing",
+        "Spanish": "Sello de purificación",
+        "German": "Sigill der Reinigung",
+        "French": "Cachet de purification"
+      },
+      "Descriptions": {
+        "English": null,
+        "Spanish": null,
+        "German": null,
+        "French": null
+      }
+    },
+    "81255": {
+      "Buffs": {
+        "English": "Remove movement-impairing effects from yourself when swapping to this weapon while in combat.<br><c=@reminder>(Cooldown: 18 seconds)</c>",
+        "Spanish": "Elimina los efectos que limitan tu movimiento tras cambiar a esta arma durante el combate.<br><c=@reminder>(Recarga: 18 segundos)</c>",
+        "German": "Entfernt bewegungseinschränkende Effekte von Euch selbst, wenn Ihr im Kampf zu dieser Waffe wechselt.<br><c=@reminder>(Erholzeit: 18 Sekunden)</c>",
+        "French": "Vous dissipez les altérations de mouvement vous affectant si vous changez d'arme en combat pour équiper celle-ci.<br><c=@reminder>(Temps de recharge : 18 secondes)</c>"
+      },
+      "Type": 14,
+      "TemplateSlot": -1,
+      "Id": 81255,
+      "MappedId": 27,
+      "Rarity": 6,
+      "Chatlink": "[&AgFnPQEA]",
+      "AssetId": 1691870,
+      "Names": {
+        "English": "Sigil of Escape",
+        "Spanish": "Sello de escape",
+        "German": "Sigill des Entkommens",
+        "French": "Cachet d'évasion"
+      },
+      "DisplayTexts": {
+        "English": "Sigil of Escape",
+        "Spanish": "Sello de escape",
+        "German": "Sigill des Entkommens",
+        "French": "évasion"
+      },
+      "Descriptions": {
+        "English": null,
+        "Spanish": null,
+        "German": null,
+        "French": null
+      }
+    },
+    "81257": {
+      "Buffs": {
+        "English": "Deal 1% extra damage per condition on your foe.",
+        "Spanish": "Inflige un 1 % de daño adicional por condición a tu enemigo.",
+        "German": "Fügt Eurem Gegner 1 % Extra-Schaden pro Zustand zu.",
+        "French": "Inflige 1% de dégâts supplémentaires par altération à votre ennemi."
+      },
+      "Type": 14,
+      "TemplateSlot": -1,
+      "Id": 81257,
+      "MappedId": 28,
+      "Rarity": 6,
+      "Chatlink": "[&AgFpPQEA]",
+      "AssetId": 1691866,
+      "Names": {
+        "English": "Sigil of Compounding",
+        "Spanish": "Sello de composición",
+        "German": "Sigill der Zusammensetzung",
+        "French": "Cachet de combinaison"
+      },
+      "DisplayTexts": {
+        "English": "Sigil of Compounding",
+        "Spanish": "Sello de composición",
+        "German": "Sigill der Zusammensetzung",
+        "French": "Cachet de combinaison"
+      },
+      "Descriptions": {
+        "English": null,
+        "Spanish": null,
+        "German": null,
+        "French": null
+      }
+    },
+    "81266": {
+      "Buffs": {
+        "English": "Steal a boon when interrupting an enemy. <c=@reminder>(Cooldown: 3 seconds)</c>",
+        "Spanish": "Roba una bendición cuando interrumpes a un enemigo. <c=@reminder>(Recarga: 3 segundos)</c>",
+        "German": "Stehlt einen Segen, wenn Ihr einen Gegner unterbrecht. <c=@reminder>(Erholzeit: 3 s)</c>",
+        "French": "Vous volez 1 avantage quand vous interrompez un ennemi. <c=@reminder>(Temps de recharge : 3 secondes)</c>"
+      },
+      "Type": 14,
+      "TemplateSlot": -1,
+      "Id": 81266,
+      "MappedId": 29,
+      "Rarity": 6,
+      "Chatlink": "[&AgFyPQEA]",
+      "AssetId": 1201531,
+      "Names": {
+        "English": "Sigil of Absorption",
+        "Spanish": "Sello de absorción",
+        "German": "Sigill der Absorption",
+        "French": "Cachet d'absorption"
+      },
+      "DisplayTexts": {
+        "English": "Sigil of Absorption",
+        "Spanish": "Sello de absorción",
+        "German": "Sigill der Absorption",
+        "French": "absorption"
+      },
+      "Descriptions": {
+        "English": null,
+        "Spanish": null,
+        "German": null,
+        "French": null
+      }
+    },
+    "81267": {
+      "Buffs": {
+        "English": "Deal .5% extra damage per boon on yourself.",
+        "Spanish": "Infliges un 0,5 % de daño adicional por cada bendición que tengas.",
+        "German": "Fügt .5 % Extra-Schaden pro Segen, der auf Euch wirkt, zu.",
+        "French": "Inflige 0,5% de dégâts supplémentaires par avantage vous affectant."
+      },
+      "Type": 14,
+      "TemplateSlot": -1,
+      "Id": 81267,
+      "MappedId": 30,
+      "Rarity": 6,
+      "Chatlink": "[&AgFzPQEA]",
+      "AssetId": 1691869,
+      "Names": {
+        "English": "Sigil of Enhancement",
+        "Spanish": "Sello de mejora",
+        "German": "Sigill der Verbesserung",
+        "French": "Cachet d'amélioration"
+      },
+      "DisplayTexts": {
+        "English": "Sigil of Enhancement",
+        "Spanish": "Sello de mejora",
+        "German": "Sigill der Verbesserung",
+        "French": "amélioration"
+      },
+      "Descriptions": {
+        "English": null,
+        "Spanish": null,
+        "German": null,
+        "French": null
+      }
+    },
+    "81268": {
+      "Buffs": {
+        "English": "Your next attack after you swap to this weapon while in combat inflicts 5 stacks of vulnerability for 5 seconds.<br><c=@reminder>(Cooldown: 9 seconds)</c>",
+        "Spanish": "Tu siguiente ataque inflige 5 acumulaciones de vulnerabilidad durante 5 segundos tras cambiar a esta arma durante el combate.<br><c=@reminder>(Recarga: 9 segundos)</c>",
+        "German": "Euer nächster Angriff fügt 5 Sekunden lang 5 Stapel Verwundbarkeit zu, nachdem Ihr im Kampf zu dieser Waffe gewechselt habt.<br><c=@reminder>(Erholzeit: 9 Sekunden)</c>",
+        "French": "Votre prochaine attaque infligera 5 charges de Vulnérabilité pendant 5 secondes si vous changez d'arme en combat pour équiper celle-ci.<br><c=@reminder>(Temps de recharge : 9 secondes)</c>"
+      },
+      "Type": 14,
+      "TemplateSlot": -1,
+      "Id": 81268,
+      "MappedId": 31,
+      "Rarity": 6,
+      "Chatlink": "[&AgF0PQEA]",
+      "AssetId": 1691872,
+      "Names": {
+        "English": "Sigil of Exposure",
+        "Spanish": "Sello de exposición",
+        "German": "Sigill des Ausgesetztseins",
+        "French": "Cachet d'exposition"
+      },
+      "DisplayTexts": {
+        "English": "Sigil of Exposure",
+        "Spanish": "Sello de exposición",
+        "German": "Sigill des Ausgesetztseins",
+        "French": "exposition"
+      },
+      "Descriptions": {
+        "English": null,
+        "Spanish": null,
+        "German": null,
+        "French": null
+      }
+    },
+    "94901": {
+      "Buffs": {
+        "English": "Healing to other allies is increased by 20%.",
+        "Spanish": "La curación a otros aliados aumenta un 20 %.",
+        "German": "Heilung an andere Verbündete um 20 % erhöht.",
+        "French": "Les soins conférés aux autres alliés sont augmentés de 20%."
+      },
+      "Type": 14,
+      "TemplateSlot": -1,
+      "Id": 94901,
+      "MappedId": 32,
+      "Rarity": 6,
+      "Chatlink": "[&AgG1cgEA]",
+      "AssetId": 1201535,
+      "Names": {
+        "English": "Sigil of Transference",
+        "Spanish": "Sello de transferencia",
+        "German": "Sigill der Transferenz",
+        "French": "Cachet de transfert"
+      },
+      "DisplayTexts": {
+        "English": "Sigil of Transference",
+        "Spanish": "Sello de transferencia",
+        "German": "Sigill der Transferenz",
+        "French": "Cachet de transfert"
+      },
+      "Descriptions": {
+        "English": "Double-click to apply to a weapon.",
+        "Spanish": "Haz doble clic para aplicar a un arma.",
+        "German": "Zur Anwendung auf eine Waffe doppelklicken.",
+        "French": "Double-cliquez pour l'appliquer à une arme."
+      }
+    },
+    "21123": {
+      "Buffs": {
+        "English": "Increase Inflicted Cripple Duration: 20%",
+        "Spanish": "Aumenta la duración de incapacitación: 20 %",
+        "German": "Erhöht die zugefügte Verkrüppelungsdauer: 20 %",
+        "French": "Augmente de 20% la durée des Infirmités infligées"
+      },
+      "Type": 14,
+      "TemplateSlot": -1,
+      "Id": 21123,
+      "MappedId": 33,
+      "Rarity": 6,
+      "Chatlink": "[&AgGDUgAA]",
+      "AssetId": 220660,
+      "Names": {
+        "English": "Sigil of Hobbling",
+        "Spanish": "Sello de cojera",
+        "German": "Sigill des Humpelns",
+        "French": "Cachet de boitement"
+      },
+      "DisplayTexts": {
+        "English": "Sigil of Hobbling",
+        "Spanish": "Sello de cojera",
+        "German": "Sigill des Humpelns",
+        "French": "Cachet de boitement"
+      },
+      "Descriptions": {
+        "English": null,
+        "Spanish": null,
+        "German": null,
+        "French": null
+      }
+    },
+    "21124": {
+      "Buffs": {
+        "English": "+7% Critical Chance",
+        "Spanish": "+7 % de probabilidad de daño crítico",
+        "German": "+7 % Chance auf kritische Treffer",
+        "French": "Chance de coup critique +7%"
+      },
+      "Type": 14,
+      "TemplateSlot": -1,
+      "Id": 21124,
+      "MappedId": 34,
+      "Rarity": 6,
+      "Chatlink": "[&AgGEUgAA]",
+      "AssetId": 220661,
+      "Names": {
+        "English": "Sigil of Accuracy",
+        "Spanish": "Sello de precisión",
+        "German": "Sigill der Treffsicherheit",
+        "French": "Cachet d'exactitude"
+      },
+      "DisplayTexts": {
+        "English": "Sigil of Accuracy",
+        "Spanish": "Sello de precisión",
+        "German": "Sigill der Treffsicherheit",
+        "French": "exactitude"
+      },
+      "Descriptions": {
+        "English": null,
+        "Spanish": null,
+        "German": null,
+        "French": null
+      }
+    },
+    "21125": {
+      "Buffs": {
+        "English": "+5% Damage",
+        "Spanish": "+5 % de daño",
+        "German": "+5 % Schaden",
+        "French": "Dégâts +5%"
+      },
+      "Type": 14,
+      "TemplateSlot": -1,
+      "Id": 21125,
+      "MappedId": 35,
+      "Rarity": 6,
+      "Chatlink": "[&AgGFUgAA]",
+      "AssetId": 220662,
+      "Names": {
+        "English": "Sigil of Force",
+        "Spanish": "Sello de fuerza",
+        "German": "Sigill der Heftigkeit",
+        "French": "Cachet de fermeté"
+      },
+      "DisplayTexts": {
+        "English": "Sigil of Force",
+        "Spanish": "Sello de fuerza",
+        "German": "Sigill der Heftigkeit",
+        "French": "Cachet de fermeté"
+      },
+      "Descriptions": {
+        "English": null,
+        "Spanish": null,
+        "German": null,
+        "French": null
+      }
+    },
+    "21126": {
+      "Buffs": {
+        "English": "Increase Inflicted Chill Duration: 20%",
+        "Spanish": "Aumenta la duración de congelación: 20 %",
+        "German": "Erhöht die zugefügte Kühledauer: 20 %",
+        "French": "Augmente la durée de Givre infligé de 20%"
+      },
+      "Type": 14,
+      "TemplateSlot": -1,
+      "Id": 21126,
+      "MappedId": 36,
+      "Rarity": 6,
+      "Chatlink": "[&AgGGUgAA]",
+      "AssetId": 220663,
+      "Names": {
+        "English": "Sigil of Chilling",
+        "Spanish": "Sello de congelación",
+        "German": "Sigill der Kühle",
+        "French": "Cachet de frisson"
+      },
+      "DisplayTexts": {
+        "English": "Sigil of Chilling",
+        "Spanish": "Sello de congelación",
+        "German": "Sigill der Kühle",
+        "French": "Cachet de frisson"
+      },
+      "Descriptions": {
+        "English": null,
+        "Spanish": null,
+        "German": null,
+        "French": null
+      }
+    },
+    "21128": {
+      "Buffs": {
+        "English": "+30% Stun Duration",
+        "Spanish": "+ 30 % de duración de aturdimiento",
+        "German": "+30 % Betäubungsdauer",
+        "French": "Durée d'Etourdissement +30%"
+      },
+      "Type": 14,
+      "TemplateSlot": -1,
+      "Id": 21128,
+      "MappedId": 37,
+      "Rarity": 6,
+      "Chatlink": "[&AgGIUgAA]",
+      "AssetId": 220665,
+      "Names": {
+        "English": "Sigil of Paralyzation",
+        "Spanish": "Sello de parálisis",
+        "German": "Sigill der Lähmung",
+        "French": "Cachet de paralysie"
+      },
+      "DisplayTexts": {
+        "English": "Sigil of Paralyzation",
+        "Spanish": "Sello de parálisis",
+        "German": "Sigill der Lähmung",
+        "French": "Cachet de paralysie"
+      },
+      "Descriptions": {
+        "English": null,
+        "Spanish": null,
+        "German": null,
+        "French": null
+      }
+    },
+    "21130": {
+      "Buffs": {
+        "English": "Increase Inflicted Weakness Duration: 20%",
+        "Spanish": "Aumenta la duración de debilidad: 20 %",
+        "German": "Erhöht die zugefügte Schwächedauer: 20 %",
+        "French": "Augmente de 20% la durée des Faiblesses infligées"
+      },
+      "Type": 14,
+      "TemplateSlot": -1,
+      "Id": 21130,
+      "MappedId": 38,
+      "Rarity": 6,
+      "Chatlink": "[&AgGKUgAA]",
+      "AssetId": 220667,
+      "Names": {
+        "English": "Sigil of Debility",
+        "Spanish": "Sello de debilidad",
+        "German": "Sigill der Schwäche",
+        "French": "Cachet de faiblesse"
+      },
+      "DisplayTexts": {
+        "English": "Sigil of Debility",
+        "Spanish": "Sello de debilidad",
+        "German": "Sigill der Schwäche",
+        "French": "Cachet de faiblesse"
+      },
+      "Descriptions": {
+        "English": null,
+        "Spanish": null,
+        "German": null,
+        "French": null
+      }
+    },
+    "21131": {
+      "Buffs": {
+        "English": "Gain a charge of +10 condition damage each time you kill a foe, five charges if you kill an enemy player. <c=@reminder>(Max 25 stacks; ends on down.)</c> <br><c=@reminder>(Only one attribute-stacking sigil can be active at a time.)</c>",
+        "Spanish": "Gana una carga de +10 de daño de condición cada vez que matas a un enemigo, y cinco cargas si matas a un jugador enemigo. <c=@reminder>(Máximo 25 acumulaciones; acaba cuando te han abatido).</c><br><c=@reminder>(Solo puede haber activo un sello de acumulación de atributos a la vez).</c>",
+        "German": "Erhaltet eine Ladung von +10 Zustandsschaden für jeden besiegten Gegner und fünf Ladungen für jeden besiegten feindlichen Spieler. <c=@reminder>(Maximal 25 Stapel, endet bei Angeschlagen.)</c> <br><c=@reminder>(Es kann jeweils nur ein Attribute stapelndes Sigill aktiv sein.)</c>",
+        "French": "Vous obtenez une charge qui augmente de +10 vos Dégâts par altération à chaque ennemi tué, et cinq charges si vous tuez un joueur ennemi <c=@reminder>(25 charges maximum, effet annulé lorsque vous êtes à terre).</c><br><c=@reminder>(Un seul cachet à capacité cumulable peut être actif à la fois)</c>"
+      },
+      "Type": 14,
+      "TemplateSlot": -1,
+      "Id": 21131,
+      "MappedId": 39,
+      "Rarity": 6,
+      "Chatlink": "[&AgGLUgAA]",
+      "AssetId": 220668,
+      "Names": {
+        "English": "Sigil of Corruption",
+        "Spanish": "Sello de corrupción",
+        "German": "Sigill der Verdorbenheit",
+        "French": "Cachet de corruption"
+      },
+      "DisplayTexts": {
+        "English": "Sigil of Corruption",
+        "Spanish": "Sello de corrupción",
+        "German": "Sigill der Verdorbenheit",
+        "French": "Cachet de corruption"
+      },
+      "Descriptions": {
+        "English": null,
+        "Spanish": null,
+        "German": null,
+        "French": null
+      }
+    },
+    "21132": {
+      "Buffs": {
+        "English": "Your endurance is refilled each time you kill a foe.",
+        "Spanish": "Tu aguante se recarga cada vez que matas a un enemigo.",
+        "German": "Eure Ausdauer wird bei jedem getöteten Gegner wieder gefüllt.",
+        "French": "Votre endurance se recharge à chaque ennemi tué."
+      },
+      "Type": 14,
+      "TemplateSlot": -1,
+      "Id": 21132,
+      "MappedId": 40,
+      "Rarity": 6,
+      "Chatlink": "[&AgGMUgAA]",
+      "AssetId": 220669,
+      "Names": {
+        "English": "Sigil of Stamina",
+        "Spanish": "Sello de vitalidad",
+        "German": "Sigill der Ausdauer",
+        "French": "Cachet d'endurance"
+      },
+      "DisplayTexts": {
+        "English": "Sigil of Stamina",
+        "Spanish": "Sello de vitalidad",
+        "German": "Sigill der Ausdauer",
+        "French": "endurance"
+      },
+      "Descriptions": {
+        "English": null,
+        "Spanish": null,
+        "German": null,
+        "French": null
+      }
+    },
+    "21134": {
+      "Buffs": {
+        "English": "Gain health when interrupting a foe. <c=@reminder>(Cooldown: 5 Seconds)</c>",
+        "Spanish": "Ganas salud al interrumpir a un enemigo. <c=@reminder>(Recarga: 5 segundos)</c>",
+        "German": "Erhaltet bei der Unterbrechung eines Gegners Lebenspunkte. <c=@reminder>(Erholzeit: 5 Sekunden)</c>",
+        "French": "Vous regagnez de la santé lorsque vous interrompez un ennemi. <c=@reminder>(Temps de recharge : 5 secondes)</c>"
+      },
+      "Type": 14,
+      "TemplateSlot": -1,
+      "Id": 21134,
+      "MappedId": 41,
+      "Rarity": 6,
+      "Chatlink": "[&AgGOUgAA]",
+      "AssetId": 220671,
+      "Names": {
+        "English": "Sigil of Restoration",
+        "Spanish": "Sello de restauración",
+        "German": "Sigill der Wiederherstellung",
+        "French": "Cachet de restauration"
+      },
+      "DisplayTexts": {
+        "English": "Sigil of Restoration",
+        "Spanish": "Sello de restauración",
+        "German": "Sigill der Wiederherstellung",
+        "French": "Cachet de restauration"
+      },
+      "Descriptions": {
+        "English": null,
+        "Spanish": null,
+        "German": null,
+        "French": null
+      }
+    },
+    "21135": {
+      "Buffs": {
+        "English": "Gain a charge that grants a 0.5% increase in healing to other allies each time you kill a foe, five charges if you kill an enemy player. <c=@reminder>(Max 25 stacks; ends on down.)</c><br><c=@reminder>(Only one attribute-stacking sigil can be active at a time.)</c>",
+        "Spanish": "Gana una carga que otorga un 0,3 % de aumento de curación a otros aliados cada vez que matas a un enemigo y 5 cargas si matas a un jugador enemigo. <c=@reminder>(Máximo 25 acumulaciones; acaba cuando te abaten).</c><br><c=@reminder>(Solo puede haber activo un sello de acumulación de atributos a la vez).</c>",
+        "German": "Erhaltet für jeden besiegten Gegner eine Ladung, welche die Heilung an andere Verbündete um 0,5 % erhöht, und fünf Ladungen für jeden besiegten gegnerischen Spieler. <c=@reminder>(Maximal 25 Stapel, endet bei Angeschlagen.)</c> <br><c=@reminder>(Es kann jeweils nur ein Attribute stapelndes Sigill aktiv sein.)</c>",
+        "French": "Vous obtenez une charge qui augmente de 0,5% les soins conférés aux autres alliés à chaque ennemi tué, et cinq charges si vous tuez un joueur ennemi <c=@reminder>(25 charges maximum, effet annulé lorsque vous êtes à terre).</c><br><c=@reminder>(Un seul cachet à capacité cumulable peut être actif à la fois)</c>"
+      },
+      "Type": 14,
+      "TemplateSlot": -1,
+      "Id": 21135,
+      "MappedId": 42,
+      "Rarity": 6,
+      "Chatlink": "[&AgGPUgAA]",
+      "AssetId": 220672,
+      "Names": {
+        "English": "Sigil of Benevolence",
+        "Spanish": "Sello de benevolencia",
+        "German": "Sigill des Wohlwollens",
+        "French": "Cachet de bienveillance"
+      },
+      "DisplayTexts": {
+        "English": "Sigil of Benevolence",
+        "Spanish": "Sello de benevolencia",
+        "German": "Sigill des Wohlwollens",
+        "French": "Cachet de bienveillance"
+      },
+      "Descriptions": {
+        "English": null,
+        "Spanish": null,
+        "German": null,
+        "French": null
+      }
+    },
+    "21136": {
+      "Buffs": {
+        "English": "Gain a charge of +10 power each time you kill a foe, five charges if you kill an enemy player. <c=@reminder>(Max 25 stacks; ends on down.)</c> <br><c=@reminder>(Only one attribute-stacking sigil can be active at a time.)</c>",
+        "Spanish": "Gana una carga de +10 de potencia cada vez que matas a un enemigo, y cinco cargas si matas a un jugador enemigo. <c=@reminder>(Máximo 25 acumulaciones; acaba cuando te han abatido).</c><br><c=@reminder>(Solo puede haber activo un sello de acumulación de atributos a la vez).</c>",
+        "German": "Erhaltet eine Ladung von +10 Kraft für jeden besiegten Gegner und fünf Ladungen für jeden besiegten feindlichen Spieler. <c=@reminder>(Max. 25 Stapel, endet bei Angeschlagen.)</c> <br><c=@reminder>(Es kann jeweils nur ein Attribute stapelndes Sigill aktiv sein.)</c>",
+        "French": "Vous obtenez une charge qui augmente de +10 votre Puissance à chaque ennemi tué, et cinq charges si vous tuez un joueur ennemi <c=@reminder>(25 charges maximum, effet annulé lorsque vous êtes à terre).</c><br><c=@reminder>(Un seul cachet à capacité cumulable peut être actif à la fois)</c>"
+      },
+      "Type": 14,
+      "TemplateSlot": -1,
+      "Id": 21136,
+      "MappedId": 43,
+      "Rarity": 6,
+      "Chatlink": "[&AgGQUgAA]",
+      "AssetId": 220673,
+      "Names": {
+        "English": "Sigil of Bloodlust",
+        "Spanish": "Sello de sed de sangre",
+        "German": "Sigill der Blutgier",
+        "French": "Cachet de soif de sang"
+      },
+      "DisplayTexts": {
+        "English": "Sigil of Bloodlust",
+        "Spanish": "Sello de sed de sangre",
+        "German": "Sigill der Blutgier",
+        "French": "Cachet de soif de sang"
+      },
+      "Descriptions": {
+        "English": null,
+        "Spanish": null,
+        "German": null,
+        "French": null
+      }
+    },
+    "21137": {
+      "Buffs": {
+        "English": "Gain a charge of +10 precision each time you kill a foe, five charges if you kill an enemy player. <c=@reminder>(Max 25 stacks; ends on down.)</c> <br><c=@reminder>(Only one attribute-stacking sigil can be active at a time.)</c>",
+        "Spanish": "Gana una carga de +10 de precisión cada vez que matas a un enemigo, y cinco si matas a un jugador enemigo. <c=@reminder>(Máximo 25 acumulaciones; acaba cuando te han abatido).</c><br><c=@reminder>(Solo puede haber activo un sello de acumulación de atributos a la vez).</c>",
+        "German": "Erhaltet eine Ladung von +10 Präzision für jeden besiegten Gegner und fünf Ladungen für jeden besiegten feindlichen Spieler. <c=@reminder>(Max. 25 Stapel, endet bei Angeschlagen.)</c> <br><c=@reminder>(Es kann jeweils nur ein Attribute stapelndes Sigill aktiv sein.)</c>",
+        "French": "Vous obtenez une charge qui augmente de +10 votre Précision à chaque ennemi tué, et cinq charges si vous tuez un joueur ennemi <c=@reminder>(25 charges maximum, effet annulé lorsque vous êtes à terre).</c><br><c=@reminder>(Un seul cachet à capacité cumulable peut être actif à la fois)</c>"
+      },
+      "Type": 14,
+      "TemplateSlot": -1,
+      "Id": 21137,
+      "MappedId": 44,
+      "Rarity": 6,
+      "Chatlink": "[&AgGRUgAA]",
+      "AssetId": 220661,
+      "Names": {
+        "English": "Sigil of Perception",
+        "Spanish": "Sello de percepción",
+        "German": "Sigill der Wahrnehmung",
+        "French": "Cachet de perception"
+      },
+      "DisplayTexts": {
+        "English": "Sigil of Perception",
+        "Spanish": "Sello de percepción",
+        "German": "Sigill der Wahrnehmung",
+        "French": "Cachet de perception"
+      },
+      "Descriptions": {
+        "English": null,
+        "Spanish": null,
+        "German": null,
+        "French": null
+      }
+    },
+    "21138": {
+      "Buffs": {
+        "English": "Increase the duration of inflicted torment by 20%.",
+        "Spanish": "Aumentas la duración del tormento infligido un 20 %.",
+        "German": "Erhöht die Dauer zugefügter Pein um 20 %.",
+        "French": "Augmente la durée de Tourment infligé de 20%."
+      },
+      "Type": 14,
+      "TemplateSlot": -1,
+      "Id": 21138,
+      "MappedId": 45,
+      "Rarity": 6,
+      "Chatlink": "[&AgGSUgAA]",
+      "AssetId": 220674,
+      "Names": {
+        "English": "Sigil of Demon Summoning",
+        "Spanish": "Sello de invocación de demonios",
+        "German": "Sigill der Dämonenbeschwörung",
+        "French": "Cachet d'invocation démoniaque"
+      },
+      "DisplayTexts": {
+        "English": "Sigil of Demon Summoning",
+        "Spanish": "Sello de invocación de demonios",
+        "German": "Sigill der Dämonenbeschwörung",
+        "French": "invocation démoniaque"
+      },
+      "Descriptions": {
+        "English": null,
+        "Spanish": null,
+        "German": null,
+        "French": null
+      }
+    },
+    "21139": {
+      "Buffs": {
+        "English": "Gain Swiftness (20 Seconds) on Killing a Foe",
+        "Spanish": "Gana celeridad (20 segundos) al matar a un enemigo",
+        "German": "Erhaltet Eile (20 Sekunden) bei jedem besiegten Gegner.",
+        "French": "Confère Rapidité pendant 20 secondes à chaque ennemi tué"
+      },
+      "Type": 14,
+      "TemplateSlot": -1,
+      "Id": 21139,
+      "MappedId": 46,
+      "Rarity": 6,
+      "Chatlink": "[&AgGTUgAA]",
+      "AssetId": 220675,
+      "Names": {
+        "English": "Sigil of Speed",
+        "Spanish": "Sello de velocidad",
+        "German": "Sigill der Geschwindigkeit",
+        "French": "Cachet de vitesse"
+      },
+      "DisplayTexts": {
+        "English": "Sigil of Speed",
+        "Spanish": "Sello de velocidad",
+        "German": "Sigill der Geschwindigkeit",
+        "French": "Cachet de vitesse"
+      },
+      "Descriptions": {
+        "English": null,
+        "Spanish": null,
+        "German": null,
+        "French": null
+      }
+    },
+    "21140": {
+      "Buffs": {
+        "English": "Unleash a lightning strike upon critically hitting a foe. <br><c=@reminder>(Cooldown: 3 Seconds)</c>",
+        "Spanish": "Desatas un golpe de relámpago al conseguir un impacto crítico contra un enemigo. <br><c=@reminder>(Recarga: 3 segundos)</c>",
+        "German": "Entfesselt bei einem kritischen Treffer gegen einen Feind einen Blitzschlag. <br><c=@reminder>(Erholzeit: 3 Sekunden)</c>",
+        "French": "Vous déclenchez un éclair foudroyant lorsque vous infligez un coup critique à un ennemi. <br><c=@reminder>(Temps de recharge : 3 secondes)</c>"
+      },
+      "Type": 14,
+      "TemplateSlot": -1,
+      "Id": 21140,
+      "MappedId": 47,
+      "Rarity": 6,
+      "Chatlink": "[&AgGUUgAA]",
+      "AssetId": 220676,
+      "Names": {
+        "English": "Sigil of Air",
+        "Spanish": "Sello de aire",
+        "German": "Sigill der Luft",
+        "French": "Cachet d'air"
+      },
+      "DisplayTexts": {
+        "English": "Sigil of Air",
+        "Spanish": "Sello de aire",
+        "German": "Sigill der Luft",
+        "French": "air"
+      },
+      "Descriptions": {
+        "English": null,
+        "Spanish": null,
+        "German": null,
+        "French": null
+      }
+    },
+    "21142": {
+      "Buffs": {
+        "English": "Trigger a flame blast with a 240 radius upon critically hitting a foe. <br><c=@reminder>(Cooldown: 5 Seconds)</c>",
+        "Spanish": "Activas una descarga de llamas con un radio de 240 al conseguir un impacto crítico contra un enemigo. <br><c=@reminder>(Recarga: 5 segundos)</c>",
+        "German": "Löst bei einem kritischen Treffer gegen einen Feind im Umkreis von 240 eine \"Flammenentladung\" aus. <br><c=@reminder>(Erholzeit: 5 Sekunden)</c>",
+        "French": "Déclenche une Explosion de flammes dans un rayon de 240 lorsque vous infligez un coup critique à un ennemi. <br><c=@reminder>(Temps de recharge : 5 secondes)</c>"
+      },
+      "Type": 14,
+      "TemplateSlot": -1,
+      "Id": 21142,
+      "MappedId": 48,
+      "Rarity": 6,
+      "Chatlink": "[&AgGWUgAA]",
+      "AssetId": 220678,
+      "Names": {
+        "English": "Sigil of Fire",
+        "Spanish": "Sello de fuego",
+        "German": "Sigill des Feuers",
+        "French": "Cachet de feu"
+      },
+      "DisplayTexts": {
+        "English": "Sigil of Fire",
+        "Spanish": "Sello de fuego",
+        "German": "Sigill des Feuers",
+        "French": "Cachet de feu"
+      },
+      "Descriptions": {
+        "English": null,
+        "Spanish": null,
+        "German": null,
+        "French": null
+      }
+    },
+    "21143": {
+      "Buffs": {
+        "English": "Gain quickness for 3 seconds upon critically hitting a foe. <br><c=@reminder>(Cooldown: 20 Seconds)</c>",
+        "Spanish": "Ganas rapidez durante 3 segundos al conseguir un impacto crítico contra un enemigo. <br><c=@reminder>(Recarga: 20 segundos)</c>",
+        "German": "Erhaltet bei einem kritischen Treffer gegen einen Feind 3 Sekunden lang Schnelligkeit. <br><c=@reminder>(Erholzeit: 20 Sekunden)</c>",
+        "French": "Vous bénéficiez de Célérité pendant 3 secondes lorsque vous infligez un coup critique à un ennemi. <br><c=@reminder>(Temps de recharge : 20 secondes)</c>"
+      },
+      "Type": 14,
+      "TemplateSlot": -1,
+      "Id": 21143,
+      "MappedId": 49,
+      "Rarity": 6,
+      "Chatlink": "[&AgGXUgAA]",
+      "AssetId": 220679,
+      "Names": {
+        "English": "Sigil of Rage",
+        "Spanish": "Sello de rabia",
+        "German": "Sigill der Rage",
+        "French": "Cachet de rage"
+      },
+      "DisplayTexts": {
+        "English": "Sigil of Rage",
+        "Spanish": "Sello de rabia",
+        "German": "Sigill der Rage",
+        "French": "Cachet de rage"
+      },
+      "Descriptions": {
+        "English": null,
+        "Spanish": null,
+        "German": null,
+        "French": null
+      }
+    },
+    "21144": {
+      "Buffs": {
+        "English": "Chill a foe for 2 seconds after striking from its flank or when they are defiant. <c=@reminder>(Cooldown: 10 seconds)</c>",
+        "Spanish": "Congelas a un enemigo durante 2 segundos al golpearle por el flanco o cuando está en actitud desafiante. <c=@reminder>(Recarga: 10 segundos)</c>",
+        "German": "Habt Ihr einen Gegner von der Seite angegriffen oder ist er trotzig, fügt Ihr ihm 2 Sekunden lang Kühle zu. <c=@reminder>(Erholzeit: 10 Sekunden)</c>",
+        "French": "Inflige Givre à un ennemi pendant 2 secondes si vous le frappez par le côté ou s'il est rebelle. <c=@reminder>(Temps de recharge : 10 secondes)</c>"
+      },
+      "Type": 14,
+      "TemplateSlot": -1,
+      "Id": 21144,
+      "MappedId": 50,
+      "Rarity": 6,
+      "Chatlink": "[&AgGYUgAA]",
+      "AssetId": 220680,
+      "Names": {
+        "English": "Sigil of Ice",
+        "Spanish": "Sello de hielo",
+        "German": "Sigill des Eises",
+        "French": "Cachet de glace"
+      },
+      "DisplayTexts": {
+        "English": "Sigil of Ice",
+        "Spanish": "Sello de hielo",
+        "German": "Sigill des Eises",
+        "French": "Cachet de glace"
+      },
+      "Descriptions": {
+        "English": null,
+        "Spanish": null,
+        "German": null,
+        "French": null
+      }
+    },
+    "21145": {
+      "Buffs": {
+        "English": "Steal a foe's health upon landing a critical hit. <br><c=@reminder>(Cooldown: 5 Seconds)</c>",
+        "Spanish": "Robas salud a un enemigo al conseguir un impacto crítico. <br><c=@reminder>(Recarga: 5 segundos)</c>",
+        "German": "Stehlt bei einem kritischen Treffer die Lebenspunkte des Gegners. <br><c=@reminder>(Erholzeit: 5 Sekunden)</c>",
+        "French": "Vole la santé d'un ennemi lorsque vous infligez un coup critique. <br><c=@reminder>(Temps de recharge : 5 secondes)</c>"
+      },
+      "Type": 14,
+      "TemplateSlot": -1,
+      "Id": 21145,
+      "MappedId": 51,
+      "Rarity": 6,
+      "Chatlink": "[&AgGZUgAA]",
+      "AssetId": 220681,
+      "Names": {
+        "English": "Sigil of Blood",
+        "Spanish": "Sello de sangre",
+        "German": "Sigill des Blutes",
+        "French": "Cachet de sang"
+      },
+      "DisplayTexts": {
+        "English": "Sigil of Blood",
+        "Spanish": "Sello de sangre",
+        "German": "Sigill des Blutes",
+        "French": "Cachet de sang"
+      },
+      "Descriptions": {
+        "English": null,
+        "Spanish": null,
+        "German": null,
+        "French": null
+      }
+    },
+    "21146": {
+      "Buffs": {
+        "English": "Gain might for 10 seconds upon critically hitting a foe. <br><c=@reminder>(Cooldown: 1 Second)</c>",
+        "Spanish": "Ganas poder durante 10 segundos al conseguir un impacto crítico contra un enemigo. <br><c=@reminder>(Recarga: un segundo)</c>",
+        "German": "Erhaltet bei einem kritischen Treffer gegen einen Feind 10 Sekunden lang Macht. <br><c=@reminder>(Erholzeit: 1 Sekunde)</c>",
+        "French": "Vous bénéficiez de Pouvoir pendant 10 secondes lorsque vous infligez un coup critique à un ennemi. <br><c=@reminder>(Temps de recharge : 1 seconde)</c>"
+      },
+      "Type": 14,
+      "TemplateSlot": -1,
+      "Id": 21146,
+      "MappedId": 52,
+      "Rarity": 6,
+      "Chatlink": "[&AgGaUgAA]",
+      "AssetId": 220682,
+      "Names": {
+        "English": "Sigil of Strength",
+        "Spanish": "Sello de fortaleza",
+        "German": "Sigill der Stärke",
+        "French": "Cachet de force"
+      },
+      "DisplayTexts": {
+        "English": "Sigil of Strength",
+        "Spanish": "Sello de fortaleza",
+        "German": "Sigill der Stärke",
+        "French": "Cachet de force"
+      },
+      "Descriptions": {
+        "English": null,
+        "Spanish": null,
+        "German": null,
+        "French": null
+      }
+    },
+    "21148": {
+      "Buffs": {
+        "English": "Heal allies within a 360 radius of your target upon landing a critical hit. <br><c=@reminder>(Cooldown: 5 Seconds)</c>",
+        "Spanish": "Curas a los aliados en un radio de 360 alrededor de tu objetivo al conseguir un impacto crítico. <br><c=@reminder>(Recarga: 5 segundos)</c>",
+        "German": "Heilt Verbündete im Umkreis von 360 um Euer Ziel bei einem kritischen Treffer. <br><c=@reminder>(Erholzeit: 5 Sekunden)</c>",
+        "French": "Soigne vos alliés dans un rayon de 360 autour de la cible lorsque vous infligez un coup critique. <br><c=@reminder>(Temps de recharge : 5 secondes)</c>"
+      },
+      "Type": 14,
+      "TemplateSlot": -1,
+      "Id": 21148,
+      "MappedId": 53,
+      "Rarity": 6,
+      "Chatlink": "[&AgGcUgAA]",
+      "AssetId": 220684,
+      "Names": {
+        "English": "Sigil of Water",
+        "Spanish": "Sello de agua",
+        "German": "Sigill des Wassers",
+        "French": "Cachet d'eau"
+      },
+      "DisplayTexts": {
+        "English": "Sigil of Water",
+        "Spanish": "Sello de agua",
+        "German": "Sigill des Wassers",
+        "French": "eau"
+      },
+      "Descriptions": {
+        "English": null,
+        "Spanish": null,
+        "German": null,
+        "French": null
+      }
+    },
+    "21151": {
+      "Buffs": {
+        "English": "Inflict bleeding on nearby foes for 7 seconds when you swap to this weapon while in combat.<br><c=@reminder>(Cooldown: 9s)</c>",
+        "Spanish": "Inflige hemorragia a los enemigos cercanos durante 7 segundos tras cambiar a esta arma durante el combate.<br><c=@reminder>(Recarga: 9 segundos)</c>",
+        "German": "Fügt Gegnern in der Nähe Blutung für 7 Sekunden zu, wenn Ihr im Kampf zu dieser Waffe wechselt.<br><c=@reminder>(Erholzeit: 9 s)</c>",
+        "French": "Vous infligez saignement aux ennemis à proximité pendant 7 secondes si vous changez d'arme en combat pour équiper celle-ci.<br><c=@reminder>(Temps de recharge : 9 secondes)</c>"
+      },
+      "Type": 14,
+      "TemplateSlot": -1,
+      "Id": 21151,
+      "MappedId": 54,
+      "Rarity": 6,
+      "Chatlink": "[&AgGfUgAA]",
+      "AssetId": 220687,
+      "Names": {
+        "English": "Sigil of Geomancy",
+        "Spanish": "Sello de geomancia",
+        "German": "Sigill der Geomantie",
+        "French": "Cachet de géomancie"
+      },
+      "DisplayTexts": {
+        "English": "Sigil of Geomancy",
+        "Spanish": "Sello de geomancia",
+        "German": "Sigill der Geomantie",
+        "French": "Cachet de géomancie"
+      },
+      "Descriptions": {
+        "English": null,
+        "Spanish": null,
+        "German": null,
+        "French": null
+      }
+    },
+    "21153": {
+      "Buffs": {
+        "English": "Damage nearby foes and chill them for 2 seconds when you swap to this weapon while in combat.<br><c=@reminder>(Cooldown: 9 Seconds)</c>",
+        "Spanish": "Daña a los enemigos cercanos e inflige Congelación durante 2 segundos tras cambiar a esta arma durante el combate.<br><c=@reminder>(Recarga: 9 segundos)</c>",
+        "German": "Fügt 2 Sek. lang Gegnern in der Nähe Schaden zu und verursacht Kühle, wenn Ihr im Kampf zu dieser Waffe wechselt.<br><c=@reminder>(Erholzeit: 9 Sekunden)</c>",
+        "French": "Inflige des dégâts et Givre aux ennemis à proximité pendant 2 secondes si vous changez d'arme en combat pour équiper celle-ci.<br><c=@reminder>(Temps de recharge : 9 secondes)</c>"
+      },
+      "Type": 14,
+      "TemplateSlot": -1,
+      "Id": 21153,
+      "MappedId": 55,
+      "Rarity": 6,
+      "Chatlink": "[&AgGhUgAA]",
+      "AssetId": 220689,
+      "Names": {
+        "English": "Sigil of Hydromancy",
+        "Spanish": "Sello de hidromancia",
+        "German": "Sigill der Hydromantie",
+        "French": "Cachet d'hydromancie"
+      },
+      "DisplayTexts": {
+        "English": "Sigil of Hydromancy",
+        "Spanish": "Sello de hidromancia",
+        "German": "Sigill der Hydromantie",
+        "French": "hydromancie"
+      },
+      "Descriptions": {
+        "English": null,
+        "Spanish": null,
+        "German": null,
+        "French": null
+      }
+    },
+    "21154": {
+      "Buffs": {
+        "English": "Your next attack after swapping to this weapon while in combat steals some health. <c=@reminder>(Cooldown: 9 Seconds)</c>",
+        "Spanish": "Robas una cierta cantidad de salud en el siguiente ataque tras cambiar a esta arma durante el combate.<c=@reminder>(Recarga: 9 segundos)</c>",
+        "German": "Euer nächster Angriff entzieht einige Lebenspunkte, wenn Ihr im Kampf zu dieser Waffe wechselt. <c=@reminder>(Erholzeit: 9 s)</c>",
+        "French": "Votre prochaine attaque volera de la santé si vous changez d'arme en combat pour équiper celle-ci<br><c=@reminder>(Temps de recharge : 9 secondes).</c>"
+      },
+      "Type": 14,
+      "TemplateSlot": -1,
+      "Id": 21154,
+      "MappedId": 56,
+      "Rarity": 6,
+      "Chatlink": "[&AgGiUgAA]",
+      "AssetId": 220690,
+      "Names": {
+        "English": "Sigil of Leeching",
+        "Spanish": "Sello de sanguijuela",
+        "German": "Sigill des Lebensfressers",
+        "French": "Cachet de sangsue"
+      },
+      "DisplayTexts": {
+        "English": "Sigil of Leeching",
+        "Spanish": "Sello de sanguijuela",
+        "German": "Sigill des Lebensfressers",
+        "French": "Cachet de sangsue"
+      },
+      "Descriptions": {
+        "English": null,
+        "Spanish": null,
+        "German": null,
+        "French": null
+      }
+    },
+    "21257": {
+      "Buffs": {
+        "English": "60% Chance on Critical: Remove a Boon<br><c=@reminder>(Cooldown: 5 Seconds)</c>",
+        "Spanish": "60 % de probabilidad al realizar un golpe crítico: Eliminar una bendición<br><c=@reminder>(Recarga: 5 segundos)</c>",
+        "German": "60 % Chance bei kritischen Treffern: Entfernt einen Segen<br><c=@reminder>(Erholzeit: 5 Sekunden)</c>",
+        "French": "Chance de supprimer un avantage lors d'un coup critique de 60%<br><c=@reminder>(Temps de recharge : 5 secondes)</c>"
+      },
+      "Type": 14,
+      "TemplateSlot": -1,
+      "Id": 21257,
+      "MappedId": 57,
+      "Rarity": 6,
+      "Chatlink": "[&AgEJUwAA]",
+      "AssetId": 220744,
+      "Names": {
+        "English": "Sigil of Nullification",
+        "Spanish": "Sello de invalidación",
+        "German": "Sigill der Auslöschung",
+        "French": "Cachet d'invalidation"
+      },
+      "DisplayTexts": {
+        "English": "Sigil of Nullification",
+        "Spanish": "Sello de invalidación",
+        "German": "Sigill der Auslöschung",
+        "French": "invalidation"
+      },
+      "Descriptions": {
+        "English": null,
+        "Spanish": null,
+        "German": null,
+        "French": null
+      }
+    },
+    "21258": {
+      "Buffs": {
+        "English": "Remove a condition after striking a foe from its flank or when they are defiant. <br><c=@reminder>(Cooldown: 4 seconds)</c>",
+        "Spanish": "Eliminas una condición al golpear a un enemigo por el flanco o cuando está en actitud desafiante. <br><c=@reminder>(Recarga: 4 segundos)</c>",
+        "German": "Habt Ihr einen Gegner von der Seite angegriffen oder ist er trotzig, entfernt Ihr einen Zustand. <c=@reminder>(Erholzeit: 4 Sekunden)</c>",
+        "French": "Supprime une altération si vous frappez un ennemi par le côté ou s'il est rebelle. <br><c=@reminder>(Temps de recharge : 4 secondes)</c>"
+      },
+      "Type": 14,
+      "TemplateSlot": -1,
+      "Id": 21258,
+      "MappedId": 58,
+      "Rarity": 6,
+      "Chatlink": "[&AgEKUwAA]",
+      "AssetId": 220745,
+      "Names": {
+        "English": "Sigil of Purity",
+        "Spanish": "Sello de pureza",
+        "German": "Sigill der Reinheit",
+        "French": "Cachet de pureté"
+      },
+      "DisplayTexts": {
+        "English": "Sigil of Purity",
+        "Spanish": "Sello de pureza",
+        "German": "Sigill der Reinheit",
+        "French": "Cachet de pureté"
+      },
+      "Descriptions": {
+        "English": null,
+        "Spanish": null,
+        "German": null,
+        "French": null
+      }
+    }
+  },
+  "Version": "0.0.7"
+}

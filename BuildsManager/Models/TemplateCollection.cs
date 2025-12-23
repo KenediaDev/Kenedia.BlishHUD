@@ -156,6 +156,8 @@ namespace Kenedia.Modules.BuildsManager.Models
                     string json = await reader.ReadToEndAsync();
 
                     Template template = JsonConvert.DeserializeObject<Template>(json, settings);
+                    template.SaveRequested = false;
+
                     _templates.Add(template);
                 }
 

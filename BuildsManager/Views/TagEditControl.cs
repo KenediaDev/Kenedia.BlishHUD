@@ -389,7 +389,7 @@ namespace Kenedia.Modules.BuildsManager.Views
 
         private void StartDrag()
         {
-            var iconBounds = new Rectangle(base.ContentRegion.Left, 0, 36, 36);
+            var iconBounds = new Rectangle(ContentRegion.Left, 0, 36, 36);
 
             if (iconBounds.Contains(RelativeMousePosition))
             {

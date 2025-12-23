@@ -1,0 +1,275 @@
+{
+  "Items": {
+    "95864": {
+      "Type": 18,
+      "TemplateSlot": 22,
+      "Id": 95864,
+      "MappedId": 1,
+      "Rarity": 4,
+      "Chatlink": "[&AgF4dgEA]",
+      "AssetId": 2595071,
+      "Names": {
+        "English": "Jade Bot Core: Tier 5",
+        "Spanish": "Núcleo de robot de jade: Rango 5",
+        "German": "Jade-Bot-Kern: Rang 5",
+        "French": "Noyau de drone de jade : Niveau 5"
+      },
+      "DisplayTexts": {
+        "English": "Jade Bot Core: Tier 5",
+        "Spanish": "Núcleo de robot de jade: Rango 5",
+        "German": "Jade-Bot-Kern: Rang 5",
+        "French": "Noyau de drone de jade : Niveau 5"
+      },
+      "Descriptions": {
+        "English": "Increases vitality by 160. Required to equip jade bot sensory arrays.",
+        "Spanish": "Aumenta la vitalidad en 160. Imprescindible para equipar matrices de sensores para robots de jade.",
+        "German": "Erhöht die Vitalität um 160. Erforderlich, um die sensorische Matrix eines Jade-Bots auszurüsten.",
+        "French": "Vitalité augmentée de 160. Requis pour équiper les capteurs sensoriels du drone de jade."
+      }
+    },
+    "96070": {
+      "Type": 18,
+      "TemplateSlot": 22,
+      "Id": 96070,
+      "MappedId": 2,
+      "Rarity": 5,
+      "Chatlink": "[&AgFGdwEA]",
+      "AssetId": 2595075,
+      "Names": {
+        "English": "Jade Bot Core: Tier 9",
+        "Spanish": "Núcleo de robot de jade: Rango 9",
+        "German": "Jade-Bot-Kern: Rang 9",
+        "French": "Noyau de drone de jade : Niveau 9"
+      },
+      "DisplayTexts": {
+        "English": "Jade Bot Core: Tier 9",
+        "Spanish": "Núcleo de robot de jade: Rango 9",
+        "German": "Jade-Bot-Kern: Rang 9",
+        "French": "Noyau de drone de jade : Niveau 9"
+      },
+      "Descriptions": {
+        "English": "Increases vitality by 220. Required to equip jade bot sensory arrays and service chips.",
+        "Spanish": "Aumenta la vitalidad en 220. Imprescindible para equipar chips de servicio y matrices de sensores para robots de jade.",
+        "German": "Erhöht die Vitalität um 220. Erforderlich, um sensorische Matrix und Service-Chips eines Jade-Bots auszurüsten.",
+        "French": "Vitalité augmentée de 220. Requis pour équiper les capteurs sensoriels et les puces de service du drone de jade."
+      }
+    },
+    "96299": {
+      "Type": 18,
+      "TemplateSlot": 22,
+      "Id": 96299,
+      "MappedId": 3,
+      "Rarity": 5,
+      "Chatlink": "[&AgEreAEA]",
+      "AssetId": 2595074,
+      "Names": {
+        "English": "Jade Bot Core: Tier 8",
+        "Spanish": "Núcleo de robot de jade: Rango 8",
+        "German": "Jade-Bot-Kern: Rang 8",
+        "French": "Noyau de drone de jade : Niveau 8"
+      },
+      "DisplayTexts": {
+        "English": "Jade Bot Core: Tier 8",
+        "Spanish": "Núcleo de robot de jade: Rango 8",
+        "German": "Jade-Bot-Kern: Rang 8",
+        "French": "Noyau de drone de jade : Niveau 8"
+      },
+      "Descriptions": {
+        "English": "Increases vitality by 205. Required to equip jade bot sensory arrays and service chips.",
+        "Spanish": "Aumenta la vitalidad en 205. Imprescindible para equipar chips de servicio y matrices de sensores para robots de jade.",
+        "German": "Erhöht die Vitalität um 205. Erforderlich, um sensorische Matrix und Service-Chips eines Jade-Bots auszurüsten.",
+        "French": "Vitalité augmentée de 205. Requis pour équiper les capteurs sensoriels et les puces de service du drone de jade."
+      }
+    },
+    "96467": {
+      "Type": 18,
+      "TemplateSlot": 22,
+      "Id": 96467,
+      "MappedId": 4,
+      "Rarity": 4,
+      "Chatlink": "[&AgHTeAEA]",
+      "AssetId": 2595072,
+      "Names": {
+        "English": "Jade Bot Core: Tier 6",
+        "Spanish": "Núcleo de robot de jade: Rango 6",
+        "German": "Jade-Bot-Kern: Rang 6",
+        "French": "Noyau de drone de jade : Niveau 6"
+      },
+      "DisplayTexts": {
+        "English": "Jade Bot Core: Tier 6",
+        "Spanish": "Núcleo de robot de jade: Rango 6",
+        "German": "Jade-Bot-Kern: Rang 6",
+        "French": "Noyau de drone de jade : Niveau 6"
+      },
+      "Descriptions": {
+        "English": "Increases vitality by 175. Required to equip jade bot sensory arrays and service chips.",
+        "Spanish": "Aumenta la vitalidad en 175. Imprescindible para equipar chips de servicio y matrices de sensores para robots de jade.",
+        "German": "Erhöht die Vitalität um 175. Erforderlich, um sensorische Matrix und Service-Chips eines Jade-Bots auszurüsten.",
+        "French": "Vitalité augmentée de 175. Requis pour équiper les capteurs sensoriels et les puces de service du drone de jade."
+      }
+    },
+    "96613": {
+      "Type": 18,
+      "TemplateSlot": 22,
+      "Id": 96613,
+      "MappedId": 5,
+      "Rarity": 6,
+      "Chatlink": "[&AgFleQEA]",
+      "AssetId": 2595067,
+      "Names": {
+        "English": "Jade Bot Core: Tier 10",
+        "Spanish": "Núcleo de robot de jade: Rango 10",
+        "German": "Jade-Bot-Kern: Rang 10",
+        "French": "Noyau de drone de jade : Niveau 10"
+      },
+      "DisplayTexts": {
+        "English": "Jade Bot Core: Tier 10",
+        "Spanish": "Núcleo de robot de jade: Rango 10",
+        "German": "Jade-Bot-Kern: Rang 10",
+        "French": "Noyau de drone de jade : Niveau 10"
+      },
+      "Descriptions": {
+        "English": "Increases vitality by 235. Required to equip jade bot sensory arrays and service chips.",
+        "Spanish": "Aumenta la vitalidad en 235. Imprescindible para equipar chips de servicio y matrices de sensores para robots de jade.",
+        "German": "Erhöht die Vitalität um 235. Erforderlich, um sensorische Matrix und Service-Chips eines Jade-Bots auszurüsten.",
+        "French": "Vitalité augmentée de 235. Requis pour équiper les capteurs sensoriels et les puces de service du drone de jade."
+      }
+    },
+    "96628": {
+      "Type": 18,
+      "TemplateSlot": 22,
+      "Id": 96628,
+      "MappedId": 6,
+      "Rarity": 4,
+      "Chatlink": "[&AgF0eQEA]",
+      "AssetId": 2595070,
+      "Names": {
+        "English": "Jade Bot Core: Tier 4",
+        "Spanish": "Núcleo de robot de jade: Rango 4",
+        "German": "Jade-Bot-Kern: Rang 4",
+        "French": "Noyau de drone de jade : Niveau 4"
+      },
+      "DisplayTexts": {
+        "English": "Jade Bot Core: Tier 4",
+        "Spanish": "Núcleo de robot de jade: Rango 4",
+        "German": "Jade-Bot-Kern: Rang 4",
+        "French": "Noyau de drone de jade : Niveau 4"
+      },
+      "Descriptions": {
+        "English": "Increases vitality by 145. Required to equip jade bot sensory arrays.",
+        "Spanish": "Aumenta la vitalidad en 145. Imprescindible para equipar matrices de sensores para robots de jade.",
+        "German": "Erhöht die Vitalität um 145. Erforderlich, um die sensorische Matrix eines Jade-Bots auszurüsten.",
+        "French": "Vitalité augmentée de 145. Requis pour équiper les capteurs sensoriels du drone de jade."
+      }
+    },
+    "97020": {
+      "Type": 18,
+      "TemplateSlot": 22,
+      "Id": 97020,
+      "MappedId": 7,
+      "Rarity": 5,
+      "Chatlink": "[&AgH8egEA]",
+      "AssetId": 2595073,
+      "Names": {
+        "English": "Jade Bot Core: Tier 7",
+        "Spanish": "Núcleo de robot de jade: Rango 7",
+        "German": "Jade-Bot-Kern: Rang 7",
+        "French": "Noyau de drone de jade : Niveau 7"
+      },
+      "DisplayTexts": {
+        "English": "Jade Bot Core: Tier 7",
+        "Spanish": "Núcleo de robot de jade: Rango 7",
+        "German": "Jade-Bot-Kern: Rang 7",
+        "French": "Noyau de drone de jade : Niveau 7"
+      },
+      "Descriptions": {
+        "English": "Increases vitality by 190. Required to equip jade bot sensory arrays and service chips.",
+        "Spanish": "Aumenta la vitalidad en 190. Imprescindible para equipar chips de servicio y matrices de sensores para robots de jade.",
+        "German": "Erhöht die Vitalität um 190. Erforderlich, um sensorische Matrix und Service-Chips eines Jade-Bots auszurüsten.",
+        "French": "Vitalité augmentée de 190. Requis pour équiper les capteurs sensoriels et les puces de service du drone de jade."
+      }
+    },
+    "97041": {
+      "Type": 18,
+      "TemplateSlot": 22,
+      "Id": 97041,
+      "MappedId": 8,
+      "Rarity": 3,
+      "Chatlink": "[&AgERewEA]",
+      "AssetId": 2595068,
+      "Names": {
+        "English": "Jade Bot Core: Tier 2",
+        "Spanish": "Núcleo de robot de jade: Rango 2",
+        "German": "Jade-Bot-Kern: Rang 2",
+        "French": "Noyau de drone de jade : Niveau 2"
+      },
+      "DisplayTexts": {
+        "English": "Jade Bot Core: Tier 2",
+        "Spanish": "Núcleo de robot de jade: Rango 2",
+        "German": "Jade-Bot-Kern: Rang 2",
+        "French": "Noyau de drone de jade : Niveau 2"
+      },
+      "Descriptions": {
+        "English": "Increases vitality by 115. Required to equip jade bot sensory arrays.",
+        "Spanish": "Aumenta la vitalidad en 115. Imprescindible para equipar matrices de sensores para robots de jade.",
+        "German": "Erhöht die Vitalität um 115. Erforderlich, um die sensorische Matrix eines Jade-Bots auszurüsten.",
+        "French": "Vitalité augmentée de 115. Requis pour équiper les capteurs sensoriels du drone de jade."
+      }
+    },
+    "97284": {
+      "Type": 18,
+      "TemplateSlot": 22,
+      "Id": 97284,
+      "MappedId": 9,
+      "Rarity": 3,
+      "Chatlink": "[&AgEEfAEA]",
+      "AssetId": 2595069,
+      "Names": {
+        "English": "Jade Bot Core: Tier 3",
+        "Spanish": "Núcleo de robot de jade: Rango 3",
+        "German": "Jade-Bot-Kern: Rang 3",
+        "French": "Noyau de drone de jade : Niveau 3"
+      },
+      "DisplayTexts": {
+        "English": "Jade Bot Core: Tier 3",
+        "Spanish": "Núcleo de robot de jade: Rango 3",
+        "German": "Jade-Bot-Kern: Rang 3",
+        "French": "Noyau de drone de jade : Niveau 3"
+      },
+      "Descriptions": {
+        "English": "Increases vitality by 130. Required to equip jade bot sensory arrays.",
+        "Spanish": "Aumenta la vitalidad en 130. Imprescindible para equipar matrices de sensores para robots de jade.",
+        "German": "Erhöht die Vitalität um 130. Erforderlich, um die sensorische Matrix eines Jade-Bots auszurüsten.",
+        "French": "Vitalité augmentée de 130. Requis pour équiper les capteurs sensoriels du drone de jade."
+      }
+    },
+    "97339": {
+      "Type": 18,
+      "TemplateSlot": 22,
+      "Id": 97339,
+      "MappedId": 10,
+      "Rarity": 3,
+      "Chatlink": "[&AgE7fAEA]",
+      "AssetId": 2595066,
+      "Names": {
+        "English": "Jade Bot Core: Tier 1",
+        "Spanish": "Núcleo de robot de jade: Rango 1",
+        "German": "Jade-Bot-Kern: Rang 1",
+        "French": "Noyau de drone de jade : Niveau 1"
+      },
+      "DisplayTexts": {
+        "English": "Jade Bot Core: Tier 1",
+        "Spanish": "Núcleo de robot de jade: Rango 1",
+        "German": "Jade-Bot-Kern: Rang 1",
+        "French": "Noyau de drone de jade : Niveau 1"
+      },
+      "Descriptions": {
+        "English": "Increases vitality by 100. Required to equip jade bot sensory arrays.",
+        "Spanish": "Aumenta la vitalidad en 100. Imprescindible para equipar matrices de sensores para robots de jade.",
+        "German": "Erhöht die Vitalität um 100. Erforderlich, um die sensorische Matrix eines Jade-Bots auszurüsten.",
+        "French": "Vitalité augmentée de 100. Requis pour équiper les capteurs sensoriels du drone de jade."
+      }
+    }
+  },
+  "Version": "0.0.5"
+}

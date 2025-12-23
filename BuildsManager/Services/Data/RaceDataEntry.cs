@@ -13,6 +13,7 @@ using Kenedia.Modules.Core.Models;
 using Gw2Sharp.WebApi;
 using System.Threading;
 using Kenedia.Modules.BuildsManager.Models;
+using System.Collections.Generic;
 
 namespace Kenedia.Modules.BuildsManager.Services
 {
@@ -29,65 +30,92 @@ namespace Kenedia.Modules.BuildsManager.Services
             race.Names[Locale.Spanish] = "Cualquier raza";
         }
 
-        public async override Task<bool> LoadAndUpdate(string name, ByteIntMap map, string path, Gw2ApiManager gw2ApiManager, CancellationToken cancellationToken)
+        public override async Task<bool> LoadCached(string name, string path, CancellationToken token)
         {
-            try
+            if (token.IsCancellationRequested)
             {
-                bool saveRequired = false;
-                RaceDataEntry loaded = null;
-                BuildsManager.Logger.Debug($"Load and if required update {name}");
+                return false;
+            }
 
-                if (!DataLoaded && File.Exists(path))
-                {
-                    BuildsManager.Logger.Debug($"Load {name}.json");
-                    string json = File.ReadAllText(path);
-                    loaded = JsonConvert.DeserializeObject<RaceDataEntry>(json, SerializerSettings.Default);
-                    DataLoaded = true;
-                }
+            if (!File.Exists(path))
+            {
+                BuildsManager.Logger.Debug($"No local data for {name} found at '{Path.GetFileName(path)}'");
+                return false;
+            }
 
-                Map = map;
-                Items = loaded?.Items ?? Items;
-                Version = loaded?.Version ?? Version;
+            BuildsManager.Logger.Debug($"Loading local data for {name} from '{Path.GetFileName(path)}'");
 
-                BuildsManager.Logger.Debug($"{name} Version {Version} | version {map.Version}");
-
-                BuildsManager.Logger.Debug($"Check for missing values for {name}");
-                var raceIds = await gw2ApiManager.Gw2ApiClient.V2.Races.IdsAsync(cancellationToken);
-
-                if (cancellationToken.IsCancellationRequested)
+            if (File.Exists(path))
+            {
+                string json = File.ReadAllText(path);
+                if (token.IsCancellationRequested)
                 {
                     return false;
                 }
 
-                var lang = GameService.Overlay.UserLocale.Value is Locale.Korean or Locale.Chinese ? Locale.English : GameService.Overlay.UserLocale.Value;
-                var localeMissing = Items.Values.Where(item => item.Names[lang] == null)?.Select(e => $"{e.Id}");
-                var missing = raceIds.Except(Items.Keys.Select(e => $"{e}")).Concat(localeMissing).Except(new string[] {$"{Races.None}"});
-
-                if (map.Version > Version)
+                var loaded = JsonConvert.DeserializeObject<RaceDataEntry>(json, SerializerSettings.Default);
+                if (loaded != null)
                 {
-                    Version = map.Version;
-                    missing = raceIds;
-                    BuildsManager.Logger.Debug($"The current version does not match the map version. Updating all values for {name}.");
+                    Map = loaded.Map;
+                    Items = loaded.Items;
+                    Version = loaded.Version;
+                    DataLoaded = true;
+
+                    BuildsManager.Logger.Debug($"Loaded local data for {name} with {Items.Count} entries. Version {Version}");
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        public override async Task<(bool, List<object>)> IsIncomplete(string name, ByteIntMap map, string path, Gw2ApiManager gw2ApiManager, CancellationToken token)
+        {
+            Map = map;
+            try 
+            { 
+                Ids ??= [.. (await gw2ApiManager.Gw2ApiClient.V2.Races.IdsAsync(token)).Select(value => Enum.TryParse(value, out Races race) ? race : Races.None).Distinct()];
+                if (token.IsCancellationRequested)
+                {
+                    return (true, []);
                 }
 
-                if (missing.Count() > 0)
-                {
-                    var idSets = missing.ToList().ChunkBy(200);
-                    saveRequired = saveRequired || idSets.Count > 0;
+                var lang = GameService.Overlay.UserLocale.Value is Locale.Korean or Locale.Chinese ? Locale.English : GameService.Overlay.UserLocale.Value;
+                var missing = map.Version > Version ? Ids.Select(x => x.ToString()) : Ids.Where(id => !Items.TryGetValue(id, out var entry) || entry.Names[lang] is null).Select(x => x.ToString());
 
-                    BuildsManager.Logger.Debug($"Fetch a total of {missing.Count()} {name} in {idSets.Count} sets.");
-                    var apiSkills = await gw2ApiManager.Gw2ApiClient.V2.Skills.AllAsync(cancellationToken);
-                    var profession = await gw2ApiManager.Gw2ApiClient.V2.Professions.GetAsync(ProfessionType.Guardian, cancellationToken);
-                    if (cancellationToken.IsCancellationRequested)
-                    {
-                        return false;
-                    }
+                return (missing.Any(), missing.Cast<object>().ToList());
+            }
+            catch (Exception ex)
+            {
+                BuildsManager.Logger.Warn(ex, $"Failed to check completeness of {name} data.");
+            }
+
+            return (true, new List<object>());
+        }
+
+        public override async Task<bool> Update(string name, ByteIntMap map, string path, Gw2ApiManager gw2ApiManager, CancellationToken token)
+        {
+            try
+            {
+                if (token.IsCancellationRequested)
+                {
+                    return false;
+                }
+
+                var (isIncomplete, missing) = await IsIncomplete(name, map, path, gw2ApiManager, token);
+                if (missing.Any() && missing.All(item => item is string))
+                {
+                    var idSets = missing.Cast<string>().ToList().ChunkBy(200);
+                    BuildsManager.Logger.Debug($"{name} updating {missing.Count()} entries in {idSets.Count} sets.");
+
+                    var apiSkills = await gw2ApiManager.Gw2ApiClient.V2.Skills.AllAsync(token);
+                    var profession = await gw2ApiManager.Gw2ApiClient.V2.Professions.GetAsync(ProfessionType.Guardian, token);
 
                     foreach (var ids in idSets)
                     {
-                        var items = await gw2ApiManager.Gw2ApiClient.V2.Races.ManyAsync(ids, cancellationToken);
+                        var items = await gw2ApiManager.Gw2ApiClient.V2.Races.ManyAsync(ids, token);
 
-                        if (cancellationToken.IsCancellationRequested)
+                        if (token.IsCancellationRequested)
                         {
                             return false;
                         }
@@ -103,23 +131,22 @@ namespace Kenedia.Modules.BuildsManager.Services
                                 Items.Add((Races)Enum.Parse(typeof(Races), item.Id), entryItem);
                         }
                     }
-                }
 
-                if (saveRequired)
-                {
-                    BuildsManager.Logger.Debug($"Saving {name}.json");
+                    Version = Map.Version;
+                    BuildsManager.Logger.Debug($"Saving updated {name} data with {missing.Count()} updated entries. Version {Version}");
                     string json = JsonConvert.SerializeObject(this, SerializerSettings.Default);
                     File.WriteAllText(path, json);
-                }
+                    DataLoaded = true;
 
-                DataLoaded = DataLoaded || Items.Count > 0;
-                return true;
+                    return true;
+                }
             }
             catch (Exception ex)
             {
-                BuildsManager.Logger.Warn(ex, $"Failed to load {name} data.");
-                return false;
+                BuildsManager.Logger.Warn(ex, $"Failed to update {name} data.");
             }
+
+            return false;
         }
     }
 }

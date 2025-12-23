@@ -53,8 +53,8 @@ namespace Kenedia.Modules.BuildsManager.Controls.Tabs
             SelectionPanel = selectionPanel;
             Data = data;
 
-            WidthSizingMode = Blish_HUD.Controls.SizingMode.Fill;
-            HeightSizingMode = Blish_HUD.Controls.SizingMode.Fill;
+            WidthSizingMode = SizingMode.Fill;
+            HeightSizingMode = SizingMode.Fill;
 
             _blocker = new Blocker()
             {
@@ -85,7 +85,7 @@ namespace Kenedia.Modules.BuildsManager.Controls.Tabs
                     }
                     catch (ArgumentException)
                     {
-                        Blish_HUD.Controls.ScreenNotification.ShowNotification("Failed to set the clipboard text!", Blish_HUD.Controls.ScreenNotification.NotificationType.Error);
+                        ScreenNotification.ShowNotification("Failed to set the clipboard text!", ScreenNotification.NotificationType.Error);
                     }
                     catch
                     {

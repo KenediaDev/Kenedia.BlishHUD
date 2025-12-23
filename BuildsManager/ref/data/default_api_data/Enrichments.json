@@ -1,0 +1,500 @@
+{
+  "Items": {
+    "39330": {
+      "Bonuses": {
+        "English": "+20% Experience from Kills",
+        "Spanish": "+20 % de experiencia al matar",
+        "German": "+20 % Erfahrung für besiegte Gegner",
+        "French": "Expérience à chaque ennemi tué +20%"
+      },
+      "Type": 14,
+      "TemplateSlot": 0,
+      "Id": 39330,
+      "MappedId": 1,
+      "Rarity": 3,
+      "Chatlink": "[&AgGimQAA]",
+      "AssetId": 534270,
+      "Names": {
+        "English": "Experienced Enrichment",
+        "Spanish": "Enriquecimiento de experiencia",
+        "German": "Erfahrene Anreicherung",
+        "French": "Enrichissement expérimenté"
+      },
+      "DisplayTexts": {
+        "English": "+20% Experience from Kills",
+        "Spanish": "+20 % de experiencia al matar",
+        "German": "+20 % Erfahrung für besiegte Gegner",
+        "French": "Expérience à chaque ennemi tué +20%"
+      },
+      "Descriptions": {
+        "English": "Double-click to apply to an unused enrichment slot.",
+        "Spanish": "Haz doble clic para aplicar en una casilla para enriquecimientos sin utilizar.",
+        "German": "Doppelklicken, um auf einen freien Anreicherungsplatz anzuwenden.",
+        "French": "Double-cliquez pour appliquer à un emplacement d'enrichissement inutilisé."
+      }
+    },
+    "39331": {
+      "Bonuses": {
+        "English": "+20% Gold from Monsters",
+        "Spanish": "+20 % de oro obtenido de monstruos",
+        "German": "+20 % Gold von Monstern",
+        "French": "Or trouvé sur les monstres +20%"
+      },
+      "Type": 14,
+      "TemplateSlot": 0,
+      "Id": 39331,
+      "MappedId": 2,
+      "Rarity": 3,
+      "Chatlink": "[&AgGjmQAA]",
+      "AssetId": 534271,
+      "Names": {
+        "English": "Gilded Enrichment",
+        "Spanish": "Enriquecimiento chapado",
+        "German": "Vergoldete Anreicherung",
+        "French": "Enrichissement doré"
+      },
+      "DisplayTexts": {
+        "English": "+20% Gold from Monsters",
+        "Spanish": "+20 % de oro obtenido de monstruos",
+        "German": "+20 % Gold von Monstern",
+        "French": "Or trouvé sur les monstres +20%"
+      },
+      "Descriptions": {
+        "English": "Double-click to apply to an unused enrichment slot.",
+        "Spanish": "Haz doble clic para aplicar en una casilla para enriquecimientos sin utilizar.",
+        "German": "Doppelklicken, um auf einen freien Anreicherungsplatz anzuwenden.",
+        "French": "Double-cliquez pour appliquer à un emplacement d'enrichissement inutilisé."
+      }
+    },
+    "39332": {
+      "Bonuses": {
+        "English": "+15% Karma",
+        "Spanish": "+15 % de karma",
+        "German": "+15 % Karma",
+        "French": "Karma +15%"
+      },
+      "Type": 14,
+      "TemplateSlot": 0,
+      "Id": 39332,
+      "MappedId": 3,
+      "Rarity": 3,
+      "Chatlink": "[&AgGkmQAA]",
+      "AssetId": 534272,
+      "Names": {
+        "English": "Karmic Enrichment",
+        "Spanish": "Enriquecimiento de karma",
+        "German": "Karmische Anreicherung",
+        "French": "Enrichissement karmique"
+      },
+      "DisplayTexts": {
+        "English": "+15% Karma",
+        "Spanish": "+15 % de karma",
+        "German": "+15 % Karma",
+        "French": "Karma +15%"
+      },
+      "Descriptions": {
+        "English": "Double-click to apply to an unused enrichment slot.",
+        "Spanish": "Haz doble clic para aplicar en una casilla para enriquecimientos sin utilizar.",
+        "German": "Doppelklicken, um auf einen freien Anreicherungsplatz anzuwenden.",
+        "French": "Double-cliquez pour appliquer à un emplacement d'enrichissement inutilisé."
+      }
+    },
+    "39333": {
+      "Bonuses": {
+        "English": "+20% Magic Find",
+        "Spanish": "+20 % de hallazgo mágico",
+        "German": "+20 % Magisches Gespür",
+        "French": "Découverte de magie +20%"
+      },
+      "Type": 14,
+      "TemplateSlot": 0,
+      "Id": 39333,
+      "MappedId": 4,
+      "Rarity": 3,
+      "Chatlink": "[&AgGlmQAA]",
+      "AssetId": 534273,
+      "Names": {
+        "English": "Magical Enrichment",
+        "Spanish": "Enriquecimiento de magia",
+        "German": "Magische Anreicherung",
+        "French": "Enrichissement magique"
+      },
+      "DisplayTexts": {
+        "English": "+20% Magic Find",
+        "Spanish": "+20 % de hallazgo mágico",
+        "German": "+20 % Magisches Gespür",
+        "French": "Découverte de magie +20%"
+      },
+      "Descriptions": {
+        "English": "Double-click to apply to an unused enrichment slot.",
+        "Spanish": "Haz doble clic para aplicar en una casilla para enriquecimientos sin utilizar.",
+        "German": "Doppelklicken, um auf einen freien Anreicherungsplatz anzuwenden.",
+        "French": "Double-cliquez pour appliquer à un emplacement d'enrichissement inutilisé."
+      }
+    },
+    "79926": {
+      "Bonuses": {
+        "English": "+15% Karma",
+        "Spanish": "+15 % de karma",
+        "German": "+15 % Karma",
+        "French": "Karma +15%"
+      },
+      "Type": 14,
+      "TemplateSlot": 0,
+      "Id": 79926,
+      "MappedId": 5,
+      "Rarity": 3,
+      "Chatlink": "[&AgE2OAEA]",
+      "AssetId": 1601467,
+      "Names": {
+        "English": "Koda's Warmth Enrichment",
+        "Spanish": "Enriquecimiento del calor de Koda",
+        "German": "Anreicherung mit der Wärme Kodas",
+        "French": "Enrichissement de chaleur de Koda"
+      },
+      "DisplayTexts": {
+        "English": "+15% Karma",
+        "Spanish": "+15 % de karma",
+        "German": "+15 % Karma",
+        "French": "Karma +15%"
+      },
+      "Descriptions": {
+        "English": "Double-click to apply to an unused enrichment slot. Infuses equipment with Koda's Warmth.",
+        "Spanish": "Haz doble clic para aplicar en una casilla para enriquecimientos sin utilizar. Infunde el equipamiento con el calor de Koda.",
+        "German": "Doppelklicken, um auf einen freien Anreicherungsplatz anzuwenden. Durchdringt Ausrüstung mit der Wärme Kodas.",
+        "French": "Double-cliquez pour appliquer à un emplacement d'enrichissement inutilisé. Infuse l'équipement de la chaleur de Koda."
+      }
+    },
+    "87398": {
+      "Bonuses": {
+        "English": "+5% WvW Reward Track Gain",
+        "Spanish": "+5 % de ganancia en la ruta de recompensas WvW",
+        "German": "+5 % auf WvW-Belohnungspfad-Fortschritt",
+        "French": "Progression en parcours de récompenses McM +5%"
+      },
+      "Type": 14,
+      "TemplateSlot": 0,
+      "Id": 87398,
+      "MappedId": 6,
+      "Rarity": 3,
+      "Chatlink": "[&AgFmVQEA]",
+      "AssetId": 1972327,
+      "Names": {
+        "English": "WvW Reward Track Enrichment",
+        "Spanish": "Enriquecimiento de ruta de recompensas en WvW",
+        "German": "WvW-Belohnungspfad-Anreicherung",
+        "French": "Enrichissement de parcours de récompenses McM"
+      },
+      "DisplayTexts": {
+        "English": "+5% WvW Reward Track Gain",
+        "Spanish": "+5 % de ganancia en la ruta de recompensas WvW",
+        "German": "+5 % auf WvW-Belohnungspfad-Fortschritt",
+        "French": "Progression en parcours de récompenses McM +5%"
+      },
+      "Descriptions": {
+        "English": "Double-click to apply to an unused enrichment slot.",
+        "Spanish": "Haz doble clic para aplicar en una casilla para enriquecimientos sin utilizar.",
+        "German": "Doppelklicken, um auf einen freien Anreicherungsplatz anzuwenden.",
+        "French": "Double-cliquez pour appliquer à un emplacement d'enrichissement inutilisé."
+      }
+    },
+    "87417": {
+      "Bonuses": {
+        "English": "+10% WvW Experience",
+        "Spanish": "+10 % de experiencia en WvW",
+        "German": "+10 % WvW-Erfahrungspunkte",
+        "French": "Expérience McM +10%"
+      },
+      "Type": 14,
+      "TemplateSlot": 0,
+      "Id": 87417,
+      "MappedId": 7,
+      "Rarity": 3,
+      "Chatlink": "[&AgF5VQEA]",
+      "AssetId": 1972328,
+      "Names": {
+        "English": "WxP Enrichment",
+        "Spanish": "Enriquecimiento de PEM",
+        "German": "WEP-Anreicherung",
+        "French": "Enrichissement d'EXPM"
+      },
+      "DisplayTexts": {
+        "English": "+10% WvW Experience",
+        "Spanish": "+10 % de experiencia en WvW",
+        "German": "+10 % WvW-Erfahrungspunkte",
+        "French": "Expérience McM +10%"
+      },
+      "Descriptions": {
+        "English": "Double-click to apply to an unused enrichment slot.",
+        "Spanish": "Haz doble clic para aplicar en una casilla para enriquecimientos sin utilizar.",
+        "German": "Doppelklicken, um auf einen freien Anreicherungsplatz anzuwenden.",
+        "French": "Double-cliquez pour appliquer à un emplacement d'enrichissement inutilisé."
+      }
+    },
+    "93798": {
+      "Bonuses": {
+        "English": "+20% Magic Find",
+        "Spanish": "+20 % de hallazgo mágico",
+        "German": "+20 % Magisches Gespür",
+        "French": "Découverte de magie +20%"
+      },
+      "Type": 14,
+      "TemplateSlot": 0,
+      "Id": 93798,
+      "MappedId": 8,
+      "Rarity": 3,
+      "Chatlink": "[&AgFmbgEA]",
+      "AssetId": 2314414,
+      "Names": {
+        "English": "Otter's Blessing Enrichment",
+        "Spanish": "Enriquecimiento de bendiciones de la Nutria",
+        "German": "Anreicherung von Otters Segen",
+        "French": "Enrichissement de la bénédiction de la Loutre"
+      },
+      "DisplayTexts": {
+        "English": "+20% Magic Find",
+        "Spanish": "+20 % de hallazgo mágico",
+        "German": "+20 % Magisches Gespür",
+        "French": "Découverte de magie +20%"
+      },
+      "Descriptions": {
+        "English": "Double-click to apply to an unused enrichment slot. Infuses equipment with Otter's Blessing.",
+        "Spanish": "Haz doble clic para aplicarlo a una casilla para enriquecimientos sin utilizar. Infunde el equipamiento con la bendición de la Nutria.",
+        "German": "Doppelklicken, um auf einen freien Anreicherungsplatz anzuwenden. Durchdringt Ausrüstung mit Otters Segen.",
+        "French": "Double-cliquez pour appliquer à un emplacement d'enrichissement inutilisé. Infuse l'équipement de la bénédiction de la Loutre."
+      }
+    },
+    "93953": {
+      "Bonuses": {
+        "English": "+15% Karma",
+        "Spanish": "+15 % de karma",
+        "German": "+15 % Karma",
+        "French": "Karma +15%"
+      },
+      "Type": 14,
+      "TemplateSlot": 0,
+      "Id": 93953,
+      "MappedId": 9,
+      "Rarity": 3,
+      "Chatlink": "[&AgEBbwEA]",
+      "AssetId": 2323869,
+      "Names": {
+        "English": "Celebratory Birthday Enrichment",
+        "Spanish": "Enriquecimiento de cumpleaños de celebración",
+        "German": "Festliche Geburtstag-Anreicherung",
+        "French": "Enrichissement festif d'anniversaire"
+      },
+      "DisplayTexts": {
+        "English": "+15% Karma",
+        "Spanish": "+15 % de karma",
+        "German": "+15 % Karma",
+        "French": "Karma +15%"
+      },
+      "Descriptions": {
+        "English": "Double-click to apply to an unused enrichment slot.",
+        "Spanish": "Haz doble clic para aplicar en una casilla para enriquecimientos sin utilizar.",
+        "German": "Doppelklicken, um auf einen freien Anreicherungsplatz anzuwenden.",
+        "French": "Double-cliquez pour appliquer à un emplacement d'enrichissement inutilisé."
+      }
+    },
+    "101126": {
+      "Bonuses": {
+        "English": "+15% Karma",
+        "Spanish": "+15 % de karma",
+        "German": "+15 % Karma",
+        "French": "Karma +15%"
+      },
+      "Type": 14,
+      "TemplateSlot": 0,
+      "Id": 101126,
+      "MappedId": 10,
+      "Rarity": 3,
+      "Chatlink": "[&AgEGiwEA]",
+      "AssetId": 3187596,
+      "Names": {
+        "English": "Wurm's Karmic Blessing Enrichment",
+        "Spanish": "Enriquecimiento de bendiciones kármicas de la Sierpe",
+        "German": "Anreicherung von Wurms karmischem Segen",
+        "French": "Enrichissement de la bénédiction karmique de la Guivre"
+      },
+      "DisplayTexts": {
+        "English": "+15% Karma",
+        "Spanish": "+15 % de karma",
+        "German": "+15 % Karma",
+        "French": "Karma +15%"
+      },
+      "Descriptions": {
+        "English": "Double-click to apply to an unused enrichment slot. Infuses equipment with Wurm's Blessing.",
+        "Spanish": "Haz doble clic para aplicarlo a una casilla para enriquecimientos sin utilizar. Infunde el equipamiento con la bendición de la Sierpe.",
+        "German": "Doppelklicken, um auf einen freien Anreicherungsplatz anzuwenden. Durchdringt Ausrüstung mit Wurms Segen.",
+        "French": "Double-cliquez pour appliquer à un emplacement d'enrichissement inutilisé. Infuse l'équipement de la bénédiction de la Guivre."
+      }
+    },
+    "101187": {
+      "Bonuses": {
+        "English": "+10% WvW Experience",
+        "Spanish": "+10 % de experiencia en WvW",
+        "German": "+10 % WvW-Erfahrungspunkte",
+        "French": "Expérience McM +10%"
+      },
+      "Type": 14,
+      "TemplateSlot": 0,
+      "Id": 101187,
+      "MappedId": 11,
+      "Rarity": 3,
+      "Chatlink": "[&AgFDiwEA]",
+      "AssetId": 3187596,
+      "Names": {
+        "English": "Wurm's WXP Blessing Enrichment",
+        "Spanish": "Enriquecimiento de bendiciones de PEM de la Sierpe",
+        "German": "Anreicherung von Wurms WEP-Segen",
+        "French": "Enrichissement de la bénédiction d'EXPM de la Guivre"
+      },
+      "DisplayTexts": {
+        "English": "+10% WvW Experience",
+        "Spanish": "+10 % de experiencia en WvW",
+        "German": "+10 % WvW-Erfahrungspunkte",
+        "French": "Expérience McM +10%"
+      },
+      "Descriptions": {
+        "English": "Double-click to apply to an unused enrichment slot. Infuses equipment with Wurm's Blessing.",
+        "Spanish": "Haz doble clic para aplicarlo a una casilla para enriquecimientos sin utilizar. Infunde el equipamiento con la bendición de la Sierpe.",
+        "German": "Doppelklicken, um auf einen freien Anreicherungsplatz anzuwenden. Durchdringt Ausrüstung mit Wurms Segen.",
+        "French": "Double-cliquez pour appliquer à un emplacement d'enrichissement inutilisé. Infuse l'équipement de la bénédiction de la Guivre."
+      }
+    },
+    "101193": {
+      "Bonuses": {
+        "English": "+5% WvW Reward Track Gain",
+        "Spanish": "+5 % de ganancia en la ruta de recompensas WvW",
+        "German": "+5 % auf WvW-Belohnungspfad-Fortschritt",
+        "French": "Progression en parcours de récompenses McM +5%"
+      },
+      "Type": 14,
+      "TemplateSlot": 0,
+      "Id": 101193,
+      "MappedId": 12,
+      "Rarity": 3,
+      "Chatlink": "[&AgFJiwEA]",
+      "AssetId": 3187596,
+      "Names": {
+        "English": "Wurm's WvW Reward Track Blessing Enrichment",
+        "Spanish": "Enriquecimiento de bendiciones de ruta de recompensas en WvW de la Sierpe",
+        "German": "WvW-Belohnungspfad-Anreicherung von Wurms Segen",
+        "French": "Enrichissement de la bénédiction de parcours de récompenses McM de la Guivre"
+      },
+      "DisplayTexts": {
+        "English": "+5% WvW Reward Track Gain",
+        "Spanish": "+5 % de ganancia en la ruta de recompensas WvW",
+        "German": "+5 % auf WvW-Belohnungspfad-Fortschritt",
+        "French": "Progression en parcours de récompenses McM +5%"
+      },
+      "Descriptions": {
+        "English": "Double-click to apply to an unused enrichment slot. Infuses equipment with Wurm's Blessing.",
+        "Spanish": "Haz doble clic para aplicarlo a una casilla para enriquecimientos sin utilizar. Infunde el equipamiento con la bendición de la Sierpe.",
+        "German": "Doppelklicken, um auf einen freien Anreicherungsplatz anzuwenden. Durchdringt Ausrüstung mit Wurms Segen.",
+        "French": "Double-cliquez pour appliquer à un emplacement d'enrichissement inutilisé. Infuse l'équipement de la bénédiction de la Guivre."
+      }
+    },
+    "101250": {
+      "Bonuses": {
+        "English": "+20% Experience from Kills",
+        "Spanish": "+20 % de experiencia al matar",
+        "German": "+20 % Erfahrung für besiegte Gegner",
+        "French": "Expérience à chaque ennemi tué +20%"
+      },
+      "Type": 14,
+      "TemplateSlot": 0,
+      "Id": 101250,
+      "MappedId": 13,
+      "Rarity": 3,
+      "Chatlink": "[&AgGCiwEA]",
+      "AssetId": 3187596,
+      "Names": {
+        "English": "Wurm's Experienced Blessing Enrichment",
+        "Spanish": "Enriquecimiento de bendiciones experimentadas de la Sierpe",
+        "German": "Anreicherung von Wurms erfahrenem Segen",
+        "French": "Enrichissement de la bénédiction expérimentée de la Guivre"
+      },
+      "DisplayTexts": {
+        "English": "+20% Experience from Kills",
+        "Spanish": "+20 % de experiencia al matar",
+        "German": "+20 % Erfahrung für besiegte Gegner",
+        "French": "Expérience à chaque ennemi tué +20%"
+      },
+      "Descriptions": {
+        "English": "Double-click to apply to an unused enrichment slot. Infuses equipment with Wurm's Blessing.",
+        "Spanish": "Haz doble clic para aplicarlo a una casilla para enriquecimientos sin utilizar. Infunde el equipamiento con la bendición de la Sierpe.",
+        "German": "Doppelklicken, um auf einen freien Anreicherungsplatz anzuwenden. Durchdringt Ausrüstung mit Wurms Segen.",
+        "French": "Double-cliquez pour appliquer à un emplacement d'enrichissement inutilisé. Infuse l'équipement de la bénédiction de la Guivre."
+      }
+    },
+    "101272": {
+      "Bonuses": {
+        "English": "+20% Gold from Monsters",
+        "Spanish": "+20 % de oro obtenido de monstruos",
+        "German": "+20 % Gold von Monstern",
+        "French": "Or trouvé sur les monstres +20%"
+      },
+      "Type": 14,
+      "TemplateSlot": 0,
+      "Id": 101272,
+      "MappedId": 14,
+      "Rarity": 3,
+      "Chatlink": "[&AgGYiwEA]",
+      "AssetId": 3187596,
+      "Names": {
+        "English": "Wurm's Gilded Blessing Enrichment",
+        "Spanish": "Enriquecimiento de bendiciones doradas de la Sierpe",
+        "German": "Anreicherung von Wurms vergoldetem Segen",
+        "French": "Enrichissement de la bénédiction dorée de la Guivre"
+      },
+      "DisplayTexts": {
+        "English": "+20% Gold from Monsters",
+        "Spanish": "+20 % de oro obtenido de monstruos",
+        "German": "+20 % Gold von Monstern",
+        "French": "Or trouvé sur les monstres +20%"
+      },
+      "Descriptions": {
+        "English": "Double-click to apply to an unused enrichment slot. Infuses equipment with Wurm's Blessing.",
+        "Spanish": "Haz doble clic para aplicarlo a una casilla para enriquecimientos sin utilizar. Infunde el equipamiento con la bendición de la Sierpe.",
+        "German": "Doppelklicken, um auf einen freien Anreicherungsplatz anzuwenden. Durchdringt Ausrüstung mit Wurms Segen.",
+        "French": "Double-cliquez pour appliquer à un emplacement d'enrichissement inutilisé. Infuse l'équipement de la bénédiction de la Guivre."
+      }
+    },
+    "101302": {
+      "Bonuses": {
+        "English": "+20% Magic Find",
+        "Spanish": "+20 % de hallazgo mágico",
+        "German": "+20 % Magisches Gespür",
+        "French": "Découverte de magie +20%"
+      },
+      "Type": 14,
+      "TemplateSlot": 0,
+      "Id": 101302,
+      "MappedId": 15,
+      "Rarity": 3,
+      "Chatlink": "[&AgG2iwEA]",
+      "AssetId": 3187596,
+      "Names": {
+        "English": "Wurm's Magical Blessing Enrichment",
+        "Spanish": "Enriquecimiento de bendiciones mágicas de la Sierpe",
+        "German": "Anreicherung von Wurms magischem Segen",
+        "French": "Enrichissement de la bénédiction magique de la Guivre"
+      },
+      "DisplayTexts": {
+        "English": "+20% Magic Find",
+        "Spanish": "+20 % de hallazgo mágico",
+        "German": "+20 % Magisches Gespür",
+        "French": "Découverte de magie +20%"
+      },
+      "Descriptions": {
+        "English": "Double-click to apply to an unused enrichment slot. Infuses equipment with Wurm's Blessing.",
+        "Spanish": "Haz doble clic para aplicarlo a una casilla para enriquecimientos sin utilizar. Infunde el equipamiento con la bendición de la Sierpe.",
+        "German": "Doppelklicken, um auf einen freien Anreicherungsplatz anzuwenden. Durchdringt Ausrüstung mit Wurms Segen.",
+        "French": "Double-cliquez pour appliquer à un emplacement d'enrichissement inutilisé. Infuse l'équipement de la bénédiction de la Guivre."
+      }
+    }
+  },
+  "Version": "0.0.6"
+}

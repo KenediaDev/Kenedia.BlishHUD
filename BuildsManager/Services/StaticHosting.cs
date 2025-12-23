@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Kenedia.Modules.Core.Models;
 using Kenedia.Modules.Core.Services;
 using Blish_HUD;
+using System.Security.Cryptography.Xml;
 
 namespace Kenedia.Modules.BuildsManager.Services
 {
@@ -17,7 +18,7 @@ namespace Kenedia.Modules.BuildsManager.Services
 
         public override string BaseUrl { get; } = "https://bhm.blishhud.com/Kenedia.Modules.BuildsManager/";
 
-        public async Task<StaticStats> GetStaticStats()
+        public async Task<StaticStats?> GetStaticStats()
         {            
             try
             {
@@ -27,12 +28,12 @@ namespace Kenedia.Modules.BuildsManager.Services
             catch(Exception ex)
             {
                 Logger.Warn($"{ex}");
-            }
+            }            
 
-            return new StaticStats();
+            return null;
         }
 
-        public async Task<StaticVersion> GetStaticVersion()
+        public async Task<StaticVersion?> GetStaticVersion()
         {
             try
             {
@@ -44,7 +45,7 @@ namespace Kenedia.Modules.BuildsManager.Services
                 Logger.Warn($"{ex}");
             }
 
-            return new StaticVersion();
+            return null;
         }
     }
 }

@@ -557,10 +557,30 @@
     <None Include="Content\bin\Windows\Content\fonts\newkrytan\newkrytan-12-regular_1.xnb" />
     <None Include="manifest.json" />
     <None Include="packages.config" />
+    <None Include="ref\data\default_api_data\Armors.json" />
+    <None Include="ref\data\default_api_data\Backs.json" />
+    <None Include="ref\data\default_api_data\Enhancements.json" />
+    <None Include="ref\data\default_api_data\Enrichments.json" />
+    <None Include="ref\data\default_api_data\Infusions.json" />
+    <None Include="ref\data\default_api_data\Nourishments.json" />
+    <None Include="ref\data\default_api_data\Pets.json" />
+    <None Include="ref\data\default_api_data\PowerCores.json" />
+    <None Include="ref\data\default_api_data\Professions.json" />
+    <None Include="ref\data\default_api_data\PveRelics.json" />
+    <None Include="ref\data\default_api_data\PveRunes.json" />
+    <None Include="ref\data\default_api_data\PveSigils.json" />
+    <None Include="ref\data\default_api_data\PvpAmulets.json" />
+    <None Include="ref\data\default_api_data\PvpRelics.json" />
+    <None Include="ref\data\default_api_data\PvpRunes.json" />
+    <None Include="ref\data\default_api_data\PvpSigils.json" />
+    <None Include="ref\data\default_api_data\Races.json" />
+    <None Include="ref\data\default_api_data\static_stats.json" />
+    <None Include="ref\data\default_api_data\Stats.json" />
+    <None Include="ref\data\default_api_data\Trinkets.json" />
+    <None Include="ref\data\default_api_data\Weapons.json" />
     <None Include="ref\data\ItemMapping.json" />
     <None Include="ref\data\TagGroups.json" />
     <None Include="ref\data\TemplateTags.json" />
-    <None Include="ref\data\xItemMapping.json" />
     <None Include="ref\data\missing_skills.json" />
     <None Include="ref\data\rune_ids.json" />
     <None Include="ref\data\sigil_ids.json" />
@@ -568,6 +588,7 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
+    <Content Include="ref\data\default_api_data\stat_map.png" />
     <Content Include="ref\textures\stat_map.png" />
     <Content Include="ref\textures\foodslot.png" />
     <Content Include="ref\textures\infusionslot.png" />

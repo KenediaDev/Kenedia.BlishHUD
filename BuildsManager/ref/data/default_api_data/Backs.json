@@ -1,0 +1,83 @@
+{
+  "Items": {
+    "74155": {
+      "AttributeAdjustment": 89.628,
+      "Slot": 0,
+      "StatChoices": [
+        584,
+        656,
+        658,
+        1119,
+        657,
+        1038,
+        1097,
+        659,
+        690,
+        583,
+        585,
+        1037,
+        586,
+        1035,
+        588,
+        1114,
+        1128,
+        1163,
+        1066,
+        1064,
+        660,
+        1430,
+        1436,
+        591,
+        581,
+        592,
+        1145,
+        1098,
+        1134,
+        1162,
+        1115,
+        1130,
+        1139,
+        1125,
+        1220,
+        1329,
+        1345,
+        1337,
+        1486,
+        1538,
+        1697,
+        1694,
+        1827
+      ],
+      "InfusionSlots": [
+        0,
+        0
+      ],
+      "Type": 2,
+      "TemplateSlot": 13,
+      "Id": 74155,
+      "MappedId": 1,
+      "Rarity": 7,
+      "Chatlink": "[&AgGrIQEA]",
+      "AssetId": 2508249,
+      "Names": {
+        "English": "Forest Scout Cape",
+        "Spanish": "Capa de explorador de los bosques",
+        "German": "Waldspäher-Umhang",
+        "French": "Cape d'éclaireur sylvestre"
+      },
+      "DisplayTexts": {
+        "English": "Ad Infinitum",
+        "Spanish": "Ad Infinitum",
+        "German": "Ad Infinitum",
+        "French": "Ad Infinitum"
+      },
+      "Descriptions": {
+        "English": null,
+        "Spanish": null,
+        "German": null,
+        "French": null
+      }
+    }
+  },
+  "Version": "0.0.5"
+}

@@ -1,0 +1,2645 @@
+{
+  "Items": {
+    "37123": {
+      "Bonuses": {
+        "English": "+5 Healing\n+7 Agony Resistance",
+        "Spanish": "+5 de curación\n+7 de resistencia a la agonía",
+        "German": "+5 Heilung\n+7 Qual-Widerstand",
+        "French": "Guérison +5\nRésistance à l'agonie +7"
+      },
+      "Type": 14,
+      "TemplateSlot": 0,
+      "Id": 37123,
+      "MappedId": 1,
+      "Rarity": 4,
+      "Chatlink": "[&AgEDkQAA]",
+      "AssetId": 511836,
+      "Names": {
+        "English": "Healing +7 Agony Infusion",
+        "Spanish": "Infusión de +7 de resistencia a la agonía curativa",
+        "German": "Heilende +7 Qual-Infusion",
+        "French": "Infusion curative de résistance à l'agonie +7"
+      },
+      "DisplayTexts": {
+        "English": "+5 Healing\n+7 Agony Resistance",
+        "Spanish": "+5 de curación\n+7 de resistencia a la agonía",
+        "German": "+5 Heilung\n+7 Qual-Widerstand",
+        "French": "Guérison +5\nRésistance à l'agonie +7"
+      },
+      "Descriptions": {
+        "English": "Double-click to apply to an unused infusion slot.",
+        "Spanish": "Haz doble clic para aplicarlo a una casilla de infusión sin usar.",
+        "German": "Doppelklicken, um auf einen freien Infusionsplatz anzuwenden.",
+        "French": "Double-cliquez pour appliquer à un emplacement d'infusion inutilisé."
+      }
+    },
+    "37125": {
+      "Bonuses": {
+        "English": "+5 Healing\n+9 Agony Resistance",
+        "Spanish": "+5 de curación\n+9 de resistencia a la agonía",
+        "German": "+5 Heilung\n+9 Qual-Widerstand",
+        "French": "Guérison +5\nRésistance à l'agonie +9"
+      },
+      "Type": 14,
+      "TemplateSlot": 0,
+      "Id": 37125,
+      "MappedId": 2,
+      "Rarity": 5,
+      "Chatlink": "[&AgEFkQAA]",
+      "AssetId": 1465587,
+      "Names": {
+        "English": "Healing +9 Agony Infusion",
+        "Spanish": "Infusión de +9 de resistencia a la agonía curativa",
+        "German": "Heilende +9 Qual-Infusion",
+        "French": "Infusion curative de résistance à l'agonie +9"
+      },
+      "DisplayTexts": {
+        "English": "+5 Healing\n+9 Agony Resistance",
+        "Spanish": "+5 de curación\n+9 de resistencia a la agonía",
+        "German": "+5 Heilung\n+9 Qual-Widerstand",
+        "French": "Guérison +5\nRésistance à l'agonie +9"
+      },
+      "Descriptions": {
+        "English": "Double-click to apply to an unused infusion slot. Stats may be changed in the Mystic Forge.",
+        "Spanish": "Haz doble clic para aplicarlo a una casilla de infusión sin usar. Las estadísticas se pueden cambiar en la Forja Mística.",
+        "German": "Doppelklicken, um auf einen freien Infusionsplatz anzuwenden. Werte können in der Mystischen Schmiede geändert werden.",
+        "French": "Double-cliquez pour appliquer à un emplacement d'infusion inutilisé. Les statistiques peuvent être modifiées dans la forge mystique."
+      }
+    },
+    "37127": {
+      "Bonuses": {
+        "English": "+5 Power\n+7 Agony Resistance",
+        "Spanish": "+5 de potencia\n+7 de resistencia a la agonía",
+        "German": "+5 Kraft\n+7 Qual-Widerstand",
+        "French": "Puissance +5\nRésistance à l'agonie +7"
+      },
+      "Type": 14,
+      "TemplateSlot": 0,
+      "Id": 37127,
+      "MappedId": 3,
+      "Rarity": 4,
+      "Chatlink": "[&AgEHkQAA]",
+      "AssetId": 511842,
+      "Names": {
+        "English": "Mighty +7 Agony Infusion",
+        "Spanish": "Infusión de +7 de resistencia a la agonía poderosa",
+        "German": "Mächtige +7 Qual-Infusion",
+        "French": "Infusion puissante de résistance à l'agonie +7"
+      },
+      "DisplayTexts": {
+        "English": "+5 Power\n+7 Agony Resistance",
+        "Spanish": "+5 de potencia\n+7 de resistencia a la agonía",
+        "German": "+5 Kraft\n+7 Qual-Widerstand",
+        "French": "Puissance +5\nRésistance à l'agonie +7"
+      },
+      "Descriptions": {
+        "English": "Double-click to apply to an unused infusion slot.",
+        "Spanish": "Haz doble clic para aplicarlo a una casilla de infusión sin usar.",
+        "German": "Doppelklicken, um auf einen freien Infusionsplatz anzuwenden.",
+        "French": "Double-cliquez pour appliquer à un emplacement d'infusion inutilisé."
+      }
+    },
+    "37128": {
+      "Bonuses": {
+        "English": "+5 Precision\n+7 Agony Resistance",
+        "Spanish": "+5 de precisión\n+7 de resistencia a la agonía",
+        "German": "+5 Präzision\n+7 Qual-Widerstand",
+        "French": "Précision +5\nRésistance à l'agonie +7"
+      },
+      "Type": 14,
+      "TemplateSlot": 0,
+      "Id": 37128,
+      "MappedId": 4,
+      "Rarity": 4,
+      "Chatlink": "[&AgEIkQAA]",
+      "AssetId": 511843,
+      "Names": {
+        "English": "Precise +7 Agony Infusion",
+        "Spanish": "Infusión de +7 de resistencia a la agonía precisa",
+        "German": "Präzise +7 Qual-Infusion",
+        "French": "Infusion précise de résistance à l'agonie +7"
+      },
+      "DisplayTexts": {
+        "English": "+5 Precision\n+7 Agony Resistance",
+        "Spanish": "+5 de precisión\n+7 de resistencia a la agonía",
+        "German": "+5 Präzision\n+7 Qual-Widerstand",
+        "French": "Précision +5\nRésistance à l'agonie +7"
+      },
+      "Descriptions": {
+        "English": "Double-click to apply to an unused infusion slot.",
+        "Spanish": "Haz doble clic para aplicarlo a una casilla de infusión sin usar.",
+        "German": "Doppelklicken, um auf einen freien Infusionsplatz anzuwenden.",
+        "French": "Double-cliquez pour appliquer à un emplacement d'infusion inutilisé."
+      }
+    },
+    "37129": {
+      "Bonuses": {
+        "English": "+5 Condition Damage\n+7 Agony Resistance",
+        "Spanish": "+5 de daño de condición\n+7 de resistencia a la agonía",
+        "German": "+5 Zustandsschaden\n+7 Qual-Widerstand",
+        "French": "Dégâts par altération +5\nRésistance à l'agonie +7"
+      },
+      "Type": 14,
+      "TemplateSlot": 0,
+      "Id": 37129,
+      "MappedId": 5,
+      "Rarity": 4,
+      "Chatlink": "[&AgEJkQAA]",
+      "AssetId": 511841,
+      "Names": {
+        "English": "Malign +7 Agony Infusion",
+        "Spanish": "Infusión de +7 de resistencia a la agonía maligna",
+        "German": "Unheilvolle +7 Qual-Infusion",
+        "French": "Infusion néfaste de résistance à l'agonie +7"
+      },
+      "DisplayTexts": {
+        "English": "+5 Condition Damage\n+7 Agony Resistance",
+        "Spanish": "+5 de daño de condición\n+7 de resistencia a la agonía",
+        "German": "+5 Zustandsschaden\n+7 Qual-Widerstand",
+        "French": "Dégâts par altération +5\nRésistance à l'agonie +7"
+      },
+      "Descriptions": {
+        "English": "Double-click to apply to an unused infusion slot.",
+        "Spanish": "Haz doble clic para aplicarlo a una casilla de infusión sin usar.",
+        "German": "Doppelklicken, um auf einen freien Infusionsplatz anzuwenden.",
+        "French": "Double-cliquez pour appliquer à un emplacement d'infusion inutilisé."
+      }
+    },
+    "37130": {
+      "Bonuses": {
+        "English": "+5 Condition Damage\n+9 Agony Resistance",
+        "Spanish": "+5 de daño de condición\n+9 de resistencia a la agonía",
+        "German": "+5 Zustandsschaden\n+9 Qual-Widerstand",
+        "French": "Dégâts par altération +5\nRésistance à l'agonie +9"
+      },
+      "Type": 14,
+      "TemplateSlot": 0,
+      "Id": 37130,
+      "MappedId": 6,
+      "Rarity": 5,
+      "Chatlink": "[&AgEKkQAA]",
+      "AssetId": 1465588,
+      "Names": {
+        "English": "Malign +9 Agony Infusion",
+        "Spanish": "Infusión de +9 de resistencia a la agonía maligna",
+        "German": "Unheilvolle +9 Qual-Infusion",
+        "French": "Infusion néfaste de résistance à l'agonie +9"
+      },
+      "DisplayTexts": {
+        "English": "+5 Condition Damage\n+9 Agony Resistance",
+        "Spanish": "+5 de daño de condición\n+9 de resistencia a la agonía",
+        "German": "+5 Zustandsschaden\n+9 Qual-Widerstand",
+        "French": "Dégâts par altération +5\nRésistance à l'agonie +9"
+      },
+      "Descriptions": {
+        "English": "Double-click to apply to an unused infusion slot. Stats may be changed in the Mystic Forge.",
+        "Spanish": "Haz doble clic para aplicarlo a una casilla de infusión sin usar. Las estadísticas se pueden cambiar en la Forja Mística.",
+        "German": "Doppelklicken, um auf einen freien Infusionsplatz anzuwenden. Werte können in der Mystischen Schmiede geändert werden.",
+        "French": "Double-cliquez pour appliquer à un emplacement d'infusion inutilisé. Les statistiques peuvent être modifiées dans la forge mystique."
+      }
+    },
+    "37131": {
+      "Bonuses": {
+        "English": "+5 Power\n+9 Agony Resistance",
+        "Spanish": "+5 de potencia\n+9 de resistencia a la agonía",
+        "German": "+5 Kraft\n+9 Qual-Widerstand",
+        "French": "Puissance +5\nRésistance à l'agonie +9"
+      },
+      "Type": 14,
+      "TemplateSlot": 0,
+      "Id": 37131,
+      "MappedId": 7,
+      "Rarity": 5,
+      "Chatlink": "[&AgELkQAA]",
+      "AssetId": 1465589,
+      "Names": {
+        "English": "Mighty +9 Agony Infusion",
+        "Spanish": "Infusión de +9 de resistencia a la agonía poderosa",
+        "German": "Mächtige +9 Qual-Infusion",
+        "French": "Infusion puissante de résistance à l'agonie +9"
+      },
+      "DisplayTexts": {
+        "English": "+5 Power\n+9 Agony Resistance",
+        "Spanish": "+5 de potencia\n+9 de resistencia a la agonía",
+        "German": "+5 Kraft\n+9 Qual-Widerstand",
+        "French": "Puissance +5\nRésistance à l'agonie +9"
+      },
+      "Descriptions": {
+        "English": "Double-click to apply to an unused infusion slot. Stats may be changed in the Mystic Forge.",
+        "Spanish": "Haz doble clic para aplicarlo a una casilla de infusión sin usar. Las estadísticas se pueden cambiar en la Forja Mística.",
+        "German": "Doppelklicken, um auf einen freien Infusionsplatz anzuwenden. Werte können in der Mystischen Schmiede geändert werden.",
+        "French": "Double-cliquez pour appliquer à un emplacement d'infusion inutilisé. Les statistiques peuvent être modifiées dans la forge mystique."
+      }
+    },
+    "37132": {
+      "Bonuses": {
+        "English": "+5 Precision\n+9 Agony Resistance",
+        "Spanish": "+5 de precisión\n+9 de resistencia a la agonía",
+        "German": "+5 Präzision\n+9 Qual-Widerstand",
+        "French": "Précision +5\nRésistance à l'agonie +9"
+      },
+      "Type": 14,
+      "TemplateSlot": 0,
+      "Id": 37132,
+      "MappedId": 8,
+      "Rarity": 5,
+      "Chatlink": "[&AgEMkQAA]",
+      "AssetId": 1465590,
+      "Names": {
+        "English": "Precise +9 Agony Infusion",
+        "Spanish": "Infusión de +9 de resistencia a la agonía precisa",
+        "German": "Präzise +9 Qual-Infusion",
+        "French": "Infusion précise de résistance à l'agonie +9"
+      },
+      "DisplayTexts": {
+        "English": "+5 Precision\n+9 Agony Resistance",
+        "Spanish": "+5 de precisión\n+9 de resistencia a la agonía",
+        "German": "+5 Präzision\n+9 Qual-Widerstand",
+        "French": "Précision +5\nRésistance à l'agonie +9"
+      },
+      "Descriptions": {
+        "English": "Double-click to apply to an unused infusion slot. Stats may be changed in the Mystic Forge.",
+        "Spanish": "Haz doble clic para aplicarlo a una casilla de infusión sin usar. Las estadísticas se pueden cambiar en la Forja Mística.",
+        "German": "Doppelklicken, um auf einen freien Infusionsplatz anzuwenden. Werte können in der Mystischen Schmiede geändert werden.",
+        "French": "Double-cliquez pour appliquer à un emplacement d'infusion inutilisé. Les statistiques peuvent être modifiées dans la forge mystique."
+      }
+    },
+    "37133": {
+      "Bonuses": {
+        "English": "+5 Toughness\n+7 Agony Resistance",
+        "Spanish": "+5 de dureza\n+7 de resistencia a la agonía",
+        "German": "+5 Zähigkeit\n+7 Qual-Widerstand",
+        "French": "Robustesse +5\nRésistance à l'agonie +7"
+      },
+      "Type": 14,
+      "TemplateSlot": 0,
+      "Id": 37133,
+      "MappedId": 9,
+      "Rarity": 4,
+      "Chatlink": "[&AgENkQAA]",
+      "AssetId": 511846,
+      "Names": {
+        "English": "Resilient +7 Agony Infusion",
+        "Spanish": "Infusión de +7 de resistencia a la agonía resistente",
+        "German": "Unverwüstliche +7 Qual-Infusion",
+        "French": "Infusion résistante de résistance à l'agonie +7"
+      },
+      "DisplayTexts": {
+        "English": "+5 Toughness\n+7 Agony Resistance",
+        "Spanish": "+5 de dureza\n+7 de resistencia a la agonía",
+        "German": "+5 Zähigkeit\n+7 Qual-Widerstand",
+        "French": "Robustesse +5\nRésistance à l'agonie +7"
+      },
+      "Descriptions": {
+        "English": "Double-click to apply to an unused infusion slot.",
+        "Spanish": "Haz doble clic para aplicarlo a una casilla de infusión sin usar.",
+        "German": "Doppelklicken, um auf einen freien Infusionsplatz anzuwenden.",
+        "French": "Double-cliquez pour appliquer à un emplacement d'infusion inutilisé."
+      }
+    },
+    "37134": {
+      "Bonuses": {
+        "English": "+5 Vitality\n+7 Agony Resistance",
+        "Spanish": "+5 de vitalidad\n+7 de resistencia a la agonía",
+        "German": "+5 Vitalität\n+7 Qual-Widerstand",
+        "French": "Vitalité +5\nRésistance à l'agonie +7"
+      },
+      "Type": 14,
+      "TemplateSlot": 0,
+      "Id": 37134,
+      "MappedId": 10,
+      "Rarity": 4,
+      "Chatlink": "[&AgEOkQAA]",
+      "AssetId": 511847,
+      "Names": {
+        "English": "Vital +7 Agony Infusion",
+        "Spanish": "Infusión de +7 de resistencia a la agonía vital",
+        "German": "Vitale +7 Qual-Infusion",
+        "French": "Infusion vitale de résistance à l'agonie +7"
+      },
+      "DisplayTexts": {
+        "English": "+5 Vitality\n+7 Agony Resistance",
+        "Spanish": "+5 de vitalidad\n+7 de resistencia a la agonía",
+        "German": "+5 Vitalität\n+7 Qual-Widerstand",
+        "French": "Vitalité +5\nRésistance à l'agonie +7"
+      },
+      "Descriptions": {
+        "English": "Double-click to apply to an unused infusion slot.",
+        "Spanish": "Haz doble clic para aplicarlo a una casilla de infusión sin usar.",
+        "German": "Doppelklicken, um auf einen freien Infusionsplatz anzuwenden.",
+        "French": "Double-cliquez pour appliquer à un emplacement d'infusion inutilisé."
+      }
+    },
+    "37135": {
+      "Bonuses": {
+        "English": "+5 Toughness\n+9 Agony Resistance",
+        "Spanish": "+5 de dureza\n+9 de resistencia a la agonía",
+        "German": "+5 Zähigkeit\n+9 Qual-Widerstand",
+        "French": "Robustesse +5\nRésistance à l'agonie +9"
+      },
+      "Type": 14,
+      "TemplateSlot": 0,
+      "Id": 37135,
+      "MappedId": 11,
+      "Rarity": 5,
+      "Chatlink": "[&AgEPkQAA]",
+      "AssetId": 1465591,
+      "Names": {
+        "English": "Resilient +9 Agony Infusion",
+        "Spanish": "Infusión de +9 de resistencia a la agonía resistente",
+        "German": "Unverwüstliche +9 Qual-Infusion",
+        "French": "Infusion résistante de résistance à l'agonie +9"
+      },
+      "DisplayTexts": {
+        "English": "+5 Toughness\n+9 Agony Resistance",
+        "Spanish": "+5 de dureza\n+9 de resistencia a la agonía",
+        "German": "+5 Zähigkeit\n+9 Qual-Widerstand",
+        "French": "Robustesse +5\nRésistance à l'agonie +9"
+      },
+      "Descriptions": {
+        "English": "Double-click to apply to an unused infusion slot. Stats may be changed in the Mystic Forge.",
+        "Spanish": "Haz doble clic para aplicarlo a una casilla de infusión sin usar. Las estadísticas se pueden cambiar en la Forja Mística.",
+        "German": "Doppelklicken, um auf einen freien Infusionsplatz anzuwenden. Werte können in der Mystischen Schmiede geändert werden.",
+        "French": "Double-cliquez pour appliquer à un emplacement d'infusion inutilisé. Les statistiques peuvent être modifiées dans la forge mystique."
+      }
+    },
+    "37136": {
+      "Bonuses": {
+        "English": "+5 Vitality\n+9 Agony Resistance",
+        "Spanish": "+5 de vitalidad\n+9 de resistencia a la agonía",
+        "German": "+5 Vitalität\n+9 Qual-Widerstand",
+        "French": "Vitalité +5\nRésistance à l'agonie +9"
+      },
+      "Type": 14,
+      "TemplateSlot": 0,
+      "Id": 37136,
+      "MappedId": 12,
+      "Rarity": 5,
+      "Chatlink": "[&AgEQkQAA]",
+      "AssetId": 1465592,
+      "Names": {
+        "English": "Vital +9 Agony Infusion",
+        "Spanish": "Infusión de +9 de resistencia a la agonía vital",
+        "German": "Vitale +9 Qual-Infusion",
+        "French": "Infusion vitale de résistance à l'agonie +9"
+      },
+      "DisplayTexts": {
+        "English": "+5 Vitality\n+9 Agony Resistance",
+        "Spanish": "+5 de vitalidad\n+9 de resistencia a la agonía",
+        "German": "+5 Vitalität\n+9 Qual-Widerstand",
+        "French": "Vitalité +5\nRésistance à l'agonie +9"
+      },
+      "Descriptions": {
+        "English": "Double-click to apply to an unused infusion slot. Stats may be changed in the Mystic Forge.",
+        "Spanish": "Haz doble clic para aplicarlo a una casilla de infusión sin usar. Las estadísticas se pueden cambiar en la Forja Mística.",
+        "German": "Doppelklicken, um auf einen freien Infusionsplatz anzuwenden. Werte können in der Mystischen Schmiede geändert werden.",
+        "French": "Double-cliquez pour appliquer à un emplacement d'infusion inutilisé. Les statistiques peuvent être modifiées dans la forge mystique."
+      }
+    },
+    "39335": {
+      "Bonuses": {
+        "English": "+4 Precision",
+        "Spanish": "+4 de precisión",
+        "German": "+4 Präzision",
+        "French": "Précision +4"
+      },
+      "Type": 14,
+      "TemplateSlot": 0,
+      "Id": 39335,
+      "MappedId": 13,
+      "Rarity": 2,
+      "Chatlink": "[&AgGnmQAA]",
+      "AssetId": 511849,
+      "Names": {
+        "English": "Precise Infusion",
+        "Spanish": "Infusión precisa",
+        "German": "Präzise Infusion",
+        "French": "Infusion précise"
+      },
+      "DisplayTexts": {
+        "English": "+4 Precision",
+        "Spanish": "+4 de precisión",
+        "German": "+4 Präzision",
+        "French": "Précision +4"
+      },
+      "Descriptions": {
+        "English": "Double-click to apply to an unused infusion slot.",
+        "Spanish": "Haz doble clic para aplicarlo a una casilla de infusión sin usar.",
+        "German": "Doppelklicken, um auf einen freien Infusionsplatz anzuwenden.",
+        "French": "Double-cliquez pour appliquer à un emplacement d'infusion inutilisé."
+      }
+    },
+    "39336": {
+      "Bonuses": {
+        "English": "+4 Power",
+        "Spanish": "+4 de potencia",
+        "German": "+4 Kraft",
+        "French": "Puissance +4"
+      },
+      "Type": 14,
+      "TemplateSlot": 0,
+      "Id": 39336,
+      "MappedId": 14,
+      "Rarity": 2,
+      "Chatlink": "[&AgGomQAA]",
+      "AssetId": 511837,
+      "Names": {
+        "English": "Mighty Infusion",
+        "Spanish": "Infusión poderosa",
+        "German": "Mächtige Infusion",
+        "French": "Infusion puissante"
+      },
+      "DisplayTexts": {
+        "English": "+4 Power",
+        "Spanish": "+4 de potencia",
+        "German": "+4 Kraft",
+        "French": "Puissance +4"
+      },
+      "Descriptions": {
+        "English": "Double-click to apply to an unused infusion slot.",
+        "Spanish": "Haz doble clic para aplicarlo a una casilla de infusión sin usar.",
+        "German": "Doppelklicken, um auf einen freien Infusionsplatz anzuwenden.",
+        "French": "Double-cliquez pour appliquer à un emplacement d'infusion inutilisé."
+      }
+    },
+    "39337": {
+      "Bonuses": {
+        "English": "+4 Condition Damage",
+        "Spanish": "+4 de daño de condición",
+        "German": "+4 Zustandsschaden",
+        "French": "Dégâts par altération +4"
+      },
+      "Type": 14,
+      "TemplateSlot": 0,
+      "Id": 39337,
+      "MappedId": 15,
+      "Rarity": 2,
+      "Chatlink": "[&AgGpmQAA]",
+      "AssetId": 511850,
+      "Names": {
+        "English": "Malign Infusion",
+        "Spanish": "Infusión maligna",
+        "German": "Unheilvolle Infusion",
+        "French": "Infusion néfaste"
+      },
+      "DisplayTexts": {
+        "English": "+4 Condition Damage",
+        "Spanish": "+4 de daño de condición",
+        "German": "+4 Zustandsschaden",
+        "French": "Dégâts par altération +4"
+      },
+      "Descriptions": {
+        "English": "Double-click to apply to an unused infusion slot.",
+        "Spanish": "Haz doble clic para aplicarlo a una casilla de infusión sin usar.",
+        "German": "Doppelklicken, um auf einen freien Infusionsplatz anzuwenden.",
+        "French": "Double-cliquez pour appliquer à un emplacement d'infusion inutilisé."
+      }
+    },
+    "39338": {
+      "Bonuses": {
+        "English": "+4 Vitality",
+        "Spanish": "+4 de vitalidad",
+        "German": "+4 Vitalität",
+        "French": "Vitalité +4"
+      },
+      "Type": 14,
+      "TemplateSlot": 0,
+      "Id": 39338,
+      "MappedId": 16,
+      "Rarity": 2,
+      "Chatlink": "[&AgGqmQAA]",
+      "AssetId": 511845,
+      "Names": {
+        "English": "Vital Infusion",
+        "Spanish": "Infusión vital",
+        "German": "Vitale Infusion",
+        "French": "Infusion vitale"
+      },
+      "DisplayTexts": {
+        "English": "+4 Vitality",
+        "Spanish": "+4 de vitalidad",
+        "German": "+4 Vitalität",
+        "French": "Vitalité +4"
+      },
+      "Descriptions": {
+        "English": "Double-click to apply to an unused infusion slot.",
+        "Spanish": "Haz doble clic para aplicarlo a una casilla de infusión sin usar.",
+        "German": "Doppelklicken, um auf einen freien Infusionsplatz anzuwenden.",
+        "French": "Double-cliquez pour appliquer à un emplacement d'infusion inutilisé."
+      }
+    },
+    "39339": {
+      "Bonuses": {
+        "English": "+4 Toughness",
+        "Spanish": "+4 de dureza",
+        "German": "+4 Zähigkeit",
+        "French": "Robustesse +4"
+      },
+      "Type": 14,
+      "TemplateSlot": 0,
+      "Id": 39339,
+      "MappedId": 17,
+      "Rarity": 2,
+      "Chatlink": "[&AgGrmQAA]",
+      "AssetId": 511844,
+      "Names": {
+        "English": "Resilient Infusion",
+        "Spanish": "Infusión resistente",
+        "German": "Unverwüstliche Infusion",
+        "French": "Infusion résistante"
+      },
+      "DisplayTexts": {
+        "English": "+4 Toughness",
+        "Spanish": "+4 de dureza",
+        "German": "+4 Zähigkeit",
+        "French": "Robustesse +4"
+      },
+      "Descriptions": {
+        "English": "Double-click to apply to an unused infusion slot.",
+        "Spanish": "Haz doble clic para aplicarlo a una casilla de infusión sin usar.",
+        "German": "Doppelklicken, um auf einen freien Infusionsplatz anzuwenden.",
+        "French": "Double-cliquez pour appliquer à un emplacement d'infusion inutilisé."
+      }
+    },
+    "39340": {
+      "Bonuses": {
+        "English": "+4 Healing",
+        "Spanish": "+4 de curación",
+        "German": "+4 Heilung",
+        "French": "Guérison +4"
+      },
+      "Type": 14,
+      "TemplateSlot": 0,
+      "Id": 39340,
+      "MappedId": 18,
+      "Rarity": 2,
+      "Chatlink": "[&AgGsmQAA]",
+      "AssetId": 511834,
+      "Names": {
+        "English": "Healing Infusion",
+        "Spanish": "Infusión curativa",
+        "German": "Heilende Infusion",
+        "French": "Infusion curative"
+      },
+      "DisplayTexts": {
+        "English": "+4 Healing",
+        "Spanish": "+4 de curación",
+        "German": "+4 Heilung",
+        "French": "Guérison +4"
+      },
+      "Descriptions": {
+        "English": "Double-click to apply to an unused infusion slot.",
+        "Spanish": "Haz doble clic para aplicarlo a una casilla de infusión sin usar.",
+        "German": "Doppelklicken, um auf einen freien Infusionsplatz anzuwenden.",
+        "French": "Double-cliquez pour appliquer à un emplacement d'infusion inutilisé."
+      }
+    },
+    "39616": {
+      "Bonuses": {
+        "English": "+5 Healing\n+5 Agony Resistance",
+        "Spanish": "+5 de curación<br>+5 de resistencia a la agonía",
+        "German": "+5 Heilung<br>+5 Qual-Widerstand",
+        "French": "Guérison +5<br>Résistance à l'agonie +5"
+      },
+      "Type": 14,
+      "TemplateSlot": 0,
+      "Id": 39616,
+      "MappedId": 19,
+      "Rarity": 3,
+      "Chatlink": "[&AgHAmgAA]",
+      "AssetId": 511834,
+      "Names": {
+        "English": "Healing +5 Agony Infusion",
+        "Spanish": "Infusión de +5 de resistencia a la agonía curativa",
+        "German": "Heilende +5 Qual-Infusion",
+        "French": "Infusion curative de résistance à l'agonie +5"
+      },
+      "DisplayTexts": {
+        "English": "+5 Healing\n+5 Agony Resistance",
+        "Spanish": "+5 de curación<br>+5 de resistencia a la agonía",
+        "German": "+5 Heilung<br>+5 Qual-Widerstand",
+        "French": "Guérison +5<br>Résistance à l'agonie +5"
+      },
+      "Descriptions": {
+        "English": "Double-click to apply to an unused infusion slot.",
+        "Spanish": "Haz doble clic para aplicarlo a una casilla de infusión sin usar.",
+        "German": "Doppelklicken, um auf einen freien Infusionsplatz anzuwenden.",
+        "French": "Double-cliquez pour appliquer à un emplacement d'infusion inutilisé."
+      }
+    },
+    "39617": {
+      "Bonuses": {
+        "English": "+5 Toughness\n+5 Agony Resistance",
+        "Spanish": "+5 de dureza<br>+5 de resistencia a la agonía",
+        "German": "+5 Zähigkeit<br>+5 Qual-Widerstand",
+        "French": "Robustesse +5<br>Résistance à l'agonie +5"
+      },
+      "Type": 14,
+      "TemplateSlot": 0,
+      "Id": 39617,
+      "MappedId": 20,
+      "Rarity": 3,
+      "Chatlink": "[&AgHBmgAA]",
+      "AssetId": 511844,
+      "Names": {
+        "English": "Resilient +5 Agony Infusion",
+        "Spanish": "Infusión de +5 de resistencia a la agonía resistente",
+        "German": "Unverwüstliche +5 Qual-Infusion",
+        "French": "Infusion résistante de résistance à l'agonie +5"
+      },
+      "DisplayTexts": {
+        "English": "+5 Toughness\n+5 Agony Resistance",
+        "Spanish": "+5 de dureza<br>+5 de resistencia a la agonía",
+        "German": "+5 Zähigkeit<br>+5 Qual-Widerstand",
+        "French": "Robustesse +5<br>Résistance à l'agonie +5"
+      },
+      "Descriptions": {
+        "English": "Double-click to apply to an unused infusion slot.",
+        "Spanish": "Haz doble clic para aplicarlo a una casilla de infusión sin usar.",
+        "German": "Doppelklicken, um auf einen freien Infusionsplatz anzuwenden.",
+        "French": "Double-cliquez pour appliquer à un emplacement d'infusion inutilisé."
+      }
+    },
+    "39618": {
+      "Bonuses": {
+        "English": "+5 Vitality\n+5 Agony Resistance",
+        "Spanish": "+5 de vitalidad<br>+5 de resistencia a la agonía",
+        "German": "+5 Vitalität<br>+5 Qual-Widerstand",
+        "French": "Vitalité +5<br>Résistance à l'agonie +5 "
+      },
+      "Type": 14,
+      "TemplateSlot": 0,
+      "Id": 39618,
+      "MappedId": 21,
+      "Rarity": 3,
+      "Chatlink": "[&AgHCmgAA]",
+      "AssetId": 511845,
+      "Names": {
+        "English": "Vital +5 Agony Infusion",
+        "Spanish": "Infusión de +5 de resistencia a la agonía vital",
+        "German": "Vitale +5 Qual-Infusion",
+        "French": "Infusion vitale de résistance à l'agonie +5"
+      },
+      "DisplayTexts": {
+        "English": "+5 Vitality\n+5 Agony Resistance",
+        "Spanish": "+5 de vitalidad<br>+5 de resistencia a la agonía",
+        "German": "+5 Vitalität<br>+5 Qual-Widerstand",
+        "French": "Vitalité +5<br>Résistance à l'agonie +5"
+      },
+      "Descriptions": {
+        "English": "Double-click to apply to an unused infusion slot.",
+        "Spanish": "Haz doble clic para aplicarlo a una casilla de infusión sin usar.",
+        "German": "Doppelklicken, um auf einen freien Infusionsplatz anzuwenden.",
+        "French": "Double-cliquez pour appliquer à un emplacement d'infusion inutilisé."
+      }
+    },
+    "39619": {
+      "Bonuses": {
+        "English": "+5 Condition Damage\n+5 Agony Resistance",
+        "Spanish": "+5 de daño de condición<br>+5 de resistencia a la agonía",
+        "German": "+5 Zustandsschaden<br>+5 Qual-Widerstand",
+        "French": "Dégâts par altération +5<br>Résistance à l'agonie +5 "
+      },
+      "Type": 14,
+      "TemplateSlot": 0,
+      "Id": 39619,
+      "MappedId": 22,
+      "Rarity": 3,
+      "Chatlink": "[&AgHDmgAA]",
+      "AssetId": 511850,
+      "Names": {
+        "English": "Malign +5 Agony Infusion",
+        "Spanish": "Infusión de +5 de resistencia a la agonía maligna",
+        "German": "Unheilvolle +5 Qual-Infusion",
+        "French": "Infusion néfaste de résistance à l'agonie +5"
+      },
+      "DisplayTexts": {
+        "English": "+5 Condition Damage\n+5 Agony Resistance",
+        "Spanish": "+5 de daño de condición<br>+5 de resistencia a la agonía",
+        "German": "+5 Zustandsschaden<br>+5 Qual-Widerstand",
+        "French": "Dégâts par altération +5<br>Résistance à l'agonie +5"
+      },
+      "Descriptions": {
+        "English": "Double-click to apply to an unused infusion slot.",
+        "Spanish": "Haz doble clic para aplicarlo a una casilla de infusión sin usar.",
+        "German": "Doppelklicken, um auf einen freien Infusionsplatz anzuwenden.",
+        "French": "Double-cliquez pour appliquer à un emplacement d'infusion inutilisé."
+      }
+    },
+    "39620": {
+      "Bonuses": {
+        "English": "+5 Power\n+5 Agony Resistance",
+        "Spanish": "+5 de potencia<br>+5 de resistencia a la agonía",
+        "German": "+5 Kraft<br>+5 Qual-Widerstand",
+        "French": "Puissance +5<br>Résistance à l'agonie +5"
+      },
+      "Type": 14,
+      "TemplateSlot": 0,
+      "Id": 39620,
+      "MappedId": 23,
+      "Rarity": 3,
+      "Chatlink": "[&AgHEmgAA]",
+      "AssetId": 511835,
+      "Names": {
+        "English": "Mighty +5 Agony Infusion",
+        "Spanish": "Infusión de +5 de resistencia a la agonía poderosa",
+        "German": "Mächtige +5 Qual-Infusion",
+        "French": "Infusion puissante de résistance à l'agonie +5"
+      },
+      "DisplayTexts": {
+        "English": "+5 Power\n+5 Agony Resistance",
+        "Spanish": "+5 de potencia<br>+5 de resistencia a la agonía",
+        "German": "+5 Kraft<br>+5 Qual-Widerstand",
+        "French": "Puissance +5<br>Résistance à l'agonie +5"
+      },
+      "Descriptions": {
+        "English": "Double-click to apply to an unused infusion slot.",
+        "Spanish": "Haz doble clic para aplicarlo a una casilla de infusión sin usar.",
+        "German": "Doppelklicken, um auf einen freien Infusionsplatz anzuwenden.",
+        "French": "Double-cliquez pour appliquer à un emplacement d'infusion inutilisé."
+      }
+    },
+    "39621": {
+      "Bonuses": {
+        "English": "+5 Precision\n+5 Agony Resistance",
+        "Spanish": "+5 de precisión<br>+5 de resistencia a la agonía",
+        "German": "+5 Präzision<br>+5 Qual-Widerstand",
+        "French": "Précision +5<br>Résistance à l'agonie +5 "
+      },
+      "Type": 14,
+      "TemplateSlot": 0,
+      "Id": 39621,
+      "MappedId": 24,
+      "Rarity": 3,
+      "Chatlink": "[&AgHFmgAA]",
+      "AssetId": 511848,
+      "Names": {
+        "English": "Precise +5 Agony Infusion",
+        "Spanish": "Infusión de +5 de resistencia a la agonía precisa",
+        "German": "Präzise +5 Qual-Infusion",
+        "French": "Infusion précise de résistance à l'agonie +5"
+      },
+      "DisplayTexts": {
+        "English": "+5 Precision\n+5 Agony Resistance",
+        "Spanish": "+5 de precisión<br>+5 de resistencia a la agonía",
+        "German": "+5 Präzision<br>+5 Qual-Widerstand",
+        "French": "Précision +5<br>Résistance à l'agonie +5"
+      },
+      "Descriptions": {
+        "English": "Double-click to apply to an unused infusion slot.",
+        "Spanish": "Haz doble clic para aplicarlo a una casilla de infusión sin usar.",
+        "German": "Doppelklicken, um auf einen freien Infusionsplatz anzuwenden.",
+        "French": "Double-cliquez pour appliquer à un emplacement d'infusion inutilisé."
+      }
+    },
+    "43250": {
+      "Bonuses": {
+        "English": "+5 Healing\n-1% Damage taken from Guards, Lords, and Supervisors",
+        "Spanish": "+5 de curación\n-1 % de daño recibido de guardias, líderes y supervisores",
+        "German": "+5 Heilung\n-1 % erlittener Schaden von Wachen, Herren und Aufsehern",
+        "French": "Guérison +5\nDégâts infligés par les gardes, les seigneurs et les superviseurs -1%"
+      },
+      "Type": 14,
+      "TemplateSlot": 0,
+      "Id": 43250,
+      "MappedId": 25,
+      "Rarity": 3,
+      "Chatlink": "[&AgHyqAAA]",
+      "AssetId": 587071,
+      "Names": {
+        "English": "Healing WvW Infusion",
+        "Spanish": "Infusión de WvW de curación",
+        "German": "Heilende WvW-Infusion",
+        "French": "Infusion curative McM"
+      },
+      "DisplayTexts": {
+        "English": "+5 Healing\n-1% Damage taken from Guards, Lords, and Supervisors",
+        "Spanish": "+5 de curación\n-1 % de daño recibido de guardias, líderes y supervisores",
+        "German": "+5 Heilung\n-1 % erlittener Schaden von Wachen, Herren und Aufsehern",
+        "French": "Guérison +5\nDégâts infligés par les gardes, les seigneurs et les superviseurs -1%"
+      },
+      "Descriptions": {
+        "English": "Double-click to apply to an unused infusion slot.",
+        "Spanish": "Haz doble clic para aplicarlo a una casilla de infusión sin usar.",
+        "German": "Doppelklicken, um auf einen freien Infusionsplatz anzuwenden.",
+        "French": "Double-cliquez pour appliquer à un emplacement d'infusion inutilisé."
+      }
+    },
+    "43251": {
+      "Bonuses": {
+        "English": "+5 Toughness\n-1% Damage taken from Guards, Lords, and Supervisors",
+        "Spanish": "+5 de dureza\n-1 % de daño recibido de guardias, líderes y supervisores",
+        "German": "+5 Zähigkeit\n-1 % erlittener Schaden von Wachen, Herren und Aufsehern",
+        "French": "Robustesse +5\nDégâts infligés par les gardes, les seigneurs et les superviseurs -1%"
+      },
+      "Type": 14,
+      "TemplateSlot": 0,
+      "Id": 43251,
+      "MappedId": 26,
+      "Rarity": 3,
+      "Chatlink": "[&AgHzqAAA]",
+      "AssetId": 587072,
+      "Names": {
+        "English": "Resilient WvW Infusion",
+        "Spanish": "Infusión de WvW resistente",
+        "German": "Unverwüstliche WvW-Infusion",
+        "French": "Infusion McM résistante"
+      },
+      "DisplayTexts": {
+        "English": "+5 Toughness\n-1% Damage taken from Guards, Lords, and Supervisors",
+        "Spanish": "+5 de dureza\n-1 % de daño recibido de guardias, líderes y supervisores",
+        "German": "+5 Zähigkeit\n-1 % erlittener Schaden von Wachen, Herren und Aufsehern",
+        "French": "Robustesse +5\nDégâts infligés par les gardes, les seigneurs et les superviseurs -1%"
+      },
+      "Descriptions": {
+        "English": "Double-click to apply to an unused infusion slot.",
+        "Spanish": "Haz doble clic para aplicarlo a una casilla de infusión sin usar.",
+        "German": "Doppelklicken, um auf einen freien Infusionsplatz anzuwenden.",
+        "French": "Double-cliquez pour appliquer à un emplacement d'infusion inutilisé."
+      }
+    },
+    "43252": {
+      "Bonuses": {
+        "English": "+5 Vitality\n-1% Damage taken from Guards, Lords, and Supervisors",
+        "Spanish": "+5 de vitalidad\n-1 % de daño recibido de guardias, líderes y supervisores",
+        "German": "+5 Vitalität\n-1 % erlittener Schaden von Wachen, Herren und Aufsehern",
+        "French": "Vitalité +5\nDégâts infligés par les gardes, les seigneurs et les superviseurs -1%"
+      },
+      "Type": 14,
+      "TemplateSlot": 0,
+      "Id": 43252,
+      "MappedId": 27,
+      "Rarity": 3,
+      "Chatlink": "[&AgH0qAAA]",
+      "AssetId": 587073,
+      "Names": {
+        "English": "Vital WvW Infusion",
+        "Spanish": "Infusión de WvW vital",
+        "German": "Vitale WvW-Infusion",
+        "French": "Infusion McM vitale"
+      },
+      "DisplayTexts": {
+        "English": "+5 Vitality\n-1% Damage taken from Guards, Lords, and Supervisors",
+        "Spanish": "+5 de vitalidad\n-1 % de daño recibido de guardias, líderes y supervisores",
+        "German": "+5 Vitalität\n-1 % erlittener Schaden von Wachen, Herren und Aufsehern",
+        "French": "Vitalité +5\nDégâts infligés par les gardes, les seigneurs et les superviseurs -1%"
+      },
+      "Descriptions": {
+        "English": "Double-click to apply to an unused infusion slot.",
+        "Spanish": "Haz doble clic para aplicarlo a una casilla de infusión sin usar.",
+        "German": "Doppelklicken, um auf einen freien Infusionsplatz anzuwenden.",
+        "French": "Double-cliquez pour appliquer à un emplacement d'infusion inutilisé."
+      }
+    },
+    "43253": {
+      "Bonuses": {
+        "English": "+5 Condition Damage\n+1% Damage to Guards, Lords, and Supervisors",
+        "Spanish": "+5 de daño de condición\n+1 % de daño a guardias, líderes y supervisores",
+        "German": "+5 Zustandsschaden\n+1 % Schaden an Wachen, Herren und Aufsehern",
+        "French": "Dégâts par altération +5\n1% de dégâts supplémentaires aux gardes, aux seigneurs et aux superviseurs"
+      },
+      "Type": 14,
+      "TemplateSlot": 0,
+      "Id": 43253,
+      "MappedId": 28,
+      "Rarity": 3,
+      "Chatlink": "[&AgH1qAAA]",
+      "AssetId": 587074,
+      "Names": {
+        "English": "Malign WvW Infusion",
+        "Spanish": "Infusión de WvW maligna",
+        "German": "Unheilvolle WvW-Infusion",
+        "French": "Infusion McM néfaste"
+      },
+      "DisplayTexts": {
+        "English": "+5 Condition Damage\n+1% Damage to Guards, Lords, and Supervisors",
+        "Spanish": "+5 de daño de condición\n+1 % de daño a guardias, líderes y supervisores",
+        "German": "+5 Zustandsschaden\n+1 % Schaden an Wachen, Herren und Aufsehern",
+        "French": "Dégâts par altération +5\n1% de dégâts supplémentaires aux gardes, aux seigneurs et aux superviseurs"
+      },
+      "Descriptions": {
+        "English": "Double-click to apply to an unused infusion slot.",
+        "Spanish": "Haz doble clic para aplicarlo a una casilla de infusión sin usar.",
+        "German": "Doppelklicken, um auf einen freien Infusionsplatz anzuwenden.",
+        "French": "Double-cliquez pour appliquer à un emplacement d'infusion inutilisé."
+      }
+    },
+    "43254": {
+      "Bonuses": {
+        "English": "+5 Power\n+1% Damage to Guards, Lords, and Supervisors",
+        "Spanish": "+5 de potencia\n+1 % de daño a guardias, líderes y supervisores",
+        "German": "+5 Kraft\n+1 % Schaden an Wachen, Herren und Aufsehern",
+        "French": "Puissance +5 \nDégâts supplémentaires aux gardes, aux seigneurs et aux superviseurs 1%"
+      },
+      "Type": 14,
+      "TemplateSlot": 0,
+      "Id": 43254,
+      "MappedId": 29,
+      "Rarity": 3,
+      "Chatlink": "[&AgH2qAAA]",
+      "AssetId": 587075,
+      "Names": {
+        "English": "Mighty WvW Infusion",
+        "Spanish": "Infusión de WvW de poder",
+        "German": "Mächtige WvW-Infusion",
+        "French": "Infusion McM puissante"
+      },
+      "DisplayTexts": {
+        "English": "+5 Power\n+1% Damage to Guards, Lords, and Supervisors",
+        "Spanish": "+5 de potencia\n+1 % de daño a guardias, líderes y supervisores",
+        "German": "+5 Kraft\n+1 % Schaden an Wachen, Herren und Aufsehern",
+        "French": "Puissance +5 \nDégâts supplémentaires aux gardes, aux seigneurs et aux superviseurs 1%"
+      },
+      "Descriptions": {
+        "English": "Double-click to apply to an unused infusion slot.",
+        "Spanish": "Haz doble clic para aplicarlo a una casilla de infusión sin usar.",
+        "German": "Doppelklicken, um auf einen freien Infusionsplatz anzuwenden.",
+        "French": "Double-cliquez pour appliquer à un emplacement d'infusion inutilisé."
+      }
+    },
+    "43255": {
+      "Bonuses": {
+        "English": "+5 Precision\n+1% Damage to Guards, Lords, and Supervisors",
+        "Spanish": "+5 de precisión\n+1 % de daño a guardias, líderes y supervisores",
+        "German": "+5 Präzision\n+1 % Schaden an Wachen, Herren und Aufsehern",
+        "French": "Précision +5\n1% de dégâts supplémentaires aux gardes, aux seigneurs et aux superviseurs"
+      },
+      "Type": 14,
+      "TemplateSlot": 0,
+      "Id": 43255,
+      "MappedId": 30,
+      "Rarity": 3,
+      "Chatlink": "[&AgH3qAAA]",
+      "AssetId": 587076,
+      "Names": {
+        "English": "Precise WvW Infusion",
+        "Spanish": "Infusión de WvW precisa",
+        "German": "Präzise WvW-Infusion",
+        "French": "Infusion McM précise"
+      },
+      "DisplayTexts": {
+        "English": "+5 Precision\n+1% Damage to Guards, Lords, and Supervisors",
+        "Spanish": "+5 de precisión\n+1 % de daño a guardias, líderes y supervisores",
+        "German": "+5 Präzision\n+1 % Schaden an Wachen, Herren und Aufsehern",
+        "French": "Précision +5\n1% de dégâts supplémentaires aux gardes, aux seigneurs et aux superviseurs"
+      },
+      "Descriptions": {
+        "English": "Double-click to apply to an unused infusion slot.",
+        "Spanish": "Haz doble clic para aplicarlo a una casilla de infusión sin usar.",
+        "German": "Doppelklicken, um auf einen freien Infusionsplatz anzuwenden.",
+        "French": "Double-cliquez pour appliquer à un emplacement d'infusion inutilisé."
+      }
+    },
+    "49424": {
+      "Bonuses": {
+        "English": "+1 Agony Resistance",
+        "Spanish": "+1 de resistencia a la agonía",
+        "German": "+1 Qual-Widerstand",
+        "French": "Résistance à l'agonie +1"
+      },
+      "Type": 14,
+      "TemplateSlot": 0,
+      "Id": 49424,
+      "MappedId": 31,
+      "Rarity": 7,
+      "Chatlink": "[&AgEQwQAA]",
+      "AssetId": 511839,
+      "Names": {
+        "English": "+1 Agony Infusion",
+        "Spanish": "Infusión de +1 de Resistencia a la Agonía",
+        "German": "+1 Qual-Infusion",
+        "French": "Infusion de résistance à l'agonie +1"
+      },
+      "DisplayTexts": {
+        "English": "+1 Agony Resistance",
+        "Spanish": "+1 de resistencia a la agonía",
+        "German": "+1 Qual-Widerstand",
+        "French": "Résistance à l'agonie +1"
+      },
+      "Descriptions": {
+        "English": "Double-click to apply to an unused infusion slot. Used by artificers to craft more powerful agony infusions.",
+        "Spanish": "Haz doble clic para aplicarlo a una casilla de infusión sin usar. Los artificieros lo usan para fabricar infusiones de resistencia a la agonía más potentes.",
+        "German": "Doppelklicken, um auf einen freien Infusionsplatz anzuwenden. Wird von Konstrukteuren zur Herstellung stärkerer Qual-Infusionen verwendet.",
+        "French": "Double-cliquez pour appliquer à un emplacement d'infusion inutilisé. Les artificiers l'utilisent pour créer des infusions de résistance à l'agonie plus puissantes."
+      }
+    },
+    "49425": {
+      "Bonuses": {
+        "English": "+2 Agony Resistance",
+        "Spanish": "+2 de resistencia a la agonía",
+        "German": "+2 Qual-Widerstand",
+        "French": "Résistance à l'agonie +2"
+      },
+      "Type": 14,
+      "TemplateSlot": 0,
+      "Id": 49425,
+      "MappedId": 32,
+      "Rarity": 7,
+      "Chatlink": "[&AgERwQAA]",
+      "AssetId": 511839,
+      "Names": {
+        "English": "+2 Agony Infusion",
+        "Spanish": "Infusión de +2 de Resistencia a la Agonía",
+        "German": "+2 Qual-Infusion",
+        "French": "Infusion de résistance à l'agonie +2"
+      },
+      "DisplayTexts": {
+        "English": "+2 Agony Resistance",
+        "Spanish": "+2 de resistencia a la agonía",
+        "German": "+2 Qual-Widerstand",
+        "French": "Résistance à l'agonie +2"
+      },
+      "Descriptions": {
+        "English": "Double-click to apply to an unused infusion slot. Used by artificers to craft more powerful agony infusions.",
+        "Spanish": "Haz doble clic para aplicarlo a una casilla de infusión sin usar. Los artificieros lo usan para fabricar infusiones de resistencia a la agonía más potentes.",
+        "German": "Doppelklicken, um auf einen freien Infusionsplatz anzuwenden. Wird von Konstrukteuren zur Herstellung stärkerer Qual-Infusionen verwendet.",
+        "French": "Double-cliquez pour appliquer à un emplacement d'infusion inutilisé. Les artificiers l'utilisent pour créer des infusions de résistance à l'agonie plus puissantes."
+      }
+    },
+    "49426": {
+      "Bonuses": {
+        "English": "+3 Agony Resistance",
+        "Spanish": "+3 de resistencia a la agonía",
+        "German": "+3 Qual-Widerstand",
+        "French": "Résistance à l'agonie +3"
+      },
+      "Type": 14,
+      "TemplateSlot": 0,
+      "Id": 49426,
+      "MappedId": 33,
+      "Rarity": 7,
+      "Chatlink": "[&AgESwQAA]",
+      "AssetId": 511840,
+      "Names": {
+        "English": "+3 Agony Infusion",
+        "Spanish": "Infusión de +3 de Resistencia a la Agonía",
+        "German": "+3 Qual-Infusion",
+        "French": "Infusion de résistance à l'agonie +3"
+      },
+      "DisplayTexts": {
+        "English": "+3 Agony Resistance",
+        "Spanish": "+3 de resistencia a la agonía",
+        "German": "+3 Qual-Widerstand",
+        "French": "Résistance à l'agonie +3"
+      },
+      "Descriptions": {
+        "English": "Double-click to apply to an unused infusion slot. Used by artificers to craft more powerful agony infusions.",
+        "Spanish": "Haz doble clic para aplicarlo a una casilla de infusión sin usar. Los artificieros lo usan para fabricar infusiones de resistencia a la agonía más potentes.",
+        "German": "Doppelklicken, um auf einen freien Infusionsplatz anzuwenden. Wird von Konstrukteuren zur Herstellung stärkerer Qual-Infusionen verwendet.",
+        "French": "Double-cliquez pour appliquer à un emplacement d'infusion inutilisé. Les artificiers l'utilisent pour créer des infusions de résistance à l'agonie plus puissantes."
+      }
+    },
+    "49427": {
+      "Bonuses": {
+        "English": "+4 Agony Resistance",
+        "Spanish": "+4 de resistencia a la agonía",
+        "German": "+4 Qual-Widerstand",
+        "French": "Résistance à l'agonie +4"
+      },
+      "Type": 14,
+      "TemplateSlot": 0,
+      "Id": 49427,
+      "MappedId": 34,
+      "Rarity": 7,
+      "Chatlink": "[&AgETwQAA]",
+      "AssetId": 511840,
+      "Names": {
+        "English": "+4 Agony Infusion",
+        "Spanish": "Infusión de +4 de Resistencia a la Agonía",
+        "German": "+4 Qual-Infusion",
+        "French": "Infusion de résistance à l'agonie +4"
+      },
+      "DisplayTexts": {
+        "English": "+4 Agony Resistance",
+        "Spanish": "+4 de resistencia a la agonía",
+        "German": "+4 Qual-Widerstand",
+        "French": "Résistance à l'agonie +4"
+      },
+      "Descriptions": {
+        "English": "Double-click to apply to an unused infusion slot. Used by artificers to craft more powerful agony infusions.",
+        "Spanish": "Haz doble clic para aplicarlo a una casilla de infusión sin usar. Los artificieros lo usan para fabricar infusiones de resistencia a la agonía más potentes.",
+        "German": "Doppelklicken, um auf einen freien Infusionsplatz anzuwenden. Wird von Konstrukteuren zur Herstellung stärkerer Qual-Infusionen verwendet.",
+        "French": "Double-cliquez pour appliquer à un emplacement d'infusion inutilisé. Les artificiers l'utilisent pour créer des infusions de résistance à l'agonie plus puissantes."
+      }
+    },
+    "49428": {
+      "Bonuses": {
+        "English": "+5 Agony Resistance",
+        "Spanish": "+5 de resistencia a la agonía",
+        "German": "+5 Qual-Widerstand",
+        "French": "Résistance à l'agonie +5"
+      },
+      "Type": 14,
+      "TemplateSlot": 0,
+      "Id": 49428,
+      "MappedId": 35,
+      "Rarity": 7,
+      "Chatlink": "[&AgEUwQAA]",
+      "AssetId": 511838,
+      "Names": {
+        "English": "+5 Agony Infusion",
+        "Spanish": "Infusión de +5 de Resistencia a la Agonía",
+        "German": "+5 Qual-Infusion",
+        "French": "Infusion de résistance à l'agonie +5"
+      },
+      "DisplayTexts": {
+        "English": "+5 Agony Resistance",
+        "Spanish": "+5 de resistencia a la agonía",
+        "German": "+5 Qual-Widerstand",
+        "French": "Résistance à l'agonie +5"
+      },
+      "Descriptions": {
+        "English": "Double-click to apply to an unused infusion slot. Used by artificers to craft more powerful agony infusions.",
+        "Spanish": "Haz doble clic para aplicarlo a una casilla de infusión sin usar. Los artificieros lo usan para fabricar infusiones de resistencia a la agonía más potentes.",
+        "German": "Doppelklicken, um auf einen freien Infusionsplatz anzuwenden. Wird von Konstrukteuren zur Herstellung stärkerer Qual-Infusionen verwendet.",
+        "French": "Double-cliquez pour appliquer à un emplacement d'infusion inutilisé. Les artificiers l'utilisent pour créer des infusions de résistance à l'agonie plus puissantes."
+      }
+    },
+    "49429": {
+      "Bonuses": {
+        "English": "+6 Agony Resistance",
+        "Spanish": "+6 de resistencia a la agonía",
+        "German": "+6 Qual-Widerstand",
+        "French": "Résistance à l'agonie +6"
+      },
+      "Type": 14,
+      "TemplateSlot": 0,
+      "Id": 49429,
+      "MappedId": 36,
+      "Rarity": 7,
+      "Chatlink": "[&AgEVwQAA]",
+      "AssetId": 511838,
+      "Names": {
+        "English": "+6 Agony Infusion",
+        "Spanish": "Infusión de +6 de Resistencia a la Agonía",
+        "German": "+6 Qual-Infusion",
+        "French": "Infusion de résistance à l'agonie +6"
+      },
+      "DisplayTexts": {
+        "English": "+6 Agony Resistance",
+        "Spanish": "+6 de resistencia a la agonía",
+        "German": "+6 Qual-Widerstand",
+        "French": "Résistance à l'agonie +6"
+      },
+      "Descriptions": {
+        "English": "Double-click to apply to an unused infusion slot. Used by artificers to craft more powerful agony infusions.",
+        "Spanish": "Haz doble clic para aplicarlo a una casilla de infusión sin usar. Los artificieros lo usan para fabricar infusiones de resistencia a la agonía más potentes.",
+        "German": "Doppelklicken, um auf einen freien Infusionsplatz anzuwenden. Wird von Konstrukteuren zur Herstellung stärkerer Qual-Infusionen verwendet.",
+        "French": "Double-cliquez pour appliquer à un emplacement d'infusion inutilisé. Les artificiers l'utilisent pour créer des infusions de résistance à l'agonie plus puissantes."
+      }
+    },
+    "49430": {
+      "Bonuses": {
+        "English": "+7 Agony Resistance",
+        "Spanish": "+7 de resistencia a la agonía",
+        "German": "+7 Qual-Widerstand",
+        "French": "Résistance à l'agonie +7"
+      },
+      "Type": 14,
+      "TemplateSlot": 0,
+      "Id": 49430,
+      "MappedId": 37,
+      "Rarity": 7,
+      "Chatlink": "[&AgEWwQAA]",
+      "AssetId": 1465584,
+      "Names": {
+        "English": "+7 Agony Infusion",
+        "Spanish": "Infusión de +7 de Resistencia a la Agonía",
+        "German": "+7 Qual-Infusion",
+        "French": "Infusion de résistance à l'agonie +7"
+      },
+      "DisplayTexts": {
+        "English": "+7 Agony Resistance",
+        "Spanish": "+7 de resistencia a la agonía",
+        "German": "+7 Qual-Widerstand",
+        "French": "Résistance à l'agonie +7"
+      },
+      "Descriptions": {
+        "English": "Double-click to apply to an unused infusion slot. Used by artificers to craft more powerful agony infusions.",
+        "Spanish": "Haz doble clic para aplicarlo a una casilla de infusión sin usar. Los artificieros lo usan para fabricar infusiones de resistencia a la agonía más potentes.",
+        "German": "Doppelklicken, um auf einen freien Infusionsplatz anzuwenden. Wird von Konstrukteuren zur Herstellung stärkerer Qual-Infusionen verwendet.",
+        "French": "Double-cliquez pour appliquer à un emplacement d'infusion inutilisé. Les artificiers l'utilisent pour créer des infusions de résistance à l'agonie plus puissantes."
+      }
+    },
+    "49431": {
+      "Bonuses": {
+        "English": "+8 Agony Resistance",
+        "Spanish": "+8 de resistencia a la agonía",
+        "German": "+8 Qual-Widerstand",
+        "French": "Résistance à l'agonie +8"
+      },
+      "Type": 14,
+      "TemplateSlot": 0,
+      "Id": 49431,
+      "MappedId": 38,
+      "Rarity": 7,
+      "Chatlink": "[&AgEXwQAA]",
+      "AssetId": 1465584,
+      "Names": {
+        "English": "+8 Agony Infusion",
+        "Spanish": "Infusión de +8 de Resistencia a la Agonía",
+        "German": "+8 Qual-Infusion",
+        "French": "Infusion de résistance à l'agonie +8"
+      },
+      "DisplayTexts": {
+        "English": "+8 Agony Resistance",
+        "Spanish": "+8 de resistencia a la agonía",
+        "German": "+8 Qual-Widerstand",
+        "French": "Résistance à l'agonie +8"
+      },
+      "Descriptions": {
+        "English": "Double-click to apply to an unused infusion slot. Used by artificers to craft more powerful agony infusions.",
+        "Spanish": "Haz doble clic para aplicarlo a una casilla de infusión sin usar. Los artificieros lo usan para fabricar infusiones de resistencia a la agonía más potentes.",
+        "German": "Doppelklicken, um auf einen freien Infusionsplatz anzuwenden. Wird von Konstrukteuren zur Herstellung stärkerer Qual-Infusionen verwendet.",
+        "French": "Double-cliquez pour appliquer à un emplacement d'infusion inutilisé. Les artificiers l'utilisent pour créer des infusions de résistance à l'agonie plus puissantes."
+      }
+    },
+    "49432": {
+      "Bonuses": {
+        "English": "+9 Agony Resistance",
+        "Spanish": "+9 de resistencia a la agonía",
+        "German": "+9 Qual-Widerstand",
+        "French": "Résistance à l'agonie +9"
+      },
+      "Type": 14,
+      "TemplateSlot": 0,
+      "Id": 49432,
+      "MappedId": 39,
+      "Rarity": 7,
+      "Chatlink": "[&AgEYwQAA]",
+      "AssetId": 1465585,
+      "Names": {
+        "English": "+9 Agony Infusion",
+        "Spanish": "Infusión de +9 de Resistencia a la Agonía",
+        "German": "+9 Qual-Infusion",
+        "French": "Infusion de résistance à l'agonie +9"
+      },
+      "DisplayTexts": {
+        "English": "+9 Agony Resistance",
+        "Spanish": "+9 de resistencia a la agonía",
+        "German": "+9 Qual-Widerstand",
+        "French": "Résistance à l'agonie +9"
+      },
+      "Descriptions": {
+        "English": "Double-click to apply to an unused infusion slot. Used by artificers to craft more powerful agony infusions.",
+        "Spanish": "Haz doble clic para aplicarlo a una casilla de infusión sin usar. Los artificieros lo usan para fabricar infusiones de resistencia a la agonía más potentes.",
+        "German": "Doppelklicken, um auf einen freien Infusionsplatz anzuwenden. Wird von Konstrukteuren zur Herstellung stärkerer Qual-Infusionen verwendet.",
+        "French": "Double-cliquez pour appliquer à un emplacement d'infusion inutilisé. Les artificiers l'utilisent pour créer des infusions de résistance à l'agonie plus puissantes."
+      }
+    },
+    "49433": {
+      "Bonuses": {
+        "English": "+10 Agony Resistance",
+        "Spanish": "+10 de resistencia a la agonía",
+        "German": "+10 Qual-Widerstand",
+        "French": "Résistance à l'agonie +10"
+      },
+      "Type": 14,
+      "TemplateSlot": 0,
+      "Id": 49433,
+      "MappedId": 40,
+      "Rarity": 7,
+      "Chatlink": "[&AgEZwQAA]",
+      "AssetId": 1465585,
+      "Names": {
+        "English": "+10 Agony Infusion",
+        "Spanish": "Infusión de +10 de Resistencia a la Agonía",
+        "German": "+10 Qual-Infusion",
+        "French": "Infusion de résistance à l'agonie +10"
+      },
+      "DisplayTexts": {
+        "English": "+10 Agony Resistance",
+        "Spanish": "+10 de resistencia a la agonía",
+        "German": "+10 Qual-Widerstand",
+        "French": "Résistance à l'agonie +10"
+      },
+      "Descriptions": {
+        "English": "Double-click to apply to an unused infusion slot. Used by artificers to craft more powerful agony infusions.",
+        "Spanish": "Haz doble clic para aplicarlo a una casilla de infusión sin usar. Los artificieros lo usan para fabricar infusiones de resistencia a la agonía más potentes.",
+        "German": "Doppelklicken, um auf einen freien Infusionsplatz anzuwenden. Wird von Konstrukteuren zur Herstellung stärkerer Qual-Infusionen verwendet.",
+        "French": "Double-cliquez pour appliquer à un emplacement d'infusion inutilisé. Les artificiers l'utilisent pour créer des infusions de résistance à l'agonie plus puissantes."
+      }
+    },
+    "49434": {
+      "Bonuses": {
+        "English": "+11 Agony Resistance",
+        "Spanish": "+11 de resistencia a la agonía",
+        "German": "+11 Qual-Widerstand",
+        "French": "Résistance à l'agonie +11"
+      },
+      "Type": 14,
+      "TemplateSlot": 0,
+      "Id": 49434,
+      "MappedId": 41,
+      "Rarity": 7,
+      "Chatlink": "[&AgEawQAA]",
+      "AssetId": 1465586,
+      "Names": {
+        "English": "+11 Agony Infusion",
+        "Spanish": "Infusión de +11 de Resistencia a la Agonía",
+        "German": "+11 Qual-Infusion",
+        "French": "Infusion de résistance à l'agonie +11"
+      },
+      "DisplayTexts": {
+        "English": "+11 Agony Resistance",
+        "Spanish": "+11 de resistencia a la agonía",
+        "German": "+11 Qual-Widerstand",
+        "French": "Résistance à l'agonie +11"
+      },
+      "Descriptions": {
+        "English": "Double-click to apply to an unused infusion slot. Used by artificers to craft more powerful agony infusions.",
+        "Spanish": "Haz doble clic para aplicarlo a una casilla de infusión sin usar. Los artificieros lo usan para fabricar infusiones de resistencia a la agonía más potentes.",
+        "German": "Doppelklicken, um auf einen freien Infusionsplatz anzuwenden. Wird von Konstrukteuren zur Herstellung stärkerer Qual-Infusionen verwendet.",
+        "French": "Double-cliquez pour appliquer à un emplacement d'infusion inutilisé. Les artificiers l'utilisent pour créer des infusions de résistance à l'agonie plus puissantes."
+      }
+    },
+    "49435": {
+      "Bonuses": {
+        "English": "+12 Agony Resistance",
+        "Spanish": "+12 de resistencia a la agonía",
+        "German": "+12 Qual-Widerstand",
+        "French": "Résistance à l'agonie +12"
+      },
+      "Type": 14,
+      "TemplateSlot": 0,
+      "Id": 49435,
+      "MappedId": 42,
+      "Rarity": 7,
+      "Chatlink": "[&AgEbwQAA]",
+      "AssetId": 1465586,
+      "Names": {
+        "English": "+12 Agony Infusion",
+        "Spanish": "Infusión de +12 de Resistencia a la Agonía",
+        "German": "+12 Qual-Infusion",
+        "French": "Infusion de résistance à l'agonie +12"
+      },
+      "DisplayTexts": {
+        "English": "+12 Agony Resistance",
+        "Spanish": "+12 de resistencia a la agonía",
+        "German": "+12 Qual-Widerstand",
+        "French": "Résistance à l'agonie +12"
+      },
+      "Descriptions": {
+        "English": "Double-click to apply to an unused infusion slot. Used by artificers to craft more powerful agony infusions.",
+        "Spanish": "Haz doble clic para aplicarlo a una casilla de infusión sin usar. Los artificieros lo usan para fabricar infusiones de resistencia a la agonía más potentes.",
+        "German": "Doppelklicken, um auf einen freien Infusionsplatz anzuwenden. Wird von Konstrukteuren zur Herstellung stärkerer Qual-Infusionen verwendet.",
+        "French": "Double-cliquez pour appliquer à un emplacement d'infusion inutilisé. Les artificiers l'utilisent pour créer des infusions de résistance à l'agonie plus puissantes."
+      }
+    },
+    "49436": {
+      "Bonuses": {
+        "English": "+13 Agony Resistance",
+        "Spanish": "+13 de resistencia a la agonía",
+        "German": "+13 Qual-Widerstand",
+        "French": "Résistance à l'agonie +13"
+      },
+      "Type": 14,
+      "TemplateSlot": 0,
+      "Id": 49436,
+      "MappedId": 43,
+      "Rarity": 7,
+      "Chatlink": "[&AgEcwQAA]",
+      "AssetId": 1465586,
+      "Names": {
+        "English": "+13 Agony Infusion",
+        "Spanish": "Infusión de +13 de Resistencia a la Agonía",
+        "German": "+13 Qual-Infusion",
+        "French": "Infusion de résistance à l'agonie +13"
+      },
+      "DisplayTexts": {
+        "English": "+13 Agony Resistance",
+        "Spanish": "+13 de resistencia a la agonía",
+        "German": "+13 Qual-Widerstand",
+        "French": "Résistance à l'agonie +13"
+      },
+      "Descriptions": {
+        "English": "Double-click to apply to an unused infusion slot. Used by artificers to craft more powerful agony infusions.",
+        "Spanish": "Haz doble clic para aplicarlo a una casilla de infusión sin usar. Los artificieros lo usan para fabricar infusiones de resistencia a la agonía más potentes.",
+        "German": "Doppelklicken, um auf einen freien Infusionsplatz anzuwenden. Wird von Konstrukteuren zur Herstellung stärkerer Qual-Infusionen verwendet.",
+        "French": "Double-cliquez pour appliquer à un emplacement d'infusion inutilisé. Les artificiers l'utilisent pour créer des infusions de résistance à l'agonie plus puissantes."
+      }
+    },
+    "49437": {
+      "Bonuses": {
+        "English": "+14 Agony Resistance",
+        "Spanish": "+14 de resistencia a la agonía",
+        "German": "+14 Qual-Widerstand",
+        "French": "Résistance à l'agonie +14"
+      },
+      "Type": 14,
+      "TemplateSlot": 0,
+      "Id": 49437,
+      "MappedId": 44,
+      "Rarity": 7,
+      "Chatlink": "[&AgEdwQAA]",
+      "AssetId": 1465586,
+      "Names": {
+        "English": "+14 Agony Infusion",
+        "Spanish": "Infusión de +14 de Resistencia a la Agonía",
+        "German": "+14 Qual-Infusion",
+        "French": "Infusion de résistance à l'agonie +14"
+      },
+      "DisplayTexts": {
+        "English": "+14 Agony Resistance",
+        "Spanish": "+14 de resistencia a la agonía",
+        "German": "+14 Qual-Widerstand",
+        "French": "Résistance à l'agonie +14"
+      },
+      "Descriptions": {
+        "English": "Double-click to apply to an unused infusion slot. Used by artificers to craft more powerful agony infusions.",
+        "Spanish": "Haz doble clic para aplicarlo a una casilla de infusión sin usar. Los artificieros lo usan para fabricar infusiones de resistencia a la agonía más potentes.",
+        "German": "Doppelklicken, um auf einen freien Infusionsplatz anzuwenden. Wird von Konstrukteuren zur Herstellung stärkerer Qual-Infusionen verwendet.",
+        "French": "Double-cliquez pour appliquer à un emplacement d'infusion inutilisé. Les artificiers l'utilisent pour créer des infusions de résistance à l'agonie plus puissantes."
+      }
+    },
+    "49438": {
+      "Bonuses": {
+        "English": "+15 Agony Resistance",
+        "Spanish": "+15 de resistencia a la agonía",
+        "German": "+15 Qual-Widerstand",
+        "French": "Résistance à l'agonie +15"
+      },
+      "Type": 14,
+      "TemplateSlot": 0,
+      "Id": 49438,
+      "MappedId": 45,
+      "Rarity": 7,
+      "Chatlink": "[&AgEewQAA]",
+      "AssetId": 1465586,
+      "Names": {
+        "English": "+15 Agony Infusion",
+        "Spanish": "Infusión de +15 de Resistencia a la Agonía",
+        "German": "+15 Qual-Infusion",
+        "French": "Infusion de résistance à l'agonie +15"
+      },
+      "DisplayTexts": {
+        "English": "+15 Agony Resistance",
+        "Spanish": "+15 de resistencia a la agonía",
+        "German": "+15 Qual-Widerstand",
+        "French": "Résistance à l'agonie +15"
+      },
+      "Descriptions": {
+        "English": "Double-click to apply to an unused infusion slot. Used by artificers to craft more powerful agony infusions.",
+        "Spanish": "Haz doble clic para aplicarlo a una casilla de infusión sin usar. Los artificieros lo usan para fabricar infusiones de resistencia a la agonía más potentes.",
+        "German": "Doppelklicken, um auf einen freien Infusionsplatz anzuwenden. Wird von Konstrukteuren zur Herstellung stärkerer Qual-Infusionen verwendet.",
+        "French": "Double-cliquez pour appliquer à un emplacement d'infusion inutilisé. Les artificiers l'utilisent pour créer des infusions de résistance à l'agonie plus puissantes."
+      }
+    },
+    "49439": {
+      "Bonuses": {
+        "English": "+16 Agony Resistance",
+        "Spanish": "+16 de resistencia a la agonía",
+        "German": "+16 Qual-Widerstand",
+        "French": "Résistance à l'agonie +16"
+      },
+      "Type": 14,
+      "TemplateSlot": 0,
+      "Id": 49439,
+      "MappedId": 46,
+      "Rarity": 7,
+      "Chatlink": "[&AgEfwQAA]",
+      "AssetId": 1465586,
+      "Names": {
+        "English": "+16 Agony Infusion",
+        "Spanish": "Infusión de +16 de Resistencia a la Agonía",
+        "German": "+16 Qual-Infusion",
+        "French": "Infusion de résistance à l'agonie +16"
+      },
+      "DisplayTexts": {
+        "English": "+16 Agony Resistance",
+        "Spanish": "+16 de resistencia a la agonía",
+        "German": "+16 Qual-Widerstand",
+        "French": "Résistance à l'agonie +16"
+      },
+      "Descriptions": {
+        "English": "Double-click to apply to an unused infusion slot. Used by artificers to craft more powerful agony infusions.",
+        "Spanish": "Haz doble clic para aplicarlo a una casilla de infusión sin usar. Los artificieros lo usan para fabricar infusiones de resistencia a la agonía más potentes.",
+        "German": "Doppelklicken, um auf einen freien Infusionsplatz anzuwenden. Wird von Konstrukteuren zur Herstellung stärkerer Qual-Infusionen verwendet.",
+        "French": "Double-cliquez pour appliquer à un emplacement d'infusion inutilisé. Les artificiers l'utilisent pour créer des infusions de résistance à l'agonie plus puissantes."
+      }
+    },
+    "49440": {
+      "Bonuses": {
+        "English": "+17 Agony Resistance",
+        "Spanish": "+17 de resistencia a la agonía",
+        "German": "+17 Qual-Widerstand",
+        "French": "Résistance à l'agonie +17"
+      },
+      "Type": 14,
+      "TemplateSlot": 0,
+      "Id": 49440,
+      "MappedId": 47,
+      "Rarity": 7,
+      "Chatlink": "[&AgEgwQAA]",
+      "AssetId": 1465586,
+      "Names": {
+        "English": "+17 Agony Infusion",
+        "Spanish": "Infusión de +17 de Resistencia a la Agonía",
+        "German": "+17 Qual-Infusion",
+        "French": "Infusion de résistance à l'agonie +17"
+      },
+      "DisplayTexts": {
+        "English": "+17 Agony Resistance",
+        "Spanish": "+17 de resistencia a la agonía",
+        "German": "+17 Qual-Widerstand",
+        "French": "Résistance à l'agonie +17"
+      },
+      "Descriptions": {
+        "English": "Double-click to apply to an unused infusion slot. Used by artificers to craft more powerful agony infusions.",
+        "Spanish": "Haz doble clic para aplicarlo a una casilla de infusión sin usar. Los artificieros lo usan para fabricar infusiones de resistencia a la agonía más potentes.",
+        "German": "Doppelklicken, um auf einen freien Infusionsplatz anzuwenden. Wird von Konstrukteuren zur Herstellung stärkerer Qual-Infusionen verwendet.",
+        "French": "Double-cliquez pour appliquer à un emplacement d'infusion inutilisé. Les artificiers l'utilisent pour créer des infusions de résistance à l'agonie plus puissantes."
+      }
+    },
+    "49441": {
+      "Bonuses": {
+        "English": "+18 Agony Resistance",
+        "Spanish": "+18 de resistencia a la agonía",
+        "German": "+18 Qual-Widerstand",
+        "French": "Résistance à l'agonie +18"
+      },
+      "Type": 14,
+      "TemplateSlot": 0,
+      "Id": 49441,
+      "MappedId": 48,
+      "Rarity": 7,
+      "Chatlink": "[&AgEhwQAA]",
+      "AssetId": 1465586,
+      "Names": {
+        "English": "+18 Agony Infusion",
+        "Spanish": "Infusión de +18 de Resistencia a la Agonía",
+        "German": "+18 Qual-Infusion",
+        "French": "Infusion de résistance à l'agonie +18"
+      },
+      "DisplayTexts": {
+        "English": "+18 Agony Resistance",
+        "Spanish": "+18 de resistencia a la agonía",
+        "German": "+18 Qual-Widerstand",
+        "French": "Résistance à l'agonie +18"
+      },
+      "Descriptions": {
+        "English": "Double-click to apply to an unused infusion slot. Used by artificers to craft more powerful agony infusions.",
+        "Spanish": "Haz doble clic para aplicarlo a una casilla de infusión sin usar. Los artificieros lo usan para fabricar infusiones de resistencia a la agonía más potentes.",
+        "German": "Doppelklicken, um auf einen freien Infusionsplatz anzuwenden. Wird von Konstrukteuren zur Herstellung stärkerer Qual-Infusionen verwendet.",
+        "French": "Double-cliquez pour appliquer à un emplacement d'infusion inutilisé. Les artificiers l'utilisent pour créer des infusions de résistance à l'agonie plus puissantes."
+      }
+    },
+    "49442": {
+      "Bonuses": {
+        "English": "+19 Agony Resistance",
+        "Spanish": "+19 de resistencia a la agonía",
+        "German": "+19 Qual-Widerstand",
+        "French": "Résistance à l'agonie +19"
+      },
+      "Type": 14,
+      "TemplateSlot": 0,
+      "Id": 49442,
+      "MappedId": 49,
+      "Rarity": 7,
+      "Chatlink": "[&AgEiwQAA]",
+      "AssetId": 1465586,
+      "Names": {
+        "English": "+19 Agony Infusion",
+        "Spanish": "Infusión de +19 de Resistencia a la Agonía",
+        "German": "+19 Qual-Infusion",
+        "French": "Infusion de résistance à l'agonie +19"
+      },
+      "DisplayTexts": {
+        "English": "+19 Agony Resistance",
+        "Spanish": "+19 de resistencia a la agonía",
+        "German": "+19 Qual-Widerstand",
+        "French": "Résistance à l'agonie +19"
+      },
+      "Descriptions": {
+        "English": "Double-click to apply to an unused infusion slot. Used by artificers to craft more powerful agony infusions.",
+        "Spanish": "Haz doble clic para aplicarlo a una casilla de infusión sin usar. Los artificieros lo usan para fabricar infusiones de resistencia a la agonía más potentes.",
+        "German": "Doppelklicken, um auf einen freien Infusionsplatz anzuwenden. Wird von Konstrukteuren zur Herstellung stärkerer Qual-Infusionen verwendet.",
+        "French": "Double-cliquez pour appliquer à un emplacement d'infusion inutilisé. Les artificiers l'utilisent pour créer des infusions de résistance à l'agonie plus puissantes."
+      }
+    },
+    "49443": {
+      "Bonuses": {
+        "English": "+20 Agony Resistance",
+        "Spanish": "+20 de resistencia a la agonía",
+        "German": "+20 Qual-Widerstand",
+        "French": "Résistance à l'agonie +20"
+      },
+      "Type": 14,
+      "TemplateSlot": 0,
+      "Id": 49443,
+      "MappedId": 50,
+      "Rarity": 7,
+      "Chatlink": "[&AgEjwQAA]",
+      "AssetId": 1465586,
+      "Names": {
+        "English": "+20 Agony Infusion",
+        "Spanish": "Infusión de +20 de Resistencia a la Agonía",
+        "German": "+20 Qual-Infusion",
+        "French": "Infusion de résistance à l'agonie +20"
+      },
+      "DisplayTexts": {
+        "English": "+20 Agony Resistance",
+        "Spanish": "+20 de resistencia a la agonía",
+        "German": "+20 Qual-Widerstand",
+        "French": "Résistance à l'agonie +20"
+      },
+      "Descriptions": {
+        "English": "Double-click to apply to an unused infusion slot. Used by artificers to craft more powerful agony infusions.",
+        "Spanish": "Haz doble clic para aplicarlo a una casilla de infusión sin usar. Los artificieros lo usan para fabricar infusiones de resistencia a la agonía más potentes.",
+        "German": "Doppelklicken, um auf einen freien Infusionsplatz anzuwenden. Wird von Konstrukteuren zur Herstellung stärkerer Qual-Infusionen verwendet.",
+        "French": "Double-cliquez pour appliquer à un emplacement d'infusion inutilisé. Les artificiers l'utilisent pour créer des infusions de résistance à l'agonie plus puissantes."
+      }
+    },
+    "49444": {
+      "Bonuses": {
+        "English": "+21 Agony Resistance",
+        "Spanish": "+21 de resistencia a la agonía",
+        "German": "+21 Qual-Widerstand",
+        "French": "Résistance à l'agonie +21"
+      },
+      "Type": 14,
+      "TemplateSlot": 0,
+      "Id": 49444,
+      "MappedId": 51,
+      "Rarity": 7,
+      "Chatlink": "[&AgEkwQAA]",
+      "AssetId": 1465586,
+      "Names": {
+        "English": "+21 Agony Infusion",
+        "Spanish": "Infusión de +21 de Resistencia a la Agonía",
+        "German": "+21 Qual-Infusion",
+        "French": "Infusion de résistance à l'agonie +21"
+      },
+      "DisplayTexts": {
+        "English": "+21 Agony Resistance",
+        "Spanish": "+21 de resistencia a la agonía",
+        "German": "+21 Qual-Widerstand",
+        "French": "Résistance à l'agonie +21"
+      },
+      "Descriptions": {
+        "English": "Double-click to apply to an unused infusion slot. Used by artificers to craft more powerful agony infusions.",
+        "Spanish": "Haz doble clic para aplicarlo a una casilla de infusión sin usar. Los artificieros lo usan para fabricar infusiones de resistencia a la agonía más potentes.",
+        "German": "Doppelklicken, um auf einen freien Infusionsplatz anzuwenden. Wird von Konstrukteuren zur Herstellung stärkerer Qual-Infusionen verwendet.",
+        "French": "Double-cliquez pour appliquer à un emplacement d'infusion inutilisé. Les artificiers l'utilisent pour créer des infusions de résistance à l'agonie plus puissantes."
+      }
+    },
+    "49445": {
+      "Bonuses": {
+        "English": "+22 Agony Resistance",
+        "Spanish": "+22 de resistencia a la agonía",
+        "German": "+22 Qual-Widerstand",
+        "French": "Résistance à l'agonie +22"
+      },
+      "Type": 14,
+      "TemplateSlot": 0,
+      "Id": 49445,
+      "MappedId": 52,
+      "Rarity": 7,
+      "Chatlink": "[&AgElwQAA]",
+      "AssetId": 1465586,
+      "Names": {
+        "English": "+22 Agony Infusion",
+        "Spanish": "Infusión de +22 de Resistencia a la Agonía",
+        "German": "+22 Qual-Infusion",
+        "French": "Infusion de résistance à l'agonie +22"
+      },
+      "DisplayTexts": {
+        "English": "+22 Agony Resistance",
+        "Spanish": "+22 de resistencia a la agonía",
+        "German": "+22 Qual-Widerstand",
+        "French": "Résistance à l'agonie +22"
+      },
+      "Descriptions": {
+        "English": "Double-click to apply to an unused infusion slot. Used by artificers to craft more powerful agony infusions.",
+        "Spanish": "Haz doble clic para aplicarlo a una casilla de infusión sin usar. Los artificieros lo usan para fabricar infusiones de resistencia a la agonía más potentes.",
+        "German": "Doppelklicken, um auf einen freien Infusionsplatz anzuwenden. Wird von Konstrukteuren zur Herstellung stärkerer Qual-Infusionen verwendet.",
+        "French": "Double-cliquez pour appliquer à un emplacement d'infusion inutilisé. Les artificiers l'utilisent pour créer des infusions de résistance à l'agonie plus puissantes."
+      }
+    },
+    "49446": {
+      "Bonuses": {
+        "English": "+23 Agony Resistance",
+        "Spanish": "+23 de resistencia a la agonía",
+        "German": "+23 Qual-Widerstand",
+        "French": "Résistance à l'agonie +23"
+      },
+      "Type": 14,
+      "TemplateSlot": 0,
+      "Id": 49446,
+      "MappedId": 53,
+      "Rarity": 7,
+      "Chatlink": "[&AgEmwQAA]",
+      "AssetId": 1465586,
+      "Names": {
+        "English": "+23 Agony Infusion",
+        "Spanish": "Infusión de +23 de Resistencia a la Agonía",
+        "German": "+23 Qual-Infusion",
+        "French": "Infusion de résistance à l'agonie +23"
+      },
+      "DisplayTexts": {
+        "English": "+23 Agony Resistance",
+        "Spanish": "+23 de resistencia a la agonía",
+        "German": "+23 Qual-Widerstand",
+        "French": "Résistance à l'agonie +23"
+      },
+      "Descriptions": {
+        "English": "Double-click to apply to an unused infusion slot. Used by artificers to craft more powerful agony infusions.",
+        "Spanish": "Haz doble clic para aplicarlo a una casilla de infusión sin usar. Los artificieros lo usan para fabricar infusiones de resistencia a la agonía más potentes.",
+        "German": "Doppelklicken, um auf einen freien Infusionsplatz anzuwenden. Wird von Konstrukteuren zur Herstellung stärkerer Qual-Infusionen verwendet.",
+        "French": "Double-cliquez pour appliquer à un emplacement d'infusion inutilisé. Les artificiers l'utilisent pour créer des infusions de résistance à l'agonie plus puissantes."
+      }
+    },
+    "49447": {
+      "Bonuses": {
+        "English": "+24 Agony Resistance",
+        "Spanish": "+24 de resistencia a la agonía",
+        "German": "+24 Qual-Widerstand",
+        "French": "Résistance à l'agonie +24"
+      },
+      "Type": 14,
+      "TemplateSlot": 0,
+      "Id": 49447,
+      "MappedId": 54,
+      "Rarity": 7,
+      "Chatlink": "[&AgEnwQAA]",
+      "AssetId": 1465586,
+      "Names": {
+        "English": "+24 Agony Infusion",
+        "Spanish": "Infusión de +24 de Resistencia a la Agonía",
+        "German": "+24 Qual-Infusion",
+        "French": "Infusion de résistance à l'agonie +24"
+      },
+      "DisplayTexts": {
+        "English": "+24 Agony Resistance",
+        "Spanish": "+24 de resistencia a la agonía",
+        "German": "+24 Qual-Widerstand",
+        "French": "Résistance à l'agonie +24"
+      },
+      "Descriptions": {
+        "English": "Double-click to apply to an unused infusion slot. Used by artificers to craft more powerful agony infusions.",
+        "Spanish": "Haz doble clic para aplicarlo a una casilla de infusión sin usar. Los artificieros lo usan para fabricar infusiones de resistencia a la agonía más potentes.",
+        "German": "Doppelklicken, um auf einen freien Infusionsplatz anzuwenden. Wird von Konstrukteuren zur Herstellung stärkerer Qual-Infusionen verwendet.",
+        "French": "Double-cliquez pour appliquer à un emplacement d'infusion inutilisé. Les artificiers l'utilisent pour créer des infusions de résistance à l'agonie plus puissantes."
+      }
+    },
+    "85881": {
+      "Bonuses": {
+        "English": "+5 Concentration\n+7 Agony Resistance",
+        "Spanish": "+5 de concentración\n+7 de resistencia a la agonía",
+        "German": "+5 Konzentration\n+7 Qual-Widerstand",
+        "French": "Concentration +5\nRésistance à l'agonie +7"
+      },
+      "Type": 14,
+      "TemplateSlot": 0,
+      "Id": 85881,
+      "MappedId": 55,
+      "Rarity": 4,
+      "Chatlink": "[&AgF5TwEA]",
+      "AssetId": 511836,
+      "Names": {
+        "English": "Mystical +7 Agony Infusion",
+        "Spanish": "Infusión de +7 de resistencia a la agonía mística",
+        "German": "Mystische +7 Qual-Infusion",
+        "French": "Infusion mystique de résistance à l'agonie +7"
+      },
+      "DisplayTexts": {
+        "English": "+5 Concentration\n+7 Agony Resistance",
+        "Spanish": "+5 de concentración\n+7 de resistencia a la agonía",
+        "German": "+5 Konzentration\n+7 Qual-Widerstand",
+        "French": "Concentration +5\nRésistance à l'agonie +7"
+      },
+      "Descriptions": {
+        "English": "Double-click to apply to an unused infusion slot.",
+        "Spanish": "Haz doble clic para aplicarlo a una casilla de infusión sin usar.",
+        "German": "Doppelklicken, um auf einen freien Infusionsplatz anzuwenden.",
+        "French": "Double-cliquez pour appliquer à un emplacement d'infusion inutilisé."
+      }
+    },
+    "85971": {
+      "Bonuses": {
+        "English": "+5 Expertise\n+5 Agony Resistance",
+        "Spanish": "+5 de pericia\n+5 de resistencia a la agonía",
+        "German": "+5 Fachkenntnis\n+5 Qual-Widerstand",
+        "French": "Expertise +5\nRésistance à l'agonie +5"
+      },
+      "Type": 14,
+      "TemplateSlot": 0,
+      "Id": 85971,
+      "MappedId": 56,
+      "Rarity": 3,
+      "Chatlink": "[&AgHTTwEA]",
+      "AssetId": 511850,
+      "Names": {
+        "English": "Spiteful +5 Agony Infusion",
+        "Spanish": "Infusión de +5 de resistencia a la agonía rencorosa",
+        "German": "Gehässige +5 Qual-Infusion",
+        "French": "Infusion maléfique de résistance à l'agonie +5"
+      },
+      "DisplayTexts": {
+        "English": "+5 Expertise\n+5 Agony Resistance",
+        "Spanish": "+5 de pericia\n+5 de resistencia a la agonía",
+        "German": "+5 Fachkenntnis\n+5 Qual-Widerstand",
+        "French": "Expertise +5\nRésistance à l'agonie +5"
+      },
+      "Descriptions": {
+        "English": "Double-click to apply to an unused infusion slot.",
+        "Spanish": "Haz doble clic para aplicarlo a una casilla de infusión sin usar.",
+        "German": "Doppelklicken, um auf einen freien Infusionsplatz anzuwenden.",
+        "French": "Double-cliquez pour appliquer à un emplacement d'infusion inutilisé."
+      }
+    },
+    "86113": {
+      "Bonuses": {
+        "English": "+5 Expertise\n+9 Agony Resistance",
+        "Spanish": "+5 de pericia\n+9 de resistencia a la agonía",
+        "German": "+5 Fachkenntnis\n+9 Qual-Widerstand",
+        "French": "Expertise +5\nRésistance à l'agonie +9"
+      },
+      "Type": 14,
+      "TemplateSlot": 0,
+      "Id": 86113,
+      "MappedId": 57,
+      "Rarity": 5,
+      "Chatlink": "[&AgFhUAEA]",
+      "AssetId": 1465588,
+      "Names": {
+        "English": "Spiteful +9 Agony Infusion",
+        "Spanish": "Infusión de +9 de resistencia a la agonía rencorosa",
+        "German": "Gehässige +9 Qual-Infusion",
+        "French": "Infusion maléfique de résistance à l'agonie +9"
+      },
+      "DisplayTexts": {
+        "English": "+5 Expertise\n+9 Agony Resistance",
+        "Spanish": "+5 de pericia\n+9 de resistencia a la agonía",
+        "German": "+5 Fachkenntnis\n+9 Qual-Widerstand",
+        "French": "Expertise +5\nRésistance à l'agonie +9"
+      },
+      "Descriptions": {
+        "English": "Double-click to apply to an unused infusion slot. Stats may be changed in the Mystic Forge.",
+        "Spanish": "Haz doble clic para aplicarlo a una casilla de infusión sin usar. Las estadísticas se pueden cambiar en la Forja Mística.",
+        "German": "Doppelklicken, um auf einen freien Infusionsplatz anzuwenden. Werte können in der Mystischen Schmiede geändert werden.",
+        "French": "Double-cliquez pour appliquer à un emplacement d'infusion inutilisé. Les statistiques peuvent être modifiées dans la forge mystique."
+      }
+    },
+    "86150": {
+      "Bonuses": {
+        "English": "+5 Expertise\n+7 Agony Resistance",
+        "Spanish": "+5 de pericia\n+7 de resistencia a la agonía",
+        "German": "+5 Fachkenntnis\n+7 Qual-Widerstand",
+        "French": "Expertise +5\nRésistance à l'agonie +7"
+      },
+      "Type": 14,
+      "TemplateSlot": 0,
+      "Id": 86150,
+      "MappedId": 58,
+      "Rarity": 4,
+      "Chatlink": "[&AgGGUAEA]",
+      "AssetId": 511841,
+      "Names": {
+        "English": "Spiteful +7 Agony Infusion",
+        "Spanish": "Infusión de +7 de resistencia a la agonía rencorosa",
+        "German": "Gehässige +7 Qual-Infusion",
+        "French": "Infusion maléfique de résistance à l'agonie +7"
+      },
+      "DisplayTexts": {
+        "English": "+5 Expertise\n+7 Agony Resistance",
+        "Spanish": "+5 de pericia\n+7 de resistencia a la agonía",
+        "German": "+5 Fachkenntnis\n+7 Qual-Widerstand",
+        "French": "Expertise +5\nRésistance à l'agonie +7"
+      },
+      "Descriptions": {
+        "English": "Double-click to apply to an unused infusion slot.",
+        "Spanish": "Haz doble clic para aplicarlo a una casilla de infusión sin usar.",
+        "German": "Doppelklicken, um auf einen freien Infusionsplatz anzuwenden.",
+        "French": "Double-cliquez pour appliquer à un emplacement d'infusion inutilisé."
+      }
+    },
+    "86180": {
+      "Bonuses": {
+        "English": "+5 Concentration\n+9 Agony Resistance",
+        "Spanish": "+5 de concentración\n+9 de resistencia a la agonía",
+        "German": "+5 Konzentration\n+9 Qual-Widerstand",
+        "French": "Concentration +5\nRésistance à l'agonie +9"
+      },
+      "Type": 14,
+      "TemplateSlot": 0,
+      "Id": 86180,
+      "MappedId": 59,
+      "Rarity": 5,
+      "Chatlink": "[&AgGkUAEA]",
+      "AssetId": 1465587,
+      "Names": {
+        "English": "Mystical +9 Agony Infusion",
+        "Spanish": "Infusión de +9 de resistencia a la agonía mística",
+        "German": "Mystische +9 Qual-Infusion",
+        "French": "Infusion mystique de résistance à l'agonie +9"
+      },
+      "DisplayTexts": {
+        "English": "+5 Concentration\n+9 Agony Resistance",
+        "Spanish": "+5 de concentración\n+9 de resistencia a la agonía",
+        "German": "+5 Konzentration\n+9 Qual-Widerstand",
+        "French": "Concentration +5\nRésistance à l'agonie +9"
+      },
+      "Descriptions": {
+        "English": "Double-click to apply to an unused infusion slot. Stats may be changed in the Mystic Forge.",
+        "Spanish": "Haz doble clic para aplicarlo a una casilla de infusión sin usar. Las estadísticas se pueden cambiar en la Forja Mística.",
+        "German": "Doppelklicken, um auf einen freien Infusionsplatz anzuwenden. Werte können in der Mystischen Schmiede geändert werden.",
+        "French": "Double-cliquez pour appliquer à un emplacement d'infusion inutilisé. Les statistiques peuvent être modifiées dans la forge mystique."
+      }
+    },
+    "86338": {
+      "Bonuses": {
+        "English": "+5 Concentration\n+5 Agony Resistance",
+        "Spanish": "+5 de concentración\n+5 de resistencia a la agonía",
+        "German": "+5 Konzentration\n+5 Qual-Widerstand",
+        "French": "Concentration +5\nRésistance à l'agonie +5"
+      },
+      "Type": 14,
+      "TemplateSlot": 0,
+      "Id": 86338,
+      "MappedId": 60,
+      "Rarity": 3,
+      "Chatlink": "[&AgFCUQEA]",
+      "AssetId": 511834,
+      "Names": {
+        "English": "Mystical +5 Agony Infusion",
+        "Spanish": "Infusión de +5 de resistencia a la agonía mística",
+        "German": "Mystische +5 Qual-Infusion",
+        "French": "Infusion mystique de résistance à l'agonie +5"
+      },
+      "DisplayTexts": {
+        "English": "+5 Concentration\n+5 Agony Resistance",
+        "Spanish": "+5 de concentración\n+5 de resistencia a la agonía",
+        "German": "+5 Konzentration\n+5 Qual-Widerstand",
+        "French": "Concentration +5\nRésistance à l'agonie +5"
+      },
+      "Descriptions": {
+        "English": "Double-click to apply to an unused infusion slot.",
+        "Spanish": "Haz doble clic para aplicarlo a una casilla de infusión sin usar.",
+        "German": "Doppelklicken, um auf einen freien Infusionsplatz anzuwenden.",
+        "French": "Double-cliquez pour appliquer à un emplacement d'infusion inutilisé."
+      }
+    },
+    "86986": {
+      "Bonuses": {
+        "English": "+5 Concentration\n-1% Damage Taken from Guards, Lords, and Supervisors",
+        "Spanish": "+5 de concentración\n-1 % de daño recibido de guardias, líderes y supervisores",
+        "German": "+5 Konzentration\n-1 % erlittener Schaden von Wachen, Herren und Aufsehern",
+        "French": "Concentration +5\nDégâts infligés par les gardes, les seigneurs et les superviseurs -1%"
+      },
+      "Type": 14,
+      "TemplateSlot": 0,
+      "Id": 86986,
+      "MappedId": 61,
+      "Rarity": 3,
+      "Chatlink": "[&AgHKUwEA]",
+      "AssetId": 1947210,
+      "Names": {
+        "English": "Concentration WvW Infusion",
+        "Spanish": "Infusión de WvW de concentración",
+        "German": "Konzentration-WvW-Infusion",
+        "French": "Infusion McM de concentration"
+      },
+      "DisplayTexts": {
+        "English": "+5 Concentration\n-1% Damage Taken from Guards, Lords, and Supervisors",
+        "Spanish": "+5 de concentración\n-1 % de daño recibido de guardias, líderes y supervisores",
+        "German": "+5 Konzentration\n-1 % erlittener Schaden von Wachen, Herren und Aufsehern",
+        "French": "Concentration +5\nDégâts infligés par les gardes, les seigneurs et les superviseurs -1%"
+      },
+      "Descriptions": {
+        "English": "Double-click to apply to an unused infusion slot.",
+        "Spanish": "Haz doble clic para aplicarlo a una casilla de infusión sin usar.",
+        "German": "Doppelklicken, um auf einen freien Infusionsplatz anzuwenden.",
+        "French": "Double-cliquez pour appliquer à un emplacement d'infusion inutilisé."
+      }
+    },
+    "87218": {
+      "Bonuses": {
+        "English": "+5 Expertise\n+1% Damage to Guards, Lords, and Supervisors",
+        "Spanish": "+5 de pericia\n+1 % de daño a guardias, líderes y supervisores",
+        "German": "+5 Fachkenntnis\n+1 % Schaden an Wachen, Herren und Aufsehern",
+        "French": "Expertise +5\n1% de dégâts supplémentaires aux gardes, aux seigneurs et aux superviseurs"
+      },
+      "Type": 14,
+      "TemplateSlot": 0,
+      "Id": 87218,
+      "MappedId": 62,
+      "Rarity": 3,
+      "Chatlink": "[&AgGyVAEA]",
+      "AssetId": 1947211,
+      "Names": {
+        "English": "Expertise WvW Infusion",
+        "Spanish": "Infusión de WvW de pericia",
+        "German": "Fachkenntnis-WvW-Infusion",
+        "French": "Infusion McM d'expertise"
+      },
+      "DisplayTexts": {
+        "English": "+5 Expertise\n+1% Damage to Guards, Lords, and Supervisors",
+        "Spanish": "+5 de pericia\n+1 % de daño a guardias, líderes y supervisores",
+        "German": "+5 Fachkenntnis\n+1 % Schaden an Wachen, Herren und Aufsehern",
+        "French": "Expertise +5\n1% de dégâts supplémentaires aux gardes, aux seigneurs et aux superviseurs"
+      },
+      "Descriptions": {
+        "English": "Double-click to apply to an unused infusion slot.",
+        "Spanish": "Haz doble clic para aplicarlo a una casilla de infusión sin usar.",
+        "German": "Doppelklicken, um auf einen freien Infusionsplatz anzuwenden.",
+        "French": "Double-cliquez pour appliquer à un emplacement d'infusion inutilisé."
+      }
+    },
+    "87493": {
+      "Bonuses": {
+        "English": "Increases swimming speed.",
+        "Spanish": "Aumenta la velocidad de natación.",
+        "German": "Erhöht die Schwimmgeschwindigkeit.",
+        "French": "Augmentation de la vitesse natatoire."
+      },
+      "Type": 14,
+      "TemplateSlot": 0,
+      "Id": 87493,
+      "MappedId": 63,
+      "Rarity": 7,
+      "Chatlink": "[&AgHFVQEA]",
+      "AssetId": 1983548,
+      "Names": {
+        "English": "Swim-Speed Infusion +12",
+        "Spanish": "Infusión de velocidad de natación +12",
+        "German": "Schwimmgeschwindigkeit-Infusion +12",
+        "French": "Infusion d'augmentation de la vitesse natatoire +12"
+      },
+      "DisplayTexts": {
+        "English": "Increases swimming speed.",
+        "Spanish": "Aumenta la velocidad de natación.",
+        "German": "Erhöht die Schwimmgeschwindigkeit.",
+        "French": "Augmentation de la vitesse natatoire."
+      },
+      "Descriptions": {
+        "English": "Double-click to apply to an unused aquatic headgear infusion slot.",
+        "Spanish": "Haz doble clic para aplicarlo a una casilla de infusión sin usar de armadura de cabeza acuática.",
+        "German": "Doppelklicken, um dies auf einen freien Atemgeräte-Infusionsplatz anzuwenden.",
+        "French": "Double-cliquez pour appliquer à un emplacement d'infusion de couvre-chef aquatique inutilisé."
+      }
+    },
+    "87495": {
+      "Bonuses": {
+        "English": "Increases swimming speed.",
+        "Spanish": "Aumenta la velocidad de natación.",
+        "German": "Erhöht die Schwimmgeschwindigkeit.",
+        "French": "Augmentation de la vitesse natatoire."
+      },
+      "Type": 14,
+      "TemplateSlot": 0,
+      "Id": 87495,
+      "MappedId": 64,
+      "Rarity": 7,
+      "Chatlink": "[&AgHHVQEA]",
+      "AssetId": 1983548,
+      "Names": {
+        "English": "Swim-Speed Infusion +20",
+        "Spanish": "Infusión de velocidad de natación +20",
+        "German": "Schwimmgeschwindigkeit-Infusion +20",
+        "French": "Infusion d'augmentation de la vitesse natatoire +20"
+      },
+      "DisplayTexts": {
+        "English": "Increases swimming speed.",
+        "Spanish": "Aumenta la velocidad de natación.",
+        "German": "Erhöht die Schwimmgeschwindigkeit.",
+        "French": "Augmentation de la vitesse natatoire."
+      },
+      "Descriptions": {
+        "English": "Double-click to apply to an unused aquatic headgear infusion slot.",
+        "Spanish": "Haz doble clic para aplicarlo a una casilla de infusión sin usar de armadura de cabeza acuática.",
+        "German": "Doppelklicken, um dies auf einen freien Atemgeräte-Infusionsplatz anzuwenden.",
+        "French": "Double-cliquez pour appliquer à un emplacement d'infusion de couvre-chef aquatique inutilisé."
+      }
+    },
+    "87496": {
+      "Bonuses": {
+        "English": "Increases swimming speed.",
+        "Spanish": "Aumenta la velocidad de natación.",
+        "German": "Erhöht die Schwimmgeschwindigkeit.",
+        "French": "Augmentation de la vitesse natatoire."
+      },
+      "Type": 14,
+      "TemplateSlot": 0,
+      "Id": 87496,
+      "MappedId": 65,
+      "Rarity": 7,
+      "Chatlink": "[&AgHIVQEA]",
+      "AssetId": 1983548,
+      "Names": {
+        "English": "Swim-Speed Infusion +15",
+        "Spanish": "Infusión de velocidad de natación +15",
+        "German": "Schwimmgeschwindigkeit-Infusion +15",
+        "French": "Infusion d'augmentation de la vitesse natatoire +15"
+      },
+      "DisplayTexts": {
+        "English": "Increases swimming speed.",
+        "Spanish": "Aumenta la velocidad de natación.",
+        "German": "Erhöht die Schwimmgeschwindigkeit.",
+        "French": "Augmentation de la vitesse natatoire."
+      },
+      "Descriptions": {
+        "English": "Double-click to apply to an unused aquatic headgear infusion slot.",
+        "Spanish": "Haz doble clic para aplicarlo a una casilla de infusión sin usar de armadura de cabeza acuática.",
+        "German": "Doppelklicken, um dies auf einen freien Atemgeräte-Infusionsplatz anzuwenden.",
+        "French": "Double-cliquez pour appliquer à un emplacement d'infusion de couvre-chef aquatique inutilisé."
+      }
+    },
+    "87497": {
+      "Bonuses": {
+        "English": "Increases swimming speed.",
+        "Spanish": "Aumenta la velocidad de natación.",
+        "German": "Erhöht die Schwimmgeschwindigkeit.",
+        "French": "Augmentation de la vitesse natatoire."
+      },
+      "Type": 14,
+      "TemplateSlot": 0,
+      "Id": 87497,
+      "MappedId": 66,
+      "Rarity": 7,
+      "Chatlink": "[&AgHJVQEA]",
+      "AssetId": 1983548,
+      "Names": {
+        "English": "Swim-Speed Infusion +16",
+        "Spanish": "Infusión de velocidad de natación +16",
+        "German": "Schwimmgeschwindigkeit-Infusion +16",
+        "French": "Infusion d'augmentation de la vitesse natatoire +16"
+      },
+      "DisplayTexts": {
+        "English": "Increases swimming speed.",
+        "Spanish": "Aumenta la velocidad de natación.",
+        "German": "Erhöht die Schwimmgeschwindigkeit.",
+        "French": "Augmentation de la vitesse natatoire."
+      },
+      "Descriptions": {
+        "English": "Double-click to apply to an unused aquatic headgear infusion slot.",
+        "Spanish": "Haz doble clic para aplicarlo a una casilla de infusión sin usar de armadura de cabeza acuática.",
+        "German": "Doppelklicken, um dies auf einen freien Atemgeräte-Infusionsplatz anzuwenden.",
+        "French": "Double-cliquez pour appliquer à un emplacement d'infusion de couvre-chef aquatique inutilisé."
+      }
+    },
+    "87502": {
+      "Bonuses": {
+        "English": "Increases swimming speed.",
+        "Spanish": "Aumenta la velocidad de natación.",
+        "German": "Erhöht die Schwimmgeschwindigkeit.",
+        "French": "Augmentation de la vitesse natatoire."
+      },
+      "Type": 14,
+      "TemplateSlot": 0,
+      "Id": 87502,
+      "MappedId": 67,
+      "Rarity": 7,
+      "Chatlink": "[&AgHOVQEA]",
+      "AssetId": 1983548,
+      "Names": {
+        "English": "Swim-Speed Infusion +25",
+        "Spanish": "Infusión de velocidad de natación +25",
+        "German": "Schwimmgeschwindigkeit-Infusion +25",
+        "French": "Infusion d'augmentation de la vitesse natatoire +25"
+      },
+      "DisplayTexts": {
+        "English": "Increases swimming speed.",
+        "Spanish": "Aumenta la velocidad de natación.",
+        "German": "Erhöht die Schwimmgeschwindigkeit.",
+        "French": "Augmentation de la vitesse natatoire."
+      },
+      "Descriptions": {
+        "English": "Double-click to apply to an unused aquatic headgear infusion slot.",
+        "Spanish": "Haz doble clic para aplicarlo a una casilla de infusión sin usar de armadura de cabeza acuática.",
+        "German": "Doppelklicken, um dies auf einen freien Atemgeräte-Infusionsplatz anzuwenden.",
+        "French": "Double-cliquez pour appliquer à un emplacement d'infusion de couvre-chef aquatique inutilisé."
+      }
+    },
+    "87503": {
+      "Bonuses": {
+        "English": "Increases swimming speed.",
+        "Spanish": "Aumenta la velocidad de natación.",
+        "German": "Erhöht die Schwimmgeschwindigkeit.",
+        "French": "Augmentation de la vitesse natatoire."
+      },
+      "Type": 14,
+      "TemplateSlot": 0,
+      "Id": 87503,
+      "MappedId": 68,
+      "Rarity": 7,
+      "Chatlink": "[&AgHPVQEA]",
+      "AssetId": 1983548,
+      "Names": {
+        "English": "Swim-Speed Infusion +13",
+        "Spanish": "Infusión de velocidad de natación +13",
+        "German": "Schwimmgeschwindigkeit-Infusion +13",
+        "French": "Infusion d'augmentation de la vitesse natatoire +13"
+      },
+      "DisplayTexts": {
+        "English": "Increases swimming speed.",
+        "Spanish": "Aumenta la velocidad de natación.",
+        "German": "Erhöht die Schwimmgeschwindigkeit.",
+        "French": "Augmentation de la vitesse natatoire."
+      },
+      "Descriptions": {
+        "English": "Double-click to apply to an unused aquatic headgear infusion slot.",
+        "Spanish": "Haz doble clic para aplicarlo a una casilla de infusión sin usar de armadura de cabeza acuática.",
+        "German": "Doppelklicken, um dies auf einen freien Atemgeräte-Infusionsplatz anzuwenden.",
+        "French": "Double-cliquez pour appliquer à un emplacement d'infusion de couvre-chef aquatique inutilisé."
+      }
+    },
+    "87504": {
+      "Bonuses": {
+        "English": "Increases swimming speed.",
+        "Spanish": "Aumenta la velocidad de natación.",
+        "German": "Erhöht die Schwimmgeschwindigkeit.",
+        "French": "Augmentation de la vitesse natatoire."
+      },
+      "Type": 14,
+      "TemplateSlot": 0,
+      "Id": 87504,
+      "MappedId": 69,
+      "Rarity": 7,
+      "Chatlink": "[&AgHQVQEA]",
+      "AssetId": 1983548,
+      "Names": {
+        "English": "Swim-Speed Infusion +27",
+        "Spanish": "Infusión de velocidad de natación +27",
+        "German": "Schwimmgeschwindigkeit-Infusion +27",
+        "French": "Infusion d'augmentation de la vitesse natatoire +27"
+      },
+      "DisplayTexts": {
+        "English": "Increases swimming speed.",
+        "Spanish": "Aumenta la velocidad de natación.",
+        "German": "Erhöht die Schwimmgeschwindigkeit.",
+        "French": "Augmentation de la vitesse natatoire."
+      },
+      "Descriptions": {
+        "English": "Double-click to apply to an unused aquatic headgear infusion slot.",
+        "Spanish": "Haz doble clic para aplicarlo a una casilla de infusión sin usar de armadura de cabeza acuática.",
+        "German": "Doppelklicken, um dies auf einen freien Atemgeräte-Infusionsplatz anzuwenden.",
+        "French": "Double-cliquez pour appliquer à un emplacement d'infusion de couvre-chef aquatique inutilisé."
+      }
+    },
+    "87508": {
+      "Bonuses": {
+        "English": "Increases swimming speed.",
+        "Spanish": "Aumenta la velocidad de natación.",
+        "German": "Erhöht die Schwimmgeschwindigkeit.",
+        "French": "Augmentation de la vitesse natatoire."
+      },
+      "Type": 14,
+      "TemplateSlot": 0,
+      "Id": 87508,
+      "MappedId": 70,
+      "Rarity": 7,
+      "Chatlink": "[&AgHUVQEA]",
+      "AssetId": 1983548,
+      "Names": {
+        "English": "Swim-Speed Infusion +17",
+        "Spanish": "Infusión de velocidad de natación +17",
+        "German": "Schwimmgeschwindigkeit-Infusion +17",
+        "French": "Infusion d'augmentation de la vitesse natatoire +17"
+      },
+      "DisplayTexts": {
+        "English": "Increases swimming speed.",
+        "Spanish": "Aumenta la velocidad de natación.",
+        "German": "Erhöht die Schwimmgeschwindigkeit.",
+        "French": "Augmentation de la vitesse natatoire."
+      },
+      "Descriptions": {
+        "English": "Double-click to apply to an unused aquatic headgear infusion slot.",
+        "Spanish": "Haz doble clic para aplicarlo a una casilla de infusión sin usar de armadura de cabeza acuática.",
+        "German": "Doppelklicken, um dies auf einen freien Atemgeräte-Infusionsplatz anzuwenden.",
+        "French": "Double-cliquez pour appliquer à un emplacement d'infusion de couvre-chef aquatique inutilisé."
+      }
+    },
+    "87511": {
+      "Bonuses": {
+        "English": "Increases swimming speed.",
+        "Spanish": "Aumenta la velocidad de natación.",
+        "German": "Erhöht die Schwimmgeschwindigkeit.",
+        "French": "Augmentation de la vitesse natatoire."
+      },
+      "Type": 14,
+      "TemplateSlot": 0,
+      "Id": 87511,
+      "MappedId": 71,
+      "Rarity": 7,
+      "Chatlink": "[&AgHXVQEA]",
+      "AssetId": 1983548,
+      "Names": {
+        "English": "Swim-Speed Infusion +22",
+        "Spanish": "Infusión de velocidad de natación +22",
+        "German": "Schwimmgeschwindigkeit-Infusion +22",
+        "French": "Infusion d'augmentation de la vitesse natatoire +22"
+      },
+      "DisplayTexts": {
+        "English": "Increases swimming speed.",
+        "Spanish": "Aumenta la velocidad de natación.",
+        "German": "Erhöht die Schwimmgeschwindigkeit.",
+        "French": "Augmentation de la vitesse natatoire."
+      },
+      "Descriptions": {
+        "English": "Double-click to apply to an unused aquatic headgear infusion slot.",
+        "Spanish": "Haz doble clic para aplicarlo a una casilla de infusión sin usar de armadura de cabeza acuática.",
+        "German": "Doppelklicken, um dies auf einen freien Atemgeräte-Infusionsplatz anzuwenden.",
+        "French": "Double-cliquez pour appliquer à un emplacement d'infusion de couvre-chef aquatique inutilisé."
+      }
+    },
+    "87512": {
+      "Bonuses": {
+        "English": "Increases swimming speed.",
+        "Spanish": "Aumenta la velocidad de natación.",
+        "German": "Erhöht die Schwimmgeschwindigkeit.",
+        "French": "Augmentation de la vitesse natatoire."
+      },
+      "Type": 14,
+      "TemplateSlot": 0,
+      "Id": 87512,
+      "MappedId": 72,
+      "Rarity": 7,
+      "Chatlink": "[&AgHYVQEA]",
+      "AssetId": 1983548,
+      "Names": {
+        "English": "Swim-Speed Infusion +23",
+        "Spanish": "Infusión de velocidad de natación +23",
+        "German": "Schwimmgeschwindigkeit-Infusion +23",
+        "French": "Infusion d'augmentation de la vitesse natatoire +23"
+      },
+      "DisplayTexts": {
+        "English": "Increases swimming speed.",
+        "Spanish": "Aumenta la velocidad de natación.",
+        "German": "Erhöht die Schwimmgeschwindigkeit.",
+        "French": "Augmentation de la vitesse natatoire."
+      },
+      "Descriptions": {
+        "English": "Double-click to apply to an unused aquatic headgear infusion slot.",
+        "Spanish": "Haz doble clic para aplicarlo a una casilla de infusión sin usar de armadura de cabeza acuática.",
+        "German": "Doppelklicken, um dies auf einen freien Atemgeräte-Infusionsplatz anzuwenden.",
+        "French": "Double-cliquez pour appliquer à un emplacement d'infusion de couvre-chef aquatique inutilisé."
+      }
+    },
+    "87516": {
+      "Bonuses": {
+        "English": "Increases swimming speed.",
+        "Spanish": "Aumenta la velocidad de natación.",
+        "German": "Erhöht die Schwimmgeschwindigkeit.",
+        "French": "Augmentation de la vitesse natatoire."
+      },
+      "Type": 14,
+      "TemplateSlot": 0,
+      "Id": 87516,
+      "MappedId": 73,
+      "Rarity": 7,
+      "Chatlink": "[&AgHcVQEA]",
+      "AssetId": 1983548,
+      "Names": {
+        "English": "Swim-Speed Infusion +18",
+        "Spanish": "Infusión de velocidad de natación +18",
+        "German": "Schwimmgeschwindigkeit-Infusion +18",
+        "French": "Infusion d'augmentation de la vitesse natatoire +18"
+      },
+      "DisplayTexts": {
+        "English": "Increases swimming speed.",
+        "Spanish": "Aumenta la velocidad de natación.",
+        "German": "Erhöht die Schwimmgeschwindigkeit.",
+        "French": "Augmentation de la vitesse natatoire."
+      },
+      "Descriptions": {
+        "English": "Double-click to apply to an unused aquatic headgear infusion slot.",
+        "Spanish": "Haz doble clic para aplicarlo a una casilla de infusión sin usar de armadura de cabeza acuática.",
+        "German": "Doppelklicken, um dies auf einen freien Atemgeräte-Infusionsplatz anzuwenden.",
+        "French": "Double-cliquez pour appliquer à un emplacement d'infusion de couvre-chef aquatique inutilisé."
+      }
+    },
+    "87518": {
+      "Bonuses": {
+        "English": "Increases swimming speed.",
+        "Spanish": "Aumenta la velocidad de natación.",
+        "German": "Erhöht die Schwimmgeschwindigkeit.",
+        "French": "Augmentation de la vitesse natatoire."
+      },
+      "Type": 14,
+      "TemplateSlot": 0,
+      "Id": 87518,
+      "MappedId": 74,
+      "Rarity": 7,
+      "Chatlink": "[&AgHeVQEA]",
+      "AssetId": 1983548,
+      "Names": {
+        "English": "Swim-Speed Infusion +11",
+        "Spanish": "Infusión de velocidad de natación +11",
+        "German": "Schwimmgeschwindigkeit-Infusion +11",
+        "French": "Infusion d'augmentation de la vitesse natatoire +11"
+      },
+      "DisplayTexts": {
+        "English": "Increases swimming speed.",
+        "Spanish": "Aumenta la velocidad de natación.",
+        "German": "Erhöht die Schwimmgeschwindigkeit.",
+        "French": "Augmentation de la vitesse natatoire."
+      },
+      "Descriptions": {
+        "English": "Double-click to apply to an unused aquatic headgear infusion slot.",
+        "Spanish": "Haz doble clic para aplicarlo a una casilla de infusión sin usar de armadura de cabeza acuática.",
+        "German": "Doppelklicken, um dies auf einen freien Atemgeräte-Infusionsplatz anzuwenden.",
+        "French": "Double-cliquez pour appliquer à un emplacement d'infusion de couvre-chef aquatique inutilisé."
+      }
+    },
+    "87525": {
+      "Bonuses": {
+        "English": "Increases swimming speed.",
+        "Spanish": "Aumenta la velocidad de natación.",
+        "German": "Erhöht die Schwimmgeschwindigkeit.",
+        "French": "Augmentation de la vitesse natatoire."
+      },
+      "Type": 14,
+      "TemplateSlot": 0,
+      "Id": 87525,
+      "MappedId": 75,
+      "Rarity": 7,
+      "Chatlink": "[&AgHlVQEA]",
+      "AssetId": 1983548,
+      "Names": {
+        "English": "Swim-Speed Infusion +21",
+        "Spanish": "Infusión de velocidad de natación +21",
+        "German": "Schwimmgeschwindigkeit-Infusion +21",
+        "French": "Infusion d'augmentation de la vitesse natatoire +21"
+      },
+      "DisplayTexts": {
+        "English": "Increases swimming speed.",
+        "Spanish": "Aumenta la velocidad de natación.",
+        "German": "Erhöht die Schwimmgeschwindigkeit.",
+        "French": "Augmentation de la vitesse natatoire."
+      },
+      "Descriptions": {
+        "English": "Double-click to apply to an unused aquatic headgear infusion slot.",
+        "Spanish": "Haz doble clic para aplicarlo a una casilla de infusión sin usar de armadura de cabeza acuática.",
+        "German": "Doppelklicken, um dies auf einen freien Atemgeräte-Infusionsplatz anzuwenden.",
+        "French": "Double-cliquez pour appliquer à un emplacement d'infusion de couvre-chef aquatique inutilisé."
+      }
+    },
+    "87526": {
+      "Bonuses": {
+        "English": "Increases swimming speed.",
+        "Spanish": "Aumenta la velocidad de natación.",
+        "German": "Erhöht die Schwimmgeschwindigkeit.",
+        "French": "Augmentation de la vitesse natatoire."
+      },
+      "Type": 14,
+      "TemplateSlot": 0,
+      "Id": 87526,
+      "MappedId": 76,
+      "Rarity": 7,
+      "Chatlink": "[&AgHmVQEA]",
+      "AssetId": 1983548,
+      "Names": {
+        "English": "Swim-Speed Infusion +14",
+        "Spanish": "Infusión de velocidad de natación +14",
+        "German": "Schwimmgeschwindigkeit-Infusion +14",
+        "French": "Infusion d'augmentation de la vitesse natatoire +14"
+      },
+      "DisplayTexts": {
+        "English": "Increases swimming speed.",
+        "Spanish": "Aumenta la velocidad de natación.",
+        "German": "Erhöht die Schwimmgeschwindigkeit.",
+        "French": "Augmentation de la vitesse natatoire."
+      },
+      "Descriptions": {
+        "English": "Double-click to apply to an unused aquatic headgear infusion slot.",
+        "Spanish": "Haz doble clic para aplicarlo a una casilla de infusión sin usar de armadura de cabeza acuática.",
+        "German": "Doppelklicken, um dies auf einen freien Atemgeräte-Infusionsplatz anzuwenden.",
+        "French": "Double-cliquez pour appliquer à un emplacement d'infusion de couvre-chef aquatique inutilisé."
+      }
+    },
+    "87527": {
+      "Bonuses": {
+        "English": "Increases swimming speed.",
+        "Spanish": "Aumenta la velocidad de natación.",
+        "German": "Erhöht die Schwimmgeschwindigkeit.",
+        "French": "Augmentation de la vitesse natatoire."
+      },
+      "Type": 14,
+      "TemplateSlot": 0,
+      "Id": 87527,
+      "MappedId": 77,
+      "Rarity": 7,
+      "Chatlink": "[&AgHnVQEA]",
+      "AssetId": 1983548,
+      "Names": {
+        "English": "Swim-Speed Infusion +24",
+        "Spanish": "Infusión de velocidad de natación +24",
+        "German": "Schwimmgeschwindigkeit-Infusion +24",
+        "French": "Infusion d'augmentation de la vitesse natatoire +24"
+      },
+      "DisplayTexts": {
+        "English": "Increases swimming speed.",
+        "Spanish": "Aumenta la velocidad de natación.",
+        "German": "Erhöht die Schwimmgeschwindigkeit.",
+        "French": "Augmentation de la vitesse natatoire."
+      },
+      "Descriptions": {
+        "English": "Double-click to apply to an unused aquatic headgear infusion slot.",
+        "Spanish": "Haz doble clic para aplicarlo a una casilla de infusión sin usar de armadura de cabeza acuática.",
+        "German": "Doppelklicken, um dies auf einen freien Atemgeräte-Infusionsplatz anzuwenden.",
+        "French": "Double-cliquez pour appliquer à un emplacement d'infusion de couvre-chef aquatique inutilisé."
+      }
+    },
+    "87528": {
+      "Bonuses": {
+        "English": "Increases swimming speed.",
+        "Spanish": "Aumenta la velocidad de natación.",
+        "German": "Erhöht die Schwimmgeschwindigkeit.",
+        "French": "Augmentation de la vitesse natatoire."
+      },
+      "Type": 14,
+      "TemplateSlot": 0,
+      "Id": 87528,
+      "MappedId": 78,
+      "Rarity": 7,
+      "Chatlink": "[&AgHoVQEA]",
+      "AssetId": 1983548,
+      "Names": {
+        "English": "Swim-Speed Infusion +10",
+        "Spanish": "Infusión de velocidad de natación +10",
+        "German": "Schwimmgeschwindigkeit-Infusion +10",
+        "French": "Infusion d'augmentation de la vitesse natatoire +10"
+      },
+      "DisplayTexts": {
+        "English": "Increases swimming speed.",
+        "Spanish": "Aumenta la velocidad de natación.",
+        "German": "Erhöht die Schwimmgeschwindigkeit.",
+        "French": "Augmentation de la vitesse natatoire."
+      },
+      "Descriptions": {
+        "English": "Double-click to apply to an unused aquatic headgear infusion slot.\n\nDive Master Astora in Lion's Arch can refine this infusion to upgrade it.",
+        "Spanish": "Haz doble clic para aplicarlo a una casilla de infusión sin usar de armadura de cabeza acuática.\n\nLa maestra submarinista Astora de Arco del León puede refinar esta infusión para mejorarla.",
+        "German": "Doppelklicken, um dies auf einem freien Atemgeräte-Infusionsplatz anzuwenden.\n\nTauchmeisterin Astora in Löwenstein kann diese Infusion verfeinern, um sie aufzuwerten.",
+        "French": "Double-cliquez pour appliquer à un emplacement d'infusion de couvre-chef aquatique inutilisé.\n\nLa maîtresse de la plongée Astora à l'Arche du Lion peut raffiner cette infusion pour l'améliorer."
+      }
+    },
+    "87532": {
+      "Bonuses": {
+        "English": "Increases swimming speed.",
+        "Spanish": "Aumenta la velocidad de natación.",
+        "German": "Erhöht die Schwimmgeschwindigkeit.",
+        "French": "Augmentation de la vitesse natatoire."
+      },
+      "Type": 14,
+      "TemplateSlot": 0,
+      "Id": 87532,
+      "MappedId": 79,
+      "Rarity": 7,
+      "Chatlink": "[&AgHsVQEA]",
+      "AssetId": 1983548,
+      "Names": {
+        "English": "Swim-Speed Infusion +19",
+        "Spanish": "Infusión de velocidad de natación +19",
+        "German": "Schwimmgeschwindigkeit-Infusion +19",
+        "French": "Infusion d'augmentation de la vitesse natatoire +19"
+      },
+      "DisplayTexts": {
+        "English": "Increases swimming speed.",
+        "Spanish": "Aumenta la velocidad de natación.",
+        "German": "Erhöht die Schwimmgeschwindigkeit.",
+        "French": "Augmentation de la vitesse natatoire."
+      },
+      "Descriptions": {
+        "English": "Double-click to apply to an unused aquatic headgear infusion slot.",
+        "Spanish": "Haz doble clic para aplicarlo a una casilla de infusión sin usar de armadura de cabeza acuática.",
+        "German": "Doppelklicken, um dies auf einen freien Atemgeräte-Infusionsplatz anzuwenden.",
+        "French": "Double-cliquez pour appliquer à un emplacement d'infusion de couvre-chef aquatique inutilisé."
+      }
+    },
+    "87538": {
+      "Bonuses": {
+        "English": "Increases swimming speed.",
+        "Spanish": "Aumenta la velocidad de natación.",
+        "German": "Erhöht die Schwimmgeschwindigkeit.",
+        "French": "Augmentation de la vitesse natatoire."
+      },
+      "Type": 14,
+      "TemplateSlot": 0,
+      "Id": 87538,
+      "MappedId": 80,
+      "Rarity": 7,
+      "Chatlink": "[&AgHyVQEA]",
+      "AssetId": 1983548,
+      "Names": {
+        "English": "Swim-Speed Infusion +26",
+        "Spanish": "Infusión de velocidad de natación +26",
+        "German": "Schwimmgeschwindigkeit-Infusion +26",
+        "French": "Infusion d'augmentation de la vitesse natatoire +26"
+      },
+      "DisplayTexts": {
+        "English": "Increases swimming speed.",
+        "Spanish": "Aumenta la velocidad de natación.",
+        "German": "Erhöht die Schwimmgeschwindigkeit.",
+        "French": "Augmentation de la vitesse natatoire."
+      },
+      "Descriptions": {
+        "English": "Double-click to apply to an unused aquatic headgear infusion slot.",
+        "Spanish": "Haz doble clic para aplicarlo a una casilla de infusión sin usar de armadura de cabeza acuática.",
+        "German": "Doppelklicken, um dies auf einen freien Atemgeräte-Infusionsplatz anzuwenden.",
+        "French": "Double-cliquez pour appliquer à un emplacement d'infusion de couvre-chef aquatique inutilisé."
+      }
+    }
+  },
+  "Version": "0.0.5"
+}

@@ -123,7 +123,7 @@ namespace Kenedia.Modules.Characters
             if (!File.Exists(Paths.ModulePath + @"\gw2.traineddata") || Settings.Version.Value != module_version)
             {
                 using Stream target = File.Create(Paths.ModulePath + @"\gw2.traineddata");
-                Stream source = ContentsManager.GetFileStream(@"data\gw2.traineddata");
+                using Stream source = ContentsManager.GetFileStream(@"data\gw2.traineddata");
                 _ = source.Seek(0, SeekOrigin.Begin);
                 source.CopyTo(target);
             }
@@ -131,7 +131,7 @@ namespace Kenedia.Modules.Characters
             if (!File.Exists(Paths.ModulePath + @"\tesseract.dll") || Settings.Version.Value != module_version)
             {
                 using Stream target = File.Create(Paths.ModulePath + @"\tesseract.dll");
-                Stream source = ContentsManager.GetFileStream(@"data\tesseract.dll");
+                using Stream source = ContentsManager.GetFileStream(@"data\tesseract.dll");
                 _ = source.Seek(0, SeekOrigin.Begin);
                 source.CopyTo(target);
             }

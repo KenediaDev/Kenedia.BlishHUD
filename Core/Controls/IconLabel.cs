@@ -84,7 +84,7 @@ namespace Kenedia.Modules.Core.Controls
                 spriteBatch.DrawOnCtrl(this, Texture.Texture, _iconBounds, Texture.TextureRegion, Texture.DrawColor ?? Color.White, 0f, default);
             }
 
-            spriteBatch.DrawStringOnCtrl(this, Text, Font, _textBounds, FontColor, false, true, 1, Blish_HUD.Controls.HorizontalAlignment.Left, Blish_HUD.Controls.VerticalAlignment.Middle);
+            spriteBatch.DrawStringOnCtrl(this, Text, Font, _textBounds, FontColor, false, true, 1, HorizontalAlignment.Left, VerticalAlignment.Middle);
         }
 
         protected override CaptureType CapturesInput()

@@ -1,0 +1,5853 @@
+{
+  "Items": {
+    "85527": {
+      "Bonuses": [],
+      "BonusDescriptions": {
+        "LocalizedBonuses": {
+          "0": {
+            "English": "+25 Power",
+            "Spanish": "+25 de potencia",
+            "German": "+25 Kraft",
+            "French": "Puissance +25"
+          },
+          "1": {
+            "English": "+35 Precision",
+            "Spanish": "+35 de precisión",
+            "German": "+35 Präzision",
+            "French": "Précision +35"
+          },
+          "2": {
+            "English": "+50 Power",
+            "Spanish": "+50 de potencia",
+            "German": "+50 Kraft",
+            "French": "Puissance +50"
+          },
+          "3": {
+            "English": "+65 Precision",
+            "Spanish": "+65 de precisión",
+            "German": "+65 Präzision",
+            "French": "Précision +65"
+          },
+          "4": {
+            "English": "+100 Power",
+            "Spanish": "+100 de potencia",
+            "German": "+100 Kraft",
+            "French": "Puissance +100"
+          },
+          "5": {
+            "English": "+125 Vitality",
+            "Spanish": "+125 de vitalidad",
+            "German": "+125 Vitalität",
+            "French": "Vitalité +125"
+          }
+        }
+      },
+      "Type": 14,
+      "TemplateSlot": -1,
+      "Id": 85527,
+      "MappedId": 1,
+      "Rarity": 6,
+      "Chatlink": "[&AgEXTgEA]",
+      "AssetId": 1766393,
+      "Names": {
+        "English": "Rune of the Spellbreaker",
+        "Spanish": "Runa de rompehechizos",
+        "German": "Rune des Bannbrechers",
+        "French": "Rune du Brisesort"
+      },
+      "DisplayTexts": {
+        "English": "Rune of the Spellbreaker",
+        "Spanish": "Runa de rompehechizos",
+        "German": "Rune des Bannbrechers",
+        "French": "Rune du Brisesort"
+      },
+      "Descriptions": {
+        "English": "Double-click to apply to a piece of armor.",
+        "Spanish": "Haz doble clic para aplicar a una armadura.",
+        "German": "Doppelklicken, um auf ein Rüstungsteil anzuwenden.",
+        "French": "Double-cliquez pour l'appliquer à une pièce d'armure."
+      }
+    },
+    "85559": {
+      "Bonuses": [],
+      "BonusDescriptions": {
+        "LocalizedBonuses": {
+          "0": {
+            "English": "+25 Condition Damage",
+            "Spanish": "+25 de daño de condición",
+            "German": "+25 Zustandsschaden",
+            "French": "Dégâts par altération +25"
+          },
+          "1": {
+            "English": "+35 Ferocity",
+            "Spanish": "+35 de ferocidad",
+            "German": "+35 Wildheit",
+            "French": "Férocité +35"
+          },
+          "2": {
+            "English": "+50 Condition Damage",
+            "Spanish": "+50 de daño de condición",
+            "German": "+50 Zustandsschaden",
+            "French": "Dégâts par altération +50"
+          },
+          "3": {
+            "English": "+65 Ferocity",
+            "Spanish": "+65 de ferocidad",
+            "German": "+65 Wildheit",
+            "French": "Férocité +65"
+          },
+          "4": {
+            "English": "+100 Condition Damage",
+            "Spanish": "+100 de daño de condición",
+            "German": "+100 Zustandsschaden",
+            "French": "Dégâts par altération +100"
+          },
+          "5": {
+            "English": "+125 Condition Damage",
+            "Spanish": "+125 de daño de condición",
+            "German": "+125 Zustandsschaden",
+            "French": "Dégâts par altération +125"
+          }
+        }
+      },
+      "Type": 14,
+      "TemplateSlot": -1,
+      "Id": 85559,
+      "MappedId": 2,
+      "Rarity": 6,
+      "Chatlink": "[&AgE3TgEA]",
+      "AssetId": 1766391,
+      "Names": {
+        "English": "Rune of the Renegade",
+        "Spanish": "Runa de renegado",
+        "German": "Rune des Abtrünnigen",
+        "French": "Rune du Renégat"
+      },
+      "DisplayTexts": {
+        "English": "Rune of the Renegade",
+        "Spanish": "Runa de renegado",
+        "German": "Rune des Abtrünnigen",
+        "French": "Rune du Renégat"
+      },
+      "Descriptions": {
+        "English": "Double-click to apply to a piece of armor.",
+        "Spanish": "Haz doble clic para aplicar a una armadura.",
+        "German": "Doppelklicken, um auf ein Rüstungsteil anzuwenden.",
+        "French": "Double-cliquez pour l'appliquer à une pièce d'armure."
+      }
+    },
+    "85573": {
+      "Bonuses": [],
+      "BonusDescriptions": {
+        "LocalizedBonuses": {
+          "0": {
+            "English": "+25 Power",
+            "Spanish": "+25 de potencia",
+            "German": "+25 Kraft",
+            "French": "Puissance +25"
+          },
+          "1": {
+            "English": "+35 Ferocity",
+            "Spanish": "+35 de ferocidad",
+            "German": "+35 Wildheit",
+            "French": "Férocité +35"
+          },
+          "2": {
+            "English": "+50 Power",
+            "Spanish": "+50 de potencia",
+            "German": "+50 Kraft",
+            "French": "Puissance +50"
+          },
+          "3": {
+            "English": "+65 Ferocity",
+            "Spanish": "+65 de ferocidad",
+            "German": "+65 Wildheit",
+            "French": "Férocité +65"
+          },
+          "4": {
+            "English": "+100 Power",
+            "Spanish": "+100 de potencia",
+            "German": "+100 Kraft",
+            "French": "Puissance +100"
+          },
+          "5": {
+            "English": "+125 Precision",
+            "Spanish": "+125 de precisión",
+            "German": "+125 Präzision",
+            "French": "Précision +125"
+          }
+        }
+      },
+      "Type": 14,
+      "TemplateSlot": -1,
+      "Id": 85573,
+      "MappedId": 3,
+      "Rarity": 6,
+      "Chatlink": "[&AgFFTgEA]",
+      "AssetId": 1766386,
+      "Names": {
+        "English": "Rune of the Deadeye",
+        "Spanish": "Runa de certero",
+        "German": "Rune des Scharfschützen",
+        "French": "Rune du Sniper"
+      },
+      "DisplayTexts": {
+        "English": "Rune of the Deadeye",
+        "Spanish": "Runa de certero",
+        "German": "Rune des Scharfschützen",
+        "French": "Rune du Sniper"
+      },
+      "Descriptions": {
+        "English": "Double-click to apply to a piece of armor.",
+        "Spanish": "Haz doble clic para aplicar a una armadura.",
+        "German": "Doppelklicken, um auf ein Rüstungsteil anzuwenden.",
+        "French": "Double-cliquez pour l'appliquer à une pièce d'armure."
+      }
+    },
+    "85578": {
+      "Bonuses": [],
+      "BonusDescriptions": {
+        "LocalizedBonuses": {
+          "0": {
+            "English": "+25 Condition Damage",
+            "Spanish": "+25 de daño de condición",
+            "German": "+25 Zustandsschaden",
+            "French": "Dégâts par altération +25"
+          },
+          "1": {
+            "English": "+4% Quickness Duration",
+            "Spanish": "+4 % de duración de rapidez",
+            "German": "+4 % Schnelligkeitsdauer",
+            "French": "Durée de Célérité +4%"
+          },
+          "2": {
+            "English": "+50 Condition Damage",
+            "Spanish": "+50 de daño de condición",
+            "German": "+50 Zustandsschaden",
+            "French": "Dégâts par altération +50"
+          },
+          "3": {
+            "English": "+3% Boon Duration",
+            "Spanish": "+3 % de duración de bendición",
+            "German": "+3 % Segensdauer",
+            "French": "Durée d'avantage +3%"
+          },
+          "4": {
+            "English": "+100 Condition Damage",
+            "Spanish": "+100 de daño de condición",
+            "German": "+100 Zustandsschaden",
+            "French": "Dégâts par altération +100"
+          },
+          "5": {
+            "English": "+10% Quickness Duration",
+            "Spanish": "+10 % de duración de rapidez.",
+            "German": "+10 % Schnelligkeitsdauer",
+            "French": "Durée de Célérité +10%"
+          }
+        }
+      },
+      "Type": 14,
+      "TemplateSlot": -1,
+      "Id": 85578,
+      "MappedId": 4,
+      "Rarity": 6,
+      "Chatlink": "[&AgFKTgEA]",
+      "AssetId": 1766387,
+      "Names": {
+        "English": "Rune of the Firebrand",
+        "Spanish": "Runa de abrasador",
+        "German": "Rune des Aufwieglers",
+        "French": "Rune de l'Incendiaire"
+      },
+      "DisplayTexts": {
+        "English": "Rune of the Firebrand",
+        "Spanish": "Runa de abrasador",
+        "German": "Rune des Aufwieglers",
+        "French": "Rune de l'Incendiaire"
+      },
+      "Descriptions": {
+        "English": "Double-click to apply to a piece of armor.",
+        "Spanish": "Haz doble clic para aplicar a una armadura.",
+        "German": "Doppelklicken, um auf ein Rüstungsteil anzuwenden.",
+        "French": "Double-cliquez pour l'appliquer à une pièce d'armure."
+      }
+    },
+    "85588": {
+      "Bonuses": [],
+      "BonusDescriptions": {
+        "LocalizedBonuses": {
+          "0": {
+            "English": "+8 to All Stats",
+            "Spanish": "+8 a todas las estadísticas",
+            "German": "+8 auf alle Werte",
+            "French": "Toutes les statistiques +8"
+          },
+          "1": {
+            "English": "+4% Burning Duration",
+            "Spanish": "+4 % de duración de quemadura",
+            "German": "+4 % Brenndauer",
+            "French": "Durée de Brûlure +4%"
+          },
+          "2": {
+            "English": "+12 to All Stats",
+            "Spanish": "+12 a todas las estadísticas",
+            "German": "+12 auf alle Werte",
+            "French": "Toutes les statistiques +12"
+          },
+          "3": {
+            "English": "+6% Chill Duration",
+            "Spanish": "+6 % de duración de congelación",
+            "German": "+6 % Kühledauer",
+            "French": "Durée de Givre +6%"
+          },
+          "4": {
+            "English": "+16 to All Stats",
+            "Spanish": "+16 a todas las estadísticas",
+            "German": "+16 auf alle Werte",
+            "French": "Toutes les statistiques +16"
+          },
+          "5": {
+            "English": "+5% Condition Duration",
+            "Spanish": "+5 % de duración de condición",
+            "German": "+5 % Zustandsdauer",
+            "French": "Durée d'altération +5%"
+          }
+        }
+      },
+      "Type": 14,
+      "TemplateSlot": -1,
+      "Id": 85588,
+      "MappedId": 5,
+      "Rarity": 6,
+      "Chatlink": "[&AgFUTgEA]",
+      "AssetId": 1766394,
+      "Names": {
+        "English": "Rune of the Weaver",
+        "Spanish": "Runa de tejedor",
+        "German": "Rune des Webers",
+        "French": "Rune du Tissesort"
+      },
+      "DisplayTexts": {
+        "English": "Rune of the Weaver",
+        "Spanish": "Runa de tejedor",
+        "German": "Rune des Webers",
+        "French": "Rune du Tissesort"
+      },
+      "Descriptions": {
+        "English": "Double-click to apply to a piece of armor.",
+        "Spanish": "Haz doble clic para aplicar a una armadura.",
+        "German": "Doppelklicken, um auf ein Rüstungsteil anzuwenden.",
+        "French": "Double-cliquez pour l'appliquer à une pièce d'armure."
+      }
+    },
+    "85602": {
+      "Bonuses": [],
+      "BonusDescriptions": {
+        "LocalizedBonuses": {
+          "0": {
+            "English": "+25 Condition Damage",
+            "Spanish": "+25 de daño de condición",
+            "German": "+25 Zustandsschaden",
+            "French": "Dégâts par altération +25"
+          },
+          "1": {
+            "English": "+35 Toughness",
+            "Spanish": "+35 de dureza",
+            "German": "+35 Zähigkeit",
+            "French": "Robustesse +35"
+          },
+          "2": {
+            "English": "+50 Condition Damage",
+            "Spanish": "+50 de daño de condición",
+            "German": "+50 Zustandsschaden",
+            "French": "Dégâts par altération +50"
+          },
+          "3": {
+            "English": "+65 Toughness",
+            "Spanish": "+65 de dureza",
+            "German": "+65 Zähigkeit",
+            "French": "Robustesse +65"
+          },
+          "4": {
+            "English": "+100 Condition Damage",
+            "Spanish": "+100 de daño de condición",
+            "German": "+100 Zustandsschaden",
+            "French": "Dégâts par altération +100"
+          },
+          "5": {
+            "English": "+125 Vitality",
+            "Spanish": "+125 de vitalidad",
+            "German": "+125 Vitalität",
+            "French": "Vitalité +125"
+          }
+        }
+      },
+      "Type": 14,
+      "TemplateSlot": -1,
+      "Id": 85602,
+      "MappedId": 6,
+      "Rarity": 6,
+      "Chatlink": "[&AgFiTgEA]",
+      "AssetId": 1766389,
+      "Names": {
+        "English": "Rune of the Mirage",
+        "Spanish": "Runa de quimérico",
+        "German": "Rune des Illusionisten",
+        "French": "Rune du Mirage"
+      },
+      "DisplayTexts": {
+        "English": "Rune of the Mirage",
+        "Spanish": "Runa de quimérico",
+        "German": "Rune des Illusionisten",
+        "French": "Rune du Mirage"
+      },
+      "Descriptions": {
+        "English": "Double-click to apply to a piece of armor.",
+        "Spanish": "Haz doble clic para aplicar a una armadura.",
+        "German": "Doppelklicken, um auf ein Rüstungsteil anzuwenden.",
+        "French": "Double-cliquez pour l'appliquer à une pièce d'armure."
+      }
+    },
+    "85606": {
+      "Bonuses": [],
+      "BonusDescriptions": {
+        "LocalizedBonuses": {
+          "0": {
+            "English": "+25 Condition Damage",
+            "Spanish": "+25 de daño de condición",
+            "German": "+25 Zustandsschaden",
+            "French": "Dégâts par altération +25"
+          },
+          "1": {
+            "English": "+35 Power",
+            "Spanish": "+35 de potencia",
+            "German": "+35 Kraft",
+            "French": "Puissance +35"
+          },
+          "2": {
+            "English": "+50 Condition Damage",
+            "Spanish": "+50 de daño de condición",
+            "German": "+50 Zustandsschaden",
+            "French": "Dégâts par altération +50"
+          },
+          "3": {
+            "English": "+65 Power",
+            "Spanish": "+65 de potencia",
+            "German": "+65 Kraft",
+            "French": "Puissance +65"
+          },
+          "4": {
+            "English": "+100 Condition Damage",
+            "Spanish": "+100 de daño de condición",
+            "German": "+100 Zustandsschaden",
+            "French": "Dégâts par altération +100"
+          },
+          "5": {
+            "English": "+125 Vitality",
+            "Spanish": "+125 de vitalidad",
+            "German": "+125 Vitalität",
+            "French": "Vitalité +125"
+          }
+        }
+      },
+      "Type": 14,
+      "TemplateSlot": -1,
+      "Id": 85606,
+      "MappedId": 7,
+      "Rarity": 6,
+      "Chatlink": "[&AgFmTgEA]",
+      "AssetId": 1766385,
+      "Names": {
+        "English": "Rune of the Soulbeast",
+        "Spanish": "Runa de bestialma",
+        "German": "Rune des Seelenwandlers",
+        "French": "Rune de l'Animorphe"
+      },
+      "DisplayTexts": {
+        "English": "Rune of the Soulbeast",
+        "Spanish": "Runa de bestialma",
+        "German": "Rune des Seelenwandlers",
+        "French": "Rune de l'Animorphe"
+      },
+      "Descriptions": {
+        "English": "Double-click to apply to a piece of armor.",
+        "Spanish": "Haz doble clic para aplicar a una armadura.",
+        "German": "Doppelklicken, um auf ein Rüstungsteil anzuwenden.",
+        "French": "Double-cliquez pour l'appliquer à une pièce d'armure."
+      }
+    },
+    "85617": {
+      "Bonuses": [],
+      "BonusDescriptions": {
+        "LocalizedBonuses": {
+          "0": {
+            "English": "+25 Power",
+            "Spanish": "+25 de potencia",
+            "German": "+25 Kraft",
+            "French": "Puissance +25"
+          },
+          "1": {
+            "English": "+35 Vitality",
+            "Spanish": "+35 de vitalidad",
+            "German": "+35 Vitalität",
+            "French": "Vitalité +35"
+          },
+          "2": {
+            "English": "+50 Power",
+            "Spanish": "+50 de potencia",
+            "German": "+50 Kraft",
+            "French": "Puissance +50"
+          },
+          "3": {
+            "English": "+65 Vitality",
+            "Spanish": "+65 de vitalidad",
+            "German": "+65 Vitalität",
+            "French": "Vitalité +65"
+          },
+          "4": {
+            "English": "+100 Power",
+            "Spanish": "+100 de potencia",
+            "German": "+100 Kraft",
+            "French": "Puissance +100"
+          },
+          "5": {
+            "English": "+125 Precision",
+            "Spanish": "+125 de precisión",
+            "German": "+125 Präzision",
+            "French": "Précision +125"
+          }
+        }
+      },
+      "Type": 14,
+      "TemplateSlot": -1,
+      "Id": 85617,
+      "MappedId": 8,
+      "Rarity": 6,
+      "Chatlink": "[&AgFxTgEA]",
+      "AssetId": 1766388,
+      "Names": {
+        "English": "Rune of the Holosmith",
+        "Spanish": "Runa de holoartesano",
+        "German": "Rune des Holoschmieds",
+        "French": "Rune de l'Holographiste"
+      },
+      "DisplayTexts": {
+        "English": "Rune of the Holosmith",
+        "Spanish": "Runa de holoartesano",
+        "German": "Rune des Holoschmieds",
+        "French": "Rune de l'Holographiste"
+      },
+      "Descriptions": {
+        "English": "Double-click to apply to a piece of armor.",
+        "Spanish": "Haz doble clic para aplicar a una armadura.",
+        "German": "Doppelklicken, um auf ein Rüstungsteil anzuwenden.",
+        "French": "Double-cliquez pour l'appliquer à une pièce d'armure."
+      }
+    },
+    "21092": {
+      "Bonuses": [],
+      "BonusDescriptions": {
+        "LocalizedBonuses": {
+          "0": {
+            "English": "+25 Power",
+            "Spanish": "+25 de potencia",
+            "German": "+25 Kraft",
+            "French": "Puissance +25"
+          },
+          "1": {
+            "English": "+4% Might Duration",
+            "Spanish": "+4 % de duración de poder",
+            "German": "+4 % Machtdauer",
+            "French": "Durée de Pouvoir +4%"
+          },
+          "2": {
+            "English": "+50 Power",
+            "Spanish": "+50 de potencia",
+            "German": "+50 Kraft",
+            "French": "Puissance +50"
+          },
+          "3": {
+            "English": "+6% Might Duration",
+            "Spanish": "+6 % de duración de poder",
+            "German": "+6 % Machtdauer",
+            "French": "Durée de Pouvoir +6%"
+          },
+          "4": {
+            "English": "+100 Power",
+            "Spanish": "+100 de potencia",
+            "German": "+100 Kraft",
+            "French": "Puissance +100"
+          },
+          "5": {
+            "English": "+10% Might Duration",
+            "Spanish": "+10 % de duración de poder",
+            "German": "+10 % Machtdauer",
+            "French": "Durée de Pouvoir +10%"
+          }
+        }
+      },
+      "Type": 14,
+      "TemplateSlot": -1,
+      "Id": 21092,
+      "MappedId": 9,
+      "Rarity": 6,
+      "Chatlink": "[&AgFkUgAA]",
+      "AssetId": 220644,
+      "Names": {
+        "English": "Rune of Strength",
+        "Spanish": "Runa de fortaleza",
+        "German": "Rune der Stärke",
+        "French": "Rune de force"
+      },
+      "DisplayTexts": {
+        "English": "Rune of Strength",
+        "Spanish": "Runa de fortaleza",
+        "German": "Rune der Stärke",
+        "French": "Rune de force"
+      },
+      "Descriptions": {
+        "English": "Double-click to apply to a piece of armor.",
+        "Spanish": "Haz doble clic para aplicar a una armadura.",
+        "German": "Doppelklicken, um auf ein Rüstungsteil anzuwenden.",
+        "French": "Double-cliquez pour l'appliquer à une pièce d'armure."
+      }
+    },
+    "21170": {
+      "Bonuses": [],
+      "BonusDescriptions": {
+        "LocalizedBonuses": {
+          "0": {
+            "English": "+25 Condition Damage",
+            "Spanish": "+25 de daño de condición",
+            "German": "+25 Zustandsschaden",
+            "French": "Dégâts par altération +25"
+          },
+          "1": {
+            "English": "+4% Poison Duration",
+            "Spanish": "+4 % de duración de veneno",
+            "German": "+4 % Giftdauer",
+            "French": "Durée d'Empoisonnement +4%"
+          },
+          "2": {
+            "English": "+50 Condition Damage",
+            "Spanish": "+50 de daño de condición",
+            "German": "+50 Zustandsschaden",
+            "French": "Dégâts par altération +50"
+          },
+          "3": {
+            "English": "+6% Bleeding Duration",
+            "Spanish": "+6 % de duración de hemorragia",
+            "German": "+6 % Blutungsdauer",
+            "French": "Durée de Saignement +6%"
+          },
+          "4": {
+            "English": "+100 Condition Damage",
+            "Spanish": "+100 de daño de condición",
+            "German": "+100 Zustandsschaden",
+            "French": "Dégâts par altération +100"
+          },
+          "5": {
+            "English": "+5% Condition Duration",
+            "Spanish": "+5 % de duración de condición",
+            "German": "+5 % Zustandsdauer",
+            "French": "Durée d'altération +5%"
+          }
+        }
+      },
+      "Type": 14,
+      "TemplateSlot": -1,
+      "Id": 21170,
+      "MappedId": 10,
+      "Rarity": 6,
+      "Chatlink": "[&AgGyUgAA]",
+      "AssetId": 220692,
+      "Names": {
+        "English": "Rune of the Afflicted",
+        "Spanish": "Runa de los afligidos",
+        "German": "Rune der Befallenen",
+        "French": "Rune des Affligés"
+      },
+      "DisplayTexts": {
+        "English": "Rune of the Afflicted",
+        "Spanish": "Runa de los afligidos",
+        "German": "Rune der Befallenen",
+        "French": "Affligés"
+      },
+      "Descriptions": {
+        "English": "Double-click to apply to a piece of armor.",
+        "Spanish": "Haz doble clic para aplicar a una armadura.",
+        "German": "Doppelklicken, um auf ein Rüstungsteil anzuwenden.",
+        "French": "Double-cliquez pour l'appliquer à une pièce d'armure."
+      }
+    },
+    "21171": {
+      "Bonuses": [],
+      "BonusDescriptions": {
+        "LocalizedBonuses": {
+          "0": {
+            "English": "+25 Ferocity",
+            "Spanish": "+25 de ferocidad",
+            "German": "+25 Wildheit",
+            "French": "Férocité +25"
+          },
+          "1": {
+            "English": "+4% Swiftness Duration",
+            "Spanish": "+4 % de duración de celeridad",
+            "German": "+4 % Eiledauer",
+            "French": "Durée de Rapidité +4%"
+          },
+          "2": {
+            "English": "+50 Ferocity",
+            "Spanish": "+50 de ferocidad",
+            "German": "+50 Wildheit",
+            "French": "Férocité +50"
+          },
+          "3": {
+            "English": "+6% Swiftness Duration",
+            "Spanish": "+6 % de duración de celeridad",
+            "German": "+6 % Eiledauer",
+            "French": "Durée de Rapidité +6%"
+          },
+          "4": {
+            "English": "+100 Ferocity",
+            "Spanish": "+100 de ferocidad",
+            "German": "+100 Wildheit",
+            "French": "Férocité +100"
+          },
+          "5": {
+            "English": "+10% Swiftness Duration",
+            "Spanish": "+10 % de duración de celeridad",
+            "German": "+10 % Eiledauer",
+            "French": "Durée de Rapidité +10%"
+          }
+        }
+      },
+      "Type": 14,
+      "TemplateSlot": -1,
+      "Id": 21171,
+      "MappedId": 11,
+      "Rarity": 6,
+      "Chatlink": "[&AgGzUgAA]",
+      "AssetId": 220693,
+      "Names": {
+        "English": "Rune of Air",
+        "Spanish": "Runa de aire",
+        "German": "Rune der Luft",
+        "French": "Rune d'air"
+      },
+      "DisplayTexts": {
+        "English": "Rune of Air",
+        "Spanish": "Runa de aire",
+        "German": "Rune der Luft",
+        "French": "Rune d'air"
+      },
+      "Descriptions": {
+        "English": "Double-click to apply to a piece of armor.",
+        "Spanish": "Haz doble clic para aplicar a una armadura.",
+        "German": "Doppelklicken, um auf ein Rüstungsteil anzuwenden.",
+        "French": "Double-cliquez pour l'appliquer à une pièce d'armure."
+      }
+    },
+    "21172": {
+      "Bonuses": [],
+      "BonusDescriptions": {
+        "LocalizedBonuses": {
+          "0": {
+            "English": "+25 Condition Damage",
+            "Spanish": "+25 de daño de condición",
+            "German": "+25 Zustandsschaden",
+            "French": "Dégâts par altération +25"
+          },
+          "1": {
+            "English": "+4% Burning Duration",
+            "Spanish": "+4 % de duración de quemadura",
+            "German": "+4 % Brenndauer",
+            "French": "Durée de Brûlure +4%"
+          },
+          "2": {
+            "English": "+50 Condition Damage",
+            "Spanish": "+50 de daño de condición",
+            "German": "+50 Zustandsschaden",
+            "French": "Dégâts par altération +50"
+          },
+          "3": {
+            "English": "+6% Burning Duration",
+            "Spanish": "+6 % de duración de quemadura",
+            "German": "+6 % Brenndauer",
+            "French": "Durée de Brûlure +6%"
+          },
+          "4": {
+            "English": "+100 Condition Damage",
+            "Spanish": "+100 de daño de condición",
+            "German": "+100 Zustandsschaden",
+            "French": "Dégâts par altération +100"
+          },
+          "5": {
+            "English": "+10% Burning Duration",
+            "Spanish": "+10 % de duración de quemadura",
+            "German": "+10 % Brenndauer",
+            "French": "Durée de Brûlure +10%"
+          }
+        }
+      },
+      "Type": 14,
+      "TemplateSlot": -1,
+      "Id": 21172,
+      "MappedId": 12,
+      "Rarity": 6,
+      "Chatlink": "[&AgG0UgAA]",
+      "AssetId": 220694,
+      "Names": {
+        "English": "Rune of Balthazar",
+        "Spanish": "Runa de Balthazar",
+        "German": "Rune des Balthasar",
+        "French": "Rune de Balthazar"
+      },
+      "DisplayTexts": {
+        "English": "Rune of Balthazar",
+        "Spanish": "Runa de Balthazar",
+        "German": "Rune des Balthasar",
+        "French": "Rune de Balthazar"
+      },
+      "Descriptions": {
+        "English": "Double-click to apply to a piece of armor.",
+        "Spanish": "Haz doble clic para aplicar a una armadura.",
+        "German": "Doppelklicken, um auf ein Rüstungsteil anzuwenden.",
+        "French": "Double-cliquez pour l'appliquer à une pièce d'armure."
+      }
+    },
+    "21173": {
+      "Bonuses": [],
+      "BonusDescriptions": {
+        "LocalizedBonuses": {
+          "0": {
+            "English": "+25 Power",
+            "Spanish": "+25 de potencia",
+            "German": "+25 Kraft",
+            "French": "Puissance +25"
+          },
+          "1": {
+            "English": "+4% Swiftness Duration",
+            "Spanish": "+4 % de duración de celeridad",
+            "German": "+4 % Eiledauer",
+            "French": "Durée de Rapidité +4%"
+          },
+          "2": {
+            "English": "+50 Power",
+            "Spanish": "+50 de potencia",
+            "German": "+50 Kraft",
+            "French": "Puissance +50"
+          },
+          "3": {
+            "English": "+6% Swiftness Duration",
+            "Spanish": "+6 % de duración de celeridad",
+            "German": "+6 % Eiledauer",
+            "French": "Durée de Rapidité +6%"
+          },
+          "4": {
+            "English": "+100 Power",
+            "Spanish": "+100 de potencia",
+            "German": "+100 Kraft",
+            "French": "Puissance +100"
+          },
+          "5": {
+            "English": "+10% Swiftness Duration",
+            "Spanish": "+10 % de duración de celeridad",
+            "German": "+10 % Eiledauer",
+            "French": "Durée de Rapidité +10%"
+          }
+        }
+      },
+      "Type": 14,
+      "TemplateSlot": -1,
+      "Id": 21173,
+      "MappedId": 13,
+      "Rarity": 6,
+      "Chatlink": "[&AgG1UgAA]",
+      "AssetId": 220695,
+      "Names": {
+        "English": "Rune of the Centaur",
+        "Spanish": "Runa de centauro",
+        "German": "Rune des Zentauren",
+        "French": "Rune du Centaure"
+      },
+      "DisplayTexts": {
+        "English": "Rune of the Centaur",
+        "Spanish": "Runa de centauro",
+        "German": "Rune des Zentauren",
+        "French": "Rune du Centaure"
+      },
+      "Descriptions": {
+        "English": "Double-click to apply to a piece of armor.",
+        "Spanish": "Haz doble clic para aplicar a una armadura.",
+        "German": "Doppelklicken, um auf ein Rüstungsteil anzuwenden.",
+        "French": "Double-cliquez pour l'appliquer à une pièce d'armure."
+      }
+    },
+    "21174": {
+      "Bonuses": [],
+      "BonusDescriptions": {
+        "LocalizedBonuses": {
+          "0": {
+            "English": "+25 Power",
+            "Spanish": "+25 de potencia",
+            "German": "+25 Kraft",
+            "French": "Puissance +25"
+          },
+          "1": {
+            "English": "+4% Fury Duration",
+            "Spanish": "+4 % de duración de furia",
+            "German": "+4 % Wutdauer",
+            "French": "Durée de Fureur +4%"
+          },
+          "2": {
+            "English": "+50 Power",
+            "Spanish": "+50 de potencia",
+            "German": "+50 Kraft",
+            "French": "Puissance +50"
+          },
+          "3": {
+            "English": "+6% Fury Duration",
+            "Spanish": "+6 % de duración de furia",
+            "German": "+6 % Wutdauer",
+            "French": "Durée de Fureur +6%"
+          },
+          "4": {
+            "English": "+100 Power",
+            "Spanish": "+100 de potencia",
+            "German": "+100 Kraft",
+            "French": "Puissance +100"
+          },
+          "5": {
+            "English": "+10% Fury Duration",
+            "Spanish": "+10 % de duración de furia",
+            "German": "10 % Wutdauer",
+            "French": "Durée de Fureur +10%"
+          }
+        }
+      },
+      "Type": 14,
+      "TemplateSlot": -1,
+      "Id": 21174,
+      "MappedId": 14,
+      "Rarity": 6,
+      "Chatlink": "[&AgG2UgAA]",
+      "AssetId": 220696,
+      "Names": {
+        "English": "Rune of the Citadel",
+        "Spanish": "Runa de la Ciudadela",
+        "German": "Rune der Zitadelle",
+        "French": "Rune de la Citadelle"
+      },
+      "DisplayTexts": {
+        "English": "Rune of the Citadel",
+        "Spanish": "Runa de la Ciudadela",
+        "German": "Rune der Zitadelle",
+        "French": "Rune de la Citadelle"
+      },
+      "Descriptions": {
+        "English": "Double-click to apply to a piece of armor.",
+        "Spanish": "Haz doble clic para aplicar a una armadura.",
+        "German": "Doppelklicken, um auf ein Rüstungsteil anzuwenden.",
+        "French": "Double-cliquez pour l'appliquer à une pièce d'armure."
+      }
+    },
+    "21175": {
+      "Bonuses": [],
+      "BonusDescriptions": {
+        "LocalizedBonuses": {
+          "0": {
+            "English": "+8 to All Stats",
+            "Spanish": "+8 a todas las estadísticas",
+            "German": "+8 auf alle Werte",
+            "French": "Toutes les statistiques +8"
+          },
+          "1": {
+            "English": "+10 to All Stats",
+            "Spanish": "+10 a todas las estadísticas",
+            "German": "+10 auf alle Werte",
+            "French": "Toutes les statistiques +10"
+          },
+          "2": {
+            "English": "+12 to All Stats",
+            "Spanish": "+12 a todas las estadísticas",
+            "German": "+12 auf alle Werte",
+            "French": "Toutes les statistiques +12"
+          },
+          "3": {
+            "English": "+14 to All Stats",
+            "Spanish": "+14 a todas las estadísticas",
+            "German": "+14 auf alle Werte",
+            "French": "Toutes les statistiques +14"
+          },
+          "4": {
+            "English": "+16 to All Stats",
+            "Spanish": "+16 a todas las estadísticas",
+            "German": "+16 auf alle Werte",
+            "French": "Toutes les statistiques +16"
+          },
+          "5": {
+            "English": "+18 to All Stats",
+            "Spanish": "+18 a todas las estadísticas",
+            "German": "+18 auf alle Werte",
+            "French": "Toutes les statistiques +18"
+          }
+        }
+      },
+      "Type": 14,
+      "TemplateSlot": -1,
+      "Id": 21175,
+      "MappedId": 15,
+      "Rarity": 6,
+      "Chatlink": "[&AgG3UgAA]",
+      "AssetId": 220697,
+      "Names": {
+        "English": "Rune of Divinity",
+        "Spanish": "Runa de divinidad",
+        "German": "Rune der Göttlichkeit",
+        "French": "Rune de divinité"
+      },
+      "DisplayTexts": {
+        "English": "Rune of Divinity",
+        "Spanish": "Runa de divinidad",
+        "German": "Rune der Göttlichkeit",
+        "French": "Rune de divinité"
+      },
+      "Descriptions": {
+        "English": "Double-click to apply to a piece of armor.",
+        "Spanish": "Haz doble clic para aplicar a una armadura.",
+        "German": "Doppelklicken, um auf ein Rüstungsteil anzuwenden.",
+        "French": "Double-cliquez pour l'appliquer à une pièce d'armure."
+      }
+    },
+    "21176": {
+      "Bonuses": [],
+      "BonusDescriptions": {
+        "LocalizedBonuses": {
+          "0": {
+            "English": "+25 Toughness",
+            "Spanish": "+25 de dureza",
+            "German": "+25 Zähigkeit",
+            "French": "Robustesse +25"
+          },
+          "1": {
+            "English": "+35 Vitality",
+            "Spanish": "+35 de vitalidad",
+            "German": "+35 Vitalität",
+            "French": "Vitalité +35"
+          },
+          "2": {
+            "English": "+50 Toughness",
+            "Spanish": "+50 de dureza",
+            "German": "+50 Zähigkeit",
+            "French": "Robustesse +50"
+          },
+          "3": {
+            "English": "+65 Vitality",
+            "Spanish": "+65 de vitalidad",
+            "German": "+65 Vitalität",
+            "French": "Vitalité +65"
+          },
+          "4": {
+            "English": "+100 Toughness",
+            "Spanish": "+100 de dureza",
+            "German": "+100 Zähigkeit",
+            "French": "Robustesse +100"
+          },
+          "5": {
+            "English": "+125 Toughness",
+            "Spanish": "+125 de dureza",
+            "German": "+125 Zähigkeit",
+            "French": "Robustesse +125"
+          }
+        }
+      },
+      "Type": 14,
+      "TemplateSlot": -1,
+      "Id": 21176,
+      "MappedId": 16,
+      "Rarity": 6,
+      "Chatlink": "[&AgG4UgAA]",
+      "AssetId": 220698,
+      "Names": {
+        "English": "Rune of the Dolyak",
+        "Spanish": "Runa de los dolyak",
+        "German": "Rune des Dolyak",
+        "French": "Rune du dolyak"
+      },
+      "DisplayTexts": {
+        "English": "Rune of the Dolyak",
+        "Spanish": "Runa de los dolyak",
+        "German": "Rune des Dolyak",
+        "French": "Rune du dolyak"
+      },
+      "Descriptions": {
+        "English": "Double-click to apply to a piece of armor.",
+        "Spanish": "Haz doble clic para aplicar a una armadura.",
+        "German": "Doppelklicken, um auf ein Rüstungsteil anzuwenden.",
+        "French": "Double-cliquez pour l'appliquer à une pièce d'armure."
+      }
+    },
+    "21177": {
+      "Bonuses": [],
+      "BonusDescriptions": {
+        "LocalizedBonuses": {
+          "0": {
+            "English": "+25 Healing",
+            "Spanish": "+25 de curación",
+            "German": "+25 Heilung",
+            "French": "Guérison +25"
+          },
+          "1": {
+            "English": "+4% Regeneration Duration",
+            "Spanish": "+4 % de duración de regeneración",
+            "German": "+4 % Regenerationsdauer",
+            "French": "Durée de Régénération +4%"
+          },
+          "2": {
+            "English": "+50 Healing",
+            "Spanish": "+50 de curación",
+            "German": "+50 Heilung",
+            "French": "Guérison +50"
+          },
+          "3": {
+            "English": "+6% Regeneration Duration",
+            "Spanish": "+6 % de duración de regeneración",
+            "German": "+6 % Regenerationsdauer",
+            "French": "Durée de Régénération +6%"
+          },
+          "4": {
+            "English": "+100 Healing",
+            "Spanish": "+100 de curación",
+            "German": "+100 Heilung",
+            "French": "Guérison +100"
+          },
+          "5": {
+            "English": "+125 Vitality",
+            "Spanish": "+125 de vitalidad",
+            "German": "+125 Vitalität",
+            "French": "Vitalité +125"
+          }
+        }
+      },
+      "Type": 14,
+      "TemplateSlot": -1,
+      "Id": 21177,
+      "MappedId": 17,
+      "Rarity": 6,
+      "Chatlink": "[&AgG5UgAA]",
+      "AssetId": 220699,
+      "Names": {
+        "English": "Rune of Dwayna",
+        "Spanish": "Runa de Dwayna",
+        "German": "Rune der Dwayna",
+        "French": "Rune de Dwayna"
+      },
+      "DisplayTexts": {
+        "English": "Rune of Dwayna",
+        "Spanish": "Runa de Dwayna",
+        "German": "Rune der Dwayna",
+        "French": "Rune de Dwayna"
+      },
+      "Descriptions": {
+        "English": "Double-click to apply to a piece of armor.",
+        "Spanish": "Haz doble clic para aplicar a una armadura.",
+        "German": "Doppelklicken, um auf ein Rüstungsteil anzuwenden.",
+        "French": "Double-cliquez pour l'appliquer à une pièce d'armure."
+      }
+    },
+    "21178": {
+      "Bonuses": [],
+      "BonusDescriptions": {
+        "LocalizedBonuses": {
+          "0": {
+            "English": "+25 Precision",
+            "Spanish": "+25 de precisión",
+            "German": "+25 Präzision",
+            "French": "Précision +25"
+          },
+          "1": {
+            "English": "+35 Ferocity",
+            "Spanish": "+35 de ferocidad",
+            "German": "+35 Wildheit",
+            "French": "Férocité +35"
+          },
+          "2": {
+            "English": "+50 Precision",
+            "Spanish": "+50 de precisión",
+            "German": "+50 Präzision",
+            "French": "Précision +50"
+          },
+          "3": {
+            "English": "+65 Ferocity",
+            "Spanish": "+65 de ferocidad",
+            "German": "+65 Wildheit",
+            "French": "Férocité +65"
+          },
+          "4": {
+            "English": "+100 Precision",
+            "Spanish": "+100 de precisión",
+            "German": "+100 Präzision",
+            "French": "Précision +100"
+          },
+          "5": {
+            "English": "+125 Ferocity",
+            "Spanish": "+125 de ferocidad",
+            "German": "+125 Wildheit",
+            "French": "Férocité +125"
+          }
+        }
+      },
+      "Type": 14,
+      "TemplateSlot": -1,
+      "Id": 21178,
+      "MappedId": 18,
+      "Rarity": 6,
+      "Chatlink": "[&AgG6UgAA]",
+      "AssetId": 220700,
+      "Names": {
+        "English": "Rune of the Eagle",
+        "Spanish": "Runa del águila",
+        "German": "Rune des Adlers",
+        "French": "Rune de l'aigle"
+      },
+      "DisplayTexts": {
+        "English": "Rune of the Eagle",
+        "Spanish": "Runa del águila",
+        "German": "Rune des Adlers",
+        "French": "Rune de l'aigle"
+      },
+      "Descriptions": {
+        "English": "Double-click to apply to a piece of armor.",
+        "Spanish": "Haz doble clic para aplicar a una armadura.",
+        "German": "Doppelklicken, um auf ein Rüstungsteil anzuwenden.",
+        "French": "Double-cliquez pour l'appliquer à une pièce d'armure."
+      }
+    },
+    "21179": {
+      "Bonuses": [],
+      "BonusDescriptions": {
+        "LocalizedBonuses": {
+          "0": {
+            "English": "+25 Toughness",
+            "Spanish": "+25 de dureza",
+            "German": "+25 Zähigkeit",
+            "French": "Robustesse +25"
+          },
+          "1": {
+            "English": "+4% Protection Duration",
+            "Spanish": "+4 % de duración de protección",
+            "German": "+4 % Schutzdauer",
+            "French": "Durée de Protection +4%"
+          },
+          "2": {
+            "English": "+50 Toughness",
+            "Spanish": "+50 de dureza",
+            "German": "+50 Zähigkeit",
+            "French": "Robustesse +50"
+          },
+          "3": {
+            "English": "+6% Protection Duration",
+            "Spanish": "+6 % de duración de protección",
+            "German": "+6 % Schutzdauer",
+            "French": "Durée de Protection +6%"
+          },
+          "4": {
+            "English": "+100 Toughness",
+            "Spanish": "+100 de dureza",
+            "German": "+100 Zähigkeit",
+            "French": "Robustesse +100"
+          },
+          "5": {
+            "English": "+125 Healing",
+            "Spanish": "+125 de curación",
+            "German": "+125 Heilung",
+            "French": "Guérison +125"
+          }
+        }
+      },
+      "Type": 14,
+      "TemplateSlot": -1,
+      "Id": 21179,
+      "MappedId": 19,
+      "Rarity": 6,
+      "Chatlink": "[&AgG7UgAA]",
+      "AssetId": 220701,
+      "Names": {
+        "English": "Rune of Earth",
+        "Spanish": "Runa de tierra",
+        "German": "Rune der Erde",
+        "French": "Rune de terre"
+      },
+      "DisplayTexts": {
+        "English": "Rune of Earth",
+        "Spanish": "Runa de tierra",
+        "German": "Rune der Erde",
+        "French": "Rune de terre"
+      },
+      "Descriptions": {
+        "English": "Double-click to apply to a piece of armor.",
+        "Spanish": "Haz doble clic para aplicar a una armadura.",
+        "German": "Doppelklicken, um auf ein Rüstungsteil anzuwenden.",
+        "French": "Double-cliquez pour l'appliquer à une pièce d'armure."
+      }
+    },
+    "21180": {
+      "Bonuses": [],
+      "BonusDescriptions": {
+        "LocalizedBonuses": {
+          "0": {
+            "English": "+25 Power",
+            "Spanish": "+25 de potencia",
+            "German": "+25 Kraft",
+            "French": "Puissance +25"
+          },
+          "1": {
+            "English": "+4% Might Duration",
+            "Spanish": "+4 % de duración de poder",
+            "German": "+4 % Machtdauer",
+            "French": "Durée de Pouvoir +4%"
+          },
+          "2": {
+            "English": "+50 Power",
+            "Spanish": "+50 de potencia",
+            "German": "+50 Kraft",
+            "French": "Puissance +50"
+          },
+          "3": {
+            "English": "+6% Might Duration",
+            "Spanish": "+6 % de duración de poder",
+            "German": "+6 % Machtdauer",
+            "French": "Durée de Pouvoir +6%"
+          },
+          "4": {
+            "English": "+100 Power",
+            "Spanish": "+100 de potencia",
+            "German": "+100 Kraft",
+            "French": "Puissance +100"
+          },
+          "5": {
+            "English": "+10% Burning Duration",
+            "Spanish": "+10 % de duración de quemadura",
+            "German": "+10 % Brenndauer",
+            "French": "Durée de Brûlure +10%"
+          }
+        }
+      },
+      "Type": 14,
+      "TemplateSlot": -1,
+      "Id": 21180,
+      "MappedId": 20,
+      "Rarity": 6,
+      "Chatlink": "[&AgG8UgAA]",
+      "AssetId": 220702,
+      "Names": {
+        "English": "Rune of Fire",
+        "Spanish": "Runa de fuego",
+        "German": "Rune des Feuers",
+        "French": "Rune de feu"
+      },
+      "DisplayTexts": {
+        "English": "Rune of Fire",
+        "Spanish": "Runa de fuego",
+        "German": "Rune des Feuers",
+        "French": "Rune de feu"
+      },
+      "Descriptions": {
+        "English": "Double-click to apply to a piece of armor.",
+        "Spanish": "Haz doble clic para aplicar a una armadura.",
+        "German": "Doppelklicken, um auf ein Rüstungsteil anzuwenden.",
+        "French": "Double-cliquez pour l'appliquer à une pièce d'armure."
+      }
+    },
+    "21181": {
+      "Bonuses": [],
+      "BonusDescriptions": {
+        "LocalizedBonuses": {
+          "0": {
+            "English": "+25 Power",
+            "Spanish": "+25 de potencia",
+            "German": "+25 Kraft",
+            "French": "Puissance +25"
+          },
+          "1": {
+            "English": "+4% Burning Duration",
+            "Spanish": "+4 % de duración de quemadura",
+            "German": "+4 % Brenndauer",
+            "French": "Durée de Brûlure +4%"
+          },
+          "2": {
+            "English": "+50 Power",
+            "Spanish": "+50 de potencia",
+            "German": "+50 Kraft",
+            "French": "Puissance +50"
+          },
+          "3": {
+            "English": "+6% Burning Duration",
+            "Spanish": "+6 % de duración de quemadura",
+            "German": "+6 % Brenndauer",
+            "French": "Durée de Brûlure +6%"
+          },
+          "4": {
+            "English": "+100 Power",
+            "Spanish": "+100 de potencia",
+            "German": "+100 Kraft",
+            "French": "Puissance +100"
+          },
+          "5": {
+            "English": "+10% Burning Duration",
+            "Spanish": "+10 % de duración de quemadura",
+            "German": "+10 % Brenndauer",
+            "French": "Durée de Brûlure +10%"
+          }
+        }
+      },
+      "Type": 14,
+      "TemplateSlot": -1,
+      "Id": 21181,
+      "MappedId": 21,
+      "Rarity": 6,
+      "Chatlink": "[&AgG9UgAA]",
+      "AssetId": 220703,
+      "Names": {
+        "English": "Rune of the Flame Legion",
+        "Spanish": "Runa de la Legión de la Llama",
+        "German": "Rune der Flammen-Legion",
+        "French": "Rune de la Légion de la Flamme"
+      },
+      "DisplayTexts": {
+        "English": "Rune of the Flame Legion",
+        "Spanish": "Runa de la Legión de la Llama",
+        "German": "Rune der Flammen-Legion",
+        "French": "Rune de la Légion de la Flamme"
+      },
+      "Descriptions": {
+        "English": "Double-click to apply to a piece of armor.",
+        "Spanish": "Haz doble clic para aplicar a una armadura.",
+        "German": "Doppelklicken, um auf ein Rüstungsteil anzuwenden.",
+        "French": "Double-cliquez pour l'appliquer à une pièce d'armure."
+      }
+    },
+    "21182": {
+      "Bonuses": [],
+      "BonusDescriptions": {
+        "LocalizedBonuses": {
+          "0": {
+            "English": "+25 Healing",
+            "Spanish": "+25 de curación",
+            "German": "+25 Heilung",
+            "French": "Guérison +25"
+          },
+          "1": {
+            "English": "+35 Vitality",
+            "Spanish": "+35 de vitalidad",
+            "German": "+35 Vitalität",
+            "French": "Vitalité +35"
+          },
+          "2": {
+            "English": "+50 Healing",
+            "Spanish": "+50 de curación",
+            "German": "+50 Heilung",
+            "French": "Guérison +50"
+          },
+          "3": {
+            "English": "+65 Vitality",
+            "Spanish": "+65 de vitalidad",
+            "German": "+65 Vitalität",
+            "French": "Vitalité +65"
+          },
+          "4": {
+            "English": "+100 Healing",
+            "Spanish": "+100 de curación",
+            "German": "+100 Heilung",
+            "French": "Guérison +100"
+          },
+          "5": {
+            "English": "+125 Vitality",
+            "Spanish": "+125 de vitalidad",
+            "German": "+125 Vitalität",
+            "French": "Vitalité +125"
+          }
+        }
+      },
+      "Type": 14,
+      "TemplateSlot": -1,
+      "Id": 21182,
+      "MappedId": 22,
+      "Rarity": 6,
+      "Chatlink": "[&AgG+UgAA]",
+      "AssetId": 220704,
+      "Names": {
+        "English": "Rune of the Flock",
+        "Spanish": "Runa del rebaño",
+        "German": "Rune des Schwarmes",
+        "French": "Rune des ouailles"
+      },
+      "DisplayTexts": {
+        "English": "Rune of the Flock",
+        "Spanish": "Runa del rebaño",
+        "German": "Rune des Schwarmes",
+        "French": "ouailles"
+      },
+      "Descriptions": {
+        "English": "Double-click to apply to a piece of armor.",
+        "Spanish": "Haz doble clic para aplicar a una armadura.",
+        "German": "Doppelklicken, um auf ein Rüstungsteil anzuwenden.",
+        "French": "Double-cliquez pour l'appliquer à une pièce d'armure."
+      }
+    },
+    "21184": {
+      "Bonuses": [],
+      "BonusDescriptions": {
+        "LocalizedBonuses": {
+          "0": {
+            "English": "+25 Condition Damage",
+            "Spanish": "+25 de daño de condición",
+            "German": "+25 Zustandsschaden",
+            "French": "Dégâts par altération +25"
+          },
+          "1": {
+            "English": "+4% Chill Duration",
+            "Spanish": "+4 % de duración de congelación",
+            "German": "+4 % Kühledauer",
+            "French": "Durée de Givre +4%"
+          },
+          "2": {
+            "English": "+50 Condition Damage",
+            "Spanish": "+50 de daño de condición",
+            "German": "+50 Zustandsschaden",
+            "French": "Dégâts par altération +50"
+          },
+          "3": {
+            "English": "+6% Chill Duration",
+            "Spanish": "+6 % de duración de congelación",
+            "German": "+6 % Kühledauer",
+            "French": "Durée de Givre +6%"
+          },
+          "4": {
+            "English": "+100 Condition Damage",
+            "Spanish": "+100 de daño de condición",
+            "German": "+100 Zustandsschaden",
+            "French": "Dégâts par altération +100"
+          },
+          "5": {
+            "English": "+10% Chill Duration",
+            "Spanish": "+10 % de duración de congelación",
+            "German": "+10 % Kühledauer",
+            "French": "Durée de Givre +10%"
+          }
+        }
+      },
+      "Type": 14,
+      "TemplateSlot": -1,
+      "Id": 21184,
+      "MappedId": 23,
+      "Rarity": 6,
+      "Chatlink": "[&AgHAUgAA]",
+      "AssetId": 220706,
+      "Names": {
+        "English": "Rune of Grenth",
+        "Spanish": "Runa de Grenth",
+        "German": "Rune des Grenth",
+        "French": "Rune de Grenth"
+      },
+      "DisplayTexts": {
+        "English": "Rune of Grenth",
+        "Spanish": "Runa de Grenth",
+        "German": "Rune des Grenth",
+        "French": "Rune de Grenth"
+      },
+      "Descriptions": {
+        "English": "Double-click to apply to a piece of armor.",
+        "Spanish": "Haz doble clic para aplicar a una armadura.",
+        "German": "Doppelklicken, um auf ein Rüstungsteil anzuwenden.",
+        "French": "Double-cliquez pour l'appliquer à une pièce d'armure."
+      }
+    },
+    "21185": {
+      "Bonuses": [],
+      "BonusDescriptions": {
+        "LocalizedBonuses": {
+          "0": {
+            "English": "+25 Healing",
+            "Spanish": "+25 de curación",
+            "German": "+25 Heilung",
+            "French": "Guérison +25"
+          },
+          "1": {
+            "English": "+4% Protection Duration",
+            "Spanish": "+4 % de duración de protección",
+            "German": "+4 % Schutzdauer",
+            "French": "Durée de Protection +4%"
+          },
+          "2": {
+            "English": "+50 Healing",
+            "Spanish": "+50 de curación",
+            "German": "+50 Heilung",
+            "French": "Guérison +50"
+          },
+          "3": {
+            "English": "+6% Protection Duration",
+            "Spanish": "+6 % de duración de protección",
+            "German": "+6 % Schutzdauer",
+            "French": "Durée de Protection +6%"
+          },
+          "4": {
+            "English": "+100 Healing",
+            "Spanish": "+100 de curación",
+            "German": "+100 Heilung",
+            "French": "Guérison +100"
+          },
+          "5": {
+            "English": "+10% Protection Duration",
+            "Spanish": "+10 % de duración de protección",
+            "German": "+10 % Schutzdauer",
+            "French": "Durée de Protection +10%"
+          }
+        }
+      },
+      "Type": 14,
+      "TemplateSlot": -1,
+      "Id": 21185,
+      "MappedId": 24,
+      "Rarity": 6,
+      "Chatlink": "[&AgHBUgAA]",
+      "AssetId": 220707,
+      "Names": {
+        "English": "Rune of the Grove",
+        "Spanish": "Runa de la Arboleda",
+        "German": "Rune des Haines",
+        "French": "Rune du Bosquet"
+      },
+      "DisplayTexts": {
+        "English": "Rune of the Grove",
+        "Spanish": "Runa de la Arboleda",
+        "German": "Rune des Haines",
+        "French": "Rune du Bosquet"
+      },
+      "Descriptions": {
+        "English": "Double-click to apply to a piece of armor.",
+        "Spanish": "Haz doble clic para aplicar a una armadura.",
+        "German": "Doppelklicken, um auf ein Rüstungsteil anzuwenden.",
+        "French": "Double-cliquez pour l'appliquer à une pièce d'armure."
+      }
+    },
+    "21186": {
+      "Bonuses": [],
+      "BonusDescriptions": {
+        "LocalizedBonuses": {
+          "0": {
+            "English": "+25 Power",
+            "Spanish": "+25 de potencia",
+            "German": "+25 Kraft",
+            "French": "Puissance +25"
+          },
+          "1": {
+            "English": "+4% Might Duration",
+            "Spanish": "+4 % de duración de poder",
+            "German": "+4 % Machtdauer",
+            "French": "Durée de Pouvoir +4%"
+          },
+          "2": {
+            "English": "+50 Power",
+            "Spanish": "+50 de potencia",
+            "German": "+50 Kraft",
+            "French": "Puissance +50"
+          },
+          "3": {
+            "English": "-10% Incoming Condition Duration",
+            "Spanish": "-10 % de duración de condición recibida",
+            "German": "-10 % erlittene Zustandsdauer",
+            "French": "Durée d'altération subie -10%"
+          },
+          "4": {
+            "English": "+100 Power",
+            "Spanish": "+100 de potencia",
+            "German": "+100 Kraft",
+            "French": "Puissance +100"
+          },
+          "5": {
+            "English": "+5% Boon Duration",
+            "Spanish": "+5 % de duración de bendición",
+            "German": "+5 % Segensdauer",
+            "French": "Durée d'avantage +5%"
+          }
+        }
+      },
+      "Type": 14,
+      "TemplateSlot": -1,
+      "Id": 21186,
+      "MappedId": 25,
+      "Rarity": 6,
+      "Chatlink": "[&AgHCUgAA]",
+      "AssetId": 220708,
+      "Names": {
+        "English": "Rune of Hoelbrak",
+        "Spanish": "Runa de Hoelbrak",
+        "German": "Rune von Hoelbrak",
+        "French": "Rune d'Hoelbrak"
+      },
+      "DisplayTexts": {
+        "English": "Rune of Hoelbrak",
+        "Spanish": "Runa de Hoelbrak",
+        "German": "Rune von Hoelbrak",
+        "French": "Rune d'Hoelbrak"
+      },
+      "Descriptions": {
+        "English": "Double-click to apply to a piece of armor.",
+        "Spanish": "Haz doble clic para aplicar a una armadura.",
+        "German": "Doppelklicken, um auf ein Rüstungsteil anzuwenden.",
+        "French": "Double-cliquez pour l'appliquer à une pièce d'armure."
+      }
+    },
+    "21187": {
+      "Bonuses": [],
+      "BonusDescriptions": {
+        "LocalizedBonuses": {
+          "0": {
+            "English": "+25 Vitality",
+            "Spanish": "+25 de vitalidad",
+            "German": "+25 Vitalität",
+            "French": "Vitalité +25"
+          },
+          "1": {
+            "English": "+4% Chill Duration",
+            "Spanish": "+4 % de duración de congelación",
+            "German": "+4 % Kühledauer",
+            "French": "Durée de Givre +4%"
+          },
+          "2": {
+            "English": "+50 Vitality",
+            "Spanish": "+50 de vitalidad",
+            "German": "+50 Vitalität",
+            "French": "Vitalité +50"
+          },
+          "3": {
+            "English": "+6% Chill Duration",
+            "Spanish": "+6 % de duración de congelación",
+            "German": "+6 % Kühledauer",
+            "French": "Durée de Givre +6%"
+          },
+          "4": {
+            "English": "+100 Vitality",
+            "Spanish": "+100 de vitalidad",
+            "German": "+100 Vitalität",
+            "French": "Vitalité +100"
+          },
+          "5": {
+            "English": "+125 Vitality",
+            "Spanish": "+125 de vitalidad",
+            "German": "+125 Vitalität",
+            "French": "Vitalité +125"
+          }
+        }
+      },
+      "Type": 14,
+      "TemplateSlot": -1,
+      "Id": 21187,
+      "MappedId": 26,
+      "Rarity": 6,
+      "Chatlink": "[&AgHDUgAA]",
+      "AssetId": 220709,
+      "Names": {
+        "English": "Rune of Ice",
+        "Spanish": "Runa de hielo",
+        "German": "Rune des Eises",
+        "French": "Rune de glace"
+      },
+      "DisplayTexts": {
+        "English": "Rune of Ice",
+        "Spanish": "Runa de hielo",
+        "German": "Rune des Eises",
+        "French": "Rune de glace"
+      },
+      "Descriptions": {
+        "English": "Double-click to apply to a piece of armor.",
+        "Spanish": "Haz doble clic para aplicar a una armadura.",
+        "German": "Doppelklicken, um auf ein Rüstungsteil anzuwenden.",
+        "French": "Double-cliquez pour l'appliquer à une pièce d'armure."
+      }
+    },
+    "21188": {
+      "Bonuses": [],
+      "BonusDescriptions": {
+        "LocalizedBonuses": {
+          "0": {
+            "English": "+25 Power",
+            "Spanish": "+25 de potencia",
+            "German": "+25 Kraft",
+            "French": "Puissance +25"
+          },
+          "1": {
+            "English": "+35 Precision",
+            "Spanish": "+35 de precisión",
+            "German": "+35 Präzision",
+            "French": "Précision +35"
+          },
+          "2": {
+            "English": "+50 Power",
+            "Spanish": "+50 de potencia",
+            "German": "+50 Kraft",
+            "French": "Puissance +50"
+          },
+          "3": {
+            "English": "+65 Precision",
+            "Spanish": "+65 de precisión",
+            "German": "+65 Präzision",
+            "French": "Précision +65"
+          },
+          "4": {
+            "English": "+100 Power",
+            "Spanish": "+100 de potencia",
+            "German": "+100 Kraft",
+            "French": "Puissance +100"
+          },
+          "5": {
+            "English": "+125 Precision",
+            "Spanish": "+125 de precisión",
+            "German": "+125 Präzision",
+            "French": "Précision +125"
+          }
+        }
+      },
+      "Type": 14,
+      "TemplateSlot": -1,
+      "Id": 21188,
+      "MappedId": 27,
+      "Rarity": 6,
+      "Chatlink": "[&AgHEUgAA]",
+      "AssetId": 220710,
+      "Names": {
+        "English": "Rune of Infiltration",
+        "Spanish": "Runa de infiltración",
+        "German": "Rune der Infiltration",
+        "French": "Rune d'infiltration"
+      },
+      "DisplayTexts": {
+        "English": "Rune of Infiltration",
+        "Spanish": "Runa de infiltración",
+        "German": "Rune der Infiltration",
+        "French": "Rune d'infiltration"
+      },
+      "Descriptions": {
+        "English": "Double-click to apply to a piece of armor.",
+        "Spanish": "Haz doble clic para aplicar a una armadura.",
+        "German": "Doppelklicken, um auf ein Rüstungsteil anzuwenden.",
+        "French": "Double-cliquez pour l'appliquer à une pièce d'armure."
+      }
+    },
+    "21189": {
+      "Bonuses": [],
+      "BonusDescriptions": {
+        "LocalizedBonuses": {
+          "0": {
+            "English": "+25 Condition Damage",
+            "Spanish": "+25 de daño de condición",
+            "German": "+25 Zustandsschaden",
+            "French": "Dégâts par altération +25"
+          },
+          "1": {
+            "English": "+4% Bleeding Duration",
+            "Spanish": "+4 % de duración de hemorragia",
+            "German": "+4 % Blutungsdauer",
+            "French": "Durée de Saignement +4%"
+          },
+          "2": {
+            "English": "+50 Condition Damage",
+            "Spanish": "+50 de daño de condición",
+            "German": "+50 Zustandsschaden",
+            "French": "Dégâts par altération +50"
+          },
+          "3": {
+            "English": "+6% Bleeding Duration",
+            "Spanish": "+6 % de duración de hemorragia",
+            "German": "+6 % Blutungsdauer",
+            "French": "Durée de Saignement +6%"
+          },
+          "4": {
+            "English": "+100 Condition Damage",
+            "Spanish": "+100 de daño de condición",
+            "German": "+100 Zustandsschaden",
+            "French": "Dégâts par altération +100"
+          },
+          "5": {
+            "English": "+10% Bleeding Duration",
+            "Spanish": "+10 % de duración de hemorragia",
+            "German": "+10 % Blutungsdauer",
+            "French": "Durée de Saignement +10%"
+          }
+        }
+      },
+      "Type": 14,
+      "TemplateSlot": -1,
+      "Id": 21189,
+      "MappedId": 28,
+      "Rarity": 6,
+      "Chatlink": "[&AgHFUgAA]",
+      "AssetId": 220711,
+      "Names": {
+        "English": "Rune of the Krait",
+        "Spanish": "Runa de los krait",
+        "German": "Rune der Krait",
+        "French": "Rune de Krait"
+      },
+      "DisplayTexts": {
+        "English": "Rune of the Krait",
+        "Spanish": "Runa de los krait",
+        "German": "Rune der Krait",
+        "French": "Rune de Krait"
+      },
+      "Descriptions": {
+        "English": "Double-click to apply to a piece of armor.",
+        "Spanish": "Haz doble clic para aplicar a una armadura.",
+        "German": "Doppelklicken, um auf ein Rüstungsteil anzuwenden.",
+        "French": "Double-cliquez pour l'appliquer à une pièce d'armure."
+      }
+    },
+    "21191": {
+      "Bonuses": [],
+      "BonusDescriptions": {
+        "LocalizedBonuses": {
+          "0": {
+            "English": "+25 Precision",
+            "Spanish": "+25 de precisión",
+            "German": "+25 Präzision",
+            "French": "Précision +25"
+          },
+          "1": {
+            "English": "+2% Condition Duration",
+            "Spanish": "+2 % de duración de condición",
+            "German": "+2 % Zustandsdauer",
+            "French": "Durée d'altération +2%"
+          },
+          "2": {
+            "English": "+50 Precision",
+            "Spanish": "+50 de precisión",
+            "German": "+50 Präzision",
+            "French": "Précision +50"
+          },
+          "3": {
+            "English": "+3% Boon Duration",
+            "Spanish": "+3 % de duración de bendición",
+            "German": "+3 % Segensdauer",
+            "French": "Durée d'avantage +3%"
+          },
+          "4": {
+            "English": "+100 Precision",
+            "Spanish": "+100 de precisión",
+            "German": "+100 Präzision",
+            "French": "Précision +100"
+          },
+          "5": {
+            "English": "+5% Condition Duration",
+            "Spanish": "+5 % de duración de condición",
+            "German": "+5 % Zustandsdauer",
+            "French": "Durée d'altération +5%"
+          }
+        }
+      },
+      "Type": 14,
+      "TemplateSlot": -1,
+      "Id": 21191,
+      "MappedId": 29,
+      "Rarity": 6,
+      "Chatlink": "[&AgHHUgAA]",
+      "AssetId": 220713,
+      "Names": {
+        "English": "Rune of Lyssa",
+        "Spanish": "Runa de Lyssa",
+        "German": "Rune der Lyssa",
+        "French": "Rune de Lyssa"
+      },
+      "DisplayTexts": {
+        "English": "Rune of Lyssa",
+        "Spanish": "Runa de Lyssa",
+        "German": "Rune der Lyssa",
+        "French": "Rune de Lyssa"
+      },
+      "Descriptions": {
+        "English": "Double-click to apply to a piece of armor.",
+        "Spanish": "Haz doble clic para aplicar a una armadura.",
+        "German": "Doppelklicken, um auf ein Rüstungsteil anzuwenden.",
+        "French": "Double-cliquez pour l'appliquer à une pièce d'armure."
+      }
+    },
+    "21192": {
+      "Bonuses": [],
+      "BonusDescriptions": {
+        "LocalizedBonuses": {
+          "0": {
+            "English": "+25 Toughness",
+            "Spanish": "+25 de dureza",
+            "German": "+25 Zähigkeit",
+            "French": "Robustesse +25"
+          },
+          "1": {
+            "English": "+35 Vitality",
+            "Spanish": "+35 de vitalidad",
+            "German": "+35 Vitalität",
+            "French": "Vitalité +35"
+          },
+          "2": {
+            "English": "+50 Toughness",
+            "Spanish": "+50 de dureza",
+            "German": "+50 Zähigkeit",
+            "French": "Robustesse +50"
+          },
+          "3": {
+            "English": "-10% Incoming Condition Duration",
+            "Spanish": "-10 % de duración de condición recibida",
+            "German": "-10 % erlittene Zustandsdauer",
+            "French": "Durée d'altération subie -10%"
+          },
+          "4": {
+            "English": "+100 Toughness",
+            "Spanish": "+100 de dureza",
+            "German": "+100 Zähigkeit",
+            "French": "Robustesse +100"
+          },
+          "5": {
+            "English": "-10% Incoming Condition Duration",
+            "Spanish": "-10 % de duración de condición recibida",
+            "German": "-10 % erlittene Zustandsdauer",
+            "French": "Durée d'altération subie -10%"
+          }
+        }
+      },
+      "Type": 14,
+      "TemplateSlot": -1,
+      "Id": 21192,
+      "MappedId": 30,
+      "Rarity": 6,
+      "Chatlink": "[&AgHIUgAA]",
+      "AssetId": 220714,
+      "Names": {
+        "English": "Rune of Melandru",
+        "Spanish": "Runa de Melandru",
+        "German": "Rune der Melandru",
+        "French": "Rune de Melandru"
+      },
+      "DisplayTexts": {
+        "English": "Rune of Melandru",
+        "Spanish": "Runa de Melandru",
+        "German": "Rune der Melandru",
+        "French": "Rune de Melandru"
+      },
+      "Descriptions": {
+        "English": "Double-click to apply to a piece of armor.",
+        "Spanish": "Haz doble clic para aplicar a una armadura.",
+        "German": "Doppelklicken, um auf ein Rüstungsteil anzuwenden.",
+        "French": "Double-cliquez pour l'appliquer à une pièce d'armure."
+      }
+    },
+    "21195": {
+      "Bonuses": [],
+      "BonusDescriptions": {
+        "LocalizedBonuses": {
+          "0": {
+            "English": "+25 Power",
+            "Spanish": "+25 de potencia",
+            "German": "+25 Kraft",
+            "French": "Puissance +25"
+          },
+          "1": {
+            "English": "+5% Boon Duration",
+            "Spanish": "+5 % de duración de bendición",
+            "German": "+5 % Segensdauer",
+            "French": "Durée d'avantage +5%"
+          },
+          "2": {
+            "English": "+50 Power",
+            "Spanish": "+50 de potencia",
+            "German": "+50 Kraft",
+            "French": "Puissance +50"
+          },
+          "3": {
+            "English": "+10% Boon Duration",
+            "Spanish": "+10 % de duración de bendición",
+            "German": "+10 % Segensdauer",
+            "French": "Durée d'avantage +10%"
+          },
+          "4": {
+            "English": "+100 Power",
+            "Spanish": "+100 de potencia",
+            "German": "+100 Kraft",
+            "French": "Puissance +100"
+          },
+          "5": {
+            "English": "Grant nearby allies 5 stacks of might, fury, and swiftness for 8 seconds while in combat. (Cooldown: 30 Seconds)",
+            "Spanish": "Mientras estás en combate otorgas a los aliados cercanos 5 acumulaciones de poder, furia y celeridad durante 8 segundos. (Recarga: 30 segundos)",
+            "German": "Verleiht Verbündeten in der Nähe im Kampf 8 Sekunden lang 5 Stapel Macht, Wut und Eile. <c=@reminder>(Erholzeit: 30 Sekunden)</c>",
+            "French": "Vous conférez 5 charges de Pouvoir, Fureur et Rapidité à vos alliés à proximité pendant 8 secondes en combat. (Temps de recharge : 30 secondes)"
+          }
+        }
+      },
+      "Type": 14,
+      "TemplateSlot": -1,
+      "Id": 21195,
+      "MappedId": 31,
+      "Rarity": 6,
+      "Chatlink": "[&AgHLUgAA]",
+      "AssetId": 220717,
+      "Names": {
+        "English": "Rune of the Pack",
+        "Spanish": "Runa de la manada",
+        "German": "Rune des Rudels",
+        "French": "Rune de la meute"
+      },
+      "DisplayTexts": {
+        "English": "Rune of the Pack",
+        "Spanish": "Runa de la manada",
+        "German": "Rune des Rudels",
+        "French": "Rune de la meute"
+      },
+      "Descriptions": {
+        "English": "Double-click to apply to a piece of armor.",
+        "Spanish": "Haz doble clic para aplicar a una armadura.",
+        "German": "Doppelklicken, um auf ein Rüstungsteil anzuwenden.",
+        "French": "Double-cliquez pour l'appliquer à une pièce d'armure."
+      }
+    },
+    "21197": {
+      "Bonuses": [],
+      "BonusDescriptions": {
+        "LocalizedBonuses": {
+          "0": {
+            "English": "+25 Ferocity",
+            "Spanish": "+25 de ferocidad",
+            "German": "+25 Wildheit",
+            "French": "Férocité +25"
+          },
+          "1": {
+            "English": "+4% Fury Duration",
+            "Spanish": "+4 % de duración de furia",
+            "German": "+4 % Wutdauer",
+            "French": "Durée de Fureur +4%"
+          },
+          "2": {
+            "English": "+50 Ferocity",
+            "Spanish": "+50 de ferocidad",
+            "German": "+50 Wildheit",
+            "French": "Férocité +50"
+          },
+          "3": {
+            "English": "+6% Fury Duration",
+            "Spanish": "+6 % de duración de furia",
+            "German": "+6 % Wutdauer",
+            "French": "Durée de Fureur +6%"
+          },
+          "4": {
+            "English": "+100 Ferocity",
+            "Spanish": "+100 de ferocidad",
+            "German": "+100 Wildheit",
+            "French": "Férocité +100"
+          },
+          "5": {
+            "English": "+125 Ferocity",
+            "Spanish": "+125 de ferocidad",
+            "German": "+125 Wildheit",
+            "French": "Férocité +125"
+          }
+        }
+      },
+      "Type": 14,
+      "TemplateSlot": -1,
+      "Id": 21197,
+      "MappedId": 32,
+      "Rarity": 6,
+      "Chatlink": "[&AgHNUgAA]",
+      "AssetId": 220719,
+      "Names": {
+        "English": "Rune of Rage",
+        "Spanish": "Runa de rabia",
+        "German": "Rune der Rage",
+        "French": "Rune de rage"
+      },
+      "DisplayTexts": {
+        "English": "Rune of Rage",
+        "Spanish": "Runa de rabia",
+        "German": "Rune der Rage",
+        "French": "Rune de rage"
+      },
+      "Descriptions": {
+        "English": "Double-click to apply to a piece of armor.",
+        "Spanish": "Haz doble clic para aplicar a una armadura.",
+        "German": "Doppelklicken, um auf ein Rüstungsteil anzuwenden.",
+        "French": "Double-cliquez pour l'appliquer à une pièce d'armure."
+      }
+    },
+    "21198": {
+      "Bonuses": [],
+      "BonusDescriptions": {
+        "LocalizedBonuses": {
+          "0": {
+            "English": "+25 Precision",
+            "Spanish": "+25 de precisión",
+            "German": "+25 Präzision",
+            "French": "Précision +25"
+          },
+          "1": {
+            "English": "+4% Poison Duration",
+            "Spanish": "+4 % de duración de veneno",
+            "German": "+4 % Giftdauer",
+            "French": "Durée d'Empoisonnement +4%"
+          },
+          "2": {
+            "English": "+50 Precision",
+            "Spanish": "+50 de precisión",
+            "German": "+50 Präzision",
+            "French": "Précision +50"
+          },
+          "3": {
+            "English": "+6% Weakness Duration",
+            "Spanish": "+6 % de duración de debilidad",
+            "German": "+6 % Schwächedauer",
+            "French": "Durée de Faiblesse +6%"
+          },
+          "4": {
+            "English": "+100 Precision",
+            "Spanish": "+100 de precisión",
+            "German": "+100 Präzision",
+            "French": "Précision +100"
+          },
+          "5": {
+            "English": "+5% Condition Duration",
+            "Spanish": "+5 % de duración de condición",
+            "German": "+5 % Zustandsdauer",
+            "French": "Durée d'altération +5%"
+          }
+        }
+      },
+      "Type": 14,
+      "TemplateSlot": -1,
+      "Id": 21198,
+      "MappedId": 33,
+      "Rarity": 6,
+      "Chatlink": "[&AgHOUgAA]",
+      "AssetId": 220720,
+      "Names": {
+        "English": "Rune of Rata Sum",
+        "Spanish": "Runa de Rata Sum",
+        "German": "Rune von Rata Sum",
+        "French": "Rune de Rata Sum"
+      },
+      "DisplayTexts": {
+        "English": "Rune of Rata Sum",
+        "Spanish": "Runa de Rata Sum",
+        "German": "Rune von Rata Sum",
+        "French": "Rune de Rata Sum"
+      },
+      "Descriptions": {
+        "English": "Double-click to apply to a piece of armor.",
+        "Spanish": "Haz doble clic para aplicar a una armadura.",
+        "German": "Doppelklicken, um auf ein Rüstungsteil anzuwenden.",
+        "French": "Double-cliquez pour l'appliquer à une pièce d'armure."
+      }
+    },
+    "21199": {
+      "Bonuses": [],
+      "BonusDescriptions": {
+        "LocalizedBonuses": {
+          "0": {
+            "English": "+25 Toughness",
+            "Spanish": "+25 de dureza",
+            "German": "+25 Zähigkeit",
+            "French": "Robustesse +25"
+          },
+          "1": {
+            "English": "+4% Chill Duration",
+            "Spanish": "+4 % de duración de congelación",
+            "German": "+4 % Kühledauer",
+            "French": "Durée de Givre +4%"
+          },
+          "2": {
+            "English": "+50 Toughness",
+            "Spanish": "+50 de dureza",
+            "German": "+50 Zähigkeit",
+            "French": "Robustesse +50"
+          },
+          "3": {
+            "English": "+6% Chill Duration",
+            "Spanish": "+6 % de duración de congelación",
+            "German": "+6 % Kühledauer",
+            "French": "Durée de Givre +6%"
+          },
+          "4": {
+            "English": "+100 Toughness",
+            "Spanish": "+100 de dureza",
+            "German": "+100 Zähigkeit",
+            "French": "Robustesse +100"
+          },
+          "5": {
+            "English": "-66% Incoming Chill Duration",
+            "Spanish": "-66 % de duración de congelación recibida",
+            "German": "-66 % erlittene Kühledauer",
+            "French": "Durée de Givre subi -66%"
+          }
+        }
+      },
+      "Type": 14,
+      "TemplateSlot": -1,
+      "Id": 21199,
+      "MappedId": 34,
+      "Rarity": 6,
+      "Chatlink": "[&AgHPUgAA]",
+      "AssetId": 220721,
+      "Names": {
+        "English": "Rune of the Svanir",
+        "Spanish": "Runa de los Svanir",
+        "German": "Rune der Svanir",
+        "French": "Rune de Svanir"
+      },
+      "DisplayTexts": {
+        "English": "Rune of the Svanir",
+        "Spanish": "Runa de los Svanir",
+        "German": "Rune der Svanir",
+        "French": "Rune de Svanir"
+      },
+      "Descriptions": {
+        "English": "Double-click to apply to a piece of armor.",
+        "Spanish": "Haz doble clic para aplicar a una armadura.",
+        "German": "Doppelklicken, um auf ein Rüstungsteil anzuwenden.",
+        "French": "Double-cliquez pour l'appliquer à une pièce d'armure."
+      }
+    },
+    "21200": {
+      "Bonuses": [],
+      "BonusDescriptions": {
+        "LocalizedBonuses": {
+          "0": {
+            "English": "+25 Vitality",
+            "Spanish": "+25 de vitalidad",
+            "German": "+25 Vitalität",
+            "French": "Vitalité +25"
+          },
+          "1": {
+            "English": "+4% Swiftness Duration",
+            "Spanish": "+4 % de duración de celeridad",
+            "German": "+4 % Eiledauer",
+            "French": "Durée de Rapidité +4%"
+          },
+          "2": {
+            "English": "+50 Vitality",
+            "Spanish": "+50 de vitalidad",
+            "German": "+50 Vitalität",
+            "French": "Vitalité +50"
+          },
+          "3": {
+            "English": "+6% Swiftness Duration",
+            "Spanish": "+6 % de duración de celeridad",
+            "German": "+6 % Eiledauer",
+            "French": "Durée de Rapidité +6%"
+          },
+          "4": {
+            "English": "+100 Vitality",
+            "Spanish": "+100 de vitalidad",
+            "German": "+100 Vitalität",
+            "French": "Vitalité +100"
+          },
+          "5": {
+            "English": "+10% Swiftness Duration",
+            "Spanish": "+10 % de duración de celeridad",
+            "German": "+10 % Eiledauer",
+            "French": "Durée de Rapidité +10%"
+          }
+        }
+      },
+      "Type": 14,
+      "TemplateSlot": -1,
+      "Id": 21200,
+      "MappedId": 35,
+      "Rarity": 6,
+      "Chatlink": "[&AgHQUgAA]",
+      "AssetId": 220722,
+      "Names": {
+        "English": "Rune of Speed",
+        "Spanish": "Runa de velocidad",
+        "German": "Rune der Geschwindigkeit",
+        "French": "Rune de vitesse"
+      },
+      "DisplayTexts": {
+        "English": "Rune of Speed",
+        "Spanish": "Runa de velocidad",
+        "German": "Rune der Geschwindigkeit",
+        "French": "Rune de vitesse"
+      },
+      "Descriptions": {
+        "English": "Double-click to apply to a piece of armor.",
+        "Spanish": "Haz doble clic para aplicar a una armadura.",
+        "German": "Doppelklicken, um auf ein Rüstungsteil anzuwenden.",
+        "French": "Double-cliquez pour l'appliquer à une pièce d'armure."
+      }
+    },
+    "21201": {
+      "Bonuses": [],
+      "BonusDescriptions": {
+        "LocalizedBonuses": {
+          "0": {
+            "English": "+25 Condition Damage",
+            "Spanish": "+25 de daño de condición",
+            "German": "+25 Zustandsschaden",
+            "French": "Dégâts par altération +25"
+          },
+          "1": {
+            "English": "+35 Toughness",
+            "Spanish": "+35 de dureza",
+            "German": "+35 Zähigkeit",
+            "French": "Robustesse +35"
+          },
+          "2": {
+            "English": "+50 Condition Damage",
+            "Spanish": "+50 de daño de condición",
+            "German": "+50 Zustandsschaden",
+            "French": "Dégâts par altération +50"
+          },
+          "3": {
+            "English": "+65 Toughness",
+            "Spanish": "+65 de dureza",
+            "German": "+65 Zähigkeit",
+            "French": "Robustesse +65"
+          },
+          "4": {
+            "English": "+100 Condition Damage",
+            "Spanish": "+100 de daño de condición",
+            "German": "+100 Zustandsschaden",
+            "French": "Dégâts par altération +100"
+          },
+          "5": {
+            "English": "+125 Toughness",
+            "Spanish": "+125 de dureza",
+            "German": "+125 Zähigkeit",
+            "French": "Robustesse +125"
+          }
+        }
+      },
+      "Type": 14,
+      "TemplateSlot": -1,
+      "Id": 21201,
+      "MappedId": 36,
+      "Rarity": 6,
+      "Chatlink": "[&AgHRUgAA]",
+      "AssetId": 220723,
+      "Names": {
+        "English": "Rune of the Undead",
+        "Spanish": "Runa de los muertos vivientes",
+        "German": "Rune der Untoten",
+        "French": "Rune de mort-vivant"
+      },
+      "DisplayTexts": {
+        "English": "Rune of the Undead",
+        "Spanish": "Runa de los muertos vivientes",
+        "German": "Rune der Untoten",
+        "French": "Rune de mort-vivant"
+      },
+      "Descriptions": {
+        "English": "Double-click to apply to a piece of armor.",
+        "Spanish": "Haz doble clic para aplicar a una armadura.",
+        "German": "Doppelklicken, um auf ein Rüstungsteil anzuwenden.",
+        "French": "Double-cliquez pour l'appliquer à une pièce d'armure."
+      }
+    },
+    "21202": {
+      "Bonuses": [],
+      "BonusDescriptions": {
+        "LocalizedBonuses": {
+          "0": {
+            "English": "+25 Power",
+            "Spanish": "+25 de potencia",
+            "German": "+25 Kraft",
+            "French": "Puissance +25"
+          },
+          "1": {
+            "English": "+35 Vitality",
+            "Spanish": "+35 de vitalidad",
+            "German": "+35 Vitalität",
+            "French": "Vitalité +35"
+          },
+          "2": {
+            "English": "+50 Power",
+            "Spanish": "+50 de potencia",
+            "German": "+50 Kraft",
+            "French": "Puissance +50"
+          },
+          "3": {
+            "English": "+65 Vitality",
+            "Spanish": "+65 de vitalidad",
+            "German": "+65 Vitalität",
+            "French": "Vitalité +65"
+          },
+          "4": {
+            "English": "+100 Power",
+            "Spanish": "+100 de potencia",
+            "German": "+100 Kraft",
+            "French": "Puissance +100"
+          },
+          "5": {
+            "English": "+125 Vitality",
+            "Spanish": "+125 de vitalidad",
+            "German": "+125 Vitalität",
+            "French": "Vitalité +125"
+          }
+        }
+      },
+      "Type": 14,
+      "TemplateSlot": -1,
+      "Id": 21202,
+      "MappedId": 37,
+      "Rarity": 6,
+      "Chatlink": "[&AgHSUgAA]",
+      "AssetId": 220724,
+      "Names": {
+        "English": "Rune of Vampirism",
+        "Spanish": "Runa de vampirismo",
+        "German": "Rune des Vampirismus",
+        "French": "Rune de vampirisme"
+      },
+      "DisplayTexts": {
+        "English": "Rune of Vampirism",
+        "Spanish": "Runa de vampirismo",
+        "German": "Rune des Vampirismus",
+        "French": "Rune de vampirisme"
+      },
+      "Descriptions": {
+        "English": "Double-click to apply to a piece of armor.",
+        "Spanish": "Haz doble clic para aplicar a una armadura.",
+        "German": "Doppelklicken, um auf ein Rüstungsteil anzuwenden.",
+        "French": "Double-cliquez pour l'appliquer à une pièce d'armure."
+      }
+    },
+    "21203": {
+      "Bonuses": [],
+      "BonusDescriptions": {
+        "LocalizedBonuses": {
+          "0": {
+            "English": "+25 Vitality",
+            "Spanish": "+25 de vitalidad",
+            "German": "+25 Vitalität",
+            "French": "Vitalité +25"
+          },
+          "1": {
+            "English": "+35 Ferocity",
+            "Spanish": "+35 de ferocidad",
+            "German": "+35 Wildheit",
+            "French": "Férocité +35"
+          },
+          "2": {
+            "English": "+50 Vitality",
+            "Spanish": "+50 de vitalidad",
+            "German": "+50 Vitalität",
+            "French": "Vitalité +50"
+          },
+          "3": {
+            "English": "+65 Ferocity",
+            "Spanish": "+65 de ferocidad",
+            "German": "+65 Wildheit",
+            "French": "Férocité +65"
+          },
+          "4": {
+            "English": "+100 Vitality",
+            "Spanish": "+100 de vitalidad",
+            "German": "+100 Vitalität",
+            "French": "Vitalité +100"
+          },
+          "5": {
+            "English": "+125 Ferocity",
+            "Spanish": "+125 de ferocidad",
+            "German": "+125 Wildheit",
+            "French": "Férocité +125"
+          }
+        }
+      },
+      "Type": 14,
+      "TemplateSlot": -1,
+      "Id": 21203,
+      "MappedId": 38,
+      "Rarity": 6,
+      "Chatlink": "[&AgHTUgAA]",
+      "AssetId": 220725,
+      "Names": {
+        "English": "Rune of the Wurm",
+        "Spanish": "Runa de la sierpe",
+        "German": "Rune des Wurmes",
+        "French": "Rune de guivre"
+      },
+      "DisplayTexts": {
+        "English": "Rune of the Wurm",
+        "Spanish": "Runa de la sierpe",
+        "German": "Rune des Wurmes",
+        "French": "Rune de guivre"
+      },
+      "Descriptions": {
+        "English": "Double-click to apply to a piece of armor.",
+        "Spanish": "Haz doble clic para aplicar a una armadura.",
+        "German": "Doppelklicken, um auf ein Rüstungsteil anzuwenden.",
+        "French": "Double-cliquez pour l'appliquer à une pièce d'armure."
+      }
+    },
+    "21204": {
+      "Bonuses": [],
+      "BonusDescriptions": {
+        "LocalizedBonuses": {
+          "0": {
+            "English": "+25 Condition Damage",
+            "Spanish": "+25 de daño de condición",
+            "German": "+25 Zustandsschaden",
+            "French": "Dégâts par altération +25"
+          },
+          "1": {
+            "English": "+35 Vitality",
+            "Spanish": "+35 de vitalidad",
+            "German": "+35 Vitalität",
+            "French": "Vitalité +35"
+          },
+          "2": {
+            "English": "+50 Condition Damage",
+            "Spanish": "+50 de daño de condición",
+            "German": "+50 Zustandsschaden",
+            "French": "Dégâts par altération +50"
+          },
+          "3": {
+            "English": "+65 Vitality",
+            "Spanish": "+65 de vitalidad",
+            "German": "+65 Vitalität",
+            "French": "Vitalité +65"
+          },
+          "4": {
+            "English": "+100 Condition Damage",
+            "Spanish": "+100 de daño de condición",
+            "German": "+100 Zustandsschaden",
+            "French": "Dégâts par altération +100"
+          },
+          "5": {
+            "English": "+125 Condition Damage",
+            "Spanish": "+125 de daño de condición",
+            "German": "+125 Zustandsschaden",
+            "French": "Dégâts par altération +125"
+          }
+        }
+      },
+      "Type": 14,
+      "TemplateSlot": -1,
+      "Id": 21204,
+      "MappedId": 39,
+      "Rarity": 6,
+      "Chatlink": "[&AgHUUgAA]",
+      "AssetId": 220726,
+      "Names": {
+        "English": "Rune of the Necromancer",
+        "Spanish": "Runa del nigromante",
+        "German": "Rune des Nekromanten",
+        "French": "Rune de nécromant"
+      },
+      "DisplayTexts": {
+        "English": "Rune of the Necromancer",
+        "Spanish": "Runa del nigromante",
+        "German": "Rune des Nekromanten",
+        "French": "Rune de nécromant"
+      },
+      "Descriptions": {
+        "English": "",
+        "Spanish": "((285515))",
+        "German": "((285515))",
+        "French": "((285515))"
+      }
+    },
+    "21205": {
+      "Bonuses": [],
+      "BonusDescriptions": {
+        "LocalizedBonuses": {
+          "0": {
+            "English": "+25 Power",
+            "Spanish": "+25 de potencia",
+            "German": "+25 Kraft",
+            "French": "Puissance +25"
+          },
+          "1": {
+            "English": "+35 Precision",
+            "Spanish": "+35 de precisión",
+            "German": "+35 Präzision",
+            "French": "Précision +35"
+          },
+          "2": {
+            "English": "+50 Power",
+            "Spanish": "+50 de potencia",
+            "German": "+50 Kraft",
+            "French": "Puissance +50"
+          },
+          "3": {
+            "English": "+65 Precision",
+            "Spanish": "+65 de precisión",
+            "German": "+65 Präzision",
+            "French": "Précision +65"
+          },
+          "4": {
+            "English": "+100 Power",
+            "Spanish": "+100 de potencia",
+            "German": "+100 Kraft",
+            "French": "Puissance +100"
+          },
+          "5": {
+            "English": "+33% Daze Duration",
+            "Spanish": "+33 % de duración de atontamiento",
+            "German": "+33 % Benommenheitsdauer",
+            "French": "Durée de Stupeur +33%"
+          }
+        }
+      },
+      "Type": 14,
+      "TemplateSlot": -1,
+      "Id": 21205,
+      "MappedId": 40,
+      "Rarity": 6,
+      "Chatlink": "[&AgHVUgAA]",
+      "AssetId": 220727,
+      "Names": {
+        "English": "Rune of the Mesmer",
+        "Spanish": "Runa del hipnotizador",
+        "German": "Rune des Mesmers",
+        "French": "Rune d'envoûteur"
+      },
+      "DisplayTexts": {
+        "English": "Rune of the Mesmer",
+        "Spanish": "Runa del hipnotizador",
+        "German": "Rune des Mesmers",
+        "French": "Rune d'envoûteur"
+      },
+      "Descriptions": {
+        "English": "Double-click to apply to a piece of armor.",
+        "Spanish": "Haz doble clic para aplicar a una armadura.",
+        "German": "Doppelklicken, um auf ein Rüstungsteil anzuwenden.",
+        "French": "Double-cliquez pour l'appliquer à une pièce d'armure."
+      }
+    },
+    "21206": {
+      "Bonuses": [],
+      "BonusDescriptions": {
+        "LocalizedBonuses": {
+          "0": {
+            "English": "+25 Toughness",
+            "Spanish": "+25 de dureza",
+            "German": "+25 Zähigkeit",
+            "French": "Robustesse +25"
+          },
+          "1": {
+            "English": "+35 Condition Damage",
+            "Spanish": "+35 de daño de condición",
+            "German": "+35 Zustandsschaden",
+            "French": "Dégâts par altération +35"
+          },
+          "2": {
+            "English": "+50 Toughness",
+            "Spanish": "+50 de dureza",
+            "German": "+50 Zähigkeit",
+            "French": "Robustesse +50"
+          },
+          "3": {
+            "English": "+65 Condition Damage",
+            "Spanish": "+65 de daño de condición",
+            "German": "+65 Zustandsschaden",
+            "French": "Dégâts par altération +65"
+          },
+          "4": {
+            "English": "+100 Toughness",
+            "Spanish": "+100 de dureza",
+            "German": "+100 Zähigkeit",
+            "French": "Robustesse +100"
+          },
+          "5": {
+            "English": "+125 Condition Damage",
+            "Spanish": "+125 de daño de condición",
+            "German": "+125 Zustandsschaden",
+            "French": "Dégâts par altération +125"
+          }
+        }
+      },
+      "Type": 14,
+      "TemplateSlot": -1,
+      "Id": 21206,
+      "MappedId": 41,
+      "Rarity": 6,
+      "Chatlink": "[&AgHWUgAA]",
+      "AssetId": 220728,
+      "Names": {
+        "English": "Rune of the Engineer",
+        "Spanish": "Runa del ingeniero",
+        "German": "Rune des Ingenieurs",
+        "French": "Rune d'ingénieur"
+      },
+      "DisplayTexts": {
+        "English": "Rune of the Engineer",
+        "Spanish": "Runa del ingeniero",
+        "German": "Rune des Ingenieurs",
+        "French": "Rune d'ingénieur"
+      },
+      "Descriptions": {
+        "English": "Double-click to apply to a piece of armor.",
+        "Spanish": "Haz doble clic para aplicar a una armadura.",
+        "German": "Doppelklicken, um auf ein Rüstungsteil anzuwenden.",
+        "French": "Double-cliquez pour l'appliquer à une pièce d'armure."
+      }
+    },
+    "21207": {
+      "Bonuses": [],
+      "BonusDescriptions": {
+        "LocalizedBonuses": {
+          "0": {
+            "English": "+25 Precision",
+            "Spanish": "+25 de precisión",
+            "German": "+25 Präzision",
+            "French": "Précision +25"
+          },
+          "1": {
+            "English": "+35 Ferocity",
+            "Spanish": "+35 de ferocidad",
+            "German": "+35 Wildheit",
+            "French": "Férocité +35"
+          },
+          "2": {
+            "English": "+50 Precision",
+            "Spanish": "+50 de precisión",
+            "German": "+50 Präzision",
+            "French": "Précision +50"
+          },
+          "3": {
+            "English": "+65 Ferocity",
+            "Spanish": "+65 de ferocidad",
+            "German": "+65 Wildheit",
+            "French": "Férocité +65"
+          },
+          "4": {
+            "English": "+100 Precision",
+            "Spanish": "+100 de precisión",
+            "German": "+100 Präzision",
+            "French": "Précision +100"
+          },
+          "5": {
+            "English": "+125 Precision",
+            "Spanish": "+125 de precisión",
+            "German": "+125 Präzision",
+            "French": "Précision +125"
+          }
+        }
+      },
+      "Type": 14,
+      "TemplateSlot": -1,
+      "Id": 21207,
+      "MappedId": 42,
+      "Rarity": 6,
+      "Chatlink": "[&AgHXUgAA]",
+      "AssetId": 220729,
+      "Names": {
+        "English": "Rune of the Ranger",
+        "Spanish": "Runa del guardabosques",
+        "German": "Rune des Waldläufers",
+        "French": "Rune de rôdeur"
+      },
+      "DisplayTexts": {
+        "English": "Rune of the Ranger",
+        "Spanish": "Runa del guardabosques",
+        "German": "Rune des Waldläufers",
+        "French": "Rune de rôdeur"
+      },
+      "Descriptions": {
+        "English": "Double-click to apply to a piece of armor.",
+        "Spanish": "Haz doble clic para aplicar a una armadura.",
+        "German": "Doppelklicken, um auf ein Rüstungsteil anzuwenden.",
+        "French": "Double-cliquez pour l'appliquer à une pièce d'armure."
+      }
+    },
+    "21208": {
+      "Bonuses": [],
+      "BonusDescriptions": {
+        "LocalizedBonuses": {
+          "0": {
+            "English": "+25 Power",
+            "Spanish": "+25 de potencia",
+            "German": "+25 Kraft",
+            "French": "Puissance +25"
+          },
+          "1": {
+            "English": "+35 Condition Damage",
+            "Spanish": "+35 de daño de condición",
+            "German": "+35 Zustandsschaden",
+            "French": "Dégâts par altération +35"
+          },
+          "2": {
+            "English": "+50 Power",
+            "Spanish": "+50 de potencia",
+            "German": "+50 Kraft",
+            "French": "Puissance +50"
+          },
+          "3": {
+            "English": "+65 Condition Damage",
+            "Spanish": "+65 de daño de condición",
+            "German": "+65 Zustandsschaden",
+            "French": "Dégâts par altération +65"
+          },
+          "4": {
+            "English": "+100 Power",
+            "Spanish": "+100 de potencia",
+            "German": "+100 Kraft",
+            "French": "Puissance +100"
+          },
+          "5": {
+            "English": "+125 Condition Damage",
+            "Spanish": "+125 de daño de condición",
+            "German": "+125 Zustandsschaden",
+            "French": "Dégâts par altération +125"
+          }
+        }
+      },
+      "Type": 14,
+      "TemplateSlot": -1,
+      "Id": 21208,
+      "MappedId": 43,
+      "Rarity": 6,
+      "Chatlink": "[&AgHYUgAA]",
+      "AssetId": 220730,
+      "Names": {
+        "English": "Rune of the Elementalist",
+        "Spanish": "Runa del elementalista",
+        "German": "Rune des Elementarmagiers",
+        "French": "Rune d'élémentaliste"
+      },
+      "DisplayTexts": {
+        "English": "Rune of the Elementalist",
+        "Spanish": "Runa del elementalista",
+        "German": "Rune des Elementarmagiers",
+        "French": "Rune d'élémentaliste"
+      },
+      "Descriptions": {
+        "English": "",
+        "Spanish": "((556311))",
+        "German": "((556311))",
+        "French": "((556311))"
+      }
+    },
+    "21209": {
+      "Bonuses": [],
+      "BonusDescriptions": {
+        "LocalizedBonuses": {
+          "0": {
+            "English": "+25 Precision",
+            "Spanish": "+25 de precisión",
+            "German": "+25 Präzision",
+            "French": "Précision +25"
+          },
+          "1": {
+            "English": "+35 Condition Damage",
+            "Spanish": "+35 de daño de condición",
+            "German": "+35 Zustandsschaden",
+            "French": "Dégâts par altération +35"
+          },
+          "2": {
+            "English": "+50 Precision",
+            "Spanish": "+50 de precisión",
+            "German": "+50 Präzision",
+            "French": "Précision +50"
+          },
+          "3": {
+            "English": "+65 Condition Damage",
+            "Spanish": "+65 de daño de condición",
+            "German": "+65 Zustandsschaden",
+            "French": "Dégâts par altération +65"
+          },
+          "4": {
+            "English": "+100 Precision",
+            "Spanish": "+100 de precisión",
+            "German": "+100 Präzision",
+            "French": "Précision +100"
+          },
+          "5": {
+            "English": "+125 Precision",
+            "Spanish": "+125 de precisión",
+            "German": "+125 Präzision",
+            "French": "Précision +125"
+          }
+        }
+      },
+      "Type": 14,
+      "TemplateSlot": -1,
+      "Id": 21209,
+      "MappedId": 44,
+      "Rarity": 6,
+      "Chatlink": "[&AgHZUgAA]",
+      "AssetId": 220731,
+      "Names": {
+        "English": "Rune of the Thief",
+        "Spanish": "Runa del ladrón",
+        "German": "Rune des Diebes",
+        "French": "Rune de voleur"
+      },
+      "DisplayTexts": {
+        "English": "Rune of the Thief",
+        "Spanish": "Runa del ladrón",
+        "German": "Rune des Diebes",
+        "French": "Rune de voleur"
+      },
+      "Descriptions": {
+        "English": "Double-click to apply to a piece of armor.",
+        "Spanish": "Haz doble clic para aplicar a una armadura.",
+        "German": "Doppelklicken, um auf ein Rüstungsteil anzuwenden.",
+        "French": "Double-cliquez pour l'appliquer à une pièce d'armure."
+      }
+    },
+    "21210": {
+      "Bonuses": [],
+      "BonusDescriptions": {
+        "LocalizedBonuses": {
+          "0": {
+            "English": "+25 Vitality",
+            "Spanish": "+25 de vitalidad",
+            "German": "+25 Vitalität",
+            "French": "Vitalité +25"
+          },
+          "1": {
+            "English": "+35 Power",
+            "Spanish": "+35 de potencia",
+            "German": "+35 Kraft",
+            "French": "Puissance +35"
+          },
+          "2": {
+            "English": "+50 Vitality",
+            "Spanish": "+50 de vitalidad",
+            "German": "+50 Vitalität",
+            "French": "Vitalité +50"
+          },
+          "3": {
+            "English": "+65 Power",
+            "Spanish": "+65 de potencia",
+            "German": "+65 Kraft",
+            "French": "Puissance +65"
+          },
+          "4": {
+            "English": "+100 Vitality",
+            "Spanish": "+100 de vitalidad",
+            "German": "+100 Vitalität",
+            "French": "Vitalité +100"
+          },
+          "5": {
+            "English": "+125 Vitality",
+            "Spanish": "+125 de vitalidad",
+            "German": "+125 Vitalität",
+            "French": "Vitalité +125"
+          }
+        }
+      },
+      "Type": 14,
+      "TemplateSlot": -1,
+      "Id": 21210,
+      "MappedId": 45,
+      "Rarity": 6,
+      "Chatlink": "[&AgHaUgAA]",
+      "AssetId": 220732,
+      "Names": {
+        "English": "Rune of the Warrior",
+        "Spanish": "Runa del guerrero",
+        "German": "Rune des Kriegers",
+        "French": "Rune de guerrier"
+      },
+      "DisplayTexts": {
+        "English": "Rune of the Warrior",
+        "Spanish": "Runa del guerrero",
+        "German": "Rune des Kriegers",
+        "French": "Rune de guerrier"
+      },
+      "Descriptions": {
+        "English": "Double-click to apply to a piece of armor.",
+        "Spanish": "Haz doble clic para aplicar a una armadura.",
+        "German": "Doppelklicken, um auf ein Rüstungsteil anzuwenden.",
+        "French": "Double-cliquez pour l'appliquer à une pièce d'armure."
+      }
+    },
+    "21211": {
+      "Bonuses": [],
+      "BonusDescriptions": {
+        "LocalizedBonuses": {
+          "0": {
+            "English": "+25 Toughness",
+            "Spanish": "+25 de dureza",
+            "German": "+25 Zähigkeit",
+            "French": "Robustesse +25"
+          },
+          "1": {
+            "English": "+35 Healing",
+            "Spanish": "+35 de curación",
+            "German": "+35 Heilung",
+            "French": "Guérison +35"
+          },
+          "2": {
+            "English": "+50 Toughness",
+            "Spanish": "+50 de dureza",
+            "German": "+50 Zähigkeit",
+            "French": "Robustesse +50"
+          },
+          "3": {
+            "English": "+65 Healing",
+            "Spanish": "+65 de curación",
+            "German": "+65 Heilung",
+            "French": "Guérison +65"
+          },
+          "4": {
+            "English": "+100 Toughness",
+            "Spanish": "+100 de dureza",
+            "German": "+100 Zähigkeit",
+            "French": "Robustesse +100"
+          },
+          "5": {
+            "English": "+125 Toughness",
+            "Spanish": "+125 de dureza",
+            "German": "+125 Zähigkeit",
+            "French": "Robustesse +125"
+          }
+        }
+      },
+      "Type": 14,
+      "TemplateSlot": -1,
+      "Id": 21211,
+      "MappedId": 46,
+      "Rarity": 6,
+      "Chatlink": "[&AgHbUgAA]",
+      "AssetId": 220733,
+      "Names": {
+        "English": "Rune of the Guardian",
+        "Spanish": "Runa del guardián",
+        "German": "Rune des Wächters",
+        "French": "Rune de gardien"
+      },
+      "DisplayTexts": {
+        "English": "Rune of the Guardian",
+        "Spanish": "Runa del guardián",
+        "German": "Rune des Wächters",
+        "French": "Rune de gardien"
+      },
+      "Descriptions": {
+        "English": "Double-click to apply to a piece of armor.",
+        "Spanish": "Haz doble clic para aplicar a una armadura.",
+        "German": "Doppelklicken, um auf ein Rüstungsteil anzuwenden.",
+        "French": "Double-cliquez pour l'appliquer à une pièce d'armure."
+      }
+    },
+    "21212": {
+      "Bonuses": [],
+      "BonusDescriptions": {
+        "LocalizedBonuses": {
+          "0": {
+            "English": "+25 Vitality",
+            "Spanish": "+25 de vitalidad",
+            "German": "+25 Vitalität",
+            "French": "Vitalité +25"
+          },
+          "1": {
+            "English": "+35 Toughness",
+            "Spanish": "+35 de dureza",
+            "German": "+35 Zähigkeit",
+            "French": "Robustesse +35"
+          },
+          "2": {
+            "English": "+50 Vitality",
+            "Spanish": "+50 de vitalidad",
+            "German": "+50 Vitalität",
+            "French": "Vitalité +50"
+          },
+          "3": {
+            "English": "+65 Toughness",
+            "Spanish": "+65 de dureza",
+            "German": "+65 Zähigkeit",
+            "French": "Robustesse +65"
+          },
+          "4": {
+            "English": "+100 Vitality",
+            "Spanish": "+100 de vitalidad",
+            "German": "+100 Vitalität",
+            "French": "Vitalité +100"
+          },
+          "5": {
+            "English": "+125 Toughness",
+            "Spanish": "+125 de dureza",
+            "German": "+125 Zähigkeit",
+            "French": "Robustesse +125"
+          }
+        }
+      },
+      "Type": 14,
+      "TemplateSlot": -1,
+      "Id": 21212,
+      "MappedId": 47,
+      "Rarity": 6,
+      "Chatlink": "[&AgHcUgAA]",
+      "AssetId": 220734,
+      "Names": {
+        "English": "Rune of the Soldier",
+        "Spanish": "Runa del soldado",
+        "German": "Rune des Soldaten",
+        "French": "Rune de soldat"
+      },
+      "DisplayTexts": {
+        "English": "Rune of the Soldier",
+        "Spanish": "Runa del soldado",
+        "German": "Rune des Soldaten",
+        "French": "Rune de soldat"
+      },
+      "Descriptions": {
+        "English": "Double-click to apply to a piece of armor.",
+        "Spanish": "Haz doble clic para aplicar a una armadura.",
+        "German": "Doppelklicken, um auf ein Rüstungsteil anzuwenden.",
+        "French": "Double-cliquez pour l'appliquer à une pièce d'armure."
+      }
+    },
+    "21213": {
+      "Bonuses": [],
+      "BonusDescriptions": {
+        "LocalizedBonuses": {
+          "0": {
+            "English": "+25 Condition Damage",
+            "Spanish": "+25 de daño de condición",
+            "German": "+25 Zustandsschaden",
+            "French": "Dégâts par altération +25"
+          },
+          "1": {
+            "English": "+35 Power",
+            "Spanish": "+35 de potencia",
+            "German": "+35 Kraft",
+            "French": "Puissance +35"
+          },
+          "2": {
+            "English": "+50 Condition Damage",
+            "Spanish": "+50 de daño de condición",
+            "German": "+50 Zustandsschaden",
+            "French": "Dégâts par altération +50"
+          },
+          "3": {
+            "English": "+65 Power",
+            "Spanish": "+65 de potencia",
+            "German": "+65 Kraft",
+            "French": "Puissance +65"
+          },
+          "4": {
+            "English": "+100 Condition Damage",
+            "Spanish": "+100 de daño de condición",
+            "German": "+100 Zustandsschaden",
+            "French": "Dégâts par altération +100"
+          },
+          "5": {
+            "English": "+125 Condition Damage",
+            "Spanish": "+125 de daño de condición",
+            "German": "+125 Zustandsschaden",
+            "French": "Dégâts par altération +125"
+          }
+        }
+      },
+      "Type": 14,
+      "TemplateSlot": -1,
+      "Id": 21213,
+      "MappedId": 48,
+      "Rarity": 6,
+      "Chatlink": "[&AgHdUgAA]",
+      "AssetId": 221141,
+      "Names": {
+        "English": "Rune of Adventure",
+        "Spanish": "Runa de aventura",
+        "German": "Rune des Abenteuers",
+        "French": "Rune d'aventure"
+      },
+      "DisplayTexts": {
+        "English": "Rune of Adventure",
+        "Spanish": "Runa de aventura",
+        "German": "Rune des Abenteuers",
+        "French": "Rune d'aventure"
+      },
+      "Descriptions": {
+        "English": "Double-click to apply to a piece of armor.",
+        "Spanish": "Haz doble clic para aplicar a una armadura.",
+        "German": "Doppelklicken, um auf ein Rüstungsteil anzuwenden.",
+        "French": "Double-cliquez pour l'appliquer à une pièce d'armure."
+      }
+    },
+    "21214": {
+      "Bonuses": [],
+      "BonusDescriptions": {
+        "LocalizedBonuses": {
+          "0": {
+            "English": "+25 Power",
+            "Spanish": "+25 de potencia",
+            "German": "+25 Kraft",
+            "French": "Puissance +25"
+          },
+          "1": {
+            "English": "+35 Toughness",
+            "Spanish": "+35 de dureza",
+            "German": "+35 Zähigkeit",
+            "French": "Robustesse +35"
+          },
+          "2": {
+            "English": "+50 Power",
+            "Spanish": "+50 de potencia",
+            "German": "+50 Kraft",
+            "French": "Puissance +50"
+          },
+          "3": {
+            "English": "+65 Toughness",
+            "Spanish": "+65 de dureza",
+            "German": "+65 Zähigkeit",
+            "French": "Robustesse +65"
+          },
+          "4": {
+            "English": "+100 Power",
+            "Spanish": "+100 de potencia",
+            "German": "+100 Kraft",
+            "French": "Puissance +100"
+          },
+          "5": {
+            "English": "+125 Toughness",
+            "Spanish": "+125 de dureza",
+            "German": "+125 Zähigkeit",
+            "French": "Robustesse +125"
+          }
+        }
+      },
+      "Type": 14,
+      "TemplateSlot": -1,
+      "Id": 21214,
+      "MappedId": 49,
+      "Rarity": 6,
+      "Chatlink": "[&AgHeUgAA]",
+      "AssetId": 220735,
+      "Names": {
+        "English": "Rune of the Fighter",
+        "Spanish": "Runa del luchador",
+        "German": "Rune des Kämpfers",
+        "French": "Rune de combattant"
+      },
+      "DisplayTexts": {
+        "English": "Rune of the Fighter",
+        "Spanish": "Runa del luchador",
+        "German": "Rune des Kämpfers",
+        "French": "Rune de combattant"
+      },
+      "Descriptions": {
+        "English": "Double-click to apply to a piece of armor.",
+        "Spanish": "Haz doble clic para aplicar a una armadura.",
+        "German": "Doppelklicken, um auf ein Rüstungsteil anzuwenden.",
+        "French": "Double-cliquez pour l'appliquer à une pièce d'armure."
+      }
+    },
+    "21215": {
+      "Bonuses": [],
+      "BonusDescriptions": {
+        "LocalizedBonuses": {
+          "0": {
+            "English": "+25 Power",
+            "Spanish": "+25 de potencia",
+            "German": "+25 Kraft",
+            "French": "Puissance +25"
+          },
+          "1": {
+            "English": "+35 Ferocity",
+            "Spanish": "+35 de ferocidad",
+            "German": "+35 Wildheit",
+            "French": "Férocité +35"
+          },
+          "2": {
+            "English": "+50 Power",
+            "Spanish": "+50 de potencia",
+            "German": "+50 Kraft",
+            "French": "Puissance +50"
+          },
+          "3": {
+            "English": "+65 Ferocity",
+            "Spanish": "+65 de ferocidad",
+            "German": "+65 Wildheit",
+            "French": "Férocité +65"
+          },
+          "4": {
+            "English": "+100 Power",
+            "Spanish": "+100 de potencia",
+            "German": "+100 Kraft",
+            "French": "Puissance +100"
+          },
+          "5": {
+            "English": "+125 Ferocity",
+            "Spanish": "+125 de ferocidad",
+            "German": "+125 Wildheit",
+            "French": "Férocité +125"
+          }
+        }
+      },
+      "Type": 14,
+      "TemplateSlot": -1,
+      "Id": 21215,
+      "MappedId": 50,
+      "Rarity": 6,
+      "Chatlink": "[&AgHfUgAA]",
+      "AssetId": 220736,
+      "Names": {
+        "English": "Rune of the Scholar",
+        "Spanish": "Runa del erudito",
+        "German": "Rune des Gelehrten",
+        "French": "Rune d'érudit"
+      },
+      "DisplayTexts": {
+        "English": "Rune of the Scholar",
+        "Spanish": "Runa del erudito",
+        "German": "Rune des Gelehrten",
+        "French": "Rune d'érudit"
+      },
+      "Descriptions": {
+        "English": "Double-click to apply to a piece of armor.",
+        "Spanish": "Haz doble clic para aplicar a una armadura.",
+        "German": "Doppelklicken, um auf ein Rüstungsteil anzuwenden.",
+        "French": "Double-cliquez pour l'appliquer à une pièce d'armure."
+      }
+    },
+    "21216": {
+      "Bonuses": [],
+      "BonusDescriptions": {
+        "LocalizedBonuses": {
+          "0": {
+            "English": "+25 Healing",
+            "Spanish": "+25 de curación",
+            "German": "+25 Heilung",
+            "French": "Guérison +25"
+          },
+          "1": {
+            "English": "+2% Boon Duration",
+            "Spanish": "+2 % de duración de bendición",
+            "German": "+2 % Segensdauer",
+            "French": "Durée d'avantage +2%"
+          },
+          "2": {
+            "English": "+50 Healing",
+            "Spanish": "+50 de curación",
+            "German": "+50 Heilung",
+            "French": "Guérison +50"
+          },
+          "3": {
+            "English": "+3% Boon Duration",
+            "Spanish": "+3 % de duración de bendición",
+            "German": "+3 % Segensdauer",
+            "French": "Durée d'avantage +3%"
+          },
+          "4": {
+            "English": "+100 Healing",
+            "Spanish": "+100 de curación",
+            "German": "+100 Heilung",
+            "French": "Guérison +100"
+          },
+          "5": {
+            "English": "+5% Boon Duration",
+            "Spanish": "+5 % de duración de bendición",
+            "German": "+5 % Segensdauer",
+            "French": "Durée d'avantage +5%"
+          }
+        }
+      },
+      "Type": 14,
+      "TemplateSlot": -1,
+      "Id": 21216,
+      "MappedId": 51,
+      "Rarity": 6,
+      "Chatlink": "[&AgHgUgAA]",
+      "AssetId": 220737,
+      "Names": {
+        "English": "Rune of the Water",
+        "Spanish": "Runa del agua",
+        "German": "Rune des Wassers",
+        "French": "Rune d'eau"
+      },
+      "DisplayTexts": {
+        "English": "Rune of the Water",
+        "Spanish": "Runa del agua",
+        "German": "Rune des Wassers",
+        "French": "Rune d'eau"
+      },
+      "Descriptions": {
+        "English": "Double-click to apply to a piece of armor.",
+        "Spanish": "Haz doble clic para aplicar a una armadura.",
+        "German": "Doppelklicken, um auf ein Rüstungsteil anzuwenden.",
+        "French": "Double-cliquez pour l'appliquer à une pièce d'armure."
+      }
+    },
+    "21217": {
+      "Bonuses": [],
+      "BonusDescriptions": {
+        "LocalizedBonuses": {
+          "0": {
+            "English": "+25 Healing",
+            "Spanish": "+25 de curación",
+            "German": "+25 Heilung",
+            "French": "Guérison +25"
+          },
+          "1": {
+            "English": "+2% Boon Duration",
+            "Spanish": "+2 % de duración de bendición",
+            "German": "+2 % Segensdauer",
+            "French": "Durée d'avantage +2%"
+          },
+          "2": {
+            "English": "+50 Healing",
+            "Spanish": "+50 de curación",
+            "German": "+50 Heilung",
+            "French": "Guérison +50"
+          },
+          "3": {
+            "English": "+3% Boon Duration",
+            "Spanish": "+3 % de duración de bendición",
+            "German": "+3 % Segensdauer",
+            "French": "Durée d'avantage +3%"
+          },
+          "4": {
+            "English": "+100 Healing",
+            "Spanish": "+100 de curación",
+            "German": "+100 Heilung",
+            "French": "Guérison +100"
+          },
+          "5": {
+            "English": "+125 Healing",
+            "Spanish": "+125 de curación",
+            "German": "+125 Heilung",
+            "French": "Guérison +125"
+          }
+        }
+      },
+      "Type": 14,
+      "TemplateSlot": -1,
+      "Id": 21217,
+      "MappedId": 52,
+      "Rarity": 6,
+      "Chatlink": "[&AgHhUgAA]",
+      "AssetId": 220738,
+      "Names": {
+        "English": "Rune of the Monk",
+        "Spanish": "Runa del monje",
+        "German": "Rune des Mönchs",
+        "French": "Rune de moine"
+      },
+      "DisplayTexts": {
+        "English": "Rune of the Monk",
+        "Spanish": "Runa del monje",
+        "German": "Rune des Mönchs",
+        "French": "Rune de moine"
+      },
+      "Descriptions": {
+        "English": "Double-click to apply to a piece of armor.",
+        "Spanish": "Haz doble clic para aplicar a una armadura.",
+        "German": "Doppelklicken, um auf ein Rüstungsteil anzuwenden.",
+        "French": "Double-cliquez pour l'appliquer à une pièce d'armure."
+      }
+    },
+    "21218": {
+      "Bonuses": [],
+      "BonusDescriptions": {
+        "LocalizedBonuses": {
+          "0": {
+            "English": "+25 Condition Damage",
+            "Spanish": "+25 de daño de condición",
+            "German": "+25 Zustandsschaden",
+            "French": "Dégâts par altération +25"
+          },
+          "1": {
+            "English": "+5% Fear Duration",
+            "Spanish": "+5 % de duración de miedo",
+            "German": "+5 % Furchtdauer",
+            "French": "Durée de Peur +5%"
+          },
+          "2": {
+            "English": "+50 Condition Damage",
+            "Spanish": "+50 de daño de condición",
+            "German": "+50 Zustandsschaden",
+            "French": "Dégâts par altération +50"
+          },
+          "3": {
+            "English": "+3% Condition Duration",
+            "Spanish": "+3 % de duración de condición",
+            "German": "+3 % Zustandsdauer",
+            "French": "Durée d'altération +3%"
+          },
+          "4": {
+            "English": "+100 Condition Damage",
+            "Spanish": "+100 de daño de condición",
+            "German": "+100 Zustandsschaden",
+            "French": "Dégâts par altération +100"
+          },
+          "5": {
+            "English": "+5% Condition Duration",
+            "Spanish": "+5 % de duración de condición",
+            "German": "+5 % Zustandsdauer",
+            "French": "Durée d'altération +5%"
+          }
+        }
+      },
+      "Type": 14,
+      "TemplateSlot": -1,
+      "Id": 21218,
+      "MappedId": 53,
+      "Rarity": 6,
+      "Chatlink": "[&AgHiUgAA]",
+      "AssetId": 220739,
+      "Names": {
+        "English": "Rune of the Nightmare",
+        "Spanish": "Runa de la Pesadilla",
+        "German": "Rune des Albtraums",
+        "French": "Rune des Cauchemars"
+      },
+      "DisplayTexts": {
+        "English": "Rune of the Nightmare",
+        "Spanish": "Runa de la Pesadilla",
+        "German": "Rune des Albtraums",
+        "French": "Cauchemars"
+      },
+      "Descriptions": {
+        "English": "Double-click to apply to a piece of armor.",
+        "Spanish": "Haz doble clic para aplicar a una armadura.",
+        "German": "Doppelklicken, um auf ein Rüstungsteil anzuwenden.",
+        "French": "Double-cliquez pour l'appliquer à une pièce d'armure."
+      }
+    },
+    "21219": {
+      "Bonuses": [],
+      "BonusDescriptions": {
+        "LocalizedBonuses": {
+          "0": {
+            "English": "+25 Toughness",
+            "Spanish": "+25 de dureza",
+            "German": "+25 Zähigkeit",
+            "French": "Robustesse +25"
+          },
+          "1": {
+            "English": "+4% Burning Duration",
+            "Spanish": "+4 % de duración de quemadura",
+            "German": "+4 % Brenndauer",
+            "French": "Durée de Brûlure +4%"
+          },
+          "2": {
+            "English": "+50 Toughness",
+            "Spanish": "+50 de dureza",
+            "German": "+50 Zähigkeit",
+            "French": "Robustesse +50"
+          },
+          "3": {
+            "English": "+6% Burning Duration",
+            "Spanish": "+6 % de duración de quemadura",
+            "German": "+6 % Brenndauer",
+            "French": "Durée de Brûlure +6%"
+          },
+          "4": {
+            "English": "+100 Toughness",
+            "Spanish": "+100 de dureza",
+            "German": "+100 Zähigkeit",
+            "French": "Robustesse +100"
+          },
+          "5": {
+            "English": "+10% Burning Duration",
+            "Spanish": "+10 % de duración de quemadura",
+            "German": "+10 % Brenndauer",
+            "French": "Durée de Brûlure +10%"
+          }
+        }
+      },
+      "Type": 14,
+      "TemplateSlot": -1,
+      "Id": 21219,
+      "MappedId": 54,
+      "Rarity": 6,
+      "Chatlink": "[&AgHjUgAA]",
+      "AssetId": 220740,
+      "Names": {
+        "English": "Rune of the Forge",
+        "Spanish": "Runa de la forja",
+        "German": "Rune der Schmiede",
+        "French": "Rune de la forge"
+      },
+      "DisplayTexts": {
+        "English": "Rune of the Forge",
+        "Spanish": "Runa de la forja",
+        "German": "Rune der Schmiede",
+        "French": "Rune de la forge"
+      },
+      "Descriptions": {
+        "English": "Double-click to apply to a piece of armor.",
+        "Spanish": "Haz doble clic para aplicar a una armadura.",
+        "German": "Doppelklicken, um auf ein Rüstungsteil anzuwenden.",
+        "French": "Double-cliquez pour l'appliquer à une pièce d'armure."
+      }
+    },
+    "21220": {
+      "Bonuses": [],
+      "BonusDescriptions": {
+        "LocalizedBonuses": {
+          "0": {
+            "English": "+25 Power",
+            "Spanish": "+25 de potencia",
+            "German": "+25 Kraft",
+            "French": "Puissance +25"
+          },
+          "1": {
+            "English": "+4% Burning Duration",
+            "Spanish": "+4 % de duración de quemadura",
+            "German": "+4 % Brenndauer",
+            "French": "Durée de Brûlure +4%"
+          },
+          "2": {
+            "English": "+50 Power",
+            "Spanish": "+50 de potencia",
+            "German": "+50 Kraft",
+            "French": "Puissance +50"
+          },
+          "3": {
+            "English": "+3% Condition Duration",
+            "Spanish": "+3 % de duración de condición",
+            "German": "+3 % Zustandsdauer",
+            "French": "Durée d'altération +3%"
+          },
+          "4": {
+            "English": "+100 Power",
+            "Spanish": "+100 de potencia",
+            "German": "+100 Kraft",
+            "French": "Puissance +100"
+          },
+          "5": {
+            "English": "+10% Burning Duration",
+            "Spanish": "+10 % de duración de quemadura",
+            "German": "+10 % Brenndauer",
+            "French": "Durée de Brûlure +10%"
+          }
+        }
+      },
+      "Type": 14,
+      "TemplateSlot": -1,
+      "Id": 21220,
+      "MappedId": 55,
+      "Rarity": 6,
+      "Chatlink": "[&AgHkUgAA]",
+      "AssetId": 220741,
+      "Names": {
+        "English": "Rune of the Baelfire",
+        "Spanish": "Runa del Fuegobael",
+        "German": "Rune des Baelfeuers",
+        "French": "Rune de Feu-de-Bael"
+      },
+      "DisplayTexts": {
+        "English": "Rune of the Baelfire",
+        "Spanish": "Runa del Fuegobael",
+        "German": "Rune des Baelfeuers",
+        "French": "Rune de Feu-de-Bael"
+      },
+      "Descriptions": {
+        "English": "Double-click to apply to a piece of armor.",
+        "Spanish": "Haz doble clic para aplicar a una armadura.",
+        "German": "Doppelklicken, um auf ein Rüstungsteil anzuwenden.",
+        "French": "Double-cliquez pour l'appliquer à une pièce d'armure."
+      }
+    },
+    "21221": {
+      "Bonuses": [],
+      "BonusDescriptions": {
+        "LocalizedBonuses": {
+          "0": {
+            "English": "+25 Vitality",
+            "Spanish": "+25 de vitalidad",
+            "German": "+25 Vitalität",
+            "French": "Vitalité +25"
+          },
+          "1": {
+            "English": "+2% Boon Duration",
+            "Spanish": "+2 % de duración de bendición",
+            "German": "+2 % Segensdauer",
+            "French": "Durée d'avantage +2%"
+          },
+          "2": {
+            "English": "+50 Vitality",
+            "Spanish": "+50 de vitalidad",
+            "German": "+50 Vitalität",
+            "French": "Vitalité +50"
+          },
+          "3": {
+            "English": "+3% Boon Duration",
+            "Spanish": "+3 % de duración de bendición",
+            "German": "+3 % Segensdauer",
+            "French": "Durée d'avantage +3%"
+          },
+          "4": {
+            "English": "+100 Vitality",
+            "Spanish": "+100 de vitalidad",
+            "German": "+100 Vitalität",
+            "French": "Vitalité +100"
+          },
+          "5": {
+            "English": "+125 Vitality",
+            "Spanish": "+125 de vitalidad",
+            "German": "+125 Vitalität",
+            "French": "Vitalité +125"
+          }
+        }
+      },
+      "Type": 14,
+      "TemplateSlot": -1,
+      "Id": 21221,
+      "MappedId": 56,
+      "Rarity": 6,
+      "Chatlink": "[&AgHlUgAA]",
+      "AssetId": 220742,
+      "Names": {
+        "English": "Rune of Sanctuary",
+        "Spanish": "Runa de santuario",
+        "German": "Rune der Zuflucht",
+        "French": "Rune de sanctuaire"
+      },
+      "DisplayTexts": {
+        "English": "Rune of Sanctuary",
+        "Spanish": "Runa de santuario",
+        "German": "Rune der Zuflucht",
+        "French": "Rune de sanctuaire"
+      },
+      "Descriptions": {
+        "English": "Double-click to apply to a piece of armor.",
+        "Spanish": "Haz doble clic para aplicar a una armadura.",
+        "German": "Doppelklicken, um auf ein Rüstungsteil anzuwenden.",
+        "French": "Double-cliquez pour l'appliquer à une pièce d'armure."
+      }
+    },
+    "21222": {
+      "Bonuses": [],
+      "BonusDescriptions": {
+        "LocalizedBonuses": {
+          "0": {
+            "English": "+25 Condition Damage",
+            "Spanish": "+25 de daño de condición",
+            "German": "+25 Zustandsschaden",
+            "French": "Dégâts par altération +25"
+          },
+          "1": {
+            "English": "-5% Incoming Condition Duration",
+            "Spanish": "-5 % de duración de condición recibida",
+            "German": "-5 % erlittene Zustandsdauer",
+            "French": "Durée d'altération subie -5%"
+          },
+          "2": {
+            "English": "+50 Condition Damage",
+            "Spanish": "+50 de daño de condición",
+            "German": "+50 Zustandsschaden",
+            "French": "Dégâts par altération +50"
+          },
+          "3": {
+            "English": "-10% Incoming Condition Duration",
+            "Spanish": "-10 % de duración de condición recibida",
+            "German": "-10 % erlittene Zustandsdauer",
+            "French": "Durée d'altération subie -10%"
+          },
+          "4": {
+            "English": "+100 Condition Damage",
+            "Spanish": "+100 de daño de condición",
+            "German": "+100 Zustandsschaden",
+            "French": "Dégâts par altération +100"
+          },
+          "5": {
+            "English": "-10% Incoming Condition Duration",
+            "Spanish": "-10 % de duración de condición recibida",
+            "German": "-10 % erlittene Zustandsdauer",
+            "French": "Durée d'altération subie -10%"
+          }
+        }
+      },
+      "Type": 14,
+      "TemplateSlot": -1,
+      "Id": 21222,
+      "MappedId": 57,
+      "Rarity": 6,
+      "Chatlink": "[&AgHmUgAA]",
+      "AssetId": 220743,
+      "Names": {
+        "English": "Rune of Orr",
+        "Spanish": "Runa de Orr",
+        "German": "Rune von Orr",
+        "French": "Rune d'Orr"
+      },
+      "DisplayTexts": {
+        "English": "Rune of Orr",
+        "Spanish": "Runa de Orr",
+        "German": "Rune von Orr",
+        "French": "Rune d'Orr"
+      },
+      "Descriptions": {
+        "English": "Double-click to apply to a piece of armor.",
+        "Spanish": "Haz doble clic para aplicar a una armadura.",
+        "German": "Doppelklicken, um auf ein Rüstungsteil anzuwenden.",
+        "French": "Double-cliquez pour l'appliquer à une pièce d'armure."
+      }
+    },
+    "65224": {
+      "Bonuses": [],
+      "BonusDescriptions": {
+        "LocalizedBonuses": {
+          "0": {
+            "English": "+25 Toughness",
+            "Spanish": "+25 de dureza",
+            "German": "+25 Zähigkeit",
+            "French": "Robustesse +25"
+          },
+          "1": {
+            "English": "-5% Incoming Condition Duration",
+            "Spanish": "-5 % de duración de condición recibida",
+            "German": "-5 % erlittene Zustandsdauer",
+            "French": "Durée d'altération subie -5%"
+          },
+          "2": {
+            "English": "+50 Toughness",
+            "Spanish": "+50 de dureza",
+            "German": "+50 Zähigkeit",
+            "French": "Robustesse +50"
+          },
+          "3": {
+            "English": "-10% Incoming Condition Duration",
+            "Spanish": "-10 % de duración de condición recibida",
+            "German": "-10 % erlittene Zustandsdauer",
+            "French": "Durée d'altération subie -10%"
+          },
+          "4": {
+            "English": "+100 Toughness",
+            "Spanish": "+100 de dureza",
+            "German": "+100 Zähigkeit",
+            "French": "Robustesse +100"
+          },
+          "5": {
+            "English": "-10% Incoming Condition Duration",
+            "Spanish": "-10 % de duración de condición recibida",
+            "German": "-10 % erlittene Zustandsdauer",
+            "French": "Durée d'altération subie -10%"
+          }
+        }
+      },
+      "Type": 14,
+      "TemplateSlot": -1,
+      "Id": 65224,
+      "MappedId": 58,
+      "Rarity": 6,
+      "Chatlink": "[&AgHI/gAA]",
+      "AssetId": 681057,
+      "Names": {
+        "English": "Rune of Resistance",
+        "Spanish": "Runa de resistencia",
+        "German": "Rune des Widerstands",
+        "French": "Rune de résistance"
+      },
+      "DisplayTexts": {
+        "English": "Rune of Resistance",
+        "Spanish": "Runa de resistencia",
+        "German": "Rune des Widerstands",
+        "French": "Rune de résistance"
+      },
+      "Descriptions": {
+        "English": "",
+        "Spanish": "",
+        "German": "",
+        "French": ""
+      }
+    },
+    "65233": {
+      "Bonuses": [],
+      "BonusDescriptions": {
+        "LocalizedBonuses": {
+          "0": {
+            "English": "+25 Condition Damage",
+            "Spanish": "+25 de daño de condición",
+            "German": "+25 Zustandsschaden",
+            "French": "Dégâts par altération +25"
+          },
+          "1": {
+            "English": "+4% Torment Duration",
+            "Spanish": "+4 % de duración de tormento",
+            "German": "+4 % Peindauer",
+            "French": "Durée de Tourment +4%"
+          },
+          "2": {
+            "English": "+50 Condition Damage",
+            "Spanish": "+50 de daño de condición",
+            "German": "+50 Zustandsschaden",
+            "French": "Dégâts par altération +50"
+          },
+          "3": {
+            "English": "+6% Torment Duration",
+            "Spanish": "+6 % de duración de tormento",
+            "German": "+6 % Peindauer",
+            "French": "Durée de Tourment +6%"
+          },
+          "4": {
+            "English": "+100 Condition Damage",
+            "Spanish": "+100 de daño de condición",
+            "German": "+100 Zustandsschaden",
+            "French": "Dégâts par altération +100"
+          },
+          "5": {
+            "English": "+10% Torment Duration",
+            "Spanish": "+10 % de duración de tormento",
+            "German": "+10 % Peindauer",
+            "French": "Durée de Tourment +10%"
+          }
+        }
+      },
+      "Type": 14,
+      "TemplateSlot": -1,
+      "Id": 65233,
+      "MappedId": 59,
+      "Rarity": 6,
+      "Chatlink": "[&AgHR/gAA]",
+      "AssetId": 619715,
+      "Names": {
+        "English": "Rune of Tormenting",
+        "Spanish": "Runa de tormento",
+        "German": "Rune der Pein",
+        "French": "Rune du tourment"
+      },
+      "DisplayTexts": {
+        "English": "Rune of Tormenting",
+        "Spanish": "Runa de tormento",
+        "German": "Rune der Pein",
+        "French": "Rune du tourment"
+      },
+      "Descriptions": {
+        "English": "",
+        "Spanish": "",
+        "German": "",
+        "French": ""
+      }
+    },
+    "65235": {
+      "Bonuses": [],
+      "BonusDescriptions": {
+        "LocalizedBonuses": {
+          "0": {
+            "English": "+25 Condition Damage",
+            "Spanish": "+25 de daño de condición",
+            "German": "+25 Zustandsschaden",
+            "French": "Dégâts par altération +25"
+          },
+          "1": {
+            "English": "+35 Vitality",
+            "Spanish": "+35 de vitalidad",
+            "German": "+35 Vitalität",
+            "French": "Vitalité +35"
+          },
+          "2": {
+            "English": "+50 Condition Damage",
+            "Spanish": "+50 de daño de condición",
+            "German": "+50 Zustandsschaden",
+            "French": "Dégâts par altération +50"
+          },
+          "3": {
+            "English": "+65 Vitality",
+            "Spanish": "+65 de vitalidad",
+            "German": "+65 Vitalität",
+            "French": "Vitalité +65"
+          },
+          "4": {
+            "English": "+100 Condition Damage",
+            "Spanish": "+100 de daño de condición",
+            "German": "+100 Zustandsschaden",
+            "French": "Dégâts par altération +100"
+          },
+          "5": {
+            "English": "+10% Poison Duration",
+            "Spanish": "+10 % de duración de veneno",
+            "German": "+10 % Giftdauer",
+            "French": "Durée d'Empoisonnement +10%"
+          }
+        }
+      },
+      "Type": 14,
+      "TemplateSlot": -1,
+      "Id": 65235,
+      "MappedId": 60,
+      "Rarity": 6,
+      "Chatlink": "[&AgHT/gAA]",
+      "AssetId": 221082,
+      "Names": {
+        "English": "Rune of Scavenging",
+        "Spanish": "Runa de carroñero",
+        "German": "Rune des Plünderns",
+        "French": "Rune de profanation"
+      },
+      "DisplayTexts": {
+        "English": "Rune of Scavenging",
+        "Spanish": "Runa de carroñero",
+        "German": "Rune des Plünderns",
+        "French": "Rune de profanation"
+      },
+      "Descriptions": {
+        "English": "",
+        "Spanish": "",
+        "German": "",
+        "French": ""
+      }
+    },
+    "65236": {
+      "Bonuses": [],
+      "BonusDescriptions": {
+        "LocalizedBonuses": {
+          "0": {
+            "English": "+25 Power",
+            "Spanish": "+25 de potencia",
+            "German": "+25 Kraft",
+            "French": "Puissance +25"
+          },
+          "1": {
+            "English": "+2% Condition Duration",
+            "Spanish": "+2 % de duración de condición",
+            "German": "+2 % Zustandsdauer",
+            "French": "Durée d'altération +2%"
+          },
+          "2": {
+            "English": "+50 Power",
+            "Spanish": "+50 de potencia",
+            "German": "+50 Kraft",
+            "French": "Puissance +50"
+          },
+          "3": {
+            "English": "+6% Bleeding Duration",
+            "Spanish": "+6 % de duración de hemorragia",
+            "German": "+6 % Blutungsdauer",
+            "French": "Durée de Saignement +6%"
+          },
+          "4": {
+            "English": "+100 Power",
+            "Spanish": "+100 de potencia",
+            "German": "+100 Kraft",
+            "French": "Puissance +100"
+          },
+          "5": {
+            "English": "+10% Bleeding Duration",
+            "Spanish": "+10 % de duración de hemorragia",
+            "German": "+10 % Blutungsdauer",
+            "French": "Durée de Saignement +10%"
+          }
+        }
+      },
+      "Type": 14,
+      "TemplateSlot": -1,
+      "Id": 65236,
+      "MappedId": 61,
+      "Rarity": 6,
+      "Chatlink": "[&AgHU/gAA]",
+      "AssetId": 499379,
+      "Names": {
+        "English": "Rune of the Mad King",
+        "Spanish": "Runa del Rey Loco",
+        "German": "Rune des Verrückten Königs",
+        "French": "Rune du Roi Dément"
+      },
+      "DisplayTexts": {
+        "English": "Rune of the Mad King",
+        "Spanish": "Runa del Rey Loco",
+        "German": "Rune des Verrückten Königs",
+        "French": "Rune du Roi Dément"
+      },
+      "Descriptions": {
+        "English": "",
+        "Spanish": "",
+        "German": "",
+        "French": ""
+      }
+    },
+    "65237": {
+      "Bonuses": [],
+      "BonusDescriptions": {
+        "LocalizedBonuses": {
+          "0": {
+            "English": "+25 Vitality",
+            "Spanish": "+25 de vitalidad",
+            "German": "+25 Vitalität",
+            "French": "Vitalité +25"
+          },
+          "1": {
+            "English": "+35 Healing",
+            "Spanish": "+35 de curación",
+            "German": "+35 Heilung",
+            "French": "Guérison +35"
+          },
+          "2": {
+            "English": "+50 Vitality",
+            "Spanish": "+50 de vitalidad",
+            "German": "+50 Vitalität",
+            "French": "Vitalité +50"
+          },
+          "3": {
+            "English": "+65 Precision",
+            "Spanish": "+65 de precisión",
+            "German": "+65 Präzision",
+            "French": "Précision +65"
+          },
+          "4": {
+            "English": "+100 Vitality",
+            "Spanish": "+100 de vitalidad",
+            "German": "+100 Vitalität",
+            "French": "Vitalité +100"
+          },
+          "5": {
+            "English": "+125 Power",
+            "Spanish": "+125 de potencia",
+            "German": "+125 Kraft",
+            "French": "Puissance +125"
+          }
+        }
+      },
+      "Type": 14,
+      "TemplateSlot": -1,
+      "Id": 65237,
+      "MappedId": 62,
+      "Rarity": 6,
+      "Chatlink": "[&AgHV/gAA]",
+      "AssetId": 619710,
+      "Names": {
+        "English": "Rune of Exuberance",
+        "Spanish": "Runa de exuberancia",
+        "German": "Rune der Ausgelassenheit",
+        "French": "Rune d'exubérance"
+      },
+      "DisplayTexts": {
+        "English": "Rune of Exuberance",
+        "Spanish": "Runa de exuberancia",
+        "German": "Rune der Ausgelassenheit",
+        "French": "Rune d'exubérance"
+      },
+      "Descriptions": {
+        "English": "",
+        "Spanish": "",
+        "German": "",
+        "French": ""
+      }
+    },
+    "65238": {
+      "Bonuses": [],
+      "BonusDescriptions": {
+        "LocalizedBonuses": {
+          "0": {
+            "English": "+25 Healing",
+            "Spanish": "+25 de curación",
+            "German": "+25 Heilung",
+            "French": "Guérison +25"
+          },
+          "1": {
+            "English": "+2% Boon Duration",
+            "Spanish": "+2 % de duración de bendición",
+            "German": "+2 % Segensdauer",
+            "French": "Durée d'avantage +2%"
+          },
+          "2": {
+            "English": "+50 Healing",
+            "Spanish": "+50 de curación",
+            "German": "+50 Heilung",
+            "French": "Guérison +50"
+          },
+          "3": {
+            "English": "+3% Boon Duration",
+            "Spanish": "+3 % de duración de bendición",
+            "German": "+3 % Segensdauer",
+            "French": "Durée d'avantage +3%"
+          },
+          "4": {
+            "English": "+100 Healing",
+            "Spanish": "+100 de curación",
+            "German": "+100 Heilung",
+            "French": "Guérison +100"
+          },
+          "5": {
+            "English": "+125 Vitality",
+            "Spanish": "+125 de vitalidad",
+            "German": "+125 Vitalität",
+            "French": "Vitalité +125"
+          }
+        }
+      },
+      "Type": 14,
+      "TemplateSlot": -1,
+      "Id": 65238,
+      "MappedId": 63,
+      "Rarity": 6,
+      "Chatlink": "[&AgHW/gAA]",
+      "AssetId": 526278,
+      "Names": {
+        "English": "Rune of Altruism",
+        "Spanish": "Runa de altruismo",
+        "German": "Rune des Altruismus",
+        "French": "Rune d'altruisme"
+      },
+      "DisplayTexts": {
+        "English": "Rune of Altruism",
+        "Spanish": "Runa de altruismo",
+        "German": "Rune des Altruismus",
+        "French": "Rune d'altruisme"
+      },
+      "Descriptions": {
+        "English": "",
+        "Spanish": "",
+        "German": "",
+        "French": ""
+      }
+    },
+    "65239": {
+      "Bonuses": [],
+      "BonusDescriptions": {
+        "LocalizedBonuses": {
+          "0": {
+            "English": "+8 to All Stats",
+            "Spanish": "+8 a todas las estadísticas",
+            "German": "+8 auf alle Werte",
+            "French": "Toutes les statistiques +8"
+          },
+          "1": {
+            "English": "+2% Boon Duration",
+            "Spanish": "+2 % de duración de bendición",
+            "German": "+2 % Segensdauer",
+            "French": "Durée d'avantage +2%"
+          },
+          "2": {
+            "English": "+12 to All Stats",
+            "Spanish": "+12 a todas las estadísticas",
+            "German": "+12 auf alle Werte",
+            "French": "Toutes les statistiques +12"
+          },
+          "3": {
+            "English": "+3% Boon Duration",
+            "Spanish": "+3 % de duración de bendición",
+            "German": "+3 % Segensdauer",
+            "French": "Durée d'avantage +3%"
+          },
+          "4": {
+            "English": "+16 to All Stats",
+            "Spanish": "+16 a todas las estadísticas",
+            "German": "+16 auf alle Werte",
+            "French": "Toutes les statistiques +16"
+          },
+          "5": {
+            "English": "+25% Movement Speed",
+            "Spanish": "+25 % de velocidad de movimiento",
+            "German": "+25 % Bewegungsgeschwindigkeit",
+            "French": "Vitesse de déplacement +25%"
+          }
+        }
+      },
+      "Type": 14,
+      "TemplateSlot": -1,
+      "Id": 65239,
+      "MappedId": 64,
+      "Rarity": 6,
+      "Chatlink": "[&AgHX/gAA]",
+      "AssetId": 221050,
+      "Names": {
+        "English": "Rune of the Traveler",
+        "Spanish": "Runa del viajero",
+        "German": "Rune des Reisenden",
+        "French": "Rune du voyageur"
+      },
+      "DisplayTexts": {
+        "English": "Rune of the Traveler",
+        "Spanish": "Runa del viajero",
+        "German": "Rune des Reisenden",
+        "French": "Rune du voyageur"
+      },
+      "Descriptions": {
+        "English": "",
+        "Spanish": "",
+        "German": "",
+        "French": ""
+      }
+    },
+    "65241": {
+      "Bonuses": [],
+      "BonusDescriptions": {
+        "LocalizedBonuses": {
+          "0": {
+            "English": "+25 Condition Damage",
+            "Spanish": "+25 de daño de condición",
+            "German": "+25 Zustandsschaden",
+            "French": "Dégâts par altération +25"
+          },
+          "1": {
+            "English": "-5% Incoming Condition Duration",
+            "Spanish": "-5 % de duración de condición recibida",
+            "German": "-5 % erlittene Zustandsdauer",
+            "French": "Durée d'altération subie -5%"
+          },
+          "2": {
+            "English": "+50 Condition Damage",
+            "Spanish": "+50 de daño de condición",
+            "German": "+50 Zustandsschaden",
+            "French": "Dégâts par altération +50"
+          },
+          "3": {
+            "English": "-10% Incoming Condition Duration",
+            "Spanish": "-10 % de duración de condición recibida",
+            "German": "-10 % erlittene Zustandsdauer",
+            "French": "Durée d'altération subie -10%"
+          },
+          "4": {
+            "English": "+100 Condition Damage",
+            "Spanish": "+100 de daño de condición",
+            "German": "+100 Zustandsschaden",
+            "French": "Dégâts par altération +100"
+          },
+          "5": {
+            "English": "+125 Condition Damage",
+            "Spanish": "+125 de daño de condición",
+            "German": "+125 Zustandsschaden",
+            "French": "Dégâts par altération +125"
+          }
+        }
+      },
+      "Type": 14,
+      "TemplateSlot": -1,
+      "Id": 65241,
+      "MappedId": 65,
+      "Rarity": 6,
+      "Chatlink": "[&AgHZ/gAA]",
+      "AssetId": 638381,
+      "Names": {
+        "English": "Rune of the Sunless",
+        "Spanish": "Runa del Sombrío",
+        "German": "Rune des Sonnenlosen",
+        "French": "Rune du Sans-soleil"
+      },
+      "DisplayTexts": {
+        "English": "Rune of the Sunless",
+        "Spanish": "Runa del Sombrío",
+        "German": "Rune des Sonnenlosen",
+        "French": "Rune du Sans-soleil"
+      },
+      "Descriptions": {
+        "English": "",
+        "Spanish": "",
+        "German": "",
+        "French": ""
+      }
+    },
+    "70651": {
+      "Bonuses": [],
+      "BonusDescriptions": {
+        "LocalizedBonuses": {
+          "0": {
+            "English": "+8 to All Stats",
+            "Spanish": "+8 a todas las estadísticas",
+            "German": "+8 auf alle Werte",
+            "French": "Toutes les statistiques +8"
+          },
+          "1": {
+            "English": "+10 to All Stats",
+            "Spanish": "+10 a todas las estadísticas",
+            "German": "+10 auf alle Werte",
+            "French": "Toutes les statistiques +10"
+          },
+          "2": {
+            "English": "+12 to All Stats",
+            "Spanish": "+12 a todas las estadísticas",
+            "German": "+12 auf alle Werte",
+            "French": "Toutes les statistiques +12"
+          },
+          "3": {
+            "English": "+14 to All Stats",
+            "Spanish": "+14 a todas las estadísticas",
+            "German": "+14 auf alle Werte",
+            "French": "Toutes les statistiques +14"
+          },
+          "4": {
+            "English": "+16 to All Stats",
+            "Spanish": "+16 a todas las estadísticas",
+            "German": "+16 auf alle Werte",
+            "French": "Toutes les statistiques +16"
+          },
+          "5": {
+            "English": "+125 Vitality",
+            "Spanish": "+125 de vitalidad",
+            "German": "+125 Vitalität",
+            "French": "Vitalité +125"
+          }
+        }
+      },
+      "Type": 14,
+      "TemplateSlot": -1,
+      "Id": 70651,
+      "MappedId": 66,
+      "Rarity": 6,
+      "Chatlink": "[&AgH7EwEA]",
+      "AssetId": 1201526,
+      "Names": {
+        "English": "Rune of the Revenant",
+        "Spanish": "Runa del retornado",
+        "German": "Rune des Wiedergängers",
+        "French": "Rune de revenant"
+      },
+      "DisplayTexts": {
+        "English": "Rune of the Revenant",
+        "Spanish": "Runa del retornado",
+        "German": "Rune des Wiedergängers",
+        "French": "Rune de revenant"
+      },
+      "Descriptions": {
+        "English": "Double-click to apply to a piece of armor.",
+        "Spanish": "Haz doble clic para aplicar a una armadura.",
+        "German": "Doppelklicken, um auf ein Rüstungsteil anzuwenden.",
+        "French": "Double-cliquez pour l'appliquer à une pièce d'armure."
+      }
+    },
+    "71229": {
+      "Bonuses": [],
+      "BonusDescriptions": {
+        "LocalizedBonuses": {
+          "0": {
+            "English": "+25 Power",
+            "Spanish": "+25 de potencia",
+            "German": "+25 Kraft",
+            "French": "Puissance +25"
+          },
+          "1": {
+            "English": "+35 Precision",
+            "Spanish": "+35 de precisión",
+            "German": "+35 Präzision",
+            "French": "Précision +35"
+          },
+          "2": {
+            "English": "+50 Power",
+            "Spanish": "+50 de potencia",
+            "German": "+50 Kraft",
+            "French": "Puissance +50"
+          },
+          "3": {
+            "English": "+65 Precision",
+            "Spanish": "+65 de precisión",
+            "German": "+65 Präzision",
+            "French": "Précision +65"
+          },
+          "4": {
+            "English": "+100 Power",
+            "Spanish": "+100 de potencia",
+            "German": "+100 Kraft",
+            "French": "Puissance +100"
+          },
+          "5": {
+            "English": "+10% Boon Duration",
+            "Spanish": "+10 % de duración de bendición",
+            "German": "+10 % Segensdauer",
+            "French": "Durée d'avantage +10%"
+          }
+        }
+      },
+      "Type": 14,
+      "TemplateSlot": -1,
+      "Id": 71229,
+      "MappedId": 67,
+      "Rarity": 6,
+      "Chatlink": "[&AgE9FgEA]",
+      "AssetId": 1201519,
+      "Names": {
+        "English": "Rune of the Chronomancer",
+        "Spanish": "Runa del cronomante",
+        "German": "Rune des Chronomanten",
+        "French": "Rune du chronomancien"
+      },
+      "DisplayTexts": {
+        "English": "Rune of the Chronomancer",
+        "Spanish": "Runa del cronomante",
+        "German": "Rune des Chronomanten",
+        "French": "Rune du chronomancien"
+      },
+      "Descriptions": {
+        "English": "Double-click to apply to a piece of armor.",
+        "Spanish": "Haz doble clic para aplicar a una armadura.",
+        "German": "Doppelklicken, um auf ein Rüstungsteil anzuwenden.",
+        "French": "Double-cliquez pour l'appliquer à une pièce d'armure."
+      }
+    },
+    "71490": {
+      "Bonuses": [],
+      "BonusDescriptions": {
+        "LocalizedBonuses": {
+          "0": {
+            "English": "+25 Power",
+            "Spanish": "+25 de potencia",
+            "German": "+25 Kraft",
+            "French": "Puissance +25"
+          },
+          "1": {
+            "English": "+35 Toughness",
+            "Spanish": "+35 de dureza",
+            "German": "+35 Zähigkeit",
+            "French": "Robustesse +35"
+          },
+          "2": {
+            "English": "+50 Power",
+            "Spanish": "+50 de potencia",
+            "German": "+50 Kraft",
+            "French": "Puissance +50"
+          },
+          "3": {
+            "English": "+65 Toughness",
+            "Spanish": "+65 de dureza",
+            "German": "+65 Zähigkeit",
+            "French": "Robustesse +65"
+          },
+          "4": {
+            "English": "+100 Power",
+            "Spanish": "+100 de potencia",
+            "German": "+100 Kraft",
+            "French": "Puissance +100"
+          },
+          "5": {
+            "English": "+125 Vitality",
+            "Spanish": "+125 de vitalidad",
+            "German": "+125 Vitalität",
+            "French": "Vitalité +125"
+          }
+        }
+      },
+      "Type": 14,
+      "TemplateSlot": -1,
+      "Id": 71490,
+      "MappedId": 68,
+      "Rarity": 6,
+      "Chatlink": "[&AgFCFwEA]",
+      "AssetId": 1201527,
+      "Names": {
+        "English": "Rune of the Scrapper",
+        "Spanish": "Runa del chatarrero",
+        "German": "Rune des Schrotters",
+        "French": "Rune du mécatronicien"
+      },
+      "DisplayTexts": {
+        "English": "Rune of the Scrapper",
+        "Spanish": "Runa del chatarrero",
+        "German": "Rune des Schrotters",
+        "French": "Rune du mécatronicien"
+      },
+      "Descriptions": {
+        "English": "Double-click to apply to a piece of armor.",
+        "Spanish": "Haz doble clic para aplicar a una armadura.",
+        "German": "Doppelklicken, um auf ein Rüstungsteil anzuwenden.",
+        "French": "Double-cliquez pour l'appliquer à une pièce d'armure."
+      }
+    },
+    "71980": {
+      "Bonuses": [],
+      "BonusDescriptions": {
+        "LocalizedBonuses": {
+          "0": {
+            "English": "+25 Vitality",
+            "Spanish": "+25 de vitalidad",
+            "German": "+25 Vitalität",
+            "French": "Vitalité +25"
+          },
+          "1": {
+            "English": "+2% Boon Duration",
+            "Spanish": "+2 % de duración de bendición",
+            "German": "+2 % Segensdauer",
+            "French": "Durée d'avantage +2%"
+          },
+          "2": {
+            "English": "+50 Vitality",
+            "Spanish": "+50 de vitalidad",
+            "German": "+50 Vitalität",
+            "French": "Vitalité +50"
+          },
+          "3": {
+            "English": "+3% Boon Duration",
+            "Spanish": "+3 % de duración de bendición",
+            "German": "+3 % Segensdauer",
+            "French": "Durée d'avantage +3%"
+          },
+          "4": {
+            "English": "+100 Vitality",
+            "Spanish": "+100 de vitalidad",
+            "German": "+100 Vitalität",
+            "French": "Vitalité +100"
+          },
+          "5": {
+            "English": "+5% Boon Duration",
+            "Spanish": "+5 % de duración de bendición",
+            "German": "+5 % Segensdauer",
+            "French": "Durée d'avantage +5%"
+          }
+        }
+      },
+      "Type": 14,
+      "TemplateSlot": -1,
+      "Id": 71980,
+      "MappedId": 69,
+      "Rarity": 6,
+      "Chatlink": "[&AgEsGQEA]",
+      "AssetId": 866847,
+      "Names": {
+        "English": "Rune of Radiance",
+        "Spanish": "Runa de resplandor",
+        "German": "Rune des Zauberglanzes",
+        "French": "Rune de rayonnement"
+      },
+      "DisplayTexts": {
+        "English": "Rune of Radiance",
+        "Spanish": "Runa de resplandor",
+        "German": "Rune des Zauberglanzes",
+        "French": "Rune de rayonnement"
+      },
+      "Descriptions": {
+        "English": "Double-click to apply to a piece of armor.",
+        "Spanish": "Haz doble clic para aplicar a una armadura.",
+        "German": "Doppelklicken, um auf ein Rüstungsteil anzuwenden.",
+        "French": "Double-cliquez pour l'appliquer à une pièce d'armure."
+      }
+    },
+    "72334": {
+      "Bonuses": [],
+      "BonusDescriptions": {
+        "LocalizedBonuses": {
+          "0": {
+            "English": "+25 Power",
+            "Spanish": "+25 de potencia",
+            "German": "+25 Kraft",
+            "French": "Puissance +25"
+          },
+          "1": {
+            "English": "+5% Boon Duration",
+            "Spanish": "+5 % de duración de bendición",
+            "German": "+5 % Segensdauer",
+            "French": "Durée d'avantage +5%"
+          },
+          "2": {
+            "English": "+50 Power",
+            "Spanish": "+50 de potencia",
+            "German": "+50 Kraft",
+            "French": "Puissance +50"
+          },
+          "3": {
+            "English": "+10% Boon Duration",
+            "Spanish": "+10 % de duración de bendición",
+            "German": "+10 % Segensdauer",
+            "French": "Durée d'avantage +10%"
+          },
+          "4": {
+            "English": "+100 Power",
+            "Spanish": "+100 de potencia",
+            "German": "+100 Kraft",
+            "French": "Puissance +100"
+          },
+          "5": {
+            "English": "+25% Movement Speed",
+            "Spanish": "+25 % de velocidad de movimiento",
+            "German": "+25 % Bewegungsgeschwindigkeit",
+            "French": "Vitesse de déplacement +25%"
+          }
+        }
+      },
+      "Type": 14,
+      "TemplateSlot": -1,
+      "Id": 72334,
+      "MappedId": 70,
+      "Rarity": 6,
+      "Chatlink": "[&AgGOGgEA]",
+      "AssetId": 1201524,
+      "Names": {
+        "English": "Rune of Surging",
+        "Spanish": "Runa de sobrecarga",
+        "German": "Rune der Brandung",
+        "French": "Rune de montée en puissance"
+      },
+      "DisplayTexts": {
+        "English": "Rune of Surging",
+        "Spanish": "Runa de sobrecarga",
+        "German": "Rune der Brandung",
+        "French": "Rune de montée en puissance"
+      },
+      "Descriptions": {
+        "English": "Double-click to apply to a piece of armor.",
+        "Spanish": "Haz doble clic para aplicar a una armadura.",
+        "German": "Doppelklicken, um auf ein Rüstungsteil anzuwenden.",
+        "French": "Double-cliquez pour l'appliquer à une pièce d'armure."
+      }
+    },
+    "72415": {
+      "Bonuses": [],
+      "BonusDescriptions": {
+        "LocalizedBonuses": {
+          "0": {
+            "English": "+25 Healing",
+            "Spanish": "+25 de curación",
+            "German": "+25 Heilung",
+            "French": "Guérison +25"
+          },
+          "1": {
+            "English": "+35 Vitality",
+            "Spanish": "+35 de vitalidad",
+            "German": "+35 Vitalität",
+            "French": "Vitalité +35"
+          },
+          "2": {
+            "English": "+50 Healing",
+            "Spanish": "+50 de curación",
+            "German": "+50 Heilung",
+            "French": "Guérison +50"
+          },
+          "3": {
+            "English": "+65 Vitality",
+            "Spanish": "+65 de vitalidad",
+            "German": "+65 Vitalität",
+            "French": "Vitalité +65"
+          },
+          "4": {
+            "English": "+100 Healing",
+            "Spanish": "+100 de curación",
+            "German": "+100 Heilung",
+            "French": "Guérison +100"
+          },
+          "5": {
+            "English": "+125 Healing",
+            "Spanish": "+125 de curación",
+            "German": "+125 Heilung",
+            "French": "Guérison +125"
+          }
+        }
+      },
+      "Type": 14,
+      "TemplateSlot": -1,
+      "Id": 72415,
+      "MappedId": 71,
+      "Rarity": 6,
+      "Chatlink": "[&AgHfGgEA]",
+      "AssetId": 1201521,
+      "Names": {
+        "English": "Rune of the Druid",
+        "Spanish": "Runa del druida",
+        "German": "Rune des Druiden",
+        "French": "Rune du druide"
+      },
+      "DisplayTexts": {
+        "English": "Rune of the Druid",
+        "Spanish": "Runa del druida",
+        "German": "Rune des Druiden",
+        "French": "Rune du druide"
+      },
+      "Descriptions": {
+        "English": "Double-click to apply to a piece of armor.",
+        "Spanish": "Haz doble clic para aplicar a una armadura.",
+        "German": "Doppelklicken, um auf ein Rüstungsteil anzuwenden.",
+        "French": "Double-cliquez pour l'appliquer à une pièce d'armure."
+      }
+    },
+    "73079": {
+      "Bonuses": [],
+      "BonusDescriptions": {
+        "LocalizedBonuses": {
+          "0": {
+            "English": "+25 Condition Damage",
+            "Spanish": "+25 de daño de condición",
+            "German": "+25 Zustandsschaden",
+            "French": "Dégâts par altération +25"
+          },
+          "1": {
+            "English": "+4% Might Duration",
+            "Spanish": "+4 % de duración de poder",
+            "German": "+4 % Machtdauer",
+            "French": "Durée de Pouvoir +4%"
+          },
+          "2": {
+            "English": "+50 Condition Damage",
+            "Spanish": "+50 de daño de condición",
+            "German": "+50 Zustandsschaden",
+            "French": "Dégâts par altération +50"
+          },
+          "3": {
+            "English": "+6% Might Duration",
+            "Spanish": "+6 % de duración de poder",
+            "German": "+6 % Machtdauer",
+            "French": "Durée de Pouvoir +6%"
+          },
+          "4": {
+            "English": "+100 Condition Damage",
+            "Spanish": "+100 de daño de condición",
+            "German": "+100 Zustandsschaden",
+            "French": "Dégâts par altération +100"
+          },
+          "5": {
+            "English": "+10% Might Duration",
+            "Spanish": "+10 % de duración de poder",
+            "German": "+10 % Machtdauer",
+            "French": "Durée de Pouvoir +10%"
+          }
+        }
+      },
+      "Type": 14,
+      "TemplateSlot": -1,
+      "Id": 73079,
+      "MappedId": 72,
+      "Rarity": 6,
+      "Chatlink": "[&AgF3HQEA]",
+      "AssetId": 221152,
+      "Names": {
+        "English": "Rune of the Aristocracy",
+        "Spanish": "Runa de la aristocracia",
+        "German": "Rune der Aristokratie",
+        "French": "Rune d'aristocratie"
+      },
+      "DisplayTexts": {
+        "English": "Rune of the Aristocracy",
+        "Spanish": "Runa de la aristocracia",
+        "German": "Rune der Aristokratie",
+        "French": "Rune d'aristocratie"
+      },
+      "Descriptions": {
+        "English": "Double-click to apply to a piece of armor.",
+        "Spanish": "Haz doble clic para aplicar a una armadura.",
+        "German": "Doppelklicken, um auf ein Rüstungsteil anzuwenden.",
+        "French": "Double-cliquez pour l'appliquer à une pièce d'armure."
+      }
+    },
+    "73492": {
+      "Bonuses": [],
+      "BonusDescriptions": {
+        "LocalizedBonuses": {
+          "0": {
+            "English": "+25 Toughness",
+            "Spanish": "+25 de dureza",
+            "German": "+25 Zähigkeit",
+            "French": "Robustesse +25"
+          },
+          "1": {
+            "English": "+2% Boon Duration",
+            "Spanish": "+2 % de duración de bendición",
+            "German": "+2 % Segensdauer",
+            "French": "Durée d'avantage +2%"
+          },
+          "2": {
+            "English": "+50 Toughness",
+            "Spanish": "+50 de dureza",
+            "German": "+50 Zähigkeit",
+            "French": "Robustesse +50"
+          },
+          "3": {
+            "English": "+3% Boon Duration",
+            "Spanish": "+3 % de duración de bendición",
+            "German": "+3 % Segensdauer",
+            "French": "Durée d'avantage +3%"
+          },
+          "4": {
+            "English": "+100 Toughness",
+            "Spanish": "+100 de dureza",
+            "German": "+100 Zähigkeit",
+            "French": "Robustesse +100"
+          },
+          "5": {
+            "English": "+5% Boon Duration",
+            "Spanish": "+5 % de duración de bendición",
+            "German": "+5 % Segensdauer",
+            "French": "Durée d'avantage +5%"
+          }
+        }
+      },
+      "Type": 14,
+      "TemplateSlot": -1,
+      "Id": 73492,
+      "MappedId": 73,
+      "Rarity": 6,
+      "Chatlink": "[&AgEUHwEA]",
+      "AssetId": 1201522,
+      "Names": {
+        "English": "Rune of the Herald",
+        "Spanish": "Runa del heraldo",
+        "German": "Rune des Herolds",
+        "French": "Rune du héraut"
+      },
+      "DisplayTexts": {
+        "English": "Rune of the Herald",
+        "Spanish": "Runa del heraldo",
+        "German": "Rune des Herolds",
+        "French": "Rune du héraut"
+      },
+      "Descriptions": {
+        "English": "Double-click to apply to a piece of armor.",
+        "Spanish": "Haz doble clic para aplicar a una armadura.",
+        "German": "Doppelklicken, um auf ein Rüstungsteil anzuwenden.",
+        "French": "Double-cliquez pour l'appliquer à une pièce d'armure."
+      }
+    },
+    "73709": {
+      "Bonuses": [],
+      "BonusDescriptions": {
+        "LocalizedBonuses": {
+          "0": {
+            "English": "+8 to All Stats",
+            "Spanish": "+8 a todas las estadísticas",
+            "German": "+8 auf alle Werte",
+            "French": "Toutes les statistiques +8"
+          },
+          "1": {
+            "English": "+2% Condition Duration",
+            "Spanish": "+2 % de duración de condición",
+            "German": "+2 % Zustandsdauer",
+            "French": "Durée d'altération +2%"
+          },
+          "2": {
+            "English": "+12 to All Stats",
+            "Spanish": "+12 a todas las estadísticas",
+            "German": "+12 auf alle Werte",
+            "French": "Toutes les statistiques +12"
+          },
+          "3": {
+            "English": "+3% Condition Duration",
+            "Spanish": "+3 % de duración de condición",
+            "German": "+3 % Zustandsdauer",
+            "French": "Durée d'altération +3%"
+          },
+          "4": {
+            "English": "+16 to All Stats",
+            "Spanish": "+16 a todas las estadísticas",
+            "German": "+16 auf alle Werte",
+            "French": "Toutes les statistiques +16"
+          },
+          "5": {
+            "English": "+5% Condition Duration",
+            "Spanish": "+5 % de duración de condición",
+            "German": "+5 % Zustandsdauer",
+            "French": "Durée d'altération +5%"
+          }
+        }
+      },
+      "Type": 14,
+      "TemplateSlot": -1,
+      "Id": 73709,
+      "MappedId": 74,
+      "Rarity": 6,
+      "Chatlink": "[&AgHtHwEA]",
+      "AssetId": 1201529,
+      "Names": {
+        "English": "Rune of the Tempest",
+        "Spanish": "Runa de la tempestad",
+        "German": "Rune des Sturmboten",
+        "French": "Rune du cataclyste"
+      },
+      "DisplayTexts": {
+        "English": "Rune of the Tempest",
+        "Spanish": "Runa de la tempestad",
+        "German": "Rune des Sturmboten",
+        "French": "Rune du cataclyste"
+      },
+      "Descriptions": {
+        "English": "Double-click to apply to a piece of armor.",
+        "Spanish": "Haz doble clic para aplicar a una armadura.",
+        "German": "Doppelklicken, um auf ein Rüstungsteil anzuwenden.",
+        "French": "Double-cliquez pour l'appliquer à une pièce d'armure."
+      }
+    },
+    "73887": {
+      "Bonuses": [],
+      "BonusDescriptions": {
+        "LocalizedBonuses": {
+          "0": {
+            "English": "+25 Ferocity",
+            "Spanish": "+25 de ferocidad",
+            "German": "+25 Wildheit",
+            "French": "Férocité +25"
+          },
+          "1": {
+            "English": "+35 Power",
+            "Spanish": "+35 de potencia",
+            "German": "+35 Kraft",
+            "French": "Puissance +35"
+          },
+          "2": {
+            "English": "+50 Ferocity",
+            "Spanish": "+50 de ferocidad",
+            "German": "+50 Wildheit",
+            "French": "Férocité +50"
+          },
+          "3": {
+            "English": "+65 Power",
+            "Spanish": "+65 de potencia",
+            "German": "+65 Kraft",
+            "French": "Puissance +65"
+          },
+          "4": {
+            "English": "+100 Ferocity",
+            "Spanish": "+100 de ferocidad",
+            "German": "+100 Wildheit",
+            "French": "Férocité +100"
+          },
+          "5": {
+            "English": "+125 Ferocity",
+            "Spanish": "+125 de ferocidad",
+            "German": "+125 Wildheit",
+            "French": "Férocité +125"
+          }
+        }
+      },
+      "Type": 14,
+      "TemplateSlot": -1,
+      "Id": 73887,
+      "MappedId": 75,
+      "Rarity": 6,
+      "Chatlink": "[&AgGfIAEA]",
+      "AssetId": 1201528,
+      "Names": {
+        "English": "Rune of the Dragonhunter",
+        "Spanish": "Runa del cazadragones",
+        "German": "Rune des Drachenjägers",
+        "French": "Rune du draconnier"
+      },
+      "DisplayTexts": {
+        "English": "Rune of the Dragonhunter",
+        "Spanish": "Runa del cazadragones",
+        "German": "Rune des Drachenjägers",
+        "French": "Rune du draconnier"
+      },
+      "Descriptions": {
+        "English": "Double-click to apply to a piece of armor.",
+        "Spanish": "Haz doble clic para aplicar a una armadura.",
+        "German": "Doppelklicken, um auf ein Rüstungsteil anzuwenden.",
+        "French": "Double-cliquez pour l'appliquer à une pièce d'armure."
+      }
+    },
+    "73911": {
+      "Bonuses": [],
+      "BonusDescriptions": {
+        "LocalizedBonuses": {
+          "0": {
+            "English": "+25 Ferocity",
+            "Spanish": "+25 de ferocidad",
+            "German": "+25 Wildheit",
+            "French": "Férocité +25"
+          },
+          "1": {
+            "English": "+4% Swiftness Duration",
+            "Spanish": "+4 % de duración de celeridad",
+            "German": "+4 % Eiledauer",
+            "French": "Durée de Rapidité +4%"
+          },
+          "2": {
+            "English": "+50 Ferocity",
+            "Spanish": "+50 de ferocidad",
+            "German": "+50 Wildheit",
+            "French": "Férocité +50"
+          },
+          "3": {
+            "English": "+6% Swiftness Duration",
+            "Spanish": "+6 % de duración de celeridad",
+            "German": "+6 % Eiledauer",
+            "French": "Durée de Rapidité +6%"
+          },
+          "4": {
+            "English": "+100 Ferocity",
+            "Spanish": "+100 de ferocidad",
+            "German": "+100 Wildheit",
+            "French": "Férocité +100"
+          },
+          "5": {
+            "English": "+125 Ferocity",
+            "Spanish": "+125 de ferocidad",
+            "German": "+125 Wildheit",
+            "French": "Férocité +125"
+          }
+        }
+      },
+      "Type": 14,
+      "TemplateSlot": -1,
+      "Id": 73911,
+      "MappedId": 76,
+      "Rarity": 6,
+      "Chatlink": "[&AgG3IAEA]",
+      "AssetId": 866849,
+      "Names": {
+        "English": "Rune of Evasion",
+        "Spanish": "Runa de evasión",
+        "German": "Rune der Ausflucht",
+        "French": "Rune de dérobade"
+      },
+      "DisplayTexts": {
+        "English": "Rune of Evasion",
+        "Spanish": "Runa de evasión",
+        "German": "Rune der Ausflucht",
+        "French": "Rune de dérobade"
+      },
+      "Descriptions": {
+        "English": "Double-click to apply to a piece of armor.",
+        "Spanish": "Haz doble clic para aplicar a una armadura.",
+        "German": "Doppelklicken, um auf ein Rüstungsteil anzuwenden.",
+        "French": "Double-cliquez pour l'appliquer à une pièce d'armure."
+      }
+    },
+    "74046": {
+      "Bonuses": [],
+      "BonusDescriptions": {
+        "LocalizedBonuses": {
+          "0": {
+            "English": "+8 to All Stats",
+            "Spanish": "+8 a todas las estadísticas",
+            "German": "+8 auf alle Werte",
+            "French": "Toutes les statistiques +8"
+          },
+          "1": {
+            "English": "+2% Boon Duration",
+            "Spanish": "+2 % de duración de bendición",
+            "German": "+2 % Segensdauer",
+            "French": "Durée d'avantage +2%"
+          },
+          "2": {
+            "English": "+12 to All Stats",
+            "Spanish": "+12 a todas las estadísticas",
+            "German": "+12 auf alle Werte",
+            "French": "Toutes les statistiques +12"
+          },
+          "3": {
+            "English": "+3% Boon Duration",
+            "Spanish": "+3 % de duración de bendición",
+            "German": "+3 % Segensdauer",
+            "French": "Durée d'avantage +3%"
+          },
+          "4": {
+            "English": "+16 to All Stats",
+            "Spanish": "+16 a todas las estadísticas",
+            "German": "+16 auf alle Werte",
+            "French": "Toutes les statistiques +16"
+          },
+          "5": {
+            "English": "+5% Boon Duration",
+            "Spanish": "+5 % de duración de bendición",
+            "German": "+5 % Segensdauer",
+            "French": "Durée d'avantage +5%"
+          }
+        }
+      },
+      "Type": 14,
+      "TemplateSlot": -1,
+      "Id": 74046,
+      "MappedId": 77,
+      "Rarity": 6,
+      "Chatlink": "[&AgE+IQEA]",
+      "AssetId": 1201517,
+      "Names": {
+        "English": "Rune of Leadership",
+        "Spanish": "Runa de liderazgo",
+        "German": "Rune der Führungsstärke",
+        "French": "Rune de charisme"
+      },
+      "DisplayTexts": {
+        "English": "Rune of Leadership",
+        "Spanish": "Runa de liderazgo",
+        "German": "Rune der Führungsstärke",
+        "French": "Rune de charisme"
+      },
+      "Descriptions": {
+        "English": "Double-click to apply to a piece of armor.",
+        "Spanish": "Haz doble clic para aplicar a una armadura.",
+        "German": "Doppelklicken, um auf ein Rüstungsteil anzuwenden.",
+        "French": "Double-cliquez pour l'appliquer à une pièce d'armure."
+      }
+    },
+    "74108": {
+      "Bonuses": [],
+      "BonusDescriptions": {
+        "LocalizedBonuses": {
+          "0": {
+            "English": "+25 Condition Damage",
+            "Spanish": "+25 de daño de condición",
+            "German": "+25 Zustandsschaden",
+            "French": "Dégâts par altération +25"
+          },
+          "1": {
+            "English": "+4% Poison Duration",
+            "Spanish": "+4 % de duración de veneno",
+            "German": "+4 % Giftdauer",
+            "French": "Durée d'Empoisonnement +4%"
+          },
+          "2": {
+            "English": "+50 Condition Damage",
+            "Spanish": "+50 de daño de condición",
+            "German": "+50 Zustandsschaden",
+            "French": "Dégâts par altération +50"
+          },
+          "3": {
+            "English": "+6% Poison Duration",
+            "Spanish": "+6 % de duración de veneno",
+            "German": "+6 % Giftdauer",
+            "French": "Durée d'Empoisonnement +6%"
+          },
+          "4": {
+            "English": "+100 Condition Damage",
+            "Spanish": "+100 de daño de condición",
+            "German": "+100 Zustandsschaden",
+            "French": "Dégâts par altération +100"
+          },
+          "5": {
+            "English": "+10% Poison Duration",
+            "Spanish": "+10 % de duración de veneno",
+            "German": "+10 % Giftdauer",
+            "French": "Durée d'Empoisonnement +10%"
+          }
+        }
+      },
+      "Type": 14,
+      "TemplateSlot": -1,
+      "Id": 74108,
+      "MappedId": 78,
+      "Rarity": 6,
+      "Chatlink": "[&AgF8IQEA]",
+      "AssetId": 1201523,
+      "Names": {
+        "English": "Rune of Thorns",
+        "Spanish": "Runa de espinas",
+        "German": "Rune der Dornen",
+        "French": "Rune d'épines"
+      },
+      "DisplayTexts": {
+        "English": "Rune of Thorns",
+        "Spanish": "Runa de espinas",
+        "German": "Rune der Dornen",
+        "French": "Rune d'épines"
+      },
+      "Descriptions": {
+        "English": "Double-click to apply to a piece of armor.",
+        "Spanish": "Haz doble clic para aplicar a una armadura.",
+        "German": "Doppelklicken, um auf ein Rüstungsteil anzuwenden.",
+        "French": "Double-cliquez pour l'appliquer à une pièce d'armure."
+      }
+    },
+    "75041": {
+      "Bonuses": [],
+      "BonusDescriptions": {
+        "LocalizedBonuses": {
+          "0": {
+            "English": "+25 Condition Damage",
+            "Spanish": "+25 de daño de condición",
+            "German": "+25 Zustandsschaden",
+            "French": "Dégâts par altération +25"
+          },
+          "1": {
+            "English": "+2% Condition Duration",
+            "Spanish": "+2 % de duración de condición",
+            "German": "+2 % Zustandsdauer",
+            "French": "Durée d'altération +2%"
+          },
+          "2": {
+            "English": "+50 Condition Damage",
+            "Spanish": "+50 de daño de condición",
+            "German": "+50 Zustandsschaden",
+            "French": "Dégâts par altération +50"
+          },
+          "3": {
+            "English": "+3% Condition Duration",
+            "Spanish": "+3 % de duración de condición",
+            "German": "+3 % Zustandsdauer",
+            "French": "Durée d'altération +3%"
+          },
+          "4": {
+            "English": "+100 Condition Damage",
+            "Spanish": "+100 de daño de condición",
+            "German": "+100 Zustandsschaden",
+            "French": "Dégâts par altération +100"
+          },
+          "5": {
+            "English": "+125 Condition Damage",
+            "Spanish": "+125 de daño de condición",
+            "German": "+125 Zustandsschaden",
+            "French": "Dégâts par altération +125"
+          }
+        }
+      },
+      "Type": 14,
+      "TemplateSlot": -1,
+      "Id": 75041,
+      "MappedId": 79,
+      "Rarity": 6,
+      "Chatlink": "[&AgEhJQEA]",
+      "AssetId": 866844,
+      "Names": {
+        "English": "Rune of the Trapper",
+        "Spanish": "Runa del trampero",
+        "German": "Rune des Fallenstellers",
+        "French": "Rune du trappeur"
+      },
+      "DisplayTexts": {
+        "English": "Rune of the Trapper",
+        "Spanish": "Runa del trampero",
+        "German": "Rune des Fallenstellers",
+        "French": "Rune du trappeur"
+      },
+      "Descriptions": {
+        "English": "Double-click to apply to a piece of armor.",
+        "Spanish": "Haz doble clic para aplicar a una armadura.",
+        "German": "Doppelklicken, um auf ein Rüstungsteil anzuwenden.",
+        "French": "Double-cliquez pour l'appliquer à une pièce d'armure."
+      }
+    },
+    "75995": {
+      "Bonuses": [],
+      "BonusDescriptions": {
+        "LocalizedBonuses": {
+          "0": {
+            "English": "+25 Power",
+            "Spanish": "+25 de potencia",
+            "German": "+25 Kraft",
+            "French": "Puissance +25"
+          },
+          "1": {
+            "English": "+35 Toughness",
+            "Spanish": "+35 de dureza",
+            "German": "+35 Zähigkeit",
+            "French": "Robustesse +35"
+          },
+          "2": {
+            "English": "+50 Power",
+            "Spanish": "+50 de potencia",
+            "German": "+50 Kraft",
+            "French": "Puissance +50"
+          },
+          "3": {
+            "English": "+65 Toughness",
+            "Spanish": "+65 de dureza",
+            "German": "+65 Zähigkeit",
+            "French": "Robustesse +65"
+          },
+          "4": {
+            "English": "+100 Power",
+            "Spanish": "+100 de potencia",
+            "German": "+100 Kraft",
+            "French": "Puissance +100"
+          },
+          "5": {
+            "English": "+125 Condition Damage",
+            "Spanish": "+125 de daño de condición",
+            "German": "+125 Zustandsschaden",
+            "French": "Dégâts par altération +125"
+          }
+        }
+      },
+      "Type": 14,
+      "TemplateSlot": -1,
+      "Id": 75995,
+      "MappedId": 80,
+      "Rarity": 6,
+      "Chatlink": "[&AgHbKAEA]",
+      "AssetId": 1201520,
+      "Names": {
+        "English": "Rune of the Daredevil",
+        "Spanish": "Runa del temerario",
+        "German": "Rune des Draufgängers",
+        "French": "Rune du fracasseur"
+      },
+      "DisplayTexts": {
+        "English": "Rune of the Daredevil",
+        "Spanish": "Runa del temerario",
+        "German": "Rune des Draufgängers",
+        "French": "Rune du fracasseur"
+      },
+      "Descriptions": {
+        "English": "Double-click to apply to a piece of armor.",
+        "Spanish": "Haz doble clic para aplicar a una armadura.",
+        "German": "Doppelklicken, um auf ein Rüstungsteil anzuwenden.",
+        "French": "Double-cliquez pour l'appliquer à une pièce d'armure."
+      }
+    },
+    "77011": {
+      "Bonuses": [],
+      "BonusDescriptions": {
+        "LocalizedBonuses": {
+          "0": {
+            "English": "+25 Power",
+            "Spanish": "+25 de potencia",
+            "German": "+25 Kraft",
+            "French": "Puissance +25"
+          },
+          "1": {
+            "English": "+35 Toughness",
+            "Spanish": "+35 de dureza",
+            "German": "+35 Zähigkeit",
+            "French": "Robustesse +35"
+          },
+          "2": {
+            "English": "+50 Power",
+            "Spanish": "+50 de potencia",
+            "German": "+50 Kraft",
+            "French": "Puissance +50"
+          },
+          "3": {
+            "English": "+65 Toughness",
+            "Spanish": "+65 de dureza",
+            "German": "+65 Zähigkeit",
+            "French": "Robustesse +65"
+          },
+          "4": {
+            "English": "+100 Power",
+            "Spanish": "+100 de potencia",
+            "German": "+100 Kraft",
+            "French": "Puissance +100"
+          },
+          "5": {
+            "English": "+125 Precision",
+            "Spanish": "+125 de precisión",
+            "German": "+125 Präzision",
+            "French": "Précision +125"
+          }
+        }
+      },
+      "Type": 14,
+      "TemplateSlot": -1,
+      "Id": 77011,
+      "MappedId": 81,
+      "Rarity": 6,
+      "Chatlink": "[&AgHTLAEA]",
+      "AssetId": 1201525,
+      "Names": {
+        "English": "Rune of the Reaper",
+        "Spanish": "Runa del segador",
+        "German": "Rune des Schnitters",
+        "French": "Rune du faucheur"
+      },
+      "DisplayTexts": {
+        "English": "Rune of the Reaper",
+        "Spanish": "Runa del segador",
+        "German": "Rune des Schnitters",
+        "French": "Rune du faucheur"
+      },
+      "Descriptions": {
+        "English": "Double-click to apply to a piece of armor.",
+        "Spanish": "Haz doble clic para aplicar a una armadura.",
+        "German": "Doppelklicken, um auf ein Rüstungsteil anzuwenden.",
+        "French": "Double-cliquez pour l'appliquer à une pièce d'armure."
+      }
+    },
+    "77243": {
+      "Bonuses": [],
+      "BonusDescriptions": {
+        "LocalizedBonuses": {
+          "0": {
+            "English": "+25 Condition Damage",
+            "Spanish": "+25 de daño de condición",
+            "German": "+25 Zustandsschaden",
+            "French": "Dégâts par altération +25"
+          },
+          "1": {
+            "English": "+35 Power",
+            "Spanish": "+35 de potencia",
+            "German": "+35 Kraft",
+            "French": "Puissance +35"
+          },
+          "2": {
+            "English": "+50 Condition Damage",
+            "Spanish": "+50 de daño de condición",
+            "German": "+50 Zustandsschaden",
+            "French": "Dégâts par altération +50"
+          },
+          "3": {
+            "English": "+65 Power",
+            "Spanish": "+65 de potencia",
+            "German": "+65 Kraft",
+            "French": "Puissance +65"
+          },
+          "4": {
+            "English": "+100 Condition Damage",
+            "Spanish": "+100 de daño de condición",
+            "German": "+100 Zustandsschaden",
+            "French": "Dégâts par altération +100"
+          },
+          "5": {
+            "English": "+125 Condition Damage",
+            "Spanish": "+125 de daño de condición",
+            "German": "+125 Zustandsschaden",
+            "French": "Dégâts par altération +125"
+          }
+        }
+      },
+      "Type": 14,
+      "TemplateSlot": -1,
+      "Id": 77243,
+      "MappedId": 82,
+      "Rarity": 6,
+      "Chatlink": "[&AgG7LQEA]",
+      "AssetId": 1201518,
+      "Names": {
+        "English": "Rune of the Berserker",
+        "Spanish": "Runa del berserker",
+        "German": "Rune des Berserkers",
+        "French": "Rune du berserker"
+      },
+      "DisplayTexts": {
+        "English": "Rune of the Berserker",
+        "Spanish": "Runa del berserker",
+        "German": "Rune des Berserkers",
+        "French": "Rune du berserker"
+      },
+      "Descriptions": {
+        "English": "Double-click to apply to a piece of armor.",
+        "Spanish": "Haz doble clic para aplicar a una armadura.",
+        "German": "Doppelklicken, um auf ein Rüstungsteil anzuwenden.",
+        "French": "Double-cliquez pour l'appliquer à une pièce d'armure."
+      }
+    },
+    "79983": {
+      "Bonuses": [],
+      "BonusDescriptions": {
+        "LocalizedBonuses": {
+          "0": {
+            "English": "+25 Power",
+            "Spanish": "+25 de potencia",
+            "German": "+25 Kraft",
+            "French": "Puissance +25"
+          },
+          "1": {
+            "English": "+35 Condition Damage",
+            "Spanish": "+35 de daño de condición",
+            "German": "+35 Zustandsschaden",
+            "French": "Dégâts par altération +35"
+          },
+          "2": {
+            "English": "+50 Power",
+            "Spanish": "+50 de potencia",
+            "German": "+50 Kraft",
+            "French": "Puissance +50"
+          },
+          "3": {
+            "English": "+65 Condition Damage",
+            "Spanish": "+65 de daño de condición",
+            "German": "+65 Zustandsschaden",
+            "French": "Dégâts par altération +65"
+          },
+          "4": {
+            "English": "+100 Power",
+            "Spanish": "+100 de potencia",
+            "German": "+100 Kraft",
+            "French": "Puissance +100"
+          },
+          "5": {
+            "English": "+25% Movement Speed",
+            "Spanish": "+25 % de velocidad de movimiento",
+            "German": "+25 % Bewegungsgeschwindigkeit",
+            "French": "Vitesse de déplacement +25%"
+          }
+        }
+      },
+      "Type": 14,
+      "TemplateSlot": -1,
+      "Id": 79983,
+      "MappedId": 83,
+      "Rarity": 6,
+      "Chatlink": "[&AgFvOAEA]",
+      "AssetId": 1614377,
+      "Names": {
+        "English": "Rune of the Lynx",
+        "Spanish": "Runa del lince",
+        "German": "Rune des Luchses",
+        "French": "Rune du lynx"
+      },
+      "DisplayTexts": {
+        "English": "Rune of the Lynx",
+        "Spanish": "Runa del lince",
+        "German": "Rune des Luchses",
+        "French": "Rune du lynx"
+      },
+      "Descriptions": {
+        "English": "",
+        "Spanish": "",
+        "German": "",
+        "French": ""
+      }
+    },
+    "21190": {
+      "Bonuses": [],
+      "BonusDescriptions": {
+        "LocalizedBonuses": {
+          "0": {
+            "English": "+25 Vitality",
+            "Spanish": "+25 de vitalidad",
+            "German": "+25 Vitalität",
+            "French": "Vitalité +25"
+          },
+          "1": {
+            "English": "+5% Condition Duration",
+            "Spanish": "+5 % de duración de condición",
+            "German": "+5 % Zustandsdauer",
+            "French": "Durée d'altération +5%"
+          },
+          "2": {
+            "English": "+50 Vitality",
+            "Spanish": "+50 de vitalidad",
+            "German": "+50 Vitalität",
+            "French": "Vitalité +50"
+          },
+          "3": {
+            "English": "+10% Condition Duration",
+            "Spanish": "+10 % de duración de condición",
+            "German": "+10 % Zustandsdauer",
+            "French": "Durée d'altération +10%"
+          },
+          "4": {
+            "English": "+100 Vitality",
+            "Spanish": "+100 de vitalidad",
+            "German": "+100 Vitalität",
+            "French": "Vitalité +100"
+          },
+          "5": {
+            "English": "+10% Condition Duration",
+            "Spanish": "+10 % de duración de condición",
+            "German": "+10 % Zustandsdauer",
+            "French": "Durée d'altération +10%"
+          }
+        }
+      },
+      "Type": 14,
+      "TemplateSlot": -1,
+      "Id": 21190,
+      "MappedId": 84,
+      "Rarity": 6,
+      "Chatlink": "[&AgHGUgAA]",
+      "AssetId": 220712,
+      "Names": {
+        "English": "Rune of the Lich",
+        "Spanish": "Runa del liche",
+        "German": "Rune des Lich",
+        "French": "Rune de la liche"
+      },
+      "DisplayTexts": {
+        "English": "Rune of the Lich",
+        "Spanish": "Runa del liche",
+        "German": "Rune des Lich",
+        "French": "Rune de la liche"
+      },
+      "Descriptions": {
+        "English": "Double-click to apply to a piece of armor.",
+        "Spanish": "Haz doble clic para aplicar a una armadura.",
+        "German": "Doppelklicken, um auf ein Rüstungsteil anzuwenden.",
+        "French": "Double-cliquez pour l'appliquer à une pièce d'armure."
+      }
+    },
+    "21193": {
+      "Bonuses": [],
+      "BonusDescriptions": {
+        "LocalizedBonuses": {
+          "0": {
+            "English": "+25 Toughness",
+            "Spanish": "+25 de dureza",
+            "German": "+25 Zähigkeit",
+            "French": "Robustesse +25"
+          },
+          "1": {
+            "English": "+35 Healing Power",
+            "Spanish": "+35 de poder de curación",
+            "German": "+35 Heilkraft",
+            "French": "Guérison +35"
+          },
+          "2": {
+            "English": "+50 Toughness",
+            "Spanish": "+50 de dureza",
+            "German": "+50 Zähigkeit",
+            "French": "Robustesse +50"
+          },
+          "3": {
+            "English": "+65 Healing",
+            "Spanish": "+65 de curación",
+            "German": "+65 Heilung",
+            "French": "Guérison +65"
+          },
+          "4": {
+            "English": "+100 Toughness",
+            "Spanish": "+100 de dureza",
+            "German": "+100 Zähigkeit",
+            "French": "Robustesse +100"
+          },
+          "5": {
+            "English": "+125 Healing",
+            "Spanish": "+125 de curación",
+            "German": "+125 Heilung",
+            "French": "Guérison +125"
+          }
+        }
+      },
+      "Type": 14,
+      "TemplateSlot": -1,
+      "Id": 21193,
+      "MappedId": 85,
+      "Rarity": 6,
+      "Chatlink": "[&AgHJUgAA]",
+      "AssetId": 220715,
+      "Names": {
+        "English": "Rune of Mercy",
+        "Spanish": "Runa de compasión",
+        "German": "Rune der Gnade",
+        "French": "Rune de pitié"
+      },
+      "DisplayTexts": {
+        "English": "Rune of Mercy",
+        "Spanish": "Runa de compasión",
+        "German": "Rune der Gnade",
+        "French": "Rune de pitié"
+      },
+      "Descriptions": {
+        "English": "Double-click to apply to a piece of armor.",
+        "Spanish": "Haz doble clic para aplicar a una armadura.",
+        "German": "Doppelklicken, um auf ein Rüstungsteil anzuwenden.",
+        "French": "Double-cliquez pour l'appliquer à une pièce d'armure."
+      }
+    },
+    "21194": {
+      "Bonuses": [],
+      "BonusDescriptions": {
+        "LocalizedBonuses": {
+          "0": {
+            "English": "+25 Power",
+            "Spanish": "+25 de potencia",
+            "German": "+25 Kraft",
+            "French": "Puissance +25"
+          },
+          "1": {
+            "English": "+35 Ferocity",
+            "Spanish": "+35 de ferocidad",
+            "German": "+35 Wildheit",
+            "French": "Férocité +35"
+          },
+          "2": {
+            "English": "+50 Power",
+            "Spanish": "+50 de potencia",
+            "German": "+50 Kraft",
+            "French": "Puissance +50"
+          },
+          "3": {
+            "English": "+65 Ferocity",
+            "Spanish": "+65 de ferocidad",
+            "German": "+65 Wildheit",
+            "French": "Férocité +65"
+          },
+          "4": {
+            "English": "+100 Power",
+            "Spanish": "+100 de potencia",
+            "German": "+100 Kraft",
+            "French": "Puissance +100"
+          },
+          "5": {
+            "English": "+125 Vitality",
+            "Spanish": "+125 de vitalidad",
+            "German": "+125 Vitalität",
+            "French": "Vitalité +125"
+          }
+        }
+      },
+      "Type": 14,
+      "TemplateSlot": -1,
+      "Id": 21194,
+      "MappedId": 86,
+      "Rarity": 6,
+      "Chatlink": "[&AgHKUgAA]",
+      "AssetId": 220716,
+      "Names": {
+        "English": "Rune of the Ogre",
+        "Spanish": "Runa del ogro",
+        "German": "Rune des Ogers",
+        "French": "Rune d'Ogre"
+      },
+      "DisplayTexts": {
+        "English": "Rune of the Ogre",
+        "Spanish": "Runa del ogro",
+        "German": "Rune des Ogers",
+        "French": "Rune d'Ogre"
+      },
+      "Descriptions": {
+        "English": "Double-click to apply to a piece of armor.",
+        "Spanish": "Haz doble clic para aplicar a una armadura.",
+        "German": "Doppelklicken, um auf ein Rüstungsteil anzuwenden.",
+        "French": "Double-cliquez pour l'appliquer à une pièce d'armure."
+      }
+    }
+  },
+  "Version": "0.0.6"
+}

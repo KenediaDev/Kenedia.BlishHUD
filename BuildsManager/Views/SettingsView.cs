@@ -255,14 +255,14 @@ namespace Kenedia.Modules.BuildsManager.Views
                 FlowDirection = Blish_HUD.Controls.ControlFlowDirection.TopToBottom,
             };
 
-            _ = new Button()
-            {
-                Parent = fp,
-                Width = 200,
-                Height = 30,
-                SetLocalizedText = () => "Check for updated data",
-                ClickAction = async () => await Data.Load(true, false),
-            };
+            //_ = new Button()
+            //{
+            //    Parent = fp,
+            //    Width = 200,
+            //    Height = 30,
+            //    SetLocalizedText = () => "Check for updated data",
+            //    ClickAction = async () => await Data.Load(true),
+            //};
         }
     }
 }

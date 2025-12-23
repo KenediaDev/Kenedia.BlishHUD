@@ -112,8 +112,8 @@ namespace Kenedia.Modules.Core.Utility
             var p = new Panel()
             {
                 Parent = parent,
-                WidthSizingMode = Blish_HUD.Controls.SizingMode.AutoSize,
-                HeightSizingMode = Blish_HUD.Controls.SizingMode.AutoSize,
+                WidthSizingMode = SizingMode.AutoSize,
+                HeightSizingMode = SizingMode.AutoSize,
             };
 
             var label = new Label()

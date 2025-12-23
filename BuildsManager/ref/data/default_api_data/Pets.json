@@ -1,0 +1,1240 @@
+{
+  "Items": {
+    "1": {
+      "Id": 1,
+      "Names": {
+        "English": "Juvenile Jungle Stalker",
+        "Spanish": "Acechador de la selva adolescente",
+        "German": "Junger Dschungelpirscher",
+        "French": "Jeune félin de la jungle"
+      },
+      "Descriptions": {
+        "English": "Jungle stalkers rely on their power to take down prey. They enter battle with a mighty roar, inspiring allies as they lay into their victims with claws and teeth. They love tummy rubs. —Acht",
+        "Spanish": "Los acechadores de la jungla confían en su potencia para acabar con su presa. Se lanzan a la batalla con un rugido poderoso que inspira a sus aliados mientras se abalanzan sobre sus víctimas con sus garras y dientes. Les encanta que les acaricien la barriga. —Acht",
+        "German": "Dschungelpirscher erlegen ihre Beute durch schiere Kraft. Sie stürzen sich mit einem mächtigen, ihre Verbündete antreibenden Gebrüll ins Gefecht und zerfetzen ihre Beute mit Zähnen und Klauen. Sie lieben es auch, wenn man ihnen den Bauch krault. Acht",
+        "French": "Les félins de la jungle misent tout sur leur puissance naturelle pour abattre leurs proies. Ils engagent le combat par un puissant rugissement et inspirent leurs alliés en déchirant leurs victimes à coups de griffes et de crocs. Ils adorent qu'on leur gratte le ventre. – Acht"
+      },
+      "IconAssetId": 52535,
+      "Skills": {},
+      "Enviroment": 3,
+      "Order": 10
+    },
+    "2": {
+      "Id": 2,
+      "Names": {
+        "English": "Juvenile Boar",
+        "Spanish": "Jabalí adolescente",
+        "German": "Junger Eber",
+        "French": "Jeune sanglier"
+      },
+      "Descriptions": {
+        "English": "This boar is a tough, strong fighter with wicked tusks. It's difficult for foes to stay on their feet against his charges. Though polite society may not appreciate his charms, a boar can be a ranger's best friend. —Acht",
+        "Spanish": "El jabalí es un luchador fuerte y resistente de siniestros colmillos. A sus enemigos les resulta difícil aguantar el tipo cuando carga. Aunque una sociedad educada tal vez no aprecie sus encantos, un jabalí puede ser el mejor amigo de un guardabosques. —Acht",
+        "German": "Dieser Eber ist ein zäher, starker Kämpfer mit bösen Hauern. Seine Attacken hauen die meisten Gegner von den Beinen. In feiner Gesellschaft ist er wahrscheinlich fehl am Platz, aber der Waldläufer schätzt ihn als besten Freund. Acht",
+        "French": "Ce sanglier est un combattant coriace et puissant doté de redoutables défenses. Rares sont les adversaires encore debout après l'une de ses charges. Bien que la bonne société n'apprécie guère ses charmes, un sanglier est souvent le meilleur ami d'un rôdeur. – Acht"
+      },
+      "IconAssetId": 52537,
+      "Skills": {},
+      "Enviroment": 1,
+      "Order": 51
+    },
+    "3": {
+      "Id": 3,
+      "Names": {
+        "English": "Juvenile Lynx",
+        "Spanish": "Lince adolescente",
+        "German": "Junger Schneeluchs",
+        "French": "Jeune lynx"
+      },
+      "Descriptions": {
+        "English": "Lynx are tenacious hunters, capable of leaping long distances to chase down fleeing prey. When they feel especially comfortable and safe, they will sometimes roll onto their backs and stick their paws in the air. —Acht",
+        "Spanish": "Los linces son cazadores tenaces, capaces de realizar grandes saltos para atrapar a presas que huyen. Cuando se sienten especialmente a gusto y a salvo, a veces ruedan sobre el lomo y estiran las patas en el aire. —Acht",
+        "German": "Luchse sind ausdauernde Jäger, die bei der Verfolgung ihrer Beute über große Entfernungen springen können. Wenn sie sich sicher fühlen, rollen sie sich manchmal auf den Rücken und strecken ihre Pfoten in die Luft. Acht",
+        "French": "Les lynx sont des chasseurs tenaces capables de bonds prodigieux lorsqu'il s'agit de rattraper une proie qui s'enfuit. Lorsqu'ils se sentent particulièrement détendus et en sécurité, il leur arrive de se mettre sur le dos, pattes en l'air. – Acht"
+      },
+      "IconAssetId": 52539,
+      "Skills": {},
+      "Enviroment": 1,
+      "Order": 11
+    },
+    "4": {
+      "Id": 4,
+      "Names": {
+        "English": "Juvenile Krytan Drakehound",
+        "Spanish": "Dracosabueso krytense adolescente",
+        "German": "Junger Kryta-Spürhund",
+        "French": "Jeune lévridrake krytien"
+      },
+      "Descriptions": {
+        "English": "This Krytan hound is a loyal, protective pet. It uses its great strength and toughness to fight for its master and can immobilize foes in fear with its howl. —Acht",
+        "Spanish": "Este sabueso krytense es una mascota leal y protectora. Emplea su gran fuerza y dureza para luchar por su amo. Además, su aullido es capaz de paralizar de miedo a sus enemigos. —Acht",
+        "German": "Dieser krytanische Hund ist ein treuer Gefährte mit ausgeprägtem Beschützerinstinkt. Er nutzt seine außerordentliche Kraft und Zähigkeit im Kampf für seinen Herrn und kann durch sein Heulen Gegner vor Angst erstarren lassen. Acht",
+        "French": "Ce molosse krytien est un familier à la fois loyal et protecteur. Il met sa force et sa férocité au service de son maître et son hurlement terrifiant peut paralyser ses adversaires. – Acht"
+      },
+      "IconAssetId": 52541,
+      "Skills": {},
+      "Enviroment": 1,
+      "Order": 21
+    },
+    "5": {
+      "Id": 5,
+      "Names": {
+        "English": "Juvenile Brown Bear",
+        "Spanish": "Oso pardo adolescente",
+        "German": "Junger Braunbär",
+        "French": "Jeune ours brun"
+      },
+      "Descriptions": {
+        "English": "Brown bears are tremendously strong and fiercely protective. They throw themselves into combat selflessly to distract attention from their masters and use their great strength to shrug off blows that would kill any other creature. —Acht",
+        "Spanish": "Los osos pardos son tremendamente fuertes y fieramente protectores. Se lanzan al combate sin dudar para salvar a su amo, y su enorme fuerza les permite soportar golpes que matarían a cualquier otra criatura. —Acht",
+        "German": "Braunbären sind unglaublich stark und haben einen ausgeprägten Beschützerinstinkt. Sie gehen selbstlos in den Kampf, um die Aufmerksamkeit von ihren Herren abzulenken, und können Angriffe abschütteln, die jede andere Kreatur sofort töten würden. Acht",
+        "French": "Les ours bruns sont immensément forts et protecteurs. Ils n'hésitent pas à prendre des risques pour leurs maîtres et utilisent leur résistance naturelle pour encaisser des coups qui tueraient n'importe quelle autre créature. – Acht"
+      },
+      "IconAssetId": 52543,
+      "Skills": {},
+      "Enviroment": 3,
+      "Order": 5
+    },
+    "6": {
+      "Id": 6,
+      "Names": {
+        "English": "Juvenile Carrion Devourer",
+        "Spanish": "Devorador carroñero adolescente",
+        "German": "Junger Aas-Verschlinger",
+        "French": "Jeune dévoreur de charogne"
+      },
+      "Descriptions": {
+        "English": "This carrion devourer is a deadly, ruthless predator. It poisons its foes from a distance, hides underground to ambush them, and can bite them to replenish its health. —Acht",
+        "Spanish": "Este devorador carroñero es un depredador mortífero y despiadado. Envenena a sus enemigos a distancia, se esconde bajo tierra para tenderles emboscadas y al morderlos recupera su salud. —Acht",
+        "German": "Dieser Aas-Verschlinger ist ein tödliches und erbarmungsloses Raubtier. Er vergiftet seine Gegner aus der Ferne, lauert ihnen unter der Erde auf und kann sie beißen, um seine Lebenspunkte wieder aufzufüllen. Acht",
+        "French": "Ce dévoreur de charogne est un prédateur aussi dangereux qu'impitoyable. Il empoisonne ses ennemis à distance, se cache sous terre pour leur tendre des embuscades et sa morsure lui permet de se régénérer. – Acht"
+      },
+      "IconAssetId": 52545,
+      "Skills": {},
+      "Enviroment": 3,
+      "Order": 31
+    },
+    "7": {
+      "Id": 7,
+      "Names": {
+        "English": "Juvenile Salamander Drake",
+        "Spanish": "Draco salamandra adolescente",
+        "German": "Junger Salamanderlindwurm",
+        "French": "Jeune drake salamandre"
+      },
+      "Descriptions": {
+        "English": "Red salamander drakes are often hunted because of their similarity to the myth of dragons, though they are a different species. They continue to survive because their fire breath makes them deadly to hunters and prey alike. —Acht",
+        "Spanish": "Los dracos salamandra rojos son a menudo objeto de persecución por su parecido con los míticos dragones, a pesar de pertenecer a una especie diferente. Sobreviven gracias a su aliento de fuego, mortífero para cazadores y presas. —Acht",
+        "German": "Rote Salamanderlindwürmer werden häufig gejagt, da sie Ähnlichkeit mit den mythischen Drachen aufweisen. Sie gehören jedoch zu einer anderen Spezies. Sie überleben, weil ihr Feuerodem für Jäger und Beute gleichsam tödlich ist. Acht",
+        "French": "Les drakes salamandres rouges sont souvent chassés pour leur ressemblance avec les dragons, même s'ils appartiennent en réalité à une espèce différente. Leur survie est essentiellement due à leur souffle de feu qui en font des créatures mortelles tant pour les chasseurs que pour leurs proies. – Acht"
+      },
+      "IconAssetId": 52547,
+      "Skills": {},
+      "Enviroment": 3,
+      "Order": 26
+    },
+    "8": {
+      "Id": 8,
+      "Names": {
+        "English": "Juvenile Alpine Wolf",
+        "Spanish": "Lobo alpino adolescente",
+        "German": "Junger Gebirgswolf",
+        "French": "Jeune loup alpin"
+      },
+      "Descriptions": {
+        "English": "This snowy wolf is at home in the frigid lands of the north. Their howl chills their foes to the bone, leaving them vulnerable to their powerful claws and jaws. —Acht",
+        "Spanish": "Este lobo de nieve habita en las heladas tierras del norte. Su aullido deja helados a sus enemigos, lo que los hace vulnerables a sus poderosas garras y mandíbulas. —Acht",
+        "German": "Dieser Schneewolf stammt aus den kalten Ländern des Nordens. Sein Heulen lässt seine Gegner bis auf die Knochen erschauern, worauf sie seinen mächtigen Krallen und Zähne nichts mehr entgegenzusetzen haben. Acht",
+        "French": "Ce loup blanc vit principalement dans les terres gelées du nord. Son hurlement glace d'effroi ses adversaires, les rendant ainsi vulnérables à ses redoutables griffes et ses puissantes mâchoires. – Acht"
+      },
+      "IconAssetId": 52549,
+      "Skills": {},
+      "Enviroment": 1,
+      "Order": 22
+    },
+    "9": {
+      "Id": 9,
+      "Names": {
+        "English": "Juvenile Snow Leopard",
+        "Spanish": "Pantera de las Nieves adolescente",
+        "German": "Junger Schneeleopard",
+        "French": "Jeune panthère des neiges"
+      },
+      "Descriptions": {
+        "English": "Snow leopards have internalized the harsh climate they live in. Their pounce debilitates their victims with chilling cold, making it harder for them to escape. Though they're comfortable in freezing cold, snow leopards love a good sunbeam. —Acht",
+        "Spanish": "Las Panteras de las Nieves han internalizado el duro clima en el que habitan. Se abalanzan sobre sus víctimas debilitándolas con un frío intenso que dificulta su huida. Aunque su hábitat natural es el frío más intenso, a las Panteras de las Nieves les encantan los rayos del sol. — Acht",
+        "German": "Schneeleoparden haben das harsche Klima verinnerlicht, in dem sie leben. Ihr Sprung schwächt seine Opfer durch Eiseskälte und erschwert ihnen dadurch die Flucht. Obwohl ihnen die Kälte nichts ausmacht, liegen die Schneeleoparden doch gern in der Sonne. Acht",
+        "French": "Les panthères des neiges ont fini par ressembler au rude climat dans lequel elles vivent. Une fois au contact de leurs victimes, elles les affaiblissent avec des attaques glaciales qui entravent leur fuite. Et bien qu'elles soient à l'aise sous les températures les plus basses, elles ne dédaignent pas un bon bain de soleil pour autant. – Acht"
+      },
+      "IconAssetId": 52551,
+      "Skills": {},
+      "Enviroment": 3,
+      "Order": 12
+    },
+    "10": {
+      "Id": 10,
+      "Names": {
+        "English": "Juvenile Raven",
+        "Spanish": "Cuervo adolescente",
+        "German": "Junger Rabe",
+        "French": "Jeune corbeau"
+      },
+      "Descriptions": {
+        "English": "The raven is cunning and clever. Its intelligence makes them excellent scouts. In combat, they evade attacks and strike at their foes' eyes to blind them. —Acht",
+        "Spanish": "El cuervo es astuto y perspicaz. Su inteligencia los convierte en excelentes exploradores. En combate, esquivan los golpes mientras atacan a los ojos para cegar a sus enemigos. —Acht",
+        "German": "Der Rabe ist schlau und durchtrieben. Seine Intelligenz macht ihn zu einem hervorragenden Späher. Im Kampf weicht er Angriffen aus und zielt auf die Augen der Gegner, um sie erblinden zu lassen. Acht",
+        "French": "Le corbeau est à la fois rusé et malin. Son intelligence en fait un excellent éclaireur. Au combat, il évite aisément les attaques et vise les yeux de ses ennemis pour les aveugler. – Acht"
+      },
+      "IconAssetId": 52553,
+      "Skills": {},
+      "Enviroment": 1,
+      "Order": 39
+    },
+    "11": {
+      "Id": 11,
+      "Names": {
+        "English": "Juvenile Jaguar",
+        "Spanish": "Jaguar adolescente",
+        "German": "Junger Jaguar",
+        "French": "Jeune jaguar"
+      },
+      "Descriptions": {
+        "English": "The jaguar is a silent predator, capable of sneaking up on an unsuspecting foe and unleashing a deadly ambush. When not rending prey with their claws, jaguars also enjoy playing with colorful fabrics and shiny objects. —Acht",
+        "Spanish": "El jaguar es un depredador silencioso, capaz de acercarse sigilosamente a un enemigo distraído y sorprenderlo de forma letal. Cuando no despellejan a sus presas con sus garras, los jaguares también disfrutan jugando con telas de colores y objetos relucientes. —Acht",
+        "German": "Der Jaguar ist ein stiller Jäger, der sich an den nichts ahnenden Gegner heranschleicht und ihn aus dem Hinterhalt überfällt. Wenn sie ihre Beute nicht gerade mit ihren Klauen zerfetzen, spielen Jaguare gern mit bunten Stoffen und glänzenden Gegenständen. Acht",
+        "French": "Le jaguar est un prédateur silencieux capable de prendre ses adversaires par surprise et de tendre des embuscades mortelles. Lorsqu'il ne déchire pas une proie à coups de griffes, il aime jouer avec des tissus colorés et des objets brillants. – Acht"
+      },
+      "IconAssetId": 52555,
+      "Skills": {},
+      "Enviroment": 3,
+      "Order": 13
+    },
+    "12": {
+      "Id": 12,
+      "Names": {
+        "English": "Juvenile Marsh Drake",
+        "Spanish": "Draco de pantano adolescente",
+        "German": "Junger Sumpflindwurm",
+        "French": "Jeune drake des marais"
+      },
+      "Descriptions": {
+        "English": "The standard diet of the swamp drake includes a variety of noxious marsh insects. The drake's digestive system isolates those unsavory poisons and enables them to breathe a venomous cloud to debilitate foes. —Acht",
+        "Spanish": "La dieta habitual de un draco de pantano incluye una gran variedad de insectos nocivos del pantano. El sistema digestivo del draco aísla estos terribles venenos y les permite exhalar una nube venenosa para debilitar a sus enemigos. —Acht",
+        "German": "Die Standardkost eines Sumpflindwurms ist eine Vielzahl giftiger Moorinsekten. Im Verdauungsapparat des Lindwurms werden diese Gifte isoliert, wodurch der Lindwurm seine Gegner mit einem Giftodem schwächen kann. Acht",
+        "French": "Le drake des marécages n'hésite pas à se nourrir des insectes venimeux des marais. Son système digestif isole leurs poisons et lui permet de souffler des nuages toxiques qui affaiblissent ses adversaires. – Acht"
+      },
+      "IconAssetId": 1128510,
+      "Skills": {},
+      "Enviroment": 3,
+      "Order": 27
+    },
+    "13": {
+      "Id": 13,
+      "Names": {
+        "English": "Juvenile Blue Moa",
+        "Spanish": "Moa azul adolescente",
+        "German": "Junger Blauer Moa",
+        "French": "Jeune moa bleu"
+      },
+      "Descriptions": {
+        "English": "Blue moas are protective and paternal to their flock. Their bright red crests make them easy to rally around, and many a flock has survived due to the presence of a blue moa. —Acht",
+        "Spanish": "Los moa azules son protectores y paternales con su bandada. Sus penachos de color rojo brillante hacen que sean fáciles de seguir, y más de una bandada ha sobrevivido gracias a la presencia de un moa azul. —Acht",
+        "German": "Blaue Moas haben einen ausgeprägten Beschützer- und Mutterinstinkt. Andere Moas scharen sich gern um die hellrote Krone des blauen Moas und haben oft nur durch seine Anwesenheit überlebt. Acht",
+        "French": "Les moas bleus sont protecteurs et paternels envers leurs congénères. Leurs crêtes rouges en font des points de ralliement naturels et nombre de moas ordinaires se sont tirés d'un mauvais pas grâce à la présence d'un moa bleu. – Acht"
+      },
+      "IconAssetId": 52559,
+      "Skills": {},
+      "Enviroment": 1,
+      "Order": 0
+    },
+    "14": {
+      "Id": 14,
+      "Names": {
+        "English": "Juvenile White Moa",
+        "Spanish": "Moa blanco adolescente",
+        "German": "Junger Weißer Moa",
+        "French": "Jeune moa blanc"
+      },
+      "Descriptions": {
+        "English": "White moas are particularly ornery birds that assault their foes with chilling screeches, pecks, harmonic cries, and a frenzied attack style. —Acht",
+        "Spanish": "Los moa blancos son aves de particular mal genio que asaltan a sus enemigos con espeluznantes graznidos, picotazos, cantos armónicos y un estilo de ataque frenético. —Acht",
+        "German": "Weiße Moas sind besonders störrische Vögel, die sich mit markerschütterndem Kreischen, Schnabelhieben, melodischen Rufen und einem rasenden Angriffsstil auf ihren Gegner stürzen. Acht",
+        "French": "Les moas blancs sont des oiseaux particulièrement irascibles. Ils attaquent frénétiquement leurs adversaires à coups de bec, en lançant des cris stridents et des modulations harmoniques. – Acht"
+      },
+      "IconAssetId": 52561,
+      "Skills": {},
+      "Enviroment": 1,
+      "Order": 1
+    },
+    "15": {
+      "Id": 15,
+      "Names": {
+        "English": "Juvenile Pink Moa",
+        "Spanish": "Moa rosa adolescente",
+        "German": "Junger Rosa Moa",
+        "French": "Jeune moa rose"
+      },
+      "Descriptions": {
+        "English": "Pink moas are adorable but have a tendency to be annoying. They frequently poke other moas for attention and have a particularly aggravating screech, which disorients their enemies. —Acht",
+        "Spanish": "Los moa rosa son adorables, pero algo irritantes. Con frecuencia pican a otros moa para llamar su atención. Su grito es especialmente enervante, lo que desorienta a sus enemigos. —Acht",
+        "German": "Rosa Moas sind süß, haben aber einen gewissen Hang zur Nervtöterei. Oft picken sie andere Moas, nur um Aufmerksamkeit zu erregen. Mit ihrem extrem schrillen Kreischen machen sie ihre Gegner orientierungslos. – Acht",
+        "French": "Les moas roses sont adorables, mais ont tendance à être agaçants. Et pour ne rien arranger, ils houspillent fréquemment les autres moas pour attirer leur attention. Heureusement, ils disposent d'un cri strident et exaspérant qui désoriente leurs ennemis. – Acht"
+      },
+      "IconAssetId": 52563,
+      "Skills": {},
+      "Enviroment": 1,
+      "Order": 2
+    },
+    "16": {
+      "Id": 16,
+      "Names": {
+        "English": "Juvenile Black Moa",
+        "Spanish": "Moa negro adolescente",
+        "German": "Junger Schwarzer Moa",
+        "French": "Jeune moa noir"
+      },
+      "Descriptions": {
+        "English": "The rare black moa is seen as a harbinger of death and plague by some cultures. That belief is misguided, as biologically, their only major difference from other moas is a particular fondness for acorns. —Acht",
+        "Spanish": "Algunas culturas consideran al raro moa negro un presagio de la muerte y una plaga. Esa creencia es errónea, ya que lo único que los diferencia de otros moa es su especial afición a las bellotas. —Acht",
+        "German": "Der seltene schwarze Moa gilt in manchen Kulturen als Bote von Krankheit und Tod. Dieser Glaube ist unbegründet, da sie sich biologisch gesehen nur durch eine ausgeprägte Vorliebe für Eicheln von anderen Moas unterscheiden. Acht",
+        "French": "Dans certaines cultures, le moa noir est considéré comme un héraut de la mort et d'un fléau. Cette croyance est infondée, car leur seule différence biologique avec les moas ordinaires est leur goût prononcé pour les glands. – Acht"
+      },
+      "IconAssetId": 52565,
+      "Skills": {},
+      "Enviroment": 1,
+      "Order": 3
+    },
+    "17": {
+      "Id": 17,
+      "Names": {
+        "English": "Juvenile Red Moa",
+        "Spanish": "Moa rojo adolescente",
+        "German": "Junger Roter Moa",
+        "French": "Jeune moa rouge"
+      },
+      "Descriptions": {
+        "English": "Red moas are a fierce and aggressive breed of the bird. Their screech fills their allies with fury, energizing them as they fight. Despite their rough-and-tumble nature, though, red moas are very neat and compulsively groom themselves and other moas. —Acht",
+        "Spanish": "Los moa rojos son una variedad feroz y agresiva. Su alarido llena de furia a sus aliados y les da energía en la lucha. A pesar de su afición natural por las riñas, los moa rojos son muy limpios y se asean a sí mismos y a otros moa compulsivamente. —Acht",
+        "German": "Rote Moas sind wilde, aggressive Vögel. Ihr Kreischen erfüllt Verbündete mit Wut und Energie für den Kampf. Trotz ihrer rauen Natur sind rote Moas sehr reinlich und putzen sich andauernd selbst und andere Moas. Acht",
+        "French": "Les moas rouges sont l'une des sous-espèces les plus féroces et agressives. Leurs cris stridents communiquent à leurs alliés une fureur qui renforce leur ardeur au combat. Malgré leur tempérament bourru, les moas rouges se nettoient de façon compulsive et n'hésitent pas à faire de même avec les autres moas. – Acht"
+      },
+      "IconAssetId": 52566,
+      "Skills": {},
+      "Enviroment": 1,
+      "Order": 4
+    },
+    "18": {
+      "Id": 18,
+      "Names": {
+        "English": "Juvenile Ice Drake",
+        "Spanish": "Draco de hielo adolescente",
+        "German": "Junger Eislindwurm",
+        "French": "Jeune drake des glaces"
+      },
+      "Descriptions": {
+        "English": "Ice drakes have a unique biology, considering they are a cold-blooded creature that lives in arctic climates. They can breathe ice to attack their prey. —Acht",
+        "Spanish": "Los dracos de hielo poseen una biología única, ya que son criaturas de sangre fría que viven en climas árticos. Exhalan hielo para atacar a su presa. —Acht",
+        "German": "Eislindwürmer sind eine Besonderheit der Natur: Als kaltblütige Kreaturen leben sie in arktischen Klimazonen. Mit ihrem Eisodem können sie ihre Beute angreifen. Acht",
+        "French": "La physiologie des drakes des glaces est unique. Elle permet à ces créatures à sang chaud de résister aux températures des climats arctiques. Leur souffle de glace constitue leur arme principale. – Acht"
+      },
+      "IconAssetId": 52568,
+      "Skills": {},
+      "Enviroment": 3,
+      "Order": 28
+    },
+    "19": {
+      "Id": 19,
+      "Names": {
+        "English": "Juvenile River Drake",
+        "Spanish": "Draco de río adolescente",
+        "German": "Junger Flusslindwurm",
+        "French": "Jeune drake de rivière"
+      },
+      "Descriptions": {
+        "English": "River drakes hunt by throwing foes into water then unleashing their electrical breath. Fortunately, they are immune to their own breath, but most prey cannot withstand its power. —Acht",
+        "Spanish": "Los dracos de río cazan lanzando a sus enemigos al agua y luego liberando su aliento eléctrico. Por suerte, son inmunes a su propio aliento, pero la mayoría de las presas no resisten su potencia. —Acht",
+        "German": "Flusslindwürmer jagen, indem sie ihre Beute ins Wasser werfen und sie dann mit ihrem elektrischen Odem erlegen. Sie selbst sind immun gegen ihren Atem, aber für ihre Beute ist er tödlich. Acht",
+        "French": "Les drakes de rivière chassent en projetant leurs adversaires dans l'eau avant de déchaîner leur souffle électrique. Heureusement pour eux, ils sont immunisés contre leur propre souffle, mais la plupart des proies ne peuvent résister à de telles décharges. – Acht"
+      },
+      "IconAssetId": 52570,
+      "Skills": {},
+      "Enviroment": 3,
+      "Order": 29
+    },
+    "20": {
+      "Id": 20,
+      "Names": {
+        "English": "Juvenile Murellow",
+        "Spanish": "Múrgolo adolescente",
+        "German": "Junger Rattenbär",
+        "French": "Jeune murello"
+      },
+      "Descriptions": {
+        "English": "The elusive murellow's body courses with poisons, giving it a sickly appearance and causing its hair to fall out. Despite its gaunt frame, it is a fierce protector, spitting clouds of poison as it shrugs off attacks. —Acht",
+        "Spanish": "El cuerpo del escurridizo múrgolo está repleto de venenos que le dan un aspecto enfermizo y le provocan que se le caiga el pelo. A pesar de su enclenque aspecto, se trata de un feroz protector que escupe nubes de veneno para rechazar los ataques. —Acht",
+        "German": "Der Körper des scheuen Rattenbärs ist gefüllt mit Gift, was ihn kränklich aussehen und sein Haar ausfallen lässt. Trotz seiner hageren Statur ist er ein unerschütterlicher Beschützer, der Giftwolken spuckt und Angriffe abschüttelt. Acht",
+        "French": "Le corps de l'insaisissable murello est saturé de poisons qui lui donnent une apparence maladive et provoquent la chute de ses poils. Malgré son air malingre, c'est un protecteur féroce qui crache des nuages de poison tout en repoussant les attaques. – Acht"
+      },
+      "IconAssetId": 52572,
+      "Skills": {},
+      "Enviroment": 3,
+      "Order": 6
+    },
+    "21": {
+      "Id": 21,
+      "Names": {
+        "English": "Juvenile Shark",
+        "Spanish": "Tiburón adolescente",
+        "German": "Junger Hai",
+        "French": "Jeune requin"
+      },
+      "Descriptions": {
+        "English": "This is your pet shark. That's right. Your very own pet shark. It's your pet. And a shark. Awesome. Sharks rend their foes with powerful teeth and can even swallow foes whole. —Acht",
+        "Spanish": "Este es tu tiburón mascota. Así es. Tu propio tiburón mascota. Es tu mascota. Y es un tiburón. Increíble. Los tiburones desgarran a sus enemigos con sus poderosos dientes, e incluso pueden tragarse a algunos enteros. —Acht",
+        "German": "Das ist Euer ureigener Haifisch. Ganz recht. Ihr habt Euren eigenen Haifisch. Als Gefährten. An Eurer Seite. Wahnsinn. Haie zerfetzen ihre Beute mit ihren messerscharfen Zähnen, können sie aber auch im Stück verschlingen. Acht",
+        "French": "Ceci est votre requin de compagnie. Si si. Votre requin à vous. C'est votre animal de compagnie. Et c'est un requin. Que demander de plus ? Les requins utilisent leurs dents acérées pour déchirer leurs ennemis et peuvent même les avaler tout crus. – Acht"
+      },
+      "IconAssetId": 52574,
+      "Skills": {},
+      "Enviroment": 2,
+      "Order": 34
+    },
+    "22": {
+      "Id": 22,
+      "Names": {
+        "English": "Juvenile Fern Hound",
+        "Spanish": "Sabueso de helecho adolescente",
+        "German": "Junger Farn-Hund",
+        "French": "Jeune chien de fougère"
+      },
+      "Descriptions": {
+        "English": "Sylvari wetlands plant wolves are rare, magical creatures that share many characteristics with their mundane brothers. They fight fiercely for their pack, using their plant affinity to rapidly regenerate wounds.—Acht",
+        "Spanish": "Los lobos vegetales de los pantanos sylvari son criaturas mágicas poco comunes que comparten muchas características con sus hermanos más mundanos. Luchan con fiereza por su manada y su afinidad con las plantas les permite regenerar heridas rápidamente. — Acht",
+        "German": "Die Pflanzenwölfe aus den Sümpfen der Sylvari sind seltene, magische Kreaturen, die jedoch viele Eigenschaften mit ihren gewöhnlicheren Brüdern teilen. Sie verteidigen ihr Rudel vehement und nutzen ihre Verbundenheit mit Pflanzen zur schnellen Wundheilung. Acht",
+        "French": "Les loups végétaux des marais sylvaris sont des créatures magiques rares qui partagent nombre de leurs caractéristiques avec leurs cousins communs. Ils n'hésitent pas à défendre sauvagement leur meute et utilisent leur affinité avec les plantes pour régénérer rapidement leurs blessures. – Acht"
+      },
+      "IconAssetId": 52576,
+      "Skills": {},
+      "Enviroment": 1,
+      "Order": 23
+    },
+    "23": {
+      "Id": 23,
+      "Names": {
+        "English": "Juvenile Black Bear",
+        "Spanish": "Oso negro adolescente",
+        "German": "Junger Schwarzbär",
+        "French": "Jeune ours noir"
+      },
+      "Descriptions": {
+        "English": "Black bears are territorial and private animals, but they form strong bonds with their friends and selflessly intervene when their friends are threatened. Despite their fearsome appearance, they primarily eat berries, fruit, and fish. —Acht",
+        "Spanish": "Los osos negros son animales territoriales y amantes de la privacidad, pero crean fuertes vínculos con sus amigos e intervienen sin dudarlo cuando estos se ven amenazados. A pesar de su temible aspecto, se alimentan principalmente de bayas, fruta y pescado. —Acht",
+        "German": "Schwarzbären sind stark territoriale und zurückgezogene Tiere, schließen jedoch enge Bande mit Freunden, die sie ohne Rücksicht auf eigene Verluste verteidigen. Trotz ihres furchterregenden Aussehens ernähren sie sich hauptsächlich von Beeren, Früchten und Fischen. Acht",
+        "French": "Les ours noirs sont des animaux territoriaux et solitaires, mais leur amitié est solide et ils interviennent sans hésiter quand leurs proches sont en danger. Malgré leur apparence terrifiante, ils mangent essentiellement des baies, des fruits et du poisson. – Acht"
+      },
+      "IconAssetId": 52578,
+      "Skills": {},
+      "Enviroment": 3,
+      "Order": 7
+    },
+    "24": {
+      "Id": 24,
+      "Names": {
+        "English": "Juvenile Polar Bear",
+        "Spanish": "Oso polar adolescente",
+        "German": "Junger Eisbär",
+        "French": "Jeune ours polaire"
+      },
+      "Descriptions": {
+        "English": "Found in the frozen north, polar bears are adapted to survive in the harshest conditions on Tyria. The most durable of pets, they can shrug off painful blows and weaken foes with their chilling bite. —Acht",
+        "Spanish": "Los osos polares habitan en el gélido norte y se han adaptado a los climas más severos de Tyria. Son las mascotas más resistentes, capaces de aguantar fuertes golpes y debilitar a sus enemigos con su mordisco congelador. —Acht",
+        "German": "Aus ihrer Heimat im vereisten Norden an harsche Bedingungen gewöhnt, können Eisbären auch in den unwirtlichsten Regionen Tyrias überleben. Sie gehören zu den zähesten aller Tiergefährten und können schmerzhafte Attacken abschütteln, während sie ihre Gegner mit eiskalten Bissen schwächen. Acht",
+        "French": "Vivant dans le nord glacé, les ours polaires ont su s'adapter aux conditions les plus rudes de la Tyrie. Familiers les plus résistants qui soient, ils encaissent sans broncher les coups les plus douloureux tout en affaiblissant leurs ennemis avec leurs morsures glaciales. – Acht"
+      },
+      "IconAssetId": 52580,
+      "Skills": {},
+      "Enviroment": 3,
+      "Order": 8
+    },
+    "25": {
+      "Id": 25,
+      "Names": {
+        "English": "Juvenile Arctodus",
+        "Spanish": "Arctodus adolescente",
+        "German": "Junger Arctodus",
+        "French": "Jeune arctodus"
+      },
+      "Descriptions": {
+        "English": "The arctodus is a mighty snow wolf-bear. Its wolf side gives it a strong pack mentality that makes it very protective of its companions. It can roar with arctic might, chilling opponents to the core and making it harder for them to move or act. —Acht",
+        "Spanish": "El arctodus es un poderoso lobo-oso de las nieves. Su parte de lobo le proporciona una gran mentalidad de manada. Es muy protector con sus compañeros. Puede rugir con un poder ártico y dejar helados a sus enemigos, lo que dificulta cualquier movimiento o acción. —Acht",
+        "German": "Der Arctodus ist ein mächtiger Schneewolfbär. Der Wolf verleiht ihm sein ausgeprägtes Rudelverhalten und den Beschützerinstinkt seinen Gefährten gegenüber. Er brüllt mit arktischer Urgewalt, wodurch seine Feinde vor Kälte erschauern und sich kaum bewegen können. Acht",
+        "French": "L'arctodus est un puissant ours-loup des neiges. Son côté loup lui confère une forte mentalité de meute qui le rend particulièrement protecteur envers ses compagnons. Il peut également pousser un rugissement contenant toute la puissance de l'arctique, glaçant ainsi ses adversaires jusqu'aux os et réduisant leur capacité à agir ou se mouvoir. – Acht"
+      },
+      "IconAssetId": 52582,
+      "Skills": {},
+      "Enviroment": 3,
+      "Order": 9
+    },
+    "26": {
+      "Id": 26,
+      "Names": {
+        "English": "Juvenile Whiptail Devourer",
+        "Spanish": "Devorador cola de látigo adolescente",
+        "German": "Junger Peitschenschwanz-Verschlinger",
+        "French": "Jeune dévoreur fouette-queue"
+      },
+      "Descriptions": {
+        "English": "Whiptail devourers are especially deadly ranged attackers, using poison and a volley of tail spikes to take down prey from a distance. —Acht",
+        "Spanish": "Los devoradores cola de látigo son especialmente mortíferos a distancia, pues emplean veneno y una ráfaga de pinchos de cola para abatir a sus presas desde lejos. —Acht",
+        "German": "Peitschenschwanz-Verschlinger sind besonders tödliche Distanzangreifer, die ihre Beute mit Gift und Schwanzstacheln aus der Ferne niederstrecken. Acht",
+        "French": "Les dévoreurs fouette-queue sont des combattants particulièrement redoutables qui utilisent à la fois leur poison et un déluge de coups de queue pour abattre leur proie à distance. – Acht"
+      },
+      "IconAssetId": 52584,
+      "Skills": {},
+      "Enviroment": 3,
+      "Order": 32
+    },
+    "27": {
+      "Id": 27,
+      "Names": {
+        "English": "Juvenile Lashtail Devourer",
+        "Spanish": "Devorador cola de fusta adolescente",
+        "German": "Junger Geißelschwanz-Verschlinger",
+        "French": "Jeune dévoreur queue-cinglante"
+      },
+      "Descriptions": {
+        "English": "Lashtail devourers are fortunately uncommon, as their tactic of ambushing foes and unleashing a flurry of tail strikes that immobilize their prey make them especially deadly. —Acht",
+        "Spanish": "Por suerte, los devoradores cola de fusta son muy poco frecuentes, ya que su táctica de sorprender a sus enemigos con una ráfaga de golpes de cola que inmovilizan a su presa los hace especialmente mortíferos. —Acht",
+        "German": "Geißelschwanz-Verschlinger sind zum Glück recht häufig. Sie lauern den Gegnern im Hinterhalt auf und immobilisieren sie mit einem Schauer von Schwanzschlägen. Acht",
+        "French": "Les dévoreurs queue-cinglante sont heureusement rares, car leurs embuscades et les coups de queue paralysants qu'ils infligent à leurs proies font d'eux des créatures mortelles. – Acht"
+      },
+      "IconAssetId": 52586,
+      "Skills": {},
+      "Enviroment": 3,
+      "Order": 33
+    },
+    "28": {
+      "Id": 28,
+      "Names": {
+        "English": "Juvenile Hyena",
+        "Spanish": "Hiena adolescente",
+        "German": "Junge Hyäne",
+        "French": "Jeune hyène"
+      },
+      "Descriptions": {
+        "English": "This hyena is a wily, cunning combatant. A hyena's pack is never far away, and they can summon another hyena to fight alongside them. —Acht",
+        "Spanish": "Esta hiena es una combatiente astuta e ingeniosa. La manada de una hiena nunca está lejos, lo que les permite invocar a otras hienas en combate. —Acht",
+        "German": "Diese Hyäne ist eine verschlagene Kämpferin. Sie ist nie weit von ihrem Rudel entfernt und kann sofort Unterstützung herbeirufen. Acht",
+        "French": "La hyène est un combattant rusé et roublard. Jamais bien loin de sa meute, la hyène peut toujours faire appel à l'une de ses congénères pour combattre à ses côtés. – Acht"
+      },
+      "IconAssetId": 52588,
+      "Skills": {},
+      "Enviroment": 1,
+      "Order": 24
+    },
+    "29": {
+      "Id": 29,
+      "Names": {
+        "English": "Juvenile Wolf",
+        "Spanish": "Lobo adolescente",
+        "German": "Junger Wolf",
+        "French": "Jeune loup"
+      },
+      "Descriptions": {
+        "English": "This wolf is a deadly predator, with powerful jaws and a howl that sends foes fleeing in terror. Pack is everything for a wolf, and they will fight tirelessly for their alpha. —Acht",
+        "Spanish": "Este lobo es un mortífero depredador con fuertes mandíbulas y un aullido que ahuyenta a sus aterrorizados enemigos. La manada lo es todo para un lobo, y sus miembros luchan incansablemente por el macho alfa. —Acht",
+        "German": "Dieser Wolf ist ein tödliches Raubtier mit kräftigem Kiefer und einem Heulen, das seine Gegner in panische Flucht schlägt. Der Wolf lebt für sein Rudel und verteidigt sein Alpha-Tier bis in den Tod. Acht",
+        "French": "Ce loup est un prédateur mortel dont les puissantes mâchoires et le hurlement terrifiant sont capables de faire fuir ses adversaires. La meute représente tout pour un loup. En retour, elle combattra sans relâche pour soutenir son mâle alpha. – Acht"
+      },
+      "IconAssetId": 52590,
+      "Skills": {},
+      "Enviroment": 1,
+      "Order": 25
+    },
+    "30": {
+      "Id": 30,
+      "Names": {
+        "English": "Juvenile Owl",
+        "Spanish": "Lechuza adolescente",
+        "German": "Junge Eule",
+        "French": "Jeune chouette"
+      },
+      "Descriptions": {
+        "English": "This snowy white owl is a graceful and elegant pet. White owls are fiercely loyal to their friends and family. They unleash chilling cold and claw slashes on their foes while evading attacks in a flurry of wings. —Acht",
+        "Spanish": "Esta lechuza blanca como la nieve es una mascota grácil y elegante. Las lechuzas blancas son tremendamente leales a sus amigos y familia. Desatan un frío gélido y atacan a sus enemigos con sus garras mientras evitan los ataques mediante rápidos movimientos de sus alas. —Acht",
+        "German": "Diese schneeweiße Eule gibt einen eleganten und anmutigen Tiergefährten ab. Weiße Eulen sind Freunden und Verwandten gegenüber extrem loyal. Sie verbreiten frostige Kälte und bringen ihren Gegnern Klauenwunden bei, während sie Gegenangriffen mit raschen Flügelschlägen geschickt ausweichen. Acht",
+        "French": "Cette chouette harfang est un familier élégant et gracieux. Les chouettes harfangs sont d'une loyauté à toute épreuve envers leurs amis et leur famille. Quant à leurs ennemis, elles les accablent d'un froid glacial et les griffent impitoyablement tout en évitant leurs attaques à tire d'ailes. – Acht"
+      },
+      "IconAssetId": 52592,
+      "Skills": {},
+      "Enviroment": 1,
+      "Order": 40
+    },
+    "31": {
+      "Id": 31,
+      "Names": {
+        "English": "Juvenile Eagle",
+        "Spanish": "Águila adolescente",
+        "German": "Junger Adler",
+        "French": "Jeune aigle"
+      },
+      "Descriptions": {
+        "English": "This mighty eagle is the most majestic of birds. They are strong, deadly predators, inflicting bleeding wounds with their claws and beak while evading counterattacks. —Acht",
+        "Spanish": "La poderosa águila es el ave más majestuosa. Son depredadores fuertes y mortales, cuyas garras y picos provocan heridas sangrantes mientras esquivan cualquier contraataque. —Acht",
+        "German": "Dieser mächtige Adler ist der majestätischste aller Vögel. Adler sind starke, tödliche Raubvögel, die mit Klauen und Schnabel tief blutende Wunden zufügen und Gegenangriffen geschickt ausweichen. Acht",
+        "French": "Cet aigle puissant est le plus majestueux des oiseaux. Redoutable prédateur, il utilise ses griffes et son bec pour saigner ses victimes tout en évitant les contre-attaques. – Acht"
+      },
+      "IconAssetId": 52594,
+      "Skills": {},
+      "Enviroment": 1,
+      "Order": 41
+    },
+    "32": {
+      "Id": 32,
+      "Names": {
+        "English": "Juvenile White Raven",
+        "Spanish": "Cuervo blanco adolescente",
+        "German": "Junger Weißer Rabe",
+        "French": "Jeune corbeau blanc"
+      },
+      "Descriptions": {
+        "English": "White ravens are exceedingly rare. This exceptionally intelligent and elegant bird is nonetheless a deadly fighter, neutralizing foes by clawing at their eyes and blinding them while evading their counterattacks. —Acht",
+        "Spanish": "Los cuervos blancos son muy poco comunes. Sin embargo, este elegante e inteligente pájaro es un combatiente mortífero que neutraliza a sus enemigos arañando sus ojos y cegándolos mientras evita sus contraataques. —Acht",
+        "German": "Weiße Raben sind ungemein selten. Diese außerordentlich intelligenten und eleganten Vögel neutralisieren Gegner durch Angriffe auf die ungeschützten Augen mithilfe ihrer Krallen, während sie den Gegenangriffen geschickt ausweichen. Acht",
+        "French": "Les corbeaux blancs sont extrêmement rares. Cet oiseau élégant et exceptionnellement intelligent est aussi un combattant redoutable, capable de neutraliser ses adversaires en les aveuglant à coups de griffes tout en évitant leurs contre-attaques. – Acht"
+      },
+      "IconAssetId": 52596,
+      "Skills": {},
+      "Enviroment": 1,
+      "Order": 42
+    },
+    "33": {
+      "Id": 33,
+      "Names": {
+        "English": "Juvenile Forest Spider",
+        "Spanish": "Araña de bosque adolescente",
+        "German": "Junge Waldspinne",
+        "French": "Jeune araignée des bois"
+      },
+      "Descriptions": {
+        "English": "While other spiders use debilitating or paralyzing poison, forest-spider poison is simply corrosive and destructive. Fortunately they are immune to the acidic qualities of their own poison, but they do need to eat quickly. —Acht",
+        "Spanish": "Mientras otras arañas poseen venenos debilitadores o paralizantes, el veneno de la araña de bosque es corrosivo y destructivo sin más. Aunque por suerte son inmunes a las características ácidas de su propio veneno, tienen que devorar a su presa rápidamente. —Acht",
+        "German": "Während das Gift anderer Spinnen schwächt oder lähmt, ist das Gift der Waldspinne ätzend. Sie ist zwar immun gegen ihr eigenes Gift, muss ihre Beute aber schnell verschlingen, sonst hat sie sich aufgelöst. Acht",
+        "French": "Alors que d'autres araignées utilisent un poison paralysant ou incapacitant, celui de l'araignée sylvestre est tout simplement corrosif. Heureusement, elle est immunisée contre l'acidité de son propre poison, mais elle doit dévorer ses victimes rapidement. – Acht"
+      },
+      "IconAssetId": 52598,
+      "Skills": {},
+      "Enviroment": 1,
+      "Order": 47
+    },
+    "34": {
+      "Id": 34,
+      "Names": {
+        "English": "Juvenile Jungle Spider",
+        "Spanish": "Araña de la selva adolescente",
+        "German": "Junge Dschungelspinne",
+        "French": "Jeune araignée de la jungle"
+      },
+      "Descriptions": {
+        "English": "It takes a particular frame of mind to have a giant spider as a pet—especially a rare jungle spider. Fortunately, they're capable of feeding themselves, disabling foes with a poison spit that can paralyze foes temporarily. —Acht",
+        "Spanish": "Hay que ser de una pasta especial para tener una araña gigante como mascota, especialmente una poco común como es el caso de la araña de la selva. Por suerte, pueden alimentarse solas, inhabilitando a sus enemigos con un escupitajo venenoso que los paraliza temporalmente. —Acht",
+        "German": "Man muss schon eine besondere Persönlichkeit haben, um eine dieser riesigen, seltenen Dschungelspinnen als Tiergefährten zu halten. Zum Glück können sie sich selbst versorgen, indem sie ihre Beute mit ihrem giftigem Speichel vorübergehend lähmen. Acht",
+        "French": "Il faut un certain état d'esprit pour avoir une araignée géante comme familier, en particulier lorsqu'il s'agit d'une araignée de la jungle. Heureusement, ces créatures sont capables de se nourrir par elles-mêmes en paralysant temporairement leurs adversaires avec un crachat empoisonné. – Acht"
+      },
+      "IconAssetId": 52600,
+      "Skills": {},
+      "Enviroment": 1,
+      "Order": 48
+    },
+    "35": {
+      "Id": 35,
+      "Names": {
+        "English": "Juvenile Cave Spider",
+        "Spanish": "Araña de cueva adolescente",
+        "German": "Junge Höhlenspinne",
+        "French": "Jeune araignée cavernicole"
+      },
+      "Descriptions": {
+        "English": "The wily cave spider is a deadly predator that uses debilitating poison to weaken its foes' offenses and defenses as it brings them down. They make surprisingly affectionate pets, though rangers should not eat creatures they bring as gifts. —Acht",
+        "Spanish": "La astuta araña de cueva es una predadora mortal que utiliza un veneno para debilitar a sus enemigos mientras acaba con ellos. Como mascotas, son sorprendentemente afectuosas, aunque los guardabosques no deberían comerse las criaturas que les traen como obsequio. —Acht",
+        "German": "Die gerissene Höhlenspinne ist ein todbringendes Raubtier, das sein Gift einsetzt, um seine Gegner zu schwächen und sie so leichter überwältigen zu können. Sie sind erstaunlich anhängliche Tiergefährten, aber Waldläufer sollten die Kreaturen, die sie als Geschenke bringen, besser nicht essen. Acht",
+        "French": "L'araignée cavernicole est un prédateur rusé et mortel qui utilise un poison incapacitant pour affaiblir les défenses de ses ennemis et les terrasser. Chose surprenante, ce sont des familiers affectueux, même si les rôdeurs ne devraient pas manger les créatures qu'elles rapportent en cadeau. – Acht"
+      },
+      "IconAssetId": 52602,
+      "Skills": {},
+      "Enviroment": 1,
+      "Order": 49
+    },
+    "36": {
+      "Id": 36,
+      "Names": {
+        "English": "Juvenile Black Widow Spider",
+        "Spanish": "Araña viuda negra adolescente",
+        "German": "Junge Schwarze Witwe",
+        "French": "Jeune araignée veuve noire"
+      },
+      "Descriptions": {
+        "English": "The black widow is the rarest variety of spider. Like other spiders, they can throw poison and spin webs to immobilize their foes. Black widows can also use a special poison that paralyzes foes in their tracks. —Acht",
+        "Spanish": "La viuda negra es la variedad más rara de araña. Al igual que otras arañas, pueden lanzar veneno y telarañas para inmovilizar a sus enemigos. Las viudas negras también emplean un veneno especial que paraliza a sus enemigos por completo. —Acht",
+        "German": "Die Schwarze Witwe ist die seltenste aller Spinnen. Wie andere Spinnen kann sie Gift und Netze schleudern, um ihre Gegner zu immobilisieren. Schwarze Witwen haben aber auch ein spezielles Gift, das ihre Beute sofort lähmt. Acht",
+        "French": "La veuve noire est la plus rare de toutes les espèces d'araignées. Comme les autres arachnides, elle peut cracher du poison et tisser une toile pour immobiliser ses ennemis. Les veuves noires disposent en outre d'un poison spécial qui paralyse instantanément leurs victimes. – Acht"
+      },
+      "IconAssetId": 52604,
+      "Skills": {},
+      "Enviroment": 1,
+      "Order": 50
+    },
+    "37": {
+      "Id": 37,
+      "Names": {
+        "English": "Juvenile Warthog",
+        "Spanish": "Jabalí verrugoso adolescente",
+        "German": "Junges Warzenschwein",
+        "French": "Jeune phacochère"
+      },
+      "Descriptions": {
+        "English": "This warthog is an ornery, tough creature that will never back down from a fight. Many foes have underestimated it, only to be undone by its tusks and powerful charge attacks. —Acht",
+        "Spanish": "El jabalí verrugoso es una criatura de mal carácter y piel dura que jamás se rinde en combate. Muchos enemigos lo subestiman y terminan derrotados por sus colmillos y sus ataques de carga potentes. —Acht",
+        "German": "Dieses Warzenschwein ist eine streitlustige, zähe Kreatur, die nie vor einem Kampf zurückschreckt. Viele Gegner haben es schon unterschätzt, wurden aber von seinen Hauern und mächtigen Frontalangriffen eines Besseren belehrt. Acht",
+        "French": "Ce phacochère est une créature coriace et ronchonne qui ne recule devant aucun combat. Nombre d'adversaires le sous-estiment, une erreur qu'ils paient cher sous les coups de ses défenses et de ses charges redoutables. – Acht"
+      },
+      "IconAssetId": 52606,
+      "Skills": {},
+      "Enviroment": 1,
+      "Order": 52
+    },
+    "38": {
+      "Id": 38,
+      "Names": {
+        "English": "Juvenile Siamoth",
+        "Spanish": "Siamoth adolescente",
+        "German": "Junger Siamoth",
+        "French": "Jeune siamouth"
+      },
+      "Descriptions": {
+        "English": "Though it may look bizarre, this tapir is a good-natured creature and an amiable companion. Its unassuming appearance hides a ferocious side, though, and siamoths are known for sending their opponents flying with a well-placed charge. —Acht",
+        "Spanish": "Aunque pueda parecer extravagante, el siamoth es una criatura de buena naturaleza y un compañero afable. Su sencillo aspecto oculta un lado feroz, y los siamoth son famosos por lanzar a sus enemigos por los aires con una buena carga. —Acht",
+        "German": "Trotz seines bizarren Aussehens ist dieser Tapir ein freundlicher Zeitgenosse und ein guter Gefährte. Sein bescheidenes Auftreten verbirgt jedoch seine wilde Seite. Tapire sind bekannt dafür, Gegner mit wohlgezielten Attacken durch die Lüfte zu schleudern. Acht",
+        "French": "Malgré son air étrange, le tapir est un compagnon aimable et facile à vivre. Son apparence sans prétention cache cependant un côté féroce ; les siamouths sont connus pour projeter leurs adversaires en l'air d'une charge bien placée. – Acht"
+      },
+      "IconAssetId": 52608,
+      "Skills": {},
+      "Enviroment": 1,
+      "Order": 53
+    },
+    "39": {
+      "Id": 39,
+      "Names": {
+        "English": "Juvenile Pig",
+        "Spanish": "Cerdo adolescente",
+        "German": "Junges Schwein",
+        "French": "Jeune cochon"
+      },
+      "Descriptions": {
+        "English": "This pig is one of the rarest, most exotic pets in all of Tyria. As you walk the land with this pig by your side, people will stare in wonder at the mysterious creature they have never seen before. Truly, this is a time of wonders. —Acht",
+        "Spanish": "El cerdo es una de las mascotas más raras y exóticas de Tyria. Si recorres el mundo con este cerdo a tu lado, la gente mirará maravillada a esa misteriosa criatura nunca vista para ellos. Esta es, sin duda, una época de prodigios. —Acht",
+        "German": "Dieses Schwein ist eines der seltensten und exotischsten Tiergefährten in ganz Tyria. Ihr werdet alle Blicke auf Euch ziehen, wenn Ihr mit dem Schwein an Eurer Seite durchs Land zieht. So eine Kreatur haben die Leute noch nie gesehen. Fürwahr eine Zeit der Wunder. Acht",
+        "French": "Ce cochon est l'un des familiers les plus rares et les plus exotiques de toute la Tyrie. Lorsque vous sillonnerez le pays à ses côtés, les gens seront stupéfaits de découvrir une créature aussi mystérieuse. Nous vivons vraiment une époque extraordinaire. – Acht"
+      },
+      "IconAssetId": 52610,
+      "Skills": {},
+      "Enviroment": 1,
+      "Order": 55
+    },
+    "40": {
+      "Id": 40,
+      "Names": {
+        "English": "Juvenile Armor Fish",
+        "Spanish": "Pez armadura adolescente",
+        "German": "Junger Panzerfisch",
+        "French": "Jeune poisson cuirassé"
+      },
+      "Descriptions": {
+        "English": "This durable fish's armor can withstand a tremendous amount of punishment. Armor fish overwhelm their foes with disorienting bash attacks while shrugging off their counterattacks. —Acht",
+        "Spanish": "La armadura de este resistente pez soporta una enorme cantidad de golpes. El pez armadura abruma a sus enemigos con porrazos desorientadores mientras rechaza sus contraataques. —Acht",
+        "German": "Der resistente Panzer dieses Fisches widersteht einer unglaublichen Menge Schaden. Panzerfische überwältigen ihre Gegner durch verwirrende Schlagangriffe und schütteln ihre Gegenangriffe locker ab. Acht",
+        "French": "La robuste armure du poisson cuirassé peut encaisser une quantité de dégâts considérable. Ses puissants coups de boutoir lui permettent de désorienter ses ennemis tout en se jouant de leurs contre-attaques. – Acht"
+      },
+      "IconAssetId": 52612,
+      "Skills": {},
+      "Enviroment": 2,
+      "Order": 35
+    },
+    "41": {
+      "Id": 41,
+      "Names": {
+        "English": "Juvenile Blue Jellyfish",
+        "Spanish": "Medusa azul adolescente",
+        "German": "Junge Blaue Qualle",
+        "French": "Jeune méduse bleue"
+      },
+      "Descriptions": {
+        "English": "Jellyfish can release a variety of clouds in the water to replenish themselves and disorient their enemies. Blue jellyfish can also chill foes with the ends of their tentacles. —Acht",
+        "Spanish": "Las medusas pueden liberar distintas nubes en el agua para recuperarse y desorientar a sus enemigos. Las medusas azules también pueden congelar a los enemigos con el extremo de sus tentáculos. —Acht",
+        "German": "Quallen können verschiedene Substanzen im Wasser freigeben, die eine erholsame Wirkung haben und ihren Gegnern die Orientierung erschweren. Die Spitzen der Tentakel von blauen Quallen verursachen darüber hinaus Kühle. Acht",
+        "French": "Les méduses peuvent projeter différentes sortes de nuages dans l'eau pour se régénérer et désorienter leurs ennemis. Les méduses bleues peuvent aussi geler leurs adversaires avec l'extrémité de leurs tentacules. – Acht"
+      },
+      "IconAssetId": 52614,
+      "Skills": {},
+      "Enviroment": 2,
+      "Order": 37
+    },
+    "42": {
+      "Id": 42,
+      "Names": {
+        "English": "Juvenile Red Jellyfish",
+        "Spanish": "Medusa roja adolescente",
+        "German": "Junge Rote Qualle",
+        "French": "Jeune méduse rouge"
+      },
+      "Descriptions": {
+        "English": "Jellyfish can release a variety of clouds in the water to replenish themselves and disorient their enemies. Their tentacles immobilize their prey by disrupting their nervous system. —Acht",
+        "Spanish": "Las medusas pueden liberar distintas nubes en el agua para recuperarse y desorientar a sus enemigos. Sus tentáculos atacan el sistema nervioso de su presa y la inmovilizan. —Acht",
+        "German": "Quallen können verschiedene Substanzen im Wasser freigeben, die eine erholsame Wirkung haben und ihren Feinden die Orientierung erschweren. Ihre Tentakel immobilisieren die Beute, indem sie das Nervensystem angreifen. Acht",
+        "French": "Les méduses peuvent projeter différentes sortes de nuages dans l'eau pour se régénérer et désorienter leurs ennemis. Elles immobilisent leurs proies grâce à leurs tentacules qui neutralisent leur système nerveux. – Acht"
+      },
+      "IconAssetId": 52616,
+      "Skills": {},
+      "Enviroment": 2,
+      "Order": 36
+    },
+    "43": {
+      "Id": 43,
+      "Names": {
+        "English": "Juvenile Rainbow Jellyfish",
+        "Spanish": "Medusa arcoíris adolescente",
+        "German": "Junge Regenbogen-Qualle",
+        "French": "Jeune méduse arc-en-ciel"
+      },
+      "Descriptions": {
+        "English": "Jellyfish release a variety of clouds in the water to replenish themselves and disorient their enemies. Rainbow jellyfish can also chill foes with the ends of their tentacles.—Acht",
+        "Spanish": "Las medusas liberan distintas nubes en el agua para recuperarse y desorientar a sus enemigos. Las medusas arcoíris también pueden congelar a los enemigos con el extremo de sus tentáculos. — Acht",
+        "German": "Quallen können verschiedene Wolken im Wasser freigeben, um sich zu erholen und ihre Gegner orientierungslos zu machen. Regenbogen-Quallen können mit ihren Tentakelspitzen Gegner darüber hinaus mit Kühle belegen. Acht",
+        "French": "Les méduses peuvent projeter différentes sortes de nuages dans l'eau pour se régénérer et désorienter leurs ennemis. Les méduses arc-en-ciel peuvent aussi geler leurs adversaires avec l'extrémité de leurs tentacules. – Acht"
+      },
+      "IconAssetId": 52614,
+      "Skills": {},
+      "Enviroment": 2,
+      "Order": 38
+    },
+    "44": {
+      "Id": 44,
+      "Names": {
+        "English": "Juvenile Hawk",
+        "Spanish": "Halcón adolescente",
+        "German": "Junger Falke",
+        "French": "Jeune faucon"
+      },
+      "Descriptions": {
+        "English": "This hawk is a crafty ally. He is a fierce and deadly predator that inflicts bleeding wounds with its claws and beak, while evading counterattacks.—Acht",
+        "Spanish": "Este halcón es un aliado hábil. Es un depredador feroz y mortal cuyas garras y pico provocan heridas sangrantes mientras esquivan cualquier contraataque. — Acht",
+        "German": "Dieser Falke ist ein cleverer Verbündeter. Er ist ein wilder, tödlicher Raubvogel, der mit Klauen und Schnabel blutende Wunden zufügen und Gegenangriffen geschickt ausweichen kann. Acht",
+        "French": "Ce faucon est un allié de poids. Féroce prédateur, il utilise ses griffes et son bec pour saigner ses victimes tout en évitant les contre-attaques. – Acht"
+      },
+      "IconAssetId": 543019,
+      "Skills": {},
+      "Enviroment": 1,
+      "Order": 43
+    },
+    "45": {
+      "Id": 45,
+      "Names": {
+        "English": "Juvenile Reef Drake",
+        "Spanish": "Draco de arrecife adolescente",
+        "German": "Junger Rifflindwurm",
+        "French": "Jeune drake des récifs"
+      },
+      "Descriptions": {
+        "English": "Reef drakes emit a high-pitched screech to disorient their foes. Don't let them confuse you; these drakes are dangerous.<br>—Acht",
+        "Spanish": "Los dracos de arrecife emiten un chillido agudo que desorienta a sus enemigos. No dejes que te confundan; estos dracos son peligrosos.<br>—Acht",
+        "German": "Rifflindwürmer stoßen einen schrillen Schrei aus, um ihre Gegner zu desorientieren. Lasst Euch von ihnen nicht verwirren, diese Lindwürmer sind gefährlich.<br>Acht",
+        "French": "Les drakes des récifs émettent un son aigu désorientant leurs ennemies. Ne vous y méprenez pas ; ces drakes sont dangereux.<br>—Acht"
+      },
+      "IconAssetId": 511359,
+      "Skills": {},
+      "Enviroment": 3,
+      "Order": 30
+    },
+    "46": {
+      "Id": 46,
+      "Names": {
+        "English": "Juvenile Smokescale",
+        "Spanish": "Escamahumada adolescente",
+        "German": "Junge Rauchschuppe",
+        "French": "Jeune fumécaille"
+      },
+      "Descriptions": {
+        "English": "Smokescales have an ability to conceal themselves in smoke. These stealthy saurians emerge from their smoke cloud to ambush prey without warning.—Acht",
+        "Spanish": "Los escamahumadas pueden ocultarse en una nube de humo. Estos saurios sigilosos emergen de la nube de humo para pillar desprevenida a su presa.—Acht",
+        "German": "Rauchschuppen können sich mit ihrem eigenen Rauch tarnen. Diese hinterhältigen Saurier schnellen dann aus der Rauchwolke hervor und attackieren ihre arglose Beute. Acht",
+        "French": "Le fumécaille a la particularité de se dissimuler derrière un écran de fumée. Ce saurien furtif peut ensuite bondir sur sa proie sans lui laisser la moindre chance de s'en sortir. – Acht"
+      },
+      "IconAssetId": 1128512,
+      "Skills": {},
+      "Enviroment": 1,
+      "Order": 59
+    },
+    "47": {
+      "Id": 47,
+      "Names": {
+        "English": "Juvenile Tiger",
+        "Spanish": "Tigre adolescente",
+        "German": "Junger Tiger",
+        "French": "Jeune tigre"
+      },
+      "Descriptions": {
+        "English": "Tigers are among the largest feline predators, with striped markings that help conceal them in heavy vegetation. Fierce hunters with tooth and claw, they spend most of their lives in solitude.—Acht",
+        "Spanish": "Los tigres son unos de los predadores felinos más grandes que existen; sus rayas los ayudan a ocultarse en la vegetación. Estos fieros cazadores armados de dientes y garras pasan la mayor parte de su vida en soledad. —Acht",
+        "German": "Tiger zählen zu den größten Raubkatzen. Ihr gestreiftes Fell hilft ihnen, sich in der dichten Vegetation zu verbergen. Ihre Zähne und Klauen weisen sie als erbitterte Jäger aus. Sie verbringen den Großteil ihres Lebens allein. Acht",
+        "French": "Les tigres figurent parmi les plus grands prédateurs félins ; leur pelage rayé leur permet de se fondre dans la végétation environnante. Redoutables chasseurs armés de crocs et de griffes acérés, ce sont des animaux solitaires. — Acht"
+      },
+      "IconAssetId": 1128514,
+      "Skills": {},
+      "Enviroment": 3,
+      "Order": 14
+    },
+    "48": {
+      "Id": 48,
+      "Names": {
+        "English": "Juvenile Electric Wyvern",
+        "Spanish": "Guiverno eléctrico adolescente",
+        "German": "Junger Elektro-Wyvern",
+        "French": "Jeune vouivre électrique"
+      },
+      "Descriptions": {
+        "English": "Electric wyverns are a unique variant of their winged species that generate and channel electricity. They isolate and shock their prey with powerful electrical pulses.—Acht",
+        "Spanish": "Los guivernos eléctricos son una variante única de la especie alada que genera y canaliza electricidad. Aíslan y electrocutan a su presa con potentes pulsos eléctricos. —Acht",
+        "German": "Elektro-Wyvern sind einzigartige Vertreter ihrer geflügelten Spezies, die in der Lage sind, Elektrizität zu erzeugen und zu leiten. Sie kreisen ihre Beute ein und verpassen ihr mächtige Elektroschocks. Acht",
+        "French": "Les vouivres électriques sont une sous-espèce distincte de leurs congénères ailés qui génère et canalise l'électricité. Elles acculent leur proie avant de la paralyser à l'aide de redoutables pulsations électriques. — Acht"
+      },
+      "IconAssetId": 1128506,
+      "Skills": {},
+      "Enviroment": 1,
+      "Order": 57
+    },
+    "51": {
+      "Id": 51,
+      "Names": {
+        "English": "Juvenile Fire Wyvern",
+        "Spanish": "Guiverno llameante adolescente",
+        "German": "Junger Feuer-Wyvern",
+        "French": "Jeune vouivre de feu"
+      },
+      "Descriptions": {
+        "English": "Fire wyverns are winged relatives of the terrestrial drake. These voracious predators contain and then roast their prey with swaths of fiery breath.—Acht",
+        "Spanish": "Los guivernos de fuego son parientes alados de los dracos terrestres. Estos voraces depredadores acorralan y fríen a su presa mediante franjas de aliento abrasador. —Acht",
+        "German": "Feuer-Wyvern sind geflügelte Verwandte des terrestrischen Lindwurms. Die unersättlichen Räuber treiben ihre Beute mit Schwaden feurigen Atems in die Enge, um sie dann zu rösten. Acht",
+        "French": "Les vouivres de feu sont les cousines ailées du drake terrestre. Ces prédateurs voraces encerclent et carbonisent leur proie en crachant des flammes infernales. — Acht"
+      },
+      "IconAssetId": 1128508,
+      "Skills": {},
+      "Enviroment": 1,
+      "Order": 58
+    },
+    "52": {
+      "Id": 52,
+      "Names": {
+        "English": "Juvenile Bristleback",
+        "Spanish": "Lomoespinado adolescente",
+        "German": "Junger Borstenrücken",
+        "French": "Jeune hérissosaure"
+      },
+      "Descriptions": {
+        "English": "Bristlebacks are spiny saurians with thick hides and sharp claws. When provoked, they can eject their sharp dorsal spines at high velocity.—Acht",
+        "Spanish": "Los lomoespinados son saurios con púas, piel gruesa y garras afiladas. Al provocarlos, pueden disparar sus afiladas púas dorsales a gran velocidad.—Acht",
+        "German": "Borstenrücken sind stachelige Saurier mit dicker Haut und scharfen Klauen. Provoziert man sie, können sie blitzschnell ihre scharfen Rückenstacheln verschießen. Acht",
+        "French": "Le hérissosaure est un saurien épineux à la peau coriace et aux griffes acérées. Quand on le provoque, il peut rapidement projeter ses épines dorsales sur sa cible. – Acht"
+      },
+      "IconAssetId": 1128504,
+      "Skills": {},
+      "Enviroment": 1,
+      "Order": 19
+    },
+    "54": {
+      "Id": 54,
+      "Names": {
+        "English": "Juvenile Cheetah",
+        "Spanish": "Guepardo adolescente",
+        "German": "Junger Gepard",
+        "French": "Jeune guépard"
+      },
+      "Descriptions": {
+        "English": "It's a blur, sir! The desert cheetah is rumored to travel faster than the eye can see, pouncing upon its victim with fang and claw. —Acht",
+        "Spanish": "¡Es como un borrón, señor! Se rumorea que el guepardo del desierto se mueve tan rápido que el ojo no puede seguirlo y acaba abalanzándose sobre su presa con uñas y dientes. —Acht",
+        "German": "Er ist nur verschwommen erkennbar! Der Wüsten-Gepard soll schneller laufen, als das Auge blicken kann, und sich mit Fang und Klauen auf seine Opfer stürzen. Acht",
+        "French": "On raconte que le guépard du désert est si rapide que l'œil ne distingue qu'une image floue lorsqu'il bondit sur sa proie, tous crocs et griffes dehors. – Acht"
+      },
+      "IconAssetId": 1769877,
+      "Skills": {},
+      "Enviroment": 1,
+      "Order": 16
+    },
+    "55": {
+      "Id": 55,
+      "Names": {
+        "English": "Juvenile Sand Lion",
+        "Spanish": "León de arena adolescente",
+        "German": "Junger Sandlöwe",
+        "French": "Jeune lion des sables"
+      },
+      "Descriptions": {
+        "English": "Sand lions lay claim to massive dunes and viciously defend their territory from dozens of desert encroachers. —Acht",
+        "Spanish": "Los leones de arena reclaman dunas enormes y defienden ferozmente su territorio de docenas de invasores del desierto. —Acht",
+        "German": "Sandlöwen beanspruchen riesige Dünen als ihr Territorium und verteidigen sie wütend und wild gegen Wüsteneindringlinge. Acht",
+        "French": "Le lion des sables s'approprie d'immenses dunes qu'il défend férocement contre de nombreux intrus. – Acht"
+      },
+      "IconAssetId": 1769879,
+      "Skills": {},
+      "Enviroment": 1,
+      "Order": 17
+    },
+    "57": {
+      "Id": 57,
+      "Names": {
+        "English": "Juvenile Jacaranda",
+        "Spanish": "Jacaranda adolescente",
+        "German": "Junge Jacaranda",
+        "French": "Jeune jacaranda"
+      },
+      "Descriptions": {
+        "English": "Capable of calling lightning from the skies while blending into terrain. They are not standing still; they are lying in wait. —Acht",
+        "Spanish": "Es capaz de convocar relámpagos desde el cielo mientras se confunde con el terreno. No se quedan quietos, sino que están a la espera. —Acht",
+        "German": "Sie passen sich dem Terrain an, werden unsichtbar und können Blitze heraufbeschwören. Sie bewegen sich ständig, bleiben nie an einem Ort und liegen ständig auf der Lauer. Acht",
+        "French": "Capables d'invoquer la foudre tout en se dissimulant dans le paysage, ces animaux sont à l'affût de la moindre faiblesse chez leur proie. – Acht"
+      },
+      "IconAssetId": 1769881,
+      "Skills": {},
+      "Enviroment": 1,
+      "Order": 46
+    },
+    "59": {
+      "Id": 59,
+      "Names": {
+        "English": "Juvenile Rock Gazelle",
+        "Spanish": "Gacela de roca adolescente",
+        "German": "Junge Felsgazelle",
+        "French": "Jeune gazelle des rochers"
+      },
+      "Descriptions": {
+        "English": "The elegant rock gazelle grazes on rocky outcroppings over its lifetime to enhance its impressive antlers. —Acht",
+        "Spanish": "Las elegantes gacelas de roca pastan en afloramientos rocosos a lo largo de su vida para agrandar su impresionante cornamenta. —Acht",
+        "German": "Die elegante Felsgazelle grast ihr ganzes Leben lang auf Felsformationen, um ihr eindrucksvolles Geweih zu verbessern. Acht",
+        "French": "L'élégante gazelle des rochers apprécie particulièrement les affleurements pierreux qui lui permettent d'affûter ses impressionnantes ramures. – Acht"
+      },
+      "IconAssetId": 1769875,
+      "Skills": {},
+      "Enviroment": 1,
+      "Order": 56
+    },
+    "61": {
+      "Id": 61,
+      "Names": {
+        "English": "Juvenile Fanged Iboga",
+        "Spanish": "Iboga acolmillada adolescente",
+        "German": "Junge beißende Iboga",
+        "French": "Jeune iboga à crocs"
+      },
+      "Descriptions": {
+        "English": "The fanged iboga is one of the most aggressive members of its family, actively seeking out prey and mercilessly dousing it in acid. —Acht",
+        "Spanish": "La iboga acolmillada es de los miembros más agresivos de su familia. Buscan activamente a sus presas para empaparlas cruelmente de ácido. —Acht",
+        "German": "Die Beißende Iboga gehört zu den aggressivsten Mitgliedern ihrer Familie; sie begibt sich aktiv auf die Suche nach Beute und tränkt sie unbarmherzig mit Säure. Acht",
+        "French": "L'iboga à crocs est l'une des espèces les plus hostiles de sa famille. Il traque sa victime impitoyablement avant de l'asperger d'acide. – Acht"
+      },
+      "IconAssetId": 1769883,
+      "Skills": {},
+      "Enviroment": 1,
+      "Order": 60
+    },
+    "63": {
+      "Id": 63,
+      "Names": {
+        "English": "Juvenile White Tiger",
+        "Spanish": "Tigre blanco adolescente",
+        "German": "Junger weißer Tiger",
+        "French": "Jeune tigre blanc"
+      },
+      "Descriptions": {
+        "English": "A Canthan variant of its orange-furred cousin, the white tiger is well known in the region as a fierce protector of its master. It is a symbol of wealth and power for a household to own one as a pet. —Acht",
+        "Spanish": "Variante canthiana de su pariente de pelaje naranja, el tigre blanco es muy conocido en la región como fiero protector de su amo. Tener uno de mascota en casa es un símbolo de riqueza y poder. —Acht",
+        "German": "Der weiße Tiger, eine canthanische Unterart der orangefelligen Großkatze, ist in der Region als grimmiger Beschützer seines Herrn wohlbekannt. Ihn als Haustier zu besitzen stellt ein Symbol des Wohlstands und der Macht dar. – Acht",
+        "French": "Le tigre blanc est l'équivalent canthien de son cousin à fourrure rousse. On le connaît dans la région comme un féroce protecteur de son maître. En posséder un est symbole de richesse et de pouvoir pour toute maisonnée. – Acht"
+      },
+      "IconAssetId": 2604596,
+      "Skills": {},
+      "Enviroment": 3,
+      "Order": 15
+    },
+    "64": {
+      "Id": 64,
+      "Names": {
+        "English": "Juvenile Wallow",
+        "Spanish": "Morsa adolescente",
+        "German": "Junger Suhler",
+        "French": "Jeune bauge"
+      },
+      "Descriptions": {
+        "English": "Despite their ferocious appearance, wallows are actually quite docile and make for lovely companions. Canthan farmers use them to dig up truffles, as well as to protect themselves from hostile wildlife. —Acht",
+        "Spanish": "Pese a su aspecto feroz, las morsas son en realidad bastante dóciles y resultan una compañía encantadora. Los granjeros canthianos las usan para desenterrar trufas y para protegerse contra la fauna hostil. —Acht",
+        "German": "Trotz ihres wilden Äußeren werden Suhler recht zahm und eignen sich wunderbar als Gefährten. Canthanische Bauern setzen sie zur Trüffelsuche ein und lassen sich von ihnen vor wilden Tieren beschützen. – Acht",
+        "French": "Malgré leur apparence féroce, les bauges sont en réalité d'un tempérament docile, ce qui fait d'elles d'excellents compagnons. Les fermiers de Cantha les exploitent pour déterrer des truffes, ainsi que pour se protéger de la faune hostile. – Acht"
+      },
+      "IconAssetId": 2604592,
+      "Skills": {},
+      "Enviroment": 1,
+      "Order": 54
+    },
+    "65": {
+      "Id": 65,
+      "Names": {
+        "English": "Juvenile Phoenix",
+        "Spanish": "Fénix adolescente",
+        "German": "Junger Phönix",
+        "French": "Jeune phénix"
+      },
+      "Descriptions": {
+        "English": "Boasting colorful plumage that rivals that of the rainbow moa, the phoenix is a regal avian considered by many to be the ruler of all birds. The largest phoenixes are owned by Canthan royalty. —Acht",
+        "Spanish": "Por su vistoso plumaje, que rivaliza con el del moa arcoíris, muchos ven al majestuoso fénix como el monarca de todas las aves. Los ejemplares de mayor tamaño están en propiedad de la realeza canthiana. —Acht",
+        "German": "Der Phönix mit seinem farbenfrohen Gefieder, mit dem höchstens der Regenbogen-Moa mithalten kann, ist ein königlicher Vogel, den viele für den Herrscher aller Vögel halten. Die größten Phönixe gehören dem canthanischen Hochadel. – Acht",
+        "French": "Avec son plumage coloré propre à rivaliser celui du moa arc-en-ciel, le phénix est un volatile à l'allure royale souvent considéré comme le souverain des oiseaux. La famille royale canthienne possède les plus grands phénix. – Acht"
+      },
+      "IconAssetId": 2604594,
+      "Skills": {},
+      "Enviroment": 1,
+      "Order": 44
+    },
+    "66": {
+      "Id": 66,
+      "Names": {
+        "English": "Juvenile Siege Turtle",
+        "Spanish": "Tortuga de combate adolescente",
+        "German": "Junge Belagerungsschildkröte",
+        "French": "Jeune tortue de siège"
+      },
+      "Descriptions": {
+        "English": "Giant turtles used by the Luxon Armada as mobile siege weapons. They are trained from a young age to carry heavy artillery on their backs to prepare them for battle. —Acht",
+        "Spanish": "Tortugas gigantes que la armada de los Luxon emplea como armas de combate móviles. Desde pequeñas las entrenan para transportar artillería pesada en el lomo a fin de prepararlas para el combate. —Acht",
+        "German": "Riesige Schildkröten, wie sie die Luxon-Armada als bewegliche Belagerungswaffen einsetzte. Sie werden von klein auf dazu abgerichtet, schwere Artillerie auf dem Rücken zu tragen, um sie auf den Kampf vorzubereiten. – Acht",
+        "French": "Les tortues géantes sont employées par l'Armada luxonne comme des armes de siège mobiles. Elles reçoivent très tôt un entraînement qui leur permet de transporter de lourdes armes d'artillerie sur leur dos, afin de les préparer au combat. – Acht"
+      },
+      "IconAssetId": 2604598,
+      "Skills": {},
+      "Enviroment": 1,
+      "Order": 20
+    },
+    "67": {
+      "Id": 67,
+      "Names": {
+        "English": "Juvenile Aether Hunter",
+        "Spanish": "Cazador de éter adolescente",
+        "German": "Junger Ätherjäger",
+        "French": "Jeune chasseur éthéré"
+      },
+      "Descriptions": {
+        "English": "Imbued with ley-line energy, aether hunters can travel through the toughest of terrains with ease, unlike their sand-dwelling counterparts. —Acht",
+        "Spanish": "Imbuidos con energía de línea ley, los cazadores de éter pueden recorrer con facilidad los terrenos más difíciles, a diferencia de sus semejantes moradores de las arenas. —Acht",
+        "German": "Anders als ihre Gegenstücke, die im Sand leben, können diese von Ley-Linien-Energie durchdrungenen Ätherjäger mit Leichtigkeit das schwierigste Gelände durchqueren. – Acht",
+        "French": "Infusés par l'énergie des lignes de force, les chasseurs éthérés sont capables de parcourir aisément les terrains les plus escarpés, contrairement à leurs semblables des sables. – Acht"
+      },
+      "IconAssetId": 3124863,
+      "Skills": {},
+      "Enviroment": 1,
+      "Order": 61
+    },
+    "68": {
+      "Id": 68,
+      "Names": {
+        "English": "Juvenile Sky-Chak Striker",
+        "Spanish": "Golpeador chak celestial adolescente",
+        "German": "Junger Himmels-Chak-Stürmer",
+        "French": "Jeune chak céleste belligérant"
+      },
+      "Descriptions": {
+        "English": "Able to harness and control bursts of electricity, the sky-chak striker's ability to glide by attuning to ley-line energy allowed them to adapt to the floating islands of Skywatch Archipelago. —Acht",
+        "Spanish": "Capaz de dominar y controlar estallidos de electricidad, el golpeador chak celestial puede planear sintonizándose con la energía de línea ley, lo que le ha permitido adaptarse a las islas flotantes del Archipiélago Vistacielo. —Acht",
+        "German": "Himmels-Chak-Stürmer sind in der Lage, Energieausbrüche zu zügeln und zu beherrschen. Ihre Fähigkeit, zu gleiten, indem sie sich auf die Ley-Linien-Energie einstimmen, hat ihnen die Anpassung an die schwebenden Inseln des Himmelswacht-Archipels ermöglicht. – Acht",
+        "French": "Aptes à exploiter et contrôler des décharges d'électricité, les chaks célestes belligérants peuvent également planer en entrant en affinité avec l'énergie des lignes de force, ce qui leur permet de s'adapter aux îles flottantes de l'Archipel de l'observatoire céleste. – Acht"
+      },
+      "IconAssetId": 3256314,
+      "Skills": {},
+      "Enviroment": 1,
+      "Order": 62
+    },
+    "69": {
+      "Id": 69,
+      "Names": {
+        "English": "Juvenile Spinegazer",
+        "Spanish": "Avistaespinas adolescente",
+        "German": "Junger Dornenstarrer",
+        "French": "Jeune vigie spinescente"
+      },
+      "Descriptions": {
+        "English": "If you've explored the Realm of Dreams, you've likely experienced the terror of the spinegazer's stare; not only can it launch a barrage of ranged physical attacks, it also wages psychological warfare by planting tormenting visions in the minds of its enemies.—Acht",
+        "Spanish": "Si has explorado el Reino de los Sueños, es más que probable que hayas experimentado el terror de la mirada de un avistaespinas; no solo puede lanzar una salva de ataques físicos a distancia, sino que también libra una guerra psicológica induciendo visiones atormentadoras en la mente de sus enemigos.—Acht",
+        "German": "Wenn Ihr das Reich der Träume erkundet habt, ist Euch bekannt, welchen Schrecken der Blick des Dornenstarrers hervorruft. Er kann nicht nur Salven von physischen Fernangriffen abfeuern, sondern er betreibt auch psychologische Kriegsführung, indem er seinen Gegnern quälende Visionen in den Kopf setzt. – Acht",
+        "French": "Si vous avez exploré le Royaume des Songes, vous avez sûrement ressenti la terreur sous le regard d'une vigie spinescente ; non seulement elle est capable de déclencher une pluie d'attaques physiques à distance, mais aussi de mener une guerre psychologique en semant des visions de tourment dans l'esprit de ses ennemis. – Acht"
+      },
+      "IconAssetId": 3307063,
+      "Skills": {},
+      "Enviroment": 1,
+      "Order": 63
+    },
+    "70": {
+      "Id": 70,
+      "Names": {
+        "English": "Juvenile Warclaw",
+        "Spanish": "Garrabélica adolescente",
+        "German": "Junge Kriegsklaue",
+        "French": "Razziafelis juvénile"
+      },
+      "Descriptions": {
+        "English": "The warclaw has always been a very peculiar creature of study, previously thought to be Mists-locked and of an ethereal nature rather than biological. The warclaw of Janthir seem to be the origin of the creatures we know, possessing an untapped well of magic that manifests as immense speed and athletic ability. Occasionally, the feline will need to expel pent-up energies by running in a circle for minutes on end. —Acht",
+        "Spanish": "La garrabélica siempre ha sido una criatura muy peculiar de estudiar. Además, antes se pensaba que estaban vinculadas a la Niebla y eran de naturaleza etérea, en vez de biológica. La garrabélica de Janthir parece ser el origen de las criaturas que conocemos, poseedoras de una fuente de magia sin desplegar que se manifiesta en su inmensa velocidad y su capacidad atlética. De cuando en cuando, este felino necesita liberar energía acumulada corriendo en círculo durante minutos y minutos seguidos. —Acht",
+        "German": "Kriegsklauen waren immer schon ein sonderbares Studienobjekt. Früher hielt man sie für Geschöpfe, die nur in den Nebeln existieren und eher ätherischer als biologischer Natur sind. Bei den Kriegsklauen von Janthir scheint es sich um die ursprüngliche Form zu handeln. Sie besitzen unausgeschöpfte Quellen der Magie, was sich in enormer Geschwindigkeit und athletischen Fähigkeiten manifestiert. Manchmal verspüren diese Großkatzen das Bedürfnis, ihre überschüssige Energie abzubauen, indem sie minutenlang wie verrückt im Kreis rennen. – Acht",
+        "French": "Les razziafelis ont toujours été des créatures particulières à étudier, car ils étaient jusque-là censés être restreints aux Brumes, et leur nature est plus éthérée que biologique. Les razziafelis de Janthir semblent former l'origine des créatures que nous connaissons, et ils possèdent un puits de magie qui leur confère une grande vitesse et des capacités athlétiques avancées. Il arrive que ces félins évacuent leur énergie refoulée en courant en rond pendant de longues minutes. – Acht"
+      },
+      "IconAssetId": 3378993,
+      "Skills": {},
+      "Enviroment": 1,
+      "Order": 18
+    },
+    "71": {
+      "Id": 71,
+      "Names": {
+        "English": "Juvenile Janthiri Bee",
+        "Spanish": "Abeja adolescente de Janthir",
+        "German": "Junge Janthir-Biene",
+        "French": "Jeune abeille de Janthir"
+      },
+      "Descriptions": {
+        "English": "The honeybees of Janthir are an incredibly pragmatic subspecies. When bonded to an individual, or the hive's queen as they most often are, the bees are incredibly chivalrous toward their proprietor. However, I'd be remiss if I didn't mention their stingers. Likely adapted to protect themselves from the treacherous nature of the region, the Janthiri bee's ovipositor is markedly durable and even more hazardous. The lowland kodan often coat their weapons in bee venom before a challenging hunt. —Acht",
+        "Spanish": "Las abejas mieleras de Janthir son una subespecie increíblemente pragmática. Cuando se vinculan a un individuo, o a la reina de la colmena como ocurre en la mayoría de los casos, estas criaturas son asombrosamente caballerosas con su propietario. Sin embargo, sería una negligencia por mi parte no mencionar los aguijones. No obstante, el ovipositor de la abeja de Janthir, probablemente adaptado a protegerse de la peligrosa naturaleza de la región, es llamativamente duradero e incluso más peligroso. Los kodan de las tierras bajas suelen cubrir sus armas con veneno de abeja antes de una cacería difícil. —Acht",
+        "German": "Die Honigbienen von Janthir stellen eine unglaublich pragmatische Unterart dar. Wenn sie an ein Individuum gebunden sind (meistens handelt es sich dabei um ihre Königin), behandeln sie es mit ausgesuchter Höflichkeit. Aber dennoch muss ich ihre Stacheln erwähnen. Als schützende Anpassung an die wilde, gefährliche Natur der Region besitzen die Janthir-Bienen eine umgebildete Legeröhre, die eine imposante, sehr widerstandsfähige Waffe darstellt. Die Tiefland-Kodan überziehen ihre Waffen vor anspruchsvollen Jagdausflügen oft mit Bienengift. – Acht",
+        "French": "Les abeilles de Janthir forment une sous-espèce incroyablement pragmatique. Lorsqu'elles sont liées à un individu, comme le plus souvent la reine de leur ruche, les abeilles font preuve d'un sens de la chevalerie extraordinaire à l'égard de leur propriétaire. Néanmoins, je me dois de mentionner leur dard... Probablement adapté afin de les protéger de la nature périlleuse de la région, l'ovipositeur des abeilles de Janthir est remarquablement durable et encore plus dangereux. Les Kodans des basses terres enduisent souvent leurs armes de venin d'abeille en amont d'une chasse difficile. – Acht"
+      },
+      "IconAssetId": 3594054,
+      "Skills": {},
+      "Enviroment": 1,
+      "Order": 64
+    },
+    "72": {
+      "Id": 72,
+      "Names": {
+        "English": "Juvenile Raptor Swiftwing",
+        "Spanish": "Alacélere raptor adolescente",
+        "German": "Junge Raptor-Flinkschwinge",
+        "French": "Prestaile raptor juvénile"
+      },
+      "Descriptions": {
+        "English": "Only recently discovered on the island of Castora, the swiftwing raptor is covered in a thick layer of jewel-toned feathers that blend in with the island's vivid vegetation. Researchers have noted its ear-shattering shriek and razor-edged talons, urging members of the Tyrian Alliance to approach the saurian with caution. —Acht",
+        "Spanish": "Descubierto recientemente en la isla de Castora, el raptor alacélere está cubierto de una gruesa capa de plumas de preciosas tonalidades que se mimetizan con la vívida vegetación de la isla. Los investigadores destacan su chillido ensordecedor y sus garras afiladas como cuchillas, y urgen a los miembros de la Alianza Tyriana a aproximarse al saurio con precaución. —Acht",
+        "German": "Dieser Flinkschwingen-Raptor wurde erst vor Kurzem auf der Insel Castora entdeckt. Sein dichtes Federkleid in satten Juwelentönen tarnt ihn in der farbenfrohen Vegetation der Insel. Wegen seines ohrenbetäubenden Kreischens und der rasiermesserscharfen Klauen empfehlen die Forscher den Mitgliedern der Tyrianischern Allianz, sich diesem Saurier nur mit größter Vorsicht zu nähern. – Acht",
+        "French": "Récemment découvert sur l'île de Castora, le raptor prestaile est couvert d'une épaisse couche de plumes aux couleurs chatoyantes qui se fondent dans la végétation luxuriante de l'île. Les chercheurs ont pris note de son cri assourdissant et de ses serres affûtées comme des rasoirs, et ils encouragent fortement les membres de l'alliance tyrienne à ne s'approcher de ce saurien qu'avec la plus grande prudence. – Acht"
+      },
+      "IconAssetId": 3713047,
+      "Skills": {},
+      "Enviroment": 1,
+      "Order": 45
+    }
+  },
+  "Version": "0.0.8"
+}

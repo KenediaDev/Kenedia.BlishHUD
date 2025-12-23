@@ -18,7 +18,7 @@ namespace Kenedia.Modules.Core.Utility
             int x = (int)(bounds.X * factor);
             int y = (int)(bounds.Y * factor);
 
-            g.CopyFromScreen(new System.Drawing.Point(wndBounds.Left + p.X + x, wndBounds.Top + p.Y + y), System.Drawing.Point.Empty, new(size.X, size.Y));
+            g.CopyFromScreen(new System.Drawing.Point(wndBounds.Left + p.X + x, wndBounds.Top + p.Y + y), Point.Empty, new(size.X, size.Y));
             bitmap.Save(s, System.Drawing.Imaging.ImageFormat.Bmp);
 
             return s.CreateTexture2D();
@@ -28,7 +28,7 @@ namespace Kenedia.Modules.Core.Utility
             using Bitmap bitmap = new(region.Width, region.Height);
             using var g = Graphics.FromImage(bitmap);
             using MemoryStream s = new();
-            g.CopyFromScreen(new System.Drawing.Point(window.Left + region.Left, window.Top + region.Top), System.Drawing.Point.Empty, new(region.Width, region.Height));
+            g.CopyFromScreen(new System.Drawing.Point(window.Left + region.Left, window.Top + region.Top), Point.Empty, new(region.Width, region.Height));
 
             bitmap.Save(s, System.Drawing.Imaging.ImageFormat.Bmp);
 
@@ -40,7 +40,7 @@ namespace Kenedia.Modules.Core.Utility
             using Bitmap bitmap = new(region.Width, region.Height);
             using var g = Graphics.FromImage(bitmap);
             using MemoryStream s = new();
-            g.CopyFromScreen(new System.Drawing.Point(window.Left + region.Left, window.Top + region.Top), System.Drawing.Point.Empty, new(region.Width, region.Height));
+            g.CopyFromScreen(new System.Drawing.Point(window.Left + region.Left, window.Top + region.Top), Point.Empty, new(region.Width, region.Height));
             bitmap.Save(s, System.Drawing.Imaging.ImageFormat.Bmp);
 
             return s.CreateTexture2D();

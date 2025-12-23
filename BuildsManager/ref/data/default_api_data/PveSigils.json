@@ -1,0 +1,2678 @@
+{
+  "Items": {
+    "24548": {
+      "Buffs": {
+        "English": "Trigger a flame blast with a 240 radius upon critically hitting a foe. <br><c=@reminder>(Cooldown: 5 Seconds)</c>",
+        "Spanish": "Activas una descarga de llamas con un radio de 240 al conseguir un impacto crítico contra un enemigo. <br><c=@reminder>(Recarga: 5 segundos)</c>",
+        "German": "Löst bei einem kritischen Treffer gegen einen Feind im Umkreis von 240 eine \"Flammenentladung\" aus. <br><c=@reminder>(Erholzeit: 5 Sekunden)</c>",
+        "French": "Déclenche une Explosion de flammes dans un rayon de 240 lorsque vous infligez un coup critique à un ennemi. <br><c=@reminder>(Temps de recharge : 5 secondes)</c>"
+      },
+      "Type": 14,
+      "TemplateSlot": -1,
+      "Id": 24548,
+      "MappedId": 1,
+      "Rarity": 6,
+      "Chatlink": "[&AgHkXwAA]",
+      "AssetId": 220678,
+      "Names": {
+        "English": "Superior Sigil of Fire",
+        "Spanish": "Sello superior de fuego",
+        "German": "Überlegenes Sigill des Feuers",
+        "French": "Cachet de feu supérieur"
+      },
+      "DisplayTexts": {
+        "English": "Fire",
+        "Spanish": "fuego",
+        "German": "Feuers",
+        "French": "Cachet de feu"
+      },
+      "Descriptions": {
+        "English": "<c=@abilitytype>Element: </c>Pain<br>Double-click to apply to a weapon.",
+        "Spanish": "<c=@abilitytype>Elemento: </c>Dolor<br>Haz doble clic para aplicar a un arma.",
+        "German": "<c=@abilitytype>Element: </c>Schmerz<br>Doppelklicken, um auf eine Waffe anzuwenden.",
+        "French": "<c=@abilitytype>Élément : </c>douleur<br>Double-cliquez pour l'appliquer à une arme."
+      }
+    },
+    "24551": {
+      "Buffs": {
+        "English": "Heal allies within a 360 radius of your target upon landing a critical hit. <br><c=@reminder>(Cooldown: 5 Seconds)</c>",
+        "Spanish": "Curas a los aliados en un radio de 360 alrededor de tu objetivo al conseguir un impacto crítico. <br><c=@reminder>(Recarga: 5 segundos)</c>",
+        "German": "Heilt Verbündete im Umkreis von 360 um Euer Ziel bei einem kritischen Treffer. <br><c=@reminder>(Erholzeit: 5 Sekunden)</c>",
+        "French": "Soigne vos alliés dans un rayon de 360 autour de la cible lorsque vous infligez un coup critique. <br><c=@reminder>(Temps de recharge : 5 secondes)</c>"
+      },
+      "Type": 14,
+      "TemplateSlot": -1,
+      "Id": 24551,
+      "MappedId": 2,
+      "Rarity": 6,
+      "Chatlink": "[&AgHnXwAA]",
+      "AssetId": 220684,
+      "Names": {
+        "English": "Superior Sigil of Water",
+        "Spanish": "Sello superior de agua",
+        "German": "Überlegenes Sigill des Wassers",
+        "French": "Cachet d'eau supérieur"
+      },
+      "DisplayTexts": {
+        "English": "Water",
+        "Spanish": "agua",
+        "German": "Wassers",
+        "French": "eau"
+      },
+      "Descriptions": {
+        "English": "<c=@abilitytype>Element: </c>Control<br>Double-click to apply to a weapon.",
+        "Spanish": "<c=@abilitytype>Elemento: </c>Control<br>Haz doble clic para aplicar a un arma.",
+        "German": "<c=@abilitytype>Element: </c>Kontrolle<br>Doppelklicken, um auf eine Waffe anzuwenden.",
+        "French": "<c=@abilitytype>Élément : </c>contrôle<br>Double-cliquez pour l'appliquer à une arme."
+      }
+    },
+    "24554": {
+      "Buffs": {
+        "English": "Unleash a lightning strike upon critically hitting a foe. <br><c=@reminder>(Cooldown: 3 Seconds)</c>",
+        "Spanish": "Desatas un golpe de relámpago al conseguir un impacto crítico contra un enemigo. <br><c=@reminder>(Recarga: 3 segundos)</c>",
+        "German": "Entfesselt bei einem kritischen Treffer gegen einen Feind einen Blitzschlag. <br><c=@reminder>(Erholzeit: 3 Sekunden)</c>",
+        "French": "Vous déclenchez un éclair foudroyant lorsque vous infligez un coup critique à un ennemi. <br><c=@reminder>(Temps de recharge : 3 secondes)</c>"
+      },
+      "Type": 14,
+      "TemplateSlot": -1,
+      "Id": 24554,
+      "MappedId": 3,
+      "Rarity": 6,
+      "Chatlink": "[&AgHqXwAA]",
+      "AssetId": 220676,
+      "Names": {
+        "English": "Superior Sigil of Air",
+        "Spanish": "Sello superior de aire",
+        "German": "Überlegenes Sigill der Luft",
+        "French": "Cachet d'air supérieur"
+      },
+      "DisplayTexts": {
+        "English": "Air",
+        "Spanish": "aire",
+        "German": "Luft",
+        "French": "air"
+      },
+      "Descriptions": {
+        "English": "<c=@abilitytype>Element: </c>Pain<br>Double-click to apply to a weapon.",
+        "Spanish": "<c=@abilitytype>Elemento: </c>Dolor<br>Haz doble clic para aplicar a un arma.",
+        "German": "<c=@abilitytype>Element: </c>Schmerz<br>Doppelklicken, um auf eine Waffe anzuwenden.",
+        "French": "<c=@abilitytype>Élément : </c>douleur<br>Double-cliquez pour l'appliquer à une arme."
+      }
+    },
+    "24555": {
+      "Buffs": {
+        "English": "Chill a foe for 2 seconds after striking from its flank or when they are defiant. <c=@reminder>(Cooldown: 10 seconds)</c>",
+        "Spanish": "Congelas a un enemigo durante 2 segundos al golpearle por el flanco o cuando está en actitud desafiante. <c=@reminder>(Recarga: 10 segundos)</c>",
+        "German": "Habt Ihr einen Gegner von der Seite angegriffen oder ist er trotzig, fügt Ihr ihm 2 Sekunden lang Kühle zu. <c=@reminder>(Erholzeit: 10 Sekunden)</c>",
+        "French": "Inflige Givre à un ennemi pendant 2 secondes si vous le frappez par le côté ou s'il est rebelle. <c=@reminder>(Temps de recharge : 10 secondes)</c>"
+      },
+      "Type": 14,
+      "TemplateSlot": -1,
+      "Id": 24555,
+      "MappedId": 4,
+      "Rarity": 6,
+      "Chatlink": "[&AgHrXwAA]",
+      "AssetId": 220680,
+      "Names": {
+        "English": "Superior Sigil of Ice",
+        "Spanish": "Sello superior de hielo",
+        "German": "Überlegenes Sigill des Eises",
+        "French": "Cachet de glace supérieur"
+      },
+      "DisplayTexts": {
+        "English": "Ice",
+        "Spanish": "hielo",
+        "German": "Eises",
+        "French": "Cachet de glace"
+      },
+      "Descriptions": {
+        "English": "<c=@abilitytype>Element: </c>Control<br>Double-click to apply to a weapon.",
+        "Spanish": "<c=@abilitytype>Elemento: </c>Control<br>Haz doble clic para aplicar a un arma.",
+        "German": "<c=@abilitytype>Element: </c>Kontrolle<br>Doppelklicken, um auf eine Waffe anzuwenden.",
+        "French": "<c=@abilitytype>Élément : </c>contrôle<br>Double-cliquez pour l'appliquer à une arme."
+      }
+    },
+    "24560": {
+      "Buffs": {
+        "English": "Inflict bleeding for 6 seconds upon critically hitting a foe. <br><c=@reminder>(Cooldown: 2 Seconds)</c>",
+        "Spanish": "Infliges hemorragia durante 6 segundos al conseguir un impacto crítico contra un enemigo. <br><c=@reminder>(Recarga: 2 segundos)</c>",
+        "German": "Verursacht bei einem kritischen Treffer gegen einen Feind 6 Sekunden lang Blutung. <br><c=@reminder>(Erholzeit: 2 Sekunden)</c>",
+        "French": "Vous infligez Saignement pendant 6 secondes lorsque vous infligez un coup critique à un ennemi. <br><c=@reminder>(Temps de recharge : 2 secondes)</c>"
+      },
+      "Type": 14,
+      "TemplateSlot": -1,
+      "Id": 24560,
+      "MappedId": 5,
+      "Rarity": 6,
+      "Chatlink": "[&AgHwXwAA]",
+      "AssetId": 220677,
+      "Names": {
+        "English": "Superior Sigil of Earth",
+        "Spanish": "Sello superior de tierra",
+        "German": "Überlegenes Sigill der Erde",
+        "French": "Cachet de terre supérieur"
+      },
+      "DisplayTexts": {
+        "English": "Earth",
+        "Spanish": "tierra",
+        "German": "Erde",
+        "French": "Cachet de terre"
+      },
+      "Descriptions": {
+        "English": "<c=@abilitytype>Element: </c>Pain<br>Double-click to apply to a weapon.",
+        "Spanish": "<c=@abilitytype>Elemento: </c>Dolor<br>Haz doble clic para aplicar a un arma.",
+        "German": "<c=@abilitytype>Element: </c>Schmerz<br>Doppelklicken, um auf eine Waffe anzuwenden.",
+        "French": "<c=@abilitytype>Élément : </c>douleur<br>Double-cliquez pour l'appliquer à une arme."
+      }
+    },
+    "24561": {
+      "Buffs": {
+        "English": "Gain quickness for 3 seconds upon critically hitting a foe. <br><c=@reminder>(Cooldown: 20 Seconds)</c>",
+        "Spanish": "Ganas rapidez durante 3 segundos al conseguir un impacto crítico contra un enemigo. <br><c=@reminder>(Recarga: 20 segundos)</c>",
+        "German": "Erhaltet bei einem kritischen Treffer gegen einen Feind 3 Sekunden lang Schnelligkeit. <br><c=@reminder>(Erholzeit: 20 Sekunden)</c>",
+        "French": "Vous bénéficiez de Célérité pendant 3 secondes lorsque vous infligez un coup critique à un ennemi. <br><c=@reminder>(Temps de recharge : 20 secondes)</c>"
+      },
+      "Type": 14,
+      "TemplateSlot": -1,
+      "Id": 24561,
+      "MappedId": 6,
+      "Rarity": 6,
+      "Chatlink": "[&AgHxXwAA]",
+      "AssetId": 220679,
+      "Names": {
+        "English": "Superior Sigil of Rage",
+        "Spanish": "Sello superior de rabia",
+        "German": "Überlegenes Sigill der Rage",
+        "French": "Cachet de rage supérieur"
+      },
+      "DisplayTexts": {
+        "English": "Rage",
+        "Spanish": "rabia",
+        "German": "Rage",
+        "French": "Cachet de rage"
+      },
+      "Descriptions": {
+        "English": "<c=@abilitytype>Element: </c>Enhancement<br>Double-click to apply to a weapon.",
+        "Spanish": "<c=@abilitytype>Elemento: </c>Mejora<br>Haz doble clic para aplicar a un arma.",
+        "German": "<c=@abilitytype>Element: </c>Verbesserung<br>Doppelklicken, um auf eine Waffe anzuwenden.",
+        "French": "<c=@abilitytype>Élément : </c>amélioration<br>Double-cliquez pour l'appliquer à une arme."
+      }
+    },
+    "24562": {
+      "Buffs": {
+        "English": "Gain might for 10 seconds upon critically hitting a foe. <br><c=@reminder>(Cooldown: 1 Second)</c>",
+        "Spanish": "Ganas poder durante 10 segundos al conseguir un impacto crítico contra un enemigo. <br><c=@reminder>(Recarga: un segundo)</c>",
+        "German": "Erhaltet bei einem kritischen Treffer gegen einen Feind 10 Sekunden lang Macht. <br><c=@reminder>(Erholzeit: 1 Sekunde)</c>",
+        "French": "Vous bénéficiez de Pouvoir pendant 10 secondes lorsque vous infligez un coup critique à un ennemi. <br><c=@reminder>(Temps de recharge : 1 seconde)</c>"
+      },
+      "Type": 14,
+      "TemplateSlot": -1,
+      "Id": 24562,
+      "MappedId": 7,
+      "Rarity": 6,
+      "Chatlink": "[&AgHyXwAA]",
+      "AssetId": 220682,
+      "Names": {
+        "English": "Superior Sigil of Strength",
+        "Spanish": "Sello superior de fortaleza",
+        "German": "Überlegenes Sigill der Stärke",
+        "French": "Cachet de force supérieur"
+      },
+      "DisplayTexts": {
+        "English": "Strength",
+        "Spanish": "fortaleza",
+        "German": "Stärke",
+        "French": "Cachet de force"
+      },
+      "Descriptions": {
+        "English": "<c=@abilitytype>Element: </c>Enhancement<br>Double-click to apply to a weapon.",
+        "Spanish": "<c=@abilitytype>Elemento: </c>Mejora<br>Haz doble clic para aplicar a un arma.",
+        "German": "<c=@abilitytype>Element: </c>Verbesserung<br>Doppelklicken, um auf eine Waffe anzuwenden.",
+        "French": "<c=@abilitytype>Élément : </c>amélioration<br>Double-cliquez pour l'appliquer à une arme."
+      }
+    },
+    "24567": {
+      "Buffs": {
+        "English": "Inflict 2 stacks of vulnerability for 8 seconds after striking a foe from behind or the flank or when they are defiant. <c=@reminder>(Cooldown: 2 seconds)</c>",
+        "Spanish": "Infliges 2 acumulaciones de vulnerabilidad durante 8 segundos al golpear a un enemigo por la espalda o el flanco, o cuando está en actitud desafiante. <c=@reminder>(Recarga: 2 segundos)</c>",
+        "German": "Habt Ihr einen Gegner von hinten oder von der Seite angegriffen oder ist er trotzig, verursacht Ihr 8 Sekunden lang 2 Stapel Verwundbarkeit. <c=@reminder>(Erholzeit: 2 Sekunden)</c>",
+        "French": "Inflige 2 charges de Vulnérabilité pendant 8 secondes si vous frappez un ennemi par-derrière, par le côté ou s'il est rebelle. <c=@reminder>(Temps de recharge : 2 secondes)</c>"
+      },
+      "Type": 14,
+      "TemplateSlot": -1,
+      "Id": 24567,
+      "MappedId": 8,
+      "Rarity": 6,
+      "Chatlink": "[&AgH3XwAA]",
+      "AssetId": 220683,
+      "Names": {
+        "English": "Superior Sigil of Frailty",
+        "Spanish": "Sello superior de flaqueza",
+        "German": "Überlegenes Sigill der Gebrechlichkeit",
+        "French": "Cachet de fragilité supérieur"
+      },
+      "DisplayTexts": {
+        "English": "Frailty",
+        "Spanish": "flaqueza",
+        "German": "Gebrechlichkeit",
+        "French": "Cachet de fragilité"
+      },
+      "Descriptions": {
+        "English": "<c=@abilitytype>Element: </c>Control<br>Double-click to apply to a weapon.",
+        "Spanish": "<c=@abilitytype>Elemento: </c>Control<br>Haz doble clic para aplicar a un arma.",
+        "German": "<c=@abilitytype>Element: </c>Kontrolle<br>Doppelklicken, um auf eine Waffe anzuwenden.",
+        "French": "<c=@abilitytype>Élément : </c>contrôle<br>Double-cliquez pour l'appliquer à une arme."
+      }
+    },
+    "24570": {
+      "Buffs": {
+        "English": "Steal a foe's health upon landing a critical hit. <br><c=@reminder>(Cooldown: 5 Seconds)</c>",
+        "Spanish": "Robas salud a un enemigo al conseguir un impacto crítico. <br><c=@reminder>(Recarga: 5 segundos)</c>",
+        "German": "Stehlt bei einem kritischen Treffer die Lebenspunkte des Gegners. <br><c=@reminder>(Erholzeit: 5 Sekunden)</c>",
+        "French": "Vole la santé d'un ennemi lorsque vous infligez un coup critique. <br><c=@reminder>(Temps de recharge : 5 secondes)</c>"
+      },
+      "Type": 14,
+      "TemplateSlot": -1,
+      "Id": 24570,
+      "MappedId": 9,
+      "Rarity": 6,
+      "Chatlink": "[&AgH6XwAA]",
+      "AssetId": 220681,
+      "Names": {
+        "English": "Superior Sigil of Blood",
+        "Spanish": "Sello superior de sangre",
+        "German": "Überlegenes Sigill des Blutes",
+        "French": "Cachet de sang supérieur"
+      },
+      "DisplayTexts": {
+        "English": "Blood",
+        "Spanish": "sangre",
+        "German": "Blutes",
+        "French": "Cachet de sang"
+      },
+      "Descriptions": {
+        "English": "<c=@abilitytype>Element: </c>Control<br>Double-click to apply to a weapon.",
+        "Spanish": "<c=@abilitytype>Elemento: </c>Control<br>Haz doble clic para aplicar a un arma.",
+        "German": "<c=@abilitytype>Element: </c>Kontrolle<br>Doppelklicken, um auf eine Waffe anzuwenden.",
+        "French": "<c=@abilitytype>Élément : </c>contrôle<br>Double-cliquez pour l'appliquer à une arme."
+      }
+    },
+    "24571": {
+      "Buffs": {
+        "English": "Remove a condition after striking a foe from its flank or when they are defiant. <br><c=@reminder>(Cooldown: 4 seconds)</c>",
+        "Spanish": "Eliminas una condición al golpear a un enemigo por el flanco o cuando está en actitud desafiante. <br><c=@reminder>(Recarga: 4 segundos)</c>",
+        "German": "Habt Ihr einen Gegner von der Seite angegriffen oder ist er trotzig, entfernt Ihr einen Zustand. <c=@reminder>(Erholzeit: 4 Sekunden)</c>",
+        "French": "Supprime une altération si vous frappez un ennemi par le côté ou s'il est rebelle. <br><c=@reminder>(Temps de recharge : 4 secondes)</c>"
+      },
+      "Type": 14,
+      "TemplateSlot": -1,
+      "Id": 24571,
+      "MappedId": 10,
+      "Rarity": 6,
+      "Chatlink": "[&AgH7XwAA]",
+      "AssetId": 220745,
+      "Names": {
+        "English": "Superior Sigil of Purity",
+        "Spanish": "Sello superior de pureza",
+        "German": "Überlegenes Sigill der Reinheit",
+        "French": "Cachet de pureté supérieur"
+      },
+      "DisplayTexts": {
+        "English": "Purity",
+        "Spanish": "pureza",
+        "German": "Reinheit",
+        "French": "Cachet de pureté"
+      },
+      "Descriptions": {
+        "English": "<c=@abilitytype>Element: </c>Control<br>Double-click to apply to a weapon.",
+        "Spanish": "<c=@abilitytype>Elemento: </c>Control<br>Haz doble clic para aplicar a un arma.",
+        "German": "<c=@abilitytype>Element: </c>Kontrolle<br>Doppelklicken, um auf eine Waffe anzuwenden.",
+        "French": "<c=@abilitytype>Élément : </c>contrôle<br>Double-cliquez pour l'appliquer à une arme."
+      }
+    },
+    "24572": {
+      "Buffs": {
+        "English": "Remove a boon from a foe after striking from its flank or when they are defiant. <br><c=@reminder>(Cooldown: 5 seconds)</c>",
+        "Spanish": "Eliminas una bendición a un enemigo al golpearle por el flanco o cuando está en actitud desafiante. <br><c=@reminder>(Recarga: 5 segundos)</c>",
+        "German": "Habt Ihr einen Gegner von der Seite angegriffen oder ist er trotzig, entfernt Ihr einen Segen von ihm. <c=@reminder>(Erholzeit: 5 Sekunden)</c>",
+        "French": "Supprime un avantage d'un ennemi si vous le frappez par le côté ou s'il est rebelle. <br><c=@reminder>(Temps de recharge : 5 secondes)</c>"
+      },
+      "Type": 14,
+      "TemplateSlot": -1,
+      "Id": 24572,
+      "MappedId": 11,
+      "Rarity": 6,
+      "Chatlink": "[&AgH8XwAA]",
+      "AssetId": 220744,
+      "Names": {
+        "English": "Superior Sigil of Nullification",
+        "Spanish": "Sello superior de invalidación",
+        "German": "Überlegenes Sigill der Auslöschung",
+        "French": "Cachet d'invalidation supérieur"
+      },
+      "DisplayTexts": {
+        "English": "Nullification",
+        "Spanish": "invalidación",
+        "German": "Auslöschung",
+        "French": "invalidation"
+      },
+      "Descriptions": {
+        "English": "<c=@abilitytype>Element: </c>Control<br>Double-click to apply to a weapon.",
+        "Spanish": "<c=@abilitytype>Elemento: </c>Control<br>Haz doble clic para aplicar a un arma.",
+        "German": "<c=@abilitytype>Element: </c>Kontrolle<br>Doppelklicken, um auf eine Waffe anzuwenden.",
+        "French": "<c=@abilitytype>Élément : </c>contrôle<br>Double-cliquez pour l'appliquer à une arme."
+      }
+    },
+    "24575": {
+      "Buffs": {
+        "English": "Gain a charge of +10 power each time you kill a foe, five charges if you kill an enemy player. <c=@reminder>(Max 25 stacks; ends on down.)</c> <br><c=@reminder>(Only one attribute-stacking sigil can be active at a time.)</c>",
+        "Spanish": "Gana una carga de +10 de potencia cada vez que matas a un enemigo, y cinco cargas si matas a un jugador enemigo. <c=@reminder>(Máximo 25 acumulaciones; acaba cuando te han abatido).</c><br><c=@reminder>(Solo puede haber activo un sello de acumulación de atributos a la vez).</c>",
+        "German": "Erhaltet eine Ladung von +10 Kraft für jeden besiegten Gegner und fünf Ladungen für jeden besiegten feindlichen Spieler. <c=@reminder>(Max. 25 Stapel, endet bei Angeschlagen.)</c> <br><c=@reminder>(Es kann jeweils nur ein Attribute stapelndes Sigill aktiv sein.)</c>",
+        "French": "Vous obtenez une charge qui augmente de +10 votre Puissance à chaque ennemi tué, et cinq charges si vous tuez un joueur ennemi <c=@reminder>(25 charges maximum, effet annulé lorsque vous êtes à terre).</c><br><c=@reminder>(Un seul cachet à capacité cumulable peut être actif à la fois)</c>"
+      },
+      "Type": 14,
+      "TemplateSlot": -1,
+      "Id": 24575,
+      "MappedId": 12,
+      "Rarity": 6,
+      "Chatlink": "[&AgH/XwAA]",
+      "AssetId": 220673,
+      "Names": {
+        "English": "Superior Sigil of Bloodlust",
+        "Spanish": "Sello superior de sed de sangre",
+        "German": "Überlegenes Sigill der Blutgier",
+        "French": "Cachet de soif de sang supérieur"
+      },
+      "DisplayTexts": {
+        "English": "Bloodlust",
+        "Spanish": "sed de sangre",
+        "German": "Blutgier",
+        "French": "Cachet de soif de sang"
+      },
+      "Descriptions": {
+        "English": "<c=@abilitytype>Element: </c>Enhancement<br>Double-click to apply to a weapon.",
+        "Spanish": "<c=@abilitytype>Elemento: </c>Mejora<br>Haz doble clic para aplicar a un arma.",
+        "German": "<c=@abilitytype>Element: </c>Verbesserung<br>Doppelklicken, um auf eine Waffe anzuwenden.",
+        "French": "<c=@abilitytype>Élément : </c>amélioration<br>Double-cliquez pour l'appliquer à une arme."
+      }
+    },
+    "24578": {
+      "Buffs": {
+        "English": "Gain a charge of +10 condition damage each time you kill a foe, five charges if you kill an enemy player. <c=@reminder>(Max 25 stacks; ends on down.)</c> <br><c=@reminder>(Only one attribute-stacking sigil can be active at a time.)</c>",
+        "Spanish": "Gana una carga de +10 de daño de condición cada vez que matas a un enemigo, y cinco cargas si matas a un jugador enemigo. <c=@reminder>(Máximo 25 acumulaciones; acaba cuando te han abatido).</c><br><c=@reminder>(Solo puede haber activo un sello de acumulación de atributos a la vez).</c>",
+        "German": "Erhaltet eine Ladung von +10 Zustandsschaden für jeden besiegten Gegner und fünf Ladungen für jeden besiegten feindlichen Spieler. <c=@reminder>(Maximal 25 Stapel, endet bei Angeschlagen.)</c> <br><c=@reminder>(Es kann jeweils nur ein Attribute stapelndes Sigill aktiv sein.)</c>",
+        "French": "Vous obtenez une charge qui augmente de +10 vos Dégâts par altération à chaque ennemi tué, et cinq charges si vous tuez un joueur ennemi <c=@reminder>(25 charges maximum, effet annulé lorsque vous êtes à terre).</c><br><c=@reminder>(Un seul cachet à capacité cumulable peut être actif à la fois)</c>"
+      },
+      "Type": 14,
+      "TemplateSlot": -1,
+      "Id": 24578,
+      "MappedId": 13,
+      "Rarity": 6,
+      "Chatlink": "[&AgECYAAA]",
+      "AssetId": 220668,
+      "Names": {
+        "English": "Superior Sigil of Corruption",
+        "Spanish": "Sello superior de corrupción",
+        "German": "Überlegenes Sigill der Verdorbenheit",
+        "French": "Cachet de corruption supérieur"
+      },
+      "DisplayTexts": {
+        "English": "Corruption",
+        "Spanish": "corrupción",
+        "German": "Verdorbenheit",
+        "French": "Cachet de corruption"
+      },
+      "Descriptions": {
+        "English": "<c=@abilitytype>Element: </c>Enhancement<br>Double-click to apply to a weapon.",
+        "Spanish": "<c=@abilitytype>Elemento: </c>Mejora<br>Haz doble clic para aplicar a un arma.",
+        "German": "<c=@abilitytype>Element: </c>Verbesserung<br>Doppelklicken, um auf eine Waffe anzuwenden.",
+        "French": "<c=@abilitytype>Élément : </c>amélioration<br>Double-cliquez pour l'appliquer à une arme."
+      }
+    },
+    "24580": {
+      "Buffs": {
+        "English": "Gain a charge of +10 precision each time you kill a foe, five charges if you kill an enemy player. <c=@reminder>(Max 25 stacks; ends on down.)</c> <br><c=@reminder>(Only one attribute-stacking sigil can be active at a time.)</c>",
+        "Spanish": "Gana una carga de +10 de precisión cada vez que matas a un enemigo, y cinco si matas a un jugador enemigo. <c=@reminder>(Máximo 25 acumulaciones; acaba cuando te han abatido).</c><br><c=@reminder>(Solo puede haber activo un sello de acumulación de atributos a la vez).</c>",
+        "German": "Erhaltet eine Ladung von +10 Präzision für jeden besiegten Gegner und fünf Ladungen für jeden besiegten feindlichen Spieler. <c=@reminder>(Max. 25 Stapel, endet bei Angeschlagen.)</c> <br><c=@reminder>(Es kann jeweils nur ein Attribute stapelndes Sigill aktiv sein.)</c>",
+        "French": "Vous obtenez une charge qui augmente de +10 votre Précision à chaque ennemi tué, et cinq charges si vous tuez un joueur ennemi <c=@reminder>(25 charges maximum, effet annulé lorsque vous êtes à terre).</c><br><c=@reminder>(Un seul cachet à capacité cumulable peut être actif à la fois)</c>"
+      },
+      "Type": 14,
+      "TemplateSlot": -1,
+      "Id": 24580,
+      "MappedId": 14,
+      "Rarity": 6,
+      "Chatlink": "[&AgEEYAAA]",
+      "AssetId": 340593,
+      "Names": {
+        "English": "Superior Sigil of Perception",
+        "Spanish": "Sello superior de percepción",
+        "German": "Überlegenes Sigill der Wahrnehmung",
+        "French": "Cachet de perception supérieur"
+      },
+      "DisplayTexts": {
+        "English": "Perception",
+        "Spanish": "percepción",
+        "German": "Wahrnehmung",
+        "French": "Cachet de perception"
+      },
+      "Descriptions": {
+        "English": "<c=@abilitytype>Element: </c>Enhancement<br>Double-click to apply to a weapon.",
+        "Spanish": "<c=@abilitytype>Elemento: </c>Mejora<br>Haz doble clic para aplicar a un arma.",
+        "German": "<c=@abilitytype>Element: </c>Verbesserung<br>Doppelklicken, um auf eine Waffe anzuwenden.",
+        "French": "<c=@abilitytype>Élément : </c>amélioration<br>Double-cliquez pour l'appliquer à une arme."
+      }
+    },
+    "24582": {
+      "Buffs": {
+        "English": "Gain a charge of +10 healing each time you kill a foe, five charges if you kill an enemy player. <c=@reminder>(Max 25 stacks; ends on down.)</c> <br><c=@reminder>(Only one attribute-stacking sigil can be active at a time.)</c>",
+        "Spanish": "Gana una carga de +10 de curación cada vez que matas a un enemigo, y cinco cargas si matas a un jugador enemigo. <c=@reminder>(Máximo 25 acumulaciones; acaba cuando te han abatido).</c><br><c=@reminder>(Solo puede haber activo un sello de acumulación de atributos a la vez).</c>",
+        "German": "Erhaltet eine Ladung von +10 Heilung für jeden besiegten Gegner und fünf Ladungen für jeden besiegten feindlichen Spieler. <c=@reminder>(Maximal 25 Stapel und endet bei Angeschlagen.)</c> <br><c=@reminder>(Es kann jeweils nur ein Attribute stapelndes Sigill aktiv sein.)</c>",
+        "French": "Vous obtenez une charge qui augmente de +10 votre Guérison à chaque ennemi tué, et cinq charges si vous tuez un joueur ennemi <c=@reminder>(25 charges maximum, effet annulé lorsque vous êtes à terre).</c><br><c=@reminder>(Un seul cachet à capacité cumulable peut être actif à la fois)</c>"
+      },
+      "Type": 14,
+      "TemplateSlot": -1,
+      "Id": 24582,
+      "MappedId": 15,
+      "Rarity": 6,
+      "Chatlink": "[&AgEGYAAA]",
+      "AssetId": 220670,
+      "Names": {
+        "English": "Superior Sigil of Life",
+        "Spanish": "Sello superior de vida",
+        "German": "Überlegenes Sigill des Lebens",
+        "French": "Cachet de vie supérieur"
+      },
+      "DisplayTexts": {
+        "English": "Life",
+        "Spanish": "vida",
+        "German": "Lebens",
+        "French": "Cachet de vie"
+      },
+      "Descriptions": {
+        "English": "<c=@abilitytype>Element: </c>Enhancement<br>Double-click to apply to a weapon.",
+        "Spanish": "<c=@abilitytype>Elemento: </c>Mejora<br>Haz doble clic para aplicar a un arma.",
+        "German": "<c=@abilitytype>Element: </c>Verbesserung<br>Doppelklicken, um auf eine Waffe anzuwenden.",
+        "French": "<c=@abilitytype>Élément : </c>amélioration<br>Double-cliquez pour l'appliquer à une arme."
+      }
+    },
+    "24583": {
+      "Buffs": {
+        "English": "Increase the duration of inflicted torment by 20%.",
+        "Spanish": "Aumentas la duración del tormento infligido un 20 %.",
+        "German": "Erhöht die Dauer zugefügter Pein um 20 %.",
+        "French": "Augmente la durée de Tourment infligé de 20%."
+      },
+      "Type": 14,
+      "TemplateSlot": -1,
+      "Id": 24583,
+      "MappedId": 16,
+      "Rarity": 6,
+      "Chatlink": "[&AgEHYAAA]",
+      "AssetId": 220674,
+      "Names": {
+        "English": "Superior Sigil of Demons",
+        "Spanish": "Sello superior de los demonios",
+        "German": "Überlegenes Sigill der Dämonen",
+        "French": "Cachet de démons supérieur"
+      },
+      "DisplayTexts": {
+        "English": "Demons",
+        "Spanish": "los demonios",
+        "German": "Dämonen",
+        "French": "Cachet de démons"
+      },
+      "Descriptions": {
+        "English": "<c=@abilitytype>Element: </c>Enhancement<br>Double-click to apply to a weapon.",
+        "Spanish": "<c=@abilitytype>Elemento: </c>Mejora<br>Haz doble clic para aplicar a un arma.",
+        "German": "<c=@abilitytype>Element: </c>Verbesserung<br>Doppelklicken, um auf eine Waffe anzuwenden.",
+        "French": "<c=@abilitytype>Élément : </c>amélioration<br>Double-cliquez pour l'appliquer à une arme."
+      }
+    },
+    "24584": {
+      "Buffs": {
+        "English": "Gain a charge that grants a 0.5% increase in healing to other allies each time you kill a foe, five charges if you kill an enemy player. <c=@reminder>(Max 25 stacks; ends on down.)</c><br><c=@reminder>(Only one attribute-stacking sigil can be active at a time.)</c>",
+        "Spanish": "Gana una carga que otorga un 0,3 % de aumento de curación a otros aliados cada vez que matas a un enemigo y 5 cargas si matas a un jugador enemigo. <c=@reminder>(Máximo 25 acumulaciones; acaba cuando te abaten).</c><br><c=@reminder>(Solo puede haber activo un sello de acumulación de atributos a la vez).</c>",
+        "German": "Erhaltet für jeden besiegten Gegner eine Ladung, welche die Heilung an andere Verbündete um 0,5 % erhöht, und fünf Ladungen für jeden besiegten gegnerischen Spieler. <c=@reminder>(Maximal 25 Stapel, endet bei Angeschlagen.)</c> <br><c=@reminder>(Es kann jeweils nur ein Attribute stapelndes Sigill aktiv sein.)</c>",
+        "French": "Vous obtenez une charge qui augmente de 0,5% les soins conférés aux autres alliés à chaque ennemi tué, et cinq charges si vous tuez un joueur ennemi <c=@reminder>(25 charges maximum, effet annulé lorsque vous êtes à terre).</c><br><c=@reminder>(Un seul cachet à capacité cumulable peut être actif à la fois)</c>"
+      },
+      "Type": 14,
+      "TemplateSlot": -1,
+      "Id": 24584,
+      "MappedId": 17,
+      "Rarity": 6,
+      "Chatlink": "[&AgEIYAAA]",
+      "AssetId": 220672,
+      "Names": {
+        "English": "Superior Sigil of Benevolence",
+        "Spanish": "Sello superior de benevolencia",
+        "German": "Überlegenes Sigill des Wohlwollens",
+        "French": "Cachet de bienveillance supérieur"
+      },
+      "DisplayTexts": {
+        "English": "Benevolence",
+        "Spanish": "benevolencia",
+        "German": "Wohlwollens",
+        "French": "Cachet de bienveillance"
+      },
+      "Descriptions": {
+        "English": "<c=@abilitytype>Element: </c>Enhancement<br>Double-click to apply to a weapon.",
+        "Spanish": "<c=@abilitytype>Elemento: </c>Mejora<br>Haz doble clic para aplicar a un arma.",
+        "German": "<c=@abilitytype>Element: </c>Verbesserung<br>Doppelklicken, um auf eine Waffe anzuwenden.",
+        "French": "<c=@abilitytype>Élément : </c>amélioration<br>Double-cliquez pour l'appliquer à une arme."
+      }
+    },
+    "24589": {
+      "Buffs": {
+        "English": "Gain Swiftness (20 Seconds) on Killing a Foe",
+        "Spanish": "Gana celeridad (20 segundos) al matar a un enemigo",
+        "German": "Erhaltet Eile (20 Sekunden) bei jedem besiegten Gegner.",
+        "French": "Confère Rapidité pendant 20 secondes à chaque ennemi tué"
+      },
+      "Type": 14,
+      "TemplateSlot": -1,
+      "Id": 24589,
+      "MappedId": 18,
+      "Rarity": 6,
+      "Chatlink": "[&AgENYAAA]",
+      "AssetId": 220675,
+      "Names": {
+        "English": "Superior Sigil of Speed",
+        "Spanish": "Sello superior de velocidad",
+        "German": "Überlegenes Sigill der Geschwindigkeit",
+        "French": "Cachet de vitesse supérieur"
+      },
+      "DisplayTexts": {
+        "English": "Speed",
+        "Spanish": "velocidad",
+        "German": "Geschwindigkeit",
+        "French": "Cachet de vitesse"
+      },
+      "Descriptions": {
+        "English": "<c=@abilitytype>Element: </c>Control<br>Double-click to apply to a weapon.",
+        "Spanish": "<c=@abilitytype>Elemento: </c>Control<br>Haz doble clic para aplicar a un arma.",
+        "German": "<c=@abilitytype>Element: </c>Kontrolle<br>Doppelklicken, um auf eine Waffe anzuwenden.",
+        "French": "<c=@abilitytype>Élément : </c>contrôle<br>Double-cliquez pour l'appliquer à une arme."
+      }
+    },
+    "24591": {
+      "Buffs": {
+        "English": "75% chance to gain a random boon on killing an enemy.",
+        "Spanish": "75 % de probabilidad de ganar una bendición aleatoria al matar a un enemigo.",
+        "German": "75 % Chance, beim Sieg über einen Feind einen zufälligen Segen zu erhalten.",
+        "French": "Chance d'obtenir un avantage aléatoire à chaque ennemi tué 75%."
+      },
+      "Type": 14,
+      "TemplateSlot": -1,
+      "Id": 24591,
+      "MappedId": 19,
+      "Rarity": 6,
+      "Chatlink": "[&AgEPYAAA]",
+      "AssetId": 220998,
+      "Names": {
+        "English": "Superior Sigil of Luck",
+        "Spanish": "Sello superior de suerte",
+        "German": "Überlegenes Sigill des Glücks",
+        "French": "Cachet de chance supérieur"
+      },
+      "DisplayTexts": {
+        "English": "Luck",
+        "Spanish": "suerte",
+        "German": "Glücks",
+        "French": "Cachet de chance"
+      },
+      "Descriptions": {
+        "English": "<c=@abilitytype>Element: </c>Enhancement<br>Double-click to apply to a weapon.",
+        "Spanish": "<c=@abilitytype>Elemento: </c>Mejora<br>Haz doble clic para aplicar a un arma.",
+        "German": "<c=@abilitytype>Element: </c>Verbesserung<br>Doppelklicken, um auf eine Waffe anzuwenden.",
+        "French": "<c=@abilitytype>Élément : </c>amélioration<br>Double-cliquez pour l'appliquer à une arme."
+      }
+    },
+    "24592": {
+      "Buffs": {
+        "English": "Your endurance is refilled each time you kill a foe.",
+        "Spanish": "Tu aguante se recarga cada vez que matas a un enemigo.",
+        "German": "Eure Ausdauer wird bei jedem getöteten Gegner wieder gefüllt.",
+        "French": "Votre endurance se recharge à chaque ennemi tué."
+      },
+      "Type": 14,
+      "TemplateSlot": -1,
+      "Id": 24592,
+      "MappedId": 20,
+      "Rarity": 6,
+      "Chatlink": "[&AgEQYAAA]",
+      "AssetId": 220669,
+      "Names": {
+        "English": "Superior Sigil of Stamina",
+        "Spanish": "Sello superior de vitalidad",
+        "German": "Überlegenes Sigill der Ausdauer",
+        "French": "Cachet d'endurance supérieur"
+      },
+      "DisplayTexts": {
+        "English": "Stamina",
+        "Spanish": "vitalidad",
+        "German": "Ausdauer",
+        "French": "endurance"
+      },
+      "Descriptions": {
+        "English": "<c=@abilitytype>Element: </c>Control<br>Double-click to apply to a weapon.",
+        "Spanish": "<c=@abilitytype>Elemento: </c>Control<br>Haz doble clic para aplicar a un arma.",
+        "German": "<c=@abilitytype>Element: </c>Kontrolle<br>Doppelklicken, um auf eine Waffe anzuwenden.",
+        "French": "<c=@abilitytype>Élément : </c>contrôle<br>Double-cliquez pour l'appliquer à une arme."
+      }
+    },
+    "24594": {
+      "Buffs": {
+        "English": "Gain health when interrupting a foe. <c=@reminder>(Cooldown: 5 Seconds)</c>",
+        "Spanish": "Ganas salud al interrumpir a un enemigo. <c=@reminder>(Recarga: 5 segundos)</c>",
+        "German": "Erhaltet bei der Unterbrechung eines Gegners Lebenspunkte. <c=@reminder>(Erholzeit: 5 Sekunden)</c>",
+        "French": "Vous regagnez de la santé lorsque vous interrompez un ennemi. <c=@reminder>(Temps de recharge : 5 secondes)</c>"
+      },
+      "Type": 14,
+      "TemplateSlot": -1,
+      "Id": 24594,
+      "MappedId": 21,
+      "Rarity": 6,
+      "Chatlink": "[&AgESYAAA]",
+      "AssetId": 220671,
+      "Names": {
+        "English": "Superior Sigil of Restoration",
+        "Spanish": "Sello superior de restauración",
+        "German": "Überlegenes Sigill der Wiederherstellung",
+        "French": "Cachet de restauration supérieur"
+      },
+      "DisplayTexts": {
+        "English": "Restoration",
+        "Spanish": "restauración",
+        "German": "Wiederherstellung",
+        "French": "Cachet de restauration"
+      },
+      "Descriptions": {
+        "English": "<c=@abilitytype>Element: </c>Control<br>Double-click to apply to a weapon.",
+        "Spanish": "<c=@abilitytype>Elemento: </c>Control<br>Haz doble clic para aplicar a un arma.",
+        "German": "<c=@abilitytype>Element: </c>Kontrolle<br>Doppelklicken, um auf eine Waffe anzuwenden.",
+        "French": "<c=@abilitytype>Élément : </c>contrôle<br>Double-cliquez pour l'appliquer à une arme."
+      }
+    },
+    "24597": {
+      "Buffs": {
+        "English": "Damage nearby foes and chill them for 2 seconds when you swap to this weapon while in combat.<br><c=@reminder>(Cooldown: 9 Seconds)</c>",
+        "Spanish": "Daña a los enemigos cercanos e inflige Congelación durante 2 segundos tras cambiar a esta arma durante el combate.<br><c=@reminder>(Recarga: 9 segundos)</c>",
+        "German": "Fügt 2 Sek. lang Gegnern in der Nähe Schaden zu und verursacht Kühle, wenn Ihr im Kampf zu dieser Waffe wechselt.<br><c=@reminder>(Erholzeit: 9 Sekunden)</c>",
+        "French": "Inflige des dégâts et Givre aux ennemis à proximité pendant 2 secondes si vous changez d'arme en combat pour équiper celle-ci.<br><c=@reminder>(Temps de recharge : 9 secondes)</c>"
+      },
+      "Type": 14,
+      "TemplateSlot": -1,
+      "Id": 24597,
+      "MappedId": 22,
+      "Rarity": 6,
+      "Chatlink": "[&AgEVYAAA]",
+      "AssetId": 220689,
+      "Names": {
+        "English": "Superior Sigil of Hydromancy",
+        "Spanish": "Sello superior de hidromancia",
+        "German": "Überlegenes Sigill der Hydromantie",
+        "French": "Cachet d'hydromancie supérieur"
+      },
+      "DisplayTexts": {
+        "English": "Hydromancy",
+        "Spanish": "hidromancia",
+        "German": "Hydromantie",
+        "French": "hydromancie"
+      },
+      "Descriptions": {
+        "English": "<c=@abilitytype>Element: </c>Control<br>Double-click to apply to a weapon.",
+        "Spanish": "<c=@abilitytype>Elemento: </c>Control<br>Haz doble clic para aplicar a un arma.",
+        "German": "<c=@abilitytype>Element: </c>Kontrolle<br>Doppelklicken, um auf eine Waffe anzuwenden.",
+        "French": "<c=@abilitytype>Élément : </c>contrôle<br>Double-cliquez pour l'appliquer à une arme."
+      }
+    },
+    "24599": {
+      "Buffs": {
+        "English": "Your next attack after swapping to this weapon while in combat steals some health. <c=@reminder>(Cooldown: 9 Seconds)</c>",
+        "Spanish": "Robas una cierta cantidad de salud en el siguiente ataque tras cambiar a esta arma durante el combate.<c=@reminder>(Recarga: 9 segundos)</c>",
+        "German": "Euer nächster Angriff entzieht einige Lebenspunkte, wenn Ihr im Kampf zu dieser Waffe wechselt. <c=@reminder>(Erholzeit: 9 s)</c>",
+        "French": "Votre prochaine attaque volera de la santé si vous changez d'arme en combat pour équiper celle-ci<br><c=@reminder>(Temps de recharge : 9 secondes).</c>"
+      },
+      "Type": 14,
+      "TemplateSlot": -1,
+      "Id": 24599,
+      "MappedId": 23,
+      "Rarity": 6,
+      "Chatlink": "[&AgEXYAAA]",
+      "AssetId": 220690,
+      "Names": {
+        "English": "Superior Sigil of Leeching",
+        "Spanish": "Sello superior de sanguijuela",
+        "German": "Überlegenes Sigill des Lebensfressers",
+        "French": "Cachet de sangsue supérieur"
+      },
+      "DisplayTexts": {
+        "English": "Leeching",
+        "Spanish": "sanguijuela",
+        "German": "Lebensfressers",
+        "French": "Cachet de sangsue"
+      },
+      "Descriptions": {
+        "English": "<c=@abilitytype>Element: </c>Enhancement<br>Double-click to apply to a weapon.",
+        "Spanish": "<c=@abilitytype>Elemento: </c>Mejora<br>Haz doble clic para aplicar a un arma.",
+        "German": "<c=@abilitytype>Element: </c>Verbesserung<br>Doppelklicken, um auf eine Waffe anzuwenden.",
+        "French": "<c=@abilitytype>Élément : </c>amélioration<br>Double-cliquez pour l'appliquer à une arme."
+      }
+    },
+    "24600": {
+      "Buffs": {
+        "English": "Critically strike an enemy for 3 seconds after swapping to this weapon in combat. <c=@reminder>(Cooldown: 9 Seconds)</c>",
+        "Spanish": "Infliges impactos críticos a un enemigo durante 3 segundos tras cambiar a esta arma en combate. <c=@reminder>(Recarga: 9 segundos)</c>",
+        "German": "Nachdem Ihr im Kampf zu dieser Waffe gewechselt habt, verpasst Ihr einem Gegner 3 Sekunden lang kritische Treffer. <c=@reminder>(Erholzeit: 9 Sekunden)</c>",
+        "French": "Vous infligez des coups critiques à un ennemi pendant 3 secondes si vous changez d'arme en combat pour équiper celle-ci. <c=@reminder>(Temps de recharge : 9 secondes)</c>"
+      },
+      "Type": 14,
+      "TemplateSlot": -1,
+      "Id": 24600,
+      "MappedId": 24,
+      "Rarity": 6,
+      "Chatlink": "[&AgEYYAAA]",
+      "AssetId": 220685,
+      "Names": {
+        "English": "Superior Sigil of Vision",
+        "Spanish": "Sello superior de visión",
+        "German": "Überlegenes Sigill der Vision",
+        "French": "Cachet de Vision supérieur"
+      },
+      "DisplayTexts": {
+        "English": "Vision",
+        "Spanish": "visión",
+        "German": "Vision",
+        "French": "Cachet de Vision"
+      },
+      "Descriptions": {
+        "English": "<c=@abilitytype>Element: </c>Enhancement<br>Double-click to apply to a weapon.",
+        "Spanish": "<c=@abilitytype>Elemento: </c>Mejora<br>Haz doble clic para aplicar a un arma.",
+        "German": "<c=@abilitytype>Element: </c>Verbesserung<br>Doppelklicken, um auf eine Waffe anzuwenden.",
+        "French": "<c=@abilitytype>Élément : </c>amélioration<br>Double-cliquez pour l'appliquer à une arme."
+      }
+    },
+    "24601": {
+      "Buffs": {
+        "English": "Gain 5 stacks of might for 12 seconds when swapping to this weapon in combat. (Cooldown: 9 Seconds)",
+        "Spanish": "Ganas 5 acumulaciones de poder durante 12 segundos tras cambiar a esta arma en combate. (Recarga: 9 segundos)",
+        "German": "Erhaltet 12 Sekunden lang 5 Stapel Macht, wenn Ihr im Kampf zu dieser Waffe wechselt. (Erholzeit: 9 Sekunden)",
+        "French": "Vous obtenez 5 charges de Pouvoir pendant 12 secondes lorsque vous changez d'arme en combat pour équiper celle-ci. (Temps de recharge : 9 secondes)"
+      },
+      "Type": 14,
+      "TemplateSlot": -1,
+      "Id": 24601,
+      "MappedId": 25,
+      "Rarity": 6,
+      "Chatlink": "[&AgEZYAAA]",
+      "AssetId": 220691,
+      "Names": {
+        "English": "Superior Sigil of Battle",
+        "Spanish": "Sello superior de batalla",
+        "German": "Überlegenes Sigill des Kampfes",
+        "French": "Cachet de combat supérieur"
+      },
+      "DisplayTexts": {
+        "English": "Battle",
+        "Spanish": "batalla",
+        "German": "Kampfes",
+        "French": "Cachet de combat"
+      },
+      "Descriptions": {
+        "English": "<c=@abilitytype>Element: </c>Control<br>Double-click to apply to a weapon.",
+        "Spanish": "<c=@abilitytype>Elemento: </c>Control<br>Haz doble clic para aplicar a un arma.",
+        "German": "<c=@abilitytype>Element: </c>Kontrolle<br>Doppelklicken, um auf eine Waffe anzuwenden.",
+        "French": "<c=@abilitytype>Élément : </c>contrôle<br>Double-cliquez pour l'appliquer à une arme."
+      }
+    },
+    "24605": {
+      "Buffs": {
+        "English": "Inflict nearby foes with bleeding for 8 seconds after swapping to this weapon in combat. <br><c=@reminder>(Cooldown: 9 Seconds)</c>",
+        "Spanish": "Infliges hemorragia durante 8 segundos a los enemigos cercanos tras cambiar a esta arma en combate. <br><c=@reminder>(Recarga: 9 segundos)</c>",
+        "German": "Verursacht bei Gegnern in der Nähe 8 Sekunden lang Blutung, nachdem Ihr im Kampf zu dieser Waffe gewechselt habt. <br><c=@reminder>(Erholzeit: 9 Sekunden)</c>",
+        "French": "Si vous changez d'arme en combat pour équiper celle-ci, la prochaine attaque infligera Saignement aux ennemis à proximité pendant 8 secondes. <br><c=@reminder>(Temps de recharge : 9 secondes)</c>"
+      },
+      "Type": 14,
+      "TemplateSlot": -1,
+      "Id": 24605,
+      "MappedId": 26,
+      "Rarity": 6,
+      "Chatlink": "[&AgEdYAAA]",
+      "AssetId": 220687,
+      "Names": {
+        "English": "Superior Sigil of Geomancy",
+        "Spanish": "Sello superior de geomancia",
+        "German": "Überlegenes Sigill der Geomantie",
+        "French": "Cachet de géomancie supérieur"
+      },
+      "DisplayTexts": {
+        "English": "Geomancy",
+        "Spanish": "geomancia",
+        "German": "Geomantie",
+        "French": "Cachet de géomancie"
+      },
+      "Descriptions": {
+        "English": "<c=@abilitytype>Element: </c>Pain<br>Double-click to apply to a weapon.",
+        "Spanish": "<c=@abilitytype>Elemento: </c>Dolor<br>Haz doble clic para aplicar a un arma.",
+        "German": "<c=@abilitytype>Element: </c>Schmerz<br>Doppelklicken, um auf eine Waffe anzuwenden.",
+        "French": "<c=@abilitytype>Élément : </c>douleur<br>Double-cliquez pour l'appliquer à une arme."
+      }
+    },
+    "24607": {
+      "Buffs": {
+        "English": "Gain 50% of your endurance when you swap to this weapon while in combat. <c=@reminder>(Cooldown: 9 Seconds)</c>",
+        "Spanish": "Gana un 50 % de tu aguante al cambiar a esta arma durante el combate. <c=@reminder>(Recarga: 9 segundos)</c>",
+        "German": "Erhaltet 50 % Eurer Ausdauer, wenn Ihr im Kampf zu dieser Waffe wechselt. <c=@reminder>(Erholzeit: 9 Sekunden)</c>",
+        "French": "Régénère 50% de votre endurance si vous changez d'arme en combat pour équiper celle-ci. <c=@reminder>(Temps de recharge : 9 secondes)</c>"
+      },
+      "Type": 14,
+      "TemplateSlot": -1,
+      "Id": 24607,
+      "MappedId": 27,
+      "Rarity": 6,
+      "Chatlink": "[&AgEfYAAA]",
+      "AssetId": 220688,
+      "Names": {
+        "English": "Superior Sigil of Energy",
+        "Spanish": "Sello superior de energía",
+        "German": "Überlegenes Sigill der Energie",
+        "French": "Cachet d'énergie supérieur"
+      },
+      "DisplayTexts": {
+        "English": "Energy",
+        "Spanish": "energía",
+        "German": "Energie",
+        "French": "énergie"
+      },
+      "Descriptions": {
+        "English": "<c=@abilitytype>Element: </c>Control<br>Double-click to apply to a weapon.",
+        "Spanish": "<c=@abilitytype>Elemento: </c>Control<br>Haz doble clic para aplicar a un arma.",
+        "German": "<c=@abilitytype>Element: </c>Kontrolle<br>Doppelklicken, um auf eine Waffe anzuwenden.",
+        "French": "<c=@abilitytype>Élément : </c>contrôle<br>Double-cliquez pour l'appliquer à une arme."
+      }
+    },
+    "24609": {
+      "Buffs": {
+        "English": "Your next attack will inflict 3 stacks of poison for 8 seconds after swapping to this weapon in combat. <br><c=@reminder>(Cooldown: 9 Seconds)</c>",
+        "Spanish": "Tu siguiente ataque tras cambiar a esta arma en combate infligirá 3 acumulaciones de veneno durante 8 segundos. <br><c=@reminder>(Recarga: 9 segundos)</c>",
+        "German": "Euer nächster Angriff verursacht 8 Sekunden lang 3 Stapel Gift, nachdem Ihr im Kampf zu dieser Waffe gewechselt habt. <br><c=@reminder>(Erholzeit: 9 Sekunden)</c>",
+        "French": "Si vous changez d'arme en combat pour équiper celle-ci, votre prochaine attaque infligera 3 charges d'Empoisonnement pendant 8 secondes. <br><c=@reminder>(Temps de recharge : 9 secondes)</c>"
+      },
+      "Type": 14,
+      "TemplateSlot": -1,
+      "Id": 24609,
+      "MappedId": 28,
+      "Rarity": 6,
+      "Chatlink": "[&AgEhYAAA]",
+      "AssetId": 220686,
+      "Names": {
+        "English": "Superior Sigil of Doom",
+        "Spanish": "Sello superior de condena",
+        "German": "Überlegenes Sigill der Verdammnis",
+        "French": "Cachet de malédiction supérieur"
+      },
+      "DisplayTexts": {
+        "English": "Doom",
+        "Spanish": "condena",
+        "German": "Verdammnis",
+        "French": "Cachet de malédiction"
+      },
+      "Descriptions": {
+        "English": "<c=@abilitytype>Element: </c>Pain<br>Double-click to apply to a weapon.",
+        "Spanish": "<c=@abilitytype>Elemento: </c>Dolor<br>Haz doble clic para aplicar a un arma.",
+        "German": "<c=@abilitytype>Element: </c>Schmerz<br>Doppelklicken, um auf eine Waffe anzuwenden.",
+        "French": "<c=@abilitytype>Élément : </c>douleur<br>Double-cliquez pour l'appliquer à une arme."
+      }
+    },
+    "24612": {
+      "Buffs": {
+        "English": "Increase Inflicted Bleeding Duration: 20%",
+        "Spanish": "Aumenta la duración de hemorragia: 20 %",
+        "German": "Erhöht die zugefügte Blutungsdauer: 20 %",
+        "French": "Augmente de 20% la durée des Saignements infligés"
+      },
+      "Type": 14,
+      "TemplateSlot": -1,
+      "Id": 24612,
+      "MappedId": 29,
+      "Rarity": 6,
+      "Chatlink": "[&AgEkYAAA]",
+      "AssetId": 220658,
+      "Names": {
+        "English": "Superior Sigil of Agony",
+        "Spanish": "Sello superior de agonía",
+        "German": "Überlegenes Sigill der Qual",
+        "French": "Cachet d'agonie supérieur"
+      },
+      "DisplayTexts": {
+        "English": "Agony",
+        "Spanish": "agonía",
+        "German": "Qual",
+        "French": "agonie"
+      },
+      "Descriptions": {
+        "English": "<c=@abilitytype>Element: </c>Enhancement<br>Double-click to apply to a weapon.",
+        "Spanish": "<c=@abilitytype>Elemento: </c>Mejora<br>Haz doble clic para aplicar a un arma.",
+        "German": "<c=@abilitytype>Element: </c>Verbesserung<br>Doppelklicken, um auf eine Waffe anzuwenden.",
+        "French": "<c=@abilitytype>Élément : </c>amélioration<br>Double-cliquez pour l'appliquer à une arme."
+      }
+    },
+    "24615": {
+      "Buffs": {
+        "English": "+5% Damage",
+        "Spanish": "+5 % de daño",
+        "German": "+5 % Schaden",
+        "French": "Dégâts +5%"
+      },
+      "Type": 14,
+      "TemplateSlot": -1,
+      "Id": 24615,
+      "MappedId": 30,
+      "Rarity": 6,
+      "Chatlink": "[&AgEnYAAA]",
+      "AssetId": 220662,
+      "Names": {
+        "English": "Superior Sigil of Force",
+        "Spanish": "Sello superior de fuerza",
+        "German": "Überlegenes Sigill der Heftigkeit",
+        "French": "Cachet de fermeté supérieur"
+      },
+      "DisplayTexts": {
+        "English": "Force",
+        "Spanish": "fuerza",
+        "German": "Heftigkeit",
+        "French": "Cachet de fermeté"
+      },
+      "Descriptions": {
+        "English": "<c=@abilitytype>Element: </c>Enhancement<br>Double-click to apply to a weapon.",
+        "Spanish": "<c=@abilitytype>Elemento: </c>Mejora<br>Haz doble clic para aplicar a un arma.",
+        "German": "<c=@abilitytype>Element: </c>Verbesserung<br>Doppelklicken, um auf eine Waffe anzuwenden.",
+        "French": "<c=@abilitytype>Élément : </c>amélioration<br>Double-cliquez pour l'appliquer à une arme."
+      }
+    },
+    "24618": {
+      "Buffs": {
+        "English": "+7% Critical Chance",
+        "Spanish": "+7 % de probabilidad de daño crítico",
+        "German": "+7 % Chance auf kritische Treffer",
+        "French": "Chance de coup critique +7%"
+      },
+      "Type": 14,
+      "TemplateSlot": -1,
+      "Id": 24618,
+      "MappedId": 31,
+      "Rarity": 6,
+      "Chatlink": "[&AgEqYAAA]",
+      "AssetId": 220661,
+      "Names": {
+        "English": "Superior Sigil of Accuracy",
+        "Spanish": "Sello superior de precisión",
+        "German": "Überlegenes Sigill der Treffsicherheit",
+        "French": "Cachet d'exactitude supérieur"
+      },
+      "DisplayTexts": {
+        "English": "Accuracy",
+        "Spanish": "precisión",
+        "German": "Treffsicherheit",
+        "French": "exactitude"
+      },
+      "Descriptions": {
+        "English": "<c=@abilitytype>Element: </c>Enhancement<br>Double-click to apply to a weapon.",
+        "Spanish": "<c=@abilitytype>Elemento: </c>Mejora<br>Haz doble clic para aplicar a un arma.",
+        "German": "<c=@abilitytype>Element: </c>Verbesserung<br>Doppelklicken, um auf eine Waffe anzuwenden.",
+        "French": "<c=@abilitytype>Élément : </c>amélioration<br>Double-cliquez pour l'appliquer à une arme."
+      }
+    },
+    "24621": {
+      "Buffs": {
+        "English": "Increase Inflicted Vulnerability Duration: 20%",
+        "Spanish": "Aumenta la duración de vulnerabilidad: 20 %",
+        "German": "Erhöht die zugefügte Verwundbarkeitsdauer: 20 %",
+        "French": "Augmente de 20% la durée des Vulnérabilités infligées"
+      },
+      "Type": 14,
+      "TemplateSlot": -1,
+      "Id": 24621,
+      "MappedId": 32,
+      "Rarity": 6,
+      "Chatlink": "[&AgEtYAAA]",
+      "AssetId": 220666,
+      "Names": {
+        "English": "Superior Sigil of Peril",
+        "Spanish": "Sello superior de peligro",
+        "German": "Überlegenes Sigill der Gefahr",
+        "French": "Cachet de péril supérieur"
+      },
+      "DisplayTexts": {
+        "English": "Peril",
+        "Spanish": "peligro",
+        "German": "Gefahr",
+        "French": "Cachet de péril"
+      },
+      "Descriptions": {
+        "English": "<c=@abilitytype>Element: </c>Enhancement<br>Double-click to apply to a weapon.",
+        "Spanish": "<c=@abilitytype>Elemento: </c>Mejora<br>Haz doble clic para aplicar a un arma.",
+        "German": "<c=@abilitytype>Element: </c>Verbesserung<br>Doppelklicken, um auf eine Waffe anzuwenden.",
+        "French": "<c=@abilitytype>Élément : </c>amélioration<br>Double-cliquez pour l'appliquer à une arme."
+      }
+    },
+    "24624": {
+      "Buffs": {
+        "English": "Increase Inflicted Burning Duration: 20%",
+        "Spanish": "Aumenta la duración de quemadura: 20 %",
+        "German": "Erhöht die zugefügte Brenndauer: 20 %",
+        "French": "Augmente la durée des Brûlures infligées de 20%"
+      },
+      "Type": 14,
+      "TemplateSlot": -1,
+      "Id": 24624,
+      "MappedId": 33,
+      "Rarity": 6,
+      "Chatlink": "[&AgEwYAAA]",
+      "AssetId": 220659,
+      "Names": {
+        "English": "Superior Sigil of Smoldering",
+        "Spanish": "Sello superior de ardor",
+        "German": "Überlegenes Sigill der Glut",
+        "French": "Cachet de consumation supérieur"
+      },
+      "DisplayTexts": {
+        "English": "Smoldering",
+        "Spanish": "ardor",
+        "German": "Glut",
+        "French": "Cachet de consumation"
+      },
+      "Descriptions": {
+        "English": "<c=@abilitytype>Element: </c>Enhancement<br>Double-click to apply to a weapon.",
+        "Spanish": "<c=@abilitytype>Elemento: </c>Mejora<br>Haz doble clic para aplicar a un arma.",
+        "German": "<c=@abilitytype>Element: </c>Verbesserung<br>Doppelklicken, um auf eine Waffe anzuwenden.",
+        "French": "<c=@abilitytype>Élément : </c>amélioration<br>Double-cliquez pour l'appliquer à une arme."
+      }
+    },
+    "24627": {
+      "Buffs": {
+        "English": "Increase Inflicted Cripple Duration: 20%",
+        "Spanish": "Aumenta la duración de incapacitación: 20 %",
+        "German": "Erhöht die zugefügte Verkrüppelungsdauer: 20 %",
+        "French": "Augmente de 20% la durée des Infirmités infligées"
+      },
+      "Type": 14,
+      "TemplateSlot": -1,
+      "Id": 24627,
+      "MappedId": 34,
+      "Rarity": 6,
+      "Chatlink": "[&AgEzYAAA]",
+      "AssetId": 220660,
+      "Names": {
+        "English": "Superior Sigil of Hobbling",
+        "Spanish": "Sello superior de cojera",
+        "German": "Überlegenes Sigill des Humpelns",
+        "French": "Cachet de boitement supérieur"
+      },
+      "DisplayTexts": {
+        "English": "Hobbling",
+        "Spanish": "cojera",
+        "German": "Humpelns",
+        "French": "Cachet de boitement"
+      },
+      "Descriptions": {
+        "English": "<c=@abilitytype>Element: </c>Enhancement<br>Double-click to apply to a weapon.",
+        "Spanish": "<c=@abilitytype>Elemento: </c>Mejora<br>Haz doble clic para aplicar a un arma.",
+        "German": "<c=@abilitytype>Element: </c>Verbesserung<br>Doppelklicken, um auf eine Waffe anzuwenden.",
+        "French": "<c=@abilitytype>Élément : </c>amélioration<br>Double-cliquez pour l'appliquer à une arme."
+      }
+    },
+    "24630": {
+      "Buffs": {
+        "English": "Increase Inflicted Chill Duration: 20%",
+        "Spanish": "Aumenta la duración de congelación: 20 %",
+        "German": "Erhöht die zugefügte Kühledauer: 20 %",
+        "French": "Augmente la durée de Givre infligé de 20%"
+      },
+      "Type": 14,
+      "TemplateSlot": -1,
+      "Id": 24630,
+      "MappedId": 35,
+      "Rarity": 6,
+      "Chatlink": "[&AgE2YAAA]",
+      "AssetId": 220663,
+      "Names": {
+        "English": "Superior Sigil of Chilling",
+        "Spanish": "Sello superior de congelación",
+        "German": "Überlegenes Sigill der Kühle",
+        "French": "Cachet de frisson supérieur"
+      },
+      "DisplayTexts": {
+        "English": "Chilling",
+        "Spanish": "congelación",
+        "German": "Kühle",
+        "French": "Cachet de frisson"
+      },
+      "Descriptions": {
+        "English": "<c=@abilitytype>Element: </c>Enhancement<br>Double-click to apply to a weapon.",
+        "Spanish": "<c=@abilitytype>Elemento: </c>Mejora<br>Haz doble clic para aplicar a un arma.",
+        "German": "<c=@abilitytype>Element: </c>Verbesserung<br>Doppelklicken, um auf eine Waffe anzuwenden.",
+        "French": "<c=@abilitytype>Élément : </c>amélioration<br>Double-cliquez pour l'appliquer à une arme."
+      }
+    },
+    "24632": {
+      "Buffs": {
+        "English": "Increase Inflicted Poison Duration: 20%",
+        "Spanish": "Aumenta la duración de veneno: 20 %",
+        "German": "Erhöht die zugefügte Giftdauer: 20 %",
+        "French": "Augmente de 20% la durée des Empoisonnements infligés"
+      },
+      "Type": 14,
+      "TemplateSlot": -1,
+      "Id": 24632,
+      "MappedId": 36,
+      "Rarity": 6,
+      "Chatlink": "[&AgE4YAAA]",
+      "AssetId": 220664,
+      "Names": {
+        "English": "Superior Sigil of Venom",
+        "Spanish": "Sello superior de veneno",
+        "German": "Überlegenes Sigill des Giftes",
+        "French": "Cachet de venin supérieur"
+      },
+      "DisplayTexts": {
+        "English": "Venom",
+        "Spanish": "veneno",
+        "German": "Giftes",
+        "French": "Cachet de venin"
+      },
+      "Descriptions": {
+        "English": "<c=@abilitytype>Element: </c>Enhancement<br>Double-click to apply to a weapon.",
+        "Spanish": "<c=@abilitytype>Elemento: </c>Mejora<br>Haz doble clic para aplicar a un arma.",
+        "German": "<c=@abilitytype>Element: </c>Verbesserung<br>Doppelklicken, um auf eine Waffe anzuwenden.",
+        "French": "<c=@abilitytype>Élément : </c>amélioration<br>Double-cliquez pour l'appliquer à une arme."
+      }
+    },
+    "24636": {
+      "Buffs": {
+        "English": "Increase Inflicted Weakness Duration: 20%",
+        "Spanish": "Aumenta la duración de debilidad: 20 %",
+        "German": "Erhöht die zugefügte Schwächedauer: 20 %",
+        "French": "Augmente de 20% la durée des Faiblesses infligées"
+      },
+      "Type": 14,
+      "TemplateSlot": -1,
+      "Id": 24636,
+      "MappedId": 37,
+      "Rarity": 6,
+      "Chatlink": "[&AgE8YAAA]",
+      "AssetId": 220667,
+      "Names": {
+        "English": "Superior Sigil of Debility",
+        "Spanish": "Sello superior de debilidad",
+        "German": "Überlegenes Sigill der Schwäche",
+        "French": "Cachet de faiblesse supérieur"
+      },
+      "DisplayTexts": {
+        "English": "Debility",
+        "Spanish": "debilidad",
+        "German": "Schwäche",
+        "French": "Cachet de faiblesse"
+      },
+      "Descriptions": {
+        "English": "<c=@abilitytype>Element: </c>Control<br>Double-click to apply to a weapon.",
+        "Spanish": "<c=@abilitytype>Elemento: </c>Control<br>Haz doble clic para aplicar a un arma.",
+        "German": "<c=@abilitytype>Element: </c>Kontrolle<br>Doppelklicken, um auf eine Waffe anzuwenden.",
+        "French": "<c=@abilitytype>Élément : </c>contrôle<br>Double-cliquez pour l'appliquer à une arme."
+      }
+    },
+    "24639": {
+      "Buffs": {
+        "English": "+30% Stun Duration",
+        "Spanish": "+ 30 % de duración de aturdimiento",
+        "German": "+30 % Betäubungsdauer",
+        "French": "Durée d'Etourdissement +30%"
+      },
+      "Type": 14,
+      "TemplateSlot": -1,
+      "Id": 24639,
+      "MappedId": 38,
+      "Rarity": 6,
+      "Chatlink": "[&AgE/YAAA]",
+      "AssetId": 220665,
+      "Names": {
+        "English": "Superior Sigil of Paralyzation",
+        "Spanish": "Sello superior de parálisis",
+        "German": "Überlegenes Sigill der Lähmung",
+        "French": "Cachet de paralysie supérieur"
+      },
+      "DisplayTexts": {
+        "English": "Paralyzation",
+        "Spanish": "parálisis",
+        "German": "Lähmung",
+        "French": "Cachet de paralysie"
+      },
+      "Descriptions": {
+        "English": "<c=@abilitytype>Element: </c>Control<br>Double-click to apply to a weapon.",
+        "Spanish": "<c=@abilitytype>Elemento: </c>Control<br>Haz doble clic para aplicar a un arma.",
+        "German": "<c=@abilitytype>Element: </c>Kontrolle<br>Doppelklicken, um auf eine Waffe anzuwenden.",
+        "French": "<c=@abilitytype>Élément : </c>contrôle<br>Double-cliquez pour l'appliquer à une arme."
+      }
+    },
+    "24642": {
+      "Buffs": {
+        "English": "+7% Strike Damage vs. Undead\n+3% Strike Damage",
+        "Spanish": "+7 % de daño de golpe contra muertos vivientes\n+3 % de daño de golpe",
+        "German": "+7 % Schlagschaden gg. Untote\n+3 % Schlagschaden",
+        "French": "Dégâts de frappe contre les morts-vivants +7%\nDégâts de frappe +3%"
+      },
+      "Type": 14,
+      "TemplateSlot": -1,
+      "Id": 24642,
+      "MappedId": 39,
+      "Rarity": 6,
+      "Chatlink": "[&AgFCYAAA]",
+      "AssetId": 340596,
+      "Names": {
+        "English": "Superior Sigil of Undead Slaying",
+        "Spanish": "Sello superior de masacre de muertos vivientes",
+        "German": "Überlegenes Sigill der Untoten-Vernichtung",
+        "French": "Cachet de massacre de morts-vivants supérieur"
+      },
+      "DisplayTexts": {
+        "English": "Undead Slaying",
+        "Spanish": "masacre de muertos vivientes",
+        "German": "Untoten-Vernichtung",
+        "French": "Cachet de massacre de morts-vivants"
+      },
+      "Descriptions": {
+        "English": "<c=@abilitytype>Element: </c>Pain<br>Double-click to apply to a weapon.",
+        "Spanish": "<c=@abilitytype>Elemento: </c>Dolor<br>Haz doble clic para aplicar a un arma.",
+        "German": "<c=@abilitytype>Element: </c>Schmerz<br>Doppelklicken, um auf eine Waffe anzuwenden.",
+        "French": "<c=@abilitytype>Élément : </c>douleur<br>Double-cliquez pour l'appliquer à une arme."
+      }
+    },
+    "24645": {
+      "Buffs": {
+        "English": "+7% Strike Damage vs. Centaurs\n+3% Strike Damage",
+        "Spanish": "+7 % de daño de golpe contra centauros\n+3 % de daño de golpe",
+        "German": "+7 % Schlagschaden gg. Zentauren\n+3 % Schlagschaden",
+        "French": "Dégâts de frappe contre les Centaures +7%\nDégâts de frappe +3%"
+      },
+      "Type": 14,
+      "TemplateSlot": -1,
+      "Id": 24645,
+      "MappedId": 40,
+      "Rarity": 6,
+      "Chatlink": "[&AgFFYAAA]",
+      "AssetId": 340599,
+      "Names": {
+        "English": "Superior Sigil of Centaur Slaying",
+        "Spanish": "Sello superior de masacre de centauros",
+        "German": "Überlegenes Sigill der Zentauren-Vernichtung",
+        "French": "Cachet de massacre de Centaures supérieur"
+      },
+      "DisplayTexts": {
+        "English": "Centaur Slaying",
+        "Spanish": "masacre de centauros",
+        "German": "Zentauren-Vernichtung",
+        "French": "Cachet de massacre de Centaures"
+      },
+      "Descriptions": {
+        "English": "<c=@abilitytype>Element: </c>Pain<br>Double-click to apply to a weapon.",
+        "Spanish": "<c=@abilitytype>Elemento: </c>Dolor<br>Haz doble clic para aplicar a un arma.",
+        "German": "<c=@abilitytype>Element: </c>Schmerz<br>Doppelklicken, um auf eine Waffe anzuwenden.",
+        "French": "<c=@abilitytype>Élément : </c>douleur<br>Double-cliquez pour l'appliquer à une arme."
+      }
+    },
+    "24648": {
+      "Buffs": {
+        "English": "+7% Strike Damage vs. Grawl\n+3% Strike Damage",
+        "Spanish": "+7 % de daño de golpe contra grawl\n+3 % de daño de golpe",
+        "German": "+7 % Schlagschaden gg. Grawl\n+3 % Schlagschaden",
+        "French": "Dégâts de frappe contre les Grawls +7%\nDégâts de frappe +3%"
+      },
+      "Type": 14,
+      "TemplateSlot": -1,
+      "Id": 24648,
+      "MappedId": 41,
+      "Rarity": 6,
+      "Chatlink": "[&AgFIYAAA]",
+      "AssetId": 221030,
+      "Names": {
+        "English": "Superior Sigil of Grawl Slaying",
+        "Spanish": "Sello superior de masacre de grawl",
+        "German": "Überlegenes Sigill der Grawl-Vernichtung",
+        "French": "Cachet de massacre de Grawls supérieur"
+      },
+      "DisplayTexts": {
+        "English": "Grawl Slaying",
+        "Spanish": "masacre de grawl",
+        "German": "Grawl-Vernichtung",
+        "French": "Cachet de massacre de Grawls"
+      },
+      "Descriptions": {
+        "English": "<c=@abilitytype>Element: </c>Pain<br>Double-click to apply to a weapon.",
+        "Spanish": "<c=@abilitytype>Elemento: </c>Dolor<br>Haz doble clic para aplicar a un arma.",
+        "German": "<c=@abilitytype>Element: </c>Schmerz<br>Doppelklicken, um auf eine Waffe anzuwenden.",
+        "French": "<c=@abilitytype>Élément : </c>douleur<br>Double-cliquez pour l'appliquer à une arme."
+      }
+    },
+    "24651": {
+      "Buffs": {
+        "English": "+7% Strike Damage vs. Icebrood\n+3% Strike Damage",
+        "Spanish": "+7 % de daño de golpe contra progelie\n+3 % de daño de golpe",
+        "German": "+7 % Schlagschaden gg. Eisbrut\n+3 % Schlagschaden",
+        "French": "Dégâts de frappe contre les couvegivres +7%\nDégâts de frappe +3%"
+      },
+      "Type": 14,
+      "TemplateSlot": -1,
+      "Id": 24651,
+      "MappedId": 42,
+      "Rarity": 6,
+      "Chatlink": "[&AgFLYAAA]",
+      "AssetId": 221033,
+      "Names": {
+        "English": "Superior Sigil of Icebrood Slaying",
+        "Spanish": "Sello superior de masacre de progelie",
+        "German": "Überlegenes Sigill der Eisbrut-Vernichtung",
+        "French": "Cachet de massacre de couvegivres supérieur"
+      },
+      "DisplayTexts": {
+        "English": "Icebrood Slaying",
+        "Spanish": "masacre de progelie",
+        "German": "Eisbrut-Vernichtung",
+        "French": "Cachet de massacre de couvegivres"
+      },
+      "Descriptions": {
+        "English": "<c=@abilitytype>Element: </c>Pain<br>Double-click to apply to a weapon.",
+        "Spanish": "<c=@abilitytype>Elemento: </c>Dolor<br>Haz doble clic para aplicar a un arma.",
+        "German": "<c=@abilitytype>Element: </c>Schmerz<br>Doppelklicken, um auf eine Waffe anzuwenden.",
+        "French": "<c=@abilitytype>Élément : </c>douleur<br>Double-cliquez pour l'appliquer à une arme."
+      }
+    },
+    "24654": {
+      "Buffs": {
+        "English": "+7% Strike Damage vs. Destroyers\n+3% Strike Damage",
+        "Spanish": "+7 % de daño de golpe contra destructores\n+3 % de daño de golpe",
+        "German": "+7 % Schlagschaden gg. Zerstörer\n+3 % Schlagschaden",
+        "French": "Dégâts de frappe contre les destructeurs +7%\nDégâts de frappe +3%"
+      },
+      "Type": 14,
+      "TemplateSlot": -1,
+      "Id": 24654,
+      "MappedId": 43,
+      "Rarity": 6,
+      "Chatlink": "[&AgFOYAAA]",
+      "AssetId": 221036,
+      "Names": {
+        "English": "Superior Sigil of Destroyer Slaying",
+        "Spanish": "Sello superior de masacre de destructores",
+        "German": "Überlegenes Sigill der Zerstörer-Vernichtung",
+        "French": "Cachet de massacre de destructeurs supérieur"
+      },
+      "DisplayTexts": {
+        "English": "Destroyer Slaying",
+        "Spanish": "masacre de destructores",
+        "German": "Zerstörer-Vernichtung",
+        "French": "Cachet de massacre de destructeurs"
+      },
+      "Descriptions": {
+        "English": "<c=@abilitytype>Element: </c>Pain<br>Double-click to apply to a weapon.",
+        "Spanish": "<c=@abilitytype>Elemento: </c>Dolor<br>Haz doble clic para aplicar a un arma.",
+        "German": "<c=@abilitytype>Element: </c>Schmerz<br>Doppelklicken, um auf eine Waffe anzuwenden.",
+        "French": "<c=@abilitytype>Élément : </c>douleur<br>Double-cliquez pour l'appliquer à une arme."
+      }
+    },
+    "24655": {
+      "Buffs": {
+        "English": "+7% Strike Damage vs. Ogres\n+3% Strike Damage",
+        "Spanish": "+7 % de daño de golpe contra ogros\n+3 % de daño de golpe",
+        "German": "+7 % Schlagschaden gg. Oger\n+3 % Schlagschaden",
+        "French": "Dégâts de frappe contre les Ogres +7%\nDégâts de frappe +3%"
+      },
+      "Type": 14,
+      "TemplateSlot": -1,
+      "Id": 24655,
+      "MappedId": 44,
+      "Rarity": 6,
+      "Chatlink": "[&AgFPYAAA]",
+      "AssetId": 221037,
+      "Names": {
+        "English": "Superior Sigil of Ogre Slaying",
+        "Spanish": "Sello superior de masacre de ogros",
+        "German": "Überlegenes Sigill der Oger-Vernichtung",
+        "French": "Cachet de massacre d'Ogres supérieur"
+      },
+      "DisplayTexts": {
+        "English": "Ogre Slaying",
+        "Spanish": "masacre de ogros",
+        "German": "Oger-Vernichtung",
+        "French": "Cachet de massacre d'Ogres"
+      },
+      "Descriptions": {
+        "English": "<c=@abilitytype>Element: </c>Pain<br>Double-click to apply to a weapon.",
+        "Spanish": "<c=@abilitytype>Elemento: </c>Dolor<br>Haz doble clic para aplicar a un arma.",
+        "German": "<c=@abilitytype>Element: </c>Schmerz<br>Doppelklicken, um auf eine Waffe anzuwenden.",
+        "French": "<c=@abilitytype>Élément : </c>douleur<br>Double-cliquez pour l'appliquer à une arme."
+      }
+    },
+    "24658": {
+      "Buffs": {
+        "English": "+7% Strike Damage vs. Krait\n+3% Strike Damage",
+        "Spanish": "+7 % de daño de golpe contra krait\n+3 % de daño de golpe",
+        "German": "+7 % Schlagschaden gg. Krait\n+3 % Schlagschaden",
+        "French": "Dégâts de frappe contre les Kraits +7%\nDégâts de frappe +3%"
+      },
+      "Type": 14,
+      "TemplateSlot": -1,
+      "Id": 24658,
+      "MappedId": 45,
+      "Rarity": 6,
+      "Chatlink": "[&AgFSYAAA]",
+      "AssetId": 221040,
+      "Names": {
+        "English": "Superior Sigil of Serpent Slaying",
+        "Spanish": "Sello superior de masacre de serpientes",
+        "German": "Überlegenes Sigill der Schlangen-Vernichtung",
+        "French": "Cachet de massacre de serpents supérieur"
+      },
+      "DisplayTexts": {
+        "English": "Serpent Slaying",
+        "Spanish": "masacre de serpientes",
+        "German": "Schlangen-Vernichtung",
+        "French": "Cachet de massacre de serpents"
+      },
+      "Descriptions": {
+        "English": "<c=@abilitytype>Element: </c>Pain<br>Double-click to apply to a weapon.",
+        "Spanish": "<c=@abilitytype>Elemento: </c>Dolor<br>Haz doble clic para aplicar a un arma.",
+        "German": "<c=@abilitytype>Element: </c>Schmerz<br>Doppelklicken, um auf eine Waffe anzuwenden.",
+        "French": "<c=@abilitytype>Élément : </c>douleur<br>Double-cliquez pour l'appliquer à une arme."
+      }
+    },
+    "24661": {
+      "Buffs": {
+        "English": "+7% Strike Damage vs. Elementals\n+3% Strike Damage",
+        "Spanish": "+7 % de daño de golpe contra elementales\n+3 % de daño de golpe",
+        "German": "+7 % Schlagschaden gg. Elementare\n+3 % Schlagschaden",
+        "French": "Dégâts de frappe contre les élémentaires +7%\nDégâts de frappe +3%"
+      },
+      "Type": 14,
+      "TemplateSlot": -1,
+      "Id": 24661,
+      "MappedId": 46,
+      "Rarity": 6,
+      "Chatlink": "[&AgFVYAAA]",
+      "AssetId": 221043,
+      "Names": {
+        "English": "Superior Sigil of Elemental Slaying",
+        "Spanish": "Sello superior de masacre de elementales",
+        "German": "Überlegenes Sigill der Elementar-Vernichtung",
+        "French": "Cachet de massacre d'élémentaires supérieur"
+      },
+      "DisplayTexts": {
+        "English": "Elemental Slaying",
+        "Spanish": "masacre de elementales",
+        "German": "Elementar-Vernichtung",
+        "French": "Cachet de massacre d'élémentaires"
+      },
+      "Descriptions": {
+        "English": "<c=@abilitytype>Element: </c>Pain<br>Double-click to apply to a weapon.",
+        "Spanish": "<c=@abilitytype>Elemento: </c>Dolor<br>Haz doble clic para aplicar a un arma.",
+        "German": "<c=@abilitytype>Element: </c>Schmerz<br>Doppelklicken, um auf eine Waffe anzuwenden.",
+        "French": "<c=@abilitytype>Élément : </c>douleur<br>Double-cliquez pour l'appliquer à une arme."
+      }
+    },
+    "24664": {
+      "Buffs": {
+        "English": "+7% Strike Damage vs. Demons, Kryptis, and Titanspawn.\n+3% Strike Damage",
+        "Spanish": "+7 % de daño de golpe contra demonios, kryptis y prole del titán\n+3 % de daño de golpe",
+        "German": "+7 % Schlagschaden gg. Dämonen, Kryptis und Titanenbrut.\n+3 % Schlagschaden",
+        "French": "Dégâts de frappe contre les démons, Kryptis et rejetons de Titan +7%\nDégâts de frappe +3%"
+      },
+      "Type": 14,
+      "TemplateSlot": -1,
+      "Id": 24664,
+      "MappedId": 47,
+      "Rarity": 6,
+      "Chatlink": "[&AgFYYAAA]",
+      "AssetId": 340600,
+      "Names": {
+        "English": "Superior Sigil of Demon Slaying",
+        "Spanish": "Sello superior de masacre de demonios",
+        "German": "Überlegenes Sigill der Dämonen-Vernichtung",
+        "French": "Cachet de massacre de démons supérieur"
+      },
+      "DisplayTexts": {
+        "English": "Demon Slaying",
+        "Spanish": "masacre de demonios",
+        "German": "Dämonen-Vernichtung",
+        "French": "Cachet de massacre de démons"
+      },
+      "Descriptions": {
+        "English": "<c=@abilitytype>Element: </c>Pain<br>Double-click to apply to a weapon.",
+        "Spanish": "<c=@abilitytype>Elemento: </c>Dolor<br>Haz doble clic para aplicar a un arma.",
+        "German": "<c=@abilitytype>Element: </c>Schmerz<br>Doppelklicken, um auf eine Waffe anzuwenden.",
+        "French": "<c=@abilitytype>Élément : </c>douleur<br>Double-cliquez pour l'appliquer à une arme."
+      }
+    },
+    "24667": {
+      "Buffs": {
+        "English": "+7% Strike Damage vs. Sons of Svanir\n+3% Strike Damage",
+        "Spanish": "+7 % de daño de golpe contra los Hijos de Svanir\n+3 % de daño de golpe",
+        "German": "+7 % Schlagschaden gg. Söhne Svanirs\n+3 % Schlagschaden",
+        "French": "Dégâts de frappe contre les Fils de Svanir +7%\nDégâts de frappe +3%"
+      },
+      "Type": 14,
+      "TemplateSlot": -1,
+      "Id": 24667,
+      "MappedId": 48,
+      "Rarity": 6,
+      "Chatlink": "[&AgFbYAAA]",
+      "AssetId": 340603,
+      "Names": {
+        "English": "Superior Sigil of Wrath",
+        "Spanish": "Sello superior de ira",
+        "German": "Überlegenes Sigill des Zorns",
+        "French": "Cachet du courroux supérieur"
+      },
+      "DisplayTexts": {
+        "English": "Wrath",
+        "Spanish": "ira",
+        "German": "Zorns",
+        "French": "Cachet du courroux"
+      },
+      "Descriptions": {
+        "English": "<c=@abilitytype>Element: </c>Pain<br>Double-click to apply to a weapon.",
+        "Spanish": "<c=@abilitytype>Elemento: </c>Dolor<br>Haz doble clic para aplicar a un arma.",
+        "German": "<c=@abilitytype>Element: </c>Schmerz<br>Doppelklicken, um auf eine Waffe anzuwenden.",
+        "French": "<c=@abilitytype>Élément : </c>douleur<br>Double-cliquez pour l'appliquer à une arme."
+      }
+    },
+    "24672": {
+      "Buffs": {
+        "English": "+7% Strike Damage vs. Inquest\n+3% Strike Damage",
+        "Spanish": "+7 % de daño de golpe contra la Inquisa\n+3 % de daño de golpe",
+        "German": "+7 % Schlagschaden gg. Inquestur\n+3 % Schlagschaden",
+        "French": "Dégâts de frappe contre l'Enqueste +7%\nDégâts de frappe +3%"
+      },
+      "Type": 14,
+      "TemplateSlot": -1,
+      "Id": 24672,
+      "MappedId": 49,
+      "Rarity": 6,
+      "Chatlink": "[&AgFgYAAA]",
+      "AssetId": 340608,
+      "Names": {
+        "English": "Superior Sigil of Mad Scientists",
+        "Spanish": "Sello superior de científicos locos",
+        "German": "Überlegenes Sigill des Verrückten Wissenschaftlers",
+        "French": "Cachet des scientifiques fous supérieur"
+      },
+      "DisplayTexts": {
+        "English": "Mad Scientists",
+        "Spanish": "científicos locos",
+        "German": "Verrückten Wissenschaftlers",
+        "French": "Cachet des scientifiques fous"
+      },
+      "Descriptions": {
+        "English": "<c=@abilitytype>Element: </c>Pain<br>Double-click to apply to a weapon.",
+        "Spanish": "<c=@abilitytype>Elemento: </c>Dolor<br>Haz doble clic para aplicar a un arma.",
+        "German": "<c=@abilitytype>Element: </c>Schmerz<br>Doppelklicken, um auf eine Waffe anzuwenden.",
+        "French": "<c=@abilitytype>Élément : </c>douleur<br>Double-cliquez pour l'appliquer à une arme."
+      }
+    },
+    "24675": {
+      "Buffs": {
+        "English": "+7% Strike Damage vs. Flame Legion\n+3% Strike Damage",
+        "Spanish": "+7 % de daño de golpe contra la Legión de la Llama\n+3 % de daño de golpe",
+        "German": "+7 % Schlagschaden gg. Flammen-Legion\n+3 % Schlagschaden",
+        "French": "Dégâts de frappe contre la Légion de la Flamme +7%\nDégâts de frappe +3%"
+      },
+      "Type": 14,
+      "TemplateSlot": -1,
+      "Id": 24675,
+      "MappedId": 50,
+      "Rarity": 6,
+      "Chatlink": "[&AgFjYAAA]",
+      "AssetId": 340611,
+      "Names": {
+        "English": "Superior Sigil of Smothering",
+        "Spanish": "Sello superior de asfixia",
+        "German": "Überlegenes Sigill der Erstickung",
+        "French": "Cachet d'étouffement supérieur"
+      },
+      "DisplayTexts": {
+        "English": "Smothering",
+        "Spanish": "asfixia",
+        "German": "Erstickung",
+        "French": "étouffement"
+      },
+      "Descriptions": {
+        "English": "<c=@abilitytype>Element: </c>Pain<br>Double-click to apply to a weapon.",
+        "Spanish": "<c=@abilitytype>Elemento: </c>Dolor<br>Haz doble clic para aplicar a un arma.",
+        "German": "<c=@abilitytype>Element: </c>Schmerz<br>Doppelklicken, um auf eine Waffe anzuwenden.",
+        "French": "<c=@abilitytype>Élément : </c>douleur<br>Double-cliquez pour l'appliquer à une arme."
+      }
+    },
+    "24678": {
+      "Buffs": {
+        "English": "+7% Strike Damage vs. Outlaws\n+3% Strike Damage",
+        "Spanish": "+7 % de daño de golpe contra proscritos\n+3 % de daño de golpe",
+        "German": "+7 % Schlagschaden gg. Gesetzlose\n+3 % Schlagschaden",
+        "French": "Dégâts de frappe contre les hors-la-loi +7%\nDégâts de frappe +3%"
+      },
+      "Type": 14,
+      "TemplateSlot": -1,
+      "Id": 24678,
+      "MappedId": 51,
+      "Rarity": 6,
+      "Chatlink": "[&AgFmYAAA]",
+      "AssetId": 340614,
+      "Names": {
+        "English": "Superior Sigil of Justice",
+        "Spanish": "Sello superior de justicia",
+        "German": "Überlegenes Sigill der Gerechtigkeit",
+        "French": "Cachet de justice supérieur"
+      },
+      "DisplayTexts": {
+        "English": "Justice",
+        "Spanish": "justicia",
+        "German": "Gerechtigkeit",
+        "French": "Cachet de justice"
+      },
+      "Descriptions": {
+        "English": "<c=@abilitytype>Element: </c>Pain<br>Double-click to apply to a weapon.",
+        "Spanish": "<c=@abilitytype>Elemento: </c>Dolor<br>Haz doble clic para aplicar a un arma.",
+        "German": "<c=@abilitytype>Element: </c>Schmerz<br>Doppelklicken, um auf eine Waffe anzuwenden.",
+        "French": "<c=@abilitytype>Élément : </c>douleur<br>Double-cliquez pour l'appliquer à une arme."
+      }
+    },
+    "24681": {
+      "Buffs": {
+        "English": "+7% Strike Damage vs. Nightmare Court\n+3% Strike Damage",
+        "Spanish": "+7 % de daño de golpe contra la Corte de la Pesadilla\n+3 % de daño de golpe",
+        "German": "+7 % Schlagschaden gg. Albtraumhof\n+3 % Schlagschaden",
+        "French": "Dégâts de frappe contre la Cour des Cauchemars +7%\nDégâts de frappe +3%"
+      },
+      "Type": 14,
+      "TemplateSlot": -1,
+      "Id": 24681,
+      "MappedId": 52,
+      "Rarity": 6,
+      "Chatlink": "[&AgFpYAAA]",
+      "AssetId": 340617,
+      "Names": {
+        "English": "Superior Sigil of Dreams",
+        "Spanish": "Sello superior de sueños",
+        "German": "Überlegenes Sigill der Träume",
+        "French": "Cachet de rêves supérieur"
+      },
+      "DisplayTexts": {
+        "English": "Dreams",
+        "Spanish": "sueños",
+        "German": "Träume",
+        "French": "Cachet de rêves"
+      },
+      "Descriptions": {
+        "English": "<c=@abilitytype>Element: </c>Pain<br>Double-click to apply to a weapon.",
+        "Spanish": "<c=@abilitytype>Elemento: </c>Dolor<br>Haz doble clic para aplicar a un arma.",
+        "German": "<c=@abilitytype>Element: </c>Schmerz<br>Doppelklicken, um auf eine Waffe anzuwenden.",
+        "French": "<c=@abilitytype>Élément : </c>douleur<br>Double-cliquez pour l'appliquer à une arme."
+      }
+    },
+    "24684": {
+      "Buffs": {
+        "English": "+7% Strike Damage vs. Dredge\n+3% Strike Damage",
+        "Spanish": "+7 % de daño de golpe contra draga\n+3 % de daño de golpe",
+        "German": "+7 % Schlagschaden gg. Schaufler\n+3 % Schlagschaden",
+        "French": "Dégâts de frappe contre les Draguerres +7%\nDégâts de frappe +3%"
+      },
+      "Type": 14,
+      "TemplateSlot": -1,
+      "Id": 24684,
+      "MappedId": 53,
+      "Rarity": 6,
+      "Chatlink": "[&AgFsYAAA]",
+      "AssetId": 340620,
+      "Names": {
+        "English": "Superior Sigil of Sorrow",
+        "Spanish": "Sello superior de pesar",
+        "German": "Überlegenes Sigill des Kummers",
+        "French": "Cachet des lamentations supérieur"
+      },
+      "DisplayTexts": {
+        "English": "Sorrow",
+        "Spanish": "pesar",
+        "German": "Kummers",
+        "French": "Cachet des lamentations"
+      },
+      "Descriptions": {
+        "English": "<c=@abilitytype>Element: </c>Pain<br>Double-click to apply to a weapon.",
+        "Spanish": "<c=@abilitytype>Elemento: </c>Dolor<br>Haz doble clic para aplicar a un arma.",
+        "German": "<c=@abilitytype>Element: </c>Schmerz<br>Doppelklicken, um auf eine Waffe anzuwenden.",
+        "French": "<c=@abilitytype>Élément : </c>douleur<br>Double-cliquez pour l'appliquer à une arme."
+      }
+    },
+    "24809": {
+      "Buffs": {
+        "English": "+7% Strike Damage vs. Ghosts\n+3% Strike Damage",
+        "Spanish": "+7 % de daño de golpe contra fantasmas\n+3 % de daño de golpe",
+        "German": "+7 % Schlagschaden gg. Geister\n+3 % Schlagschaden",
+        "French": "Dégâts de frappe contre les fantômes +7%\nDégâts de frappe +3%"
+      },
+      "Type": 14,
+      "TemplateSlot": -1,
+      "Id": 24809,
+      "MappedId": 54,
+      "Rarity": 6,
+      "Chatlink": "[&AgHpYAAA]",
+      "AssetId": 340623,
+      "Names": {
+        "English": "Superior Sigil of Ghost Slaying",
+        "Spanish": "Sello superior de masacre de fantasmas",
+        "German": "Überlegenes Sigill der Geister-Vernichtung",
+        "French": "Cachet de massacre de fantômes supérieur"
+      },
+      "DisplayTexts": {
+        "English": "Ghost Slaying",
+        "Spanish": "masacre de fantasmas",
+        "German": "Geister-Vernichtung",
+        "French": "Cachet de massacre de fantômes"
+      },
+      "Descriptions": {
+        "English": "<c=@abilitytype>Element: </c>Pain<br>Double-click to apply to a weapon.",
+        "Spanish": "<c=@abilitytype>Elemento: </c>Dolor<br>Haz doble clic para aplicar a un arma.",
+        "German": "<c=@abilitytype>Element: </c>Schmerz<br>Doppelklicken, um auf eine Waffe anzuwenden.",
+        "French": "<c=@abilitytype>Élément : </c>douleur<br>Double-cliquez pour l'appliquer à une arme."
+      }
+    },
+    "24865": {
+      "Buffs": {
+        "English": "Gain quickness for 5 seconds after disabling a foe. (Cooldown: 20 Seconds)",
+        "Spanish": "Ganas rapidez durante 5 segundos al inhabilitar a un enemigo. (Recarga: 20 segundos)",
+        "German": "Erhaltet, nachdem Ihr einen Gegner kampfunfähig gemacht habt, 5 Sekunden lang Schnelligkeit. (Erholzeit: 20 Sekunden)",
+        "French": "Vous bénéficiez de Célérité pendant 5 secondes si vous neutralisez un ennemi. (Temps de recharge : 20 secondes)"
+      },
+      "Type": 14,
+      "TemplateSlot": -1,
+      "Id": 24865,
+      "MappedId": 55,
+      "Rarity": 6,
+      "Chatlink": "[&AgEhYQAA]",
+      "AssetId": 221167,
+      "Names": {
+        "English": "Superior Sigil of Celerity",
+        "Spanish": "Sello superior de celeridad",
+        "German": "Überlegenes Sigill der Flinkheit",
+        "French": "Cachet de célérité supérieur"
+      },
+      "DisplayTexts": {
+        "English": "Celerity",
+        "Spanish": "celeridad",
+        "German": "Flinkheit",
+        "French": "Cachet de célérité"
+      },
+      "Descriptions": {
+        "English": "<c=@abilitytype>Element: </c>Control<br>Double-click to apply to a weapon.",
+        "Spanish": "<c=@abilitytype>Elemento: </c>Control<br>Haz doble clic para aplicar a un arma.",
+        "German": "<c=@abilitytype>Element: </c>Kontrolle<br>Doppelklicken, um auf eine Waffe anzuwenden.",
+        "French": "<c=@abilitytype>Élément : </c>contrôle<br>Double-cliquez pour l'appliquer à une arme."
+      }
+    },
+    "24868": {
+      "Buffs": {
+        "English": "+7% Strike Damage vs. Stunned or Knocked-Down Foes\n+3% Strike Damage",
+        "Spanish": "+7 % de daño de golpe contra enemigos aturdidos o derribados\n+3 % de daño de golpe",
+        "German": "+7 % Schlagschaden gg. betäubte oder zu Boden geschleuderte Gegner\n+3 % Schlagschaden",
+        "French": "Dégâts de frappe contre les ennemis étourdis ou renversés +7%\nDégâts de frappe +3%"
+      },
+      "Type": 14,
+      "TemplateSlot": -1,
+      "Id": 24868,
+      "MappedId": 56,
+      "Rarity": 6,
+      "Chatlink": "[&AgEkYQAA]",
+      "AssetId": 221170,
+      "Names": {
+        "English": "Superior Sigil of Impact",
+        "Spanish": "Sello superior de impacto",
+        "German": "Überlegenes Sigill des Einschlags",
+        "French": "Cachet d'impact supérieur"
+      },
+      "DisplayTexts": {
+        "English": "Impact",
+        "Spanish": "impacto",
+        "German": "Einschlags",
+        "French": "impact"
+      },
+      "Descriptions": {
+        "English": "<c=@abilitytype>Element: </c>Pain<br>Double-click to apply to a weapon.",
+        "Spanish": "<c=@abilitytype>Elemento: </c>Dolor<br>Haz doble clic para aplicar a un arma.",
+        "German": "<c=@abilitytype>Element: </c>Schmerz<br>Doppelklicken, um auf eine Waffe anzuwenden.",
+        "French": "<c=@abilitytype>Élément : </c>douleur<br>Double-cliquez pour l'appliquer à une arme."
+      }
+    },
+    "36053": {
+      "Buffs": {
+        "English": "Outgoing damage is increased by 3% with an additional 7% at night.",
+        "Spanish": "El daño causado aumenta un 3 %, con un 7 % adicional por la noche.",
+        "German": "Zugefügter Schaden wird um 3 % erhöht und bei Nacht um zusätzliche 7 %.",
+        "French": "Les dégâts infligés augmentent de 3%, et de 7% supplémentaires durant la nuit."
+      },
+      "Type": 14,
+      "TemplateSlot": -1,
+      "Id": 36053,
+      "MappedId": 57,
+      "Rarity": 6,
+      "Chatlink": "[&AgHVjAAA]",
+      "AssetId": 499391,
+      "Names": {
+        "English": "Superior Sigil of the Night",
+        "Spanish": "Sello superior de la noche",
+        "German": "Überlegenes Sigill der Nacht",
+        "French": "Cachet de la nuit supérieur"
+      },
+      "DisplayTexts": {
+        "English": "Night",
+        "Spanish": "la noche",
+        "German": "Nacht",
+        "French": "Cachet de la nuit"
+      },
+      "Descriptions": {
+        "English": "<c=@abilitytype>Element: </c>Pain<br>Double-click to apply to a weapon.",
+        "Spanish": "<c=@abilitytype>Elemento: </c>Dolor<br>Haz doble clic para aplicar a un arma.",
+        "German": "<c=@abilitytype>Element: </c>Schmerz<br>Doppelklicken, um auf eine Waffe anzuwenden.",
+        "French": "<c=@abilitytype>Élément : </c>douleur<br>Double-cliquez pour l'appliquer à une arme."
+      }
+    },
+    "37912": {
+      "Buffs": {
+        "English": "+7% Strike Damage vs. Karka\n+3% Strike Damage",
+        "Spanish": "+7 % de daño de golpe contra karka\n+3 % de daño de golpe",
+        "German": "+7 % Schlagschaden gg. Karka\n+3 % Schlagschaden",
+        "French": "Dégâts de frappe contre les karkas +7%\nDégâts de frappe +3%"
+      },
+      "Type": 14,
+      "TemplateSlot": -1,
+      "Id": 37912,
+      "MappedId": 58,
+      "Rarity": 6,
+      "Chatlink": "[&AgEYlAAA]",
+      "AssetId": 340599,
+      "Names": {
+        "English": "Superior Sigil of Karka Slaying",
+        "Spanish": "Sello superior de masacre de karka",
+        "German": "Überlegenes Sigill der Karka-Vernichtung",
+        "French": "Cachet de massacre de karkas supérieur"
+      },
+      "DisplayTexts": {
+        "English": "Karka Slaying",
+        "Spanish": "masacre de karka",
+        "German": "Karka-Vernichtung",
+        "French": "Cachet de massacre de karkas"
+      },
+      "Descriptions": {
+        "English": "<c=@abilitytype>Element: </c>Pain<br>Double-click to apply to a weapon.",
+        "Spanish": "<c=@abilitytype>Elemento: </c>Dolor<br>Haz doble clic para aplicar a un arma.",
+        "German": "<c=@abilitytype>Element: </c>Schmerz<br>Doppelklicken, um auf eine Waffe anzuwenden.",
+        "French": "<c=@abilitytype>Élément : </c>douleur<br>Double-cliquez pour l'appliquer à une arme."
+      }
+    },
+    "38294": {
+      "Buffs": {
+        "English": "Transfer a condition upon critically hitting a foe. <br><c=@reminder>(Cooldown: 6 Seconds)</c>",
+        "Spanish": "Transfieres una condición al conseguir un impacto crítico contra un enemigo. <br><c=@reminder>(Recarga: 6 segundos)</c>",
+        "German": "Übertragt bei einem kritischen Treffer einen Zustand auf Euren Gegner. <br><c=@reminder>(Erholzeit: 6 Sekunden)</c>",
+        "French": "Transfère une altération à un ennemi en cas de coup critique. <br><c=@reminder>(Temps de recharge : 6 secondes)</c>"
+      },
+      "Type": 14,
+      "TemplateSlot": -1,
+      "Id": 38294,
+      "MappedId": 59,
+      "Rarity": 6,
+      "Chatlink": "[&AgGWlQAA]",
+      "AssetId": 526288,
+      "Names": {
+        "English": "Superior Sigil of Generosity",
+        "Spanish": "Sello superior de generosidad",
+        "German": "Überlegenes Sigill der Großzügigkeit",
+        "French": "Cachet de générosité supérieur"
+      },
+      "DisplayTexts": {
+        "English": "Generosity",
+        "Spanish": "generosidad",
+        "German": "Großzügigkeit",
+        "French": "Cachet de générosité"
+      },
+      "Descriptions": {
+        "English": "<c=@abilitytype>Element: </c>Control<br>Double-click to apply to a weapon.",
+        "Spanish": "<c=@abilitytype>Elemento: </c>Control<br>Haz doble clic para aplicar a un arma.",
+        "German": "<c=@abilitytype>Element: </c>Kontrolle<br>Doppelklicken, um auf eine Waffe anzuwenden.",
+        "French": "<c=@abilitytype>Élément : </c>contrôle<br>Double-cliquez pour l'appliquer à une arme."
+      }
+    },
+    "44944": {
+      "Buffs": {
+        "English": "+5% Condition Damage",
+        "Spanish": "+5 % de daño de condición",
+        "German": "+5 % Zustandsschaden",
+        "French": "Dégâts par altération +5%"
+      },
+      "Type": 14,
+      "TemplateSlot": -1,
+      "Id": 44944,
+      "MappedId": 60,
+      "Rarity": 6,
+      "Chatlink": "[&AgGQrwAA]",
+      "AssetId": 619703,
+      "Names": {
+        "English": "Superior Sigil of Bursting",
+        "Spanish": "Sello superior de estallido",
+        "German": "Überlegenes Sigill der Explosion",
+        "French": "Cachet d'explosion supérieur"
+      },
+      "DisplayTexts": {
+        "English": "Bursting",
+        "Spanish": "estallido",
+        "German": "Explosion",
+        "French": "explosion"
+      },
+      "Descriptions": {
+        "English": "<c=@abilitytype>Element: </c>Enhancement<br>Double-click to apply to a weapon.",
+        "Spanish": "<c=@abilitytype>Elemento: </c>Mejora<br>Haz doble clic para aplicar a un arma.",
+        "German": "<c=@abilitytype>Element: </c>Verbesserung<br>Doppelklicken, um auf eine Waffe anzuwenden.",
+        "French": "<c=@abilitytype>Élément : </c>amélioration<br>Double-cliquez pour l'appliquer à une arme."
+      }
+    },
+    "44947": {
+      "Buffs": {
+        "English": "Heal Nearby Allies on Weapon Swap (360 Radius) <br><c=@reminder>(Cooldown: 9 Seconds)</c>",
+        "Spanish": "Cura a los aliados cercanos al cambiar de arma (radio de 360) <br><c=@reminder>(Recarga: 9 segundos)</c>",
+        "German": "Heilt Verbündete in der Nähe beim Waffenwechsel (Radius: 360) <br><c=@reminder>(Erholzeit: 9 s)</c>",
+        "French": "Soigne les alliés à proximité lors du changement d'arme (rayon de 360°) <br><c=@reminder>(Temps de recharge : 9 secondes).</c>"
+      },
+      "Type": 14,
+      "TemplateSlot": -1,
+      "Id": 44947,
+      "MappedId": 61,
+      "Rarity": 6,
+      "Chatlink": "[&AgGTrwAA]",
+      "AssetId": 619706,
+      "Names": {
+        "English": "Superior Sigil of Renewal",
+        "Spanish": "Sello superior de renovación",
+        "German": "Überlegenes Sigill der Erneuerung",
+        "French": "Cachet du renouveau supérieur"
+      },
+      "DisplayTexts": {
+        "English": "Renewal",
+        "Spanish": "renovación",
+        "German": "Erneuerung",
+        "French": "Cachet du renouveau"
+      },
+      "Descriptions": {
+        "English": "<c=@abilitytype>Element: </c>Control<br>Double-click to apply to a weapon.",
+        "Spanish": "<c=@abilitytype>Elemento: </c>Control<br>Haz doble clic para aplicar a un arma.",
+        "German": "<c=@abilitytype>Element: </c>Kontrolle<br>Doppelklicken, um auf eine Waffe anzuwenden.",
+        "French": "<c=@abilitytype>Élément : </c>contrôle<br>Double-cliquez pour l'appliquer à une arme."
+      }
+    },
+    "44950": {
+      "Buffs": {
+        "English": "+10% condition duration.",
+        "Spanish": "+10 % de duración de condición.",
+        "German": "+10 % Zustandsdauer",
+        "French": "Durée d'altération +10%."
+      },
+      "Type": 14,
+      "TemplateSlot": -1,
+      "Id": 44950,
+      "MappedId": 62,
+      "Rarity": 6,
+      "Chatlink": "[&AgGWrwAA]",
+      "AssetId": 619709,
+      "Names": {
+        "English": "Superior Sigil of Malice",
+        "Spanish": "Sello superior de malicia",
+        "German": "Überlegenes Sigill der Bosheit",
+        "French": "Cachet de malice supérieur"
+      },
+      "DisplayTexts": {
+        "English": "Malice",
+        "Spanish": "malicia",
+        "German": "Bosheit",
+        "French": "Cachet de malice"
+      },
+      "Descriptions": {
+        "English": "<c=@abilitytype>Element: </c>Enhancement<br>Double-click to apply to a weapon.",
+        "Spanish": "<c=@abilitytype>Elemento: </c>Mejora<br>Haz doble clic para aplicar a un arma.",
+        "German": "<c=@abilitytype>Element: </c>Verbesserung<br>Doppelklicken, um auf eine Waffe anzuwenden.",
+        "French": "<c=@abilitytype>Élément : </c>amélioration<br>Double-cliquez pour l'appliquer à une arme."
+      }
+    },
+    "48911": {
+      "Buffs": {
+        "English": "Inflict 2 stacks of torment for 5 seconds to enemies around your target upon landing a critical hit. <br><c=@reminder>(Cooldown: 5 Seconds)</c>",
+        "Spanish": "Al conseguir un impacto crítico infliges 2 acumulaciones de tormento durante 5 segundos a los enemigos que están alrededor de tu objetivo. <br><c=@reminder>(Recarga: 5 segundos)</c>",
+        "German": "Fügt Gegnern rund um Euer Ziel nach einem kritischen Treffer 5 Sekunden lang 2 Stapel Pein zu. <br><c=@reminder>(Erholzeit: 5 Sekunden)</c>",
+        "French": "En cas de coup critique, vous infligez 2 charges de Tourment pendant 5 secondes aux ennemis proches de votre cible. <br><c=@reminder>(Temps de recharge : 5 secondes)</c>"
+      },
+      "Type": 14,
+      "TemplateSlot": -1,
+      "Id": 48911,
+      "MappedId": 63,
+      "Rarity": 6,
+      "Chatlink": "[&AgEPvwAA]",
+      "AssetId": 665778,
+      "Names": {
+        "English": "Superior Sigil of Torment",
+        "Spanish": "Sello superior de tormento",
+        "German": "Überlegenes Sigill der Pein",
+        "French": "Cachet de tourment supérieur"
+      },
+      "DisplayTexts": {
+        "English": "Torment",
+        "Spanish": "tormento",
+        "German": "Pein",
+        "French": "Cachet de tourment"
+      },
+      "Descriptions": {
+        "English": "<c=@abilitytype>Element: </c>Pain<br>Double-click to apply to a weapon.",
+        "Spanish": "<c=@abilitytype>Elemento: </c>Dolor<br>Haz doble clic para aplicar a un arma.",
+        "German": "<c=@abilitytype>Element: </c>Schmerz<br>Doppelklicken, um auf eine Waffe anzuwenden.",
+        "French": "<c=@abilitytype>Élément : </c>douleur<br>Double-cliquez pour l'appliquer à une arme."
+      }
+    },
+    "49457": {
+      "Buffs": {
+        "English": "Gain a charge of +5 toughness each time you kill a foe, five charges if you kill an enemy player. <c=@reminder>(Max 25 stacks; ends on down.)</c> <br><c=@reminder>(Only one attribute-stacking sigil can be active at a time.)</c>",
+        "Spanish": "Gana una carga de +5 de dureza cada vez que matas a un enemigo, y cinco cargas si matas a un jugador enemigo. <c=@reminder>(Máximo 25 acumulaciones; acaba cuando te han abatido).</c><br><c=@reminder>(Solo puede haber activo un sello de acumulación de atributos a la vez).</c>",
+        "German": "Erhaltet eine Ladung von +5 Zähigkeit für jeden besiegten Gegner und fünf Ladungen für jeden besiegten feindlichen Spieler. <c=@reminder>(Maximal 25 Stapel, endet bei Angeschlagen.)</c> <br><c=@reminder>(Es kann jeweils nur ein Attribute stapelndes Sigill aktiv sein.)</c>",
+        "French": "Vous obtenez une charge qui augmente de +5 votre Robustesse à chaque ennemi tué, et cinq charges si vous tuez un joueur ennemi <c=@reminder>(25 charges maximum, effet annulé lorsque vous êtes à terre).</c><br><c=@reminder>(Un seul cachet à capacité cumulable peut être actif à la fois)</c>"
+      },
+      "Type": 14,
+      "TemplateSlot": -1,
+      "Id": 49457,
+      "MappedId": 64,
+      "Rarity": 6,
+      "Chatlink": "[&AgExwQAA]",
+      "AssetId": 681056,
+      "Names": {
+        "English": "Superior Sigil of Momentum",
+        "Spanish": "Sello superior de impulso",
+        "German": "Überlegenes Sigill der Wucht",
+        "French": "Cachet d'élan supérieur"
+      },
+      "DisplayTexts": {
+        "English": "Momentum",
+        "Spanish": "impulso",
+        "German": "Wucht",
+        "French": "élan"
+      },
+      "Descriptions": {
+        "English": "<c=@abilitytype>Element: </c>Enhancement<br>Double-click to apply to a weapon.",
+        "Spanish": "<c=@abilitytype>Elemento: </c>Mejora<br>Haz doble clic para aplicar a un arma.",
+        "German": "<c=@abilitytype>Element: </c>Verbesserung<br>Doppelklicken, um auf eine Waffe anzuwenden.",
+        "French": "<c=@abilitytype>Élément : </c>amélioration<br>Double-cliquez pour l'appliquer à une arme."
+      }
+    },
+    "67340": {
+      "Buffs": {
+        "English": "Remove 3 conditions when swapping to this weapon in combat. <c=@reminder>(Cooldown: 9 Seconds)</c>",
+        "Spanish": "Eliminas 3 condiciones tras cambiar a esta arma durante el combate. <c=@reminder>(Recarga: 9 segundos)</c>",
+        "German": "Entfernt 3 Zustände, wenn Ihr im Kampf zu dieser Waffe wechselt. <c=@reminder>(Erholzeit: 9 Sekunden)</c>",
+        "French": "Supprime 3 altérations lorsque vous changez d'arme en combat pour équiper celle-ci. <c=@reminder>(Temps de recharge : 9 secondes)</c>"
+      },
+      "Type": 14,
+      "TemplateSlot": -1,
+      "Id": 67340,
+      "MappedId": 65,
+      "Rarity": 6,
+      "Chatlink": "[&AgEMBwEA]",
+      "AssetId": 866845,
+      "Names": {
+        "English": "Superior Sigil of Cleansing",
+        "Spanish": "Sello superior de purificación",
+        "German": "Überlegenes Sigill der Reinigung",
+        "French": "Cachet de purification supérieur"
+      },
+      "DisplayTexts": {
+        "English": "Cleansing",
+        "Spanish": "purificación",
+        "German": "Reinigung",
+        "French": "Cachet de purification"
+      },
+      "Descriptions": {
+        "English": "<c=@abilitytype>Element: </c>Control<br>Double-click to apply to a weapon.",
+        "Spanish": "<c=@abilitytype>Elemento: </c>Control<br>Haz doble clic para aplicar a un arma.",
+        "German": "<c=@abilitytype>Element: </c>Kontrolle<br>Doppelklicken, um auf eine Waffe anzuwenden.",
+        "French": "<c=@abilitytype>Élément : </c>contrôle<br>Double-cliquez pour l'appliquer à une arme."
+      }
+    },
+    "67341": {
+      "Buffs": {
+        "English": "Gain a charge of +10 ferocity each time you kill a foe, five charges if you kill an enemy player. <c=@reminder>(Max 25 stacks; ends on down.)</c> <br><c=@reminder>(Only one attribute-stacking sigil can be active at a time.)</c>",
+        "Spanish": "Gana una carga de +10 de ferocidad cada vez que matas a un enemigo, y cinco cargas si matas a un jugador enemigo. <c=@reminder>(Máximo 25 acumulaciones; acaba cuando te han abatido).</c><br><c=@reminder>(Solo puede haber activo un sello de acumulación de atributos a la vez).</c>",
+        "German": "Erhaltet eine Ladung von +10 Wildheit für jeden besiegten Gegner und fünf Ladungen für jeden besiegten feindlichen Spieler. <c=@reminder>(Maximal 25 Stapel, endet bei Angeschlagen.)</c> <br><c=@reminder>(Es kann jeweils nur ein Attribute stapelndes Sigill aktiv sein.)</c>",
+        "French": "Vous obtenez une charge qui augmente de +10 votre Férocité à chaque ennemi tué, cinq charges si vous tuez un joueur ennemi <c=@reminder>(25 charges maximum, effet annulé lorsque vous êtes à terre).</c><br><c=@reminder>(Un seul cachet à capacité cumulable peut être actif à la fois)</c>"
+      },
+      "Type": 14,
+      "TemplateSlot": -1,
+      "Id": 67341,
+      "MappedId": 66,
+      "Rarity": 6,
+      "Chatlink": "[&AgENBwEA]",
+      "AssetId": 866846,
+      "Names": {
+        "English": "Superior Sigil of Cruelty",
+        "Spanish": "Sello superior de crueldad",
+        "German": "Überlegenes Sigill der Grausamkeit",
+        "French": "Cachet de cruauté supérieur"
+      },
+      "DisplayTexts": {
+        "English": "Cruelty",
+        "Spanish": "crueldad",
+        "German": "Grausamkeit",
+        "French": "Cachet de cruauté"
+      },
+      "Descriptions": {
+        "English": "<c=@abilitytype>Element: </c>Enhancement<br>Double-click to apply to a weapon.",
+        "Spanish": "<c=@abilitytype>Elemento: </c>Mejora<br>Haz doble clic para aplicar a un arma.",
+        "German": "<c=@abilitytype>Element: </c>Verbesserung<br>Doppelklicken, um auf eine Waffe anzuwenden.",
+        "French": "<c=@abilitytype>Élément : </c>amélioration<br>Double-cliquez pour l'appliquer à une arme."
+      }
+    },
+    "67343": {
+      "Buffs": {
+        "English": "Cripple a foe for 2 seconds after striking from its flank or when they are defiant. <c=@reminder>(Cooldown: 5 seconds)</c>",
+        "Spanish": "Incapacitas a un enemigo durante 2 segundos al golpearle por el flanco o cuando está en actitud desafiante. <c=@reminder>(Recarga: 5 segundos)</c>",
+        "German": "Habt Ihr einen Gegner von der Seite angegriffen oder ist er trotzig, fügt Ihr ihm 2 Sekunden lang Verkrüppeln zu. <c=@reminder>(Erholzeit: 5 Sekunden)</c>",
+        "French": "Inflige Infirmité à un ennemi pendant 2 secondes si vous le frappez par le côté ou s'il est rebelle. <c=@reminder>(Temps de recharge : 5 secondes)</c>"
+      },
+      "Type": 14,
+      "TemplateSlot": -1,
+      "Id": 67343,
+      "MappedId": 67,
+      "Rarity": 6,
+      "Chatlink": "[&AgEPBwEA]",
+      "AssetId": 866848,
+      "Names": {
+        "English": "Superior Sigil of Incapacitation",
+        "Spanish": "Sello superior de incapacitación",
+        "German": "Überlegenes Sigill der Unfähigkeit",
+        "French": "Cachet d'incapacité supérieur"
+      },
+      "DisplayTexts": {
+        "English": "Incapacitation",
+        "Spanish": "incapacitación",
+        "German": "Unfähigkeit",
+        "French": "incapacité"
+      },
+      "Descriptions": {
+        "English": "<c=@abilitytype>Element: </c>Control<br>Double-click to apply to a weapon.",
+        "Spanish": "<c=@abilitytype>Elemento: </c>Control<br>Haz doble clic para aplicar a un arma.",
+        "German": "<c=@abilitytype>Element: </c>Kontrolle<br>Doppelklicken, um auf eine Waffe anzuwenden.",
+        "French": "<c=@abilitytype>Élément : </c>contrôle<br>Double-cliquez pour l'appliquer à une arme."
+      }
+    },
+    "67913": {
+      "Buffs": {
+        "English": "Inflict nearby enemies with 2 stacks of poison for 4 seconds upon landing a critical hit. <br><c=@reminder>(Cooldown: 8 Seconds)</c>",
+        "Spanish": "Al conseguir un impacto crítico infliges 2 acumulaciones de veneno durante 4 segundos a los enemigos cercanos. <br><c=@reminder>(Recarga: 8 segundos)</c>",
+        "German": "Fügt Gegnern in der Nähe bei einem kritischen Treffer 4 Sekunden lang 2 Stapel Gift zu. <br><c=@reminder>(Erholzeit: 8 Sekunden)</c>",
+        "French": "Applique 2 charges d'Empoisonnement pendant 4 secondes aux ennemis à proximité lorsque vous infligez un coup critique. <br><c=@reminder>(Temps de recharge : 8 secondes)</c>"
+      },
+      "Type": 14,
+      "TemplateSlot": -1,
+      "Id": 67913,
+      "MappedId": 68,
+      "Rarity": 6,
+      "Chatlink": "[&AgFJCQEA]",
+      "AssetId": 941026,
+      "Names": {
+        "English": "Superior Sigil of Blight",
+        "Spanish": "Sello superior de Plaga",
+        "German": "Überlegenes Sigill der Verschandelung",
+        "French": "Cachet du vice supérieur"
+      },
+      "DisplayTexts": {
+        "English": "Blight",
+        "Spanish": "Plaga",
+        "German": "Verschandelung",
+        "French": "Cachet du vice"
+      },
+      "Descriptions": {
+        "English": "<c=@abilitytype>Element: </c>Pain<br>Double-click to apply to a weapon.",
+        "Spanish": "<c=@abilitytype>Elemento: </c>Dolor<br>Haz doble clic para aplicar a un arma.",
+        "German": "<c=@abilitytype>Element: </c>Schmerz<br>Doppelklicken, um auf eine Waffe anzuwenden.",
+        "French": "<c=@abilitytype>Élément : </c>douleur<br>Double-cliquez pour l'appliquer à une arme."
+      }
+    },
+    "68436": {
+      "Buffs": {
+        "English": "Launch up to 4 blinding snowballs at foes in front of you when you swap to this weapon in combat.<br><c=@reminder>(Cooldown: 9 Seconds)</c>",
+        "Spanish": "Lanzas hasta 4 bolas de nieve cegadoras a los enemigos que tengas delante tras cambiar a esta arma durante el combate. <br><c=@reminder>(Recarga: 9 segundos)</c>",
+        "German": "Werft bis zu 4 blendende Schneebälle auf Gegner vor Euch, wenn Ihr Waffen im Kampf wechselt.<br><c=@reminder>(Erholzeit: 9 s)</c>",
+        "French": "Lance jusqu'à 4 boules de neige sur les ennemis devant vous et leur inflige Aveuglement si vous changez d'arme en combat pour équiper celle-ci.<br><c=@reminder>(Temps de recharge : 9 secondes)</c>"
+      },
+      "Type": 14,
+      "TemplateSlot": -1,
+      "Id": 68436,
+      "MappedId": 69,
+      "Rarity": 6,
+      "Chatlink": "[&AgFUCwEA]",
+      "AssetId": 924725,
+      "Names": {
+        "English": "Superior Sigil of Mischief",
+        "Spanish": "Sello superior de fechorías",
+        "German": "Überlegenes Sigill des Unfugs",
+        "French": "Cachet d'espièglerie supérieur"
+      },
+      "DisplayTexts": {
+        "English": "Mischief",
+        "Spanish": "fechorías",
+        "German": "Unfugs",
+        "French": "espièglerie"
+      },
+      "Descriptions": {
+        "English": "<c=@abilitytype>Element: </c>Control<br>Double-click to apply to a weapon.",
+        "Spanish": "<c=@abilitytype>Elemento: </c>Control<br>Haz doble clic para aplicar a un arma.",
+        "German": "<c=@abilitytype>Element: </c>Kontrolle<br>Doppelklicken, um auf eine Waffe anzuwenden.",
+        "French": "<c=@abilitytype>Élément : </c>contrôle<br>Double-cliquez pour l'appliquer à une arme."
+      }
+    },
+    "70825": {
+      "Buffs": {
+        "English": "Steal life when interrupting an enemy. <c=@reminder>(Cooldown against defiant foes: 3 seconds)</c>",
+        "Spanish": "Robas vida al interrumpir a un enemigo. <c=@reminder>(Recarga contra enemigos desafiantes: 3 segundos)</c>",
+        "German": "Stehlt Leben, wenn Ihr einen Gegner unterbrecht. <c=@reminder>(Erholzeit bei trotzigen Gegnern: 3 s)</c>",
+        "French": "Vous drainez de la vie quand vous interrompez un ennemi.<c=@reminder>(Temps de recharge face aux ennemis rebelles : 3 secondes)</c>"
+      },
+      "Type": 14,
+      "TemplateSlot": -1,
+      "Id": 70825,
+      "MappedId": 70,
+      "Rarity": 6,
+      "Chatlink": "[&AgGpFAEA]",
+      "AssetId": 1201533,
+      "Names": {
+        "English": "Superior Sigil of Draining",
+        "Spanish": "Sello superior de drenaje",
+        "German": "Überlegenes Sigill des Entzugs",
+        "French": "Cachet de drain supérieur"
+      },
+      "DisplayTexts": {
+        "English": "Draining",
+        "Spanish": "drenaje",
+        "German": "Entzugs",
+        "French": "Cachet de drain"
+      },
+      "Descriptions": {
+        "English": "<c=@abilitytype>Element: </c>Control<br>Double-click to apply to a weapon.",
+        "Spanish": "<c=@abilitytype>Elemento: </c>Control<br>Haz doble clic para aplicar a un arma.",
+        "German": "<c=@abilitytype>Element: </c>Kontrolle<br>Doppelklicken, um auf eine Waffe anzuwenden.",
+        "French": "<c=@abilitytype>Élément : </c>contrôle<br>Double-cliquez pour l'appliquer à une arme."
+      }
+    },
+    "71130": {
+      "Buffs": {
+        "English": "Gain 5 stacks of might for 10 seconds when interrupting a foe. <c=@reminder>(Cooldown: 3 Seconds)</c>",
+        "Spanish": "Ganas 5 acumulaciones de poder durante 10 segundos al interrumpir a un enemigo. <c=@reminder>(Recarga: 3 segundos)</c>",
+        "German": "Erhaltet bei der Unterbrechung eines Gegners 10 Sekunden lang 5 Stapel Macht. <c=@reminder>(Erholzeit: 3 Sekunden)</c>",
+        "French": "Vous obtenez 5 charges de Pouvoir pendant 10 secondes lorsque vous interrompez un ennemi. <c=@reminder>(Temps de recharge : 3 secondes)</c>"
+      },
+      "Type": 14,
+      "TemplateSlot": -1,
+      "Id": 71130,
+      "MappedId": 71,
+      "Rarity": 6,
+      "Chatlink": "[&AgHaFQEA]",
+      "AssetId": 1201530,
+      "Names": {
+        "English": "Superior Sigil of Ruthlessness",
+        "Spanish": "Sello superior de inclemencia",
+        "German": "Überlegenes Sigill der Skrupellosigkeit",
+        "French": "Cachet de bestialité supérieur"
+      },
+      "DisplayTexts": {
+        "English": "Ruthlessness",
+        "Spanish": "inclemencia",
+        "German": "Skrupellosigkeit",
+        "French": "Cachet de bestialité"
+      },
+      "Descriptions": {
+        "English": "<c=@abilitytype>Element: </c>Control<br>Double-click to apply to a weapon.",
+        "Spanish": "<c=@abilitytype>Elemento: </c>Control<br>Haz doble clic para aplicar a un arma.",
+        "German": "<c=@abilitytype>Element: </c>Kontrolle<br>Doppelklicken, um auf eine Waffe anzuwenden.",
+        "French": "<c=@abilitytype>Élément : </c>contrôle<br>Double-cliquez pour l'appliquer à une arme."
+      }
+    },
+    "72092": {
+      "Buffs": {
+        "English": "Gain 5 seconds of swiftness and 1 second of quickness when swapping to this weapon in combat. (Cooldown: 9 Seconds)",
+        "Spanish": "Ganas 5 segundos de celeridad y un segundo de rapidez tras cambiar a esta arma en combate. (Recarga: 9 segundos)",
+        "German": "Erhaltet 5 Sekunden Eile und 1 Sekunde Schnelligkeit, wenn Ihr im Kampf zu dieser Waffe wechselt. (Erholzeit: 9 Sekunden)",
+        "French": "Vous obtenez Rapidité pendant 5 secondes et Célérité pendant 1 seconde lorsque vous changez d'arme en combat pour équiper celle-ci. (Temps de recharge : 9 secondes)"
+      },
+      "Type": 14,
+      "TemplateSlot": -1,
+      "Id": 72092,
+      "MappedId": 72,
+      "Rarity": 6,
+      "Chatlink": "[&AgGcGQEA]",
+      "AssetId": 1201534,
+      "Names": {
+        "English": "Superior Sigil of Agility",
+        "Spanish": "Sello superior de agilidad",
+        "German": "Überlegenes Sigill der Beweglichkeit",
+        "French": "Cachet d'agilité supérieur"
+      },
+      "DisplayTexts": {
+        "English": "Agility",
+        "Spanish": "agilidad",
+        "German": "Beweglichkeit",
+        "French": "agilité"
+      },
+      "Descriptions": {
+        "English": "<c=@abilitytype>Element: </c>Enhancement<br>Double-click to apply to a weapon.",
+        "Spanish": "<c=@abilitytype>Elemento: </c>Mejora<br>Haz doble clic para aplicar a un arma.",
+        "German": "<c=@abilitytype>Element: </c>Verbesserung<br>Doppelklicken, um auf eine Waffe anzuwenden.",
+        "French": "<c=@abilitytype>Élément : </c>amélioration<br>Double-cliquez pour l'appliquer à une arme."
+      }
+    },
+    "72339": {
+      "Buffs": {
+        "English": "+10% Boon Duration",
+        "Spanish": "+10 % de duración de bendición",
+        "German": "+10 % Segensdauer",
+        "French": "Durée d'avantage +10%"
+      },
+      "Type": 14,
+      "TemplateSlot": -1,
+      "Id": 72339,
+      "MappedId": 73,
+      "Rarity": 6,
+      "Chatlink": "[&AgGTGgEA]",
+      "AssetId": 1201533,
+      "Names": {
+        "English": "Superior Sigil of Concentration",
+        "Spanish": "Sello superior de concentración",
+        "German": "Überlegenes Sigill der Konzentration",
+        "French": "Cachet de concentration supérieur"
+      },
+      "DisplayTexts": {
+        "English": "Concentration",
+        "Spanish": "concentración",
+        "German": "Konzentration",
+        "French": "Cachet de concentration"
+      },
+      "Descriptions": {
+        "English": "<c=@abilitytype>Element: </c>Enhancement<br>Double-click to apply to a weapon.",
+        "Spanish": "<c=@abilitytype>Elemento: </c>Mejora<br>Haz doble clic para aplicar a un arma.",
+        "German": "<c=@abilitytype>Element: </c>Verbesserung<br>Doppelklicken, um auf eine Waffe anzuwenden.",
+        "French": "<c=@abilitytype>Élément : </c>amélioration<br>Double-cliquez pour l'appliquer à une arme."
+      }
+    },
+    "72872": {
+      "Buffs": {
+        "English": "Steal 3 boons when interrupting a foe. <c=@reminder>(Cooldown: 10 seconds) (Cooldown against defiant foes: 3 seconds)</c>",
+        "Spanish": "Robas 3 bendiciones al interrumpir a un enemigo. <c=@reminder>(Recarga: 10 segundos) (Recarga contra enemigos desafiantes: 3 segundos)</c>",
+        "German": "Stehlt bei der Unterbrechung eines Gegners 3 Segen. <c=@reminder>(Erholzeit: 10 Sekunden)(Erholzeit bei trotzigen Gegnern: 3 Sekunden)</c>",
+        "French": "Vous volez 3 avantages lorsque vous interrompez un ennemi. <c=@reminder>(Temps de recharge : 10 secondes) (Temps de recharge face aux ennemis rebelles : 3 secondes)</c>"
+      },
+      "Type": 14,
+      "TemplateSlot": -1,
+      "Id": 72872,
+      "MappedId": 74,
+      "Rarity": 6,
+      "Chatlink": "[&AgGoHAEA]",
+      "AssetId": 1201531,
+      "Names": {
+        "English": "Superior Sigil of Absorption",
+        "Spanish": "Sello superior de absorción",
+        "German": "Überlegenes Sigill der Absorption",
+        "French": "Cachet d'absorption supérieur"
+      },
+      "DisplayTexts": {
+        "English": "Absorption",
+        "Spanish": "absorción",
+        "German": "Absorption",
+        "French": "absorption"
+      },
+      "Descriptions": {
+        "English": "<c=@abilitytype>Element: </c>Control<br>Double-click to apply to a weapon.",
+        "Spanish": "<c=@abilitytype>Elemento: </c>Control<br>Haz doble clic para aplicar a un arma.",
+        "German": "<c=@abilitytype>Element: </c>Kontrolle<br>Doppelklicken, um auf eine Waffe anzuwenden.",
+        "French": "<c=@abilitytype>Élément : </c>contrôle<br>Double-cliquez pour l'appliquer à une arme."
+      }
+    },
+    "73532": {
+      "Buffs": {
+        "English": "Inflict 5 stacks of vulnerability for 10 seconds when interrupting a foe. <c=@reminder>(Cooldown: 3 Seconds)</c>",
+        "Spanish": "Infliges 5 acumulaciones de vulnerabilidad durante 10 segundos al interrumpir a un enemigo. <c=@reminder>(Recarga: 3 segundos)</c>",
+        "German": "Verursacht bei der Unterbrechung eines Gegners 10 Sekunden lang 5 Stapel Verwundbarkeit. <c=@reminder>(Erholzeit: 3 Sekunden)</c>",
+        "French": "Vous infligez 5 charges de Vulnérabilité pendant 10 secondes lorsque vous interrompez un ennemi. <c=@reminder>(Temps de recharge : 3 secondes)</c>"
+      },
+      "Type": 14,
+      "TemplateSlot": -1,
+      "Id": 73532,
+      "MappedId": 75,
+      "Rarity": 6,
+      "Chatlink": "[&AgE8HwEA]",
+      "AssetId": 1201536,
+      "Names": {
+        "English": "Superior Sigil of Rending",
+        "Spanish": "Sello superior de desgarro",
+        "German": "Überlegenes Sigill des Zerfetzens",
+        "French": "Cachet de déchirement supérieur"
+      },
+      "DisplayTexts": {
+        "English": "Rending",
+        "Spanish": "desgarro",
+        "German": "Zerfetzens",
+        "French": "Cachet de déchirement"
+      },
+      "Descriptions": {
+        "English": "<c=@abilitytype>Element: </c>Enhancement<br>Double-click to apply to a weapon.",
+        "Spanish": "<c=@abilitytype>Elemento: </c>Mejora<br>Haz doble clic para aplicar a un arma.",
+        "German": "<c=@abilitytype>Element: </c>Verbesserung<br>Doppelklicken, um auf eine Waffe anzuwenden.",
+        "French": "<c=@abilitytype>Élément : </c>amélioration<br>Double-cliquez pour l'appliquer à une arme."
+      }
+    },
+    "74326": {
+      "Buffs": {
+        "English": "Healing to other allies is increased by 10%.",
+        "Spanish": "La curación a otros aliados aumenta un 10 %.",
+        "German": "Heilung an andere Verbündete wird um 10 % erhöht.",
+        "French": "Les soins conférés aux autres alliés sont augmentés de 10%."
+      },
+      "Type": 14,
+      "TemplateSlot": -1,
+      "Id": 74326,
+      "MappedId": 76,
+      "Rarity": 6,
+      "Chatlink": "[&AgFWIgEA]",
+      "AssetId": 1201535,
+      "Names": {
+        "English": "Superior Sigil of Transference",
+        "Spanish": "Sello superior de transferencia",
+        "German": "Überlegenes Sigill der Transferenz",
+        "French": "Cachet de transfert supérieur"
+      },
+      "DisplayTexts": {
+        "English": "Transference",
+        "Spanish": "transferencia",
+        "German": "Transferenz",
+        "French": "Cachet de transfert"
+      },
+      "Descriptions": {
+        "English": "<c=@abilitytype>Element: </c>Control<br>Double-click to apply to a weapon.",
+        "Spanish": "<c=@abilitytype>Elemento: </c>Control<br>Haz doble clic para aplicar a un arma.",
+        "German": "<c=@abilitytype>Element: </c>Kontrolle<br>Doppelklicken, um auf eine Waffe anzuwenden.",
+        "French": "<c=@abilitytype>Élément : </c>contrôle<br>Double-cliquez pour l'appliquer à une arme."
+      }
+    },
+    "81045": {
+      "Buffs": {
+        "English": "Gain a charge of +9 concentration each time you kill a foe, five charges if you kill an enemy player. <c=@reminder>(Max 25 stacks; ends on down.)</c> <br><c=@reminder>(Only one attribute-stacking sigil can be active at a time.)</c>",
+        "Spanish": "Gana una carga de +9 de concentración cada vez que matas a un enemigo, y cinco cargas si eliminas a un jugador enemigo. <c=@reminder>(Máximo 25 acumulaciones; acaba cuando te han abatido).</c><br><c=@reminder>(Solo puede haber activo un sello de acumulación de atributos a la vez).</c>",
+        "German": "Erhaltet eine Ladung von +9 Konzentration für jeden besiegten Gegner und fünf Ladungen für jeden besiegten feindlichen Spieler. <c=@reminder>(Max. 25 Stapel, endet bei Angeschlagen.)</c> <br><c=@reminder>(Es kann jeweils nur ein Attribute stapelndes Sigill aktiv sein.)</c>",
+        "French": "Vous obtenez une charge qui augmente de +9 votre Concentration à chaque ennemi tué, ou cinq charges si vous tuez un joueur ennemi <c=@reminder>(25 charges maximum, effet annulé lorsque vous êtes à terre).</c><br><c=@reminder>(Un seul cachet à capacité cumulable peut être actif à la fois)</c>"
+      },
+      "Type": 14,
+      "TemplateSlot": -1,
+      "Id": 81045,
+      "MappedId": 77,
+      "Rarity": 6,
+      "Chatlink": "[&AgGVPAEA]",
+      "AssetId": 1676537,
+      "Names": {
+        "English": "Superior Sigil of Bounty",
+        "Spanish": "Sello superior de botín",
+        "German": "Überlegenes Sigill der Ergiebigkeit",
+        "French": "Cachet de bonté supérieur"
+      },
+      "DisplayTexts": {
+        "English": "Bounty",
+        "Spanish": "botín",
+        "German": "Ergiebigkeit",
+        "French": "Cachet de bonté"
+      },
+      "Descriptions": {
+        "English": "<c=@abilitytype>Element: </c>Control<br>Double-click to apply to a weapon.",
+        "Spanish": "<c=@abilitytype>Elemento: </c>Control<br>Haz doble clic para aplicar a un arma.",
+        "German": "<c=@abilitytype>Element: </c>Kontrolle<br>Doppelklicken, um auf eine Waffe anzuwenden.",
+        "French": "<c=@abilitytype>Élément : </c>contrôle<br>Double-cliquez pour l'appliquer à une arme."
+      }
+    },
+    "82876": {
+      "Buffs": {
+        "English": "Recharge all equipped skills by 2 seconds upon killing an enemy. <c=@reminder>Cooldown: 10 seconds</c>",
+        "Spanish": "Recargas todas las habilidades equipadas 2 segundos al matar a un enemigo. <c=@reminder>Recarga: 10 segundos</c>",
+        "German": "Ladet beim Besiegen eines Gegners alle ausgerüsteten Fertigkeiten um 2 Sekunden wieder auf. <c=@reminder>(Erholzeit: 10 Sek.)</c>",
+        "French": "Vous rechargez toutes les compétences équipées de 2 secondes lorsque vous tuez un ennemi. <c=@reminder>Temps de recharge : 10 secondes</c>"
+      },
+      "Type": 14,
+      "TemplateSlot": -1,
+      "Id": 82876,
+      "MappedId": 78,
+      "Rarity": 6,
+      "Chatlink": "[&AgG8QwEA]",
+      "AssetId": 1766395,
+      "Names": {
+        "English": "Superior Sigil of Frenzy",
+        "Spanish": "Sello superior de frenesí",
+        "German": "Überlegenes Sigill der Raserei",
+        "French": "Cachet de frénésie supérieur"
+      },
+      "DisplayTexts": {
+        "English": "Frenzy",
+        "Spanish": "frenesí",
+        "German": "Raserei",
+        "French": "Cachet de frénésie"
+      },
+      "Descriptions": {
+        "English": "<c=@abilitytype>Element: </c>Control<br>Double-click to apply to a weapon.",
+        "Spanish": "<c=@abilitytype>Elemento: </c>Control<br>Haz doble clic para aplicar a un arma.",
+        "German": "<c=@abilitytype>Element: </c>Kontrolle<br>Doppelklicken, um auf eine Waffe anzuwenden.",
+        "French": "<c=@abilitytype>Élément : </c>contrôle<br>Double-cliquez pour l'appliquer à une arme."
+      }
+    },
+    "84505": {
+      "Buffs": {
+        "English": "Upon interrupting an enemy, gain up to 250 precision and ferocity for 4 seconds, depending on level. <c=@reminder>(Cooldown: 1 second)</c>",
+        "Spanish": "Ganas 250 de precisión y de ferocidad durante 4 segundos tras interrumpir a un enemigo según el nivel. <c=@reminder>(Recarga: 1 s)</c>",
+        "German": "Erhaltet bei Unterbrechen eines Gegners 4 Sekunden lang je nach Stufe bis zu 250 Präzision und Wildheit. <c=@reminder>(Erholzeit: 1 Sek.)</c>",
+        "French": "Quand vous interrompez un ennemi, confère jusqu'à 250 en Précision et Férocité pendant 4 secondes, en fonction de votre niveau. <c=@reminder>(Temps de recharge : 1 seconde)</c>"
+      },
+      "Type": 14,
+      "TemplateSlot": -1,
+      "Id": 84505,
+      "MappedId": 79,
+      "Rarity": 6,
+      "Chatlink": "[&AgEZSgEA]",
+      "AssetId": 1766396,
+      "Names": {
+        "English": "Superior Sigil of Severance",
+        "Spanish": "Sello superior de ruptura",
+        "German": "Überlegenes Sigill des Abbruchs",
+        "French": "Cachet de rupture supérieur"
+      },
+      "DisplayTexts": {
+        "English": "Severance",
+        "Spanish": "ruptura",
+        "German": "Abbruchs",
+        "French": "Cachet de rupture"
+      },
+      "Descriptions": {
+        "English": "<c=@abilitytype>Element: </c>Control<br>Double-click to apply to a weapon.",
+        "Spanish": "<c=@abilitytype>Elemento: </c>Control<br>Haz doble clic para aplicar a un arma.",
+        "German": "<c=@abilitytype>Element: </c>Kontrolle<br>Doppelklicken, um auf eine Waffe anzuwenden.",
+        "French": "<c=@abilitytype>Élément : </c>contrôle<br>Double-cliquez pour l'appliquer à une arme."
+      }
+    },
+    "86170": {
+      "Buffs": {
+        "English": "Gain a charge of +2 to all stats each time you kill a foe, five charges if you kill an enemy player. <c=@reminder>(Max 25 stacks; ends on down.)</c> <br><c=@reminder>(Only one attribute-stacking sigil can be active at a time.)</c>",
+        "Spanish": "Gana una carga de +2 a todas las estadísticas cada vez que matas a un enemigo, y cinco cargas si matas a un jugador enemigo. <c=@reminder>(Máximo 25 acumulaciones; acaba cuando te han abatido).</c><br><c=@reminder>(Solo puede haber activo un sello de acumulación de atributos a la vez).</c>",
+        "German": "Erhaltet eine Ladung von +2 auf alle Werte für jeden besiegten Gegner und fünf Ladungen für jeden besiegten feindlichen Spieler. <c=@reminder>(Maximal 25 Stapel, endet bei Angeschlagen.)</c> <br><c=@reminder>(Es kann jeweils nur ein Attribute stapelndes Sigill aktiv sein.)</c>",
+        "French": "Vous obtenez une charge qui augmente de +2 toutes vos statistiques à chaque ennemi tué, et cinq charges si vous tuez un joueur ennemi. <c=@reminder>(25 charges maximum, effet annulé lorsque vous êtes à terre).</c> <br><c=@reminder>(Un seul cachet à caractéristiques cumulables peut être actif à la fois.)</c>"
+      },
+      "Type": 14,
+      "TemplateSlot": -1,
+      "Id": 86170,
+      "MappedId": 80,
+      "Rarity": 6,
+      "Chatlink": "[&AgGaUAEA]",
+      "AssetId": 1894696,
+      "Names": {
+        "English": "Superior Sigil of the Stars",
+        "Spanish": "Sello superior de las estrellas",
+        "German": "Überlegenes Sigill der Sterne",
+        "French": "Cachet des étoiles supérieur"
+      },
+      "DisplayTexts": {
+        "English": "Stars",
+        "Spanish": "las estrellas",
+        "German": "Sterne",
+        "French": "Cachet des étoiles"
+      },
+      "Descriptions": {
+        "English": "<c=@abilitytype>Element: </c>Control<br>Double-click to apply to a weapon.",
+        "Spanish": "<c=@abilitytype>Elemento: </c>Control<br>Haz doble clic para aplicar a un arma.",
+        "German": "<c=@abilitytype>Element: </c>Kontrolle<br>Doppelklicken, um auf eine Waffe anzuwenden.",
+        "French": "<c=@abilitytype>Élément : </c>contrôle<br>Double-cliquez pour l'appliquer à une arme."
+      }
+    },
+    "91339": {
+      "Buffs": {
+        "English": "+17% Strike Damage vs. Dragon Bash Holograms\n+3% Strike Damage",
+        "Spanish": "+17 % de daño de golpe contra hologramas del Festival del Dragonicidio\n+3 % de daño de golpe",
+        "German": "+17 % Schlagschaden gg. Drachen-Gepolter-Hologramme\n+3 % Schlagschaden",
+        "French": "Dégâts de frappe contre les hologrammes de la Foire du Dragon +17%\nDégâts de frappe +3%"
+      },
+      "Type": 14,
+      "TemplateSlot": -1,
+      "Id": 91339,
+      "MappedId": 81,
+      "Rarity": 6,
+      "Chatlink": "[&AgHLZAEA]",
+      "AssetId": 2162990,
+      "Names": {
+        "English": "Superior Sigil of Hologram Slaying",
+        "Spanish": "Sello superior de masacre de hologramas",
+        "German": "Überlegenes Sigill der Hologramm-Vernichtung",
+        "French": "Cachet de massacre d'hologrammes supérieur"
+      },
+      "DisplayTexts": {
+        "English": "Hologram Slaying",
+        "Spanish": "masacre de hologramas",
+        "German": "Hologramm-Vernichtung",
+        "French": "Cachet de massacre d'hologrammes"
+      },
+      "Descriptions": {
+        "English": "<c=@abilitytype>Element: </c>Pain<br>Double-click to apply to a weapon.",
+        "Spanish": "<c=@abilitytype>Elemento: </c>Dolor<br>Haz doble clic para aplicar a un arma.",
+        "German": "<c=@abilitytype>Element: </c>Schmerz<br>Doppelklicken, um auf eine Waffe anzuwenden.",
+        "French": "<c=@abilitytype>Élément : </c>douleur<br>Double-cliquez pour l'appliquer à une arme."
+      }
+    }
+  },
+  "Version": "0.0.5"
+}

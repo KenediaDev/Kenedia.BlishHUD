@@ -1,0 +1,2516 @@
+{
+  "Items": {
+    "99965": {
+      "Type": 19,
+      "TemplateSlot": 24,
+      "Id": 99965,
+      "MappedId": 1,
+      "Rarity": 6,
+      "Chatlink": "[&AgF9hgEA]",
+      "AssetId": 3122350,
+      "Names": {
+        "English": "Relic of the Flock",
+        "Spanish": "Reliquia del rebaño",
+        "German": "Relikt des Schwarms",
+        "French": "Relique des ouailles"
+      },
+      "DisplayTexts": {
+        "English": "Relic of the Flock",
+        "Spanish": "Reliquia del rebaño",
+        "German": "Relikt des Schwarms",
+        "French": "Relique des ouailles"
+      },
+      "Descriptions": {
+        "English": "Heal yourself and nearby allies after you use a healing skill. Excess healing is converted to barrier.",
+        "Spanish": "Os cura a ti y a los aliados cercanos tras usar una habilidad de curación. El exceso de curación se convertirá en barrera.",
+        "German": "Heilt Euch und in der Nähe befindliche Verbündete nach dem Einsatz einer Heilfertigkeit. Überschüssige Heilung wird in Barriere umgewandelt.",
+        "French": "Soigne vos alliés à proximité et vous-même si vous utilisez une compétence de Guérison. Les soins en excès sont convertis en barrière."
+      }
+    },
+    "99997": {
+      "Type": 19,
+      "TemplateSlot": 24,
+      "Id": 99997,
+      "MappedId": 2,
+      "Rarity": 6,
+      "Chatlink": "[&AgGdhgEA]",
+      "AssetId": 3122354,
+      "Names": {
+        "English": "Relic of Isgarren",
+        "Spanish": "Reliquia de Isgarren",
+        "German": "Relikt von Isgarren",
+        "French": "Relique d'Isgarren"
+      },
+      "DisplayTexts": {
+        "English": "Relic of Isgarren",
+        "Spanish": "Reliquia de Isgarren",
+        "German": "Relikt von Isgarren",
+        "French": "Relique d'Isgarren"
+      },
+      "Descriptions": {
+        "English": "After evading an enemy's attack, place the Eye of Isgarren on them for a duration. You deal increased strike and condition duration against enemies with the Eye of Isgarren.",
+        "Spanish": "Tras evadir un ataque enemigo, somete a tus rivales al Ojo de Isgarren durante un tiempo. Aumenta el daño de golpe y duración de condición contra enemigos con el Ojo de Isgarren.",
+        "German": "Belegt einen Gegner für eine gewisse Zeit mit dem Auge von Isgarren, nachdem Ihr seinem Angriff ausgewichen seid. Ihr verursacht erhöhten Schlagschaden und erhöhte Zustandsdauer bei Gegnern mit dem Auge von Isgarren.",
+        "French": "Lorsque vous esquivez une attaque, vous placez l'Œil d'Isgarren sur l'assaillant pendant quelque temps. Vous bénéficiez d'un bonus de dégâts de frappe et de durée d'altération contre les ennemis affectés par l'Œil d'Isgarren."
+      }
+    },
+    "100031": {
+      "Type": 19,
+      "TemplateSlot": 24,
+      "Id": 100031,
+      "MappedId": 3,
+      "Rarity": 6,
+      "Chatlink": "[&AgG/hgEA]",
+      "AssetId": 3122361,
+      "Names": {
+        "English": "Relic of the Monk",
+        "Spanish": "Reliquia del monje",
+        "German": "Relikt des Mönchs",
+        "French": "Relique de moine"
+      },
+      "DisplayTexts": {
+        "English": "Relic of the Monk",
+        "Spanish": "Reliquia del monje",
+        "German": "Relikt des Mönchs",
+        "French": "Relique de moine"
+      },
+      "Descriptions": {
+        "English": "Increase healing effectiveness to allies after granting a boon to an ally.",
+        "Spanish": "Mejora tu eficacia de curación a los aliados después de otorgar una bendición a un aliado.",
+        "German": "Wird einem Verbündeten ein Segen gewährt, so erhöht sich die Heilwirkung auf Verbündete.",
+        "French": "Augmente l'efficacité des soins conférés aux autres alliés si vous accordez un avantage à un allié."
+      }
+    },
+    "100048": {
+      "Type": 19,
+      "TemplateSlot": 24,
+      "Id": 100048,
+      "MappedId": 4,
+      "Rarity": 6,
+      "Chatlink": "[&AgHQhgEA]",
+      "AssetId": 3122353,
+      "Names": {
+        "English": "Relic of the Ice",
+        "Spanish": "Reliquia del hielo",
+        "German": "Relikt des Eises",
+        "French": "Relique de glace"
+      },
+      "DisplayTexts": {
+        "English": "Relic of the Ice",
+        "Spanish": "Reliquia del hielo",
+        "German": "Relikt des Eises",
+        "French": "Relique de glace"
+      },
+      "Descriptions": {
+        "English": "After using an elite skill, launch icicles that inflict chilled at nearby enemies.",
+        "Spanish": "Después de usar una habilidad de élite, lanza carámbanos a los enemigos cercanos que los dejan congelados.",
+        "German": "Schleudert nach Verwendung einer Elite-Fertigkeit Eiszapfen auf Gegner in der Nähe, die Kühle zufügen.",
+        "French": "Après avoir utilisé une compétence d'élite, vous projetez des stalactites qui infligent Givre sur les ennemis à proximité."
+      }
+    },
+    "100074": {
+      "Type": 19,
+      "TemplateSlot": 24,
+      "Id": 100074,
+      "MappedId": 5,
+      "Rarity": 6,
+      "Chatlink": "[&AgHqhgEA]",
+      "AssetId": 3122337,
+      "Names": {
+        "English": "Relic of Cerus",
+        "Spanish": "Reliquia de Cerus",
+        "German": "Relikt von Cerus",
+        "French": "Relique de Cérus"
+      },
+      "DisplayTexts": {
+        "English": "Relic of Cerus",
+        "Spanish": "Reliquia de Cerus",
+        "German": "Relikt von Cerus",
+        "French": "Relique de Cérus"
+      },
+      "Descriptions": {
+        "English": "Upon using an elite skill, summon an Eye of Cerus that emits a rotating line attack, dealing damage and converting boons into conditions.",
+        "Spanish": "Al usar una habilidad de élite, invoca un Ojo de Cerus que emite un ataque lineal giratorio, infligiendo daño y convirtiendo las bendiciones en condiciones.",
+        "German": "Ruft nach Verwendung einer Elite-Fertigkeit ein Auge von Cerus herbei, das einen rotierenden Linienangriff ausstößt, Schaden verursacht und Segen in Zustände umwandelt.",
+        "French": "Lorsque vous utilisez une compétence d'élite, vous invoquez un Œil de Cérus qui lance une attaque linéaire rotative, infligeant des dégâts et convertissant des avantages en altérations."
+      }
+    },
+    "100090": {
+      "Type": 19,
+      "TemplateSlot": 24,
+      "Id": 100090,
+      "MappedId": 6,
+      "Rarity": 6,
+      "Chatlink": "[&AgH6hgEA]",
+      "AssetId": 3122344,
+      "Names": {
+        "English": "Relic of the Dragonhunter",
+        "Spanish": "Reliquia del cazadragones",
+        "German": "Relikt des Drachenjägers",
+        "French": "Relique du draconnier"
+      },
+      "DisplayTexts": {
+        "English": "Relic of the Dragonhunter",
+        "Spanish": "Reliquia del cazadragones",
+        "German": "Relikt des Drachenjägers",
+        "French": "Relique du draconnier"
+      },
+      "Descriptions": {
+        "English": "Enemies hit by your trap skills become hunted by you, increasing your strike damage and condition duration against them.",
+        "Spanish": "Los enemigos alcanzados por tus habilidades de trampa quedan cazados por ti, lo que aumenta tu daño de golpe y la duración de condición contra ellos.",
+        "German": "Von Euren Fallen-Fertigkeiten getroffene Gegner werden im Anschluss von Euch gejagt. Euer Schlagschaden und die Dauer der von Euch zugefügten Zustände werden erhöht.",
+        "French": "Les ennemis frappés par vos compétences de piège sont pourchassés par vous, ce qui augmente vos dégâts de frappe et votre durée d'altération contre eux."
+      }
+    },
+    "100115": {
+      "Type": 19,
+      "TemplateSlot": 24,
+      "Id": 100115,
+      "MappedId": 7,
+      "Rarity": 6,
+      "Chatlink": "[&AgEThwEA]",
+      "AssetId": 3122358,
+      "Names": {
+        "English": "Relic of Mabon",
+        "Spanish": "Reliquia de Mabon",
+        "German": "Relikt von Mabon",
+        "French": "Relique de Mabon"
+      },
+      "DisplayTexts": {
+        "English": "Relic of Mabon",
+        "Spanish": "Reliquia de Mabon",
+        "German": "Relikt von Mabon",
+        "French": "Relique de Mabon"
+      },
+      "Descriptions": {
+        "English": "Upon applying might while in combat, gain Mabon's Strength. At 10 stacks, your might stacks become more effective for a duration, after which you lose all might and Mabon's Strength.",
+        "Spanish": "Al aplicar poder en combate, adquiere Fuerza de Mabon. Con 10 acumulaciones, tus acumulaciones de poder se hacen más efectivas durante un tiempo, tras el cual pierdes Fuerza de Mabon y todo el poder.",
+        "German": "Wenn Ihr im Kampf Macht anwendet, erhaltet Ihr Mabons Stärke. Bei 10 Stapeln werden Eure Macht-Stapel für eine gewisse Zeit wirksamer. Danach verliert Ihr alle Macht und Mabons Stärke.",
+        "French": "Lorsque vous appliquez Pouvoir en combat, vous obtenez Force de Mabon. Avec 10 charges, vos charges de Pouvoir sont renforcées pendant quelque temps, puis toutes les charges de Pouvoir vous affectant et Force de Mabon sont dissipées."
+      }
+    },
+    "100144": {
+      "Type": 19,
+      "TemplateSlot": 24,
+      "Id": 100144,
+      "MappedId": 8,
+      "Rarity": 6,
+      "Chatlink": "[&AgEwhwEA]",
+      "AssetId": 3122375,
+      "Names": {
+        "English": "Relic of the Warrior",
+        "Spanish": "Reliquia del guerrero",
+        "German": "Relikt des Kriegers",
+        "French": "Relique de guerrier"
+      },
+      "DisplayTexts": {
+        "English": "Relic of the Warrior",
+        "Spanish": "Reliquia del guerrero",
+        "German": "Relikt des Kriegers",
+        "French": "Relique de guerrier"
+      },
+      "Descriptions": {
+        "English": "Weapon swap recharge time is reduced.",
+        "Spanish": "Se reduce el tiempo de recarga del cambio de arma.",
+        "German": "Waffenwechsel-Wiederaufladezeit ist reduziert.",
+        "French": "Le temps de recharge du changement d'arme est réduit."
+      }
+    },
+    "100148": {
+      "Type": 19,
+      "TemplateSlot": 24,
+      "Id": 100148,
+      "MappedId": 9,
+      "Rarity": 6,
+      "Chatlink": "[&AgE0hwEA]",
+      "AssetId": 3122369,
+      "Names": {
+        "English": "Relic of Speed",
+        "Spanish": "Reliquia de velocidad",
+        "German": "Relikt der Geschwindigkeit",
+        "French": "Relique de vitesse"
+      },
+      "DisplayTexts": {
+        "English": "Relic of Speed",
+        "Spanish": "Reliquia de velocidad",
+        "German": "Relikt der Geschwindigkeit",
+        "French": "Relique de vitesse"
+      },
+      "Descriptions": {
+        "English": "Increase movement speed when under the effect of swiftness.",
+        "Spanish": "Aumenta la velocidad de movimiento un 100 % si tienes celeridad.",
+        "German": "Unter den Auswirkungen von Eile erhöht sich die Bewegungsgeschwindigkeit.",
+        "French": "Votre vitesse de déplacement est augmentée lorsque vous êtes sous l'effet de Rapidité."
+      }
+    },
+    "100153": {
+      "Type": 19,
+      "TemplateSlot": 24,
+      "Id": 100153,
+      "MappedId": 10,
+      "Rarity": 6,
+      "Chatlink": "[&AgE5hwEA]",
+      "AssetId": 3122351,
+      "Names": {
+        "English": "Relic of the Fractal",
+        "Spanish": "Reliquia del fractal",
+        "German": "Relikt des Fraktals",
+        "French": "Relique de fractale"
+      },
+      "DisplayTexts": {
+        "English": "Relic of the Fractal",
+        "Spanish": "Reliquia del fractal",
+        "German": "Relikt des Fraktals",
+        "French": "Relique de fractale"
+      },
+      "Descriptions": {
+        "English": "When you inflict bleeding on an enemy with 6 or more stacks of bleeding, also inflict burning and torment.",
+        "Spanish": "Al infligir hemorragia a un enemigo con 6 o más acumulaciones de hemorragia, inflige también quemadura y tormento.",
+        "German": "Wenn Ihr einem Gegner, der schon 6 oder mehr Stapel Blutung hat, Blutung zufügt, verursacht das außerdem auch Brennen und Pein.",
+        "French": "Lorsque vous infligez Saignement à un ennemi affecté par au moins 6 charges de Saignement, vous lui infligez aussi Brûlure et Tourment."
+      }
+    },
+    "100158": {
+      "Type": 19,
+      "TemplateSlot": 24,
+      "Id": 100158,
+      "MappedId": 11,
+      "Rarity": 6,
+      "Chatlink": "[&AgE+hwEA]",
+      "AssetId": 3122360,
+      "Names": {
+        "English": "Relic of the Mirage",
+        "Spanish": "Reliquia de quimérico",
+        "German": "Relikt des Illusionisten",
+        "French": "Relique du Mirage"
+      },
+      "DisplayTexts": {
+        "English": "Relic of the Mirage",
+        "Spanish": "Reliquia de quimérico",
+        "German": "Relikt des Illusionisten",
+        "French": "Relique du Mirage"
+      },
+      "Descriptions": {
+        "English": "Inflict torment upon successfully evading an attack.",
+        "Spanish": "Inflige tormento cada vez que esquivas con éxito un ataque.",
+        "German": "Fügt bei erfolgreichem Ausweichen vor einem Angriff Pein zu.",
+        "French": "Vous infligez Tourment quand vous esquivez une attaque avec succès."
+      }
+    },
+    "100165": {
+      "Type": 19,
+      "TemplateSlot": 24,
+      "Id": 100165,
+      "MappedId": 12,
+      "Rarity": 6,
+      "Chatlink": "[&AgFFhwEA]",
+      "AssetId": 3122362,
+      "Names": {
+        "English": "Relic of the Necromancer",
+        "Spanish": "Reliquia del nigromante",
+        "German": "Relikt des Nekromanten",
+        "French": "Relique de nécromant"
+      },
+      "DisplayTexts": {
+        "English": "Relic of the Necromancer",
+        "Spanish": "Reliquia del nigromante",
+        "German": "Relikt des Nekromanten",
+        "French": "Relique de nécromant"
+      },
+      "Descriptions": {
+        "English": "Fear you inflict causes foes to move slower.",
+        "Spanish": "El miedo que causas hace que tus enemigos se muevan más lentamente.",
+        "German": "Wenn Ihr Gegnern Furcht einflößt, bewegen sie sich langsamer.",
+        "French": "Les effets de Peur que vous infligez réduisent la vitesse de déplacement des ennemis."
+      }
+    },
+    "100177": {
+      "Type": 19,
+      "TemplateSlot": 24,
+      "Id": 100177,
+      "MappedId": 13,
+      "Rarity": 6,
+      "Chatlink": "[&AgFRhwEA]",
+      "AssetId": 3122365,
+      "Names": {
+        "English": "Relic of Peitha",
+        "Spanish": "Reliquia de Peitha",
+        "German": "Relikt von Peitha",
+        "French": "Relique de Peitha"
+      },
+      "DisplayTexts": {
+        "English": "Relic of Peitha",
+        "Spanish": "Reliquia de Peitha",
+        "German": "Relikt von Peitha",
+        "French": "Relique de Peitha"
+      },
+      "Descriptions": {
+        "English": "After shadowstepping or using a deception skill, fire a blade at a nearby enemy after a short delay, applying torment and increasing your strike damage against that target.",
+        "Spanish": "Tras dar un paso sombrío o usar una habilidad de engaño, lanza un filo a un enemigo cercano tras un breve instante, aplicando tormento y aumentando el daño de tu siguiente ataque contra ese objetivo.",
+        "German": "Feuert nach Verwendung von Schattenschritt oder einer Täuschungsfertigkeit nach kurzer Verzögerung eine Klinge auf einen Gegner in der Nähe ab. Dabei fügt Ihr Pein zu und erhöht Euren Schlagschaden bei diesem Ziel.",
+        "French": "Après l'utilisation de Foulée de l'ombre ou d'une compétence de Duperie, vous lancez une lame sur un ennemi à proximité au bout d'un court délai, lui infligeant Tourment et augmentant vos dégâts de frappe contre cette cible."
+      }
+    },
+    "100194": {
+      "Type": 19,
+      "TemplateSlot": 24,
+      "Id": 100194,
+      "MappedId": 14,
+      "Rarity": 6,
+      "Chatlink": "[&AgFihwEA]",
+      "AssetId": 3122377,
+      "Names": {
+        "English": "Relic of the Weaver",
+        "Spanish": "Reliquia de tejedor",
+        "German": "Relikt des Webers",
+        "French": "Relique du Tissesort"
+      },
+      "DisplayTexts": {
+        "English": "Relic of the Weaver",
+        "Spanish": "Reliquia de tejedor",
+        "German": "Relikt des Webers",
+        "French": "Relique du Tissesort"
+      },
+      "Descriptions": {
+        "English": "Upon using a <c=@abilitytype>stance</c> skill, deal increased strike damage for a duration.",
+        "Spanish": "Al usar una habilidad de <c=@abilitytype>postura</c>, inflige daño de golpe aumentado durante un tiempo.",
+        "German": "Bei Anwendung einer <c=@abilitytype>Haltungs</c>-Fertigkeit verursacht Ihr für eine gewisse Zeit erhöhten Schlagschaden.",
+        "French": "Lorsque vous utilisez une compétence de <c=@abilitytype>posture</c>, vous recevez un bonus aux dégâts de frappe pendant quelque temps."
+      }
+    },
+    "100219": {
+      "Type": 19,
+      "TemplateSlot": 24,
+      "Id": 100219,
+      "MappedId": 15,
+      "Rarity": 6,
+      "Chatlink": "[&AgF7hwEA]",
+      "AssetId": 3122352,
+      "Names": {
+        "English": "Relic of the Herald",
+        "Spanish": "Reliquia del heraldo",
+        "German": "Relikt des Herolds",
+        "French": "Relique du héraut"
+      },
+      "DisplayTexts": {
+        "English": "Relic of the Herald",
+        "Spanish": "Reliquia del heraldo",
+        "German": "Relikt des Herolds",
+        "French": "Relique du héraut"
+      },
+      "Descriptions": {
+        "English": "Gain concentration after granting a boon to an ally.",
+        "Spanish": "Gana concentración después de otorgar una bendición a un aliado.",
+        "German": "Wird einem Verbündeten ein Segen gewährt, so erhaltet Ihr Konzentration.",
+        "French": "Vous recevez un bonus de Concentration si vous accordez un avantage à un allié."
+      }
+    },
+    "100230": {
+      "Type": 19,
+      "TemplateSlot": 24,
+      "Id": 100230,
+      "MappedId": 16,
+      "Rarity": 6,
+      "Chatlink": "[&AgGGhwEA]",
+      "AssetId": 3122355,
+      "Names": {
+        "English": "Relic of the Krait",
+        "Spanish": "Reliquia de los krait",
+        "German": "Relikt der Krait",
+        "French": "Relique de Krait"
+      },
+      "DisplayTexts": {
+        "English": "Relic of the Krait",
+        "Spanish": "Reliquia de los krait",
+        "German": "Relikt der Krait",
+        "French": "Relique de Krait"
+      },
+      "Descriptions": {
+        "English": "After using an elite skill, emit a wave of corruption that inflicts damaging conditions.",
+        "Spanish": "Tras usar una habilidad de élite, emite una onda de corrupción que inflige condiciones dañinas.",
+        "German": "Stoßt nach Verwendung einer Elite-Fertigkeit eine Welle der Verdorbenheit aus, die schädliche Zustände verursacht.",
+        "French": "Après avoir utilisé une compétence d'élite, vous émettez une vague de corruption qui inflige des altérations de dégâts."
+      }
+    },
+    "100345": {
+      "Type": 19,
+      "TemplateSlot": 24,
+      "Id": 100345,
+      "MappedId": 17,
+      "Rarity": 6,
+      "Chatlink": "[&AgH5hwEA]",
+      "AssetId": 3122341,
+      "Names": {
+        "English": "Relic of the Daredevil",
+        "Spanish": "Reliquia del temerario",
+        "German": "Relikt des Draufgängers",
+        "French": "Relique du fracasseur"
+      },
+      "DisplayTexts": {
+        "English": "Relic of the Daredevil",
+        "Spanish": "Reliquia del temerario",
+        "German": "Relikt des Draufgängers",
+        "French": "Relique du fracasseur"
+      },
+      "Descriptions": {
+        "English": "After dodge rolling in combat or evading an attack, your next attack is guaranteed to be a critical hit. <c=@reminder>(Cooldown: 1 Second)</c>",
+        "Spanish": "Tras esquivar con voltereta en combate o evadir un ataque, tu siguiente ataque tiene asegurado infligir un golpe crítico. <c=@reminder>(Recarga: 1 segundo)</c>",
+        "German": "Nach einer Ausweichrolle im Kampf oder einem Angriff, dem Ihr entgangen seid, ist Euer nächster Angriff garantiert ein kritischer Treffer. <c=@reminder>(Erholzeit: 1 Sekunde)</c>",
+        "French": "Après avoir exécuté une esquive au combat ou avoir esquivé une attaque, votre prochaine attaque sera un coup critique de manière garantie. <c=@reminder>(Temps de recharge : 1 seconde).</c>"
+      }
+    },
+    "100368": {
+      "Type": 19,
+      "TemplateSlot": 24,
+      "Id": 100368,
+      "MappedId": 18,
+      "Rarity": 6,
+      "Chatlink": "[&AgEQiAEA]",
+      "AssetId": 3122368,
+      "Names": {
+        "English": "Relic of the Scourge",
+        "Spanish": "Reliquia de azotador",
+        "German": "Relikt des Pestbringers",
+        "French": "Relique du Fléau"
+      },
+      "DisplayTexts": {
+        "English": "Relic of the Scourge",
+        "Spanish": "Reliquia de azotador",
+        "German": "Relikt des Pestbringers",
+        "French": "Relique du Fléau"
+      },
+      "Descriptions": {
+        "English": "Upon applying barrier to an ally, gain increased condition duration. <c=@reminder>When this triggers, refresh the duration of all stacks.</c>",
+        "Spanish": "Al aplicar barrera a un aliado, la duración de condición aumenta. <c=@reminder>Cuando esto se activa, las duraciones de todas las acumulaciones se actualizan. </c>",
+        "German": "Wenn Ihr einem Verbündeten Barriere gewährt, wird die Dauer der von Euch zugefügten Zustände erhöht. <c=@reminder>Wenn dies ausgelöst wird, wird die Dauer aller Stapel zurückgesetzt.</c>",
+        "French": "Vous recevez un bonus de durée d'altération quand vous conférez Barrière à un allié. <c=@reminder>À l'activation, renouvelle la durée de toutes les charges. </c>"
+      }
+    },
+    "100385": {
+      "Type": 19,
+      "TemplateSlot": 24,
+      "Id": 100385,
+      "MappedId": 19,
+      "Rarity": 6,
+      "Chatlink": "[&AgEhiAEA]",
+      "AssetId": 3122336,
+      "Names": {
+        "English": "Relic of the Centaur",
+        "Spanish": "Reliquia de centauro",
+        "German": "Relikt des Zentauren",
+        "French": "Relique du Centaure"
+      },
+      "DisplayTexts": {
+        "English": "Relic of the Centaur",
+        "Spanish": "Reliquia de centauro",
+        "German": "Relikt des Zentauren",
+        "French": "Relique du Centaure"
+      },
+      "Descriptions": {
+        "English": "Gain stability when you use a healing skill.",
+        "Spanish": "Gana estabilidad cuando usas una habilidad de curación.",
+        "German": "Erhaltet Stabilität, wenn Ihr eine Heilfertigkeit nutzt.",
+        "French": "Vous bénéficiez de Stabilité lorsque vous utilisez une compétence de Guérison."
+      }
+    },
+    "100388": {
+      "Type": 19,
+      "TemplateSlot": 24,
+      "Id": 100388,
+      "MappedId": 20,
+      "Rarity": 6,
+      "Chatlink": "[&AgEkiAEA]",
+      "AssetId": 3161446,
+      "Names": {
+        "English": "Relic of the Astral Ward",
+        "Spanish": "Reliquia del Resguardo Astral",
+        "German": "Relikt der Astralwache",
+        "French": "Relique de la Garde astrale"
+      },
+      "DisplayTexts": {
+        "English": "Relic of the Astral Ward",
+        "Spanish": "Reliquia del Resguardo Astral",
+        "German": "Relikt der Astralwache",
+        "French": "Relique de la Garde astrale"
+      },
+      "Descriptions": {
+        "English": "Gain a Signet of the Astral Ward after using a signet skill. Using a signet skill while this signet is active consumes it to remove conditions from nearby allies and grant them resistance.",
+        "Spanish": "Ganas un sello del Resguardo Astral después de usar una habilidad de sello. Usar una habilidad de sello mientras este sello está activo lo consume para eliminar condiciones de aliados cercanos y otorgarles resistencia.",
+        "German": "Nach Verwendung einer Siegel-Fertigkeit erhaltet Ihr ein Siegel der Astralwache. Wenn Ihr eine Siegel-Fertigkeit verwendet, solange dieses Siegel aktiv ist, wird es verbraucht; dafür werden bei Verbündeten in der Nähe Zustände entfernt, und sie erhalten Widerstand.",
+        "French": "Vous obtenez un signe de la Garde astrale si vous utilisez une compétence de signe. Lorsque ce signe est actif, utiliser une compétence de signe le consomme pour dissiper les altérations des alliés à proximité et leur conférer Résistance."
+      }
+    },
+    "100390": {
+      "Type": 19,
+      "TemplateSlot": 24,
+      "Id": 100390,
+      "MappedId": 21,
+      "Rarity": 6,
+      "Chatlink": "[&AgEmiAEA]",
+      "AssetId": 3122331,
+      "Names": {
+        "English": "Relic of Antitoxin",
+        "Spanish": "Reliquia de antitoxinas",
+        "German": "Relikt des Gegengifts",
+        "French": "Relique d'antitoxine"
+      },
+      "DisplayTexts": {
+        "English": "Relic of Antitoxin",
+        "Spanish": "Reliquia de antitoxinas",
+        "German": "Relikt des Gegengifts",
+        "French": "Relique d'antitoxine"
+      },
+      "Descriptions": {
+        "English": "Outgoing condition cleanses remove an additional condition. <c=@reminder>This can only affect an ally once every interval.</c>",
+        "Spanish": "Las depuraciones de condiciones causadas eliminan una condición adicional. <c=@reminder>Esto solo puede afectar a un aliado una vez cada cierto intervalo.</c>",
+        "German": "Ausgehende Zustandsentfernungen entfernen einen weiteren Zustand. <c=@reminder>Dies kann einen Verbündeten nur einmal pro Intervall betreffen.</c>",
+        "French": "Les dissipations d'altération que vous prodiguez suppriment une altération supplémentaire. <c=@reminder>Cet effet ne peut affecter un allié qu'une fois par intervalle.</c>"
+      }
+    },
+    "100400": {
+      "Type": 19,
+      "TemplateSlot": 24,
+      "Id": 100400,
+      "MappedId": 22,
+      "Rarity": 6,
+      "Chatlink": "[&AgEwiAEA]",
+      "AssetId": 3122370,
+      "Names": {
+        "English": "Relic of the Sunless",
+        "Spanish": "Reliquia del Sombrío",
+        "German": "Relikt des Sonnenlosen",
+        "French": "Relique du Sans-soleil"
+      },
+      "DisplayTexts": {
+        "English": "Relic of the Sunless",
+        "Spanish": "Reliquia del Sombrío",
+        "German": "Relikt des Sonnenlosen",
+        "French": "Relique du Sans-soleil"
+      },
+      "Descriptions": {
+        "English": "Using an elite skill summons a pool on the target enemy that inflicts poison and cripple. Pool duration scales with the recharge of the elite skill.",
+        "Spanish": "Usar una habilidad de élite invoca un estanque sobre el objetivo enemigo que inflige veneno e incapacitación. La duración del estanque aumenta con la recarga de la habilidad de élite.",
+        "German": "Ruft bei Verwendung einer Elite-Fertigkeit eine Pfütze herbei, die dem Zielgegner Gift und Verkrüppeln zufügt. Die Dauer der Pfütze skaliert mit der Wiederaufladezeit der Elite-Fertigkeit.",
+        "French": "L'utilisation d'une compétence d'élite invoque une mare sur la cible ennemie, qui inflige Empoisonnement et Infirmité. La durée de la mare augmente selon le temps de recharge de la compétence d'élite."
+      }
+    },
+    "100411": {
+      "Type": 19,
+      "TemplateSlot": 24,
+      "Id": 100411,
+      "MappedId": 23,
+      "Rarity": 6,
+      "Chatlink": "[&AgE7iAEA]",
+      "AssetId": 3122372,
+      "Names": {
+        "English": "Relic of the Trooper",
+        "Spanish": "Reliquia del infante",
+        "German": "Relikt des Truppenmitglieds",
+        "French": "Relique de fantassin"
+      },
+      "DisplayTexts": {
+        "English": "Relic of the Trooper",
+        "Spanish": "Reliquia del infante",
+        "German": "Relikt des Truppenmitglieds",
+        "French": "Relique de fantassin"
+      },
+      "Descriptions": {
+        "English": "Remove a condition from affected allies after using a <c=@abilitytype>shout</c> skill.",
+        "Spanish": "Eliminas una condición de los aliados afectados tras usar una habilidad de <c=@abilitytype>grito</c>.",
+        "German": "Nach dem Einsatz einer <c=@abilitytype>Kampfschrei</c>-Fertigkeit wird ein Zustand von betroffenen Verbündeten entfernt.",
+        "French": "Vous dissipez une altération sur les alliés affectés après avoir utilisé une compétence de <c=@abilitytype>cri</c>."
+      }
+    },
+    "100429": {
+      "Type": 19,
+      "TemplateSlot": 24,
+      "Id": 100429,
+      "MappedId": 24,
+      "Rarity": 6,
+      "Chatlink": "[&AgFNiAEA]",
+      "AssetId": 3122359,
+      "Names": {
+        "English": "Relic of Mercy",
+        "Spanish": "Reliquia de compasión",
+        "German": "Relikt der Gnade",
+        "French": "Relique de pitié"
+      },
+      "DisplayTexts": {
+        "English": "Relic of Mercy",
+        "Spanish": "Reliquia de compasión",
+        "German": "Relikt der Gnade",
+        "French": "Relique de pitié"
+      },
+      "Descriptions": {
+        "English": "Revive allies faster and with more health. Only affects players in WvW.",
+        "Spanish": "Reanimas a los aliados más rápido y con más salud. Solo afecta a jugadores en WvW.",
+        "German": "Ihr belebt Verbündete schneller und mit mehr Lebenspunkten wieder. Dies betriftt nur Spieler im WvW.",
+        "French": "Vous ressuscitez vos alliés plus vite et avec plus de santé. N'affecte que les joueurs en McM."
+      }
+    },
+    "100432": {
+      "Type": 19,
+      "TemplateSlot": 24,
+      "Id": 100432,
+      "MappedId": 25,
+      "Rarity": 6,
+      "Chatlink": "[&AgFQiAEA]",
+      "AssetId": 3122330,
+      "Names": {
+        "English": "Relic of Akeem",
+        "Spanish": "Reliquia de Akeem",
+        "German": "Relikt von Akeem",
+        "French": "Relique d'Akeem"
+      },
+      "DisplayTexts": {
+        "English": "Relic of Akeem",
+        "Spanish": "Reliquia de Akeem",
+        "German": "Relikt von Akeem",
+        "French": "Relique d'Akeem"
+      },
+      "Descriptions": {
+        "English": "When you disable an enemy that is afflicted by 5 or more stacks of confusion or torment, inflict confusion and torment on enemies around the target.",
+        "Spanish": "Al inhabilitar a un enemigo afligido por 5 o más acumulaciones de confusión o tormento, inflige confusión y tormento a los enemigos alrededor del objetivo.",
+        "German": "Wenn Ihr einen Gegner kampfunfähig macht, der 5 oder mehr Stapel Konfusion oder Pein besitzt, gehen Konfusion und Pein auch auf Gegner im Umkreis Eures Ziels über.",
+        "French": "Lorsque vous neutralisez un ennemi affecté par au moins 5 charges de Confusion ou de Tourment, vous infligez Confusion et Tourment aux ennemis autour de la cible."
+      }
+    },
+    "100442": {
+      "Type": 19,
+      "TemplateSlot": 24,
+      "Id": 100442,
+      "MappedId": 26,
+      "Rarity": 6,
+      "Chatlink": "[&AgFaiAEA]",
+      "AssetId": 3122346,
+      "Names": {
+        "English": "Relic of Dwayna",
+        "Spanish": "Reliquia de Dwayna",
+        "German": "Relikt von Dwayna",
+        "French": "Relique de Dwayna"
+      },
+      "DisplayTexts": {
+        "English": "Relic of Dwayna",
+        "Spanish": "Reliquia de Dwayna",
+        "German": "Relikt von Dwayna",
+        "French": "Relique de Dwayna"
+      },
+      "Descriptions": {
+        "English": "Regeneration you apply is more effective.",
+        "Spanish": "La regeneración que tú aplicas es más efectiva.",
+        "German": "Regeneration, die Ihr anwendet, ist wirksamer.",
+        "French": "L'efficacité de la Régénération appliquée est améliorée."
+      }
+    },
+    "100448": {
+      "Type": 19,
+      "TemplateSlot": 24,
+      "Id": 100448,
+      "MappedId": 27,
+      "Rarity": 6,
+      "Chatlink": "[&AgFgiAEA]",
+      "AssetId": 3122339,
+      "Names": {
+        "English": "Relic of the Citadel",
+        "Spanish": "Reliquia de la Ciudadela",
+        "German": "Relikt der Zitadelle",
+        "French": "Relique de la Citadelle"
+      },
+      "DisplayTexts": {
+        "English": "Relic of the Citadel",
+        "Spanish": "Reliquia de la Ciudadela",
+        "German": "Relikt der Zitadelle",
+        "French": "Relique de la Citadelle"
+      },
+      "Descriptions": {
+        "English": "After using an elite skill, call down an artillery strike that inflicts stun on the skill target or nearest enemy.",
+        "Spanish": "Tras usar una habilidad de élite, ordena un ataque de artillería sobre el objetivo de la habilidad o el enemigo más cercano que inflige aturdimiento.",
+        "German": "Nach Verwendung einer Elite-Fertigkeit wird auf deren Ziel oder auf den nächstgelegenen Gegner ein Artillerieschlag herabgerufen, der Betäubung zufügt.",
+        "French": "Après avoir utilisé une compétence d'élite, vous déclenchez une frappe d'artillerie qui inflige Étourdissement sur la cible de la compétence ou sur l'ennemi le plus proche."
+      }
+    },
+    "100450": {
+      "Type": 19,
+      "TemplateSlot": 24,
+      "Id": 100450,
+      "MappedId": 28,
+      "Rarity": 6,
+      "Chatlink": "[&AgFiiAEA]",
+      "AssetId": 3122338,
+      "Names": {
+        "English": "Relic of the Chronomancer",
+        "Spanish": "Reliquia del cronomante",
+        "German": "Relikt des Chronomanten",
+        "French": "Relique du chronomancien"
+      },
+      "DisplayTexts": {
+        "English": "Relic of the Chronomancer",
+        "Spanish": "Reliquia del cronomante",
+        "German": "Relikt des Chronomanten",
+        "French": "Relique du chronomancien"
+      },
+      "Descriptions": {
+        "English": "Gain quickness when you use a <c=@abilitytype>well</c> skill.",
+        "Spanish": "Ganas rapidez cuando usas una habilidad de <c=@abilitytype>pozo</c>.",
+        "German": "Erhaltet Schnelligkeit, wenn Ihr eine <c=@abilitytype>Brunnen</c>-Fertigkeit nutzt.",
+        "French": "Vous bénéficiez de Célérité lorsque vous utilisez une compétence de <c=@abilitytype>puits</c>."
+      }
+    },
+    "100453": {
+      "Type": 19,
+      "TemplateSlot": 24,
+      "Id": 100453,
+      "MappedId": 29,
+      "Rarity": 6,
+      "Chatlink": "[&AgFliAEA]",
+      "AssetId": 3122348,
+      "Names": {
+        "English": "Relic of the Firebrand",
+        "Spanish": "Reliquia de abrasador",
+        "German": "Relikt des Aufwieglers",
+        "French": "Relique de l'Incendiaire"
+      },
+      "DisplayTexts": {
+        "English": "Relic of the Firebrand",
+        "Spanish": "Reliquia de abrasador",
+        "German": "Relikt des Aufwieglers",
+        "French": "Relique de l'Incendiaire"
+      },
+      "Descriptions": {
+        "English": "Upon using the final charge of a mantra skill, gain increased boon duration.",
+        "Spanish": "Al usar la carga final de una habilidad de mantra, la duración de bendición aumenta.",
+        "German": "Wenn Ihr die letzte Ladung einer Mantra-Fertigkeit verwendet, erhaltet Ihr erhöhte Segensdauer.",
+        "French": "En utilisant la dernière charge d'une compétence de mantra, vous recevez un bonus de durée d'avantage."
+      }
+    },
+    "100455": {
+      "Type": 19,
+      "TemplateSlot": 24,
+      "Id": 100455,
+      "MappedId": 30,
+      "Rarity": 6,
+      "Chatlink": "[&AgFniAEA]",
+      "AssetId": 3122345,
+      "Names": {
+        "English": "Relic of Durability",
+        "Spanish": "Reliquia de durabilidad",
+        "German": "Relikt der Haltbarkeit",
+        "French": "Relique de durabilité"
+      },
+      "DisplayTexts": {
+        "English": "Relic of Durability",
+        "Spanish": "Reliquia de durabilidad",
+        "German": "Relikt der Haltbarkeit",
+        "French": "Relique de durabilité"
+      },
+      "Descriptions": {
+        "English": "Gain protection, regeneration, and resolution after using a healing skill.",
+        "Spanish": "Gana protección, regeneración y resolución tras usar una habilidad de curación.",
+        "German": "Nach Verwendung einer Heilfertigkeit erhaltet Ihr Schutz, Regeneration und Entschlossenheit.",
+        "French": "Vous bénéficiez de Protection, Régénération et Résolution si vous utilisez une compétence de Guérison."
+      }
+    },
+    "100461": {
+      "Type": 19,
+      "TemplateSlot": 24,
+      "Id": 100461,
+      "MappedId": 31,
+      "Rarity": 6,
+      "Chatlink": "[&AgFtiAEA]",
+      "AssetId": 3122357,
+      "Names": {
+        "English": "Relic of Lyhr",
+        "Spanish": "Reliquia de Lyhr",
+        "German": "Relikt von Lyhr",
+        "French": "Relique de Lyhr"
+      },
+      "DisplayTexts": {
+        "English": "Relic of Lyhr",
+        "Spanish": "Reliquia de Lyhr",
+        "German": "Relikt von Lyhr",
+        "French": "Relique de Lyhr"
+      },
+      "Descriptions": {
+        "English": "Upon healing an ally, shield up to four allies, redirecting a percentage of any strike damage they take to yourself. Allies may only be protected by one shield at a time.",
+        "Spanish": "Al curar a un aliado, escuda hasta a cuatro aliados, redirigiendo un porcentaje del daño de golpe que sufran hacia ti mismo. Los aliados no pueden estar protegidos por más de un escudo a la vez.",
+        "German": "Wenn Ihr einen Verbündeten heilt, gebt Ihr bis zu vier Verbündeten Schildschutz und lenkt einen Prozentsatz allen Schlagschadens, den sie erleiden, auf Euch selbst um. Verbündete können nur von einem Schild auf einmal geschützt werden.",
+        "French": "Lorsque vous soignez un allié, vous protégez jusqu'à 4 alliés, en redirigeant vers vous-même un pourcentage des dégâts de frappe qu'ils subissent. Les alliés ne peuvent être protégés que par un bouclier à la fois."
+      }
+    },
+    "100527": {
+      "Type": 19,
+      "TemplateSlot": 24,
+      "Id": 100527,
+      "MappedId": 32,
+      "Rarity": 6,
+      "Chatlink": "[&AgGviAEA]",
+      "AssetId": 3122334,
+      "Names": {
+        "English": "Relic of the Brawler",
+        "Spanish": "Reliquia del pendenciero",
+        "German": "Relikt des Raufbolds",
+        "French": "Relique de bagarreur"
+      },
+      "DisplayTexts": {
+        "English": "Relic of the Brawler",
+        "Spanish": "Reliquia del pendenciero",
+        "German": "Relikt des Raufbolds",
+        "French": "Relique de bagarreur"
+      },
+      "Descriptions": {
+        "English": "Deal increased strike damage for a duration when granting protection or resolution to yourself.",
+        "Spanish": "Inflige daño de golpe aumentado durante un tiempo cuando te otorgas a ti mismo protección o resolución.",
+        "German": "Wenn Ihr Euch selbst Schutz oder Entschlossenheit verleiht, verursacht Ihr für eine gewisse Zeit erhöhten Schlagschaden.",
+        "French": "Vous recevez un bonus de dégâts de frappe pendant quelque temps lorsque vous vous conférez Protection ou Résolution."
+      }
+    },
+    "100542": {
+      "Type": 19,
+      "TemplateSlot": 24,
+      "Id": 100542,
+      "MappedId": 33,
+      "Rarity": 6,
+      "Chatlink": "[&AgG+iAEA]",
+      "AssetId": 3122335,
+      "Names": {
+        "English": "Relic of the Cavalier",
+        "Spanish": "Reliquia de jinete",
+        "German": "Relikt des Kavaliers",
+        "French": "Relique de Cavalier"
+      },
+      "DisplayTexts": {
+        "English": "Relic of the Cavalier",
+        "Spanish": "Reliquia de jinete",
+        "German": "Relikt des Kavaliers",
+        "French": "Relique de Cavalier"
+      },
+      "Descriptions": {
+        "English": "Grant yourself aegis, quickness, swiftness, resistance, and might when striking an enemy with your mount's <c=@abilitytype>engage</c> skill.",
+        "Spanish": "Te otorgas égida, rapidez, celeridad, resistencia y poder cuando atacas a un enemigo con la habilidad de <c=@abilitytype>entrar en combate</c> de tu montura.",
+        "German": "Wenn Ihr einen Gegner mit der <c=@abilitytype>Angriffs</c>-Fertigkeit Eures Reittiers trefft, gewährt Ihr Euch selbst Aegis, Schnelligkeit, Eile, Widerstand und Macht.",
+        "French": "Vous recevez Égide, Célérité, Rapidité, Résistance et Pouvoir lorsque vous frappez un ennemi avec la compétence d'<c=@abilitytype>attaque</c> de votre monture."
+      }
+    },
+    "100557": {
+      "Type": 19,
+      "TemplateSlot": 24,
+      "Id": 100557,
+      "MappedId": 34,
+      "Rarity": 6,
+      "Chatlink": "[&AgHNiAEA]",
+      "AssetId": 3122378,
+      "Names": {
+        "English": "Relic of the Wizard's Tower",
+        "Spanish": "Reliquia de la torre del brujo",
+        "German": "Relikt des Turms des Zauberers",
+        "French": "Relique de la Tour du sorcier"
+      },
+      "DisplayTexts": {
+        "English": "Relic of the Wizard's Tower",
+        "Spanish": "Reliquia de la torre del brujo",
+        "German": "Relikt des Turms des Zauberers",
+        "French": "Relique de la Tour du sorcier"
+      },
+      "Descriptions": {
+        "English": "After using an elite skill, shield yourself with a projectile-reflecting barrier while summoning a wave that pulls enemies toward you.",
+        "Spanish": "Tras usar una habilidad de élite, protégete con una barrera que refleja proyectiles mientras invocas una ola que atrae a los enemigos hacia ti.",
+        "German": "Nach Verwendung einer Elite-Fertigkeit entsteht eine Schildbarriere um Euch herum, die Projektile reflektiert; zudem wird eine Welle herbeigerufen, die Gegner zu Euch hinzieht.",
+        "French": "Après avoir utilisé une compétence d'élite, une barrière reflétant les projectiles vous protège, tandis que vous invoquez une vague qui attire les ennemis vers vous."
+      }
+    },
+    "100561": {
+      "Type": 19,
+      "TemplateSlot": 24,
+      "Id": 100561,
+      "MappedId": 35,
+      "Rarity": 6,
+      "Chatlink": "[&AgHRiAEA]",
+      "AssetId": 3122328,
+      "Names": {
+        "English": "Relic of the Adventurer",
+        "Spanish": "Reliquia del aventurero",
+        "German": "Relikt des Abenteurers",
+        "French": "Relique d'aventurier"
+      },
+      "DisplayTexts": {
+        "English": "Relic of the Adventurer",
+        "Spanish": "Reliquia del aventurero",
+        "German": "Relikt des Abenteurers",
+        "French": "Relique d'aventurier"
+      },
+      "Descriptions": {
+        "English": "Gain endurance after using a healing skill.",
+        "Spanish": "Gana aguante tras usar una habilidad de curación.",
+        "German": "Nach Verwendung einer Heilfertigkeit erhaltet Ihr Ausdauer.",
+        "French": "Vous recevez de l'endurance lorsque vous utilisez une compétence de Guérison."
+      }
+    },
+    "100562": {
+      "Type": 19,
+      "TemplateSlot": 24,
+      "Id": 100562,
+      "MappedId": 36,
+      "Rarity": 6,
+      "Chatlink": "[&AgHSiAEA]",
+      "AssetId": 3122345,
+      "Names": {
+        "English": "Relic of Durability",
+        "Spanish": "Reliquia de durabilidad",
+        "German": "Relikt der Haltbarkeit",
+        "French": "Relique de durabilité"
+      },
+      "DisplayTexts": {
+        "English": "Relic of Durability",
+        "Spanish": "Reliquia de durabilidad",
+        "German": "Relikt der Haltbarkeit",
+        "French": "Relique de durabilité"
+      },
+      "Descriptions": {
+        "English": "Gain protection, regeneration, and resolution after using a healing skill.",
+        "Spanish": "Gana protección, regeneración y resolución tras usar una habilidad de curación.",
+        "German": "Nach Verwendung einer Heilfertigkeit erhaltet Ihr Schutz, Regeneration und Entschlossenheit.",
+        "French": "Vous bénéficiez de Protection, Régénération et Résolution si vous utilisez une compétence de Guérison."
+      }
+    },
+    "100579": {
+      "Type": 19,
+      "TemplateSlot": 24,
+      "Id": 100579,
+      "MappedId": 37,
+      "Rarity": 6,
+      "Chatlink": "[&AgHjiAEA]",
+      "AssetId": 3122363,
+      "Names": {
+        "English": "Relic of the Nightmare",
+        "Spanish": "Reliquia de la Pesadilla",
+        "German": "Relikt des Albtraums",
+        "French": "Relique des Cauchemars"
+      },
+      "DisplayTexts": {
+        "English": "Relic of the Nightmare",
+        "Spanish": "Reliquia de la Pesadilla",
+        "German": "Relikt des Albtraums",
+        "French": "Relique des Cauchemars"
+      },
+      "Descriptions": {
+        "English": "After using an elite skill, send forth a nightmare pulse that inflicts fear and poison on nearby enemies.",
+        "Spanish": "Tras usar una habilidad de élite, lanza un pulso de pesadilla que inflige miedo y veneno a los enemigos cercanos.",
+        "German": "Nach Verwendung einer Elite-Fertigkeit sendet Ihr einen Albtraum-Puls aus, der Gegnern in der Nähe Furcht und Gift zufügt.",
+        "French": "Si vous utilisez une compétence d'élite, vous projetez une pulsation cauchemardesque qui inflige Peur et Empoisonnement aux ennemis à proximité."
+      }
+    },
+    "100580": {
+      "Type": 19,
+      "TemplateSlot": 24,
+      "Id": 100580,
+      "MappedId": 38,
+      "Rarity": 6,
+      "Chatlink": "[&AgHkiAEA]",
+      "AssetId": 3122362,
+      "Names": {
+        "English": "Relic of the Necromancer",
+        "Spanish": "Reliquia del nigromante",
+        "German": "Relikt des Nekromanten",
+        "French": "Relique de nécromant"
+      },
+      "DisplayTexts": {
+        "English": "Relic of the Necromancer",
+        "Spanish": "Reliquia del nigromante",
+        "German": "Relikt des Nekromanten",
+        "French": "Relique de nécromant"
+      },
+      "Descriptions": {
+        "English": "Fear you inflict causes foes to move slower.",
+        "Spanish": "El miedo que causas hace que tus enemigos se muevan más lentamente.",
+        "German": "Wenn Ihr Gegnern Furcht einflößt, bewegen sie sich langsamer.",
+        "French": "Les effets de Peur que vous infligez réduisent la vitesse de déplacement des ennemis."
+      }
+    },
+    "100614": {
+      "Type": 19,
+      "TemplateSlot": 24,
+      "Id": 100614,
+      "MappedId": 39,
+      "Rarity": 6,
+      "Chatlink": "[&AgEGiQEA]",
+      "AssetId": 3122347,
+      "Names": {
+        "English": "Relic of Evasion",
+        "Spanish": "Reliquia de evasión",
+        "German": "Relikt der Ausflucht",
+        "French": "Relique de dérobade"
+      },
+      "DisplayTexts": {
+        "English": "Relic of Evasion",
+        "Spanish": "Reliquia de evasión",
+        "German": "Relikt der Ausflucht",
+        "French": "Relique de dérobade"
+      },
+      "Descriptions": {
+        "English": "Gain vigor after evading an attack.",
+        "Spanish": "Gana vigor tras evadir un ataque.",
+        "German": "Wenn Ihr einem Angriff ausgewichen seid, erhaltet Ihr Elan.",
+        "French": "Vous bénéficiez de Vigueur quand vous esquivez une attaque."
+      }
+    },
+    "100625": {
+      "Type": 19,
+      "TemplateSlot": 24,
+      "Id": 100625,
+      "MappedId": 40,
+      "Rarity": 6,
+      "Chatlink": "[&AgERiQEA]",
+      "AssetId": 3122356,
+      "Names": {
+        "English": "Relic of Leadership",
+        "Spanish": "Reliquia de liderazgo",
+        "German": "Relikt der Führungsstärke",
+        "French": "Relique de charisme"
+      },
+      "DisplayTexts": {
+        "English": "Relic of Leadership",
+        "Spanish": "Reliquia de liderazgo",
+        "German": "Relikt der Führungsstärke",
+        "French": "Relique de charisme"
+      },
+      "Descriptions": {
+        "English": "Convert conditions into boons on nearby allies after using an elite skill.",
+        "Spanish": "Convierte condiciones en bendiciones en aliados cercanos tras usar una habilidad de élite.",
+        "German": "Nach Verwendung einer Elite-Fertigkeit verwandelt Ihr für Verbündete in der Nähe Zustände in Segen.",
+        "French": "Vous convertissez des altérations en avantages sur les alliés à proximité si vous utilisez une compétence d'élite."
+      }
+    },
+    "100659": {
+      "Type": 19,
+      "TemplateSlot": 24,
+      "Id": 100659,
+      "MappedId": 41,
+      "Rarity": 6,
+      "Chatlink": "[&AgEziQEA]",
+      "AssetId": 3122376,
+      "Names": {
+        "English": "Relic of the Water",
+        "Spanish": "Reliquia del agua",
+        "German": "Relikt des Wassers",
+        "French": "Relique d'eau"
+      },
+      "DisplayTexts": {
+        "English": "Relic of the Water",
+        "Spanish": "Reliquia del agua",
+        "German": "Relikt des Wassers",
+        "French": "Relique d'eau"
+      },
+      "Descriptions": {
+        "English": "Cleanse conditions from yourself and nearby allies after using a healing skill.",
+        "Spanish": "Elimina condiciones de los aliados cercanos y de ti mismo tras usar una habilidad de curación.",
+        "German": "Entfernt nach Verwendung einer Heilfertigkeit Zustände von Euch und Verbündeten in der Nähe.",
+        "French": "Vous dissipez des altérations infligées aux alliés à proximité et à vous-même après avoir utilisé une compétence de Guérison."
+      }
+    },
+    "100693": {
+      "Type": 19,
+      "TemplateSlot": 24,
+      "Id": 100693,
+      "MappedId": 42,
+      "Rarity": 6,
+      "Chatlink": "[&AgFViQEA]",
+      "AssetId": 3122329,
+      "Names": {
+        "English": "Relic of the Afflicted",
+        "Spanish": "Reliquia de los afligidos",
+        "German": "Relikt der Befallenen",
+        "French": "Relique des Affligés"
+      },
+      "DisplayTexts": {
+        "English": "Relic of the Afflicted",
+        "Spanish": "Reliquia de los afligidos",
+        "German": "Relikt der Befallenen",
+        "French": "Relique des Affligés"
+      },
+      "Descriptions": {
+        "English": "Create a Death Nova at a foe's location upon their defeat that inflicts poison and bleeding.",
+        "Spanish": "Crea una nova de muerte en la ubicación de un enemigo al derrotarlo que inflige veneno y hemorragia.",
+        "German": "Erstellt bei der Niederlage eines Gegners an seiner Position eine Todesnova, die Gift und Blutung zufügt.",
+        "French": "Crée une nova mortelle à l'emplacement d'un ennemi lorsque vous le vainquez. Cette nova inflige Empoisonnement et Saignement."
+      }
+    },
+    "100694": {
+      "Type": 19,
+      "TemplateSlot": 24,
+      "Id": 100694,
+      "MappedId": 43,
+      "Rarity": 6,
+      "Chatlink": "[&AgFWiQEA]",
+      "AssetId": 3122373,
+      "Names": {
+        "English": "Relic of the Unseen Invasion",
+        "Spanish": "Reliquia de la invasión oculta",
+        "German": "Relikt der Ungesehenen-Invasion",
+        "French": "Relique de l'invasion invisible"
+      },
+      "DisplayTexts": {
+        "English": "Relic of the Unseen Invasion",
+        "Spanish": "Reliquia de la invasión oculta",
+        "German": "Relikt der Ungesehenen-Invasion",
+        "French": "Relique de l'invasion invisible"
+      },
+      "Descriptions": {
+        "English": "Grant yourself and nearby allies superspeed when you enter or exit stealth.",
+        "Spanish": "Otorga supervelocidad a tus aliados y a ti mismo cuando entras o sales del modo de sigilo.",
+        "German": "Gewährt Euch selbst und Verbündeten in der Nähe Supergeschwindigkeit, wenn Ihr in den Tarnmodus übergeht oder ihn verlasst.",
+        "French": "Vous conférez Super vitesse à vous-même et aux alliés à proximité lorsque vous activez ou désactivez le mode furtif."
+      }
+    },
+    "100739": {
+      "Type": 19,
+      "TemplateSlot": 24,
+      "Id": 100739,
+      "MappedId": 44,
+      "Rarity": 6,
+      "Chatlink": "[&AgGDiQEA]",
+      "AssetId": 3122366,
+      "Names": {
+        "English": "Relic of the Reaper",
+        "Spanish": "Reliquia del segador",
+        "German": "Relikt des Schnitters",
+        "French": "Relique du faucheur"
+      },
+      "DisplayTexts": {
+        "English": "Relic of the Reaper",
+        "Spanish": "Reliquia del segador",
+        "German": "Relikt des Schnitters",
+        "French": "Relique du faucheur"
+      },
+      "Descriptions": {
+        "English": "Chill nearby enemies after executing a <c=@abilitytype>shout</c> skill.",
+        "Spanish": "Congelas a los enemigos cercanos tras usar una habilidad de <c=@abilitytype>grito</c>.",
+        "German": "Kühlt Gegner in der Nähe nach Einsatz einer <c=@abilitytype>Kampfschrei</c>-Fertigkeit-",
+        "French": "Vous infligez Givre aux ennemis à proximité si vous utilisez une compétence de <c=@abilitytype>cri</c>."
+      }
+    },
+    "100752": {
+      "Type": 19,
+      "TemplateSlot": 24,
+      "Id": 100752,
+      "MappedId": 45,
+      "Rarity": 6,
+      "Chatlink": "[&AgGQiQEA]",
+      "AssetId": 3122364,
+      "Names": {
+        "English": "Relic of the Pack",
+        "Spanish": "Reliquia de la manada",
+        "German": "Relikt des Rudels",
+        "French": "Relique de la meute"
+      },
+      "DisplayTexts": {
+        "English": "Relic of the Pack",
+        "Spanish": "Reliquia de la manada",
+        "German": "Relikt des Rudels",
+        "French": "Relique de la meute"
+      },
+      "Descriptions": {
+        "English": "Grant superspeed, might, and fury to nearby allies after using an elite skill.",
+        "Spanish": "Otorga supervelocidad, poder y furia a los aliados cercanos tras usar una habilidad de élite.",
+        "German": "Nach Verwendung einer Elite-Fertigkeit gewährt Ihr Verbündeten in der Nähe Supergeschwindigkeit, Macht und Wut.",
+        "French": "Vous conférez Super vitesse, Pouvoir et Fureur aux alliés à proximité si vous utilisez une compétence d'élite."
+      }
+    },
+    "100775": {
+      "Type": 19,
+      "TemplateSlot": 24,
+      "Id": 100775,
+      "MappedId": 46,
+      "Rarity": 6,
+      "Chatlink": "[&AgGniQEA]",
+      "AssetId": 3122374,
+      "Names": {
+        "English": "Relic of Vass",
+        "Spanish": "Reliquia de Vass",
+        "German": "Relikt von Vass",
+        "French": "Relique de Vass"
+      },
+      "DisplayTexts": {
+        "English": "Relic of Vass",
+        "Spanish": "Reliquia de Vass",
+        "German": "Relikt von Vass",
+        "French": "Relique de Vass"
+      },
+      "Descriptions": {
+        "English": "After using a healing or elixir skill, your next few attacks inflict poison. <c=@reminder>Healing skills can only trigger this effect once every interval.</c>",
+        "Spanish": "Tras usar una habilidad de curación o de elixir, inflige veneno con tus siguientes ataques. <c=@reminder>Las habilidades curativas solo activan este efecto cada cierto intervalo.</c>",
+        "German": "Nach Verwendung einer Heil- oder Elixierfertigkeit fügen Eure nächsten Angriffe Gift zu. <c=@reminder>Heilfertigkeiten können diesen Effekt nur einmal pro Intervall auslösen.</c>",
+        "French": "Après avoir utilisé une compétence de Guérison ou d'élixir, vos prochaines frappes d'arme infligent Empoisonnement. <c=@reminder>Les compétences de Guérison ne peuvent activer cet effet qu'une fois par intervalle.</c>"
+      }
+    },
+    "100794": {
+      "Type": 19,
+      "TemplateSlot": 24,
+      "Id": 100794,
+      "MappedId": 47,
+      "Rarity": 6,
+      "Chatlink": "[&AgG6iQEA]",
+      "AssetId": 3122367,
+      "Names": {
+        "English": "Relic of Resistance",
+        "Spanish": "Reliquia de resistencia",
+        "German": "Relikt des Widerstands",
+        "French": "Relique de résistance"
+      },
+      "DisplayTexts": {
+        "English": "Relic of Resistance",
+        "Spanish": "Reliquia de resistencia",
+        "German": "Relikt des Widerstands",
+        "French": "Relique de résistance"
+      },
+      "Descriptions": {
+        "English": "Gain resistance after using a healing skill.",
+        "Spanish": "Gana resistencia tras usar una habilidad de curación.",
+        "German": "Nach Verwendung einer Heilfertigkeit erhaltet Ihr Widerstand.",
+        "French": "Vous bénéficiez de Résistance si vous utilisez une compétence de Guérison."
+      }
+    },
+    "100849": {
+      "Type": 19,
+      "TemplateSlot": 24,
+      "Id": 100849,
+      "MappedId": 48,
+      "Rarity": 6,
+      "Chatlink": "[&AgHxiQEA]",
+      "AssetId": 3122332,
+      "Names": {
+        "English": "Relic of the Aristocracy",
+        "Spanish": "Reliquia de la aristocracia",
+        "German": "Relikt der Aristokratie",
+        "French": "Relique d'aristocratie"
+      },
+      "DisplayTexts": {
+        "English": "Relic of the Aristocracy",
+        "Spanish": "Reliquia de la aristocracia",
+        "German": "Relikt der Aristokratie",
+        "French": "Relique d'aristocratie"
+      },
+      "Descriptions": {
+        "English": "Gain increased condition duration when inflicting weakness or vulnerability on a foe.",
+        "Spanish": "La duración de condición aumenta cuando infliges debilidad o vulnerabilidad a un enemigo.",
+        "German": "Wenn Ihr einem Gegner Schwäche oder Verwundbarkeit zufügt, wird die Dauer der von Euch zugefügten Zustände erhöht.",
+        "French": "Votre durée d'altération augmente lorsque vous infligez Faiblesse ou Vulnérabilité à un ennemi."
+      }
+    },
+    "100886": {
+      "Type": 19,
+      "TemplateSlot": 24,
+      "Id": 100886,
+      "MappedId": 49,
+      "Rarity": 6,
+      "Chatlink": "[&AgEWigEA]",
+      "AssetId": 3122347,
+      "Names": {
+        "English": "Relic of Evasion",
+        "Spanish": "Reliquia de evasión",
+        "German": "Relikt der Ausflucht",
+        "French": "Relique de dérobade"
+      },
+      "DisplayTexts": {
+        "English": "Relic of Evasion",
+        "Spanish": "Reliquia de evasión",
+        "German": "Relikt der Ausflucht",
+        "French": "Relique de dérobade"
+      },
+      "Descriptions": {
+        "English": "Gain vigor after evading an attack.",
+        "Spanish": "Gana vigor tras evadir un ataque.",
+        "German": "Wenn Ihr einem Angriff ausgewichen seid, erhaltet Ihr Elan.",
+        "French": "Vous bénéficiez de Vigueur quand vous esquivez une attaque."
+      }
+    },
+    "100893": {
+      "Type": 19,
+      "TemplateSlot": 24,
+      "Id": 100893,
+      "MappedId": 50,
+      "Rarity": 6,
+      "Chatlink": "[&AgEdigEA]",
+      "AssetId": 3122379,
+      "Names": {
+        "English": "Relic of the Zephyrite",
+        "Spanish": "Reliquia del cefirita",
+        "German": "Relikt der Zephyriten",
+        "French": "Relique des Zéphyrites"
+      },
+      "DisplayTexts": {
+        "English": "Relic of the Zephyrite",
+        "Spanish": "Reliquia del cefirita",
+        "German": "Relikt der Zephyriten",
+        "French": "Relique des Zéphyrites"
+      },
+      "Descriptions": {
+        "English": "Summon crystals that apply protection and resolution to allies after using an elite skill. Crystal duration scales with the recharge of the used skill.",
+        "Spanish": "Invoca cristales que aplican protección y resolución a los aliados tras usar una habilidad de élite. La duración de los cristales varía según la recarga de la habilidad empleada.",
+        "German": "Beschwört nach Verwendung einer Elite-Fertigkeit Kristalle, die Verbündeten Schutz und Entschlossenheit gewähren. Die Kristalldauer skaliert mit der Wiederaufladezeit der verwendeten Fertigkeit.",
+        "French": "Vous invoquez des cristaux qui confèrent Protection et Résolution aux alliés si vous utilisez une compétence d'élite. La durée des cristaux dépend du temps de recharge de la compétence utilisée."
+      }
+    },
+    "100916": {
+      "Type": 19,
+      "TemplateSlot": 24,
+      "Id": 100916,
+      "MappedId": 51,
+      "Rarity": 6,
+      "Chatlink": "[&AgE0igEA]",
+      "AssetId": 3122371,
+      "Names": {
+        "English": "Relic of the Thief",
+        "Spanish": "Reliquia del ladrón",
+        "German": "Relikt des Diebes",
+        "French": "Relique de voleur"
+      },
+      "DisplayTexts": {
+        "English": "Relic of the Thief",
+        "Spanish": "Reliquia del ladrón",
+        "German": "Relikt des Diebes",
+        "French": "Relique de voleur"
+      },
+      "Descriptions": {
+        "English": "Upon striking an enemy with a weapon skill that has a recharge or resource cost, gain increased strike damage. <c=@reminder>When this triggers, refresh the duration of all stacks.</c>",
+        "Spanish": "Al golpear a un enemigo con una habilidad de arma con recarga o coste de recursos, tu daño de golpe aumenta. <c=@reminder>Cuando esto se activa, las duraciones de todas las acumulaciones se actualizan. </c>",
+        "German": "Wenn ein Gegner mit einer Waffenfertigkeit getroffen wird, die eine Wiederaufladezeit oder Ressourcenkosten hat, erhaltet Ihr erhöhten Schlagschaden. <c=@reminder>Wenn dies ausgelöst wird, wird die Dauer aller Stapel zurückgesetzt.</c>",
+        "French": "Lorsque vous frappez un ennemi avec une compétence d'arme qui a un temps de recharge ou un coût en ressource, vous bénéficiez d'un bonus de dégâts de frappe. <c=@reminder>L'activation de cet effet réinitialise la durée de toutes les charges.</c>"
+      }
+    },
+    "100924": {
+      "Type": 19,
+      "TemplateSlot": 24,
+      "Id": 100924,
+      "MappedId": 52,
+      "Rarity": 6,
+      "Chatlink": "[&AgE8igEA]",
+      "AssetId": 3122342,
+      "Names": {
+        "English": "Relic of the Deadeye",
+        "Spanish": "Reliquia de certero",
+        "German": "Relikt des Scharfschützen",
+        "French": "Relique du Sniper"
+      },
+      "DisplayTexts": {
+        "English": "Relic of the Deadeye",
+        "Spanish": "Reliquia de certero",
+        "German": "Relikt des Scharfschützen",
+        "French": "Relique du Sniper"
+      },
+      "Descriptions": {
+        "English": "Deal increased strike damage for a duration when you use a <c=@abilitytype>cantrip</c> skill.",
+        "Spanish": "Inflige daño de golpe aumentado durante un tiempo cuando usas una habilidad de <c=@abilitytype>sortilegio</c>.",
+        "German": "Wenn Ihr eine <c=@abilitytype>Schwarzmagie</c>-Fertigkeit verwendet, verursacht Ihr für eine gewisse Zeit erhöhten Schlagschaden.",
+        "French": "Vous recevez un bonus de dégâts de frappe pendant quelque temps lorsque vous utilisez une compétence de <c=@abilitytype>sortilège</c>."
+      }
+    },
+    "100934": {
+      "Type": 19,
+      "TemplateSlot": 24,
+      "Id": 100934,
+      "MappedId": 53,
+      "Rarity": 6,
+      "Chatlink": "[&AgFGigEA]",
+      "AssetId": 3122343,
+      "Names": {
+        "English": "Relic of the Defender",
+        "Spanish": "Reliquia del defensor",
+        "German": "Relikt des Verteidigers",
+        "French": "Relique du Défenseur"
+      },
+      "DisplayTexts": {
+        "English": "Relic of the Defender",
+        "Spanish": "Reliquia del defensor",
+        "German": "Relikt des Verteidigers",
+        "French": "Relique du Défenseur"
+      },
+      "Descriptions": {
+        "English": "Heal a percentage of your maximum health after blocking an attack. If you block again within 5 seconds, you heal less each time down to a minimum of 1%.",
+        "Spanish": "Cúrate por valor de un porcentaje de tu salud máxima tras bloquear un ataque. Si bloqueas de nuevo en los siguientes 5 segundos, te curas cada vez menos hasta un mínimo del 1 %.",
+        "German": "Heilt nach dem Blocken eines Angriffs einen Prozentsatz Euer maximalen Lebenspunkte. Wenn Ihr innerhalb von 5 Sekunden nochmals blockt, werdet Ihr jedes Mal um 1 % weniger geheilt, bis hinunter zu einem Minimum von 1 %.",
+        "French": "Régénère un pourcentage de votre santé maximale si vous bloquez une attaque. Si vous bloquez à nouveau dans les 5 secondes, la régénération est réduite à chaque fois, jusqu'à un minimum de 1%."
+      }
+    },
+    "100942": {
+      "Type": 19,
+      "TemplateSlot": 24,
+      "Id": 100942,
+      "MappedId": 54,
+      "Rarity": 6,
+      "Chatlink": "[&AgFOigEA]",
+      "AssetId": 3122340,
+      "Names": {
+        "English": "Relic of Dagda",
+        "Spanish": "Reliquia de Dagda",
+        "German": "Relikt von Dagda",
+        "French": "Relique de Dagda"
+      },
+      "DisplayTexts": {
+        "English": "Relic of Dagda",
+        "Spanish": "Reliquia de Dagda",
+        "German": "Relikt von Dagda",
+        "French": "Relique de Dagda"
+      },
+      "Descriptions": {
+        "English": "After using an elite skill, fire a projectile at the target or nearest enemy that damages and inflicts conditions. Damage scales with the recharge of the elite skill.",
+        "Spanish": "Tras usar una habilidad de élite, dispara un proyectil al objetivo o al enemigo más cercano que daña e inflige condiciones. El daño aumenta al recargar la habilidad élite.",
+        "German": "Feuert nach Verwendung einer Elite-Fertigkeit ein Projektil auf das Ziel oder den nächsten Gegner ab, das Schaden verursacht und Zustände zufügt. Der Schaden skaliert mit der Wiederaufladezeit der Elite-Fertigkeit.",
+        "French": "Après avoir utilisé une compétence d'élite, vous tirez un projectile sur la cible ou l'ennemi le plus proche, qui subit des dégâts et des altérations. Les dégâts dépendent du temps de recharge de la compétence d'élite."
+      }
+    },
+    "100947": {
+      "Type": 19,
+      "TemplateSlot": 24,
+      "Id": 100947,
+      "MappedId": 55,
+      "Rarity": 6,
+      "Chatlink": "[&AgFTigEA]",
+      "AssetId": 3122349,
+      "Names": {
+        "English": "Relic of Fireworks",
+        "Spanish": "Reliquia de fuegos artificiales",
+        "German": "Relikt des Feuerwerks",
+        "French": "Relique de feux d'artifice"
+      },
+      "DisplayTexts": {
+        "English": "Relic of Fireworks",
+        "Spanish": "Reliquia de fuegos artificiales",
+        "German": "Relikt des Feuerwerks",
+        "French": "Relique de feux d'artifice"
+      },
+      "Descriptions": {
+        "English": "Upon dealing strike damage using a weapon skill with a recharge time of 20 seconds or more, deal increased strike damage for a duration. Refreshes duration on stack.",
+        "Spanish": "Al infligir daño de golpe usando una habilidad de arma con un tiempo de recarga de 20 segundos o más, tu daño de golpe aumenta durante un tiempo. La duración se reinicia con cada acumulación.",
+        "German": "Wenn Ihr mit einer Waffenfertigkeit mit einer Wiederaufladezeit von 20 Sekunden oder mehr Schlagschaden verursacht, richtet Ihr für eine gewisse Zeit erhöhten Schlagschaden an. Erneuert die Dauer pro Stapel.",
+        "French": "Lorsque vous infligez des dégâts de frappe avec une compétence d'arme qui a un temps de recharge d'au moins 20 secondes, vous recevez un bonus de dégâts de frappe pendant quelque temps. La durée est réinitialisée à chaque cumul de charge."
+      }
+    },
+    "104849": {
+      "Type": 19,
+      "TemplateSlot": 24,
+      "Id": 104849,
+      "MappedId": 56,
+      "Rarity": 6,
+      "Chatlink": "[&AgGRmQEA]",
+      "AssetId": 3629395,
+      "Names": {
+        "English": "Relic of Agony",
+        "Spanish": "Reliquia de agonía",
+        "German": "Relikt der Qual",
+        "French": "Relique de l'agonie"
+      },
+      "DisplayTexts": {
+        "English": "Relic of Agony",
+        "Spanish": "Reliquia de agonía",
+        "German": "Relikt der Qual",
+        "French": "Relique de l'agonie"
+      },
+      "Descriptions": {
+        "English": "Enemies you interrupt are inflicted with Agony of the Choir.<br><c=@reminder>This trait can only affect enemies with defiance bars once per interval.</c>",
+        "Spanish": "Los enemigos a los que interrumpas sufren agonía del coro.<br><c=@reminder>Este rasgo solo afecta una vez por intervalo a los enemigos con barra de desafío.</c>",
+        "German": "Gegner, die Ihr unterbrecht, werden von Qual des Chors befallen.<br><c=@reminder>Diese Eigenschaft kann Gegner mit Trotz-Leisten nur einmal pro Intervall treffen.</c>",
+        "French": "Vous infligez Agonie du chœur aux ennemis interrompus.<br><c=@reminder>Cette aptitude n'affecte les ennemis possédant une barre de défiance qu'une seule fois par intervalle.</c>"
+      }
+    },
+    "104256": {
+      "Type": 19,
+      "TemplateSlot": 24,
+      "Id": 104256,
+      "MappedId": 57,
+      "Rarity": 6,
+      "Chatlink": "[&AgFAlwEA]",
+      "AssetId": 3592831,
+      "Names": {
+        "English": "Relic of Altruism",
+        "Spanish": "Reliquia de altruismo",
+        "German": "Relikt des Altruismus",
+        "French": "Relique d'altruisme"
+      },
+      "DisplayTexts": {
+        "English": "Relic of Altruism",
+        "Spanish": "Reliquia de altruismo",
+        "German": "Relikt des Altruismus",
+        "French": "Relique d'altruisme"
+      },
+      "Descriptions": {
+        "English": "Grant might and fury to nearby allies after using a healing skill.",
+        "Spanish": "Otorga poder y furia a los aliados cercanos tras usar una habilidad curativa.",
+        "German": "Gewährt Verbündeten in der Nähe Macht und Wut, nachdem eine Heilfertigkeit benutzt wurde.",
+        "French": "Confère Pouvoir et Fureur aux alliés à proximité lorsque vous utilisez une compétence de Guérison."
+      }
+    },
+    "102245": {
+      "Type": 19,
+      "TemplateSlot": 24,
+      "Id": 102245,
+      "MappedId": 58,
+      "Rarity": 6,
+      "Chatlink": "[&AgFljwEA]",
+      "AssetId": 3375218,
+      "Names": {
+        "English": "Relic of Atrocity",
+        "Spanish": "Reliquia de atrocidad",
+        "German": "Relikt der Gräueltat",
+        "French": "Relique d'atrocité"
+      },
+      "DisplayTexts": {
+        "English": "Relic of Atrocity",
+        "Spanish": "Reliquia de atrocidad",
+        "German": "Relikt der Gräueltat",
+        "French": "Relique d'atrocité"
+      },
+      "Descriptions": {
+        "English": "Your lifesteal damage and healing is increased.",
+        "Spanish": "Tu daño por robo de vida y tu curación aumentan.",
+        "German": "Euer Lebensentzug-Schaden und Eure Heilung sind erhöht.",
+        "French": "Vos dégâts de vol de vie et les soins que vous prodiguez sont augmentés."
+      }
+    },
+    "104848": {
+      "Type": 19,
+      "TemplateSlot": 24,
+      "Id": 104848,
+      "MappedId": 59,
+      "Rarity": 6,
+      "Chatlink": "[&AgGQmQEA]",
+      "AssetId": 3629396,
+      "Names": {
+        "English": "Relic of Bava Nisos",
+        "Spanish": "Reliquia de Bava Nisos",
+        "German": "Relikt von Bava Nisos",
+        "French": "Relique de Bava Nisos"
+      },
+      "DisplayTexts": {
+        "English": "Relic of Bava Nisos",
+        "Spanish": "Reliquia de Bava Nisos",
+        "German": "Relikt von Bava Nisos",
+        "French": "Relique de Bava Nisos"
+      },
+      "Descriptions": {
+        "English": "Upon using a <c=@abilitytype>stance</c> skill, cleanse conditions from yourself.",
+        "Spanish": "Al usar una habilidad de <c=@abilitytype>postura</c>, te quita las condiciones que sufras.",
+        "German": "Entfernt Zustände von Euch, wenn Ihr eine <c=@abilitytype>Haltungs</c>-Fertigkeit verwendet.",
+        "French": "Lorsque vous utilisez une compétence de <c=@abilitytype>posture</c>, vous dissipez vos altérations."
+      }
+    },
+    "104800": {
+      "Type": 19,
+      "TemplateSlot": 24,
+      "Id": 104800,
+      "MappedId": 60,
+      "Rarity": 6,
+      "Chatlink": "[&AgFgmQEA]",
+      "AssetId": 3629397,
+      "Names": {
+        "English": "Relic of Bloodstone",
+        "Spanish": "Reliquia de hematites",
+        "German": "Relikt des Blutsteins",
+        "French": "Relique de la pierre de sang"
+      },
+      "DisplayTexts": {
+        "English": "Relic of Bloodstone",
+        "Spanish": "Reliquia de hematites",
+        "German": "Relikt des Blutsteins",
+        "French": "Relique de la pierre de sang"
+      },
+      "Descriptions": {
+        "English": "Gain Bloodstone Volatility when you successfully combo a field with a blast finisher. Blasting at the stack threshold triggers an explosion, granting increased damage.",
+        "Spanish": "Gana volatilidad de hematites cuando logras combinar un campo de combo con un remate explosivo. Una explosión en el umbral de acumulación provoca una explosión, otorgando daño aumentado.",
+        "German": "Erhaltet bei einer erfolgreichen Kombo eines Feldes mit einem Explosions-Komboabschluss Blutstein-Flüchtigkeit. Sprengung an der Stapelschwelle verursacht eine Explosion mit vermehrtem Schaden.",
+        "French": "Vous recevez Volatilité de la pierre de sang quand vous exécutez avec succès un combo avec un coup de grâce explosif. Le fait d'exécuter un coup de grâce explosif en étant au seuil de charges déclenche une explosion qui augmente les dégâts."
+      }
+    },
+    "101116": {
+      "Type": 19,
+      "TemplateSlot": 24,
+      "Id": 101116,
+      "MappedId": 61,
+      "Rarity": 6,
+      "Chatlink": "[&AgH8igEA]",
+      "AssetId": 3187628,
+      "Names": {
+        "English": "Relic of Febe",
+        "Spanish": "Reliquia de Febe",
+        "German": "Relikt von Febe",
+        "French": "Relique de Febe"
+      },
+      "DisplayTexts": {
+        "English": "Relic of Febe",
+        "Spanish": "Reliquia de Febe",
+        "German": "Relikt von Febe",
+        "French": "Relique de Febe"
+      },
+      "Descriptions": {
+        "English": "When you use a healing skill, grant nearby allies swiftness and remove movement-impairing conditions from them.",
+        "Spanish": "Al usar una habilidad de curación, otorga celeridad a los aliados cercanos y elimina de ellos las condiciones que limitan el movimiento.",
+        "German": "Gewährt Verbündeten in der Nähe Eile, wenn Ihr eine Heilfertigkeit einsetzt, und entfernt Zustände von ihnen, die ihre Bewegung beeinträchtigen.",
+        "French": "Vous conférez Rapidité aux alliés à proximité et dissipez leurs altérations de mouvement lorsque vous utilisez une compétence de soins."
+      }
+    },
+    "104501": {
+      "Type": 19,
+      "TemplateSlot": 24,
+      "Id": 104501,
+      "MappedId": 62,
+      "Rarity": 6,
+      "Chatlink": "[&AgE1mAEA]",
+      "AssetId": 3592834,
+      "Names": {
+        "English": "Relic of Fire",
+        "Spanish": "Reliquia de fuego",
+        "German": "Relikt des Feuers",
+        "French": "Relique de feu"
+      },
+      "DisplayTexts": {
+        "English": "Relic of Fire",
+        "Spanish": "Reliquia de fuego",
+        "German": "Relikt des Feuers",
+        "French": "Relique de feu"
+      },
+      "Descriptions": {
+        "English": "Gain fire aura after using a healing skill. Fire aura now increases your outgoing strike damage.",
+        "Spanish": "Gana aura de fuego tras usar una habilidad de curación. Aura de fuego ahora aumenta tu daño de golpe causado.",
+        "German": "Erhaltet eine Feueraura nach Verwendung einer Heilfertigkeit. Die Feueraura erhöht jetzt den durch Euch verursachten Schlagschaden.",
+        "French": "Vous obtenez une aura de feu après avoir utilisé une compétence de Guérison. Désormais, l'aura de feu augmente les dégâts de frappe que vous infligez."
+      }
+    },
+    "103763": {
+      "Type": 19,
+      "TemplateSlot": 24,
+      "Id": 103763,
+      "MappedId": 63,
+      "Rarity": 6,
+      "Chatlink": "[&AgFTlQEA]",
+      "AssetId": 3441971,
+      "Names": {
+        "English": "Relic of Geysers",
+        "Spanish": "Reliquia de géiseres",
+        "German": "Relikt von Geysiren",
+        "French": "Relique des geysers"
+      },
+      "DisplayTexts": {
+        "English": "Relic of Geysers",
+        "Spanish": "Reliquia de géiseres",
+        "German": "Relikt von Geysiren",
+        "French": "Relique des geysers"
+      },
+      "Descriptions": {
+        "English": "Restore endurance to allies when you grant them vigor.",
+        "Spanish": "Restablece aguante de los aliados cuando les otorgas vigor.",
+        "German": "Gebt Verbündeten ihre Ausdauer wieder, wenn Ihr ihnen Elan gewährt.",
+        "French": "Restaure l'Endurance des alliés à qui vous conférez Vigueur."
+      }
+    },
+    "101268": {
+      "Type": 19,
+      "TemplateSlot": 24,
+      "Id": 101268,
+      "MappedId": 64,
+      "Rarity": 6,
+      "Chatlink": "[&AgGUiwEA]",
+      "AssetId": 3187629,
+      "Names": {
+        "English": "Relic of Karakosa",
+        "Spanish": "Reliquia de Karakosa",
+        "German": "Relikt von Karakosa",
+        "French": "Relique de Karakosa"
+      },
+      "DisplayTexts": {
+        "English": "Relic of Karakosa",
+        "Spanish": "Reliquia de Karakosa",
+        "German": "Relikt von Karakosa",
+        "French": "Relique de Karakosa"
+      },
+      "Descriptions": {
+        "English": "Heal other nearby allies when you successfully combo a field with a blast finisher.",
+        "Spanish": "Cura a los aliados cercanos cuando logras combinar un campo de combo con un remate de descarga.",
+        "German": "Heilt andere Verbündete in der Nähe, wenn Ihr erfolgreich ein Feld mit einem Explosions-Komboabschluss kombiniert.",
+        "French": "Vous soignez les alliés à proximité quand vous exécutez avec succès un combo avec un coup de grâce explosif."
+      }
+    },
+    "104994": {
+      "Type": 19,
+      "TemplateSlot": 24,
+      "Id": 104994,
+      "MappedId": 65,
+      "Rarity": 6,
+      "Chatlink": "[&AgEimgEA]",
+      "AssetId": 3629399,
+      "Names": {
+        "English": "Relic of Mistburn",
+        "Spanish": "Reliquia de pavesas de Niebla",
+        "German": "Relikt des Nebelbrands",
+        "French": "Relique du Feu-de-Brume"
+      },
+      "DisplayTexts": {
+        "English": "Relic of Mistburn",
+        "Spanish": "Reliquia de pavesas de Niebla",
+        "German": "Relikt des Nebelbrands",
+        "French": "Relique du Feu-de-Brume"
+      },
+      "Descriptions": {
+        "English": "When you grant might to yourself, grant yourself additional might. Gain increased critical-strike chance while at or above the might threshold.",
+        "Spanish": "Cuando te otorgas poder a ti mismo, recibes además poder adicional. Gana una probabilidad de impacto crítico aumentada en el umbral de poder o por encima del mismo.",
+        "German": "Wenn Ihr Euch selbst Macht gewährt, erhaltet Ihr noch zusätzliche Macht. Wenn Ihr an oder über der Macht-Schwelle seid, erhaltet Ihr eine erhöhte Chance auf Kritische Treffer.",
+        "French": "Lorsque vous vous conférez Pouvoir, vous recevez davantage de Pouvoir. Vos probabilités de coup critique sont augmentées tant que vous êtes au seuil de Pouvoir ou au-dessus."
+      }
+    },
+    "101801": {
+      "Type": 19,
+      "TemplateSlot": 24,
+      "Id": 101801,
+      "MappedId": 66,
+      "Rarity": 6,
+      "Chatlink": "[&AgGpjQEA]",
+      "AssetId": 3302017,
+      "Names": {
+        "English": "Relic of Mosyn",
+        "Spanish": "Reliquia de Mosyn",
+        "German": "Relikt von Mosyn",
+        "French": "Relique de Mosyn"
+      },
+      "DisplayTexts": {
+        "English": "Relic of Mosyn",
+        "Spanish": "Reliquia de Mosyn",
+        "German": "Relikt von Mosyn",
+        "French": "Relique de Mosyn"
+      },
+      "Descriptions": {
+        "English": "Remove a nondamaging condition whenever you evade an attack.",
+        "Spanish": "Se elimina una condición que no inflija daño cada vez que evades un ataque.",
+        "German": "Entfernt jedes Mal einen Zustand, der keinen Schaden verursacht, wenn Ihr einem Angriff ausweicht.",
+        "French": "Vous dissipez une altération n'infligeant pas de dégâts lorsque vous évitez une attaque."
+      }
+    },
+    "103872": {
+      "Type": 19,
+      "TemplateSlot": 24,
+      "Id": 103872,
+      "MappedId": 67,
+      "Rarity": 6,
+      "Chatlink": "[&AgHAlQEA]",
+      "AssetId": 3441973,
+      "Names": {
+        "English": "Relic of Mount Balrior",
+        "Spanish": "Reliquia del Monte Balrior",
+        "German": "Relikt von Berg Balrior",
+        "French": "Relique du mont Balrior"
+      },
+      "DisplayTexts": {
+        "English": "Relic of Mount Balrior",
+        "Spanish": "Reliquia del Monte Balrior",
+        "German": "Relikt von Berg Balrior",
+        "French": "Relique du mont Balrior"
+      },
+      "Descriptions": {
+        "English": "After using an elite skill, create an area underneath yourself. Standing in this area increases your outgoing strike damage.",
+        "Spanish": "Tras usar una habilidad de élite, crea un área debajo de ti. Mientras estés en pie dentro de ella, aumenta tu daño de golpe causado.",
+        "German": "Nach Anwendung einer Elite-Fertigkeit erschafft Ihr eine Zone unter Euch, die den von Euch ausgeteilten Schlagschaden erhöht, wenn Ihr darin steht.",
+        "French": "Après utilisation d'une compétence d'élite, crée sous vos pieds une zone qui augmente les dégâts de frappe que vous infligez tant que vous y restez."
+      }
+    },
+    "101198": {
+      "Type": 19,
+      "TemplateSlot": 24,
+      "Id": 101198,
+      "MappedId": 68,
+      "Rarity": 6,
+      "Chatlink": "[&AgFOiwEA]",
+      "AssetId": 3187631,
+      "Names": {
+        "English": "Relic of Nayos",
+        "Spanish": "Reliquia de Nayos",
+        "German": "Relikt von Nayos",
+        "French": "Relique de Nayos"
+      },
+      "DisplayTexts": {
+        "English": "Relic of Nayos",
+        "Spanish": "Reliquia de Nayos",
+        "German": "Relikt von Nayos",
+        "French": "Relique de Nayos"
+      },
+      "Descriptions": {
+        "English": "Removing a condition from yourself heals you.",
+        "Spanish": "Eliminar una condición que sufras te cura.",
+        "German": "Ihr erhaltet Heilung, wenn Ihr einen Zustand von Euch selbst entfernt.",
+        "French": "Le fait de dissiper une de vos altérations vous guérit."
+      }
+    },
+    "101191": {
+      "Type": 19,
+      "TemplateSlot": 24,
+      "Id": 101191,
+      "MappedId": 69,
+      "Rarity": 6,
+      "Chatlink": "[&AgFHiwEA]",
+      "AssetId": 3187632,
+      "Names": {
+        "English": "Relic of Nourys",
+        "Spanish": "Reliquia de Nourys",
+        "German": "Relikt von Nourys",
+        "French": "Relique de Nourys"
+      },
+      "DisplayTexts": {
+        "English": "Relic of Nourys",
+        "Spanish": "Reliquia de Nourys",
+        "German": "Relikt von Nourys",
+        "French": "Relique de Nourys"
+      },
+      "Descriptions": {
+        "English": "Gain stacks of Nourys's Hunger every interval when you remove boons from enemies. Consume 10 stacks to grow larger, dealing increased damage, taking reduced damage, and converting a percentage of outgoing damage into healing.",
+        "Spanish": "Gana acumulaciones de Hambre de Nourys a cada intervalo cuando eliminas bendiciones de los enemigos. Consume 10 acumulaciones para crecer más y, de este modo, infligir un mayor daño, sufrir un daño reducido y convertir un porcentaje de daño causado en curación.",
+        "German": "Erhaltet mit jedem Intervall Stapel von Nourys' Hunger, wenn Ihr Segen von Gegnern entfernt. Verbraucht 10 Stapel, um größer zu werden, mehr Schaden zu verursachen, weniger Schaden zu erleiden und einen Prozentsatz des von Euch zugefügten Schadens in Heilung zu verwandeln.",
+        "French": "Vous gagnez des charges de Faim de Nourys à chaque intervalle lorsque vous dissipez les avantages des ennemis. Vous absorbez 10 charges pour grandir, ce qui augmente les dégâts que vous infligez, réduit les dégâts que vous subissez et convertit un pourcentage des dégâts infligés en soins."
+      }
+    },
+    "103984": {
+      "Type": 19,
+      "TemplateSlot": 24,
+      "Id": 103984,
+      "MappedId": 70,
+      "Rarity": 6,
+      "Chatlink": "[&AgEwlgEA]",
+      "AssetId": 3441974,
+      "Names": {
+        "English": "Relic of Reunification",
+        "Spanish": "Reliquia de reunificación",
+        "German": "Relikt der Wiedervereinigung",
+        "French": "Relique de la réunification"
+      },
+      "DisplayTexts": {
+        "English": "Relic of Reunification",
+        "Spanish": "Reliquia de reunificación",
+        "German": "Relikt der Wiedervereinigung",
+        "French": "Relique de la réunification"
+      },
+      "Descriptions": {
+        "English": "Gain frost aura and light aura after using a healing skill.",
+        "Spanish": "Otorga aura de escarcha y aura de luz tras usar una habilidad de curación.",
+        "German": "Nach Verwendung einer Heilfertigkeit erhaltet Ihr Frostaura und Lichtaura.",
+        "French": "Vous bénéficiez d'Aura de givre et d'Aura de lumière si vous utilisez une compétence de soins."
+      }
+    },
+    "103015": {
+      "Type": 19,
+      "TemplateSlot": 24,
+      "Id": 103015,
+      "MappedId": 71,
+      "Rarity": 6,
+      "Chatlink": "[&AgFnkgEA]",
+      "AssetId": 3375221,
+      "Names": {
+        "English": "Relic of Rivers",
+        "Spanish": "Reliquia de los ríos",
+        "German": "Relikt der Flüsse",
+        "French": "Relique des rivières"
+      },
+      "DisplayTexts": {
+        "English": "Relic of Rivers",
+        "Spanish": "Reliquia de los ríos",
+        "German": "Relikt der Flüsse",
+        "French": "Relique des rivières"
+      },
+      "Descriptions": {
+        "English": "Gain alacrity and regeneration at the end of your dodge roll.",
+        "Spanish": "Te hace obtener alacridad y regeneración al acabar de esquivar con voltereta.",
+        "German": "Erhaltet am Ende Eurer Ausweichrolle Tatendrang und Regeneration.",
+        "French": "Vous gagnez Alacrité et Régénération à la fin de votre roulade d'esquive."
+      }
+    },
+    "103424": {
+      "Type": 19,
+      "TemplateSlot": 24,
+      "Id": 103424,
+      "MappedId": 72,
+      "Rarity": 6,
+      "Chatlink": "[&AgEAlAEA]",
+      "AssetId": 3375222,
+      "Names": {
+        "English": "Relic of Sorrow",
+        "Spanish": "Reliquia del pesar",
+        "German": "Relikt von Kummer",
+        "French": "Relique des lamentations"
+      },
+      "DisplayTexts": {
+        "English": "Relic of Sorrow",
+        "Spanish": "Reliquia del pesar",
+        "German": "Relikt von Kummer",
+        "French": "Relique des lamentations"
+      },
+      "Descriptions": {
+        "English": "After using an elite skill, create an area that protects allies and destroys enemy projectiles.",
+        "Spanish": "Tras usar una habilidad de élite, crea un área que proteja a los aliados y destruya proyectiles enemigos.",
+        "German": "Nach Anwendung einer Elite-Fertigkeit erschafft Ihr eine Zone, die Verbündete schützt und feindliche Projektile zerstört.",
+        "French": "Après utilisation d'une compétence d'élite, crée une zone qui protège les alliés et détruit les projectiles ennemis."
+      }
+    },
+    "100063": {
+      "Type": 19,
+      "TemplateSlot": 24,
+      "Id": 100063,
+      "MappedId": 73,
+      "Rarity": 6,
+      "Chatlink": "[&AgHfhgEA]",
+      "AssetId": 3592840,
+      "Names": {
+        "English": "Relic of Surging",
+        "Spanish": "Reliquia de sobrecarga",
+        "German": "Relikt der Brandung",
+        "French": "Relique de montée en puissance"
+      },
+      "DisplayTexts": {
+        "English": "Relic of Surging",
+        "Spanish": "Reliquia de sobrecarga",
+        "German": "Relikt der Brandung",
+        "French": "Relique de montée en puissance"
+      },
+      "Descriptions": {
+        "English": "Gain shocking aura for 4 seconds after using an elite skill.",
+        "Spanish": "Obtiene aura de electrodescarga durante 4 segundos tras usar una habilidad de élite.",
+        "German": "Nach dem Einsatz einer Elite-Fertigkeit erhaltet Ihr 4 Sekunden lang Schockaura.",
+        "French": "Vous bénéficiez d'Aura de choc pendant 4 secondes si vous utilisez une compétence d'élite."
+      }
+    },
+    "103977": {
+      "Type": 19,
+      "TemplateSlot": 24,
+      "Id": 103977,
+      "MappedId": 74,
+      "Rarity": 6,
+      "Chatlink": "[&AgEplgEA]",
+      "AssetId": 3441970,
+      "Names": {
+        "English": "Relic of the Beehive",
+        "Spanish": "Reliquia de la colmena",
+        "German": "Relikt des Bienenstocks",
+        "French": "Relique de la ruche"
+      },
+      "DisplayTexts": {
+        "English": "Relic of the Beehive",
+        "Spanish": "Reliquia de la colmena",
+        "German": "Relikt des Bienenstocks",
+        "French": "Relique de la ruche"
+      },
+      "Descriptions": {
+        "English": "After using an elite skill, release a wave of pheromones that causes bees to swarm enemies struck.",
+        "Spanish": "Tras usar una habilidad de élite, libera una ola de feromonas que hace que las abejas ataquen en enjambre a los enemigos alcanzados.",
+        "German": "Nach Anwendung einer Elite-Fertigkeit setzt Ihr eine Welle von Pheromonen frei, die Bienen dazu bringen, im Schwarm auf getroffene Gegner loszugehen.",
+        "French": "Après utilisation d'une compétence d'élite, dégage une vague de phéromones qui incite les abeilles à foncer sur les ennemis frappés."
+      }
+    },
+    "102199": {
+      "Type": 19,
+      "TemplateSlot": 24,
+      "Id": 102199,
+      "MappedId": 75,
+      "Rarity": 6,
+      "Chatlink": "[&AgE3jwEA]",
+      "AssetId": 3375219,
+      "Names": {
+        "English": "Relic of the Blightbringer",
+        "Spanish": "Reliquia del Portarruina",
+        "German": "Relikt des Pestilenzbringers",
+        "French": "Relique du porte-fléau"
+      },
+      "DisplayTexts": {
+        "English": "Relic of the Blightbringer",
+        "Spanish": "Reliquia del Portarruina",
+        "German": "Relikt des Pestilenzbringers",
+        "French": "Relique du porte-fléau"
+      },
+      "Descriptions": {
+        "English": "Gain stacks of Greer's Virulence when you inflict poison on a foe. After reaching the maximum number of stacks, the next time you inflict poison also inflicts additional conditions on nearby enemies.",
+        "Spanish": "Te hace obtener acumulaciones de virulencia de Greer cuando infliges veneno a un enemigo. Tras alcanzar el máximo número de acumulaciones, la siguiente vez que inflijas veneno también infligirás condiciones adicionales a los enemigos cercanos.",
+        "German": "Erhaltet Stapel von Greers Ansteckung, wenn Ihr einem Gegner Gift zufügt. Wenn Ihr die maximale Anzahl von Stapeln erreicht habt und dann wieder Gift zufügt, werden außerdem Gegnern in der Nähe zusätzliche Zustände zugefügt.",
+        "French": "Vous gagnez des charges de Virulence de Greer en empoisonnant un ennemi. Au maximum de charges, votre prochain empoisonnement inflige aussi des altérations supplémentaires aux ennemis à proximité."
+      }
+    },
+    "103574": {
+      "Type": 19,
+      "TemplateSlot": 24,
+      "Id": 103574,
+      "MappedId": 76,
+      "Rarity": 6,
+      "Chatlink": "[&AgGWlAEA]",
+      "AssetId": 3375220,
+      "Names": {
+        "English": "Relic of the Claw",
+        "Spanish": "Reliquia de la garra",
+        "German": "Relikt der Klaue",
+        "French": "Relique de la Griffe"
+      },
+      "DisplayTexts": {
+        "English": "Relic of the Claw",
+        "Spanish": "Reliquia de la garra",
+        "German": "Relikt der Klaue",
+        "French": "Relique de la Griffe"
+      },
+      "Descriptions": {
+        "English": "Deal increased strike damage for a duration after you disable a foe.",
+        "Spanish": "Inflige daño de golpe aumentado durante un tiempo tras incapacitar a un enemigo.",
+        "German": "Verursacht für eine gewisse Zeit erhöhten Schlagschaden, nachdem Ihr einen Gegner kampfunfähig gemacht habt.",
+        "French": "Lorsque vous neutralisez un ennemi, vous recevez un bonus aux dégâts de frappe pendant quelque temps."
+      }
+    },
+    "101166": {
+      "Type": 19,
+      "TemplateSlot": 24,
+      "Id": 101166,
+      "MappedId": 77,
+      "Rarity": 6,
+      "Chatlink": "[&AgEuiwEA]",
+      "AssetId": 3187627,
+      "Names": {
+        "English": "Relic of the Demon Queen",
+        "Spanish": "Reliquia de la Reina demonio",
+        "German": "Relikt der Dämonen-Königin",
+        "French": "Relique de la Reine des démons"
+      },
+      "DisplayTexts": {
+        "English": "Relic of the Demon Queen",
+        "Spanish": "Reliquia de la Reina demonio",
+        "German": "Relikt der Dämonen-Königin",
+        "French": "Relique de la Reine des démons"
+      },
+      "Descriptions": {
+        "English": "Poison that you apply reduces healing by an additional amount. Disabling a foe applies poison. <br><c=@reminder>Disables include stun, taunt, daze, knockback, pull, knockdown, sink, float, fear, and launch.</c>",
+        "Spanish": "El veneno que aplicas reduce la curación una cantidad adicional. Inhabilitar a un enemigo aplica veneno. <br><c=@reminder>Las formas de inhabilitar incluyen aturdir, provocación, atontar, rechazo, atraer, derribo, hundir, flotar, miedo y lanzar.</c>",
+        "German": "Von Euch zugefügtes Gift reduziert zusätzlich die Heilung. Gift wird zugefügt, wenn Ihr einen Gegner kampfunfähig macht. <br><c=@reminder>Kampfunfähigkeit kann durch Betäubung, Provozieren, Benommenheit, Rückschlag, Ziehen, Niederschlag, Versenken, Schweben, Furcht und Hochschleudern verursacht werden.</c>",
+        "French": "L'Empoisonnement que vous appliquez réduit davantage les soins. Vous infligez Empoisonnement lorsque vous neutralisez un ennemi. <br><c=@reminder>Les altérations neutralisantes sont entre autres : Étourdissement, Incitation, Stupeur, Repoussement, Attraction, Renversement, Noyade, Flottaison, Peur ou Projection.</c>"
+      }
+    },
+    "104241": {
+      "Type": 19,
+      "TemplateSlot": 24,
+      "Id": 104241,
+      "MappedId": 78,
+      "Rarity": 6,
+      "Chatlink": "[&AgExlwEA]",
+      "AssetId": 3592832,
+      "Names": {
+        "English": "Relic of the Eagle",
+        "Spanish": "Reliquia de águila",
+        "German": "Relikt des Adlers",
+        "French": "Relique de l'aigle"
+      },
+      "DisplayTexts": {
+        "English": "Relic of the Eagle",
+        "Spanish": "Reliquia de águila",
+        "German": "Relikt des Adlers",
+        "French": "Relique de l'aigle"
+      },
+      "Descriptions": {
+        "English": "Deal increased strike damage to low-health enemies.",
+        "Spanish": "Inflige daño de golpe aumentado a enemigos con un nivel de salud bajo.",
+        "German": "Fügt Gegnern mit niedrigen Lebenspunkten erhöhten Schlagschaden zu.",
+        "French": "Vous infligez des dégâts de frappe supplémentaires aux ennemis dont la santé est basse."
+      }
+    },
+    "100435": {
+      "Type": 19,
+      "TemplateSlot": 24,
+      "Id": 100435,
+      "MappedId": 79,
+      "Rarity": 6,
+      "Chatlink": "[&AgFTiAEA]",
+      "AssetId": 3592833,
+      "Names": {
+        "English": "Relic of the Earth",
+        "Spanish": "Reliquia de la tierra",
+        "German": "Relikt der Erde",
+        "French": "Relique de terre"
+      },
+      "DisplayTexts": {
+        "English": "Relic of the Earth",
+        "Spanish": "Reliquia de la tierra",
+        "German": "Relikt der Erde",
+        "French": "Relique de terre"
+      },
+      "Descriptions": {
+        "English": "Grant protection and magnetic aura to allies after using an elite skill.",
+        "Spanish": "Otorga protección y aura magnética a los aliados tras usar una habilidad de élite.",
+        "German": "Gewährt Verbündeten nach dem Einsatz einer Elite-Fertigkeit Schutz und Magnetaura.",
+        "French": "Confère Protection et Aura magnétique aux alliés si vous utilisez une compétence d'élite."
+      }
+    },
+    "101737": {
+      "Type": 19,
+      "TemplateSlot": 24,
+      "Id": 101737,
+      "MappedId": 80,
+      "Rarity": 6,
+      "Chatlink": "[&AgFpjQEA]",
+      "AssetId": 3302016,
+      "Names": {
+        "English": "Relic of the Founding",
+        "Spanish": "Reliquia de los fundadores",
+        "German": "Relikt der Gründung",
+        "French": "Relique de la fondation"
+      },
+      "DisplayTexts": {
+        "English": "Relic of the Founding",
+        "Spanish": "Reliquia de los fundadores",
+        "German": "Relikt der Gründung",
+        "French": "Relique de la fondation"
+      },
+      "Descriptions": {
+        "English": "Gain barrier when you successfully combo a field with a leap finisher.",
+        "Spanish": "Otorga barrera cuando consigues combinar un campo con un remate con salto.",
+        "German": "Erhaltet Barriere, wenn Ihr erfolgreich ein Feld mit einem Sprungkomboabschluss kombiniert.",
+        "French": "Vous bénéficiez d'une barrière quand vous exécutez avec succès un combo avec un coup de grâce sauté."
+      }
+    },
+    "100908": {
+      "Type": 19,
+      "TemplateSlot": 24,
+      "Id": 100908,
+      "MappedId": 81,
+      "Rarity": 6,
+      "Chatlink": "[&AgEsigEA]",
+      "AssetId": 3592836,
+      "Names": {
+        "English": "Relic of the Holosmith",
+        "Spanish": "Reliquia de holoartesano",
+        "German": "Relikt des Holoschmieds",
+        "French": "Relique de l'Holographiste"
+      },
+      "DisplayTexts": {
+        "English": "Relic of the Holosmith",
+        "Spanish": "Reliquia de holoartesano",
+        "German": "Relikt des Holoschmieds",
+        "French": "Relique de l'Holographiste"
+      },
+      "Descriptions": {
+        "English": "Create a laser disk after you use an elite skill.",
+        "Spanish": "Crea un disco láser tras usar una habilidad de élite.",
+        "German": "Erschafft nach dem Einsatz einer Elite-Fertigkeit eine Laserscheibe.",
+        "French": "Crée un disque laser lorsque vous utilisez une compétence d'élite."
+      }
+    },
+    "104938": {
+      "Type": 19,
+      "TemplateSlot": 24,
+      "Id": 104938,
+      "MappedId": 82,
+      "Rarity": 6,
+      "Chatlink": "[&AgHqmQEA]",
+      "AssetId": 3629398,
+      "Names": {
+        "English": "Relic of the Living City",
+        "Spanish": "Reliquia de la ciudad viva",
+        "German": "Relikt der Lebenden Stadt",
+        "French": "Relique de la cité vivante"
+      },
+      "DisplayTexts": {
+        "English": "Relic of the Living City",
+        "Spanish": "Reliquia de la ciudad viva",
+        "German": "Relikt der Lebenden Stadt",
+        "French": "Relique de la cité vivante"
+      },
+      "Descriptions": {
+        "English": "Complete each trigger once to gain stacks of Titanic Potential:\n• Use a healing skill\n• Use an elite skill\n• Finish a combo field\n• Disable an enemy\n• Evade an attack\nAt 5 stacks, gain Soul of the Titan, providing increased attributes and all boons for its duration.",
+        "Spanish": "Completa cada uno de los desencadenantes una vez para obtener acumulaciones de Potencial titánico:\n• Usa una habilidad de curación\n• Usa una habilidad de élite\n• Completa un campo de combo\n• Inhabilita a un enemigo\n• Evade un ataque\nCon 5 acumulaciones, obtienes Alma del titán, que proporciona un aumento de los atributos y de todas las bendiciones mientras dure.",
+        "German": "Schließt jeden Auslöser einmal ab, um Stapel von Titanen-Potenzial zu erhalten:\n• Verwendet eine Heilfertigkeit\n• Verwendet eine Elite-Fertigkeit\n• Beendet ein Kombofeld\n• Macht einen Gegner kampfunfähig\n• Entgeht einem Angriff\nBei 5 Stapeln erhaltet Ihr Seele des Titanen, was Euch für begrenzte Zeit erhöhte Attribute und alle Segen gewährt.",
+        "French": "Remplissez chaque condition une fois pour obtenir des charges de Potentiel titanesque :\n• Utiliser une compétence de soins\n• Utiliser une compétence d'élite\n• Exécuter un combo\n• Neutraliser un ennemi\n• Esquiver une attaque\nÀ 5 charges, vous recevez Âme du Titan, qui augmente vos caractéristiques et vous confère tous les avantages pendant une certaine durée."
+      }
+    },
+    "101139": {
+      "Type": 19,
+      "TemplateSlot": 24,
+      "Id": 101139,
+      "MappedId": 83,
+      "Rarity": 6,
+      "Chatlink": "[&AgETiwEA]",
+      "AssetId": 3187630,
+      "Names": {
+        "English": "Relic of the Midnight King",
+        "Spanish": "Reliquia del Rey de Medianoche",
+        "German": "Relikt des Mitternachtskönigs",
+        "French": "Relique du Roi de minuit"
+      },
+      "DisplayTexts": {
+        "English": "Relic of the Midnight King",
+        "Spanish": "Reliquia del Rey de Medianoche",
+        "German": "Relikt des Mitternachtskönigs",
+        "French": "Relique du Roi de minuit"
+      },
+      "Descriptions": {
+        "English": "Grant might and fury to nearby allies when you disable an enemy. <br><c=@reminder>Disables include stun, taunt, daze, knockback, pull, knockdown, sink, float, fear, and launch.</c>",
+        "Spanish": "Otorga poder y furia a los aliados cercanos al inhabilitar a un enemigo. <br><c=@reminder>Las formas de inhabilitar incluyen aturdir, provocación, atontar, rechazo, atraer, derribo, hundir, flotar, miedo y lanzar.</c>",
+        "German": "Gewährt Verbündeten in der Nähe Macht und Wut, wenn Ihr einen Gegner kampfunfähig macht. <br><c=@reminder>Kampfunfähigkeit kann durch Betäubung, Provozieren, Benommenheit, Rückschlag, Ziehen, Niederschlag, Versenken, Schweben, Furcht und Hochschleudern verursacht werden.</c>",
+        "French": "Vous conférez Pouvoir et Fureur aux alliés à proximité lorsque vous neutralisez un ennemi. <br><c=@reminder>Les altérations neutralisantes sont entre autres : Étourdissement, Incitation, Stupeur, Repoussement, Attraction, Renversement, Noyade, Flottaison, Peur ou Projection.</c>"
+      }
+    },
+    "103901": {
+      "Type": 19,
+      "TemplateSlot": 24,
+      "Id": 103901,
+      "MappedId": 84,
+      "Rarity": 6,
+      "Chatlink": "[&AgHdlQEA]",
+      "AssetId": 3441972,
+      "Names": {
+        "English": "Relic of the Mists Tide",
+        "Spanish": "Reliquia de la Marea de Niebla",
+        "German": "Relikt der Nebelflut",
+        "French": "Relique de la marée des Brumes"
+      },
+      "DisplayTexts": {
+        "English": "Relic of the Mists Tide",
+        "Spanish": "Reliquia de la Marea de Niebla",
+        "German": "Relikt der Nebelflut",
+        "French": "Relique de la marée des Brumes"
+      },
+      "Descriptions": {
+        "English": "Cleanse a condition from yourself when you successfully combo a field with a leap or blast finisher.",
+        "Spanish": "Elimina una condición que tengas cuando logras combinar un campo con un remate explosivo o con salto.",
+        "German": "Entfernt einen Zustand von Euch selbst, wenn Ihr erfolgreich ein Feld mit einem Sprung- oder Explosions-Komboabschluss kombiniert.",
+        "French": "Dissipe une altération vous affectant quand vous exécutez avec succès un combo à l'aide d'un coup de grâce explosif ou sauté."
+      }
+    },
+    "104733": {
+      "Type": 19,
+      "TemplateSlot": 24,
+      "Id": 104733,
+      "MappedId": 85,
+      "Rarity": 6,
+      "Chatlink": "[&AgEdmQEA]",
+      "AssetId": 3629400,
+      "Names": {
+        "English": "Relic of the Phenom",
+        "Spanish": "Reliquia del Fenómeno",
+        "German": "Relikt des Phänoms",
+        "French": "Relique du Prodige"
+      },
+      "DisplayTexts": {
+        "English": "Relic of the Phenom",
+        "Spanish": "Reliquia del Fenómeno",
+        "German": "Relikt des Phänoms",
+        "French": "Relique du Prodige"
+      },
+      "Descriptions": {
+        "English": "Upon using a <c=@abilitytype>cantrip</c> or <c=@abilitytype>meditation</c> skill, gain protection.",
+        "Spanish": "Al usar un <c=@abilitytype>sortilegio</c> una habilidad de <c=@abilitytype>meditación</c>, gana protección.",
+        "German": "Erhaltet Schutz, wenn Ihr eine <c=@abilitytype>Schwarzmagie</c>- oder <c=@abilitytype>Meditations</c>-Fertigkeit verwendet.",
+        "French": "Lorsque vous utilisez une compétence de <c=@abilitytype>sortilège</c> ou de <c=@abilitytype>méditation</c>, vous bénéficiez de Protection."
+      }
+    },
+    "101863": {
+      "Type": 19,
+      "TemplateSlot": 24,
+      "Id": 101863,
+      "MappedId": 86,
+      "Rarity": 6,
+      "Chatlink": "[&AgHnjQEA]",
+      "AssetId": 3302018,
+      "Names": {
+        "English": "Relic of the Sorcerer",
+        "Spanish": "Reliquia del hechicero",
+        "German": "Relikt des Hexers",
+        "French": "Relique du sorcier"
+      },
+      "DisplayTexts": {
+        "English": "Relic of the Sorcerer",
+        "Spanish": "Reliquia del hechicero",
+        "German": "Relikt des Hexers",
+        "French": "Relique du sorcier"
+      },
+      "Descriptions": {
+        "English": "When you inflict crippled, chilled, or immobile, you also inflict vulnerability.",
+        "Spanish": "Cuando incapacitas, congelas o inmovilizas, hace que también inflijas vulnerabilidad.",
+        "German": "Wenn Ihr Gegnern Verkrüppelung, Kühle oder Immobilisierung zufügt, verursacht Ihr auch Verwundbarkeit.",
+        "French": "Lorsque vous infligez Infirmité, Givre ou Immobilisation, vous infligez également Vulnérabilité."
+      }
+    },
+    "104022": {
+      "Type": 19,
+      "TemplateSlot": 24,
+      "Id": 104022,
+      "MappedId": 87,
+      "Rarity": 6,
+      "Chatlink": "[&AgFWlgEA]",
+      "AssetId": 3441975,
+      "Names": {
+        "English": "Relic of the Steamshrieker",
+        "Spanish": "Reliquia de la Aulladora de Vapores",
+        "German": "Relikt der Dampfkreischerin",
+        "French": "Relique de la vapeur fulminante"
+      },
+      "DisplayTexts": {
+        "English": "Relic of the Steamshrieker",
+        "Spanish": "Reliquia de la Aulladora de Vapores",
+        "German": "Relikt der Dampfkreischerin",
+        "French": "Relique de la vapeur fulminante"
+      },
+      "Descriptions": {
+        "English": "Burn nearby enemies when you successfully combo a water field with a blast or leap finisher.",
+        "Spanish": "Quema a los enemigos cercanos cuando logras combinar un campo acuático con un remate con salto o explosivo.",
+        "German": "Verbrennt Geger in der Nähe, wenn Ihr erfolgreich ein Wasserfeld mit einem Sprung- oder Explosions-Komboabschluss kombiniert.",
+        "French": "Inflige Brûlure aux ennemis à proximité quand vous créez une zone de combo d'eau avec un coup de grâce explosif ou sauté."
+      }
+    },
+    "102595": {
+      "Type": 19,
+      "TemplateSlot": 24,
+      "Id": 102595,
+      "MappedId": 88,
+      "Rarity": 6,
+      "Chatlink": "[&AgHDkAEA]",
+      "AssetId": 3375223,
+      "Names": {
+        "English": "Relic of the Stormsinger",
+        "Spanish": "Reliquia de la Invocatormentas",
+        "German": "Relikt der Sturmsängerin",
+        "French": "Relique de l'antienne de la tempête"
+      },
+      "DisplayTexts": {
+        "English": "Relic of the Stormsinger",
+        "Spanish": "Reliquia de la Invocatormentas",
+        "German": "Relikt der Sturmsängerin",
+        "French": "Relique de l'antienne de la tempête"
+      },
+      "Descriptions": {
+        "English": "After using a movement skill, your next attack creates an arc of chain lightning that strikes nearby enemies.",
+        "Spanish": "Tras usar una habilidad de movimiento, tu siguiente ataque crea un arco de relámpago en cadena que impacta a enemigos cercanos.",
+        "German": "Nach Anwendung einer Bewegungsfertigkeit erzeugt Euer nächster Angriff einen Kettenblitz-Bogen, der Gegner in der Nähe trifft.",
+        "French": "Après utilisation d'une compétence de déplacement, votre attaque suivante crée une chaîne d'éclairs qui frappe les ennemis à proximité."
+      }
+    },
+    "101767": {
+      "Type": 19,
+      "TemplateSlot": 24,
+      "Id": 101767,
+      "MappedId": 89,
+      "Rarity": 6,
+      "Chatlink": "[&AgGHjQEA]",
+      "AssetId": 3302019,
+      "Names": {
+        "English": "Relic of the Twin Generals",
+        "Spanish": "Reliquia de los generales gemelos",
+        "German": "Relikt der Zwillingsgenerale",
+        "French": "Relique des généraux jumeaux"
+      },
+      "DisplayTexts": {
+        "English": "Relic of the Twin Generals",
+        "Spanish": "Reliquia de los generales gemelos",
+        "German": "Relikt der Zwillingsgenerale",
+        "French": "Relique des généraux jumeaux"
+      },
+      "Descriptions": {
+        "English": "Gain might and weaken nearby enemies when you use a healing skill. Gain additional might for each enemy struck.",
+        "Spanish": "Otorga poder y debilita a enemigos cercanos cuando usas una habilidad curativa. Otorga poder adicional por cada enemigo alcanzado.",
+        "German": "Erhaltet Macht und schwächt Gegner in der Nähe, wenn Ihr eine Heilfertigkeit verwendet. Erhaltet zusätzliche Macht für jeden Gegner, den Ihr trefft.",
+        "French": "Vous obtenez Pouvoir et affaiblissez les ennemis à proximité lorsque vous utilisez une compétence de soin. Vous obtenez plus de Pouvoir à chaque ennemi frappé."
+      }
+    },
+    "101943": {
+      "Type": 19,
+      "TemplateSlot": 24,
+      "Id": 101943,
+      "MappedId": 90,
+      "Rarity": 6,
+      "Chatlink": "[&AgE3jgEA]",
+      "AssetId": 3302020,
+      "Names": {
+        "English": "Relic of the Wayfinder",
+        "Spanish": "Reliquia del hallacaminos",
+        "German": "Relikt des Wegfinders",
+        "French": "Relique du Guide"
+      },
+      "DisplayTexts": {
+        "English": "Relic of the Wayfinder",
+        "Spanish": "Reliquia del hallacaminos",
+        "German": "Relikt des Wegfinders",
+        "French": "Relique du Guide"
+      },
+      "Descriptions": {
+        "English": "Gain increased movement speed, which is further increased while out of combat. When you enter combat, gain a burst of speed.",
+        "Spanish": "Otorga velocidad de movimiento aumentada, que se incrementa más cuando no estás en combate. Si entras en combate, otorga un estallido de velocidad.",
+        "German": "Erhaltet erhöhte Bewegungsgeschwindigkeit, die außerhalb des Kampfes noch weiter erhöht ist. Wenn Ihr in den Kampf eintretet, erhaltet Ihr einen Geschwindigkeitsschub.",
+        "French": "Augmente votre vitesse de déplacement, qui augmente encore plus hors combat. Lorsque vous engagez le combat, vous obtenez une explosion de vitesse."
+      }
+    },
+    "104424": {
+      "Type": 19,
+      "TemplateSlot": 24,
+      "Id": 104424,
+      "MappedId": 91,
+      "Rarity": 6,
+      "Chatlink": "[&AgHolwEA]",
+      "AssetId": 3592841,
+      "Names": {
+        "English": "Relic of Thorns",
+        "Spanish": "Reliquia de espinas",
+        "German": "Relikt der Dornen",
+        "French": "Relique des épines"
+      },
+      "DisplayTexts": {
+        "English": "Relic of Thorns",
+        "Spanish": "Reliquia de espinas",
+        "German": "Relikt der Dornen",
+        "French": "Relique des épines"
+      },
+      "Descriptions": {
+        "English": "Gain stacking condition damage when you are hit by a poisoned foe. <c=@reminder>When this triggers, it refreshes the duration of all stacks.</c>",
+        "Spanish": "Gana daño de condición acumulativo cuando te golpea un enemigo envenenado. <c=@reminder>Cuando este efecto se activa, reinicia la duración de todas las acumulaciones.</c>",
+        "German": "Erhaltet gestapelten Zustandsschaden, wenn ein vergifteter Gegner Euch trifft. <c=@reminder>Wenn dies ausgelöst wird, frischt es die Dauer aller Stapel auf.</c>",
+        "French": "Vous obtenez une amélioration de dégâts par altération cumulable quand un ennemi victime d'Empoisonnement vous touche. <c=@reminder>En se déclenchant, cet effet réinitialise la durée de toutes les charges.</c>"
+      }
+    },
+    "100676": {
+      "Type": 19,
+      "TemplateSlot": 24,
+      "Id": 100676,
+      "MappedId": 92,
+      "Rarity": 6,
+      "Chatlink": "[&AgFEiQEA]",
+      "AssetId": 3592842,
+      "Names": {
+        "English": "Relic of Vampirism",
+        "Spanish": "Reliquia de vampirismo",
+        "German": "Relikt des Vampirismus",
+        "French": "Relique de vampirisme"
+      },
+      "DisplayTexts": {
+        "English": "Relic of Vampirism",
+        "Spanish": "Reliquia de vampirismo",
+        "German": "Relikt des Vampirismus",
+        "French": "Relique de vampirisme"
+      },
+      "Descriptions": {
+        "English": "Siphon life from nearby foes when you use a healing skill. Restore a portion of your maximum health upon killing a foe.",
+        "Spanish": "Absorbe fuerza vital de los enemigos cercanos al usar una habilidad de curación. Restablece una parte de tu salud máxima al matar a un enemigo.",
+        "German": "Zapft Gegnern in der Nähe Leben ab, wenn Ihr eine Heilfertigkeit nutzt. Stellt einen Teil Eurer maximalen Lebenspunkte wieder her, wenn Ihr einen Gegner erledigt.",
+        "French": "Draine la santé des ennemis à proximité quand vous utilisez une compétence de Guérison. Restaure une partie de votre santé maximale lorsque vous tuez un ennemi."
+      }
+    },
+    "101955": {
+      "Type": 19,
+      "TemplateSlot": 24,
+      "Id": 101955,
+      "MappedId": 93,
+      "Rarity": 6,
+      "Chatlink": "[&AgFDjgEA]",
+      "AssetId": 3302021,
+      "Names": {
+        "English": "Relic of Zakiros",
+        "Spanish": "Reliquia de Zakiros",
+        "German": "Relikt von Zakiros",
+        "French": "Relique de Zakiros"
+      },
+      "DisplayTexts": {
+        "English": "Relic of Zakiros",
+        "Spanish": "Reliquia de Zakiros",
+        "German": "Relikt von Zakiros",
+        "French": "Relique de Zakiros"
+      },
+      "Descriptions": {
+        "English": "While you are under the effects of fury, convert a percentage of your outgoing critical-strike damage into healing.",
+        "Spanish": "Convierte un porcentaje del daño de golpe crítico que inflijas en curación mientras estés bajo los efectos de furia.",
+        "German": "Unter der Wirkung von Wut verwandelt sich ein Prozentsatz des von Euch zugefügten kritischen Trefferschadens in Heilung.",
+        "French": "Lorsque vous êtes sous l'effet de Fureur, vous convertissez en soins un pourcentage des dégâts de coup critique que vous infligez."
+      }
+    }
+  },
+  "Version": "0.0.8"
+}

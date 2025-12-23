@@ -11,58 +11,80 @@ using Kenedia.Modules.Core.Models;
 using Gw2Sharp.WebApi;
 using System.Threading;
 using Kenedia.Modules.BuildsManager.Models;
+using System.Collections.Generic;
 
 namespace Kenedia.Modules.BuildsManager.Services
 {
     public class StatMappedDataEntry : MappedDataEntry<int, Stat>
-    {
-        public async override Task<bool> LoadAndUpdate(string name, ByteIntMap map, string path, Gw2ApiManager gw2ApiManager, CancellationToken cancellationToken)
+    { 
+        public override async Task<bool> LoadCached(string name, string path, CancellationToken token)
+        {
+            if (token.IsCancellationRequested)
+            {
+                return false;
+            }
+
+            if (!File.Exists(path))
+            {
+                BuildsManager.Logger.Debug($"No local data for {name} found at '{Path.GetFileName(path)}'");
+                return false;
+            }
+
+            BuildsManager.Logger.Debug($"Loading local data for {name} from '{Path.GetFileName(path)}'");
+
+            if (File.Exists(path))
+            {
+                string json = File.ReadAllText(path);
+                if (token.IsCancellationRequested)
+                {
+                    return false;
+                }
+
+                var loaded = JsonConvert.DeserializeObject<StatMappedDataEntry>(json, SerializerSettings.Default);
+                if (loaded != null)
+                {
+                    Map = loaded.Map;
+                    Items = loaded.Items;
+                    Version = loaded.Version;
+                    DataLoaded = true;
+
+                    BuildsManager.Logger.Debug($"Loaded local data for {name} with {Items.Count} entries. Version {Version}");
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        public override async Task<(bool, List<object>)> IsIncomplete(string name, ByteIntMap map, string path, Gw2ApiManager gw2ApiManager, CancellationToken token)
+        {
+            Map = map;
+
+            var lang = GameService.Overlay.UserLocale.Value is Locale.Korean or Locale.Chinese ? Locale.English : GameService.Overlay.UserLocale.Value;
+            var missing = map.Version > Version ? map.Items.Values : Map.Items.Values.Where(id => !Items.TryGetValue(id, out var entry) || entry.Names[lang] is null);
+
+            return (missing.Any(), missing.Cast<object>().ToList());
+        }
+
+        public override async Task<bool> Update(string name, ByteIntMap map, string path, Gw2ApiManager gw2ApiManager, CancellationToken token)
         {
             try
             {
-                bool saveRequired = false;
-                MappedDataEntry<int, Stat> loaded = null;
-
-                BuildsManager.Logger.Debug($"Load {name}.json");
-
-                if (!DataLoaded && File.Exists(path))
+                if (token.IsCancellationRequested)
                 {
-                    string json = File.ReadAllText(path);
-                    loaded = JsonConvert.DeserializeObject<MappedDataEntry<int, Stat>>(json, SerializerSettings.Default);
-                    DataLoaded = true;
+                    return false;
                 }
 
-                Map = map;
-                Items = loaded?.Items ?? Items;
-                Version = loaded?.Version ?? Version;
-
-                BuildsManager.Logger.Debug($"{name} Version {Version} | version {map.Version}");
-
-                var lang = GameService.Overlay.UserLocale.Value is Locale.Korean or Locale.Chinese ? Locale.English : GameService.Overlay.UserLocale.Value;
-                var fetchIds = Items.Values.Where(item => (item.Names[lang] == null) || (item.MappedId == 0))?.Select(e => e.Id);
-
-                bool fetchAll = map.Version > Version;
-
-                if (map.Version > Version)
+                var (isIncomplete, missing) = await IsIncomplete(name, map, path, gw2ApiManager, token);
+                if (missing.Any() && missing.All(e => e is int))
                 {
-                    Version = map.Version;
-                    fetchIds = fetchIds.Concat(Map.Values.Except(Items.Keys).Except(Map.Ignored.Values));
-                    saveRequired = true;
+                    var idSets = missing.Cast<int>().ToList().ChunkBy(200);
+                    BuildsManager.Logger.Debug($"{name} updating {missing.Count()} entries in {idSets.Count} sets.");
 
-                    if (fetchAll)
-                        BuildsManager.Logger.Debug($"The current version does not match the map version. Updating all values for {name}.");
-                }
-
-                if (fetchIds.Count() > 0)
-                {
-                    var idSets = fetchIds.ToList().ChunkBy(200);
-
-                    saveRequired = saveRequired || idSets.Count > 0;
-                    BuildsManager.Logger.Debug($"Fetch a total of {fetchIds.Count()} in {idSets.Count} sets.");
                     foreach (var ids in idSets)
                     {
-                        var items = await gw2ApiManager.Gw2ApiClient.V2.Itemstats.ManyAsync(ids, cancellationToken);
-                        if (cancellationToken.IsCancellationRequested)
+                        var items = await gw2ApiManager.Gw2ApiClient.V2.Itemstats.ManyAsync(ids, token);
+                        if (token.IsCancellationRequested)
                         {
                             return false;
                         }
@@ -81,23 +103,22 @@ namespace Kenedia.Modules.BuildsManager.Services
                                 Items.Add(item.Id, entryItem);
                         }
                     }
-                }
 
-                if (saveRequired)
-                {
-                    BuildsManager.Logger.Debug($"Saving {name}.json");
+                    Version = Map.Version;
+                    BuildsManager.Logger.Debug($"Saving updated {name} data with {missing.Count()} updated entries. Version {Version}");
                     string json = JsonConvert.SerializeObject(this, SerializerSettings.Default);
                     File.WriteAllText(path, json);
-                }
+                    DataLoaded = true;
 
-                DataLoaded = DataLoaded || Items.Count > 0;
-                return true;
+                    return true;
+                }
             }
             catch (Exception ex)
             {
-                BuildsManager.Logger.Warn(ex, $"Failed to load {name} data.");
-                return false;
+                BuildsManager.Logger.Warn(ex, $"Failed to update {name} data.");
             }
+
+            return false;
         }
     }
 }
