@@ -190,10 +190,11 @@ namespace Kenedia.Modules.Characters.Controls
             // Tooltip handling
             if (contains_mouse)
             {
+                _selected = character;
+
                 if (_settings.Radial_ShowAdvancedTooltip.Value)
                 {
                     BasicTooltipText = string.Empty;
-                    _selected = character;
                     _tooltip.Character = character;
                     _tooltip.Show();
                 }
