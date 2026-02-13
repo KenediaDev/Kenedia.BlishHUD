@@ -168,28 +168,6 @@ namespace Kenedia.Modules.Characters.Views
                 };
 
                 listEntry.Click += (s, e) => SelectList(taskList);
-
-                var deleteButton = new ImageButton()
-                {
-                    Parent = listEntry,
-                    Texture = AsyncTexture2D.FromAssetId(2175783),
-                    HoveredTexture = AsyncTexture2D.FromAssetId(2175782),
-                    ClickedTexture = AsyncTexture2D.FromAssetId(2175784),
-                    Size = new Point(16, 16),
-                    Location = new Point(listEntry.Width - 26, 8),
-                    BasicTooltipText = "Delete List",
-                    ClickAction = (m) =>
-                    {
-                        _taskLists.Remove(taskList);
-                        _requestSave?.Invoke();
-
-                        if (_selectedList?.Id == taskList.Id)
-                        {
-                            _selectedList = null;
-                            PopulateDetailPanel();
-                        }
-                    },
-                };
             }
         }
 
@@ -251,6 +229,23 @@ namespace Kenedia.Modules.Characters.Views
                 _selectedList.Name = nameBox.Text;
                 _requestSave?.Invoke();
                 PopulateListPanel();
+            };
+
+            _ = new Button()
+            {
+                Parent = namePanel,
+                Text = "Delete List",
+                Width = 90,
+                Height = 30,
+                ClickAction = () =>
+                {
+                    var toDelete = _selectedList;
+                    _selectedList = null;
+
+                    _taskLists.Remove(toDelete);
+                    _requestSave?.Invoke();
+                    PopulateDetailPanel();
+                },
             };
 
             // Add entry section
@@ -406,12 +401,11 @@ namespace Kenedia.Modules.Characters.Views
             }
 
             // Move up button
-            _ = new ImageButton()
+            var moveUpButton = new ImageButton()
             {
                 Parent = rowPanel,
                 Texture = AsyncTexture2D.FromAssetId(155953),
                 Size = new Point(16, 16),
-                Location = new Point(rowPanel.Width - 70, 8),
                 BasicTooltipText = "Move Up",
                 ClickAction = (m) =>
                 {
@@ -430,12 +424,11 @@ namespace Kenedia.Modules.Characters.Views
             };
 
             // Move down button
-            _ = new ImageButton()
+            var moveDownButton = new ImageButton()
             {
                 Parent = rowPanel,
                 Texture = AsyncTexture2D.FromAssetId(155954),
                 Size = new Point(16, 16),
-                Location = new Point(rowPanel.Width - 48, 8),
                 BasicTooltipText = "Move Down",
                 ClickAction = (m) =>
                 {
@@ -455,14 +448,13 @@ namespace Kenedia.Modules.Characters.Views
             };
 
             // Remove button
-            _ = new ImageButton()
+            var removeButton = new ImageButton()
             {
                 Parent = rowPanel,
                 Texture = AsyncTexture2D.FromAssetId(2175783),
                 HoveredTexture = AsyncTexture2D.FromAssetId(2175782),
                 ClickedTexture = AsyncTexture2D.FromAssetId(2175784),
                 Size = new Point(16, 16),
-                Location = new Point(rowPanel.Width - 26, 8),
                 BasicTooltipText = "Remove Entry",
                 ClickAction = (m) =>
                 {
@@ -470,6 +462,14 @@ namespace Kenedia.Modules.Characters.Views
                     _requestSave?.Invoke();
                     PopulateDetailPanel();
                 },
+            };
+
+            rowPanel.Resized += (s, e) =>
+            {
+                var scrollbarOffset = 12;
+                moveUpButton.Location = new Point(rowPanel.Width - 70 - scrollbarOffset, 8);
+                moveDownButton.Location = new Point(rowPanel.Width - 48 - scrollbarOffset, 8);
+                removeButton.Location = new Point(rowPanel.Width - 26 - scrollbarOffset, 8);
             };
         }
 
