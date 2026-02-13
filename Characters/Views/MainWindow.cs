@@ -43,6 +43,7 @@ namespace Kenedia.Modules.Characters.Views
         private readonly ImageButton _toggleSideMenuButton;
         private readonly CollapseContainer _collapseWrapper;
         private readonly ImageButton _displaySettingsButton;
+        private readonly ImageButton _taskListsButton;
         private readonly ImageButton _randomButton;
         private readonly ImageButton _lastButton;
         private readonly ImageButton _clearButton;
@@ -212,6 +213,17 @@ namespace Kenedia.Modules.Characters.Views
                 ClickAction = (m) => SettingsWindow?.ToggleWindow(),
             };
 
+            _taskListsButton = new()
+            {
+                Parent = _buttonPanel,
+                Texture = AsyncTexture2D.FromAssetId(157122),
+                // Texture = _textureManager.GetIcon(TextureManager.Icons.Folder)
+                // HoveredTexture = _textureManager.GetIcon(TextureManager.Icons.Folder_Hovered),
+                Size = new Point(25, 25),
+                BasicTooltipText = "Task Lists",
+                ClickAction = (m) => TaskListWindow?.ToggleWindow(),
+            };
+
             _toggleSideMenuButton = new()
             {
                 Parent = _buttonPanel,
@@ -305,6 +317,8 @@ namespace Kenedia.Modules.Characters.Views
         }
 
         public SettingsWindow SettingsWindow { get; set; }
+
+        public TaskListWindow TaskListWindow { get; set; }
 
         public SideMenu SideMenu { get; }
 
@@ -672,6 +686,7 @@ namespace Kenedia.Modules.Characters.Views
 
             _dropdownPanel?.Dispose();
             _displaySettingsButton?.Dispose();
+            _taskListsButton?.Dispose();
             _filterBox?.Dispose();
             SideMenu?.Dispose();
         }

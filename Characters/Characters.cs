@@ -95,6 +95,10 @@ namespace Kenedia.Modules.Characters
 
         public ObservableCollection<Character_Model> CharacterModels { get; } = [];
 
+        public ObservableCollection<TaskListModel> TaskListModels { get; } = [];
+
+        public TaskListWindow TaskListWindow { get; private set; }
+
         private CancellationTokenSource _characterFileTokenSource;
 
         public Character_Model CurrentCharacterModel
@@ -131,6 +135,8 @@ namespace Kenedia.Modules.Characters
         public string GlobalAccountsPath { get; set; }
 
         public string CharactersPath => $@"{Paths.AccountPath}characters.json";
+
+        public string TaskListsPath => $@"{Paths.ModulePath}tasklists.json";
 
         public string AccountImagesPath => $@"{Paths.AccountPath}images\";
 
@@ -422,6 +428,37 @@ namespace Kenedia.Modules.Characters
                 Version = ModuleVersion,
             };
 
+            LoadTaskLists();
+
+            var taskListBg = AsyncTexture2D.FromAssetId(155985);
+            Texture2D cutTaskListBg = taskListBg.Texture.GetRegion(0, 0, taskListBg.Width - 482, taskListBg.Height - 390);
+            TaskListWindow = new TaskListWindow(
+                bg,
+                new Rectangle(25, 25, cutBg.Width + 10, cutBg.Height),
+                new Rectangle(35, 14, cutBg.Width - 10, cutBg.Height - 10),
+                // taskListBg,
+                // new Rectangle(30, 30, cutTaskListBg.Width + 10 + 500, cutTaskListBg.Height),
+                // new Rectangle(30, 35, cutTaskListBg.Width - 5 + 500, cutTaskListBg.Height - 15),
+                Settings,
+                // TextureManager,
+                CharacterModels,
+                TaskListModels,
+                RequestTaskListSave)
+            {
+                Parent = GameService.Graphics.SpriteScreen,
+                Title = "❤",
+                Subtitle = "❤",
+                SavesPosition = true,
+                Id = $"{Name} TaskListWindow",
+                Name = "Task Lists",
+                CanResize = true,
+                MainWindowEmblem = AsyncTexture2D.FromAssetId(156015),
+                SubWindowEmblem = AsyncTexture2D.FromAssetId(157122),
+                Version = ModuleVersion,
+            };
+
+            MainWindow.TaskListWindow = TaskListWindow;
+
             SideMenuToggles _toggles;
             MainWindow.SideMenu.AddTab(_toggles = new SideMenuToggles(TextureManager, TagFilters, SearchFilters, () => MainWindow?.FilterCharacters(), Tags, Data)
             {
@@ -466,6 +503,7 @@ namespace Kenedia.Modules.Characters
             RadialMenu?.Dispose();
             SettingsWindow?.Dispose();
             MainWindow?.Dispose();
+            TaskListWindow?.Dispose();
             PotraitCapture?.Dispose();
             RunIndicator?.Dispose();
         }
@@ -873,6 +911,52 @@ namespace Kenedia.Modules.Characters
         private void RequestCharacterSave()
         {
             _saveCharacters = true;
+        }
+
+        private void LoadTaskLists()
+        {
+            try
+            {
+                if (File.Exists(TaskListsPath))
+                {
+                    string content = File.ReadAllText(TaskListsPath);
+                    var lists = JsonConvert.DeserializeObject<List<TaskListModel>>(content, SerializerSettings.Default);
+
+                    if (lists is not null)
+                    {
+                        TaskListModels.Clear();
+                        foreach (var list in lists)
+                        {
+                            TaskListModels.Add(list);
+                        }
+
+                        Logger.Info($"Loaded {TaskListModels.Count} task list(s) from '{TaskListsPath}'.");
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.Warn(ex, $"Failed to load task lists from '{TaskListsPath}'.");
+            }
+        }
+
+        private void SaveTaskLists()
+        {
+            try
+            {
+                string json = JsonConvert.SerializeObject(TaskListModels, SerializerSettings.Default);
+                File.WriteAllText(TaskListsPath, json);
+            }
+            catch (Exception ex)
+            {
+                Logger.Warn($"Failed to save task lists to '{TaskListsPath}'.");
+                Logger.Warn($"{ex}");
+            }
+        }
+
+        private void RequestTaskListSave()
+        {
+            SaveTaskLists();
         }
     }
 }
