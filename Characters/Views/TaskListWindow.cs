@@ -376,33 +376,51 @@ namespace Kenedia.Modules.Characters.Views
                 },
             };
 
-            // Reset all button
-            // if (_selectedList.Entries.Count > 0)
-            // {
-            //     _ = new Button()
-            //     {
-            //         Parent = addEntryPanelRow1,
-            //         Text = "Reset All",
-            //         Width = 80,
-            //         Height = 30,
-            //         BasicTooltipText = "Mark all entries as incomplete",
-            //         ClickAction = () =>
-            //         {
-            //             _selectedList.ResetCompletion();
-            //             _requestSave?.Invoke();
-            //             PopulateDetailPanel();
-            //         },
-            //     };
-            // }
-
             // Entries header
-            _ = new Label()
+            var entriesHeaderPanel = new FlowPanel()
             {
                 Parent = _detailPanel,
+                WidthSizingMode = SizingMode.Fill,
+                HeightSizingMode = SizingMode.AutoSize,
+                FlowDirection = ControlFlowDirection.SingleLeftToRight,
+                ControlPadding = new Vector2(5, 0),
+                OuterControlPadding = new Vector2(5, 0),
+            };
+
+            bool syncingAllEntriesCheckbox = false;
+            bool allEntriesChecked = _selectedList.Entries.Count > 0 && _selectedList.Entries.All(e => e.Completed);
+            var allEntriesCheckbox = new Checkbox()
+            {
+                Parent = entriesHeaderPanel,
+                Checked = allEntriesChecked,
+                Width = 20,
+                Height = 20,
+                BasicTooltipText = allEntriesChecked ? "Uncheck All" : "Check All",
+                CheckedChangedAction = (isChecked) =>
+                {
+                    if (syncingAllEntriesCheckbox)
+                    {
+                        return;
+                    }
+
+                    foreach (var taskEntry in _selectedList.Entries)
+                    {
+                        taskEntry.Completed = isChecked;
+                    }
+
+                    _requestSave?.Invoke();
+                    PopulateDetailPanel();
+                },
+            };
+
+            _ = new Label()
+            {
+                Parent = entriesHeaderPanel,
                 Text = $"Entries ({_selectedList.Entries.Count})",
                 Font = Content.DefaultFont16,
                 AutoSizeWidth = true,
                 AutoSizeHeight = true,
+                VerticalAlignment = VerticalAlignment.Middle,
             };
 
             // Entries list
@@ -418,11 +436,18 @@ namespace Kenedia.Modules.Characters.Views
 
             foreach (var entry in _selectedList.Entries.OrderBy(e => e.Order))
             {
-                CreateEntryRow(entriesPanel, entry);
+                CreateEntryRow(entriesPanel, entry, () =>
+                {
+                    syncingAllEntriesCheckbox = true;
+                    bool allEntriesChecked = _selectedList.Entries.Count > 0 && _selectedList.Entries.All(e => e.Completed);
+                    allEntriesCheckbox.Checked = allEntriesChecked;
+                    allEntriesCheckbox.BasicTooltipText = allEntriesChecked ? "Uncheck All" : "Check All";
+                    syncingAllEntriesCheckbox = false;
+                });
             }
         }
 
-        private void CreateEntryRow(FlowPanel parent, TaskEntry entry)
+        private void CreateEntryRow(FlowPanel parent, TaskEntry entry, Action onCompletionChanged = null)
         {
             var rowPanel = new Panel()
             {
@@ -442,6 +467,7 @@ namespace Kenedia.Modules.Characters.Views
                 {
                     entry.Completed = b;
                     rowPanel.BackgroundColor = b ? new Color(40, 80, 40, 150) : new Color(40, 40, 40, 150);
+                    onCompletionChanged?.Invoke();
                     _requestSave?.Invoke();
                 },
             };
