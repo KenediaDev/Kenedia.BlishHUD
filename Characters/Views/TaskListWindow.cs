@@ -249,7 +249,16 @@ namespace Kenedia.Modules.Characters.Views
             };
 
             // Add entry section
-            var addEntryPanel = new FlowPanel()
+            var addEntryPanelRow1 = new FlowPanel()
+            {
+                Parent = _detailPanel,
+                WidthSizingMode = SizingMode.Fill,
+                HeightSizingMode = SizingMode.AutoSize,
+                FlowDirection = ControlFlowDirection.SingleLeftToRight,
+                ControlPadding = new Vector2(5, 0),
+            };
+            
+            var addEntryPanelRow2 = new FlowPanel()
             {
                 Parent = _detailPanel,
                 WidthSizingMode = SizingMode.Fill,
@@ -258,42 +267,108 @@ namespace Kenedia.Modules.Characters.Views
                 ControlPadding = new Vector2(5, 0),
             };
 
-            var characterDropdown = new Dropdown()
+            var allCharacterNames = _characterModels
+                .Select(c => c.Name)
+                .Where(n => !string.IsNullOrWhiteSpace(n))
+                .Distinct(StringComparer.OrdinalIgnoreCase)
+                .OrderBy(n => n)
+                .ToList();
+
+            var characterNameBox = new TextBox()
             {
-                Parent = addEntryPanel,
-                Width = 180,
+                Parent = addEntryPanelRow1,
+                PlaceholderText = "Search String",
+                Width = 190,
                 Height = 30,
             };
 
-            foreach (var character in _characterModels.OrderBy(c => c.Name))
+            var characterDropdown = new Dropdown()
             {
-                characterDropdown.Items.Add(character.Name);
-            }
+                Parent = addEntryPanelRow2,
+                Width = 190,
+                Height = 30,
+            };
 
-            if (characterDropdown.Items.Count > 0)
+            bool syncingCharacterControls = false;
+            Action refreshCharacterDropdown = () =>
             {
-                characterDropdown.SelectedItem = characterDropdown.Items.First();
-            }
+                if (syncingCharacterControls)
+                {
+                    return;
+                }
+
+                syncingCharacterControls = true;
+
+                string currentText = characterNameBox.Text ?? string.Empty;
+                string selectedItem = characterDropdown.SelectedItem;
+
+                var filteredCharacterNames = allCharacterNames
+                    .Where(name => string.IsNullOrEmpty(currentText) || name.IndexOf(currentText, StringComparison.OrdinalIgnoreCase) >= 0)
+                    .ToList();
+
+                characterDropdown.Items.Clear();
+                foreach (var characterName in filteredCharacterNames)
+                {
+                    characterDropdown.Items.Add(characterName);
+                }
+
+                string matchingItem = filteredCharacterNames
+                    .FirstOrDefault(name => string.Equals(name, currentText, StringComparison.OrdinalIgnoreCase));
+
+                if (!string.IsNullOrEmpty(matchingItem))
+                {
+                    characterDropdown.SelectedItem = matchingItem;
+                }
+                else if (!string.IsNullOrEmpty(selectedItem) && filteredCharacterNames.Contains(selectedItem))
+                {
+                    characterDropdown.SelectedItem = selectedItem;
+                }
+                else
+                {
+                    characterDropdown.SelectedItem = string.Empty;
+                }
+
+                syncingCharacterControls = false;
+            };
+
+            characterNameBox.TextChanged += (s, e) => refreshCharacterDropdown();
+            characterDropdown.ValueChangedAction = (selected) =>
+            {
+                if (syncingCharacterControls || string.IsNullOrEmpty(selected))
+                {
+                    return;
+                }
+
+                syncingCharacterControls = true;
+                characterNameBox.Text = selected;
+                syncingCharacterControls = false;
+
+                refreshCharacterDropdown();
+            };
+
+            refreshCharacterDropdown();
 
             var taskDescBox = new TextBox()
             {
-                Parent = addEntryPanel,
+                Parent = addEntryPanelRow1,
                 PlaceholderText = "Task description (optional)",
-                Width = 200,
+                Width = 400,
                 Height = 30,
             };
 
             _ = new Button()
             {
-                Parent = addEntryPanel,
+                Parent = addEntryPanelRow1,
                 Text = "Add Entry",
                 Width = 90,
                 Height = 30,
                 ClickAction = () =>
                 {
-                    if (!string.IsNullOrEmpty(characterDropdown.SelectedItem))
+                    string characterName = characterNameBox.Text?.Trim();
+                    if (!string.IsNullOrEmpty(characterName))
                     {
-                        _selectedList.AddEntry(characterDropdown.SelectedItem, taskDescBox.Text);
+                        _selectedList.AddEntry(characterName, taskDescBox.Text);
+                        characterNameBox.Text = string.Empty;
                         taskDescBox.Text = string.Empty;
                         _requestSave?.Invoke();
                         PopulateDetailPanel();
@@ -302,23 +377,23 @@ namespace Kenedia.Modules.Characters.Views
             };
 
             // Reset all button
-            if (_selectedList.Entries.Count > 0)
-            {
-                _ = new Button()
-                {
-                    Parent = addEntryPanel,
-                    Text = "Reset All",
-                    Width = 80,
-                    Height = 30,
-                    BasicTooltipText = "Mark all entries as incomplete",
-                    ClickAction = () =>
-                    {
-                        _selectedList.ResetCompletion();
-                        _requestSave?.Invoke();
-                        PopulateDetailPanel();
-                    },
-                };
-            }
+            // if (_selectedList.Entries.Count > 0)
+            // {
+            //     _ = new Button()
+            //     {
+            //         Parent = addEntryPanelRow1,
+            //         Text = "Reset All",
+            //         Width = 80,
+            //         Height = 30,
+            //         BasicTooltipText = "Mark all entries as incomplete",
+            //         ClickAction = () =>
+            //         {
+            //             _selectedList.ResetCompletion();
+            //             _requestSave?.Invoke();
+            //             PopulateDetailPanel();
+            //         },
+            //     };
+            // }
 
             // Entries header
             _ = new Label()
