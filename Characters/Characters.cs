@@ -1,4 +1,4 @@
-﻿using Blish_HUD;
+using Blish_HUD;
 using Blish_HUD.Content;
 using Blish_HUD.Graphics.UI;
 using Blish_HUD.Gw2Mumble;
@@ -293,6 +293,7 @@ namespace Kenedia.Modules.Characters
             _ticks.Save += gameTime.ElapsedGameTime.TotalMilliseconds;
             _ticks.Tags += gameTime.ElapsedGameTime.TotalMilliseconds;
             _ticks.OCR += gameTime.ElapsedGameTime.TotalMilliseconds;
+            _ticks.TaskListReset += gameTime.ElapsedGameTime.TotalMilliseconds;
 
             if (_ticks.Global > 500)
             {
@@ -331,6 +332,13 @@ namespace Kenedia.Modules.Characters
 
                 _ = SaveCharacterList();
                 _saveCharacters = false;
+            }
+
+            // Check task list auto-resets every 30 seconds
+            if (_ticks.TaskListReset > 30000)
+            {
+                _ticks.TaskListReset = 0;
+                CheckTaskListResets();
             }
         }
 
@@ -933,6 +941,28 @@ namespace Kenedia.Modules.Characters
             catch (Exception ex)
             {
                 Logger.Warn(ex, $"Failed to load task lists from '{TaskListsPath}'.");
+            }
+
+            // Check for any pending resets immediately after loading
+            CheckTaskListResets();
+        }
+
+        private void CheckTaskListResets()
+        {
+            bool anyReset = false;
+
+            foreach (var taskList in TaskListModels)
+            {
+                if (taskList.CheckAndApplyScheduledReset())
+                {
+                    Logger.Info($"Auto-reset completed entries for task list '{taskList.Name}' (frequency: {taskList.ResetFrequency}).");
+                    anyReset = true;
+                }
+            }
+
+            if (anyReset)
+            {
+                SaveTaskLists();
             }
         }
 

@@ -250,6 +250,55 @@ namespace Kenedia.Modules.Characters.Views
                 },
             };
 
+            // Reset frequency setting
+            var resetPanel = new FlowPanel()
+            {
+                Parent = _detailPanel,
+                WidthSizingMode = SizingMode.Fill,
+                HeightSizingMode = SizingMode.AutoSize,
+                FlowDirection = ControlFlowDirection.SingleLeftToRight,
+                ControlPadding = new Vector2(5, 0),
+            };
+
+            _ = new Label()
+            {
+                Parent = resetPanel,
+                Text = "Auto Reset:",
+                Width = 75,
+                Height = 30,
+                VerticalAlignment = VerticalAlignment.Middle,
+            };
+
+            var resetDropdown = new Dropdown()
+            {
+                Parent = resetPanel,
+                Width = 220,
+                Height = 30,
+            };
+
+            resetDropdown.Items.Add("None");
+            resetDropdown.Items.Add("Daily (00:00 UTC)");
+            resetDropdown.Items.Add("Weekly (Mon 07:30 UTC)");
+
+            resetDropdown.SelectedItem = _selectedList.ResetFrequency switch
+            {
+                ResetFrequency.Daily => "Daily (00:00 UTC)",
+                ResetFrequency.Weekly => "Weekly (Mon 07:30 UTC)",
+                _ => "None",
+            };
+
+            resetDropdown.ValueChangedAction = (selected) =>
+            {
+                _selectedList.ResetFrequency = selected switch
+                {
+                    "Daily (00:00 UTC)" => ResetFrequency.Daily,
+                    "Weekly (Mon 07:30 UTC)" => ResetFrequency.Weekly,
+                    _ => ResetFrequency.None,
+                };
+
+                _requestSave?.Invoke();
+            };
+
             // Add entry section
             var addEntryPanelRow1 = new FlowPanel()
             {
