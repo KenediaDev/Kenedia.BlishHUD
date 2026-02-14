@@ -35,6 +35,7 @@ namespace Kenedia.Modules.Characters.Views
         private readonly FlowPanel _detailPanel;
 
         private TaskListModel _selectedList;
+        private TaskEntry _editingEntry;
         private bool _created;
 
         public TaskListWindow(
@@ -174,6 +175,7 @@ namespace Kenedia.Modules.Characters.Views
         private void SelectList(TaskListModel taskList)
         {
             _selectedList = taskList;
+            _editingEntry = null;
 
             PopulateListPanel();
             PopulateDetailPanel();
@@ -449,12 +451,16 @@ namespace Kenedia.Modules.Characters.Views
 
         private void CreateEntryRow(FlowPanel parent, TaskEntry entry, Action onCompletionChanged = null)
         {
+            bool isEditing = _editingEntry == entry;
+
             var rowPanel = new Panel()
             {
                 Parent = parent,
                 WidthSizingMode = SizingMode.Fill,
                 Height = 32,
-                BackgroundColor = entry.Completed ? new Color(40, 80, 40, 150) : new Color(40, 40, 40, 150),
+                BackgroundColor = isEditing
+                    ? new Color(50, 50, 70, 180)
+                    : entry.Completed ? new Color(40, 80, 40, 150) : new Color(40, 40, 40, 150),
             };
 
             _ = new Checkbox()
@@ -472,106 +478,190 @@ namespace Kenedia.Modules.Characters.Views
                 },
             };
 
-            // Character name
-            _ = new Label()
+            if (isEditing)
             {
-                Parent = rowPanel,
-                Text = entry.CharacterName,
-                Location = new Point(30, 0),
-                Width = 160,
-                Height = 32,
-                VerticalAlignment = VerticalAlignment.Middle,
-                Font = Content.DefaultFont14,
-                TextColor = entry.Completed ? Color.Gray : ContentService.Colors.ColonialWhite,
-            };
+                // Editable character name
+                var editNameBox = new TextBox()
+                {
+                    Parent = rowPanel,
+                    Text = entry.CharacterName,
+                    Location = new Point(30, 2),
+                    Width = 155,
+                    Height = 28,
+                };
 
-            // Task description
-            if (!string.IsNullOrEmpty(entry.Description))
+                // Editable description
+                var editDescBox = new TextBox()
+                {
+                    Parent = rowPanel,
+                    Text = entry.Description ?? string.Empty,
+                    PlaceholderText = "Description (optional)",
+                    Location = new Point(190, 2),
+                    Width = 370,
+                    Height = 28,
+                };
+
+                // Save button
+                var saveButton = new Button()
+                {
+                    Parent = rowPanel,
+                    Text = "Save",
+                    Width = 50,
+                    Height = 28,
+                    ClickAction = () =>
+                    {
+                        string newName = editNameBox.Text?.Trim();
+                        if (!string.IsNullOrEmpty(newName))
+                        {
+                            entry.CharacterName = newName;
+                            entry.Description = editDescBox.Text?.Trim();
+                            _editingEntry = null;
+                            _requestSave?.Invoke();
+                            PopulateDetailPanel();
+                        }
+                    },
+                };
+
+                // Cancel button
+                var cancelButton = new Button()
+                {
+                    Parent = rowPanel,
+                    Text = "Cancel",
+                    Width = 55,
+                    Height = 28,
+                    ClickAction = () =>
+                    {
+                        _editingEntry = null;
+                        PopulateDetailPanel();
+                    },
+                };
+
+                rowPanel.Resized += (s, e) =>
+                {
+                    var scrollbarOffset = 12;
+                    cancelButton.Location = new Point(rowPanel.Width - 55 - scrollbarOffset, 2);
+                    saveButton.Location = new Point(rowPanel.Width - 55 - 5 - 50 - scrollbarOffset, 2);
+                };
+            }
+            else
             {
+                // Character name
                 _ = new Label()
                 {
                     Parent = rowPanel,
-                    Text = entry.Description,
-                    Location = new Point(195, 0),
-                    Width = 250,
+                    Text = entry.CharacterName,
+                    Location = new Point(30, 0),
+                    Width = 160,
                     Height = 32,
                     VerticalAlignment = VerticalAlignment.Middle,
-                    Font = Content.DefaultFont12,
-                    TextColor = entry.Completed ? Color.Gray : Color.LightGray,
+                    Font = Content.DefaultFont14,
+                    TextColor = entry.Completed ? Color.Gray : ContentService.Colors.ColonialWhite,
+                };
+
+                // Task description
+                if (!string.IsNullOrEmpty(entry.Description))
+                {
+                    _ = new Label()
+                    {
+                        Parent = rowPanel,
+                        Text = entry.Description,
+                        Location = new Point(195, 0),
+                        Width = 250,
+                        Height = 32,
+                        VerticalAlignment = VerticalAlignment.Middle,
+                        Font = Content.DefaultFont12,
+                        TextColor = entry.Completed ? Color.Gray : Color.LightGray,
+                    };
+                }
+
+                // Move up button
+                var moveUpButton = new ImageButton()
+                {
+                    Parent = rowPanel,
+                    Texture = AsyncTexture2D.FromAssetId(155953),
+                    Size = new Point(16, 16),
+                    BasicTooltipText = "Move Up",
+                    ClickAction = (m) =>
+                    {
+                        if (entry.Order > 0)
+                        {
+                            var swapEntry = _selectedList.Entries.FirstOrDefault(e => e.Order == entry.Order - 1);
+                            if (swapEntry != null)
+                            {
+                                swapEntry.Order++;
+                                entry.Order--;
+                                _requestSave?.Invoke();
+                                PopulateDetailPanel();
+                            }
+                        }
+                    },
+                };
+
+                // Move down button
+                var moveDownButton = new ImageButton()
+                {
+                    Parent = rowPanel,
+                    Texture = AsyncTexture2D.FromAssetId(155954),
+                    Size = new Point(16, 16),
+                    BasicTooltipText = "Move Down",
+                    ClickAction = (m) =>
+                    {
+                        int maxOrder = _selectedList.Entries.Max(e => e.Order);
+                        if (entry.Order < maxOrder)
+                        {
+                            var swapEntry = _selectedList.Entries.FirstOrDefault(e => e.Order == entry.Order + 1);
+                            if (swapEntry != null)
+                            {
+                                swapEntry.Order--;
+                                entry.Order++;
+                                _requestSave?.Invoke();
+                                PopulateDetailPanel();
+                            }
+                        }
+                    },
+                };
+
+                // Edit button
+                var editButton = new ImageButton()
+                {
+                    Parent = rowPanel,
+                    Texture = AsyncTexture2D.FromAssetId(2175780),
+                    HoveredTexture = AsyncTexture2D.FromAssetId(2175779),
+                    Size = new Point(16, 16),
+                    BasicTooltipText = "Edit Entry",
+                    ClickAction = (m) =>
+                    {
+                        _editingEntry = entry;
+                        PopulateDetailPanel();
+                    },
+                };
+
+                // Remove button
+                var removeButton = new ImageButton()
+                {
+                    Parent = rowPanel,
+                    Texture = AsyncTexture2D.FromAssetId(2175783),
+                    HoveredTexture = AsyncTexture2D.FromAssetId(2175782),
+                    ClickedTexture = AsyncTexture2D.FromAssetId(2175784),
+                    Size = new Point(16, 16),
+                    BasicTooltipText = "Remove Entry",
+                    ClickAction = (m) =>
+                    {
+                        _selectedList.RemoveEntry(entry);
+                        _requestSave?.Invoke();
+                        PopulateDetailPanel();
+                    },
+                };
+
+                rowPanel.Resized += (s, e) =>
+                {
+                    var scrollbarOffset = 12;
+                    moveUpButton.Location = new Point(rowPanel.Width - 92 - scrollbarOffset, 8);
+                    moveDownButton.Location = new Point(rowPanel.Width - 70 - scrollbarOffset, 8);
+                    editButton.Location = new Point(rowPanel.Width - 48 - scrollbarOffset, 8);
+                    removeButton.Location = new Point(rowPanel.Width - 26 - scrollbarOffset, 8);
                 };
             }
-
-            // Move up button
-            var moveUpButton = new ImageButton()
-            {
-                Parent = rowPanel,
-                Texture = AsyncTexture2D.FromAssetId(155953),
-                Size = new Point(16, 16),
-                BasicTooltipText = "Move Up",
-                ClickAction = (m) =>
-                {
-                    if (entry.Order > 0)
-                    {
-                        var swapEntry = _selectedList.Entries.FirstOrDefault(e => e.Order == entry.Order - 1);
-                        if (swapEntry != null)
-                        {
-                            swapEntry.Order++;
-                            entry.Order--;
-                            _requestSave?.Invoke();
-                            PopulateDetailPanel();
-                        }
-                    }
-                },
-            };
-
-            // Move down button
-            var moveDownButton = new ImageButton()
-            {
-                Parent = rowPanel,
-                Texture = AsyncTexture2D.FromAssetId(155954),
-                Size = new Point(16, 16),
-                BasicTooltipText = "Move Down",
-                ClickAction = (m) =>
-                {
-                    int maxOrder = _selectedList.Entries.Max(e => e.Order);
-                    if (entry.Order < maxOrder)
-                    {
-                        var swapEntry = _selectedList.Entries.FirstOrDefault(e => e.Order == entry.Order + 1);
-                        if (swapEntry != null)
-                        {
-                            swapEntry.Order--;
-                            entry.Order++;
-                            _requestSave?.Invoke();
-                            PopulateDetailPanel();
-                        }
-                    }
-                },
-            };
-
-            // Remove button
-            var removeButton = new ImageButton()
-            {
-                Parent = rowPanel,
-                Texture = AsyncTexture2D.FromAssetId(2175783),
-                HoveredTexture = AsyncTexture2D.FromAssetId(2175782),
-                ClickedTexture = AsyncTexture2D.FromAssetId(2175784),
-                Size = new Point(16, 16),
-                BasicTooltipText = "Remove Entry",
-                ClickAction = (m) =>
-                {
-                    _selectedList.RemoveEntry(entry);
-                    _requestSave?.Invoke();
-                    PopulateDetailPanel();
-                },
-            };
-
-            rowPanel.Resized += (s, e) =>
-            {
-                var scrollbarOffset = 12;
-                moveUpButton.Location = new Point(rowPanel.Width - 70 - scrollbarOffset, 8);
-                moveDownButton.Location = new Point(rowPanel.Width - 48 - scrollbarOffset, 8);
-                removeButton.Location = new Point(rowPanel.Width - 26 - scrollbarOffset, 8);
-            };
         }
 
         public override void UpdateContainer(GameTime gameTime)
