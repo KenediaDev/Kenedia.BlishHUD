@@ -24,6 +24,8 @@ namespace Kenedia.Modules.Characters.Views
 {
     public class TaskListWindow : StandardWindow
     {
+        public event Action<string> SwitchToCharacterRequested;
+
         private readonly Settings _settings;
         // private readonly TextureManager _textureManager;
         private readonly ObservableCollection<Character_Model> _characterModels;
@@ -623,6 +625,22 @@ namespace Kenedia.Modules.Characters.Views
                     };
                 }
 
+                var switchButton = new ImageButton()
+                {
+                    Parent = rowPanel,
+                    Texture = AsyncTexture2D.FromAssetId(784346),
+                    Size = new Point(16, 16),
+                    BasicTooltipText = "Switch to Character",
+                    ClickAction = (x) =>
+                    {
+                        string characterName = entry.CharacterName?.Trim();
+                        if (!string.IsNullOrEmpty(characterName))
+                        {
+                            SwitchToCharacterRequested?.Invoke(characterName);
+                        }
+                    },
+                };
+
                 // Move up button
                 var moveUpButton = new ImageButton()
                 {
@@ -705,6 +723,7 @@ namespace Kenedia.Modules.Characters.Views
                 rowPanel.Resized += (s, e) =>
                 {
                     var scrollbarOffset = 12;
+                    switchButton.Location = new Point(rowPanel.Width - 114 - scrollbarOffset, 8);
                     moveUpButton.Location = new Point(rowPanel.Width - 92 - scrollbarOffset, 8);
                     moveDownButton.Location = new Point(rowPanel.Width - 70 - scrollbarOffset, 8);
                     editButton.Location = new Point(rowPanel.Width - 48 - scrollbarOffset, 8);

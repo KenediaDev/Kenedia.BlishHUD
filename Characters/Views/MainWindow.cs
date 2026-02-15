@@ -718,6 +718,30 @@ namespace Kenedia.Modules.Characters.Views
             if (_settings.OpenSidemenuOnSearch.Value) ShowAttached(SideMenu);
         }
 
+        public void SwitchToCharacterBySearch(string characterName)
+        {
+            string searchText = characterName?.Trim();
+            if (string.IsNullOrEmpty(searchText))
+            {
+                return;
+            }
+
+            _filterBox.Text = searchText;
+            _filterBox.ForceFilter();
+
+            var matchingCharacter = CharactersPanel.Children
+                .OfType<CharacterCard>()
+                .FirstOrDefault(card => card.Visible);
+
+            matchingCharacter?.Character?.Swap();
+
+            if (matchingCharacter is null)
+            {
+                Characters.Logger.Debug($"No character found for task list switch request '{searchText}'.");
+                // maybe I should force the main window to open to show that there are no results
+            }
+        }
+
         private void DraggingControl_LeftMouseButtonReleased(object sender, Blish_HUD.Input.MouseEventArgs e)
         {
             SetNewIndex(DraggingControl.CharacterControl);

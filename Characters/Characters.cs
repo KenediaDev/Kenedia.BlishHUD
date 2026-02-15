@@ -462,6 +462,7 @@ namespace Kenedia.Modules.Characters
             };
 
             MainWindow.TaskListWindow = TaskListWindow;
+            TaskListWindow.SwitchToCharacterRequested += MainWindow.SwitchToCharacterBySearch;
 
             SideMenuToggles _toggles;
             MainWindow.SideMenu.AddTab(_toggles = new SideMenuToggles(TextureManager, TagFilters, SearchFilters, () => MainWindow?.FilterCharacters(), Tags, Data)
@@ -503,6 +504,11 @@ namespace Kenedia.Modules.Characters
         protected override void UnloadGUI()
         {
             base.UnloadGUI();
+
+            if (TaskListWindow is not null && MainWindow is not null)
+            {
+                TaskListWindow.SwitchToCharacterRequested -= MainWindow.SwitchToCharacterBySearch;
+            }
 
             RadialMenu?.Dispose();
             SettingsWindow?.Dispose();
