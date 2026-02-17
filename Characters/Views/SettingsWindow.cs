@@ -1,4 +1,4 @@
-﻿using Blish_HUD;
+using Blish_HUD;
 using Blish_HUD.Content;
 using Blish_HUD.Controls;
 using Blish_HUD.Settings;
@@ -451,6 +451,44 @@ namespace Kenedia.Modules.Characters.Views
                 },
                 SetLocalizedKeyBindingName = () => strings.MailKey,
                 SetLocalizedTooltip = () => strings.MailKey_Tooltip,
+            };
+
+            _ = new KeybindingAssigner()
+            {
+                Parent = cP,
+                Width = ContentRegion.Width - 35,
+                KeyBinding = _settings.ToggleTaskListKey.Value,
+                KeybindChangedAction = (kb) =>
+                {
+                    _settings.ToggleTaskListKey.Value = new()
+                    {
+                        ModifierKeys = kb.ModifierKeys,
+                        PrimaryKey = kb.PrimaryKey,
+                        Enabled = kb.Enabled,
+                        IgnoreWhenInTextField = true,
+                    };
+                },
+                SetLocalizedKeyBindingName = () => strings.ToggleTaskListKey,
+                SetLocalizedTooltip = () => strings.ToggleTaskListKey_Tooltip,
+            };
+
+            _ = new KeybindingAssigner()
+            {
+                Parent = cP,
+                Width = ContentRegion.Width - 35,
+                KeyBinding = _settings.NextTaskEntryKey.Value,
+                KeybindChangedAction = (kb) =>
+                {
+                    _settings.NextTaskEntryKey.Value = new()
+                    {
+                        ModifierKeys = kb.ModifierKeys,
+                        PrimaryKey = kb.PrimaryKey,
+                        Enabled = kb.Enabled,
+                        IgnoreWhenInTextField = true,
+                    };
+                },
+                SetLocalizedKeyBindingName = () => strings.NextTaskEntryKey,
+                SetLocalizedTooltip = () => strings.NextTaskEntryKey_Tooltip,
             };
             #endregion Keybinds
         }

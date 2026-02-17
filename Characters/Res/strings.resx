@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!-- 
     Microsoft ResX Schema 
@@ -1048,5 +1048,17 @@ Path to the 'tesseract.dll': {0}</value>
   </data>
   <data name="Radial_CenterScreen_Tooltip" xml:space="preserve">
     <value>Always center the radial menu in the games window center</value>
+  </data>
+  <data name="ToggleTaskListKey" xml:space="preserve">
+    <value>Toggle Task List</value>
+  </data>
+  <data name="ToggleTaskListKey_Tooltip" xml:space="preserve">
+    <value>Key to open or close the task list window</value>
+  </data>
+  <data name="NextTaskEntryKey" xml:space="preserve">
+    <value>Next Task Entry</value>
+  </data>
+  <data name="NextTaskEntryKey_Tooltip" xml:space="preserve">
+    <value>Key to swap to the next incomplete character in the active task list</value>
   </data>
 </root>

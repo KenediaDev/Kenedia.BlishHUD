@@ -1,4 +1,4 @@
-using Blish_HUD;
+﻿using Blish_HUD;
 using Blish_HUD.Content;
 using Blish_HUD.Graphics.UI;
 using Blish_HUD.Gw2Mumble;
@@ -199,6 +199,12 @@ namespace Kenedia.Modules.Characters
 
             Settings.RadialKey.Value.Enabled = true;
             Settings.RadialKey.Value.Activated += RadialMenuToggle;
+
+            Settings.ToggleTaskListKey.Value.Enabled = true;
+            Settings.ToggleTaskListKey.Value.Activated += ToggleTaskList;
+
+            Settings.NextTaskEntryKey.Value.Enabled = true;
+            Settings.NextTaskEntryKey.Value.Activated += NextTaskEntry;
 
             Tags.CollectionChanged += Tags_CollectionChanged;
 
@@ -551,6 +557,22 @@ namespace Kenedia.Modules.Characters
 
                     _ = (RadialMenu?.ToggleVisibility());
                 }
+            }
+        }
+
+        private void ToggleTaskList(object sender, EventArgs e)
+        {
+            if (Control.ActiveControl is not TextBox)
+            {
+                TaskListWindow?.ToggleWindow();
+            }
+        }
+
+        private void NextTaskEntry(object sender, EventArgs e)
+        {
+            if (Control.ActiveControl is not TextBox)
+            {
+                TaskListWindow?.SwitchToNextCharacter();
             }
         }
 

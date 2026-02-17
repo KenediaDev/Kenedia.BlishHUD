@@ -208,8 +208,18 @@ namespace Kenedia.Modules.Characters.Views
             return trackedEntry;
         }
 
+        public void SwitchToNextCharacter()
+        {
+            SwitchToNextIncompleteEntry();
+        }
+        
         private void SwitchToNextIncompleteEntry()
         {
+            if (_selectedList is null)
+            {
+                return;
+            }
+
             bool changedCompletion = false;
             var trackedEntry = GetTrackedEntryForSelectedList();
             if (trackedEntry is not null)
