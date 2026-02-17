@@ -453,7 +453,7 @@ namespace Kenedia.Modules.Characters
                 Settings,
                 CharacterModels,
                 TaskListModels,
-                RequestTaskListSave)
+                SaveTaskLists)
             {
                 Parent = GameService.Graphics.SpriteScreen,
                 Title = "❤",
@@ -1006,11 +1006,6 @@ namespace Kenedia.Modules.Characters
                 Logger.Warn($"Failed to save task lists to '{TaskListsPath}'.");
                 Logger.Warn($"{ex}");
             }
-        }
-
-        private void RequestTaskListSave()
-        {
-            SaveTaskLists();
         }
     }
 }

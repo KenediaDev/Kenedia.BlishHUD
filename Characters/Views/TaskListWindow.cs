@@ -700,7 +700,8 @@ namespace Kenedia.Modules.Characters.Views
                     Height = 32,
                     VerticalAlignment = VerticalAlignment.Middle,
                     Font = Content.DefaultFont14,
-                    TextColor = entry.Completed ? Color.Gray : ContentService.Colors.ColonialWhite,
+                    // TextColor = entry.Completed ? Color.Gray : ContentService.Colors.ColonialWhite,
+                    TextColor = ContentService.Colors.ColonialWhite,
                 };
 
                 // Task description
@@ -715,7 +716,8 @@ namespace Kenedia.Modules.Characters.Views
                         Height = 32,
                         VerticalAlignment = VerticalAlignment.Middle,
                         Font = Content.DefaultFont12,
-                        TextColor = entry.Completed ? Color.Gray : Color.LightGray,
+                        // TextColor = entry.Completed ? Color.Gray : Color.LightGray,
+                        TextColor = Color.LightGray,
                     };
                 }
 
@@ -739,7 +741,7 @@ namespace Kenedia.Modules.Characters.Views
                 var moveUpButton = new ImageButton()
                 {
                     Parent = rowPanel,
-                    Texture = AsyncTexture2D.FromAssetId(155953),
+                    Texture = AsyncTexture2D.FromAssetId(298213),
                     Size = new Point(16, 16),
                     BasicTooltipText = "Move Up",
                     ClickAction = (m) =>
@@ -762,7 +764,9 @@ namespace Kenedia.Modules.Characters.Views
                 var moveDownButton = new ImageButton()
                 {
                     Parent = rowPanel,
-                    Texture = AsyncTexture2D.FromAssetId(155954),
+                    Texture = AsyncTexture2D.FromAssetId(155953),
+                    // Texture = AsyncTexture2D.FromAssetId(155953), //move down normal
+                    // Texture = AsyncTexture2D.FromAssetId(155954),// move down disabled
                     Size = new Point(16, 16),
                     BasicTooltipText = "Move Down",
                     ClickAction = (m) =>
