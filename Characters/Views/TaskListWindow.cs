@@ -38,6 +38,7 @@ namespace Kenedia.Modules.Characters.Views
 
         private TaskListModel _selectedList;
         private TaskEntry _editingEntry;
+        private TaskEntry _trackedEntryPendingCompletion;
         private bool _created;
 
         public TaskListWindow(
@@ -180,6 +181,60 @@ namespace Kenedia.Modules.Characters.Views
             _editingEntry = null;
 
             PopulateListPanel();
+            PopulateDetailPanel();
+        }
+
+        private void ClearTrackedEntry()
+        {
+            _trackedEntryPendingCompletion = null;
+        }
+
+        private TaskEntry GetTrackedEntryForSelectedList()
+        {
+            TaskListModel list = _selectedList;
+            var trackedEntry = _trackedEntryPendingCompletion;
+            if (trackedEntry is null || list is null)
+            {
+                return null;
+            }
+
+            bool isStillValid = list.Entries.Contains(trackedEntry) && !trackedEntry.Completed;
+            if (!isStillValid)
+            {
+                ClearTrackedEntry();
+                return null;
+            }
+
+            return trackedEntry;
+        }
+
+        private void SwitchToNextIncompleteEntry()
+        {
+            bool changedCompletion = false;
+            var trackedEntry = GetTrackedEntryForSelectedList();
+            if (trackedEntry is not null)
+            {
+                trackedEntry.Completed = true;
+                changedCompletion = true;
+                ClearTrackedEntry();
+            }
+
+            var nextEntry = _selectedList.Entries
+                .OrderBy(e => e.Order)
+                .FirstOrDefault(e => !e.Completed);
+
+            string nextCharacterName = nextEntry?.CharacterName?.Trim();
+            if (nextEntry is not null && !string.IsNullOrEmpty(nextCharacterName))
+            {
+                SwitchToCharacterRequested?.Invoke(nextCharacterName);
+                _trackedEntryPendingCompletion = nextEntry;
+            }
+
+            if (changedCompletion)
+            {
+                _requestSave?.Invoke();
+            }
+
             PopulateDetailPanel();
         }
 
@@ -474,6 +529,35 @@ namespace Kenedia.Modules.Characters.Views
                 AutoSizeWidth = true,
                 AutoSizeHeight = true,
                 VerticalAlignment = VerticalAlignment.Middle,
+            };
+
+            TaskEntry pendingCompletionEntry = GetTrackedEntryForSelectedList();
+            bool hasIncompleteEntries = _selectedList.Entries.Any(e => !e.Completed);
+
+            _ = new Button()
+            {
+                Parent = entriesHeaderPanel,
+                Text = "Next",
+                Width = 70,
+                Height = 28,
+                Enabled = hasIncompleteEntries,
+                BasicTooltipText = hasIncompleteEntries
+                    ? "Switch to the first incomplete task entry."
+                    : "All tasks in this list are complete.",
+                ClickAction = () => SwitchToNextIncompleteEntry(),
+            };
+
+            _ = new Label()
+            {
+                Parent = entriesHeaderPanel,
+                Text = pendingCompletionEntry is not null
+                    ? $"Next click marks '{pendingCompletionEntry.CharacterName}' complete."
+                    : "",
+                AutoSizeHeight = true,
+                Width = 380,
+                Height = 28,
+                VerticalAlignment = VerticalAlignment.Middle,
+                TextColor = pendingCompletionEntry is not null ? Color.LightGreen : Color.LightGray,
             };
 
             // Entries list
