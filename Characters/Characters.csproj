@@ -268,6 +268,10 @@
     <Compile Include="Controls\DraggingControl.cs" />
     <Compile Include="Controls\RadialMenuSection.cs" />
     <Compile Include="Controls\TagFlowPanel.cs" />
+    <Compile Include="Controls\TaskEntriesPanel.cs" />
+    <Compile Include="Controls\TaskEntryRow.cs" />
+    <Compile Include="Controls\TaskListDetailPanel.cs" />
+    <Compile Include="Controls\TaskListSidebar.cs" />
     <Compile Include="Controls\Triangle.cs" />
     <Compile Include="Models\CraftingProfession.cs" />
     <Compile Include="Models\FilterEntry.cs" />
@@ -304,6 +308,7 @@
     <Compile Include="Services\CharactersContext.cs" />
     <Compile Include="Services\ContextManager.cs" />
     <Compile Include="Services\StaticHosting.cs" />
+    <Compile Include="Services\TaskListService.cs" />
     <Compile Include="Views\OCRView.cs" />
     <Compile Include="OCR\OCR_TrainDisplay.cs" />
     <Compile Include="Res\strings.Designer.cs">

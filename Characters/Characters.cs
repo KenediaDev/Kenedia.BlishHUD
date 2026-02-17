@@ -1,4 +1,4 @@
-﻿using Blish_HUD;
+using Blish_HUD;
 using Blish_HUD.Content;
 using Blish_HUD.Graphics.UI;
 using Blish_HUD.Gw2Mumble;
@@ -96,6 +96,8 @@ namespace Kenedia.Modules.Characters
         public ObservableCollection<Character_Model> CharacterModels { get; } = [];
 
         public ObservableCollection<TaskListModel> TaskListModels { get; } = [];
+
+        public TaskListService TaskListService { get; private set; }
 
         public TaskListWindow TaskListWindow { get; private set; }
 
@@ -446,14 +448,15 @@ namespace Kenedia.Modules.Characters
 
             var taskListBg = AsyncTexture2D.FromAssetId(155985);
             Texture2D cutTaskListBg = taskListBg.Texture.GetRegion(0, 0, taskListBg.Width - 482, taskListBg.Height - 390);
+
+            TaskListService = new TaskListService(TaskListModels, SaveTaskLists);
+
             TaskListWindow = new TaskListWindow(
                 bg,
                 new Rectangle(25, 25, cutBg.Width + 10, cutBg.Height),
                 new Rectangle(35, 14, cutBg.Width - 10, cutBg.Height - 10),
-                Settings,
-                CharacterModels,
-                TaskListModels,
-                SaveTaskLists)
+                TaskListService,
+                CharacterModels)
             {
                 Parent = GameService.Graphics.SpriteScreen,
                 Title = "❤",
@@ -468,7 +471,7 @@ namespace Kenedia.Modules.Characters
             };
 
             MainWindow.TaskListWindow = TaskListWindow;
-            TaskListWindow.SwitchToCharacterRequested += MainWindow.SwitchToCharacterBySearch;
+            TaskListService.SwitchToCharacterRequested += MainWindow.SwitchToCharacterBySearch;
 
             SideMenuToggles _toggles;
             MainWindow.SideMenu.AddTab(_toggles = new SideMenuToggles(TextureManager, TagFilters, SearchFilters, () => MainWindow?.FilterCharacters(), Tags, Data)
@@ -511,9 +514,9 @@ namespace Kenedia.Modules.Characters
         {
             base.UnloadGUI();
 
-            if (TaskListWindow is not null && MainWindow is not null)
+            if (TaskListService is not null && MainWindow is not null)
             {
-                TaskListWindow.SwitchToCharacterRequested -= MainWindow.SwitchToCharacterBySearch;
+                TaskListService.SwitchToCharacterRequested -= MainWindow.SwitchToCharacterBySearch;
             }
 
             RadialMenu?.Dispose();
