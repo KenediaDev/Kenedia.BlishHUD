@@ -178,10 +178,8 @@ namespace Kenedia.Modules.Characters.Services
                 return null;
             }
 
-            bool isStillValid = list.Entries.Contains(trackedEntry) && !trackedEntry.Completed;
-            if (!isStillValid)
+            if (!list.Entries.Contains(trackedEntry))
             {
-                _trackedEntryPendingCompletion = null;
                 return null;
             }
 
