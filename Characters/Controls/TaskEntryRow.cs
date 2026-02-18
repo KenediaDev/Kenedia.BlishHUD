@@ -20,6 +20,11 @@ namespace Kenedia.Modules.Characters.Controls
     {
         private const int HandleWidth = 14;
 
+        private static readonly Color BackgroundDefault = new Color(40, 40, 40, 150);
+        private static readonly Color BackgroundCompleted = new Color(40, 80, 40, 150);
+        private static readonly Color BackgroundEditing = new Color(50, 50, 70, 180);
+        private static readonly Color BackgroundTracked = new Color(80, 70, 30, 170);
+
         private readonly TaskListService _service;
         private readonly TaskEntry _entry;
         private readonly Action _onCompletionChanged;
@@ -42,10 +47,9 @@ namespace Kenedia.Modules.Characters.Controls
             Height = 32;
 
             _isEditing = _service.EditingEntry == _entry;
+            bool isTracked = !_isEditing && !_entry.Completed && _service.GetTrackedEntryForSelectedList() == _entry;
 
-            BackgroundColor = _isEditing
-                ? new Color(50, 50, 70, 180)
-                : _entry.Completed ? new Color(40, 80, 40, 150) : new Color(40, 40, 40, 150);
+            BackgroundColor = ResolveBackgroundColor();
 
             int checkboxX = _isEditing ? 5 : HandleWidth + 4;
 
@@ -58,7 +62,8 @@ namespace Kenedia.Modules.Characters.Controls
                 CheckedChangedAction = (b) =>
                 {
                     _service.SetEntryCompletion(_entry, b);
-                    BackgroundColor = b ? new Color(40, 80, 40, 150) : new Color(40, 40, 40, 150);
+                    bool tracked = !b && _service.GetTrackedEntryForSelectedList() == _entry;
+                    BackgroundColor = ResolveBackgroundColor();
                     _onCompletionChanged?.Invoke();
                 },
             };
@@ -257,6 +262,17 @@ namespace Kenedia.Modules.Characters.Controls
                 editButton.Location = new Point(Width - 48 - scrollbarOffset, 8);
                 removeButton.Location = new Point(Width - 26 - scrollbarOffset, 8);
             };
+        }
+
+        private Color ResolveBackgroundColor() {
+            bool isTracked = !_isEditing && !_entry.Completed && _service.GetTrackedEntryForSelectedList() == _entry;
+
+            var BackgroundColor = 
+                  _isEditing ? BackgroundEditing
+                : _entry.Completed ? BackgroundCompleted
+                : isTracked ? BackgroundTracked
+                            : BackgroundDefault;
+            return BackgroundColor;
         }
     }
 }
