@@ -1,9 +1,11 @@
 using Blish_HUD;
 using Blish_HUD.Content;
 using Blish_HUD.Controls;
+using Blish_HUD.Input;
 using Kenedia.Modules.Characters.Models;
 using Kenedia.Modules.Characters.Services;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using System;
 using Button = Kenedia.Modules.Core.Controls.Button;
 using Checkbox = Kenedia.Modules.Core.Controls.Checkbox;
@@ -16,30 +18,42 @@ namespace Kenedia.Modules.Characters.Controls
 {
     public class TaskEntryRow : Panel
     {
+        private const int HandleWidth = 14;
+
         private readonly TaskListService _service;
         private readonly TaskEntry _entry;
         private readonly Action _onCompletionChanged;
+        private readonly Action<TaskEntryRow> _onDragStartRequested;
+        private readonly bool _isEditing;
+        private bool _handleHovered;
 
-        public TaskEntryRow(TaskListService service, TaskEntry entry, Action onCompletionChanged)
+        public TaskEntry Entry => _entry;
+
+        public bool IsDragging { get; set; }
+
+        public TaskEntryRow(TaskListService service, TaskEntry entry, Action onCompletionChanged, Action<TaskEntryRow> onDragStartRequested)
         {
             _service = service;
             _entry = entry;
             _onCompletionChanged = onCompletionChanged;
+            _onDragStartRequested = onDragStartRequested;
 
             WidthSizingMode = SizingMode.Fill;
             Height = 32;
 
-            bool isEditing = _service.EditingEntry == _entry;
+            _isEditing = _service.EditingEntry == _entry;
 
-            BackgroundColor = isEditing
+            BackgroundColor = _isEditing
                 ? new Color(50, 50, 70, 180)
                 : _entry.Completed ? new Color(40, 80, 40, 150) : new Color(40, 40, 40, 150);
+
+            int checkboxX = _isEditing ? 5 : HandleWidth + 4;
 
             _ = new Checkbox()
             {
                 Parent = this,
                 Checked = _entry.Completed,
-                Location = new Point(5, 6),
+                Location = new Point(checkboxX, 8),
                 Width = 20,
                 CheckedChangedAction = (b) =>
                 {
@@ -49,13 +63,74 @@ namespace Kenedia.Modules.Characters.Controls
                 },
             };
 
-            if (isEditing)
+            if (_isEditing)
             {
                 BuildEditMode();
             }
             else
             {
                 BuildViewMode();
+            }
+        }
+
+        public override void PaintBeforeChildren(SpriteBatch spriteBatch, Rectangle bounds)
+        {
+            base.PaintBeforeChildren(spriteBatch, bounds);
+
+            if (IsDragging)
+            {
+                spriteBatch.DrawOnCtrl(this, ContentService.Textures.Pixel, bounds, Rectangle.Empty, Color.Black * 0.3f);
+            }
+
+            if (!_isEditing)
+            {
+                DrawDragHandle(spriteBatch);
+            }
+        }
+
+        private void DrawDragHandle(SpriteBatch spriteBatch)
+        {
+            var color = _handleHovered ? new Color(200, 200, 200) : new Color(100, 100, 100);
+            int dotSize = 2;
+            int gapH = 3;
+            int gapV = 3;
+            int cols = 2;
+            int rows = 3;
+            int totalWidth = cols * dotSize + (cols - 1) * gapH;
+            int totalHeight = rows * dotSize + (rows - 1) * gapV;
+            int startX = (HandleWidth - totalWidth) / 2;
+            int startY = (Height - totalHeight) / 2;
+
+            for (int r = 0; r < rows; r++)
+            {
+                for (int c = 0; c < cols; c++)
+                {
+                    int x = startX + c * (dotSize + gapH);
+                    int y = startY + r * (dotSize + gapV);
+                    spriteBatch.DrawOnCtrl(this, ContentService.Textures.Pixel,
+                        new Rectangle(x, y, dotSize, dotSize), Rectangle.Empty, color);
+                }
+            }
+        }
+
+        protected override void OnMouseMoved(MouseEventArgs e)
+        {
+            base.OnMouseMoved(e);
+            _handleHovered = !_isEditing && RelativeMousePosition.X < HandleWidth;
+        }
+
+        protected override void OnMouseLeft(MouseEventArgs e)
+        {
+            base.OnMouseLeft(e);
+            _handleHovered = false;
+        }
+
+        protected override void OnLeftMouseButtonPressed(MouseEventArgs e)
+        {
+            base.OnLeftMouseButtonPressed(e);
+            if (!_isEditing && RelativeMousePosition.X < HandleWidth)
+            {
+                _onDragStartRequested?.Invoke(this);
             }
         }
 
@@ -115,11 +190,14 @@ namespace Kenedia.Modules.Characters.Controls
 
         private void BuildViewMode()
         {
+            int labelX = HandleWidth + 4 + 20 + 4;
+            int descX = labelX + 165;
+
             _ = new Label()
             {
                 Parent = this,
                 Text = _entry.CharacterName,
-                Location = new Point(30, 0),
+                Location = new Point(labelX, 0),
                 Width = 160,
                 Height = 32,
                 VerticalAlignment = VerticalAlignment.Middle,
@@ -133,7 +211,7 @@ namespace Kenedia.Modules.Characters.Controls
                 {
                     Parent = this,
                     Text = _entry.Description,
-                    Location = new Point(195, 0),
+                    Location = new Point(descX, 0),
                     Width = 250,
                     Height = 32,
                     VerticalAlignment = VerticalAlignment.Middle,
@@ -149,24 +227,6 @@ namespace Kenedia.Modules.Characters.Controls
                 Size = new Point(16, 16),
                 BasicTooltipText = "Switch to Character",
                 ClickAction = (x) => _service.RequestSwitchToCharacter(_entry.CharacterName?.Trim()),
-            };
-
-            var moveUpButton = new ImageButton()
-            {
-                Parent = this,
-                Texture = AsyncTexture2D.FromAssetId(298213),
-                Size = new Point(16, 16),
-                BasicTooltipText = "Move Up",
-                ClickAction = (m) => _service.MoveEntryUp(_entry),
-            };
-
-            var moveDownButton = new ImageButton()
-            {
-                Parent = this,
-                Texture = AsyncTexture2D.FromAssetId(155953),
-                Size = new Point(16, 16),
-                BasicTooltipText = "Move Down",
-                ClickAction = (m) => _service.MoveEntryDown(_entry),
             };
 
             var editButton = new ImageButton()
@@ -193,9 +253,7 @@ namespace Kenedia.Modules.Characters.Controls
             Resized += (s, e) =>
             {
                 var scrollbarOffset = 12;
-                switchButton.Location = new Point(Width - 114 - scrollbarOffset, 8);
-                moveUpButton.Location = new Point(Width - 92 - scrollbarOffset, 8);
-                moveDownButton.Location = new Point(Width - 70 - scrollbarOffset, 8);
+                switchButton.Location = new Point(Width - 70 - scrollbarOffset, 8);
                 editButton.Location = new Point(Width - 48 - scrollbarOffset, 8);
                 removeButton.Location = new Point(Width - 26 - scrollbarOffset, 8);
             };

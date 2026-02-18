@@ -96,35 +96,25 @@ namespace Kenedia.Modules.Characters.Services
             DetailPanelChanged?.Invoke();
         }
 
-        public void MoveEntryUp(TaskEntry entry)
-        {
-            if (_selectedList is null || entry.Order <= 0) return;
-
-            var swapEntry = _selectedList.Entries.FirstOrDefault(e => e.Order == entry.Order - 1);
-            if (swapEntry is not null)
-            {
-                swapEntry.Order++;
-                entry.Order--;
-                _requestSave?.Invoke();
-                DetailPanelChanged?.Invoke();
-            }
-        }
-
-        public void MoveEntryDown(TaskEntry entry)
+        public void ReorderEntry(TaskEntry entry, int targetIndex)
         {
             if (_selectedList is null) return;
 
-            int maxOrder = _selectedList.Entries.Max(e => e.Order);
-            if (entry.Order >= maxOrder) return;
+            var entries = _selectedList.Entries.OrderBy(e => e.Order).ToList();
+            int currentIndex = entries.IndexOf(entry);
+            if (currentIndex < 0 || currentIndex == targetIndex) return;
 
-            var swapEntry = _selectedList.Entries.FirstOrDefault(e => e.Order == entry.Order + 1);
-            if (swapEntry is not null)
+            entries.Remove(entry);
+            int insertAt = Math.Min(targetIndex, entries.Count);
+            entries.Insert(insertAt, entry);
+
+            for (int i = 0; i < entries.Count; i++)
             {
-                swapEntry.Order--;
-                entry.Order++;
-                _requestSave?.Invoke();
-                DetailPanelChanged?.Invoke();
+                entries[i].Order = i;
             }
+
+            _requestSave?.Invoke();
+            DetailPanelChanged?.Invoke();
         }
 
         public void StartEditing(TaskEntry entry)
