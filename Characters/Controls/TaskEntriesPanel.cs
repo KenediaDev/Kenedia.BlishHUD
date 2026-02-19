@@ -15,6 +15,13 @@ namespace Kenedia.Modules.Characters.Controls
 {
     public class TaskEntriesPanel : FlowPanel
     {
+        private const int ScrollbarReservedWidth = 12;
+        private const int InsertionLineLeftPadding = 5;
+        private const int InsertionLineVerticalOffset = 1;
+        private const int EntryRowSpacing = 3;
+        private const int HeaderControlHorizontalPadding = 5;
+        private const int DragHandleWidth = 14;
+
         private readonly TaskListService _service;
         private readonly Panel _insertionLine;
 
@@ -109,8 +116,8 @@ namespace Kenedia.Modules.Characters.Controls
             bool withinBounds = insertionY >= containerBounds.Top && insertionY <= containerBounds.Bottom;
             if (targetOrder != dragIndex && withinBounds)
             {
-                _insertionLine.Location = new Point(containerBounds.Left + 2, insertionY - 1);
-                _insertionLine.Width = containerBounds.Width - 16;
+                _insertionLine.Location = new Point(containerBounds.Left + InsertionLineLeftPadding, insertionY - InsertionLineVerticalOffset);
+                _insertionLine.Width = Math.Max(0, containerBounds.Width - 2*InsertionLineLeftPadding - ScrollbarReservedWidth);
                 _insertionLine.Visible = true;
             }
             else
@@ -190,8 +197,8 @@ namespace Kenedia.Modules.Characters.Controls
                 WidthSizingMode = SizingMode.Fill,
                 HeightSizingMode = SizingMode.AutoSize,
                 FlowDirection = ControlFlowDirection.SingleLeftToRight,
-                ControlPadding = new Vector2(5, 0),
-                OuterControlPadding = new Vector2(5 + 14, 0), // 5 + drag handle width (14)
+                ControlPadding = new Vector2(HeaderControlHorizontalPadding, 0),
+                OuterControlPadding = new Vector2(HeaderControlHorizontalPadding + DragHandleWidth, 0),
             };
 
             var syncState = new CheckboxSyncState();
@@ -262,10 +269,13 @@ namespace Kenedia.Modules.Characters.Controls
                 WidthSizingMode = SizingMode.Fill,
                 HeightSizingMode = SizingMode.Fill,
                 FlowDirection = ControlFlowDirection.SingleTopToBottom,
-                ControlPadding = new Vector2(0, 3),
+                ControlPadding = new Vector2(0, EntryRowSpacing),
                 CanScroll = true,
             };
 
+            _entriesContainer.Resized += (_, _) => UpdateEntryRowWidths();
+
+            int rowWidth = GetEntryRowWidth();
             foreach (var entry in selectedList.Entries.OrderBy(e => e.Order))
             {
                 _ = new TaskEntryRow(_service, entry, () =>
@@ -278,7 +288,28 @@ namespace Kenedia.Modules.Characters.Controls
                 }, OnDragStart)
                 {
                     Parent = _entriesContainer,
+                    WidthSizingMode = SizingMode.Standard,
+                    Width = rowWidth,
                 };
+            }
+
+            UpdateEntryRowWidths();
+        }
+
+        private int GetEntryRowWidth()
+        {
+            if (_entriesContainer == null) return 0;
+            return Math.Max(0, _entriesContainer.Width - ScrollbarReservedWidth);
+        }
+
+        private void UpdateEntryRowWidths()
+        {
+            if (_entriesContainer == null) return;
+
+            int rowWidth = GetEntryRowWidth();
+            foreach (var row in _entriesContainer.Children.OfType<TaskEntryRow>())
+            {
+                row.Width = rowWidth;
             }
         }
 

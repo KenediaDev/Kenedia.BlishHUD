@@ -38,7 +38,7 @@ namespace Kenedia.Modules.Characters.Views
                 ControlPadding = new Vector2(5, 0),
             };
 
-            _sidebar = new TaskListSidebar(_service, contentRegion.Height)
+            _sidebar = new TaskListSidebar(_service)
             {
                 Parent = _contentPanel,
             };
@@ -70,7 +70,6 @@ namespace Kenedia.Modules.Characters.Views
             if (_created)
             {
                 _detailPanel.Width = ContentRegion.Width - 210;
-                _sidebar.UpdateHeight(ContentRegion.Height);
             }
         }
 

@@ -19,6 +19,15 @@ namespace Kenedia.Modules.Characters.Controls
     public class TaskEntryRow : Panel
     {
         private const int HandleWidth = 14;
+        private const int ButtonSize = 16;
+        private const int ButtonSpacing = 6;
+        private const int ButtonRightPadding = 15;
+        private const int ButtonY = 8;
+        private const int SaveButtonWidth = 50;
+        private const int CancelButtonWidth = 55;
+        private const int EditButtonsSpacing = 5;
+        private const int EditButtonsY = 2;
+        private const int EditButtonsRightPadding = 10;
 
         private static readonly Color BackgroundDefault = new Color(40, 40, 40, 150);
         private static readonly Color BackgroundCompleted = new Color(40, 80, 40, 150);
@@ -43,7 +52,7 @@ namespace Kenedia.Modules.Characters.Controls
             _onCompletionChanged = onCompletionChanged;
             _onDragStartRequested = onDragStartRequested;
 
-            WidthSizingMode = SizingMode.Fill;
+            // WidthSizingMode = SizingMode.Fill;
             Height = 32;
 
             _isEditing = _service.EditingEntry == _entry;
@@ -187,9 +196,10 @@ namespace Kenedia.Modules.Characters.Controls
 
             Resized += (s, e) =>
             {
-                var scrollbarOffset = 12;
-                cancelButton.Location = new Point(Width - 55 - scrollbarOffset, 2);
-                saveButton.Location = new Point(Width - 55 - 5 - 50 - scrollbarOffset, 2);
+                var cancelButtonX = Width - CancelButtonWidth - EditButtonsRightPadding;
+                cancelButton.Location = new Point(cancelButtonX, EditButtonsY);
+                var saveButtonX = Width - CancelButtonWidth - EditButtonsSpacing - SaveButtonWidth - EditButtonsRightPadding;
+                saveButton.Location = new Point(saveButtonX, EditButtonsY);
             };
         }
 
@@ -257,10 +267,10 @@ namespace Kenedia.Modules.Characters.Controls
 
             Resized += (s, e) =>
             {
-                var scrollbarOffset = 12;
-                switchButton.Location = new Point(Width - 70 - scrollbarOffset, 8);
-                editButton.Location = new Point(Width - 48 - scrollbarOffset, 8);
-                removeButton.Location = new Point(Width - 26 - scrollbarOffset, 8);
+                int x = Width - ButtonRightPadding;
+                removeButton.Location = new Point(x -= ButtonSize, ButtonY);
+                editButton.Location = new Point(x -= ButtonSpacing + ButtonSize, ButtonY);
+                switchButton.Location = new Point(x -= ButtonSpacing + ButtonSize, ButtonY);
             };
         }
 

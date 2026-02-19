@@ -3,6 +3,7 @@ using Blish_HUD.Controls;
 using Kenedia.Modules.Characters.Models;
 using Kenedia.Modules.Characters.Services;
 using Microsoft.Xna.Framework;
+using System;
 using System.Linq;
 using Button = Kenedia.Modules.Core.Controls.Button;
 using FlowPanel = Kenedia.Modules.Core.Controls.FlowPanel;
@@ -14,46 +15,58 @@ namespace Kenedia.Modules.Characters.Controls
 {
     public class TaskListSidebar : Panel
     {
+        private const int SidebarWidth = 200;
+        private const int HeaderOuterPadding = 5;
+        private const int HeaderControlWidth = 180;
+        private const int HeaderControlSpacing = 5;
+        private const int HeaderToListOffset = 5;
+        private const int ListBottomPadding = 15;
+        private const int ScrollbarReservedWidth = 12;
+        private const int ListEntryHeight = 32;
+        private const int ListEntryLabelX = 5;
+        private const int ListEntryLeftPadding = 8;
+
         private static readonly Color SelectedBackground = new Color(60, 60, 60, 200);
         private static readonly Color CompletedBackground = new Color(40, 80, 40, 200);
         private static readonly Color CompletedTextColor = new Color(120, 200, 120);
 
         private readonly TaskListService _service;
+        private readonly FlowPanel _headerPanel;
         private readonly FlowPanel _listPanel;
         private readonly TextBox _searchBox;
 
-        public TaskListSidebar(TaskListService service, int contentHeight)
+        public TaskListSidebar(TaskListService service)
         {
             _service = service;
 
-            Width = 200;
+            Width = SidebarWidth;
             HeightSizingMode = SizingMode.Fill;
             ShowBorder = true;
 
-            var header = new FlowPanel()
+            _headerPanel = new FlowPanel()
             {
                 Parent = this,
                 WidthSizingMode = SizingMode.Fill,
                 HeightSizingMode = SizingMode.AutoSize,
                 FlowDirection = ControlFlowDirection.SingleTopToBottom,
-                ControlPadding = new Vector2(0, 5),
-                OuterControlPadding = new Vector2(5),
+                ControlPadding = new Vector2(0, HeaderControlSpacing),
+                OuterControlPadding = new Vector2(HeaderOuterPadding),
             };
 
             _ = new Button()
             {
-                Parent = header,
+                Parent = _headerPanel,
                 Text = "New List",
-                Width = 180,
+                Width = HeaderControlWidth,
                 Height = 30,
                 ClickAction = () => _service.CreateNewList(),
             };
 
             _searchBox = new TextBox()
             {
-                Parent = header,
+                Parent = _headerPanel,
                 PlaceholderText = "Search lists...",
-                Width = 180,
+                Width = HeaderControlWidth,
                 Height = 28,
                 TextChangedAction = (_) => Populate(),
             };
@@ -61,22 +74,23 @@ namespace Kenedia.Modules.Characters.Controls
             _listPanel = new FlowPanel()
             {
                 Parent = this,
-                Location = new Point(0, 105),
+                Location = Point.Zero,
                 WidthSizingMode = SizingMode.Fill,
-                Height = contentHeight - 110,
+                Height = 0,
                 FlowDirection = ControlFlowDirection.SingleTopToBottom,
                 ControlPadding = new Vector2(0, 2),
+                OuterControlPadding = new Vector2(ListEntryLeftPadding, 0),
                 CanScroll = true,
             };
 
+            Resized += (_, _) => UpdateLayout();
+            _headerPanel.Resized += (_, _) => UpdateLayout();
+            _listPanel.Resized += (_, _) => UpdateListEntryWidths();
+
             _service.ListPanelChanged += Populate;
 
+            UpdateLayout();
             Populate();
-        }
-
-        public void UpdateHeight(int contentHeight)
-        {
-            _listPanel.Height = contentHeight - 110;
         }
 
         private void Populate()
@@ -96,6 +110,8 @@ namespace Kenedia.Modules.Characters.Controls
 
                 CreateListEntry(taskList);
             }
+
+            UpdateListEntryWidths();
         }
 
         private void CreateListEntry(TaskListModel taskList)
@@ -106,8 +122,8 @@ namespace Kenedia.Modules.Characters.Controls
             var entry = new Panel()
             {
                 Parent = _listPanel,
-                WidthSizingMode = SizingMode.Fill,
-                Height = 32,
+                Width = GetListEntryWidth(),
+                Height = ListEntryHeight,
                 BackgroundColor = 
                       isSelected ? SelectedBackground
                     : isCompleted ? CompletedBackground
@@ -118,14 +134,38 @@ namespace Kenedia.Modules.Characters.Controls
             {
                 Parent = entry,
                 Text = taskList.Name,
-                Location = new Point(5, 0),
+                Location = new Point(ListEntryLabelX, 0),
                 AutoSizeWidth = true,
-                Height = 32,
+                Height = ListEntryHeight,
                 VerticalAlignment = VerticalAlignment.Middle,
                 TextColor = isCompleted ? CompletedTextColor : Color.White,
             };
 
             entry.Click += (s, e) => _service.SelectList(taskList);
+        }
+
+        private void UpdateLayout()
+        {
+            int listTop = _headerPanel.Bottom + HeaderToListOffset;
+
+            _listPanel.Location = new Point(0, listTop);
+            _listPanel.Height = Math.Max(0, Height - listTop - ListBottomPadding);
+
+            UpdateListEntryWidths();
+        }
+
+        private int GetListEntryWidth()
+        {
+            return Math.Max(0, _listPanel.Width - ListEntryLeftPadding - ScrollbarReservedWidth);
+        }
+
+        private void UpdateListEntryWidths()
+        {
+            int entryWidth = GetListEntryWidth();
+            foreach (var child in _listPanel.Children.OfType<Panel>())
+            {
+                child.Width = entryWidth;
+            }
         }
 
         protected override void DisposeControl()
