@@ -56,7 +56,7 @@ namespace Kenedia.Modules.Characters.Controls
             _ = new Button()
             {
                 Parent = _headerPanel,
-                Text = "New List",
+                Text = "New Task List",
                 Width = HeaderControlWidth,
                 Height = 30,
                 ClickAction = () => _service.CreateNewList(),
