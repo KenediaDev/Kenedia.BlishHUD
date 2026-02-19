@@ -3,17 +3,24 @@ using Blish_HUD.Controls;
 using Kenedia.Modules.Characters.Models;
 using Kenedia.Modules.Characters.Services;
 using Microsoft.Xna.Framework;
+using System.Linq;
 using Button = Kenedia.Modules.Core.Controls.Button;
 using FlowPanel = Kenedia.Modules.Core.Controls.FlowPanel;
 using Label = Kenedia.Modules.Core.Controls.Label;
 using Panel = Kenedia.Modules.Core.Controls.Panel;
+using TextBox = Kenedia.Modules.Core.Controls.TextBox;
 
 namespace Kenedia.Modules.Characters.Controls
 {
     public class TaskListSidebar : Panel
     {
+        private static readonly Color SelectedBackground = new Color(60, 60, 60, 200);
+        private static readonly Color CompletedBackground = new Color(40, 80, 40, 200);
+        private static readonly Color CompletedTextColor = new Color(120, 200, 120);
+
         private readonly TaskListService _service;
         private readonly FlowPanel _listPanel;
+        private readonly TextBox _searchBox;
 
         public TaskListSidebar(TaskListService service, int contentHeight)
         {
@@ -33,15 +40,6 @@ namespace Kenedia.Modules.Characters.Controls
                 OuterControlPadding = new Vector2(5),
             };
 
-            _ = new Label()
-            {
-                Parent = header,
-                Text = "Task Lists",
-                Font = Content.DefaultFont16,
-                AutoSizeWidth = true,
-                AutoSizeHeight = true,
-            };
-
             _ = new Button()
             {
                 Parent = header,
@@ -51,12 +49,21 @@ namespace Kenedia.Modules.Characters.Controls
                 ClickAction = () => _service.CreateNewList(),
             };
 
+            _searchBox = new TextBox()
+            {
+                Parent = header,
+                PlaceholderText = "Search lists...",
+                Width = 180,
+                Height = 28,
+                TextChangedAction = (_) => Populate(),
+            };
+
             _listPanel = new FlowPanel()
             {
                 Parent = this,
-                Location = new Point(0, 70),
+                Location = new Point(0, 105),
                 WidthSizingMode = SizingMode.Fill,
-                Height = contentHeight - 75,
+                Height = contentHeight - 110,
                 FlowDirection = ControlFlowDirection.SingleTopToBottom,
                 ControlPadding = new Vector2(0, 2),
                 CanScroll = true,
@@ -69,28 +76,41 @@ namespace Kenedia.Modules.Characters.Controls
 
         public void UpdateHeight(int contentHeight)
         {
-            _listPanel.Height = contentHeight - 75;
+            _listPanel.Height = contentHeight - 110;
         }
 
         private void Populate()
         {
             _listPanel.ClearChildren();
 
+            string filter = _searchBox?.Text?.Trim() ?? string.Empty;
+
             foreach (var taskList in _service.TaskLists)
             {
+                if (filter.Length > 0
+                    && (taskList.Name == null
+                        || taskList.Name.IndexOf(filter, System.StringComparison.OrdinalIgnoreCase) < 0))
+                {
+                    continue;
+                }
+
                 CreateListEntry(taskList);
             }
         }
 
         private void CreateListEntry(TaskListModel taskList)
         {
+            bool isSelected = _service.SelectedList?.Id == taskList.Id;
+            bool isCompleted = taskList.Entries.Count > 0 && taskList.Entries.All(e => e.Completed);
+
             var entry = new Panel()
             {
                 Parent = _listPanel,
                 WidthSizingMode = SizingMode.Fill,
                 Height = 32,
-                BackgroundColor = _service.SelectedList?.Id == taskList.Id
-                    ? new Color(60, 60, 60, 200)
+                BackgroundColor = 
+                      isSelected ? SelectedBackground
+                    : isCompleted ? CompletedBackground
                     : Color.Transparent,
             };
 
@@ -102,6 +122,7 @@ namespace Kenedia.Modules.Characters.Controls
                 AutoSizeWidth = true,
                 Height = 32,
                 VerticalAlignment = VerticalAlignment.Middle,
+                TextColor = isCompleted ? CompletedTextColor : Color.White,
             };
 
             entry.Click += (s, e) => _service.SelectList(taskList);
