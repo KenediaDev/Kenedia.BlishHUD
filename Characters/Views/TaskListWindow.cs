@@ -23,6 +23,7 @@ namespace Kenedia.Modules.Characters.Views
             AsyncTexture2D background,
             Rectangle windowRegion,
             Rectangle contentRegion,
+            Settings settings,
             TaskListService service,
             ObservableCollection<Character_Model> characterModels)
             : base(background, windowRegion, contentRegion)
@@ -43,7 +44,7 @@ namespace Kenedia.Modules.Characters.Views
                 Parent = _contentPanel,
             };
 
-            _detailPanel = new TaskListDetailPanel(_service, characterModels, contentRegion.Width - 210)
+            _detailPanel = new TaskListDetailPanel(_service, settings, characterModels, contentRegion.Width - 210)
             {
                 Parent = _contentPanel,
             };

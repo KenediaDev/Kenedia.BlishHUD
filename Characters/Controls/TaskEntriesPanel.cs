@@ -23,22 +23,29 @@ namespace Kenedia.Modules.Characters.Controls
         private const int DragHandleWidth = 14;
 
         private readonly TaskListService _service;
+        private readonly Settings _settings;
         private readonly Panel _insertionLine;
 
         private FlowPanel _entriesContainer;
         private TaskEntryRow _draggedRow;
         private bool _isDragging;
         private bool _dragActivated;
+        private bool _overrideDisplayBehaviorForDrag;
+        private bool _overrideHideCompletedTasks;
         private int _pendingTargetOrder = -1;
 
-        public TaskEntriesPanel(TaskListService service)
+        public TaskEntriesPanel(TaskListService service, Settings settings)
         {
             _service = service;
+            _settings = settings;
 
             WidthSizingMode = SizingMode.Fill;
             HeightSizingMode = SizingMode.Fill;
             FlowDirection = ControlFlowDirection.SingleTopToBottom;
             ControlPadding = new Vector2(0, 5);
+
+            _settings.CompletedTasksBehavior.SettingChanged += CompletedTasksBehavior_SettingChanged;
+            _overrideHideCompletedTasks = false;
 
             _insertionLine = new Panel()
             {
@@ -80,8 +87,23 @@ namespace Kenedia.Modules.Characters.Controls
         protected override void DisposeControl()
         {
             CancelDrag();
+            _settings.CompletedTasksBehavior.SettingChanged -= CompletedTasksBehavior_SettingChanged;
             _insertionLine?.Dispose();
             base.DisposeControl();
+        }
+
+        private void CompletedTasksBehavior_SettingChanged(object sender, ValueChangedEventArgs<Settings.CompletedTasksDisplayBehavior> e)
+        {
+            if (!_isDragging)
+            {
+                Populate();
+            }
+        }
+
+        private void ToggleOverrideHideCompletedTasks()
+        {
+            _overrideHideCompletedTasks = !_overrideHideCompletedTasks;
+            Populate();
         }
 
         private void UpdateInsertionIndicator(Point mousePos, Rectangle containerBounds)
@@ -130,9 +152,15 @@ namespace Kenedia.Modules.Characters.Controls
         {
             if (_isDragging) return;
 
+            _overrideDisplayBehaviorForDrag = true;
+            Populate();
+
+            _draggedRow = _entriesContainer?.Children
+                .OfType<TaskEntryRow>()
+                .FirstOrDefault(r => ReferenceEquals(r.Entry, row.Entry));
+
             _isDragging = true;
             _dragActivated = false;
-            _draggedRow = row;
             _draggedRow.IsDragging = true;
             _pendingTargetOrder = row.Entry.Order;
 
@@ -163,11 +191,16 @@ namespace Kenedia.Modules.Characters.Controls
             _draggedRow = null;
             _isDragging = false;
             _dragActivated = false;
+            _overrideDisplayBehaviorForDrag = false;
             _pendingTargetOrder = -1;
 
             if (entry != null && targetOrder >= 0 && targetOrder != entry.Order)
             {
                 _service.ReorderEntry(entry, targetOrder);
+            }
+            else
+            {
+                Populate();
             }
         }
 
@@ -185,6 +218,7 @@ namespace Kenedia.Modules.Characters.Controls
             _draggedRow = null;
             _isDragging = false;
             _dragActivated = false;
+            _overrideDisplayBehaviorForDrag = false;
             _pendingTargetOrder = -1;
             _insertionLine.Visible = false;
         }
@@ -245,6 +279,20 @@ namespace Kenedia.Modules.Characters.Controls
                 ClickAction = () => _service.SwitchToNextIncompleteEntry(),
             };
 
+            bool canUnhideCompletedTasks = GetEffectiveBehavior() == Settings.CompletedTasksDisplayBehavior.HideCompletedTasks
+                                           && selectedList.Entries.Any(e => e.Completed);
+            _ = new Button()
+            {
+                Parent = headerPanel,
+                Text = _overrideHideCompletedTasks ? "Hide Complete" : "Unhide Complete",
+                Width = 165,
+                Height = 28,
+                Visible = canUnhideCompletedTasks,
+                Enabled = canUnhideCompletedTasks,
+                BasicTooltipText = "Completed tasks are hidden based on your settings.",
+                ClickAction = () => ToggleOverrideHideCompletedTasks(),
+            };
+
             _ = new Label()
             {
                 Parent = headerPanel,
@@ -276,7 +324,7 @@ namespace Kenedia.Modules.Characters.Controls
             _entriesContainer.Resized += (_, _) => UpdateEntryRowWidths();
 
             int rowWidth = GetEntryRowWidth();
-            foreach (var entry in selectedList.Entries.OrderBy(e => e.Order))
+            foreach (var entry in GetDisplayedEntries(selectedList))
             {
                 _ = new TaskEntryRow(_service, entry, () =>
                 {
@@ -294,6 +342,31 @@ namespace Kenedia.Modules.Characters.Controls
             }
 
             UpdateEntryRowWidths();
+        }
+
+        private Settings.CompletedTasksDisplayBehavior GetEffectiveBehavior()
+        {
+            return _overrideDisplayBehaviorForDrag
+                ? Settings.CompletedTasksDisplayBehavior.Nothing
+                : _settings.CompletedTasksBehavior.Value;
+        }
+
+        private IOrderedEnumerable<TaskEntry> GetEntriesInSavedOrder(TaskListModel selectedList)
+        {
+            return selectedList.Entries.OrderBy(e => e.Order);
+        }
+
+        private System.Collections.Generic.IEnumerable<TaskEntry> GetDisplayedEntries(TaskListModel selectedList)
+        {
+            var orderedEntries = GetEntriesInSavedOrder(selectedList);
+            return GetEffectiveBehavior() switch
+            {
+                Settings.CompletedTasksDisplayBehavior.HideCompletedTasks
+                    => _overrideHideCompletedTasks ? orderedEntries : orderedEntries.Where(e => !e.Completed),
+                Settings.CompletedTasksDisplayBehavior.MoveCompletedTasksToBottomOfDisplay
+                    => orderedEntries.Where(e => !e.Completed).Concat(orderedEntries.Where(e => e.Completed)),
+                _ => orderedEntries,
+            };
         }
 
         private int GetEntryRowWidth()

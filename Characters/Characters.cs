@@ -455,6 +455,7 @@ namespace Kenedia.Modules.Characters
                 bg,
                 new Rectangle(25, 25, cutBg.Width + 10, cutBg.Height),
                 new Rectangle(35, 14, cutBg.Width - 10, cutBg.Height - 10),
+                Settings,
                 TaskListService,
                 CharacterModels)
             {

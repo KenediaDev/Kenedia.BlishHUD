@@ -35,6 +35,7 @@ namespace Kenedia.Modules.Characters.Services
             MailKey = internalSettings.DefineSetting(nameof(MailKey), new KeyBinding(Keys.None));
             ToggleTaskListKey = internalSettings.DefineSetting(nameof(ToggleTaskListKey), new KeyBinding(Keys.None));
             NextTaskEntryKey = internalSettings.DefineSetting(nameof(NextTaskEntryKey), new KeyBinding(Keys.None));
+            CompletedTasksBehavior = internalSettings.DefineSetting(nameof(CompletedTasksBehavior), CompletedTasksDisplayBehavior.Nothing);
             ShowCornerIcon = internalSettings.DefineSetting(nameof(ShowCornerIcon), true);
             CloseWindowOnSwap = internalSettings.DefineSetting(nameof(CloseWindowOnSwap), false);
             FilterDiacriticsInsensitive = internalSettings.DefineSetting(nameof(FilterDiacriticsInsensitive), false);
@@ -173,6 +174,13 @@ namespace Kenedia.Modules.Characters.Services
             Custom,
         }
 
+        public enum CompletedTasksDisplayBehavior
+        {
+            Nothing,
+            HideCompletedTasks,
+            MoveCompletedTasksToBottomOfDisplay,
+        }
+
         public SettingCollection AccountSettings { get; private set; }
 
         public SettingEntry<Dictionary<string, ShowCheckPair>> DisplayToggles { get; private set; }
@@ -301,6 +309,8 @@ namespace Kenedia.Modules.Characters.Services
         public SettingEntry<KeyBinding> ToggleTaskListKey { get; private set; }
 
         public SettingEntry<KeyBinding> NextTaskEntryKey { get; private set; }
+
+        public SettingEntry<CompletedTasksDisplayBehavior> CompletedTasksBehavior { get; private set; }
 
         public SettingEntry<bool> OnlyEnterOnExact { get; private set; }
 

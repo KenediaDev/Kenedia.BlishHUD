@@ -17,11 +17,13 @@ namespace Kenedia.Modules.Characters.Controls
     public class TaskListDetailPanel : FlowPanel
     {
         private readonly TaskListService _service;
+        private readonly Settings _settings;
         private readonly ObservableCollection<Character_Model> _characterModels;
 
-        public TaskListDetailPanel(TaskListService service, ObservableCollection<Character_Model> characterModels, int width)
+        public TaskListDetailPanel(TaskListService service, Settings settings, ObservableCollection<Character_Model> characterModels, int width)
         {
             _service = service;
+            _settings = settings;
             _characterModels = characterModels;
 
             Width = width;
@@ -278,7 +280,7 @@ namespace Kenedia.Modules.Characters.Controls
 
         private void BuildEntriesPanel()
         {
-            var entriesPanel = new TaskEntriesPanel(_service)
+            var entriesPanel = new TaskEntriesPanel(_service, _settings)
             {
                 Parent = this,
             };
