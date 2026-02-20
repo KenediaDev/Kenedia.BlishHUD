@@ -231,7 +231,7 @@ namespace Kenedia.Modules.Characters.Controls
                 }
                 else
                 {
-                    characterDropdown.SelectedItem = string.Empty;
+                    characterDropdown.SelectedItem = "Copy Character Name";
                 }
 
                 syncingCharacterControls = false;
@@ -262,7 +262,7 @@ namespace Kenedia.Modules.Characters.Controls
             _ = new Button()
             {
                 Parent = row1,
-                Text = "Add Entry",
+                Text = "Add Task",
                 Width = 90,
                 Height = 30,
                 ClickAction = () =>

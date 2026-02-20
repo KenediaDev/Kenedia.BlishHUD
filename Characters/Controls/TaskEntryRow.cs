@@ -60,14 +60,13 @@ namespace Kenedia.Modules.Characters.Controls
 
             BackgroundColor = ResolveBackgroundColor();
 
-            int checkboxX = _isEditing ? 5 : HandleWidth + 4;
-
             _ = new Checkbox()
             {
                 Parent = this,
                 Checked = _entry.Completed,
-                Location = new Point(checkboxX, 8),
+                Location = new Point(HandleWidth + 4, 8),
                 Width = 20,
+                Visible = !_isEditing,
                 CheckedChangedAction = (b) =>
                 {
                     _service.SetEntryCompletion(_entry, b);

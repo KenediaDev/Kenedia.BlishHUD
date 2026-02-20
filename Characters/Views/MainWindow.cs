@@ -1,4 +1,4 @@
-﻿using Blish_HUD;
+using Blish_HUD;
 using Blish_HUD.Content;
 using Blish_HUD.Controls;
 using Kenedia.Modules.Characters.Res;
@@ -738,7 +738,10 @@ namespace Kenedia.Modules.Characters.Views
             if (matchingCharacter is null)
             {
                 Characters.Logger.Debug($"No character found for task list switch request '{searchText}'.");
-                // maybe I should force the main window to open to show that there are no results
+                if (!Visible)
+                {
+                    Show();
+                }
             }
         }
 
