@@ -4,7 +4,9 @@ using Kenedia.Modules.Characters.Models;
 using Kenedia.Modules.Characters.Services;
 using Microsoft.Xna.Framework;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 using System.Linq;
 using Button = Kenedia.Modules.Core.Controls.Button;
 using Dropdown = Kenedia.Modules.Core.Controls.Dropdown;
@@ -17,14 +19,27 @@ namespace Kenedia.Modules.Characters.Controls
     public class TaskListDetailPanel : FlowPanel
     {
         private readonly TaskListService _service;
-        private readonly Settings _settings;
         private readonly ObservableCollection<Character_Model> _characterModels;
+        private readonly List<string> _allCharacterNames;
+
+        private readonly Label _placeholderLabel;
+        private readonly FlowPanel _contentPanel;
+        private readonly TextBox _nameBox;
+        private readonly Dropdown _resetDropdown;
+        private readonly TextBox _characterNameBox;
+        private readonly Dropdown _characterDropdown;
+        private readonly TextBox _taskDescBox;
+        private readonly TaskEntriesPanel _entriesPanel;
+
+        private TaskListModel _boundList;
+        private bool _syncingListMetadata;
+        private bool _syncingCharacterControls;
 
         public TaskListDetailPanel(TaskListService service, Settings settings, ObservableCollection<Character_Model> characterModels, int width)
         {
             _service = service;
-            _settings = settings;
             _characterModels = characterModels;
+            _allCharacterNames = [];
 
             Width = width;
             HeightSizingMode = SizingMode.Fill;
@@ -32,30 +47,7 @@ namespace Kenedia.Modules.Characters.Controls
             ControlPadding = new Vector2(0, 5);
             OuterControlPadding = new Vector2(5);
 
-            _service.DetailPanelChanged += Populate;
-
-            Populate();
-        }
-
-        public void Populate()
-        {
-            ClearChildren();
-
-            if (_service.SelectedList is null)
-            {
-                BuildPlaceholder();
-                return;
-            }
-
-            BuildListNameEditor();
-            BuildResetFrequencySelector();
-            BuildAddEntryForm();
-            BuildEntriesPanel();
-        }
-
-        private void BuildPlaceholder()
-        {
-            _ = new Label()
+            _placeholderLabel = new Label()
             {
                 Parent = this,
                 Text = "Select or create a task list to get started.",
@@ -64,13 +56,19 @@ namespace Kenedia.Modules.Characters.Controls
                 AutoSizeHeight = true,
                 TextColor = Color.LightGray,
             };
-        }
 
-        private void BuildListNameEditor()
-        {
-            var namePanel = new FlowPanel()
+            _contentPanel = new FlowPanel()
             {
                 Parent = this,
+                WidthSizingMode = SizingMode.Fill,
+                HeightSizingMode = SizingMode.Fill,
+                FlowDirection = ControlFlowDirection.SingleTopToBottom,
+                ControlPadding = new Vector2(0, 5),
+            };
+
+            var namePanel = new FlowPanel()
+            {
+                Parent = _contentPanel,
                 WidthSizingMode = SizingMode.Fill,
                 HeightSizingMode = SizingMode.AutoSize,
                 FlowDirection = ControlFlowDirection.SingleLeftToRight,
@@ -86,14 +84,17 @@ namespace Kenedia.Modules.Characters.Controls
                 VerticalAlignment = VerticalAlignment.Middle,
             };
 
-            var nameBox = new TextBox()
+            _nameBox = new TextBox()
             {
                 Parent = namePanel,
-                Text = _service.SelectedList.Name,
                 Width = 300,
                 Height = 30,
             };
-            nameBox.TextChanged += (s, e) => _service.UpdateSelectedListName(nameBox.Text);
+            _nameBox.TextChanged += (_, _) =>
+            {
+                if (_syncingListMetadata) return;
+                _service.UpdateSelectedListName(_nameBox.Text);
+            };
 
             _ = new Button()
             {
@@ -103,13 +104,10 @@ namespace Kenedia.Modules.Characters.Controls
                 Height = 30,
                 ClickAction = () => _service.DeleteSelectedList(),
             };
-        }
 
-        private void BuildResetFrequencySelector()
-        {
             var resetPanel = new FlowPanel()
             {
-                Parent = this,
+                Parent = _contentPanel,
                 WidthSizingMode = SizingMode.Fill,
                 HeightSizingMode = SizingMode.AutoSize,
                 FlowDirection = ControlFlowDirection.SingleLeftToRight,
@@ -125,26 +123,20 @@ namespace Kenedia.Modules.Characters.Controls
                 VerticalAlignment = VerticalAlignment.Middle,
             };
 
-            var resetDropdown = new Dropdown()
+            _resetDropdown = new Dropdown()
             {
                 Parent = resetPanel,
                 Width = 220,
                 Height = 30,
             };
 
-            resetDropdown.Items.Add("None");
-            resetDropdown.Items.Add("Daily (00:00 UTC)");
-            resetDropdown.Items.Add("Weekly (Mon 07:30 UTC)");
-
-            resetDropdown.SelectedItem = _service.SelectedList.ResetFrequency switch
+            _resetDropdown.Items.Add("None");
+            _resetDropdown.Items.Add("Daily (00:00 UTC)");
+            _resetDropdown.Items.Add("Weekly (Mon 07:30 UTC)");
+            _resetDropdown.ValueChangedAction = (selected) =>
             {
-                ResetFrequency.Daily => "Daily (00:00 UTC)",
-                ResetFrequency.Weekly => "Weekly (Mon 07:30 UTC)",
-                _ => "None",
-            };
+                if (_syncingListMetadata) return;
 
-            resetDropdown.ValueChangedAction = (selected) =>
-            {
                 var frequency = selected switch
                 {
                     "Daily (00:00 UTC)" => ResetFrequency.Daily,
@@ -154,13 +146,10 @@ namespace Kenedia.Modules.Characters.Controls
 
                 _service.UpdateSelectedListResetFrequency(frequency);
             };
-        }
 
-        private void BuildAddEntryForm()
-        {
             var row1 = new FlowPanel()
             {
-                Parent = this,
+                Parent = _contentPanel,
                 WidthSizingMode = SizingMode.Fill,
                 HeightSizingMode = SizingMode.AutoSize,
                 FlowDirection = ControlFlowDirection.SingleLeftToRight,
@@ -169,21 +158,14 @@ namespace Kenedia.Modules.Characters.Controls
 
             var row2 = new FlowPanel()
             {
-                Parent = this,
+                Parent = _contentPanel,
                 WidthSizingMode = SizingMode.Fill,
                 HeightSizingMode = SizingMode.AutoSize,
                 FlowDirection = ControlFlowDirection.SingleLeftToRight,
                 ControlPadding = new Vector2(5, 0),
             };
 
-            var allCharacterNames = _characterModels
-                .Select(c => c.Name)
-                .Where(n => !string.IsNullOrWhiteSpace(n))
-                .Distinct(StringComparer.OrdinalIgnoreCase)
-                .OrderBy(n => n)
-                .ToList();
-
-            var characterNameBox = new TextBox()
+            _characterNameBox = new TextBox()
             {
                 Parent = row1,
                 PlaceholderText = "Search String",
@@ -191,67 +173,26 @@ namespace Kenedia.Modules.Characters.Controls
                 Height = 30,
             };
 
-            var characterDropdown = new Dropdown()
+            _characterDropdown = new Dropdown()
             {
                 Parent = row2,
                 Width = 190,
                 Height = 30,
             };
 
-            bool syncingCharacterControls = false;
-            Action refreshCharacterDropdown = () =>
+            _characterNameBox.TextChanged += (_, _) => RefreshCharacterDropdown();
+            _characterDropdown.ValueChangedAction = (selected) =>
             {
-                if (syncingCharacterControls) return;
+                if (_syncingCharacterControls || string.IsNullOrEmpty(selected)) return;
 
-                syncingCharacterControls = true;
+                _syncingCharacterControls = true;
+                _characterNameBox.Text = selected;
+                _syncingCharacterControls = false;
 
-                string currentText = characterNameBox.Text ?? string.Empty;
-                string selectedItem = characterDropdown.SelectedItem;
-
-                var filteredNames = allCharacterNames
-                    .Where(name => string.IsNullOrEmpty(currentText) || name.IndexOf(currentText, StringComparison.OrdinalIgnoreCase) >= 0)
-                    .ToList();
-
-                characterDropdown.Items.Clear();
-                foreach (var name in filteredNames)
-                {
-                    characterDropdown.Items.Add(name);
-                }
-
-                string matchingItem = filteredNames
-                    .FirstOrDefault(name => string.Equals(name, currentText, StringComparison.OrdinalIgnoreCase));
-
-                if (!string.IsNullOrEmpty(matchingItem))
-                {
-                    characterDropdown.SelectedItem = matchingItem;
-                }
-                else if (!string.IsNullOrEmpty(selectedItem) && filteredNames.Contains(selectedItem))
-                {
-                    characterDropdown.SelectedItem = selectedItem;
-                }
-                else
-                {
-                    characterDropdown.SelectedItem = "Copy Character Name";
-                }
-
-                syncingCharacterControls = false;
+                RefreshCharacterDropdown();
             };
 
-            characterNameBox.TextChanged += (s, e) => refreshCharacterDropdown();
-            characterDropdown.ValueChangedAction = (selected) =>
-            {
-                if (syncingCharacterControls || string.IsNullOrEmpty(selected)) return;
-
-                syncingCharacterControls = true;
-                characterNameBox.Text = selected;
-                syncingCharacterControls = false;
-
-                refreshCharacterDropdown();
-            };
-
-            refreshCharacterDropdown();
-
-            var taskDescBox = new TextBox()
+            _taskDescBox = new TextBox()
             {
                 Parent = row1,
                 PlaceholderText = "Task description (optional)",
@@ -267,32 +208,138 @@ namespace Kenedia.Modules.Characters.Controls
                 Height = 30,
                 ClickAction = () =>
                 {
-                    string characterName = characterNameBox.Text?.Trim();
-                    if (!string.IsNullOrEmpty(characterName))
+                    string characterName = _characterNameBox.Text?.Trim();
+                    if (!string.IsNullOrEmpty(characterName) && _boundList is not null)
                     {
-                        _service.AddEntry(characterName, taskDescBox.Text);
-                        characterNameBox.Text = string.Empty;
-                        taskDescBox.Text = string.Empty;
+                        _service.AddEntry(characterName, _taskDescBox.Text);
+                        _characterNameBox.Text = string.Empty;
+                        _taskDescBox.Text = string.Empty;
+                        RefreshCharacterDropdown();
                     }
                 },
             };
-        }
 
-        private void BuildEntriesPanel()
-        {
-            var entriesPanel = new TaskEntriesPanel(_service, _settings)
+            _entriesPanel = new TaskEntriesPanel(_service, settings)
             {
-                Parent = this,
+                Parent = _contentPanel,
             };
 
-            entriesPanel.Populate();
+            _characterModels.CollectionChanged += CharacterModels_CollectionChanged;
+            _service.State.SelectedList.Changed += SelectedList_Changed;
+
+            RebuildCharacterNameCache();
+            RefreshCharacterDropdown();
+            BindSelectedList(_service.SelectedList);
         }
 
         protected override void DisposeControl()
         {
-            _service.DetailPanelChanged -= Populate;
+            _characterModels.CollectionChanged -= CharacterModels_CollectionChanged;
+            _service.State.SelectedList.Changed -= SelectedList_Changed;
 
             base.DisposeControl();
+        }
+
+        private void BindSelectedList(TaskListModel list)
+        {
+            _boundList = list;
+
+            bool hasList = _boundList is not null;
+            _placeholderLabel.Visible = !hasList;
+            _contentPanel.Visible = hasList;
+
+            _entriesPanel.BindSelectedList(_boundList);
+            if (!hasList) return;
+
+            _syncingListMetadata = true;
+            _nameBox.Text = _boundList.Name ?? string.Empty;
+            _resetDropdown.SelectedItem = _boundList.ResetFrequency switch
+            {
+                ResetFrequency.Daily => "Daily (00:00 UTC)",
+                ResetFrequency.Weekly => "Weekly (Mon 07:30 UTC)",
+                _ => "None",
+            };
+            _syncingListMetadata = false;
+        }
+
+        private void RefreshCharacterDropdown()
+        {
+            if (_syncingCharacterControls) return;
+
+            _syncingCharacterControls = true;
+
+            string currentText = _characterNameBox.Text ?? string.Empty;
+            string selectedItem = _characterDropdown.SelectedItem;
+
+            var filteredNames = _allCharacterNames
+                .Where(name => string.IsNullOrEmpty(currentText) || name.IndexOf(currentText, StringComparison.OrdinalIgnoreCase) >= 0)
+                .ToList();
+
+            _characterDropdown.Items.Clear();
+            foreach (var name in filteredNames)
+            {
+                _characterDropdown.Items.Add(name);
+            }
+
+            string matchingItem = filteredNames
+                .FirstOrDefault(name => string.Equals(name, currentText, StringComparison.OrdinalIgnoreCase));
+
+            if (!string.IsNullOrEmpty(matchingItem))
+            {
+                _characterDropdown.SelectedItem = matchingItem;
+            }
+            else if (!string.IsNullOrEmpty(selectedItem) && filteredNames.Contains(selectedItem))
+            {
+                _characterDropdown.SelectedItem = selectedItem;
+            }
+            else
+            {
+                _characterDropdown.SelectedItem = "Copy Character Name";
+            }
+
+            _syncingCharacterControls = false;
+        }
+
+        private void RebuildCharacterNameCache()
+        {
+            _allCharacterNames.Clear();
+            _allCharacterNames.AddRange(_characterModels
+                .Select(c => c.Name)
+                .Where(n => !string.IsNullOrWhiteSpace(n))
+                .Distinct(StringComparer.OrdinalIgnoreCase)
+                .OrderBy(n => n));
+        }
+
+        private void CharacterModels_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        {
+            RebuildCharacterNameCache();
+            RefreshCharacterDropdown();
+        }
+
+        private bool IsBoundList(TaskListModel list)
+        {
+            return _boundList is not null && ReferenceEquals(_boundList, list);
+        }
+
+        private void SelectedList_Changed(object sender, StateVarChangedEventArgs<TaskListModel> e)
+        {
+            if (!ReferenceEquals(e.OldValue, e.NewValue))
+            {
+                BindSelectedList(e.NewValue);
+                return;
+            }
+
+            if (!IsBoundList(e.NewValue)) return;
+
+            _syncingListMetadata = true;
+            _nameBox.Text = e.NewValue.Name ?? string.Empty;
+            _resetDropdown.SelectedItem = e.NewValue.ResetFrequency switch
+            {
+                ResetFrequency.Daily => "Daily (00:00 UTC)",
+                ResetFrequency.Weekly => "Weekly (Mon 07:30 UTC)",
+                _ => "None",
+            };
+            _syncingListMetadata = false;
         }
     }
 }

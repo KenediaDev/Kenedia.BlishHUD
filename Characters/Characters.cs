@@ -981,6 +981,16 @@ namespace Kenedia.Modules.Characters
 
         private void CheckTaskListResets()
         {
+            if (TaskListService is not null)
+            {
+                if (TaskListService.ApplyScheduledResets())
+                {
+                    Logger.Info("Auto-reset completed entries for one or more task lists.");
+                }
+
+                return;
+            }
+
             bool anyReset = false;
 
             foreach (var taskList in TaskListModels)

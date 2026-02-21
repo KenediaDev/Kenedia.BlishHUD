@@ -307,6 +307,7 @@
     <Compile Include="Models\SearchFilterCollection.cs" />
     <Compile Include="Services\CharactersContext.cs" />
     <Compile Include="Services\ContextManager.cs" />
+    <Compile Include="Services\StateVar.cs" />
     <Compile Include="Services\StaticHosting.cs" />
     <Compile Include="Services\TaskListService.cs" />
     <Compile Include="Views\OCRView.cs" />

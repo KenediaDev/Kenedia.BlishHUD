@@ -2,7 +2,10 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using System;
 using System.Collections.ObjectModel;
+using System.Collections.Specialized;
+using System.ComponentModel;
 using System.Linq;
+using System.Runtime.CompilerServices;
 
 namespace Kenedia.Modules.Characters.Models
 {
@@ -13,32 +16,67 @@ namespace Kenedia.Modules.Characters.Models
         Weekly,
     }
 
-    public class TaskListModel
+    public class TaskListModel : INotifyPropertyChanged
     {
+        private Guid _id = Guid.NewGuid();
+        private string _name;
+        private ObservableCollection<TaskEntry> _entries = [];
+        private DateTimeOffset _created = DateTimeOffset.UtcNow;
+        private ResetFrequency _resetFrequency = ResetFrequency.None;
+        private DateTimeOffset? _lastReset;
+
         [JsonProperty("id")]
-        public Guid Id { get; set; } = Guid.NewGuid();
+        public Guid Id
+        {
+            get => _id;
+            set => SetField(ref _id, value);
+        }
 
         [JsonProperty("name")]
-        public string Name { get; set; }
+        public string Name
+        {
+            get => _name;
+            set => SetField(ref _name, value);
+        }
 
         [JsonProperty("entries")]
-        public ObservableCollection<TaskEntry> Entries { get; set; } = [];
+        public ObservableCollection<TaskEntry> Entries
+        {
+            get => _entries;
+            set => SetEntries(value ?? []);
+        }
 
         [JsonProperty("created")]
-        public DateTimeOffset Created { get; set; } = DateTimeOffset.UtcNow;
+        public DateTimeOffset Created
+        {
+            get => _created;
+            set => SetField(ref _created, value);
+        }
 
         [JsonProperty("resetFrequency")]
         [JsonConverter(typeof(StringEnumConverter))]
-        public ResetFrequency ResetFrequency { get; set; } = ResetFrequency.None;
+        public ResetFrequency ResetFrequency
+        {
+            get => _resetFrequency;
+            set => SetField(ref _resetFrequency, value);
+        }
 
         [JsonProperty("lastReset")]
-        public DateTimeOffset? LastReset { get; set; }
+        public DateTimeOffset? LastReset
+        {
+            get => _lastReset;
+            set => SetField(ref _lastReset, value);
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
 
         public TaskListModel()
         {
+            HookEntries(_entries);
         }
 
         public TaskListModel(string name)
+            : this()
         {
             Name = name;
         }
@@ -128,6 +166,90 @@ namespace Kenedia.Modules.Characters.Models
                 default:
                     return null;
             }
+        }
+
+        private void SetEntries(ObservableCollection<TaskEntry> entries)
+        {
+            if (ReferenceEquals(_entries, entries)) return;
+
+            UnhookEntries(_entries);
+            _entries = entries;
+            HookEntries(_entries);
+            OnPropertyChanged(nameof(Entries));
+        }
+
+        private void HookEntries(ObservableCollection<TaskEntry> entries)
+        {
+            if (entries is null) return;
+
+            entries.CollectionChanged += Entries_CollectionChanged;
+            foreach (var entry in entries)
+            {
+                HookEntry(entry);
+            }
+        }
+
+        private void UnhookEntries(ObservableCollection<TaskEntry> entries)
+        {
+            if (entries is null) return;
+
+            entries.CollectionChanged -= Entries_CollectionChanged;
+            foreach (var entry in entries)
+            {
+                UnhookEntry(entry);
+            }
+        }
+
+        private void Entries_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        {
+            if (e.OldItems is not null)
+            {
+                foreach (TaskEntry entry in e.OldItems)
+                {
+                    UnhookEntry(entry);
+                }
+            }
+
+            if (e.NewItems is not null)
+            {
+                foreach (TaskEntry entry in e.NewItems)
+                {
+                    HookEntry(entry);
+                }
+            }
+
+            OnPropertyChanged(nameof(Entries));
+        }
+
+        private void HookEntry(TaskEntry entry)
+        {
+            if (entry is null) return;
+            entry.PropertyChanged += Entry_PropertyChanged;
+        }
+
+        private void UnhookEntry(TaskEntry entry)
+        {
+            if (entry is null) return;
+            entry.PropertyChanged -= Entry_PropertyChanged;
+        }
+
+        private void Entry_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            OnPropertyChanged(nameof(Entries));
+        }
+
+        private bool SetField<T>(ref T field, T value, [CallerMemberName] string propertyName = null)
+        {
+            if (Equals(field, value)) return false;
+
+            field = value;
+            OnPropertyChanged(propertyName);
+            return true;
+        }
+
+        private void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }

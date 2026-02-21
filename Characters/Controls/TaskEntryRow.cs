@@ -7,6 +7,7 @@ using Kenedia.Modules.Characters.Services;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
+using System.ComponentModel;
 using Button = Kenedia.Modules.Core.Controls.Button;
 using Checkbox = Kenedia.Modules.Core.Controls.Checkbox;
 using ImageButton = Kenedia.Modules.Core.Controls.ImageButton;
@@ -36,54 +37,169 @@ namespace Kenedia.Modules.Characters.Controls
 
         private readonly TaskListService _service;
         private readonly TaskEntry _entry;
-        private readonly Action _onCompletionChanged;
         private readonly Action<TaskEntryRow> _onDragStartRequested;
-        private readonly bool _isEditing;
+
+        private readonly Checkbox _completionCheckbox;
+        private readonly Label _nameLabel;
+        private readonly Label _descriptionLabel;
+        private readonly ImageButton _switchButton;
+        private readonly ImageButton _editButton;
+        private readonly ImageButton _removeButton;
+        private readonly TextBox _editNameBox;
+        private readonly TextBox _editDescBox;
+        private readonly Button _saveButton;
+        private readonly Button _cancelButton;
+
+        private bool _isEditing;
+        private bool _hasAppliedModeVisibility;
         private bool _handleHovered;
+        private bool _syncingCompletionCheckbox;
 
         public TaskEntry Entry => _entry;
 
         public bool IsDragging { get; set; }
 
-        public TaskEntryRow(TaskListService service, TaskEntry entry, Action onCompletionChanged, Action<TaskEntryRow> onDragStartRequested)
+        public TaskEntryRow(TaskListService service, TaskEntry entry, Action<TaskEntryRow> onDragStartRequested)
         {
             _service = service;
             _entry = entry;
-            _onCompletionChanged = onCompletionChanged;
             _onDragStartRequested = onDragStartRequested;
 
-            // WidthSizingMode = SizingMode.Fill;
             Height = 32;
+            _entry.PropertyChanged += Entry_PropertyChanged;
+            _service.State.TrackedEntry.Changed += TrackedEntry_Changed;
 
-            _isEditing = _service.EditingEntry == _entry;
-            bool isTracked = !_isEditing && !_entry.Completed && _service.GetTrackedEntryForSelectedList() == _entry;
-
-            BackgroundColor = ResolveBackgroundColor();
-
-            _ = new Checkbox()
+            _completionCheckbox = new Checkbox()
             {
                 Parent = this,
                 Checked = _entry.Completed,
                 Location = new Point(HandleWidth + 4, 8),
                 Width = 20,
-                Visible = !_isEditing,
-                CheckedChangedAction = (b) =>
+                CheckedChangedAction = (completed) =>
                 {
-                    _service.SetEntryCompletion(_entry, b);
-                    bool tracked = !b && _service.GetTrackedEntryForSelectedList() == _entry;
-                    BackgroundColor = ResolveBackgroundColor();
-                    _onCompletionChanged?.Invoke();
+                    if (_syncingCompletionCheckbox) return;
+
+                    _service.SetEntryCompletion(_entry, completed);
                 },
             };
 
-            if (_isEditing)
+            int labelX = HandleWidth + 4 + 20 + 4;
+            int descX = labelX + 165;
+
+            _nameLabel = new Label()
             {
-                BuildEditMode();
-            }
-            else
+                Parent = this,
+                Location = new Point(labelX, 0),
+                Width = 160,
+                Height = 32,
+                VerticalAlignment = VerticalAlignment.Middle,
+                Font = Content.DefaultFont14,
+                TextColor = ContentService.Colors.ColonialWhite,
+            };
+
+            _descriptionLabel = new Label()
             {
-                BuildViewMode();
-            }
+                Parent = this,
+                Location = new Point(descX, 0),
+                Width = 250,
+                Height = 32,
+                VerticalAlignment = VerticalAlignment.Middle,
+                Font = Content.DefaultFont12,
+                TextColor = Color.LightGray,
+            };
+
+            _switchButton = new ImageButton()
+            {
+                Parent = this,
+                Texture = AsyncTexture2D.FromAssetId(784346),
+                Size = new Point(16, 16),
+                BasicTooltipText = "Switch to Character",
+                ClickAction = (_) => _service.RequestSwitchToCharacter(_entry.CharacterName?.Trim()),
+            };
+
+            _editButton = new ImageButton()
+            {
+                Parent = this,
+                Texture = AsyncTexture2D.FromAssetId(2175779),
+                // Texture = AsyncTexture2D.FromAssetId(2175780),
+                // HoveredTexture = AsyncTexture2D.FromAssetId(2175779),
+                Size = new Point(16, 16),
+                BasicTooltipText = "Edit Entry",
+                ClickAction = (_) => SetEditMode(true),
+            };
+
+            _removeButton = new ImageButton()
+            {
+                Parent = this,
+                Texture = AsyncTexture2D.FromAssetId(2175783),
+                HoveredTexture = AsyncTexture2D.FromAssetId(2175782),
+                ClickedTexture = AsyncTexture2D.FromAssetId(2175784),
+                Size = new Point(16, 16),
+                BasicTooltipText = "Remove Entry",
+                ClickAction = (_) => _service.RemoveEntry(_entry),
+            };
+
+            _editNameBox = new TextBox()
+            {
+                Parent = this,
+                Location = new Point(30, 2),
+                Width = 155,
+                Height = 28,
+            };
+
+            _editDescBox = new TextBox()
+            {
+                Parent = this,
+                PlaceholderText = "Description (optional)",
+                Location = new Point(190, 2),
+                Width = 370,
+                Height = 28,
+            };
+
+            _saveButton = new Button()
+            {
+                Parent = this,
+                Text = "Save",
+                Width = SaveButtonWidth,
+                Height = 28,
+                ClickAction = () =>
+                {
+                    string newName = _editNameBox.Text?.Trim();
+                    if (string.IsNullOrEmpty(newName)) return;
+
+                    _service.UpdateEntry(_entry, newName, _editDescBox.Text);
+                    SetEditMode(false);
+                },
+            };
+
+            _cancelButton = new Button()
+            {
+                Parent = this,
+                Text = "Cancel",
+                Width = CancelButtonWidth,
+                Height = 28,
+                ClickAction = () =>
+                {
+                    SetEditMode(false);
+                    RefreshFromEntry();
+                },
+            };
+
+            Resized += (_, _) =>
+            {
+                int x = Width - ButtonRightPadding;
+                _removeButton.Location = new Point(x -= ButtonSize, ButtonY);
+                _editButton.Location = new Point(x -= ButtonSpacing + ButtonSize, ButtonY);
+                _switchButton.Location = new Point(x -= ButtonSpacing + ButtonSize, ButtonY);
+
+                int cancelButtonX = Width - CancelButtonWidth - EditButtonsRightPadding;
+                _cancelButton.Location = new Point(cancelButtonX, EditButtonsY);
+                int saveButtonX = Width - CancelButtonWidth - EditButtonsSpacing - SaveButtonWidth - EditButtonsRightPadding;
+                _saveButton.Location = new Point(saveButtonX, EditButtonsY);
+            };
+
+            RefreshFromEntry();
+            SetEditMode(false);
         }
 
         public override void PaintBeforeChildren(SpriteBatch spriteBatch, Rectangle bounds)
@@ -147,141 +263,100 @@ namespace Kenedia.Modules.Characters.Controls
             }
         }
 
-        private void BuildEditMode()
+        private void SetEditMode(bool editing)
         {
-            var editNameBox = new TextBox()
-            {
-                Parent = this,
-                Text = _entry.CharacterName,
-                Location = new Point(30, 2),
-                Width = 155,
-                Height = 28,
-            };
+            if (_isEditing == editing && _hasAppliedModeVisibility) return;
 
-            var editDescBox = new TextBox()
-            {
-                Parent = this,
-                Text = _entry.Description ?? string.Empty,
-                PlaceholderText = "Description (optional)",
-                Location = new Point(190, 2),
-                Width = 370,
-                Height = 28,
-            };
+            _isEditing = editing;
 
-            var saveButton = new Button()
+            if (_isEditing)
             {
-                Parent = this,
-                Text = "Save",
-                Width = 50,
-                Height = 28,
-                ClickAction = () =>
-                {
-                    string newName = editNameBox.Text?.Trim();
-                    if (!string.IsNullOrEmpty(newName))
-                    {
-                        _service.SaveEditing(newName, editDescBox.Text);
-                    }
-                },
-            };
-
-            var cancelButton = new Button()
-            {
-                Parent = this,
-                Text = "Cancel",
-                Width = 55,
-                Height = 28,
-                ClickAction = () => _service.CancelEditing(),
-            };
-
-            Resized += (s, e) =>
-            {
-                var cancelButtonX = Width - CancelButtonWidth - EditButtonsRightPadding;
-                cancelButton.Location = new Point(cancelButtonX, EditButtonsY);
-                var saveButtonX = Width - CancelButtonWidth - EditButtonsSpacing - SaveButtonWidth - EditButtonsRightPadding;
-                saveButton.Location = new Point(saveButtonX, EditButtonsY);
-            };
-        }
-
-        private void BuildViewMode()
-        {
-            int labelX = HandleWidth + 4 + 20 + 4;
-            int descX = labelX + 165;
-
-            _ = new Label()
-            {
-                Parent = this,
-                Text = _entry.CharacterName,
-                Location = new Point(labelX, 0),
-                Width = 160,
-                Height = 32,
-                VerticalAlignment = VerticalAlignment.Middle,
-                Font = Content.DefaultFont14,
-                TextColor = ContentService.Colors.ColonialWhite,
-            };
-
-            if (!string.IsNullOrEmpty(_entry.Description))
-            {
-                _ = new Label()
-                {
-                    Parent = this,
-                    Text = _entry.Description,
-                    Location = new Point(descX, 0),
-                    Width = 250,
-                    Height = 32,
-                    VerticalAlignment = VerticalAlignment.Middle,
-                    Font = Content.DefaultFont12,
-                    TextColor = Color.LightGray,
-                };
+                _editNameBox.Text = _entry.CharacterName ?? string.Empty;
+                _editDescBox.Text = _entry.Description ?? string.Empty;
             }
 
-            var switchButton = new ImageButton()
-            {
-                Parent = this,
-                Texture = AsyncTexture2D.FromAssetId(784346),
-                Size = new Point(16, 16),
-                BasicTooltipText = "Switch to Character",
-                ClickAction = (x) => _service.RequestSwitchToCharacter(_entry.CharacterName?.Trim()),
-            };
+            _completionCheckbox.Visible = !_isEditing;
+            _nameLabel.Visible = !_isEditing;
+            _descriptionLabel.Visible = !_isEditing && !string.IsNullOrEmpty(_entry.Description);
+            _switchButton.Visible = !_isEditing;
+            _editButton.Visible = !_isEditing;
+            _removeButton.Visible = !_isEditing;
 
-            var editButton = new ImageButton()
-            {
-                Parent = this,
-                Texture = AsyncTexture2D.FromAssetId(2175780),
-                HoveredTexture = AsyncTexture2D.FromAssetId(2175779),
-                Size = new Point(16, 16),
-                BasicTooltipText = "Edit Entry",
-                ClickAction = (m) => _service.StartEditing(_entry),
-            };
+            _editNameBox.Visible = _isEditing;
+            _editDescBox.Visible = _isEditing;
+            _saveButton.Visible = _isEditing;
+            _cancelButton.Visible = _isEditing;
 
-            var removeButton = new ImageButton()
+            if (_isEditing)
             {
-                Parent = this,
-                Texture = AsyncTexture2D.FromAssetId(2175783),
-                HoveredTexture = AsyncTexture2D.FromAssetId(2175782),
-                ClickedTexture = AsyncTexture2D.FromAssetId(2175784),
-                Size = new Point(16, 16),
-                BasicTooltipText = "Remove Entry",
-                ClickAction = (m) => _service.RemoveEntry(_entry),
-            };
+                _handleHovered = false;
+            }
 
-            Resized += (s, e) =>
-            {
-                int x = Width - ButtonRightPadding;
-                removeButton.Location = new Point(x -= ButtonSize, ButtonY);
-                editButton.Location = new Point(x -= ButtonSpacing + ButtonSize, ButtonY);
-                switchButton.Location = new Point(x -= ButtonSpacing + ButtonSize, ButtonY);
-            };
+            _hasAppliedModeVisibility = true;
+            RefreshVisualState();
         }
 
-        private Color ResolveBackgroundColor() {
+        private void RefreshFromEntry()
+        {
+            _syncingCompletionCheckbox = true;
+            _completionCheckbox.Checked = _entry.Completed;
+            _syncingCompletionCheckbox = false;
+
+            _nameLabel.Text = _entry.CharacterName ?? string.Empty;
+            _descriptionLabel.Text = _entry.Description ?? string.Empty;
+            _descriptionLabel.Visible = !_isEditing && !string.IsNullOrEmpty(_entry.Description);
+
+            if (_isEditing)
+            {
+                _editNameBox.Text = _entry.CharacterName ?? string.Empty;
+                _editDescBox.Text = _entry.Description ?? string.Empty;
+            }
+
+            RefreshVisualState();
+        }
+
+        private Color ResolveBackgroundColor()
+        {
             bool isTracked = !_isEditing && !_entry.Completed && _service.GetTrackedEntryForSelectedList() == _entry;
 
-            var BackgroundColor = 
+            var backgroundColor =
                   _isEditing ? BackgroundEditing
                 : _entry.Completed ? BackgroundCompleted
                 : isTracked ? BackgroundTracked
                             : BackgroundDefault;
-            return BackgroundColor;
+            return backgroundColor;
+        }
+
+        public void RefreshVisualState()
+        {
+            BackgroundColor = ResolveBackgroundColor();
+        }
+
+        protected override void DisposeControl()
+        {
+            _entry.PropertyChanged -= Entry_PropertyChanged;
+            _service.State.TrackedEntry.Changed -= TrackedEntry_Changed;
+            base.DisposeControl();
+        }
+
+        private void Entry_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == nameof(TaskEntry.CharacterName)
+                || e.PropertyName == nameof(TaskEntry.Description)
+                || e.PropertyName == nameof(TaskEntry.Completed)
+                || e.PropertyName == nameof(TaskEntry.Order)
+                || string.IsNullOrEmpty(e.PropertyName))
+            {
+                RefreshFromEntry();
+            }
+        }
+
+        private void TrackedEntry_Changed(object sender, StateVarChangedEventArgs<TaskEntry> e)
+        {
+            if (ReferenceEquals(e.NewValue, _entry) || ReferenceEquals(e.OldValue, _entry))
+            {
+                RefreshVisualState();
+            }
         }
     }
 }
