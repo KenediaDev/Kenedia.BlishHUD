@@ -1051,4 +1051,16 @@ Pfad zur 'tesseract.dll': {0}</value>
   <data name="Radial_CenterScreen_Tooltip" xml:space="preserve">
     <value>Zentrieren Sie das Radialmenü immer in der Mitte des Spielfensters</value>
   </data>
+  <data name="ToggleTaskListKey" xml:space="preserve">
+    <value>Aufgabenliste umschalten</value>
+  </data>
+  <data name="ToggleTaskListKey_Tooltip" xml:space="preserve">
+    <value>Taste zum Öffnen oder Schließen des Fensters der Aufgabenliste</value>
+  </data>
+  <data name="NextTaskEntryKey" xml:space="preserve">
+    <value>Nächster Aufgabeneintrag</value>
+  </data>
+  <data name="NextTaskEntryKey_Tooltip" xml:space="preserve">
+    <value>Taste zum Wechseln zum nächsten unvollständigen Zeichen in der aktiven Aufgabenliste</value>
+  </data>
 </root>

@@ -1049,4 +1049,16 @@ Chemin d'accès au fichier 'tesseract.dll' : {0}</value>
   <data name="Radial_CenterScreen_Tooltip" xml:space="preserve">
     <value>Toujours centrer le menu radial au centre de la fenêtre de jeu</value>
   </data>
+  <data name="ToggleTaskListKey" xml:space="preserve">
+    <value>Basculer la liste des tâches</value>
+  </data>
+  <data name="ToggleTaskListKey_Tooltip" xml:space="preserve">
+    <value>Touche pour ouvrir ou fermer la fenêtre de la liste des tâches</value>
+  </data>
+  <data name="NextTaskEntryKey" xml:space="preserve">
+    <value>Prochaine entrée de tâche</value>
+  </data>
+  <data name="NextTaskEntryKey_Tooltip" xml:space="preserve">
+    <value>Touche permettant de passer au caractère incomplet suivant dans la liste des tâches actives</value>
+  </data>
 </root>

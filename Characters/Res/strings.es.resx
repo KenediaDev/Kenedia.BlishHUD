@@ -1049,4 +1049,16 @@ Ruta a 'tesseract.dll': {0}</value>
   <data name="Radial_CenterScreen_Tooltip" xml:space="preserve">
     <value>Centrar siempre el menú radial en el centro de la ventana de juegos</value>
   </data>
+  <data name="ToggleTaskListKey" xml:space="preserve">
+    <value>Alternar lista de tareas</value>
+  </data>
+  <data name="ToggleTaskListKey_Tooltip" xml:space="preserve">
+    <value>Tecla para abrir o cerrar la ventana de la lista de tareas</value>
+  </data>
+  <data name="NextTaskEntryKey" xml:space="preserve">
+    <value>Siguiente tarea</value>
+  </data>
+  <data name="NextTaskEntryKey_Tooltip" xml:space="preserve">
+    <value>Tecla para pasar al siguiente carácter incompleto de la lista de tareas activas</value>
+  </data>
 </root>
