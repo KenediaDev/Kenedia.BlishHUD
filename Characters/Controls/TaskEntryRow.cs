@@ -121,8 +121,6 @@ namespace Kenedia.Modules.Characters.Controls
             {
                 Parent = this,
                 Texture = AsyncTexture2D.FromAssetId(2175779),
-                // Texture = AsyncTexture2D.FromAssetId(2175780),
-                // HoveredTexture = AsyncTexture2D.FromAssetId(2175779),
                 Size = new Point(16, 16),
                 BasicTooltipText = "Edit Entry",
                 ClickAction = (_) => SetEditMode(true),

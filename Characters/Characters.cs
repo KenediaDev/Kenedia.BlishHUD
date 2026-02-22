@@ -1,4 +1,4 @@
-using Blish_HUD;
+﻿using Blish_HUD;
 using Blish_HUD.Content;
 using Blish_HUD.Graphics.UI;
 using Blish_HUD.Gw2Mumble;
@@ -572,11 +572,14 @@ namespace Kenedia.Modules.Characters
             }
         }
 
-        private void NextTaskEntry(object sender, EventArgs e)
+        private async void NextTaskEntry(object sender, EventArgs e)
         {
             if (Control.ActiveControl is not TextBox)
             {
+              if (await ExtendedInputService.WaitForNoKeyPressed())
+              {
                 TaskListWindow?.SwitchToNextCharacter();
+              }
             }
         }
 
