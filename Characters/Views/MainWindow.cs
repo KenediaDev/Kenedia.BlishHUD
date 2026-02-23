@@ -355,6 +355,12 @@ namespace Kenedia.Modules.Characters.Views
             _filterCharacters = true;
         }
 
+        public void ClearFilterText()
+        {
+            _filterBox.Text = null;
+            _filterBox.ForceFilter();
+        }
+
         public void PerformFiltering()
         {
             Regex regex = _settings.FilterAsOne.Value ? new("^(?!\\s*$).+") : new(@"\w+|""[\w\s]*""");

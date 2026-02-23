@@ -17,6 +17,7 @@ namespace Kenedia.Modules.Characters.Services
         }
 
         public event Action<string> SwitchToCharacterRequested;
+        public event Action FinishSelectionRequested;
 
         private readonly ObservableCollection<TaskListModel> _taskLists;
         private readonly Action _requestSave;
@@ -278,6 +279,11 @@ namespace Kenedia.Modules.Characters.Services
             if (changedCompletion)
             {
                 _requestSave?.Invoke();
+
+                if (nextEntry is null)
+                {
+                    FinishSelectionRequested?.Invoke();
+                }
             }
         }
 

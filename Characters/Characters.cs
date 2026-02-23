@@ -1,4 +1,4 @@
-﻿using Blish_HUD;
+using Blish_HUD;
 using Blish_HUD.Content;
 using Blish_HUD.Graphics.UI;
 using Blish_HUD.Gw2Mumble;
@@ -473,6 +473,7 @@ namespace Kenedia.Modules.Characters
 
             MainWindow.TaskListWindow = TaskListWindow;
             TaskListService.SwitchToCharacterRequested += MainWindow.SwitchToCharacterBySearch;
+            TaskListService.FinishSelectionRequested += MainWindow.ClearFilterText;
 
             SideMenuToggles _toggles;
             MainWindow.SideMenu.AddTab(_toggles = new SideMenuToggles(TextureManager, TagFilters, SearchFilters, () => MainWindow?.FilterCharacters(), Tags, Data)
@@ -518,6 +519,7 @@ namespace Kenedia.Modules.Characters
             if (TaskListService is not null && MainWindow is not null)
             {
                 TaskListService.SwitchToCharacterRequested -= MainWindow.SwitchToCharacterBySearch;
+                TaskListService.FinishSelectionRequested -= MainWindow.ClearFilterText;
             }
 
             RadialMenu?.Dispose();
