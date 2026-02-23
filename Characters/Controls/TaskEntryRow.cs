@@ -3,6 +3,7 @@ using Blish_HUD.Content;
 using Blish_HUD.Controls;
 using Blish_HUD.Input;
 using Kenedia.Modules.Characters.Models;
+using Kenedia.Modules.Characters.Res;
 using Kenedia.Modules.Characters.Services;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -113,7 +114,7 @@ namespace Kenedia.Modules.Characters.Controls
                 Parent = this,
                 Texture = AsyncTexture2D.FromAssetId(784346),
                 Size = new Point(16, 16),
-                BasicTooltipText = "Switch to Character",
+                BasicTooltipText = string.Format(strings.Switch, strings.Character),
                 ClickAction = (_) => _service.RequestSwitchToCharacter(_entry.CharacterName?.Trim()),
             };
 
@@ -122,7 +123,7 @@ namespace Kenedia.Modules.Characters.Controls
                 Parent = this,
                 Texture = AsyncTexture2D.FromAssetId(2175779),
                 Size = new Point(16, 16),
-                BasicTooltipText = "Edit Entry",
+                BasicTooltipText = strings.EditEntry,
                 ClickAction = (_) => SetEditMode(true),
             };
 
@@ -133,7 +134,7 @@ namespace Kenedia.Modules.Characters.Controls
                 HoveredTexture = AsyncTexture2D.FromAssetId(2175782),
                 ClickedTexture = AsyncTexture2D.FromAssetId(2175784),
                 Size = new Point(16, 16),
-                BasicTooltipText = "Remove Entry",
+                BasicTooltipText = strings.RemoveEntry,
                 ClickAction = (_) => _service.RemoveEntry(_entry),
             };
 
@@ -148,7 +149,7 @@ namespace Kenedia.Modules.Characters.Controls
             _editDescBox = new TextBox()
             {
                 Parent = this,
-                PlaceholderText = "Description (optional)",
+                PlaceholderText = strings.TaskDescriptionPlaceholder,
                 Location = new Point(190, 2),
                 Width = 370,
                 Height = 28,
@@ -157,7 +158,7 @@ namespace Kenedia.Modules.Characters.Controls
             _saveButton = new Button()
             {
                 Parent = this,
-                Text = "Save",
+                Text = strings.Save,
                 Width = SaveButtonWidth,
                 Height = 28,
                 ClickAction = () =>
@@ -173,7 +174,7 @@ namespace Kenedia.Modules.Characters.Controls
             _cancelButton = new Button()
             {
                 Parent = this,
-                Text = "Cancel",
+                Text = strings.Cancel,
                 Width = CancelButtonWidth,
                 Height = 28,
                 ClickAction = () =>

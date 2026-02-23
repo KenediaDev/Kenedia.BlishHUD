@@ -217,10 +217,8 @@ namespace Kenedia.Modules.Characters.Views
             {
                 Parent = _buttonPanel,
                 Texture = AsyncTexture2D.FromAssetId(157122),
-                // Texture = _textureManager.GetIcon(TextureManager.Icons.Folder)
-                // HoveredTexture = _textureManager.GetIcon(TextureManager.Icons.Folder_Hovered),
                 Size = new Point(25, 25),
-                BasicTooltipText = "Task Lists",
+                SetLocalizedTooltip = () => strings.TaskLists,
                 ClickAction = (m) => TaskListWindow?.ToggleWindow(),
             };
 
@@ -231,7 +229,7 @@ namespace Kenedia.Modules.Characters.Views
                 Size = new Point(25, 25),
                 ImageColor = ContentService.Colors.ColonialWhite,
                 ColorHovered = Color.White,
-                SetLocalizedTooltip = () => string.Format(strings.Toggle, "Side Menu"),
+                SetLocalizedTooltip = () => string.Format(strings.Toggle, strings.SideMenu),
                 ClickAction = (m) => ShowAttached(SideMenu.Visible ? null : SideMenu),
             };
 

@@ -629,7 +629,7 @@ namespace Kenedia.Modules.Characters.Views
                 Parent = subP,
                 AutoSizeWidth = true,
                 Height = 30,
-                Text = "Completed Tasks Behavior",
+                Text = strings.CompletedTasksBehavior,
             };
 
             _ = new Dropdown()
@@ -640,9 +640,9 @@ namespace Kenedia.Modules.Characters.Views
                 {
                     return
                     [
-                        "Nothing",
-                        "Hide completed tasks",
-                        "Move completed to bottom",
+                        strings.CompletedTasksBehavior_Nothing,
+                        strings.CompletedTasksBehavior_Hide,
+                        strings.CompletedTasksBehavior_MoveToBottom,
                     ];
                 },
                 SelectedItem = ToCompletedTasksBehaviorText(_settings.CompletedTasksBehavior.Value),
@@ -1139,20 +1139,17 @@ namespace Kenedia.Modules.Characters.Views
         {
             return behavior switch
             {
-                Settings.CompletedTasksDisplayBehavior.HideCompletedTasks => "Hide completed tasks",
-                Settings.CompletedTasksDisplayBehavior.MoveCompletedTasksToBottomOfDisplay => "Move completed to bottom",
-                _ => "Nothing",
+                Settings.CompletedTasksDisplayBehavior.HideCompletedTasks => strings.CompletedTasksBehavior_Hide,
+                Settings.CompletedTasksDisplayBehavior.MoveCompletedTasksToBottomOfDisplay => strings.CompletedTasksBehavior_MoveToBottom,
+                _ => strings.CompletedTasksBehavior_Nothing,
             };
         }
 
         private static Settings.CompletedTasksDisplayBehavior ParseCompletedTasksBehavior(string value)
         {
-            return value switch
-            {
-                "Hide completed tasks" => Settings.CompletedTasksDisplayBehavior.HideCompletedTasks,
-                "Move completed to bottom" => Settings.CompletedTasksDisplayBehavior.MoveCompletedTasksToBottomOfDisplay,
-                _ => Settings.CompletedTasksDisplayBehavior.Nothing,
-            };
+            if (value == strings.CompletedTasksBehavior_Hide) return Settings.CompletedTasksDisplayBehavior.HideCompletedTasks;
+            if (value == strings.CompletedTasksBehavior_MoveToBottom) return Settings.CompletedTasksDisplayBehavior.MoveCompletedTasksToBottomOfDisplay;
+            return Settings.CompletedTasksDisplayBehavior.Nothing;
         }
 
         public void OnLanguageChanged(object s = null, EventArgs e = null)

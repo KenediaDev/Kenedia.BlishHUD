@@ -1,6 +1,7 @@
 using Blish_HUD;
 using Blish_HUD.Controls;
 using Kenedia.Modules.Characters.Models;
+using Kenedia.Modules.Characters.Res;
 using Kenedia.Modules.Characters.Services;
 using Microsoft.Xna.Framework;
 using System;
@@ -50,7 +51,7 @@ namespace Kenedia.Modules.Characters.Controls
             _placeholderLabel = new Label()
             {
                 Parent = this,
-                Text = "Select or create a task list to get started.",
+                Text = strings.TaskListPlaceholder,
                 Font = Content.DefaultFont16,
                 AutoSizeWidth = true,
                 AutoSizeHeight = true,
@@ -78,7 +79,7 @@ namespace Kenedia.Modules.Characters.Controls
             _ = new Label()
             {
                 Parent = namePanel,
-                Text = "Name:",
+                Text = $"{strings.Name}:",
                 Width = 50,
                 Height = 30,
                 VerticalAlignment = VerticalAlignment.Middle,
@@ -99,7 +100,7 @@ namespace Kenedia.Modules.Characters.Controls
             _ = new Button()
             {
                 Parent = namePanel,
-                Text = "Delete List",
+                Text = strings.DeleteList,
                 Width = 90,
                 Height = 30,
                 ClickAction = () => _service.DeleteSelectedList(),
@@ -117,7 +118,7 @@ namespace Kenedia.Modules.Characters.Controls
             _ = new Label()
             {
                 Parent = resetPanel,
-                Text = "Auto Reset:",
+                Text = strings.AutoResetField,
                 Width = 75,
                 Height = 30,
                 VerticalAlignment = VerticalAlignment.Middle,
@@ -130,17 +131,17 @@ namespace Kenedia.Modules.Characters.Controls
                 Height = 30,
             };
 
-            _resetDropdown.Items.Add("None");
-            _resetDropdown.Items.Add("Daily (00:00 UTC)");
-            _resetDropdown.Items.Add("Weekly (Mon 07:30 UTC)");
+            _resetDropdown.Items.Add(strings.ResetNone);
+            _resetDropdown.Items.Add(strings.ResetDaily);
+            _resetDropdown.Items.Add(strings.ResetWeekly);
             _resetDropdown.ValueChangedAction = (selected) =>
             {
                 if (_syncingListMetadata) return;
 
                 var frequency = selected switch
                 {
-                    "Daily (00:00 UTC)" => ResetFrequency.Daily,
-                    "Weekly (Mon 07:30 UTC)" => ResetFrequency.Weekly,
+                    _ when selected == strings.ResetDaily => ResetFrequency.Daily,
+                    _ when selected == strings.ResetWeekly => ResetFrequency.Weekly,
                     _ => ResetFrequency.None,
                 };
 
@@ -168,7 +169,7 @@ namespace Kenedia.Modules.Characters.Controls
             _characterNameBox = new TextBox()
             {
                 Parent = row1,
-                PlaceholderText = "Search String",
+                PlaceholderText = strings.SearchCharacterName,
                 Width = 190,
                 Height = 30,
             };
@@ -195,7 +196,7 @@ namespace Kenedia.Modules.Characters.Controls
             _taskDescBox = new TextBox()
             {
                 Parent = row1,
-                PlaceholderText = "Task description (optional)",
+                PlaceholderText = strings.TaskDescriptionPlaceholder,
                 Width = 400,
                 Height = 30,
             };
@@ -203,7 +204,7 @@ namespace Kenedia.Modules.Characters.Controls
             _ = new Button()
             {
                 Parent = row1,
-                Text = "Add Task",
+                Text = strings.AddTask,
                 Width = 90,
                 Height = 30,
                 ClickAction = () =>
@@ -255,9 +256,9 @@ namespace Kenedia.Modules.Characters.Controls
             _nameBox.Text = _boundList.Name ?? string.Empty;
             _resetDropdown.SelectedItem = _boundList.ResetFrequency switch
             {
-                ResetFrequency.Daily => "Daily (00:00 UTC)",
-                ResetFrequency.Weekly => "Weekly (Mon 07:30 UTC)",
-                _ => "None",
+                ResetFrequency.Daily => strings.ResetDaily,
+                ResetFrequency.Weekly => strings.ResetWeekly,
+                _ => strings.ResetNone,
             };
             _syncingListMetadata = false;
         }
@@ -294,7 +295,7 @@ namespace Kenedia.Modules.Characters.Controls
             }
             else
             {
-                _characterDropdown.SelectedItem = "Copy Character Name";
+                _characterDropdown.SelectedItem = strings.CopyCharacterName;
             }
 
             _syncingCharacterControls = false;
@@ -335,9 +336,9 @@ namespace Kenedia.Modules.Characters.Controls
             _nameBox.Text = e.NewValue.Name ?? string.Empty;
             _resetDropdown.SelectedItem = e.NewValue.ResetFrequency switch
             {
-                ResetFrequency.Daily => "Daily (00:00 UTC)",
-                ResetFrequency.Weekly => "Weekly (Mon 07:30 UTC)",
-                _ => "None",
+                ResetFrequency.Daily => strings.ResetDaily,
+                ResetFrequency.Weekly => strings.ResetWeekly,
+                _ => strings.ResetNone,
             };
             _syncingListMetadata = false;
         }

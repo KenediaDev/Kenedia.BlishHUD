@@ -1,6 +1,7 @@
 using Blish_HUD;
 using Blish_HUD.Controls;
 using Kenedia.Modules.Characters.Models;
+using Kenedia.Modules.Characters.Res;
 using Kenedia.Modules.Characters.Services;
 using Microsoft.Xna.Framework;
 using System;
@@ -286,7 +287,7 @@ namespace Kenedia.Modules.Characters.Controls
             _entriesLabel = new Label()
             {
                 Parent = _headerPanel,
-                Text = "Tasks",
+                Text = strings.Tasks,
                 Font = Content.DefaultFont16,
                 AutoSizeWidth = true,
                 Height = 28,
@@ -296,7 +297,7 @@ namespace Kenedia.Modules.Characters.Controls
             _nextButton = new Button()
             {
                 Parent = _headerPanel,
-                Text = "Next",
+                Text = strings.Next,
                 Width = 70,
                 Height = 28,
                 ClickAction = () => _service.SwitchToNextIncompleteEntry(),
@@ -315,7 +316,7 @@ namespace Kenedia.Modules.Characters.Controls
                 Parent = _headerPanel,
                 Width = 165,
                 Height = 28,
-                BasicTooltipText = "Completed tasks are hidden based on your settings.",
+                BasicTooltipText = strings.CompletedTasksHiddenTooltip,
                 ClickAction = () => ToggleOverrideHideCompletedTasks(),
             };
 
@@ -374,12 +375,12 @@ namespace Kenedia.Modules.Characters.Controls
 
             int completedCount = _boundList.Entries.Count(e => e.Completed);
             int totalCount = _boundList.Entries.Count;
-            _entriesLabel.Text = $"Tasks ({completedCount}/{totalCount})";
+            _entriesLabel.Text = strings.Tasks + $" ({completedCount}/{totalCount})" ; // string.Format(strings.TasksProgress, completedCount, totalCount);
 
             bool allChecked = totalCount > 0 && completedCount == totalCount;
             _syncingHeaderCheckbox = true;
             _allEntriesCheckbox.Checked = allChecked;
-            _allEntriesCheckbox.BasicTooltipText = allChecked ? "Uncheck All" : "Check All";
+            _allEntriesCheckbox.BasicTooltipText = allChecked ? strings.UncheckAll : strings.CheckAll;
             _syncingHeaderCheckbox = false;
 
             TaskEntry pendingCompletionEntry = _service.GetTrackedEntryForSelectedList();
@@ -387,20 +388,20 @@ namespace Kenedia.Modules.Characters.Controls
             bool hasIncompleteEntries = incompleteCount > 0;
             bool isLastIncomplete = incompleteCount == 1 && pendingCompletionEntry != null;
 
-            _nextButton.Text = isLastIncomplete ? "Finish" : "Next";
+            _nextButton.Text = isLastIncomplete ? strings.Finish : strings.Next;
             _nextButton.Enabled = hasIncompleteEntries;
             _nextButton.BasicTooltipText = hasIncompleteEntries
-                ? (isLastIncomplete ? "Complete the task list." : "Switch to the first incomplete task entry.")
-                : "All tasks in this list are complete.";
+                ? (isLastIncomplete ? strings.CompleteTaskList : strings.SwitchToFirstIncomplete)
+                : strings.AllTasksComplete;
 
             _statusLabel.Text = pendingCompletionEntry is not null
-                ? $"Next click marks '{pendingCompletionEntry.CharacterName}' complete."
+                ? string.Format(strings.NextClickMarksComplete, pendingCompletionEntry.CharacterName)
                 : string.Empty;
             _statusLabel.TextColor = pendingCompletionEntry is not null ? Color.LightGreen : Color.LightGray;
 
             bool canUnhideCompletedTasks = GetEffectiveBehavior() == Settings.CompletedTasksDisplayBehavior.HideCompletedTasks
                                            && _boundList.Entries.Any(e => e.Completed);
-            _hideButton.Text = _overrideHideCompletedTasks ? "Hide Complete" : "Unhide Complete";
+            _hideButton.Text = _overrideHideCompletedTasks ? strings.HideComplete : strings.UnhideComplete;
             _hideButton.Visible = canUnhideCompletedTasks;
             _hideButton.Enabled = canUnhideCompletedTasks;
 

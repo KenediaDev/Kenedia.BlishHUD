@@ -1,4 +1,4 @@
-using Blish_HUD;
+﻿using Blish_HUD;
 using Blish_HUD.Content;
 using Blish_HUD.Graphics.UI;
 using Blish_HUD.Gw2Mumble;
@@ -464,8 +464,8 @@ namespace Kenedia.Modules.Characters
                 Subtitle = "❤",
                 SavesPosition = true,
                 Id = $"{Name} TaskListWindow",
-                Name = "Task Lists",
-                // CanResize = true,
+                Name = strings.TaskLists,
+                CanResize = true,
                 MainWindowEmblem = AsyncTexture2D.FromAssetId(156015),
                 SubWindowEmblem = AsyncTexture2D.FromAssetId(157122),
                 Version = ModuleVersion,

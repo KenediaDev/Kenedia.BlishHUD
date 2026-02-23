@@ -1,4 +1,5 @@
 using Kenedia.Modules.Characters.Models;
+using Kenedia.Modules.Characters.Res;
 using System;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -60,7 +61,7 @@ namespace Kenedia.Modules.Characters.Services
 
         public void CreateNewList()
         {
-            var newList = new TaskListModel($"Task List {_taskLists.Count + 1}");
+            var newList = new TaskListModel(string.Format(strings.TaskListDefaultName, _taskLists.Count + 1));
             _taskLists.Add(newList);
             _requestSave?.Invoke();
 

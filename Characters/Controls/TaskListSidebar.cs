@@ -1,6 +1,7 @@
 using Blish_HUD;
 using Blish_HUD.Controls;
 using Kenedia.Modules.Characters.Models;
+using Kenedia.Modules.Characters.Res;
 using Kenedia.Modules.Characters.Services;
 using Microsoft.Xna.Framework;
 using System;
@@ -59,7 +60,7 @@ namespace Kenedia.Modules.Characters.Controls
             _ = new Button()
             {
                 Parent = _headerPanel,
-                Text = "New Task List",
+                Text = strings.NewTaskList,
                 Width = HeaderControlWidth,
                 Height = 30,
                 ClickAction = () => _service.CreateNewList(),
@@ -68,7 +69,7 @@ namespace Kenedia.Modules.Characters.Controls
             _searchBox = new TextBox()
             {
                 Parent = _headerPanel,
-                PlaceholderText = "Search lists...",
+                PlaceholderText = strings.SearchTaskLists,
                 Width = HeaderControlWidth,
                 Height = 28,
                 TextChangedAction = (_) => UpdateFilterVisibility(),
