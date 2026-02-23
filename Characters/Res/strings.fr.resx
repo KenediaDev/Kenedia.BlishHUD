@@ -1061,4 +1061,103 @@ Chemin d'accès au fichier 'tesseract.dll' : {0}</value>
   <data name="NextTaskEntryKey_Tooltip" xml:space="preserve">
     <value>Touche permettant de passer au caractère incomplet suivant dans la liste des tâches actives</value>
   </data>
+  <data name="NewTaskList" xml:space="preserve">
+    <value>Nouvelle liste de tâches</value>
+  </data>
+  <data name="SearchTaskLists" xml:space="preserve">
+    <value>Listes de recherche...</value>
+  </data>
+  <data name="TaskListPlaceholder" xml:space="preserve">
+    <value>Sélectionnez ou créez une liste de tâches pour commencer.</value>
+  </data>
+  <data name="DeleteList" xml:space="preserve">
+    <value>Supprimer la liste</value>
+  </data>
+  <data name="AutoResetField" xml:space="preserve">
+    <value>Réinitialisation automatique :</value>
+  </data>
+  <data name="ResetNone" xml:space="preserve">
+    <value>Aucun</value>
+  </data>
+  <data name="ResetDaily" xml:space="preserve">
+    <value>Tous les jours (00:00 UTC)</value>
+  </data>
+  <data name="ResetWeekly" xml:space="preserve">
+    <value>Hebdomadaire (Lun 07:30 UTC)</value>
+  </data>
+  <data name="SearchCharacterName" xml:space="preserve">
+    <value>Chaîne de recherche</value>
+  </data>
+  <data name="TaskDescriptionPlaceholder" xml:space="preserve">
+    <value>Description de la tâche (facultatif)</value>
+  </data>
+  <data name="AddTask" xml:space="preserve">
+    <value>Ajouter une tâche</value>
+  </data>
+  <data name="CopyCharacterName" xml:space="preserve">
+    <value>Copier le nom du personnage</value>
+  </data>
+  <data name="Tasks" xml:space="preserve">
+    <value>Tâches</value>
+  </data>
+  <data name="Next" xml:space="preserve">
+    <value>Suivant</value>
+  </data>
+  <data name="Finish" xml:space="preserve">
+    <value>Finition</value>
+  </data>
+  <data name="CompletedTasksHiddenTooltip" xml:space="preserve">
+    <value>Les tâches terminées sont masquées en fonction de vos paramètres.</value>
+  </data>
+  <data name="UncheckAll" xml:space="preserve">
+    <value>Décocher tout</value>
+  </data>
+  <data name="CheckAll" xml:space="preserve">
+    <value>Tout vérifier</value>
+  </data>
+  <data name="CompleteTaskList" xml:space="preserve">
+    <value>Compléter la liste des tâches.</value>
+  </data>
+  <data name="SwitchToFirstIncomplete" xml:space="preserve">
+    <value>Passer à la première saisie de tâche incomplète.</value>
+  </data>
+  <data name="AllTasksComplete" xml:space="preserve">
+    <value>Toutes les tâches de cette liste sont terminées.</value>
+  </data>
+  <data name="NextClickMarksComplete" xml:space="preserve">
+    <value>Le prochain clic marque l'achèvement de "{0}".</value>
+  </data>
+  <data name="HideComplete" xml:space="preserve">
+    <value>Cacher Complète</value>
+  </data>
+  <data name="UnhideComplete" xml:space="preserve">
+    <value>Désoccultation complète</value>
+  </data>
+  <data name="EditEntry" xml:space="preserve">
+    <value>Modifier l'entrée</value>
+  </data>
+  <data name="RemoveEntry" xml:space="preserve">
+    <value>Supprimer l'entrée</value>
+  </data>
+  <data name="TaskListDefaultName" xml:space="preserve">
+    <value>Liste des tâches {0}</value>
+  </data>
+  <data name="CompletedTasksBehavior" xml:space="preserve">
+    <value>Tâches accomplies Comportement</value>
+  </data>
+  <data name="CompletedTasksBehavior_Nothing" xml:space="preserve">
+    <value>Rien</value>
+  </data>
+  <data name="CompletedTasksBehavior_Hide" xml:space="preserve">
+    <value>Cacher les tâches achevées</value>
+  </data>
+  <data name="CompletedTasksBehavior_MoveToBottom" xml:space="preserve">
+    <value>Déplacer les données complétées vers le bas</value>
+  </data>
+  <data name="TaskLists" xml:space="preserve">
+    <value>Listes de tâches</value>
+  </data>
+  <data name="SideMenu" xml:space="preserve">
+    <value>Menu latéral</value>
+  </data>
 </root>
