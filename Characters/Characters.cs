@@ -465,7 +465,7 @@ namespace Kenedia.Modules.Characters
                 SavesPosition = true,
                 Id = $"{Name} TaskListWindow",
                 Name = strings.TaskLists,
-                CanResize = true,
+                // CanResize = true,
                 MainWindowEmblem = AsyncTexture2D.FromAssetId(156015),
                 SubWindowEmblem = AsyncTexture2D.FromAssetId(157122),
                 Version = ModuleVersion,

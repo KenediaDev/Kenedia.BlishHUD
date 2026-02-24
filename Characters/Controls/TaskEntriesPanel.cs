@@ -298,7 +298,7 @@ namespace Kenedia.Modules.Characters.Controls
             {
                 Parent = _headerPanel,
                 Text = strings.Next,
-                Width = 70,
+                Width = 90,
                 Height = 28,
                 ClickAction = () => _service.SwitchToNextIncompleteEntry(),
             };
@@ -375,7 +375,7 @@ namespace Kenedia.Modules.Characters.Controls
 
             int completedCount = _boundList.Entries.Count(e => e.Completed);
             int totalCount = _boundList.Entries.Count;
-            _entriesLabel.Text = strings.Tasks + $" ({completedCount}/{totalCount})" ; // string.Format(strings.TasksProgress, completedCount, totalCount);
+            _entriesLabel.Text = strings.Tasks + $" ({completedCount}/{totalCount})" ;
 
             bool allChecked = totalCount > 0 && completedCount == totalCount;
             _syncingHeaderCheckbox = true;
@@ -515,10 +515,10 @@ namespace Kenedia.Modules.Characters.Controls
 
             int pad = HeaderControlHorizontalPadding;
             int outerPad = pad + DragHandleWidth;
-            int fixedWidth = outerPad + 20 + pad + _entriesLabel.Width + pad + 70 + pad;
+            int fixedWidth = outerPad + 20 + pad + _entriesLabel.Width + pad + _nextButton.Width + pad;
             if (_hideButton.Visible)
             {
-                fixedWidth += pad + 165;
+                fixedWidth += pad + _hideButton.Width;
             }
 
             _statusLabel.Width = Math.Max(0, _headerPanel.Width - fixedWidth);

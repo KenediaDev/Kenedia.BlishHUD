@@ -25,8 +25,8 @@ namespace Kenedia.Modules.Characters.Controls
         private const int ButtonSpacing = 6;
         private const int ButtonRightPadding = 15;
         private const int ButtonY = 8;
-        private const int SaveButtonWidth = 50;
-        private const int CancelButtonWidth = 55;
+        private const int SaveButtonWidth = 85;
+        private const int CancelButtonWidth = 85;
         private const int EditButtonsSpacing = 5;
         private const int EditButtonsY = 2;
         private const int EditButtonsRightPadding = 10;
@@ -151,7 +151,7 @@ namespace Kenedia.Modules.Characters.Controls
                 Parent = this,
                 PlaceholderText = strings.TaskDescriptionPlaceholder,
                 Location = new Point(190, 2),
-                Width = 370,
+                Width = 310,
                 Height = 28,
             };
 

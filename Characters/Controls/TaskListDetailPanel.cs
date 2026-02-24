@@ -101,7 +101,7 @@ namespace Kenedia.Modules.Characters.Controls
             {
                 Parent = namePanel,
                 Text = strings.DeleteList,
-                Width = 90,
+                Width = 130,
                 Height = 30,
                 ClickAction = () => _service.DeleteSelectedList(),
             };
@@ -177,7 +177,7 @@ namespace Kenedia.Modules.Characters.Controls
             _characterDropdown = new Dropdown()
             {
                 Parent = row2,
-                Width = 190,
+                Width = 220,
                 Height = 30,
             };
 
@@ -197,7 +197,7 @@ namespace Kenedia.Modules.Characters.Controls
             {
                 Parent = row1,
                 PlaceholderText = strings.TaskDescriptionPlaceholder,
-                Width = 400,
+                Width = 340,
                 Height = 30,
             };
 
@@ -205,7 +205,7 @@ namespace Kenedia.Modules.Characters.Controls
             {
                 Parent = row1,
                 Text = strings.AddTask,
-                Width = 90,
+                Width = 140,
                 Height = 30,
                 ClickAction = () =>
                 {
