@@ -50,15 +50,33 @@ namespace Kenedia.Modules.BuildsManager.Models
             }
 
             _templates.Add(template);
+            AttachTemplate(template);
+        }
 
+        private void AttachTemplate(Template template)
+        {
             template.LastModifiedChanged += Template_LastModifiedChanged;
             template.NameChanged += Template_NameChanged;
             template.ProfessionChanged += Template_ProfessionChanged;
+            template.EliteSpecializationChanged += Template_EliteSpecializationChanged;
+        }
+
+        private void DetachTemplate(Template template)
+        {
+            template.LastModifiedChanged -= Template_LastModifiedChanged;
+            template.NameChanged -= Template_NameChanged;
+            template.ProfessionChanged -= Template_ProfessionChanged;
+            template.EliteSpecializationChanged -= Template_EliteSpecializationChanged;
         }
 
         private void Template_ProfessionChanged(object sender, Core.Models.ValueChangedEventArgs<ProfessionType> e)
         {
             TemplateChanged?.Invoke(sender, new PropertyChangedEventArgs(nameof(Template.Profession)));
+        }
+
+        private void Template_EliteSpecializationChanged(object sender, SpecializationChangedEventArgs e)
+        {
+            TemplateChanged?.Invoke(sender, new PropertyChangedEventArgs(nameof(Template.EliteSpecialization)));
         }
 
         private void Template_NameChanged(object sender, Core.Models.ValueChangedEventArgs<string> e)
@@ -78,15 +96,18 @@ namespace Kenedia.Modules.BuildsManager.Models
                 return false;
             }
 
-            template.LastModifiedChanged -= Template_LastModifiedChanged;
-            template.NameChanged -= Template_NameChanged;
-            template.ProfessionChanged -= Template_ProfessionChanged;
+            DetachTemplate(template);
 
             return _templates.Remove(template);
         }
 
         public void Clear()
         {
+            foreach (var template in _templates)
+            {
+                DetachTemplate(template);
+            }
+
             _templates.Clear();
         }
 
@@ -143,7 +164,7 @@ namespace Kenedia.Modules.BuildsManager.Models
             {
                 string[] templateFiles = Directory.GetFiles(Paths.TemplatesPath);
 
-                _templates.Clear();
+                Clear();
 
                 JsonSerializerSettings settings = new();
                 settings.Converters.Add(TemplateConverter);
@@ -159,11 +180,14 @@ namespace Kenedia.Modules.BuildsManager.Models
                     template.SaveRequested = false;
 
                     _templates.Add(template);
+                    AttachTemplate(template);
                 }
 
                 if (_templates.Count == 0)
                 {
-                    _templates.Add(TemplateFactory.CreateTemplate());
+                    var template = TemplateFactory.CreateTemplate();
+                    _templates.Add(template);
+                    AttachTemplate(template);
                 }
 
                 time.Stop();

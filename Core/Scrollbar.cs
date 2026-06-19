@@ -283,12 +283,24 @@ namespace Kenedia.Modules.Core.Controls
         public override void RecalculateLayout()
         {
             double lastVal = _scrollbarPercent;
+            int previousVerticalOffset = _associatedContainer?.VerticalScrollOffset ?? 0;
             RecalculateScrollbarSize();
 
             if (lastVal != _scrollbarPercent && _associatedContainer is not null)
             {
-                ScrollDistance = 0;
-                TargetScrollDistance = 0;
+                int maxOffset = Math.Max(_containerLowestContent - _associatedContainer.ContentRegion.Height, 0);
+
+                if (maxOffset == 0)
+                {
+                    ScrollDistance = 0;
+                    TargetScrollDistance = 0;
+                }
+                else
+                {
+                    float preservedDistance = Math.Min(previousVerticalOffset, maxOffset) / (float)maxOffset;
+                    ScrollDistance = preservedDistance;
+                    TargetScrollDistance = preservedDistance;
+                }
             }
 
             _upArrowBounds = new Rectangle((Width / 2) - (s_textureUpArrow.Width / 2), 0, s_textureUpArrow.Width, s_textureUpArrow.Height);
