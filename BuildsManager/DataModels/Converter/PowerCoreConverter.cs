@@ -1,6 +1,5 @@
 ﻿using Gw2Sharp.WebApi.V2.Models;
 using Kenedia.Modules.BuildsManager.DataModels.Items;
-using Kenedia.Modules.Core.Utility;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using ItemType = Kenedia.Modules.Core.DataModels.ItemType;

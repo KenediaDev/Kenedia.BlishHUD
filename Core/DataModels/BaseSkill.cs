@@ -1,7 +1,6 @@
 ﻿using Blish_HUD.Content;
 using Gw2Sharp.WebApi.V2.Models;
 using Kenedia.Modules.Core.Models;
-using Kenedia.Modules.Core.Utility;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization;

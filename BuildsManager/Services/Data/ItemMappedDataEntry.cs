@@ -1,6 +1,5 @@
 ﻿using Blish_HUD;
 using Blish_HUD.Modules.Managers;
-using Gw2Sharp.Models;
 using Gw2Sharp.WebApi;
 using Gw2Sharp.WebApi.V2.Models;
 using Kenedia.Modules.BuildsManager.DataModels.Items;
@@ -8,7 +7,6 @@ using Kenedia.Modules.BuildsManager.Models;
 using Kenedia.Modules.BuildsManager.Res;
 using Kenedia.Modules.Core.Extensions;
 using Kenedia.Modules.Core.Models;
-using Kenedia.Modules.Core.Utility;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;

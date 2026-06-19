@@ -121,6 +121,8 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selectables
 
         public bool PassSelected { get; set; } = true;
 
+        protected virtual int AnchorZIndexOffset => 1000;
+
         private void ApplySelected(object sender, Core.Models.ValueChangedEventArgs<T> e)
         {
             OnDataApplied(e.NewValue);
@@ -273,6 +275,12 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selectables
         {
             base.UpdateContainer(gameTime);
             if (!Visible) return;
+
+            if (Parent == Graphics.SpriteScreen && Anchor is not null)
+            {
+                ZIndex = GetAnchorRootZIndex(Anchor) + AnchorZIndexOffset;
+            }
+
             SetCapture();
             MoveToAnchor();
         }
@@ -297,6 +305,20 @@ namespace Kenedia.Modules.BuildsManager.Controls.Selectables
 
             if (Anchor is not null)
                 Location = new(Anchor.AbsoluteBounds.Center.X - (Width / 2) + AnchorOffset.X, Anchor.AbsoluteBounds.Top + AnchorOffset.Y);
+        }
+
+        public static int GetAnchorRootZIndex(Control anchor)
+        {
+            if (anchor is null) return 0;
+
+            var current = anchor;
+
+            while (current.Parent is not null && current.Parent != Graphics.SpriteScreen)
+            {
+                current = current.Parent;
+            }
+
+            return current.ZIndex;
         }
 
         protected override void DisposeControl()

@@ -1,10 +1,8 @@
 ﻿using Blish_HUD;
 using Kenedia.Modules.Core.Converter;
 using Newtonsoft.Json;
-using SemVer;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 using System.Text;
 using System.Threading.Tasks;

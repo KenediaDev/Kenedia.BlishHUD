@@ -1,6 +1,4 @@
-﻿using Blish_HUD.Modules.Managers;
-using Kenedia.Modules.BuildsManager.DataModels.Items;
-using Kenedia.Modules.BuildsManager.Models;
+﻿using Kenedia.Modules.BuildsManager.DataModels.Items;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Concurrent;
@@ -8,8 +6,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.Serialization;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace Kenedia.Modules.BuildsManager.Services
 {

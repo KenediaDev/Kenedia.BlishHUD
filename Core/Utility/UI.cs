@@ -38,10 +38,42 @@ namespace Kenedia.Modules.Core.Utility
             if (scrollbar == null)
                 return;
 
-            if (child.Location.Y == 0)
+            var visibleChildren = panel.Children.Where(c => c.Visible).ToArray();
+
+            if (visibleChildren.Length == 0)
+            {
                 scrollbar.ScrollDistance = 0f;
-            else
-                scrollbar.ScrollDistance = (float)child.Location.Y / (float)(panel.Children.Max(c => c.Bottom) - scrollbar.Size.Y);
+                return;
+            }
+
+            int contentHeight = Math.Max(visibleChildren.Max(c => c.Bottom), panel.ContentRegion.Height);
+            int maxOffset = Math.Max(contentHeight - panel.ContentRegion.Height, 0);
+
+            if (maxOffset == 0)
+            {
+                scrollbar.ScrollDistance = 0f;
+                return;
+            }
+
+            int margin = 10;
+            int currentOffset = panel.VerticalScrollOffset;
+            int viewportTop = currentOffset;
+            int viewportBottom = currentOffset + panel.ContentRegion.Height;
+            int childTop = child.Top;
+            int childBottom = child.Bottom;
+
+            int targetOffset = currentOffset;
+
+            if (childTop < viewportTop + margin)
+            {
+                targetOffset = Math.Max(childTop - margin, 0);
+            }
+            else if (childBottom > viewportBottom - margin)
+            {
+                targetOffset = Math.Max(childBottom - panel.ContentRegion.Height + margin, 0);
+            }
+
+            scrollbar.ScrollDistance = Math.Max(0f, Math.Min(targetOffset / (float)maxOffset, 1f));
         }
 
         public static int GetTextHeight(BitmapFont font, string text, int maxWidth)

@@ -1,7 +1,6 @@
 ﻿using Kenedia.Modules.Core.Converter;
 using Kenedia.Modules.Core.Models;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
 using System;
 using System.Collections.Generic;
 using System.IO;

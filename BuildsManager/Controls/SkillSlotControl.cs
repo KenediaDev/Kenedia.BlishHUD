@@ -246,7 +246,7 @@ namespace Kenedia.Modules.BuildsManager.Controls
         {
             SkillSelector.Anchor = this;
             SkillSelector.AnchorOffset = new(-2, 10);
-            SkillSelector.ZIndex = ZIndex + 100;
+            SkillSelector.ZIndex = Selector<Skill>.GetAnchorRootZIndex(this) + 1000;
             SkillSelector.SelectedItem = Skill;
 
             var slot = SkillSlot;

@@ -1,10 +1,7 @@
-﻿using Blish_HUD.Content;
-using Kenedia.Modules.BuildsManager.DataModels.Items;
-using Kenedia.Modules.BuildsManager.Models;
+﻿using Kenedia.Modules.BuildsManager.DataModels.Items;
 using Kenedia.Modules.Core.Models;
 using Kenedia.Modules.Core.Services;
 using Microsoft.Xna.Framework;
-using NAudio.MediaFoundation;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;

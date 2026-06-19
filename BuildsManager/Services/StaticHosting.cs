@@ -1,12 +1,7 @@
 ﻿using Kenedia.Modules.BuildsManager.Models;
-using Newtonsoft.Json;
 using System;
-using System.Net.Http;
 using System.Threading.Tasks;
-using Kenedia.Modules.Core.Models;
-using Kenedia.Modules.Core.Services;
 using Blish_HUD;
-using System.Security.Cryptography.Xml;
 
 namespace Kenedia.Modules.BuildsManager.Services
 {

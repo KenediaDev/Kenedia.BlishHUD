@@ -1,7 +1,5 @@
 ﻿using Kenedia.Modules.BuildsManager.Res;
 using Kenedia.Modules.Core.Models;
-using Kenedia.Modules.Core.Res;
-using Kenedia.Modules.Core.Services;
 using Kenedia.Modules.Core.Utility;
 using Microsoft.Xna.Framework;
 using Newtonsoft.Json;

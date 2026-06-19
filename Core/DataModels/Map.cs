@@ -1,7 +1,6 @@
 ﻿using Gw2Sharp.Models;
 using Kenedia.Modules.Core.Models;
 using Newtonsoft.Json;
-using System.Runtime.Serialization;
 using APIMap = Gw2Sharp.WebApi.V2.Models.Map;
 
 namespace Kenedia.Modules.Core.DataModels

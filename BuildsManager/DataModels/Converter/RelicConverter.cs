@@ -3,7 +3,6 @@ using Kenedia.Modules.BuildsManager.DataModels.Items;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
-using Kenedia.Modules.Core.Utility;
 using ItemType = Kenedia.Modules.Core.DataModels.ItemType;
 
 namespace Kenedia.Modules.BuildsManager.DataModels.Converter

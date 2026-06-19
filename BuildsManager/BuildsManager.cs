@@ -220,18 +220,18 @@ namespace Kenedia.Modules.BuildsManager
             _cancellationTokenSource?.Cancel();
             _cancellationTokenSource = new CancellationTokenSource();
 
-            var statinfo = new StaticStats();
-            statinfo.TextureMapInfo = Stat.StatTextureMap;
-            statinfo.ImageUrl = "https://img.gw2skills.net/editor/UI/profile-icons-44x44.v3.png";   
-            string json = JsonConvert.SerializeObject(statinfo);
-            System.IO.File.WriteAllText(@"C:\Users\lasse\Downloads\Stats.json", json);
+            //var statinfo = new StaticStats();
+            //statinfo.TextureMapInfo = Stat.StatTextureMap;
+            //statinfo.ImageUrl = "https://img.gw2skills.net/editor/UI/profile-icons-44x44.v3.png";   
+            //string json = JsonConvert.SerializeObject(statinfo);
+            //System.IO.File.WriteAllText(@"C:\Users\lasse\Downloads\Stats.json", json);
 
 
             //TemplatePresenter.SetTemplate(ServiceProvider.GetService<TemplateFactory>().CreateTemplate());
             //TemplatePresenter.SetTemplate(Templates.FirstOrDefault());
 
             //await LoadAsync();
-            //await GW2API.UpdateMappedIds();
+            await GW2API.UpdateMappedIds();
 
             //await TemplateTags.Load();
 

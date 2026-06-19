@@ -2,9 +2,7 @@
 using Blish_HUD.Modules.Managers;
 using Gw2Sharp.WebApi;
 using Kenedia.Modules.BuildsManager.DataModels.Professions;
-using Kenedia.Modules.BuildsManager.DataModels.Stats;
 using Kenedia.Modules.BuildsManager.Models;
-using Kenedia.Modules.Core.DataModels;
 using Kenedia.Modules.Core.Extensions;
 using Kenedia.Modules.Core.Models;
 using Newtonsoft.Json;

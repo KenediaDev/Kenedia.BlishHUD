@@ -114,11 +114,22 @@ namespace Kenedia.Modules.BuildsManager.Controls
             _aquaticTexture.Draw(this, spriteBatch, RelativeMousePosition, Color.White);
         }
 
+        public override void UpdateContainer(GameTime gameTime)
+        {
+            base.UpdateContainer(gameTime);
+
+            if (_skillSelector.Visible && _skillSelector.Anchor is null)
+            {
+                _skillSelector.Hide();
+            }
+        }
+
         protected override void DisposeControl()
         {
             base.DisposeControl();
 
             Skills.Values?.DisposeAll();
+            _skillSelector?.Dispose();
         }
     }
 }

@@ -3,7 +3,6 @@ using Gw2Sharp.WebApi.V2.Models;
 using Kenedia.Modules.BuildsManager.Models.Templates;
 using Kenedia.Modules.Core.Models;
 using ItemType = Kenedia.Modules.Core.DataModels.ItemType;
-using Kenedia.Modules.Core.Utility;
 using System.Runtime.Serialization;
 using Kenedia.Modules.Core.Extensions;
 
