@@ -76,6 +76,14 @@ namespace Kenedia.Modules.QoL.Views
                 ControlPadding = new(0, 2),
             };
 
+            UI.WrapWithLabel(() => strings.ShowHotbar_Name, () => strings.ShowHotbar_Tooltip, contentFlowPanel, ContentRegion.Width - 20 - 16, new Checkbox()
+            {
+                Location = new(250, 0),
+                Parent = contentFlowPanel,
+                Checked = _settings.ShowHotbar.Value,
+                CheckedChangedAction = (c) => _settings.ShowHotbar.Value = c,
+            });
+
             UI.WrapWithLabel(() => strings.HotbarExpandDirection_Name, () => strings.HotbarExpandDirection_Tooltip, contentFlowPanel, ContentRegion.Width - 20 - 16, new Dropdown()
             {
                 Location = new(250, 0),

@@ -52,18 +52,22 @@ namespace Kenedia.Modules.QoL
 
             Settings.HotbarExpandDirection.SettingChanged += HotbarExpandDirection_SettingChanged;
             Settings.HotbarButtonSorting.SettingChanged += HotbarButtonSorting_SettingChanged;
+            Settings.ShowHotbar.SettingChanged += ShowHotbar_SettingChanged;
+        }
+
+        private void ShowHotbar_SettingChanged(object sender, Blish_HUD.ValueChangedEventArgs<bool> e)
+        {
+            Hotbar?.Visible = e.NewValue;
         }
 
         private void HotbarButtonSorting_SettingChanged(object sender, Blish_HUD.ValueChangedEventArgs<SortType> e)
         {
-            if (Hotbar is not null)
-                Hotbar.SortType = e.NewValue;
+            Hotbar?.SortType = e.NewValue;
         }
 
         private void HotbarExpandDirection_SettingChanged(object sender, Blish_HUD.ValueChangedEventArgs<ExpandType> e)
         {
-            if (Hotbar is not null)
-                Hotbar.ExpandType = e.NewValue;
+            Hotbar?.ExpandType = e.NewValue;
         }
 
         public override IView GetSettingsView()
@@ -111,8 +115,7 @@ namespace Kenedia.Modules.QoL
         {
             base.Update(gameTime);
 
-            if (Hotbar is not null)
-                Hotbar.Visible = GameService.GameIntegration.Gw2Instance.IsInGame && !GameService.Gw2Mumble.UI.IsMapOpen;
+            Hotbar?.Visible = Settings.ShowHotbar.Value && GameService.GameIntegration.Gw2Instance.IsInGame && !GameService.Gw2Mumble.UI.IsMapOpen;
 
             foreach (var subModule in SubModules)
             {
@@ -135,6 +138,7 @@ namespace Kenedia.Modules.QoL
                 SortType = Settings.HotbarButtonSorting.Value,
                 OnMoveAction = (p) => Settings.HotbarPosition.Value = p,
                 OpenSettingsAction = () => SettingsWindow?.ToggleWindow(),
+                Visible = Settings.ShowHotbar.Value,
             };
 
             foreach (var subModule in SubModules.Values)

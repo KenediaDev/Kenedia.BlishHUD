@@ -17,10 +17,13 @@ namespace Kenedia.Modules.QoL.Services
             _internal_settings = _settings.AddSubCollection("Internal");
             HotbarPosition = _internal_settings.DefineSetting(nameof(HotbarPosition), new Point(0, 32));
 
+            ShowHotbar = _settings.DefineSetting(nameof(ShowHotbar), true);
             HotbarExpandDirection = _settings.DefineSetting(nameof(HotbarExpandDirection), ExpandType.LeftToRight);
             HotbarButtonSorting = _settings.DefineSetting(nameof(HotbarButtonSorting), SortType.ActivesFirst);
             KeyboardLayout = _settings.DefineSetting(nameof(KeyboardLayout), KeyboardLayoutType.QWERTZ);
         }
+
+        public SettingEntry<bool> ShowHotbar { get; }
 
         public SettingEntry<ExpandType> HotbarExpandDirection { get; }
 

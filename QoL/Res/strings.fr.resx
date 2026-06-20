@@ -312,4 +312,10 @@
   <data name="PasteKeybind_Tooltip" xml:space="preserve">
     <value>Par défaut : Ctrl + V</value>
   </data>
+  <data name="ShowHotbar_Name" xml:space="preserve">
+    <value>Afficher la barre d'accès rapide</value>
+  </data>
+  <data name="ShowHotbar_Tooltip" xml:space="preserve">
+    <value>Affiche une barre d'accès rapide dans le jeu pour accéder à toutes les fonctionnalités</value>
+  </data>
 </root>

@@ -44,6 +44,7 @@ namespace Kenedia.Modules.Core.Controls
         private Point _start;
         private Point _start_ItemWidth;
         private Point _delta;
+        private bool _hasCollapseAnchor;
 
         private Rectangle _expanderBackgroundBounds;
         protected readonly FlowPanel ItemsPanel;
@@ -109,6 +110,7 @@ namespace Kenedia.Modules.Core.Controls
         {
             if (ItemsPanel is null) return;
             _resizeBarPending = true;
+            _hasCollapseAnchor = false;
 
             ItemsPanel.Size = Point.Zero;
             Size = Point.Zero;
@@ -337,6 +339,7 @@ namespace Kenedia.Modules.Core.Controls
                 {
                     _start = Location;
                     _start_ItemWidth = new(checkedItemsWidth, 0);
+                    _hasCollapseAnchor = true;
 
                     Location = _start.Add(new(-(expandedItemsWidth - checkedItemsWidth), 0));
                     ItemsPanel.Width = expandedItemsWidth + padding;
@@ -344,8 +347,11 @@ namespace Kenedia.Modules.Core.Controls
                 // Move bar to the right                
                 else
                 {
-                    _delta = new(_start_ItemWidth.X - checkedItemsWidth, 0);
-                    Location = _start.Add(_delta);
+                    if (_hasCollapseAnchor)
+                    {
+                        _delta = new(_start_ItemWidth.X - checkedItemsWidth, 0);
+                        Location = _start.Add(_delta);
+                    }
 
                     ItemsPanel.Width = isAnyVisible ? checkedItemsWidth + padding : 0;
                 }
@@ -393,6 +399,7 @@ namespace Kenedia.Modules.Core.Controls
                 {
                     _start = Location;
                     _start_ItemWidth = new(checkedItemsWidth, 0);
+                    _hasCollapseAnchor = true;
 
                     Location = _start.Add(new(0, -(expandedItemsWidth - checkedItemsWidth)));
                     ItemsPanel.Height = expandedItemsWidth + padding;
@@ -400,8 +407,11 @@ namespace Kenedia.Modules.Core.Controls
                 // Move bar to the right                
                 else
                 {
-                    _delta = new(0, _start_ItemWidth.X - checkedItemsWidth);
-                    Location = _start.Add(_delta);
+                    if (_hasCollapseAnchor)
+                    {
+                        _delta = new(0, _start_ItemWidth.X - checkedItemsWidth);
+                        Location = _start.Add(_delta);
+                    }
 
                     ItemsPanel.Height = isAnyVisible ? checkedItemsWidth + padding : 0;
                 }
@@ -453,6 +463,7 @@ namespace Kenedia.Modules.Core.Controls
                     int checkedItemsWidth = GetItemPanelSize(false, true);
                     Location = Input.Mouse.Position.Add(new Point(-_dragStart.X, -_dragStart.Y));
                     _start = Location.Add(new(expandedItemsWidth - checkedItemsWidth, 0));
+                    _hasCollapseAnchor = true;
                     break;
                 case ExpandType.TopToBottom:
                     Location = Input.Mouse.Position.Add(new Point(-_dragStart.X, -_dragStart.Y));
@@ -462,11 +473,21 @@ namespace Kenedia.Modules.Core.Controls
                     int checkedItemsWidth2 = GetItemPanelSize(false, true, true);
                     Location = Input.Mouse.Position.Add(new Point(-_dragStart.X, -_dragStart.Y));
                     _start = Location.Add(new(0, expandedItemsWidth2 - checkedItemsWidth2));
+                    _hasCollapseAnchor = true;
                     break;
             }
 
             ForceOnScreen();
-            OnMoveAction?.Invoke(Location);
+            OnMoveAction?.Invoke(GetPersistedLocation());
+        }
+
+        private Point GetPersistedLocation()
+        {
+            return ExpandType switch
+            {
+                ExpandType.RightToLeft or ExpandType.BottomToTop when _hasCollapseAnchor => _start,
+                _ => Location,
+            };
         }
 
         private void ForceOnScreen()

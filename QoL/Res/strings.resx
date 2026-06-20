@@ -292,4 +292,10 @@
   <data name="PasteKeybind_Tooltip" xml:space="preserve">
     <value>Default: Ctrl + V</value>
   </data>
+  <data name="ShowHotbar_Name" xml:space="preserve">
+    <value>Show Hotbar</value>
+  </data>
+  <data name="ShowHotbar_Tooltip" xml:space="preserve">
+    <value>Shows a hotbar ingame to access all features</value>
+  </data>
 </root>

@@ -312,4 +312,10 @@
   <data name="PasteKeybind_Tooltip" xml:space="preserve">
     <value>Standard: Strg + V</value>
   </data>
+  <data name="ShowHotbar_Name" xml:space="preserve">
+    <value>Hotbar anzeigen</value>
+  </data>
+  <data name="ShowHotbar_Tooltip" xml:space="preserve">
+    <value>Zeigt im Spiel eine Hotbar an, über die man auf alle Funktionen zugreifen kann</value>
+  </data>
 </root>
