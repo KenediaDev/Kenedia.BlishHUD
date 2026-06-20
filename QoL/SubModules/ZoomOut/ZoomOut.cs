@@ -15,6 +15,9 @@ namespace Kenedia.Modules.QoL.SubModules.ZoomOut
 {
     public class ZoomOut : SubModule
     {
+        private const double TickIntervalMs = 25;
+        private const float CameraDistanceThreshold = 1f;
+
         public bool MouseScrolled { get; private set; }
 
         private float _distance;
@@ -38,34 +41,56 @@ namespace Kenedia.Modules.QoL.SubModules.ZoomOut
         {
             if (!Enabled) return;
             var Mumble = GameService.Gw2Mumble;
+            double now = gameTime.TotalGameTime.TotalMilliseconds;
 
-            if (Mumble.UI.IsMapOpen || !Mumble.Info.IsGameFocused || gameTime.TotalGameTime.TotalMilliseconds - _ticks < 25)
+            if (Mumble.UI.IsMapOpen || !Mumble.Info.IsGameFocused || now - _ticks < TickIntervalMs)
             {
                 return;
             }
 
-            if (gameTime.TotalGameTime.TotalMilliseconds - _saveDistanceTicks < 0)
+            if (IsActionCameraActive())
             {
                 _distance = ComputeCameraDistance();
-            }
-
-            _ticks = gameTime.TotalGameTime.TotalMilliseconds;
-            double threshold = 1;
-            float distance = ComputeCameraDistance();
-            float delta = Math.Max(_distance, distance) - Math.Min(_distance, distance);
-
-            if (_zoomOnCameraChange.Value && delta >= threshold)
-            {
-                ZoomCameraOut(distance);
-                _distance = distance;
-            }
-
-            if(_zoomOnFoVChange.Value && Mumble.PlayerCamera.FieldOfView != _fieldOfView)
-            {
-                ZoomCameraOut(distance);
-                _distance = distance;
                 _fieldOfView = Mumble.PlayerCamera.FieldOfView;
+                _ticks = now;
+                return;
             }
+
+            float distance = ComputeCameraDistance();
+            float fieldOfView = Mumble.PlayerCamera.FieldOfView;
+            bool recentManualZoom = now < _saveDistanceTicks;
+            bool fieldOfViewChanged = Math.Abs(fieldOfView - _fieldOfView) > float.Epsilon;
+
+            _ticks = now;
+
+            if (recentManualZoom)
+            {
+                _distance = distance;
+                _fieldOfView = fieldOfView;
+                return;
+            }
+
+            if (_zoomOnCameraChange.Value && distance < _distance - CameraDistanceThreshold)
+            {
+                ZoomCameraOut(distance, _distance);
+                return;
+            }
+
+            // Action camera can constantly vary FoV without an actual zoom state change.
+            // Treat those as baseline updates instead of forcing max zoom repeatedly.
+            if (_zoomOnFoVChange.Value && fieldOfViewChanged)
+            {
+                if (distance < _distance - CameraDistanceThreshold)
+                {
+                    ZoomCameraOut(distance, _distance);
+                    return;
+                }
+
+                _fieldOfView = fieldOfView;
+                return;
+            }
+
+            _fieldOfView = fieldOfView;
         }
 
         protected override void DefineSettings(SettingCollection settings)
@@ -91,16 +116,18 @@ namespace Kenedia.Modules.QoL.SubModules.ZoomOut
         private void ManualMaxZoomOut(object sender, EventArgs e)
         {
             float distance = ComputeCameraDistance();
+            _saveDistanceTicks = Common.Now + 1000;
 
-            for (int i = 0; i < ((25 - distance) * 2); i++)
-            {
-                _ = _zoomOutKey.Press();
-            }
+            ZoomCameraOut(distance, 25f);
         }
 
-        private void ZoomCameraOut(float distance)
+        private void ZoomCameraOut(float distance, float targetDistance)
         {
-            for (int i = 0; i < ((25 - distance) * 2); i++)
+            _distance = Math.Max(_distance, targetDistance);
+
+            int zoomSteps = (int)Math.Max(0, (targetDistance - distance) * 2);
+
+            for (int i = 0; i < zoomSteps; i++)
             {
                 _ = _zoomOutKey.Press();
             }
@@ -125,6 +152,9 @@ namespace Kenedia.Modules.QoL.SubModules.ZoomOut
             var Mumble = GameService.Gw2Mumble;
             Mumble.CurrentMap.MapChanged += CurrentMap_MapChanged;
             Mumble.PlayerCharacter.NameChanged += PlayerCharacter_NameChanged;
+
+            _distance = ComputeCameraDistance();
+            _fieldOfView = Mumble.PlayerCamera.FieldOfView;
         }
 
         private void PlayerCharacter_NameChanged(object sender, ValueEventArgs<string> e)
@@ -141,9 +171,6 @@ namespace Kenedia.Modules.QoL.SubModules.ZoomOut
         {
             if (!_allowManualZoom.Value) return;
 
-            float distance = ComputeCameraDistance();
-
-            _distance = distance;
             _saveDistanceTicks = Common.Now + 1000;
         }
 
@@ -153,6 +180,11 @@ namespace Kenedia.Modules.QoL.SubModules.ZoomOut
             var camera = GameService.Gw2Mumble.PlayerCamera;
             var ppos = Mumble.PlayerCharacter.Position;
             return camera.Position.Distance3D(ppos);
+        }
+
+        private static bool IsActionCameraActive()
+        {
+            return !GameService.Input.Mouse.CursorIsVisible && !GameService.Gw2Mumble.UI.IsTextInputFocused;
         }
 
         public override void Unload()
