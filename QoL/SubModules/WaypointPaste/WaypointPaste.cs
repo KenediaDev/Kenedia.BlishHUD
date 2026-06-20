@@ -49,8 +49,11 @@ namespace Kenedia.Modules.QoL.SubModules.WaypointPaste
 
         private async void PasteWaypoint()
         {
-            if (!GameService.Gw2Mumble.Info.IsGameFocused) return;
-            if (GameService.Gw2Mumble.UI.IsTextInputFocused) return;
+            if (!GameService.Gw2Mumble.Info.IsGameFocused || GameService.Gw2Mumble.UI.IsTextInputFocused)
+            {
+                Enabled = false;
+                return;
+            }
 
             try
             {
