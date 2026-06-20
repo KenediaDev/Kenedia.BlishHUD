@@ -592,6 +592,24 @@ namespace Kenedia.Modules.QoL.Res {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Step Delay.
+        /// </summary>
+        internal static string StepDelay_Name {
+            get {
+                return ResourceManager.GetString("StepDelay_Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Sets the delay between the steps of pasting.
+        /// </summary>
+        internal static string StepDelay_Tooltip {
+            get {
+                return ResourceManager.GetString("StepDelay_Tooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Waypoint Chatcode.
         /// </summary>
         internal static string WaypointChatcode_Name {

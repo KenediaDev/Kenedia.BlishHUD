@@ -318,4 +318,10 @@
   <data name="ShowHotbar_Tooltip" xml:space="preserve">
     <value>Zeigt im Spiel eine Hotbar an, über die man auf alle Funktionen zugreifen kann</value>
   </data>
+  <data name="StepDelay_Tooltip" xml:space="preserve">
+    <value>Legt die Verzögerung zwischen den einzelnen Schritten beim Einfügen fest</value>
+  </data>
+  <data name="StepDelay_Name" xml:space="preserve">
+    <value>Schrittverzögerung</value>
+  </data>
 </root>

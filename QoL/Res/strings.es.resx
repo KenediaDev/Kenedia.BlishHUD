@@ -318,4 +318,10 @@
   <data name="ShowHotbar_Tooltip" xml:space="preserve">
     <value>Muestra una barra de acceso rápido en el juego para acceder a todas las funciones</value>
   </data>
+  <data name="StepDelay_Tooltip" xml:space="preserve">
+    <value>Establece el retraso entre los pasos del proceso de pegado</value>
+  </data>
+  <data name="StepDelay_Name" xml:space="preserve">
+    <value>Retardo por paso</value>
+  </data>
 </root>

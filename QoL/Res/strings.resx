@@ -298,4 +298,10 @@
   <data name="ShowHotbar_Tooltip" xml:space="preserve">
     <value>Shows a hotbar ingame to access all features</value>
   </data>
+  <data name="StepDelay_Name" xml:space="preserve">
+    <value>Step Delay</value>
+  </data>
+  <data name="StepDelay_Tooltip" xml:space="preserve">
+    <value>Sets the delay between the steps of pasting</value>
+  </data>
 </root>

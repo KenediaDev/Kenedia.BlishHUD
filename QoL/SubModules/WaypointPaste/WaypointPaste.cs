@@ -19,17 +19,13 @@ using Gw2Sharp.ChatLinks;
 namespace Kenedia.Modules.QoL.SubModules.WaypointPaste
 {
     // Discord Suggestion: https://discord.com/channels/531175899588984842/1064906680904724621/1072599804502364182
-    public class WaypointPaste : SubModule
+    public class WaypointPaste(SettingCollection settings) : SubModule(settings)
     {
         private double _ticks;
         private SettingEntry<KeyBinding> _pasteWaypoint;
         private SettingEntry<string> _waypoint;
         private SettingEntry<bool> _pasteCurrentClipboardWaypointFirst;
-
-        public WaypointPaste(SettingCollection settings) : base(settings)
-        {
-
-        }
+        private SettingEntry<int> _keyDelay;
 
         public override SubModuleType SubModuleType => SubModuleType.WaypointPaste;
 
@@ -45,6 +41,7 @@ namespace Kenedia.Modules.QoL.SubModules.WaypointPaste
             _pasteCurrentClipboardWaypointFirst = settings.DefineSetting(nameof(_pasteCurrentClipboardWaypointFirst), false);
             _pasteWaypoint = settings.DefineSetting(nameof(_pasteWaypoint), new KeyBinding(Keys.None));
             _waypoint = settings.DefineSetting(nameof(_waypoint), "[&BCAJAAA=]");
+            _keyDelay = settings.DefineSetting(nameof(_keyDelay), 25);
 
             _pasteWaypoint.Value.Enabled = true;
             _pasteWaypoint.Value.Activated += PasteWaypoint_Activated;
@@ -91,7 +88,7 @@ namespace Kenedia.Modules.QoL.SubModules.WaypointPaste
 
                 for (int i = 0; i < 500; i++)
                 {
-                    if (GameService.Gw2Mumble.UI.IsTextInputFocused && !GameService.Input.Keyboard.KeysDown.ContainsAny(modifiers.ToArray()))
+                    if (GameService.Gw2Mumble.UI.IsTextInputFocused && !GameService.Input.Keyboard.KeysDown.ContainsAny([.. modifiers]))
                     {
                         isReady = true;
                         break;
@@ -102,27 +99,31 @@ namespace Kenedia.Modules.QoL.SubModules.WaypointPaste
 
                 if (!isReady) return;
 
+                // Paste guild tag to reset the chat window so we can start the whisper fresh since else you would get stuck in whisper chat
                 bool hasGuild = await ClipboardUtil.WindowsClipboardService.SetTextAsync("/g1 ");
                 if (!hasGuild) return;
 
-                await Input.SendKey(new Keys[] { Keys.LeftControl }, Keys.V, true);
-                await Task.Delay(50);
+                await Input.SendKey([Keys.LeftControl], Keys.V, true);
+                await Task.Delay(Math.Max(_keyDelay.Value, 50));
 
                 bool hasWhisper = await ClipboardUtil.WindowsClipboardService.SetTextAsync("/w ");
                 if (!hasWhisper) return;
 
-                await Input.SendKey(new Keys[] { Keys.LeftControl }, Keys.V, true);
+                await Input.SendKey([Keys.LeftControl], Keys.V, true);
+                await Task.Delay(_keyDelay.Value);
 
                 bool hasName = await ClipboardUtil.WindowsClipboardService.SetTextAsync(GameService.Gw2Mumble.PlayerCharacter.Name);
                 if (!hasName) return;
 
-                await Input.SendKey(new Keys[] { Keys.LeftControl }, Keys.V, true);
+                await Input.SendKey([Keys.LeftControl], Keys.V, true);
+                await Task.Delay(_keyDelay.Value);
                 await Input.SendKey(Keys.Tab, true);
+                await Task.Delay(_keyDelay.Value);
 
                 bool hasWaypoint = await ClipboardUtil.WindowsClipboardService.SetTextAsync(waypoint);
                 if (!hasWaypoint) return;
 
-                await Input.SendKey(new Keys[] { Keys.LeftControl }, Keys.V, true);
+                await Input.SendKey([Keys.LeftControl], Keys.V, true);
 
                 await Input.SendKey(Keys.Enter);
 
@@ -194,6 +195,13 @@ namespace Kenedia.Modules.QoL.SubModules.WaypointPaste
                 SetLocalizedKeyBindingName = () => strings.PasteWaypointHotkey_Name,
                 SetLocalizedTooltip = () => strings.PasteWaypointHotkey_Tooltip,
             };
+
+
+            UI.WrapWithLabel(() => strings.StepDelay_Name, () => strings.StepDelay_Tooltip, contentFlowPanel, width - 16, new NumberBox()
+            {
+                Value = _keyDelay.Value,
+                ValueChangedAction = (v) => _keyDelay.Value = v,
+            });
 
             UI.WrapWithLabel(() => strings.WaypointChatcode_Name, () => strings.WaypointChatcode_Tooltip, contentFlowPanel, width - 16, new TextBox()
             {
