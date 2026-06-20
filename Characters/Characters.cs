@@ -366,6 +366,7 @@ namespace Kenedia.Modules.Characters
                 Visible = false,
                 ZIndex = (int.MaxValue / 2) - 1,
                 AccountImagePath = () => AccountImagesPath,
+                AccountName = () => Paths.AccountName,
             };
 
             RunIndicator = new(CharacterSorting, CharacterSwapping, Settings.ShowStatusWindow, TextureManager, Settings.ShowChoyaSpinner);

@@ -1,20 +1,26 @@
 ﻿using Blish_HUD;
 using Blish_HUD.Content;
 using Blish_HUD.Controls;
+using Blish_HUD.Graphics;
 using Blish_HUD.Input;
+using Gw2Sharp.Mumble.Models;
 using Kenedia.Modules.Characters.Res;
 using Kenedia.Modules.Characters.Services;
 using Kenedia.Modules.Core.Controls;
 using Kenedia.Modules.Core.Extensions;
 using Kenedia.Modules.Core.Services;
+using Kenedia.Modules.Core.Utility.WindowsUtil;
 using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
 using static Kenedia.Modules.Characters.Services.TextureManager;
+using static Kenedia.Modules.Core.Utility.WindowsUtil.User32Dll;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.ScrollBar;
 using Color = Microsoft.Xna.Framework.Color;
 using Label = Kenedia.Modules.Core.Controls.Label;
 using Point = Microsoft.Xna.Framework.Point;
@@ -168,6 +174,8 @@ namespace Kenedia.Modules.Characters.Controls
 
         public Func<string> AccountImagePath { get; set; }
 
+        public Func<string> AccountName { get; set; }
+
         public override void UpdateContainer(GameTime gameTime)
         {
             base.UpdateContainer(gameTime);
@@ -259,10 +267,26 @@ namespace Kenedia.Modules.Characters.Controls
 
         private void CapturePotraits()
         {
+            if (AccountName?.Invoke() is not string accountName || string.IsNullOrEmpty(accountName))
+            {
+                ScreenNotification.ShowNotification("[Characters]: Unable to determine account name.");
+                return;
+            }
+
             string path = AccountImagePath?.Invoke();
 
             if (!string.IsNullOrEmpty(path))
             {
+                try
+                {
+                    Directory.CreateDirectory(path);
+                }
+                catch (Exception)
+                {
+                    ScreenNotification.ShowNotification("[Characters]: Unable to access the portrait image folder.");
+                    return;
+                }
+
                 string GetImagePath(List<string> imagePaths)
                 {
                     for (int i = 1; i < int.MaxValue; i++)
@@ -282,26 +306,43 @@ namespace Kenedia.Modules.Characters.Controls
                 Regex regex = new("Image.*[0-9].png");
                 var images = Directory.GetFiles(path, "*.png", SearchOption.AllDirectories).Where(path => regex.IsMatch(path)).ToList();
 
-                var wndBounds = _clientWindowService.WindowBounds;
+                IntPtr hWnd = GameService.GameIntegration.Gw2Instance.Gw2WindowHandle;
+                POINT clientOrigin = new() { X = 0, Y = 0 };
+                bool hasClientOrigin = hWnd != IntPtr.Zero && ClientToScreen(hWnd, ref clientOrigin);
 
-                bool windowed = GameService.GameIntegration.GfxSettings.ScreenMode == Blish_HUD.GameIntegration.GfxSettings.ScreenModeSetting.Windowed;
-                Point p = windowed ? new(_sharedSettings.WindowOffset.Left, _sharedSettings.WindowOffset.Top) : Point.Zero;
+                _ = GetWindowRect(hWnd, out RECT windowRect);
+                _ = GetClientRect(hWnd, out RECT clientRect);
+                uint dpi = GetDpiForWindow(hWnd);
+                double uiScale = GameService.Graphics.UIScaleMultiplier;
 
-                double factor = GameService.Graphics.UIScaleMultiplier;
-
-                var size = new Size(_characterPotraitSize, _characterPotraitSize);
-
-                foreach (FramedMaskedRegion c in _characterPotraitFrames)
+                for (int i = 0; i < _characterPotraitFrames.Count; i++)
                 {
-                    Rectangle bounds = c.MaskedRegion;
-                    using Bitmap bitmap = new((int)(bounds.Width * factor), (int)(bounds.Height * factor));
+                    FramedMaskedRegion c = _characterPotraitFrames[i];
+                    Rectangle bounds = new(
+                        c.AbsoluteBounds.X + (c.BorderWidth.Horizontal / 2),
+                        c.AbsoluteBounds.Y + (c.BorderWidth.Vertical / 2),
+                        c.AbsoluteBounds.Width - c.BorderWidth.Horizontal,
+                        c.AbsoluteBounds.Height - c.BorderWidth.Vertical);
+                    int x = bounds.X;
+                    int y = bounds.Y;
+                    int width = Math.Max(1, bounds.Width);
+                    int height = Math.Max(1, bounds.Height);
+                    int scaledX = (int)Math.Round(x * uiScale);
+                    int scaledY = (int)Math.Round(y * uiScale);
+                    int scaledWidth = Math.Max(1, (int)Math.Round(width * uiScale));
+                    int scaledHeight = Math.Max(1, (int)Math.Round(height * uiScale));
+                    int captureX = clientOrigin.X + scaledX;
+                    int captureY = clientOrigin.Y + scaledY;
+                    int windowCaptureX = windowRect.Left + x;
+                    int windowCaptureY = windowRect.Top + y;
+                    int sharedOffsetCaptureX = windowRect.Left + _sharedSettings.WindowOffset.Left + x;
+                    int sharedOffsetCaptureY = windowRect.Top + _sharedSettings.WindowOffset.Top + y;
+
+                    using Bitmap bitmap = new(scaledWidth, scaledHeight);
 
                     using (var g = System.Drawing.Graphics.FromImage(bitmap))
                     {
-                        int x = (int)(bounds.X * factor);
-                        int y = (int)(bounds.Y * factor);
-
-                        g.CopyFromScreen(new System.Drawing.Point(wndBounds.Left + p.X + x, wndBounds.Top + p.Y + y), System.Drawing.Point.Empty, size);
+                        g.CopyFromScreen(new System.Drawing.Point(captureX, captureY), System.Drawing.Point.Empty, new Size(scaledWidth, scaledHeight));
                     }
 
                     bitmap.Save(GetImagePath(images), System.Drawing.Imaging.ImageFormat.Png);
@@ -328,7 +369,32 @@ namespace Kenedia.Modules.Characters.Controls
                 frame.Show();
             }
 
+            _sizeBox.Value = _characterPotraitSize = GetPortraitDefaultSize(); 
+            _gapBox.Value = _gap = GetPortraitDefaultGap();
+            
             ForceOnScreen();
+        }
+
+        private double GetScaling()
+        {
+            return GameService.Gw2Mumble.UI.UISize switch
+            {
+                UiSize.Small => 0.81f,
+                UiSize.Normal => 0.897f,
+                UiSize.Large => 1f,
+                UiSize.Larger => 1.103f,
+                _ => 1f,
+            };
+        }
+
+        private int GetPortraitDefaultSize()
+        {
+            return (int)(132 * GetScaling());
+        }
+
+        private int GetPortraitDefaultGap()
+        {
+            return (int)(12 * GetScaling());
         }
 
         protected override void OnHidden(EventArgs e)
