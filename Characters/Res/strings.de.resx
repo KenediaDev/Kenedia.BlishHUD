@@ -1051,4 +1051,115 @@ Pfad zur 'tesseract.dll': {0}</value>
   <data name="Radial_CenterScreen_Tooltip" xml:space="preserve">
     <value>Zentrieren Sie das Radialmenü immer in der Mitte des Spielfensters</value>
   </data>
+  <data name="ToggleTaskListKey" xml:space="preserve">
+    <value>Aufgabenliste umschalten</value>
+  </data>
+  <data name="ToggleTaskListKey_Tooltip" xml:space="preserve">
+    <value>Taste zum Öffnen oder Schließen des Fensters der Aufgabenliste</value>
+  </data>
+  <data name="NextTaskEntryKey" xml:space="preserve">
+    <value>Nächster Aufgabeneintrag</value>
+  </data>
+  <data name="NextTaskEntryKey_Tooltip" xml:space="preserve">
+    <value>Taste zum Wechseln zum nächsten unvollständigen Zeichen in der aktiven Aufgabenliste</value>
+  </data>
+  <data name="NewTaskList" xml:space="preserve">
+    <value>Neue Aufgabenliste</value>
+  </data>
+  <data name="SearchTaskLists" xml:space="preserve">
+    <value>Suchlisten...</value>
+  </data>
+  <data name="TaskListPlaceholder" xml:space="preserve">
+    <value>Wählen Sie eine Aufgabenliste aus oder erstellen Sie eine, um loszulegen.</value>
+  </data>
+  <data name="DeleteList" xml:space="preserve">
+    <value>Liste löschen</value>
+  </data>
+  <data name="AutoResetField" xml:space="preserve">
+    <value>Automatisch zurücksetzen:</value>
+  </data>
+  <data name="ResetNone" xml:space="preserve">
+    <value>Keine</value>
+  </data>
+  <data name="ResetDaily" xml:space="preserve">
+    <value>Täglich (00:00 UTC)</value>
+  </data>
+  <data name="ResetWeekly" xml:space="preserve">
+    <value>Wöchentlich (Mon 07:30 UTC)</value>
+  </data>
+  <data name="SearchCharacterName" xml:space="preserve">
+    <value>Suchbegriff</value>
+  </data>
+  <data name="TaskDescriptionPlaceholder" xml:space="preserve">
+    <value>Aufgabenbeschreibung (optional)</value>
+  </data>
+  <data name="AddTask" xml:space="preserve">
+    <value>Aufgabe hinzufügen</value>
+  </data>
+  <data name="CopyCharacterName" xml:space="preserve">
+    <value>Zeichenname kopieren</value>
+  </data>
+  <data name="Tasks" xml:space="preserve">
+    <value>Aufgaben</value>
+  </data>
+  <data name="Next" xml:space="preserve">
+    <value>Weiter</value>
+  </data>
+  <data name="Finish" xml:space="preserve">
+    <value>Oberfläche</value>
+  </data>
+  <data name="CompletedTasksHiddenTooltip" xml:space="preserve">
+    <value>Erledigte Aufgaben werden je nach Ihren Einstellungen ausgeblendet.</value>
+  </data>
+  <data name="UncheckAll" xml:space="preserve">
+    <value>Alle abwählen</value>
+  </data>
+  <data name="CheckAll" xml:space="preserve">
+    <value>Alle prüfen</value>
+  </data>
+  <data name="CompleteTaskList" xml:space="preserve">
+    <value>Vervollständigen Sie die Aufgabenliste.</value>
+  </data>
+  <data name="SwitchToFirstIncomplete" xml:space="preserve">
+    <value>Wechseln Sie zum ersten unvollständigen Aufgabeneintrag.</value>
+  </data>
+  <data name="AllTasksComplete" xml:space="preserve">
+    <value>Alle Aufgaben in dieser Liste sind abgeschlossen.</value>
+  </data>
+  <data name="NextClickMarksComplete" xml:space="preserve">
+    <value>Der nächste Klick markiert '{0}' vollständig.</value>
+  </data>
+  <data name="HideComplete" xml:space="preserve">
+    <value>Vollständig ausblenden</value>
+  </data>
+  <data name="UnhideComplete" xml:space="preserve">
+    <value>Einblenden Vollständig</value>
+  </data>
+  <data name="EditEntry" xml:space="preserve">
+    <value>Eintrag bearbeiten</value>
+  </data>
+  <data name="RemoveEntry" xml:space="preserve">
+    <value>Eintrag entfernen</value>
+  </data>
+  <data name="TaskListDefaultName" xml:space="preserve">
+    <value>Aufgabenliste {0}</value>
+  </data>
+  <data name="CompletedTasksBehavior" xml:space="preserve">
+    <value>Erledigte Aufgaben Verhalten</value>
+  </data>
+  <data name="CompletedTasksBehavior_Nothing" xml:space="preserve">
+    <value>Nichts</value>
+  </data>
+  <data name="CompletedTasksBehavior_Hide" xml:space="preserve">
+    <value>Erledigte Aufgaben ausblenden</value>
+  </data>
+  <data name="CompletedTasksBehavior_MoveToBottom" xml:space="preserve">
+    <value>Abgeschlossen nach unten verschieben</value>
+  </data>
+  <data name="TaskLists" xml:space="preserve">
+    <value>Aufgabenlisten</value>
+  </data>
+  <data name="SideMenu" xml:space="preserve">
+    <value>Seitenmenü</value>
+  </data>
 </root>
