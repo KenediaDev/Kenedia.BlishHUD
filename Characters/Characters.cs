@@ -566,6 +566,18 @@ namespace Kenedia.Modules.Characters
             }
         }
 
+        private Character_Model FindCharacterModel(Character_Model character)
+        {
+            return CharacterModels.FirstOrDefault(e => e.MatchesIdentity(character))
+                ?? CharacterModels.FirstOrDefault(e => e.Name == character?.Name);
+        }
+
+        private Character_Model FindCharacterModel(Character character)
+        {
+            return CharacterModels.FirstOrDefault(e => e.MatchesIdentity(character))
+                ?? CharacterModels.FirstOrDefault(e => e.Name == character?.Name);
+        }
+
         private void CreateCornerIcons()
         {
             DeleteCornerIcons();
@@ -714,15 +726,15 @@ namespace Kenedia.Modules.Characters
                 int pos = 0;
                 foreach (var c in characters)
                 {
-                    if (!oldList.Contains(new { c.Name, c.Created }))
+                    var character = FindCharacterModel(c);
+
+                    if (!oldList.Contains(new { c.Name, c.Created }) || character is null)
                     {
                         Logger.Info($"{c.Name} created on {c.Created} does not exist yet. Create them!");
                         CharacterModels.Add(new(c, CharacterSwapping, Paths.ModulePath, RequestCharacterSave, CharacterModels, Data) { Position = pos });
                     }
                     else
                     {
-                        //Logger.Info($"{c.Name} created on {c.Created} does exist already. Update it!");
-                        var character = CharacterModels.FirstOrDefault(e => e.Name == c.Name);
                         character?.UpdateCharacter(c);
                         if (character is not null)
                         {
@@ -815,19 +827,25 @@ namespace Kenedia.Modules.Characters
                     string content = File.ReadAllText(CharactersPath);
                     PlayerCharacter player = GameService.Gw2Mumble.PlayerCharacter;
                     List<Character_Model> characters = JsonConvert.DeserializeObject<List<Character_Model>>(content, SerializerSettings.Default);
-                    var names = CharacterModels.Select(c => c.Name).ToList();
 
                     if (characters is not null)
                     {
                         characters.ForEach(c =>
                         {
-                            if (!names.Contains(c.Name))
+                            Tags.AddTags(c.Tags, false);
+
+                            var character = FindCharacterModel(c);
+                            if (character is null)
                             {
-                                Tags.AddTags(c.Tags);
                                 CharacterModels.Add(new(c, CharacterSwapping, Paths.ModulePath, RequestCharacterSave, CharacterModels, Data) { Beta = _version >= new SemVer.Version(1, 0, 20) && c.Beta });
-                                names.Add(c.Name);
+                            }
+                            else
+                            {
+                                character.ApplyStoredData(c);
                             }
                         });
+
+                        Tags.ForceCollectionChanged();
 
                         Logger.Info("Loaded local characters from file '" + CharactersPath + "'.");
                         return true;
@@ -854,10 +872,20 @@ namespace Kenedia.Modules.Characters
 
                 if (await FileExtension.WaitForFileUnlock(CharactersPath, 2500, _characterFileTokenSource.Token))
                 {
-                    string json = JsonConvert.SerializeObject(CharacterModels, SerializerSettings.Default);
+                    var characters = CharacterModels.ToList();
+                    string json = JsonConvert.SerializeObject(characters, SerializerSettings.Default);
+                    string tempPath = $"{CharactersPath}.tmp";
 
-                    // write string to file
-                    File.WriteAllText(CharactersPath, json);
+                    File.WriteAllText(tempPath, json);
+
+                    if (File.Exists(CharactersPath))
+                    {
+                        File.Replace(tempPath, CharactersPath, null);
+                    }
+                    else
+                    {
+                        File.Move(tempPath, CharactersPath);
+                    }
                 }
                 else
                 {

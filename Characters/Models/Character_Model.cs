@@ -579,6 +579,45 @@ namespace Kenedia.Modules.Characters.Models
             _index = index;
         }
 
+        public bool MatchesIdentity(Character_Model character)
+        {
+            return character is not null && Name == character.Name && Created == character.Created;
+        }
+
+        public bool MatchesIdentity(Character character)
+        {
+            return character is not null && Name == character.Name && Created == character.Created;
+        }
+
+        public void ApplyStoredData(Character_Model storedCharacter)
+        {
+            if (storedCharacter is null)
+            {
+                return;
+            }
+
+            _map = storedCharacter.Map != 0 ? storedCharacter.Map : _map;
+            _beta = storedCharacter.Beta;
+            _specialization = storedCharacter.Specialization != 0 ? storedCharacter.Specialization : _specialization;
+            _lastLogin = storedCharacter.LastLogin > _lastLogin ? storedCharacter.LastLogin : _lastLogin;
+            _iconPath = storedCharacter.IconPath;
+            _show = storedCharacter.Show;
+            MarkedAsDeleted = storedCharacter.MarkedAsDeleted;
+            _position = storedCharacter.Position;
+            _index = storedCharacter.Index;
+            _showOnRadial = storedCharacter.ShowOnRadial;
+            _hadBirthday = storedCharacter.HadBirthday;
+
+            Tags.Clear();
+            Tags.AddTags(storedCharacter.Tags, false);
+            Tags.ForceCollectionChanged();
+
+            Crafting.Clear();
+            Crafting.AddRange(storedCharacter.Crafting);
+
+            OnUpdated(false);
+        }
+
         private void OnUpdated(bool save = true)
         {
             Updated?.Invoke(this, EventArgs.Empty);
