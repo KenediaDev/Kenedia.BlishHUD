@@ -1,4 +1,4 @@
-﻿using Blish_HUD;
+using Blish_HUD;
 using Blish_HUD.Content;
 using Blish_HUD.Controls;
 using Blish_HUD.Settings;
@@ -452,6 +452,44 @@ namespace Kenedia.Modules.Characters.Views
                 SetLocalizedKeyBindingName = () => strings.MailKey,
                 SetLocalizedTooltip = () => strings.MailKey_Tooltip,
             };
+
+            _ = new KeybindingAssigner()
+            {
+                Parent = cP,
+                Width = ContentRegion.Width - 35,
+                KeyBinding = _settings.ToggleTaskListKey.Value,
+                KeybindChangedAction = (kb) =>
+                {
+                    _settings.ToggleTaskListKey.Value = new()
+                    {
+                        ModifierKeys = kb.ModifierKeys,
+                        PrimaryKey = kb.PrimaryKey,
+                        Enabled = kb.Enabled,
+                        IgnoreWhenInTextField = true,
+                    };
+                },
+                SetLocalizedKeyBindingName = () => strings.ToggleTaskListKey,
+                SetLocalizedTooltip = () => strings.ToggleTaskListKey_Tooltip,
+            };
+
+            _ = new KeybindingAssigner()
+            {
+                Parent = cP,
+                Width = ContentRegion.Width - 35,
+                KeyBinding = _settings.NextTaskEntryKey.Value,
+                KeybindChangedAction = (kb) =>
+                {
+                    _settings.NextTaskEntryKey.Value = new()
+                    {
+                        ModifierKeys = kb.ModifierKeys,
+                        PrimaryKey = kb.PrimaryKey,
+                        Enabled = kb.Enabled,
+                        IgnoreWhenInTextField = true,
+                    };
+                },
+                SetLocalizedKeyBindingName = () => strings.NextTaskEntryKey,
+                SetLocalizedTooltip = () => strings.NextTaskEntryKey_Tooltip,
+            };
             #endregion Keybinds
         }
 
@@ -580,6 +618,41 @@ namespace Kenedia.Modules.Characters.Views
             };
 
             var subP = new Panel()
+            {
+                Parent = cP,
+                WidthSizingMode = SizingMode.Fill,
+                Height = 30,
+            };
+
+            _ = new Label()
+            {
+                Parent = subP,
+                AutoSizeWidth = true,
+                Height = 30,
+                Text = strings.CompletedTasksBehavior,
+            };
+
+            _ = new Dropdown()
+            {
+                Parent = subP,
+                Location = new(250, 0),
+                SetLocalizedItems = () =>
+                {
+                    return
+                    [
+                        strings.CompletedTasksBehavior_Nothing,
+                        strings.CompletedTasksBehavior_Hide,
+                        strings.CompletedTasksBehavior_MoveToBottom,
+                    ];
+                },
+                SelectedItem = ToCompletedTasksBehaviorText(_settings.CompletedTasksBehavior.Value),
+                ValueChangedAction = (selected) =>
+                {
+                    _settings.CompletedTasksBehavior.Value = ParseCompletedTasksBehavior(selected);
+                },
+            };
+
+            subP = new Panel()
             {
                 Parent = cP,
                 WidthSizingMode = SizingMode.Fill,
@@ -1060,6 +1133,23 @@ namespace Kenedia.Modules.Characters.Views
             {
                 setting.Value = fontSize;
             }
+        }
+
+        private static string ToCompletedTasksBehaviorText(Settings.CompletedTasksDisplayBehavior behavior)
+        {
+            return behavior switch
+            {
+                Settings.CompletedTasksDisplayBehavior.HideCompletedTasks => strings.CompletedTasksBehavior_Hide,
+                Settings.CompletedTasksDisplayBehavior.MoveCompletedTasksToBottomOfDisplay => strings.CompletedTasksBehavior_MoveToBottom,
+                _ => strings.CompletedTasksBehavior_Nothing,
+            };
+        }
+
+        private static Settings.CompletedTasksDisplayBehavior ParseCompletedTasksBehavior(string value)
+        {
+            if (value == strings.CompletedTasksBehavior_Hide) return Settings.CompletedTasksDisplayBehavior.HideCompletedTasks;
+            if (value == strings.CompletedTasksBehavior_MoveToBottom) return Settings.CompletedTasksDisplayBehavior.MoveCompletedTasksToBottomOfDisplay;
+            return Settings.CompletedTasksDisplayBehavior.Nothing;
         }
 
         public void OnLanguageChanged(object s = null, EventArgs e = null)

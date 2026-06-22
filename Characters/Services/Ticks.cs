@@ -1,4 +1,4 @@
-﻿namespace Kenedia.Modules.Characters.Services
+namespace Kenedia.Modules.Characters.Services
 {
     public class Ticks
     {
@@ -11,5 +11,7 @@
         public double Tags { get; set; }
 
         public double OCR { get; set; }
+
+        public double TaskListReset { get; set; }
     }
 }

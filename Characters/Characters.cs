@@ -95,6 +95,12 @@ namespace Kenedia.Modules.Characters
 
         public ObservableCollection<Character_Model> CharacterModels { get; } = [];
 
+        public ObservableCollection<TaskListModel> TaskListModels { get; } = [];
+
+        public TaskListService TaskListService { get; private set; }
+
+        public TaskListWindow TaskListWindow { get; private set; }
+
         private CancellationTokenSource _characterFileTokenSource;
 
         public Character_Model CurrentCharacterModel
@@ -131,6 +137,8 @@ namespace Kenedia.Modules.Characters
         public string GlobalAccountsPath { get; set; }
 
         public string CharactersPath => $@"{Paths.AccountPath}characters.json";
+
+        public string TaskListsPath => $@"{Paths.ModulePath}tasklists.json";
 
         public string AccountImagesPath => $@"{Paths.AccountPath}images\";
 
@@ -193,6 +201,12 @@ namespace Kenedia.Modules.Characters
 
             Settings.RadialKey.Value.Enabled = true;
             Settings.RadialKey.Value.Activated += RadialMenuToggle;
+
+            Settings.ToggleTaskListKey.Value.Enabled = true;
+            Settings.ToggleTaskListKey.Value.Activated += ToggleTaskList;
+
+            Settings.NextTaskEntryKey.Value.Enabled = true;
+            Settings.NextTaskEntryKey.Value.Activated += NextTaskEntry;
 
             Tags.CollectionChanged += Tags_CollectionChanged;
 
@@ -287,6 +301,7 @@ namespace Kenedia.Modules.Characters
             _ticks.Save += gameTime.ElapsedGameTime.TotalMilliseconds;
             _ticks.Tags += gameTime.ElapsedGameTime.TotalMilliseconds;
             _ticks.OCR += gameTime.ElapsedGameTime.TotalMilliseconds;
+            _ticks.TaskListReset += gameTime.ElapsedGameTime.TotalMilliseconds;
 
             if (_ticks.Global > 500)
             {
@@ -325,6 +340,13 @@ namespace Kenedia.Modules.Characters
 
                 _ = SaveCharacterList();
                 _saveCharacters = false;
+            }
+
+            // Check task list auto-resets every 30 seconds
+            if (_ticks.TaskListReset > 30000)
+            {
+                _ticks.TaskListReset = 0;
+                CheckTaskListResets();
             }
         }
 
@@ -423,6 +445,37 @@ namespace Kenedia.Modules.Characters
                 Version = ModuleVersion,
             };
 
+            LoadTaskLists();
+
+            var taskListBg = AsyncTexture2D.FromAssetId(155985);
+            Texture2D cutTaskListBg = taskListBg.Texture.GetRegion(0, 0, taskListBg.Width - 482, taskListBg.Height - 390);
+
+            TaskListService = new TaskListService(TaskListModels, SaveTaskLists);
+
+            TaskListWindow = new TaskListWindow(
+                bg,
+                new Rectangle(25, 25, cutBg.Width + 10, cutBg.Height),
+                new Rectangle(35, 14, cutBg.Width - 10, cutBg.Height - 10),
+                Settings,
+                TaskListService,
+                CharacterModels)
+            {
+                Parent = GameService.Graphics.SpriteScreen,
+                Title = "❤",
+                Subtitle = "❤",
+                SavesPosition = true,
+                Id = $"{Name} TaskListWindow",
+                Name = strings.TaskLists,
+                // CanResize = true,
+                MainWindowEmblem = AsyncTexture2D.FromAssetId(156015),
+                SubWindowEmblem = AsyncTexture2D.FromAssetId(157122),
+                Version = ModuleVersion,
+            };
+
+            MainWindow.TaskListWindow = TaskListWindow;
+            TaskListService.SwitchToCharacterRequested += MainWindow.SwitchToCharacterBySearch;
+            TaskListService.FinishSelectionRequested += MainWindow.ClearFilterText;
+
             SideMenuToggles _toggles;
             MainWindow.SideMenu.AddTab(_toggles = new SideMenuToggles(TextureManager, TagFilters, SearchFilters, () => MainWindow?.FilterCharacters(), Tags, Data)
             {
@@ -464,9 +517,16 @@ namespace Kenedia.Modules.Characters
         {
             base.UnloadGUI();
 
+            if (TaskListService is not null && MainWindow is not null)
+            {
+                TaskListService.SwitchToCharacterRequested -= MainWindow.SwitchToCharacterBySearch;
+                TaskListService.FinishSelectionRequested -= MainWindow.ClearFilterText;
+            }
+
             RadialMenu?.Dispose();
             SettingsWindow?.Dispose();
             MainWindow?.Dispose();
+            TaskListWindow?.Dispose();
             PotraitCapture?.Dispose();
             RunIndicator?.Dispose();
         }
@@ -504,6 +564,25 @@ namespace Kenedia.Modules.Characters
 
                     _ = (RadialMenu?.ToggleVisibility());
                 }
+            }
+        }
+
+        private void ToggleTaskList(object sender, EventArgs e)
+        {
+            if (Control.ActiveControl is not TextBox)
+            {
+                TaskListWindow?.ToggleWindow();
+            }
+        }
+
+        private async void NextTaskEntry(object sender, EventArgs e)
+        {
+            if (Control.ActiveControl is not TextBox)
+            {
+              if (await ExtendedInputService.WaitForNoKeyPressed())
+              {
+                TaskListWindow?.SwitchToNextCharacter();
+              }
             }
         }
 
@@ -902,6 +981,79 @@ namespace Kenedia.Modules.Characters
         private void RequestCharacterSave()
         {
             _saveCharacters = true;
+        }
+
+        private void LoadTaskLists()
+        {
+            try
+            {
+                if (File.Exists(TaskListsPath))
+                {
+                    string content = File.ReadAllText(TaskListsPath);
+                    var lists = JsonConvert.DeserializeObject<List<TaskListModel>>(content, SerializerSettings.Default);
+
+                    if (lists is not null)
+                    {
+                        TaskListModels.Clear();
+                        foreach (var list in lists)
+                        {
+                            TaskListModels.Add(list);
+                        }
+
+                        Logger.Info($"Loaded {TaskListModels.Count} task list(s) from '{TaskListsPath}'.");
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.Warn(ex, $"Failed to load task lists from '{TaskListsPath}'.");
+            }
+
+            // Check for any pending resets immediately after loading
+            CheckTaskListResets();
+        }
+
+        private void CheckTaskListResets()
+        {
+            if (TaskListService is not null)
+            {
+                if (TaskListService.ApplyScheduledResets())
+                {
+                    Logger.Info("Auto-reset completed entries for one or more task lists.");
+                }
+
+                return;
+            }
+
+            bool anyReset = false;
+
+            foreach (var taskList in TaskListModels)
+            {
+                if (taskList.CheckAndApplyScheduledReset())
+                {
+                    Logger.Info($"Auto-reset completed entries for task list '{taskList.Name}' (frequency: {taskList.ResetFrequency}).");
+                    anyReset = true;
+                }
+            }
+
+            if (anyReset)
+            {
+                SaveTaskLists();
+            }
+        }
+
+        private void SaveTaskLists()
+        {
+            try
+            {
+                string json = JsonConvert.SerializeObject(TaskListModels, SerializerSettings.Default);
+                File.WriteAllText(TaskListsPath, json);
+            }
+            catch (Exception ex)
+            {
+                Logger.Warn($"Failed to save task lists to '{TaskListsPath}'.");
+                Logger.Warn($"{ex}");
+            }
         }
     }
 }

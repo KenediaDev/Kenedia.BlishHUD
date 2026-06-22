@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!-- 
     Microsoft ResX Schema 
@@ -1048,5 +1048,116 @@ Path to the 'tesseract.dll': {0}</value>
   </data>
   <data name="Radial_CenterScreen_Tooltip" xml:space="preserve">
     <value>Always center the radial menu in the games window center</value>
+  </data>
+  <data name="ToggleTaskListKey" xml:space="preserve">
+    <value>Toggle Task List</value>
+  </data>
+  <data name="ToggleTaskListKey_Tooltip" xml:space="preserve">
+    <value>Key to open or close the task list window</value>
+  </data>
+  <data name="NextTaskEntryKey" xml:space="preserve">
+    <value>Next Task Entry</value>
+  </data>
+  <data name="NextTaskEntryKey_Tooltip" xml:space="preserve">
+    <value>Key to swap to the next incomplete character in the active task list</value>
+  </data>
+  <data name="NewTaskList" xml:space="preserve">
+    <value>New Task List</value>
+  </data>
+  <data name="SearchTaskLists" xml:space="preserve">
+    <value>Search lists...</value>
+  </data>
+  <data name="TaskListPlaceholder" xml:space="preserve">
+    <value>Select or create a task list to get started.</value>
+  </data>
+  <data name="DeleteList" xml:space="preserve">
+    <value>Delete List</value>
+  </data>
+  <data name="AutoResetField" xml:space="preserve">
+    <value>Auto Reset:</value>
+  </data>
+  <data name="ResetNone" xml:space="preserve">
+    <value>None</value>
+  </data>
+  <data name="ResetDaily" xml:space="preserve">
+    <value>Daily (00:00 UTC)</value>
+  </data>
+  <data name="ResetWeekly" xml:space="preserve">
+    <value>Weekly (Mon 07:30 UTC)</value>
+  </data>
+  <data name="SearchCharacterName" xml:space="preserve">
+    <value>Search String</value>
+  </data>
+  <data name="TaskDescriptionPlaceholder" xml:space="preserve">
+    <value>Task description (optional)</value>
+  </data>
+  <data name="AddTask" xml:space="preserve">
+    <value>Add Task</value>
+  </data>
+  <data name="CopyCharacterName" xml:space="preserve">
+    <value>Copy Character Name</value>
+  </data>
+  <data name="Tasks" xml:space="preserve">
+    <value>Tasks</value>
+  </data>
+  <data name="Next" xml:space="preserve">
+    <value>Next</value>
+  </data>
+  <data name="Finish" xml:space="preserve">
+    <value>Finish</value>
+  </data>
+  <data name="CompletedTasksHiddenTooltip" xml:space="preserve">
+    <value>Completed tasks are hidden based on your settings.</value>
+  </data>
+  <data name="UncheckAll" xml:space="preserve">
+    <value>Uncheck All</value>
+  </data>
+  <data name="CheckAll" xml:space="preserve">
+    <value>Check All</value>
+  </data>
+  <data name="CompleteTaskList" xml:space="preserve">
+    <value>Complete the task list.</value>
+  </data>
+  <data name="SwitchToFirstIncomplete" xml:space="preserve">
+    <value>Switch to the first incomplete task entry.</value>
+  </data>
+  <data name="AllTasksComplete" xml:space="preserve">
+    <value>All tasks in this list are complete.</value>
+  </data>
+  <data name="NextClickMarksComplete" xml:space="preserve">
+    <value>Next click marks '{0}' complete.</value>
+  </data>
+  <data name="HideComplete" xml:space="preserve">
+    <value>Hide Complete</value>
+  </data>
+  <data name="UnhideComplete" xml:space="preserve">
+    <value>Unhide Complete</value>
+  </data>
+  <data name="EditEntry" xml:space="preserve">
+    <value>Edit Entry</value>
+  </data>
+  <data name="RemoveEntry" xml:space="preserve">
+    <value>Remove Entry</value>
+  </data>
+  <data name="TaskListDefaultName" xml:space="preserve">
+    <value>Task List {0}</value>
+  </data>
+  <data name="CompletedTasksBehavior" xml:space="preserve">
+    <value>Completed Tasks Behavior</value>
+  </data>
+  <data name="CompletedTasksBehavior_Nothing" xml:space="preserve">
+    <value>Nothing</value>
+  </data>
+  <data name="CompletedTasksBehavior_Hide" xml:space="preserve">
+    <value>Hide completed tasks</value>
+  </data>
+  <data name="CompletedTasksBehavior_MoveToBottom" xml:space="preserve">
+    <value>Move completed to bottom</value>
+  </data>
+  <data name="TaskLists" xml:space="preserve">
+    <value>Task Lists</value>
+  </data>
+  <data name="SideMenu" xml:space="preserve">
+    <value>Side Menu</value>
   </data>
 </root>

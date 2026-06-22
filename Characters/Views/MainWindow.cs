@@ -1,4 +1,4 @@
-﻿using Blish_HUD;
+using Blish_HUD;
 using Blish_HUD.Content;
 using Blish_HUD.Controls;
 using Kenedia.Modules.Characters.Res;
@@ -43,6 +43,7 @@ namespace Kenedia.Modules.Characters.Views
         private readonly ImageButton _toggleSideMenuButton;
         private readonly CollapseContainer _collapseWrapper;
         private readonly ImageButton _displaySettingsButton;
+        private readonly ImageButton _taskListsButton;
         private readonly ImageButton _randomButton;
         private readonly ImageButton _lastButton;
         private readonly ImageButton _clearButton;
@@ -212,6 +213,15 @@ namespace Kenedia.Modules.Characters.Views
                 ClickAction = (m) => SettingsWindow?.ToggleWindow(),
             };
 
+            _taskListsButton = new()
+            {
+                Parent = _buttonPanel,
+                Texture = AsyncTexture2D.FromAssetId(157122),
+                Size = new Point(25, 25),
+                SetLocalizedTooltip = () => strings.TaskLists,
+                ClickAction = (m) => TaskListWindow?.ToggleWindow(),
+            };
+
             _toggleSideMenuButton = new()
             {
                 Parent = _buttonPanel,
@@ -219,7 +229,7 @@ namespace Kenedia.Modules.Characters.Views
                 Size = new Point(25, 25),
                 ImageColor = ContentService.Colors.ColonialWhite,
                 ColorHovered = Color.White,
-                SetLocalizedTooltip = () => string.Format(strings.Toggle, "Side Menu"),
+                SetLocalizedTooltip = () => string.Format(strings.Toggle, strings.SideMenu),
                 ClickAction = (m) => ShowAttached(SideMenu.Visible ? null : SideMenu),
             };
 
@@ -306,6 +316,8 @@ namespace Kenedia.Modules.Characters.Views
 
         public SettingsWindow SettingsWindow { get; set; }
 
+        public TaskListWindow TaskListWindow { get; set; }
+
         public SideMenu SideMenu { get; }
 
         private void PinSideMenus_SettingChanged(object sender, ValueChangedEventArgs<bool> e)
@@ -339,6 +351,12 @@ namespace Kenedia.Modules.Characters.Views
         public void FilterCharacters(object sender = null, EventArgs e = null)
         {
             _filterCharacters = true;
+        }
+
+        public void ClearFilterText()
+        {
+            _filterBox.Text = null;
+            _filterBox.ForceFilter();
         }
 
         public void PerformFiltering()
@@ -672,6 +690,7 @@ namespace Kenedia.Modules.Characters.Views
 
             _dropdownPanel?.Dispose();
             _displaySettingsButton?.Dispose();
+            _taskListsButton?.Dispose();
             _filterBox?.Dispose();
             SideMenu?.Dispose();
         }
@@ -701,6 +720,33 @@ namespace Kenedia.Modules.Characters.Views
         private void FilterBox_Click()
         {
             if (_settings.OpenSidemenuOnSearch.Value) ShowAttached(SideMenu);
+        }
+
+        public void SwitchToCharacterBySearch(string characterName)
+        {
+            string searchText = characterName?.Trim();
+            if (string.IsNullOrEmpty(searchText))
+            {
+                return;
+            }
+
+            _filterBox.Text = searchText;
+            _filterBox.ForceFilter();
+
+            var matchingCharacter = CharactersPanel.Children
+                .OfType<CharacterCard>()
+                .FirstOrDefault(card => card.Visible);
+
+            matchingCharacter?.Character?.Swap();
+
+            if (matchingCharacter is null)
+            {
+                Characters.Logger.Debug($"No character found for task list switch request '{searchText}'.");
+                if (!Visible)
+                {
+                    Show();
+                }
+            }
         }
 
         private void DraggingControl_LeftMouseButtonReleased(object sender, Blish_HUD.Input.MouseEventArgs e)
