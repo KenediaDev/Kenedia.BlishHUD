@@ -14,6 +14,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Contexts\BaseContext.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ContractResolver\SemverVersionContractResolver.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controls\AnchoredContainer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\AutoSuggestTextBox.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controls\BaseDialog.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controls\BasicTooltip.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)controls\BorderedImage.cs" />
