@@ -14,7 +14,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Contexts\BaseContext.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ContractResolver\SemverVersionContractResolver.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controls\AnchoredContainer.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Controls\AutoSuggestTextBox.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\AutoSuggestComboBox.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controls\BaseDialog.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controls\BasicTooltip.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)controls\BorderedImage.cs" />
@@ -164,8 +164,12 @@
     <Compile Include="$(MSBuildThisFileDirectory)Views\TabbedWindow.cs" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Res\strings_common.de.resx" />
-    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Res\strings_common.es.resx" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Res\strings_common.de.resx">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Res\strings_common.es.resx">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
     <EmbeddedResource Include="$(MSBuildThisFileDirectory)Res\strings_common.fr.resx" />
     <EmbeddedResource Include="$(MSBuildThisFileDirectory)Res\strings_common.resx">
       <LastGenOutput>strings_common.Designer.cs</LastGenOutput>
@@ -174,12 +178,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="$(MSBuildThisFileDirectory)Res\textures_common.resx">
       <LastGenOutput>textures_common.Designer.cs</LastGenOutput>
-      <Generator>ResXFileCodeGenerator</Generator>
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <None Include="$(MSBuildThisFileDirectory)Interfaces\Directory.Build.props" />
     <None Include="$(MSBuildThisFileDirectory)Res\Textures\RollingChoya.png" />
+    <None Include="$(MSBuildThisFileDirectory)Res\Textures\Tag.png" />
+    <None Include="$(MSBuildThisFileDirectory)Res\Textures\Tag_Hovered.png" />
     <None Include="$(MSBuildThisFileDirectory)Textures\RollingChoya.png" />
   </ItemGroup>
   <ItemGroup>
@@ -187,10 +194,18 @@
     <Folder Include="$(MSBuildThisFileDirectory)Textures\" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="$(MSBuildThisFileDirectory)Res\Textures\ImageButtonBackground.png" />
-    <Content Include="$(MSBuildThisFileDirectory)Res\Textures\ImageButtonBackground_Hovered.png" />
+    <None Include="$(MSBuildThisFileDirectory)Res\Textures\ImageButtonBackground.png" />
+    <None Include="$(MSBuildThisFileDirectory)Res\Textures\ImageButtonBackground_Hovered.png" />
     <None Include="$(MSBuildThisFileDirectory)Res\Textures\ToggleAreaRight.png" />
     <None Include="$(MSBuildThisFileDirectory)Res\Textures\ToggleAreaMid.png" />
     <None Include="$(MSBuildThisFileDirectory)Res\Textures\ToggleAreaLeft.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="$(MSBuildThisFileDirectory)Res\Textures\Cancel.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Res\Textures\Cancel_Active.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Res\Textures\Cancel_Hovered.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Res\Textures\Save.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Res\Textures\Save_Active.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Res\Textures\Save_Hovered.png" />
   </ItemGroup>
 </Project>

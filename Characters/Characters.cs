@@ -358,6 +358,8 @@ namespace Kenedia.Modules.Characters
             CharacterModels.CollectionChanged -= OnCharacterCollectionChanged;
             Tags.CollectionChanged -= Tags_CollectionChanged;
             CoreServices.ClientWindowService.ResolutionChanged -= ClientWindowService_ResolutionChanged;
+            TaskListService?.Dispose();
+            TaskListService = null;
             OCR.Dispose();
             Data?.Dispose();
 
@@ -450,7 +452,7 @@ namespace Kenedia.Modules.Characters
             var taskListBg = AsyncTexture2D.FromAssetId(155985);
             Texture2D cutTaskListBg = taskListBg.Texture.GetRegion(0, 0, taskListBg.Width - 482, taskListBg.Height - 390);
 
-            TaskListService = new TaskListService(TaskListModels, SaveTaskLists);
+            TaskListService = new TaskListService(CharacterSwapping, CharacterModels, TaskListModels, SaveTaskLists);
 
             TaskListWindow = new TaskListWindow(
                 bg,
@@ -458,23 +460,25 @@ namespace Kenedia.Modules.Characters
                 new Rectangle(35, 14, cutBg.Width - 10, cutBg.Height - 10),
                 Settings,
                 TaskListService,
+                TextureManager,
+                CharacterSwapping,
                 CharacterModels)
             {
                 Parent = GameService.Graphics.SpriteScreen,
                 Title = "❤",
                 Subtitle = "❤",
-                SavesPosition = true,
                 Id = $"{Name} TaskListWindow",
                 Name = strings.TaskLists,
-                // CanResize = true,
+                CanResize = true,
+                Size = Settings.TaskListWindowSize.Value,
                 MainWindowEmblem = AsyncTexture2D.FromAssetId(156015),
-                SubWindowEmblem = AsyncTexture2D.FromAssetId(157122),
+                SubWindowEmblem = TextureManager.GetEmblem(Emblems.TaskList_7),
                 Version = ModuleVersion,
+                SavesSize = true,
+                SavesPosition = true,
             };
 
             MainWindow.TaskListWindow = TaskListWindow;
-            TaskListService.SwitchToCharacterRequested += MainWindow.SwitchToCharacterBySearch;
-            TaskListService.FinishSelectionRequested += MainWindow.ClearFilterText;
 
             SideMenuToggles _toggles;
             MainWindow.SideMenu.AddTab(_toggles = new SideMenuToggles(TextureManager, TagFilters, SearchFilters, () => MainWindow?.FilterCharacters(), Tags, Data)
@@ -516,12 +520,6 @@ namespace Kenedia.Modules.Characters
         protected override void UnloadGUI()
         {
             base.UnloadGUI();
-
-            if (TaskListService is not null && MainWindow is not null)
-            {
-                TaskListService.SwitchToCharacterRequested -= MainWindow.SwitchToCharacterBySearch;
-                TaskListService.FinishSelectionRequested -= MainWindow.ClearFilterText;
-            }
 
             RadialMenu?.Dispose();
             SettingsWindow?.Dispose();
@@ -612,8 +610,8 @@ namespace Kenedia.Modules.Characters
         {
             MouseState mouse = GameService.Input.Mouse.State;
 
-            if (CharacterSwapping.Cancel()) Logger.Info($"Cancel any automated action. Left Mouse Down: {mouse.LeftButton == ButtonState.Pressed} | Right Mouse Down: {mouse.RightButton == ButtonState.Pressed} | Keyboard Keys pressed {string.Join("|", GameService.Input.Keyboard.KeysDown.Select(k => k.ToString()).ToArray())}");
-            if (CharacterSorting.Cancel()) Logger.Info($"Cancel any automated action. Left Mouse Down: {mouse.LeftButton == ButtonState.Pressed} | Right Mouse Down: {mouse.RightButton == ButtonState.Pressed} | Keyboard Keys pressed {string.Join("|", GameService.Input.Keyboard.KeysDown.Select(k => k.ToString()).ToArray())}");
+            if (CharacterSwapping.Cancel()) Logger.Info($"Cancel any automated action. Left Mouse Down: {mouse.LeftButton == ButtonState.Pressed} | Right Mouse Down: {mouse.RightButton == ButtonState.Pressed} | Keyboard Keys pressed {string.Join("|", [.. GameService.Input.Keyboard.KeysDown.Select(k => k.ToString())])}");
+            if (CharacterSorting.Cancel()) Logger.Info($"Cancel any automated action. Left Mouse Down: {mouse.LeftButton == ButtonState.Pressed} | Right Mouse Down: {mouse.RightButton == ButtonState.Pressed} | Keyboard Keys pressed {string.Join("|", [.. GameService.Input.Keyboard.KeysDown.Select(k => k.ToString())])}");
         }
 
         protected override void ReloadKey_Activated(object sender, EventArgs e)
@@ -625,6 +623,9 @@ namespace Kenedia.Modules.Characters
             //GameService.Graphics.SpriteScreen.Visible = true;
             //MainWindow?.ToggleWindow();
             //SettingsWindow?.ToggleWindow();
+
+            TaskListWindow?.Show();
+            MainWindow?.Show();
         }
 
         private void OnCharacterCollectionChanged(object sender, EventArgs e)
@@ -815,10 +816,7 @@ namespace Kenedia.Modules.Characters
                     else
                     {
                         character?.UpdateCharacter(c);
-                        if (character is not null)
-                        {
-                            character.Position = pos;
-                        }
+                        character?.Position = pos;
                     }
 
                     pos++;

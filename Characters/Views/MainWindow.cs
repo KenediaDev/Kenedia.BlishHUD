@@ -216,7 +216,9 @@ namespace Kenedia.Modules.Characters.Views
             _taskListsButton = new()
             {
                 Parent = _buttonPanel,
-                Texture = AsyncTexture2D.FromAssetId(157122),
+                Texture = textureManager.GetIcon(TextureManager.Icons.TaskList),
+                HoveredTexture = textureManager.GetIcon(TextureManager.Icons.TaskList_Hovered),
+                ClickedTexture= textureManager.GetIcon(TextureManager.Icons.TaskList_Active),
                 Size = new Point(25, 25),
                 SetLocalizedTooltip = () => strings.TaskLists,
                 ClickAction = (m) => TaskListWindow?.ToggleWindow(),

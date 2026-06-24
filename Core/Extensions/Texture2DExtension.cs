@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework.Graphics;
+using System;
 using System.Drawing;
 using System.IO;
 using Color = Microsoft.Xna.Framework.Color;
@@ -9,28 +10,24 @@ namespace Kenedia.Modules.Core.Extensions
     {
         public static Texture2D CreateTexture2D(this MemoryStream s)
         {
-            Texture2D texture;
+            if (s is null) throw new ArgumentNullException(nameof(s));
+            if (s.Length == 0) throw new ArgumentException("The image stream is empty.", nameof(s));
+
+            s.Position = 0;
 
             using (Blish_HUD.Graphics.GraphicsDeviceContext device = Blish_HUD.GameService.Graphics.LendGraphicsDeviceContext())
             {
-                texture = Texture2D.FromStream(device.GraphicsDevice, s);
+                return Texture2D.FromStream(device.GraphicsDevice, s);
             }
-
-            return texture;
         }
 
         public static Texture2D CreateTexture2D(this Bitmap bitmap)
         {
-            Texture2D texture;
-            MemoryStream s = new();
-            bitmap.Save(s, System.Drawing.Imaging.ImageFormat.Png);
+            if (bitmap is null) throw new ArgumentNullException(nameof(bitmap));
 
-            using (Blish_HUD.Graphics.GraphicsDeviceContext device = Blish_HUD.GameService.Graphics.LendGraphicsDeviceContext())
-            {
-                texture = Texture2D.FromStream(device.GraphicsDevice, s);
-            }
-
-            return texture;
+            using MemoryStream stream = new();
+            bitmap.Save(stream, System.Drawing.Imaging.ImageFormat.Png);
+            return stream.CreateTexture2D();
         }
 
         public static Texture2D ToGrayScaledPalettable(this Texture2D original)

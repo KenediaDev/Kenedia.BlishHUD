@@ -1086,7 +1086,7 @@ Path to the 'tesseract.dll': {0}</value>
     <value>Weekly (Mon 07:30 UTC)</value>
   </data>
   <data name="SearchCharacterName" xml:space="preserve">
-    <value>Search String</value>
+    <value>Assign Character ...</value>
   </data>
   <data name="TaskDescriptionPlaceholder" xml:space="preserve">
     <value>Task description (optional)</value>
@@ -1127,6 +1127,18 @@ Path to the 'tesseract.dll': {0}</value>
   <data name="NextClickMarksComplete" xml:space="preserve">
     <value>Next click marks '{0}' complete.</value>
   </data>
+  <data name="TaskSwitchFailed" xml:space="preserve">
+    <value>Could not switch to '{0}'. Click Next to retry.</value>
+  </data>
+  <data name="Retry" xml:space="preserve">
+    <value>Retry</value>
+  </data>
+  <data name="TaskCharacterNotFound" xml:space="preserve">
+    <value>Character '{0}' was not found. Update this task to continue.</value>
+  </data>
+  <data name="TaskCharacterNotAssigned" xml:space="preserve">
+    <value>No character is assigned. Assign one to continue.</value>
+  </data>
   <data name="HideComplete" xml:space="preserve">
     <value>Hide Complete</value>
   </data>
@@ -1138,6 +1150,15 @@ Path to the 'tesseract.dll': {0}</value>
   </data>
   <data name="RemoveEntry" xml:space="preserve">
     <value>Remove Entry</value>
+  </data>
+  <data name="DeleteConfirmationTitle" xml:space="preserve">
+    <value>Confirm deletion</value>
+  </data>
+  <data name="ConfirmTaskEntryDelete" xml:space="preserve">
+    <value>Remove task '{0}'? This cannot be undone.</value>
+  </data>
+  <data name="ConfirmTaskListDelete" xml:space="preserve">
+    <value>Delete task list '{0}' and all of its tasks? This cannot be undone.</value>
   </data>
   <data name="TaskListDefaultName" xml:space="preserve">
     <value>Task List {0}</value>
@@ -1159,5 +1180,8 @@ Path to the 'tesseract.dll': {0}</value>
   </data>
   <data name="SideMenu" xml:space="preserve">
     <value>Side Menu</value>
+  </data>
+  <data name="Unassigned" xml:space="preserve">
+    <value>- Unassigned -</value>
   </data>
 </root>

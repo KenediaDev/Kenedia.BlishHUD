@@ -102,6 +102,12 @@ namespace Kenedia.Modules.Characters.Controls
             UpdateLayout();
             UpdateFilterVisibility();
             UpdateAllEntryVisuals();
+
+            var firstTaskList = _service.TaskLists.FirstOrDefault();
+            if (firstTaskList != null)
+            {
+                _service.SelectList(firstTaskList);
+            }
         }
 
         private void EnsureListEntry(TaskListModel taskList)

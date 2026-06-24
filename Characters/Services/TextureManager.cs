@@ -54,11 +54,28 @@ namespace Kenedia.Modules.Characters.Services
             Female_Hovered,
             Male,
             Male_Hovered,
+            TaskList,
+            TaskList_Hovered,
+            TaskList_Active,
         }
 
         public enum Backgrounds
         {
             MainWindow,
+        }
+
+        public enum Emblems
+        {
+            TaskList,
+            TaskList_2,
+            TaskList_3,
+            TaskList_4,
+            TaskList_5,
+            TaskList_6,
+            TaskList_7,
+            TaskList_8,
+            TaskList_9,
+            TaskList_10,
         }
 
         public Texture2D GetBackground(Backgrounds background)
@@ -74,6 +91,11 @@ namespace Kenedia.Modules.Characters.Services
         public Texture2D GetControlTexture(ControlTextures control)
         {
             return TexturesService.GetTextureFromRef(@"textures\controls\" + (int)control + ".png", $"Control {control}");
+        }
+
+        public Texture2D GetEmblem(Emblems emblem)
+        {
+            return TexturesService.GetTextureFromRef(@"textures\emblems\" + (int)emblem + ".png", $"Emblem {emblem}");
         }
     }
 }

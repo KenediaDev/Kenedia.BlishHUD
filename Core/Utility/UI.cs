@@ -11,6 +11,7 @@ using static Blish_HUD.ContentService;
 using Kenedia.Modules.Core.Interfaces;
 using System.Linq;
 using Blish_HUD.Modules.Managers;
+using System.Diagnostics;
 
 namespace Kenedia.Modules.Core.Utility
 {
@@ -74,6 +75,29 @@ namespace Kenedia.Modules.Core.Utility
             }
 
             scrollbar.ScrollDistance = Math.Max(0f, Math.Min(targetOffset / (float)maxOffset, 1f));
+        }
+
+        public static bool HasVisibleVerticalScrollbar(this Container container)
+        {
+            if (container is null)
+            {
+                return false;
+            }
+
+            if (container is Blish_HUD.Controls.Panel panel && !panel.CanScroll)
+            {
+                return false;
+            }
+
+            var visibleChildren = container.Children.Where(c => c.Visible).ToArray();
+            if (visibleChildren.Length == 0)
+            {
+                return false;
+            }
+
+            int contentHeight = Math.Max(visibleChildren.Max(c => c.Bottom), container.ContentRegion.Height);
+
+            return contentHeight > (container.ContentRegion.Height + 3);
         }
 
         public static int GetTextHeight(BitmapFont font, string text, int maxWidth)

@@ -1085,9 +1085,6 @@ Chemin d'accès au fichier 'tesseract.dll' : {0}</value>
   <data name="ResetWeekly" xml:space="preserve">
     <value>Hebdomadaire (Lun 07:30 UTC)</value>
   </data>
-  <data name="SearchCharacterName" xml:space="preserve">
-    <value>Chaîne de recherche</value>
-  </data>
   <data name="TaskDescriptionPlaceholder" xml:space="preserve">
     <value>Description de la tâche (facultatif)</value>
   </data>
@@ -1127,6 +1124,18 @@ Chemin d'accès au fichier 'tesseract.dll' : {0}</value>
   <data name="NextClickMarksComplete" xml:space="preserve">
     <value>Le prochain clic marque l'achèvement de "{0}".</value>
   </data>
+  <data name="TaskSwitchFailed" xml:space="preserve">
+    <value>Impossible de passer à « {0} ». Cliquez sur Suivant pour réessayer.</value>
+  </data>
+  <data name="Retry" xml:space="preserve">
+    <value>Réessayer</value>
+  </data>
+  <data name="TaskCharacterNotFound" xml:space="preserve">
+    <value>Le personnage « {0} » est introuvable. Modifiez cette tâche pour continuer.</value>
+  </data>
+  <data name="TaskCharacterNotAssigned" xml:space="preserve">
+    <value>Aucun personnage n'est attribué. Attribuez-en un pour continuer.</value>
+  </data>
   <data name="HideComplete" xml:space="preserve">
     <value>Cacher Complète</value>
   </data>
@@ -1138,6 +1147,15 @@ Chemin d'accès au fichier 'tesseract.dll' : {0}</value>
   </data>
   <data name="RemoveEntry" xml:space="preserve">
     <value>Supprimer l'entrée</value>
+  </data>
+  <data name="DeleteConfirmationTitle" xml:space="preserve">
+    <value>Confirmer la suppression</value>
+  </data>
+  <data name="ConfirmTaskEntryDelete" xml:space="preserve">
+    <value>Supprimer la tâche « {0} » ? Cette action est irréversible.</value>
+  </data>
+  <data name="ConfirmTaskListDelete" xml:space="preserve">
+    <value>Supprimer la liste de tâches « {0} » et toutes ses tâches ? Cette action est irréversible.</value>
   </data>
   <data name="TaskListDefaultName" xml:space="preserve">
     <value>Liste des tâches {0}</value>
@@ -1159,5 +1177,11 @@ Chemin d'accès au fichier 'tesseract.dll' : {0}</value>
   </data>
   <data name="SideMenu" xml:space="preserve">
     <value>Menu latéral</value>
+  </data>
+  <data name="SearchCharacterName" xml:space="preserve">
+    <value>Attribuer un personnage...</value>
+  </data>
+  <data name="Unassigned" xml:space="preserve">
+    <value>- Non attribué -</value>
   </data>
 </root>

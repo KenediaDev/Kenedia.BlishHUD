@@ -471,6 +471,11 @@
     <Content Include="ref\textures\controls\7.png" />
     <Content Include="ref\textures\controls\8.png" />
     <Content Include="ref\textures\controls\9.png" />
+    <Content Include="ref\textures\emblems\0.png" />
+    <Content Include="ref\textures\emblems\1.png" />
+    <Content Include="ref\textures\emblems\3.png" />
+    <Content Include="ref\textures\emblems\4.png" />
+    <Content Include="ref\textures\emblems\5.png" />
     <Content Include="ref\textures\icons\0.png" />
     <Content Include="ref\textures\icons\1.png" />
     <Content Include="ref\textures\icons\10.png" />

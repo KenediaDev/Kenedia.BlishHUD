@@ -87,8 +87,12 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="strings_common.de.resx" />
-    <EmbeddedResource Include="strings_common.es.resx" />
+    <EmbeddedResource Include="strings_common.de.resx">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="strings_common.es.resx">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
     <EmbeddedResource Include="strings_common.fr.resx" />
     <EmbeddedResource Include="strings_common.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -98,6 +102,7 @@
     <EmbeddedResource Include="textures_common.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>textures_common.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

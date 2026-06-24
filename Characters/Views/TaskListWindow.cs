@@ -4,6 +4,7 @@ using Kenedia.Modules.Characters.Controls;
 using Kenedia.Modules.Characters.Models;
 using Kenedia.Modules.Characters.Services;
 using Microsoft.Xna.Framework;
+using System;
 using System.Collections.ObjectModel;
 using FlowPanel = Kenedia.Modules.Core.Controls.FlowPanel;
 using Rectangle = Microsoft.Xna.Framework.Rectangle;
@@ -25,6 +26,8 @@ namespace Kenedia.Modules.Characters.Views
             Rectangle contentRegion,
             Settings settings,
             TaskListService service,
+            TextureManager textureManager,
+            CharacterSwapping characterSwapping,
             ObservableCollection<Character_Model> characterModels)
             : base(background, windowRegion, contentRegion)
         {
@@ -44,7 +47,7 @@ namespace Kenedia.Modules.Characters.Views
                 Parent = _contentPanel,
             };
 
-            _detailPanel = new TaskListDetailPanel(_service, settings, characterModels, contentRegion.Width - 210)
+            _detailPanel = new TaskListDetailPanel(textureManager, _service, characterSwapping, settings, characterModels, contentRegion.Width - 210)
             {
                 Parent = _contentPanel,
             };
@@ -72,6 +75,9 @@ namespace Kenedia.Modules.Characters.Views
             {
                 _detailPanel.Width = ContentRegion.Width - 210;
             }
+
+            Width = Math.Max(Width, 530);
+            Height = Math.Max(Height, 400);
         }
 
         protected override void DisposeControl()
@@ -79,7 +85,6 @@ namespace Kenedia.Modules.Characters.Views
             _contentPanel?.Dispose();
             _sidebar?.Dispose();
             _detailPanel?.Dispose();
-            _service?.Dispose();
 
             base.DisposeControl();
         }

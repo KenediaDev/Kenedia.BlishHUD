@@ -1087,9 +1087,6 @@ Pfad zur 'tesseract.dll': {0}</value>
   <data name="ResetWeekly" xml:space="preserve">
     <value>Wöchentlich (Mon 07:30 UTC)</value>
   </data>
-  <data name="SearchCharacterName" xml:space="preserve">
-    <value>Suchbegriff</value>
-  </data>
   <data name="TaskDescriptionPlaceholder" xml:space="preserve">
     <value>Aufgabenbeschreibung (optional)</value>
   </data>
@@ -1129,6 +1126,18 @@ Pfad zur 'tesseract.dll': {0}</value>
   <data name="NextClickMarksComplete" xml:space="preserve">
     <value>Der nächste Klick markiert '{0}' vollständig.</value>
   </data>
+  <data name="TaskSwitchFailed" xml:space="preserve">
+    <value>Wechsel zu '{0}' fehlgeschlagen. Klicke zum Wiederholen auf Weiter.</value>
+  </data>
+  <data name="Retry" xml:space="preserve">
+    <value>Wiederholen</value>
+  </data>
+  <data name="TaskCharacterNotFound" xml:space="preserve">
+    <value>Charakter '{0}' wurde nicht gefunden. Bearbeite die Aufgabe, um fortzufahren.</value>
+  </data>
+  <data name="TaskCharacterNotAssigned" xml:space="preserve">
+    <value>Kein Charakter zugewiesen. Weise einen Charakter zu, um fortzufahren.</value>
+  </data>
   <data name="HideComplete" xml:space="preserve">
     <value>Vollständig ausblenden</value>
   </data>
@@ -1140,6 +1149,15 @@ Pfad zur 'tesseract.dll': {0}</value>
   </data>
   <data name="RemoveEntry" xml:space="preserve">
     <value>Eintrag entfernen</value>
+  </data>
+  <data name="DeleteConfirmationTitle" xml:space="preserve">
+    <value>Löschen bestätigen</value>
+  </data>
+  <data name="ConfirmTaskEntryDelete" xml:space="preserve">
+    <value>Aufgabe '{0}' entfernen? Dies kann nicht rückgängig gemacht werden.</value>
+  </data>
+  <data name="ConfirmTaskListDelete" xml:space="preserve">
+    <value>Aufgabenliste '{0}' und alle enthaltenen Aufgaben löschen? Dies kann nicht rückgängig gemacht werden.</value>
   </data>
   <data name="TaskListDefaultName" xml:space="preserve">
     <value>Aufgabenliste {0}</value>
@@ -1161,5 +1179,11 @@ Pfad zur 'tesseract.dll': {0}</value>
   </data>
   <data name="SideMenu" xml:space="preserve">
     <value>Seitenmenü</value>
+  </data>
+  <data name="SearchCharacterName" xml:space="preserve">
+    <value>Charakter zuweisen ...</value>
+  </data>
+  <data name="Unassigned" xml:space="preserve">
+    <value>- Nicht zugewiesen -</value>
   </data>
 </root>

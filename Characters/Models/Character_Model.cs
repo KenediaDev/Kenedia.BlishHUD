@@ -623,5 +623,10 @@ namespace Kenedia.Modules.Characters.Models
             Updated?.Invoke(this, EventArgs.Empty);
             if (save) Save();
         }
+
+        public override string ToString()
+        {
+            return Name;
+        }
     }
 }

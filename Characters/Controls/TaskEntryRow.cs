@@ -5,10 +5,15 @@ using Blish_HUD.Input;
 using Kenedia.Modules.Characters.Models;
 using Kenedia.Modules.Characters.Res;
 using Kenedia.Modules.Characters.Services;
+using Kenedia.Modules.Core.Controls;
+using Kenedia.Modules.Core.Res;
+using Kenedia.Modules.Core.Services;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Linq;
 using Button = Kenedia.Modules.Core.Controls.Button;
 using Checkbox = Kenedia.Modules.Core.Controls.Checkbox;
 using ImageButton = Kenedia.Modules.Core.Controls.ImageButton;
@@ -21,14 +26,9 @@ namespace Kenedia.Modules.Characters.Controls
     public class TaskEntryRow : Panel
     {
         private const int HandleWidth = 14;
-        private const int ButtonSize = 16;
+        private const int ButtonSize = 24;
         private const int ButtonSpacing = 6;
-        private const int ButtonRightPadding = 15;
-        private const int ButtonY = 8;
-        private const int SaveButtonWidth = 85;
-        private const int CancelButtonWidth = 85;
         private const int EditButtonsSpacing = 5;
-        private const int EditButtonsY = 2;
         private const int EditButtonsRightPadding = 10;
 
         private static readonly Color BackgroundDefault = new Color(40, 40, 40, 150);
@@ -37,6 +37,7 @@ namespace Kenedia.Modules.Characters.Controls
         private static readonly Color BackgroundTracked = new Color(80, 70, 30, 170);
 
         private readonly TaskListService _service;
+        private ObservableCollection<Character_Model> _characterModels;
         private readonly TaskEntry _entry;
         private readonly Action<TaskEntryRow> _onDragStartRequested;
 
@@ -46,10 +47,10 @@ namespace Kenedia.Modules.Characters.Controls
         private readonly ImageButton _switchButton;
         private readonly ImageButton _editButton;
         private readonly ImageButton _removeButton;
-        private readonly TextBox _editNameBox;
+        private readonly AutoSuggestComboBox<Character_Model> _editCharacterSuggestionBox;
         private readonly TextBox _editDescBox;
-        private readonly Button _saveButton;
-        private readonly Button _cancelButton;
+        private readonly ImageButton _saveButton;
+        private readonly ImageButton _cancelButton;
 
         private bool _isEditing;
         private bool _hasAppliedModeVisibility;
@@ -60,9 +61,10 @@ namespace Kenedia.Modules.Characters.Controls
 
         public bool IsDragging { get; set; }
 
-        public TaskEntryRow(TaskListService service, TaskEntry entry, Action<TaskEntryRow> onDragStartRequested)
+        public TaskEntryRow(TaskListService service, ObservableCollection<Character_Model> characterModels, TaskEntry entry, Action<TaskEntryRow> onDragStartRequested)
         {
             _service = service;
+            _characterModels = characterModels;
             _entry = entry;
             _onDragStartRequested = onDragStartRequested;
 
@@ -112,17 +114,19 @@ namespace Kenedia.Modules.Characters.Controls
             _switchButton = new ImageButton()
             {
                 Parent = this,
-                Texture = AsyncTexture2D.FromAssetId(784346),
-                Size = new Point(16, 16),
+                Texture = AsyncTexture2D.FromAssetId(157092),
+                ClickedTexture = AsyncTexture2D.FromAssetId(157093),
+                HoveredTexture = AsyncTexture2D.FromAssetId(157094),
+                Size = new Point(ButtonSize, ButtonSize),
                 BasicTooltipText = string.Format(strings.Switch, strings.Character),
-                ClickAction = (_) => _service.RequestSwitchToCharacter(_entry.CharacterName?.Trim()),
+                ClickAction = (_) => _service.RequestSwitchToCharacter(_entry.CharacterName),
             };
 
             _editButton = new ImageButton()
             {
                 Parent = this,
                 Texture = AsyncTexture2D.FromAssetId(2175779),
-                Size = new Point(16, 16),
+                Size = new Point(ButtonSize, ButtonSize),
                 BasicTooltipText = strings.EditEntry,
                 ClickAction = (_) => SetEditMode(true),
             };
@@ -133,17 +137,23 @@ namespace Kenedia.Modules.Characters.Controls
                 Texture = AsyncTexture2D.FromAssetId(2175783),
                 HoveredTexture = AsyncTexture2D.FromAssetId(2175782),
                 ClickedTexture = AsyncTexture2D.FromAssetId(2175784),
-                Size = new Point(16, 16),
+                Size = new Point(ButtonSize, ButtonSize),
                 BasicTooltipText = strings.RemoveEntry,
-                ClickAction = (_) => _service.RemoveEntry(_entry),
+                ClickAction = (_) => ConfirmRemoveEntry(),
             };
 
-            _editNameBox = new TextBox()
+            _editCharacterSuggestionBox = new AutoSuggestComboBox<Character_Model>()
             {
                 Parent = this,
+                PlaceholderText = strings.SearchCharacterName,
                 Location = new Point(30, 2),
                 Width = 155,
                 Height = 28,
+                MaxSuggestionHeight = 300,
+                SelectableFactory = (character) => new CharacterSelectable(_editCharacterSuggestionBox, character),
+                Items = characterModels,
+                AllowBlankSelection = true,
+                BlankSelectionText = strings.Unassigned,
             };
 
             _editDescBox = new TextBox()
@@ -155,50 +165,76 @@ namespace Kenedia.Modules.Characters.Controls
                 Height = 28,
             };
 
-            _saveButton = new Button()
+            _saveButton = new ButtonImage()
             {
                 Parent = this,
-                Text = strings.Save,
-                Width = SaveButtonWidth,
-                Height = 28,
-                ClickAction = () =>
+                BasicTooltipText = strings.Save,
+                Texture = TexturesService.GetTextureFromRef(textures_common.Save, nameof(textures_common.Save)),
+                HoveredTexture = TexturesService.GetTextureFromRef(textures_common.Save_Hovered, nameof(textures_common.Save_Hovered)),
+                ClickedTexture = TexturesService.GetTextureFromRef(textures_common.Save_Active, nameof(textures_common.Save_Active)),
+                Size = new Point(ButtonSize, ButtonSize),
+                ClickAction = (b) =>
                 {
-                    string newName = _editNameBox.Text?.Trim();
-                    if (string.IsNullOrEmpty(newName)) return;
-
-                    _service.UpdateEntry(_entry, newName, _editDescBox.Text);
+                    _service.UpdateEntry(_entry, _editCharacterSuggestionBox.Selected?.Name, _editDescBox.Text);
                     SetEditMode(false);
                 },
             };
 
-            _cancelButton = new Button()
+            _cancelButton = new ButtonImage()
             {
                 Parent = this,
-                Text = strings.Cancel,
-                Width = CancelButtonWidth,
-                Height = 28,
-                ClickAction = () =>
+                BasicTooltipText = strings.Cancel,
+                Texture = TexturesService.GetTextureFromRef(textures_common.Cancel, nameof(textures_common.Cancel)),
+                HoveredTexture = TexturesService.GetTextureFromRef(textures_common.Cancel_Hovered, nameof(textures_common.Cancel_Hovered)),
+                ClickedTexture = TexturesService.GetTextureFromRef(textures_common.Cancel_Active, nameof(textures_common.Cancel_Active)),
+                Size = new Point(ButtonSize, ButtonSize),
+                ClickAction = (b) =>
                 {
                     SetEditMode(false);
                     RefreshFromEntry();
                 },
             };
 
-            Resized += (_, _) =>
-            {
-                int x = Width - ButtonRightPadding;
-                _removeButton.Location = new Point(x -= ButtonSize, ButtonY);
-                _editButton.Location = new Point(x -= ButtonSpacing + ButtonSize, ButtonY);
-                _switchButton.Location = new Point(x -= ButtonSpacing + ButtonSize, ButtonY);
-
-                int cancelButtonX = Width - CancelButtonWidth - EditButtonsRightPadding;
-                _cancelButton.Location = new Point(cancelButtonX, EditButtonsY);
-                int saveButtonX = Width - CancelButtonWidth - EditButtonsSpacing - SaveButtonWidth - EditButtonsRightPadding;
-                _saveButton.Location = new Point(saveButtonX, EditButtonsY);
-            };
-
             RefreshFromEntry();
             SetEditMode(false);
+        }
+
+        private async void ConfirmRemoveEntry()
+        {
+            string entryName = !string.IsNullOrWhiteSpace(_entry.CharacterName)
+                ? _entry.CharacterName
+                : !string.IsNullOrWhiteSpace(_entry.Description)
+                    ? _entry.Description
+                    : strings.Unassigned;
+
+            var result = await new BaseDialog(
+                strings.DeleteConfirmationTitle,
+                string.Format(strings.ConfirmTaskEntryDelete, entryName))
+            {
+                DesiredWidth = 360,
+                AutoSize = true,
+            }.ShowDialog();
+
+            if (result == DialogResult.OK)
+            {
+                _service.RemoveEntry(_entry);
+            }
+        }
+
+        protected override void OnResized(ResizedEventArgs e)
+        {
+            base.OnResized(e);
+
+            int x = Width - 5;
+            _removeButton?.Location = new Point(x -= ButtonSize, (Height - ButtonSize) / 2);
+            _editButton?.Location = new Point(x -= ButtonSpacing + ButtonSize, (Height - ButtonSize) / 2);
+            _switchButton?.Location = new Point(x -= ButtonSpacing + ButtonSize, (Height - ButtonSize) / 2);
+
+            _saveButton?.Location = _editButton?.Location ?? Point.Zero;
+            _cancelButton?.Location = _removeButton?.Location ?? Point.Zero;
+
+            _descriptionLabel?.Size = new Point(Math.Max(0, (_saveButton?.Right - _descriptionLabel.Left - (ButtonSpacing * 2)) ?? 0), _descriptionLabel?.Height ?? 0);
+            _editDescBox?.Size = _descriptionLabel?.Size ?? new Point(0, 0);
         }
 
         public override void PaintBeforeChildren(SpriteBatch spriteBatch, Rectangle bounds)
@@ -270,7 +306,8 @@ namespace Kenedia.Modules.Characters.Controls
 
             if (_isEditing)
             {
-                _editNameBox.Text = _entry.CharacterName ?? string.Empty;
+                _editCharacterSuggestionBox.Selected = _characterModels.FirstOrDefault(c => c.Name.Equals(_entry.CharacterName, StringComparison.OrdinalIgnoreCase));
+                _editCharacterSuggestionBox.Text = _editCharacterSuggestionBox.Selected?.Name ?? _entry.CharacterName ?? string.Empty;
                 _editDescBox.Text = _entry.Description ?? string.Empty;
             }
 
@@ -281,7 +318,7 @@ namespace Kenedia.Modules.Characters.Controls
             _editButton.Visible = !_isEditing;
             _removeButton.Visible = !_isEditing;
 
-            _editNameBox.Visible = _isEditing;
+            _editCharacterSuggestionBox.Visible = _isEditing;
             _editDescBox.Visible = _isEditing;
             _saveButton.Visible = _isEditing;
             _cancelButton.Visible = _isEditing;
@@ -307,7 +344,8 @@ namespace Kenedia.Modules.Characters.Controls
 
             if (_isEditing)
             {
-                _editNameBox.Text = _entry.CharacterName ?? string.Empty;
+                _editCharacterSuggestionBox.Selected = _characterModels.FirstOrDefault(c => c.Name.Equals(_entry.CharacterName, StringComparison.OrdinalIgnoreCase));
+                _editCharacterSuggestionBox.Text = _editCharacterSuggestionBox.Selected?.Name ?? _entry.CharacterName ?? string.Empty;
                 _editDescBox.Text = _entry.Description ?? string.Empty;
             }
 
