@@ -233,7 +233,7 @@ namespace Kenedia.Modules.Characters.Controls
             _saveButton?.Location = _editButton?.Location ?? Point.Zero;
             _cancelButton?.Location = _removeButton?.Location ?? Point.Zero;
 
-            _descriptionLabel?.Size = new Point(Math.Max(0, (_saveButton?.Right - _descriptionLabel.Left - (ButtonSpacing * 2)) ?? 0), _descriptionLabel?.Height ?? 0);
+            _descriptionLabel?.Size = new Point(Math.Max(0, (_switchButton?.Left - _descriptionLabel.Left - (ButtonSpacing * 2)) ?? 0), _descriptionLabel?.Height ?? 0);
             _editDescBox?.Size = _descriptionLabel?.Size ?? new Point(0, 0);
         }
 
