@@ -8,7 +8,7 @@
     "Terminal": {
       "commandName": "Executable",
       "executablePath": "C:\\Users\\lasse\\OneDrive\\Programmieren\\Blish\\Blish\\Blish HUD.exe",
-      "commandLineArgs": "--debug --process WindowsTerminal --window CASCADIA_HOSTING_WINDOW_CLASS --module \"$(ProjectDir)$(BaseOutputPath)$(Configuration)\\$(TargetFramework)\\$(TargetName).bhm\""
+      "commandLineArgs": "--debug --process WindowsTerminal --window CASCADIA_HOSTING_WINDOW_CLASS --module \"$(ProjectDir)\\$(BaseOutputPath)\\$(Configuration)/$(TargetFramework)\\$(TargetName).bhm\""
     }
   }
 }
