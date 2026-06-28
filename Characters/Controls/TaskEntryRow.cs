@@ -42,6 +42,7 @@ namespace Kenedia.Modules.Characters.Controls
         private readonly Action<TaskEntryRow> _onDragStartRequested;
 
         private readonly Checkbox _completionCheckbox;
+        private readonly Checkbox _enabledCheckbox;
         private readonly Label _nameLabel;
         private readonly Label _descriptionLabel;
         private readonly ImageButton _switchButton;
@@ -83,6 +84,21 @@ namespace Kenedia.Modules.Characters.Controls
                     if (_syncingCompletionCheckbox) return;
 
                     _service.SetEntryCompletion(_entry, completed);
+                },
+            };
+
+            _enabledCheckbox = new Checkbox()
+            {
+                Parent = this,
+                Checked = _entry.Enabled,
+                Location = new Point(HandleWidth, 8),
+                Width = 20,
+                Visible = false,
+                CheckedChangedAction = (enabled) =>
+                {
+                    if (_syncingCompletionCheckbox) return;
+
+                    _service.SetEntryEnabled(_entry, enabled);
                 },
             };
 
@@ -146,7 +162,7 @@ namespace Kenedia.Modules.Characters.Controls
             {
                 Parent = this,
                 PlaceholderText = strings.SearchCharacterName,
-                Location = new Point(30, 2),
+                Location = new Point(labelX - 8, 2),
                 Width = 155,
                 Height = 28,
                 MaxSuggestionHeight = 300,
@@ -160,8 +176,8 @@ namespace Kenedia.Modules.Characters.Controls
             {
                 Parent = this,
                 PlaceholderText = strings.TaskDescriptionPlaceholder,
-                Location = new Point(190, 2),
-                Width = 310,
+                Location = new Point(descX - 8, 2),
+                Width = 310 + 16,
                 Height = 28,
             };
 
@@ -234,7 +250,7 @@ namespace Kenedia.Modules.Characters.Controls
             _cancelButton?.Location = _removeButton?.Location ?? Point.Zero;
 
             _descriptionLabel?.Size = new Point(Math.Max(0, (_switchButton?.Left - _descriptionLabel.Left - (ButtonSpacing * 2)) ?? 0), _descriptionLabel?.Height ?? 0);
-            _editDescBox?.Size = _descriptionLabel?.Size ?? new Point(0, 0);
+            _editDescBox?.Size = new Point((_switchButton?.Right - _editDescBox?.Left) ?? 0, _editDescBox?.Height ?? 0);
         }
 
         public override void PaintBeforeChildren(SpriteBatch spriteBatch, Rectangle bounds)
@@ -318,6 +334,7 @@ namespace Kenedia.Modules.Characters.Controls
             _editButton.Visible = !_isEditing;
             _removeButton.Visible = !_isEditing;
 
+            _enabledCheckbox.Visible = _isEditing;
             _editCharacterSuggestionBox.Visible = _isEditing;
             _editDescBox.Visible = _isEditing;
             _saveButton.Visible = _isEditing;
@@ -336,6 +353,7 @@ namespace Kenedia.Modules.Characters.Controls
         {
             _syncingCompletionCheckbox = true;
             _completionCheckbox.Checked = _entry.Completed;
+            _enabledCheckbox.Checked = _entry.Enabled;
             _syncingCompletionCheckbox = false;
 
             _nameLabel.Text = _entry.CharacterName ?? string.Empty;
@@ -381,6 +399,7 @@ namespace Kenedia.Modules.Characters.Controls
             if (e.PropertyName == nameof(TaskEntry.CharacterName)
                 || e.PropertyName == nameof(TaskEntry.Description)
                 || e.PropertyName == nameof(TaskEntry.Completed)
+                || e.PropertyName == nameof(TaskEntry.Enabled)
                 || e.PropertyName == nameof(TaskEntry.Order)
                 || string.IsNullOrEmpty(e.PropertyName))
             {

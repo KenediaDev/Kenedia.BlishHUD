@@ -1,14 +1,14 @@
 {
-    "profiles":  {
-                     "Live Client":  {
-                                         "commandName":  "Executable",
-                                         "executablePath":  "C:\\Users\\lasse\\OneDrive\\Programmieren\\Blish\\Blish\\Blish HUD.exe",
-                                         "commandLineArgs":  "--debug --module \"$(ProjectDir)\\$(BaseOutputPath)\\$(Configuration)/$(TargetFramework)\\$(TargetName).bhm\""
-                                     },
-                     "Terminal":  {
-                                      "commandName":  "Executable",
-                                      "executablePath":  "C:\\Users\\lasse\\OneDrive\\Programmieren\\Blish\\Blish\\Blish HUD.exe",
-                                      "commandLineArgs":  "--debug --process WindowsTerminal --window CASCADIA_HOSTING_WINDOW_CLASS --module \"$(ProjectDir)\\$(BaseOutputPath)\\$(Configuration)/$(TargetFramework)\\$(TargetName).bhm\""
-                                  }
-                 }
+  "profiles": {
+    "Live Client": {
+      "commandName": "Executable",
+      "executablePath": "C:\\Users\\lasse\\OneDrive\\Programmieren\\Blish\\Blish\\Blish HUD.exe",
+      "commandLineArgs": "--debug --module \"$(ProjectDir)\\$(BaseOutputPath)\\$(Configuration)/$(TargetFramework)\\$(TargetName).bhm\""
+    },
+    "Terminal": {
+      "commandName": "Executable",
+      "executablePath": "C:\\Users\\lasse\\OneDrive\\Programmieren\\Blish\\Blish\\Blish HUD.exe",
+      "commandLineArgs": "--debug --process WindowsTerminal --window CASCADIA_HOSTING_WINDOW_CLASS --module \"$(ProjectDir)$(BaseOutputPath)$(Configuration)\\$(TargetFramework)\\$(TargetName).bhm\""
+    }
+  }
 }

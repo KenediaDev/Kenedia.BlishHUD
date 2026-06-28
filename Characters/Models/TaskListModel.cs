@@ -18,26 +18,21 @@ namespace Kenedia.Modules.Characters.Models
 
     public class TaskListModel : INotifyPropertyChanged
     {
-        private Guid _id = Guid.NewGuid();
-        private string _name;
         private ObservableCollection<TaskEntry> _entries = [];
-        private DateTimeOffset _created = DateTimeOffset.UtcNow;
-        private ResetFrequency _resetFrequency = ResetFrequency.None;
-        private DateTimeOffset? _lastReset;
 
         [JsonProperty("id")]
         public Guid Id
         {
-            get => _id;
-            set => SetField(ref _id, value);
-        }
+            get;
+            set => SetField(ref field, value);
+        } = Guid.NewGuid();
 
         [JsonProperty("name")]
         public string Name
         {
-            get => _name;
-            set => SetField(ref _name, value);
-        }
+            get;
+            set => SetField(ref field, value);
+        } = string.Empty;
 
         [JsonProperty("entries")]
         public ObservableCollection<TaskEntry> Entries
@@ -49,26 +44,26 @@ namespace Kenedia.Modules.Characters.Models
         [JsonProperty("created")]
         public DateTimeOffset Created
         {
-            get => _created;
-            set => SetField(ref _created, value);
-        }
+            get;
+            set => SetField(ref field, value);
+        } = DateTimeOffset.UtcNow;
 
         [JsonProperty("resetFrequency")]
         [JsonConverter(typeof(StringEnumConverter))]
         public ResetFrequency ResetFrequency
         {
-            get => _resetFrequency;
-            set => SetField(ref _resetFrequency, value);
-        }
+            get;
+            set => SetField(ref field, value);
+        } = ResetFrequency.None;
 
         [JsonProperty("lastReset")]
         public DateTimeOffset? LastReset
         {
-            get => _lastReset;
-            set => SetField(ref _lastReset, value);
+            get;
+            set => SetField(ref field, value);
         }
 
-        public event PropertyChangedEventHandler PropertyChanged;
+        public event PropertyChangedEventHandler? PropertyChanged;
 
         public TaskListModel()
         {

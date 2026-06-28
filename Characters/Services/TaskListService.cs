@@ -258,7 +258,11 @@ namespace Kenedia.Modules.Characters.Services
         {
             var list = SelectedList;
             var trackedEntry = _trackedEntryPendingCompletion;
-            return trackedEntry is null || list is null ? null : !list.Entries.Contains(trackedEntry) ? null : trackedEntry;
+            return trackedEntry is null || list is null
+                ? null
+                : !list.Entries.Contains(trackedEntry) || !trackedEntry.Enabled || trackedEntry.Completed
+                    ? null
+                    : trackedEntry;
         }
 
         public void RequestSwitchToCharacter(string characterName)
@@ -292,9 +296,7 @@ namespace Kenedia.Modules.Characters.Services
                 State.EntrySwitchStatus.Value = TaskEntrySwitchStatus.None;
             }
 
-            var nextEntry = SelectedList.Entries
-                .OrderBy(e => e.Order)
-                .FirstOrDefault(e => !e.Completed);
+            var nextEntry = GetNextIncompleteEntry(SelectedList);
 
             if (nextEntry is not null)
             {
@@ -414,6 +416,48 @@ namespace Kenedia.Modules.Characters.Services
                 && character is not null
                 && !string.IsNullOrWhiteSpace(entry.CharacterName)
                 && entry.CharacterName.Equals(character.Name, StringComparison.OrdinalIgnoreCase);
+        }
+
+        public void SetEntryEnabled(TaskEntry entry, bool enabled)
+        {
+            if (entry is null) return;
+            if (entry.Enabled == enabled) return;
+
+            var list = FindListByEntry(entry);
+            if (list is null) return;
+
+            entry.Enabled = enabled;
+
+            bool trackedEntryChanged = false;
+            if (ReferenceEquals(_trackedEntryPendingCompletion, entry) && !enabled)
+            {
+                _trackedEntryPendingCompletion = null;
+                _trackedEntrySwitchSucceeded = false;
+                State.EntrySwitchStatus.Value = TaskEntrySwitchStatus.None;
+                trackedEntryChanged = true;
+            }
+
+            if (ReferenceEquals(list, SelectedList))
+            {
+                var trackedEntry = GetTrackedEntryForSelectedList();
+                if (!ReferenceEquals(State.TrackedEntry.Value, trackedEntry))
+                {
+                    State.TrackedEntry.Value = trackedEntry;
+                }
+                else if (trackedEntryChanged)
+                {
+                    State.TrackedEntry.Value = null;
+                }
+            }
+
+            _requestSave?.Invoke();
+        }
+
+        public TaskEntry GetNextIncompleteEntry(TaskListModel taskList)
+        {
+            return taskList?.Entries
+                .OrderBy(e => e.Order)
+                .FirstOrDefault(e => e.Enabled && !e.Completed);
         }
     }
 }

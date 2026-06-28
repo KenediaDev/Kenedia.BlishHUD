@@ -194,6 +194,7 @@ namespace Kenedia.Modules.Characters
             };
 
             GlobalAccountsPath = Paths.ModulePath + @"\accounts.json";
+            TextureManager = new TextureManager();
 
             Settings.LoadAccountSettings(Paths.AccountName);
             Settings.ShortcutKey.Value.Enabled = true;
@@ -246,7 +247,6 @@ namespace Kenedia.Modules.Characters
             CharacterSwapping.CharacterSorting = CharacterSorting;
             CharacterSorting.CharacterSwapping = CharacterSwapping;
 
-            TextureManager = new TextureManager();
 
             Data.Loaded += Data_Loaded;
             await Data.Load();
@@ -384,6 +384,7 @@ namespace Kenedia.Modules.Characters
                 Size = new((int)(GameService.Graphics.SpriteScreen.Width * 0.6F), (int)(GameService.Graphics.SpriteScreen.Height * 0.6F))
             };
 
+            TextureManager ??= new TextureManager();
             PotraitCapture = new PotraitCapture(CoreServices.ClientWindowService, CoreServices.SharedSettings, TextureManager)
             {
                 Parent = GameService.Graphics.SpriteScreen,

@@ -11,6 +11,7 @@ using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
 using static Blish_HUD.ContentService;
@@ -217,8 +218,18 @@ namespace Kenedia.Modules.Characters.Controls
         public void BindSelectedList(TaskListModel selectedList)
         {
             CancelDrag();
+            if (_boundList is not null)
+            {
+                _boundList.PropertyChanged -= BoundList_PropertyChanged;
+            }
+
             _boundList = selectedList;
             _overrideHideCompletedTasks = false;
+
+            if (_boundList is not null)
+            {
+                _boundList.PropertyChanged += BoundList_PropertyChanged;
+            }
 
             SyncRowsWithBoundList();
             RefreshHeader();
@@ -266,6 +277,10 @@ namespace Kenedia.Modules.Characters.Controls
         protected override void DisposeControl()
         {
             CancelDrag();
+            if (_boundList is not null)
+            {
+                _boundList.PropertyChanged -= BoundList_PropertyChanged;
+            }
             _service.State.SelectedList.Changed -= SelectedList_Changed;
             _service.State.TrackedEntry.Changed -= TrackedEntry_Changed;
             _service.State.EntrySwitchStatus.Changed -= EntrySwitchStatus_Changed;
@@ -494,7 +509,7 @@ namespace Kenedia.Modules.Characters.Controls
             _syncingHeaderCheckbox = false;
 
             TaskEntry pendingCompletionEntry = _service.GetTrackedEntryForSelectedList();
-            int incompleteCount = totalCount - completedCount;
+            int incompleteCount = _boundList.Entries.Count(e => e.Enabled && !e.Completed);
             bool hasIncompleteEntries = incompleteCount > 0;
             UpdateNextButton(pendingCompletionEntry, incompleteCount, hasIncompleteEntries);
 
@@ -686,6 +701,15 @@ namespace Kenedia.Modules.Characters.Controls
             if (_boundList is null || !ReferenceEquals(_boundList, _service.SelectedList)) return;
 
             RefreshHeader();
+        }
+
+        private void BoundList_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            if (_boundList is null || !ReferenceEquals(sender, _boundList)) return;
+
+            SyncRowsWithBoundList();
+            RefreshHeader();
+            RefreshRowsLayout();
         }
 
         private void UpdateStatusLabel(TaskEntry pendingCompletionEntry)

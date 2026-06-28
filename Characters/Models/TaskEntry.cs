@@ -7,40 +7,42 @@ namespace Kenedia.Modules.Characters.Models
 {
     public class TaskEntry : INotifyPropertyChanged
     {
-        private string _characterName;
-        private string _description;
-        private bool _completed;
-        private int _order;
-
         [JsonProperty("characterName")]
         public string CharacterName
         {
-            get => _characterName;
-            set => SetField(ref _characterName, value);
-        }
+            get;
+            set => SetField(ref field, value);
+        } = string.Empty;
 
         [JsonProperty("description")]
         public string Description
         {
-            get => _description;
-            set => SetField(ref _description, value);
-        }
+            get;
+            set => SetField(ref field, value);
+        } = string.Empty;
 
         [JsonProperty("completed")]
         public bool Completed
         {
-            get => _completed;
-            set => SetField(ref _completed, value);
-        }
+            get;
+            set => SetField(ref field, value);
+        } = false;
+
+        [JsonProperty("enabled")]
+        public bool Enabled
+        {
+            get;
+            set => SetField(ref field, value);
+        } = true;
 
         [JsonProperty("order")]
         public int Order
         {
-            get => _order;
-            set => SetField(ref _order, value);
-        }
+            get;
+            set => SetField(ref field, value);
+        } = 0;
 
-        public event PropertyChangedEventHandler PropertyChanged;
+        public event PropertyChangedEventHandler? PropertyChanged;
 
         public TaskEntry()
         {
