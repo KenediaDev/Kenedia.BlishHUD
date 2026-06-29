@@ -16,39 +16,34 @@ namespace Kenedia.Modules.Characters.Models
         Weekly,
     }
 
-    public class TaskListModel : INotifyPropertyChanged
+    public class CharacterRoutineModel : INotifyPropertyChanged
     {
-        private ObservableCollection<TaskEntry> _entries = [];
+        private ObservableCollection<CharacterRoutineEntry> _entries = [];
 
-        [JsonProperty("id")]
         public Guid Id
         {
             get;
             set => SetField(ref field, value);
         } = Guid.NewGuid();
 
-        [JsonProperty("name")]
         public string Name
         {
             get;
             set => SetField(ref field, value);
         } = string.Empty;
 
-        [JsonProperty("entries")]
-        public ObservableCollection<TaskEntry> Entries
+        public ObservableCollection<CharacterRoutineEntry> RoutineEntries
         {
             get => _entries;
-            set => SetEntries(value ?? []);
+            set => SetRoutineEntries(value ?? []);
         }
 
-        [JsonProperty("created")]
         public DateTimeOffset Created
         {
             get;
             set => SetField(ref field, value);
         } = DateTimeOffset.UtcNow;
 
-        [JsonProperty("resetFrequency")]
         [JsonConverter(typeof(StringEnumConverter))]
         public ResetFrequency ResetFrequency
         {
@@ -56,7 +51,6 @@ namespace Kenedia.Modules.Characters.Models
             set => SetField(ref field, value);
         } = ResetFrequency.None;
 
-        [JsonProperty("lastReset")]
         public DateTimeOffset? LastReset
         {
             get;
@@ -65,41 +59,30 @@ namespace Kenedia.Modules.Characters.Models
 
         public event PropertyChangedEventHandler? PropertyChanged;
 
-        public TaskListModel()
+        public CharacterRoutineModel()
         {
-            HookEntries(_entries);
+            HookRoutineEntries(_entries);
         }
 
-        public TaskListModel(string name)
+        public CharacterRoutineModel(string name)
             : this()
         {
             Name = name;
         }
 
-        public void AddEntry(string characterName, string description)
+        public void AddRoutineEntry(string characterName, string description)
         {
-            int nextOrder = Entries.Count > 0 ? Entries.Max(e => e.Order) + 1 : 0;
-            Entries.Add(new TaskEntry(characterName, description, nextOrder));
+            RoutineEntries.Add(new CharacterRoutineEntry(characterName, description));
         }
 
-        public void RemoveEntry(TaskEntry entry)
+        public void RemoveRoutineEntry(CharacterRoutineEntry entry)
         {
-            Entries.Remove(entry);
-            ReorderEntries();
-        }
-
-        public void ReorderEntries()
-        {
-            int order = 0;
-            foreach (var entry in Entries.OrderBy(e => e.Order))
-            {
-                entry.Order = order++;
-            }
+            RoutineEntries.Remove(entry);
         }
 
         public void ResetCompletion()
         {
-            foreach (var entry in Entries)
+            foreach (var entry in RoutineEntries)
             {
                 entry.Completed = false;
             }
@@ -163,43 +146,43 @@ namespace Kenedia.Modules.Characters.Models
             }
         }
 
-        private void SetEntries(ObservableCollection<TaskEntry> entries)
+        private void SetRoutineEntries(ObservableCollection<CharacterRoutineEntry> entries)
         {
             if (ReferenceEquals(_entries, entries)) return;
 
-            UnhookEntries(_entries);
+            UnhookRoutineEntries(_entries);
             _entries = entries;
-            HookEntries(_entries);
-            OnPropertyChanged(nameof(Entries));
+            HookRoutineEntries(_entries);
+            OnPropertyChanged(nameof(RoutineEntries));
         }
 
-        private void HookEntries(ObservableCollection<TaskEntry> entries)
+        private void HookRoutineEntries(ObservableCollection<CharacterRoutineEntry> entries)
         {
             if (entries is null) return;
 
-            entries.CollectionChanged += Entries_CollectionChanged;
+            entries.CollectionChanged += RoutineEntries_CollectionChanged;
             foreach (var entry in entries)
             {
                 HookEntry(entry);
             }
         }
 
-        private void UnhookEntries(ObservableCollection<TaskEntry> entries)
+        private void UnhookRoutineEntries(ObservableCollection<CharacterRoutineEntry> entries)
         {
             if (entries is null) return;
 
-            entries.CollectionChanged -= Entries_CollectionChanged;
+            entries.CollectionChanged -= RoutineEntries_CollectionChanged;
             foreach (var entry in entries)
             {
                 UnhookEntry(entry);
             }
         }
 
-        private void Entries_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        private void RoutineEntries_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
             if (e.OldItems is not null)
             {
-                foreach (TaskEntry entry in e.OldItems)
+                foreach (CharacterRoutineEntry entry in e.OldItems)
                 {
                     UnhookEntry(entry);
                 }
@@ -207,22 +190,22 @@ namespace Kenedia.Modules.Characters.Models
 
             if (e.NewItems is not null)
             {
-                foreach (TaskEntry entry in e.NewItems)
+                foreach (CharacterRoutineEntry entry in e.NewItems)
                 {
                     HookEntry(entry);
                 }
             }
 
-            OnPropertyChanged(nameof(Entries));
+            OnPropertyChanged(nameof(RoutineEntries));
         }
 
-        private void HookEntry(TaskEntry entry)
+        private void HookEntry(CharacterRoutineEntry entry)
         {
             if (entry is null) return;
             entry.PropertyChanged += Entry_PropertyChanged;
         }
 
-        private void UnhookEntry(TaskEntry entry)
+        private void UnhookEntry(CharacterRoutineEntry entry)
         {
             if (entry is null) return;
             entry.PropertyChanged -= Entry_PropertyChanged;
@@ -230,7 +213,7 @@ namespace Kenedia.Modules.Characters.Models
 
         private void Entry_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            OnPropertyChanged(nameof(Entries));
+            OnPropertyChanged(nameof(RoutineEntries));
         }
 
         private bool SetField<T>(ref T field, T value, [CallerMemberName] string propertyName = null)

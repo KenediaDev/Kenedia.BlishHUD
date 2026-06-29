@@ -23,7 +23,7 @@ using TextBox = Blish_HUD.Controls.TextBox;
 
 namespace Kenedia.Modules.Characters.Controls
 {
-    public class TaskEntryRow : Panel
+    public class CharacterRoutineEntryRow : Panel
     {
         private const int HandleWidth = 14;
         private const int ButtonSize = 24;
@@ -36,10 +36,10 @@ namespace Kenedia.Modules.Characters.Controls
         private static readonly Color BackgroundEditing = new Color(50, 50, 70, 180);
         private static readonly Color BackgroundTracked = new Color(80, 70, 30, 170);
 
-        private readonly TaskListService _service;
+        private readonly CharacterRoutineService _service;
         private ObservableCollection<Character_Model> _characterModels;
-        private readonly TaskEntry _entry;
-        private readonly Action<TaskEntryRow> _onDragStartRequested;
+        private readonly CharacterRoutineEntry _entry;
+        private readonly Action<CharacterRoutineEntryRow> _onDragStartRequested;
 
         private readonly Checkbox _completionCheckbox;
         private readonly Checkbox _enabledCheckbox;
@@ -58,11 +58,11 @@ namespace Kenedia.Modules.Characters.Controls
         private bool _handleHovered;
         private bool _syncingCompletionCheckbox;
 
-        public TaskEntry Entry => _entry;
+        public CharacterRoutineEntry Entry => _entry;
 
         public bool IsDragging { get; set; }
 
-        public TaskEntryRow(TaskListService service, ObservableCollection<Character_Model> characterModels, TaskEntry entry, Action<TaskEntryRow> onDragStartRequested)
+        public CharacterRoutineEntryRow(CharacterRoutineService service, ObservableCollection<Character_Model> characterModels, CharacterRoutineEntry entry, Action<CharacterRoutineEntryRow> onDragStartRequested)
         {
             _service = service;
             _characterModels = characterModels;
@@ -83,7 +83,7 @@ namespace Kenedia.Modules.Characters.Controls
                 {
                     if (_syncingCompletionCheckbox) return;
 
-                    _service.SetEntryCompletion(_entry, completed);
+                    _service.SetRoutineEntryCompletion(_entry, completed);
                 },
             };
 
@@ -98,7 +98,7 @@ namespace Kenedia.Modules.Characters.Controls
                 {
                     if (_syncingCompletionCheckbox) return;
 
-                    _service.SetEntryEnabled(_entry, enabled);
+                    _service.SetRoutineEntryEnabled(_entry, enabled);
                 },
             };
 
@@ -154,8 +154,8 @@ namespace Kenedia.Modules.Characters.Controls
                 HoveredTexture = AsyncTexture2D.FromAssetId(2175782),
                 ClickedTexture = AsyncTexture2D.FromAssetId(2175784),
                 Size = new Point(ButtonSize, ButtonSize),
-                BasicTooltipText = strings.RemoveEntry,
-                ClickAction = (_) => ConfirmRemoveEntry(),
+                BasicTooltipText = strings.RemoveRoutineEntry,
+                ClickAction = (_) => ConfirmRemoveRoutineEntry(),
             };
 
             _editCharacterSuggestionBox = new AutoSuggestComboBox<Character_Model>()
@@ -175,7 +175,7 @@ namespace Kenedia.Modules.Characters.Controls
             _editDescBox = new TextBox()
             {
                 Parent = this,
-                PlaceholderText = strings.TaskDescriptionPlaceholder,
+                PlaceholderText = strings.RoutineEntryDescriptionPlaceholder,
                 Location = new Point(descX - 8, 2),
                 Width = 310 + 16,
                 Height = 28,
@@ -191,7 +191,7 @@ namespace Kenedia.Modules.Characters.Controls
                 Size = new Point(ButtonSize, ButtonSize),
                 ClickAction = (b) =>
                 {
-                    _service.UpdateEntry(_entry, _editCharacterSuggestionBox.Selected?.Name, _editDescBox.Text);
+                    _service.UpdateRoutineEntry(_entry, _editCharacterSuggestionBox.Selected?.Name, _editDescBox.Text);
                     SetEditMode(false);
                 },
             };
@@ -215,7 +215,7 @@ namespace Kenedia.Modules.Characters.Controls
             SetEditMode(false);
         }
 
-        private async void ConfirmRemoveEntry()
+        private async void ConfirmRemoveRoutineEntry()
         {
             string entryName = !string.IsNullOrWhiteSpace(_entry.CharacterName)
                 ? _entry.CharacterName
@@ -225,7 +225,7 @@ namespace Kenedia.Modules.Characters.Controls
 
             var result = await new BaseDialog(
                 strings.DeleteConfirmationTitle,
-                string.Format(strings.ConfirmTaskEntryDelete, entryName))
+                string.Format(strings.ConfirmCharacterRoutineEntryDelete, entryName))
             {
                 DesiredWidth = 360,
                 AutoSize = true,
@@ -233,7 +233,7 @@ namespace Kenedia.Modules.Characters.Controls
 
             if (result == DialogResult.OK)
             {
-                _service.RemoveEntry(_entry);
+                _service.RemoveRoutineEntry(_entry);
             }
         }
 
@@ -372,7 +372,7 @@ namespace Kenedia.Modules.Characters.Controls
 
         private Color ResolveBackgroundColor()
         {
-            bool isTracked = !_isEditing && !_entry.Completed && _service.GetTrackedEntryForSelectedList() == _entry;
+            bool isTracked = !_isEditing && !_entry.Completed && _service.GetTrackedEntryForSelectedRoutine() == _entry;
 
             var backgroundColor =
                   _isEditing ? BackgroundEditing
@@ -396,18 +396,17 @@ namespace Kenedia.Modules.Characters.Controls
 
         private void Entry_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            if (e.PropertyName == nameof(TaskEntry.CharacterName)
-                || e.PropertyName == nameof(TaskEntry.Description)
-                || e.PropertyName == nameof(TaskEntry.Completed)
-                || e.PropertyName == nameof(TaskEntry.Enabled)
-                || e.PropertyName == nameof(TaskEntry.Order)
+            if (e.PropertyName == nameof(CharacterRoutineEntry.CharacterName)
+                || e.PropertyName == nameof(CharacterRoutineEntry.Description)
+                || e.PropertyName == nameof(CharacterRoutineEntry.Completed)
+                || e.PropertyName == nameof(CharacterRoutineEntry.Enabled)
                 || string.IsNullOrEmpty(e.PropertyName))
             {
                 RefreshFromEntry();
             }
         }
 
-        private void TrackedEntry_Changed(object sender, StateVarChangedEventArgs<TaskEntry> e)
+        private void TrackedEntry_Changed(object sender, StateVarChangedEventArgs<CharacterRoutineEntry> e)
         {
             if (ReferenceEquals(e.NewValue, _entry) || ReferenceEquals(e.OldValue, _entry))
             {

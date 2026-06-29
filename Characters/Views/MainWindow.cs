@@ -43,7 +43,7 @@ namespace Kenedia.Modules.Characters.Views
         private readonly ImageButton _toggleSideMenuButton;
         private readonly CollapseContainer _collapseWrapper;
         private readonly ImageButton _displaySettingsButton;
-        private readonly ImageButton _taskListsButton;
+        private readonly ImageButton _characterRoutinesButton;
         private readonly ImageButton _randomButton;
         private readonly ImageButton _lastButton;
         private readonly ImageButton _clearButton;
@@ -213,15 +213,15 @@ namespace Kenedia.Modules.Characters.Views
                 ClickAction = (m) => SettingsWindow?.ToggleWindow(),
             };
 
-            _taskListsButton = new()
+            _characterRoutinesButton = new()
             {
                 Parent = _buttonPanel,
-                Texture = textureManager.GetIcon(TextureManager.Icons.TaskList),
-                HoveredTexture = textureManager.GetIcon(TextureManager.Icons.TaskList_Hovered),
-                ClickedTexture= textureManager.GetIcon(TextureManager.Icons.TaskList_Active),
+                Texture = textureManager.GetIcon(TextureManager.Icons.CharacterRoutine),
+                HoveredTexture = textureManager.GetIcon(TextureManager.Icons.CharacterRoutine_Hovered),
+                ClickedTexture= textureManager.GetIcon(TextureManager.Icons.CharacterRoutine_Active),
                 Size = new Point(25, 25),
-                SetLocalizedTooltip = () => strings.TaskLists,
-                ClickAction = (m) => TaskListWindow?.ToggleWindow(),
+                SetLocalizedTooltip = () => strings.CharacterRoutines,
+                ClickAction = (m) => CharacterRoutineWindow?.ToggleWindow(),
             };
 
             _toggleSideMenuButton = new()
@@ -318,7 +318,7 @@ namespace Kenedia.Modules.Characters.Views
 
         public SettingsWindow SettingsWindow { get; set; }
 
-        public TaskListWindow TaskListWindow { get; set; }
+        public CharacterRoutineWindow CharacterRoutineWindow { get; set; }
 
         public SideMenu SideMenu { get; }
 
@@ -692,7 +692,7 @@ namespace Kenedia.Modules.Characters.Views
 
             _dropdownPanel?.Dispose();
             _displaySettingsButton?.Dispose();
-            _taskListsButton?.Dispose();
+            _characterRoutinesButton?.Dispose();
             _filterBox?.Dispose();
             SideMenu?.Dispose();
         }
@@ -743,7 +743,7 @@ namespace Kenedia.Modules.Characters.Views
 
             if (matchingCharacter is null)
             {
-                Characters.Logger.Debug($"No character found for task list switch request '{searchText}'.");
+                Characters.Logger.Debug($"No character found for character routine switch request '{searchText}'.");
                 if (!Visible)
                 {
                     Show();

@@ -23,41 +23,41 @@ using Panel = Kenedia.Modules.Core.Controls.Panel;
 
 namespace Kenedia.Modules.Characters.Controls
 {
-    public class TaskEntriesPanel : FlowPanel
+    public class CharacterRoutineEntriesPanel : FlowPanel
     {
         private const int SCROLLBARRESERVEDWIDTH = 12;
         private const int INSERTIONLINELEFTPADDING = 5;
         private const int INSERTIONLINEVERTICALOFFSET = 1;
         private const int ENTRYROWSPACING = 3;
 
-        private readonly TaskListService _service;
+        private readonly CharacterRoutineService _service;
         private readonly Settings _settings;
         private readonly ObservableCollection<Character_Model> _characterModels;
         private readonly Panel _insertionLine;
-        private readonly Dictionary<TaskEntry, TaskEntryRow> _entryRows = [];
+        private readonly Dictionary<CharacterRoutineEntry, CharacterRoutineEntryRow> _entryRows = [];
 
-        private TaskListModel _boundList;
+        private CharacterRoutineModel _boundList;
         private Panel _headerPanel;
         private Panel _entriesContainer;
-        private Checkbox _allEntriesCheckbox;
+        private Checkbox _allRoutineEntriesCheckbox;
         private Label _entriesLabel;
         private Button _nextButton;
         private Label _statusLabel;
         private Button _hideButton;
         private Separator _separator;
-        private FlowPanel _newTaskRow;
+        private FlowPanel _newRoutineEntryRow;
         private AutoSuggestComboBox<Character_Model> _characterSuggestionBox;
-        private TaskEntryRow _draggedRow;
+        private CharacterRoutineEntryRow _draggedRow;
         private bool _isDragging;
         private bool _dragActivated;
         private bool _overrideDisplayBehaviorForDrag;
-        private bool _overrideHideCompletedTasks;
+        private bool _overrideHideCompletedRoutineEntries;
         private int _pendingTargetOrder = -1;
         private bool _syncingHeaderCheckbox;
-        private Blish_HUD.Controls.TextBox _taskDescBox;
-        private ImageButton _addTaskButton;
+        private Blish_HUD.Controls.TextBox _routineEntryDescriptionBox;
+        private ImageButton _addRoutineEntryButton;
 
-        public TaskEntriesPanel(TaskListService service, Settings settings, ObservableCollection<Character_Model> character_Models)
+        public CharacterRoutineEntriesPanel(CharacterRoutineService service, Settings settings, ObservableCollection<Character_Model> character_Models)
         {
             _service = service;
             _settings = settings;
@@ -67,8 +67,8 @@ namespace Kenedia.Modules.Characters.Controls
             FlowDirection = ControlFlowDirection.SingleTopToBottom;
             ControlPadding = new Vector2(0, 5);
 
-            _settings.CompletedTasksBehavior.SettingChanged += CompletedTasksBehavior_SettingChanged;
-            _service.State.SelectedList.Changed += SelectedList_Changed;
+            _settings.CompletedRoutineEntriesBehavior.SettingChanged += CompletedRoutineEntriesBehavior_SettingChanged;
+            _service.State.SelectedRoutine.Changed += SelectedRoutine_Changed;
             _service.State.TrackedEntry.Changed += TrackedEntry_Changed;
             _service.State.EntrySwitchStatus.Changed += EntrySwitchStatus_Changed;
 
@@ -91,7 +91,7 @@ namespace Kenedia.Modules.Characters.Controls
             };
             _headerPanel.Resized += HeaderPanel_Resized;
 
-            _allEntriesCheckbox = new Checkbox()
+            _allRoutineEntriesCheckbox = new Checkbox()
             {
                 Parent = _headerPanel,
                 Location = new(10, 0),
@@ -101,7 +101,7 @@ namespace Kenedia.Modules.Characters.Controls
                 {
                     if (_syncingHeaderCheckbox) return;
 
-                    _service.SetAllEntriesCompletion(isChecked);
+                    _service.SetAllRoutineEntriesCompletion(isChecked);
                 },
             };
 
@@ -112,17 +112,17 @@ namespace Kenedia.Modules.Characters.Controls
                 Width = 90,
                 Height = 28,
                 Location = new Point(500, 0),
-                ClickAction = () => _service.SwitchToNextIncompleteEntry(),
+                ClickAction = () => _service.SwitchToNextIncompleteRoutineEntry(),
             };
 
             _entriesLabel = new Label()
             {
                 Parent = _headerPanel,
-                Text = strings.Tasks,
+                Text = strings.RoutineEntries,
                 Font = Content.DefaultFont16,
                 AutoSizeWidth = false,
                 Height = 28,
-                Width = _headerPanel.ContentRegion.Right - _allEntriesCheckbox.Right - 10 - _nextButton.Width,
+                Width = _headerPanel.ContentRegion.Right - _allRoutineEntriesCheckbox.Right - 10 - _nextButton.Width,
                 Location = new Point(50, 0),
                 VerticalAlignment = VerticalAlignment.Middle,
             };
@@ -140,8 +140,8 @@ namespace Kenedia.Modules.Characters.Controls
                 Parent = _headerPanel,
                 Width = 165,
                 Height = 28,
-                BasicTooltipText = strings.CompletedTasksHiddenTooltip,
-                ClickAction = () => ToggleOverrideHideCompletedTasks(),
+                BasicTooltipText = strings.CompletedRoutineEntriesHiddenTooltip,
+                ClickAction = () => ToggleOverrideHideCompletedRoutineEntries(),
             };
 
             _separator = new Separator()
@@ -151,7 +151,7 @@ namespace Kenedia.Modules.Characters.Controls
                 Color = Color.LightGray * 0.5f,
             };
 
-            _newTaskRow = new FlowPanel()
+            _newRoutineEntryRow = new FlowPanel()
             {
                 Parent = this,
                 WidthSizingMode = SizingMode.Fill,
@@ -160,24 +160,24 @@ namespace Kenedia.Modules.Characters.Controls
                 ControlPadding = new Vector2(5, 0),
             };
 
-            _addTaskButton = new ImageButton()
+            _addRoutineEntryButton = new ImageButton()
             {
-                Parent = _newTaskRow,
+                Parent = _newRoutineEntryRow,
                 Texture = AsyncTexture2D.FromAssetId(155902),
                 DisabledTexture = AsyncTexture2D.FromAssetId(155903),
                 HoveredTexture = AsyncTexture2D.FromAssetId(155904),
                 Size = new Point(30, 30),
-                BasicTooltipText = strings.AddTask,
+                BasicTooltipText = strings.AddRoutineEntry,
                 Enabled = true,
                 ClickAction = (_) =>
                 {
-                    _service.AddEntry(_characterSuggestionBox.Selected?.Name, _taskDescBox.Text);
+                    _service.AddRoutineEntry(_characterSuggestionBox.Selected?.Name, _routineEntryDescriptionBox.Text);
                 }
             };
 
             _characterSuggestionBox = new AutoSuggestComboBox<Character_Model>()
             {
-                Parent = _newTaskRow,
+                Parent = _newRoutineEntryRow,
                 PlaceholderText = strings.SearchCharacterName,
                 Width = 160,
                 Height = 30,
@@ -190,10 +190,10 @@ namespace Kenedia.Modules.Characters.Controls
             };
             _characterSuggestionBox.SelectedItemChanged += CharacterSuggestionBox_SelectedItemChanged;
 
-            _taskDescBox = new Blish_HUD.Controls.TextBox()
+            _routineEntryDescriptionBox = new Blish_HUD.Controls.TextBox()
             {
-                Parent = _newTaskRow,
-                PlaceholderText = strings.TaskDescriptionPlaceholder,
+                Parent = _newRoutineEntryRow,
+                PlaceholderText = strings.RoutineEntryDescriptionPlaceholder,
                 Width = 515,
                 Height = 30,
             };
@@ -207,15 +207,15 @@ namespace Kenedia.Modules.Characters.Controls
             };
 
             _entriesContainer.Resized += (_, _) => RefreshRowsLayout();
-            BindSelectedList(_service.SelectedList);
+            BindSelectedRoutine(_service.SelectedRoutine);
         }
 
-        private void TaskEntriesPanel_Shown(object sender, EventArgs e)
+        private void CharacterRoutineEntriesPanel_Shown(object sender, EventArgs e)
         {
             OnResized(null);
         }
 
-        public void BindSelectedList(TaskListModel selectedList)
+        public void BindSelectedRoutine(CharacterRoutineModel selectedList)
         {
             CancelDrag();
             if (_boundList is not null)
@@ -224,7 +224,7 @@ namespace Kenedia.Modules.Characters.Controls
             }
 
             _boundList = selectedList;
-            _overrideHideCompletedTasks = false;
+            _overrideHideCompletedRoutineEntries = false;
 
             if (_boundList is not null)
             {
@@ -251,13 +251,13 @@ namespace Kenedia.Modules.Characters.Controls
         private void UpdateLayout()
         {
             _separator?.SetSize(Width, _separator.Height);
-            _taskDescBox?.SetSize(_taskDescBox?.Parent?.ContentRegion.Right - (_characterSuggestionBox?.Right ?? 0) - 15);
+            _routineEntryDescriptionBox?.SetSize(_routineEntryDescriptionBox?.Parent?.ContentRegion.Right - (_characterSuggestionBox?.Right ?? 0) - 15);
             _characterSuggestionBox?.MaxSuggestionHeight = Height - 20;
 
             _nextButton?.SetLocation(new Point(_headerPanel?.Width - _nextButton.Width ?? 0, _nextButton.Location.Y));
             _entriesLabel?.SetLocation(new Point(_characterSuggestionBox?.Left ?? 0, _entriesLabel.Location.Y));
-            _statusLabel?.SetLocation(new Point(_taskDescBox?.Left ?? 0, _statusLabel.Location.Y));
-            _statusLabel?.SetSize(_taskDescBox?.Width - 5 - (_nextButton?.Width ?? 0), _entriesLabel.Height);
+            _statusLabel?.SetLocation(new Point(_routineEntryDescriptionBox?.Left ?? 0, _statusLabel.Location.Y));
+            _statusLabel?.SetSize(_routineEntryDescriptionBox?.Width - 5 - (_nextButton?.Width ?? 0), _entriesLabel.Height);
         }
 
         public override void UpdateContainer(GameTime gameTime)
@@ -281,10 +281,10 @@ namespace Kenedia.Modules.Characters.Controls
             {
                 _boundList.PropertyChanged -= BoundList_PropertyChanged;
             }
-            _service.State.SelectedList.Changed -= SelectedList_Changed;
+            _service.State.SelectedRoutine.Changed -= SelectedRoutine_Changed;
             _service.State.TrackedEntry.Changed -= TrackedEntry_Changed;
             _service.State.EntrySwitchStatus.Changed -= EntrySwitchStatus_Changed;
-            _settings.CompletedTasksBehavior.SettingChanged -= CompletedTasksBehavior_SettingChanged;
+            _settings.CompletedRoutineEntriesBehavior.SettingChanged -= CompletedRoutineEntriesBehavior_SettingChanged;
             _headerPanel.Resized -= HeaderPanel_Resized;
 
             foreach (var row in _entryRows.Values.ToList())
@@ -297,7 +297,7 @@ namespace Kenedia.Modules.Characters.Controls
             base.DisposeControl();
         }
 
-        private void CompletedTasksBehavior_SettingChanged(object sender, ValueChangedEventArgs<Settings.CompletedTasksDisplayBehavior> e)
+        private void CompletedRoutineEntriesBehavior_SettingChanged(object sender, ValueChangedEventArgs<Settings.CompletedRoutineEntriesDisplayBehavior> e)
         {
             if (!_isDragging)
             {
@@ -306,9 +306,9 @@ namespace Kenedia.Modules.Characters.Controls
             }
         }
 
-        private void ToggleOverrideHideCompletedTasks()
+        private void ToggleOverrideHideCompletedRoutineEntries()
         {
-            _overrideHideCompletedTasks = !_overrideHideCompletedTasks;
+            _overrideHideCompletedRoutineEntries = !_overrideHideCompletedRoutineEntries;
             RefreshHeader();
             RefreshRowsLayout();
         }
@@ -317,10 +317,9 @@ namespace Kenedia.Modules.Characters.Controls
         {
             var allRows = _entryRows.Values
                 .Where(r => r.Visible)
-                .OrderBy(r => r.Entry.Order)
                 .ToList();
 
-            int dragIndex = _draggedRow.Entry.Order;
+            int dragIndex = _boundList?.RoutineEntries.IndexOf(_draggedRow.Entry) ?? -1;
             int insertionVisualIndex = allRows.Count;
             int insertionY = allRows.Count > 0 ? allRows.Last().AbsoluteBounds.Bottom : containerBounds.Top;
 
@@ -356,7 +355,7 @@ namespace Kenedia.Modules.Characters.Controls
             }
         }
 
-        private void OnDragStart(TaskEntryRow row)
+        private void OnDragStart(CharacterRoutineEntryRow row)
         {
             if (_isDragging || _boundList is null) return;
 
@@ -376,7 +375,7 @@ namespace Kenedia.Modules.Characters.Controls
             _isDragging = true;
             _dragActivated = false;
             _draggedRow.IsDragging = true;
-            _pendingTargetOrder = row.Entry.Order;
+            _pendingTargetOrder = _boundList.RoutineEntries.IndexOf(row.Entry);
 
             GameService.Input.Mouse.LeftMouseButtonReleased += OnGlobalMouseReleased;
         }
@@ -395,7 +394,7 @@ namespace Kenedia.Modules.Characters.Controls
 
             var entry = _draggedRow?.Entry;
             int targetOrder = _pendingTargetOrder;
-            bool shouldReorder = _dragActivated && entry != null && targetOrder >= 0 && targetOrder != entry.Order;
+            bool shouldReorder = _dragActivated && entry != null && targetOrder >= 0 && targetOrder != _boundList?.RoutineEntries.IndexOf(entry);
 
             if (_draggedRow != null)
             {
@@ -410,7 +409,7 @@ namespace Kenedia.Modules.Characters.Controls
 
             if (shouldReorder)
             {
-                _service.ReorderEntry(entry, targetOrder);
+                _service.ReorderRoutineEntry(entry, targetOrder);
             }
 
             RefreshHeader();
@@ -446,30 +445,25 @@ namespace Kenedia.Modules.Characters.Controls
             UpdateLayout();
         }
 
-        private Settings.CompletedTasksDisplayBehavior GetEffectiveBehavior()
+        private Settings.CompletedRoutineEntriesDisplayBehavior GetEffectiveBehavior()
         {
             return _overrideDisplayBehaviorForDrag
-                ? Settings.CompletedTasksDisplayBehavior.Nothing
-                : _settings.CompletedTasksBehavior.Value;
+                ? Settings.CompletedRoutineEntriesDisplayBehavior.Nothing
+                : _settings.CompletedRoutineEntriesBehavior.Value;
         }
 
-        private IOrderedEnumerable<TaskEntry> GetEntriesInSavedOrder(TaskListModel taskList)
+        private IEnumerable<CharacterRoutineEntry> GetDisplayedRoutineEntries(CharacterRoutineModel characterRoutine)
         {
-            return taskList.Entries.OrderBy(e => e.Order);
-        }
+            if (characterRoutine is null) return [];
 
-        private IEnumerable<TaskEntry> GetDisplayedEntries(TaskListModel taskList)
-        {
-            if (taskList is null) return [];
-
-            var orderedEntries = GetEntriesInSavedOrder(taskList);
+            var orderedRoutineEntries = characterRoutine.RoutineEntries.AsEnumerable();
             return GetEffectiveBehavior() switch
             {
-                Settings.CompletedTasksDisplayBehavior.HideCompletedTasks
-                    => _overrideHideCompletedTasks ? orderedEntries : orderedEntries.Where(e => !e.Completed),
-                Settings.CompletedTasksDisplayBehavior.MoveCompletedTasksToBottomOfDisplay
-                    => orderedEntries.Where(e => !e.Completed).Concat(orderedEntries.Where(e => e.Completed)),
-                _ => orderedEntries,
+                Settings.CompletedRoutineEntriesDisplayBehavior.HideCompletedRoutineEntries
+                    => _overrideHideCompletedRoutineEntries ? orderedRoutineEntries : orderedRoutineEntries.Where(e => !e.Completed),
+                Settings.CompletedRoutineEntriesDisplayBehavior.MoveCompletedRoutineEntriesToBottomOfDisplay
+                    => orderedRoutineEntries.Where(e => !e.Completed).Concat(orderedRoutineEntries.Where(e => e.Completed)),
+                _ => orderedRoutineEntries,
             };
         }
 
@@ -477,7 +471,7 @@ namespace Kenedia.Modules.Characters.Controls
         {
             if (_characterSuggestionBox.Selected != null)
             {
-                _service.AddEntry(_characterSuggestionBox.Selected?.Name, _taskDescBox.Text);
+                _service.AddRoutineEntry(_characterSuggestionBox.Selected?.Name, _routineEntryDescriptionBox.Text);
             }
 
             _characterSuggestionBox.Selected = null;
@@ -498,71 +492,71 @@ namespace Kenedia.Modules.Characters.Controls
 
             if (!hasList) return;
 
-            int completedCount = _boundList.Entries.Count(e => e.Completed);
-            int totalCount = _boundList.Entries.Count;
-            _entriesLabel.Text = strings.Tasks + $" ({completedCount}/{totalCount})";
+            int completedCount = _boundList.RoutineEntries.Count(e => e.Completed);
+            int totalCount = _boundList.RoutineEntries.Count;
+            _entriesLabel.Text = strings.RoutineEntries + $" ({completedCount}/{totalCount})";
 
             bool allChecked = totalCount > 0 && completedCount == totalCount;
             _syncingHeaderCheckbox = true;
-            _allEntriesCheckbox.Checked = allChecked;
-            _allEntriesCheckbox.BasicTooltipText = allChecked ? strings.UncheckAll : strings.CheckAll;
+            _allRoutineEntriesCheckbox.Checked = allChecked;
+            _allRoutineEntriesCheckbox.BasicTooltipText = allChecked ? strings.UncheckAll : strings.CheckAll;
             _syncingHeaderCheckbox = false;
 
-            TaskEntry pendingCompletionEntry = _service.GetTrackedEntryForSelectedList();
-            int incompleteCount = _boundList.Entries.Count(e => e.Enabled && !e.Completed);
-            bool hasIncompleteEntries = incompleteCount > 0;
-            UpdateNextButton(pendingCompletionEntry, incompleteCount, hasIncompleteEntries);
+            CharacterRoutineEntry pendingCompletionEntry = _service.GetTrackedEntryForSelectedRoutine();
+            int incompleteCount = _boundList.RoutineEntries.Count(e => e.Enabled && !e.Completed);
+            bool hasIncompleteRoutineEntries = incompleteCount > 0;
+            UpdateNextButton(pendingCompletionEntry, incompleteCount, hasIncompleteRoutineEntries);
 
             UpdateStatusLabel(pendingCompletionEntry);
 
-            bool canUnhideCompletedTasks = GetEffectiveBehavior() == Settings.CompletedTasksDisplayBehavior.HideCompletedTasks
-                                           && _boundList.Entries.Any(e => e.Completed);
-            _hideButton.Text = _overrideHideCompletedTasks ? strings.HideComplete : strings.UnhideComplete;
-            _hideButton.Visible = canUnhideCompletedTasks;
-            _hideButton.Enabled = canUnhideCompletedTasks;
+            bool canUnhideCompletedRoutineEntries = GetEffectiveBehavior() == Settings.CompletedRoutineEntriesDisplayBehavior.HideCompletedRoutineEntries
+                                           && _boundList.RoutineEntries.Any(e => e.Completed);
+            _hideButton.Text = _overrideHideCompletedRoutineEntries ? strings.HideComplete : strings.UnhideComplete;
+            _hideButton.Visible = canUnhideCompletedRoutineEntries;
+            _hideButton.Enabled = canUnhideCompletedRoutineEntries;
         }
 
-        private void UpdateNextButton(TaskEntry pendingCompletionEntry, int incompleteCount, bool hasIncompleteEntries)
+        private void UpdateNextButton(CharacterRoutineEntry pendingCompletionEntry, int incompleteCount, bool hasIncompleteRoutineEntries)
         {
-            if (!hasIncompleteEntries)
+            if (!hasIncompleteRoutineEntries)
             {
                 _nextButton.Text = strings.Next;
                 _nextButton.Enabled = false;
-                _nextButton.BasicTooltipText = strings.AllTasksComplete;
+                _nextButton.BasicTooltipText = strings.AllRoutineEntriesComplete;
                 return;
             }
 
-            TaskEntrySwitchStatus switchStatus = _service.State.EntrySwitchStatus.Value;
+            CharacterRoutineEntrySwitchStatus switchStatus = _service.State.EntrySwitchStatus.Value;
             bool isReadyToComplete = pendingCompletionEntry is not null
-                && switchStatus == TaskEntrySwitchStatus.ReadyToComplete;
+                && switchStatus == CharacterRoutineEntrySwitchStatus.ReadyToComplete;
             bool isReadyToFinish = incompleteCount == 1 && isReadyToComplete;
 
-            _nextButton.Text = switchStatus == TaskEntrySwitchStatus.Failed
+            _nextButton.Text = switchStatus == CharacterRoutineEntrySwitchStatus.Failed
                 ? strings.Retry
                 : isReadyToFinish ? strings.Finish : strings.Next;
 
             switch (switchStatus)
             {
-                case TaskEntrySwitchStatus.Switching:
+                case CharacterRoutineEntrySwitchStatus.Switching:
                     _nextButton.Enabled = false;
                     _nextButton.BasicTooltipText = string.Format(strings.CharacterSwap_SwitchTo, pendingCompletionEntry?.CharacterName);
                     break;
-                case TaskEntrySwitchStatus.Failed:
+                case CharacterRoutineEntrySwitchStatus.Failed:
                     _nextButton.Enabled = true;
-                    _nextButton.BasicTooltipText = string.Format(strings.TaskSwitchFailed, pendingCompletionEntry?.CharacterName);
+                    _nextButton.BasicTooltipText = string.Format(strings.RoutineEntrySwitchFailed, pendingCompletionEntry?.CharacterName);
                     break;
-                case TaskEntrySwitchStatus.CharacterNotFound:
+                case CharacterRoutineEntrySwitchStatus.CharacterNotFound:
                     _nextButton.Enabled = false;
-                    _nextButton.BasicTooltipText = string.Format(strings.TaskCharacterNotFound, pendingCompletionEntry?.CharacterName);
+                    _nextButton.BasicTooltipText = string.Format(strings.RoutineEntryCharacterNotFound, pendingCompletionEntry?.CharacterName);
                     break;
-                case TaskEntrySwitchStatus.CharacterNotAssigned:
+                case CharacterRoutineEntrySwitchStatus.CharacterNotAssigned:
                     _nextButton.Enabled = false;
-                    _nextButton.BasicTooltipText = strings.TaskCharacterNotAssigned;
+                    _nextButton.BasicTooltipText = strings.RoutineEntryCharacterNotAssigned;
                     break;
-                case TaskEntrySwitchStatus.ReadyToComplete:
+                case CharacterRoutineEntrySwitchStatus.ReadyToComplete:
                     _nextButton.Enabled = true;
                     _nextButton.BasicTooltipText = isReadyToFinish
-                        ? strings.CompleteTaskList
+                        ? strings.CompleteCharacterRoutine
                         : string.Format(strings.NextClickMarksComplete, pendingCompletionEntry?.CharacterName);
                     break;
                 default:
@@ -579,11 +573,11 @@ namespace Kenedia.Modules.Characters.Controls
             int previousScrollOffset = preserveScroll ? _entriesContainer.VerticalScrollOffset : 0;
             int rowWidth = GetEntryRowWidth();
 
-            var displayedEntries = GetDisplayedEntries(_boundList).ToList();
-            var displayedEntrySet = new HashSet<TaskEntry>(displayedEntries);
+            var displayedRoutineEntries = GetDisplayedRoutineEntries(_boundList).ToList();
+            var displayedEntrySet = new HashSet<CharacterRoutineEntry>(displayedRoutineEntries);
 
             int y = 0;
-            foreach (var entry in displayedEntries)
+            foreach (var entry in displayedRoutineEntries)
             {
                 if (!_entryRows.TryGetValue(entry, out var row))
                 {
@@ -623,17 +617,17 @@ namespace Kenedia.Modules.Characters.Controls
                 return;
             }
 
-            var validEntries = new HashSet<TaskEntry>(_boundList.Entries);
+            var validRoutineEntries = new HashSet<CharacterRoutineEntry>(_boundList.RoutineEntries);
 
             foreach (var entry in _entryRows.Keys.ToList())
             {
-                if (!validEntries.Contains(entry))
+                if (!validRoutineEntries.Contains(entry))
                 {
                     RemoveRow(entry);
                 }
             }
 
-            foreach (var entry in _boundList.Entries)
+            foreach (var entry in _boundList.RoutineEntries)
             {
                 if (!_entryRows.ContainsKey(entry))
                 {
@@ -642,11 +636,11 @@ namespace Kenedia.Modules.Characters.Controls
             }
         }
 
-        private void AddRow(TaskEntry entry)
+        private void AddRow(CharacterRoutineEntry entry)
         {
             if (entry is null || _entriesContainer is null || _entryRows.ContainsKey(entry)) return;
 
-            _entryRows[entry] = new TaskEntryRow(_service, _characterModels, entry, OnDragStart)
+            _entryRows[entry] = new CharacterRoutineEntryRow(_service, _characterModels, entry, OnDragStart)
             {
                 Parent = _entriesContainer,
                 WidthSizingMode = SizingMode.Standard,
@@ -654,7 +648,7 @@ namespace Kenedia.Modules.Characters.Controls
             };
         }
 
-        private void RemoveRow(TaskEntry entry)
+        private void RemoveRow(CharacterRoutineEntry entry)
         {
             if (entry is null) return;
             if (!_entryRows.TryGetValue(entry, out var row)) return;
@@ -668,16 +662,16 @@ namespace Kenedia.Modules.Characters.Controls
             _entryRows.Remove(entry);
         }
 
-        private bool IsBoundList(TaskListModel list)
+        private bool IsBoundList(CharacterRoutineModel list)
         {
             return _boundList is not null && ReferenceEquals(_boundList, list);
         }
 
-        private void SelectedList_Changed(object sender, StateVarChangedEventArgs<TaskListModel> e)
+        private void SelectedRoutine_Changed(object sender, StateVarChangedEventArgs<CharacterRoutineModel> e)
         {
             if (!ReferenceEquals(e.OldValue, e.NewValue))
             {
-                BindSelectedList(e.NewValue);
+                BindSelectedRoutine(e.NewValue);
                 return;
             }
 
@@ -688,17 +682,17 @@ namespace Kenedia.Modules.Characters.Controls
             RefreshRowsLayout();
         }
 
-        private void TrackedEntry_Changed(object sender, StateVarChangedEventArgs<TaskEntry> e)
+        private void TrackedEntry_Changed(object sender, StateVarChangedEventArgs<CharacterRoutineEntry> e)
         {
             if (_boundList is null) return;
-            if (!ReferenceEquals(_boundList, _service.SelectedList)) return;
+            if (!ReferenceEquals(_boundList, _service.SelectedRoutine)) return;
 
             RefreshHeader();
         }
 
-        private void EntrySwitchStatus_Changed(object sender, StateVarChangedEventArgs<TaskEntrySwitchStatus> e)
+        private void EntrySwitchStatus_Changed(object sender, StateVarChangedEventArgs<CharacterRoutineEntrySwitchStatus> e)
         {
-            if (_boundList is null || !ReferenceEquals(_boundList, _service.SelectedList)) return;
+            if (_boundList is null || !ReferenceEquals(_boundList, _service.SelectedRoutine)) return;
 
             RefreshHeader();
         }
@@ -712,7 +706,7 @@ namespace Kenedia.Modules.Characters.Controls
             RefreshRowsLayout();
         }
 
-        private void UpdateStatusLabel(TaskEntry pendingCompletionEntry)
+        private void UpdateStatusLabel(CharacterRoutineEntry pendingCompletionEntry)
         {
             if (pendingCompletionEntry is null)
             {
@@ -724,24 +718,24 @@ namespace Kenedia.Modules.Characters.Controls
             string characterName = pendingCompletionEntry.CharacterName;
             switch (_service.State.EntrySwitchStatus.Value)
             {
-                case TaskEntrySwitchStatus.Switching:
+                case CharacterRoutineEntrySwitchStatus.Switching:
                     _statusLabel.Text = string.Format(strings.CharacterSwap_SwitchTo, characterName);
                     _statusLabel.TextColor = Color.LightYellow;
                     break;
-                case TaskEntrySwitchStatus.ReadyToComplete:
+                case CharacterRoutineEntrySwitchStatus.ReadyToComplete:
                     _statusLabel.Text = string.Format(strings.NextClickMarksComplete, characterName);
                     _statusLabel.TextColor = Color.LightGreen;
                     break;
-                case TaskEntrySwitchStatus.Failed:
-                    _statusLabel.Text = string.Format(strings.TaskSwitchFailed, characterName);
+                case CharacterRoutineEntrySwitchStatus.Failed:
+                    _statusLabel.Text = string.Format(strings.RoutineEntrySwitchFailed, characterName);
                     _statusLabel.TextColor = Color.OrangeRed;
                     break;
-                case TaskEntrySwitchStatus.CharacterNotFound:
-                    _statusLabel.Text = string.Format(strings.TaskCharacterNotFound, characterName);
+                case CharacterRoutineEntrySwitchStatus.CharacterNotFound:
+                    _statusLabel.Text = string.Format(strings.RoutineEntryCharacterNotFound, characterName);
                     _statusLabel.TextColor = Color.OrangeRed;
                     break;
-                case TaskEntrySwitchStatus.CharacterNotAssigned:
-                    _statusLabel.Text = strings.TaskCharacterNotAssigned;
+                case CharacterRoutineEntrySwitchStatus.CharacterNotAssigned:
+                    _statusLabel.Text = strings.RoutineEntryCharacterNotAssigned;
                     _statusLabel.TextColor = Color.OrangeRed;
                     break;
                 default:

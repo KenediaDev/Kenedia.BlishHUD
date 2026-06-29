@@ -1,4 +1,4 @@
-﻿using Blish_HUD;
+using Blish_HUD;
 using Blish_HUD.Content;
 using Blish_HUD.Graphics.UI;
 using Blish_HUD.Gw2Mumble;
@@ -95,11 +95,11 @@ namespace Kenedia.Modules.Characters
 
         public ObservableCollection<Character_Model> CharacterModels { get; } = [];
 
-        public ObservableCollection<TaskListModel> TaskListModels { get; } = [];
+        public ObservableCollection<CharacterRoutineModel> CharacterRoutineModels { get; } = [];
 
-        public TaskListService TaskListService { get; private set; }
+        public CharacterRoutineService CharacterRoutineService { get; private set; }
 
-        public TaskListWindow TaskListWindow { get; private set; }
+        public CharacterRoutineWindow CharacterRoutineWindow { get; private set; }
 
         private CancellationTokenSource _characterFileTokenSource;
 
@@ -138,7 +138,7 @@ namespace Kenedia.Modules.Characters
 
         public string CharactersPath => $@"{Paths.AccountPath}characters.json";
 
-        public string TaskListsPath => $@"{Paths.ModulePath}tasklists.json";
+        public string CharacterRoutinesPath => $@"{Paths.AccountPath}characterroutines.json";
 
         public string AccountImagesPath => $@"{Paths.AccountPath}images\";
 
@@ -203,11 +203,11 @@ namespace Kenedia.Modules.Characters
             Settings.RadialKey.Value.Enabled = true;
             Settings.RadialKey.Value.Activated += RadialMenuToggle;
 
-            Settings.ToggleTaskListKey.Value.Enabled = true;
-            Settings.ToggleTaskListKey.Value.Activated += ToggleTaskList;
+            Settings.ToggleCharacterRoutineKey.Value.Enabled = true;
+            Settings.ToggleCharacterRoutineKey.Value.Activated += ToggleCharacterRoutine;
 
-            Settings.NextTaskEntryKey.Value.Enabled = true;
-            Settings.NextTaskEntryKey.Value.Activated += NextTaskEntry;
+            Settings.NextCharacterRoutineEntryKey.Value.Enabled = true;
+            Settings.NextCharacterRoutineEntryKey.Value.Activated += NextCharacterRoutineEntry;
 
             Tags.CollectionChanged += Tags_CollectionChanged;
 
@@ -289,6 +289,7 @@ namespace Kenedia.Modules.Characters
                 CharacterModels.Clear();
                 MainWindow?.CharacterCards.Clear();
                 MainWindow?.LoadedModels.Clear();
+                LoadCharacterRoutines();
             }
         }
 
@@ -301,7 +302,7 @@ namespace Kenedia.Modules.Characters
             _ticks.Save += gameTime.ElapsedGameTime.TotalMilliseconds;
             _ticks.Tags += gameTime.ElapsedGameTime.TotalMilliseconds;
             _ticks.OCR += gameTime.ElapsedGameTime.TotalMilliseconds;
-            _ticks.TaskListReset += gameTime.ElapsedGameTime.TotalMilliseconds;
+            _ticks.CharacterRoutineReset += gameTime.ElapsedGameTime.TotalMilliseconds;
 
             if (_ticks.Global > 500)
             {
@@ -342,11 +343,11 @@ namespace Kenedia.Modules.Characters
                 _saveCharacters = false;
             }
 
-            // Check task list auto-resets every 30 seconds
-            if (_ticks.TaskListReset > 30000)
+            // Check character routine auto-resets every 30 seconds
+            if (_ticks.CharacterRoutineReset > 30000)
             {
-                _ticks.TaskListReset = 0;
-                CheckTaskListResets();
+                _ticks.CharacterRoutineReset = 0;
+                CheckCharacterRoutineResets();
             }
         }
 
@@ -358,8 +359,8 @@ namespace Kenedia.Modules.Characters
             CharacterModels.CollectionChanged -= OnCharacterCollectionChanged;
             Tags.CollectionChanged -= Tags_CollectionChanged;
             CoreServices.ClientWindowService.ResolutionChanged -= ClientWindowService_ResolutionChanged;
-            TaskListService?.Dispose();
-            TaskListService = null;
+            CharacterRoutineService?.Dispose();
+            CharacterRoutineService = null;
             OCR.Dispose();
             Data?.Dispose();
 
@@ -448,19 +449,19 @@ namespace Kenedia.Modules.Characters
                 Version = ModuleVersion,
             };
 
-            LoadTaskLists();
+            LoadCharacterRoutines();
 
-            var taskListBg = AsyncTexture2D.FromAssetId(155985);
-            Texture2D cutTaskListBg = taskListBg.Texture.GetRegion(0, 0, taskListBg.Width - 482, taskListBg.Height - 390);
+            var characterRoutineBg = AsyncTexture2D.FromAssetId(155985);
+            Texture2D cutCharacterRoutineBg = characterRoutineBg.Texture.GetRegion(0, 0, characterRoutineBg.Width - 482, characterRoutineBg.Height - 390);
 
-            TaskListService = new TaskListService(CharacterSwapping, CharacterModels, TaskListModels, SaveTaskLists);
+            CharacterRoutineService = new CharacterRoutineService(CharacterSwapping, CharacterModels, CharacterRoutineModels, SaveCharacterRoutines);
 
-            TaskListWindow = new TaskListWindow(
+            CharacterRoutineWindow = new CharacterRoutineWindow(
                 bg,
                 new Rectangle(25, 25, cutBg.Width + 10, cutBg.Height),
                 new Rectangle(35, 14, cutBg.Width - 10, cutBg.Height - 10),
                 Settings,
-                TaskListService,
+                CharacterRoutineService,
                 TextureManager,
                 CharacterSwapping,
                 CharacterModels)
@@ -468,18 +469,18 @@ namespace Kenedia.Modules.Characters
                 Parent = GameService.Graphics.SpriteScreen,
                 Title = "❤",
                 Subtitle = "❤",
-                Id = $"{Name} TaskListWindow",
-                Name = strings.TaskLists,
+                Id = $"{Name} CharacterRoutineWindow",
+                Name = strings.CharacterRoutines,
                 CanResize = true,
-                Size = Settings.TaskListWindowSize.Value,
+                Size = Settings.CharacterRoutineWindowSize.Value,
                 MainWindowEmblem = AsyncTexture2D.FromAssetId(156015),
-                SubWindowEmblem = TextureManager.GetEmblem(Emblems.TaskList_7),
+                SubWindowEmblem = TextureManager.GetEmblem(Emblems.CharacterRoutine_7),
                 Version = ModuleVersion,
                 SavesSize = true,
                 SavesPosition = true,
             };
 
-            MainWindow.TaskListWindow = TaskListWindow;
+            MainWindow.CharacterRoutineWindow = CharacterRoutineWindow;
 
             SideMenuToggles _toggles;
             MainWindow.SideMenu.AddTab(_toggles = new SideMenuToggles(TextureManager, TagFilters, SearchFilters, () => MainWindow?.FilterCharacters(), Tags, Data)
@@ -525,7 +526,7 @@ namespace Kenedia.Modules.Characters
             RadialMenu?.Dispose();
             SettingsWindow?.Dispose();
             MainWindow?.Dispose();
-            TaskListWindow?.Dispose();
+            CharacterRoutineWindow?.Dispose();
             PotraitCapture?.Dispose();
             RunIndicator?.Dispose();
         }
@@ -566,21 +567,21 @@ namespace Kenedia.Modules.Characters
             }
         }
 
-        private void ToggleTaskList(object sender, EventArgs e)
+        private void ToggleCharacterRoutine(object sender, EventArgs e)
         {
             if (Control.ActiveControl is not TextBox)
             {
-                TaskListWindow?.ToggleWindow();
+                CharacterRoutineWindow?.ToggleWindow();
             }
         }
 
-        private async void NextTaskEntry(object sender, EventArgs e)
+        private async void NextCharacterRoutineEntry(object sender, EventArgs e)
         {
             if (Control.ActiveControl is not TextBox)
             {
               if (await ExtendedInputService.WaitForNoKeyPressed())
               {
-                TaskListWindow?.SwitchToNextCharacter();
+                CharacterRoutineWindow?.SwitchToNextRoutineCharacter();
               }
             }
         }
@@ -625,7 +626,7 @@ namespace Kenedia.Modules.Characters
             //MainWindow?.ToggleWindow();
             //SettingsWindow?.ToggleWindow();
 
-            TaskListWindow?.Show();
+            CharacterRoutineWindow?.Show();
             MainWindow?.Show();
         }
 
@@ -982,43 +983,54 @@ namespace Kenedia.Modules.Characters
             _saveCharacters = true;
         }
 
-        private void LoadTaskLists()
+        private void LoadCharacterRoutines()
         {
             try
             {
-                if (File.Exists(TaskListsPath))
+                CharacterRoutineModels.Clear();
+
+                if (!Directory.Exists(Paths.AccountPath))
                 {
-                    string content = File.ReadAllText(TaskListsPath);
-                    var lists = JsonConvert.DeserializeObject<List<TaskListModel>>(content, SerializerSettings.Default);
+                    _ = Directory.CreateDirectory(Paths.AccountPath);
+                }
+
+                if (File.Exists(CharacterRoutinesPath))
+                {
+                    string content = File.ReadAllText(CharacterRoutinesPath);
+                    var lists = JsonConvert.DeserializeObject<List<CharacterRoutineModel>>(content, SerializerSettings.Default);
 
                     if (lists is not null)
                     {
-                        TaskListModels.Clear();
                         foreach (var list in lists)
                         {
-                            TaskListModels.Add(list);
+                            CharacterRoutineModels.Add(list);
                         }
 
-                        Logger.Info($"Loaded {TaskListModels.Count} task list(s) from '{TaskListsPath}'.");
+                        Logger.Info($"Loaded {CharacterRoutineModels.Count} character routine(s) from '{CharacterRoutinesPath}'.");
                     }
                 }
             }
             catch (Exception ex)
             {
-                Logger.Warn(ex, $"Failed to load task lists from '{TaskListsPath}'.");
+                Logger.Warn(ex, $"Failed to load character routines from '{CharacterRoutinesPath}'.");
+            }
+
+            if (CharacterRoutineService is not null)
+            {
+                CharacterRoutineService.SelectRoutine(CharacterRoutineModels.FirstOrDefault());
             }
 
             // Check for any pending resets immediately after loading
-            CheckTaskListResets();
+            CheckCharacterRoutineResets();
         }
 
-        private void CheckTaskListResets()
+        private void CheckCharacterRoutineResets()
         {
-            if (TaskListService is not null)
+            if (CharacterRoutineService is not null)
             {
-                if (TaskListService.ApplyScheduledResets())
+                if (CharacterRoutineService.ApplyScheduledResets())
                 {
-                    Logger.Info("Auto-reset completed entries for one or more task lists.");
+                    Logger.Info("Auto-reset completed entries for one or more character routines.");
                 }
 
                 return;
@@ -1026,31 +1038,36 @@ namespace Kenedia.Modules.Characters
 
             bool anyReset = false;
 
-            foreach (var taskList in TaskListModels)
+            foreach (var characterRoutine in CharacterRoutineModels)
             {
-                if (taskList.CheckAndApplyScheduledReset())
+                if (characterRoutine.CheckAndApplyScheduledReset())
                 {
-                    Logger.Info($"Auto-reset completed entries for task list '{taskList.Name}' (frequency: {taskList.ResetFrequency}).");
+                    Logger.Info($"Auto-reset completed entries for character routine '{characterRoutine.Name}' (frequency: {characterRoutine.ResetFrequency}).");
                     anyReset = true;
                 }
             }
 
             if (anyReset)
             {
-                SaveTaskLists();
+                SaveCharacterRoutines();
             }
         }
 
-        private void SaveTaskLists()
+        private void SaveCharacterRoutines()
         {
             try
             {
-                string json = JsonConvert.SerializeObject(TaskListModels, SerializerSettings.Default);
-                File.WriteAllText(TaskListsPath, json);
+                if (!Directory.Exists(Paths.AccountPath))
+                {
+                    _ = Directory.CreateDirectory(Paths.AccountPath);
+                }
+
+                string json = JsonConvert.SerializeObject(CharacterRoutineModels, SerializerSettings.Default);
+                File.WriteAllText(CharacterRoutinesPath, json);
             }
             catch (Exception ex)
             {
-                Logger.Warn($"Failed to save task lists to '{TaskListsPath}'.");
+                Logger.Warn($"Failed to save character routines to '{CharacterRoutinesPath}'.");
                 Logger.Warn($"{ex}");
             }
         }

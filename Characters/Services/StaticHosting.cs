@@ -1,4 +1,4 @@
-﻿using Blish_HUD;
+using Blish_HUD;
 using Kenedia.Modules.Core.Converter;
 using Newtonsoft.Json;
 using SemVer;

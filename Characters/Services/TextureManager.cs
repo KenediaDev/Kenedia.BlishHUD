@@ -1,4 +1,4 @@
-﻿using Kenedia.Modules.Core.Services;
+using Kenedia.Modules.Core.Services;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace Kenedia.Modules.Characters.Services
@@ -54,9 +54,9 @@ namespace Kenedia.Modules.Characters.Services
             Female_Hovered,
             Male,
             Male_Hovered,
-            TaskList,
-            TaskList_Hovered,
-            TaskList_Active,
+            CharacterRoutine,
+            CharacterRoutine_Hovered,
+            CharacterRoutine_Active,
         }
 
         public enum Backgrounds
@@ -66,16 +66,16 @@ namespace Kenedia.Modules.Characters.Services
 
         public enum Emblems
         {
-            TaskList,
-            TaskList_2,
-            TaskList_3,
-            TaskList_4,
-            TaskList_5,
-            TaskList_6,
-            TaskList_7,
-            TaskList_8,
-            TaskList_9,
-            TaskList_10,
+            CharacterRoutine,
+            CharacterRoutine_2,
+            CharacterRoutine_3,
+            CharacterRoutine_4,
+            CharacterRoutine_5,
+            CharacterRoutine_6,
+            CharacterRoutine_7,
+            CharacterRoutine_8,
+            CharacterRoutine_9,
+            CharacterRoutine_10,
         }
 
         public Texture2D GetBackground(Backgrounds background)

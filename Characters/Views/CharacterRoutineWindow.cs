@@ -12,20 +12,20 @@ using StandardWindow = Kenedia.Modules.Core.Views.StandardWindow;
 
 namespace Kenedia.Modules.Characters.Views
 {
-    public class TaskListWindow : StandardWindow
+    public class CharacterRoutineWindow : StandardWindow
     {
-        private readonly TaskListService _service;
+        private readonly CharacterRoutineService _service;
         private readonly FlowPanel _contentPanel;
-        private readonly TaskListSidebar _sidebar;
-        private readonly TaskListDetailPanel _detailPanel;
+        private readonly CharacterRoutineSidebar _sidebar;
+        private readonly CharacterRoutineDetailPanel _detailPanel;
         private bool _created;
 
-        public TaskListWindow(
+        public CharacterRoutineWindow(
             AsyncTexture2D background,
             Rectangle windowRegion,
             Rectangle contentRegion,
             Settings settings,
-            TaskListService service,
+            CharacterRoutineService service,
             TextureManager textureManager,
             CharacterSwapping characterSwapping,
             ObservableCollection<Character_Model> characterModels)
@@ -42,12 +42,12 @@ namespace Kenedia.Modules.Characters.Views
                 ControlPadding = new Vector2(5, 0),
             };
 
-            _sidebar = new TaskListSidebar(_service)
+            _sidebar = new CharacterRoutineSidebar(_service)
             {
                 Parent = _contentPanel,
             };
 
-            _detailPanel = new TaskListDetailPanel(textureManager, _service, characterSwapping, settings, characterModels, contentRegion.Width - 210)
+            _detailPanel = new CharacterRoutineDetailPanel(textureManager, _service, characterSwapping, settings, characterModels, contentRegion.Width - 210)
             {
                 Parent = _contentPanel,
             };
@@ -55,11 +55,11 @@ namespace Kenedia.Modules.Characters.Views
             _created = true;
         }
 
-        public TaskListService Service => _service;
+        public CharacterRoutineService Service => _service;
 
-        public void SwitchToNextCharacter()
+        public void SwitchToNextRoutineCharacter()
         {
-            _service.SwitchToNextIncompleteEntry();
+            _service.SwitchToNextIncompleteRoutineEntry();
         }
 
         public override void UpdateContainer(GameTime gameTime)

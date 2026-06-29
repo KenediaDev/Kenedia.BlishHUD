@@ -1,4 +1,4 @@
-﻿using Blish_HUD.Controls.Extern;
+using Blish_HUD.Controls.Extern;
 using Kenedia.Modules.Characters.Res;
 using Kenedia.Modules.Characters.Models;
 using System;

@@ -1049,29 +1049,29 @@ Path to the 'tesseract.dll': {0}</value>
   <data name="Radial_CenterScreen_Tooltip" xml:space="preserve">
     <value>Always center the radial menu in the games window center</value>
   </data>
-  <data name="ToggleTaskListKey" xml:space="preserve">
-    <value>Toggle Task List</value>
+  <data name="ToggleCharacterRoutineKey" xml:space="preserve">
+    <value>Toggle Character Routine</value>
   </data>
-  <data name="ToggleTaskListKey_Tooltip" xml:space="preserve">
-    <value>Key to open or close the task list window</value>
+  <data name="ToggleCharacterRoutineKey_Tooltip" xml:space="preserve">
+    <value>Key to open or close the character routine window</value>
   </data>
-  <data name="NextTaskEntryKey" xml:space="preserve">
-    <value>Next Task Entry</value>
+  <data name="NextCharacterRoutineEntryKey" xml:space="preserve">
+    <value>Next Routine Entry</value>
   </data>
-  <data name="NextTaskEntryKey_Tooltip" xml:space="preserve">
-    <value>Key to swap to the next incomplete character in the active task list</value>
+  <data name="NextCharacterRoutineEntryKey_Tooltip" xml:space="preserve">
+    <value>Key to swap to the next incomplete character in the active character routine</value>
   </data>
-  <data name="NewTaskList" xml:space="preserve">
-    <value>New Task List</value>
+  <data name="NewCharacterRoutine" xml:space="preserve">
+    <value>New Character Routine</value>
   </data>
-  <data name="SearchTaskLists" xml:space="preserve">
-    <value>Search lists...</value>
+  <data name="SearchCharacterRoutines" xml:space="preserve">
+    <value>Search routines...</value>
   </data>
-  <data name="TaskListPlaceholder" xml:space="preserve">
-    <value>Select or create a task list to get started.</value>
+  <data name="CharacterRoutinePlaceholder" xml:space="preserve">
+    <value>Select or create a character routine to get started.</value>
   </data>
   <data name="DeleteList" xml:space="preserve">
-    <value>Delete List</value>
+    <value>Delete Routine</value>
   </data>
   <data name="AutoResetField" xml:space="preserve">
     <value>Auto Reset:</value>
@@ -1088,17 +1088,17 @@ Path to the 'tesseract.dll': {0}</value>
   <data name="SearchCharacterName" xml:space="preserve">
     <value>Assign Character ...</value>
   </data>
-  <data name="TaskDescriptionPlaceholder" xml:space="preserve">
-    <value>Task description (optional)</value>
+  <data name="RoutineEntryDescriptionPlaceholder" xml:space="preserve">
+    <value>Routine entry description (optional)</value>
   </data>
-  <data name="AddTask" xml:space="preserve">
-    <value>Add Task</value>
+  <data name="AddRoutineEntry" xml:space="preserve">
+    <value>Add Routine Entry</value>
   </data>
   <data name="CopyCharacterName" xml:space="preserve">
     <value>Copy Character Name</value>
   </data>
-  <data name="Tasks" xml:space="preserve">
-    <value>Tasks</value>
+  <data name="RoutineEntries" xml:space="preserve">
+    <value>Routine Entries</value>
   </data>
   <data name="Next" xml:space="preserve">
     <value>Next</value>
@@ -1106,8 +1106,8 @@ Path to the 'tesseract.dll': {0}</value>
   <data name="Finish" xml:space="preserve">
     <value>Finish</value>
   </data>
-  <data name="CompletedTasksHiddenTooltip" xml:space="preserve">
-    <value>Completed tasks are hidden based on your settings.</value>
+  <data name="CompletedRoutineEntriesHiddenTooltip" xml:space="preserve">
+    <value>Completed routine entries are hidden based on your settings.</value>
   </data>
   <data name="UncheckAll" xml:space="preserve">
     <value>Uncheck All</value>
@@ -1115,28 +1115,28 @@ Path to the 'tesseract.dll': {0}</value>
   <data name="CheckAll" xml:space="preserve">
     <value>Check All</value>
   </data>
-  <data name="CompleteTaskList" xml:space="preserve">
-    <value>Complete the task list.</value>
+  <data name="CompleteCharacterRoutine" xml:space="preserve">
+    <value>Complete the character routine.</value>
   </data>
   <data name="SwitchToFirstIncomplete" xml:space="preserve">
-    <value>Switch to the first incomplete task entry.</value>
+    <value>Switch to the first incomplete routine entry.</value>
   </data>
-  <data name="AllTasksComplete" xml:space="preserve">
-    <value>All tasks in this list are complete.</value>
+  <data name="AllRoutineEntriesComplete" xml:space="preserve">
+    <value>All routine entries in this character routine are complete.</value>
   </data>
   <data name="NextClickMarksComplete" xml:space="preserve">
     <value>Next click marks '{0}' complete.</value>
   </data>
-  <data name="TaskSwitchFailed" xml:space="preserve">
+  <data name="RoutineEntrySwitchFailed" xml:space="preserve">
     <value>Could not switch to '{0}'. Click Next to retry.</value>
   </data>
   <data name="Retry" xml:space="preserve">
     <value>Retry</value>
   </data>
-  <data name="TaskCharacterNotFound" xml:space="preserve">
-    <value>Character '{0}' was not found. Update this task to continue.</value>
+  <data name="RoutineEntryCharacterNotFound" xml:space="preserve">
+    <value>Character '{0}' was not found. Update this routine entry to continue.</value>
   </data>
-  <data name="TaskCharacterNotAssigned" xml:space="preserve">
+  <data name="RoutineEntryCharacterNotAssigned" xml:space="preserve">
     <value>No character is assigned. Assign one to continue.</value>
   </data>
   <data name="HideComplete" xml:space="preserve">
@@ -1148,35 +1148,35 @@ Path to the 'tesseract.dll': {0}</value>
   <data name="EditEntry" xml:space="preserve">
     <value>Edit Entry</value>
   </data>
-  <data name="RemoveEntry" xml:space="preserve">
+  <data name="RemoveRoutineEntry" xml:space="preserve">
     <value>Remove Entry</value>
   </data>
   <data name="DeleteConfirmationTitle" xml:space="preserve">
     <value>Confirm deletion</value>
   </data>
-  <data name="ConfirmTaskEntryDelete" xml:space="preserve">
-    <value>Remove task '{0}'? This cannot be undone.</value>
+  <data name="ConfirmCharacterRoutineEntryDelete" xml:space="preserve">
+    <value>Remove routine entry '{0}'? This cannot be undone.</value>
   </data>
-  <data name="ConfirmTaskListDelete" xml:space="preserve">
-    <value>Delete task list '{0}' and all of its tasks? This cannot be undone.</value>
+  <data name="ConfirmCharacterRoutineDelete" xml:space="preserve">
+    <value>Delete character routine '{0}' and all of its routine entries? This cannot be undone.</value>
   </data>
-  <data name="TaskListDefaultName" xml:space="preserve">
-    <value>Task List {0}</value>
+  <data name="CharacterRoutineDefaultName" xml:space="preserve">
+    <value>Character Routine {0}</value>
   </data>
-  <data name="CompletedTasksBehavior" xml:space="preserve">
-    <value>Completed Tasks Behavior</value>
+  <data name="CompletedRoutineEntriesBehavior" xml:space="preserve">
+    <value>Completed Routine Entries Behavior</value>
   </data>
-  <data name="CompletedTasksBehavior_Nothing" xml:space="preserve">
+  <data name="CompletedRoutineEntriesBehavior_Nothing" xml:space="preserve">
     <value>Nothing</value>
   </data>
-  <data name="CompletedTasksBehavior_Hide" xml:space="preserve">
-    <value>Hide completed tasks</value>
+  <data name="CompletedRoutineEntriesBehavior_Hide" xml:space="preserve">
+    <value>Hide completed routine entries</value>
   </data>
-  <data name="CompletedTasksBehavior_MoveToBottom" xml:space="preserve">
+  <data name="CompletedRoutineEntriesBehavior_MoveToBottom" xml:space="preserve">
     <value>Move completed to bottom</value>
   </data>
-  <data name="TaskLists" xml:space="preserve">
-    <value>Task Lists</value>
+  <data name="CharacterRoutines" xml:space="preserve">
+    <value>Character Routines</value>
   </data>
   <data name="SideMenu" xml:space="preserve">
     <value>Side Menu</value>

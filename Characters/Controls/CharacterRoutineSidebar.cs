@@ -16,7 +16,7 @@ using TextBox = Kenedia.Modules.Core.Controls.TextBox;
 
 namespace Kenedia.Modules.Characters.Controls
 {
-    public class TaskListSidebar : Panel
+    public class CharacterRoutineSidebar : Panel
     {
         private const int SidebarWidth = 200;
         private const int HeaderOuterPadding = 5;
@@ -33,13 +33,13 @@ namespace Kenedia.Modules.Characters.Controls
         private static readonly Color CompletedBackground = new Color(40, 80, 40, 200);
         private static readonly Color CompletedTextColor = new Color(120, 200, 120);
 
-        private readonly TaskListService _service;
+        private readonly CharacterRoutineService _service;
         private readonly FlowPanel _headerPanel;
         private readonly FlowPanel _listPanel;
         private readonly TextBox _searchBox;
-        private readonly Dictionary<Guid, SidebarEntry> _listEntries = [];
+        private readonly Dictionary<Guid, SidebarEntry> _listRoutineEntries = [];
 
-        public TaskListSidebar(TaskListService service)
+        public CharacterRoutineSidebar(CharacterRoutineService service)
         {
             _service = service;
 
@@ -60,16 +60,16 @@ namespace Kenedia.Modules.Characters.Controls
             _ = new Button()
             {
                 Parent = _headerPanel,
-                Text = strings.NewTaskList,
+                Text = strings.NewCharacterRoutine,
                 Width = HeaderControlWidth,
                 Height = 30,
-                ClickAction = () => _service.CreateNewList(),
+                ClickAction = () => _service.CreateNewRoutine(),
             };
 
             _searchBox = new TextBox()
             {
                 Parent = _headerPanel,
-                PlaceholderText = strings.SearchTaskLists,
+                PlaceholderText = strings.SearchCharacterRoutines,
                 Width = HeaderControlWidth,
                 Height = 28,
                 TextChangedAction = (_) => UpdateFilterVisibility(),
@@ -91,29 +91,29 @@ namespace Kenedia.Modules.Characters.Controls
             _headerPanel.Resized += (_, _) => UpdateLayout();
             _listPanel.Resized += (_, _) => UpdateListEntryWidths();
 
-            _service.State.TaskLists.Changed += TaskLists_Changed;
-            _service.State.SelectedList.Changed += SelectedList_Changed;
+            _service.State.CharacterRoutines.Changed += CharacterRoutines_Changed;
+            _service.State.SelectedRoutine.Changed += SelectedRoutine_Changed;
 
-            foreach (var taskList in _service.TaskLists)
+            foreach (var characterRoutine in _service.CharacterRoutines)
             {
-                EnsureListEntry(taskList);
+                EnsureListEntry(characterRoutine);
             }
 
             UpdateLayout();
             UpdateFilterVisibility();
             UpdateAllEntryVisuals();
 
-            var firstTaskList = _service.TaskLists.FirstOrDefault();
-            if (firstTaskList != null)
+            var firstCharacterRoutine = _service.CharacterRoutines.FirstOrDefault();
+            if (firstCharacterRoutine != null)
             {
-                _service.SelectList(firstTaskList);
+                _service.SelectRoutine(firstCharacterRoutine);
             }
         }
 
-        private void EnsureListEntry(TaskListModel taskList)
+        private void EnsureListEntry(CharacterRoutineModel characterRoutine)
         {
-            if (taskList is null) return;
-            if (_listEntries.ContainsKey(taskList.Id)) return;
+            if (characterRoutine is null) return;
+            if (_listRoutineEntries.ContainsKey(characterRoutine.Id)) return;
 
             var entryPanel = new Panel()
             {
@@ -125,76 +125,76 @@ namespace Kenedia.Modules.Characters.Controls
             var nameLabel = new Label()
             {
                 Parent = entryPanel,
-                Text = taskList.Name,
+                Text = characterRoutine.Name,
                 Location = new Point(ListEntryLabelX, 0),
                 AutoSizeWidth = true,
                 Height = ListEntryHeight,
                 VerticalAlignment = VerticalAlignment.Middle,
             };
 
-            entryPanel.Click += (_, _) => _service.SelectList(taskList);
+            entryPanel.Click += (_, _) => _service.SelectRoutine(characterRoutine);
 
-            _listEntries[taskList.Id] = new SidebarEntry()
+            _listRoutineEntries[characterRoutine.Id] = new SidebarEntry()
             {
-                TaskList = taskList,
+                CharacterRoutine = characterRoutine,
                 EntryPanel = entryPanel,
                 NameLabel = nameLabel,
             };
 
-            UpdateListEntryVisual(taskList);
+            UpdateListEntryVisual(characterRoutine);
         }
 
-        private void RemoveListEntry(TaskListModel taskList)
+        private void RemoveListEntry(CharacterRoutineModel characterRoutine)
         {
-            if (taskList is null) return;
-            if (!_listEntries.TryGetValue(taskList.Id, out var entry)) return;
+            if (characterRoutine is null) return;
+            if (!_listRoutineEntries.TryGetValue(characterRoutine.Id, out var entry)) return;
 
             entry.EntryPanel.Dispose();
-            _listEntries.Remove(taskList.Id);
+            _listRoutineEntries.Remove(characterRoutine.Id);
         }
 
         private void UpdateFilterVisibility()
         {
-            foreach (var entry in _listEntries.Values)
+            foreach (var entry in _listRoutineEntries.Values)
             {
-                entry.EntryPanel.Visible = MatchesFilter(entry.TaskList);
+                entry.EntryPanel.Visible = MatchesFilter(entry.CharacterRoutine);
             }
 
             UpdateListEntryWidths();
         }
 
-        private bool MatchesFilter(TaskListModel taskList)
+        private bool MatchesFilter(CharacterRoutineModel characterRoutine)
         {
             string filter = _searchBox?.Text?.Trim() ?? string.Empty;
             if (filter.Length == 0) return true;
 
-            return !string.IsNullOrEmpty(taskList?.Name)
-                   && taskList.Name.IndexOf(filter, StringComparison.OrdinalIgnoreCase) >= 0;
+            return !string.IsNullOrEmpty(characterRoutine?.Name)
+                   && characterRoutine.Name.IndexOf(filter, StringComparison.OrdinalIgnoreCase) >= 0;
         }
 
-        private void UpdateListEntryVisual(TaskListModel taskList)
+        private void UpdateListEntryVisual(CharacterRoutineModel characterRoutine)
         {
-            if (taskList is null) return;
-            if (!_listEntries.TryGetValue(taskList.Id, out var entry)) return;
+            if (characterRoutine is null) return;
+            if (!_listRoutineEntries.TryGetValue(characterRoutine.Id, out var entry)) return;
 
-            bool isSelected = _service.SelectedList?.Id == taskList.Id;
-            bool isCompleted = taskList.Entries.Count > 0 && taskList.Entries.All(e => e.Completed);
+            bool isSelected = _service.SelectedRoutine?.Id == characterRoutine.Id;
+            bool isCompleted = characterRoutine.RoutineEntries.Count > 0 && characterRoutine.RoutineEntries.All(e => e.Completed);
 
             entry.EntryPanel.BackgroundColor =
                   isSelected ? SelectedBackground
                 : isCompleted ? CompletedBackground
                 : Color.Transparent;
 
-            entry.NameLabel.Text = taskList.Name;
+            entry.NameLabel.Text = characterRoutine.Name;
             entry.NameLabel.TextColor = isCompleted ? CompletedTextColor : Color.White;
-            entry.EntryPanel.Visible = MatchesFilter(taskList);
+            entry.EntryPanel.Visible = MatchesFilter(characterRoutine);
         }
 
         private void UpdateAllEntryVisuals()
         {
-            foreach (var taskList in _service.TaskLists)
+            foreach (var characterRoutine in _service.CharacterRoutines)
             {
-                UpdateListEntryVisual(taskList);
+                UpdateListEntryVisual(characterRoutine);
             }
         }
 
@@ -216,7 +216,7 @@ namespace Kenedia.Modules.Characters.Controls
         private void UpdateListEntryWidths()
         {
             int entryWidth = GetListEntryWidth();
-            foreach (var child in _listEntries.Values)
+            foreach (var child in _listRoutineEntries.Values)
             {
                 child.EntryPanel.Width = entryWidth;
             }
@@ -224,39 +224,39 @@ namespace Kenedia.Modules.Characters.Controls
 
         protected override void DisposeControl()
         {
-            _service.State.TaskLists.Changed -= TaskLists_Changed;
-            _service.State.SelectedList.Changed -= SelectedList_Changed;
+            _service.State.CharacterRoutines.Changed -= CharacterRoutines_Changed;
+            _service.State.SelectedRoutine.Changed -= SelectedRoutine_Changed;
 
             base.DisposeControl();
         }
 
-        private void TaskLists_Changed(object sender, StateVarChangedEventArgs<ObservableCollection<TaskListModel>> e)
+        private void CharacterRoutines_Changed(object sender, StateVarChangedEventArgs<ObservableCollection<CharacterRoutineModel>> e)
         {
-            var currentLists = _service.TaskLists;
+            var currentLists = _service.CharacterRoutines;
             var currentIds = new HashSet<Guid>(currentLists.Select(list => list.Id));
 
-            foreach (var existingId in _listEntries.Keys.ToList())
+            foreach (var existingId in _listRoutineEntries.Keys.ToList())
             {
                 if (!currentIds.Contains(existingId))
                 {
-                    if (_listEntries.TryGetValue(existingId, out var existing))
+                    if (_listRoutineEntries.TryGetValue(existingId, out var existing))
                     {
                         existing.EntryPanel.Dispose();
-                        _listEntries.Remove(existingId);
+                        _listRoutineEntries.Remove(existingId);
                     }
                 }
             }
 
-            foreach (var taskList in currentLists)
+            foreach (var characterRoutine in currentLists)
             {
-                EnsureListEntry(taskList);
+                EnsureListEntry(characterRoutine);
             }
 
             UpdateFilterVisibility();
             UpdateAllEntryVisuals();
         }
 
-        private void SelectedList_Changed(object sender, StateVarChangedEventArgs<TaskListModel> e)
+        private void SelectedRoutine_Changed(object sender, StateVarChangedEventArgs<CharacterRoutineModel> e)
         {
             UpdateListEntryVisual(e.OldValue);
             UpdateListEntryVisual(e.NewValue);
@@ -264,7 +264,7 @@ namespace Kenedia.Modules.Characters.Controls
 
         private sealed class SidebarEntry
         {
-            public TaskListModel TaskList { get; init; }
+            public CharacterRoutineModel CharacterRoutine { get; init; }
 
             public Panel EntryPanel { get; init; }
 

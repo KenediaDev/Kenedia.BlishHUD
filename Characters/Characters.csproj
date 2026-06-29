@@ -101,10 +101,10 @@
     <Compile Include="Controls\DraggingControl.cs" />
     <Compile Include="Controls\RadialMenuSection.cs" />
     <Compile Include="Controls\TagFlowPanel.cs" />
-    <Compile Include="Controls\TaskEntriesPanel.cs" />
-    <Compile Include="Controls\TaskEntryRow.cs" />
-    <Compile Include="Controls\TaskListDetailPanel.cs" />
-    <Compile Include="Controls\TaskListSidebar.cs" />
+    <Compile Include="Controls\CharacterRoutineEntriesPanel.cs" />
+    <Compile Include="Controls\CharacterRoutineEntryRow.cs" />
+    <Compile Include="Controls\CharacterRoutineDetailPanel.cs" />
+    <Compile Include="Controls\CharacterRoutineSidebar.cs" />
     <Compile Include="Controls\Triangle.cs" />
     <Compile Include="Models\CraftingProfession.cs" />
     <Compile Include="Models\FilterEntry.cs" />
@@ -134,15 +134,15 @@
     <Compile Include="Models\Specialization.cs" />
     <Compile Include="Models\StaticInfo.cs" />
     <Compile Include="Models\TagList.cs" />
-    <Compile Include="Models\TaskEntry.cs" />
-    <Compile Include="Models\TaskListModel.cs" />
+    <Compile Include="Models\CharacterRoutineEntry.cs" />
+    <Compile Include="Models\CharacterRoutineModel.cs" />
     <Compile Include="OCR\OCR.cs" />
     <Compile Include="Models\SearchFilterCollection.cs" />
     <Compile Include="Services\CharactersContext.cs" />
     <Compile Include="Services\ContextManager.cs" />
     <Compile Include="Services\StateVar.cs" />
     <Compile Include="Services\StaticHosting.cs" />
-    <Compile Include="Services\TaskListService.cs" />
+    <Compile Include="Services\CharacterRoutineService.cs" />
     <Compile Include="Views\OCRView.cs" />
     <Compile Include="OCR\OCR_TrainDisplay.cs" />
     <Compile Include="Res\strings.Designer.cs">
@@ -163,7 +163,7 @@
     <Compile Include="Views\MainWindow.cs" />
     <Compile Include="Views\SettingsView.cs" />
     <Compile Include="Views\SettingsWindow.cs" />
-    <Compile Include="Views\TaskListWindow.cs" />
+    <Compile Include="Views\CharacterRoutineWindow.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

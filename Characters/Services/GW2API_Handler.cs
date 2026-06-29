@@ -1,4 +1,4 @@
-﻿using Blish_HUD.Modules.Managers;
+using Blish_HUD.Modules.Managers;
 using Kenedia.Modules.Characters.Res;
 using Gw2Sharp.WebApi.V2;
 using Gw2Sharp.WebApi.V2.Models;

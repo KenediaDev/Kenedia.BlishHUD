@@ -7,7 +7,7 @@ using System.Linq;
 
 namespace Kenedia.Modules.Characters.Services
 {
-    public enum TaskEntrySwitchStatus
+    public enum CharacterRoutineEntrySwitchStatus
     {
         None,
         Switching,
@@ -17,40 +17,40 @@ namespace Kenedia.Modules.Characters.Services
         CharacterNotAssigned,
     }
 
-    public class TaskListService : IDisposable
+    public class CharacterRoutineService : IDisposable
     {
-        public sealed class TaskListState
+        public sealed class CharacterRoutineState
         {
-            public StateVar<ObservableCollection<TaskListModel>> TaskLists { get; } = new();
+            public StateVar<ObservableCollection<CharacterRoutineModel>> CharacterRoutines { get; } = new();
 
-            public StateVar<TaskListModel> SelectedList { get; } = new();
+            public StateVar<CharacterRoutineModel> SelectedRoutine { get; } = new();
 
-            public StateVar<TaskEntry> TrackedEntry { get; } = new();
+            public StateVar<CharacterRoutineEntry> TrackedEntry { get; } = new();
 
-            public StateVar<TaskEntrySwitchStatus> EntrySwitchStatus { get; } = new();
+            public StateVar<CharacterRoutineEntrySwitchStatus> EntrySwitchStatus { get; } = new();
         }
 
         private readonly Action _requestSave;
-        private TaskEntry _trackedEntryPendingCompletion;
+        private CharacterRoutineEntry _trackedEntryPendingCompletion;
         private bool _trackedEntrySwitchSucceeded;
 
-        public TaskListService(CharacterSwapping characterSwapping, ObservableCollection<Character_Model> characterModels, ObservableCollection<TaskListModel> taskLists, Action requestSave)
+        public CharacterRoutineService(CharacterSwapping characterSwapping, ObservableCollection<Character_Model> characterModels, ObservableCollection<CharacterRoutineModel> characterRoutines, Action requestSave)
         {
             CharacterSwapping = characterSwapping;
             CharacterModels = characterModels;
-            TaskLists = taskLists;
+            CharacterRoutines = characterRoutines;
             _requestSave = requestSave;
-            State.TaskLists.Value = TaskLists;
+            State.CharacterRoutines.Value = CharacterRoutines;
 
             CharacterSwapping.Succeeded += CharacterSwapping_Succeeded;
             CharacterSwapping.Failed += CharacterSwapping_Failed;
         }
 
-        public TaskListModel SelectedList { get; private set; }
+        public CharacterRoutineModel SelectedRoutine { get; private set; }
 
-        public ObservableCollection<TaskListModel> TaskLists { get; }
+        public ObservableCollection<CharacterRoutineModel> CharacterRoutines { get; }
 
-        public TaskListState State { get; } = new();
+        public CharacterRoutineState State { get; } = new();
         public CharacterSwapping CharacterSwapping { get; }
         public ObservableCollection<Character_Model> CharacterModels { get; }
 
@@ -58,9 +58,9 @@ namespace Kenedia.Modules.Characters.Services
         {
             bool anyReset = false;
 
-            foreach (var taskList in TaskLists)
+            foreach (var characterRoutine in CharacterRoutines)
             {
-                if (taskList.CheckAndApplyScheduledReset())
+                if (characterRoutine.CheckAndApplyScheduledReset())
                 {
                     anyReset = true;
                 }
@@ -74,28 +74,28 @@ namespace Kenedia.Modules.Characters.Services
             return anyReset;
         }
 
-        public void CreateNewList()
+        public void CreateNewRoutine()
         {
-            var newList = new TaskListModel(string.Format(strings.TaskListDefaultName, TaskLists.Count + 1));
-            TaskLists.Add(newList);
+            var newRoutine = new CharacterRoutineModel(string.Format(strings.CharacterRoutineDefaultName, CharacterRoutines.Count + 1));
+            CharacterRoutines.Add(newRoutine);
             _requestSave?.Invoke();
 
-            SelectList(newList);
+            SelectRoutine(newRoutine);
         }
 
-        public void DeleteSelectedList()
+        public void DeleteSelectedRoutine()
         {
-            if (SelectedList is null) return;
+            if (SelectedRoutine is null) return;
 
-            var previousList = SelectedList;
+            var previousRoutine = SelectedRoutine;
             var previousTrackedEntry = _trackedEntryPendingCompletion;
 
-            SelectedList = null;
+            SelectedRoutine = null;
             _trackedEntryPendingCompletion = null;
             _trackedEntrySwitchSucceeded = false;
-            State.EntrySwitchStatus.Value = TaskEntrySwitchStatus.None;
+            State.EntrySwitchStatus.Value = CharacterRoutineEntrySwitchStatus.None;
 
-            TaskLists.Remove(previousList);
+            CharacterRoutines.Remove(previousRoutine);
             _requestSave?.Invoke();
 
             if (previousTrackedEntry is not null)
@@ -103,54 +103,54 @@ namespace Kenedia.Modules.Characters.Services
                 State.TrackedEntry.Value = null;
             }
 
-            State.SelectedList.Value = null;
+            State.SelectedRoutine.Value = null;
         }
 
-        public void SelectList(TaskListModel taskList)
+        public void SelectRoutine(CharacterRoutineModel characterRoutine)
         {
-            if (ReferenceEquals(SelectedList, taskList)) return;
+            if (ReferenceEquals(SelectedRoutine, characterRoutine)) return;
 
-            SelectedList = taskList;
-            State.SelectedList.Value = SelectedList;
-            State.TrackedEntry.Value = GetTrackedEntryForSelectedList();
+            SelectedRoutine = characterRoutine;
+            State.SelectedRoutine.Value = SelectedRoutine;
+            State.TrackedEntry.Value = GetTrackedEntryForSelectedRoutine();
         }
 
-        public void UpdateSelectedListName(string name)
+        public void UpdateSelectedRoutineName(string name)
         {
-            if (SelectedList is null) return;
+            if (SelectedRoutine is null) return;
 
-            SelectedList.Name = name;
+            SelectedRoutine.Name = name;
             _requestSave?.Invoke();
         }
 
-        public void UpdateSelectedListResetFrequency(ResetFrequency frequency)
+        public void UpdateSelectedRoutineResetFrequency(ResetFrequency frequency)
         {
-            if (SelectedList is null) return;
+            if (SelectedRoutine is null) return;
 
-            SelectedList.ResetFrequency = frequency;
+            SelectedRoutine.ResetFrequency = frequency;
             _requestSave?.Invoke();
         }
 
-        public void AddEntry(string characterName, string description)
+        public void AddRoutineEntry(string characterName, string description)
         {
-            SelectedList.AddEntry(characterName, description);
+            SelectedRoutine.AddRoutineEntry(characterName, description);
             _requestSave?.Invoke();
         }
 
-        public void RemoveEntry(TaskEntry entry)
+        public void RemoveRoutineEntry(CharacterRoutineEntry entry)
         {
-            if (SelectedList is null || entry is null) return;
-            if (!SelectedList.Entries.Contains(entry)) return;
+            if (SelectedRoutine is null || entry is null) return;
+            if (!SelectedRoutine.RoutineEntries.Contains(entry)) return;
 
             bool trackedEntryRemoved = ReferenceEquals(_trackedEntryPendingCompletion, entry);
             if (trackedEntryRemoved)
             {
                 _trackedEntryPendingCompletion = null;
                 _trackedEntrySwitchSucceeded = false;
-                State.EntrySwitchStatus.Value = TaskEntrySwitchStatus.None;
+                State.EntrySwitchStatus.Value = CharacterRoutineEntrySwitchStatus.None;
             }
 
-            SelectedList.RemoveEntry(entry);
+            SelectedRoutine.RemoveRoutineEntry(entry);
             _requestSave?.Invoke();
 
             if (trackedEntryRemoved)
@@ -159,31 +159,24 @@ namespace Kenedia.Modules.Characters.Services
             }
         }
 
-        public void ReorderEntry(TaskEntry entry, int targetIndex)
+        public void ReorderRoutineEntry(CharacterRoutineEntry entry, int targetIndex)
         {
-            if (SelectedList is null || entry is null) return;
+            if (SelectedRoutine is null || entry is null) return;
 
-            var entries = SelectedList.Entries.OrderBy(e => e.Order).ToList();
-            int currentIndex = entries.IndexOf(entry);
+            int currentIndex = SelectedRoutine.RoutineEntries.IndexOf(entry);
             if (currentIndex < 0 || currentIndex == targetIndex) return;
 
-            entries.Remove(entry);
-            int insertAt = Math.Min(targetIndex, entries.Count);
-            entries.Insert(insertAt, entry);
-
-            for (int i = 0; i < entries.Count; i++)
-            {
-                entries[i].Order = i;
-            }
+            int insertAt = Math.Min(targetIndex, SelectedRoutine.RoutineEntries.Count - 1);
+            SelectedRoutine.RoutineEntries.Move(currentIndex, insertAt);
 
             _requestSave?.Invoke();
         }
 
-        public void UpdateEntry(TaskEntry entry, string characterName, string description)
+        public void UpdateRoutineEntry(CharacterRoutineEntry entry, string characterName, string description)
         {
             if (entry is null) return;
 
-            var list = FindListByEntry(entry);
+            var list = FindRoutineByEntry(entry);
             if (list is null) return;
 
             entry.CharacterName = characterName?.Trim();
@@ -193,16 +186,16 @@ namespace Kenedia.Modules.Characters.Services
             {
                 _trackedEntrySwitchSucceeded = IsCurrentCharacter(entry.CharacterName);
                 State.EntrySwitchStatus.Value = _trackedEntrySwitchSucceeded
-                    ? TaskEntrySwitchStatus.ReadyToComplete
+                    ? CharacterRoutineEntrySwitchStatus.ReadyToComplete
                     : string.IsNullOrWhiteSpace(entry.CharacterName)
-                        ? TaskEntrySwitchStatus.CharacterNotAssigned
-                        : TaskEntrySwitchStatus.None;
+                        ? CharacterRoutineEntrySwitchStatus.CharacterNotAssigned
+                        : CharacterRoutineEntrySwitchStatus.None;
             }
 
             _requestSave?.Invoke();
         }
 
-        public void SetEntryCompletion(TaskEntry entry, bool completed)
+        public void SetRoutineEntryCompletion(CharacterRoutineEntry entry, bool completed)
         {
             if (entry is null) return;
             if (entry.Completed == completed) return;
@@ -213,19 +206,19 @@ namespace Kenedia.Modules.Characters.Services
             {
                 _trackedEntryPendingCompletion = null;
                 _trackedEntrySwitchSucceeded = false;
-                State.EntrySwitchStatus.Value = TaskEntrySwitchStatus.None;
+                State.EntrySwitchStatus.Value = CharacterRoutineEntrySwitchStatus.None;
                 State.TrackedEntry.Value = null;
             }
 
             _requestSave?.Invoke();
         }
 
-        public void SetAllEntriesCompletion(bool completed)
+        public void SetAllRoutineEntriesCompletion(bool completed)
         {
-            if (SelectedList is null) return;
+            if (SelectedRoutine is null) return;
 
             bool changedAny = false;
-            foreach (var entry in SelectedList.Entries)
+            foreach (var entry in SelectedRoutine.RoutineEntries)
             {
                 if (entry.Completed != completed)
                 {
@@ -236,11 +229,11 @@ namespace Kenedia.Modules.Characters.Services
             }
 
             bool trackedEntryCleared = false;
-            if (completed && _trackedEntryPendingCompletion is not null && SelectedList.Entries.Contains(_trackedEntryPendingCompletion))
+            if (completed && _trackedEntryPendingCompletion is not null && SelectedRoutine.RoutineEntries.Contains(_trackedEntryPendingCompletion))
             {
                 _trackedEntryPendingCompletion = null;
                 _trackedEntrySwitchSucceeded = false;
-                State.EntrySwitchStatus.Value = TaskEntrySwitchStatus.None;
+                State.EntrySwitchStatus.Value = CharacterRoutineEntrySwitchStatus.None;
                 trackedEntryCleared = true;
             }
 
@@ -254,13 +247,13 @@ namespace Kenedia.Modules.Characters.Services
             }
         }
 
-        public TaskEntry GetTrackedEntryForSelectedList()
+        public CharacterRoutineEntry GetTrackedEntryForSelectedRoutine()
         {
-            var list = SelectedList;
+            var list = SelectedRoutine;
             var trackedEntry = _trackedEntryPendingCompletion;
             return trackedEntry is null || list is null
                 ? null
-                : !list.Entries.Contains(trackedEntry) || !trackedEntry.Enabled || trackedEntry.Completed
+                : !list.RoutineEntries.Contains(trackedEntry) || !trackedEntry.Enabled || trackedEntry.Completed
                     ? null
                     : trackedEntry;
         }
@@ -274,12 +267,12 @@ namespace Kenedia.Modules.Characters.Services
             }
         }
 
-        public void SwitchToNextIncompleteEntry()
+        public void SwitchToNextIncompleteRoutineEntry()
         {
-            if (SelectedList is null) return;
+            if (SelectedRoutine is null) return;
 
             bool changedCompletion = false;
-            var trackedEntry = GetTrackedEntryForSelectedList();
+            var trackedEntry = GetTrackedEntryForSelectedRoutine();
             var previousTrackedEntry = trackedEntry;
             if (trackedEntry is not null)
             {
@@ -293,10 +286,10 @@ namespace Kenedia.Modules.Characters.Services
                 changedCompletion = true;
                 _trackedEntryPendingCompletion = null;
                 _trackedEntrySwitchSucceeded = false;
-                State.EntrySwitchStatus.Value = TaskEntrySwitchStatus.None;
+                State.EntrySwitchStatus.Value = CharacterRoutineEntrySwitchStatus.None;
             }
 
-            var nextEntry = GetNextIncompleteEntry(SelectedList);
+            var nextEntry = GetNextIncompleteRoutineEntry(SelectedRoutine);
 
             if (nextEntry is not null)
             {
@@ -304,7 +297,7 @@ namespace Kenedia.Modules.Characters.Services
                 _trackedEntrySwitchSucceeded = IsCurrentCharacter(nextEntry.CharacterName);
                 if (_trackedEntrySwitchSucceeded)
                 {
-                    State.EntrySwitchStatus.Value = TaskEntrySwitchStatus.ReadyToComplete;
+                    State.EntrySwitchStatus.Value = CharacterRoutineEntrySwitchStatus.ReadyToComplete;
                 }
                 else
                 {
@@ -329,9 +322,9 @@ namespace Kenedia.Modules.Characters.Services
             CharacterSwapping.Failed -= CharacterSwapping_Failed;
         }
 
-        private TaskListModel FindListByEntry(TaskEntry entry)
+        private CharacterRoutineModel FindRoutineByEntry(CharacterRoutineEntry entry)
         {
-            return entry is null ? null : TaskLists.FirstOrDefault(list => list.Entries.Contains(entry));
+            return entry is null ? null : CharacterRoutines.FirstOrDefault(list => list.RoutineEntries.Contains(entry));
         }
 
         private void CharacterSwapping_Succeeded(object sender, EventArgs e)
@@ -345,7 +338,7 @@ namespace Kenedia.Modules.Characters.Services
             if (DoesEntryMatchCharacter(trackedEntry, CharacterSwapping.Character))
             {
                 _trackedEntrySwitchSucceeded = true;
-                State.EntrySwitchStatus.Value = TaskEntrySwitchStatus.ReadyToComplete;
+                State.EntrySwitchStatus.Value = CharacterRoutineEntrySwitchStatus.ReadyToComplete;
             }
         }
 
@@ -360,22 +353,22 @@ namespace Kenedia.Modules.Characters.Services
             if (DoesEntryMatchCharacter(trackedEntry, CharacterSwapping.Character))
             {
                 _trackedEntrySwitchSucceeded = false;
-                State.EntrySwitchStatus.Value = TaskEntrySwitchStatus.Failed;
+                State.EntrySwitchStatus.Value = CharacterRoutineEntrySwitchStatus.Failed;
             }
         }
 
-        private bool CanCompleteTrackedEntry(TaskEntry entry)
+        private bool CanCompleteTrackedEntry(CharacterRoutineEntry entry)
         {
             return entry is not null && (_trackedEntrySwitchSucceeded || IsCurrentCharacter(entry.CharacterName));
         }
 
-        private bool TryStartSwitchForEntry(TaskEntry entry)
+        private bool TryStartSwitchForEntry(CharacterRoutineEntry entry)
         {
             string characterName = entry?.CharacterName?.Trim();
             if (string.IsNullOrEmpty(characterName))
             {
                 _trackedEntrySwitchSucceeded = false;
-                State.EntrySwitchStatus.Value = TaskEntrySwitchStatus.CharacterNotAssigned;
+                State.EntrySwitchStatus.Value = CharacterRoutineEntrySwitchStatus.CharacterNotAssigned;
                 return false;
             }
 
@@ -383,19 +376,19 @@ namespace Kenedia.Modules.Characters.Services
             if (character is null)
             {
                 _trackedEntrySwitchSucceeded = false;
-                State.EntrySwitchStatus.Value = TaskEntrySwitchStatus.CharacterNotFound;
+                State.EntrySwitchStatus.Value = CharacterRoutineEntrySwitchStatus.CharacterNotFound;
                 return false;
             }
 
             _trackedEntrySwitchSucceeded = IsCurrentCharacter(character.Name);
             if (!_trackedEntrySwitchSucceeded)
             {
-                State.EntrySwitchStatus.Value = TaskEntrySwitchStatus.Switching;
+                State.EntrySwitchStatus.Value = CharacterRoutineEntrySwitchStatus.Switching;
                 CharacterSwapping.Start(character);
             }
             else
             {
-                State.EntrySwitchStatus.Value = TaskEntrySwitchStatus.ReadyToComplete;
+                State.EntrySwitchStatus.Value = CharacterRoutineEntrySwitchStatus.ReadyToComplete;
             }
 
             return true;
@@ -410,7 +403,7 @@ namespace Kenedia.Modules.Characters.Services
                 && GameService.GameIntegration.Gw2Instance.IsInGame;
         }
 
-        private static bool DoesEntryMatchCharacter(TaskEntry entry, Character_Model character)
+        private static bool DoesEntryMatchCharacter(CharacterRoutineEntry entry, Character_Model character)
         {
             return entry is not null
                 && character is not null
@@ -418,12 +411,12 @@ namespace Kenedia.Modules.Characters.Services
                 && entry.CharacterName.Equals(character.Name, StringComparison.OrdinalIgnoreCase);
         }
 
-        public void SetEntryEnabled(TaskEntry entry, bool enabled)
+        public void SetRoutineEntryEnabled(CharacterRoutineEntry entry, bool enabled)
         {
             if (entry is null) return;
             if (entry.Enabled == enabled) return;
 
-            var list = FindListByEntry(entry);
+            var list = FindRoutineByEntry(entry);
             if (list is null) return;
 
             entry.Enabled = enabled;
@@ -433,13 +426,13 @@ namespace Kenedia.Modules.Characters.Services
             {
                 _trackedEntryPendingCompletion = null;
                 _trackedEntrySwitchSucceeded = false;
-                State.EntrySwitchStatus.Value = TaskEntrySwitchStatus.None;
+                State.EntrySwitchStatus.Value = CharacterRoutineEntrySwitchStatus.None;
                 trackedEntryChanged = true;
             }
 
-            if (ReferenceEquals(list, SelectedList))
+            if (ReferenceEquals(list, SelectedRoutine))
             {
-                var trackedEntry = GetTrackedEntryForSelectedList();
+                var trackedEntry = GetTrackedEntryForSelectedRoutine();
                 if (!ReferenceEquals(State.TrackedEntry.Value, trackedEntry))
                 {
                     State.TrackedEntry.Value = trackedEntry;
@@ -453,11 +446,9 @@ namespace Kenedia.Modules.Characters.Services
             _requestSave?.Invoke();
         }
 
-        public TaskEntry GetNextIncompleteEntry(TaskListModel taskList)
+        public CharacterRoutineEntry GetNextIncompleteRoutineEntry(CharacterRoutineModel characterRoutine)
         {
-            return taskList?.Entries
-                .OrderBy(e => e.Order)
-                .FirstOrDefault(e => e.Enabled && !e.Completed);
+            return characterRoutine?.RoutineEntries.FirstOrDefault(e => e.Enabled && !e.Completed);
         }
     }
 }

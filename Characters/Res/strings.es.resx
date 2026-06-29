@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!-- 
     Microsoft ResX Schema 
@@ -1049,26 +1049,26 @@ Ruta a 'tesseract.dll': {0}</value>
   <data name="Radial_CenterScreen_Tooltip" xml:space="preserve">
     <value>Centrar siempre el menú radial en el centro de la ventana de juegos</value>
   </data>
-  <data name="ToggleTaskListKey" xml:space="preserve">
-    <value>Alternar lista de tareas</value>
+  <data name="ToggleCharacterRoutineKey" xml:space="preserve">
+    <value>Alternar rutina de personajes</value>
   </data>
-  <data name="ToggleTaskListKey_Tooltip" xml:space="preserve">
-    <value>Tecla para abrir o cerrar la ventana de la lista de tareas</value>
+  <data name="ToggleCharacterRoutineKey_Tooltip" xml:space="preserve">
+    <value>Tecla para abrir o cerrar la ventana de la rutina de personajes</value>
   </data>
-  <data name="NextTaskEntryKey" xml:space="preserve">
-    <value>Siguiente tarea</value>
+  <data name="NextCharacterRoutineEntryKey" xml:space="preserve">
+    <value>Siguiente entrada de rutina</value>
   </data>
-  <data name="NextTaskEntryKey_Tooltip" xml:space="preserve">
-    <value>Tecla para pasar al siguiente carácter incompleto de la lista de tareas activas</value>
+  <data name="NextCharacterRoutineEntryKey_Tooltip" xml:space="preserve">
+    <value>Tecla para pasar al siguiente personaje incompleto de la rutina de personajes activa</value>
   </data>
-  <data name="NewTaskList" xml:space="preserve">
-    <value>Nueva lista de tareas</value>
+  <data name="NewCharacterRoutine" xml:space="preserve">
+    <value>Nueva rutina de personajes</value>
   </data>
-  <data name="SearchTaskLists" xml:space="preserve">
-    <value>Listas de búsqueda...</value>
+  <data name="SearchCharacterRoutines" xml:space="preserve">
+    <value>Buscar rutinas...</value>
   </data>
-  <data name="TaskListPlaceholder" xml:space="preserve">
-    <value>Seleccione o cree una lista de tareas para empezar.</value>
+  <data name="CharacterRoutinePlaceholder" xml:space="preserve">
+    <value>Seleccione o cree una rutina de personajes para empezar.</value>
   </data>
   <data name="DeleteList" xml:space="preserve">
     <value>Borrar lista</value>
@@ -1085,17 +1085,17 @@ Ruta a 'tesseract.dll': {0}</value>
   <data name="ResetWeekly" xml:space="preserve">
     <value>Semanal (lun 07:30 UTC)</value>
   </data>
-  <data name="TaskDescriptionPlaceholder" xml:space="preserve">
-    <value>Descripción de la tarea (opcional)</value>
+  <data name="RoutineEntryDescriptionPlaceholder" xml:space="preserve">
+    <value>Descripci?n de la entrada de rutina (opcional)</value>
   </data>
-  <data name="AddTask" xml:space="preserve">
-    <value>Añadir tarea</value>
+  <data name="AddRoutineEntry" xml:space="preserve">
+    <value>A?adir entrada de rutina</value>
   </data>
   <data name="CopyCharacterName" xml:space="preserve">
     <value>Copiar nombre de personaje</value>
   </data>
-  <data name="Tasks" xml:space="preserve">
-    <value>Tareas</value>
+  <data name="RoutineEntries" xml:space="preserve">
+    <value>Entradas de rutina</value>
   </data>
   <data name="Next" xml:space="preserve">
     <value>Siguiente</value>
@@ -1103,8 +1103,8 @@ Ruta a 'tesseract.dll': {0}</value>
   <data name="Finish" xml:space="preserve">
     <value>Acabado</value>
   </data>
-  <data name="CompletedTasksHiddenTooltip" xml:space="preserve">
-    <value>Las tareas completadas se ocultan en función de su configuración.</value>
+  <data name="CompletedRoutineEntriesHiddenTooltip" xml:space="preserve">
+    <value>Las entradas de rutina completadas se ocultan seg?n su configuraci?n.</value>
   </data>
   <data name="UncheckAll" xml:space="preserve">
     <value>Desmarcar todo</value>
@@ -1112,28 +1112,28 @@ Ruta a 'tesseract.dll': {0}</value>
   <data name="CheckAll" xml:space="preserve">
     <value>Comprobar todo</value>
   </data>
-  <data name="CompleteTaskList" xml:space="preserve">
-    <value>Completa la lista de tareas.</value>
+  <data name="CompleteCharacterRoutine" xml:space="preserve">
+    <value>Completa la rutina de personajes.</value>
   </data>
   <data name="SwitchToFirstIncomplete" xml:space="preserve">
-    <value>Pasar a la primera entrada de tarea incompleta.</value>
+    <value>Pasar a la primera entrada de rutina incompleta.</value>
   </data>
-  <data name="AllTasksComplete" xml:space="preserve">
-    <value>Todas las tareas de esta lista están completas.</value>
+  <data name="AllRoutineEntriesComplete" xml:space="preserve">
+    <value>Todas las entradas de esta rutina de personajes est?n completas.</value>
   </data>
   <data name="NextClickMarksComplete" xml:space="preserve">
     <value>El siguiente clic marca '{0}' completo.</value>
   </data>
-  <data name="TaskSwitchFailed" xml:space="preserve">
+  <data name="RoutineEntrySwitchFailed" xml:space="preserve">
     <value>No se pudo cambiar a '{0}'. Haz clic en Siguiente para reintentarlo.</value>
   </data>
   <data name="Retry" xml:space="preserve">
     <value>Reintentar</value>
   </data>
-  <data name="TaskCharacterNotFound" xml:space="preserve">
-    <value>No se encontró el personaje '{0}'. Edita esta tarea para continuar.</value>
+  <data name="RoutineEntryCharacterNotFound" xml:space="preserve">
+    <value>No se encontr? el personaje '{0}'. Edita esta entrada de rutina para continuar.</value>
   </data>
-  <data name="TaskCharacterNotAssigned" xml:space="preserve">
+  <data name="RoutineEntryCharacterNotAssigned" xml:space="preserve">
     <value>No hay ningún personaje asignado. Asigna uno para continuar.</value>
   </data>
   <data name="HideComplete" xml:space="preserve">
@@ -1145,35 +1145,35 @@ Ruta a 'tesseract.dll': {0}</value>
   <data name="EditEntry" xml:space="preserve">
     <value>Editar entrada</value>
   </data>
-  <data name="RemoveEntry" xml:space="preserve">
+  <data name="RemoveRoutineEntry" xml:space="preserve">
     <value>Eliminar entrada</value>
   </data>
   <data name="DeleteConfirmationTitle" xml:space="preserve">
     <value>Confirmar eliminación</value>
   </data>
-  <data name="ConfirmTaskEntryDelete" xml:space="preserve">
-    <value>¿Eliminar la tarea '{0}'? Esta acción no se puede deshacer.</value>
+  <data name="ConfirmCharacterRoutineEntryDelete" xml:space="preserve">
+    <value>?Eliminar la entrada de rutina '{0}'? Esta acci?n no se puede deshacer.</value>
   </data>
-  <data name="ConfirmTaskListDelete" xml:space="preserve">
-    <value>¿Eliminar la lista de tareas '{0}' y todas sus tareas? Esta acción no se puede deshacer.</value>
+  <data name="ConfirmCharacterRoutineDelete" xml:space="preserve">
+    <value>?Eliminar la rutina de personajes '{0}' y todas sus entradas? Esta acci?n no se puede deshacer.</value>
   </data>
-  <data name="TaskListDefaultName" xml:space="preserve">
-    <value>Lista de tareas {0}</value>
+  <data name="CharacterRoutineDefaultName" xml:space="preserve">
+    <value>Rutina de personajes {0}</value>
   </data>
-  <data name="CompletedTasksBehavior" xml:space="preserve">
-    <value>Tareas completadas Comportamiento</value>
+  <data name="CompletedRoutineEntriesBehavior" xml:space="preserve">
+    <value>Comportamiento de entradas completadas</value>
   </data>
-  <data name="CompletedTasksBehavior_Nothing" xml:space="preserve">
+  <data name="CompletedRoutineEntriesBehavior_Nothing" xml:space="preserve">
     <value>Nada</value>
   </data>
-  <data name="CompletedTasksBehavior_Hide" xml:space="preserve">
-    <value>Ocultar tareas completadas</value>
+  <data name="CompletedRoutineEntriesBehavior_Hide" xml:space="preserve">
+    <value>Ocultar entradas completadas</value>
   </data>
-  <data name="CompletedTasksBehavior_MoveToBottom" xml:space="preserve">
+  <data name="CompletedRoutineEntriesBehavior_MoveToBottom" xml:space="preserve">
     <value>Mover completado a la parte inferior</value>
   </data>
-  <data name="TaskLists" xml:space="preserve">
-    <value>Hojas de ruta</value>
+  <data name="CharacterRoutines" xml:space="preserve">
+    <value>Rutinas de personajes</value>
   </data>
   <data name="SideMenu" xml:space="preserve">
     <value>Menú lateral</value>
